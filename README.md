@@ -1,5 +1,5 @@
 
-<p align="center"><a href="https://modernjs.dev" target="_blank" rel="noopener noreferrer"><img width="100" src="https://modernjs.dev/static/media/banner-logo.2fdcd725.svg" alt="Modernjs logo"></a></p>
+<p align="center"><a href="https://modernjs.dev" target="_blank" rel="noopener noreferrer"><img width="100" src="https://modernjs.dev/static/media/banner-logo.f3d1ee70.png" alt="Modernjs logo"></a></p>
 
 <h2 align="center">Modern.js</h2>
 
