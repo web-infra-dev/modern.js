@@ -76,7 +76,6 @@
     "ws": "^7.4.3"
   },
   "devDependencies": {
-    "@arco-design/web-react": "^2.11.1",
     "@babel/types": "^7.13.0",
     "@modern-js/types": "workspace:^1.0.0-rc.2",
     "@types/babel__code-frame": "^7.0.2",
