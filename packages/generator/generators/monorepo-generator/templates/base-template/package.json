@@ -29,6 +29,6 @@
     ]
   },
   "devDependencies": {
-    "@modern-js/monorepo-tools": "workspace:^1.0.0-rc.2"
+    "@modern-js/monorepo-tools": "^1.0.0-rc.2"
   }
 }
