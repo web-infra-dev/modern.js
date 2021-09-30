@@ -79,9 +79,7 @@ function changeImport(code: string) {
           const importedName = ['antd'].includes(source)
             ? camelToKebab(specifier.imported.name)
             : specifier.imported.name;
-          const cssImporter = `import '${source}/es${
-            source === '@arco-design/mobile-react' ? 'm' : ''
-          }/${importedName}/style/index.js'`;
+          const cssImporter = `import '${source}/es/${importedName}/style/index.js'`;
           const cssImporterAst = parser.parse(cssImporter, {
             sourceType: 'module',
             plugins: ['jsx', 'typescript'],
