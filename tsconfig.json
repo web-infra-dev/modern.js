@@ -1,0 +1,7 @@
+{
+  "extends": "@modern-js/tsconfig/react",
+  "compilerOptions": {
+    "declaration": false,
+    "jsx": "preserve"
+  }
+}

@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bff server plugin prepareApiServer should work well 1`] = `
+Array [
+  Object {
+    "handler": [Function],
+    "method": "GET",
+    "name": "/hello",
+  },
+  Object {
+    "handler": [Function],
+    "method": "PATCH",
+    "name": "/hello",
+  },
+  Object {
+    "handler": [Function],
+    "method": "GET",
+    "name": "/upload",
+  },
+  Object {
+    "handler": [Function],
+    "method": "GET",
+    "name": "/user/:id",
+  },
+  Object {
+    "handler": [Function],
+    "method": "GET",
+    "name": "/__introspection__",
+  },
+]
+`;
+
+exports[`bff server plugin prepareApiServer should work well with prefix 1`] = `
+Array [
+  Object {
+    "handler": [Function],
+    "method": "GET",
+    "name": "/hello",
+    "path": "/api/hello",
+  },
+  Object {
+    "handler": [Function],
+    "method": "PATCH",
+    "name": "/hello",
+    "path": "/api/hello",
+  },
+  Object {
+    "handler": [Function],
+    "method": "GET",
+    "name": "/upload",
+    "path": "/api/upload",
+  },
+  Object {
+    "handler": [Function],
+    "method": "GET",
+    "name": "/user/:id",
+    "path": "/api/user/:id",
+  },
+  Object {
+    "handler": [Function],
+    "method": "GET",
+    "name": "/__introspection__",
+    "path": "/api/__introspection__",
+  },
+]
+`;

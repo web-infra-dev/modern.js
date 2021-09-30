@@ -1,0 +1,11 @@
+{
+  "name": "test-browserlist-develop",
+  "browserslist": {
+    "development": [
+      "last 1 chrome version"
+    ],
+    "production": [
+      "IOS 7"
+    ]
+  }
+}

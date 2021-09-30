@@ -1,0 +1,10 @@
+import { render, screen } from '@modern-js/plugin-runtime/testing';
+
+import Component from '..';
+
+describe('Default cases', () => {
+  test('Rendered', () => {
+    render(<Component />);
+    expect(screen.getByText('This is a block')).toBeInTheDocument();
+  });
+});

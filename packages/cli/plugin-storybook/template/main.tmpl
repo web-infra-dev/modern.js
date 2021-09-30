@@ -1,0 +1,64 @@
+const path = require('path');
+const fs = require('fs-extra');
+
+const disableTsChecker = <%= disableTsChecker %>;
+const isTsProject = <%= isTsProject %>;
+
+const appDirectory = '<%= appDirectory %>';
+const internalStories = <%= stories %>;
+const sbConfigDir = path.resolve(appDirectory, 'config/storybook');
+const userMainPath = path.resolve(appDirectory, 'config/storybook/main.js');
+
+let userMainConfig = {};
+if (fs.existsSync(userMainPath)) {
+  userMainConfig = require(userMainPath);
+}
+
+let { stories } = userMainConfig;
+if (stories && Array.isArray(stories)) {
+  stories = stories.map(sto => path.resolve(sbConfigDir, sto));
+} else {
+  stories = [];
+}
+
+module.exports = {
+  ...userMainConfig,
+  typescript: isTsProject ? {
+    ...(userMainConfig.typescript || {}),
+    check: !disableTsChecker,
+  } : false,
+  stories: [
+    ...internalStories,
+    ...stories,
+  ],
+  addons: [
+    '../addons/runtime-preset.js',
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    {
+      name: '@storybook/addon-storysource',
+      options: {
+        rule: {
+          include: [path.resolve(appDirectory, 'stories')],
+        },
+        loaderOptions: {
+          prettierConfig: { printWidth: 80, singleQuote: false },
+          parser: 'typescript',
+        },
+      },
+    },
+    ...(userMainConfig.addons || []),
+  ],
+  webpackFinal: async (config, options) => {
+    // change webpack config
+    const { customFinalWebpack = () => config } = options;
+    return customFinalWebpack(config);
+  },
+  managerWebpack(config, options) {
+    const { customManagerWebpack = () => config } = options;
+    return customManagerWebpack(config);
+  },
+  core: {
+    builder: 'webpack5'
+  }
+};

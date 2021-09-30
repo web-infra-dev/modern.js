@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should work with es5-ext/array/#/clear 1`] = `
+"var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+function getDefaultExportFromCjs (x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+}
+
+function getDefaultExportFromNamespaceIfPresent (n) {
+	return n && Object.prototype.hasOwnProperty.call(n, 'default') ? n['default'] : n;
+}
+
+function getDefaultExportFromNamespaceIfNotNamed (n) {
+	return n && Object.prototype.hasOwnProperty.call(n, 'default') && Object.keys(n).length === 1 ? n['default'] : n;
+}
+
+function getAugmentedNamespace(n) {
+	if (n.__esModule) return n;
+	var a = Object.defineProperty({}, '__esModule', {value: true});
+	Object.keys(n).forEach(function (k) {
+		var d = Object.getOwnPropertyDescriptor(n, k);
+		Object.defineProperty(a, k, d.get ? d : {
+			enumerable: true,
+			get: function () {
+				return n[k];
+			}
+		});
+	});
+	return a;
+}
+
+function commonjsRequire (path) {
+	throw new Error('Could not dynamically require \\"' + path + '\\". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
+}
+
+\\"use strict\\";
+
+// eslint-disable-next-line no-empty-function
+var noop = function () {};
+
+\\"use strict\\";
+
+var _undefined = noop(); // Support ES3 engines
+
+var isValue$1 = function (val) { return val !== _undefined && val !== null; };
+
+\\"use strict\\";
+
+var isValue = isValue$1;
+
+var validValue = function (value) {
+	if (!isValue(value)) throw new TypeError(\\"Cannot use null or undefined\\");
+	return value;
+};
+
+// Inspired by Google Closure:
+// http://closure-library.googlecode.com/svn/docs/
+// closure_goog_array_array.js.html#goog.array.clear
+
+\\"use strict\\";
+
+var value = validValue;
+
+var clear = function () {
+	value(this).length = 0;
+	return this;
+};
+
+export default clear;
+export { clear as __moduleExports };
+
+// ESMPACK PATCH DEFAULT EXPORT
+try {
+  if ('object' === typeof clear || 'function' === typeof clear) {
+if (!('__moduleExports' in clear)) { Object.defineProperty(clear, '__moduleExports', { value: clear }); }
+if (!('default' in clear)) { Object.defineProperty(clear, 'default', { value: clear }); }
+  }
+} catch(_e) {
+  // no-catch
+}
+"
+`;

@@ -1,0 +1,9 @@
+{
+  "extends": "@modern-js/tsconfig/react",
+  "compilerOptions": {
+    "allowJs": true,
+    "paths": {},
+    "strict": false,
+    "noUnusedLocals": true
+  }
+}

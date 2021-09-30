@@ -1,0 +1,104 @@
+{
+  "name": "{{ name }}",
+  "version": "1.0.0-rc.2",
+  {{#unless isPublic}}
+  "main": "./src/index.{{ language }}",
+  {{/unless}}
+  {{#if isPublic}}
+  {{#unless isComponent}}
+  "jsnext:source": "./src/index.{{ language }}",
+  {{/unless}}
+  {{#if isTs}}
+  "types": "./dist/types/index.d.ts",
+  {{/if}}
+  "main": "./dist/js/node/index.js",
+  "module": "./dist/js/treeshaking/index.js",
+  "jsnext:modern": "./dist/js/modern/index.js",
+  {{#unless isComponent}}
+  "exports": {
+    ".": {
+      "node": {
+        "import": "./dist/js/modern/index.js",
+        "require": "./dist/js/node/index.js"
+      },
+      "default": "./dist/js/treeshaking/index.js"
+    }
+  },
+  {{/unless}}
+  {{/if}}
+  "scripts": {
+    {{#if isPublic}}
+    "prepare": "modern build",
+    "prepublishOnly": "modern build --platform",
+    {{/if}}
+    {{#if isComponent}}
+    "dev": "modern dev",
+    {{/if}}
+    {{#if isPublic}}
+    "build": "modern build",
+    {{/if}}
+    {{#unless isMonorepoSubProject}}
+    "reset": "rm -rf node_modules",
+    "change": "modern change",
+    "bump": "modern bump",
+    {{/unless}}
+    "new": "modern new",
+    "test": "modern test --passWithNoTests"
+  },
+  {{#unless isMonorepoSubProject}}
+  "engines": {
+    "node": ">=12.17.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "node --max_old_space_size=8192 ./node_modules/.bin/eslint --fix --color --cache --quiet",
+      "git add"
+    ],
+    "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
+      "node --max_old_space_size=8192 ./node_modules/.bin/eslint --fix --color --cache --quiet",
+      "git add"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "@modern-js"
+    ]
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/",
+  ],
+  {{/unless}}
+  "dependencies": {
+    "@babel/runtime": "^7",
+    "@modern-js/module-tools": "^1.0.0-rc.2"
+  },
+  {{#if isComponent}}
+  "peerDependencies": {
+    "react": "^17",
+    "@modern-js/runtime": "workspace:^1.0.0-rc.2"
+  },
+  {{/if}}
+  "devDependencies": {
+    {{#if isComponent}}
+    "react": "^17",
+    {{/if}}
+    "@modern-js/runtime": "workspace:^1.0.0-rc.2",
+    "@modern-js/plugin-testing": "^1.0.0-rc.2",
+  },
+  {{#if isComponent}}
+  "sideEffects": [
+    "*.css",
+    "*.less",
+    "*.sass",
+    "*.scss"
+  ]
+  {{else}}
+  "sideEffects": false
+  {{/if}}
+}

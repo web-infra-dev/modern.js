@@ -1,0 +1,39 @@
+{
+  "name": "egg-lambda-fixture",
+  "version": "1.0.0-rc.2",
+  "description": "",
+  "private": true,
+  "egg": {
+    "declarations": true,
+    "framework": "../../../../../",
+    "typescript": true
+  },
+  "dependencies": {
+    "egg": "^2.15.1",
+    "egg-scripts": "^2.11.0"
+  },
+  "devDependencies": {
+    "autod": "^3.0.1",
+    "autod-egg": "^1.1.0",
+    "egg-bin": "^4.11.0",
+    "egg-ci": "^1.11.0",
+    "egg-mock": "^3.21.0"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "scripts": {
+    "start": "egg-scripts start --daemon --title=egg-server-simple",
+    "stop": "egg-scripts stop --title=egg-server-simple",
+    "dev": "egg-bin dev"
+  },
+  "ci": {
+    "version": "1.0.0-rc.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "MIT"
+}

@@ -1,0 +1,1 @@
+export { getFiles } from './file';

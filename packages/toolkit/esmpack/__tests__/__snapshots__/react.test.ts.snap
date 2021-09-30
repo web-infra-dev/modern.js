@@ -1,0 +1,148 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should work with react 1`] = `
+"import require$$0 from 'object-assign';
+
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+function getDefaultExportFromCjs (x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+}
+
+function getDefaultExportFromNamespaceIfPresent (n) {
+	return n && Object.prototype.hasOwnProperty.call(n, 'default') ? n['default'] : n;
+}
+
+function getDefaultExportFromNamespaceIfNotNamed (n) {
+	return n && Object.prototype.hasOwnProperty.call(n, 'default') && Object.keys(n).length === 1 ? n['default'] : n;
+}
+
+function getAugmentedNamespace(n) {
+	if (n.__esModule) return n;
+	var a = Object.defineProperty({}, '__esModule', {value: true});
+	Object.keys(n).forEach(function (k) {
+		var d = Object.getOwnPropertyDescriptor(n, k);
+		Object.defineProperty(a, k, d.get ? d : {
+			enumerable: true,
+			get: function () {
+				return n[k];
+			}
+		});
+	});
+	return a;
+}
+
+function commonjsRequire (path) {
+	throw new Error('Could not dynamically require \\"' + path + '\\". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
+}
+
+var react = {exports: {}};
+
+var react_production_min = {};
+
+/** @license React v17.0.1
+ * react.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+'use strict';var l=require$$0,n=60103,p=60106;var Fragment = react_production_min.Fragment=60107;var StrictMode = react_production_min.StrictMode=60108;var Profiler = react_production_min.Profiler=60114;var q=60109,r=60110,t=60112;var Suspense = react_production_min.Suspense=60113;var u=60115,v=60116;
+if(\\"function\\"===typeof Symbol&&Symbol.for){var w=Symbol.for;n=w(\\"react.element\\");p=w(\\"react.portal\\");Fragment = react_production_min.Fragment=w(\\"react.fragment\\");StrictMode = react_production_min.StrictMode=w(\\"react.strict_mode\\");Profiler = react_production_min.Profiler=w(\\"react.profiler\\");q=w(\\"react.provider\\");r=w(\\"react.context\\");t=w(\\"react.forward_ref\\");Suspense = react_production_min.Suspense=w(\\"react.suspense\\");u=w(\\"react.memo\\");v=w(\\"react.lazy\\");}var x=\\"function\\"===typeof Symbol&&Symbol.iterator;
+function y(a){if(null===a||\\"object\\"!==typeof a)return null;a=x&&a[x]||a[\\"@@iterator\\"];return \\"function\\"===typeof a?a:null}function z(a){for(var b=\\"https://reactjs.org/docs/error-decoder.html?invariant=\\"+a,c=1;c<arguments.length;c++)b+=\\"&args[]=\\"+encodeURIComponent(arguments[c]);return \\"Minified React error #\\"+a+\\"; visit \\"+b+\\" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.\\"}
+var A={isMounted:function(){return !1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},B={};function C(a,b,c){this.props=a;this.context=b;this.refs=B;this.updater=c||A;}C.prototype.isReactComponent={};C.prototype.setState=function(a,b){if(\\"object\\"!==typeof a&&\\"function\\"!==typeof a&&null!=a)throw Error(z(85));this.updater.enqueueSetState(this,a,b,\\"setState\\");};C.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,\\"forceUpdate\\");};
+function D(){}D.prototype=C.prototype;function E(a,b,c){this.props=a;this.context=b;this.refs=B;this.updater=c||A;}var F=E.prototype=new D;F.constructor=E;l(F,C.prototype);F.isPureReactComponent=!0;var G={current:null},H=Object.prototype.hasOwnProperty,I={key:!0,ref:!0,__self:!0,__source:!0};
+function J(a,b,c){var e,d={},k=null,h=null;if(null!=b)for(e in void 0!==b.ref&&(h=b.ref),void 0!==b.key&&(k=\\"\\"+b.key),b)H.call(b,e)&&!I.hasOwnProperty(e)&&(d[e]=b[e]);var g=arguments.length-2;if(1===g)d.children=c;else if(1<g){for(var f=Array(g),m=0;m<g;m++)f[m]=arguments[m+2];d.children=f;}if(a&&a.defaultProps)for(e in g=a.defaultProps,g)void 0===d[e]&&(d[e]=g[e]);return {$$typeof:n,type:a,key:k,ref:h,props:d,_owner:G.current}}
+function K(a,b){return {$$typeof:n,type:a.type,key:b,ref:a.ref,props:a.props,_owner:a._owner}}function L(a){return \\"object\\"===typeof a&&null!==a&&a.$$typeof===n}function escape(a){var b={\\"=\\":\\"=0\\",\\":\\":\\"=2\\"};return \\"$\\"+a.replace(/[=:]/g,function(a){return b[a]})}var M=/\\\\/+/g;function N(a,b){return \\"object\\"===typeof a&&null!==a&&null!=a.key?escape(\\"\\"+a.key):b.toString(36)}
+function O(a,b,c,e,d){var k=typeof a;if(\\"undefined\\"===k||\\"boolean\\"===k)a=null;var h=!1;if(null===a)h=!0;else switch(k){case \\"string\\":case \\"number\\":h=!0;break;case \\"object\\":switch(a.$$typeof){case n:case p:h=!0;}}if(h)return h=a,d=d(h),a=\\"\\"===e?\\".\\"+N(h,0):e,Array.isArray(d)?(c=\\"\\",null!=a&&(c=a.replace(M,\\"$&/\\")+\\"/\\"),O(d,b,c,\\"\\",function(a){return a})):null!=d&&(L(d)&&(d=K(d,c+(!d.key||h&&h.key===d.key?\\"\\":(\\"\\"+d.key).replace(M,\\"$&/\\")+\\"/\\")+a)),b.push(d)),1;h=0;e=\\"\\"===e?\\".\\":e+\\":\\";if(Array.isArray(a))for(var g=
+0;g<a.length;g++){k=a[g];var f=e+N(k,g);h+=O(k,b,c,f,d);}else if(f=y(a),\\"function\\"===typeof f)for(a=f.call(a),g=0;!(k=a.next()).done;)k=k.value,f=e+N(k,g++),h+=O(k,b,c,f,d);else if(\\"object\\"===k)throw b=\\"\\"+a,Error(z(31,\\"[object Object]\\"===b?\\"object with keys {\\"+Object.keys(a).join(\\", \\")+\\"}\\":b));return h}function P(a,b,c){if(null==a)return a;var e=[],d=0;O(a,e,\\"\\",\\"\\",function(a){return b.call(c,a,d++)});return e}
+function Q(a){if(-1===a._status){var b=a._result;b=b();a._status=0;a._result=b;b.then(function(b){0===a._status&&(b=b.default,a._status=1,a._result=b);},function(b){0===a._status&&(a._status=2,a._result=b);});}if(1===a._status)return a._result;throw a._result;}var R={current:null};function S(){var a=R.current;if(null===a)throw Error(z(321));return a}var T={ReactCurrentDispatcher:R,ReactCurrentBatchConfig:{transition:0},ReactCurrentOwner:G,IsSomeRendererActing:{current:!1},assign:l};
+var Children = react_production_min.Children={map:P,forEach:function(a,b,c){P(a,function(){b.apply(this,arguments);},c);},count:function(a){var b=0;P(a,function(){b++;});return b},toArray:function(a){return P(a,function(a){return a})||[]},only:function(a){if(!L(a))throw Error(z(143));return a}};var Component = react_production_min.Component=C;var PureComponent = react_production_min.PureComponent=E;var __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = react_production_min.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED=T;
+var cloneElement = react_production_min.cloneElement=function(a,b,c){if(null===a||void 0===a)throw Error(z(267,a));var e=l({},a.props),d=a.key,k=a.ref,h=a._owner;if(null!=b){void 0!==b.ref&&(k=b.ref,h=G.current);void 0!==b.key&&(d=\\"\\"+b.key);if(a.type&&a.type.defaultProps)var g=a.type.defaultProps;for(f in b)H.call(b,f)&&!I.hasOwnProperty(f)&&(e[f]=void 0===b[f]&&void 0!==g?g[f]:b[f]);}var f=arguments.length-2;if(1===f)e.children=c;else if(1<f){g=Array(f);for(var m=0;m<f;m++)g[m]=arguments[m+2];e.children=g;}return {$$typeof:n,type:a.type,
+key:d,ref:k,props:e,_owner:h}};var createContext = react_production_min.createContext=function(a,b){void 0===b&&(b=null);a={$$typeof:r,_calculateChangedBits:b,_currentValue:a,_currentValue2:a,_threadCount:0,Provider:null,Consumer:null};a.Provider={$$typeof:q,_context:a};return a.Consumer=a};var createElement = react_production_min.createElement=J;var createFactory = react_production_min.createFactory=function(a){var b=J.bind(null,a);b.type=a;return b};var createRef = react_production_min.createRef=function(){return {current:null}};var forwardRef = react_production_min.forwardRef=function(a){return {$$typeof:t,render:a}};var isValidElement = react_production_min.isValidElement=L;
+var lazy = react_production_min.lazy=function(a){return {$$typeof:v,_payload:{_status:-1,_result:a},_init:Q}};var memo = react_production_min.memo=function(a,b){return {$$typeof:u,type:a,compare:void 0===b?null:b}};var useCallback = react_production_min.useCallback=function(a,b){return S().useCallback(a,b)};var useContext = react_production_min.useContext=function(a,b){return S().useContext(a,b)};var useDebugValue = react_production_min.useDebugValue=function(){};var useEffect = react_production_min.useEffect=function(a,b){return S().useEffect(a,b)};var useImperativeHandle = react_production_min.useImperativeHandle=function(a,b,c){return S().useImperativeHandle(a,b,c)};
+var useLayoutEffect = react_production_min.useLayoutEffect=function(a,b){return S().useLayoutEffect(a,b)};var useMemo = react_production_min.useMemo=function(a,b){return S().useMemo(a,b)};var useReducer = react_production_min.useReducer=function(a,b,c){return S().useReducer(a,b,c)};var useRef = react_production_min.useRef=function(a){return S().useRef(a)};var useState = react_production_min.useState=function(a){return S().useState(a)};var version = react_production_min.version=\\"17.0.1\\";
+
+'use strict';
+
+if (\\"production\\" === 'production') {
+  react.exports = react_production_min;
+} else {
+  module.exports = require('./cjs/react.development.js');
+}
+
+var __eds_default_export__ = react.exports;
+
+var Children$1 = react.exports.Children;
+var Component$1 = react.exports.Component;
+var Fragment$1 = react.exports.Fragment;
+var Profiler$1 = react.exports.Profiler;
+var PureComponent$1 = react.exports.PureComponent;
+var StrictMode$1 = react.exports.StrictMode;
+var Suspense$1 = react.exports.Suspense;
+var __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED$1 = react.exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+var exports = react.exports;
+var cloneElement$1 = react.exports.cloneElement;
+var createContext$1 = react.exports.createContext;
+var createElement$1 = react.exports.createElement;
+var createFactory$1 = react.exports.createFactory;
+var createRef$1 = react.exports.createRef;
+export default __eds_default_export__;
+var forwardRef$1 = react.exports.forwardRef;
+var isValidElement$1 = react.exports.isValidElement;
+var lazy$1 = react.exports.lazy;
+var memo$1 = react.exports.memo;
+var useCallback$1 = react.exports.useCallback;
+var useContext$1 = react.exports.useContext;
+var useDebugValue$1 = react.exports.useDebugValue;
+var useEffect$1 = react.exports.useEffect;
+var useImperativeHandle$1 = react.exports.useImperativeHandle;
+var useLayoutEffect$1 = react.exports.useLayoutEffect;
+var useMemo$1 = react.exports.useMemo;
+var useReducer$1 = react.exports.useReducer;
+var useRef$1 = react.exports.useRef;
+var useState$1 = react.exports.useState;
+var version$1 = react.exports.version;
+export { Children$1 as Children, Component$1 as Component, Fragment$1 as Fragment, Profiler$1 as Profiler, PureComponent$1 as PureComponent, StrictMode$1 as StrictMode, Suspense$1 as Suspense, __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED$1 as __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED, exports as __moduleExports, cloneElement$1 as cloneElement, createContext$1 as createContext, createElement$1 as createElement, createFactory$1 as createFactory, createRef$1 as createRef, forwardRef$1 as forwardRef, isValidElement$1 as isValidElement, lazy$1 as lazy, memo$1 as memo, useCallback$1 as useCallback, useContext$1 as useContext, useDebugValue$1 as useDebugValue, useEffect$1 as useEffect, useImperativeHandle$1 as useImperativeHandle, useLayoutEffect$1 as useLayoutEffect, useMemo$1 as useMemo, useReducer$1 as useReducer, useRef$1 as useRef, useState$1 as useState, version$1 as version };
+
+// ESMPACK PATCH DEFAULT EXPORT
+try {
+  if ('object' === typeof __eds_default_export__ || 'function' === typeof __eds_default_export__) {
+if (!__eds_default_export__.Children) { __eds_default_export__.Children = Children$1; }
+if (!__eds_default_export__.Component) { __eds_default_export__.Component = Component$1; }
+if (!__eds_default_export__.Fragment) { __eds_default_export__.Fragment = Fragment$1; }
+if (!__eds_default_export__.Profiler) { __eds_default_export__.Profiler = Profiler$1; }
+if (!__eds_default_export__.PureComponent) { __eds_default_export__.PureComponent = PureComponent$1; }
+if (!__eds_default_export__.StrictMode) { __eds_default_export__.StrictMode = StrictMode$1; }
+if (!__eds_default_export__.Suspense) { __eds_default_export__.Suspense = Suspense$1; }
+if (!__eds_default_export__.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) { __eds_default_export__.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED$1; }
+if (!('__moduleExports' in __eds_default_export__)) { Object.defineProperty(__eds_default_export__, '__moduleExports', { value: exports }); }
+if (!__eds_default_export__.cloneElement) { __eds_default_export__.cloneElement = cloneElement$1; }
+if (!__eds_default_export__.createContext) { __eds_default_export__.createContext = createContext$1; }
+if (!__eds_default_export__.createElement) { __eds_default_export__.createElement = createElement$1; }
+if (!__eds_default_export__.createFactory) { __eds_default_export__.createFactory = createFactory$1; }
+if (!__eds_default_export__.createRef) { __eds_default_export__.createRef = createRef$1; }
+if (!__eds_default_export__.forwardRef) { __eds_default_export__.forwardRef = forwardRef$1; }
+if (!__eds_default_export__.isValidElement) { __eds_default_export__.isValidElement = isValidElement$1; }
+if (!__eds_default_export__.lazy) { __eds_default_export__.lazy = lazy$1; }
+if (!__eds_default_export__.memo) { __eds_default_export__.memo = memo$1; }
+if (!__eds_default_export__.useCallback) { __eds_default_export__.useCallback = useCallback$1; }
+if (!__eds_default_export__.useContext) { __eds_default_export__.useContext = useContext$1; }
+if (!__eds_default_export__.useDebugValue) { __eds_default_export__.useDebugValue = useDebugValue$1; }
+if (!__eds_default_export__.useEffect) { __eds_default_export__.useEffect = useEffect$1; }
+if (!__eds_default_export__.useImperativeHandle) { __eds_default_export__.useImperativeHandle = useImperativeHandle$1; }
+if (!__eds_default_export__.useLayoutEffect) { __eds_default_export__.useLayoutEffect = useLayoutEffect$1; }
+if (!__eds_default_export__.useMemo) { __eds_default_export__.useMemo = useMemo$1; }
+if (!__eds_default_export__.useReducer) { __eds_default_export__.useReducer = useReducer$1; }
+if (!__eds_default_export__.useRef) { __eds_default_export__.useRef = useRef$1; }
+if (!__eds_default_export__.useState) { __eds_default_export__.useState = useState$1; }
+if (!__eds_default_export__.version) { __eds_default_export__.version = version$1; }
+if (!('default' in __eds_default_export__)) { Object.defineProperty(__eds_default_export__, 'default', { value: __eds_default_export__ }); }
+  }
+} catch(_e) {
+  // no-catch
+}
+"
+`;

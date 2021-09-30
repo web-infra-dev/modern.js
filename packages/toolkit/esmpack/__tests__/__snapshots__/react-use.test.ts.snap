@@ -1,0 +1,3192 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should work with react-use 1`] = `
+"import * as React from 'react';
+import { useMemo as useMemo$1, createContext, createFactory, useReducer, useContext, useRef as useRef$1, useEffect as useEffect$3, useState as useState$4, useCallback as useCallback$1, useLayoutEffect, forwardRef } from 'react';
+import { __spreadArrays, __assign, __rest } from 'tslib';
+import _isDeepEqual from 'fast-deep-equal/react';
+import Cookies from 'js-cookie';
+import writeText from 'copy-to-clipboard';
+import { create } from 'nano-css';
+import { addon } from 'nano-css/addon/cssom';
+import { addon as addon$1 } from 'nano-css/addon/vcssom';
+import { cssToTree } from 'nano-css/addon/vcssom/cssToTree';
+import screenfull from 'screenfull';
+import { setHarmonicInterval, clearHarmonicInterval } from 'set-harmonic-interval';
+import { throttle } from 'throttle-debounce';
+import { equal } from 'fast-shallow-equal';
+import { easing } from 'ts-easing';
+import { scrollbarWidth } from '@xobotyi/scrollbar-width';
+import ResizeObserver from 'resize-observer-polyfill';
+
+/* eslint-disable */
+var createMemo = function (fn) { return function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return useMemo$1(function () { return fn.apply(void 0, args); }, args);
+}; };
+
+var createReducerContext = function (reducer, defaultInitialState) {
+    var context = createContext(undefined);
+    var providerFactory = createFactory(context.Provider);
+    var ReducerProvider = function (_a) {
+        var children = _a.children, initialState = _a.initialState;
+        var state = useReducer(reducer, initialState !== undefined ? initialState : defaultInitialState);
+        return providerFactory({ value: state }, children);
+    };
+    var useReducerContext = function () {
+        var state = useContext(context);
+        if (state == null) {
+            throw new Error(\\"useReducerContext must be used inside a ReducerProvider.\\");
+        }
+        return state;
+    };
+    return [useReducerContext, ReducerProvider, context];
+};
+
+function useFirstMountState() {
+    var isFirst = useRef$1(true);
+    if (isFirst.current) {
+        isFirst.current = false;
+        return true;
+    }
+    return isFirst.current;
+}
+
+/* eslint-disable */
+var useUpdateEffect = function (effect, deps) {
+    var isFirstMount = useFirstMountState();
+    useEffect$3(function () {
+        if (!isFirstMount) {
+            return effect();
+        }
+    }, deps);
+};
+
+function composeMiddleware(chain) {
+    return function (context, dispatch) {
+        return chain.reduceRight(function (res, middleware) {
+            return middleware(context)(res);
+        }, dispatch);
+    };
+}
+var createReducer = function () {
+    var middlewares = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        middlewares[_i] = arguments[_i];
+    }
+    var composedMiddleware = composeMiddleware(middlewares);
+    return function (reducer, initialState, initializer) {
+        if (initializer === void 0) { initializer = function (value) { return value; }; }
+        var ref = useRef$1(initializer(initialState));
+        var _a = useState$4(ref.current), setState = _a[1];
+        var dispatch = useCallback$1(function (action) {
+            ref.current = reducer(ref.current, action);
+            setState(ref.current);
+            return action;
+        }, [reducer]);
+        var dispatchRef = useRef$1(composedMiddleware({
+            getState: function () { return ref.current; },
+            dispatch: function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i] = arguments[_i];
+                }
+                return dispatchRef.current.apply(dispatchRef, args);
+            },
+        }, dispatch));
+        useUpdateEffect(function () {
+            dispatchRef.current = composedMiddleware({
+                getState: function () { return ref.current; },
+                dispatch: function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i] = arguments[_i];
+                    }
+                    return dispatchRef.current.apply(dispatchRef, args);
+                },
+            }, dispatch);
+        }, [dispatch]);
+        return [ref.current, dispatchRef.current];
+    };
+};
+
+var createStateContext = function (defaultInitialValue) {
+    var context = createContext(undefined);
+    var providerFactory = createFactory(context.Provider);
+    var StateProvider = function (_a) {
+        var children = _a.children, initialValue = _a.initialValue;
+        var state = useState$4(initialValue !== undefined ? initialValue : defaultInitialValue);
+        return providerFactory({ value: state }, children);
+    };
+    var useStateContext = function () {
+        var state = useContext(context);
+        if (state == null) {
+            throw new Error(\\"useStateContext must be used inside a StateProvider.\\");
+        }
+        return state;
+    };
+    return [useStateContext, StateProvider, context];
+};
+
+function useMountedState() {
+    var mountedRef = useRef$1(false);
+    var get = useCallback$1(function () { return mountedRef.current; }, []);
+    useEffect$3(function () {
+        mountedRef.current = true;
+        return function () {
+            mountedRef.current = false;
+        };
+    });
+    return get;
+}
+
+/* eslint-disable */
+function useAsyncFn(fn, deps, initialState) {
+    if (deps === void 0) { deps = []; }
+    if (initialState === void 0) { initialState = { loading: false }; }
+    var lastCallId = useRef$1(0);
+    var _a = useState$4(initialState), state = _a[0], set = _a[1];
+    var isMounted = useMountedState();
+    var callback = useCallback$1(function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        var callId = ++lastCallId.current;
+        set({ loading: true });
+        return fn.apply(void 0, args).then(function (value) {
+            isMounted() && callId === lastCallId.current && set({ value: value, loading: false });
+            return value;
+        }, function (error) {
+            isMounted() && callId === lastCallId.current && set({ error: error, loading: false });
+            return error;
+        });
+    }, deps);
+    return [state, callback];
+}
+
+function useAsync(fn, deps) {
+    if (deps === void 0) { deps = []; }
+    var _a = useAsyncFn(fn, deps, {
+        loading: true,
+    }), state = _a[0], callback = _a[1];
+    useEffect$3(function () {
+        callback();
+    }, [callback]);
+    return state;
+}
+
+var useAsyncRetry = function (fn, deps) {
+    if (deps === void 0) { deps = []; }
+    var _a = useState$4(0), attempt = _a[0], setAttempt = _a[1];
+    var state = useAsync(fn, __spreadArrays(deps, [attempt]));
+    var stateLoading = state.loading;
+    var retry = useCallback$1(function () {
+        if (stateLoading) {
+            if (\\"production\\" === 'development') {
+                console.log('You are calling useAsyncRetry hook retry() method while loading in progress, this is a no-op.');
+            }
+            return;
+        }
+        setAttempt(function (currentAttempt) { return currentAttempt + 1; });
+    }, __spreadArrays(deps, [stateLoading]));
+    return __assign(__assign({}, state), { retry: retry });
+};
+
+var useSetState = function (initialState) {
+    if (initialState === void 0) { initialState = {}; }
+    var _a = useState$4(initialState), state = _a[0], set = _a[1];
+    var setState = useCallback$1(function (patch) {
+        set(function (prevState) { return Object.assign({}, prevState, patch instanceof Function ? patch(prevState) : patch); });
+    }, [set]);
+    return [state, setState];
+};
+
+var parseTimeRanges = function (ranges) {
+    var result = [];
+    for (var i = 0; i < ranges.length; i++) {
+        result.push({
+            start: ranges.start(i),
+            end: ranges.end(i),
+        });
+    }
+    return result;
+};
+
+var createHTMLMediaHook = function (tag) {
+    var hook = function (elOrProps) {
+        var element;
+        var props;
+        if (React.isValidElement(elOrProps)) {
+            element = elOrProps;
+            props = element.props;
+        }
+        else {
+            props = elOrProps;
+        }
+        var _a = useSetState({
+            buffered: [],
+            time: 0,
+            duration: 0,
+            paused: true,
+            muted: false,
+            volume: 1,
+        }), state = _a[0], setState = _a[1];
+        var ref = useRef$1(null);
+        var wrapEvent = function (userEvent, proxyEvent) {
+            return function (event) {
+                try {
+                    proxyEvent && proxyEvent(event);
+                }
+                finally {
+                    userEvent && userEvent(event);
+                }
+            };
+        };
+        var onPlay = function () { return setState({ paused: false }); };
+        var onPause = function () { return setState({ paused: true }); };
+        var onVolumeChange = function () {
+            var el = ref.current;
+            if (!el) {
+                return;
+            }
+            setState({
+                muted: el.muted,
+                volume: el.volume,
+            });
+        };
+        var onDurationChange = function () {
+            var el = ref.current;
+            if (!el) {
+                return;
+            }
+            var duration = el.duration, buffered = el.buffered;
+            setState({
+                duration: duration,
+                buffered: parseTimeRanges(buffered),
+            });
+        };
+        var onTimeUpdate = function () {
+            var el = ref.current;
+            if (!el) {
+                return;
+            }
+            setState({ time: el.currentTime });
+        };
+        var onProgress = function () {
+            var el = ref.current;
+            if (!el) {
+                return;
+            }
+            setState({ buffered: parseTimeRanges(el.buffered) });
+        };
+        if (element) {
+            element = React.cloneElement(element, __assign(__assign({ controls: false }, props), { ref: ref, onPlay: wrapEvent(props.onPlay, onPlay), onPause: wrapEvent(props.onPause, onPause), onVolumeChange: wrapEvent(props.onVolumeChange, onVolumeChange), onDurationChange: wrapEvent(props.onDurationChange, onDurationChange), onTimeUpdate: wrapEvent(props.onTimeUpdate, onTimeUpdate), onProgress: wrapEvent(props.onProgress, onProgress) }));
+        }
+        else {
+            element = React.createElement(tag, __assign(__assign({ controls: false }, props), { ref: ref, onPlay: wrapEvent(props.onPlay, onPlay), onPause: wrapEvent(props.onPause, onPause), onVolumeChange: wrapEvent(props.onVolumeChange, onVolumeChange), onDurationChange: wrapEvent(props.onDurationChange, onDurationChange), onTimeUpdate: wrapEvent(props.onTimeUpdate, onTimeUpdate), onProgress: wrapEvent(props.onProgress, onProgress) })); // TODO: fix this typing.
+        }
+        // Some browsers return \`Promise\` on \`.play()\` and may throw errors
+        // if one tries to execute another \`.play()\` or \`.pause()\` while that
+        // promise is resolving. So we prevent that with this lock.
+        // See: https://bugs.chromium.org/p/chromium/issues/detail?id=593273
+        var lockPlay = false;
+        var controls = {
+            play: function () {
+                var el = ref.current;
+                if (!el) {
+                    return undefined;
+                }
+                if (!lockPlay) {
+                    var promise = el.play();
+                    var isPromise = typeof promise === 'object';
+                    if (isPromise) {
+                        lockPlay = true;
+                        var resetLock = function () {
+                            lockPlay = false;
+                        };
+                        promise.then(resetLock, resetLock);
+                    }
+                    return promise;
+                }
+                return undefined;
+            },
+            pause: function () {
+                var el = ref.current;
+                if (el && !lockPlay) {
+                    return el.pause();
+                }
+            },
+            seek: function (time) {
+                var el = ref.current;
+                if (!el || state.duration === undefined) {
+                    return;
+                }
+                time = Math.min(state.duration, Math.max(0, time));
+                el.currentTime = time;
+            },
+            volume: function (volume) {
+                var el = ref.current;
+                if (!el) {
+                    return;
+                }
+                volume = Math.min(1, Math.max(0, volume));
+                el.volume = volume;
+                setState({ volume: volume });
+            },
+            mute: function () {
+                var el = ref.current;
+                if (!el) {
+                    return;
+                }
+                el.muted = true;
+            },
+            unmute: function () {
+                var el = ref.current;
+                if (!el) {
+                    return;
+                }
+                el.muted = false;
+            },
+        };
+        useEffect$3(function () {
+            var el = ref.current;
+            if (!el) {
+                if (\\"production\\" !== 'production') {
+                    console.error('useAudio() ref to <audio> element is empty at mount. ' +
+                        'It seem you have not rendered the audio element, which is ' +
+                        'returns as the first argument const [audio] = useAudio(...).');
+                }
+                return;
+            }
+            setState({
+                volume: el.volume,
+                muted: el.muted,
+                paused: el.paused,
+            });
+            // Start media, if autoPlay requested.
+            if (props.autoPlay && el.paused) {
+                controls.play();
+            }
+        }, [props.src]);
+        return [element, state, controls, ref];
+    };
+    return hook;
+};
+
+var useAudio = createHTMLMediaHook('audio');
+
+var isClient = typeof window === 'object';
+var on = function (obj) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
+    return obj.addEventListener.apply(obj, args);
+};
+var off = function (obj) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
+    return obj.removeEventListener.apply(obj, args);
+};
+var isDeepEqual = _isDeepEqual;
+
+/* eslint-disable */
+var useState$3 = React.useState, useEffect$2 = React.useEffect;
+var nav = typeof navigator === 'object' ? navigator : undefined;
+var isBatteryApiSupported = nav && typeof nav.getBattery === 'function';
+function useBatteryMock() {
+    return { isSupported: false };
+}
+function useBattery() {
+    var _a = useState$3({ isSupported: true, fetched: false }), state = _a[0], setState = _a[1];
+    useEffect$2(function () {
+        var isMounted = true;
+        var battery = null;
+        var handleChange = function () {
+            if (!isMounted || !battery) {
+                return;
+            }
+            var newState = {
+                isSupported: true,
+                fetched: true,
+                level: battery.level,
+                charging: battery.charging,
+                dischargingTime: battery.dischargingTime,
+                chargingTime: battery.chargingTime,
+            };
+            !isDeepEqual(state, newState) && setState(newState);
+        };
+        nav.getBattery().then(function (bat) {
+            if (!isMounted) {
+                return;
+            }
+            battery = bat;
+            on(battery, 'chargingchange', handleChange);
+            on(battery, 'chargingtimechange', handleChange);
+            on(battery, 'dischargingtimechange', handleChange);
+            on(battery, 'levelchange', handleChange);
+            handleChange();
+        });
+        return function () {
+            isMounted = false;
+            if (battery) {
+                off(battery, 'chargingchange', handleChange);
+                off(battery, 'chargingtimechange', handleChange);
+                off(battery, 'dischargingtimechange', handleChange);
+                off(battery, 'levelchange', handleChange);
+            }
+        };
+    }, []);
+    return state;
+}
+var useBattery$1 = isBatteryApiSupported ? useBattery : useBatteryMock;
+
+var useBeforeUnload = function (enabled, message) {
+    if (enabled === void 0) { enabled = true; }
+    var handler = useCallback$1(function (event) {
+        var finalEnabled = typeof enabled === 'function' ? enabled() : true;
+        if (!finalEnabled) {
+            return;
+        }
+        event.preventDefault();
+        if (message) {
+            event.returnValue = message;
+        }
+        return message;
+    }, [enabled, message]);
+    useEffect$3(function () {
+        if (!enabled) {
+            return;
+        }
+        window.addEventListener('beforeunload', handler);
+        return function () { return window.removeEventListener('beforeunload', handler); };
+    }, [enabled, handler]);
+};
+
+var useToggle = function (initialValue) {
+    var _a = useState$4(initialValue), value = _a[0], setValue = _a[1];
+    var toggle = useCallback$1(function (nextValue) {
+        if (typeof nextValue === 'boolean') {
+            setValue(nextValue);
+        }
+        else {
+            setValue(function (currentValue) { return !currentValue; });
+        }
+    }, [setValue]);
+    return [value, toggle];
+};
+
+var defaultEvents$1 = ['mousedown', 'touchstart'];
+var useClickAway = function (ref, onClickAway, events) {
+    if (events === void 0) { events = defaultEvents$1; }
+    var savedCallback = useRef$1(onClickAway);
+    useEffect$3(function () {
+        savedCallback.current = onClickAway;
+    }, [onClickAway]);
+    useEffect$3(function () {
+        var handler = function (event) {
+            var el = ref.current;
+            el && !el.contains(event.target) && savedCallback.current(event);
+        };
+        for (var _i = 0, events_1 = events; _i < events_1.length; _i++) {
+            var eventName = events_1[_i];
+            on(document, eventName, handler);
+        }
+        return function () {
+            for (var _i = 0, events_2 = events; _i < events_2.length; _i++) {
+                var eventName = events_2[_i];
+                off(document, eventName, handler);
+            }
+        };
+    }, [events, ref]);
+};
+
+var useCookie = function (cookieName) {
+    var _a = useState$4(function () { return Cookies.get(cookieName) || null; }), value = _a[0], setValue = _a[1];
+    var updateCookie = useCallback$1(function (newValue, options) {
+        Cookies.set(cookieName, newValue, options);
+        setValue(newValue);
+    }, [cookieName]);
+    var deleteCookie = useCallback$1(function () {
+        Cookies.remove(cookieName);
+        setValue(null);
+    }, [cookieName]);
+    return [value, updateCookie, deleteCookie];
+};
+
+/* eslint-disable */
+var useCopyToClipboard = function () {
+    var isMounted = useMountedState();
+    var _a = useSetState({
+        value: undefined,
+        error: undefined,
+        noUserInteraction: true,
+    }), state = _a[0], setState = _a[1];
+    var copyToClipboard = useCallback$1(function (value) {
+        try {
+            if (\\"production\\" === 'development') {
+                if (typeof value !== 'string') {
+                    console.error(\\"Cannot copy typeof \\" + typeof value + \\" to clipboard, must be a string\\");
+                }
+            }
+            var noUserInteraction = writeText(value);
+            if (!isMounted()) {
+                return;
+            }
+            setState({
+                value: value,
+                error: undefined,
+                noUserInteraction: noUserInteraction,
+            });
+        }
+        catch (error) {
+            if (!isMounted()) {
+                return;
+            }
+            setState({
+                value: undefined,
+                error: error,
+                noUserInteraction: true,
+            });
+        }
+    }, []);
+    return [state, copyToClipboard];
+};
+
+var incrementParameter = function (num) { return ++num % 1000000; };
+var useUpdate = function () {
+    var _a = useState$4(0), setState = _a[1];
+    // useCallback with empty deps as we only want to define updateCb once
+    return useCallback$1(function () { return setState(incrementParameter); }, []);
+};
+
+function resolveHookState(newState, currentState) {
+    if (typeof newState === 'function') {
+        return newState(currentState);
+    }
+    return newState;
+}
+
+/* eslint-disable */
+function useGetSet(initialState) {
+    var state = useRef$1(resolveHookState(initialState));
+    var update = useUpdate();
+    return useMemo$1(function () { return [
+        // get
+        function () { return state.current; },
+        // set
+        function (newState) {
+            state.current = resolveHookState(newState, state.current);
+            update();
+        },
+    ]; }, []);
+}
+
+/* eslint-disable */
+function useCounter(initialValue, max, min) {
+    if (initialValue === void 0) { initialValue = 0; }
+    if (max === void 0) { max = null; }
+    if (min === void 0) { min = null; }
+    var init = resolveHookState(initialValue);
+    typeof init !== 'number' && console.error('initialValue has to be a number, got ' + typeof initialValue);
+    if (typeof min === 'number') {
+        init = Math.max(init, min);
+    }
+    else if (min !== null) {
+        console.error('min has to be a number, got ' + typeof min);
+    }
+    if (typeof max === 'number') {
+        init = Math.min(init, max);
+    }
+    else if (max !== null) {
+        console.error('max has to be a number, got ' + typeof max);
+    }
+    var _a = useGetSet(init), get = _a[0], setInternal = _a[1];
+    return [
+        get(),
+        useMemo$1(function () {
+            var set = function (newState) {
+                var prevState = get();
+                var rState = resolveHookState(newState, prevState);
+                if (prevState !== rState) {
+                    if (typeof min === 'number') {
+                        rState = Math.max(rState, min);
+                    }
+                    if (typeof max === 'number') {
+                        rState = Math.min(rState, max);
+                    }
+                    prevState !== rState && setInternal(rState);
+                }
+            };
+            return {
+                get: get,
+                set: set,
+                inc: function (delta) {
+                    if (delta === void 0) { delta = 1; }
+                    var rDelta = resolveHookState(delta, get());
+                    if (typeof rDelta !== 'number') {
+                        console.error('delta has to be a number or function returning a number, got ' + typeof rDelta);
+                    }
+                    set(function (num) { return num + rDelta; });
+                },
+                dec: function (delta) {
+                    if (delta === void 0) { delta = 1; }
+                    var rDelta = resolveHookState(delta, get());
+                    if (typeof rDelta !== 'number') {
+                        console.error('delta has to be a number or function returning a number, got ' + typeof rDelta);
+                    }
+                    set(function (num) { return num - rDelta; });
+                },
+                reset: function (value) {
+                    if (value === void 0) { value = init; }
+                    var rValue = resolveHookState(value, get());
+                    if (typeof rValue !== 'number') {
+                        console.error('value has to be a number or function returning a number, got ' + typeof rValue);
+                    }
+                    init = rValue;
+                    set(rValue);
+                },
+            };
+        }, [init, min, max]),
+    ];
+}
+
+var nano = create();
+addon(nano);
+addon$1(nano);
+var counter = 0;
+var useCss = function (css) {
+    var className = useMemo$1(function () { return 'react-use-css-' + (counter++).toString(36); }, []);
+    var sheet = useMemo$1(function () { return new nano.VSheet(); }, []);
+    useLayoutEffect(function () {
+        var tree = {};
+        cssToTree(tree, css, '.' + className, '');
+        sheet.diff(tree);
+        return function () {
+            sheet.diff({});
+        };
+    });
+    return className;
+};
+
+var isPrimitive$2 = function (val) { return val !== Object(val); };
+var useCustomCompareEffect = function (effect, deps, depsEqual) {
+    if (\\"production\\" !== 'production') {
+        if (!(deps instanceof Array) || !deps.length) {
+            console.warn('\`useCustomCompareEffect\` should not be used with no dependencies. Use React.useEffect instead.');
+        }
+        if (deps.every(isPrimitive$2)) {
+            console.warn('\`useCustomCompareEffect\` should not be used with dependencies that are all primitive values. Use React.useEffect instead.');
+        }
+        if (typeof depsEqual !== 'function') {
+            console.warn('\`useCustomCompareEffect\` should be used with depsEqual callback for comparing deps list');
+        }
+    }
+    var ref = useRef$1(undefined);
+    if (!ref.current || !depsEqual(deps, ref.current)) {
+        ref.current = deps;
+    }
+    useEffect$3(effect, ref.current);
+};
+
+/* eslint-disable */
+function useTimeoutFn(fn, ms) {
+    if (ms === void 0) { ms = 0; }
+    var ready = useRef$1(false);
+    var timeout = useRef$1();
+    var callback = useRef$1(fn);
+    var isReady = useCallback$1(function () { return ready.current; }, []);
+    var set = useCallback$1(function () {
+        ready.current = false;
+        timeout.current && clearTimeout(timeout.current);
+        timeout.current = setTimeout(function () {
+            ready.current = true;
+            callback.current();
+        }, ms);
+    }, [ms]);
+    var clear = useCallback$1(function () {
+        ready.current = null;
+        timeout.current && clearTimeout(timeout.current);
+    }, []);
+    // update ref when function changes
+    useEffect$3(function () {
+        callback.current = fn;
+    }, [fn]);
+    // set on mount, clear on unmount
+    useEffect$3(function () {
+        set();
+        return clear;
+    }, [ms]);
+    return [isReady, clear, set];
+}
+
+function useDebounce(fn, ms, deps) {
+    if (ms === void 0) { ms = 0; }
+    if (deps === void 0) { deps = []; }
+    var _a = useTimeoutFn(fn, ms), isReady = _a[0], cancel = _a[1], reset = _a[2];
+    useEffect$3(reset, deps);
+    return [isReady, cancel];
+}
+
+var isPrimitive$1 = function (val) { return val !== Object(val); };
+var useDeepCompareEffect = function (effect, deps) {
+    if (\\"production\\" !== 'production') {
+        if (!(deps instanceof Array) || !deps.length) {
+            console.warn('\`useDeepCompareEffect\` should not be used with no dependencies. Use React.useEffect instead.');
+        }
+        if (deps.every(isPrimitive$1)) {
+            console.warn('\`useDeepCompareEffect\` should not be used with dependencies that are all primitive values. Use React.useEffect instead.');
+        }
+    }
+    useCustomCompareEffect(effect, deps, isDeepEqual);
+};
+
+var useDefault = function (defaultValue, initialValue) {
+    var _a = useState$4(initialValue), value = _a[0], setValue = _a[1];
+    if (value === undefined || value === null) {
+        return [defaultValue, setValue];
+    }
+    return [value, setValue];
+};
+
+var useState$2 = React.useState, useMemo = React.useMemo, useCallback = React.useCallback, useEffect$1 = React.useEffect;
+var noop$7 = function () { };
+/*
+const defaultState: DropAreaState = {
+  over: false,
+};
+*/
+var createProcess$1 = function (options, mounted) { return function (dataTransfer, event) {
+    var uri = dataTransfer.getData('text/uri-list');
+    if (uri) {
+        (options.onUri || noop$7)(uri, event);
+        return;
+    }
+    if (dataTransfer.files && dataTransfer.files.length) {
+        (options.onFiles || noop$7)(Array.from(dataTransfer.files), event);
+        return;
+    }
+    if (dataTransfer.items && dataTransfer.items.length) {
+        dataTransfer.items[0].getAsString(function (text) {
+            if (mounted) {
+                (options.onText || noop$7)(text, event);
+            }
+        });
+    }
+}; };
+var useDrop = function (options, args) {
+    if (options === void 0) { options = {}; }
+    if (args === void 0) { args = []; }
+    var onFiles = options.onFiles, onText = options.onText, onUri = options.onUri;
+    var isMounted = useMountedState();
+    var _a = useState$2(false), over = _a[0], setOverRaw = _a[1];
+    var setOver = useCallback(setOverRaw, []);
+    var process = useMemo(function () { return createProcess$1(options, isMounted()); }, [onFiles, onText, onUri]);
+    useEffect$1(function () {
+        var onDragOver = function (event) {
+            event.preventDefault();
+            setOver(true);
+        };
+        var onDragEnter = function (event) {
+            event.preventDefault();
+            setOver(true);
+        };
+        var onDragLeave = function () {
+            setOver(false);
+        };
+        var onDragExit = function () {
+            setOver(false);
+        };
+        var onDrop = function (event) {
+            event.preventDefault();
+            setOver(false);
+            process(event.dataTransfer, event);
+        };
+        var onPaste = function (event) {
+            process(event.clipboardData, event);
+        };
+        document.addEventListener('dragover', onDragOver);
+        document.addEventListener('dragenter', onDragEnter);
+        document.addEventListener('dragleave', onDragLeave);
+        document.addEventListener('dragexit', onDragExit);
+        document.addEventListener('drop', onDrop);
+        if (onText) {
+            document.addEventListener('paste', onPaste);
+        }
+        return function () {
+            document.removeEventListener('dragover', onDragOver);
+            document.removeEventListener('dragenter', onDragEnter);
+            document.removeEventListener('dragleave', onDragLeave);
+            document.removeEventListener('dragexit', onDragExit);
+            document.removeEventListener('drop', onDrop);
+            document.removeEventListener('paste', onPaste);
+        };
+    }, __spreadArrays([process], args));
+    return { over: over };
+};
+
+/* eslint-disable */
+var noop$6 = function () { };
+/*
+const defaultState: DropAreaState = {
+  over: false,
+};
+*/
+var createProcess = function (options, mounted) { return function (dataTransfer, event) {
+    var uri = dataTransfer.getData('text/uri-list');
+    if (uri) {
+        (options.onUri || noop$6)(uri, event);
+        return;
+    }
+    if (dataTransfer.files && dataTransfer.files.length) {
+        (options.onFiles || noop$6)(Array.from(dataTransfer.files), event);
+        return;
+    }
+    if (dataTransfer.items && dataTransfer.items.length) {
+        dataTransfer.items[0].getAsString(function (text) {
+            if (mounted) {
+                (options.onText || noop$6)(text, event);
+            }
+        });
+    }
+}; };
+var createBond = function (process, setOver) { return ({
+    onDragOver: function (event) {
+        event.preventDefault();
+    },
+    onDragEnter: function (event) {
+        event.preventDefault();
+        setOver(true);
+    },
+    onDragLeave: function () {
+        setOver(false);
+    },
+    onDrop: function (event) {
+        event.preventDefault();
+        event.persist();
+        setOver(false);
+        process(event.dataTransfer, event);
+    },
+    onPaste: function (event) {
+        event.persist();
+        process(event.clipboardData, event);
+    },
+}); };
+var useDropArea = function (options) {
+    if (options === void 0) { options = {}; }
+    var onFiles = options.onFiles, onText = options.onText, onUri = options.onUri;
+    var isMounted = useMountedState();
+    var _a = useState$4(false), over = _a[0], setOver = _a[1];
+    var process = useMemo$1(function () { return createProcess(options, isMounted()); }, [onFiles, onText, onUri]);
+    var bond = useMemo$1(function () { return createBond(process, setOver); }, [process, setOver]);
+    return [bond, { over: over }];
+};
+
+var useEffectOnce = function (effect) {
+    useEffect$3(effect, []);
+};
+
+function useEnsuredForwardedRef(forwardedRef) {
+    var ensuredRef = useRef$1(forwardedRef && forwardedRef.current);
+    useEffect$3(function () {
+        if (!forwardedRef) {
+            return;
+        }
+        forwardedRef.current = ensuredRef.current;
+    }, [forwardedRef]);
+    return ensuredRef;
+}
+function ensuredForwardRef(Component) {
+    return forwardRef(function (props, ref) {
+        var ensuredRef = useEnsuredForwardedRef(ref);
+        return Component(props, ensuredRef);
+    });
+}
+
+/* eslint-disable */
+var defaultTarget = isClient ? window : null;
+var isListenerType1 = function (target) {
+    return !!target.addEventListener;
+};
+var isListenerType2 = function (target) {
+    return !!target.on;
+};
+var useEvent = function (name, handler, target, options) {
+    if (target === void 0) { target = defaultTarget; }
+    useEffect$3(function () {
+        if (!handler) {
+            return;
+        }
+        if (!target) {
+            return;
+        }
+        if (isListenerType1(target)) {
+            target.addEventListener(name, handler, options);
+        }
+        else if (isListenerType2(target)) {
+            target.on(name, handler, options);
+        }
+        return function () {
+            if (isListenerType1(target)) {
+                target.removeEventListener(name, handler, options);
+            }
+            else if (isListenerType2(target)) {
+                target.off(name, handler, options);
+            }
+        };
+    }, [name, handler, target, JSON.stringify(options)]);
+};
+
+var useError = function () {
+    var _a = useState$4(null), error = _a[0], setError = _a[1];
+    useEffect$3(function () {
+        if (error) {
+            throw error;
+        }
+    }, [error]);
+    var dispatchError = useCallback$1(function (err) {
+        setError(err);
+    }, []);
+    return dispatchError;
+};
+
+var useFavicon = function (href) {
+    useEffect$3(function () {
+        var link = document.querySelector(\\"link[rel*='icon']\\") || document.createElement('link');
+        link.type = 'image/x-icon';
+        link.rel = 'shortcut icon';
+        link.href = href;
+        document.getElementsByTagName('head')[0].appendChild(link);
+    }, [href]);
+};
+
+/* eslint-disable */
+var noop$5 = function () { };
+var useFullscreen = function (ref, on, options) {
+    if (options === void 0) { options = {}; }
+    var video = options.video, _a = options.onClose, onClose = _a === void 0 ? noop$5 : _a;
+    var _b = useState$4(on), isFullscreen = _b[0], setIsFullscreen = _b[1];
+    useLayoutEffect(function () {
+        if (!on) {
+            return;
+        }
+        if (!ref.current) {
+            return;
+        }
+        var onWebkitEndFullscreen = function () {
+            video.current.removeEventListener('webkitendfullscreen', onWebkitEndFullscreen);
+            onClose();
+        };
+        var onChange = function () {
+            if (screenfull.isEnabled) {
+                var isScreenfullFullscreen = screenfull.isFullscreen;
+                setIsFullscreen(isScreenfullFullscreen);
+                if (!isScreenfullFullscreen) {
+                    onClose();
+                }
+            }
+        };
+        if (screenfull.isEnabled) {
+            try {
+                screenfull.request(ref.current);
+                setIsFullscreen(true);
+            }
+            catch (error) {
+                onClose(error);
+                setIsFullscreen(false);
+            }
+            screenfull.on('change', onChange);
+        }
+        else if (video && video.current && video.current.webkitEnterFullscreen) {
+            video.current.webkitEnterFullscreen();
+            video.current.addEventListener('webkitendfullscreen', onWebkitEndFullscreen);
+            setIsFullscreen(true);
+        }
+        else {
+            onClose();
+            setIsFullscreen(false);
+        }
+        return function () {
+            setIsFullscreen(false);
+            if (screenfull.isEnabled) {
+                try {
+                    screenfull.off('change', onChange);
+                    screenfull.exit();
+                }
+                catch (_a) { }
+            }
+            else if (video && video.current && video.current.webkitExitFullscreen) {
+                video.current.removeEventListener('webkitendfullscreen', onWebkitEndFullscreen);
+                video.current.webkitExitFullscreen();
+            }
+        };
+    }, [on, video, ref]);
+    return isFullscreen;
+};
+
+var useGeolocation = function (options) {
+    var _a = useState$4({
+        loading: true,
+        accuracy: null,
+        altitude: null,
+        altitudeAccuracy: null,
+        heading: null,
+        latitude: null,
+        longitude: null,
+        speed: null,
+        timestamp: Date.now(),
+    }), state = _a[0], setState = _a[1];
+    var mounted = true;
+    var watchId;
+    var onEvent = function (event) {
+        if (mounted) {
+            setState({
+                loading: false,
+                accuracy: event.coords.accuracy,
+                altitude: event.coords.altitude,
+                altitudeAccuracy: event.coords.altitudeAccuracy,
+                heading: event.coords.heading,
+                latitude: event.coords.latitude,
+                longitude: event.coords.longitude,
+                speed: event.coords.speed,
+                timestamp: event.timestamp,
+            });
+        }
+    };
+    var onEventError = function (error) {
+        return mounted && setState(function (oldState) { return (__assign(__assign({}, oldState), { loading: false, error: error })); });
+    };
+    useEffect$3(function () {
+        navigator.geolocation.getCurrentPosition(onEvent, onEventError, options);
+        watchId = navigator.geolocation.watchPosition(onEvent, onEventError, options);
+        return function () {
+            mounted = false;
+            navigator.geolocation.clearWatch(watchId);
+        };
+    }, []);
+    return state;
+};
+
+var useGetSetState = function (initialState) {
+    if (initialState === void 0) { initialState = {}; }
+    if (\\"production\\" !== 'production') {
+        if (typeof initialState !== 'object') {
+            console.error('useGetSetState initial state must be an object.');
+        }
+    }
+    var update = useUpdate();
+    var state = useRef$1(__assign({}, initialState));
+    var get = useCallback$1(function () { return state.current; }, []);
+    var set = useCallback$1(function (patch) {
+        if (!patch) {
+            return;
+        }
+        if (\\"production\\" !== 'production') {
+            if (typeof patch !== 'object') {
+                console.error('useGetSetState setter patch must be an object.');
+            }
+        }
+        Object.assign(state.current, patch);
+        update();
+    }, []);
+    return [get, set];
+};
+
+var useHarmonicIntervalFn = function (fn, delay) {
+    if (delay === void 0) { delay = 0; }
+    var latestCallback = useRef$1(function () { });
+    useEffect$3(function () {
+        latestCallback.current = fn;
+    });
+    useEffect$3(function () {
+        if (delay !== null) {
+            var interval_1 = setHarmonicInterval(function () { return latestCallback.current(); }, delay);
+            return function () { return clearHarmonicInterval(interval_1); };
+        }
+        return undefined;
+    }, [delay]);
+};
+
+var useState$1 = React.useState;
+var noop$4 = function () { };
+var useHover = function (element) {
+    var _a = useState$1(false), state = _a[0], setState = _a[1];
+    var onMouseEnter = function (originalOnMouseEnter) { return function (event) {
+        (originalOnMouseEnter || noop$4)(event);
+        setState(true);
+    }; };
+    var onMouseLeave = function (originalOnMouseLeave) { return function (event) {
+        (originalOnMouseLeave || noop$4)(event);
+        setState(false);
+    }; };
+    if (typeof element === 'function') {
+        element = element(state);
+    }
+    var el = React.cloneElement(element, {
+        onMouseEnter: onMouseEnter(element.props.onMouseEnter),
+        onMouseLeave: onMouseLeave(element.props.onMouseLeave),
+    });
+    return [el, state];
+};
+
+// kudos: https://usehooks.com/
+var useHoverDirty = function (ref, enabled) {
+    if (enabled === void 0) { enabled = true; }
+    if (\\"production\\" === 'development') {
+        if (typeof ref !== 'object' || typeof ref.current === 'undefined') {
+            console.error('useHoverDirty expects a single ref argument.');
+        }
+    }
+    var _a = useState$4(false), value = _a[0], setValue = _a[1];
+    useEffect$3(function () {
+        var onMouseOver = function () { return setValue(true); };
+        var onMouseOut = function () { return setValue(false); };
+        if (enabled && ref && ref.current) {
+            ref.current.addEventListener('mouseover', onMouseOver);
+            ref.current.addEventListener('mouseout', onMouseOut);
+        }
+        // fixes react-hooks/exhaustive-deps warning about stale ref elements
+        var current = ref.current;
+        return function () {
+            if (enabled && current) {
+                current.removeEventListener('mouseover', onMouseOver);
+                current.removeEventListener('mouseout', onMouseOut);
+            }
+        };
+    }, [enabled, ref]);
+    return value;
+};
+
+/* eslint-disable */
+var defaultEvents = ['mousemove', 'mousedown', 'resize', 'keydown', 'touchstart', 'wheel'];
+var oneMinute = 60e3;
+var useIdle = function (ms, initialState, events) {
+    if (ms === void 0) { ms = oneMinute; }
+    if (initialState === void 0) { initialState = false; }
+    if (events === void 0) { events = defaultEvents; }
+    var _a = useState$4(initialState), state = _a[0], setState = _a[1];
+    useEffect$3(function () {
+        var mounted = true;
+        var timeout;
+        var localState = state;
+        var set = function (newState) {
+            if (mounted) {
+                localState = newState;
+                setState(newState);
+            }
+        };
+        var onEvent = throttle(50, function () {
+            if (localState) {
+                set(false);
+            }
+            clearTimeout(timeout);
+            timeout = setTimeout(function () { return set(true); }, ms);
+        });
+        var onVisibility = function () {
+            if (!document.hidden) {
+                onEvent();
+            }
+        };
+        for (var i = 0; i < events.length; i++) {
+            on(window, events[i], onEvent);
+        }
+        on(document, 'visibilitychange', onVisibility);
+        timeout = setTimeout(function () { return set(true); }, ms);
+        return function () {
+            mounted = false;
+            for (var i = 0; i < events.length; i++) {
+                off(window, events[i], onEvent);
+            }
+            off(document, 'visibilitychange', onVisibility);
+        };
+    }, [ms, events]);
+    return state;
+};
+
+/* eslint-disable */
+var useIntersection = function (ref, options) {
+    var _a = useState$4(null), intersectionObserverEntry = _a[0], setIntersectionObserverEntry = _a[1];
+    useEffect$3(function () {
+        if (ref.current && typeof IntersectionObserver === 'function') {
+            var handler = function (entries) {
+                setIntersectionObserverEntry(entries[0]);
+            };
+            var observer_1 = new IntersectionObserver(handler, options);
+            observer_1.observe(ref.current);
+            return function () {
+                setIntersectionObserverEntry(null);
+                observer_1.disconnect();
+            };
+        }
+        return function () { };
+    }, [ref.current, options.threshold, options.root, options.rootMargin]);
+    return intersectionObserverEntry;
+};
+
+var useInterval = function (callback, delay) {
+    var savedCallback = useRef$1(function () { });
+    useEffect$3(function () {
+        savedCallback.current = callback;
+    });
+    useEffect$3(function () {
+        if (delay !== null) {
+            var interval_1 = setInterval(function () { return savedCallback.current(); }, delay || 0);
+            return function () { return clearInterval(interval_1); };
+        }
+        return undefined;
+    }, [delay]);
+};
+
+var useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect$3;
+
+/* eslint-disable */
+var noop$3 = function () { };
+var createKeyPredicate = function (keyFilter) {
+    return typeof keyFilter === 'function'
+        ? keyFilter
+        : typeof keyFilter === 'string'
+            ? function (event) { return event.key === keyFilter; }
+            : keyFilter
+                ? function () { return true; }
+                : function () { return false; };
+};
+var useKey = function (key, fn, opts, deps) {
+    if (fn === void 0) { fn = noop$3; }
+    if (opts === void 0) { opts = {}; }
+    if (deps === void 0) { deps = [key]; }
+    var _a = opts.event, event = _a === void 0 ? 'keydown' : _a, target = opts.target, options = opts.options;
+    var useMemoHandler = useMemo$1(function () {
+        var predicate = createKeyPredicate(key);
+        var handler = function (handlerEvent) {
+            if (predicate(handlerEvent)) {
+                return fn(handlerEvent);
+            }
+        };
+        return handler;
+    }, deps);
+    useEvent(event, useMemoHandler, target, options);
+};
+
+/* eslint-disable */
+var createBreakpoint = function (breakpoints) {
+    if (breakpoints === void 0) { breakpoints = { laptopL: 1440, laptop: 1024, tablet: 768 }; }
+    return function () {
+        var _a = useState$4(0), screen = _a[0], setScreen = _a[1];
+        useEffect$3(function () {
+            var setSideScreen = function () {
+                setScreen(window.innerWidth);
+            };
+            setSideScreen();
+            window.addEventListener('resize', setSideScreen);
+            return function () {
+                window.removeEventListener('resize', setSideScreen);
+            };
+        });
+        var sortedBreakpoints = useMemo$1(function () { return Object.entries(breakpoints).sort(function (a, b) { return (a[1] >= b[1] ? 1 : -1); }); }, [
+            breakpoints,
+        ]);
+        var result = sortedBreakpoints.reduce(function (acc, _a) {
+            var name = _a[0], width = _a[1];
+            if (screen >= width) {
+                return name;
+            }
+            else {
+                return acc;
+            }
+        }, sortedBreakpoints[0][0]);
+        return result;
+    };
+};
+
+var useKeyPress = function (keyFilter) {
+    var _a = useState$4([false, null]), state = _a[0], set = _a[1];
+    useKey(keyFilter, function (event) { return set([true, event]); }, { event: 'keydown' }, [state]);
+    useKey(keyFilter, function (event) { return set([false, event]); }, { event: 'keyup' }, [state]);
+    return state;
+};
+
+var useKeyPressEvent = function (key, keydown, keyup, useKeyPress$1) {
+    if (useKeyPress$1 === void 0) { useKeyPress$1 = useKeyPress; }
+    var _a = useKeyPress$1(key), pressed = _a[0], event = _a[1];
+    useUpdateEffect(function () {
+        if (!pressed && keyup) {
+            keyup(event);
+        }
+        else if (pressed && keydown) {
+            keydown(event);
+        }
+    }, [pressed]);
+};
+
+/* eslint-disable */
+var useLifecycles = function (mount, unmount) {
+    useEffect$3(function () {
+        if (mount) {
+            mount();
+        }
+        return function () {
+            if (unmount) {
+                unmount();
+            }
+        };
+    }, []);
+};
+
+/* eslint-disable */
+function useList(initialList) {
+    if (initialList === void 0) { initialList = []; }
+    var list = useRef$1(resolveHookState(initialList));
+    var update = useUpdate();
+    var actions = useMemo$1(function () {
+        var a = {
+            set: function (newList) {
+                list.current = resolveHookState(newList, list.current);
+                update();
+            },
+            push: function () {
+                var items = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    items[_i] = arguments[_i];
+                }
+                items.length && actions.set(function (curr) { return curr.concat(items); });
+            },
+            updateAt: function (index, item) {
+                actions.set(function (curr) {
+                    var arr = curr.slice();
+                    arr[index] = item;
+                    return arr;
+                });
+            },
+            insertAt: function (index, item) {
+                actions.set(function (curr) {
+                    var arr = curr.slice();
+                    index > arr.length ? (arr[index] = item) : arr.splice(index, 0, item);
+                    return arr;
+                });
+            },
+            update: function (predicate, newItem) {
+                actions.set(function (curr) { return curr.map(function (item) { return (predicate(item, newItem) ? newItem : item); }); });
+            },
+            updateFirst: function (predicate, newItem) {
+                var index = list.current.findIndex(function (item) { return predicate(item, newItem); });
+                index >= 0 && actions.updateAt(index, newItem);
+            },
+            upsert: function (predicate, newItem) {
+                var index = list.current.findIndex(function (item) { return predicate(item, newItem); });
+                index >= 0 ? actions.updateAt(index, newItem) : actions.push(newItem);
+            },
+            sort: function (compareFn) {
+                actions.set(function (curr) { return curr.slice().sort(compareFn); });
+            },
+            filter: function (callbackFn, thisArg) {
+                actions.set(function (curr) { return curr.slice().filter(callbackFn, thisArg); });
+            },
+            removeAt: function (index) {
+                actions.set(function (curr) {
+                    var arr = curr.slice();
+                    arr.splice(index, 1);
+                    return arr;
+                });
+            },
+            clear: function () {
+                actions.set([]);
+            },
+            reset: function () {
+                actions.set(resolveHookState(initialList).slice());
+            },
+        };
+        /**
+         * @deprecated Use removeAt method instead
+         */
+        a.remove = a.removeAt;
+        return a;
+    }, []);
+    return [list.current, actions];
+}
+
+/* eslint-disable */
+var useLocalStorage = function (key, initialValue, options) {
+    if (!isClient) {
+        return [initialValue, function () { }];
+    }
+    // Use provided serializer/deserializer or the default ones
+    var serializer = options ? (options.raw ? String : options.serializer) : JSON.stringify;
+    var deserializer = options ? (options.raw ? String : options.deserializer) : JSON.parse;
+    var _a = useState$4(function () {
+        try {
+            var localStorageValue = localStorage.getItem(key);
+            if (localStorageValue !== null) {
+                return deserializer(localStorageValue);
+            }
+            else {
+                initialValue && localStorage.setItem(key, serializer(initialValue));
+                return initialValue;
+            }
+        }
+        catch (_a) {
+            // If user is in private mode or has storage restriction
+            // localStorage can throw. JSON.parse and JSON.stringify
+            // can throw, too.
+            return initialValue;
+        }
+    }), state = _a[0], setState = _a[1];
+    useEffect$3(function () {
+        try {
+            localStorage.setItem(key, serializer(state));
+        }
+        catch (_a) {
+            // If user is in private mode or has storage restriction
+            // localStorage can throw. Also JSON.stringify can throw.
+        }
+    }, [state]);
+    return [state, setState];
+};
+
+/* eslint-disable */
+var patchHistoryMethod = function (method) {
+    var original = history[method];
+    history[method] = function (state) {
+        var result = original.apply(this, arguments);
+        var event = new Event(method.toLowerCase());
+        event.state = state;
+        window.dispatchEvent(event);
+        return result;
+    };
+};
+if (isClient) {
+    patchHistoryMethod('pushState');
+    patchHistoryMethod('replaceState');
+}
+var useLocationServer = function () { return ({
+    trigger: 'load',
+    length: 1,
+}); };
+var buildState = function (trigger) {
+    var state = history.state, length = history.length;
+    var hash = location.hash, host = location.host, hostname = location.hostname, href = location.href, origin = location.origin, pathname = location.pathname, port = location.port, protocol = location.protocol, search = location.search;
+    return {
+        trigger: trigger,
+        state: state,
+        length: length,
+        hash: hash,
+        host: host,
+        hostname: hostname,
+        href: href,
+        origin: origin,
+        pathname: pathname,
+        port: port,
+        protocol: protocol,
+        search: search,
+    };
+};
+var useLocationBrowser = function () {
+    var _a = useState$4(buildState('load')), state = _a[0], setState = _a[1];
+    useEffect$3(function () {
+        var onPopstate = function () { return setState(buildState('popstate')); };
+        var onPushstate = function () { return setState(buildState('pushstate')); };
+        var onReplacestate = function () { return setState(buildState('replacestate')); };
+        on(window, 'popstate', onPopstate);
+        on(window, 'pushstate', onPushstate);
+        on(window, 'replacestate', onReplacestate);
+        return function () {
+            off(window, 'popstate', onPopstate);
+            off(window, 'pushstate', onPushstate);
+            off(window, 'replacestate', onReplacestate);
+        };
+    }, []);
+    return state;
+};
+var hasEventConstructor = typeof Event === 'function';
+var useLocation = isClient && hasEventConstructor ? useLocationBrowser : useLocationServer;
+
+/* eslint-disable */
+function getClosestBody(el) {
+    if (!el) {
+        return null;
+    }
+    else if (el.tagName === 'BODY') {
+        return el;
+    }
+    else if (el.tagName === 'IFRAME') {
+        var document_1 = el.contentDocument;
+        return document_1 ? document_1.body : null;
+    }
+    else if (!el.offsetParent) {
+        return null;
+    }
+    return getClosestBody(el.offsetParent);
+}
+function preventDefault$1(rawEvent) {
+    var e = rawEvent || window.event;
+    // Do not prevent if the event has more than one touch (usually meaning this is a multi touch gesture like pinch to zoom).
+    if (e.touches.length > 1)
+        return true;
+    if (e.preventDefault)
+        e.preventDefault();
+    return false;
+}
+var isIosDevice = typeof window !== 'undefined' &&
+    window.navigator &&
+    window.navigator.platform &&
+    /iP(ad|hone|od)/.test(window.navigator.platform);
+var bodies = new Map();
+var doc = typeof document === 'object' ? document : undefined;
+var documentListenerAdded = false;
+var useLockBodyScroll = !doc
+    ? function useLockBodyMock(_locked, _elementRef) {
+        if (_locked === void 0) { _locked = true; }
+    }
+    : function useLockBody(locked, elementRef) {
+        if (locked === void 0) { locked = true; }
+        elementRef = elementRef || useRef$1(doc.body);
+        useEffect$3(function () {
+            var body = getClosestBody(elementRef.current);
+            if (!body) {
+                return;
+            }
+            var bodyInfo = bodies.get(body);
+            if (locked) {
+                if (!bodyInfo) {
+                    bodies.set(body, { counter: 1, initialOverflow: body.style.overflow });
+                    if (isIosDevice) {
+                        if (!documentListenerAdded) {
+                            document.addEventListener('touchmove', preventDefault$1, { passive: false });
+                            documentListenerAdded = true;
+                        }
+                    }
+                    else {
+                        body.style.overflow = 'hidden';
+                    }
+                }
+                else {
+                    bodies.set(body, { counter: bodyInfo.counter + 1, initialOverflow: bodyInfo.initialOverflow });
+                }
+            }
+            else {
+                if (bodyInfo) {
+                    if (bodyInfo.counter === 1) {
+                        bodies.delete(body);
+                        if (isIosDevice) {
+                            body.ontouchmove = null;
+                            if (documentListenerAdded) {
+                                document.removeEventListener('touchmove', preventDefault$1);
+                                documentListenerAdded = false;
+                            }
+                        }
+                        else {
+                            body.style.overflow = bodyInfo.initialOverflow;
+                        }
+                    }
+                    else {
+                        bodies.set(body, { counter: bodyInfo.counter - 1, initialOverflow: bodyInfo.initialOverflow });
+                    }
+                }
+            }
+        }, [locked, elementRef.current]);
+    };
+
+var useLogger = function (componentName) {
+    var rest = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        rest[_i - 1] = arguments[_i];
+    }
+    useEffectOnce(function () {
+        console.log.apply(console, __spreadArrays([componentName + \\" mounted\\"], rest));
+        return function () { return console.log(componentName + \\" unmounted\\"); };
+    });
+    useUpdateEffect(function () {
+        console.log.apply(console, __spreadArrays([componentName + \\" updated\\"], rest));
+    });
+};
+
+/* eslint-disable */
+var isTouchEvent = function (event) {
+    return 'touches' in event;
+};
+var preventDefault = function (event) {
+    if (!isTouchEvent(event))
+        return;
+    if (event.touches.length < 2 && event.preventDefault) {
+        event.preventDefault();
+    }
+};
+var useLongPress = function (callback, _a) {
+    var _b = _a === void 0 ? {} : _a, _c = _b.isPreventDefault, isPreventDefault = _c === void 0 ? true : _c, _d = _b.delay, delay = _d === void 0 ? 300 : _d;
+    var timeout = useRef$1();
+    var target = useRef$1();
+    var start = useCallback$1(function (event) {
+        // prevent ghost click on mobile devices
+        if (isPreventDefault && event.target) {
+            event.target.addEventListener('touchend', preventDefault, { passive: false });
+            target.current = event.target;
+        }
+        timeout.current = setTimeout(function () { return callback(event); }, delay);
+    }, [callback, delay]);
+    var clear = useCallback$1(function () {
+        // clearTimeout and removeEventListener
+        timeout.current && clearTimeout(timeout.current);
+        if (isPreventDefault && target.current) {
+            target.current.removeEventListener('touchend', preventDefault);
+        }
+    }, []);
+    return {
+        onMouseDown: function (e) { return start(e); },
+        onTouchStart: function (e) { return start(e); },
+        onMouseUp: clear,
+        onMouseLeave: clear,
+        onTouchEnd: clear,
+    };
+};
+
+var useMap = function (initialMap) {
+    if (initialMap === void 0) { initialMap = {}; }
+    var _a = useState$4(initialMap), map = _a[0], set = _a[1];
+    var stableActions = useMemo$1(function () { return ({
+        set: function (key, entry) {
+            set(function (prevMap) {
+                var _a;
+                return (__assign(__assign({}, prevMap), (_a = {}, _a[key] = entry, _a)));
+            });
+        },
+        setAll: function (newMap) {
+            set(newMap);
+        },
+        remove: function (key) {
+            set(function (prevMap) {
+                var _a = prevMap, _b = key, omit = _a[_b], rest = __rest(_a, [typeof _b === \\"symbol\\" ? _b : _b + \\"\\"]);
+                return rest;
+            });
+        },
+        reset: function () { return set(initialMap); },
+    }); }, [set]);
+    var utils = __assign({ get: useCallback$1(function (key) { return map[key]; }, [map]) }, stableActions);
+    return [map, utils];
+};
+
+var useMedia = function (query, defaultState) {
+    if (defaultState === void 0) { defaultState = false; }
+    var _a = useState$4(isClient ? function () { return window.matchMedia(query).matches; } : defaultState), state = _a[0], setState = _a[1];
+    useEffect$3(function () {
+        var mounted = true;
+        var mql = window.matchMedia(query);
+        var onChange = function () {
+            if (!mounted) {
+                return;
+            }
+            setState(!!mql.matches);
+        };
+        mql.addListener(onChange);
+        setState(mql.matches);
+        return function () {
+            mounted = false;
+            mql.removeListener(onChange);
+        };
+    }, [query]);
+    return state;
+};
+
+var noop$2 = function () { };
+var useMediaDevices = function () {
+    var _a = useState$4({}), state = _a[0], setState = _a[1];
+    useEffect$3(function () {
+        var mounted = true;
+        var onChange = function () {
+            navigator.mediaDevices
+                .enumerateDevices()
+                .then(function (devices) {
+                if (mounted) {
+                    setState({
+                        devices: devices.map(function (_a) {
+                            var deviceId = _a.deviceId, groupId = _a.groupId, kind = _a.kind, label = _a.label;
+                            return ({ deviceId: deviceId, groupId: groupId, kind: kind, label: label });
+                        }),
+                    });
+                }
+            })
+                .catch(noop$2);
+        };
+        on(navigator.mediaDevices, 'devicechange', onChange);
+        onChange();
+        return function () {
+            mounted = false;
+            off(navigator.mediaDevices, 'devicechange', onChange);
+        };
+    }, []);
+    return state;
+};
+var useMediaDevicesMock = function () { return ({}); };
+var useMediaDevices$1 = typeof navigator === 'object' && !!navigator.mediaDevices ? useMediaDevices : useMediaDevicesMock;
+
+/* eslint-disable */
+function useMediatedState(mediator, initialState) {
+    var mediatorFn = useRef$1(mediator);
+    var _a = useState$4(initialState), state = _a[0], setMediatedState = _a[1];
+    var setState = useCallback$1(function (newState) {
+        if (mediatorFn.current.length === 2) {
+            mediatorFn.current(newState, setMediatedState);
+        }
+        else {
+            setMediatedState(mediatorFn.current(newState));
+        }
+    }, [state]);
+    return [state, setState];
+}
+
+var useMethods = function (createMethods, initialState) {
+    var reducer = useMemo$1(function () { return function (reducerState, action) {
+        var _a;
+        return (_a = createMethods(reducerState))[action.type].apply(_a, action.payload);
+    }; }, [createMethods]);
+    var _a = useReducer(reducer, initialState), state = _a[0], dispatch = _a[1];
+    var wrappedMethods = useMemo$1(function () {
+        var actionTypes = Object.keys(createMethods(initialState));
+        return actionTypes.reduce(function (acc, type) {
+            acc[type] = function () {
+                var payload = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    payload[_i] = arguments[_i];
+                }
+                return dispatch({ type: type, payload: payload });
+            };
+            return acc;
+        }, {});
+    }, [createMethods, initialState]);
+    return [state, wrappedMethods];
+};
+
+var defaultState$1 = {
+    acceleration: {
+        x: null,
+        y: null,
+        z: null,
+    },
+    accelerationIncludingGravity: {
+        x: null,
+        y: null,
+        z: null,
+    },
+    rotationRate: {
+        alpha: null,
+        beta: null,
+        gamma: null,
+    },
+    interval: 16,
+};
+var useMotion = function (initialState) {
+    if (initialState === void 0) { initialState = defaultState$1; }
+    var _a = useState$4(initialState), state = _a[0], setState = _a[1];
+    useEffect$3(function () {
+        var handler = function (event) {
+            var acceleration = event.acceleration, accelerationIncludingGravity = event.accelerationIncludingGravity, rotationRate = event.rotationRate, interval = event.interval;
+            setState({
+                acceleration: {
+                    x: acceleration.x,
+                    y: acceleration.y,
+                    z: acceleration.z,
+                },
+                accelerationIncludingGravity: {
+                    x: accelerationIncludingGravity.x,
+                    y: accelerationIncludingGravity.y,
+                    z: accelerationIncludingGravity.z,
+                },
+                rotationRate: {
+                    alpha: rotationRate.alpha,
+                    beta: rotationRate.beta,
+                    gamma: rotationRate.gamma,
+                },
+                interval: interval,
+            });
+        };
+        on(window, 'devicemotion', handler);
+        return function () {
+            off(window, 'devicemotion', handler);
+        };
+    }, []);
+    return state;
+};
+
+var useMount = function (fn) {
+    useEffectOnce(function () {
+        fn();
+    });
+};
+
+var useUnmount = function (fn) {
+    var fnRef = useRef$1(fn);
+    // update the ref each render so if it change the newest callback will be invoked
+    fnRef.current = fn;
+    useEffectOnce(function () { return function () { return fnRef.current(); }; });
+};
+
+var useRafState = function (initialState) {
+    var frame = useRef$1(0);
+    var _a = useState$4(initialState), state = _a[0], setState = _a[1];
+    var setRafState = useCallback$1(function (value) {
+        cancelAnimationFrame(frame.current);
+        frame.current = requestAnimationFrame(function () {
+            setState(value);
+        });
+    }, []);
+    useUnmount(function () {
+        cancelAnimationFrame(frame.current);
+    });
+    return [state, setRafState];
+};
+
+/* eslint-disable */
+var useMouse = function (ref) {
+    if (\\"production\\" === 'development') {
+        if (typeof ref !== 'object' || typeof ref.current === 'undefined') {
+            console.error('useMouse expects a single ref argument.');
+        }
+    }
+    var _a = useRafState({
+        docX: 0,
+        docY: 0,
+        posX: 0,
+        posY: 0,
+        elX: 0,
+        elY: 0,
+        elH: 0,
+        elW: 0,
+    }), state = _a[0], setState = _a[1];
+    useEffect$3(function () {
+        var moveHandler = function (event) {
+            if (ref && ref.current) {
+                var _a = ref.current.getBoundingClientRect(), left = _a.left, top_1 = _a.top, elW = _a.width, elH = _a.height;
+                var posX = left + window.pageXOffset;
+                var posY = top_1 + window.pageYOffset;
+                var elX = event.pageX - posX;
+                var elY = event.pageY - posY;
+                setState({
+                    docX: event.pageX,
+                    docY: event.pageY,
+                    posX: posX,
+                    posY: posY,
+                    elX: elX,
+                    elY: elY,
+                    elH: elH,
+                    elW: elW,
+                });
+            }
+        };
+        document.addEventListener('mousemove', moveHandler);
+        return function () {
+            document.removeEventListener('mousemove', moveHandler);
+        };
+    }, [ref]);
+    return state;
+};
+
+var nullRef = { current: null };
+var useMouseHovered = function (ref, options) {
+    if (options === void 0) { options = {}; }
+    var whenHovered = !!options.whenHovered;
+    var bound = !!options.bound;
+    var isHovered = useHoverDirty(ref, whenHovered);
+    var state = useMouse(whenHovered && !isHovered ? nullRef : ref);
+    if (bound) {
+        state.elX = Math.max(0, Math.min(state.elX, state.elW));
+        state.elY = Math.max(0, Math.min(state.elY, state.elH));
+    }
+    return state;
+};
+
+var getConnection = function () {
+    if (typeof navigator !== 'object') {
+        return null;
+    }
+    var nav = navigator;
+    return nav.connection || nav.mozConnection || nav.webkitConnection;
+};
+var getConnectionState = function () {
+    var connection = getConnection();
+    if (!connection) {
+        return {};
+    }
+    var downlink = connection.downlink, downlinkMax = connection.downlinkMax, effectiveType = connection.effectiveType, type = connection.type, rtt = connection.rtt;
+    return {
+        downlink: downlink,
+        downlinkMax: downlinkMax,
+        effectiveType: effectiveType,
+        type: type,
+        rtt: rtt,
+    };
+};
+var useNetwork = function (initialState) {
+    if (initialState === void 0) { initialState = {}; }
+    var _a = useState$4(initialState), state = _a[0], setState = _a[1];
+    useEffect$3(function () {
+        var localState = state;
+        var localSetState = function (patch) {
+            localState = __assign(__assign({}, localState), patch);
+            setState(localState);
+        };
+        var connection = getConnection();
+        var onOnline = function () {
+            localSetState({
+                online: true,
+                since: new Date(),
+            });
+        };
+        var onOffline = function () {
+            localSetState({
+                online: false,
+                since: new Date(),
+            });
+        };
+        var onConnectionChange = function () {
+            localSetState(getConnectionState());
+        };
+        on(window, 'online', onOnline);
+        on(window, 'offline', onOffline);
+        if (connection) {
+            on(connection, 'change', onConnectionChange);
+            localSetState(__assign(__assign(__assign({}, state), { online: navigator.onLine, since: undefined }), getConnectionState()));
+        }
+        return function () {
+            off(window, 'online', onOnline);
+            off(window, 'offline', onOffline);
+            if (connection) {
+                off(connection, 'change', onConnectionChange);
+            }
+        };
+    }, []);
+    return state;
+};
+
+function useObservable(observable$, initialValue) {
+    var _a = useState$4(initialValue), value = _a[0], update = _a[1];
+    useIsomorphicLayoutEffect(function () {
+        var s = observable$.subscribe(update);
+        return function () { return s.unsubscribe(); };
+    }, [observable$]);
+    return value;
+}
+
+/* eslint-disable */
+var defaultState = {
+    angle: 0,
+    type: 'landscape-primary',
+};
+var useOrientation = function (initialState) {
+    if (initialState === void 0) { initialState = defaultState; }
+    var _a = useState$4(initialState), state = _a[0], setState = _a[1];
+    useEffect$3(function () {
+        var mounted = true;
+        var onChange = function () {
+            if (mounted) {
+                var orientation_1 = screen.orientation;
+                if (orientation_1) {
+                    var angle = orientation_1.angle, type = orientation_1.type;
+                    setState({ angle: angle, type: type });
+                }
+                else if (window.orientation) {
+                    setState({
+                        angle: typeof window.orientation === 'number' ? window.orientation : 0,
+                        type: '',
+                    });
+                }
+                else {
+                    setState(initialState);
+                }
+            }
+        };
+        on(window, 'orientationchange', onChange);
+        onChange();
+        return function () {
+            mounted = false;
+            off(window, 'orientationchange', onChange);
+        };
+    }, []);
+    return state;
+};
+
+/* eslint-disable */
+var usePageLeave = function (onPageLeave, args) {
+    if (args === void 0) { args = []; }
+    useEffect$3(function () {
+        if (!onPageLeave) {
+            return;
+        }
+        var handler = function (event) {
+            event = event ? event : window.event;
+            var from = event.relatedTarget || event.toElement;
+            if (!from || from.nodeName === 'HTML') {
+                onPageLeave();
+            }
+        };
+        document.addEventListener('mouseout', handler);
+        return function () {
+            document.removeEventListener('mouseout', handler);
+        };
+    }, args);
+};
+
+/* eslint-disable */
+var noop$1 = function () { };
+var usePermission = function (permissionDesc) {
+    var mounted = true;
+    var permissionStatus = null;
+    var _a = useState$4(''), state = _a[0], setState = _a[1];
+    var onChange = function () {
+        if (mounted && permissionStatus) {
+            setState(permissionStatus.state);
+        }
+    };
+    var changeState = function () {
+        onChange();
+        on(permissionStatus, 'change', onChange);
+    };
+    useEffect$3(function () {
+        navigator.permissions
+            .query(permissionDesc)
+            .then(function (status) {
+            permissionStatus = status;
+            changeState();
+        })
+            .catch(noop$1);
+        return function () {
+            mounted = false;
+            permissionStatus && off(permissionStatus, 'change', onChange);
+        };
+    }, []);
+    return state;
+};
+
+var usePrevious = function (state) {
+    var ref = useRef$1();
+    useEffect$3(function () {
+        ref.current = state;
+    });
+    return ref.current;
+};
+
+var strictEquals = function (prev, next) { return prev === next; };
+function usePreviousDistinct(value, compare) {
+    if (compare === void 0) { compare = strictEquals; }
+    var prevRef = useRef$1();
+    var curRef = useRef$1(value);
+    var isFirstMount = useFirstMountState();
+    if (!isFirstMount && !compare(curRef.current, value)) {
+        prevRef.current = curRef.current;
+        curRef.current = value;
+    }
+    return prevRef.current;
+}
+
+/* eslint-disable */
+var usePromise = function () {
+    var isMounted = useMountedState();
+    return useCallback$1(function (promise) {
+        return new Promise(function (resolve, reject) {
+            var onValue = function (value) {
+                isMounted() && resolve(value);
+            };
+            var onError = function (error) {
+                isMounted() && reject(error);
+            };
+            promise.then(onValue, onError);
+        });
+    }, []);
+};
+
+var useQueue = function (initialValue) {
+    if (initialValue === void 0) { initialValue = []; }
+    var _a = useState$4(initialValue), state = _a[0], set = _a[1];
+    return {
+        add: function (value) {
+            set(function (queue) { return __spreadArrays(queue, [value]); });
+        },
+        remove: function () {
+            var result;
+            set(function (_a) {
+                var first = _a[0], rest = _a.slice(1);
+                result = first;
+                return rest;
+            });
+            return result;
+        },
+        get first() {
+            return state[0];
+        },
+        get last() {
+            return state[state.length - 1];
+        },
+        get size() {
+            return state.length;
+        },
+    };
+};
+
+var useRaf = function (ms, delay) {
+    if (ms === void 0) { ms = 1e12; }
+    if (delay === void 0) { delay = 0; }
+    var _a = useState$4(0), elapsed = _a[0], set = _a[1];
+    useLayoutEffect(function () {
+        var raf;
+        var timerStop;
+        var start;
+        var onFrame = function () {
+            var time = Math.min(1, (Date.now() - start) / ms);
+            set(time);
+            loop();
+        };
+        var loop = function () {
+            raf = requestAnimationFrame(onFrame);
+        };
+        var onStart = function () {
+            timerStop = setTimeout(function () {
+                cancelAnimationFrame(raf);
+                set(1);
+            }, ms);
+            start = Date.now();
+            loop();
+        };
+        var timerDelay = setTimeout(onStart, delay);
+        return function () {
+            clearTimeout(timerStop);
+            clearTimeout(timerDelay);
+            cancelAnimationFrame(raf);
+        };
+    }, [ms, delay]);
+    return elapsed;
+};
+
+/* eslint-disable */
+function useRafLoop(callback) {
+    var raf = useRef$1(null);
+    var _a = useState$4(true), isActive = _a[0], setIsActive = _a[1];
+    function loopStep() {
+        callback();
+        raf.current = requestAnimationFrame(loopStep);
+    }
+    function loopStop() {
+        setIsActive(false);
+    }
+    function loopStart() {
+        setIsActive(true);
+    }
+    function clearCurrentLoop() {
+        raf.current && cancelAnimationFrame(raf.current);
+    }
+    useEffect$3(function () { return clearCurrentLoop; }, []);
+    useEffect$3(function () {
+        clearCurrentLoop();
+        isActive && (raf.current = requestAnimationFrame(loopStep));
+        return clearCurrentLoop;
+    }, [isActive, callback]);
+    return [loopStop, isActive, loopStart];
+}
+
+/* eslint-disable */
+var getValue = function (search, param) { return new URLSearchParams(search).get(param); };
+var useSearchParam = function (param) {
+    var _a = useState$4(function () { return getValue(location.search, param); }), value = _a[0], setValue = _a[1];
+    useEffect$3(function () {
+        var onChange = function () {
+            setValue(getValue(location.search, param));
+        };
+        window.addEventListener('popstate', onChange);
+        window.addEventListener('pushstate', onChange);
+        window.addEventListener('replacestate', onChange);
+        return function () {
+            window.removeEventListener('popstate', onChange);
+            window.removeEventListener('pushstate', onChange);
+            window.removeEventListener('replacestate', onChange);
+        };
+    }, []);
+    return value;
+};
+var useSearchParamServer = function () { return null; };
+var useSearchParam$1 = typeof window === 'object' ? useSearchParam : useSearchParamServer;
+
+/* eslint-disable */
+var useScroll = function (ref) {
+    if (\\"production\\" === 'development') {
+        if (typeof ref !== 'object' || typeof ref.current === 'undefined') {
+            console.error('\`useScroll\` expects a single ref argument.');
+        }
+    }
+    var _a = useRafState({
+        x: 0,
+        y: 0,
+    }), state = _a[0], setState = _a[1];
+    useEffect$3(function () {
+        var handler = function () {
+            if (ref.current) {
+                setState({
+                    x: ref.current.scrollLeft,
+                    y: ref.current.scrollTop,
+                });
+            }
+        };
+        if (ref.current) {
+            ref.current.addEventListener('scroll', handler, {
+                capture: false,
+                passive: true,
+            });
+        }
+        return function () {
+            if (ref.current) {
+                ref.current.removeEventListener('scroll', handler);
+            }
+        };
+    }, [ref]);
+    return state;
+};
+
+/* eslint-disable */
+var useScrolling = function (ref) {
+    var _a = useState$4(false), scrolling = _a[0], setScrolling = _a[1];
+    useEffect$3(function () {
+        if (ref.current) {
+            var scrollingTimeout_1;
+            var handleScrollEnd_1 = function () {
+                setScrolling(false);
+            };
+            var handleScroll_1 = function () {
+                setScrolling(true);
+                clearTimeout(scrollingTimeout_1);
+                scrollingTimeout_1 = setTimeout(function () { return handleScrollEnd_1(); }, 150);
+            };
+            ref.current.addEventListener('scroll', handleScroll_1, false);
+            return function () {
+                if (ref.current) {
+                    ref.current.removeEventListener('scroll', handleScroll_1, false);
+                }
+            };
+        }
+        return function () { };
+    }, [ref]);
+    return scrolling;
+};
+
+/* eslint-disable */
+var useSessionStorage = function (key, initialValue, raw) {
+    if (!isClient) {
+        return [initialValue, function () { }];
+    }
+    var _a = useState$4(function () {
+        try {
+            var sessionStorageValue = sessionStorage.getItem(key);
+            if (typeof sessionStorageValue !== 'string') {
+                sessionStorage.setItem(key, raw ? String(initialValue) : JSON.stringify(initialValue));
+                return initialValue;
+            }
+            else {
+                return raw ? sessionStorageValue : JSON.parse(sessionStorageValue || 'null');
+            }
+        }
+        catch (_a) {
+            // If user is in private mode or has storage restriction
+            // sessionStorage can throw. JSON.parse and JSON.stringify
+            // cat throw, too.
+            return initialValue;
+        }
+    }), state = _a[0], setState = _a[1];
+    useEffect$3(function () {
+        try {
+            var serializedState = raw ? String(state) : JSON.stringify(state);
+            sessionStorage.setItem(key, serializedState);
+        }
+        catch (_a) {
+            // If user is in private mode or has storage restriction
+            // sessionStorage can throw. Also JSON.stringify can throw.
+        }
+    });
+    return [state, setState];
+};
+
+var isPrimitive = function (val) { return val !== Object(val); };
+var shallowEqualDepsList = function (prevDeps, nextDeps) {
+    return prevDeps.every(function (dep, index) { return equal(dep, nextDeps[index]); });
+};
+var useShallowCompareEffect = function (effect, deps) {
+    if (\\"production\\" !== 'production') {
+        if (!(deps instanceof Array) || !deps.length) {
+            console.warn('\`useShallowCompareEffect\` should not be used with no dependencies. Use React.useEffect instead.');
+        }
+        if (deps.every(isPrimitive)) {
+            console.warn('\`useShallowCompareEffect\` should not be used with dependencies that are all primitive values. Use React.useEffect instead.');
+        }
+    }
+    useCustomCompareEffect(effect, deps, shallowEqualDepsList);
+};
+
+var useState = React.useState, useEffect = React.useEffect, useRef = React.useRef;
+var DRAF = function (callback) { return setTimeout(callback, 35); };
+var useSize = function (element, _a) {
+    var _b = _a === void 0 ? {} : _a, _c = _b.width, width = _c === void 0 ? Infinity : _c, _d = _b.height, height = _d === void 0 ? Infinity : _d;
+    if (!isClient) {
+        return [typeof element === 'function' ? element({ width: width, height: height }) : element, { width: width, height: height }];
+    }
+    var _e = useState({ width: width, height: height }), state = _e[0], setState = _e[1];
+    if (typeof element === 'function') {
+        element = element(state);
+    }
+    var style = element.props.style || {};
+    var ref = useRef(null);
+    var window = null;
+    var setSize = function () {
+        var iframe = ref.current;
+        var size = iframe
+            ? {
+                width: iframe.offsetWidth,
+                height: iframe.offsetHeight,
+            }
+            : { width: width, height: height };
+        setState(size);
+    };
+    var onWindow = function (windowToListenOn) {
+        windowToListenOn.addEventListener('resize', setSize);
+        DRAF(setSize);
+    };
+    useEffect(function () {
+        var iframe = ref.current;
+        if (!iframe) {
+            // iframe will be undefined if component is already unmounted
+            return;
+        }
+        if (iframe.contentWindow) {
+            window = iframe.contentWindow;
+            onWindow(window);
+        }
+        else {
+            var onLoad_1 = function () {
+                iframe.removeEventListener('load', onLoad_1);
+                window = iframe.contentWindow;
+                onWindow(window);
+            };
+            iframe.addEventListener('load', onLoad_1);
+        }
+        return function () {
+            if (window && window.removeEventListener) {
+                window.removeEventListener('resize', setSize);
+            }
+        };
+    }, []);
+    style.position = 'relative';
+    var sized = React.cloneElement.apply(React, __spreadArrays([element,
+        { style: style }], __spreadArrays([
+        React.createElement('iframe', {
+            ref: ref,
+            style: {
+                background: 'transparent',
+                border: 'none',
+                height: '100%',
+                left: 0,
+                position: 'absolute',
+                top: 0,
+                width: '100%',
+                zIndex: -1,
+            },
+        })
+    ], React.Children.toArray(element.props.children))));
+    return [sized, state];
+};
+
+/* eslint-disable */
+var noop = function () { };
+var useSlider = function (ref, options) {
+    if (options === void 0) { options = {}; }
+    var isMounted = useMountedState();
+    var isSliding = useRef$1(false);
+    var frame = useRef$1(0);
+    var _a = useSetState({
+        isSliding: false,
+        value: 0,
+    }), state = _a[0], setState = _a[1];
+    useEffect$3(function () {
+        if (isClient) {
+            var styles = options.styles === undefined ? true : options.styles;
+            var reverse_1 = options.reverse === undefined ? false : options.reverse;
+            if (ref.current && styles) {
+                ref.current.style.userSelect = 'none';
+            }
+            var startScrubbing_1 = function () {
+                if (!isSliding.current && isMounted()) {
+                    (options.onScrubStart || noop)();
+                    isSliding.current = true;
+                    setState({ isSliding: true });
+                    bindEvents_1();
+                }
+            };
+            var stopScrubbing_1 = function () {
+                if (isSliding.current && isMounted()) {
+                    (options.onScrubStop || noop)();
+                    isSliding.current = false;
+                    setState({ isSliding: false });
+                    unbindEvents_1();
+                }
+            };
+            var onMouseDown_1 = function (event) {
+                startScrubbing_1();
+                onMouseMove_1(event);
+            };
+            var onMouseMove_1 = options.vertical
+                ? function (event) { return onScrub_1(event.clientY); }
+                : function (event) { return onScrub_1(event.clientX); };
+            var onTouchStart_1 = function (event) {
+                startScrubbing_1();
+                onTouchMove_1(event);
+            };
+            var onTouchMove_1 = options.vertical
+                ? function (event) { return onScrub_1(event.changedTouches[0].clientY); }
+                : function (event) { return onScrub_1(event.changedTouches[0].clientX); };
+            var bindEvents_1 = function () {
+                on(document, 'mousemove', onMouseMove_1);
+                on(document, 'mouseup', stopScrubbing_1);
+                on(document, 'touchmove', onTouchMove_1);
+                on(document, 'touchend', stopScrubbing_1);
+            };
+            var unbindEvents_1 = function () {
+                off(document, 'mousemove', onMouseMove_1);
+                off(document, 'mouseup', stopScrubbing_1);
+                off(document, 'touchmove', onTouchMove_1);
+                off(document, 'touchend', stopScrubbing_1);
+            };
+            var onScrub_1 = function (clientXY) {
+                cancelAnimationFrame(frame.current);
+                frame.current = requestAnimationFrame(function () {
+                    if (isMounted() && ref.current) {
+                        var rect = ref.current.getBoundingClientRect();
+                        var pos = options.vertical ? rect.top : rect.left;
+                        var length_1 = options.vertical ? rect.height : rect.width;
+                        // Prevent returning 0 when element is hidden by CSS
+                        if (!length_1) {
+                            return;
+                        }
+                        var value = (clientXY - pos) / length_1;
+                        if (value > 1) {
+                            value = 1;
+                        }
+                        else if (value < 0) {
+                            value = 0;
+                        }
+                        if (reverse_1) {
+                            value = 1 - value;
+                        }
+                        setState({
+                            value: value,
+                        });
+                        (options.onScrub || noop)(value);
+                    }
+                });
+            };
+            on(ref.current, 'mousedown', onMouseDown_1);
+            on(ref.current, 'touchstart', onTouchStart_1);
+            return function () {
+                off(ref.current, 'mousedown', onMouseDown_1);
+                off(ref.current, 'touchstart', onTouchStart_1);
+            };
+        }
+        else {
+            return undefined;
+        }
+    }, [ref, options.vertical]);
+    return state;
+};
+
+var voices = typeof window === 'object' && typeof window.speechSynthesis === 'object' ? window.speechSynthesis.getVoices() : [];
+var useSpeech = function (text, opts) {
+    if (opts === void 0) { opts = {}; }
+    var _a = useSetState({
+        isPlaying: false,
+        lang: opts.lang || 'default',
+        voice: opts.voice || voices[0],
+        rate: opts.rate || 1,
+        pitch: opts.pitch || 1,
+        volume: opts.volume || 1,
+    }), state = _a[0], setState = _a[1];
+    var uterranceRef = useRef$1(null);
+    useMount(function () {
+        var utterance = new SpeechSynthesisUtterance(text);
+        opts.lang && (utterance.lang = opts.lang);
+        opts.voice && (utterance.voice = opts.voice);
+        utterance.rate = opts.rate || 1;
+        utterance.pitch = opts.pitch || 1;
+        utterance.volume = opts.volume || 1;
+        utterance.onstart = function () { return setState({ isPlaying: true }); };
+        utterance.onresume = function () { return setState({ isPlaying: true }); };
+        utterance.onend = function () { return setState({ isPlaying: false }); };
+        utterance.onpause = function () { return setState({ isPlaying: false }); };
+        uterranceRef.current = utterance;
+        window.speechSynthesis.speak(uterranceRef.current);
+    });
+    return state;
+};
+
+/* eslint-disable */
+var isFocusedElementEditable = function () {
+    var activeElement = document.activeElement, body = document.body;
+    if (!activeElement) {
+        return false;
+    }
+    // If not element has focus, we assume it is not editable, too.
+    if (activeElement === body) {
+        return false;
+    }
+    // Assume <input> and <textarea> elements are editable.
+    switch (activeElement.tagName) {
+        case 'INPUT':
+        case 'TEXTAREA':
+            return true;
+    }
+    // Check if any other focused element id editable.
+    return activeElement.hasAttribute('contenteditable');
+};
+var isTypedCharGood = function (_a) {
+    var keyCode = _a.keyCode, metaKey = _a.metaKey, ctrlKey = _a.ctrlKey, altKey = _a.altKey;
+    if (metaKey || ctrlKey || altKey) {
+        return false;
+    }
+    // 0...9
+    if (keyCode >= 48 && keyCode <= 57) {
+        return true;
+    }
+    // a...z
+    if (keyCode >= 65 && keyCode <= 90) {
+        return true;
+    }
+    // All other keys.
+    return false;
+};
+var useStartTyping = function (onStartTyping) {
+    useLayoutEffect(function () {
+        var keydown = function (event) {
+            !isFocusedElementEditable() && isTypedCharGood(event) && onStartTyping(event);
+        };
+        document.addEventListener('keydown', keydown);
+        return function () {
+            document.removeEventListener('keydown', keydown);
+        };
+    }, []);
+};
+
+/* eslint-disable */
+function useStateWithHistory(initialState, capacity, initialHistory) {
+    if (capacity === void 0) { capacity = 10; }
+    if (capacity < 1) {
+        throw new Error(\\"Capacity has to be greater than 1, got '\\" + capacity + \\"'\\");
+    }
+    var isFirstMount = useFirstMountState();
+    var _a = useState$4(initialState), state = _a[0], innerSetState = _a[1];
+    var history = useRef$1((initialHistory !== null && initialHistory !== void 0 ? initialHistory : []));
+    var historyPosition = useRef$1(0);
+    // do the states manipulation only on first mount, no sense to load re-renders with useless calculations
+    if (isFirstMount) {
+        if (history.current.length) {
+            // if last element of history !== initial - push initial to history
+            if (history.current[history.current.length - 1] !== initialState) {
+                history.current.push(initialState);
+            }
+            // if initial history bigger that capacity - crop the first elements out
+            if (history.current.length > capacity) {
+                history.current = history.current.slice(history.current.length - capacity);
+            }
+        }
+        else {
+            // initiate the history with initial state
+            history.current.push(initialState);
+        }
+        historyPosition.current = history.current.length && history.current.length - 1;
+    }
+    var setState = useCallback$1(function (newState) {
+        innerSetState(function (currentState) {
+            newState = resolveHookState(newState);
+            // is state has changed
+            if (newState !== currentState) {
+                // if current position is not the last - pop element to the right
+                if (historyPosition.current < history.current.length - 1) {
+                    history.current = history.current.slice(0, historyPosition.current + 1);
+                }
+                historyPosition.current = history.current.push(newState) - 1;
+                // if capacity is reached - shift first elements
+                if (history.current.length > capacity) {
+                    history.current = history.current.slice(history.current.length - capacity);
+                }
+            }
+            return newState;
+        });
+    }, [state, capacity]);
+    var historyState = useMemo$1(function () { return ({
+        history: history.current,
+        position: historyPosition.current,
+        capacity: capacity,
+        back: function (amount) {
+            if (amount === void 0) { amount = 1; }
+            // don't do anything if we already at the left border
+            if (!historyPosition.current) {
+                return;
+            }
+            innerSetState(function () {
+                historyPosition.current -= Math.min(amount, historyPosition.current);
+                return history.current[historyPosition.current];
+            });
+        },
+        forward: function (amount) {
+            if (amount === void 0) { amount = 1; }
+            // don't do anything if we already at the right border
+            if (historyPosition.current === history.current.length - 1) {
+                return;
+            }
+            innerSetState(function () {
+                historyPosition.current = Math.min(historyPosition.current + amount, history.current.length - 1);
+                return history.current[historyPosition.current];
+            });
+        },
+        go: function (position) {
+            if (position === historyPosition.current) {
+                return;
+            }
+            innerSetState(function () {
+                historyPosition.current =
+                    position < 0
+                        ? Math.max(history.current.length + position, 0)
+                        : Math.min(history.current.length - 1, position);
+                return history.current[historyPosition.current];
+            });
+        },
+    }); }, [state]);
+    return [state, setState, historyState];
+}
+
+function useStateList(stateSet) {
+    if (stateSet === void 0) { stateSet = []; }
+    var isMounted = useMountedState();
+    var update = useUpdate();
+    var index = useRef$1(0);
+    // If new state list is shorter that before - switch to the last element
+    useUpdateEffect(function () {
+        if (stateSet.length <= index.current) {
+            index.current = stateSet.length - 1;
+            update();
+        }
+    }, [stateSet.length]);
+    var actions = useMemo$1(function () { return ({
+        next: function () { return actions.setStateAt(index.current + 1); },
+        prev: function () { return actions.setStateAt(index.current - 1); },
+        setStateAt: function (newIndex) {
+            // do nothing on unmounted component
+            if (!isMounted())
+                return;
+            // do nothing on empty states list
+            if (!stateSet.length)
+                return;
+            // in case new index is equal current - do nothing
+            if (newIndex === index.current)
+                return;
+            // it gives the ability to travel through the left and right borders.
+            // 4ex: if list contains 5 elements, attempt to set index 9 will bring use to 5th element
+            // in case of negative index it will start counting from the right, so -17 will bring us to 4th element
+            index.current = newIndex >= 0 ? newIndex % stateSet.length : stateSet.length + (newIndex % stateSet.length);
+            update();
+        },
+        setState: function (state) {
+            // do nothing on unmounted component
+            if (!isMounted())
+                return;
+            var newIndex = stateSet.length ? stateSet.indexOf(state) : -1;
+            if (newIndex === -1) {
+                throw new Error(\\"State '\\" + state + \\"' is not a valid state (does not exist in state list)\\");
+            }
+            index.current = newIndex;
+            update();
+        },
+    }); }, [stateSet]);
+    return __assign({ state: stateSet[index.current], currentIndex: index.current }, actions);
+}
+
+/* eslint-disable */
+var useThrottle = function (value, ms) {
+    if (ms === void 0) { ms = 200; }
+    var _a = useState$4(value), state = _a[0], setState = _a[1];
+    var timeout = useRef$1();
+    var nextValue = useRef$1(null);
+    var hasNextValue = useRef$1(0);
+    useEffect$3(function () {
+        if (!timeout.current) {
+            setState(value);
+            var timeoutCallback_1 = function () {
+                if (hasNextValue.current) {
+                    hasNextValue.current = false;
+                    setState(nextValue.current);
+                    timeout.current = setTimeout(timeoutCallback_1, ms);
+                }
+                else {
+                    timeout.current = undefined;
+                }
+            };
+            timeout.current = setTimeout(timeoutCallback_1, ms);
+        }
+        else {
+            nextValue.current = value;
+            hasNextValue.current = true;
+        }
+    }, [value]);
+    useUnmount(function () {
+        timeout.current && clearTimeout(timeout.current);
+    });
+    return state;
+};
+
+/* eslint-disable */
+var useThrottleFn = function (fn, ms, args) {
+    if (ms === void 0) { ms = 200; }
+    var _a = useState$4(null), state = _a[0], setState = _a[1];
+    var timeout = useRef$1();
+    var nextArgs = useRef$1();
+    useEffect$3(function () {
+        if (!timeout.current) {
+            setState(fn.apply(void 0, args));
+            var timeoutCallback_1 = function () {
+                if (nextArgs.current) {
+                    setState(fn.apply(void 0, nextArgs.current));
+                    nextArgs.current = undefined;
+                    timeout.current = setTimeout(timeoutCallback_1, ms);
+                }
+                else {
+                    timeout.current = undefined;
+                }
+            };
+            timeout.current = setTimeout(timeoutCallback_1, ms);
+        }
+        else {
+            nextArgs.current = args;
+        }
+    }, args);
+    useUnmount(function () {
+        timeout.current && clearTimeout(timeout.current);
+    });
+    return state;
+};
+
+function useTimeout(ms) {
+    if (ms === void 0) { ms = 0; }
+    var update = useUpdate();
+    return useTimeoutFn(update, ms);
+}
+
+/* eslint-disable */
+var DEFAULT_USE_TITLE_OPTIONS = {
+    restoreOnUnmount: false,
+};
+function useTitle(title, options) {
+    if (options === void 0) { options = DEFAULT_USE_TITLE_OPTIONS; }
+    var prevTitleRef = useRef$1(document.title);
+    document.title = title;
+    useEffect$3(function () {
+        if (options && options.restoreOnUnmount) {
+            return function () {
+                document.title = prevTitleRef.current;
+            };
+        }
+        else {
+            return;
+        }
+    }, []);
+}
+var useTitle$1 = typeof document !== 'undefined' ? useTitle : function (_title) { };
+
+var useTween = function (easingName, ms, delay) {
+    if (easingName === void 0) { easingName = 'inCirc'; }
+    if (ms === void 0) { ms = 200; }
+    if (delay === void 0) { delay = 0; }
+    var fn = easing[easingName];
+    var t = useRaf(ms, delay);
+    if (\\"production\\" !== 'production') {
+        if (typeof fn !== 'function') {
+            console.error('useTween() expected \\"easingName\\" property to be a valid easing function name, like:' +
+                '\\"' +
+                Object.keys(easing).join('\\", \\"') +
+                '\\".');
+            console.trace();
+            return 0;
+        }
+    }
+    return fn(t);
+};
+
+var useUnmountPromise = function () {
+    var refUnmounted = useRef$1(false);
+    useEffect$3(function () { return function () {
+        refUnmounted.current = true;
+    }; });
+    var wrapper = useMemo$1(function () {
+        var race = function (promise, onError) {
+            var newPromise = new Promise(function (resolve, reject) {
+                promise.then(function (result) {
+                    if (!refUnmounted.current)
+                        resolve(result);
+                }, function (error) {
+                    if (!refUnmounted.current)
+                        reject(error);
+                    else if (onError)
+                        onError(error);
+                    else
+                        console.error('useUnmountPromise', error);
+                });
+            });
+            return newPromise;
+        };
+        return race;
+    }, []);
+    return wrapper;
+};
+
+/**
+ * @deprecated Use \`useList\` hook's upsert action instead
+ */
+function useUpsert(predicate, initialList) {
+    if (initialList === void 0) { initialList = []; }
+    var _a = useList(initialList), list = _a[0], listActions = _a[1];
+    return [
+        list,
+        __assign(__assign({}, listActions), { upsert: function (newItem) {
+                listActions.upsert(predicate, newItem);
+            } }),
+    ];
+}
+
+/* eslint-disable */
+var isVibrationApiSupported = typeof navigator === 'object' && 'vibrate' in navigator;
+var useVibrateMock = function () { };
+function useVibrate(enabled, pattern, loop) {
+    if (enabled === void 0) { enabled = true; }
+    if (pattern === void 0) { pattern = [1000, 1000]; }
+    if (loop === void 0) { loop = true; }
+    useEffect$3(function () {
+        var interval;
+        if (enabled) {
+            navigator.vibrate(pattern);
+            if (loop) {
+                var duration = pattern instanceof Array ? pattern.reduce(function (a, b) { return a + b; }) : pattern;
+                interval = setInterval(function () {
+                    navigator.vibrate(pattern);
+                }, duration);
+            }
+        }
+        return function () {
+            if (enabled) {
+                navigator.vibrate(0);
+                if (loop) {
+                    clearInterval(interval);
+                }
+            }
+        };
+    }, [enabled]);
+}
+var useVibrate$1 = isVibrationApiSupported ? useVibrate : useVibrateMock;
+
+var useVideo = createHTMLMediaHook('video');
+
+/* eslint-disable */
+function useStateValidator(state, validator, initialState) {
+    if (initialState === void 0) { initialState = [undefined]; }
+    var validatorInner = useRef$1(validator);
+    var stateInner = useRef$1(state);
+    validatorInner.current = validator;
+    stateInner.current = state;
+    var _a = useState$4(initialState), validity = _a[0], setValidity = _a[1];
+    var validate = useCallback$1(function () {
+        if (validatorInner.current.length >= 2) {
+            validatorInner.current(stateInner.current, setValidity);
+        }
+        else {
+            setValidity(validatorInner.current(stateInner.current));
+        }
+    }, [setValidity]);
+    useEffect$3(function () {
+        validate();
+    }, [state]);
+    return [validity, validate];
+}
+
+/* eslint-disable */
+function useScrollbarWidth() {
+    var _a = useState$4(scrollbarWidth()), sbw = _a[0], setSbw = _a[1];
+    // this needed to ensure the scrollbar width in case hook called before the DOM is ready
+    useEffect$3(function () {
+        if (typeof sbw !== 'undefined') {
+            return;
+        }
+        var raf = requestAnimationFrame(function () {
+            setSbw(scrollbarWidth());
+        });
+        return function () { return cancelAnimationFrame(raf); };
+    }, []);
+    return sbw;
+}
+
+/* eslint-disable */
+function useMultiStateValidator(states, validator, initialValidity) {
+    if (initialValidity === void 0) { initialValidity = [undefined]; }
+    if (typeof states !== 'object') {
+        throw new Error('states expected to be an object or array, got ' + typeof states);
+    }
+    var validatorInner = useRef$1(validator);
+    var statesInner = useRef$1(states);
+    validatorInner.current = validator;
+    statesInner.current = states;
+    var _a = useState$4(initialValidity), validity = _a[0], setValidity = _a[1];
+    var validate = useCallback$1(function () {
+        if (validatorInner.current.length >= 2) {
+            validatorInner.current(statesInner.current, setValidity);
+        }
+        else {
+            setValidity(validatorInner.current(statesInner.current));
+        }
+    }, [setValidity]);
+    useEffect$3(function () {
+        validate();
+    }, Object.values(states));
+    return [validity, validate];
+}
+
+/* eslint-disable */
+var useWindowScroll = function () {
+    var _a = useRafState({
+        x: isClient ? window.pageXOffset : 0,
+        y: isClient ? window.pageYOffset : 0,
+    }), state = _a[0], setState = _a[1];
+    useEffect$3(function () {
+        var handler = function () {
+            setState({
+                x: window.pageXOffset,
+                y: window.pageYOffset,
+            });
+        };
+        window.addEventListener('scroll', handler, {
+            capture: false,
+            passive: true,
+        });
+        return function () {
+            window.removeEventListener('scroll', handler);
+        };
+    }, []);
+    return state;
+};
+
+/* eslint-disable */
+var useWindowSize = function (initialWidth, initialHeight) {
+    if (initialWidth === void 0) { initialWidth = Infinity; }
+    if (initialHeight === void 0) { initialHeight = Infinity; }
+    var _a = useRafState({
+        width: isClient ? window.innerWidth : initialWidth,
+        height: isClient ? window.innerHeight : initialHeight,
+    }), state = _a[0], setState = _a[1];
+    useEffect$3(function () {
+        if (isClient) {
+            var handler_1 = function () {
+                setState({
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                });
+            };
+            window.addEventListener('resize', handler_1);
+            return function () {
+                window.removeEventListener('resize', handler_1);
+            };
+        }
+    }, []);
+    return state;
+};
+
+var useMeasure = function () {
+    var _a = useState$4({
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+    }), rect = _a[0], set = _a[1];
+    var observer = useState$4(function () {
+        return new ResizeObserver(function (entries) {
+            var entry = entries[0];
+            if (entry) {
+                set(entry.contentRect);
+            }
+        });
+    })[0];
+    var ref = useCallback$1(function (node) {
+        observer.disconnect();
+        if (node) {
+            observer.observe(node);
+        }
+    }, [observer]);
+    return [ref, rect];
+};
+
+function useRendersCount() {
+    return ++useRef$1(0).current;
+}
+
+var useSet = function (initialSet) {
+    if (initialSet === void 0) { initialSet = new Set(); }
+    var _a = useState$4(initialSet), set = _a[0], setSet = _a[1];
+    var stableActions = useMemo$1(function () {
+        var add = function (item) { return setSet(function (prevSet) { return new Set(__spreadArrays(Array.from(prevSet), [item])); }); };
+        var remove = function (item) { return setSet(function (prevSet) { return new Set(Array.from(prevSet).filter(function (i) { return i !== item; })); }); };
+        var toggle = function (item) {
+            return setSet(function (prevSet) {
+                return prevSet.has(item)
+                    ? new Set(Array.from(prevSet).filter(function (i) { return i !== item; }))
+                    : new Set(__spreadArrays(Array.from(prevSet), [item]));
+            });
+        };
+        return { add: add, remove: remove, toggle: toggle, reset: function () { return setSet(initialSet); } };
+    }, [setSet]);
+    var utils = __assign({ has: useCallback$1(function (item) { return set.has(item); }, [set]) }, stableActions);
+    return [set, utils];
+};
+
+/* eslint-disable */
+function createGlobalState(initialState) {
+    var store = {
+        state: initialState,
+        setState: function (state) {
+            store.state = state;
+            store.setters.forEach(function (setter) { return setter(store.state); });
+        },
+        setters: [],
+    };
+    return function () {
+        var _a = useState$4(store.state), globalState = _a[0], stateSetter = _a[1];
+        useEffectOnce(function () { return function () {
+            store.setters = store.setters.filter(function (setter) { return setter !== stateSetter; });
+        }; });
+        useLayoutEffect(function () {
+            if (!store.setters.includes(stateSetter)) {
+                store.setters.push(stateSetter);
+            }
+        });
+        return [globalState, store.setState];
+    };
+}
+
+export { createBreakpoint, createGlobalState, createMemo, createReducer, createReducerContext, createStateContext, ensuredForwardRef, useAsync, useAsyncFn, useAsyncRetry, useAudio, useBattery$1 as useBattery, useBeforeUnload, useToggle as useBoolean, useClickAway, useCookie, useCopyToClipboard, useCounter, useCss, useCustomCompareEffect, useDebounce, useDeepCompareEffect, useDefault, useDrop, useDropArea, useEffectOnce, useEnsuredForwardedRef, useError, useEvent, useFavicon, useFirstMountState, useFullscreen, useGeolocation, useGetSet, useGetSetState, useHarmonicIntervalFn, useHover, useHoverDirty, useIdle, useIntersection, useInterval, useIsomorphicLayoutEffect, useKey, useKeyPress, useKeyPressEvent, useLifecycles, useList, useLocalStorage, useLocation, useLockBodyScroll, useLogger, useLongPress, useMap, useMeasure, useMedia, useMediaDevices$1 as useMediaDevices, useMediatedState, useMethods, useMotion, useMount, useMountedState, useMouse, useMouseHovered, useMultiStateValidator, useNetwork, useCounter as useNumber, useObservable, useOrientation, usePageLeave, usePermission, usePrevious, usePreviousDistinct, usePromise, useQueue, useRaf, useRafLoop, useRafState, useRendersCount, useScroll, useScrollbarWidth, useScrolling, useSearchParam$1 as useSearchParam, useSessionStorage, useSet, useSetState, useShallowCompareEffect, useSize, useSlider, useSpeech, useStartTyping, useStateList, useStateValidator, useStateWithHistory, useThrottle, useThrottleFn, useTimeout, useTimeoutFn, useTitle$1 as useTitle, useToggle, useTween, useUnmount, useUnmountPromise, useUpdate, useUpdateEffect, useUpsert, useVibrate$1 as useVibrate, useVideo, useWindowScroll, useWindowSize };
+
+// ESMPACK PATCH DEFAULT EXPORT
+export default {
+createBreakpoint: createBreakpoint,
+createGlobalState: createGlobalState,
+createMemo: createMemo,
+createReducer: createReducer,
+createReducerContext: createReducerContext,
+createStateContext: createStateContext,
+ensuredForwardRef: ensuredForwardRef,
+useAsync: useAsync,
+useAsyncFn: useAsyncFn,
+useAsyncRetry: useAsyncRetry,
+useAudio: useAudio,
+useBattery: useBattery$1,
+useBeforeUnload: useBeforeUnload,
+useBoolean: useToggle,
+useClickAway: useClickAway,
+useCookie: useCookie,
+useCopyToClipboard: useCopyToClipboard,
+useCounter: useCounter,
+useCss: useCss,
+useCustomCompareEffect: useCustomCompareEffect,
+useDebounce: useDebounce,
+useDeepCompareEffect: useDeepCompareEffect,
+useDefault: useDefault,
+useDrop: useDrop,
+useDropArea: useDropArea,
+useEffectOnce: useEffectOnce,
+useEnsuredForwardedRef: useEnsuredForwardedRef,
+useError: useError,
+useEvent: useEvent,
+useFavicon: useFavicon,
+useFirstMountState: useFirstMountState,
+useFullscreen: useFullscreen,
+useGeolocation: useGeolocation,
+useGetSet: useGetSet,
+useGetSetState: useGetSetState,
+useHarmonicIntervalFn: useHarmonicIntervalFn,
+useHover: useHover,
+useHoverDirty: useHoverDirty,
+useIdle: useIdle,
+useIntersection: useIntersection,
+useInterval: useInterval,
+useIsomorphicLayoutEffect: useIsomorphicLayoutEffect,
+useKey: useKey,
+useKeyPress: useKeyPress,
+useKeyPressEvent: useKeyPressEvent,
+useLifecycles: useLifecycles,
+useList: useList,
+useLocalStorage: useLocalStorage,
+useLocation: useLocation,
+useLockBodyScroll: useLockBodyScroll,
+useLogger: useLogger,
+useLongPress: useLongPress,
+useMap: useMap,
+useMeasure: useMeasure,
+useMedia: useMedia,
+useMediaDevices: useMediaDevices$1,
+useMediatedState: useMediatedState,
+useMethods: useMethods,
+useMotion: useMotion,
+useMount: useMount,
+useMountedState: useMountedState,
+useMouse: useMouse,
+useMouseHovered: useMouseHovered,
+useMultiStateValidator: useMultiStateValidator,
+useNetwork: useNetwork,
+useNumber: useCounter,
+useObservable: useObservable,
+useOrientation: useOrientation,
+usePageLeave: usePageLeave,
+usePermission: usePermission,
+usePrevious: usePrevious,
+usePreviousDistinct: usePreviousDistinct,
+usePromise: usePromise,
+useQueue: useQueue,
+useRaf: useRaf,
+useRafLoop: useRafLoop,
+useRafState: useRafState,
+useRendersCount: useRendersCount,
+useScroll: useScroll,
+useScrollbarWidth: useScrollbarWidth,
+useScrolling: useScrolling,
+useSearchParam: useSearchParam$1,
+useSessionStorage: useSessionStorage,
+useSet: useSet,
+useSetState: useSetState,
+useShallowCompareEffect: useShallowCompareEffect,
+useSize: useSize,
+useSlider: useSlider,
+useSpeech: useSpeech,
+useStartTyping: useStartTyping,
+useStateList: useStateList,
+useStateValidator: useStateValidator,
+useStateWithHistory: useStateWithHistory,
+useThrottle: useThrottle,
+useThrottleFn: useThrottleFn,
+useTimeout: useTimeout,
+useTimeoutFn: useTimeoutFn,
+useTitle: useTitle$1,
+useToggle: useToggle,
+useTween: useTween,
+useUnmount: useUnmount,
+useUnmountPromise: useUnmountPromise,
+useUpdate: useUpdate,
+useUpdateEffect: useUpdateEffect,
+useUpsert: useUpsert,
+useVibrate: useVibrate$1,
+useVideo: useVideo,
+useWindowScroll: useWindowScroll,
+useWindowSize: useWindowSize
+}
+"
+`;

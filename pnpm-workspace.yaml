@@ -1,0 +1,13 @@
+packages:
+ - 'packages/*'
+#  - 'examples/**/*'
+ - 'packages/cli/*'
+ - 'packages/generator/*'
+ - 'packages/generator/generators/*'
+ - 'packages/review/*'
+ - 'packages/server/*'
+ - 'packages/solutions/*'
+ - 'packages/toolkit/*'
+ - 'packages/toolkit/compiler/*'
+ - 'tests'
+ - 'tests/integration/**/*'

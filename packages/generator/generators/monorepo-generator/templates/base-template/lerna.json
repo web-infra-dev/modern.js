@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0-rc.2",
+  "npmClient": "{{packageManager}}",
+  "command": {
+    "publish": {
+      "ignoreChanges": ["apps/*", "examples/*", "features/*"],
+      "message": "chore(release): publish"
+    }
+  },
+  "packages": ["apps/*", "examples/*", "features/*", "packages/*"]
+}

@@ -1,0 +1,45 @@
+{
+  "origin": [{
+      "urlPath": "/lib/entry",
+      "entryPath": "html/entry/index.html",
+      "entryName": "entry"
+  }, {
+      "urlPath": "/lib/home",
+      "entryPath": "html/home/index.html",
+      "entryName": "home"
+  }, {
+      "urlPath": "/lib/mobile",
+      "entryPath": "html/mobile/index.html",
+      "entryName": "mobile"
+  }],
+  "ssg": [{
+      "urlPath": "/lib/entry",
+      "entryPath": "html/entry/index.html",
+      "entryName": "entry"
+  }, {
+      "urlPath": "/lib/home",
+      "entryPath": "html/home.html",
+      "entryName": "home"
+  }, {
+      "urlPath": "/lib/pc",
+      "entryPath": "html/pc/index.html",
+      "entryName": "pc"
+  }],
+  "final": [{
+      "urlPath": "/lib/entry",
+      "entryPath": "html/entry/index.html",
+      "entryName": "entry"
+  }, {
+      "urlPath": "/lib/home",
+      "entryPath": "html/home.html",
+      "entryName": "home"
+  }, {
+      "urlPath": "/lib/mobile",
+      "entryPath": "html/mobile/index.html",
+      "entryName": "mobile"
+  }, {
+      "urlPath": "/lib/pc",
+      "entryPath": "html/pc/index.html",
+      "entryName": "pc"
+  }]
+}

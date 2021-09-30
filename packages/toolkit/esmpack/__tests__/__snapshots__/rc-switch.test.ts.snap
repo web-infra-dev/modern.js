@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should work with rc-switch 1`] = `
+"import _defineProperty from '@babel/runtime/helpers/esm/defineProperty';
+import _slicedToArray from '@babel/runtime/helpers/esm/slicedToArray';
+import _objectWithoutProperties from '@babel/runtime/helpers/esm/objectWithoutProperties';
+import * as React from 'react';
+import classNames from 'classnames';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
+import KeyCode from 'rc-util/es/KeyCode';
+
+var Switch = React.forwardRef(function (_ref, ref) {
+  var _classNames;
+
+  var _ref$prefixCls = _ref.prefixCls,
+      prefixCls = _ref$prefixCls === void 0 ? 'rc-switch' : _ref$prefixCls,
+      className = _ref.className,
+      checked = _ref.checked,
+      defaultChecked = _ref.defaultChecked,
+      disabled = _ref.disabled,
+      loadingIcon = _ref.loadingIcon,
+      checkedChildren = _ref.checkedChildren,
+      unCheckedChildren = _ref.unCheckedChildren,
+      onClick = _ref.onClick,
+      onChange = _ref.onChange,
+      onKeyDown = _ref.onKeyDown,
+      restProps = _objectWithoutProperties(_ref, [\\"prefixCls\\", \\"className\\", \\"checked\\", \\"defaultChecked\\", \\"disabled\\", \\"loadingIcon\\", \\"checkedChildren\\", \\"unCheckedChildren\\", \\"onClick\\", \\"onChange\\", \\"onKeyDown\\"]);
+
+  var _useMergedState = useMergedState(false, {
+    value: checked,
+    defaultValue: defaultChecked
+  }),
+      _useMergedState2 = _slicedToArray(_useMergedState, 2),
+      innerChecked = _useMergedState2[0],
+      setInnerChecked = _useMergedState2[1];
+
+  function triggerChange(newChecked, event) {
+    var mergedChecked = innerChecked;
+
+    if (!disabled) {
+      mergedChecked = newChecked;
+      setInnerChecked(mergedChecked);
+      onChange === null || onChange === void 0 ? void 0 : onChange(mergedChecked, event);
+    }
+
+    return mergedChecked;
+  }
+
+  function onInternalKeyDown(e) {
+    if (e.which === KeyCode.LEFT) {
+      triggerChange(false, e);
+    } else if (e.which === KeyCode.RIGHT) {
+      triggerChange(true, e);
+    }
+
+    onKeyDown === null || onKeyDown === void 0 ? void 0 : onKeyDown(e);
+  }
+
+  function onInternalClick(e) {
+    var ret = triggerChange(!innerChecked, e); // [Legacy] trigger onClick with value
+
+    onClick === null || onClick === void 0 ? void 0 : onClick(ret, e);
+  }
+
+  var switchClassName = classNames(prefixCls, className, (_classNames = {}, _defineProperty(_classNames, \\"\\".concat(prefixCls, \\"-checked\\"), innerChecked), _defineProperty(_classNames, \\"\\".concat(prefixCls, \\"-disabled\\"), disabled), _classNames));
+  return React.createElement(\\"button\\", Object.assign({}, restProps, {
+    type: \\"button\\",
+    role: \\"switch\\",
+    \\"aria-checked\\": innerChecked,
+    disabled: disabled,
+    className: switchClassName,
+    ref: ref,
+    onKeyDown: onInternalKeyDown,
+    onClick: onInternalClick
+  }), loadingIcon, React.createElement(\\"span\\", {
+    className: \\"\\".concat(prefixCls, \\"-inner\\")
+  }, innerChecked ? checkedChildren : unCheckedChildren));
+});
+Switch.displayName = 'Switch';
+
+export default Switch;
+
+// ESMPACK PATCH NAMED EXPORTS
+export const displayName = Switch.displayName;
+"
+`;

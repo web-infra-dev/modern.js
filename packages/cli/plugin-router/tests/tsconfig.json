@@ -1,0 +1,16 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "declaration": false,
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "paths": {
+      "@/*": ["../src/*"],
+      "@modern-js/plugin": ["node_modules/@modern-js/plugin"],
+      "@modern-js/runtime-core": ["node_modules/@modern-js/runtime-core"]
+    },
+    "types": ["node", "jest"]
+  }
+}

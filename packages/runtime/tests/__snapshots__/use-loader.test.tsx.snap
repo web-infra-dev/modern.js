@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test useLoader it should exec loader two times when has two diffrent key 1`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      reload
+    </div>
+    {"data":1,"loading":false,"reloading":false,"error":null}
+  </div>
+  <div>
+    <div>
+      reload1
+    </div>
+    {"data":1,"loading":false,"reloading":false,"error":null}
+  </div>
+  <div>
+    <div>
+      update params
+    </div>
+    <div>
+      reload2
+    </div>
+    {"data":1,"loading":false,"reloading":false,"error":null}
+  </div>
+</DocumentFragment>
+`;
+
+exports[`test useLoader it should exec loader two times when has two diffrent key 2`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      reload
+    </div>
+    {"data":2,"loading":false,"reloading":false,"error":null}
+  </div>
+  <div>
+    <div>
+      reload1
+    </div>
+    {"data":2,"loading":false,"reloading":false,"error":null}
+  </div>
+  <div>
+    <div>
+      update params
+    </div>
+    <div>
+      reload2
+    </div>
+    {"data":1,"loading":false,"reloading":false,"error":null}
+  </div>
+</DocumentFragment>
+`;
+
+exports[`test useLoader it should exec loader two times when has two diffrent key 3`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      reload
+    </div>
+    {"data":2,"loading":false,"reloading":false,"error":null}
+  </div>
+  <div>
+    <div>
+      reload1
+    </div>
+    {"data":2,"loading":false,"reloading":false,"error":null}
+  </div>
+  <div>
+    <div>
+      update params
+    </div>
+    <div>
+      reload2
+    </div>
+    {"data":2,"loading":false,"reloading":false,"error":null}
+  </div>
+</DocumentFragment>
+`;
+
+exports[`test useLoader reload can pass params 1`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      reload3
+    </div>
+    {"data":666666,"loading":false,"reloading":false,"error":null}
+  </div>
+</DocumentFragment>
+`;
+
+exports[`test useLoader reload should works 1`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      reload
+    </div>
+    {"data":2,"loading":false,"reloading":false,"error":null}
+  </div>
+</DocumentFragment>
+`;
+
+exports[`test useLoader reloading should be true when reload 1`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      reload
+    </div>
+    {"loading":true,"reloading":false}
+  </div>
+</DocumentFragment>
+`;
+
+exports[`test useLoader reloading should be true when reload 2`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      reload
+    </div>
+    {"data":1,"loading":false,"reloading":true,"error":null}
+  </div>
+</DocumentFragment>
+`;
+
+exports[`test useLoader same loader will integrate to one 1`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      reload
+    </div>
+    {"data":1,"loading":false,"reloading":false,"error":null}
+  </div>
+  <div>
+    <div>
+      reload1
+    </div>
+    {"data":1,"loading":false,"reloading":false,"error":null}
+  </div>
+</DocumentFragment>
+`;
+
+exports[`test useLoader same loader will integrate to one 2`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      reload
+    </div>
+    {"data":2,"loading":false,"reloading":false,"error":null}
+  </div>
+  <div>
+    <div>
+      reload1
+    </div>
+    {"data":2,"loading":false,"reloading":false,"error":null}
+  </div>
+</DocumentFragment>
+`;
+
+exports[`test useLoader should re-execute loader when params updated 1`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      update params
+    </div>
+    <div>
+      reload2
+    </div>
+    {"data":2,"loading":false,"reloading":false,"error":null}
+  </div>
+</DocumentFragment>
+`;
+
+exports[`test useLoader userLoader return data、loading、error 1`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      reload
+    </div>
+    {"loading":true,"reloading":false}
+  </div>
+</DocumentFragment>
+`;
+
+exports[`test useLoader userLoader return data、loading、error 2`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      reload
+    </div>
+    {"data":1,"loading":false,"reloading":false,"error":null}
+  </div>
+</DocumentFragment>
+`;

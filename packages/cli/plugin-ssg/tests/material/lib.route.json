@@ -1,0 +1,24 @@
+{
+  "routes": [
+    {
+      "urlPath": "/lib/entry",
+      "entryPath": "html/entry/index.html",
+      "entryName": "entry"
+    },
+    {
+      "urlPath": "/lib/home",
+      "entryPath": "html/home/index.html",
+       "entryName": "home"
+    },
+    {
+      "urlPath": "/lib/user",
+      "entryPath": "html/mobile/index.html",
+      "entryName": "mobile"
+    },
+    {
+      "urlPath": "/lib/user",
+      "entryPath": "html/mobile/index.html",
+      "entryName": "pc"
+    }
+  ]
+}

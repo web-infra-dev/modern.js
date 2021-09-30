@@ -1,0 +1,34 @@
+{
+  "private": true,
+  "name": "monorepo",
+  "scripts": {
+    "new": "modern new",
+    "reset": "lerna clean --yes && rm -rf node_modules",
+    "bump": "modern bump",
+    "change": "modern change"
+  },
+  "engines": {
+    "node": ">=12.17.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@modern-js"
+    ]
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/",
+    ".rpt2_cache/"
+  ],
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "examples/*",
+      "features/*",
+      "packages/*"
+    ]
+  },
+  "devDependencies": {
+    "@modern-js/monorepo-tools": "workspace:^1.0.0-rc.2"
+  }
+}

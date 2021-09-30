@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bff loader should work well 1`] = `
+"import { createRequest } from '/packages/server/create-request/dist/js/node/node.js';
+
+export const get = createRequest('/hello', 'GET', process.env.PORT || 3000);
+export const patch = createRequest('/hello', 'PATCH', process.env.PORT || 3000);
+"
+`;
+
+exports[`bff loader should work well with client 1`] = `
+"import { createRequest } from '/packages/server/create-request/dist/js/node/node.js';
+
+export const get = createRequest('/hello', 'GET', process.env.PORT || 3000);
+export const patch = createRequest('/hello', 'PATCH', process.env.PORT || 3000);
+"
+`;
+
+exports[`bff loader should work well with fetcher 1`] = `undefined`;
+
+exports[`bff loader should work well with port 1`] = `
+"import { createRequest } from '/packages/server/create-request/dist/js/node/node.js';
+
+export const get = createRequest('/hello', 'GET', process.env.PORT || 80);
+export const patch = createRequest('/hello', 'PATCH', process.env.PORT || 80);
+"
+`;
+
+exports[`bff loader should work well with prefix 1`] = `
+"import { createRequest } from '/packages/server/create-request/dist/js/node/node.js';
+
+export const get = createRequest('api/hello', 'GET', process.env.PORT || 3000);
+export const patch = createRequest('api/hello', 'PATCH', process.env.PORT || 3000);
+"
+`;
+
+exports[`bff loader should work well with requestCreator 1`] = `
+"import { createRequest } from '/packages/cli/plugin-bff/tests/fixtures/test-requestCreator';
+
+export const get = createRequest('/hello', 'GET', process.env.PORT || 80);
+export const patch = createRequest('/hello', 'PATCH', process.env.PORT || 80);
+"
+`;

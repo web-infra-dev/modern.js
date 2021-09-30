@@ -1,0 +1,27 @@
+stages:
+  - ci
+  - cd
+
+before_script:
+  - nvm install
+  - nvm use
+  # - echo "unsafe-perm = true" >> ~/.npmrc
+  - npm install pnpm -g
+  - npm install lerna -g
+  - pnpm config set store-dir .pnpm-store
+  - pnpm install --ignore-scripts
+
+check:
+  stage: ci
+  tags:
+    - fe
+    - xdev
+  only:
+    - branches
+  except:
+    - main
+    - release
+  script:
+    - pnpm run build --filter {./packages}
+    # - pnpm run lint
+    - pnpm run test

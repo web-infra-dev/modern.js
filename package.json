@@ -1,0 +1,61 @@
+{
+  "private": true,
+  "name": "monorepo",
+  "scripts": {
+    "new": "modern new",
+    "setup": "npm run reset && pnpm install --ignore-scripts",
+    "reset": "pnpm -r exec rm -rf ./node_modules",
+    "new:generator": "NoNeedInstall=true node ./scripts/new-generator.js",
+    "debug:generator": "node ./scripts/debug-generator.js",
+    "test": "pnpm run test --filter ./packages",
+    "lint": "modern lint",
+    "change": "modern change",
+    "bump": "modern bump"
+  },
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
+      "git add"
+    ],
+    "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
+      "git add"
+    ]
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@modern-js"
+    ]
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/",
+    "lib/",
+    ".rpt2_cache/",
+    "coverage/"
+  ],
+  "devDependencies": {
+    "@modern-js/plugin-jarvis": "workspace:^1.0.0-rc.2",
+    "@modern-js/tsconfig": "workspace:^1.0.0-rc.2",
+    "@modern-js/eslint-config": "workspace:^1.0.0-rc.2",
+    "@modern-js-app/eslint-config": "workspace:^1.0.0-rc.2",
+    "@commitlint/cli": "^13.2.0",
+    "@commitlint/config-conventional": "^13.2.0",
+    "@modern-js/monorepo-tools": "workspace:^1.0.0-rc.2"
+  }
+}

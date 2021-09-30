@@ -1,0 +1,6 @@
+{
+  "name": "@modern-js/tsconfig",
+  "version": "1.0.0-rc.2",
+  "description": "tsconifg",
+  "main": "./base.json"
+}

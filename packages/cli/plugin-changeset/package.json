@@ -1,0 +1,48 @@
+{
+  "name": "@modern-js/plugin-changeset",
+  "version": "1.0.0-rc.2",
+  "jsnext:source": "./src/index.ts",
+  "types": "./dist/types/index.d.ts",
+  "main": "./dist/js/node/index.js",
+  "module": "./dist/js/treeshaking/index.js",
+  "jsnext:modern": "./dist/js/modern/index.js",
+  "exports": {
+    ".": {
+      "node": {
+        "import": "./dist/js/modern/index.js",
+        "require": "./dist/js/node/index.js"
+      },
+      "default": "./dist/js/treeshaking/index.js"
+    },
+    "./cli": "./dist/js/node/index.js"
+  },
+  "scripts": {
+    "prepare": "pnpm build",
+    "prepublishOnly": "pnpm build -- --platform",
+    "new": "modern new",
+    "build": "modern build",
+    "test": "modern test --passWithNoTests"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7",
+    "@changesets/cli": "2.16.0",
+    "@modern-js/core": "workspace:^1.0.0-rc.2",
+    "@modern-js/i18n-cli-language-detector": "workspace:^1.0.0-rc.2",
+    "@modern-js/plugin-i18n": "workspace:^1.0.0-rc.2",
+    "@modern-js/utils": "workspace:^1.0.0-rc.2",
+    "execa": "^5.1.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^26",
+    "@types/node": "^14",
+    "typescript": "^4",
+    "@modern-js/plugin-testing": "^1.0.0-rc.2",
+    "@modern-js/module-tools": "^1.0.0-rc.2"
+  },
+  "sideEffects": false,
+  "modernConfig": {
+    "output": {
+      "packageMode": "node-js"
+    }
+  }
+}

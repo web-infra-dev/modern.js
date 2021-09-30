@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@style/*": ["./styles/*"]
+    }
+  },
+  {{#if isComponent}}
+  "include": ["src", "stories"]
+  {{else}}
+  "include": ["src"]
+  {{/if}}
+}

@@ -1,0 +1,47 @@
+{
+  "name": "{{ name }}",
+  "version": "1.0.0-rc.2",
+  "scripts": {
+    "new": "modern new",
+    "reset": "rm -rf node_modules",
+    "dev": "modern dev",
+    "build": "modern build",
+    "start": "modern start",
+    "deploy": "modern deploy"
+  },
+  {{#unless isMonorepoSubProject}}
+  "engines": {
+    "node": ">=12.17.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "node --max_old_space_size=8192 ./node_modules/.bin/eslint --fix --color --cache --quiet",
+      "git add"
+    ],
+    "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
+      "node --max_old_space_size=8192 ./node_modules/.bin/eslint --fix --color --cache --quiet",
+      "git add"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "@modern-js"
+    ]
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ],
+  {{/unless}}
+  "dependencies": {
+    "@modern-js/runtime": "workspace:^1.0.0-rc.2",
+    "@modern-js/app-tools": "workspace:^1.0.0-rc.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
+}

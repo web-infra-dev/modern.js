@@ -1,0 +1,18 @@
+export default async (type, { query }) => {
+  const { username } = query;
+  return {
+    type,
+    username,
+    message: `Hello ModernJS`,
+  };
+};
+
+export const post = async (type, { query, data }) => {
+  const { username } = query;
+  const { message } = data;
+  return {
+    type,
+    username,
+    message: `Hello ModernJS. Your message: ${message}`,
+  };
+};

@@ -1,0 +1,10 @@
+declare module 'strip-comments';
+declare module '@svgr*';
+declare module '@babel/preset-*';
+declare module '@babel/plugin-*';
+declare module 'less-plugin-*';
+declare module 'rollup-plugin-external-globals';
+declare module 'babel-plugin-import';
+declare module 'neo-async';
+declare module 'svg-baker';
+declare module 'svg-sprite-loader*';

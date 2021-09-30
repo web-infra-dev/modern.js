@@ -1,0 +1,15 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "declaration": false,
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "isolatedModules": true,
+    "target": "ES5",
+    "esModuleInterop": true,
+    "paths": {
+      "@/*": ["../src/*"]
+    },
+    "types": ["node", "jest"]
+  }
+}
