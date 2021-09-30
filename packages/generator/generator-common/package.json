@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/generator-common",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/easy-form-core": "^0.1.0",
+    "@modern-js/easy-form-core": "^1.0.0-rc.3",
     "@modern-js/plugin-i18n": "workspace:^1.0.0-rc.2"
   },
   "devDependencies": {
