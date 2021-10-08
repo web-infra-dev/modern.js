@@ -8,7 +8,7 @@
     "change": "modern change"
   },
   "engines": {
-    "node": ">=12.17.0"
+    "node": ">=12.22.6"
   },
   "eslintConfig": {
     "extends": [

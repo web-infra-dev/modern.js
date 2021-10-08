@@ -30,7 +30,7 @@ export const MWAActionFunctions = [
 ];
 export const MWAActionElements = [
   ActionElement.Entry,
-  // ActionElement.Server,
+  ActionElement.Server,
   // ActionElement.Env,
 ];
 export const MWAActionReactors = [ActionRefactor.BFFToApp];

@@ -1,16 +1,10 @@
 import { Schema } from '@modern-js/easy-form-core';
+import { FrameworkSchema } from './common';
 import { i18n, localeKeys } from '@/locale';
 
 export enum BFFType {
   Func = 'func',
   Framework = 'framework',
-}
-
-export enum BFFFramework {
-  Egg = 'egg',
-  Express = 'express',
-  Koa = 'koa',
-  Nest = 'nest',
 }
 
 export const BFFTypeSchema: Schema = {
@@ -24,21 +18,9 @@ export const BFFTypeSchema: Schema = {
   })),
 };
 
-const BFFFrameworkSchema: Schema = {
-  key: 'bffFramework',
-  type: ['string'],
-  label: () => i18n.t(localeKeys.bff.bffFramework.self),
-  mutualExclusion: true,
-  when: values => values.bffType === BFFType.Framework,
-  items: Object.values(BFFFramework).map(framework => ({
-    key: framework,
-    label: () => i18n.t(localeKeys.bff.bffFramework[framework]),
-  })),
-};
-
 const BFFSchemaMap = {
   bffType: BFFTypeSchema,
-  bffFramework: BFFFrameworkSchema,
+  framework: FrameworkSchema,
 };
 export const BFFSchema: Schema = {
   key: 'bff',

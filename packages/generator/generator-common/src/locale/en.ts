@@ -100,18 +100,18 @@ export const EN_LOCALE = {
       nodejs: 'Code dedicated to Node.js environment',
     },
   },
+  framework: {
+    self: 'Please select the framework you want to use',
+    egg: 'Egg',
+    express: 'Express',
+    koa: 'Koa',
+    nest: 'Nest',
+  },
   bff: {
     bffType: {
       self: 'BFF Type',
       func: 'Function',
       framework: 'Framework',
-    },
-    bffFramework: {
-      self: 'Please select the framework you want to use',
-      egg: 'Egg',
-      express: 'Express',
-      koa: 'Koa',
-      nest: 'Nest',
     },
   },
 };
