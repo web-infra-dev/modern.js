@@ -107,6 +107,9 @@ class NodeWebpackConfig extends BaseWebpackConfig {
           ],
         ],
       });
+
+    // TODO: ts-loader
+
     return loaders;
   }
 

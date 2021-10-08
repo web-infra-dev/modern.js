@@ -232,6 +232,22 @@ class BaseWebpackConfig {
         .include.add(this.appContext.srcDirectory)
         .add(/node_modules\/\.modern-js\//)
         .end()
+        .use('babel')
+        .loader(require.resolve('babel-loader'))
+        .options({
+          preset: [
+            [
+              require.resolve('@modern-js/babel-preset-app'),
+              {
+                appDirectory: this.appDirectory,
+                target: 'client',
+                useTsLoader: true,
+                useBuiltIns: this.options.output.polyfill === 'ua' ? false : this.options.output.polyfill,
+              },
+            ]
+          ]
+        })
+        .end()
         .use('ts')
         .loader(require.resolve('ts-loader'))
         .options(
@@ -404,9 +420,11 @@ class BaseWebpackConfig {
       .exclude.add(/^$/)
       .add(JS_REGEX)
       .add(TS_REGEX)
+      .add(CSS_REGEX)
+      .add(CSS_MODULE_REGEX)
       .add(/\.(html?|json|wasm|ya?ml|toml|md)$/)
       .end()
-      .type('asset/resource' as any);
+      .use('file').loader(require.resolve('file-loader'));
 
     return loaders;
   }

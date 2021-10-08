@@ -92,7 +92,7 @@ export class InlineChunkHtmlPlugin {
 
   apply(compiler: Compiler) {
     let publicPath = compiler.options.output.publicPath || '';
-    if (publicPath && (publicPath as string).endsWith('/')) {
+    if (publicPath && !(publicPath as string).endsWith('/')) {
       publicPath += '/';
     }
 
