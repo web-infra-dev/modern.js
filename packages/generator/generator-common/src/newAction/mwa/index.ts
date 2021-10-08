@@ -96,39 +96,24 @@ export const MWANewActionGenerators: Record<
   Record<string, string>
 > = {
   [ActionType.Element]: {
-    [ActionElement.Entry]:
-      '/Users/admin/github/modern.js/packages/generator/generators/entry-generator',
-    [ActionElement.Env]:
-      '/Users/admin/github/modern.js/packages/generator/generators/env-generator',
-    [ActionElement.Server]:
-      '/Users/admin/github/modern.js/packages/generator/generators/server-generator',
+    [ActionElement.Entry]: '@modern-js/entry-generator',
+    [ActionElement.Env]: '@modern-js/env-generator',
+    [ActionElement.Server]: '@modern-js/server-generator',
   },
   [ActionType.Function]: {
-    [ActionFunction.UnBundle]:
-      '/Users/admin/github/modern.js/packages/generator/generators/dependence-generator',
-    [ActionFunction.TailwindCSS]:
-      '/Users/admin/github/modern.js/packages/generator/generators/dependence-generator',
-    [ActionFunction.Less]:
-      '/Users/admin/github/modern.js/packages/generator/generators/dependence-generator',
-    [ActionFunction.Sass]:
-      '/Users/admin/github/modern.js/packages/generator/generators/dependence-generator',
-    [ActionFunction.BFF]:
-      '/Users/admin/github/modern.js/packages/generator/generators/bff-generator',
-    [ActionFunction.MicroFrontend]:
-      '/Users/admin/github/modern.js/packages/generator/generators/dependence-generator',
-    [ActionFunction.Electron]:
-      '/Users/admin/github/modern.js/packages/generator/generators/electron-generator',
-    [ActionFunction.I18n]:
-      '/Users/admin/github/modern.js/packages/generator/generators/dependence-generator',
-    [ActionFunction.Test]:
-      '/Users/admin/github/modern.js/packages/generator/generators/test-generator',
-    [ActionFunction.E2ETest]:
-      '/Users/admin/github/modern.js/packages/generator/generators/dependence-generator',
-    [ActionFunction.Doc]:
-      '/Users/admin/github/modern.js/packages/generator/generators/dependence-generator',
+    [ActionFunction.UnBundle]: '@modern-js/dependence-generator',
+    [ActionFunction.TailwindCSS]: '@modern-js/dependence-generator',
+    [ActionFunction.Less]: '@modern-js/dependence-generator',
+    [ActionFunction.Sass]: '@modern-js/dependence-generator',
+    [ActionFunction.BFF]: '@modern-js/bff-generator',
+    [ActionFunction.MicroFrontend]: '@modern-js/dependence-generator',
+    [ActionFunction.Electron]: '@modern-js/electron-generator',
+    [ActionFunction.I18n]: '@modern-js/dependence-generator',
+    [ActionFunction.Test]: '@modern-js/test-generator',
+    [ActionFunction.E2ETest]: '@modern-js/dependence-generator',
+    [ActionFunction.Doc]: '@modern-js/dependence-generator',
   },
   [ActionType.Refactor]: {
-    [ActionRefactor.BFFToApp]:
-      '/Users/admin/github/modern.js/packages/generator/generators/bff-refactor-generator',
+    [ActionRefactor.BFFToApp]: '@modern-js/bff-refactor-generator',
   },
 };
