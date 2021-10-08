@@ -1,17 +1,16 @@
 {
   "name": "{{ name }}",
-  "version": "1.0.0-rc.2",
+  "version": "0.1.0",
   "scripts": {
-    "new": "modern new",
     "reset": "rm -rf node_modules",
     "dev": "modern dev",
     "build": "modern build",
     "start": "modern start",
-    "deploy": "modern deploy"
+    "new": "modern new"
   },
   {{#unless isMonorepoSubProject}}
   "engines": {
-    "node": ">=12.17.0"
+    "node": ">=12.22.6"
   },
   "husky": {
     "hooks": {
@@ -39,9 +38,12 @@
   ],
   {{/unless}}
   "dependencies": {
-    "@modern-js/runtime": "^1.0.0-rc.2",
-    "@modern-js/app-tools": "^1.0.0-rc.2",
+    "@modern-js/runtime": "^1.0.0-rc.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "^1.0.0-rc.0",
+    "@modern-js/plugin-jarvis": "^1.0.0-rc.0"
   }
 }

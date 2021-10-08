@@ -1,4 +1,5 @@
 {
+  "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
     "declaration": false,
     "jsx": "preserve",
@@ -7,5 +8,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "api", "server", "electron"]
+  "include": ["src", "api"]
 }
