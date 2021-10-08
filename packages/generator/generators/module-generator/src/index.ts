@@ -8,12 +8,11 @@ import {
   ChangesetGenerator,
   Solution,
   ModuleSchema,
-  ModuleContent,
   Language,
-  LibType,
   DependenceGenerator,
   ModuleActionFunctionsDevDependencies,
   ActionFunction,
+  PackageManager,
 } from '@modern-js/generator-common';
 import {
   i18n as utilsI18n,
@@ -32,27 +31,6 @@ const getGeneratorPath = (generator: string, distTag: string) => {
     return `${generator}@${distTag}`;
   }
   return generator;
-};
-
-const updateModernConfig = async (
-  context: GeneratorContext,
-  jsonAPI: JsonAPI,
-  libType: LibType,
-  projectPath: string,
-) => {
-  let modernConfig = {};
-  if (libType === LibType.NodeJs) {
-    modernConfig = { output: { packageMode: 'node-js' } };
-  } else if (libType === LibType.Browser) {
-    modernConfig = { output: { packageMode: 'browser-js' } };
-  }
-  await jsonAPI.update(
-    context.materials.default.get(path.join(projectPath, 'package.json')),
-    {
-      query: {},
-      update: { $set: { modernConfig } },
-    },
-  );
 };
 
 // eslint-disable-next-line max-statements
@@ -107,16 +85,7 @@ const handleTemplateFile = async (
 
   generator.logger.debug(`inputData=${JSON.stringify(ans)}`, ans);
 
-  const {
-    packageName,
-    packagePath,
-    language,
-    packageManager,
-    moduleContent,
-    libType,
-  } = ans;
-
-  const isComponent = moduleContent === ModuleContent.Component;
+  const { packageName, packagePath, language, packageManager } = ans;
 
   const moduleProjectPath = getModuleProjectPath(
     packagePath as string,
@@ -135,18 +104,18 @@ const handleTemplateFile = async (
   }
 
   await appApi.forgeTemplate(
-    'templates/base-template/*',
+    'templates/base-template/**/*',
     undefined,
     resourceKey =>
       resourceKey
         .replace('templates/base-template/', projectPath)
+        .replace('language', language as string)
         .replace('.handlebars', ''),
     {
       name: packageName as string,
       language,
       isTs: language === Language.TS,
       packageManager: packageManager as string,
-      isComponent: isComponent as any,
       isMonorepoSubProject,
       isPublic,
     },
@@ -157,12 +126,9 @@ const handleTemplateFile = async (
       'devDependencies.typescript': '^4',
       'devDependencies.@types/jest': '^26.0.9',
       'devDependencies.@types/node': '^14',
+      'devDependencies.@types/react': '^17',
+      'devDependencies.@types/react-dom': '^17',
     };
-
-    if (isComponent) {
-      updateInfo['devDependencies.@types/react'] = '^17';
-      updateInfo['devDependencies.@types/react-dom'] = '^17';
-    }
 
     await jsonAPI.update(
       context.materials.default.get(path.join(projectPath, 'package.json')),
@@ -179,20 +145,19 @@ const handleTemplateFile = async (
         resourceKey
           .replace('templates/ts-template/', projectPath)
           .replace('.handlebars', ''),
-      { isComponent },
     );
   }
 
-  const srcTemplate = `templates/${moduleContent as string}-template`;
-
-  await appApi.forgeTemplate(`${srcTemplate}/**/*`, undefined, resourceKey =>
-    resourceKey
-      .replace(`${srcTemplate}/`, projectPath)
-      .replace(
-        '.handlebars',
-        `.${language as string}${isComponent ? 'x' : ''}`,
-      ),
-  );
+  if (packageManager === PackageManager.Pnpm) {
+    await appApi.forgeTemplate(
+      'templates/pnpm-template/**/*',
+      undefined,
+      resourceKey =>
+        resourceKey
+          .replace('templates/pnpm-template/', projectPath)
+          .replace('.handlebars', ''),
+    );
+  }
 
   if (enableLess) {
     const lessDependence =
@@ -223,8 +188,6 @@ const handleTemplateFile = async (
       },
     );
   }
-
-  await updateModernConfig(context, jsonAPI, libType as LibType, projectPath);
 
   if (!isMonorepoSubProject) {
     await appApi.runSubGenerator(
@@ -290,15 +253,10 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  const isComponent = context.config.moduleContent === ModuleContent.Component;
-
   appApi.showSuccessInfo(
-    i18n.t(
-      isComponent ? localeKeys.component.success : localeKeys.library.success,
-      {
-        packageManager: context.config.packageManager,
-      },
-    ),
+    i18n.t(localeKeys.success, {
+      packageManager: context.config.packageManager,
+    }),
   );
 
   generator.logger.debug(`forge @modern-js/module-generator succeed `);

@@ -84,21 +84,6 @@ export const ZH_LOCALE = {
     format:
       '目录名称只能使用小写字母、数字和分隔线（-）、下划线（_）和目录分隔符（/）',
   },
-  module: {
-    moduleContent: {
-      self: '请选择模块内容',
-      library: '工具库',
-      component: 'UI 组件',
-      model: '模型',
-      Data: '数据',
-    },
-    libType: {
-      self: '请选择代码用途',
-      universal: 'Universal JS（既能在浏览器端运行，也能在服务器端运行）',
-      browser: '专用于浏览器端的代码',
-      nodejs: '专用于 Node.js 环境的代码',
-    },
-  },
   framework: {
     self: '请选择运行时框架',
     egg: 'Egg',
