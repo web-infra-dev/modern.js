@@ -1,0 +1,11 @@
+import Koa from 'koa'
+import koaBody from 'koa-body'
+
+const app = new Koa();
+app.use(async (ctx, next) => {
+  console.info(`access url: ${ctx.url}`);
+  await next();
+});
+
+// ensure use koa
+app.use(koaBody());

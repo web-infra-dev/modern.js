@@ -1,8 +1,15 @@
 import path from 'path';
-import { fs, isTsProject } from '@modern-js/generator-utils';
+import { fs, getPackageVersion, isTsProject } from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { BFFSchema, BFFType, i18n } from '@modern-js/generator-common';
+import { JsonAPI } from '@modern-js/codesmith-api-json';
+import {
+  BFFSchema,
+  BFFType,
+  i18n,
+  BFFFramework,
+  Language,
+} from '@modern-js/generator-common';
 
 function isEmptyApiDir(apiDir: string) {
   const files = fs.readdirSync(apiDir);
@@ -15,11 +22,14 @@ function isEmptyApiDir(apiDir: string) {
   });
 }
 
+// eslint-disable-next-line max-statements
 const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
+  const jsonAPI = new JsonAPI(generator);
+
   const ans = await appApi.getInputBySchema(BFFSchema, context.config);
 
   const appDir = context.materials.default.basePath;
@@ -36,25 +46,109 @@ const handleTemplateFile = async (
 
   const { bffType, bffFramework } = ans;
 
-  const language = isTsProject(appDir) ? 'ts' : 'js';
+  const language = isTsProject(appDir) ? Language.TS : Language.JS;
+
+  if (language === Language.JS && bffFramework === BFFFramework.Nest) {
+    generator.logger.warn('nest not support js project');
+    // eslint-disable-next-line no-process-exit
+    process.exit(1);
+  }
+
+  await jsonAPI.update(
+    context.materials.default.get(path.join(appDir, 'package.json')),
+    {
+      query: {},
+      update: {
+        $set: {
+          'dependencies.@modern-js/plugin-bff': `^${await getPackageVersion(
+            '@modern-js/plugin-bff',
+          )}`,
+          [`dependencies.@modern-js/plugin-${
+            bffFramework as string
+          }`]: `^${await getPackageVersion(
+            `@modern-js/plugin-${bffFramework as string}`,
+          )}`,
+          [`dependencies.${
+            bffFramework as string
+          }`]: `^${await getPackageVersion(bffFramework as string)}`,
+        },
+      },
+    },
+  );
 
   if (bffType === BFFType.Func) {
+    await jsonAPI.update(
+      context.materials.default.get(path.join(appDir, 'tsconfig.json')),
+      {
+        query: {},
+        update: {
+          $set: {
+            'compilerOptions.paths.@api/*': ['./api/*'],
+          },
+        },
+      },
+    );
     await appApi.forgeTemplate(
-      'templates/function/**/*',
+      'templates/function/base/*',
       undefined,
       resourceKey =>
         resourceKey
-          .replace('templates/function/', '')
+          .replace('templates/function/base/', 'api/')
           .replace('.handlebars', `.${language}`),
     );
-  } else {
     await appApi.forgeTemplate(
-      `templates/${bffFramework as string}/**/*`,
+      `templates/function/info/*`,
+      resourceKey => resourceKey.includes(language),
+      resourceKey =>
+        resourceKey
+          .replace('templates/function/info/', 'api/info/')
+          .replace('.handlebars', ``),
+    );
+    await appApi.forgeTemplate(
+      `templates/function/app/${bffFramework as string}.handlebars`,
+      undefined,
+      resourceKey =>
+        resourceKey.replace(
+          `templates/function/app/${bffFramework as string}.handlebars`,
+          `api/_app.${language}`,
+        ),
+    );
+  } else {
+    await jsonAPI.update(
+      context.materials.default.get(path.join(appDir, 'tsconfig.json')),
+      {
+        query: {},
+        update: {
+          $set: {
+            'compilerOptions.paths.@api/*': ['./api/lambda/*'],
+          },
+        },
+      },
+    );
+    await appApi.forgeTemplate(
+      `templates/framework/lambda/*`,
       undefined,
       resourceKey =>
         resourceKey
-          .replace(`templates/${bffFramework as string}/`, '')
+          .replace(`templates/framework/`, 'api/')
           .replace('.handlebars', `.${language}`),
+    );
+    await appApi.forgeTemplate(
+      `templates/framework/app/${bffFramework as string}/**/*`,
+      resourceKey =>
+        bffFramework === BFFFramework.Egg
+          ? resourceKey.includes(language)
+          : true,
+      resourceKey =>
+        resourceKey
+          .replace(`templates/framework/app/${bffFramework as string}/`, 'api/')
+          .replace(
+            '.handlebars',
+            bffFramework === BFFFramework.Egg ||
+              bffFramework === BFFFramework.Nest
+              ? ''
+              : `.${language}`,
+          ),
     );
   }
 };
@@ -76,6 +170,8 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
   await handleTemplateFile(context, generator, appApi);
+
+  await appApi.runInstall();
 
   generator.logger.debug(`forge @modern-js/bff-generator succeed `);
 };

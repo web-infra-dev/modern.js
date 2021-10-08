@@ -101,12 +101,12 @@ export const ZH_LOCALE = {
   },
   bff: {
     bffType: {
-      self: 'BFF 类型',
+      self: '请选择 BFF 类型',
       func: '函数模式',
       framework: '框架模式',
     },
     bffFramework: {
-      self: '请选择你想使用的框架',
+      self: '请选择运行时框架',
       egg: 'Egg',
       express: 'Express',
       koa: 'Koa',

@@ -8,8 +8,8 @@ export enum BFFType {
 
 export enum BFFFramework {
   Egg = 'egg',
-  Express = 'express',
   Koa = 'koa',
+  Express = 'express',
   Nest = 'nest',
 }
 
@@ -29,7 +29,6 @@ const BFFFrameworkSchema: Schema = {
   type: ['string'],
   label: () => i18n.t(localeKeys.bff.bffFramework.self),
   mutualExclusion: true,
-  when: values => values.bffType === BFFType.Framework,
   items: Object.values(BFFFramework).map(framework => ({
     key: framework,
     label: () => i18n.t(localeKeys.bff.bffFramework[framework]),

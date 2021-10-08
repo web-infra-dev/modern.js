@@ -3,16 +3,17 @@ export default async (type, { query }) => {
   return {
     type,
     username,
-    message: `Hello ModernJS`,
+    message: `Hello Modern.js`,
   };
 };
 
-export const post = async (type, { query, data }) => {
+
+export const post = async (type,{ query, data }) => {
   const { username } = query;
   const { message } = data;
-  return {
+  return Promise.resolve({
     type,
     username,
-    message: `Hello ModernJS. Your message: ${message}`,
-  };
+    message: `Hello Modern.js. Your message: ${message}`,
+  });
 };
