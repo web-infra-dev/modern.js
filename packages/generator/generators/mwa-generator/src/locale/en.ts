@@ -7,6 +7,5 @@ You can run the following command in the directory of the new project：
 {packageManager} build        # Build the project according to the requirements of the product environment
 {packageManager} start        # Run the project according to the requirements of the product environment
 {packageManager} lint:error   # Check and fix all codes
-{packageManager} preview      # One-click deployment preview
 {packageManager} new          # Create more project elements, such as application portals`,
 };

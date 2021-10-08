@@ -1,0 +1,7 @@
+import { express } from '@modern-js/runtime/server';
+
+const app = express();
+app.use(async (req, res, next) => {
+    console.info(`access url: ${req.url}`);
+    next();
+});

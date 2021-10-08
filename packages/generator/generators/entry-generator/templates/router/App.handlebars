@@ -1,10 +1,11 @@
-import React from 'react';
 import { Switch, Route } from '@modern-js/runtime/router';
 
-const App: React.FC = () => (
+import './App.css';
+
+const App = () => (
   <Switch>
     <Route exact={true} path="/">
-      <div>Hello Modern.js</div>
+{{{main}}}
     </Route>
     <Route path="*">
       <div>404</div>

@@ -31,6 +31,7 @@
     "@babel/runtime": "^7",
     "@modern-js/codesmith": "^1.0.0-rc.3",
     "@modern-js/codesmith-api-app": "^1.0.0-rc.3",
+    "@modern-js/codesmith-api-json": "^1.0.0-rc.3",
     "@modern-js/codesmith-tools": "^1.0.0-rc.3",
     "@modern-js/generator-common": "workspace:^1.0.0-rc.2",
     "@modern-js/generator-utils": "workspace:^1.0.0-rc.2",

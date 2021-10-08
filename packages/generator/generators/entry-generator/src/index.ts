@@ -4,6 +4,7 @@ import { fs, getPackageObj, isTsProject } from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
+import { renderString } from '@modern-js/codesmith-api-handlebars';
 import {
   i18n as commonI18n,
   EntrySchema,
@@ -37,8 +38,8 @@ const handleInput = async (
     ...analysisInfo,
   });
 
-  if (ans.needModifyEntryConfig === 'no') {
-    ans.needEnableStateManagement = BooleanConfig.YES;
+  if (ans.needModifyMWAConfig === 'no') {
+    ans.disableStateManagement = BooleanConfig.NO;
     ans.clientRoute = ClientRoute.SelfControlRoute;
   }
   return ans;
@@ -87,14 +88,32 @@ const refactorSingleEntry = async (
   });
 };
 
-const getTplName = (clientRoute: ClientRoute) => {
-  let tplName = 'base';
+const getTplInfo = (clientRoute: ClientRoute, isTs: boolean) => {
+  const fileExtra = isTs ? 'tsx' : 'jsx';
   if (clientRoute === ClientRoute.ConventionalRoute) {
-    tplName = 'pages-router';
+    return {
+      name: 'pages-router',
+      space: '    ',
+      fileExtra,
+      entry: `Index.${fileExtra}`,
+      css: 'index.css',
+    };
   } else if (clientRoute === ClientRoute.SelfControlRoute) {
-    tplName = 'router';
+    return {
+      name: 'router',
+      space: '      ',
+      fileExtra,
+      entry: `App.${fileExtra}`,
+      css: 'App.css',
+    };
   }
-  return tplName;
+  return {
+    name: 'base',
+    space: '  ',
+    fileExtra,
+    entry: `App.${fileExtra}`,
+    css: 'App.css',
+  };
 };
 
 const getTargetFolder = (
@@ -111,12 +130,12 @@ const getTargetFolder = (
 
 const getSpaUpdateInfo = (
   clientRoute: ClientRoute,
-  needEnableStateManagement: BooleanConfig,
+  disableStateManagement: BooleanConfig,
 ) => {
   const updateInfo: Record<string, unknown> = {};
   if (
     clientRoute === ClientRoute.No &&
-    needEnableStateManagement === BooleanConfig.NO
+    disableStateManagement === BooleanConfig.YES
   ) {
     updateInfo.modernConfig = {};
   }
@@ -125,7 +144,7 @@ const getSpaUpdateInfo = (
     updateInfo['modernConfig.runtime.router'] = true;
   }
 
-  if (needEnableStateManagement === BooleanConfig.YES) {
+  if (disableStateManagement === BooleanConfig.NO) {
     updateInfo['modernConfig.runtime.state'] = true;
   }
   return updateInfo;
@@ -133,12 +152,12 @@ const getSpaUpdateInfo = (
 
 const getMpaUpdateInfo = (
   name: string,
-  clientRoute: ClientRoute,
-  needEnableStateManagement: BooleanConfig,
+  clientRoute: ClientRoute = ClientRoute.SelfControlRoute,
+  disableStateManagement: BooleanConfig = BooleanConfig.NO,
   modernConfig?: Record<string, unknown>,
 ) => {
   const newFeature = {
-    state: needEnableStateManagement === BooleanConfig.YES,
+    state: disableStateManagement === BooleanConfig.NO,
     router: clientRoute !== ClientRoute.No,
   };
   const updateInfo = {
@@ -174,16 +193,16 @@ const updatePackageJSON = async (
   }
   let updateInfo: Record<string, unknown> = {};
 
-  const { name, clientRoute, needEnableStateManagement } = context.config;
+  const { name, clientRoute, disableStateManagement } = context.config;
   if (!name) {
-    updateInfo = getSpaUpdateInfo(clientRoute, needEnableStateManagement);
+    updateInfo = getSpaUpdateInfo(clientRoute, disableStateManagement);
   } else {
     const pkgObj = await getPackageObj(context);
     const { modernConfig } = pkgObj;
     updateInfo = getMpaUpdateInfo(
       name,
       clientRoute,
-      needEnableStateManagement,
+      disableStateManagement,
       modernConfig,
     );
   }
@@ -210,18 +229,47 @@ const handleTemplateFile = async (
   }
 
   const entryName = (ans.name as string) || '';
-  const tplName = getTplName(ans.clientRoute as ClientRoute);
+  const { name, space, fileExtra, entry, css } = getTplInfo(
+    ans.clientRoute as ClientRoute,
+    ans.isTsProject as boolean,
+  );
   const targetFolder = getTargetFolder(
     ans.clientRoute as ClientRoute,
     context.config.entriesDir,
     entryName,
   );
-  const sourceFolder = `templates/${
-    ans.isTsProject ? 'ts' : 'js'
-  }-tpl/${tplName}`;
+  const sourceFolder = `templates/${name}`;
 
-  await appApi.forgeTemplate(`${sourceFolder}/*`, undefined, resourceKey =>
-    resourceKey.replace(sourceFolder, targetFolder).replace('.handlebars', ''),
+  const mainTpl = await context.current?.material
+    .get('templates/main.handlebars')
+    .value();
+  const main = renderString((mainTpl?.content as string | undefined) || '', {
+    space,
+    entry,
+  });
+
+  await appApi.forgeTemplate(
+    `${sourceFolder}/*`,
+    undefined,
+    resourceKey =>
+      resourceKey
+        .replace(sourceFolder, targetFolder)
+        .replace('.handlebars', `.${fileExtra}`),
+    {
+      main,
+    },
+  );
+
+  await appApi.forgeTemplate(
+    `templates/main.css`,
+    undefined,
+    resourceKey =>
+      resourceKey
+        .replace('templates/main.css', `${targetFolder}/${css}`)
+        .replace('.handlebars', ''),
+    {
+      main,
+    },
   );
 
   await updatePackageJSON(context, generator);
