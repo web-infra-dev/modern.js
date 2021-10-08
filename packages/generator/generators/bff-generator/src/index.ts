@@ -7,7 +7,7 @@ import {
   BFFSchema,
   BFFType,
   i18n,
-  BFFFramework,
+  Framework,
   Language,
 } from '@modern-js/generator-common';
 
@@ -44,11 +44,11 @@ const handleTemplateFile = async (
     }
   }
 
-  const { bffType, bffFramework } = ans;
+  const { bffType, framework } = ans;
 
   const language = isTsProject(appDir) ? Language.TS : Language.JS;
 
-  if (language === Language.JS && bffFramework === BFFFramework.Nest) {
+  if (language === Language.JS && framework === Framework.Nest) {
     generator.logger.warn('nest not support js project');
     // eslint-disable-next-line no-process-exit
     process.exit(1);
@@ -64,13 +64,13 @@ const handleTemplateFile = async (
             '@modern-js/plugin-bff',
           )}`,
           [`dependencies.@modern-js/plugin-${
-            bffFramework as string
+            framework as string
           }`]: `^${await getPackageVersion(
-            `@modern-js/plugin-${bffFramework as string}`,
+            `@modern-js/plugin-${framework as string}`,
           )}`,
-          [`dependencies.${
-            bffFramework as string
-          }`]: `^${await getPackageVersion(bffFramework as string)}`,
+          [`dependencies.${framework as string}`]: `^${await getPackageVersion(
+            framework as string,
+          )}`,
         },
       },
     },
@@ -105,11 +105,11 @@ const handleTemplateFile = async (
           .replace('.handlebars', ``),
     );
     await appApi.forgeTemplate(
-      `templates/function/app/${bffFramework as string}.handlebars`,
+      `templates/function/app/${framework as string}.handlebars`,
       undefined,
       resourceKey =>
         resourceKey.replace(
-          `templates/function/app/${bffFramework as string}.handlebars`,
+          `templates/function/app/${framework as string}.handlebars`,
           `api/_app.${language}`,
         ),
     );
@@ -134,18 +134,15 @@ const handleTemplateFile = async (
           .replace('.handlebars', `.${language}`),
     );
     await appApi.forgeTemplate(
-      `templates/framework/app/${bffFramework as string}/**/*`,
+      `templates/framework/app/${framework as string}/**/*`,
       resourceKey =>
-        bffFramework === BFFFramework.Egg
-          ? resourceKey.includes(language)
-          : true,
+        framework === Framework.Egg ? resourceKey.includes(language) : true,
       resourceKey =>
         resourceKey
-          .replace(`templates/framework/app/${bffFramework as string}/`, 'api/')
+          .replace(`templates/framework/app/${framework as string}/`, 'api/')
           .replace(
             '.handlebars',
-            bffFramework === BFFFramework.Egg ||
-              bffFramework === BFFFramework.Nest
+            framework === Framework.Egg || framework === Framework.Nest
               ? ''
               : `.${language}`,
           ),

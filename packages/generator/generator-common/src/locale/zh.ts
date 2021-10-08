@@ -99,18 +99,18 @@ export const ZH_LOCALE = {
       nodejs: '专用于 Node.js 环境的代码',
     },
   },
+  framework: {
+    self: '请选择运行时框架',
+    egg: 'Egg',
+    express: 'Express',
+    koa: 'Koa',
+    nest: 'Nest',
+  },
   bff: {
     bffType: {
       self: '请选择 BFF 类型',
       func: '函数模式',
       framework: '框架模式',
-    },
-    bffFramework: {
-      self: '请选择运行时框架',
-      egg: 'Egg',
-      express: 'Express',
-      koa: 'Koa',
-      nest: 'Nest',
     },
   },
 };

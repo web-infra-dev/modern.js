@@ -69,3 +69,21 @@ export const NeedModifyMWAConfigSchema: Schema = {
     EnableSassSchema,
   ]),
 };
+
+export enum Framework {
+  Egg = 'egg',
+  Koa = 'koa',
+  Express = 'express',
+  Nest = 'nest',
+}
+
+export const FrameworkSchema: Schema = {
+  key: 'framework',
+  type: ['string'],
+  label: () => i18n.t(localeKeys.framework.self),
+  mutualExclusion: true,
+  items: Object.values(Framework).map(framework => ({
+    key: framework,
+    label: () => i18n.t(localeKeys.framework[framework]),
+  })),
+};
