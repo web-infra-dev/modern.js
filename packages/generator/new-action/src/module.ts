@@ -58,6 +58,8 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     mockGeneratorCore,
   );
 
+  let hasOption = false;
+
   const schema = forEach(ModuleNewActionSchema, (schemaItem: any) => {
     if (ModuleActionFunctions.includes(schemaItem.key as ActionFunction)) {
       const enable = hasEnabledFunction(
@@ -68,8 +70,17 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
       );
       const { when } = schemaItem;
       schemaItem.when = enable ? () => false : when;
+      if (!enable) {
+        hasOption = true;
+      }
     }
   });
+
+  if (!hasOption) {
+    smith.logger.warn('no option can be enabled');
+    // eslint-disable-next-line no-process-exit
+    process.exit(1);
+  }
 
   const ans = await appAPI.getInputBySchema(schema, config);
 

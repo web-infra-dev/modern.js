@@ -84,22 +84,6 @@ export const EN_LOCALE = {
       no: 'Not Enabled',
     },
   },
-  module: {
-    moduleContent: {
-      self: 'Module Content',
-      library: 'Library',
-      component: 'UI Components',
-      model: 'Model',
-      Data: 'Data',
-    },
-    libType: {
-      self: 'Code Usage',
-      universal:
-        'Universal JS (can run both on the browser side and on the server side)',
-      browser: 'Code dedicated to the browser side',
-      nodejs: 'Code dedicated to Node.js environment',
-    },
-  },
   framework: {
     self: 'Please select the framework you want to use',
     egg: 'Egg',

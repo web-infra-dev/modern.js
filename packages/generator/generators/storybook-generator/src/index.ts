@@ -1,7 +1,12 @@
 import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { DependenceGenerator, i18n } from '@modern-js/generator-common';
+import { isTsProject } from '@modern-js/generator-utils';
+import {
+  DependenceGenerator,
+  i18n,
+  Language,
+} from '@modern-js/generator-common';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {
@@ -16,7 +21,14 @@ const handleTemplateFile = async (
   context: GeneratorContext,
   appApi: AppAPI,
 ) => {
-  appApi.forgeTemplate('templates/**/*');
+  const appDir = context.materials.default.basePath;
+  const language = isTsProject(appDir) ? Language.TS : Language.JS;
+  appApi.forgeTemplate(
+    'templates/**/*',
+    resourceKey =>
+      language === Language.TS ? true : resourceKey !== 'tsconfig.json',
+    resourceKey => resourceKey.replace('.handlebars', `.${language}x`),
+  );
 
   await appApi.runSubGenerator(
     getGeneratorPath(DependenceGenerator, context.config.distTag),

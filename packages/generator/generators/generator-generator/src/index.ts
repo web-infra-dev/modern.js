@@ -8,8 +8,6 @@ import {
   GeneratorSchema,
   Solution,
   SolutionGenerator,
-  ModuleContent,
-  LibType,
 } from '@modern-js/generator-common';
 import {
   fs,
@@ -89,8 +87,6 @@ const handleTemplateFile = async (
     undefined,
     {
       ...context.config,
-      moduleContent: ModuleContent.Library,
-      libType: LibType.NodeJs,
       isSubGenerator: true,
     },
   );
@@ -141,9 +137,12 @@ const handleTemplateFile = async (
   );
 
   await fs.mkdirp(path.join(projectPath, 'templates'));
-  const testDir = path.join(projectPath, 'src', '__test__');
+  const testDir = path.join(projectPath, 'tests');
   fs.rmdirSync(testDir, { recursive: true });
-  fs.rmdirSync(path.join(projectPath, '.npmignore'));
+  const styleDir = path.join(projectPath, 'styles');
+  fs.rmdirSync(styleDir, { recursive: true });
+  fs.removeSync(path.join(projectPath, '.npmignore'));
+  fs.removeSync(path.join(projectPath, 'src', `index.${language as string}x`));
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
