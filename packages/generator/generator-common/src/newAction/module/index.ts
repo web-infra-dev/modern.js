@@ -71,5 +71,6 @@ export const ModuleNewActionGenerators: Partial<
     [ActionFunction.I18n]: '@modern-js/dependence-generator',
     [ActionFunction.Test]: '@modern-js/dependence-generator',
     [ActionFunction.Doc]: '@modern-js/dependence-generator',
+    [ActionFunction.Storybook]: '@modern-js/storybook-generator',
   },
 };
