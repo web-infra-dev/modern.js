@@ -2,6 +2,8 @@ import { Schema } from '@modern-js/easy-form-core';
 import {
   Language,
   LanguageSchema,
+  PackageManager,
+  PackageManagerSchema,
   PackageNameSchema,
   PackagePathSchema,
 } from '@/common';
@@ -9,6 +11,7 @@ import {
 const GeneratorSchemaMap = {
   packageName: PackageNameSchema,
   packagePath: PackagePathSchema,
+  PackageManager: PackageManagerSchema,
   language: LanguageSchema,
 };
 
@@ -19,5 +22,6 @@ export const GeneratorSchema: Schema = {
 };
 
 export const GeneratorDefaultConfig = {
+  packageManager: PackageManager.Pnpm,
   language: Language.TS,
 };

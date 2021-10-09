@@ -1,6 +1,7 @@
 import path from 'path';
 import os from 'os';
 import execa from 'execa';
+import ora from 'ora';
 import { GeneratorContext } from '@modern-js/codesmith';
 import { fs, getMonorepoPackages } from '@modern-js/utils';
 import { canUseNpm, canUsePnpm, canUseYarn } from './utils/env';
@@ -13,16 +14,20 @@ export { fs } from '@modern-js/utils';
 
 export { i18n } from './locale';
 
+// eslint-disable-next-line max-statements
 export async function getPackageVersion(
   packageName: string,
   registry?: string,
 ) {
+  const spinner = ora('Loading...').start();
+  spinner.color = 'yellow';
   if (await canUsePnpm()) {
     const args = ['info', packageName, 'version'];
     if (registry) {
       args.push(`--registry=${registry}`);
     }
     const result = await execa('pnpm', args);
+    spinner.stop();
     return stripAnsi(result.stdout);
   }
   if (await canUseYarn()) {
@@ -31,6 +36,7 @@ export async function getPackageVersion(
       args.push(`--registry=${registry}`);
     }
     const result = await execa('yarn', args);
+    spinner.stop();
     return stripAnsi(result.stdout);
   }
   if (await canUseNpm()) {
@@ -39,8 +45,10 @@ export async function getPackageVersion(
       args.push(`--registry=${registry}`);
     }
     const result = await execa('npm', args);
+    spinner.stop();
     return stripAnsi(result.stdout);
   }
+  spinner.stop();
   throw new Error('not found npm, please install npm before');
 }
 
