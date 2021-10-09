@@ -26,8 +26,11 @@ export default createPlugin(
     // eslint-disable-next-line max-statements
     prepareApiServer: async ({ prefix, config, pwd, mode }) => {
       let app: INestApplication;
-
-      const middlewares = initMiddlewares(config?.middleware || []);
+      const middlewareInputs = initMiddlewares(config?.middleware || []);
+      const modules = middlewareInputs.filter(isModule);
+      const middlewares = middlewareInputs.filter(
+        middleware => !isModule(middleware),
+      );
 
       if (mode === 'framework') {
         const custom = await getCustomApp(pwd);
@@ -37,12 +40,12 @@ export default createPlugin(
           );
         }
         if (isFunction(custom)) {
-          app = await custom(middlewares);
+          app = await custom(modules);
         } else {
           app = custom;
         }
       } else {
-        @Module({ imports: middlewares })
+        @Module({ imports: modules })
         // eslint-disable-next-line @typescript-eslint/no-extraneous-class
         class AppModule {}
         app = await NestFactory.create(AppModule);
@@ -51,6 +54,10 @@ export default createPlugin(
       if (prefix) {
         app.setGlobalPrefix(prefix);
       }
+
+      middlewares.forEach(middleware => {
+        app.use(middleware);
+      });
 
       const server = app.getHttpAdapter().getInstance();
 
@@ -75,7 +82,11 @@ export default createPlugin(
       return server;
     },
     prepareWebServer: async ({ config }) => {
-      const middlewares = initMiddlewares(config?.middleware || []);
+      const middlewareInputs = initMiddlewares(config?.middleware || []);
+      const modules = middlewareInputs.filter(isModule);
+      const middlewares = middlewareInputs.filter(
+        middleware => !isModule(middleware),
+      );
       @Catch(NotFoundException)
       class NotFoundExceptionFilter implements ExceptionFilter {
         catch(exception: NotFoundException, host: ArgumentsHost) {
@@ -99,11 +110,15 @@ export default createPlugin(
         }
       }
 
-      @Module({ imports: middlewares })
+      @Module({ imports: modules })
       // eslint-disable-next-line @typescript-eslint/no-extraneous-class
       class AppModule {}
       const app = await NestFactory.create(AppModule);
       app.useGlobalFilters(new NotFoundExceptionFilter());
+      middlewares.forEach(middleware => {
+        app.use(middleware);
+      });
+
       await app.init();
 
       return (req, res) =>
@@ -133,3 +148,9 @@ export default createPlugin(
   }),
   { name: '@modern-js/plugin-nest', pre: ['@modern-js/plugin-bff'] },
 ) as any;
+
+const isModule = (v: Record<string, unknown>) =>
+  Reflect.hasMetadata('providers', v) ||
+  Reflect.hasMetadata('controllers', v) ||
+  Reflect.hasMetadata('imports', v) ||
+  Reflect.hasMetadata('exports', v);
