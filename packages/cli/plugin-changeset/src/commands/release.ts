@@ -4,7 +4,7 @@ import { execaWithStreamLog } from '../utils';
 interface PublishOptions {
   tag: string;
 }
-export async function publish(options: PublishOptions) {
+export async function release(options: PublishOptions) {
   const packageManager = getPackageManager(process.cwd());
 
   const { tag } = options;
