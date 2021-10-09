@@ -102,5 +102,8 @@
   },
   "peerDependencies": {
     "typescript": "^4.4.3"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }

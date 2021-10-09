@@ -73,5 +73,8 @@
       "packageMode": "node-js"
     }
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }

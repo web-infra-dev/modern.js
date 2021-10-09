@@ -53,5 +53,8 @@
       "disableSourceMap": true
     }
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }

@@ -68,5 +68,8 @@
     "@loadable/component": "^5.15.0",
     "@types/loadable__component": "^5.13.4"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }

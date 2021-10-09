@@ -66,5 +66,8 @@
   "peerDependencies": {
     "typescript": "^4.4.3"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }

@@ -60,5 +60,8 @@
   },
   "peerDependencies": {
     "express": "^4.17.1"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }

@@ -42,5 +42,8 @@
     "output": {
       "packageMode": "browser-js"
     }
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }

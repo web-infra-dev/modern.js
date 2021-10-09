@@ -34,5 +34,8 @@
     "eslint-find-rules": "^3.4.0",
     "eslint-index": "^1.5.0"
   },
-  "keywords": []
+  "keywords": [],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }

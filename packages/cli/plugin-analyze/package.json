@@ -49,5 +49,8 @@
     "output": {
       "packageMode": "node-js"
     }
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }

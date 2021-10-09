@@ -57,5 +57,8 @@
   },
   "peerDependencies": {
     "koa": "^2.13.3"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }

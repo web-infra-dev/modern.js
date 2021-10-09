@@ -73,5 +73,8 @@
     "@modern-js/runtime": "workspace:^1.0.0-rc.2"
   },
   "sideEffects": false,
-  "modernConfig": {}
+  "modernConfig": {},
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }
