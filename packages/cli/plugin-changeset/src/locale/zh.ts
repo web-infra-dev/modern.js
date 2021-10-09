@@ -17,7 +17,7 @@ export const ZH_LOCALE = {
     pre: {
       describe: '进入和退出预发布模式',
     },
-    publish: {
+    release: {
       describe: '发布 npm 包',
       tag: '发布 npm 包使用特定的 tag',
     },
