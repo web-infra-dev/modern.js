@@ -24,18 +24,17 @@ export default createPlugin(
 
     return {
       config() {
-        runtimeExportsUtils = createRuntimeExportsUtils(
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          useInternalDirectory(),
-          'index',
-        );
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const dir = useInternalDirectory();
+
+        runtimeExportsUtils = createRuntimeExportsUtils(dir, 'index');
 
         return {
           runtime: {},
           runtimeByEntries: {},
           source: {
             alias: {
-              '@modern-js/runtime': runtimeExportsUtils.getPath(),
+              '@modern-js/runtime$': runtimeExportsUtils.getPath(),
             },
           },
         };
