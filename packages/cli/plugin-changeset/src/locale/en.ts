@@ -14,5 +14,12 @@ export const EN_LOCALE = {
       snapshot: 'create a special kind of publishing for testing',
       ignore: 'skip packages from being published',
     },
+    pre: {
+      describe: 'enters and exits pre mode',
+    },
+    publish: {
+      describe: 'publish changes to npm',
+      tag: 'publish use special tag',
+    },
   },
 };

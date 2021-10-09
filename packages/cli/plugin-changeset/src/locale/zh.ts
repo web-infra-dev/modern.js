@@ -14,5 +14,12 @@ export const ZH_LOCALE = {
       snapshot: '创建一个特殊版本进行测试',
       ignore: '跳过部分包发布版本',
     },
+    pre: {
+      describe: '进入和退出预发布模式',
+    },
+    publish: {
+      describe: '发布 npm 包',
+      tag: '发布 npm 包使用特定的 tag',
+    },
   },
 };

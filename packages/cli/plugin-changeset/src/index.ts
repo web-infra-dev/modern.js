@@ -1,5 +1,5 @@
 import { createPlugin } from '@modern-js/core';
-import { change, bump } from './commands';
+import { change, bump, pre, publish } from './commands';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils';
 
@@ -31,6 +31,17 @@ export default createPlugin(
           )
           .option('--snapshot', i18n.t(localeKeys.command.bump.snapshot), false)
           .action((options: any) => bump(options));
+
+        program
+          .command('pre <enter|exit> [tag]')
+          .description(i18n.t(localeKeys.command.pre.describe))
+          .action((type: 'enter' | 'exit', tag?: string) => pre(type, tag));
+
+        program
+          .command('publish')
+          .description(i18n.t(localeKeys.command.publish.describe))
+          .option('--tag', i18n.t(localeKeys.command.publish.tag), '')
+          .action((options: any) => publish(options));
       },
     };
   },
