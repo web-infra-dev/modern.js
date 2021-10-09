@@ -49,7 +49,7 @@ export default createPlugin(
                 chain.output.libraryTarget('umd');
               }
 
-              if (mConfig?.moduleApp) {
+              if (mConfig) {
                 chain.externals({ 'react-dom': 'react-dom', react: 'react' });
               }
             },
@@ -114,7 +114,7 @@ export default createPlugin(
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const { value: config } = useResolvedConfigContext();
 
-        if (!config?.deploy?.microFrontend?.moduleApp) {
+        if (!config?.deploy?.microFrontend) {
           return { entrypoint, code };
         }
 
@@ -132,7 +132,7 @@ export default createPlugin(
 
         return {
           entrypoint,
-          exportStatement: mConfig?.moduleApp
+          exportStatement: mConfig
             ? makeProvider(mConfig.enableHtmlEntry)
             : exportStatement,
         };
