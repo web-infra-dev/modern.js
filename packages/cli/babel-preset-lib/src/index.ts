@@ -35,7 +35,6 @@ export const getBabelChain = (
     plugins: {
       transformRuntime: {
         corejs: false, // 关闭 corejs
-        regenerator: false, // 覆盖原本的配置
       },
       lodashOptions,
     },
