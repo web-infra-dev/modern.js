@@ -89,7 +89,7 @@ export const loadConfig = <T>(
         ],
         require.resolve('@babel/preset-typescript'),
       ],
-      ignore: [/node_modules/],
+      ignore: [/node_modules/, /api/, /server/],
       extensions: CONFIG_FILE_EXTENSIONS,
       cache: false,
     });

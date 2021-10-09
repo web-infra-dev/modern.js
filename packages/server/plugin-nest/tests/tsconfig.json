@@ -4,11 +4,12 @@
     "declaration": false,
     "jsx": "preserve",
     "baseUrl": "./",
+    "noEmit": true,
     "isolatedModules": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "types": ["node", "jest"]
   },
   "paths": {
     "@/*": ["../src/*"]
-  },
-  "exclude": ["src/__test__/fixtures/**"]
+  }
 }
