@@ -27,7 +27,7 @@
     "change": "modern change",
     "bump": "modern bump",
     "pre": "modern pre",
-    "publish": "modern publish",
+    "publish": "modern release",
     {{/unless}}
     "new": "modern new",
     "test": "modern test --passWithNoTests"
@@ -80,5 +80,9 @@
     "*.less",
     "*.sass",
     "*.scss"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

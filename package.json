@@ -12,7 +12,7 @@
     "change": "modern change",
     "bump": "modern bump",
     "pre": "modern pre",
-    "publish": "modern publish"
+    "release": "modern release"
   },
   "engines": {
     "node": ">=12.13.0"

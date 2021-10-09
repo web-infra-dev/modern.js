@@ -17,7 +17,7 @@ export const EN_LOCALE = {
     pre: {
       describe: 'enters and exits pre mode',
     },
-    publish: {
+    release: {
       describe: 'publish changes to npm',
       tag: 'publish use special tag',
     },
