@@ -10,7 +10,9 @@
     "test": "pnpm run test --filter ./packages",
     "lint": "modern lint",
     "change": "modern change",
-    "bump": "modern bump"
+    "bump": "modern bump",
+    "pre": "modern pre",
+    "publish": "modern publish"
   },
   "engines": {
     "node": ">=12.13.0"

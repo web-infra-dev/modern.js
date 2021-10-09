@@ -44,3 +44,5 @@ pnpm-lock.yaml
 .storybook/
 
 **/*/tsconfig.temp.json
+
+.changeset/pre.json
