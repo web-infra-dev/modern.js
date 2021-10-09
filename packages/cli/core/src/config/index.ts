@@ -116,8 +116,6 @@ export interface DevConfig {
 export interface DeployConfig {
   microFrontend?: {
     enableHtmlEntry?: boolean;
-    enableLegacy?: boolean;
-    moduleApp?: string | Array<string>;
   };
   domain?: string | Array<string>;
   domainByEntries?: Record<string, string | Array<string>>;

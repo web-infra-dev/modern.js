@@ -76,9 +76,7 @@ const devDefaults = { assetPrefix: false };
 
 const deployDefaults = {
   microFrontend: {
-    enableLegacy: false,
-    enableHtmlEntry: false,
-    moduleApp: undefined,
+    enableHtmlEntry: false
   },
   domain: '',
   domainByEntries: undefined,
