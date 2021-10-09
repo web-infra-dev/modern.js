@@ -1,10 +1,8 @@
-import { removeLeadingSlash } from '@modern-js/utils';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import { removeLeadingSlash } from '@modern-js/utils';
 import { ClientWebpackConfig } from './client';
 
 class ModernWebpackConfig extends ClientWebpackConfig {
-  htmlFilename: (name: string) => string;
-
   constructor(appContext: IAppContext, options: NormalizedConfig) {
     super(appContext, options);
     this.htmlFilename = (name: string) =>
@@ -15,6 +13,9 @@ class ModernWebpackConfig extends ClientWebpackConfig {
             : `${name}/index-es6`
         }.html`,
       );
+    this.jsChunkname = this.jsChunkname.replace(/\.js$/, '-es6.js');
+
+    this.jsFilename = this.jsFilename.replace(/\.js$/, '-es6.js');
   }
 
   name() {
