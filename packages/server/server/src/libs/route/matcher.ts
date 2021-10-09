@@ -1,3 +1,4 @@
+import { removeTailSlash } from '@modern-js/utils';
 import {
   MatchFunction,
   MatchResult,
@@ -77,7 +78,7 @@ export class RouteMatcher {
   // compiler urlPath to regexp if necessary
   private setupUrlPath() {
     const { urlPath } = this.spec;
-    this.urlPath = urlPath;
+    this.urlPath = urlPath === '/' ? urlPath : removeTailSlash('/');
 
     const useReg = regCharsDetector.test(urlPath);
     if (useReg) {
