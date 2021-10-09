@@ -60,6 +60,7 @@ export class RouteMatcher {
       if (urlWithoutSlash.startsWith(this.urlPath)) {
         // avoid /abcd match /a
         if (
+          this.urlPath !== '/' &&
           urlWithoutSlash.length > this.urlPath.length &&
           !urlWithoutSlash.startsWith(`${this.urlPath}/`)
         ) {
