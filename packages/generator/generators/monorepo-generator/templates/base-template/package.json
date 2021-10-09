@@ -5,7 +5,9 @@
     "new": "modern new",
     "reset": "npm run reset",
     "bump": "modern bump",
-    "change": "modern change"
+    "change": "modern change",
+    "pre": "modern pre",
+    "publish": "modern publish"
   },
   "engines": {
     "node": ">=12.22.6"
@@ -29,7 +31,7 @@
     ]
   },
   "devDependencies": {
-    "@modern-js/monorepo-tools": "^1.0.0-rc.2",
+    "@modern-js/monorepo-tools": "^1.0.0-rc.0",
     "@modern-js/plugin-jarvis": "^1.0.0-rc.0"
   }
 }
