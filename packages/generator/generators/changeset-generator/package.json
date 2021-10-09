@@ -29,9 +29,9 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/codesmith": "^1.0.0-rc.3",
-    "@modern-js/codesmith-api-app": "^1.0.0-rc.3",
-    "@modern-js/codesmith-tools": "^1.0.0-rc.3",
+    "@modern-js/codesmith": "^1.0.0-rc.10",
+    "@modern-js/codesmith-api-app": "^1.0.0-rc.10",
+    "@modern-js/codesmith-tools": "^1.0.0-rc.10",
     "@modern-js/generator-common": "workspace:^1.0.0-rc.2",
     "@types/jest": "^26",
     "@types/lodash": "^4.14.168",

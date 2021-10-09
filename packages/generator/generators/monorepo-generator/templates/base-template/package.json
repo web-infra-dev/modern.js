@@ -3,7 +3,7 @@
   "name": "monorepo",
   "scripts": {
     "new": "modern new",
-    "reset": "lerna clean --yes && rm -rf node_modules",
+    "reset": "npm run reset",
     "bump": "modern bump",
     "change": "modern change"
   },
