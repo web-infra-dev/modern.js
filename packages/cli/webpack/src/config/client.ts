@@ -1,3 +1,5 @@
+import path from 'path';
+import type { Buffer } from 'buffer';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import {
   isDev,
@@ -5,12 +7,14 @@ import {
   removeLeadingSlash,
   getEntryOptions,
   generateMetaTags,
+  removeTailSlash,
 } from '@modern-js/utils';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import webpack, { HotModuleReplacementPlugin, ProvidePlugin } from 'webpack';
 import nodeLibsBrowser from 'node-libs-browser';
 import { Entrypoint } from '@modern-js/types';
+import CopyPlugin from 'copy-webpack-plugin';
 import { RouteManifest } from '../plugins/route-manifest-plugin';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
 import { BaseWebpackConfig } from './base';
@@ -168,6 +172,38 @@ class ClientWebpackConfig extends BaseWebpackConfig {
             entrypoints: entrypointFiles,
           } as any;
         },
+      },
+    ]);
+
+    const configDir = path.resolve(
+      this.appDirectory,
+      this.options.source.configDir,
+    );
+
+    this.chain.plugin('copy').use(CopyPlugin, [
+      {
+        patterns: [
+          ...(this.options.output.copy || []),
+          {
+            from: path.join(configDir, 'public/**/*'),
+            to: 'public',
+            context: path.join(configDir, 'public'),
+            noErrorOnMissing: true,
+            transform: (content: Buffer, absoluteFrom: string) => {
+              if (!/\.html?$/.test(absoluteFrom)) {
+                return content;
+              }
+
+              return require('lodash.template').compile(
+                content.toString('utf8'),
+              )({
+                staticPrefix: removeTailSlash(
+                  this.chain.output.get('publicPath'),
+                ),
+              });
+            },
+          },
+        ],
       },
     ]);
 
