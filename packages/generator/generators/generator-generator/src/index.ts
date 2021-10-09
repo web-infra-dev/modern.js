@@ -1,5 +1,4 @@
 import path from 'path';
-import { merge } from 'lodash';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
@@ -12,7 +11,6 @@ import {
 import {
   fs,
   i18n as utilsI18n,
-  getPackageManager,
   getAllPackages,
   validatePackagePath,
   validatePackageName,
@@ -55,29 +53,28 @@ const handleTemplateFile = async (
     }
   }
 
-  const { packageName, packagePath, language } = await appApi.getInputBySchema(
-    GeneratorSchema,
-    context.config,
-    {
-      packageName: input =>
-        validatePackageName(input as string, packages, {
-          isMonorepoSubProject,
-        }),
-      packagePath: input =>
-        validatePackagePath(
-          input as string,
-          path.join(process.cwd(), projectDir),
-          { isPublic },
-        ),
-    },
-    {
-      packageName: isMonorepoSubProject ? undefined : path.basename(outputPath),
-    },
-  );
-
-  const packageManager = getPackageManager();
-
-  merge(context.config, { packageManager });
+  const { packageName, packagePath, language, packageManager } =
+    await appApi.getInputBySchema(
+      GeneratorSchema,
+      context.config,
+      {
+        packageName: input =>
+          validatePackageName(input as string, packages, {
+            isMonorepoSubProject,
+          }),
+        packagePath: input =>
+          validatePackagePath(
+            input as string,
+            path.join(process.cwd(), projectDir),
+            { isPublic },
+          ),
+      },
+      {
+        packageName: isMonorepoSubProject
+          ? undefined
+          : path.basename(outputPath),
+      },
+    );
 
   await appApi.runSubGenerator(
     getGeneratorPath(
@@ -118,12 +115,14 @@ const handleTemplateFile = async (
   const updateInfo = {
     files: ['/templates', '/dist/js/node/main.js'],
     main: './dist/js/node/main.js',
-    'scripts.prepare': `${packageManager} build && ${packageManager} build:csmith`,
+    'scripts.prepare': `${packageManager as string} build && ${
+      packageManager as string
+    } build:csmith`,
     'scripts.bulid:csmith': 'csmith build',
-    'dependencies.@modern-js/codesmith-api-app': '^0.1.0',
-    'dependencies.@modern-js/codesmith': '^0.1.0',
-    'dependencies.@modern-js/generator-common': '^0.1.0',
-    'devDependencies.@modern-js/codesmith-tools': '^0.1.0',
+    'dependencies.@modern-js/codesmith-api-app': '^1.0.0-rc.0',
+    'dependencies.@modern-js/codesmith': '^1.0.0-rc.0',
+    'dependencies.@modern-js/generator-common': '^1.0.0-rc.0',
+    'devDependencies.@modern-js/codesmith-tools': '^1.0.0-rc.0',
   };
 
   const jsonAPI = new JsonAPI(generator);
