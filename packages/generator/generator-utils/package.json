@@ -30,7 +30,7 @@
     "ora": "^5.4.1"
   },
   "devDependencies": {
-    "@modern-js/codesmith": "^1.0.0-rc.10",
+    "@modern-js/codesmith": "^1.0.0-rc.14",
     "@types/jest": "^26",
     "@types/node": "^14",
     "typescript": "^4",
