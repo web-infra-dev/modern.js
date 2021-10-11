@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer';
 import type Webpack from 'webpack';
 import { serverManager } from '@modern-js/server-plugin';
 import type { NormalizedConfig } from '@modern-js/core';
@@ -50,7 +51,7 @@ export type ModernServerOptions = {
 };
 
 export type RenderResult = {
-  content: string;
+  content: string | Buffer;
   contentType: string;
   statusCode?: number;
 };
