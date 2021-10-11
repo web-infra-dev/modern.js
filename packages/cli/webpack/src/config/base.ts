@@ -235,7 +235,7 @@ class BaseWebpackConfig {
         .use('babel')
         .loader(require.resolve('babel-loader'))
         .options({
-          preset: [
+          presets: [
             [
               require.resolve('@modern-js/babel-preset-app'),
               {
