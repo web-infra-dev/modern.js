@@ -38,6 +38,7 @@
   "devDependencies": {
     "express": "^4.17.1",
     "@modern-js/server-utils": "workspace:^1.0.0-rc.2",
+    "@modern-js/bff-runtime": "workspace:^1.0.0-rc.2",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.13",
     "@types/finalhandler": "^1.1.1",
