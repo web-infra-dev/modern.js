@@ -57,5 +57,9 @@
   },
   "peerDependencies": {
     "koa": "^2.13.3"
+  },
+  "publicCnfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }

@@ -177,13 +177,13 @@ class ClientWebpackConfig extends BaseWebpackConfig {
 
     const configDir = path.resolve(
       this.appDirectory,
-      this.options.source.configDir,
+      this.options.source.configDir!,
     );
 
     this.chain.plugin('copy').use(CopyPlugin, [
       {
         patterns: [
-          ...(this.options.output.copy || []),
+          ...((this.options.output.copy as any) || []),
           {
             from: path.join(configDir, 'public/**/*'),
             to: 'public',
