@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/load-config",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -28,7 +28,7 @@
     "@babel/preset-typescript": "^7.14.5",
     "@babel/register": "^7.14.5",
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.0.0-rc.2"
+    "@modern-js/utils": "workspace:^1.0.0-rc.3"
   },
   "devDependencies": {
     "@types/jest": "^26",
@@ -36,8 +36,8 @@
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.0.0-rc.2",
-    "@modern-js/module-tools": "^1.0.0-rc.2"
+    "@modern-js/plugin-testing": "^1.0.0-rc.3",
+    "@modern-js/module-tools": "^1.0.0-rc.3"
   },
   "sideEffects": false,
   "modernConfig": {
