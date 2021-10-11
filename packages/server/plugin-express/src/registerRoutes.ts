@@ -21,6 +21,7 @@ const registerRoutes = (app: Express) => {
   debug('handlerInfos', handlerInfos);
 
   handlerInfos.forEach(({ path, handler, method, name }) => {
+    // eslint-disable-next-line max-statements
     const wrapedHandler: RequestHandler = async (
       req: Request,
       res: Response,
@@ -36,10 +37,10 @@ const registerRoutes = (app: Express) => {
           } else {
             res.status(500);
           }
-          return res.send(result.message);
+          return res.json(result.message);
         } else {
           res.status(200);
-          return res.send(result.value);
+          return res.json(result.value);
         }
       } else {
         const args = Object.values(input.params as any).concat(input);
@@ -49,7 +50,7 @@ const registerRoutes = (app: Express) => {
           // @ts-expect-error
           const body = await handler(...args);
           res.status(200);
-          return res.send(body);
+          return res.json(body);
         } catch (e) {
           next(e);
         }

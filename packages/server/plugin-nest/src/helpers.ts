@@ -64,19 +64,18 @@ export const getMiddleware =
         } else {
           response.status(500);
         }
-        response.send(result.message);
+        response.json(result.message);
       } else {
-        response.send(result.value);
+        response.json(result.value);
       }
     } else {
       const args = Object.values(input.params as any).concat(input);
-      response.send(
-        await run({ request: request as any, response }, () =>
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
-          handler(...args),
-        ),
+      const body = await run({ request: request as any, response }, () =>
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        handler(...args),
       );
+      response.json(body);
     }
 
     response.end();
