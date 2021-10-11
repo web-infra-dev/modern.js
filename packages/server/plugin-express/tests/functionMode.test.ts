@@ -31,6 +31,12 @@ describe('function-mode', () => {
     expect(res.body).toEqual({ message: 'hello' });
   });
 
+  test('should works with string result', async () => {
+    const res = await request(apiHandler).post('/hello');
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual('hello');
+  });
+
   test('should works with query', async () => {
     const res = await request(apiHandler).get(`/nest/user?id=${id}`);
     expect(res.status).toBe(200);
