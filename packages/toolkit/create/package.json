@@ -31,8 +31,8 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/codesmith": "^1.0.0-rc.10",
-    "@modern-js/codesmith-tools": "^1.0.0-rc.10",
+    "@modern-js/codesmith": "^1.0.0-rc.14",
+    "@modern-js/codesmith-tools": "^1.0.0-rc.14",
     "@modern-js/module-tools": "^1.0.0-rc.2",
     "@modern-js/plugin-testing": "^1.0.0-rc.2",
     "@modern-js/i18n-cli-language-detector": "workspace:^1.0.0-rc.2",
