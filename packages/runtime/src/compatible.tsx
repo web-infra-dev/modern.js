@@ -40,6 +40,8 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
       );
     };
 
+    Object.assign(WrapperComponent, App);
+
     const HOCApp = runner.hoc(
       { App: WrapperComponent },
       {
@@ -71,7 +73,7 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
             );
           };
 
-          return Object.assign(WrapComponent, App);
+          return Object.assign(WrapComponent, WrapperComponent);
         },
       },
     );
