@@ -1,4 +1,4 @@
-import { getPackageVersion, canUseNpm, canUsePnpm, canUseYarn } from '..';
+import { getPackageVersion, canUseNpm, canUsePnpm, canUseYarn } from '@/index';
 
 describe('test generator utils', () => {
   test('test getPackageVersion', async () => {

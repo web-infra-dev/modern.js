@@ -1,5 +1,5 @@
 {
-  "name": "@modern-js/generator-utils",
+  "name": "@modern-js/generator-cases",
   "version": "1.0.0-rc.2",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
@@ -24,23 +24,16 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/plugin-i18n": "workspace:^1.0.0-rc.2",
-    "@modern-js/utils": "workspace:^1.0.0-rc.2",
     "execa": "^5.1.1",
-    "ora": "^5.4.1"
+    "covertable": "^2.2.2",
+    "@modern-js/generator-common": "workspace: ^1.0.0-rc.2"
   },
   "devDependencies": {
-    "@modern-js/codesmith": "^1.0.0-rc.10",
     "@types/jest": "^26",
     "@types/node": "^14",
     "typescript": "^4",
     "@modern-js/module-tools": "^1.0.0-rc.2",
     "@modern-js/plugin-testing": "^1.0.0-rc.2"
   },
-  "sideEffects": false,
-  "modernConfig": {
-    "output": {
-      "packageMode": "node-js"
-    }
-  }
+  "sideEffects": false
 }
