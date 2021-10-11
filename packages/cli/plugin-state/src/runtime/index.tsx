@@ -7,7 +7,7 @@
 import statePlugin from './plugin';
 
 export * from '@modern-js-reduck/react';
-export { model } from '@modern-js-reduck/store';
+export { model, createStore } from '@modern-js-reduck/store';
 
 export * from './plugin';
 
