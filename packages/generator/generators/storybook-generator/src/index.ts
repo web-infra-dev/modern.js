@@ -27,7 +27,10 @@ const handleTemplateFile = async (
     'templates/**/*',
     resourceKey =>
       language === Language.TS ? true : resourceKey !== 'tsconfig.json',
-    resourceKey => resourceKey.replace('.handlebars', `.${language}x`),
+    resourceKey =>
+      resourceKey
+        .replace('templates/', '')
+        .replace('.handlebars', `.${language}x`),
   );
 
   await appApi.runSubGenerator(
