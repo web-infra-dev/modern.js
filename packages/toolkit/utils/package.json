@@ -67,7 +67,7 @@
     "typescript": "^4.4.3"
   },
   "sideEffects": false,
-  "publicCnfig": {
+  "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   }

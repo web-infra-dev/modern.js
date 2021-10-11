@@ -40,7 +40,7 @@
     "@modern-js/plugin-testing": "^1.0.0-rc.4",
     "@modern-js/module-tools": "^1.0.0-rc.4"
   },
-  "publicCnfig": {
+  "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   }
