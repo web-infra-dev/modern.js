@@ -1,6 +1,7 @@
 import * as path from 'path';
 import type { NormalizedConfig } from '@modern-js/core';
 import { fs, Import } from '@modern-js/utils';
+import { STORYBOOK_TEMPLATE_DIR } from '../constants';
 
 const template: typeof import('lodash.template') = Import.lazy(
   'lodash.template',
@@ -16,7 +17,7 @@ export type MainOptions = {
   isTsProject: boolean;
 };
 
-const MAIN_TEMPLATE = path.resolve(__dirname, '../../../../template/main.tmpl');
+const MAIN_TEMPLATE = path.join(STORYBOOK_TEMPLATE_DIR, 'main.tmpl');
 
 export const generateMain = (options: MainOptions) => {
   const mainTemplate = fs.readFileSync(MAIN_TEMPLATE, 'utf-8');
@@ -36,10 +37,7 @@ export type PreviewOptions = {
   designToken: Record<string, any>;
 };
 
-const PREVIEW_TEMPLATE = path.resolve(
-  __dirname,
-  '../../../../template/preview.tmpl',
-);
+const PREVIEW_TEMPLATE = path.join(STORYBOOK_TEMPLATE_DIR, 'preview.tmpl');
 
 export const generatePreview = (options: PreviewOptions) => {
   const previewTemplate = fs.readFileSync(PREVIEW_TEMPLATE, 'utf-8');
