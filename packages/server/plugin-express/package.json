@@ -61,7 +61,7 @@
     "@modern-js/bff-runtime": "workspace:^1.0.0-rc.4",
     "express": "^4.17.1"
   },
-  "publicCnfig": {
+  "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   }

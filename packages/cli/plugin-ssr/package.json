@@ -69,7 +69,7 @@
     "@types/loadable__component": "^5.13.4"
   },
   "sideEffects": false,
-  "publicCnfig": {
+  "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   }

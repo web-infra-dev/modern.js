@@ -71,7 +71,7 @@
     "react": "^17.0.2"
   },
   "modernConfig": {},
-  "publicCnfig": {
+  "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   }
