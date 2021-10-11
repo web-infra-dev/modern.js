@@ -56,6 +56,7 @@
     }
   },
   "peerDependencies": {
+    "@modern-js/bff-runtime": "workspace:^1.0.0-rc.2",
     "koa": "^2.13.3"
   }
 }
