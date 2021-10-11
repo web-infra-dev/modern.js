@@ -35,9 +35,7 @@ const handleTemplateFile = async (
     'scripts.dev:main': 'modern dev electron-main',
     'scripts.build:main': 'modern build electron-main',
     'scripts.build:app': 'modern build electron-app',
-    'dependencies.@modern-js/electron-bridge': '0.0.1-alpha.191',
-    'dependencies.@modern-js/electron-runtime': '0.0.1-alpha.191',
-    'devDependencies.@modern-js/plugin-electron': '0.0.1-alpha.191',
+    'devDependencies.@modern-js/plugin-electron': '^1.0.0-rc.1',
   };
 
   const jsonAPI = new JsonAPI(generator);
