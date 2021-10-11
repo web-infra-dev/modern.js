@@ -55,6 +55,7 @@
     }
   },
   "peerDependencies": {
+    "@modern-js/bff-runtime": "workspace:^1.0.0-rc.2",
     "egg": "^2.29.4"
   },
   "publicCnfig": {
