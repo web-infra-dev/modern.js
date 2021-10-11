@@ -1,6 +1,10 @@
 {
   "name": "@modern-js/tsconfig",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.4",
   "description": "tsconifg",
-  "main": "./base.json"
+  "main": "./base.json",
+  "publicCnfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
 }

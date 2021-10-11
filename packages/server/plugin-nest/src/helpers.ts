@@ -70,13 +70,12 @@ export const getMiddleware =
       }
     } else {
       const args = Object.values(input.params as any).concat(input);
-      response.json(
-        await run({ request: request as any, response }, () =>
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
-          handler(...args),
-        ),
+      const body = await run({ request: request as any, response }, () =>
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        handler(...args),
       );
+      response.json(body);
     }
 
     response.end();

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-esbuild",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.4",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -28,9 +28,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/core": "workspace:^1.0.0-rc.2",
-    "@modern-js/plugin": "workspace:^1.0.0-rc.2",
-    "@modern-js/utils": "workspace:^1.0.0-rc.2",
+    "@modern-js/core": "workspace:^1.0.0-rc.4",
+    "@modern-js/plugin": "workspace:^1.0.0-rc.4",
+    "@modern-js/utils": "workspace:^1.0.0-rc.4",
     "esbuild": "^0.12.22",
     "webpack": "^5.54.0",
     "webpack-chain": "^6.5.1"
@@ -39,13 +39,17 @@
     "@types/jest": "^26",
     "@types/node": "^14",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.0.0-rc.2",
-    "@modern-js/module-tools": "^1.0.0-rc.2"
+    "@modern-js/plugin-testing": "^1.0.0-rc.4",
+    "@modern-js/module-tools": "^1.0.0-rc.4"
   },
   "sideEffects": false,
   "modernConfig": {
     "output": {
       "packageMode": "node-js"
     }
+  },
+  "publicCnfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }

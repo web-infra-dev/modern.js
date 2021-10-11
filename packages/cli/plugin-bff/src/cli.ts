@@ -129,10 +129,12 @@ export default createPlugin(
         babelConfig,
       );
 
-      await fs.copy(rootDir, distDir, {
-        filter: src =>
-          !['.ts', '.js'].includes(path.extname(src)) && src !== tsconfigPath,
-      });
+      if (await fs.pathExists(rootDir)) {
+        await fs.copy(rootDir, distDir, {
+          filter: src =>
+            !['.ts', '.js'].includes(path.extname(src)) && src !== tsconfigPath,
+        });
+      }
 
       if (result.code === 1) {
         throw new Error(result.message);

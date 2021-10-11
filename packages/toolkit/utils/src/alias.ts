@@ -53,7 +53,6 @@ export const getAlias = (
   aliasOption: AliasOption | Array<AliasOption>,
   option: { appDirectory: string; tsconfigPath: string },
 ) => {
-  const tsconfig = readTsConfigByFile(option.tsconfigPath);
   const isTsProject = fs.existsSync(option.tsconfigPath);
   let aliasConfig: IAliasConfig;
   if (!isTsProject) {
@@ -64,6 +63,7 @@ export const getAlias = (
       isTsProject,
     };
   } else {
+    const tsconfig = readTsConfigByFile(option.tsconfigPath);
     const baseUrl = tsconfig?.compilerOptions?.baseUrl;
     aliasConfig = {
       absoluteBaseUrl: baseUrl

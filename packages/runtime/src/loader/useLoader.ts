@@ -66,10 +66,25 @@ const useLoader = <TData = any, Params = any, E = any>(
         return loaderRef.current?.load();
       }
 
-      const id = loaderManager.add(() => loaderFn(context, params), {
-        ...options,
-        params,
-      });
+      const id = loaderManager.add(
+        () => {
+          try {
+            const res = loaderFn(context, params);
+
+            if (res instanceof Promise) {
+              return res;
+            }
+
+            return Promise.resolve(res);
+          } catch (e) {
+            return Promise.reject(e instanceof Error ? e.message : e);
+          }
+        },
+        {
+          ...options,
+          params,
+        },
+      );
 
       loaderRef.current = loaderManager.get(id)!;
 

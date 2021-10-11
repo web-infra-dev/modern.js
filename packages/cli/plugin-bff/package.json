@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-bff",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.4",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -41,22 +41,22 @@
   "dependencies": {
     "@babel/core": "^7.15.5",
     "@babel/runtime": "^7",
-    "@modern-js/babel-chain": "workspace:^1.0.0-rc.2",
-    "@modern-js/babel-compiler": "workspace:^1.0.0-rc.2",
-    "@modern-js/babel-preset-lib": "workspace:^1.0.0-rc.2",
-    "@modern-js/bff-utils": "workspace:^1.0.0-rc.2",
-    "@modern-js/core": "workspace:^1.0.0-rc.2",
-    "@modern-js/server-plugin": "workspace:^1.0.0-rc.2",
-    "@modern-js/server-utils": "workspace:^1.0.0-rc.2",
-    "@modern-js/utils": "workspace:^1.0.0-rc.2",
+    "@modern-js/babel-chain": "workspace:^1.0.0-rc.4",
+    "@modern-js/babel-compiler": "workspace:^1.0.0-rc.4",
+    "@modern-js/babel-preset-lib": "workspace:^1.0.0-rc.4",
+    "@modern-js/core": "workspace:^1.0.0-rc.4",
+    "@modern-js/server-plugin": "workspace:^1.0.0-rc.4",
+    "@modern-js/server-utils": "workspace:^1.0.0-rc.4",
+    "@modern-js/utils": "workspace:^1.0.0-rc.4",
     "loader-utils": "^2.0.0"
   },
   "devDependencies": {
-    "@modern-js/plugin-testing": "^1.0.0-rc.2",
-    "@modern-js/plugin-analyze": "workspace:^1.0.0-rc.2",
-    "@modern-js/create-request": "workspace:^1.0.0-rc.2",
-    "@modern-js/runtime": "workspace:^1.0.0-rc.2",
-    "@modern-js/types": "workspace:^1.0.0-rc.2",
+    "@modern-js/plugin-testing": "^1.0.0-rc.4",
+    "@modern-js/plugin-analyze": "workspace:^1.0.0-rc.4",
+    "@modern-js/bff-utils": "workspace:^1.0.0-rc.4",
+    "@modern-js/create-request": "workspace:^1.0.0-rc.4",
+    "@modern-js/runtime": "workspace:^1.0.0-rc.4",
+    "@modern-js/types": "workspace:^1.0.0-rc.4",
     "@types/babel__core": "^7.1.15",
     "@types/jest": "^26",
     "@types/loader-utils": "^2.0.3",
@@ -66,12 +66,19 @@
     "typescript": "^4",
     "webpack": "^5.54.0",
     "webpack-chain": "^6.5.1",
-    "@modern-js/module-tools": "^1.0.0-rc.2"
+    "@modern-js/module-tools": "^1.0.0-rc.4"
+  },
+  "peerDependencies": {
+    "@modern-js/bff-utils": "workspace:^1.0.0-rc.4"
   },
   "modernConfig": {
     "output": {
       "packageMode": "node-js"
     }
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "publicCnfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
 }

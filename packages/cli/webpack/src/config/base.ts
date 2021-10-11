@@ -235,17 +235,20 @@ class BaseWebpackConfig {
         .use('babel')
         .loader(require.resolve('babel-loader'))
         .options({
-          preset: [
+          presets: [
             [
               require.resolve('@modern-js/babel-preset-app'),
               {
                 appDirectory: this.appDirectory,
                 target: 'client',
                 useTsLoader: true,
-                useBuiltIns: this.options.output.polyfill === 'ua' ? false : this.options.output.polyfill,
+                useBuiltIns:
+                  this.options.output.polyfill === 'ua'
+                    ? false
+                    : this.options.output.polyfill,
               },
-            ]
-          ]
+            ],
+          ],
         })
         .end()
         .use('ts')
@@ -424,7 +427,8 @@ class BaseWebpackConfig {
       .add(CSS_MODULE_REGEX)
       .add(/\.(html?|json|wasm|ya?ml|toml|md)$/)
       .end()
-      .use('file').loader(require.resolve('file-loader'));
+      .use('file')
+      .loader(require.resolve('file-loader'));
 
     return loaders;
   }
@@ -512,13 +516,23 @@ class BaseWebpackConfig {
       // local node_modules
       .add(path.resolve(__dirname, '../../../../node_modules'));
 
+    let defaultScopes: any[] = ['./src', /node_modules/, './shared'];
+
+    const scopeOptions = this.options.source?.moduleScopes;
+
+    if (Array.isArray(scopeOptions)) {
+      defaultScopes.push(...scopeOptions);
+    } else if (typeof scopeOptions === 'function') {
+      const ret = scopeOptions(defaultScopes);
+      if (ret) {
+        defaultScopes = ret;
+      }
+    }
+
     // resolve plugin(module scope)
     this.chain.resolve.plugin('module-scope').use(ModuleScopePlugin, [
       {
-        appSrc: applyOptionsChain(
-          ['./src', /node_modules/, './shared'],
-          this.options.source?.moduleScopes as any,
-        ).map((scope: string | RegExp) => {
+        appSrc: defaultScopes.map((scope: string | RegExp) => {
           if (isString(scope)) {
             return ensureAbsolutePath(this.appDirectory, scope);
           }

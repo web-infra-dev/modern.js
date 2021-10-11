@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/style-compiler",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.4",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.0.0-rc.2",
+    "@modern-js/utils": "workspace:^1.0.0-rc.4",
     "chokidar": "^3.5.2",
     "glob": "^7.1.6",
     "less": "^4.1.1",
@@ -47,12 +47,16 @@
     "@types/sass": "^1.16.1",
     "@types/tailwindcss": "^2.2.1",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.0.0-rc.2",
-    "@modern-js/module-tools": "^1.0.0-rc.2"
+    "@modern-js/plugin-testing": "^1.0.0-rc.4",
+    "@modern-js/module-tools": "^1.0.0-rc.4"
   },
   "modernConfig": {
     "output": {
       "packageMode": "node-js"
     }
+  },
+  "publicCnfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }

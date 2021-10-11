@@ -92,7 +92,7 @@ const collectHtmlRoutes = (
   config: NormalizedConfig,
 ): ServerRoute[] => {
   const {
-    output: { htmlPath, disableHtmlFolder },
+    output: { htmlPath, disableHtmlFolder, enableModernMode },
     server: { baseUrl, routes, ssr, ssrByEntries },
   } = config;
 
@@ -112,6 +112,7 @@ const collectHtmlRoutes = (
         ),
         isSPA: true,
         isSSR,
+        enableModernMode: Boolean(enableModernMode),
         bundle: isSSR
           ? `${SERVER_BUNDLE_DIRECTORY}/${entryName}.js`
           : undefined,

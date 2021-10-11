@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-polyfill",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.4",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -32,15 +32,15 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/core": "workspace:^1.0.0-rc.2",
+    "@modern-js/core": "workspace:^1.0.0-rc.4",
     "@modern-js/polyfill-lib": "^1.0.0-rc.0",
-    "@modern-js/server-plugin": "workspace:^1.0.0-rc.2",
+    "@modern-js/server-plugin": "workspace:^1.0.0-rc.4",
     "lru-cache": "^6.0.0",
     "mime-types": "^2.1.32",
     "ua-parser-js": "^0.7.28"
   },
   "devDependencies": {
-    "@modern-js/types": "workspace:^1.0.0-rc.2",
+    "@modern-js/types": "workspace:^1.0.0-rc.4",
     "@types/jest": "^26",
     "@types/lru-cache": "^5.1.1",
     "@types/mime-types": "^2.1.1",
@@ -49,13 +49,17 @@
     "@types/react-dom": "^17",
     "@types/ua-parser-js": "^0.7.36",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.0.0-rc.2",
-    "@modern-js/module-tools": "^1.0.0-rc.2"
+    "@modern-js/plugin-testing": "^1.0.0-rc.4",
+    "@modern-js/module-tools": "^1.0.0-rc.4"
   },
   "sideEffects": false,
   "modernConfig": {
     "output": {
       "packageMode": "node-js"
     }
+  },
+  "publicCnfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }

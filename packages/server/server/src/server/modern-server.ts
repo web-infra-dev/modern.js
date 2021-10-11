@@ -112,6 +112,7 @@ export class ModernServer {
     if (staticGenerate) {
       this.staticGenerate = staticGenerate;
     }
+    process.env.BUILD_TYPE = `${this.staticGenerate || false}`;
   }
 
   // exposed requestHandler
@@ -356,16 +357,19 @@ export class ModernServer {
       return;
     }
 
-    const templateAPI = createTemplateAPI(file.content);
-    await this.runner.afterRender(
-      { context, templateAPI },
-      { onLast: noop as any },
-    );
-
-    await this.injectMicroFE(context, templateAPI);
+    let response = file.content;
+    if (route.entryName) {
+      const templateAPI = createTemplateAPI(file.content.toString());
+      await this.runner.afterRender(
+        { context, templateAPI },
+        { onLast: noop as any },
+      );
+      await this.injectMicroFE(context, templateAPI);
+      response = templateAPI.get();
+    }
 
     context.res.setHeader('content-type', file.contentType);
-    context.res.end(templateAPI.get());
+    context.res.end(response);
   }
 
   // eslint-disable-next-line max-statements

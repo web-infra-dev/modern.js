@@ -28,6 +28,7 @@ export interface ServerRoute {
   isSSR: boolean;
   isApi?: boolean;
   bundle?: string;
+  enableModernMode?: boolean;
 }
 
 /**
