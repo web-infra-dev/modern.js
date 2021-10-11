@@ -37,38 +37,23 @@ const getTailwindConfig = (
   config: NormalizedConfig,
   option: { pureConfig?: Record<string, any> } = {},
 ) => {
-  const appliedTailwindConfig = applyOptionsChain(
-    {},
-    (config.tools as any).tailwindcss || {},
-  );
-  let tailwindConfig = cloneDeep(appliedTailwindConfig);
   const purgeConfig = merge(
     {
       // TODO: how the operating environment is determined
       enabled: process.env.NODE_ENV === 'production',
       // TODO: Remove or not
       layers: ['utilities'],
-      content: [
-        './config/html/**/*.html',
-        './config/html/**/*.ejs',
-        './config/html/**/*.hbs',
-        './src/**/*.js',
-        './src/**/*.jsx',
-        './src/**/*.ts',
-        './src/**/*.tsx',
-        // about storybook
-        './storybook/**/*',
-        './styles/**/*.less',
-        './styles/**/*.css',
-        './styles/**/*.sass',
-        './styles/**/*.scss',
-      ],
+      content: [],
     },
     option.pureConfig || {},
   );
   const defaultTailwindConfig = {
     purge: purgeConfig,
   };
+  const tailwindConfig = applyOptionsChain(
+    defaultTailwindConfig,
+    (config.tools as any).tailwind || {},
+  );
 
   const designSystem = getPureDesignSystemConfig(
     (config.source as any).designSystem || {},
@@ -83,8 +68,6 @@ const getTailwindConfig = (
     // eslint-disable-next-line no-process-exit
     process.exit(0);
   }
-
-  tailwindConfig = merge(defaultTailwindConfig, tailwindConfig);
 
   // Because there is no default theme configuration
   tailwindConfig.theme = designSystem || {};

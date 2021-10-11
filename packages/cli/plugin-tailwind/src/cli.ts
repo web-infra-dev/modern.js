@@ -14,10 +14,29 @@ export default core.createPlugin(
     config() {
       return {
         tools: {
-          // TODO: add interface about postcss config
+          // TODO: Add interface about postcss config
+          // TODO: In module project, also is called, but should not be called.
           postcss: (config: Record<string, any>) => {
             const { value: modernConfig } = core.useResolvedConfigContext();
-            const tailwindConfig = getTailwindConfig(modernConfig, {});
+            const tailwindConfig = getTailwindConfig(modernConfig, {
+              pureConfig: {
+                content: [
+                  './config/html/**/*.html',
+                  './config/html/**/*.ejs',
+                  './config/html/**/*.hbs',
+                  './src/**/*.js',
+                  './src/**/*.jsx',
+                  './src/**/*.ts',
+                  './src/**/*.tsx',
+                  // about storybook
+                  './storybook/**/*',
+                  './styles/**/*.less',
+                  './styles/**/*.css',
+                  './styles/**/*.sass',
+                  './styles/**/*.scss',
+                ],
+              },
+            });
             if (Array.isArray(config.postcssOptions.plugins)) {
               config.postcssOptions.plugins.push(
                 require('tailwindcss')(tailwindConfig),
