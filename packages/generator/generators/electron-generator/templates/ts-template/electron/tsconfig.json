@@ -1,34 +1,11 @@
 {
+  "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
     "declaration": true,
     "baseUrl": ".",
     "rootDir": "..",
     "outDir": "../dist/electron",
-    "module": "CommonJS",
-    "esModuleInterop": true,
-    "preserveConstEnums": true,
-    "sourceMap": false,
-    "resolveJsonModule": true,
-    "moduleResolution": "node",
-    "strictNullChecks": true,
-    "importHelpers": true,
-    "allowSyntheticDefaultImports": true,
-    "noImplicitAny": false,
-    "allowJs": true,
-    "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "strictBindCallApply": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "target": "es2017",
-    "types": [],
-    "lib": ["dom", "ES2019.Symbol", "ES2020.Symbol.WellKnown", "es2017.object"]
+    "module": "CommonJS"
   },
-  "include": ["."],
-  "exclude": ["tests"]
+  "include": ["."]
 }

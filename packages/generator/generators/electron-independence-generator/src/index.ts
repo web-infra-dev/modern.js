@@ -35,8 +35,8 @@ const handleTemplateFile = async (
     'scripts.dev:main': 'electron-sprout dev',
     'scripts.build:main': 'electron-sprout build',
     'scripts.build:app': 'electron-sprout pack',
-    'dependencies.@modern-js/electron-bridge': '^1',
-    'dependencies.@modern-js/electron-runtime': '^1',
+    'dependencies.@modern-js/electron-bridge': '^1.0.0-rc.1',
+    'dependencies.@modern-js/electron-runtime': '^1.0.0-rc.1',
   };
 
   const jsonAPI = new JsonAPI(generator);
