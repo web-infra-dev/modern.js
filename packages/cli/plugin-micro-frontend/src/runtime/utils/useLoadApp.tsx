@@ -1,4 +1,4 @@
-import { useRouteMatch } from '@modern-js/runtime/router';
+import { useRouteMatch } from '@modern-js/plugin-router';
 
 import garfish from 'garfish';
 import { ModuleInfo } from '../typings';

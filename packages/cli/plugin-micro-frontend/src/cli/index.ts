@@ -24,6 +24,9 @@ export default createPlugin(
     let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils> =
       {} as any;
 
+    let runtimeExportsUtils: ReturnType<typeof createRuntimeExportsUtils> =
+      {} as any;
+
     return {
       config() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -32,6 +35,11 @@ export default createPlugin(
         pluginsExportsUtils = createRuntimeExportsUtils(
           config.internalDirectory,
           'plugins',
+        );
+
+        runtimeExportsUtils = createRuntimeExportsUtils(
+          config.internalDirectory,
+          'index',
         );
 
         return {
@@ -67,13 +75,6 @@ export default createPlugin(
           entrypoint.entryName,
           config?.runtime?.masterApp,
           config.runtimeByEntries,
-        );
-
-        pluginsExportsUtils.addExport(
-          `export { default as microFrontend } from '${path.resolve(
-            __dirname,
-            '../../../../',
-          )}'`,
         );
 
         configMap.set(entrypoint.entryName, masterAppConfig);
@@ -136,6 +137,14 @@ export default createPlugin(
             ? makeProvider(mConfig.enableHtmlEntry)
             : exportStatement,
         };
+      },
+      addRuntimeExports() {
+        const mfPackage = path.resolve(__dirname, '../../../../');
+        pluginsExportsUtils.addExport(
+          `export { default as microFrontend } from '${mfPackage}'`,
+        );
+
+        runtimeExportsUtils.addExport(`export * from '${mfPackage}'`);
       },
     };
   }) as any,

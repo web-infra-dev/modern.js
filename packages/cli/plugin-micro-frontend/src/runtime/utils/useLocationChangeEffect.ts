@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useHistory } from '@modern-js/runtime/router';
+import { useHistory } from '@modern-js/plugin-router';
 
 let locationHref = '';
 
