@@ -42,7 +42,7 @@ const state = (config: PluginProps) =>
           },
         });
       },
-      init({ context }) {
+      init({ context }, next) {
         const storeConfig = config || {};
 
         if (typeof window !== 'undefined') {
@@ -53,6 +53,8 @@ const state = (config: PluginProps) =>
         }
 
         context.store = createStore(storeConfig);
+
+        next({ context });
       },
       pickContext({ context, pickedContext }, next) {
         return next({
