@@ -92,6 +92,8 @@ export const loadConfig = <T>(
       ignore: [/node_modules/, /api/, /server/],
       extensions: CONFIG_FILE_EXTENSIONS,
       cache: false,
+      // Preventing warning when files are too large
+      compact: false,
     });
 
     delete require.cache[configFile];
