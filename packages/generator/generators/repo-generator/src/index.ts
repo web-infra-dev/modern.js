@@ -23,7 +23,7 @@ const mergeDefaultConfig = (context: GeneratorContext) => {
   const { solution } = context.config;
 
   if (solution) {
-    merge(context.config, SolutionDefualtConfig[solution as Solution]);
+    merge(SolutionDefualtConfig[solution as Solution], context.config);
   }
 };
 
