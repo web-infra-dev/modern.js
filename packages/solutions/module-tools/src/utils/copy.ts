@@ -17,8 +17,9 @@ export const copyTask = async (option: {
   const { modernConfig, appContext } = option;
   const { appDirectory } = appContext;
   const {
-    output: { copy, path: outputPath = 'dist' },
+    output: { copy, path: outputPath = 'dist', jsPath = 'js' },
   } = modernConfig;
+  const copyDistDir = path.join(outputPath, jsPath);
 
   if (!copy) {
     return;
@@ -60,7 +61,7 @@ export const copyTask = async (option: {
         const relativeFrom = path.relative(context, item);
         // 如果 to 是目录，通过相对路径计算完整的产物路径；如果 to 是文件，直接作为最终产物路径
         const fileName = isToDirectory ? path.join(to, relativeFrom) : to;
-        const finalToPath = path.resolve(outputPath, fileName);
+        const finalToPath = path.resolve(copyDistDir, fileName);
         fs.copySync(item, finalToPath);
       });
     }
