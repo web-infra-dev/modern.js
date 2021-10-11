@@ -73,6 +73,10 @@ export const resolveBabelConfig = (
       syntax: option.syntax,
     },
   );
+
+  // Preventing warning when files are too large
+  internalBabelConfig.compact = false;
+
   const babelChain = getModuleBabelChain(
     {
       appDirectory,
