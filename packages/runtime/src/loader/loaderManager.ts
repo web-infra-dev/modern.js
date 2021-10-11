@@ -63,7 +63,7 @@ const createLoader = (
     status = LoaderStatus.loading;
     notify();
 
-    promise = new Promise((resolve, reject) => {
+    promise = new Promise(resolve => {
       loaderFn()
         // eslint-disable-next-line promise/prefer-await-to-then
         .then(value => {
@@ -79,7 +79,7 @@ const createLoader = (
           data = null;
           status = LoaderStatus.rejected;
           notify();
-          reject(e);
+          resolve(e);
         })
         // eslint-disable-next-line promise/prefer-await-to-then
         .finally(() => {
