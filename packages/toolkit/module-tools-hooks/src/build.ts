@@ -18,12 +18,12 @@ export const platformBuild = createParallelWorkflow<
 
 export const moduleLessConfig = createAsyncPipeline<
   { modernConfig: NormalizedConfig },
-  LessOption
+  LessOption | undefined
 >();
 
 export const moduleSassConfig = createAsyncPipeline<
   { modernConfig: NormalizedConfig },
-  SassOptions | null
+  SassOptions | undefined
 >();
 
 export const moduleTailwindConfig = createAsyncPipeline<

@@ -87,6 +87,7 @@ export const INTERNAL_PLUGINS: {
     cli: '@modern-js/plugin-micro-frontend/cli',
   },
   '@modern-js/plugin-jarvis': { cli: '@modern-js/plugin-jarvis/cli' },
+  '@modern-js/plugin-tailwind': { cli: '@modern-js/plugin-tailwind/cli' },
 };
 
 /**
@@ -139,6 +140,16 @@ export const PLUGIN_SCHEMAS = {
     {
       target: 'tools.sass',
       schema: { typeof: ['object', 'function'] },
+    },
+  ],
+  '@modern-js/plugin-tailwind': [
+    {
+      target: 'tools.tailwind',
+      schema: { typeof: ['object', 'function'] },
+    },
+    {
+      target: 'source.designSystem',
+      schema: { typeof: ['object'] },
     },
   ],
   '@modern-js/plugin-proxy': [
