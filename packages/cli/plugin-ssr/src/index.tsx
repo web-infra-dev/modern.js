@@ -4,7 +4,7 @@ import { createPlugin } from '@modern-js/runtime-core';
 import { loadableReady } from '@loadable/component';
 import { RenderLevel, SSRServerContext } from './serverRender/type';
 
-declare module '@modern-js/runtime' {
+declare module '@modern-js/runtime-core' {
   interface RuntimeContext {
     ssrContext?: any;
   }
