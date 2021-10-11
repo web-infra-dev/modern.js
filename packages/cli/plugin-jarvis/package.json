@@ -69,5 +69,9 @@
     "@modern-js/core": "workspace:^1.0.0-rc.2"
   },
   "modernConfig": {},
-  "sideEffects": false
+  "sideEffects": false,
+  "publicCnfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
 }

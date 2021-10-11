@@ -44,5 +44,9 @@
   "peerDependencies": {
     "@modern-js/runtime-core": "workspace:^1.0.0-rc.2"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "publicCnfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
 }

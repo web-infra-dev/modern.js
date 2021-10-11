@@ -516,7 +516,7 @@ class BaseWebpackConfig {
       // local node_modules
       .add(path.resolve(__dirname, '../../../../node_modules'));
 
-    let defaultScopes = ['./src', /node_modules/, './shared'];
+    let defaultScopes: any[] = ['./src', /node_modules/, './shared'];
 
     const scopeOptions = this.options.source?.moduleScopes;
 
