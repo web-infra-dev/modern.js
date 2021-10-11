@@ -20,10 +20,7 @@ const loadTemplate = async (file: string, customPath = false) => {
   if (customPath) {
     result = await fs.readFile(file, 'utf-8');
   } else {
-    result = await fs.readFile(
-      path.resolve(__dirname, '../../..', 'static', file),
-      'utf-8',
-    );
+    result = await fs.readFile(path.join(UTILS_STATIC, file), 'utf-8');
   }
 
   return template(result, { interpolate: /<%=([\s\S]+?)%>/g });
