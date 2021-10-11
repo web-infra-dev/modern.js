@@ -11,6 +11,7 @@
     "build:client": "mkdir -p ./dist/client && cp  ./src/client/*.js ./dist/client/",
     "dev": "rm -rf dist && npm run dev:client && tsc -w ",
     "build": "rm -rf dist &&  npm run build:client && tsc",
+    "prepare": "pnpm build",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
