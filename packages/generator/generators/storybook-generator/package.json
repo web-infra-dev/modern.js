@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/storybook-generator",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0-rc.4",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/main.js",
@@ -32,16 +32,16 @@
     "@modern-js/codesmith": "^1.0.0-rc.14",
     "@modern-js/codesmith-api-app": "^1.0.0-rc.14",
     "@modern-js/codesmith-tools": "^1.0.0-rc.14",
-    "@modern-js/generator-common": "workspace:^1.0.0-rc.4",
-    "@modern-js/generator-utils": "workspace:^1.0.0-rc.3",
-    "@modern-js/dependence-generator": "workspace:^1.0.0-rc.3",
+    "@modern-js/generator-common": "workspace:^1.0.0-rc.5",
+    "@modern-js/generator-utils": "workspace:^1.0.0-rc.4",
+    "@modern-js/dependence-generator": "workspace:^1.0.0-rc.4",
     "@modern-js/codesmith-api-json": "^1.0.0-rc.14",
     "@types/jest": "^26",
     "@types/lodash": "^4.14.168",
     "@types/node": "^14",
     "typescript": "^4",
-    "@modern-js/module-tools": "^1.0.0-rc.3",
-    "@modern-js/plugin-testing": "^1.0.0-rc.3"
+    "@modern-js/module-tools": "^1.0.0-rc.4",
+    "@modern-js/plugin-testing": "^1.0.0-rc.4"
   },
   "sideEffects": false,
   "modernConfig": {
