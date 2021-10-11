@@ -78,7 +78,7 @@ export class RouteMatcher {
   // compiler urlPath to regexp if necessary
   private setupUrlPath() {
     const { urlPath } = this.spec;
-    this.urlPath = urlPath === '/' ? urlPath : removeTailSlash('/');
+    this.urlPath = urlPath === '/' ? urlPath : removeTailSlash(urlPath);
 
     const useReg = regCharsDetector.test(urlPath);
     if (useReg) {
