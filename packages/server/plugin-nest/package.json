@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "@modern-js/runtime": "workspace:^1.0.0-rc.2",
+    "@modern-js/bff-runtime": "workspace:^1.0.0-rc.2",
     "@modern-js/server-utils": "workspace:^1.0.0-rc.2",
     "@types/babel__traverse": "^7.14.2",
     "@types/body-parser": "^1.19.1",
