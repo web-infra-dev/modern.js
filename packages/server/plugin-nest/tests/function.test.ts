@@ -30,6 +30,13 @@ describe('function-mode', () => {
   it('should works', async () => {
     const res = await request(apiHandler).get('/hello');
     expect(res.status).toBe(200);
+    expect(res.body).toStrictEqual({ name: 'kjc' });
+  });
+
+  it('should works with string result', async () => {
+    const res = await request(apiHandler).post('/hello');
+    expect(res.status).toBe(200);
+    expect(res.body).toBe('kjc');
   });
 
   it('should works with body', async () => {
