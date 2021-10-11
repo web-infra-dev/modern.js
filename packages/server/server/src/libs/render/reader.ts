@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer';
 import { fs } from '@modern-js/utils';
 import LRU from 'lru-cache';
 
@@ -6,14 +7,14 @@ const KB = 1024 * Byte;
 const MB = 1024 * KB;
 
 type FileCache = {
-  content: string;
+  content: Buffer;
   mtime: Date;
 };
 
 const getContentLength = (cache: FileCache) => cache.content.length;
 
 const createCacheItem = async (filepath: string, mtime: Date) => {
-  const content = await fs.readFile(filepath, 'utf-8');
+  const content = await fs.readFile(filepath);
 
   return {
     content,

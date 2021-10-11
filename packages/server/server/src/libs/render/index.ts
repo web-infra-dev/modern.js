@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import mime from 'mime-types';
 import { RenderResult } from '../../type';
 import { ModernRoute } from '../route';
 import { ModernServerContext } from '../context';
@@ -63,6 +64,6 @@ export const createRenderHandler = ({
 
     return {
       content,
-      contentType: 'text/html',
+      contentType: mime.contentType(path.extname(templateHTML)) as string,
     };
   };

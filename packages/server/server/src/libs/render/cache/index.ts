@@ -68,7 +68,7 @@ export default (renderFn: RenderFunction, ctx: ModernServerContext) => {
     }
 
     ctx.res.setHeader('x-modern-spr', '1');
-    return cacheFile.content;
+    return cacheFile.content as string;
   };
 
   return doRender;
