@@ -104,7 +104,7 @@
   "peerDependencies": {
     "typescript": "^4.4.3"
   },
-  "publicCnfig": {
+  "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   }

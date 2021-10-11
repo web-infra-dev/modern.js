@@ -51,7 +51,7 @@
       "disableSourceMap": true
     }
   },
-  "publicCnfig": {
+  "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   }

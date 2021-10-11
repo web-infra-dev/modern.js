@@ -77,7 +77,7 @@
     }
   },
   "sideEffects": false,
-  "publicCnfig": {
+  "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   }

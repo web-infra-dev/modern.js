@@ -35,7 +35,7 @@
     "eslint-index": "^1.5.0"
   },
   "keywords": [],
-  "publicCnfig": {
+  "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   }
