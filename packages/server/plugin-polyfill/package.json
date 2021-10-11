@@ -57,5 +57,9 @@
     "output": {
       "packageMode": "node-js"
     }
+  },
+  "publicCnfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }

@@ -70,5 +70,9 @@
     "@modern-js/runtime-core": "workspace:^1.0.0-rc.2",
     "react": "^17.0.2"
   },
-  "modernConfig": {}
+  "modernConfig": {},
+  "publicCnfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
 }

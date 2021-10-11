@@ -56,5 +56,9 @@
   },
   "peerDependencies": {
     "egg": "^2.29.4"
+  },
+  "publicCnfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }

@@ -45,5 +45,9 @@
       "packageMode": "node-js",
       "disableSourceMap": true
     }
+  },
+  "publicCnfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }
