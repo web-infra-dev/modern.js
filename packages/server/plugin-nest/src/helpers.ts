@@ -64,13 +64,13 @@ export const getMiddleware =
         } else {
           response.status(500);
         }
-        response.json(result.message);
+        response.send(result.message);
       } else {
-        response.json(result.value);
+        response.send(result.value);
       }
     } else {
       const args = Object.values(input.params as any).concat(input);
-      response.json(
+      response.send(
         await run({ request: request as any, response }, () =>
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
