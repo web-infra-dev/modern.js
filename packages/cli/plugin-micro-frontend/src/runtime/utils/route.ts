@@ -1,4 +1,4 @@
-import { useLocation } from '@modern-js/runtime/router';
+import { useLocation } from '@modern-js/plugin-router';
 import { ModuleInfo } from '../typings';
 
 const useIsMatchedCurrentApp = (
