@@ -10,7 +10,7 @@ export default createPlugin(
     return {
       config() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { value: appContext } = useAppContext();
+        const appContext = useAppContext();
         bffExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
           'server',
@@ -23,10 +23,8 @@ export default createPlugin(
         };
       },
       modifyEntryImports() {
-        const {
-          value: { appDirectory },
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-        } = useAppContext();
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const { appDirectory } = useAppContext();
         const runtimePath = require.resolve(`@modern-js/runtime`, {
           paths: [appDirectory],
         });

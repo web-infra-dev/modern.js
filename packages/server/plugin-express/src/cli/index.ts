@@ -23,10 +23,7 @@ export default createPlugin(
         };
       },
       modifyEntryImports() {
-        const {
-          value: { appDirectory },
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-        } = useAppContext();
+        const { appDirectory } = useAppContext();
         const runtimePath = require.resolve(`@modern-js/runtime`, {
           paths: [appDirectory],
         });
