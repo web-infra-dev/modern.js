@@ -1,14 +1,8 @@
 import path from 'path';
-import { merge } from 'lodash';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import {
-  i18n,
-  SolutionSchema,
-  SolutionGenerator,
-  Solution,
-  SolutionDefualtConfig,
-} from '@modern-js/generator-common';
+import { JsonAPI } from '@modern-js/codesmith-api-json';
+import { DependenceGenerator, i18n } from '@modern-js/generator-common';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {
@@ -19,32 +13,23 @@ const getGeneratorPath = (generator: string, distTag: string) => {
   return generator;
 };
 
-const mergeDefaultConfig = (context: GeneratorContext) => {
-  const { solution } = context.config;
-
-  if (solution) {
-    merge(SolutionDefualtConfig[solution as Solution], context.config);
-  }
-};
-
 const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
-  const { solution } = await appApi.getInputBySchema(
-    SolutionSchema,
-    context.config,
-  );
+  const jsonAPI = new JsonAPI(generator);
+  await jsonAPI.update(context.materials.default.get('package.json'), {
+    query: {},
+    update: {
+      $set: {
+        'scripts.dev:esm': 'modern dev --unbundle',
+      },
+    },
+  });
 
-  if (!solution || !SolutionGenerator[solution as Solution]) {
-    generator.logger.error('solution is not valid ');
-  }
   await appApi.runSubGenerator(
-    getGeneratorPath(
-      SolutionGenerator[solution as Solution],
-      context.config.distTag,
-    ),
+    getGeneratorPath(DependenceGenerator, context.config.distTag),
     undefined,
     context.config,
   );
@@ -62,19 +47,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/repo-generator`);
+  generator.logger.debug(`start run @modern-js/unbundle-generator`);
   generator.logger.debug(`context=${JSON.stringify(context)}`);
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
-  mergeDefaultConfig(context);
+  await handleTemplateFile(context, generator, appApi);
 
-  try {
-    await handleTemplateFile(context, generator, appApi);
-  } catch (e) {
-    generator.logger.error(e);
-    // eslint-disable-next-line no-process-exit
-    process.exit(1);
-  }
-
-  generator.logger.debug(`forge @modern-js/repo-generator succeed `);
+  generator.logger.debug(`forge @modern-js/unbundle-generator succeed `);
 };
