@@ -47,7 +47,7 @@ const index = createPlugin(
           entryName,
           userConfig.runtime,
           userConfig.runtimeByEntries,
-        ).state;
+        )?.state;
 
         stateConfigMap.set(entryName, stateConfig);
 
