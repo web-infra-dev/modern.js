@@ -40,12 +40,11 @@
     "@modern-js/plugin-router": "workspace:^1.0.0-rc.4",
     "@modern-js/runtime-core": "workspace:^1.0.0-rc.4",
     "@modern-js/plugin-testing": "^1.0.0-rc.4",
-    "@modern-js/module-tools": "^1.0.0-rc.4",
+    "@modern-js/module-tools": "^1.0.0-rc.4"
   },
   "peerDependencies": {
     "@modern-js/runtime-core": "workspace:^1.0.0-rc.4",
     "@modern-js/plugin-router": "workspace:^1.0.0-rc.4"
-    "@modern-js/runtime-core": "workspace:^1.0.0-rc.4"
   },
   "sideEffects": false,
   "modernConfig": {},

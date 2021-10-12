@@ -19,6 +19,7 @@ type RunnerTask = Array<{
 
 const REPO_GENERAROE = '@modern-js/repo-generator';
 
+// eslint-disable-next-line max-statements
 function getDefaultConfing(options: Options, logger: Logger) {
   const { mwa, library, monorepo, config, registry, distTag } = options;
 
@@ -35,7 +36,9 @@ function getDefaultConfing(options: Options, logger: Logger) {
     process.exit(1);
   }
 
-  initialConfig.locale = getLocaleLanguage();
+  if (!initialConfig.locale) {
+    initialConfig.locale = getLocaleLanguage();
+  }
 
   if (mwa) {
     initialConfig.solution = 'mwa';
