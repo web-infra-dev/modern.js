@@ -82,6 +82,7 @@ const copyOriginStyleFiles = ({
   }
   for (const styleFile of styleFiles) {
     const file = path.relative(targetDir, styleFile);
+    fs.ensureDirSync(path.dirname(path.join(outputDir, file)));
     fs.copyFileSync(styleFile, path.join(outputDir, file));
   }
 };
