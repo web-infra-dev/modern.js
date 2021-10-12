@@ -1,7 +1,7 @@
 import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { isTsProject } from '@modern-js/generator-utils';
+import { getPackageVersion, isTsProject } from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
   i18n,
@@ -23,20 +23,32 @@ const handleTemplateFile = async (
 ) => {
   const appDir = context.materials.default.basePath;
   const language = isTsProject(appDir) ? Language.TS : Language.JS;
-  appApi.forgeTemplate(
-    'templates/**/*',
-    resourceKey =>
-      language === Language.TS ? true : resourceKey !== 'tsconfig.json',
-    resourceKey =>
-      resourceKey
-        .replace('templates/', '')
-        .replace('.handlebars', `.${language}x`),
+  appApi.forgeTemplate('templates/base-template/**/*', undefined, resourceKey =>
+    resourceKey
+      .replace('templates/base-template/', '')
+      .replace('.handlebars', `.${language}x`),
   );
+
+  if (language === Language.TS) {
+    appApi.forgeTemplate('templates/ts-template/**/*', undefined, resourceKey =>
+      resourceKey
+        .replace('templates/ts-template/', '')
+        .replace('.handlebars', ``),
+    );
+  }
+
+  const runtimeDependence = '@modern-js/runtime';
 
   await appApi.runSubGenerator(
     getGeneratorPath(DependenceGenerator, context.config.distTag),
     undefined,
-    context.config,
+    {
+      ...context.config,
+      devDependencies: {
+        ...(context.config.devDependencies || {}),
+        [runtimeDependence]: await getPackageVersion(runtimeDependence),
+      },
+    },
   );
 };
 

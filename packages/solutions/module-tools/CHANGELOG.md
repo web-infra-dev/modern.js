@@ -1,5 +1,74 @@
 # @modern-js/module-tools
 
+## 1.0.0-rc.7
+
+### Patch Changes
+
+- 224f7fe: fix server route match
+- 204c626: feat: initial
+- Updated dependencies [224f7fe]
+- Updated dependencies [204c626]
+  - @modern-js/babel-preset-module@1.0.0-rc.7
+  - @modern-js/core@1.0.0-rc.7
+  - @modern-js/css-config@1.0.0-rc.7
+  - @modern-js/i18n-cli-language-detector@1.0.0-rc.7
+  - @modern-js/plugin-analyze@1.0.0-rc.7
+  - @modern-js/plugin-changeset@1.0.0-rc.7
+  - @modern-js/plugin-fast-refresh@1.0.0-rc.7
+  - @modern-js/plugin-i18n@1.0.0-rc.7
+  - @modern-js/new-action@1.0.0-rc.7
+  - @modern-js/babel-compiler@1.0.0-rc.7
+  - @modern-js/style-compiler@1.0.0-rc.7
+  - @modern-js/module-tools-hooks@1.0.0-rc.7
+  - @modern-js/plugin@1.0.0-rc.7
+  - @modern-js/utils@1.0.0-rc.7
+
+## 1.0.0-rc.6
+
+### Patch Changes
+
+- 224f7fe: fix server route match
+- 204c626: feat: initial
+- Updated dependencies [224f7fe]
+- Updated dependencies [204c626]
+  - @modern-js/babel-preset-module@1.0.0-rc.6
+  - @modern-js/core@1.0.0-rc.6
+  - @modern-js/css-config@1.0.0-rc.6
+  - @modern-js/i18n-cli-language-detector@1.0.0-rc.6
+  - @modern-js/plugin-analyze@1.0.0-rc.6
+  - @modern-js/plugin-changeset@1.0.0-rc.6
+  - @modern-js/plugin-fast-refresh@1.0.0-rc.6
+  - @modern-js/plugin-i18n@1.0.0-rc.6
+  - @modern-js/new-action@1.0.0-rc.6
+  - @modern-js/babel-compiler@1.0.0-rc.6
+  - @modern-js/style-compiler@1.0.0-rc.6
+  - @modern-js/module-tools-hooks@1.0.0-rc.6
+  - @modern-js/plugin@1.0.0-rc.6
+  - @modern-js/utils@1.0.0-rc.6
+
+## 1.0.0-rc.5
+
+### Patch Changes
+
+- 224f7fe: fix server route match
+- 204c626: feat: initial
+- Updated dependencies [224f7fe]
+- Updated dependencies [204c626]
+  - @modern-js/babel-preset-module@1.0.0-rc.5
+  - @modern-js/core@1.0.0-rc.5
+  - @modern-js/css-config@1.0.0-rc.5
+  - @modern-js/i18n-cli-language-detector@1.0.0-rc.5
+  - @modern-js/plugin-analyze@1.0.0-rc.5
+  - @modern-js/plugin-changeset@1.0.0-rc.5
+  - @modern-js/plugin-fast-refresh@1.0.0-rc.5
+  - @modern-js/plugin-i18n@1.0.0-rc.5
+  - @modern-js/new-action@1.0.0-rc.5
+  - @modern-js/babel-compiler@1.0.0-rc.5
+  - @modern-js/style-compiler@1.0.0-rc.5
+  - @modern-js/module-tools-hooks@1.0.0-rc.5
+  - @modern-js/plugin@1.0.0-rc.5
+  - @modern-js/utils@1.0.0-rc.5
+
 ## 1.0.0-rc.4
 
 ### Patch Changes
