@@ -8,7 +8,7 @@ const handleTemplateFile = async (
   generator: GeneratorCore,
 ) => {
   const jsonAPI = new JsonAPI(generator);
-  const { devDependencies, dependencies } = context.config;
+  const { devDependencies, dependencies, peerDependencies } = context.config;
 
   const setJSON: Record<string, Record<string, string>> = {};
   Object.keys(devDependencies || {}).forEach(key => {
@@ -16,6 +16,9 @@ const handleTemplateFile = async (
   });
   Object.keys(dependencies || {}).forEach(key => {
     setJSON[`dependencies.${key}`] = dependencies[key];
+  });
+  Object.keys(peerDependencies || {}).forEach(key => {
+    setJSON[`peerDependencies.${key}`] = peerDependencies[key];
   });
   if (Object.keys(setJSON).length > 0) {
     await jsonAPI.update(context.materials.default.get(`package.json`), {
