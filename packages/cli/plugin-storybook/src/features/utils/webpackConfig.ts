@@ -83,7 +83,10 @@ const getConfig = ({
     });
   chain.module.rule('js').merge(jsRuleConfig);
 
-  sbWebpackConfig.resolve.alias['@styles'] = path.join(appDirectory, './styles');
+  (sbWebpackConfig.resolve!.alias as any)['@styles'] = path.join(
+    appDirectory,
+    './styles',
+  );
   chain.merge({ resolve: sbWebpackConfig.resolve });
   return {
     config: chain.toConfig(),

@@ -16,7 +16,7 @@ import {
   EntryGenerator,
   ElectronGenerator,
   DependenceGenerator,
-  MWAActionFunctionsDevDependencies,
+  MWAActionFunctionsDependencies,
 } from '@modern-js/generator-common';
 import {
   getMWAProjectPath,
@@ -184,9 +184,8 @@ const handleTemplateFile = async (
     );
   }
 
-  if (enableLess) {
-    const lessDependence =
-      MWAActionFunctionsDevDependencies[ActionFunction.Less]!;
+  if (enableLess === BooleanConfig.YES) {
+    const lessDependence = MWAActionFunctionsDependencies[ActionFunction.Less]!;
     await appApi.runSubGenerator(
       getGeneratorPath(DependenceGenerator, context.config.distTag),
       undefined,
@@ -199,9 +198,9 @@ const handleTemplateFile = async (
     );
   }
 
-  if (enableSass) {
-    const sassDependence =
-      MWAActionFunctionsDevDependencies[ActionFunction.Sass]!;
+  if (enableSass === BooleanConfig.YES) {
+    const sassDependence = MWAActionFunctionsDependencies[ActionFunction.Sass]!;
+    [ActionFunction.Sass]!;
     await appApi.runSubGenerator(
       getGeneratorPath(DependenceGenerator, context.config.distTag),
       undefined,

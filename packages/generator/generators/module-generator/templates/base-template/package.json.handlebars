@@ -24,10 +24,11 @@
     {{/if}}
     {{#unless isMonorepoSubProject}}
     "reset": "rm -rf node_modules",
+    "lint": "modern lint",
     "change": "modern change",
     "bump": "modern bump",
     "pre": "modern pre",
-    "publish": "modern release",
+    "release": "modern release",
     {{/unless}}
     "new": "modern new",
     "test": "modern test --passWithNoTests"
@@ -66,13 +67,11 @@
   },
   "peerDependencies": {
     "react": "^17",
-    "@modern-js/runtime": "^1.0.0-rc.2"
   },
   "devDependencies": {
     "react": "^17",
     "@modern-js/module-tools": "^1.0.0-rc.2",
     "@modern-js/plugin-jarvis": "^1.0.0-rc.0",
-    "@modern-js/runtime": "^1.0.0-rc.2",
     "@modern-js/plugin-testing": "^1.0.0-rc.2"
   },
   "sideEffects": [

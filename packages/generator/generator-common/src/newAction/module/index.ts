@@ -15,6 +15,7 @@ export const ModuleActionFunctions = [
   // ActionFunction.I18n,
   // ActionFunction.Doc,
   ActionFunction.Storybook,
+  ActionFunction.RuntimeApi,
 ];
 
 export const ModuleSpecialSchemaMap: Record<string, Schema> = {};
@@ -50,6 +51,13 @@ export const ModuleActionFunctionsDevDependencies: Partial<
 > = {
   [ActionFunction.Doc]: '@modern-js/plugin-docsite',
   [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
+  [ActionFunction.RuntimeApi]: '@modern-js/runtime',
+};
+
+export const ModuleActionFunctionsPeerDependencies: Partial<
+  Record<ActionFunction, string>
+> = {
+  [ActionFunction.RuntimeApi]: '@modern-js/runtime',
 };
 
 export const ModuleActionFunctionsDependencies: Partial<
@@ -72,5 +80,6 @@ export const ModuleNewActionGenerators: Partial<
     [ActionFunction.Test]: '@modern-js/dependence-generator',
     [ActionFunction.Doc]: '@modern-js/dependence-generator',
     [ActionFunction.Storybook]: '@modern-js/storybook-generator',
+    [ActionFunction.RuntimeApi]: '@modern-js/dependence-generator',
   },
 };

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/babel-chain",
-  "version": "1.0.0-rc.4",
+  "version": "1.0.0-rc.7",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -30,8 +30,8 @@
     "@types/jest": "^26",
     "@types/node": "^14",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.0.0-rc.4",
-    "@modern-js/module-tools": "^1.0.0-rc.4"
+    "@modern-js/plugin-testing": "^1.0.0-rc.7",
+    "@modern-js/module-tools": "^1.0.0-rc.7"
   },
   "sideEffects": false,
   "publishConfig": {
