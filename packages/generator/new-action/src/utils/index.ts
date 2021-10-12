@@ -23,10 +23,12 @@ export const readJson = (jsonPath: string) => {
   }
 };
 
+// eslint-disable-next-line max-params
 export function hasEnabledFunction(
   action: ActionFunction,
   dependencies: Record<string, string>,
   devDependencies: Record<string, string>,
+  peerDependencies: Record<string, string>,
   cwd: string,
 ) {
   const packageJsonPath = path.normalize(`${cwd}/package.json`);
@@ -37,7 +39,10 @@ export function hasEnabledFunction(
   if (dependencies[action]) {
     return packageJson.dependencies[dependencies[action]];
   }
-  if (devDependencies[action]) {
+  if (peerDependencies[action]) {
+    return packageJson.peerDependencies[peerDependencies[action]];
+  }
+  if (!peerDependencies[action] && devDependencies[action]) {
     return packageJson.devDependencies[devDependencies[action]];
   }
   return false;
