@@ -32,8 +32,8 @@ export const runDev = async ({
   isTsProject = false,
   stories,
 }: IRunDevOption) => {
-  const appContext = core.useAppContext().value;
-  const modernConfig = core.useResolvedConfigContext().value;
+  const appContext = core.useAppContext();
+  const modernConfig = core.useResolvedConfigContext();
   const { appDirectory, port = constants.STORYBOOK_PORT } = appContext;
   const {
     dev: { disableTsChecker = false },

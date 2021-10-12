@@ -28,7 +28,7 @@ export const createServer = (
       silent: true,
     });
 
-    const { value: appContext } = useAppContext();
+    const appContext = useAppContext();
     const serverPlugins = appContext.plugins
       .filter((p: any) => p.server)
       .map((p: any) => p.server);

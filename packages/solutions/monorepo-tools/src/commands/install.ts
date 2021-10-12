@@ -13,7 +13,7 @@ export const install = async (
   option: IInstallCommandOption,
 ) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { appDirectory } = useAppContext().value;
+  const { appDirectory } = useAppContext();
   const { auto } = option;
   const projects = await getProjects(
     { packagesMatchs: { enableAutoFinder: true } },

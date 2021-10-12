@@ -12,9 +12,9 @@ export default createPlugin(
       return PLUGIN_SCHEMAS['@modern-js/plugin-unbundle'];
     },
     commands({ program }) {
-      const { value: appContext } = useAppContext();
+      const appContext = useAppContext();
 
-      const { value: config } = useResolvedConfigContext();
+      const config = useResolvedConfigContext();
 
       const devCommand = program.commandsMap.get('dev');
 
@@ -31,8 +31,8 @@ export default createPlugin(
     },
     async htmlPartials({ entrypoint, partials }) {
       if (process.argv[2] === 'dev' && process.argv.includes('--unbundled')) {
-        const { value: appContext } = useAppContext();
-        const { value: config } = useResolvedConfigContext();
+        const appContext = useAppContext();
+        const config = useResolvedConfigContext();
 
         const { createHtmlPartials } = await import('./create-entry');
 

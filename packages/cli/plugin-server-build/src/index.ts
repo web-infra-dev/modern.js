@@ -62,12 +62,10 @@ export default createPlugin(
       return {};
     },
     async afterBuild() {
-      const {
-        value: { appDirectory, distDirectory },
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-      } = useAppContext();
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { value: modernConfig } = useResolvedConfigContext();
+      const { appDirectory, distDirectory } = useAppContext();
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const modernConfig = useResolvedConfigContext();
 
       const distDir = path.resolve(distDirectory);
       const serverDir = path.resolve(appDirectory, SERVER_DIR);

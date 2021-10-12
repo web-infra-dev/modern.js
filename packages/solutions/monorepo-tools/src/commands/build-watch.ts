@@ -14,7 +14,7 @@ export const buildWatch = async (
   option: IBuildWatchCommandOption,
 ) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { appDirectory } = useAppContext().value;
+  const { appDirectory } = useAppContext();
   const { onlySelf = false, init = false } = option;
   const projects = await getProjects(
     { packagesMatchs: { enableAutoFinder: true } },

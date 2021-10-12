@@ -23,7 +23,7 @@ const index = createPlugin(
     return {
       config() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { value: appContext } = useAppContext();
+        const appContext = useAppContext();
 
         pluginsExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
@@ -41,14 +41,12 @@ const index = createPlugin(
       modifyEntryImports({ entrypoint, imports }: any) {
         const { entryName } = entrypoint;
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { value: userConfig } = useResolvedConfigContext();
+        const userConfig = useResolvedConfigContext();
 
-        const stateConfig = (
-          getEntryOptions(
-            entryName,
-            userConfig.runtime,
-            userConfig.runtimeByEntries,
-          ) as any
+        const stateConfig = getEntryOptions(
+          entryName,
+          userConfig.runtime,
+          userConfig.runtimeByEntries,
         ).state;
 
         stateConfigMap.set(entryName, stateConfig);

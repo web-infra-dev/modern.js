@@ -14,7 +14,7 @@ export default createPlugin(
         tools: {
           webpack: (config: Configuration, { chain }: { chain: Chain }) => {
             /* eslint-disable react-hooks/rules-of-hooks */
-            const { value: resolvedConfig } = useResolvedConfigContext();
+            const resolvedConfig = useResolvedConfigContext();
             /* eslint-enable react-hooks/rules-of-hooks */
 
             const { esbuild = {} } = resolvedConfig.tools;

@@ -12,7 +12,7 @@ export default createPlugin(
     return {
       config() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { value: appContext } = useAppContext();
+        const appContext = useAppContext();
         bffExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
           'server',
@@ -53,7 +53,8 @@ export default createPlugin(
              ...bffRuntime,
              ...pluginRuntime
            }
-          `);
+          `,
+        );
       },
       async afterBuild() {
         const {

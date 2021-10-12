@@ -25,8 +25,8 @@ export interface IDevOption {
 
 export const dev = async (option: IDevOption) => {
   const { tsconfig: tsconfigName } = option;
-  const appContext = core.useAppContext().value;
-  const modernConfig = core.useResolvedConfigContext().value;
+  const appContext = core.useAppContext();
+  const modernConfig = core.useResolvedConfigContext();
   const { appDirectory } = appContext;
   const tsconfigPath = path.join(appDirectory, tsconfigName);
 

@@ -14,12 +14,8 @@ export default createPlugin(
     },
     async afterDev() {
       /* eslint-disable react-hooks/rules-of-hooks */
-      const {
-        value: { dev },
-      } = useResolvedConfigContext();
-      const {
-        value: { internalDirectory },
-      } = useAppContext();
+      const { dev } = useResolvedConfigContext();
+      const { internalDirectory } = useAppContext();
       /* eslint-enable react-hooks/rules-of-hooks */
 
       if (!(dev as any).proxy) {
