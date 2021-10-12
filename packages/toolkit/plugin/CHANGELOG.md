@@ -1,5 +1,19 @@
 # @modern-js/plugin
 
+## 1.0.0-rc.7
+
+### Patch Changes
+
+- 224f7fe: fix server route match
+- 204c626: feat: initial
+
+## 1.0.0-rc.6
+
+### Patch Changes
+
+- 224f7fe: fix server route match
+- 204c626: feat: initial
+
 ## 1.0.0-rc.5
 
 ### Patch Changes
