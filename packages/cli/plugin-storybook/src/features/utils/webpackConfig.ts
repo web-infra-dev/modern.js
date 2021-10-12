@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { Import } from '@modern-js/utils';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import type { Configuration, RuleSetRule, RuleSetUseItem } from 'webpack';
@@ -82,6 +83,7 @@ const getConfig = ({
     });
   chain.module.rule('js').merge(jsRuleConfig);
 
+  sbWebpackConfig.resolve.alias['@styles'] = path.join(appDirectory, './styles');
   chain.merge({ resolve: sbWebpackConfig.resolve });
   return {
     config: chain.toConfig(),
