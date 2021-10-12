@@ -4,10 +4,10 @@
   "scripts": {
     "new": "modern new",
     "reset": "npm run reset",
-    "bump": "modern bump",
     "change": "modern change",
+    "bump": "modern bump",
     "pre": "modern pre",
-    "publish": "modern release"
+    "release": "modern release"
   },
   "engines": {
     "node": ">=12.22.6"

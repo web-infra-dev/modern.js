@@ -29,6 +29,7 @@ export const EN_LOCALE = {
       e2e_test: 'Enable "E2E Test"',
       doc: 'Enable "Document Station"',
       storybook: 'Enable "Storybook"',
+      runtime_api: 'Enable "Runtime API"',
     },
     element: {
       self: 'Create project element',
