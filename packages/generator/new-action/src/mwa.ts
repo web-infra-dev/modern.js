@@ -66,6 +66,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
         schemaItem.key as ActionFunction,
         MWAActionFunctionsDependencies,
         MWAActionFunctionsDevDependencies,
+        {},
         process.cwd(),
       );
       const { when } = schemaItem;

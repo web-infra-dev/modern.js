@@ -6,6 +6,6 @@ You can run the following command in the directory of the new project：
 {packageManager} dev          # Run and debug the project according to the requirements of the development environment
 {packageManager} build        # Build the project according to the requirements of the product environment
 {packageManager} start        # Run the project according to the requirements of the product environment
-{packageManager} lint:error   # Check and fix all codes
+{packageManager} lint   # Check and fix all codes
 {packageManager} new          # Create more project elements, such as application portals`,
 };

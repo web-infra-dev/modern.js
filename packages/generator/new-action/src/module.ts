@@ -67,6 +67,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
         schemaItem.key as ActionFunction,
         ModuleActionFunctionsDependencies,
         ModuleActionFunctionsDevDependencies,
+        ModuleActionFunctionsPeerDependencies,
         process.cwd(),
       );
       const { when } = schemaItem;

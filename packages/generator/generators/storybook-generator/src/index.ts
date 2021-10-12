@@ -1,7 +1,7 @@
 import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { isTsProject } from '@modern-js/generator-utils';
+import { getPackageVersion, isTsProject } from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
   i18n,
@@ -33,10 +33,17 @@ const handleTemplateFile = async (
         .replace('.handlebars', `.${language}x`),
   );
 
+  const runtimeDependence = '@modern-js/runtime';
+
   await appApi.runSubGenerator(
     getGeneratorPath(DependenceGenerator, context.config.distTag),
     undefined,
-    context.config,
+    {
+      ...context.config,
+      devDependencies: {
+        [runtimeDependence]: await getPackageVersion(runtimeDependence),
+      },
+    },
   );
 };
 
