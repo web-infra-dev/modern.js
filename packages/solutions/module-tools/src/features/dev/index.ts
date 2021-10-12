@@ -53,7 +53,7 @@ export const devStorybook = async (config: IDevConfig) => {
   } else {
     console.info(
       chalk.yellow(
-        'You need to enable storybook functionality with the `new` script or `modern new` or install @modern-js/plugin-storybook',
+        'No development features found.\nYou can use the `new` command to enable the development features',
       ),
     );
     // eslint-disable-next-line no-process-exit
