@@ -23,15 +23,19 @@ const handleTemplateFile = async (
 ) => {
   const appDir = context.materials.default.basePath;
   const language = isTsProject(appDir) ? Language.TS : Language.JS;
-  appApi.forgeTemplate(
-    'templates/**/*',
-    resourceKey =>
-      language === Language.TS ? true : resourceKey !== 'tsconfig.json',
-    resourceKey =>
-      resourceKey
-        .replace('templates/', '')
-        .replace('.handlebars', `.${language}x`),
+  appApi.forgeTemplate('templates/base-template/**/*', undefined, resourceKey =>
+    resourceKey
+      .replace('templates/base-template/', '')
+      .replace('.handlebars', `.${language}x`),
   );
+
+  if (language === Language.TS) {
+    appApi.forgeTemplate('templates/ts-template/**/*', undefined, resourceKey =>
+      resourceKey
+        .replace('templates/ts-template/', '')
+        .replace('.handlebars', ``),
+    );
+  }
 
   const runtimeDependence = '@modern-js/runtime';
 
