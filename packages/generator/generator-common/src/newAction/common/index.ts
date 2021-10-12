@@ -25,6 +25,7 @@ export enum ActionFunction {
   E2ETest = 'e2e_test',
   Doc = 'doc',
   Storybook = 'storybook',
+  RuntimeApi = 'runtimeApi',
 }
 
 export enum ActionRefactor {
@@ -59,6 +60,8 @@ export const ActionFunctionText: Record<ActionFunction, () => string> = {
   [ActionFunction.Doc]: () => i18n.t(localeKeys.action.function.doc),
   [ActionFunction.Storybook]: () =>
     i18n.t(localeKeys.action.function.storybook),
+  [ActionFunction.RuntimeApi]: () =>
+    i18n.t(localeKeys.action.function.runtime_api),
 };
 
 export const ActionRefactorText: Record<ActionRefactor, () => string> = {

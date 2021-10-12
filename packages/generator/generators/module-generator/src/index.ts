@@ -10,9 +10,10 @@ import {
   ModuleSchema,
   Language,
   DependenceGenerator,
-  ModuleActionFunctionsDevDependencies,
+  ModuleActionFunctionsDependencies,
   ActionFunction,
   PackageManager,
+  BooleanConfig,
 } from '@modern-js/generator-common';
 import {
   i18n as utilsI18n,
@@ -159,9 +160,9 @@ const handleTemplateFile = async (
     );
   }
 
-  if (enableLess) {
+  if (enableLess === BooleanConfig.YES) {
     const lessDependence =
-      ModuleActionFunctionsDevDependencies[ActionFunction.Less]!;
+      ModuleActionFunctionsDependencies[ActionFunction.Less]!;
     await appApi.runSubGenerator(
       getGeneratorPath(DependenceGenerator, context.config.distTag),
       undefined,
@@ -174,9 +175,9 @@ const handleTemplateFile = async (
     );
   }
 
-  if (enableSass) {
+  if (enableSass === BooleanConfig.YES) {
     const sassDependence =
-      ModuleActionFunctionsDevDependencies[ActionFunction.Sass]!;
+      ModuleActionFunctionsDependencies[ActionFunction.Sass]!;
     await appApi.runSubGenerator(
       getGeneratorPath(DependenceGenerator, context.config.distTag),
       undefined,

@@ -12,6 +12,7 @@ import {
   ActionFunction,
   ModuleActionFunctionsDependencies,
   ModuleActionFunctionsDevDependencies,
+  ModuleActionFunctionsPeerDependencies,
   ModuleNewActionGenerators,
   ActionType,
 } from '@modern-js/generator-common';
@@ -104,6 +105,8 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     ModuleActionFunctionsDevDependencies[action as ActionFunction];
   const dependence =
     ModuleActionFunctionsDependencies[action as ActionFunction];
+  const peerDependencie =
+    ModuleActionFunctionsPeerDependencies[action as ActionFunction];
 
   const finalConfig = merge(
     config,
@@ -115,6 +118,9 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
         : {},
       dependencies: dependence
         ? { [dependence]: `^${await getPackageVersion(dependence)}` }
+        : {},
+      peerDependencies: peerDependencie
+        ? { [peerDependencie]: `^${await getPackageVersion(peerDependencie)}` }
         : {},
     },
   );

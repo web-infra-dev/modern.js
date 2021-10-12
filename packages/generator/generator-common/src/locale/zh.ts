@@ -28,6 +28,7 @@ export const ZH_LOCALE = {
       e2e_test: '启用「E2E 测试」功能',
       doc: '启用「文档站」功能',
       storybook: '启用 「Storybook」',
+      runtime_api: '启用 「Rumtime API」',
     },
     element: {
       self: '创建工程元素',
