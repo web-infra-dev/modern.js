@@ -1,7 +1,9 @@
+import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
-import { isTsProject } from '@modern-js/generator-utils';
+import { FsAPI } from '@modern-js/codesmith-api-fs';
+import { fs, isTsProject } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
 const handleTemplateFile = async (
@@ -9,14 +11,21 @@ const handleTemplateFile = async (
   generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
+  const fsAPI = new FsAPI(generator);
   const isTs = isTsProject(context.materials.default.basePath);
-  await appApi.forgeTemplate(
+  const { material } = context.current!;
+
+  await fsAPI.renderDir(
+    material,
     'templates/base-template/**/*',
-    undefined,
     (resourceKey: string) =>
       resourceKey
         .replace('templates/base-template/', '')
         .replace('.handlebars', isTs ? '.ts' : '.js'),
+    {
+      nodir: true,
+      dot: true,
+    },
   );
 
   if (isTs) {
@@ -30,11 +39,10 @@ const handleTemplateFile = async (
     );
   }
 
-
-
   const updateInfo = {
     main: './electron/main.js',
     'scripts.dev:main': 'modern dev electron-main',
+    'scripts.dev:electron': 'modern dev electron',
     'scripts.build:main': 'modern build electron-main',
     'scripts.build:app': 'modern build electron-app',
     'scripts.build:all': 'modern build electron',
@@ -45,13 +53,24 @@ const handleTemplateFile = async (
     'devDependencies.@babel/register': '^7.15.3',
   };
 
-
-
   const jsonAPI = new JsonAPI(generator);
   await jsonAPI.update(context.materials.default.get('package.json'), {
     query: {},
     update: { $set: updateInfo },
   });
+
+  const appDir = process.cwd();
+  const typePath = path.join(appDir, 'src', 'modern-app-env.d.ts');
+  const appendContent = `/// <reference types="@modern-js/runtime" />
+/// <reference types="@modern-js/plugin-electron/global" />
+    `;
+  if (fs.existsSync(typePath)) {
+    const npmrc = fs.readFileSync(typePath, 'utf-8');
+    fs.writeFileSync(typePath, `${npmrc}\n${appendContent}`, 'utf-8');
+  } else {
+    fs.ensureFileSync(typePath);
+    fs.writeFileSync(typePath, appendContent, 'utf-8');
+  }
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {

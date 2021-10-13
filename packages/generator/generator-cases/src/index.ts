@@ -6,6 +6,15 @@ import {
   RunWay,
   BooleanConfig,
   ClientRoute,
+  MWAActionTypes,
+  MWAActionTypesMap,
+  Framework,
+  BFFType,
+  ActionElement,
+  ActionFunction,
+  ModuleActionTypes,
+  ModuleActionTypesMap,
+  SubSolution,
 } from '@modern-js/generator-common';
 
 export const LanguageValues = Object.values(Language);
@@ -13,6 +22,8 @@ export const PackageManagerValues = Object.values(PackageManager);
 export const RunWayValues = Object.values(RunWay);
 export const BooleanConfigValues = Object.values(BooleanConfig);
 export const ClientRouteValues = Object.values(ClientRoute);
+export const FrameworkValues = Object.values(Framework);
+export const BFFTypeValues = Object.values(BFFType);
 
 export const MWAValueMap: Record<string, string[]> = {
   language: LanguageValues,
@@ -87,4 +98,157 @@ export const getMonorepoCases = () => {
     ...item,
     solution: Solution.Monorepo,
   }));
+};
+
+export const MWAEntryValueMap: Record<string, string[]> = {
+  needModifyMWAConfig: BooleanConfigValues,
+  clientRoute: ClientRouteValues,
+  disableStateManagement: BooleanConfigValues,
+};
+
+const getMWAEntryCases = () => {
+  const cases = make(MWAEntryValueMap, {
+    length: Object.keys(MWAEntryValueMap).length,
+  });
+  return cases.map(item => ({
+    ...item,
+    name: Object.values(item).join('-'),
+  }));
+};
+
+export const MWAServerValueMap: Record<string, string[]> = {
+  framework: FrameworkValues,
+};
+
+const getMWAServerCases = () =>
+  make(MWAServerValueMap, {
+    length: Object.keys(MWAServerValueMap).length,
+  });
+
+export const MWABFFValueMap: Record<string, string[]> = {
+  bffType: BFFTypeValues,
+  framework: FrameworkValues,
+};
+
+const getMWABFFCases = () =>
+  make(MWABFFValueMap, {
+    length: Object.keys(MWABFFValueMap).length,
+  });
+
+export const getMWANewCases = () => {
+  const cases: Array<Record<string, string>> = [];
+  MWAActionTypes.forEach(action => {
+    const config: Record<string, any> = { actionType: action };
+    MWAActionTypesMap[action].forEach(option => {
+      config[action] = option;
+      const currentConfig = { ...config, [action]: option };
+      if (option === ActionElement.Entry) {
+        const entryCases = getMWAEntryCases();
+        entryCases.forEach(c => {
+          cases.push({ ...currentConfig, ...c });
+        });
+      } else if (option === ActionElement.Server) {
+        // server only can enable once
+        const serverCases = getMWAServerCases();
+        cases.push({
+          ...currentConfig,
+          ...serverCases[Math.round(Math.random() * serverCases.length)],
+        });
+      } else if (option === ActionFunction.BFF) {
+        // bff only can enable once
+        const bffCases = getMWABFFCases();
+        cases.push({
+          ...currentConfig,
+          ...bffCases[Math.round(Math.random() * bffCases.length)],
+        });
+      } else {
+        cases.push(currentConfig);
+      }
+    });
+  });
+  return cases;
+};
+
+export const getModuleNewCases = () => {
+  const cases: Array<Record<string, string>> = [];
+  ModuleActionTypes.forEach(action => {
+    const config: Record<string, any> = { actionType: action };
+    ModuleActionTypesMap[action].forEach(option => {
+      const currentConfig = { ...config, [action]: option };
+      cases.push(currentConfig);
+    });
+  });
+  return cases;
+};
+
+export const MWASubProjectValueMap: Record<string, string[]> = {
+  language: LanguageValues,
+  needModifyMWAConfig: BooleanConfigValues,
+  clientRoute: ClientRouteValues,
+  disableStateManagement: BooleanConfigValues,
+  enableLess: BooleanConfigValues,
+  enableSass: BooleanConfigValues,
+};
+
+export const ModuleSubProjectValueMap: Record<string, string[]> = {
+  language: LanguageValues,
+  needModifyModuleConfig: BooleanConfigValues,
+  enableLess: BooleanConfigValues,
+  enableSass: BooleanConfigValues,
+};
+
+const getMWASubProjectCases = (isTest: boolean) => {
+  const cases = make(MWASubProjectValueMap, {
+    length: Object.keys(MWASubProjectValueMap).length,
+    postFilter: (row: Record<string, any>) => {
+      if (
+        row.needModifyMWAConfig === BooleanConfig.NO &&
+        (row.disableStateManagement !== BooleanConfig.NO ||
+          row.clientRoute !== ClientRoute.SelfControlRoute ||
+          row.enableLess !== BooleanConfig.NO ||
+          row.enableSass !== BooleanConfig.NO)
+      ) {
+        return false;
+      }
+      return true;
+    },
+  });
+  return cases.map(item => ({
+    ...item,
+    packageName: Object.values(item).join('-'),
+    packagePath: Object.values(item).join('-'),
+    solution: isTest ? SubSolution.MWATest : SubSolution.MWA,
+  }));
+};
+
+const getModuleSubProjectCases = (isInner: boolean) => {
+  const cases = make(ModuleSubProjectValueMap, {
+    length: Object.keys(ModuleSubProjectValueMap).length,
+    postFilter: (row: Record<string, any>) => {
+      if (
+        row.needModifyModuleConfig === BooleanConfig.NO &&
+        (row.enableLess !== BooleanConfig.NO ||
+          row.enableSass !== BooleanConfig.NO)
+      ) {
+        return false;
+      }
+      return true;
+    },
+  });
+  return cases.map(item => ({
+    ...item,
+    packageName: Object.values(item).join('-'),
+    packagePath: Object.values(item).join('-'),
+    solution: isInner ? SubSolution.InnerModule : SubSolution.Module,
+  }));
+};
+
+export const getMonorepoNewCases = () => {
+  const cases: Array<Record<string, string>> = [
+    ...getMWASubProjectCases(false),
+    ...getMWASubProjectCases(true),
+    ...getModuleSubProjectCases(false),
+    ...getModuleSubProjectCases(true),
+  ];
+  return cases;
 };

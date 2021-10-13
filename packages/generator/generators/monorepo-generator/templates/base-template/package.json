@@ -3,7 +3,7 @@
   "name": "monorepo",
   "scripts": {
     "new": "modern new",
-    "reset": "npm run reset",
+    "reset": "pnpm -r exec rm -rf ./node_modules",
     "change": "modern change",
     "bump": "modern bump",
     "pre": "modern pre",
