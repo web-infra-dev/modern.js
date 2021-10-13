@@ -16,7 +16,7 @@ export default function helmet(content: string, helmetData: HelmetData) {
 
   const htmlAttributes = helmetData.htmlAttributes.toString();
   if (htmlAttributes) {
-    result = result.replace(RE_HTML_ATTR, `<html ${bodyAttributes}>`);
+    result = result.replace(RE_HTML_ATTR, `<html ${htmlAttributes}>`);
   }
 
   const base = helmetData.base.toString();

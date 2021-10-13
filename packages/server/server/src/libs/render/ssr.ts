@@ -37,6 +37,8 @@ export const render = async (
     measure: ctx.measure,
   };
 
+  require('ignore-styles');
+
   const serverRender = require(bundleJS)[SERVER_RENDER_FUNCTION_NAME];
 
   const html = await cache(serverRender, ctx)(context);
