@@ -27,7 +27,7 @@ interface IModuleNewActionOption {
   distTag?: string;
   debug?: boolean;
   registry?: string;
-  config?: Record<string, unknown>;
+  config?: string;
 }
 // eslint-disable-next-line max-statements
 export const ModuleNewAction = async (options: IModuleNewActionOption) => {
@@ -36,10 +36,19 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     distTag = '',
     debug = false,
     registry = '',
-    config = {},
+    config = '{}',
   } = options;
 
-  i18n.changeLanguage({ locale });
+  let UserConfig: Record<string, unknown> = {};
+
+  try {
+    UserConfig = JSON.parse(config);
+  } catch (e) {
+    throw new Error('config is not a valid json');
+  }
+
+  i18n.changeLanguage({ locale: (UserConfig.locale as string) || locale });
+
   const smith = new CodeSmith({
     debug,
     registryUrl: registry,
@@ -84,7 +93,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     process.exit(1);
   }
 
-  const ans = await appAPI.getInputBySchema(schema, config);
+  const ans = await appAPI.getInputBySchema(schema, UserConfig);
 
   const actionType = ans.actionType as ActionType;
 
@@ -110,9 +119,12 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     ModuleActionFunctionsPeerDependencies[action as ActionFunction];
 
   const finalConfig = merge(
-    config,
+    UserConfig,
     ans,
-    { locale, packageManager: getPackageManager() },
+    {
+      locale: (UserConfig.locale as string) || locale,
+      packageManager: getPackageManager(),
+    },
     {
       devDependencies: devDependencie
         ? { [devDependencie]: `^${await getPackageVersion(devDependencie)}` }

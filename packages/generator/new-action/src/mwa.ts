@@ -26,7 +26,7 @@ interface IMWANewActionOption {
   distTag?: string;
   debug?: boolean;
   registry?: string;
-  config?: Record<string, unknown>;
+  config?: string;
 }
 
 // eslint-disable-next-line max-statements
@@ -36,10 +36,18 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     distTag = '',
     debug = false,
     registry = '',
-    config = {},
+    config = '{}',
   } = options;
 
-  i18n.changeLanguage({ locale });
+  let UserConfig: Record<string, unknown> = {};
+
+  try {
+    UserConfig = JSON.parse(config);
+  } catch (e) {
+    throw new Error('config is not a valid json');
+  }
+
+  i18n.changeLanguage({ locale: (UserConfig.locale as string) || locale });
 
   const smith = new CodeSmith({
     debug,
@@ -74,7 +82,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     }
   });
 
-  const ans = await appAPI.getInputBySchema(schema, config);
+  const ans = await appAPI.getInputBySchema(schema, UserConfig);
 
   const actionType = ans.actionType as ActionType;
 
@@ -95,9 +103,12 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
   const dependence = MWAActionFunctionsDependencies[action as ActionFunction];
 
   const finalConfig = merge(
-    config,
+    UserConfig,
     ans,
-    { locale, packageManager: getPackageManager() },
+    {
+      locale: (UserConfig.locale as string) || locale,
+      packageManager: getPackageManager(),
+    },
     {
       devDependencies: devDependencie
         ? { [devDependencie]: `^${await getPackageVersion(devDependencie)}` }

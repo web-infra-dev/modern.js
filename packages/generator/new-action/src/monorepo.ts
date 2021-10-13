@@ -20,18 +20,28 @@ interface IMonorepoNewActionOption {
   distTag?: string;
   debug?: boolean;
   registry?: string;
-  config?: Record<string, unknown>;
+  config?: string;
 }
+// eslint-disable-next-line max-statements
 export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
   const {
     locale = 'zh',
     distTag = '',
     debug = false,
     registry = '',
-    config = {},
+    config = '{}',
   } = options;
 
-  i18n.changeLanguage({ locale });
+  let UserConfig: Record<string, unknown> = {};
+
+  try {
+    UserConfig = JSON.parse(config);
+  } catch (e) {
+    throw new Error('config is not a valid json');
+  }
+
+  i18n.changeLanguage({ locale: (UserConfig.locale as string) || locale });
+
   const smith = new CodeSmith({
     debug,
     registryUrl: registry,
@@ -51,7 +61,10 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
     mockGeneratorCore,
   );
 
-  const ans = await appAPI.getInputBySchema(MonorepoNewActionSchema, config);
+  const ans = await appAPI.getInputBySchema(
+    MonorepoNewActionSchema,
+    UserConfig,
+  );
 
   const solution = ans.solution as SubSolution;
 
@@ -65,10 +78,15 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
     generator = `${generator}@${distTag}`;
   }
 
-  const finalConfig = merge(config, ans, MonorepoNewActionConfig[solution], {
-    locale,
-    packageManager: getPackageManager(),
-  });
+  const finalConfig = merge(
+    UserConfig,
+    ans,
+    MonorepoNewActionConfig[solution],
+    {
+      locale: (UserConfig.locale as string) || locale,
+      packageManager: getPackageManager(),
+    },
+  );
 
   const task = [
     {
