@@ -13,7 +13,7 @@ export const clear = async (
 ) => {
   const { removeDirs } = option;
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { appDirectory } = useAppContext().value;
+  const { appDirectory } = useAppContext();
   const projects = await getProjects(
     { packagesMatchs: { enableAutoFinder: true } },
     appDirectory,

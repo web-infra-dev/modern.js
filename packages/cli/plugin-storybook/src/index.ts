@@ -18,7 +18,7 @@ export default core.createPlugin(
   () => ({
     // app-tools and module-tools `dev storybook`
     commands({ program }: any) {
-      const { appDirectory } = core.useAppContext().value;
+      const { appDirectory } = core.useAppContext();
       const devCommand = program.commandsMap.get('dev');
       const stories =
         program.$$libraryName === 'module-tools'
@@ -48,7 +48,7 @@ export default core.createPlugin(
     },
     // module-tools menu mode
     moduleToolsMenu() {
-      const { appDirectory } = core.useAppContext().value;
+      const { appDirectory } = core.useAppContext();
       return {
         name: 'Storybook 调试',
         value: 'storybook',

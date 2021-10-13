@@ -28,7 +28,7 @@ export default createPlugin(
     return {
       config() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { value: appContext } = useAppContext();
+        const appContext = useAppContext();
 
         pluginsExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
@@ -44,7 +44,7 @@ export default createPlugin(
           tools: {
             webpack: (config: any, { chain }: { chain: WebpackChain }) => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
-              const { value: userConfig } = useResolvedConfigContext();
+              const userConfig = useResolvedConfigContext();
               if (isUseSSRBundle(userConfig) && config.name !== 'server') {
                 chain
                   .plugin('loadable')
@@ -55,7 +55,7 @@ export default createPlugin(
             },
             babel: (config: any, { chain }: { chain: BabelChain }) => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
-              const { value: userConfig } = useResolvedConfigContext();
+              const userConfig = useResolvedConfigContext();
               if (isUseSSRBundle(userConfig)) {
                 chain
                   ?.plugin('loadable')
@@ -71,7 +71,7 @@ export default createPlugin(
       modifyEntryImports({ entrypoint, imports }: any) {
         const { entryName } = entrypoint;
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { value: userConfig } = useResolvedConfigContext();
+        const userConfig = useResolvedConfigContext();
 
         pluginsExportsUtils.addExport(
           `export { default as ssr } from '${ssrModulePath}'`,

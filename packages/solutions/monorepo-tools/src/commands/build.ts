@@ -20,7 +20,7 @@ export const build = async (
   option: IBuildCommandOption,
 ) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { appDirectory } = useAppContext().value;
+  const { appDirectory } = useAppContext();
   const {
     self = true,
     dept = false,

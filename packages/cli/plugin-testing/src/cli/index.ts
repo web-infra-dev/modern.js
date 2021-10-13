@@ -22,7 +22,7 @@ export default createPlugin(
       },
       config() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { value: appContext } = useAppContext();
+        const appContext = useAppContext();
 
         testingExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,

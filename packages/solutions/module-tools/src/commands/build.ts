@@ -37,10 +37,8 @@ export const build = async ({
   clear = true,
   platform,
 }: IBuildOption) => {
-  const {
-    value: { appDirectory },
-  } = core.useAppContext();
-  const modernConfig = core.useResolvedConfigContext().value;
+  const { appDirectory } = core.useAppContext();
+  const modernConfig = core.useResolvedConfigContext();
   const {
     output: { path: outputPath = 'dist' },
   } = modernConfig;

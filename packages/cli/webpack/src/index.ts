@@ -36,8 +36,8 @@ export const getWebpackConfig = (target: WebpackConfigTarget) => {
   }
 
   /* eslint-disable react-hooks/rules-of-hooks */
-  const { value: appContext } = useAppContext();
-  const { value: options } = useResolvedConfigContext();
+  const appContext = useAppContext();
+  const options = useResolvedConfigContext();
   /* eslint-enable react-hooks/rules-of-hooks */
 
   const config = new Config(appContext, options);

@@ -21,8 +21,8 @@ import { createServer } from '../utils/createServer';
 
 export const dev = async () => {
   /* eslint-disable react-hooks/rules-of-hooks */
-  const { value: appContext } = useAppContext();
-  const { value: userConfig } = useResolvedConfigContext();
+  const appContext = useAppContext();
+  const userConfig = useResolvedConfigContext();
   /* eslint-enable react-hooks/rules-of-hooks */
 
   const { appDirectory, distDirectory, port } = appContext;

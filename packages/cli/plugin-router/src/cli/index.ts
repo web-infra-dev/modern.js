@@ -24,7 +24,7 @@ export default createPlugin(
     return {
       config() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { value: appContext } = useAppContext();
+        const appContext = useAppContext();
 
         pluginsExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
@@ -45,7 +45,7 @@ export default createPlugin(
       modifyEntryImports({ entrypoint, imports }: any) {
         const { entryName, fileSystemRoutes } = entrypoint;
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { value: userConfig } = useResolvedConfigContext();
+        const userConfig = useResolvedConfigContext();
 
         const runtimeConfig = getEntryOptions(
           entryName,
