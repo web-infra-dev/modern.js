@@ -1,6 +1,7 @@
 import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
+import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
   i18n,
   BaseGenerator,
@@ -46,8 +47,21 @@ const handleTemplateFile = async (
       'templates/pnpm-template/**/*',
       undefined,
       (resourceKey: string) =>
-        resourceKey.replace('templates/pnpm-template/', ''),
+        resourceKey
+          .replace('templates/pnpm-template/', '')
+          .replace('.handlebars', ''),
     );
+  } else {
+    const jsonAPI = new JsonAPI(generator);
+
+    await jsonAPI.update(context.materials.default.get('package.json'), {
+      query: {},
+      update: {
+        $set: {
+          [`scripts.reset`]: `yarn workspaces foreach rm -rf ./node_modules`,
+        },
+      },
+    });
   }
 
   await appApi.runSubGenerator(

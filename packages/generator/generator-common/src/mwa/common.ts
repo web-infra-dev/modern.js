@@ -13,6 +13,8 @@ export const RunWaySchema: Schema = {
   type: ['string'],
   label: () => i18n.t(localeKeys.runWay.self),
   mutualExclusion: true,
+  when: (_, extra) =>
+    extra?.isEmptySrc === undefined ? true : Boolean(extra?.isEmptySrc),
   state: {
     value: RunWay.No,
   },

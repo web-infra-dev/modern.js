@@ -29,6 +29,7 @@ export const ZH_LOCALE = {
       doc: '启用「文档站」功能',
       storybook: '启用 「Storybook」',
       runtime_api: '启用 「Rumtime API」',
+      mwa_storybook: '启用「Visual Testing (Storybook)」模式',
     },
     element: {
       self: '创建工程元素',
