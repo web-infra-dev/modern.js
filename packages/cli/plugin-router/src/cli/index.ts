@@ -74,7 +74,7 @@ export default createPlugin(
       modifyEntryRuntimePlugins({ entrypoint, plugins }: any) {
         const { entryName, fileSystemRoutes } = entrypoint;
         const {
-          value: { serverRoutes },
+          serverRoutes,
           // eslint-disable-next-line react-hooks/rules-of-hooks
         } = useAppContext();
 

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/eslint-config",
-  "version": "1.0.0-rc.10",
+  "version": "1.0.0-rc.11",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "prettier": "^2.0.1"
   },
   "dependencies": {
-    "@modern-js-app/eslint-config": "workspace:^1.0.0-rc.8"
+    "@modern-js-app/eslint-config": "workspace:^1.0.0-rc.9"
   },
   "devDependencies": {
     "eslint": "^7.32.0",

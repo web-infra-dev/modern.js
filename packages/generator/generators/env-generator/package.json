@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/env-generator",
-  "version": "1.0.0-rc.8",
+  "version": "1.0.0-rc.9",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/main.js",
@@ -32,13 +32,13 @@
     "@modern-js/codesmith": "^1.0.0-rc.14",
     "@modern-js/codesmith-api-app": "^1.0.0-rc.14",
     "@modern-js/codesmith-tools": "^1.0.0-rc.14",
-    "@modern-js/generator-common": "workspace:^1.0.0-rc.9",
+    "@modern-js/generator-common": "workspace:^1.0.0-rc.10",
     "@types/jest": "^26",
     "@types/lodash": "^4.14.168",
     "@types/node": "^14",
     "typescript": "^4",
-    "@modern-js/module-tools": "^1.0.0-rc.8",
-    "@modern-js/plugin-testing": "^1.0.0-rc.8"
+    "@modern-js/module-tools": "^1.0.0-rc.9",
+    "@modern-js/plugin-testing": "^1.0.0-rc.9"
   },
   "sideEffects": false,
   "modernConfig": {
