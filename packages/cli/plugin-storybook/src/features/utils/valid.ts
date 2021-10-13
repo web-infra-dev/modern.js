@@ -3,9 +3,11 @@ import { chalk } from '@modern-js/utils';
 
 interface ValidOption {
   stories: string[];
+  isModuleTools: boolean;
+  isTs: boolean;
 }
 
-export const valid = ({ stories }: ValidOption) => {
+export const valid = ({ stories, isModuleTools, isTs }: ValidOption) => {
   let files: string[] = [];
   for (const s of stories) {
     files = [...files, ...glob.sync(s)];
@@ -13,7 +15,9 @@ export const valid = ({ stories }: ValidOption) => {
   if (files.length <= 0) {
     console.info(
       chalk.yellow(
-        'No stories found, create directory "./stories" and add story',
+        isModuleTools
+        ? `No stories found, create directory "./stories" and add *.stories.${isTs ? 'tsx' : 'jsx'} file`
+        : `No stories found, please add *.stories.${isTs ? 'tsx' : 'jsx'} file`,
       ),
     );
     return false;

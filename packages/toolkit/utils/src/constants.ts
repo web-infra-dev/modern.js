@@ -142,7 +142,7 @@ export const PLUGIN_SCHEMAS = {
       schema: { typeof: ['object', 'function'] },
     },
   ],
-  '@modern-js/plugin-tailwind': [
+  '@modern-js/plugin-tailwindcss': [
     {
       target: 'tools.tailwind',
       schema: { typeof: ['object', 'function'] },
