@@ -479,6 +479,7 @@ class BaseWebpackConfig {
     ]);
   }
 
+  /* eslint-disable  max-statements */
   resolve() {
     // resolve extensions
     const extensions = JS_RESOLVE_EXTENSIONS.filter(
@@ -521,11 +522,17 @@ class BaseWebpackConfig {
     const scopeOptions = this.options.source?.moduleScopes;
 
     if (Array.isArray(scopeOptions)) {
-      defaultScopes.push(...scopeOptions);
-    } else if (typeof scopeOptions === 'function') {
-      const ret = scopeOptions(defaultScopes);
-      if (ret) {
-        defaultScopes = ret;
+      if (scopeOptions.some(s => typeof s === 'function')) {
+        for (const scope of scopeOptions) {
+          if (typeof scope === 'function') {
+            const ret = scope(defaultScopes);
+            defaultScopes = ret ? ret : defaultScopes;
+          } else {
+            defaultScopes.push(scope);
+          }
+        }
+      } else {
+        defaultScopes.push(...scopeOptions);
       }
     }
 
@@ -549,6 +556,7 @@ class BaseWebpackConfig {
         .use(TsConfigPathsPlugin, [this.appDirectory]);
     }
   }
+  /* eslint-enable  max-statements */
 
   cache() {
     this.chain.cache({

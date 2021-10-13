@@ -89,10 +89,7 @@ class NodeWebpackConfig extends BaseWebpackConfig {
               appDirectory: this.appDirectory,
               target: 'server',
               useLegacyDecorators: !this.options.output?.enableLatestDecorators,
-              useBuiltIns:
-                this.options.output?.polyfill === 'ua'
-                  ? false
-                  : this.options.output?.polyfill,
+              useBuiltIns: false,
               chain: this.babelChain,
               styledCompontents: applyOptionsChain(
                 {
