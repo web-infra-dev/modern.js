@@ -12,6 +12,13 @@ const getModuleNameMapper = (config: any) => {
 
     const isFile = aliasValue.some((s: string) => s.endsWith('.js'));
 
+    // It's special for if using @modern-js/runtime alias other module @modern-js/runtime/model would not work.
+    if (cur === '@modern-js/runtime$') {
+      memo[`.+${cur}`] = aliasValue[0];
+
+      return memo;
+    }
+
     if (isFile) {
       memo[cur] = aliasValue[0];
     }
@@ -38,7 +45,9 @@ export default (webpackConfig: any, userConfig: any, pwd: string) =>
 
         utils.setJestConfig({
           // todo: diffrent test root for diffrent solutions
-          testMatch: [`${pwd || process.cwd()}/(src|tests|api)/**/*.test.[jt]s?(x)`],
+          testMatch: [
+            `${pwd || process.cwd()}/(src|tests|api)/**/*.test.[jt]s?(x)`,
+          ],
         });
 
         return next(utils);
