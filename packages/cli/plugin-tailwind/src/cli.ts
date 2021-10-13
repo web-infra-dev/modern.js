@@ -9,7 +9,7 @@ const core: typeof import('@modern-js/core') = Import.lazy(
 export default core.createPlugin(
   () => ({
     validateSchema() {
-      return PLUGIN_SCHEMAS['@modern-js/plugin-tailwind'];
+      return PLUGIN_SCHEMAS['@modern-js/plugin-tailwindcss'];
     },
     config() {
       return {
@@ -69,5 +69,5 @@ export default core.createPlugin(
       return require('tailwindcss')(tailwindConfig);
     },
   }),
-  { name: '@modern-js/plugin-tailwind' },
+  { name: '@modern-js/plugin-tailwindcss' },
 ) as any;

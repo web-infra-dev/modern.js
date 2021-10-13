@@ -87,7 +87,7 @@ export const INTERNAL_PLUGINS: {
     cli: '@modern-js/plugin-micro-frontend/cli',
   },
   '@modern-js/plugin-jarvis': { cli: '@modern-js/plugin-jarvis/cli' },
-  '@modern-js/plugin-tailwind': { cli: '@modern-js/plugin-tailwind/cli' },
+  '@modern-js/plugin-tailwindcss': { cli: '@modern-js/plugin-tailwindcss/cli' },
 };
 
 /**

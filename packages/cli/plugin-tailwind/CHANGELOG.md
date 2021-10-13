@@ -1,4 +1,4 @@
-# @modern-js/plugin-tailwind
+# @modern-js/plugin-tailwindcss
 
 ## 1.0.0-rc.7
 

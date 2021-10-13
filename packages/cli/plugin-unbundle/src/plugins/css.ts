@@ -367,7 +367,7 @@ const transformCSS = async (
     );
   }
 
-  if (hasDependency(appDirectory, `@modern-js/plugin-tailwind`)) {
+  if (hasDependency(appDirectory, `@modern-js/plugin-tailwindcss`)) {
     postcssPlugins.push(require('tailwindcss')(tailwindConfig));
   }
 
