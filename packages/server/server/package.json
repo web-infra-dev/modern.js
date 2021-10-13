@@ -41,6 +41,7 @@
     "compare-versions": "^3.6.0",
     "fs-extra": "^10.0.0",
     "http-proxy-middleware": "^2.0.1",
+    "ignore-styles": "^5.0.1",
     "launch-editor": "^2.2.1",
     "lru-cache": "^6.0.0",
     "mime-types": "^2.1.32",
