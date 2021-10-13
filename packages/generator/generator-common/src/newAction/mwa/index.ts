@@ -118,7 +118,7 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.Test]: '@modern-js/test-generator',
     [ActionFunction.E2ETest]: '@modern-js/dependence-generator',
     [ActionFunction.Doc]: '@modern-js/dependence-generator',
-    [ActionFunction.Storybook]: '@modern-js/storybook-generator',
+    [ActionFunction.Storybook]: '@modern-js/dependence-generator',
   },
   [ActionType.Refactor]: {
     [ActionRefactor.BFFToApp]: '@modern-js/bff-refactor-generator',

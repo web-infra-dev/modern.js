@@ -58,7 +58,7 @@ const handleTemplateFile = async (
       query: {},
       update: {
         $set: {
-          [`scripts.reset`]: `yarn workspaces foreach rm -rf ./node_modules`,
+          [`scripts.reset`]: `npm run reset`,
         },
       },
     });
