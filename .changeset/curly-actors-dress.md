@@ -26,7 +26,7 @@
 "@modern-js/plugin-ssr": patch
 "@modern-js/plugin-state": patch
 "@modern-js/plugin-storybook": patch
-"@modern-js/plugin-tailwind": patch
+"@modern-js/plugin-tailwindcss": patch
 "@modern-js/plugin-testing": patch
 "@modern-js/plugin-unbundle": patch
 "@modern-js/webpack": patch
