@@ -149,7 +149,7 @@ const handleTemplateFile = async (
     );
   }
 
-  if (packageManager === PackageManager.Pnpm) {
+  if (!isMonorepoSubProject && packageManager === PackageManager.Pnpm) {
     await appApi.forgeTemplate(
       'templates/pnpm-template/**/*',
       undefined,
