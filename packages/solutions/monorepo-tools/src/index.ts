@@ -3,10 +3,7 @@ import { i18n } from './locale';
 import {
   newCli,
   deployCli,
-  buildCli,
-  buildWatchCli,
   clearCli,
-  installCli,
 } from './cli';
 import { getLocaleLanguage } from './utils/language';
 
@@ -20,11 +17,8 @@ export default createPlugin(
 
     return {
       commands({ program }: any) {
-        buildCli(program);
-        buildWatchCli(program);
         clearCli(program);
         deployCli(program);
-        installCli(program);
         newCli(program, locale);
       },
     };
