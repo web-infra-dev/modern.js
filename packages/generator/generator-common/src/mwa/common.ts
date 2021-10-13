@@ -73,9 +73,9 @@ export const NeedModifyMWAConfigSchema: Schema = {
 };
 
 export enum Framework {
-  Egg = 'egg',
-  Koa = 'koa',
   Express = 'express',
+  Koa = 'koa',
+  Egg = 'egg',
   Nest = 'nest',
 }
 
