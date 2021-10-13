@@ -30,13 +30,22 @@ const handleTemplateFile = async (
     );
   }
 
+
+
   const updateInfo = {
     main: './electron/main.js',
     'scripts.dev:main': 'modern dev electron-main',
     'scripts.build:main': 'modern build electron-main',
     'scripts.build:app': 'modern build electron-app',
+    'scripts.build:all': 'modern build electron',
     'devDependencies.@modern-js/plugin-electron': '^1.0.0-rc.1',
+    'devDependencies.electron': '^13',
+    'devDependencies.electron-builder': '^22.11.7',
+    'devDependencies.@babel/runtime': '^7.15.4',
+    'devDependencies.@babel/register': '^7.15.3',
   };
+
+
 
   const jsonAPI = new JsonAPI(generator);
   await jsonAPI.update(context.materials.default.get('package.json'), {
