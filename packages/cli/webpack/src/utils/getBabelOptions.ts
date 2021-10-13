@@ -45,7 +45,9 @@ export const getBabelOptions = (
         ),
         useLegacyDecorators: !config.output?.enableLatestDecorators,
         useBuiltIns:
-          config.output?.polyfill === 'ua' ? false : config.output?.polyfill,
+          config.output?.polyfill === 'ua' || config.output?.polyfill === 'off'
+            ? false
+            : config.output?.polyfill,
         chain,
         styledCompontents: applyOptionsChain(
           {

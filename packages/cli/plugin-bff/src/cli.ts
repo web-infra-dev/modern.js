@@ -48,6 +48,8 @@ export default createPlugin(
 
             const rootDir = path.resolve(appDirectory, API_DIR);
 
+            chain.resolve.alias.set('@api', rootDir);
+
             const apiRegexp = new RegExp(`${appDirectory}/api/.*(.[tj]s)$`);
             chain.module
               .rule('loaders')
@@ -66,9 +68,7 @@ export default createPlugin(
           },
         },
         source: {
-          moduleScopes: (scopes: any) => {
-            scopes.push('./api');
-          },
+          moduleScopes: [`./${API_DIR}`],
         },
       };
     },
