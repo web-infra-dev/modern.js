@@ -40,7 +40,7 @@ const updateMapper = (
 export const getCodeInitMapper = (_: IBuildConfig) => {
   const {
     output: { packageFields, packageMode },
-  } = core.useResolvedConfigContext().value as ModuleToolsConfig;
+  } = core.useResolvedConfigContext() as ModuleToolsConfig;
   let initMapper: IPackageModeValue[] = [];
 
   // 如果不存在packageFields配置或者packageFields为空对象，则使用 packageMode
@@ -52,12 +52,8 @@ export const getCodeInitMapper = (_: IBuildConfig) => {
     initMapper =
       constants.PACKAGE_MODES[packageMode || constants.DEFAULT_PACKAGE_MODE];
   } else if (packageFields && Object.keys(packageFields).length > 0) {
-    if (packageFields['modern']) {
-      initMapper = updateMapper(
-        packageFields['modern'],
-        'modern',
-        initMapper,
-      );
+    if (packageFields.modern) {
+      initMapper = updateMapper(packageFields.modern, 'modern', initMapper);
     }
 
     if (packageFields.main) {
@@ -73,11 +69,7 @@ export const getCodeInitMapper = (_: IBuildConfig) => {
     }
 
     // TODO: 如果存在其他配置，需要提示
-    if (
-      !packageFields['modern'] &&
-      !packageFields.main &&
-      !packageFields.module
-    ) {
+    if (!packageFields.modern && !packageFields.main && !packageFields.module) {
       console.error(
         chalk.red(
           `Unrecognized ${JSON.stringify(
@@ -108,10 +100,8 @@ export const getCodeMapper = ({
   srcRootDir: string;
   willCompilerDirOrFile: string;
 }) => {
-  const {
-    value: { appDirectory },
-  } = core.useAppContext();
-  const modernConfig = core.useResolvedConfigContext().value;
+  const { appDirectory } = core.useAppContext();
+  const modernConfig = core.useResolvedConfigContext();
   const {
     output: { enableSourceMap, jsPath = 'js', path: distDir = 'dist' },
   } = modernConfig as ModuleToolsConfig;
@@ -147,10 +137,8 @@ export const getCodeMapper = ({
 
 // 获取执行生成 d.ts 的参数
 export const getDtsMapper = (config: IBuildConfig, logger: LoggerText) => {
-  const {
-    value: { appDirectory },
-  } = core.useAppContext();
-  const modernConfig = core.useResolvedConfigContext().value;
+  const { appDirectory } = core.useAppContext();
+  const modernConfig = core.useResolvedConfigContext();
   const {
     output: { disableTsChecker, path: outputPath = 'dist' },
   } = modernConfig as ModuleToolsConfig;

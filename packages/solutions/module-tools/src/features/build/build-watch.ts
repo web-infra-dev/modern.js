@@ -22,7 +22,7 @@ export const buildInWatchMode = async (
   config: IBuildConfig,
   _: NormalizedConfig,
 ) => {
-  const { appDirectory } = core.useAppContext().value;
+  const { appDirectory } = core.useAppContext();
   const { sourceDir, enableTscCompiler } = config;
   const srcRootDir = path.join(appDirectory, sourceDir);
   const concurrency = os.cpus().length;
