@@ -32,6 +32,7 @@ export default core.createPlugin(
           await features.runDev({
             isTsProject: isTypescript(appDirectory),
             stories,
+            isModuleTools: program.$$libraryName === 'module-tools',
           });
         });
       }

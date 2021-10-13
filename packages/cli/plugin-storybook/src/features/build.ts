@@ -51,7 +51,7 @@ export const runBuild = async ({
     };
   };
 
-  if (!valid({ stories })) {
+  if (!valid({ stories, isTs: isTsProject, isModuleTools: true })) {
     return;
   }
 

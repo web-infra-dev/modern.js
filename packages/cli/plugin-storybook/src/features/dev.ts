@@ -26,11 +26,13 @@ const webpackConfig: typeof import('./utils/webpackConfig') = Import.lazy(
 export interface IRunDevOption {
   isTsProject?: boolean;
   stories: string[];
+  isModuleTools?: boolean;
 }
 
 export const runDev = async ({
   isTsProject = false,
   stories,
+  isModuleTools = false,
 }: IRunDevOption) => {
   const appContext = core.useAppContext().value;
   const modernConfig = core.useResolvedConfigContext().value;
@@ -43,7 +45,7 @@ export const runDev = async ({
     }; // TODO: 使用 module-tools 提供的完整类型
   };
 
-  if (!valid({ stories })) {
+  if (!valid({ stories, isModuleTools, isTs: isTsProject })) {
     return;
   }
 

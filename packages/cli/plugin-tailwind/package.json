@@ -1,5 +1,5 @@
 {
-  "name": "@modern-js/plugin-tailwind",
+  "name": "@modern-js/plugin-tailwindcss",
   "version": "1.0.0-rc.7",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
