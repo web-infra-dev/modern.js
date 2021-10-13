@@ -1,5 +1,12 @@
 # @modern-js/changeset-generator
 
+## 1.0.0-rc.9
+
+### Patch Changes
+
+- 224f7fe: fix server route match
+- 204c626: feat: initial
+
 ## 1.0.0-rc.8
 
 ### Patch Changes

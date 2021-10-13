@@ -59,7 +59,7 @@ const handleTemplateFile = async (
     update: { $set: updateInfo },
   });
 
-  const appDir = process.cwd();
+  const appDir = context.materials.default.basePath;
   const typePath = path.join(appDir, 'src', 'modern-app-env.d.ts');
   const appendContent = `/// <reference types="@modern-js/runtime" />
 /// <reference types="@modern-js/plugin-electron/global" />
