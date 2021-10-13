@@ -12,7 +12,7 @@ const features: typeof import('./features') = Import.lazy(
 export default core.createPlugin(
   () => ({
     commands({ program }: any) {
-      const { appDirectory } = core.useAppContext().value;
+      const { appDirectory } = core.useAppContext();
       const devCommand = program.commandsMap.get('dev');
       if (devCommand) {
         devCommand.command('docs').action(async () => {
@@ -22,7 +22,7 @@ export default core.createPlugin(
     },
     // module-tools menu mode
     moduleToolsMenu() {
-      const { appDirectory } = core.useAppContext().value;
+      const { appDirectory } = core.useAppContext();
       return {
         name: 'Docsite 调试',
         value: 'docsite',

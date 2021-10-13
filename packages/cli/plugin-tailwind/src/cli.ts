@@ -17,7 +17,7 @@ export default core.createPlugin(
           // TODO: Add interface about postcss config
           // TODO: In module project, also is called, but should not be called.
           postcss: (config: Record<string, any>) => {
-            const { value: modernConfig } = core.useResolvedConfigContext();
+            const modernConfig = core.useResolvedConfigContext();
             const tailwindConfig = getTailwindConfig(modernConfig, {
               pureConfig: {
                 content: [
@@ -51,7 +51,7 @@ export default core.createPlugin(
       };
     },
     moduleTailwindConfig() {
-      const { value: modernConfig } = core.useResolvedConfigContext();
+      const modernConfig = core.useResolvedConfigContext();
       const tailwindConfig = getTailwindConfig(modernConfig, {
         pureConfig: {
           content: [

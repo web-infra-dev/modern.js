@@ -74,8 +74,8 @@ export const build = async () => {
   };
 
   /* eslint-disable react-hooks/rules-of-hooks */
-  const { value: resolvedConfig } = useResolvedConfigContext();
-  const { value: appContext } = useAppContext();
+  const resolvedConfig = useResolvedConfigContext();
+  const appContext = useAppContext();
   /* eslint-enable react-hooks/rules-of-hooks */
 
   const outputPath = appContext.distDirectory;

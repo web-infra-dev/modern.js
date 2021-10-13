@@ -13,7 +13,7 @@ import type WebpackChain from 'webpack-chain';
 import { makeProvider, makeRenderFunction } from './utils';
 
 const useMicrofrontendConfig = () => {
-  const { value: userConfig } = useResolvedConfigContext();
+  const userConfig = useResolvedConfigContext();
 
   return userConfig?.deploy?.microFrontend;
 };
@@ -30,7 +30,7 @@ export default createPlugin(
     return {
       config() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { value: config } = useAppContext();
+        const config = useAppContext();
 
         pluginsExportsUtils = createRuntimeExportsUtils(
           config.internalDirectory,
@@ -69,7 +69,7 @@ export default createPlugin(
       },
       modifyEntryImports({ entrypoint, imports }: any) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { value: config } = useResolvedConfigContext();
+        const config = useResolvedConfigContext();
 
         const masterAppConfig = getEntryOptions(
           entrypoint.entryName,
@@ -113,7 +113,7 @@ export default createPlugin(
       },
       modifyEntryRenderFunction({ entrypoint, code }: any) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { value: config } = useResolvedConfigContext();
+        const config = useResolvedConfigContext();
 
         if (!config?.deploy?.microFrontend) {
           return { entrypoint, code };

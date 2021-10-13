@@ -15,7 +15,7 @@ export const deploy = async (
 ) => {
   const { deployPath = 'output' } = option;
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { appDirectory } = useAppContext().value;
+  const { appDirectory } = useAppContext();
   logger.info(`start deploy ${deployProjectNames.join(',')}`);
   const projects = await getProjects(
     { packagesMatchs: { enableAutoFinder: true } },

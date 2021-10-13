@@ -28,7 +28,7 @@ export default core.createPlugin(
       return {
         tools: {
           webpack: (config: Configuration, { chain }: { chain: Chain }) => {
-            const { value: options } = core.useResolvedConfigContext();
+            const options = core.useResolvedConfigContext();
 
             const {
               output: { disableCssModuleExtension },

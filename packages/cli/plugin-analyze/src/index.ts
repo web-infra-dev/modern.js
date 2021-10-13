@@ -66,8 +66,8 @@ export default createPlugin(
   () => ({
     async prepare() {
       /* eslint-disable react-hooks/rules-of-hooks */
-      const { value: appContext } = useAppContext();
-      const { value: resolvedConfig } = useResolvedConfigContext();
+      const appContext = useAppContext();
+      const resolvedConfig = useResolvedConfigContext();
       /* eslint-enable react-hooks/rules-of-hooks */
 
       try {

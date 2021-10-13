@@ -4,7 +4,7 @@ import { PLUGIN_SCHEMAS, createRuntimeExportsUtils } from '@modern-js/utils';
 
 const useInternalDirectory = () => {
   try {
-    return useAppContext().value.internalDirectory;
+    return useAppContext().internalDirectory;
   } catch {
     return path.join(process.cwd(), 'node_modules/.modern-js');
   }

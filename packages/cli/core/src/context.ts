@@ -15,11 +15,11 @@ export const ResolvedConfigContext = createContext<NormalizedConfig>(
   {} as NormalizedConfig,
 );
 
-export const useAppContext = () => AppContext.use();
+export const useAppContext = () => AppContext.use().value;
 
-export const useConfigContext = () => ConfigContext.use();
+export const useConfigContext = () => ConfigContext.use().value;
 
-export const useResolvedConfigContext = () => ResolvedConfigContext.use();
+export const useResolvedConfigContext = () => ResolvedConfigContext.use().value;
 
 export const initAppContext = (
   appDirectory: string,

@@ -14,9 +14,9 @@ declare module '@modern-js/core' {
 
 const test = async () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { value: userConfig } = useResolvedConfigContext();
+  const userConfig = useResolvedConfigContext();
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { value: config } = useAppContext();
+  const config = useAppContext();
 
   // todo: consider lib-tools ...
   const webpackConfigs = getWebpackConfig(WebpackConfigTarget.CLIENT);

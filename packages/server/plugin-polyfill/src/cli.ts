@@ -6,7 +6,7 @@ export default createPlugin(
     ({
       htmlPartials({ entrypoint, partials }: any) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { value: resolvedConfig } = useResolvedConfigContext();
+        const resolvedConfig = useResolvedConfigContext();
         if (resolvedConfig.output.polyfill === 'ua') {
           partials.top.push(
             `<script src="${defaultPolyfill}" crossorigin></script>`,

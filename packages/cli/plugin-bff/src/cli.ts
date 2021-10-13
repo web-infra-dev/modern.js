@@ -37,12 +37,10 @@ export default createPlugin(
       return {
         tools: {
           webpack: (_config: Configuration, { chain }: { chain: Chain }) => {
-            const {
-              value: { appDirectory, port },
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-            } = useAppContext();
             // eslint-disable-next-line react-hooks/rules-of-hooks
-            const { value: modernConfig } = useResolvedConfigContext();
+            const { appDirectory, port } = useAppContext();
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const modernConfig = useResolvedConfigContext();
 
             const { bff } = modernConfig || {};
             const { fetcher } = bff || {};
@@ -76,7 +74,7 @@ export default createPlugin(
     },
     modifyServerRoutes({ routes }: any) {
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { value: modernConfig } = useResolvedConfigContext();
+      const modernConfig = useResolvedConfigContext();
 
       const { bff } = modernConfig || {};
       const prefix = bff?.prefix || '/api';
@@ -100,12 +98,10 @@ export default createPlugin(
       return { routes: routes.concat(apiServerRoutes) };
     },
     async afterBuild() {
-      const {
-        value: { appDirectory, distDirectory },
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-      } = useAppContext();
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { value: modernConfig } = useResolvedConfigContext();
+      const { appDirectory, distDirectory } = useAppContext();
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const modernConfig = useResolvedConfigContext();
 
       const rootDir = path.resolve(appDirectory, API_DIR);
       const distDir = path.resolve(distDirectory, API_DIR);
