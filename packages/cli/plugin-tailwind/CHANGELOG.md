@@ -1,4 +1,14 @@
-# @modern-js/plugin-tailwind
+# @modern-js/plugin-tailwindcss
+
+## 1.0.0-rc.8
+
+### Patch Changes
+
+- 224f7fe: fix server route match
+- Updated dependencies [224f7fe]
+- Updated dependencies [204c626]
+  - @modern-js/core@1.0.0-rc.8
+  - @modern-js/utils@1.0.0-rc.8
 
 ## 1.0.0-rc.7
 
