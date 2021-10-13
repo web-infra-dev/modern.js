@@ -106,7 +106,7 @@ export default createPlugin(
         const { useSSG, userHook } = parsedSSGConfig(ssgOptions);
         const buildDir = path.join(appDirectory, outputPath as string);
         const routes = readJSONSpec(buildDir);
-        const staticAlias = listStaticFiles(appDirectory, entriesDir, useSSG);
+        const staticAlias = listStaticFiles(appDirectory, entriesDir!, useSSG);
 
         // filter all routes not web
         const pageRoutes = routes.filter(route => !route.isApi);
@@ -124,7 +124,7 @@ export default createPlugin(
           route: SsgRoute,
           agreed?: boolean,
         ) => {
-          const urlPrefix = getUrlPrefix(route, baseUrl);
+          const urlPrefix = getUrlPrefix(route, baseUrl!);
           const ssgOutput = getOutput(route, urlPrefix, agreed);
           route.output = formatOutput(route.entryPath, ssgOutput);
           ssgRoutes.push(route);
