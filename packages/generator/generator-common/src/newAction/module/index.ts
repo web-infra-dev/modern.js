@@ -9,7 +9,7 @@ import { i18n, localeKeys } from '@/locale';
 
 export const ModuleActionTypes = [ActionType.Function];
 export const ModuleActionFunctions = [
-  // ActionFunction.TailwindCSS,
+  ActionFunction.TailwindCSS,
   ActionFunction.Less,
   ActionFunction.Sass,
   // ActionFunction.I18n,
@@ -17,6 +17,10 @@ export const ModuleActionFunctions = [
   ActionFunction.Storybook,
   ActionFunction.RuntimeApi,
 ];
+
+export const ModuleActionTypesMap: Record<string, string[]> = {
+  [ActionType.Function]: ModuleActionFunctions,
+};
 
 export const ModuleSpecialSchemaMap: Record<string, Schema> = {};
 

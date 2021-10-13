@@ -17,7 +17,7 @@ export const MWAActionTypes = [
 
 export const MWAActionFunctions = [
   ActionFunction.UnBundle,
-  // ActionFunction.TailwindCSS,
+  ActionFunction.TailwindCSS,
   ActionFunction.Less,
   ActionFunction.Sass,
   ActionFunction.BFF,
@@ -25,6 +25,7 @@ export const MWAActionFunctions = [
   ActionFunction.Electron,
   // ActionFunction.I18n,
   ActionFunction.Test,
+  ActionFunction.Storybook,
   // ActionFunction.E2ETest,
   // ActionFunction.Doc,
 ];
@@ -41,7 +42,12 @@ export const MWAActionTypesMap: Record<ActionType, string[]> = {
   [ActionType.Refactor]: MWAActionReactors,
 };
 
-export const MWASpecialSchemaMap: Record<string, Schema> = {};
+export const MWASpecialSchemaMap: Record<string, Schema> = {
+  [ActionFunction.Storybook]: {
+    key: ActionFunction.Storybook,
+    label: () => i18n.t(localeKeys.action.function.mwa_storybook),
+  },
+};
 
 export const MWANewActionSchema: Schema = {
   key: 'mwa_new_action',
@@ -78,6 +84,7 @@ export const MWAActionFunctionsDevDependencies: Partial<
   [ActionFunction.E2ETest]: '@modern-js/plugin-e2e',
   [ActionFunction.Doc]: '@modern-js/plugin-docsite',
   [ActionFunction.Electron]: '@modern-js/plugin-electron',
+  [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
 };
 
 export const MWAActionFunctionsDependencies: Partial<
@@ -87,7 +94,6 @@ export const MWAActionFunctionsDependencies: Partial<
   [ActionFunction.Sass]: '@modern-js/plugin-sass',
   [ActionFunction.BFF]: '@modern-js/plugin-bff',
   [ActionFunction.MicroFrontend]: '@modern-js/plugin-micro-frontend',
-
   [ActionFunction.I18n]: '@modern-js/plugin-i18n',
 };
 
@@ -112,6 +118,7 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.Test]: '@modern-js/test-generator',
     [ActionFunction.E2ETest]: '@modern-js/dependence-generator',
     [ActionFunction.Doc]: '@modern-js/dependence-generator',
+    [ActionFunction.Storybook]: '@modern-js/dependence-generator',
   },
   [ActionType.Refactor]: {
     [ActionRefactor.BFFToApp]: '@modern-js/bff-refactor-generator',
