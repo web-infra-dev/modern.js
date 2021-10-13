@@ -23,7 +23,7 @@ export const buildSourceCode = async (
   _: NormalizedConfig,
 ) => {
   const { sourceDir, enableTscCompiler } = config;
-  const { appDirectory } = core.useAppContext().value;
+  const { appDirectory } = core.useAppContext();
   const concurrency = os.cpus().length;
   const srcRootDir = path.join(appDirectory, sourceDir);
   const lm = new lg.LoggerManager();
