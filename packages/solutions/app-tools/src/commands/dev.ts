@@ -57,6 +57,7 @@ export const dev = async () => {
         hot: true,
         liveReload: true,
         port,
+        https: userConfig.dev.https,
       },
       ...userConfig.tools.devServer,
     },

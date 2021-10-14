@@ -1,8 +1,11 @@
 import { prettyInstructions, logger, isDev, chalk } from '@modern-js/utils';
-import { mountHook, IAppContext } from '@modern-js/core';
+import { mountHook, IAppContext, NormalizedConfig } from '@modern-js/core';
 
-export const printInstructions = async (appContext: IAppContext) => {
-  let message = prettyInstructions(appContext);
+export const printInstructions = async (
+  appContext: IAppContext,
+  config: NormalizedConfig,
+) => {
+  let message = prettyInstructions(appContext, config);
 
   if (isDev()) {
     message += `\n${chalk.cyanBright(

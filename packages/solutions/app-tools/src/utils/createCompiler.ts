@@ -14,7 +14,7 @@ const prettyTime = (stats: StatsCompilation) =>
 export const createCompiler = async ({
   webpackConfigs,
   // TODO: params
-  userConfig: _userConfig,
+  userConfig,
   appContext,
 }: {
   webpackConfigs: Configuration[];
@@ -63,7 +63,7 @@ export const createCompiler = async ({
             ),
           );
         }
-        await printInstructions(appContext);
+        await printInstructions(appContext, userConfig);
       }
       // eslint-disable-next-line require-atomic-updates
       isFirstCompile = false;

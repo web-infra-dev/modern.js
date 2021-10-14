@@ -92,7 +92,8 @@ export class Server {
       this.server = this.createProdServer();
     }
 
-    const { https = true } = options.dev;
+    const { https = false } = options.dev;
+    // TODO: should https enabled in production mode?
     if (https) {
       const httpsOptions = genHttpsOptions(https);
       this.app = createHttpsServer(httpsOptions, this.getRequestHandler());

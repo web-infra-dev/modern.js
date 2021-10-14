@@ -72,7 +72,7 @@ const serverDefaults: ServerConfig = {
   port: 8080,
 };
 
-const devDefaults = { assetPrefix: false };
+const devDefaults = { assetPrefix: false, https: false };
 
 const deployDefaults = {
   domain: '',
