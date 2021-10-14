@@ -1,5 +1,6 @@
 import os from 'os';
 import chalk from 'chalk';
+import { isDev } from './is';
 
 // TODO: type
 interface EntryPoint {
@@ -45,14 +46,17 @@ const getAddressUrls = (protocol = 'http', port: number) => {
   );
 };
 
-export const prettyInstructions = (appContext: any) => {
+export const prettyInstructions = (appContext: any, config: any) => {
   const { entrypoints, serverRoutes, port } = appContext as {
     entrypoints: EntryPoint[];
     serverRoutes: ServerRoute[];
     port: number;
   };
 
-  const urls = getAddressUrls('http', port);
+  const urls = getAddressUrls(
+    config.dev.https && isDev() ? 'https' : 'http',
+    port,
+  );
 
   const routes = serverRoutes.filter(route => route.entryName);
 

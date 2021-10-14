@@ -25,6 +25,6 @@ export const start = async () => {
     if (err) {
       throw err;
     }
-    await printInstructions(appContext);
+    await printInstructions(appContext, userConfig);
   });
 };

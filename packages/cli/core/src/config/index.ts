@@ -111,6 +111,7 @@ export interface ServerConfig {
 
 export interface DevConfig {
   assetPrefix?: string | boolean;
+  https?: boolean;
 }
 
 export interface DeployConfig {
