@@ -69,10 +69,10 @@ export const getAlias = (
       absoluteBaseUrl: baseUrl
         ? path.join(option.appDirectory, baseUrl)
         : option.appDirectory,
-      paths: applyOptionsChain(
-        aliasOption || {},
-        tsconfig?.compilerOptions?.paths,
-      ),
+      paths: {
+        ...(aliasOption || {}),
+        ...tsconfig?.compilerOptions?.paths,
+      },
       isTsPath: true,
       isTsProject,
     };
