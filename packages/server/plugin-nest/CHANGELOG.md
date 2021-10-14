@@ -1,5 +1,20 @@
 # @modern-js/plugin-nest
 
+## 1.0.0-rc.11
+
+### Patch Changes
+
+- 224f7fe: fix server route match
+- 204c626: feat: initial
+- Updated dependencies [224f7fe]
+- Updated dependencies [204c626]
+  - @modern-js/core@1.0.0-rc.11
+  - @modern-js/adapter-helpers@1.0.0-rc.11
+  - @modern-js/bff-runtime@1.0.0-rc.11
+  - @modern-js/bff-utils@1.0.0-rc.11
+  - @modern-js/server-plugin@1.0.0-rc.11
+  - @modern-js/utils@1.0.0-rc.11
+
 ## 1.0.0-rc.10
 
 ### Patch Changes
