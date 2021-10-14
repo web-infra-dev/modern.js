@@ -4,14 +4,39 @@ import {
   createServer,
   Server as httpServer,
 } from 'http';
+import { createServer as createHttpsServer } from 'https';
 import { serverManager } from '@modern-js/server-plugin';
-import { compatRequire, logger as defaultLogger } from '@modern-js/utils';
-import { ModernServerOptions, ServerHookRunner, ReadyOptions } from '../type';
+import {
+  compatRequire,
+  logger as defaultLogger,
+  HMR_SOCK_PATH,
+} from '@modern-js/utils';
+import {
+  ModernServerOptions,
+  ServerHookRunner,
+  ReadyOptions,
+  DevServerOptions,
+} from '../type';
 import { ModernServer } from './modern-server';
 import { ModernDevServer } from './dev-server';
 import { WebModernDevServer, WebModernServer } from './web-server';
 import { APIModernDevServer, APIModernServer } from './api-server';
 import { measure as defaultMeasure } from '@/libs/measure';
+import { genHttpsOptions } from '@/dev-tools/https';
+
+const DEFAULT_DEV_OPTIONS: DevServerOptions = {
+  client: {
+    port: '8080',
+    overlay: false,
+    logging: 'none',
+    path: HMR_SOCK_PATH,
+    host: 'localhost',
+  },
+  https: false,
+  dev: { writeToDisk: true },
+  hot: true,
+  liveReload: true,
+};
 
 export class Server {
   public options: ModernServerOptions;
@@ -58,6 +83,8 @@ export class Server {
 
     options.logger = options.logger || logger || defaultLogger;
     options.measure = options.measure || measure || defaultMeasure;
+    options.dev =
+      typeof options.dev === 'boolean' ? DEFAULT_DEV_OPTIONS : options.dev!;
 
     if (options.dev) {
       this.server = this.createDevServer();
@@ -65,7 +92,13 @@ export class Server {
       this.server = this.createProdServer();
     }
 
-    this.app = createServer(this.getRequestHandler());
+    const { https = true } = options.dev;
+    if (https) {
+      const httpsOptions = genHttpsOptions(https);
+      this.app = createHttpsServer(httpsOptions, this.getRequestHandler());
+    } else {
+      this.app = createServer(this.getRequestHandler());
+    }
 
     await this.server.init();
     return this;
