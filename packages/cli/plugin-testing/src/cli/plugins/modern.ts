@@ -46,7 +46,9 @@ export default (webpackConfig: any, userConfig: any, pwd: string) =>
         utils.setJestConfig({
           // todo: diffrent test root for diffrent solutions
           testMatch: [
-            `${pwd || process.cwd()}/(src|tests|api)/**/*.test.[jt]s?(x)`,
+            `${
+              pwd || process.cwd()
+            }/(src|tests|api|electron)/**/*.test.[jt]s?(x)`,
           ],
         });
 
