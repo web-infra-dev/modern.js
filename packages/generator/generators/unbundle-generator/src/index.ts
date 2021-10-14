@@ -23,7 +23,7 @@ const handleTemplateFile = async (
     query: {},
     update: {
       $set: {
-        'scripts.dev:esm': 'modern dev --unbundle',
+        'scripts.dev:esm': 'modern dev --unbundled',
       },
     },
   });
