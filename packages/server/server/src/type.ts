@@ -30,6 +30,8 @@ export type DevServerOptions = {
   hot: boolean | string;
   // 是否开启 page reload
   liveReload: boolean;
+  // 是否开启 https
+  https: boolean | { key: string; cert: string };
   [propName: string]: any;
 };
 

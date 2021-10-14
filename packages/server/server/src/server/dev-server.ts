@@ -4,7 +4,6 @@ import type { MultiCompiler, Compiler } from 'webpack';
 import webpackDevMiddleware, {
   WebpackDevMiddleware,
 } from 'webpack-dev-middleware';
-import { HMR_SOCK_PATH } from '@modern-js/utils';
 import { createMockHandler } from '../dev-tools/mock';
 import { createProxyHandler, ProxyOptions } from '../libs/proxy';
 import {
@@ -23,19 +22,6 @@ import * as reader from '../libs/render/reader';
 import Watcher from '../dev-tools/watcher';
 import { ModernServer } from './modern-server';
 import { AGGRED_DIR } from '@/constants';
-
-const DEFAULT_DEV_OPTIONS: DevServerOptions = {
-  client: {
-    port: '8080',
-    overlay: false,
-    logging: 'none',
-    path: HMR_SOCK_PATH,
-    host: 'localhost',
-  },
-  dev: { writeToDisk: true },
-  hot: true,
-  liveReload: true,
-};
 
 export class ModernDevServer extends ModernServer {
   private devProxyHandler: ReturnType<typeof createProxyHandler> = null;
@@ -64,8 +50,7 @@ export class ModernDevServer extends ModernServer {
     this.compiler = options.compiler!;
 
     // set dev server options, like webpack-dev-server
-    this.dev =
-      typeof options.dev === 'boolean' ? DEFAULT_DEV_OPTIONS : options.dev!;
+    this.dev = options.dev as DevServerOptions;
   }
 
   // Complete the preparation of services

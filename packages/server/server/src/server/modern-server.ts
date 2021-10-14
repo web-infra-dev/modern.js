@@ -112,7 +112,7 @@ export class ModernServer {
     if (staticGenerate) {
       this.staticGenerate = staticGenerate;
     }
-    process.env.BUILD_TYPE = `${this.staticGenerate || false}`;
+    process.env.BUILD_TYPE = `${this.staticGenerate ? 'ssg' : 'ssr'}`;
   }
 
   // exposed requestHandler
@@ -405,7 +405,11 @@ export class ModernServer {
 
     const { debugName, debugEntry } = context.query;
     // add debug micro App to first
-    if (debugName && debugEntry) {
+    if (
+      debugName &&
+      debugEntry &&
+      (conf.deploy.microFrontend as any)?.enableProdDebug
+    ) {
       modules.unshift({
         name: debugName,
         entry: debugEntry,
