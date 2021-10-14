@@ -62,7 +62,7 @@ export const createDevServer = async (
   appContext: IAppContext,
 ): Promise<ESMServer> => {
   const { appDirectory } = appContext;
-  const { https } = (config.server as any) || {};
+  const { https } = config.dev || {};
   const { disableAutoImportStyle } = (config.output as any) || {};
 
   const app = new Koa();
@@ -174,7 +174,7 @@ export const startDevServer = async (
 
     let message = chalk.cyanBright(`  🛫 App running at: \n`);
 
-    message += prettyInstructions(appContext);
+    message += prettyInstructions(appContext, userConfig);
 
     message += `\n${chalk.cyanBright(
       [

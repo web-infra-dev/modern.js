@@ -16,7 +16,12 @@ const plugins = {
 
 const dev = {
   type: 'object',
-  properties: { assetPrefix: { type: ['boolean', 'string'] } },
+  properties: {
+    assetPrefix: { type: ['boolean', 'string'] },
+    https: {
+      type: 'boolean',
+    },
+  },
   additionalProperties: false,
 };
 export interface PluginValidateSchema {
