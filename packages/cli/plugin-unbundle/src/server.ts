@@ -8,7 +8,6 @@ import c2k from 'koa-connect';
 import type { Plugin as RollupPlugin } from 'rollup';
 import { FSWatcher } from 'chokidar';
 import {
-  findMonorepoRoot,
   chalk,
   HMR_SOCK_PATH,
   isTypescript,
@@ -124,10 +123,15 @@ export const createDevServer = async (
   // history api fallback to specific html
   app.use(historyApiFallbackMiddleware(config, appContext));
 
-  const monorepoRootDir = findMonorepoRoot(appDirectory);
+  app.use(
+    koaStatic('/', {
+      index: false,
+      hidden: true,
+    }),
+  );
 
   app.use(
-    koaStatic(monorepoRootDir ? '/' : appDirectory, {
+    koaStatic(appDirectory, {
       index: false,
       hidden: true,
     }),
