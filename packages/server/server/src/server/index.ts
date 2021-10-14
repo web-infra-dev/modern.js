@@ -84,7 +84,7 @@ export class Server {
     options.logger = options.logger || logger || defaultLogger;
     options.measure = options.measure || measure || defaultMeasure;
     options.dev =
-      typeof options.dev === 'boolean' ? DEFAULT_DEV_OPTIONS : options.dev!;
+      !options.dev || options.dev === true ? DEFAULT_DEV_OPTIONS : options.dev;
 
     if (options.dev) {
       this.server = this.createDevServer();
