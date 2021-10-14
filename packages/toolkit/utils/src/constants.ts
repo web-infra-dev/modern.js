@@ -172,7 +172,7 @@ export const PLUGIN_SCHEMAS = {
   '@modern-js/plugin-ssg': [
     {
       target: 'output.ssg',
-      schema: { oneOf: [{ type: 'string' }, { instanceof: 'Function' }] },
+      schema: { oneOf: [{ type: 'boolean' }, { instanceof: 'Function' }] },
     },
   ],
   '@modern-js/plugin-ssr': [
