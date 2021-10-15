@@ -17,8 +17,11 @@ function isEmptyApiDir(apiDir: string) {
     return true;
   }
   return files.every(file => {
-    const childFiles = fs.readdirSync(path.join(apiDir, file));
-    return childFiles.length === 0;
+    if (fs.statSync(path.join(apiDir, file)).isDirectory()) {
+      const childFiles = fs.readdirSync(path.join(apiDir, file));
+      return childFiles.length === 0;
+    }
+    return false;
   });
 }
 

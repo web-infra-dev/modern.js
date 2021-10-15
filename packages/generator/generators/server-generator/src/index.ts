@@ -16,8 +16,11 @@ function isEmptyServerDir(serverDir: string) {
     return true;
   }
   return files.every(file => {
-    const childFiles = fs.readdirSync(path.join(serverDir, file));
-    return childFiles.length === 0;
+    if (fs.statSync(path.join(serverDir, file)).isDirectory()) {
+      const childFiles = fs.readdirSync(path.join(serverDir, file));
+      return childFiles.length === 0;
+    }
+    return false;
   });
 }
 
