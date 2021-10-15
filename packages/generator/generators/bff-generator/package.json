@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/bff-generator",
-  "version": "1.0.0-rc.12",
+  "version": "1.0.0-rc.13",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/main.js",
