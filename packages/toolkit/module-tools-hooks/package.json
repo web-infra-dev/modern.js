@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/module-tools-hooks",
-  "version": "1.0.0-rc.11",
+  "version": "1.0.0-rc.12",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -24,14 +24,14 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/core": "workspace:^1.0.0-rc.11",
-    "@modern-js/plugin": "workspace:^1.0.0-rc.11"
+    "@modern-js/core": "workspace:^1.0.0-rc.12",
+    "@modern-js/plugin": "workspace:^1.0.0-rc.12"
   },
   "devDependencies": {
-    "@modern-js/style-compiler": "workspace:^1.0.0-rc.11",
+    "@modern-js/style-compiler": "workspace:^1.0.0-rc.12",
     "typescript": "^4.4.3",
-    "@modern-js/plugin-testing": "^1.0.0-rc.11",
-    "@modern-js/module-tools": "^1.0.0-rc.11"
+    "@modern-js/plugin-testing": "^1.0.0-rc.12",
+    "@modern-js/module-tools": "^1.0.0-rc.12"
   },
   "sideEffects": false,
   "modernConfig": {
