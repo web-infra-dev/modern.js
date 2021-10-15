@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-fast-refresh",
-  "version": "1.0.0-rc.11",
+  "version": "1.0.0-rc.12",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -25,9 +25,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/core": "workspace:^1.0.0-rc.11",
-    "@modern-js/hmr-client": "workspace:^1.0.0-rc.11",
-    "@modern-js/utils": "workspace:^1.0.0-rc.11",
+    "@modern-js/core": "workspace:^1.0.0-rc.12",
+    "@modern-js/hmr-client": "workspace:^1.0.0-rc.12",
+    "@modern-js/utils": "workspace:^1.0.0-rc.12",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "react-refresh": "^0.10.0"
   },
@@ -37,8 +37,8 @@
     "typescript": "^4",
     "webpack": "^5.54.0",
     "webpack-chain": "^6.5.1",
-    "@modern-js/plugin-testing": "^1.0.0-rc.11",
-    "@modern-js/module-tools": "^1.0.0-rc.11"
+    "@modern-js/plugin-testing": "^1.0.0-rc.12",
+    "@modern-js/module-tools": "^1.0.0-rc.12"
   },
   "sideEffects": false,
   "modernConfig": {
