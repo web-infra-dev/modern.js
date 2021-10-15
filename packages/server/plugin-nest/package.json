@@ -67,9 +67,6 @@
   "peerDependencies": {
     "@modern-js/bff-runtime": "workspace:^1.0.0-rc.12"
   },
-  "peerDependencies": {
-    "@modern-js/bff-runtime": "workspace:^1.0.0-rc.2"
-  },
   "sideEffects": false,
   "modernConfig": {
     "output": {
