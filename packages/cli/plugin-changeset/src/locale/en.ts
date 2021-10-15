@@ -20,6 +20,8 @@ export const EN_LOCALE = {
     release: {
       describe: 'publish changes to npm',
       tag: 'publish use special tag',
+      ignore_scripts:
+        'publish command ignore npm scripts, only can use in pnpm monorepo',
     },
   },
 };
