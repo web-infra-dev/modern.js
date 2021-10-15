@@ -57,6 +57,7 @@ export const INTERNAL_PLUGINS: {
   '@modern-js/plugin-sass': { cli: '@modern-js/plugin-sass/cli' },
   '@modern-js/plugin-esbuild': { cli: '@modern-js/plugin-esbuild/cli' },
   '@modern-js/plugin-proxy': { cli: '@modern-js/plugin-proxy/cli' },
+  '@modern-js/plugin-ssg': { cli: '@modern-js/plugin-ssg/cli' },
   '@modern-js/plugin-bff': {
     cli: '@modern-js/plugin-bff/cli',
     server: '@modern-js/plugin-bff/server',

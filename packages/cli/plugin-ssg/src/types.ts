@@ -39,7 +39,7 @@ export type HookContext = {
   route: UserInterfaceRoute;
 };
 
-export type SSGConfig = string | ((context: any) => void);
+export type SSGConfig = boolean | ((context: any) => void);
 export type ExtendOutputConfig = {
   ssg: SSGConfig;
 };

@@ -102,7 +102,7 @@ export const getSSGRenderLevel = (key: boolean | string) => {
 };
 
 export const parsedSSGConfig = (ssg: SSGConfig) => {
-  const useSSG = typeof ssg === 'string' ? ssg : true;
+  const useSSG = Boolean(ssg);
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const userHook = typeof ssg === 'function' ? ssg : () => {};
   return { useSSG, userHook };
