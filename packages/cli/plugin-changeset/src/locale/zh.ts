@@ -20,6 +20,8 @@ export const ZH_LOCALE = {
     release: {
       describe: '发布 npm 包',
       tag: '发布 npm 包使用特定的 tag',
+      ignore_scripts:
+        '发布时忽略 package.json 中的 scripts 命令，仅支持在 pnpm monorepo 中使用',
     },
   },
 };
