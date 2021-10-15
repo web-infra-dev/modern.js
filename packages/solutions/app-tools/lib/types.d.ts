@@ -2,10 +2,6 @@
 /// <reference types="react" />
 /// <reference types="react-dom" />
 /// <reference path="./dist/types/index.d.ts" />
-/// <reference types="@modern-js/plugin-express/types" />
-/// <reference types="@modern-js/plugin-koa/types" />
-/// <reference types="@modern-js/plugin-egg" />
-/// <reference types="@modern-js/plugin-nest" />
 
 declare namespace NodeJS {
   interface ProcessEnv {
