@@ -5,6 +5,7 @@ import { CHANGESET_PATH, execaWithStreamLog } from '../utils';
 
 interface PublishOptions {
   tag: string;
+  ignoreScripts: boolean;
 }
 export async function release(options: PublishOptions) {
   const appDir = process.cwd();
@@ -13,7 +14,7 @@ export async function release(options: PublishOptions) {
 
   const params = ['publish'];
 
-  const { tag } = options;
+  const { tag, ignoreScripts } = options;
 
   if (tag) {
     params.push('--tag');
@@ -27,7 +28,7 @@ export async function release(options: PublishOptions) {
   params.push('-r');
   params.push('--report-summary');
 
-  if (process.argv.includes('--ignore-scripts')) {
+  if (ignoreScripts) {
     params.push('--ignore-scripts');
   }
 
@@ -38,7 +39,11 @@ export async function release(options: PublishOptions) {
     publishedPackages: Array<{ name: string; version: string }>;
   } = await fs.readJSON(pnpmPublishSummaryFile, 'utf-8');
 
-  (publishInfo.publishedPackages || []).forEach(pkg => {
-    gitTag(`${pkg.name}@${pkg.version}`, appDir);
-  });
+  await Promise.all(
+    (publishInfo.publishedPackages || []).map(pkg =>
+      gitTag(`${pkg.name}@${pkg.version}`, appDir),
+    ),
+  );
+
+  await fs.remove(pnpmPublishSummaryFile);
 }
