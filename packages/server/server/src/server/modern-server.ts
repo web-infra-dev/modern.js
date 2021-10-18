@@ -385,7 +385,7 @@ export class ModernServer {
     }
 
     const manifest = masterApp.manifest || {};
-    const modules = [];
+    let modules = [];
     const { modules: configModules = [] } = manifest;
 
     // while config modules is an string, fetch data from remote
@@ -403,16 +403,27 @@ export class ModernServer {
       modules.push(...configModules);
     }
 
-    const { debugName, debugEntry } = context.query;
+    const { headers } = context.req;
+
+    const debugName =
+      headers['x-micro-frontend-module-name'] ||
+      context.query['__debug__micro-rontend-module-name'];
+
+    const debugEntry =
+      headers['x-micro-frontend-module-entry'] ||
+      context.query['__debug__micro-rontend-module-entry'];
+
     // add debug micro App to first
-    if (
-      debugName &&
-      debugEntry &&
-      (conf.deploy.microFrontend as any)?.enableProdDebug
-    ) {
-      modules.unshift({
-        name: debugName,
-        entry: debugEntry,
+    if (debugName && debugEntry && conf.server?.enableMicroFrontendDebug) {
+      modules = modules.map(m => {
+        if (m.name === debugName) {
+          return {
+            name: debugName,
+            entry: debugEntry,
+          };
+        }
+
+        return m;
       });
     }
 
