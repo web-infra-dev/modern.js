@@ -3,7 +3,7 @@ import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import { FsAPI } from '@modern-js/codesmith-api-fs';
-import { fs, isTsProject } from '@modern-js/generator-utils';
+import { fs, isTsProject, getPackageManager } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
 const handleTemplateFile = async (
@@ -112,7 +112,8 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   }
 
   if (!context.config.isSubGenerator) {
-    appApi.showSuccessInfo(i18n.t(localeKeys.success));
+    const packageManager = getPackageManager(process.cwd());
+    appApi.showSuccessInfo(i18n.t(localeKeys.success, { packageManager }));
   }
 
   generator.logger.debug(`forge @modern-js/electron-generator succeed `);
