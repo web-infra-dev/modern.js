@@ -73,9 +73,7 @@ const serverDefaults = {
 const devDefaults = { assetPrefix: false };
 
 const deployDefaults = {
-  microFrontend: {
-    enableHtmlEntry: false
-  },
+  microFrontend: false,
   domain: '',
   domainByEntries: undefined,
 };
