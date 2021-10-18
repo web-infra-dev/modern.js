@@ -1,10 +1,10 @@
 {
   "name": "@modern-js/types",
-  "version": "1.0.0-rc.12",
+  "version": "1.0.0-rc.13",
   "main": "",
   "types": "./index.d.ts",
   "dependencies": {
-    "@modern-js/plugin": "workspace:^1.0.0-rc.12",
+    "@modern-js/plugin": "workspace:^1.0.0-rc.13",
     "webpack": "^5.54.0"
   },
   "exports": {
@@ -16,8 +16,8 @@
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
-    "@modern-js/plugin-testing": "^1.0.0-rc.12",
-    "@modern-js/module-tools": "^1.0.0-rc.12"
+    "@modern-js/plugin-testing": "^1.0.0-rc.13",
+    "@modern-js/module-tools": "^1.0.0-rc.13"
   },
   "sideEffects": false,
   "publishConfig": {
