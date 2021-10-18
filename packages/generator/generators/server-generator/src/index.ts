@@ -54,6 +54,16 @@ const handleTemplateFile = async (
     process.exit(1);
   }
 
+  let updateInfo = {};
+
+  if (framework === Framework.Egg || framework === Framework.Koa) {
+    updateInfo = {
+      [`devDependencies.@types/${
+        framework as string
+      }`]: `^${await getPackageVersion(`@types/${framework as string}`)}`,
+    };
+  }
+
   await jsonAPI.update(
     context.materials.default.get(path.join(appDir, 'package.json')),
     {
@@ -71,6 +81,7 @@ const handleTemplateFile = async (
           [`dependencies.${framework as string}`]: `^${await getPackageVersion(
             framework as string,
           )}`,
+          ...updateInfo,
         },
       },
     },
