@@ -23,7 +23,8 @@ export async function release(options: PublishOptions) {
   }
 
   if (!isMonorepo || packageManager === 'yarn') {
-    await execaWithStreamLog(CHANGESET_PATH, params);
+    await execaWithStreamLog('node', [CHANGESET_PATH, ...params]);
+    return;
   }
 
   params.push('-r');
