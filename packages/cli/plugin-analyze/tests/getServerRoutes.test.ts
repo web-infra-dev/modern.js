@@ -31,7 +31,7 @@ describe('get server routes', () => {
       },
     );
 
-    expect(routes).toEqual([
+    expect(routes).toMatchObject([
       {
         urlPath: '/page-a',
         isSPA: true,
@@ -68,7 +68,7 @@ describe('get server routes', () => {
       },
     );
 
-    expect(routes).toEqual([
+    expect(routes).toMatchObject([
       {
         urlPath: '/base/a',
         entryName: 'page-a',
@@ -106,7 +106,7 @@ describe('get server routes', () => {
       } as any,
     );
 
-    expect(routes).toEqual([
+    expect(routes).toMatchObject([
       {
         urlPath: '/a',
         entryName: 'page-a',
@@ -151,7 +151,7 @@ describe('get server routes', () => {
       },
     );
 
-    expect(routes).toEqual([
+    expect(routes).toMatchObject([
       {
         urlPath: '/a/page-a',
         entryName: 'page-a',
@@ -196,7 +196,7 @@ describe('get server routes', () => {
       } as any,
     );
 
-    expect(routes).toEqual([
+    expect(routes).toMatchObject([
       {
         urlPath: '/',
         entryName: MAIN_ENTRY_NAME,
@@ -221,7 +221,7 @@ describe('get server routes', () => {
           },
         } as any,
       ),
-    ).toEqual([
+    ).toMatchObject([
       {
         urlPath: '/test',
         entryName: MAIN_ENTRY_NAME,
@@ -247,7 +247,7 @@ describe('get server routes', () => {
       } as NormalizedConfig,
     });
 
-    expect(routes).toEqual([
+    expect(routes).toMatchObject([
       {
         urlPath: '/page-a',
         entryName: 'page-a',
@@ -299,7 +299,7 @@ describe('get server routes', () => {
       } as any,
     );
 
-    expect(routes).toEqual([
+    expect(routes).toMatchObject([
       {
         urlPath: '/page-a',
         entryName: 'page-a',

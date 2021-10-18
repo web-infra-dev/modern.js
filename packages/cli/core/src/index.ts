@@ -42,6 +42,9 @@ import { loadEnv } from './loadEnv';
 export type { Hooks };
 export { defaultsConfig } from './config';
 
+export * from '@modern-js/plugin';
+export * from '@modern-js/plugin/node';
+
 program
   .name('modern')
   .usage('<command> [options]')
