@@ -52,10 +52,7 @@ export default createPlugin(
             webpack: (_config: any, { chain }: { chain: WebpackChain }) => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const mConfig = useMicrofrontendConfig();
-
-              if (mConfig?.enableHtmlEntry) {
-                chain.output.libraryTarget('umd');
-              }
+              chain.output.libraryTarget('umd');
 
               if (mConfig) {
                 chain.externals({ 'react-dom': 'react-dom', react: 'react' });
@@ -96,6 +93,9 @@ export default createPlugin(
             {
               imported: 'unmountComponentAtNode',
             },
+            {
+              imported: 'createPortal',
+            },
           ],
         });
 
@@ -121,10 +121,7 @@ export default createPlugin(
 
         return {
           entrypoint,
-          code: makeRenderFunction(
-            code,
-            Boolean(config?.deploy?.microFrontend?.enableHtmlEntry),
-          ),
+          code: makeRenderFunction(code),
         };
       },
       modifyEntryExport({ entrypoint, exportStatement }: any) {
@@ -133,9 +130,7 @@ export default createPlugin(
 
         return {
           entrypoint,
-          exportStatement: mConfig
-            ? makeProvider(mConfig.enableHtmlEntry)
-            : exportStatement,
+          exportStatement: mConfig ? makeProvider() : exportStatement,
         };
       },
       addRuntimeExports() {

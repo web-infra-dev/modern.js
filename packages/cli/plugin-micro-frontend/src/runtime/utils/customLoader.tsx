@@ -8,11 +8,14 @@ type Provider = {
   [SUBMODULE_APP_COMPONENT_KEY]?: React.ComponentType<any>;
 };
 
-export function customLoader() {
+export function customLoader(
+  setSubAppMap: Record<string, (...args: any[]) => any>,
+) {
   return (provider: Provider, appInfo: ModuleInfo) => {
+    const setSubApp = setSubAppMap[appInfo.name];
     const ModuleApp = provider[SUBMODULE_APP_COMPONENT_KEY];
 
-    if (!ModuleApp || !(appInfo as any)._setModuleApp) {
+    if (!ModuleApp || !setSubApp) {
       return {
         mount: provider.render,
         unmount: provider.destroy,
@@ -21,12 +24,12 @@ export function customLoader() {
 
     return {
       mount() {
-        (appInfo as any)._setModuleApp(() =>
+        setSubApp(() =>
           memo((props: any) => <ModuleApp {...appInfo.props} {...props} />),
         );
       },
       unmount() {
-        (appInfo as any)._setModuleApp(null);
+        setSubApp(null);
       },
     };
   };
