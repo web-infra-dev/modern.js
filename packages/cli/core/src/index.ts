@@ -136,6 +136,8 @@ const createCli = () => {
   let isRestart = false;
 
   const init = async (argv: string[] = []) => {
+    enable();
+
     manager.clear();
 
     const appDirectory = await initAppDir();
@@ -201,8 +203,6 @@ const createCli = () => {
   };
 
   async function run(argv: string[]) {
-    enable();
-
     const { loadedConfig, appContext, resolved } = await init(argv);
 
     initWatcher(
