@@ -27,8 +27,6 @@
   "dependencies": {
     "@modern-js/adapter-helpers": "workspace:^1.0.0-rc.12",
     "@modern-js/bff-utils": "workspace:^1.0.0-rc.12",
-    "@modern-js/core": "workspace:^1.0.0-rc.12",
-    "@modern-js/server-plugin": "workspace:^1.0.0-rc.12",
     "@modern-js/utils": "workspace:^1.0.0-rc.12",
     "@nestjs/common": "^8.0.6",
     "@nestjs/core": "^8.0.6",
@@ -61,10 +59,14 @@
     "react-dom": "^17.0.2",
     "supertest": "^6.1.6",
     "typescript": "^4",
+    "@modern-js/core": "workspace:^1.0.0-rc.12",
+    "@modern-js/server-plugin": "workspace:^1.0.0-rc.12",
     "@modern-js/plugin-testing": "^1.0.0-rc.12",
     "@modern-js/module-tools": "^1.0.0-rc.12"
   },
   "peerDependencies": {
+    "@modern-js/core": "workspace:^1.0.0-rc.12",
+    "@modern-js/server-plugin": "workspace:^1.0.0-rc.12",
     "@modern-js/bff-runtime": "workspace:^1.0.0-rc.12"
   },
   "sideEffects": false,

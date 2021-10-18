@@ -44,13 +44,14 @@
     "@modern-js/babel-chain": "workspace:^1.0.0-rc.12",
     "@modern-js/babel-compiler": "workspace:^1.0.0-rc.12",
     "@modern-js/babel-preset-lib": "workspace:^1.0.0-rc.12",
-    "@modern-js/core": "workspace:^1.0.0-rc.12",
-    "@modern-js/server-plugin": "workspace:^1.0.0-rc.12",
+    "@modern-js/bff-utils": "workspace:^1.0.0-rc.12",
     "@modern-js/server-utils": "workspace:^1.0.0-rc.12",
     "@modern-js/utils": "workspace:^1.0.0-rc.12",
     "loader-utils": "^2.0.0"
   },
   "devDependencies": {
+    "@modern-js/core": "workspace:^1.0.0-rc.12",
+    "@modern-js/server-plugin": "workspace:^1.0.0-rc.12",
     "@modern-js/plugin-testing": "^1.0.0-rc.12",
     "@modern-js/plugin-analyze": "workspace:^1.0.0-rc.12",
     "@modern-js/bff-utils": "workspace:^1.0.0-rc.12",
@@ -69,7 +70,8 @@
     "@modern-js/module-tools": "^1.0.0-rc.12"
   },
   "peerDependencies": {
-    "@modern-js/bff-utils": "workspace:^1.0.0-rc.12"
+    "@modern-js/core": "workspace:^1.0.0-rc.12",
+    "@modern-js/server-plugin": "workspace:^1.0.0-rc.12"
   },
   "modernConfig": {
     "output": {

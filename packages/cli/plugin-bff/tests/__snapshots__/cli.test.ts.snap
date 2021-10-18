@@ -4,7 +4,9 @@ exports[`bff cli plugin config 1`] = `
 Array [
   Object {
     "source": Object {
-      "moduleScopes": [Function],
+      "moduleScopes": Array [
+        "./api",
+      ],
     },
     "tools": Object {
       "webpack": [Function],
@@ -37,6 +39,11 @@ Object {
         ],
       },
     ],
+  },
+  "resolve": Object {
+    "alias": Object {
+      "@api": "/packages/cli/plugin-bff/fixtures/function/api",
+    },
   },
 }
 `;

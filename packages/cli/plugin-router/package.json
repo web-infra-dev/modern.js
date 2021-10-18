@@ -46,11 +46,11 @@
   "peerDependencies": {
     "react": ">=16.8",
     "react-dom": ">=16.8",
+    "@modern-js/core": "workspace:^1.0.0-rc.12",
     "@modern-js/runtime-core": "workspace:^1.0.0-rc.12"
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/core": "workspace:^1.0.0-rc.12",
     "@modern-js/utils": "workspace:^1.0.0-rc.12",
     "@types/history": "^4.7.9",
     "@types/react-router-dom": "^5.1.8",
@@ -58,6 +58,7 @@
     "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
+    "@modern-js/core": "workspace:^1.0.0-rc.12",
     "@modern-js/plugin": "workspace:^1.0.0-rc.12",
     "@modern-js/plugin-analyze": "workspace:^1.0.0-rc.12",
     "@modern-js/plugin-testing": "^1.0.0-rc.12",

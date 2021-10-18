@@ -21,10 +21,6 @@ const hooks: typeof import('@modern-js/module-tools-hooks') = Import.lazy(
   '@modern-js/module-tools-hooks',
   require,
 );
-const pluginNode: typeof import('@modern-js/plugin/node') = Import.lazy(
-  '@modern-js/plugin/node',
-  require,
-);
 
 const STYLE_DIRS = 'styles';
 const SRC_STYLE_DIRS = 'src';
@@ -172,7 +168,6 @@ const taskMain = async ({
 };
 
 (async () => {
-  pluginNode.enable();
   hooks.buildLifeCycle();
   const { resolved: modernConfig, appContext } = await core.cli.init();
   await core.manager.run(async () => {
