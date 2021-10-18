@@ -15,7 +15,7 @@
     "release": "modern release --ignore-scripts"
   },
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=14.17.6"
   },
   "husky": {
     "hooks": {
