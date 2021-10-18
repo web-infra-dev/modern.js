@@ -7,6 +7,7 @@ interface PublishOptions {
   tag: string;
   ignoreScripts: boolean;
 }
+// eslint-disable-next-line max-statements
 export async function release(options: PublishOptions) {
   const appDir = process.cwd();
   const isMonorepo = isModernjsMonorepo(appDir);
@@ -22,10 +23,13 @@ export async function release(options: PublishOptions) {
   }
 
   if (!isMonorepo || packageManager === 'yarn') {
-    await execaWithStreamLog(CHANGESET_PATH, params);
+    await execaWithStreamLog('node', [CHANGESET_PATH, ...params]);
+    return;
   }
 
   params.push('-r');
+  params.push('--');
+  params.push('--filter {./packages}');
   params.push('--report-summary');
 
   if (ignoreScripts) {
