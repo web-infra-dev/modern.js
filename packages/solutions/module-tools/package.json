@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/module-tools",
-  "version": "1.0.0-rc.13",
+  "version": "1.0.0-ubuntu.0",
   "bin": {
     "modern": "./bin/modern.js"
   },
@@ -41,7 +41,7 @@
     "@babel/traverse": "^7.15.0",
     "@babel/types": "^7.15.0",
     "@modern-js/babel-compiler": "workspace:^1.0.0-rc.13",
-    "@modern-js/babel-preset-module": "workspace:^1.0.0-rc.13",
+    "@modern-js/babel-preset-module": "workspace:1.0.0-ubuntu.0",
     "@modern-js/core": "workspace:^1.0.0-rc.13",
     "@modern-js/css-config": "workspace:^1.0.0-rc.13",
     "@modern-js/i18n-cli-language-detector": "workspace:^1.0.0-rc.13",

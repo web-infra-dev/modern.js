@@ -28,7 +28,7 @@ const checkIsOutsideSrc = (
   importName: string,
   srcDir: string,
 ) => {
-  if (!filename || filename.includes('node_modules/.block-tools/source')) {
+  if (!filename) {
     return false;
   }
   const currentFileDir = path.dirname(filename);
@@ -62,6 +62,11 @@ export const importCheck = () => ({
         );
       }
       if (checkIsOutsideSrc(filename, importName, srcDir)) {
+        console.info(filename, importName, srcDir);
+        const currentFileDir = path.dirname(filename as any || '');
+        const importFileAbsPath = path.resolve(currentFileDir, importName);
+        console.info('currentFileDir', currentFileDir, 'importFileAbsPath', importFileAbsPath);
+        console.info(path.relative(srcDir, importFileAbsPath));
         throw new Error(
           `Importing files outside of 'src' directory is not allowed: '${importName}, You can place the file in the 'src' directory and modify the imported code'`,
         );

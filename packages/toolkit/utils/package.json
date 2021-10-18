@@ -61,7 +61,7 @@
     "typescript": "^4",
     "webpack": "^5.54.0",
     "@modern-js/plugin-testing": "^1.0.0-rc.13",
-    "@modern-js/module-tools": "^1.0.0-rc.13"
+    "@modern-js/module-tools": "^1.0.0-unbuntu.0"
   },
   "peerDependencies": {
     "typescript": "^4.4.3"
