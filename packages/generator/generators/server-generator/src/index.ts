@@ -56,7 +56,7 @@ const handleTemplateFile = async (
 
   let updateInfo = {};
 
-  if (framework === Framework.Egg || framework === Framework.Koa) {
+  if (framework === Framework.Express || framework === Framework.Koa) {
     updateInfo = {
       [`devDependencies.@types/${
         framework as string

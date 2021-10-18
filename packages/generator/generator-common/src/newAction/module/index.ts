@@ -56,12 +56,14 @@ export const ModuleActionFunctionsDevDependencies: Partial<
   [ActionFunction.Doc]: '@modern-js/plugin-docsite',
   [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
   [ActionFunction.RuntimeApi]: '@modern-js/runtime',
+  [ActionFunction.TailwindCSS]: 'tailwindcss',
 };
 
 export const ModuleActionFunctionsPeerDependencies: Partial<
   Record<ActionFunction, string>
 > = {
   [ActionFunction.RuntimeApi]: '@modern-js/runtime',
+  [ActionFunction.TailwindCSS]: 'tailwindcss',
 };
 
 export const ModuleActionFunctionsDependencies: Partial<

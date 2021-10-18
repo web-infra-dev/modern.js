@@ -108,7 +108,7 @@ export const MWANewActionGenerators: Record<
   },
   [ActionType.Function]: {
     [ActionFunction.UnBundle]: '@modern-js/unbundle-generator',
-    [ActionFunction.TailwindCSS]: '@modern-js/dependence-generator',
+    [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
     [ActionFunction.Less]: '@modern-js/dependence-generator',
     [ActionFunction.Sass]: '@modern-js/dependence-generator',
     [ActionFunction.BFF]: '@modern-js/bff-generator',
