@@ -67,6 +67,7 @@
   },
   "sideEffects": false,
   "peerDependencies": {
+    "@modern-js/core": "workspace:^1.0.0-rc.12",
     "@modern-js/runtime-core": "workspace:^1.0.0-rc.12",
     "react": "^17.0.2"
   },

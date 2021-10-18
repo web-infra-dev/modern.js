@@ -8,8 +8,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "@modern-js/plugin": ["node_modules/@modern-js/plugin"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src"]

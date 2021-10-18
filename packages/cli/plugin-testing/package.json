@@ -20,7 +20,6 @@
     "@babel/preset-env": "^7.15.6",
     "@babel/runtime": "^7",
     "@modern-js/babel-compiler": "workspace:^1.0.0-rc.12",
-    "@modern-js/core": "workspace:^1.0.0-rc.12",
     "@modern-js/testing": "workspace:^1.0.0-rc.12",
     "@modern-js/utils": "workspace:^1.0.0-rc.12",
     "@modern-js/webpack": "workspace:^1.0.0-rc.12",
@@ -29,9 +28,11 @@
     "enhanced-resolve": "^5.8.2"
   },
   "peerDependencies": {
+    "@modern-js/core": "workspace:^1.0.0-rc.12",
     "@modern-js/runtime-core": "workspace:^1.0.0-rc.12"
   },
   "devDependencies": {
+    "@modern-js/core": "workspace:^1.0.0-rc.12",
     "@modern-js/runtime-core": "workspace:^1.0.0-rc.12",
     "@types/jest": "^26",
     "@types/node": "^14",

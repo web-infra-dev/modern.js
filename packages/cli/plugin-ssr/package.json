@@ -35,7 +35,6 @@
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/server": "^5.15.1",
     "@loadable/webpack-plugin": "^5.15.1",
-    "@modern-js/core": "workspace:^1.0.0-rc.12",
     "@modern-js/utils": "workspace:^1.0.0-rc.12",
     "react": "^17",
     "react-dom": "^17",
@@ -45,7 +44,7 @@
   },
   "devDependencies": {
     "@modern-js/babel-chain": "workspace:^1.0.0-rc.12",
-    "@modern-js/plugin": "workspace:^1.0.0-rc.12",
+    "@modern-js/core": "workspace:^1.0.0-rc.12",
     "@modern-js/runtime-core": "workspace:^1.0.0-rc.12",
     "@modern-js/server": "workspace:^1.0.0-rc.12",
     "@loadable/component": "^5.15.0",
@@ -64,6 +63,7 @@
     "@modern-js/module-tools": "^1.0.0-rc.12"
   },
   "peerDependencies": {
+    "@modern-js/core": "workspace:^1.0.0-rc.12",
     "@modern-js/runtime-core": "workspace:^1.0.0-rc.12",
     "@loadable/component": "^5.15.0",
     "@types/loadable__component": "^5.13.4"

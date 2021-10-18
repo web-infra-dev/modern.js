@@ -42,6 +42,9 @@ import { loadEnv } from './loadEnv';
 export type { Hooks };
 export { defaultsConfig } from './config';
 
+export * from '@modern-js/plugin';
+export * from '@modern-js/plugin/node';
+
 program
   .name('modern')
   .usage('<command> [options]')
@@ -136,6 +139,8 @@ const createCli = () => {
   let isRestart = false;
 
   const init = async (argv: string[] = []) => {
+    enable();
+
     manager.clear();
 
     const appDirectory = await initAppDir();
@@ -201,8 +206,6 @@ const createCli = () => {
   };
 
   async function run(argv: string[]) {
-    enable();
-
     const { loadedConfig, appContext, resolved } = await init(argv);
 
     initWatcher(

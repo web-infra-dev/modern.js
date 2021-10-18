@@ -28,7 +28,6 @@
     "isomorphic-fetch": "^3.0.0"
   },
   "devDependencies": {
-    "@modern-js/plugin": "workspace:^1.0.0-rc.12",
     "@modern-js/plugin-testing": "^1.0.0-rc.12",
     "@testing-library/react": "^12.0.0",
     "@types/jest": "^26",

@@ -25,12 +25,12 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/core": "workspace:^1.0.0-rc.12",
     "@modern-js/utils": "workspace:^1.0.0-rc.12",
     "lodash.clonedeep": "^4.5.0",
     "lodash.merge": "^4.6.2"
   },
   "devDependencies": {
+    "@modern-js/core": "workspace:^1.0.0-rc.12",
     "@modern-js/module-tools": "^1.0.0-rc.12",
     "@modern-js/plugin-testing": "^1.0.0-rc.12",
     "@types/jest": "^26",
@@ -42,6 +42,7 @@
     "tailwindcss": "^2.0.4"
   },
   "peerDependencies": {
+    "@modern-js/core": "workspace:^1.0.0-rc.12",
     "tailwindcss": "^2.0.4"
   },
   "sideEffects": false,

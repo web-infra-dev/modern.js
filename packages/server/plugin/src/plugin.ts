@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import React from 'react';
+import type { Component } from 'react';
 import {
   createAsyncManager,
   createAsyncPipeline,
@@ -110,7 +110,7 @@ const prefetch = createParallelWorkflow<{
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type RenderContext = {};
 const renderToString = createAsyncPipeline<
-  { App: React.Component; context: RenderContext },
+  { App: Component; context: RenderContext },
   string
 >();
 
@@ -162,7 +162,7 @@ export const createServerManager = () =>
 
 export const serverManager = createServerManager();
 
-export type Plugin = PluginFromAsyncManager<typeof serverManager>;
+export type ServerPlugin = PluginFromAsyncManager<typeof serverManager>;
 
 export const { createPlugin } = serverManager;
 
