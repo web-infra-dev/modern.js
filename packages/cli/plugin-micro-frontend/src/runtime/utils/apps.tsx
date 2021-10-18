@@ -26,6 +26,8 @@ class Apps {
 
   private readonly appsMap: Record<string, React.ComponentType<any>> = {};
 
+  private readonly subAppUpdaterMap: Record<string, (...args: any) => any> = {};
+
   constructor(config: Config) {
     const { manifest, ...options } = config;
 
@@ -50,6 +52,13 @@ class Apps {
     return this.LoadingComponent;
   };
 
+  private readonly setSubAppUpdater = (
+    name: string,
+    updater: (...args: any) => any,
+  ) => {
+    this.subAppUpdaterMap[name] = updater;
+  };
+
   private genComponent(_moduleInfo?: ModuleInfo) {
     const usingGarfishRouter = !_moduleInfo;
     const getModuleInfo = () => _moduleInfo || this.mappModuleInfo;
@@ -58,6 +67,7 @@ class Apps {
     const { renderLoading, options } = this;
 
     const bindLoading = (loadingFn: any) => (this.setMAppLoading = loadingFn);
+    const { setSubAppUpdater } = this;
 
     const Component = (props: any) => {
       const [ModuleApp, setModuleApp] =
@@ -74,7 +84,7 @@ class Apps {
       useMemo(() => {
         bindLoading(setLoading);
         if (moduleInfo) {
-          (moduleInfo as any)._setModuleApp = setModuleApp;
+          setSubAppUpdater(moduleInfo.name, setModuleApp);
         }
       }, [moduleInfo]);
 
@@ -169,7 +179,7 @@ class Apps {
 
     this.options = {
       ...this.options,
-      customLoader: customLoader() as any,
+      customLoader: customLoader(this.subAppUpdaterMap) as any,
       domGetter: `#${generateSubAppContainerKey()}`,
       apps: this.modules,
     };

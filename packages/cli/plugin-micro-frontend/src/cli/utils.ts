@@ -1,36 +1,33 @@
-export const makeProvider = (enableHtmlEntry?: boolean) => `
+export const makeProvider = () => `
   export function provider({basename, dom, ...props}) {
-    const SubApp = render(props, basename);
-
     return {
       render({basename, dom}) {
-        const node = ${
-          enableHtmlEntry ? 'true' : 'false'
-        } ? dom.querySelector('#' + MOUNT_ID) : '#' + MOUNT_ID;
+        const SubApp = render(props, basename);
+        const node = dom.querySelector('#' + MOUNT_ID);
 
         bootstrap(SubApp, node);
       },
       destroy({ dom }) {
-        const node = ${
-          enableHtmlEntry ? 'true' : 'false'
-        } ? dom.querySelector('#' + MOUNT_ID) : '#' + MOUNT_ID;
+        const node = dom.querySelector('#' + MOUNT_ID);
 
         if (node) {
           unmountComponentAtNode(node);
         }
       },
-      ${enableHtmlEntry ? '' : 'SubModuleComponent: SubApp'}
+      SubModuleComponent: (props) => {
+        const SubApp = render(props, basename);
+
+        return createPortal(<SubApp />, dom.querySelector('#' + MOUNT_ID));
+      }
     }
   }
   `;
 
-export const makeRenderFunction = (code: string, enableHtmlEntry: boolean) =>
+export const makeRenderFunction = (code: string) =>
   code
     .replace(
       'IS_BROWSER',
-      `IS_BROWSER && ${
-        enableHtmlEntry ? 'true' : 'false'
-      } ? (!window.Garfish || !window.Garfish.running) : false`,
+      'IS_BROWSER && (!window.Garfish || !window.Garfish.running)',
     )
     .replace('(App)', '(() => <App {...(arguments[0] || {})} />)')
     .replace('"basename":"/"', '"basename":arguments[1] || "/"');

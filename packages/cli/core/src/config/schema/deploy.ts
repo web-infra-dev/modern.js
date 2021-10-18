@@ -4,13 +4,7 @@ export const deploy = {
   type: 'object',
   properties: {
     microFrontend: {
-      type: 'object',
-      dependencies: {
-        enableHtmlEntry: { properties: { enableLegacy: { enum: [false] } } },
-      },
-      properties: {
-        enableHtmlEntry: { type: 'boolean' },
-      },
+      type: ['boolean', 'object'],
     },
     domain: { type: ['array', 'string'] },
     domainByEntries: {
