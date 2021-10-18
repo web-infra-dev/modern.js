@@ -47,7 +47,6 @@
     "@modern-js/i18n-cli-language-detector": "workspace:^1.0.0-rc.12",
     "@modern-js/module-tools-hooks": "workspace:^1.0.0-rc.12",
     "@modern-js/new-action": "workspace:^1.0.0-rc.12",
-    "@modern-js/plugin": "workspace:^1.0.0-rc.12",
     "@modern-js/plugin-analyze": "workspace:^1.0.0-rc.12",
     "@modern-js/plugin-changeset": "workspace:^1.0.0-rc.12",
     "@modern-js/plugin-fast-refresh": "workspace:^1.0.0-rc.12",
