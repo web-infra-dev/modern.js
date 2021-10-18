@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/bff-utils",
-  "version": "1.0.0-rc.12",
+  "version": "1.0.0-rc.13",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -24,10 +24,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/bff-runtime": "workspace:^1.0.0-rc.12",
-    "@modern-js/create-request": "workspace:^1.0.0-rc.12",
-    "@modern-js/plugin": "workspace:^1.0.0-rc.12",
-    "@modern-js/utils": "workspace:^1.0.0-rc.12",
+    "@modern-js/bff-runtime": "workspace:^1.0.0-rc.13",
+    "@modern-js/create-request": "workspace:^1.0.0-rc.13",
+    "@modern-js/plugin": "workspace:^1.0.0-rc.13",
+    "@modern-js/utils": "workspace:^1.0.0-rc.13",
     "es-module-lexer": "^0.4.1",
     "farrow-api": "^1.10.9",
     "globby": "^11.0.2"
@@ -39,7 +39,7 @@
     "@types/react-dom": "^17",
     "ts-jest": "^27.0.4",
     "typescript": "^4",
-    "@modern-js/module-tools": "^1.0.0-rc.12"
+    "@modern-js/module-tools": "^1.0.0-rc.13"
   },
   "modernConfig": {
     "output": {
