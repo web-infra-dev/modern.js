@@ -7,6 +7,7 @@ interface PublishOptions {
   tag: string;
   ignoreScripts: boolean;
 }
+// eslint-disable-next-line max-statements
 export async function release(options: PublishOptions) {
   const appDir = process.cwd();
   const isMonorepo = isModernjsMonorepo(appDir);
@@ -26,6 +27,8 @@ export async function release(options: PublishOptions) {
   }
 
   params.push('-r');
+  params.push('--');
+  params.push('--filter {./packages}');
   params.push('--report-summary');
 
   if (ignoreScripts) {
