@@ -28,6 +28,17 @@ const handleTemplateFile = async (
     },
   );
 
+  if (context.config.isSubGenerator) {
+    await appApi.forgeTemplate(
+      'templates/init-template/**/*',
+      undefined,
+      (resourceKey: string) =>
+        resourceKey
+          .replace('templates/init-template/', '')
+          .replace('.handlebars', ''),
+    );
+  }
+
   if (isTs) {
     await appApi.forgeTemplate(
       'templates/ts-template/**/*',
@@ -100,7 +111,9 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     }
   }
 
-  appApi.showSuccessInfo(i18n.t(localeKeys.success));
+  if (!context.config.isSubGenerator) {
+    appApi.showSuccessInfo(i18n.t(localeKeys.success));
+  }
 
   generator.logger.debug(`forge @modern-js/electron-generator succeed `);
 };
