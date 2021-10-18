@@ -20,7 +20,7 @@
     "egg-mock": "^3.21.0"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=14.17.6"
   },
   "scripts": {
     "start": "egg-scripts start --daemon --title=egg-server-simple",
