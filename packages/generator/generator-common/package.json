@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/easy-form-core": "^1.0.0-rc.15",
+    "@modern-js/easy-form-core": "^1.0.0-rc.16",
     "@modern-js/plugin-i18n": "workspace:^1.0.0-rc.14"
   },
   "devDependencies": {
