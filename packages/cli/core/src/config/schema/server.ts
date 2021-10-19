@@ -101,5 +101,6 @@ export const server = {
     logger: { type: 'object' },
     measure: { type: 'object' },
     proxy: { type: 'object' },
+    enableMicroFrontendDebug: { type: 'boolean' },
   },
 };
