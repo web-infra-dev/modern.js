@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/unbundle-generator",
-  "version": "1.0.0-rc.4",
+  "version": "1.0.0-rc.14",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/main.js",
