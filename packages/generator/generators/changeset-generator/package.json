@@ -1,5 +1,6 @@
 {
   "name": "@modern-js/changeset-generator",
+  "description": "Modern.js add changeset template, include changeset template",
   "version": "1.0.0-rc.14",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
