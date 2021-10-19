@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/electron-independence-generator",
-  "description": "App enable electrion feature generator",
+  "description": "App enable electron feature generator",
   "version": "1.0.0-rc.14",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
