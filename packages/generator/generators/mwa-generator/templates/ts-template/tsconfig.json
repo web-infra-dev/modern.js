@@ -5,6 +5,7 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "paths": {
+      "@api/*": ["./api/*"],
       "@/*": ["./src/*"]
     }
   },
