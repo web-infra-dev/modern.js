@@ -1,5 +1,6 @@
 {
   "name": "@modern-js/electron-generator",
+  "description": "Modern.js enable electron feature generator",
   "version": "1.0.0-rc.15",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",

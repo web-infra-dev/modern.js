@@ -1,5 +1,6 @@
 {
   "name": "@modern-js/generator-cases",
+  "description": "Modern.js all generator cases, includes create project and new option",
   "version": "1.0.0-rc.14",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",

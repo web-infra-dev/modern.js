@@ -1,5 +1,6 @@
 {
   "name": "@modern-js/base-generator",
+  "description": "Modern.js base generator, includes project base config template",
   "version": "1.0.0-rc.14",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
