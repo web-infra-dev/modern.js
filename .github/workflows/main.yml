@@ -1,0 +1,44 @@
+name: CI
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  Modern:
+    # The type of runner that the job will run on
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [14.x, 15.x, 16.x]
+        os: [macos-latest] # ubuntu-latest, debian-latest, windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1.4.4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Check out
+        uses: actions/checkout@v2
+
+      - name: Init
+        run: npm install -g pnpm && pnpm run setup
+
+      - name: Prepare
+        run: pnpm run prepare --filter ./packages
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Test
+        run: pnpm run test
