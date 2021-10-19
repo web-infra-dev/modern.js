@@ -7,7 +7,7 @@ export enum PackageManager {
 }
 
 export const PackageManagerName: Record<string, () => string> = {
-  [PackageManager.Pnpm]: () => 'Pnpm',
+  [PackageManager.Pnpm]: () => 'pnpm',
   [PackageManager.Yarn]: () => 'Yarn',
 };
 

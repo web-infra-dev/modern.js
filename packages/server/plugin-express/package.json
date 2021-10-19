@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-express",
-  "version": "1.0.0-rc.13",
+  "version": "1.0.0-rc.14",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -25,9 +25,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.15.3",
-    "@modern-js/adapter-helpers": "workspace:^1.0.0-rc.13",
-    "@modern-js/bff-utils": "workspace:^1.0.0-rc.13",
-    "@modern-js/utils": "workspace:^1.0.0-rc.13",
+    "@modern-js/adapter-helpers": "workspace:^1.0.0-rc.14",
+    "@modern-js/bff-utils": "workspace:^1.0.0-rc.14",
+    "@modern-js/utils": "workspace:^1.0.0-rc.14",
     "cookie-parser": "^1.4.5",
     "finalhandler": "^1.1.2",
     "formidable": "^1.2.2",
@@ -35,8 +35,8 @@
   },
   "devDependencies": {
     "express": "^4.17.1",
-    "@modern-js/server-utils": "workspace:^1.0.0-rc.13",
-    "@modern-js/bff-runtime": "workspace:^1.0.0-rc.13",
+    "@modern-js/server-utils": "workspace:^1.0.0-rc.14",
+    "@modern-js/bff-runtime": "workspace:^1.0.0-rc.14",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.13",
     "@types/finalhandler": "^1.1.1",
@@ -47,10 +47,10 @@
     "@types/type-is": "^1.6.3",
     "supertest": "^6.1.6",
     "typescript": "^4",
-    "@modern-js/core": "workspace:^1.0.0-rc.13",
-    "@modern-js/server-plugin": "workspace:^1.0.0-rc.13",
-    "@modern-js/plugin-testing": "^1.0.0-rc.13",
-    "@modern-js/module-tools": "^1.0.0-rc.13"
+    "@modern-js/core": "workspace:^1.0.0-rc.14",
+    "@modern-js/server-plugin": "workspace:^1.0.0-rc.14",
+    "@modern-js/plugin-testing": "^1.0.0-rc.14",
+    "@modern-js/module-tools": "^1.0.0-rc.14"
   },
   "modernConfig": {
     "output": {
@@ -58,9 +58,9 @@
     }
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.0.0-rc.13",
-    "@modern-js/server-plugin": "workspace:^1.0.0-rc.13",
-    "@modern-js/bff-runtime": "workspace:^1.0.0-rc.13",
+    "@modern-js/core": "workspace:^1.0.0-rc.14",
+    "@modern-js/server-plugin": "workspace:^1.0.0-rc.14",
+    "@modern-js/bff-runtime": "workspace:^1.0.0-rc.14",
     "express": "^4.17.1"
   },
   "publishConfig": {
