@@ -1,5 +1,6 @@
 {
   "name": "@modern-js/module-generator",
+  "description": "Modern.js create module project generator",
   "version": "1.0.0-rc.14",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
