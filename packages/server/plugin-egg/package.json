@@ -27,7 +27,6 @@
     "@babel/runtime": "^7.15.3",
     "@modern-js/adapter-helpers": "workspace:^1.0.0-rc.14",
     "@modern-js/bff-runtime": "workspace:^1.0.0-rc.14",
-    "@modern-js/bff-utils": "workspace:^1.0.0-rc.14",
     "@modern-js/utils": "workspace:^1.0.0-rc.14",
     "formidable": "^1.2.2",
     "type-is": "^1.6.18"
@@ -44,6 +43,7 @@
     "koa": "^2.13.1",
     "typescript": "^4",
     "supertest": "^6.1.6",
+    "@modern-js/bff-utils": "workspace:^1.0.0-rc.14",
     "@modern-js/core": "workspace:^1.0.0-rc.14",
     "@modern-js/server-plugin": "workspace:^1.0.0-rc.14",
     "@modern-js/plugin-testing": "^1.0.0-rc.14",
@@ -55,6 +55,7 @@
     }
   },
   "peerDependencies": {
+    "@modern-js/bff-utils": "workspace:^1.0.0-rc.14",
     "@modern-js/core": "workspace:^1.0.0-rc.14",
     "@modern-js/server-plugin": "workspace:^1.0.0-rc.14",
     "@modern-js/bff-runtime": "workspace:^1.0.0-rc.14",
