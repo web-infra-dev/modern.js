@@ -54,7 +54,6 @@
     "@modern-js/server-plugin": "workspace:^1.0.0-rc.14",
     "@modern-js/plugin-testing": "^1.0.0-rc.14",
     "@modern-js/plugin-analyze": "workspace:^1.0.0-rc.14",
-    "@modern-js/bff-utils": "workspace:^1.0.0-rc.14",
     "@modern-js/create-request": "workspace:^1.0.0-rc.14",
     "@modern-js/runtime": "workspace:^1.0.0-rc.14",
     "@modern-js/types": "workspace:^1.0.0-rc.14",
