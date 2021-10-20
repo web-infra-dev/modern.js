@@ -1,14 +1,12 @@
-import { getCertificate } from './getCert';
+import * as devcert from 'devcert';
 
-export const genHttpsOptions = (userOptions: any) => {
+export const genHttpsOptions = async (userOptions: any) => {
   const httpsOptions = userOptions === true ? {} : userOptions;
 
-  let fakeCert;
   if (!httpsOptions.key || !httpsOptions.cert) {
-    fakeCert = getCertificate();
+    const selfsign = await devcert.certificateFor(['localhost']);
+    return selfsign;
   }
 
-  httpsOptions.key = httpsOptions.key || fakeCert;
-  httpsOptions.cert = httpsOptions.cert || fakeCert;
   return httpsOptions;
 };

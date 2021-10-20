@@ -28,6 +28,10 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     ].filter(Boolean);
   }
 
+  get bundleList() {
+    return ['@modern-js/plugin-state'];
+  }
+
   name() {
     this.chain.name('server');
   }
@@ -154,6 +158,10 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
     config.externals.push(
       ({ request }: { request?: string }, callback: any) => {
+        if (this.bundleList.includes(request || '')) {
+          return callback();
+        }
+
         if (request?.includes('@modern-js/plugin-')) {
           return callback(null, `commonjs ${request}`);
         }
