@@ -14,15 +14,15 @@ export const createStore: typeof originCreateStore = props => {
     const stateConfig = modernConfig?.runtime?.state;
     const plugins = [];
 
-    if (stateConfig === true || stateConfig?.effects) {
+    if (stateConfig?.effects !== false) {
       plugins.push(effects());
     }
 
-    if (stateConfig === true || stateConfig?.autoActions) {
+    if (stateConfig?.autoActions !== false) {
       plugins.push(autoActions());
     }
 
-    if (stateConfig === true || stateConfig?.immer) {
+    if (stateConfig?.immer !== false) {
       plugins.push(immer());
     }
 
