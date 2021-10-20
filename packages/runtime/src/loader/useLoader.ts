@@ -38,7 +38,7 @@ export interface LoaderOptions<
   /**
    * User params, it will bypass to loader's second parameter.
    */
-  params: Params;
+  params?: Params;
 
   /**
    * wheather loader can exec on build phase.
