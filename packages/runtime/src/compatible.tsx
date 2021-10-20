@@ -139,7 +139,7 @@ export const bootstrap: BootStrap = async (
 
     Object.assign(context, {
       loaderManager: createLoaderManager(initialLoadersState, {
-        nonStaticOnly: true,
+        skipStatic: true,
       }),
     });
 
@@ -166,9 +166,9 @@ export const bootstrap: BootStrap = async (
     loaderManager: createLoaderManager(
       {},
       {
-        staticOnly: id.staticGenerate,
+        skipNonStatic: id.staticGenerate,
         // if not static generate, only non-static loader can exec on prod env
-        nonStaticOnly: isProd() && !id.staticGenerate,
+        skipStatic: isProd() && !id.staticGenerate,
       },
     ),
   });
