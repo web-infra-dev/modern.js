@@ -43,6 +43,8 @@ export const SERVER_RENDER_FUNCTION_NAME = 'serverRender';
  */
 export const LOADABLE_STATS_FILE = 'loadable-stats.json';
 
+export const HIDE_MODERN_JS_DIR = './node_modules/.modern-js';
+
 /**
  * Internal plugins that work as soon as they are installed.
  */
