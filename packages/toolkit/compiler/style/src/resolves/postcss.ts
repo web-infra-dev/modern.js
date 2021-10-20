@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import postcss, { AcceptedPlugin } from 'postcss';
 import {
   ResolveItemParams,

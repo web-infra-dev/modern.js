@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { builtinModules } from 'module';
 import type { IsExternal } from 'rollup';
 import type { Compiler } from '../Compiler';

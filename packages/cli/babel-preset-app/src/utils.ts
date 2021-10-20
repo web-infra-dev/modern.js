@@ -1,5 +1,5 @@
 import fs from 'fs';
-import path from 'path';
+import { path } from '@modern-js/utils';
 import semver from 'semver';
 
 export const isBeyondReact17 = (cwd: string) => {

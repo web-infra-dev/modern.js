@@ -1,5 +1,4 @@
-import path from 'path';
-import { fs, Import, logger } from '@modern-js/utils';
+import { path, fs, Import, logger } from '@modern-js/utils';
 import type { Configuration } from 'webpack';
 import { valid } from './utils/valid';
 

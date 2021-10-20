@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
-import path from 'path';
 import Chain from 'webpack-chain';
 import {
+  path,
   isProd,
   isDev,
   isProdProfile,

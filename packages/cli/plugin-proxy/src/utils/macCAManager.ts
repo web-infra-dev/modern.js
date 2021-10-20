@@ -1,7 +1,6 @@
-import path from 'path';
 import os from 'os';
 import http from 'http';
-import { fs, logger } from '@modern-js/utils';
+import { path, fs, logger } from '@modern-js/utils';
 import execSync from './execSync';
 
 const defaultCertDir = path.resolve(os.homedir(), './.whistle-proxy');

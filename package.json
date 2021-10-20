@@ -5,8 +5,6 @@
     "new": "modern new",
     "setup": "npm run reset && pnpm install --ignore-scripts",
     "reset": "pnpm -r exec rm -rf ./node_modules",
-    "new:generator": "NoNeedInstall=true node ./scripts/new-generator.js",
-    "debug:generator": "node ./scripts/debug-generator.js",
     "test": "pnpm run test --filter ./packages",
     "lint": "modern lint",
     "change": "modern change",

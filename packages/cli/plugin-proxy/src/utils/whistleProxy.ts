@@ -1,5 +1,4 @@
-import path from 'path';
-import { logger } from '@modern-js/utils';
+import { path, logger } from '@modern-js/utils';
 import execSync from './execSync';
 import {
   isRootCAExists,

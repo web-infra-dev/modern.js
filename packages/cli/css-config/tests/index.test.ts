@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { getPostcssConfig } from '@/index';
 
 describe('base postcss config', () => {
@@ -24,17 +24,20 @@ describe('base postcss config', () => {
       },
     } as any);
 
-    expect(plugins.length).toBe(9);
+    expect(plugins?.length).toBe(9);
 
-    expect(plugins[plugins.length - 2]).toHaveProperty('options', {
-      flexbox: 'no-2009',
-      grid: 'autoplace',
-      overrideBrowserslist: [
-        'last 1 chrome version',
-        'last 1 firefox version',
-        'last 1 safari version',
-      ],
-    });
+    expect(plugins ? plugins[plugins.length - 2] : undefined).toHaveProperty(
+      'options',
+      {
+        flexbox: 'no-2009',
+        grid: 'autoplace',
+        overrideBrowserslist: [
+          'last 1 chrome version',
+          'last 1 firefox version',
+          'last 1 safari version',
+        ],
+      },
+    );
   });
 
   test(`should return plugins without autoprefixer`, () => {
@@ -42,6 +45,6 @@ describe('base postcss config', () => {
       postcssOptions: { plugins },
     } = getPostcssConfig(fixture, { tools: {} } as any, false);
 
-    expect(plugins.length).toBe(7);
+    expect(plugins?.length).toBe(7);
   });
 });

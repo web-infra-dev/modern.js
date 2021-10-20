@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { getAllAPIFiles, getLambdaDir } from '../utils';
 import { INDEX_SUFFIX } from '../constant';
 import { Result, Err, Ok } from './result';
