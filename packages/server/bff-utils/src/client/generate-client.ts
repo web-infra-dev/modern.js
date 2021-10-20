@@ -1,3 +1,4 @@
+import { upath } from '@modern-js/utils'
 import { HttpMethod } from '../constant';
 import { isAllowedHttpMethod } from '../utils';
 import { Result, Ok, Err } from './result';
@@ -31,9 +32,9 @@ export const generateClient = async ({
 }: GenClientOptions): Promise<GenClientResult> => {
   if (!requestCreator) {
     // eslint-disable-next-line no-param-reassign
-    requestCreator = require.resolve(
+    requestCreator = upath.normalizeSafe(require.resolve(
       `${DEFAULT_CLIENT_REQUEST_CREATOR}${target ? `/${target}` : ''}`,
-    );
+    ));
   }
 
   const routeRsult = getRouteName(resourcePath, apiDir);

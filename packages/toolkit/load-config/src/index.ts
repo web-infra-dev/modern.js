@@ -4,6 +4,7 @@ import {
   findExists,
   createDebugger,
   compatRequire,
+  upath
 } from '@modern-js/utils';
 import babelRegister from '@babel/register';
 
@@ -88,10 +89,10 @@ export const loadConfig = <T>(
     babelRegister({
       presets: [
         [
-          require.resolve('@babel/preset-env'),
+          upath.normalizeSafe(require.resolve('@babel/preset-env')),
           { targets: { node: 'current' } },
         ],
-        require.resolve('@babel/preset-typescript'),
+        upath.normalizeSafe(require.resolve('@babel/preset-typescript')),
       ],
       ignore: [/node_modules/, /api/, /server/],
       extensions: CONFIG_FILE_EXTENSIONS,

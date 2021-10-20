@@ -1,7 +1,7 @@
 import Server, { ModernRoute } from '@modern-js/server';
 import portfinder from 'portfinder';
 import { NormalizedConfig } from '@modern-js/core';
-import { compatRequire } from '@modern-js/utils';
+import { compatRequire, upath } from '@modern-js/utils';
 import { makeRender } from '../libs/render';
 import { compile as createRender } from './prerender';
 import { CLOSE_SIGN } from './consts';
@@ -13,10 +13,10 @@ type ModernServer = Then<ReturnType<typeof Server>>;
 const safetyRequire = (filename: string, base: string) => {
   try {
     return compatRequire(
-      require.resolve(`${filename}/server`, { paths: [base] }),
+      upath.normalizeSafe(require.resolve(`${filename}/server`, { paths: [base] })),
     );
   } catch (e) {
-    return compatRequire(require.resolve(filename, { paths: [base] }));
+    return compatRequire(upath.normalizeSafe(require.resolve(filename, { paths: [base] })));
   }
 };
 

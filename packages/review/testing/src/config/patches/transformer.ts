@@ -1,6 +1,6 @@
 import { readCompilerOptions } from '@/utils';
 import { TestConfigOperator } from '@/config/testConfigOperator';
-
+import { upath } from '@modern-js/utils';
 const resolveTsCompilerOptions = () => {
   const tsCompilerOptions = readCompilerOptions() || {};
 
@@ -24,7 +24,7 @@ export const patchTransformer = (testOperator: TestConfigOperator) => {
   if (transformer === 'babel-jest') {
     testOperator.mergeJestConfig({
       transform: {
-        '\\.[jt]sx?$': require.resolve('../transformer/babelTransformer'),
+        '\\.[jt]sx?$': upath.normalizeSafe(require.resolve('../transformer/babelTransformer')),
       },
     });
   }
@@ -32,7 +32,7 @@ export const patchTransformer = (testOperator: TestConfigOperator) => {
   if (transformer === 'ts-jest') {
     testOperator.mergeJestConfig({
       transform: {
-        '\\.[jt]sx?$': require.resolve('ts-jest'),
+        '\\.[jt]sx?$': upath.normalizeSafe(require.resolve('ts-jest')),
       },
     });
 

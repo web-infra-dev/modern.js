@@ -29,6 +29,7 @@
     "@babel/plugin-proposal-logical-assignment-operators": "^7.12.1",
     "@babel/plugin-proposal-throw-expressions": "^7.12.1",
     "@babel/runtime": "^7",
+    "@modern-js/utils": "workspace:^1.0.0-rc.12",
     "@modern-js/babel-chain": "workspace:^1.0.0-rc.15",
     "@modern-js/babel-preset-lib": "workspace:^1.0.0-rc.15"
   },

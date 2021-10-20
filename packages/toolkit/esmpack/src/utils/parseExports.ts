@@ -1,5 +1,6 @@
 import nodePath from 'path';
 import fs from 'fs-extra';
+import { upath } from '@modern-js/utils';
 import * as babel from '@babel/core';
 import type { NodePath } from '@babel/core';
 import type { Binding, Visitor } from '@babel/traverse';
@@ -151,9 +152,9 @@ async function doParse(ctx: ParseContext, fileLoc: string) {
                       pendingSet.add(reexportPath);
                     }
                   } else {
-                    const targetPath = require.resolve(reexportPath, {
+                    const targetPath = upath.normalizeSafe(require.resolve(reexportPath, {
                       paths: [nodePath.dirname(fileLoc)],
-                    });
+                    }));
                     if (!visitedSet.has(reexportPath)) {
                       pendingSet.add(targetPath);
                     }

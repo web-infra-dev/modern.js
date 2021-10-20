@@ -1,6 +1,6 @@
-import type { Buffer } from 'buffer';
 import {
   path,
+  upath,
   isDev,
   isProd,
   removeLeadingSlash,
@@ -45,8 +45,8 @@ class ClientWebpackConfig extends BaseWebpackConfig {
       if (this.options.output.polyfill !== 'off') {
         this.chain
           .entry(name)
-          .prepend(require.resolve('regenerator-runtime/runtime'))
-          .prepend(require.resolve('core-js'));
+          .prepend(upath.normalizeSafe(require.resolve('regenerator-runtime/runtime')))
+          .prepend(upath.normalizeSafe(require.resolve('core-js')));
       }
     }
   }

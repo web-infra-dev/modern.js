@@ -1,5 +1,6 @@
 /* eslint-disable max-statements */
 import { createBabelChain } from '@modern-js/babel-chain';
+import { upath } from '@modern-js/utils';
 import { IBaseBabelConfigOption } from '.';
 
 export const getPluginsChain = (option: IBaseBabelConfigOption) => {
@@ -20,20 +21,20 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
 
   chain
     .plugin('babel-plugin-macros')
-    .use(require.resolve('babel-plugin-macros'), [
+    .use(upath.normalizeSafe(require.resolve('babel-plugin-macros')), [
       { twin: { preset: 'styled-components' } },
     ]);
 
   if (runEnvironments === 'node') {
     chain
       .plugin('babel-plugin-dynamic-import-node')
-      .use(require.resolve('babel-plugin-dynamic-import-node'));
+      .use(upath.normalizeSafe(require.resolve('babel-plugin-dynamic-import-node')));
   }
 
   const { antd } = babelPluginImport || { antd: { libraryDirectory: 'es' } };
   chain
     .plugin('babel-plugin-import')
-    .use(require.resolve('babel-plugin-import'), [
+    .use(upath.normalizeSafe(require.resolve('babel-plugin-import')), [
       {
         libraryName: 'antd',
         libraryDirectory: antd?.libraryDirectory || 'es',
@@ -44,7 +45,7 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
 
   chain
     .plugin('babel-plugin-lodash')
-    .use(require.resolve('babel-plugin-lodash'), [lodashOptions || {}]);
+    .use(upath.normalizeSafe(require.resolve('babel-plugin-lodash')), [lodashOptions || {}]);
 
   if (useTsLoader) {
     return chain;
@@ -53,7 +54,7 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
   // link: https://github.com/tc39/proposal-decorators
   chain
     .plugin('@babel/plugin-proposal-decorators')
-    .use(require.resolve('@babel/plugin-proposal-decorators'), [
+    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-decorators')), [
       useLegacyDecorators ?
       {
         // https://github.com/nicolo-ribaudo/legacy-decorators-migration-utility
@@ -72,12 +73,12 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
   const loose = true;
   chain
     .plugin('@babel/plugin-proposal-class-properties')
-    .use(require.resolve('@babel/plugin-proposal-class-properties'), [
+    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-class-properties')), [
       { loose },
     ]);
   chain
     .plugin('@babel/plugin-proposal-private-methods')
-    .use(require.resolve('@babel/plugin-proposal-private-methods'), [
+    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-private-methods')), [
       { loose },
     ]);
 
@@ -85,7 +86,7 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
   // link: https://github.com/tc39/proposal-private-fields-in-in
   chain
     .plugin('@babel/plugin-proposal-private-property-in-object')
-    .use(require.resolve('@babel/plugin-proposal-private-property-in-object'), [
+    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-private-property-in-object')), [
       { loose },
     ]);
   // babel-preset-env have, but option should change
@@ -93,13 +94,13 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
   // https://exploringjs.com/es6/ch_oop-besides-classes.html
   chain
     .plugin('@babel/plugin-proposal-object-rest-spread')
-    .use(require.resolve('@babel/plugin-proposal-object-rest-spread'), [
+    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-object-rest-spread')), [
       { useBuiltIns: true },
     ]);
 
   chain
     .plugin('@babel/plugin-transform-runtime')
-    .use(require.resolve('@babel/plugin-transform-runtime'), [
+    .use(upath.normalizeSafe(require.resolve('@babel/plugin-transform-runtime')), [
       {
         // By default, babel assumes babel/runtime version 7.0.0-beta.0,
         // explicitly resolving to match the provided helper functions.
@@ -126,7 +127,7 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
   if (!disableTransformReactRemovePropTypes) {
     chain
       .plugin('babel-plugin-transform-react-remove-prop-types')
-      .use(require.resolve('babel-plugin-transform-react-remove-prop-types'), [
+      .use(upath.normalizeSafe(require.resolve('babel-plugin-transform-react-remove-prop-types')), [
         {
           removeImport: true,
           ...(transformReactRemovePropTypes || {}),
@@ -136,50 +137,50 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
 
   chain
     .plugin('@babel/plugin-proposal-function-bind')
-    .use(require.resolve('@babel/plugin-proposal-function-bind'));
+    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-function-bind')));
 
   // link: https://github.com/tc39/proposal-export-default-from
   chain
     .plugin('@babel/plugin-proposal-export-default-from')
-    .use(require.resolve('@babel/plugin-proposal-export-default-from'));
+    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-export-default-from')));
 
   // https://github.com/tc39/proposal-export-ns-from
   chain
     .plugin('@babel/plugin-proposal-export-namespace-from')
-    .use(require.resolve('@babel/plugin-proposal-export-namespace-from'));
+    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-export-namespace-from')));
 
   // link:
   // https://github.com/tc39/proposal-optional-chaining
   chain
     .plugin('@babel/plugin-proposal-optional-chaining')
-    .use(require.resolve('@babel/plugin-proposal-optional-chaining'));
+    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-optional-chaining')));
 
   chain
     .plugin('@babel/plugin-proposal-numeric-separator')
-    .use(require.resolve('@babel/plugin-proposal-numeric-separator'));
+    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-numeric-separator')));
 
   // ======= Stage1 =====
   // link: https://github.com/tc39/proposal-pipeline-operator
   chain
     .plugin('@babel/plugin-proposal-pipeline-operator')
-    .use(require.resolve('@babel/plugin-proposal-pipeline-operator'), [
+    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-pipeline-operator')), [
       { proposal: 'minimal' },
     ]);
 
   // link: https://github.com/tc39/proposal-partial-application
   chain
     .plugin('@babel/plugin-proposal-partial-application')
-    .use(require.resolve('@babel/plugin-proposal-partial-application'));
+    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-partial-application')));
 
   // link:
   // https://github.com/tc39/proposal-nullish-coalescing
   chain
     .plugin('@babel/plugin-proposal-nullish-coalescing-operator')
-    .use(require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'));
+    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-nullish-coalescing-operator')));
 
   chain
     .plugin('babel-plugin-styled-components')
-    .use(require.resolve('babel-plugin-styled-components'), [
+    .use(upath.normalizeSafe(require.resolve('babel-plugin-styled-components')), [
       styledCompontentsOptions || {},
       'styled-components',
     ]);
