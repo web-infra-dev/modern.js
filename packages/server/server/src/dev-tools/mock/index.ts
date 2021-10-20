@@ -1,5 +1,4 @@
-import path from 'path';
-import fs from 'fs';
+import { fs, path } from '@modern-js/utils';
 import { match } from 'path-to-regexp';
 import { NextFunction } from '../../type';
 import { ModernServerContext } from '../../libs/context';

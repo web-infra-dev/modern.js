@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  * modified from https://github.com/facebook/create-react-app/blob/master/packages/react-dev-utils/ModuleScopePlugin.js
  */
-import path from 'path';
-import { chalk } from '@modern-js/utils';
+import { path, chalk } from '@modern-js/utils';
 
 /* eslint-disable max-statements */
 export class ModuleScopePlugin {

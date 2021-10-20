@@ -1,10 +1,9 @@
 import http, { Server } from 'http';
-import path from 'path';
+import { path, HMR_SOCK_PATH } from '@modern-js/utils';
 import type { MultiCompiler, Compiler } from 'webpack';
 import webpackDevMiddleware, {
   WebpackDevMiddleware,
 } from 'webpack-dev-middleware';
-import { HMR_SOCK_PATH } from '@modern-js/utils';
 import { createMockHandler } from '../dev-tools/mock';
 import { createProxyHandler, ProxyOptions } from '../libs/proxy';
 import {

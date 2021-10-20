@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import express, { Request, Response } from 'express';
 import request from 'supertest';
 import { serverManager } from '@modern-js/server-plugin';

@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { cleanUrl } from './utils';
 
 export const idToModules = new Map<string, AssetModule>();

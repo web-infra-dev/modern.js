@@ -1,6 +1,5 @@
-import path from 'path';
 import fs from 'fs';
-import { INTERNAL_DIR_ALAIS, INTERNAL_SRC_ALIAS } from '@modern-js/utils';
+import { path, INTERNAL_DIR_ALAIS, INTERNAL_SRC_ALIAS } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
 import type { ImportStatement } from './generateCode';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from './constants';

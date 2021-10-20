@@ -1,16 +1,15 @@
-import path from 'path';
 import os from 'os';
+import { path, fs, getMonorepoPackages } from '@modern-js/utils';
 import execa from 'execa';
 import ora from 'ora';
 import { GeneratorContext } from '@modern-js/codesmith';
-import { fs, getMonorepoPackages } from '@modern-js/utils';
 import { canUseNpm, canUsePnpm, canUseYarn } from './utils/env';
 import { stripAnsi } from './utils/strip-ansi';
 import { i18n, localeKeys } from './locale';
 
 export * from './utils';
 
-export { fs } from '@modern-js/utils';
+export { fs, path } from '@modern-js/utils';
 
 export { i18n } from './locale';
 

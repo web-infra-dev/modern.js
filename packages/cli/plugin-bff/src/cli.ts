@@ -1,11 +1,10 @@
-import path from 'path';
+import { path, PLUGIN_SCHEMAS, fs } from '@modern-js/utils';
 import {
   createPlugin,
   useAppContext,
   useResolvedConfigContext,
 } from '@modern-js/core';
 import { compiler } from '@modern-js/babel-compiler';
-import { PLUGIN_SCHEMAS, fs } from '@modern-js/utils';
 
 import type { Configuration } from 'webpack';
 import type Chain from 'webpack-chain';

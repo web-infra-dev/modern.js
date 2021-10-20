@@ -1,7 +1,10 @@
-import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { getPackageVersion, isTsProject } from '@modern-js/generator-utils';
+import {
+  path,
+  getPackageVersion,
+  isTsProject,
+} from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
   i18n,

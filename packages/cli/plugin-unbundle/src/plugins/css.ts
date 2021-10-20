@@ -1,8 +1,7 @@
-import path from 'path';
 import fs from 'fs';
+import { path, chalk } from '@modern-js/utils';
 import { Alias } from '@rollup/plugin-alias';
 import { Plugin as RollupPlugin, SourceMap } from 'rollup';
-import { chalk } from '@modern-js/utils';
 import postcss, { AcceptedPlugin, ProcessOptions } from 'postcss';
 import { codeFrameColumns } from '@babel/code-frame';
 import logger from 'signale';

@@ -1,4 +1,4 @@
-import path, { normalize as normalizePath } from 'path';
+import path from 'path';
 import fs from 'fs';
 import type { NormalizedConfig, IAppContext } from '@modern-js/core';
 import {
@@ -30,7 +30,7 @@ const applyBaseUrl = (
     } else {
       return routes.map(route => ({
         ...route,
-        urlPath: normalizePath(`/${baseUrl}/${route.urlPath}`),
+        urlPath: path.normalize(`/${baseUrl}/${route.urlPath}`),
       }));
     }
   }
@@ -104,7 +104,7 @@ const collectHtmlRoutes = (
         urlPath: `/${entryName === MAIN_ENTRY_NAME ? '' : entryName}`,
         entryName,
         entryPath: removeLeadingSlash(
-          normalizePath(
+          path.normalize(
             `${htmlPath!}/${entryName}${
               disableHtmlFolder ? '.html' : '/index.html'
             }`,
@@ -159,7 +159,7 @@ const collectStaticRoutes = (
 
   return fs.existsSync(publicFolder)
     ? walkDirectory(publicFolder).map(filePath => ({
-        urlPath: normalizePath(`/${path.relative(publicFolder, filePath)}`),
+        urlPath: path.normalize(`/${path.relative(publicFolder, filePath)}`),
         isSPA: true,
         isSSR: false,
         entryPath: path.relative(

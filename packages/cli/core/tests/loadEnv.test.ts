@@ -1,6 +1,6 @@
-import path from 'path';
 import fs from 'fs';
 import { exec } from 'child_process';
+import { path } from '@modern-js/utils';
 import { loadEnv } from '@/loadEnv';
 
 const fixture = path.resolve(__dirname, './fixtures/load-env');

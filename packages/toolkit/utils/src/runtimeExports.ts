@@ -1,5 +1,5 @@
-import path from 'path';
 import fs from 'fs-extra';
+import * as path from './path';
 
 const memo = <T extends (...args: any[]) => any>(fn: T) => {
   const cache = new Map();

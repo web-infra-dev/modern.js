@@ -1,5 +1,4 @@
-import path from 'path';
-import fs from 'fs';
+import { fs, path } from '@modern-js/utils';
 import mime from 'mime-types';
 import { RenderResult } from '../../type';
 import { ModernRoute } from '../route';
