@@ -37,6 +37,11 @@
   "engines": {
     "node": ">=14.17.6"
   },
+  "eslintConfig": {
+    "extends": [
+      "@modern-js"
+    ]
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -44,17 +49,12 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "node --max_old_space_size=8192 ./node_modules/.bin/eslint --fix --color --cache --quiet",
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
       "git add"
     ],
     "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
-      "node --max_old_space_size=8192 ./node_modules/.bin/eslint --fix --color --cache --quiet",
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
       "git add"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "@modern-js"
     ]
   },
   "eslintIgnore": [
