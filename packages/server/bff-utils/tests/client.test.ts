@@ -1,6 +1,6 @@
 import fs from 'fs';
-import path from 'path';
 import assert from 'assert';
+import { path } from '@modern-js/utils';
 import {
   generateClient,
   getMethodAndStatementFromName,

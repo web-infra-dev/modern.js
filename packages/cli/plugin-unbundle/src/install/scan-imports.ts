@@ -1,8 +1,5 @@
-import path from 'path';
-import { parse, init } from 'es-module-lexer';
-import glob from 'fast-glob';
-import { loadConfig } from 'tsconfig-paths';
 import {
+  path,
   isModernjsMonorepo,
   getMonorepoPackages,
   findMonorepoRoot,
@@ -11,6 +8,9 @@ import {
   isTypescript,
   applyOptionsChain,
 } from '@modern-js/utils';
+import { parse, init } from 'es-module-lexer';
+import glob from 'fast-glob';
+import { loadConfig } from 'tsconfig-paths';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { LexerParseResult } from '../plugins/import-rewrite';
 import {

@@ -1,7 +1,6 @@
-import path from 'path';
+import { path, logger } from '@modern-js/utils';
 import webpack, { Configuration } from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
-import { logger } from '@modern-js/utils';
 import { chokidarFile } from './utils/chokidar';
 import { generateFiles } from './utils/generate-files';
 

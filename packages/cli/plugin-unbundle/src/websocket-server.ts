@@ -1,8 +1,7 @@
 import { Server } from 'http';
-import path from 'path';
+import { path, createDebugger } from '@modern-js/utils';
 import ws from 'ws';
 import logger from 'signale';
-import { createDebugger } from '@modern-js/utils';
 import { ESMServer } from './server';
 import {
   fileToModules,
@@ -54,7 +53,7 @@ export class WebSocketServer {
       path,
     });
 
-    server.on('upgrade', (req, socket, head) => {
+    server.on('upgrade', (req, socket: any, head) => {
       if (
         !this.wsServer.shouldHandle(req) &&
         // Only handle upgrades modern-js-esm-hmr requests, ignore others.
@@ -63,7 +62,7 @@ export class WebSocketServer {
         return;
       }
 
-      this.wsServer.handleUpgrade(req, socket as any, head, connection => {
+      this.wsServer.handleUpgrade(req, socket, head, connection => {
         this.wsServer.emit('connection', connection, req);
       });
     });

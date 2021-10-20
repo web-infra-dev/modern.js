@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { compiler } from '@modern-js/babel-compiler';
 import { useAppContext, useResolvedConfigContext } from '@modern-js/core';
 import { TestConfig, runTest } from '@modern-js/testing';

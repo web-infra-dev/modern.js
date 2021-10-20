@@ -1,4 +1,4 @@
-import path from 'path';
+import { path, createDebugger } from '@modern-js/utils';
 import { Plugin as RollupPlugin } from 'rollup';
 import MagicString from 'magic-string';
 import { Parser } from 'acorn';
@@ -6,7 +6,6 @@ import acornClassFields from 'acorn-class-fields';
 import { CallExpression, MemberExpression, Identifier, Literal } from 'estree';
 import { simple as esWalk } from 'acorn-walk';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
-import { createDebugger } from '@modern-js/utils';
 import { isJsRequest, isCSSRequest } from '../utils';
 import { DEV_CLIENT_URL } from '../constants';
 import { fileToModules } from '../AssetModule';

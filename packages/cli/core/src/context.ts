@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { createContext } from '@modern-js/plugin';
 import address from 'address';
 import type { IAppContext } from '@modern-js/types';

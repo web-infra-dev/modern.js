@@ -1,5 +1,4 @@
-import path from 'path';
-import { fs, createDebugger } from '@modern-js/utils';
+import { path, fs, createDebugger } from '@modern-js/utils';
 import { Middleware } from 'koa';
 import calculateEtag from 'etag';
 import convertSourceMap from 'convert-source-map';

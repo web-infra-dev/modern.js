@@ -1,14 +1,14 @@
-import path from 'path';
+import {
+  path,
+  getEntryOptions,
+  createRuntimeExportsUtils,
+  PLUGIN_SCHEMAS,
+} from '@modern-js/utils';
 import {
   useAppContext,
   createPlugin,
   useResolvedConfigContext,
 } from '@modern-js/core';
-import {
-  getEntryOptions,
-  createRuntimeExportsUtils,
-  PLUGIN_SCHEMAS,
-} from '@modern-js/utils';
 
 const PLUGIN_IDENTIFIER = 'router';
 

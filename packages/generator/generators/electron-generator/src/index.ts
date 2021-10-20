@@ -1,9 +1,13 @@
-import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import { FsAPI } from '@modern-js/codesmith-api-fs';
-import { fs, isTsProject, getPackageManager } from '@modern-js/generator-utils';
+import {
+  path,
+  fs,
+  isTsProject,
+  getPackageManager,
+} from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
 // eslint-disable-next-line max-statements

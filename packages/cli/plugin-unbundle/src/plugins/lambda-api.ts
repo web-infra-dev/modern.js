@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { Plugin as RollupPlugin } from 'rollup';
 import {
   getAllAPIFiles,

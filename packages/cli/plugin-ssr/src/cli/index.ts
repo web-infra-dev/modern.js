@@ -1,10 +1,5 @@
-import path from 'path';
 import {
-  createPlugin,
-  useAppContext,
-  useResolvedConfigContext,
-} from '@modern-js/core';
-import {
+  path,
   getEntryOptions,
   SERVER_RENDER_FUNCTION_NAME,
   LOADABLE_STATS_FILE,
@@ -12,6 +7,11 @@ import {
   createRuntimeExportsUtils,
   PLUGIN_SCHEMAS,
 } from '@modern-js/utils';
+import {
+  createPlugin,
+  useAppContext,
+  useResolvedConfigContext,
+} from '@modern-js/core';
 import LoadableWebpackPlugin from '@loadable/webpack-plugin';
 import type WebpackChain from 'webpack-chain';
 import type { BabelChain } from '@modern-js/babel-chain';

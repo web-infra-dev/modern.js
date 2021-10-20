@@ -1,10 +1,10 @@
-import path from 'path';
-import type { NormalizedConfig } from '@modern-js/core';
 import {
+  path,
   findMonorepoRoot,
   getMonorepoPackages,
   isModernjsMonorepo,
 } from '@modern-js/utils';
+import type { NormalizedConfig } from '@modern-js/core';
 import { memoize } from './memoize';
 
 const shouldIncludePackage = (

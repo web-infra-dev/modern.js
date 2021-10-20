@@ -1,6 +1,9 @@
-import path from 'path';
+import {
+  path,
+  PLUGIN_SCHEMAS,
+  createRuntimeExportsUtils,
+} from '@modern-js/utils';
 import { createPlugin, usePlugins, useAppContext } from '@modern-js/core';
-import { PLUGIN_SCHEMAS, createRuntimeExportsUtils } from '@modern-js/utils';
 
 const useInternalDirectory = () => {
   try {

@@ -1,5 +1,5 @@
 // eslint-disable-next-line filenames/match-exported
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { createPlugin, registerPrefetch } from '@modern-js/runtime-core';
 import prefetch from './prefetch';
 

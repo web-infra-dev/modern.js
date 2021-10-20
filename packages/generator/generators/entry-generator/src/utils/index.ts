@@ -1,5 +1,4 @@
-import path from 'path';
-import { fs } from '@modern-js/generator-utils';
+import { path, fs } from '@modern-js/generator-utils';
 
 export function isEmptySource(appDir: string, entriesDir: string) {
   let files;

@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { createPlugin } from '@modern-js/testing';
 import { modernjs_config_key } from '@/constant';
 
