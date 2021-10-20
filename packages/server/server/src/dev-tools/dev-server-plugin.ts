@@ -1,4 +1,5 @@
 import Webpack from 'webpack';
+import { upath } from '@modern-js/utils';
 import { DevServerOptions } from '../type';
 
 const { EntryPlugin } = Webpack;
@@ -17,10 +18,10 @@ export default class DevServerPlugin {
     const port = `&port=${options.client.port}`;
 
     // Todo @songzhenwei
-    const clientEntry = `${require.resolve(
+    const clientEntry = `${upath.normalizeSafe(require.resolve(
       '@modern-js/hmr-client',
-    )}?${host}${path}${port}`;
-    const hotEntry = require.resolve('webpack/hot/dev-server');
+    ))}?${host}${path}${port}`;
+    const hotEntry = upath.normalizeSafe(require.resolve('webpack/hot/dev-server'));
     const additionalEntries = [clientEntry, hotEntry];
 
     // use a hook to add entries if available

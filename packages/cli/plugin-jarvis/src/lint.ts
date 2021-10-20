@@ -1,7 +1,7 @@
 import spawn from 'cross-spawn';
 import minimist from 'minimist';
 import chalk from 'chalk';
-import { logger } from '@modern-js/utils';
+import { logger, upath } from '@modern-js/utils';
 
 const ensureOption = (
   args: minimist.ParsedArgs,
@@ -41,7 +41,7 @@ export default () => {
     rawArgs.push('./');
   }
 
-  const eslintScript = require.resolve('eslint/bin/eslint.js');
+  const eslintScript = upath.normalizeSafe(require.resolve('eslint/bin/eslint.js'));
 
   logger.info(chalk.bold('Lint...'));
   logger.info(

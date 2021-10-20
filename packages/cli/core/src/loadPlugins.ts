@@ -3,6 +3,7 @@ import {
   createDebugger,
   compatRequire,
   INTERNAL_PLUGINS,
+  upath
 } from '@modern-js/utils';
 
 const debug = createDebugger('load-plugins');
@@ -24,7 +25,7 @@ const resolvePlugin = (appDirectory: string, plugin: PluginConfigItem) => {
   const tryResolve = (name: string) => {
     let filePath = '';
     try {
-      filePath = require.resolve(name, { paths: [appDirectory] });
+      filePath = upath.normalizeSafe(require.resolve(name, { paths: [appDirectory] }));
       delete require.cache[filePath];
     } catch (err) {
       if ((err as any).code === 'MODULE_NOT_FOUND') {

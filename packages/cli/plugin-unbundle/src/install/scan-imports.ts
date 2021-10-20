@@ -7,6 +7,7 @@ import {
   createDebugger,
   isTypescript,
   applyOptionsChain,
+  upath
 } from '@modern-js/utils';
 import { parse, init } from 'es-module-lexer';
 import glob from 'fast-glob';
@@ -104,7 +105,7 @@ export const scanImports = async (
     ...DEFAULT_DEPS.filter(name => {
       // deps which already installed will be transformed
       try {
-        require.resolve(name, { paths: [appDirectory] });
+        upath.normalizeSafe(require.resolve(name, { paths: [appDirectory] }));
       } catch (_err) {
         // should always transform virtual deps.
         return Boolean(VIRTUAL_DEPS_MAP[name]);

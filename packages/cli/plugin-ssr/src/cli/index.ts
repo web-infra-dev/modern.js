@@ -6,6 +6,7 @@ import {
   isUseSSRBundle,
   createRuntimeExportsUtils,
   PLUGIN_SCHEMAS,
+  upath,
 } from '@modern-js/utils';
 import {
   createPlugin,
@@ -59,7 +60,7 @@ export default createPlugin(
               if (isUseSSRBundle(userConfig)) {
                 chain
                   ?.plugin('loadable')
-                  .use(require.resolve('@loadable/babel-plugin'));
+                  .use(upath.normalizeSafe(require.resolve('@loadable/babel-plugin')));
               }
             },
           },

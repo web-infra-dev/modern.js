@@ -1,5 +1,6 @@
 import {
   path,
+  upath,
   compatRequire,
   pkgUp,
   ensureAbsolutePath,
@@ -14,6 +15,7 @@ import {
   Progresses2Runners,
 } from '@modern-js/plugin';
 import { enable } from '@modern-js/plugin/node';
+
 import type { Hooks } from '@modern-js/types';
 import { program, Command } from './utils/commander';
 import {
@@ -103,7 +105,7 @@ export const {
 
 export const usePlugins = (plugins: string[]) =>
   plugins.forEach(plugin =>
-    manager.usePlugin(compatRequire(require.resolve(plugin))),
+    manager.usePlugin(compatRequire(upath.normalize(require.resolve(plugin)))),
   );
 
 export {
