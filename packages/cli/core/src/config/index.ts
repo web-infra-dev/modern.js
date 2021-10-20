@@ -107,6 +107,7 @@ export interface ServerConfig {
   port?: number;
   logger?: Record<string, string>;
   measure?: Record<string, string>;
+  enableMicroFrontendDebug?: boolean;
 }
 
 export interface DevConfig {
