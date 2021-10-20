@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import glob from 'glob';
 
 // get style file's real path

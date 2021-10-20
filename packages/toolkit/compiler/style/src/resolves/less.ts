@@ -1,6 +1,5 @@
-import path from 'path';
+import { path, fs } from '@modern-js/utils';
 import less from 'less';
-import { fs } from '@modern-js/utils';
 import { ResolveItemParams, SingleFileCompilerResult } from '../types';
 import { postcssResolve } from './postcss';
 

@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { gather } from '@/index';
 
 describe('@modern-js/server-utils', () => {

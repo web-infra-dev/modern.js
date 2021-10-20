@@ -1,11 +1,15 @@
-import path from 'path';
+import {
+  path,
+  INTERNAL_SRC_ALIAS,
+  logger,
+  PLUGIN_SCHEMAS,
+} from '@modern-js/utils';
 import {
   createPlugin,
   useAppContext,
   useResolvedConfigContext,
 } from '@modern-js/core';
 import { BabelChain } from '@modern-js/babel-chain';
-import { INTERNAL_SRC_ALIAS, logger, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import { LoaderManifest } from './manifest-op';
 import {
   AgreedRoute,

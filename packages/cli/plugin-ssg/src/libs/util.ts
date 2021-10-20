@@ -1,6 +1,5 @@
-import path from 'path';
+import { path, ROUTE_SPEC_FILE, fs } from '@modern-js/utils';
 import { ModernRoute } from '@modern-js/server';
-import { ROUTE_SPEC_FILE, fs } from '@modern-js/utils';
 import { SSGConfig, SsgRoute } from '../types';
 import { MODE } from '@/manifest-op';
 

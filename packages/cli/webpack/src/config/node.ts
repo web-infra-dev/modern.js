@@ -1,12 +1,12 @@
-import path from 'path';
 import fs from 'fs';
-import nodeExternals from 'webpack-node-externals';
 import {
+  path,
   applyOptionsChain,
   isProd,
   isUseSSRBundle,
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
+import nodeExternals from 'webpack-node-externals';
 import { mergeRegex } from '../utils/mergeRegex';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
 import { BaseWebpackConfig } from './base';

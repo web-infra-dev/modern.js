@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { loadConfig, getDependencies } from '@/index';
 
 describe('load user config file', () => {

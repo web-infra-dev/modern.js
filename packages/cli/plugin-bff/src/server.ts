@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { createPlugin } from '@modern-js/server-plugin';
 import { injectAPIHandlerInfos } from '@modern-js/bff-utils';
 import { API_DIR } from './constants';

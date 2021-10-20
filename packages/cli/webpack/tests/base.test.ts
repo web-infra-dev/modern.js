@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { userConfig } from './util';
 import { BaseWebpackConfig } from '@/config/base';
 
@@ -19,7 +19,7 @@ describe('base webpack config', () => {
   test(`default webpack config`, () => {
     const config = new BaseWebpackConfig(
       appContext as any,
-      userConfig,
+      userConfig as any,
     ).config();
 
     // todo fix

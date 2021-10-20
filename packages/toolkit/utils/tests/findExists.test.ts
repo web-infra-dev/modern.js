@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@/index';
 import { findExists } from '@/findExists';
 
 describe('find first exists file', () => {

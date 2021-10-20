@@ -1,8 +1,7 @@
-import path from 'path';
 import crypto from 'crypto';
 import fs from 'fs';
+import { path, isDev, createDebugger } from '@modern-js/utils';
 import chokidar from 'chokidar';
-import { isDev, createDebugger } from '@modern-js/utils';
 import { NormalizedConfig } from './config/mergeConfig';
 import { LoadedConfig } from './config';
 import { HooksRunner } from '.';

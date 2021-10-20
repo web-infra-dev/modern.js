@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import path from 'path';
+import { path } from '@modern-js/utils';
 import fs from 'fs-extra';
 import type { ImportMap } from '../../src/Compiler';
 import { transformEsmImports } from '../../src/utils/transformEsmImports';

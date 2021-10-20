@@ -1,7 +1,6 @@
-import path from 'path';
 import fs from 'fs';
+import { path, findExists, ensureAbsolutePath } from '@modern-js/utils';
 import { NormalizedConfig, IAppContext } from '@modern-js/core';
-import { findExists, ensureAbsolutePath } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
 import { isDefaultExportFunction } from './isDefaultExportFunction';
 import {

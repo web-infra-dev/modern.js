@@ -1,5 +1,4 @@
-import path from 'path';
-import { fs } from '@modern-js/utils';
+import { path, fs } from '@modern-js/utils';
 
 import { ProjectOption } from '../types';
 

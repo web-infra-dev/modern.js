@@ -25,6 +25,7 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/server": "workspace:^1.0.0-rc.15",
+    "@modern-js/utils": "workspace:^1.0.0-rc.15",
     "jest-environment-node": "^27.2.2",
     "path-to-regexp": "^6.2.0",
     "supertest": "^6.1.6"

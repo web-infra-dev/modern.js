@@ -32,6 +32,7 @@
     "@modern-js/codesmith-api-app": "^1.0.0-rc.16",
     "@modern-js/codesmith-tools": "^1.0.0-rc.16",
     "@modern-js/generator-common": "workspace:^1.0.0-rc.16",
+    "@modern-js/generator-utils": "workspace:^1.0.0-rc.15",
     "@modern-js/module-generator": "workspace:^1.0.0-rc.15",
     "@modern-js/monorepo-generator": "workspace:^1.0.0-rc.15",
     "@modern-js/mwa-generator": "workspace:^1.0.0-rc.15",

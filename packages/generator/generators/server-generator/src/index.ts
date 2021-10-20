@@ -1,6 +1,10 @@
-import path from 'path';
+import {
+  path,
+  fs,
+  getPackageVersion,
+  isTsProject,
+} from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
-import { fs, getPackageVersion, isTsProject } from '@modern-js/generator-utils';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {

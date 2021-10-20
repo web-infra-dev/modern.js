@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable no-debugger */
-import path from 'path';
+import { path } from '@modern-js/utils';
 import axios from 'axios';
 import fs from 'fs-extra';
 import tar from 'tar-fs';

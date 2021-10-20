@@ -49,6 +49,7 @@
     "pkg-up": "^3.1.0",
     "recursive-readdir": "^2.2.2",
     "strip-ansi": "6.0.0",
+    "upath": "^2.0.1",
     "yaml": "^1.10.2"
   },
   "devDependencies": {

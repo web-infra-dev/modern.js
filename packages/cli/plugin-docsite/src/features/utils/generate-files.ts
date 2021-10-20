@@ -1,4 +1,4 @@
-import path from 'path';
+import { path, logger, fs } from '@modern-js/utils';
 import matter from 'gray-matter';
 import { startCase, camelCase, union, template, difference } from 'lodash';
 import GithubSlugger from 'github-slugger';
@@ -8,7 +8,6 @@ import toString from 'mdast-util-to-string';
 import u from 'unist-builder';
 import mdx from '@mdx-js/mdx';
 import babelParser, { ParserOptions } from '@babel/parser';
-import { logger, fs } from '@modern-js/utils';
 import {
   DOCS_RENDER_PATH,
   MDX_DEFAULT_RENDERER,

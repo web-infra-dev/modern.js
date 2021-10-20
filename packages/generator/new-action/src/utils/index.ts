@@ -1,7 +1,6 @@
-import path from 'path';
 import json5 from 'json5';
 import { ActionFunction } from '@modern-js/generator-common';
-import { fs } from '@modern-js/generator-utils';
+import { path, fs } from '@modern-js/generator-utils';
 
 export function alreadyRepo() {
   try {
