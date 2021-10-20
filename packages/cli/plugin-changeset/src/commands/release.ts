@@ -28,8 +28,8 @@ export async function release(options: PublishOptions) {
   }
 
   params.push('-r');
-  params.push('--');
-  params.push('--filter {./packages}');
+  params.push('--filter');
+  params.push('{./packages}');
   params.push('--report-summary');
 
   if (ignoreScripts) {

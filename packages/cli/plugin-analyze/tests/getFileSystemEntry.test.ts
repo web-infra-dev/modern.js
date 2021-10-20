@@ -14,7 +14,7 @@ describe('get entrypoints from file system', () => {
 
     expect(
       getFileSystemEntry(appContext as IAppContext, config as NormalizedConfig),
-    ).toEqual([
+    ).toMatchObject([
       {
         entryName: 'src',
         entry: path.resolve(fixtures, './single-entry/src/App'),
@@ -31,7 +31,7 @@ describe('get entrypoints from file system', () => {
 
     expect(
       getFileSystemEntry(appContext as IAppContext, config as NormalizedConfig),
-    ).toEqual([
+    ).toMatchObject([
       {
         entryName: 'src',
         entry: path.resolve(fixtures, './file-system-routes/src/pages'),
@@ -54,7 +54,7 @@ describe('get entrypoints from file system', () => {
 
     expect(
       getFileSystemEntry(appContext as IAppContext, config as NormalizedConfig),
-    ).toEqual([
+    ).toMatchObject([
       {
         entryName: 'src',
         entry: path.resolve(appContext.appDirectory, './src/index.jsx'),
@@ -70,7 +70,7 @@ describe('get entrypoints from file system', () => {
 
     expect(
       getFileSystemEntry(appContext as IAppContext, config as NormalizedConfig),
-    ).toEqual([
+    ).toMatchObject([
       {
         entryName: 'src',
         entry: path.resolve(appContext.appDirectory, './src/App'),

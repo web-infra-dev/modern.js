@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-state",
-  "version": "1.0.0-rc.12",
+  "version": "1.0.0-rc.14",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/runtime/index.d.ts",
   "main": "./dist/js/node/runtime/index.js",
@@ -52,22 +52,23 @@
     "redux-logger": "^3.0.6"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.0.0-rc.12",
-    "@modern-js/plugin": "workspace:^1.0.0-rc.12",
-    "@modern-js/runtime-core": "workspace:^1.0.0-rc.12",
-    "@modern-js/utils": "workspace:^1.0.0-rc.12",
+    "@modern-js/core": "workspace:^1.0.0-rc.14",
+    "@modern-js/plugin": "workspace:^1.0.0-rc.14",
+    "@modern-js/runtime-core": "workspace:^1.0.0-rc.14",
+    "@modern-js/utils": "workspace:^1.0.0-rc.14",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "react": "^17.0.2",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.0.0-rc.12",
-    "@modern-js/module-tools": "^1.0.0-rc.12"
+    "@modern-js/plugin-testing": "^1.0.0-rc.14",
+    "@modern-js/module-tools": "^1.0.0-rc.14"
   },
   "sideEffects": false,
   "peerDependencies": {
-    "@modern-js/runtime-core": "workspace:^1.0.0-rc.12",
+    "@modern-js/core": "workspace:^1.0.0-rc.14",
+    "@modern-js/runtime-core": "workspace:^1.0.0-rc.14",
     "react": "^17.0.2"
   },
   "modernConfig": {},

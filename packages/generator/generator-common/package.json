@@ -1,6 +1,7 @@
 {
   "name": "@modern-js/generator-common",
-  "version": "1.0.0-rc.13",
+  "description": "Modern.js's generator all public constant, include create project and new option",
+  "version": "1.0.0-rc.15",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -24,15 +25,15 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/easy-form-core": "^1.0.0-rc.14",
-    "@modern-js/plugin-i18n": "workspace:^1.0.0-rc.12"
+    "@modern-js/easy-form-core": "^1.0.0-rc.16",
+    "@modern-js/plugin-i18n": "workspace:^1.0.0-rc.14"
   },
   "devDependencies": {
     "@types/jest": "^26",
     "@types/node": "^14",
     "typescript": "^4",
-    "@modern-js/module-tools": "^1.0.0-rc.12",
-    "@modern-js/plugin-testing": "^1.0.0-rc.12"
+    "@modern-js/module-tools": "^1.0.0-rc.14",
+    "@modern-js/plugin-testing": "^1.0.0-rc.14"
   },
   "sideEffects": false,
   "modernConfig": {},

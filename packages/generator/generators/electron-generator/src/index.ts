@@ -6,6 +6,7 @@ import { FsAPI } from '@modern-js/codesmith-api-fs';
 import { fs, isTsProject, getPackageManager } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
+// eslint-disable-next-line max-statements
 const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
@@ -50,7 +51,7 @@ const handleTemplateFile = async (
     );
   }
 
-  const updateInfo = {
+  const updateInfo: Record<string, any> = {
     main: './electron/main.js',
     'scripts.dev:main': 'modern dev electron-main',
     'scripts.dev:electron': 'modern dev electron',
@@ -63,6 +64,10 @@ const handleTemplateFile = async (
     'devDependencies.@babel/runtime': '^7.15.4',
     'devDependencies.@babel/register': '^7.15.3',
   };
+
+  if (context.config.isSubGenerator) {
+    updateInfo.modernConfig = {};
+  }
 
   const jsonAPI = new JsonAPI(generator);
   await jsonAPI.update(context.materials.default.get('package.json'), {

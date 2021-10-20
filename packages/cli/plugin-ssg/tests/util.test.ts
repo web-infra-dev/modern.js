@@ -91,8 +91,8 @@ describe('test ssg util function', () => {
     const empty = () => {
       // empty test
     };
-    expect(parsedSSGConfig('loose').useSSG).toBe('loose');
-    expect(parsedSSGConfig('loose').userHook).toBeInstanceOf(Function);
+    expect(parsedSSGConfig(true).useSSG).toBe(true);
+    expect(parsedSSGConfig(true).userHook).toBeInstanceOf(Function);
     expect(parsedSSGConfig(true as any).useSSG).toBe(true);
     expect(parsedSSGConfig(true as any).userHook).toBeInstanceOf(Function);
     expect(parsedSSGConfig(empty).useSSG).toBe(true);
