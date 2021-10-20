@@ -13,6 +13,11 @@
   "engines": {
     "node": ">=14.17.6"
   },
+  "eslintConfig": {
+    "extends": [
+      "@modern-js"
+    ]
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -26,11 +31,6 @@
     "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
       "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
       "git add"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "@modern-js"
     ]
   },
   "eslintIgnore": [
