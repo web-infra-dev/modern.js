@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { useAppContext, createPlugin } from '@modern-js/core';
-import { createRuntimeExportsUtils } from '@modern-js/utils';
+import { createRuntimeExportsUtils, upath } from '@modern-js/utils';
 
 export default createPlugin(
   () => {
@@ -24,9 +24,9 @@ export default createPlugin(
       },
       modifyEntryImports() {
         const { appDirectory } = useAppContext();
-        const runtimePath = require.resolve(`@modern-js/runtime`, {
+        const runtimePath = upath.normalizeSafe(require.resolve(`@modern-js/runtime`, {
           paths: [appDirectory],
-        });
+        }));
 
         const currentFile = bffExportsUtils.getPath();
 

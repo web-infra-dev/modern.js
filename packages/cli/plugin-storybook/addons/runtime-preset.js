@@ -1,7 +1,8 @@
+const { upath } = require('@modern-js/utils');
 function config(entry = []) {
   return [
     ...entry,
-    require.resolve('../dist/js/node/runtime-addon/preset/preview'),
+    upath.normalizeSafe(require.resolve('../dist/js/node/runtime-addon/preset/preview')),
   ];
 }
 
