@@ -1,10 +1,14 @@
-import { dirname } from 'path';
+import { path as pathUtils } from '@modern-js/utils';
 import * as t from '@babel/types';
 
 const REWRITE_TARGETS = {
-  '@babel/runtime': dirname(require.resolve('@babel/runtime/package.json')),
-  'regenerator-runtime': dirname(require.resolve('regenerator-runtime')),
-  'core-js': dirname(require.resolve('core-js/package.json')),
+  '@babel/runtime': pathUtils.dirname(
+    require.resolve('@babel/runtime/package.json'),
+  ),
+  'regenerator-runtime': pathUtils.dirname(
+    require.resolve('regenerator-runtime'),
+  ),
+  'core-js': pathUtils.dirname(require.resolve('core-js/package.json')),
 };
 
 const matchedKey = (value: string) =>

@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@/index';
 import { compatRequire } from '@/compatRequire';
 
 describe('compat require', () => {

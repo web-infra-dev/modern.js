@@ -1,4 +1,4 @@
-import path from 'path';
+import { path, compatRequire } from '@modern-js/utils';
 import {
   INestApplication,
   Controller,
@@ -12,7 +12,6 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
-import { compatRequire } from '@modern-js/utils';
 import { APIHanlderInfo, HttpMethod } from '@modern-js/bff-utils';
 import { isSchemaHandler, InputType } from '@modern-js/bff-runtime';
 import type { Request, Response } from 'express';

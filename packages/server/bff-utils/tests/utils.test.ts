@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { getAllAPIFiles, getAPIMode } from '@/utils';
 import { APIMode } from '@/constant';
 

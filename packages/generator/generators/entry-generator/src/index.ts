@@ -1,6 +1,10 @@
-import path from 'path';
 import { isEqual, merge } from 'lodash';
-import { fs, getPackageObj, isTsProject } from '@modern-js/generator-utils';
+import {
+  path,
+  fs,
+  getPackageObj,
+  isTsProject,
+} from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';

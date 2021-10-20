@@ -1,6 +1,5 @@
 import fs from 'fs';
-import path from 'path';
-import { createDebugger } from '@modern-js/utils';
+import { path, createDebugger } from '@modern-js/utils';
 
 export const debug: any = createDebugger('test');
 

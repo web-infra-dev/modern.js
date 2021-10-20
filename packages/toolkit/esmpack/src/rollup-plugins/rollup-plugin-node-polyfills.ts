@@ -2,8 +2,8 @@
  * Cheng, 22 Oct, 2020
  * internally use rollup-plugin-node-polyfills
  */
-import { dirname, relative } from 'path';
 import { randomBytes } from 'crypto';
+import { path } from '@modern-js/utils';
 import inject from '@rollup/plugin-inject';
 import type { Plugin } from 'rollup';
 
@@ -32,12 +32,12 @@ export function rollupPluginNodePolyfills(
     resolveId(importee, importer) {
       if (importee === DIRNAME_PATH) {
         const id = `\0${getRandomId()}`;
-        dirs.set(id, dirname('/' + relative(basedir, importer!)));
+        dirs.set(id, path.dirname('/' + path.relative(basedir, importer!)));
         return { id, moduleSideEffects: false };
       }
       if (importee === FILENAME_PATH) {
         const id = `\0${getRandomId()}`;
-        dirs.set(id, dirname('/' + relative(basedir, importer!)));
+        dirs.set(id, path.dirname('/' + path.relative(basedir, importer!)));
         return { id, moduleSideEffects: false };
       }
       const _id = getUnwrapId(importee);

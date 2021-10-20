@@ -1,6 +1,6 @@
 {
   "name": "@modern-js-app/eslint-config",
-  "version": "1.0.0-rc.14",
+  "version": "1.0.0-rc.15",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "prettier": "^2.0.1"
   },
   "dependencies": {
-    "@modern-js/babel-preset-app": "workspace:^1.0.0-rc.14"
+    "@modern-js/babel-preset-app": "workspace:^1.0.0-rc.15"
   },
   "devDependencies": {
     "eslint": "^7.32.0",

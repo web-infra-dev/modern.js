@@ -1,8 +1,7 @@
 /* eslint-disable max-lines */
 import { IncomingMessage, ServerResponse, Server } from 'http';
-import path from 'path';
 import util from 'util';
-import { fs, ROUTE_SPEC_FILE } from '@modern-js/utils';
+import { path, fs, ROUTE_SPEC_FILE } from '@modern-js/utils';
 import { Adapter } from '@modern-js/server-plugin';
 import { gather, createMiddlewareCollecter } from '@modern-js/server-utils';
 import type { NormalizedConfig } from '@modern-js/core';

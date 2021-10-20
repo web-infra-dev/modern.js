@@ -1,6 +1,6 @@
 import { esmpack } from '../src/index';
 import { preparePackage } from './npm';
-import path from 'path';
+import { path } from '@modern-js/utils';
 import fs from 'fs-extra';
 import { getTempDir } from './paths';
 

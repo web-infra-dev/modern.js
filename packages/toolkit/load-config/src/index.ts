@@ -1,7 +1,11 @@
-import path from 'path';
 import fs from 'fs';
+import {
+  path,
+  findExists,
+  createDebugger,
+  compatRequire,
+} from '@modern-js/utils';
 import babelRegister from '@babel/register';
-import { findExists, createDebugger, compatRequire } from '@modern-js/utils';
 
 const debug = createDebugger('load-config');
 

@@ -1,7 +1,12 @@
-import path from 'path';
+import {
+  path,
+  compatRequire,
+  pkgUp,
+  ensureAbsolutePath,
+  logger,
+} from '@modern-js/utils';
 import {
   createAsyncManager,
-  createContext,
   createAsyncWorkflow,
   createParallelWorkflow,
   ParallelWorkflow,
@@ -9,12 +14,6 @@ import {
   Progresses2Runners,
 } from '@modern-js/plugin';
 import { enable } from '@modern-js/plugin/node';
-import {
-  compatRequire,
-  pkgUp,
-  ensureAbsolutePath,
-  logger,
-} from '@modern-js/utils';
 import type { Hooks } from '@modern-js/types';
 import { program, Command } from './utils/commander';
 import {
@@ -109,7 +108,6 @@ export const usePlugins = (plugins: string[]) =>
 
 export {
   defineConfig,
-  createContext,
   AppContext,
   useAppContext,
   useConfigContext,

@@ -1,4 +1,3 @@
-import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
@@ -16,6 +15,7 @@ import {
   BooleanConfig,
 } from '@modern-js/generator-common';
 import {
+  path,
   i18n as utilsI18n,
   getAllPackages,
   validatePackagePath,

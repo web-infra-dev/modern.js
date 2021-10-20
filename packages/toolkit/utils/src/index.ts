@@ -1,4 +1,5 @@
 export * as fs from 'fs-extra';
+export * as upath from 'upath';
 export * from './chalk';
 export * from './formatWebpackMessages';
 export * from './FileSizeReporter';
@@ -22,7 +23,8 @@ export * from './monorepo';
 export * from './getPackageManager';
 export * from './runtimeExports';
 export * from './readTsConfig';
-export * from './path';
+export { isRelativePath } from './path';
+export * as path from './path';
 export * from './generateMetaTags';
 export * from './prettyInstructions';
 export * from './alias';
