@@ -1,5 +1,13 @@
 # @modern-js/base-generator
 
+## 1.0.0-rc.15
+
+### Patch Changes
+
+- 224f7fe: fix server route match
+- 30ac27c: feat: add generator package description
+- 204c626: feat: initial
+
 ## 1.0.0-rc.14
 
 ### Patch Changes
