@@ -31,4 +31,11 @@ export const outputSchema = [
       default: 'source-code',
     },
   },
+  {
+    target: 'output.assetsPath',
+    schema: {
+      typeof: 'string',
+      default: 'styles',
+    },
+  },
 ];
