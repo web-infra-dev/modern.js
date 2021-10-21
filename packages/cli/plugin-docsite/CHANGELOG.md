@@ -1,5 +1,21 @@
 # @modern-js/plugin-docsite
 
+## 1.0.0-rc.17
+
+### Patch Changes
+
+- 224f7fe: fix server route match
+- 30ac27c: feat: add generator package description
+- 204c626: feat: initial
+- fix: #118 #104
+- Updated dependencies [224f7fe]
+- Updated dependencies [30ac27c]
+- Updated dependencies [204c626]
+- Updated dependencies [undefined]
+  - @modern-js/core@1.0.0-rc.17
+  - @modern-js/webpack@1.0.0-rc.17
+  - @modern-js/utils@1.0.0-rc.17
+
 ## 1.0.0-rc.16
 
 ### Patch Changes
