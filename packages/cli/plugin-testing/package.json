@@ -28,19 +28,27 @@
     "enhanced-resolve": "^5.8.2"
   },
   "peerDependencies": {
+    "@modern-js-reduck/plugin-auto-actions": "^1.0.0-rc.9",
+    "@modern-js-reduck/plugin-effects": "^1.0.0-rc.9",
+    "@modern-js-reduck/plugin-immutable": "^1.0.0-rc.9",
+    "@modern-js-reduck/store": "^1.0.0-rc.6",
     "@modern-js/core": "workspace:^1.0.0-rc.15",
     "@modern-js/runtime-core": "workspace:^1.0.0-rc.15"
   },
   "devDependencies": {
+    "@modern-js-reduck/plugin-auto-actions": "^1.0.0-rc.9",
+    "@modern-js-reduck/plugin-effects": "^1.0.0-rc.9",
+    "@modern-js-reduck/plugin-immutable": "^1.0.0-rc.9",
+    "@modern-js-reduck/store": "^1.0.0-rc.6",
+    "@modern-js/plugin-testing": "^1.0.0-rc.15",
+    "@modern-js/module-tools": "^1.0.0-rc.15"
     "@modern-js/core": "workspace:^1.0.0-rc.15",
     "@modern-js/runtime-core": "workspace:^1.0.0-rc.15",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
-    "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.0.0-rc.15",
-    "@modern-js/module-tools": "^1.0.0-rc.15"
+    "typescript": "^4"
   },
   "sideEffects": false,
   "modernConfig": {},
