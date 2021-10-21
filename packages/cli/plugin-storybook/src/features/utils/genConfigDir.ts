@@ -1,6 +1,6 @@
 import * as path from 'path';
 import type { NormalizedConfig } from '@modern-js/core';
-import { Import, fs } from '@modern-js/utils';
+import { Import, fs, HIDE_MODERN_JS_DIR } from '@modern-js/utils';
 
 const glob: typeof import('glob') = Import.lazy('glob', require);
 const constants: typeof import('../constants') = Import.lazy(
@@ -24,11 +24,9 @@ const defaultOptions = {
   isTsProject: false,
 };
 
-const getConfigDir = () => {
-  const moduleToolsPath = path.resolve(
-    path.dirname(require.resolve('@modern-js/plugin-storybook')),
-    '../../..',
-  );
+const getConfigDir = (appDir: string) => {
+  const moduleToolsPath = path.resolve(appDir, HIDE_MODERN_JS_DIR);
+  fs.ensureDirSync(moduleToolsPath);
   return path.resolve(moduleToolsPath, constants.STORYBOOK_CONFIG_PATH);
 };
 
@@ -48,7 +46,7 @@ export const generateConfig = async (
     appDirectory,
     constants.STORYBOOK_USER_CONFIG_PATH,
   );
-  const configDir = getConfigDir();
+  const configDir = getConfigDir(appDirectory);
   const existUserConfig = await checkExistUserConfig(appDirectory);
 
   await initStoryBookDir(configDir);
