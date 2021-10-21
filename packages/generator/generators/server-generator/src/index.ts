@@ -28,6 +28,7 @@ function isEmptyServerDir(serverDir: string) {
   });
 }
 
+// eslint-disable-next-line max-statements
 const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
@@ -90,6 +91,22 @@ const handleTemplateFile = async (
       },
     },
   );
+
+  const tsconfigJSON = fs.readJSONSync(path.join(appDir, 'tsconfig.json'));
+
+  if (!(tsconfigJSON.include || []).includes('server')) {
+    await jsonAPI.update(
+      context.materials.default.get(path.join(appDir, 'tsconfig.json')),
+      {
+        query: {},
+        update: {
+          $set: {
+            include: [...(tsconfigJSON.include || []), 'server'],
+          },
+        },
+      },
+    );
+  }
 
   await appApi.forgeTemplate(
     `templates/${framework as string}/**/*`,
