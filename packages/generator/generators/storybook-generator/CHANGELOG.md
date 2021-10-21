@@ -1,5 +1,14 @@
 # @modern-js/storybook-generator
 
+## 1.0.0-rc.19
+
+### Patch Changes
+
+- 224f7fe: fix server route match
+- 30ac27c: feat: add generator package description
+- 204c626: feat: initial
+- fix: #118 #104
+
 ## 1.0.0-rc.18
 
 ### Patch Changes
