@@ -9,10 +9,10 @@ export const getBuildInPlugins = (opts: BuiltInOptsType) => {
   const chain = createBabelChain();
   chain
     .plugin('@modern-js/babel-plugin-import-check')
-    .use(upath.normalizeSafe(require.resolve('./import-check'), [opts]));
+    .use(upath.normalizeSafe(require.resolve('./import-check')), [opts]);
   chain
     .plugin('@modern-js/babel-plugin-import-path')
-    .use(upath.normalizeSafe(require.resolve('./import-path'), [opts]));
+    .use(upath.normalizeSafe(require.resolve('./import-path')), [opts]);
 
   return chain;
 };
