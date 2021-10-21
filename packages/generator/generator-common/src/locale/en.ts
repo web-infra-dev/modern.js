@@ -18,7 +18,7 @@ export const EN_LOCALE = {
     function: {
       self: 'Enable features',
       unbundle: 'Enable "Unbundle Development"',
-      tailwindcss: 'Enable TailwindCSS',
+      tailwindcss: 'Enable Tailwind CSS',
       less: 'Enable Less',
       sass: 'Enable Sass',
       bff: 'Enable "BFF"',
