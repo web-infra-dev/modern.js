@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/esmpack",
-  "version": "1.0.0-rc.16",
+  "version": "1.0.0-rc.17",
   "description": "packs node module to ESM",
   "keywords": [
     "esmpack",
@@ -23,7 +23,7 @@
     "test:unit": "jest -c ./__tests__/jest.config.js"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:1.0.0-rc.16",
+    "@modern-js/utils": "workspace:1.0.0-rc.17",
     "@babel/core": "~7.12.10",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
