@@ -208,29 +208,25 @@ const createCli = () => {
   async function run(argv: string[]) {
     const { loadedConfig, appContext, resolved } = await init(argv);
 
+    await hooksRunner.commands({ program });
+
     initWatcher(
       loadedConfig,
       appContext.appDirectory,
-      resolved,
+      resolved.source.configDir,
       hooksRunner,
       argv,
     );
-
-    await hooksRunner.commands({ program });
-
     manager.run(() => program.parse(process.argv));
   }
 
   async function restart() {
     isRestart = true;
-    try {
-      logger.info('Restart...\n');
-      await init();
-      return true;
-    } catch (err) {
-      logger.error(err as string);
-    }
-    return false;
+
+    logger.info('Restart...\n');
+
+    await init(process.argv.slice(2));
+    manager.run(() => program.parse(process.argv));
   }
 
   return {
