@@ -228,7 +228,8 @@ const createCli = () => {
     let hasGetError = false
     try {
       await init(process.argv.slice(2));
-    } catch {
+    } catch(err) {
+      console.error(err)
       hasGetError = true
     } finally {
       if (!hasGetError) {
