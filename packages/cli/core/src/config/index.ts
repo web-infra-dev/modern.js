@@ -175,7 +175,7 @@ export const loadUserConfig = async (
   appDirectory: string,
   filePath?: string,
 ): Promise<LoadedConfig> => {
-  const loaded = loadConfig<ConfigParam>(appDirectory, filePath);
+  const loaded = await loadConfig<ConfigParam>(appDirectory, filePath);
 
   const config = !loaded
     ? {}
