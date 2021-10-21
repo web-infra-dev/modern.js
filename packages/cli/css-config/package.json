@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/css-config",
-  "version": "1.0.0-rc.15",
+  "version": "1.0.0-rc.16",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.0.0-rc.15",
+    "@modern-js/utils": "workspace:^1.0.0-rc.16",
     "autoprefixer": "^10.3.1",
     "postcss": "^8.3.8",
     "postcss-custom-properties": "^11.0.0",
@@ -36,14 +36,14 @@
     "postcss-page-break": "^3.0.4"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.0.0-rc.15",
-    "@modern-js/plugin-testing": "^1.0.0-rc.15",
+    "@modern-js/core": "workspace:^1.0.0-rc.16",
+    "@modern-js/plugin-testing": "^1.0.0-rc.16",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react-dom": "^17",
     "@types/sass": "^1.16.1",
     "typescript": "^4",
-    "@modern-js/module-tools": "^1.0.0-rc.15"
+    "@modern-js/module-tools": "^1.0.0-rc.16"
   },
   "sideEffects": false,
   "modernConfig": {

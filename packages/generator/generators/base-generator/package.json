@@ -1,7 +1,7 @@
 {
   "name": "@modern-js/base-generator",
   "description": "Modern.js base generator, includes project base config template",
-  "version": "1.0.0-rc.15",
+  "version": "1.0.0-rc.16",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/main.js",
@@ -34,8 +34,8 @@
     "@types/jest": "^26",
     "@types/node": "^14",
     "typescript": "^4",
-    "@modern-js/module-tools": "^1.0.0-rc.15",
-    "@modern-js/plugin-testing": "^1.0.0-rc.15"
+    "@modern-js/module-tools": "^1.0.0-rc.16",
+    "@modern-js/plugin-testing": "^1.0.0-rc.16"
   },
   "sideEffects": false,
   "modernConfig": {
