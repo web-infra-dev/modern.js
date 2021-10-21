@@ -51,6 +51,19 @@ export const getDependencies = (filePath: string): string[] => {
   return deps;
 };
 
+const bundleRequireWithCatch = async (configFile: string): Promise<any> => {
+  const { bundleRequire } = require('bundle-require');
+  try {
+    const mod = await bundleRequire({
+      filepath: configFile
+    });
+
+    return mod;
+  } catch(e) {
+    return await bundleRequireWithCatch(configFile);
+  }
+}
+
 /**
  * Parse and load user config file, support extnesions like .ts, mjs, js, ejs.
  * @param appDirectory - App root directory, from which start search user config file.
@@ -85,11 +98,7 @@ export const loadConfig = async <T>(
   if (configFile) {
     delete require.cache[configFile];
 
-    const { bundleRequire } = require('bundle-require');
-
-    const mod = await bundleRequire({
-      filepath: configFile,
-    });
+    const mod = await bundleRequireWithCatch(configFile);
 
     config = mod.default || mod;
 
