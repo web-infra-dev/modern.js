@@ -4,7 +4,8 @@ import {
   useResolvedConfigContext,
 } from '@modern-js/core';
 import { compiler } from '@modern-js/babel-compiler';
-import { PLUGIN_SCHEMAS, path, fs, upath, resolveBabelConfig } from '@modern-js/utils';
+import { PLUGIN_SCHEMAS, path, fs, upath } from '@modern-js/utils';
+import { resolveBabelConfig } from '@modern-js/server-utils';
 
 import type { Configuration } from 'webpack';
 import type Chain from 'webpack-chain';
