@@ -1,4 +1,5 @@
 import { createPlugin } from '@modern-js/testing';
+import { upath } from '@modern-js/utils';
 import { bff_info_key } from './constant';
 
 export default ({
@@ -16,8 +17,8 @@ export default ({
     () => ({
       jestConfig: async (utils, next) => {
         utils.mergeJestConfig({
-          setupFilesAfterEnv: [require.resolve('./setup')],
-          testEnvironment: require.resolve('./env'),
+          setupFilesAfterEnv: [upath.normalizeSafe(require.resolve('./setup'))],
+          testEnvironment: upath.normalizeSafe(require.resolve('./env')),
           globals: {
             [bff_info_key]: {
               appDir: pwd,

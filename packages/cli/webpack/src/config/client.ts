@@ -1,7 +1,6 @@
-import path from 'path';
-import type { Buffer } from 'buffer';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import {
+  path,
+  upath,
   isDev,
   isProd,
   removeLeadingSlash,
@@ -9,6 +8,7 @@ import {
   generateMetaTags,
   removeTailSlash,
 } from '@modern-js/utils';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import webpack, { HotModuleReplacementPlugin, ProvidePlugin } from 'webpack';
@@ -45,8 +45,8 @@ class ClientWebpackConfig extends BaseWebpackConfig {
       if (this.options.output.polyfill !== 'off') {
         this.chain
           .entry(name)
-          .prepend(require.resolve('regenerator-runtime/runtime'))
-          .prepend(require.resolve('core-js'));
+          .prepend(upath.normalizeSafe(require.resolve('regenerator-runtime/runtime')))
+          .prepend(upath.normalizeSafe(require.resolve('core-js')));
       }
     }
   }

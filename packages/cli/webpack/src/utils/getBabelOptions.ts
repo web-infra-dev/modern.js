@@ -1,9 +1,10 @@
-import path from 'path';
 import {
+  path,
   isProd,
   getCacheIdentifier,
   applyOptionsChain,
   isUseSSRBundle,
+  upath,
 } from '@modern-js/utils';
 import { NormalizedConfig } from '@modern-js/core';
 import { Options as BabelPresetAppOptions } from '@modern-js/babel-preset-app';
@@ -22,12 +23,15 @@ export const getBabelOptions = (
   cacheIdentifier: getCacheIdentifier([
     {
       name: 'babel-loader',
-      version: readPackageJson(require.resolve('babel-loader')).version,
+      version: readPackageJson(
+        upath.normalizeSafe(require.resolve('babel-loader')),
+      ).version,
     },
     {
       name: '@modern-js/babel-preset-app',
-      version: readPackageJson(require.resolve('@modern-js/babel-preset-app'))
-        .version,
+      version: readPackageJson(
+        upath.normalizeSafe(require.resolve('@modern-js/babel-preset-app')),
+      ).version,
     },
   ]),
   cacheDirectory: path.resolve(appDirectory, CACHE_DIRECTORY, `babel/${name}`),
@@ -35,7 +39,7 @@ export const getBabelOptions = (
   compact: isProd(),
   presets: [
     [
-      require.resolve('@modern-js/babel-preset-app'),
+      upath.normalizeSafe(require.resolve('@modern-js/babel-preset-app')),
       {
         appDirectory,
         target: 'client',

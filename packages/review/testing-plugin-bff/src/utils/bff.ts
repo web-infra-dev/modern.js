@@ -1,9 +1,9 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import {
   getAllAPIFiles,
   getMethod,
   getLambdaDir,
-  extractModuleInfoFromFilenames
+  extractModuleInfoFromFilenames,
 } from '@modern-js/bff-utils';
 
 export const getAllAPIInfos = (appDir: string) => {

@@ -1,8 +1,7 @@
-import path from 'path';
+import { path, fs, createDebugger } from '@modern-js/utils';
 import { Plugin as RollupPlugin } from 'rollup';
 import { parse, init } from 'es-module-lexer';
 import MagicString from 'magic-string';
-import { fs, createDebugger } from '@modern-js/utils';
 import stripComments from 'strip-comments';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import {

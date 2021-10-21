@@ -1,17 +1,18 @@
-import path from 'path';
 import {
-  createPlugin,
-  useAppContext,
-  useResolvedConfigContext,
-} from '@modern-js/core';
-import {
+  path,
   getEntryOptions,
   SERVER_RENDER_FUNCTION_NAME,
   LOADABLE_STATS_FILE,
   isUseSSRBundle,
   createRuntimeExportsUtils,
   PLUGIN_SCHEMAS,
+  upath,
 } from '@modern-js/utils';
+import {
+  createPlugin,
+  useAppContext,
+  useResolvedConfigContext,
+} from '@modern-js/core';
 import LoadableWebpackPlugin from '@loadable/webpack-plugin';
 import type WebpackChain from 'webpack-chain';
 import type { BabelChain } from '@modern-js/babel-chain';
@@ -59,7 +60,7 @@ export default createPlugin(
               if (isUseSSRBundle(userConfig)) {
                 chain
                   ?.plugin('loadable')
-                  .use(require.resolve('@loadable/babel-plugin'));
+                  .use(upath.normalizeSafe(require.resolve('@loadable/babel-plugin')));
               }
             },
           },

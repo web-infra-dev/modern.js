@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 
 export const UTILS_STATIC = path.join(__dirname, '../../static');
 export const DOCS_RENDER_PATH = '/api/v1/docs/render';

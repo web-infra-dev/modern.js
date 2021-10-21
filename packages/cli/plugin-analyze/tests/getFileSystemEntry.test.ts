@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { getFileSystemEntry } from '@/getFileSystemEntry';
 

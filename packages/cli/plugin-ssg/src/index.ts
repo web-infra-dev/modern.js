@@ -1,11 +1,16 @@
-import path from 'path';
+import {
+  path,
+  INTERNAL_SRC_ALIAS,
+  logger,
+  upath,
+  PLUGIN_SCHEMAS,
+} from '@modern-js/utils';
 import {
   createPlugin,
   useAppContext,
   useResolvedConfigContext,
 } from '@modern-js/core';
 import { BabelChain } from '@modern-js/babel-chain';
-import { INTERNAL_SRC_ALIAS, logger, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import { LoaderManifest } from './manifest-op';
 import {
   AgreedRoute,
@@ -61,7 +66,7 @@ export default createPlugin(
         return {
           tools: {
             babel(config: any, { chain }: { chain: BabelChain }) {
-              chain.plugin('./loader').use(require.resolve('./loader'));
+              chain.plugin('./loader').use(upath.normalizeSafe(require.resolve('./loader')));
             },
           },
         };

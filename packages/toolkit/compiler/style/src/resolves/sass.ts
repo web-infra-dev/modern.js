@@ -1,7 +1,6 @@
-import path from 'path';
+import { path, fs } from '@modern-js/utils';
 import sass from 'sass';
 import { toString, merge } from 'lodash';
-import { fs } from '@modern-js/utils';
 import { ResolveItemParams, SingleFileCompilerResult } from '../types';
 import { postcssResolve } from './postcss';
 

@@ -1,7 +1,7 @@
 import { createPlugin } from '@modern-js/core';
 import type { Configuration } from 'webpack';
 import type Chain from 'webpack-chain';
-import { isFastRefresh } from '@modern-js/utils';
+import { isFastRefresh, upath } from '@modern-js/utils';
 
 export default createPlugin(
   () => ({
@@ -35,7 +35,7 @@ export default createPlugin(
                   ...babelOptions,
                   plugins: [
                     ...(babelOptions.plugins || []),
-                    require.resolve('react-refresh/babel'),
+                    upath.normalizeSafe(require.resolve('react-refresh/babel')),
                   ],
                 });
             }

@@ -1,7 +1,9 @@
-import path from 'path';
 import fs from 'fs';
-import babelRegister from '@babel/register';
-import { findExists, createDebugger, compatRequire } from '@modern-js/utils';
+import {
+  path,
+  findExists,
+  createDebugger,
+} from '@modern-js/utils';
 
 const debug = createDebugger('load-config');
 
@@ -55,15 +57,15 @@ export const getDependencies = (filePath: string): string[] => {
  * @param filePath - Specific absolute config file path.
  * @returns Object contain config file path, user config object and dependency files used by config file.
  */
-export const loadConfig = <T>(
+export const loadConfig = async <T>(
   appDirectory: string,
   filePath?: string,
-): {
+): Promise<{
   path: string | false;
   config?: T;
   dependencies?: string[];
   pkgConfig?: T;
-} => {
+}> => {
   const configFile = filePath
     ? filePath
     : findExists(
@@ -76,31 +78,23 @@ export const loadConfig = <T>(
 
   let config: T | undefined;
 
-  let dependencies = pkgConfig
+  const dependencies = pkgConfig
     ? [path.resolve(appDirectory, './package.json')]
     : [];
 
   if (configFile) {
-    babelRegister({
-      presets: [
-        [
-          require.resolve('@babel/preset-env'),
-          { targets: { node: 'current' } },
-        ],
-        require.resolve('@babel/preset-typescript'),
-      ],
-      ignore: [/node_modules/, /api/, /server/],
-      extensions: CONFIG_FILE_EXTENSIONS,
-      cache: false,
-      // Preventing warning when files are too large
-      compact: false,
-    });
-
     delete require.cache[configFile];
 
-    config = compatRequire(configFile);
+    const { bundleRequire } = require('bundle-require');
 
-    dependencies = dependencies.concat(getDependencies(configFile));
+    const mod = await bundleRequire({
+      filepath: configFile,
+    });
+
+    config = mod.default || mod;
+
+    // TODO: get deps.
+    // dependencies = dependencies.concat(getDependencies(configFile));
   }
 
   return {

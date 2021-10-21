@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
 import { createContainer } from '@modern-js/plugin';
+import { isProd } from '@modern-js/utils';
 import { Plugin, runtime, AppComponentContext } from './plugin';
 import {
   RuntimeReactContext,
@@ -137,7 +138,9 @@ export const bootstrap: BootStrap = async (
     );
 
     Object.assign(context, {
-      loaderManager: createLoaderManager(initialLoadersState),
+      loaderManager: createLoaderManager(initialLoadersState, {
+        skipStatic: true,
+      }),
     });
 
     runInit(context);
@@ -160,7 +163,14 @@ export const bootstrap: BootStrap = async (
 
   Object.assign(context, {
     ssrContext: id,
-    loaderManager: createLoaderManager({}, { onlyStatic: id.staticGenerate }),
+    loaderManager: createLoaderManager(
+      {},
+      {
+        skipNonStatic: id.staticGenerate,
+        // if not static generate, only non-static loader can exec on prod env
+        skipStatic: isProd() && !id.staticGenerate,
+      },
+    ),
   });
 
   runInit(context);

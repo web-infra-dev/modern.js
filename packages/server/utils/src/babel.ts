@@ -4,7 +4,7 @@ import {
   ISyntaxOption,
 } from '@modern-js/babel-preset-lib';
 import { TransformOptions } from '@babel/core';
-import { applyOptionsChain, fs, getAlias } from '@modern-js/utils';
+import { applyOptionsChain, fs, getAlias, upath } from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
 import json5 from 'json5';
 
@@ -112,7 +112,7 @@ export const resolveBabelConfig = (
   const envOptions = babelChain.preset('@babel/preset-env').options();
   babelChain
     .preset('@babel/preset-env')
-    .use(require.resolve('@babel/preset-env'), [
+    .use(upath.normalizeSafe(require.resolve('@babel/preset-env')), [
       {
         ...envOptions[0],
         loose: true,
@@ -121,17 +121,17 @@ export const resolveBabelConfig = (
 
   babelChain
     .plugin('babel-plugin-transform-typescript-metadata')
-    .use(require.resolve('babel-plugin-transform-typescript-metadata'), []);
+    .use(upath.normalizeSafe(require.resolve('babel-plugin-transform-typescript-metadata')), []);
 
   babelChain
     .plugin('@babel/plugin-proposal-decorators')
-    .use(require.resolve('@babel/plugin-proposal-decorators'), [
+    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-decorators')), [
       { legacy: true },
     ]);
 
   babelChain
     .plugin('@babel/plugin-proposal-class-properties')
-    .use(require.resolve('@babel/plugin-proposal-class-properties'), [
+    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-class-properties')), [
       { loose: true },
     ]);
 

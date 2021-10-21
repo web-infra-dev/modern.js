@@ -1,14 +1,14 @@
-import path from 'path';
+import {
+  path,
+  getEntryOptions,
+  createRuntimeExportsUtils,
+  PLUGIN_SCHEMAS,
+} from '@modern-js/utils';
 import {
   createPlugin,
   useAppContext,
   useResolvedConfigContext,
 } from '@modern-js/core';
-import {
-  getEntryOptions,
-  createRuntimeExportsUtils,
-  PLUGIN_SCHEMAS,
-} from '@modern-js/utils';
 import {} from '../types';
 
 const PLUGIN_IDENTIFIER = 'state';

@@ -1,6 +1,7 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { createPlugin } from '@modern-js/testing';
 import { modernjs_config_key } from '@/constant';
+import { upath } from '@modern-js/utils';
 
 const getModuleNameMapper = (config: any) => {
   const {
@@ -40,7 +41,7 @@ export default (webpackConfig: any, userConfig: any, pwd: string) =>
           },
           moduleNameMapper: getModuleNameMapper(webpackConfig),
           testEnvironment: 'jsdom',
-          resolver: require.resolve('../resolver'),
+          resolver: upath.normalizeSafe(require.resolve('../resolver')),
         });
 
         utils.setJestConfig({

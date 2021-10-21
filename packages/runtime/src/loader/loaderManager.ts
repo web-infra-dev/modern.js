@@ -130,7 +130,8 @@ type ManagerOption = {
   /**
    * wheather current manage only exec static loader
    */
-  onlyStatic?: boolean;
+  skipStatic?: boolean;
+  skipNonStatic?: boolean;
 };
 
 /**
@@ -141,7 +142,7 @@ export const createLoaderManager = (
   initialDataMap: Record<string, Result>,
   managerOptions: ManagerOption = {},
 ) => {
-  const { onlyStatic = false } = managerOptions;
+  const { skipStatic = false, skipNonStatic = false } = managerOptions;
   const loadersMap = new Map<string, Loader>();
   const getId = createGetId();
 
@@ -150,7 +151,14 @@ export const createLoaderManager = (
     let loader = loadersMap.get(id);
 
     if (!loader) {
-      const skipExec = onlyStatic && !loaderOptions.static;
+      // ignore non-static loader on static phase
+      const ignoreNonStatic = skipNonStatic && !loaderOptions.static;
+
+      // ignore static loader on non-static phase
+      const ignoreStatic = skipStatic && loaderOptions.static;
+
+      const skipExec = ignoreNonStatic || ignoreStatic;
+
       loader = createLoader(
         id,
         loaderOptions.initialData || initialDataMap[id],

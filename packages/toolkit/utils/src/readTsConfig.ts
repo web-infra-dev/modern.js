@@ -1,4 +1,4 @@
-import path from 'path';
+import * as path from './path';
 
 export const readTsConfig = (root: string) => {
   // import typescript from 'typescript' cause eslint fromat error.

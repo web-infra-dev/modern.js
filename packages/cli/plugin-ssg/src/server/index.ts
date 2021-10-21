@@ -1,7 +1,6 @@
 import childProcess from 'child_process';
-import path from 'path';
+import { path, logger, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
 import { NormalizedConfig, useAppContext } from '@modern-js/core';
-import { logger, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
 import { ModernRoute } from '@modern-js/server';
 import { SsgRoute } from '../types';
 import { CLOSE_SIGN } from './consts';

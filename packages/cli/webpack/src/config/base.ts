@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
-import path from 'path';
 import Chain from 'webpack-chain';
 import {
+  path,
   isProd,
   isDev,
   isProdProfile,
@@ -10,6 +10,7 @@ import {
   isString,
   applyOptionsChain,
   removeLeadingSlash,
+  upath
 } from '@modern-js/utils';
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
@@ -215,7 +216,7 @@ class BaseWebpackConfig {
       .add(/node_modules\/\.modern-js\//)
       .end()
       .use('babel')
-      .loader(require.resolve('babel-loader'))
+      .loader(upath.normalizeSafe(require.resolve('babel-loader')))
       .options(
         getBabelOptions(
           this.appDirectory,
@@ -233,11 +234,11 @@ class BaseWebpackConfig {
         .add(/node_modules\/\.modern-js\//)
         .end()
         .use('babel')
-        .loader(require.resolve('babel-loader'))
+        .loader(upath.normalizeSafe(require.resolve('babel-loader')))
         .options({
           presets: [
             [
-              require.resolve('@modern-js/babel-preset-app'),
+              upath.normalizeSafe(require.resolve('@modern-js/babel-preset-app')),
               {
                 appDirectory: this.appDirectory,
                 target: 'client',
@@ -252,7 +253,7 @@ class BaseWebpackConfig {
         })
         .end()
         .use('ts')
-        .loader(require.resolve('ts-loader'))
+        .loader(upath.normalizeSafe(require.resolve('ts-loader')))
         .options(
           applyOptionsChain(
             {
@@ -330,11 +331,11 @@ class BaseWebpackConfig {
       .type('javascript/auto')
       .resourceQuery(/inline/)
       .use('svgr')
-      .loader(require.resolve('@svgr/webpack'))
+      .loader(upath.normalizeSafe(require.resolve('@svgr/webpack')))
       .options({ svgo: false })
       .end()
       .use('url')
-      .loader(require.resolve('url-loader'))
+      .loader(upath.normalizeSafe(require.resolve('url-loader')))
       .options({
         limit: Infinity,
         name: this.mediaChunkname.replace(/\[ext\]$/, '.[ext]'),
@@ -346,11 +347,11 @@ class BaseWebpackConfig {
       .type('javascript/auto')
       .resourceQuery(/url/)
       .use('svgr')
-      .loader(require.resolve('@svgr/webpack'))
+      .loader(upath.normalizeSafe(require.resolve('@svgr/webpack')))
       .options({ svgo: false })
       .end()
       .use('url')
-      .loader(require.resolve('url-loader'))
+      .loader(upath.normalizeSafe(require.resolve('url-loader')))
       .options({
         limit: false,
         name: this.mediaChunkname.replace(/\[ext\]$/, '.[ext]'),
@@ -361,11 +362,11 @@ class BaseWebpackConfig {
       .test(SVG_REGEX)
       .type('javascript/auto')
       .use('svgr')
-      .loader(require.resolve('@svgr/webpack'))
+      .loader(upath.normalizeSafe(require.resolve('@svgr/webpack')))
       .options({ svgo: false })
       .end()
       .use('url')
-      .loader(require.resolve('url-loader'))
+      .loader(upath.normalizeSafe(require.resolve('url-loader')))
       .options({
         limit: this.options.output?.dataUriLimit,
         name: this.mediaChunkname.replace(/\[ext\]$/, '.[ext]'),
@@ -397,7 +398,7 @@ class BaseWebpackConfig {
       .oneOf('yml')
       .test(/\.ya?ml$/)
       .use('json')
-      .loader(require.resolve('json-loader'))
+      .loader(upath.normalizeSafe(require.resolve('json-loader')))
       .end()
       .use('yaml')
       .loader('yaml-loader');
@@ -406,13 +407,13 @@ class BaseWebpackConfig {
       .oneOf('toml')
       .test(/\.toml$/)
       .use('toml')
-      .loader(require.resolve('toml-loader'));
+      .loader(upath.normalizeSafe(require.resolve('toml-loader')));
 
     loaders
       .oneOf('markdown')
       .test(/\.md$/)
       .use('html')
-      .loader(require.resolve('html-loader'))
+      .loader(upath.normalizeSafe(require.resolve('html-loader')))
       .end()
       .use('markdown')
       .loader('markdown-loader');
@@ -428,7 +429,7 @@ class BaseWebpackConfig {
       .add(/\.(html?|json|wasm|ya?ml|toml|md)$/)
       .end()
       .use('file')
-      .loader(require.resolve('file-loader'));
+      .loader(upath.normalizeSafe(require.resolve('file-loader')));
 
     return loaders;
   }
@@ -567,7 +568,7 @@ class BaseWebpackConfig {
         'webpack',
       ),
       buildDependencies: {
-        defaultWebpack: [require.resolve('webpack/lib')],
+        defaultWebpack: [upath.normalizeSafe(require.resolve('webpack/lib'))],
         config: [__filename, this.appContext.configFile].filter(Boolean),
         tsconfig: [
           isTypescript(this.appDirectory) &&

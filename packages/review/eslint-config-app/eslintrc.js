@@ -2,6 +2,7 @@
 // const path = require('path');
 
 const { jsExtensions } = require('./utils');
+const { upath } = require('@modern-js/utils');
 
 module.exports = {
   ignorePatterns: ['**/node_modules/**', '**/dist/**'],
@@ -15,7 +16,7 @@ module.exports = {
     },
     sourceType: 'module',
     babelOptions: {
-      configFile: require.resolve('@modern-js/babel-preset-app'),
+      configFile: upath.normalizeSafe(require.resolve('@modern-js/babel-preset-app')),
     },
   },
   // https://www.npmjs.com/package/@babel/eslint-parser

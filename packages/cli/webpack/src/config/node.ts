@@ -1,12 +1,13 @@
-import path from 'path';
 import fs from 'fs';
-import nodeExternals from 'webpack-node-externals';
 import {
+  path,
   applyOptionsChain,
   isProd,
   isUseSSRBundle,
   SERVER_BUNDLE_DIRECTORY,
+  upath
 } from '@modern-js/utils';
+import nodeExternals from 'webpack-node-externals';
 import { mergeRegex } from '../utils/mergeRegex';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
 import { BaseWebpackConfig } from './base';
@@ -26,6 +27,10 @@ class NodeWebpackConfig extends BaseWebpackConfig {
       },
       includes.length && mergeRegex(...includes),
     ].filter(Boolean);
+  }
+
+  get bundleList() {
+    return ['@modern-js/plugin-state'];
   }
 
   name() {
@@ -84,7 +89,7 @@ class NodeWebpackConfig extends BaseWebpackConfig {
         ...babelOptions,
         presets: [
           [
-            require.resolve('@modern-js/babel-preset-app'),
+            upath.normalizeSafe(require.resolve('@modern-js/babel-preset-app')),
             {
               appDirectory: this.appDirectory,
               target: 'server',
@@ -154,6 +159,10 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
     config.externals.push(
       ({ request }: { request?: string }, callback: any) => {
+        if (this.bundleList.includes(request || '')) {
+          return callback();
+        }
+
         if (request?.includes('@modern-js/plugin-')) {
           return callback(null, `commonjs ${request}`);
         }

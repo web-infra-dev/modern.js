@@ -1,5 +1,9 @@
-import path from 'path';
-import { fs, getPackageVersion, isTsProject } from '@modern-js/generator-utils';
+import {
+  fs,
+  path,
+  getPackageVersion,
+  isTsProject,
+} from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
@@ -89,6 +93,22 @@ const handleTemplateFile = async (
       },
     },
   );
+
+  const tsconfigJSON = fs.readJSONSync(path.join(appDir, 'tsconfig.json'));
+
+  if (!(tsconfigJSON.include || []).includes('api')) {
+    await jsonAPI.update(
+      context.materials.default.get(path.join(appDir, 'tsconfig.json')),
+      {
+        query: {},
+        update: {
+          $set: {
+            include: [...(tsconfigJSON.include || []), 'api'],
+          },
+        },
+      },
+    );
+  }
 
   if (bffType === BFFType.Func) {
     await jsonAPI.update(

@@ -1,10 +1,9 @@
-import path from 'path';
+import { path, LOADABLE_STATS_FILE } from '@modern-js/utils';
 import React from 'react';
 import { RuntimeContext } from '@modern-js/runtime-core';
 import ReactDomServer from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import ReactHelmet, { HelmetData } from 'react-helmet';
-import { LOADABLE_STATS_FILE } from '@modern-js/utils';
 import { Fragment, toFragments } from './template';
 import {
   ModernSSRReactComponent,

@@ -1,8 +1,5 @@
-import path from 'path';
-import { parse, init } from 'es-module-lexer';
-import glob from 'fast-glob';
-import { loadConfig } from 'tsconfig-paths';
 import {
+  path,
   isModernjsMonorepo,
   getMonorepoPackages,
   findMonorepoRoot,
@@ -10,7 +7,11 @@ import {
   createDebugger,
   isTypescript,
   applyOptionsChain,
+  upath
 } from '@modern-js/utils';
+import { parse, init } from 'es-module-lexer';
+import glob from 'fast-glob';
+import { loadConfig } from 'tsconfig-paths';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { LexerParseResult } from '../plugins/import-rewrite';
 import {
@@ -104,7 +105,7 @@ export const scanImports = async (
     ...DEFAULT_DEPS.filter(name => {
       // deps which already installed will be transformed
       try {
-        require.resolve(name, { paths: [appDirectory] });
+        upath.normalizeSafe(require.resolve(name, { paths: [appDirectory] }));
       } catch (_err) {
         // should always transform virtual deps.
         return Boolean(VIRTUAL_DEPS_MAP[name]);

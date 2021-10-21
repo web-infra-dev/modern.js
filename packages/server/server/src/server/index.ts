@@ -68,7 +68,7 @@ export class Server {
       const devHttpsOption =
         typeof options.dev === 'object' && options.dev.https;
       if (devHttpsOption) {
-        const httpsOptions = genHttpsOptions(devHttpsOption);
+        const httpsOptions = await genHttpsOptions(devHttpsOption);
         this.app = createHttpsServer(httpsOptions, this.getRequestHandler());
       } else {
         this.app = createServer(this.getRequestHandler());

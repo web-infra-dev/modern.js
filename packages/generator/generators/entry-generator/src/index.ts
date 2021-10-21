@@ -1,6 +1,10 @@
-import path from 'path';
 import { isEqual, merge } from 'lodash';
-import { fs, getPackageObj, isTsProject } from '@modern-js/generator-utils';
+import {
+  path,
+  fs,
+  getPackageObj,
+  isTsProject,
+} from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
@@ -54,18 +58,18 @@ const refactorSingleEntry = async (
 
   const { entriesDir } = context.config;
 
+  const oldFilePath = path.join(context.materials.default.basePath, entriesDir);
   const oldFiles = fs
-    .readdirSync(path.join(context.materials.default.basePath, entriesDir))
-    .filter(
-      filePath =>
-        !fs
-          .statSync(
-            path.join(context.materials.default.basePath, entriesDir, filePath),
-          )
-          .isDirectory() &&
-        filePath !== '.eslintrc.json' &&
-        filePath !== 'modern-app-env.d.ts',
-    )
+    .readdirSync(oldFilePath)
+    .filter(filePath => {
+      if (fs.statSync(path.join(oldFilePath, filePath)).isDirectory()) {
+        const files = fs.readdirSync(path.join(oldFilePath, filePath));
+        return files.length;
+      }
+      return (
+        filePath !== '.eslintrc.json' && filePath !== 'modern-app-env.d.ts'
+      );
+    })
     .map(file =>
       path.join(context.materials.default.basePath, entriesDir, file),
     );

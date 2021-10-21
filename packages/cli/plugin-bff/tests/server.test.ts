@@ -1,4 +1,4 @@
-import path from 'path';
+import { path } from '@modern-js/utils';
 import { serverManager } from '@modern-js/server-plugin';
 import { useAPIHandlerInfos } from '@modern-js/bff-utils';
 import plugin from '../src/server';

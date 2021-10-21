@@ -1,5 +1,5 @@
-import path from 'path';
 import {
+  path,
   fs,
   isFastRefresh,
   createDebugger,
@@ -7,6 +7,7 @@ import {
   readTsConfig,
   generateMetaTags,
   getEntryOptions,
+  upath,
 } from '@modern-js/utils';
 import ts = require('typescript');
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
@@ -53,9 +54,9 @@ const injectScripts = (
   ];
 
   if (isFastRefresh()) {
-    const runtimePath = require.resolve(
+    const runtimePath = upath.normalizeSafe(require.resolve(
       'react-refresh/cjs/react-refresh-runtime.development.js',
-    );
+    ));
 
     const reactRefreshCode = fs
       .readFileSync(runtimePath, { encoding: 'utf-8' })
