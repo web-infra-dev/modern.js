@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-micro-frontend",
-  "version": "1.0.0-rc.15",
+  "version": "1.0.0-rc.16",
   "jsnext:source": "./src/index.ts",
   "types": "./type.d.ts",
   "main": "./dist/js/node/index.js",
@@ -25,27 +25,27 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.0.0-rc.15",
+    "@modern-js/utils": "workspace:^1.0.0-rc.16",
     "garfish": "^0.1.8"
   },
   "devDependencies": {
-    "@modern-js/types": "workspace:^1.0.0-rc.15",
+    "@modern-js/types": "workspace:^1.0.0-rc.16",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "typescript": "^4",
     "webpack-chain": "^6.5.1",
-    "@modern-js/core": "workspace:^1.0.0-rc.15",
-    "@modern-js/plugin-router": "workspace:^1.0.0-rc.15",
-    "@modern-js/runtime-core": "workspace:^1.0.0-rc.15",
-    "@modern-js/plugin-testing": "^1.0.0-rc.15",
-    "@modern-js/module-tools": "^1.0.0-rc.15"
+    "@modern-js/core": "workspace:^1.0.0-rc.16",
+    "@modern-js/plugin-router": "workspace:^1.0.0-rc.16",
+    "@modern-js/runtime-core": "workspace:^1.0.0-rc.16",
+    "@modern-js/plugin-testing": "^1.0.0-rc.16",
+    "@modern-js/module-tools": "^1.0.0-rc.16"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.0.0-rc.15",
-    "@modern-js/runtime-core": "workspace:^1.0.0-rc.15",
-    "@modern-js/plugin-router": "workspace:^1.0.0-rc.15"
+    "@modern-js/core": "workspace:^1.0.0-rc.16",
+    "@modern-js/runtime-core": "workspace:^1.0.0-rc.16",
+    "@modern-js/plugin-router": "workspace:^1.0.0-rc.16"
   },
   "sideEffects": false,
   "modernConfig": {},

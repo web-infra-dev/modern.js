@@ -1,5 +1,18 @@
 # @modern-js/babel-preset-base
 
+## 1.0.0-rc.16
+
+### Patch Changes
+
+- 224f7fe: fix server route match
+- 30ac27c: feat: add generator package description
+- 204c626: feat: initial
+- Updated dependencies [224f7fe]
+- Updated dependencies [30ac27c]
+- Updated dependencies [204c626]
+  - @modern-js/babel-chain@1.0.0-rc.16
+  - @modern-js/utils@1.0.0-rc.16
+
 ## 1.0.0-rc.15
 
 ### Patch Changes
