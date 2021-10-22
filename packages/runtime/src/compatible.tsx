@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
 import { createContainer } from '@modern-js/plugin';
-import { isProd } from '@modern-js/utils';
 import { Plugin, runtime, AppComponentContext } from './plugin';
 import {
   RuntimeReactContext,
@@ -168,7 +167,7 @@ export const bootstrap: BootStrap = async (
       {
         skipNonStatic: id.staticGenerate,
         // if not static generate, only non-static loader can exec on prod env
-        skipStatic: isProd() && !id.staticGenerate,
+        skipStatic: process.env.NODE_ENV === 'production' && !id.staticGenerate,
       },
     ),
   });
