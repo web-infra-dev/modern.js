@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/testing-plugin-bff",
-  "version": "1.0.0-rc.17",
+  "version": "1.0.0-rc.19",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -24,8 +24,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.0.0-rc.17",
-    "@modern-js/server": "workspace:^1.0.0-rc.17",
+    "@modern-js/utils": "workspace:^1.0.0-rc.19",
+    "@modern-js/server": "workspace:^1.0.0-rc.19",
     "jest-environment-node": "^27.2.2",
     "path-to-regexp": "^6.2.0",
     "supertest": "^6.1.6"
@@ -36,14 +36,14 @@
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "@types/supertest": "^2.0.11",
-    "@modern-js/bff-utils": "workspace:^1.0.0-rc.17",
-    "@modern-js/testing": "workspace:^1.0.0-rc.17",
+    "@modern-js/bff-utils": "workspace:^1.0.0-rc.19",
+    "@modern-js/testing": "workspace:^1.0.0-rc.19",
     "typescript": "^4",
-    "@modern-js/module-tools": "^1.0.0-rc.17"
+    "@modern-js/module-tools": "^1.0.0-rc.19"
   },
   "peerDependencies": {
-    "@modern-js/bff-utils": "workspace:^1.0.0-rc.17",
-    "@modern-js/testing": "workspace:^1.0.0-rc.17"
+    "@modern-js/bff-utils": "workspace:^1.0.0-rc.19",
+    "@modern-js/testing": "workspace:^1.0.0-rc.19"
   },
   "sideEffects": false,
   "modernConfig": {},
