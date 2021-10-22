@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/load-config",
-  "version": "1.0.0-rc.17",
+  "version": "1.0.0-rc.21",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
