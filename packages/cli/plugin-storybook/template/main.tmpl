@@ -32,7 +32,7 @@ module.exports = {
     ...stories,
   ],
   addons: [
-    '../addons/runtime-preset.js',
+    require.resolve('@modern-js/plugin-storybook/addons/runtime-preset'),
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     {

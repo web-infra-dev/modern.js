@@ -14,7 +14,8 @@
       },
       "default": "./dist/js/treeshaking/index.js"
     },
-    "./cli": "./dist/js/node/index.js"
+    "./cli": "./dist/js/node/index.js",
+    "./addons/runtime-preset": "./addons/runtime-preset.js"
   },
   "scripts": {
     "prepare": "pnpm build",
