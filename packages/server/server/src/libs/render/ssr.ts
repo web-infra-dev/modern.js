@@ -49,6 +49,7 @@ export const render = async (
       content: url,
       contentType: '',
       statusCode: status,
+      redirect: true,
     };
   }
 

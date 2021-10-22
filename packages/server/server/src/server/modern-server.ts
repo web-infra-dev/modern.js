@@ -356,6 +356,13 @@ export class ModernServer {
       return;
     }
 
+    if (file.redirect) {
+      res.statusCode = file.statusCode!;
+      res.setHeader('Location', file.content as string);
+      res.end();
+      return;
+    }
+
     let response = file.content;
     if (route.entryName) {
       const templateAPI = createTemplateAPI(file.content.toString());
@@ -367,8 +374,8 @@ export class ModernServer {
       response = templateAPI.get();
     }
 
-    context.res.setHeader('content-type', file.contentType);
-    context.res.end(response);
+    res.setHeader('content-type', file.contentType);
+    res.end(response);
   }
 
   // eslint-disable-next-line max-statements

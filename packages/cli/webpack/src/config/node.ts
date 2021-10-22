@@ -5,7 +5,7 @@ import {
   isProd,
   isUseSSRBundle,
   SERVER_BUNDLE_DIRECTORY,
-  upath
+  upath,
 } from '@modern-js/utils';
 import nodeExternals from 'webpack-node-externals';
 import { mergeRegex } from '../utils/mergeRegex';
@@ -21,7 +21,7 @@ class NodeWebpackConfig extends BaseWebpackConfig {
         const ext = path.extname(name);
 
         return (
-          name.includes('@modern-js/runtime/') ||
+          name.includes('@modern-js/') ||
           (ext !== '' && !JS_RESOLVE_EXTENSIONS.includes(ext))
         );
       },
@@ -156,20 +156,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
         );
       }
     });
-
-    config.externals.push(
-      ({ request }: { request?: string }, callback: any) => {
-        if (this.bundleList.includes(request || '')) {
-          return callback();
-        }
-
-        if (request?.includes('@modern-js/plugin-')) {
-          return callback(null, `commonjs ${request}`);
-        }
-
-        return callback();
-      },
-    );
 
     return config;
   }
