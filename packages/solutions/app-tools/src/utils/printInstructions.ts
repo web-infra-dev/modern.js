@@ -11,7 +11,7 @@ export const printInstructions = async (
     message += `\n${chalk.cyanBright(
       [
         `Note that the development build is not optimized.`,
-        `To create a production build, use yarn build.`,
+        `To create a production build, execute build command.`,
       ].join('\n'),
     )}`;
   }
