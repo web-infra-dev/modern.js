@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/utils",
-  "version": "1.0.0-rc.18",
+  "version": "1.0.0-rc.19",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -61,8 +61,8 @@
     "@types/recursive-readdir": "^2.2.0",
     "typescript": "^4",
     "webpack": "^5.54.0",
-    "@modern-js/plugin-testing": "^1.0.0-rc.18",
-    "@modern-js/module-tools": "^1.0.0-rc.18"
+    "@modern-js/plugin-testing": "^1.0.0-rc.19",
+    "@modern-js/module-tools": "^1.0.0-rc.19"
   },
   "peerDependencies": {
     "typescript": "^4.4.3"

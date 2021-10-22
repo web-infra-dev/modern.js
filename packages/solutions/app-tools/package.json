@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/app-tools",
-  "version": "1.0.0-rc.18",
+  "version": "1.0.0-rc.19",
   "jsnext:source": "./src/index.ts",
   "types": "./lib/types.d.ts",
   "main": "./dist/js/node/index.js",
@@ -28,18 +28,18 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/core": "workspace:^1.0.0-rc.18",
-    "@modern-js/types": "workspace:^1.0.0-rc.18",
-    "@modern-js/i18n-cli-language-detector": "workspace:^1.0.0-rc.18",
-    "@modern-js/new-action": "workspace:^1.0.0-rc.18",
-    "@modern-js/plugin": "workspace:^1.0.0-rc.18",
-    "@modern-js/plugin-analyze": "workspace:^1.0.0-rc.18",
-    "@modern-js/plugin-fast-refresh": "workspace:^1.0.0-rc.18",
-    "@modern-js/plugin-i18n": "workspace:^1.0.0-rc.18",
-    "@modern-js/plugin-polyfill": "workspace:^1.0.0-rc.18",
-    "@modern-js/server": "workspace:^1.0.0-rc.18",
-    "@modern-js/utils": "workspace:^1.0.0-rc.18",
-    "@modern-js/webpack": "workspace:^1.0.0-rc.18",
+    "@modern-js/core": "workspace:^1.0.0-rc.19",
+    "@modern-js/types": "workspace:^1.0.0-rc.19",
+    "@modern-js/i18n-cli-language-detector": "workspace:^1.0.0-rc.19",
+    "@modern-js/new-action": "workspace:^1.0.0-rc.19",
+    "@modern-js/plugin": "workspace:^1.0.0-rc.19",
+    "@modern-js/plugin-analyze": "workspace:^1.0.0-rc.19",
+    "@modern-js/plugin-fast-refresh": "workspace:^1.0.0-rc.19",
+    "@modern-js/plugin-i18n": "workspace:^1.0.0-rc.19",
+    "@modern-js/plugin-polyfill": "workspace:^1.0.0-rc.19",
+    "@modern-js/server": "workspace:^1.0.0-rc.19",
+    "@modern-js/utils": "workspace:^1.0.0-rc.19",
+    "@modern-js/webpack": "workspace:^1.0.0-rc.19",
     "webpack": "^5.54.0"
   },
   "devDependencies": {
@@ -48,8 +48,8 @@
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.0.0-rc.18",
-    "@modern-js/module-tools": "^1.0.0-rc.18"
+    "@modern-js/plugin-testing": "^1.0.0-rc.19",
+    "@modern-js/module-tools": "^1.0.0-rc.19"
   },
   "sideEffects": false,
   "modernConfig": {
