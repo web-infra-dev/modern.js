@@ -56,6 +56,7 @@ export type RenderResult = {
   content: string | Buffer;
   contentType: string;
   statusCode?: number;
+  redirect?: boolean;
 };
 
 export type ConfWithBFF = {
