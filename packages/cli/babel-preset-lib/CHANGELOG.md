@@ -1,5 +1,21 @@
 # @modern-js/babel-preset-lib
 
+## 1.0.0-rc.18
+
+### Patch Changes
+
+- 224f7fe: fix server route match
+- 30ac27c: feat: add generator package description
+- 204c626: feat: initial
+- 63be0a5: fix: #118 #104
+- Updated dependencies [224f7fe]
+- Updated dependencies [30ac27c]
+- Updated dependencies [204c626]
+- Updated dependencies [63be0a5]
+  - @modern-js/babel-preset-base@1.0.0-rc.18
+  - @modern-js/babel-chain@1.0.0-rc.18
+  - @modern-js/utils@1.0.0-rc.18
+
 ## 1.0.0-rc.17
 
 ### Patch Changes
