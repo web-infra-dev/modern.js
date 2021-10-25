@@ -96,6 +96,7 @@ export class ModernServer {
     }: ModernServerOptions,
     runner: ServerHookRunner,
   ) {
+    require('ignore-styles');
     this.isDev = Boolean(dev);
 
     this.pwd = pwd;
