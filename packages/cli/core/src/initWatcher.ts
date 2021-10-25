@@ -16,15 +16,12 @@ const hashMap = new Map<string, string>();
 export const initWatcher = async (
   loaded: LoadedConfig,
   appDirectory: string,
-  resovledConfig: NormalizedConfig,
+  configDir: string | undefined,
   hooksRunner: HooksRunner,
   argv: string[],
 ) => {
   // only add fs watcher on dev mode.
   if (isDev() && argv[0] === 'dev') {
-    const {
-      source: { configDir },
-    } = resovledConfig;
 
     const extraFiles = await hooksRunner.watchFiles();
 

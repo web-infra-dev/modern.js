@@ -67,11 +67,7 @@ export default createPlugin(
           });
       },
       async fileChange() {
-        // restart cli.
-        const shouldRestart = await cli.restart();
-        if (shouldRestart) {
-          await dev();
-        }
+        await cli.restart();
       },
     };
   }) as any,
