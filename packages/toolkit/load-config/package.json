@@ -1,7 +1,6 @@
 {
   "name": "@modern-js/load-config",
-  "description": "Modern.js load config utils",
-  "version": "1.0.0-rc.24",
+  "version": "1.0.0-rc.25",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
