@@ -1565,13 +1565,7 @@ module.exports = {
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-named-default.md
     'import/no-named-default': 'error',
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-anonymous-default-export.md
-    'import/no-anonymous-default-export': [
-      'error',
-      {
-        allowArrowFunction: true,
-        allowAnonymousFunction: true,
-      },
-    ],
+    'import/no-anonymous-default-export': "off",
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/group-exports.md
     'import/group-exports': 'off',
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-self-import.md
@@ -1829,7 +1823,7 @@ module.exports = {
       parser: '@typescript-eslint/parser',
       parserOptions: {
         ecmaFeatures: { jsx: true },
-        project: './tsconfig.json',
+        project: ['./tsconfig.json', './packages/*/tsconfig.json'],
         // createDefaultProgram: true,
         // project: 'node_modules/@modern/config/defaults/tsconfig.json',
         // tsconfigRootDir: path.resolve(
