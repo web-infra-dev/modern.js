@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/tsconfig",
-  "version": "1.0.0-rc.19",
+  "version": "1.0.0-rc.20",
   "description": "tsconifg",
   "main": "./base.json",
   "publishConfig": {

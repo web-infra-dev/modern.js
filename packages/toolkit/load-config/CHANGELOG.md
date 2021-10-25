@@ -1,5 +1,22 @@
 # @modern-js/load-config
 
+## 1.0.0-rc.24
+
+### Patch Changes
+
+- 224f7fe: fix server route match
+- 30ac27c: feat: add generator package description
+- feat: fix bugs
+- 204c626: feat: initial
+- 63be0a5: fix: #118 #104
+- Updated dependencies [224f7fe]
+- Updated dependencies [30ac27c]
+- Updated dependencies [undefined]
+- Updated dependencies [204c626]
+- Updated dependencies [63be0a5]
+  - @modern-js/utils@1.0.0-rc.20
+  - @modern-js/node-bundle-require@1.0.0-rc.20
+
 ## 1.0.0-rc.23
 
 ### Patch Changes
