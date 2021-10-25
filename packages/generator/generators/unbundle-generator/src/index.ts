@@ -1,8 +1,12 @@
-import { path } from '@modern-js/generator-utils';
+import { path, getPackageManager } from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
-import { DependenceGenerator, i18n } from '@modern-js/generator-common';
+import {
+  DependenceGenerator,
+  i18n as commonI18n,
+} from '@modern-js/generator-common';
+import { i18n, localeKeys } from './locale';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {
@@ -31,8 +35,15 @@ const handleTemplateFile = async (
   await appApi.runSubGenerator(
     getGeneratorPath(DependenceGenerator, context.config.distTag),
     undefined,
-    context.config,
+    {
+      ...context.config,
+      isSubGenerator: true,
+    },
   );
+
+  const appDir = context.materials.default.basePath;
+  const packageManager = getPackageManager(appDir);
+  return { packageManager };
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
@@ -40,6 +51,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   const { locale } = context.config;
   i18n.changeLanguage({ locale });
+  commonI18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {
@@ -51,7 +63,13 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   generator.logger.debug(`context=${JSON.stringify(context)}`);
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
-  await handleTemplateFile(context, generator, appApi);
+  const { packageManager } = await handleTemplateFile(
+    context,
+    generator,
+    appApi,
+  );
+
+  appApi.showSuccessInfo(i18n.t(localeKeys.success, { packageManager }));
 
   generator.logger.debug(`forge @modern-js/unbundle-generator succeed `);
 };

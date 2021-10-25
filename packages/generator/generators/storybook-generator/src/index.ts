@@ -4,12 +4,14 @@ import {
   path,
   getPackageVersion,
   isTsProject,
+  getPackageManager,
 } from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
-  i18n,
+  i18n as commonI18n,
   Language,
 } from '@modern-js/generator-common';
+import { i18n, localeKeys } from './locale';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {
@@ -51,14 +53,20 @@ const handleTemplateFile = async (
         ...(context.config.devDependencies || {}),
         [runtimeDependence]: await getPackageVersion(runtimeDependence),
       },
+      isSubGenerator: true,
     },
   );
+
+  const packageManager = getPackageManager(appDir);
+
+  return { packageManager };
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const appApi = new AppAPI(context, generator);
 
   const { locale } = context.config;
+  commonI18n.changeLanguage({ locale });
   i18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
 
@@ -71,7 +79,9 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   generator.logger.debug(`context=${JSON.stringify(context)}`);
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
-  await handleTemplateFile(context, appApi);
+  const { packageManager } = await handleTemplateFile(context, appApi);
+
+  appApi.showSuccessInfo(i18n.t(localeKeys.success, { packageManager }));
 
   generator.logger.debug(`forge @modern-js/storybook-generator succeed `);
 };
