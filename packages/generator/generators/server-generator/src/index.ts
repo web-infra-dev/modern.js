@@ -110,17 +110,11 @@ const handleTemplateFile = async (
 
   await appApi.forgeTemplate(
     `templates/${framework as string}/**/*`,
-    resourceKey =>
-      framework === Framework.Egg ? resourceKey.includes(language) : true,
+    resourceKey => resourceKey.includes(language),
     resourceKey =>
       resourceKey
         .replace(`templates/${framework as string}/`, 'server/')
-        .replace(
-          '.handlebars',
-          framework === Framework.Egg || framework === Framework.Nest
-            ? ''
-            : `.${language}`,
-        ),
+        .replace('.handlebars', ''),
   );
 };
 
