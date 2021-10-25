@@ -1,11 +1,7 @@
 {
-  "extends": "@modern-js/tsconfig/base",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "declaration": false,
-    "jsx": "preserve",
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["../src/*"]
-    }
-  }
+    "baseUrl": "../"
+  },
+  "include": ["**/*"]
 }
