@@ -127,7 +127,6 @@ const handleTemplateFile = async (
         update: {
           $set: {
             'devDependencies.typescript': '^4',
-            'devDependencies.@types/jest': '^26.0.9',
             'devDependencies.@types/react': '^17',
             'devDependencies.@types/react-dom': '^17',
             'devDependencies.@types/node': '^14',

@@ -49,6 +49,10 @@ const handleTemplateFile = async (
     undefined,
     {
       ...context.config,
+      devDependencies: {
+        ...(context.config.devDependencies || {}),
+        '@types/jest': '^26.0.9',
+      },
       isSubGenerator: true,
     },
   );
