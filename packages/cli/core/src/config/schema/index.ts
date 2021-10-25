@@ -6,6 +6,7 @@ import { output } from './output';
 import { server } from './server';
 import { deploy } from './deploy';
 import { tools } from './tools';
+import { bff } from './bff'
 
 const debug = createDebugger('validate-schema');
 
@@ -39,6 +40,7 @@ export const patchSchema = (
       source,
       output,
       server,
+      bff,
       deploy,
       plugins,
       dev,
