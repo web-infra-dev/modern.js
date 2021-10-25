@@ -122,6 +122,7 @@ export const PLUGIN_SCHEMAS = {
         properties: {
           prefix: { type: 'string' },
           fetcher: { type: 'string' },
+          proxy: { type: 'object' },
           requestCreater: { type: 'string' },
         },
       },
