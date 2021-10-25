@@ -1,4 +1,8 @@
-import { path, getPackageManager } from '@modern-js/generator-utils';
+import {
+  path,
+  getPackageManager,
+  getPackageManagerText,
+} from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
@@ -69,7 +73,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     appApi,
   );
 
-  appApi.showSuccessInfo(i18n.t(localeKeys.success, { packageManager }));
+  appApi.showSuccessInfo(
+    i18n.t(localeKeys.success, {
+      packageManager: getPackageManagerText(packageManager),
+    }),
+  );
 
   generator.logger.debug(`forge @modern-js/unbundle-generator succeed `);
 };
