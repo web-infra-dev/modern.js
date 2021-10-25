@@ -4,6 +4,7 @@ import {
   findExists,
   createDebugger,
 } from '@modern-js/utils';
+import { bundleRequire } from '@modern-js/node-bundle-require'
 
 const debug = createDebugger('load-config');
 
@@ -52,15 +53,15 @@ export const getDependencies = (filePath: string): string[] => {
 };
 
 const bundleRequireWithCatch = async (configFile: string): Promise<any> => {
-  const { bundleRequire } = require('bundle-require');
   try {
-    const mod = await bundleRequire({
-      filepath: configFile
-    });
+    const mod = await bundleRequire(configFile);
 
     return mod;
   } catch(e) {
-    return await bundleRequireWithCatch(configFile);
+    if (e instanceof Error) {
+      e.message = `Get Error while loading config file: ${configFile}, please check it and retry.\n${e.message || ''}`
+    }
+    throw e
   }
 }
 
