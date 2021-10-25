@@ -36,6 +36,7 @@
     "@modern-js/generator-common": "workspace:^1.0.0-rc.20",
     "@modern-js/generator-utils": "workspace:^1.0.0-rc.19",
     "@modern-js/dependence-generator": "workspace:^1.0.0-rc.19",
+    "@modern-js/plugin-i18n": "workspace:^1.0.0-rc.19",
     "@modern-js/codesmith-api-json": "^1.0.0-rc.16",
     "@types/jest": "^26",
     "@types/lodash": "^4.14.168",
