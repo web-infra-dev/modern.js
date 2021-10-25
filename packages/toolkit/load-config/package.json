@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/node-bundle-require": "workspace:1.0.0-rc.20",
+    "@modern-js/node-bundle-require": "workspace:^1.0.0-rc.23",
     "@modern-js/utils": "workspace:^1.0.0-rc.20",
     "esbuild": "^0.13.8"
   },
