@@ -1,6 +1,5 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { createHash } from 'crypto';
 import { build, Loader, Plugin, BuildOptions } from 'esbuild';
 
 const JS_EXT_RE = /\.(mjs|cjs|ts|js|tsx|jsx)$/;
@@ -35,7 +34,7 @@ export interface Options {
 }
 
 const defaultGetOutputFile = (filepath: string) =>
-  path.resolve(CACHE_DIR, `${createHash('md5').update(filepath).digest('hex')}.bundled.cjs`);
+  path.resolve(CACHE_DIR, `${filepath}-${Date.now()}.bundled.cjs`);
 
 export async function bundleRequire(filepath: string, options?: Options) {
   if (!JS_EXT_RE.test(filepath)) {
