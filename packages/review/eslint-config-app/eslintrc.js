@@ -1823,7 +1823,7 @@ module.exports = {
       parser: '@typescript-eslint/parser',
       parserOptions: {
         ecmaFeatures: { jsx: true },
-        project: ['./tsconfig.eslint.json', './packages/*/tsconfig.json'],
+        project: ['./tsconfig.json', './packages/*/tsconfig.json'],
         // createDefaultProgram: true,
         // project: 'node_modules/@modern/config/defaults/tsconfig.json',
         // tsconfigRootDir: path.resolve(
