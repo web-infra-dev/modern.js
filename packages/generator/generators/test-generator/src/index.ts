@@ -2,6 +2,7 @@ import {
   isTsProject,
   getPackageManager,
   path,
+  getPackageManagerText,
 } from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
@@ -82,7 +83,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     appApi,
   );
 
-  appApi.showSuccessInfo(i18n.t(localeKeys.success, { packageManager }));
+  appApi.showSuccessInfo(
+    i18n.t(localeKeys.success, {
+      packageManager: getPackageManagerText(packageManager),
+    }),
+  );
 
   generator.logger.debug(`forge @modern-js/test-generator succeed `);
 };

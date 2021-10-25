@@ -7,6 +7,7 @@ import {
   fs,
   isTsProject,
   getPackageManager,
+  getPackageManagerText,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
@@ -122,7 +123,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   if (!context.config.isSubGenerator) {
     const packageManager = getPackageManager(process.cwd());
-    appApi.showSuccessInfo(i18n.t(localeKeys.success, { packageManager }));
+    appApi.showSuccessInfo(
+      i18n.t(localeKeys.success, {
+        packageManager: getPackageManagerText(packageManager),
+      }),
+    );
   }
 
   generator.logger.debug(`forge @modern-js/electron-generator succeed `);

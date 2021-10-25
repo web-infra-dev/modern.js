@@ -5,6 +5,7 @@ import {
   getPackageVersion,
   isTsProject,
   getPackageManager,
+  getPackageManagerText,
 } from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
@@ -81,7 +82,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   const { packageManager } = await handleTemplateFile(context, appApi);
 
-  appApi.showSuccessInfo(i18n.t(localeKeys.success, { packageManager }));
+  appApi.showSuccessInfo(
+    i18n.t(localeKeys.success, {
+      packageManager: getPackageManagerText(packageManager),
+    }),
+  );
 
   generator.logger.debug(`forge @modern-js/storybook-generator succeed `);
 };

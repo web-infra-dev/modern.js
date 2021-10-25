@@ -22,6 +22,7 @@ import {
   validatePackageName,
   getModuleProjectPath,
   getPackageVersion,
+  getPackageManagerText,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from '@/locale';
 
@@ -116,7 +117,7 @@ const handleTemplateFile = async (
       name: packageName as string,
       language,
       isTs: language === Language.TS,
-      packageManager: packageManager as string,
+      packageManager: getPackageManagerText(packageManager as any),
       isMonorepoSubProject,
       isPublic,
     },
@@ -256,7 +257,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   appApi.showSuccessInfo(
     i18n.t(localeKeys.success, {
-      packageManager: context.config.packageManager,
+      packageManager: getPackageManagerText(context.config.packageManager),
     }),
   );
 

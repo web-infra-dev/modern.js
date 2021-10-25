@@ -68,6 +68,10 @@ export function getPackageManager(cwd: string = process.cwd()) {
   return 'npm';
 }
 
+export function getPackageManagerText(packageManager: 'pnpm' | 'yarn' | 'npm') {
+  return packageManager === 'yarn' ? 'yarn' : `${packageManager} run`;
+}
+
 export function isTsProject(appDir: string) {
   return fs.existsSync(path.join(appDir, 'tsconfig.json'));
 }
