@@ -59,7 +59,7 @@ const bundleRequireWithCatch = async (configFile: string): Promise<any> => {
     return mod;
   } catch(e) {
     if (e instanceof Error) {
-      e.message = `Get Error while loading config file: ${configFile}`
+      e.message = `Get Error while loading config file: ${configFile}, please check it and retry.\n${e.message || ''}`
     }
     throw e
   }
