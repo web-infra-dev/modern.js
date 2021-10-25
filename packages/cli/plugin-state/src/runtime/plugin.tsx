@@ -35,7 +35,7 @@ const state = (config: PluginProps) =>
             const context = useContext(RuntimeReactContext);
 
             return (
-              <Provider store={context.store}>
+              <Provider store={context.store} config={config}>
                 <App {...props} />
               </Provider>
             );
