@@ -8,59 +8,35 @@
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": {
-      "node": {
-        "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
-      },
+      "node": "./dist/js/node/index.js",
       "default": "./dist/js/treeshaking/index.js"
     },
     "./loadable": {
-      "node": {
-        "import": "./dist/js/modern/exports/loadable.js",
-        "require": "./dist/js/node/exports/loadable.js"
-      },
+      "node": "./dist/js/node/exports/loadable.js",
       "default": "./dist/js/treeshaking/exports/loadable.js"
     },
     "./head": {
-      "node": {
-        "import": "./dist/js/modern/exports/head.js",
-        "require": "./dist/js/node/exports/head.js"
-      },
+      "node": "./dist/js/node/exports/head.js",
       "default": "./dist/js/treeshaking/exports/head.js"
     },
     "./styled": {
-      "node": {
-        "import": "./dist/js/modern/exports/styled.js",
-        "require": "./dist/js/node/exports/styled.js"
-      },
+      "node": "./dist/js/node/exports/styled.js",
       "default": "./dist/js/treeshaking/exports/styled.js"
     },
     "./server": {
-      "node": {
-        "import": "./dist/js/modern/exports/server.js",
-        "require": "./dist/js/node/exports/server.js"
-      },
+      "node": "./dist/js/node/exports/server.js",
       "default": "./dist/js/treeshaking/exports/server.js"
     },
     "./router": {
-      "node": {
-        "import": "./dist/js/modern/exports/router.js",
-        "require": "./dist/js/node/exports/router.js"
-      },
+      "node": "./dist/js/node/exports/router.js",
       "default": "./dist/js/treeshaking/exports/router.js"
     },
     "./ssr": {
-      "node": {
-        "import": "./dist/js/modern/exports/ssr.js",
-        "require": "./dist/js/node/exports/ssr.js"
-      },
+      "node": "./dist/js/node/exports/ssr.js",
       "default": "./dist/js/treeshaking/exports/ssr.js"
     },
     "./model": {
-      "node": {
-        "import": "./dist/js/modern/exports/model.js",
-        "require": "./dist/js/node/exports/model.js"
-      },
+      "node": "./dist/js/node/exports/model.js",
       "default": "./dist/js/treeshaking/exports/model.js"
     },
     "./cli": "./dist/js/node/cli/index.js"
