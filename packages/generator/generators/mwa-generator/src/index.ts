@@ -25,6 +25,7 @@ import {
   validatePackageName,
   validatePackagePath,
   getPackageVersion,
+  getPackageManagerText,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from '@/locale';
 
@@ -113,7 +114,7 @@ const handleTemplateFile = async (
         .replace('.handlebars', ''),
     {
       name: packageName || dirname,
-      packageManager: packageManager as string,
+      packageManager: getPackageManagerText(packageManager as any),
       isMonorepoSubProject,
     },
   );
@@ -276,16 +277,16 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   if (isElectron) {
     appApi.showSuccessInfo(
       `${i18n.t(localeKeys.success, {
-        packageManager: context.config.packageManager,
+        packageManager: getPackageManagerText(context.config.packageManager),
       })}
       ${i18n.t(localeKeys.electron.success, {
-        packageManager: context.config.packageManager,
+        packageManager: getPackageManagerText(context.config.packageManager),
       })}`,
     );
   } else {
     appApi.showSuccessInfo(
       i18n.t(localeKeys.success, {
-        packageManager: context.config.packageManager,
+        packageManager: getPackageManagerText(context.config.packageManager),
       }),
     );
   }
