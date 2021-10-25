@@ -5,7 +5,7 @@ import { build, Loader, Plugin, BuildOptions } from 'esbuild';
 
 const JS_EXT_RE = /\.(mjs|cjs|ts|js|tsx|jsx)$/;
 
-const CACHE_DIR = path.relative(process.cwd(), './node_modules/.cache');
+const CACHE_DIR = path.relative(process.cwd(), './node_modules/.node-bundle-require');
 
 function inferLoader(ext: string): Loader {
   if (ext === '.mjs' || ext === '.cjs') return 'js'
@@ -132,7 +132,7 @@ export async function bundleRequire(filepath: string, options?: Options) {
     mod = await req(outfile);
   } finally {
     // Remove the outfile after executed
-    // await fs.promises.unlink(outfile);
+    await fs.unlink(outfile);
   }
 
   return mod;
