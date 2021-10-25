@@ -29,10 +29,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     ].filter(Boolean);
   }
 
-  get bundleList() {
-    return ['@modern-js/plugin-state'];
-  }
-
   name() {
     this.chain.name('server');
   }
@@ -157,6 +153,9 @@ class NodeWebpackConfig extends BaseWebpackConfig {
       }
     });
 
+    // ssr bundle use utils api, but can't treeshaking.
+    // may be we shoule add '@modern-js/' or allowlist packages into webpack bundle
+    config.externals.push('@modern-js/utils');
     return config;
   }
 }
