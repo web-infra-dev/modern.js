@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.0.0-rc.21",
+  "version": "1.0.0-rc.23",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -39,13 +39,13 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/core": "workspace:^1.0.0-rc.21",
-    "@modern-js/i18n-cli-language-detector": "workspace:^1.0.0-rc.21",
-    "@modern-js/new-action": "workspace:^1.0.0-rc.21",
-    "@modern-js/plugin-changeset": "workspace:^1.0.0-rc.21",
-    "@modern-js/plugin-i18n": "workspace:^1.0.0-rc.21",
+    "@modern-js/core": "workspace:^1.0.0-rc.23",
+    "@modern-js/i18n-cli-language-detector": "workspace:^1.0.0-rc.23",
+    "@modern-js/new-action": "workspace:^1.0.0-rc.23",
+    "@modern-js/plugin-changeset": "workspace:^1.0.0-rc.23",
+    "@modern-js/plugin-i18n": "workspace:^1.0.0-rc.23",
     "commander": "^8.1.0",
-    "@modern-js/utils": "workspace:^1.0.0-rc.21",
+    "@modern-js/utils": "workspace:^1.0.0-rc.23",
     "@rushstack/node-core-library": "^3.39.1",
     "@rushstack/package-deps-hash": "^3.0.54",
     "anymatch": "^3.1.2",
@@ -68,8 +68,8 @@
     "@types/signale": "^1.4.2",
     "execa": "^5.1.1",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.0.0-rc.21",
-    "@modern-js/module-tools": "^1.0.0-rc.21"
+    "@modern-js/plugin-testing": "^1.0.0-rc.23",
+    "@modern-js/module-tools": "^1.0.0-rc.23"
   },
   "sideEffects": false,
   "modernConfig": {
