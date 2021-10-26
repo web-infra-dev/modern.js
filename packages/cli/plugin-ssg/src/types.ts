@@ -16,30 +16,36 @@ export type AgreedRouteMap = {
   [propNames: string]: AgreedRoute[];
 };
 
-export type FreshPageConfig = {
-  url?: string;
-  output?: string;
-  params?: Record<string, string | number>;
-  headers?: Record<string, string>;
-};
-export type UserInterfaceRoute = ModernRoute & {
-  path: string;
-  agreed?: boolean;
-};
-
-export type CreatePageParam = FreshPageConfig | FreshPageConfig[];
-export type CreatePageListener = (route: SsgRoute, agreed?: boolean) => void;
-
 export type SsgRoute = ModernRoute & {
-  output?: string;
+  output: string;
   headers?: Record<string, string>;
 };
-export type HookContext = {
-  createPage: (config?: CreatePageParam) => any;
-  route: UserInterfaceRoute;
-};
 
-export type SSGConfig = boolean | ((context: any) => void);
+export type RouteOptions =
+  | string
+  | {
+      url: string;
+      output?: string;
+      params?: Record<string, any>[];
+      headers?: Record<string, any>;
+    };
+
+export type SingleEntryOptions =
+  | boolean
+  | {
+      preventDefault?: string[];
+      headers?: Record<string, any>;
+      routes: RouteOptions[];
+    };
+
+export type MultiEntryOptions = Record<string, SingleEntryOptions>;
+
+export type SSG =
+  | boolean
+  | SingleEntryOptions
+  | MultiEntryOptions
+  | ((entryName: string) => SingleEntryOptions);
+
 export type ExtendOutputConfig = {
-  ssg: SSGConfig;
+  ssg: SSG;
 };
