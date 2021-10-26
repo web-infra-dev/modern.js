@@ -1,8 +1,8 @@
 /* eslint-disable max-lines, no-magic-numbers */
 // const path = require('path');
 
-const { jsExtensions } = require('./utils');
 const { upath } = require('@modern-js/utils');
+const { jsExtensions } = require('./utils');
 
 module.exports = {
   ignorePatterns: ['**/node_modules/**', '**/dist/**'],
@@ -16,7 +16,9 @@ module.exports = {
     },
     sourceType: 'module',
     babelOptions: {
-      configFile: upath.normalizeSafe(require.resolve('@modern-js/babel-preset-app')),
+      configFile: upath.normalizeSafe(
+        require.resolve('@modern-js/babel-preset-app'),
+      ),
     },
   },
   // https://www.npmjs.com/package/@babel/eslint-parser
@@ -400,7 +402,7 @@ module.exports = {
     // https://eslint.org/docs/rules/radix
     radix: 'error',
     // https://eslint.org/docs/rules/require-await
-    'require-await': 'error',
+    'require-await': 'off',
     // https://eslint.org/docs/rules/require-unicode-regexp
     'require-unicode-regexp': 'off',
     // https://eslint.org/docs/rules/vars-on-top
@@ -1565,7 +1567,7 @@ module.exports = {
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-named-default.md
     'import/no-named-default': 'error',
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-anonymous-default-export.md
-    'import/no-anonymous-default-export': "off",
+    'import/no-anonymous-default-export': 'off',
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/group-exports.md
     'import/group-exports': 'off',
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-self-import.md
@@ -2174,7 +2176,7 @@ module.exports = {
           { checksVoidReturn: false },
         ],
         // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/require-await.md
-        '@typescript-eslint/require-await': 'error',
+        '@typescript-eslint/require-await': 'off',
         // https://github.com/typescript-eslint/typescript-eslint/blob/55eb0cfac20ccbc2e954083dd554dbcfcbed64fb/packages/eslint-plugin/docs/rules/return-await.md
         'no-return-await': 'off',
         '@typescript-eslint/return-await': 'error',
