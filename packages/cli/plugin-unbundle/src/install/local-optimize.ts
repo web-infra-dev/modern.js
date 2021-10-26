@@ -210,14 +210,16 @@ const compileDeps = async (
               }
 
               activeLogger.await(`${chalk.yellow(`compile ${specifier}...`)}`);
-
               const { version, filePath } = resolveDepVersion(
                 specifier,
                 MODERN_JS_INTERNAL_PACKAGES[specifier]
-                  ? path.resolve(
-                      appDirectory,
-                      `./node_modules/${MODERN_JS_INTERNAL_PACKAGES[specifier]}`,
-                    )
+                  ? resolveDepVersion(
+                      specifier,
+                      resolveDepVersion(
+                        MODERN_JS_INTERNAL_PACKAGES[specifier],
+                        appDirectory,
+                      ).filePath,
+                    ).filePath
                   : virtualImporter,
               );
 
