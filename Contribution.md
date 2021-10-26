@@ -53,7 +53,7 @@ build all packages, with:
 
 ```zsh
 pnpm prepare
-``
+```
 
 If you need to clean all `node_modules/*` the project for any reason, with
 
