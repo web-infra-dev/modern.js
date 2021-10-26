@@ -21,7 +21,7 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
-    "test": "echo \"No tests!\" && exit 0"
+    "test": "modern test"
   },
   "dependencies": {
     "@babel/runtime": "^7",
@@ -40,6 +40,7 @@
     "@types/react-dom": "^17",
     "ts-jest": "^27.0.4",
     "typescript": "^4",
+    "@modern-js/plugin-testing": "^1.0.0-rc.20",
     "@modern-js/module-tools": "^1.0.0-rc.20"
   },
   "modernConfig": {
