@@ -119,10 +119,10 @@ const handleTemplateFile = async (
       packageManager as string
     } build:csmith`,
     'scripts.bulid:csmith': 'csmith build',
-    'dependencies.@modern-js/codesmith-api-app': '^1.0.0-rc.0',
-    'dependencies.@modern-js/codesmith': '^1.0.0-rc.0',
-    'dependencies.@modern-js/generator-common': '^1.0.0-rc.0',
-    'devDependencies.@modern-js/codesmith-tools': '^1.0.0-rc.0',
+    'dependencies.@modern-js/codesmith-api-app': '^1.0.0',
+    'dependencies.@modern-js/codesmith': '^1.0.0',
+    'dependencies.@modern-js/generator-common': '^1.0.0',
+    'devDependencies.@modern-js/codesmith-tools': '^1.0.0',
   };
 
   const jsonAPI = new JsonAPI(generator);
