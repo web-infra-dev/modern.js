@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/css-config",
-  "description": "Modern.js css config package",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "version": "1.0.0-rc.21",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",

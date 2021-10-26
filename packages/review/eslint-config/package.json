@@ -1,7 +1,7 @@
 {
   "name": "@modern-js/eslint-config",
   "version": "1.0.0-rc.23",
-  "description": "Modern.js eslint config",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "main": "index.js",
   "scripts": {
     "check": "eslint-find-rules --unused index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/module-tools",
-  "description": "Modern.js module tools",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "version": "1.0.0-rc.21",
   "bin": {
     "modern": "./bin/modern.js"

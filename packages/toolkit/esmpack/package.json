@@ -1,7 +1,7 @@
 {
   "name": "@modern-js/esmpack",
   "version": "1.0.0-rc.21",
-  "description": "Modern.js packs node module to ESM",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "keywords": [
     "esmpack",
     "esm",
