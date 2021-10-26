@@ -6,7 +6,7 @@
     "setup": "npm run reset && pnpm install --ignore-scripts",
     "reset": "pnpm -r exec rm -rf ./node_modules",
     "test": "pnpm run test --filter ./packages",
-    "prepare": "pnpm run prepare --filter ./package",
+    "prepare": "pnpm run prepare --filter ./packages",
     "lint": "modern lint",
     "change": "modern change",
     "bump": "modern bump",
