@@ -118,9 +118,3 @@ Repository maintainers can publish a new version of all packages to npm.
     git add .
     git commit -m "chore: va.b.c"
     ```
-
-7. Publish
-
-   ```zsh
-   pnpm release
-   ```
