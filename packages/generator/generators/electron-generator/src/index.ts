@@ -58,11 +58,8 @@ const handleTemplateFile = async (
 
   const updateInfo: Record<string, any> = {
     main: './electron/main.js',
-    'scripts.dev:main': 'modern dev electron-main',
     'scripts.dev:electron': 'modern dev electron',
-    'scripts.build:main': 'modern build electron-main',
-    'scripts.build:app': 'modern build electron-app',
-    'scripts.build:all': 'modern build electron',
+    'scripts.build:electron': 'modern build electron',
     'devDependencies.@modern-js/plugin-electron': '^1.0.0-rc.1',
     'devDependencies.electron': '^13',
     'devDependencies.electron-builder': '^22.11.7',
