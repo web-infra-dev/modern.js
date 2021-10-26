@@ -56,6 +56,6 @@
     "@modern-js-app/eslint-config": "workspace:^1.0.0-rc.2",
     "@commitlint/cli": "^13.2.0",
     "@commitlint/config-conventional": "^13.2.0",
-    "@modern-js/monorepo-tools": "workspace:^1.0.0-rc.2"
+    "@modern-js/monorepo-tools": "^1.0.0-rc.19"
   }
 }
