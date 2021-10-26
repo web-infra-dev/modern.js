@@ -1,6 +1,17 @@
 {
   "private": true,
-  "name": "monorepo",
+  "name": "modern-js-monorepo",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
+  "repository": "modern-js-dev/modern.js",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
   "scripts": {
     "new": "modern new",
     "setup": "npm run reset && pnpm install --ignore-scripts",
