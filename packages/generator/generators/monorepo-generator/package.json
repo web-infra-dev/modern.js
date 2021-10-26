@@ -1,6 +1,16 @@
 {
   "name": "@modern-js/monorepo-generator",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
+  "repository": "modern-js-dev/modern.js",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
   "version": "1.0.0-rc.21",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
