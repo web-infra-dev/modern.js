@@ -3,9 +3,6 @@ module.exports = {
   output: {
     assetPrefix: '../../',
   },
-  dev: {
-    assetPrefix: `https://localhost:8080/`,
-  },
   runtime: {
     state: true,
     router: {
