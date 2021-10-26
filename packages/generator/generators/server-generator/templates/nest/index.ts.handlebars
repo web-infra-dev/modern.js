@@ -8,9 +8,9 @@ import {
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
-  async use(req: any, res: any, next: any) {
-      console.info(`access url: ${req.url}`);
-      next();
+  use(req: Request, res: Response, next: NextFunction) {
+    console.info(`access url: ${req.url}`);
+    next();
   }
 }
 

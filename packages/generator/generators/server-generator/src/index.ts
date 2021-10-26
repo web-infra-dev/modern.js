@@ -69,6 +69,24 @@ const handleTemplateFile = async (
     };
   }
 
+  if (framework === Framework.Nest) {
+    updateInfo = {
+      'dependencies.@nestjs/core': `^${await getPackageVersion(
+        '@nestjs/core',
+      )}`,
+      'dependencies.@nestjs/common': `^${await getPackageVersion(
+        '@nestjs/common',
+      )}`,
+    };
+  } else {
+    updateInfo = {
+      ...updateInfo,
+      [`dependencies.${framework as string}`]: `^${await getPackageVersion(
+        framework as string,
+      )}`,
+    };
+  }
+
   await jsonAPI.update(
     context.materials.default.get(path.join(appDir, 'package.json')),
     {
@@ -82,9 +100,6 @@ const handleTemplateFile = async (
             framework as string
           }`]: `^${await getPackageVersion(
             `@modern-js/plugin-${framework as string}`,
-          )}`,
-          [`dependencies.${framework as string}`]: `^${await getPackageVersion(
-            framework as string,
           )}`,
           ...updateInfo,
         },
