@@ -30,4 +30,4 @@
 
 ## Contributing
 
-- [Contributing Guide](https://github.com/modern-js-dev/modern.js/blob/main/Contribution.md)
+- [Contributing Guide](https://github.com/modern-js-dev/modern.js/blob/main/CONTRIBUTING.md)
