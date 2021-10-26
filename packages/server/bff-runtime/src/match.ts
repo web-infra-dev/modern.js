@@ -45,6 +45,8 @@ const getErrorMessage = (error: ValidationError) => {
   return message;
 };
 
+const HANDLER_WITH_SCHEMA = 'HANDLER_WITH_SCHEMA';
+
 export type BaseSchemaHandler<
   Req extends RequestSchema,
   Res extends SchemaCtorInput,
@@ -52,7 +54,7 @@ export type BaseSchemaHandler<
   input: TypeOfRequestSchema<Req>,
 ) => Promise<HandleResult<TypeOfRouterRequestField<Res>>>) & {
   schema: Schema<Req, Res>;
-  symbol: symbol;
+  [HANDLER_WITH_SCHEMA]: true;
 };
 
 export type SchemaHandler<
@@ -62,10 +64,8 @@ export type SchemaHandler<
   input: TypeOfRequestSchema<Req>,
 ) => Promise<TypeOfRouterRequestField<Res>>) & {
   schema: Schema<Req, Res>;
-  symbol: symbol;
+  [HANDLER_WITH_SCHEMA]: true;
 };
-
-const HANDLER_WITH_SCHEMA = Symbol('HANDLER_WITH_SCHEMA');
 
 export const isSchemaHandler = (input: any): input is SchemaHandler<any, any> =>
   input && input?.symbol === HANDLER_WITH_SCHEMA;
@@ -106,7 +106,7 @@ export const baseMatch = <
 
   return Object.assign(handle, {
     schema,
-    symbol: HANDLER_WITH_SCHEMA,
+    [HANDLER_WITH_SCHEMA]: true as const,
   });
 };
 
