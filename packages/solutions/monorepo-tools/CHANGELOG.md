@@ -1,5 +1,26 @@
 # @modern-js/monorepo-tools
 
+## 1.0.0
+
+### Patch Changes
+
+- 224f7fe: fix server route match
+- 30ac27c: feat: add generator package description
+- 0fd196e: feat: fix bugs
+- 204c626: feat: initial
+- 63be0a5: fix: #118 #104
+- Updated dependencies [224f7fe]
+- Updated dependencies [30ac27c]
+- Updated dependencies [0fd196e]
+- Updated dependencies [204c626]
+- Updated dependencies [63be0a5]
+  - @modern-js/core@1.0.0
+  - @modern-js/i18n-cli-language-detector@1.0.0
+  - @modern-js/plugin-changeset@1.0.0
+  - @modern-js/plugin-i18n@1.0.0
+  - @modern-js/new-action@1.0.0
+  - @modern-js/utils@1.0.0
+
 ## 1.0.0-rc.23
 
 ### Patch Changes
