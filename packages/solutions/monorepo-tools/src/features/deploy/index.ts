@@ -207,5 +207,5 @@ export const deploy = async (
   generatorAndCopyRequiredFiles(rootPath, realDeployPath);
   await installDependency(realDeployPath, packageManager);
 
-  success(`Deploy succes. The deploy dir is in '${rootPath}/output'`);
+  success(`Deploy success. The deploy dir is in '${rootPath}/output'`);
 };
