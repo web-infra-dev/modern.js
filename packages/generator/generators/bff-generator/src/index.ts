@@ -61,13 +61,36 @@ const handleTemplateFile = async (
     process.exit(1);
   }
 
-  let updateInfo = {};
+  let updateInfo: Record<string, string> = {};
 
   if (framework === Framework.Express || framework === Framework.Koa) {
     updateInfo = {
       [`devDependencies.@types/${
         framework as string
       }`]: `^${await getPackageVersion(`@types/${framework as string}`)}`,
+    };
+  }
+
+  if (framework === Framework.Nest) {
+    updateInfo = {
+      'dependencies.@nestjs/core': `^${await getPackageVersion(
+        '@nestjs/core',
+      )}`,
+      'dependencies.@nestjs/common': `^${await getPackageVersion(
+        '@nestjs/common',
+      )}`,
+    };
+    if (bffType === BFFType.Func) {
+      updateInfo['dependencies.express'] = `^${await getPackageVersion(
+        'express',
+      )}`;
+    }
+  } else {
+    updateInfo = {
+      ...updateInfo,
+      [`dependencies.${framework as string}`]: `^${await getPackageVersion(
+        framework as string,
+      )}`,
     };
   }
 
@@ -84,9 +107,6 @@ const handleTemplateFile = async (
             framework as string
           }`]: `^${await getPackageVersion(
             `@modern-js/plugin-${framework as string}`,
-          )}`,
-          [`dependencies.${framework as string}`]: `^${await getPackageVersion(
-            framework as string,
           )}`,
           ...updateInfo,
         },
@@ -139,11 +159,15 @@ const handleTemplateFile = async (
           .replace('.handlebars', ``),
     );
     await appApi.forgeTemplate(
-      `templates/function/app/${framework as string}.handlebars`,
+      `templates/function/app/${language}/${
+        framework as string
+      }.${language}.handlebars`,
       undefined,
       resourceKey =>
         resourceKey.replace(
-          `templates/function/app/${framework as string}.handlebars`,
+          `templates/function/app/${language}/${
+            framework as string
+          }.${language}.handlebars`,
           `api/_app.${language}`,
         ),
     );
@@ -170,15 +194,15 @@ const handleTemplateFile = async (
     await appApi.forgeTemplate(
       `templates/framework/app/${framework as string}/**/*`,
       resourceKey =>
-        framework === Framework.Egg ? resourceKey.includes(language) : true,
+        framework === Framework.Egg || framework === Framework.Koa
+          ? resourceKey.includes(language)
+          : true,
       resourceKey =>
         resourceKey
           .replace(`templates/framework/app/${framework as string}/`, 'api/')
           .replace(
             '.handlebars',
-            framework === Framework.Egg || framework === Framework.Nest
-              ? ''
-              : `.${language}`,
+            framework === Framework.Express ? `.${language}` : '',
           ),
     );
   }

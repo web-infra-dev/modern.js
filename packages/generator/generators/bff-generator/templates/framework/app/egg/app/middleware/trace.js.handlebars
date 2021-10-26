@@ -1,6 +1,6 @@
 export default function traceMiddleware() {
   return async (ctx, next) => {
     await next();
-    console.info(`access url: ${ctx.req.url}`);
+    console.info(`access url: ${ctx.url}`);
   };
 }
