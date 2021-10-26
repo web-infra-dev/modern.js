@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/eslint-config",
-  "version": "1.0.0-rc.23",
+  "version": "1.0.0-rc.24",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -37,7 +37,7 @@
     "prettier": "^2.0.1"
   },
   "dependencies": {
-    "@modern-js-app/eslint-config": "workspace:^1.0.0-rc.21"
+    "@modern-js-app/eslint-config": "workspace:^1.0.0-rc.22"
   },
   "devDependencies": {
     "eslint": "^7.32.0",

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/esmpack",
-  "version": "1.0.0-rc.21",
+  "version": "1.0.0-rc.22",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -27,7 +27,7 @@
     "test:unit": "jest -c ./__tests__/jest.config.js"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:1.0.0-rc.21",
+    "@modern-js/utils": "workspace:1.0.0-rc.22",
     "@babel/core": "~7.12.10",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/plugin-proposal-object-rest-spread": "^7.12.1",

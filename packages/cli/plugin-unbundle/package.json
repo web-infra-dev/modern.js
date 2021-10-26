@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.0.0-rc.21",
+  "version": "1.0.0-rc.22",
   "main": "./dist/index.js",
   "files": [
     "dist"
@@ -32,12 +32,12 @@
     "@babel/plugin-syntax-import-meta": "^7.10.4",
     "@babel/traverse": "^7.15.4",
     "@babel/types": "^7.15.6",
-    "@modern-js/esmpack": "workspace:^1.0.0-rc.21",
+    "@modern-js/esmpack": "workspace:^1.0.0-rc.22",
     "@koa/cors": "^3.1.0",
-    "@modern-js/create-request": "workspace:^1.0.0-rc.21",
-    "@modern-js/css-config": "workspace:^1.0.0-rc.21",
-    "@modern-js/server": "workspace:^1.0.0-rc.21",
-    "@modern-js/utils": "workspace:^1.0.0-rc.21",
+    "@modern-js/create-request": "workspace:^1.0.0-rc.22",
+    "@modern-js/css-config": "workspace:^1.0.0-rc.22",
+    "@modern-js/server": "workspace:^1.0.0-rc.22",
+    "@modern-js/utils": "workspace:^1.0.0-rc.22",
     "@rollup/plugin-alias": "^3.1.2",
     "@rollup/pluginutils": "^4.1.0",
     "@svgr/core": "^5.5.0",
@@ -86,9 +86,9 @@
   },
   "devDependencies": {
     "@babel/types": "^7.13.0",
-    "@modern-js/bff-utils": "workspace:^1.0.0-rc.21",
-    "@modern-js/core": "workspace:^1.0.0-rc.21",
-    "@modern-js/types": "workspace:^1.0.0-rc.21",
+    "@modern-js/bff-utils": "workspace:^1.0.0-rc.22",
+    "@modern-js/core": "workspace:^1.0.0-rc.22",
+    "@modern-js/types": "workspace:^1.0.0-rc.22",
     "@types/babel__code-frame": "^7.0.2",
     "@types/babel__core": "^7.1.12",
     "@types/es-module-lexer": "^0.3.0",
@@ -112,8 +112,8 @@
     "typescript": "^4.4.3"
   },
   "peerDependencies": {
-    "@modern-js/bff-utils": "workspace:^1.0.0-rc.21",
-    "@modern-js/core": "workspace:^1.0.0-rc.21",
+    "@modern-js/bff-utils": "workspace:^1.0.0-rc.22",
+    "@modern-js/core": "workspace:^1.0.0-rc.22",
     "typescript": "^4.4.3"
   },
   "publishConfig": {
