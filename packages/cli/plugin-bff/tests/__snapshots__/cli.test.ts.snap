@@ -60,6 +60,9 @@ Array [
           "prefix": Object {
             "type": "string",
           },
+          "proxy": Object {
+            "type": "object",
+          },
           "requestCreater": Object {
             "type": "string",
           },

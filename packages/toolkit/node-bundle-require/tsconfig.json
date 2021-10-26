@@ -4,9 +4,9 @@
     "declaration": false,
     "jsx": "preserve",
     "baseUrl": "./",
+    "isolatedModules": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "@style/*": ["./styles/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src"]

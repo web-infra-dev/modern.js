@@ -1,14 +1,20 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { randomUUID } from 'crypto';
 import { build, Loader, Plugin, BuildOptions } from 'esbuild';
 
 const JS_EXT_RE = /\.(mjs|cjs|ts|js|tsx|jsx)$/;
 
-const CACHE_DIR = path.relative(process.cwd(), './node_modules/.node-bundle-require');
+const CACHE_DIR = path.relative(
+  process.cwd(),
+  './node_modules/.node-bundle-require',
+);
 
 function inferLoader(ext: string): Loader {
-  if (ext === '.mjs' || ext === '.cjs') return 'js'
-  return ext.slice(1) as Loader
+  if (ext === '.mjs' || ext === '.cjs') {
+    return 'js';
+  }
+  return ext.slice(1) as Loader;
 }
 
 export interface Options {
@@ -34,7 +40,12 @@ export interface Options {
 }
 
 const defaultGetOutputFile = (filepath: string) =>
-  path.resolve(CACHE_DIR, `${filepath}-${Date.now()}.bundled.cjs`);
+  path.resolve(
+    CACHE_DIR,
+    `${filepath}-${Date.now()}.${randomUUID({
+      disableEntropyCache: true,
+    })}.bundled.cjs`,
+  );
 
 export async function bundleRequire(filepath: string, options?: Options) {
   if (!JS_EXT_RE.test(filepath)) {
@@ -96,8 +107,8 @@ export async function bundleRequire(filepath: string, options?: Options) {
       {
         name: 'replace-path',
         setup(ctx) {
-          ctx.onLoad({ filter: JS_EXT_RE }, async (args) => {
-            const contents = await fs.readFile(args.path, 'utf-8')
+          ctx.onLoad({ filter: JS_EXT_RE }, async args => {
+            const contents = await fs.readFile(args.path, 'utf-8');
             return {
               contents: contents
                 .replace(/\b__filename\b/g, JSON.stringify(args.path))
@@ -110,18 +121,21 @@ export async function bundleRequire(filepath: string, options?: Options) {
                   JSON.stringify(`file://${args.path}`),
                 ),
               loader: inferLoader(path.extname(args.path)),
-            }
-          })
+            };
+          });
         },
       },
       // https://github.com/evanw/esbuild/issues/619#issuecomment-751995294
       {
         name: 'make-all-packages-external',
         setup(build) {
-          let filter = /^[^.\/]|^\.[^.\/]|^\.\.[^\/]/ // Must not start with "/" or "./" or "../"
-          build.onResolve({ filter }, args => ({ path: args.path, external: true }))
+          const filter = /^[^.\/]|^\.[^.\/]|^\.\.[^\/]/; // Must not start with "/" or "./" or "../"
+          build.onResolve({ filter }, args => ({
+            path: args.path,
+            external: true,
+          }));
         },
-      }
+      },
     ],
   });
 

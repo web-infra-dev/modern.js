@@ -1,6 +1,5 @@
-# @modern-js/node-bundle-require
+# @modern-js/1.0.0-rc.19
 
-## 1.0.0-rc.20
-### Patch Changes
+## 1.0.0-rc.19
 
-- feat: fix bugs
+* publish
