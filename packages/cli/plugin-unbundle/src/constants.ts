@@ -9,8 +9,6 @@ export const META_DATA_FILE_NAME = 'metadata.json';
 export const DEFAULT_DEPS = [
   'react',
   'react-dom',
-  'react-router',
-  'react-router-dom',
   '@modern-js/runtime',
   '@modern-js/runtime/loadable',
   '@modern-js/runtime/model',
@@ -24,9 +22,9 @@ export const DEFAULT_DEPS = [
 ];
 
 export const MODERN_JS_INTERNAL_PACKAGES = {
-  '@modern-js/plugin-state': '@modern-js/app-tools',
-  '@modern-js/plugin-router': '@modern-js/app-tools',
-  '@modern-js/plugin-ssr': '@modern-js/app-tools',
+  '@modern-js/plugin-state': '@modern-js/runtime',
+  '@modern-js/plugin-router': '@modern-js/runtime',
+  '@modern-js/plugin-ssr': '@modern-js/runtime',
   '@modern-js/create-request/client': '@modern-js/plugin-unbundle',
 };
 
