@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/load-config",
-  "version": "1.0.0-rc.27",
+  "version": "1.0.0-rc.28",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -35,13 +35,13 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/node-bundle-require": "workspace:^1.0.0-rc.27",
-    "@modern-js/utils": "workspace:^1.0.0-rc.22",
+    "@modern-js/node-bundle-require": "workspace:^1.0.0-rc.28",
+    "@modern-js/utils": "workspace:^1.0.0-rc.23",
     "esbuild": "^0.13.8"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "^1.0.0-rc.22",
-    "@modern-js/plugin-testing": "^1.0.0-rc.22",
+    "@modern-js/module-tools": "^1.0.0-rc.23",
+    "@modern-js/plugin-testing": "^1.0.0-rc.23",
     "@types/jest": "^26",
     "@types/node": "^14",
     "typescript": "^4"

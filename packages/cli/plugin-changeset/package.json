@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.0.0-rc.22",
+  "version": "1.0.0-rc.23",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -38,21 +38,21 @@
     "@babel/runtime": "^7",
     "@changesets/cli": "2.16.0",
     "@changesets/git": "^1.1.2",
-    "@modern-js/i18n-cli-language-detector": "workspace:^1.0.0-rc.22",
-    "@modern-js/plugin-i18n": "workspace:^1.0.0-rc.22",
-    "@modern-js/utils": "workspace:^1.0.0-rc.22",
+    "@modern-js/i18n-cli-language-detector": "workspace:^1.0.0-rc.23",
+    "@modern-js/plugin-i18n": "workspace:^1.0.0-rc.23",
+    "@modern-js/utils": "workspace:^1.0.0-rc.23",
     "execa": "^5.1.1"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.0.0-rc.22",
-    "@modern-js/module-tools": "^1.0.0-rc.22",
-    "@modern-js/plugin-testing": "^1.0.0-rc.22",
+    "@modern-js/core": "workspace:^1.0.0-rc.23",
+    "@modern-js/module-tools": "^1.0.0-rc.23",
+    "@modern-js/plugin-testing": "^1.0.0-rc.23",
     "@types/jest": "^26",
     "@types/node": "^14",
     "typescript": "^4"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.0.0-rc.22"
+    "@modern-js/core": "workspace:^1.0.0-rc.23"
   },
   "sideEffects": false,
   "modernConfig": {
