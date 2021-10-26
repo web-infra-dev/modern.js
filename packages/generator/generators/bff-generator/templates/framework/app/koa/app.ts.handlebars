@@ -1,0 +1,13 @@
+import Koa, { Context } from 'koa'
+import koaBody from 'koa-body'
+
+const app = new Koa();
+app.use(async (ctx: Context, next) => {
+  console.info(`access url: ${ctx.url}`);
+  await next();
+});
+
+// ensure use koa
+app.use(koaBody());
+
+export default app;
