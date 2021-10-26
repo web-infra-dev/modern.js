@@ -1,13 +1,13 @@
 import path from 'path';
-import { ROUTE_SPEC_FILE, fs } from '@modern-js/utils';
+import { ROUTE_SPEC_FILE, fs, isSingleEntry } from '@modern-js/utils';
 import { ModernRoute } from '@modern-js/server';
-import { SSGConfig, SsgRoute } from '../types';
-import { MODE } from '@/manifest-op';
+import { EntryPoint, MultiEntryOptions, SSG, SsgRoute } from '../types';
 
-export function formatOutput(base: string, filename: string) {
-  const file = path.extname(filename) ? filename : `${filename}/index.html`;
-  const dirname = path.dirname(base);
-  return path.join(dirname, file);
+export function formatOutput(filename: string) {
+  const outputPath = path.extname(filename)
+    ? filename
+    : `${filename}/index.html`;
+  return outputPath;
 }
 
 export function formatPath(str: string) {
@@ -89,27 +89,39 @@ export const writeJSONSpec = (dir: string, routes: ModernRoute[]) => {
   fs.writeJSONSync(routeJSONPath, { routes }, { spaces: 2 });
 };
 
-export const getSSGRenderLevel = (key: boolean | string) => {
-  const level = typeof key === 'boolean' ? MODE.LOOSE : MODE[key.toUpperCase()];
-  // currently only MODE.STRICT and MODE.LOOSE are supported
-  if (!level || level > 2 || level < 1) {
-    throw new Error(
-      `[SSG Render Fail] SSG 不支持当前 Mode，useSSG: ${key.toString()}, Level: ${level}`,
-    );
-  }
-
-  return level;
-};
-
-export const parsedSSGConfig = (ssg: SSGConfig) => {
-  const useSSG = Boolean(ssg);
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const userHook = typeof ssg === 'function' ? ssg : () => {};
-  return { useSSG, userHook };
-};
-
 export const replaceWithAlias = (
   base: string,
   filePath: string,
   alias: string,
 ) => path.join(alias, path.relative(base, filePath));
+
+export const standardOptions = (ssgOptions: SSG, entrypoints: EntryPoint[]) => {
+  if (ssgOptions === false) {
+    return false;
+  }
+
+  if (ssgOptions === true) {
+    return entrypoints.reduce((opt, entry) => {
+      opt[entry.entryName] = ssgOptions;
+      return opt;
+    }, {} as MultiEntryOptions);
+  } else if (typeof ssgOptions === 'object') {
+    const isSingle = isSingleEntry(entrypoints);
+
+    if (isSingle && typeof (ssgOptions as any).main === 'undefined') {
+      return { main: ssgOptions } as MultiEntryOptions;
+    } else {
+      return ssgOptions as MultiEntryOptions;
+    }
+  } else if (typeof ssgOptions === 'function') {
+    const intermediateOptions: MultiEntryOptions = {};
+    for (const entrypoint of entrypoints) {
+      const { entryName } = entrypoint;
+      // Todo may be async function
+      intermediateOptions[entryName] = ssgOptions(entryName);
+    }
+    return intermediateOptions;
+  }
+
+  return false;
+};
