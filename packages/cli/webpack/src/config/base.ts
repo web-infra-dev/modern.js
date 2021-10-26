@@ -10,7 +10,7 @@ import {
   isString,
   applyOptionsChain,
   removeLeadingSlash,
-  upath
+  upath,
 } from '@modern-js/utils';
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
@@ -238,7 +238,9 @@ class BaseWebpackConfig {
         .options({
           presets: [
             [
-              upath.normalizeSafe(require.resolve('@modern-js/babel-preset-app')),
+              upath.normalizeSafe(
+                require.resolve('@modern-js/babel-preset-app'),
+              ),
               {
                 appDirectory: this.appDirectory,
                 target: 'client',
