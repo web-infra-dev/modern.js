@@ -8,7 +8,8 @@
     "bump": "modern bump",
     "pre": "modern pre",
     "release": "modern release",
-    "deploy": "modern deploy"
+    "deploy": "modern deploy",
+    "lint": "modern lint"
   },
   "engines": {
     "node": ">=14.17.6"
