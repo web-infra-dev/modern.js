@@ -2,12 +2,16 @@
   "name": "@modern-js/esmpack",
   "version": "1.0.0-rc.21",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
+  "repository": "modern-js-dev/modern.js",
+  "license": "MIT",
   "keywords": [
-    "esmpack",
-    "esm",
-    "pack"
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
   ],
-  "author": "Cheng Liu<chengcyber@outlook.com>",
   "main": "dist/index.js",
   "files": [
     "dist"
