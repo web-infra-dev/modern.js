@@ -1,5 +1,6 @@
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
+import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
   i18n,
   BaseGenerator,
@@ -49,6 +50,31 @@ const handleTemplateFile = async (
         resourceKey
           .replace('templates/pnpm-template/', '')
           .replace('.handlebars', ''),
+    );
+  }
+
+  if (packageManager === PackageManager.Yarn) {
+    await appApi.forgeTemplate(
+      'templates/yarn-template/**/*',
+      undefined,
+      (resourceKey: string) =>
+        resourceKey
+          .replace('templates/yarn-template/', '')
+          .replace('.handlebars', ''),
+    );
+
+    const jsonAPI = new JsonAPI(generator);
+
+    await jsonAPI.update(
+      context.materials.default.get(path.join(generator.outputPath, 'package.json')),
+      {
+        query: {},
+        update: {
+          $set: {
+            "scripts.prepare": "lerna run prepare"
+          },
+        },
+      },
     );
   }
 
