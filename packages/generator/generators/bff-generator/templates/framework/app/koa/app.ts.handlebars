@@ -1,5 +1,5 @@
-import Koa, { Context } from 'koa'
-import koaBody from 'koa-body'
+import Koa, { Context } from 'koa';
+import koaBody from 'koa-body';
 
 const app = new Koa();
 app.use(async (ctx: Context, next) => {
@@ -7,7 +7,6 @@ app.use(async (ctx: Context, next) => {
   await next();
 });
 
-// ensure use koa
 app.use(koaBody());
 
 export default app;
