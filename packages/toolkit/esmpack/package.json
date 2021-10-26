@@ -1,7 +1,7 @@
 {
   "name": "@modern-js/esmpack",
   "version": "1.0.0-rc.20",
-  "description": "packs node module to ESM",
+  "description": "Modern.js packs node module to ESM",
   "keywords": [
     "esmpack",
     "esm",

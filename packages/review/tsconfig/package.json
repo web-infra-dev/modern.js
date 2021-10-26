@@ -1,7 +1,7 @@
 {
   "name": "@modern-js/tsconfig",
   "version": "1.0.0-rc.20",
-  "description": "tsconifg",
+  "description": "Modern.js tsconifg",
   "main": "./base.json",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
