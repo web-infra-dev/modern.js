@@ -1,5 +1,6 @@
 {
   "name": "@modern-js/plugin-micro-frontend",
+  "description": "Modern.js micro frontend plugin",
   "version": "1.0.0-rc.20",
   "jsnext:source": "./src/index.ts",
   "types": "./type.d.ts",

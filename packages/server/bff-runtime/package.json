@@ -1,5 +1,6 @@
 {
   "name": "@modern-js/bff-runtime",
+  "description": "Modern.js bff runtime",
   "version": "1.0.0-rc.20",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",

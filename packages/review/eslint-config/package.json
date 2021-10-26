@@ -1,7 +1,7 @@
 {
   "name": "@modern-js/eslint-config",
   "version": "1.0.0-rc.22",
-  "description": "",
+  "description": "Modern.js eslint config",
   "main": "index.js",
   "scripts": {
     "check": "eslint-find-rules --unused index.js",
