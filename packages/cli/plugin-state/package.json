@@ -53,12 +53,12 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js-reduck/plugin-auto-actions": "^1.0.0-rc.1",
-    "@modern-js-reduck/plugin-devtools": "^1.0.0-rc.1",
-    "@modern-js-reduck/plugin-effects": "^1.0.0-rc.1",
-    "@modern-js-reduck/plugin-immutable": "^1.0.0-rc.1",
-    "@modern-js-reduck/react": "^1.0.0-rc.1",
-    "@modern-js-reduck/store": "^1.0.0-rc.1",
+    "@modern-js-reduck/plugin-auto-actions": "^1.0.0",
+    "@modern-js-reduck/plugin-devtools": "^1.0.0",
+    "@modern-js-reduck/plugin-effects": "^1.0.0",
+    "@modern-js-reduck/plugin-immutable": "^1.0.0",
+    "@modern-js-reduck/react": "^1.0.0",
+    "@modern-js-reduck/store": "^1.0.0",
     "@types/redux-logger": "^3.0.9",
     "redux-logger": "^3.0.6"
   },
