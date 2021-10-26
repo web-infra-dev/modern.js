@@ -24,9 +24,9 @@
 
 ## Getting Started
 
-- [Quick Start](https://modernjs.dev/start)
-- [Guides](https://modernjs.dev/guides)
-- [API References](https://modernjs.dev/api)
+- [Quick Start](https://modernjs.dev/docs/start)
+- [Guides](https://modernjs.dev/docs/guides)
+- [API References](https://modernjs.dev/docs/apis)
 
 ## Contributing
 
