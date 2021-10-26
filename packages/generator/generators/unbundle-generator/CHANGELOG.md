@@ -1,5 +1,21 @@
 # @modern-js/unbundle-generator
 
+## 1.0.0-rc.23
+
+### Patch Changes
+
+- 30ac27c: feat: add generator package description
+- 0fd196e: feat: fix bugs
+- 63be0a5: fix: #118 #104
+
+## 1.0.0-rc.22
+
+### Patch Changes
+
+- 30ac27c: feat: add generator package description
+- 0fd196e: feat: fix bugs
+- 63be0a5: fix: #118 #104
+
 ## 1.0.0-rc.21
 
 ### Patch Changes
