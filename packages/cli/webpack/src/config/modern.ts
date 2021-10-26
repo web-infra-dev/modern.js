@@ -4,7 +4,7 @@ import {
   applyOptionsChain,
   isUseSSRBundle,
   removeLeadingSlash,
-  upath
+  upath,
 } from '@modern-js/utils';
 import { ClientWebpackConfig } from './client';
 
@@ -26,10 +26,9 @@ class ModernWebpackConfig extends ClientWebpackConfig {
     this.babelChain = createBabelChain();
   }
 
-  // FIXME: The BFF create-request api depends on webpack config name: client | server.
-  // name() {
-  //   this.chain.name('modern');
-  // }
+  name() {
+    this.chain.name('modern');
+  }
 
   loaders() {
     const loaders = super.loaders();
