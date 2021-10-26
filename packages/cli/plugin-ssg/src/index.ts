@@ -1,71 +1,36 @@
 import path from 'path';
-import { INTERNAL_SRC_ALIAS, logger, PLUGIN_SCHEMAS } from '@modern-js/utils';
+import { logger, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import {
   createPlugin,
   useAppContext,
   useResolvedConfigContext,
 } from '@modern-js/core';
-import { BabelChain } from '@modern-js/babel-chain';
-import { LoaderManifest } from './manifest-op';
+import { generatePath } from 'react-router-dom';
 import {
   AgreedRoute,
   AgreedRouteMap,
-  CreatePageListener,
   EntryPoint,
   ExtendOutputConfig,
-  HookContext,
+  SSG,
   SsgRoute,
 } from './types';
 import {
   formatOutput,
-  getOutput,
-  getSSGRenderLevel,
-  getUrlPrefix,
-  parsedSSGConfig,
+  isDynamicUrl,
   readJSONSpec,
-  replaceWithAlias,
+  standardOptions,
   writeJSONSpec,
 } from './libs/util';
-import { invoker } from './libs/invoker';
 import { createServer } from './server';
 import { writeHtmlFile } from './libs/output';
 import { replaceRoute } from './libs/replace';
-
-const listStaticFiles = (
-  pwd: string,
-  entriesDir: string,
-  useSSG: string | boolean,
-) => {
-  const absEntriesDir = path.join(pwd, entriesDir);
-
-  const staticRenderLevel = getSSGRenderLevel(useSSG);
-
-  const staticFiles = new LoaderManifest().get(
-    absEntriesDir,
-    staticRenderLevel,
-  );
-
-  // 将绝对路径转换成 alias，因为获取到的约定路由也是使用别名的
-  const staticAlias = staticFiles.map(filepath =>
-    replaceWithAlias(path.join(pwd, 'src'), filepath, INTERNAL_SRC_ALIAS),
-  );
-  return staticAlias;
-};
+import { makeRoute } from './libs/make';
 
 export default createPlugin(
   (() => {
     const agreedRouteMap: AgreedRouteMap = {};
 
     return {
-      config() {
-        return {
-          tools: {
-            babel(config: any, { chain }: { chain: BabelChain }) {
-              chain.plugin('./loader').use(require.resolve('./loader'));
-            },
-          },
-        };
-      },
       validateSchema() {
         return PLUGIN_SCHEMAS['@modern-js/plugin-ssg'];
       },
@@ -88,25 +53,19 @@ export default createPlugin(
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const appContext = useAppContext();
 
-        const { appDirectory } = appContext;
-        const {
-          output,
-          server: { baseUrl },
-          source: { entriesDir },
-        } = resolvedConfig;
+        const { appDirectory, entrypoints } = appContext;
+        const { output } = resolvedConfig;
         const { ssg, path: outputPath } = output as typeof output &
           ExtendOutputConfig;
 
-        const ssgOptions = Array.isArray(ssg) ? ssg.pop() : ssg;
+        const ssgOptions: SSG = Array.isArray(ssg) ? ssg.pop() : ssg;
         // no ssg configuration, skip ssg render.
         if (!ssgOptions) {
           return;
         }
 
-        const { useSSG, userHook } = parsedSSGConfig(ssgOptions);
         const buildDir = path.join(appDirectory, outputPath as string);
         const routes = readJSONSpec(buildDir);
-        const staticAlias = listStaticFiles(appDirectory, entriesDir!, useSSG);
 
         // filter all routes not web
         const pageRoutes = routes.filter(route => !route.isApi);
@@ -117,42 +76,83 @@ export default createPlugin(
           return;
         }
 
+        const intermediateOptions = standardOptions(ssgOptions, entrypoints);
+
+        if (!intermediateOptions) {
+          return;
+        }
+
         const ssgRoutes: SsgRoute[] = [];
+        // each route will try to match the configuration
+        pageRoutes.forEach(pageRoute => {
+          const { entryName, entryPath } = pageRoute;
+          const agreedRoutes = agreedRouteMap[entryName];
+          let entryOptions = intermediateOptions[entryName];
 
-        // callback of context.createPage, to format output, collect page route
-        const listener: CreatePageListener = (
-          route: SsgRoute,
-          agreed?: boolean,
-        ) => {
-          const urlPrefix = getUrlPrefix(route, baseUrl!);
-          const ssgOutput = getOutput(route, urlPrefix, agreed);
-          route.output = formatOutput(route.entryPath, ssgOutput);
-          ssgRoutes.push(route);
-        };
+          if (!agreedRoutes) {
+            // default behavior for non-agreed route
+            if (!entryOptions) {
+              return;
+            }
 
-        // check if every allowed agreed route was collected
-        const autoAddAgreed = (
-          context: HookContext & {
-            component: string;
-          },
-        ) => {
-          // if not exist in allowed list, return false
-          if (!staticAlias.includes(context.component)) {
-            return false;
+            // only add entry route if entryOptions is true
+            if (entryOptions === true) {
+              ssgRoutes.push({ ...pageRoute, output: entryPath });
+            } else if (entryOptions.routes?.length > 0) {
+              // if entryOptions is object and has routes options
+              // add every route in options
+              const { routes: enrtyRoutes, headers } = entryOptions;
+              enrtyRoutes.forEach(route => {
+                ssgRoutes.push(makeRoute(pageRoute, route, headers));
+              });
+            }
+          } else {
+            // Unless entryOptions is set to false
+            // the default behavior is to add all file-based routes
+            if (entryOptions === false) {
+              return;
+            }
+
+            if (!entryOptions || entryOptions === true) {
+              entryOptions = { preventDefault: [], routes: [], headers: {} };
+            }
+
+            const {
+              preventDefault = [],
+              routes: userRoutes = [],
+              headers,
+            } = entryOptions;
+            // if the user sets the routes, then only add them
+            if (userRoutes.length > 0) {
+              userRoutes.forEach(route => {
+                if (typeof route === 'string') {
+                  ssgRoutes.push(makeRoute(pageRoute, route, headers));
+                } else if (Array.isArray(route.params)) {
+                  route.params.forEach(param => {
+                    ssgRoutes.push(
+                      makeRoute(
+                        pageRoute,
+                        { ...route, url: generatePath(route.url, param) },
+                        headers,
+                      ),
+                    );
+                  });
+                } else {
+                  ssgRoutes.push(makeRoute(pageRoute, route, headers));
+                }
+              });
+            } else {
+              // otherwith add all except dynamic routes
+              agreedRoutes
+                .filter(route => !preventDefault.includes(route.path))
+                .forEach(route => {
+                  if (!isDynamicUrl(route.path)) {
+                    ssgRoutes.push(makeRoute(pageRoute, route.path, headers));
+                  }
+                });
+            }
           }
-          // if allowed, return collection state
-          return !ssgRoutes.some(
-            ssgRoute => ssgRoute.urlPath === context.route.path,
-          );
-        };
-
-        await invoker(
-          pageRoutes,
-          agreedRouteMap,
-          userHook,
-          autoAddAgreed,
-          listener,
-        );
+        });
 
         if (ssgRoutes.length === 0) {
           return;
@@ -178,6 +178,7 @@ export default createPlugin(
             );
           }
           ssgRoute.isSSR = false;
+          ssgRoute.output = formatOutput(ssgRoute.output);
         });
 
         const htmlAry = await createServer(
