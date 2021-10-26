@@ -413,11 +413,11 @@ export class ModernServer {
 
     const debugName =
       headers['x-micro-frontend-module-name'] ||
-      context.query['__debug__micro-rontend-module-name'];
+      context.query['__debug__micro-frontend-module-name'];
 
     const debugEntry =
       headers['x-micro-frontend-module-entry'] ||
-      context.query['__debug__micro-rontend-module-entry'];
+      context.query['__debug__micro-frontend-module-entry'];
 
     // add debug micro App to first
     if (debugName && debugEntry && conf.server?.enableMicroFrontendDebug) {
