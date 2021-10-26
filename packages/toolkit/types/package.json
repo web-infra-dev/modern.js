@@ -1,5 +1,6 @@
 {
   "name": "@modern-js/types",
+  "description": "Modern.js common types definition",
   "version": "1.0.0-rc.20",
   "main": "",
   "types": "./index.d.ts",

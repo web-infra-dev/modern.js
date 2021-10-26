@@ -1,5 +1,6 @@
 {
   "name": "@modern-js/node-bundle-require",
+  "description": "Modern.js node bundle require function",
   "version": "1.0.0-rc.20",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",

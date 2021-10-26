@@ -1,5 +1,6 @@
 {
   "name": "@modern-js/module-tools",
+  "description": "Modern.js module tools",
   "version": "1.0.0-rc.20",
   "bin": {
     "modern": "./bin/modern.js"

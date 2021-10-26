@@ -1,5 +1,6 @@
 {
   "name": "@modern-js/plugin-unbundle",
+  "description": "Modern.js unbundle plugin",
   "version": "1.0.0-rc.20",
   "main": "./dist/index.js",
   "license": "MIT",
