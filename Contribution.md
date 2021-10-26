@@ -16,7 +16,7 @@ To develop locally:
     git checkout -b MY_BRANCH_NAME
     ```
 
-3. Install yarn:
+3. Install pnpm:
 
     ```zsh
     npm install -g pnpm
