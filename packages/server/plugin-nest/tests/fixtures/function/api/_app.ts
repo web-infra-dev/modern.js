@@ -1,11 +1,26 @@
 // eslint-disable-next-line max-classes-per-file
 import { hook } from '@modern-js/server-utils';
-import { Controller, Get, Injectable, Module } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Injectable,
+  Module,
+  NestMiddleware,
+} from '@nestjs/common';
+import { Request, Response, NextFunction } from 'express';
 
 @Injectable()
 export class AppService {
   getHello(): string {
     return 'Hello world!';
+  }
+}
+
+@Injectable()
+export class LoggerMiddleware implements NestMiddleware {
+  use(req: Request, res: Response, next: NextFunction) {
+    console.info(`access url: ${req.url}`);
+    next();
   }
 }
 
