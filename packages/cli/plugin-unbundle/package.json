@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-unbundle",
-  "description": "Modern.js unbundle plugin",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "version": "1.0.0-rc.21",
   "main": "./dist/index.js",
   "license": "MIT",

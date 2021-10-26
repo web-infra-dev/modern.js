@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/generator-common",
-  "description": "Modern.js's generator all public constant, include create project and new option",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "version": "1.0.0-rc.22",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",

@@ -34,11 +34,7 @@ To develop locally:
     cd ./packages/
     ```
 
-6. Start developing and watch for code changes:
-
-   ```zsh
-   pnpm dev
-   ```
+6. Start developing.
 
 ## Building
 
@@ -46,19 +42,19 @@ You can build single package, with:
 
 ```zsh
 cd ./packages/*
-pnpm build
+pnpm run build
 ```
 
 build all packages, with:
 
 ```zsh
-pnpm prepare
+pnpm run prepare
 ```
 
 If you need to clean all `node_modules/*` the project for any reason, with
 
 ```zsh
-pnpm reset
+pnpm run reset
 ```
 
 ## Testing
@@ -70,7 +66,7 @@ We wish you write unit tests at `PACKAGE_DIR/tests`. Test syntax is based on [je
 ### Run Testing
 
 ```sh
-pnpm test
+pnpm run test
 ```
 
 ## Linting
@@ -78,7 +74,7 @@ pnpm test
 To check the formatting of your code:
 
 ```zsh
-pnpm lint
+pnpm run lint
 ```
 
 ## Publishing
@@ -97,19 +93,19 @@ Repository maintainers can publish a new version of all packages to npm.
 3. Prepare
 
     ```zsh
-    pnpm prepare
+    pnpm run prepare
     ```
 
 4. Add changeset
 
    ```zsh
-   pnpm change
+   pnpm run change
    ```
 
 5. Bump version
 
    ```zsh
-   pnpm bump
+   pnpm run bump
    ```
 
 6. Commit version change. The format of commit message should be `chore: va.b.c` which is the main version of current release.

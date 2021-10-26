@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/tailwindcss-generator",
-  "description": "Modern.js enable tailwindcss feature generator",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "version": "1.0.0-rc.21",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
