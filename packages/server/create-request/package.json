@@ -21,6 +21,7 @@
       "default": "./dist/js/treeshaking/browser.js"
     },
     "./client": "./dist/js/treeshaking/browser.js",
+    "./modern": "./dist/js/modern/browser.js",
     "./server": "./dist/js/node/node.js",
     "./hook": "./dist/js/node/hook.js"
   },
