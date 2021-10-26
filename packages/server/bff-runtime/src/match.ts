@@ -68,7 +68,7 @@ export type SchemaHandler<
 };
 
 export const isSchemaHandler = (input: any): input is SchemaHandler<any, any> =>
-  input && input?.symbol === HANDLER_WITH_SCHEMA;
+  input && input?.[HANDLER_WITH_SCHEMA] === true;
 
 export const isHandler = (input: any): input is Handler<any, any> =>
   input && typeof input === 'function';
