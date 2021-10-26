@@ -22,7 +22,7 @@ const createCacheDir = (name: string): string => {
 const CACHE_LOCK_FILE = 'modules-cache-lock.json';
 
 // FIXME: pdn host
-const PDN_HOST = ``;
+const PDN_HOST = `pdn.zijieapi.com`;
 
 interface ResponseType {
   code: number;
