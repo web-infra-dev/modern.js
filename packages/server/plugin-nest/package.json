@@ -31,7 +31,6 @@
     "@nestjs/platform-express": "^8.0.6",
     "@types/type-is": "^1.6.3",
     "body-parser": "^1.19.0",
-    "express": "^4.17.1",
     "finalhandler": "^1.1.2",
     "formidable": "^1.2.2",
     "reflect-metadata": "^0.1.13",
@@ -54,6 +53,7 @@
     "@types/react-dom": "^17",
     "@types/supertest": "^2.0.11",
     "fastify": "^3.20.1",
+    "express": "^4.17.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "supertest": "^6.1.6",
@@ -66,12 +66,22 @@
     "@modern-js/module-tools": "^1.0.0-rc.21"
   },
   "peerDependencies": {
+    "express": "^4.17.1",
+    "fastify": "^3.20.1",
     "@nestjs/common": "^8.0.6",
     "@nestjs/core": "^8.0.6",
     "@modern-js/bff-utils": "workspace:^1.0.0-rc.21",
     "@modern-js/core": "workspace:^1.0.0-rc.21",
     "@modern-js/server-plugin": "workspace:^1.0.0-rc.21",
     "@modern-js/bff-runtime": "workspace:^1.0.0-rc.21"
+  },
+  "peerDependenciesMeta": {
+    "express": {
+      "optional": true
+    },
+    "fastify": {
+      "optional": true
+    }
   },
   "sideEffects": false,
   "modernConfig": {
