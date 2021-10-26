@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/types",
-  "description": "Modern.js common types definition",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "version": "1.0.0-rc.21",
   "main": "",
   "types": "./index.d.ts",

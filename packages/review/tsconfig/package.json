@@ -1,7 +1,7 @@
 {
   "name": "@modern-js/tsconfig",
   "version": "1.0.0-rc.21",
-  "description": "Modern.js tsconifg",
+  "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "main": "./base.json",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
