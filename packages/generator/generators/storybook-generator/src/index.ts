@@ -80,6 +80,8 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   generator.logger.debug(`context=${JSON.stringify(context)}`);
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
+  await appApi.runInstall();
+
   const { packageManager } = await handleTemplateFile(context, appApi);
 
   appApi.showSuccessInfo(

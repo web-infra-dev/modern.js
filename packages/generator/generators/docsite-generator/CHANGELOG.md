@@ -1,5 +1,11 @@
 # @modern-js/docsite-generator
 
+## 1.0.1
+
+### Patch Changes
+
+- feat: update generator template version
+
 ## 1.0.0
 
 ### Patch Changes

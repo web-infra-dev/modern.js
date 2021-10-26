@@ -73,6 +73,8 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     appApi,
   );
 
+  await appApi.runInstall();
+
   appApi.showSuccessInfo(
     i18n.t(localeKeys.success, {
       packageManager: getPackageManagerText(packageManager),
