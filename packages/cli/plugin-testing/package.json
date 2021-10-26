@@ -39,18 +39,18 @@
     "enhanced-resolve": "^5.8.2"
   },
   "peerDependencies": {
-    "@modern-js-reduck/plugin-auto-actions": "^1.0.0-rc.9",
-    "@modern-js-reduck/plugin-effects": "^1.0.0-rc.9",
-    "@modern-js-reduck/plugin-immutable": "^1.0.0-rc.9",
-    "@modern-js-reduck/store": "^1.0.0-rc.6",
+    "@modern-js-reduck/plugin-auto-actions": "^1.0.0",
+    "@modern-js-reduck/plugin-effects": "^1.0.0",
+    "@modern-js-reduck/plugin-immutable": "^1.0.0",
+    "@modern-js-reduck/store": "^1.0.0",
     "@modern-js/core": "workspace:^1.0.0-rc.23",
     "@modern-js/runtime-core": "workspace:^1.0.0-rc.23"
   },
   "devDependencies": {
-    "@modern-js-reduck/plugin-auto-actions": "^1.0.0-rc.9",
-    "@modern-js-reduck/plugin-effects": "^1.0.0-rc.9",
-    "@modern-js-reduck/plugin-immutable": "^1.0.0-rc.9",
-    "@modern-js-reduck/store": "^1.0.0-rc.6",
+    "@modern-js-reduck/plugin-auto-actions": "^1.0.0",
+    "@modern-js-reduck/plugin-effects": "^1.0.0",
+    "@modern-js-reduck/plugin-immutable": "^1.0.0",
+    "@modern-js-reduck/store": "^1.0.0",
     "@modern-js/plugin-testing": "^1.0.0-rc.23",
     "@modern-js/module-tools": "^1.0.0-rc.23",
     "@modern-js/core": "workspace:^1.0.0-rc.23",
