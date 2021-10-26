@@ -1,7 +1,7 @@
 {
   "name": "@modern-js/babel-compiler",
   "description": "Modern.js babel compiler package",
-  "version": "1.0.0-rc.20",
+  "version": "1.0.0-rc.21",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -26,7 +26,7 @@
   "dependencies": {
     "@babel/core": "^7.15.0",
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.0.0-rc.20",
+    "@modern-js/utils": "workspace:^1.0.0-rc.21",
     "chokidar": "^3.5.2",
     "glob": "^7.1.6"
   },
@@ -39,8 +39,8 @@
     "@types/node": "^14",
     "jest-jasmine2": "^27.2.2",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.0.0-rc.20",
-    "@modern-js/module-tools": "^1.0.0-rc.20"
+    "@modern-js/plugin-testing": "^1.0.0-rc.21",
+    "@modern-js/module-tools": "^1.0.0-rc.21"
   },
   "sideEffects": false,
   "modernConfig": {

@@ -1,7 +1,7 @@
 {
   "name": "@modern-js/create-request",
   "description": "Modern.js create request function",
-  "version": "1.0.0-rc.20",
+  "version": "1.0.0-rc.21",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -33,9 +33,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/runtime": "workspace:^1.0.0-rc.20",
-    "@modern-js/utils": "workspace:^1.0.0-rc.20",
-    "@modern-js/plugin-ssr": "workspace:^1.0.0-rc.20",
+    "@modern-js/runtime": "workspace:^1.0.0-rc.21",
+    "@modern-js/utils": "workspace:^1.0.0-rc.21",
+    "@modern-js/plugin-ssr": "workspace:^1.0.0-rc.21",
     "node-fetch": "^2.6.1",
     "path-to-regexp": "^6.2.0"
   },
@@ -46,8 +46,8 @@
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.0.0-rc.20",
-    "@modern-js/module-tools": "^1.0.0-rc.20"
+    "@modern-js/plugin-testing": "^1.0.0-rc.21",
+    "@modern-js/module-tools": "^1.0.0-rc.21"
   },
   "sideEffects": false,
   "publishConfig": {

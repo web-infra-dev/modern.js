@@ -1,7 +1,7 @@
 {
   "name": "@modern-js/plugin-tailwindcss",
   "description": "Modern.js tailwindcss plugin",
-  "version": "1.0.0-rc.20",
+  "version": "1.0.0-rc.21",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -26,14 +26,14 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.0.0-rc.20",
+    "@modern-js/utils": "workspace:^1.0.0-rc.21",
     "lodash.clonedeep": "^4.5.0",
     "lodash.merge": "^4.6.2"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.0.0-rc.20",
-    "@modern-js/module-tools": "^1.0.0-rc.20",
-    "@modern-js/plugin-testing": "^1.0.0-rc.20",
+    "@modern-js/core": "workspace:^1.0.0-rc.21",
+    "@modern-js/module-tools": "^1.0.0-rc.21",
+    "@modern-js/plugin-testing": "^1.0.0-rc.21",
     "@types/jest": "^26",
     "@types/lodash.clonedeep": "^4.5.6",
     "@types/lodash.merge": "^4.6.6",
@@ -43,7 +43,7 @@
     "tailwindcss": "^2.0.4"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.0.0-rc.20",
+    "@modern-js/core": "workspace:^1.0.0-rc.21",
     "tailwindcss": "^2.0.4"
   },
   "sideEffects": false,
