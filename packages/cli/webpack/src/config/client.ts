@@ -7,6 +7,7 @@ import {
   getEntryOptions,
   generateMetaTags,
   removeTailSlash,
+  findExists,
 } from '@modern-js/utils';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
@@ -18,6 +19,7 @@ import CopyPlugin from 'copy-webpack-plugin';
 import { RouteManifest } from '../plugins/route-manifest-plugin';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
 import { BaseWebpackConfig } from './base';
+import { ICON_EXTENSIONS } from '@/utils/constants';
 
 class ClientWebpackConfig extends BaseWebpackConfig {
   htmlFilename: (name: string) => string;
@@ -41,11 +43,13 @@ class ClientWebpackConfig extends BaseWebpackConfig {
 
     const entrypoints = Object.keys(this.chain.entryPoints.entries() || {});
 
-    for (const [name] of entrypoints) {
+    for (const name of entrypoints) {
       if (this.options.output.polyfill !== 'off') {
         this.chain
           .entry(name)
-          .prepend(upath.normalizeSafe(require.resolve('regenerator-runtime/runtime')))
+          .prepend(
+            upath.normalizeSafe(require.resolve('regenerator-runtime/runtime')),
+          )
           .prepend(upath.normalizeSafe(require.resolve('core-js')));
       }
     }
@@ -97,11 +101,21 @@ class ClientWebpackConfig extends BaseWebpackConfig {
                 removeStyleLinkTypeAttributes: true,
                 useShortDoctype: true,
               },
-          favicon: getEntryOptions<string | undefined>(
-            entryName,
-            this.options.output.favicon,
-            this.options.output.faviconByEntries,
-          ),
+          favicon:
+            getEntryOptions<string | undefined>(
+              entryName,
+              this.options.output.favicon,
+              this.options.output.faviconByEntries,
+            ) ||
+            findExists(
+              ICON_EXTENSIONS.map(ext =>
+                path.resolve(
+                  this.appContext.appDirectory,
+                  this.options.source.configDir!,
+                  `favicon.${ext}`,
+                ),
+              ),
+            ),
           inject: getEntryOptions(
             entryName,
             this.options.output.inject,
@@ -189,6 +203,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
             to: 'public',
             context: path.join(configDir, 'public'),
             noErrorOnMissing: true,
+            // eslint-disable-next-line node/prefer-global/buffer
             transform: (content: Buffer, absoluteFrom: string) => {
               if (!/\.html?$/.test(absoluteFrom)) {
                 return content;
