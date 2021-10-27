@@ -1,24 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`client generateClient custom fetcher 1`] = `
-"import { createRequest } from '@modern-js/create-request';
-import { fetch } from '@custom/fetcher';
-
-export const get = createRequest('/:id/origin/foo', 'GET', process.env.PORT || 3000, fetch);
-export const post = createRequest('/:id/origin/foo', 'POST', process.env.PORT || 3000, fetch);
-"
-`;
-
 exports[`client generateClient custom requestCreater 1`] = `
 "import { createRequest } from '@custom/createRequest';
-
-export const get = createRequest('/:id/origin/foo', 'GET', process.env.PORT || 3000);
-export const post = createRequest('/:id/origin/foo', 'POST', process.env.PORT || 3000);
-"
-`;
-
-exports[`client generateClient should work well 1`] = `
-"import { createRequest } from '@modern-js/create-request';
 
 export const get = createRequest('/:id/origin/foo', 'GET', process.env.PORT || 3000);
 export const post = createRequest('/:id/origin/foo', 'POST', process.env.PORT || 3000);
