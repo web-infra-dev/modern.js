@@ -36,7 +36,6 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/bff-runtime": "workspace:^1.0.0",
-    "@modern-js/create-request": "workspace:^1.0.0",
     "@modern-js/plugin": "workspace:^1.0.0",
     "@modern-js/utils": "workspace:^1.0.0",
     "es-module-lexer": "^0.4.1",
