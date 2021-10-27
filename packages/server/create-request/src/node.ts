@@ -52,7 +52,7 @@ export const createRequest: RequestCreator = (
     } else if (payload.formData) {
       body = payload.formData;
       // https://stackoverflow.com/questions/44919424/bad-content-type-header-no-multipart-boundary-nodejs
-      // need multipart boundary aotu attached by node-fetch when multipart is true
+      // need multipart boundary auto attached by node-fetch when multipart is true
       // headers['Content-Type'] = 'multipart/form-data';
     } else if (payload.formUrlencoded) {
       headers['Content-Type'] = 'application/x-www-form-urlencoded';
