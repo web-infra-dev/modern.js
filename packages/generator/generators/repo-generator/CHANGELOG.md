@@ -1,5 +1,12 @@
 # @modern-js/repo-generator
 
+## 1.0.2
+
+### Patch Changes
+
+- feat: update generator template
+  fix: fix monorepo-tools log info
+
 ## 1.0.1
 
 ### Patch Changes
