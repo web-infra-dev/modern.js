@@ -44,7 +44,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/runtime": "workspace:^1.0.0",
     "@modern-js/utils": "workspace:^1.0.0",
     "node-fetch": "^2.6.1",
     "path-to-regexp": "^6.2.0"
