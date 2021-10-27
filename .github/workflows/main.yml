@@ -18,7 +18,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [14.x, 15.x, 16.x]
+        node-version: [14.x, 16.x]
         os: [macos-latest] # ubuntu-latest, debian-latest, windows-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -32,13 +32,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Init
-      #  run: npm install -g pnpm && pnpm run setup
+       run: npm install -g pnpm && pnpm run setup
 
       - name: Prepare
-      #  run: pnpm run prepare --filter ./packages
+       run: pnpm run prepare --filter ./packages
 
       - name: Lint
-      #  run: pnpm run lint
+       run: pnpm run lint
 
       - name: Test
-      #  run: pnpm run test
+       run: pnpm run test
