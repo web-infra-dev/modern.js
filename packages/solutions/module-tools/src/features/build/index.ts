@@ -1,4 +1,4 @@
-import { Import } from '@modern-js/utils';
+import { Import, fs, path } from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
 import type { IBuildConfig } from '../../types';
 
@@ -16,7 +16,10 @@ export const build = async (
   config: IBuildConfig,
   modernConfig: NormalizedConfig,
 ) => {
-  const { enableWatchMode, platform } = config;
+  const { appDirectory, enableWatchMode, platform, clear = true } = config;
+  const {
+    output: { path: outputPath = 'dist' },
+  } = modernConfig;
   // TODO: maybe need watch mode in build platform
   if (typeof platform === 'boolean' && platform) {
     // await bp.buildPlatform({ platform: 'all', isTsProject });
@@ -26,6 +29,10 @@ export const build = async (
   if (typeof platform === 'string') {
     // await bp.buildPlatform({ platform, isTsProject });
     return;
+  }
+
+  if (clear) {
+    fs.removeSync(path.join(appDirectory, outputPath));
   }
 
   if (enableWatchMode) {
