@@ -6,5 +6,5 @@
     "baseUrl": "./",
     "isolatedModules": true
   },
-  "include": ["src"]
+  "include": ["src", "types.d.ts"]
 }

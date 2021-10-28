@@ -1,14 +1,14 @@
-import { path } from '@modern-js/utils';
+import {
+  path,
+  createRuntimeExportsUtils,
+  getEntryOptions,
+  PLUGIN_SCHEMAS,
+} from '@modern-js/utils';
 import {
   createPlugin,
   useAppContext,
   useResolvedConfigContext,
 } from '@modern-js/core';
-import {
-  createRuntimeExportsUtils,
-  getEntryOptions,
-  PLUGIN_SCHEMAS,
-} from '@modern-js/utils';
 import type WebpackChain from 'webpack-chain';
 import { makeProvider, makeRenderFunction } from './utils';
 

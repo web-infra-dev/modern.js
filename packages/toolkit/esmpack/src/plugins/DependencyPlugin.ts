@@ -1,5 +1,5 @@
-import { path } from '@modern-js/utils';
 import { builtinModules } from 'module';
+import { path } from '@modern-js/utils';
 import type { IsExternal } from 'rollup';
 import type { Compiler } from '../Compiler';
 import { BARE_SPECIFIER_REGEX } from '../constants';

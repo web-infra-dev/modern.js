@@ -152,7 +152,7 @@ export const bootstrap: BootStrap = async (
           typeof id !== 'string' ? id : document.getElementById(id || 'root')!,
       },
       {
-        // eslint-disable-next-line @typescript-eslint/require-await,@typescript-eslint/no-shadow
+        // eslint-disable-next-line @typescript-eslint/no-shadow
         onLast: async ({ App, rootElement }) => {
           ReactDOM.render(React.createElement(App, { context }), rootElement);
         },

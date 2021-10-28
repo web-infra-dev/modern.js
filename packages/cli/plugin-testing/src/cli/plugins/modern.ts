@@ -1,7 +1,6 @@
-import { path } from '@modern-js/utils';
+import { path, upath } from '@modern-js/utils';
 import { createPlugin } from '@modern-js/testing';
 import { modernjs_config_key } from '@/constant';
-import { upath } from '@modern-js/utils';
 
 const getModuleNameMapper = (config: any) => {
   const {

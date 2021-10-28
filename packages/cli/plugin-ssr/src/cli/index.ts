@@ -60,7 +60,11 @@ export default createPlugin(
               if (isUseSSRBundle(userConfig)) {
                 chain
                   ?.plugin('loadable')
-                  .use(upath.normalizeSafe(require.resolve('@loadable/babel-plugin')));
+                  .use(
+                    upath.normalizeSafe(
+                      require.resolve('@loadable/babel-plugin'),
+                    ),
+                  );
               }
             },
           },

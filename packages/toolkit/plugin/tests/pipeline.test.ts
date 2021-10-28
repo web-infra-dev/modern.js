@@ -528,7 +528,6 @@ describe('createPipeline', () => {
       const pipeline0 = createAsyncPipeline<string, string>();
       const pipeline1 = createAsyncPipeline<string, string>();
 
-      // eslint-disable-next-line @typescript-eslint/require-await
       pipeline0.use(async input => `${input} from pipeline0`);
 
       pipeline1.use(async input => {

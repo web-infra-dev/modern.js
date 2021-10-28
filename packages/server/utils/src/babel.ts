@@ -121,19 +121,28 @@ export const resolveBabelConfig = (
 
   babelChain
     .plugin('babel-plugin-transform-typescript-metadata')
-    .use(upath.normalizeSafe(require.resolve('babel-plugin-transform-typescript-metadata')), []);
+    .use(
+      upath.normalizeSafe(
+        require.resolve('babel-plugin-transform-typescript-metadata'),
+      ),
+      [],
+    );
 
   babelChain
     .plugin('@babel/plugin-proposal-decorators')
-    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-decorators')), [
-      { legacy: true },
-    ]);
+    .use(
+      upath.normalizeSafe(require.resolve('@babel/plugin-proposal-decorators')),
+      [{ legacy: true }],
+    );
 
   babelChain
     .plugin('@babel/plugin-proposal-class-properties')
-    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-class-properties')), [
-      { loose: true },
-    ]);
+    .use(
+      upath.normalizeSafe(
+        require.resolve('@babel/plugin-proposal-class-properties'),
+      ),
+      [{ loose: true }],
+    );
 
   const internalBabelConfig = { ...babelChain.toJSON() };
 

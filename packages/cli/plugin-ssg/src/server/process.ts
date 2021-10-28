@@ -13,10 +13,14 @@ type ModernServer = Then<ReturnType<typeof Server>>;
 const safetyRequire = (filename: string, base: string) => {
   try {
     return compatRequire(
-      upath.normalizeSafe(require.resolve(`${filename}/server`, { paths: [base] })),
+      upath.normalizeSafe(
+        require.resolve(`${filename}/server`, { paths: [base] }),
+      ),
     );
   } catch (e) {
-    return compatRequire(upath.normalizeSafe(require.resolve(filename, { paths: [base] })));
+    return compatRequire(
+      upath.normalizeSafe(require.resolve(filename, { paths: [base] })),
+    );
   }
 };
 

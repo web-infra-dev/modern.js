@@ -21,7 +21,6 @@ const registerRoutes = (app: Express) => {
   debug('handlerInfos', handlerInfos);
 
   handlerInfos.forEach(({ path, handler, method, name }) => {
-    // eslint-disable-next-line max-statements
     const wrapedHandler: RequestHandler = async (
       req: Request,
       res: Response,
@@ -52,7 +51,7 @@ const registerRoutes = (app: Express) => {
           res.status(200);
           return res.json(body);
         } catch (e) {
-          next(e);
+          return next(e);
         }
       }
     };

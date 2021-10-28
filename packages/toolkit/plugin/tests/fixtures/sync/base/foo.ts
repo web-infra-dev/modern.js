@@ -6,11 +6,9 @@ const foo = createPlugin(
     const fooManage = initFooPlugins();
 
     return {
-      // eslint-disable-next-line @typescript-eslint/require-await
       preDev: async () => {
         fooManage.fooWaterfall();
       },
-      // eslint-disable-next-line @typescript-eslint/require-await
       postDev: async () => {
         fooManage.fooWorflow();
       },

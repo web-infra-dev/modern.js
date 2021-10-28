@@ -27,30 +27,48 @@ export const getModuleBabelChain = (
   // link: https://github.com/tc39/proposal-do-expressions
   chain
     .plugin('@babel/plugin-proposal-do-expressions')
-    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-do-expressions')));
+    .use(
+      upath.normalizeSafe(
+        require.resolve('@babel/plugin-proposal-do-expressions'),
+      ),
+    );
 
   // link: https://github.com/tc39/proposal-throw-expressions
   chain
     .plugin('@babel/plugin-proposal-throw-expressions')
-    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-throw-expressions')));
+    .use(
+      upath.normalizeSafe(
+        require.resolve('@babel/plugin-proposal-throw-expressions'),
+      ),
+    );
 
   // https://github.com/tc39/proposal-class-static-block
   chain
     .plugin('@babel/plugin-proposal-class-static-block')
-    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-class-static-block')));
+    .use(
+      upath.normalizeSafe(
+        require.resolve('@babel/plugin-proposal-class-static-block'),
+      ),
+    );
 
   // link:
   // https://github.com/tc39/proposal-function.sent
   chain
     .plugin('@babel/plugin-proposal-function-sent')
-    .use(upath.normalizeSafe(require.resolve('@babel/plugin-proposal-function-sent')));
+    .use(
+      upath.normalizeSafe(
+        require.resolve('@babel/plugin-proposal-function-sent'),
+      ),
+    );
 
   // link:
   // https://github.com/tc39/proposal-logical-assignment
   chain
     .plugin('@babel/plugin-proposal-logical-assignment-operators')
     .use(
-      upath.normalizeSafe(require.resolve('@babel/plugin-proposal-logical-assignment-operators')),
+      upath.normalizeSafe(
+        require.resolve('@babel/plugin-proposal-logical-assignment-operators'),
+      ),
     );
 
   const buildInPlugins = getBuildInPlugins({
