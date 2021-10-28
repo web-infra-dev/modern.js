@@ -66,7 +66,9 @@ export default createPlugin(
         return {
           tools: {
             babel(config: any, { chain }: { chain: BabelChain }) {
-              chain.plugin('./loader').use(upath.normalizeSafe(require.resolve('./loader')));
+              chain
+                .plugin('./loader')
+                .use(upath.normalizeSafe(require.resolve('./loader')));
             },
           },
         };

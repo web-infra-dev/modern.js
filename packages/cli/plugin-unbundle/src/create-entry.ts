@@ -54,9 +54,9 @@ const injectScripts = (
   ];
 
   if (isFastRefresh()) {
-    const runtimePath = upath.normalizeSafe(require.resolve(
-      'react-refresh/cjs/react-refresh-runtime.development.js',
-    ));
+    const runtimePath = upath.normalizeSafe(
+      require.resolve('react-refresh/cjs/react-refresh-runtime.development.js'),
+    );
 
     const reactRefreshCode = fs
       .readFileSync(runtimePath, { encoding: 'utf-8' })

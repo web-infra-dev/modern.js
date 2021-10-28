@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { path } from '@modern-js/utils';
 import fs from 'fs-extra';
 import type { ImportMap } from '../../src/Compiler';
@@ -17,6 +16,7 @@ export const transformFilesWithImportMap = async (
           return path.resolve('/dist', importMap.imports[spec]);
         }
         if (!spec.startsWith('/dist/')) {
+          // eslint-disable-next-line no-console
           console.log(`${file} contains ${spec}, not exists`);
         }
         return spec;

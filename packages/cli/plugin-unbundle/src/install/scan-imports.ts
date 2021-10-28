@@ -7,7 +7,7 @@ import {
   createDebugger,
   isTypescript,
   applyOptionsChain,
-  upath
+  upath,
 } from '@modern-js/utils';
 import { parse, init } from 'es-module-lexer';
 import glob from 'fast-glob';

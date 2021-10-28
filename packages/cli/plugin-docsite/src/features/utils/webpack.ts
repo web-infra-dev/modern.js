@@ -82,7 +82,9 @@ export function generatorWebpackConfig(
     );
   }
 
-  config.resolve!.fallback = { path: upath.normalizeSafe(require.resolve('path-browserify')) };
+  config.resolve!.fallback = {
+    path: upath.normalizeSafe(require.resolve('path-browserify')),
+  };
   return config;
 }
 

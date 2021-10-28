@@ -1,7 +1,7 @@
 import { path } from '@modern-js/utils';
 import fs from 'fs-extra';
 import { esmpack } from '../src';
-import { installPackage, preparePackage } from './npm';
+import { installPackage } from './npm';
 import { getTempDir } from './paths';
 
 it('should work with echarts inline', async done => {
@@ -12,7 +12,7 @@ it('should work with echarts inline', async done => {
     const compiler = await esmpack({
       cwd: workDir,
     });
-    const compilation = await compiler.run({
+    await compiler.run({
       specifier: 'echarts',
       // inlineDependency should be injected via EchartsPlugin
       //   inlineDependency: (id: string) => {

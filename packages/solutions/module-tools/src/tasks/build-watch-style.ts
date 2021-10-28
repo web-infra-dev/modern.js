@@ -107,14 +107,12 @@ const taskMain = async ({
   } = modernConfig.output as ModuleToolsOutput;
   const { appDirectory } = appContext;
 
-  const lessOption = await (core.mountHook() as any).moduleLessConfig(
-    { modernConfig }, // eslint-disable-next-line @typescript-eslint/require-await
-    { onLast: async (_: any) => null as any },
-  );
-  const sassOption = await (core.mountHook() as any).moduleSassConfig(
-    { modernConfig }, // eslint-disable-next-line @typescript-eslint/require-await
-    { onLast: async (_: any) => null as any },
-  );
+  const lessOption = await (core.mountHook() as any).moduleLessConfig({
+    onLast: async (_: any) => null as any,
+  });
+  const sassOption = await (core.mountHook() as any).moduleSassConfig({
+    onLast: async (_: any) => null as any,
+  });
   const postcssOption = getPostcssOption(appDirectory, modernConfig);
   const existStylesDir = checkStylesDirExist({ appDirectory });
   const compilerMessage = {

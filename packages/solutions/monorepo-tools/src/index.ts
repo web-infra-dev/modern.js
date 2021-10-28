@@ -1,17 +1,15 @@
 import { createPlugin, usePlugins, defineConfig } from '@modern-js/core';
 import { upath } from '@modern-js/utils';
 import { i18n } from './locale';
-import {
-  newCli,
-  deployCli,
-  clearCli,
-} from './cli';
+import { newCli, deployCli, clearCli } from './cli';
 import { getLocaleLanguage } from './utils/language';
 
 export { defineConfig };
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
-usePlugins([upath.normalizeSafe(require.resolve('@modern-js/plugin-changeset/cli'))]);
+usePlugins([
+  upath.normalizeSafe(require.resolve('@modern-js/plugin-changeset/cli')),
+]);
 
 export default createPlugin(
   () => {

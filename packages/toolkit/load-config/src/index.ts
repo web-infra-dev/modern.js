@@ -1,10 +1,6 @@
 import fs from 'fs';
-import {
-  path,
-  findExists,
-  createDebugger,
-} from '@modern-js/utils';
-import { bundleRequire } from '@modern-js/node-bundle-require'
+import { path, findExists, createDebugger } from '@modern-js/utils';
+import { bundleRequire } from '@modern-js/node-bundle-require';
 
 const debug = createDebugger('load-config');
 
@@ -57,13 +53,15 @@ const bundleRequireWithCatch = async (configFile: string): Promise<any> => {
     const mod = await bundleRequire(configFile);
 
     return mod;
-  } catch(e) {
+  } catch (e) {
     if (e instanceof Error) {
-      e.message = `Get Error while loading config file: ${configFile}, please check it and retry.\n${e.message || ''}`
+      e.message = `Get Error while loading config file: ${configFile}, please check it and retry.\n${
+        e.message || ''
+      }`;
     }
-    throw e
+    throw e;
   }
-}
+};
 
 /**
  * Parse and load user config file, support extnesions like .ts, mjs, js, ejs.

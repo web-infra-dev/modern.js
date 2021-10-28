@@ -276,7 +276,6 @@ class CacheManager {
     return maybeSync(doCache)(sync);
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   async del(context: CacheContext, cacheHash: string) {
     const cacheKey = this.generateRequestKey(context);
     const data = this.cache.get(cacheKey);

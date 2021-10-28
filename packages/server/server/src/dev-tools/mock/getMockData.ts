@@ -37,7 +37,6 @@ const createFunctionDataHandler =
       next: NextFunction,
     ) => void,
   ) =>
-  // eslint-disable-next-line @typescript-eslint/require-await
   async (context: ModernServerContext, next: NextFunction) => {
     const { req, res } = context;
     return handler(req, res, next);

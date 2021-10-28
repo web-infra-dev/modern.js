@@ -225,12 +225,12 @@ const createCli = () => {
 
     logger.info('Restart...\n');
 
-    let hasGetError = false
+    let hasGetError = false;
     try {
       await init(process.argv.slice(2));
-    } catch(err) {
-      console.error(err)
-      hasGetError = true
+    } catch (err) {
+      console.error(err);
+      hasGetError = true;
     } finally {
       if (!hasGetError) {
         manager.run(() => program.parse(process.argv));

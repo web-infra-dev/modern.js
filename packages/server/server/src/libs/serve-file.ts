@@ -17,7 +17,7 @@ export const createStaticFileHandler = (rules: Rule[]) => {
     {},
   );
 
-  // eslint-disable-next-line @typescript-eslint/require-await,consistent-return
+  // eslint-disable-next-line consistent-return
   return async (context: ModernServerContext, next: NextFunction) => {
     const { url: requestUrl, req, res } = context;
     const hit = Object.keys(middlewares).find(u => requestUrl.startsWith(u));

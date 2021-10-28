@@ -18,10 +18,12 @@ export default class DevServerPlugin {
     const port = `&port=${options.client.port}`;
 
     // Todo @songzhenwei
-    const clientEntry = `${upath.normalizeSafe(require.resolve(
-      '@modern-js/hmr-client',
-    ))}?${host}${path}${port}`;
-    const hotEntry = upath.normalizeSafe(require.resolve('webpack/hot/dev-server'));
+    const clientEntry = `${upath.normalizeSafe(
+      require.resolve('@modern-js/hmr-client'),
+    )}?${host}${path}${port}`;
+    const hotEntry = upath.normalizeSafe(
+      require.resolve('webpack/hot/dev-server'),
+    );
     const additionalEntries = [clientEntry, hotEntry];
 
     // use a hook to add entries if available

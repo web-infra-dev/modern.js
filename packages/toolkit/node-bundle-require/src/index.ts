@@ -128,9 +128,9 @@ export async function bundleRequire(filepath: string, options?: Options) {
       // https://github.com/evanw/esbuild/issues/619#issuecomment-751995294
       {
         name: 'make-all-packages-external',
-        setup(build) {
-          const filter = /^[^.\/]|^\.[^.\/]|^\.\.[^\/]/; // Must not start with "/" or "./" or "../"
-          build.onResolve({ filter }, args => ({
+        setup(_build) {
+          const filter = /^[^./]|^\.[^./]|^\.\.[^/]/; // Must not start with "/" or "./" or "../"
+          _build.onResolve({ filter }, args => ({
             path: args.path,
             external: true,
           }));

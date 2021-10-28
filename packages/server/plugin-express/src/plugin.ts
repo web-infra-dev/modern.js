@@ -4,7 +4,7 @@ import type { Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
 import { createPlugin } from '@modern-js/server-plugin';
 import { requireModule } from '@modern-js/bff-utils';
-import { fs, createDebugger, logger } from '@modern-js/utils';
+import { fs, createDebugger } from '@modern-js/utils';
 import finalhandler from 'finalhandler';
 import { run } from './context';
 import registerRoutes from './registerRoutes';

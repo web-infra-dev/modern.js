@@ -2,7 +2,6 @@ import crypto from 'crypto';
 import fs from 'fs';
 import { path, isDev, createDebugger } from '@modern-js/utils';
 import chokidar from 'chokidar';
-import { NormalizedConfig } from './config/mergeConfig';
 import { LoadedConfig } from './config';
 import { HooksRunner } from '.';
 
@@ -22,7 +21,6 @@ export const initWatcher = async (
 ) => {
   // only add fs watcher on dev mode.
   if (isDev() && argv[0] === 'dev') {
-
     const extraFiles = await hooksRunner.watchFiles();
 
     const configPath = path.join(appDirectory, configDir!);

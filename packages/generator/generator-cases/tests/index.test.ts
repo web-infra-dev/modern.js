@@ -9,27 +9,27 @@ import {
 
 describe('test generator cases', () => {
   test('test getMWACases', async () => {
-    const mwaCases = await getMWACases();
+    const mwaCases = getMWACases();
     expect(mwaCases).toMatchSnapshot();
   });
   test('test getModuleCases', async () => {
-    const moduleCases = await getModuleCases();
+    const moduleCases = getModuleCases();
     expect(moduleCases).toMatchSnapshot();
   });
   test('test getMonorepoCases', async () => {
-    const monorepoCases = await getMonorepoCases();
+    const monorepoCases = getMonorepoCases();
     expect(monorepoCases).toMatchSnapshot();
   });
   test('test getMWANewCases', async () => {
-    const mwaNewCases = await getMWANewCases();
+    const mwaNewCases = getMWANewCases();
     expect(mwaNewCases.length).toBe(22);
   });
   test('test getModuleNewCases', async () => {
-    const moduleNewCases = await getModuleNewCases();
+    const moduleNewCases = getModuleNewCases();
     expect(moduleNewCases).toMatchSnapshot();
   });
   test('test getMonorepoNewCases', async () => {
-    const monorepoNewCases = await getMonorepoNewCases();
+    const monorepoNewCases = getMonorepoNewCases();
     expect(monorepoNewCases).toMatchSnapshot();
   });
 });

@@ -25,7 +25,6 @@ describe('waterfall', () => {
   it('should support async waterfall', async () => {
     const waterfall = createAsyncWaterfall<{ count: number }>();
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     waterfall.use(async ({ count }) => ({ count: count + 1 }));
 
     waterfall.use(a => a);

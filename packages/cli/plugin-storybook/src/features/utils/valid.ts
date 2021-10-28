@@ -16,8 +16,12 @@ export const valid = ({ stories, isModuleTools, isTs }: ValidOption) => {
     console.info(
       chalk.yellow(
         isModuleTools
-        ? `No stories found, create directory "./stories" and add *.stories.${isTs ? 'tsx' : 'jsx'} file`
-        : `No stories found, please add *.stories.${isTs ? 'tsx' : 'jsx'} file`,
+          ? `No stories found, create directory "./stories" and add *.stories.${
+              isTs ? 'tsx' : 'jsx'
+            } file`
+          : `No stories found, please add *.stories.${
+              isTs ? 'tsx' : 'jsx'
+            } file`,
       ),
     );
     return false;

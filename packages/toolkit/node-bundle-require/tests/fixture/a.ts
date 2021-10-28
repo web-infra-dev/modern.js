@@ -1,1 +1,1 @@
-export const filename: string = __filename
+export const filename: string = __filename;
