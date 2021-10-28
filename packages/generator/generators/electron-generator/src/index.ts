@@ -52,8 +52,21 @@ const handleTemplateFile = async (
       (resourceKey: string) =>
         resourceKey
           .replace('templates/ts-template/', '')
-          .replace('.handlebars', isTs ? 'ts' : 'js'),
+          .replace('.handlebars', ''),
     );
+
+    const appDir = context.materials.default.basePath;
+    const typePath = path.join(appDir, 'src', 'modern-app-env.d.ts');
+    const appendContent = `/// <reference types="@modern-js/runtime" />
+  /// <reference types="@modern-js/plugin-electron/global" />
+      `;
+    if (fs.existsSync(typePath)) {
+      const npmrc = fs.readFileSync(typePath, 'utf-8');
+      fs.writeFileSync(typePath, `${npmrc}\n${appendContent}`, 'utf-8');
+    } else {
+      fs.ensureFileSync(typePath);
+      fs.writeFileSync(typePath, appendContent, 'utf-8');
+    }
   }
 
   const updateInfo: Record<string, any> = {
@@ -76,19 +89,6 @@ const handleTemplateFile = async (
     query: {},
     update: { $set: updateInfo },
   });
-
-  const appDir = context.materials.default.basePath;
-  const typePath = path.join(appDir, 'src', 'modern-app-env.d.ts');
-  const appendContent = `/// <reference types="@modern-js/runtime" />
-/// <reference types="@modern-js/plugin-electron/global" />
-    `;
-  if (fs.existsSync(typePath)) {
-    const npmrc = fs.readFileSync(typePath, 'utf-8');
-    fs.writeFileSync(typePath, `${npmrc}\n${appendContent}`, 'utf-8');
-  } else {
-    fs.ensureFileSync(typePath);
-    fs.writeFileSync(typePath, appendContent, 'utf-8');
-  }
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
