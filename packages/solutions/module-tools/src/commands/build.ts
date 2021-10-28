@@ -39,9 +39,6 @@ export const build = async ({
 }: IBuildOption) => {
   const { appDirectory } = core.useAppContext();
   const modernConfig = core.useResolvedConfigContext();
-  const {
-    output: { path: outputPath = 'dist' },
-  } = modernConfig;
   const tsconfigPath = path.join(appDirectory, tsconfigName);
   dotenv.config();
   const isTsProject = tsConfigutils.existTsConfigFile(tsconfigPath);
@@ -49,19 +46,17 @@ export const build = async ({
 
   valid.valideBeforeTask({ modernConfig, tsconfigPath });
 
-  if (clear) {
-    fs.removeSync(path.join(appDirectory, outputPath));
-  }
-
   // TODO: 一些配置只需要从modernConfig中获取
   await buildFeature.build(
     {
+      appDirectory,
       enableWatchMode: watch,
       isTsProject,
       platform,
       sourceDir: 'src',
       tsconfigName,
       enableTscCompiler,
+      clear,
     },
     modernConfig,
   );

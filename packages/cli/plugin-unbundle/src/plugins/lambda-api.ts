@@ -37,6 +37,7 @@ export const lambdaApiPlugin = (
           prefix: apiPrefix,
           target: 'client',
           port: Number(port),
+          requireResolve: require.resolve,
         });
 
         if (result.isOk) {
