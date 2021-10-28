@@ -1,11 +1,7 @@
 import fs from 'fs';
 import assert from 'assert';
 import { path } from '@modern-js/utils';
-import {
-  generateClient,
-  getMethodAndStatementFromName,
-  DEFAULT_CLIENT_REQUEST_CREATOR,
-} from '@/index';
+import { generateClient, getMethodAndStatementFromName } from '@/index';
 import { checkSource } from '@/client/check-source';
 import { getRouteName } from '@/client/get-route-name';
 import { HttpMethod } from '@/constant';
