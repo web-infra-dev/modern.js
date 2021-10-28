@@ -114,34 +114,47 @@ const handleTemplateFile = async (
     },
   );
 
-  const tsconfigJSON = fs.readJSONSync(path.join(appDir, 'tsconfig.json'));
+  if (language === Language.TS) {
+    const tsconfigJSON = fs.readJSONSync(path.join(appDir, 'tsconfig.json'));
 
-  if (!(tsconfigJSON.include || []).includes('api')) {
-    await jsonAPI.update(
-      context.materials.default.get(path.join(appDir, 'tsconfig.json')),
-      {
-        query: {},
-        update: {
-          $set: {
-            include: [...(tsconfigJSON.include || []), 'api'],
+    if (!(tsconfigJSON.include || []).includes('api')) {
+      await jsonAPI.update(
+        context.materials.default.get(path.join(appDir, 'tsconfig.json')),
+        {
+          query: {},
+          update: {
+            $set: {
+              include: [...(tsconfigJSON.include || []), 'api'],
+            },
           },
         },
-      },
+      );
+    }
+  } else {
+    await appApi.forgeTemplate(
+      'templates/js-template/**/*',
+      undefined,
+      resourceKey =>
+        resourceKey
+          .replace('templates/js-template/', 'api/')
+          .replace('.handlebars', `.${language}`),
     );
   }
 
   if (bffType === BFFType.Func) {
-    await jsonAPI.update(
-      context.materials.default.get(path.join(appDir, 'tsconfig.json')),
-      {
-        query: {},
-        update: {
-          $set: {
-            'compilerOptions.paths.@api/*': ['./api/*'],
+    if (language === Language.TS) {
+      await jsonAPI.update(
+        context.materials.default.get(path.join(appDir, 'tsconfig.json')),
+        {
+          query: {},
+          update: {
+            $set: {
+              'compilerOptions.paths.@api/*': ['./api/*'],
+            },
           },
         },
-      },
-    );
+      );
+    }
     await appApi.forgeTemplate(
       'templates/function/base/*',
       undefined,
@@ -172,17 +185,19 @@ const handleTemplateFile = async (
         ),
     );
   } else {
-    await jsonAPI.update(
-      context.materials.default.get(path.join(appDir, 'tsconfig.json')),
-      {
-        query: {},
-        update: {
-          $set: {
-            'compilerOptions.paths.@api/*': ['./api/lambda/*'],
+    if (language === Language.TS) {
+      await jsonAPI.update(
+        context.materials.default.get(path.join(appDir, 'tsconfig.json')),
+        {
+          query: {},
+          update: {
+            $set: {
+              'compilerOptions.paths.@api/*': ['./api/lambda/*'],
+            },
           },
         },
-      },
-    );
+      );
+    }
     await appApi.forgeTemplate(
       `templates/framework/lambda/*`,
       undefined,
