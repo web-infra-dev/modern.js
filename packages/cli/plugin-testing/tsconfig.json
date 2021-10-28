@@ -8,5 +8,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "type.d.ts"]
+  "include": ["src"]
 }
