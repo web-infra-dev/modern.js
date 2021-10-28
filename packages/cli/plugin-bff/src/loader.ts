@@ -37,6 +37,8 @@ async function loader(this: LoaderContext<APILoaderOptions>, source: string) {
     options.requestCreator = draftOptions.requestCreator as string;
   }
 
+  options.requireResolve = require.resolve;
+
   const result = await generateClient(options);
 
   if (result.isOk) {
