@@ -60,7 +60,7 @@ export const createProxyHandler = (proxyOptions: ProxyOptions) => {
   const middlewares = formatedProxy.map(option => {
     const middleware = createProxyMiddleware(option.context!, option);
 
-    // eslint-disable-next-line @typescript-eslint/require-await,consistent-return
+    // eslint-disable-next-line consistent-return
     return async (ctx: ModernServerContext, next: NextFunction) => {
       const { req, res } = ctx;
       const bypassUrl =

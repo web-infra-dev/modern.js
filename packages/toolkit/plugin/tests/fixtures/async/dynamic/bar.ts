@@ -8,7 +8,6 @@ const bar = createPlugin(() => {
   return {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     preDev: () => {},
-    // eslint-disable-next-line @typescript-eslint/require-await
     fooWaterfall: async input => {
       number = 2;
       return input;

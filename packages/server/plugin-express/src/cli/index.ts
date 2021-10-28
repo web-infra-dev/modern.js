@@ -23,10 +23,13 @@ export default createPlugin(
         };
       },
       modifyEntryImports() {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         const { appDirectory } = useAppContext();
-        const runtimePath = upath.normalizeSafe(require.resolve(`@modern-js/runtime`, {
-          paths: [appDirectory],
-        }));
+        const runtimePath = upath.normalizeSafe(
+          require.resolve(`@modern-js/runtime`, {
+            paths: [appDirectory],
+          }),
+        );
 
         const currentFile = bffExportsUtils.getPath();
 

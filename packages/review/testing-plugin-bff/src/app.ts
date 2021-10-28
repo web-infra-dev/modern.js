@@ -5,13 +5,18 @@ const store = new AsyncLocalStorage();
 
 export const isInHandler = () => Boolean(store.getStore());
 
-const createApp = async (pwd: string, config: any, plugins: any[], routes: any[]) => {
+const createApp = async (
+  pwd: string,
+  config: any,
+  plugins: any[],
+  routes: any[],
+) => {
   const server = new Server({
     apiOnly: true,
     pwd,
     config,
     plugins,
-    routes
+    routes,
   });
 
   await server.init();

@@ -1,7 +1,7 @@
 import { path } from '@modern-js/utils';
 import fs from 'fs-extra';
 import { esmpack } from '../src';
-import { installPackage, preparePackage } from './npm';
+import { installPackage } from './npm';
 import { getTempDir } from './paths';
 
 it('should work with antd inline icons', async done => {
@@ -12,7 +12,7 @@ it('should work with antd inline icons', async done => {
     const compiler = await esmpack({
       cwd: workDir,
     });
-    const compilation = await compiler.run({
+    await compiler.run({
       specifier: 'antd',
       inlineDependency: (id: string) => {
         if (id.includes('@ant-design/icons')) {

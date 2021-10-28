@@ -152,9 +152,11 @@ async function doParse(ctx: ParseContext, fileLoc: string) {
                       pendingSet.add(reexportPath);
                     }
                   } else {
-                    const targetPath = upath.normalizeSafe(require.resolve(reexportPath, {
-                      paths: [nodePath.dirname(fileLoc)],
-                    }));
+                    const targetPath = upath.normalizeSafe(
+                      require.resolve(reexportPath, {
+                        paths: [nodePath.dirname(fileLoc)],
+                      }),
+                    );
                     if (!visitedSet.has(reexportPath)) {
                       pendingSet.add(targetPath);
                     }

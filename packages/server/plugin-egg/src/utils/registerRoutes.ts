@@ -34,7 +34,6 @@ const registerRoutes = (router: Router, prefix?: string) => {
         }
       } else {
         const args = Object.values(input.params as any).concat(input);
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         ctx.body = await run(ctx, () => handler(...args));
       }
     };

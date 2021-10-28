@@ -66,12 +66,14 @@ const handleTemplateFile = async (
     const jsonAPI = new JsonAPI(generator);
 
     await jsonAPI.update(
-      context.materials.default.get(path.join(generator.outputPath, 'package.json')),
+      context.materials.default.get(
+        path.join(generator.outputPath, 'package.json'),
+      ),
       {
         query: {},
         update: {
           $set: {
-            "scripts.prepare": "lerna run prepare"
+            'scripts.prepare': 'lerna run prepare',
           },
         },
       },
