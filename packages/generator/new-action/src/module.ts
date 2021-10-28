@@ -28,6 +28,7 @@ interface IModuleNewActionOption {
   debug?: boolean;
   registry?: string;
   config?: string;
+  pwd?: string;
 }
 // eslint-disable-next-line max-statements
 export const ModuleNewAction = async (options: IModuleNewActionOption) => {
@@ -37,6 +38,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     debug = false,
     registry = '',
     config = '{}',
+    pwd,
   } = options;
 
   let UserConfig: Record<string, unknown> = {};
@@ -77,7 +79,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
         ModuleActionFunctionsDependencies,
         ModuleActionFunctionsDevDependencies,
         ModuleActionFunctionsPeerDependencies,
-        process.cwd(),
+        pwd || process.cwd(),
       );
       const { when } = schemaItem;
       schemaItem.when = enable ? () => false : when;
@@ -123,7 +125,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     ans,
     {
       locale: (UserConfig.locale as string) || locale,
-      packageManager: getPackageManager(),
+      packageManager: getPackageManager(pwd),
     },
     {
       devDependencies: devDependencie
@@ -150,6 +152,6 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
       generator: runner.name,
       config: runner.config,
     })),
-    pwd: process.cwd(),
+    pwd: pwd || process.cwd(),
   });
 };
