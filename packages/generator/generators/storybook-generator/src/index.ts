@@ -47,6 +47,12 @@ const handleTemplateFile = async (
           .replace('templates/ts-template/', '')
           .replace('.handlebars', ``),
     );
+  } else {
+    appApi.forgeTemplate('templates/js-template/**/*', undefined, resourceKey =>
+      resourceKey
+        .replace('templates/js-template/', '')
+        .replace('.handlebars', ``),
+    );
   }
 
   const runtimeDependence = '@modern-js/runtime';
