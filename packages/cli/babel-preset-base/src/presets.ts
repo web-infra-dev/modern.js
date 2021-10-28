@@ -43,7 +43,9 @@ export const getPresetChain = (option: IBaseBabelConfigOption) => {
     };
     chain
       .preset('@babel/preset-env')
-      .use(upath.normalizeSafe(require.resolve('@babel/preset-env')), [presetEnvOptions]);
+      .use(upath.normalizeSafe(require.resolve('@babel/preset-env')), [
+        presetEnvOptions,
+      ]);
   }
 
   if (!disableReactPreset) {
@@ -60,7 +62,9 @@ export const getPresetChain = (option: IBaseBabelConfigOption) => {
     };
     chain
       .preset('@babel/preset-react')
-      .use(upath.normalizeSafe(require.resolve('@babel/preset-react')), [presetReactOptions]);
+      .use(upath.normalizeSafe(require.resolve('@babel/preset-react')), [
+        presetReactOptions,
+      ]);
   }
 
   if (!(useTsLoader || disableTypescriptPreset)) {

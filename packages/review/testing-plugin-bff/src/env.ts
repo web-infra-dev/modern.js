@@ -2,7 +2,6 @@ import NodeEnvironment from 'jest-environment-node';
 import { createApp } from './app';
 import { bff_info_key } from './constant';
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default class extends NodeEnvironment {
   app: any;
 

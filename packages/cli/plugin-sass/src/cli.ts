@@ -48,7 +48,9 @@ export default core.createPlugin(
                   use: [
                     ...(loaders.oneOf('css') as any).toConfig().use,
                     {
-                      loader: upath.normalizeSafe(require.resolve('sass-loader')),
+                      loader: upath.normalizeSafe(
+                        require.resolve('sass-loader'),
+                      ),
                       options: sassOptions,
                     },
                   ],

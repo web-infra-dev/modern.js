@@ -1,6 +1,5 @@
-import { path } from '@modern-js/utils';
+import { path, upath } from '@modern-js/utils';
 import { compiler } from '@modern-js/babel-compiler';
-import { upath } from '@modern-js/utils';
 import { useAppContext, useResolvedConfigContext } from '@modern-js/core';
 import { TestConfig, runTest } from '@modern-js/testing';
 import { getWebpackConfig, WebpackConfigTarget } from '@modern-js/webpack';

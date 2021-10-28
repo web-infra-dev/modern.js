@@ -17,13 +17,13 @@ test('simple e2e should work', async done => {
   });
 
   for (const spec of Object.keys(packages)) {
-    const compilation = await compiler.run({
+    await compiler.run({
       specifier: spec,
     });
   }
 
   const files = compiler.outputFiles.map(f => f.fileLoc);
-  const importMap = compiler.importMap;
+  const { importMap } = compiler;
   await transformFilesWithImportMap(files, importMap);
 
   await page.goto('http://localhost:8088/simple');

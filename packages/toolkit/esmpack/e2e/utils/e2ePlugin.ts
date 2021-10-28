@@ -9,7 +9,6 @@ import {
 import type { EsmpackPlugin } from '../../src/Options';
 import type { Compiler } from '../../src/Compiler';
 import {
-  installPackages,
   preparePackage,
   preparePackages,
   getPackageMeta,
@@ -22,16 +21,19 @@ const pluginName = 'E2EPlugin';
 
 class E2EPlguin implements EsmpackPlugin {
   public workDir: string;
-  private initP: Promise<any>;
-  private pendingTasks: Set<string>;
-  private finishTasks: Set<string>;
-  private resolver: Resolver;
+
+  private readonly initP: Promise<any>;
+
+  private readonly pendingTasks: Set<string>;
+
+  private readonly finishTasks: Set<string>;
+
+  private readonly resolver: Resolver;
+
   constructor(workDir: string, packages: PackagesInfo) {
     this.workDir = workDir;
     this.pendingTasks = new Set(
-      Object.entries(packages).map(([k, v]) => {
-        return hash(k, v);
-      }),
+      Object.entries(packages).map(([k, v]) => hash(k, v)),
     );
     this.finishTasks = new Set();
     this.initP = preparePackages(workDir, packages);
@@ -50,6 +52,7 @@ class E2EPlguin implements EsmpackPlugin {
       exportsFields: ['exports'],
     });
   }
+
   apply(compiler: Compiler) {
     compiler.hooks.initialize.tapPromise(pluginName, async _compiler => {
       await this.initP;
@@ -70,8 +73,10 @@ class E2EPlguin implements EsmpackPlugin {
 
       const importerPackageName = normalizePackageName(spec);
       const importer = compilation.inputOptions.input![spec];
-      const resolve = async (id: string, importer: string) => {
-        return new Promise<string | undefined>((resolve, reject) =>
+      // eslint-disable-next-line @typescript-eslint/no-shadow
+      const resolve = async (id: string, importer: string) =>
+        // eslint-disable-next-line @typescript-eslint/no-shadow
+        new Promise<string | undefined>((resolve, reject) =>
           this.resolver.resolve({}, importer, id, {}, (err, filePath) => {
             if (err) {
               return reject(err);
@@ -79,7 +84,6 @@ class E2EPlguin implements EsmpackPlugin {
             return resolve(filePath || undefined);
           }),
         );
-      };
       const uniqPackageName = new Set(
         Array.from(uniqDepSpec).map(d => normalizePackageName(d)),
       );
@@ -116,11 +120,14 @@ class E2EPlguin implements EsmpackPlugin {
         const other = hash(depSpec, depVersion);
         if (!this.finishTasks.has(other) && !this.pendingTasks.has(other)) {
           this.pendingTasks.add(other);
+          // eslint-disable-next-line @typescript-eslint/no-shadow
           const depName = normalizePackageName(depSpec);
           try {
-            const dir = upath.normalizeSafe(require.resolve(`${depName}/package.json`, {
-              paths: [this.workDir],
-            }));
+            const dir = upath.normalizeSafe(
+              require.resolve(`${depName}/package.json`, {
+                paths: [this.workDir],
+              }),
+            );
             if (!dir.includes(this.workDir)) {
               throw new Error('');
             }
@@ -137,10 +144,10 @@ class E2EPlguin implements EsmpackPlugin {
 
       while (this.pendingTasks.size) {
         for (const task of this.pendingTasks) {
-          const [spec, version] = extract(task);
+          const [_spec] = extract(task);
           // tempLog(`> compile ${spec} from ${importer}`);
           await compiler.run({
-            specifier: spec,
+            specifier: _spec,
             importer,
           });
         }
@@ -154,8 +161,8 @@ export { E2EPlguin };
 function hash(spec: string, version: string) {
   return `${spec}___${version}`;
 }
-function extract(hash: string) {
-  return hash.split('___');
+function extract(_hash: string) {
+  return _hash.split('___');
 }
 
 async function extractPackageInfoFromSpecifier(
@@ -163,9 +170,11 @@ async function extractPackageInfoFromSpecifier(
   importerPkgName: string,
   cwd: string,
 ) {
-  const jsonPath = upath.normalizeSafe(require.resolve(`${importerPkgName}/package.json`, {
-    paths: [cwd],
-  }));
+  const jsonPath = upath.normalizeSafe(
+    require.resolve(`${importerPkgName}/package.json`, {
+      paths: [cwd],
+    }),
+  );
   const manifest = JSON.parse(fs.readFileSync(jsonPath).toString());
 
   const name = normalizePackageName(specifier);
@@ -189,8 +198,4 @@ async function extractPackageInfoFromSpecifier(
     name,
     version: matchedVersion,
   };
-}
-
-function tempLog(line: string) {
-  fs.outputFileSync('/tmp/b.log', `${line}\n`);
 }

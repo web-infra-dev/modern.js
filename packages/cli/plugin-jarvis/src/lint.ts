@@ -41,7 +41,9 @@ export default () => {
     rawArgs.push('./');
   }
 
-  const eslintScript = upath.normalizeSafe(require.resolve('eslint/bin/eslint.js'));
+  const eslintScript = upath.normalizeSafe(
+    require.resolve('eslint/bin/eslint.js'),
+  );
 
   logger.info(chalk.bold('Lint...'));
   logger.info(

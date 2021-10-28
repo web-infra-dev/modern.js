@@ -46,7 +46,6 @@ export const dev = async () => {
     dev: {
       ...{
         client: {
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
           port: port!.toString(),
           overlay: false,
           logging: 'none',

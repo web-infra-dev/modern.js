@@ -17,7 +17,6 @@ describe('counter', () => {
   describe('async', () => {
     it('base usage', async () => {
       const counter = createAsyncCounter<number, number>(
-        // eslint-disable-next-line @typescript-eslint/require-await
         async (index, input, next) => {
           if (index >= 10) {
             return input;

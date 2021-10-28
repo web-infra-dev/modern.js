@@ -97,21 +97,24 @@ const taskMain = async ({
   } = modernConfig.output as ModuleToolsOutput;
   const { appDirectory } = appContext;
 
-  const lessOption = await core.mountHook().moduleLessConfig(
-    { modernConfig },
-    // eslint-disable-next-line @typescript-eslint/require-await
-    { onLast: async (_: any) => undefined },
-  );
-  const sassOption = await core.mountHook().moduleSassConfig(
-    { modernConfig },
-    // eslint-disable-next-line @typescript-eslint/require-await
-    { onLast: async (_: any) => undefined },
-  );
-  const tailwindPlugin = await core.mountHook().moduleTailwindConfig(
-    { modernConfig },
-    // eslint-disable-next-line @typescript-eslint/require-await
-    { onLast: async (_: any) => undefined },
-  );
+  const lessOption = await core
+    .mountHook()
+    .moduleLessConfig(
+      { modernConfig },
+      { onLast: async (_: any) => undefined },
+    );
+  const sassOption = await core
+    .mountHook()
+    .moduleSassConfig(
+      { modernConfig },
+      { onLast: async (_: any) => undefined },
+    );
+  const tailwindPlugin = await core
+    .mountHook()
+    .moduleTailwindConfig(
+      { modernConfig },
+      { onLast: async (_: any) => undefined },
+    );
   const postcssOption = getPostcssOption(appDirectory, modernConfig);
   if (tailwindPlugin) {
     postcssOption.plugins?.push(tailwindPlugin);

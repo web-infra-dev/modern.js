@@ -27,9 +27,11 @@ export default createPlugin(
       modifyEntryImports() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const { appDirectory } = useAppContext();
-        const runtimePath = upath.normalizeSafe(require.resolve(`@modern-js/runtime`, {
-          paths: [appDirectory],
-        }));
+        const runtimePath = upath.normalizeSafe(
+          require.resolve(`@modern-js/runtime`, {
+            paths: [appDirectory],
+          }),
+        );
 
         const currentFile = bffExportsUtils.getPath();
 
@@ -55,6 +57,7 @@ export default createPlugin(
         );
       },
       async afterBuild() {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         const { appDirectory, distDirectory } = useAppContext();
 
         const pkgJson = path.join(appDirectory, PACKAGE_JSON);

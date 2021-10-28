@@ -10,9 +10,11 @@ export function modifySourceBySpecifier(
 ) {
   let codePath = '';
   try {
-    codePath = upath.normalizeSafe(require.resolve(specifier, {
-      paths: [projectRoot],
-    }));
+    codePath = upath.normalizeSafe(
+      require.resolve(specifier, {
+        paths: [projectRoot],
+      }),
+    );
   } catch (e) {
     return;
   }

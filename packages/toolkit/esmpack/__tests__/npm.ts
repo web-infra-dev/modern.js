@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable no-debugger */
 import { path } from '@modern-js/utils';
 import axios from 'axios';
 import fs from 'fs-extra';
@@ -27,6 +25,7 @@ export const preparePackage = async (
   try {
     await downloadTarball(tarballURL, workDir);
   } catch (e: any) {
+    // eslint-disable-next-line no-console
     console.log('download tarball failed:', tarballURL, e.message);
     throw e;
   }
@@ -52,6 +51,7 @@ export const getPackageMeta = async (name: string) => {
     const res = await npmAxios.get<PackageMetaData>(`/${name}`);
     return res.data;
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log('fetch package meta failed', name);
     throw e;
   }
@@ -141,7 +141,6 @@ export const installPackage = async (
       },
     );
   } catch (e) {
-    debugger;
     throw new Error(`npm install ${name}@${version} failed`);
   }
 };

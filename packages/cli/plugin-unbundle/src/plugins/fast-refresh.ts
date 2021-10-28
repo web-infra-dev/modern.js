@@ -29,7 +29,9 @@ export const fastRefreshPlugin = (): RollupPlugin => ({
 
     const result = await require('@babel/core').transformAsync(code, {
       plugins: [
-        upath.normalizeSafe(require.resolve('@babel/plugin-syntax-import-meta')),
+        upath.normalizeSafe(
+          require.resolve('@babel/plugin-syntax-import-meta'),
+        ),
         upath.normalizeSafe(require.resolve('react-refresh/babel')),
       ],
       ast: true,
