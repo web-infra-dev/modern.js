@@ -16,6 +16,7 @@ export type GenClientOptions = {
   requestCreator?: string;
   fetcher?: string;
   target?: string;
+  requireResolve?: typeof require.resolve;
 };
 
 export const DEFAULT_CLIENT_REQUEST_CREATOR = '@modern-js/create-request';
@@ -29,10 +30,11 @@ export const generateClient = async ({
   target,
   requestCreator,
   fetcher,
+  requireResolve = require.resolve
 }: GenClientOptions): Promise<GenClientResult> => {
   if (!requestCreator) {
     // eslint-disable-next-line no-param-reassign
-    requestCreator = upath.normalizeSafe(require.resolve(
+    requestCreator = upath.normalizeSafe(requireResolve(
       `${DEFAULT_CLIENT_REQUEST_CREATOR}${target ? `/${target}` : ''}`,
     ));
   }
