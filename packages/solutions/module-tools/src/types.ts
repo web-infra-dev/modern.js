@@ -29,12 +29,14 @@ export interface IPackageFields {
 }
 
 export interface IBuildConfig {
+  appDirectory: string;
   platform: boolean | Exclude<Platform, 'all'>;
   enableTscCompiler: boolean;
   enableWatchMode?: boolean;
   isTsProject: boolean;
   sourceDir: string;
   tsconfigName?: string;
+  clear?: boolean;
 }
 
 export interface IPackageModeValue {
