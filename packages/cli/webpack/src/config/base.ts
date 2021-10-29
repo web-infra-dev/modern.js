@@ -149,6 +149,7 @@ class BaseWebpackConfig {
 
   output() {
     this.chain.output
+      .hashFunction('xxhash64')
       .filename(this.jsFilename)
       .chunkFilename(this.jsChunkname)
       .globalObject('window')
