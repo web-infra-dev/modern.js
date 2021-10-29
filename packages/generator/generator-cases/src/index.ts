@@ -90,9 +90,9 @@ export const getModuleCases = (isTypical?: boolean) => {
   }));
 };
 
-export const getMonorepoCases = (isTypical?: boolean) => {
+export const getMonorepoCases = () => {
   const cases = make(MonorepoValueMap, {
-    length: isTypical ? undefined : Object.keys(MonorepoValueMap).length,
+    length: Object.keys(MonorepoValueMap).length,
   });
   return cases.map(item => ({
     ...item,
