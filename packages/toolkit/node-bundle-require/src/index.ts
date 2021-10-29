@@ -129,7 +129,8 @@ export async function bundleRequire(filepath: string, options?: Options) {
       {
         name: 'make-all-packages-external',
         setup(_build) {
-          const filter = /^[^./]|^\.[^./]|^\.\.[^/]/; // Must not start with "/" or "./" or "../"
+          const filter =
+            /^([[a-zA-Z]:].*node_modules)|^[a-zA-Z]{2,}:|^[a-zA-Z]{3,}|^(\/[a-zA-Z].*node_modules)/; // Must not start with "/" or "./" or "../"
           _build.onResolve({ filter }, args => ({
             path: args.path,
             external: true,
