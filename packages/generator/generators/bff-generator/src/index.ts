@@ -3,6 +3,7 @@ import {
   path,
   getPackageVersion,
   isTsProject,
+  readTsConfigByFile,
 } from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
@@ -115,7 +116,7 @@ const handleTemplateFile = async (
   );
 
   if (language === Language.TS) {
-    const tsconfigJSON = fs.readJSONSync(path.join(appDir, 'tsconfig.json'));
+    const tsconfigJSON = readTsConfigByFile(path.join(appDir, 'tsconfig.json'));
 
     if (!(tsconfigJSON.include || []).includes('api')) {
       await jsonAPI.update(

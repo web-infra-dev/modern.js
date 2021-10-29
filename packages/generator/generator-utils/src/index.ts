@@ -9,7 +9,7 @@ import { i18n, localeKeys } from './locale';
 
 export * from './utils';
 
-export { fs, path } from '@modern-js/utils';
+export { fs, path, readTsConfigByFile } from '@modern-js/utils';
 
 export { i18n } from './locale';
 

@@ -31,7 +31,7 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
     debug = false,
     registry = '',
     config = '{}',
-    pwd,
+    pwd = process.cwd(),
   } = options;
 
   let UserConfig: Record<string, unknown> = {};
@@ -102,6 +102,6 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
       generator: runner.name,
       config: runner.config,
     })),
-    pwd: pwd || process.cwd(),
+    pwd,
   });
 };

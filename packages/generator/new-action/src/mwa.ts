@@ -38,7 +38,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     debug = false,
     registry = '',
     config = '{}',
-    pwd,
+    pwd = process.cwd(),
   } = options;
 
   let UserConfig: Record<string, unknown> = {};
@@ -77,7 +77,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
         MWAActionFunctionsDependencies,
         MWAActionFunctionsDevDependencies,
         {},
-        pwd || process.cwd(),
+        pwd,
       );
       const { when } = schemaItem;
       schemaItem.when = enable ? () => false : when;
@@ -133,6 +133,6 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
       generator: runner.name,
       config: runner.config,
     })),
-    pwd: pwd || process.cwd(),
+    pwd,
   });
 };

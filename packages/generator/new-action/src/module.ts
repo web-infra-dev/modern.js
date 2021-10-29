@@ -38,7 +38,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     debug = false,
     registry = '',
     config = '{}',
-    pwd,
+    pwd = process.cwd(),
   } = options;
 
   let UserConfig: Record<string, unknown> = {};
@@ -79,7 +79,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
         ModuleActionFunctionsDependencies,
         ModuleActionFunctionsDevDependencies,
         ModuleActionFunctionsPeerDependencies,
-        pwd || process.cwd(),
+        pwd,
       );
       const { when } = schemaItem;
       schemaItem.when = enable ? () => false : when;
@@ -152,6 +152,6 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
       generator: runner.name,
       config: runner.config,
     })),
-    pwd: pwd || process.cwd(),
+    pwd,
   });
 };
