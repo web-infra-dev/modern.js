@@ -3,6 +3,7 @@ import {
   fs,
   getPackageVersion,
   isTsProject,
+  readTsConfigByFile,
 } from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
@@ -108,19 +109,30 @@ const handleTemplateFile = async (
     },
   );
 
-  const tsconfigJSON = fs.readJSONSync(path.join(appDir, 'tsconfig.json'));
+  if (language === Language.TS) {
+    const tsconfigJSON = readTsConfigByFile(path.join(appDir, 'tsconfig.json'));
 
-  if (!(tsconfigJSON.include || []).includes('server')) {
-    await jsonAPI.update(
-      context.materials.default.get(path.join(appDir, 'tsconfig.json')),
-      {
-        query: {},
-        update: {
-          $set: {
-            include: [...(tsconfigJSON.include || []), 'server'],
+    if (!(tsconfigJSON.include || []).includes('server')) {
+      await jsonAPI.update(
+        context.materials.default.get(path.join(appDir, 'tsconfig.json')),
+        {
+          query: {},
+          update: {
+            $set: {
+              include: [...(tsconfigJSON.include || []), 'server'],
+            },
           },
         },
-      },
+      );
+    }
+  } else {
+    await appApi.forgeTemplate(
+      `templates/js-template/**/*`,
+      resourceKey => resourceKey.includes(language),
+      resourceKey =>
+        resourceKey
+          .replace(`templates/js-template/`, '')
+          .replace('.handlebars', ''),
     );
   }
 
