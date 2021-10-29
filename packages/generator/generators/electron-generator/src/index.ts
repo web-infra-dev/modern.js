@@ -67,6 +67,15 @@ const handleTemplateFile = async (
       fs.ensureFileSync(typePath);
       fs.writeFileSync(typePath, appendContent, 'utf-8');
     }
+  } else {
+    await appApi.forgeTemplate(
+      'templates/js-template/**/*',
+      undefined,
+      (resourceKey: string) =>
+        resourceKey
+          .replace('templates/js-template/', '')
+          .replace('.handlebars', ''),
+    );
   }
 
   const updateInfo: Record<string, any> = {
