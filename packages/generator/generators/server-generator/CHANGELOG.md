@@ -1,5 +1,12 @@
 # @modern-js/server-generator
 
+## 1.0.6
+
+### Patch Changes
+
+
+- fix: server generator eslint file
+
 ## 1.0.3
 
 ### Patch Changes
