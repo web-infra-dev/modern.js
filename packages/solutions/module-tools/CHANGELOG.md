@@ -1,5 +1,13 @@
 # @modern-js/module-tools
 
+## 1.0.1
+
+### Patch Changes
+
+- feat: update generator template
+- Updated dependencies [undefined]
+  - @modern-js/new-action@1.0.1
+
 ## 1.0.0
 
 ### Patch Changes
