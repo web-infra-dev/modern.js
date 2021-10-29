@@ -17,10 +17,10 @@
     "dist"
   ],
   "scripts": {
-    "dev:client": "mkdir -p ./dist/client && ln -fv ./src/client/index.js ./dist/client/index.js && ln -fv ./src/client/error-overlay.js ./dist/client/error-overlay.js",
-    "build:client": "mkdir -p ./dist/client && cp  ./src/client/*.js ./dist/client/",
-    "dev": "rimraf dist && npm run dev:client && tsc -w ",
-    "build": "rimraf dist &&  npm run build:client && tsc",
+    "dev:client": "ln -fv ./src/client/index.js ./dist/client/index.js && ln -fv ./src/client/error-overlay.js ./dist/client/error-overlay.js",
+    "build:client": "node ./scripts/cp.js",
+    "dev": "rimraf dist && tsc -w  && npm run dev:client",
+    "build": "rimraf dist && tsc &&  npm run build:client",
     "prepare": "pnpm build",
     "prepublishOnly": "npm run build"
   },
