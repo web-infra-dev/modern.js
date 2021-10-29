@@ -109,6 +109,15 @@ const handleTemplateFile = async (
     },
   );
 
+  await appApi.forgeTemplate(
+    `templates/base-template/**/*`,
+    undefined,
+    resourceKey =>
+      resourceKey
+        .replace(`templates/base-template/`, '')
+        .replace('.handlebars', ''),
+  );
+
   if (language === Language.TS) {
     const tsconfigJSON = readTsConfigByFile(path.join(appDir, 'tsconfig.json'));
 
@@ -125,15 +134,6 @@ const handleTemplateFile = async (
         },
       );
     }
-  } else {
-    await appApi.forgeTemplate(
-      `templates/js-template/**/*`,
-      resourceKey => resourceKey.includes(language),
-      resourceKey =>
-        resourceKey
-          .replace(`templates/js-template/`, '')
-          .replace('.handlebars', ''),
-    );
   }
 
   await appApi.forgeTemplate(

@@ -1,5 +1,11 @@
 # @modern-js/generator-common
 
+## 1.0.1
+
+### Patch Changes
+
+- feat: update generator template
+
 ## 1.0.0
 
 ### Patch Changes

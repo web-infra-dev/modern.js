@@ -1,5 +1,11 @@
 # @modern-js/bff-refactor-generator
 
+## 1.0.3
+
+### Patch Changes
+
+- feat: update generator template
+
 ## 1.0.2
 
 ### Patch Changes
