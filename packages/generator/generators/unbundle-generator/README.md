@@ -21,6 +21,7 @@
 - [迈入现代 Web 开发](https://zhuanlan.zhihu.com/p/386607009)
 - [现代 Web 开发者问卷调查报告](https://zhuanlan.zhihu.com/p/403206195)
 - [字节跳动是如何落地微前端的](https://mp.weixin.qq.com/s/L9wbfNG5fTXF5bx7dcgj4Q)
+- [字节跳动是如何落地微前端的](https://mp.weixin.qq.com/s/L9wbfNG5fTXF5bx7dcgj4Q)
 
 ## Getting Started
 
