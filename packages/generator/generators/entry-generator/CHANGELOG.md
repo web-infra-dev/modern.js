@@ -1,5 +1,11 @@
 # @modern-js/entry-generator
 
+## 1.0.4
+
+### Patch Changes
+
+- fix: entry generator router config
+
 ## 1.0.3
 
 ### Patch Changes

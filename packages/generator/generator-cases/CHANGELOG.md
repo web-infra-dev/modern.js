@@ -1,5 +1,12 @@
 # @modern-js/generator-cases
 
+## 1.0.2
+
+### Patch Changes
+
+- d3ec510c: feat: generator cases function support isTypical params
+- fix: entry generator router config
+
 ## 1.0.1
 
 ### Patch Changes

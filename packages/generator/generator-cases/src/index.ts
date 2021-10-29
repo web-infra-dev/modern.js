@@ -48,9 +48,9 @@ export const MonorepoValueMap: Record<string, string[]> = {
   packageManager: PackageManagerValues,
 };
 
-export const getMWACases = () => {
+export const getMWACases = (isTypical?: boolean) => {
   const cases = make(MWAValueMap, {
-    length: Object.keys(MWAValueMap).length,
+    length: isTypical ? undefined : Object.keys(MWAValueMap).length,
     postFilter: (row: Record<string, any>) => {
       if (
         row.needModifyMWAConfig === BooleanConfig.NO &&
@@ -70,9 +70,9 @@ export const getMWACases = () => {
   }));
 };
 
-export const getModuleCases = () => {
+export const getModuleCases = (isTypical?: boolean) => {
   const cases = make(ModuleValueMap, {
-    length: Object.keys(ModuleValueMap).length,
+    length: isTypical ? undefined : Object.keys(ModuleValueMap).length,
     postFilter: (row: Record<string, any>) => {
       if (
         row.needModifyModuleConfig === BooleanConfig.NO &&
@@ -106,9 +106,9 @@ export const MWAEntryValueMap: Record<string, string[]> = {
   disableStateManagement: BooleanConfigValues,
 };
 
-const getMWAEntryCases = () => {
+const getMWAEntryCases = (isTypical?: boolean) => {
   const cases = make(MWAEntryValueMap, {
-    length: Object.keys(MWAEntryValueMap).length,
+    length: isTypical ? undefined : Object.keys(MWAEntryValueMap).length,
   });
   return cases.map(item => ({
     ...item,
@@ -120,9 +120,9 @@ export const MWAServerValueMap: Record<string, string[]> = {
   framework: FrameworkValues,
 };
 
-const getMWAServerCases = () =>
+const getMWAServerCases = (isTypical?: boolean) =>
   make(MWAServerValueMap, {
-    length: Object.keys(MWAServerValueMap).length,
+    length: isTypical ? undefined : Object.keys(MWAServerValueMap).length,
   });
 
 export const MWABFFValueMap: Record<string, string[]> = {
@@ -130,12 +130,12 @@ export const MWABFFValueMap: Record<string, string[]> = {
   framework: FrameworkValues,
 };
 
-const getMWABFFCases = () =>
+const getMWABFFCases = (isTypical?: boolean) =>
   make(MWABFFValueMap, {
-    length: Object.keys(MWABFFValueMap).length,
+    length: isTypical ? undefined : Object.keys(MWABFFValueMap).length,
   });
 
-export const getMWANewCases = () => {
+export const getMWANewCases = (isTypical?: boolean) => {
   const cases: Array<Record<string, string>> = [];
   MWAActionTypes.forEach(action => {
     const config: Record<string, any> = { actionType: action };
@@ -143,20 +143,20 @@ export const getMWANewCases = () => {
       config[action] = option;
       const currentConfig = { ...config, [action]: option };
       if (option === ActionElement.Entry) {
-        const entryCases = getMWAEntryCases();
+        const entryCases = getMWAEntryCases(isTypical);
         entryCases.forEach(c => {
           cases.push({ ...currentConfig, ...c });
         });
       } else if (option === ActionElement.Server) {
         // server only can enable once
-        const serverCases = getMWAServerCases();
+        const serverCases = getMWAServerCases(isTypical);
         cases.push({
           ...currentConfig,
           ...serverCases[Math.round(Math.random() * serverCases.length)],
         });
       } else if (option === ActionFunction.BFF) {
         // bff only can enable once
-        const bffCases = getMWABFFCases();
+        const bffCases = getMWABFFCases(isTypical);
         cases.push({
           ...currentConfig,
           ...bffCases[Math.round(Math.random() * bffCases.length)],
@@ -198,9 +198,9 @@ export const ModuleSubProjectValueMap: Record<string, string[]> = {
   enableSass: BooleanConfigValues,
 };
 
-const getMWASubProjectCases = (isTest: boolean) => {
+const getMWASubProjectCases = (isTest: boolean, isTypical?: boolean) => {
   const cases = make(MWASubProjectValueMap, {
-    length: Object.keys(MWASubProjectValueMap).length,
+    length: isTypical ? undefined : Object.keys(MWASubProjectValueMap).length,
     postFilter: (row: Record<string, any>) => {
       if (
         row.needModifyMWAConfig === BooleanConfig.NO &&
@@ -222,9 +222,11 @@ const getMWASubProjectCases = (isTest: boolean) => {
   }));
 };
 
-const getModuleSubProjectCases = (isInner: boolean) => {
+const getModuleSubProjectCases = (isInner: boolean, isTypical?: boolean) => {
   const cases = make(ModuleSubProjectValueMap, {
-    length: Object.keys(ModuleSubProjectValueMap).length,
+    length: isTypical
+      ? undefined
+      : Object.keys(ModuleSubProjectValueMap).length,
     postFilter: (row: Record<string, any>) => {
       if (
         row.needModifyModuleConfig === BooleanConfig.NO &&
@@ -244,12 +246,12 @@ const getModuleSubProjectCases = (isInner: boolean) => {
   }));
 };
 
-export const getMonorepoNewCases = () => {
+export const getMonorepoNewCases = (isTypical?: boolean) => {
   const cases: Array<Record<string, string>> = [
-    ...getMWASubProjectCases(false),
-    ...getMWASubProjectCases(true),
-    ...getModuleSubProjectCases(false),
-    ...getModuleSubProjectCases(true),
+    ...getMWASubProjectCases(false, isTypical),
+    ...getMWASubProjectCases(true, isTypical),
+    ...getModuleSubProjectCases(false, isTypical),
+    ...getModuleSubProjectCases(true, isTypical),
   ];
   return cases;
 };
