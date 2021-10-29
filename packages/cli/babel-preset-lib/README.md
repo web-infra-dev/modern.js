@@ -17,10 +17,7 @@
 
 > The doc site ([modernjs.dev](https://modernjs.dev)) and articles are only available in Chinese for now, we are planning to add English versions soon.
 
-- 介绍 Modern.js (即将上线)
-- [迈入现代 Web 开发](https://zhuanlan.zhihu.com/p/386607009)
-- [现代 Web 开发者问卷调查报告](https://zhuanlan.zhihu.com/p/403206195)
-- [字节跳动是如何落地微前端的](https://mp.weixin.qq.com/s/L9wbfNG5fTXF5bx7dcgj4Q)
+- [Modern.js: Hello, World!](https://zhuanlan.zhihu.com/p/426707646)
 
 ## Getting Started
 
