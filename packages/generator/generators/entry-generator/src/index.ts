@@ -166,7 +166,7 @@ const getMpaUpdateInfo = (
   };
   const updateInfo = {
     [`modernConfig.runtimeByEntries.${name}.state`]: newFeature.state,
-    [`modernConfig.runtimeByEntries.${name}.route`]: newFeature.router,
+    [`modernConfig.runtimeByEntries.${name}.router`]: newFeature.router,
   };
   if (!newFeature.state && !newFeature.router) {
     if (
