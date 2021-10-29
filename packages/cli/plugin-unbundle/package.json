@@ -19,8 +19,8 @@
   "scripts": {
     "dev:client": "mkdir -p ./dist/client && ln -fv ./src/client/index.js ./dist/client/index.js && ln -fv ./src/client/error-overlay.js ./dist/client/error-overlay.js",
     "build:client": "mkdir -p ./dist/client && cp  ./src/client/*.js ./dist/client/",
-    "dev": "rm -rf dist && npm run dev:client && tsc -w ",
-    "build": "rm -rf dist &&  npm run build:client && tsc",
+    "dev": "rimraf dist && npm run dev:client && tsc -w ",
+    "build": "rimraf dist &&  npm run build:client && tsc",
     "prepare": "pnpm build",
     "prepublishOnly": "npm run build"
   },
