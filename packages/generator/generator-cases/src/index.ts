@@ -184,6 +184,7 @@ export const getModuleNewCases = () => {
 export const MWASubProjectValueMap: Record<string, string[]> = {
   language: LanguageValues,
   needModifyMWAConfig: BooleanConfigValues,
+  runWay: RunWayValues,
   clientRoute: ClientRouteValues,
   disableStateManagement: BooleanConfigValues,
   enableLess: BooleanConfigValues,
