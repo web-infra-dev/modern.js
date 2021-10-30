@@ -32,7 +32,7 @@
 
 ## Credits
 
-Some implementation of Modern.js are modified from existing projects, such as create-react-app, vite, wmr and jest:
+Some implementation of Modern.js are modified from existing projects, such as create-react-app, vite, wmr and jest. Thanks for them.
 
 * Unbundled Dev Server: The server implementation is based on the idea and structure of [vite](https://github.com/vitejs) and [wmr](https://github.com/preactjs/wmr/tree/main/packages/wmr), and is adapted to the Modern.js application.
 
