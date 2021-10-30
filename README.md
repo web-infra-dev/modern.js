@@ -28,3 +28,18 @@
 ## Contributing
 
 - [Contributing Guide](https://github.com/modern-js-dev/modern.js/blob/main/CONTRIBUTING.md)
+
+
+## Credits
+
+Some implementation of Modern.js are modified from existing projects, such as create-react-app, vite, wmr and jest:
+
+* Unbundled Dev Server: The server implementation is based on the idea and structure of [vite](https://github.com/vitejs) and [wmr](https://github.com/preactjs/wmr/tree/main/packages/wmr), and is adapted to the Modern.js application.
+
+* Testing: Run jest by node.js API, some code modified from [jest-cli](https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21).
+
+* esbuild-webpack-plugin: modified from [esbuild-webpack-plugin](https://github.com/sorrycc/esbuild-webpack-plugin) and support webpack 5.
+
+* Webpack messages formatter and module scopes plugin: modified from [react-dev-utils](https://github.com/facebook/create-react-app/tree/main/packages/react-dev-utils) and refactored to Typescript.
+
+* bundle-require: modified from [bundle-require](https://github.com/egoist/bundle-require).
