@@ -2,7 +2,7 @@
 # ESM Development Tools
 
 > The server implementation is based on the idea and structure of [vite](https://github.com/vitejs) and [wmr](https://github.com/preactjs/wmr/tree/main/packages/wmr), and is adapted to the Modern.js application.
-Thanks to [vite](https://github.com/vitejs) and [wmr](https://github.com/preactjs/wmr/tree/main/packages/wmr) for their contributions to the community.
+Thanks for [vite](https://github.com/vitejs) and [wmr](https://github.com/preactjs/wmr/tree/main/packages/wmr).
 
 ## Introduction
 
