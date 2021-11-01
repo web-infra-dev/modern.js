@@ -44,12 +44,9 @@ export default (webpackConfig: any, userConfig: any, pwd: string) =>
         });
 
         utils.setJestConfig({
+          rootDir: pwd || process.cwd(),
           // todo: diffrent test root for diffrent solutions
-          testMatch: [
-            `${
-              pwd || process.cwd()
-            }/(src|tests|api|electron)/**/*.test.[jt]s?(x)`,
-          ],
+          testMatch: [`**/(src|tests|api|electron)/**/*.test.[jt]s?(x)`],
         });
 
         return next(utils);
