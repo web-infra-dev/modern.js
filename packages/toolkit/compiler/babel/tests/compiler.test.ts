@@ -24,7 +24,9 @@ describe('compiler', () => {
       distDir: '/project/dist',
       extMap: defaultDistFileExtMap,
     });
-    expect(distpath_1).toBe('/project/dist/src/b.js');
+    expect(path.normalize(distpath_1)).toBe(
+      path.normalize('/project/dist/src/b.js'),
+    );
 
     const distpath_2 = getDistFilePath({
       rootDir: '/project/src',
@@ -32,7 +34,9 @@ describe('compiler', () => {
       distDir: '/project/dist',
       extMap: defaultDistFileExtMap,
     });
-    expect(distpath_2).toBe('/project/dist/b.js');
+    expect(path.normalize(distpath_2)).toBe(
+      path.normalize('/project/dist/b.js'),
+    );
   });
 
   it('resolveSourceMap', () => {
