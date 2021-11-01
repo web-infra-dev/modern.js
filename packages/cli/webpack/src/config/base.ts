@@ -213,7 +213,7 @@ class BaseWebpackConfig {
       .oneOf('js')
       .test(useTsLoader ? JS_REGEX : mergeRegex(JS_REGEX, TS_REGEX))
       .include.add(this.appContext.srcDirectory)
-      .add(/node_modules\/\.modern-js\//)
+      .add(path.resolve(this.appDirectory, './node_modules/.modern-js'))
       .end()
       .use('babel')
       .loader(require.resolve('babel-loader'))
