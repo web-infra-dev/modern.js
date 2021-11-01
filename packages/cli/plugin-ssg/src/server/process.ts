@@ -65,7 +65,8 @@ process.on('message', async (chunk: string) => {
       }
 
       // get server handler, render to ssr
-      const render = createRender(modernServer.getRequestHandler());
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+      const render = createRender(modernServer!.getRequestHandler());
       const renderPromiseAry = makeRender(
         routes.filter(route => !route.isApi),
         render,
@@ -79,7 +80,8 @@ process.on('message', async (chunk: string) => {
         process.send!(null);
       });
 
-      modernServer.close();
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+      modernServer!.close();
     });
   } catch (e) {
     modernServer?.close();
