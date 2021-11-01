@@ -58,6 +58,7 @@ class E2EPlguin implements EsmpackPlugin {
       await this.initP;
     });
 
+    // eslint-disable-next-line max-statements
     compiler.hooks.afterCompile.tapPromise(pluginName, async compilation => {
       const spec = compilation.specifier;
       if (!compilation.manifest?.version) {

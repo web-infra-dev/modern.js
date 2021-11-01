@@ -10,6 +10,7 @@ export const createRequest: RequestCreator = (
   port: number,
   fetch = nodeFetch as any,
   headerWhiteList: string[] = [],
+  // eslint-disable-next-line max-params
 ) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
   const keys: Key[] = [];

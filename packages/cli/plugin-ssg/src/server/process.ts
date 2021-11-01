@@ -76,6 +76,7 @@ process.on('message', async (chunk: string) => {
         port,
       );
 
+      // eslint-disable-next-line promise/no-promise-in-callback
       const htmlAry = await Promise.all(renderPromiseAry);
       htmlAry.forEach((html: string) => {
         process.send!(html);

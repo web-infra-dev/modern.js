@@ -18,6 +18,7 @@ export const initWatcher = async (
   configDir: string | undefined,
   hooksRunner: HooksRunner,
   argv: string[],
+  // eslint-disable-next-line max-params
 ) => {
   // only add fs watcher on dev mode.
   if (isDev() && argv[0] === 'dev') {

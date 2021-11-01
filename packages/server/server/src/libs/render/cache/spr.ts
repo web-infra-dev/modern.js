@@ -236,6 +236,7 @@ class CacheManager {
     let data = this.cache.get(cacheKey);
     if (!data) {
       const caches = await createPageCaches(MAX_CACHE_EACH_REQ);
+      // eslint-disable-next-line require-atomic-updates
       data = this.createCacheContent(cacheConfig, caches);
     }
 

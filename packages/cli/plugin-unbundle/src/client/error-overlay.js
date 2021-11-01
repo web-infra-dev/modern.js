@@ -1,3 +1,5 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable max-lines */
 /*
 This license applies to parts of this file originating from the
 https://github.com/vercel/next.js repository:
