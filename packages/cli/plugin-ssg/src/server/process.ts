@@ -1,7 +1,7 @@
 import Server, { ModernRoute } from '@modern-js/server';
 import portfinder from 'portfinder';
 import { NormalizedConfig } from '@modern-js/core';
-import { compatRequire, upath } from '@modern-js/utils';
+import { compatRequire } from '@modern-js/utils';
 import { makeRender } from '../libs/render';
 import { compile as createRender } from './prerender';
 import { CLOSE_SIGN } from './consts';
@@ -13,14 +13,10 @@ type ModernServer = Then<ReturnType<typeof Server>>;
 const safetyRequire = (filename: string, base: string) => {
   try {
     return compatRequire(
-      upath.normalizeSafe(
-        require.resolve(`${filename}/server`, { paths: [base] }),
-      ),
+      require.resolve(`${filename}/server`, { paths: [base] }),
     );
   } catch (e) {
-    return compatRequire(
-      upath.normalizeSafe(require.resolve(filename, { paths: [base] })),
-    );
+    return compatRequire(require.resolve(filename, { paths: [base] }));
   }
 };
 
@@ -69,7 +65,7 @@ process.on('message', async (chunk: string) => {
       }
 
       // get server handler, render to ssr
-      const render = createRender(modernServer!.getRequestHandler());
+      const render = createRender(modernServer.getRequestHandler());
       const renderPromiseAry = makeRender(
         routes.filter(route => !route.isApi),
         render,
@@ -83,7 +79,7 @@ process.on('message', async (chunk: string) => {
         process.send!(null);
       });
 
-      modernServer!.close();
+      modernServer.close();
     });
   } catch (e) {
     modernServer?.close();

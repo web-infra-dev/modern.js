@@ -1,10 +1,5 @@
-import {
-  path,
-  INTERNAL_SRC_ALIAS,
-  logger,
-  upath,
-  PLUGIN_SCHEMAS,
-} from '@modern-js/utils';
+import path from 'path';
+import { INTERNAL_SRC_ALIAS, logger, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import {
   createPlugin,
   useAppContext,
@@ -66,9 +61,7 @@ export default createPlugin(
         return {
           tools: {
             babel(config: any, { chain }: { chain: BabelChain }) {
-              chain
-                .plugin('./loader')
-                .use(upath.normalizeSafe(require.resolve('./loader')));
+              chain.plugin('./loader').use(require.resolve('./loader'));
             },
           },
         };

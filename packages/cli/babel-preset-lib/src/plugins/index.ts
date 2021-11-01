@@ -1,5 +1,4 @@
 import { createBabelChain, BabelChain } from '@modern-js/babel-chain';
-import { upath } from '@modern-js/utils';
 import { ILibPresetOption } from '../types';
 import { aliasPlugin } from './alias';
 import { envPlugin } from './env';
@@ -23,7 +22,7 @@ export const getPlugins = (libPresetOption: ILibPresetOption): BabelChain => {
 
   for (const plugin of finalPlugins) {
     const [name, opt] = plugin;
-    chain.plugin(name).use(upath.normalizeSafe(require.resolve(name)), [opt]);
+    chain.plugin(name).use(require.resolve(name), [opt]);
   }
 
   return chain;

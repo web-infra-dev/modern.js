@@ -1,4 +1,4 @@
-import { Import, isTypescript, upath } from '@modern-js/utils';
+import { Import, isTypescript } from '@modern-js/utils';
 
 const core: typeof import('@modern-js/core') = Import.lazy(
   '@modern-js/core',
@@ -10,7 +10,7 @@ const features: typeof import('./features') = Import.lazy(
 );
 
 core.usePlugins([
-  upath.normalizeSafe(require.resolve('@modern-js/plugin-state/cli')),
+  require.resolve('@modern-js/plugin-state/cli'),
   require.resolve('@modern-js/plugin-router/cli'),
 ]);
 
@@ -42,7 +42,7 @@ export default core.createPlugin(
       return {
         name: 'storybook',
         title: 'Run Storybook log',
-        taskPath: upath.normalizeSafe(require.resolve('./build-task')),
+        taskPath: require.resolve('./build-task'),
         params: [...(isTsProject ? ['--isTsProject'] : [])],
       };
     },

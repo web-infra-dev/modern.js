@@ -1,6 +1,5 @@
+import path from 'path';
 import {
-  path,
-  upath,
   isDev,
   isProd,
   removeLeadingSlash,
@@ -47,10 +46,8 @@ class ClientWebpackConfig extends BaseWebpackConfig {
       if (this.options.output.polyfill !== 'off') {
         this.chain
           .entry(name)
-          .prepend(
-            upath.normalizeSafe(require.resolve('regenerator-runtime/runtime')),
-          )
-          .prepend(upath.normalizeSafe(require.resolve('core-js')));
+          .prepend(require.resolve('regenerator-runtime/runtime'))
+          .prepend(require.resolve('core-js'));
       }
     }
   }

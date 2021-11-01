@@ -1,5 +1,9 @@
 import fs from 'fs';
-import { path, INTERNAL_DIR_ALAIS, INTERNAL_SRC_ALIAS } from '@modern-js/utils';
+import {
+  INTERNAL_DIR_ALAIS,
+  INTERNAL_SRC_ALIAS,
+  upath,
+} from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
 import type { ImportStatement } from './generateCode';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from './constants';
@@ -33,21 +37,24 @@ export const getDefaultImports = ({
     },
     customBootstrap && {
       specifiers: [{ local: 'customBootstrap' }],
-      value: customBootstrap.replace(srcDirectory, INTERNAL_SRC_ALIAS),
+      value: upath.normalize(
+        customBootstrap.replace(srcDirectory, INTERNAL_SRC_ALIAS),
+      ),
     },
   ].filter(Boolean) as ImportStatement[];
 
   if (fileSystemRoutes) {
     const route: ImportStatement = {
       specifiers: [{ imported: 'routes' }],
-      value: `${INTERNAL_DIR_ALAIS}/${entryName}/${FILE_SYSTEM_ROUTES_FILE_NAME}`,
+      value: upath.normalize(
+        `${INTERNAL_DIR_ALAIS}/${entryName}/${FILE_SYSTEM_ROUTES_FILE_NAME}`,
+      ),
     };
     if (fileSystemRoutes.globalApp) {
       imports.push({
         specifiers: [{ local: 'App' }],
-        value: fileSystemRoutes.globalApp.replace(
-          srcDirectory,
-          INTERNAL_SRC_ALIAS,
+        value: upath.normalize(
+          fileSystemRoutes.globalApp.replace(srcDirectory, INTERNAL_SRC_ALIAS),
         ),
       });
     } else {
@@ -58,7 +65,7 @@ export const getDefaultImports = ({
   } else {
     imports.push({
       specifiers: [{ local: 'App' }],
-      value: entry.replace(srcDirectory, INTERNAL_SRC_ALIAS),
+      value: upath.normalize(entry.replace(srcDirectory, INTERNAL_SRC_ALIAS)),
     });
   }
 

@@ -1,4 +1,4 @@
-import { path, upath } from '@modern-js/utils';
+import path from 'path';
 import { compiler } from '@modern-js/babel-compiler';
 import { useAppContext, useResolvedConfigContext } from '@modern-js/core';
 import { TestConfig, runTest } from '@modern-js/testing';
@@ -51,7 +51,7 @@ const test = async () => {
     {
       presets: [
         [
-          upath.normalizeSafe(require.resolve('@babel/preset-env')),
+          require.resolve('@babel/preset-env'),
           {
             modules: 'cjs',
           },

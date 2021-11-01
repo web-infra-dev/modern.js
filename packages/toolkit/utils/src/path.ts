@@ -25,3 +25,5 @@ export const isAbsolute = (p: string) => path.isAbsolute(p);
 export const normalize = (p: string) => upath.normalizeSafe(path.normalize(p));
 
 export const { sep, win32, posix } = path;
+
+export const normalizeOutputPath = (s: string) => s.replace(/\\/g, '\\\\');

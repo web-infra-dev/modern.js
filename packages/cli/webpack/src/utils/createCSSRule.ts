@@ -1,7 +1,6 @@
 import Chain from 'webpack-chain';
 import { getPostcssConfig } from '@modern-js/css-config';
 import { NormalizedConfig } from '@modern-js/core';
-import { upath } from '@modern-js/utils';
 
 interface CSSLoaderOptions {
   modules?:
@@ -41,11 +40,11 @@ export const createCSSRule = (
     )
     .end()
     .use('css')
-    .loader(upath.normalizeSafe(require.resolve('css-loader')))
+    .loader(require.resolve('css-loader'))
     .options(options)
     .end()
     .use('postcss')
-    .loader(upath.normalizeSafe(require.resolve('postcss-loader')))
+    .loader(require.resolve('postcss-loader'))
     .options(postcssOptions);
 
   loaders.oneOf(name).merge({ sideEffects: true });

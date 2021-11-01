@@ -1,4 +1,5 @@
-import { path, fs, findExists } from '@modern-js/utils';
+import path from 'path';
+import { fs, findExists } from '@modern-js/utils';
 import { IAppContext, NormalizedConfig, mountHook } from '@modern-js/core';
 import type { Entrypoint, HtmlPartials, HtmlTemplates } from '@modern-js/types';
 import {

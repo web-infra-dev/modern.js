@@ -1,5 +1,4 @@
 import { createPlugin, defineConfig, usePlugins, cli } from '@modern-js/core';
-import { upath } from '@modern-js/utils';
 import { lifecycle } from './lifecycle';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils/language';
@@ -10,9 +9,9 @@ export { defineConfig };
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 usePlugins([
-  upath.normalizeSafe(require.resolve('@modern-js/plugin-analyze/cli')),
-  upath.normalizeSafe(require.resolve('@modern-js/plugin-fast-refresh/cli')),
-  upath.normalizeSafe(require.resolve('@modern-js/plugin-polyfill/cli')),
+  require.resolve('@modern-js/plugin-analyze/cli'),
+  require.resolve('@modern-js/plugin-fast-refresh/cli'),
+  require.resolve('@modern-js/plugin-polyfill/cli'),
 ]);
 
 export default createPlugin(

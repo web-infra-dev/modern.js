@@ -4,7 +4,7 @@ import {
   useResolvedConfigContext,
 } from '@modern-js/core';
 import { compiler } from '@modern-js/babel-compiler';
-import { PLUGIN_SCHEMAS, path, fs, upath } from '@modern-js/utils';
+import { PLUGIN_SCHEMAS, path, fs } from '@modern-js/utils';
 import { resolveBabelConfig } from '@modern-js/server-utils';
 
 import type { Configuration } from 'webpack';
@@ -56,7 +56,7 @@ export default createPlugin(
               .before('fallback')
               .test(apiRegexp)
               .use('custom-loader')
-              .loader(upath.normalizeSafe(require.resolve('./loader')))
+              .loader(require.resolve('./loader'))
               .options({
                 prefix,
                 apiDir: rootDir,
