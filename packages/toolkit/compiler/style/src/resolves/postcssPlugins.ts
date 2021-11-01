@@ -1,4 +1,5 @@
-import { path, upath } from '@modern-js/utils';
+import path from 'path';
+import { upath } from '@modern-js/utils';
 import postcssImport from 'postcss-import';
 import { AcceptedPlugin } from 'postcss';
 

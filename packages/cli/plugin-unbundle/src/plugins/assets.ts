@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer';
 import fs from 'fs';
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { Plugin as RollupPlugin } from 'rollup';
 import mime from 'mime-types';
 import jsxPlugin from '@svgr/plugin-jsx';

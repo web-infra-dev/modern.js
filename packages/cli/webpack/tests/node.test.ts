@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { userConfig } from './util';
 import { NodeWebpackConfig } from '@/config/node';
 

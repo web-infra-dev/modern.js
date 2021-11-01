@@ -1,6 +1,7 @@
+import path from 'path';
 // eslint-disable-next-line node/no-deprecated-api
 import { parse as parseUrl } from 'url';
-import { path, fs } from '@modern-js/utils';
+import { fs } from '@modern-js/utils';
 import { Loader } from 'esbuild';
 import { Server } from '@modern-js/server';
 

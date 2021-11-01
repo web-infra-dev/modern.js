@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { manager, AppContext } from '@modern-js/core';
 import { modifyServerRoutes } from '@modern-js/plugin-analyze';
 import Chain from 'webpack-chain';

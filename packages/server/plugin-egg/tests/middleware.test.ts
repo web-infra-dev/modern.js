@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { serverManager } from '@modern-js/server-plugin';
 import request from 'supertest';
 import type { Context } from 'egg';

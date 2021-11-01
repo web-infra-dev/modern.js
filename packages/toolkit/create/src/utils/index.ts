@@ -1,4 +1,5 @@
-import { path, fs } from '@modern-js/utils';
+import path from 'path';
+import { fs } from '@modern-js/utils';
 import { I18CLILanguageDetector } from '@modern-js/i18n-cli-language-detector';
 
 export function getLocaleLanguage() {

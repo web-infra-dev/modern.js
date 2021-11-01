@@ -1,6 +1,6 @@
 /* eslint-disable no-debugger */
 import { promises as fs } from 'fs';
-import { path } from '@modern-js/utils';
+import path from 'path';
 import sass from 'sass';
 import { Plugin } from 'rollup';
 

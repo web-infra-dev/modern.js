@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { getServerRoutes } from '@/getServerRoutes';
 import { Entrypoint } from '@/getFileSystemEntry';

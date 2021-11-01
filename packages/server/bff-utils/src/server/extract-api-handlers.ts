@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { isHandler, Handler, SchemaHandler } from '@modern-js/bff-runtime';
 import { getAllAPIFiles, getLambdaDir } from '../utils';
 import { HttpMethod, INDEX_SUFFIX } from '../constant';
