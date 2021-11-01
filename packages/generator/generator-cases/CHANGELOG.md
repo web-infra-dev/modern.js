@@ -1,5 +1,11 @@
 # @modern-js/generator-cases
 
+## 1.0.4
+
+### Patch Changes
+
+- feat: change isTypical to length
+
 ## 1.0.2
 
 ### Patch Changes
