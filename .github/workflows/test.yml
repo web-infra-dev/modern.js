@@ -1,4 +1,4 @@
-name: CI
+name: Test
 
 # Controls when the action will run.
 on:
@@ -36,9 +36,6 @@ jobs:
 
       - name: Prepare
         run: pnpm run prepare --filter ./packages
-
-      - name: Lint
-        run: pnpm run lint
 
       - name: Test
         run: pnpm run test
