@@ -3,7 +3,8 @@ import { render, fireEvent, act } from '@testing-library/react';
 import { useLoader, createApp } from '@/index';
 
 const loaderCount = jest.fn();
-const sleep = (t: number): Promise<void> => new Promise(resolve => setTimeout(resolve, t));
+const sleep = (t: number): Promise<void> =>
+  new Promise(resolve => setTimeout(resolve, t));
 
 const App = () => {
   const countRef = useRef<number>(0);
