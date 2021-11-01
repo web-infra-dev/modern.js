@@ -23,7 +23,7 @@ export * from './monorepo';
 export * from './getPackageManager';
 export * from './runtimeExports';
 export * from './readTsConfig';
-export { isRelativePath } from './path';
+export { isRelativePath, normalizeOutputPath } from './path';
 export * as path from './path';
 export * from './generateMetaTags';
 export * from './prettyInstructions';
