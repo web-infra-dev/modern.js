@@ -1,5 +1,11 @@
 # @modern-js/1.0.0-rc.19
 
+## 1.0.1
+
+### Patch Changes
+
+- fix(require): external regexp
+
 ## 1.0.0
 
 ### Patch Changes
