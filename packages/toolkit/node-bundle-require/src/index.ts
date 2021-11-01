@@ -5,6 +5,12 @@ import { build, Loader, Plugin, BuildOptions } from 'esbuild';
 
 const JS_EXT_RE = /\.(mjs|cjs|ts|js|tsx|jsx)$/;
 
+// Must not start with "/" or "./" or "../"
+// "/test/node_modules/foo"
+// "c:/node_modules/foo"
+export const EXTERNAL_REGEXP =
+  /^([[a-zA-Z\]:].*node_modules)|^[a-zA-Z]{2,}:|^[a-zA-Z]{3,}|^(\/[a-zA-Z].*node_modules.*)/;
+
 const CACHE_DIR = path.relative(
   process.cwd(),
   './node_modules/.node-bundle-require',
@@ -129,8 +135,7 @@ export async function bundleRequire(filepath: string, options?: Options) {
       {
         name: 'make-all-packages-external',
         setup(_build) {
-          const filter = /^[^./]|^\.[^./]|^\.\.[^/]/; // Must not start with "/" or "./" or "../"
-          _build.onResolve({ filter }, args => ({
+          _build.onResolve({ filter: EXTERNAL_REGEXP }, args => ({
             path: args.path,
             external: true,
           }));
