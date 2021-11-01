@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import {
   INTERNAL_DIR_ALAIS,
   INTERNAL_SRC_ALIAS,
