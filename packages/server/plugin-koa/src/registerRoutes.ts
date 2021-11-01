@@ -33,6 +33,7 @@ const registerRoutes = (router: Router, prefix?: string) => {
             // eslint-disable-next-line require-atomic-updates
             ctx.status = 500;
           }
+          // eslint-disable-next-line require-atomic-updates
           ctx.body = result.message;
         } else {
           // eslint-disable-next-line require-atomic-updates
@@ -42,6 +43,7 @@ const registerRoutes = (router: Router, prefix?: string) => {
         const args = Object.values(input.params as any).concat(input);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
+        // eslint-disable-next-line require-atomic-updates
         ctx.body = await handler(...args);
       }
     };

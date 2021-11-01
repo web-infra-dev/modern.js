@@ -28,6 +28,7 @@ export const render = async (
     const html = await entry.renderToHtml(ctx);
     const cacheConfig = PreRender.config();
     if (cacheConfig) {
+      // eslint-disable-next-line require-atomic-updates
       ctx.ssrContext.cacheConfig = cacheConfig;
     }
 
