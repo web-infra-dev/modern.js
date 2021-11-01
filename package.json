@@ -22,7 +22,7 @@
     "change": "modern change",
     "bump": "modern bump",
     "pre": "modern pre",
-    "release": "modern release --ignore-scripts"
+    "release": "modern release"
   },
   "engines": {
     "node": ">=14.17.6"
