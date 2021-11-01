@@ -41,11 +41,6 @@ export default createPlugin(
           .command('release')
           .description(i18n.t(localeKeys.command.release.describe))
           .option('--tag <tag>', i18n.t(localeKeys.command.release.tag), '')
-          .option(
-            '--ignore-scripts',
-            i18n.t(localeKeys.command.release.ignore_scripts),
-            '',
-          )
           .action((options: any) => release(options));
       },
     };
