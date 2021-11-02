@@ -1,5 +1,6 @@
 import type { NormalizedConfig } from '@modern-js/core';
-import { Import, fs, path, HIDE_MODERN_JS_DIR } from '@modern-js/utils';
+import { Import, fs, path, HIDE_MODERN_JS_DIR, logger } from '@modern-js/utils';
+import { transformSync } from 'esbuild';
 
 const glob: typeof import('glob') = Import.lazy('glob', require);
 const constants: typeof import('../constants') = Import.lazy(
@@ -73,11 +74,8 @@ export const generateConfig = async (
   return configDir;
 };
 
-const existUserPreviewFile = (filename: string) => {
-  const ret = glob.sync(`${filename}.@(js|jsx|ts|tsx)`);
-
-  return ret.length > 0;
-};
+const getUserPreviewFiles = (filename: string) =>
+  glob.sync(`${filename}.@(js|jsx|ts|tsx)`);
 
 const genPreviewFile = async (
   appDirectory: string,
@@ -85,14 +83,28 @@ const genPreviewFile = async (
   configDir: string,
 ) => {
   const previewPath = path.join(appDirectory, '/config/storybook/preview');
-  const isExistPreview = existUserPreviewFile(previewPath);
-  const previewContent = gen.generatePreview({
+  const userPreviewFiles = getUserPreviewFiles(previewPath);
+  const existUserPreviewFile = userPreviewFiles.length > 0;
+  let previewContent = gen.generatePreview({
     runtime: modernConfig.runtime,
     designToken: {},
-    userPreviewPath: isExistPreview ? previewPath : undefined,
+    userPreviewPath: existUserPreviewFile ? previewPath : undefined,
   });
   const previewFile = path.resolve(configDir, 'preview.js');
-  await fs.outputFile(previewFile, previewContent, { encoding: 'utf8' });
+  if (existUserPreviewFile) {
+    try {
+      previewContent = transformSync(previewContent).code;
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        logger.error(`Failed to generate 'preview' file: ${e.message}`);
+      }
+      // eslint-disable-next-line no-process-exit
+      process.exit(1);
+    }
+    await fs.outputFile(previewFile, previewContent, { encoding: 'utf8' });
+  } else {
+    await fs.outputFile(previewFile, previewContent, { encoding: 'utf8' });
+  }
 };
 
 const checkExistUserConfig = (appDirectory: string) =>
