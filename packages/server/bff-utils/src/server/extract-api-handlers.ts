@@ -116,7 +116,7 @@ export const getRouteName = (pwd: string, filename: string): string => {
   const relativeName = filename.substring(pwd.length);
   const relativePath = relativeName.split('.').slice(0, -1).join('.');
 
-  const nameSplit = relativePath.split('/').map(item => {
+  const nameSplit = relativePath.split(path.sep).map(item => {
     if (item.length > 2) {
       if (item.startsWith('[') && item.endsWith(']')) {
         return `:${item.substring(1, item.length - 1)}`;
