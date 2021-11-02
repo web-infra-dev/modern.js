@@ -1,5 +1,11 @@
 # @modern-js/plugin-changeset
 
+## 1.0.1
+
+### Patch Changes
+
+- fix: release command support --no-git-checks
+
 ## 1.0.0
 
 ### Patch Changes

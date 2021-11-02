@@ -29,7 +29,11 @@ export default createPlugin(
             i18n.t(localeKeys.command.bump.preid),
             'next',
           )
-          .option('--snapshot', i18n.t(localeKeys.command.bump.snapshot), false)
+          .option(
+            '--snapshot [snapshot]',
+            i18n.t(localeKeys.command.bump.snapshot),
+            false,
+          )
           .action((options: any) => bump(options));
 
         program
@@ -41,6 +45,16 @@ export default createPlugin(
           .command('release')
           .description(i18n.t(localeKeys.command.release.describe))
           .option('--tag <tag>', i18n.t(localeKeys.command.release.tag), '')
+          .option(
+            '--ignore-scripts',
+            i18n.t(localeKeys.command.release.ignore_scripts),
+            '',
+          )
+          .option(
+            '--no-git-checks',
+            i18n.t(localeKeys.command.release.no_git_checks),
+            '',
+          )
           .action((options: any) => release(options));
       },
     };
