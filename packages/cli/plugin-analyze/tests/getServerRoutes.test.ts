@@ -37,14 +37,14 @@ describe('get server routes', () => {
         isSPA: true,
         isSSR: false,
         entryName: 'page-a',
-        entryPath: 'html/page-a/index.html',
+        entryPath: path.normalize('html/page-a/index.html'),
       },
       {
         urlPath: '/page-b',
         isSPA: true,
         isSSR: false,
         entryName: 'page-b',
-        entryPath: 'html/page-b/index.html',
+        entryPath: path.normalize('html/page-b/index.html'),
       },
     ]);
   });
@@ -72,7 +72,7 @@ describe('get server routes', () => {
       {
         urlPath: '/base/a',
         entryName: 'page-a',
-        entryPath: 'html/page-a/index.html',
+        entryPath: path.normalize('html/page-a/index.html'),
         isSPA: true,
         isSSR: true,
         bundle: 'bundles/page-a.js',
@@ -80,7 +80,7 @@ describe('get server routes', () => {
       {
         urlPath: '/base/page-b',
         entryName: 'page-b',
-        entryPath: 'html/page-b/index.html',
+        entryPath: path.normalize('html/page-b/index.html'),
         isSPA: true,
         isSSR: false,
       },
@@ -110,28 +110,28 @@ describe('get server routes', () => {
       {
         urlPath: '/a',
         entryName: 'page-a',
-        entryPath: 'html/page-a.html',
+        entryPath: path.normalize('html/page-a.html'),
         isSPA: true,
         isSSR: false,
       },
       {
         urlPath: '/b',
         entryName: 'page-a',
-        entryPath: 'html/page-a.html',
+        entryPath: path.normalize('html/page-a.html'),
         isSPA: true,
         isSSR: false,
       },
       {
         urlPath: '/c',
         entryName: 'page-a',
-        entryPath: 'html/page-a.html',
+        entryPath: path.normalize('html/page-a.html'),
         isSPA: true,
         isSSR: false,
       },
       {
         urlPath: '/page-b',
         entryName: 'page-b',
-        entryPath: 'html/page-b.html',
+        entryPath: path.normalize('html/page-b.html'),
         isSPA: true,
         isSSR: false,
       },
@@ -155,28 +155,28 @@ describe('get server routes', () => {
       {
         urlPath: '/a/page-a',
         entryName: 'page-a',
-        entryPath: 'html/page-a/index.html',
+        entryPath: path.normalize('html/page-a/index.html'),
         isSPA: true,
         isSSR: false,
       },
       {
         urlPath: '/a/page-b',
         entryName: 'page-b',
-        entryPath: 'html/page-b/index.html',
+        entryPath: path.normalize('html/page-b/index.html'),
         isSPA: true,
         isSSR: false,
       },
       {
         urlPath: '/b/page-a',
         entryName: 'page-a',
-        entryPath: 'html/page-a/index.html',
+        entryPath: path.normalize('html/page-a/index.html'),
         isSPA: true,
         isSSR: false,
       },
       {
         urlPath: '/b/page-b',
         entryName: 'page-b',
-        entryPath: 'html/page-b/index.html',
+        entryPath: path.normalize('html/page-b/index.html'),
         isSPA: true,
         isSSR: false,
       },
@@ -200,7 +200,7 @@ describe('get server routes', () => {
       {
         urlPath: '/',
         entryName: MAIN_ENTRY_NAME,
-        entryPath: `html/${MAIN_ENTRY_NAME}/index.html`,
+        entryPath: path.normalize(`html/${MAIN_ENTRY_NAME}/index.html`),
         isSPA: true,
         isSSR: false,
       },
@@ -225,7 +225,7 @@ describe('get server routes', () => {
       {
         urlPath: '/test',
         entryName: MAIN_ENTRY_NAME,
-        entryPath: `html/${MAIN_ENTRY_NAME}/index.html`,
+        entryPath: path.normalize(`html/${MAIN_ENTRY_NAME}/index.html`),
         isSPA: true,
         isSSR: false,
       },
@@ -251,31 +251,31 @@ describe('get server routes', () => {
       {
         urlPath: '/page-a',
         entryName: 'page-a',
-        entryPath: 'html/page-a/index.html',
+        entryPath: path.normalize('html/page-a/index.html'),
         isSPA: true,
         isSSR: false,
       },
       {
         urlPath: '/b/about/logo.png',
-        entryPath: 'public/b/about/logo.png',
+        entryPath: path.normalize('public/b/about/logo.png'),
         isSPA: true,
         isSSR: false,
       },
       {
         urlPath: '/b/info.js',
-        entryPath: 'public/b/info.js',
+        entryPath: path.normalize('public/b/info.js'),
         isSPA: true,
         isSSR: false,
       },
       {
         urlPath: '/test.json',
-        entryPath: 'public/test.json',
+        entryPath: path.normalize('public/test.json'),
         isSPA: true,
         isSSR: false,
       },
       {
         urlPath: '/wx.txt',
-        entryPath: 'public/wx.txt',
+        entryPath: path.normalize('public/wx.txt'),
         isSPA: true,
         isSSR: false,
       },
@@ -299,11 +299,13 @@ describe('get server routes', () => {
       } as any,
     );
 
+    console.log(path.normalize('html/page-a'));
+
     expect(routes).toMatchObject([
       {
         urlPath: '/page-a',
         entryName: 'page-a',
-        entryPath: 'html/page-a',
+        entryPath: path.normalize('html/page-a'),
         isSPA: false,
         isSSR: false,
       },

@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import urlJoin from 'url-join';
 import type { NormalizedConfig, IAppContext } from '@modern-js/core';
 import {
   isPlainObject,
@@ -30,7 +31,7 @@ const applyBaseUrl = (
     } else {
       return routes.map(route => ({
         ...route,
-        urlPath: path.posix.normalize(`/${baseUrl}/${route.urlPath}`),
+        urlPath: urlJoin(baseUrl, route.urlPath),
       }));
     }
   }
@@ -155,13 +156,11 @@ const collectStaticRoutes = (
   const {
     source: { configDir },
   } = config;
-  const publicFolder = path.resolve(appDirectory, configDir!, 'public');
+  const publicFolder = urlJoin(appDirectory, configDir!, 'public');
 
   return fs.existsSync(publicFolder)
     ? walkDirectory(publicFolder).map(filePath => ({
-        urlPath: path.posix.normalize(
-          `/${path.relative(publicFolder, filePath)}`,
-        ),
+        urlPath: `/${urlJoin(filePath.slice(publicFolder.length - 1))}`,
         isSPA: true,
         isSSR: false,
         entryPath: path.relative(
