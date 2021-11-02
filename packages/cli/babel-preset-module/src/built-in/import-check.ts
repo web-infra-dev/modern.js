@@ -1,4 +1,4 @@
-import * as path from 'path';
+import { path } from '@modern-js/utils';
 import { NodePath, PluginPass, types as t } from '@babel/core';
 import { isProjectFile } from './utils';
 

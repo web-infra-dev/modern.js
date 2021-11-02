@@ -1,6 +1,5 @@
-import * as path from 'path';
 import type { NormalizedConfig } from '@modern-js/core';
-import { Import, fs, HIDE_MODERN_JS_DIR } from '@modern-js/utils';
+import { Import, fs, path, HIDE_MODERN_JS_DIR } from '@modern-js/utils';
 
 const glob: typeof import('glob') = Import.lazy('glob', require);
 const constants: typeof import('../constants') = Import.lazy(

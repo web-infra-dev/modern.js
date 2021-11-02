@@ -1,5 +1,4 @@
-import * as path from 'path';
-import { Import } from '@modern-js/utils';
+import { Import, path } from '@modern-js/utils';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import type { Configuration, RuleSetRule, RuleSetUseItem } from 'webpack';
 import type Chain from 'webpack-chain';

@@ -1,4 +1,4 @@
-import * as path from 'path';
+import { path } from '@modern-js/utils';
 
 export const STORYBOOK_USER_CONFIG_PATH = '.storybook';
 export const STORYBOOK_CONFIG_PATH = `.storybook`;
