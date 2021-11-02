@@ -13,7 +13,7 @@ import {
   META_DATA_FILE_NAME,
 } from '../constants';
 import { DepsMetadata } from '../install/local-optimize';
-import { isJsRequest, isCSSRequest, addQuery } from '../utils';
+import { isJsRequest, isCSSRequest, addQuery, pathToUrl } from '../utils';
 import { fileToModules, createAssetModule } from '../AssetModule';
 import { onPruneModules, WebSocketServer } from '../websocket-server';
 
@@ -153,9 +153,10 @@ export const importRewritePlugin = (
 
               debug(`deps ${specifier} -> ${relative}`);
 
-              let rewrite = relative.startsWith('.')
-                ? fullPath
-                : `/${relative}`;
+              // normalize url
+              let rewrite = pathToUrl(
+                relative.startsWith('.') ? fullPath : `/${relative}`,
+              );
 
               // add assets query for non js/css request
               if (!isCSSRequest(relative) && !isJsRequest(relative)) {

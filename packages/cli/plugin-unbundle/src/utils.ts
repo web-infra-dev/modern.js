@@ -174,3 +174,5 @@ export const hasDependency = (appDirectory: string, depName: string) => {
     devDependencies.hasOwnProperty(depName)
   );
 };
+
+export const pathToUrl = (p: string) => p.split(path.sep).join('/');
