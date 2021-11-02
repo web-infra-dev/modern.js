@@ -156,7 +156,7 @@ const collectStaticRoutes = (
   const {
     source: { configDir },
   } = config;
-  const publicFolder = urlJoin(appDirectory, configDir!, 'public');
+  const publicFolder = path.resolve(appDirectory, configDir!, 'public');
 
   return fs.existsSync(publicFolder)
     ? walkDirectory(publicFolder).map(filePath => ({
