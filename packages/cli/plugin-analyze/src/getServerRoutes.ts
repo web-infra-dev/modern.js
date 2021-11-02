@@ -160,7 +160,7 @@ const collectStaticRoutes = (
 
   return fs.existsSync(publicFolder)
     ? walkDirectory(publicFolder).map(filePath => ({
-        urlPath: `/${urlJoin(filePath.slice(publicFolder.length - 1))}`,
+        urlPath: `${urlJoin(filePath.slice(publicFolder.length))}`,
         isSPA: true,
         isSSR: false,
         entryPath: path.relative(

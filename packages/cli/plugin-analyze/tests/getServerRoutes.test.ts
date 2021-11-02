@@ -299,8 +299,6 @@ describe('get server routes', () => {
       } as any,
     );
 
-    console.log(path.normalize('html/page-a'));
-
     expect(routes).toMatchObject([
       {
         urlPath: '/page-a',
