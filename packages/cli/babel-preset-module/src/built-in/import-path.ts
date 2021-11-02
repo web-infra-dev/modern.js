@@ -1,4 +1,4 @@
-import * as path from 'path';
+import { path } from '@modern-js/utils';
 import { types as t } from '@babel/core';
 import type { NodePath, PluginPass } from '@babel/core';
 import type { ImportStyleType } from '../types';

@@ -1,8 +1,7 @@
-import * as path from 'path';
 import { createMatchPath } from 'tsconfig-paths';
 import { resolvePath } from 'babel-plugin-module-resolver';
 import { PluginOptions } from '@babel/core';
-import { getUserAlias } from '@modern-js/utils';
+import { getUserAlias, path } from '@modern-js/utils';
 import { AliasOption } from '../types';
 
 const defaultPaths = { '@': ['./src'] };
