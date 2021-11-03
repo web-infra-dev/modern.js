@@ -71,6 +71,7 @@
     "@modern-js/server-plugin": "workspace:^1.0.0",
     "@modern-js/types": "workspace:^1.0.0",
     "@types/babel__core": "^7.1.15",
+    "@types/fs-extra": "^9.0.13",
     "@types/jest": "^26",
     "@types/loader-utils": "^2.0.3",
     "@types/node": "^14",
