@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-classes-per-file
 import { createPlugin } from '@modern-js/server-plugin';
 import { isFunction, logger } from '@modern-js/utils';
 import { NestFactory } from '@nestjs/core';
