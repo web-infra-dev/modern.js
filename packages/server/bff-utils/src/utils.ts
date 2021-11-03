@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
+import fs from 'fs-extra';
 import globby from 'globby';
 import {
   AllHttpMethods,

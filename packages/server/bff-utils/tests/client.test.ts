@@ -1,7 +1,11 @@
 import fs from 'fs';
 import assert from 'assert';
 import path from 'path';
-import { generateClient, getMethodAndStatementFromName } from '@/index';
+import {
+  generateClient,
+  getMethodAndStatementFromName,
+  DEFAULT_CLIENT_REQUEST_CREATOR,
+} from '@/index';
 import { checkSource } from '@/client/check-source';
 import { getRouteName } from '@/client/get-route-name';
 import { HttpMethod } from '@/constant';
@@ -10,30 +14,34 @@ const PWD = path.resolve(__dirname, './fixtures/function');
 
 describe('client', () => {
   describe('generateClient', () => {
-    // it('should work well', async () => {
-    //   const prefix = '';
-    //   const port = 3000;
-    //   const resourcePath = path.resolve(
-    //     __dirname,
-    //     './fixtures/function/[id]/origin/foo.ts',
-    //   );
-    //   const source = fs.readFileSync(resourcePath, 'utf-8');
+    it('should work well', async () => {
+      const prefix = '';
+      const port = 3000;
+      const resourcePath = path.resolve(
+        __dirname,
+        './fixtures/function/[id]/origin/foo.ts',
+      );
+      const source = fs.readFileSync(resourcePath, 'utf-8');
 
-    //   const result = await generateClient({
-    //     prefix,
-    //     port,
-    //     resourcePath,
-    //     source,
-    //     apiDir: PWD,
-    //   });
-    //   expect(result.isOk).toBeTruthy();
-    //   expect(
-    //     result.value.replace(
-    //       require.resolve(DEFAULT_CLIENT_REQUEST_CREATOR),
-    //       DEFAULT_CLIENT_REQUEST_CREATOR,
-    //     ),
-    //   ).toMatchSnapshot();
-    // });
+      const result = await generateClient({
+        prefix,
+        port,
+        resourcePath,
+        source,
+        apiDir: PWD,
+      });
+      expect(result.isOk).toBeTruthy();
+      expect(
+        result.value.replace(
+          require.resolve(DEFAULT_CLIENT_REQUEST_CREATOR).replace(/\\/g, '/'),
+          DEFAULT_CLIENT_REQUEST_CREATOR,
+        ),
+      ).toMatch(`import { createRequest } from '@modern-js/create-request';
+
+export const get = createRequest('/:id/origin/foo', 'GET', process.env.PORT || 3000);
+export const post = createRequest('/:id/origin/foo', 'POST', process.env.PORT || 3000);
+`);
+    });
 
     it('custom requestCreater', async () => {
       const prefix = '';
@@ -53,34 +61,44 @@ describe('client', () => {
         requestCreator: '@custom/createRequest',
       });
       expect(result.isOk).toBeTruthy();
-      expect(result.value).toMatchSnapshot();
+      expect(result.value)
+        .toMatch(`import { createRequest } from '@custom/createRequest';
+
+export const get = createRequest('/:id/origin/foo', 'GET', process.env.PORT || 3000);
+export const post = createRequest('/:id/origin/foo', 'POST', process.env.PORT || 3000);
+`);
     });
 
-    // it('custom fetcher', async () => {
-    //   const prefix = '';
-    //   const port = 3000;
-    //   const resourcePath = path.resolve(
-    //     __dirname,
-    //     './fixtures/function/[id]/origin/foo.ts',
-    //   );
-    //   const source = fs.readFileSync(resourcePath, 'utf-8');
+    it('custom fetcher', async () => {
+      const prefix = '';
+      const port = 3000;
+      const resourcePath = path.resolve(
+        __dirname,
+        './fixtures/function/[id]/origin/foo.ts',
+      );
+      const source = fs.readFileSync(resourcePath, 'utf-8');
 
-    //   const result = await generateClient({
-    //     prefix,
-    //     port,
-    //     resourcePath,
-    //     source,
-    //     apiDir: PWD,
-    //     fetcher: '@custom/fetcher',
-    //   });
-    //   expect(result.isOk).toBeTruthy();
-    //   expect(
-    //     result.value.replace(
-    //       require.resolve(DEFAULT_CLIENT_REQUEST_CREATOR),
-    //       DEFAULT_CLIENT_REQUEST_CREATOR,
-    //     ),
-    //   ).toMatchSnapshot();
-    // });
+      const result = await generateClient({
+        prefix,
+        port,
+        resourcePath,
+        source,
+        apiDir: PWD,
+        fetcher: '@custom/fetcher',
+      });
+      expect(result.isOk).toBeTruthy();
+      expect(
+        result.value.replace(
+          require.resolve(DEFAULT_CLIENT_REQUEST_CREATOR).replace(/\\/g, '/'),
+          DEFAULT_CLIENT_REQUEST_CREATOR,
+        ),
+      ).toMatch(`import { createRequest } from '@modern-js/create-request';
+import { fetch } from '@custom/fetcher';
+
+export const get = createRequest('/:id/origin/foo', 'GET', process.env.PORT || 3000, fetch);
+export const post = createRequest('/:id/origin/foo', 'POST', process.env.PORT || 3000, fetch);
+`);
+    });
   });
 
   describe('getMethodAndStatementFromName', () => {

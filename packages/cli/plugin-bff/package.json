@@ -55,18 +55,20 @@
     "@modern-js/babel-chain": "workspace:^1.0.0",
     "@modern-js/babel-compiler": "workspace:^1.0.0",
     "@modern-js/babel-preset-lib": "workspace:^1.0.0",
+    "@modern-js/create-request": "workspace:^1.0.0",
     "@modern-js/server-utils": "workspace:^1.0.0",
     "@modern-js/utils": "workspace:^1.0.0",
-    "loader-utils": "^2.0.0",
-    "@modern-js/create-request": "workspace:^1.0.0"
+    "fs-extra": "^10.0.0",
+    "loader-utils": "^2.0.0"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.0.0",
     "@modern-js/bff-utils": "workspace:^1.0.0",
-    "@modern-js/server-plugin": "workspace:^1.0.0",
-    "@modern-js/plugin-testing": "^1.0.0",
+    "@modern-js/core": "workspace:^1.0.0",
+    "@modern-js/module-tools": "^1.0.0",
     "@modern-js/plugin-analyze": "workspace:^1.0.0",
+    "@modern-js/plugin-testing": "^1.0.0",
     "@modern-js/runtime": "workspace:^1.0.0",
+    "@modern-js/server-plugin": "workspace:^1.0.0",
     "@modern-js/types": "workspace:^1.0.0",
     "@types/babel__core": "^7.1.15",
     "@types/jest": "^26",
@@ -76,13 +78,12 @@
     "ts-jest": "^27.0.5",
     "typescript": "^4",
     "webpack": "^5.54.0",
-    "webpack-chain": "^6.5.1",
-    "@modern-js/module-tools": "^1.0.0"
+    "webpack-chain": "^6.5.1"
   },
   "peerDependencies": {
+    "@modern-js/bff-utils": "workspace:^1.0.0",
     "@modern-js/core": "workspace:^1.0.0",
-    "@modern-js/server-plugin": "workspace:^1.0.0",
-    "@modern-js/bff-utils": "workspace:^1.0.0"
+    "@modern-js/server-plugin": "workspace:^1.0.0"
   },
   "modernConfig": {
     "output": {

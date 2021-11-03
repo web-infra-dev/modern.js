@@ -40,17 +40,20 @@
     "@modern-js/utils": "workspace:^1.0.0",
     "es-module-lexer": "^0.4.1",
     "farrow-api": "^1.10.9",
+    "fs-extra": "^10.0.0",
     "globby": "^11.0.2"
   },
   "devDependencies": {
+    "@modern-js/module-tools": "^1.0.0",
+    "@modern-js/plugin-testing": "^1.0.0",
+    "@modern-js/create-request": "workspace:^1.0.0",
+    "@types/fs-extra": "^9.0.13",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "ts-jest": "^27.0.4",
-    "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.0.0",
-    "@modern-js/module-tools": "^1.0.0"
+    "typescript": "^4"
   },
   "modernConfig": {
     "output": {
