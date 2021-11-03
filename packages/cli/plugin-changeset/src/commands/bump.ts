@@ -1,7 +1,7 @@
 import { CHANGESET_PATH, execaWithStreamLog } from '../utils';
 
 interface BumpOptions {
-  snapshot: boolean;
+  snapshot: boolean | string;
   canary: boolean;
   preid: string;
   ignore: string[];
@@ -13,6 +13,9 @@ export async function bump(options: BumpOptions) {
 
   if (snapshot) {
     params.push('--snapshot');
+    if (typeof snapshot === 'string') {
+      params.push(snapshot);
+    }
   }
 
   if (ignore) {
