@@ -18,7 +18,7 @@ import filesize from 'filesize';
 import recursive from 'recursive-readdir';
 import stripAnsi from 'strip-ansi';
 import gzipSize from 'gzip-size';
-import { logger } from '.';
+import { logger } from './logger';
 
 
 function canReadAsset(asset:string) {
