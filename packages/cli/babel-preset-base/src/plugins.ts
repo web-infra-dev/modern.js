@@ -22,9 +22,7 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
   chain
     .plugin('transform-typescript')
     .use(
-      upath.normalizeSafe(
-        require.resolve('@babel/plugin-transform-typescript'),
-      ),
+      require.resolve('@babel/plugin-transform-typescript'),
       [typescriptOptions],
     );
 
