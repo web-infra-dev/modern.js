@@ -2,7 +2,7 @@ const userPreviewPath = '<%= userPreviewPath %>'
 const isUserMode = !!userPreviewPath
 
 if (isUserMode) {
-    const userPreview = require(userPreviewPath);
+    const userPreview = require('<%= userPreviewPath %>');
 
     const decorators = [...(userPreview.decorators || [])];
 
