@@ -32,6 +32,13 @@ class ModernJsLoader extends egg.AppWorkerLoader {
       '.modernjs_egg',
       'static',
     );
+    // https://github.com/eggjs/egg/issues/4109#issuecomment-567557856
+    this.config.bodyParser = {
+      enableTypes: ['json', 'form', 'text'],
+      extendTypes: {
+        text: ['text/xml', 'application/xml'],
+      },
+    }
   }
 
   loadPlugin() {
