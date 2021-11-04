@@ -1,4 +1,5 @@
-import { path, logger, fs } from '@modern-js/utils';
+import path from 'path';
+import { logger, fs } from '@modern-js/utils';
 import type { ProxyOptions } from '..';
 
 interface ProxyRule {

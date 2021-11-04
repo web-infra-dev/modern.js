@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { compiler } from './compiler';
 
 const apiDir = path.resolve(__dirname, './fixtures/function/api');

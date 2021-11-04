@@ -1,4 +1,4 @@
-import { Import, upath } from '@modern-js/utils';
+import { Import } from '@modern-js/utils';
 
 const core: typeof import('@modern-js/core') = Import.lazy(
   '@modern-js/core',
@@ -20,8 +20,8 @@ const lang: typeof import('./utils/language') = Import.lazy(
 export const { defineConfig } = core;
 
 core.usePlugins([
-  upath.normalizeSafe(require.resolve('@modern-js/plugin-changeset/cli')),
-  upath.normalizeSafe(require.resolve('@modern-js/plugin-analyze/cli')),
+  require.resolve('@modern-js/plugin-changeset/cli'),
+  require.resolve('@modern-js/plugin-analyze/cli'),
 ]);
 
 export default core.createPlugin(

@@ -1,7 +1,8 @@
+import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { DependenceGenerator, i18n } from '@modern-js/generator-common';
-import { path, getPackageVersion } from '@modern-js/generator-utils';
+import { getPackageVersion } from '@modern-js/generator-utils';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {

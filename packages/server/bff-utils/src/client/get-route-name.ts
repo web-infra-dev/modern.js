@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { getAllAPIFiles, getLambdaDir } from '../utils';
 import { INDEX_SUFFIX } from '../constant';
 import { Result, Err, Ok } from './result';
@@ -30,7 +30,7 @@ export const getRouteName = (
     const relativeName = absoluteName.substring(lambdaDir.length);
 
     const draftName = relativeName
-      .split('/')
+      .split(path.sep)
       .map(item => {
         if (item.length > 2) {
           if (item.startsWith('[') && item.endsWith(']')) {

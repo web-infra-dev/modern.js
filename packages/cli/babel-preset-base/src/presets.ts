@@ -1,4 +1,4 @@
-import { getBrowserslist, upath } from '@modern-js/utils';
+import { getBrowserslist } from '@modern-js/utils';
 import { createBabelChain } from '@modern-js/babel-chain';
 import { IBaseBabelConfigOption } from '.';
 
@@ -43,9 +43,7 @@ export const getPresetChain = (option: IBaseBabelConfigOption) => {
     };
     chain
       .preset('@babel/preset-env')
-      .use(upath.normalizeSafe(require.resolve('@babel/preset-env')), [
-        presetEnvOptions,
-      ]);
+      .use(require.resolve('@babel/preset-env'), [presetEnvOptions]);
   }
 
   if (!disableReactPreset) {
@@ -62,9 +60,7 @@ export const getPresetChain = (option: IBaseBabelConfigOption) => {
     };
     chain
       .preset('@babel/preset-react')
-      .use(upath.normalizeSafe(require.resolve('@babel/preset-react')), [
-        presetReactOptions,
-      ]);
+      .use(require.resolve('@babel/preset-react'), [presetReactOptions]);
   }
 
   if (!(useTsLoader || disableTypescriptPreset)) {
@@ -74,7 +70,7 @@ export const getPresetChain = (option: IBaseBabelConfigOption) => {
     };
     chain
       .preset('@babel/preset-typescript')
-      .use(upath.normalizeSafe(require.resolve('@babel/preset-typescript')), [
+      .use(require.resolve('@babel/preset-typescript'), [
         typescriptPresetOptions,
       ]);
   }

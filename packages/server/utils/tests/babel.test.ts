@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { defaults } from './helpers';
 import { resolveBabelConfig } from '@/index';
 

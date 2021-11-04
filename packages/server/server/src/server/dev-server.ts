@@ -1,5 +1,6 @@
 import http, { Server } from 'http';
-import { path, HMR_SOCK_PATH } from '@modern-js/utils';
+import path from 'path';
+import { HMR_SOCK_PATH } from '@modern-js/utils';
 import type { MultiCompiler, Compiler } from 'webpack';
 import webpackDevMiddleware, {
   WebpackDevMiddleware,

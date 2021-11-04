@@ -1,5 +1,6 @@
 import os from 'os';
-import { path, fs } from '@modern-js/utils';
+import path from 'path';
+import { fs } from '@modern-js/utils';
 import logger from 'signale';
 import fetch from 'node-fetch';
 import { VIRTUAL_DEPS_MAP } from '../constants';

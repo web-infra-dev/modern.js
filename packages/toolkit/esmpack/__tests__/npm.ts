@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import axios from 'axios';
 import fs from 'fs-extra';
 import tar from 'tar-fs';

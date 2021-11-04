@@ -3,7 +3,8 @@
  * internally use rollup-plugin-node-polyfills
  */
 import { randomBytes } from 'crypto';
-import { path, upath } from '@modern-js/utils';
+import path from 'path';
+import { upath } from '@modern-js/utils';
 import inject from '@rollup/plugin-inject';
 import type { Plugin } from 'rollup';
 

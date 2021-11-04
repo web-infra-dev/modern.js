@@ -1,11 +1,10 @@
 import fs from 'fs';
+import path from 'path';
 import {
-  path,
   applyOptionsChain,
   isProd,
   isUseSSRBundle,
   SERVER_BUNDLE_DIRECTORY,
-  upath,
 } from '@modern-js/utils';
 import nodeExternals from 'webpack-node-externals';
 import { mergeRegex } from '../utils/mergeRegex';
@@ -85,7 +84,7 @@ class NodeWebpackConfig extends BaseWebpackConfig {
         ...babelOptions,
         presets: [
           [
-            upath.normalizeSafe(require.resolve('@modern-js/babel-preset-app')),
+            require.resolve('@modern-js/babel-preset-app'),
             {
               appDirectory: this.appDirectory,
               target: 'server',

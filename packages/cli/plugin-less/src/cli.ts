@@ -1,4 +1,4 @@
-import { Import, PLUGIN_SCHEMAS, upath } from '@modern-js/utils';
+import { Import, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import type { Configuration } from 'webpack';
 import type Chain from 'webpack-chain';
 
@@ -48,9 +48,7 @@ export default core.createPlugin(
                   use: [
                     ...(loaders.oneOf('css') as any).toConfig().use,
                     {
-                      loader: upath.normalizeSafe(
-                        require.resolve('less-loader'),
-                      ),
+                      loader: require.resolve('less-loader'),
                       options: lessOptions,
                     },
                   ],
@@ -68,7 +66,7 @@ export default core.createPlugin(
                 use: [
                   ...(loaders.oneOf('css-modules') as any).toConfig().use,
                   {
-                    loader: upath.normalizeSafe(require.resolve('less-loader')),
+                    loader: require.resolve('less-loader'),
                     options: lessOptions,
                   },
                 ],

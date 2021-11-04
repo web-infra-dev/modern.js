@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { loadPlugins } from '@/loadPlugins';
 
 describe('load plugins', () => {

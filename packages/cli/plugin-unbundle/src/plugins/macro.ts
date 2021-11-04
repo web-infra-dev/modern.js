@@ -1,5 +1,4 @@
 import { NormalizedConfig } from '@modern-js/core';
-import { upath } from '@modern-js/utils';
 import { Plugin as RollupPlugin } from 'rollup';
 import { isJsRequest } from '../utils';
 
@@ -12,7 +11,7 @@ export const macrosPlugin = (_config: NormalizedConfig): RollupPlugin => ({
     }
 
     const result = await require('@babel/core').transformAsync(code, {
-      plugins: [upath.normalizeSafe(require.resolve('babel-plugin-macros'))],
+      plugins: [require.resolve('babel-plugin-macros')],
       babelrc: false,
       configFile: false,
       sourceMaps: true,
