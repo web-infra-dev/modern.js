@@ -1,5 +1,6 @@
 import os from 'os';
-import { path, fs, getMonorepoPackages } from '@modern-js/utils';
+import path from 'path';
+import { fs, getMonorepoPackages } from '@modern-js/utils';
 import execa from 'execa';
 import ora from 'ora';
 import { GeneratorContext } from '@modern-js/codesmith';

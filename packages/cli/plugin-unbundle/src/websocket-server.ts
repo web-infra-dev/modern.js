@@ -1,5 +1,6 @@
 import { Server } from 'http';
-import { path, createDebugger } from '@modern-js/utils';
+import path from 'path';
+import { createDebugger } from '@modern-js/utils';
 import ws from 'ws';
 import logger from 'signale';
 import { ESMServer } from './server';

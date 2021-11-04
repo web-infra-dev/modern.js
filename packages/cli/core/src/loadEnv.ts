@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { path } from '@modern-js/utils';
+import path from 'path';
 import dotenv from 'dotenv';
 import dotenvExpand from 'dotenv-expand';
 

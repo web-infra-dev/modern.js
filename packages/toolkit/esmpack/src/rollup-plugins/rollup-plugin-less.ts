@@ -1,6 +1,6 @@
 /* eslint-disable no-debugger */
 import { promises as fs } from 'fs';
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { Plugin } from 'rollup';
 import less from 'less';
 import { clone } from 'lodash';

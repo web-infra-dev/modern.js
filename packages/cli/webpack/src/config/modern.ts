@@ -4,7 +4,6 @@ import {
   applyOptionsChain,
   isUseSSRBundle,
   removeLeadingSlash,
-  upath,
 } from '@modern-js/utils';
 import { ClientWebpackConfig } from './client';
 
@@ -42,7 +41,7 @@ class ModernWebpackConfig extends ClientWebpackConfig {
         ...babelOptions,
         presets: [
           [
-            upath.normalizeSafe(require.resolve('@modern-js/babel-preset-app')),
+            require.resolve('@modern-js/babel-preset-app'),
             {
               appDirectory: this.appDirectory,
               target: 'client',

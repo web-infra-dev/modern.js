@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { path } from '@modern-js/utils';
+import path from 'path';
 // import { createInvoker } from '../libs/invoker';
 import { ModernRoute } from '@modern-js/server';
 import { exist, replaceRoute } from '@/libs/replace';

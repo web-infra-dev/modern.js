@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { ChunkExtractor } from '@loadable/server';
 import { RenderHandler } from './type';
 

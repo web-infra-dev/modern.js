@@ -1,4 +1,5 @@
-import { path, compatRequire } from '@modern-js/utils';
+import path from 'path';
+import { compatRequire } from '@modern-js/utils';
 import {
   INestApplication,
   Controller,

@@ -30,7 +30,7 @@ const applyBaseUrl = (
     } else {
       return routes.map(route => ({
         ...route,
-        urlPath: path.normalize(`/${baseUrl}/${route.urlPath}`),
+        urlPath: path.posix.normalize(`/${baseUrl}/${route.urlPath}`),
       }));
     }
   }
@@ -104,7 +104,7 @@ const collectHtmlRoutes = (
         urlPath: `/${entryName === MAIN_ENTRY_NAME ? '' : entryName}`,
         entryName,
         entryPath: removeLeadingSlash(
-          path.normalize(
+          path.posix.normalize(
             `${htmlPath!}/${entryName}${
               disableHtmlFolder ? '.html' : '/index.html'
             }`,
@@ -159,7 +159,9 @@ const collectStaticRoutes = (
 
   return fs.existsSync(publicFolder)
     ? walkDirectory(publicFolder).map(filePath => ({
-        urlPath: path.normalize(`/${path.relative(publicFolder, filePath)}`),
+        urlPath: path.posix.normalize(
+          `/${path.relative(publicFolder, filePath)}`,
+        ),
         isSPA: true,
         isSSR: false,
         entryPath: path.relative(

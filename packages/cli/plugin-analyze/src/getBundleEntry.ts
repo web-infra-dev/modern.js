@@ -1,4 +1,5 @@
-import { path, ensureAbsolutePath, fs, findExists } from '@modern-js/utils';
+import path from 'path';
+import { ensureAbsolutePath, fs, findExists } from '@modern-js/utils';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import type { Entrypoint } from '@modern-js/types';
 import { getFileSystemEntry } from './getFileSystemEntry';

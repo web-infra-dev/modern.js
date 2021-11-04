@@ -1,9 +1,5 @@
-import {
-  path,
-  PLUGIN_SCHEMAS,
-  createRuntimeExportsUtils,
-  upath,
-} from '@modern-js/utils';
+import path from 'path';
+import { PLUGIN_SCHEMAS, createRuntimeExportsUtils } from '@modern-js/utils';
 import { createPlugin, usePlugins, useAppContext } from '@modern-js/core';
 
 const useInternalDirectory = () => {
@@ -16,9 +12,9 @@ const useInternalDirectory = () => {
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 usePlugins([
-  upath.normalizeSafe(require.resolve('@modern-js/plugin-state/cli')),
-  upath.normalizeSafe(require.resolve('@modern-js/plugin-router/cli')),
-  upath.normalizeSafe(require.resolve('@modern-js/plugin-ssr/cli')),
+  require.resolve('@modern-js/plugin-state/cli'),
+  require.resolve('@modern-js/plugin-router/cli'),
+  require.resolve('@modern-js/plugin-ssr/cli'),
 ]);
 
 export default createPlugin(

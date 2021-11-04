@@ -1,4 +1,5 @@
-import { path, SERVER_RENDER_FUNCTION_NAME } from '@modern-js/utils';
+import path from 'path';
+import { SERVER_RENDER_FUNCTION_NAME } from '@modern-js/utils';
 import mime from 'mime-types';
 import { ModernServerContext } from '../context';
 import { RenderResult } from '../../type';

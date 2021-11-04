@@ -1,6 +1,5 @@
+import path from 'path';
 import {
-  path,
-  upath,
   compatRequire,
   pkgUp,
   ensureAbsolutePath,
@@ -105,7 +104,7 @@ export const {
 
 export const usePlugins = (plugins: string[]) =>
   plugins.forEach(plugin =>
-    manager.usePlugin(compatRequire(upath.normalize(require.resolve(plugin)))),
+    manager.usePlugin(compatRequire(require.resolve(plugin))),
   );
 
 export {

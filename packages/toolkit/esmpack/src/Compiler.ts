@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { AsyncParallelHook, AsyncSeriesHook, SyncHook } from 'tapable';
 import type { EnvironmentVariables, NormalizedEsmpackOptions } from './Options';
 import { Compilation, CompilationParams } from './Compilation';

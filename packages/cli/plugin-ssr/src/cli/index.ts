@@ -1,12 +1,11 @@
+import path from 'path';
 import {
-  path,
   getEntryOptions,
   SERVER_RENDER_FUNCTION_NAME,
   LOADABLE_STATS_FILE,
   isUseSSRBundle,
   createRuntimeExportsUtils,
   PLUGIN_SCHEMAS,
-  upath,
 } from '@modern-js/utils';
 import {
   createPlugin,
@@ -60,11 +59,7 @@ export default createPlugin(
               if (isUseSSRBundle(userConfig)) {
                 chain
                   ?.plugin('loadable')
-                  .use(
-                    upath.normalizeSafe(
-                      require.resolve('@loadable/babel-plugin'),
-                    ),
-                  );
+                  .use(require.resolve('@loadable/babel-plugin'));
               }
             },
           },

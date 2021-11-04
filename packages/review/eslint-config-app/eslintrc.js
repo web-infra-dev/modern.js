@@ -1,7 +1,6 @@
 /* eslint-disable max-lines, no-magic-numbers */
 // const path = require('path');
 
-const { upath } = require('@modern-js/utils');
 const { jsExtensions } = require('./utils');
 
 module.exports = {
@@ -16,9 +15,7 @@ module.exports = {
     },
     sourceType: 'module',
     babelOptions: {
-      configFile: upath.normalizeSafe(
-        require.resolve('@modern-js/babel-preset-app'),
-      ),
+      configFile: require.resolve('@modern-js/babel-preset-app'),
     },
   },
   // https://www.npmjs.com/package/@babel/eslint-parser

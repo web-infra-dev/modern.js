@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import tempy from 'tempy';
 
 export const resolveFromFixture = (...args: any[]) =>

@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { path } from '@modern-js/utils';
+import path from 'path';
 import {
   extractAPIHandlers,
   getMethod,

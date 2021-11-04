@@ -1,5 +1,6 @@
 import { createHash } from 'crypto';
-import { path, chalk, fs } from '@modern-js/utils';
+import path from 'path';
+import { chalk, fs } from '@modern-js/utils';
 import logger, { Signale } from 'signale';
 import enhancedResolve from 'enhanced-resolve';
 import { Plugin as ESBuildPlugin } from 'esbuild';
@@ -14,7 +15,7 @@ import {
   VIRTUAL_DEPS_MAP,
   MODERN_JS_INTERNAL_PACKAGES,
 } from '../constants';
-import { findPackageJson } from '../utils';
+import { findPackageJson, pathToUrl } from '../utils';
 import { scanImports } from './scan-imports';
 import { ModulesCache, normalizeSemverSpecifierVersion } from './modules-cache';
 
@@ -307,12 +308,14 @@ const compileDeps = async (
 
         if (
           parts?.length &&
-          parts
-            .join('@')
-            .replace(
-              `${ESBUILD_RESOLVE_PLUGIN_NAME}:${modulesCache.dir}/`,
-              '',
-            ) === specifier
+          pathToUrl(
+            parts
+              .join('@')
+              .replace(
+                `${ESBUILD_RESOLVE_PLUGIN_NAME}:${modulesCache.dir}${path.sep}`,
+                '',
+              ),
+          ) === specifier
         ) {
           return true;
         }
@@ -322,9 +325,11 @@ const compileDeps = async (
     });
 
     if (key) {
-      metaData.map[specifier] = path.relative(
-        path.resolve(appDirectory, WEB_MODULES_DIR),
-        path.resolve(appDirectory, key),
+      metaData.map[specifier] = pathToUrl(
+        path.relative(
+          path.resolve(appDirectory, WEB_MODULES_DIR),
+          path.resolve(appDirectory, key),
+        ),
       );
     } else {
       // TODO: should use lazy warning

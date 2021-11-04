@@ -1,5 +1,6 @@
 import fs from 'fs';
-import { path, upath, createDebugger } from '@modern-js/utils';
+import path from 'path';
+import { createDebugger } from '@modern-js/utils';
 
 export const debug: any = createDebugger('test');
 
@@ -25,7 +26,7 @@ export const readCompilerOptions = (
     if (fs.existsSync(maybeTsconfigFile)) {
       tsconfigFile = maybeTsconfigFile;
     } else {
-      tsconfigFile = upath.normalizeSafe(require.resolve(filename));
+      tsconfigFile = require.resolve(filename);
     }
 
     ({ config: tsConfig } = require('typescript').parseConfigFileTextToJson(

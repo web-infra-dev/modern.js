@@ -1,4 +1,5 @@
-import { path, createDebugger } from '@modern-js/utils';
+import path from 'path';
+import { createDebugger } from '@modern-js/utils';
 import { Plugin as RollupPlugin } from 'rollup';
 import MagicString from 'magic-string';
 import { Parser } from 'acorn';

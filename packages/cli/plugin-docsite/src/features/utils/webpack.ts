@@ -1,4 +1,5 @@
-import { path, fs, upath } from '@modern-js/utils';
+import path from 'path';
+import { fs } from '@modern-js/utils';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import webpack, { Configuration, WebpackPluginInstance } from 'webpack';
 import { getWebpackConfig, WebpackConfigTarget } from '@modern-js/webpack';
@@ -83,7 +84,7 @@ export function generatorWebpackConfig(
   }
 
   config.resolve!.fallback = {
-    path: upath.normalizeSafe(require.resolve('path-browserify')),
+    path: require.resolve('path-browserify'),
   };
   return config;
 }

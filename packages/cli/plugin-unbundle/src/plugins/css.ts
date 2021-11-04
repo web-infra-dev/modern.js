@@ -1,5 +1,6 @@
 import fs from 'fs';
-import { path, chalk } from '@modern-js/utils';
+import path from 'path';
+import { chalk } from '@modern-js/utils';
 import { Alias } from '@rollup/plugin-alias';
 import { Plugin as RollupPlugin, SourceMap } from 'rollup';
 import postcss, { AcceptedPlugin, ProcessOptions } from 'postcss';
