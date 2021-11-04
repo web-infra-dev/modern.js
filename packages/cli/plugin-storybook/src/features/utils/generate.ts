@@ -1,5 +1,5 @@
 import type { NormalizedConfig } from '@modern-js/core';
-import { fs, Import, path } from '@modern-js/utils';
+import { fs, Import, path, normalizeOutputPath } from '@modern-js/utils';
 import { STORYBOOK_TEMPLATE_DIR } from '../constants';
 
 const template: typeof import('lodash.template') = Import.lazy(
@@ -21,7 +21,13 @@ const MAIN_TEMPLATE = path.join(STORYBOOK_TEMPLATE_DIR, 'main.tmpl');
 export const generateMain = (options: MainOptions) => {
   const mainTemplate = fs.readFileSync(MAIN_TEMPLATE, 'utf-8');
   const injects: Record<string, string> = {
-    appDirectory: options.appDirectory,
+    appDirectory: normalizeOutputPath(options.appDirectory),
+    sbConfigDir: normalizeOutputPath(
+      path.resolve(options.appDirectory, 'config/storybook'),
+    ),
+    userMainPath: normalizeOutputPath(
+      path.resolve(options.appDirectory, 'config/storybook/main.js'),
+    ),
     disableTsChecker: String(options.disableTsChecker),
     stories: JSON.stringify(options.stories),
     isTsProject: String(options.isTsProject),

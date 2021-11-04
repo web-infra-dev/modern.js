@@ -23,10 +23,10 @@ export default core.createPlugin(
       const stories =
         program.$$libraryName === 'module-tools'
           ? [
-              `${appDirectory}/stories/**/*.stories.mdx`,
-              `${appDirectory}/stories/**/*.stories.@(js|jsx|ts|tsx)`,
+              `./stories/**/*.stories.mdx`,
+              `./stories/**/*.stories.@(js|jsx|ts|tsx)`,
             ]
-          : [`${appDirectory}/src/**/*.stories.@(js|jsx|ts|tsx|mdx)`];
+          : [`./src/**/*.stories.@(js|jsx|ts|tsx|mdx)`];
       if (devCommand) {
         devCommand.command('story').action(async () => {
           await features.runDev({
