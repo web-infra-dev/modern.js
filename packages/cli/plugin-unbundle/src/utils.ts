@@ -1,9 +1,10 @@
 import path from 'path';
 // eslint-disable-next-line node/no-deprecated-api
 import { parse as parseUrl } from 'url';
-import { fs } from '@modern-js/utils';
+import { fs, chalk } from '@modern-js/utils';
 import { Loader } from 'esbuild';
 import { Server } from '@modern-js/server';
+import logger from 'signale';
 
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import {
@@ -176,3 +177,20 @@ export const hasDependency = (appDirectory: string, depName: string) => {
 };
 
 export const pathToUrl = (p: string) => p.split(path.sep).join('/');
+
+export const logWithHistory = () => {
+  let count = 1;
+  let history = '';
+  return (message: string) => {
+    process.stdout.moveCursor(0, -1); // up one line
+    process.stdout.clearLine(1); // clear last line
+    if (message === history) {
+      count += 1;
+      logger.info(chalk.green(`${message} x${count}`));
+    } else {
+      history = message;
+      count = 1;
+      logger.info(chalk.green(message));
+    }
+  };
+};
