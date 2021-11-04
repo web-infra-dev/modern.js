@@ -12,11 +12,21 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
       styledCompontentsOptions,
       lodashOptions,
     } = {},
+    presets: { typescriptOptions = {} } = {},
     useLegacyDecorators = true,
     type = 'module',
     useTsLoader = false,
   } = option;
   const chain = createBabelChain();
+
+  chain
+    .plugin('transform-typescript')
+    .use(
+      upath.normalizeSafe(
+        require.resolve('@babel/plugin-transform-typescript'),
+      ),
+      [typescriptOptions],
+    );
 
   chain
     .plugin('babel-plugin-macros')
