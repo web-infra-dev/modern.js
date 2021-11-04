@@ -1,10 +1,7 @@
 import fs from 'fs';
 import assert from 'assert';
 import path from 'path';
-import {
-  generateClient,
-  getMethodAndStatementFromName,
-} from '@/index';
+import { generateClient, getMethodAndStatementFromName } from '@/index';
 import { checkSource } from '@/client/check-source';
 import { getRouteName } from '@/client/get-route-name';
 import { HttpMethod } from '@/constant';
@@ -24,12 +21,11 @@ describe('client', () => {
 
       jest.mock(
         '@modern-js/create-request',
-        () => {
-          return {
-            __esModule: true,
-            createRquest: () => {},
-          };
-        },
+        () => ({
+          __esModule: true,
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          createRquest: () => {},
+        }),
         { virtual: true },
       );
       const result = await generateClient({
@@ -38,12 +34,11 @@ describe('client', () => {
         resourcePath,
         source,
         apiDir: PWD,
-        requireResolve: ((input: any) => input) as any
+        requireResolve: ((input: any) => input) as any,
       });
       expect(result.isOk).toBeTruthy();
-      expect(
-        result.value
-      ).toMatch(`import { createRequest } from '@modern-js/create-request';
+      expect(result.value)
+        .toMatch(`import { createRequest } from '@modern-js/create-request';
 
 export const get = createRequest('/:id/origin/foo', 'GET', process.env.PORT || 3000);
 export const post = createRequest('/:id/origin/foo', 'POST', process.env.PORT || 3000);
@@ -87,12 +82,11 @@ export const post = createRequest('/:id/origin/foo', 'POST', process.env.PORT ||
 
       jest.mock(
         '@modern-js/create-request',
-        () => {
-          return {
-            __esModule: true,
-            createRquest: () => {},
-          };
-        },
+        () => ({
+          __esModule: true,
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          createRquest: () => {},
+        }),
         { virtual: true },
       );
       const result = await generateClient({
@@ -102,12 +96,11 @@ export const post = createRequest('/:id/origin/foo', 'POST', process.env.PORT ||
         source,
         apiDir: PWD,
         fetcher: '@custom/fetcher',
-        requireResolve: ((input: any) => input) as any
+        requireResolve: ((input: any) => input) as any,
       });
       expect(result.isOk).toBeTruthy();
-      expect(
-        result.value
-      ).toMatch(`import { createRequest } from '@modern-js/create-request';
+      expect(result.value)
+        .toMatch(`import { createRequest } from '@modern-js/create-request';
 import { fetch } from '@custom/fetcher';
 
 export const get = createRequest('/:id/origin/foo', 'GET', process.env.PORT || 3000, fetch);

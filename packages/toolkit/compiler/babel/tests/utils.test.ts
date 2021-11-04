@@ -1,6 +1,6 @@
-import * as path from 'path';
-import { fs } from '@modern-js/utils';
-import { addSourceMappingUrl } from '../src/utils';
+// import * as path from 'path';
+// import { fs } from '@modern-js/utils';
+// import { addSourceMappingUrl } from '../src/utils';
 
 describe('utils test', () => {
   it('addSourceMappingUrl should right', () => {
