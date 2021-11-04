@@ -1,4 +1,3 @@
-/* eslint-disable max-classes-per-file */
 import type { ChildProcess } from 'child_process';
 import EventEmitter from 'events';
 import { Import } from '@modern-js/utils';
@@ -140,5 +139,3 @@ export class LoggerManager extends EventEmitter {
     console.info(loggerText.value);
   }
 }
-
-/* eslint-enable max-classes-per-file */

@@ -217,7 +217,7 @@ module.exports = {
     // https://eslint.org/docs/rules/guard-for-in
     'guard-for-in': 'off',
     // https://eslint.org/docs/rules/max-classes-per-file
-    'max-classes-per-file': ['error', 1],
+    'max-classes-per-file': ['error', 3],
     // https://eslint.org/docs/rules/no-alert
     'no-alert': 'error',
     // https://eslint.org/docs/rules/no-caller

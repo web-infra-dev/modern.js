@@ -1,4 +1,3 @@
-/* eslint-disable max-classes-per-file */
 import { ModernDevServer } from './dev-server';
 import { ModernServer } from './modern-server';
 import { mergeExtension } from '@/utils';
@@ -46,5 +45,3 @@ export class APIModernDevServer extends ModernDevServer {
     // noop
   }
 }
-
-/* eslint-enable max-classes-per-file */
