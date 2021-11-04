@@ -191,7 +191,7 @@ const handleTemplateFile = async (
       undefined,
       {
         dependencies: {
-          [lessDependence]: await getPackageVersion(lessDependence),
+          [lessDependence]: `^${await getPackageVersion(lessDependence)}`,
         },
         isSubGenerator: true,
       },
@@ -206,7 +206,7 @@ const handleTemplateFile = async (
       undefined,
       {
         dependencies: {
-          [sassDependence]: await getPackageVersion(sassDependence),
+          [sassDependence]: `${await getPackageVersion(sassDependence)}`,
         },
         isSubGenerator: true,
       },
