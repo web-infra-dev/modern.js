@@ -21,6 +21,7 @@ export const MWAActionFunctions = [
   ActionFunction.Less,
   ActionFunction.Sass,
   ActionFunction.BFF,
+  ActionFunction.SSG,
   ActionFunction.MicroFrontend,
   ActionFunction.Electron,
   // ActionFunction.I18n,
@@ -95,6 +96,7 @@ export const MWAActionFunctionsDependencies: Partial<
   [ActionFunction.BFF]: '@modern-js/plugin-bff',
   [ActionFunction.MicroFrontend]: '@modern-js/plugin-micro-frontend',
   [ActionFunction.I18n]: '@modern-js/plugin-i18n',
+  [ActionFunction.SSG]: '@modern-js/plugin-ssg',
 };
 
 export const MWANewActionGenerators: Record<
@@ -119,6 +121,7 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.E2ETest]: '@modern-js/dependence-generator',
     [ActionFunction.Doc]: '@modern-js/dependence-generator',
     [ActionFunction.Storybook]: '@modern-js/dependence-generator',
+    [ActionFunction.SSG]: '@modern-js/ssg-generator',
   },
   [ActionType.Refactor]: {
     [ActionRefactor.BFFToApp]: '@modern-js/bff-refactor-generator',

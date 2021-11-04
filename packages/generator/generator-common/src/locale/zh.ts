@@ -30,6 +30,7 @@ export const ZH_LOCALE = {
       storybook: '启用「Storybook」',
       runtime_api: '启用「Rumtime API」',
       mwa_storybook: '启用「Visual Testing (Storybook)」模式',
+      ssg: '启用「SSG」功能',
     },
     element: {
       self: '创建工程元素',
