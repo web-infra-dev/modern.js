@@ -15,9 +15,7 @@
   "devDependencies": {
     "jest-puppeteer": "^6.0.0",
     "puppeteer": "^10.4.0",
-    "jest": "^27.3.1"
-  },
-  "dependencies": {
+    "jest": "^27.3.1",
     "@modern-js/app-tools": "workspace:^1.0.0",
     "@modern-js/core": "workspace:^1.0.0",
     "@modern-js/plugin-polyfill": "workspace:^1.0.0",
