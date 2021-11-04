@@ -43,7 +43,7 @@ export const shouldUseBff = (appDirectory: string): boolean =>
   fs.existsSync(path.resolve(appDirectory, BFF_API_DIR)) &&
   hasDependency(appDirectory, '@modern-js/plugin-bff');
 
-export const getBFFMiddleware = (
+export const getBFFMiddleware = async (
   config: NormalizedConfig,
   appContext: IAppContext,
 ) => {
@@ -56,7 +56,7 @@ export const getBFFMiddleware = (
     routes: appContext.serverRoutes as any,
   });
 
-  server.init();
+  await server.init();
 
   const handler = server.getRequestHandler();
 

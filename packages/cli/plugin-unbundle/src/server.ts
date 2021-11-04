@@ -1,6 +1,7 @@
 import { createServer, Server } from 'http';
 // eslint-disable-next-line node/no-unsupported-features/node-builtins
 import { createSecureServer } from 'http2';
+import { promisify } from 'util';
 import Koa from 'koa';
 import koaStatic from 'koa-static';
 import koaCors from '@koa/cors';
@@ -138,7 +139,14 @@ export const createDevServer = async (
   );
 
   if (shouldUseBff(appDirectory)) {
-    app.use(c2k(getBFFMiddleware(config, appContext) as any));
+    const handler = await getBFFMiddleware(config, appContext);
+    app.use(async (ctx, next) => {
+      const promisifyHandler = promisify(callback => {
+        handler(ctx.req, ctx.res, callback as () => void);
+      });
+      await promisifyHandler();
+      await next();
+    });
   }
 
   // hanlde 404
