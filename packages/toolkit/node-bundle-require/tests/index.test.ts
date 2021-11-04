@@ -1,5 +1,5 @@
 import path from 'path';
-import { bundleRequire, EXTERNAL_REGEXP } from '..';
+import { bundleRequire, EXTERNAL_REGEXP } from '../src';
 
 test('require', async () => {
   const result = await bundleRequire(
@@ -11,9 +11,9 @@ test('require', async () => {
 describe('external regexp', () => {
   expect(EXTERNAL_REGEXP.test('./test')).toBeFalsy();
   expect(EXTERNAL_REGEXP.test('/test')).toBeFalsy();
-  expect(EXTERNAL_REGEXP.test('c:/foo')).toBeFalsy();
-  expect(EXTERNAL_REGEXP.test('C:/foo')).toBeFalsy();
+  expect(EXTERNAL_REGEXP.test('c:/foo')).toBeTruthy();
+  expect(EXTERNAL_REGEXP.test('C:/foo')).toBeTruthy();
   expect(EXTERNAL_REGEXP.test('c:/node_modules/foo')).toBeTruthy();
   expect(EXTERNAL_REGEXP.test('foo')).toBeTruthy();
-  expect(EXTERNAL_REGEXP.test('/test/node_modules')).toBeTruthy();
+  expect(EXTERNAL_REGEXP.test('/test/node_modules')).toBeFalsy();
 });
