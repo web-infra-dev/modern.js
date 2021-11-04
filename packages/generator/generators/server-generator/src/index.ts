@@ -79,6 +79,9 @@ const handleTemplateFile = async (
         '@nestjs/common',
       )}`,
       'dependencies.express': `^${await getPackageVersion('express')}`,
+      'devDependencies.@types/express': `^${await getPackageVersion(
+        '@types/express',
+      )}`,
     };
   } else {
     updateInfo = {

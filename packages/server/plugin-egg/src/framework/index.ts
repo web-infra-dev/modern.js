@@ -1,5 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable max-classes-per-file */
 import * as path from 'path';
 import * as fs from 'fs';
 import * as egg from 'egg';

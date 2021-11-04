@@ -1,4 +1,3 @@
-/* eslint-disable max-classes-per-file */
 import { ModernDevServer } from './dev-server';
 import { ModernServer } from './modern-server';
 import { mergeExtension } from '@/utils';
@@ -42,4 +41,3 @@ export class WebModernDevServer extends ModernDevServer {
     return routes.filter(route => route.entryName);
   }
 }
-/* eslint-enable max-classes-per-file */

@@ -1,4 +1,3 @@
-/* eslint-disable max-classes-per-file */
 import * as path from 'path';
 import * as os from 'os';
 import { Import, chalk } from '@modern-js/utils';
@@ -234,5 +233,3 @@ export class TimeCounter {
     return span < 1000 ? `${span}ms` : `${(span / 1000).toFixed(2)}s`;
   }
 }
-
-/* eslint-enable max-classes-per-file */
