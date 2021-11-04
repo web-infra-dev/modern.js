@@ -38,7 +38,7 @@ jobs:
         run: pnpm run prepare --filter ./packages
 
       - name: Install Puppeteer
-        run: cd ./node_modules/puppeteer && npm run install && cd ...
+        run: cd ./tests/node_modules/puppeteer && npm run install && cd ../..
 
       - name: Test
         run: pnpm run test
