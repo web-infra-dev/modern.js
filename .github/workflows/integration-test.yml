@@ -1,4 +1,4 @@
-name: CI
+name: Integration Test
 
 # Controls when the action will run.
 on:
@@ -37,8 +37,8 @@ jobs:
       - name: Prepare
         run: pnpm run prepare --filter ./packages
 
-      - name: Lint
-        run: pnpm run lint
+      - name: Install Puppeteer
+        run: cd ./tests/node_modules/puppeteer && npm run install && cd ../..
 
       - name: Test
         run: pnpm run test
