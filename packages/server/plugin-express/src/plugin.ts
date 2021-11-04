@@ -102,8 +102,9 @@ export default createPlugin(
             if (err) {
               return reject(err);
             }
-            finalhandler(req, res, {})(null);
-            return resolve();
+            // finalhanlder will trigger 'finish' event
+            return finalhandler(req, res, {})(null);
+            // return resolve();
           };
 
           res.on('finish', (err: Error) => {
