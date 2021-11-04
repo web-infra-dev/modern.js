@@ -8,11 +8,9 @@ import {
   generateMetaTags,
   getEntryOptions,
 } from '@modern-js/utils';
-import ts = require('typescript');
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import type { Entrypoint } from '@modern-js/types';
 import { DEV_CLIENT_PATH_ALIAS, DEV_CLIENT_URL } from './constants';
-import { parseDTS } from './parse-dts';
 
 const debug = createDebugger('esm:create-entry');
 
@@ -106,11 +104,13 @@ const injectConstEnums = (appDirectory: string): string => {
     const tsconfigJSON = readTsConfig(appDirectory);
 
     // .d.ts files which need to be
+    const ts = require('typescript');
     const {
       raw: { include },
     } = ts.parseJsonConfigFileContent(tsconfigJSON, ts.sys, appDirectory);
 
     if (include?.length) {
+      const { parseDTS } = require('./parse-dts');
       const enums = parseDTS(
         include
           .filter((file: string) => path.extname(file))
