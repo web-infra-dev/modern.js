@@ -1,5 +1,4 @@
 import { CodeSmith, Logger } from '@modern-js/codesmith';
-import { upath } from '@modern-js/utils';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage, createDir } from './utils';
 
@@ -89,7 +88,7 @@ export async function createAction(projectDir: string, options: Options) {
   let generator = REPO_GENERAROE;
 
   if (process.env.CODESMITH_ENV === 'development') {
-    generator = upath.normalizeSafe(require.resolve(REPO_GENERAROE));
+    generator = require.resolve(REPO_GENERAROE);
   } else if (distTag) {
     generator = `${REPO_GENERAROE}@${distTag}`;
   }

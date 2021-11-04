@@ -1,4 +1,4 @@
-import { path } from '@/index';
+import path from 'path';
 import { getBrowserslist, defaults } from '@/getBrowserslist';
 
 describe('get browserslist', () => {

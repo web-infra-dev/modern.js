@@ -1,6 +1,6 @@
 import fs from 'fs';
+import path from 'path';
 import {
-  path,
   INTERNAL_SRC_ALIAS,
   INTERNAL_DIR_ALAIS,
   applyOptionsChain,

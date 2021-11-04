@@ -1,5 +1,6 @@
+import path from 'path';
 import type { NormalizedConfig } from '@modern-js/core';
-import { Import, fs, path, HIDE_MODERN_JS_DIR, logger } from '@modern-js/utils';
+import { Import, fs, HIDE_MODERN_JS_DIR, logger } from '@modern-js/utils';
 import { transformSync } from 'esbuild';
 
 const glob: typeof import('glob') = Import.lazy('glob', require);

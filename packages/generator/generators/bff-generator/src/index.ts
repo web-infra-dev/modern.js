@@ -1,6 +1,6 @@
+import path from 'path';
 import {
   fs,
-  path,
   getPackageVersion,
   isTsProject,
   readTsConfigByFile,

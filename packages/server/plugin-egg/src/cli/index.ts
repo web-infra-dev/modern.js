@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { useAppContext, createPlugin } from '@modern-js/core';
-import { createRuntimeExportsUtils, fs, upath } from '@modern-js/utils';
+import { createRuntimeExportsUtils, fs } from '@modern-js/utils';
 
 const PACKAGE_JSON = 'package.json';
 
@@ -27,11 +27,9 @@ export default createPlugin(
       modifyEntryImports() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const { appDirectory } = useAppContext();
-        const runtimePath = upath.normalizeSafe(
-          require.resolve(`@modern-js/runtime`, {
-            paths: [appDirectory],
-          }),
-        );
+        const runtimePath = require.resolve(`@modern-js/runtime`, {
+          paths: [appDirectory],
+        });
 
         const currentFile = bffExportsUtils.getPath();
 

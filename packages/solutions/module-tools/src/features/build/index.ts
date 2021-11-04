@@ -1,4 +1,5 @@
-import { Import, fs, path } from '@modern-js/utils';
+import path from 'path';
+import { Import, fs } from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
 import type { IBuildConfig } from '../../types';
 

@@ -1,5 +1,6 @@
+import path from 'path';
 import * as glob from 'glob';
-import { chalk, fs, path } from '@modern-js/utils';
+import { chalk, fs } from '@modern-js/utils';
 
 interface ValidOption {
   appDirectory: string;

@@ -1,4 +1,4 @@
-import { path } from '@modern-js/generator-utils';
+import path from 'path';
 import { merge } from 'lodash';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';

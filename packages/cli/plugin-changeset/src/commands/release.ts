@@ -1,9 +1,5 @@
-import {
-  path,
-  getPackageManager,
-  isModernjsMonorepo,
-  fs,
-} from '@modern-js/utils';
+import path from 'path';
+import { getPackageManager, isModernjsMonorepo, fs } from '@modern-js/utils';
 import { tag as gitTag } from '@changesets/git';
 import { CHANGESET_PATH, execaWithStreamLog } from '../utils';
 

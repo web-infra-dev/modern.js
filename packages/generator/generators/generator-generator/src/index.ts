@@ -1,3 +1,4 @@
+import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
@@ -8,7 +9,6 @@ import {
   SolutionGenerator,
 } from '@modern-js/generator-common';
 import {
-  path,
   fs,
   i18n as utilsI18n,
   getAllPackages,

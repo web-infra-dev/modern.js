@@ -1,5 +1,6 @@
+import path from 'path';
 import type { NormalizedConfig } from '@modern-js/core';
-import { fs, Import, path, normalizeOutputPath } from '@modern-js/utils';
+import { fs, Import, normalizeOutputPath } from '@modern-js/utils';
 import { STORYBOOK_TEMPLATE_DIR } from '../constants';
 
 const template: typeof import('lodash.template') = Import.lazy(

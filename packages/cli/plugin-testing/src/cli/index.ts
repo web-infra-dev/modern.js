@@ -1,5 +1,5 @@
+import path from 'path';
 import {
-  path,
   createRuntimeExportsUtils,
   PLUGIN_SCHEMAS,
 } from '@modern-js/utils';
