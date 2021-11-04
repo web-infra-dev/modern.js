@@ -20,6 +20,7 @@
     "prepare": "pnpm run prepare --filter ./packages",
     "lint": "modern lint",
     "change": "modern change",
+    "clear": "modern clear",
     "bump": "modern bump",
     "pre": "modern pre",
     "release": "modern release --ignore-scripts"
