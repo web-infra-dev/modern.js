@@ -58,13 +58,20 @@ export const historyApiFallbackMiddleware = (
       (a, b) => b.urlPath.length - a.urlPath.length,
     );
 
-    for (const { entryName, urlPath } of sortedRoutes) {
-      if (pathname?.startsWith(urlPath) && entryName) {
-        const rewriteTarget = appContext.htmlTemplates[entryName];
+    for (const { entryName, urlPath, isApi } of sortedRoutes) {
+      if (pathname?.startsWith(urlPath)) {
+        // should ignore api request
+        if (isApi) {
+          break;
+        }
 
-        debug('Rewriting', method, reqUrl, 'to', rewriteTarget);
-        ctx.url = rewriteTarget;
-        return next();
+        if (entryName) {
+          const rewriteTarget = appContext.htmlTemplates[entryName];
+
+          debug('Rewriting', method, reqUrl, 'to', rewriteTarget);
+          ctx.url = rewriteTarget;
+          return next();
+        }
       }
     }
     return next();
