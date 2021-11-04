@@ -21,6 +21,7 @@
     "lint": "modern lint",
     "change": "modern change",
     "clear": "modern clear",
+    "deploy": "modern deploy",
     "bump": "modern bump",
     "pre": "modern pre",
     "release": "modern release --ignore-scripts"

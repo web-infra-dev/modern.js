@@ -46,7 +46,6 @@
   "devDependencies": {
     "@modern-js/module-tools": "^1.0.0",
     "@modern-js/plugin-testing": "^1.0.0",
-    "@modern-js/create-request": "workspace:^1.0.0",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^26",
     "@types/node": "^14",

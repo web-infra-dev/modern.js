@@ -4,7 +4,6 @@ import path from 'path';
 import {
   generateClient,
   getMethodAndStatementFromName,
-  DEFAULT_CLIENT_REQUEST_CREATOR,
 } from '@/index';
 import { checkSource } from '@/client/check-source';
 import { getRouteName } from '@/client/get-route-name';
@@ -23,19 +22,27 @@ describe('client', () => {
       );
       const source = fs.readFileSync(resourcePath, 'utf-8');
 
+      jest.mock(
+        '@modern-js/create-request',
+        () => {
+          return {
+            __esModule: true,
+            createRquest: () => {},
+          };
+        },
+        { virtual: true },
+      );
       const result = await generateClient({
         prefix,
         port,
         resourcePath,
         source,
         apiDir: PWD,
+        requireResolve: ((input: any) => input) as any
       });
       expect(result.isOk).toBeTruthy();
       expect(
-        result.value.replace(
-          require.resolve(DEFAULT_CLIENT_REQUEST_CREATOR).replace(/\\/g, '/'),
-          DEFAULT_CLIENT_REQUEST_CREATOR,
-        ),
+        result.value
       ).toMatch(`import { createRequest } from '@modern-js/create-request';
 
 export const get = createRequest('/:id/origin/foo', 'GET', process.env.PORT || 3000);
@@ -78,6 +85,16 @@ export const post = createRequest('/:id/origin/foo', 'POST', process.env.PORT ||
       );
       const source = fs.readFileSync(resourcePath, 'utf-8');
 
+      jest.mock(
+        '@modern-js/create-request',
+        () => {
+          return {
+            __esModule: true,
+            createRquest: () => {},
+          };
+        },
+        { virtual: true },
+      );
       const result = await generateClient({
         prefix,
         port,
@@ -85,13 +102,11 @@ export const post = createRequest('/:id/origin/foo', 'POST', process.env.PORT ||
         source,
         apiDir: PWD,
         fetcher: '@custom/fetcher',
+        requireResolve: ((input: any) => input) as any
       });
       expect(result.isOk).toBeTruthy();
       expect(
-        result.value.replace(
-          require.resolve(DEFAULT_CLIENT_REQUEST_CREATOR).replace(/\\/g, '/'),
-          DEFAULT_CLIENT_REQUEST_CREATOR,
-        ),
+        result.value
       ).toMatch(`import { createRequest } from '@modern-js/create-request';
 import { fetch } from '@custom/fetcher';
 
