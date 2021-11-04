@@ -1,5 +1,4 @@
 import path from 'path';
-import { upath } from '@modern-js/utils';
 import postcssImport from 'postcss-import';
 import { AcceptedPlugin } from 'postcss';
 
@@ -27,11 +26,9 @@ export const likeCssLoaderPostCssPlugins = (
         if (importFromNodeModule) {
           let findPath = '';
           try {
-            findPath = upath.normalizeSafe(
-              require.resolve(importSpecifer.slice(1), {
-                paths: ['$HOME/.node_modules'],
-              }),
-            );
+            findPath = require.resolve(importSpecifer.slice(1), {
+              paths: ['$HOME/.node_modules'],
+            });
           } catch (e: any) {
             findPath = importSpecifer.slice(1);
             throw new Error(`${importSpecifer.slice(1)}: ${e.code}`);

@@ -1,6 +1,6 @@
 import os from 'os';
+import path from 'path';
 import fs from 'fs-extra';
-import * as path from './path';
 
 export function getPackageManager(cwd: string = process.cwd()) {
   let appDirectory = cwd;

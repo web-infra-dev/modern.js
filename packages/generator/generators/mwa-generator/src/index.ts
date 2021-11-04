@@ -1,3 +1,4 @@
+import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
@@ -18,7 +19,6 @@ import {
   MWAActionFunctionsDependencies,
 } from '@modern-js/generator-common';
 import {
-  path,
   getMWAProjectPath,
   getAllPackages,
   i18n as utilsI18n,

@@ -1,7 +1,7 @@
+import path from 'path';
 import {
   isTsProject,
   getPackageManager,
-  path,
   getPackageManagerText,
 } from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';

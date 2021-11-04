@@ -3,7 +3,7 @@ import path from 'path';
 import {
   INTERNAL_DIR_ALAIS,
   INTERNAL_SRC_ALIAS,
-  upath,
+  normalizeToPosixPath,
 } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
 import type { ImportStatement } from './generateCode';
@@ -38,7 +38,7 @@ export const getDefaultImports = ({
     },
     customBootstrap && {
       specifiers: [{ local: 'customBootstrap' }],
-      value: upath.normalize(
+      value: normalizeToPosixPath(
         customBootstrap.replace(srcDirectory, INTERNAL_SRC_ALIAS),
       ),
     },
@@ -47,14 +47,14 @@ export const getDefaultImports = ({
   if (fileSystemRoutes) {
     const route: ImportStatement = {
       specifiers: [{ imported: 'routes' }],
-      value: upath.normalize(
+      value: normalizeToPosixPath(
         `${INTERNAL_DIR_ALAIS}/${entryName}/${FILE_SYSTEM_ROUTES_FILE_NAME}`,
       ),
     };
     if (fileSystemRoutes.globalApp) {
       imports.push({
         specifiers: [{ local: 'App' }],
-        value: upath.normalize(
+        value: normalizeToPosixPath(
           fileSystemRoutes.globalApp.replace(srcDirectory, INTERNAL_SRC_ALIAS),
         ),
       });
@@ -66,7 +66,9 @@ export const getDefaultImports = ({
   } else {
     imports.push({
       specifiers: [{ local: 'App' }],
-      value: upath.normalize(entry.replace(srcDirectory, INTERNAL_SRC_ALIAS)),
+      value: normalizeToPosixPath(
+        entry.replace(srcDirectory, INTERNAL_SRC_ALIAS),
+      ),
     });
   }
 

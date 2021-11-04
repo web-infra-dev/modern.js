@@ -1,3 +1,4 @@
+import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
@@ -9,7 +10,6 @@ import {
   PackageManager,
   ChangesetGenerator,
 } from '@modern-js/generator-common';
-import { path } from '@modern-js/generator-utils';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {

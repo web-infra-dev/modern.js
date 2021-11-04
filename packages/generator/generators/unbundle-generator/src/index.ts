@@ -1,5 +1,5 @@
+import path from 'path';
 import {
-  path,
   getPackageManager,
   getPackageManagerText,
 } from '@modern-js/generator-utils';
