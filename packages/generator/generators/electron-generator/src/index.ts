@@ -1,9 +1,9 @@
+import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import { FsAPI } from '@modern-js/codesmith-api-fs';
 import {
-  path,
   fs,
   isTsProject,
   getPackageManager,

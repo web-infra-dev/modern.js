@@ -1,7 +1,7 @@
 import fs from 'fs';
+import path from 'path';
 import glob from 'glob';
 import yaml from 'yaml';
-import * as path from './path';
 
 const PACKAGE_MAX_DEPTH = 5;
 

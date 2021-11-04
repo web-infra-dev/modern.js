@@ -21,10 +21,9 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
 
   chain
     .plugin('transform-typescript')
-    .use(
-      require.resolve('@babel/plugin-transform-typescript'),
-      [typescriptOptions],
-    );
+    .use(require.resolve('@babel/plugin-transform-typescript'), [
+      typescriptOptions,
+    ]);
 
   chain
     .plugin('babel-plugin-macros')

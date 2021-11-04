@@ -1,7 +1,7 @@
+import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
-import { path } from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
   i18n as commonI18n,

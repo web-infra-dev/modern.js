@@ -1,5 +1,5 @@
+import path from 'path';
 import {
-  path,
   createRuntimeExportsUtils,
   getEntryOptions,
   PLUGIN_SCHEMAS,
