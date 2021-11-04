@@ -64,7 +64,7 @@ const handleTemplateFile = async (
       ...context.config,
       devDependencies: {
         ...(context.config.devDependencies || {}),
-        [runtimeDependence]: await getPackageVersion(runtimeDependence),
+        [runtimeDependence]: `^${await getPackageVersion(runtimeDependence)}`,
       },
       isSubGenerator: true,
     },
