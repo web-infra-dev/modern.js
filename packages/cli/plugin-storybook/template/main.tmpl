@@ -6,8 +6,8 @@ const isTsProject = <%= isTsProject %>;
 
 const appDirectory = '<%= appDirectory %>';
 const internalStories = <%= stories %>;
-const sbConfigDir = path.resolve(appDirectory, 'config/storybook');
-const userMainPath = path.resolve(appDirectory, 'config/storybook/main.js');
+const sbConfigDir = '<%= sbConfigDir %>';
+const userMainPath = '<%= userMainPath %>'
 
 let userMainConfig = {};
 if (fs.existsSync(userMainPath)) {
@@ -20,7 +20,6 @@ if (stories && Array.isArray(stories)) {
 } else {
   stories = [];
 }
-
 module.exports = {
   ...userMainConfig,
   typescript: isTsProject ? {
@@ -28,7 +27,7 @@ module.exports = {
     check: !disableTsChecker,
   } : false,
   stories: [
-    ...internalStories,
+    ...internalStories.map(storyPath => path.posix.join(path.relative(__dirname, appDirectory).split(path.sep).join(path.posix.sep), storyPath)),
     ...stories,
   ],
   addons: [
