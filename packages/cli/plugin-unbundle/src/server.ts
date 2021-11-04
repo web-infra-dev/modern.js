@@ -176,9 +176,7 @@ export const startDevServer = async (
       ),
     );
 
-    let message = chalk.cyanBright(`  🛫 App running at: \n`);
-
-    message += prettyInstructions(appContext, userConfig);
+    let message = prettyInstructions(appContext, userConfig);
 
     message += `\n${chalk.cyanBright(
       [
