@@ -478,7 +478,13 @@ export class ModernServer {
     };
   }
 
-  private requestHandler(req: IncomingMessage, res: ServerResponse) {
+  private requestHandler(
+    req: IncomingMessage,
+    res: ServerResponse,
+    next = () => {
+      // empty
+    },
+  ) {
     res.statusCode = 200;
     const context: ModernServerContext = createContext(req, res, {
       logger: this.logger,
@@ -486,9 +492,7 @@ export class ModernServer {
     });
 
     try {
-      this._handler(context, () => {
-        // empty
-      });
+      this._handler(context, next);
     } catch (err) {
       this.onError(context, err as Error);
     }

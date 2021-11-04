@@ -36,9 +36,9 @@ export class Server {
   }
 
   public getRequestHandler() {
-    return (req: IncomingMessage, res: ServerResponse) => {
+    return (req: IncomingMessage, res: ServerResponse, next?: () => void) => {
       const requestHandler = this.server.getRequestHandler();
-      return requestHandler(req, res);
+      return requestHandler(req, res, next);
     };
   }
 
