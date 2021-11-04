@@ -41,8 +41,6 @@ async function loader(this: LoaderContext<APILoaderOptions>, source: string) {
 
   const result = await generateClient(options);
 
-  console.log(result);
-
   if (result.isOk) {
     callback(undefined, result.value);
   } else {
