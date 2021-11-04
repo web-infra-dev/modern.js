@@ -10,8 +10,11 @@ import {
   AssetModule,
   invalidateAssetModule,
 } from './AssetModule';
+import { logWithHistory } from './utils';
 
 const debug = createDebugger('esm:hmr');
+
+const historyLogger = logWithHistory();
 
 interface SocketClient extends ws {
   isAlive?: boolean;
@@ -217,6 +220,8 @@ export const onFileChange = (server: ESMServer, filename: string) => {
     debug(`ignore unused file change: ${fullPath}`);
     return;
   }
+
+  historyLogger(`file ${path.relative(appDirectory, fullPath)} change...`);
 
   const timestamp = Date.now();
 
