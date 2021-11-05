@@ -41,4 +41,4 @@ jobs:
         run: cd ./tests/node_modules/puppeteer && npm run install && cd ../..
 
       - name: Test
-        run: pnpm run test
+        run: cd ./tests && pnpm run test
