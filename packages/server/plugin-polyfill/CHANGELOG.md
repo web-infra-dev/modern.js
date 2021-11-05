@@ -1,5 +1,14 @@
 # @modern-js/plugin-polyfill
 
+## 1.0.1
+
+### Patch Changes
+
+- release 1.0.1
+- Updated dependencies [undefined]
+  - @modern-js/core@1.0.1
+  - @modern-js/server-plugin@1.0.1
+
 ## 1.0.0
 
 ### Patch Changes

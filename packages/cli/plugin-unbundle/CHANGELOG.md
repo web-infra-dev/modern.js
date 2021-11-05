@@ -1,5 +1,19 @@
 # @modern-js/plugin-unbundle
 
+## 1.0.1
+
+### Patch Changes
+
+- release 1.0.1
+- Updated dependencies [undefined]
+  - @modern-js/core@1.0.1
+  - @modern-js/css-config@1.0.1
+  - @modern-js/bff-utils@1.0.1
+  - @modern-js/create-request@1.0.1
+  - @modern-js/server@1.0.1
+  - @modern-js/esmpack@1.0.1
+  - @modern-js/utils@1.0.1
+
 ## 1.0.0
 
 ### Patch Changes

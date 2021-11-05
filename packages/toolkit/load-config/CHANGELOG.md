@@ -1,5 +1,14 @@
 # @modern-js/load-config
 
+## 1.0.1
+
+### Patch Changes
+
+- release 1.0.1
+- Updated dependencies [undefined]
+  - @modern-js/node-bundle-require@1.0.2
+  - @modern-js/utils@1.0.1
+
 ## 1.0.0
 
 ### Patch Changes

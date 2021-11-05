@@ -1,5 +1,19 @@
 # @modern-js/server
 
+## 1.0.1
+
+### Patch Changes
+
+- release 1.0.1
+- Updated dependencies [undefined]
+  - @modern-js/core@1.0.1
+  - @modern-js/bff-utils@1.0.1
+  - @modern-js/hmr-client@1.0.1
+  - @modern-js/server-plugin@1.0.1
+  - @modern-js/plugin-polyfill@1.0.1
+  - @modern-js/server-utils@1.0.1
+  - @modern-js/utils@1.0.1
+
 ## 1.0.0
 
 ### Patch Changes

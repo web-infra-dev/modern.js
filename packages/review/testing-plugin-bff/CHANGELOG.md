@@ -1,5 +1,16 @@
 # @modern-js/testing-plugin-bff
 
+## 1.0.1
+
+### Patch Changes
+
+- release 1.0.1
+- Updated dependencies [undefined]
+  - @modern-js/testing@1.0.1
+  - @modern-js/bff-utils@1.0.1
+  - @modern-js/server@1.0.1
+  - @modern-js/utils@1.0.1
+
 ## 1.0.0
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @modern-js/entry-generator
 
+## 1.0.5
+
+### Patch Changes
+
+- release 1.0.1
+
 ## 1.0.4
 
 ### Patch Changes

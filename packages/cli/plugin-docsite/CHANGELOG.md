@@ -1,5 +1,16 @@
 # @modern-js/plugin-docsite
 
+## 1.0.1
+
+### Patch Changes
+
+- release 1.0.1
+- 6b802b2: use path method from @modern-js/utils
+- Updated dependencies [undefined]
+  - @modern-js/core@1.0.1
+  - @modern-js/webpack@1.0.1
+  - @modern-js/utils@1.0.1
+
 ## 1.0.0
 
 ### Patch Changes

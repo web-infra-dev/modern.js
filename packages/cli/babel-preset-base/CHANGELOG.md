@@ -1,5 +1,20 @@
 # @modern-js/babel-preset-base
 
+## 1.0.1
+
+### Patch Changes
+
+- release 1.0.1
+- c503176: fix babel error when use 'declare class' syntax
+
+  Related links:
+
+  - https://github.com/babel/babel/issues/13853#issuecomment-944838841
+
+- Updated dependencies [undefined]
+  - @modern-js/babel-chain@1.0.1
+  - @modern-js/utils@1.0.1
+
 ## 1.0.0
 
 ### Patch Changes

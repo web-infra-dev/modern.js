@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.node.js",
@@ -46,7 +46,7 @@
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/server": "^5.15.1",
     "@loadable/webpack-plugin": "^5.15.1",
-    "@modern-js/utils": "workspace:^1.0.0",
+    "@modern-js/utils": "workspace:^1.0.1",
     "react": "^17",
     "react-dom": "^17",
     "react-helmet": "^6.1.0",
@@ -54,10 +54,10 @@
     "serialize-javascript": "^6.0.0"
   },
   "devDependencies": {
-    "@modern-js/babel-chain": "workspace:^1.0.0",
-    "@modern-js/core": "workspace:^1.0.0",
-    "@modern-js/runtime-core": "workspace:^1.0.0",
-    "@modern-js/server": "workspace:^1.0.0",
+    "@modern-js/babel-chain": "workspace:^1.0.1",
+    "@modern-js/core": "workspace:^1.0.1",
+    "@modern-js/runtime-core": "workspace:^1.0.1",
+    "@modern-js/server": "workspace:^1.0.1",
     "@loadable/component": "^5.15.0",
     "@types/loadable__component": "^5.13.4",
     "@types/jest": "^26",
@@ -70,12 +70,12 @@
     "@types/loadable__webpack-plugin": "^5.7.3",
     "@types/serialize-javascript": "^5.0.1",
     "@types/react-helmet": "^6.1.2",
-    "@modern-js/plugin-testing": "^1.0.0",
-    "@modern-js/module-tools": "^1.0.0"
+    "@modern-js/plugin-testing": "^1.0.2",
+    "@modern-js/module-tools": "^1.0.2"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.0.0",
-    "@modern-js/runtime-core": "workspace:^1.0.0",
+    "@modern-js/core": "workspace:^1.0.1",
+    "@modern-js/runtime-core": "workspace:^1.0.1",
     "@loadable/component": "^5.15.0",
     "@types/loadable__component": "^5.13.4"
   },

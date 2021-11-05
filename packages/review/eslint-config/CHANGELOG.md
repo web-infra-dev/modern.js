@@ -1,5 +1,13 @@
 # @modern-js/eslint-config
 
+## 1.0.1
+
+### Patch Changes
+
+- release 1.0.1
+- Updated dependencies [undefined]
+  - @modern-js-app/eslint-config@1.0.2
+
 ## 1.0.0
 
 ### Patch Changes

@@ -1,5 +1,27 @@
 # @modern-js/module-tools
 
+## 1.0.2
+
+### Patch Changes
+
+- release 1.0.1
+- Updated dependencies [undefined]
+- Updated dependencies [6b802b2]
+- Updated dependencies [eb00b56]
+  - @modern-js/babel-preset-module@1.0.1
+  - @modern-js/core@1.0.1
+  - @modern-js/css-config@1.0.1
+  - @modern-js/i18n-cli-language-detector@1.0.1
+  - @modern-js/plugin-analyze@1.0.1
+  - @modern-js/plugin-changeset@1.0.2
+  - @modern-js/plugin-fast-refresh@1.0.1
+  - @modern-js/plugin-i18n@1.0.1
+  - @modern-js/new-action@1.0.2
+  - @modern-js/babel-compiler@1.0.1
+  - @modern-js/style-compiler@1.0.1
+  - @modern-js/module-tools-hooks@1.0.1
+  - @modern-js/utils@1.0.1
+
 ## 1.0.1
 
 ### Patch Changes

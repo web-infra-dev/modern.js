@@ -1,5 +1,15 @@
 # @modern-js/server-utils
 
+## 1.0.1
+
+### Patch Changes
+
+- release 1.0.1
+- Updated dependencies [undefined]
+  - @modern-js/babel-preset-lib@1.0.2
+  - @modern-js/plugin@1.0.1
+  - @modern-js/utils@1.0.1
+
 ## 1.0.0
 
 ### Patch Changes
