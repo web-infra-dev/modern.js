@@ -160,12 +160,13 @@ const collectStaticRoutes = (
 
   return fs.existsSync(publicFolder)
     ? walkDirectory(publicFolder).map(filePath => ({
-        urlPath: `${urlJoin(filePath.slice(publicFolder.length))}`,
+        urlPath: `${urlJoin(
+          toPosix(filePath).slice(toPosix(publicFolder).length),
+        )}`,
         isSPA: true,
         isSSR: false,
-        entryPath: path.relative(
-          path.resolve(appDirectory, configDir!),
-          filePath,
+        entryPath: toPosix(
+          path.relative(path.resolve(appDirectory, configDir!), filePath),
         ),
       }))
     : [];
@@ -184,3 +185,6 @@ export const getServerRoutes = (
   ...collectHtmlRoutes(entrypoints, config),
   ...collectStaticRoutes(appContext, config),
 ];
+
+const toPosix = (pathStr: string) =>
+  pathStr.split(path.sep).join(path.posix.sep);
