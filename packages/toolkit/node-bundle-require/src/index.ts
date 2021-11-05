@@ -134,10 +134,17 @@ export async function bundleRequire(filepath: string, options?: Options) {
       {
         name: 'make-all-packages-external',
         setup(_build) {
-          _build.onResolve({ filter: EXTERNAL_REGEXP }, args => ({
-            path: args.path,
-            external: true,
-          }));
+          _build.onResolve({ filter: EXTERNAL_REGEXP }, args => {
+            let external = true;
+            // FIXME: windows external entrypoint
+            if (args.kind === 'entry-point') {
+              external = false;
+            }
+            return {
+              path: args.path,
+              external,
+            };
+          });
         },
       },
     ],
