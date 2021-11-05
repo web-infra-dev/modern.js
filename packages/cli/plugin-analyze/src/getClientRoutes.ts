@@ -5,6 +5,7 @@ import {
   findExists,
   INTERNAL_DIR_ALAIS,
   INTERNAL_SRC_ALIAS,
+  normalizeToPosixPath,
 } from '@modern-js/utils';
 import { makeLegalIdentifier } from '@rollup/pluginutils';
 import type { Entrypoint, Route } from '@modern-js/types';
@@ -54,7 +55,7 @@ const shouldSkip = (file: string): boolean => {
 };
 
 const replaceWithAlias = (base: string, filePath: string, alias: string) =>
-  path.join(alias, path.relative(base, filePath));
+  normalizeToPosixPath(path.join(alias, path.relative(base, filePath)));
 
 const parents: Route[] = [];
 
