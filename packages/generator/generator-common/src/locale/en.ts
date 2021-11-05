@@ -31,6 +31,7 @@ export const EN_LOCALE = {
       storybook: 'Enable "Storybook"',
       runtime_api: 'Enable "Runtime API"',
       mwa_storybook: 'Enable "Visual Testing (Storybook)"',
+      ssg: 'Enable "SSG"',
     },
     element: {
       self: 'Create project element',
