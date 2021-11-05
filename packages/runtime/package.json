@@ -79,5 +79,8 @@
     "@modern-js/plugin-testing": "^1.0.0",
     "@modern-js/module-tools": "^1.0.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ]
 }

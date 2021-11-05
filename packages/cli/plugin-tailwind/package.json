@@ -63,5 +63,8 @@
         "main": "CJS+ES6"
       }
     }
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
