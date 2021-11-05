@@ -11,7 +11,9 @@ class I18CLILanguageDetector {
       // Get `en_US` part from `en_US.UTF-8`
       .split('.')[0]
       // Slice en_US to en
-      .split('_')[0];
+      .split('_')[0]
+      // slice en-US to en
+      .split('-')[0];
 
     if (LC === 'C') {
       return '';
@@ -25,7 +27,8 @@ class I18CLILanguageDetector {
       process.env.LC_ALL ??
       process.env.LC_MESSAGES ??
       process.env.LANG ??
-      process.env.LANGUAGE;
+      process.env.LANGUAGE ??
+      Intl.DateTimeFormat().resolvedOptions().locale;
 
     return this.formatShellLocale(shellLocale);
   }
