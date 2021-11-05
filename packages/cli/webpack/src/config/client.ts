@@ -206,9 +206,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
                 return content;
               }
 
-              return require('lodash.template').compile(
-                content.toString('utf8'),
-              )({
+              return require('lodash.template')(content.toString('utf8'))({
                 staticPrefix: removeTailSlash(
                   this.chain.output.get('publicPath'),
                 ),
