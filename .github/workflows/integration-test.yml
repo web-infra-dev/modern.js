@@ -32,7 +32,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Init
-        run: npm install -g pnpm && pnpm run setup
+        run: npm install -g pnpm rimraf && pnpm run setup
 
       - name: Prepare
         run: pnpm run prepare --filter ./packages
