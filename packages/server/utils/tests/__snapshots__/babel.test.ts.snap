@@ -4,13 +4,7 @@ exports[`babel resolveBabelConfig 1`] = `
 Object {
   "plugins": Array [
     Array [
-      "\\@babel\\plugin-transform-typescript\\lib\\index.js",
-      Object {
-        "allowDeclareFields": true,
-      },
-    ],
-    Array [
-      "\\babel-plugin-macros\\dist\\index.js",
+      "/babel-plugin-macros/dist/index.js",
       Object {
         "twin": Object {
           "preset": "styled-components",
@@ -18,7 +12,7 @@ Object {
       },
     ],
     Array [
-      "\\babel-plugin-import\\lib\\index.js",
+      "/babel-plugin-import/lib/index.js",
       Object {
         "libraryDirectory": "es",
         "libraryName": "antd",
@@ -27,7 +21,7 @@ Object {
       "import-antd",
     ],
     Array [
-      "\\babel-plugin-lodash\\lib\\index.js",
+      "/babel-plugin-lodash/lib/index.js",
       Object {
         "id": Array [
           "lodash",
@@ -48,25 +42,25 @@ Object {
       },
     ],
     Array [
-      "\\@babel\\plugin-proposal-private-methods\\lib\\index.js",
+      "/@babel/plugin-proposal-private-methods/lib/index.js",
       Object {
         "loose": true,
       },
     ],
     Array [
-      "\\@babel\\plugin-proposal-private-property-in-object\\lib\\index.js",
+      "/@babel/plugin-proposal-private-property-in-object/lib/index.js",
       Object {
         "loose": true,
       },
     ],
     Array [
-      "\\@babel\\plugin-proposal-object-rest-spread\\lib\\index.js",
+      "/@babel/plugin-proposal-object-rest-spread/lib/index.js",
       Object {
         "useBuiltIns": true,
       },
     ],
     Array [
-      "\\@babel\\plugin-transform-runtime\\lib\\index.js",
+      "/@babel/plugin-transform-runtime/lib/index.js",
       Object {
         "corejs": false,
         "helpers": false,
@@ -76,51 +70,51 @@ Object {
       },
     ],
     Array [
-      "\\babel-plugin-transform-react-remove-prop-types\\lib\\index.js",
+      "/babel-plugin-transform-react-remove-prop-types/lib/index.js",
       Object {
         "removeImport": true,
       },
     ],
     Array [
-      "\\@babel\\plugin-proposal-function-bind\\lib\\index.js",
+      "/@babel/plugin-proposal-function-bind/lib/index.js",
     ],
     Array [
-      "\\@babel\\plugin-proposal-export-default-from\\lib\\index.js",
+      "/@babel/plugin-proposal-export-default-from/lib/index.js",
     ],
     Array [
-      "\\@babel\\plugin-proposal-export-namespace-from\\lib\\index.js",
+      "/@babel/plugin-proposal-export-namespace-from/lib/index.js",
     ],
     Array [
-      "\\@babel\\plugin-proposal-optional-chaining\\lib\\index.js",
+      "/@babel/plugin-proposal-optional-chaining/lib/index.js",
     ],
     Array [
-      "\\@babel\\plugin-proposal-numeric-separator\\lib\\index.js",
+      "/@babel/plugin-proposal-numeric-separator/lib/index.js",
     ],
     Array [
-      "\\@babel\\plugin-proposal-pipeline-operator\\lib\\index.js",
+      "/@babel/plugin-proposal-pipeline-operator/lib/index.js",
       Object {
         "proposal": "minimal",
       },
     ],
     Array [
-      "\\@babel\\plugin-proposal-partial-application\\lib\\index.js",
+      "/@babel/plugin-proposal-partial-application/lib/index.js",
     ],
     Array [
-      "\\@babel\\plugin-proposal-nullish-coalescing-operator\\lib\\index.js",
+      "/@babel/plugin-proposal-nullish-coalescing-operator/lib/index.js",
     ],
     Array [
-      "\\babel-plugin-styled-components\\lib\\index.js",
+      "/babel-plugin-styled-components/lib/index.js",
       Object {},
       "styled-components",
     ],
     Array [
-      "\\babel-plugin-transform-inline-environment-variables\\lib\\index.js",
+      "/babel-plugin-transform-inline-environment-variables/lib/index.js",
       Object {
         "include": Array [],
       },
     ],
     Array [
-      "\\babel-plugin-module-resolver\\lib\\index.js",
+      "/babel-plugin-module-resolver/lib/index.js",
       Object {
         "alias": Object {
           "@/*": Array [
@@ -137,7 +131,7 @@ Object {
           ".mjs",
         ],
         "resolvePath": [Function],
-        "root": "C:/Users/Admin/Projects/modern.js/packages/server/utils/tests/fixtures/",
+        "root": "/packages/server/utils/tests/fixtures/",
       },
     ],
     Array [
@@ -146,7 +140,7 @@ Object {
   ],
   "presets": Array [
     Array [
-      "\\@babel\\preset-env\\lib\\index.js",
+      "/@babel/preset-env/lib/index.js",
       Object {
         "bugfixes": true,
         "modules": "commonjs",
@@ -161,13 +155,13 @@ Object {
       },
     ],
     Array [
-      "\\@babel\\preset-react\\lib\\index.js",
+      "/@babel/preset-react/lib/index.js",
       Object {
         "runtime": "automatic",
       },
     ],
     Array [
-      "\\@babel\\preset-typescript\\lib\\index.js",
+      "/@babel/preset-typescript/lib/index.js",
       Object {
         "allowDeclareFields": true,
         "allowNamespaces": true,
