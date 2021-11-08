@@ -10,21 +10,21 @@ export interface IImportPathOpts {
 }
 
 const isResoureInSrc = (srcDir: string, resourecPath: string) =>
-  !path.relative(srcDir, resourecPath).includes('..');
+  !path.posix.relative(srcDir, resourecPath).includes('..');
 
 const getImportFileDistPath = (
   compilerFile: string,
   srcDir: string,
   importName: string,
 ) => {
-  const dir = path.dirname(compilerFile);
-  const compilerFileRelativeLoc = path.relative(dir, srcDir);
-  const importFileRelativeLoc = path.relative(
+  const dir = path.posix.dirname(compilerFile);
+  const compilerFileRelativeLoc = path.posix.relative(dir, srcDir);
+  const importFileRelativeLoc = path.posix.relative(
     srcDir,
-    path.join(dir, importName),
+    path.posix.join(dir, importName),
   );
-  const inSrc = isResoureInSrc(srcDir, path.join(dir, importName));
-  const importFileDistPath = path.join(
+  const inSrc = isResoureInSrc(srcDir, path.posix.join(dir, importName));
+  const importFileDistPath = path.posix.join(
     inSrc ? '..' : '../..',
     compilerFileRelativeLoc,
     'styles',
