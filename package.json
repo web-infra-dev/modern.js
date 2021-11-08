@@ -70,7 +70,6 @@
     "@modern-js/eslint-config": "workspace:^1.0.0",
     "@modern-js/monorepo-tools": "^1.0.0",
     "@modern-js/plugin-jarvis": "workspace:^1.0.0",
-    "@modern-js/tsconfig": "workspace:^1.0.0",
-    "rimraf": "^3.0.2"
+    "@modern-js/tsconfig": "workspace:^1.0.0"
   }
 }
