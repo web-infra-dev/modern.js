@@ -41,16 +41,18 @@ export const aliasPlugin = (alias: AliasOption): [string, PluginOptions] => {
     ]);
 
     if (result) {
-      const relativePath = path.posix.relative(
-        path.posix.dirname(currentFile),
-        path.posix.dirname(result),
+      const relativePath = path.relative(
+        path.dirname(currentFile),
+        path.dirname(result),
       );
-      const fileName = path.posix.basename(result);
+      const fileName = path.basename(result);
       // 如果是同级文件，则返回的是 ''
-      const filePath = path.posix.normalize(
+      const filePath = path.normalize(
         `${relativePath.length === 0 ? '.' : relativePath}/${fileName}`,
       );
-      return filePath.startsWith('.') ? filePath : `./${filePath}`;
+      return path
+        .normalize(filePath.startsWith('.') ? filePath : `./${filePath}`)
+        .replace(/\\/, '/');
     }
     return resolvePath(sourcePath, currentFile, opts);
   };
