@@ -1,11 +1,12 @@
 import path from 'path';
+import fs from 'fs-extra';
 import {
   createPlugin,
   useAppContext,
   useResolvedConfigContext,
 } from '@modern-js/core';
 import { compiler } from '@modern-js/babel-compiler';
-import { PLUGIN_SCHEMAS, fs, normalizeOutputPath } from '@modern-js/utils';
+import { PLUGIN_SCHEMAS, normalizeOutputPath } from '@modern-js/utils';
 import { resolveBabelConfig } from '@modern-js/server-utils';
 
 import type { Configuration } from 'webpack';
@@ -61,7 +62,7 @@ export default createPlugin(
               .before('fallback')
               .test(apiRegexp)
               .use('custom-loader')
-              .loader(require.resolve('./loader'))
+              .loader(require.resolve('./loader').replace(/\\/g, '/'))
               .options({
                 prefix,
                 apiDir: rootDir,

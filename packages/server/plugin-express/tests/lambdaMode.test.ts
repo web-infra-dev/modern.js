@@ -281,6 +281,7 @@ describe('support app.ts in lambda mode', () => {
         const app = mock_express();
         app.get('/hello', (req, res) => {
           res.send(`foo`);
+          res.end();
         });
 
         return app;

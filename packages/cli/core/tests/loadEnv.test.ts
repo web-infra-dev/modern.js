@@ -27,7 +27,7 @@ describe('load environment variables', () => {
 
   afterAll(() => {
     process.env = { ...defaultEnv };
-    exec(`rm -rf ${fixture}`);
+    exec(`rimraf ${fixture}`);
   });
 
   test(`support .env file`, () => {

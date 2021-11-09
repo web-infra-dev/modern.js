@@ -30,6 +30,7 @@
   },
   "files": [
     "dist",
+    "node.js",
     "node.d.ts",
     "type.d.ts"
   ],

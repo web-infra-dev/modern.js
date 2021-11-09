@@ -23,7 +23,7 @@
     "build": "modern build",
     {{/if}}
     {{#unless isMonorepoSubProject}}
-    "reset": "rm -rf node_modules",
+    "reset": "rimraf node_modules",
     "lint": "modern lint",
     "change": "modern change",
     "bump": "modern bump",

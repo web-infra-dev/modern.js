@@ -37,7 +37,9 @@ export function makeRoute(
       ...baseRoute,
       urlPath: normalize(`${urlPath}${route.url}`),
       headers: { ...headers, ...route.headers },
-      output: route.output || path.join(entryPath, `..${route.url}`),
+      output: route.output
+        ? path.normalize(route.output)
+        : path.join(entryPath, `..${route.url}`),
     };
   }
 }

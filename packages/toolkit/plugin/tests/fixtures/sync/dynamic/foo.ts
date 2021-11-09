@@ -1,4 +1,4 @@
-import { createAsyncWaterfall } from '../../../..';
+import { createAsyncWaterfall } from '../../../../src';
 import { createPlugin, registeManager, useRunner } from '../core';
 
 // declare new lifecircle type
