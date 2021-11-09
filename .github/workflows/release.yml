@@ -15,7 +15,11 @@ on:
 jobs:
   release:
     name: Release
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [16.x]
+        os: [macos-latest] # ubuntu-latest, debian-latest, windows-latest
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
