@@ -78,7 +78,9 @@ describe('get final compilerOption', () => {
     });
     const option_2 = getFinalCompilerOption({ ...baseOption, sourceDir });
     expect(option_2.filenames.length).toBe(1);
-    expect(option_2.filenames[0]).toBe(path.join(sourceDir, './bar.js'));
+    expect(path.normalize(option_2.filenames[0])).toBe(
+      path.normalize(path.join(sourceDir, './bar.js')),
+    );
     const option_3 = getFinalCompilerOption({ ...baseOption, watchDir });
     expect(option_3.filenames.length).toBe(0);
     const option_4 = getFinalCompilerOption({
@@ -90,9 +92,9 @@ describe('get final compilerOption', () => {
     expect(
       option_4.filenames.every(filename =>
         [
-          path.join(watchDir, './far.js'),
-          path.join(watchDir, './foo.jsx'),
-        ].includes(filename),
+          path.normalize(path.join(watchDir, './far.js')),
+          path.normalize(path.join(watchDir, './foo.jsx')),
+        ].includes(path.normalize(filename)),
       ),
     ).toBe(true);
 

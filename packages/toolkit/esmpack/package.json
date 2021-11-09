@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "prepare": "npm run build",
-    "build": "rm -rf ./dist && tsc -p tsconfig.build.json",
+    "build": "rimraf ./dist && tsc -p tsconfig.build.json",
     "build:watch": "tsc -p ./tsconfig.build.json",
     "prepublishOnly": "npm run build",
     "serve:fixture": "serve -l 8088 fixture",

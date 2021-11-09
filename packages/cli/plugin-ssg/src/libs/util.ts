@@ -93,7 +93,7 @@ export const replaceWithAlias = (
   base: string,
   filePath: string,
   alias: string,
-) => path.join(alias, path.relative(base, filePath));
+) => path.posix.join(alias, path.posix.relative(base, filePath));
 
 export const standardOptions = (ssgOptions: SSG, entrypoints: EntryPoint[]) => {
   if (ssgOptions === false) {

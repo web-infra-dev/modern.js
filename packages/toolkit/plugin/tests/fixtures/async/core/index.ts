@@ -3,7 +3,7 @@ import {
   createWaterfall,
   createWorkflow,
   createContext,
-} from '../../../..';
+} from '../../../../src';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type CTX = {};

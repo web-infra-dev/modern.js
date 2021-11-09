@@ -14,12 +14,14 @@
   ],
   "scripts": {
     "new": "modern new",
-    "setup": "npm run reset && pnpm install --ignore-scripts",
-    "reset": "pnpm -r exec rm -rf ./node_modules",
+    "setup": "pnpm install --ignore-scripts",
+    "reset": "pnpm -r exec rimraf ./node_modules && npm run setup",
     "test": "pnpm run test --filter ./packages",
     "prepare": "pnpm run prepare --filter ./packages",
     "lint": "modern lint",
     "change": "modern change",
+    "clear": "modern clear",
+    "deploy": "modern deploy",
     "bump": "modern bump",
     "pre": "modern pre",
     "release": "modern release --ignore-scripts"
@@ -62,12 +64,12 @@
     "coverage/"
   ],
   "devDependencies": {
-    "@modern-js/plugin-jarvis": "workspace:^1.0.0",
-    "@modern-js/tsconfig": "workspace:^1.0.0",
-    "@modern-js/eslint-config": "workspace:^1.0.0",
-    "@modern-js-app/eslint-config": "workspace:^1.0.0",
     "@commitlint/cli": "^13.2.0",
     "@commitlint/config-conventional": "^13.2.0",
-    "@modern-js/monorepo-tools": "^1.0.0"
+    "@modern-js-app/eslint-config": "workspace:^1.0.0",
+    "@modern-js/eslint-config": "workspace:^1.0.0",
+    "@modern-js/monorepo-tools": "^1.0.0",
+    "@modern-js/plugin-jarvis": "workspace:^1.0.0",
+    "@modern-js/tsconfig": "workspace:^1.0.0"
   }
 }

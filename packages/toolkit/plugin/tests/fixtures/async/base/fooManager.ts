@@ -3,7 +3,7 @@ import {
   createWaterfall,
   createWorkflow,
   createManager,
-} from '../../../..';
+} from '../../../../src';
 
 // foo plugin
 // eslint-disable-next-line @typescript-eslint/ban-types

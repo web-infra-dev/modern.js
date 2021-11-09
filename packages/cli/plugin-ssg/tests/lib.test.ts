@@ -72,13 +72,13 @@ describe('test functional function', () => {
 
     const route2 = makeRoute(baseRoute, { url: '/baz' });
     expect(route2.urlPath).toBe('/foo/baz');
-    expect(route2.output).toBe('html/foo/baz');
+    expect(route2.output).toBe(path.normalize('html/foo/baz'));
 
     const route3 = makeRoute(baseRoute, {
       url: '/baz',
       output: 'html/baz.html',
     });
-    expect(route3.output).toBe('html/baz.html');
+    expect(route3.output).toBe(path.normalize('html/baz.html'));
 
     const route4 = makeRoute(
       baseRoute,

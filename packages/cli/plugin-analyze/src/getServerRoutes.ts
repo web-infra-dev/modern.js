@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import urlJoin from 'url-join';
 import type { NormalizedConfig, IAppContext } from '@modern-js/core';
 import {
   isPlainObject,
@@ -30,7 +31,7 @@ const applyBaseUrl = (
     } else {
       return routes.map(route => ({
         ...route,
-        urlPath: path.posix.normalize(`/${baseUrl}/${route.urlPath}`),
+        urlPath: urlJoin(baseUrl, route.urlPath),
       }));
     }
   }
@@ -159,14 +160,13 @@ const collectStaticRoutes = (
 
   return fs.existsSync(publicFolder)
     ? walkDirectory(publicFolder).map(filePath => ({
-        urlPath: path.posix.normalize(
-          `/${path.relative(publicFolder, filePath)}`,
-        ),
+        urlPath: `${urlJoin(
+          toPosix(filePath).slice(toPosix(publicFolder).length),
+        )}`,
         isSPA: true,
         isSSR: false,
-        entryPath: path.relative(
-          path.resolve(appDirectory, configDir!),
-          filePath,
+        entryPath: toPosix(
+          path.relative(path.resolve(appDirectory, configDir!), filePath),
         ),
       }))
     : [];
@@ -185,3 +185,6 @@ export const getServerRoutes = (
   ...collectHtmlRoutes(entrypoints, config),
   ...collectStaticRoutes(appContext, config),
 ];
+
+const toPosix = (pathStr: string) =>
+  pathStr.split(path.sep).join(path.posix.sep);
