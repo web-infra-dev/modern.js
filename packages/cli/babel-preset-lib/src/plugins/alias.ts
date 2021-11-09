@@ -47,12 +47,12 @@ export const aliasPlugin = (alias: AliasOption): [string, PluginOptions] => {
       );
       const fileName = path.basename(result);
       // 如果是同级文件，则返回的是 ''
-      const filePath = path.normalize(
-        `${relativePath.length === 0 ? '.' : relativePath}/${fileName}`,
-      );
-      return path
-        .normalize(filePath.startsWith('.') ? filePath : `./${filePath}`)
+      const filePath = path
+        .normalize(
+          `${relativePath.length === 0 ? '.' : relativePath}/${fileName}`,
+        )
         .replace(/\\/, '/');
+      return filePath.startsWith('.') ? filePath : `./${filePath}`;
     }
     return resolvePath(sourcePath, currentFile, opts);
   };
