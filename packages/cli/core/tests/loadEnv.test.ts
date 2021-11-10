@@ -1,5 +1,4 @@
 import fs from 'fs';
-import { exec } from 'child_process';
 import path from 'path';
 import { loadEnv } from '@/loadEnv';
 
@@ -27,7 +26,7 @@ describe('load environment variables', () => {
 
   afterAll(() => {
     process.env = { ...defaultEnv };
-    exec(`rimraf ${fixture}`);
+    fs.rmSync(fixture, {force: true, recursive: true})
   });
 
   test(`support .env file`, () => {
