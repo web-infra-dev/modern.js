@@ -30,6 +30,10 @@ jobs:
 
       - name: Check out
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - run: git fetch
 
       - name: Init
         run: npm install -g pnpm && pnpm run setup
@@ -38,4 +42,4 @@ jobs:
         run: pnpm run prepare --filter ./packages
 
       - name: Test
-        run: pnpm run test
+        run: pnpm run test --filter "...[origin/main]" ./packages
