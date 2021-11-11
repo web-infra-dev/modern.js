@@ -35,7 +35,13 @@ export default () => {
     rawArgs.push(...ensureOption(args, 'ignore-pattern', pattern));
   });
 
-  if (args?._?.length) {
+  // To speed up eslint, develop can set LINT_CHANGED_FILES=true
+  // to activate eslint only works on changed files compared to origin/main branch
+  if (process.env.LINT_CHANGED_FILES) {
+    rawArgs.push(
+      `--no-error-on-unmatched-pattern $(git diff --name-only origin/main...HEAD | xargs)`,
+    );
+  } else if (args?._?.length) {
     rawArgs.push(...args._);
   } else {
     rawArgs.push('./');

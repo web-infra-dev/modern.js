@@ -19,6 +19,7 @@
     "test": "pnpm run test --filter ./packages",
     "prepare": "pnpm run prepare --filter ./packages",
     "lint": "modern lint",
+    "lint:check": "modern lint --no-fix",
     "change": "modern change",
     "clear": "modern clear",
     "deploy": "modern deploy",

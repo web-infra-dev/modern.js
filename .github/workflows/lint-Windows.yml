@@ -20,7 +20,8 @@ jobs:
       matrix:
         node-version: [14.x]
         os: [windows-latest] # ubuntu-latest
-
+    env:
+      LINT_CHANGED_FILES: true
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Setup Node.js ${{ matrix.node-version }}
@@ -30,6 +31,15 @@ jobs:
 
       - name: Check out
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - run: git fetch
+#      - name: Fetch origin main branch
+#        run: |
+#            git fetch --no-tags --depth=1 origin main
+#            git checkout -b main
+#            git checkout ${{ github.event.pull_request.head.sha }}
 
       - name: Init
         run: npm install -g pnpm && pnpm run setup
@@ -38,4 +48,4 @@ jobs:
         run: pnpm run prepare --filter ./packages
 
       - name: Lint
-        run: pnpm run lint
+        run: pnpm run lint:check
