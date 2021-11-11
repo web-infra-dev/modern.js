@@ -1,4 +1,4 @@
-name: Integration Test
+name: Integration Test(Windows)
 
 # Controls when the action will run.
 on:
@@ -18,8 +18,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
-        os: [macos-latest, windows-latest] # ubuntu-latest
+        node-version: [14.x]
+        os: [windows-latest] # ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
