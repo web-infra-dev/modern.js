@@ -1,4 +1,4 @@
-name: Lint
+name: Lint(Windows)
 
 # Controls when the action will run.
 on:

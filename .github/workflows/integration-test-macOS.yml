@@ -1,4 +1,4 @@
-name: Integration Test
+name: Integration Test(macOS)
 
 # Controls when the action will run.
 on:
