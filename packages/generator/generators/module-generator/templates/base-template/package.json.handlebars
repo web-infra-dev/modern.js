@@ -23,7 +23,7 @@
     "build": "modern build",
     {{/if}}
     {{#unless isMonorepoSubProject}}
-    "reset": "rimraf node_modules",
+    "reset": "del-cli node_modules",
     "lint": "modern lint",
     "change": "modern change",
     "bump": "modern bump",
@@ -72,7 +72,8 @@
     "react": "^17",
     "@modern-js/module-tools": "^1.0.0",
     "@modern-js/plugin-jarvis": "^1.0.0",
-    "@modern-js/plugin-testing": "^1.0.0"
+    "@modern-js/plugin-testing": "^1.0.0",
+    "del-cli": "^4.0.1"
   },
   "sideEffects": [
     "*.css",
