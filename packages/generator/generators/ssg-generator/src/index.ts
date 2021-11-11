@@ -26,7 +26,7 @@ const handleTemplateFile = async (
     query: {},
     update: {
       $set: {
-        'modernConfig.output.ssg': 'true',
+        'modernConfig.output.ssg': true,
       },
     },
   });
