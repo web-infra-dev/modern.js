@@ -44,9 +44,16 @@ export type PreviewOptions = {
 };
 
 const PREVIEW_TEMPLATE = path.join(STORYBOOK_TEMPLATE_DIR, 'preview.tmpl');
+const USER_PREVIEW_TEMPLATE = path.join(
+  STORYBOOK_TEMPLATE_DIR,
+  'user-preview.tmpl',
+);
 
 export const generatePreview = (options: PreviewOptions) => {
-  const previewTemplate = fs.readFileSync(PREVIEW_TEMPLATE, 'utf-8');
+  const previewTemplate = fs.readFileSync(
+    options.userPreviewPath ? USER_PREVIEW_TEMPLATE : PREVIEW_TEMPLATE,
+    'utf-8',
+  );
   const injects: Record<string, string> = {
     userPreviewPath: options.userPreviewPath || '',
     runtime: JSON.stringify(options.runtime || {}),
