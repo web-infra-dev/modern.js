@@ -1,5 +1,17 @@
 # @modern-js/new-action
 
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/generator-common@1.1.0
+  - @modern-js/generator-utils@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

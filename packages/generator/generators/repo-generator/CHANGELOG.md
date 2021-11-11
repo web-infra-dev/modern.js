@@ -1,5 +1,11 @@
 # @modern-js/repo-generator
 
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
 ## 1.0.3
 
 ### Patch Changes

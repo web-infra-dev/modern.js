@@ -1,5 +1,28 @@
 # @modern-js/app-tools
 
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+- Updated dependencies [eb00b569]
+  - @modern-js/core@1.1.0
+  - @modern-js/i18n-cli-language-detector@1.1.0
+  - @modern-js/plugin-analyze@1.1.0
+  - @modern-js/plugin-fast-refresh@1.1.0
+  - @modern-js/plugin-i18n@1.1.0
+  - @modern-js/webpack@1.1.0
+  - @modern-js/new-action@1.1.0
+  - @modern-js/plugin-polyfill@1.1.0
+  - @modern-js/server@1.1.0
+  - @modern-js/plugin@1.1.0
+  - @modern-js/types@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @modern-js/babel-preset-module
 
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0### Patch Changes
+
+- 6b802b2a: use path method from @modern-js/utils
+- Updated dependencies [96119db2]
+  - @modern-js/babel-preset-lib@1.1.0
+  - @modern-js/babel-chain@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes
