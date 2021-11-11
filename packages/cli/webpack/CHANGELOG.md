@@ -1,5 +1,20 @@
 # @modern-js/webpack
 
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/babel-preset-app@1.1.0
+  - @modern-js/core@1.1.0
+  - @modern-js/css-config@1.1.0
+  - @modern-js/babel-chain@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

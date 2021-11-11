@@ -1,9 +1,14 @@
 # @modern-js/server-generator
 
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
 ## 1.0.6
 
 ### Patch Changes
-
 
 - fix: server generator eslint file
 
