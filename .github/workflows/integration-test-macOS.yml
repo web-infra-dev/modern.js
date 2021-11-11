@@ -1,4 +1,4 @@
-name: Lint
+name: Integration Test
 
 # Controls when the action will run.
 on:
@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x, 16.x]
-        os: [macos-latest, windows-latest] # ubuntu-latest
+        os: [macos-latest] # ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -37,5 +37,8 @@ jobs:
       - name: Prepare
         run: pnpm run prepare --filter ./packages
 
-      - name: Lint
-        run: pnpm run lint
+      - name: Install Puppeteer
+        run: cd ./tests/node_modules/puppeteer && npm run install && cd ../..
+
+      - name: Test
+        run: cd ./tests && pnpm run test
