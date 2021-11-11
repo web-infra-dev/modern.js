@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.0.0",
+  "version": "1.1.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -36,26 +36,26 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/css-config": "workspace:^1.0.0",
-    "@modern-js/utils": "workspace:^1.0.0",
+    "@modern-js/css-config": "workspace:^1.1.0",
+    "@modern-js/utils": "workspace:^1.1.0",
     "less": "^4.1.1",
     "less-loader": "^10.0.1",
     "less-plugin-npm-import": "^2.1.0"
   },
   "devDependencies": {
-    "@modern-js/style-compiler": "workspace:^1.0.0",
+    "@modern-js/style-compiler": "workspace:^1.1.0",
     "@types/jest": "^26",
     "@types/less": "^3.0.3",
     "@types/node": "^14",
     "typescript": "^4",
     "webpack": "^5.54.0",
     "webpack-chain": "^6.5.1",
-    "@modern-js/core": "workspace:^1.0.0",
-    "@modern-js/plugin-testing": "^1.0.0",
-    "@modern-js/module-tools": "^1.0.0"
+    "@modern-js/core": "workspace:^1.1.0",
+    "@modern-js/plugin-testing": "^1.1.0",
+    "@modern-js/module-tools": "^1.1.0"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.0.0"
+    "@modern-js/core": "workspace:^1.1.0"
   },
   "sideEffects": false,
   "modernConfig": {

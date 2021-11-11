@@ -1,5 +1,13 @@
 # @modern-js/i18n-cli-language-detector
 
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0### Patch Changes
+
+- eb00b569: fix locale detect in Windows
+
 ## 1.0.0
 
 ### Patch Changes

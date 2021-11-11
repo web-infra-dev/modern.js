@@ -1,5 +1,24 @@
 # @modern-js/plugin-storybook
 
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- 6b802b2a: use path method from @modern-js/utils
+- 6b0d0c5d: modify the way the preview file is generated
+- Updated dependencies [96119db2]
+  - @modern-js/core@1.1.0
+  - @modern-js/plugin-router@1.1.0
+  - @modern-js/runtime@1.1.0
+  - @modern-js/plugin-state@1.1.0
+  - @modern-js/webpack@1.1.0
+  - @modern-js/runtime-core@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes
