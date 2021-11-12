@@ -110,6 +110,7 @@ export type PluginContainerContext = Omit<
   | 'isExternal'
   | 'moduleIds'
   | 'resolveId'
+  | 'load'
 >;
 
 export const createPluginContainer = async (
