@@ -102,6 +102,8 @@ export interface Hooks {
     unknown
   >;
   afterBuild: AsyncWorkflow<void, unknown>;
+  beforeDeploy: AsyncWorkflow<void, unknown>;
+  afterDeploy: AsyncWorkflow<void, unknown>;
   modifyEntryExport: AsyncWaterfall<{
     entrypoint: Entrypoint;
     exportStatement: string;

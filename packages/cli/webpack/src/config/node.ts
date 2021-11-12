@@ -152,9 +152,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
       }
     });
 
-    // ssr bundle use utils api, but can't treeshaking.
-    // may be we can add '@modern-js/' or allowlist packages into webpack bundle
-    config.externals.push('@modern-js/utils');
     return config;
   }
 }

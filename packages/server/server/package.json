@@ -43,7 +43,6 @@
     "@babel/runtime": "^7",
     "@modern-js/core": "workspace:^1.1.0",
     "@modern-js/hmr-client": "workspace:^1.1.0",
-    "@modern-js/plugin-polyfill": "workspace:^1.1.0",
     "@modern-js/server-plugin": "workspace:^1.1.0",
     "@modern-js/server-utils": "workspace:^1.1.0",
     "@modern-js/bff-utils": "workspace:^1.1.0",

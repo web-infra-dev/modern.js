@@ -32,6 +32,7 @@ export const EN_LOCALE = {
       runtime_api: 'Enable "Runtime API"',
       mwa_storybook: 'Enable "Visual Testing (Storybook)"',
       ssg: 'Enable "SSG"',
+      deploy: 'Enable "Deploy"',
     },
     element: {
       self: 'Create project element',
@@ -99,6 +100,23 @@ export const EN_LOCALE = {
       self: 'BFF Type',
       func: 'Function',
       framework: 'Framework',
+    },
+  },
+  deploy: {
+    cloud: {
+      self: 'Modify the default Web Server?',
+    },
+    cdn: {
+      self: 'Please select the cdn platform you want to use',
+      oss: 'Aliyun OSS',
+      cos: 'Tencent COS',
+      no: 'Not Enabled',
+    },
+    lambda: {
+      self: 'Please select the lambda you want to use',
+      fc: 'Aliyun FC',
+      scf: 'Tencent SCF',
+      no: 'Not Enabled',
     },
   },
 };

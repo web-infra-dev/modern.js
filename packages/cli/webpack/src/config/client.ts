@@ -55,6 +55,11 @@ class ClientWebpackConfig extends BaseWebpackConfig {
   resolve() {
     super.resolve();
 
+    // local node_modules
+    this.chain.resolve.modules.add(
+      path.resolve(__dirname, '../../../../node_modules'),
+    );
+
     // node polyfill
     if (!this.options.output.disableNodePolyfill) {
       this.chain.resolve.merge({
