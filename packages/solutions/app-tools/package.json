@@ -51,6 +51,7 @@
     "@modern-js/server": "workspace:^1.1.0",
     "@modern-js/utils": "workspace:^1.1.0",
     "@modern-js/webpack": "workspace:^1.1.0",
+    "esbuild": "^0.13.13",
     "webpack": "^5.54.0"
   },
   "devDependencies": {
