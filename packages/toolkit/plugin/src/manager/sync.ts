@@ -9,7 +9,7 @@ import {
   MaybeAsync,
   runWithContainer,
   createContainer,
-  Container
+  Container,
 } from 'farrow-pipeline';
 import {
   Waterfall,

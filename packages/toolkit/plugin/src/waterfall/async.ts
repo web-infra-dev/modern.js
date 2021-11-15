@@ -1,10 +1,14 @@
-import { createAsyncPipeline, Middleware, MaybeAsync, Container, useContainer } from 'farrow-pipeline'
+import {
+  createAsyncPipeline,
+  Middleware,
+  MaybeAsync,
+  Container,
+  useContainer,
+} from 'farrow-pipeline';
 
 const ASYNC_WATERFALL_SYMBOL = Symbol('ASYNC_WATERFALL_SYMBOL');
 
-export type AsyncBrook<I = unknown> = (
-  I: I,
-) => MaybeAsync<I>;
+export type AsyncBrook<I = unknown> = (I: I) => MaybeAsync<I>;
 export type AsyncBrookInput<I = unknown> =
   | AsyncBrook<I>
   | { middlware: AsyncBrook<I> };
@@ -65,21 +69,24 @@ export type AsyncWaterfalls2Runners<PS extends AsyncWaterfallRecord | void> = {
 
 // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export const createAsyncWaterfall = <I = void>(): AsyncWaterfall<I> => {
-  const pipeline = createAsyncPipeline<I, I>()
+  const pipeline = createAsyncPipeline<I, I>();
 
   const use: AsyncWaterfall<I>['use'] = (...input) => {
-    pipeline.use(...input.map(getAsyncBrook).map(mapAsyncBrookToAsyncMiddleware));
+    pipeline.use(
+      ...input.map(getAsyncBrook).map(mapAsyncBrookToAsyncMiddleware),
+    );
     return waterfall;
   };
 
-  const run: AsyncWaterfall<I>['run'] = (input, options) => {
-    return pipeline.run(input, { ...options, onLast: (input) => input });
-  };
+  const run: AsyncWaterfall<I>['run'] = (input, options) =>
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    pipeline.run(input, { ...options, onLast: input => input });
 
   const middlware: AsyncWaterfall<I>['middlware'] = input => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const container = useContainer();
-    return pipeline.run(input, { container, onLast: (input) => input });
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    return pipeline.run(input, { container, onLast: input => input });
   };
 
   const waterfall: AsyncWaterfall<I> = {
@@ -96,4 +103,7 @@ export const createAsyncWaterfall = <I = void>(): AsyncWaterfall<I> => {
 export const isAsyncWaterfall = (input: any): input is AsyncWaterfall<any> =>
   Boolean(input?.[ASYNC_WATERFALL_SYMBOL]);
 
-const mapAsyncBrookToAsyncMiddleware = <I>(brook: AsyncBrook<I>): Middleware<I, MaybeAsync<I>> => async (input, next) => next(await brook(input))
+const mapAsyncBrookToAsyncMiddleware =
+  <I>(brook: AsyncBrook<I>): Middleware<I, MaybeAsync<I>> =>
+  async (input, next) =>
+    next(await brook(input));

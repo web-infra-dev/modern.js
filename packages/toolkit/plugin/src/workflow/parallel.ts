@@ -1,4 +1,4 @@
-import { MaybeAsync, createPipeline, Middleware } from 'farrow-pipeline'
+import { MaybeAsync, createPipeline, Middleware } from 'farrow-pipeline';
 import type { AsyncWorker, AsyncWorkers } from './async';
 import type { RunWorkflowOptions } from './sync';
 
@@ -68,16 +68,18 @@ export const createParallelWorkflow = <
   I = void,
   O = unknown,
 >(): ParallelWorkflow<I, O> => {
-  const pipeline = createPipeline<I, MaybeAsync<O>[]>()
+  const pipeline = createPipeline<I, MaybeAsync<O>[]>();
 
   const use: ParallelWorkflow<I, O>['use'] = (...input) => {
     pipeline.use(...input.map(mapParallelWorkerToAsyncMiddleware));
     return workflow;
   };
 
-  const run: ParallelWorkflow<I, O>['run'] = async (input, options) => {
-    return Promise.all(pipeline.run(input, { ...options, onLast: () => [] })).then(result => result.filter(Boolean));
-  };
+  const run: ParallelWorkflow<I, O>['run'] = async (input, options) =>
+    // eslint-disable-next-line promise/prefer-await-to-then
+    Promise.all(pipeline.run(input, { ...options, onLast: () => [] })).then(
+      result => result.filter(Boolean),
+    );
 
   const workflow: ParallelWorkflow<I, O> = {
     ...pipeline,
@@ -89,4 +91,7 @@ export const createParallelWorkflow = <
   return workflow;
 };
 
-const mapParallelWorkerToAsyncMiddleware = <I, O>(worker: AsyncWorker<I, O>): Middleware<I, MaybeAsync<O>[]> => (input, next) => [worker(input), ...next(input)]
+const mapParallelWorkerToAsyncMiddleware =
+  <I, O>(worker: AsyncWorker<I, O>): Middleware<I, MaybeAsync<O>[]> =>
+  (input, next) =>
+    [worker(input), ...next(input)];

@@ -1,4 +1,4 @@
-import { Container, createPipeline, Middleware } from 'farrow-pipeline'
+import { Container, createPipeline, Middleware } from 'farrow-pipeline';
 
 const WORKFLOW_SYMBOL = Symbol('WORKFLOW_SYMBOL');
 
@@ -51,7 +51,7 @@ export type Workflows2Runners<PS extends WorkflowRecord | void> = {
 
 // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export const createWorkflow = <I = void, O = unknown>(): Workflow<I, O> => {
-  const pipeline = createPipeline<I, O[]>()
+  const pipeline = createPipeline<I, O[]>();
 
   const use: Workflow<I, O>['use'] = (...input) => {
     pipeline.use(...input.map(mapWorkerToMiddleware));
@@ -59,8 +59,8 @@ export const createWorkflow = <I = void, O = unknown>(): Workflow<I, O> => {
   };
 
   const run: Workflow<I, O>['run'] = async (input, options) => {
-    const result  = pipeline.run(input, { ...options, onLast: () => [] })
-    return result.filter(Boolean)
+    const result = pipeline.run(input, { ...options, onLast: () => [] });
+    return result.filter(Boolean);
   };
 
   const workflow: Workflow<I, O> = {
@@ -76,4 +76,7 @@ export const createWorkflow = <I = void, O = unknown>(): Workflow<I, O> => {
 export const isWorkflow = (input: any): input is Workflow<unknown, unknown> =>
   Boolean(input?.[WORKFLOW_SYMBOL]);
 
-const mapWorkerToMiddleware = <I, O>(worker: Worker<I, O>): Middleware<I, O[]> => (input, next) => [worker(input), ...next(input)]
+const mapWorkerToMiddleware =
+  <I, O>(worker: Worker<I, O>): Middleware<I, O[]> =>
+  (input, next) =>
+    [worker(input), ...next(input)];

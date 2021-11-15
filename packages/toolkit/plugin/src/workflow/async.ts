@@ -1,4 +1,4 @@
-import { MaybeAsync, createAsyncPipeline, Middleware } from 'farrow-pipeline'
+import { MaybeAsync, createAsyncPipeline, Middleware } from 'farrow-pipeline';
 import type { RunWorkflowOptions } from './sync';
 
 const ASYNC_WORKFLOW_SYMBOL = Symbol('ASYNC_WORKFLOW_SYMBOL');
@@ -53,7 +53,7 @@ export const createAsyncWorkflow = <I = void, O = unknown>(): AsyncWorkflow<
   I,
   O
 > => {
-  const pipeline = createAsyncPipeline<I, O[]>()
+  const pipeline = createAsyncPipeline<I, O[]>();
 
   const use: AsyncWorkflow<I, O>['use'] = (...input) => {
     pipeline.use(...input.map(mapAsyncWorkerToAsyncMiddleware));
@@ -61,11 +61,12 @@ export const createAsyncWorkflow = <I = void, O = unknown>(): AsyncWorkflow<
   };
 
   const run: AsyncWorkflow<I, O>['run'] = async (input, options) => {
-    const result  = pipeline.run(input, { ...options, onLast: () => [] })
+    const result = pipeline.run(input, { ...options, onLast: () => [] });
     if (isPromise(result)) {
+      // eslint-disable-next-line @typescript-eslint/no-shadow,promise/prefer-await-to-then
       return result.then(result => result.filter(Boolean));
     } else {
-      return result.filter(Boolean)
+      return result.filter(Boolean);
     }
   };
 
@@ -79,7 +80,10 @@ export const createAsyncWorkflow = <I = void, O = unknown>(): AsyncWorkflow<
   return workflow;
 };
 
-const mapAsyncWorkerToAsyncMiddleware = <I, O>(worker: AsyncWorker<I, O>): Middleware<I, MaybeAsync<O[]>> => async (input, next) => [await worker(input), ...(await next(input))]
+const mapAsyncWorkerToAsyncMiddleware =
+  <I, O>(worker: AsyncWorker<I, O>): Middleware<I, MaybeAsync<O[]>> =>
+  async (input, next) =>
+    [await worker(input), ...(await next(input))];
 
 function isPromise(obj: any): obj is Promise<any> {
   /* eslint-disable promise/prefer-await-to-then */
