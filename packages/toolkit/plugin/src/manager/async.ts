@@ -1,4 +1,4 @@
-import { runWithContainer, createContainer } from '../context';
+import { runWithContainer, createContainer } from 'farrow-pipeline';
 import {
   ProgressRecord,
   Progresses2Threads,

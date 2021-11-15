@@ -1,6 +1,5 @@
-import { createAsyncCounter } from '../counter';
-import { Hooks, runHooks, fromContainer, createContainer } from '../context';
-import { AsyncWorker, AsyncWorkers } from './async';
+import { MaybeAsync, createPipeline, Middleware } from 'farrow-pipeline'
+import type { AsyncWorker, AsyncWorkers } from './async';
 import type { RunWorkflowOptions } from './sync';
 
 const PARALLEL_WORKFLOW_SYMBOL = Symbol('PARALLEL_WORKFLOW_SYMBOL');
@@ -69,47 +68,25 @@ export const createParallelWorkflow = <
   I = void,
   O = unknown,
 >(): ParallelWorkflow<I, O> => {
-  const middlewares: AsyncWorkers<I, O> = [];
-
-  const createCurrentRunner = (hooks: Hooks) =>
-    createAsyncCounter<I, O[]>((index, input, next) => {
-      if (index >= middlewares.length) {
-        return Promise.resolve<any[]>([]);
-      }
-
-      const middleware = middlewares[index];
-      return runHooks(
-        async () => Promise.all([middleware(input), ...(await next(input))]),
-        hooks,
-      );
-    });
-
-  const currentContainer = createContainer();
-  const currentHooks = fromContainer(currentContainer);
-  const currentRunner = createCurrentRunner(currentHooks);
+  const pipeline = createPipeline<I, MaybeAsync<O>[]>()
 
   const use: ParallelWorkflow<I, O>['use'] = (...input) => {
-    middlewares.push(...input);
+    pipeline.use(...input.map(mapParallelWorkerToAsyncMiddleware));
     return workflow;
   };
 
   const run: ParallelWorkflow<I, O>['run'] = async (input, options) => {
-    const container = options?.container ?? currentContainer;
-    const hooks =
-      container === currentContainer ? currentHooks : fromContainer(container);
-    const runner =
-      container === currentContainer
-        ? currentRunner
-        : createCurrentRunner(hooks);
-
-    return runner.start(input);
+    return Promise.all(pipeline.run(input, { ...options, onLast: () => [] })).then(result => result.filter(Boolean));
   };
 
-  const workflow = {
-    use,
+  const workflow: ParallelWorkflow<I, O> = {
+    ...pipeline,
     run,
+    use,
     [PARALLEL_WORKFLOW_SYMBOL]: true as const,
   };
 
   return workflow;
 };
+
+const mapParallelWorkerToAsyncMiddleware = <I, O>(worker: AsyncWorker<I, O>): Middleware<I, MaybeAsync<O>[]> => (input, next) => [worker(input), ...next(input)]

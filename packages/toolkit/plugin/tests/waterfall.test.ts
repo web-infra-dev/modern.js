@@ -7,7 +7,7 @@ import {
   isWaterfall,
   isAsyncWaterfall,
 } from '@/index';
-import { enable, disable } from '@/asyncHooksImpl';
+import { enable, disable } from 'farrow-pipeline/asyncHooks.node';
 
 describe('waterfall', () => {
   it('base usage', () => {

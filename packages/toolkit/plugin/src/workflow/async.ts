@@ -1,14 +1,13 @@
-import { createAsyncCounter } from '../counter';
-import { Hooks, runHooks, fromContainer, createContainer } from '../context';
+import { MaybeAsync, createAsyncPipeline, Middleware } from 'farrow-pipeline'
 import type { RunWorkflowOptions } from './sync';
 
 const ASYNC_WORKFLOW_SYMBOL = Symbol('ASYNC_WORKFLOW_SYMBOL');
 
-export type AsyncWorker<I, O> = (I: I) => O | Promise<O>;
+export type AsyncWorker<I, O> = (I: I) => MaybeAsync<O>;
 export type AsyncWorkers<I, O> = AsyncWorker<I, O>[];
 
 export type AsyncWorkflow<I, O> = {
-  run: (input: I, options?: RunWorkflowOptions) => Promise<O[]>;
+  run: (input: I, options?: RunWorkflowOptions) => MaybeAsync<O[]>;
   use: (...I: AsyncWorkers<I, O>) => AsyncWorkflow<I, O>;
   [ASYNC_WORKFLOW_SYMBOL]: true;
 };
@@ -54,43 +53,24 @@ export const createAsyncWorkflow = <I = void, O = unknown>(): AsyncWorkflow<
   I,
   O
 > => {
-  const middlewares: AsyncWorkers<I, O> = [];
-
-  const createCurrentRunner = (hooks: Hooks) =>
-    createAsyncCounter<I, O[]>(async (index, input, next) => {
-      if (index >= middlewares.length) {
-        return [];
-      }
-
-      const middleware = middlewares[index];
-      return runHooks(async () => {
-        const result = await middleware(input);
-        const rest = await next(input);
-        return [result, ...rest];
-      }, hooks);
-    });
-  const currentContainer = createContainer();
-  const currentHooks = fromContainer(currentContainer);
-  const currentRunner = createCurrentRunner(currentHooks);
+  const pipeline = createAsyncPipeline<I, O[]>()
 
   const use: AsyncWorkflow<I, O>['use'] = (...input) => {
-    middlewares.push(...input);
+    pipeline.use(...input.map(mapAsyncWorkerToAsyncMiddleware));
     return workflow;
   };
 
   const run: AsyncWorkflow<I, O>['run'] = async (input, options) => {
-    const container = options?.container ?? currentContainer;
-    const hooks =
-      container === currentContainer ? currentHooks : fromContainer(container);
-    const runner =
-      container === currentContainer
-        ? currentRunner
-        : createCurrentRunner(hooks);
-
-    return runner.start(input);
+    const result  = pipeline.run(input, { ...options, onLast: () => [] })
+    if (isPromise(result)) {
+      return result.then(result => result.filter(Boolean));
+    } else {
+      return result.filter(Boolean)
+    }
   };
 
-  const workflow = {
+  const workflow: AsyncWorkflow<I, O> = {
+    ...pipeline,
     use,
     run,
     [ASYNC_WORKFLOW_SYMBOL]: true as const,
@@ -98,3 +78,15 @@ export const createAsyncWorkflow = <I = void, O = unknown>(): AsyncWorkflow<
 
   return workflow;
 };
+
+const mapAsyncWorkerToAsyncMiddleware = <I, O>(worker: AsyncWorker<I, O>): Middleware<I, MaybeAsync<O[]>> => async (input, next) => [await worker(input), ...(await next(input))]
+
+function isPromise(obj: any): obj is Promise<any> {
+  /* eslint-disable promise/prefer-await-to-then */
+  return (
+    Boolean(obj) &&
+    (typeof obj === 'object' || typeof obj === 'function') &&
+    typeof obj.then === 'function'
+  );
+  /* eslint-enable promise/prefer-await-to-then */
+}

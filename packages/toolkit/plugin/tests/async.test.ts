@@ -6,11 +6,10 @@ import bar, { getBar } from './fixtures/async/base/bar';
 import dFoo from './fixtures/async/dynamic/foo';
 import dBar, { getNumber } from './fixtures/async/dynamic/bar';
 import { sleep } from './helpers';
-import { createContext, createContainer } from '@/context';
 import { createManager, createAsyncManager, useRunner } from '@/manager';
-import { enable, disable } from '@/asyncHooksImpl';
+import { enable, disable } from 'farrow-pipeline/asyncHooks.node';
 import { createWaterfall, createAsyncWaterfall } from '@/waterfall';
-import { createPipeline, createAsyncPipeline } from '@/pipeline';
+import { createPipeline, createAsyncPipeline, createContext, createContainer } from 'farrow-pipeline';
 import {
   createWorkflow,
   createAsyncWorkflow,
