@@ -1,5 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable max-lines */
+import * as asyncHooksImpl from 'farrow-pipeline/asyncHooks.node';
 import { sleep } from './helpers';
 import {
   createContext,
@@ -10,7 +11,6 @@ import {
   useContainer,
   isPipeline,
 } from '@/index';
-import * as asyncHooksImpl from 'farrow-pipeline/asyncHooks.node';
 
 describe('createPipeline', () => {
   it('basic usage', async () => {
@@ -588,6 +588,7 @@ describe('createPipeline', () => {
     it('should throw error when all middlewares calling next() and onLast is not exist', async () => {
       const pipeline = createAsyncPipeline<number, number>();
 
+      // eslint-disable-next-line promise/prefer-await-to-then
       pipeline.use((input, next) => Promise.resolve().then(() => next(input)));
 
       await expect(() => pipeline.run(0)).rejects.toThrowError();

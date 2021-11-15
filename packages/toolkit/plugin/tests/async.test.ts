@@ -1,5 +1,12 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable max-lines */
+import { enable, disable } from 'farrow-pipeline/asyncHooks.node';
+import {
+  createPipeline,
+  createAsyncPipeline,
+  createContext,
+  createContainer,
+} from 'farrow-pipeline';
 import { main } from './fixtures/async/core';
 import foo from './fixtures/async/base/foo';
 import bar, { getBar } from './fixtures/async/base/bar';
@@ -7,9 +14,7 @@ import dFoo from './fixtures/async/dynamic/foo';
 import dBar, { getNumber } from './fixtures/async/dynamic/bar';
 import { sleep } from './helpers';
 import { createManager, createAsyncManager, useRunner } from '@/manager';
-import { enable, disable } from 'farrow-pipeline/asyncHooks.node';
 import { createWaterfall, createAsyncWaterfall } from '@/waterfall';
-import { createPipeline, createAsyncPipeline, createContext, createContainer } from 'farrow-pipeline';
 import {
   createWorkflow,
   createAsyncWorkflow,
