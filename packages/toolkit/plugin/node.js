@@ -1,1 +1,1 @@
-module.exports = require('./dist/js/node/asyncHooksImpl');
+module.exports = require('farrow-pipeline/asyncHooks.node');
