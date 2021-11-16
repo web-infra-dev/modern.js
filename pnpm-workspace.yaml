@@ -1,6 +1,5 @@
 packages:
  - 'packages/*'
-#  - 'examples/**/*'
  - 'packages/cli/*'
  - 'packages/generator/*'
  - 'packages/generator/generators/*'
