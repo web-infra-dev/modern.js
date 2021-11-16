@@ -37,7 +37,8 @@
     "test": "modern test --passWithNoTests"
   },
   "dependencies": {
-    "@babel/runtime": "^7"
+    "@babel/runtime": "^7",
+    "farrow-pipeline": "^1.10.6"
   },
   "devDependencies": {
     "@types/jest": "^26",

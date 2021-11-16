@@ -1,11 +1,4 @@
-import { createCounter } from '../counter';
-import {
-  Hooks,
-  runHooks,
-  fromContainer,
-  Container,
-  createContainer,
-} from '../context';
+import { Container, createPipeline, Middleware } from 'farrow-pipeline';
 
 const WORKFLOW_SYMBOL = Symbol('WORKFLOW_SYMBOL');
 
@@ -58,40 +51,20 @@ export type Workflows2Runners<PS extends WorkflowRecord | void> = {
 
 // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export const createWorkflow = <I = void, O = unknown>(): Workflow<I, O> => {
-  const middlewares: Workers<I, O> = [];
-
-  const createCurrentRunner = (hooks: Hooks) =>
-    createCounter<I, O[]>((index, input, next) => {
-      if (index >= middlewares.length) {
-        return [];
-      }
-
-      const middleware = middlewares[index];
-      return runHooks(() => [middleware(input), ...next(input)], hooks);
-    });
-
-  const currentContainer = createContainer();
-  const currentHooks = fromContainer(currentContainer);
-  const currentRunner = createCurrentRunner(currentHooks);
+  const pipeline = createPipeline<I, O[]>();
 
   const use: Workflow<I, O>['use'] = (...input) => {
-    middlewares.push(...input);
+    pipeline.use(...input.map(mapWorkerToMiddleware));
     return workflow;
   };
 
-  const run: Workflow<I, O>['run'] = (input, options) => {
-    const container = options?.container ?? currentContainer;
-    const hooks =
-      container === currentContainer ? currentHooks : fromContainer(container);
-    const runner =
-      container === currentContainer
-        ? currentRunner
-        : createCurrentRunner(hooks);
-
-    return runner.start(input);
+  const run: Workflow<I, O>['run'] = async (input, options) => {
+    const result = pipeline.run(input, { ...options, onLast: () => [] });
+    return result.filter(Boolean);
   };
 
-  const workflow = {
+  const workflow: Workflow<I, O> = {
+    ...pipeline,
     use,
     run,
     [WORKFLOW_SYMBOL]: true as const,
@@ -102,3 +75,8 @@ export const createWorkflow = <I = void, O = unknown>(): Workflow<I, O> => {
 
 export const isWorkflow = (input: any): input is Workflow<unknown, unknown> =>
   Boolean(input?.[WORKFLOW_SYMBOL]);
+
+const mapWorkerToMiddleware =
+  <I, O>(worker: Worker<I, O>): Middleware<I, O[]> =>
+  (input, next) =>
+    [worker(input), ...next(input)];

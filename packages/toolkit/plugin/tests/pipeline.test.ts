@@ -1,18 +1,16 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable max-lines */
+import * as asyncHooksImpl from 'farrow-pipeline/asyncHooks.node';
 import { sleep } from './helpers';
 import {
   createContext,
   createContainer,
   createPipeline,
   createAsyncPipeline,
-  useAsyncPipeline,
   usePipeline,
   useContainer,
   isPipeline,
-  isAsyncPipeline,
 } from '@/index';
-import * as asyncHooksImpl from '@/asyncHooksImpl';
 
 describe('createPipeline', () => {
   it('basic usage', async () => {
@@ -531,7 +529,7 @@ describe('createPipeline', () => {
       pipeline0.use(async input => `${input} from pipeline0`);
 
       pipeline1.use(async input => {
-        const runPipeline1 = useAsyncPipeline(pipeline0);
+        const runPipeline1 = usePipeline(pipeline0);
 
         const text = await runPipeline1(' pipeline1');
 
@@ -541,15 +539,6 @@ describe('createPipeline', () => {
       const result = await pipeline1.run('run');
 
       expect(result).toEqual(`run pipeline1 from pipeline0`);
-    });
-
-    it('isAsyncPipeline', () => {
-      const pipeline = createAsyncPipeline();
-
-      expect(isAsyncPipeline(pipeline)).toBeTruthy();
-      expect(isAsyncPipeline({})).toBeFalsy();
-      expect(isAsyncPipeline('test')).toBeFalsy();
-      expect(isAsyncPipeline(null)).toBeFalsy();
     });
 
     it('support hooks', async () => {
@@ -599,7 +588,8 @@ describe('createPipeline', () => {
     it('should throw error when all middlewares calling next() and onLast is not exist', async () => {
       const pipeline = createAsyncPipeline<number, number>();
 
-      pipeline.use((input, next) => next(input));
+      // eslint-disable-next-line promise/prefer-await-to-then
+      pipeline.use((input, next) => Promise.resolve().then(() => next(input)));
 
       await expect(() => pipeline.run(0)).rejects.toThrowError();
     });

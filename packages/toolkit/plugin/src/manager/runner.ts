@@ -1,4 +1,4 @@
-import { createContext } from '../context';
+import { createContext } from 'farrow-pipeline';
 
 export const RunnerContext = createContext<any>(null);
 
