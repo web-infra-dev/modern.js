@@ -1,5 +1,11 @@
 # @modern-js/plugin-storybook
 
+## 1.1.1
+
+### Patch Changes
+
+- 6cfc16e: change generator main and preview config file
+
 ## 1.1.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @modern-js/app-tools
 
+## 1.1.1
+
+### Patch Changes
+
+- 6cfc16e: add esbuild deps
+
 ## 1.1.0
 
 ### Minor Changes
