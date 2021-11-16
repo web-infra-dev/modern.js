@@ -46,7 +46,7 @@ export const resolveSourceMap = (option: {
   babelRes.code = utils.addSourceMappingUrl(babelRes.code as string, mapLoc);
 
   if (babelRes.map) {
-    babelRes.map.file = distFilePath;
+    babelRes.map.file = path.basename(distFilePath);
   }
 
   const sourceMapVirtualDist = {
