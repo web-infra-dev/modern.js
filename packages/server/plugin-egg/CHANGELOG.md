@@ -1,5 +1,11 @@
 # @modern-js/plugin-egg
 
+## 1.2.0
+
+### Minor Changes
+
+- 9f0c578: feat: generate type when use egg
+
 ## 1.1.0
 
 ### Minor Changes
