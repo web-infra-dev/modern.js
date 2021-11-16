@@ -6,8 +6,6 @@ export const EnableLessSchema: Schema = {
   key: 'enableLess',
   type: ['string'],
   label: () => i18n.t(localeKeys.needModifyConfig.enableLess),
-  when: (_, extra) =>
-    extra?.isEmptySrc === undefined ? true : Boolean(extra?.isEmptySrc),
   mutualExclusion: true,
   state: {
     value: BooleanConfig.NO,
@@ -19,8 +17,6 @@ export const EnableSassSchema: Schema = {
   key: 'enableSass',
   type: ['string'],
   label: () => i18n.t(localeKeys.needModifyConfig.enableSass),
-  when: (_, extra) =>
-    extra?.isEmptySrc === undefined ? true : Boolean(extra?.isEmptySrc),
   mutualExclusion: true,
   state: {
     value: BooleanConfig.NO,

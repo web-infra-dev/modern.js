@@ -3,6 +3,8 @@ import { i18n, localeKeys } from '@/locale';
 import { BooleanConfig, getBooleanSchemas } from '@/common/boolean';
 import { EnableLessSchema, EnableSassSchema } from '@/common/css';
 
+export const mwaConfigWhenFunc = (values: Record<string, any>) =>
+  values.needModifyMWAConfig === BooleanConfig.YES;
 export enum RunWay {
   No = 'no',
   Electron = 'electron',
@@ -30,11 +32,12 @@ export enum ClientRoute {
   No = 'no',
 }
 
-const ClientRouteSchema: Schema = {
+export const ClientRouteSchema: Schema = {
   key: 'clientRoute',
   type: ['string'],
   label: () => i18n.t(localeKeys.entry.clientRoute.self),
   mutualExclusion: true,
+  when: mwaConfigWhenFunc,
   state: {
     value: ClientRoute.SelfControlRoute,
   },
@@ -44,15 +47,26 @@ const ClientRouteSchema: Schema = {
   })),
 };
 
-const DisableStateManagementSchema: Schema = {
+export const DisableStateManagementSchema: Schema = {
   key: 'disableStateManagement',
   type: ['string'],
   label: () => i18n.t(localeKeys.entry.disableStateManagement),
   mutualExclusion: true,
+  when: mwaConfigWhenFunc,
   state: {
     value: BooleanConfig.NO,
   },
   items: getBooleanSchemas(),
+};
+
+export const EnableMWALessSchema: Schema = {
+  ...EnableLessSchema,
+  when: mwaConfigWhenFunc,
+};
+
+export const EnableMWASassSchema: Schema = {
+  ...EnableSassSchema,
+  when: mwaConfigWhenFunc,
 };
 
 export const NeedModifyMWAConfigSchema: Schema = {
@@ -63,13 +77,6 @@ export const NeedModifyMWAConfigSchema: Schema = {
   state: {
     value: BooleanConfig.NO,
   },
-
-  items: getBooleanSchemas([
-    ClientRouteSchema,
-    DisableStateManagementSchema,
-    EnableLessSchema,
-    EnableSassSchema,
-  ]),
 };
 
 export enum Framework {
