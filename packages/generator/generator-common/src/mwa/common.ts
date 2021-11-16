@@ -1,6 +1,6 @@
 import { Schema } from '@modern-js/easy-form-core';
 import { i18n, localeKeys } from '@/locale';
-import { BooleanConfig, getBooleanSchemas } from '@/common/boolean';
+import { BooleanConfig, BooleanSchemas } from '@/common/boolean';
 import { EnableLessSchema, EnableSassSchema } from '@/common/css';
 
 export const mwaConfigWhenFunc = (values: Record<string, any>) =>
@@ -56,7 +56,7 @@ export const DisableStateManagementSchema: Schema = {
   state: {
     value: BooleanConfig.NO,
   },
-  items: getBooleanSchemas(),
+  items: BooleanSchemas,
 };
 
 export const EnableMWALessSchema: Schema = {
@@ -77,6 +77,7 @@ export const NeedModifyMWAConfigSchema: Schema = {
   state: {
     value: BooleanConfig.NO,
   },
+  items: BooleanSchemas,
 };
 
 export enum Framework {

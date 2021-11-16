@@ -1,5 +1,5 @@
 import { Schema } from '@modern-js/easy-form-core';
-import { BooleanConfig, getBooleanSchemas } from './boolean';
+import { BooleanConfig, BooleanSchemas } from './boolean';
 import { i18n, localeKeys } from '@/locale';
 
 export const EnableLessSchema: Schema = {
@@ -10,7 +10,7 @@ export const EnableLessSchema: Schema = {
   state: {
     value: BooleanConfig.NO,
   },
-  items: getBooleanSchemas(),
+  items: BooleanSchemas,
 };
 
 export const EnableSassSchema: Schema = {
@@ -21,5 +21,5 @@ export const EnableSassSchema: Schema = {
   state: {
     value: BooleanConfig.NO,
   },
-  items: getBooleanSchemas(),
+  items: BooleanSchemas,
 };

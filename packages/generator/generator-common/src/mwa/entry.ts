@@ -3,8 +3,8 @@ import {
   ClientRouteSchema,
   DisableStateManagementSchema,
   NeedModifyMWAConfigSchema,
+  ClientRoute,
 } from './common';
-import { ClientRoute } from '.';
 import { i18n, localeKeys } from '@/locale';
 import { BooleanConfig } from '@/common';
 

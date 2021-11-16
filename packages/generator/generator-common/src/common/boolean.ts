@@ -11,7 +11,7 @@ export const BooleanConfigName: Record<string, () => string> = {
   [BooleanConfig.YES]: () => i18n.t(localeKeys.boolean.yes),
 };
 
-export const getBooleanSchemas = (): Schema[] => [
+export const BooleanSchemas: Schema[] = [
   {
     key: BooleanConfig.NO,
     label: BooleanConfigName[BooleanConfig.NO],

@@ -1,7 +1,6 @@
 import { Schema } from '@modern-js/easy-form-core';
 import { i18n, localeKeys } from '../locale';
-import { FrameworkSchema } from './common';
-import { Framework } from '.';
+import { FrameworkSchema, Framework } from './common';
 
 export const ServerSchemas = [FrameworkSchema];
 export const ServerSchema: Schema = {

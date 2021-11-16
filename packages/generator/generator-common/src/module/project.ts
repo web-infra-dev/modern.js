@@ -2,6 +2,7 @@ import { Schema } from '@modern-js/easy-form-core';
 import { i18n, localeKeys } from '@/locale';
 import {
   BooleanConfig,
+  BooleanSchemas,
   Language,
   LanguageSchema,
   PackageManager,
@@ -32,6 +33,7 @@ export const NeedModifyModuleConfigSchema: Schema = {
   state: {
     value: BooleanConfig.NO,
   },
+  items: BooleanSchemas,
 };
 
 export const ModuleSchemas = [
