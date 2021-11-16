@@ -3,20 +3,37 @@ import * as fs from 'fs';
 import * as egg from 'egg';
 
 class ModernJsLoader extends egg.AppWorkerLoader {
+  private readonly pwd: string;
+
+  private readonly realBaseDir: string;
+
   constructor(options: any) {
-    // help egg read package.json
+    const realBaseDir = options.baseDir;
     const apiDir = options.baseDir;
     options.baseDir = path.join(apiDir, '../');
     super(options);
+    this.pwd = options.baseDir;
     options.baseDir = apiDir;
+    this.realBaseDir = realBaseDir;
   }
 
   load() {
-    super.load();
+    this.mockBaseDir(() => {
+      super.load();
+    });
+  }
+
+  mockBaseDir(callback: (...args: any[]) => void) {
+    this.options.baseDir = this.realBaseDir;
+    callback();
+    this.options.baseDir = this.pwd;
   }
 
   loadConfig() {
-    super.loadConfig();
+    this.mockBaseDir(() => {
+      super.loadConfig();
+    });
+
     const pwd = this.appInfo.baseDir;
     this.config.rundir = path.join(pwd, 'node_modules', '.modernjs_egg/run');
     this.config.logger.dir = path.join(
@@ -38,7 +55,7 @@ class ModernJsLoader extends egg.AppWorkerLoader {
       extendTypes: {
         text: ['text/xml', 'application/xml'],
       },
-    }
+    };
   }
 
   loadPlugin() {

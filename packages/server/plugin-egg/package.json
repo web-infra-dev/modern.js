@@ -39,7 +39,8 @@
     "@modern-js/adapter-helpers": "workspace:^1.1.0",
     "@modern-js/utils": "workspace:^1.1.0",
     "formidable": "^1.2.2",
-    "type-is": "^1.6.18"
+    "type-is": "^1.6.18",
+    "egg-ts-helper": "^1.29.1"
   },
   "devDependencies": {
     "egg": "^2.29.4",
