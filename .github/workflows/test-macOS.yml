@@ -23,16 +23,22 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1.4.4
-        with:
-          node-version: ${{ matrix.node-version }}
-
       - name: Check out
         uses: actions/checkout@v2
 
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install Pnpm
+        run: |
+          ${{ runner.os == 'Windows' && '$PSStyle.OutputRendering = "Ansi"' || '' }}
+          curl -L https://get.pnpm.io/v6.16.js | node - add --global pnpm@next
+
       - name: Init
-        run: npm install -g pnpm && pnpm run setup
+        run: pnpm run setup
 
       - name: Prepare
         run: pnpm run prepare --filter ./packages
