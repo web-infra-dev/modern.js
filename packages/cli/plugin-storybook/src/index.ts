@@ -48,7 +48,6 @@ export default core.createPlugin(
     },
     // module-tools menu mode
     moduleToolsMenu() {
-      const { appDirectory } = core.useAppContext();
       return {
         name: 'Storybook 调试',
         value: 'storybook',
@@ -56,8 +55,8 @@ export default core.createPlugin(
           features.runDev({
             isTsProject,
             stories: [
-              `${appDirectory}/stories/**/*.stories.mdx`,
-              `${appDirectory}/stories/**/*.stories.@(js|jsx|ts|tsx)`,
+              `./stories/**/*.stories.mdx`,
+              `./stories/**/*.stories.@(js|jsx|ts|tsx)`,
             ],
           }),
       };
