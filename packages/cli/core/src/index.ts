@@ -40,7 +40,7 @@ import { NormalizedConfig } from './config/mergeConfig';
 import { loadEnv } from './loadEnv';
 
 export type { Hooks };
-export { defaultsConfig } from './config';
+export { defaultsConfig, mergeConfig } from './config';
 
 export * from '@modern-js/plugin';
 export * from '@modern-js/plugin/node';

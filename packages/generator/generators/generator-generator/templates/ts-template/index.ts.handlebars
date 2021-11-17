@@ -2,15 +2,6 @@ import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { i18n } from '@modern-js/generator-common';
 
-const getGeneratorPath = (generator: string, distTag: string) => {
-  if (process.env.CODESMITH_ENV === 'development') {
-    return path.dirname(require.resolve(generator));
-  } else if (distTag) {
-    return `${generator}@${distTag}`;
-  }
-  return generator;
-};
-
 const handleTemplateFile = async (appApi: AppAPI) => {
   await appApi.forgeTemplate('templates/**/*');
 };
