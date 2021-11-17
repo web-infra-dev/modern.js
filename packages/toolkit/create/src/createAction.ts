@@ -60,6 +60,8 @@ function getDefaultConfing(options: Options, logger: Logger) {
     initialConfig.distTag = distTag;
   }
 
+  initialConfig.defaultBranch = initialConfig.defaultBranch || 'main';
+
   return initialConfig;
 }
 

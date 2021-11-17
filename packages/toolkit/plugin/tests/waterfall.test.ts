@@ -1,3 +1,4 @@
+import { enable, disable } from 'farrow-pipeline/asyncHooks.node';
 import { sleep } from './helpers';
 import {
   createWaterfall,
@@ -7,7 +8,6 @@ import {
   isWaterfall,
   isAsyncWaterfall,
 } from '@/index';
-import { enable, disable } from '@/asyncHooksImpl';
 
 describe('waterfall', () => {
   it('base usage', () => {

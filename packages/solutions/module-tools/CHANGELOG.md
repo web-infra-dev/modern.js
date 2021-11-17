@@ -1,5 +1,30 @@
 # @modern-js/module-tools
 
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+- Updated dependencies [6b802b2a]
+- Updated dependencies [eb00b569]
+  - @modern-js/babel-preset-module@1.1.0
+  - @modern-js/core@1.1.0
+  - @modern-js/css-config@1.1.0
+  - @modern-js/i18n-cli-language-detector@1.1.0
+  - @modern-js/plugin-analyze@1.1.0
+  - @modern-js/plugin-changeset@1.1.0
+  - @modern-js/plugin-fast-refresh@1.1.0
+  - @modern-js/plugin-i18n@1.1.0
+  - @modern-js/new-action@1.1.0
+  - @modern-js/babel-compiler@1.1.0
+  - @modern-js/style-compiler@1.1.0
+  - @modern-js/module-tools-hooks@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

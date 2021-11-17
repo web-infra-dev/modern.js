@@ -14,8 +14,8 @@
   ],
   "scripts": {
     "new": "modern new",
-    "setup": "pnpm install --ignore-scripts",
-    "reset": "pnpm -r exec rimraf ./node_modules && npm run setup",
+    "setup": "npm run reset && pnpm install --ignore-scripts",
+    "reset": "pnpm dlx del-cli ./node_modules",
     "test": "pnpm run test --filter ./packages",
     "prepare": "pnpm run prepare --filter ./packages",
     "lint": "modern lint",

@@ -1,5 +1,19 @@
 # @modern-js/testing-plugin-bff
 
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/testing@1.1.0
+  - @modern-js/bff-utils@1.1.0
+  - @modern-js/server@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes
