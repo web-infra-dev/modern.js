@@ -9,6 +9,7 @@ import {
 } from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
+  EslintGenerator,
   i18n as commonI18n,
   Language,
 } from '@modern-js/generator-common';
@@ -29,33 +30,25 @@ const handleTemplateFile = async (
 ) => {
   const appDir = context.materials.default.basePath;
   const language = isTsProject(appDir) ? Language.TS : Language.JS;
-  await appApi.forgeTemplate(
-    'templates/base-template/**/*',
-    undefined,
-    resourceKey =>
-      resourceKey
-        .replace('templates/base-template/', '')
-        .replace('.handlebars', `.${language}x`),
+  await appApi.forgeTemplate('templates/**/*', undefined, resourceKey =>
+    resourceKey
+      .replace('templates/', '')
+      .replace('.handlebars', `.${language}x`),
   );
 
-  if (language === Language.TS) {
-    await appApi.forgeTemplate(
-      'templates/ts-template/**/*',
-      undefined,
-      resourceKey =>
-        resourceKey
-          .replace('templates/ts-template/', '')
-          .replace('.handlebars', ``),
-    );
-  } else {
-    appApi.forgeTemplate('templates/js-template/**/*', undefined, resourceKey =>
-      resourceKey
-        .replace('templates/js-template/', '')
-        .replace('.handlebars', ``),
-    );
-  }
+  await appApi.runSubGenerator(
+    getGeneratorPath(EslintGenerator, context.config.distTag),
+    undefined,
+    {
+      eslintConfig: {
+        ...(context.config.eslintConfig || {}),
+        dirs: ['stories'],
+      },
+    },
+  );
 
-  const runtimeDependence = '@modern-js/runtime';
+  const runtimeDependence =
+    context.config.runtimeDependence || '@modern-js/runtime';
 
   await appApi.runSubGenerator(
     getGeneratorPath(DependenceGenerator, context.config.distTag),
