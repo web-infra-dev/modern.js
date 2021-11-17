@@ -1,6 +1,12 @@
 import { Schema } from '@modern-js/easy-form-core';
-import { NeedModifyMWAConfigSchema } from './common';
+import {
+  ClientRouteSchema,
+  DisableStateManagementSchema,
+  NeedModifyMWAConfigSchema,
+  ClientRoute,
+} from './common';
 import { i18n, localeKeys } from '@/locale';
+import { BooleanConfig } from '@/common';
 
 const EntryNameSchema: Schema = {
   key: 'name',
@@ -34,14 +40,22 @@ const EntryNameSchema: Schema = {
   },
 };
 
-const EntrySchemaMap: Record<string, Schema> = {
-  name: EntryNameSchema,
-  needModifyEntryConfig: NeedModifyMWAConfigSchema,
-};
+export const EntrySchemas = [
+  EntryNameSchema,
+  NeedModifyMWAConfigSchema,
+  ClientRouteSchema,
+  DisableStateManagementSchema,
+];
 
 export const EntrySchema: Schema = {
   key: 'entry',
   label: () => i18n.t(localeKeys.action.element.entry),
   isObject: true,
-  items: Object.values(EntrySchemaMap),
+  items: EntrySchemas,
+};
+
+export const MWADefaultEntryConfig = {
+  needModifyMWAConfig: BooleanConfig.NO,
+  clientRoute: ClientRoute.SelfControlRoute,
+  disableStateManagement: BooleanConfig.NO,
 };

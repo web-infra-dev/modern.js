@@ -2,7 +2,7 @@ import { Schema } from '@modern-js/easy-form-core';
 import { i18n, localeKeys } from '@/locale';
 import {
   BooleanConfig,
-  getBooleanSchemas,
+  BooleanSchemas,
   Language,
   LanguageSchema,
   PackageManager,
@@ -12,7 +12,20 @@ import {
 } from '@/common';
 import { EnableLessSchema, EnableSassSchema } from '@/common/css';
 
-const NeedModifyModuleConfigSchema: Schema = {
+export const moduleConfigWhenFunc = (values: Record<string, any>) =>
+  values.needModifyModuleConfig === BooleanConfig.YES;
+
+export const EnableModuleLessSchema: Schema = {
+  ...EnableLessSchema,
+  when: moduleConfigWhenFunc,
+};
+
+export const EnableModuleSassSchema: Schema = {
+  ...EnableSassSchema,
+  when: moduleConfigWhenFunc,
+};
+
+export const NeedModifyModuleConfigSchema: Schema = {
   key: 'needModifyModuleConfig',
   label: () => i18n.t(localeKeys.needModifyConfig.self),
   type: ['string'],
@@ -20,25 +33,29 @@ const NeedModifyModuleConfigSchema: Schema = {
   state: {
     value: BooleanConfig.NO,
   },
-
-  items: getBooleanSchemas([EnableLessSchema, EnableSassSchema]),
+  items: BooleanSchemas,
 };
 
-const ModuleSchemaMap = {
-  packageName: PackageNameSchema,
-  packagePath: PackagePathSchema,
-  language: LanguageSchema,
-  packageManager: PackageManagerSchema,
-  needModifyModuleConfig: NeedModifyModuleConfigSchema,
-};
+export const ModuleSchemas = [
+  PackageNameSchema,
+  PackagePathSchema,
+  LanguageSchema,
+  PackageManagerSchema,
+  NeedModifyModuleConfigSchema,
+  EnableModuleLessSchema,
+  EnableModuleSassSchema,
+];
 
 export const ModuleSchema: Schema = {
   key: 'module',
   isObject: true,
-  items: Object.values(ModuleSchemaMap),
+  items: ModuleSchemas,
 };
 
 export const ModuleDefaultConfig = {
   language: Language.TS,
   packageManager: PackageManager.Pnpm,
+  needModifyModuleConfig: BooleanConfig.NO,
+  enableLess: BooleanConfig.NO,
+  enableSass: BooleanConfig.NO,
 };

@@ -1,9 +1,10 @@
 import { Schema } from '@modern-js/easy-form-core';
-import { FrameworkSchema } from './common';
+import { FrameworkSchema, Framework } from './common';
 import { i18n, localeKeys } from '@/locale';
 
 export enum BFFType {
   Func = 'func',
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   Framework = 'framework',
 }
 
@@ -18,13 +19,16 @@ export const BFFTypeSchema: Schema = {
   })),
 };
 
-const BFFSchemaMap = {
-  bffType: BFFTypeSchema,
-  framework: FrameworkSchema,
-};
+export const BFFSchemas = [BFFTypeSchema, FrameworkSchema];
+
 export const BFFSchema: Schema = {
   key: 'bff',
   label: () => i18n.t(localeKeys.action.function.bff),
   isObject: true,
-  items: Object.values(BFFSchemaMap),
+  items: BFFSchemas,
+};
+
+export const MWADefaultBffConfig = {
+  bffType: BFFType.Func,
+  frameWork: Framework.Express,
 };
