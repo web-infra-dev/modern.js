@@ -100,9 +100,9 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     generator = `${generator}@${distTag}`;
   }
 
-  const devDependencie =
+  const devDependency =
     MWAActionFunctionsDevDependencies[action as ActionFunction];
-  const dependence = MWAActionFunctionsDependencies[action as ActionFunction];
+  const dependency = MWAActionFunctionsDependencies[action as ActionFunction];
 
   const finalConfig = merge(
     UserConfig,
@@ -112,11 +112,11 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
       packageManager: getPackageManager(pwd),
     },
     {
-      devDependencies: devDependencie
-        ? { [devDependencie]: `^${await getPackageVersion(devDependencie)}` }
+      devDependencies: devDependency
+        ? { [devDependency]: `^${await getPackageVersion(devDependency)}` }
         : {},
-      dependencies: dependence
-        ? { [dependence]: `^${await getPackageVersion(dependence)}` }
+      dependencies: dependency
+        ? { [dependency]: `^${await getPackageVersion(dependency)}` }
         : {},
     },
   );

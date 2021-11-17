@@ -113,11 +113,11 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     generator = `${generator}@${distTag}`;
   }
 
-  const devDependencie =
+  const devDependency =
     ModuleActionFunctionsDevDependencies[action as ActionFunction];
-  const dependence =
+  const dependency =
     ModuleActionFunctionsDependencies[action as ActionFunction];
-  const peerDependencie =
+  const peerDependency =
     ModuleActionFunctionsPeerDependencies[action as ActionFunction];
 
   const finalConfig = merge(
@@ -128,14 +128,16 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
       packageManager: getPackageManager(pwd),
     },
     {
-      devDependencies: devDependencie
-        ? { [devDependencie]: `^${await getPackageVersion(devDependencie)}` }
+      devDependencies: devDependency
+        ? { [devDependency]: `^${await getPackageVersion(devDependency)}` }
         : {},
-      dependencies: dependence
-        ? { [dependence]: `^${await getPackageVersion(dependence)}` }
+      dependencies: dependency
+        ? { [dependency]: `^${await getPackageVersion(dependency)}` }
         : {},
-      peerDependencies: peerDependencie
-        ? { [peerDependencie]: `^${await getPackageVersion(peerDependencie)}` }
+      peerDependencies: peerDependency
+        ? {
+            [peerDependency]: `^${await getPackageVersion(peerDependency)}`,
+          }
         : {},
     },
   );
