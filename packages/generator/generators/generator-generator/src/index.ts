@@ -7,6 +7,7 @@ import {
   GeneratorSchema,
   Solution,
   SolutionGenerator,
+  BooleanConfig,
 } from '@modern-js/generator-common';
 import {
   fs,
@@ -27,7 +28,6 @@ const getGeneratorPath = (generator: string, distTag: string) => {
   return generator;
 };
 
-// eslint-disable-next-line max-statements
 const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
@@ -85,6 +85,7 @@ const handleTemplateFile = async (
     {
       ...context.config,
       isSubGenerator: true,
+      needModifyModuleConfig: BooleanConfig.NO,
     },
   );
 
@@ -118,7 +119,7 @@ const handleTemplateFile = async (
     'scripts.prepare': `${packageManager as string} build && ${
       packageManager as string
     } build:csmith`,
-    'scripts.bulid:csmith': 'csmith build',
+    'scripts.build:csmith': 'csmith-tools build',
     'dependencies.@modern-js/codesmith-api-app': '^1.0.0',
     'dependencies.@modern-js/codesmith': '^1.0.0',
     'dependencies.@modern-js/generator-common': '^1.0.0',
@@ -138,10 +139,7 @@ const handleTemplateFile = async (
   await fs.mkdirp(path.join(projectPath, 'templates'));
   const testDir = path.join(projectPath, 'tests');
   fs.rmdirSync(testDir, { recursive: true });
-  const styleDir = path.join(projectPath, 'styles');
-  fs.rmdirSync(styleDir, { recursive: true });
   fs.removeSync(path.join(projectPath, '.npmignore'));
-  fs.removeSync(path.join(projectPath, 'src', `index.${language as string}x`));
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
