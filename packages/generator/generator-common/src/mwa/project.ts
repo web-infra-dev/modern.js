@@ -1,5 +1,14 @@
 import { Schema } from '@modern-js/easy-form-core';
-import { NeedModifyMWAConfigSchema, RunWay, RunWaySchema } from './common';
+import {
+  ClientRouteSchema,
+  DisableStateManagementSchema,
+  NeedModifyMWAConfigSchema,
+  RunWay,
+  RunWaySchema,
+  EnableMWALessSchema,
+  EnableMWASassSchema,
+  ClientRoute,
+} from './common';
 import {
   BooleanConfig,
   Language,
@@ -10,19 +19,23 @@ import {
   PackagePathSchema,
 } from '@/common';
 
-const MWASchemaMap = {
-  packageName: PackageNameSchema,
-  packagePath: PackagePathSchema,
-  language: LanguageSchema,
-  packageManager: PackageManagerSchema,
-  runWay: RunWaySchema,
-  needModifyMWAConfig: NeedModifyMWAConfigSchema,
-};
+export const MWASchemas = [
+  PackageNameSchema,
+  PackagePathSchema,
+  LanguageSchema,
+  PackageManagerSchema,
+  RunWaySchema,
+  NeedModifyMWAConfigSchema,
+  ClientRouteSchema,
+  DisableStateManagementSchema,
+  EnableMWALessSchema,
+  EnableMWASassSchema,
+];
 
 export const MWASchema: Schema = {
   key: 'mwa',
   isObject: true,
-  items: Object.values(MWASchemaMap),
+  items: MWASchemas,
 };
 
 export const MWADefaultConfig = {
@@ -30,4 +43,8 @@ export const MWADefaultConfig = {
   packageManager: PackageManager.Pnpm,
   runWay: RunWay.No,
   needModifyMWAConfig: BooleanConfig.NO,
+  clientRoute: ClientRoute.SelfControlRoute,
+  disableStateManagement: BooleanConfig.NO,
+  enableLess: BooleanConfig.NO,
+  enableSass: BooleanConfig.NO,
 };

@@ -1,3 +1,3 @@
 export const ZH_LOCALE = {
-  lerna_error: '执行 lerna list --json 失败，请检查环境是否安装 lerna 并重试',
+  lerna_error: '获取 Monorepo 所有 packages 信息失败，请检查项目结构并重试',
 };

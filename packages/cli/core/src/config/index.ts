@@ -22,6 +22,7 @@ import { patchSchema, PluginValidateSchema } from './schema';
 const debug = createDebugger('resolve-config');
 
 export { defaults as defaultsConfig };
+export { mergeConfig };
 
 export interface SourceConfig {
   entries?: Record<
