@@ -37,13 +37,13 @@ export function hasEnabledFunction(
     return false;
   }
   if (dependencies[action]) {
-    return packageJson.dependencies[dependencies[action]];
+    return (packageJson.dependencies || {})[dependencies[action]];
   }
   if (peerDependencies[action]) {
-    return packageJson.peerDependencies[peerDependencies[action]];
+    return (packageJson.peerDependencies || {})[peerDependencies[action]];
   }
   if (!peerDependencies[action] && devDependencies[action]) {
-    return packageJson.devDependencies[devDependencies[action]];
+    return (packageJson.devDependencies || {})[devDependencies[action]];
   }
   return false;
 }
