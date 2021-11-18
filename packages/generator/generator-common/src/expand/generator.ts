@@ -8,17 +8,17 @@ import {
   PackagePathSchema,
 } from '@/common';
 
-const GeneratorSchemaMap = {
-  packageName: PackageNameSchema,
-  packagePath: PackagePathSchema,
-  PackageManager: PackageManagerSchema,
-  language: LanguageSchema,
-};
+const GeneratorSchemas = [
+  PackageNameSchema,
+  PackagePathSchema,
+  PackageManagerSchema,
+  LanguageSchema,
+];
 
 export const GeneratorSchema: Schema = {
   key: 'generator-generator',
   isObject: true,
-  items: Object.values(GeneratorSchemaMap),
+  items: Object.values(GeneratorSchemas),
 };
 
 export const GeneratorDefaultConfig = {

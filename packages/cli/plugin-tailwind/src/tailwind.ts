@@ -52,7 +52,7 @@ const getTailwindConfig = (
   };
   const tailwindConfig = applyOptionsChain(
     defaultTailwindConfig,
-    (config.tools as any).tailwind || {},
+    (config.tools as any).tailwindcss || {},
   );
 
   const designSystem = getPureDesignSystemConfig(
@@ -63,7 +63,7 @@ const getTailwindConfig = (
 
   if (exist) {
     logger.error(
-      `should not exist '${key}' on tools.tailwind, please remove it`,
+      `should not exist '${key}' on tools.tailwindcss, please remove it`,
     );
     // eslint-disable-next-line no-process-exit
     process.exit(0);
