@@ -33,10 +33,10 @@ jobs:
           fetch-depth: 25
 
       - name: Check docs only change
-        run: echo ::set-output name=DOCS_CHANGE::$(node skip-docs-change.js echo 'not-docs-only-change') | Out-File -FilePath $env:GITHUB_PATH -Append
+        run: echo "::set-output name=DOCS_CHANGE::$(node skip-docs-change.js echo 'not-docs-only-change')"
         id: docs-change
 
-      - run: echo ${{steps.docs-change.outputs.DOCS_CHANGE}}
+      - run: echo "${{steps.docs-change.outputs.DOCS_CHANGE}}"
 
       - name: Init
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
