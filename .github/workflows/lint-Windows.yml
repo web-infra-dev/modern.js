@@ -28,12 +28,23 @@ jobs:
 
       - name: Check out
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 25
+
+      - name: Check docs only change
+        run: echo ::set-output name=DOCS_CHANGE::$(node skip-docs-change.js echo 'not-docs-only-change') | Out-File -FilePath $env:GITHUB_PATH -Append
+        id: docs-change
+
+      - run: echo ${{steps.docs-change.outputs.DOCS_CHANGE}}
 
       - name: Init
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: npm install -g pnpm && pnpm run setup
 
       - name: Prepare
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: pnpm run prepare --filter ./packages
 
       - name: Lint
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: pnpm run lint
