@@ -136,6 +136,7 @@ const renderTemplate = (
 };
 
 const initTemplateVariables = (
+  appContext: IAppContext,
   userConfig: NormalizedConfig,
   entryName: string,
 ): BaseTemplateVariables => {
@@ -152,10 +153,17 @@ const initTemplateVariables = (
     },
   } = userConfig;
 
-  const titleVariable = getEntryOptions(entryName, title, titleByEntries);
+  const { packageName } = appContext;
+
+  const titleVariable = getEntryOptions(
+    entryName,
+    title,
+    titleByEntries,
+    packageName,
+  );
 
   const metaVariable = generateMetaTags(
-    getEntryOptions(entryName, meta, metaByEntries),
+    getEntryOptions(entryName, meta, metaByEntries, packageName),
   );
 
   return {
@@ -168,6 +176,7 @@ const initTemplateVariables = (
       entryName,
       templateParameters,
       templateParametersByEntries,
+      packageName,
     ),
   };
 };
@@ -177,7 +186,11 @@ const createEntryHtml = (
   userConfig: NormalizedConfig,
   entryName: string,
 ) => {
-  const templateVariables = initTemplateVariables(userConfig, entryName);
+  const templateVariables = initTemplateVariables(
+    appContext,
+    userConfig,
+    entryName,
+  );
 
   const template = appContext.htmlTemplates[entryName];
 

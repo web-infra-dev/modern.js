@@ -82,7 +82,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
 
     isDev() && this.chain.plugin('hmr').use(HotModuleReplacementPlugin);
 
-    const { entrypoints = [] } = this.appContext as IAppContext & {
+    const { entrypoints = [], packageName } = this.appContext as IAppContext & {
       entrypoints: Entrypoint[];
     };
 
@@ -108,6 +108,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
               entryName,
               this.options.output.favicon,
               this.options.output.faviconByEntries,
+              packageName,
             ) ||
             findExists(
               ICON_EXTENSIONS.map(ext =>
@@ -122,6 +123,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
             entryName,
             this.options.output.inject,
             this.options.output.injectByEntries,
+            packageName,
           ),
           templateParameters: (
             compilation: webpack.Compilation,
@@ -145,6 +147,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
                 entryName,
                 this.options.output.title,
                 this.options.output.titleByEntries,
+                packageName,
               ),
               mountId: this.options.output.mountId!,
               staticPrefix: this.chain.output.get('publicPath'),
@@ -153,12 +156,14 @@ class ClientWebpackConfig extends BaseWebpackConfig {
                   entryName,
                   this.options.output.meta,
                   this.options.output.metaByEntries,
+                  packageName,
                 ),
               ),
               ...getEntryOptions<Record<string, unknown> | undefined>(
                 entryName,
                 this.options.output.templateParameters,
                 this.options.output.templateParametersByEntries,
+                packageName,
               ),
             };
           },

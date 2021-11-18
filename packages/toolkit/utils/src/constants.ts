@@ -19,6 +19,11 @@ export const HMR_SOCK_PATH = '/_modern_js_hmr_ws';
 export const ROUTE_SPEC_FILE = 'route.json';
 
 /**
+ * main entry name
+ */
+export const MAIN_ENTRY_NAME = 'main';
+
+/**
  * open editor request path
  */
 export const LAUNCH_EDITOR_ENDPOINT = '/__open-stack-frame-in-editor';
