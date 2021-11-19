@@ -514,9 +514,7 @@ class BaseWebpackConfig {
     //  resolve modules
     this.chain.resolve.modules
       .add('node_modules')
-      .add(this.appContext.nodeModulesDirectory)
-      // local node_modules
-      .add(path.resolve(__dirname, '../../../../node_modules'));
+      .add(this.appContext.nodeModulesDirectory);
 
     let defaultScopes: any[] = ['./src', /node_modules/, './shared'];
 

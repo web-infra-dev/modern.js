@@ -6,14 +6,11 @@ import {
 } from 'http';
 import { createServer as createHttpsServer } from 'https';
 import { serverManager } from '@modern-js/server-plugin';
-import { compatRequire, logger as defaultLogger } from '@modern-js/utils';
+import { logger as defaultLogger } from '@modern-js/utils';
 import { ModernServerOptions, ServerHookRunner, ReadyOptions } from '../type';
 import { ModernServer } from './modern-server';
-import { ModernDevServer } from './dev-server';
-import { WebModernDevServer, WebModernServer } from './web-server';
-import { APIModernDevServer, APIModernServer } from './api-server';
+import type { ModernDevServer } from './dev-server';
 import { measure as defaultMeasure } from '@/libs/measure';
-import { genHttpsOptions } from '@/dev-tools/https';
 
 export class Server {
   public options: ModernServerOptions;
@@ -29,10 +26,6 @@ export class Server {
     options.plugins?.forEach(p => {
       serverManager.usePlugin(p);
     });
-
-    if (options.config?.output?.polyfill === 'ua') {
-      serverManager.usePlugin(compatRequire('@modern-js/plugin-polyfill'));
-    }
   }
 
   public getRequestHandler() {
@@ -68,6 +61,7 @@ export class Server {
       const devHttpsOption =
         typeof options.dev === 'object' && options.dev.https;
       if (devHttpsOption) {
+        const { genHttpsOptions } = require('@/dev-tools/https');
         const httpsOptions = await genHttpsOptions(devHttpsOption);
         this.app = createHttpsServer(httpsOptions, this.getRequestHandler());
       } else {
@@ -109,8 +103,10 @@ export class Server {
     const { options } = this;
 
     if (options.apiOnly) {
+      const { APIModernServer } = require('./api-server');
       return new APIModernServer(options, this.runner);
     } else if (options.webOnly) {
+      const { WebModernServer } = require('./web-server');
       return new WebModernServer(options, this.runner);
     } else {
       return new ModernServer(options, this.runner);
@@ -121,10 +117,13 @@ export class Server {
     const { options } = this;
 
     if (options.apiOnly) {
+      const { APIModernDevServer } = require('./api-server');
       return new APIModernDevServer(options, this.runner);
     } else if (options.webOnly) {
+      const { WebModernDevServer } = require('./web-server');
       return new WebModernDevServer(options, this.runner);
     } else {
+      const { ModernDevServer } = require('./dev-server');
       return new ModernDevServer(options, this.runner);
     }
   }

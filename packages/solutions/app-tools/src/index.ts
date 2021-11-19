@@ -39,6 +39,9 @@ export default createPlugin(
           .action(async () => {
             const { build } = await import('./commands/build');
             await build();
+            // force exit after build.
+            // eslint-disable-next-line no-process-exit
+            process.exit(0);
           });
 
         program
@@ -47,6 +50,19 @@ export default createPlugin(
           .description(i18n.t(localeKeys.command.start.describe))
           .action(async () => {
             await start();
+          });
+
+        program
+          .command('deploy')
+          .usage('[options]')
+          .description(i18n.t(localeKeys.command.deploy.describe))
+          .action(async () => {
+            const { build } = await import('./commands/build');
+            await build();
+            const { deploy } = await import('./commands/deploy');
+            await deploy();
+            // eslint-disable-next-line no-process-exit
+            process.exit(0);
           });
 
         program

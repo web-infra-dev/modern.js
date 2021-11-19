@@ -116,8 +116,4 @@ export const build = async () => {
     }
   }
   await (mountHook() as any).afterBuild();
-
-  // force exit after build.
-  // eslint-disable-next-line no-process-exit
-  process.exit(0);
 };

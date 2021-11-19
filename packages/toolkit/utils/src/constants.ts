@@ -91,6 +91,14 @@ export const INTERNAL_PLUGINS: {
   },
   '@modern-js/plugin-jarvis': { cli: '@modern-js/plugin-jarvis/cli' },
   '@modern-js/plugin-tailwindcss': { cli: '@modern-js/plugin-tailwindcss/cli' },
+  '@modern-js/plugin-lambda-fc': { cli: '@modern-js/plugin-lambda-fc/cli' },
+  '@modern-js/plugin-lambda-scf': { cli: '@modern-js/plugin-lambda-scf/cli' },
+  '@modern-js/plugin-cdn-oss': { cli: '@modern-js/plugin-cdn-oss/cli' },
+  '@modern-js/plugin-cdn-cos': { cli: '@modern-js/plugin-cdn-cos/cli' },
+  '@modern-js/plugin-static-hosting': {
+    cli: '@modern-js/plugin-static-hosting/cli',
+  },
+  '@modern-js/plugin-polyfill': { server: '@modern-js/plugin-polyfill' },
 };
 
 /**

@@ -6,6 +6,7 @@ export const ZH_LOCALE = {
     },
     build: { describe: '构建应用命令' },
     start: { describe: '应用启动命令' },
+    deploy: { describe: '部署应用命令' },
     new: {
       describe: 'MWA 项目中中执行生成器',
       debug: '开启 Debug 模式，打印调试日志信息',
