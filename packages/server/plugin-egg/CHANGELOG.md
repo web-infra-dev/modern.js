@@ -1,5 +1,19 @@
 # @modern-js/plugin-egg
 
+## 1.2.0
+
+### Minor Changes
+
+- 71f6e5f3: generate type when use egg
+
+### Patch Changes
+
+- 6ffd1a50: Refactor to base on farrow-pipeline
+- Updated dependencies [687c92c7]
+- Updated dependencies [c0fc0700]
+  - @modern-js/core@1.1.1
+  - @modern-js/utils@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes

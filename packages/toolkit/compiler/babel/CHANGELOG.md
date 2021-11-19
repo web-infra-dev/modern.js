@@ -1,5 +1,13 @@
 # @modern-js/babel-compiler
 
+## 1.1.1
+
+### Patch Changes
+
+- 0acdaeba: fix incorrect `file` vlaue in sourcemap
+- Updated dependencies [c0fc0700]
+  - @modern-js/utils@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes

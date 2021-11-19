@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.0",
+  "version": "1.1.1",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@modern-js/adapter-helpers": "workspace:^1.1.0",
-    "@modern-js/utils": "workspace:^1.1.0",
+    "@modern-js/utils": "workspace:^1.1.1",
     "@nestjs/platform-express": "^8.0.6",
     "@types/type-is": "^1.6.3",
     "body-parser": "^1.19.0",
@@ -70,7 +70,7 @@
     "typescript": "^4",
     "@nestjs/common": "^8.0.6",
     "@nestjs/core": "^8.0.6",
-    "@modern-js/core": "workspace:^1.1.0",
+    "@modern-js/core": "workspace:^1.1.1",
     "@modern-js/server-plugin": "workspace:^1.1.0",
     "@modern-js/plugin-testing": "^1.1.0",
     "@modern-js/module-tools": "^1.1.0"
@@ -81,7 +81,7 @@
     "@nestjs/common": "^8.0.6",
     "@nestjs/core": "^8.0.6",
     "@modern-js/bff-utils": "workspace:^1.1.0",
-    "@modern-js/core": "workspace:^1.1.0",
+    "@modern-js/core": "workspace:^1.1.1",
     "@modern-js/server-plugin": "workspace:^1.1.0",
     "@modern-js/bff-runtime": "workspace:^1.1.0"
   },

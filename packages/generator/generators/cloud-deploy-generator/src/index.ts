@@ -62,14 +62,14 @@ const handleTemplateFile = async (
     );
   }
 
-  if (lambdaType !== LambdaType.NO) {
+  if (lambdaType && lambdaType !== LambdaType.NO) {
     await addDep(`@modern-js/plugin-lambda-${lambdaType}`);
     generator.logger.info(
       `使用 ${lambdaType} 部署应用, 相关内容可以查看官网：\n- ${docLinks[lambdaType]}\n`,
     );
   } else {
     generator.logger.info(
-      `未云函数部署应用, 你可能希望使用其他容器部署应用, 相关内容可以查看官网: \n- ${docLinks.docker}\n`,
+      `未选择云函数部署应用, 你可能希望使用其他容器部署应用, 相关内容可以查看官网: \n- ${docLinks.docker}\n`,
     );
   }
 

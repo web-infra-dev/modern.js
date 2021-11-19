@@ -1,5 +1,11 @@
 # @modern-js/monorepo-generator
 
+## 1.1.1
+
+### Patch Changes
+
+- d1d5f093: update lerna.json.hbs
+
 ## 1.1.0
 
 ### Minor Changes
