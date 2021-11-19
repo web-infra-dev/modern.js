@@ -1,5 +1,11 @@
 # @modern-js/utils
 
+## 1.1.1
+
+### Patch Changes
+
+- c0fc0700: feat: support deploy plugin
+
 ## 1.1.0
 
 ### Minor Changes

@@ -1,5 +1,23 @@
 # @modern-js/app-tools
 
+## 1.1.2
+
+### Patch Changes
+
+- c0fc0700: feat: support deploy plugin
+- Updated dependencies [3b6856b8]
+- Updated dependencies [687c92c7]
+- Updated dependencies [c0fc0700]
+- Updated dependencies [6ffd1a50]
+- Updated dependencies [c7f4cafb]
+  - @modern-js/new-action@1.1.1
+  - @modern-js/core@1.1.1
+  - @modern-js/webpack@1.1.1
+  - @modern-js/server@1.1.1
+  - @modern-js/types@1.1.1
+  - @modern-js/utils@1.1.1
+  - @modern-js/plugin@1.1.1
+
 ## 1.1.1
 
 ### Patch Changes

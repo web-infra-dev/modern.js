@@ -1,5 +1,15 @@
 # @modern-js/new-action
 
+## 1.1.1
+
+### Patch Changes
+
+- 3b6856b8: fix: typo
+- c7f4cafb: fix: module solution new error without peerDependencies
+- Updated dependencies [687c92c7]
+- Updated dependencies [c0fc0700]
+  - @modern-js/generator-common@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes

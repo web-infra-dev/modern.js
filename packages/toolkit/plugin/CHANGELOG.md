@@ -1,5 +1,11 @@
 # @modern-js/plugin
 
+## 1.1.1
+
+### Patch Changes
+
+- 6ffd1a50: Refactor to base on farrow-pipeline
+
 ## 1.1.0
 
 ### Minor Changes

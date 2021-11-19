@@ -1,5 +1,13 @@
 # @modern-js/generator-common
 
+## 1.1.1
+
+### Patch Changes
+
+- 687c92c7: refactor: generator input questions
+  feat: add eslint generator
+- c0fc0700: feat: support deploy plugin
+
 ## 1.1.0
 
 ### Minor Changes

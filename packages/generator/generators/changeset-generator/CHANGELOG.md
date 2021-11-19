@@ -1,5 +1,11 @@
 # @modern-js/changeset-generator
 
+## 1.1.1
+
+### Patch Changes
+
+- d93a5d82: feat: change initial repo default branch
+
 ## 1.1.0
 
 ### Minor Changes
