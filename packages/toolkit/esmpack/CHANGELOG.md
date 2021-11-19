@@ -1,5 +1,12 @@
 # @modern-js/esmpack
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [c0fc0700]
+  - @modern-js/utils@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes

@@ -1,5 +1,18 @@
 # @modern-js/plugin-storybook
 
+## 1.1.2
+
+### Patch Changes
+
+- 3b51dd6b: remove appDirectory for stories path
+- Updated dependencies [725c4ff0]
+- Updated dependencies [687c92c7]
+- Updated dependencies [c0fc0700]
+  - @modern-js/plugin-state@1.1.1
+  - @modern-js/core@1.1.1
+  - @modern-js/webpack@1.1.1
+  - @modern-js/utils@1.1.1
+
 ## 1.1.1
 
 ### Patch Changes

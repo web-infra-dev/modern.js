@@ -1,5 +1,13 @@
 # @modern-js/types
 
+## 1.1.1
+
+### Patch Changes
+
+- c0fc0700: feat: support deploy plugin
+- Updated dependencies [6ffd1a50]
+  - @modern-js/plugin@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes

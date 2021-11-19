@@ -1,5 +1,16 @@
 # @modern-js/core
 
+## 1.1.1
+
+### Patch Changes
+
+- 687c92c7: refactor: generator input questions
+  feat: add eslint generator
+- Updated dependencies [c0fc0700]
+- Updated dependencies [6ffd1a50]
+  - @modern-js/utils@1.1.1
+  - @modern-js/plugin@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes

@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.0",
+  "version": "1.1.1",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/main.js",
@@ -49,7 +49,7 @@
     "@modern-js/i18n-cli-language-detector": "workspace:^1.1.0",
     "@modern-js/plugin-i18n": "workspace:^1.1.0",
     "@modern-js/repo-generator": "workspace:^1.1.0",
-    "@modern-js/utils": "workspace:^1.1.0",
+    "@modern-js/utils": "workspace:^1.1.1",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react": "^17",

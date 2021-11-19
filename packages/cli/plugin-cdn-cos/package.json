@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-cdn-cos",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -36,8 +36,8 @@
     "test": "modern test --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/core": "workspace:^1.1.0",
-    "@modern-js/utils": "workspace:^1.1.0",
+    "@modern-js/core": "workspace:^1.1.1",
+    "@modern-js/utils": "workspace:^1.1.1",
     "js-yaml": "^4.1.0",
     "walk": "^2.3.15",
     "cos-nodejs-sdk-v5": "^2.10.10",

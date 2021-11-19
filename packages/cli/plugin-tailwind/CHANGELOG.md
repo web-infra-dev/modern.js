@@ -1,5 +1,18 @@
 # @modern-js/plugin-tailwindcss
 
+## 1.1.1
+
+### Patch Changes
+
+- cca52250: fix error config
+
+  change `tools.tailwind` to `tools.tailwindcss`
+
+- Updated dependencies [687c92c7]
+- Updated dependencies [c0fc0700]
+  - @modern-js/core@1.1.1
+  - @modern-js/utils@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes

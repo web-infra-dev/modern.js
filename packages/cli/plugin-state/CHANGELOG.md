@@ -1,5 +1,13 @@
 # @modern-js/plugin-state
 
+## 1.1.1
+
+### Patch Changes
+
+- 725c4ff0: fix(state): type error when build @modern-js/plugin-state was fixed
+- Updated dependencies [687c92c7]
+  - @modern-js/core@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes
