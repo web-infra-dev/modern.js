@@ -29,6 +29,7 @@ export const MWAActionFunctions = [
   ActionFunction.Storybook,
   // ActionFunction.E2ETest,
   // ActionFunction.Doc,
+  ActionFunction.Deploy,
 ];
 export const MWAActionElements = [
   ActionElement.Entry,
@@ -122,6 +123,7 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.Doc]: '@modern-js/dependence-generator',
     [ActionFunction.Storybook]: '@modern-js/dependence-generator',
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
+    [ActionFunction.Deploy]: '@modern-js/cloud-deploy-generator',
   },
   [ActionType.Refactor]: {
     [ActionRefactor.BFFToApp]: '@modern-js/bff-refactor-generator',

@@ -24,6 +24,10 @@ export const beforeBuild = createAsyncWorkflow<{
 
 export const afterBuild = createAsyncWorkflow();
 
+export const beforeDeploy = createAsyncWorkflow();
+
+export const afterDeploy = createAsyncWorkflow();
+
 export const lifecycle = () => {
   registerHook({
     beforeDev,
@@ -33,5 +37,7 @@ export const lifecycle = () => {
     beforePrintInstructions,
     beforeBuild,
     afterBuild,
+    beforeDeploy,
+    afterDeploy,
   });
 };
