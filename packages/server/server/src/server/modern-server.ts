@@ -154,14 +154,20 @@ export class ModernServer {
 
     await this.prepareFrameHandler();
 
+    const { favicon, faviconByEntries } = this.conf.output;
+    const favicons = this.prepareFavicons(favicon, faviconByEntries);
+    // Only work when without setting `assetPrefix`.
+    // Setting `assetPrefix` means these resources should be uploaded to CDN.
+    const staticPathRegExp = new RegExp(
+      `^/(static/|upload/|favicon.ico|icon.png${
+        favicons.length > 0 ? `|${favicons.join('|')}` : ''
+      })`,
+    );
+
     this.staticFileHandler = createStaticFileHandler([
       {
-        path: '/static/',
-        target: path.join(distDir, 'static'),
-      },
-      {
-        path: '/upload/',
-        target: path.join(distDir, 'upload'),
+        path: staticPathRegExp,
+        target: distDir,
       },
     ]);
 
@@ -313,6 +319,27 @@ export class ModernServer {
     preMiddleware.forEach(mid => {
       this.addHandler(mid);
     });
+  }
+
+  private prepareFavicons(
+    favicon: string | undefined,
+    faviconByEntries?: Record<string, string | undefined>,
+  ) {
+    const faviconNames = [];
+    if (favicon) {
+      faviconNames.push(favicon.substring(favicon.lastIndexOf('/') + 1));
+    }
+    if (faviconByEntries) {
+      Object.keys(faviconByEntries).forEach(f => {
+        const curFavicon = faviconByEntries[f];
+        if (curFavicon) {
+          faviconNames.push(
+            curFavicon.substring(curFavicon.lastIndexOf('/') + 1),
+          );
+        }
+      });
+    }
+    return faviconNames;
   }
 
   /* —————————————————————— private function —————————————————————— */

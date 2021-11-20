@@ -17,6 +17,7 @@ import { Entrypoint } from '@modern-js/types';
 import CopyPlugin from 'copy-webpack-plugin';
 import { RouteManifest } from '../plugins/route-manifest-plugin';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
+import { AppIconPlugin } from '../plugins/app-icon-plugin';
 import { BaseWebpackConfig } from './base';
 import { ICON_EXTENSIONS } from '@/utils/constants';
 
@@ -171,6 +172,23 @@ class ClientWebpackConfig extends BaseWebpackConfig {
       ]);
     }
 
+    // add app icon
+    const appIcon = findExists(
+      ICON_EXTENSIONS.map(ext =>
+        path.resolve(
+          this.appContext.appDirectory,
+          this.options.source.configDir!,
+          `icon.${ext}`,
+        ),
+      ),
+    );
+
+    if (appIcon) {
+      this.chain
+        .plugin('app-icon')
+        .use(AppIconPlugin, [HtmlWebpackPlugin, appIcon]);
+    }
+
     this.chain.plugin('webpack-manifest').use(WebpackManifestPlugin, [
       {
         fileName: 'asset-manifest.json',
@@ -208,7 +226,6 @@ class ClientWebpackConfig extends BaseWebpackConfig {
           {
             from: path.join(configDir, 'public/**/*'),
             to: 'public',
-            context: path.join(configDir, 'public'),
             noErrorOnMissing: true,
             // eslint-disable-next-line node/prefer-global/buffer
             transform: (content: Buffer, absoluteFrom: string) => {
