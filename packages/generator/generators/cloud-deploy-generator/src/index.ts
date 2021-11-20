@@ -38,7 +38,9 @@ const handleTemplateFile = async (
     string
   >;
 
-  const updateInfo: Record<string, string> = {};
+  const updateInfo: Record<string, string> = {
+    'scripts.deploy': 'modern deploy',
+  };
 
   const addDep = async (dep: string) => {
     const version = await getPackageVersion(dep);
