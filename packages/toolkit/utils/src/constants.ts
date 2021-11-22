@@ -112,6 +112,7 @@ export const INTERNAL_PLUGINS: {
     cli: '@modern-js/plugin-multiprocess/cli',
   },
   '@modern-js/plugin-nocode': { cli: '@modern-js/plugin-nocode/cli' },
+  '@modern-js/plugin-theme-token': { cli: '@modern-js/plugin-theme-token/cli' },
 };
 
 /**
@@ -218,6 +219,12 @@ export const PLUGIN_SCHEMAS = {
     {
       target: 'runtime.state',
       schema: { type: ['boolean', 'object'] },
+    },
+  ],
+  '@modern-js/plugin-theme-token': [
+    {
+      target: 'source.designSystem.supportStyledComponents',
+      schema: { type: ['boolean'] },
     },
   ],
   '@modern-js/plugin-router': [
