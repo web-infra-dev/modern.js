@@ -29,7 +29,7 @@ export const getBabelChain = (
       envOptions: true,
       reactOptions: enableReactPreset,
       typescriptOptions: enableTypescriptPreset
-        ? { allowDeclareFields: true }
+        ? { allowDeclareFields: true, allExtensions: true }
         : false,
     },
     plugins: {
