@@ -6,6 +6,7 @@ Object {
     Array [
       "/@babel/plugin-transform-typescript/lib/index.js",
       Object {
+        "allExtensions": true,
         "allowDeclareFields": true,
       },
     ],
@@ -169,6 +170,7 @@ Object {
     Array [
       "/@babel/preset-typescript/lib/index.js",
       Object {
+        "allExtensions": true,
         "allowDeclareFields": true,
         "allowNamespaces": true,
       },
