@@ -20,10 +20,14 @@ const getGeneratorPath = (generator: string, distTag: string) => {
 };
 
 const mergeDefaultConfig = (context: GeneratorContext) => {
-  const { solution } = context.config;
+  const { defaultSolution } = context.config;
 
-  if (solution) {
-    merge(SolutionDefualtConfig[solution as Solution], context.config);
+  if (defaultSolution) {
+    merge(
+      context.config,
+      { solution: defaultSolution },
+      SolutionDefualtConfig[defaultSolution as Solution],
+    );
   }
 };
 

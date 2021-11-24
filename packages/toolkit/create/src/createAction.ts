@@ -41,15 +41,15 @@ function getDefaultConfing(options: Options, logger: Logger) {
   }
 
   if (mwa) {
-    initialConfig.solution = 'mwa';
+    initialConfig.defaultSolution = 'mwa';
   }
 
   if (library) {
-    initialConfig.solution = 'library';
+    initialConfig.defaultSolution = 'library';
   }
 
   if (monorepo) {
-    initialConfig.solution = 'monorepo';
+    initialConfig.defaultSolution = 'monorepo';
   }
 
   if (registry) {
