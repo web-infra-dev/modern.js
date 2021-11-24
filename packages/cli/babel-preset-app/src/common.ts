@@ -59,6 +59,7 @@ export const genCommon = (options: Options): BabelChain => {
       envOptions,
       typescriptOptions: {
         allExtensions: true,
+        allowDeclareFields: true,
         isTSX: true,
       },
       reactOptions: {
