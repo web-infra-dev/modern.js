@@ -3,4 +3,11 @@ module.exports = {
   output: {
     disableSourceMap: true,
   },
+  tools: {
+    jest: {
+      modulePathIgnorePatterns: [
+        '<rootDir>/tests/fixtures/import/.*/package.json',
+      ],
+    },
+  },
 };
