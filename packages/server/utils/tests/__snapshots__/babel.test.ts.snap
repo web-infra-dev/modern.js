@@ -70,7 +70,7 @@ Object {
       "/@babel/plugin-transform-runtime/lib/index.js",
       Object {
         "corejs": false,
-        "helpers": false,
+        "helpers": true,
         "regenerator": true,
         "useESModules": false,
         "version": "7.16.3",
