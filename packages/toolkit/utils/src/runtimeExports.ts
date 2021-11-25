@@ -20,36 +20,38 @@ const memo = <T extends (...args: any[]) => any>(fn: T) => {
   };
 };
 
-export const createRuntimeExportsUtils = memo((pwd = '', namespace: string) => {
-  const entryExportFile = path.join(
-    pwd,
-    `.runtime-exports/${namespace ? `${namespace}.js` : 'index.js'}`,
-  );
+export const createRuntimeExportsUtils = memo(
+  (pwd: string, namespace: string) => {
+    const entryExportFile = path.join(
+      pwd,
+      `.runtime-exports/${namespace ? `${namespace}.js` : 'index.js'}`,
+    );
 
-  // const ensure = () => {
-  //   if (!fs.existsSync(entryExportFile)) {
-  //     fs.outputFileSync(entryExportFile, '');
-  //   }
-  //   fs.ensureFileSync(entryExportFile);
-  // };
+    // const ensure = () => {
+    //   if (!fs.existsSync(entryExportFile)) {
+    //     fs.outputFileSync(entryExportFile, '');
+    //   }
+    //   fs.ensureFileSync(entryExportFile);
+    // };
 
-  const addExport = (statement: string) => {
-    // eslint-disable-next-line no-param-reassign
-    statement = normalizeOutputPath(statement);
-    try {
-      fs.ensureFileSync(entryExportFile);
-      if (!fs.readFileSync(entryExportFile, 'utf8').includes(statement)) {
-        fs.appendFileSync(entryExportFile, `${statement}\n`);
+    const addExport = (statement: string) => {
+      // eslint-disable-next-line no-param-reassign
+      statement = normalizeOutputPath(statement);
+      try {
+        fs.ensureFileSync(entryExportFile);
+        if (!fs.readFileSync(entryExportFile, 'utf8').includes(statement)) {
+          fs.appendFileSync(entryExportFile, `${statement}\n`);
+        }
+      } catch {
+        // FIXME:
       }
-    } catch {
-      // FIXME:
-    }
-  };
+    };
 
-  const getPath = () => entryExportFile;
+    const getPath = () => entryExportFile;
 
-  return {
-    addExport,
-    getPath,
-  };
-});
+    return {
+      addExport,
+      getPath,
+    };
+  },
+);
