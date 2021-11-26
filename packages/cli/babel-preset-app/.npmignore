@@ -2,6 +2,7 @@
 
 .pnp
 .pnp.js
+.env.local
 .env.*.local
 .history
 .rts*
