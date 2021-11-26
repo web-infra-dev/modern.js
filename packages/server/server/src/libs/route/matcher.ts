@@ -8,7 +8,7 @@ import {
 import { ModernRoute, ModernRouteInterface } from './route';
 
 // eslint-disable-next-line no-useless-escape
-const regCharsDetector = /[^a-zA-Z\-_0-9\/]/;
+const regCharsDetector = /[^a-zA-Z\-_0-9\/\.]/;
 export class RouteMatcher {
   public spec: ModernRouteInterface;
 
