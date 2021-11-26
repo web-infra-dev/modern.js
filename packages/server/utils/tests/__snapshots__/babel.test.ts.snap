@@ -166,6 +166,7 @@ Object {
         "allExtensions": true,
         "allowDeclareFields": true,
         "allowNamespaces": true,
+        "isTSX": true,
       },
     ],
   ],
