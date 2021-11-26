@@ -1,5 +1,9 @@
 name: Integration Test(Windows)
 
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 # Controls when the action will run.
 on:
   # Triggers the workflow on pull request events but only for the master branch
