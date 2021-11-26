@@ -1,4 +1,4 @@
-/* eslint-disable max-classes-per-file, @typescript-eslint/member-ordering, @typescript-eslint/no-unused-vars, max-lines, node/prefer-global/buffer,@typescript-eslint/ban-types */
+/* eslint-disable  @typescript-eslint/no-unused-vars, node/prefer-global/buffer,@typescript-eslint/ban-types */
 /*
  * This file was copied from Webpack : "version": "1.0.0-rc.2",
  * It is copied here as necessary types are not exported from webpack yet
@@ -473,4 +473,4 @@ declare interface UserResolveOptions {
 declare interface WriteOnlySet<T> {
   add: (T?: any) => void;
 }
-/* eslint-enable max-classes-per-file, @typescript-eslint/member-ordering, @typescript-eslint/no-unused-vars, max-lines,node/prefer-global/buffer,@typescript-eslint/ban-types */
+/* eslint-enable @typescript-eslint/no-unused-vars, node/prefer-global/buffer,@typescript-eslint/ban-types */

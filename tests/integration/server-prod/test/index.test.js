@@ -11,6 +11,7 @@ const {
 } = require('../../../utils/modernTestUtils');
 
 const appPath = path.resolve(__dirname, '../');
+const successStatus = 200;
 let app, appPort;
 
 beforeAll(async () => {
@@ -59,25 +60,25 @@ describe('test basic usage', () => {
     expect(app.pid).toBeDefined();
 
     const { status } = await axios.get(`http://127.0.0.1:${appPort}`);
-    expect(status).toBe(200);
+    expect(status).toBe(successStatus);
 
     const { status: aStatus } = await axios.get(
       `http://127.0.0.1:${appPort}/activity`,
     );
-    expect(aStatus).toBe(200);
+    expect(aStatus).toBe(successStatus);
   });
 
   it(`should serve favicon and app icon`, async () => {
     const { status, headers } = await axios.get(
       `http://127.0.0.1:${appPort}/favicon1.ico`,
     );
-    expect(status).toBe(200);
+    expect(status).toBe(successStatus);
     expect(headers['content-type']).toBe('image/x-icon');
 
     const { status: aStatus, headers: aHeaders } = await axios.get(
       `http://127.0.0.1:${appPort}/favicon.ico`,
     );
-    expect(aStatus).toBe(200);
+    expect(aStatus).toBe(successStatus);
     expect(aHeaders['content-type']).toBe('image/x-icon');
   });
 
@@ -85,7 +86,7 @@ describe('test basic usage', () => {
     const { status, headers } = await axios.get(
       `http://127.0.0.1:${appPort}/icon.png`,
     );
-    expect(status).toBe(200);
+    expect(status).toBe(successStatus);
     expect(headers['content-type']).toBe('image/png');
   });
 });
