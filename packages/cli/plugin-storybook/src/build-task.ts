@@ -27,8 +27,8 @@ const taskMain = async ({ modernConfig, appContext }: IBuildTaskOption) => {
     modernConfig,
     ...config,
     stories: [
-      `${appContext.appDirectory}/stories/**/*.stories.mdx`,
-      `${appContext.appDirectory}/stories/**/*.stories.@(js|jsx|ts|tsx)`,
+      `./stories/**/*.stories.mdx`,
+      `./stories/**/*.stories.@(js|jsx|ts|tsx)`,
     ],
   });
 };
