@@ -141,6 +141,10 @@ class NodeWebpackConfig extends BaseWebpackConfig {
       config.externals = [config.externals].filter(Boolean);
     }
 
+    // @modern-js/utils use typescript for peerDependency, but js project not depend it
+    // if not externals, js ssr build error
+    config.externals.push('typescript');
+
     config.resolve?.modules?.forEach(dir => {
       if (fs.existsSync(dir)) {
         (config.externals as any[]).push(
