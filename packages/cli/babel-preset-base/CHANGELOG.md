@@ -1,5 +1,11 @@
 # @modern-js/babel-preset-base
 
+## 1.1.2
+
+### Patch Changes
+
+- add isTSX config
+
 ## 1.1.1
 
 ### Patch Changes

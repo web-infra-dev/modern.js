@@ -66,6 +66,9 @@ export const getPresetChain = (option: IBaseBabelConfigOption) => {
   if (!(useTsLoader || disableTypescriptPreset)) {
     const typescriptPresetOptions = {
       allowNamespaces: true,
+      allExtensions: true,
+      allowDeclareFields: true,
+      isTSX: true,
       ...getPresetOptions(typescriptOptions),
     };
     chain
