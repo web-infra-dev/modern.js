@@ -19,7 +19,7 @@ export const getSourceIncludes = memoize<(string | RegExp)[]>(
   (appDirectory: string, config: NormalizedConfig) => {
     const { source } = config;
 
-    const include = (source as any)?.includeConfig || [];
+    const include = (source as any)?.include || [];
 
     const root = findMonorepoRoot(appDirectory);
 

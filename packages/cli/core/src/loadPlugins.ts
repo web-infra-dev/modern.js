@@ -37,8 +37,9 @@ const resolvePlugin = (appDirectory: string, plugin: PluginConfigItem) => {
 
   const resolved: PluginConfigItem = {};
 
-  if (plugin.cli) {
-    resolved.cli = tryResolve(plugin.cli);
+  if (typeof plugin === 'string' || plugin.cli) {
+    resolved.cli =
+      typeof plugin === 'string' ? tryResolve(plugin) : tryResolve(plugin.cli!);
   }
 
   if (plugin.server) {
@@ -57,11 +58,12 @@ const resolvePlugin = (appDirectory: string, plugin: PluginConfigItem) => {
 export const loadPlugins = (
   appDirectory: string,
   pluginConfig: PluginConfig,
+  internalPlugins?: typeof INTERNAL_PLUGINS,
 ) => {
   const plugins = [
-    ...Object.keys(INTERNAL_PLUGINS)
+    ...Object.keys(internalPlugins || INTERNAL_PLUGINS)
       .filter(name => isDepExists(appDirectory, name))
-      .map(name => INTERNAL_PLUGINS[name]),
+      .map(name => (internalPlugins || INTERNAL_PLUGINS)[name]),
     ...pluginConfig,
   ];
 

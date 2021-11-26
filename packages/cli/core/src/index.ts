@@ -4,6 +4,7 @@ import {
   pkgUp,
   ensureAbsolutePath,
   logger,
+  INTERNAL_PLUGINS,
 } from '@modern-js/utils';
 import {
   createAsyncManager,
@@ -129,15 +130,17 @@ const initAppDir = async (): Promise<string> => {
   return path.dirname(pkg);
 };
 
-export interface CoreOption {
-  dryRun?: boolean;
+export interface CoreOptions {
+  name?: string;
+  plugins?: typeof INTERNAL_PLUGINS;
+  beforeUsePlugins: (plugins: any, config: any) => { cli: any; server: any }[];
 }
 
 const createCli = () => {
   let hooksRunner: HooksRunner;
   let isRestart = false;
 
-  const init = async (argv: string[] = []) => {
+  const init = async (argv: string[] = [], options?: CoreOptions) => {
     enable();
 
     manager.clear();
@@ -148,7 +151,11 @@ const createCli = () => {
 
     const loaded = await loadUserConfig(appDirectory);
 
-    const plugins = loadPlugins(appDirectory, loaded.config.plugins || []);
+    let plugins = loadPlugins(appDirectory, loaded.config.plugins || []);
+
+    if (options?.beforeUsePlugins) {
+      plugins = options.beforeUsePlugins(plugins, loaded.config);
+    }
 
     plugins.forEach(plugin => plugin.cli && manager.usePlugin(plugin.cli));
 
@@ -204,8 +211,8 @@ const createCli = () => {
     return { loadedConfig: loaded, appContext, resolved };
   };
 
-  async function run(argv: string[]) {
-    const { loadedConfig, appContext, resolved } = await init(argv);
+  async function run(argv: string[], options?: CoreOptions) {
+    const { loadedConfig, appContext, resolved } = await init(argv, options);
 
     await hooksRunner.commands({ program });
 
