@@ -40,6 +40,7 @@
     "@babel/runtime": "^7",
     "@modern-js/codesmith": "^1.0.0",
     "@modern-js/codesmith-api-app": "^1.0.0",
+    "@modern-js/generator-common": "workspace:^1.0.0",
     "@modern-js/codesmith-tools": "^1.0.0",
     "@types/jest": "^26",
     "@types/node": "^14",

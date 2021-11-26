@@ -32,6 +32,8 @@ const handleTemplateFile = async (
   const { packageManager } = ans;
   await appApi.runSubGenerator(
     getGeneratorPath(BaseGenerator, context.config.distTag),
+    undefined,
+    context.config,
   );
 
   await appApi.forgeTemplate(
