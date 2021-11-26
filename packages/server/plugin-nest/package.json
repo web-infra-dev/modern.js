@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.1",
+  "version": "1.1.2",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -36,8 +36,8 @@
     "test": "modern test"
   },
   "dependencies": {
-    "@modern-js/adapter-helpers": "workspace:^1.1.0",
-    "@modern-js/utils": "workspace:^1.1.1",
+    "@modern-js/adapter-helpers": "workspace:^1.1.1",
+    "@modern-js/utils": "workspace:^1.1.2",
     "@nestjs/platform-express": "^8.0.6",
     "@types/type-is": "^1.6.3",
     "body-parser": "^1.19.0",
@@ -48,10 +48,10 @@
     "type-is": "^1.6.18"
   },
   "devDependencies": {
-    "@modern-js/bff-utils": "workspace:^1.1.0",
-    "@modern-js/runtime": "workspace:^1.1.0",
-    "@modern-js/bff-runtime": "workspace:^1.1.0",
-    "@modern-js/server-utils": "workspace:^1.1.0",
+    "@modern-js/bff-utils": "workspace:^1.1.1",
+    "@modern-js/runtime": "workspace:^1.1.1",
+    "@modern-js/bff-runtime": "workspace:^1.1.1",
+    "@modern-js/server-utils": "workspace:^1.1.1",
     "@types/babel__traverse": "^7.14.2",
     "@types/body-parser": "^1.19.1",
     "@types/express": "^4.17.13",
@@ -70,20 +70,20 @@
     "typescript": "^4",
     "@nestjs/common": "^8.0.6",
     "@nestjs/core": "^8.0.6",
-    "@modern-js/core": "workspace:^1.1.1",
-    "@modern-js/server-plugin": "workspace:^1.1.0",
-    "@modern-js/plugin-testing": "^1.1.0",
-    "@modern-js/module-tools": "^1.1.0"
+    "@modern-js/core": "workspace:^1.1.2",
+    "@modern-js/server-plugin": "workspace:^1.1.1",
+    "@modern-js/plugin-testing": "^1.1.1",
+    "@modern-js/module-tools": "^1.1.1"
   },
   "peerDependencies": {
     "express": "^4.17.1",
     "fastify": "^3.20.1",
     "@nestjs/common": "^8.0.6",
     "@nestjs/core": "^8.0.6",
-    "@modern-js/bff-utils": "workspace:^1.1.0",
-    "@modern-js/core": "workspace:^1.1.1",
-    "@modern-js/server-plugin": "workspace:^1.1.0",
-    "@modern-js/bff-runtime": "workspace:^1.1.0"
+    "@modern-js/bff-utils": "workspace:^1.1.1",
+    "@modern-js/core": "workspace:^1.1.2",
+    "@modern-js/server-plugin": "workspace:^1.1.1",
+    "@modern-js/bff-runtime": "workspace:^1.1.1"
   },
   "peerDependenciesMeta": {
     "express": {

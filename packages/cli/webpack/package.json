@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.1",
+  "version": "1.1.2",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -35,10 +35,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/babel-chain": "workspace:^1.1.0",
-    "@modern-js/babel-preset-app": "workspace:^1.1.0",
-    "@modern-js/css-config": "workspace:^1.1.0",
-    "@modern-js/utils": "workspace:^1.1.1",
+    "@modern-js/babel-chain": "workspace:^1.1.1",
+    "@modern-js/babel-preset-app": "workspace:^1.1.1",
+    "@modern-js/css-config": "workspace:^1.1.1",
+    "@modern-js/utils": "workspace:^1.1.2",
     "@svgr/webpack": "^5.5.0",
     "babel-loader": "^8.2.2",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
@@ -76,8 +76,8 @@
     "@types/css-minimizer-webpack-plugin": "^3.0.2",
     "@types/copy-webpack-plugin": "^8.0.1",
     "@types/jest": "^26",
-    "@modern-js/core": "workspace:^1.1.1",
-    "@modern-js/types": "workspace:^1.1.1",
+    "@modern-js/core": "workspace:^1.1.2",
+    "@modern-js/types": "workspace:^1.1.2",
     "@types/mini-css-extract-plugin": "^2.2.0",
     "@types/node": "^14",
     "@types/react": "^17",
@@ -85,11 +85,11 @@
     "@types/webpack-node-externals": "^2.5.2",
     "tapable": "^2.2.1",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.1.0",
-    "@modern-js/module-tools": "^1.1.0"
+    "@modern-js/plugin-testing": "^1.1.1",
+    "@modern-js/module-tools": "^1.1.1"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.1.1"
+    "@modern-js/core": "workspace:^1.1.2"
   },
   "sideEffects": false,
   "modernConfig": {

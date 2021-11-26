@@ -1,5 +1,18 @@
 # @modern-js/testing-plugin-bff
 
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+- Updated dependencies [d1fde77a]
+  - @modern-js/testing@1.1.1
+  - @modern-js/bff-utils@1.1.1
+  - @modern-js/server@1.1.2
+  - @modern-js/utils@1.1.2
+
 ## 1.1.0
 
 ### Minor Changes

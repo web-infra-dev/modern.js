@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-lambda-scf",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -37,15 +37,15 @@
   },
   "dependencies": {
     "js-yaml": "^4.1.0",
-    "@modern-js/core": "workspace:^1.1.1",
-    "@modern-js/utils": "workspace:^1.1.1",
+    "@modern-js/core": "workspace:^1.1.2",
+    "@modern-js/utils": "workspace:^1.1.2",
     "@serverless/components": "^3.18.0"
   },
   "devDependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/module-tools": "^1.0.0",
-    "@modern-js/plugin-jarvis": "^1.0.0",
-    "@modern-js/plugin-testing": "^1.0.0",
+    "@modern-js/module-tools": "^1.1.1",
+    "@modern-js/plugin-jarvis": "^1.1.1",
+    "@modern-js/plugin-testing": "^1.1.1",
     "del-cli": "^4.0.1",
     "typescript": "^4",
     "@types/jest": "^26.0.9",
