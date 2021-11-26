@@ -102,6 +102,8 @@ const handleTemplateFile = async (
   if (!isMonorepoSubProject) {
     await appApi.runSubGenerator(
       getGeneratorPath(BaseGenerator, context.config.distTag),
+      undefined,
+      context.config,
     );
   }
 

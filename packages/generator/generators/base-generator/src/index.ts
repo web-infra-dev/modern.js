@@ -1,7 +1,12 @@
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
+import { BaseSchema } from '@modern-js/generator-common';
 
-const handleTemplateFile = async (appApi: AppAPI) => {
+const handleTemplateFile = async (
+  context: GeneratorContext,
+  appApi: AppAPI,
+) => {
+  await appApi.getInputBySchema(BaseSchema, context.config);
   await appApi.forgeTemplate('templates/**/*');
 };
 
@@ -19,7 +24,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   generator.logger.debug(`context=${JSON.stringify(context)}`);
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
-  await handleTemplateFile(appApi);
+  await handleTemplateFile(context, appApi);
 
   if (context.handleForged) {
     await context.handleForged(

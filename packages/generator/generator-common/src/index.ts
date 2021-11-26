@@ -10,6 +10,7 @@ export * from './mwa';
 export * from './module';
 export * from './monorepo';
 export * from './expand';
+export * from './base';
 
 export const SolutionDefualtConfig: Record<Solution, Record<string, string>> = {
   [Solution.MWA]: MWADefaultConfig,
