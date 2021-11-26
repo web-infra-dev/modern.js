@@ -15,6 +15,8 @@ import {
   ModuleActionTypes,
   ModuleActionTypesMap,
   SubSolution,
+  CDNType,
+  LambdaType,
 } from '@modern-js/generator-common';
 
 export const LanguageValues = Object.values(Language);
@@ -24,6 +26,8 @@ export const BooleanConfigValues = Object.values(BooleanConfig);
 export const ClientRouteValues = Object.values(ClientRoute);
 export const FrameworkValues = Object.values(Framework);
 export const BFFTypeValues = Object.values(BFFType);
+export const CDNTypeValues = Object.values(CDNType);
+export const LambdaTypeValues = Object.values(LambdaType);
 
 export const MWAValueMap: Record<string, string[]> = {
   language: LanguageValues,
@@ -130,9 +134,20 @@ export const MWABFFValueMap: Record<string, string[]> = {
   framework: FrameworkValues,
 };
 
+export const MWADeployValueMap: Record<string, string[]> = {
+  disableModernServer: BooleanConfigValues,
+  cdnType: CDNTypeValues,
+  lambdaType: LambdaTypeValues,
+};
+
 const getMWABFFCases = (length?: number) =>
   make(MWABFFValueMap, {
     length: length || Object.keys(MWABFFValueMap).length,
+  });
+
+const getMWADeployCases = (length?: number) =>
+  make(MWADeployValueMap, {
+    length: length || Object.keys(MWADeployValueMap).length,
   });
 
 export const getMWANewCases = (length?: number) => {
@@ -160,6 +175,13 @@ export const getMWANewCases = (length?: number) => {
         cases.push({
           ...currentConfig,
           ...bffCases[Math.round(Math.random() * bffCases.length)],
+        });
+      } else if (option === ActionFunction.Deploy) {
+        // deploy only can enable once
+        const deployCases = getMWADeployCases(length);
+        cases.push({
+          ...currentConfig,
+          ...deployCases[Math.round(Math.random() * deployCases.length)],
         });
       } else {
         cases.push(currentConfig);
