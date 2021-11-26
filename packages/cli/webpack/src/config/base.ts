@@ -610,7 +610,8 @@ class BaseWebpackConfig {
       ] as any)
       .end()
       .minimizer('css')
-      .use(CssMinimizerPlugin, [
+      // FIXME: add `<any>` reason: Since the css-minimizer-webpack-plugin has been updated
+      .use<any>(CssMinimizerPlugin, [
         applyOptionsChain({}, this.options.tools?.minifyCss),
       ]);
   }
