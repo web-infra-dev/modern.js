@@ -4,13 +4,6 @@ exports[`babel resolveBabelConfig 1`] = `
 Object {
   "plugins": Array [
     Array [
-      "/@babel/plugin-transform-typescript/lib/index.js",
-      Object {
-        "allExtensions": true,
-        "allowDeclareFields": true,
-      },
-    ],
-    Array [
       "/babel-plugin-macros/dist/index.js",
       Object {
         "twin": Object {
