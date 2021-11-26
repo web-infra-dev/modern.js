@@ -1,12 +1,8 @@
 import path from 'path';
-import { fs, findExists } from '@modern-js/utils';
+import { fs, findExists, MAIN_ENTRY_NAME } from '@modern-js/utils';
 import { IAppContext, NormalizedConfig, mountHook } from '@modern-js/core';
 import type { Entrypoint, HtmlPartials, HtmlTemplates } from '@modern-js/types';
-import {
-  HTML_PARTIALS_EXTENSIONS,
-  HTML_PARTIALS_FOLDER,
-  MAIN_ENTRY_NAME,
-} from './constants';
+import { HTML_PARTIALS_EXTENSIONS, HTML_PARTIALS_FOLDER } from './constants';
 import * as templates from './templates';
 
 enum PartialPosition {
