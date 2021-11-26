@@ -17,6 +17,7 @@ import { Entrypoint } from '@modern-js/types';
 import CopyPlugin from 'copy-webpack-plugin';
 import { RouteManifest } from '../plugins/route-manifest-plugin';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
+import { AppIconPlugin } from '../plugins/app-icon-plugin';
 import { BaseWebpackConfig } from './base';
 import { ICON_EXTENSIONS } from '@/utils/constants';
 
@@ -82,7 +83,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
 
     isDev() && this.chain.plugin('hmr').use(HotModuleReplacementPlugin);
 
-    const { entrypoints = [] } = this.appContext as IAppContext & {
+    const { entrypoints = [], packageName } = this.appContext as IAppContext & {
       entrypoints: Entrypoint[];
     };
 
@@ -108,6 +109,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
               entryName,
               this.options.output.favicon,
               this.options.output.faviconByEntries,
+              packageName,
             ) ||
             findExists(
               ICON_EXTENSIONS.map(ext =>
@@ -122,6 +124,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
             entryName,
             this.options.output.inject,
             this.options.output.injectByEntries,
+            packageName,
           ),
           templateParameters: (
             compilation: webpack.Compilation,
@@ -145,6 +148,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
                 entryName,
                 this.options.output.title,
                 this.options.output.titleByEntries,
+                packageName,
               ),
               mountId: this.options.output.mountId!,
               staticPrefix: this.chain.output.get('publicPath'),
@@ -153,17 +157,36 @@ class ClientWebpackConfig extends BaseWebpackConfig {
                   entryName,
                   this.options.output.meta,
                   this.options.output.metaByEntries,
+                  packageName,
                 ),
               ),
               ...getEntryOptions<Record<string, unknown> | undefined>(
                 entryName,
                 this.options.output.templateParameters,
                 this.options.output.templateParametersByEntries,
+                packageName,
               ),
             };
           },
         },
       ]);
+    }
+
+    // add app icon
+    const appIcon = findExists(
+      ICON_EXTENSIONS.map(ext =>
+        path.resolve(
+          this.appContext.appDirectory,
+          this.options.source.configDir!,
+          `icon.${ext}`,
+        ),
+      ),
+    );
+
+    if (appIcon) {
+      this.chain
+        .plugin('app-icon')
+        .use(AppIconPlugin, [HtmlWebpackPlugin, appIcon]);
     }
 
     this.chain.plugin('webpack-manifest').use(WebpackManifestPlugin, [
@@ -203,7 +226,6 @@ class ClientWebpackConfig extends BaseWebpackConfig {
           {
             from: path.join(configDir, 'public/**/*'),
             to: 'public',
-            context: path.join(configDir, 'public'),
             noErrorOnMissing: true,
             // eslint-disable-next-line node/prefer-global/buffer
             transform: (content: Buffer, absoluteFrom: string) => {

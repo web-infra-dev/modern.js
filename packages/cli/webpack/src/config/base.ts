@@ -169,19 +169,7 @@ class BaseWebpackConfig {
               path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')
           : undefined,
       )
-      .publicPath(
-        /* eslint-disable no-nested-ternary */
-        isProd()
-          ? this.options.output
-            ? this.options.output.assetPrefix!
-            : ''
-          : isString(this.options.dev?.assetPrefix)
-          ? this.options.dev.assetPrefix
-          : (this.options.dev ? this.options.dev.assetPrefix : '')
-          ? `//${this.appContext.ip as string}:8080/`
-          : '/',
-        /* eslint-enable no-nested-ternary */
-      );
+      .publicPath(this.publicPath());
 
     this.chain.output.merge({
       assetModuleFilename: this.mediaChunkname,
@@ -195,6 +183,27 @@ class BaseWebpackConfig {
         module: false,
       },
     });
+  }
+
+  publicPath() {
+    let publicPath =
+      /* eslint-disable no-nested-ternary */
+      isProd()
+        ? this.options.output
+          ? this.options.output.assetPrefix!
+          : ''
+        : isString(this.options.dev?.assetPrefix)
+        ? this.options.dev.assetPrefix
+        : (this.options.dev ? this.options.dev.assetPrefix : '')
+        ? `//${this.appContext.ip as string}:8080/`
+        : '/';
+    /* eslint-enable no-nested-ternary */
+
+    if (!publicPath.endsWith('/')) {
+      publicPath += '/';
+    }
+
+    return publicPath;
   }
 
   /* eslint-disable max-statements */

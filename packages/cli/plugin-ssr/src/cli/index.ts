@@ -72,6 +72,8 @@ export default createPlugin(
         const { entryName } = entrypoint;
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const userConfig = useResolvedConfigContext();
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const { packageName } = useAppContext();
 
         pluginsExportsUtils.addExport(
           `export { default as ssr } from '${ssrModulePath}'`,
@@ -81,6 +83,7 @@ export default createPlugin(
           entryName,
           userConfig.server.ssr || Boolean((userConfig.output as any).ssg),
           userConfig.server.ssrByEntries,
+          packageName,
         );
 
         ssrConfigMap.set(entryName, ssrConfig);
