@@ -37,3 +37,7 @@ export function isPromise(obj: any): obj is Promise<any> {
   );
   /* eslint-enable promise/prefer-await-to-then */
 }
+
+export function isRegExp(obj: any): obj is RegExp {
+  return Object.prototype.toString.call(obj) === '[object RegExp]';
+}

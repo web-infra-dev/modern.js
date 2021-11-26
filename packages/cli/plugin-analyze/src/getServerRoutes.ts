@@ -7,10 +7,10 @@ import {
   removeLeadingSlash,
   getEntryOptions,
   SERVER_BUNDLE_DIRECTORY,
+  MAIN_ENTRY_NAME,
 } from '@modern-js/utils';
 import type { Entrypoint, ServerRoute } from '@modern-js/types';
 import { walkDirectory } from './utils';
-import { MAIN_ENTRY_NAME } from './constants';
 
 /**
  * Add base url for each server route.
@@ -90,6 +90,7 @@ const applyRouteOptions = (
  */
 const collectHtmlRoutes = (
   entrypoints: Entrypoint[],
+  appContext: IAppContext,
   config: NormalizedConfig,
 ): ServerRoute[] => {
   const {
@@ -97,9 +98,13 @@ const collectHtmlRoutes = (
     server: { baseUrl, routes, ssr, ssrByEntries },
   } = config;
 
+  const { packageName } = appContext;
+
   let htmlRoutes = entrypoints.reduce<ServerRoute[]>(
     (previous, { entryName }) => {
-      const isSSR = Boolean(getEntryOptions(entryName, ssr, ssrByEntries));
+      const isSSR = Boolean(
+        getEntryOptions(entryName, ssr, ssrByEntries, packageName),
+      );
 
       let route: ServerRoute | ServerRoute[] = {
         urlPath: `/${entryName === MAIN_ENTRY_NAME ? '' : entryName}`,
@@ -182,7 +187,7 @@ export const getServerRoutes = (
     config: NormalizedConfig;
   },
 ): ServerRoute[] => [
-  ...collectHtmlRoutes(entrypoints, config),
+  ...collectHtmlRoutes(entrypoints, appContext, config),
   ...collectStaticRoutes(appContext, config),
 ];
 
