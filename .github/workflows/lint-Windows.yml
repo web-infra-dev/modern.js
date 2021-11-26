@@ -1,7 +1,7 @@
 name: Lint(Windows)
 
 concurrency:
-  group: ${{ github.head_ref }}
+  group: windows-lint-${{ github.head_ref }}
   cancel-in-progress: true
 
 # Controls when the action will run.

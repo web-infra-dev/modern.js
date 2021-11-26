@@ -1,7 +1,7 @@
 name: Integration Test(macOS)
 
 concurrency:
-  group: ${{ github.head_ref }}
+  group: macos-integration-test-${{ github.head_ref }}
   cancel-in-progress: true
 
 # Controls when the action will run.
