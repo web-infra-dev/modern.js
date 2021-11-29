@@ -1,5 +1,29 @@
 # @modern-js/app-tools
 
+## 1.1.3
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [6f7fe574]
+- Updated dependencies [e4755134]
+- Updated dependencies [0fa83663]
+- Updated dependencies [19b4f79e]
+- Updated dependencies [f594fbc8]
+- Updated dependencies [d1fde77a]
+  - @modern-js/core@1.1.2
+  - @modern-js/webpack@1.1.2
+  - @modern-js/i18n-cli-language-detector@1.1.1
+  - @modern-js/plugin-analyze@1.1.1
+  - @modern-js/plugin-fast-refresh@1.1.1
+  - @modern-js/plugin-i18n@1.1.1
+  - @modern-js/new-action@1.1.2
+  - @modern-js/plugin-polyfill@1.1.1
+  - @modern-js/server@1.1.2
+  - @modern-js/plugin@1.1.2
+  - @modern-js/types@1.1.2
+  - @modern-js/utils@1.1.2
+
 ## 1.1.2
 
 ### Patch Changes

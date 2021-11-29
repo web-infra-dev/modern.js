@@ -1,5 +1,14 @@
 # @modern-js/babel-compiler
 
+## 1.1.2
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/utils@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes

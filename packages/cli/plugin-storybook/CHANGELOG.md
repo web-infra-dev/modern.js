@@ -1,5 +1,25 @@
 # @modern-js/plugin-storybook
 
+## 1.1.3
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- cf23f9ee: change stories paths
+- Updated dependencies [6f7fe574]
+- Updated dependencies [e4755134]
+- Updated dependencies [0fa83663]
+- Updated dependencies [19b4f79e]
+- Updated dependencies [f594fbc8]
+- Updated dependencies [d1fde77a]
+  - @modern-js/core@1.1.2
+  - @modern-js/webpack@1.1.2
+  - @modern-js/runtime@1.1.1
+  - @modern-js/plugin-state@1.1.2
+  - @modern-js/runtime-core@1.1.1
+  - @modern-js/utils@1.1.2
+  - @modern-js/plugin-router@1.1.1
+
 ## 1.1.2
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @modern-js/runtime-core
 
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/plugin@1.1.2
+  - @modern-js/utils@1.1.2
+
 ## 1.1.0
 
 ### Minor Changes

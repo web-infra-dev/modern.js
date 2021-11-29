@@ -1,5 +1,11 @@
 # @modern-js/plugin
 
+## 1.1.2
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+
 ## 1.1.1
 
 ### Patch Changes

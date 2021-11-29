@@ -1,5 +1,14 @@
 # @modern-js/generator-common
 
+## 1.1.2
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- 429aab90: feat: base generator support input
+- Updated dependencies [0fa83663]
+  - @modern-js/plugin-i18n@1.1.1
+
 ## 1.1.1
 
 ### Patch Changes
