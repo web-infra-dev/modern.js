@@ -1,5 +1,22 @@
 # @modern-js/plugin-unbundle
 
+## 1.1.1
+
+### Patch Changes
+
+- f594fbc8: fix apple icon and favicon support
+- Updated dependencies [6f7fe574]
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+- Updated dependencies [d1fde77a]
+  - @modern-js/core@1.1.2
+  - @modern-js/css-config@1.1.1
+  - @modern-js/bff-utils@1.1.1
+  - @modern-js/create-request@1.1.1
+  - @modern-js/server@1.1.2
+  - @modern-js/utils@1.1.2
+  - @modern-js/esmpack@1.1.2
+
 ## 1.1.0
 
 ### Minor Changes

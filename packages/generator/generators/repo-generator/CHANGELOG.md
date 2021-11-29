@@ -1,5 +1,11 @@
 # @modern-js/repo-generator
 
+## 1.1.1
+
+### Patch Changes
+
+- 2debc5eb: fix: fix create tools default config
+
 ## 1.1.0
 
 ### Minor Changes

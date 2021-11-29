@@ -1,5 +1,13 @@
 # @modern-js/types
 
+## 1.1.2
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [0fa83663]
+  - @modern-js/plugin@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes

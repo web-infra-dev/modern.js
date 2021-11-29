@@ -1,5 +1,19 @@
 # @modern-js/babel-preset-lib
 
+## 1.1.1
+
+### Patch Changes
+
+- b011e0c5: fix(babel): declare
+- 0fa83663: support more .env files
+- 395beb1e: add helpers config
+- Updated dependencies [ba51d68b]
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/babel-preset-base@1.1.1
+  - @modern-js/babel-chain@1.1.1
+  - @modern-js/utils@1.1.2
+
 ## 1.1.0
 
 ### Minor Changes

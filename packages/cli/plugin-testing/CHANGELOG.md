@@ -1,5 +1,23 @@
 # @modern-js/plugin-testing
 
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [6f7fe574]
+- Updated dependencies [e4755134]
+- Updated dependencies [0fa83663]
+- Updated dependencies [19b4f79e]
+- Updated dependencies [f594fbc8]
+- Updated dependencies [d1fde77a]
+  - @modern-js/core@1.1.2
+  - @modern-js/webpack@1.1.2
+  - @modern-js/testing@1.1.1
+  - @modern-js/runtime-core@1.1.1
+  - @modern-js/babel-compiler@1.1.2
+  - @modern-js/utils@1.1.2
+
 ## 1.1.0
 
 ### Minor Changes

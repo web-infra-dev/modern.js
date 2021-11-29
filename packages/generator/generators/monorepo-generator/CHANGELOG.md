@@ -1,5 +1,11 @@
 # @modern-js/monorepo-generator
 
+## 1.1.2
+
+### Patch Changes
+
+- 429aab90: feat: base generator support input
+
 ## 1.1.1
 
 ### Patch Changes

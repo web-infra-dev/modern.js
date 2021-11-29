@@ -1,5 +1,11 @@
 # @modern-js/cloud-deploy-generator
 
+## 1.0.7
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+
 ## 1.0.6
 
 ### Patch Changes

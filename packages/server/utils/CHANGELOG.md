@@ -1,5 +1,19 @@
 # @modern-js/server-utils
 
+## 1.1.1
+
+### Patch Changes
+
+- b011e0c5: fix(babel): declare
+- 0fa83663: support more .env files
+- Updated dependencies [b011e0c5]
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+- Updated dependencies [395beb1e]
+  - @modern-js/babel-preset-lib@1.1.1
+  - @modern-js/plugin@1.1.2
+  - @modern-js/utils@1.1.2
+
 ## 1.1.0
 
 ### Minor Changes

@@ -11,11 +11,11 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.1",
+  "version": "1.1.2",
   "main": "",
   "types": "./index.d.ts",
   "dependencies": {
-    "@modern-js/plugin": "workspace:^1.1.1",
+    "@modern-js/plugin": "workspace:^1.1.2",
     "webpack": "^5.54.0"
   },
   "exports": {
@@ -27,8 +27,8 @@
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
-    "@modern-js/plugin-testing": "^1.1.0",
-    "@modern-js/module-tools": "^1.1.0"
+    "@modern-js/plugin-testing": "^1.1.1",
+    "@modern-js/module-tools": "^1.1.1"
   },
   "sideEffects": false,
   "publishConfig": {
