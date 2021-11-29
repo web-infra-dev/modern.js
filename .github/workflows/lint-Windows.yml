@@ -47,4 +47,4 @@ jobs:
 
       - name: Lint
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm run lint -- --no-fix
+        run: npm run lint -- --no-fix
