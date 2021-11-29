@@ -1,5 +1,12 @@
 # @modern-js/base-generator
 
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- 429aab90: feat: base generator support input
+
 ## 1.1.0
 
 ### Minor Changes

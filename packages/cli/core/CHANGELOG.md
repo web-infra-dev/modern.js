@@ -1,5 +1,17 @@
 # @modern-js/core
 
+## 1.1.2
+
+### Patch Changes
+
+- 6f7fe574: modern-js/core support extra options
+- 0fa83663: support more .env files
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/load-config@1.1.1
+  - @modern-js/plugin@1.1.2
+  - @modern-js/utils@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes

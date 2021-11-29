@@ -1,5 +1,11 @@
 # @modern-js/create
 
+## 1.1.2
+
+### Patch Changes
+
+- 2debc5eb: fix: fix create tools default config
+
 ## 1.1.1
 
 ### Patch Changes

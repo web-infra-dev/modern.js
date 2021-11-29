@@ -1,5 +1,25 @@
 # @modern-js/webpack
 
+## 1.1.2
+
+### Patch Changes
+
+- 6f7fe574: modern-js/core support extra options
+- e4755134: fix js project ssr build error
+- 0fa83663: support more .env files
+- 19b4f79e: temporary solutions type error
+- f594fbc8: fix apple icon and favicon support
+- d1fde77a: fix public/ file in windows
+- Updated dependencies [6f7fe574]
+- Updated dependencies [b011e0c5]
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/core@1.1.2
+  - @modern-js/babel-preset-app@1.1.1
+  - @modern-js/css-config@1.1.1
+  - @modern-js/babel-chain@1.1.1
+  - @modern-js/utils@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @modern-js/utils
 
+## 1.1.2
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- f594fbc8: fix apple icon and favicon support
+
 ## 1.1.1
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @modern-js/plugin-analyze
 
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- f594fbc8: fix apple icon and favicon support
+- Updated dependencies [6f7fe574]
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/core@1.1.2
+  - @modern-js/plugin@1.1.2
+  - @modern-js/utils@1.1.2
+
 ## 1.1.0
 
 ### Minor Changes

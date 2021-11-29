@@ -1,5 +1,19 @@
 # @modern-js/plugin-server-build
 
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [6f7fe574]
+- Updated dependencies [b011e0c5]
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/core@1.1.2
+  - @modern-js/server-utils@1.1.1
+  - @modern-js/babel-compiler@1.1.2
+  - @modern-js/utils@1.1.2
+
 ## 1.1.0
 
 ### Minor Changes

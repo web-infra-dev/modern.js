@@ -1,5 +1,15 @@
 # @modern-js/new-action
 
+## 1.1.2
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [0fa83663]
+- Updated dependencies [429aab90]
+  - @modern-js/generator-common@1.1.2
+  - @modern-js/generator-utils@1.1.1
+
 ## 1.1.1
 
 ### Patch Changes

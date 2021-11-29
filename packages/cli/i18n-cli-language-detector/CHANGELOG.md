@@ -1,5 +1,11 @@
 # @modern-js/i18n-cli-language-detector
 
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+
 ## 1.1.0
 
 ### Minor Changes

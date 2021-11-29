@@ -1,5 +1,20 @@
 # @modern-js/monorepo-tools
 
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [6f7fe574]
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/core@1.1.2
+  - @modern-js/i18n-cli-language-detector@1.1.1
+  - @modern-js/plugin-changeset@1.1.1
+  - @modern-js/plugin-i18n@1.1.1
+  - @modern-js/new-action@1.1.2
+  - @modern-js/utils@1.1.2
+
 ## 1.1.0
 
 ### Minor Changes
