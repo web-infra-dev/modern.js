@@ -1,8 +1,5 @@
 import path from 'path';
-import {
-  createRuntimeExportsUtils,
-  PLUGIN_SCHEMAS,
-} from '@modern-js/utils';
+import { createRuntimeExportsUtils, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import { createPlugin, useAppContext } from '@modern-js/core';
 import test from './test';
 

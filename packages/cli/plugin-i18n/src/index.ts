@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import { getObjKeyMap } from './utils/index';
+import { getObjKeyMap } from './utils';
 
 type Language = string;
 
