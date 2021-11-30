@@ -13,23 +13,11 @@
   ],
   "version": "1.1.0",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/main.js",
-  "module": "./dist/js/treeshaking/index.js",
-  "jsnext:modern": "./dist/js/modern/index.js",
   "files": [
     "/templates",
     "/dist/js/node/main.js"
   ],
-  "exports": {
-    ".": {
-      "node": {
-        "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
-      },
-      "default": "./dist/js/treeshaking/index.js"
-    }
-  },
   "scripts": {
     "prepare": "pnpm build && pnpm build:csmith",
     "build": "modern build",

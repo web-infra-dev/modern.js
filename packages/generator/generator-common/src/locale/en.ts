@@ -38,7 +38,6 @@ export const EN_LOCALE = {
       self: 'Create project element',
       entry: 'New "entry"',
       server: 'New "Server Custom" source code directory',
-      env: 'Generate ".env" file',
     },
     refactor: {
       self: 'Automatic refactor',
