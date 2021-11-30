@@ -116,6 +116,10 @@ const handleTemplateFile = async (
   const updateInfo = {
     files: ['/templates', '/dist/js/node/main.js'],
     main: './dist/js/node/main.js',
+    types: undefined,
+    module: undefined,
+    'jsnext:modern': undefined,
+    exports: undefined,
     'scripts.prepare': `${packageManager as string} build && ${
       packageManager as string
     } build:csmith`,

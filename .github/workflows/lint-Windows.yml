@@ -1,5 +1,9 @@
 name: Lint(Windows)
 
+concurrency:
+  group: windows-lint-${{ github.head_ref }}
+  cancel-in-progress: true
+
 # Controls when the action will run.
 on:
   # Triggers the workflow on pull request events but only for the master branch
@@ -47,4 +51,4 @@ jobs:
 
       - name: Lint
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm run lint
+        run: pnpm run lint "--" --no-fix

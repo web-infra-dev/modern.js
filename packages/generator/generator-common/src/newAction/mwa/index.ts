@@ -31,11 +31,7 @@ export const MWAActionFunctions = [
   // ActionFunction.Doc,
   ActionFunction.Deploy,
 ];
-export const MWAActionElements = [
-  ActionElement.Entry,
-  ActionElement.Server,
-  // ActionElement.Env,
-];
+export const MWAActionElements = [ActionElement.Entry, ActionElement.Server];
 export const MWAActionReactors = [ActionRefactor.BFFToApp];
 
 export const MWAActionTypesMap: Record<ActionType, string[]> = {
@@ -106,7 +102,6 @@ export const MWANewActionGenerators: Record<
 > = {
   [ActionType.Element]: {
     [ActionElement.Entry]: '@modern-js/entry-generator',
-    [ActionElement.Env]: '@modern-js/env-generator',
     [ActionElement.Server]: '@modern-js/server-generator',
   },
   [ActionType.Function]: {
