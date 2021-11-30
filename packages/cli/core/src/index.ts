@@ -151,7 +151,11 @@ const createCli = () => {
 
     const loaded = await loadUserConfig(appDirectory);
 
-    let plugins = loadPlugins(appDirectory, loaded.config.plugins || []);
+    let plugins = loadPlugins(
+      appDirectory,
+      loaded.config.plugins || [],
+      options?.plugins,
+    );
 
     if (options?.beforeUsePlugins) {
       plugins = options.beforeUsePlugins(plugins, loaded.config);
