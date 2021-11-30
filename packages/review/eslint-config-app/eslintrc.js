@@ -997,6 +997,7 @@ module.exports = {
         bracketSpacing: true,
         jsxBracketSameLine: true,
         arrowParens: 'avoid',
+        endOfLine: 'auto',
       },
     ],
 
@@ -1717,7 +1718,7 @@ module.exports = {
     // https://github.com/mysticatea/eslint-plugin-node/blob/HEAD/docs/rules/process-exit-as-throw.md
     'node/process-exit-as-throw': 'off',
     // https://github.com/mysticatea/eslint-plugin-node/blob/HEAD/docs/rules/shebang.md
-    'node/shebang': 'error',
+    'node/shebang': 'off',
     // https://github.com/mysticatea/eslint-plugin-node/blob/HEAD/docs/rules/no-deprecated-api.md
     'node/no-deprecated-api': 'off',
     // https://github.com/mysticatea/eslint-plugin-node/blob/HEAD/docs/rules/exports-style.md
