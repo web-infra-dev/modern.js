@@ -1,5 +1,11 @@
 # @modern-js/module-generator
 
+## 1.1.3
+
+### Patch Changes
+
+- 2c0750e1: fix generator export config
+
 ## 1.1.2
 
 ### Patch Changes
