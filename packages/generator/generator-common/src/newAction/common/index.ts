@@ -9,7 +9,6 @@ export enum ActionType {
 export enum ActionElement {
   Entry = 'entry',
   Server = 'server',
-  Env = 'env',
 }
 
 export enum ActionFunction {
@@ -43,7 +42,6 @@ export const ActionTypeText: Record<ActionType, () => string> = {
 export const ActionElementText: Record<ActionElement, () => string> = {
   [ActionElement.Entry]: () => i18n.t(localeKeys.action.element.entry),
   [ActionElement.Server]: () => i18n.t(localeKeys.action.element.server),
-  [ActionElement.Env]: () => i18n.t(localeKeys.action.element.env),
 };
 
 export const ActionFunctionText: Record<ActionFunction, () => string> = {
