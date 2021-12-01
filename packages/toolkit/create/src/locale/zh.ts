@@ -8,6 +8,7 @@ export const ZH_LOCALE = {
     distTag: '生成项目时生成器使用特殊的 npm Tag',
     registry: '在创建过程中定制 npm Registry',
     debug: '开启 Debug 模式，打印调试日志信息',
+    plugin: '使用生成器插件创建新的工程方案类型或定制化 Modern.js 工程方案',
   },
   tooltip: {
     dir_entry: `你可以执行 'cd {dirName}' 进入目录`,

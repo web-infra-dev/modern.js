@@ -11,6 +11,7 @@ interface Options {
   config?: string;
   registry?: string;
   distTag?: string;
+  plugin?: string[];
 }
 
 type RunnerTask = Array<{
@@ -26,7 +27,7 @@ function getDefaultConfing(
   options: Options,
   logger: Logger,
 ) {
-  const { mwa, module, monorepo, config, registry, distTag } = options;
+  const { mwa, module, monorepo, config, registry, distTag, plugin } = options;
 
   let initialConfig: Record<string, unknown> = {};
 
@@ -69,6 +70,10 @@ function getDefaultConfing(
   }
 
   initialConfig.defaultBranch = initialConfig.defaultBranch || 'main';
+
+  if (plugin) {
+    initialConfig.plugins = plugin;
+  }
 
   return initialConfig;
 }
