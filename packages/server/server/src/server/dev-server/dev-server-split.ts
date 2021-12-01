@@ -1,3 +1,4 @@
+import type { APIServerStartInput } from '@modern-js/server-plugin';
 import { ModernDevServer } from './dev-server';
 import { mergeExtension } from '@/utils';
 import { ModernRouteInterface } from '@/libs/route';
@@ -6,7 +7,7 @@ import { ApiServerMode } from '@/constants';
 export class WebModernDevServer extends ModernDevServer {
   protected prepareAPIHandler(
     _m: ApiServerMode,
-    _: ReturnType<typeof mergeExtension>,
+    _: APIServerStartInput['config'],
   ) {
     return null as any;
   }

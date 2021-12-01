@@ -30,7 +30,7 @@ Array [
           "proxy": Object {
             "type": "object",
           },
-          "requestCreater": Object {
+          "requestCreator": Object {
             "type": "string",
           },
         },

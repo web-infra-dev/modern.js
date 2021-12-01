@@ -1,3 +1,4 @@
+import { APIServerStartInput } from '@modern-js/server-plugin';
 import { ModernServer } from './modern-server';
 import { mergeExtension } from '@/utils';
 import { ModernRouteInterface } from '@/libs/route';
@@ -29,7 +30,7 @@ export class APIModernServer extends ModernServer {
 
   protected async prepareAPIHandler(
     mode: ApiServerMode,
-    extension: ReturnType<typeof mergeExtension>,
+    extension: APIServerStartInput['config'],
   ) {
     return super.prepareAPIHandler(mode, extension);
   }

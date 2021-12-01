@@ -17,7 +17,7 @@ declare module '@modern-js/core' {
   interface UserConfig {
     bff: {
       prefix?: string;
-      requestCreater?: string;
+      requestCreator?: string;
       fetcher?: string;
       proxy: Record<string, any>;
     };
@@ -68,6 +68,7 @@ export default createPlugin(
                 port,
                 fetcher,
                 target: _config.name,
+                requestCreator: bff.requestCreator,
               });
           },
         },
