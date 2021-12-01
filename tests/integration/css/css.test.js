@@ -259,8 +259,8 @@ describe('test css support', () => {
         'src/index.module.css.d.ts',
       );
 
-      expect(fs.readFileSync(generatedDTSFile)).toEqual(
-        fs.readFileSync(path.resolve(appDir, 'src/expect-css-d-ts')),
+      expect(fs.readFileSync(generatedDTSFile, 'utf8')).toContain(
+        'export default cssExports',
       );
 
       fs.unlinkSync(generatedDTSFile);
