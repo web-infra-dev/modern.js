@@ -1,27 +1,24 @@
 import { ModernDevServer } from './dev-server';
-import { ModernServer } from './modern-server';
 import { mergeExtension } from '@/utils';
 import { ModernRouteInterface } from '@/libs/route';
 import { ApiServerMode } from '@/constants';
 
-export class APIModernServer extends ModernServer {
-  protected prepareWebHandler(_: ReturnType<typeof mergeExtension>) {
+export class WebModernDevServer extends ModernDevServer {
+  protected prepareAPIHandler(
+    _m: ApiServerMode,
+    _: ReturnType<typeof mergeExtension>,
+  ) {
     return null as any;
   }
 
-  protected async prepareAPIHandler(
-    mode: ApiServerMode,
+  protected async prepareWebHandler(
     extension: ReturnType<typeof mergeExtension>,
   ) {
-    return super.prepareAPIHandler(mode, extension);
+    return super.prepareWebHandler(extension);
   }
 
   protected filterRoutes(routes: ModernRouteInterface[]) {
-    return routes.filter(route => route.isApi);
-  }
-
-  protected async preServerInit() {
-    // noop
+    return routes.filter(route => route.entryName);
   }
 }
 

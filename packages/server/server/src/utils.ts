@@ -1,6 +1,6 @@
-export const mergeExtension = (users: any[], plugins: any[]) => {
+export const mergeExtension = (users: any[]) => {
   const output: any[] = [];
-  return { middleware: output.concat(users).concat(plugins) };
+  return { middleware: output.concat(users) };
 };
 
 export const toMessage = (dig: string, e: Error | string): string => {

@@ -48,7 +48,19 @@ export const SERVER_RENDER_FUNCTION_NAME = 'serverRender';
  */
 export const LOADABLE_STATS_FILE = 'loadable-stats.json';
 
+/**
+ * real entry generate by modern.js
+ */
 export const HIDE_MODERN_JS_DIR = './node_modules/.modern-js';
+
+/**
+ * internal specified folder
+ */
+export const API_DIR = 'api';
+
+export const SERVER_DIR = 'server';
+
+export const SHARED_DIR = 'shared';
 
 /**
  * Internal plugins that work as soon as they are installed.
@@ -91,6 +103,10 @@ export const INTERNAL_PLUGINS: {
   },
   '@modern-js/plugin-unbundle': { cli: '@modern-js/plugin-unbundle' },
   '@modern-js/plugin-server-build': { cli: '@modern-js/plugin-server-build' },
+  '@modern-js/plugin-server': {
+    cli: '@modern-js/plugin-server/cli',
+    server: '@modern-js/plugin-server/server',
+  },
   '@modern-js/plugin-micro-frontend': {
     cli: '@modern-js/plugin-micro-frontend/cli',
   },

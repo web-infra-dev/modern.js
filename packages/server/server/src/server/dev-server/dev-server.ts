@@ -1,27 +1,38 @@
-import http, { Server } from 'http';
+import http, {
+  Server,
+  createServer,
+  IncomingMessage,
+  ServerResponse,
+} from 'http';
 import path from 'path';
-import { HMR_SOCK_PATH } from '@modern-js/utils';
+import { createServer as createHttpsServer } from 'https';
+import {
+  API_DIR,
+  HMR_SOCK_PATH,
+  SERVER_DIR,
+  SHARED_DIR,
+} from '@modern-js/utils';
 import type { MultiCompiler, Compiler } from 'webpack';
 import webpackDevMiddleware, {
   WebpackDevMiddleware,
 } from 'webpack-dev-middleware';
-import { createMockHandler } from '../dev-tools/mock';
-import { createProxyHandler, ProxyOptions } from '../libs/proxy';
+import { ModernServer } from '../modern-server';
+import { createMockHandler } from '@/dev-tools/mock';
+import { createProxyHandler, ProxyOptions } from '@/libs/proxy';
 import {
   DevServerOptions,
   ModernServerOptions,
   NextFunction,
   ServerHookRunner,
   ReadyOptions,
-} from '../type';
-import SocketServer from '../dev-tools/socket-server';
-import DevServerPlugin from '../dev-tools/dev-server-plugin';
-import { ModernServerContext } from '../libs/context';
-import { createLaunchEditorHandler } from '../dev-tools/launch-editor';
-import { enableRegister } from '../dev-tools/babel/register';
-import * as reader from '../libs/render/reader';
-import Watcher from '../dev-tools/watcher';
-import { ModernServer } from './modern-server';
+} from '@/type';
+import SocketServer from '@/dev-tools/socket-server';
+import DevServerPlugin from '@/dev-tools/dev-server-plugin';
+import { ModernServerContext } from '@/libs/context';
+import { createLaunchEditorHandler } from '@/dev-tools/launch-editor';
+import { enableRegister } from '@/dev-tools/babel/register';
+import * as reader from '@/libs/render/reader';
+import Watcher from '@/dev-tools/watcher';
 import { AGGRED_DIR } from '@/constants';
 
 const DEFAULT_DEV_OPTIONS: DevServerOptions = {
@@ -57,8 +68,8 @@ export class ModernDevServer extends ModernServer {
       next: NextFunction,
     ) => void);
 
-  constructor(options: ModernServerOptions, runner: ServerHookRunner) {
-    super(options, runner);
+  constructor(options: ModernServerOptions) {
+    super(options);
 
     // set webpack compiler
     this.compiler = options.compiler!;
@@ -66,13 +77,13 @@ export class ModernDevServer extends ModernServer {
     // set dev server options, like webpack-dev-server
     this.dev =
       typeof options.dev === 'boolean' ? DEFAULT_DEV_OPTIONS : options.dev!;
+
+    enableRegister(this.pwd, this.conf);
   }
 
   // Complete the preparation of services
-  public async init() {
+  public async init(runner: ServerHookRunner) {
     const { conf, pwd, compiler } = this;
-
-    enableRegister(pwd, conf);
 
     // mock handler
     this.mockHandler = createMockHandler({ pwd });
@@ -110,7 +121,7 @@ export class ModernDevServer extends ModernServer {
       this.addHandler(devMiddlewareHandler);
     }
 
-    await super.init();
+    await super.init(runner);
 
     // watch mock/ server/ api/ dir file change
     this.startWatcher();
@@ -125,6 +136,8 @@ export class ModernDevServer extends ModernServer {
 
     // reset static file
     reader.updateFile();
+
+    this.runner.reset();
   }
 
   public onListening(app: Server) {
@@ -139,6 +152,24 @@ export class ModernDevServer extends ModernServer {
         resolve();
       });
     });
+  }
+
+  public async createHTTPServer(
+    handler: (
+      req: IncomingMessage,
+      res: ServerResponse,
+      next?: () => void,
+    ) => void,
+  ) {
+    const { dev } = this;
+    const devHttpsOption = typeof dev === 'object' && dev.https;
+    if (devHttpsOption) {
+      const { genHttpsOptions } = require('@/dev-tools/https');
+      const httpsOptions = await genHttpsOptions(devHttpsOption);
+      return createHttpsServer(httpsOptions, handler);
+    } else {
+      return createServer(handler);
+    }
   }
 
   // set up plugin to each compiler
@@ -217,12 +248,12 @@ export class ModernDevServer extends ModernServer {
 
   private startWatcher() {
     const { pwd } = this;
-    const { mock, server, api, shared } = AGGRED_DIR;
+    const { mock } = AGGRED_DIR;
     const defaultWatched = [
       `${pwd}/${mock}/**/*`,
-      `${pwd}/${server}/**/*`,
-      `${pwd}/${api}/**/*`,
-      `${pwd}/${shared}/**/*`,
+      `${pwd}/${SERVER_DIR}/**/*`,
+      `${pwd}/${API_DIR}/**/*`,
+      `${pwd}/${SHARED_DIR}/**/*`,
     ];
 
     const watcher = new Watcher();
@@ -232,6 +263,8 @@ export class ModernDevServer extends ModernServer {
     watcher.listen(defaultWatched, (filepath: string) => {
       watcher.updateDepTree();
       watcher.cleanDepCache(filepath);
+
+      this.runner.reset();
 
       if (filepath.startsWith(`${pwd}/${mock}`)) {
         this.mockHandler = createMockHandler({ pwd });

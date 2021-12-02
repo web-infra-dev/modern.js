@@ -1,4 +1,4 @@
-export const API_DIR = 'api';
+export const API_APP_NAME = '_app';
 
 export const BUILD_FILES = [
   '**/*.[tj]sx?',

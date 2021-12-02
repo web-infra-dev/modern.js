@@ -92,11 +92,14 @@ const extendContext = createAsyncPipeline<
 const handleError = createParallelWorkflow<{ error: Error }>();
 
 export type RequestResult = { isfinish: boolean };
-const beforeMatch = createAsyncPipeline<ModernServerContext, RequestResult>();
+const beforeMatch = createAsyncPipeline<
+  { context: ModernServerContext },
+  any
+>();
 
 const afterMatch = createAsyncPipeline<
-  { context: ModernServerContext; routeApi: any },
-  RequestResult
+  { context: ModernServerContext; routeAPI: any },
+  any
 >();
 
 // TODO FIXME
@@ -115,8 +118,8 @@ const renderToString = createAsyncPipeline<
 >();
 
 const beforeRender = createAsyncPipeline<
-  { context: ModernServerContext; templateAPI: any },
-  RequestResult
+  { context: ModernServerContext },
+  any
 >();
 
 const afterRender = createAsyncPipeline<
@@ -129,6 +132,8 @@ const beforeSend = createAsyncPipeline<ModernServerContext, RequestResult>();
 const afterSend = createParallelWorkflow<{
   context: ModernServerContext;
 }>();
+
+const reset = createParallelWorkflow();
 
 export const createServerManager = () =>
   createAsyncManager({
@@ -158,6 +163,7 @@ export const createServerManager = () =>
     afterRender,
     beforeSend,
     afterSend,
+    reset,
   });
 
 export const serverManager = createServerManager();

@@ -1,6 +1,10 @@
 {
   "folders": [
     {
+      "name": "server/plugin-server",
+      "path": "packages/server/plugin-server/"
+    },
+    {
       "name": "cli/indenpend-host-plugin",
       "path": "packages/cli/indenpend-host-plugin/"
     },
