@@ -25,7 +25,13 @@ Array [
             "type": "string",
           },
           "prefix": Object {
-            "type": "string",
+            "items": Object {
+              "type": "string",
+            },
+            "type": Array [
+              "string",
+              "array",
+            ],
           },
           "proxy": Object {
             "type": "object",

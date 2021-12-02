@@ -51,7 +51,7 @@ export type APIServerStartInput = {
   mode: 'function' | 'framework';
   prefix?: string;
   config?: {
-    middleware: Array<any>;
+    middleware?: Array<any>;
     modernJsConfig?: NormalizedConfig;
   };
 };

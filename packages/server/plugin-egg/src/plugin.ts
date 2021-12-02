@@ -21,6 +21,9 @@ export type Mode = 'function' | 'framework';
 const API_DIR = './api';
 const SERVER_DIR = './server';
 
+let agent: any;
+let application: any;
+
 const mockFn = (
   obj: Record<string, any>,
   name: string,
@@ -34,6 +37,7 @@ const mockFn = (
   };
 };
 
+// eslint-disable-next-line max-statements
 const initApp = async (options: StartOptions): Promise<Application> => {
   options.baseDir = options.baseDir || process.cwd();
   options.mode = 'single';
@@ -58,9 +62,14 @@ const initApp = async (options: StartOptions): Promise<Application> => {
     Agent = require('egg/lib/agent');
   }
 
-  const agent = new Agent({ ...options });
+  if (application) {
+    agent.close();
+    application.close();
+  }
+
+  agent = new Agent({ ...options });
   await agent.ready();
-  const application = new App({ ...options });
+  application = new App({ ...options });
   application.agent = agent;
   agent.application = application;
   await application.ready();

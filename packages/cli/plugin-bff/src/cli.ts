@@ -68,7 +68,7 @@ export default createPlugin(
                 port,
                 fetcher,
                 target: _config.name,
-                requestCreator: bff.requestCreator,
+                requestCreator: bff?.requestCreator,
               });
           },
         },
