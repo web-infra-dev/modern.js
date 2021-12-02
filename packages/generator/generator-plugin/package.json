@@ -19,6 +19,8 @@
     "lodash": "^4.17.11",
     "@modern-js/easy-form-core": "^1.0.0",
     "@modern-js/generator-utils": "workspace:^1.0.0",
+    "@modern-js/generator-common": "workspace:^1.0.0",
+    "@modern-js/new-action": "workspace:^1.0.0",
     "@modern-js/codesmith-api-json": "^1.0.0",
     "@modern-js/codesmith": "^1.0.0",
     "handlebars": "^4.7.7",
