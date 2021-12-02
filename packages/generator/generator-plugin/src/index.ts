@@ -4,8 +4,10 @@ import packageJson from 'package-json';
 import { GeneratorCore, ILogger } from '@modern-js/codesmith';
 import { fs } from '@modern-js/generator-utils';
 import { Solution, SolutionSchemas } from '@modern-js/generator-common';
-import { PluginContext } from './context';
+import { isFunction } from 'lodash';
+import { LifeCycle, PluginContext } from './context';
 import { ICustomInfo } from './common';
+import { installPlugins } from './utils';
 
 export * from './context';
 
@@ -65,15 +67,50 @@ export class GeneratorPlugin {
     projectPath: string,
     generatorCore: GeneratorCore,
   ) {
-    const templatePath = '';
-    const context = new PluginContext(
-      generatorCore,
-      solution,
-      path.join(basePath, projectPath),
-      templatePath,
-      inputData,
-      SolutionSchemas[solution],
-    );
-    console.info(context);
+    let plugins: string[] = [];
+    if (this.extendPlugin[solution] && this.extendPlugin[solution].length > 0) {
+      plugins = [...plugins, ...this.extendPlugin[solution]];
+    }
+    if (this.customPlugin[solution]) {
+      const plugin = this.customPlugin[solution].find(
+        item => item.key === inputData.scenes,
+      );
+      if (plugin) {
+        plugins.push(plugin.plugin);
+      }
+    }
+    const pluginInfo = await installPlugins(plugins, inputData.registry);
+
+    for (const info of pluginInfo) {
+      const context = new PluginContext(
+        generatorCore,
+        solution,
+        path.join(basePath, projectPath),
+        info.templatePath,
+        inputData,
+        SolutionSchemas[solution],
+      );
+      const onForgedFunc: any = context.lifeCycleFuncMap[LifeCycle.OnForged];
+      if (onForgedFunc && isFunction(onForgedFunc)) {
+        onForgedFunc(context, inputData);
+      }
+    }
+    for (const info of pluginInfo) {
+      const context = new PluginContext(
+        generatorCore,
+        solution,
+        path.join(basePath, projectPath),
+        info.templatePath,
+        inputData,
+        SolutionSchemas[solution],
+      );
+      const afterForged: any = context.lifeCycleFuncMap[LifeCycle.AfterForged];
+      if (afterForged && isFunction(afterForged)) {
+        afterForged(context, inputData);
+      }
+    }
+    if (this.event) {
+      this.event.emit('handle forged success');
+    }
   }
 }

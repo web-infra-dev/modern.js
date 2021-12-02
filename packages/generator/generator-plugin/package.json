@@ -27,7 +27,8 @@
     "@modern-js/codesmith": "^1.0.0",
     "package-json": "^7.0.0",
     "handlebars": "^4.7.7",
-    "globby": "^11.0.2"
+    "globby": "^11.0.2",
+    "vm2": "^3.9.2"
   },
   "devDependencies": {
     "react": "^17",
