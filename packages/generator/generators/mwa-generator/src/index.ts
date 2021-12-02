@@ -61,8 +61,16 @@ const handleTemplateFile = async (
     }
   }
 
+  const { hasPlugin, generatorPlugin, ...extra } = context.config;
+
+  let schema = MWASchema;
+  if (hasPlugin) {
+    await generatorPlugin.installPlugins(Solution.MWA, extra);
+    schema = generatorPlugin.getInputSchema(generator, Solution.MWA);
+  }
+
   const ans = await appApi.getInputBySchema(
-    MWASchema,
+    schema,
     { ...context.config, isMwa: true, isEmptySrc: true },
     {
       packageName: input =>
@@ -263,7 +271,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     await context.handleForged(
       Solution.MWA,
       context,
-      context.config.needWait,
+      context.config.hasPlugin,
       projectPath,
     );
   }

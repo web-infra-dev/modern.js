@@ -25,7 +25,15 @@ const handleTemplateFile = async (
   generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
-  const ans = await appApi.getInputBySchema(MonorepoSchema, context.config);
+  const { hasPlugin, generatorPlugin, ...extra } = context.config;
+
+  let schema = MonorepoSchema;
+  if (hasPlugin) {
+    await generatorPlugin.installPlugins(Solution.Monorepo, extra);
+    schema = generatorPlugin.getInputSchema(generator, Solution.Monorepo);
+  }
+
+  const ans = await appApi.getInputBySchema(schema, context.config);
 
   generator.logger.debug(`ans=`, ans);
 
@@ -115,7 +123,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     await context.handleForged(
       Solution.Monorepo,
       context,
-      context.config.needWait,
+      context.config.hasPlugin,
     );
   }
 

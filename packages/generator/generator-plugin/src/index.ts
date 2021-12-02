@@ -5,6 +5,7 @@ import { GeneratorCore, ILogger } from '@modern-js/codesmith';
 import { fs } from '@modern-js/generator-utils';
 import { Solution, SolutionSchemas } from '@modern-js/generator-common';
 import { isFunction } from 'lodash';
+import { Schema } from '@modern-js/easy-form-core';
 import { LifeCycle, PluginContext } from './context';
 import { ICustomInfo } from './common';
 import { installPlugins } from './utils';
@@ -19,6 +20,8 @@ export class GeneratorPlugin {
   private readonly event?: EventEmitter;
 
   private readonly logger: ILogger;
+
+  private plugins: Array<{ module: any; templatePath: string }> = [];
 
   constructor(logger: ILogger, event: EventEmitter) {
     this.event = event;
@@ -59,13 +62,32 @@ export class GeneratorPlugin {
     );
   }
 
-  // eslint-disable-next-line max-params
-  async handleForged(
-    solution: Solution | 'custom',
-    basePath: string,
-    inputData: Record<string, any>,
-    projectPath: string,
+  getInputSchema(
     generatorCore: GeneratorCore,
+    solution: Solution | 'custom',
+  ): Schema {
+    let items: Schema[] = [];
+    for (const info of this.plugins) {
+      const context = new PluginContext(
+        generatorCore,
+        solution,
+        '',
+        info.templatePath,
+        {},
+        SolutionSchemas[solution],
+      );
+      items = [...items, ...context.inputContext.getFinalInputs()];
+    }
+    return {
+      key: `${solution}_plugin_schema`,
+      isObject: true,
+      items,
+    };
+  }
+
+  async installPlugins(
+    solution: Solution | 'custom',
+    inputData: Record<string, any>,
   ) {
     let plugins: string[] = [];
     if (this.extendPlugin[solution] && this.extendPlugin[solution].length > 0) {
@@ -79,9 +101,18 @@ export class GeneratorPlugin {
         plugins.push(plugin.plugin);
       }
     }
-    const pluginInfo = await installPlugins(plugins, inputData.registry);
+    this.plugins = await installPlugins(plugins, inputData.registry);
+  }
 
-    for (const info of pluginInfo) {
+  // eslint-disable-next-line max-params
+  async handleForged(
+    solution: Solution | 'custom',
+    basePath: string,
+    inputData: Record<string, any>,
+    projectPath: string,
+    generatorCore: GeneratorCore,
+  ) {
+    for (const info of this.plugins) {
       const context = new PluginContext(
         generatorCore,
         solution,
@@ -95,7 +126,7 @@ export class GeneratorPlugin {
         onForgedFunc(context, inputData);
       }
     }
-    for (const info of pluginInfo) {
+    for (const info of this.plugins) {
       const context = new PluginContext(
         generatorCore,
         solution,

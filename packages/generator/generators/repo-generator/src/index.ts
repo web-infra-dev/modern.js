@@ -76,7 +76,8 @@ const handleTemplateFile = async (
     undefined,
     {
       ...context.config,
-      needWait: getNeedRunPlugin(context, generatorPlugin),
+      hasPlugin: getNeedRunPlugin(context, generatorPlugin),
+      generatorPlugin,
     },
   );
 };

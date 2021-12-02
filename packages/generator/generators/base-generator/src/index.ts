@@ -4,9 +4,19 @@ import { BaseSchema } from '@modern-js/generator-common';
 
 const handleTemplateFile = async (
   context: GeneratorContext,
+  generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
-  await appApi.getInputBySchema(BaseSchema, context.config);
+  const { hasPlugin, generatorPlugin, ...extra } = context.config;
+
+  let schema = BaseSchema;
+
+  if (hasPlugin) {
+    await generatorPlugin.installPlugins('custom', extra);
+    schema = generatorPlugin.getInputSchema(generator, 'custom');
+  }
+
+  await appApi.getInputBySchema(schema, context.config);
   await appApi.forgeTemplate(
     'templates/base-templates/**/*',
     undefined,
@@ -34,10 +44,10 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   generator.logger.debug(`context=${JSON.stringify(context)}`);
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
-  await handleTemplateFile(context, appApi);
+  await handleTemplateFile(context, generator, appApi);
 
   if (context.handleForged) {
-    await context.handleForged('custom', context, context.config.needWait);
+    await context.handleForged('custom', context, context.config.hasPlugin);
   }
 
   generator.logger.debug(`forge @modern-js/base-generator succeed `);

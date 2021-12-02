@@ -65,8 +65,16 @@ const handleTemplateFile = async (
     }
   }
 
+  const { hasPlugin, generatorPlugin, ...extra } = context.config;
+  let schema = ModuleSchema;
+
+  if (hasPlugin) {
+    await generatorPlugin.installPlugins(Solution.Module, extra);
+    schema = generatorPlugin.getInputSchema(generator, Solution.Module);
+  }
+
   const ans = await appApi.getInputBySchema(
-    ModuleSchema,
+    schema,
     context.config,
     {
       packageName: input =>
@@ -254,7 +262,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     await context.handleForged(
       Solution.Module,
       context,
-      context.config.needWait,
+      context.config.hasPlugin,
       projectPath,
     );
   }
