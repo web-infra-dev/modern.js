@@ -53,6 +53,16 @@ export class PluginInputContext {
     this.inputs = inputs;
   }
 
+  get context() {
+    return {
+      addInputBefore: this.addInputBefore.bind(this),
+      addInputAfter: this.addInputAfter.bind(this),
+      setInput: this.setInput.bind(this),
+      addOptionBefore: this.addOptionBefore.bind(this),
+      addOptionAfter: this.addOptionAfter.bind(this),
+    };
+  }
+
   private validateInputKey(inputKey: string) {
     if (!this.inputs.find(item => item.key === inputKey)) {
       throw new Error(`the input key ${inputKey} not found`);

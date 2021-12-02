@@ -15,6 +15,10 @@ export class PluginNpmAPI {
     this.packageManager = packageManager;
   }
 
+  get method() {
+    return { install: this.install.bind(this) };
+  }
+
   async install() {
     if (this.packageManager === PackageManager.Pnpm) {
       await pnpmInstall(this.projectPath);

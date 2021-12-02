@@ -29,12 +29,12 @@ export class PluginFileAPI {
 
   private readonly templatePath: string = 'templates';
 
-  private readonly handlebarContext: PluginHandlebarsAPI =
+  private readonly handlebarAPI: PluginHandlebarsAPI =
     new PluginHandlebarsAPI();
 
   private readonly jsonAPI: JsonAPI;
 
-  private readonly context: GeneratorContext;
+  private readonly generatorContext: GeneratorContext;
 
   constructor(
     generator: GeneratorCore,
@@ -43,11 +43,31 @@ export class PluginFileAPI {
   ) {
     this.projectPath = projectPath;
     this.jsonAPI = new JsonAPI(generator);
-    this.context = context;
+    this.generatorContext = context;
+  }
+
+  get context() {
+    return {
+      isFileExit: this.isFileExit.bind(this),
+      readDir: this.readDir.bind(this),
+    };
+  }
+
+  get method() {
+    return {
+      addFile: this.addFile.bind(this),
+      addManyFiles: this.addManyFiles.bind(this),
+      updateJSONFile: this.updateJSONFile.bind(this),
+      updateTextRawFile: this.updateTextRawFile.bind(this),
+      rmFile: this.rmFile.bind(this),
+      rmDir: this.rmDir.bind(this),
+      addHelper: this.handlebarAPI.addHelper.bind(this),
+      addPartial: this.handlebarAPI.addPartial.bind(this),
+    };
   }
 
   renderString(template = '', data: Record<string, string> = {}) {
-    return this.handlebarContext.renderString(template, data);
+    return this.handlebarAPI.renderString(template, data);
   }
 
   async addFile(params: AddFileParams) {
@@ -70,7 +90,9 @@ export class PluginFileAPI {
 
   async updateJSONFile(fileName: string, updateInfo: Record<string, any>) {
     await this.jsonAPI.update(
-      this.context.materials.default.get(path.join(this.projectPath, fileName)),
+      this.generatorContext.materials.default.get(
+        path.join(this.projectPath, fileName),
+      ),
       {
         query: {},
         update: {
