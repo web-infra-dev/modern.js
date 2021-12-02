@@ -2,7 +2,7 @@ import path from 'path';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import { GeneratorCore, GeneratorContext } from '@modern-js/codesmith';
 import { fs } from '@modern-js/generator-utils';
-import { PluginHandlebarsContext } from './handlebars';
+import { PluginHandlebarsAPI } from './handlebars';
 import {
   AddFileParams,
   AddManyFilesParams,
@@ -24,13 +24,13 @@ export interface IUpdateJSONFileParams {
   updateInfo: Record<string, any>;
 }
 
-export class PluginFileContext {
+export class PluginFileAPI {
   private readonly projectPath: string = '';
 
   private readonly templatePath: string = 'templates';
 
-  private readonly handlebarContext: PluginHandlebarsContext =
-    new PluginHandlebarsContext();
+  private readonly handlebarContext: PluginHandlebarsAPI =
+    new PluginHandlebarsAPI();
 
   private readonly jsonAPI: JsonAPI;
 
@@ -117,5 +117,13 @@ export class PluginFileContext {
     } catch (e) {
       /** nothing */
     }
+  }
+
+  async isFileExit(fileName: string) {
+    return fileExists(path.join(this.projectPath, fileName));
+  }
+
+  async readDir(dir: string) {
+    return fs.readdir(path.join(this.projectPath, dir));
   }
 }

@@ -1,6 +1,6 @@
 import * as handlebars from 'handlebars';
 
-export class PluginHandlebarsContext {
+export class PluginHandlebarsAPI {
   helpers: Record<string, handlebars.HelperDelegate> = {};
 
   partials: Record<string, handlebars.Template> = {};
