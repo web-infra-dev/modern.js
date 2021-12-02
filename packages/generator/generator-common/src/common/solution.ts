@@ -36,10 +36,51 @@ export const SolutionSchema: Schema = {
       label: () => i18n.t(localeKeys.solution.self),
       type: ['string'],
       mutualExclusion: true,
-      items: Object.values(Solution).map(solution => ({
-        key: solution,
-        label: SolutionText[solution],
-      })),
+      items: (data: Record<string, any>, extra?: Record<string, any>) => {
+        const items = Object.values(Solution).map(solution => ({
+          key: solution,
+          label: SolutionText[solution],
+        }));
+        if (
+          extra?.customPlugin &&
+          extra.customPlugin.custom &&
+          extra.customPlugin.custom.length
+        ) {
+          return [
+            ...items,
+            {
+              key: 'custom',
+              label: i18n.t(localeKeys.solution.custom),
+            },
+          ];
+        }
+        return items;
+      },
+    },
+    {
+      key: 'scenes',
+      label: () => i18n.t(localeKeys.scenes.self),
+      type: ['string'],
+      mutualExclusion: true,
+      when: (data: Record<string, any>, extra?: Record<string, any>) =>
+        extra?.customPlugin &&
+        extra.customPlugin[data.solution] &&
+        extra.customPlugin[data.solution].length > 0,
+      items: (data: Record<string, any>, extra?: Record<string, any>) => {
+        const items = (
+          extra?.customPlugin ? extra?.customPlugin[data.solution] || [] : []
+        ).map((plugin: any) => ({
+          key: plugin.key,
+          label: plugin.name,
+        }));
+        if (data.solution !== 'custom') {
+          items.push({
+            key: data.solution,
+            label: SolutionText[data.solution as Solution],
+          });
+        }
+        return items;
+      },
     },
   ],
 };

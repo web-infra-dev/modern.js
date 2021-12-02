@@ -40,7 +40,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     await context.handleForged(
       'base-generator',
       context,
-      context.config.hasPlugin,
+      context.config.needWait,
     );
   }
 

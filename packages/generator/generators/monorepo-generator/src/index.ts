@@ -115,7 +115,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     await context.handleForged(
       Solution.Monorepo,
       context,
-      context.config.hasPlugin,
+      context.config.needWait,
     );
   }
 

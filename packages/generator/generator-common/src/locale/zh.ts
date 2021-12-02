@@ -4,6 +4,10 @@ export const ZH_LOCALE = {
     mwa: '应用',
     module: '模块',
     monorepo: '项目组',
+    custom: '自定义',
+  },
+  scenes: {
+    self: '请选择项目场景',
   },
   sub_solution: {
     self: '请选择你想创建的工程类型',

@@ -8,7 +8,9 @@ import {
   SolutionGenerator,
   Solution,
   SolutionDefualtConfig,
+  BaseGenerator,
 } from '@modern-js/generator-common';
+import { GeneratorPlugin } from '@modern-js/generator-plugin';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {
@@ -31,27 +33,65 @@ const mergeDefaultConfig = (context: GeneratorContext) => {
   }
 };
 
+const getNeedRunPlugin = (
+  context: GeneratorContext,
+  generatorPlugin?: GeneratorPlugin,
+): boolean => {
+  if (!generatorPlugin) {
+    return false;
+  }
+  const { extendPlugin, customPlugin } = generatorPlugin;
+  const { solution, scenes } = context.config;
+  if (!scenes) {
+    return extendPlugin[solution] && extendPlugin[solution].length > 0;
+  }
+  if (scenes === solution) {
+    return false;
+  }
+  return Boolean(customPlugin[solution]?.find(plugin => plugin.key === scenes));
+};
+
 const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
   appApi: AppAPI,
+  generatorPlugin?: GeneratorPlugin,
 ) => {
-  const { solution } = await appApi.getInputBySchema(
-    SolutionSchema,
-    context.config,
-  );
+  const { solution } = await appApi.getInputBySchema(SolutionSchema, {
+    ...context.config,
+    customPlugin: generatorPlugin?.customPlugin,
+  });
 
-  if (!solution || !SolutionGenerator[solution as Solution]) {
+  const solutionGenerator =
+    solution === 'custom'
+      ? BaseGenerator
+      : SolutionGenerator[solution as Solution];
+
+  if (!solution || !solutionGenerator) {
     generator.logger.error('solution is not valid ');
   }
+
   await appApi.runSubGenerator(
-    getGeneratorPath(
-      SolutionGenerator[solution as Solution],
-      context.config.distTag,
-    ),
+    getGeneratorPath(solutionGenerator, context.config.distTag),
     undefined,
-    context.config,
+    {
+      ...context.config,
+      needWait: getNeedRunPlugin(context, generatorPlugin),
+    },
   );
+};
+
+const handlePlugin = async (
+  context: GeneratorContext,
+  generator: GeneratorCore,
+) => {
+  const { plugins, registry } = context.config;
+  const generatorPlugin = new GeneratorPlugin(
+    generator.logger,
+    generator.event,
+  );
+  await generatorPlugin.setupPlugin(plugins, registry);
+  return generatorPlugin;
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
@@ -72,8 +112,13 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   mergeDefaultConfig(context);
 
+  let generatorPlugin;
+  if (context.config.plugins) {
+    generatorPlugin = await handlePlugin(context, generator);
+  }
+
   try {
-    await handleTemplateFile(context, generator, appApi);
+    await handleTemplateFile(context, generator, appApi, generatorPlugin);
   } catch (e) {
     generator.logger.error(e);
     // eslint-disable-next-line no-process-exit
