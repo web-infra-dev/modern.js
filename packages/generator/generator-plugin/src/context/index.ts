@@ -1,9 +1,17 @@
-import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
+import { GeneratorCore } from '@modern-js/codesmith';
 import { Schema } from '@modern-js/easy-form-core';
+import {
+  ActionElement,
+  ActionFunction,
+  PackageManager,
+  Solution,
+  SubSolution,
+} from '@modern-js/generator-common';
 import { PluginFileAPI } from './file';
 import { PluginGitAPI } from './git';
 import { IInput, IOption, PluginInputContext } from './input';
 import { PluginNpmAPI } from './npm';
+import { PluginNewAPI } from './new';
 import { AddFileParams, AddManyFilesParams } from '@/utils/file';
 
 export interface IPluginContext {
@@ -39,6 +47,18 @@ export type ForgedAPI = {
   rmDir: (dirName: string) => Promise<void>;
   addHelper: (name: string, fn: Handlebars.HelperDelegate) => void;
   addPartial: (name: string, str: Handlebars.Template) => void;
+  createElement: (
+    element: ActionElement,
+    params: Record<string, unknown>,
+  ) => Promise<void>;
+  enableFunc: (
+    func: ActionFunction,
+    params?: Record<string, unknown> | undefined,
+  ) => Promise<void>;
+  createSubProject: (
+    solution: SubSolution,
+    params: Record<string, unknown>,
+  ) => Promise<void>;
 };
 
 export type AfterForgedAPI = {
@@ -61,8 +81,6 @@ type PluginAfterForgedFunc = (
 export class PluginContext {
   generator: GeneratorCore;
 
-  generatorContext: GeneratorContext;
-
   inputContext: PluginInputContext;
 
   gitAPI: PluginGitAPI;
@@ -70,6 +88,8 @@ export class PluginContext {
   fileAPI: PluginFileAPI;
 
   npmAPI: PluginNpmAPI;
+
+  newAPI: PluginNewAPI;
 
   lifeCycleFuncMap: Record<LifeCycle, unknown> = {
     [LifeCycle.OnForged]: () => {
@@ -80,18 +100,24 @@ export class PluginContext {
     },
   };
 
+  // eslint-disable-next-line max-params
   constructor(
     generator: GeneratorCore,
-    context: GeneratorContext,
+    solution: Solution | 'custom',
     projectPath: string,
+    templatePath: string,
+    inputData: Record<string, unknown>,
     inputs: Schema[],
   ) {
     this.generator = generator;
-    this.generatorContext = context;
     this.inputContext = new PluginInputContext(inputs);
-    this.gitAPI = new PluginGitAPI(generator, context);
-    this.fileAPI = new PluginFileAPI(generator, context, projectPath);
-    this.npmAPI = new PluginNpmAPI(projectPath, context.config.packageManager);
+    this.gitAPI = new PluginGitAPI(generator, projectPath);
+    this.fileAPI = new PluginFileAPI(generator, projectPath, templatePath);
+    this.npmAPI = new PluginNpmAPI(
+      projectPath,
+      inputData.packageManager as PackageManager,
+    );
+    this.newAPI = new PluginNewAPI(solution, projectPath);
   }
 
   get context(): IPluginContext {
@@ -107,6 +133,7 @@ export class PluginContext {
   get forgedAPI(): ForgedAPI {
     return {
       ...this.fileAPI.method,
+      ...this.newAPI.method,
     };
   }
 

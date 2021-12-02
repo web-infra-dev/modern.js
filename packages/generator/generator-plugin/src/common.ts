@@ -1,6 +1,6 @@
 export enum PluginType {
   Extend = 'extend', // customize Modern.js solution
-  New = 'new', // create new solution
+  Custom = 'custom', // create new solution
 }
 
 export interface IExtendInfo {

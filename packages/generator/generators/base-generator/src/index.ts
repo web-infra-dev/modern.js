@@ -37,11 +37,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   await handleTemplateFile(context, appApi);
 
   if (context.handleForged) {
-    await context.handleForged(
-      'base-generator',
-      context,
-      context.config.needWait,
-    );
+    await context.handleForged('custom', context, context.config.needWait);
   }
 
   generator.logger.debug(`forge @modern-js/base-generator succeed `);

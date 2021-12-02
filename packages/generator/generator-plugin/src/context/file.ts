@@ -1,6 +1,6 @@
 import path from 'path';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
-import { GeneratorCore, GeneratorContext } from '@modern-js/codesmith';
+import { GeneratorCore, FsMaterial } from '@modern-js/codesmith';
 import { fs } from '@modern-js/generator-utils';
 import { PluginHandlebarsAPI } from './handlebars';
 import {
@@ -27,23 +27,21 @@ export interface IUpdateJSONFileParams {
 export class PluginFileAPI {
   private readonly projectPath: string = '';
 
-  private readonly templatePath: string = 'templates';
+  private readonly templatePath: string;
 
   private readonly handlebarAPI: PluginHandlebarsAPI =
     new PluginHandlebarsAPI();
 
   private readonly jsonAPI: JsonAPI;
 
-  private readonly generatorContext: GeneratorContext;
-
   constructor(
     generator: GeneratorCore,
-    context: GeneratorContext,
     projectPath: string,
+    templatePath: string,
   ) {
     this.projectPath = projectPath;
     this.jsonAPI = new JsonAPI(generator);
-    this.generatorContext = context;
+    this.templatePath = templatePath;
   }
 
   get context() {
@@ -89,19 +87,15 @@ export class PluginFileAPI {
   }
 
   async updateJSONFile(fileName: string, updateInfo: Record<string, any>) {
-    await this.jsonAPI.update(
-      this.generatorContext.materials.default.get(
-        path.join(this.projectPath, fileName),
-      ),
-      {
-        query: {},
-        update: {
-          $set: {
-            ...updateInfo,
-          },
+    const fsMaterial = new FsMaterial(this.projectPath);
+    await this.jsonAPI.update(fsMaterial.get(fileName), {
+      query: {},
+      update: {
+        $set: {
+          ...updateInfo,
         },
       },
-    );
+    });
   }
 
   async updateTextRawFile(

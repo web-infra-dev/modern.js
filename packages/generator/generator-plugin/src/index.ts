@@ -3,6 +3,8 @@ import EventEmitter from 'events';
 import packageJson from 'package-json';
 import { GeneratorCore, ILogger } from '@modern-js/codesmith';
 import { fs } from '@modern-js/generator-utils';
+import { Solution, SolutionSchemas } from '@modern-js/generator-common';
+import { PluginContext } from './context';
 import { ICustomInfo } from './common';
 
 export * from './context';
@@ -57,19 +59,21 @@ export class GeneratorPlugin {
 
   // eslint-disable-next-line max-params
   async handleForged(
-    generatorName: string,
+    solution: Solution | 'custom',
     basePath: string,
     inputData: Record<string, any>,
     projectPath: string,
     generatorCore: GeneratorCore,
   ) {
-    console.info(
-      'handleForged',
-      generatorName,
-      basePath,
-      inputData,
-      projectPath,
+    const templatePath = '';
+    const context = new PluginContext(
       generatorCore,
+      solution,
+      path.join(basePath, projectPath),
+      templatePath,
+      inputData,
+      SolutionSchemas[solution],
     );
+    console.info(context);
   }
 }

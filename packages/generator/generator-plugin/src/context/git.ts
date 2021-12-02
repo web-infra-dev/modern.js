@@ -1,13 +1,16 @@
 import { GitAPI } from '@modern-js/codesmith-api-git';
-import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
+import { GeneratorCore } from '@modern-js/codesmith';
 
 export class PluginGitAPI {
   gitMessage: string = 'feat: init';
 
   private readonly gitApi: GitAPI;
 
-  constructor(generator: GeneratorCore, context: GeneratorContext) {
-    this.gitApi = new GitAPI(generator, context);
+  private readonly projectPath: string;
+
+  constructor(generator: GeneratorCore, projectPath: string) {
+    this.gitApi = new GitAPI(generator);
+    this.projectPath = projectPath;
   }
 
   get context() {
@@ -29,14 +32,14 @@ export class PluginGitAPI {
   }
 
   async isInGitRepo() {
-    return this.gitApi.isInGitRepo();
+    return this.gitApi.isInGitRepo(this.projectPath);
   }
 
   async initGitRepo() {
-    await this.gitApi.initGitRepo();
+    await this.gitApi.initGitRepo(this.projectPath);
   }
 
-  async gitAddAndCommit(commitMessage: string) {
-    await this.gitApi.addAndCommit(commitMessage);
+  async gitAddAndCommit(commitMessage = 'feat: init') {
+    await this.gitApi.addAndCommit(commitMessage, this.projectPath);
   }
 }

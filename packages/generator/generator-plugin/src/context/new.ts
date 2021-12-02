@@ -14,11 +14,22 @@ import {
   MonorepoNewAction,
 } from '@modern-js/new-action';
 
-export class PluginNewContext {
+export class PluginNewAPI {
   private readonly solution: Solution | 'custom';
 
-  constructor(solution: Solution | 'custom') {
+  private readonly projectPath: string;
+
+  constructor(solution: Solution | 'custom', projectPath: string) {
     this.solution = solution;
+    this.projectPath = projectPath;
+  }
+
+  get method() {
+    return {
+      createElement: this.createElement.bind(this),
+      enableFunc: this.enableFunc.bind(this),
+      createSubProject: this.createSubProject.bind(this),
+    };
   }
 
   async createElement(element: ActionElement, params: Record<string, unknown>) {
@@ -30,6 +41,7 @@ export class PluginNewContext {
         config: JSON.stringify({
           action: ActionType.Element,
           element,
+          pwd: this.projectPath,
           ...params,
         }),
       });
@@ -47,6 +59,7 @@ export class PluginNewContext {
         config: JSON.stringify({
           action: ActionType.Function,
           function: func,
+          pwd: this.projectPath,
           ...params,
         }),
       });
@@ -60,6 +73,7 @@ export class PluginNewContext {
         config: JSON.stringify({
           action: ActionType.Function,
           function: func,
+          pwd: this.projectPath,
           ...params,
         }),
       });
@@ -76,6 +90,7 @@ export class PluginNewContext {
       await MonorepoNewAction({
         config: JSON.stringify({
           solution,
+          pwd: this.projectPath,
           ...params,
         }),
       });
