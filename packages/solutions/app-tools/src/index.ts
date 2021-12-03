@@ -36,9 +36,10 @@ export default createPlugin(
           .command('build')
           .usage('[options]')
           .description(i18n.t(localeKeys.command.build.describe))
-          .action(async () => {
+          .option('--analyze', i18n.t(localeKeys.command.build.analyze))
+          .action(async (options: any) => {
             const { build } = await import('./commands/build');
-            await build();
+            await build(options);
             // force exit after build.
             // eslint-disable-next-line no-process-exit
             process.exit(0);
