@@ -12,7 +12,7 @@ const {
   clearBuildDist,
 } = require('../../../utils/modernTestUtils');
 
-const fixturesDir = join(__dirname, '../../css-fixtures');
+const fixturesDir = join(__dirname, '../fixtures');
 
 let appPort;
 beforeAll(async () => {

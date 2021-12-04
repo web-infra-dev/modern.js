@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "css",
+  "name": "css-modules",
   "dependencies": {
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
