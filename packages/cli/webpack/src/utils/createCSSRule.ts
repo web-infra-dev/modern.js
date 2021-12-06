@@ -23,7 +23,12 @@ interface CSSLoaderOptions {
 export const createCSSRule = (
   chain: Chain,
   { appDirectory, config }: { config: NormalizedConfig; appDirectory: string },
-  { name, test, exclude }: { name: string; test: RegExp; exclude?: RegExp[] },
+  {
+    name,
+    test,
+    exclude,
+    genTSD,
+  }: { name: string; test: RegExp; exclude?: RegExp[]; genTSD?: boolean },
   options: CSSLoaderOptions,
 ) => {
   const postcssOptions = getPostcssConfig(appDirectory, config);
@@ -39,6 +44,11 @@ export const createCSSRule = (
       chain.output.get('publicPath') === './' ? { publicPath: '../../' } : {},
     )
     .end()
+    .when(Boolean(genTSD), c => {
+      c.use('css-modules-typescript')
+        .loader(require.resolve('css-modules-typescript-loader'))
+        .end();
+    })
     .use('css')
     .loader(require.resolve('css-loader'))
     .options(options)
