@@ -13,6 +13,8 @@ import {
   ParallelWorkflow,
   AsyncWorkflow,
   Progresses2Runners,
+  createAsyncWaterfall,
+  AsyncWaterfall,
 } from '@modern-js/plugin';
 import { enable } from '@modern-js/plugin/node';
 
@@ -53,6 +55,9 @@ program
 
 export type HooksRunner = Progresses2Runners<{
   config: ParallelWorkflow<void>;
+  resolvedConfig: AsyncWaterfall<{
+    resolved: NormalizedConfig;
+  }>;
   validateSchema: ParallelWorkflow<void>;
   prepare: AsyncWorkflow<void, void>;
   commands: AsyncWorkflow<
@@ -73,6 +78,9 @@ export type HooksRunner = Progresses2Runners<{
 
 const hooksMap = {
   config: createParallelWorkflow(),
+  resolvedConfig: createAsyncWaterfall<{
+    resolved: NormalizedConfig;
+  }>(),
   validateSchema: createParallelWorkflow(),
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   prepare: createAsyncWorkflow<void, void>(),
@@ -131,7 +139,7 @@ const initAppDir = async (): Promise<string> => {
 };
 
 export interface CoreOptions {
-  name?: string;
+  configFile?: string;
   plugins?: typeof INTERNAL_PLUGINS;
   beforeUsePlugins: (plugins: any, config: any) => { cli: any; server: any }[];
 }
@@ -149,7 +157,7 @@ const createCli = () => {
 
     loadEnv(appDirectory);
 
-    const loaded = await loadUserConfig(appDirectory);
+    const loaded = await loadUserConfig(appDirectory, options?.configFile);
 
     let plugins = loadPlugins(
       appDirectory,
@@ -191,13 +199,17 @@ const createCli = () => {
 
     const extraSchemas = await hooksRunner.validateSchema();
 
-    const resolved = await resolveConfig(
+    const config = await resolveConfig(
       loaded,
       extraConfigs as any,
       extraSchemas as any,
       isRestart,
       argv,
     );
+
+    const { resolved } = await hooksRunner.resolvedConfig({
+      resolved: config,
+    });
 
     // update context value
     manager.run(() => {
