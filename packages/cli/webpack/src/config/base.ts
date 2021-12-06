@@ -320,6 +320,7 @@ class BaseWebpackConfig {
         exclude: this.options.output?.disableCssModuleExtension
           ? [/node_modules/, /\.global\.css$/]
           : [],
+        genTSD: this.options.output?.enableCssModuleTSDeclaration,
       },
       {
         importLoaders: 1,
