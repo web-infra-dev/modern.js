@@ -25,24 +25,14 @@ export interface IUpdateJSONFileParams {
 }
 
 export class PluginFileAPI {
-  private readonly projectPath: string = '';
+  private projectPath: string = '';
 
-  private readonly templatePath: string;
+  private templatePath: string = '';
 
   private readonly handlebarAPI: PluginHandlebarsAPI =
     new PluginHandlebarsAPI();
 
-  private readonly jsonAPI: JsonAPI;
-
-  constructor(
-    generator: GeneratorCore,
-    projectPath: string,
-    templatePath: string,
-  ) {
-    this.projectPath = projectPath;
-    this.jsonAPI = new JsonAPI(generator);
-    this.templatePath = templatePath;
-  }
+  private jsonAPI?: JsonAPI;
 
   get context() {
     return {
@@ -68,6 +58,12 @@ export class PluginFileAPI {
     return this.handlebarAPI.renderString(template, data);
   }
 
+  prepare(generator: GeneratorCore, projectPath: string, templatePath: string) {
+    this.projectPath = projectPath;
+    this.jsonAPI = new JsonAPI(generator);
+    this.templatePath = templatePath;
+  }
+
   async addFile(params: AddFileParams) {
     await addFile(
       params,
@@ -88,7 +84,7 @@ export class PluginFileAPI {
 
   async updateJSONFile(fileName: string, updateInfo: Record<string, any>) {
     const fsMaterial = new FsMaterial(this.projectPath);
-    await this.jsonAPI.update(fsMaterial.get(fileName), {
+    await this.jsonAPI!.update(fsMaterial.get(fileName), {
       query: {},
       update: {
         $set: {

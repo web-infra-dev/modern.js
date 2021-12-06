@@ -245,6 +245,7 @@ export class PluginInputContext {
     return {
       key: input.key,
       label: input.name,
+      type: ['string'],
       mutualExclusion: input.type === InputType.Radio,
       coexit: input.type === InputType.Checkbox,
       items: input.options?.map(option => ({
@@ -252,6 +253,7 @@ export class PluginInputContext {
         label: option.name,
         when: option.when,
       })),
+      when: input.when,
       state: {
         value: valueOption ? valueOption.key : undefined,
       },
@@ -291,6 +293,11 @@ export class PluginInputContext {
         before.forEach(item => result.push(item));
         result.push(option);
         after.forEach(item => result.push(item));
+        // option state has already set in input
+        this.extendOptionMap[input.key][option.key] = {
+          before: [],
+          after: [],
+        };
       });
       input.options = result;
     }

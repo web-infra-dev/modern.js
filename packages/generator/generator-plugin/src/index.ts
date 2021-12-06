@@ -6,7 +6,12 @@ import { fs } from '@modern-js/generator-utils';
 import { Solution, SolutionSchemas } from '@modern-js/generator-common';
 import { isFunction } from 'lodash';
 import { Schema } from '@modern-js/easy-form-core';
-import { LifeCycle, PluginContext } from './context';
+import {
+  LifeCycle,
+  PluginAfterForgedFunc,
+  PluginContext,
+  PluginForgedFunc,
+} from './context';
 import { ICustomInfo } from './common';
 import { installPlugins } from './utils';
 
@@ -21,7 +26,11 @@ export class GeneratorPlugin {
 
   private readonly logger: ILogger;
 
-  private plugins: Array<{ module: any; templatePath: string }> = [];
+  private plugins: Array<{
+    module: any;
+    templatePath: string;
+    context?: PluginContext;
+  }> = [];
 
   constructor(logger: ILogger, event: EventEmitter) {
     this.event = event;
@@ -62,21 +71,10 @@ export class GeneratorPlugin {
     );
   }
 
-  getInputSchema(
-    generatorCore: GeneratorCore,
-    solution: Solution | 'custom',
-  ): Schema {
+  getInputSchema(solution: Solution | 'custom'): Schema {
     let items: Schema[] = [];
     for (const info of this.plugins) {
-      const context = new PluginContext(
-        generatorCore,
-        solution,
-        '',
-        info.templatePath,
-        {},
-        SolutionSchemas[solution],
-      );
-      items = [...items, ...context.inputContext.getFinalInputs()];
+      items = [...items, ...info.context!.inputContext.getFinalInputs()];
     }
     return {
       key: `${solution}_plugin_schema`,
@@ -102,6 +100,21 @@ export class GeneratorPlugin {
       }
     }
     this.plugins = await installPlugins(plugins, inputData.registry);
+
+    for (const info of this.plugins) {
+      info.context = new PluginContext(SolutionSchemas[solution]);
+      info.module(info.context.context);
+    }
+  }
+
+  getGitMessage() {
+    let result = '';
+    for (const info of this.plugins) {
+      if (info.context?.gitAPI.gitMessage) {
+        result = info.context?.gitAPI.gitMessage || '';
+      }
+    }
+    return result;
   }
 
   // eslint-disable-next-line max-params
@@ -112,32 +125,33 @@ export class GeneratorPlugin {
     projectPath: string,
     generatorCore: GeneratorCore,
   ) {
+    if (solution !== inputData.solution) {
+      if (this.event) {
+        this.event.emit('handle forged success');
+      }
+      return;
+    }
     for (const info of this.plugins) {
-      const context = new PluginContext(
+      info.context?.handlePrepareContext(
         generatorCore,
         solution,
         path.join(basePath, projectPath),
-        info.templatePath,
+        path.join(info.templatePath, 'templates'),
         inputData,
-        SolutionSchemas[solution],
       );
-      const onForgedFunc: any = context.lifeCycleFuncMap[LifeCycle.OnForged];
+      const onForgedFunc = info.context?.lifeCycleFuncMap[
+        LifeCycle.OnForged
+      ] as PluginForgedFunc;
       if (onForgedFunc && isFunction(onForgedFunc)) {
-        onForgedFunc(context, inputData);
+        await onForgedFunc(info.context!.forgedAPI, inputData);
       }
     }
     for (const info of this.plugins) {
-      const context = new PluginContext(
-        generatorCore,
-        solution,
-        path.join(basePath, projectPath),
-        info.templatePath,
-        inputData,
-        SolutionSchemas[solution],
-      );
-      const afterForged: any = context.lifeCycleFuncMap[LifeCycle.AfterForged];
+      const afterForged = info.context?.lifeCycleFuncMap[
+        LifeCycle.AfterForged
+      ] as PluginAfterForgedFunc;
       if (afterForged && isFunction(afterForged)) {
-        afterForged(context, inputData);
+        await afterForged(info.context!.afterForgedAPI, inputData);
       }
     }
     if (this.event) {

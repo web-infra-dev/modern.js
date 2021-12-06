@@ -13,7 +13,7 @@ const handleTemplateFile = async (
 
   if (hasPlugin) {
     await generatorPlugin.installPlugins('custom', extra);
-    schema = generatorPlugin.getInputSchema(generator, 'custom');
+    schema = generatorPlugin.getInputSchema('custom');
   }
 
   await appApi.getInputBySchema(schema, context.config);

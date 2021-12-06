@@ -36,7 +36,7 @@ export const SolutionSchema: Schema = {
       label: () => i18n.t(localeKeys.solution.self),
       type: ['string'],
       mutualExclusion: true,
-      items: (data: Record<string, any>, extra?: Record<string, any>) => {
+      items: (_data: Record<string, any>, extra?: Record<string, any>) => {
         const items = Object.values(Solution).map(solution => ({
           key: solution,
           label: SolutionText[solution],
@@ -73,7 +73,7 @@ export const SolutionSchema: Schema = {
           key: plugin.key,
           label: plugin.name,
         }));
-        if (data.solution !== 'custom') {
+        if (data.solution && data.solution !== 'custom') {
           items.push({
             key: data.solution,
             label: SolutionText[data.solution as Solution],

@@ -66,7 +66,10 @@ const handleTemplateFile = async (
   let schema = MWASchema;
   if (hasPlugin) {
     await generatorPlugin.installPlugins(Solution.MWA, extra);
-    schema = generatorPlugin.getInputSchema(generator, Solution.MWA);
+    schema = generatorPlugin.getInputSchema(Solution.MWA);
+    // eslint-disable-next-line require-atomic-updates
+    context.config.gitCommitMessage =
+      generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
   }
 
   const ans = await appApi.getInputBySchema(
@@ -112,7 +115,7 @@ const handleTemplateFile = async (
   await appApi.runSubGenerator(
     getGeneratorPath(BaseGenerator, context.config.distTag),
     undefined,
-    context.config,
+    { ...context.config, hasPlugin: false },
   );
 
   await appApi.forgeTemplate(

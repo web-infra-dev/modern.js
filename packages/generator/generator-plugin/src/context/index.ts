@@ -14,6 +14,11 @@ import { PluginNpmAPI } from './npm';
 import { PluginNewAPI } from './new';
 import { AddFileParams, AddManyFilesParams } from '@/utils/file';
 
+export { InputType } from './input';
+export type { IInput, IOption } from './input';
+
+export { FileType } from './file';
+
 export interface IPluginContext {
   addInputBefore: (key: string, input: IInput) => void;
   addInputAfter: (key: string, input: IInput) => void;
@@ -68,18 +73,18 @@ export type AfterForgedAPI = {
   install: () => Promise<void>;
 };
 
-type PluginForgedFunc = (
+export type PluginForgedFunc = (
   api: ForgedAPI,
   inputData: Record<string, unknown>,
-) => Promise<void>;
+) => void | Promise<void>;
 
-type PluginAfterForgedFunc = (
+export type PluginAfterForgedFunc = (
   api: AfterForgedAPI,
   inputData: Record<string, unknown>,
 ) => Promise<void>;
 
 export class PluginContext {
-  generator: GeneratorCore;
+  generator?: GeneratorCore;
 
   inputContext: PluginInputContext;
 
@@ -87,9 +92,9 @@ export class PluginContext {
 
   fileAPI: PluginFileAPI;
 
-  npmAPI: PluginNpmAPI;
+  npmAPI?: PluginNpmAPI;
 
-  newAPI: PluginNewAPI;
+  newAPI?: PluginNewAPI;
 
   lifeCycleFuncMap: Record<LifeCycle, unknown> = {
     [LifeCycle.OnForged]: () => {
@@ -100,24 +105,10 @@ export class PluginContext {
     },
   };
 
-  // eslint-disable-next-line max-params
-  constructor(
-    generator: GeneratorCore,
-    solution: Solution | 'custom',
-    projectPath: string,
-    templatePath: string,
-    inputData: Record<string, unknown>,
-    inputs: Schema[],
-  ) {
-    this.generator = generator;
+  constructor(inputs: Schema[]) {
     this.inputContext = new PluginInputContext(inputs);
-    this.gitAPI = new PluginGitAPI(generator, projectPath);
-    this.fileAPI = new PluginFileAPI(generator, projectPath, templatePath);
-    this.npmAPI = new PluginNpmAPI(
-      projectPath,
-      inputData.packageManager as PackageManager,
-    );
-    this.newAPI = new PluginNewAPI(solution, projectPath);
+    this.gitAPI = new PluginGitAPI();
+    this.fileAPI = new PluginFileAPI();
   }
 
   get context(): IPluginContext {
@@ -133,15 +124,33 @@ export class PluginContext {
   get forgedAPI(): ForgedAPI {
     return {
       ...this.fileAPI.method,
-      ...this.newAPI.method,
+      ...this.newAPI!.method,
     };
   }
 
   get afterForgedAPI(): AfterForgedAPI {
     return {
       ...this.gitAPI.method,
-      ...this.npmAPI.method,
+      ...this.npmAPI!.method,
     };
+  }
+
+  // eslint-disable-next-line max-params
+  handlePrepareContext(
+    generator: GeneratorCore,
+    solution: Solution | 'custom',
+    projectPath: string,
+    templatePath: string,
+    inputData: Record<string, unknown>,
+  ) {
+    this.generator = generator;
+    this.gitAPI.prepare(generator, projectPath);
+    this.fileAPI.prepare(generator, projectPath, templatePath);
+    this.npmAPI = new PluginNpmAPI(
+      projectPath,
+      inputData.packageManager as PackageManager,
+    );
+    this.newAPI = new PluginNewAPI(solution, projectPath);
   }
 
   onForged(func: PluginForgedFunc) {

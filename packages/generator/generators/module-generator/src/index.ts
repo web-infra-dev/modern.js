@@ -70,7 +70,10 @@ const handleTemplateFile = async (
 
   if (hasPlugin) {
     await generatorPlugin.installPlugins(Solution.Module, extra);
-    schema = generatorPlugin.getInputSchema(generator, Solution.Module);
+    schema = generatorPlugin.getInputSchema(Solution.Module);
+    // eslint-disable-next-line require-atomic-updates
+    context.config.gitCommitMessage =
+      generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
   }
 
   const ans = await appApi.getInputBySchema(
@@ -111,7 +114,7 @@ const handleTemplateFile = async (
     await appApi.runSubGenerator(
       getGeneratorPath(BaseGenerator, context.config.distTag),
       undefined,
-      context.config,
+      { ...context.config, hasPlugin: false },
     );
   }
 

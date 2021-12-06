@@ -30,7 +30,10 @@ const handleTemplateFile = async (
   let schema = MonorepoSchema;
   if (hasPlugin) {
     await generatorPlugin.installPlugins(Solution.Monorepo, extra);
-    schema = generatorPlugin.getInputSchema(generator, Solution.Monorepo);
+    schema = generatorPlugin.getInputSchema(Solution.Monorepo);
+    // eslint-disable-next-line require-atomic-updates
+    context.config.gitCommitMessage =
+      generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
   }
 
   const ans = await appApi.getInputBySchema(schema, context.config);
@@ -41,7 +44,7 @@ const handleTemplateFile = async (
   await appApi.runSubGenerator(
     getGeneratorPath(BaseGenerator, context.config.distTag),
     undefined,
-    context.config,
+    { ...context.config, hasPlugin: false },
   );
 
   await appApi.forgeTemplate(
