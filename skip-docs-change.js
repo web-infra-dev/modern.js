@@ -12,7 +12,7 @@ const exec = promisify(execOrig);
 
 const DOCS_FOLDERS = [
   '.changeset',
-  '.github',
+  // '.github',
   '.vscode',
   'skip-docs-change.js',
 ];
