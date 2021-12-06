@@ -1,5 +1,11 @@
 # @modern-js/plugin-docsite
 
+## 1.1.2
+
+### Patch Changes
+
+- fix missing dependencies bug
+
 ## 1.1.1
 
 ### Patch Changes
