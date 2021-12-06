@@ -48,7 +48,7 @@ jobs:
 
       - name: Prepare
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm run prepare --filter ./packages
+        run: pnpm run prepare  --parallel --filter ./packages
 
       - name: Install Puppeteer
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
