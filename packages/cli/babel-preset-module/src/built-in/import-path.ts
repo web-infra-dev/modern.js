@@ -35,17 +35,19 @@ const getImportFileDistPath = (
 };
 
 const isStaticFile = (file: string) => {
-  const tests = [
-    /\.json$/,
-    /\.css$/,
-    /\.less$/,
-    /\.sass$/,
-    /\.scss$/,
-    /\.(jpg|png|jpeg|gif|svg)$/,
-    /\.(jpg|png|jpeg|gif|svg)\?(inline|url)$/,
-  ];
+  // const tests = [
+  //   /\.json$/,
+  //   /\.css$/,
+  //   /\.less$/,
+  //   /\.sass$/,
+  //   /\.scss$/,
+  //   /\.(jpg|png|jpeg|gif|svg)$/,
+  //   /\.(jpg|png|jpeg|gif|svg)\?(inline|url)$/,
+  // ];
 
-  return tests.some(regex => regex.test(file));
+  const tests = [/\.js$/, /\.jsx$/, /\.ts$/, /\.tsx$/];
+
+  return !tests.some(regex => regex.test(file)) || path.dirname(file) !== '';
 };
 
 const isStyleFile = (file: string) => {
@@ -63,13 +65,15 @@ const getReplacePath = (
   if (!filename || !importName) {
     return '';
   }
-  if (!isStaticFile(importName)) {
-    return '';
-  }
 
   if (!isProjectFile(importName)) {
     return '';
   }
+
+  if (!isStaticFile(importName)) {
+    return '';
+  }
+
   let realFilepath = getImportFileDistPath(filename, srcDir, importName);
   if (isStyleFile(realFilepath) && importStyle === 'compiled-code') {
     realFilepath = realFilepath.replace(/\.(less|sass|scss)$/, '.css');

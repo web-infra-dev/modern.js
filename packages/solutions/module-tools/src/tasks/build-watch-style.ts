@@ -1,6 +1,10 @@
 /* eslint-disable max-statements */
 import * as path from 'path';
-import type { NormalizedConfig, IAppContext } from '@modern-js/core';
+import type {
+  NormalizedConfig,
+  IAppContext,
+  CoreOptions,
+} from '@modern-js/core';
 import type { ICompilerResult, PostcssOption } from '@modern-js/style-compiler';
 import { fs, watch, WatchChangeType, Import } from '@modern-js/utils';
 import type { ModuleToolsOutput } from '../types';
@@ -79,6 +83,7 @@ const copyOriginStyleFiles = ({
   }
   for (const styleFile of styleFiles) {
     const file = path.relative(targetDir, styleFile);
+    fs.ensureFileSync(path.join(outputDir, file));
     fs.copyFileSync(styleFile, path.join(outputDir, file));
   }
 };
@@ -107,12 +112,18 @@ const taskMain = async ({
   } = modernConfig.output as ModuleToolsOutput;
   const { appDirectory } = appContext;
 
-  const lessOption = await (core.mountHook() as any).moduleLessConfig({
-    onLast: async (_: any) => null as any,
-  });
-  const sassOption = await (core.mountHook() as any).moduleSassConfig({
-    onLast: async (_: any) => null as any,
-  });
+  const lessOption = await (core.mountHook() as any).moduleLessConfig(
+    { modernConfig },
+    {
+      onLast: async (_: any) => null as any,
+    },
+  );
+  const sassOption = await (core.mountHook() as any).moduleSassConfig(
+    { modernConfig },
+    {
+      onLast: async (_: any) => null as any,
+    },
+  );
   const postcssOption = getPostcssOption(appDirectory, modernConfig);
   const existStylesDir = checkStylesDirExist({ appDirectory });
   const compilerMessage = {
@@ -240,13 +251,20 @@ const taskMain = async ({
 };
 
 (async () => {
+  let options: CoreOptions | undefined;
+  if (process.env.CORE_INIT_OPTION_FILE) {
+    options = require(process.env.CORE_INIT_OPTION_FILE);
+  }
   hooks.buildLifeCycle();
-  const { resolved: modernConfig, appContext } = await core.cli.init();
+  const { resolved: modernConfig, appContext } = await core.cli.init(
+    [],
+    options,
+  );
   await core.manager.run(async () => {
     try {
       await taskMain({ modernConfig, appContext });
     } catch (e: any) {
-      console.error(e.message);
+      console.error(e);
     }
   });
 })();

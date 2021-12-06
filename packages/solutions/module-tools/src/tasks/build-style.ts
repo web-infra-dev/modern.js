@@ -1,6 +1,10 @@
 import * as path from 'path';
 import { fs, Import } from '@modern-js/utils';
-import type { NormalizedConfig, IAppContext } from '@modern-js/core';
+import type {
+  NormalizedConfig,
+  IAppContext,
+  CoreOptions,
+} from '@modern-js/core';
 import type { ICompilerResult, PostcssOption } from '@modern-js/style-compiler';
 import type { ModuleToolsOutput } from '../types';
 
@@ -171,8 +175,15 @@ const taskMain = async ({
 };
 
 (async () => {
+  let options: CoreOptions | undefined;
+  if (process.env.CORE_INIT_OPTION_FILE) {
+    options = require(process.env.CORE_INIT_OPTION_FILE);
+  }
   hooks.buildLifeCycle();
-  const { resolved: modernConfig, appContext } = await core.cli.init();
+  const { resolved: modernConfig, appContext } = await core.cli.init(
+    [],
+    options,
+  );
   await core.manager.run(async () => {
     try {
       await taskMain({ modernConfig, appContext });

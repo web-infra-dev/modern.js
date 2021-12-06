@@ -2,7 +2,7 @@ import type { ChildProcess } from 'child_process';
 import * as path from 'path';
 import * as os from 'os';
 import { Import, fs } from '@modern-js/utils';
-import type { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig, CoreOptions } from '@modern-js/core';
 import type { ITsconfig } from '@/types';
 
 const tsPathsTransform: typeof import('../utils/tspaths-transform') =
@@ -261,7 +261,11 @@ const taskMain = async ({
 };
 
 (async () => {
-  const { resolved } = await core.cli.init();
+  let options: CoreOptions | undefined;
+  if (process.env.CORE_INIT_OPTION_FILE) {
+    options = require(process.env.CORE_INIT_OPTION_FILE);
+  }
+  const { resolved } = await core.cli.init([], options);
   await core.manager.run(async () => {
     try {
       await taskMain({ modernConfig: resolved });
