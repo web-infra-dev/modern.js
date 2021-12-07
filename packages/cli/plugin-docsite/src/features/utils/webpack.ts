@@ -35,10 +35,20 @@ export function generatorWebpackConfig(
       }),
     ],
   };
+  const docsiteNodeModules = [
+    // for yarn
+    path.dirname(require.resolve('@modern-js/plugin-docsite/package.json')),
+    // for pnpm
+    path.resolve(
+      path.dirname(require.resolve('@modern-js/plugin-docsite/package.json')),
+      '../..',
+    ),
+  ];
 
+  // maybe check if outside appDir or monorepoDir
   config.resolve!.modules = [
     ...(config.resolve!.modules || []),
-    path.join(__dirname, '../../../../../', 'node_modules'),
+    ...docsiteNodeModules,
   ];
   (config.resolve!.alias as Alias)['@assets'] = path.resolve(
     appDirectory,
@@ -53,35 +63,35 @@ export function generatorWebpackConfig(
     `${path.dirname(require.resolve('core-js'))}/fn`
   ] = 'core-js/es';
 
-  const pkgJSON = JSON.parse(
-    fs.readFileSync(path.join(appDirectory, 'package.json'), 'utf-8'),
-  );
+  // const pkgJSON = JSON.parse(
+  //   fs.readFileSync(path.join(appDirectory, 'package.json'), 'utf-8'),
+  // );
 
-  if (pkgJSON.dependencies.react || pkgJSON.devDependencies.react) {
-    (config.resolve!.alias as Alias).react = path.resolve('node_modules/react');
-  } else {
-    (config.resolve!.alias as Alias).react = path.resolve(
-      __dirname,
-      '../../../../../',
-      'node_modules',
-      'react',
-    );
-  }
-  if (
-    pkgJSON.dependencies['react-dom'] ||
-    pkgJSON.devDependencies['react-dom']
-  ) {
-    (config.resolve!.alias as Alias)['react-dom'] = path.resolve(
-      'node_modules/react-dom',
-    );
-  } else {
-    (config.resolve!.alias as Alias)['react-dom'] = path.resolve(
-      __dirname,
-      '../../../../../',
-      'node_modules',
-      'react-dom',
-    );
-  }
+  // if (pkgJSON.dependencies.react || pkgJSON.devDependencies.react) {
+  //   (config.resolve!.alias as Alias).react = path.resolve('node_modules/react');
+  // } else {
+  //   (config.resolve!.alias as Alias).react = path.resolve(
+  //     __dirname,
+  //     '../../../../../',
+  //     'node_modules',
+  //     'react',
+  //   );
+  // }
+  // if (
+  //   pkgJSON.dependencies['react-dom'] ||
+  //   pkgJSON.devDependencies['react-dom']
+  // ) {
+  //   (config.resolve!.alias as Alias)['react-dom'] = path.resolve(
+  //     'node_modules/react-dom',
+  //   );
+  // } else {
+  //   (config.resolve!.alias as Alias)['react-dom'] = path.resolve(
+  //     __dirname,
+  //     '../../../../../',
+  //     'node_modules',
+  //     'react-dom',
+  //   );
+  // }
 
   config.resolve!.fallback = {
     path: require.resolve('path-browserify'),

@@ -224,8 +224,9 @@ class ClientWebpackConfig extends BaseWebpackConfig {
         patterns: [
           ...((this.options.output.copy as any) || []),
           {
-            from: path.posix.join(configDir.replace(/\\/g, '/'), 'public/**/*'),
+            from: '**/*',
             to: 'public',
+            context: path.posix.join(configDir.replace(/\\/g, '/'), 'public'),
             noErrorOnMissing: true,
             // eslint-disable-next-line node/prefer-global/buffer
             transform: (content: Buffer, absoluteFrom: string) => {

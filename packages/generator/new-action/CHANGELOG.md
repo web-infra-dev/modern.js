@@ -1,5 +1,13 @@
 # @modern-js/new-action
 
+## 1.1.3
+
+### Patch Changes
+
+- c4758365: feat: export action utils
+- Updated dependencies [2c0750e1]
+  - @modern-js/generator-common@1.1.3
+
 ## 1.1.2
 
 ### Patch Changes
