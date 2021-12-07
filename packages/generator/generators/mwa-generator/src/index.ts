@@ -181,6 +181,7 @@ const handleTemplateFile = async (
       undefined,
       {
         ...context.config,
+        projectPath,
         isSubGenerator: true,
       },
     );
