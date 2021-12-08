@@ -75,6 +75,10 @@ export class RouteMatcher {
     }
   }
 
+  public matchEntry(entryName: string): boolean {
+    return this.spec.entryName === entryName;
+  }
+
   // compiler urlPath to regexp if necessary
   private setupUrlPath() {
     const { urlPath } = this.spec;
