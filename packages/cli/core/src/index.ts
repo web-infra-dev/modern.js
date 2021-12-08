@@ -268,3 +268,5 @@ const createCli = () => {
 };
 
 export const cli = createCli();
+
+export { loadUserConfig, initAppDir, initAppContext };

@@ -6,13 +6,12 @@ import {
   useResolvedConfigContext,
 } from '@modern-js/core';
 import { compiler } from '@modern-js/babel-compiler';
-import { PLUGIN_SCHEMAS, normalizeOutputPath } from '@modern-js/utils';
+import { PLUGIN_SCHEMAS, normalizeOutputPath, API_DIR } from '@modern-js/utils';
 import { resolveBabelConfig } from '@modern-js/server-utils';
 
 import type { Configuration } from 'webpack';
 import type Chain from 'webpack-chain';
 import type { ServerRoute } from '@modern-js/types';
-import { API_DIR } from './constants';
 
 declare module '@modern-js/core' {
   interface UserConfig {
