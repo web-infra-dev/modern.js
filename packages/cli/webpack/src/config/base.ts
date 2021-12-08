@@ -195,7 +195,9 @@ class BaseWebpackConfig {
         : isString(this.options.dev?.assetPrefix)
         ? this.options.dev.assetPrefix
         : (this.options.dev ? this.options.dev.assetPrefix : '')
-        ? `//${this.appContext.ip as string}:8080/`
+        ? `//${this.appContext.ip || 'localhost'}:${
+            this.appContext.port || '8080'
+          }/`
         : '/';
     /* eslint-enable no-nested-ternary */
 
