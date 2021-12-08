@@ -52,7 +52,6 @@ export type APIServerStartInput = {
   prefix?: string;
   config?: {
     middleware?: Array<any>;
-    modernJsConfig?: NormalizedConfig;
   };
 };
 const prepareApiServer = createAsyncPipeline<APIServerStartInput, Adapter>();

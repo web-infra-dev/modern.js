@@ -272,10 +272,7 @@ export class ModernServer {
 
       // if use lambda/, mean framework style of writing, then discard user extension
       const apiExtension = mergeExtension(pluginAPIExt);
-      this.frameAPIHandler = await this.prepareAPIHandler(mode, {
-        ...apiExtension,
-        modernJsConfig: this.conf,
-      });
+      this.frameAPIHandler = await this.prepareAPIHandler(mode, apiExtension);
     }
   }
 

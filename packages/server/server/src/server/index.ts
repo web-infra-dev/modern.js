@@ -7,6 +7,7 @@ import {
   initAppContext,
   initAppDir,
   loadUserConfig,
+  ConfigContext,
 } from '@modern-js/core';
 import { ModernServer } from './modern-server';
 import type { ModernDevServer } from './dev-server';
@@ -117,6 +118,7 @@ export class Server {
     const { options } = this;
     const appContext = await this.initAppContext();
     serverManager.run(() => {
+      ConfigContext.set(this.options.config);
       AppContext.set({
         ...appContext,
         distDirectory: path.join(

@@ -122,6 +122,7 @@ export {
   useAppContext,
   useConfigContext,
   useResolvedConfigContext,
+  ConfigContext,
 };
 
 export type { NormalizedConfig, IAppContext, UserConfig, ToolsConfig };
