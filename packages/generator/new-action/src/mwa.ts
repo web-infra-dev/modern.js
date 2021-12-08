@@ -27,7 +27,7 @@ interface IMWANewActionOption {
   debug?: boolean;
   registry?: string;
   config?: string;
-  pwd?: string;
+  cwd?: string;
 }
 
 // eslint-disable-next-line max-statements
@@ -38,7 +38,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     debug = false,
     registry = '',
     config = '{}',
-    pwd = process.cwd(),
+    cwd = process.cwd(),
   } = options;
 
   let UserConfig: Record<string, unknown> = {};
@@ -77,7 +77,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
         MWAActionFunctionsDependencies,
         MWAActionFunctionsDevDependencies,
         {},
-        pwd,
+        cwd,
       );
       const { when } = schemaItem;
       schemaItem.when = enable ? () => false : when;
@@ -109,7 +109,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     ans,
     {
       locale: (UserConfig.locale as string) || locale,
-      packageManager: getPackageManager(pwd),
+      packageManager: getPackageManager(cwd),
     },
     {
       devDependencies: devDependency
@@ -133,6 +133,6 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
       generator: runner.name,
       config: runner.config,
     })),
-    pwd,
+    pwd: cwd,
   });
 };

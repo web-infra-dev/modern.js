@@ -3,9 +3,9 @@ import json5 from 'json5';
 import { ActionFunction } from '@modern-js/generator-common';
 import { fs } from '@modern-js/generator-utils';
 
-export function alreadyRepo() {
+export function alreadyRepo(cwd = process.cwd()) {
   try {
-    return fs.existsSync(path.resolve(process.cwd(), 'package.json'));
+    return fs.existsSync(path.resolve(cwd, 'package.json'));
   } catch (e) {
     return false;
   }
