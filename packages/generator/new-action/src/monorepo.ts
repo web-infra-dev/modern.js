@@ -21,7 +21,7 @@ interface IMonorepoNewActionOption {
   debug?: boolean;
   registry?: string;
   config?: string;
-  pwd?: string;
+  cwd?: string;
 }
 // eslint-disable-next-line max-statements
 export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
@@ -31,7 +31,7 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
     debug = false,
     registry = '',
     config = '{}',
-    pwd = process.cwd(),
+    cwd = process.cwd(),
   } = options;
 
   let UserConfig: Record<string, unknown> = {};
@@ -86,7 +86,7 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
     MonorepoNewActionConfig[solution],
     {
       locale: (UserConfig.locale as string) || locale,
-      packageManager: getPackageManager(pwd),
+      packageManager: getPackageManager(cwd),
     },
   );
 
@@ -102,6 +102,6 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
       generator: runner.name,
       config: runner.config,
     })),
-    pwd,
+    pwd: cwd,
   });
 };
