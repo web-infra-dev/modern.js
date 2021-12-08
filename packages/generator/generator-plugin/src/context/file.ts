@@ -94,6 +94,13 @@ export class PluginFileAPI {
     });
   }
 
+  async updateModernConfig(updateInfo: Record<string, any>) {
+    const update = Object.keys(updateInfo).map(key => ({
+      [`modernConfig.${key}`]: updateInfo[key],
+    }));
+    await this.updateJSONFile('package.json', update);
+  }
+
   async updateTextRawFile(
     fileName: string,
     update: (content: string[]) => string[],

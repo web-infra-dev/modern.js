@@ -39,11 +39,11 @@ export class PluginNewAPI {
       }
       await MWANewAction({
         config: JSON.stringify({
-          action: ActionType.Element,
+          actionType: ActionType.Element,
           element,
-          pwd: this.projectPath,
           ...params,
         }),
+        cwd: this.projectPath,
       });
       return;
     }
@@ -57,11 +57,11 @@ export class PluginNewAPI {
       }
       await MWANewAction({
         config: JSON.stringify({
-          action: ActionType.Function,
+          actionType: ActionType.Function,
           function: func,
-          pwd: this.projectPath,
           ...params,
         }),
+        cwd: this.projectPath,
       });
       return;
     }
@@ -71,11 +71,11 @@ export class PluginNewAPI {
       }
       await ModuleNewAction({
         config: JSON.stringify({
-          action: ActionType.Function,
+          actionType: ActionType.Function,
           function: func,
-          pwd: this.projectPath,
           ...params,
         }),
+        cwd: this.projectPath,
       });
       return;
     }
@@ -90,9 +90,9 @@ export class PluginNewAPI {
       await MonorepoNewAction({
         config: JSON.stringify({
           solution,
-          pwd: this.projectPath,
           ...params,
         }),
+        cwd: this.projectPath,
       });
       return;
     }
