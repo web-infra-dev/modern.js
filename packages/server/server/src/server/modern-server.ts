@@ -1,10 +1,10 @@
 /* eslint-disable max-lines */
-import { IncomingMessage, ServerResponse, Server } from 'http';
+import { IncomingMessage, ServerResponse, Server, createServer } from 'http';
 import util from 'util';
 import path from 'path';
 import { fs, ROUTE_SPEC_FILE } from '@modern-js/utils';
 import { Adapter } from '@modern-js/server-plugin';
-import { gather, createMiddlewareCollecter } from '@modern-js/server-utils';
+import { createMiddlewareCollecter } from '@modern-js/server-utils';
 import type { NormalizedConfig } from '@modern-js/core';
 import mime from 'mime-types';
 import axios from 'axios';
@@ -30,7 +30,8 @@ import {
   ERROR_DIGEST,
   ERROR_PAGE_TEXT,
 } from '@/constants';
-import { createTemplateAPI } from '@/libs/hook-api';
+import { createTemplateAPI } from '@/libs/hook-api/template';
+import { createRouteAPI } from '@/libs/hook-api/route';
 
 type ModernServerHandler = (
   context: ModernServerContext,
@@ -63,11 +64,11 @@ export class ModernServer {
 
   protected presetRoutes?: ModernRouteInterface[];
 
+  protected runner!: ServerHookRunner;
+
   protected readonly logger: Logger;
 
   protected readonly measure: Measure;
-
-  private readonly runner: ServerHookRunner;
 
   private readonly isDev: boolean = false;
 
@@ -85,18 +86,15 @@ export class ModernServer {
 
   private proxyHandler: ReturnType<typeof createProxyHandler> = null;
 
-  constructor(
-    {
-      pwd,
-      config,
-      dev,
-      routes,
-      staticGenerate,
-      logger,
-      measure,
-    }: ModernServerOptions,
-    runner: ServerHookRunner,
-  ) {
+  constructor({
+    pwd,
+    config,
+    dev,
+    routes,
+    staticGenerate,
+    logger,
+    measure,
+  }: ModernServerOptions) {
     require('ignore-styles');
     this.isDev = Boolean(dev);
 
@@ -104,7 +102,6 @@ export class ModernServer {
     this.distDir = path.join(pwd, config.output.path || '');
     this.workDir = this.isDev ? pwd : this.distDir;
     this.conf = config;
-    this.runner = runner;
     this.logger = logger!;
     this.measure = measure!;
     this.router = new RouteMatchManager();
@@ -122,7 +119,9 @@ export class ModernServer {
   }
 
   // server prepare
-  public async init() {
+  public async init(runner: ServerHookRunner) {
+    this.runner = runner;
+
     const { distDir, isDev, staticGenerate, conf } = this;
 
     this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
@@ -198,6 +197,16 @@ export class ModernServer {
     reader.close();
   }
 
+  public async createHTTPServer(
+    handler: (
+      req: IncomingMessage,
+      res: ServerResponse,
+      next?: () => void,
+    ) => void,
+  ) {
+    return createServer(handler);
+  }
+
   // warmup ssr function
   protected warmupSSRBundle() {
     const { distDir } = this;
@@ -241,9 +250,6 @@ export class ModernServer {
   protected async prepareFrameHandler() {
     const { workDir, runner } = this;
 
-    // inner tool, gather user inject
-    const { api: userAPIExt, web: userWebExt } = gather(workDir);
-
     // server hook, gather plugin inject
     const { getMiddlewares, ...collector } = createMiddlewareCollecter();
 
@@ -255,7 +261,7 @@ export class ModernServer {
 
     // get api or web server handler from server-framework plugin
     if (await fs.pathExists(path.join(serverDir))) {
-      const webExtension = mergeExtension(pluginWebExt, userWebExt);
+      const webExtension = mergeExtension(pluginWebExt);
       this.frameWebHandler = await this.prepareWebHandler(webExtension);
     }
 
@@ -265,10 +271,7 @@ export class ModernServer {
         : ApiServerMode.func;
 
       // if use lambda/, mean framework style of writing, then discard user extension
-      const apiExtension = mergeExtension(
-        pluginAPIExt,
-        mode === ApiServerMode.frame ? [] : userAPIExt,
-      );
+      const apiExtension = mergeExtension(pluginAPIExt);
       this.frameAPIHandler = await this.prepareAPIHandler(mode, apiExtension);
     }
   }
@@ -316,7 +319,7 @@ export class ModernServer {
     const preMiddleware: ModernServerAsyncHandler[] =
       await this.runner.preServerInit(conf);
 
-    preMiddleware.forEach(mid => {
+    preMiddleware.flat().forEach(mid => {
       this.addHandler(mid);
     });
   }
@@ -349,6 +352,8 @@ export class ModernServer {
   private async routeHandler(context: ModernServerContext) {
     const { req, res } = context;
 
+    await this.runner.beforeMatch({ context }, { onLast: noop as any });
+
     // match routes in the route spec
     const matched = this.router.match(context.url);
     if (!matched) {
@@ -356,8 +361,19 @@ export class ModernServer {
       return;
     }
 
-    const route = matched.generate();
-    const params = matched.parseURLParams(context.url);
+    const routeAPI = createRouteAPI(matched, this.router);
+    await this.runner.afterMatch(
+      { context, routeAPI },
+      { onLast: noop as any },
+    );
+
+    if (res.headersSent) {
+      return;
+    }
+
+    const { current } = routeAPI as any;
+    const route = current.generate();
+    const params = current.parseURLParams(context.url);
     context.setParams(params);
 
     // route is api service
@@ -379,6 +395,7 @@ export class ModernServer {
       return;
     }
 
+    await this.runner.beforeRender({ context }, { onLast: noop as any });
     const file = await this.routeRenderHandler(context, route);
     if (!file) {
       this.render404(context);

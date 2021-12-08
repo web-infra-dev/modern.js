@@ -4,7 +4,7 @@ export const EN_LOCALE = {
       describe: 'start dev server',
       config: 'specify config file',
     },
-    build: { describe: 'build application' },
+    build: { describe: 'build application', analyze: 'analyze bundle' },
     start: { describe: 'start server' },
     deploy: { describe: 'deploy application' },
     new: {

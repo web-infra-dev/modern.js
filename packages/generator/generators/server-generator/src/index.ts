@@ -98,8 +98,8 @@ const handleTemplateFile = async (
       query: {},
       update: {
         $set: {
-          'dependencies.@modern-js/plugin-server-build': `^${await getPackageVersion(
-            '@modern-js/plugin-server-build',
+          'dependencies.@modern-js/plugin-server': `^${await getPackageVersion(
+            '@modern-js/plugin-server',
           )}`,
           [`dependencies.@modern-js/plugin-${
             framework as string

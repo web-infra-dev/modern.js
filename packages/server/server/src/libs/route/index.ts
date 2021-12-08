@@ -60,6 +60,10 @@ export class RouteMatchManager {
     return best;
   }
 
+  public matchEntry(entryname: string) {
+    return this.matchers.find(matcher => matcher.matchEntry(entryname));
+  }
+
   public getBundles() {
     const bundles = this.specs
       .filter(route => route.isSSR)

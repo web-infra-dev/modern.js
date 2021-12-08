@@ -43,6 +43,7 @@ export interface NormalizedConfig
   extends Omit<Required<UserConfig>, 'source' | 'tools'> {
   source: NormalizedSourceConfig;
   tools: NormalizedToolsConfig;
+  cliOptions?: Record<string, any>;
   _raw: UserConfig;
 }
 

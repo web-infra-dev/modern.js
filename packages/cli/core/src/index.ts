@@ -119,6 +119,7 @@ export const usePlugins = (plugins: string[]) =>
 export {
   defineConfig,
   AppContext,
+  ResolvedConfigContext,
   useAppContext,
   useConfigContext,
   useResolvedConfigContext,
@@ -268,3 +269,5 @@ const createCli = () => {
 };
 
 export const cli = createCli();
+
+export { loadUserConfig, initAppDir, initAppContext };
