@@ -119,6 +119,7 @@ export const usePlugins = (plugins: string[]) =>
 export {
   defineConfig,
   AppContext,
+  ResolvedConfigContext,
   useAppContext,
   useConfigContext,
   useResolvedConfigContext,
