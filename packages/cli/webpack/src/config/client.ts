@@ -15,6 +15,7 @@ import webpack, { HotModuleReplacementPlugin, ProvidePlugin } from 'webpack';
 import nodeLibsBrowser from 'node-libs-browser';
 import { Entrypoint } from '@modern-js/types';
 import CopyPlugin from 'copy-webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { RouteManifest } from '../plugins/route-manifest-plugin';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
 import { AppIconPlugin } from '../plugins/app-icon-plugin';
@@ -277,6 +278,16 @@ class ClientWebpackConfig extends BaseWebpackConfig {
           Buffer: [nodeLibsBrowser.buffer, 'Buffer'],
           console: [nodeLibsBrowser.console],
           process: [nodeLibsBrowser.process],
+        },
+      ]);
+    }
+
+    if (this.options.cliOptions?.analyze) {
+      this.chain.plugin('bundle-analyze').use(BundleAnalyzerPlugin, [
+        {
+          analyzerMode: 'static',
+          openAnalyzer: false,
+          reportFilename: 'report.html',
         },
       ]);
     }

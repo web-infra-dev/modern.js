@@ -4,7 +4,7 @@ export const ZH_LOCALE = {
       describe: '本地开发命令',
       config: '制定配置文件路径',
     },
-    build: { describe: '构建应用命令' },
+    build: { describe: '构建应用命令', analyze: '分析构建产物' },
     start: { describe: '应用启动命令' },
     deploy: { describe: '部署应用命令' },
     new: {
