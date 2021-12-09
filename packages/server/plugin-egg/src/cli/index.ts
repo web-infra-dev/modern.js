@@ -13,14 +13,25 @@ export default createPlugin(
       config() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const appContext = useAppContext();
+        const { appDirectory } = appContext;
         bffExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
           'server',
         );
 
+        const serverRuntimePath = bffExportsUtils.getPath();
+
+        // Look up one level, because the artifacts after build have dist directories
+        const relativeRuntimePath = path.join(
+          '../',
+          path.relative(appDirectory, serverRuntimePath),
+        );
+
         return {
           source: {
-            alias: { '@modern-js/runtime/server': bffExportsUtils.getPath() },
+            alias: {
+              '@modern-js/runtime/server': relativeRuntimePath,
+            },
           },
         };
       },

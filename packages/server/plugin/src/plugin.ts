@@ -50,7 +50,9 @@ export type APIServerStartInput = {
   pwd: string;
   mode: 'function' | 'framework';
   prefix?: string;
-  config?: Record<string, any>;
+  config?: {
+    middleware?: Array<any>;
+  };
 };
 const prepareApiServer = createAsyncPipeline<APIServerStartInput, Adapter>();
 

@@ -252,7 +252,7 @@ export class ModernDevServer extends ModernServer {
     const defaultWatched = [
       `${pwd}/${mock}/**/*`,
       `${pwd}/${SERVER_DIR}/**/*`,
-      `${pwd}/${API_DIR}/**/*`,
+      `${pwd}/${API_DIR}/!(typings)/**`,
       `${pwd}/${SHARED_DIR}/**/*`,
     ];
 
