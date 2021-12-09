@@ -29,6 +29,20 @@ class ModernWebpackConfig extends ClientWebpackConfig {
     this.chain.name('modern');
   }
 
+  plugins() {
+    super.plugins();
+
+    if (this.options.cliOptions?.analyze) {
+      this.chain.plugin('bundle-analyze').tap(() => [
+        {
+          analyzerMode: 'static',
+          openAnalyzer: false,
+          reportFilename: 'report-modern.html',
+        },
+      ]);
+    }
+  }
+
   loaders() {
     const loaders = super.loaders();
 

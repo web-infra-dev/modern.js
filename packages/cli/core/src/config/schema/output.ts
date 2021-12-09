@@ -46,7 +46,6 @@ export const output = {
     disableInlineRuntimeChunk: { type: 'boolean' },
     disableAssetsCache: { type: 'boolean' },
     enableLatestDecorators: { type: 'boolean' },
-    enableUsageBuiltIns: { type: 'boolean' },
     enableTsLoader: { type: 'boolean' },
     dataUriLimit: { type: 'number' },
     templateParameters: { type: 'object' },

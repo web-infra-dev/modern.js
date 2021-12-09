@@ -7,6 +7,7 @@ import {
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
 import nodeExternals from 'webpack-node-externals';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { mergeRegex } from '../utils/mergeRegex';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
 import { BaseWebpackConfig } from './base';
@@ -112,6 +113,16 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
   plugins() {
     super.plugins();
+
+    if (this.options.cliOptions?.analyze) {
+      this.chain.plugin('bundle-analyze').use(BundleAnalyzerPlugin, [
+        {
+          analyzerMode: 'static',
+          openAnalyzer: false,
+          reportFilename: 'report-ssr.html',
+        },
+      ]);
+    }
   }
 
   resolve() {
