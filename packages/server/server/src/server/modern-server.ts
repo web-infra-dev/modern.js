@@ -3,7 +3,7 @@ import { IncomingMessage, ServerResponse, Server, createServer } from 'http';
 import util from 'util';
 import path from 'path';
 import { fs, ROUTE_SPEC_FILE } from '@modern-js/utils';
-import { Adapter } from '@modern-js/server-plugin';
+import { Adapter, APIServerStartInput } from '@modern-js/server-plugin';
 import { createMiddlewareCollecter } from '@modern-js/server-utils';
 import type { NormalizedConfig } from '@modern-js/core';
 import mime from 'mime-types';
@@ -293,7 +293,7 @@ export class ModernServer {
 
   protected async prepareAPIHandler(
     mode: ApiServerMode,
-    extension: ReturnType<typeof mergeExtension>,
+    extension: APIServerStartInput['config'],
   ) {
     const { workDir, runner, conf } = this;
     const { bff } = conf as ConfWithBFF;
@@ -304,7 +304,7 @@ export class ModernServer {
         pwd: workDir,
         mode,
         config: extension,
-        prefix,
+        prefix: Array.isArray(prefix) ? prefix[0] : prefix,
       },
       { onLast: () => null as any },
     );

@@ -45,7 +45,7 @@ export const post = createRequest('/:id/origin/foo', 'POST', process.env.PORT ||
 `);
     });
 
-    it('custom requestCreater', async () => {
+    it('custom requestCreator', async () => {
       const prefix = '';
       const port = 3000;
       const resourcePath = path.resolve(

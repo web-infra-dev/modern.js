@@ -149,10 +149,13 @@ export const PLUGIN_SCHEMAS = {
       schema: {
         type: 'object',
         properties: {
-          prefix: { type: 'string' },
+          prefix: {
+            type: ['string', 'array'],
+            items: { type: 'string' },
+          },
           fetcher: { type: 'string' },
           proxy: { type: 'object' },
-          requestCreater: { type: 'string' },
+          requestCreator: { type: 'string' },
         },
       },
     },
