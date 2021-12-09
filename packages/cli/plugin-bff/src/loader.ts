@@ -20,7 +20,9 @@ async function loader(this: LoaderContext<APILoaderOptions>, source: string) {
   const draftOptions = getOptions(this as any);
 
   const options: GenClientOptions = {
-    prefix: draftOptions.prefix as string,
+    prefix: (Array.isArray(draftOptions.prefix)
+      ? draftOptions.prefix[0]
+      : draftOptions.prefix) as string,
     apiDir: draftOptions.apiDir as string,
     target: draftOptions.target as string,
     port: Number(draftOptions.port),
