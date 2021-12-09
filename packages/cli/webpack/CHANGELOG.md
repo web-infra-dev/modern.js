@@ -1,5 +1,25 @@
 # @modern-js/webpack
 
+## 1.1.3
+
+### Patch Changes
+
+- 9a5e6d14: fix: fix dev.assetPrefix port
+- a37192b1: feat: support css module declaration
+- ed1f6b12: feat: support build --analyze
+- b058c6fa: fix config dir copy error
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [d280ea33]
+- Updated dependencies [d4fcc73a]
+- Updated dependencies [085a6a58]
+- Updated dependencies [ed1f6b12]
+- Updated dependencies [a5ebbb00]
+- Updated dependencies [085a6a58]
+  - @modern-js/core@1.1.3
+  - @modern-js/utils@1.1.3
+
 ## 1.1.2
 
 ### Patch Changes

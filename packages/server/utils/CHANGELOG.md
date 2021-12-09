@@ -1,5 +1,22 @@
 # @modern-js/server-utils
 
+## 1.1.2
+
+### Patch Changes
+
+- 085a6a58: refactor server plugin
+- 085a6a58: refactor server plugin
+- 085a6a58: refactor server conifg
+- 085a6a58: support server runtime
+- 085a6a58: feat: refactor server plugin
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [d280ea33]
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+  - @modern-js/utils@1.1.3
+
 ## 1.1.1
 
 ### Patch Changes

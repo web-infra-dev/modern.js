@@ -1,5 +1,11 @@
 # @modern-js/electron-generator
 
+## 1.1.2
+
+### Patch Changes
+
+- d33c7b24: fix: electron generator
+
 ## 1.1.1
 
 ### Patch Changes

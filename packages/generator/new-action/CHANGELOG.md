@@ -1,5 +1,11 @@
 # @modern-js/new-action
 
+## 1.1.5
+
+### Patch Changes
+
+- 144145c7: fix: new action type define
+
 ## 1.1.3
 
 ### Patch Changes
