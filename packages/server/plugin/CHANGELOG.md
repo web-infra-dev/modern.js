@@ -1,5 +1,15 @@
 # @modern-js/server-plugin
 
+## 1.1.2
+
+### Patch Changes
+
+- 085a6a58: refactor server plugin
+- 085a6a58: refactor server plugin
+- 085a6a58: refactor server conifg
+- 085a6a58: support server runtime
+- 085a6a58: feat: refactor server plugin
+
 ## 1.1.1
 
 ### Patch Changes
