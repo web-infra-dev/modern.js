@@ -1,5 +1,11 @@
 # @modern-js/entry-generator
 
+## 1.1.2
+
+### Patch Changes
+
+- 144145c7: fix: new action type define
+
 ## 1.1.1
 
 ### Patch Changes

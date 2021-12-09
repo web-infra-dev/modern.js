@@ -1,5 +1,29 @@
 # @modern-js/app-tools
 
+## 1.1.4
+
+### Patch Changes
+
+- ed1f6b12: feat: support build --analyze
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [9a5e6d14]
+- Updated dependencies [085a6a58]
+- Updated dependencies [d280ea33]
+- Updated dependencies [a37192b1]
+- Updated dependencies [d4fcc73a]
+- Updated dependencies [085a6a58]
+- Updated dependencies [ed1f6b12]
+- Updated dependencies [144145c7]
+- Updated dependencies [a5ebbb00]
+- Updated dependencies [b058c6fa]
+- Updated dependencies [085a6a58]
+  - @modern-js/core@1.1.3
+  - @modern-js/server@1.1.3
+  - @modern-js/utils@1.1.3
+  - @modern-js/webpack@1.1.3
+  - @modern-js/new-action@1.1.5
+
 ## 1.1.3
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @modern-js/mwa-generator
 
+## 1.1.3
+
+### Patch Changes
+
+- d33c7b24: fix: electron generator
+
 ## 1.1.2
 
 ### Patch Changes

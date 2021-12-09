@@ -1,5 +1,23 @@
 # @modern-js/plugin-express
 
+## 1.1.3
+
+### Patch Changes
+
+- 39e8137d: fix: support prefix array & webpack loader should read requestCreator & adjust runtime path to relative
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [d280ea33]
+- Updated dependencies [d4fcc73a]
+- Updated dependencies [085a6a58]
+- Updated dependencies [ed1f6b12]
+- Updated dependencies [a5ebbb00]
+- Updated dependencies [085a6a58]
+  - @modern-js/core@1.1.3
+  - @modern-js/server-plugin@1.1.2
+  - @modern-js/utils@1.1.3
+
 ## 1.1.2
 
 ### Patch Changes

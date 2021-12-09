@@ -1,5 +1,25 @@
 # @modern-js/core
 
+## 1.1.3
+
+### Patch Changes
+
+- 085a6a58: refactor server plugin
+- 085a6a58: refactor server plugin
+- 085a6a58: refactor server conifg
+- d4fcc73a: add options.plugins:
+- 085a6a58: support server runtime
+- ed1f6b12: feat: support build --analyze
+- a5ebbb00: fix: remove enableUsageBuiltIns config
+- 085a6a58: feat: refactor server plugin
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [d280ea33]
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+  - @modern-js/utils@1.1.3
+
 ## 1.1.2
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @modern-js/utils
 
+## 1.1.3
+
+### Patch Changes
+
+- 085a6a58: refactor server plugin
+- 085a6a58: refactor server plugin
+- 085a6a58: refactor server conifg
+- d280ea33: chore: runtime exports can choose to generate d.ts file
+- 085a6a58: support server runtime
+- 085a6a58: feat: refactor server plugin
+
 ## 1.1.2
 
 ### Patch Changes

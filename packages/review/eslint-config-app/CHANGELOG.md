@@ -1,5 +1,11 @@
 # @modern-js-app/eslint-config
 
+## 1.1.2
+
+### Patch Changes
+
+- a37192b1: feat: support css module declaration
+
 ## 1.1.1
 
 ### Patch Changes
