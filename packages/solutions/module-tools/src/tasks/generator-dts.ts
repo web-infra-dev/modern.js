@@ -263,7 +263,7 @@ const taskMain = async ({
 (async () => {
   let options: CoreOptions | undefined;
   if (process.env.CORE_INIT_OPTION_FILE) {
-    options = require(process.env.CORE_INIT_OPTION_FILE);
+    ({ options } = require(process.env.CORE_INIT_OPTION_FILE));
   }
   const { resolved } = await core.cli.init([], options);
   await core.manager.run(async () => {

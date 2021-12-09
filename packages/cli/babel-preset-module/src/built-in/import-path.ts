@@ -9,6 +9,8 @@ export interface IImportPathOpts {
   importStyle?: ImportStyleType;
 }
 
+const replaceValueHash: Record<string, string> = {};
+
 const isResoureInSrc = (srcDir: string, resourecPath: string) =>
   !path.posix.relative(srcDir, resourecPath).includes('..');
 
@@ -35,19 +37,8 @@ const getImportFileDistPath = (
 };
 
 const isStaticFile = (file: string) => {
-  // const tests = [
-  //   /\.json$/,
-  //   /\.css$/,
-  //   /\.less$/,
-  //   /\.sass$/,
-  //   /\.scss$/,
-  //   /\.(jpg|png|jpeg|gif|svg)$/,
-  //   /\.(jpg|png|jpeg|gif|svg)\?(inline|url)$/,
-  // ];
-
   const tests = [/\.js$/, /\.jsx$/, /\.ts$/, /\.tsx$/];
-
-  return !tests.some(regex => regex.test(file)) || path.dirname(file) !== '';
+  return !(tests.some(regex => regex.test(file)) || path.extname(file) === '');
 };
 
 const isStyleFile = (file: string) => {
@@ -106,7 +97,14 @@ const importPath = () => ({
       );
 
       if (replaceValue) {
-        node.source.value = replaceValue;
+        if (typeof filename === 'string' && !replaceValueHash[filename]) {
+          node.source.value = replaceValue;
+          replaceValueHash[filename] = replaceValue;
+        } else if (typeof filename === 'string' && replaceValueHash[filename]) {
+          node.source.value = replaceValueHash[filename];
+        } else {
+          node.source.value = replaceValue;
+        }
       }
     },
     // dynamic import
@@ -134,7 +132,17 @@ const importPath = () => ({
             importStyle,
           );
           if (replaceValue) {
-            node.arguments = [t.stringLiteral(replaceValue)];
+            if (typeof filename === 'string' && !replaceValueHash[filename]) {
+              node.arguments = [t.stringLiteral(replaceValue)];
+              replaceValueHash[filename] = replaceValue;
+            } else if (
+              typeof filename === 'string' &&
+              replaceValueHash[filename]
+            ) {
+              node.arguments = [t.stringLiteral(replaceValueHash[filename])];
+            } else {
+              node.arguments = [t.stringLiteral(replaceValue)];
+            }
           }
         }
       }

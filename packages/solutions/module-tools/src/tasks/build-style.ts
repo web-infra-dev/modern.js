@@ -177,7 +177,7 @@ const taskMain = async ({
 (async () => {
   let options: CoreOptions | undefined;
   if (process.env.CORE_INIT_OPTION_FILE) {
-    options = require(process.env.CORE_INIT_OPTION_FILE);
+    ({ options } = require(process.env.CORE_INIT_OPTION_FILE));
   }
   hooks.buildLifeCycle();
   const { resolved: modernConfig, appContext } = await core.cli.init(

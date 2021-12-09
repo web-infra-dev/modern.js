@@ -29,6 +29,14 @@ const getConfigDir = (appDir: string) => {
   const moduleToolsPath = path.resolve(appDir, HIDE_MODERN_JS_DIR);
   fs.ensureDirSync(moduleToolsPath);
   return path.resolve(moduleToolsPath, constants.STORYBOOK_CONFIG_PATH);
+  // const pluginStorybookDir = path.join(__dirname, '../../../../../configs');
+  // fs.ensureDirSync(pluginStorybookDir);
+  // const projectConfigtPath = path.join(
+  //   pluginStorybookDir,
+  //   path.basename(appDir),
+  // );
+  // fs.ensureDirSync(projectConfigtPath);
+  // return projectConfigtPath;
 };
 
 export const generateConfig = async (
