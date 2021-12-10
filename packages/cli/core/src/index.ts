@@ -143,7 +143,10 @@ const initAppDir = async (): Promise<string> => {
 export interface CoreOptions {
   configFile?: string;
   plugins?: typeof INTERNAL_PLUGINS;
-  beforeUsePlugins: (plugins: any, config: any) => { cli: any; server: any }[];
+  beforeUsePlugins: (
+    plugins: any,
+    config: any,
+  ) => { cli: any; cliPath: any; server: any; serverPath: any }[];
 }
 
 const createCli = () => {

@@ -146,6 +146,12 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     // dsiable sourcemap
     config.devtool = false;
 
+    // prod bundle all dependencies
+    if (isProd()) {
+      config.externals = [];
+      return config;
+    }
+
     config.externals = config.externals || [];
 
     if (!Array.isArray(config.externals)) {

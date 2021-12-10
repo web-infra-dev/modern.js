@@ -12,7 +12,11 @@ import {
 } from '@modern-js/core';
 import { ModernServer } from './modern-server';
 import type { ModernDevServer } from './dev-server';
-import { APIModernServer, WebModernServer } from './modern-server-split';
+import {
+  ModernAPIServer,
+  ModernSSRServer,
+  ModernWebServer,
+} from './modern-server-split';
 import { ModernServerOptions, ServerHookRunner, ReadyOptions } from '@/type';
 import { measure as defaultMeasure } from '@/libs/measure';
 
@@ -90,9 +94,11 @@ export class Server {
     const { options } = this;
 
     if (options.apiOnly) {
-      return new APIModernServer(options);
+      return new ModernAPIServer(options);
+    } else if (options.ssrOnly) {
+      return new ModernSSRServer(options);
     } else if (options.webOnly) {
-      return new WebModernServer(options);
+      return new ModernWebServer(options);
     } else {
       return new ModernServer(options);
     }
@@ -101,15 +107,15 @@ export class Server {
   private createDevServer() {
     const { options } = this;
     const {
-      APIModernDevServer,
-      WebModernDevServer,
+      ModernAPIDevServer,
+      ModernSSRDevServer,
       ModernDevServer,
     } = require('./dev-server');
 
     if (options.apiOnly) {
-      return new APIModernDevServer(options);
-    } else if (options.webOnly) {
-      return new WebModernDevServer(options);
+      return new ModernAPIDevServer(options);
+    } else if (options.ssrOnly) {
+      return new ModernSSRDevServer(options);
     } else {
       return new ModernDevServer(options);
     }
@@ -117,6 +123,11 @@ export class Server {
 
   private async createHookRunner() {
     const { options } = this;
+
+    options.plugins?.forEach(p => {
+      serverManager.usePlugin(p);
+    });
+
     const appContext = await this.initAppContext();
     serverManager.run(() => {
       ConfigContext.set(this.options.config as UserConfig);
@@ -127,10 +138,6 @@ export class Server {
           options.config.output.path || 'dist',
         ),
       });
-    });
-
-    options.plugins?.forEach(p => {
-      serverManager.usePlugin(p);
     });
 
     return serverManager.init({});

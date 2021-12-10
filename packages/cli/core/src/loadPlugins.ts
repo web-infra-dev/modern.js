@@ -77,7 +77,9 @@ export const loadPlugins = (
 
     return {
       cli: cli && compatRequire(cli),
+      cliPath: typeof plugin === 'string' ? plugin : plugin.cli,
       server: server && compatRequire(server),
+      serverPath: typeof plugin === 'string' ? undefined : plugin.server,
     };
   });
 };

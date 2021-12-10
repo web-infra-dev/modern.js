@@ -28,14 +28,14 @@ export function makeRoute(
   if (typeof route === 'string') {
     return {
       ...baseRoute,
-      urlPath: normalize(`${urlPath}${route}`),
+      urlPath: normalize(`${urlPath}${route}`) || '/',
       headers,
       output: path.join(entryPath, `..${route}`),
     };
   } else {
     return {
       ...baseRoute,
-      urlPath: normalize(`${urlPath}${route.url}`),
+      urlPath: normalize(`${urlPath}${route.url}`) || '/',
       headers: { ...headers, ...route.headers },
       output: route.output
         ? path.normalize(route.output)
