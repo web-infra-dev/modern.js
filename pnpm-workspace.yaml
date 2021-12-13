@@ -12,4 +12,3 @@ packages:
  - 'scripts/*'
  - 'tests'
  - 'tests/integration/**/*'
- - 'examples/*'

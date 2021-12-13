@@ -51,6 +51,6 @@ const themeToken = (
 
 export default themeToken;
 
-export * from '../plugins';
+// export * from '../plugins';
 /* eslint-enable @typescript-eslint/no-require-imports */
 /* eslint-enable @typescript-eslint/no-var-requires */
