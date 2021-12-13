@@ -23,7 +23,7 @@ export const moduleLessConfig = createAsyncPipeline<
 
 export const moduleSassConfig = createAsyncPipeline<
   { modernConfig: NormalizedConfig },
-  SassOptions | undefined
+  SassOptions<'sync'> | undefined
 >();
 
 export const moduleTailwindConfig = createAsyncPipeline<
