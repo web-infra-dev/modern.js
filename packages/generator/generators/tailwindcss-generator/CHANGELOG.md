@@ -1,5 +1,11 @@
 # @modern-js/tailwindcss-generator
 
+## 1.1.2
+
+### Patch Changes
+
+- fix: tailwindcss version
+
 ## 1.1.1
 
 ### Patch Changes
