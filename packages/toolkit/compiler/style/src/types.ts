@@ -1,7 +1,7 @@
-import type { Options as SassOptions } from 'sass';
+import type { LegacyFileOptions as SassOptions } from 'sass';
 import type { AcceptedPlugin, ProcessOptions } from 'postcss';
 
-export type { Options as SassOptions } from 'sass';
+export type { LegacyFileOptions as SassOptions } from 'sass';
 
 export type LessOption = {
   enableSourceMap?: boolean;
@@ -16,7 +16,7 @@ export interface PostcssOption {
 
 export interface Option {
   less?: LessOption;
-  sass?: SassOptions;
+  sass?: SassOptions<'sync'>;
   postcss?: PostcssOption;
 }
 
