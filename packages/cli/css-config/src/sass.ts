@@ -1,9 +1,9 @@
 import type { NormalizedConfig } from '@modern-js/core';
-import type { Options } from 'sass';
+import type { LegacyFileOptions } from 'sass';
 import { applyOptionsChain } from '@modern-js/utils';
 
 export interface SassOption {
-  sassOptions?: Options;
+  sassOptions?: LegacyFileOptions<'sync'>;
   sourceMap?: boolean;
   implementation?: string;
   additionalData?: string | ((content: string, filename: string) => string);
