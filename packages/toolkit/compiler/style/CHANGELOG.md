@@ -1,5 +1,11 @@
 # @modern-js/style-compiler
 
+## 1.1.2
+
+### Patch Changes
+
+- 535ed44d: fix sass type error
+
 ## 1.1.1
 
 ### Patch Changes
