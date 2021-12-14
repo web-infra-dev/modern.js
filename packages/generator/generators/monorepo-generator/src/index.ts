@@ -28,15 +28,21 @@ const handleTemplateFile = async (
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
 
   let schema = MonorepoSchema;
+  let inputValue = {};
+
   if (hasPlugin) {
     await generatorPlugin.installPlugins(Solution.Monorepo, extra);
     schema = generatorPlugin.getInputSchema(Solution.Monorepo);
+    inputValue = generatorPlugin.getInputValue();
     // eslint-disable-next-line require-atomic-updates
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
   }
 
-  const ans = await appApi.getInputBySchema(schema, context.config);
+  const ans = await appApi.getInputBySchema(schema, {
+    ...context.config,
+    ...inputValue,
+  });
 
   generator.logger.debug(`ans=`, ans);
 

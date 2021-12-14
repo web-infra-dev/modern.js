@@ -46,6 +46,7 @@ export class PluginFileAPI {
       addFile: this.addFile.bind(this),
       addManyFiles: this.addManyFiles.bind(this),
       updateJSONFile: this.updateJSONFile.bind(this),
+      updateModernConfig: this.updateModernConfig.bind(this),
       updateTextRawFile: this.updateTextRawFile.bind(this),
       rmFile: this.rmFile.bind(this),
       rmDir: this.rmDir.bind(this),

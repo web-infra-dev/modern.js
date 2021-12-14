@@ -10,13 +10,15 @@ const handleTemplateFile = async (
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
 
   let schema = BaseSchema;
+  let inputValue = {};
 
   if (hasPlugin) {
     await generatorPlugin.installPlugins('custom', extra);
     schema = generatorPlugin.getInputSchema('custom');
+    inputValue = generatorPlugin.getInputValue();
   }
 
-  await appApi.getInputBySchema(schema, context.config);
+  await appApi.getInputBySchema(schema, { ...context.config, ...inputValue });
   await appApi.forgeTemplate(
     'templates/base-templates/**/*',
     undefined,

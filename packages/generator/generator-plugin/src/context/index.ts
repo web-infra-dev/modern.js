@@ -14,10 +14,12 @@ import { PluginNpmAPI } from './npm';
 import { PluginNewAPI } from './new';
 import { AddFileParams, AddManyFilesParams } from '@/utils/file';
 
-export { InputType } from './input';
-export type { IInput, IOption } from './input';
-
-export { FileType } from './file';
+export * from './input';
+export * from './file';
+export * from './git';
+export * from './handlebars';
+export * from './new';
+export * from './npm';
 
 export interface IPluginContext {
   addInputBefore: (key: string, input: IInput) => void;
@@ -25,6 +27,7 @@ export interface IPluginContext {
   setInput: (key: string, field: string, value: unknown) => void;
   addOptionBefore: (key: string, optionKey: string, option: IOption) => void;
   addOptionAfter: (key: string, optionKey: string, option: IOption) => void;
+  setInputValue: (value: Record<string, unknown>) => void;
   isFileExit: (fileName: string) => Promise<boolean>;
   readDir: (dir: string) => Promise<string[]>;
   setGitMessage: (gitMessage: string) => void;
@@ -44,6 +47,7 @@ export type ForgedAPI = {
     fileName: string,
     updateInfo: Record<string, unknown>,
   ) => Promise<void>;
+  updateModernConfig: (updateInfo: Record<string, any>) => Promise<void>;
   updateTextRawFile: (
     fileName: string,
     update: (content: string[]) => string[],

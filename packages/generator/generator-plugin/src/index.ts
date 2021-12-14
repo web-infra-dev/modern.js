@@ -4,7 +4,7 @@ import packageJson from 'package-json';
 import { GeneratorCore, ILogger } from '@modern-js/codesmith';
 import { fs } from '@modern-js/generator-utils';
 import { Solution, SolutionSchemas } from '@modern-js/generator-common';
-import { isFunction } from 'lodash';
+import { isFunction, merge } from 'lodash';
 import { Schema } from '@modern-js/easy-form-core';
 import {
   LifeCycle,
@@ -16,21 +16,22 @@ import { ICustomInfo } from './common';
 import { installPlugins } from './utils';
 
 export * from './context';
+export * from './utils';
 
 export class GeneratorPlugin {
-  extendPlugin: Record<string, string[]> = {};
-
-  customPlugin: Record<string, Array<ICustomInfo & { plugin: string }>> = {};
-
-  private readonly event?: EventEmitter;
-
-  private readonly logger: ILogger;
-
-  private plugins: Array<{
+  plugins: Array<{
     module: any;
     templatePath: string;
     context?: PluginContext;
   }> = [];
+
+  extendPlugin: Record<string, string[]> = {};
+
+  customPlugin: Record<string, Array<ICustomInfo & { plugin: string }>> = {};
+
+  readonly event?: EventEmitter;
+
+  readonly logger: ILogger;
 
   constructor(logger: ILogger, event: EventEmitter) {
     this.event = event;
@@ -81,6 +82,14 @@ export class GeneratorPlugin {
       isObject: true,
       items,
     };
+  }
+
+  getInputValue(): Record<string, unknown> {
+    let result: Record<string, unknown> = {};
+    for (const info of this.plugins) {
+      result = merge(result, info.context!.inputContext.inputValue);
+    }
+    return result;
   }
 
   async installPlugins(

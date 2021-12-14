@@ -67,10 +67,12 @@ const handleTemplateFile = async (
 
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
   let schema = ModuleSchema;
+  let inputValue = {};
 
   if (hasPlugin) {
     await generatorPlugin.installPlugins(Solution.Module, extra);
     schema = generatorPlugin.getInputSchema(Solution.Module);
+    inputValue = generatorPlugin.getInputValue();
     // eslint-disable-next-line require-atomic-updates
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
@@ -78,7 +80,7 @@ const handleTemplateFile = async (
 
   const ans = await appApi.getInputBySchema(
     schema,
-    context.config,
+    { ...context.config, ...inputValue },
     {
       packageName: input =>
         validatePackageName(input as string, packages, {

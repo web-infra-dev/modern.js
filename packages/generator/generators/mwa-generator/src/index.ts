@@ -64,9 +64,12 @@ const handleTemplateFile = async (
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
 
   let schema = MWASchema;
+  let inputValue = {};
+
   if (hasPlugin) {
     await generatorPlugin.installPlugins(Solution.MWA, extra);
     schema = generatorPlugin.getInputSchema(Solution.MWA);
+    inputValue = generatorPlugin.getInputValue();
     // eslint-disable-next-line require-atomic-updates
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
@@ -74,7 +77,7 @@ const handleTemplateFile = async (
 
   const ans = await appApi.getInputBySchema(
     schema,
-    { ...context.config, isMwa: true, isEmptySrc: true },
+    { ...context.config, ...inputValue, isMwa: true, isEmptySrc: true },
     {
       packageName: input =>
         validatePackageName(input as string, packages, {

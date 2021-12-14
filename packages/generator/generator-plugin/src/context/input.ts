@@ -34,6 +34,8 @@ export interface IInput {
   ) => Promise<{ success: boolean; error?: string }>;
 }
 export class PluginInputContext {
+  inputValue: Record<string, unknown> = {};
+
   private readonly inputs: Schema[] = []; // initial input info
 
   private readonly extendInputMap: Record<
@@ -60,6 +62,7 @@ export class PluginInputContext {
       setInput: this.setInput.bind(this),
       addOptionBefore: this.addOptionBefore.bind(this),
       addOptionAfter: this.addOptionAfter.bind(this),
+      setInputValue: this.setInputValue.bind(this),
     };
   }
 
@@ -357,5 +360,9 @@ export class PluginInputContext {
     this.validateOption(key, option);
     this.initExtendOptionMap(key, optionKey);
     this.extendOptionMap[key][optionKey].after.push(option);
+  }
+
+  setInputValue(value: Record<string, unknown>) {
+    this.inputValue = value;
   }
 }
