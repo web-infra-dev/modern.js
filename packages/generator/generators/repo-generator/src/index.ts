@@ -42,11 +42,8 @@ const getNeedRunPlugin = (
   }
   const { extendPlugin, customPlugin } = generatorPlugin;
   const { solution, scenes } = context.config;
-  if (!scenes) {
-    return extendPlugin[solution] && extendPlugin[solution].length > 0;
-  }
-  if (scenes === solution) {
-    return false;
+  if (!scenes || scenes === solution) {
+    return extendPlugin?.[solution] && extendPlugin[solution].length > 0;
   }
   return Boolean(customPlugin[solution]?.find(plugin => plugin.key === scenes));
 };
@@ -114,7 +111,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   mergeDefaultConfig(context);
 
   let generatorPlugin;
-  if (context.config.plugins) {
+  if (context.config.plugins.length > 0) {
     generatorPlugin = await handlePlugin(context, generator);
   }
 

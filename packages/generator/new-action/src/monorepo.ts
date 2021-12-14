@@ -41,11 +41,8 @@ const getNeedRunPlugin = (
   }
   const { extendPlugin, customPlugin } = generatorPlugin;
   const { solution, scenes } = context.config;
-  if (!scenes) {
-    return extendPlugin[solution] && extendPlugin[solution].length > 0;
-  }
-  if (scenes === solution) {
-    return false;
+  if (!scenes || scenes === solution) {
+    return extendPlugin?.[solution] && extendPlugin[solution].length > 0;
   }
   return Boolean(customPlugin[solution]?.find(plugin => plugin.key === scenes));
 };

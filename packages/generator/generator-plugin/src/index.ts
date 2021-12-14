@@ -54,6 +54,11 @@ export class GeneratorPlugin {
           });
         }
         const { meta } = pkgJSON;
+        if (!meta) {
+          throw new Error(
+            `plugin ${plugin} should has meta filed in package.json`,
+          );
+        }
         if (meta.extend) {
           this.extendPlugin[meta.extend] = [
             ...(this.extendPlugin[meta.extend] || []),
