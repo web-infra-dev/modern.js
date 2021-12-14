@@ -13,7 +13,7 @@ import {
 } from '@modern-js/utils';
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import { DefinePlugin, IgnorePlugin } from 'webpack';
+import { IgnorePlugin } from 'webpack';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
@@ -453,25 +453,6 @@ class BaseWebpackConfig {
       this.chain
         .plugin('progress')
         .use(WebpackBar, [{ name: this.chain.get('name') }]);
-
-    const { envVars, globalVars } = this.options.source || {};
-    this.chain.plugin('define').use(DefinePlugin, [
-      {
-        ...['NODE_ENV', 'BUILD_MODE', ...(envVars || [])].reduce<
-          Record<string, string>
-        >((memo, name) => {
-          memo[`process.env.${name}`] = JSON.stringify(process.env[name]);
-          return memo;
-        }, {}),
-        ...Object.keys(globalVars || {}).reduce<Record<string, string>>(
-          (memo, name) => {
-            memo[name] = JSON.stringify(globalVars![name]);
-            return memo;
-          },
-          {},
-        ),
-      },
-    ]);
 
     isDev() &&
       this.chain.plugin('case-sensitive').use(CaseSensitivePathsPlugin);
