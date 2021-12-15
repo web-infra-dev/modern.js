@@ -7,7 +7,17 @@ const handleTemplateFile = async (
   appApi: AppAPI,
 ) => {
   await appApi.getInputBySchema(BaseSchema, context.config);
-  await appApi.forgeTemplate('templates/**/*');
+  await appApi.forgeTemplate(
+    'templates/base-templates/**/*',
+    undefined,
+    resourceKey =>
+      resourceKey
+        .replace('templates/base-templates/', '')
+        .replace('.handlebars', ''),
+  );
+  await appApi.forgeTemplate('templates/idea/**/*', undefined, resourceKey =>
+    resourceKey.replace('templates/idea/', '.idea/'),
+  );
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
