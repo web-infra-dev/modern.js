@@ -22,10 +22,17 @@ export default createPlugin(
         const serverRuntimePath = bffExportsUtils.getPath();
 
         // Look up one level, because the artifacts after build have dist directories
-        const relativeRuntimePath = path.join(
+        let relativeRuntimePath = path.join(
           '../',
           path.relative(appDirectory, serverRuntimePath),
         );
+
+        if (process.env.NODE_ENV === 'development') {
+          relativeRuntimePath = `./${path.relative(
+            appDirectory,
+            serverRuntimePath,
+          )}`;
+        }
 
         return {
           source: {
