@@ -1,6 +1,6 @@
 {
   "recommendations": [
-    "jpoissonnier.vscode-styled-components",
+    "styled-components.vscode-styled-components",
     "kumar-harsh.graphql-for-vscode",
     "dtsvet.vscode-wasm",
     "cpylua.language-postcss",
