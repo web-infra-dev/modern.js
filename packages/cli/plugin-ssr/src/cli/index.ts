@@ -5,7 +5,6 @@ import {
   LOADABLE_STATS_FILE,
   isUseSSRBundle,
   createRuntimeExportsUtils,
-  PLUGIN_SCHEMAS,
 } from '@modern-js/utils';
 import {
   createPlugin,
@@ -64,9 +63,6 @@ export default createPlugin(
             },
           },
         };
-      },
-      validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-ssr'];
       },
       modifyEntryImports({ entrypoint, imports }: any) {
         const { entryName } = entrypoint;

@@ -216,12 +216,6 @@ export const PLUGIN_SCHEMAS = {
       },
     },
   ],
-  '@modern-js/plugin-ssr': [
-    {
-      target: 'runtime.ssr',
-      schema: { type: ['boolean', 'object'] },
-    },
-  ],
   '@modern-js/plugin-state': [
     {
       target: 'runtime.state',
