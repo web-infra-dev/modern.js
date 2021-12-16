@@ -120,6 +120,7 @@ export const INTERNAL_PLUGINS: {
     cli: '@modern-js/plugin-static-hosting/cli',
   },
   '@modern-js/plugin-polyfill': { server: '@modern-js/plugin-polyfill' },
+  '@modern-js/plugin-nocode': { cli: '@modern-js/plugin-nocode/cli' },
 };
 
 /**
@@ -254,4 +255,5 @@ export const PLUGIN_SCHEMAS = {
       schema: { type: ['object'] },
     },
   ],
+  '@modern-js/plugin-nocode': [],
 };
