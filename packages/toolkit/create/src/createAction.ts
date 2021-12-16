@@ -4,7 +4,7 @@ import { getLocaleLanguage, createDir } from './utils';
 
 interface Options {
   mwa?: boolean;
-  library: boolean;
+  module: boolean;
   monorepo?: boolean;
   debug?: boolean;
   config?: string;
@@ -21,7 +21,7 @@ const REPO_GENERAROE = '@modern-js/repo-generator';
 
 // eslint-disable-next-line max-statements
 function getDefaultConfing(options: Options, logger: Logger) {
-  const { mwa, library, monorepo, config, registry, distTag } = options;
+  const { mwa, module, monorepo, config, registry, distTag } = options;
 
   let initialConfig: Record<string, unknown> = {};
 
@@ -44,7 +44,7 @@ function getDefaultConfing(options: Options, logger: Logger) {
     initialConfig.defaultSolution = 'mwa';
   }
 
-  if (library) {
+  if (module) {
     initialConfig.defaultSolution = 'library';
   }
 
