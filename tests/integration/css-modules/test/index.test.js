@@ -6,7 +6,7 @@ const {
   modernBuild,
   getPort,
   modernStart,
-  launchApp,
+  // launchApp,
   killApp,
   installDeps,
   clearBuildDist,
@@ -139,30 +139,30 @@ describe('Global Module CSS Module Support', () => {
   });
 });
 
-describe('Has CSS Module in computed styles in Development', () => {
-  const appDir = join(fixturesDir, 'dev-module');
+// describe('Has CSS Module in computed styles in Development', () => {
+//   const appDir = join(fixturesDir, 'dev-module');
 
-  let app;
-  beforeAll(async () => {
-    await remove(join(appDir, 'dist'));
-    app = await launchApp(appDir, appPort);
-  });
-  afterAll(async () => {
-    await killApp(app);
-  });
+//   let app;
+//   beforeAll(async () => {
+//     await remove(join(appDir, 'dist'));
+//     app = await launchApp(appDir, appPort);
+//   });
+//   afterAll(async () => {
+//     await killApp(app);
+//   });
 
-  it('should have CSS for page', async () => {
-    // const page = await global.__BROWSER__.newPage();
+//   it('should have CSS for page', async () => {
+//     // const page = await global.__BROWSER__.newPage();
 
-    await page.goto(`http://localhost:${appPort}`);
+//     await page.goto(`http://localhost:${appPort}`);
 
-    const currentColor = await page.$eval(
-      '#verify-red',
-      node => window.getComputedStyle(node).color,
-    );
-    expect(currentColor).toMatch('rgb(255, 0, 0)');
-  });
-});
+//     const currentColor = await page.$eval(
+//       '#verify-red',
+//       node => window.getComputedStyle(node).color,
+//     );
+//     expect(currentColor).toMatch('rgb(255, 0, 0)');
+//   });
+// });
 
 describe('Has CSS Module in computed styles in Production', () => {
   const appDir = join(fixturesDir, 'prod-module');

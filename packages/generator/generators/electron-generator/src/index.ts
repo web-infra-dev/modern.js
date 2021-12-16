@@ -20,7 +20,7 @@ const handleTemplateFile = async (
   const fsAPI = new FsAPI(generator);
   const isTs = isTsProject(context.materials.default.basePath);
   const { material } = context.current!;
-  const { projectPath } = context.config;
+  const { projectPath = '' } = context.config;
 
   await fsAPI.renderDir(
     material,

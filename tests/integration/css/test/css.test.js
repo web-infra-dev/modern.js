@@ -23,6 +23,18 @@ beforeAll(async () => {
 afterAll(() => {
   clearBuildDist(fixtures);
 });
+describe('default less loader options', () => {
+  it(`should inline javascript by default`, async () => {
+    const appDir = resolve(fixtures, 'less-inline-js');
+
+    await modernBuild(appDir);
+    const cssFiles = getCssFiles(appDir);
+
+    expect(cssFiles.length).toBe(1);
+
+    expect(readCssFile(appDir, cssFiles[0])).toContain('body{width:200}');
+  });
+});
 
 describe('test css support', () => {
   describe('base css support', () => {
@@ -373,20 +385,6 @@ describe('less-support', () => {
         resolve(fixtures, 'antd-less-import'),
         'rgb(24, 144, 255)',
       );
-    });
-  });
-
-  describe('default less loader options', () => {
-    it(`should inline javascript by default`, async () => {
-      const appDir = resolve(fixtures, 'less-inline-js');
-
-      await modernBuild(appDir);
-
-      const cssFiles = getCssFiles(appDir);
-
-      expect(cssFiles.length).toBe(1);
-
-      expect(readCssFile(appDir, cssFiles[0])).toContain('body{width:200}');
     });
   });
 });
