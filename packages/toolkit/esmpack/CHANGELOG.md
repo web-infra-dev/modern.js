@@ -1,5 +1,19 @@
 # @modern-js/esmpack
 
+## 1.1.4
+
+### Patch Changes
+
+- c5e3d4ad: remove @types/sass and use types definition provided by "sass"
+- Updated dependencies [d927bc83]
+- Updated dependencies [d73ff455]
+- Updated dependencies [9c1ab865]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+  - @modern-js/utils@1.1.4
+
 ## 1.1.3
 
 ### Patch Changes

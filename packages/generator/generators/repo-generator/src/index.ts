@@ -27,7 +27,6 @@ const mergeDefaultConfig = (context: GeneratorContext) => {
       context.config,
       { solution: defaultSolution },
       SolutionDefualtConfig[defaultSolution as Solution],
-      { packageName: context.config.projectDir },
     );
   }
 };
