@@ -69,7 +69,9 @@ export interface IAppContext {
   internalDirectory: string;
   plugins: {
     cli?: any;
+    cliPath?: any;
     server?: any;
+    serverPath?: any;
   }[];
   entrypoints: Entrypoint[];
   serverRoutes: ServerRoute[];
@@ -102,8 +104,8 @@ export interface Hooks {
     unknown
   >;
   afterBuild: AsyncWorkflow<void, unknown>;
-  beforeDeploy: AsyncWorkflow<void, unknown>;
-  afterDeploy: AsyncWorkflow<void, unknown>;
+  beforeDeploy: AsyncWorkflow<Record<string, any>, unknown>;
+  afterDeploy: AsyncWorkflow<Record<string, any>, unknown>;
   modifyEntryExport: AsyncWaterfall<{
     entrypoint: Entrypoint;
     exportStatement: string;

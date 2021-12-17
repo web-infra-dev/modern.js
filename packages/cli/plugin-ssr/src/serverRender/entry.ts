@@ -118,7 +118,7 @@ export default class Entry {
       prefetchData = prefetch ? await prefetch(context) : null;
       this.result.renderLevel = RenderLevel.SERVER_PREFETCH;
     } catch (e) {
-      // 这个逻辑基本不会走进来，prefecth 内部会做 catch
+      // Todo report if render error or fetch data error. logic from prefetch.tsx
       this.result.renderLevel = RenderLevel.CLIENT_RENDER;
       console.error('SSR Error - App Prefetch error = %s', e);
     }

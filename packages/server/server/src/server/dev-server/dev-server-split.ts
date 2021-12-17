@@ -4,7 +4,7 @@ import { mergeExtension } from '@/utils';
 import { ModernRouteInterface } from '@/libs/route';
 import { ApiServerMode } from '@/constants';
 
-export class WebModernDevServer extends ModernDevServer {
+export class ModernSSRDevServer extends ModernDevServer {
   protected prepareAPIHandler(
     _m: ApiServerMode,
     _: APIServerStartInput['config'],
@@ -23,14 +23,10 @@ export class WebModernDevServer extends ModernDevServer {
   }
 }
 
-export class APIModernDevServer extends ModernDevServer {
-  protected prepareWebHandler(_: ReturnType<typeof mergeExtension>) {
-    return null as any;
-  }
-
+export class ModernAPIDevServer extends ModernDevServer {
   protected async prepareAPIHandler(
     mode: ApiServerMode,
-    extension: ReturnType<typeof mergeExtension>,
+    extension: APIServerStartInput['config'],
   ) {
     return super.prepareAPIHandler(mode, extension);
   }
