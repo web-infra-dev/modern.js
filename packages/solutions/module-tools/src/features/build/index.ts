@@ -8,27 +8,37 @@ const buildWatchFeature: typeof import('./build-watch') = Import.lazy(
   './build-watch',
   require,
 );
-// const bp: typeof import('./build-platform') = Import.lazy(
-//   './build-platform',
-//   require,
-// );
+const bp: typeof import('./build-platform') = Import.lazy(
+  './build-platform',
+  require,
+);
 
 export const build = async (
   config: IBuildConfig,
   modernConfig: NormalizedConfig,
 ) => {
-  const { appDirectory, enableWatchMode, platform, clear = true } = config;
+  const {
+    appDirectory,
+    enableWatchMode,
+    platform,
+    clear = true,
+    isTsProject,
+  } = config;
   const {
     output: { path: outputPath = 'dist' },
   } = modernConfig;
   // TODO: maybe need watch mode in build platform
   if (typeof platform === 'boolean' && platform) {
-    // await bp.buildPlatform({ platform: 'all', isTsProject });
+    if (process.env.RUN_PLATFORM) {
+      await bp.buildPlatform({ platform: 'all', isTsProject });
+    }
     return;
   }
 
   if (typeof platform === 'string') {
-    // await bp.buildPlatform({ platform, isTsProject });
+    if (process.env.RUN_PLATFORM) {
+      await bp.buildPlatform({ platform, isTsProject });
+    }
     return;
   }
 

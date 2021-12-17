@@ -123,6 +123,7 @@ export const INTERNAL_PLUGINS: {
   '@modern-js/plugin-multiprocess': {
     cli: '@modern-js/plugin-multiprocess/cli',
   },
+  '@modern-js/plugin-nocode': { cli: '@modern-js/plugin-nocode/cli' },
 };
 
 /**
@@ -257,4 +258,5 @@ export const PLUGIN_SCHEMAS = {
       schema: { type: ['object'] },
     },
   ],
+  '@modern-js/plugin-nocode': [],
 };
