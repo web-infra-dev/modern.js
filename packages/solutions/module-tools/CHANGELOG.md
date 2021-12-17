@@ -1,5 +1,24 @@
 # @modern-js/module-tools
 
+## 1.1.2
+
+### Patch Changes
+
+- d927bc83: add run platform task with RUN_PLATFORM env vars
+- Updated dependencies [d927bc83]
+- Updated dependencies [d73ff455]
+- Updated dependencies [9c1ab865]
+- Updated dependencies [c5e3d4ad]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+  - @modern-js/utils@1.1.4
+  - @modern-js/core@1.1.4
+  - @modern-js/style-compiler@1.1.3
+  - @modern-js/css-config@1.1.2
+  - @modern-js/module-tools-hooks@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes
