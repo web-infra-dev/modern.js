@@ -16,13 +16,18 @@ import {
   Logger,
   ReadyOptions,
   ConfWithBFF,
-} from '../type';
-import { RouteMatchManager, ModernRouteInterface } from '../libs/route';
-import { createRenderHandler } from '../libs/render';
-import { createStaticFileHandler } from '../libs/serve-file';
-import { createErrorDocument, mergeExtension, noop } from '../utils';
-import * as reader from '../libs/render/reader';
-import { createProxyHandler, ProxyOptions } from '../libs/proxy';
+} from '@/type';
+import {
+  RouteMatchManager,
+  ModernRouteInterface,
+  ModernRoute,
+  RouteMatcher,
+} from '@/libs/route';
+import { createRenderHandler } from '@/libs/render';
+import { createStaticFileHandler } from '@/libs/serve-file';
+import { createErrorDocument, mergeExtension, noop } from '@/utils';
+import * as reader from '@/libs/render/reader';
+import { createProxyHandler, ProxyOptions } from '@/libs/proxy';
 import { createContext, ModernServerContext } from '@/libs/context';
 import {
   AGGRED_DIR,
@@ -70,6 +75,8 @@ export class ModernServer {
 
   protected readonly measure: Measure;
 
+  protected readonly proxyTarget: ModernServerOptions['proxyTarget'];
+
   private readonly isDev: boolean = false;
 
   private staticFileHandler!: ReturnType<typeof createStaticFileHandler>;
@@ -94,18 +101,20 @@ export class ModernServer {
     staticGenerate,
     logger,
     measure,
+    proxyTarget,
   }: ModernServerOptions) {
     require('ignore-styles');
     this.isDev = Boolean(dev);
 
     this.pwd = pwd;
-    this.distDir = path.join(pwd, config.output.path || '');
+    this.distDir = path.join(pwd, config.output.path || 'dist');
     this.workDir = this.isDev ? pwd : this.distDir;
     this.conf = config;
     this.logger = logger!;
     this.measure = measure!;
     this.router = new RouteMatchManager();
     this.presetRoutes = routes;
+    this.proxyTarget = proxyTarget;
 
     if (staticGenerate) {
       this.staticGenerate = staticGenerate;
@@ -207,18 +216,6 @@ export class ModernServer {
     return createServer(handler);
   }
 
-  // warmup ssr function
-  protected warmupSSRBundle() {
-    const { distDir } = this;
-    const bundles = this.router.getBundles();
-
-    bundles.forEach(bundle => {
-      const filepath = path.join(distDir, bundle!);
-      // if error, just throw and let process die
-      require(filepath);
-    });
-  }
-
   // read route spec from route.json
   protected readRouteSpec() {
     const file = path.join(this.distDir, ROUTE_SPEC_FILE);
@@ -276,6 +273,11 @@ export class ModernServer {
     }
   }
 
+  // Todo
+  protected async proxy() {
+    return null as any;
+  }
+
   /* —————————————————————— function will be overwrite —————————————————————— */
   protected async prepareWebHandler(
     extension: ReturnType<typeof mergeExtension>,
@@ -314,75 +316,89 @@ export class ModernServer {
     return routes;
   }
 
+  protected async emitRouteHook(
+    eventName: 'beforeMatch' | 'afterMatch' | 'beforeRender' | 'afterRender',
+    input: any,
+  ) {
+    return this.runner[eventName](input, { onLast: noop as any });
+  }
+
+  // warmup ssr function
+  protected warmupSSRBundle() {
+    const { distDir } = this;
+    const bundles = this.router.getBundles();
+
+    bundles.forEach(bundle => {
+      const filepath = path.join(distDir, bundle as string);
+      // if error, just throw and let process die
+      require(filepath);
+    });
+  }
+
   protected async preServerInit() {
-    const { conf } = this;
+    const { conf, runner } = this;
     const preMiddleware: ModernServerAsyncHandler[] =
-      await this.runner.preServerInit(conf);
+      await runner.preServerInit(conf);
 
     preMiddleware.flat().forEach(mid => {
       this.addHandler(mid);
     });
   }
 
-  private prepareFavicons(
-    favicon: string | undefined,
-    faviconByEntries?: Record<string, string | undefined>,
-  ) {
-    const faviconNames = [];
-    if (favicon) {
-      faviconNames.push(favicon.substring(favicon.lastIndexOf('/') + 1));
+  protected async handleAPI(context: ModernServerContext) {
+    const { req, res } = context;
+
+    if (!this.frameAPIHandler) {
+      throw new Error('can not found api hanlder');
     }
-    if (faviconByEntries) {
-      Object.keys(faviconByEntries).forEach(f => {
-        const curFavicon = faviconByEntries[f];
-        if (curFavicon) {
-          faviconNames.push(
-            curFavicon.substring(curFavicon.lastIndexOf('/') + 1),
-          );
-        }
-      });
-    }
-    return faviconNames;
+
+    await this.frameAPIHandler(req, res);
+  }
+
+  protected async handleWeb(context: ModernServerContext, route: ModernRoute) {
+    return this.routeRenderHandler(context, route);
+  }
+
+  protected verifyMatch(_c: ModernServerContext, _m: RouteMatcher) {
+    // empty
   }
 
   /* —————————————————————— private function —————————————————————— */
-
   // handler route.json, include api / csr / ssr
   // eslint-disable-next-line max-statements
   private async routeHandler(context: ModernServerContext) {
     const { req, res } = context;
 
-    await this.runner.beforeMatch({ context }, { onLast: noop as any });
+    await this.emitRouteHook('beforeMatch', { context });
 
     // match routes in the route spec
     const matched = this.router.match(context.url);
     if (!matched) {
       this.render404(context);
       return;
+    } else {
+      this.verifyMatch(context, matched);
+    }
+
+    if (res.headersSent) {
+      return;
     }
 
     const routeAPI = createRouteAPI(matched, this.router);
-    await this.runner.afterMatch(
-      { context, routeAPI },
-      { onLast: noop as any },
-    );
+    await this.emitRouteHook('afterMatch', { context, routeAPI });
 
     if (res.headersSent) {
       return;
     }
 
     const { current } = routeAPI as any;
-    const route = current.generate();
+    const route: ModernRoute = current.generate();
     const params = current.parseURLParams(context.url);
     context.setParams(params);
 
     // route is api service
     if (route.isApi) {
-      if (!this.frameAPIHandler) {
-        throw new Error('can not found api hanlder');
-      }
-
-      await this.frameAPIHandler(req, res);
+      this.handleAPI(context);
       return;
     }
 
@@ -395,8 +411,11 @@ export class ModernServer {
       return;
     }
 
-    await this.runner.beforeRender({ context }, { onLast: noop as any });
-    const file = await this.routeRenderHandler(context, route);
+    if (route.entryName) {
+      await this.emitRouteHook('beforeRender', { context });
+    }
+
+    const file = await this.handleWeb(context, route);
     if (!file) {
       this.render404(context);
       return;
@@ -412,10 +431,7 @@ export class ModernServer {
     let response = file.content;
     if (route.entryName) {
       const templateAPI = createTemplateAPI(file.content.toString());
-      await this.runner.afterRender(
-        { context, templateAPI },
-        { onLast: noop as any },
-      );
+      await this.emitRouteHook('afterRender', { context, templateAPI });
       await this.injectMicroFE(context, templateAPI);
       response = templateAPI.get();
     }
@@ -577,6 +593,27 @@ export class ModernServer {
 
     const text = ERROR_PAGE_TEXT[status] || ERROR_PAGE_TEXT[500];
     res.end(createErrorDocument(status, text));
+  }
+
+  private prepareFavicons(
+    favicon: string | undefined,
+    faviconByEntries?: Record<string, string | undefined>,
+  ) {
+    const faviconNames = [];
+    if (favicon) {
+      faviconNames.push(favicon.substring(favicon.lastIndexOf('/') + 1));
+    }
+    if (faviconByEntries) {
+      Object.keys(faviconByEntries).forEach(f => {
+        const curFavicon = faviconByEntries[f];
+        if (curFavicon) {
+          faviconNames.push(
+            curFavicon.substring(curFavicon.lastIndexOf('/') + 1),
+          );
+        }
+      });
+    }
+    return faviconNames;
   }
 }
 /* eslint-enable max-lines */

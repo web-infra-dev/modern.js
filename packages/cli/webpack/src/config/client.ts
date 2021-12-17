@@ -11,7 +11,11 @@ import {
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
-import webpack, { HotModuleReplacementPlugin, ProvidePlugin } from 'webpack';
+import webpack, {
+  DefinePlugin,
+  HotModuleReplacementPlugin,
+  ProvidePlugin,
+} from 'webpack';
 import nodeLibsBrowser from 'node-libs-browser';
 import { Entrypoint } from '@modern-js/types';
 import CopyPlugin from 'copy-webpack-plugin';
@@ -79,8 +83,31 @@ class ClientWebpackConfig extends BaseWebpackConfig {
     }
   }
 
+  private useDefinePlugin() {
+    const { envVars, globalVars } = this.options.source || {};
+    this.chain.plugin('define').use(DefinePlugin, [
+      {
+        ...['NODE_ENV', 'BUILD_MODE', ...(envVars || [])].reduce<
+          Record<string, string>
+        >((memo, name) => {
+          memo[`process.env.${name}`] = JSON.stringify(process.env[name]);
+          return memo;
+        }, {}),
+        ...Object.keys(globalVars || {}).reduce<Record<string, string>>(
+          (memo, name) => {
+            memo[name] = JSON.stringify(globalVars![name]);
+            return memo;
+          },
+          {},
+        ),
+      },
+    ]);
+  }
+
   plugins() {
     super.plugins();
+
+    this.useDefinePlugin();
 
     isDev() && this.chain.plugin('hmr').use(HotModuleReplacementPlugin);
 

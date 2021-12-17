@@ -24,9 +24,9 @@ export const beforeBuild = createAsyncWorkflow<{
 
 export const afterBuild = createAsyncWorkflow();
 
-export const beforeDeploy = createAsyncWorkflow();
+export const beforeDeploy = createAsyncWorkflow<Record<string, any>>();
 
-export const afterDeploy = createAsyncWorkflow();
+export const afterDeploy = createAsyncWorkflow<Record<string, any>>();
 
 export const lifecycle = () => {
   registerHook({

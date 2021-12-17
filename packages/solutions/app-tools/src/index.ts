@@ -57,11 +57,11 @@ export default createPlugin(
           .command('deploy')
           .usage('[options]')
           .description(i18n.t(localeKeys.command.deploy.describe))
-          .action(async () => {
+          .action(async (options: any) => {
             const { build } = await import('./commands/build');
             await build();
             const { deploy } = await import('./commands/deploy');
-            await deploy();
+            await deploy(options);
             // eslint-disable-next-line no-process-exit
             process.exit(0);
           });

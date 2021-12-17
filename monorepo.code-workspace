@@ -1,6 +1,10 @@
 {
   "folders": [
     {
+      "name": "cli/plugin-multiprocess",
+      "path": "packages/cli/plugin-multiprocess/"
+    },
+    {
       "name": "server/plugin-server",
       "path": "packages/server/plugin-server/"
     },
