@@ -49,7 +49,12 @@ export type ModernServerOptions = {
   logger?: Logger;
   measure?: Measure;
   apiOnly?: boolean;
+  ssrOnly?: boolean;
   webOnly?: boolean;
+  proxyTarget?: {
+    ssr?: string;
+    api?: string;
+  };
 };
 
 export type RenderResult = {

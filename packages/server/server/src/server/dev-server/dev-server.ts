@@ -13,9 +13,7 @@ import {
   SHARED_DIR,
 } from '@modern-js/utils';
 import type { MultiCompiler, Compiler } from 'webpack';
-import webpackDevMiddleware, {
-  WebpackDevMiddleware,
-} from 'webpack-dev-middleware';
+import webpackDevMiddleware from 'webpack-dev-middleware';
 import { ModernServer } from '../modern-server';
 import { createMockHandler } from '@/dev-tools/mock';
 import { createProxyHandler, ProxyOptions } from '@/libs/proxy';
@@ -61,12 +59,10 @@ export class ModernDevServer extends ModernServer {
 
   private watcher!: Watcher;
 
-  private devMiddleware!: WebpackDevMiddleware &
-    ((
-      req: http.IncomingMessage,
-      res: http.ServerResponse,
-      next: NextFunction,
-    ) => void);
+  private devMiddleware!: webpackDevMiddleware.API<
+    http.IncomingMessage,
+    http.ServerResponse
+  >;
 
   constructor(options: ModernServerOptions) {
     super(options);
@@ -239,7 +235,7 @@ export class ModernDevServer extends ModernServer {
     const bundles = this.router.getBundles();
 
     bundles.forEach(bundle => {
-      const filepath = path.join(distDir, bundle!);
+      const filepath = path.join(distDir, bundle as string);
       if (require.cache[filepath]) {
         delete require.cache[filepath];
       }

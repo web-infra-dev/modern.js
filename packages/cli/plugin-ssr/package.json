@@ -34,6 +34,16 @@
     "node.d.ts",
     "type.d.ts"
   ],
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/runtime/index.d.ts"
+      ],
+      "cli": [
+        "./dist/types/cli/index.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "prepare": "pnpm build",
     "dev": "modern build --watch",
