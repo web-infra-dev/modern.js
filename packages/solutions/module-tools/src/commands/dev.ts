@@ -35,7 +35,9 @@ export const dev = async (option: IDevOption) => {
   valid.valideBeforeTask({ modernConfig, tsconfigPath });
 
   const isTsProject = tsConfigutils.existTsConfigFile(tsconfigPath);
-
-  // await devFeature.showMenu({ isTsProject, appDirectory });
-  await devFeature.devStorybook({ isTsProject, appDirectory });
+  if (process.env.RUN_PLATFORM) {
+    await devFeature.showMenu({ isTsProject, appDirectory });
+  } else {
+    await devFeature.devStorybook({ isTsProject, appDirectory });
+  }
 };
