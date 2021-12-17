@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.1",
+  "version": "1.1.2-rc.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -38,10 +38,10 @@
     "@babel/eslint-parser": "^7.15.0",
     "@babel/eslint-plugin": "^7.14.5",
     "@babel/runtime": "^7.15.3",
-    "@modern-js-app/eslint-config": "workspace:^1.1.0",
-    "@modern-js/eslint-config": "workspace:^1.1.0",
+    "@modern-js-app/eslint-config": "workspace:^1.1.3-rc.0",
+    "@modern-js/eslint-config": "workspace:^1.1.1-rc.0",
     "@modern-js/tsconfig": "workspace:^1.1.0",
-    "@modern-js/utils": "workspace:^1.1.2",
+    "@modern-js/utils": "workspace:^1.1.4-rc.0",
     "@types/minimist": "^1.2.2",
     "@typescript-eslint/eslint-plugin": "^4.8.0",
     "@typescript-eslint/parser": "^4.8.0",
@@ -72,12 +72,12 @@
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "typescript": "^4",
-    "@modern-js/core": "workspace:^1.1.2",
-    "@modern-js/plugin-testing": "^1.1.1",
-    "@modern-js/module-tools": "^1.1.1"
+    "@modern-js/core": "workspace:^1.1.4-rc.0",
+    "@modern-js/plugin-testing": "^1.1.2-rc.0",
+    "@modern-js/module-tools": "^1.1.2-rc.0"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.1.2"
+    "@modern-js/core": "workspace:^1.1.4-rc.0"
   },
   "modernConfig": {},
   "sideEffects": false,

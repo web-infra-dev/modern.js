@@ -1,5 +1,11 @@
 # @modern-js/create
 
+## 1.1.3-rc.0
+
+### Patch Changes
+
+- f6115185: fix create toolkit module params
+
 ## 1.1.2
 
 ### Patch Changes

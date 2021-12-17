@@ -1,5 +1,11 @@
 # @modern-js/bff-runtime
 
+## 1.1.2-rc.0
+
+### Patch Changes
+
+- @modern-js/server-utils@1.1.3-rc.0
+
 ## 1.1.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @modern-js/mwa-generator
 
+## 1.1.4-rc.0
+
+### Patch Changes
+
+- f6125701: fix: mwa sub-project in pnpm monorepo not exist tsconfig dependence
+
 ## 1.1.3
 
 ### Patch Changes

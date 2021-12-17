@@ -1,5 +1,11 @@
 # @modern-js/repo-generator
 
+## 1.1.3-rc.0
+
+### Patch Changes
+
+- fix: create module project
+
 ## 1.1.2
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-static-hosting",
-  "version": "1.0.2",
+  "version": "1.0.3-rc.0",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -36,15 +36,15 @@
     "test": "modern test --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/core": "workspace:^1.1.2",
-    "@modern-js/utils": "workspace:^1.1.2"
+    "@modern-js/core": "workspace:^1.1.4-rc.0",
+    "@modern-js/utils": "workspace:^1.1.4-rc.0"
   },
   "devDependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/types": "workspace:^1.1.2",
-    "@modern-js/module-tools": "^1.1.1",
-    "@modern-js/plugin-jarvis": "workspace:^1.1.1",
-    "@modern-js/plugin-testing": "^1.1.1",
+    "@modern-js/types": "workspace:^1.1.3-rc.0",
+    "@modern-js/module-tools": "^1.1.2-rc.0",
+    "@modern-js/plugin-jarvis": "workspace:^1.1.2-rc.0",
+    "@modern-js/plugin-testing": "^1.1.2-rc.0",
     "del-cli": "^4.0.1",
     "typescript": "^4",
     "@types/jest": "^26.0.9",

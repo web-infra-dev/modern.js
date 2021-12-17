@@ -1,5 +1,25 @@
 # @modern-js/plugin-unbundle
 
+## 1.1.2-rc.0
+
+### Patch Changes
+
+- d73ff455: support multi process product
+- Updated dependencies [d927bc83]
+- Updated dependencies [d73ff455]
+- Updated dependencies [9c1ab865]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+  - @modern-js/utils@1.1.4-rc.0
+  - @modern-js/core@1.1.4-rc.0
+  - @modern-js/server@1.1.4-rc.0
+  - @modern-js/css-config@1.1.2-rc.0
+  - @modern-js/bff-utils@1.1.2-rc.0
+  - @modern-js/create-request@1.1.2-rc.0
+  - @modern-js/esmpack@1.1.4-rc.0
+
 ## 1.1.1
 
 ### Patch Changes

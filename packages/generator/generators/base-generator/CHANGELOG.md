@@ -1,5 +1,12 @@
 # @modern-js/base-generator
 
+## 1.1.3-rc.0
+
+### Patch Changes
+
+- f6125701: feat: add .idea template
+- f6125701: fix style compoment vscode extension
+
 ## 1.1.2
 
 ### Patch Changes

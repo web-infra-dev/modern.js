@@ -1,5 +1,17 @@
 # @modern-js/plugin-state
 
+## 1.1.3-rc.0
+
+### Patch Changes
+
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+  - @modern-js/core@1.1.4-rc.0
+  - @modern-js/runtime-core@1.1.2-rc.0
+
 ## 1.1.2
 
 ### Patch Changes

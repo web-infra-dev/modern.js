@@ -1,5 +1,24 @@
 # @modern-js/plugin-nest
 
+## 1.1.5-rc.0
+
+### Patch Changes
+
+- 529d7fae: fix: runtime path is broken in development environment
+- Updated dependencies [d927bc83]
+- Updated dependencies [d73ff455]
+- Updated dependencies [9c1ab865]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+  - @modern-js/utils@1.1.4-rc.0
+  - @modern-js/core@1.1.4-rc.0
+  - @modern-js/bff-utils@1.1.2-rc.0
+  - @modern-js/server-plugin@1.1.2
+  - @modern-js/adapter-helpers@1.1.1
+  - @modern-js/bff-runtime@1.1.2-rc.0
+
 ## 1.1.3
 
 ### Patch Changes
