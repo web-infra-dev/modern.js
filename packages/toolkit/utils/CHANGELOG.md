@@ -1,5 +1,17 @@
 # @modern-js/utils
 
+## 1.1.4
+
+### Patch Changes
+
+- d927bc83: update plugins list
+- d73ff455: support multi process product
+- 9c1ab865: fix: filter invalid ts paths
+- d73ff455: support multi process product
+- d73ff455: support multi process product
+- d73ff455: support multi process product
+- d73ff455: support multi process product
+
 ## 1.1.3
 
 ### Patch Changes

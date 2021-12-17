@@ -1,5 +1,22 @@
 # @modern-js/app-tools
 
+## 1.1.5
+
+### Patch Changes
+
+- d927bc83: remove esbuild and use @modenr-js/esbuild-compiler
+- Updated dependencies [d927bc83]
+- Updated dependencies [d73ff455]
+- Updated dependencies [9c1ab865]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+  - @modern-js/utils@1.1.4
+  - @modern-js/core@1.1.4
+  - @modern-js/server@1.1.4
+  - @modern-js/types@1.1.3
+
 ## 1.1.4
 
 ### Patch Changes
