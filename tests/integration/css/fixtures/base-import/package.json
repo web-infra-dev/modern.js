@@ -1,11 +1,1 @@
-{
-  "private": true,
-  "name": "base-import",
-  "dependencies": {
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "@modern-js/runtime": "workspace:^1.1.2-rc.0",
-    "@modern-js/app-tools": "workspace:^1.1.5-rc.0"
-  },
-  "version": "null-rc.0"
-}
+{"private":true,"name":"base-import","dependencies":{"react":"^17.0.1","react-dom":"^17.0.1","@modern-js/runtime":"workspace:^1.1.2-rc.0","@modern-js/app-tools":"workspace:^1.1.5-rc.0"},"version":"null-rc.0"}
