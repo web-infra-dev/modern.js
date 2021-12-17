@@ -1,5 +1,17 @@
 # @modern-js/module-tools-hooks
 
+## 1.1.2
+
+### Patch Changes
+
+- d73ff455: support multi process product
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+  - @modern-js/core@1.1.4
+
 ## 1.1.1
 
 ### Patch Changes
