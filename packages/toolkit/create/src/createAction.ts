@@ -1,3 +1,4 @@
+import path from 'path';
 import { CodeSmith, Logger } from '@modern-js/codesmith';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage, createDir } from './utils';
@@ -20,7 +21,11 @@ type RunnerTask = Array<{
 const REPO_GENERAROE = '@modern-js/repo-generator';
 
 // eslint-disable-next-line max-statements
-function getDefaultConfing(options: Options, logger: Logger) {
+function getDefaultConfing(
+  projectDir: string = path.basename(process.cwd()),
+  options: Options,
+  logger: Logger,
+) {
   const { mwa, module, monorepo, config, registry, distTag } = options;
 
   let initialConfig: Record<string, unknown> = {};
@@ -45,7 +50,10 @@ function getDefaultConfing(options: Options, logger: Logger) {
   }
 
   if (module) {
-    initialConfig.defaultSolution = 'library';
+    initialConfig.defaultSolution = 'module';
+    if (!initialConfig.packageName) {
+      initialConfig.packageName = projectDir;
+    }
   }
 
   if (monorepo) {
@@ -85,7 +93,7 @@ export async function createAction(projectDir: string, options: Options) {
     process.exit(1);
   }
 
-  const config = getDefaultConfing(options, smith.logger);
+  const config = getDefaultConfing(projectDir, options, smith.logger);
 
   let generator = REPO_GENERAROE;
 

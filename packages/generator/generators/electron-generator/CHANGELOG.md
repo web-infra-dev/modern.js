@@ -1,5 +1,11 @@
 # @modern-js/electron-generator
 
+## 1.1.3
+
+### Patch Changes
+
+- f6125701: fix: electron generator project path
+
 ## 1.1.2
 
 ### Patch Changes

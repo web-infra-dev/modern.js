@@ -1,5 +1,19 @@
 # @modern-js/babel-preset-lib
 
+## 1.1.3
+
+### Patch Changes
+
+- d927bc83: replace the babel plugin corresponding to 'globalVar'
+- Updated dependencies [d927bc83]
+- Updated dependencies [d73ff455]
+- Updated dependencies [9c1ab865]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+  - @modern-js/utils@1.1.4
+
 ## 1.1.1
 
 ### Patch Changes

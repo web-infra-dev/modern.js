@@ -1,5 +1,15 @@
 # @modern-js/types
 
+## 1.1.3
+
+### Patch Changes
+
+- d73ff455: support multi process product
+- d73ff455: support multi process product
+- d73ff455: support multi process product
+- d73ff455: support multi process product
+- d73ff455: support multi process product
+
 ## 1.1.2
 
 ### Patch Changes
