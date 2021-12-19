@@ -1,5 +1,5 @@
 import { IncomingHttpHeaders } from 'http';
-import { Measure, Logger } from '../../type';
+import { Metrics, Logger } from '../../type';
 
 type MetaKeyMap = {
   header?: string[];
@@ -39,7 +39,7 @@ export type SSRServerContext = {
   template: string;
   entryName: string;
   logger: Logger;
-  measure?: Measure;
+  metrics?: Metrics;
   loadableManifest?: string;
   cacheConfig?: CacheConfig;
   staticGenerate?: boolean;

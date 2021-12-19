@@ -1,22 +1,6 @@
-export interface ModernRouteInterface {
-  // modern js web entry name
-  entryName: string;
-  // the url path for request match
-  urlPath: string;
-  // the default resource file to response to route
-  entryPath?: string;
-  // if route is spa page
-  isSPA?: boolean;
-  // if route is ssr page
-  isSSR?: boolean;
-  // if route is api service
-  isApi?: boolean;
-  // ssr js bundle for ssr page
-  bundle?: string;
-  // if route has modern product
-  enableModernMode?: boolean;
-  // specialHeader?: SpecialHeader[];
-}
+import { ServerRoute as ModernRouteInterface } from '@modern-js/types';
+
+export type { ModernRouteInterface };
 
 export class ModernRoute implements ModernRouteInterface {
   public entryName: string;
@@ -36,7 +20,7 @@ export class ModernRoute implements ModernRouteInterface {
   public enableModernMode?: boolean;
 
   constructor(routeSpec: ModernRouteInterface) {
-    this.entryName = routeSpec.entryName;
+    this.entryName = routeSpec.entryName || '';
     this.urlPath = routeSpec.urlPath;
     this.entryPath = routeSpec.entryPath || '';
     this.isSSR = routeSpec.isSSR || false;
