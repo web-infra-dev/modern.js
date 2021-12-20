@@ -26,6 +26,8 @@ export type DevServerOptions = {
   dev: {
     writeToDisk: boolean | ((filename: string) => boolean);
   };
+  // 是否监听文件变化
+  watch: boolean;
   // 是否开启 hot reload
   hot: boolean | string;
   // 是否开启 page reload
@@ -39,7 +41,7 @@ export type ModernServerOptions = {
   pwd: string;
   config: NormalizedConfig;
   plugins?: any[];
-  dev?: boolean | DevServerOptions;
+  dev?: boolean | Partial<DevServerOptions>;
   compiler?: Webpack.MultiCompiler | Webpack.Compiler;
   routes?: ModernRouteInterface[];
   staticGenerate?: boolean;

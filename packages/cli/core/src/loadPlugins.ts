@@ -75,10 +75,16 @@ export const loadPlugins = (
       server,
     });
 
+    const cliPlugin = cli && { ...compatRequire(cli), pluginPath: cli };
+    const serverPlugin = server && {
+      ...compatRequire(server),
+      pluginPath: server,
+    };
+
     return {
-      cli: cli && compatRequire(cli),
+      cli: cliPlugin,
       cliPath: typeof plugin === 'string' ? plugin : plugin.cli,
-      server: server && compatRequire(server),
+      server: serverPlugin,
       serverPath: typeof plugin === 'string' ? undefined : plugin.server,
     };
   });

@@ -11,11 +11,11 @@ const getJestUtils = (testConfig: TestConfig) => {
   return testOprator;
 };
 
-const getFinalConfig = async (testOprator: TestConfigOperator) => {
+const patchConfig = async (testOprator: TestConfigOperator) => {
   testOprator.getFinalConfig();
   await applyPatches(testOprator);
 
   return testOprator.jestConfig;
 };
 
-export { getJestUtils, getFinalConfig };
+export { getJestUtils, patchConfig };

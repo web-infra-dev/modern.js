@@ -43,9 +43,11 @@ const DEFAULT_DEV_OPTIONS: DevServerOptions = {
   },
   https: false,
   dev: { writeToDisk: true },
+  watch: true,
   hot: true,
   liveReload: true,
 };
+
 export class ModernDevServer extends ModernServer {
   private devProxyHandler: ReturnType<typeof createProxyHandler> = null;
 
@@ -72,7 +74,9 @@ export class ModernDevServer extends ModernServer {
 
     // set dev server options, like webpack-dev-server
     this.dev =
-      typeof options.dev === 'boolean' ? DEFAULT_DEV_OPTIONS : options.dev!;
+      typeof options.dev === 'boolean'
+        ? DEFAULT_DEV_OPTIONS
+        : { ...DEFAULT_DEV_OPTIONS, ...options.dev };
 
     enableRegister(this.pwd, this.conf);
   }
@@ -120,7 +124,9 @@ export class ModernDevServer extends ModernServer {
     await super.init(runner);
 
     // watch mock/ server/ api/ dir file change
-    this.startWatcher();
+    if (this.dev.watch) {
+      this.startWatcher();
+    }
   }
 
   public ready(options: ReadyOptions = {}) {

@@ -156,7 +156,9 @@ export default createPlugin(
   () => ({
     async prepareApiServer({ pwd, mode, config, prefix }) {
       const apiDir = path.join(pwd, API_DIR);
-      enableTs(pwd, true);
+
+      const isGenerateType = process.env.NODE_ENV === 'development';
+      enableTs(pwd, isGenerateType);
       const app: Application = await initApp({
         framework: './framework',
         baseDir: apiDir,
