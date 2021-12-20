@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse, IncomingHttpHeaders } from 'http';
 import { URL } from 'url';
 import qs from 'querystring';
-import { Measure, Logger } from './util';
+import { Metrics, Logger } from './util';
 
 export interface ModernServerContext {
   req: IncomingMessage;
@@ -12,7 +12,7 @@ export interface ModernServerContext {
 
   logger: Logger;
 
-  measure?: Measure;
+  metrics?: Metrics;
 
   setParams: (params: Record<string, string>) => void;
 

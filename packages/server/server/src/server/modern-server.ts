@@ -12,7 +12,7 @@ import {
   ModernServerOptions,
   NextFunction,
   ServerHookRunner,
-  Measure,
+  Metrics,
   Logger,
   ReadyOptions,
   ConfWithBFF,
@@ -73,7 +73,7 @@ export class ModernServer {
 
   protected readonly logger: Logger;
 
-  protected readonly measure: Measure;
+  protected readonly metrics: Metrics;
 
   protected readonly proxyTarget: ModernServerOptions['proxyTarget'];
 
@@ -100,7 +100,7 @@ export class ModernServer {
     routes,
     staticGenerate,
     logger,
-    measure,
+    metrics,
     proxyTarget,
   }: ModernServerOptions) {
     require('ignore-styles');
@@ -111,7 +111,7 @@ export class ModernServer {
     this.workDir = this.isDev ? pwd : this.distDir;
     this.conf = config;
     this.logger = logger!;
-    this.measure = measure!;
+    this.metrics = metrics!;
     this.router = new RouteMatchManager();
     this.presetRoutes = routes;
     this.proxyTarget = proxyTarget;
@@ -548,7 +548,7 @@ export class ModernServer {
     res.statusCode = 200;
     const context: ModernServerContext = createContext(req, res, {
       logger: this.logger,
-      measure: this.measure,
+      metrics: this.metrics,
     });
 
     try {
