@@ -36,7 +36,8 @@
     "@modern-js/webpack": "workspace:^1.1.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
-    "enhanced-resolve": "^5.8.2"
+    "enhanced-resolve": "^5.8.2",
+    "@modern-js/testing-plugin-bff": "workspace:^1.1.1"
   },
   "peerDependencies": {
     "@modern-js-reduck/plugin-auto-actions": "^1.0.0",

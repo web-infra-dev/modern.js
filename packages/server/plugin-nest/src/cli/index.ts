@@ -25,7 +25,10 @@ export default createPlugin(
           path.relative(appDirectory, serverRuntimePath),
         );
 
-        if (process.env.NODE_ENV === 'development') {
+        if (
+          process.env.NODE_ENV === 'development' ||
+          process.env.NODE_ENV === 'test'
+        ) {
           relativeRuntimePath = `./${path.relative(
             appDirectory,
             serverRuntimePath,
