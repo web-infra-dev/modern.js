@@ -41,6 +41,7 @@ export class PluginNewAPI {
         config: JSON.stringify({
           actionType: ActionType.Element,
           element,
+          noNeedInstall: true,
           ...params,
         }),
         cwd: this.projectPath,
@@ -59,6 +60,7 @@ export class PluginNewAPI {
         config: JSON.stringify({
           actionType: ActionType.Function,
           function: func,
+          noNeedInstall: true,
           ...params,
         }),
         cwd: this.projectPath,
@@ -73,6 +75,7 @@ export class PluginNewAPI {
         config: JSON.stringify({
           actionType: ActionType.Function,
           function: func,
+          noNeedInstall: true,
           ...params,
         }),
         cwd: this.projectPath,
@@ -90,6 +93,7 @@ export class PluginNewAPI {
       await MonorepoNewAction({
         config: JSON.stringify({
           solution,
+          noNeedInstall: true,
           ...params,
         }),
         cwd: this.projectPath,
