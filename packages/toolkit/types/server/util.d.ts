@@ -1,4 +1,4 @@
-export type Measure = {
+export type Metrics = {
   counter: () => void;
   timer: () => void;
   gauges: () => void;

@@ -1,6 +1,6 @@
-import { Measure } from '@/type';
+import { Metrics } from '@/type';
 
-const measure: Measure = {
+const metrics: Metrics = {
   gauges() {
     // no impl
   },
@@ -12,4 +12,4 @@ const measure: Measure = {
   },
 };
 
-export { measure };
+export { metrics };

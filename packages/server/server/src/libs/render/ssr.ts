@@ -34,7 +34,7 @@ export const render = async (
     distDir,
     staticGenerate,
     logger: ctx.logger,
-    measure: ctx.measure,
+    metrics: ctx.metrics,
   };
 
   const serverRender = require(bundleJS)[SERVER_RENDER_FUNCTION_NAME];
