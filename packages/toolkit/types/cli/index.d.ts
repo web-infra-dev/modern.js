@@ -1,5 +1,6 @@
 import { AsyncWaterfall, AsyncWorkflow } from '@modern-js/plugin';
 import { Compiler, MultiCompiler, Configuration } from 'webpack';
+import { ServerRoute } from '../server';
 
 export type { Compiler, MultiCompiler, Configuration };
 
@@ -15,20 +16,6 @@ export interface Entrypoint {
     globalApp?: string | false;
     routes?: any[];
   };
-}
-
-/**
- *  server route
- */
-export interface ServerRoute {
-  urlPath: string;
-  entryName?: string;
-  entryPath: string;
-  isSPA: boolean;
-  isSSR: boolean;
-  isApi?: boolean;
-  bundle?: string;
-  enableModernMode?: boolean;
 }
 
 /**
