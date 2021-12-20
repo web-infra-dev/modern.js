@@ -1,5 +1,5 @@
 import path from 'path';
-import { LOADABLE_STATS_FILE } from '@modern-js/utils';
+import { LOADABLE_STATS_FILE } from '@modern-js/utils/constants';
 import React from 'react';
 import { RuntimeContext } from '@modern-js/runtime-core';
 import ReactDomServer from 'react-dom/server';
