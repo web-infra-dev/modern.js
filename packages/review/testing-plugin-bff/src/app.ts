@@ -11,8 +11,12 @@ const createApp = async (
   plugins: any[],
   routes: any[],
 ) => {
+  config.output.path = './';
   const server = new Server({
     apiOnly: true,
+    dev: {
+      watch: false,
+    },
     pwd,
     config,
     plugins,
@@ -21,13 +25,7 @@ const createApp = async (
 
   await server.init();
 
-  (server as any).server.addHandler((_ctx: any, next: any) => {
-    store.run('in handler', () => {
-      next();
-    });
-  });
-
-  return (server as any).app;
+  return server.getRequestHandler();
 };
 
 export { createApp };

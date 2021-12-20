@@ -33,7 +33,7 @@ export default createPlugin(
     const transformAPI = createTransformAPI(storage);
 
     const apiMod = requireExistModule(apiAppPath);
-    if (apiMod) {
+    if (apiMod && typeof apiMod === 'function') {
       apiMod(transformAPI);
     }
 
