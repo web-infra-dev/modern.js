@@ -9,7 +9,7 @@ import {
 import { enable } from '@modern-js/plugin/node';
 import type {
   ModernServerContext,
-  Measure,
+  Metrics,
   Logger,
 } from '@modern-js/types/server';
 import type { NormalizedConfig } from '@modern-js/core';
@@ -24,12 +24,12 @@ const gather = createParallelWorkflow<{
 
 type ServerInitInput = {
   loggerOptions: any;
-  measureOptions: any;
+  metricsOptions: any;
 };
 
 type InitExtension = {
   logger: Logger;
-  measure: Measure;
+  metrics: Metrics;
 };
 
 const create = createAsyncPipeline<ServerInitInput, InitExtension>();

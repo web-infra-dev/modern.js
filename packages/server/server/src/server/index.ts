@@ -18,7 +18,7 @@ import {
   ModernWebServer,
 } from './modern-server-split';
 import { ModernServerOptions, ServerHookRunner, ReadyOptions } from '@/type';
-import { measure as defaultMeasure } from '@/libs/measure';
+import { metrics as defaultMetrics } from '@/libs/metrics';
 
 export class Server {
   public options: ModernServerOptions;
@@ -48,7 +48,7 @@ export class Server {
     const { options } = this;
 
     options.logger = options.logger || defaultLogger;
-    options.measure = options.measure || defaultMeasure;
+    options.metrics = options.metrics || defaultMetrics;
 
     // initialize server
     if (options.dev) {
