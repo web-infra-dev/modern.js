@@ -124,9 +124,9 @@ const handleTemplateFile = async (
       packageManager as string
     } build:csmith`,
     'scripts.build:csmith': 'csmith-tools build',
-    'dependencies.@modern-js/codesmith-api-app': '^1.0.0',
-    'dependencies.@modern-js/codesmith': '^1.0.0',
-    'dependencies.@modern-js/generator-common': '^1.0.0',
+    'devDependencies.@modern-js/codesmith-api-app': '^1.0.0',
+    'devDependencies.@modern-js/codesmith': '^1.0.0',
+    'devDependencies.@modern-js/generator-common': '^1.0.0',
     'devDependencies.@modern-js/codesmith-tools': '^1.0.0',
   };
 
