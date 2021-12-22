@@ -6,9 +6,22 @@ import {
   useCallback,
   useEffect,
 } from 'react';
-import { Loader, LoaderStatus } from './loaderManager';
+import invariant from 'invariant';
+import { Loader, LoaderStatus, LoaderResult } from './loaderManager';
 import { RuntimeReactContext } from '@/runtime-context';
 
+export interface SSRData {
+  loadersData: Record<string, LoaderResult | undefined>;
+}
+export interface SSRContainer {
+  data?: SSRData;
+}
+
+declare global {
+  interface Window {
+    _SSR_DATA?: SSRContainer;
+  }
+}
 export interface LoaderOptions<
   Params = any,
   TData = any,
@@ -99,6 +112,15 @@ const useLoader = <TData = any, Params = any, E = any>(
         return undefined;
       }
 
+      // do not load data again in CSR hydrate stage if SSR data exists
+      if (
+        context._hydration &&
+        window?._SSR_DATA?.data?.loadersData[id]?.error === null
+      ) {
+        unlistenLoaderChangeRef.current?.();
+        return undefined;
+      }
+
       const res = loaderRef.current.load();
 
       // unlisten old loader, and subsribe to new loader
@@ -132,9 +154,10 @@ const useLoader = <TData = any, Params = any, E = any>(
   useMemo(() => {
     const p = options.params ?? (loaderFn as any).id;
 
-    if (!p) {
-      throw new Error('Params is required in useLoader');
-    }
+    invariant(
+      typeof p !== 'undefined' && p !== null,
+      'Params is required in useLoader',
+    );
     load(p);
   }, [options.params]);
 
