@@ -55,7 +55,7 @@ export const runBuildWatch = async (
   }
 
   return watch(
-    watchDir,
+    `${watchDir}/**/*.{js,jsx,ts,tsx}`,
     async ({ changeType, changedFilePath }) => {
       emitter.emit(BuildWatchEvent.compiling);
       if (changeType === WatchChangeType.UNLINK) {

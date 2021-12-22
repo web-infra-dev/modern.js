@@ -20,12 +20,12 @@ type RunTaskType = (option: {
 }) => void | Promise<void>;
 
 export const watch = (
-  watchDir: string,
+  watchDir: string | string[],
   runTask: RunTaskType,
   ignored: string[] = [],
 ) => {
   let ready = false;
-  const watcher = chokidar.watch(`${watchDir}/**/*.{js,jsx,ts,tsx}`, {
+  const watcher = chokidar.watch(watchDir, {
     ignored,
   });
 
