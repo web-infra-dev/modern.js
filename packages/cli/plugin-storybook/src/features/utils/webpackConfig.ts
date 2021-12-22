@@ -1,8 +1,9 @@
 import path from 'path';
-import { Import } from '@modern-js/utils';
+import { fs, Import } from '@modern-js/utils';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import type { Configuration, RuleSetRule, RuleSetUseItem } from 'webpack';
 import type Chain from 'webpack-chain';
+import { CURRENT_PKG_PATH } from '../constants';
 
 const WebpackConfig: typeof import('@modern-js/webpack') = Import.lazy(
   '@modern-js/webpack',
@@ -163,6 +164,21 @@ export const getCustomWebpackConfigHandle: any = ({
       plugins: [...(sbWebpackConfig.plugins || []), ...(config.plugins || [])],
       resolve: config.resolve,
     };
+
+    // compat pnpm and yarn start
+    const yarnNodeModulePath = path.resolve(CURRENT_PKG_PATH, './node_modules');
+    if (fs.pathExistsSync(yarnNodeModulePath)) {
+      finalConfig.resolve!.modules!.push(yarnNodeModulePath);
+    }
+    const pnpmNodeModulesPath = path.resolve(
+      CURRENT_PKG_PATH,
+      '../../../node_modules',
+    );
+    if (fs.pathExistsSync(pnpmNodeModulesPath)) {
+      finalConfig.resolve!.modules!.push(pnpmNodeModulesPath);
+    }
+    // compat pnpm and yarn end
+
     return finalConfig;
   };
 };
