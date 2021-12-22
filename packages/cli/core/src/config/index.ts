@@ -117,7 +117,7 @@ export interface DevConfig {
 }
 
 export interface DeployConfig {
-  microFrontend?: boolean | Record<string, unknown>;
+  microFrontend?: boolean & Record<string, unknown>;
   domain?: string | Array<string>;
   domainByEntries?: Record<string, string | Array<string>>;
 }
