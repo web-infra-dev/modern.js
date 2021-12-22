@@ -54,13 +54,13 @@ const useLoader = <TData = any, Params = any, E = any>(
   options: LoaderOptions<Params> = { params: undefined } as any,
 ) => {
   const context = useContext(RuntimeReactContext);
-  const isSSRSecRender = Boolean(context.ssr);
+  const isSSRRender = Boolean(context.ssr);
 
   const { loaderManager } = context;
   const loaderRef = useRef<Loader>();
   const unlistenLoaderChangeRef = useRef<(() => void) | null>(null);
 
-  const reload = useCallback(
+  const load = useCallback(
     (params?: Params) => {
       if (typeof params === 'undefined') {
         return loaderRef.current?.load();
@@ -88,7 +88,7 @@ const useLoader = <TData = any, Params = any, E = any>(
 
       loaderRef.current = loaderManager.get(id)!;
 
-      if (isSSRSecRender) {
+      if (isSSRRender) {
         unlistenLoaderChangeRef.current?.();
         return undefined;
       }
@@ -108,11 +108,11 @@ const useLoader = <TData = any, Params = any, E = any>(
           setResult(_result);
 
           if (_status === LoaderStatus.fulfilled) {
-            options?.onSuccess?.(result.data);
+            options?.onSuccess?.(_result.data);
           }
 
           if (_status === LoaderStatus.rejected) {
-            options?.onError?.(result.data);
+            options?.onError?.(_result.error);
           }
         },
       );
@@ -135,7 +135,7 @@ const useLoader = <TData = any, Params = any, E = any>(
     if (!p) {
       throw new Error('Params is required in useLoader');
     }
-    reload(p);
+    load(p);
   }, [options.params]);
 
   const [result, setResult] = useState<{
@@ -147,7 +147,7 @@ const useLoader = <TData = any, Params = any, E = any>(
 
   return {
     ...result,
-    reload,
+    reload: load,
   };
 };
 

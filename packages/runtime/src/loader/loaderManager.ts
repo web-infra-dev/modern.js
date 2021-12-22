@@ -161,7 +161,7 @@ export const createLoaderManager = (
 
       loader = createLoader(
         id,
-        loaderOptions.initialData || initialDataMap[id],
+        initialDataMap[id] || loaderOptions.initialData,
         loaderFn,
         // Todo whether static loader is exec when CSR
         skipExec,
