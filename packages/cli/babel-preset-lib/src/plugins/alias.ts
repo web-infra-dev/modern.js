@@ -19,6 +19,19 @@ export const aliasPlugin = (alias: AliasOption): [string, PluginOptions] => {
     tsPaths = getUserAlias(mergedPaths);
   }
 
+  tsPaths = Object.keys(tsPaths).reduce((o, key) => {
+    if (typeof tsPaths[key] === 'string') {
+      return {
+        ...o,
+        [`${key}`]: [tsPaths[key]],
+      };
+    }
+    return {
+      ...o,
+      [`${key}`]: tsPaths[key],
+    };
+  }, {});
+
   const resolvePathFn = (
     sourcePath: string,
     currentFile: string,
