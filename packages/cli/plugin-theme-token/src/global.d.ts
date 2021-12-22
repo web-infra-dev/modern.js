@@ -1,3 +1,3 @@
 declare module 'tailwindcss/resolveConfig';
 
-declare type ITokens = any;
+declare type IThemeTokens = any;

@@ -1,25 +1,17 @@
 function readPackage(pkg, _context) {
-  // Override the manifest of foo@1.x after downloading it from the registry
-  if (pkg.name === '@samverschueren/stream-to-observable') {
+
+  // workaround for webpack optional peer dependency issue
+  if (pkg.dependencies.webpack) {
     pkg.dependencies = {
       ...pkg.dependencies,
-      'any-observable': '^0.5.1',
+      esbuild: '^0.13.13',
     };
   }
 
-  if (pkg.dependencies['webpack']) {
-    console.info(pkg.name);
+  if (pkg.devDependencies.webpack) {
     pkg.dependencies = {
       ...pkg.dependencies,
-      'esbuild': '^0.13.14',
-    };
-  }
-
-  if (pkg.devDependencies['webpack']) {
-    // console.info(pkg.name);
-    pkg.dependencies = {
-      ...pkg.dependencies,
-      'esbuild': '^0.13.14',
+      esbuild: '^0.13.13',
     };
   }
 
