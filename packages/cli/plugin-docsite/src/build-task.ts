@@ -1,4 +1,4 @@
-import type { IAppContext } from '@modern-js/core';
+import type { IAppContext, CoreOptions } from '@modern-js/core';
 import { Import } from '@modern-js/utils';
 
 const core: typeof import('@modern-js/core') = Import.lazy(
@@ -20,7 +20,11 @@ const taskMain = async ({ appContext }: IBuildTaskOption) => {
 };
 
 (async () => {
-  const { appContext } = await core.cli.init();
+  let options: CoreOptions | undefined;
+  if (process.env.CORE_INIT_OPTION_FILE) {
+    ({ options } = require(process.env.CORE_INIT_OPTION_FILE));
+  }
+  const { appContext } = await core.cli.init([], options);
   await core.manager.run(async () => {
     try {
       await taskMain({ appContext });

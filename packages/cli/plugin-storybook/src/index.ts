@@ -9,11 +9,6 @@ const features: typeof import('./features') = Import.lazy(
   require,
 );
 
-core.usePlugins([
-  require.resolve('@modern-js/plugin-state/cli'),
-  require.resolve('@modern-js/plugin-router/cli'),
-]);
-
 export default core.createPlugin(
   () => ({
     // app-tools and module-tools `dev storybook`
