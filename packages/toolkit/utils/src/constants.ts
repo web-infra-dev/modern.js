@@ -223,8 +223,28 @@ export const PLUGIN_SCHEMAS = {
   ],
   '@modern-js/plugin-theme-token': [
     {
+      target: 'runtime.themeToken',
+      schema: { type: ['boolean'] },
+    },
+    {
       target: 'source.designSystem.supportStyledComponents',
       schema: { type: ['boolean'] },
+    },
+    {
+      target: 'source.designSystem.experimental',
+      schema: {
+        type: 'object',
+        properties: {
+          enableLessVars: {
+            type: ['boolean'],
+            default: false,
+          },
+          enableScssVars: {
+            type: ['boolean'],
+            default: false,
+          },
+        },
+      },
     },
   ],
   '@modern-js/plugin-router': [

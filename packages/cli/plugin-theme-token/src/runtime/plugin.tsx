@@ -4,10 +4,10 @@
 import { createPlugin } from '@modern-js/runtime-core';
 import React, { useContext } from 'react';
 
-export const ThemeTokenContext = React.createContext({});
+export const ThemeTokenContext = React.createContext<any>({});
 
-export const useThemeToken = (): ITokens =>
-  useContext<ITokens>(ThemeTokenContext);
+export const useThemeToken = (): IThemeTokens =>
+  useContext<IThemeTokens>(ThemeTokenContext);
 
 const themeToken = (
   options: {
@@ -50,7 +50,5 @@ const themeToken = (
   );
 
 export default themeToken;
-
-// export * from '../plugins';
 /* eslint-enable @typescript-eslint/no-require-imports */
 /* eslint-enable @typescript-eslint/no-var-requires */
