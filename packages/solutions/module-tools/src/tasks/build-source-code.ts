@@ -148,9 +148,9 @@ export const initEnv = ({
   if (syntax === 'es6+' && type === 'commonjs') {
     return 'CJS_ES6';
   } else if (syntax === 'es6+' && type === 'module') {
-    return 'ESM+ES6';
+    return 'ESM_ES6';
   } else if (syntax === 'es5' && type === 'module') {
-    return 'ESM+ES5';
+    return 'ESM_ES5';
   }
 
   return '';

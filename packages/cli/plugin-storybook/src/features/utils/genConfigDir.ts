@@ -1,6 +1,6 @@
 import path from 'path';
 import type { NormalizedConfig } from '@modern-js/core';
-import { Import, fs, HIDE_MODERN_JS_DIR, logger } from '@modern-js/utils';
+import { Import, fs, logger } from '@modern-js/utils';
 import { transformSync } from '@modern-js/esbuild-compiler';
 
 const glob: typeof import('glob') = Import.lazy('glob', require);
@@ -26,17 +26,14 @@ const defaultOptions = {
 };
 
 const getConfigDir = (appDir: string) => {
-  const moduleToolsPath = path.resolve(appDir, HIDE_MODERN_JS_DIR);
-  fs.ensureDirSync(moduleToolsPath);
-  return path.resolve(moduleToolsPath, constants.STORYBOOK_CONFIG_PATH);
-  // const pluginStorybookDir = path.join(__dirname, '../../../../../configs');
-  // fs.ensureDirSync(pluginStorybookDir);
-  // const projectConfigtPath = path.join(
-  //   pluginStorybookDir,
-  //   path.basename(appDir),
-  // );
-  // fs.ensureDirSync(projectConfigtPath);
-  // return projectConfigtPath;
+  const storybookConfigsPath = path.join(constants.CURRENT_PKG_PATH, 'configs');
+  fs.ensureDirSync(storybookConfigsPath);
+  const projectConfigtPath = path.join(
+    storybookConfigsPath,
+    path.basename(appDir),
+  );
+  fs.ensureDirSync(projectConfigtPath);
+  return projectConfigtPath;
 };
 
 export const generateConfig = async (
