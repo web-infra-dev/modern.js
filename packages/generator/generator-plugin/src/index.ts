@@ -125,7 +125,10 @@ export class GeneratorPlugin {
     this.plugins = await installPlugins(plugins, inputData.registry);
 
     for (const info of this.plugins) {
-      info.context = new PluginContext(SolutionSchemas[solution]);
+      info.context = new PluginContext(
+        SolutionSchemas[solution],
+        inputData.locale,
+      );
       info.module(info.context.context);
     }
   }

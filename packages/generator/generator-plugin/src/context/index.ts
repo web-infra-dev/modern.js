@@ -101,7 +101,7 @@ export class PluginContext {
 
   newAPI?: PluginNewAPI;
 
-  locale?: string;
+  locale: string;
 
   lifeCycleFuncMap: Record<LifeCycle, unknown> = {
     [LifeCycle.OnForged]: () => {
@@ -112,10 +112,11 @@ export class PluginContext {
     },
   };
 
-  constructor(inputs: Schema[]) {
+  constructor(inputs: Schema[], locale: string) {
     this.inputContext = new PluginInputContext(inputs);
     this.gitAPI = new PluginGitAPI();
     this.fileAPI = new PluginFileAPI();
+    this.locale = locale;
   }
 
   get context(): IPluginContext {
@@ -159,7 +160,6 @@ export class PluginContext {
       inputData.packageManager as PackageManager,
     );
     this.newAPI = new PluginNewAPI(solution, projectPath, inputData);
-    this.locale = inputData.locale as string;
   }
 
   onForged(func: PluginForgedFunc) {
