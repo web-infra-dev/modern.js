@@ -22,6 +22,7 @@ export * from './new';
 export * from './npm';
 
 export interface IPluginContext {
+  locale?: string;
   addInputBefore: (key: string, input: IInput) => void;
   addInputAfter: (key: string, input: IInput) => void;
   setInput: (key: string, field: string, value: unknown) => void;
@@ -100,6 +101,8 @@ export class PluginContext {
 
   newAPI?: PluginNewAPI;
 
+  locale?: string;
+
   lifeCycleFuncMap: Record<LifeCycle, unknown> = {
     [LifeCycle.OnForged]: () => {
       /* empty */
@@ -117,6 +120,7 @@ export class PluginContext {
 
   get context(): IPluginContext {
     return {
+      locale: this.locale,
       ...this.inputContext.context,
       ...this.gitAPI.context,
       ...this.fileAPI.context,
@@ -155,6 +159,7 @@ export class PluginContext {
       inputData.packageManager as PackageManager,
     );
     this.newAPI = new PluginNewAPI(solution, projectPath, inputData);
+    this.locale = inputData.locale as string;
   }
 
   onForged(func: PluginForgedFunc) {
