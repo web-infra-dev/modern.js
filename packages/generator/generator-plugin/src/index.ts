@@ -139,7 +139,8 @@ export class GeneratorPlugin {
     projectPath: string,
     generatorCore: GeneratorCore,
   ) {
-    if (solution !== inputData.solution) {
+    const { generatorPlugin, ...restData } = inputData;
+    if (solution !== restData.solution) {
       if (this.event) {
         this.event.emit('handle forged success');
       }
@@ -151,13 +152,13 @@ export class GeneratorPlugin {
         solution,
         path.join(basePath, projectPath),
         path.join(info.templatePath, 'templates'),
-        inputData,
+        restData,
       );
       const onForgedFunc = info.context?.lifeCycleFuncMap[
         LifeCycle.OnForged
       ] as PluginForgedFunc;
       if (onForgedFunc && isFunction(onForgedFunc)) {
-        await onForgedFunc(info.context!.forgedAPI, inputData);
+        await onForgedFunc(info.context!.forgedAPI, restData);
       }
     }
     for (const info of this.plugins) {
@@ -165,7 +166,7 @@ export class GeneratorPlugin {
         LifeCycle.AfterForged
       ] as PluginAfterForgedFunc;
       if (afterForged && isFunction(afterForged)) {
-        await afterForged(info.context!.afterForgedAPI, inputData);
+        await afterForged(info.context!.afterForgedAPI, restData);
       }
     }
     if (this.event) {
