@@ -154,7 +154,7 @@ export class PluginContext {
       projectPath,
       inputData.packageManager as PackageManager,
     );
-    this.newAPI = new PluginNewAPI(solution, projectPath);
+    this.newAPI = new PluginNewAPI(solution, projectPath, inputData);
   }
 
   onForged(func: PluginForgedFunc) {

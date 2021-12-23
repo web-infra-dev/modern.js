@@ -1,4 +1,4 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable max-lines */
 import { Schema } from '@modern-js/easy-form-core';
 import { isFunction } from 'lodash';
@@ -11,7 +11,7 @@ export enum InputType {
 
 export interface IOption {
   key: string;
-  name: string;
+  name: string | (() => string);
   isDefault?: boolean;
   when?: (
     input: Record<string, unknown>,
@@ -21,7 +21,7 @@ export interface IOption {
 
 export interface IInput {
   key: string;
-  name: string;
+  name: string | (() => string);
   type: InputType;
   options?: IOption[];
   when?: (
@@ -267,7 +267,7 @@ export class PluginInputContext {
   private transformSchema(schema: Schema): IInput {
     return {
       key: schema.key,
-      name: schema.label as string,
+      name: schema.label as string | (() => string),
       // eslint-disable-next-line no-nested-ternary
       type: schema.mutualExclusion
         ? InputType.Radio
@@ -276,7 +276,7 @@ export class PluginInputContext {
         : InputType.Input,
       options: (schema.items as Schema[])?.map(item => ({
         key: item.key,
-        name: item.label as string,
+        name: item.label as string | (() => string),
         isDefault: item.key === schema.state?.value,
       })),
       when: schema.when,

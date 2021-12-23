@@ -19,9 +19,16 @@ export class PluginNewAPI {
 
   private readonly projectPath: string;
 
-  constructor(solution: Solution | 'custom', projectPath: string) {
+  private readonly inputData: Record<string, any>;
+
+  constructor(
+    solution: Solution | 'custom',
+    projectPath: string,
+    inputData: Record<string, any>,
+  ) {
     this.solution = solution;
     this.projectPath = projectPath;
+    this.inputData = inputData;
   }
 
   get method() {
@@ -42,6 +49,7 @@ export class PluginNewAPI {
           actionType: ActionType.Element,
           element,
           noNeedInstall: true,
+          ...this.inputData,
           ...params,
         }),
         cwd: this.projectPath,
@@ -61,6 +69,7 @@ export class PluginNewAPI {
           actionType: ActionType.Function,
           function: func,
           noNeedInstall: true,
+          ...this.inputData,
           ...params,
         }),
         cwd: this.projectPath,
@@ -76,6 +85,7 @@ export class PluginNewAPI {
           actionType: ActionType.Function,
           function: func,
           noNeedInstall: true,
+          ...this.inputData,
           ...params,
         }),
         cwd: this.projectPath,
@@ -94,6 +104,7 @@ export class PluginNewAPI {
         config: JSON.stringify({
           solution,
           noNeedInstall: true,
+          ...this.inputData,
           ...params,
         }),
         cwd: this.projectPath,
