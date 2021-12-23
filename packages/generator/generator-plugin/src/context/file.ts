@@ -130,7 +130,7 @@ export class PluginFileAPI {
     try {
       const stat = await fs.stat(dir);
       if (stat.isDirectory()) {
-        await fs.rmdir(dir, {
+        await fs.rm(dir, {
           recursive: true,
         });
       }
