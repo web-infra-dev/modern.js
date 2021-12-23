@@ -22,6 +22,7 @@ import { i18n, localeKeys } from './locale';
 
 export * from './context';
 export * from './utils';
+export * from './common';
 
 export class GeneratorPlugin {
   plugins: Array<{

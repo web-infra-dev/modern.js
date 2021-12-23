@@ -14,7 +14,7 @@ interface IMonorepoNewActionOption {
   cwd?: string;
 }
 
-const REPO_GENERAROE = '@jupiter/repo-generator';
+const REPO_GENERAROE = '@modern-js/repo-generator';
 
 export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
   const {
@@ -55,7 +55,7 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
   });
 
   let generator = REPO_GENERAROE;
-  if (process.env.JUPITER_CODESMITH_ENV === 'development') {
+  if (process.env.CODESMITH_ENV === 'development') {
     generator = require.resolve(generator);
   } else if (distTag) {
     generator = `${generator}@${distTag}`;
