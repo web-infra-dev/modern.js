@@ -5,6 +5,7 @@ export const ZH_LOCALE = {
     module: '模块',
     monorepo: '项目组',
     custom: '自定义',
+    default: '默认',
   },
   scenes: {
     self: '请选择项目场景',

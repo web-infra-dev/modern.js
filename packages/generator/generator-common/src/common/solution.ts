@@ -72,7 +72,9 @@ export const SolutionSchema: Schema = {
         if (data.solution && data.solution !== 'custom') {
           items.push({
             key: data.solution,
-            label: SolutionText[data.solution as Solution],
+            label: `${SolutionText[data.solution as Solution]()}(${i18n.t(
+              localeKeys.solution.default,
+            )})`,
           });
         }
         return items;
@@ -81,7 +83,7 @@ export const SolutionSchema: Schema = {
   ],
 };
 
-function getSolutionNameFromSubSolution(solution: SubSolution) {
+export function getSolutionNameFromSubSolution(solution: SubSolution) {
   if (solution === SubSolution.MWATest) {
     return Solution.MWA;
   }
@@ -138,7 +140,9 @@ export const SubSolutionSchema: Schema = {
         if (data.solution && data.solution !== 'custom') {
           items.push({
             key: data.solution,
-            label: SolutionText[data.solution as Solution],
+            label: `${SolutionText[data.solution as Solution]()}(${i18n.t(
+              localeKeys.solution.default,
+            )})`,
           });
         }
         return items;

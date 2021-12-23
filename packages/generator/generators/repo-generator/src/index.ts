@@ -13,6 +13,7 @@ import {
   SubSolution,
   SubSolutionGenerator,
   MonorepoNewActionConfig,
+  getSolutionNameFromSubSolution,
 } from '@modern-js/generator-common';
 import { GeneratorPlugin } from '@modern-js/generator-plugin';
 
@@ -45,11 +46,18 @@ const getNeedRunPlugin = (
     return false;
   }
   const { extendPlugin, customPlugin } = generatorPlugin;
-  const { solution, scenes } = context.config;
-  if (!scenes || scenes === solution) {
-    return extendPlugin?.[solution] && extendPlugin[solution].length > 0;
+  const { isMonorepo, solution, scenes } = context.config;
+  const pluginSolution = isMonorepo
+    ? getSolutionNameFromSubSolution(solution)
+    : solution;
+  if (!scenes || scenes === pluginSolution) {
+    return (
+      extendPlugin?.[pluginSolution] && extendPlugin[pluginSolution].length > 0
+    );
   }
-  return Boolean(customPlugin[solution]?.find(plugin => plugin.key === scenes));
+  return Boolean(
+    customPlugin[pluginSolution]?.find(plugin => plugin.key === scenes),
+  );
 };
 
 const handleTemplateFile = async (
@@ -98,10 +106,11 @@ const handlePlugin = async (
   context: GeneratorContext,
   generator: GeneratorCore,
 ) => {
-  const { plugins, registry } = context.config;
+  const { plugins, registry, locale } = context.config;
   const generatorPlugin = new GeneratorPlugin(
     generator.logger,
     generator.event,
+    locale,
   );
   await generatorPlugin.setupPlugin(plugins, registry);
   return generatorPlugin;

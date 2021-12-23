@@ -2,8 +2,12 @@ import path from 'path';
 import EventEmitter from 'events';
 import packageJson from 'package-json';
 import { GeneratorCore, ILogger } from '@modern-js/codesmith';
-import { fs } from '@modern-js/generator-utils';
-import { Solution, SolutionSchemas } from '@modern-js/generator-common';
+import { fs, i18n as utilsI18n } from '@modern-js/generator-utils';
+import {
+  Solution,
+  SolutionSchemas,
+  i18n as commonI18n,
+} from '@modern-js/generator-common';
 import { isFunction, merge } from 'lodash';
 import { Schema } from '@modern-js/easy-form-core';
 import {
@@ -14,6 +18,7 @@ import {
 } from './context';
 import { ICustomInfo } from './common';
 import { installPlugins } from './utils';
+import { i18n, localeKeys } from './locale';
 
 export * from './context';
 export * from './utils';
@@ -33,16 +38,21 @@ export class GeneratorPlugin {
 
   readonly logger: ILogger;
 
-  constructor(logger: ILogger, event: EventEmitter) {
+  constructor(logger: ILogger, event: EventEmitter, locale = 'en') {
     this.event = event;
     this.logger = logger;
 
     if (event) {
       event.on('forged', this.handleForged.bind(this));
     }
+
+    commonI18n.changeLanguage({ locale });
+    utilsI18n.changeLanguage({ locale });
+    i18n.changeLanguage({ locale });
   }
 
   async setupPlugin(plugins: string[], registry?: string) {
+    this.logger.info(i18n.t(localeKeys.setup_plugin));
     await Promise.all(
       plugins.map(async plugin => {
         let pkgJSON;
@@ -55,9 +65,7 @@ export class GeneratorPlugin {
         }
         const { meta } = pkgJSON;
         if (!meta) {
-          throw new Error(
-            `plugin ${plugin} should has meta filed in package.json`,
-          );
+          throw new Error(i18n.t(localeKeys.plugin_no_meta_error, { plugin }));
         }
         if (meta.extend) {
           this.extendPlugin[meta.extend] = [
@@ -113,6 +121,7 @@ export class GeneratorPlugin {
         plugins.push(plugin.plugin);
       }
     }
+    this.logger.info(i18n.t(localeKeys.install_plugin));
     this.plugins = await installPlugins(plugins, inputData.registry);
 
     for (const info of this.plugins) {
@@ -139,6 +148,7 @@ export class GeneratorPlugin {
     projectPath: string,
     generatorCore: GeneratorCore,
   ) {
+    this.logger.info(i18n.t(localeKeys.run_plugin));
     const { generatorPlugin, ...restData } = inputData;
     if (solution !== restData.solution) {
       if (this.event) {

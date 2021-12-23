@@ -5,6 +5,7 @@ export const EN_LOCALE = {
     module: 'Module Solution',
     monorepo: 'Monorepo Solution',
     custom: 'Custom Solution',
+    default: 'Default',
   },
   scenes: {
     self: 'Please select the scense you want to create',
