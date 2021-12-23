@@ -9,7 +9,9 @@
     ".htmlhintrc": "jsonc",
     "htmlhintrc": "jsonc",
     "Procfile*": "shellscript",
-    "README": "markdown"
+    "README": "markdown",
+    "*.ttml": "xml",
+    "*.ttss": "css"
   },
   "files.exclude": {
     "**/*/adapters/**/index.ts": true,
