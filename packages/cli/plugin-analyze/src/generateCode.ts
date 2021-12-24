@@ -61,6 +61,12 @@ const createImportStatements = (statements: ImportStatement[]): string => {
       seen.set(value, specifiers);
     } else {
       seen.get(value).push(...specifiers);
+      // make "initialize" param can be connected when multiple plugins were imported from same package
+      const modifyIndex = deDuplicated.findIndex(v => v.value === value);
+      const originInitialize = deDuplicated[modifyIndex]?.initialize ?? '';
+      deDuplicated[modifyIndex].initialize = originInitialize.concat(
+        `\n${initialize || ''}`,
+      );
     }
   }
 
