@@ -58,3 +58,13 @@ const test = async () => {
 };
 
 export default test;
+
+declare module '@modern-js/core' {
+  interface UserConfig {
+    testing?: import('@modern-js/testing').TestConfig;
+  }
+
+  interface ToolsConfig {
+    jest?: import('@modern-js/testing').TestConfig['jest'];
+  }
+}

@@ -3,5 +3,6 @@
 "@modern-js/plugin-testing": minor
 ---
 
-Add modern config schema and types of testing, tools.jest.
-Add typesVersions for re-exporting types of @modern-js/plugin-testing.
+add modern config schema and types of testing, tools.jest.
+add typesVersions for re-exporting types of @modern-js/plugin-testing.
+fix type lost when redeclareing modules.
