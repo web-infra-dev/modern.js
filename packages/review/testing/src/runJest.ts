@@ -10,7 +10,7 @@ import { Config } from '@jest/types';
 import yargs from 'yargs/yargs';
 import { runCLI } from 'jest';
 import chalk from 'chalk';
-import { getJestUtils, getFinalConfig } from './config';
+import { getJestUtils, patchConfig } from './config';
 import { TestConfig } from './types';
 import { debug } from './utils';
 import { createLifeCycle } from './plugin';
@@ -33,7 +33,7 @@ const buildArgv = async (
       return;
     }
 
-    result[key] = (argv as any)[key];
+    result[key] = argv[key];
   });
 
   if (config) {
@@ -114,11 +114,13 @@ export async function runTest(config: TestConfig, pwd: string = process.cwd()) {
 
   const jestUtils = getJestUtils(config);
 
+  await patchConfig(jestUtils);
+
   await lifeCycle.jestConfig(jestUtils, {
     onLast: input => input as any,
   });
 
-  const finalConfig = await getFinalConfig(jestUtils);
+  const finalConfig = jestUtils.jestConfig;
 
   debug('Jest config:', finalConfig);
 
