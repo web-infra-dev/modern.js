@@ -73,7 +73,7 @@ describe('configure', () => {
     });
   });
 
-  test('should has correct order', done => {
+  test('should has correct priority', done => {
     run({}, async () => {
       nock(url).get(path).reply(200, response);
 
@@ -101,7 +101,7 @@ describe('configure', () => {
     });
   });
 
-  test('should support custom headers', done => {
+  test('should support custom headers in ssr environment', done => {
     const authKey = 'aaa';
 
     run(
