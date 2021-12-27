@@ -245,6 +245,10 @@ async function getPort() {
   return await portfinder.getPortPromise({ port: 8080 });
 }
 
+function sleep(t) {
+  return new Promise(resolve => setTimeout(resolve, t));
+}
+
 module.exports = {
   runModernCommand,
   runModernCommandDev,
@@ -257,4 +261,5 @@ module.exports = {
   getPort,
   installDeps,
   clearBuildDist,
+  sleep,
 };
