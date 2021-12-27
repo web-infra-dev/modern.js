@@ -60,7 +60,7 @@ export class GeneratorPlugin {
         if (path.isAbsolute(plugin)) {
           pkgJSON = await fs.readJSON(path.join(plugin, 'package.json'));
         } else {
-          pkgJSON = packageJson(plugin.toLowerCase(), {
+          pkgJSON = await packageJson(plugin.toLowerCase(), {
             registryUrl: registry,
           });
         }
