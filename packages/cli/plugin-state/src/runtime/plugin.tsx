@@ -12,15 +12,9 @@ declare module '@modern-js/runtime-core' {
   interface TRuntimeContext {
     store: Store;
   }
-}
 
-declare global {
-  interface Window {
-    _SSR_DATA?: {
-      data: {
-        storeState: any;
-      };
-    };
+  interface SSRData {
+    storeState: any;
   }
 }
 

@@ -34,6 +34,7 @@ export const buildInWatchMode = async (
   const styleLog = lm.createLoggerText({
     title: constants.runStyleCompilerTitle,
   });
+  const copyLog = lm.createLoggerText({ title: 'Copy Log:' });
   const initCodeMapper = utils.getCodeInitMapper(config);
   const taskMapper: ITaskMapper[] = [
     ...utils.getCodeMapper({
@@ -48,6 +49,11 @@ export const buildInWatchMode = async (
     {
       logger: styleLog,
       taskPath: require.resolve('../../tasks/build-watch-style'),
+    },
+    {
+      logger: copyLog,
+      taskPath: require.resolve('../../tasks/copy-assets'),
+      params: ['--watch'],
     },
   ];
   lm.on('data', () => {
@@ -78,7 +84,7 @@ export const buildInWatchMode = async (
         });
       }
 
-      if (logger === styleLog) {
+      if (logger === styleLog || logger === copyLog) {
         lm.addStdout(logger, childProcess.stdout, {
           event: { error: true, data: true },
           // colors: { data: s => s },

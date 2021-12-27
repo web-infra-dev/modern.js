@@ -1,6 +1,10 @@
 import * as path from 'path';
 import { fs, watch, WatchChangeType, Import } from '@modern-js/utils';
-import type { NormalizedConfig, IAppContext } from '@modern-js/core';
+import type {
+  NormalizedConfig,
+  IAppContext,
+  CoreOptions,
+} from '@modern-js/core';
 import type { ModuleToolsOutput } from '../types';
 
 const argv: typeof import('process.argv').default = Import.lazy(
@@ -101,7 +105,14 @@ const taskMain = ({
 };
 
 (async () => {
-  const { resolved: modernConfig, appContext } = await core.cli.init();
+  let options: CoreOptions | undefined;
+  if (process.env.CORE_INIT_OPTION_FILE) {
+    ({ options } = require(process.env.CORE_INIT_OPTION_FILE));
+  }
+  const { resolved: modernConfig, appContext } = await core.cli.init(
+    [],
+    options,
+  );
   core.manager.run(() => {
     try {
       taskMain({ modernConfig, appContext });

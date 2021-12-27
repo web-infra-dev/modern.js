@@ -14,8 +14,20 @@ describe('load plugins', () => {
     ]);
 
     expect(plugins).toEqual([
-      { cli: { name: 'a' }, cliPath: path.join(fixture, './test-plugin-a.js') },
-      { server: { name: 'b' }, serverPath: './test-plugin-b' },
+      {
+        cli: {
+          name: 'a',
+          pluginPath: path.join(fixture, './test-plugin-a.js'),
+        },
+        cliPath: path.join(fixture, './test-plugin-a.js'),
+      },
+      {
+        server: {
+          name: 'b',
+          pluginPath: path.join(fixture, './test-plugin-b.js'),
+        },
+        serverPath: './test-plugin-b',
+      },
     ]);
   });
 
