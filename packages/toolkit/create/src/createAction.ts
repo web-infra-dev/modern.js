@@ -20,7 +20,7 @@ type RunnerTask = Array<{
 }>;
 
 const REPO_GENERAROE = '@modern-js/repo-generator';
-const GENERATOR_PLUGIN = '@modern-js/generator-plugin-plugin';
+// const GENERATOR_PLUGIN = '@modern-js/generator-plugin-plugin';
 
 // eslint-disable-next-line max-statements
 function getDefaultConfing(
@@ -76,20 +76,20 @@ function getDefaultConfing(
     initialConfig.plugins = plugin;
   }
 
-  let generatorPlugin = GENERATOR_PLUGIN;
+  // let generatorPlugin = GENERATOR_PLUGIN;
 
-  if (process.env.CODESMITH_ENV === 'development') {
-    generatorPlugin = path.join(
-      require.resolve(GENERATOR_PLUGIN),
-      '../../../../',
-    );
-  } else if (distTag) {
-    generatorPlugin = `${GENERATOR_PLUGIN}@${distTag}`;
-  }
-  initialConfig.plugins = [
-    ...((initialConfig.plugins as string[]) || []),
-    generatorPlugin,
-  ];
+  // if (process.env.CODESMITH_ENV === 'development') {
+  //   generatorPlugin = path.join(
+  //     require.resolve(GENERATOR_PLUGIN),
+  //     '../../../../',
+  //   );
+  // } else if (distTag) {
+  //   generatorPlugin = `${GENERATOR_PLUGIN}@${distTag}`;
+  // }
+  // initialConfig.plugins = [
+  //   ...((initialConfig.plugins as string[]) || []),
+  //   generatorPlugin,
+  // ];
 
   return initialConfig;
 }

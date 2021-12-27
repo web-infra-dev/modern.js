@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "jsnext:source": "./src/index.ts",
   "main": "./dist/js/node/main.js",
   "files": [
@@ -37,7 +37,7 @@
   "devDependencies": {
     "@babel/runtime": "^7",
     "@modern-js/generator-common": "workspace: ^1.0.0",
-    "@modern-js/generator-plugin": "workspace: ^1.0.0",
+    "@modern-js/generator-plugin": "workspace:1.1.1",
     "@modern-js/plugin-i18n": "workspace: ^1.0.0",
     "@types/jest": "^26",
     "@types/lodash": "^4.14.168",
@@ -55,7 +55,7 @@
     }
   },
   "publishConfig": {
-    "access": "public",
-    "registry": "https://bnpm.byted.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }
