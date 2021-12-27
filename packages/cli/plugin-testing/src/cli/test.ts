@@ -1,16 +1,10 @@
 import path from 'path';
 import { compiler } from '@modern-js/babel-compiler';
 import { useAppContext, useResolvedConfigContext } from '@modern-js/core';
-import { TestConfig, runTest } from '@modern-js/testing';
+import { runTest } from '@modern-js/testing';
 import { getWebpackConfig, WebpackConfigTarget } from '@modern-js/webpack';
 import testingBffPlugin from '@modern-js/testing-plugin-bff';
 import modernTestPlugin from './plugins/modern';
-
-declare module '@modern-js/core' {
-  interface UserConfig {
-    testing: TestConfig;
-  }
-}
 
 const test = async () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -64,3 +58,13 @@ const test = async () => {
 };
 
 export default test;
+
+declare module '@modern-js/core' {
+  interface UserConfig {
+    testing?: import('@modern-js/testing').TestConfig;
+  }
+
+  interface ToolsConfig {
+    jest?: import('@modern-js/testing').TestConfig['jest'];
+  }
+}

@@ -1,4 +1,5 @@
 import { Config } from '@jest/types';
+import { Plugin } from '../plugin';
 
 export type JestConfig = Config.InitialOptions;
 
