@@ -13,7 +13,7 @@ import {
 } from '@modern-js/utils';
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import { IgnorePlugin } from 'webpack';
+import webpack, { IgnorePlugin } from 'webpack';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
@@ -615,7 +615,19 @@ class BaseWebpackConfig {
   }
 
   config() {
-    return this.getChain().toConfig();
+    const chainConfig = this.getChain().toConfig();
+    if ((this.options.tools as any)?.webpackFinal) {
+      return applyOptionsChain(
+        chainConfig as any,
+        (this.options.tools as any)?.webpackFinal,
+        {
+          name: this.chain.get('name'),
+          webpack,
+        },
+        merge,
+      );
+    }
+    return chainConfig;
   }
 
   getChain() {
@@ -655,6 +667,7 @@ class BaseWebpackConfig {
       {
         chain: this.chain,
         name: this.chain.get('name'),
+        webpack,
       },
       merge,
     );
