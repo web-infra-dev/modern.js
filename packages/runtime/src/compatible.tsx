@@ -125,7 +125,7 @@ export const bootstrap: BootStrap = async (
         if (
           loaderData.loading !== false ||
           loaderData.error ||
-          !loaderData.data
+          typeof loaderData.data === 'undefined'
         ) {
           return res;
         }
