@@ -7,13 +7,15 @@ import { LoaderOptions } from './useLoader';
 const createGetId = () => {
   const idCache = new Map();
 
-  return (objectId: any) => {
+  return (objectId: NonNullable<any>) => {
     const cachedId = idCache.get(objectId);
 
     if (cachedId) {
       return cachedId;
     }
 
+    // WARNING: id should be unique after serialize.
+    // In some cases， such as 0/'0' would generate the same id.
     const id = JSON.stringify(objectId);
 
     invariant(id, 'params should be not null value');
@@ -30,7 +32,8 @@ export enum LoaderStatus {
   fulfilled,
   rejected,
 }
-type Result = {
+
+export type LoaderResult = {
   loading: boolean;
   reloading: boolean;
   data: any;
@@ -49,7 +52,9 @@ const createLoader = (
   let error: any;
   let hasLoaded = false;
 
-  const handlers = new Set<(status: LoaderStatus, result: Result) => void>();
+  const handlers = new Set<
+    (status: LoaderStatus, result: LoaderResult) => void
+  >();
 
   const load = async () => {
     if (skip) {
@@ -105,7 +110,7 @@ const createLoader = (
   };
 
   const onChange = (
-    handler: (status: LoaderStatus, result: Result) => void,
+    handler: (status: LoaderStatus, result: LoaderResult) => void,
   ) => {
     handlers.add(handler);
 
@@ -139,7 +144,7 @@ type ManagerOption = {
  * @param initialDataMap used to initialing loader data
  */
 export const createLoaderManager = (
-  initialDataMap: Record<string, Result>,
+  initialDataMap: Record<string, LoaderResult>,
   managerOptions: ManagerOption = {},
 ) => {
   const { skipStatic = false, skipNonStatic = false } = managerOptions;
@@ -161,7 +166,9 @@ export const createLoaderManager = (
 
       loader = createLoader(
         id,
-        loaderOptions.initialData || initialDataMap[id],
+        typeof initialDataMap[id] !== 'undefined'
+          ? initialDataMap[id]
+          : loaderOptions.initialData,
         loaderFn,
         // Todo whether static loader is exec when CSR
         skipExec,
@@ -201,7 +208,7 @@ export const createLoaderManager = (
 
     await Promise.all(pendingLoaders.map(item => item[1].promise));
 
-    return pendingLoaders.reduce<Record<string, Result>>(
+    return pendingLoaders.reduce<Record<string, LoaderResult>>(
       (res, [id, loader]) => {
         res[id] = loader.result;
 
