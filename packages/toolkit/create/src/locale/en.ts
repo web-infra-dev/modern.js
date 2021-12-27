@@ -8,6 +8,8 @@ export const EN_LOCALE = {
     distTag: `use specified tag version for it's generator`,
     registry: 'set npm registry url to run npm command',
     debug: 'using debug mode to log something',
+    plugin:
+      'use generator plugin to create new solution or customize Modern.js solution',
   },
   tooltip: {
     dir_entry: `you can execute 'cd {dirName}' to entry the project directory`,
