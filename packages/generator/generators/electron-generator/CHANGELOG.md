@@ -1,5 +1,11 @@
 # @modern-js/electron-generator
 
+## 1.1.5
+
+### Patch Changes
+
+- feat: bump csmith tools version
+
 ## 1.1.4
 
 ### Patch Changes

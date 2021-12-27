@@ -1,5 +1,11 @@
 # @modern-js/ssg-generator
 
+## 1.1.4
+
+### Patch Changes
+
+- feat: bump csmith tools version
+
 ## 1.1.3
 
 ### Patch Changes

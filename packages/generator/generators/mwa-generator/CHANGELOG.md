@@ -1,5 +1,11 @@
 # @modern-js/mwa-generator
 
+## 1.2.1
+
+### Patch Changes
+
+- feat: bump csmith tools version
+
 ## 1.2.0
 
 ### Minor Changes
