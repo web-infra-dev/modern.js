@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.0",
+  "version": "1.2.1",
   "jsnext:source": "./src/index.ts",
   "main": "./dist/js/node/main.js",
   "files": [
@@ -36,10 +36,10 @@
     "@modern-js/codesmith-tools": "^1.0.8",
     "@modern-js/generator-common": "workspace:^1.2.0",
     "@modern-js/generator-utils": "workspace:^1.1.1",
-    "@modern-js/module-generator": "workspace:^1.2.0",
-    "@modern-js/monorepo-generator": "workspace:^1.2.0",
-    "@modern-js/mwa-generator": "workspace:^1.2.0",
-    "@modern-js/base-generator": "workspace:^1.2.0",
+    "@modern-js/module-generator": "workspace:^1.2.1",
+    "@modern-js/monorepo-generator": "workspace:^1.2.1",
+    "@modern-js/mwa-generator": "workspace:^1.2.1",
+    "@modern-js/base-generator": "workspace:^1.2.1",
     "@modern-js/generator-plugin": "workspace:^1.1.0",
     "@types/jest": "^26",
     "@types/lodash": "^4.14.168",

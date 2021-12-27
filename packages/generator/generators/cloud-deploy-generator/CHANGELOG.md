@@ -1,5 +1,11 @@
 # @modern-js/cloud-deploy-generator
 
+## 1.0.10
+
+### Patch Changes
+
+- feat: bump csmith tools version
+
 ## 1.0.9
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @modern-js/bff-refactor-generator
 
+## 1.1.3
+
+### Patch Changes
+
+- feat: bump csmith tools version
+
 ## 1.1.2
 
 ### Patch Changes
