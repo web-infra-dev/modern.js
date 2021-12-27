@@ -12,16 +12,10 @@ declare module '@modern-js/runtime-core' {
   interface TRuntimeContext {
     request: SSRServerContext['request'];
   }
-}
-declare global {
-  interface Window {
-    _SSR_DATA: {
-      renderLevel: RenderLevel;
-      context?: SSRServerContext;
-      data: {
-        loadersData: Record<string, any>;
-      };
-    };
+
+  interface SSRContainer {
+    renderLevel: RenderLevel;
+    context?: SSRServerContext;
   }
 }
 
@@ -47,7 +41,15 @@ const ssr: any = () =>
           ReactDOM.render(<App context={context} />, rootElement);
         } else if (renderLevel === RenderLevel.SERVER_RENDER) {
           loadableReady(() => {
-            ReactDOM.hydrate(<App context={context} />, rootElement);
+            const hydrateContext = { ...context, _hydration: true };
+            ReactDOM.hydrate(
+              <App context={hydrateContext} />,
+              rootElement,
+              () => {
+                // won't cause component re-render because context's reference identity doesn't change
+                delete (hydrateContext as any)._hydration;
+              },
+            );
           });
         } else {
           // unknown renderlevel or renderlevel is server prefetch.
