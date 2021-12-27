@@ -1,5 +1,30 @@
 # @modern-js/plugin-testing
 
+## 1.2.0
+
+### Minor Changes
+
+- 90eeb72c: add modern config schema and types of testing, tools.jest.
+  add typesVersions for re-exporting types of @modern-js/plugin-testing.
+  fix type lost when redeclareing modules.
+- 5a4c557e: feat: support bff test
+
+### Patch Changes
+
+- Updated dependencies [90eeb72c]
+- Updated dependencies [e04914ce]
+- Updated dependencies [4406c2db]
+- Updated dependencies [90eeb72c]
+- Updated dependencies [5a4c557e]
+- Updated dependencies [e04914ce]
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [ecb344dc]
+  - @modern-js/core@1.2.0
+  - @modern-js/runtime-core@1.1.2
+  - @modern-js/testing@1.2.0
+  - @modern-js/babel-compiler@1.1.3
+  - @modern-js/utils@1.1.5
+
 ## 1.1.1
 
 ### Patch Changes

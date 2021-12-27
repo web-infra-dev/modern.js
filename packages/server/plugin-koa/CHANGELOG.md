@@ -1,5 +1,24 @@
 # @modern-js/plugin-koa
 
+## 1.2.0
+
+### Minor Changes
+
+- 5a4c557e: feat: support bff test
+
+### Patch Changes
+
+- a70a62f5: fix: runtime path is broken in development environment
+- Updated dependencies [90eeb72c]
+- Updated dependencies [e04914ce]
+- Updated dependencies [5a4c557e]
+- Updated dependencies [e04914ce]
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [ecb344dc]
+  - @modern-js/core@1.2.0
+  - @modern-js/server-plugin@1.1.3
+  - @modern-js/utils@1.1.5
+
 ## 1.1.4
 
 ### Patch Changes
