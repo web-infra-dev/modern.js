@@ -292,8 +292,8 @@ describe('less-support', () => {
 
       const { stdout } = await modernBuild(appDir);
 
-      expect(stdout).toContain(
-        'The configuration of tools.less is provided by plugin @modern-js/plugin-less',
+      expect(stdout).toMatch(
+        /The configuration of .*tools.less.* is provided by plugin .*@modern-js\/plugin-less.*/,
       );
     });
   });
