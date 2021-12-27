@@ -46,7 +46,6 @@ const compile = async (
     '@modern-js-reduck/react',
     '@modern-js-reduck/store',
     '@modern-js-block/runtime',
-    '@modern-js-block/property-controls',
     '@modern-js/runtime',
     '@modern-js/runtime-core',
     '@modern-js/plugin-router',
