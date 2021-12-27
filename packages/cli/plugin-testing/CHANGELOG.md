@@ -1,5 +1,11 @@
 # @modern-js/plugin-testing
 
+## 1.2.1
+
+### Patch Changes
+
+- fix: type define
+
 ## 1.2.0
 
 ### Minor Changes
