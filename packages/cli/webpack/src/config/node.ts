@@ -162,7 +162,7 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     // if not externals, js ssr build error
     config.externals.push('typescript');
 
-    config.resolve?.modules?.forEach(dir => {
+    config.resolve?.modules?.forEach((dir: string) => {
       if (fs.existsSync(dir)) {
         (config.externals as any[]).push(
           nodeExternals({
