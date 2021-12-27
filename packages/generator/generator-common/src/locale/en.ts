@@ -4,6 +4,11 @@ export const EN_LOCALE = {
     mwa: 'MWA Solution',
     module: 'Module Solution',
     monorepo: 'Monorepo Solution',
+    custom: 'Custom Solution',
+    default: 'Default',
+  },
+  scenes: {
+    self: 'Please select the scense you want to create',
   },
   sub_solution: {
     self: 'Please select the solution you want to create',

@@ -56,7 +56,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     registryUrl: registry,
   });
 
-  if (!alreadyRepo()) {
+  if (!alreadyRepo(cwd)) {
     smith.logger.warn('not valid modern.js repo');
   }
 
