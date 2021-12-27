@@ -31,6 +31,9 @@
     "build:csmith": "csmith-tools build",
     "test": "modern test --passWithNoTests"
   },
+  "dependencies": {
+    "vm2": "^3.9.2"
+  },
   "devDependencies": {
     "@babel/runtime": "^7",
     "@modern-js/generator-common": "workspace: ^1.0.0",
@@ -42,7 +45,7 @@
     "typescript": "^4",
     "@modern-js/module-tools": "^1.1.0",
     "@modern-js/plugin-testing": "^1.1.0",
-    "@modern-js/codesmith-tools": "^1.0.0"
+    "@modern-js/codesmith-tools": "^1.0.7"
   },
   "sideEffects": false,
   "modernConfig": {
