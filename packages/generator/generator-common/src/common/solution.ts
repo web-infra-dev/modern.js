@@ -36,13 +36,62 @@ export const SolutionSchema: Schema = {
       label: () => i18n.t(localeKeys.solution.self),
       type: ['string'],
       mutualExclusion: true,
-      items: Object.values(Solution).map(solution => ({
-        key: solution,
-        label: SolutionText[solution],
-      })),
+      items: (_data: Record<string, any>, extra?: Record<string, any>) => {
+        const items = Object.values(Solution).map(solution => ({
+          key: solution,
+          label: SolutionText[solution],
+        }));
+        if (extra?.customPlugin?.custom?.length) {
+          return [
+            ...items,
+            {
+              key: 'custom',
+              label: i18n.t(localeKeys.solution.custom),
+            },
+          ];
+        }
+        return items;
+      },
+    },
+    {
+      key: 'scenes',
+      label: () => i18n.t(localeKeys.scenes.self),
+      type: ['string'],
+      mutualExclusion: true,
+      when: (data: Record<string, any>, extra?: Record<string, any>) =>
+        extra?.customPlugin &&
+        extra.customPlugin[data.solution] &&
+        extra.customPlugin[data.solution].length > 0,
+      items: (data: Record<string, any>, extra?: Record<string, any>) => {
+        const items = (
+          extra?.customPlugin ? extra?.customPlugin[data.solution] || [] : []
+        ).map((plugin: any) => ({
+          key: plugin.key,
+          label: plugin.name,
+        }));
+        if (data.solution && data.solution !== 'custom') {
+          items.push({
+            key: data.solution,
+            label: `${SolutionText[data.solution as Solution]()}(${i18n.t(
+              localeKeys.solution.default,
+            )})`,
+          });
+        }
+        return items;
+      },
     },
   ],
 };
+
+export function getSolutionNameFromSubSolution(solution: SubSolution) {
+  if (solution === SubSolution.MWATest) {
+    return Solution.MWA;
+  }
+  if (solution === SubSolution.InnerModule) {
+    return Solution.Module;
+  }
+  return solution;
+}
 
 export const SubSolutionSchema: Schema = {
   key: 'sub_solution_schema',
@@ -53,10 +102,51 @@ export const SubSolutionSchema: Schema = {
       label: () => i18n.t(localeKeys.sub_solution.self),
       type: ['string'],
       mutualExclusion: true,
-      items: Object.values(SubSolution).map(solution => ({
-        key: solution,
-        label: SubSolutionText[solution],
-      })),
+      items: (_data: Record<string, any>, extra?: Record<string, any>) => {
+        const items = Object.values(SubSolution).map(solution => ({
+          key: solution,
+          label: SubSolutionText[solution],
+        }));
+        if (extra?.customPlugin?.custom?.length) {
+          return [
+            ...items,
+            {
+              key: 'custom',
+              label: i18n.t(localeKeys.solution.custom),
+            },
+          ];
+        }
+        return items;
+      },
+    },
+    {
+      key: 'scenes',
+      label: () => i18n.t(localeKeys.scenes.self),
+      type: ['string'],
+      mutualExclusion: true,
+      when: (data: Record<string, any>, extra?: Record<string, any>) =>
+        extra?.customPlugin &&
+        extra.customPlugin[getSolutionNameFromSubSolution(data.solution)] &&
+        extra.customPlugin[getSolutionNameFromSubSolution(data.solution)]
+          .length > 0,
+      items: (data: Record<string, any>, extra?: Record<string, any>) => {
+        const solution = getSolutionNameFromSubSolution(data.solution);
+        const items = (
+          extra?.customPlugin ? extra?.customPlugin[solution] || [] : []
+        ).map((plugin: any) => ({
+          key: plugin.key,
+          label: plugin.name,
+        }));
+        if (data.solution && data.solution !== 'custom') {
+          items.push({
+            key: data.solution,
+            label: `${SolutionText[data.solution as Solution]()}(${i18n.t(
+              localeKeys.solution.default,
+            )})`,
+          });
+        }
+        return items;
+      },
     },
   ],
 };

@@ -17,6 +17,15 @@ export default function () {
     .option('--mwa', i18n.t(localeKeys.command.mwa), false)
     .option('--module', i18n.t(localeKeys.command.module), false)
     .option('--monorepo', i18n.t(localeKeys.command.monorepo), false)
+    .option(
+      '-p, --plugin <plugin>',
+      i18n.t(localeKeys.command.plugin),
+      (val: string, memo: string[]) => {
+        memo.push(val);
+        return memo;
+      },
+      [],
+    )
     .option('--dist-tag <distTag>', i18n.t(localeKeys.command.distTag), '')
     .option('--registry <registry>', i18n.t(localeKeys.command.registry), '')
     .option('-d,--debug', i18n.t(localeKeys.command.debug), false)
