@@ -1,5 +1,27 @@
 # @modern-js/module-tools
 
+## 1.1.3
+
+### Patch Changes
+
+- ca7dcb32: support BUILD_FORMAT env and fix watch feature not work
+- Updated dependencies [90eeb72c]
+- Updated dependencies [e04914ce]
+- Updated dependencies [e12b3d0b]
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [e12b3d0b]
+- Updated dependencies [5a4c557e]
+- Updated dependencies [e04914ce]
+- Updated dependencies [0c81020f]
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [ecb344dc]
+  - @modern-js/core@1.2.0
+  - @modern-js/new-action@1.2.0
+  - @modern-js/babel-preset-module@1.1.2
+  - @modern-js/plugin-analyze@1.1.2
+  - @modern-js/babel-compiler@1.1.3
+  - @modern-js/utils@1.1.5
+
 ## 1.1.2
 
 ### Patch Changes

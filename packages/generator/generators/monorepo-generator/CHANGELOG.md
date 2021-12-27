@@ -1,5 +1,15 @@
 # @modern-js/monorepo-generator
 
+## 1.2.0
+
+### Minor Changes
+
+- e12b3d0b: feat: support generator plugin
+
+### Patch Changes
+
+- e12b3d0b: feat: upgrade codesmith version
+
 ## 1.1.3
 
 ### Patch Changes

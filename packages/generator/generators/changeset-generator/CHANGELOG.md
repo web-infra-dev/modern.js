@@ -1,5 +1,11 @@
 # @modern-js/changeset-generator
 
+## 1.1.3
+
+### Patch Changes
+
+- e12b3d0b: feat: upgrade codesmith version
+
 ## 1.1.2
 
 ### Patch Changes

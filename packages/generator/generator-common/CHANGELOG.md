@@ -1,5 +1,11 @@
 # @modern-js/generator-common
 
+## 1.2.0
+
+### Minor Changes
+
+- e12b3d0b: feat: support generator plugin
+
 ## 1.1.3
 
 ### Patch Changes

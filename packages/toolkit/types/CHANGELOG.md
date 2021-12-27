@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 1.1.4
+
+### Patch Changes
+
+- e04914ce: add route types, fix metrics types
+- e04914ce: add route types, fix metrics types
+
 ## 1.1.3
 
 ### Patch Changes

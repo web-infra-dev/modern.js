@@ -1,5 +1,22 @@
 # @modern-js/core
 
+## 1.2.0
+
+### Minor Changes
+
+- 90eeb72c: add modern config schema and types of testing, tools.jest.
+  add typesVersions for re-exporting types of @modern-js/plugin-testing.
+  fix type lost when redeclareing modules.
+- 5a4c557e: feat: support bff test
+
+### Patch Changes
+
+- e04914ce: add route types, fix metrics types
+- e04914ce: add route types, fix metrics types
+- ecb344dc: fix micro-frontend type error
+- Updated dependencies [ca7dcb32]
+  - @modern-js/utils@1.1.5
+
 ## 1.1.4
 
 ### Patch Changes

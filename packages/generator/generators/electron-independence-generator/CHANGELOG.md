@@ -1,5 +1,11 @@
 # @modern-js/electron-independence-generator
 
+## 1.1.2
+
+### Patch Changes
+
+- e12b3d0b: feat: upgrade codesmith version
+
 ## 1.1.1
 
 ### Patch Changes
