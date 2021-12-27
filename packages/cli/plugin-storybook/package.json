@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
+    "@modern-js/esbuild-compiler": "workspace:^0.1.1",
     "@modern-js/plugin-router": "workspace:^1.1.1",
     "@modern-js/plugin-state": "workspace:^1.1.2",
     "@modern-js/utils": "workspace:^1.1.4",
