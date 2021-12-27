@@ -1,5 +1,11 @@
 # @modern-js/repo-generator
 
+## 1.2.2
+
+### Patch Changes
+
+- fix: get package.json error
+
 ## 1.2.1
 
 ### Patch Changes
