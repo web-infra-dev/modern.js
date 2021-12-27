@@ -1,6 +1,10 @@
 {
   "folders": [
     {
+      "name": "plugin-testing-app",
+      "path": "examples/plugin-testing-app/"
+    },
+    {
       "name": "cli/plugin-multiprocess",
       "path": "packages/cli/plugin-multiprocess/"
     },
