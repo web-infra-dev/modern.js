@@ -1,5 +1,11 @@
 # @modern-js/dependence-generator
 
+## 1.1.4
+
+### Patch Changes
+
+- 4a5214db: fix: generator plugin error
+
 ## 1.1.3
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @modern-js/new-action
 
+## 1.2.1
+
+### Patch Changes
+
+- 4a5214db: fix: generator plugin error
+- Updated dependencies [4a5214db]
+  - @modern-js/generator-common@1.2.1
+  - @modern-js/generator-plugin@1.1.2
+
 ## 1.2.0
 
 ### Minor Changes

@@ -52,8 +52,7 @@ export class GeneratorPlugin {
     i18n.changeLanguage({ locale });
   }
 
-  async setupPlugin(plugins: string[], registry?: string) {
-    this.logger.info(i18n.t(localeKeys.setup_plugin));
+  async setupPlugin(plugins: string[], registry?: string, distTag?: string) {
     await Promise.all(
       plugins.map(async plugin => {
         let pkgJSON;
@@ -62,6 +61,8 @@ export class GeneratorPlugin {
         } else {
           pkgJSON = await packageJson(plugin.toLowerCase(), {
             registryUrl: registry,
+            fullMetadata: true,
+            version: distTag,
           });
         }
         const { meta } = pkgJSON;

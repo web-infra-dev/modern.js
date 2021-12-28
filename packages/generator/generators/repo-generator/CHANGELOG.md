@@ -1,5 +1,11 @@
 # @modern-js/repo-generator
 
+## 1.2.3
+
+### Patch Changes
+
+- 4a5214db: fix: generator plugin error
+
 ## 1.2.2
 
 ### Patch Changes
