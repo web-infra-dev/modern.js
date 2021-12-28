@@ -52,7 +52,7 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
-    "test": "modern test"
+    "test": "modern test --passWithNoTests"
   },
   "peerDependencies": {
     "react": ">=16.8",
