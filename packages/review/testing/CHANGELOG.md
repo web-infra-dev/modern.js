@@ -1,5 +1,17 @@
 # @modern-js/testing
 
+## 1.2.0
+
+### Minor Changes
+
+- 90eeb72c: export all inner types
+- 5a4c557e: feat: support bff test
+
+### Patch Changes
+
+- Updated dependencies [ca7dcb32]
+  - @modern-js/utils@1.1.5
+
 ## 1.1.1
 
 ### Patch Changes

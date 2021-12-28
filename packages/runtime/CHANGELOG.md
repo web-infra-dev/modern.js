@@ -1,5 +1,13 @@
 # @modern-js/runtime-core
 
+## 1.1.2
+
+### Patch Changes
+
+- 4406c2db: fix: avoid fetching data again when ssr succeeds
+- Updated dependencies [ca7dcb32]
+  - @modern-js/utils@1.1.5
+
 ## 1.1.1
 
 ### Patch Changes

@@ -1,6 +1,24 @@
 # @modern-js/plugin-nocode
 
+## 1.0.0
+
+### Major Changes
+
+- 6ef4447d: support with saas butter
+
+### Patch Changes
+
+- Updated dependencies [90eeb72c]
+- Updated dependencies [e04914ce]
+- Updated dependencies [5a4c557e]
+- Updated dependencies [e04914ce]
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [ecb344dc]
+  - @modern-js/core@1.2.0
+  - @modern-js/utils@1.1.5
+
 ## 0.1.1
+
 ### Patch Changes
 
 - d927bc83: init nocode plugin

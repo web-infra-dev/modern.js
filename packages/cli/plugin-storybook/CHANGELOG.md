@@ -1,5 +1,22 @@
 # @modern-js/plugin-storybook
 
+## 1.1.5
+
+### Patch Changes
+
+- ca7dcb32: support CORE_INIT_OPTION_FILE env and add resolve modules for pnpm and yarn
+- Updated dependencies [90eeb72c]
+- Updated dependencies [e04914ce]
+- Updated dependencies [4406c2db]
+- Updated dependencies [5a4c557e]
+- Updated dependencies [e04914ce]
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [ecb344dc]
+  - @modern-js/core@1.2.0
+  - @modern-js/plugin-state@1.1.3
+  - @modern-js/runtime-core@1.1.2
+  - @modern-js/utils@1.1.5
+
 ## 1.1.4
 
 ### Patch Changes

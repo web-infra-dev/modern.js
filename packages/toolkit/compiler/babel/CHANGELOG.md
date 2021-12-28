@@ -1,5 +1,13 @@
 # @modern-js/babel-compiler
 
+## 1.1.3
+
+### Patch Changes
+
+- ca7dcb32: change watch logic
+- Updated dependencies [ca7dcb32]
+  - @modern-js/utils@1.1.5
+
 ## 1.1.2
 
 ### Patch Changes

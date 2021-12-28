@@ -1,5 +1,19 @@
 # @modern-js/plugin-analyze
 
+## 1.1.2
+
+### Patch Changes
+
+- 0c81020f: fix: fix "initialize" param wrongfully ignored problem
+- Updated dependencies [90eeb72c]
+- Updated dependencies [e04914ce]
+- Updated dependencies [5a4c557e]
+- Updated dependencies [e04914ce]
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [ecb344dc]
+  - @modern-js/core@1.2.0
+  - @modern-js/utils@1.1.5
+
 ## 1.1.1
 
 ### Patch Changes
