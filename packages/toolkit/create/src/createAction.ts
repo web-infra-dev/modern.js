@@ -83,9 +83,8 @@ function getDefaultConfing(
   //     require.resolve(GENERATOR_PLUGIN),
   //     '../../../../',
   //   );
-  // } else if (distTag) {
-  //   generatorPlugin = `${GENERATOR_PLUGIN}@${distTag}`;
   // }
+
   // initialConfig.plugins = [
   //   ...((initialConfig.plugins as string[]) || []),
   //   generatorPlugin,

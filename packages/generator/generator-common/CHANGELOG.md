@@ -1,5 +1,11 @@
 # @modern-js/generator-common
 
+## 1.2.1
+
+### Patch Changes
+
+- 4a5214db: fix: generator plugin error
+
 ## 1.2.0
 
 ### Minor Changes

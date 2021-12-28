@@ -1,5 +1,11 @@
 # @modern-js/electron-generator
 
+## 1.1.6
+
+### Patch Changes
+
+- 4a5214db: fix: generator plugin error
+
 ## 1.1.5
 
 ### Patch Changes

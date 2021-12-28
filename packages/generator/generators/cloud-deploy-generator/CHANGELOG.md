@@ -1,5 +1,11 @@
 # @modern-js/cloud-deploy-generator
 
+## 1.0.11
+
+### Patch Changes
+
+- 4a5214db: fix: generator plugin error
+
 ## 1.0.10
 
 ### Patch Changes

@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.1",
+  "version": "1.2.2",
   "jsnext:source": "./src/index.ts",
   "main": "./dist/js/node/main.js",
   "files": [
@@ -33,7 +33,7 @@
     "@modern-js/codesmith-api-json": "^1.0.7",
     "@modern-js/codesmith-api-handlebars": "^1.0.0",
     "@modern-js/codesmith-tools": "^1.0.8",
-    "@modern-js/generator-common": "workspace:^1.2.0",
+    "@modern-js/generator-common": "workspace:^1.2.1",
     "@modern-js/generator-utils": "workspace:^1.1.0",
     "@modern-js/plugin-i18n": "workspace:^1.1.0",
     "@types/jest": "^26",
