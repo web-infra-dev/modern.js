@@ -1,5 +1,13 @@
 # @modern-js/babel-preset-lib
 
+## 1.1.4
+
+### Patch Changes
+
+- ca7dcb32: ensure that tspaths is the correct data structure
+- Updated dependencies [ca7dcb32]
+  - @modern-js/utils@1.1.5
+
 ## 1.1.3
 
 ### Patch Changes

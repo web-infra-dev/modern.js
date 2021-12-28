@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.0.0",
+  "version": "1.0.5",
   "jsnext:source": "./src/index.ts",
   "main": "./dist/js/node/main.js",
   "files": [
@@ -31,10 +31,13 @@
     "build:csmith": "csmith-tools build",
     "test": "modern test --passWithNoTests"
   },
+  "dependencies": {
+    "vm2": "^3.9.2"
+  },
   "devDependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/generator-common": "workspace: ^1.0.0",
-    "@modern-js/generator-plugin": "workspace: ^1.0.0",
+    "@modern-js/generator-common": "workspace:1.2.1",
+    "@modern-js/generator-plugin": "workspace:1.1.2",
     "@modern-js/plugin-i18n": "workspace: ^1.0.0",
     "@types/jest": "^26",
     "@types/lodash": "^4.14.168",
@@ -42,7 +45,7 @@
     "typescript": "^4",
     "@modern-js/module-tools": "^1.1.0",
     "@modern-js/plugin-testing": "^1.1.0",
-    "@modern-js/codesmith-tools": "^1.0.0"
+    "@modern-js/codesmith-tools": "^1.0.7"
   },
   "sideEffects": false,
   "modernConfig": {
@@ -52,7 +55,7 @@
     }
   },
   "publishConfig": {
-    "access": "public",
-    "registry": "https://bnpm.byted.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }

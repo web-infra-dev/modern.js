@@ -1,5 +1,11 @@
 # @modern-js/utils
 
+## 1.1.5
+
+### Patch Changes
+
+- ca7dcb32: change watch logic
+
 ## 1.1.4
 
 ### Patch Changes

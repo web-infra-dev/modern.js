@@ -95,6 +95,8 @@ export default function (context: IPluginContext) {
       } build:csmith`,
       'scripts.build:csmith': 'csmith-tools build',
       'devDependencies.@modern-js/generator-plugin': '^1.0.0',
+      'devDependencies.@modern-js/codesmith-tools': '^1.0.7',
+      'dependencies.vm2': '^3.9.2',
       'modernConfig.output.packageMode': 'node-js',
     });
     api.rmDir('tests');

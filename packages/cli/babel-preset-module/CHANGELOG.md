@@ -1,5 +1,15 @@
 # @modern-js/babel-preset-module
 
+## 1.1.2
+
+### Patch Changes
+
+- ca7dcb32: change check static file logic and fix node build error path
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [ca7dcb32]
+  - @modern-js/babel-preset-lib@1.1.4
+  - @modern-js/utils@1.1.5
+
 ## 1.1.1
 
 ### Patch Changes

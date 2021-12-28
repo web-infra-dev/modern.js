@@ -70,7 +70,7 @@ export const SolutionSchema: Schema = {
           label: plugin.name,
         }));
         if (data.solution && data.solution !== 'custom') {
-          items.push({
+          items.unshift({
             key: data.solution,
             label: `${SolutionText[data.solution as Solution]()}(${i18n.t(
               localeKeys.solution.default,

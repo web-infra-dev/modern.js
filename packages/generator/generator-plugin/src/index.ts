@@ -52,16 +52,17 @@ export class GeneratorPlugin {
     i18n.changeLanguage({ locale });
   }
 
-  async setupPlugin(plugins: string[], registry?: string) {
-    this.logger.info(i18n.t(localeKeys.setup_plugin));
+  async setupPlugin(plugins: string[], registry?: string, distTag?: string) {
     await Promise.all(
       plugins.map(async plugin => {
         let pkgJSON;
         if (path.isAbsolute(plugin)) {
           pkgJSON = await fs.readJSON(path.join(plugin, 'package.json'));
         } else {
-          pkgJSON = packageJson(plugin.toLowerCase(), {
+          pkgJSON = await packageJson(plugin.toLowerCase(), {
             registryUrl: registry,
+            fullMetadata: true,
+            version: distTag,
           });
         }
         const { meta } = pkgJSON;
