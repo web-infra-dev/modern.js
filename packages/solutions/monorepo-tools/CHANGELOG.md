@@ -1,5 +1,25 @@
 # @modern-js/monorepo-tools
 
+## 1.2.0
+
+### Minor Changes
+
+- e12b3d0b: feat: support generator plugin
+
+### Patch Changes
+
+- Updated dependencies [90eeb72c]
+- Updated dependencies [e04914ce]
+- Updated dependencies [e12b3d0b]
+- Updated dependencies [e12b3d0b]
+- Updated dependencies [5a4c557e]
+- Updated dependencies [e04914ce]
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [ecb344dc]
+  - @modern-js/core@1.2.0
+  - @modern-js/new-action@1.2.0
+  - @modern-js/utils@1.1.5
+
 ## 1.1.1
 
 ### Patch Changes

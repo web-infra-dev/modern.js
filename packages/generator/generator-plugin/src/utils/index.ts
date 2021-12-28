@@ -14,6 +14,7 @@ export async function installPlugins(plugins: string[], registryUrl?: string) {
         const { name, version } = getPackageInfo(plugin);
         const pluginPath = await downloadPackage(name, version, {
           registryUrl,
+          install: true,
         });
         return {
           templatePath: pluginPath,
