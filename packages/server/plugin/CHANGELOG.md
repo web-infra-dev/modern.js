@@ -1,5 +1,12 @@
 # @modern-js/server-plugin
 
+## 1.1.3
+
+### Patch Changes
+
+- e04914ce: add route types, fix metrics types
+- e04914ce: add route types, fix metrics types
+
 ## 1.1.2
 
 ### Patch Changes

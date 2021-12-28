@@ -1,5 +1,23 @@
 # @modern-js/ssg-generator
 
+## 1.1.5
+
+### Patch Changes
+
+- 4a5214db: fix: generator plugin error
+
+## 1.1.4
+
+### Patch Changes
+
+- feat: bump csmith tools version
+
+## 1.1.3
+
+### Patch Changes
+
+- e12b3d0b: feat: upgrade codesmith version
+
 ## 1.1.2
 
 ### Patch Changes
