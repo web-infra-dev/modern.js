@@ -73,7 +73,7 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
             );
           };
 
-          return Object.assign(WrapComponent, WrapperComponent);
+          return Object.assign(WrapComponent, App);
         },
       },
     );
