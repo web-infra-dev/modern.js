@@ -47,7 +47,7 @@
     "new": "modern new",
     "build": "modern build",
     "dev": "modern build --watch",
-    "test": "modern test"
+    "test": "modern test --passWithNoTests"
   },
   "dependencies": {
     "@babel/core": "^7.15.5",
