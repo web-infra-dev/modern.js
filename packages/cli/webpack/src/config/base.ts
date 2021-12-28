@@ -29,6 +29,7 @@ import {
   CSS_MODULE_REGEX,
   JS_RESOLVE_EXTENSIONS,
   CACHE_DIRECTORY,
+  DEFAULT_SPLIT_CHUNKS,
 } from '../utils/constants';
 import { createCSSRule } from '../utils/createCSSRule';
 import { mergeRegex } from '../utils/mergeRegex';
@@ -572,7 +573,7 @@ class BaseWebpackConfig {
   optimization() {
     this.chain.optimization
       .minimize(isProd() && !this.options.output?.disableMinimize)
-      .splitChunks({ chunks: 'all' })
+      .splitChunks(DEFAULT_SPLIT_CHUNKS)
       .runtimeChunk({ name: (entrypoint: any) => `runtime-${entrypoint.name}` })
       .minimizer('js')
       .use(TerserPlugin, [
