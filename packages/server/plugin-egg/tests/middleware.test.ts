@@ -6,6 +6,7 @@ import plugin from '../src/plugin';
 import { APIPlugin } from './helpers';
 import './common';
 
+jest.setTimeout(60000);
 describe('register middleware', () => {
   let runner: any;
   const pwd = path.join(__dirname, './fixtures/function-mode');

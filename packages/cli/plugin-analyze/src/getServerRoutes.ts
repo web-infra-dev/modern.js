@@ -31,7 +31,7 @@ const applyBaseUrl = (
     } else {
       return routes.map(route => ({
         ...route,
-        urlPath: urlJoin(baseUrl, route.urlPath),
+        urlPath: removeSuffixSlash(urlJoin(baseUrl, route.urlPath)),
       }));
     }
   }
@@ -193,3 +193,10 @@ export const getServerRoutes = (
 
 const toPosix = (pathStr: string) =>
   pathStr.split(path.sep).join(path.posix.sep);
+
+const removeSuffixSlash = (pathname: string) => {
+  if (pathname.endsWith('/') && pathname !== '/') {
+    return pathname.slice(0, pathname.length - 1);
+  }
+  return pathname;
+};
