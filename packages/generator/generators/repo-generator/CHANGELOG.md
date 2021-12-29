@@ -1,5 +1,11 @@
 # @modern-js/repo-generator
 
+## 1.2.4
+
+### Patch Changes
+
+- facd5bf8: fix: create sub-solution error
+
 ## 1.2.3
 
 ### Patch Changes
