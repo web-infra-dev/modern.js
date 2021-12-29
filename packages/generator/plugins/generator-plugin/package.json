@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/generator-common": "workspace:1.2.1",
+    "@modern-js/generator-common": "workspace:1.2.2",
     "@modern-js/generator-plugin": "workspace:1.1.2",
     "@modern-js/plugin-i18n": "workspace: ^1.0.0",
     "@types/jest": "^26",

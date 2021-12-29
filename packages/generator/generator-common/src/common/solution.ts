@@ -140,7 +140,7 @@ export const SubSolutionSchema: Schema = {
         if (data.solution && data.solution !== 'custom') {
           items.push({
             key: data.solution,
-            label: `${SolutionText[data.solution as Solution]()}(${i18n.t(
+            label: `${SubSolutionText[data.solution as SubSolution]()}(${i18n.t(
               localeKeys.solution.default,
             )})`,
           });
