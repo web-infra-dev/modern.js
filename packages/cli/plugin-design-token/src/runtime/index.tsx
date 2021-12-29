@@ -1,6 +1,6 @@
 // eslint-disable-next-line filenames/match-exported
-import themeTokenPlugin from './plugin';
+import designTokenPlugin from './plugin';
 
 export * from './plugin';
 
-export default themeTokenPlugin;
+export default designTokenPlugin;
