@@ -1,5 +1,5 @@
 ---
-"@modern-js/plugin-theme-token": patch
+"@modern-js/plugin-design-token": patch
 ---
 
-add theme-token plugin
+add design-token plugin
