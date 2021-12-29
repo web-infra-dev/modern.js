@@ -1,5 +1,11 @@
 # @modern-js/generator-common
 
+## 1.2.2
+
+### Patch Changes
+
+- facd5bf8: fix: create sub-solution error
+
 ## 1.2.1
 
 ### Patch Changes
