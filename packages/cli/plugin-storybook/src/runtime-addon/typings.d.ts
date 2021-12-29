@@ -1,3 +1,5 @@
+import '@modern-js/runtime/model';
+
 declare module 'global';
 declare module '@modern-js/runtime/model' {
   const effects: any;
