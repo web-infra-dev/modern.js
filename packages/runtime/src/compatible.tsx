@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 import { createContainer } from '@modern-js/plugin';
 import { Plugin, runtime, AppComponentContext } from './plugin';
 import {
@@ -40,7 +41,7 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
       );
     };
 
-    Object.assign(WrapperComponent, App);
+    hoistNonReactStatics(WrapperComponent, App);
 
     const HOCApp = runner.hoc(
       { App: WrapperComponent },
@@ -72,7 +73,7 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
             );
           };
 
-          return Object.assign(WrapComponent, App);
+          return hoistNonReactStatics(WrapComponent, App);
         },
       },
     );
