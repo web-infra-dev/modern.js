@@ -1,4 +1,8 @@
-import { Import, isTypescript } from '@modern-js/utils';
+import {
+  Import,
+  isTypescript,
+  createRuntimeExportsUtils,
+} from '@modern-js/utils';
 
 const core: typeof import('@modern-js/core') = Import.lazy(
   '@modern-js/core',
@@ -11,6 +15,22 @@ const features: typeof import('./features') = Import.lazy(
 
 export default core.createPlugin(
   () => ({
+    config() {
+      const appContext = core.useAppContext();
+
+      const pluginsExportsUtils = createRuntimeExportsUtils(
+        appContext.internalDirectory,
+        'plugins',
+      );
+
+      return {
+        source: {
+          alias: {
+            '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
+          },
+        },
+      };
+    },
     // app-tools and module-tools `dev storybook`
     commands({ program }: any) {
       const { appDirectory } = core.useAppContext();
