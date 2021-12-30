@@ -95,13 +95,13 @@ const importPath = () => ({
         srcDir,
         importStyle,
       );
-
+      const hashKey = filename + (importName || '');
       if (replaceValue) {
-        if (typeof filename === 'string' && !replaceValueHash[filename]) {
+        if (typeof filename === 'string' && !replaceValueHash[hashKey]) {
           node.source.value = replaceValue;
-          replaceValueHash[filename] = replaceValue;
-        } else if (typeof filename === 'string' && replaceValueHash[filename]) {
-          node.source.value = replaceValueHash[filename];
+          replaceValueHash[hashKey] = replaceValue;
+        } else if (typeof filename === 'string' && replaceValueHash[hashKey]) {
+          node.source.value = replaceValueHash[hashKey];
         } else {
           node.source.value = replaceValue;
         }
@@ -131,15 +131,16 @@ const importPath = () => ({
             srcDir,
             importStyle,
           );
+          const hashKey = filename + (importName || '');
           if (replaceValue) {
-            if (typeof filename === 'string' && !replaceValueHash[filename]) {
+            if (typeof filename === 'string' && !replaceValueHash[hashKey]) {
               node.arguments = [t.stringLiteral(replaceValue)];
-              replaceValueHash[filename] = replaceValue;
+              replaceValueHash[hashKey] = replaceValue;
             } else if (
               typeof filename === 'string' &&
-              replaceValueHash[filename]
+              replaceValueHash[hashKey]
             ) {
-              node.arguments = [t.stringLiteral(replaceValueHash[filename])];
+              node.arguments = [t.stringLiteral(replaceValueHash[hashKey])];
             } else {
               node.arguments = [t.stringLiteral(replaceValue)];
             }
