@@ -1,5 +1,11 @@
 # @modern-js/plugin-nocode
 
+## 1.0.1
+
+### Patch Changes
+
+- 1df72018: update butter register
+
 ## 1.0.0
 
 ### Major Changes

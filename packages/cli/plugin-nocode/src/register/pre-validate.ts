@@ -143,7 +143,7 @@ const run = (block, logger) => {
 };
 
 const preValidate = (appDirectory, name, version, meta, logger) => {
-  const isGroup = Boolean(meta.contains);
+  const isGroup = Boolean(meta?.contains);
   const umd = path.join(appDirectory, 'dist/umd/index.js');
   const hasUmd = fs.existsSync(umd);
   if (hasUmd) {

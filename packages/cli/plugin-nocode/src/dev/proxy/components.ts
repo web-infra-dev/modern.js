@@ -41,7 +41,7 @@ export const comps = (
   name: string,
   version: string,
 ) => {
-  const isCompGroup = Boolean(meta.contains);
+  const isCompGroup = Boolean(meta?.contains);
   return isCompGroup
     ? Object.keys(meta.contains).map(key =>
         compGroupComp(meta.contains[key], key, name, version),

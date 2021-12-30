@@ -16,8 +16,8 @@ const SERVICE_ID = isStaging ? STG_SERVICE_ID : PROD_SERVICE_ID;
 // }
 const BUTTER_HOST = `https://butter.bytedance.com`;
 
-const BUTTER_REGISTER_ENDPOINT = `${BUTTER_HOST}/open-api/v2/register`;
-const BUTTER_UNREGISTER_ENDPOINT = `${BUTTER_HOST}/open-api/v2/unregister`;
+const BUTTER_REGISTER_ENDPOINT = `${BUTTER_HOST}/api/v2/register`;
+const BUTTER_UNREGISTER_ENDPOINT = `${BUTTER_HOST}/api/v2/unregister`;
 
 const LARKCLOUD_PATH = `https://cloudapi.bytedance.net/faas/services/${SERVICE_ID}`;
 
