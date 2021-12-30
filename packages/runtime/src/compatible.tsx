@@ -60,9 +60,8 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
               runner.init(
                 { context: contextValue },
                 {
-                  onLast: async ({ context: context1 }) => {
-                    await (App as any)?.init?.(context1);
-                  },
+                  onLast: ({ context: context1 }) =>
+                    (App as any)?.init?.(context1),
                 },
               );
             }
@@ -109,9 +108,7 @@ export const bootstrap: BootStrap = async (
     runner.init(
       { context: _context },
       {
-        onLast: async ({ context: context1 }) => {
-          await (App as any)?.init?.(context1);
-        },
+        onLast: ({ context: context1 }) => (App as any)?.init?.(context1),
       },
     );
 
