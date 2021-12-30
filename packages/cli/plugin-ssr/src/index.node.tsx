@@ -3,7 +3,7 @@ import path from 'path';
 import { createPlugin, registerPrefetch } from '@modern-js/runtime-core';
 import prefetch from './prefetch';
 
-export { useHeaders } from './hook';
+export { run, useHeaders } from './hook';
 
 const registeredApps = new WeakSet();
 

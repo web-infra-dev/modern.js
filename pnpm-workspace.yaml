@@ -1,4 +1,5 @@
 packages:
+ - 'examples/*'
  - 'packages/*'
  - 'packages/cli/*'
  - 'packages/generator/*'

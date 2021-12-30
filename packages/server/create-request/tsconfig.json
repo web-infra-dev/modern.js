@@ -6,5 +6,5 @@
     "baseUrl": "./",
     "isolatedModules": true
   },
-  "include": ["src", "hook.d.ts"]
+  "include": ["src"]
 }
