@@ -15,7 +15,7 @@ import {
   // createDependencyCache,
   uploadUmdToTos,
 } from './butter-cache';
-import preValidate from './pre-validate';
+// import preValidate from './pre-validate';
 
 const logger = loggerModule.scope('REGISTER');
 
@@ -142,21 +142,22 @@ export const register = async (
 ) => {
   logger.start();
 
-  const {
-    source: { enableBlockPreValidate },
-  } = modernConfig;
+  // const {
+  //   source: { enableBlockPreValidate },
+  // } = modernConfig;
   const { name, version, workspaces, meta } = require(path.resolve(
     appDirectory,
     './package.json',
   ));
 
-  const needPreValidate =
-    // jupiter.config 目前没有办法给注册的配置设置默认值，需要自己判断, @songzhenwei
-    enableBlockPreValidate === undefined || enableBlockPreValidate;
+  // 暂时先取消可靠性检测
+  // const needPreValidate =
+  //   // jupiter.config 目前没有办法给注册的配置设置默认值，需要自己判断, @songzhenwei
+  //   enableBlockPreValidate === undefined || enableBlockPreValidate;
 
-  if (needPreValidate) {
-    preValidate(appDirectory, name, version, meta, logger);
-  }
+  // if (needPreValidate) {
+  //   preValidate(appDirectory, name, version, meta, logger);
+  // }
 
   if (mode === 'register') {
     addOfficialOwner(appDirectory);
