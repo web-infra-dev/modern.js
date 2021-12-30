@@ -139,7 +139,7 @@ export const bootstrap: BootStrap = async (
       }),
     });
 
-    runInit(context);
+    await runInit(context);
 
     return runner.client(
       {
@@ -169,7 +169,7 @@ export const bootstrap: BootStrap = async (
     ),
   });
 
-  runInit(context);
+  await runInit(context);
 
   return runner.server({
     App,
