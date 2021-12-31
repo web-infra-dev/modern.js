@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 import { createContainer } from '@modern-js/plugin';
 import { Plugin, runtime, AppComponentContext } from './plugin';
 import {
@@ -40,7 +41,7 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
       );
     };
 
-    Object.assign(WrapperComponent, App);
+    hoistNonReactStatics(WrapperComponent, App);
 
     const HOCApp = runner.hoc(
       { App: WrapperComponent },
@@ -60,9 +61,8 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
               runner.init(
                 { context: contextValue },
                 {
-                  onLast: ({ context: context1 }) => {
-                    (App as any)?.init?.(context1);
-                  },
+                  onLast: ({ context: context1 }) =>
+                    (App as any)?.init?.(context1),
                 },
               );
             }
@@ -73,7 +73,7 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
             );
           };
 
-          return Object.assign(WrapComponent, WrapperComponent);
+          return hoistNonReactStatics(WrapComponent, App);
         },
       },
     );
@@ -109,9 +109,7 @@ export const bootstrap: BootStrap = async (
     runner.init(
       { context: _context },
       {
-        onLast: ({ context: context1 }) => {
-          (App as any)?.init?.(context1);
-        },
+        onLast: ({ context: context1 }) => (App as any)?.init?.(context1),
       },
     );
 
@@ -142,7 +140,7 @@ export const bootstrap: BootStrap = async (
       }),
     });
 
-    runInit(context);
+    await runInit(context);
 
     return runner.client(
       {
@@ -172,7 +170,7 @@ export const bootstrap: BootStrap = async (
     ),
   });
 
-  runInit(context);
+  await runInit(context);
 
   return runner.server({
     App,

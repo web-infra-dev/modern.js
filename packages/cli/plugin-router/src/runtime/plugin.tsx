@@ -8,6 +8,7 @@ import {
 } from 'history';
 import { Router, StaticRouter, RouteProps } from 'react-router-dom';
 import { createPlugin, RuntimeReactContext } from '@modern-js/runtime-core';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 import { resolveBasename, renderRoutes, getLocation } from './utils';
 
 export type SingleRouteConfig = RouteProps & {
@@ -98,7 +99,7 @@ export const routerPlugin: any = ({
           };
         };
 
-        return next({ App: getRouteApp() });
+        return next({ App: hoistNonReactStatics(getRouteApp(), App) });
       },
     }),
     { name: `@modern-js/plugin-router` },
