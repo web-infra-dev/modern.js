@@ -11,7 +11,9 @@ const prefetch = async (
     renderToStaticMarkup(<App context={context} />);
 
     if (!context.loaderManager.hasPendingLoaders()) {
-      return {};
+      return {
+        i18nData: context.__i18nData__,
+      };
     }
 
     const loadersData = await context.loaderManager.awaitPendingLoaders();
