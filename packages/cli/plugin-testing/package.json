@@ -18,9 +18,13 @@
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
-    "./type": "./type.d.ts",
+    "./type": {
+      "jsnext:source": "./type.d.ts",
+      "default": "./type.d.ts"
+    },
     ".": {
       "node": {
+        "jsnext:source": "./src/runtime-testing/index.ts",
         "import": "./dist/js/modern/runtime-testing/index.js",
         "require": "./dist/js/node/runtime-testing/index.js",
         "types": "./types/index.d.ts"
@@ -28,19 +32,23 @@
       "default": "./dist/js/treeshaking/runtime-testing/index.js"
     },
     "./runtime": {
+      "jsnext:source": "./src/runtime-testing/index.ts",
       "node": {
         "import": "./dist/js/modern/runtime-testing/index.js",
         "require": "./dist/js/node/runtime-testing/index.js",
         "types": "./types/index.d.ts"
       },
-      "default": "./dist/js/treeshaking/runtime/index.js"
+      "default": "./dist/js/treeshaking/runtime-testing/index.js"
     },
-    "./cli": "./dist/js/node/cli/index.js"
+    "./cli": {
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/js/node/cli/index.js"
+    }
   },
   "typesVersions": {
     "*": {
       ".": [
-        "./dist/types/runtime/index.d.ts"
+        "./dist/types/runtime-testing/index.d.ts"
       ],
       "cli": [
         "./dist/types/cli/index.d.ts"

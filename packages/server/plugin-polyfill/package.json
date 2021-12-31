@@ -20,12 +20,14 @@
   "exports": {
     ".": {
       "node": {
+        "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
     },
     "./cli": {
+      "jsnext:source": "./src/cli.ts",
       "node": {
         "import": "./dist/js/node/cli.js",
         "require": "./dist/js/node/cli.js"

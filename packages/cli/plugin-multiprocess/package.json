@@ -19,7 +19,10 @@
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": "./dist/js/node/index.js",
-    "./cli": "./dist/js/node/index.js"
+    "./cli": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/js/node/index.js"
+    }
   },
   "scripts": {
     "prepare": "modern build",

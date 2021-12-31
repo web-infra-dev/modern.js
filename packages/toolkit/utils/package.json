@@ -20,13 +20,20 @@
   "exports": {
     ".": {
       "node": {
+        "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
     },
-    "./formatWebpackMessages": "./dist/js/treeshaking/formatWebpackMessages.js",
-    "./constants": "./dist/js/treeshaking/constants.js"
+    "./formatWebpackMessages": {
+      "jsnext:source": "./src/formatWebpackMessages.ts",
+      "default": "./dist/js/treeshaking/formatWebpackMessages.js"
+    },
+    "./constants": {
+      "jsnext:source": "./src/constants.ts",
+      "default": "./dist/js/treeshaking/constants.js"
+    }
   },
   "typesVersions": {
     "*": {

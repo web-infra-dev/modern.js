@@ -17,13 +17,20 @@
   "exports": {
     ".": {
       "node": {
+        "jsnext:source": "./src/server.ts",
         "import": "./dist/js/modern/server.js",
         "require": "./dist/js/node/server.js"
       },
       "default": "./dist/js/treeshaking/server.js"
     },
-    "./cli": "./dist/js/node/cli.js",
-    "./server": "./dist/js/node/server.js"
+    "./cli": {
+      "jsnext:source": "./src/cli.ts",
+      "default": "./dist/js/node/cli.js"
+    },
+    "./server": {
+      "jsnext:source": "./src/server.ts",
+      "default": "./dist/js/node/server.js"
+    }
   },
   "scripts": {
     "prepare": "modern build",

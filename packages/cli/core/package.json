@@ -20,12 +20,16 @@
   "exports": {
     ".": {
       "node": {
+        "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
     },
-    "./bin": "./bin/modern-js.js"
+    "./bin": {
+      "jsnext:source": "./src/cli.ts",
+      "default": "./bin/modern-js.js"
+    }
   },
   "typesVersions": {
     "*": {
@@ -64,6 +68,7 @@
     "v8-compile-cache": "^2.3.0"
   },
   "devDependencies": {
+    "btsm": "2.2.2",
     "@types/babel__code-frame": "^7.0.3",
     "@modern-js/types": "workspace:^1.1.4",
     "@types/jest": "^26",
