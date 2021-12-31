@@ -37,6 +37,7 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/utils": "workspace:^1.1.2",
+    "hoist-non-react-statics": "^3.3.2",
     "garfish": "^0.1.8"
   },
   "devDependencies": {
@@ -51,7 +52,8 @@
     "@modern-js/plugin-router": "workspace:^1.1.1",
     "@modern-js/runtime-core": "workspace:^1.1.1",
     "@modern-js/plugin-testing": "^1.1.1",
-    "@modern-js/module-tools": "^1.1.1"
+    "@modern-js/module-tools": "^1.1.1",
+    "@types/hoist-non-react-statics": "^3.3.1"
   },
   "peerDependencies": {
     "@modern-js/core": "workspace:^1.1.2",

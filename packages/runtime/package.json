@@ -55,6 +55,7 @@
     "@modern-js/plugin": "workspace:^1.1.2",
     "@modern-js/utils": "workspace:^1.1.5",
     "@types/styled-components": "^5.1.14",
+    "hoist-non-react-statics": "^3.3.2",
     "invariant": "^2.2.4",
     "styled-components": "^5.3.1"
   },
@@ -66,6 +67,7 @@
     "@testing-library/react": "^12.0.0",
     "@testing-library/react-hooks": "^7.0.1",
     "@loadable/component": "^5.15.0",
+    "@types/hoist-non-react-statics": "^3.3.1",
     "@types/loadable__component": "^5.13.4",
     "@types/invariant": "^2.2.30",
     "@types/jest": "^26",
