@@ -67,7 +67,7 @@ const server = createAsyncPipeline<
   string
 >();
 
-const init = createPipeline<
+const init = createAsyncPipeline<
   {
     context: RuntimeContext;
   },
