@@ -34,7 +34,7 @@
     "@types/supertest": "^2.0.11",
     "typescript": "^4",
     "@modern-js/plugin-testing": "^1.1.1",
-    "@modern-js/module-tools": "^1.1.1"
+    "@modern-js/module-tools": "^1.1.5"
   },
   "modernConfig": {
     "output": {

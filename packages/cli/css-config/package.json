@@ -55,7 +55,7 @@
     "@types/react-dom": "^17",
     "sass": "^1.45.0",
     "typescript": "^4",
-    "@modern-js/module-tools": "^1.1.2"
+    "@modern-js/module-tools": "^1.1.5"
   },
   "sideEffects": false,
   "modernConfig": {

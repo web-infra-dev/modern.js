@@ -52,7 +52,7 @@
     "typescript": "^4",
     "@modern-js/core": "workspace:^1.1.2",
     "@modern-js/plugin-testing": "^1.1.1",
-    "@modern-js/module-tools": "^1.1.1"
+    "@modern-js/module-tools": "^1.1.5"
   },
   "peerDependencies": {
     "@modern-js/core": "workspace:^1.1.2"

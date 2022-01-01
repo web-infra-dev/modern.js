@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:^1.1.4",
-    "@modern-js/module-tools": "^1.1.2",
+    "@modern-js/module-tools": "^1.1.5",
     "@modern-js/plugin-jarvis": "workspace:^1.0.0",
     "@modern-js/plugin-testing": "^1.0.0",
     "del-cli": "^4.0.1",

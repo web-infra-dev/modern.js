@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/module-tools": "^1.1.1",
+    "@modern-js/module-tools": "^1.1.5",
     "@modern-js/plugin-jarvis": "workspace:^1.1.1",
     "@modern-js/plugin-testing": "^1.1.1",
     "del-cli": "^4.0.1",

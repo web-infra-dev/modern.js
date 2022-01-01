@@ -41,7 +41,7 @@
     "esbuild": "^0.13.8"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "^1.1.1",
+    "@modern-js/module-tools": "^1.1.5",
     "@modern-js/plugin-testing": "^1.1.1",
     "@types/jest": "^26",
     "@types/node": "^14",

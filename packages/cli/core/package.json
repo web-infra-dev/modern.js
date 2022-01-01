@@ -80,7 +80,7 @@
     "@types/signale": "^1.4.2",
     "typescript": "^4",
     "@modern-js/plugin-testing": "^1.2.0",
-    "@modern-js/module-tools": "^1.1.3"
+    "@modern-js/module-tools": "^1.1.5"
   },
   "sideEffects": false,
   "modernConfig": {
