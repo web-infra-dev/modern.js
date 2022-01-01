@@ -7,7 +7,7 @@ import {
   createContainer,
   isWaterfall,
   isAsyncWaterfall,
-} from '@/index';
+} from '../src/index';
 
 describe('waterfall', () => {
   it('base usage', () => {

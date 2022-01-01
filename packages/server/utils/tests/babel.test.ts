@@ -1,6 +1,6 @@
 import path from 'path';
 import { defaults } from './helpers';
-import { resolveBabelConfig } from '@/index';
+import { resolveBabelConfig } from '../src/index';
 
 describe('babel', () => {
   it('resolveBabelConfig', () => {

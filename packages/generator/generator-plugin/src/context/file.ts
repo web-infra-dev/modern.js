@@ -9,7 +9,7 @@ import {
   addFile,
   addManyFiles,
   fileExists,
-} from '@/utils/file';
+} from '../utils/file';
 
 export enum FileType {
   Text = 'text',

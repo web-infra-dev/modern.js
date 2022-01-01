@@ -10,7 +10,7 @@ import {
   usePipeline,
   useContainer,
   isPipeline,
-} from '@/index';
+} from '../src/index';
 
 describe('createPipeline', () => {
   it('basic usage', async () => {

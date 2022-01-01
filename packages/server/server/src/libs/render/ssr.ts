@@ -5,7 +5,7 @@ import { ModernServerContext } from '../context';
 import { RenderResult } from '../../type';
 import cache from './cache';
 import { SSRServerContext } from './type';
-import { ServerHookRunner } from '@/type';
+import { ServerHookRunner } from '../../type';
 
 export const render = async (
   ctx: ModernServerContext,

@@ -6,7 +6,7 @@ import {
   isWorkflow,
   isAsyncWorkflow,
   isParallelWorkflow,
-} from '@/workflow';
+} from '../src/workflow';
 
 describe('workflow', () => {
   describe('sync', () => {

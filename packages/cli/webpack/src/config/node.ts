@@ -11,7 +11,7 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { mergeRegex } from '../utils/mergeRegex';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
 import { BaseWebpackConfig } from './base';
-import { JS_RESOLVE_EXTENSIONS } from '@/utils/constants';
+import { JS_RESOLVE_EXTENSIONS } from '../utils/constants';
 
 class NodeWebpackConfig extends BaseWebpackConfig {
   get externalsAllowlist() {

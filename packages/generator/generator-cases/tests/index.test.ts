@@ -5,7 +5,7 @@ import {
   getMWANewCases,
   getModuleNewCases,
   getMonorepoNewCases,
-} from '@/index';
+} from '../src/index';
 
 describe('test generator cases', () => {
   test('test getMWACases', async () => {

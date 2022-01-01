@@ -1,4 +1,4 @@
-import { i18n, localeKeys } from '@/locale';
+import { i18n, localeKeys } from '../../locale';
 
 export enum ActionType {
   Function = 'function',

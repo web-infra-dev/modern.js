@@ -1,8 +1,13 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import glob from 'glob';
 
-const kProjectDir = path.resolve(__dirname, '../');
+const kProjectDir = path.resolve(__dirname, '../../');
+const kRoot =
+  os.platform() === 'win32' ? process.cwd().split(path.sep)[0] : '/';
 
 function resolveSourceFile(str: string): string {
   if (!str.startsWith('./dist/js/')) {
@@ -105,13 +110,79 @@ function processFile(file: string): void {
   fs.writeFileSync(p, `${JSON.stringify(c, null, 2)}\n`);
 }
 
+function getPackageRoot(f: string): string {
+  let packageRoot = path.dirname(f);
+  while (packageRoot !== kRoot) {
+    if (
+      fs.existsSync(`${packageRoot}/package.json`) &&
+      fs.existsSync(`${packageRoot}/tsconfig.json`)
+    ) {
+      return packageRoot;
+    }
+    packageRoot = path.dirname(packageRoot);
+  }
+  return '';
+}
+
+function restoreTsAlias(f: string): void {
+  console.log(f);
+  if (f.endsWith('.d.ts')) {
+    return;
+  }
+
+  const p = `${kProjectDir}/${f}`;
+  const d = fs.readFileSync(p, 'utf8');
+
+  const modules = new Set<string>();
+  const content = d;
+  const pattern1 = /^import\s+([^\\0]*?)\s+from\s+(['"])([^'"]+)(['"])/gm;
+  const pattern2 = /^import\s+['"]([^'"]+)['"]/g;
+  let match: any;
+  // eslint-disable-next-line no-cond-assign
+  while ((match = pattern1.exec(content))) {
+    modules.add(match[3]);
+  }
+  // eslint-disable-next-line no-cond-assign
+  while ((match = pattern2.exec(content))) {
+    modules.add(match[1]);
+  }
+
+  const z = [...modules.values()].filter(v => v.startsWith('@/'));
+  if (z.length) {
+    const packageRoot = getPackageRoot(p);
+    // console.log(p);
+    let code = d;
+    z.forEach(moduleId => {
+      // replace ts alias moduleId to file relative path
+      const modulePath = path.resolve(
+        packageRoot,
+        moduleId.replace(/^@\//, 'src/'),
+      );
+      const relativePath = path.relative(path.dirname(p), modulePath);
+      // console.log(`${moduleId} -> ${modulePath} -> ${relativePath}`);
+      code = code.replace(moduleId, relativePath);
+    });
+    fs.writeFileSync(p, code);
+  }
+}
+
 function main() {
-  const files = glob.sync('**/package.json', {
+  // const files = glob.sync('**/package.json', {
+  //   cwd: kProjectDir,
+  //   nodir: true,
+  //   ignore: ['**/node_modules/**', '**/dist/**'],
+  // });
+  // files.forEach(processFile);
+
+  const tsfiles = glob.sync('**/*.ts', {
     cwd: kProjectDir,
     nodir: true,
     ignore: ['**/node_modules/**', '**/dist/**'],
   });
-  files.forEach(processFile);
+  tsfiles.forEach(restoreTsAlias);
 }
 
 main();
+
+/* eslint-enable @typescript-eslint/no-unused-vars */
+/* eslint-enable no-console */

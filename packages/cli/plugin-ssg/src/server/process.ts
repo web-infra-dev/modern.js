@@ -6,7 +6,7 @@ import { compatRequire } from '@modern-js/utils';
 import { makeRender } from '../libs/make';
 import { compile as createRender } from './prerender';
 import { CLOSE_SIGN } from './consts';
-import { SsgRoute } from '@/types';
+import { SsgRoute } from '../types';
 
 type Then<T> = T extends PromiseLike<infer U> ? U : T;
 

@@ -3,7 +3,7 @@ import { RenderFunction, SSRServerContext } from '../type';
 import { createCache } from './spr';
 import { namespaceHash, withCoalescedInvoke } from './util';
 import { CacheContext } from './type';
-import { ERROR_DIGEST } from '@/constants';
+import { ERROR_DIGEST } from '../../../constants';
 
 export default (renderFn: RenderFunction, ctx: ModernServerContext) => {
   const sprCache = createCache();

@@ -1,10 +1,10 @@
 import fs from 'fs';
 import assert from 'assert';
 import path from 'path';
-import { generateClient, getMethodAndStatementFromName } from '@/index';
-import { checkSource } from '@/client/check-source';
-import { getRouteName } from '@/client/get-route-name';
-import { HttpMethod } from '@/constant';
+import { generateClient, getMethodAndStatementFromName } from '../src/index';
+import { checkSource } from '../src/client/check-source';
+import { getRouteName } from '../src/client/get-route-name';
+import { HttpMethod } from '../src/constant';
 
 const PWD = path.resolve(__dirname, './fixtures/function');
 

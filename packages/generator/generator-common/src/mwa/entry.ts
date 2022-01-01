@@ -5,8 +5,8 @@ import {
   NeedModifyMWAConfigSchema,
   ClientRoute,
 } from './common';
-import { i18n, localeKeys } from '@/locale';
-import { BooleanConfig } from '@/common';
+import { i18n, localeKeys } from '../locale';
+import { BooleanConfig } from '../common';
 
 const EntryNameSchema: Schema = {
   key: 'name',

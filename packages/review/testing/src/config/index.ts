@@ -1,6 +1,6 @@
 import { applyPatches } from './patches';
 import { TestConfigOperator } from './testConfigOperator';
-import { TestConfig } from '@/types';
+import { TestConfig } from '../types';
 
 /**
  * Parse jest config

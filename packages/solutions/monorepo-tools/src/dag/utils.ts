@@ -1,6 +1,6 @@
 import { EdgeManager } from './edge-manager';
-import { IProjectNode } from '@/projects/get-projects';
-import { errorLog } from '@/log/error';
+import { IProjectNode } from '../projects/get-projects';
+import { errorLog } from '../log/error';
 
 /**
  * Calculate the number of packages which must be built before we reach

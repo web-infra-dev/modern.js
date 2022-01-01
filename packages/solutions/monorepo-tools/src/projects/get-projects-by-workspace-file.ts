@@ -8,7 +8,7 @@ import {
   getProjetsByPackageConfig,
   syncGetProjetsByPackageConfig,
 } from './get-projects-by-packages-config';
-import { WORKSPACE_FILE } from '@/constants';
+import { WORKSPACE_FILE } from '../constants';
 
 export const getProjectsByWorkspaceFile = async (
   rootPath: string,

@@ -11,13 +11,13 @@ import foo from './fixtures/sync/base/foo';
 import bar, { getBar } from './fixtures/sync/base/bar';
 import dFoo from './fixtures/sync/dynamic/foo';
 import dBar, { getNumber, setNumber } from './fixtures/sync/dynamic/bar';
-import { createManager, createAsyncManager, useRunner } from '@/manager';
-import { createWaterfall, createAsyncWaterfall } from '@/waterfall';
+import { createManager, createAsyncManager, useRunner } from '../src/manager';
+import { createWaterfall, createAsyncWaterfall } from '../src/waterfall';
 import {
   createWorkflow,
   createAsyncWorkflow,
   createParallelWorkflow,
-} from '@/workflow';
+} from '../src/workflow';
 
 describe('sync manager', () => {
   it('base useage', () => {

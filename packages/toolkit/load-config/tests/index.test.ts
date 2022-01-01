@@ -1,5 +1,5 @@
 import path from 'path';
-import { loadConfig, getDependencies } from '@/index';
+import { loadConfig, getDependencies } from '../src/index';
 
 describe('load user config file', () => {
   jest.disableAutomock();

@@ -8,7 +8,7 @@ import {
 } from 'react';
 import invariant from 'invariant';
 import { Loader, LoaderStatus, LoaderResult } from './loaderManager';
-import { RuntimeReactContext } from '@/runtime-context';
+import { RuntimeReactContext } from '../runtime-context';
 
 export interface SSRData {
   loadersData: Record<string, LoaderResult | undefined>;

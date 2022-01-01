@@ -17,7 +17,7 @@ import {
   PackageManagerSchema,
   PackageNameSchema,
   PackagePathSchema,
-} from '@/common';
+} from '../common';
 
 export const MWASchemas = [
   PackageNameSchema,

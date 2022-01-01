@@ -12,7 +12,7 @@ import { PluginGitAPI } from './git';
 import { IInput, IOption, PluginInputContext } from './input';
 import { PluginNpmAPI } from './npm';
 import { PluginNewAPI } from './new';
-import { AddFileParams, AddManyFilesParams } from '@/utils/file';
+import { AddFileParams, AddManyFilesParams } from '../utils/file';
 
 export * from './input';
 export * from './file';

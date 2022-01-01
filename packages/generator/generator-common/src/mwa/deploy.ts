@@ -1,6 +1,6 @@
 import { Schema } from '@modern-js/easy-form-core';
-import { i18n, localeKeys } from '@/locale';
-import { BooleanConfig, BooleanSchemas } from '@/common';
+import { i18n, localeKeys } from '../locale';
+import { BooleanConfig, BooleanSchemas } from '../common';
 
 export enum CDNType {
   OSS = 'oss',

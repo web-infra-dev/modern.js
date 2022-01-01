@@ -1,5 +1,5 @@
 import path from 'path';
-import { gather } from '@/index';
+import { gather } from '../src/index';
 
 describe('@modern-js/server-utils', () => {
   it('should work well', () => {

@@ -1,9 +1,9 @@
 import { APIServerStartInput } from '@modern-js/server-plugin';
 import { ModernServer } from './modern-server';
-import { mergeExtension } from '@/utils';
-import { ModernRoute, ModernRouteInterface, RouteMatcher } from '@/libs/route';
-import { ApiServerMode } from '@/constants';
-import { ModernServerContext } from '@/libs/context';
+import { mergeExtension } from '../utils';
+import { ModernRoute, ModernRouteInterface, RouteMatcher } from '../libs/route';
+import { ApiServerMode } from '../constants';
+import { ModernServerContext } from '../libs/context';
 
 export class ModernSSRServer extends ModernServer {
   // Todo should not invoke any route hook in modernSSRServer

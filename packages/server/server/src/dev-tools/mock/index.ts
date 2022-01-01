@@ -4,7 +4,7 @@ import { match } from 'path-to-regexp';
 import { NextFunction } from '../../type';
 import { ModernServerContext } from '../../libs/context';
 import getMockData, { MockApi } from './getMockData';
-import { AGGRED_DIR } from '@/constants';
+import { AGGRED_DIR } from '../../constants';
 
 const getMatched = (context: ModernServerContext, mockApiList: MockApi[]) => {
   const { path: targetPathname, method: targetMethod } = context;

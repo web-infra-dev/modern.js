@@ -8,8 +8,8 @@ import { handleDirectory } from './static';
 import { readFile } from './reader';
 import * as ssr from './ssr';
 import { supportModern, getModernEntry } from './modern';
-import { ERROR_DIGEST } from '@/constants';
-import { ServerHookRunner } from '@/type';
+import { ERROR_DIGEST } from '../../constants';
+import { ServerHookRunner } from '../../type';
 
 export const createRenderHandler = ({
   distDir,

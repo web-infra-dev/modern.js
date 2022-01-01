@@ -1,4 +1,4 @@
-import { I18n } from '@/index';
+import { I18n } from '../src/index';
 
 describe('i18n test', () => {
   test('Init Default language', () => {

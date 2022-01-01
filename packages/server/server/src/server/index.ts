@@ -17,8 +17,8 @@ import {
   ModernSSRServer,
   ModernWebServer,
 } from './modern-server-split';
-import { ModernServerOptions, ServerHookRunner, ReadyOptions } from '@/type';
-import { metrics as defaultMetrics } from '@/libs/metrics';
+import { ModernServerOptions, ServerHookRunner, ReadyOptions } from '../type';
+import { metrics as defaultMetrics } from '../libs/metrics';
 
 export class Server {
   public options: ModernServerOptions;

@@ -1,4 +1,4 @@
-import { I18CLILanguageDetector } from '@/index';
+import { I18CLILanguageDetector } from '../src/index';
 
 describe('Test I18CLILanguageDetector', () => {
   test('should return language', () => {

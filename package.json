@@ -17,6 +17,7 @@
     "setup": "npm run reset && pnpm install --ignore-scripts",
     "reset": "pnpm dlx del-cli ./node_modules",
     "test": "pnpm run test --filter ./packages",
+    "fast-test": "node --conditions=jsnext:source -r btsm node_modules/jest/bin/jest.js -c jest.config.js",
     "prepare": "pnpm run prepare --filter ./packages",
     "lint": "modern lint",
     "change": "modern change",
@@ -66,6 +67,12 @@
     "coverage/"
   ],
   "devDependencies": {
+    "btsm": "2.2.2",
+    "jest": "^27",
+    "esbuild": "^0.13.8",
+    "esbuild-jest": "0.5.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.16.7",
+    "babel-plugin-module-resolver": "^4.1.0",
     "@commitlint/cli": "^13.2.0",
     "@commitlint/config-conventional": "^13.2.0",
     "@modern-js-app/eslint-config": "workspace:^1.0.0",

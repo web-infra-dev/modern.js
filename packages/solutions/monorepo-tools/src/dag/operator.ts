@@ -3,7 +3,7 @@ import { IProjectNode } from '../projects/get-projects';
 import { TaskRunner, TaskFunType } from './task';
 import { EdgeManager } from './edge-manager';
 import { recursiveGetDependency, sortProjects } from './utils';
-import { errorLog } from '@/log/error';
+import { errorLog } from '../log/error';
 
 export type Task = (
   currentProject: IProjectNode,

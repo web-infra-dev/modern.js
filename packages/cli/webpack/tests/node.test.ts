@@ -1,6 +1,6 @@
 import path from 'path';
 import { userConfig } from './util';
-import { NodeWebpackConfig } from '@/config/node';
+import { NodeWebpackConfig } from '../src/config/node';
 
 describe('node webpack config', () => {
   const fixtures = path.resolve(__dirname, './fixtures');

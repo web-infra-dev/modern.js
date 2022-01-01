@@ -1,5 +1,5 @@
 import debug from 'debug';
-import { createDebugger } from '@/debug';
+import { createDebugger } from '../src/debug';
 
 describe('debug utility', () => {
   test('should return file path', () => {

@@ -1,4 +1,4 @@
-import { createBistate, freeze, isSubArray } from '@/index';
+import { createBistate, freeze, isSubArray } from '../src/index';
 
 describe('createBistate', () => {
   describe('isSubArray', () => {
