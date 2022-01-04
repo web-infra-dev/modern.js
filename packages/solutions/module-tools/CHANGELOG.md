@@ -1,5 +1,11 @@
 # @modern-js/module-tools
 
+## 1.1.4
+
+### Patch Changes
+
+- 10676d31: fix build watch error
+
 ## 1.1.3
 
 ### Patch Changes
