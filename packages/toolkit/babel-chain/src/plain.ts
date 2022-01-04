@@ -26,7 +26,7 @@ export type BabelPlainChain = {
 export const createBabelPlainChain = (): BabelPlainChain => {
   let config: BabelPlainConfig = {};
 
-  const plain = {
+  const plain: any = {
     // delete operater
     delete: (key: keyof BabelPlainConfig) => {
       delete config[key];
