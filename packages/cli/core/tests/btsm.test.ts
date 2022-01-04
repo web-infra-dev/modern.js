@@ -11,7 +11,7 @@ describe('jsnext:source', () => {
       {
         cwd: kPackageDir,
         encoding: 'utf-8',
-      }
+      },
     );
     expect(stdout).toBe('');
     expect(stderr.startsWith('Usage: modern <command> [options]')).toBe(true);
