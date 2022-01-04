@@ -356,7 +356,11 @@ export class ModernServer {
   }
 
   protected async handleWeb(context: ModernServerContext, route: ModernRoute) {
-    return this.routeRenderHandler(context, route);
+    return this.routeRenderHandler({
+      ctx: context,
+      route,
+      runner: this.runner,
+    });
   }
 
   protected verifyMatch(_c: ModernServerContext, _m: RouteMatcher) {
@@ -580,7 +584,11 @@ export class ModernServer {
       // check entryName, aviod matched '/' route
       if (entryName === status.toString() || entryName === '_error') {
         try {
-          const file = await this.routeRenderHandler(context, route);
+          const file = await this.routeRenderHandler({
+            route,
+            ctx: context,
+            runner: this.runner,
+          });
           if (file) {
             context.res.end(file.content);
             return;

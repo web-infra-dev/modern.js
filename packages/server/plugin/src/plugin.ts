@@ -5,10 +5,12 @@ import {
   createAsyncPipeline,
   PluginFromAsyncManager,
   createParallelWorkflow,
+  createAsyncWaterfall,
 } from '@modern-js/plugin';
 import { enable } from '@modern-js/plugin/node';
 import type {
   ModernServerContext,
+  BaseSSRServerContext,
   Metrics,
   Logger,
 } from '@modern-js/types/server';
@@ -86,6 +88,8 @@ const beforeServerReset = createParallelWorkflow();
 
 const afterServerReset = createParallelWorkflow();
 
+const extendSSRContext = createAsyncWaterfall<BaseSSRServerContext>();
+
 const extendContext = createAsyncPipeline<
   ModernServerContext,
   ModernServerContext
@@ -155,6 +159,7 @@ export const createServerManager = () =>
     beforeServerReset,
     afterServerReset,
     // request hook
+    extendSSRContext,
     extendContext,
     handleError,
     beforeMatch,

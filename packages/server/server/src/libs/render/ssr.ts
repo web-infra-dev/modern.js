@@ -5,6 +5,7 @@ import { ModernServerContext } from '../context';
 import { RenderResult } from '../../type';
 import cache from './cache';
 import { SSRServerContext } from './type';
+import { ServerHookRunner } from '@/type';
 
 export const render = async (
   ctx: ModernServerContext,
@@ -15,6 +16,7 @@ export const render = async (
     entryName: string;
     staticGenerate: boolean;
   },
+  runner: ServerHookRunner,
 ): Promise<RenderResult> => {
   const { bundle, distDir, template, entryName, staticGenerate } =
     renderOptions;
@@ -36,6 +38,8 @@ export const render = async (
     logger: ctx.logger,
     metrics: ctx.metrics,
   };
+
+  runner.extendSSRContext(context);
 
   const serverRender = require(bundleJS)[SERVER_RENDER_FUNCTION_NAME];
 
