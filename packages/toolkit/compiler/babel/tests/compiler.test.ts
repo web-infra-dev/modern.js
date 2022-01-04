@@ -49,6 +49,7 @@ describe('compiler', () => {
     const distFilePath = path.join(projectDir, 'dist/far.js');
     const sourcemap_1 = resolveSourceMap({
       babelRes: babelRes as babel.BabelFileResult,
+      sourceFilePath: path.join(projectDir, 'src/index.js'),
       distFilePath,
       enableVirtualDist: true,
     });
