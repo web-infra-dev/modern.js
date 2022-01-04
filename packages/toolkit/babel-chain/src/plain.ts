@@ -1,6 +1,13 @@
 import type { TransformOptions } from '@babel/core';
 
-export type BabelPlainConfig = Omit<TransformOptions, 'plugins' | 'presets'>;
+export type BabelPlainConfig = Omit<
+  TransformOptions,
+  | 'plugins'
+  | 'presets'
+  | 'browserslistConfigFile'
+  | 'browserslistEnv'
+  | 'cloneInputAst'
+>;
 
 export type GetSetter<T extends Record<string, any>> = {
   [K in keyof T]: (input: T[K]) => void;
