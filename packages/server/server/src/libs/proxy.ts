@@ -54,7 +54,7 @@ export const createProxyHandler = (proxyOptions: ProxyOptions) => {
       );
     }
   } else {
-    formatedProxy.concat(proxyOptions);
+    formatedProxy.push(...proxyOptions);
   }
 
   const middlewares = formatedProxy.map(option => {

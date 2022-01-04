@@ -15,6 +15,8 @@ const createCacheConfig = (config: any = {}) => ({
   ...config,
 });
 
+jest.setTimeout(60000);
+
 describe('cache', () => {
   it('should cache correctly', async () => {
     destroyCache();
@@ -179,7 +181,6 @@ describe('cache', () => {
     }
   });
 
-  jest.setTimeout(1000 * 10);
   it('should stale cache correctly', async () => {
     destroyCache();
     const cache = createCache();
@@ -207,7 +208,6 @@ describe('cache', () => {
     expect(staleResult?.isStale).toBe(true);
   });
 
-  jest.setTimeout(1000 * 15);
   it('should garbage cache correctly', async () => {
     destroyCache();
     const cache = createCache();

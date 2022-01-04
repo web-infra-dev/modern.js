@@ -86,8 +86,8 @@ export default createPlugin(
         // each route will try to match the configuration
         pageRoutes.forEach(pageRoute => {
           const { entryName, entryPath } = pageRoute;
-          const agreedRoutes = agreedRouteMap[entryName];
-          let entryOptions = intermediateOptions[entryName];
+          const agreedRoutes = agreedRouteMap[entryName as string];
+          let entryOptions = intermediateOptions[entryName as string];
 
           if (!agreedRoutes) {
             // default behavior for non-agreed route
@@ -169,12 +169,16 @@ export default createPlugin(
 
             if (isOriginRoute) {
               throw new Error(
-                `ssg can not using with ssr，url - ${ssgRoute.urlPath}, entry - ${ssgRoute.entryName} `,
+                `ssg can not using with ssr，url - ${
+                  ssgRoute.urlPath
+                }, entry - ${ssgRoute.entryName!} `,
               );
             }
 
             logger.warn(
-              `new ssg route ${ssgRoute.urlPath} is using ssr now，maybe from parent route ${ssgRoute.entryName}，close ssr`,
+              `new ssg route ${
+                ssgRoute.urlPath
+              } is using ssr now，maybe from parent route ${ssgRoute.entryName!}，close ssr`,
             );
           }
           ssgRoute.isSSR = false;
