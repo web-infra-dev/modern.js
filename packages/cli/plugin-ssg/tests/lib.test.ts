@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { ModernRoute } from '@modern-js/server';
+import { ServerRoute as ModernRoute } from '@modern-js/types';
 import { exist, replaceRoute } from '@/libs/replace';
 import { makeRoute } from '@/libs/make';
 

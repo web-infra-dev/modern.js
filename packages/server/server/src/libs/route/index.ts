@@ -73,4 +73,5 @@ export class RouteMatchManager {
   }
 }
 
-export type { ModernRouteInterface, RouteMatcher, ModernRoute };
+export type { ModernRouteInterface, ModernRoute };
+export { RouteMatcher };

@@ -24,7 +24,7 @@ const createCacheItem = async (filepath: string, mtime: Date) => {
 class LruReader {
   private readonly cache: LRU<string, FileCache>;
 
-  private timer?: NodeJS.Timeout;
+  // private timer?: NodeJS.Timeout;
 
   constructor() {
     this.cache = new LRU({
@@ -35,13 +35,13 @@ class LruReader {
   }
 
   public init() {
-    this.timeTask();
+    // this.timeTask();
   }
 
   public close() {
-    if (this.timer) {
-      clearInterval(this.timer);
-    }
+    // if (this.timer) {
+    //   clearInterval(this.timer);
+    // }
   }
 
   public async read(filepath: string) {
@@ -94,9 +94,9 @@ class LruReader {
     }
   }
 
-  private timeTask() {
-    this.timer = setInterval(() => this.update, 5 * 60 * 1000).unref();
-  }
+  // private timeTask() {
+  // this.timer = setInterval(() => this.update, 5 * 60 * 1000).unref();
+  // }
 }
 
 const reader = new LruReader();

@@ -1,0 +1,14 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "declaration": false,
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "isolatedModules": true,
+    "sourceMap": true
+  },
+  "paths": {
+    "@/*": ["../src/*"]
+  },
+  "exclude": ["src/__test__/fixtures/**"]
+}

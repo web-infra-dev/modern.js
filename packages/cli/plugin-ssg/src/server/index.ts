@@ -2,7 +2,7 @@ import childProcess from 'child_process';
 import path from 'path';
 import { logger, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
 import { NormalizedConfig, useAppContext } from '@modern-js/core';
-import { ModernRoute } from '@modern-js/server';
+import { ServerRoute as ModernRoute } from '@modern-js/types';
 import { SsgRoute } from '../types';
 import { CLOSE_SIGN } from './consts';
 
@@ -18,7 +18,7 @@ export const createServer = (
     const backup: ModernRoute[] = ssgRoutes.map(ssgRoute => ({
       ...ssgRoute,
       isSSR: true,
-      bundle: `${SERVER_BUNDLE_DIRECTORY}/${ssgRoute.entryName}.js`,
+      bundle: `${SERVER_BUNDLE_DIRECTORY}/${ssgRoute.entryName as string}.js`,
     }));
 
     const total = backup.concat(apiRoutes);

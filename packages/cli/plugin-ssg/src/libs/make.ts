@@ -1,5 +1,5 @@
 import path from 'path';
-import { ModernRoute } from '@modern-js/server';
+import { ServerRoute as ModernRoute } from '@modern-js/types';
 import normalize from 'normalize-path';
 import { compile } from '../server/prerender';
 import { RouteOptions, SsgRoute } from '../types';
