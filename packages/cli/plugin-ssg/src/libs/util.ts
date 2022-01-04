@@ -1,6 +1,6 @@
 import path from 'path';
 import { ROUTE_SPEC_FILE, fs, isSingleEntry } from '@modern-js/utils';
-import { ModernRoute } from '@modern-js/server';
+import { ServerRoute as ModernRoute } from '@modern-js/types';
 import { EntryPoint, MultiEntryOptions, SSG, SsgRoute } from '../types';
 
 export function formatOutput(filename: string) {
@@ -51,7 +51,7 @@ export function getUrlPrefix(route: SsgRoute, baseUrl: string | string[]) {
 
   base = base === '/' ? '' : base;
   const entryName = route.entryName === 'main' ? '' : route.entryName;
-  const prefix = `${base}/${entryName}`;
+  const prefix = `${base}/${entryName as string}`;
   return prefix.endsWith('/') ? prefix.slice(0, -1) : prefix;
 }
 

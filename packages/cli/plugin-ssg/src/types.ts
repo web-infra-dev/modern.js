@@ -1,4 +1,4 @@
-import { ModernRoute } from '@modern-js/server';
+import { ServerRoute as ModernRoute } from '@modern-js/types';
 
 export type AgreedRoute = {
   path: string;

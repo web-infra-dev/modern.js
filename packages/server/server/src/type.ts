@@ -5,6 +5,13 @@ import type { NormalizedConfig } from '@modern-js/core';
 import type { Metrics, Logger, NextFunction } from '@modern-js/types/server';
 import { ModernRouteInterface } from './libs/route';
 
+declare module 'http' {
+  interface IncomingMessage {
+    logger: Logger;
+    metrics: Metrics;
+  }
+}
+
 declare module '@modern-js/core' {
   interface UserConfig {
     bff: {

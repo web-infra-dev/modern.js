@@ -8,6 +8,11 @@ import type {
 } from '@modern-js/types/server';
 import { toMessage } from '../../utils';
 
+export type ContextOptions = {
+  logger?: Logger;
+  metrics?: Metrics;
+};
+
 export class ModernServerContext implements ModernServerContextInterface {
   /**
    * http request
@@ -28,15 +33,11 @@ export class ModernServerContext implements ModernServerContextInterface {
 
   public metrics?: Metrics;
 
-  constructor(
-    req: IncomingMessage,
-    res: ServerResponse,
-    { logger, metrics }: { logger: Logger; metrics: Metrics },
-  ) {
+  constructor(req: IncomingMessage, res: ServerResponse) {
     this.req = req;
     this.res = res;
-    this.logger = logger;
-    this.metrics = metrics;
+    this.logger = req.logger;
+    this.metrics = req.metrics;
 
     this.bind();
   }

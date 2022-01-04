@@ -135,7 +135,7 @@ export class Server {
         ...appContext,
         distDirectory: path.join(
           options.pwd,
-          options.config.output.path || 'dist',
+          options.config.output?.path || 'dist',
         ),
       });
     });
