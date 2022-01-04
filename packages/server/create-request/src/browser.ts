@@ -1,20 +1,43 @@
 import { compile, pathToRegexp, Key } from 'path-to-regexp';
-import type { BFFRequestPayload, RequestCreator, Sender, Fetcher } from '.';
+import { handleRes } from './handleRes';
+import type {
+  BFFRequestPayload,
+  RequestCreator,
+  Sender,
+  IOptions,
+} from './types';
 
-const globalFetch = fetch;
+let realRequest: typeof fetch;
+let realAllowedHeaders: string[];
+const originFetch = (...params: Parameters<typeof fetch>) =>
+  fetch(...params)
+    // eslint-disable-next-line promise/prefer-await-to-then
+    .then(handleRes);
+
+export const configure = (options: IOptions) => {
+  const { request, interceptor, allowedHeaders } = options;
+  realRequest = (request as typeof fetch) || originFetch;
+  if (interceptor && !request) {
+    realRequest = interceptor(fetch);
+  }
+  if (Array.isArray(allowedHeaders)) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    realAllowedHeaders = allowedHeaders;
+  }
+};
 
 export const createRequest: RequestCreator = (
   path,
   method,
   port,
-  fetch = globalFetch,
+  fetch = originFetch,
 ) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
   const keys: Key[] = [];
   pathToRegexp(path, keys);
 
   const sender: Sender = async (...args) => {
-    const fetcher = getFetcher(sender) || fetch;
+    const fetcher = realRequest || fetch;
 
     const payload: BFFRequestPayload =
       typeof args[args.length - 1] === 'object' ? args[args.length - 1] : {};
@@ -68,19 +91,10 @@ export const createRequest: RequestCreator = (
       method,
       body,
       headers,
-      // eslint-disable-next-line promise/prefer-await-to-then
-    }).then(res => res.json());
+    });
   };
 
   return sender;
-};
-
-const getFetcher = (sender: Sender): Fetcher => {
-  if (sender.fetch) {
-    return sender.fetch;
-  }
-
-  return fetch;
 };
 
 const qsStringify = (input: Record<string, any>) => {

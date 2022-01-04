@@ -73,7 +73,7 @@ export default createPlugin(
           },
         },
         source: {
-          moduleScopes: [`./${API_DIR}`],
+          moduleScopes: [`./${API_DIR}`, /create-request/],
         },
       };
     },

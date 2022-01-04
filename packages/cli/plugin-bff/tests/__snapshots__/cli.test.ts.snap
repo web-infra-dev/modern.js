@@ -6,6 +6,7 @@ Array [
     "source": Object {
       "moduleScopes": Array [
         "./api",
+        /create-request/,
       ],
     },
     "tools": Object {

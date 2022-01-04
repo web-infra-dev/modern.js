@@ -44,3 +44,20 @@ export interface ModernServerContext {
 
   resHasHandled: () => boolean;
 }
+
+export type BaseSSRServerContext = {
+  request: {
+    params: Record<string, string>;
+    pathname: string;
+    query: Record<string, string>;
+    headers: IncomingHttpHeaders;
+    cookie?: string;
+  };
+  redirection: { url?: string; status?: number };
+  distDir: string;
+  template: string;
+  entryName: string;
+  logger: Logger;
+  metrics?: Metrics;
+  loadableManifest?: string;
+};
