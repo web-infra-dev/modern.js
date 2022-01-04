@@ -9,6 +9,7 @@ import { readFile } from './reader';
 import * as ssr from './ssr';
 import { supportModern, getModernEntry } from './modern';
 import { ERROR_DIGEST } from '@/constants';
+import { ServerHookRunner } from '@/type';
 
 export const createRenderHandler = ({
   distDir,
@@ -17,10 +18,15 @@ export const createRenderHandler = ({
   distDir: string;
   staticGenerate: boolean;
 }) =>
-  async function render(
-    ctx: ModernServerContext,
-    route: ModernRoute,
-  ): Promise<RenderResult | null> {
+  async function render({
+    ctx,
+    route,
+    runner,
+  }: {
+    ctx: ModernServerContext;
+    route: ModernRoute;
+    runner: ServerHookRunner;
+  }): Promise<RenderResult | null> {
     if (ctx.resHasHandled()) {
       return null;
     }
@@ -43,13 +49,17 @@ export const createRenderHandler = ({
     // handles ssr first
     if (route.isSSR) {
       try {
-        const result = await ssr.render(ctx, {
-          distDir,
-          entryName: route.entryName,
-          bundle: route.bundle,
-          template: templateHTML,
-          staticGenerate,
-        });
+        const result = await ssr.render(
+          ctx,
+          {
+            distDir,
+            entryName: route.entryName,
+            bundle: route.bundle,
+            template: templateHTML,
+            staticGenerate,
+          },
+          runner,
+        );
         return result;
       } catch (err) {
         ctx.error(ERROR_DIGEST.ERENDER, (err as Error).stack);

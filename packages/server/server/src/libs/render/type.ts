@@ -1,5 +1,4 @@
-import { IncomingHttpHeaders } from 'http';
-import { Metrics, Logger } from '../../type';
+import { BaseSSRServerContext } from '@modern-js/types/server';
 
 type MetaKeyMap = {
   header?: string[];
@@ -26,21 +25,7 @@ export enum RenderLevel {
   SERVER_RENDER,
 }
 
-export type SSRServerContext = {
-  request: {
-    params: Record<string, string>;
-    pathname: string;
-    query: Record<string, string>;
-    headers: IncomingHttpHeaders;
-    cookie?: string;
-  };
-  redirection: { url?: string; status?: number };
-  distDir: string;
-  template: string;
-  entryName: string;
-  logger: Logger;
-  metrics?: Metrics;
-  loadableManifest?: string;
+export type SSRServerContext = BaseSSRServerContext & {
   cacheConfig?: CacheConfig;
   staticGenerate?: boolean;
 };
