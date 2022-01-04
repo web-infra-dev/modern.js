@@ -158,17 +158,6 @@ export const createBabelPlainChain = (): BabelPlainChain => {
     moduleRoot: (input: BabelPlainConfig['moduleRoot']) => {
       config.moduleRoot = input;
     },
-    browserslistConfigFile: (
-      input: BabelPlainConfig['browserslistConfigFile'],
-    ) => {
-      config.browserslistConfigFile = input;
-    },
-    browserslistEnv: (input: BabelPlainConfig['browserslistEnv']) => {
-      config.browserslistEnv = input;
-    },
-    cloneInputAst: (input: BabelPlainConfig['cloneInputAst']) => {
-      config.cloneInputAst = input;
-    },
   };
 
   const toJSON = () => ({ ...config });
