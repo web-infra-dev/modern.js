@@ -57,7 +57,8 @@
     "@types/styled-components": "^5.1.14",
     "hoist-non-react-statics": "^3.3.2",
     "invariant": "^2.2.4",
-    "styled-components": "^5.3.1"
+    "styled-components": "^5.3.1",
+    "react-is": "^17.0.2"
   },
   "peerDependencies": {
     "@loadable/component": "^5.15.0",
@@ -70,7 +71,7 @@
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/loadable__component": "^5.13.4",
     "@types/invariant": "^2.2.30",
-    "@types/jest": "^26",
+    "@types/jest": "^27",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",

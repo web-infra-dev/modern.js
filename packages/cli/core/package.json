@@ -66,7 +66,7 @@
   "devDependencies": {
     "@types/babel__code-frame": "^7.0.3",
     "@modern-js/types": "workspace:^1.1.4",
-    "@types/jest": "^26",
+    "@types/jest": "^27",
     "@types/lodash.clonedeep": "^4.5.6",
     "@types/lodash.mergewith": "^4.6.6",
     "@types/node": "^14",

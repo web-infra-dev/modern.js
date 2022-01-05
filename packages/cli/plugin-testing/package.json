@@ -62,6 +62,7 @@
   },
   "dependencies": {
     "@babel/preset-env": "^7.15.6",
+    "@babel/core": "^7.16.7",
     "@babel/runtime": "^7",
     "@modern-js/babel-compiler": "workspace:^1.1.3",
     "@modern-js/testing": "workspace:^1.2.0",
@@ -89,11 +90,12 @@
     "@modern-js/module-tools": "^1.1.3",
     "@modern-js/core": "workspace:^1.2.0",
     "@modern-js/runtime-core": "workspace:^1.1.2",
-    "@types/jest": "^26",
+    "@types/jest": "^27",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
-    "typescript": "^4"
+    "typescript": "^4",
+    "@babel/core": "^7.16.7"
   },
   "sideEffects": false,
   "modernConfig": {},

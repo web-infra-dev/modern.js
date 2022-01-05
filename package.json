@@ -71,5 +71,12 @@
     "@modern-js/monorepo-tools": "^1.0.0",
     "@modern-js/plugin-jarvis": "workspace:^1.0.0",
     "@modern-js/tsconfig": "workspace:^1.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@modern-js/module-tools": "link:./packages/solutions/module-tools",
+      "@modern-js/plugin-testing": "link:./packages/cli/plugin-testing",
+      "@modern-js/monorepo-tools": "link:./packages/solutions/monorepo-tools"
+    }
   }
 }

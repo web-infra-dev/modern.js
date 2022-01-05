@@ -77,7 +77,7 @@
     "@modern-js/runtime-core": "workspace:^1.1.1",
     "@testing-library/react": "^12.0.0",
     "@types/hoist-non-react-statics": "^3.3.1",
-    "@types/jest": "^26",
+    "@types/jest": "^27",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",

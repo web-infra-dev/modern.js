@@ -38,7 +38,7 @@
     "lodash": "^4.17.11"
   },
   "devDependencies": {
-    "@types/jest": "^26",
+    "@types/jest": "^27",
     "@types/lodash": "^4.14.126",
     "@types/node": "^14",
     "typescript": "^4",
