@@ -1,0 +1,29 @@
+{
+  "routes": [
+    {
+      "urlPath": "/entry",
+      "entryName": "entry",
+      "entryPath": "html/entry/index.html",
+      "isSPA": true,
+      "isSSR": true,
+      "enableModernMode": false,
+      "bundle": "bundles/entry.js"
+    },
+    {
+      "urlPath": "/home",
+      "entryName": "home",
+      "entryPath": "html/home/index.html",
+      "isSPA": true,
+      "isSSR": true,
+      "enableModernMode": false,
+      "bundle": "bundles/home.js"
+    },
+    {
+      "urlPath": "/api",
+      "isApi": true,
+      "entryPath": "",
+      "isSPA": false,
+      "isSSR": false
+    }
+  ]
+}

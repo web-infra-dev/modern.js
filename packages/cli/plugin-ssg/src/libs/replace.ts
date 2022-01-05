@@ -1,5 +1,5 @@
 import normalize from 'normalize-path';
-import { ModernRoute } from '@modern-js/server';
+import { ServerRoute as ModernRoute } from '@modern-js/types';
 import { SsgRoute } from '../types';
 
 export function exist(route: ModernRoute, pageRoutes: ModernRoute[]): number {

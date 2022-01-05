@@ -1,4 +1,5 @@
-import Server, { ModernRoute } from '@modern-js/server';
+import Server from '@modern-js/server';
+import { ServerRoute as ModernRoute } from '@modern-js/types';
 import portfinder from 'portfinder';
 import { NormalizedConfig } from '@modern-js/core';
 import { compatRequire } from '@modern-js/utils';

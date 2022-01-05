@@ -1,6 +1,13 @@
 import type { TransformOptions } from '@babel/core';
 
-export type BabelPlainConfig = Omit<TransformOptions, 'plugins' | 'presets'>;
+export type BabelPlainConfig = Omit<
+  TransformOptions,
+  | 'plugins'
+  | 'presets'
+  | 'browserslistConfigFile'
+  | 'browserslistEnv'
+  | 'cloneInputAst'
+>;
 
 export type GetSetter<T extends Record<string, any>> = {
   [K in keyof T]: (input: T[K]) => void;
@@ -19,7 +26,7 @@ export type BabelPlainChain = {
 export const createBabelPlainChain = (): BabelPlainChain => {
   let config: BabelPlainConfig = {};
 
-  const plain = {
+  const plain: any = {
     // delete operater
     delete: (key: keyof BabelPlainConfig) => {
       delete config[key];
