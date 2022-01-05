@@ -38,15 +38,24 @@ export const getDistFilePath = (option: {
 
 export const resolveSourceMap = (option: {
   babelRes: babel.BabelFileResult;
+  sourceFilePath: string;
   distFilePath: string;
   enableVirtualDist?: boolean;
 }) => {
-  const { babelRes, distFilePath, enableVirtualDist = false } = option;
+  const {
+    babelRes,
+    sourceFilePath,
+    distFilePath,
+    enableVirtualDist = false,
+  } = option;
   const mapLoc = `${distFilePath}.map`;
   babelRes.code = utils.addSourceMappingUrl(babelRes.code as string, mapLoc);
 
   if (babelRes.map) {
     babelRes.map.file = path.basename(distFilePath);
+    babelRes.map.sources = [
+      path.relative(path.dirname(distFilePath), sourceFilePath),
+    ];
   }
 
   const sourceMapVirtualDist = {
@@ -106,10 +115,20 @@ export const compiler = (option: ISingleFileCompilerOption) => {
     if (virtualDist) {
       virtualDist = {
         ...virtualDist,
-        ...resolveSourceMap({ babelRes, distFilePath, enableVirtualDist }),
+        ...resolveSourceMap({
+          babelRes,
+          sourceFilePath: filepath,
+          distFilePath,
+          enableVirtualDist,
+        }),
       };
     } else {
-      resolveSourceMap({ babelRes, distFilePath, enableVirtualDist });
+      resolveSourceMap({
+        babelRes,
+        sourceFilePath: filepath,
+        distFilePath,
+        enableVirtualDist,
+      });
     }
   }
 
