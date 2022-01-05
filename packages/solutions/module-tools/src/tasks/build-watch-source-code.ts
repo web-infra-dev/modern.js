@@ -82,7 +82,7 @@ const runBabelCompiler = async (
       watchDir: config.srcRootDir,
       extensions: getExts(isTs),
     },
-    babelConfig,
+    { ...babelConfig, sourceMaps: config.sourceMaps },
   );
   emitter.on(babelCompiler.BuildWatchEvent.compiling, () => {
     console.info(logger.clearFlag, `Compiling...`);
