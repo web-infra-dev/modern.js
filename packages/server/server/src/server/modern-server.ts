@@ -87,11 +87,11 @@ export class ModernServer {
 
   private frameAPIHandler: Adapter | null = null;
 
+  private proxyHandler: ReturnType<typeof createProxyHandler> = null;
+
   private _handler!: (context: ModernServerContext, next: NextFunction) => void;
 
   private readonly staticGenerate: boolean = false;
-
-  private proxyHandler: ReturnType<typeof createProxyHandler> = null;
 
   constructor({
     pwd,
@@ -107,7 +107,7 @@ export class ModernServer {
     this.isDev = Boolean(dev);
 
     this.pwd = pwd;
-    this.distDir = path.join(pwd, config.output.path || 'dist');
+    this.distDir = path.join(pwd, config.output?.path || 'dist');
     this.workDir = this.isDev ? pwd : this.distDir;
     this.conf = config;
     this.logger = logger!;
@@ -162,7 +162,7 @@ export class ModernServer {
 
     await this.prepareFrameHandler();
 
-    const { favicon, faviconByEntries } = this.conf.output;
+    const { favicon, faviconByEntries } = this.conf.output || {};
     const favicons = this.prepareFavicons(favicon, faviconByEntries);
     // Only work when without setting `assetPrefix`.
     // Setting `assetPrefix` means these resources should be uploaded to CDN.
@@ -356,7 +356,11 @@ export class ModernServer {
   }
 
   protected async handleWeb(context: ModernServerContext, route: ModernRoute) {
-    return this.routeRenderHandler(context, route);
+    return this.routeRenderHandler({
+      ctx: context,
+      route,
+      runner: this.runner,
+    });
   }
 
   protected verifyMatch(_c: ModernServerContext, _m: RouteMatcher) {
@@ -372,7 +376,7 @@ export class ModernServer {
     await this.emitRouteHook('beforeMatch', { context });
 
     // match routes in the route spec
-    const matched = this.router.match(context.url);
+    const matched = this.router.match(context.path);
     if (!matched) {
       this.render404(context);
       return;
@@ -498,7 +502,7 @@ export class ModernServer {
     try {
       // Todo Safety xss
       const injection = JSON.stringify({ ...manifest, modules });
-      templateAPI.afterHead(
+      templateAPI.appendHead(
         `<script>window.modern_manifest=${injection}</script>`,
       );
     } catch (e) {
@@ -546,10 +550,9 @@ export class ModernServer {
     },
   ) {
     res.statusCode = 200;
-    const context: ModernServerContext = createContext(req, res, {
-      logger: this.logger,
-      metrics: this.metrics,
-    });
+    req.logger = req.logger || this.logger;
+    req.metrics = req.metrics || this.metrics;
+    const context: ModernServerContext = createContext(req, res);
 
     try {
       this._handler(context, next);
@@ -580,7 +583,11 @@ export class ModernServer {
       // check entryName, aviod matched '/' route
       if (entryName === status.toString() || entryName === '_error') {
         try {
-          const file = await this.routeRenderHandler(context, route);
+          const file = await this.routeRenderHandler({
+            route,
+            ctx: context,
+            runner: this.runner,
+          });
           if (file) {
             context.res.end(file.content);
             return;
