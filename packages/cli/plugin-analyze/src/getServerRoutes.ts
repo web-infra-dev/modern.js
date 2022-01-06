@@ -8,6 +8,7 @@ import {
   getEntryOptions,
   SERVER_BUNDLE_DIRECTORY,
   MAIN_ENTRY_NAME,
+  removeTailSlash,
 } from '@modern-js/utils';
 import type { Entrypoint, ServerRoute } from '@modern-js/types';
 import { walkDirectory } from './utils';
@@ -29,10 +30,13 @@ const applyBaseUrl = (
         [],
       );
     } else {
-      return routes.map(route => ({
-        ...route,
-        urlPath: removeSuffixSlash(urlJoin(baseUrl, route.urlPath)),
-      }));
+      return routes.map(route => {
+        const urlPath = urlJoin(baseUrl, route.urlPath);
+        return {
+          ...route,
+          urlPath: urlPath === '/' ? urlPath : removeTailSlash(urlPath),
+        };
+      });
     }
   }
 
@@ -63,10 +67,30 @@ const applyRouteOptions = (
 
   if (route) {
     if (Array.isArray(route)) {
-      routes = route.map(url => ({
-        ...original,
-        urlPath: url,
-      }));
+      routes = route.map(url => {
+        if (isPlainObject(url)) {
+          const { path: urlPath, ...other } = url as Record<string, string>;
+          return {
+            ...original,
+            ...other,
+            urlPath,
+          };
+        } else {
+          return {
+            ...original,
+            urlPath: url,
+          };
+        }
+      });
+    } else if (isPlainObject(route)) {
+      const { path: urlPath, ...other } = route as Record<string, string>;
+      routes = [
+        {
+          ...original,
+          ...other,
+          urlPath,
+        },
+      ];
     } else {
       routes = [
         {
@@ -193,10 +217,3 @@ export const getServerRoutes = (
 
 const toPosix = (pathStr: string) =>
   pathStr.split(path.sep).join(path.posix.sep);
-
-const removeSuffixSlash = (pathname: string) => {
-  if (pathname.endsWith('/') && pathname !== '/') {
-    return pathname.slice(0, pathname.length - 1);
-  }
-  return pathname;
-};

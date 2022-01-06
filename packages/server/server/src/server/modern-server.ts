@@ -229,6 +229,7 @@ export class ModernServer {
   }
 
   // add promisify request handler to server
+  // handler should do not do more things after invoke next
   protected addHandler(handler: ModernServerHandler) {
     if ((handler as any)[Symbol.toStringTag] === 'AsyncFunction') {
       this.handlers.push(handler as ModernServerAsyncHandler);
