@@ -27,10 +27,10 @@ describe('test hook api', () => {
     templateAPI.replace('mock', 'replace');
     expect(templateAPI.get()).toMatch('replace');
 
-    templateAPI.afterBody('after body');
-    templateAPI.beforeBody('before body');
-    templateAPI.afterHead('after head');
-    templateAPI.beforeHead('before head');
+    templateAPI.appendBody('after body');
+    templateAPI.prependBody('before body');
+    templateAPI.appendHead('after head');
+    templateAPI.prependHead('before head');
 
     const newContent = templateAPI.get();
     expect(newContent).toMatch('<head>before head');
