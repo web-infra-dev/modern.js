@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import type { Compiler } from './Compiler';
 import { EntryPlugin } from './plugins/EntryPlugin';
 import { DependencyPlugin } from './plugins/DependencyPlugin';

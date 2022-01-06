@@ -4,11 +4,9 @@ import {
   isDynamicUrl,
   getUrlPrefix,
   getOutput,
-  getSSGRenderLevel,
-  parsedSSGConfig,
   replaceWithAlias,
+  standardOptions,
 } from '@/libs/util';
-import { MODE } from '@/manifest-op';
 
 describe('test ssg util function', () => {
   it('should return format path correctly', () => {
@@ -64,42 +62,83 @@ describe('test ssg util function', () => {
   });
 
   it('should return format output correctly', () => {
-    const entryPath = '/base/home/index.html';
-    const onlyBase = formatOutput(entryPath, '');
-    expect(onlyBase).toBe(entryPath);
+    const entryPath1 = '/base/home/index.html';
+    expect(formatOutput(entryPath1)).toBe(entryPath1);
 
-    const noExtention = formatOutput(entryPath, './a');
-    expect(noExtention).toBe('/base/home/a/index.html');
-
-    const extention = formatOutput(entryPath, 'a.html');
-    expect(extention).toBe('/base/home/a.html');
-
-    const relate_1 = formatOutput(entryPath, '../a.html');
-    expect(relate_1).toBe('/base/a.html');
-
-    const relate_2 = formatOutput(entryPath, '../../a.html');
-    expect(relate_2).toBe('/a.html');
-  });
-
-  it('should get ssg level correctly', () => {
-    expect(getSSGRenderLevel(true)).toBe(MODE.LOOSE);
-    expect(getSSGRenderLevel('loose')).toBe(MODE.LOOSE);
-    expect(getSSGRenderLevel('LOOSE')).toBe(MODE.LOOSE);
-  });
-
-  it('should parse ssg config correctly', () => {
-    const empty = () => {
-      // empty test
-    };
-    expect(parsedSSGConfig(true).useSSG).toBe(true);
-    expect(parsedSSGConfig(true).userHook).toBeInstanceOf(Function);
-    expect(parsedSSGConfig(true as any).useSSG).toBe(true);
-    expect(parsedSSGConfig(true as any).userHook).toBeInstanceOf(Function);
-    expect(parsedSSGConfig(empty).useSSG).toBe(true);
-    expect(parsedSSGConfig(empty).userHook).toBe(empty);
+    const entryPath2 = '/base/home';
+    expect(formatOutput(entryPath2)).toBe(entryPath1);
   });
 
   it('should replace alias correctly', () => {
     expect(replaceWithAlias('/src', '/src/app.js', '@src')).toBe('@src/app.js');
   });
+
+  it('should starndar user config correctly', () => {
+    const opt0 = standardOptions(false, []);
+    expect(opt0).toBeFalsy();
+
+    const opt1 = standardOptions(true, [{ entryName: 'main', entry: '' }]);
+    expect(opt1).toEqual({ main: true });
+
+    const opt2 = standardOptions(true, [
+      { entryName: 'main', entry: '' },
+      { entryName: 'home', entry: '' },
+    ]);
+    expect(opt2).toEqual({ main: true, home: true });
+
+    const opt3 = standardOptions(true, [
+      { entryName: 'main', entry: '' },
+      { entryName: 'home', entry: '' },
+    ]);
+    expect(opt3).toEqual({ main: true, home: true });
+
+    // single entry, object config
+    const ssg1 = {
+      routes: ['/foo', { url: '/baz' }],
+    };
+    const opt4 = standardOptions(ssg1, [{ entryName: 'main', entry: '' }]);
+    expect(opt4).toEqual({ main: ssg1 });
+  });
+
+  // error usage, just test
+  const ssg2 = {
+    routes: ['/foo', { url: '/baz' }],
+  };
+  const opt5 = standardOptions(ssg2, [
+    { entryName: 'main', entry: '' },
+    { entryName: 'home', entry: '' },
+  ]);
+  expect(opt5).toEqual(ssg2);
+
+  const ssg3 = {
+    main: { routes: ['/foo', { url: '/baz' }] },
+    home: false,
+  };
+  const opt6 = standardOptions(ssg3, [
+    { entryName: 'main', entry: '' },
+    { entryName: 'home', entry: '' },
+  ]);
+  expect(opt6).toEqual(ssg3);
+
+  const ssg4 = () => true;
+  const opt7 = standardOptions(ssg4, [
+    { entryName: 'main', entry: '' },
+    { entryName: 'home', entry: '' },
+  ]);
+  expect(opt7).toEqual({ main: true, home: true });
+
+  const ssg5 = (entryName: string) => {
+    if (entryName === 'main') {
+      return true;
+    } else {
+      return {
+        routes: ['/foo'],
+      };
+    }
+  };
+  const opt8 = standardOptions(ssg5, [
+    { entryName: 'main', entry: '' },
+    { entryName: 'home', entry: '' },
+  ]);
+  expect(opt8).toEqual({ main: true, home: { routes: ['/foo'] } });
 });

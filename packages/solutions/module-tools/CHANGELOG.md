@@ -1,5 +1,93 @@
 # @modern-js/module-tools
 
+## 1.1.3
+
+### Patch Changes
+
+- ca7dcb32: support BUILD_FORMAT env and fix watch feature not work
+- Updated dependencies [90eeb72c]
+- Updated dependencies [e04914ce]
+- Updated dependencies [e12b3d0b]
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [e12b3d0b]
+- Updated dependencies [5a4c557e]
+- Updated dependencies [e04914ce]
+- Updated dependencies [0c81020f]
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [ecb344dc]
+  - @modern-js/core@1.2.0
+  - @modern-js/new-action@1.2.0
+  - @modern-js/babel-preset-module@1.1.2
+  - @modern-js/plugin-analyze@1.1.2
+  - @modern-js/babel-compiler@1.1.3
+  - @modern-js/utils@1.1.5
+
+## 1.1.2
+
+### Patch Changes
+
+- d927bc83: add run platform task with RUN_PLATFORM env vars
+- Updated dependencies [d927bc83]
+- Updated dependencies [d73ff455]
+- Updated dependencies [9c1ab865]
+- Updated dependencies [c5e3d4ad]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+  - @modern-js/utils@1.1.4
+  - @modern-js/core@1.1.4
+  - @modern-js/style-compiler@1.1.3
+  - @modern-js/css-config@1.1.2
+  - @modern-js/module-tools-hooks@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [6f7fe574]
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/core@1.1.2
+  - @modern-js/babel-preset-module@1.1.1
+  - @modern-js/css-config@1.1.1
+  - @modern-js/i18n-cli-language-detector@1.1.1
+  - @modern-js/plugin-analyze@1.1.1
+  - @modern-js/plugin-changeset@1.1.1
+  - @modern-js/plugin-fast-refresh@1.1.1
+  - @modern-js/plugin-i18n@1.1.1
+  - @modern-js/new-action@1.1.2
+  - @modern-js/babel-compiler@1.1.2
+  - @modern-js/style-compiler@1.1.1
+  - @modern-js/module-tools-hooks@1.1.1
+  - @modern-js/utils@1.1.2
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+- Updated dependencies [6b802b2a]
+- Updated dependencies [eb00b569]
+  - @modern-js/babel-preset-module@1.1.0
+  - @modern-js/core@1.1.0
+  - @modern-js/css-config@1.1.0
+  - @modern-js/i18n-cli-language-detector@1.1.0
+  - @modern-js/plugin-analyze@1.1.0
+  - @modern-js/plugin-changeset@1.1.0
+  - @modern-js/plugin-fast-refresh@1.1.0
+  - @modern-js/plugin-i18n@1.1.0
+  - @modern-js/new-action@1.1.0
+  - @modern-js/babel-compiler@1.1.0
+  - @modern-js/style-compiler@1.1.0
+  - @modern-js/module-tools-hooks@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

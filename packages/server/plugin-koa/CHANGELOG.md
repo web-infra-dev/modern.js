@@ -1,5 +1,80 @@
 # @modern-js/plugin-koa
 
+## 1.2.0
+
+### Minor Changes
+
+- 5a4c557e: feat: support bff test
+
+### Patch Changes
+
+- a70a62f5: fix: runtime path is broken in development environment
+- Updated dependencies [90eeb72c]
+- Updated dependencies [e04914ce]
+- Updated dependencies [5a4c557e]
+- Updated dependencies [e04914ce]
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [ecb344dc]
+  - @modern-js/core@1.2.0
+  - @modern-js/server-plugin@1.1.3
+  - @modern-js/utils@1.1.5
+
+## 1.1.4
+
+### Patch Changes
+
+- 529d7fae: fix: runtime path is broken in development environment
+- Updated dependencies [d927bc83]
+- Updated dependencies [d73ff455]
+- Updated dependencies [9c1ab865]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+  - @modern-js/utils@1.1.4
+  - @modern-js/core@1.1.4
+
+## 1.1.2
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [6f7fe574]
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/core@1.1.2
+  - @modern-js/adapter-helpers@1.1.1
+  - @modern-js/bff-runtime@1.1.1
+  - @modern-js/bff-utils@1.1.1
+  - @modern-js/server-plugin@1.1.1
+  - @modern-js/utils@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- 6ffd1a50: Refactor to base on farrow-pipeline
+- Updated dependencies [687c92c7]
+- Updated dependencies [c0fc0700]
+  - @modern-js/core@1.1.1
+  - @modern-js/utils@1.1.1
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/core@1.1.0
+  - @modern-js/adapter-helpers@1.1.0
+  - @modern-js/bff-runtime@1.1.0
+  - @modern-js/bff-utils@1.1.0
+  - @modern-js/server-plugin@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

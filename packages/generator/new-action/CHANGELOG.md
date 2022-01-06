@@ -1,5 +1,73 @@
 # @modern-js/new-action
 
+## 1.2.1
+
+### Patch Changes
+
+- 4a5214db: fix: generator plugin error
+- Updated dependencies [4a5214db]
+  - @modern-js/generator-common@1.2.1
+  - @modern-js/generator-plugin@1.1.2
+
+## 1.2.0
+
+### Minor Changes
+
+- e12b3d0b: feat: support generator plugin
+
+### Patch Changes
+
+- e12b3d0b: feat: upgrade codesmith version
+- Updated dependencies [e12b3d0b]
+  - @modern-js/generator-common@1.2.0
+  - @modern-js/generator-plugin@1.1.0
+
+## 1.1.5
+
+### Patch Changes
+
+- 144145c7: fix: new action type define
+
+## 1.1.3
+
+### Patch Changes
+
+- c4758365: feat: export action utils
+- Updated dependencies [2c0750e1]
+  - @modern-js/generator-common@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [0fa83663]
+- Updated dependencies [429aab90]
+  - @modern-js/generator-common@1.1.2
+  - @modern-js/generator-utils@1.1.1
+
+## 1.1.1
+
+### Patch Changes
+
+- 3b6856b8: fix: typo
+- c7f4cafb: fix: module solution new error without peerDependencies
+- Updated dependencies [687c92c7]
+- Updated dependencies [c0fc0700]
+  - @modern-js/generator-common@1.1.1
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/generator-common@1.1.0
+  - @modern-js/generator-utils@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

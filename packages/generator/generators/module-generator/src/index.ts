@@ -1,3 +1,4 @@
+import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
@@ -15,7 +16,6 @@ import {
   BooleanConfig,
 } from '@modern-js/generator-common';
 import {
-  path,
   i18n as utilsI18n,
   getAllPackages,
   validatePackagePath,
@@ -65,9 +65,22 @@ const handleTemplateFile = async (
     }
   }
 
+  const { hasPlugin, generatorPlugin, ...extra } = context.config;
+  let schema = ModuleSchema;
+  let inputValue = {};
+
+  if (hasPlugin) {
+    await generatorPlugin.installPlugins(Solution.Module, extra);
+    schema = generatorPlugin.getInputSchema(Solution.Module);
+    inputValue = generatorPlugin.getInputValue();
+    // eslint-disable-next-line require-atomic-updates
+    context.config.gitCommitMessage =
+      generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
+  }
+
   const ans = await appApi.getInputBySchema(
-    ModuleSchema,
-    context.config,
+    schema,
+    { ...context.config, ...inputValue },
     {
       packageName: input =>
         validatePackageName(input as string, packages, {
@@ -102,6 +115,8 @@ const handleTemplateFile = async (
   if (!isMonorepoSubProject) {
     await appApi.runSubGenerator(
       getGeneratorPath(BaseGenerator, context.config.distTag),
+      undefined,
+      { ...context.config, hasPlugin: false },
     );
   }
 
@@ -178,7 +193,7 @@ const handleTemplateFile = async (
       undefined,
       {
         dependencies: {
-          [lessDependence]: await getPackageVersion(lessDependence),
+          [lessDependence]: `^${await getPackageVersion(lessDependence)}`,
         },
         isSubGenerator: true,
       },
@@ -193,7 +208,7 @@ const handleTemplateFile = async (
       undefined,
       {
         dependencies: {
-          [sassDependence]: await getPackageVersion(sassDependence),
+          [sassDependence]: `^${await getPackageVersion(sassDependence)}`,
         },
         isSubGenerator: true,
       },

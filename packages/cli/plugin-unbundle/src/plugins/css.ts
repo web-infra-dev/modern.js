@@ -1,11 +1,12 @@
 import fs from 'fs';
-import { path, chalk } from '@modern-js/utils';
+import path from 'path';
+import { chalk } from '@modern-js/utils';
 import { Alias } from '@rollup/plugin-alias';
 import { Plugin as RollupPlugin, SourceMap } from 'rollup';
 import postcss, { AcceptedPlugin, ProcessOptions } from 'postcss';
 import { codeFrameColumns } from '@babel/code-frame';
 import logger from 'signale';
-import type { ImporterReturnType } from 'sass';
+import type { LegacyImporterResult } from 'sass';
 import less from 'less';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import {
@@ -264,7 +265,7 @@ const compileSass = async (
           importer(
             url: string,
             prev: string,
-            done: (data: ImporterReturnType) => void,
+            done: (data: LegacyImporterResult) => void,
           ) {
             if (url.startsWith('~')) {
               url = url.slice(1);

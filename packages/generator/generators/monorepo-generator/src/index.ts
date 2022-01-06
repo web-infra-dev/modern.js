@@ -1,3 +1,4 @@
+import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
@@ -9,7 +10,6 @@ import {
   PackageManager,
   ChangesetGenerator,
 } from '@modern-js/generator-common';
-import { path } from '@modern-js/generator-utils';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {
@@ -25,13 +25,32 @@ const handleTemplateFile = async (
   generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
-  const ans = await appApi.getInputBySchema(MonorepoSchema, context.config);
+  const { hasPlugin, generatorPlugin, ...extra } = context.config;
+
+  let schema = MonorepoSchema;
+  let inputValue = {};
+
+  if (hasPlugin) {
+    await generatorPlugin.installPlugins(Solution.Monorepo, extra);
+    schema = generatorPlugin.getInputSchema(Solution.Monorepo);
+    inputValue = generatorPlugin.getInputValue();
+    // eslint-disable-next-line require-atomic-updates
+    context.config.gitCommitMessage =
+      generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
+  }
+
+  const ans = await appApi.getInputBySchema(schema, {
+    ...context.config,
+    ...inputValue,
+  });
 
   generator.logger.debug(`ans=`, ans);
 
   const { packageManager } = ans;
   await appApi.runSubGenerator(
     getGeneratorPath(BaseGenerator, context.config.distTag),
+    undefined,
+    { ...context.config, hasPlugin: false },
   );
 
   await appApi.forgeTemplate(

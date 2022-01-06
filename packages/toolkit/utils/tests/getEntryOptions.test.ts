@@ -15,6 +15,17 @@ describe('get entry options', () => {
     ).toEqual('a');
   });
 
+  test(`should compatible with main entry using packageName as key`, () => {
+    expect(
+      getEntryOptions(
+        'main',
+        'default value',
+        { 'package-name': 'a' },
+        'package-name',
+      ),
+    ).toEqual('a');
+  });
+
   expect(
     getEntryOptions(
       'page-a',

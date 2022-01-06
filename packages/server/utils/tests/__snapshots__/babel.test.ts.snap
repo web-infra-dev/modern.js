@@ -66,7 +66,7 @@ Object {
         "helpers": false,
         "regenerator": true,
         "useESModules": false,
-        "version": "7.15.4",
+        "version": "7.16.7",
       },
     ],
     Array [
@@ -163,8 +163,10 @@ Object {
     Array [
       "/@babel/preset-typescript/lib/index.js",
       Object {
+        "allExtensions": true,
         "allowDeclareFields": true,
         "allowNamespaces": true,
+        "isTSX": true,
       },
     ],
   ],

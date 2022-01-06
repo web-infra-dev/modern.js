@@ -1,9 +1,11 @@
-import { path, SERVER_RENDER_FUNCTION_NAME } from '@modern-js/utils';
+import path from 'path';
+import { SERVER_RENDER_FUNCTION_NAME } from '@modern-js/utils';
 import mime from 'mime-types';
 import { ModernServerContext } from '../context';
 import { RenderResult } from '../../type';
 import cache from './cache';
 import { SSRServerContext } from './type';
+import { ServerHookRunner } from '@/type';
 
 export const render = async (
   ctx: ModernServerContext,
@@ -14,6 +16,7 @@ export const render = async (
     entryName: string;
     staticGenerate: boolean;
   },
+  runner: ServerHookRunner,
 ): Promise<RenderResult> => {
   const { bundle, distDir, template, entryName, staticGenerate } =
     renderOptions;
@@ -33,8 +36,10 @@ export const render = async (
     distDir,
     staticGenerate,
     logger: ctx.logger,
-    measure: ctx.measure,
+    metrics: ctx.metrics,
   };
+
+  runner.extendSSRContext(context);
 
   const serverRender = require(bundleJS)[SERVER_RENDER_FUNCTION_NAME];
 

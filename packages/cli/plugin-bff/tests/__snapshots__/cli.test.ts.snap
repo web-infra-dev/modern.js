@@ -6,6 +6,7 @@ Array [
     "source": Object {
       "moduleScopes": Array [
         "./api",
+        /create-request/,
       ],
     },
     "tools": Object {
@@ -13,39 +14,6 @@ Array [
     },
   },
 ]
-`;
-
-exports[`bff cli plugin config webpack chain 1`] = `
-Object {
-  "module": Object {
-    "rules": Array [
-      Object {
-        "oneOf": Array [
-          Object {
-            "test": /\\.\\\\/fixtures\\\\/function\\\\/api\\\\/\\.\\*\\(\\.\\[tj\\]s\\)\\$/,
-            "use": Array [
-              Object {
-                "loader": "/packages/cli/plugin-bff/src/loader.ts",
-                "options": Object {
-                  "apiDir": "/packages/cli/plugin-bff/fixtures/function/api",
-                  "fetcher": undefined,
-                  "port": 3000,
-                  "prefix": "/api",
-                  "target": undefined,
-                },
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  "resolve": Object {
-    "alias": Object {
-      "@api": "/packages/cli/plugin-bff/fixtures/function/api",
-    },
-  },
-}
 `;
 
 exports[`bff cli plugin schema 1`] = `
@@ -58,12 +26,18 @@ Array [
             "type": "string",
           },
           "prefix": Object {
-            "type": "string",
+            "items": Object {
+              "type": "string",
+            },
+            "type": Array [
+              "string",
+              "array",
+            ],
           },
           "proxy": Object {
             "type": "object",
           },
-          "requestCreater": Object {
+          "requestCreator": Object {
             "type": "string",
           },
         },

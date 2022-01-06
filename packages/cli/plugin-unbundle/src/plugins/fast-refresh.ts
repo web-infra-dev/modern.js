@@ -1,6 +1,9 @@
+/**
+ * modified from https://github.com/vitejs/vite/blob/main/packages/plugin-react/src/fast-refresh.ts
+ * license at https://github.com/vitejs/vite/blob/main/LICENSE
+ */
 import type { File as BabelAST } from '@babel/types';
 import { Plugin as RollupPlugin } from 'rollup';
-import { upath } from '@modern-js/utils';
 import { isJsRequest } from '../utils';
 import { GLOBAL_CACHE_DIR_NAME, IS_DISABLE_REACT_REFRESH } from '../constants';
 
@@ -29,10 +32,9 @@ export const fastRefreshPlugin = (): RollupPlugin => ({
 
     const result = await require('@babel/core').transformAsync(code, {
       plugins: [
-        upath.normalizeSafe(
-          require.resolve('@babel/plugin-syntax-import-meta'),
-        ),
-        upath.normalizeSafe(require.resolve('react-refresh/babel')),
+        require.resolve('@babel/plugin-syntax-import-meta'),
+
+        require.resolve('react-refresh/babel'),
       ],
       ast: true,
       sourceMaps: true,

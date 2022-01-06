@@ -1,15 +1,17 @@
 import path from 'path';
 import fs from 'fs';
+import urlJoin from 'url-join';
 import type { NormalizedConfig, IAppContext } from '@modern-js/core';
 import {
   isPlainObject,
   removeLeadingSlash,
   getEntryOptions,
   SERVER_BUNDLE_DIRECTORY,
+  MAIN_ENTRY_NAME,
+  removeTailSlash,
 } from '@modern-js/utils';
 import type { Entrypoint, ServerRoute } from '@modern-js/types';
 import { walkDirectory } from './utils';
-import { MAIN_ENTRY_NAME } from './constants';
 
 /**
  * Add base url for each server route.
@@ -28,10 +30,13 @@ const applyBaseUrl = (
         [],
       );
     } else {
-      return routes.map(route => ({
-        ...route,
-        urlPath: path.normalize(`/${baseUrl}/${route.urlPath}`),
-      }));
+      return routes.map(route => {
+        const urlPath = urlJoin(baseUrl, route.urlPath);
+        return {
+          ...route,
+          urlPath: urlPath === '/' ? urlPath : removeTailSlash(urlPath),
+        };
+      });
     }
   }
 
@@ -62,10 +67,30 @@ const applyRouteOptions = (
 
   if (route) {
     if (Array.isArray(route)) {
-      routes = route.map(url => ({
-        ...original,
-        urlPath: url,
-      }));
+      routes = route.map(url => {
+        if (isPlainObject(url)) {
+          const { path: urlPath, ...other } = url as Record<string, string>;
+          return {
+            ...original,
+            ...other,
+            urlPath,
+          };
+        } else {
+          return {
+            ...original,
+            urlPath: url,
+          };
+        }
+      });
+    } else if (isPlainObject(route)) {
+      const { path: urlPath, ...other } = route as Record<string, string>;
+      routes = [
+        {
+          ...original,
+          ...other,
+          urlPath,
+        },
+      ];
     } else {
       routes = [
         {
@@ -89,6 +114,7 @@ const applyRouteOptions = (
  */
 const collectHtmlRoutes = (
   entrypoints: Entrypoint[],
+  appContext: IAppContext,
   config: NormalizedConfig,
 ): ServerRoute[] => {
   const {
@@ -96,15 +122,19 @@ const collectHtmlRoutes = (
     server: { baseUrl, routes, ssr, ssrByEntries },
   } = config;
 
+  const { packageName } = appContext;
+
   let htmlRoutes = entrypoints.reduce<ServerRoute[]>(
     (previous, { entryName }) => {
-      const isSSR = Boolean(getEntryOptions(entryName, ssr, ssrByEntries));
+      const isSSR = Boolean(
+        getEntryOptions(entryName, ssr, ssrByEntries, packageName),
+      );
 
       let route: ServerRoute | ServerRoute[] = {
         urlPath: `/${entryName === MAIN_ENTRY_NAME ? '' : entryName}`,
         entryName,
         entryPath: removeLeadingSlash(
-          path.normalize(
+          path.posix.normalize(
             `${htmlPath!}/${entryName}${
               disableHtmlFolder ? '.html' : '/index.html'
             }`,
@@ -159,12 +189,13 @@ const collectStaticRoutes = (
 
   return fs.existsSync(publicFolder)
     ? walkDirectory(publicFolder).map(filePath => ({
-        urlPath: path.normalize(`/${path.relative(publicFolder, filePath)}`),
+        urlPath: `${urlJoin(
+          toPosix(filePath).slice(toPosix(publicFolder).length),
+        )}`,
         isSPA: true,
         isSSR: false,
-        entryPath: path.relative(
-          path.resolve(appDirectory, configDir!),
-          filePath,
+        entryPath: toPosix(
+          path.relative(path.resolve(appDirectory, configDir!), filePath),
         ),
       }))
     : [];
@@ -180,6 +211,9 @@ export const getServerRoutes = (
     config: NormalizedConfig;
   },
 ): ServerRoute[] => [
-  ...collectHtmlRoutes(entrypoints, config),
+  ...collectHtmlRoutes(entrypoints, appContext, config),
   ...collectStaticRoutes(appContext, config),
 ];
+
+const toPosix = (pathStr: string) =>
+  pathStr.split(path.sep).join(path.posix.sep);

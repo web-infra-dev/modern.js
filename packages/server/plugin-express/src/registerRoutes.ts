@@ -48,6 +48,12 @@ const registerRoutes = (app: Express) => {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
           const body = await handler(...args);
+
+          // this should never happen
+          if (res.headersSent) {
+            return await Promise.resolve();
+          }
+
           res.status(200);
           return res.json(body);
         } catch (e) {

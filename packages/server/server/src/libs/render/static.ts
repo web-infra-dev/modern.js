@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import mime from 'mime-types';
 import { RenderResult } from '../../type';
 import { ModernServerContext } from '../context';

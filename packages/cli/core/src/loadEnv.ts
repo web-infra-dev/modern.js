@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { path } from '@modern-js/utils';
+import path from 'path';
 import dotenv from 'dotenv';
 import dotenvExpand from 'dotenv-expand';
 
@@ -7,7 +7,9 @@ export const loadEnv = (
   appDirectory: string,
   mode: string = process.env.NODE_ENV as string,
 ) => {
-  [`.env.${mode}`, '.env']
+  // Don't change the order of the filenames， since they are ordered by the priority.
+  // Files on the left have more priority than files on the right.
+  [`.env.${mode}.local`, '.env.local', `.env.${mode}`, '.env']
     .map(name => path.resolve(appDirectory, name))
     .filter(
       filePath =>

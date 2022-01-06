@@ -2,14 +2,38 @@ import qs from 'querystring';
 import nodeFetch from 'node-fetch';
 import { compile, pathToRegexp, Key } from 'path-to-regexp';
 import { useHeaders } from '@modern-js/plugin-ssr/node';
-import type { BFFRequestPayload, Sender, RequestCreator } from '.';
+import { handleRes } from './handleRes';
+import type {
+  BFFRequestPayload,
+  Sender,
+  RequestCreator,
+  IOptions,
+  Fetch,
+} from './types';
+
+let realRequest: Fetch;
+let realAllowedHeaders: string[] = [];
+const originFetch = (...params: Parameters<typeof nodeFetch>) =>
+  nodeFetch(...params)
+    // eslint-disable-next-line promise/prefer-await-to-then
+    .then(handleRes);
+
+export const configure = (options: IOptions<typeof nodeFetch>) => {
+  const { request, interceptor, allowedHeaders } = options;
+  realRequest = (request as Fetch) || originFetch;
+  if (interceptor && !request) {
+    realRequest = interceptor(nodeFetch);
+  }
+  if (Array.isArray(allowedHeaders)) {
+    realAllowedHeaders = allowedHeaders;
+  }
+};
 
 export const createRequest: RequestCreator = (
   path: string,
   method: string,
   port: number,
   fetch = nodeFetch as any,
-  headerWhiteList: string[] = [],
 ) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
   const keys: Key[] = [];
@@ -33,9 +57,8 @@ export const createRequest: RequestCreator = (
       : plainPath;
     const headers = payload.headers || {};
     let body: any;
-
     // BFF 内网请求需要携带 SSR 请求中的 cookie 和 traceId, 如果有压测头，则添加压测头
-    for (const key of headerWhiteList) {
+    for (const key of realAllowedHeaders) {
       headers[key] = webRequestHeaders[key];
     }
 
@@ -65,8 +88,9 @@ export const createRequest: RequestCreator = (
 
     const url = `http://localhost:${port}${finalPath}`;
 
-    // eslint-disable-next-line promise/prefer-await-to-then
-    return fetch(url, { method, body, headers }).then(res => res.json());
+    const fetcher = realRequest || fetch;
+
+    return fetcher(url, { method, body, headers });
   };
 
   return sender;

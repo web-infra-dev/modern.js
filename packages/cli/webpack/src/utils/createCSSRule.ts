@@ -1,7 +1,6 @@
 import Chain from 'webpack-chain';
 import { getPostcssConfig } from '@modern-js/css-config';
 import { NormalizedConfig } from '@modern-js/core';
-import { upath } from '@modern-js/utils';
 
 interface CSSLoaderOptions {
   modules?:
@@ -24,7 +23,12 @@ interface CSSLoaderOptions {
 export const createCSSRule = (
   chain: Chain,
   { appDirectory, config }: { config: NormalizedConfig; appDirectory: string },
-  { name, test, exclude }: { name: string; test: RegExp; exclude?: RegExp[] },
+  {
+    name,
+    test,
+    exclude,
+    genTSD,
+  }: { name: string; test: RegExp; exclude?: RegExp[]; genTSD?: boolean },
   options: CSSLoaderOptions,
 ) => {
   const postcssOptions = getPostcssConfig(appDirectory, config);
@@ -40,12 +44,17 @@ export const createCSSRule = (
       chain.output.get('publicPath') === './' ? { publicPath: '../../' } : {},
     )
     .end()
+    .when(Boolean(genTSD), c => {
+      c.use('css-modules-typescript')
+        .loader(require.resolve('css-modules-typescript-loader'))
+        .end();
+    })
     .use('css')
-    .loader(upath.normalizeSafe(require.resolve('css-loader')))
+    .loader(require.resolve('css-loader'))
     .options(options)
     .end()
     .use('postcss')
-    .loader(upath.normalizeSafe(require.resolve('postcss-loader')))
+    .loader(require.resolve('postcss-loader'))
     .options(postcssOptions);
 
   loaders.oneOf(name).merge({ sideEffects: true });

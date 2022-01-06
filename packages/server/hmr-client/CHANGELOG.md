@@ -1,5 +1,25 @@
 # @modern-js/hmr-client
 
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/utils@1.1.2
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

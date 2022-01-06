@@ -1,4 +1,8 @@
-import { Import, isTypescript, upath } from '@modern-js/utils';
+import {
+  Import,
+  isTypescript,
+  createRuntimeExportsUtils,
+} from '@modern-js/utils';
 
 const core: typeof import('@modern-js/core') = Import.lazy(
   '@modern-js/core',
@@ -9,13 +13,24 @@ const features: typeof import('./features') = Import.lazy(
   require,
 );
 
-core.usePlugins([
-  upath.normalizeSafe(require.resolve('@modern-js/plugin-state/cli')),
-  require.resolve('@modern-js/plugin-router/cli'),
-]);
-
 export default core.createPlugin(
   () => ({
+    config() {
+      const appContext = core.useAppContext();
+
+      const pluginsExportsUtils = createRuntimeExportsUtils(
+        appContext.internalDirectory,
+        'plugins',
+      );
+
+      return {
+        source: {
+          alias: {
+            '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
+          },
+        },
+      };
+    },
     // app-tools and module-tools `dev storybook`
     commands({ program }: any) {
       const { appDirectory } = core.useAppContext();
@@ -23,10 +38,10 @@ export default core.createPlugin(
       const stories =
         program.$$libraryName === 'module-tools'
           ? [
-              `${appDirectory}/stories/**/*.stories.mdx`,
-              `${appDirectory}/stories/**/*.stories.@(js|jsx|ts|tsx)`,
+              `./stories/**/*.stories.mdx`,
+              `./stories/**/*.stories.@(js|jsx|ts|tsx)`,
             ]
-          : [`${appDirectory}/src/**/*.stories.@(js|jsx|ts|tsx|mdx)`];
+          : [`./src/**/*.stories.@(js|jsx|ts|tsx|mdx)`];
       if (devCommand) {
         devCommand.command('story').action(async () => {
           await features.runDev({
@@ -42,13 +57,12 @@ export default core.createPlugin(
       return {
         name: 'storybook',
         title: 'Run Storybook log',
-        taskPath: upath.normalizeSafe(require.resolve('./build-task')),
+        taskPath: require.resolve('./build-task'),
         params: [...(isTsProject ? ['--isTsProject'] : [])],
       };
     },
     // module-tools menu mode
     moduleToolsMenu() {
-      const { appDirectory } = core.useAppContext();
       return {
         name: 'Storybook 调试',
         value: 'storybook',
@@ -56,8 +70,8 @@ export default core.createPlugin(
           features.runDev({
             isTsProject,
             stories: [
-              `${appDirectory}/stories/**/*.stories.mdx`,
-              `${appDirectory}/stories/**/*.stories.@(js|jsx|ts|tsx)`,
+              `./stories/**/*.stories.mdx`,
+              `./stories/**/*.stories.@(js|jsx|ts|tsx)`,
             ],
           }),
       };

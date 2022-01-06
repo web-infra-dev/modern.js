@@ -1,10 +1,12 @@
-import Server, { ModernRoute } from '@modern-js/server';
+import Server from '@modern-js/server';
+import { ServerRoute as ModernRoute } from '@modern-js/types';
 import portfinder from 'portfinder';
 import { NormalizedConfig } from '@modern-js/core';
-import { compatRequire, upath } from '@modern-js/utils';
-import { makeRender } from '../libs/render';
+import { compatRequire } from '@modern-js/utils';
+import { makeRender } from '../libs/make';
 import { compile as createRender } from './prerender';
 import { CLOSE_SIGN } from './consts';
+import { SsgRoute } from '@/types';
 
 type Then<T> = T extends PromiseLike<infer U> ? U : T;
 
@@ -13,14 +15,10 @@ type ModernServer = Then<ReturnType<typeof Server>>;
 const safetyRequire = (filename: string, base: string) => {
   try {
     return compatRequire(
-      upath.normalizeSafe(
-        require.resolve(`${filename}/server`, { paths: [base] }),
-      ),
+      require.resolve(`${filename}/server`, { paths: [base] }),
     );
   } catch (e) {
-    return compatRequire(
-      upath.normalizeSafe(require.resolve(filename, { paths: [base] })),
-    );
+    return compatRequire(require.resolve(filename, { paths: [base] }));
   }
 };
 
@@ -71,11 +69,12 @@ process.on('message', async (chunk: string) => {
       // get server handler, render to ssr
       const render = createRender(modernServer!.getRequestHandler());
       const renderPromiseAry = makeRender(
-        routes.filter(route => !route.isApi),
+        routes.filter(route => !route.isApi) as SsgRoute[],
         render,
         port,
       );
 
+      // eslint-disable-next-line promise/no-promise-in-callback
       const htmlAry = await Promise.all(renderPromiseAry);
       htmlAry.forEach((html: string) => {
         process.send!(html);

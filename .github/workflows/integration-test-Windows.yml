@@ -1,0 +1,59 @@
+name: Integration Test(Windows)
+
+concurrency:
+  group: windows-integration-test-${{ github.head_ref }}
+  cancel-in-progress: true
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on pull request events but only for the master branch
+  pull_request:
+    branches: [main]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  Modern:
+    # The type of runner that the job will run on
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [14.x]
+        os: [windows-latest] # ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1.4.4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Check out
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 25
+
+      - name: Check docs only change
+        run: echo "::set-output name=DOCS_CHANGE::$(node skip-docs-change.js echo 'not-docs-only-change')"
+        id: docs-change
+
+      - run: echo "${{steps.docs-change.outputs.DOCS_CHANGE}}"
+
+      - name: Init
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        run: npm install -g pnpm && pnpm run setup
+
+      - name: Prepare
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        run: pnpm run prepare --filter ./packages
+
+      - name: Install Puppeteer
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        run: cd ./tests/node_modules/puppeteer && npm run install && cd ../..
+
+      - name: Test
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        run: cd ./tests && pnpm run test

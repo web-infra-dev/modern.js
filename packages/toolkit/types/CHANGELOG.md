@@ -1,5 +1,49 @@
 # @modern-js/types
 
+## 1.1.4
+
+### Patch Changes
+
+- e04914ce: add route types, fix metrics types
+- e04914ce: add route types, fix metrics types
+
+## 1.1.3
+
+### Patch Changes
+
+- d73ff455: support multi process product
+- d73ff455: support multi process product
+- d73ff455: support multi process product
+- d73ff455: support multi process product
+- d73ff455: support multi process product
+
+## 1.1.2
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [0fa83663]
+  - @modern-js/plugin@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- c0fc0700: feat: support deploy plugin
+- Updated dependencies [6ffd1a50]
+  - @modern-js/plugin@1.1.1
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/plugin@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

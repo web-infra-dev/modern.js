@@ -1,5 +1,31 @@
 # @modern-js/plugin-jarvis
 
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [6f7fe574]
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/core@1.1.2
+  - @modern-js/utils@1.1.2
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/core@1.1.0
+  - @modern-js/eslint-config@1.1.0
+  - @modern-js-app/eslint-config@1.1.0
+  - @modern-js/tsconfig@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

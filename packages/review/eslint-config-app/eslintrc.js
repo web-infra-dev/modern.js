@@ -1,7 +1,6 @@
 /* eslint-disable max-lines, no-magic-numbers */
 // const path = require('path');
 
-const { upath } = require('@modern-js/utils');
 const { jsExtensions } = require('./utils');
 
 module.exports = {
@@ -16,9 +15,7 @@ module.exports = {
     },
     sourceType: 'module',
     babelOptions: {
-      configFile: upath.normalizeSafe(
-        require.resolve('@modern-js/babel-preset-app'),
-      ),
+      configFile: require.resolve('@modern-js/babel-preset-app'),
     },
   },
   // https://www.npmjs.com/package/@babel/eslint-parser
@@ -220,7 +217,7 @@ module.exports = {
     // https://eslint.org/docs/rules/guard-for-in
     'guard-for-in': 'off',
     // https://eslint.org/docs/rules/max-classes-per-file
-    'max-classes-per-file': ['error', 1],
+    'max-classes-per-file': ['error', 3],
     // https://eslint.org/docs/rules/no-alert
     'no-alert': 'error',
     // https://eslint.org/docs/rules/no-caller
@@ -1000,6 +997,7 @@ module.exports = {
         bracketSpacing: true,
         jsxBracketSameLine: true,
         arrowParens: 'avoid',
+        endOfLine: 'auto',
       },
     ],
 
@@ -1720,7 +1718,7 @@ module.exports = {
     // https://github.com/mysticatea/eslint-plugin-node/blob/HEAD/docs/rules/process-exit-as-throw.md
     'node/process-exit-as-throw': 'off',
     // https://github.com/mysticatea/eslint-plugin-node/blob/HEAD/docs/rules/shebang.md
-    'node/shebang': 'error',
+    'node/shebang': 'off',
     // https://github.com/mysticatea/eslint-plugin-node/blob/HEAD/docs/rules/no-deprecated-api.md
     'node/no-deprecated-api': 'off',
     // https://github.com/mysticatea/eslint-plugin-node/blob/HEAD/docs/rules/exports-style.md

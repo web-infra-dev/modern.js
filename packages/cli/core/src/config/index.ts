@@ -22,6 +22,7 @@ import { patchSchema, PluginValidateSchema } from './schema';
 const debug = createDebugger('resolve-config');
 
 export { defaults as defaultsConfig };
+export { mergeConfig };
 
 export interface SourceConfig {
   entries?: Record<
@@ -105,8 +106,8 @@ export interface ServerConfig {
   ssrByEntries?: Record<string, boolean | Record<string, unknown>>;
   baseUrl?: string | Array<string>;
   port?: number;
-  logger?: Record<string, string>;
-  measure?: Record<string, string>;
+  logger?: Record<string, any>;
+  metrics?: Record<string, any>;
   enableMicroFrontendDebug?: boolean;
 }
 
@@ -116,7 +117,7 @@ export interface DevConfig {
 }
 
 export interface DeployConfig {
-  microFrontend?: boolean | Record<string, unknown>;
+  microFrontend?: boolean & Record<string, unknown>;
   domain?: string | Array<string>;
   domainByEntries?: Record<string, string | Array<string>>;
 }

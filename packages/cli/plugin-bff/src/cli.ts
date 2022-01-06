@@ -1,22 +1,23 @@
+import path from 'path';
+import fs from 'fs-extra';
 import {
   createPlugin,
   useAppContext,
   useResolvedConfigContext,
 } from '@modern-js/core';
 import { compiler } from '@modern-js/babel-compiler';
-import { PLUGIN_SCHEMAS, path, fs, upath } from '@modern-js/utils';
+import { PLUGIN_SCHEMAS, normalizeOutputPath, API_DIR } from '@modern-js/utils';
 import { resolveBabelConfig } from '@modern-js/server-utils';
 
 import type { Configuration } from 'webpack';
 import type Chain from 'webpack-chain';
 import type { ServerRoute } from '@modern-js/types';
-import { API_DIR } from './constants';
 
 declare module '@modern-js/core' {
   interface UserConfig {
     bff: {
       prefix?: string;
-      requestCreater?: string;
+      requestCreator?: string;
       fetcher?: string;
       proxy: Record<string, any>;
     };
@@ -49,25 +50,30 @@ export default createPlugin(
 
             chain.resolve.alias.set('@api', rootDir);
 
-            const apiRegexp = new RegExp(`${appDirectory}/api/.*(.[tj]s)$`);
+            const apiRegexp = new RegExp(
+              normalizeOutputPath(
+                `${appDirectory}${path.sep}api${path.sep}.*(.[tj]s)$`,
+              ),
+            );
             chain.module
               .rule('loaders')
               .oneOf('bff-client')
               .before('fallback')
               .test(apiRegexp)
               .use('custom-loader')
-              .loader(upath.normalizeSafe(require.resolve('./loader')))
+              .loader(require.resolve('./loader').replace(/\\/g, '/'))
               .options({
                 prefix,
                 apiDir: rootDir,
                 port,
                 fetcher,
                 target: _config.name,
+                requestCreator: bff?.requestCreator,
               });
           },
         },
         source: {
-          moduleScopes: [`./${API_DIR}`],
+          moduleScopes: [`./${API_DIR}`, /create-request/],
         },
       };
     },

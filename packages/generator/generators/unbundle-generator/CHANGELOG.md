@@ -1,5 +1,35 @@
 # @modern-js/unbundle-generator
 
+## 1.1.4
+
+### Patch Changes
+
+- 4a5214db: fix: generator plugin error
+
+## 1.1.3
+
+### Patch Changes
+
+- feat: bump csmith tools version
+
+## 1.1.2
+
+### Patch Changes
+
+- e12b3d0b: feat: upgrade codesmith version
+
+## 1.1.1
+
+### Patch Changes
+
+- 2c0750e1: fix generator export config
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
 ## 1.0.3
 
 ### Patch Changes

@@ -1,6 +1,42 @@
 {
   "folders": [
     {
+      "name": "cli/plugin-multiprocess",
+      "path": "packages/cli/plugin-multiprocess/"
+    },
+    {
+      "name": "server/plugin-server",
+      "path": "packages/server/plugin-server/"
+    },
+    {
+      "name": "generator/generator-plugin",
+      "path": "packages/generator/generator-plugin/"
+    },
+    {
+      "name": "cli/indenpend-host-plugin",
+      "path": "packages/cli/indenpend-host-plugin/"
+    },
+    {
+      "name": "generator/generators/cloud-deploy-generator",
+      "path": "packages/generator/generators/cloud-deploy-generator/"
+    },
+    {
+      "name": "cli/plugin-cos",
+      "path": "packages/cli/plugin-cos/"
+    },
+    {
+      "name": "cli/plugin-oss",
+      "path": "packages/cli/plugin-oss/"
+    },
+    {
+      "name": "cli/plugin-scf",
+      "path": "packages/cli/plugin-scf/"
+    },
+    {
+      "name": "cli/plugin-fc",
+      "path": "packages/cli/plugin-fc/"
+    },
+    {
       "name": "toolkit/types",
       "path": "packages/toolkit/types/"
     },

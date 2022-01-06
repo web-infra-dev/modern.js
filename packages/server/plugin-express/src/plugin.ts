@@ -19,7 +19,7 @@ export type Mode = 'function' | 'framework';
 
 const findAppModule = async (apiDir: string) => {
   const exts = ['.ts', '.js'];
-  const paths = exts.map(ext => path.join(apiDir, `app${ext}`));
+  const paths = exts.map(ext => path.resolve(apiDir, `app${ext}`));
 
   for (const filename of paths) {
     if (await fs.pathExists(filename)) {
@@ -67,6 +67,7 @@ export default createPlugin(
         app = await findAppModule(apiDir);
 
         if (!app || !app.use) {
+          console.warn('There is not api/app.ts.');
           app = express();
         }
         initApp(app);
@@ -102,8 +103,9 @@ export default createPlugin(
             if (err) {
               return reject(err);
             }
-            finalhandler(req, res, {})(null);
-            return resolve();
+            // finalhanlder will trigger 'finish' event
+            return finalhandler(req, res, {})(null);
+            // return resolve();
           };
 
           res.on('finish', (err: Error) => {

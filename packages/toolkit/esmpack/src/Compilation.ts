@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { AsyncSeriesHook, SyncHook } from 'tapable';
 import { rollup } from 'rollup';
 import cloneDeep from 'lodash/cloneDeep';

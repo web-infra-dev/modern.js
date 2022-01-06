@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 import { createMatchPath } from 'tsconfig-paths';
 import { resolvePath } from 'babel-plugin-module-resolver';
 import { PluginOptions } from '@babel/core';
@@ -18,6 +18,19 @@ export const aliasPlugin = (alias: AliasOption): [string, PluginOptions] => {
   if (isTsProject) {
     tsPaths = getUserAlias(mergedPaths);
   }
+
+  tsPaths = Object.keys(tsPaths).reduce((o, key) => {
+    if (typeof tsPaths[key] === 'string') {
+      return {
+        ...o,
+        [`${key}`]: [tsPaths[key]],
+      };
+    }
+    return {
+      ...o,
+      [`${key}`]: tsPaths[key],
+    };
+  }, {});
 
   const resolvePathFn = (
     sourcePath: string,
@@ -47,9 +60,11 @@ export const aliasPlugin = (alias: AliasOption): [string, PluginOptions] => {
       );
       const fileName = path.basename(result);
       // 如果是同级文件，则返回的是 ''
-      const filePath = path.normalize(
-        `${relativePath.length === 0 ? '.' : relativePath}/${fileName}`,
-      );
+      const filePath = path
+        .normalize(
+          `${relativePath.length === 0 ? '.' : relativePath}/${fileName}`,
+        )
+        .replace(/\\/, '/');
       return filePath.startsWith('.') ? filePath : `./${filePath}`;
     }
     return resolvePath(sourcePath, currentFile, opts);

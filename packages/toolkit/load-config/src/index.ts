@@ -1,5 +1,6 @@
 import fs from 'fs';
-import { path, findExists, createDebugger } from '@modern-js/utils';
+import path from 'path';
+import { findExists, createDebugger } from '@modern-js/utils';
 import { bundleRequire } from '@modern-js/node-bundle-require';
 
 const debug = createDebugger('load-config');

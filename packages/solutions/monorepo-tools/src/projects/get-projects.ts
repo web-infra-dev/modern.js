@@ -20,7 +20,6 @@ export interface IFindSubProjectConfig {
   projectsConfig?: {
     name: string;
     path: string;
-    // TODO: 要不要支持 shouldPublish 配置。借鉴rush.json
   }[];
 
   /**

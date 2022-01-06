@@ -4,8 +4,9 @@ export const ZH_LOCALE = {
       describe: '本地开发命令',
       config: '制定配置文件路径',
     },
-    build: { describe: '构建应用命令' },
+    build: { describe: '构建应用命令', analyze: '分析构建产物' },
     start: { describe: '应用启动命令' },
+    deploy: { describe: '部署应用命令' },
     new: {
       describe: 'MWA 项目中中执行生成器',
       debug: '开启 Debug 模式，打印调试日志信息',

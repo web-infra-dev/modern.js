@@ -1,9 +1,9 @@
 packages:
  - 'packages/*'
-#  - 'examples/**/*'
  - 'packages/cli/*'
  - 'packages/generator/*'
  - 'packages/generator/generators/*'
+ - 'packages/generator/plugins/*'
  - 'packages/review/*'
  - 'packages/server/*'
  - 'packages/solutions/*'

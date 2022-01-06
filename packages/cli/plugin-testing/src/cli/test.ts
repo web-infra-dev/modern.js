@@ -1,16 +1,10 @@
-import { path, upath } from '@modern-js/utils';
+import path from 'path';
 import { compiler } from '@modern-js/babel-compiler';
 import { useAppContext, useResolvedConfigContext } from '@modern-js/core';
-import { TestConfig, runTest } from '@modern-js/testing';
+import { runTest } from '@modern-js/testing';
 import { getWebpackConfig, WebpackConfigTarget } from '@modern-js/webpack';
-// import testingBffPlugin from '@modern-js/testing-plugin-bff';
+import testingBffPlugin from '@modern-js/testing-plugin-bff';
 import modernTestPlugin from './plugins/modern';
-
-declare module '@modern-js/core' {
-  interface UserConfig {
-    testing: TestConfig;
-  }
-}
 
 const test = async () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -28,12 +22,12 @@ const test = async () => {
   userConfig.testing.plugins = [
     ...(userConfig.testing.plugins || []),
     modernTestPlugin(webpackConfigs, userConfig, config.appDirectory),
-    // testingBffPlugin({
-    //   pwd: config.appDirectory,
-    //   userConfig: userConfig,
-    //   plugins: config.plugins.map(p => p.server).filter(Boolean),
-    //   routes: (config as any).serverRoutes
-    // }),
+    testingBffPlugin({
+      pwd: config.appDirectory,
+      userConfig,
+      plugins: config.plugins.map(p => p.server).filter(Boolean),
+      routes: (config as any).serverRoutes,
+    }),
   ];
 
   const runtimeExportsPath = path.join(
@@ -51,7 +45,7 @@ const test = async () => {
     {
       presets: [
         [
-          upath.normalizeSafe(require.resolve('@babel/preset-env')),
+          require.resolve('@babel/preset-env'),
           {
             modules: 'cjs',
           },
@@ -64,3 +58,13 @@ const test = async () => {
 };
 
 export default test;
+
+declare module '@modern-js/core' {
+  interface UserConfig {
+    testing?: import('@modern-js/testing').TestConfig;
+  }
+
+  interface ToolsConfig {
+    jest?: import('@modern-js/testing').TestConfig['jest'];
+  }
+}

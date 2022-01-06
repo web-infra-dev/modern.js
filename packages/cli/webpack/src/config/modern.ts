@@ -4,7 +4,6 @@ import {
   applyOptionsChain,
   isUseSSRBundle,
   removeLeadingSlash,
-  upath,
 } from '@modern-js/utils';
 import { ClientWebpackConfig } from './client';
 
@@ -30,6 +29,20 @@ class ModernWebpackConfig extends ClientWebpackConfig {
     this.chain.name('modern');
   }
 
+  plugins() {
+    super.plugins();
+
+    if (this.options.cliOptions?.analyze) {
+      this.chain.plugin('bundle-analyze').tap(() => [
+        {
+          analyzerMode: 'static',
+          openAnalyzer: false,
+          reportFilename: 'report-modern.html',
+        },
+      ]);
+    }
+  }
+
   loaders() {
     const loaders = super.loaders();
 
@@ -42,7 +55,7 @@ class ModernWebpackConfig extends ClientWebpackConfig {
         ...babelOptions,
         presets: [
           [
-            upath.normalizeSafe(require.resolve('@modern-js/babel-preset-app')),
+            require.resolve('@modern-js/babel-preset-app'),
             {
               appDirectory: this.appDirectory,
               target: 'client',

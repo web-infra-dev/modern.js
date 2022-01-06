@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 import { Import } from '@modern-js/utils';
 import type { NormalizedConfig, IAppContext } from '@modern-js/core';
 import { valid } from './utils/valid';

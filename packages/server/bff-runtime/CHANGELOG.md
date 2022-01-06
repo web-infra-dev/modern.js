@@ -1,5 +1,25 @@
 # @modern-js/bff-runtime
 
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [b011e0c5]
+- Updated dependencies [0fa83663]
+  - @modern-js/server-utils@1.1.1
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/server-utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

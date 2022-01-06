@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import fs from 'fs-extra';
 import findUp from 'find-up';
 import type { Compiler } from '../Compiler';

@@ -1,10 +1,10 @@
 import * as path from 'path';
 import fs from 'fs';
+import cp from 'child_process';
 import { Application } from 'egg';
 import { createPlugin } from '@modern-js/server-plugin';
+import { createTsHelperInstance } from 'egg-ts-helper';
 import { registerMiddleware, registerRoutes } from './utils';
-
-export { default as egg } from 'egg';
 
 interface FrameConfig {
   middleware: Application['middleware'] | string[];
@@ -21,6 +21,23 @@ export type Mode = 'function' | 'framework';
 const API_DIR = './api';
 const SERVER_DIR = './server';
 
+let agent: any;
+let application: any;
+
+const mockFn = (
+  obj: Record<string, any>,
+  name: string,
+  fn: (oldImpl: (...args: any[]) => any) => (...args: any[]) => any,
+): (() => void) => {
+  const oldImpl = obj[name];
+  const newImpl = fn(oldImpl);
+  obj[name] = newImpl;
+  return () => {
+    obj[name] = oldImpl;
+  };
+};
+
+// eslint-disable-next-line max-statements
 const initApp = async (options: StartOptions): Promise<Application> => {
   options.baseDir = options.baseDir || process.cwd();
   options.mode = 'single';
@@ -45,9 +62,16 @@ const initApp = async (options: StartOptions): Promise<Application> => {
     Agent = require('egg/lib/agent');
   }
 
-  const agent = new Agent({ ...options });
+  if (application) {
+    agent.close();
+    application.close();
+  }
+
+  agent = new Agent({ ...options });
   await agent.ready();
-  const application = new App({ ...options });
+  // eslint-disable-next-line require-atomic-updates
+  application = new App({ ...options });
+  // eslint-disable-next-line require-atomic-updates
   application.agent = agent;
   agent.application = application;
   await application.ready();
@@ -57,10 +81,65 @@ const initApp = async (options: StartOptions): Promise<Application> => {
   return application;
 };
 
-const enableTs = (pwd: string) => {
+const enableTs = (pwd: string, generateType: boolean) => {
   const tsconfig = path.join(pwd, 'tsconfig.json');
-  if (fs.existsSync(tsconfig)) {
-    process.env.EGG_TYPESCRIPT = 'true';
+  const isTsProject = fs.existsSync(tsconfig);
+  if (!isTsProject) {
+    return;
+  }
+  process.env.EGG_TYPESCRIPT = 'true';
+
+  if (generateType) {
+    const watch = process.env.NODE_ENV === 'development';
+    const files = ['tsconfig.json', 'package.json'];
+    const apiDir = path.join(pwd, API_DIR);
+
+    const restoreExists = mockFn(fs, 'existsSync', originFn => filename => {
+      for (const file of files) {
+        if (filename === path.join(apiDir, file)) {
+          return originFn.call(fs, path.join(pwd, file));
+        }
+      }
+      return originFn.call(fs, filename);
+    });
+
+    const restoreReadFile = mockFn(
+      fs,
+      'readFileSync',
+      originFn =>
+        (...args: any[]) => {
+          const filename = args[0];
+          for (const file of files) {
+            if (filename === path.join(apiDir, file)) {
+              return originFn.apply(fs, [
+                path.join(pwd, file),
+                ...args.slice(1),
+              ]);
+            }
+          }
+          return originFn.apply(fs, [filename, ...args.slice(1)]);
+        },
+    );
+
+    const restoreExec = mockFn(cp, 'execSync', originFn => (...args: any[]) => {
+      if (args) {
+        const opts = args[1];
+        const cwd = opts?.cwd;
+        if (cwd && cwd === apiDir) {
+          opts.cwd = path.join(cwd, '../');
+        }
+        return originFn.apply(cp, [args[0], args[1], ...args.slice(2)]);
+      }
+      return originFn.apply(cp, [...args]);
+    });
+
+    createTsHelperInstance({ watch, cwd: apiDir }).build();
+
+    restoreExists();
+
+    restoreReadFile();
+
+    restoreExec();
   }
 };
 
@@ -79,7 +158,9 @@ export default createPlugin(
   () => ({
     async prepareApiServer({ pwd, mode, config, prefix }) {
       const apiDir = path.join(pwd, API_DIR);
-      enableTs(pwd);
+
+      const isGenerateType = process.env.NODE_ENV === 'development';
+      enableTs(pwd, isGenerateType);
       const app: Application = await initApp({
         framework: './framework',
         baseDir: apiDir,
@@ -118,7 +199,7 @@ export default createPlugin(
     },
     async prepareWebServer({ config, pwd }) {
       const serverDir = path.join(pwd, SERVER_DIR);
-      enableTs(pwd);
+      enableTs(pwd, false);
       const app = await initApp({
         framework: './framework',
         baseDir: serverDir,
@@ -159,3 +240,5 @@ export default createPlugin(
     pre: ['@modern-js/plugin-bff'],
   },
 );
+
+export { default as egg } from 'egg';

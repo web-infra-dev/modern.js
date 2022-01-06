@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 import * as glob from 'glob';
 import { chalk, fs } from '@modern-js/utils';
 

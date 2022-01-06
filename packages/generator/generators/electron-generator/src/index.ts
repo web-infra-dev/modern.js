@@ -1,9 +1,9 @@
+import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import { FsAPI } from '@modern-js/codesmith-api-fs';
 import {
-  path,
   fs,
   isTsProject,
   getPackageManager,
@@ -20,13 +20,14 @@ const handleTemplateFile = async (
   const fsAPI = new FsAPI(generator);
   const isTs = isTsProject(context.materials.default.basePath);
   const { material } = context.current!;
+  const { projectPath = '' } = context.config;
 
   await fsAPI.renderDir(
     material,
     'templates/base-template/**/*',
     (resourceKey: string) =>
       resourceKey
-        .replace('templates/base-template/', '')
+        .replace('templates/base-template/', projectPath)
         .replace('.handlebars', isTs ? '.ts' : '.js'),
     {
       nodir: true,
@@ -40,7 +41,7 @@ const handleTemplateFile = async (
       undefined,
       (resourceKey: string) =>
         resourceKey
-          .replace('templates/init-template/', '')
+          .replace('templates/init-template/', projectPath)
           .replace('.handlebars', ''),
     );
   }
@@ -51,14 +52,19 @@ const handleTemplateFile = async (
       undefined,
       (resourceKey: string) =>
         resourceKey
-          .replace('templates/ts-template/', '')
+          .replace('templates/ts-template/', projectPath)
           .replace('.handlebars', ''),
     );
 
     const appDir = context.materials.default.basePath;
-    const typePath = path.join(appDir, 'src', 'modern-app-env.d.ts');
+    const typePath = path.join(
+      appDir,
+      projectPath,
+      'src',
+      'modern-app-env.d.ts',
+    );
     const appendContent = `/// <reference types="@modern-js/runtime" />
-  /// <reference types="@modern-js/plugin-electron/global" />
+/// <reference types="@modern-js/plugin-electron/global" />
       `;
     if (fs.existsSync(typePath)) {
       const npmrc = fs.readFileSync(typePath, 'utf-8');
@@ -73,7 +79,7 @@ const handleTemplateFile = async (
       undefined,
       (resourceKey: string) =>
         resourceKey
-          .replace('templates/js-template/', '')
+          .replace('templates/js-template/', projectPath)
           .replace('.handlebars', ''),
     );
   }
@@ -94,10 +100,13 @@ const handleTemplateFile = async (
   }
 
   const jsonAPI = new JsonAPI(generator);
-  await jsonAPI.update(context.materials.default.get('package.json'), {
-    query: {},
-    update: { $set: updateInfo },
-  });
+  await jsonAPI.update(
+    context.materials.default.get(path.join(projectPath, 'package.json')),
+    {
+      query: {},
+      update: { $set: updateInfo },
+    },
+  );
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {

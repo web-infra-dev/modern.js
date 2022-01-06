@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.0.0",
+  "version": "1.1.5",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -26,7 +26,8 @@
       "default": "./dist/js/treeshaking/index.js"
     },
     "./cli": "./dist/js/node/index.js",
-    "./addons/runtime-preset": "./addons/runtime-preset.js"
+    "./addons/runtime-preset": "./addons/runtime-preset.js",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "prepare": "pnpm build",
@@ -37,10 +38,11 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/plugin-router": "workspace:^1.0.0",
-    "@modern-js/plugin-state": "workspace:^1.0.0",
-    "@modern-js/utils": "workspace:^1.0.0",
-    "@modern-js/webpack": "workspace:^1.0.0",
+    "@modern-js/esbuild-compiler": "workspace:^0.1.1",
+    "@modern-js/plugin-router": "workspace:^1.1.1",
+    "@modern-js/plugin-state": "workspace:^1.1.3",
+    "@modern-js/utils": "workspace:^1.1.5",
+    "@modern-js/webpack": "workspace:^1.1.2",
     "@storybook/addon-actions": "^6.3.8",
     "@storybook/addon-essentials": "^6.3.8",
     "@storybook/addon-links": "^6.3.8",
@@ -59,10 +61,12 @@
     "process.argv": "^0.6.0"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.0.0",
-    "@modern-js/module-tools-hooks": "workspace:^1.0.0",
-    "@modern-js/runtime": "workspace:^1.0.0",
-    "@modern-js/runtime-core": "workspace:^1.0.0",
+    "@modern-js/core": "workspace:^1.2.0",
+    "@modern-js/module-tools": "^1.1.3",
+    "@modern-js/module-tools-hooks": "workspace:^1.1.2",
+    "@modern-js/plugin-testing": "^1.2.0",
+    "@modern-js/runtime": "workspace:^1.1.1",
+    "@modern-js/runtime-core": "workspace:^1.1.2",
     "@storybook/addons": "^6.3.7",
     "@types/findup-sync": "^4.0.1",
     "@types/fs-extra": "^9.0.12",
@@ -76,14 +80,12 @@
     "commander": "^8.1.0",
     "typescript": "^4",
     "webpack": "^5.54.0",
-    "webpack-chain": "^6.5.1",
-    "@modern-js/plugin-testing": "^1.0.0",
-    "@modern-js/module-tools": "^1.0.0"
+    "webpack-chain": "^6.5.1"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.0.0",
-    "@modern-js/runtime-core": "workspace:^1.0.0",
-    "@modern-js/runtime": "workspace:^1.0.0"
+    "@modern-js/core": "workspace:^1.2.0",
+    "@modern-js/runtime": "workspace:^1.1.1",
+    "@modern-js/runtime-core": "workspace:^1.1.2"
   },
   "sideEffects": false,
   "modernConfig": {},

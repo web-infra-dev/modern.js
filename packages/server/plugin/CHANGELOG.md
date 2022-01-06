@@ -1,5 +1,41 @@
 # @modern-js/server-plugin
 
+## 1.1.3
+
+### Patch Changes
+
+- e04914ce: add route types, fix metrics types
+- e04914ce: add route types, fix metrics types
+
+## 1.1.2
+
+### Patch Changes
+
+- 085a6a58: refactor server plugin
+- 085a6a58: refactor server plugin
+- 085a6a58: refactor server conifg
+- 085a6a58: support server runtime
+- 085a6a58: feat: refactor server plugin
+
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [0fa83663]
+  - @modern-js/plugin@1.1.2
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/plugin@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

@@ -28,7 +28,7 @@ interface IModuleNewActionOption {
   debug?: boolean;
   registry?: string;
   config?: string;
-  pwd?: string;
+  cwd?: string;
 }
 // eslint-disable-next-line max-statements
 export const ModuleNewAction = async (options: IModuleNewActionOption) => {
@@ -38,7 +38,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     debug = false,
     registry = '',
     config = '{}',
-    pwd = process.cwd(),
+    cwd = process.cwd(),
   } = options;
 
   let UserConfig: Record<string, unknown> = {};
@@ -56,7 +56,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     registryUrl: registry,
   });
 
-  if (!alreadyRepo()) {
+  if (!alreadyRepo(cwd)) {
     smith.logger.warn('not valid modern.js repo');
   }
 
@@ -79,7 +79,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
         ModuleActionFunctionsDependencies,
         ModuleActionFunctionsDevDependencies,
         ModuleActionFunctionsPeerDependencies,
-        pwd,
+        cwd,
       );
       const { when } = schemaItem;
       schemaItem.when = enable ? () => false : when;
@@ -113,11 +113,11 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     generator = `${generator}@${distTag}`;
   }
 
-  const devDependencie =
+  const devDependency =
     ModuleActionFunctionsDevDependencies[action as ActionFunction];
-  const dependence =
+  const dependency =
     ModuleActionFunctionsDependencies[action as ActionFunction];
-  const peerDependencie =
+  const peerDependency =
     ModuleActionFunctionsPeerDependencies[action as ActionFunction];
 
   const finalConfig = merge(
@@ -125,17 +125,19 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     ans,
     {
       locale: (UserConfig.locale as string) || locale,
-      packageManager: getPackageManager(pwd),
+      packageManager: getPackageManager(cwd),
     },
     {
-      devDependencies: devDependencie
-        ? { [devDependencie]: `^${await getPackageVersion(devDependencie)}` }
+      devDependencies: devDependency
+        ? { [devDependency]: `^${await getPackageVersion(devDependency)}` }
         : {},
-      dependencies: dependence
-        ? { [dependence]: `^${await getPackageVersion(dependence)}` }
+      dependencies: dependency
+        ? { [dependency]: `^${await getPackageVersion(dependency)}` }
         : {},
-      peerDependencies: peerDependencie
-        ? { [peerDependencie]: `^${await getPackageVersion(peerDependencie)}` }
+      peerDependencies: peerDependency
+        ? {
+            [peerDependency]: `^${await getPackageVersion(peerDependency)}`,
+          }
         : {},
     },
   );
@@ -152,6 +154,6 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
       generator: runner.name,
       config: runner.config,
     })),
-    pwd,
+    pwd: cwd,
   });
 };

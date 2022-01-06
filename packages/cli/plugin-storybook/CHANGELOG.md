@@ -1,5 +1,97 @@
 # @modern-js/plugin-storybook
 
+## 1.1.5
+
+### Patch Changes
+
+- ca7dcb32: support CORE_INIT_OPTION_FILE env and add resolve modules for pnpm and yarn
+- Updated dependencies [90eeb72c]
+- Updated dependencies [e04914ce]
+- Updated dependencies [4406c2db]
+- Updated dependencies [5a4c557e]
+- Updated dependencies [e04914ce]
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [ecb344dc]
+  - @modern-js/core@1.2.0
+  - @modern-js/plugin-state@1.1.3
+  - @modern-js/runtime-core@1.1.2
+  - @modern-js/utils@1.1.5
+
+## 1.1.4
+
+### Patch Changes
+
+- d927bc83: remove esbuild and use @modenr-js/esbuild-compiler
+- Updated dependencies [d927bc83]
+- Updated dependencies [d73ff455]
+- Updated dependencies [9c1ab865]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d927bc83]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+  - @modern-js/utils@1.1.4
+  - @modern-js/core@1.1.4
+  - @modern-js/esbuild-compiler@0.1.1
+
+## 1.1.3
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- cf23f9ee: change stories paths
+- Updated dependencies [6f7fe574]
+- Updated dependencies [e4755134]
+- Updated dependencies [0fa83663]
+- Updated dependencies [19b4f79e]
+- Updated dependencies [f594fbc8]
+- Updated dependencies [d1fde77a]
+  - @modern-js/core@1.1.2
+  - @modern-js/webpack@1.1.2
+  - @modern-js/runtime@1.1.1
+  - @modern-js/plugin-state@1.1.2
+  - @modern-js/runtime-core@1.1.1
+  - @modern-js/utils@1.1.2
+  - @modern-js/plugin-router@1.1.1
+
+## 1.1.2
+
+### Patch Changes
+
+- 3b51dd6b: remove appDirectory for stories path
+- Updated dependencies [725c4ff0]
+- Updated dependencies [687c92c7]
+- Updated dependencies [c0fc0700]
+  - @modern-js/plugin-state@1.1.1
+  - @modern-js/core@1.1.1
+  - @modern-js/webpack@1.1.1
+  - @modern-js/utils@1.1.1
+
+## 1.1.1
+
+### Patch Changes
+
+- 6cfc16e: change generator main and preview config file
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- 6b802b2a: use path method from @modern-js/utils
+- 6b0d0c5d: modify the way the preview file is generated
+- Updated dependencies [96119db2]
+  - @modern-js/core@1.1.0
+  - @modern-js/plugin-router@1.1.0
+  - @modern-js/runtime@1.1.0
+  - @modern-js/plugin-state@1.1.0
+  - @modern-js/webpack@1.1.0
+  - @modern-js/runtime-core@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

@@ -1,7 +1,8 @@
 import { Import, fs } from '@modern-js/utils';
-import type { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig, CoreOptions } from '@modern-js/core';
 import type { ICompilerResult, IVirtualDist } from '@modern-js/babel-compiler';
 import type { ITsconfig } from '../types';
+import { initEnv } from './build-source-code';
 
 const babelCompiler: typeof import('@modern-js/babel-compiler') = Import.lazy(
   '@modern-js/babel-compiler',
@@ -81,7 +82,7 @@ const runBabelCompiler = async (
       watchDir: config.srcRootDir,
       extensions: getExts(isTs),
     },
-    babelConfig,
+    { ...babelConfig, sourceMaps: config.sourceMaps },
   );
   emitter.on(babelCompiler.BuildWatchEvent.compiling, () => {
     console.info(logger.clearFlag, `Compiling...`);
@@ -164,12 +165,17 @@ const taskMain = async ({
     syntax: 'es5',
     type: 'module',
   });
+  process.env.BUILD_FORMAT = initEnv(config);
 
   await buildSourceCode(config, modernConfig);
 };
 
 (async () => {
-  const { resolved } = await core.cli.init();
+  let options: CoreOptions | undefined;
+  if (process.env.CORE_INIT_OPTION_FILE) {
+    ({ options } = require(process.env.CORE_INIT_OPTION_FILE));
+  }
+  const { resolved } = await core.cli.init([], options);
   await core.manager.run(async () => {
     try {
       await taskMain({ modernConfig: resolved });

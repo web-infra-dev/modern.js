@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { resolveBabelConfig } from '@modern-js/server-utils';
 import { ModernServerOptions } from '../../type';
 
@@ -22,7 +22,7 @@ export const enableRegister = (
     only: [
       function (filePath: string) {
         // TODO: wait params
-        if (filePath.includes('node_modules/.modern-js')) {
+        if (filePath.includes(`node_modules${path.sep}.modern-js`)) {
           return true;
         }
         return registerDirs.some(registerDir =>

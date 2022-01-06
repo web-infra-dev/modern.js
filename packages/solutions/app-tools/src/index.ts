@@ -1,5 +1,4 @@
 import { createPlugin, defineConfig, usePlugins, cli } from '@modern-js/core';
-import { upath } from '@modern-js/utils';
 import { lifecycle } from './lifecycle';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils/language';
@@ -10,9 +9,9 @@ export { defineConfig };
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 usePlugins([
-  upath.normalizeSafe(require.resolve('@modern-js/plugin-analyze/cli')),
-  upath.normalizeSafe(require.resolve('@modern-js/plugin-fast-refresh/cli')),
-  upath.normalizeSafe(require.resolve('@modern-js/plugin-polyfill/cli')),
+  require.resolve('@modern-js/plugin-analyze/cli'),
+  require.resolve('@modern-js/plugin-fast-refresh/cli'),
+  require.resolve('@modern-js/plugin-polyfill/cli'),
 ]);
 
 export default createPlugin(
@@ -37,9 +36,13 @@ export default createPlugin(
           .command('build')
           .usage('[options]')
           .description(i18n.t(localeKeys.command.build.describe))
-          .action(async () => {
+          .option('--analyze', i18n.t(localeKeys.command.build.analyze))
+          .action(async (options: any) => {
             const { build } = await import('./commands/build');
-            await build();
+            await build(options);
+            // force exit after build.
+            // eslint-disable-next-line no-process-exit
+            process.exit(0);
           });
 
         program
@@ -48,6 +51,19 @@ export default createPlugin(
           .description(i18n.t(localeKeys.command.start.describe))
           .action(async () => {
             await start();
+          });
+
+        program
+          .command('deploy')
+          .usage('[options]')
+          .description(i18n.t(localeKeys.command.deploy.describe))
+          .action(async (options: any) => {
+            const { build } = await import('./commands/build');
+            await build();
+            const { deploy } = await import('./commands/deploy');
+            await deploy(options);
+            // eslint-disable-next-line no-process-exit
+            process.exit(0);
           });
 
         program

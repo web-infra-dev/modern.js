@@ -2,8 +2,13 @@ import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { i18n } from '@modern-js/generator-common';
 
-const handleTemplateFile = async (appApi: AppAPI) => {
-  await appApi.forgeTemplate('templates/**/*');
+const handleTemplateFile = async (
+  appApi: AppAPI,
+  context: GeneratorContext,
+) => {
+  await appApi.forgeTemplate('templates/**/*', undefined, undefined, {
+    defaultBranch: context.config.defaultBranch || 'master',
+  });
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
@@ -22,7 +27,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   generator.logger.debug(`context=${JSON.stringify(context)}`);
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
-  await handleTemplateFile(appApi);
+  await handleTemplateFile(appApi, context);
 
   generator.logger.debug(`forge @modern-js/changeset-generator succeed `);
 };

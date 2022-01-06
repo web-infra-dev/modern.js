@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import fs from 'fs-extra';
 import type { ImportMap } from '../../src/Compiler';
 import { transformEsmImports } from '../../src/utils/transformEsmImports';

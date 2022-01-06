@@ -1,4 +1,5 @@
-import { isFunction, logger, isPlainObject } from '.';
+// eslint-disable-next-line import/no-useless-path-segments
+import { isFunction, logger, isPlainObject } from './index';
 
 export const applyOptionsChain = <T, U>(
   defaults: T,

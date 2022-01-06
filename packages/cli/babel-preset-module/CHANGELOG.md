@@ -1,5 +1,40 @@
 # @modern-js/babel-preset-module
 
+## 1.1.2
+
+### Patch Changes
+
+- ca7dcb32: change check static file logic and fix node build error path
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [ca7dcb32]
+  - @modern-js/babel-preset-lib@1.1.4
+  - @modern-js/utils@1.1.5
+
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [b011e0c5]
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+- Updated dependencies [395beb1e]
+  - @modern-js/babel-preset-lib@1.1.1
+  - @modern-js/babel-chain@1.1.1
+  - @modern-js/utils@1.1.2
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0### Patch Changes
+
+- 6b802b2a: use path method from @modern-js/utils
+- Updated dependencies [96119db2]
+  - @modern-js/babel-preset-lib@1.1.0
+  - @modern-js/babel-chain@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

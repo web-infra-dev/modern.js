@@ -3,10 +3,15 @@ import { URL } from 'url';
 import qs from 'querystring';
 import type {
   ModernServerContext as ModernServerContextInterface,
-  Measure,
+  Metrics,
   Logger,
 } from '@modern-js/types/server';
 import { toMessage } from '../../utils';
+
+export type ContextOptions = {
+  logger?: Logger;
+  metrics?: Metrics;
+};
 
 export class ModernServerContext implements ModernServerContextInterface {
   /**
@@ -26,17 +31,21 @@ export class ModernServerContext implements ModernServerContextInterface {
 
   public logger: Logger;
 
-  public measure?: Measure;
+  public metrics?: Metrics;
 
-  constructor(
-    req: IncomingMessage,
-    res: ServerResponse,
-    { logger, measure }: { logger: Logger; measure: Measure },
-  ) {
+  constructor(req: IncomingMessage, res: ServerResponse) {
     this.req = req;
     this.res = res;
-    this.logger = logger;
-    this.measure = measure;
+    this.logger = req.logger;
+    this.metrics = req.metrics;
+
+    this.bind();
+  }
+
+  private bind() {
+    const { req, res } = this as any;
+    req.get = (key: string) => this.getReqHeader(key);
+    res.set = (key: string, value: any) => this.res.setHeader(key, value);
   }
 
   public setParams(params: Record<string, string>) {
@@ -58,10 +67,6 @@ export class ModernServerContext implements ModernServerContextInterface {
   /* request property */
   public get headers() {
     return this.req.headers;
-  }
-
-  public set headers(val) {
-    this.req.headers = val;
   }
 
   public get method(): string {

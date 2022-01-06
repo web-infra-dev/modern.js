@@ -70,5 +70,14 @@ module.exports = {
         'filenames/match-exported': 'off',
       },
     },
+    // ignore auto-generated css module declarations
+    {
+      files: ['*.css.d.ts'],
+      rules: {
+        'pre/match-regex': 'off',
+        'filenames/match-exported': 'off',
+        'prettier/prettier': 'off',
+      },
+    },
   ],
 };

@@ -1,5 +1,57 @@
 # @modern-js/generator-common
 
+## 1.2.2
+
+### Patch Changes
+
+- facd5bf8: fix: create sub-solution error
+
+## 1.2.1
+
+### Patch Changes
+
+- 4a5214db: fix: generator plugin error
+
+## 1.2.0
+
+### Minor Changes
+
+- e12b3d0b: feat: support generator plugin
+
+## 1.1.3
+
+### Patch Changes
+
+- 2c0750e1: fix generator export config
+
+## 1.1.2
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- 429aab90: feat: base generator support input
+- Updated dependencies [0fa83663]
+  - @modern-js/plugin-i18n@1.1.1
+
+## 1.1.1
+
+### Patch Changes
+
+- 687c92c7: refactor: generator input questions
+  feat: add eslint generator
+- c0fc0700: feat: support deploy plugin
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/plugin-i18n@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { path } from '@modern-js/utils';
+import path from 'path';
 import {
   extractAPIHandlers,
   getMethod,
@@ -48,16 +48,18 @@ describe('server', () => {
 
   describe('getRouteName', () => {
     it('normal path', () => {
-      expect(getRouteName('', '/foo.ts')).toBe('/foo');
-      expect(getRouteName('', '/foo/test.ts')).toBe('/foo/test');
+      expect(getRouteName('', path.normalize('/foo.ts'))).toBe('/foo');
+      expect(getRouteName('', path.normalize('/foo/test.ts'))).toBe(
+        '/foo/test',
+      );
     });
 
     it('with params', () => {
-      expect(getRouteName('', '/[id]/foo.ts')).toBe('/:id/foo');
+      expect(getRouteName('', path.normalize('/[id]/foo.ts'))).toBe('/:id/foo');
     });
 
     it('with index', () => {
-      expect(getRouteName('', '/foo/index.ts')).toBe('/foo');
+      expect(getRouteName('', path.normalize('/foo/index.ts'))).toBe('/foo');
     });
   });
 });

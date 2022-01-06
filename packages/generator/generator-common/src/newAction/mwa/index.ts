@@ -21,6 +21,7 @@ export const MWAActionFunctions = [
   ActionFunction.Less,
   ActionFunction.Sass,
   ActionFunction.BFF,
+  ActionFunction.SSG,
   ActionFunction.MicroFrontend,
   ActionFunction.Electron,
   // ActionFunction.I18n,
@@ -28,12 +29,9 @@ export const MWAActionFunctions = [
   ActionFunction.Storybook,
   // ActionFunction.E2ETest,
   // ActionFunction.Doc,
+  ActionFunction.Deploy,
 ];
-export const MWAActionElements = [
-  ActionElement.Entry,
-  ActionElement.Server,
-  // ActionElement.Env,
-];
+export const MWAActionElements = [ActionElement.Entry, ActionElement.Server];
 export const MWAActionReactors = [ActionRefactor.BFFToApp];
 
 export const MWAActionTypesMap: Record<ActionType, string[]> = {
@@ -95,6 +93,7 @@ export const MWAActionFunctionsDependencies: Partial<
   [ActionFunction.BFF]: '@modern-js/plugin-bff',
   [ActionFunction.MicroFrontend]: '@modern-js/plugin-micro-frontend',
   [ActionFunction.I18n]: '@modern-js/plugin-i18n',
+  [ActionFunction.SSG]: '@modern-js/plugin-ssg',
 };
 
 export const MWANewActionGenerators: Record<
@@ -103,7 +102,6 @@ export const MWANewActionGenerators: Record<
 > = {
   [ActionType.Element]: {
     [ActionElement.Entry]: '@modern-js/entry-generator',
-    [ActionElement.Env]: '@modern-js/env-generator',
     [ActionElement.Server]: '@modern-js/server-generator',
   },
   [ActionType.Function]: {
@@ -119,6 +117,8 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.E2ETest]: '@modern-js/dependence-generator',
     [ActionFunction.Doc]: '@modern-js/dependence-generator',
     [ActionFunction.Storybook]: '@modern-js/dependence-generator',
+    [ActionFunction.SSG]: '@modern-js/ssg-generator',
+    [ActionFunction.Deploy]: '@modern-js/cloud-deploy-generator',
   },
   [ActionType.Refactor]: {
     [ActionRefactor.BFFToApp]: '@modern-js/bff-refactor-generator',

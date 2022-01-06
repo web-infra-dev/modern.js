@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { useAppContext, createPlugin } from '@modern-js/core';
-import { createRuntimeExportsUtils, upath } from '@modern-js/utils';
+import { createRuntimeExportsUtils } from '@modern-js/utils';
 
 export default createPlugin(
   () => {
@@ -11,25 +11,44 @@ export default createPlugin(
       config() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const appContext = useAppContext();
+        const { appDirectory } = appContext;
         bffExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
           'server',
         );
 
+        const serverRuntimePath = bffExportsUtils.getPath();
+
+        // Look up one level, because the artifacts after build have dist directories
+        let relativeRuntimePath = path.join(
+          '../',
+          path.relative(appDirectory, serverRuntimePath),
+        );
+
+        if (
+          process.env.NODE_ENV === 'development' ||
+          process.env.NODE_ENV === 'test'
+        ) {
+          relativeRuntimePath = `./${path.relative(
+            appDirectory,
+            serverRuntimePath,
+          )}`;
+        }
+
         return {
           source: {
-            alias: { '@modern-js/runtime/server': bffExportsUtils.getPath() },
+            alias: {
+              '@modern-js/runtime/server': relativeRuntimePath,
+            },
           },
         };
       },
-      modifyEntryImports() {
+      modifyEntryImports(input) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const { appDirectory } = useAppContext();
-        const runtimePath = upath.normalizeSafe(
-          require.resolve(`@modern-js/runtime`, {
-            paths: [appDirectory],
-          }),
-        );
+        const runtimePath = require.resolve(`@modern-js/runtime`, {
+          paths: [appDirectory],
+        });
 
         const currentFile = bffExportsUtils.getPath();
 
@@ -53,6 +72,7 @@ export default createPlugin(
            }
           `,
         );
+        return input;
       },
     };
   },

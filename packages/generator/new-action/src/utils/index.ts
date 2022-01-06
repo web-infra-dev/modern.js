@@ -1,10 +1,11 @@
+import path from 'path';
 import json5 from 'json5';
 import { ActionFunction } from '@modern-js/generator-common';
-import { path, fs } from '@modern-js/generator-utils';
+import { fs } from '@modern-js/generator-utils';
 
-export function alreadyRepo() {
+export function alreadyRepo(cwd = process.cwd()) {
   try {
-    return fs.existsSync(path.resolve(process.cwd(), 'package.json'));
+    return fs.existsSync(path.resolve(cwd, 'package.json'));
   } catch (e) {
     return false;
   }
@@ -36,13 +37,13 @@ export function hasEnabledFunction(
     return false;
   }
   if (dependencies[action]) {
-    return packageJson.dependencies[dependencies[action]];
+    return (packageJson.dependencies || {})[dependencies[action]];
   }
   if (peerDependencies[action]) {
-    return packageJson.peerDependencies[peerDependencies[action]];
+    return (packageJson.peerDependencies || {})[peerDependencies[action]];
   }
   if (!peerDependencies[action] && devDependencies[action]) {
-    return packageJson.devDependencies[devDependencies[action]];
+    return (packageJson.devDependencies || {})[devDependencies[action]];
   }
   return false;
 }

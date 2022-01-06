@@ -1,9 +1,10 @@
 /* eslint-disable max-lines */
-import { IncomingMessage, ServerResponse, Server } from 'http';
+import { IncomingMessage, ServerResponse, Server, createServer } from 'http';
 import util from 'util';
-import { path, fs, ROUTE_SPEC_FILE } from '@modern-js/utils';
-import { Adapter } from '@modern-js/server-plugin';
-import { gather, createMiddlewareCollecter } from '@modern-js/server-utils';
+import path from 'path';
+import { fs, ROUTE_SPEC_FILE } from '@modern-js/utils';
+import { Adapter, APIServerStartInput } from '@modern-js/server-plugin';
+import { createMiddlewareCollecter } from '@modern-js/server-utils';
 import type { NormalizedConfig } from '@modern-js/core';
 import mime from 'mime-types';
 import axios from 'axios';
@@ -11,17 +12,22 @@ import {
   ModernServerOptions,
   NextFunction,
   ServerHookRunner,
-  Measure,
+  Metrics,
   Logger,
   ReadyOptions,
   ConfWithBFF,
-} from '../type';
-import { RouteMatchManager, ModernRouteInterface } from '../libs/route';
-import { createRenderHandler } from '../libs/render';
-import { createStaticFileHandler } from '../libs/serve-file';
-import { createErrorDocument, mergeExtension, noop } from '../utils';
-import * as reader from '../libs/render/reader';
-import { createProxyHandler, ProxyOptions } from '../libs/proxy';
+} from '@/type';
+import {
+  RouteMatchManager,
+  ModernRouteInterface,
+  ModernRoute,
+  RouteMatcher,
+} from '@/libs/route';
+import { createRenderHandler } from '@/libs/render';
+import { createStaticFileHandler } from '@/libs/serve-file';
+import { createErrorDocument, mergeExtension, noop } from '@/utils';
+import * as reader from '@/libs/render/reader';
+import { createProxyHandler, ProxyOptions } from '@/libs/proxy';
 import { createContext, ModernServerContext } from '@/libs/context';
 import {
   AGGRED_DIR,
@@ -29,7 +35,8 @@ import {
   ERROR_DIGEST,
   ERROR_PAGE_TEXT,
 } from '@/constants';
-import { createTemplateAPI } from '@/libs/hook-api';
+import { createTemplateAPI } from '@/libs/hook-api/template';
+import { createRouteAPI } from '@/libs/hook-api/route';
 
 type ModernServerHandler = (
   context: ModernServerContext,
@@ -62,11 +69,13 @@ export class ModernServer {
 
   protected presetRoutes?: ModernRouteInterface[];
 
+  protected runner!: ServerHookRunner;
+
   protected readonly logger: Logger;
 
-  protected readonly measure: Measure;
+  protected readonly metrics: Metrics;
 
-  private readonly runner: ServerHookRunner;
+  protected readonly proxyTarget: ModernServerOptions['proxyTarget'];
 
   private readonly isDev: boolean = false;
 
@@ -78,36 +87,34 @@ export class ModernServer {
 
   private frameAPIHandler: Adapter | null = null;
 
+  private proxyHandler: ReturnType<typeof createProxyHandler> = null;
+
   private _handler!: (context: ModernServerContext, next: NextFunction) => void;
 
   private readonly staticGenerate: boolean = false;
 
-  private proxyHandler: ReturnType<typeof createProxyHandler> = null;
-
-  constructor(
-    {
-      pwd,
-      config,
-      dev,
-      routes,
-      staticGenerate,
-      logger,
-      measure,
-    }: ModernServerOptions,
-    runner: ServerHookRunner,
-  ) {
+  constructor({
+    pwd,
+    config,
+    dev,
+    routes,
+    staticGenerate,
+    logger,
+    metrics,
+    proxyTarget,
+  }: ModernServerOptions) {
     require('ignore-styles');
     this.isDev = Boolean(dev);
 
     this.pwd = pwd;
-    this.distDir = path.join(pwd, config.output.path || '');
+    this.distDir = path.join(pwd, config.output?.path || 'dist');
     this.workDir = this.isDev ? pwd : this.distDir;
     this.conf = config;
-    this.runner = runner;
     this.logger = logger!;
-    this.measure = measure!;
+    this.metrics = metrics!;
     this.router = new RouteMatchManager();
     this.presetRoutes = routes;
+    this.proxyTarget = proxyTarget;
 
     if (staticGenerate) {
       this.staticGenerate = staticGenerate;
@@ -121,7 +128,9 @@ export class ModernServer {
   }
 
   // server prepare
-  public async init() {
+  public async init(runner: ServerHookRunner) {
+    this.runner = runner;
+
     const { distDir, isDev, staticGenerate, conf } = this;
 
     this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
@@ -153,14 +162,20 @@ export class ModernServer {
 
     await this.prepareFrameHandler();
 
+    const { favicon, faviconByEntries } = this.conf.output || {};
+    const favicons = this.prepareFavicons(favicon, faviconByEntries);
+    // Only work when without setting `assetPrefix`.
+    // Setting `assetPrefix` means these resources should be uploaded to CDN.
+    const staticPathRegExp = new RegExp(
+      `^/(static/|upload/|favicon.ico|icon.png${
+        favicons.length > 0 ? `|${favicons.join('|')}` : ''
+      })`,
+    );
+
     this.staticFileHandler = createStaticFileHandler([
       {
-        path: '/static/',
-        target: path.join(distDir, 'static'),
-      },
-      {
-        path: '/upload/',
-        target: path.join(distDir, 'upload'),
+        path: staticPathRegExp,
+        target: distDir,
       },
     ]);
 
@@ -191,16 +206,14 @@ export class ModernServer {
     reader.close();
   }
 
-  // warmup ssr function
-  protected warmupSSRBundle() {
-    const { distDir } = this;
-    const bundles = this.router.getBundles();
-
-    bundles.forEach(bundle => {
-      const filepath = path.join(distDir, bundle!);
-      // if error, just throw and let process die
-      require(filepath);
-    });
+  public async createHTTPServer(
+    handler: (
+      req: IncomingMessage,
+      res: ServerResponse,
+      next?: () => void,
+    ) => void,
+  ) {
+    return createServer(handler);
   }
 
   // read route spec from route.json
@@ -216,6 +229,7 @@ export class ModernServer {
   }
 
   // add promisify request handler to server
+  // handler should do not do more things after invoke next
   protected addHandler(handler: ModernServerHandler) {
     if ((handler as any)[Symbol.toStringTag] === 'AsyncFunction') {
       this.handlers.push(handler as ModernServerAsyncHandler);
@@ -234,9 +248,6 @@ export class ModernServer {
   protected async prepareFrameHandler() {
     const { workDir, runner } = this;
 
-    // inner tool, gather user inject
-    const { api: userAPIExt, web: userWebExt } = gather(workDir);
-
     // server hook, gather plugin inject
     const { getMiddlewares, ...collector } = createMiddlewareCollecter();
 
@@ -248,7 +259,7 @@ export class ModernServer {
 
     // get api or web server handler from server-framework plugin
     if (await fs.pathExists(path.join(serverDir))) {
-      const webExtension = mergeExtension(pluginWebExt, userWebExt);
+      const webExtension = mergeExtension(pluginWebExt);
       this.frameWebHandler = await this.prepareWebHandler(webExtension);
     }
 
@@ -258,12 +269,14 @@ export class ModernServer {
         : ApiServerMode.func;
 
       // if use lambda/, mean framework style of writing, then discard user extension
-      const apiExtension = mergeExtension(
-        pluginAPIExt,
-        mode === ApiServerMode.frame ? [] : userAPIExt,
-      );
+      const apiExtension = mergeExtension(pluginAPIExt);
       this.frameAPIHandler = await this.prepareAPIHandler(mode, apiExtension);
     }
+  }
+
+  // Todo
+  protected async proxy() {
+    return null as any;
   }
 
   /* —————————————————————— function will be overwrite —————————————————————— */
@@ -283,7 +296,7 @@ export class ModernServer {
 
   protected async prepareAPIHandler(
     mode: ApiServerMode,
-    extension: ReturnType<typeof mergeExtension>,
+    extension: APIServerStartInput['config'],
   ) {
     const { workDir, runner, conf } = this;
     const { bff } = conf as ConfWithBFF;
@@ -294,7 +307,7 @@ export class ModernServer {
         pwd: workDir,
         mode,
         config: extension,
-        prefix,
+        prefix: Array.isArray(prefix) ? prefix[0] : prefix,
       },
       { onLast: () => null as any },
     );
@@ -304,41 +317,93 @@ export class ModernServer {
     return routes;
   }
 
-  protected async preServerInit() {
-    const { conf } = this;
-    const preMiddleware: ModernServerAsyncHandler[] =
-      await this.runner.preServerInit(conf);
+  protected async emitRouteHook(
+    eventName: 'beforeMatch' | 'afterMatch' | 'beforeRender' | 'afterRender',
+    input: any,
+  ) {
+    return this.runner[eventName](input, { onLast: noop as any });
+  }
 
-    preMiddleware.forEach(mid => {
+  // warmup ssr function
+  protected warmupSSRBundle() {
+    const { distDir } = this;
+    const bundles = this.router.getBundles();
+
+    bundles.forEach(bundle => {
+      const filepath = path.join(distDir, bundle as string);
+      // if error, just throw and let process die
+      require(filepath);
+    });
+  }
+
+  protected async preServerInit() {
+    const { conf, runner } = this;
+    const preMiddleware: ModernServerAsyncHandler[] =
+      await runner.preServerInit(conf);
+
+    preMiddleware.flat().forEach(mid => {
       this.addHandler(mid);
     });
   }
 
-  /* —————————————————————— private function —————————————————————— */
+  protected async handleAPI(context: ModernServerContext) {
+    const { req, res } = context;
 
+    if (!this.frameAPIHandler) {
+      throw new Error('can not found api hanlder');
+    }
+
+    await this.frameAPIHandler(req, res);
+  }
+
+  protected async handleWeb(context: ModernServerContext, route: ModernRoute) {
+    return this.routeRenderHandler({
+      ctx: context,
+      route,
+      runner: this.runner,
+    });
+  }
+
+  protected verifyMatch(_c: ModernServerContext, _m: RouteMatcher) {
+    // empty
+  }
+
+  /* —————————————————————— private function —————————————————————— */
   // handler route.json, include api / csr / ssr
   // eslint-disable-next-line max-statements
   private async routeHandler(context: ModernServerContext) {
     const { req, res } = context;
 
+    await this.emitRouteHook('beforeMatch', { context });
+
     // match routes in the route spec
-    const matched = this.router.match(context.url);
+    const matched = this.router.match(context.path);
     if (!matched) {
       this.render404(context);
       return;
+    } else {
+      this.verifyMatch(context, matched);
     }
 
-    const route = matched.generate();
-    const params = matched.parseURLParams(context.url);
+    if (res.headersSent) {
+      return;
+    }
+
+    const routeAPI = createRouteAPI(matched, this.router);
+    await this.emitRouteHook('afterMatch', { context, routeAPI });
+
+    if (res.headersSent) {
+      return;
+    }
+
+    const { current } = routeAPI as any;
+    const route: ModernRoute = current.generate();
+    const params = current.parseURLParams(context.url);
     context.setParams(params);
 
     // route is api service
     if (route.isApi) {
-      if (!this.frameAPIHandler) {
-        throw new Error('can not found api hanlder');
-      }
-
-      await this.frameAPIHandler(req, res);
+      this.handleAPI(context);
       return;
     }
 
@@ -351,7 +416,11 @@ export class ModernServer {
       return;
     }
 
-    const file = await this.routeRenderHandler(context, route);
+    if (route.entryName) {
+      await this.emitRouteHook('beforeRender', { context });
+    }
+
+    const file = await this.handleWeb(context, route);
     if (!file) {
       this.render404(context);
       return;
@@ -367,10 +436,7 @@ export class ModernServer {
     let response = file.content;
     if (route.entryName) {
       const templateAPI = createTemplateAPI(file.content.toString());
-      await this.runner.afterRender(
-        { context, templateAPI },
-        { onLast: noop as any },
-      );
+      await this.emitRouteHook('afterRender', { context, templateAPI });
       await this.injectMicroFE(context, templateAPI);
       response = templateAPI.get();
     }
@@ -437,7 +503,7 @@ export class ModernServer {
     try {
       // Todo Safety xss
       const injection = JSON.stringify({ ...manifest, modules });
-      templateAPI.afterHead(
+      templateAPI.appendHead(
         `<script>window.modern_manifest=${injection}</script>`,
       );
     } catch (e) {
@@ -477,17 +543,20 @@ export class ModernServer {
     };
   }
 
-  private requestHandler(req: IncomingMessage, res: ServerResponse) {
+  private requestHandler(
+    req: IncomingMessage,
+    res: ServerResponse,
+    next = () => {
+      // empty
+    },
+  ) {
     res.statusCode = 200;
-    const context: ModernServerContext = createContext(req, res, {
-      logger: this.logger,
-      measure: this.measure,
-    });
+    req.logger = req.logger || this.logger;
+    req.metrics = req.metrics || this.metrics;
+    const context: ModernServerContext = createContext(req, res);
 
     try {
-      this._handler(context, () => {
-        // empty
-      });
+      this._handler(context, next);
     } catch (err) {
       this.onError(context, err as Error);
     }
@@ -515,7 +584,11 @@ export class ModernServer {
       // check entryName, aviod matched '/' route
       if (entryName === status.toString() || entryName === '_error') {
         try {
-          const file = await this.routeRenderHandler(context, route);
+          const file = await this.routeRenderHandler({
+            route,
+            ctx: context,
+            runner: this.runner,
+          });
           if (file) {
             context.res.end(file.content);
             return;
@@ -528,6 +601,27 @@ export class ModernServer {
 
     const text = ERROR_PAGE_TEXT[status] || ERROR_PAGE_TEXT[500];
     res.end(createErrorDocument(status, text));
+  }
+
+  private prepareFavicons(
+    favicon: string | undefined,
+    faviconByEntries?: Record<string, string | undefined>,
+  ) {
+    const faviconNames = [];
+    if (favicon) {
+      faviconNames.push(favicon.substring(favicon.lastIndexOf('/') + 1));
+    }
+    if (faviconByEntries) {
+      Object.keys(faviconByEntries).forEach(f => {
+        const curFavicon = faviconByEntries[f];
+        if (curFavicon) {
+          faviconNames.push(
+            curFavicon.substring(curFavicon.lastIndexOf('/') + 1),
+          );
+        }
+      });
+    }
+    return faviconNames;
   }
 }
 /* eslint-enable max-lines */

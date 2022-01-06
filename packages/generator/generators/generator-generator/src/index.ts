@@ -1,3 +1,4 @@
+import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
@@ -6,9 +7,9 @@ import {
   GeneratorSchema,
   Solution,
   SolutionGenerator,
+  BooleanConfig,
 } from '@modern-js/generator-common';
 import {
-  path,
   fs,
   i18n as utilsI18n,
   getAllPackages,
@@ -27,7 +28,6 @@ const getGeneratorPath = (generator: string, distTag: string) => {
   return generator;
 };
 
-// eslint-disable-next-line max-statements
 const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
@@ -85,6 +85,7 @@ const handleTemplateFile = async (
     {
       ...context.config,
       isSubGenerator: true,
+      needModifyModuleConfig: BooleanConfig.NO,
     },
   );
 
@@ -115,13 +116,17 @@ const handleTemplateFile = async (
   const updateInfo = {
     files: ['/templates', '/dist/js/node/main.js'],
     main: './dist/js/node/main.js',
+    types: undefined,
+    module: undefined,
+    'jsnext:modern': undefined,
+    exports: undefined,
     'scripts.prepare': `${packageManager as string} build && ${
       packageManager as string
     } build:csmith`,
-    'scripts.bulid:csmith': 'csmith build',
-    'dependencies.@modern-js/codesmith-api-app': '^1.0.0',
-    'dependencies.@modern-js/codesmith': '^1.0.0',
-    'dependencies.@modern-js/generator-common': '^1.0.0',
+    'scripts.build:csmith': 'csmith-tools build',
+    'devDependencies.@modern-js/codesmith-api-app': '^1.0.0',
+    'devDependencies.@modern-js/codesmith': '^1.0.0',
+    'devDependencies.@modern-js/generator-common': '^1.0.0',
     'devDependencies.@modern-js/codesmith-tools': '^1.0.0',
   };
 
@@ -137,11 +142,8 @@ const handleTemplateFile = async (
 
   await fs.mkdirp(path.join(projectPath, 'templates'));
   const testDir = path.join(projectPath, 'tests');
-  fs.rmdirSync(testDir, { recursive: true });
-  const styleDir = path.join(projectPath, 'styles');
-  fs.rmdirSync(styleDir, { recursive: true });
+  fs.rm(testDir, { recursive: true });
   fs.removeSync(path.join(projectPath, '.npmignore'));
-  fs.removeSync(path.join(projectPath, 'src', `index.${language as string}x`));
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {

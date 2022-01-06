@@ -1,5 +1,6 @@
+import path from 'path';
 import fs from 'fs-extra';
-import * as path from './path';
+import { normalizeOutputPath } from './path';
 
 const memo = <T extends (...args: any[]) => any>(fn: T) => {
   const cache = new Map();
@@ -20,10 +21,14 @@ const memo = <T extends (...args: any[]) => any>(fn: T) => {
 };
 
 export const createRuntimeExportsUtils = memo(
-  (pwd: string, namespace: string) => {
+  (pwd = '', namespace: string, ts = false) => {
     const entryExportFile = path.join(
       pwd,
       `.runtime-exports/${namespace ? `${namespace}.js` : 'index.js'}`,
+    );
+    const entryExportTsFile = path.join(
+      pwd,
+      `.runtime-exports/${namespace ? `${namespace}.d.ts` : 'index.d.ts'}`,
     );
 
     // const ensure = () => {
@@ -34,10 +39,19 @@ export const createRuntimeExportsUtils = memo(
     // };
 
     const addExport = (statement: string) => {
+      // eslint-disable-next-line no-param-reassign
+      statement = normalizeOutputPath(statement);
       try {
         fs.ensureFileSync(entryExportFile);
+        fs.ensureFileSync(entryExportTsFile);
+
         if (!fs.readFileSync(entryExportFile, 'utf8').includes(statement)) {
           fs.appendFileSync(entryExportFile, `${statement}\n`);
+          ts &&
+            fs.appendFileSync(
+              entryExportTsFile,
+              `${statement.replace('.js', '.d')}\n`,
+            );
         }
       } catch {
         // FIXME:

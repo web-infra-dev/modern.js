@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
+import path from 'path';
 import Chain from 'webpack-chain';
 import {
-  path,
   isProd,
   isDev,
   isProdProfile,
@@ -10,11 +10,10 @@ import {
   isString,
   applyOptionsChain,
   removeLeadingSlash,
-  upath,
 } from '@modern-js/utils';
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import { DefinePlugin, IgnorePlugin } from 'webpack';
+import webpack, { IgnorePlugin } from 'webpack';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
@@ -170,19 +169,7 @@ class BaseWebpackConfig {
               path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')
           : undefined,
       )
-      .publicPath(
-        /* eslint-disable no-nested-ternary */
-        isProd()
-          ? this.options.output
-            ? this.options.output.assetPrefix!
-            : ''
-          : isString(this.options.dev?.assetPrefix)
-          ? this.options.dev.assetPrefix
-          : (this.options.dev ? this.options.dev.assetPrefix : '')
-          ? `//${this.appContext.ip as string}:8080/`
-          : '/',
-        /* eslint-enable no-nested-ternary */
-      );
+      .publicPath(this.publicPath());
 
     this.chain.output.merge({
       assetModuleFilename: this.mediaChunkname,
@@ -196,6 +183,29 @@ class BaseWebpackConfig {
         module: false,
       },
     });
+  }
+
+  publicPath() {
+    let publicPath =
+      /* eslint-disable no-nested-ternary */
+      isProd()
+        ? this.options.output
+          ? this.options.output.assetPrefix!
+          : ''
+        : isString(this.options.dev?.assetPrefix)
+        ? this.options.dev.assetPrefix
+        : (this.options.dev ? this.options.dev.assetPrefix : '')
+        ? `//${this.appContext.ip || 'localhost'}:${
+            this.appContext.port || '8080'
+          }/`
+        : '/';
+    /* eslint-enable no-nested-ternary */
+
+    if (!publicPath.endsWith('/')) {
+      publicPath += '/';
+    }
+
+    return publicPath;
   }
 
   /* eslint-disable max-statements */
@@ -214,10 +224,10 @@ class BaseWebpackConfig {
       .oneOf('js')
       .test(useTsLoader ? JS_REGEX : mergeRegex(JS_REGEX, TS_REGEX))
       .include.add(this.appContext.srcDirectory)
-      .add(/node_modules\/\.modern-js\//)
+      .add(path.resolve(this.appDirectory, './node_modules/.modern-js'))
       .end()
       .use('babel')
-      .loader(upath.normalizeSafe(require.resolve('babel-loader')))
+      .loader(require.resolve('babel-loader'))
       .options(
         getBabelOptions(
           this.appDirectory,
@@ -235,13 +245,11 @@ class BaseWebpackConfig {
         .add(/node_modules\/\.modern-js\//)
         .end()
         .use('babel')
-        .loader(upath.normalizeSafe(require.resolve('babel-loader')))
+        .loader(require.resolve('babel-loader'))
         .options({
           presets: [
             [
-              upath.normalizeSafe(
-                require.resolve('@modern-js/babel-preset-app'),
-              ),
+              require.resolve('@modern-js/babel-preset-app'),
               {
                 appDirectory: this.appDirectory,
                 target: 'client',
@@ -256,7 +264,7 @@ class BaseWebpackConfig {
         })
         .end()
         .use('ts')
-        .loader(upath.normalizeSafe(require.resolve('ts-loader')))
+        .loader(require.resolve('ts-loader'))
         .options(
           applyOptionsChain(
             {
@@ -314,6 +322,7 @@ class BaseWebpackConfig {
         exclude: this.options.output?.disableCssModuleExtension
           ? [/node_modules/, /\.global\.css$/]
           : [],
+        genTSD: this.options.output?.enableCssModuleTSDeclaration,
       },
       {
         importLoaders: 1,
@@ -334,11 +343,11 @@ class BaseWebpackConfig {
       .type('javascript/auto')
       .resourceQuery(/inline/)
       .use('svgr')
-      .loader(upath.normalizeSafe(require.resolve('@svgr/webpack')))
+      .loader(require.resolve('@svgr/webpack'))
       .options({ svgo: false })
       .end()
       .use('url')
-      .loader(upath.normalizeSafe(require.resolve('url-loader')))
+      .loader(require.resolve('url-loader'))
       .options({
         limit: Infinity,
         name: this.mediaChunkname.replace(/\[ext\]$/, '.[ext]'),
@@ -350,11 +359,11 @@ class BaseWebpackConfig {
       .type('javascript/auto')
       .resourceQuery(/url/)
       .use('svgr')
-      .loader(upath.normalizeSafe(require.resolve('@svgr/webpack')))
+      .loader(require.resolve('@svgr/webpack'))
       .options({ svgo: false })
       .end()
       .use('url')
-      .loader(upath.normalizeSafe(require.resolve('url-loader')))
+      .loader(require.resolve('url-loader'))
       .options({
         limit: false,
         name: this.mediaChunkname.replace(/\[ext\]$/, '.[ext]'),
@@ -365,11 +374,11 @@ class BaseWebpackConfig {
       .test(SVG_REGEX)
       .type('javascript/auto')
       .use('svgr')
-      .loader(upath.normalizeSafe(require.resolve('@svgr/webpack')))
+      .loader(require.resolve('@svgr/webpack'))
       .options({ svgo: false })
       .end()
       .use('url')
-      .loader(upath.normalizeSafe(require.resolve('url-loader')))
+      .loader(require.resolve('url-loader'))
       .options({
         limit: this.options.output?.dataUriLimit,
         name: this.mediaChunkname.replace(/\[ext\]$/, '.[ext]'),
@@ -401,7 +410,7 @@ class BaseWebpackConfig {
       .oneOf('yml')
       .test(/\.ya?ml$/)
       .use('json')
-      .loader(upath.normalizeSafe(require.resolve('json-loader')))
+      .loader(require.resolve('json-loader'))
       .end()
       .use('yaml')
       .loader('yaml-loader');
@@ -410,13 +419,13 @@ class BaseWebpackConfig {
       .oneOf('toml')
       .test(/\.toml$/)
       .use('toml')
-      .loader(upath.normalizeSafe(require.resolve('toml-loader')));
+      .loader(require.resolve('toml-loader'));
 
     loaders
       .oneOf('markdown')
       .test(/\.md$/)
       .use('html')
-      .loader(upath.normalizeSafe(require.resolve('html-loader')))
+      .loader(require.resolve('html-loader'))
       .end()
       .use('markdown')
       .loader('markdown-loader');
@@ -432,7 +441,7 @@ class BaseWebpackConfig {
       .add(/\.(html?|json|wasm|ya?ml|toml|md)$/)
       .end()
       .use('file')
-      .loader(upath.normalizeSafe(require.resolve('file-loader')));
+      .loader(require.resolve('file-loader'));
 
     return loaders;
   }
@@ -444,25 +453,6 @@ class BaseWebpackConfig {
       this.chain
         .plugin('progress')
         .use(WebpackBar, [{ name: this.chain.get('name') }]);
-
-    const { envVars, globalVars } = this.options.source || {};
-    this.chain.plugin('define').use(DefinePlugin, [
-      {
-        ...['NODE_ENV', 'BUILD_MODE', ...(envVars || [])].reduce<
-          Record<string, string>
-        >((memo, name) => {
-          memo[`process.env.${name}`] = JSON.stringify(process.env[name]);
-          return memo;
-        }, {}),
-        ...Object.keys(globalVars || {}).reduce<Record<string, string>>(
-          (memo, name) => {
-            memo[name] = JSON.stringify(globalVars![name]);
-            return memo;
-          },
-          {},
-        ),
-      },
-    ]);
 
     isDev() &&
       this.chain.plugin('case-sensitive').use(CaseSensitivePathsPlugin);
@@ -517,9 +507,7 @@ class BaseWebpackConfig {
     //  resolve modules
     this.chain.resolve.modules
       .add('node_modules')
-      .add(this.appContext.nodeModulesDirectory)
-      // local node_modules
-      .add(path.resolve(__dirname, '../../../../node_modules'));
+      .add(this.appContext.nodeModulesDirectory);
 
     let defaultScopes: any[] = ['./src', /node_modules/, './shared'];
 
@@ -571,7 +559,7 @@ class BaseWebpackConfig {
         'webpack',
       ),
       buildDependencies: {
-        defaultWebpack: [upath.normalizeSafe(require.resolve('webpack/lib'))],
+        defaultWebpack: [require.resolve('webpack/lib')],
         config: [__filename, this.appContext.configFile].filter(Boolean),
         tsconfig: [
           isTypescript(this.appDirectory) &&
@@ -615,7 +603,8 @@ class BaseWebpackConfig {
       ] as any)
       .end()
       .minimizer('css')
-      .use(CssMinimizerPlugin, [
+      // FIXME: add `<any>` reason: Since the css-minimizer-webpack-plugin has been updated
+      .use<any>(CssMinimizerPlugin, [
         applyOptionsChain({}, this.options.tools?.minifyCss),
       ]);
   }
@@ -626,7 +615,19 @@ class BaseWebpackConfig {
   }
 
   config() {
-    return this.getChain().toConfig();
+    const chainConfig = this.getChain().toConfig();
+    if ((this.options.tools as any)?.webpackFinal) {
+      return applyOptionsChain(
+        chainConfig as any,
+        (this.options.tools as any)?.webpackFinal,
+        {
+          name: this.chain.get('name'),
+          webpack,
+        },
+        merge,
+      );
+    }
+    return chainConfig;
   }
 
   getChain() {
@@ -666,6 +667,7 @@ class BaseWebpackConfig {
       {
         chain: this.chain,
         name: this.chain.get('name'),
+        webpack,
       },
       merge,
     );

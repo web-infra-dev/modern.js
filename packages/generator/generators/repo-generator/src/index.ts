@@ -1,4 +1,4 @@
-import { path } from '@modern-js/generator-utils';
+import path from 'path';
 import { merge } from 'lodash';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
@@ -8,7 +8,14 @@ import {
   SolutionGenerator,
   Solution,
   SolutionDefualtConfig,
+  BaseGenerator,
+  MonorepoNewActionSchema,
+  SubSolution,
+  SubSolutionGenerator,
+  MonorepoNewActionConfig,
+  getSolutionNameFromSubSolution,
 } from '@modern-js/generator-common';
+import { GeneratorPlugin } from '@modern-js/generator-plugin';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {
@@ -20,34 +27,93 @@ const getGeneratorPath = (generator: string, distTag: string) => {
 };
 
 const mergeDefaultConfig = (context: GeneratorContext) => {
-  const { solution } = context.config;
+  const { defaultSolution } = context.config;
 
-  if (solution) {
-    merge(SolutionDefualtConfig[solution as Solution], context.config);
+  if (defaultSolution) {
+    merge(
+      context.config,
+      { solution: defaultSolution },
+      SolutionDefualtConfig[defaultSolution as Solution],
+    );
   }
+};
+
+const getNeedRunPlugin = (
+  context: GeneratorContext,
+  generatorPlugin?: GeneratorPlugin,
+): boolean => {
+  if (!generatorPlugin) {
+    return false;
+  }
+  const { extendPlugin, customPlugin } = generatorPlugin;
+  const { isMonorepo, solution, scenes } = context.config;
+  const pluginSolution = isMonorepo
+    ? getSolutionNameFromSubSolution(solution)
+    : solution;
+  if (!scenes || scenes === pluginSolution) {
+    return (
+      extendPlugin?.[pluginSolution] && extendPlugin[pluginSolution].length > 0
+    );
+  }
+  return Boolean(
+    customPlugin[pluginSolution]?.find(plugin => plugin.key === scenes),
+  );
 };
 
 const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
   appApi: AppAPI,
+  generatorPlugin?: GeneratorPlugin,
 ) => {
+  const { isMonorepo } = context.config;
+
   const { solution } = await appApi.getInputBySchema(
-    SolutionSchema,
-    context.config,
+    isMonorepo ? MonorepoNewActionSchema : SolutionSchema,
+    {
+      ...context.config,
+      customPlugin: generatorPlugin?.customPlugin,
+    },
   );
 
-  if (!solution || !SolutionGenerator[solution as Solution]) {
+  const solutionGenerator =
+    // eslint-disable-next-line no-nested-ternary
+    solution === 'custom'
+      ? BaseGenerator
+      : isMonorepo
+      ? SubSolutionGenerator[solution as SubSolution]
+      : SolutionGenerator[solution as Solution];
+
+  if (!solution || !solutionGenerator) {
     generator.logger.error('solution is not valid ');
   }
+
   await appApi.runSubGenerator(
-    getGeneratorPath(
-      SolutionGenerator[solution as Solution],
-      context.config.distTag,
-    ),
+    getGeneratorPath(solutionGenerator, context.config.distTag),
     undefined,
-    context.config,
+    {
+      ...(isMonorepo
+        ? MonorepoNewActionConfig[solution as SubSolution] || {}
+        : {}),
+      ...context.config,
+      hasPlugin: getNeedRunPlugin(context, generatorPlugin),
+      generatorPlugin,
+    },
   );
+};
+
+const handlePlugin = async (
+  context: GeneratorContext,
+  generator: GeneratorCore,
+) => {
+  const { plugins, registry, locale, distTag } = context.config;
+  const generatorPlugin = new GeneratorPlugin(
+    generator.logger,
+    generator.event,
+    locale,
+  );
+  await generatorPlugin.setupPlugin(plugins, registry, distTag);
+  return generatorPlugin;
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
@@ -68,8 +134,13 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   mergeDefaultConfig(context);
 
+  let generatorPlugin;
+  if (context.config.plugins.length > 0) {
+    generatorPlugin = await handlePlugin(context, generator);
+  }
+
   try {
-    await handleTemplateFile(context, generator, appApi);
+    await handleTemplateFile(context, generator, appApi, generatorPlugin);
   } catch (e) {
     generator.logger.error(e);
     // eslint-disable-next-line no-process-exit

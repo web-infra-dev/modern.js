@@ -1,5 +1,5 @@
+import path from 'path';
 import {
-  path,
   getEntryOptions,
   createRuntimeExportsUtils,
   PLUGIN_SCHEMAS,
@@ -42,11 +42,14 @@ const index = createPlugin(
         const { entryName } = entrypoint;
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const userConfig = useResolvedConfigContext();
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const { packageName } = useAppContext();
 
         const stateConfig = getEntryOptions(
           entryName,
           userConfig.runtime,
           userConfig.runtimeByEntries,
+          packageName,
         )?.state;
 
         stateConfigMap.set(entryName, stateConfig);

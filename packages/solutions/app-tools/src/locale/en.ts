@@ -4,8 +4,9 @@ export const EN_LOCALE = {
       describe: 'start dev server',
       config: 'specify config file',
     },
-    build: { describe: 'build application' },
+    build: { describe: 'build application', analyze: 'analyze bundle' },
     start: { describe: 'start server' },
+    deploy: { describe: 'deploy application' },
     new: {
       describe: 'generator runner for MWA project',
       debug: 'using debug mode to log something',

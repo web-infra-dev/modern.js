@@ -6,9 +6,22 @@ import {
   useCallback,
   useEffect,
 } from 'react';
-import { Loader, LoaderStatus } from './loaderManager';
+import invariant from 'invariant';
+import { Loader, LoaderStatus, LoaderResult } from './loaderManager';
 import { RuntimeReactContext } from '@/runtime-context';
 
+export interface SSRData {
+  loadersData: Record<string, LoaderResult | undefined>;
+}
+export interface SSRContainer {
+  data?: SSRData;
+}
+
+declare global {
+  interface Window {
+    _SSR_DATA?: SSRContainer;
+  }
+}
 export interface LoaderOptions<
   Params = any,
   TData = any,
@@ -54,13 +67,13 @@ const useLoader = <TData = any, Params = any, E = any>(
   options: LoaderOptions<Params> = { params: undefined } as any,
 ) => {
   const context = useContext(RuntimeReactContext);
-  const isSSRSecRender = Boolean(context.ssr);
+  const isSSRRender = Boolean(context.ssr);
 
   const { loaderManager } = context;
   const loaderRef = useRef<Loader>();
   const unlistenLoaderChangeRef = useRef<(() => void) | null>(null);
 
-  const reload = useCallback(
+  const load = useCallback(
     (params?: Params) => {
       if (typeof params === 'undefined') {
         return loaderRef.current?.load();
@@ -88,13 +101,22 @@ const useLoader = <TData = any, Params = any, E = any>(
 
       loaderRef.current = loaderManager.get(id)!;
 
-      if (isSSRSecRender) {
+      if (isSSRRender) {
         unlistenLoaderChangeRef.current?.();
         return undefined;
       }
 
       // skip this loader, then try to unlisten loader change
       if (options.skip) {
+        unlistenLoaderChangeRef.current?.();
+        return undefined;
+      }
+
+      // do not load data again in CSR hydrate stage if SSR data exists
+      if (
+        context._hydration &&
+        window?._SSR_DATA?.data?.loadersData[id]?.error === null
+      ) {
         unlistenLoaderChangeRef.current?.();
         return undefined;
       }
@@ -108,11 +130,11 @@ const useLoader = <TData = any, Params = any, E = any>(
           setResult(_result);
 
           if (_status === LoaderStatus.fulfilled) {
-            options?.onSuccess?.(result.data);
+            options?.onSuccess?.(_result.data);
           }
 
           if (_status === LoaderStatus.rejected) {
-            options?.onError?.(result.data);
+            options?.onError?.(_result.error);
           }
         },
       );
@@ -132,10 +154,11 @@ const useLoader = <TData = any, Params = any, E = any>(
   useMemo(() => {
     const p = options.params ?? (loaderFn as any).id;
 
-    if (!p) {
-      throw new Error('Params is required in useLoader');
-    }
-    reload(p);
+    invariant(
+      typeof p !== 'undefined' && p !== null,
+      'Params is required in useLoader',
+    );
+    load(p);
   }, [options.params]);
 
   const [result, setResult] = useState<{
@@ -147,7 +170,7 @@ const useLoader = <TData = any, Params = any, E = any>(
 
   return {
     ...result,
-    reload,
+    reload: load,
   };
 };
 

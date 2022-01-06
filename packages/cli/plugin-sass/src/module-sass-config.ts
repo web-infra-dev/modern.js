@@ -6,10 +6,10 @@ export const moduleSassConfig = ({
   modernConfig,
 }: {
   modernConfig: NormalizedConfig;
-}): ResolvedSassOption => {
+}): ResolvedSassOption<'sync'> => {
   const sassConfig = getSassConfig(modernConfig) as SassOption;
   return {
-    ...(sassConfig.sassOptions || {}),
+    ...(sassConfig.sassOptions || { file: '' }),
     sourceMap: sassConfig.sourceMap,
   };
 };

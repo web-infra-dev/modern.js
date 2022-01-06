@@ -1,5 +1,64 @@
 # @modern-js/esmpack
 
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies [ca7dcb32]
+  - @modern-js/utils@1.1.5
+
+## 1.1.4
+
+### Patch Changes
+
+- c5e3d4ad: remove @types/sass and use types definition provided by "sass"
+- Updated dependencies [d927bc83]
+- Updated dependencies [d73ff455]
+- Updated dependencies [9c1ab865]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+  - @modern-js/utils@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [d280ea33]
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+  - @modern-js/utils@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/utils@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [c0fc0700]
+  - @modern-js/utils@1.1.1
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

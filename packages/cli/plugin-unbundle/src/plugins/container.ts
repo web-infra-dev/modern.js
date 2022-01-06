@@ -27,7 +27,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-
 /**
 https://github.com/vitejs/vite/blob/main/LICENSE
 
@@ -111,6 +110,7 @@ export type PluginContainerContext = Omit<
   | 'isExternal'
   | 'moduleIds'
   | 'resolveId'
+  | 'load'
 >;
 
 export const createPluginContainer = async (

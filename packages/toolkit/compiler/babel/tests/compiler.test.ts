@@ -24,7 +24,9 @@ describe('compiler', () => {
       distDir: '/project/dist',
       extMap: defaultDistFileExtMap,
     });
-    expect(distpath_1).toBe('/project/dist/src/b.js');
+    expect(path.normalize(distpath_1)).toBe(
+      path.normalize('/project/dist/src/b.js'),
+    );
 
     const distpath_2 = getDistFilePath({
       rootDir: '/project/src',
@@ -32,7 +34,9 @@ describe('compiler', () => {
       distDir: '/project/dist',
       extMap: defaultDistFileExtMap,
     });
-    expect(distpath_2).toBe('/project/dist/b.js');
+    expect(path.normalize(distpath_2)).toBe(
+      path.normalize('/project/dist/b.js'),
+    );
   });
 
   it('resolveSourceMap', () => {
@@ -45,6 +49,7 @@ describe('compiler', () => {
     const distFilePath = path.join(projectDir, 'dist/far.js');
     const sourcemap_1 = resolveSourceMap({
       babelRes: babelRes as babel.BabelFileResult,
+      sourceFilePath: path.join(projectDir, 'src/index.js'),
       distFilePath,
       enableVirtualDist: true,
     });
@@ -55,6 +60,7 @@ describe('compiler', () => {
 
     const sourcemap_2 = resolveSourceMap({
       babelRes: babelRes as babel.BabelFileResult,
+      sourceFilePath: path.join(projectDir, 'src/index.js'),
       distFilePath,
     });
     expect(fs.readFileSync(sourcemap_2.sourceMapPath, 'utf-8')).toBe(

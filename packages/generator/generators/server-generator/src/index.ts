@@ -1,5 +1,5 @@
+import path from 'path';
 import {
-  path,
   fs,
   getPackageVersion,
   isTsProject,
@@ -79,6 +79,9 @@ const handleTemplateFile = async (
         '@nestjs/common',
       )}`,
       'dependencies.express': `^${await getPackageVersion('express')}`,
+      'devDependencies.@types/express': `^${await getPackageVersion(
+        '@types/express',
+      )}`,
     };
   } else {
     updateInfo = {
@@ -95,8 +98,8 @@ const handleTemplateFile = async (
       query: {},
       update: {
         $set: {
-          'dependencies.@modern-js/plugin-server-build': `^${await getPackageVersion(
-            '@modern-js/plugin-server-build',
+          'dependencies.@modern-js/plugin-server': `^${await getPackageVersion(
+            '@modern-js/plugin-server',
           )}`,
           [`dependencies.@modern-js/plugin-${
             framework as string

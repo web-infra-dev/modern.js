@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import fs from 'fs-extra';
 import { Compiler, esmpack } from '../src';
 import { Compilation } from '../src/Compilation';

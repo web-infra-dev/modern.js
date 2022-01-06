@@ -1,5 +1,23 @@
 # @modern-js/plugin
 
+## 1.1.2
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+
+## 1.1.1
+
+### Patch Changes
+
+- 6ffd1a50: Refactor to base on farrow-pipeline
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

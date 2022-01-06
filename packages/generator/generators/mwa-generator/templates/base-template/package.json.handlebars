@@ -2,7 +2,7 @@
   "name": "{{ name }}",
   "version": "0.1.0",
   "scripts": {
-    "reset": "rm -rf node_modules",
+    "reset": "del-cli node_modules",
     "dev": "modern dev",
     "build": "modern build",
     "start": "modern start",
@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "^1.0.0",
-    "@modern-js/plugin-jarvis": "^1.0.0"
+    "@modern-js/plugin-jarvis": "^1.0.0",
+    "del-cli": "^4.0.1"
   }
 }

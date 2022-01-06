@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import express, { Request, Response } from 'express';
 import request from 'supertest';
 import { serverManager } from '@modern-js/server-plugin';
@@ -281,6 +281,7 @@ describe('support app.ts in lambda mode', () => {
         const app = mock_express();
         app.get('/hello', (req, res) => {
           res.send(`foo`);
+          res.end();
         });
 
         return app;

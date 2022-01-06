@@ -1,16 +1,17 @@
+import path from 'path';
 import { CodeSmith, Logger } from '@modern-js/codesmith';
-import { upath } from '@modern-js/utils';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage, createDir } from './utils';
 
 interface Options {
   mwa?: boolean;
-  library: boolean;
+  module: boolean;
   monorepo?: boolean;
   debug?: boolean;
   config?: string;
   registry?: string;
   distTag?: string;
+  plugin?: string[];
 }
 
 type RunnerTask = Array<{
@@ -19,10 +20,15 @@ type RunnerTask = Array<{
 }>;
 
 const REPO_GENERAROE = '@modern-js/repo-generator';
+// const GENERATOR_PLUGIN = '@modern-js/generator-plugin-plugin';
 
 // eslint-disable-next-line max-statements
-function getDefaultConfing(options: Options, logger: Logger) {
-  const { mwa, library, monorepo, config, registry, distTag } = options;
+function getDefaultConfing(
+  projectDir: string = path.basename(process.cwd()),
+  options: Options,
+  logger: Logger,
+) {
+  const { mwa, module, monorepo, config, registry, distTag, plugin } = options;
 
   let initialConfig: Record<string, unknown> = {};
 
@@ -42,15 +48,18 @@ function getDefaultConfing(options: Options, logger: Logger) {
   }
 
   if (mwa) {
-    initialConfig.solution = 'mwa';
+    initialConfig.defaultSolution = 'mwa';
   }
 
-  if (library) {
-    initialConfig.solution = 'library';
+  if (module) {
+    initialConfig.defaultSolution = 'module';
+    if (!initialConfig.packageName) {
+      initialConfig.packageName = projectDir;
+    }
   }
 
   if (monorepo) {
-    initialConfig.solution = 'monorepo';
+    initialConfig.defaultSolution = 'monorepo';
   }
 
   if (registry) {
@@ -60,6 +69,26 @@ function getDefaultConfing(options: Options, logger: Logger) {
   if (distTag) {
     initialConfig.distTag = distTag;
   }
+
+  initialConfig.defaultBranch = initialConfig.defaultBranch || 'main';
+
+  if (plugin) {
+    initialConfig.plugins = plugin;
+  }
+
+  // let generatorPlugin = GENERATOR_PLUGIN;
+
+  // if (process.env.CODESMITH_ENV === 'development') {
+  //   generatorPlugin = path.join(
+  //     require.resolve(GENERATOR_PLUGIN),
+  //     '../../../../',
+  //   );
+  // }
+
+  // initialConfig.plugins = [
+  //   ...((initialConfig.plugins as string[]) || []),
+  //   generatorPlugin,
+  // ];
 
   return initialConfig;
 }
@@ -84,12 +113,12 @@ export async function createAction(projectDir: string, options: Options) {
     process.exit(1);
   }
 
-  const config = getDefaultConfing(options, smith.logger);
+  const config = getDefaultConfing(projectDir, options, smith.logger);
 
   let generator = REPO_GENERAROE;
 
   if (process.env.CODESMITH_ENV === 'development') {
-    generator = upath.normalizeSafe(require.resolve(REPO_GENERAROE));
+    generator = require.resolve(REPO_GENERAROE);
   } else if (distTag) {
     generator = `${REPO_GENERAROE}@${distTag}`;
   }

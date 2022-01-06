@@ -1,5 +1,49 @@
 # @modern-js/server-utils
 
+## 1.1.2
+
+### Patch Changes
+
+- 085a6a58: refactor server plugin
+- 085a6a58: refactor server plugin
+- 085a6a58: refactor server conifg
+- 085a6a58: support server runtime
+- 085a6a58: feat: refactor server plugin
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [d280ea33]
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+  - @modern-js/utils@1.1.3
+
+## 1.1.1
+
+### Patch Changes
+
+- b011e0c5: fix(babel): declare
+- 0fa83663: support more .env files
+- Updated dependencies [b011e0c5]
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+- Updated dependencies [395beb1e]
+  - @modern-js/babel-preset-lib@1.1.1
+  - @modern-js/plugin@1.1.2
+  - @modern-js/utils@1.1.2
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/babel-preset-lib@1.1.0
+  - @modern-js/plugin@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

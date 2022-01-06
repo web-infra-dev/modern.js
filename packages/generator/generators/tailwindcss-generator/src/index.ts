@@ -1,7 +1,7 @@
+import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { DependenceGenerator, i18n } from '@modern-js/generator-common';
-import { path, getPackageVersion } from '@modern-js/generator-utils';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {
@@ -24,7 +24,7 @@ const handleTemplateFile = async (
       ...context.config,
       dependencies: {
         ...(context.config.dependencies || {}),
-        tailwindcss: await getPackageVersion('tailwindcss'),
+        tailwindcss: `^2.2.19`,
       },
     },
   );

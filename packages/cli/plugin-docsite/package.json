@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.0.0",
+  "version": "1.1.3",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -25,7 +25,8 @@
       },
       "default": "./dist/js/treeshaking/index.js"
     },
-    "./cli": "./dist/js/node/index.js"
+    "./cli": "./dist/js/node/index.js",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "prepare": "pnpm build",
@@ -39,8 +40,8 @@
     "@babel/runtime": "^7",
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
-    "@modern-js/utils": "workspace:^1.0.0",
-    "@modern-js/webpack": "workspace:^1.0.0",
+    "@modern-js/utils": "workspace:^1.1.5",
+    "@modern-js/webpack": "workspace:^1.1.2",
     "antd": "^4.16.13",
     "chokidar": "^3.5.2",
     "core-js": "^3.17.2",
@@ -64,7 +65,7 @@
     "webpack-dev-server": "^4.1.1"
   },
   "devDependencies": {
-    "@modern-js/module-tools-hooks": "workspace:^1.0.0",
+    "@modern-js/module-tools-hooks": "workspace:^1.1.1",
     "@types/core-js": "^2.5.5",
     "@types/github-slugger": "^1.3.0",
     "@types/glob": "^7.1.4",
@@ -75,12 +76,12 @@
     "@types/react-dom": "^17",
     "@types/webpack-dev-server": "^4.1.0",
     "typescript": "^4",
-    "@modern-js/core": "workspace:^1.0.0",
-    "@modern-js/plugin-testing": "^1.0.0",
-    "@modern-js/module-tools": "^1.0.0"
+    "@modern-js/core": "workspace:^1.2.0",
+    "@modern-js/plugin-testing": "^1.2.0",
+    "@modern-js/module-tools": "^1.1.3"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.0.0"
+    "@modern-js/core": "workspace:^1.2.0"
   },
   "sideEffects": false,
   "modernConfig": {

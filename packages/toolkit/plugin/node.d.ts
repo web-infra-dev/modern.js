@@ -1,1 +1,1 @@
-export * from './dist/types/asyncHooksImpl';
+export * from 'farrow-pipeline/asyncHooks.node';

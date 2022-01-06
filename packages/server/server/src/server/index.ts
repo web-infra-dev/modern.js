@@ -1,19 +1,24 @@
-import {
-  IncomingMessage,
-  ServerResponse,
-  createServer,
-  Server as httpServer,
-} from 'http';
-import { createServer as createHttpsServer } from 'https';
+import { IncomingMessage, ServerResponse, Server as httpServer } from 'http';
+import path from 'path';
 import { serverManager } from '@modern-js/server-plugin';
-import { compatRequire, logger as defaultLogger } from '@modern-js/utils';
-import { ModernServerOptions, ServerHookRunner, ReadyOptions } from '../type';
+import { logger as defaultLogger } from '@modern-js/utils';
+import {
+  AppContext,
+  initAppContext,
+  initAppDir,
+  loadUserConfig,
+  ConfigContext,
+  UserConfig,
+} from '@modern-js/core';
 import { ModernServer } from './modern-server';
-import { ModernDevServer } from './dev-server';
-import { WebModernDevServer, WebModernServer } from './web-server';
-import { APIModernDevServer, APIModernServer } from './api-server';
-import { measure as defaultMeasure } from '@/libs/measure';
-import { genHttpsOptions } from '@/dev-tools/https';
+import type { ModernDevServer } from './dev-server';
+import {
+  ModernAPIServer,
+  ModernSSRServer,
+  ModernWebServer,
+} from './modern-server-split';
+import { ModernServerOptions, ServerHookRunner, ReadyOptions } from '@/type';
+import { metrics as defaultMetrics } from '@/libs/metrics';
 
 export class Server {
   public options: ModernServerOptions;
@@ -26,19 +31,12 @@ export class Server {
 
   constructor(options: ModernServerOptions) {
     this.options = options;
-    options.plugins?.forEach(p => {
-      serverManager.usePlugin(p);
-    });
-
-    if (options.config?.output?.polyfill === 'ua') {
-      serverManager.usePlugin(compatRequire('@modern-js/plugin-polyfill'));
-    }
   }
 
   public getRequestHandler() {
-    return (req: IncomingMessage, res: ServerResponse) => {
+    return (req: IncomingMessage, res: ServerResponse, next?: () => void) => {
       const requestHandler = this.server.getRequestHandler();
-      return requestHandler(req, res);
+      return requestHandler(req, res, next);
     };
   }
 
@@ -48,37 +46,24 @@ export class Server {
 
   public async init() {
     const { options } = this;
-    this.runner = await serverManager.init({});
 
-    const { logger, measure } = await this.runner.create(
-      {
-        loggerOptions: options.logger,
-        measureOptions: options.measure,
-      },
-      { onLast: () => ({} as any) },
-    );
+    options.logger = options.logger || defaultLogger;
+    options.metrics = options.metrics || defaultMetrics;
 
-    options.logger = options.logger || logger || defaultLogger;
-    options.measure = options.measure || measure || defaultMeasure;
-
+    // initialize server
     if (options.dev) {
       this.server = this.createDevServer();
-
-      // check if https is configured when start dev server
-      const devHttpsOption =
-        typeof options.dev === 'object' && options.dev.https;
-      if (devHttpsOption) {
-        const httpsOptions = await genHttpsOptions(devHttpsOption);
-        this.app = createHttpsServer(httpsOptions, this.getRequestHandler());
-      } else {
-        this.app = createServer(this.getRequestHandler());
-      }
     } else {
       this.server = this.createProdServer();
-      this.app = createServer(this.getRequestHandler());
     }
+    // check if https is configured when start dev server
+    this.app = await this.server.createHTTPServer(this.getRequestHandler());
 
-    await this.server.init();
+    this.runner = await this.createHookRunner();
+
+    // runner can only be used after server init
+    await this.server.init(this.runner);
+
     return this;
   }
 
@@ -109,23 +94,70 @@ export class Server {
     const { options } = this;
 
     if (options.apiOnly) {
-      return new APIModernServer(options, this.runner);
+      return new ModernAPIServer(options);
+    } else if (options.ssrOnly) {
+      return new ModernSSRServer(options);
     } else if (options.webOnly) {
-      return new WebModernServer(options, this.runner);
+      return new ModernWebServer(options);
     } else {
-      return new ModernServer(options, this.runner);
+      return new ModernServer(options);
     }
   }
 
   private createDevServer() {
     const { options } = this;
+    const {
+      ModernAPIDevServer,
+      ModernSSRDevServer,
+      ModernDevServer,
+    } = require('./dev-server');
 
     if (options.apiOnly) {
-      return new APIModernDevServer(options, this.runner);
-    } else if (options.webOnly) {
-      return new WebModernDevServer(options, this.runner);
+      return new ModernAPIDevServer(options);
+    } else if (options.ssrOnly) {
+      return new ModernSSRDevServer(options);
     } else {
-      return new ModernDevServer(options, this.runner);
+      return new ModernDevServer(options);
     }
+  }
+
+  private async createHookRunner() {
+    const { options } = this;
+
+    options.plugins?.forEach(p => {
+      serverManager.usePlugin(p);
+    });
+
+    const appContext = await this.initAppContext();
+    serverManager.run(() => {
+      ConfigContext.set(this.options.config as UserConfig);
+      AppContext.set({
+        ...appContext,
+        distDirectory: path.join(
+          options.pwd,
+          options.config.output?.path || 'dist',
+        ),
+      });
+    });
+
+    return serverManager.init({});
+  }
+
+  private async initAppContext() {
+    const appDirectory = await initAppDir();
+
+    const loaded = await loadUserConfig(appDirectory);
+
+    const plugins = this.options.plugins?.map(p => ({
+      server: p,
+      cli: undefined,
+    }));
+
+    const appContext = initAppContext(
+      appDirectory,
+      plugins || [],
+      loaded.filePath,
+    );
+    return appContext;
   }
 }

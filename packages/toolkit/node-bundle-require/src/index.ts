@@ -5,6 +5,11 @@ import { build, Loader, Plugin, BuildOptions } from 'esbuild';
 
 const JS_EXT_RE = /\.(mjs|cjs|ts|js|tsx|jsx)$/;
 
+// Must not start with "/" or "./" or "../"
+// "/test/node_modules/foo"
+// "c:/node_modules/foo"
+export const EXTERNAL_REGEXP = /^[^./]|^\.[^./]|^\.\.[^/]/;
+
 const CACHE_DIR = path.relative(
   process.cwd(),
   './node_modules/.node-bundle-require',
@@ -129,11 +134,17 @@ export async function bundleRequire(filepath: string, options?: Options) {
       {
         name: 'make-all-packages-external',
         setup(_build) {
-          const filter = /^[^./]|^\.[^./]|^\.\.[^/]/; // Must not start with "/" or "./" or "../"
-          _build.onResolve({ filter }, args => ({
-            path: args.path,
-            external: true,
-          }));
+          _build.onResolve({ filter: EXTERNAL_REGEXP }, args => {
+            let external = true;
+            // FIXME: windows external entrypoint
+            if (args.kind === 'entry-point') {
+              external = false;
+            }
+            return {
+              path: args.path,
+              external,
+            };
+          });
         },
       },
     ],

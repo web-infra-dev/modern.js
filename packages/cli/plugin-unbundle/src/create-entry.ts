@@ -1,5 +1,5 @@
+import path from 'path';
 import {
-  path,
   fs,
   isFastRefresh,
   createDebugger,
@@ -7,13 +7,10 @@ import {
   readTsConfig,
   generateMetaTags,
   getEntryOptions,
-  upath,
 } from '@modern-js/utils';
-import ts = require('typescript');
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import type { Entrypoint } from '@modern-js/types';
 import { DEV_CLIENT_PATH_ALIAS, DEV_CLIENT_URL } from './constants';
-import { parseDTS } from './parse-dts';
 
 const debug = createDebugger('esm:create-entry');
 
@@ -54,8 +51,8 @@ const injectScripts = (
   ];
 
   if (isFastRefresh()) {
-    const runtimePath = upath.normalizeSafe(
-      require.resolve('react-refresh/cjs/react-refresh-runtime.development.js'),
+    const runtimePath = require.resolve(
+      'react-refresh/cjs/react-refresh-runtime.development.js',
     );
 
     const reactRefreshCode = fs
@@ -107,11 +104,13 @@ const injectConstEnums = (appDirectory: string): string => {
     const tsconfigJSON = readTsConfig(appDirectory);
 
     // .d.ts files which need to be
+    const ts = require('typescript');
     const {
       raw: { include },
     } = ts.parseJsonConfigFileContent(tsconfigJSON, ts.sys, appDirectory);
 
     if (include?.length) {
+      const { parseDTS } = require('./parse-dts');
       const enums = parseDTS(
         include
           .filter((file: string) => path.extname(file))
@@ -137,6 +136,7 @@ const renderTemplate = (
 };
 
 const initTemplateVariables = (
+  appContext: IAppContext,
   userConfig: NormalizedConfig,
   entryName: string,
 ): BaseTemplateVariables => {
@@ -153,10 +153,17 @@ const initTemplateVariables = (
     },
   } = userConfig;
 
-  const titleVariable = getEntryOptions(entryName, title, titleByEntries);
+  const { packageName } = appContext;
+
+  const titleVariable = getEntryOptions(
+    entryName,
+    title,
+    titleByEntries,
+    packageName,
+  );
 
   const metaVariable = generateMetaTags(
-    getEntryOptions(entryName, meta, metaByEntries),
+    getEntryOptions(entryName, meta, metaByEntries, packageName),
   );
 
   return {
@@ -169,6 +176,7 @@ const initTemplateVariables = (
       entryName,
       templateParameters,
       templateParametersByEntries,
+      packageName,
     ),
   };
 };
@@ -178,7 +186,11 @@ const createEntryHtml = (
   userConfig: NormalizedConfig,
   entryName: string,
 ) => {
-  const templateVariables = initTemplateVariables(userConfig, entryName);
+  const templateVariables = initTemplateVariables(
+    appContext,
+    userConfig,
+    entryName,
+  );
 
   const template = appContext.htmlTemplates[entryName];
 

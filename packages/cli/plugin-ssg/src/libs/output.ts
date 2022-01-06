@@ -1,4 +1,5 @@
-import { path, fs } from '@modern-js/utils';
+import path from 'path';
+import { fs } from '@modern-js/utils';
 import { SsgRoute } from '../types';
 
 export function writeHtmlFile(
@@ -8,7 +9,7 @@ export function writeHtmlFile(
 ) {
   htmlAry.forEach((html: any, index: number) => {
     const ssgRoute = ssgRoutes[index];
-    const filepath = path.join(baseDir, ssgRoute.output!);
+    const filepath = path.join(baseDir, ssgRoute.output);
     if (!fs.existsSync(path.dirname(filepath))) {
       fs.ensureDirSync(path.dirname(filepath));
     }

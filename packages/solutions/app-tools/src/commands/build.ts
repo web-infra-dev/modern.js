@@ -4,6 +4,8 @@ import {
   useAppContext,
   useResolvedConfigContext,
   mountHook,
+  ResolvedConfigContext,
+  manager,
 } from '@modern-js/core';
 import {
   fs,
@@ -19,7 +21,11 @@ import {
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
-export const build = async () => {
+interface CliOptions {
+  analyze?: boolean;
+}
+
+export const build = async (options?: CliOptions) => {
   const webpackBuild = async (webpackConfig: Configuration, type?: string) => {
     const compiler = webpack(webpackConfig);
 
@@ -78,6 +84,10 @@ export const build = async () => {
   const appContext = useAppContext();
   /* eslint-enable react-hooks/rules-of-hooks */
 
+  manager.run(() => {
+    ResolvedConfigContext.set({ ...resolvedConfig, cliOptions: options });
+  });
+
   const outputPath = appContext.distDirectory;
   const previousFileSizes = await measureFileSizesBeforeBuild(outputPath);
   fs.emptyDirSync(outputPath);
@@ -116,8 +126,4 @@ export const build = async () => {
     }
   }
   await (mountHook() as any).afterBuild();
-
-  // force exit after build.
-  // eslint-disable-next-line no-process-exit
-  process.exit(0);
 };

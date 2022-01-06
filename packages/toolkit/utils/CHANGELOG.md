@@ -1,5 +1,53 @@
 # @modern-js/utils
 
+## 1.1.5
+
+### Patch Changes
+
+- ca7dcb32: change watch logic
+
+## 1.1.4
+
+### Patch Changes
+
+- d927bc83: update plugins list
+- d73ff455: support multi process product
+- 9c1ab865: fix: filter invalid ts paths
+- d73ff455: support multi process product
+- d73ff455: support multi process product
+- d73ff455: support multi process product
+- d73ff455: support multi process product
+
+## 1.1.3
+
+### Patch Changes
+
+- 085a6a58: refactor server plugin
+- 085a6a58: refactor server plugin
+- 085a6a58: refactor server conifg
+- d280ea33: chore: runtime exports can choose to generate d.ts file
+- 085a6a58: support server runtime
+- 085a6a58: feat: refactor server plugin
+
+## 1.1.2
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- f594fbc8: fix apple icon and favicon support
+
+## 1.1.1
+
+### Patch Changes
+
+- c0fc0700: feat: support deploy plugin
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

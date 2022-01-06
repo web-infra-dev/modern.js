@@ -1,0 +1,57 @@
+{
+  "name": "@modern-js/generator-plugin",
+  "version": "1.1.2",
+  "jsnext:source": "./src/index.ts",
+  "types": "./dist/types/index.d.ts",
+  "main": "./dist/js/node/index.js",
+  "module": "./dist/js/treeshaking/index.js",
+  "jsnext:modern": "./dist/js/modern/index.js",
+  "scripts": {
+    "prepare": "modern build",
+    "prepublishOnly": "modern build --platform",
+    "dev": "modern dev",
+    "build": "modern build",
+    "new": "modern new",
+    "test": "modern test --passWithNoTests"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7",
+    "lodash": "^4.17.11",
+    "@modern-js/easy-form-core": "^1.0.0",
+    "@modern-js/generator-utils": "workspace:^1.0.0",
+    "@modern-js/generator-common": "workspace:^1.2.1",
+    "@modern-js/new-action": "^1.2.1",
+    "@modern-js/codesmith-api-json": "^1.0.7",
+    "@modern-js/codesmith-api-npm": "^1.0.7",
+    "@modern-js/codesmith-api-git": "^1.0.7",
+    "@modern-js/plugin-i18n": "workspace:^1.1.1",
+    "@modern-js/codesmith": "^1.0.7",
+    "package-json": "^7.0.0",
+    "handlebars": "^4.7.7",
+    "globby": "^11.0.2",
+    "vm2": "^3.9.2"
+  },
+  "devDependencies": {
+    "react": "^17",
+    "@types/lodash": "^4.14.126",
+    "@modern-js/module-tools": "^1.1.3",
+    "@modern-js/plugin-jarvis": "^1.0.0",
+    "@modern-js/plugin-testing": "^1.2.0",
+    "del-cli": "^4.0.1",
+    "typescript": "^4",
+    "@types/jest": "^26.0.9",
+    "@types/node": "^14",
+    "@types/react": "^17",
+    "@types/react-dom": "^17"
+  },
+  "sideEffects": [
+    "*.css",
+    "*.less",
+    "*.sass",
+    "*.scss"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

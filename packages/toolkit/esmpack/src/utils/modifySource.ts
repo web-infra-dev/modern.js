@@ -1,5 +1,4 @@
 import fs from 'fs-extra';
-import { upath } from '@modern-js/utils';
 import type { Logger } from '../Logger';
 
 export function modifySourceBySpecifier(
@@ -10,11 +9,9 @@ export function modifySourceBySpecifier(
 ) {
   let codePath = '';
   try {
-    codePath = upath.normalizeSafe(
-      require.resolve(specifier, {
-        paths: [projectRoot],
-      }),
-    );
+    codePath = require.resolve(specifier, {
+      paths: [projectRoot],
+    });
   } catch (e) {
     return;
   }

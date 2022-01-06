@@ -1,13 +1,13 @@
 import fs from 'fs';
+import path from 'path';
 import {
-  path,
   applyOptionsChain,
   isProd,
   isUseSSRBundle,
   SERVER_BUNDLE_DIRECTORY,
-  upath,
 } from '@modern-js/utils';
 import nodeExternals from 'webpack-node-externals';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { mergeRegex } from '../utils/mergeRegex';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
 import { BaseWebpackConfig } from './base';
@@ -85,7 +85,7 @@ class NodeWebpackConfig extends BaseWebpackConfig {
         ...babelOptions,
         presets: [
           [
-            upath.normalizeSafe(require.resolve('@modern-js/babel-preset-app')),
+            require.resolve('@modern-js/babel-preset-app'),
             {
               appDirectory: this.appDirectory,
               target: 'server',
@@ -113,6 +113,16 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
   plugins() {
     super.plugins();
+
+    if (this.options.cliOptions?.analyze) {
+      this.chain.plugin('bundle-analyze').use(BundleAnalyzerPlugin, [
+        {
+          analyzerMode: 'static',
+          openAnalyzer: false,
+          reportFilename: 'report-ssr.html',
+        },
+      ]);
+    }
   }
 
   resolve() {
@@ -136,13 +146,23 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     // dsiable sourcemap
     config.devtool = false;
 
+    // prod bundle all dependencies
+    if (isProd()) {
+      config.externals = [];
+      return config;
+    }
+
     config.externals = config.externals || [];
 
     if (!Array.isArray(config.externals)) {
       config.externals = [config.externals].filter(Boolean);
     }
 
-    config.resolve?.modules?.forEach(dir => {
+    // @modern-js/utils use typescript for peerDependency, but js project not depend it
+    // if not externals, js ssr build error
+    config.externals.push('typescript');
+
+    config.resolve?.modules?.forEach((dir: string) => {
       if (fs.existsSync(dir)) {
         (config.externals as any[]).push(
           nodeExternals({
@@ -153,9 +173,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
       }
     });
 
-    // ssr bundle use utils api, but can't treeshaking.
-    // may be we can add '@modern-js/' or allowlist packages into webpack bundle
-    config.externals.push('@modern-js/utils');
     return config;
   }
 }

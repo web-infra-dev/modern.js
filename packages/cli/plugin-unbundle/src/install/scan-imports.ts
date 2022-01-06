@@ -1,5 +1,5 @@
+import path from 'path';
 import {
-  path,
   isModernjsMonorepo,
   getMonorepoPackages,
   findMonorepoRoot,
@@ -7,7 +7,6 @@ import {
   createDebugger,
   isTypescript,
   applyOptionsChain,
-  upath,
 } from '@modern-js/utils';
 import { parse, init } from 'es-module-lexer';
 import glob from 'fast-glob';
@@ -105,7 +104,7 @@ export const scanImports = async (
     ...DEFAULT_DEPS.filter(name => {
       // deps which already installed will be transformed
       try {
-        upath.normalizeSafe(require.resolve(name, { paths: [appDirectory] }));
+        require.resolve(name, { paths: [appDirectory] });
       } catch (_err) {
         // should always transform virtual deps.
         return Boolean(VIRTUAL_DEPS_MAP[name]);
@@ -148,8 +147,8 @@ const scanFiles = async (
         '**/output/**',
         '**/output_resource/**',
         `**/__test__/**`,
-        `**/*.test.(js|ts)`,
-        `**/*.spec.(js|ts)`,
+        `**/*.test.(js|ts|jsx|tsx)`,
+        `**/*.spec.(js|ts|jsx|tsx)`,
         `**/*.stories.(js|ts|jsx|tsx)`,
         `**/*.node.(js|jsx|ts|tsx)`,
         '**/*.d.ts',

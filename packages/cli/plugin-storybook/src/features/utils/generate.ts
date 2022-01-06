@@ -1,6 +1,6 @@
-import * as path from 'path';
+import path from 'path';
 import type { NormalizedConfig } from '@modern-js/core';
-import { fs, Import } from '@modern-js/utils';
+import { fs, Import, normalizeOutputPath } from '@modern-js/utils';
 import { STORYBOOK_TEMPLATE_DIR } from '../constants';
 
 const template: typeof import('lodash.template') = Import.lazy(
@@ -22,7 +22,13 @@ const MAIN_TEMPLATE = path.join(STORYBOOK_TEMPLATE_DIR, 'main.tmpl');
 export const generateMain = (options: MainOptions) => {
   const mainTemplate = fs.readFileSync(MAIN_TEMPLATE, 'utf-8');
   const injects: Record<string, string> = {
-    appDirectory: options.appDirectory,
+    appDirectory: normalizeOutputPath(options.appDirectory),
+    sbConfigDir: normalizeOutputPath(
+      path.resolve(options.appDirectory, 'config/storybook'),
+    ),
+    userMainPath: normalizeOutputPath(
+      path.resolve(options.appDirectory, 'config/storybook/main.js'),
+    ),
     disableTsChecker: String(options.disableTsChecker),
     stories: JSON.stringify(options.stories),
     isTsProject: String(options.isTsProject),
@@ -38,9 +44,16 @@ export type PreviewOptions = {
 };
 
 const PREVIEW_TEMPLATE = path.join(STORYBOOK_TEMPLATE_DIR, 'preview.tmpl');
+const USER_PREVIEW_TEMPLATE = path.join(
+  STORYBOOK_TEMPLATE_DIR,
+  'user-preview.tmpl',
+);
 
 export const generatePreview = (options: PreviewOptions) => {
-  const previewTemplate = fs.readFileSync(PREVIEW_TEMPLATE, 'utf-8');
+  const previewTemplate = fs.readFileSync(
+    options.userPreviewPath ? USER_PREVIEW_TEMPLATE : PREVIEW_TEMPLATE,
+    'utf-8',
+  );
   const injects: Record<string, string> = {
     userPreviewPath: options.userPreviewPath || '',
     runtime: JSON.stringify(options.runtime || {}),

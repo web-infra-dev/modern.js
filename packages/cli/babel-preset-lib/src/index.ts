@@ -29,12 +29,13 @@ export const getBabelChain = (
       envOptions: true,
       reactOptions: enableReactPreset,
       typescriptOptions: enableTypescriptPreset
-        ? { allowDeclareFields: true }
+        ? { allowDeclareFields: true, allExtensions: true }
         : false,
     },
     plugins: {
       transformRuntime: {
         corejs: false, // 关闭 corejs
+        // helpers: true,
       },
       lodashOptions,
     },

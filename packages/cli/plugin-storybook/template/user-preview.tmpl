@@ -1,0 +1,19 @@
+const userPreview = require('<%= userPreviewPath %>');
+
+const decorators = [...(userPreview.decorators || [])];
+
+const parameters = {
+    ...(userPreview.parameters || {}),
+    modernConfigRuntime: <%= runtime %>,
+    modernConfigDesignToken: <%= designToken %>
+};
+
+const globalTypes = {
+    ...(userPreview.globalTypes || {}),
+};
+
+module.exports = {
+    decorators,
+    parameters,
+    globalTypes,
+};

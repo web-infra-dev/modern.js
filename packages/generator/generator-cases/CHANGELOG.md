@@ -1,5 +1,41 @@
 # @modern-js/generator-cases
 
+## 1.1.2
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- 2debc5eb: feat: update mwa new cases
+- Updated dependencies [0fa83663]
+- Updated dependencies [429aab90]
+  - @modern-js/generator-common@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- c0fc0700: feat: support deploy plugin
+- Updated dependencies [687c92c7]
+- Updated dependencies [c0fc0700]
+  - @modern-js/generator-common@1.1.1
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/generator-common@1.1.0
+
+## 1.0.4
+
+### Patch Changes
+
+- feat: change isTypical to length
+
 ## 1.0.2
 
 ### Patch Changes

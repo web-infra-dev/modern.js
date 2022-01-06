@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import fs from 'fs-extra';
 import { isPlainObject } from 'lodash';
 import type { Plugin } from 'rollup';

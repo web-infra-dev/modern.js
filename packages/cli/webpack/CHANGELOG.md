@@ -1,5 +1,70 @@
 # @modern-js/webpack
 
+## 1.1.3
+
+### Patch Changes
+
+- 9a5e6d14: fix: fix dev.assetPrefix port
+- a37192b1: feat: support css module declaration
+- ed1f6b12: feat: support build --analyze
+- b058c6fa: fix config dir copy error
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [d280ea33]
+- Updated dependencies [d4fcc73a]
+- Updated dependencies [085a6a58]
+- Updated dependencies [ed1f6b12]
+- Updated dependencies [a5ebbb00]
+- Updated dependencies [085a6a58]
+  - @modern-js/core@1.1.3
+  - @modern-js/utils@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- 6f7fe574: modern-js/core support extra options
+- e4755134: fix js project ssr build error
+- 0fa83663: support more .env files
+- 19b4f79e: temporary solutions type error
+- f594fbc8: fix apple icon and favicon support
+- d1fde77a: fix public/ file in windows
+- Updated dependencies [6f7fe574]
+- Updated dependencies [b011e0c5]
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/core@1.1.2
+  - @modern-js/babel-preset-app@1.1.1
+  - @modern-js/css-config@1.1.1
+  - @modern-js/babel-chain@1.1.1
+  - @modern-js/utils@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- c0fc0700: feat: support deploy plugin
+- Updated dependencies [687c92c7]
+- Updated dependencies [c0fc0700]
+  - @modern-js/core@1.1.1
+  - @modern-js/utils@1.1.1
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/babel-preset-app@1.1.0
+  - @modern-js/core@1.1.0
+  - @modern-js/css-config@1.1.0
+  - @modern-js/babel-chain@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

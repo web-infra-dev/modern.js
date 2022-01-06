@@ -3,7 +3,6 @@ import {
   createDebugger,
   compatRequire,
   INTERNAL_PLUGINS,
-  upath,
 } from '@modern-js/utils';
 
 const debug = createDebugger('load-plugins');
@@ -25,9 +24,7 @@ const resolvePlugin = (appDirectory: string, plugin: PluginConfigItem) => {
   const tryResolve = (name: string) => {
     let filePath = '';
     try {
-      filePath = upath.normalizeSafe(
-        require.resolve(name, { paths: [appDirectory] }),
-      );
+      filePath = require.resolve(name, { paths: [appDirectory] });
       delete require.cache[filePath];
     } catch (err) {
       if ((err as any).code === 'MODULE_NOT_FOUND') {
@@ -40,8 +37,9 @@ const resolvePlugin = (appDirectory: string, plugin: PluginConfigItem) => {
 
   const resolved: PluginConfigItem = {};
 
-  if (plugin.cli) {
-    resolved.cli = tryResolve(plugin.cli);
+  if (typeof plugin === 'string' || plugin.cli) {
+    resolved.cli =
+      typeof plugin === 'string' ? tryResolve(plugin) : tryResolve(plugin.cli!);
   }
 
   if (plugin.server) {
@@ -60,11 +58,12 @@ const resolvePlugin = (appDirectory: string, plugin: PluginConfigItem) => {
 export const loadPlugins = (
   appDirectory: string,
   pluginConfig: PluginConfig,
+  internalPlugins?: typeof INTERNAL_PLUGINS,
 ) => {
   const plugins = [
-    ...Object.keys(INTERNAL_PLUGINS)
+    ...Object.keys(internalPlugins || INTERNAL_PLUGINS)
       .filter(name => isDepExists(appDirectory, name))
-      .map(name => INTERNAL_PLUGINS[name]),
+      .map(name => (internalPlugins || INTERNAL_PLUGINS)[name]),
     ...pluginConfig,
   ];
 
@@ -76,9 +75,17 @@ export const loadPlugins = (
       server,
     });
 
+    const cliPlugin = cli && { ...compatRequire(cli), pluginPath: cli };
+    const serverPlugin = server && {
+      ...compatRequire(server),
+      pluginPath: server,
+    };
+
     return {
-      cli: cli && compatRequire(cli),
-      server: server && compatRequire(server),
+      cli: cliPlugin,
+      cliPath: typeof plugin === 'string' ? plugin : plugin.cli,
+      server: serverPlugin,
+      serverPath: typeof plugin === 'string' ? undefined : plugin.server,
     };
   });
 };

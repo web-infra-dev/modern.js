@@ -1,5 +1,87 @@
 # @modern-js/plugin-bff
 
+## 1.2.0
+
+### Minor Changes
+
+- 5a4c557e: feat: support bff test
+
+### Patch Changes
+
+- Updated dependencies [90eeb72c]
+- Updated dependencies [e04914ce]
+- Updated dependencies [5a4c557e]
+- Updated dependencies [e04914ce]
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [ecb344dc]
+  - @modern-js/core@1.2.0
+  - @modern-js/server-plugin@1.1.3
+  - @modern-js/babel-preset-lib@1.1.4
+  - @modern-js/babel-compiler@1.1.3
+  - @modern-js/utils@1.1.5
+
+## 1.1.2
+
+### Patch Changes
+
+- 085a6a58: refactor server plugin
+- 39e8137d: fix: support prefix array & webpack loader should read requestCreator & adjust runtime path to relative
+- 085a6a58: refactor server plugin
+- 085a6a58: refactor server conifg
+- 085a6a58: support server runtime
+- 085a6a58: feat: refactor server plugin
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [d280ea33]
+- Updated dependencies [d4fcc73a]
+- Updated dependencies [085a6a58]
+- Updated dependencies [ed1f6b12]
+- Updated dependencies [a5ebbb00]
+- Updated dependencies [085a6a58]
+  - @modern-js/core@1.1.3
+  - @modern-js/server-plugin@1.1.2
+  - @modern-js/server-utils@1.1.2
+  - @modern-js/utils@1.1.3
+
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [6f7fe574]
+- Updated dependencies [b011e0c5]
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+- Updated dependencies [395beb1e]
+  - @modern-js/core@1.1.2
+  - @modern-js/babel-preset-lib@1.1.1
+  - @modern-js/server-utils@1.1.1
+  - @modern-js/bff-utils@1.1.1
+  - @modern-js/create-request@1.1.1
+  - @modern-js/server-plugin@1.1.1
+  - @modern-js/babel-chain@1.1.1
+  - @modern-js/babel-compiler@1.1.2
+  - @modern-js/utils@1.1.2
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/babel-preset-lib@1.1.0
+  - @modern-js/core@1.1.0
+  - @modern-js/bff-utils@1.1.0
+  - @modern-js/create-request@1.1.0
+  - @modern-js/server-plugin@1.1.0
+  - @modern-js/server-utils@1.1.0
+  - @modern-js/babel-chain@1.1.0
+  - @modern-js/babel-compiler@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

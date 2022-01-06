@@ -1,5 +1,53 @@
 # @modern-js/babel-preset-lib
 
+## 1.1.4
+
+### Patch Changes
+
+- ca7dcb32: ensure that tspaths is the correct data structure
+- Updated dependencies [ca7dcb32]
+  - @modern-js/utils@1.1.5
+
+## 1.1.3
+
+### Patch Changes
+
+- d927bc83: replace the babel plugin corresponding to 'globalVar'
+- Updated dependencies [d927bc83]
+- Updated dependencies [d73ff455]
+- Updated dependencies [9c1ab865]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+  - @modern-js/utils@1.1.4
+
+## 1.1.1
+
+### Patch Changes
+
+- b011e0c5: fix(babel): declare
+- 0fa83663: support more .env files
+- 395beb1e: add helpers config
+- Updated dependencies [ba51d68b]
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/babel-preset-base@1.1.1
+  - @modern-js/babel-chain@1.1.1
+  - @modern-js/utils@1.1.2
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0### Patch Changes
+
+- Updated dependencies [96119db2]
+- Updated dependencies [c503176f]
+  - @modern-js/babel-preset-base@1.1.0
+  - @modern-js/babel-chain@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

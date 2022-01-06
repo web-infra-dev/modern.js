@@ -19,6 +19,11 @@ export const HMR_SOCK_PATH = '/_modern_js_hmr_ws';
 export const ROUTE_SPEC_FILE = 'route.json';
 
 /**
+ * main entry name
+ */
+export const MAIN_ENTRY_NAME = 'main';
+
+/**
  * open editor request path
  */
 export const LAUNCH_EDITOR_ENDPOINT = '/__open-stack-frame-in-editor';
@@ -43,7 +48,19 @@ export const SERVER_RENDER_FUNCTION_NAME = 'serverRender';
  */
 export const LOADABLE_STATS_FILE = 'loadable-stats.json';
 
+/**
+ * real entry generate by modern.js
+ */
 export const HIDE_MODERN_JS_DIR = './node_modules/.modern-js';
+
+/**
+ * internal specified folder
+ */
+export const API_DIR = 'api';
+
+export const SERVER_DIR = 'server';
+
+export const SHARED_DIR = 'shared';
 
 /**
  * Internal plugins that work as soon as they are installed.
@@ -86,11 +103,27 @@ export const INTERNAL_PLUGINS: {
   },
   '@modern-js/plugin-unbundle': { cli: '@modern-js/plugin-unbundle' },
   '@modern-js/plugin-server-build': { cli: '@modern-js/plugin-server-build' },
+  '@modern-js/plugin-server': {
+    cli: '@modern-js/plugin-server/cli',
+    server: '@modern-js/plugin-server/server',
+  },
   '@modern-js/plugin-micro-frontend': {
     cli: '@modern-js/plugin-micro-frontend/cli',
   },
   '@modern-js/plugin-jarvis': { cli: '@modern-js/plugin-jarvis/cli' },
   '@modern-js/plugin-tailwindcss': { cli: '@modern-js/plugin-tailwindcss/cli' },
+  '@modern-js/plugin-lambda-fc': { cli: '@modern-js/plugin-lambda-fc/cli' },
+  '@modern-js/plugin-lambda-scf': { cli: '@modern-js/plugin-lambda-scf/cli' },
+  '@modern-js/plugin-cdn-oss': { cli: '@modern-js/plugin-cdn-oss/cli' },
+  '@modern-js/plugin-cdn-cos': { cli: '@modern-js/plugin-cdn-cos/cli' },
+  '@modern-js/plugin-static-hosting': {
+    cli: '@modern-js/plugin-static-hosting/cli',
+  },
+  '@modern-js/plugin-polyfill': { server: '@modern-js/plugin-polyfill' },
+  '@modern-js/plugin-multiprocess': {
+    cli: '@modern-js/plugin-multiprocess/cli',
+  },
+  '@modern-js/plugin-nocode': { cli: '@modern-js/plugin-nocode/cli' },
 };
 
 /**
@@ -120,10 +153,13 @@ export const PLUGIN_SCHEMAS = {
       schema: {
         type: 'object',
         properties: {
-          prefix: { type: 'string' },
+          prefix: {
+            type: ['string', 'array'],
+            items: { type: 'string' },
+          },
           fetcher: { type: 'string' },
           proxy: { type: 'object' },
-          requestCreater: { type: 'string' },
+          requestCreator: { type: 'string' },
         },
       },
     },
@@ -175,7 +211,13 @@ export const PLUGIN_SCHEMAS = {
   '@modern-js/plugin-ssg': [
     {
       target: 'output.ssg',
-      schema: { oneOf: [{ type: 'boolean' }, { instanceof: 'Function' }] },
+      schema: {
+        oneOf: [
+          { type: 'boolean' },
+          { type: 'object' },
+          { instanceof: 'Function' },
+        ],
+      },
     },
   ],
   '@modern-js/plugin-ssr': [
@@ -216,4 +258,5 @@ export const PLUGIN_SCHEMAS = {
       schema: { type: ['object'] },
     },
   ],
+  '@modern-js/plugin-nocode': [],
 };

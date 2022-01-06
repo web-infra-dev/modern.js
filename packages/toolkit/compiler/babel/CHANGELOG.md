@@ -1,5 +1,41 @@
 # @modern-js/babel-compiler
 
+## 1.1.3
+
+### Patch Changes
+
+- ca7dcb32: change watch logic
+- Updated dependencies [ca7dcb32]
+  - @modern-js/utils@1.1.5
+
+## 1.1.2
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/utils@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- 0acdaeba: fix incorrect `file` vlaue in sourcemap
+- Updated dependencies [c0fc0700]
+  - @modern-js/utils@1.1.1
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

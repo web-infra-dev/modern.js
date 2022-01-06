@@ -2,8 +2,7 @@
 
 .pnp
 .pnp.js
-.env
-.env.*
+.env.local
 .env.*.local
 .history
 .rts*
@@ -39,7 +38,7 @@ examples/
 **/*/typings/auto-generated
 **/*/adapters/**/index.ts
 **/*/adapters/**/index.js
-pnpm-lock.yaml
+.pnpm-store/
 
 .storybook/
 

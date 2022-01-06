@@ -1,5 +1,45 @@
 # @modern-js/create
 
+## 1.2.2
+
+### Patch Changes
+
+- 4a5214db: fix: generator plugin error
+
+## 1.2.0
+
+### Minor Changes
+
+- e12b3d0b: feat: support generator plugin
+
+### Patch Changes
+
+- e12b3d0b: feat: upgrade codesmith version
+
+## 1.1.3
+
+### Patch Changes
+
+- f6115185: fix create toolkit module params
+
+## 1.1.2
+
+### Patch Changes
+
+- 2debc5eb: fix: fix create tools default config
+
+## 1.1.1
+
+### Patch Changes
+
+- d93a5d82: feat: change initial repo default branch
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

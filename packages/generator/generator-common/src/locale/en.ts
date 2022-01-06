@@ -4,6 +4,11 @@ export const EN_LOCALE = {
     mwa: 'MWA Solution',
     module: 'Module Solution',
     monorepo: 'Monorepo Solution',
+    custom: 'Custom Solution',
+    default: 'Default',
+  },
+  scenes: {
+    self: 'Please select the scense you want to create',
   },
   sub_solution: {
     self: 'Please select the solution you want to create',
@@ -31,12 +36,13 @@ export const EN_LOCALE = {
       storybook: 'Enable "Storybook"',
       runtime_api: 'Enable "Runtime API"',
       mwa_storybook: 'Enable "Visual Testing (Storybook)"',
+      ssg: 'Enable "SSG"',
+      deploy: 'Enable "Deploy"',
     },
     element: {
       self: 'Create project element',
       entry: 'New "entry"',
       server: 'New "Server Custom" source code directory',
-      env: 'Generate ".env" file',
     },
     refactor: {
       self: 'Automatic refactor',
@@ -98,6 +104,23 @@ export const EN_LOCALE = {
       self: 'BFF Type',
       func: 'Function',
       framework: 'Framework',
+    },
+  },
+  deploy: {
+    cloud: {
+      self: 'Modify the default Web Server?',
+    },
+    cdn: {
+      self: 'Please select the cdn platform you want to use',
+      oss: 'Aliyun OSS',
+      cos: 'Tencent COS',
+      no: 'Not Enabled',
+    },
+    lambda: {
+      self: 'Please select the lambda you want to use',
+      fc: 'Aliyun FC',
+      scf: 'Tencent SCF',
+      no: 'Not Enabled',
     },
   },
 };

@@ -1,5 +1,70 @@
 # @modern-js/plugin-testing
 
+## 1.2.1
+
+### Patch Changes
+
+- fix: type define
+
+## 1.2.0
+
+### Minor Changes
+
+- 90eeb72c: add modern config schema and types of testing, tools.jest.
+  add typesVersions for re-exporting types of @modern-js/plugin-testing.
+  fix type lost when redeclareing modules.
+- 5a4c557e: feat: support bff test
+
+### Patch Changes
+
+- Updated dependencies [90eeb72c]
+- Updated dependencies [e04914ce]
+- Updated dependencies [4406c2db]
+- Updated dependencies [90eeb72c]
+- Updated dependencies [5a4c557e]
+- Updated dependencies [e04914ce]
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [ecb344dc]
+  - @modern-js/core@1.2.0
+  - @modern-js/runtime-core@1.1.2
+  - @modern-js/testing@1.2.0
+  - @modern-js/babel-compiler@1.1.3
+  - @modern-js/utils@1.1.5
+
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [6f7fe574]
+- Updated dependencies [e4755134]
+- Updated dependencies [0fa83663]
+- Updated dependencies [19b4f79e]
+- Updated dependencies [f594fbc8]
+- Updated dependencies [d1fde77a]
+  - @modern-js/core@1.1.2
+  - @modern-js/webpack@1.1.2
+  - @modern-js/testing@1.1.1
+  - @modern-js/runtime-core@1.1.1
+  - @modern-js/babel-compiler@1.1.2
+  - @modern-js/utils@1.1.2
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/core@1.1.0
+  - @modern-js/webpack@1.1.0
+  - @modern-js/testing@1.1.0
+  - @modern-js/runtime-core@1.1.0
+  - @modern-js/babel-compiler@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

@@ -1,5 +1,6 @@
 import { AsyncWaterfall, AsyncWorkflow } from '@modern-js/plugin';
 import { Compiler, MultiCompiler, Configuration } from 'webpack';
+import { ServerRoute } from '../server';
 
 export type { Compiler, MultiCompiler, Configuration };
 
@@ -15,20 +16,6 @@ export interface Entrypoint {
     globalApp?: string | false;
     routes?: any[];
   };
-}
-
-/**
- *  server route
- */
-export interface ServerRoute {
-  urlPath: string;
-  entryName?: string;
-  entryPath: string;
-  isSPA: boolean;
-  isSSR: boolean;
-  isApi?: boolean;
-  bundle?: string;
-  enableModernMode?: boolean;
 }
 
 /**
@@ -69,7 +56,9 @@ export interface IAppContext {
   internalDirectory: string;
   plugins: {
     cli?: any;
+    cliPath?: any;
     server?: any;
+    serverPath?: any;
   }[];
   entrypoints: Entrypoint[];
   serverRoutes: ServerRoute[];
@@ -102,6 +91,8 @@ export interface Hooks {
     unknown
   >;
   afterBuild: AsyncWorkflow<void, unknown>;
+  beforeDeploy: AsyncWorkflow<Record<string, any>, unknown>;
+  afterDeploy: AsyncWorkflow<Record<string, any>, unknown>;
   modifyEntryExport: AsyncWaterfall<{
     entrypoint: Entrypoint;
     exportStatement: string;

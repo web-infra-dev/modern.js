@@ -44,33 +44,40 @@ export const buildPlatform = async (option: IBuildPlatformOption) => {
         ...params,
       };
     });
-
   if (taskMapper.length <= 0) {
     console.info(chalk.yellow(`'${platform}' is undefined task`));
     return;
   }
 
   lm.showCompiling();
-  await pMap(taskMapper, async ({ taskPath, params, logger }: any) => {
-    const childProcess = execa.node(taskPath, params, {
-      stdio: 'pipe',
-      all: true,
-    });
+  await pMap(
+    taskMapper,
+    async ({ taskPath, params, logger: _ }: any) => {
+      const childProcess = execa.node(taskPath, params, {
+        stdio: 'inherit',
+        all: true,
+      });
 
-    lm.addStdout(logger, childProcess.stdout, {
-      event: { data: true, error: true },
-    });
+      // lm.addStdout(logger, childProcess.stdout, {
+      //   event: { data: true, error: true },
+      // });
 
-    lm.addStderr(logger, childProcess.stderr);
+      // lm.addStderr(logger, childProcess.stderr);
+      try {
+        await childProcess;
+      } catch {
+        // eslint-disable-next-line no-process-exit
+        process.exit(1);
+      }
+      // lm.disappearCompiling();
+      // console.info(lg.colors.title(title));
+      // console.info(a.all);
+    },
+    { concurrency: 1 },
+  );
 
-    await childProcess;
-    // lm.disappearCompiling();
-    // console.info(lg.colors.title(title));
-    // console.info(a.all);
-  });
-
-  lm.disappearCompiling();
-  for (const key of Object.keys(loggerMap)) {
-    console.info(loggerMap[key].value);
-  }
+  // lm.disappearCompiling();
+  // for (const key of Object.keys(loggerMap)) {
+  //   console.info(loggerMap[key].value);
+  // }
 };

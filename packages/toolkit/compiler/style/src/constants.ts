@@ -13,6 +13,8 @@ export const CSS_EXTENSIONS_RULE = {
 
 export const defaultCompilerOptions: Option = {
   less: {},
-  sass: {},
+  sass: {
+    file: '',
+  },
   postcss: { options: {} },
 };

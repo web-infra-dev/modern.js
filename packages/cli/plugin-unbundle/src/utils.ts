@@ -1,8 +1,10 @@
+import path from 'path';
 // eslint-disable-next-line node/no-deprecated-api
 import { parse as parseUrl } from 'url';
-import { path, fs } from '@modern-js/utils';
+import { fs, chalk } from '@modern-js/utils';
 import { Loader } from 'esbuild';
 import { Server } from '@modern-js/server';
+import logger from 'signale';
 
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import {
@@ -42,7 +44,7 @@ export const shouldUseBff = (appDirectory: string): boolean =>
   fs.existsSync(path.resolve(appDirectory, BFF_API_DIR)) &&
   hasDependency(appDirectory, '@modern-js/plugin-bff');
 
-export const getBFFMiddleware = (
+export const getBFFMiddleware = async (
   config: NormalizedConfig,
   appContext: IAppContext,
 ) => {
@@ -55,7 +57,7 @@ export const getBFFMiddleware = (
     routes: appContext.serverRoutes as any,
   });
 
-  server.init();
+  await server.init();
 
   const handler = server.getRequestHandler();
 
@@ -172,4 +174,23 @@ export const hasDependency = (appDirectory: string, depName: string) => {
     dependencies.hasOwnProperty(depName) ||
     devDependencies.hasOwnProperty(depName)
   );
+};
+
+export const pathToUrl = (p: string) => p.split(path.sep).join('/');
+
+export const logWithHistory = () => {
+  let count = 1;
+  let history = '';
+  return (message: string) => {
+    process.stdout.moveCursor(0, -1); // up one line
+    process.stdout.clearLine(1); // clear last line
+    if (message === history) {
+      count += 1;
+      logger.info(chalk.green(`${message} x${count}`));
+    } else {
+      history = message;
+      count = 1;
+      logger.info(chalk.green(message));
+    }
+  };
 };

@@ -14,7 +14,7 @@ interface ServerRoute {
 }
 
 // TODO: remove hard code 'main'
-const isSPA = (entrypoints: EntryPoint[]) =>
+export const isSingleEntry = (entrypoints: EntryPoint[]) =>
   entrypoints.length === 1 && entrypoints[0].entryName === 'main';
 
 const normalizeUrl = (url: string) => url.replace(/([^:]\/)\/+/g, '$1');
@@ -62,7 +62,7 @@ export const prettyInstructions = (appContext: any, config: any) => {
 
   let message = 'App running at:\n\n';
 
-  if (isSPA(entrypoints)) {
+  if (isSingleEntry(entrypoints)) {
     message += urls
       .map(
         ({ type, url }) =>

@@ -1,10 +1,10 @@
+import path from 'path';
 import {
-  path,
-  upath,
   compatRequire,
   pkgUp,
   ensureAbsolutePath,
   logger,
+  INTERNAL_PLUGINS,
 } from '@modern-js/utils';
 import {
   createAsyncManager,
@@ -13,6 +13,8 @@ import {
   ParallelWorkflow,
   AsyncWorkflow,
   Progresses2Runners,
+  createAsyncWaterfall,
+  AsyncWaterfall,
 } from '@modern-js/plugin';
 import { enable } from '@modern-js/plugin/node';
 
@@ -41,7 +43,7 @@ import { NormalizedConfig } from './config/mergeConfig';
 import { loadEnv } from './loadEnv';
 
 export type { Hooks };
-export { defaultsConfig } from './config';
+export { defaultsConfig, mergeConfig } from './config';
 
 export * from '@modern-js/plugin';
 export * from '@modern-js/plugin/node';
@@ -53,6 +55,9 @@ program
 
 export type HooksRunner = Progresses2Runners<{
   config: ParallelWorkflow<void>;
+  resolvedConfig: AsyncWaterfall<{
+    resolved: NormalizedConfig;
+  }>;
   validateSchema: ParallelWorkflow<void>;
   prepare: AsyncWorkflow<void, void>;
   commands: AsyncWorkflow<
@@ -73,6 +78,9 @@ export type HooksRunner = Progresses2Runners<{
 
 const hooksMap = {
   config: createParallelWorkflow(),
+  resolvedConfig: createAsyncWaterfall<{
+    resolved: NormalizedConfig;
+  }>(),
   validateSchema: createParallelWorkflow(),
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   prepare: createAsyncWorkflow<void, void>(),
@@ -105,15 +113,17 @@ export const {
 
 export const usePlugins = (plugins: string[]) =>
   plugins.forEach(plugin =>
-    manager.usePlugin(compatRequire(upath.normalize(require.resolve(plugin)))),
+    manager.usePlugin(compatRequire(require.resolve(plugin))),
   );
 
 export {
   defineConfig,
   AppContext,
+  ResolvedConfigContext,
   useAppContext,
   useConfigContext,
   useResolvedConfigContext,
+  ConfigContext,
 };
 
 export type { NormalizedConfig, IAppContext, UserConfig, ToolsConfig };
@@ -130,15 +140,20 @@ const initAppDir = async (): Promise<string> => {
   return path.dirname(pkg);
 };
 
-export interface CoreOption {
-  dryRun?: boolean;
+export interface CoreOptions {
+  configFile?: string;
+  plugins?: typeof INTERNAL_PLUGINS;
+  beforeUsePlugins: (
+    plugins: any,
+    config: any,
+  ) => { cli: any; cliPath: any; server: any; serverPath: any }[];
 }
 
 const createCli = () => {
   let hooksRunner: HooksRunner;
   let isRestart = false;
 
-  const init = async (argv: string[] = []) => {
+  const init = async (argv: string[] = [], options?: CoreOptions) => {
     enable();
 
     manager.clear();
@@ -147,9 +162,17 @@ const createCli = () => {
 
     loadEnv(appDirectory);
 
-    const loaded = await loadUserConfig(appDirectory);
+    const loaded = await loadUserConfig(appDirectory, options?.configFile);
 
-    const plugins = loadPlugins(appDirectory, loaded.config.plugins || []);
+    let plugins = loadPlugins(
+      appDirectory,
+      loaded.config.plugins || [],
+      options?.plugins,
+    );
+
+    if (options?.beforeUsePlugins) {
+      plugins = options.beforeUsePlugins(plugins, loaded.config);
+    }
 
     plugins.forEach(plugin => plugin.cli && manager.usePlugin(plugin.cli));
 
@@ -181,13 +204,17 @@ const createCli = () => {
 
     const extraSchemas = await hooksRunner.validateSchema();
 
-    const resolved = await resolveConfig(
+    const config = await resolveConfig(
       loaded,
       extraConfigs as any,
       extraSchemas as any,
       isRestart,
       argv,
     );
+
+    const { resolved } = await hooksRunner.resolvedConfig({
+      resolved: config,
+    });
 
     // update context value
     manager.run(() => {
@@ -205,8 +232,8 @@ const createCli = () => {
     return { loadedConfig: loaded, appContext, resolved };
   };
 
-  async function run(argv: string[]) {
-    const { loadedConfig, appContext, resolved } = await init(argv);
+  async function run(argv: string[], options?: CoreOptions) {
+    const { loadedConfig, appContext, resolved } = await init(argv, options);
 
     await hooksRunner.commands({ program });
 
@@ -246,3 +273,5 @@ const createCli = () => {
 };
 
 export const cli = createCli();
+
+export { loadUserConfig, initAppDir, initAppContext };

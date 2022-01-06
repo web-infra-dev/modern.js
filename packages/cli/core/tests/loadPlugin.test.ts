@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { loadPlugins } from '@/loadPlugins';
 
 describe('load plugins', () => {
@@ -14,8 +14,20 @@ describe('load plugins', () => {
     ]);
 
     expect(plugins).toEqual([
-      { cli: { name: 'a' } },
-      { server: { name: 'b' } },
+      {
+        cli: {
+          name: 'a',
+          pluginPath: path.join(fixture, './test-plugin-a.js'),
+        },
+        cliPath: path.join(fixture, './test-plugin-a.js'),
+      },
+      {
+        server: {
+          name: 'b',
+          pluginPath: path.join(fixture, './test-plugin-b.js'),
+        },
+        serverPath: './test-plugin-b',
+      },
     ]);
   });
 

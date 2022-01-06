@@ -1,15 +1,12 @@
-import {
-  path,
-  getPackageManager,
-  isModernjsMonorepo,
-  fs,
-} from '@modern-js/utils';
+import path from 'path';
+import { getPackageManager, isModernjsMonorepo, fs } from '@modern-js/utils';
 import { tag as gitTag } from '@changesets/git';
 import { CHANGESET_PATH, execaWithStreamLog } from '../utils';
 
 interface PublishOptions {
   tag: string;
   ignoreScripts: boolean;
+  gitChecks: boolean;
 }
 // eslint-disable-next-line max-statements
 export async function release(options: PublishOptions) {
@@ -19,7 +16,7 @@ export async function release(options: PublishOptions) {
 
   const params = ['publish'];
 
-  const { tag, ignoreScripts } = options;
+  const { tag, ignoreScripts, gitChecks } = options;
 
   if (tag) {
     params.push('--tag');
@@ -38,6 +35,10 @@ export async function release(options: PublishOptions) {
 
   if (ignoreScripts) {
     params.push('--ignore-scripts');
+  }
+
+  if (!gitChecks) {
+    params.push('--no-git-checks');
   }
 
   await execaWithStreamLog(packageManager, params);

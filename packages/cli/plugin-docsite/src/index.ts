@@ -1,4 +1,4 @@
-import { Import, upath } from '@modern-js/utils';
+import { Import } from '@modern-js/utils';
 
 const core: typeof import('@modern-js/core') = Import.lazy(
   '@modern-js/core',
@@ -33,7 +33,7 @@ export default core.createPlugin(
       return {
         name: 'docsite',
         title: 'Run Docsite log',
-        taskPath: upath.normalizeSafe(require.resolve('./build-task')),
+        taskPath: require.resolve('./build-task'),
         params: [],
       };
     },

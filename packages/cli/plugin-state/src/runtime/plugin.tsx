@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { createPlugin, RuntimeReactContext } from '@modern-js/runtime-core';
 import { createStore, Store } from '@modern-js-reduck/store';
 import { Provider } from '@modern-js-reduck/react';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
 declare module '@modern-js/runtime-core' {
   interface RuntimeContext {
@@ -12,15 +13,9 @@ declare module '@modern-js/runtime-core' {
   interface TRuntimeContext {
     store: Store;
   }
-}
 
-declare global {
-  interface Window {
-    _SSR_DATA?: {
-      data: {
-        storeState: any;
-      };
-    };
+  interface SSRData {
+    storeState: any;
   }
 }
 
@@ -30,16 +25,18 @@ const state = (config: PluginProps) =>
   createPlugin(
     () => ({
       hoc({ App }, next) {
-        return next({
-          App: (props: any) => {
-            const context = useContext(RuntimeReactContext);
+        const getStateApp = (props: any) => {
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          const context = useContext(RuntimeReactContext);
 
-            return (
-              <Provider store={context.store} config={config}>
-                <App {...props} />
-              </Provider>
-            );
-          },
+          return (
+            <Provider store={context.store} config={config}>
+              <App {...props} />
+            </Provider>
+          );
+        };
+        return next({
+          App: hoistNonReactStatics(getStateApp, App),
         });
       },
       init({ context }, next) {

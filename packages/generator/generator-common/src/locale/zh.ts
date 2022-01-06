@@ -4,6 +4,11 @@ export const ZH_LOCALE = {
     mwa: '应用',
     module: '模块',
     monorepo: '项目组',
+    custom: '自定义',
+    default: '默认',
+  },
+  scenes: {
+    self: '请选择项目场景',
   },
   sub_solution: {
     self: '请选择你想创建的工程类型',
@@ -30,12 +35,13 @@ export const ZH_LOCALE = {
       storybook: '启用「Storybook」',
       runtime_api: '启用「Rumtime API」',
       mwa_storybook: '启用「Visual Testing (Storybook)」模式',
+      ssg: '启用「SSG」功能',
+      deploy: '启用「部署」功能',
     },
     element: {
       self: '创建工程元素',
       entry: '新建「应用入口」',
       server: '新建「Server 自定义」源码目录',
-      env: '生成「.env」文件',
     },
     refactor: {
       self: '自动重构',
@@ -98,6 +104,23 @@ export const ZH_LOCALE = {
       self: '请选择 BFF 类型',
       func: '函数模式',
       framework: '框架模式',
+    },
+  },
+  deploy: {
+    cloud: {
+      self: '默认使用框架内置的产品级 Web 服务器，是否调整？',
+    },
+    cdn: {
+      self: '请选择 CDN 平台',
+      oss: '阿里云 OSS',
+      cos: '腾讯云 COS',
+      no: '不使用 CDN',
+    },
+    lambda: {
+      self: '请选择云函数平台',
+      fc: '阿里云 FC',
+      scf: '腾讯云 SCF',
+      no: '不使用云函数部署',
     },
   },
 };

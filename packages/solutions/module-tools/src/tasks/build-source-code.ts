@@ -1,5 +1,5 @@
 import { Import, fs } from '@modern-js/utils';
-import type { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig, CoreOptions } from '@modern-js/core';
 import type { BabelOptions, IVirtualDist } from '@modern-js/babel-compiler';
 import type { ITsconfig } from '../types';
 
@@ -91,6 +91,7 @@ export const getWillCompilerCode = (
   const globPattern = `${srcDirOrFile}/**/*{${exts.join(',')}}`;
   const files = glob.sync(globPattern, {
     ignore: [`${srcDirOrFile}/**/*.d.ts`],
+    absolute: true,
   });
 
   return files;
@@ -138,13 +139,19 @@ const generatorRealFiles = (virtualDists: IVirtualDist[]) => {
   }
 };
 
-export const initEnv = ({ syntax, type }: ITaskConfig) => {
+export const initEnv = ({
+  syntax,
+  type,
+}: {
+  syntax: ITaskConfig['syntax'];
+  type: ITaskConfig['type'];
+}) => {
   if (syntax === 'es6+' && type === 'commonjs') {
-    return 'nodejs';
+    return 'CJS_ES6';
   } else if (syntax === 'es6+' && type === 'module') {
-    return 'modern';
+    return 'ESM_ES6';
   } else if (syntax === 'es5' && type === 'module') {
-    return 'legacy-browser';
+    return 'ESM_ES5';
   }
 
   return '';
@@ -180,11 +187,11 @@ const taskMain = async ({
 }: {
   modernConfig: NormalizedConfig;
 }) => {
-  // 执行脚本的参数处理和相关需要配置的获取
+  // Execution of the script's parameter handling and related required configuration acquisition
   const processArgv = argv(process.argv.slice(2));
   const config = processArgv<ITaskConfig>(defaultConfig);
-  // process.env.BUILD_MODE = initEnv(config);
-  const compiler = Compiler.babel; // 目前暂时只支持 babel
+  process.env.BUILD_FORMAT = initEnv(config);
+  const compiler = Compiler.babel; // Currently, only babel is supported.
   const babelConfig = bc.resolveBabelConfig(config.appDirectory, modernConfig, {
     sourceAbsDir: config.srcRootDir,
     tsconfigPath: config.tsconfigPath,
@@ -229,7 +236,11 @@ const taskMain = async ({
 };
 
 (async () => {
-  const { resolved } = await core.cli.init();
+  let options: CoreOptions | undefined;
+  if (process.env.CORE_INIT_OPTION_FILE) {
+    ({ options } = require(process.env.CORE_INIT_OPTION_FILE));
+  }
+  const { resolved } = await core.cli.init([], options);
   await core.manager.run(async () => {
     try {
       await taskMain({ modernConfig: resolved });

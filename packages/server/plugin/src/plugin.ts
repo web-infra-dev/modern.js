@@ -5,11 +5,13 @@ import {
   createAsyncPipeline,
   PluginFromAsyncManager,
   createParallelWorkflow,
+  createAsyncWaterfall,
 } from '@modern-js/plugin';
 import { enable } from '@modern-js/plugin/node';
 import type {
   ModernServerContext,
-  Measure,
+  BaseSSRServerContext,
+  Metrics,
   Logger,
 } from '@modern-js/types/server';
 import type { NormalizedConfig } from '@modern-js/core';
@@ -24,12 +26,12 @@ const gather = createParallelWorkflow<{
 
 type ServerInitInput = {
   loggerOptions: any;
-  measureOptions: any;
+  metricsOptions: any;
 };
 
 type InitExtension = {
   logger: Logger;
-  measure: Measure;
+  metrics: Metrics;
 };
 
 const create = createAsyncPipeline<ServerInitInput, InitExtension>();
@@ -50,7 +52,9 @@ export type APIServerStartInput = {
   pwd: string;
   mode: 'function' | 'framework';
   prefix?: string;
-  config?: Record<string, any>;
+  config?: {
+    middleware?: Array<any>;
+  };
 };
 const prepareApiServer = createAsyncPipeline<APIServerStartInput, Adapter>();
 
@@ -84,6 +88,8 @@ const beforeServerReset = createParallelWorkflow();
 
 const afterServerReset = createParallelWorkflow();
 
+const extendSSRContext = createAsyncWaterfall<BaseSSRServerContext>();
+
 const extendContext = createAsyncPipeline<
   ModernServerContext,
   ModernServerContext
@@ -92,11 +98,14 @@ const extendContext = createAsyncPipeline<
 const handleError = createParallelWorkflow<{ error: Error }>();
 
 export type RequestResult = { isfinish: boolean };
-const beforeMatch = createAsyncPipeline<ModernServerContext, RequestResult>();
+const beforeMatch = createAsyncPipeline<
+  { context: ModernServerContext },
+  any
+>();
 
 const afterMatch = createAsyncPipeline<
-  { context: ModernServerContext; routeApi: any },
-  RequestResult
+  { context: ModernServerContext; routeAPI: any },
+  any
 >();
 
 // TODO FIXME
@@ -115,8 +124,8 @@ const renderToString = createAsyncPipeline<
 >();
 
 const beforeRender = createAsyncPipeline<
-  { context: ModernServerContext; templateAPI: any },
-  RequestResult
+  { context: ModernServerContext },
+  any
 >();
 
 const afterRender = createAsyncPipeline<
@@ -129,6 +138,8 @@ const beforeSend = createAsyncPipeline<ModernServerContext, RequestResult>();
 const afterSend = createParallelWorkflow<{
   context: ModernServerContext;
 }>();
+
+const reset = createParallelWorkflow();
 
 export const createServerManager = () =>
   createAsyncManager({
@@ -148,6 +159,7 @@ export const createServerManager = () =>
     beforeServerReset,
     afterServerReset,
     // request hook
+    extendSSRContext,
     extendContext,
     handleError,
     beforeMatch,
@@ -158,6 +170,7 @@ export const createServerManager = () =>
     afterRender,
     beforeSend,
     afterSend,
+    reset,
   });
 
 export const serverManager = createServerManager();

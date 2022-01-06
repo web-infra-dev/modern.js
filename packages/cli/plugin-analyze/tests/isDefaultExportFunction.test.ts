@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { isDefaultExportFunction } from '@/isDefaultExportFunction';
 
 describe('is default export function', () => {

@@ -22,6 +22,8 @@ export const ZH_LOCALE = {
       tag: '发布 npm 包使用特定的 tag',
       ignore_scripts:
         '发布时忽略 package.json 中的 scripts 命令，仅支持在 pnpm monorepo 中使用',
+      no_git_checks:
+        '发布命令忽略检查当前分支是否是发布分支，干净且最新，仅支持在 pnpm monorepo 中使用',
     },
   },
 };

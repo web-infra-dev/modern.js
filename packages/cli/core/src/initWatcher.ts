@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import fs from 'fs';
-import { path, isDev, createDebugger } from '@modern-js/utils';
+import path from 'path';
+import { isDev, createDebugger } from '@modern-js/utils';
 import chokidar from 'chokidar';
 import { LoadedConfig } from './config';
 import { HooksRunner } from '.';
@@ -18,6 +19,7 @@ export const initWatcher = async (
   configDir: string | undefined,
   hooksRunner: HooksRunner,
   argv: string[],
+  // eslint-disable-next-line max-params
 ) => {
   // only add fs watcher on dev mode.
   if (isDev() && argv[0] === 'dev') {

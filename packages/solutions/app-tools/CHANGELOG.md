@@ -1,5 +1,117 @@
 # @modern-js/app-tools
 
+## 1.1.5
+
+### Patch Changes
+
+- d927bc83: remove esbuild and use @modenr-js/esbuild-compiler
+- Updated dependencies [d927bc83]
+- Updated dependencies [d73ff455]
+- Updated dependencies [9c1ab865]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+  - @modern-js/utils@1.1.4
+  - @modern-js/core@1.1.4
+  - @modern-js/server@1.1.4
+  - @modern-js/types@1.1.3
+
+## 1.1.4
+
+### Patch Changes
+
+- ed1f6b12: feat: support build --analyze
+- Updated dependencies [085a6a58]
+- Updated dependencies [085a6a58]
+- Updated dependencies [9a5e6d14]
+- Updated dependencies [085a6a58]
+- Updated dependencies [d280ea33]
+- Updated dependencies [a37192b1]
+- Updated dependencies [d4fcc73a]
+- Updated dependencies [085a6a58]
+- Updated dependencies [ed1f6b12]
+- Updated dependencies [144145c7]
+- Updated dependencies [a5ebbb00]
+- Updated dependencies [b058c6fa]
+- Updated dependencies [085a6a58]
+  - @modern-js/core@1.1.3
+  - @modern-js/server@1.1.3
+  - @modern-js/utils@1.1.3
+  - @modern-js/webpack@1.1.3
+  - @modern-js/new-action@1.1.5
+
+## 1.1.3
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [6f7fe574]
+- Updated dependencies [e4755134]
+- Updated dependencies [0fa83663]
+- Updated dependencies [19b4f79e]
+- Updated dependencies [f594fbc8]
+- Updated dependencies [d1fde77a]
+  - @modern-js/core@1.1.2
+  - @modern-js/webpack@1.1.2
+  - @modern-js/i18n-cli-language-detector@1.1.1
+  - @modern-js/plugin-analyze@1.1.1
+  - @modern-js/plugin-fast-refresh@1.1.1
+  - @modern-js/plugin-i18n@1.1.1
+  - @modern-js/new-action@1.1.2
+  - @modern-js/plugin-polyfill@1.1.1
+  - @modern-js/server@1.1.2
+  - @modern-js/plugin@1.1.2
+  - @modern-js/types@1.1.2
+  - @modern-js/utils@1.1.2
+
+## 1.1.2
+
+### Patch Changes
+
+- c0fc0700: feat: support deploy plugin
+- Updated dependencies [3b6856b8]
+- Updated dependencies [687c92c7]
+- Updated dependencies [c0fc0700]
+- Updated dependencies [6ffd1a50]
+- Updated dependencies [c7f4cafb]
+  - @modern-js/new-action@1.1.1
+  - @modern-js/core@1.1.1
+  - @modern-js/webpack@1.1.1
+  - @modern-js/server@1.1.1
+  - @modern-js/types@1.1.1
+  - @modern-js/utils@1.1.1
+  - @modern-js/plugin@1.1.1
+
+## 1.1.1
+
+### Patch Changes
+
+- 6cfc16e: add esbuild deps
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+- Updated dependencies [eb00b569]
+  - @modern-js/core@1.1.0
+  - @modern-js/i18n-cli-language-detector@1.1.0
+  - @modern-js/plugin-analyze@1.1.0
+  - @modern-js/plugin-fast-refresh@1.1.0
+  - @modern-js/plugin-i18n@1.1.0
+  - @modern-js/webpack@1.1.0
+  - @modern-js/new-action@1.1.0
+  - @modern-js/plugin-polyfill@1.1.0
+  - @modern-js/server@1.1.0
+  - @modern-js/plugin@1.1.0
+  - @modern-js/types@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

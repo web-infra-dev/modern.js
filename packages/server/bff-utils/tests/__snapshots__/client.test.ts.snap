@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`client generateClient custom requestCreater 1`] = `
-"import { createRequest } from '@custom/createRequest';
-
-export const get = createRequest('/:id/origin/foo', 'GET', process.env.PORT || 3000);
-export const post = createRequest('/:id/origin/foo', 'POST', process.env.PORT || 3000);
-"
-`;

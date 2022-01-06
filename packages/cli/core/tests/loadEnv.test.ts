@@ -1,6 +1,5 @@
 import fs from 'fs';
-import { exec } from 'child_process';
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { loadEnv } from '@/loadEnv';
 
 const fixture = path.resolve(__dirname, './fixtures/load-env');
@@ -27,7 +26,7 @@ describe('load environment variables', () => {
 
   afterAll(() => {
     process.env = { ...defaultEnv };
-    exec(`rm -rf ${fixture}`);
+    fs.rmSync(fixture, { force: true, recursive: true });
   });
 
   test(`support .env file`, () => {
@@ -75,6 +74,52 @@ describe('load environment variables', () => {
     expect(process.env.DB_USER).toBe('root-local-dev');
 
     expect(process.env.DB_PASS).toBe('root');
+
+    delete process.env.NODE_ENV;
+  });
+
+  test(`should have correct priority`, () => {
+    createFixtures('priority', [
+      {
+        name: '.env',
+        content: `DB_HOST=localhost
+        DB_USER=user
+        DB_PASS=pass
+        `,
+      },
+      {
+        name: '.env.production',
+        content: `DB_USER=user_production
+        DB_PASS=pass_production
+        FOO=foo
+        BAR=bar
+        `,
+      },
+      {
+        name: '.env.local',
+        content: `FOO=foo_local
+        BAR=bar_local
+        `,
+      },
+      {
+        name: '.env.production.local',
+        content: `BAR=bar_production_local`,
+      },
+    ]);
+
+    process.env.NODE_ENV = 'production';
+
+    loadEnv(path.join(fixture, 'priority'));
+
+    expect(process.env.DB_HOST).toBe('localhost');
+
+    expect(process.env.DB_USER).toBe('user_production');
+
+    expect(process.env.DB_PASS).toBe('pass_production');
+
+    expect(process.env.FOO).toBe('foo_local');
+
+    expect(process.env.BAR).toBe('bar_production_local');
 
     delete process.env.NODE_ENV;
   });

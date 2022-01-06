@@ -1,5 +1,46 @@
 # @modern-js/style-compiler
 
+## 1.1.3
+
+### Patch Changes
+
+- c5e3d4ad: remove @types/sass and use types definition provided by "sass"
+- d73ff455: support multi process product
+- Updated dependencies [d927bc83]
+- Updated dependencies [d73ff455]
+- Updated dependencies [9c1ab865]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+- Updated dependencies [d73ff455]
+  - @modern-js/utils@1.1.4
+
+## 1.1.2
+
+### Patch Changes
+
+- 535ed44d: fix sass type error
+
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [0fa83663]
+- Updated dependencies [f594fbc8]
+  - @modern-js/utils@1.1.2
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

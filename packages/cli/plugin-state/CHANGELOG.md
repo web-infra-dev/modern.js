@@ -1,5 +1,50 @@
 # @modern-js/plugin-state
 
+## 1.1.3
+
+### Patch Changes
+
+- 4406c2db: fix: avoid fetching data again when ssr succeeds
+- Updated dependencies [90eeb72c]
+- Updated dependencies [e04914ce]
+- Updated dependencies [4406c2db]
+- Updated dependencies [5a4c557e]
+- Updated dependencies [e04914ce]
+- Updated dependencies [ecb344dc]
+  - @modern-js/core@1.2.0
+  - @modern-js/runtime-core@1.1.2
+
+## 1.1.2
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- f594fbc8: fix apple icon and favicon support
+- Updated dependencies [6f7fe574]
+- Updated dependencies [0fa83663]
+  - @modern-js/core@1.1.2
+  - @modern-js/runtime-core@1.1.1
+
+## 1.1.1
+
+### Patch Changes
+
+- 725c4ff0: fix(state): type error when build @modern-js/plugin-state was fixed
+- Updated dependencies [687c92c7]
+  - @modern-js/core@1.1.1
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0
+
+### Patch Changes
+
+- Updated dependencies [96119db2]
+  - @modern-js/core@1.1.0
+  - @modern-js/runtime-core@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

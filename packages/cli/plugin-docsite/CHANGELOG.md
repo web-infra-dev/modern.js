@@ -1,5 +1,52 @@
 # @modern-js/plugin-docsite
 
+## 1.1.3
+
+### Patch Changes
+
+- ca7dcb32: add CORE_INIT_OPTION_FILE env
+- Updated dependencies [90eeb72c]
+- Updated dependencies [e04914ce]
+- Updated dependencies [5a4c557e]
+- Updated dependencies [e04914ce]
+- Updated dependencies [ca7dcb32]
+- Updated dependencies [ecb344dc]
+  - @modern-js/core@1.2.0
+  - @modern-js/utils@1.1.5
+
+## 1.1.2
+
+### Patch Changes
+
+- fix missing dependencies bug
+
+## 1.1.1
+
+### Patch Changes
+
+- 0fa83663: support more .env files
+- Updated dependencies [6f7fe574]
+- Updated dependencies [e4755134]
+- Updated dependencies [0fa83663]
+- Updated dependencies [19b4f79e]
+- Updated dependencies [f594fbc8]
+- Updated dependencies [d1fde77a]
+  - @modern-js/core@1.1.2
+  - @modern-js/webpack@1.1.2
+  - @modern-js/utils@1.1.2
+
+## 1.1.0
+
+### Minor Changes
+
+- 96119db2: Relese v1.1.0### Patch Changes
+
+- 6b802b2a: use path method from @modern-js/utils
+- Updated dependencies [96119db2]
+  - @modern-js/core@1.1.0
+  - @modern-js/webpack@1.1.0
+  - @modern-js/utils@1.1.0
+
 ## 1.0.0
 
 ### Patch Changes

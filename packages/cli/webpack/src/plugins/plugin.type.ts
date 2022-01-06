@@ -1,4 +1,4 @@
-/* eslint-disable max-classes-per-file, @typescript-eslint/member-ordering, @typescript-eslint/no-unused-vars, max-lines, node/prefer-global/buffer,@typescript-eslint/ban-types */
+/* eslint-disable  @typescript-eslint/no-unused-vars, node/prefer-global/buffer,@typescript-eslint/ban-types */
 /*
  * This file was copied from Webpack : "version": "1.0.0-rc.2",
  * It is copied here as necessary types are not exported from webpack yet
@@ -30,86 +30,86 @@ declare interface BaseResolveRequest {
   ignoreSymlinks?: boolean;
   fullySpecified?: boolean;
 }
-declare class CachedInputFileSystem {
-  constructor(fileSystem?: any, duration?: any);
-  fileSystem: any;
+// declare class CachedInputFileSystem {
+//   constructor(fileSystem?: any, duration?: any);
+//   fileSystem: any;
 
-  lstat?: {
-    (arg0: string, arg1: FileSystemCallback<FileSystemStats>): void;
-    (
-      arg0: string,
-      arg1: object,
-      arg2: FileSystemCallback<string | Buffer>,
-    ): void;
-  };
+//   lstat?: {
+//     (arg0: string, arg1: FileSystemCallback<FileSystemStats>): void;
+//     (
+//       arg0: string,
+//       arg1: object,
+//       arg2: FileSystemCallback<string | Buffer>,
+//     ): void;
+//   };
 
-  lstatSync?: (arg0: string, arg1?: object) => FileSystemStats;
+//   lstatSync?: (arg0: string, arg1?: object) => FileSystemStats;
 
-  stat: {
-    (arg0: string, arg1: FileSystemCallback<FileSystemStats>): void;
-    (
-      arg0: string,
-      arg1: object,
-      arg2: FileSystemCallback<string | Buffer>,
-    ): void;
-  };
+//   stat: {
+//     (arg0: string, arg1: FileSystemCallback<FileSystemStats>): void;
+//     (
+//       arg0: string,
+//       arg1: object,
+//       arg2: FileSystemCallback<string | Buffer>,
+//     ): void;
+//   };
 
-  statSync: (arg0: string, arg1?: object) => FileSystemStats;
+//   statSync: (arg0: string, arg1?: object) => FileSystemStats;
 
-  readdir: {
-    (
-      arg0: string,
-      arg1: FileSystemCallback<(string | Buffer)[] | FileSystemDirent[]>,
-    ): void;
-    (
-      arg0: string,
-      arg1: object,
-      arg2: FileSystemCallback<(string | Buffer)[] | FileSystemDirent[]>,
-    ): void;
-  };
+//   readdir: {
+//     (
+//       arg0: string,
+//       arg1: FileSystemCallback<(string | Buffer)[] | FileSystemDirent[]>,
+//     ): void;
+//     (
+//       arg0: string,
+//       arg1: object,
+//       arg2: FileSystemCallback<(string | Buffer)[] | FileSystemDirent[]>,
+//     ): void;
+//   };
 
-  readdirSync: (
-    arg0: string,
-    arg1?: object,
-  ) => (string | Buffer)[] | FileSystemDirent[];
+//   readdirSync: (
+//     arg0: string,
+//     arg1?: object,
+//   ) => (string | Buffer)[] | FileSystemDirent[];
 
-  readFile: {
-    (arg0: string, arg1: FileSystemCallback<string | Buffer>): void;
-    (
-      arg0: string,
-      arg1: object,
-      arg2: FileSystemCallback<string | Buffer>,
-    ): void;
-  };
+//   readFile: {
+//     (arg0: string, arg1: FileSystemCallback<string | Buffer>): void;
+//     (
+//       arg0: string,
+//       arg1: object,
+//       arg2: FileSystemCallback<string | Buffer>,
+//     ): void;
+//   };
 
-  readFileSync: (arg0: string, arg1?: object) => string | Buffer;
+//   readFileSync: (arg0: string, arg1?: object) => string | Buffer;
 
-  readJson?: {
-    (arg0: string, arg1: FileSystemCallback<object>): void;
-    (arg0: string, arg1: object, arg2: FileSystemCallback<object>): void;
-  };
+//   readJson?: {
+//     (arg0: string, arg1: FileSystemCallback<object>): void;
+//     (arg0: string, arg1: object, arg2: FileSystemCallback<object>): void;
+//   };
 
-  readJsonSync?: (arg0: string, arg1?: object) => object;
+//   readJsonSync?: (arg0: string, arg1?: object) => object;
 
-  readlink: {
-    (arg0: string, arg1: FileSystemCallback<string | Buffer>): void;
-    (
-      arg0: string,
-      arg1: object,
-      arg2: FileSystemCallback<string | Buffer>,
-    ): void;
-  };
+//   readlink: {
+//     (arg0: string, arg1: FileSystemCallback<string | Buffer>): void;
+//     (
+//       arg0: string,
+//       arg1: object,
+//       arg2: FileSystemCallback<string | Buffer>,
+//     ): void;
+//   };
 
-  readlinkSync: (arg0: string, arg1?: object) => string | Buffer;
-  purge(what?: any): void;
-}
-declare class CloneBasenamePlugin {
-  constructor(source?: any, target?: any);
-  source: any;
+//   readlinkSync: (arg0: string, arg1?: object) => string | Buffer;
+//   purge(what?: any): void;
+// }
+// declare class CloneBasenamePlugin {
+//   constructor(source?: any, target?: any);
+//   source: any;
 
-  target: any;
-  apply(resolver: Resolver): void;
-}
+//   target: any;
+//   apply(resolver: Resolver): void;
+// }
 export declare interface FileSystem {
   readFile: {
     (arg0: string, arg1: FileSystemCallback<string | Buffer>): void;
@@ -172,11 +172,11 @@ declare interface FileSystemStats {
   isDirectory: () => boolean;
   isFile: () => boolean;
 }
-declare class LogInfoPlugin {
-  constructor(source?: any);
-  source: any;
-  apply(resolver: Resolver): void;
-}
+// declare class LogInfoPlugin {
+//   constructor(source?: any);
+//   source: any;
+//   apply(resolver: Resolver): void;
+// }
 declare interface ParsedIdentifier {
   request: string;
   query: string;
@@ -473,4 +473,4 @@ declare interface UserResolveOptions {
 declare interface WriteOnlySet<T> {
   add: (T?: any) => void;
 }
-/* eslint-enable max-classes-per-file, @typescript-eslint/member-ordering, @typescript-eslint/no-unused-vars, max-lines,node/prefer-global/buffer,@typescript-eslint/ban-types */
+/* eslint-enable @typescript-eslint/no-unused-vars, node/prefer-global/buffer,@typescript-eslint/ban-types */

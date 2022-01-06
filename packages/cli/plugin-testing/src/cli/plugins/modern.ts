@@ -1,4 +1,4 @@
-import { path, upath } from '@modern-js/utils';
+import path from 'path';
 import { createPlugin } from '@modern-js/testing';
 import { modernjs_config_key } from '@/constant';
 
@@ -40,15 +40,18 @@ export default (webpackConfig: any, userConfig: any, pwd: string) =>
           },
           moduleNameMapper: getModuleNameMapper(webpackConfig),
           testEnvironment: 'jsdom',
-          resolver: upath.normalizeSafe(require.resolve('../resolver')),
+          resolver: require.resolve('../resolver'),
         });
 
         utils.setJestConfig({
+          rootDir: pwd || process.cwd(),
           // todo: diffrent test root for diffrent solutions
+          // testMatch: [`<rootDir>/(src|tests|electron)/**/*.test.[jt]s?(x)`],
+          // testMatch bug on windows, issue: https://github.com/facebook/jest/issues/7914
           testMatch: [
-            `${
-              pwd || process.cwd()
-            }/(src|tests|api|electron)/**/*.test.[jt]s?(x)`,
+            `<rootDir>/src/**/*.test.[jt]s?(x)`,
+            `<rootDir>/tests/**/*.test.[jt]s?(x)`,
+            `<rootDir>/electron/**/*.test.[jt]s?(x)`,
           ],
         });
 

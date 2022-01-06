@@ -1,6 +1,5 @@
 import fs from 'fs-extra';
 import semver from 'semver';
-import { upath } from '@modern-js/utils';
 import {
   CachedInputFileSystem,
   Resolver,
@@ -58,6 +57,7 @@ class E2EPlguin implements EsmpackPlugin {
       await this.initP;
     });
 
+    // eslint-disable-next-line max-statements
     compiler.hooks.afterCompile.tapPromise(pluginName, async compilation => {
       const spec = compilation.specifier;
       if (!compilation.manifest?.version) {
@@ -123,11 +123,9 @@ class E2EPlguin implements EsmpackPlugin {
           // eslint-disable-next-line @typescript-eslint/no-shadow
           const depName = normalizePackageName(depSpec);
           try {
-            const dir = upath.normalizeSafe(
-              require.resolve(`${depName}/package.json`, {
-                paths: [this.workDir],
-              }),
-            );
+            const dir = require.resolve(`${depName}/package.json`, {
+              paths: [this.workDir],
+            });
             if (!dir.includes(this.workDir)) {
               throw new Error('');
             }
@@ -170,11 +168,9 @@ async function extractPackageInfoFromSpecifier(
   importerPkgName: string,
   cwd: string,
 ) {
-  const jsonPath = upath.normalizeSafe(
-    require.resolve(`${importerPkgName}/package.json`, {
-      paths: [cwd],
-    }),
-  );
+  const jsonPath = require.resolve(`${importerPkgName}/package.json`, {
+    paths: [cwd],
+  });
   const manifest = JSON.parse(fs.readFileSync(jsonPath).toString());
 
   const name = normalizePackageName(specifier);

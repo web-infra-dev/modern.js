@@ -2,8 +2,15 @@ import { Buffer } from 'buffer';
 import type Webpack from 'webpack';
 import { serverManager } from '@modern-js/server-plugin';
 import type { NormalizedConfig } from '@modern-js/core';
-import type { Measure, Logger, NextFunction } from '@modern-js/types/server';
+import type { Metrics, Logger, NextFunction } from '@modern-js/types/server';
 import { ModernRouteInterface } from './libs/route';
+
+declare module 'http' {
+  interface IncomingMessage {
+    logger: Logger;
+    metrics: Metrics;
+  }
+}
 
 declare module '@modern-js/core' {
   interface UserConfig {
@@ -26,6 +33,8 @@ export type DevServerOptions = {
   dev: {
     writeToDisk: boolean | ((filename: string) => boolean);
   };
+  // 是否监听文件变化
+  watch: boolean;
   // 是否开启 hot reload
   hot: boolean | string;
   // 是否开启 page reload
@@ -39,17 +48,22 @@ export type ModernServerOptions = {
   pwd: string;
   config: NormalizedConfig;
   plugins?: any[];
-  dev?: boolean | DevServerOptions;
+  dev?: boolean | Partial<DevServerOptions>;
   compiler?: Webpack.MultiCompiler | Webpack.Compiler;
   routes?: ModernRouteInterface[];
   staticGenerate?: boolean;
   customServer?: boolean;
   loggerOptions?: Record<string, string>;
-  measureOptions?: Record<string, string>;
+  metricsOptions?: Record<string, string>;
   logger?: Logger;
-  measure?: Measure;
+  metrics?: Metrics;
   apiOnly?: boolean;
+  ssrOnly?: boolean;
   webOnly?: boolean;
+  proxyTarget?: {
+    ssr?: string;
+    api?: string;
+  };
 };
 
 export type RenderResult = {
@@ -71,4 +85,4 @@ export type ServerHookRunner = Then<ReturnType<typeof serverManager.init>>;
 
 export type ReadyOptions = { routes?: ModernRouteInterface[] };
 
-export type { Measure, Logger, NextFunction };
+export type { Metrics, Logger, NextFunction };

@@ -1,5 +1,5 @@
+import path from 'path';
 import {
-  path,
   createRuntimeExportsUtils,
   getEntryOptions,
   PLUGIN_SCHEMAS,
@@ -67,11 +67,14 @@ export default createPlugin(
       modifyEntryImports({ entrypoint, imports }: any) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const config = useResolvedConfigContext();
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const { packageName } = useAppContext();
 
         const masterAppConfig = getEntryOptions(
           entrypoint.entryName,
           config?.runtime?.masterApp,
           config.runtimeByEntries,
+          packageName,
         );
 
         configMap.set(entrypoint.entryName, masterAppConfig);

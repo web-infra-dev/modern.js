@@ -3,7 +3,7 @@
  * internally use rollup-plugin-node-polyfills
  */
 import { randomBytes } from 'crypto';
-import { path, upath } from '@modern-js/utils';
+import path from 'path';
 import inject from '@rollup/plugin-inject';
 import type { Plugin } from 'rollup';
 
@@ -79,14 +79,14 @@ function getRandomId() {
   return randomBytes(15).toString('hex');
 }
 
-const GLOBAL_PATH = upath.normalizeSafe(
-  require.resolve('rollup-plugin-node-polyfills/polyfills/global.js'),
+const GLOBAL_PATH = require.resolve(
+  'rollup-plugin-node-polyfills/polyfills/global.js',
 );
 const DIRNAME_PATH = '\0node-polyfills___dirname';
 const FILENAME_PATH = '\0node-polyfills___filename';
 
-const EMPTY_PATH = upath.normalizeSafe(
-  require.resolve('rollup-plugin-node-polyfills/polyfills/empty.js'),
+const EMPTY_PATH = require.resolve(
+  'rollup-plugin-node-polyfills/polyfills/empty.js',
 );
 
 const WRAP_PREFIX = '\0node-polyfills___';
@@ -94,97 +94,75 @@ const getWrapId = (id: string) => `${WRAP_PREFIX}${id}`;
 const getUnwrapId = (wrapId: string) => wrapId.replace(WRAP_PREFIX, '');
 
 const featureInfo = {
-  process: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/process-es6'),
+  process: require.resolve(
+    'rollup-plugin-node-polyfills/polyfills/process-es6',
   ),
-  buffer: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/buffer-es6'),
+
+  buffer: require.resolve('rollup-plugin-node-polyfills/polyfills/buffer-es6'),
+
+  util: require.resolve('rollup-plugin-node-polyfills/polyfills/util'),
+
+  sys: require.resolve('rollup-plugin-node-polyfills/polyfills/util'),
+
+  events: require.resolve('rollup-plugin-node-polyfills/polyfills/events'),
+
+  stream: require.resolve('rollup-plugin-node-polyfills/polyfills/stream'),
+
+  path: require.resolve('rollup-plugin-node-polyfills/polyfills/path'),
+
+  querystring: require.resolve('rollup-plugin-node-polyfills/polyfills/qs'),
+
+  punycode: require.resolve('rollup-plugin-node-polyfills/polyfills/punycode'),
+
+  url: require.resolve('rollup-plugin-node-polyfills/polyfills/url'),
+
+  string_decoder: require.resolve(
+    'rollup-plugin-node-polyfills/polyfills/string-decoder',
   ),
-  util: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/util'),
+
+  http: require.resolve('rollup-plugin-node-polyfills/polyfills/http'),
+
+  https: require.resolve('rollup-plugin-node-polyfills/polyfills/http'),
+
+  os: require.resolve('rollup-plugin-node-polyfills/polyfills/os'),
+
+  assert: require.resolve('rollup-plugin-node-polyfills/polyfills/assert'),
+
+  constants: require.resolve(
+    'rollup-plugin-node-polyfills/polyfills/constants',
   ),
-  sys: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/util'),
+
+  _stream_duplex: require.resolve(
+    'rollup-plugin-node-polyfills/polyfills/readable-stream/duplex',
   ),
-  events: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/events'),
+
+  _stream_passthrough: require.resolve(
+    'rollup-plugin-node-polyfills/polyfills/readable-stream/passthrough',
   ),
-  stream: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/stream'),
+
+  _stream_readable: require.resolve(
+    'rollup-plugin-node-polyfills/polyfills/readable-stream/readable',
   ),
-  path: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/path'),
+
+  _stream_writable: require.resolve(
+    'rollup-plugin-node-polyfills/polyfills/readable-stream/writable',
   ),
-  querystring: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/qs'),
+
+  _stream_transform: require.resolve(
+    'rollup-plugin-node-polyfills/polyfills/readable-stream/transform',
   ),
-  punycode: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/punycode'),
-  ),
-  url: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/url'),
-  ),
-  string_decoder: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/string-decoder'),
-  ),
-  http: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/http'),
-  ),
-  https: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/http'),
-  ),
-  os: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/os'),
-  ),
-  assert: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/assert'),
-  ),
-  constants: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/constants'),
-  ),
-  _stream_duplex: upath.normalizeSafe(
-    require.resolve(
-      'rollup-plugin-node-polyfills/polyfills/readable-stream/duplex',
-    ),
-  ),
-  _stream_passthrough: upath.normalizeSafe(
-    require.resolve(
-      'rollup-plugin-node-polyfills/polyfills/readable-stream/passthrough',
-    ),
-  ),
-  _stream_readable: upath.normalizeSafe(
-    require.resolve(
-      'rollup-plugin-node-polyfills/polyfills/readable-stream/readable',
-    ),
-  ),
-  _stream_writable: upath.normalizeSafe(
-    require.resolve(
-      'rollup-plugin-node-polyfills/polyfills/readable-stream/writable',
-    ),
-  ),
-  _stream_transform: upath.normalizeSafe(
-    require.resolve(
-      'rollup-plugin-node-polyfills/polyfills/readable-stream/transform',
-    ),
-  ),
-  timers: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/timers'),
-  ),
-  console: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/console'),
-  ),
-  vm: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/vm'),
-  ),
-  zlib: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/zlib'),
-  ),
-  tty: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/tty'),
-  ),
-  domain: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/domain'),
-  ),
+
+  timers: require.resolve('rollup-plugin-node-polyfills/polyfills/timers'),
+
+  console: require.resolve('rollup-plugin-node-polyfills/polyfills/console'),
+
+  vm: require.resolve('rollup-plugin-node-polyfills/polyfills/vm'),
+
+  zlib: require.resolve('rollup-plugin-node-polyfills/polyfills/zlib'),
+
+  tty: require.resolve('rollup-plugin-node-polyfills/polyfills/tty'),
+
+  domain: require.resolve('rollup-plugin-node-polyfills/polyfills/domain'),
 
   // not shimmed
   dns: EMPTY_PATH,
@@ -199,11 +177,9 @@ const featureInfo = {
   // fs: EMPTY_PATH,
   // crypto: EMPTY_PATH,
 
-  fs: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/browserify-fs'),
-  ),
-  crypto: upath.normalizeSafe(
-    require.resolve('rollup-plugin-node-polyfills/polyfills/crypto-browserify'),
+  fs: require.resolve('rollup-plugin-node-polyfills/polyfills/browserify-fs'),
+  crypto: require.resolve(
+    'rollup-plugin-node-polyfills/polyfills/crypto-browserify',
   ),
 };
 

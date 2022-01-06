@@ -1,4 +1,4 @@
-import { path } from '@modern-js/utils';
+import path from 'path';
 import { compiler } from './compiler';
 
 const apiDir = path.resolve(__dirname, './fixtures/function/api');
@@ -10,7 +10,7 @@ const root = path.resolve(__dirname, '../../../../');
 expect.addSnapshotSerializer({
   test: val =>
     typeof val === 'string' &&
-    (val.includes('modern-js') ||
+    (val.includes('modern.js') ||
       val.includes('node_modules') ||
       val.includes(root)),
   print: val =>
@@ -18,9 +18,9 @@ expect.addSnapshotSerializer({
     typeof val === 'string'
       ? // eslint-disable-next-line no-nested-ternary
         val.includes('node_modules')
-        ? `"${val.replace(/.+node_modules/, '')}"`
-        : val.includes('modern-js')
-        ? `"${val.replace(/.+modern-js/, '')}"`
+        ? `"${val.replace(/'.+node_modules/, `'`)}"`
+        : val.includes('modern.js')
+        ? `"${val.replace(/'.+modern\.js/, `'`)}"`
         : `"${val.replace(root, '')}"`
       : (val as string),
 });
@@ -80,7 +80,9 @@ describe('bff loader', () => {
       prefix: '',
       port: 80,
       target: 'client',
-      fetcher: path.resolve(__dirname, './fixtures/test-fetcher'),
+      fetcher: path
+        .resolve(__dirname, './fixtures/test-fetcher')
+        .replace(/\\/g, '/'),
     });
     const output = stats?.toJson({ source: true }).modules?.[0]?.source;
 
@@ -93,7 +95,9 @@ describe('bff loader', () => {
       prefix: '',
       port: 80,
       target: 'client',
-      requestCreator: path.resolve(__dirname, './fixtures/test-requestCreator'),
+      requestCreator: path
+        .resolve(__dirname, './fixtures/test-requestCreator')
+        .replace(/\\/g, '/'),
     });
     const output = stats?.toJson({ source: true }).modules?.[0]?.source;
 

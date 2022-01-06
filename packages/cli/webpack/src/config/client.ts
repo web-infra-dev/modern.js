@@ -1,6 +1,5 @@
+import path from 'path';
 import {
-  path,
-  upath,
   isDev,
   isProd,
   removeLeadingSlash,
@@ -12,12 +11,18 @@ import {
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
-import webpack, { HotModuleReplacementPlugin, ProvidePlugin } from 'webpack';
+import webpack, {
+  DefinePlugin,
+  HotModuleReplacementPlugin,
+  ProvidePlugin,
+} from 'webpack';
 import nodeLibsBrowser from 'node-libs-browser';
 import { Entrypoint } from '@modern-js/types';
 import CopyPlugin from 'copy-webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { RouteManifest } from '../plugins/route-manifest-plugin';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
+import { AppIconPlugin } from '../plugins/app-icon-plugin';
 import { BaseWebpackConfig } from './base';
 import { ICON_EXTENSIONS } from '@/utils/constants';
 
@@ -47,16 +52,19 @@ class ClientWebpackConfig extends BaseWebpackConfig {
       if (this.options.output.polyfill !== 'off') {
         this.chain
           .entry(name)
-          .prepend(
-            upath.normalizeSafe(require.resolve('regenerator-runtime/runtime')),
-          )
-          .prepend(upath.normalizeSafe(require.resolve('core-js')));
+          .prepend(require.resolve('regenerator-runtime/runtime'))
+          .prepend(require.resolve('core-js'));
       }
     }
   }
 
   resolve() {
     super.resolve();
+
+    // local node_modules
+    this.chain.resolve.modules.add(
+      path.resolve(__dirname, '../../../../node_modules'),
+    );
 
     // node polyfill
     if (!this.options.output.disableNodePolyfill) {
@@ -75,12 +83,35 @@ class ClientWebpackConfig extends BaseWebpackConfig {
     }
   }
 
+  private useDefinePlugin() {
+    const { envVars, globalVars } = this.options.source || {};
+    this.chain.plugin('define').use(DefinePlugin, [
+      {
+        ...['NODE_ENV', 'BUILD_MODE', ...(envVars || [])].reduce<
+          Record<string, string>
+        >((memo, name) => {
+          memo[`process.env.${name}`] = JSON.stringify(process.env[name]);
+          return memo;
+        }, {}),
+        ...Object.keys(globalVars || {}).reduce<Record<string, string>>(
+          (memo, name) => {
+            memo[name] = JSON.stringify(globalVars![name]);
+            return memo;
+          },
+          {},
+        ),
+      },
+    ]);
+  }
+
   plugins() {
     super.plugins();
 
+    this.useDefinePlugin();
+
     isDev() && this.chain.plugin('hmr').use(HotModuleReplacementPlugin);
 
-    const { entrypoints = [] } = this.appContext as IAppContext & {
+    const { entrypoints = [], packageName } = this.appContext as IAppContext & {
       entrypoints: Entrypoint[];
     };
 
@@ -106,6 +137,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
               entryName,
               this.options.output.favicon,
               this.options.output.faviconByEntries,
+              packageName,
             ) ||
             findExists(
               ICON_EXTENSIONS.map(ext =>
@@ -120,6 +152,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
             entryName,
             this.options.output.inject,
             this.options.output.injectByEntries,
+            packageName,
           ),
           templateParameters: (
             compilation: webpack.Compilation,
@@ -143,6 +176,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
                 entryName,
                 this.options.output.title,
                 this.options.output.titleByEntries,
+                packageName,
               ),
               mountId: this.options.output.mountId!,
               staticPrefix: this.chain.output.get('publicPath'),
@@ -151,17 +185,36 @@ class ClientWebpackConfig extends BaseWebpackConfig {
                   entryName,
                   this.options.output.meta,
                   this.options.output.metaByEntries,
+                  packageName,
                 ),
               ),
               ...getEntryOptions<Record<string, unknown> | undefined>(
                 entryName,
                 this.options.output.templateParameters,
                 this.options.output.templateParametersByEntries,
+                packageName,
               ),
             };
           },
         },
       ]);
+    }
+
+    // add app icon
+    const appIcon = findExists(
+      ICON_EXTENSIONS.map(ext =>
+        path.resolve(
+          this.appContext.appDirectory,
+          this.options.source.configDir!,
+          `icon.${ext}`,
+        ),
+      ),
+    );
+
+    if (appIcon) {
+      this.chain
+        .plugin('app-icon')
+        .use(AppIconPlugin, [HtmlWebpackPlugin, appIcon]);
     }
 
     this.chain.plugin('webpack-manifest').use(WebpackManifestPlugin, [
@@ -199,9 +252,9 @@ class ClientWebpackConfig extends BaseWebpackConfig {
         patterns: [
           ...((this.options.output.copy as any) || []),
           {
-            from: path.join(configDir, 'public/**/*'),
+            from: '**/*',
             to: 'public',
-            context: path.join(configDir, 'public'),
+            context: path.posix.join(configDir.replace(/\\/g, '/'), 'public'),
             noErrorOnMissing: true,
             // eslint-disable-next-line node/prefer-global/buffer
             transform: (content: Buffer, absoluteFrom: string) => {
@@ -209,9 +262,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
                 return content;
               }
 
-              return require('lodash.template').compile(
-                content.toString('utf8'),
-              )({
+              return require('lodash.template')(content.toString('utf8'))({
                 staticPrefix: removeTailSlash(
                   this.chain.output.get('publicPath'),
                 ),
@@ -254,6 +305,16 @@ class ClientWebpackConfig extends BaseWebpackConfig {
           Buffer: [nodeLibsBrowser.buffer, 'Buffer'],
           console: [nodeLibsBrowser.console],
           process: [nodeLibsBrowser.process],
+        },
+      ]);
+    }
+
+    if (this.options.cliOptions?.analyze) {
+      this.chain.plugin('bundle-analyze').use(BundleAnalyzerPlugin, [
+        {
+          analyzerMode: 'static',
+          openAnalyzer: false,
+          reportFilename: 'report.html',
         },
       ]);
     }

@@ -9,7 +9,6 @@ export enum ActionType {
 export enum ActionElement {
   Entry = 'entry',
   Server = 'server',
-  Env = 'env',
 }
 
 export enum ActionFunction {
@@ -26,6 +25,8 @@ export enum ActionFunction {
   Doc = 'doc',
   Storybook = 'storybook',
   RuntimeApi = 'runtimeApi',
+  SSG = 'ssg',
+  Deploy = 'deploy',
 }
 
 export enum ActionRefactor {
@@ -41,7 +42,6 @@ export const ActionTypeText: Record<ActionType, () => string> = {
 export const ActionElementText: Record<ActionElement, () => string> = {
   [ActionElement.Entry]: () => i18n.t(localeKeys.action.element.entry),
   [ActionElement.Server]: () => i18n.t(localeKeys.action.element.server),
-  [ActionElement.Env]: () => i18n.t(localeKeys.action.element.env),
 };
 
 export const ActionFunctionText: Record<ActionFunction, () => string> = {
@@ -62,6 +62,8 @@ export const ActionFunctionText: Record<ActionFunction, () => string> = {
     i18n.t(localeKeys.action.function.storybook),
   [ActionFunction.RuntimeApi]: () =>
     i18n.t(localeKeys.action.function.runtime_api),
+  [ActionFunction.SSG]: () => i18n.t(localeKeys.action.function.ssg),
+  [ActionFunction.Deploy]: () => i18n.t(localeKeys.action.function.deploy),
 };
 
 export const ActionRefactorText: Record<ActionRefactor, () => string> = {

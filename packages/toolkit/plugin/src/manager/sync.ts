@@ -1,6 +1,16 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable max-lines */
-import { runWithContainer, createContainer, Container } from '../context';
+import {
+  Middleware,
+  Pipeline,
+  isPipeline,
+  createPipeline,
+  AsyncPipeline,
+  MaybeAsync,
+  runWithContainer,
+  createContainer,
+  Container,
+} from 'farrow-pipeline';
 import {
   Waterfall,
   Brook,
@@ -24,16 +34,6 @@ import {
   isParallelWorkflow,
   createParallelWorkflow,
 } from '../workflow';
-import {
-  Middleware,
-  Pipeline,
-  isPipeline,
-  createPipeline,
-  AsyncMiddleware,
-  AsyncPipeline,
-  isAsyncPipeline,
-  createAsyncPipeline,
-} from '../pipeline';
 import { RunnerContext, useRunner } from './runner';
 
 // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
@@ -86,7 +86,7 @@ export type Progress2Thread<P extends Progress> = P extends Workflow<
   : P extends Pipeline<infer I, infer O>
   ? Middleware<I, O>
   : P extends AsyncPipeline<infer I, infer O>
-  ? AsyncMiddleware<I, O>
+  ? Middleware<I, MaybeAsync<O>>
   : never;
 
 export type ProgressRecord = Record<string, Progress>;
@@ -358,10 +358,6 @@ export const cloneProgress = (progress: Progress): Progress => {
 
   if (isPipeline(progress)) {
     return createPipeline();
-  }
-
-  if (isAsyncPipeline(progress)) {
-    return createAsyncPipeline();
   }
 
   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions

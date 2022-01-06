@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 import { Import } from '@modern-js/utils';
 
 const findup: typeof import('findup-sync') = Import.lazy(
