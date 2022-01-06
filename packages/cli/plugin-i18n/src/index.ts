@@ -43,9 +43,16 @@ class I18n implements TI18n {
     vars?: { [key: string]: string },
     fallbackText?: string,
   ) {
-    const model: LanguageModel = this.languageMap[lang];
+    // 判断语言当前语料库是否存在，不存在使用 en 作为默认语言
+    const languages = Object.keys(this.languageMap);
+    const resultLang = languages.find(l => l === lang);
+    if (!resultLang && languages.length === 0) {
+      return fallbackText || key;
+    }
+    const model: LanguageModel =
+      this.languageMap[resultLang || 'en' || languages[0]];
     if (!model) {
-      throw new Error(`current ${lang} language is not exisit`);
+      return fallbackText || key;
     }
     const message = get(model, key);
     const value = message || fallbackText || key;
