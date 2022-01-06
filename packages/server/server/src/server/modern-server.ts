@@ -503,7 +503,7 @@ export class ModernServer {
     try {
       // Todo Safety xss
       const injection = JSON.stringify({ ...manifest, modules });
-      templateAPI.afterHead(
+      templateAPI.appendHead(
         `<script>window.modern_manifest=${injection}</script>`,
       );
     } catch (e) {
