@@ -24,22 +24,22 @@ class TemplateAPI {
     this.content = content;
   }
 
-  public beforeHead(fragment: string) {
+  public prependHead(fragment: string) {
     const { head } = RegList.before;
     return this.replace(head, `${head}${fragment}`);
   }
 
-  public afterHead(fragment: string) {
+  public appendHead(fragment: string) {
     const { head } = RegList.after;
     return this.replace(head, `${fragment}${head}`);
   }
 
-  public beforeBody(fragment: string) {
+  public prependBody(fragment: string) {
     const { body } = RegList.before;
     return this.replace(body, `${body}${fragment}`);
   }
 
-  public afterBody(fragment: string) {
+  public appendBody(fragment: string) {
     const { body } = RegList.after;
     return this.replace(body, `${fragment}${body}`);
   }
