@@ -92,6 +92,7 @@ export const getWillCompilerCode = (
   const globPattern = `${srcDirOrFile}/**/*{${exts.join(',')}}`;
   const files = glob.sync(globPattern, {
     ignore: [`${srcDirOrFile}/**/*.d.ts`],
+    absolute: true,
   });
 
   return files;
