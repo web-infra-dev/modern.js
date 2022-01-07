@@ -137,7 +137,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   }
 
   if (!context.config.isSubGenerator) {
-    const packageManager = getPackageManager(process.cwd());
+    const packageManager = await getPackageManager(process.cwd());
     appApi.showSuccessInfo(
       i18n.t(localeKeys.success, {
         packageManager: getPackageManagerText(packageManager),

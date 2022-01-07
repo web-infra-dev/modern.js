@@ -25,7 +25,7 @@ const handleTemplateFile = async (
 
   const appDir = process.cwd();
 
-  const packageManager = getPackageManager(appDir);
+  const packageManager = await getPackageManager(appDir);
 
   if (packageManager === PackageManager.Pnpm) {
     const npmrcPath = path.join(appDir, '.npmrc');

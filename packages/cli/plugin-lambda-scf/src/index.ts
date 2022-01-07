@@ -78,7 +78,7 @@ export default createPlugin(() => ({
     fs.copySync(distDirectory, path.join(publishDir, 'dist'));
 
     // install deps
-    let manager = getPackageManager(appDirectory);
+    let manager = await getPackageManager(appDirectory);
     if (manager === 'pnpm') {
       manager = 'npm';
     }
