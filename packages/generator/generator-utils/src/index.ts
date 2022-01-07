@@ -1,16 +1,20 @@
-import os from 'os';
 import path from 'path';
-import { fs, getMonorepoPackages } from '@modern-js/utils';
+import {
+  fs,
+  getMonorepoPackages,
+  canUseNpm,
+  canUsePnpm,
+  canUseYarn,
+} from '@modern-js/utils';
 import execa from 'execa';
 import ora from 'ora';
 import { GeneratorContext } from '@modern-js/codesmith';
-import { canUseNpm, canUsePnpm, canUseYarn } from './utils/env';
 import { stripAnsi } from './utils/strip-ansi';
 import { i18n, localeKeys } from './locale';
 
 export * from './utils';
 
-export { fs, readTsConfigByFile } from '@modern-js/utils';
+export { fs, readTsConfigByFile, getPackageManager } from '@modern-js/utils';
 
 export { i18n } from './locale';
 
@@ -50,23 +54,6 @@ export async function getPackageVersion(
   }
   spinner.stop();
   throw new Error('not found npm, please install npm before');
-}
-
-export function getPackageManager(cwd: string = process.cwd()) {
-  let appDirectory = cwd;
-  while (os.homedir() !== appDirectory) {
-    if (fs.existsSync(path.resolve(appDirectory, 'pnpm-lock.yaml'))) {
-      return 'pnpm';
-    }
-    if (fs.existsSync(path.resolve(appDirectory, 'yarn.lock'))) {
-      return 'yarn';
-    }
-    if (fs.existsSync(path.resolve(appDirectory, 'package-lock.json'))) {
-      return 'npm';
-    }
-    appDirectory = path.join(appDirectory, '..');
-  }
-  return 'npm';
 }
 
 export function getPackageManagerText(packageManager: 'pnpm' | 'yarn' | 'npm') {
