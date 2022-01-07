@@ -18,20 +18,8 @@
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
-    ".": {
-      "node": {
-        "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
-      },
-      "default": "./dist/js/treeshaking/index.js"
-    },
-    "./styled": {
-      "node": {
-        "import": "./dist/js/modern/styled.js",
-        "require": "./dist/js/node/styled.js"
-      },
-      "default": "./dist/js/treeshaking/styled.js"
-    }
+    ".": "./dist/js/treeshaking/index.js",
+    "./styled": "./dist/js/treeshaking/styled.js"
   },
   "typesVersions": {
     "*": {
