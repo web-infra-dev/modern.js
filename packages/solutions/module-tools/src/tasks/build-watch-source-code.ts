@@ -2,7 +2,7 @@ import { Import, fs } from '@modern-js/utils';
 import type { NormalizedConfig, CoreOptions } from '@modern-js/core';
 import type { ICompilerResult, IVirtualDist } from '@modern-js/babel-compiler';
 import type { ITsconfig } from '../types';
-import { initEnv } from './build-source-code';
+import { initEnv } from '../utils/init-env';
 
 const babelCompiler: typeof import('@modern-js/babel-compiler') = Import.lazy(
   '@modern-js/babel-compiler',

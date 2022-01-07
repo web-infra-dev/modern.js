@@ -1,5 +1,13 @@
 # @modern-js/babel-preset-lib
 
+## 1.1.6
+
+### Patch Changes
+
+- 10676d31: compatible with '.' and './' path
+- Updated dependencies [10676d31]
+  - @modern-js/babel-chain@1.1.2
+
 ## 1.1.4
 
 ### Patch Changes

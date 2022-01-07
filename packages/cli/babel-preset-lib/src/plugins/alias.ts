@@ -37,6 +37,10 @@ export const aliasPlugin = (alias: AliasOption): [string, PluginOptions] => {
     currentFile: string,
     opts: any,
   ) => {
+    // fix by: https://github.com/tleunen/babel-plugin-module-resolver/pull/409/files
+    if (sourcePath === '.' || sourcePath === './') {
+      return sourcePath;
+    }
     /**
      *以下是匹配到tsconfig的paths的情况进行进一步匹配和转换
      */
