@@ -6,7 +6,7 @@ import {
   extractModuleInfoFromFilenames,
 } from '@modern-js/bff-utils';
 
-export const getAllAPIInfos = (appDir: string) => {
+export const getAllAPIInfos = (appDir: string, prefix = '/api') => {
   const lambdaDir = getLambdaDir(path.join(appDir, './api'));
   const filenames = getAllAPIFiles(lambdaDir);
 
@@ -28,8 +28,7 @@ export const getAllAPIInfos = (appDir: string) => {
           handler,
           method,
           name: key,
-          // todo: use apiprefix
-          routePath: `/api${name}`,
+          routePath: `${prefix}${name}`,
           apiFile: filename,
         });
       }
