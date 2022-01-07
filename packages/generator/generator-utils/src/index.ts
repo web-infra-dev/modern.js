@@ -14,7 +14,14 @@ import { i18n, localeKeys } from './locale';
 
 export * from './utils';
 
-export { fs, readTsConfigByFile, getPackageManager } from '@modern-js/utils';
+export {
+  fs,
+  readTsConfigByFile,
+  getPackageManager,
+  canUseNpm,
+  canUsePnpm,
+  canUseYarn,
+} from '@modern-js/utils';
 
 export { i18n } from './locale';
 
