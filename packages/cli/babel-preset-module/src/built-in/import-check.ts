@@ -39,33 +39,38 @@ const checkIsOutsideSrc = (
 export const importCheck = () => ({
   name: 'import-check',
   visitor: {
-    ImportDeclaration(
-      { node }: NodePath<t.ImportDeclaration>,
-      { opts, file }: PluginPass,
-    ) {
-      const { source } = node;
-      const { appDirectory } = opts as IImportCheckOpts;
-      const { filename } = file.opts;
-      const srcDir = `${appDirectory}/src`;
-      const importName = source?.value ? source.value : undefined;
-      if (!importName) {
-        return;
-      }
+    Program(nodePath: NodePath<t.Program>, { opts, file }: PluginPass) {
+      nodePath.traverse({
+        ImportDeclaration(innerPath) {
+          const { source } = innerPath.node;
+          const { appDirectory } = opts as IImportCheckOpts;
+          const { filename } = file.opts;
+          const srcDir = `${appDirectory}/src`;
+          const importName = source?.value ? source.value : undefined;
+          if (typeof importName !== 'string') {
+            innerPath.skip();
+          }
 
-      if (!isProjectFile(importName)) {
-        return;
-      }
+          if (!isProjectFile(importName as string)) {
+            innerPath.skip();
+          }
 
-      if (isStylesDirFile(appDirectory, filename, importName)) {
-        throw new Error(
-          `Importing files in 'styles' directory is not allowed: '${importName}', You can place the file in the 'src' directory or remove the imported code`,
-        );
-      }
-      if (checkIsOutsideSrc(filename, importName, srcDir)) {
-        throw new Error(
-          `Importing files outside of 'src' directory is not allowed: '${importName}, You can place the file in the 'src' directory and modify the imported code'`,
-        );
-      }
+          if (isStylesDirFile(appDirectory, filename, importName as string)) {
+            throw new Error(
+              `Importing files in 'styles' directory is not allowed: '${
+                importName as string
+              }', You can place the file in the 'src' directory or remove the imported code`,
+            );
+          }
+          if (checkIsOutsideSrc(filename, importName as string, srcDir)) {
+            throw new Error(
+              `Importing files outside of 'src' directory is not allowed: '${
+                importName as string
+              }, You can place the file in the 'src' directory and modify the imported code'`,
+            );
+          }
+        },
+      });
     },
   },
 });
