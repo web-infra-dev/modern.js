@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@modern-js/types": "workspace:^1.1.2",
-    "@types/jest": "^26",
+    "@types/jest": "^27",
     "@types/lru-cache": "^5.1.1",
     "@types/mime-types": "^2.1.1",
     "@types/node": "^14",

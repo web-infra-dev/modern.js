@@ -38,6 +38,7 @@
     "@babel/eslint-parser": "^7.15.0",
     "@babel/eslint-plugin": "^7.14.5",
     "@babel/runtime": "^7.15.3",
+    "@babel/core": "^7.16.7",
     "@modern-js-app/eslint-config": "workspace:^1.1.0",
     "@modern-js/eslint-config": "workspace:^1.1.0",
     "@modern-js/tsconfig": "workspace:^1.1.0",
@@ -63,11 +64,12 @@
     "husky": "^3",
     "lint-staged": "^11.2.3",
     "minimist": "^1.2.0",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "webpack": "^5.65.0"
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.2",
-    "@types/jest": "^26",
+    "@types/jest": "^27",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",

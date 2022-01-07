@@ -72,7 +72,7 @@
     "@modern-js/types": "workspace:^1.1.4",
     "@types/babel__core": "^7.1.15",
     "@types/fs-extra": "^9.0.13",
-    "@types/jest": "^26",
+    "@types/jest": "^27",
     "@types/loader-utils": "^2.0.3",
     "@types/node": "^14",
     "memfs": "^3.3.0",
