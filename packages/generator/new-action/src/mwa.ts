@@ -109,7 +109,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     ans,
     {
       locale: (UserConfig.locale as string) || locale,
-      packageManager: getPackageManager(cwd),
+      packageManager: await getPackageManager(cwd),
     },
     {
       devDependencies: devDependency

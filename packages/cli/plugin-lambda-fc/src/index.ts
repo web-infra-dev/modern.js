@@ -104,7 +104,7 @@ export default createPlugin(() => ({
     fs.copySync(distDirectory, path.join(publishDir, 'dist'));
 
     // install deps
-    const manager = getPackageManager(appDirectory);
+    const manager = await getPackageManager(appDirectory);
     logger.info(`Install dependencies in publish dir, use ${manager}`);
 
     cp.execSync(`${manager} install`, {

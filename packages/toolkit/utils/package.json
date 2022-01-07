@@ -61,7 +61,8 @@
     "recursive-readdir": "^2.2.2",
     "strip-ansi": "6.0.0",
     "upath": "^2.0.1",
-    "yaml": "^1.10.2"
+    "yaml": "^1.10.2",
+    "execa": "5"
   },
   "devDependencies": {
     "@types/debug": "^4.1.7",
