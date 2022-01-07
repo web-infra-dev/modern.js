@@ -12,7 +12,8 @@ const setup = () => {
   uped = true;
 
   const bff_info = (global as any)[bff_info_key];
-  const apiInfos = getAllAPIInfos(bff_info.appDir);
+  const prefix = bff_info?.modernUserConfig?.bff?.prefix;
+  const apiInfos = getAllAPIInfos(bff_info.appDir, prefix);
 
   const apiInfosByFile = apiInfos.reduce<
     Record<string, ReturnType<typeof getAllAPIInfos>>
