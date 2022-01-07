@@ -49,6 +49,9 @@ const handleTemplateFile = async (
 
   const runtimeDependence =
     context.config.runtimeDependence || '@modern-js/runtime';
+  const runtimeDependenceVersion =
+    context.config.runtimeDependeceVersion ||
+    `^${await getPackageVersion(runtimeDependence)}`;
 
   await appApi.runSubGenerator(
     getGeneratorPath(DependenceGenerator, context.config.distTag),
@@ -57,7 +60,7 @@ const handleTemplateFile = async (
       ...context.config,
       devDependencies: {
         ...(context.config.devDependencies || {}),
-        [runtimeDependence]: `^${await getPackageVersion(runtimeDependence)}`,
+        [runtimeDependence]: runtimeDependenceVersion,
       },
       isSubGenerator: true,
     },
