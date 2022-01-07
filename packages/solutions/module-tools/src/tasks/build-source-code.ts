@@ -2,6 +2,7 @@ import { Import, fs } from '@modern-js/utils';
 import type { NormalizedConfig, CoreOptions } from '@modern-js/core';
 import type { BabelOptions, IVirtualDist } from '@modern-js/babel-compiler';
 import type { ITsconfig } from '../types';
+import { initEnv } from '../utils/init-env';
 
 const babelCompiler: typeof import('@modern-js/babel-compiler') = Import.lazy(
   '@modern-js/babel-compiler',
@@ -137,24 +138,6 @@ const generatorRealFiles = (virtualDists: IVirtualDist[]) => {
       fs.writeFileSync(sourceMapPath, sourcemap);
     }
   }
-};
-
-export const initEnv = ({
-  syntax,
-  type,
-}: {
-  syntax: ITaskConfig['syntax'];
-  type: ITaskConfig['type'];
-}) => {
-  if (syntax === 'es6+' && type === 'commonjs') {
-    return 'CJS_ES6';
-  } else if (syntax === 'es6+' && type === 'module') {
-    return 'ESM_ES6';
-  } else if (syntax === 'es5' && type === 'module') {
-    return 'ESM_ES5';
-  }
-
-  return '';
 };
 
 interface ITaskConfig {
