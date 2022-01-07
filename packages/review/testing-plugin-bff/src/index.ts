@@ -1,28 +1,27 @@
 import path from 'path';
 import { createPlugin } from '@modern-js/testing';
+import { chalk } from '@modern-js/utils';
 import { bff_info_key } from './constant';
 
 const isBFFProject = (pwd: string) => {
   try {
     // eslint-disable-next-line import/no-dynamic-require,@typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
     const packageJson = require(path.join(pwd, './package.json'));
-    const dependencies = {
-      ...packageJson.dependencies,
-      ...packageJson.devDependencies,
-    };
 
-    let isMWA = false;
-    let isBFF = false;
-    Object.keys(dependencies).forEach(key => {
-      if (key.includes('app-tools')) {
-        isMWA = true;
-      }
-      if (key.includes('plugin-bff')) {
-        isBFF = true;
-      }
-    });
+    const { dependencies, devDependencies } = packageJson;
+
+    const isBFF = Object.keys({ ...dependencies, ...devDependencies }).some(
+      (dependency: string) => dependency.includes('plugin-bff'),
+    );
+
+    const isMWA = Object.keys(devDependencies).some((devDependency: string) =>
+      devDependency.includes('app-tools'),
+    );
+
     return isMWA && isBFF;
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(chalk.red(error));
     return false;
   }
 };
