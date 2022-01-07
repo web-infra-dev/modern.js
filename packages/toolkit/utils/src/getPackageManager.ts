@@ -1,10 +1,14 @@
 import os from 'os';
 import path from 'path';
 import fs from 'fs-extra';
+import { canUsePnpm, canUseYarn } from './nodeEnv';
 
-export function getPackageManager(cwd: string = process.cwd()) {
+const MAX_TIMES = 5;
+export async function getPackageManager(cwd: string = process.cwd()) {
   let appDirectory = cwd;
-  while (os.homedir() !== appDirectory) {
+  let times = 0;
+  while (os.homedir() !== appDirectory && times < MAX_TIMES) {
+    times++;
     if (fs.existsSync(path.resolve(appDirectory, 'pnpm-lock.yaml'))) {
       return 'pnpm';
     }
@@ -15,6 +19,12 @@ export function getPackageManager(cwd: string = process.cwd()) {
       return 'npm';
     }
     appDirectory = path.join(appDirectory, '..');
+  }
+  if (await canUsePnpm()) {
+    return 'pnpm';
+  }
+  if (await canUseYarn()) {
+    return 'yarn';
   }
   return 'npm';
 }
