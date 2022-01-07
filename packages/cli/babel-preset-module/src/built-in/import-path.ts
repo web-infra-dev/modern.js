@@ -76,76 +76,81 @@ const getReplacePath = (
 const importPath = () => ({
   name: 'import-path',
   visitor: {
-    ImportDeclaration(
-      { node }: NodePath<t.ImportDeclaration>,
-      { opts, file }: PluginPass,
-    ) {
-      const { source } = node;
-      const { appDirectory, importStyle = 'source-code' } =
-        opts as IImportPathOpts;
-      const srcDir = `${appDirectory}/src`;
-      const {
-        opts: { filename },
-      } = file;
+    Program(nodePath: NodePath<t.Program>, { opts, file }: PluginPass) {
+      nodePath.traverse({
+        ImportDeclaration({ node }) {
+          const { source } = node;
+          const { appDirectory, importStyle = 'source-code' } =
+            opts as IImportPathOpts;
+          const srcDir = `${appDirectory}/src`;
+          const {
+            opts: { filename },
+          } = file;
 
-      const importName = source?.value ? source.value : undefined;
-      const replaceValue = getReplacePath(
-        importName,
-        filename,
-        srcDir,
-        importStyle,
-      );
-
-      if (replaceValue) {
-        if (typeof filename === 'string' && !replaceValueHash[filename]) {
-          node.source.value = replaceValue;
-          replaceValueHash[filename] = replaceValue;
-        } else if (typeof filename === 'string' && replaceValueHash[filename]) {
-          node.source.value = replaceValueHash[filename];
-        } else {
-          node.source.value = replaceValue;
-        }
-      }
-    },
-    // dynamic import
-    CallExpression(
-      { node }: NodePath<t.CallExpression>,
-      { opts, file }: PluginPass,
-    ) {
-      const { appDirectory, importStyle = 'source-code' } =
-        opts as IImportPathOpts;
-      const srcDir = `${appDirectory}/src`;
-      const { filename } = file.opts;
-      const { callee, arguments: args } = node;
-
-      if (
-        callee.type === 'Import' ||
-        (callee.type === 'Identifier' && callee.name === 'require')
-      ) {
-        const firstArg = args[0] as t.StringLiteral;
-        if (firstArg.value) {
-          const importName = firstArg.value;
+          const importName = source?.value ? source.value : undefined;
           const replaceValue = getReplacePath(
             importName,
             filename,
             srcDir,
             importStyle,
           );
+          const hashKey = filename + (importName || '');
           if (replaceValue) {
-            if (typeof filename === 'string' && !replaceValueHash[filename]) {
-              node.arguments = [t.stringLiteral(replaceValue)];
-              replaceValueHash[filename] = replaceValue;
+            if (typeof filename === 'string' && !replaceValueHash[hashKey]) {
+              node.source.value = replaceValue;
+              replaceValueHash[hashKey] = replaceValue;
             } else if (
               typeof filename === 'string' &&
-              replaceValueHash[filename]
+              replaceValueHash[hashKey]
             ) {
-              node.arguments = [t.stringLiteral(replaceValueHash[filename])];
+              node.source.value = replaceValueHash[hashKey];
             } else {
-              node.arguments = [t.stringLiteral(replaceValue)];
+              node.source.value = replaceValue;
             }
           }
-        }
-      }
+        },
+        // dynamic import
+        CallExpression({ node }) {
+          const { appDirectory, importStyle = 'source-code' } =
+            opts as IImportPathOpts;
+          const srcDir = `${appDirectory}/src`;
+          const { filename } = file.opts;
+          const { callee, arguments: args } = node;
+
+          if (
+            callee.type === 'Import' ||
+            (callee.type === 'Identifier' && callee.name === 'require')
+          ) {
+            const firstArg = args[0] as t.StringLiteral;
+            if (firstArg.value) {
+              const importName = firstArg.value;
+              const replaceValue = getReplacePath(
+                importName,
+                filename,
+                srcDir,
+                importStyle,
+              );
+              const hashKey = filename + (importName || '');
+              if (replaceValue) {
+                if (
+                  typeof filename === 'string' &&
+                  !replaceValueHash[hashKey]
+                ) {
+                  node.arguments = [t.stringLiteral(replaceValue)];
+                  replaceValueHash[hashKey] = replaceValue;
+                } else if (
+                  typeof filename === 'string' &&
+                  replaceValueHash[hashKey]
+                ) {
+                  node.arguments = [t.stringLiteral(replaceValueHash[hashKey])];
+                } else {
+                  node.arguments = [t.stringLiteral(replaceValue)];
+                }
+              }
+            }
+          }
+        },
+      });
     },
   },
 });
