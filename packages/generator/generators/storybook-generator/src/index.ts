@@ -66,7 +66,7 @@ const handleTemplateFile = async (
     },
   );
 
-  const packageManager = getPackageManager(appDir);
+  const packageManager = await getPackageManager(appDir);
 
   return { packageManager };
 };
