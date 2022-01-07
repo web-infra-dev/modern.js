@@ -1,5 +1,17 @@
 # @modern-js/babel-preset-module
 
+## 1.1.4
+
+### Patch Changes
+
+- optimization build-in plugins
+
+## 1.1.3
+
+### Patch Changes
+
+- 6bfeb793: fix import style error path
+
 ## 1.1.2
 
 ### Patch Changes
