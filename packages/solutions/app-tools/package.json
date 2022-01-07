@@ -26,14 +26,14 @@
       "default": "./dist/js/treeshaking/index.js"
     },
     "./cli": "./dist/js/node/index.js",
-    "./type": "./lib/types.d.ts"
+    "./types": "./lib/types.d.ts"
   },
   "typesVersions": {
     "*": {
       ".": [
         "./dist/types/index.d.ts"
       ],
-      "type": [
+      "types": [
         "./lib/types.d.ts"
       ]
     }
