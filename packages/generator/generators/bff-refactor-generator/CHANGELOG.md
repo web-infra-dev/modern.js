@@ -1,5 +1,11 @@
 # @modern-js/bff-refactor-generator
 
+## 1.1.5
+
+### Patch Changes
+
+- 4819a3c7: feat: update generator version
+
 ## 1.1.4
 
 ### Patch Changes
