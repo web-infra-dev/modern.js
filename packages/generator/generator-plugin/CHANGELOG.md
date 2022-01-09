@@ -1,5 +1,19 @@
 # @modern-js/generator-plugin
 
+## 1.1.3
+
+### Patch Changes
+
+- 4819a3c7: feat: update generator version
+- Updated dependencies [5e3de7d8]
+- Updated dependencies [4819a3c7]
+- Updated dependencies [b7fb82ec]
+- Updated dependencies [81d93503]
+  - @modern-js/plugin-i18n@1.1.2
+  - @modern-js/generator-common@1.2.3
+  - @modern-js/generator-utils@1.1.2
+  - @modern-js/new-action@1.2.2
+
 ## 1.1.2
 
 ### Patch Changes

@@ -1,5 +1,21 @@
 # @modern-js/module-tools
 
+## 1.1.5
+
+### Patch Changes
+
+- 2da27d3b: fix sourcemap 'source' config
+- Updated dependencies [5e3de7d8]
+- Updated dependencies [2da27d3b]
+- Updated dependencies [4819a3c7]
+- Updated dependencies [b7fb82ec]
+- Updated dependencies [81d93503]
+  - @modern-js/plugin-i18n@1.1.2
+  - @modern-js/babel-compiler@1.1.4
+  - @modern-js/new-action@1.2.2
+  - @modern-js/plugin-changeset@1.1.2
+  - @modern-js/utils@1.1.6
+
 ## 1.1.4
 
 ### Patch Changes

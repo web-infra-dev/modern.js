@@ -125,7 +125,8 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     ans,
     {
       locale: (UserConfig.locale as string) || locale,
-      packageManager: await getPackageManager(cwd),
+      packageManager:
+        UserConfig.packageManager || (await getPackageManager(cwd)),
     },
     {
       devDependencies: devDependency

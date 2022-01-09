@@ -1,5 +1,13 @@
 # @modern-js/generator-cases
 
+## 1.1.3
+
+### Patch Changes
+
+- 4819a3c7: feat: update generator version
+- Updated dependencies [4819a3c7]
+  - @modern-js/generator-common@1.2.3
+
 ## 1.1.2
 
 ### Patch Changes

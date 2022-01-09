@@ -1,5 +1,18 @@
 # @modern-js/new-action
 
+## 1.2.2
+
+### Patch Changes
+
+- 4819a3c7: feat: update generator version
+- b7fb82ec: fix: get package manager function
+- 81d93503: fix: generator new action get package manager
+- Updated dependencies [4819a3c7]
+- Updated dependencies [b7fb82ec]
+  - @modern-js/generator-common@1.2.3
+  - @modern-js/generator-plugin@1.1.3
+  - @modern-js/generator-utils@1.1.2
+
 ## 1.2.1
 
 ### Patch Changes

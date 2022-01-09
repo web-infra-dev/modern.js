@@ -1,5 +1,13 @@
 # @modern-js/babel-compiler
 
+## 1.1.4
+
+### Patch Changes
+
+- 2da27d3b: fix sourcemap 'source' config
+- Updated dependencies [b7fb82ec]
+  - @modern-js/utils@1.1.6
+
 ## 1.1.3
 
 ### Patch Changes

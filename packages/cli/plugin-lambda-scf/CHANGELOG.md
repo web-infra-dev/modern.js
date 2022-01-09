@@ -1,5 +1,13 @@
 # @modern-js/plugin-lambda-scf
 
+## 1.0.3
+
+### Patch Changes
+
+- b7fb82ec: fix: get package manager function
+- Updated dependencies [b7fb82ec]
+  - @modern-js/utils@1.1.6
+
 ## 1.0.2
 
 ### Patch Changes

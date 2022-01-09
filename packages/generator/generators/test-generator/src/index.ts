@@ -57,7 +57,8 @@ const handleTemplateFile = async (
     },
   );
 
-  const packageManager = await getPackageManager(appDir);
+  const packageManager =
+    context.config.packageManager || (await getPackageManager(appDir));
 
   return {
     packageManager,
