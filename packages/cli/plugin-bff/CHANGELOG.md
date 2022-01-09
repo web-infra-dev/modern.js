@@ -1,5 +1,20 @@
 # @modern-js/plugin-bff
 
+## 1.2.1
+
+### Patch Changes
+
+- e51b1db3: feat: support custom sdk, interceptor, headers for bff request
+- Updated dependencies [e51b1db3]
+- Updated dependencies [b37f78c8]
+- Updated dependencies [2da27d3b]
+- Updated dependencies [b7fb82ec]
+  - @modern-js/create-request@1.1.2
+  - @modern-js/server-plugin@1.1.4
+  - @modern-js/babel-chain@1.1.2
+  - @modern-js/babel-compiler@1.1.4
+  - @modern-js/utils@1.1.6
+
 ## 1.2.0
 
 ### Minor Changes
