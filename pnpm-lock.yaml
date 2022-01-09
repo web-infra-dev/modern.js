@@ -8,7 +8,7 @@ importers:
       '@commitlint/config-conventional': ^13.2.0
       '@modern-js-app/eslint-config': workspace:^1.0.0
       '@modern-js/eslint-config': workspace:^1.0.0
-      '@modern-js/monorepo-tools': ^1.0.0
+      '@modern-js/monorepo-tools': ^1.2.0
       '@modern-js/plugin-jarvis': workspace:^1.0.0
       '@modern-js/tsconfig': workspace:^1.0.0
     devDependencies:
@@ -30,8 +30,8 @@ importers:
       '@babel/types': ^7.15.6
       '@modern-js/babel-chain': workspace:^1.1.1
       '@modern-js/babel-preset-base': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.2
       '@types/jest': ^26
       '@types/lodash.get': ^4.4.6
@@ -57,7 +57,7 @@ importers:
       regenerator-runtime: 0.13.9
       semver: 7.3.5
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_ea312eab47144c11140bfc370ebf6753
+      '@modern-js/module-tools': 1.1.4_ea312eab47144c11140bfc370ebf6753
       '@modern-js/plugin-testing': 1.2.2_48b676a2775477ed0b479b016e05d96f
       '@types/jest': 26.0.24
       '@types/lodash.get': 4.4.6
@@ -87,8 +87,8 @@ importers:
       '@babel/preset-typescript': ^7.15.0
       '@babel/runtime': ^7.15.4
       '@modern-js/babel-chain': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.2
       '@types/jest': ^26
       '@types/lodash.get': ^4.4.6
@@ -132,7 +132,7 @@ importers:
       babel-plugin-transform-modern-regexp: 0.0.6
       babel-plugin-transform-react-remove-prop-types: 0.4.24
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/lodash.get': 4.4.6
@@ -146,8 +146,8 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/babel-chain': workspace:^1.1.1
       '@modern-js/babel-preset-base': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.5
       '@types/babel__core': ^7.1.15
       '@types/jest': ^26
@@ -170,7 +170,7 @@ importers:
       tsconfig-paths: 3.12.0
     devDependencies:
       '@babel/core': 7.16.7
-      '@modern-js/module-tools': 1.1.3_ea312eab47144c11140bfc370ebf6753
+      '@modern-js/module-tools': 1.1.4_ea312eab47144c11140bfc370ebf6753
       '@modern-js/plugin-testing': 1.2.2_48b676a2775477ed0b479b016e05d96f
       '@types/babel__core': 7.1.18
       '@types/jest': 26.0.24
@@ -190,8 +190,8 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/babel-chain': workspace:^1.1.1
       '@modern-js/babel-preset-lib': workspace:^1.1.4
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.5
       '@types/babel__core': ^7.1.15
       '@types/fs-extra': ^9.0.12
@@ -212,7 +212,7 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
       '@babel/core': 7.16.7
-      '@modern-js/module-tools': 1.1.3_ea312eab47144c11140bfc370ebf6753
+      '@modern-js/module-tools': 1.1.4_ea312eab47144c11140bfc370ebf6753
       '@modern-js/plugin-testing': 1.2.2_48b676a2775477ed0b479b016e05d96f
       '@types/babel__core': 7.1.18
       '@types/fs-extra': 9.0.13
@@ -227,9 +227,9 @@ importers:
       '@babel/code-frame': ^7.14.5
       '@babel/runtime': ^7
       '@modern-js/load-config': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.3
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin': workspace:^1.1.2
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/types': workspace:^1.1.4
       '@modern-js/utils': workspace:^1.1.5
       '@types/babel__code-frame': ^7.0.3
@@ -274,7 +274,7 @@ importers:
       signale: 1.4.0
       v8-compile-cache: 2.3.0
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@modern-js/types': link:../../toolkit/types
       '@types/babel__code-frame': 7.0.3
@@ -291,8 +291,8 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.4
-      '@modern-js/module-tools': ^1.1.2
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.4
       '@types/jest': ^26
       '@types/node': ^14
@@ -322,7 +322,7 @@ importers:
       postcss-page-break: 3.0.4_postcss@8.4.5
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -333,15 +333,15 @@ importers:
   packages/cli/i18n-cli-language-detector:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/node': ^14
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -354,9 +354,9 @@ importers:
       '@babel/traverse': ^7.15.0
       '@babel/types': ^7.15.0
       '@modern-js/core': workspace:^1.2.0
-      '@modern-js/module-tools': ^1.1.3
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin': workspace:^1.1.2
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/types': workspace:^1.1.4
       '@modern-js/utils': workspace:^1.1.5
       '@rollup/pluginutils': ^4.1.1
@@ -380,7 +380,7 @@ importers:
       url-join: 4.0.1
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@modern-js/types': link:../../toolkit/types
       '@types/babel__traverse': 7.14.2
@@ -394,20 +394,20 @@ importers:
     specifiers:
       '@babel/core': ^7.15.5
       '@babel/runtime': ^7
-      '@modern-js/babel-chain': workspace:^1.1.1
-      '@modern-js/babel-compiler': workspace:^1.1.3
+      '@modern-js/babel-chain': workspace:^1.1.2
+      '@modern-js/babel-compiler': workspace:^1.1.4
       '@modern-js/babel-preset-lib': workspace:^1.1.4
       '@modern-js/bff-utils': workspace:^1.1.1
       '@modern-js/core': workspace:^1.2.0
-      '@modern-js/create-request': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.3
+      '@modern-js/create-request': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin-analyze': workspace:^1.1.2
-      '@modern-js/plugin-testing': ^1.2.0
-      '@modern-js/runtime': workspace:^1.1.1
-      '@modern-js/server-plugin': workspace:^1.1.3
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/runtime': workspace:^1.1.2
+      '@modern-js/server-plugin': workspace:^1.1.4
       '@modern-js/server-utils': workspace:^1.1.2
-      '@modern-js/types': workspace:^1.1.4
-      '@modern-js/utils': workspace:^1.1.5
+      '@modern-js/types': workspace:^1.1.5
+      '@modern-js/utils': workspace:^1.1.6
       '@types/babel__core': ^7.1.15
       '@types/fs-extra': ^9.0.13
       '@types/jest': ^26
@@ -436,7 +436,7 @@ importers:
     devDependencies:
       '@modern-js/bff-utils': link:../../server/bff-utils
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_01a021a3344b793d75e9dd2effe19535
+      '@modern-js/module-tools': 1.1.4_01a021a3344b793d75e9dd2effe19535
       '@modern-js/plugin-analyze': link:../plugin-analyze
       '@modern-js/plugin-testing': 1.2.2_b1588b08bd2502116a77a5e329e815b6
       '@modern-js/runtime': link:../plugin-runtime
@@ -457,9 +457,9 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.2
-      '@modern-js/module-tools': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin-jarvis': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.2
       '@types/inquirer': ^8.1.3
       '@types/jest': ^26.0.9
@@ -482,7 +482,7 @@ importers:
       walk: 2.3.15
     devDependencies:
       '@babel/runtime': 7.16.7
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-jarvis': link:../plugin-jarvis
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/inquirer': 8.1.3
@@ -498,9 +498,9 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.2
-      '@modern-js/module-tools': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin-jarvis': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.2
       '@types/ali-oss': ^6
       '@types/jest': ^26.0.9
@@ -520,7 +520,7 @@ importers:
       walk: 2.3.15
     devDependencies:
       '@babel/runtime': 7.16.7
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-jarvis': link:../plugin-jarvis
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/ali-oss': 6.16.2
@@ -538,10 +538,10 @@ importers:
       '@changesets/git': ^1.1.2
       '@modern-js/core': workspace:^1.1.2
       '@modern-js/i18n-cli-language-detector': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-i18n': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
-      '@modern-js/utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-i18n': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/utils': workspace:^1.1.6
       '@types/jest': ^26
       '@types/node': ^14
       execa: ^5.1.1
@@ -556,7 +556,7 @@ importers:
       execa: 5.1.1
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -569,9 +569,9 @@ importers:
       '@mdx-js/mdx': ^1.6.22
       '@mdx-js/react': ^1.6.22
       '@modern-js/core': workspace:^1.2.0
-      '@modern-js/module-tools': ^1.1.3
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/module-tools-hooks': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.5
       '@modern-js/webpack': workspace:^1.1.2
       '@types/core-js': ^2.5.5
@@ -637,7 +637,7 @@ importers:
       webpack-dev-server: 4.7.2_webpack@5.65.0
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_ea36b4ed1d5a84f5ef773313735cb02c
+      '@modern-js/module-tools': 1.1.4_ea36b4ed1d5a84f5ef773313735cb02c
       '@modern-js/module-tools-hooks': link:../../toolkit/module-tools-hooks
       '@modern-js/plugin-testing': 1.2.2_572fdf5bdf2489d7accf27416655e3af
       '@types/core-js': 2.5.5
@@ -655,8 +655,8 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.2
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.2
       '@types/jest': ^26
       '@types/node': ^14
@@ -672,7 +672,7 @@ importers:
       webpack-chain: 6.5.1
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4+webpack@5.65.0
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4+webpack@5.65.0
       '@modern-js/plugin-testing': 1.2.2_b4503da97887aa217d8679c73e4be832
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -683,8 +683,8 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.2
       '@modern-js/hmr-client': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.2
       '@pmmmwh/react-refresh-webpack-plugin': ^0.4.3
       '@types/jest': ^26
@@ -703,7 +703,7 @@ importers:
       react-refresh: 0.9.0
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4+webpack@5.65.0
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4+webpack@5.65.0
       '@modern-js/plugin-testing': 1.2.2_b4503da97887aa217d8679c73e4be832
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -714,8 +714,8 @@ importers:
   packages/cli/plugin-fetch:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/runtime-core': workspace:^1.1.1
       '@modern-js/utils': workspace:^1.1.2
       '@testing-library/react': ^12.0.0
@@ -732,7 +732,7 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       isomorphic-fetch: 3.0.0
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_36753d903dd101c500ab2db3878c5cd3
       '@modern-js/runtime-core': link:../../runtime
       '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
@@ -747,8 +747,8 @@ importers:
   packages/cli/plugin-i18n:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/lodash': ^4.14.126
       '@types/node': ^14
@@ -758,7 +758,7 @@ importers:
       '@babel/runtime': 7.16.7
       lodash: 4.17.21
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/lodash': 4.14.178
@@ -773,8 +773,8 @@ importers:
       '@modern-js-app/eslint-config': workspace:^1.1.0
       '@modern-js/core': workspace:^1.1.2
       '@modern-js/eslint-config': workspace:^1.1.0
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/tsconfig': workspace:^1.1.0
       '@modern-js/utils': workspace:^1.1.2
       '@types/cross-spawn': ^6.0.2
@@ -837,7 +837,7 @@ importers:
       prettier: 2.5.1
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/cross-spawn': 6.0.2
       '@types/jest': 26.0.24
@@ -851,10 +851,10 @@ importers:
       '@alicloud/fun': 3.6.24
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.2
-      '@modern-js/module-tools': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin-jarvis': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
-      '@modern-js/utils': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/utils': workspace:^1.1.6
       '@types/jest': ^26.0.9
       '@types/js-yaml': ^4.0.4
       '@types/node': ^14
@@ -867,7 +867,7 @@ importers:
       js-yaml: 4.1.0
     devDependencies:
       '@babel/runtime': 7.16.7
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-jarvis': link:../plugin-jarvis
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
@@ -879,10 +879,10 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.2
-      '@modern-js/module-tools': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin-jarvis': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
-      '@modern-js/utils': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/utils': workspace:^1.1.6
       '@serverless/components': ^3.18.0
       '@types/inquirer': ^8.1.3
       '@types/jest': ^26.0.9
@@ -898,7 +898,7 @@ importers:
       js-yaml: 4.1.0
     devDependencies:
       '@babel/runtime': 7.16.7
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-jarvis': link:../plugin-jarvis
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/inquirer': 8.1.3
@@ -913,8 +913,8 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.2
       '@modern-js/css-config': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/style-compiler': workspace:^1.1.1
       '@modern-js/utils': workspace:^1.1.2
       '@types/jest': ^26
@@ -937,7 +937,7 @@ importers:
       less-plugin-npm-import: 2.1.0
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4+webpack@5.65.0
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4+webpack@5.65.0
       '@modern-js/plugin-testing': 1.2.2_b4503da97887aa217d8679c73e4be832
       '@modern-js/style-compiler': link:../../toolkit/compiler/style
       '@types/jest': 26.0.24
@@ -951,12 +951,12 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.2
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-router': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
-      '@modern-js/runtime-core': workspace:^1.1.1
-      '@modern-js/types': workspace:^1.1.2
-      '@modern-js/utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-router': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/runtime-core': workspace:^1.1.3
+      '@modern-js/types': workspace:^1.1.5
+      '@modern-js/utils': workspace:^1.1.6
       '@types/hoist-non-react-statics': ^3.3.1
       '@types/jest': ^26
       '@types/node': ^14
@@ -973,7 +973,7 @@ importers:
       hoist-non-react-statics: 3.3.2
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-router': link:../plugin-router
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@modern-js/runtime-core': link:../../runtime
@@ -989,9 +989,9 @@ importers:
   packages/cli/plugin-multiprocess:
     specifiers:
       '@modern-js/core': workspace:^1.1.4
-      '@modern-js/module-tools': ^1.1.2
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin-jarvis': workspace:^1.0.0
-      '@modern-js/plugin-testing': ^1.0.0
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/types': workspace:^1.1.3
       '@modern-js/utils': workspace:^1.1.4
       '@types/jest': ^26.0.9
@@ -1003,7 +1003,7 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-jarvis': link:../plugin-jarvis
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
@@ -1015,9 +1015,9 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.2.0
-      '@modern-js/module-tools': ^1.1.3
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/module-tools-hooks': workspace:^1.1.2
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.5
       '@modern-js/webpack': workspace:^1.1.3
       '@types/body-parser': ^1.19.1
@@ -1082,7 +1082,7 @@ importers:
       webpack: 5.65.0_esbuild@0.13.15
       webpack-sources: 3.2.2
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4+webpack@5.65.0
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4+webpack@5.65.0
       '@modern-js/module-tools-hooks': link:../../toolkit/module-tools-hooks
       '@modern-js/plugin-testing': 1.2.2_b4503da97887aa217d8679c73e4be832
       '@types/body-parser': 1.19.2
@@ -1104,8 +1104,8 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.2
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.2
       '@types/jest': ^26
       '@types/node': ^14
@@ -1117,7 +1117,7 @@ importers:
       whistle: 2.8.10
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -1127,12 +1127,12 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.2
-      '@modern-js/module-tools': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin': workspace:^1.1.2
       '@modern-js/plugin-analyze': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
-      '@modern-js/runtime-core': workspace:^1.1.1
-      '@modern-js/utils': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/runtime-core': workspace:^1.1.3
+      '@modern-js/utils': workspace:^1.1.6
       '@testing-library/react': ^12.0.0
       '@types/history': ^4.7.9
       '@types/hoist-non-react-statics': ^3.3.1
@@ -1158,7 +1158,7 @@ importers:
       react-router-dom: 5.3.0_react@17.0.2
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-analyze': link:../plugin-analyze
       '@modern-js/plugin-testing': 1.2.2_36753d903dd101c500ab2db3878c5cd3
@@ -1180,14 +1180,14 @@ importers:
       '@loadable/component': ^5.15.0
       '@modern-js/bff-runtime': workspace:^1.1.1
       '@modern-js/core': workspace:^1.1.2
-      '@modern-js/create-request': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-router': workspace:^1.1.1
-      '@modern-js/plugin-ssr': workspace:^1.1.1
-      '@modern-js/plugin-state': workspace:^1.1.2
-      '@modern-js/plugin-testing': ^1.1.1
-      '@modern-js/runtime-core': workspace:^1.1.1
-      '@modern-js/utils': workspace:^1.1.2
+      '@modern-js/create-request': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-router': workspace:^1.1.2
+      '@modern-js/plugin-ssr': workspace:^1.1.3
+      '@modern-js/plugin-state': workspace:^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/runtime-core': workspace:^1.1.3
+      '@modern-js/utils': workspace:^1.1.6
       '@types/jest': ^26
       '@types/loadable__component': ^5.13.4
       '@types/node': ^14
@@ -1215,7 +1215,7 @@ importers:
       styled-components: 5.3.3
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_f5e84037b2c4548dbcaffe700b19626b
+      '@modern-js/module-tools': 1.1.4_f5e84037b2c4548dbcaffe700b19626b
       '@modern-js/plugin-testing': 1.2.2_293ac1c9f42d399b83142cdf14997c01
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -1228,8 +1228,8 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.4
       '@modern-js/css-config': workspace:^1.1.2
-      '@modern-js/module-tools': ^1.1.2
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/style-compiler': workspace:^1.1.3
       '@modern-js/utils': workspace:^1.1.4
       '@types/jest': ^26
@@ -1249,7 +1249,7 @@ importers:
       sass-loader: 12.4.0_sass@1.45.2+webpack@5.65.0
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4+webpack@5.65.0
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4+webpack@5.65.0
       '@modern-js/plugin-testing': 1.2.2_b4503da97887aa217d8679c73e4be832
       '@modern-js/style-compiler': link:../../toolkit/compiler/style
       '@types/jest': 26.0.24
@@ -1263,9 +1263,9 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/babel-compiler': workspace:^1.1.2
       '@modern-js/core': workspace:^1.1.2
-      '@modern-js/module-tools': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin-analyze': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/server-utils': workspace:^1.1.1
       '@modern-js/utils': workspace:^1.1.2
       '@types/babel__core': ^7.1.15
@@ -1284,7 +1284,7 @@ importers:
       json5: 2.2.0
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-analyze': link:../plugin-analyze
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/babel__core': 7.1.18
@@ -1297,8 +1297,8 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.4
-      '@modern-js/module-tools': ^1.1.2
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/server': workspace:^1.1.4
       '@modern-js/types': workspace:^1.1.3
       '@modern-js/utils': workspace:^1.1.4
@@ -1322,7 +1322,7 @@ importers:
       react-router-dom: 5.3.0
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
@@ -1341,13 +1341,13 @@ importers:
       '@loadable/component': ^5.15.0
       '@loadable/server': ^5.15.1
       '@loadable/webpack-plugin': ^5.15.1
-      '@modern-js/babel-chain': workspace:^1.1.1
+      '@modern-js/babel-chain': workspace:^1.1.2
       '@modern-js/core': workspace:^1.2.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
-      '@modern-js/runtime-core': workspace:^1.1.2
-      '@modern-js/server': workspace:^1.2.0
-      '@modern-js/utils': workspace:^1.1.5
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/runtime-core': workspace:^1.1.3
+      '@modern-js/server': workspace:^1.2.1
+      '@modern-js/utils': workspace:^1.1.6
       '@types/jest': ^26
       '@types/loadable__component': ^5.13.4
       '@types/loadable__webpack-plugin': ^5.7.3
@@ -1379,7 +1379,7 @@ importers:
       '@loadable/component': 5.15.2_react@17.0.2
       '@modern-js/babel-chain': link:../../toolkit/babel-chain
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_36753d903dd101c500ab2db3878c5cd3
       '@modern-js/runtime-core': link:../../runtime
       '@modern-js/server': link:../../server/server
@@ -1405,11 +1405,11 @@ importers:
       '@modern-js-reduck/react': ^1.0.0
       '@modern-js-reduck/store': ^1.0.0
       '@modern-js/core': workspace:^1.2.0
-      '@modern-js/module-tools': ^1.1.3
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin': workspace:^1.1.2
-      '@modern-js/plugin-testing': ^1.2.0
-      '@modern-js/runtime-core': workspace:^1.1.2
-      '@modern-js/utils': workspace:^1.1.5
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/runtime-core': workspace:^1.1.3
+      '@modern-js/utils': workspace:^1.1.6
       '@types/hoist-non-react-statics': ^3.3.1
       '@types/jest': ^26
       '@types/node': ^14
@@ -1433,7 +1433,7 @@ importers:
       redux-logger: 3.0.6
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-testing': 1.2.2_d55b1eeb586f8848e7ced8ef0fa946f8
       '@modern-js/runtime-core': link:../../runtime
@@ -1451,11 +1451,11 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.2.0
       '@modern-js/esbuild-compiler': workspace:^0.1.1
-      '@modern-js/module-tools': ^1.1.3
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/module-tools-hooks': workspace:^1.1.2
       '@modern-js/plugin-router': workspace:^1.1.1
       '@modern-js/plugin-state': workspace:^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/runtime': workspace:^1.1.1
       '@modern-js/runtime-core': workspace:^1.1.2
       '@modern-js/utils': workspace:^1.1.5
@@ -1517,7 +1517,7 @@ importers:
       process.argv: 0.6.0
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4+webpack@5.65.0
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4+webpack@5.65.0
       '@modern-js/module-tools-hooks': link:../../toolkit/module-tools-hooks
       '@modern-js/plugin-testing': 1.2.2_b4503da97887aa217d8679c73e4be832
       '@modern-js/runtime': link:../plugin-runtime
@@ -1541,8 +1541,8 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.2.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.5
       '@types/jest': ^26
       '@types/lodash.clonedeep': ^4.5.6
@@ -1560,7 +1560,7 @@ importers:
       lodash.merge: 4.6.2
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/lodash.clonedeep': 4.5.6
@@ -1580,8 +1580,8 @@ importers:
       '@modern-js-reduck/store': ^1.0.0
       '@modern-js/babel-compiler': workspace:^1.1.3
       '@modern-js/core': workspace:^1.2.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/runtime-core': workspace:^1.1.2
       '@modern-js/testing': workspace:^1.2.0
       '@modern-js/testing-plugin-bff': workspace:^1.1.1
@@ -1612,7 +1612,7 @@ importers:
       '@modern-js-reduck/plugin-immutable': 1.0.1_@modern-js-reduck+store@1.0.1
       '@modern-js-reduck/store': 1.0.1
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_34c8f9bbae46bda751f5b381546192ee
       '@modern-js/runtime-core': link:../../runtime
       '@types/jest': 26.0.24
@@ -1794,9 +1794,9 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.2
-      '@modern-js/module-tools': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin-jarvis': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/types': workspace:^1.1.2
       '@modern-js/utils': workspace:^1.1.2
       '@types/jest': ^26.0.9
@@ -1808,7 +1808,7 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
       '@babel/runtime': 7.16.7
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-jarvis': link:../plugin-jarvis
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@modern-js/types': link:../../toolkit/types
@@ -1824,8 +1824,8 @@ importers:
       '@modern-js/babel-preset-app': workspace:^1.1.1
       '@modern-js/core': workspace:^1.1.3
       '@modern-js/css-config': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/types': workspace:^1.1.2
       '@modern-js/utils': workspace:^1.1.3
       '@svgr/webpack': ^5.5.0
@@ -1914,7 +1914,7 @@ importers:
       yaml-loader: 0.6.0
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4+webpack@5.65.0
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4+webpack@5.65.0
       '@modern-js/plugin-testing': 1.2.2_b4503da97887aa217d8679c73e4be832
       '@modern-js/types': link:../../toolkit/types
       '@types/case-sensitive-paths-webpack-plugin': 2.1.6
@@ -1933,9 +1933,9 @@ importers:
   packages/generator/generator-cases:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/generator-common': workspace:^1.1.2
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/node': ^14
       covertable: ^2.2.2
@@ -1947,7 +1947,7 @@ importers:
       covertable: 2.2.5
       execa: 5.1.1
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -1957,9 +1957,9 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/easy-form-core': ^1.0.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-i18n': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-i18n': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/node': ^14
       typescript: ^4
@@ -1968,7 +1968,7 @@ importers:
       '@modern-js/easy-form-core': 1.0.7
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -1982,13 +1982,13 @@ importers:
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-api-npm': ^1.0.7
       '@modern-js/easy-form-core': ^1.0.0
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/generator-utils': workspace:^1.0.0
-      '@modern-js/module-tools': ^1.1.3
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/new-action': ^1.2.1
-      '@modern-js/plugin-i18n': workspace:^1.1.1
+      '@modern-js/plugin-i18n': workspace:^1.1.2
       '@modern-js/plugin-jarvis': ^1.0.0
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26.0.9
       '@types/lodash': ^4.14.126
       '@types/node': ^14
@@ -2019,7 +2019,7 @@ importers:
       package-json: 7.0.0
       vm2: 3.9.5
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-jarvis': 1.1.1_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_e1b7989ed6c8e76891062bc966b42b04
       '@types/jest': 26.0.24
@@ -2035,10 +2035,10 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/codesmith': ^1.0.7
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-i18n': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
-      '@modern-js/utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-i18n': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/utils': workspace:^1.1.6
       '@types/jest': ^26
       '@types/node': ^14
       execa: ^5.1.1
@@ -2052,7 +2052,7 @@ importers:
       ora: 5.4.1
     devDependencies:
       '@modern-js/codesmith': 1.0.7
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -2064,9 +2064,9 @@ importers:
       '@modern-js/codesmith': ^1.0.7
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/node': ^14
       typescript: ^4
@@ -2076,7 +2076,7 @@ importers:
       '@modern-js/codesmith-api-app': 1.0.7
       '@modern-js/codesmith-tools': 1.0.8
       '@modern-js/generator-common': link:../../generator-common
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -2089,10 +2089,10 @@ importers:
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/generator-utils': workspace:^1.1.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/lodash': ^4.14.168
       '@types/node': ^14
@@ -2105,7 +2105,7 @@ importers:
       '@modern-js/codesmith-tools': 1.0.8
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/lodash': 4.14.178
@@ -2118,9 +2118,9 @@ importers:
       '@modern-js/codesmith': ^1.0.7
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/lodash': ^4.14.168
       '@types/node': ^14
@@ -2131,7 +2131,7 @@ importers:
       '@modern-js/codesmith-api-app': 1.0.7
       '@modern-js/codesmith-tools': 1.0.8
       '@modern-js/generator-common': link:../../generator-common
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/lodash': 4.14.178
@@ -2144,9 +2144,9 @@ importers:
       '@modern-js/codesmith': ^1.0.7
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/lodash': ^4.14.168
       '@types/node': ^14
@@ -2157,7 +2157,7 @@ importers:
       '@modern-js/codesmith-api-app': 1.0.7
       '@modern-js/codesmith-tools': 1.0.8
       '@modern-js/generator-common': link:../../generator-common
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/lodash': 4.14.178
@@ -2171,12 +2171,12 @@ importers:
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/dependence-generator': workspace:^1.1.4
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/generator-utils': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.3
+      '@modern-js/dependence-generator': workspace:^1.1.5
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin-jarvis': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26.0.9
       '@types/node': ^14
       del-cli: ^4.0.1
@@ -2190,7 +2190,7 @@ importers:
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-jarvis': link:../../../cli/plugin-jarvis
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
@@ -2205,9 +2205,9 @@ importers:
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/lodash': ^4.14.168
       '@types/node': ^14
@@ -2219,7 +2219,7 @@ importers:
       '@modern-js/codesmith-api-json': 1.0.7
       '@modern-js/codesmith-tools': 1.0.8
       '@modern-js/generator-common': link:../../generator-common
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/lodash': 4.14.178
@@ -2232,11 +2232,11 @@ importers:
       '@modern-js/codesmith': ^1.0.7
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/dependence-generator': workspace:^1.1.4
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/generator-utils': workspace:^1.1.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/dependence-generator': workspace:^1.1.5
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26.0.9
       '@types/node': ^14
       typescript: ^4
@@ -2248,7 +2248,7 @@ importers:
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -2262,10 +2262,10 @@ importers:
       '@modern-js/codesmith-api-fs': ^1.0.0
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/generator-utils': workspace:^1.1.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-i18n': workspace:^1.1.0
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-i18n': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/node': ^14
       typescript: ^4
@@ -2277,7 +2277,7 @@ importers:
       '@modern-js/codesmith-api-json': 1.0.7
       '@modern-js/codesmith-tools': 1.0.8
       '@modern-js/generator-utils': link:../../generator-utils
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
@@ -2291,10 +2291,10 @@ importers:
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/generator-utils': workspace:^1.1.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-i18n': workspace:^1.1.0
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-i18n': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/node': ^14
       typescript: ^4
@@ -2305,7 +2305,7 @@ importers:
       '@modern-js/codesmith-api-json': 1.0.7
       '@modern-js/codesmith-tools': 1.0.8
       '@modern-js/generator-utils': link:../../generator-utils
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
@@ -2320,11 +2320,11 @@ importers:
       '@modern-js/codesmith-api-handlebars': ^1.0.0
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/generator-utils': workspace:^1.1.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-i18n': workspace:^1.1.0
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-i18n': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/lodash': ^4.14.172
       '@types/node': ^14
@@ -2339,7 +2339,7 @@ importers:
       '@modern-js/codesmith-tools': 1.0.8
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
@@ -2354,10 +2354,10 @@ importers:
       '@modern-js/codesmith': ^1.0.7
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/generator-utils': workspace:^1.1.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/lodash': ^4.14.168
       '@types/node': ^14
@@ -2369,7 +2369,7 @@ importers:
       '@modern-js/codesmith-tools': 1.0.8
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/lodash': 4.14.178
@@ -2383,12 +2383,12 @@ importers:
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/generator-utils': workspace:^1.1.0
-      '@modern-js/module-generator': workspace:^1.2.2
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-i18n': workspace:^1.1.0
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-generator': workspace:^1.2.3
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-i18n': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/fs-extra': ^9.0.12
       '@types/jest': ^26
       '@types/lodash': ^4.14.168
@@ -2405,7 +2405,7 @@ importers:
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
       '@modern-js/module-generator': link:../module-generator
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/fs-extra': 9.0.13
@@ -2419,18 +2419,18 @@ importers:
   packages/generator/generators/module-generator:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/base-generator': workspace:^1.2.2
-      '@modern-js/changeset-generator': workspace:^1.1.5
+      '@modern-js/base-generator': workspace:^1.2.3
+      '@modern-js/changeset-generator': workspace:^1.1.6
       '@modern-js/codesmith': ^1.0.7
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/dependence-generator': workspace:^1.1.4
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/generator-utils': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-i18n': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/dependence-generator': workspace:^1.1.5
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-i18n': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/node': ^14
       typescript: ^4
@@ -2445,7 +2445,7 @@ importers:
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
@@ -2455,16 +2455,16 @@ importers:
   packages/generator/generators/monorepo-generator:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/base-generator': workspace:^1.2.2
-      '@modern-js/changeset-generator': workspace:^1.1.5
+      '@modern-js/base-generator': workspace:^1.2.3
+      '@modern-js/changeset-generator': workspace:^1.1.6
       '@modern-js/codesmith': ^1.0.7
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/generator-utils': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/node': ^14
       typescript: ^4
@@ -2478,7 +2478,7 @@ importers:
       '@modern-js/codesmith-tools': 1.0.8
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -2487,19 +2487,19 @@ importers:
   packages/generator/generators/mwa-generator:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/base-generator': workspace:^1.2.2
+      '@modern-js/base-generator': workspace:^1.2.3
       '@modern-js/codesmith': ^1.0.7
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/dependence-generator': workspace:^1.1.4
-      '@modern-js/electron-generator': workspace:^1.1.6
-      '@modern-js/entry-generator': workspace:^1.2.2
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/generator-utils': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-i18n': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/dependence-generator': workspace:^1.1.5
+      '@modern-js/electron-generator': workspace:^1.1.7
+      '@modern-js/entry-generator': workspace:^1.2.3
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-i18n': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/node': ^14
       typescript: ^4
@@ -2515,7 +2515,7 @@ importers:
       '@modern-js/entry-generator': link:../entry-generator
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
@@ -2525,18 +2525,18 @@ importers:
   packages/generator/generators/repo-generator:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/base-generator': workspace:^1.2.2
+      '@modern-js/base-generator': workspace:^1.2.3
       '@modern-js/codesmith': ^1.0.7
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/generator-common': workspace:^1.2.2
-      '@modern-js/generator-plugin': workspace:^1.1.2
-      '@modern-js/generator-utils': workspace:^1.1.1
-      '@modern-js/module-generator': workspace:^1.2.2
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/monorepo-generator': workspace:^1.2.2
-      '@modern-js/mwa-generator': workspace:^1.2.2
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-plugin': workspace:^1.1.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-generator': workspace:^1.2.3
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/monorepo-generator': workspace:^1.2.3
+      '@modern-js/mwa-generator': workspace:^1.2.3
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/lodash': ^4.14.168
       '@types/node': ^14
@@ -2555,7 +2555,7 @@ importers:
       '@modern-js/generator-plugin': link:../../generator-plugin
       '@modern-js/generator-utils': link:../../generator-utils
       '@modern-js/module-generator': link:../module-generator
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/monorepo-generator': link:../monorepo-generator
       '@modern-js/mwa-generator': link:../mwa-generator
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
@@ -2572,10 +2572,10 @@ importers:
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/generator-utils': workspace:^1.1.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/lodash': ^4.14.168
       '@types/node': ^14
@@ -2588,7 +2588,7 @@ importers:
       '@modern-js/codesmith-tools': 1.0.8
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/lodash': 4.14.178
@@ -2602,11 +2602,11 @@ importers:
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/dependence-generator': workspace:^1.1.4
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/generator-utils': workspace:^1.1.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/dependence-generator': workspace:^1.1.5
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/lodash': ^4.14.168
       '@types/node': ^14
@@ -2620,7 +2620,7 @@ importers:
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/lodash': 4.14.178
@@ -2634,13 +2634,13 @@ importers:
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/dependence-generator': workspace:^1.1.4
-      '@modern-js/eslint-generator': workspace:^1.1.5
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/generator-utils': workspace:^1.1.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-i18n': workspace:^1.1.0
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/dependence-generator': workspace:^1.1.5
+      '@modern-js/eslint-generator': workspace:^1.1.6
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-i18n': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/lodash': ^4.14.168
       '@types/node': ^14
@@ -2655,7 +2655,7 @@ importers:
       '@modern-js/eslint-generator': link:../eslint-generator
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
@@ -2669,10 +2669,10 @@ importers:
       '@modern-js/codesmith': ^1.0.7
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/dependence-generator': workspace:^1.1.4
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/dependence-generator': workspace:^1.1.5
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/lodash': ^4.14.168
       '@types/node': ^14
@@ -2684,7 +2684,7 @@ importers:
       '@modern-js/codesmith-tools': 1.0.8
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/generator-common': link:../../generator-common
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/lodash': 4.14.178
@@ -2698,12 +2698,12 @@ importers:
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/dependence-generator': workspace:^1.1.4
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/generator-utils': workspace:^1.1.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-i18n': workspace:^1.1.0
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/dependence-generator': workspace:^1.1.5
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-i18n': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/lodash': ^4.14.168
       '@types/node': ^14
@@ -2717,7 +2717,7 @@ importers:
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
@@ -2732,12 +2732,12 @@ importers:
       '@modern-js/codesmith-api-app': ^1.0.7
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
-      '@modern-js/dependence-generator': workspace:^1.1.4
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/generator-utils': workspace:^1.1.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-i18n': workspace:^1.1.0
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/dependence-generator': workspace:^1.1.5
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-i18n': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/lodash': ^4.14.168
       '@types/node': ^14
@@ -2751,7 +2751,7 @@ importers:
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
@@ -2764,12 +2764,12 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/codesmith': ^1.0.7
       '@modern-js/codesmith-api-app': ^1.0.7
-      '@modern-js/generator-common': workspace:^1.2.1
-      '@modern-js/generator-plugin': workspace:^1.1.2
-      '@modern-js/generator-utils': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
-      '@modern-js/repo-generator': workspace:^1.2.3
+      '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-plugin': workspace:^1.1.3
+      '@modern-js/generator-utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/repo-generator': workspace:^1.2.5
       '@types/jest': ^26
       '@types/lodash': ^4.14.168
       '@types/node': ^14
@@ -2786,7 +2786,7 @@ importers:
       json5: 2.2.0
       lodash: 4.17.21
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@modern-js/repo-generator': link:../generators/repo-generator
       '@types/jest': 26.0.24
@@ -2798,11 +2798,11 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/codesmith-tools': ^1.0.7
-      '@modern-js/generator-common': workspace:1.2.2
-      '@modern-js/generator-plugin': workspace:1.1.2
-      '@modern-js/module-tools': ^1.1.0
-      '@modern-js/plugin-i18n': 'workspace: ^1.0.0'
-      '@modern-js/plugin-testing': ^1.1.0
+      '@modern-js/generator-common': workspace:1.2.3
+      '@modern-js/generator-plugin': workspace:1.1.3
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-i18n': workspace:1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/lodash': ^4.14.168
       '@types/node': ^14
@@ -2815,7 +2815,7 @@ importers:
       '@modern-js/codesmith-tools': 1.0.8
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-plugin': link:../../generator-plugin
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
@@ -2854,9 +2854,9 @@ importers:
       '@babel/runtime': ^7
       '@jest/types': ^27.0.6
       '@modern-js/babel-preset-app': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.3
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin': workspace:^1.1.2
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.5
       '@modern-js/webpack': workspace:^1.1.2
       '@types/lodash.merge': ^4.6.6
@@ -2890,7 +2890,7 @@ importers:
       ts-jest: 27.1.2_dd90f285e31b124400ff438ee016831e
       yargs: 17.3.1
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_typescript@4.5.4
       '@types/lodash.merge': 4.6.6
       '@types/node': 14.18.4
@@ -2904,10 +2904,10 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/bff-utils': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/server': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/server': workspace:^1.2.1
       '@modern-js/testing': workspace:^1.1.1
-      '@modern-js/utils': workspace:^1.1.2
+      '@modern-js/utils': workspace:^1.1.6
       '@types/jest': ^26
       '@types/node': ^14
       '@types/react': ^17
@@ -2926,7 +2926,7 @@ importers:
       supertest: 6.1.6
     devDependencies:
       '@modern-js/bff-utils': link:../../server/bff-utils
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/testing': link:../testing
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -2942,10 +2942,10 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@loadable/component': ^5.15.0
-      '@modern-js/module-tools': ^1.1.3
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin': workspace:^1.1.2
-      '@modern-js/plugin-testing': ^1.2.0
-      '@modern-js/utils': workspace:^1.1.5
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/utils': workspace:^1.1.6
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^7.0.1
       '@types/hoist-non-react-statics': ^3.3.1
@@ -2973,7 +2973,7 @@ importers:
       styled-components: 5.3.3_react-dom@17.0.2+react@17.0.2
     devDependencies:
       '@loadable/component': 5.15.2_react@17.0.2
-      '@modern-js/module-tools': 1.1.3_f5e84037b2c4548dbcaffe700b19626b
+      '@modern-js/module-tools': 1.1.4_f5e84037b2c4548dbcaffe700b19626b
       '@modern-js/plugin-testing': 1.2.2_3397a262a0d3bf1814e0bead2ce8f3a8
       '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
       '@testing-library/react-hooks': 7.0.2_react-dom@17.0.2+react@17.0.2
@@ -2992,8 +2992,8 @@ importers:
   packages/server/adapter-helpers:
     specifiers:
       '@babel/runtime': ^7.15.4
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^27.0.1
       '@types/node': ^14
       '@types/supertest': ^2.0.11
@@ -3003,7 +3003,7 @@ importers:
       '@babel/runtime': 7.16.7
       supertest: 6.1.6
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_e1b00b9b25fe6fba703deb0ebd16089e
       '@types/jest': 27.4.0
       '@types/node': 14.18.4
@@ -3013,8 +3013,8 @@ importers:
   packages/server/bff-runtime:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/server-utils': workspace:^1.1.1
       '@types/jest': ^26
       '@types/node': ^14
@@ -3034,7 +3034,7 @@ importers:
       farrow-pipeline: 1.11.3
       farrow-schema: 1.11.0
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -3047,9 +3047,9 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/bff-runtime': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin': workspace:^1.1.2
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.2
       '@types/fs-extra': ^9.0.13
       '@types/jest': ^26
@@ -3072,7 +3072,7 @@ importers:
       fs-extra: 10.0.0
       globby: 11.0.4
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/fs-extra': 9.0.13
       '@types/jest': 26.0.24
@@ -3085,10 +3085,10 @@ importers:
   packages/server/create-request:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-ssr': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
-      '@modern-js/utils': workspace:^1.1.2
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-ssr': workspace:^1.1.3
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/utils': workspace:^1.1.6
       '@types/jest': ^27.0.3
       '@types/node': ^14
       '@types/node-fetch': ^2.5.12
@@ -3105,7 +3105,7 @@ importers:
       node-fetch: 2.6.6
       path-to-regexp: 6.2.0
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-ssr': link:../../cli/plugin-ssr
       '@modern-js/plugin-testing': 1.2.2_e1b00b9b25fe6fba703deb0ebd16089e
       '@types/jest': 27.4.0
@@ -3120,8 +3120,8 @@ importers:
   packages/server/hmr-client:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.2
       '@types/jest': ^26
       '@types/node': ^14
@@ -3139,7 +3139,7 @@ importers:
       strip-ansi: 7.0.1
       url: 0.11.0
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4+webpack@5.65.0
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4+webpack@5.65.0
       '@modern-js/plugin-testing': 1.2.2_b4503da97887aa217d8679c73e4be832
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -3150,10 +3150,10 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.2.0
-      '@modern-js/module-tools': ^1.1.3
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin': workspace:^1.1.2
-      '@modern-js/plugin-testing': ^1.2.0
-      '@modern-js/types': workspace:^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/types': workspace:^1.1.5
       '@types/jest': ^26
       '@types/node': ^14
       '@types/react': ^17
@@ -3165,7 +3165,7 @@ importers:
       '@modern-js/plugin': link:../../toolkit/plugin
     devDependencies:
       '@modern-js/core': link:../../cli/core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@modern-js/types': link:../../toolkit/types
       '@types/jest': 26.0.24
@@ -3182,8 +3182,8 @@ importers:
       '@modern-js/bff-runtime': workspace:^1.1.1
       '@modern-js/bff-utils': workspace:^1.1.1
       '@modern-js/core': workspace:^1.2.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/server-plugin': workspace:^1.1.3
       '@modern-js/utils': workspace:^1.1.5
       '@types/formidable': ^1.2.3
@@ -3211,7 +3211,7 @@ importers:
       '@modern-js/bff-runtime': link:../bff-runtime
       '@modern-js/bff-utils': link:../bff-utils
       '@modern-js/core': link:../../cli/core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_e1b00b9b25fe6fba703deb0ebd16089e
       '@modern-js/server-plugin': link:../plugin
       '@types/formidable': 1.2.5
@@ -3233,8 +3233,8 @@ importers:
       '@modern-js/bff-runtime': workspace:^1.1.1
       '@modern-js/bff-utils': workspace:^1.1.1
       '@modern-js/core': workspace:^1.2.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/server-plugin': workspace:^1.1.3
       '@modern-js/server-utils': workspace:^1.1.2
       '@modern-js/utils': workspace:^1.1.5
@@ -3265,7 +3265,7 @@ importers:
       '@modern-js/bff-runtime': link:../bff-runtime
       '@modern-js/bff-utils': link:../bff-utils
       '@modern-js/core': link:../../cli/core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_e1b00b9b25fe6fba703deb0ebd16089e
       '@modern-js/server-plugin': link:../plugin
       '@modern-js/server-utils': link:../utils
@@ -3288,8 +3288,8 @@ importers:
       '@modern-js/bff-runtime': workspace:^1.1.1
       '@modern-js/bff-utils': workspace:^1.1.1
       '@modern-js/core': workspace:^1.2.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/server-plugin': workspace:^1.1.3
       '@modern-js/utils': workspace:^1.1.5
       '@types/formidable': ^1.2.3
@@ -3318,7 +3318,7 @@ importers:
       '@modern-js/bff-runtime': link:../bff-runtime
       '@modern-js/bff-utils': link:../bff-utils
       '@modern-js/core': link:../../cli/core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_e1b00b9b25fe6fba703deb0ebd16089e
       '@modern-js/server-plugin': link:../plugin
       '@types/formidable': 1.2.5
@@ -3338,12 +3338,12 @@ importers:
       '@modern-js/bff-runtime': workspace:^1.1.1
       '@modern-js/bff-utils': workspace:^1.1.1
       '@modern-js/core': workspace:^1.2.0
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
-      '@modern-js/runtime': workspace:^1.1.1
-      '@modern-js/server-plugin': workspace:^1.1.3
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/runtime': workspace:^1.1.2
+      '@modern-js/server-plugin': workspace:^1.1.4
       '@modern-js/server-utils': workspace:^1.1.2
-      '@modern-js/utils': workspace:^1.1.5
+      '@modern-js/utils': workspace:^1.1.6
       '@nestjs/common': ^8.0.6
       '@nestjs/core': ^8.0.6
       '@nestjs/platform-express': ^8.0.6
@@ -3385,7 +3385,7 @@ importers:
       '@modern-js/bff-runtime': link:../bff-runtime
       '@modern-js/bff-utils': link:../bff-utils
       '@modern-js/core': link:../../cli/core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_36753d903dd101c500ab2db3878c5cd3
       '@modern-js/runtime': link:../../cli/plugin-runtime
       '@modern-js/server-plugin': link:../plugin
@@ -3413,8 +3413,8 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.2
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/polyfill-lib': ^1.0.0
       '@modern-js/server-plugin': workspace:^1.1.1
       '@modern-js/types': workspace:^1.1.2
@@ -3438,7 +3438,7 @@ importers:
       ua-parser-js: 0.7.31
     devDependencies:
       '@modern-js/core': link:../../cli/core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@modern-js/types': link:../../toolkit/types
       '@types/jest': 26.0.24
@@ -3455,8 +3455,8 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/babel-compiler': workspace:^1.1.2
       '@modern-js/core': workspace:^1.1.3
-      '@modern-js/module-tools': ^1.0.0
-      '@modern-js/plugin-testing': ^1.0.0
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/server-plugin': workspace:^1.1.2
       '@modern-js/server-utils': workspace:^1.1.2
       '@modern-js/utils': workspace:^1.1.3
@@ -3472,7 +3472,7 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
       '@modern-js/core': link:../../cli/core
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -3490,12 +3490,12 @@ importers:
       '@modern-js/bff-utils': workspace:^1.1.1
       '@modern-js/core': workspace:^1.2.0
       '@modern-js/hmr-client': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
-      '@modern-js/server-plugin': workspace:^1.1.3
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/server-plugin': workspace:^1.1.4
       '@modern-js/server-utils': workspace:^1.1.2
-      '@modern-js/types': workspace:^1.1.4
-      '@modern-js/utils': workspace:^1.1.5
+      '@modern-js/types': workspace:^1.1.5
+      '@modern-js/utils': workspace:^1.1.6
       '@types/jest': ^26
       '@types/lru-cache': ^5.1.1
       '@types/mime-types': ^2.1.0
@@ -3569,7 +3569,7 @@ importers:
       webpack-dev-middleware: 5.3.0_webpack@5.65.0
       ws: 8.4.0
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_01a021a3344b793d75e9dd2effe19535
+      '@modern-js/module-tools': 1.1.4_01a021a3344b793d75e9dd2effe19535
       '@modern-js/plugin-testing': 1.2.2_b1588b08bd2502116a77a5e329e815b6
       '@modern-js/types': link:../../toolkit/types
       '@types/jest': 26.0.24
@@ -3601,9 +3601,9 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/babel-preset-lib': workspace:^1.1.1
       '@modern-js/core': workspace:^1.1.3
-      '@modern-js/module-tools': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin': workspace:^1.1.2
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.3
       '@types/babel__core': ^7.1.15
       '@types/jest': ^26
@@ -3631,7 +3631,7 @@ importers:
       json5: 2.2.0
     devDependencies:
       '@modern-js/core': link:../../cli/core
-      '@modern-js/module-tools': 1.1.3_ea312eab47144c11140bfc370ebf6753
+      '@modern-js/module-tools': 1.1.4_ea312eab47144c11140bfc370ebf6753
       '@modern-js/plugin-testing': 1.2.2_48b676a2775477ed0b479b016e05d96f
       '@types/babel__core': 7.1.18
       '@types/jest': 26.0.24
@@ -3646,17 +3646,17 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.4
       '@modern-js/i18n-cli-language-detector': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.2
-      '@modern-js/new-action': workspace:^1.1.5
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/new-action': ^1.2.1
       '@modern-js/plugin': workspace:^1.1.2
       '@modern-js/plugin-analyze': workspace:^1.1.1
       '@modern-js/plugin-fast-refresh': workspace:^1.1.1
-      '@modern-js/plugin-i18n': workspace:^1.1.1
+      '@modern-js/plugin-i18n': workspace:^1.1.2
       '@modern-js/plugin-polyfill': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
-      '@modern-js/server': workspace:^1.1.4
-      '@modern-js/types': workspace:^1.1.3
-      '@modern-js/utils': workspace:^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/server': workspace:^1.2.1
+      '@modern-js/types': workspace:^1.1.5
+      '@modern-js/utils': workspace:^1.1.6
       '@modern-js/webpack': workspace:^1.1.3
       '@types/jest': ^26
       '@types/node': ^14
@@ -3669,7 +3669,7 @@ importers:
       '@babel/runtime': 7.16.7
       '@modern-js/core': link:../../cli/core
       '@modern-js/i18n-cli-language-detector': link:../../cli/i18n-cli-language-detector
-      '@modern-js/new-action': link:../../generator/new-action
+      '@modern-js/new-action': 1.2.1_typescript@4.5.4
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-analyze': link:../../cli/plugin-analyze
       '@modern-js/plugin-fast-refresh': link:../../cli/plugin-fast-refresh
@@ -3682,7 +3682,7 @@ importers:
       esbuild: 0.13.15
       webpack: 5.65.0_esbuild@0.13.15
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4+webpack@5.65.0
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4+webpack@5.65.0
       '@modern-js/plugin-testing': 1.2.2_b4503da97887aa217d8679c73e4be832
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -3698,22 +3698,22 @@ importers:
       '@babel/runtime': ^7
       '@babel/traverse': ^7.15.0
       '@babel/types': ^7.15.0
-      '@modern-js/babel-chain': workspace:^1.1.1
-      '@modern-js/babel-compiler': workspace:^1.1.3
+      '@modern-js/babel-chain': workspace:^1.1.2
+      '@modern-js/babel-compiler': workspace:^1.1.4
       '@modern-js/babel-preset-module': workspace:^1.1.2
       '@modern-js/core': workspace:^1.2.0
       '@modern-js/css-config': workspace:^1.1.2
       '@modern-js/i18n-cli-language-detector': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.3
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/module-tools-hooks': workspace:^1.1.2
-      '@modern-js/new-action': workspace:^1.2.0
+      '@modern-js/new-action': ^1.2.1
       '@modern-js/plugin-analyze': workspace:^1.1.2
-      '@modern-js/plugin-changeset': workspace:^1.1.1
+      '@modern-js/plugin-changeset': workspace:^1.1.2
       '@modern-js/plugin-fast-refresh': workspace:^1.1.1
-      '@modern-js/plugin-i18n': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/plugin-i18n': workspace:^1.1.2
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/style-compiler': workspace:^1.1.3
-      '@modern-js/utils': workspace:^1.1.5
+      '@modern-js/utils': workspace:^1.1.6
       '@types/babel__core': ^7.1.15
       '@types/babel__generator': ^7.6.3
       '@types/babel__traverse': ^7.14.2
@@ -3753,7 +3753,7 @@ importers:
       '@modern-js/css-config': link:../../cli/css-config
       '@modern-js/i18n-cli-language-detector': link:../../cli/i18n-cli-language-detector
       '@modern-js/module-tools-hooks': link:../../toolkit/module-tools-hooks
-      '@modern-js/new-action': link:../../generator/new-action
+      '@modern-js/new-action': 1.2.1_typescript@4.5.4
       '@modern-js/plugin-analyze': link:../../cli/plugin-analyze
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
       '@modern-js/plugin-fast-refresh': link:../../cli/plugin-fast-refresh
@@ -3778,7 +3778,7 @@ importers:
     devDependencies:
       '@babel/preset-typescript': 7.16.7
       '@modern-js/babel-chain': link:../../toolkit/babel-chain
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/babel__core': 7.1.18
       '@types/babel__generator': 7.6.4
@@ -3798,11 +3798,11 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.2.0
       '@modern-js/i18n-cli-language-detector': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/new-action': workspace:^1.2.0
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/new-action': ^1.2.1
       '@modern-js/plugin-changeset': workspace:^1.1.1
       '@modern-js/plugin-i18n': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.5
       '@rushstack/node-core-library': ^3.39.1
       '@rushstack/package-deps-hash': ^3.0.54
@@ -3829,7 +3829,7 @@ importers:
       '@babel/runtime': 7.16.7
       '@modern-js/core': link:../../cli/core
       '@modern-js/i18n-cli-language-detector': link:../../cli/i18n-cli-language-detector
-      '@modern-js/new-action': link:../../generator/new-action
+      '@modern-js/new-action': 1.2.1_typescript@4.5.4
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/utils': link:../../toolkit/utils
@@ -3846,7 +3846,7 @@ importers:
       p-map: 4.0.0
       signale: 1.4.0
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/js-yaml': 4.0.5
@@ -3861,8 +3861,8 @@ importers:
   packages/toolkit/babel-chain:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/babel__core': ^7.1.16
       '@types/jest': ^26
       '@types/node': ^14
@@ -3871,7 +3871,7 @@ importers:
       '@babel/runtime': 7.16.7
       '@types/babel__core': 7.1.18
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -3883,9 +3883,9 @@ importers:
       '@babel/plugin-transform-classes': ^7.14.9
       '@babel/preset-typescript': ^7
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
-      '@modern-js/utils': workspace:^1.1.5
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
+      '@modern-js/utils': workspace:^1.1.6
       '@types/babel__core': ^7.1.15
       '@types/glob': ^7.1.4
       '@types/jest': ^26
@@ -3903,7 +3903,7 @@ importers:
     devDependencies:
       '@babel/plugin-transform-classes': 7.16.7_@babel+core@7.16.7
       '@babel/preset-typescript': 7.16.7_@babel+core@7.16.7
-      '@modern-js/module-tools': 1.1.3_ea312eab47144c11140bfc370ebf6753
+      '@modern-js/module-tools': 1.1.4_ea312eab47144c11140bfc370ebf6753
       '@modern-js/plugin-testing': 1.2.2_48b676a2775477ed0b479b016e05d96f
       '@types/babel__core': 7.1.18
       '@types/glob': 7.2.0
@@ -3915,8 +3915,8 @@ importers:
   packages/toolkit/compiler/esbuild:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.2
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/babel__core': ^7.1.15
       '@types/glob': ^7.1.4
       '@types/jest': ^26
@@ -3927,7 +3927,7 @@ importers:
       '@babel/runtime': 7.16.7
       esbuild: 0.14.10
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_e25270f45055159ccb7673e0c9e7db43
       '@types/babel__core': 7.1.18
       '@types/glob': 7.2.0
@@ -3938,8 +3938,8 @@ importers:
   packages/toolkit/compiler/style:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.2
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.4
       '@types/glob': ^7.1.4
       '@types/jest': ^26
@@ -3971,7 +3971,7 @@ importers:
       postcss-import: 14.0.2_postcss@8.4.5
       sass: 1.45.2
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/glob': 7.2.0
       '@types/jest': 26.0.24
@@ -3993,9 +3993,9 @@ importers:
       '@modern-js/codesmith-tools': ^1.0.8
       '@modern-js/generator-plugin-plugin': workspace:^1.0.5
       '@modern-js/i18n-cli-language-detector': workspace:^1.1.1
-      '@modern-js/module-tools': ^1.1.3
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin-i18n': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/repo-generator': workspace:^1.2.3
       '@modern-js/utils': workspace:^1.1.5
       '@types/jest': ^26
@@ -4011,7 +4011,7 @@ importers:
       '@modern-js/codesmith-tools': 1.0.8
       '@modern-js/generator-plugin-plugin': link:../../generator/plugins/generator-plugin
       '@modern-js/i18n-cli-language-detector': link:../../cli/i18n-cli-language-detector
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/plugin-testing': 1.2.2_65d9c27d398aa3db21958838ed2074a8
       '@modern-js/repo-generator': link:../../generator/generators/repo-generator
@@ -4027,8 +4027,8 @@ importers:
   packages/toolkit/doctor:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/node': ^14
       '@types/react': ^17
@@ -4037,7 +4037,7 @@ importers:
     dependencies:
       '@babel/runtime': 7.16.7
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -4053,7 +4053,7 @@ importers:
       '@babel/preset-react': ^7.12.7
       '@babel/traverse': ~7.12.12
       '@babel/types': ~7.12.12
-      '@modern-js/utils': workspace:1.1.5
+      '@modern-js/utils': workspace:1.1.6
       '@rollup/plugin-babel': ^5.2.1
       '@rollup/plugin-commonjs': ^19.0.0
       '@rollup/plugin-inject': ~4.0.2
@@ -4195,15 +4195,15 @@ importers:
   packages/toolkit/freeze:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/node': ^14
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -4212,9 +4212,9 @@ importers:
   packages/toolkit/load-config:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/node-bundle-require': workspace:^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/utils': workspace:^1.1.2
       '@types/jest': ^26
       '@types/node': ^14
@@ -4226,7 +4226,7 @@ importers:
       '@modern-js/utils': link:../utils
       esbuild: 0.13.15
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_127d627dd8decc15b11b389920835e21
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -4236,9 +4236,9 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:^1.1.4
-      '@modern-js/module-tools': ^1.1.2
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin': workspace:^1.1.2
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/style-compiler': workspace:^1.1.3
       typescript: ^4.4.3
     dependencies:
@@ -4246,7 +4246,7 @@ importers:
       '@modern-js/core': link:../../cli/core
       '@modern-js/plugin': link:../plugin
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_typescript@4.5.4
       '@modern-js/style-compiler': link:../compiler/style
       typescript: 4.5.4
@@ -4254,8 +4254,8 @@ importers:
   packages/toolkit/node-bundle-require:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26.0.9
       '@types/node': ^14
       esbuild: ^0.13.8
@@ -4264,7 +4264,7 @@ importers:
       '@babel/runtime': 7.16.7
       esbuild: 0.13.15
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_127d627dd8decc15b11b389920835e21
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -4273,8 +4273,8 @@ importers:
   packages/toolkit/plugin:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/node': ^14
       farrow-pipeline: ^1.10.6
@@ -4283,7 +4283,7 @@ importers:
       '@babel/runtime': 7.16.7
       farrow-pipeline: 1.11.3
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -4291,9 +4291,9 @@ importers:
 
   packages/toolkit/types:
     specifiers:
-      '@modern-js/module-tools': ^1.1.3
+      '@modern-js/module-tools': ^1.1.4
       '@modern-js/plugin': workspace:^1.1.2
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/node': ^14
       '@types/react': ^17
@@ -4305,7 +4305,7 @@ importers:
       esbuild: 0.13.15
       webpack: 5.65.0_esbuild@0.13.15
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_webpack@5.65.0
+      '@modern-js/module-tools': 1.1.4_webpack@5.65.0
       '@modern-js/plugin-testing': 1.2.2_cbbec81abb6ec16a356e37094b046244
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -4315,8 +4315,8 @@ importers:
   packages/toolkit/update:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.1
-      '@modern-js/plugin-testing': ^1.1.1
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/jest': ^26
       '@types/node': ^14
       '@types/react': ^17
@@ -4325,7 +4325,7 @@ importers:
     dependencies:
       '@babel/runtime': 7.16.7
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_typescript@4.5.4
+      '@modern-js/module-tools': 1.1.4_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
@@ -4336,8 +4336,8 @@ importers:
   packages/toolkit/utils:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/module-tools': ^1.1.3
-      '@modern-js/plugin-testing': ^1.2.0
+      '@modern-js/module-tools': ^1.1.4
+      '@modern-js/plugin-testing': ^1.2.2
       '@types/debug': ^4.1.7
       '@types/fs-extra': ^9.0.12
       '@types/glob': ^7.1.4
@@ -4382,7 +4382,7 @@ importers:
       upath: 2.0.1
       yaml: 1.10.2
     devDependencies:
-      '@modern-js/module-tools': 1.1.3_7580059f3409467c8d6693cf61c6235e
+      '@modern-js/module-tools': 1.1.4_7580059f3409467c8d6693cf61c6235e
       '@modern-js/plugin-testing': 1.2.2_cb77cee617deb7d340f0830e6eb6d88f
       '@types/debug': 4.1.7
       '@types/glob': 7.2.0
@@ -4397,7 +4397,7 @@ importers:
       '@modern-js/app-tools': workspace:^1.1.0
       '@modern-js/core': workspace:^1.1.0
       '@modern-js/plugin-polyfill': workspace:^1.1.0
-      '@modern-js/plugin-testing': workspace:^1.0.0
+      '@modern-js/plugin-testing': ^1.2.2
       axios: ^0.21.4
       cross-spawn: ^7.0.3
       fs-extra: ^10.0.0
@@ -4411,7 +4411,7 @@ importers:
       '@modern-js/app-tools': link:../packages/solutions/app-tools
       '@modern-js/core': link:../packages/cli/core
       '@modern-js/plugin-polyfill': link:../packages/server/plugin-polyfill
-      '@modern-js/plugin-testing': link:../packages/cli/plugin-testing
+      '@modern-js/plugin-testing': 1.2.2
       axios: 0.21.4
       cross-spawn: 7.0.3
       fs-extra: 10.0.0
@@ -4825,7 +4825,7 @@ importers:
     specifiers:
       '@modern-js/app-tools': workspace:^1.0.0
       '@modern-js/plugin-jarvis': workspace:^1.0.0
-      '@modern-js/plugin-testing': workspace:^1.0.0
+      '@modern-js/plugin-testing': ^1.2.2
       '@modern-js/runtime': workspace:^1.0.0
       '@types/jest': ^26.0.9
       '@types/node': ^14
@@ -4842,7 +4842,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
       '@modern-js/plugin-jarvis': link:../../../packages/cli/plugin-jarvis
-      '@modern-js/plugin-testing': link:../../../packages/cli/plugin-testing
+      '@modern-js/plugin-testing': 1.2.2_36753d903dd101c500ab2db3878c5cd3
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
       '@types/react': 17.0.38
@@ -10235,8 +10235,8 @@ packages:
       - typescript
     dev: true
 
-  /@modern-js/module-tools/1.1.3_01a021a3344b793d75e9dd2effe19535:
-    resolution: {integrity: sha512-DqhjgINZL1RtIyc/xWPvL+lKj00WHX6BxYScFidPaa06vsz13J5lDumSsH5HVCoE7ef6XORkpXvk5JP7Tnugug==}
+  /@modern-js/module-tools/1.1.4_01a021a3344b793d75e9dd2effe19535:
+    resolution: {integrity: sha512-qKCD0oedELovVRUxjXiGlxZOFSYSKXHLSexiefqFuXfHsDeXhCjEF1rclfrl/nn8nT6YQm6Pjnk9P7lLG3xaKg==}
     hasBin: true
     dependencies:
       '@babel/generator': 7.16.7
@@ -10287,8 +10287,8 @@ packages:
       - webpack-plugin-serve
     dev: true
 
-  /@modern-js/module-tools/1.1.3_7580059f3409467c8d6693cf61c6235e:
-    resolution: {integrity: sha512-DqhjgINZL1RtIyc/xWPvL+lKj00WHX6BxYScFidPaa06vsz13J5lDumSsH5HVCoE7ef6XORkpXvk5JP7Tnugug==}
+  /@modern-js/module-tools/1.1.4_7580059f3409467c8d6693cf61c6235e:
+    resolution: {integrity: sha512-qKCD0oedELovVRUxjXiGlxZOFSYSKXHLSexiefqFuXfHsDeXhCjEF1rclfrl/nn8nT6YQm6Pjnk9P7lLG3xaKg==}
     hasBin: true
     dependencies:
       '@babel/generator': 7.16.7
@@ -10339,8 +10339,8 @@ packages:
       - webpack-plugin-serve
     dev: true
 
-  /@modern-js/module-tools/1.1.3_ea312eab47144c11140bfc370ebf6753:
-    resolution: {integrity: sha512-DqhjgINZL1RtIyc/xWPvL+lKj00WHX6BxYScFidPaa06vsz13J5lDumSsH5HVCoE7ef6XORkpXvk5JP7Tnugug==}
+  /@modern-js/module-tools/1.1.4_ea312eab47144c11140bfc370ebf6753:
+    resolution: {integrity: sha512-qKCD0oedELovVRUxjXiGlxZOFSYSKXHLSexiefqFuXfHsDeXhCjEF1rclfrl/nn8nT6YQm6Pjnk9P7lLG3xaKg==}
     hasBin: true
     dependencies:
       '@babel/generator': 7.16.7
@@ -10391,8 +10391,8 @@ packages:
       - webpack-plugin-serve
     dev: true
 
-  /@modern-js/module-tools/1.1.3_ea36b4ed1d5a84f5ef773313735cb02c:
-    resolution: {integrity: sha512-DqhjgINZL1RtIyc/xWPvL+lKj00WHX6BxYScFidPaa06vsz13J5lDumSsH5HVCoE7ef6XORkpXvk5JP7Tnugug==}
+  /@modern-js/module-tools/1.1.4_ea36b4ed1d5a84f5ef773313735cb02c:
+    resolution: {integrity: sha512-qKCD0oedELovVRUxjXiGlxZOFSYSKXHLSexiefqFuXfHsDeXhCjEF1rclfrl/nn8nT6YQm6Pjnk9P7lLG3xaKg==}
     hasBin: true
     dependencies:
       '@babel/generator': 7.16.7
@@ -10443,8 +10443,8 @@ packages:
       - webpack-plugin-serve
     dev: true
 
-  /@modern-js/module-tools/1.1.3_f5e84037b2c4548dbcaffe700b19626b:
-    resolution: {integrity: sha512-DqhjgINZL1RtIyc/xWPvL+lKj00WHX6BxYScFidPaa06vsz13J5lDumSsH5HVCoE7ef6XORkpXvk5JP7Tnugug==}
+  /@modern-js/module-tools/1.1.4_f5e84037b2c4548dbcaffe700b19626b:
+    resolution: {integrity: sha512-qKCD0oedELovVRUxjXiGlxZOFSYSKXHLSexiefqFuXfHsDeXhCjEF1rclfrl/nn8nT6YQm6Pjnk9P7lLG3xaKg==}
     hasBin: true
     dependencies:
       '@babel/generator': 7.16.7
@@ -10495,8 +10495,8 @@ packages:
       - webpack-plugin-serve
     dev: true
 
-  /@modern-js/module-tools/1.1.3_typescript@4.5.4:
-    resolution: {integrity: sha512-DqhjgINZL1RtIyc/xWPvL+lKj00WHX6BxYScFidPaa06vsz13J5lDumSsH5HVCoE7ef6XORkpXvk5JP7Tnugug==}
+  /@modern-js/module-tools/1.1.4_typescript@4.5.4:
+    resolution: {integrity: sha512-qKCD0oedELovVRUxjXiGlxZOFSYSKXHLSexiefqFuXfHsDeXhCjEF1rclfrl/nn8nT6YQm6Pjnk9P7lLG3xaKg==}
     hasBin: true
     dependencies:
       '@babel/generator': 7.16.7
@@ -10547,8 +10547,8 @@ packages:
       - webpack-plugin-serve
     dev: true
 
-  /@modern-js/module-tools/1.1.3_typescript@4.5.4+webpack@5.65.0:
-    resolution: {integrity: sha512-DqhjgINZL1RtIyc/xWPvL+lKj00WHX6BxYScFidPaa06vsz13J5lDumSsH5HVCoE7ef6XORkpXvk5JP7Tnugug==}
+  /@modern-js/module-tools/1.1.4_typescript@4.5.4+webpack@5.65.0:
+    resolution: {integrity: sha512-qKCD0oedELovVRUxjXiGlxZOFSYSKXHLSexiefqFuXfHsDeXhCjEF1rclfrl/nn8nT6YQm6Pjnk9P7lLG3xaKg==}
     hasBin: true
     dependencies:
       '@babel/generator': 7.16.7
@@ -10599,8 +10599,8 @@ packages:
       - webpack-plugin-serve
     dev: true
 
-  /@modern-js/module-tools/1.1.3_webpack@5.65.0:
-    resolution: {integrity: sha512-DqhjgINZL1RtIyc/xWPvL+lKj00WHX6BxYScFidPaa06vsz13J5lDumSsH5HVCoE7ef6XORkpXvk5JP7Tnugug==}
+  /@modern-js/module-tools/1.1.4_webpack@5.65.0:
+    resolution: {integrity: sha512-qKCD0oedELovVRUxjXiGlxZOFSYSKXHLSexiefqFuXfHsDeXhCjEF1rclfrl/nn8nT6YQm6Pjnk9P7lLG3xaKg==}
     hasBin: true
     dependencies:
       '@babel/generator': 7.16.7
@@ -10955,6 +10955,51 @@ packages:
       - supports-color
       - typescript
       - webpack
+    dev: true
+
+  /@modern-js/plugin-testing/1.2.2:
+    resolution: {integrity: sha512-XPp01xQEbsS377uNy8XFYVyKq6N/zd+NxV/EKQv9JikcYx5uzGCfComw4WRYgaIqmO4Pcr37N72bXMO79ULTwA==}
+    peerDependencies:
+      '@modern-js-reduck/plugin-auto-actions': ^1.0.0
+      '@modern-js-reduck/plugin-effects': ^1.0.0
+      '@modern-js-reduck/plugin-immutable': ^1.0.0
+      '@modern-js-reduck/store': ^1.0.0
+      '@modern-js/core': ^1.0.0
+      '@modern-js/runtime-core': ^1.0.0
+    dependencies:
+      '@babel/preset-env': 7.16.7
+      '@babel/runtime': 7.16.7
+      '@modern-js/babel-compiler': 1.1.3
+      '@modern-js/testing': 1.2.0
+      '@modern-js/testing-plugin-bff': 1.1.2_@modern-js+testing@1.2.0
+      '@modern-js/utils': 1.1.5
+      '@modern-js/webpack': 1.1.3
+      '@testing-library/jest-dom': 5.16.1
+      '@testing-library/react': 12.1.2
+      enhanced-resolve: 5.8.3
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@modern-js/bff-utils'
+      - '@swc/core'
+      - '@types/jest'
+      - acorn
+      - bufferutil
+      - canvas
+      - clean-css
+      - csso
+      - debug
+      - esbuild
+      - node-notifier
+      - react
+      - react-dom
+      - styled-components
+      - supports-color
+      - ts-node
+      - typescript
+      - uglify-js
+      - utf-8-validate
+      - webpack
+      - webpack-cli
     dev: true
 
   /@modern-js/plugin-testing/1.2.2_127d627dd8decc15b11b389920835e21:
@@ -11388,6 +11433,7 @@ packages:
       enhanced-resolve: 5.8.3
     transitivePeerDependencies:
       - '@babel/core'
+      - '@modern-js/bff-utils'
       - '@swc/core'
       - '@types/jest'
       - acorn
@@ -11905,6 +11951,53 @@ packages:
       - typescript
     dev: true
 
+  /@modern-js/server/1.2.0:
+    resolution: {integrity: sha512-XcK/oDoBSFP91saqwHJb0myzhZ19eXIf8RtkNiTFTbYHCx51EAScnRjySWh/txIoEPIJiFc2dJEsfW0vKpjjzw==}
+    peerDependencies:
+      webpack: ^5.54.0
+    dependencies:
+      '@babel/compat-data': 7.16.4
+      '@babel/core': 7.16.7
+      '@babel/preset-env': 7.16.7_@babel+core@7.16.7
+      '@babel/preset-typescript': 7.16.7_@babel+core@7.16.7
+      '@babel/register': 7.16.7_@babel+core@7.16.7
+      '@babel/runtime': 7.16.7
+      '@modern-js/bff-utils': 1.1.1
+      '@modern-js/core': 1.2.0
+      '@modern-js/hmr-client': 1.1.1
+      '@modern-js/server-plugin': 1.1.3
+      '@modern-js/server-utils': 1.1.2
+      '@modern-js/utils': 1.1.5
+      axios: 0.21.4
+      babel-plugin-module-resolver: 4.1.0
+      chokidar: 3.5.2
+      compare-versions: 3.6.0
+      devcert: 1.2.0
+      esbuild: 0.13.15
+      fs-extra: 10.0.0
+      http-proxy-middleware: 2.0.1
+      ignore-styles: 5.0.1
+      launch-editor: 2.3.0
+      lru-cache: 6.0.0
+      mime-types: 2.1.34
+      minimatch: 3.0.4
+      parseurl: 1.3.3
+      path-to-regexp: 6.2.0
+      serialize-javascript: 6.0.0
+      serve-static: 1.14.2
+      tsconfig-paths: 3.12.0
+      ua-parser-js: 0.7.31
+      webpack-dev-middleware: 5.3.0
+      ws: 8.4.0
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - styled-components
+      - supports-color
+      - typescript
+      - utf-8-validate
+    dev: true
+
   /@modern-js/server/1.2.0_1081fda710492d620be948c45081f566:
     resolution: {integrity: sha512-XcK/oDoBSFP91saqwHJb0myzhZ19eXIf8RtkNiTFTbYHCx51EAScnRjySWh/txIoEPIJiFc2dJEsfW0vKpjjzw==}
     peerDependencies:
@@ -12294,6 +12387,29 @@ packages:
       - webpack
     dev: true
 
+  /@modern-js/testing-plugin-bff/1.1.2_@modern-js+testing@1.2.0:
+    resolution: {integrity: sha512-trreH1Iy6HvbmW+piUEB+59txbgmTCQ2bNeVdN0hx+VuA4jRzs4tzc5OOemP4FlSfeBpephwEvapvVhFEw9J/A==}
+    peerDependencies:
+      '@modern-js/bff-utils': ^1.1.1
+      '@modern-js/testing': ^1.1.1
+    dependencies:
+      '@babel/runtime': 7.16.7
+      '@modern-js/server': 1.2.0
+      '@modern-js/testing': 1.2.0
+      '@modern-js/utils': 1.1.5
+      jest-environment-node: 27.4.4
+      path-to-regexp: 6.2.0
+      supertest: 6.1.6
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - styled-components
+      - supports-color
+      - typescript
+      - utf-8-validate
+      - webpack
+    dev: true
+
   /@modern-js/testing-plugin-bff/1.1.2_be9a42cd2ccfa7a9b2a96df2053b335a:
     resolution: {integrity: sha512-trreH1Iy6HvbmW+piUEB+59txbgmTCQ2bNeVdN0hx+VuA4jRzs4tzc5OOemP4FlSfeBpephwEvapvVhFEw9J/A==}
     peerDependencies:
@@ -12361,6 +12477,44 @@ packages:
       - typescript
       - utf-8-validate
       - webpack
+    dev: true
+
+  /@modern-js/testing/1.2.0:
+    resolution: {integrity: sha512-7mVXjb9+aWeBbQkc0aYhRveNGxwTcSsbPEw32oPqrJjppf7yBTYbVylw1SMMjJrGAjcggO+5NwLjqmgZk9azJw==}
+    dependencies:
+      '@babel/runtime': 7.16.7
+      '@jest/types': 27.4.2
+      '@modern-js/babel-preset-app': 1.1.1
+      '@modern-js/plugin': 1.1.2
+      '@modern-js/utils': 1.1.5
+      '@modern-js/webpack': 1.1.3
+      babel-jest: 27.4.5
+      chalk: 4.1.2
+      identity-obj-proxy: 3.0.0
+      jest: 27.4.5
+      lodash.merge: 4.6.2
+      semver: 7.3.5
+      ts-jest: 27.1.2_babel-jest@27.4.5+jest@27.4.5
+      yargs: 17.3.1
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@modern-js/core'
+      - '@swc/core'
+      - '@types/jest'
+      - acorn
+      - bufferutil
+      - canvas
+      - clean-css
+      - csso
+      - esbuild
+      - node-notifier
+      - styled-components
+      - supports-color
+      - ts-node
+      - typescript
+      - uglify-js
+      - utf-8-validate
+      - webpack-cli
     dev: true
 
   /@modern-js/testing/1.2.0_127d627dd8decc15b11b389920835e21:
@@ -12534,6 +12688,7 @@ packages:
       yargs: 17.3.1
     transitivePeerDependencies:
       - '@babel/core'
+      - '@modern-js/core'
       - '@swc/core'
       - '@types/jest'
       - acorn
@@ -12647,6 +12802,7 @@ packages:
       yargs: 17.3.1
     transitivePeerDependencies:
       - '@babel/core'
+      - '@modern-js/core'
       - '@swc/core'
       - '@types/jest'
       - acorn
@@ -12760,6 +12916,7 @@ packages:
       yargs: 17.3.1
     transitivePeerDependencies:
       - '@babel/core'
+      - '@modern-js/core'
       - '@swc/core'
       - '@types/jest'
       - acorn
@@ -15966,13 +16123,13 @@ packages:
     dependencies:
       jest-diff: 26.6.2
       pretty-format: 26.6.2
+    dev: true
 
   /@types/jest/27.4.0:
     resolution: {integrity: sha512-gHl8XuC1RZ8H2j5sHv/JqsaxXkDDM9iDOgu0Wp8sjs4u/snb2PVehyWXJPr+ORA0RPpgw231mnutWI1+0hgjIQ==}
     dependencies:
       jest-diff: 27.4.2
       pretty-format: 27.4.2
-    dev: true
 
   /@types/js-yaml/4.0.5:
     resolution: {integrity: sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==}
@@ -16477,7 +16634,7 @@ packages:
   /@types/testing-library__jest-dom/5.14.2:
     resolution: {integrity: sha512-vehbtyHUShPxIa9SioxDwCvgxukDMH//icJG90sXQBUm5lJOHLT5kNeU9tnivhnA/TkOFMzGIXN2cTc4hY8/kg==}
     dependencies:
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.0
 
   /@types/through/0.0.30:
     resolution: {integrity: sha512-FvnCJljyxhPM3gkRgWmxmDZyAQSiBQQWLI0A0VFL0K7W1oRUrPJSqNO0NvTnLkBcotdlp3lKvaT0JrnyRDkzOg==}
@@ -17791,6 +17948,7 @@ packages:
   /atob/2.1.2:
     resolution: {integrity: sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==}
     engines: {node: '>= 4.5.0'}
+    hasBin: true
 
   /atomic-sleep/1.0.0:
     resolution: {integrity: sha512-kNOjDqAh7px0XWNI+4QbzoiR/nTkHAWNud2uvnJquD1/x5a7EQZMJT0AczqK0Qn67oY/TTQ1LbUKajZpp3I9tQ==}
@@ -21245,6 +21403,7 @@ packages:
   /diff-sequences/26.6.2:
     resolution: {integrity: sha512-Mv/TDa3nZ9sbc5soK+OoA74BsS3mL37yixCvUAQkiuA4Wz6YtwP/K47n2rv2ovzHZvoiQeA5FTQOschKkEwB0Q==}
     engines: {node: '>= 10.14.2'}
+    dev: true
 
   /diff-sequences/27.4.0:
     resolution: {integrity: sha512-YqiQzkrsmHMH5uuh8OdQFU9/ZpADnwzml8z0O5HvRNda+5UZsaX/xN+AAxfR2hWq1Y7HZnAzO9J5lJXOuDz2Ww==}
@@ -24962,6 +25121,7 @@ packages:
 
   /he/1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
+    hasBin: true
 
   /heap/0.2.7:
     resolution: {integrity: sha512-2bsegYkkHO+h/9MGbn6KWcE45cHZgPANo5LXF7EvWdT0yT2EguSVO1nDgU5c8+ZOPwp2vMNa7YFsJhVcDR9Sdg==}
@@ -25094,6 +25254,7 @@ packages:
   /html-minifier-terser/6.1.0:
     resolution: {integrity: sha512-YXxSlJBZTP7RS3tWnQw74ooKa6L9b9i9QYXY21eUEvhZ3u9XLfv6OnFsQq6RxkhHygsaUMvYsZRV5rU/OVNZxw==}
     engines: {node: '>=12'}
+    hasBin: true
     dependencies:
       camel-case: 4.1.2
       clean-css: 5.2.2
@@ -26551,6 +26712,7 @@ packages:
       diff-sequences: 26.6.2
       jest-get-type: 26.3.0
       pretty-format: 26.6.2
+    dev: true
 
   /jest-diff/27.4.2:
     resolution: {integrity: sha512-ujc9ToyUZDh9KcqvQDkk/gkbf6zSaeEg9AiBxtttXW59H/AcqEYp1ciXAtJp+jXWva5nAf/ePtSsgWwE5mqp4Q==}
@@ -26633,6 +26795,7 @@ packages:
   /jest-get-type/26.3.0:
     resolution: {integrity: sha512-TpfaviN1R2pQWkIihlfEanwOXK0zcxrKEE4MlU6Tn7keoXdN6/3gK/xl0yEh8DOunn5pOVGKf8hB4R9gVh04ig==}
     engines: {node: '>= 10.14.2'}
+    dev: true
 
   /jest-get-type/27.4.0:
     resolution: {integrity: sha512-tk9o+ld5TWq41DkK14L4wox4s2D9MtTpKaAVzXfr5CUKm5ZK2ExcaFE0qls2W71zE/6R2TxxrK9w2r6svAFDBQ==}
@@ -27261,9 +27424,11 @@ packages:
 
   /json5/0.5.1:
     resolution: {integrity: sha1-Hq3nrMASA0rYTiOWdn6tn6VJWCE=}
+    hasBin: true
 
   /json5/1.0.1:
     resolution: {integrity: sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow==}
+    hasBin: true
     dependencies:
       minimist: 1.2.5
 
@@ -30780,6 +30945,7 @@ packages:
       ansi-regex: 5.0.1
       ansi-styles: 4.3.0
       react-is: 17.0.2
+    dev: true
 
   /pretty-format/27.4.2:
     resolution: {integrity: sha512-p0wNtJ9oLuvgOQDEIZ9zQjZffK7KtyR6Si0jnXULIDwrlNF8Cuir3AZP0hHv0jmKuNN/edOnbMjnzd4uTcmWiw==}
@@ -35437,6 +35603,39 @@ packages:
       make-error: 1.3.6
       semver: 7.3.5
       typescript: 4.5.4
+      yargs-parser: 20.2.9
+    dev: true
+
+  /ts-jest/27.1.2_babel-jest@27.4.5+jest@27.4.5:
+    resolution: {integrity: sha512-eSOiJOWq6Hhs6Khzk5wKC5sgWIXgXqOCiIl1+3lfnearu58Hj4QpE5tUhQcA3xtZrELbcvAGCsd6HB8OsaVaTA==}
+    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
+    hasBin: true
+    peerDependencies:
+      '@babel/core': '>=7.0.0-beta.0 <8'
+      '@types/jest': ^27.0.0
+      babel-jest: '>=27.0.0 <28'
+      esbuild: ~0.14.0
+      jest: ^27.0.0
+      typescript: '>=3.8 <5.0'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@types/jest':
+        optional: true
+      babel-jest:
+        optional: true
+      esbuild:
+        optional: true
+    dependencies:
+      babel-jest: 27.4.5
+      bs-logger: 0.2.6
+      fast-json-stable-stringify: 2.1.0
+      jest: 27.4.5
+      jest-util: 27.4.2
+      json5: 2.2.0
+      lodash.memoize: 4.1.2
+      make-error: 1.3.6
+      semver: 7.3.5
       yargs-parser: 20.2.9
     dev: true
 
