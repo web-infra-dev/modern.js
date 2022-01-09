@@ -1,5 +1,15 @@
 # @modern-js/testing-plugin-bff
 
+## 1.1.3
+
+### Patch Changes
+
+- b715c994: feat: support prefix for bff test
+- Updated dependencies [e51b1db3]
+- Updated dependencies [b7fb82ec]
+  - @modern-js/server@1.2.1
+  - @modern-js/utils@1.1.6
+
 ## 1.1.1
 
 ### Patch Changes

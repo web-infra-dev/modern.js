@@ -1,5 +1,11 @@
 # @modern-js/generator-plugin-plugin
 
+## 1.0.6
+
+### Patch Changes
+
+- 4819a3c7: feat: update generator version
+
 ## 1.0.5
 
 ### Patch Changes
