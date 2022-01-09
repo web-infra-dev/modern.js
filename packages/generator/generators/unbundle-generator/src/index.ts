@@ -46,7 +46,8 @@ const handleTemplateFile = async (
   );
 
   const appDir = context.materials.default.basePath;
-  const packageManager = await getPackageManager(appDir);
+  const packageManager =
+    context.config.packageManager || (await getPackageManager(appDir));
   return { packageManager };
 };
 

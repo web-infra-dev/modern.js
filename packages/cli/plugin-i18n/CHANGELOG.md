@@ -1,5 +1,11 @@
 # @modern-js/plugin-i18n
 
+## 1.1.2
+
+### Patch Changes
+
+- 5e3de7d8: fix: i18n get message error when system language not zh or en
+
 ## 1.1.1
 
 ### Patch Changes

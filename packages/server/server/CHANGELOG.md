@@ -1,5 +1,15 @@
 # @modern-js/server
 
+## 1.2.1
+
+### Patch Changes
+
+- e51b1db3: feat: support custom sdk, interceptor, headers for bff request
+- Updated dependencies [e51b1db3]
+- Updated dependencies [b7fb82ec]
+  - @modern-js/server-plugin@1.1.4
+  - @modern-js/utils@1.1.6
+
 ## 1.2.0
 
 ### Minor Changes

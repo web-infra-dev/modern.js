@@ -1,5 +1,13 @@
 # @modern-js/test-generator
 
+## 1.1.5
+
+### Patch Changes
+
+- 4819a3c7: feat: update generator version
+- b7fb82ec: fix: get package manager function
+- 81d93503: fix: generator new action get package manager
+
 ## 1.1.4
 
 ### Patch Changes
