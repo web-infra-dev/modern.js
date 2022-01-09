@@ -1,5 +1,11 @@
 # @modern-js/bff-generator
 
+## 1.1.5-rc.0
+
+### Patch Changes
+
+- 4819a3c7: feat: update generator version
+
 ## 1.1.4
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @modern-js/module-tools-hooks
 
+## 1.1.3-rc.0
+
+### Patch Changes
+
+- @modern-js/core@1.2.1-rc.0
+- @modern-js/plugin@1.1.2
+
 ## 1.1.2
 
 ### Patch Changes

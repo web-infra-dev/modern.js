@@ -1,5 +1,16 @@
 # @modern-js/generator-utils
 
+## 1.1.2-rc.0
+
+### Patch Changes
+
+- 4819a3c7: feat: update generator version
+- b7fb82ec: fix: get package manager function
+- Updated dependencies [5e3de7d8]
+- Updated dependencies [b7fb82ec]
+  - @modern-js/plugin-i18n@1.1.2-rc.0
+  - @modern-js/utils@1.1.6-rc.0
+
 ## 1.1.1
 
 ### Patch Changes

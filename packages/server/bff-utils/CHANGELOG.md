@@ -1,5 +1,14 @@
 # @modern-js/bff-utils
 
+## 1.1.2-rc.0
+
+### Patch Changes
+
+- Updated dependencies [b7fb82ec]
+  - @modern-js/utils@1.1.6-rc.0
+  - @modern-js/bff-runtime@1.1.2-rc.0
+  - @modern-js/plugin@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes

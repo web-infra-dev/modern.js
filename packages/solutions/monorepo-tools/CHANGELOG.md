@@ -1,5 +1,20 @@
 # @modern-js/monorepo-tools
 
+## 1.2.1-rc.0
+
+### Patch Changes
+
+- Updated dependencies [5e3de7d8]
+- Updated dependencies [4819a3c7]
+- Updated dependencies [b7fb82ec]
+- Updated dependencies [81d93503]
+  - @modern-js/plugin-i18n@1.1.2-rc.0
+  - @modern-js/new-action@1.2.2-rc.0
+  - @modern-js/plugin-changeset@1.1.2-rc.0
+  - @modern-js/utils@1.1.6-rc.0
+  - @modern-js/core@1.2.1-rc.0
+  - @modern-js/i18n-cli-language-detector@1.1.1
+
 ## 1.2.0
 
 ### Minor Changes

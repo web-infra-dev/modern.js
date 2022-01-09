@@ -1,5 +1,15 @@
 # @modern-js/testing
 
+## 1.2.1-rc.0
+
+### Patch Changes
+
+- Updated dependencies [b7fb82ec]
+  - @modern-js/utils@1.1.6-rc.0
+  - @modern-js/webpack@1.1.4-rc.0
+  - @modern-js/babel-preset-app@1.1.2-rc.0
+  - @modern-js/plugin@1.1.2
+
 ## 1.2.0
 
 ### Minor Changes

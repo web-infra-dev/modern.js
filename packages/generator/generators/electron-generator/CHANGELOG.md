@@ -1,5 +1,13 @@
 # @modern-js/electron-generator
 
+## 1.1.7-rc.0
+
+### Patch Changes
+
+- 4819a3c7: feat: update generator version
+- b7fb82ec: fix: get package manager function
+- 81d93503: fix: generator new action get package manager
+
 ## 1.1.6
 
 ### Patch Changes

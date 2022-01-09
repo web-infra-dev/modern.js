@@ -1,5 +1,11 @@
 # @modern-js/server-generator
 
+## 1.1.6-rc.0
+
+### Patch Changes
+
+- 4819a3c7: feat: update generator version
+
 ## 1.1.5
 
 ### Patch Changes

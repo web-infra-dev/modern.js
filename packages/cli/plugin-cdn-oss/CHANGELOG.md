@@ -1,5 +1,13 @@
 # @modern-js/plugin-cdn-oss
 
+## 1.0.3-rc.0
+
+### Patch Changes
+
+- Updated dependencies [b7fb82ec]
+  - @modern-js/utils@1.1.6-rc.0
+  - @modern-js/core@1.2.1-rc.0
+
 ## 1.0.2
 
 ### Patch Changes

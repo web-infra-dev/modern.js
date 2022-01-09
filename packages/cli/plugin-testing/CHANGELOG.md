@@ -1,5 +1,23 @@
 # @modern-js/plugin-testing
 
+## 1.2.3-rc.0
+
+### Patch Changes
+
+- Updated dependencies [4a281912]
+- Updated dependencies [b715c994]
+- Updated dependencies [2da27d3b]
+- Updated dependencies [4a281912]
+- Updated dependencies [b7fb82ec]
+- Updated dependencies [eb026119]
+  - @modern-js/runtime-core@1.1.3-rc.0
+  - @modern-js/testing-plugin-bff@1.1.3-rc.0
+  - @modern-js/babel-compiler@1.1.4-rc.0
+  - @modern-js/utils@1.1.6-rc.0
+  - @modern-js/core@1.2.1-rc.0
+  - @modern-js/webpack@1.1.4-rc.0
+  - @modern-js/testing@1.2.1-rc.0
+
 ## 1.2.1
 
 ### Patch Changes

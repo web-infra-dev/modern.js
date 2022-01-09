@@ -1,5 +1,16 @@
 # @modern-js/runtime-core
 
+## 1.1.3-rc.0
+
+### Patch Changes
+
+- 4a281912: app init function support sync function && ssr data add i18n data
+- 4a281912: fix: app init function not work
+- eb026119: change exports config
+- Updated dependencies [b7fb82ec]
+  - @modern-js/utils@1.1.6-rc.0
+  - @modern-js/plugin@1.1.2
+
 ## 1.1.2
 
 ### Patch Changes

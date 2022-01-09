@@ -1,5 +1,17 @@
 # @modern-js/plugin-changeset
 
+## 1.1.2-rc.0
+
+### Patch Changes
+
+- b7fb82ec: fix: get package manager function
+- Updated dependencies [5e3de7d8]
+- Updated dependencies [b7fb82ec]
+  - @modern-js/plugin-i18n@1.1.2-rc.0
+  - @modern-js/utils@1.1.6-rc.0
+  - @modern-js/core@1.2.1-rc.0
+  - @modern-js/i18n-cli-language-detector@1.1.1
+
 ## 1.1.1
 
 ### Patch Changes

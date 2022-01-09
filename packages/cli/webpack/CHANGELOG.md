@@ -1,5 +1,17 @@
 # @modern-js/webpack
 
+## 1.1.4-rc.0
+
+### Patch Changes
+
+- Updated dependencies [b37f78c8]
+- Updated dependencies [b7fb82ec]
+  - @modern-js/babel-chain@1.1.2-rc.0
+  - @modern-js/utils@1.1.6-rc.0
+  - @modern-js/core@1.2.1-rc.0
+  - @modern-js/babel-preset-app@1.1.2-rc.0
+  - @modern-js/css-config@1.1.3-rc.0
+
 ## 1.1.3
 
 ### Patch Changes

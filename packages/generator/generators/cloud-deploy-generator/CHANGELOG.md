@@ -1,5 +1,11 @@
 # @modern-js/cloud-deploy-generator
 
+## 1.0.12-rc.0
+
+### Patch Changes
+
+- 4819a3c7: feat: update generator version
+
 ## 1.0.11
 
 ### Patch Changes

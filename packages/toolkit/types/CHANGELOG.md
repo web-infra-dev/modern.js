@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 1.1.5-rc.0
+
+### Patch Changes
+
+- e51b1db3: feat: support custom sdk, interceptor, headers for bff request
+  - @modern-js/plugin@1.1.2
+
 ## 1.1.4
 
 ### Patch Changes

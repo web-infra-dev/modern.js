@@ -1,5 +1,16 @@
 # @modern-js/plugin-server-build
 
+## 1.1.2-rc.0
+
+### Patch Changes
+
+- Updated dependencies [2da27d3b]
+- Updated dependencies [b7fb82ec]
+  - @modern-js/babel-compiler@1.1.4-rc.0
+  - @modern-js/utils@1.1.6-rc.0
+  - @modern-js/core@1.2.1-rc.0
+  - @modern-js/server-utils@1.1.3-rc.0
+
 ## 1.1.1
 
 ### Patch Changes

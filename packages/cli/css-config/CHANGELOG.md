@@ -1,5 +1,12 @@
 # @modern-js/css-config
 
+## 1.1.3-rc.0
+
+### Patch Changes
+
+- Updated dependencies [b7fb82ec]
+  - @modern-js/utils@1.1.6-rc.0
+
 ## 1.1.2
 
 ### Patch Changes

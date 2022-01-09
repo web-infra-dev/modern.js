@@ -1,5 +1,16 @@
 # @modern-js/plugin-state
 
+## 1.1.4-rc.0
+
+### Patch Changes
+
+- 4a281912: fix: app init function not work
+- Updated dependencies [4a281912]
+- Updated dependencies [4a281912]
+- Updated dependencies [eb026119]
+  - @modern-js/runtime-core@1.1.3-rc.0
+  - @modern-js/core@1.2.1-rc.0
+
 ## 1.1.3
 
 ### Patch Changes

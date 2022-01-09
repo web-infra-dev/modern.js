@@ -1,6 +1,6 @@
 {
   "name": "plugin-testing-app",
-  "version": "0.1.0",
+  "version": "0.1.1-rc.0",
   "scripts": {
     "reset": "del-cli node_modules",
     "dev": "modern dev",
@@ -11,19 +11,19 @@
     "test": "modern test"
   },
   "dependencies": {
-    "@modern-js/runtime": "workspace:^1.0.0",
+    "@modern-js/runtime": "workspace:^1.1.2-rc.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:^1.0.0",
-    "@modern-js/plugin-jarvis": "workspace:^1.0.0",
+    "@modern-js/app-tools": "workspace:^1.2.0-rc.0",
+    "@modern-js/plugin-jarvis": "workspace:^1.1.2-rc.0",
     "del-cli": "^4.0.1",
     "typescript": "^4",
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "@types/node": "^14",
-    "@modern-js/plugin-testing": "workspace:^1.0.0",
+    "@modern-js/plugin-testing": "workspace:^1.2.3-rc.0",
     "@types/jest": "^26.0.9"
   },
   "modernConfig": {

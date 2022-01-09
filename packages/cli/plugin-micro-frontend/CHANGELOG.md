@@ -1,5 +1,19 @@
 # @modern-js/plugin-micro-frontend
 
+## 1.1.2-rc.0
+
+### Patch Changes
+
+- 4a281912: fix: app init function not work
+- Updated dependencies [4a281912]
+- Updated dependencies [4a281912]
+- Updated dependencies [b7fb82ec]
+- Updated dependencies [eb026119]
+  - @modern-js/runtime-core@1.1.3-rc.0
+  - @modern-js/plugin-router@1.1.2-rc.0
+  - @modern-js/utils@1.1.6-rc.0
+  - @modern-js/core@1.2.1-rc.0
+
 ## 1.1.1
 
 ### Patch Changes

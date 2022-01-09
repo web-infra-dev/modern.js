@@ -1,5 +1,14 @@
 # @modern-js/core
 
+## 1.2.1-rc.0
+
+### Patch Changes
+
+- Updated dependencies [b7fb82ec]
+  - @modern-js/utils@1.1.6-rc.0
+  - @modern-js/load-config@1.1.2-rc.0
+  - @modern-js/plugin@1.1.2
+
 ## 1.2.0
 
 ### Minor Changes

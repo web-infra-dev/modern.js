@@ -1,5 +1,11 @@
 # @modern-js/babel-chain
 
+## 1.1.2-rc.0
+
+### Patch Changes
+
+- b37f78c8: add missing type
+
 ## 1.1.1
 
 ### Patch Changes

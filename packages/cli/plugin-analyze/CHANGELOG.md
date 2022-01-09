@@ -1,5 +1,14 @@
 # @modern-js/plugin-analyze
 
+## 1.1.3-rc.0
+
+### Patch Changes
+
+- Updated dependencies [b7fb82ec]
+  - @modern-js/utils@1.1.6-rc.0
+  - @modern-js/core@1.2.1-rc.0
+  - @modern-js/plugin@1.1.2
+
 ## 1.1.2
 
 ### Patch Changes

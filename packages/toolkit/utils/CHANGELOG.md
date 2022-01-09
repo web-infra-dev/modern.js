@@ -1,5 +1,11 @@
 # @modern-js/utils
 
+## 1.1.6-rc.0
+
+### Patch Changes
+
+- b7fb82ec: fix: get package manager function
+
 ## 1.1.5
 
 ### Patch Changes

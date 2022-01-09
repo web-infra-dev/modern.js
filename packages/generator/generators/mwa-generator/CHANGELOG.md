@@ -1,5 +1,11 @@
 # @modern-js/mwa-generator
 
+## 1.2.3-rc.0
+
+### Patch Changes
+
+- 4819a3c7: feat: update generator version
+
 ## 1.2.2
 
 ### Patch Changes
