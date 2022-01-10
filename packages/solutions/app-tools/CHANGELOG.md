@@ -1,5 +1,24 @@
 # @modern-js/app-tools
 
+## 1.2.0
+
+### Minor Changes
+
+- 212f749f: fix(app-tools): app-tools exported types
+
+### Patch Changes
+
+- Updated dependencies [e51b1db3]
+- Updated dependencies [5e3de7d8]
+- Updated dependencies [4819a3c7]
+- Updated dependencies [b7fb82ec]
+- Updated dependencies [81d93503]
+  - @modern-js/server@1.2.1
+  - @modern-js/types@1.1.5
+  - @modern-js/plugin-i18n@1.1.2
+  - @modern-js/new-action@1.2.2
+  - @modern-js/utils@1.1.6
+
 ## 1.1.5
 
 ### Patch Changes

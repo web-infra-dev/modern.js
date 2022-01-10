@@ -12,7 +12,7 @@ interface PublishOptions {
 export async function release(options: PublishOptions) {
   const appDir = process.cwd();
   const isMonorepo = isModernjsMonorepo(appDir);
-  const packageManager = getPackageManager(process.cwd());
+  const packageManager = await getPackageManager(process.cwd());
 
   const params = ['publish'];
 

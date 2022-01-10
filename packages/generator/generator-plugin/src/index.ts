@@ -64,6 +64,10 @@ export class GeneratorPlugin {
             fullMetadata: true,
             version: distTag,
           });
+          const version = pkgJSON['dist-tags']
+            ? pkgJSON['dist-tags'][distTag || 'latest']
+            : '';
+          pkgJSON = version ? pkgJSON.versions[version] : pkgJSON;
         }
         const { meta } = pkgJSON;
         if (!meta) {

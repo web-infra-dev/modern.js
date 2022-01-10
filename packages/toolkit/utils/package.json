@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.5",
+  "version": "1.1.6",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/js/node/index.js",
@@ -62,7 +62,8 @@
     "strip-ansi": "6.0.0",
     "upath": "^2.0.1",
     "yaml": "^1.10.2",
-    "typescript": "^4"
+    "typescript": "^4",
+    "execa": "5"
   },
   "devDependencies": {
     "@types/debug": "^4.1.7",
@@ -73,7 +74,7 @@
     "@types/recursive-readdir": "^2.2.0",
     "webpack": "^5.54.0",
     "@modern-js/plugin-testing": "^1.2.0",
-    "@modern-js/module-tools": "^1.1.3"
+    "@modern-js/module-tools": "^1.1.5"
   },
   "sideEffects": false,
   "publishConfig": {

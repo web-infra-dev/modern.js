@@ -48,7 +48,7 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
 
   const finalConfig = merge(UserConfig, {
     locale: (UserConfig.locale as string) || locale,
-    packageManager: getPackageManager(cwd),
+    packageManager: UserConfig.packageManager || (await getPackageManager(cwd)),
     isMonorepo: true,
     distTag,
     plugins,
