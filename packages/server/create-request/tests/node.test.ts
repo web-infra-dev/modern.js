@@ -17,13 +17,13 @@ describe('configure', () => {
     },
   };
 
-  beforeEach(() => {
-    nock.disableNetConnect();
-  });
+  // beforeEach(() => {
+  //   nock.disableNetConnect();
+  // });
 
-  afterEach(() => {
-    nock.cleanAll();
-  });
+  // afterEach(() => {
+  //   nock.cleanAll();
+  // });
 
   test('should support custom request', done => {
     // eslint-disable-next-line @typescript-eslint/no-shadow

@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { Module } from '@nestjs/common';
-import { defineCustom } from '../../../..';
+import { defineCustom } from '../../../../src';
 import { AppModule } from './app.module';
 
 export default defineCustom(async modules => {

@@ -7,5 +7,5 @@ export async function pre(type: 'enter' | 'exit', tag = 'next') {
     params.push(tag);
   }
 
-  await execaWithStreamLog('node', params);
+  await execaWithStreamLog(process.execPath, params);
 }

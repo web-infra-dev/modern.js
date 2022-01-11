@@ -55,7 +55,7 @@ export default class WhistleProxy {
     execSync(`${this.bin} use ${this.rule} --force`);
     await this.installRootCA();
 
-    enableGlobalProxy('127.0.0.1', this.port);
+    enableGlobalProxy('localhost', this.port);
     logger.info(`Proxy Server start on localhost:${this.port}\n`);
   }
 

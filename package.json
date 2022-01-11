@@ -71,6 +71,7 @@
     "jest": "^27",
     "esbuild": "^0.13.8",
     "esbuild-jest": "0.5.0",
+    "enhanced-resolve": "^5.8.3",
     "@babel/plugin-transform-modules-commonjs": "^7.16.7",
     "babel-plugin-module-resolver": "^4.1.0",
     "@commitlint/cli": "^13.2.0",

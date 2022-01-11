@@ -14,6 +14,7 @@ importers:
       '@modern-js/tsconfig': workspace:^1.0.0
       babel-plugin-module-resolver: ^4.1.0
       btsm: 2.2.2
+      enhanced-resolve: ^5.8.3
       esbuild: ^0.13.8
       esbuild-jest: 0.5.0
       jest: ^27
@@ -28,6 +29,7 @@ importers:
       '@modern-js/tsconfig': link:packages/review/tsconfig
       babel-plugin-module-resolver: 4.1.0
       btsm: 2.2.2
+      enhanced-resolve: 5.8.3
       esbuild: 0.13.15
       esbuild-jest: 0.5.0_esbuild@0.13.15
       jest: 27.4.5
@@ -1607,7 +1609,7 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
-      enhanced-resolve: ^5.8.2
+      enhanced-resolve: ^5.8.3
       typescript: ^4
     dependencies:
       '@babel/preset-env': 7.16.7
@@ -1685,7 +1687,7 @@ importers:
       copy-and-watch: ^0.1.4
       del-cli: ^4.0.1
       devcert: ^1.1.3
-      enhanced-resolve: ^5.7.0
+      enhanced-resolve: ^5.8.3
       es-module-lexer: ^0.4.1
       esbuild: ^0.12.9
       etag: ^1.8.1
@@ -4102,7 +4104,7 @@ importers:
       builtin-modules: ~3.2.0
       chalk: ~4.1.0
       del-cli: ^4.0.1
-      enhanced-resolve: ~5.7.0
+      enhanced-resolve: ^5.8.3
       es-module-lexer: ~0.3.26
       execa: ~5.0.0
       expect-puppeteer: ~4.4.0
@@ -4154,7 +4156,7 @@ importers:
       autoprefixer: 10.2.6_postcss@8.2.15
       builtin-modules: 3.2.0
       chalk: 4.1.2
-      enhanced-resolve: 5.7.0
+      enhanced-resolve: 5.8.3
       es-module-lexer: 0.3.26
       find-up: 5.0.0
       fs-extra: 9.0.1
@@ -22004,14 +22006,6 @@ packages:
       graceful-fs: 4.2.8
       memory-fs: 0.5.0
       tapable: 1.1.3
-    dev: false
-
-  /enhanced-resolve/5.7.0:
-    resolution: {integrity: sha512-6njwt/NsZFUKhM6j9U8hzVyD4E4r0x7NQzhTCbcWOJ0IQjNSAoalWmb0AE51Wn+fwan5qVESWi7t2ToBxs9vrw==}
-    engines: {node: '>=10.13.0'}
-    dependencies:
-      graceful-fs: 4.2.8
-      tapable: 2.2.1
     dev: false
 
   /enhanced-resolve/5.8.3:

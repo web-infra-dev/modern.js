@@ -66,12 +66,15 @@ describe('test middleware create factory', () => {
     let sourceServerPort = 8080;
     let sourceServer: Server | null = null;
     beforeAll(async () => {
+      let done:any;
+      let promise = new Promise(resolve => done = resolve);
       sourceServerPort = await portfinder.getPortPromise();
       sourceServer = createServer((req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.write(req.url?.slice(1));
         res.end();
-      }).listen(sourceServerPort);
+      }).listen(sourceServerPort, done);
+      return promise;
     });
 
     afterAll(() => {
@@ -83,7 +86,7 @@ describe('test middleware create factory', () => {
     test('should proxy correctly use simply options', async () => {
       const port = await portfinder.getPortPromise();
       const middlewares = createProxyHandler({
-        '/simple': `http://127.0.0.1:${sourceServerPort}`,
+        '/simple': `http://localhost:${sourceServerPort}`,
       });
       const proxyHandler = middlewares![0];
 
@@ -95,7 +98,7 @@ describe('test middleware create factory', () => {
       }).listen(port);
 
       try {
-        const { data } = await axios.get(`http://127.0.0.1:${port}/simple`);
+        const { data } = await axios.get(`http://localhost:${port}/simple`);
         expect(data).toBe('simple');
       } finally {
         server.close();
@@ -106,7 +109,7 @@ describe('test middleware create factory', () => {
       const port = await portfinder.getPortPromise();
       const middlewares = createProxyHandler({
         '/simple-obj': {
-          target: `http://127.0.0.1:${sourceServerPort}`,
+          target: `http://localhost:${sourceServerPort}`,
         },
       });
       const proxyHandler = middlewares![0];
@@ -119,7 +122,7 @@ describe('test middleware create factory', () => {
       }).listen(port);
 
       try {
-        const { data } = await axios.get(`http://127.0.0.1:${port}/simple-obj`);
+        const { data } = await axios.get(`http://localhost:${port}/simple-obj`);
         expect(data).toBe('simple-obj');
       } finally {
         server.close();
@@ -130,7 +133,7 @@ describe('test middleware create factory', () => {
       const port = await portfinder.getPortPromise();
       const middlewares = createProxyHandler({
         context: '/context',
-        target: `http://127.0.0.1:${sourceServerPort}`,
+        target: `http://localhost:${sourceServerPort}`,
       });
       const proxyHandler = middlewares![0];
 
@@ -142,7 +145,7 @@ describe('test middleware create factory', () => {
       }).listen(port);
 
       try {
-        const { data } = await axios.get(`http://127.0.0.1:${port}/context`);
+        const { data } = await axios.get(`http://localhost:${port}/context`);
         expect(data).toBe('context');
       } finally {
         server.close();
@@ -154,7 +157,7 @@ describe('test middleware create factory', () => {
       const middlewares = createProxyHandler([
         {
           context: '/array',
-          target: `http://127.0.0.1:${sourceServerPort}`,
+          target: `http://localhost:${sourceServerPort}`,
         },
       ]);
       const proxyHandler = middlewares![0];
@@ -167,7 +170,7 @@ describe('test middleware create factory', () => {
       }).listen(port);
 
       try {
-        const { data } = await axios.get(`http://127.0.0.1:${port}/array`);
+        const { data } = await axios.get(`http://localhost:${port}/array`);
         expect(data).toBe('array');
       } finally {
         server.close();

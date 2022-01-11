@@ -33,12 +33,24 @@ function processFile(file: string): void {
     return;
   }
 
-  if (c.main && typeof c.main === 'string' && c.exports) {
+  if (c.main && typeof c.main === 'string') {
     // 如果 exports 存在，那么就默认覆盖了 main 的设置，此时 main 这个字段其实是没有任何意义的
     // 所以把它改成源码所指向的文件，方便 vscode 开发的时候识别出来
-    c.main = resolveSourceFile(c.main);
-    if (c['jsnext:source'] && c['jsnext:source'] !== c.main) {
-      c['jsnext:source'] = c.main;
+    const oldValue = c.main;
+    const newValue = resolveSourceFile(oldValue);
+    if (c.exports) {
+      c.main = newValue;
+      if (c['jsnext:source'] && c['jsnext:source'] !== c.main) {
+        c['jsnext:source'] = c.main;
+      }
+    } else {
+      c.main = newValue;
+      c.exports = {
+        '.': {
+          'jsnext:source': resolveSourceFile(oldValue),
+          default: oldValue
+        }
+      };
     }
     delete c.types;
   }
@@ -167,19 +179,19 @@ function restoreTsAlias(f: string): void {
 }
 
 function main() {
-  // const files = glob.sync('**/package.json', {
-  //   cwd: kProjectDir,
-  //   nodir: true,
-  //   ignore: ['**/node_modules/**', '**/dist/**'],
-  // });
-  // files.forEach(processFile);
-
-  const tsfiles = glob.sync('**/*.ts', {
+  const files = glob.sync('**/package.json', {
     cwd: kProjectDir,
     nodir: true,
     ignore: ['**/node_modules/**', '**/dist/**'],
   });
-  tsfiles.forEach(restoreTsAlias);
+  files.forEach(processFile);
+
+  // const tsfiles = glob.sync('**/*.ts', {
+  //   cwd: kProjectDir,
+  //   nodir: true,
+  //   ignore: ['**/node_modules/**', '**/dist/**'],
+  // });
+  // tsfiles.forEach(restoreTsAlias);
 }
 
 main();

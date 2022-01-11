@@ -26,19 +26,19 @@ export async function bump(options: BumpOptions) {
   }
 
   if (canary) {
-    await execaWithStreamLog('node', [
+    await execaWithStreamLog(process.execPath, [
       CHANGESET_PATH,
       'pre',
       'enter',
       preid || 'next',
     ]);
     try {
-      await execaWithStreamLog('node', params);
-      await execaWithStreamLog('node', [CHANGESET_PATH, 'pre', 'exit']);
+      await execaWithStreamLog(process.execPath, params);
+      await execaWithStreamLog(process.execPath, [CHANGESET_PATH, 'pre', 'exit']);
     } catch (e) {
-      await execaWithStreamLog('node', [CHANGESET_PATH, 'pre', 'exit']);
+      await execaWithStreamLog(process.execPath, [CHANGESET_PATH, 'pre', 'exit']);
     }
   } else {
-    await execaWithStreamLog('node', params);
+    await execaWithStreamLog(process.execPath, params);
   }
 }
