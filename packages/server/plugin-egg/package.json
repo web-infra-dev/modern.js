@@ -25,6 +25,7 @@
     "test": "modern test --passWithNoTests"
   },
   "exports": {
+    "./types": "./types.d.ts",
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
