@@ -25,15 +25,28 @@
   "exports": {
     ".": {
       "node": {
+        "jsnext:source": "./src/node.ts",
         "import": "./dist/js/modern/node.js",
         "require": "./dist/js/node/node.js"
       },
       "default": "./dist/js/treeshaking/browser.js"
     },
-    "./client": "./dist/js/treeshaking/browser.js",
-    "./modern": "./dist/js/modern/browser.js",
-    "./server": "./dist/js/node/node.js",
-    "./hook": "./dist/js/node/hook.js"
+    "./client": {
+      "jsnext:source": "./src/browser.ts",
+      "default": "./dist/js/treeshaking/browser.js"
+    },
+    "./modern": {
+      "jsnext:source": "./src/browser.ts",
+      "default": "./dist/js/modern/browser.js"
+    },
+    "./server": {
+      "jsnext:source": "./src/node.ts",
+      "default": "./dist/js/node/node.js"
+    },
+    "./hook": {
+      "jsnext:source": "./src/hook.ts",
+      "default": "./dist/js/node/hook.js"
+    }
   },
   "scripts": {
     "prepare": "pnpm build",

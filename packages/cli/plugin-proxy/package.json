@@ -20,12 +20,16 @@
   "exports": {
     ".": {
       "node": {
+        "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
     },
-    "./cli": "./dist/js/node/index.js"
+    "./cli": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/js/node/index.js"
+    }
   },
   "scripts": {
     "prepare": "pnpm build",
@@ -48,7 +52,7 @@
     "typescript": "^4",
     "@modern-js/core": "workspace:^1.1.2",
     "@modern-js/plugin-testing": "^1.1.1",
-    "@modern-js/module-tools": "^1.1.1"
+    "@modern-js/module-tools": "^1.1.5"
   },
   "peerDependencies": {
     "@modern-js/core": "workspace:^1.1.2"
