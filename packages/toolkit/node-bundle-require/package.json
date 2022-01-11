@@ -20,6 +20,7 @@
   "exports": {
     ".": {
       "node": {
+        "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
@@ -38,7 +39,7 @@
   },
   "devDependencies": {
     "@modern-js/plugin-testing": "^1.1.1",
-    "@modern-js/module-tools": "^1.1.1",
+    "@modern-js/module-tools": "^1.1.5",
     "@types/jest": "^26.0.9",
     "@types/node": "^14",
     "typescript": "^4"

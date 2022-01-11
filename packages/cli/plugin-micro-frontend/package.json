@@ -20,12 +20,16 @@
   "exports": {
     ".": {
       "node": {
+        "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/runtime/index.js"
     },
-    "./cli": "./dist/js/node/cli/index.js"
+    "./cli": {
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/js/node/cli/index.js"
+    }
   },
   "scripts": {
     "prepare": "pnpm build",
