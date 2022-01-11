@@ -2208,6 +2208,7 @@ importers:
       '@modern-js/codesmith-api-json': ^1.0.7
       '@modern-js/codesmith-tools': ^1.0.8
       '@modern-js/generator-common': workspace:^1.2.3
+      '@modern-js/generator-utils': workspace:^1.1.2
       '@modern-js/module-tools': ^1.1.5
       '@modern-js/plugin-testing': ^1.2.0
       '@types/jest': ^26
@@ -2221,6 +2222,7 @@ importers:
       '@modern-js/codesmith-api-json': 1.0.7
       '@modern-js/codesmith-tools': 1.0.8
       '@modern-js/generator-common': link:../../generator-common
+      '@modern-js/generator-utils': link:../../generator-utils
       '@modern-js/module-tools': 1.1.5_typescript@4.5.4
       '@modern-js/plugin-testing': 1.2.2_5a3dafae6e0e54891c41897be5419d63
       '@types/jest': 26.0.24

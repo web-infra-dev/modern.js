@@ -106,13 +106,13 @@ const handlePlugin = async (
   context: GeneratorContext,
   generator: GeneratorCore,
 ) => {
-  const { plugins, registry, locale, distTag } = context.config;
+  const { plugins, registry, locale } = context.config;
   const generatorPlugin = new GeneratorPlugin(
     generator.logger,
     generator.event,
     locale,
   );
-  await generatorPlugin.setupPlugin(plugins, registry, distTag);
+  await generatorPlugin.setupPlugin(plugins, registry);
   return generatorPlugin;
 };
 

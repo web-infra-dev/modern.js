@@ -18,6 +18,7 @@
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
+    "./types": "./types.d.ts",
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
