@@ -20,12 +20,16 @@
   "exports": {
     ".": {
       "node": {
+        "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
     },
-    "./cli": "./dist/js/node/index.js"
+    "./cli": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/js/node/index.js"
+    }
   },
   "bin": {
     "modern": "./bin/modern.js"
@@ -69,7 +73,7 @@
     "execa": "^5.1.1",
     "typescript": "^4",
     "@modern-js/plugin-testing": "^1.2.0",
-    "@modern-js/module-tools": "^1.1.3"
+    "@modern-js/module-tools": "^1.1.5"
   },
   "sideEffects": false,
   "modernConfig": {
