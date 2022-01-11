@@ -1,6 +1,6 @@
 {
- "name": "with-autoprefixer",
- "browserslist": {
+  "name": "with-autoprefixer",
+  "browserslist": {
     "production": [
       ">0.2%",
       "not dead",

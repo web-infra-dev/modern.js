@@ -20,13 +20,20 @@
   "exports": {
     ".": {
       "node": {
+        "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
     },
-    "./cli": "./dist/js/node/index.js",
-    "./types": "./lib/types.d.ts"
+    "./cli": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/js/node/index.js"
+    },
+    "./type": {
+      "jsnext:source": "./lib/types.d.ts",
+      "default": "./lib/types.d.ts"
+    }
   },
   "typesVersions": {
     "*": {
