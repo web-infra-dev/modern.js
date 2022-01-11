@@ -96,6 +96,13 @@ export const MWAActionFunctionsDependencies: Partial<
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
 };
 
+export const MWAActionFunctionsAppendTypeContent: Partial<
+  Record<ActionFunction, string>
+> = {
+  [ActionFunction.Test]: `/// <reference types='@modern-js/plugin-testing/type' />`,
+  [ActionFunction.MicroFrontend]: `/// <reference types='@modern-js/plugin-micro-frontend/type' />`,
+};
+
 export const MWANewActionGenerators: Record<
   ActionType,
   Record<string, string>
