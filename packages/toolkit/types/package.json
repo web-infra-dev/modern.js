@@ -20,7 +20,10 @@
   },
   "exports": {
     ".": "./index.d.ts",
-    "./server": "./server/index.d.ts"
+    "./server": {
+      "jsnext:source": "./server/index.d.ts",
+      "default": "./server/index.d.ts"
+    }
   },
   "devDependencies": {
     "@types/jest": "^26",

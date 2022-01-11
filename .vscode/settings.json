@@ -122,6 +122,7 @@
   "prettier.arrowParens": "avoid",
   "prettier.bracketSpacing": true,
   "prettier.jsxBracketSameLine": true,
+  "prettier.singleQuote": true,
   //
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true

@@ -20,13 +20,18 @@
   "exports": {
     ".": {
       "node": {
+        "jsnext:source": "./src/runtime/index.ts",
         "import": "./dist/js/modern/runtime/index.js",
         "require": "./dist/js/node/runtime/index.js"
       },
       "default": "./dist/js/treeshaking/runtime/index.js"
     },
-    "./cli": "./dist/js/node/cli/index.js",
+    "./cli": {
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/js/node/cli/index.js"
+    },
     "./plugins": {
+      "jsnext:source": "./src/plugins.ts",
       "node": {
         "import": "./dist/js/node/plugins.js",
         "require": "./dist/js/node/plugins.js"
