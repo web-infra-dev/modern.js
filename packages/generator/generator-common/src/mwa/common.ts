@@ -97,3 +97,10 @@ export const FrameworkSchema: Schema = {
     label: () => i18n.t(localeKeys.framework[framework]),
   })),
 };
+
+export const FrameworkAppendTypeContent: Record<Framework, string> = {
+  [Framework.Express]: `/// <reference types='@modern-js/plugin-express/types' />`,
+  [Framework.Koa]: `/// <reference types='@modern-js/plugin-koa/types' />`,
+  [Framework.Egg]: `/// <reference types='@modern-js/plugin-egg/types' />`,
+  [Framework.Nest]: `/// <reference types='@modern-js/plugin-nest/types' />`,
+};
