@@ -17,7 +17,7 @@ const debug = createDebugger('esm:create-entry');
 export interface BaseTemplateVariables {
   meta: string;
   title: string;
-  staticPrefix: string;
+  assetPrefix: string;
   mountId: string;
   [param: string]: string;
 }
@@ -167,7 +167,7 @@ const initTemplateVariables = (
   );
 
   return {
-    staticPrefix: assetPrefix || '/',
+    assetPrefix: assetPrefix || '/',
     title: titleVariable,
     meta: metaVariable,
     mountId: mountId!,
