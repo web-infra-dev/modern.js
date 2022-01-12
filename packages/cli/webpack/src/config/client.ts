@@ -179,7 +179,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
                 packageName,
               ),
               mountId: this.options.output.mountId!,
-              staticPrefix: this.chain.output.get('publicPath'),
+              assetPrefix: removeTailSlash(this.chain.output.get('publicPath')),
               meta: generateMetaTags(
                 getEntryOptions(
                   entryName,
@@ -263,11 +263,17 @@ class ClientWebpackConfig extends BaseWebpackConfig {
               }
 
               return require('lodash.template')(content.toString('utf8'))({
-                staticPrefix: removeTailSlash(
+                assetPrefix: removeTailSlash(
                   this.chain.output.get('publicPath'),
                 ),
               });
             },
+          },
+          {
+            from: '**/*',
+            to: 'upload',
+            context: path.posix.join(configDir.replace(/\\/g, '/'), 'upload'),
+            noErrorOnMissing: true,
           },
         ],
       },

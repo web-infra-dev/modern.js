@@ -57,7 +57,8 @@ export default createPlugin(async () => ({
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { distDirectory } = useAppContext();
 
-    const uploadDir = process.env.CLOUD_STATIC_DIR || 'static';
+    const staticDir = process.env.CLOUD_STATIC_DIR || 'static';
+    const uploadDir = process.env.CLOUD_UPLOAD_DIR || 'upload';
     const prefix = process.env.CLOUD_BUCKET_PATH || '';
     const bucket = process.env.CLOUD_BUCKET_NAME;
     const bucketRegion = process.env.CLOUD_BUCKET_REGION || region;
@@ -68,15 +69,24 @@ export default createPlugin(async () => ({
       return;
     }
 
-    // walk static files
+    // walk static and upload files
+    const staticRoot = path.join(distDirectory, staticDir);
     const uploadRoot = path.join(distDirectory, uploadDir);
     const fl: string[] = [];
-    walk.walkSync(uploadRoot, {
+    walk.walkSync(staticRoot, {
       listeners: {
         file: (root, stats, next) => {
           if (path.extname(stats.name) === '.map') {
             return next();
           }
+          fl.push(path.join(root, stats.name));
+          return next();
+        },
+      },
+    });
+    walk.walkSync(uploadRoot, {
+      listeners: {
+        file: (root, stats, next) => {
           fl.push(path.join(root, stats.name));
           return next();
         },

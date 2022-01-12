@@ -77,7 +77,7 @@ export const html = (partials: {
   ${partials.top.join('\n')}
 
   <script>
-    window.__assetPrefix__ = '<%= staticPrefix %>';
+    window.__assetPrefix__ = '<%= assetPrefix %>';
   </script>
   ${partials.head.join('\n')}
 </head>
