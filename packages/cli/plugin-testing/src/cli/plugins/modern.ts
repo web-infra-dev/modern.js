@@ -1,5 +1,6 @@
 import path from 'path';
 import { createPlugin } from '@modern-js/testing';
+import { NormalizedConfig } from '@modern-js/core';
 import { modernjs_config_key } from '../../constant';
 
 const getModuleNameMapper = (config: any) => {
@@ -30,7 +31,23 @@ const getModuleNameMapper = (config: any) => {
   }, {} as any);
 };
 
-export default (webpackConfig: any, userConfig: any, pwd: string) =>
+const mergeUserJestConfig = async (testUtils: any) => {
+  const resolveJestConfig = testUtils.testConfig.jest;
+
+  if (resolveJestConfig && typeof resolveJestConfig !== 'function') {
+    testUtils.mergeJestConfig(resolveJestConfig);
+  }
+
+  if (typeof resolveJestConfig === 'function') {
+    await resolveJestConfig(testUtils.jestConfig);
+  }
+};
+
+export default (
+  webpackConfig: any,
+  userConfig: NormalizedConfig,
+  pwd: string,
+) =>
   createPlugin(
     () => ({
       jestConfig: (utils: any, next: any) => {
@@ -54,6 +71,8 @@ export default (webpackConfig: any, userConfig: any, pwd: string) =>
             `<rootDir>/electron/**/*.test.[jt]s?(x)`,
           ],
         });
+
+        mergeUserJestConfig(utils);
 
         return next(utils);
       },

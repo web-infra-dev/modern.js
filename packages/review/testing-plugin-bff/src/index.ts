@@ -59,6 +59,8 @@ export default ({
           },
         };
 
+        const { transform, moduleNameMapper, resolver } = utils.jestConfig;
+
         utils.setJestConfig(
           {
             projects: [
@@ -66,7 +68,9 @@ export default ({
                 ...utils.jestConfig,
               },
               {
-                ...utils.jestConfig,
+                transform,
+                moduleNameMapper,
+                resolver,
                 ...bffConfig,
               },
             ],
