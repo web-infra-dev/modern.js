@@ -184,20 +184,25 @@ const collectStaticRoutes = (
   const { appDirectory } = appContext;
   const {
     source: { configDir },
+    server: { publicRoutes = {} },
   } = config;
   const publicFolder = path.resolve(appDirectory, configDir!, 'public');
 
   return fs.existsSync(publicFolder)
-    ? walkDirectory(publicFolder).map(filePath => ({
-        urlPath: `${urlJoin(
+    ? walkDirectory(publicFolder).map(filePath => {
+        const urlPath = `${urlJoin(
           toPosix(filePath).slice(toPosix(publicFolder).length),
-        )}`,
-        isSPA: true,
-        isSSR: false,
-        entryPath: toPosix(
-          path.relative(path.resolve(appDirectory, configDir!), filePath),
-        ),
-      }))
+        )}`;
+
+        return {
+          urlPath: publicRoutes[removeLeadingSlash(urlPath)] || urlPath,
+          isSPA: true,
+          isSSR: false,
+          entryPath: toPosix(
+            path.relative(path.resolve(appDirectory, configDir!), filePath),
+          ),
+        };
+      })
     : [];
 };
 
