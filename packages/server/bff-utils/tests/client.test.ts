@@ -1,7 +1,7 @@
 import fs from 'fs';
 import assert from 'assert';
 import path from 'path';
-import { generateClient, getMethodAndStatementFromName } from '../src/index';
+import { generateClient, getMethodAndStatementFromName } from '../src';
 import { checkSource } from '../src/client/check-source';
 import { getRouteName } from '../src/client/get-route-name';
 import { HttpMethod } from '../src/constant';

@@ -1,6 +1,6 @@
 import { Schema } from '@modern-js/easy-form-core';
-import { FrameworkSchema, Framework } from './common';
 import { i18n, localeKeys } from '../locale';
+import { FrameworkSchema, Framework } from './common';
 
 export enum BFFType {
   Func = 'func',

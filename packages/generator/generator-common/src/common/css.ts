@@ -1,6 +1,6 @@
 import { Schema } from '@modern-js/easy-form-core';
-import { BooleanConfig, BooleanSchemas } from './boolean';
 import { i18n, localeKeys } from '../locale';
+import { BooleanConfig, BooleanSchemas } from './boolean';
 
 export const EnableLessSchema: Schema = {
   key: 'enableLess',

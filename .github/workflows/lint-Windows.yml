@@ -1,7 +1,7 @@
-name: Lint(Windows)
+name: Lint(macOS)
 
 concurrency:
-  group: windows-lint-${{ github.head_ref }}
+  group: macos-lint-${{ github.head_ref }}
   cancel-in-progress: true
 
 # Controls when the action will run.
@@ -21,34 +21,24 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x]
-        os: [windows-latest] # ubuntu-latest
+        os: [macos-latest] # macos-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1.4.4
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Check out
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 25
-
-      - name: Check docs only change
-        run: echo "::set-output name=DOCS_CHANGE::$(node skip-docs-change.js echo 'not-docs-only-change')"
-        id: docs-change
-
-      - run: echo "${{steps.docs-change.outputs.DOCS_CHANGE}}"
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: latest
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: Init
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: npm install -g pnpm && pnpm run setup
-
-      - name: Prepare
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm run prepare --filter ./packages
+        run: pnpm install --ignore-scripts
 
       - name: Lint
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm run lint "--" --no-fix
+        run: pnpm run fast-lint

@@ -2,7 +2,6 @@ import path from 'path';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import { GeneratorCore, FsMaterial } from '@modern-js/codesmith';
 import { fs } from '@modern-js/generator-utils';
-import { PluginHandlebarsAPI } from './handlebars';
 import {
   AddFileParams,
   AddManyFilesParams,
@@ -10,6 +9,7 @@ import {
   addManyFiles,
   fileExists,
 } from '../utils/file';
+import { PluginHandlebarsAPI } from './handlebars';
 
 export enum FileType {
   Text = 'text',

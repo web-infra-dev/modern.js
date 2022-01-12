@@ -1,4 +1,4 @@
-import { createBabelPlainChain } from '../src/index';
+import { createBabelPlainChain } from '../src';
 
 describe('plain', () => {
   describe('setter', () => {

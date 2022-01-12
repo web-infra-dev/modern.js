@@ -34,9 +34,17 @@ export async function bump(options: BumpOptions) {
     ]);
     try {
       await execaWithStreamLog(process.execPath, params);
-      await execaWithStreamLog(process.execPath, [CHANGESET_PATH, 'pre', 'exit']);
+      await execaWithStreamLog(process.execPath, [
+        CHANGESET_PATH,
+        'pre',
+        'exit',
+      ]);
     } catch (e) {
-      await execaWithStreamLog(process.execPath, [CHANGESET_PATH, 'pre', 'exit']);
+      await execaWithStreamLog(process.execPath, [
+        CHANGESET_PATH,
+        'pre',
+        'exit',
+      ]);
     }
   } else {
     await execaWithStreamLog(process.execPath, params);

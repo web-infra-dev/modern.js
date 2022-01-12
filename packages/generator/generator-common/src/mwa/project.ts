@@ -1,5 +1,14 @@
 import { Schema } from '@modern-js/easy-form-core';
 import {
+  BooleanConfig,
+  Language,
+  LanguageSchema,
+  PackageManager,
+  PackageManagerSchema,
+  PackageNameSchema,
+  PackagePathSchema,
+} from '../common';
+import {
   ClientRouteSchema,
   DisableStateManagementSchema,
   NeedModifyMWAConfigSchema,
@@ -9,15 +18,6 @@ import {
   EnableMWASassSchema,
   ClientRoute,
 } from './common';
-import {
-  BooleanConfig,
-  Language,
-  LanguageSchema,
-  PackageManager,
-  PackageManagerSchema,
-  PackageNameSchema,
-  PackagePathSchema,
-} from '../common';
 
 export const MWASchemas = [
   PackageNameSchema,

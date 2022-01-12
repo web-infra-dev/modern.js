@@ -6,8 +6,8 @@ import {
   createDebugger,
 } from '@modern-js/utils';
 import { createMatchPath, MatchPath } from 'tsconfig-paths';
-import type { ResolveContext, Resolver, ResolveRequest } from './plugin.type';
 import { JS_RESOLVE_EXTENSIONS } from '../utils/constants';
+import type { ResolveContext, Resolver, ResolveRequest } from './plugin.type';
 
 const debug = createDebugger('ts-config-paths');
 

@@ -4,9 +4,9 @@ import portfinder from 'portfinder';
 import { NormalizedConfig } from '@modern-js/core';
 import { compatRequire } from '@modern-js/utils';
 import { makeRender } from '../libs/make';
+import { SsgRoute } from '../types';
 import { compile as createRender } from './prerender';
 import { CLOSE_SIGN } from './consts';
-import { SsgRoute } from '../types';
 
 type Then<T> = T extends PromiseLike<infer U> ? U : T;
 
@@ -66,8 +66,12 @@ process.on('message', async (chunk: string) => {
         throw err;
       }
 
+      if (!modernServer) {
+        return;
+      }
+
       // get server handler, render to ssr
-      const render = createRender(modernServer!.getRequestHandler());
+      const render = createRender(modernServer.getRequestHandler());
       const renderPromiseAry = makeRender(
         routes.filter(route => !route.isApi) as SsgRoute[],
         render,
@@ -81,7 +85,7 @@ process.on('message', async (chunk: string) => {
         process.send!(null);
       });
 
-      modernServer!.close();
+      modernServer.close();
     });
   } catch (e) {
     modernServer?.close();

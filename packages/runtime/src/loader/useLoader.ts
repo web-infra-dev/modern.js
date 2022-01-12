@@ -7,8 +7,8 @@ import {
   useEffect,
 } from 'react';
 import invariant from 'invariant';
-import { Loader, LoaderStatus, LoaderResult } from './loaderManager';
 import { RuntimeReactContext } from '../runtime-context';
+import { Loader, LoaderStatus, LoaderResult } from './loaderManager';
 
 export interface SSRData {
   loadersData: Record<string, LoaderResult | undefined>;

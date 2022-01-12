@@ -1,8 +1,8 @@
 import React from 'react';
 import { createApp } from '@modern-js/runtime-core';
 import { UserConfig } from '@modern-js/core';
-import resolvePlugins from './resolvePlugins';
 import { modernjs_config_key } from '../constant';
+import resolvePlugins from './resolvePlugins';
 
 interface CreateAppProps {
   entry?: string;

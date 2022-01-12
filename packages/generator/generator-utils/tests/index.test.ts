@@ -1,4 +1,4 @@
-import { getPackageVersion } from '../src/index';
+import { getPackageVersion } from '../src';
 
 describe('test generator utils', () => {
   test('test getPackageVersion', async () => {

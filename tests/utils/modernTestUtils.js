@@ -86,7 +86,10 @@ function runModernCommandDev(argv, stdOut, options = {}) {
   };
 
   return new Promise((resolve, reject) => {
-    const instance = spawn(process.execPath, [modernBin, ...argv], { cwd, env });
+    const instance = spawn(process.execPath, [modernBin, ...argv], {
+      cwd,
+      env,
+    });
 
     let didResolve = false;
 

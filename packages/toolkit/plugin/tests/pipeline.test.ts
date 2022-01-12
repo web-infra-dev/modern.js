@@ -1,7 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable max-lines */
 import * as asyncHooksImpl from 'farrow-pipeline/asyncHooks.node';
-import { sleep } from './helpers';
 import {
   createContext,
   createContainer,
@@ -10,7 +9,8 @@ import {
   usePipeline,
   useContainer,
   isPipeline,
-} from '../src/index';
+} from '../src';
+import { sleep } from './helpers';
 
 describe('createPipeline', () => {
   it('basic usage', async () => {

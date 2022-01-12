@@ -1,4 +1,4 @@
-import { createBabelPluginChain } from '../src/index';
+import { createBabelPluginChain } from '../src';
 
 describe('plugin', () => {
   describe('setter', () => {

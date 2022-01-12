@@ -48,8 +48,8 @@ function processFile(file: string): void {
       c.exports = {
         '.': {
           'jsnext:source': resolveSourceFile(oldValue),
-          default: oldValue
-        }
+          default: oldValue,
+        },
       };
     }
     delete c.types;

@@ -10,6 +10,8 @@ import {
   ConfigContext,
   UserConfig,
 } from '@modern-js/core';
+import { ModernServerOptions, ServerHookRunner, ReadyOptions } from '../type';
+import { metrics as defaultMetrics } from '../libs/metrics';
 import { ModernServer } from './modern-server';
 import type { ModernDevServer } from './dev-server';
 import {
@@ -17,8 +19,6 @@ import {
   ModernSSRServer,
   ModernWebServer,
 } from './modern-server-split';
-import { ModernServerOptions, ServerHookRunner, ReadyOptions } from '../type';
-import { metrics as defaultMetrics } from '../libs/metrics';
 
 export class Server {
   public options: ModernServerOptions;

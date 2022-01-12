@@ -7,12 +7,12 @@ import {
   Solution,
   SubSolution,
 } from '@modern-js/generator-common';
+import { AddFileParams, AddManyFilesParams } from '../utils/file';
 import { PluginFileAPI } from './file';
 import { PluginGitAPI } from './git';
 import { IInput, IOption, PluginInputContext } from './input';
 import { PluginNpmAPI } from './npm';
 import { PluginNewAPI } from './new';
-import { AddFileParams, AddManyFilesParams } from '../utils/file';
 
 export * from './input';
 export * from './file';

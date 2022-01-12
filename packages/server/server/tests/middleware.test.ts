@@ -1,4 +1,3 @@
-/* eslint-disable max-nested-callbacks */
 import path from 'path';
 import EventEmitter from 'events';
 import { Readable } from 'stream';
@@ -66,8 +65,8 @@ describe('test middleware create factory', () => {
     let sourceServerPort = 8080;
     let sourceServer: Server | null = null;
     beforeAll(async () => {
-      let done:any;
-      let promise = new Promise(resolve => done = resolve);
+      let done: any;
+      const promise = new Promise(resolve => (done = resolve));
       sourceServerPort = await portfinder.getPortPromise();
       sourceServer = createServer((req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
@@ -178,4 +177,3 @@ describe('test middleware create factory', () => {
     });
   });
 });
-/* eslint-enable max-nested-callbacks */

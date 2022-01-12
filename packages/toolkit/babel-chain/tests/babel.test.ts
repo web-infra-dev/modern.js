@@ -1,4 +1,4 @@
-import { createBabelChain } from '../src/index';
+import { createBabelChain } from '../src';
 
 describe('babel', () => {
   describe('setter', () => {

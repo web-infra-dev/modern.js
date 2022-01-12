@@ -1,15 +1,14 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import mime from 'mime-types';
-import { RenderResult } from '../../type';
+import { RenderResult, ServerHookRunner } from '../../type';
 import { ModernRoute } from '../route';
 import { ModernServerContext } from '../context';
+import { ERROR_DIGEST } from '../../constants';
 import { handleDirectory } from './static';
 import { readFile } from './reader';
 import * as ssr from './ssr';
 import { supportModern, getModernEntry } from './modern';
-import { ERROR_DIGEST } from '../../constants';
-import { ServerHookRunner } from '../../type';
 
 export const createRenderHandler = ({
   distDir,
