@@ -230,7 +230,9 @@ const handleTemplateFile = async (
     const typePath = path.join(appDir, 'src', 'modern-app-env.d.ts');
     if (fs.existsSync(typePath)) {
       const npmrc = fs.readFileSync(typePath, 'utf-8');
-      fs.writeFileSync(typePath, `${npmrc}${appendTypeContent}\n`, 'utf-8');
+      if (!npmrc.includes(appendTypeContent)) {
+        fs.writeFileSync(typePath, `${npmrc}${appendTypeContent}\n`, 'utf-8');
+      }
     } else {
       fs.ensureFileSync(typePath);
       fs.writeFileSync(typePath, appendTypeContent, 'utf-8');
