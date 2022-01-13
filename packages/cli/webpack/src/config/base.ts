@@ -302,6 +302,7 @@ class BaseWebpackConfig {
         },
         {
           importLoaders: 1,
+          esModule: false,
           sourceMap: isProd() && !this.options.output?.disableSourceMap,
         },
       );
@@ -326,6 +327,7 @@ class BaseWebpackConfig {
       },
       {
         importLoaders: 1,
+        esModule: false,
         modules: {
           localIdentName: this.options.output
             ? this.options.output.cssModuleLocalIdentName!
