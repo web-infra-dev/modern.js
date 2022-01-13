@@ -10,9 +10,9 @@ import yaml from 'js-yaml';
 import { fs, logger, chalk } from '@modern-js/utils';
 import { WORKSPACE_FILE } from '../../constants';
 import { IPnpmWorkSpace } from '../../type';
-import { DagOperator } from '@/dag/operator';
-import { IProjectNode } from '@/projects/get-projects';
-import { PackageManagerType } from '@/parse-config';
+import { DagOperator } from '../../dag/operator';
+import { IProjectNode } from '../../projects/get-projects';
+import { PackageManagerType } from '../../parse-config';
 
 interface IDeployConfig {
   rootPath: string;

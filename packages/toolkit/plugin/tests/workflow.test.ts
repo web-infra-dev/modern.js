@@ -1,4 +1,3 @@
-import { sleep } from './helpers';
 import {
   createWorkflow,
   createAsyncWorkflow,
@@ -6,7 +5,8 @@ import {
   isWorkflow,
   isAsyncWorkflow,
   isParallelWorkflow,
-} from '@/workflow';
+} from '../src/workflow';
+import { sleep } from './helpers';
 
 describe('workflow', () => {
   describe('sync', () => {

@@ -8,9 +8,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "isolatedModules": true,
-    "paths": {
-      "@/*": ["../src/*"]
-    },
+    "paths": {},
     "types": ["node", "jest"]
   }
 }

@@ -1,10 +1,6 @@
+import React from 'react';
 import { render } from '@testing-library/react';
-import {
-  initialWrapper,
-  createRuntime,
-  createApp,
-  createPlugin,
-} from '@/index';
+import { initialWrapper, createRuntime, createApp, createPlugin } from '../src';
 
 declare module '..' {
   interface RuntimeContext {

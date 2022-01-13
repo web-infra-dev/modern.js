@@ -15,23 +15,23 @@ import {
 import type { MultiCompiler, Compiler } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import { ModernServer } from '../modern-server';
-import { createMockHandler } from '@/dev-tools/mock';
-import { createProxyHandler, ProxyOptions } from '@/libs/proxy';
+import { createMockHandler } from '../../dev-tools/mock';
+import { createProxyHandler, ProxyOptions } from '../../libs/proxy';
 import {
   DevServerOptions,
   ModernServerOptions,
   NextFunction,
   ServerHookRunner,
   ReadyOptions,
-} from '@/type';
-import SocketServer from '@/dev-tools/socket-server';
-import DevServerPlugin from '@/dev-tools/dev-server-plugin';
-import { ModernServerContext } from '@/libs/context';
-import { createLaunchEditorHandler } from '@/dev-tools/launch-editor';
-import { enableRegister } from '@/dev-tools/babel/register';
-import * as reader from '@/libs/render/reader';
-import Watcher from '@/dev-tools/watcher';
-import { AGGRED_DIR } from '@/constants';
+} from '../../type';
+import SocketServer from '../../dev-tools/socket-server';
+import DevServerPlugin from '../../dev-tools/dev-server-plugin';
+import { ModernServerContext } from '../../libs/context';
+import { createLaunchEditorHandler } from '../../dev-tools/launch-editor';
+import { enableRegister } from '../../dev-tools/babel/register';
+import * as reader from '../../libs/render/reader';
+import Watcher from '../../dev-tools/watcher';
+import { AGGRED_DIR } from '../../constants';
 
 const DEFAULT_DEV_OPTIONS: DevServerOptions = {
   client: {
@@ -166,7 +166,7 @@ export class ModernDevServer extends ModernServer {
     const { dev } = this;
     const devHttpsOption = typeof dev === 'object' && dev.https;
     if (devHttpsOption) {
-      const { genHttpsOptions } = require('@/dev-tools/https');
+      const { genHttpsOptions } = require('../../dev-tools/https');
       const httpsOptions = await genHttpsOptions(devHttpsOption);
       return createHttpsServer(httpsOptions, handler);
     } else {

@@ -1,4 +1,4 @@
-import { logger } from '@/logger';
+import { logger } from '../src/logger';
 
 describe('logger', () => {
   test('should log', () => {

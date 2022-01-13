@@ -4,11 +4,11 @@ import { fs } from '@modern-js/utils';
 import yaml from 'js-yaml';
 import { getWorkspaceFile } from '../parse-config/monorepo';
 import { IPnpmWorkSpace } from '../type';
+import { WORKSPACE_FILE } from '../constants';
 import {
   getProjetsByPackageConfig,
   syncGetProjetsByPackageConfig,
 } from './get-projects-by-packages-config';
-import { WORKSPACE_FILE } from '@/constants';
 
 export const getProjectsByWorkspaceFile = async (
   rootPath: string,
@@ -36,15 +36,13 @@ export const getProjectsByWorkspaceFile = async (
   let packagesConfig: string[] = [];
   if (workspaceFile === WORKSPACE_FILE.PNPM) {
     const yamlString = await FileSystem.readFileAsync(
-      path.resolve('/', rootPath, workspaceFile as string),
+      path.resolve('/', rootPath, workspaceFile),
     ).then(data => data.toString());
     // eslint-disable-next-line import/no-named-as-default-member
     const pnpmWorkspace = yaml.load(yamlString) as IPnpmWorkSpace;
     packagesConfig = pnpmWorkspace.packages || [];
   } else if (workspaceFile === WORKSPACE_FILE.YARN) {
-    const pkgJson = JsonFile.load(
-      path.resolve(rootPath, workspaceFile as string),
-    );
+    const pkgJson = JsonFile.load(path.resolve(rootPath, workspaceFile));
     packagesConfig = pkgJson?.workspaces?.packages || [];
   }
 
@@ -83,16 +81,14 @@ export const syncGetProjectsByWorkspaceFile = (
   let packagesConfig: string[] = [];
   if (workspaceFile === WORKSPACE_FILE.PNPM) {
     const yamlString = fs.readFileSync(
-      path.resolve('/', rootPath, workspaceFile as string),
+      path.resolve('/', rootPath, workspaceFile),
       'utf-8',
     );
     // eslint-disable-next-line import/no-named-as-default-member
     const pnpmWorkspace = yaml.load(yamlString) as IPnpmWorkSpace;
     packagesConfig = pnpmWorkspace.packages || [];
   } else if (workspaceFile === WORKSPACE_FILE.YARN) {
-    const pkgJson = JsonFile.load(
-      path.resolve(rootPath, workspaceFile as string),
-    );
+    const pkgJson = JsonFile.load(path.resolve(rootPath, workspaceFile));
     packagesConfig = pkgJson?.workspaces?.packages || [];
   }
 
