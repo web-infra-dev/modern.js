@@ -1,6 +1,6 @@
 import { Import } from '@modern-js/utils';
 import type { Command } from 'commander';
-import type { IDevOption } from '@/commands/dev';
+import type { IDevOption } from '../commands/dev';
 
 const local: typeof import('../locale') = Import.lazy('../locale', require);
 const commands: typeof import('../commands') = Import.lazy(

@@ -10,8 +10,8 @@ import nodeExternals from 'webpack-node-externals';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { mergeRegex } from '../utils/mergeRegex';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
+import { JS_RESOLVE_EXTENSIONS } from '../utils/constants';
 import { BaseWebpackConfig } from './base';
-import { JS_RESOLVE_EXTENSIONS } from '@/utils/constants';
 
 class NodeWebpackConfig extends BaseWebpackConfig {
   get externalsAllowlist() {

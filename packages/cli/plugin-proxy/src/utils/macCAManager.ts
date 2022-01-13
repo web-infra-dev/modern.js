@@ -41,7 +41,7 @@ export const generateRootCA = () =>
     const stream = fs.createWriteStream(defaultRootCA);
 
     http
-      .get('http://127.0.0.1:8899/cgi-bin/rootca', response => {
+      .get('http://localhost:8899/cgi-bin/rootca', response => {
         response.pipe(stream);
         stream
           .on('finish', () => {
