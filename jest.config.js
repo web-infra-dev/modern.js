@@ -1,5 +1,5 @@
 module.exports = {
-  collectCoverage: false,
+  collectCoverage: true,
   collectCoverageFrom: ['<rootDir>/packages/**/src/**/*.ts'],
   coveragePathIgnorePatterns: ['/node_modules/', '/fixtures/'],
   transform: {
