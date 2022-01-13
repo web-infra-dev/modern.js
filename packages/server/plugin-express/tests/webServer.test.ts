@@ -3,7 +3,7 @@ import { Buffer } from 'buffer';
 import { Request, Response } from 'express';
 import request from 'supertest';
 import { serverManager } from '@modern-js/server-plugin';
-import plugin from '@/plugin';
+import plugin from '../src/plugin';
 import './common';
 
 const pwd = path.join(__dirname, './fixtures/function-mode');

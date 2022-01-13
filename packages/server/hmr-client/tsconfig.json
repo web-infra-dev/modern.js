@@ -7,9 +7,7 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "esModuleInterop": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    },
+    "paths": {},
     "types": ["node", "jest"]
   },
   "include": ["src"]

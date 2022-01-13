@@ -1,7 +1,7 @@
 import { Schema } from '@modern-js/easy-form-core';
-import { i18n, localeKeys } from '@/locale';
-import { BooleanConfig, BooleanSchemas } from '@/common/boolean';
-import { EnableLessSchema, EnableSassSchema } from '@/common/css';
+import { i18n, localeKeys } from '../locale';
+import { BooleanConfig, BooleanSchemas } from '../common/boolean';
+import { EnableLessSchema, EnableSassSchema } from '../common/css';
 
 export const mwaConfigWhenFunc = (values: Record<string, any>) =>
   values.needModifyMWAConfig === BooleanConfig.YES;

@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as os from 'os';
 import { Import, fs } from '@modern-js/utils';
 import type { NormalizedConfig, CoreOptions } from '@modern-js/core';
-import type { ITsconfig } from '@/types';
+import type { ITsconfig } from '../types';
 
 const tsPathsTransform: typeof import('../utils/tspaths-transform') =
   Import.lazy('../utils/tspaths-transform', require);

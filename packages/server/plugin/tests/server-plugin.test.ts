@@ -1,4 +1,4 @@
-import { serverManager } from '@/index';
+import { serverManager } from '../src';
 
 describe('Default cases', () => {
   it('Have returns', async () => {

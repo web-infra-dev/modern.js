@@ -35,9 +35,9 @@ import { mergeRegex } from '../utils/mergeRegex';
 import { getWebpackLogging } from '../utils/getWebpackLogging';
 import { getBabelOptions } from '../utils/getBabelOptions';
 import { ModuleScopePlugin } from '../plugins/module-scope-plugin';
-import { getSourceIncludes } from '@/utils/getSourceIncludes';
-import { TsConfigPathsPlugin } from '@/plugins/ts-config-paths-plugin';
-import { getWebpackAliases } from '@/utils/getWebpackAliases';
+import { getSourceIncludes } from '../utils/getSourceIncludes';
+import { TsConfigPathsPlugin } from '../plugins/ts-config-paths-plugin';
+import { getWebpackAliases } from '../utils/getWebpackAliases';
 
 export type ResolveAlias = { [index: string]: string };
 

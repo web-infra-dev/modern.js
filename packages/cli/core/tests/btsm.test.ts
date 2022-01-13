@@ -6,7 +6,7 @@ const kPackageDir = path.resolve(__dirname, '..');
 describe('jsnext:source', () => {
   test('process exit status is 0', () => {
     const { status, stdout, stderr } = spawnSync(
-      'node',
+      process.execPath,
       ['--conditions=jsnext:source', '-r', 'btsm', 'src/cli.ts'],
       {
         cwd: kPackageDir,

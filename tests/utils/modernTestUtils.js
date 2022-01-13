@@ -21,7 +21,7 @@ function runModernCommand(argv, options = {}) {
 
   return new Promise((resolve, reject) => {
     // console.log(`Running command "modern ${argv.join(' ')}"`);
-    const instance = spawn('node', [modernBin, ...argv], {
+    const instance = spawn(process.execPath, [modernBin, ...argv], {
       ...options.spawnOptions,
       cwd,
       env,
@@ -86,7 +86,10 @@ function runModernCommandDev(argv, stdOut, options = {}) {
   };
 
   return new Promise((resolve, reject) => {
-    const instance = spawn('node', [modernBin, ...argv], { cwd, env });
+    const instance = spawn(process.execPath, [modernBin, ...argv], {
+      cwd,
+      env,
+    });
 
     let didResolve = false;
 

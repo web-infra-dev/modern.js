@@ -1,5 +1,5 @@
 import { Schema } from '@modern-js/easy-form-core';
-import { SubSolutionSchema, SubSolution } from '@/common';
+import { SubSolutionSchema, SubSolution } from '../../common';
 
 export const MonorepoNewActionSchema: Schema = {
   key: 'monorepo_new_action',
