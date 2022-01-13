@@ -19,7 +19,7 @@ const getNetworkType = () => {
 export const enableGlobalProxy = (ip: string, port: string) => {
   const networkType = getNetworkType();
 
-  // && networksetup -setproxybypassdomains ${networkType} 127.0.0.1 localhost
+  // && networksetup -setproxybypassdomains ${networkType} localhost localhost
   execSync(`networksetup -setwebproxy ${networkType} ${ip} ${port}`);
   execSync(`networksetup -setsecurewebproxy ${networkType} ${ip} ${port}`);
 };

@@ -1,4 +1,4 @@
-import { getCacheIdentifier } from '@/getCacheIdentifier';
+import { getCacheIdentifier } from '../src/getCacheIdentifier';
 
 describe('get cache identifier', () => {
   test('should use package name and version', () => {

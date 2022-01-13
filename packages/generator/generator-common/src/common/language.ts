@@ -1,5 +1,5 @@
 import { Schema } from '@modern-js/easy-form-core';
-import { i18n, localeKeys } from '@/locale';
+import { i18n, localeKeys } from '../locale';
 
 export enum Language {
   TS = 'ts',

@@ -36,5 +36,5 @@ export async function change(options: ChangeOptions) {
     params.push('--open');
   }
 
-  await execaWithStreamLog('node', params);
+  await execaWithStreamLog(process.execPath, params);
 }

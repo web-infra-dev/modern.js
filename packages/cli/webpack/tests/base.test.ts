@@ -1,6 +1,6 @@
 import path from 'path';
+import { BaseWebpackConfig } from '../src/config/base';
 import { userConfig } from './util';
-import { BaseWebpackConfig } from '@/config/base';
 
 describe('base webpack config', () => {
   const fixtures = path.resolve(__dirname, './fixtures');
@@ -19,7 +19,7 @@ describe('base webpack config', () => {
   test(`default webpack config`, () => {
     const config = new BaseWebpackConfig(
       appContext as any,
-      userConfig as any,
+      userConfig,
     ).config();
 
     // todo fix

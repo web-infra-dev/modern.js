@@ -47,7 +47,7 @@ export function proxyMiddleware(
   //     }
   //     return false;
   //   };
-  //   const opts = { target: `http://127.0.0.1:${process.env.BFF_PORT || 8086}` };
+  //   const opts = { target: `http://localhost:${process.env.BFF_PORT || 8086}` };
   //   proxies[context as any] = [
   //     require('http-proxy-middleware').createProxyMiddleware(context, opts),
   //     opts,

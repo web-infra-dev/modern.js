@@ -23,8 +23,8 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { RouteManifest } from '../plugins/route-manifest-plugin';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
 import { AppIconPlugin } from '../plugins/app-icon-plugin';
+import { ICON_EXTENSIONS } from '../utils/constants';
 import { BaseWebpackConfig } from './base';
-import { ICON_EXTENSIONS } from '@/utils/constants';
 
 class ClientWebpackConfig extends BaseWebpackConfig {
   htmlFilename: (name: string) => string;
@@ -95,7 +95,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
         }, {}),
         ...Object.keys(globalVars || {}).reduce<Record<string, string>>(
           (memo, name) => {
-            memo[name] = JSON.stringify(globalVars![name]);
+            memo[name] = globalVars ? JSON.stringify(globalVars[name]) : '';
             return memo;
           },
           {},
