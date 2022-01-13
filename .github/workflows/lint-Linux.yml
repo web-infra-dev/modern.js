@@ -1,7 +1,7 @@
-name: Lint(macOS)
+name: Lint(Ubuntu)
 
 concurrency:
-  group: macos-lint-${{ github.head_ref }}
+  group: ubuntu-lint-${{ github.head_ref }}
   cancel-in-progress: true
 
 # Controls when the action will run.
@@ -20,8 +20,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [14.x]
-        os: [macos-latest] # macos-latest
+        node-version: [16.x]
+        os: [ubuntu-latest] # ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:

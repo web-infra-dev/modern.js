@@ -5,9 +5,7 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "isolatedModules": true,
-    "paths": {
-      "@/*": ["../src/*"]
-    },
+    "paths": {},
     "types": ["node", "jest"]
   }
 }

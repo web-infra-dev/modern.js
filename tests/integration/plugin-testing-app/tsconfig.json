@@ -4,10 +4,7 @@
     "declaration": false,
     "jsx": "preserve",
     "baseUrl": "./",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@shared/*": ["./shared/*"]
-    }
+    "paths": {}
   },
-  "include": ["src", "shared", "config"]
+  "include": ["src"]
 }

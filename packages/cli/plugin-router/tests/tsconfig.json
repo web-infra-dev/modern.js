@@ -7,7 +7,7 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "paths": {
-      "@/*": ["../src/*"],
+      ,
       "@modern-js/plugin": ["node_modules/@modern-js/plugin"],
       "@modern-js/runtime-core": ["node_modules/@modern-js/runtime-core"]
     },
