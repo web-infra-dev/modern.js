@@ -1,7 +1,7 @@
 import path from 'path';
 import { serverManager } from '@modern-js/server-plugin';
 import request from 'supertest';
-import type { Context } from 'egg';
+// import type { Context } from 'egg';
 import plugin from '../src/plugin';
 import { APIPlugin } from './helpers';
 import './common';
@@ -23,12 +23,12 @@ describe('register middleware', () => {
   test('should support add by function', async () => {
     const foo = 'foo';
 
-    const middleware1 = jest.fn(() => async (ctx: Context, next: any) => {
+    const middleware1 = jest.fn(() => async (ctx: any, next: any) => {
       await next();
       ctx.body = foo;
     });
 
-    const middleware2 = jest.fn(() => async (ctx: Context, next: any) => {
+    const middleware2 = jest.fn(() => async (ctx: any, next: any) => {
       await next();
     });
 
@@ -48,12 +48,12 @@ describe('register middleware', () => {
   test('should support add by string', async () => {
     const foo = 'foo';
 
-    const middleware1 = jest.fn(() => async (ctx: Context, next: any) => {
+    const middleware1 = jest.fn(() => async (ctx: any, next: any) => {
       await next();
       ctx.body = foo;
     });
 
-    const middleware2 = jest.fn(() => async (ctx: Context, next: any) => {
+    const middleware2 = jest.fn(() => async (ctx: any, next: any) => {
       await next();
     });
 
@@ -100,13 +100,13 @@ describe('register middleware', () => {
     const options2 = { bar: 2 };
     const finalOptions = Object.create(null);
 
-    const middleware1 = jest.fn(options => async (ctx: Context, next: any) => {
+    const middleware1 = jest.fn(options => async (ctx: any, next: any) => {
       Object.assign(finalOptions, options);
       ctx.body = foo;
       await next();
     });
 
-    const middleware2 = jest.fn(options => async (ctx: Context, next: any) => {
+    const middleware2 = jest.fn(options => async (ctx: any, next: any) => {
       await next();
       Object.assign(finalOptions, options);
     });

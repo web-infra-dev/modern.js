@@ -59,24 +59,24 @@ describe('test basic usage', () => {
     app = await modernStart(appPath, appPort);
     expect(app.pid).toBeDefined();
 
-    const { status } = await axios.get(`http://127.0.0.1:${appPort}`);
+    const { status } = await axios.get(`http://localhost:${appPort}`);
     expect(status).toBe(successStatus);
 
     const { status: aStatus } = await axios.get(
-      `http://127.0.0.1:${appPort}/activity`,
+      `http://localhost:${appPort}/activity`,
     );
     expect(aStatus).toBe(successStatus);
   });
 
   it(`should serve favicon and app icon`, async () => {
     const { status, headers } = await axios.get(
-      `http://127.0.0.1:${appPort}/favicon1.ico`,
+      `http://localhost:${appPort}/favicon1.ico`,
     );
     expect(status).toBe(successStatus);
     expect(headers['content-type']).toBe('image/x-icon');
 
     const { status: aStatus, headers: aHeaders } = await axios.get(
-      `http://127.0.0.1:${appPort}/favicon.ico`,
+      `http://localhost:${appPort}/favicon.ico`,
     );
     expect(aStatus).toBe(successStatus);
     expect(aHeaders['content-type']).toBe('image/x-icon');
@@ -84,7 +84,7 @@ describe('test basic usage', () => {
 
   it(`should serve app icon`, async () => {
     const { status, headers } = await axios.get(
-      `http://127.0.0.1:${appPort}/icon.png`,
+      `http://localhost:${appPort}/icon.png`,
     );
     expect(status).toBe(successStatus);
     expect(headers['content-type']).toBe('image/png');

@@ -1,6 +1,6 @@
 import path from 'path';
+import { NodeWebpackConfig } from '../src/config/node';
 import { userConfig } from './util';
-import { NodeWebpackConfig } from '@/config/node';
 
 describe('node webpack config', () => {
   const fixtures = path.resolve(__dirname, './fixtures');
@@ -19,7 +19,7 @@ describe('node webpack config', () => {
   test(`webpack config target should be node`, () => {
     const config = new NodeWebpackConfig(
       appContext as any,
-      userConfig as any,
+      userConfig,
     ).config();
 
     expect(config.target).toEqual('node');

@@ -67,7 +67,7 @@ export default createPlugin(
         app = await findAppModule(apiDir);
 
         if (!app || !app.use) {
-          console.warn('There is not api/app.ts.');
+          // console.warn('There is not api/app.ts.');
           app = express();
         }
         initApp(app);

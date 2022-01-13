@@ -7,8 +7,6 @@
     "isolatedModules": true,
     "sourceMap": true
   },
-  "paths": {
-    "@/*": ["../src/*"]
-  },
+  "paths": {},
   "exclude": ["src/__test__/fixtures/**"]
 }

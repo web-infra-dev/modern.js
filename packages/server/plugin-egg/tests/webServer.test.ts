@@ -2,7 +2,7 @@ import * as path from 'path';
 import fs from 'fs';
 import request from 'supertest';
 import { serverManager } from '@modern-js/server-plugin';
-import plugin from '@/plugin';
+import plugin from '../src/plugin';
 import './common';
 
 const pwd = path.join(__dirname, './fixtures/function-mode');

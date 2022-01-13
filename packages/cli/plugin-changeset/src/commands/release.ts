@@ -24,7 +24,7 @@ export async function release(options: PublishOptions) {
   }
 
   if (!isMonorepo || packageManager === 'yarn') {
-    await execaWithStreamLog('node', [CHANGESET_PATH, ...params]);
+    await execaWithStreamLog(process.execPath, [CHANGESET_PATH, ...params]);
     return;
   }
 

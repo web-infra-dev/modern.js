@@ -10,9 +10,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "downlevelIteration": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    },
+    "paths": {},
     "types": ["node"]
   },
   "include": ["src"],

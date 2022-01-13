@@ -16,27 +16,27 @@ import {
   Logger,
   ReadyOptions,
   ConfWithBFF,
-} from '@/type';
+} from '../type';
 import {
   RouteMatchManager,
   ModernRouteInterface,
   ModernRoute,
   RouteMatcher,
-} from '@/libs/route';
-import { createRenderHandler } from '@/libs/render';
-import { createStaticFileHandler } from '@/libs/serve-file';
-import { createErrorDocument, mergeExtension, noop } from '@/utils';
-import * as reader from '@/libs/render/reader';
-import { createProxyHandler, ProxyOptions } from '@/libs/proxy';
-import { createContext, ModernServerContext } from '@/libs/context';
+} from '../libs/route';
+import { createRenderHandler } from '../libs/render';
+import { createStaticFileHandler } from '../libs/serve-file';
+import { createErrorDocument, mergeExtension, noop } from '../utils';
+import * as reader from '../libs/render/reader';
+import { createProxyHandler, ProxyOptions } from '../libs/proxy';
+import { createContext, ModernServerContext } from '../libs/context';
 import {
   AGGRED_DIR,
   ApiServerMode,
   ERROR_DIGEST,
   ERROR_PAGE_TEXT,
-} from '@/constants';
-import { createTemplateAPI } from '@/libs/hook-api/template';
-import { createRouteAPI } from '@/libs/hook-api/route';
+} from '../constants';
+import { createTemplateAPI } from '../libs/hook-api/template';
+import { createRouteAPI } from '../libs/hook-api/route';
 
 type ModernServerHandler = (
   context: ModernServerContext,

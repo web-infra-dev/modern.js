@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
-import { useLoader, createApp } from '@/index';
+import { useLoader, createApp } from '../src';
 
 const loaderCount = jest.fn();
 const sleep = (t: number): Promise<void> =>

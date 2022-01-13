@@ -34,7 +34,7 @@ const getAddressUrls = (protocol = 'http', port: number) => {
     (memo: { type: string; url: string }[], detail) => {
       let type = 'Network:  ';
       let url = `${protocol}://${detail.address}:${port}`;
-      if (detail.address.includes(`127.0.0.1`)) {
+      if (detail.address.includes(`localhost`)) {
         type = 'Local:  ';
         url = `${protocol}://localhost:${port}`;
       }

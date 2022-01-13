@@ -1,5 +1,5 @@
 import { match } from '@modern-js/bff-runtime';
-import { useContext } from '@/context';
+import { useContext } from '../../../../../../src/context';
 
 // eslint-disable-next-line arrow-body-style
 export const get = ({ query }: { query: Record<string, unknown> }) => {

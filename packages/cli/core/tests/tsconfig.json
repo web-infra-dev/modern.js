@@ -6,8 +6,6 @@
     "baseUrl": "./",
     "isolatedModules": true,
     "esModuleInterop": true,
-    "paths": {
-      "@/*": ["../src/*"]
-    }
+    "paths": {}
   }
 }

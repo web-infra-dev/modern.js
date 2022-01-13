@@ -1,7 +1,7 @@
 import React from 'react';
 import { initialWrapper, createPlugin } from '@modern-js/runtime-core';
 import { render } from '@testing-library/react';
-import { fetchPlugin, useFetch } from '@/plugin';
+import { fetchPlugin, useFetch } from '../src/plugin';
 
 describe.skip('@modern-js/plugin-fetch', () => {
   it('base usage', () => {

@@ -1,4 +1,4 @@
-import { Metrics } from '@/type';
+import { Metrics } from '../type';
 
 const metrics: Metrics = {
   gauges() {

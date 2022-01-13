@@ -1,5 +1,5 @@
 import path from 'path';
-import express, { Request, Response } from 'express';
+import express from 'express';
 import request from 'supertest';
 import { serverManager } from '@modern-js/server-plugin';
 import { INTROSPECTION_ROUTE_PATH } from '@modern-js/bff-utils';
@@ -333,7 +333,7 @@ describe('support as async handler', () => {
       config: { middleware: [wrapMiddleware] },
     });
 
-    const asyncHandler = async (req: Request, res: Response) => {
+    const asyncHandler = async (req: any, res: any) => {
       await apiHandler(req, res);
       order.push(3);
     };

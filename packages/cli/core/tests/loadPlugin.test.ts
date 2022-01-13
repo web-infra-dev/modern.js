@@ -1,5 +1,5 @@
 import path from 'path';
-import { loadPlugins } from '@/loadPlugins';
+import { loadPlugins } from '../src/loadPlugins';
 
 describe('load plugins', () => {
   test('should load user plugin successfully', () => {

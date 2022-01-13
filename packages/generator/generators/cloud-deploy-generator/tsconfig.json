@@ -4,10 +4,7 @@
     "declaration": false,
     "jsx": "preserve",
     "baseUrl": "./",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@style/*": ["./styles/*"]
-    }
+    "paths": {}
   },
   "include": ["src"]
 }

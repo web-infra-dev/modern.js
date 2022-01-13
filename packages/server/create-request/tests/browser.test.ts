@@ -16,13 +16,14 @@ describe('configure', () => {
     },
   };
 
-  beforeEach(() => {
-    nock.disableNetConnect();
-  });
+  // TODO: 如果 disableNetConnect 之后，会影响到其他的 testcase 偶发性的出现 NetConnectNotAllowedError: Nock: Disallowed net connect for "127.0.0.1:49552/" 的错误
+  // beforeEach(() => {
+  //   nock.disableNetConnect();
+  // });
 
-  afterEach(() => {
-    nock.cleanAll();
-  });
+  // afterEach(() => {
+  //   nock.cleanAll();
+  // });
 
   test('should support custom request', async () => {
     nock(url).get(path).reply(200, response);

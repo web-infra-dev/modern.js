@@ -1,8 +1,8 @@
 import path from 'path';
 import { IAppContext } from '@modern-js/core';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils/constants';
-import { getServerRoutes } from '@/getServerRoutes';
-import { Entrypoint } from '@/getFileSystemEntry';
+import { getServerRoutes } from '../src/getServerRoutes';
+import { Entrypoint } from '../src/getFileSystemEntry';
 
 describe('get server routes', () => {
   const appContext: any = {
