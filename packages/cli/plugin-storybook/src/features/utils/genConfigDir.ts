@@ -92,7 +92,9 @@ const genPreviewFile = async (
   const userPreviewFiles = getUserPreviewFiles(previewPath);
   const existUserPreviewFile = userPreviewFiles.length > 0;
   let previewContent = gen.generatePreview({
-    runtime: modernConfig.runtime,
+    runtime: process.env.STORY_RUNTIME_PARAM
+      ? JSON.parse(process.env.STORY_RUNTIME_PARAM)
+      : modernConfig.runtime,
     designToken: {},
     userPreviewPath: existUserPreviewFile ? previewPath : undefined,
   });
