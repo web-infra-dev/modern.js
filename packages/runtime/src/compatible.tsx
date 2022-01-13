@@ -50,7 +50,7 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
       {
         container,
         // eslint-disable-next-line @typescript-eslint/no-shadow
-        onLast: ({ App }) => {
+        onLast: ({ App }: any) => {
           const WrapComponent = ({ context, ...props }: any) => {
             let contextValue = context;
 
@@ -63,8 +63,7 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
               runner.init(
                 { context: contextValue },
                 {
-                  onLast: ({ context: context1 }) =>
-                    (App as any)?.init?.(context1),
+                  onLast: ({ context: context1 }) => App?.init?.(context1),
                 },
               );
             }
