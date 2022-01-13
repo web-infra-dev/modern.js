@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as babel from '@babel/core';
-import importPath from '@/built-in/import-path';
+import importPath from '../src/built-in/import-path';
 
 describe('test alias', () => {
   it(`should solve static file path`, () => {

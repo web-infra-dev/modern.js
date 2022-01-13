@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { loadEnv } from '@/loadEnv';
+import { loadEnv } from '../src/loadEnv';
 
 const fixture = path.resolve(__dirname, './fixtures/load-env');
 

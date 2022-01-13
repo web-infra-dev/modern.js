@@ -1,5 +1,5 @@
 import { Schema } from '@modern-js/easy-form-core';
-import { InputType, PluginInputContext } from '@/context/input';
+import { InputType, PluginInputContext } from '../src/context/input';
 
 describe('PluginInputContext Test', () => {
   test('Add Input', () => {

@@ -7,7 +7,7 @@ import {
   ActionTypeText,
   ActionTypeTextMap,
 } from '../common';
-import { i18n, localeKeys } from '@/locale';
+import { i18n, localeKeys } from '../../locale';
 
 export const MWAActionTypes = [
   ActionType.Element,

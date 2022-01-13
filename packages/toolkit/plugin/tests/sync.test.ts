@@ -6,18 +6,18 @@ import {
   createContext,
   createContainer,
 } from 'farrow-pipeline';
+import { createManager, createAsyncManager, useRunner } from '../src/manager';
+import { createWaterfall, createAsyncWaterfall } from '../src/waterfall';
+import {
+  createWorkflow,
+  createAsyncWorkflow,
+  createParallelWorkflow,
+} from '../src/workflow';
 import { main } from './fixtures/sync/core';
 import foo from './fixtures/sync/base/foo';
 import bar, { getBar } from './fixtures/sync/base/bar';
 import dFoo from './fixtures/sync/dynamic/foo';
 import dBar, { getNumber, setNumber } from './fixtures/sync/dynamic/bar';
-import { createManager, createAsyncManager, useRunner } from '@/manager';
-import { createWaterfall, createAsyncWaterfall } from '@/waterfall';
-import {
-  createWorkflow,
-  createAsyncWorkflow,
-  createParallelWorkflow,
-} from '@/workflow';
 
 describe('sync manager', () => {
   it('base useage', () => {

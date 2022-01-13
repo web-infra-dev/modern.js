@@ -5,10 +5,7 @@
     "jsx": "preserve",
     "skipLibCheck": true,
     "baseUrl": "./",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@modern-js/plugin": ["node_modules/@modern-js/plugin"]
-    }
+    "paths": {}
   },
   "include": ["src"]
 }

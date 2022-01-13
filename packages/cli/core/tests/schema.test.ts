@@ -1,4 +1,4 @@
-import { patchSchema, traverseSchema } from '@/config/schema';
+import { patchSchema, traverseSchema } from '../src/config/schema';
 
 describe('patch schemas', () => {
   test('should add schema succcessfully', () => {

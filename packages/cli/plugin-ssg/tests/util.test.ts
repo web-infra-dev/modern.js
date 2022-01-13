@@ -6,7 +6,7 @@ import {
   getOutput,
   replaceWithAlias,
   standardOptions,
-} from '@/libs/util';
+} from '../src/libs/util';
 
 describe('test ssg util function', () => {
   it('should return format path correctly', () => {

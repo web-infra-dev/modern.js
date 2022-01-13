@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as babel from '@babel/core';
-import importCheck from '@/built-in/import-check';
+import { importCheck } from '../src/built-in/import-check';
 
 describe('test build-in plugins', () => {
   it(`should output error message with 'styles' dir`, () => {

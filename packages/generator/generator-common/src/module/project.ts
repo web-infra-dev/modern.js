@@ -1,5 +1,5 @@
 import { Schema } from '@modern-js/easy-form-core';
-import { i18n, localeKeys } from '@/locale';
+import { i18n, localeKeys } from '../locale';
 import {
   BooleanConfig,
   BooleanSchemas,
@@ -9,8 +9,8 @@ import {
   PackageManagerSchema,
   PackageNameSchema,
   PackagePathSchema,
-} from '@/common';
-import { EnableLessSchema, EnableSassSchema } from '@/common/css';
+} from '../common';
+import { EnableLessSchema, EnableSassSchema } from '../common/css';
 
 export const moduleConfigWhenFunc = (values: Record<string, any>) =>
   values.needModifyModuleConfig === BooleanConfig.YES;

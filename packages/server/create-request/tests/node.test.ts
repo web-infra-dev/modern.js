@@ -3,7 +3,7 @@
  */
 import nock from 'nock';
 import { run } from '@modern-js/plugin-ssr/node';
-import fetch, { RequestInfo, Response } from 'node-fetch';
+import fetch, { Response } from 'node-fetch';
 import { configure, createRequest } from '../src/node';
 
 describe('configure', () => {
@@ -17,13 +17,13 @@ describe('configure', () => {
     },
   };
 
-  beforeEach(() => {
-    nock.disableNetConnect();
-  });
+  // beforeEach(() => {
+  //   nock.disableNetConnect();
+  // });
 
-  afterEach(() => {
-    nock.cleanAll();
-  });
+  // afterEach(() => {
+  //   nock.cleanAll();
+  // });
 
   test('should support custom request', done => {
     // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -37,9 +37,7 @@ describe('configure', () => {
       async () => {
         nock(url).get(path).reply(200, response);
 
-        const customRequest = jest.fn((requestPath: RequestInfo) =>
-          fetch(requestPath),
-        );
+        const customRequest = jest.fn((requestPath: any) => fetch(requestPath));
 
         configure({ request: customRequest as unknown as typeof fetch });
         const request = createRequest(path, method, port);
@@ -59,7 +57,7 @@ describe('configure', () => {
       nock(url).get(path).reply(200, response);
 
       const interceptor = jest.fn(
-        request => (requestPath: RequestInfo) => request(requestPath),
+        request => (requestPath: any) => request(requestPath),
       );
 
       configure({ interceptor: interceptor as any });
@@ -77,12 +75,10 @@ describe('configure', () => {
     run({}, async () => {
       nock(url).get(path).reply(200, response);
 
-      const customRequest = jest.fn((requestPath: RequestInfo) =>
-        fetch(requestPath),
-      );
+      const customRequest = jest.fn((requestPath: any) => fetch(requestPath));
 
       const interceptor = jest.fn(
-        request => (requestPath: RequestInfo) => request(requestPath),
+        request => (requestPath: any) => request(requestPath),
       );
 
       configure({

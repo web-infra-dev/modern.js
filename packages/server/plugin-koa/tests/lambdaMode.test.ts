@@ -1,6 +1,6 @@
 import * as path from 'path';
 import request from 'supertest';
-import Koa, { Context, Next } from 'koa';
+import Koa from 'koa';
 import { serverManager } from '@modern-js/server-plugin';
 import Router from 'koa-router';
 import koaBody from 'koa-body';
@@ -111,11 +111,11 @@ describe('add middlewares', () => {
 
   test('should works', async () => {
     const foo = 'foo';
-    const fakeMiddleware = jest.fn(async (ctx: Context, next: Next) => {
+    const fakeMiddleware = jest.fn(async (ctx: any, next: any) => {
       await next();
       ctx.body = foo;
     });
-    const fakeMiddleware2 = jest.fn(async (ctx: Context, next: Next) => {
+    const fakeMiddleware2 = jest.fn(async (ctx: any, next: any) => {
       await next();
     });
 

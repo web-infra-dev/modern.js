@@ -6,8 +6,8 @@ import {
   extractAPIHandlers,
   getMethod,
   getRouteName,
-} from '@/server/extract-api-handlers';
-import { HttpMethod } from '@/constant';
+} from '../src/server/extract-api-handlers';
+import { HttpMethod } from '../src/constant';
 
 const PWD = path.resolve(__dirname, './fixtures/function');
 

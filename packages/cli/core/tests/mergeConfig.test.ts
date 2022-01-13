@@ -1,4 +1,4 @@
-import { mergeConfig } from '@/config/mergeConfig';
+import { mergeConfig } from '../src/config/mergeConfig';
 
 describe('load plugins', () => {
   test('should replace property deeply', () => {

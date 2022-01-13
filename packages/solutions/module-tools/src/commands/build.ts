@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { fs, Import } from '@modern-js/utils';
-import type { Platform } from '@/types';
+import type { Platform } from '../types';
 
 const tsConfigutils: typeof import('../utils/tsconfig') = Import.lazy(
   '../utils/tsconfig',

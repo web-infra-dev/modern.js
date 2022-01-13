@@ -6,7 +6,7 @@ import {
   PackageManagerSchema,
   PackageNameSchema,
   PackagePathSchema,
-} from '@/common';
+} from '../common';
 
 const GeneratorSchemas = [
   PackageNameSchema,

@@ -39,7 +39,9 @@ describe('test build watch', () => {
     expect(ret).toBe(null);
   });
 
-  it('runBuildWatch and success', async done => {
+  it('runBuildWatch and success', async () => {
+    let done: any;
+    const promise = new Promise(resolve => (done = resolve));
     let compiling = false;
     const emitter = new BuildWatchEmitter();
     emitter.on(BuildWatchEvent.firstCompiler, (result: ICompilerResult) => {
@@ -65,9 +67,12 @@ describe('test build watch', () => {
       fs.ensureFileSync(path.join(srcDir, 'far.js'));
       compiling = true;
     });
+    return promise;
   });
 
-  it('runBuildWatch and fail', async done => {
+  it('runBuildWatch and fail', async () => {
+    let done: any;
+    const promise = new Promise(resolve => (done = resolve));
     const emitter = new BuildWatchEmitter();
     emitter.on(BuildWatchEvent.firstCompiler, (result: ICompilerResult) => {
       expect(result.code).toBe(1);
@@ -89,9 +94,12 @@ describe('test build watch', () => {
       fs.ensureFileSync(path.join(srcDir, 'error1.js'));
       fs.writeFileSync(path.join(srcDir, 'error1.js'), 'conta a = 1');
     });
+    return promise;
   });
 
-  it('buildWatch and success', async done => {
+  it('buildWatch and success', async () => {
+    let done: any;
+    const promise = new Promise(resolve => (done = resolve));
     const emitter = buildWatch({
       rootDir: srcDir,
       watchDir: srcDir,
@@ -125,9 +133,12 @@ describe('test build watch', () => {
         compiling = true;
       });
     }
+    return promise;
   });
 
-  it('buildWatch and fail', async done => {
+  it('buildWatch and fail', async () => {
+    let done: any;
+    const promise = new Promise(resolve => (done = resolve));
     const emitter = buildWatch({
       rootDir: srcDir,
       watchDir: srcDir,
@@ -161,9 +172,12 @@ describe('test build watch', () => {
         compiling = true;
       });
     }
+    return promise;
   });
 
-  it('buildWatch and remove file', async done => {
+  it('buildWatch and remove file', async () => {
+    let done: any;
+    const promise = new Promise(resolve => (done = resolve));
     const emitter = buildWatch({
       rootDir: srcDir,
       watchDir: srcDir,
@@ -190,9 +204,12 @@ describe('test build watch', () => {
         fs.removeSync(path.join(srcDir, 'far.js'));
       });
     }
+    return promise;
   });
 
-  it('buildWatch and reRight file', async done => {
+  it('buildWatch and reRight file', async () => {
+    let done: any;
+    const promise = new Promise(resolve => (done = resolve));
     fs.ensureFileSync(path.join(srcDir, 'error1.js'));
     fs.writeFileSync(path.join(srcDir, 'error1.js'), 'cast a = 1;');
     const emitter = buildWatch({
@@ -221,6 +238,7 @@ describe('test build watch', () => {
         fs.writeFileSync(path.join(srcDir, 'error1.js'), 'const a = 1;');
       });
     }
+    return promise;
   });
 
   afterEach(() => {

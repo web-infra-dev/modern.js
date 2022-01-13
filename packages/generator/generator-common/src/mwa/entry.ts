@@ -1,12 +1,12 @@
 import { Schema } from '@modern-js/easy-form-core';
+import { i18n, localeKeys } from '../locale';
+import { BooleanConfig } from '../common';
 import {
   ClientRouteSchema,
   DisableStateManagementSchema,
   NeedModifyMWAConfigSchema,
   ClientRoute,
 } from './common';
-import { i18n, localeKeys } from '@/locale';
-import { BooleanConfig } from '@/common';
 
 const EntryNameSchema: Schema = {
   key: 'name',

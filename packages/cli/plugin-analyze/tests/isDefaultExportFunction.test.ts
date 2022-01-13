@@ -1,5 +1,5 @@
 import path from 'path';
-import { isDefaultExportFunction } from '@/isDefaultExportFunction';
+import { isDefaultExportFunction } from '../src/isDefaultExportFunction';
 
 describe('is default export function', () => {
   const dir = path.resolve(__dirname, './fixtures/default-export');

@@ -1,5 +1,5 @@
 import path from 'path';
-import { getPostcssConfig } from '@/index';
+import { getPostcssConfig } from '../src';
 
 describe('base postcss config', () => {
   const fixture = path.resolve(__dirname, './fixtures/with-autoprefixer');

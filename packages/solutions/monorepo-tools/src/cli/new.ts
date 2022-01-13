@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import { MonorepoNewAction } from '@modern-js/new-action';
-import { i18n, localeKeys } from '@/locale';
+import { i18n, localeKeys } from '../locale';
 
 export const newCli = (program: Command, locale?: string) => {
   program

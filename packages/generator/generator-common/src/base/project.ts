@@ -1,5 +1,5 @@
 import { Schema } from '@modern-js/easy-form-core';
-import { PackageManager, PackageManagerSchema } from '@/common';
+import { PackageManager, PackageManagerSchema } from '../common';
 
 export const BaseSchemas = [PackageManagerSchema];
 

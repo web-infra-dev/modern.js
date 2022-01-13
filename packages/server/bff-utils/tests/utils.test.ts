@@ -1,6 +1,6 @@
 import path from 'path';
-import { getAllAPIFiles, getAPIMode } from '@/utils';
-import { APIMode } from '@/constant';
+import { getAllAPIFiles, getAPIMode } from '../src/utils';
+import { APIMode } from '../src/constant';
 
 const FUNCION_PWD = path.resolve(__dirname, './fixtures/function');
 const LAMBDA_PWD = path.resolve(__dirname, './fixtures/lambda');

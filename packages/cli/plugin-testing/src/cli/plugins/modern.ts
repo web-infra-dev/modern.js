@@ -1,6 +1,6 @@
 import path from 'path';
 import { createPlugin } from '@modern-js/testing';
-import { modernjs_config_key } from '@/constant';
+import { modernjs_config_key } from '../../constant';
 
 const getModuleNameMapper = (config: any) => {
   const {

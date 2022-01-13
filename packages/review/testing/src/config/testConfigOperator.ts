@@ -1,5 +1,5 @@
 import merge from 'lodash.merge';
-import { JestConfig, TestConfig } from '@/types';
+import { JestConfig, TestConfig } from '../types';
 
 class TestConfigOperator {
   private _testConfig: TestConfig;

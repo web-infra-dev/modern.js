@@ -1,5 +1,5 @@
 import path from 'path';
-import { findExists } from '@/findExists';
+import { findExists } from '../src/findExists';
 
 describe('find first exists file', () => {
   const fixturePath = path.resolve(__dirname, './fixtures/file-exists');
