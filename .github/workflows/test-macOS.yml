@@ -6,6 +6,9 @@ concurrency:
 
 # Controls when the action will run.
 on:
+  push:
+    branches: [main]
+
   # Triggers the workflow on pull request events but only for the master branch
   pull_request:
     branches: [main]
@@ -21,7 +24,7 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x, 16.x]
-        os: [macos-latest] # ubuntu-latest
+        os: [macos-latest] # macos-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -50,3 +53,9 @@ jobs:
       - name: Test
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: pnpm run fast-test
+
+      - name: Collect coverage
+        uses: codecov/codecov-action@v2
+        with:
+          directory: ./coverage
+          fail_ci_if_error: true
