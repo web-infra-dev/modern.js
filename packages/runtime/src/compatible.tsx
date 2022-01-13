@@ -41,7 +41,9 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
       );
     };
 
-    hoistNonReactStatics(WrapperComponent, App);
+    if (App) {
+      hoistNonReactStatics(WrapperComponent, App);
+    }
 
     const HOCApp = runner.hoc(
       { App: WrapperComponent },
