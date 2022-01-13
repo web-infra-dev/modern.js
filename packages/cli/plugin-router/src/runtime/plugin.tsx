@@ -99,7 +99,9 @@ export const routerPlugin: any = ({
           };
         };
 
-        return next({ App: hoistNonReactStatics(getRouteApp(), App) });
+        return next({
+          App: App ? hoistNonReactStatics(getRouteApp(), App) : getRouteApp(),
+        });
       },
     }),
     { name: `@modern-js/plugin-router` },
