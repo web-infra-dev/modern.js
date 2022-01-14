@@ -20,7 +20,11 @@ const hoc = createPipeline<
 export interface AppProps {}
 
 const provide = createPipeline<
-  { element: JSX.Element; props: AppProps; context: RuntimeContext },
+  {
+    element: JSX.Element;
+    readonly props: AppProps;
+    readonly context: RuntimeContext;
+  },
   JSX.Element
 >();
 
@@ -31,8 +35,7 @@ export const useAppComponent = () => {
   const AppComponent = AppComponentContext.use().value;
 
   if (!AppComponent) {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    throw new Error(`Expect React.ComponentType, accept: ${AppComponent}`);
+    throw new Error(`Expect React.ComponentType, accept: null`);
   }
 
   return AppComponent;
@@ -42,8 +45,7 @@ export const useRootElement = () => {
   const rootElement = AppComponentContext.use().value;
 
   if (!rootElement) {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    throw new Error(`Expect HTMLElement, accept: ${rootElement}`);
+    throw new Error(`Expect HTMLElement, accept: null`);
   }
 
   return rootElement;
@@ -52,7 +54,7 @@ export const useRootElement = () => {
 const client = createAsyncPipeline<
   {
     App: React.ComponentType<any>;
-    context?: RuntimeContext;
+    readonly context?: RuntimeContext;
     rootElement: HTMLElement;
   },
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
@@ -62,7 +64,7 @@ const client = createAsyncPipeline<
 const server = createAsyncPipeline<
   {
     App: React.ComponentType<any>;
-    context?: RuntimeContext;
+    readonly context?: RuntimeContext;
   },
   string
 >();
