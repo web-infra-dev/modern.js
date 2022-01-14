@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { createContainer } from '@modern-js/plugin';
@@ -30,9 +30,10 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
 
     const WrapperComponent: React.ComponentType<any> = props => {
       const element = React.createElement(App, { ...props }, props.children);
+      const context = useContext(RuntimeReactContext);
 
       return runner.provide(
-        { element, props: { ...props }, context: {} as any },
+        { element, props: { ...props }, context },
         {
           container,
           // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -104,6 +105,7 @@ export const bootstrap: BootStrap = async (
   const context = {
     loaderManager: createLoaderManager({}),
     runner,
+    isBrowser: true,
   };
 
   const runInit = (_context: RuntimeContext) =>
@@ -161,6 +163,7 @@ export const bootstrap: BootStrap = async (
 
   Object.assign(context, {
     ssrContext: id,
+    isBrowser: false,
     loaderManager: createLoaderManager(
       {},
       {
@@ -182,11 +185,17 @@ export const bootstrap: BootStrap = async (
 export const useRuntimeContext = () => {
   const context = useContext(RuntimeReactContext);
 
-  return context.runner.pickContext(
-    { context, pickedContext: {} },
-    {
-      onLast: ({ pickedContext }: { pickedContext: TRuntimeContext }) =>
-        pickedContext,
-    },
+  const memoizedContext = useMemo(
+    () =>
+      context.runner.pickContext(
+        { context, pickedContext: {} },
+        {
+          onLast: ({ pickedContext }: { pickedContext: TRuntimeContext }) =>
+            pickedContext,
+        },
+      ),
+    [context],
   );
+
+  return memoizedContext;
 };
