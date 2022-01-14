@@ -75,7 +75,7 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:^1.2.0",
-    "@modern-js/module-tools": "workspace:^1.1.5",
+    "@scripts/build": "workspace:*",
     "@modern-js/types": "workspace:^1.1.5",
     "@types/case-sensitive-paths-webpack-plugin": "^2.1.6",
     "@types/copy-webpack-plugin": "^8.0.1",

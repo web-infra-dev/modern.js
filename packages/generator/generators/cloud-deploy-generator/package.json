@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/module-tools": "workspace:^1.1.5",
+    "@scripts/build": "workspace:*",
     "@modern-js/plugin-jarvis": "workspace:^1.1.1",
     "@modern-js/codesmith": "^1.0.8",
     "@modern-js/codesmith-tools": "^1.0.8",

@@ -88,7 +88,7 @@
     "@types/loadable__webpack-plugin": "^5.7.3",
     "@types/serialize-javascript": "^5.0.1",
     "@types/react-helmet": "^6.1.2",
-    "@modern-js/module-tools": "workspace:^1.1.5",
+    "@scripts/build": "workspace:*",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*"
   },

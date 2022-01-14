@@ -70,7 +70,7 @@
     "ws": "^8.2.0"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "workspace:^1.1.5",
+    "@scripts/build": "workspace:*",
     "@modern-js/types": "workspace:^1.1.5",
     "@types/jest": "^26",
     "@types/lru-cache": "^5.1.1",

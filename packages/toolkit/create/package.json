@@ -45,7 +45,7 @@
     "@babel/runtime": "^7",
     "@modern-js/codesmith": "^1.0.8",
     "@modern-js/codesmith-tools": "^1.0.8",
-    "@modern-js/module-tools": "workspace:^1.1.5",
+    "@scripts/build": "workspace:*",
     "@modern-js/i18n-cli-language-detector": "workspace:^1.1.1",
     "@modern-js/generator-plugin-plugin": "workspace:^1.0.6",
     "@modern-js/plugin-i18n": "workspace:^1.1.2",

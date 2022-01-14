@@ -56,7 +56,7 @@
     "@modern-js/core": "workspace:^1.2.0",
     "@modern-js/plugin-router": "workspace:^1.1.2",
     "@modern-js/runtime-core": "workspace:^1.1.3",
-    "@modern-js/module-tools": "workspace:^1.1.5",
+    "@scripts/build": "workspace:*",
     "@types/hoist-non-react-statics": "^3.3.1",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*"

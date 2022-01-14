@@ -49,7 +49,6 @@ const resolvePlugin = (appDirectory: string, plugin: PluginConfigItem) => {
   return resolved;
 };
 
-
 /**
  * Load internal plugins which in @modern-js scope and user's custom plugins.
  * @param appDirectory - Application root directory.
@@ -65,12 +64,12 @@ export const loadPlugins = (
   const plugins = [
     ...Object.keys(pluginCandidates)
       .filter(name => {
-        const config = pluginCandidates[name];
+        const config: any = pluginCandidates[name];
         if (config.forced === true) {
           // 参考 packages/cli/core/src/cli.ts 文件
           return true;
         }
-        return isDepExists(appDirectory, name)
+        return isDepExists(appDirectory, name);
       })
       .map(name => pluginCandidates[name]),
     ...pluginConfig,

@@ -71,7 +71,7 @@
   "devDependencies": {
     "@modern-js/bff-utils": "workspace:^1.1.1",
     "@modern-js/core": "workspace:^1.2.0",
-    "@modern-js/module-tools": "workspace:^1.1.5",
+    "@scripts/build": "workspace:*",
     "@modern-js/plugin-analyze": "workspace:^1.1.2",
     "@modern-js/runtime": "workspace:^1.1.2",
     "@modern-js/server-plugin": "workspace:^1.1.4",

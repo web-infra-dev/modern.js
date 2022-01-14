@@ -1,7 +1,6 @@
 import fs from 'fs';
 import merge from 'lodash.merge';
-
-import ts = require('typescript');
+import ts from 'typescript';
 
 let enumsMap = {};
 

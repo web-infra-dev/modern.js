@@ -45,7 +45,7 @@
     "globby": "^11.0.2"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "workspace:^1.1.5",
+    "@scripts/build": "workspace:*",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^26",
     "@types/node": "^14",

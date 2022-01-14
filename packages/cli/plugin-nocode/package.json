@@ -65,7 +65,7 @@
     "webpack-sources": "^3.2.2"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "workspace:^1.1.5",
+    "@scripts/build": "workspace:*",
     "@modern-js/module-tools-hooks": "workspace:^1.1.2",
     "@types/body-parser": "^1.19.1",
     "@types/cors": "^2.8.12",

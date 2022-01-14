@@ -55,7 +55,7 @@
     "webpack": "^5.54.0",
     "webpack-chain": "^6.5.1",
     "@modern-js/core": "workspace:^1.2.0",
-    "@modern-js/module-tools": "workspace:^1.1.5",
+    "@scripts/build": "workspace:*",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*"
   },

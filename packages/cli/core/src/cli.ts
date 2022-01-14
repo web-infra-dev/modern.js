@@ -28,6 +28,6 @@ cli.run(process.argv.slice(2), {
       cli: kModuleToolsCliPath,
       // 是否需要强制加载这个组件，跳过 loadPlugins 里面 filter 的检测逻辑
       forced: true,
-    },
+    } as any,
   }
 });
