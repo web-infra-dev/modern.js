@@ -249,7 +249,6 @@ importers:
       '@babel/code-frame': ^7.14.5
       '@babel/runtime': ^7
       '@modern-js/load-config': workspace:^1.1.1
-      '@modern-js/module-tools': workspace:^1.1.5
       '@modern-js/plugin': workspace:^1.1.2
       '@modern-js/types': workspace:^1.1.5
       '@modern-js/utils': workspace:^1.1.6
@@ -298,7 +297,6 @@ importers:
       signale: 1.4.0
       v8-compile-cache: 2.3.0
     devDependencies:
-      '@modern-js/module-tools': link:../../solutions/module-tools
       '@modern-js/types': link:../../toolkit/types
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__code-frame': 7.0.3
@@ -4604,15 +4602,27 @@ importers:
       typescript: 4.5.4
       webpack: 5.65.0_esbuild@0.13.15
 
+  scripts/build:
+    specifiers:
+      '@types/jest': ^26
+      '@types/node': ^14
+      btsm: 2.2.2
+    devDependencies:
+      '@types/jest': 26.0.24
+      '@types/node': 14.18.4
+      btsm: 2.2.2
+
   scripts/codemod:
     specifiers:
       '@modern-js/tsconfig': workspace:^1.1.0
+      '@scripts/build': workspace:*
       '@types/glob': ^7.1.4
       '@types/node': ^14
       btsm: 2.2.2
       glob: ^7.2.0
     devDependencies:
       '@modern-js/tsconfig': link:../../packages/review/tsconfig
+      '@scripts/build': link:../build
       '@types/glob': 7.2.0
       '@types/node': 14.18.4
       btsm: 2.2.2

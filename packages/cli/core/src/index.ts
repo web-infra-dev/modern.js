@@ -144,7 +144,7 @@ export interface CoreOptions {
   configFile?: string;
   packageJsonConfig?: string;
   plugins?: typeof INTERNAL_PLUGINS;
-  beforeUsePlugins: (
+  beforeUsePlugins?: (
     plugins: any,
     config: any,
   ) => { cli: any; cliPath: any; server: any; serverPath: any }[];

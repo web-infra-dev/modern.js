@@ -80,8 +80,7 @@
     "@types/signale": "^1.4.2",
     "typescript": "^4",
     "jest": "^27",
-    "@scripts/jest-config": "workspace:*",
-    "@modern-js/module-tools": "workspace:^1.1.5"
+    "@scripts/jest-config": "workspace:*"
   },
   "sideEffects": false,
   "modernConfig": {
