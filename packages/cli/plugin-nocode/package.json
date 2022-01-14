@@ -36,7 +36,7 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build --no-tsc",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7",
@@ -67,7 +67,6 @@
   "devDependencies": {
     "@modern-js/module-tools": "workspace:^1.1.5",
     "@modern-js/module-tools-hooks": "workspace:^1.1.2",
-    "@modern-js/plugin-testing": "workspace:^1.2.2",
     "@types/body-parser": "^1.19.1",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
@@ -81,7 +80,9 @@
     "@types/semver": "^7.3.9",
     "@types/uuid": "^8.3.3",
     "typescript": "^4",
-    "webpack-chain": "^6.5.1"
+    "webpack-chain": "^6.5.1",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "sideEffects": false,
   "modernConfig": {

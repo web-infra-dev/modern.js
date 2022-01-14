@@ -37,7 +37,7 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7.15.3",
@@ -65,8 +65,9 @@
     "@modern-js/bff-utils": "workspace:^1.1.1",
     "@modern-js/core": "workspace:^1.2.0",
     "@modern-js/server-plugin": "workspace:^1.1.4",
-    "@modern-js/plugin-testing": "workspace:^1.2.2",
-    "@modern-js/module-tools": "workspace:^1.1.5"
+    "@modern-js/module-tools": "workspace:^1.1.5",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "modernConfig": {
     "output": {

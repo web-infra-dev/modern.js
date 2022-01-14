@@ -32,7 +32,7 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7",
@@ -76,7 +76,6 @@
   "devDependencies": {
     "@modern-js/core": "workspace:^1.2.0",
     "@modern-js/module-tools": "workspace:^1.1.5",
-    "@modern-js/plugin-testing": "workspace:^1.2.2",
     "@modern-js/types": "workspace:^1.1.5",
     "@types/case-sensitive-paths-webpack-plugin": "^2.1.6",
     "@types/copy-webpack-plugin": "^8.0.1",
@@ -89,7 +88,9 @@
     "@types/webpack-bundle-analyzer": "^4.4.1",
     "@types/webpack-node-externals": "^2.5.2",
     "tapable": "^2.2.1",
-    "typescript": "^4"
+    "typescript": "^4",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
     "@modern-js/core": "workspace:^1.1.3"

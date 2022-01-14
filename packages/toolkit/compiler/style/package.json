@@ -32,7 +32,7 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7",
@@ -58,8 +58,9 @@
     "@types/react-dom": "^17",
     "@types/tailwindcss": "^2.2.1",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "workspace:^1.2.2",
-    "@modern-js/module-tools": "workspace:^1.1.5"
+    "@modern-js/module-tools": "workspace:^1.1.5",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "modernConfig": {
     "output": {

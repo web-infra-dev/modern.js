@@ -29,8 +29,9 @@
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
-    "@modern-js/plugin-testing": "workspace:^1.2.2",
-    "@modern-js/module-tools": "workspace:^1.1.5"
+    "@modern-js/module-tools": "workspace:^1.1.5",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "sideEffects": false,
   "publishConfig": {

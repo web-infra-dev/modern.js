@@ -37,7 +37,7 @@
     "dev": "modern dev",
     "build": "modern build",
     "new": "modern new",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@modern-js/core": "workspace:^1.2.0",
@@ -49,11 +49,12 @@
     "@babel/runtime": "^7",
     "@modern-js/module-tools": "workspace:^1.1.5",
     "@modern-js/plugin-jarvis": "workspace:^1.1.1",
-    "@modern-js/plugin-testing": "workspace:^1.2.2",
     "typescript": "^4",
     "@types/jest": "^26.0.9",
     "@types/node": "^14",
-    "@types/js-yaml": "^4.0.4"
+    "@types/js-yaml": "^4.0.4",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "sideEffects": [
     "*.css",

@@ -5,7 +5,7 @@ import path from 'path';
 import os from 'os';
 import glob from 'glob';
 
-const kProjectDir = path.resolve(__dirname, '../../');
+const kProjectDir = path.resolve(__dirname, '../../../');
 const kRoot =
   os.platform() === 'win32' ? process.cwd().split(path.sep)[0] : '/';
 const kWorkspace = new Map<string, string>();
@@ -228,7 +228,7 @@ function getWorkspacePackages(file: string) {
 
   const { name, version } = c;
   if (name && version) {
-    kWorkspace.set(name, version)
+    kWorkspace.set(name, version);
   }
 }
 
@@ -245,16 +245,57 @@ function fixWorkspacePackagesVersions(file: string) {
   const { dependencies = {}, devDependencies = {} } = c;
   for (const key of Object.keys(dependencies)) {
     if (kWorkspace.has(key)) {
-      dependencies[key] = 'workspace:^' + kWorkspace.get(key);
+      dependencies[key] = `workspace:^${kWorkspace.get(key)!}`;
     }
   }
   for (const key of Object.keys(devDependencies)) {
     if (kWorkspace.has(key)) {
-      devDependencies[key] = 'workspace:^' + kWorkspace.get(key);
+      devDependencies[key] = `workspace:^${kWorkspace.get(key)!}`;
     }
   }
 
   fs.writeFileSync(p, `${JSON.stringify(c, null, 2)}\n`);
+}
+
+// eslint-disable-next-line max-statements
+function fixPluginTesting(file: string) {
+  if (!file.startsWith('packages/')) {
+    return;
+  }
+
+  // "@modern-js/plugin-testing": "workspace:^1.2.2",
+  const p = `${kProjectDir}/${file}`;
+  const d = fs.readFileSync(p, 'utf8');
+  let c: any;
+  try {
+    c = JSON.parse(d);
+  } catch (e) {
+    return;
+  }
+
+  const { devDependencies = {} } = c;
+  if (devDependencies['@modern-js/plugin-testing']) {
+    delete devDependencies['@modern-js/plugin-testing'];
+    devDependencies.jest = '^27';
+    devDependencies['@scripts/jest-config'] = 'workspace:*';
+
+    if (c.scripts) {
+      c.scripts.test = 'jest --passWithNoTests';
+    } else {
+      c.scripts = {
+        test: 'jest --passWithNoTests',
+      };
+    }
+  }
+
+  fs.writeFileSync(p, `${JSON.stringify(c, null, 2)}\n`);
+
+  // 复制 packages/cli/core/jest.config.js 文件
+  const dstFile = path.join(path.dirname(p), 'jest.config.js');
+  if (!fs.existsSync(dstFile)) {
+    const srcFile = path.join(kProjectDir, 'packages/cli/core/jest.config.js');
+    fs.writeFileSync(dstFile, fs.readFileSync(srcFile, 'utf8'));
+  }
 }
 
 function main() {
@@ -263,10 +304,10 @@ function main() {
     nodir: true,
     ignore: ['**/node_modules/**', '**/dist/**', '**/fixtures/**'],
   });
-  files.forEach(getWorkspacePackages);
-  files.forEach(fixWorkspacePackagesVersions);
+  files.forEach(fixPluginTesting);
+  // files.forEach(fixWorkspacePackagesVersions);
   // files.forEach(addPublishConfig);
-  console.log([...kWorkspace]);
+  // console.log([...kWorkspace]);
 
   // const tsfiles = glob.sync('**/*.ts', {
   //   cwd: kProjectDir,

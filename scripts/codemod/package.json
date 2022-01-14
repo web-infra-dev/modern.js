@@ -1,5 +1,5 @@
 {
-  "name": "@modern-js/scripts",
+  "name": "@scripts/codemod",
   "private": true,
   "version": "0.0.0",
   "devDependencies": {

@@ -54,7 +54,7 @@
     "new": "modern new",
     "build": "modern build",
     "dev": "modern build --watch",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/core": "^7.15.5",
@@ -73,7 +73,6 @@
     "@modern-js/core": "workspace:^1.2.0",
     "@modern-js/module-tools": "workspace:^1.1.5",
     "@modern-js/plugin-analyze": "workspace:^1.1.2",
-    "@modern-js/plugin-testing": "workspace:^1.2.2",
     "@modern-js/runtime": "workspace:^1.1.2",
     "@modern-js/server-plugin": "workspace:^1.1.4",
     "@modern-js/types": "workspace:^1.1.5",
@@ -86,7 +85,9 @@
     "ts-jest": "^27.0.5",
     "typescript": "^4",
     "webpack": "^5.54.0",
-    "webpack-chain": "^6.5.1"
+    "webpack-chain": "^6.5.1",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
     "@modern-js/bff-utils": "workspace:^1.1.1",

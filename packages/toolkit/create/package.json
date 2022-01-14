@@ -39,14 +39,13 @@
     "new": "modern new",
     "build": "modern build",
     "build:csmith": "csmith-tools build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "devDependencies": {
     "@babel/runtime": "^7",
     "@modern-js/codesmith": "^1.0.8",
     "@modern-js/codesmith-tools": "^1.0.8",
     "@modern-js/module-tools": "workspace:^1.1.5",
-    "@modern-js/plugin-testing": "workspace:^1.2.2",
     "@modern-js/i18n-cli-language-detector": "workspace:^1.1.1",
     "@modern-js/generator-plugin-plugin": "workspace:^1.0.6",
     "@modern-js/plugin-i18n": "workspace:^1.1.2",
@@ -58,7 +57,9 @@
     "@types/react-dom": "^17",
     "commander": "^8.0.0",
     "ts-node": "^10.1.0",
-    "typescript": "^4"
+    "typescript": "^4",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "modernConfig": {
     "output": {

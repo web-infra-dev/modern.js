@@ -9,6 +9,4 @@ packages:
  - 'packages/solutions/*'
  - 'packages/toolkit/*'
  - 'packages/toolkit/compiler/*'
- - 'scripts'
- - 'tests'
- - 'tests/integration/**/*'
+ - 'scripts/*'

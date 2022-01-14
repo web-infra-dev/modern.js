@@ -41,7 +41,7 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "tsc",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@modern-js/adapter-helpers": "workspace:^1.1.1",
@@ -80,8 +80,9 @@
     "@nestjs/core": "^8.0.6",
     "@modern-js/core": "workspace:^1.2.0",
     "@modern-js/server-plugin": "workspace:^1.1.4",
-    "@modern-js/plugin-testing": "workspace:^1.2.2",
-    "@modern-js/module-tools": "workspace:^1.1.5"
+    "@modern-js/module-tools": "workspace:^1.1.5",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
     "express": "^4.17.1",
