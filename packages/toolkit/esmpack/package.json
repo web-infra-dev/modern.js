@@ -12,7 +12,18 @@
     "modern",
     "modern.js"
   ],
-  "main": "dist/index.js",
+  "jsnext:source": "./src/index.ts",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "node": {
+        "jsnext:source": "./src/index.ts",
+        "import": "./dist/index.js",
+        "require": "./dist/index.js"
+      },
+      "default": "./dist/index.js"
+    }
+  },
   "files": [
     "dist"
   ],
@@ -108,5 +119,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
-  }
+  },
+  "types": "./src/index.ts"
 }

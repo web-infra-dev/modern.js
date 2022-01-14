@@ -13,7 +13,7 @@
   ],
   "version": "1.2.2",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/index.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "jsnext:modern": "./dist/index.js",
@@ -109,6 +109,7 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/index.d.ts"
   }
 }

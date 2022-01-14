@@ -136,6 +136,43 @@ function getPackageRoot(f: string): string {
   return '';
 }
 
+function addPublishConfig(file: string): void {
+  if (!file.startsWith('packages/')) {
+    return;
+  }
+
+  const p = `${kProjectDir}/${file}`;
+  const d = fs.readFileSync(p, 'utf8');
+  let c: any;
+  try {
+    c = JSON.parse(d);
+  } catch (e) {
+    return;
+  }
+
+  if (c.publishConfig) {
+    c.publishConfig.main = c.main;
+  } else {
+    c.publishConfig = {
+      registry: 'https://registry.npmjs.org/',
+      access: 'public',
+      main: c.main,
+    };
+  }
+
+  c.main = c['jsnext:source'];
+  if (c.main) {
+    const mainFile = path.join(path.dirname(p), c.main);
+    if (!fs.existsSync(mainFile)) {
+      console.error(file);
+    }
+  } else {
+    console.error(file);
+  }
+
+  fs.writeFileSync(p, `${JSON.stringify(c, null, 2)}\n`);
+}
+
 function restoreTsAlias(f: string): void {
   console.log(f);
   if (f.endsWith('.d.ts')) {
@@ -182,9 +219,9 @@ function main() {
   const files = glob.sync('**/package.json', {
     cwd: kProjectDir,
     nodir: true,
-    ignore: ['**/node_modules/**', '**/dist/**'],
+    ignore: ['**/node_modules/**', '**/dist/**', '**/fixtures/**'],
   });
-  files.forEach(processFile);
+  files.forEach(addPublishConfig);
 
   // const tsfiles = glob.sync('**/*.ts', {
   //   cwd: kProjectDir,

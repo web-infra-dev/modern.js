@@ -12,15 +12,15 @@
     "modern.js"
   ],
   "version": "1.1.4",
-  "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/runtime/index.d.ts",
+  "jsnext:source": "./src/runtime/index.tsx",
+  "types": "./src/runtime/index.tsx",
   "main": "./dist/js/node/runtime/index.js",
   "module": "./dist/js/treeshaking/runtime/index.js",
   "jsnext:modern": "./dist/js/modern/runtime/index.js",
   "exports": {
     ".": {
       "node": {
-        "jsnext:source": "./src/runtime/index.ts",
+        "jsnext:source": "./src/runtime/index.tsx",
         "import": "./dist/js/modern/runtime/index.js",
         "require": "./dist/js/node/runtime/index.js"
       },
@@ -92,6 +92,7 @@
   "modernConfig": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/types/runtime/index.d.ts"
   }
 }

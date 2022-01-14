@@ -12,7 +12,8 @@
     "modern.js"
   ],
   "version": "1.0.1",
-  "types": "./dist/types/server.d.ts",
+  "types": "./src/server.ts",
+  "jsnext:source": "./src/server.ts",
   "main": "./dist/js/node/server.js",
   "exports": {
     ".": {
@@ -67,6 +68,7 @@
   ],
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "types": "./dist/types/server.d.ts"
   }
 }

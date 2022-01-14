@@ -12,9 +12,9 @@
     "modern",
     "modern.js"
   ],
-  "main": "./base.json",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
-  }
+  },
+  "main": "./base.json"
 }
