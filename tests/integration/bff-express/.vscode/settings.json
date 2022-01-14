@@ -1,0 +1,150 @@
+{
+  "files.associations": {
+    ".code-workspace": "jsonc",
+    ".babelrc": "json",
+    ".eslintrc": "jsonc",
+    ".eslintrc*.json": "jsonc",
+    ".stylelintrc": "jsonc",
+    "stylelintrc": "jsonc",
+    ".htmlhintrc": "jsonc",
+    "htmlhintrc": "jsonc",
+    "Procfile*": "shellscript",
+    "README": "markdown"
+  },
+  "files.exclude": {
+    "**/*/adapters/**/index.ts": true,
+    "**/*/adapters/**/index.js": true
+  },
+  "search.useIgnoreFiles": true,
+  "search.exclude": {
+    "**/build": true,
+    "**/output": true,
+    "**/dist": true,
+    "**/yarn.lock": true,
+    "**/package-lock.json": true,
+    "**/*.log": true,
+    "**/*.pid": true,
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/bower_components": true
+  },
+  //
+  "editor.rulers": [80, 120],
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  //
+  "todo-tree.general.tags": ["TODO:", "FIXME:"],
+  "todo-tree.highlights.defaultHighlight": {
+    "gutterIcon": true
+  },
+  "todo-tree.highlights.customHighlight": {
+    "TODO:": {
+      "foreground": "#fff",
+      "background": "#ffbd2a",
+      "iconColour": "#ffbd2a"
+    },
+    "FIXME:": {
+      "foreground": "#fff",
+      "background": "#f06292",
+      "icon": "flame",
+      "iconColour": "#f06292"
+    }
+  },
+  //
+  "cSpell.diagnosticLevel": "Hint",
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "eslint.alwaysShowStatus": true,
+  // "eslint.nodePath": "./node_modules",
+  // "eslint.packageManager": "yarn",
+  "eslint.run": "onType",
+  "eslint.options": {
+    "rules": {
+      "no-debugger": "off"
+    }
+  },
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue"
+  ],
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  "javascript.validate.enable": false,
+  "typescript.validate.enable": true,
+  "flow.enabled": false,
+  //
+  "htmlhint.enable": true,
+  //
+  "stylelint.enable": false,
+  "css.validate": false,
+  "scss.validate": false,
+  "less.validate": false,
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnType": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnType": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true
+  },
+  "[less]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnType": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true
+  },
+  "prettier.trailingComma": "all",
+  "prettier.printWidth": 80,
+  "prettier.semi": true,
+  "prettier.arrowParens": "avoid",
+  "prettier.bracketSpacing": true,
+  "prettier.jsxBracketSameLine": true,
+  //
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.codeActionsOnSaveTimeout": 5000,
+  "editor.defaultFormatter": "EditorConfig.EditorConfig",
+  "javascript.format.enable": false,
+  "typescript.format.enable": false,
+  //
+  "json.format.enable": false,
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2,
+    "editor.formatOnType": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2,
+    "editor.formatOnType": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true
+  },
+  "emmet.triggerExpansionOnTab": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "deno.enable": false
+}

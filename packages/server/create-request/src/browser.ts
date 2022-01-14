@@ -18,7 +18,7 @@ export const configure = (options: IOptions) => {
   const { request, interceptor, allowedHeaders } = options;
   realRequest = (request as typeof fetch) || originFetch;
   if (interceptor && !request) {
-    realRequest = interceptor(fetch);
+    realRequest = interceptor(fetch) as typeof fetch;
   }
   if (Array.isArray(allowedHeaders)) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -37,7 +37,7 @@ export const createRequest: RequestCreator = (
   pathToRegexp(path, keys);
 
   const sender: Sender = async (...args) => {
-    const fetcher = realRequest || fetch;
+    const fetcher = realRequest || originFetch;
 
     const payload: BFFRequestPayload =
       typeof args[args.length - 1] === 'object' ? args[args.length - 1] : {};

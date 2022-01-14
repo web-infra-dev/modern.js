@@ -36,6 +36,11 @@ export const generateClient = async ({
     requestCreator = requireResolve(
       `${DEFAULT_CLIENT_REQUEST_CREATOR}${target ? `/${target}` : ''}`,
     ).replace(/\\/g, '/');
+  } else {
+    // eslint-disable-next-line no-param-reassign
+    requestCreator = requireResolve(
+      `${requestCreator}${target ? `/${target}` : ''}`,
+    ).replace(/\\/g, '/');
   }
 
   const routeRsult = getRouteName(resourcePath, apiDir);

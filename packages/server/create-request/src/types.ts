@@ -11,7 +11,7 @@ export type BFFRequestPayload = {
   cookies?: Record<string, any>;
 };
 
-export type Fetch = typeof nodeFetch | typeof fetch;
+export type Fetch = typeof fetch | typeof nodeFetch;
 export type Sender = ((...args: any[]) => Promise<any>) & {
   fetch?: Fetch;
 };
@@ -24,7 +24,7 @@ export type RequestCreator = (
   headerWhiteList?: string[],
 ) => Sender;
 
-export type IOptions<F = typeof fetch> = {
+export type IOptions<F = Fetch> = {
   request?: F;
   interceptor?: (request: F) => F;
   allowedHeaders?: string[];
