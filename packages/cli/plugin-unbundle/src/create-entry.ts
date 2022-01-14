@@ -168,7 +168,7 @@ const initTemplateVariables = (
 
   return {
     assetPrefix: assetPrefix || '/',
-    title: titleVariable,
+    title: titleVariable!,
     meta: metaVariable,
     mountId: mountId!,
     // TODO: favicon

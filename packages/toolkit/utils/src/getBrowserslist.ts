@@ -1,4 +1,4 @@
-import { loadConfig } from 'browserslist/node';
+import { loadConfig } from 'browserslist';
 
 export const defaults = ['> 0.01%', 'not dead', 'not op_mini all'];
 

@@ -11,15 +11,10 @@ declare module '@modern-js/core' {
 }
 
 declare module 'acorn-class-fields';
-
 declare module 'find-node-modules';
-
 declare module '@svgr/core';
-
 declare module '@svgr/plugin-jsx';
-
 declare module 'launch-editor';
-
 declare module 'merge-source-map';
-
 declare module 'convert-source-map';
+declare module 'node-fetch';

@@ -101,6 +101,7 @@
     "@modern-js/bff-utils": "workspace:^1.1.1",
     "@modern-js/core": "workspace:^1.2.0",
     "@modern-js/types": "workspace:^1.1.5",
+    "@modern-js/tsconfig": "workspace:^1.1.0",
     "@types/babel__code-frame": "^7.0.2",
     "@types/babel__core": "^7.1.12",
     "@types/es-module-lexer": "^0.3.0",

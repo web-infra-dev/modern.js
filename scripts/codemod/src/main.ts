@@ -298,13 +298,46 @@ function fixPluginTesting(file: string) {
   }
 }
 
+function fixTypesField(file: string) {
+  if (!file.startsWith('packages/')) {
+    return;
+  }
+
+  const p = `${kProjectDir}/${file}`;
+  const d = fs.readFileSync(p, 'utf8');
+  let c: any;
+  try {
+    c = JSON.parse(d);
+  } catch (e) {
+    return;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const { types, publishConfig, main } = c;
+  if (publishConfig?.main) {
+    // 恢复之前的 main 配置
+    c.main = publishConfig.main;
+    delete publishConfig.main;
+  }
+  if (publishConfig && types) {
+    // 把之前的 types 记录下来
+    publishConfig.types = types;
+  }
+  if (main) {
+    // 设置 ./src/index.ts 给 types 字段，让 vscode 找到文件
+    c.types = main;
+  }
+
+  fs.writeFileSync(p, `${JSON.stringify(c, null, 2)}\n`);
+}
+
 function main() {
   const files = glob.sync('**/package.json', {
     cwd: kProjectDir,
     nodir: true,
     ignore: ['**/node_modules/**', '**/dist/**', '**/fixtures/**'],
   });
-  files.forEach(fixPluginTesting);
+  files.forEach(fixTypesField);
   // files.forEach(fixWorkspacePackagesVersions);
   // files.forEach(addPublishConfig);
   // console.log([...kWorkspace]);

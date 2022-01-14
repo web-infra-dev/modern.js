@@ -1725,6 +1725,7 @@ importers:
       '@modern-js/css-config': workspace:^1.1.2
       '@modern-js/esmpack': workspace:^1.1.6
       '@modern-js/server': workspace:^1.2.1
+      '@modern-js/tsconfig': workspace:^1.1.0
       '@modern-js/types': workspace:^1.1.5
       '@modern-js/utils': workspace:^1.1.6
       '@rollup/plugin-alias': ^3.1.2
@@ -1857,6 +1858,7 @@ importers:
     devDependencies:
       '@modern-js/bff-utils': link:../../server/bff-utils
       '@modern-js/core': link:../core
+      '@modern-js/tsconfig': link:../../review/tsconfig
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config

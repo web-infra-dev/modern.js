@@ -11,7 +11,7 @@ export const jsonPlugin = (_config: NormalizedConfig): RollupPlugin => ({
     try {
       const json = fs.readJSONSync(id);
       return `export default ${JSON.stringify(json)}`;
-    } catch (err) {
+    } catch (err: any) {
       err.loc = { file: id };
       throw err;
     }

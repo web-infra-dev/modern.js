@@ -102,7 +102,7 @@ export const bootstrap: BootStrap = async (
 ) => {
   const runner = runnerMap.get(App)!;
 
-  const context = {
+  const context: any = {
     loaderManager: createLoaderManager({}),
     runner,
     isBrowser: true,
@@ -188,7 +188,7 @@ export const useRuntimeContext = () => {
   const memoizedContext = useMemo(
     () =>
       context.runner.pickContext(
-        { context, pickedContext: {} },
+        { context, pickedContext: {} as any },
         {
           onLast: ({ pickedContext }: { pickedContext: TRuntimeContext }) =>
             pickedContext,

@@ -1,3 +1,3 @@
-#!/usr/bin/env node --conditions=jsnext:source -r btsm
+#!/usr/bin/env node
 
 require('@modern-js/core/bin');
