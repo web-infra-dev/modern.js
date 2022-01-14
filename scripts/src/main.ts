@@ -8,6 +8,7 @@ import glob from 'glob';
 const kProjectDir = path.resolve(__dirname, '../../');
 const kRoot =
   os.platform() === 'win32' ? process.cwd().split(path.sep)[0] : '/';
+const kWorkspace = new Map<string, string>();
 
 function resolveSourceFile(str: string): string {
   if (!str.startsWith('./dist/js/')) {
@@ -215,13 +216,57 @@ function restoreTsAlias(f: string): void {
   }
 }
 
+function getWorkspacePackages(file: string) {
+  const p = `${kProjectDir}/${file}`;
+  const d = fs.readFileSync(p, 'utf8');
+  let c: any;
+  try {
+    c = JSON.parse(d);
+  } catch (e) {
+    return;
+  }
+
+  const { name, version } = c;
+  if (name && version) {
+    kWorkspace.set(name, version)
+  }
+}
+
+function fixWorkspacePackagesVersions(file: string) {
+  const p = `${kProjectDir}/${file}`;
+  const d = fs.readFileSync(p, 'utf8');
+  let c: any;
+  try {
+    c = JSON.parse(d);
+  } catch (e) {
+    return;
+  }
+
+  const { dependencies = {}, devDependencies = {} } = c;
+  for (const key of Object.keys(dependencies)) {
+    if (kWorkspace.has(key)) {
+      dependencies[key] = 'workspace:^' + kWorkspace.get(key);
+    }
+  }
+  for (const key of Object.keys(devDependencies)) {
+    if (kWorkspace.has(key)) {
+      devDependencies[key] = 'workspace:^' + kWorkspace.get(key);
+    }
+  }
+
+  fs.writeFileSync(p, `${JSON.stringify(c, null, 2)}\n`);
+}
+
 function main() {
   const files = glob.sync('**/package.json', {
     cwd: kProjectDir,
     nodir: true,
     ignore: ['**/node_modules/**', '**/dist/**', '**/fixtures/**'],
   });
-  files.forEach(addPublishConfig);
+  files.forEach(getWorkspacePackages);
+  files.forEach(fixWorkspacePackagesVersions);
+  // files.forEach(addPublishConfig);
+  console.log([...kWorkspace]);
 
   // const tsfiles = glob.sync('**/*.ts', {
   //   cwd: kProjectDir,

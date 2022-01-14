@@ -38,7 +38,7 @@
     "test:unit": "jest -c ./__tests__/jest.config.js"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:1.1.6",
+    "@modern-js/utils": "workspace:^1.1.6",
     "@babel/core": "~7.12.10",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/plugin-proposal-object-rest-spread": "^7.12.1",

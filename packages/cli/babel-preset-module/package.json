@@ -41,9 +41,9 @@
     "@babel/plugin-proposal-logical-assignment-operators": "^7.12.1",
     "@babel/plugin-proposal-throw-expressions": "^7.12.1",
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.1.5",
-    "@modern-js/babel-chain": "workspace:^1.1.1",
-    "@modern-js/babel-preset-lib": "workspace:^1.1.4"
+    "@modern-js/utils": "workspace:^1.1.6",
+    "@modern-js/babel-chain": "workspace:^1.1.2",
+    "@modern-js/babel-preset-lib": "workspace:^1.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
@@ -54,8 +54,8 @@
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.2.0",
-    "@modern-js/module-tools": "^1.1.5"
+    "@modern-js/plugin-testing": "workspace:^1.2.2",
+    "@modern-js/module-tools": "workspace:^1.1.5"
   },
   "sideEffects": false,
   "modernConfig": {

@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.1.2",
+    "@modern-js/utils": "workspace:^1.1.6",
     "react-error-overlay": "^6.0.9",
     "strip-ansi": "^7.0.0",
     "url": "^0.11.0"
@@ -46,8 +46,8 @@
     "@types/node": "^14",
     "typescript": "^4",
     "webpack": "^5.54.0",
-    "@modern-js/plugin-testing": "^1.1.1",
-    "@modern-js/module-tools": "^1.1.5"
+    "@modern-js/plugin-testing": "workspace:^1.2.2",
+    "@modern-js/module-tools": "workspace:^1.1.5"
   },
   "sideEffects": false,
   "modernConfig": {

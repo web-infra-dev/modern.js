@@ -46,13 +46,13 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/polyfill-lib": "^1.0.0",
-    "@modern-js/server-plugin": "workspace:^1.1.1",
+    "@modern-js/server-plugin": "workspace:^1.1.4",
     "lru-cache": "^6.0.0",
     "mime-types": "^2.1.32",
     "ua-parser-js": "^0.7.28"
   },
   "devDependencies": {
-    "@modern-js/types": "workspace:^1.1.2",
+    "@modern-js/types": "workspace:^1.1.5",
     "@types/jest": "^26",
     "@types/lru-cache": "^5.1.1",
     "@types/mime-types": "^2.1.1",
@@ -61,9 +61,9 @@
     "@types/react-dom": "^17",
     "@types/ua-parser-js": "^0.7.36",
     "typescript": "^4",
-    "@modern-js/core": "workspace:^1.1.2",
-    "@modern-js/plugin-testing": "^1.1.1",
-    "@modern-js/module-tools": "^1.1.5"
+    "@modern-js/core": "workspace:^1.2.0",
+    "@modern-js/plugin-testing": "workspace:^1.2.2",
+    "@modern-js/module-tools": "workspace:^1.1.5"
   },
   "peerDependencies": {
     "@modern-js/core": "workspace:^1.1.2"

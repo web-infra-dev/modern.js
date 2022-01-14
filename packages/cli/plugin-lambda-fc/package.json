@@ -40,16 +40,16 @@
     "test": "modern test --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/core": "workspace:^1.1.2",
+    "@modern-js/core": "workspace:^1.2.0",
     "@modern-js/utils": "workspace:^1.1.6",
     "@alicloud/fun": "3.6.24",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/module-tools": "^1.1.5",
+    "@modern-js/module-tools": "workspace:^1.1.5",
     "@modern-js/plugin-jarvis": "workspace:^1.1.1",
-    "@modern-js/plugin-testing": "^1.1.1",
+    "@modern-js/plugin-testing": "workspace:^1.2.2",
     "typescript": "^4",
     "@types/jest": "^26.0.9",
     "@types/node": "^14",

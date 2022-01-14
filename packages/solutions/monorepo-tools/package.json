@@ -45,11 +45,11 @@
     "@babel/runtime": "^7",
     "@modern-js/core": "workspace:^1.2.0",
     "@modern-js/i18n-cli-language-detector": "workspace:^1.1.1",
-    "@modern-js/new-action": "workspace:^1.2.0",
-    "@modern-js/plugin-changeset": "workspace:^1.1.1",
-    "@modern-js/plugin-i18n": "workspace:^1.1.1",
+    "@modern-js/new-action": "workspace:^1.2.2",
+    "@modern-js/plugin-changeset": "workspace:^1.1.2",
+    "@modern-js/plugin-i18n": "workspace:^1.1.2",
     "commander": "^8.1.0",
-    "@modern-js/utils": "workspace:^1.1.5",
+    "@modern-js/utils": "workspace:^1.1.6",
     "@rushstack/node-core-library": "^3.39.1",
     "@rushstack/package-deps-hash": "^3.0.54",
     "anymatch": "^3.1.2",
@@ -72,8 +72,8 @@
     "@types/signale": "^1.4.2",
     "execa": "^5.1.1",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.2.0",
-    "@modern-js/module-tools": "^1.1.5"
+    "@modern-js/plugin-testing": "workspace:^1.2.2",
+    "@modern-js/module-tools": "workspace:^1.1.5"
   },
   "sideEffects": false,
   "modernConfig": {

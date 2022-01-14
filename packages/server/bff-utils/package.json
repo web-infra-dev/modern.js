@@ -38,15 +38,15 @@
     "@babel/runtime": "^7",
     "@modern-js/bff-runtime": "workspace:^1.1.1",
     "@modern-js/plugin": "workspace:^1.1.2",
-    "@modern-js/utils": "workspace:^1.1.2",
+    "@modern-js/utils": "workspace:^1.1.6",
     "es-module-lexer": "^0.4.1",
     "farrow-api": "^1.10.9",
     "fs-extra": "^10.0.0",
     "globby": "^11.0.2"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "^1.1.5",
-    "@modern-js/plugin-testing": "^1.1.1",
+    "@modern-js/module-tools": "workspace:^1.1.5",
+    "@modern-js/plugin-testing": "workspace:^1.2.2",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^26",
     "@types/node": "^14",

@@ -80,8 +80,8 @@
     "@types/recursive-readdir": "^2.2.0",
     "typescript": "^4",
     "webpack": "^5.54.0",
-    "@modern-js/plugin-testing": "^1.2.0",
-    "@modern-js/module-tools": "^1.1.5"
+    "@modern-js/plugin-testing": "workspace:^1.2.2",
+    "@modern-js/module-tools": "workspace:^1.1.5"
   },
   "peerDependencies": {
     "typescript": "^4"

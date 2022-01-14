@@ -41,15 +41,15 @@
     ".rpt2_cache/"
   ],
   "dependencies": {
-    "@modern-js/runtime": "workspace:^1.1.0",
+    "@modern-js/runtime": "workspace:^1.1.2",
     "axios": "^0.23.0",
     "express": "^4.17.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:^1.1.0",
-    "@modern-js/plugin-jarvis": "workspace:^1.1.0"
+    "@modern-js/app-tools": "workspace:^1.2.0",
+    "@modern-js/plugin-jarvis": "workspace:^1.1.1"
   },
   "modernConfig": {
     "runtime": {

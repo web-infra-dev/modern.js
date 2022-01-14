@@ -52,7 +52,7 @@
     "@babel/runtime": "^7",
     "@modern-js/load-config": "workspace:^1.1.1",
     "@modern-js/plugin": "workspace:^1.1.2",
-    "@modern-js/utils": "workspace:^1.1.5",
+    "@modern-js/utils": "workspace:^1.1.6",
     "address": "^1.1.2",
     "ajv": "^8.6.2",
     "ajv-keywords": "^5.0.0",
@@ -70,7 +70,7 @@
   "devDependencies": {
     "btsm": "2.2.2",
     "@types/babel__code-frame": "^7.0.3",
-    "@modern-js/types": "workspace:^1.1.4",
+    "@modern-js/types": "workspace:^1.1.5",
     "@types/jest": "^26",
     "@types/lodash.clonedeep": "^4.5.6",
     "@types/lodash.mergewith": "^4.6.6",
@@ -79,8 +79,8 @@
     "@types/react-dom": "^17",
     "@types/signale": "^1.4.2",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.2.0",
-    "@modern-js/module-tools": "^1.1.5"
+    "@modern-js/plugin-testing": "workspace:^1.2.2",
+    "@modern-js/module-tools": "workspace:^1.1.5"
   },
   "sideEffects": false,
   "modernConfig": {

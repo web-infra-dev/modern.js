@@ -36,7 +36,7 @@
     "prettier": "^2.0.1"
   },
   "dependencies": {
-    "@modern-js/babel-preset-app": "workspace:^1.1.0"
+    "@modern-js/babel-preset-app": "workspace:^1.1.1"
   },
   "devDependencies": {
     "eslint": "^7.32.0",

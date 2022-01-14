@@ -36,9 +36,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/babel-chain": "workspace:^1.1.1",
-    "@modern-js/babel-preset-base": "workspace:^1.1.1",
-    "@modern-js/utils": "workspace:^1.1.5",
+    "@modern-js/babel-chain": "workspace:^1.1.2",
+    "@modern-js/babel-preset-base": "workspace:^1.1.2",
+    "@modern-js/utils": "workspace:^1.1.6",
     "babel-plugin-transform-define": "^2",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
@@ -52,8 +52,8 @@
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.2.0",
-    "@modern-js/module-tools": "^1.1.5"
+    "@modern-js/plugin-testing": "workspace:^1.2.2",
+    "@modern-js/module-tools": "workspace:^1.1.5"
   },
   "sideEffects": false,
   "modernConfig": {
