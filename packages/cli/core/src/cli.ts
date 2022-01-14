@@ -9,7 +9,10 @@ const { version } = require('../package.json');
 
 // XXX: 通过这个方式去掉了 package.json 里面对于 @modern-js/module-tools 的 devDependencies 依赖
 // 然后可以正常的执行 modern build
-const kModuleToolsCliPath = path.resolve(__dirname, '../../../solutions/module-tools/src/index.ts');
+const kModuleToolsCliPath = path.resolve(
+  __dirname,
+  '../../../solutions/module-tools/src/index.ts',
+);
 
 process.env.MODERN_JS_VERSION = version;
 if (!process.env.NODE_ENV) {
@@ -29,5 +32,5 @@ cli.run(process.argv.slice(2), {
       // 是否需要强制加载这个组件，跳过 loadPlugins 里面 filter 的检测逻辑
       forced: true,
     } as any,
-  }
+  },
 });
