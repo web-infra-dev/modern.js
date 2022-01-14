@@ -45,9 +45,7 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/utils": "workspace:^1.1.2",
-    "esbuild": "^0.12.22",
-    "webpack": "^5.54.0",
-    "webpack-chain": "^6.5.1"
+    "esbuild": "^0.12.22"
   },
   "devDependencies": {
     "@types/jest": "^26",
@@ -55,7 +53,9 @@
     "typescript": "^4",
     "@modern-js/core": "workspace:^1.1.2",
     "@modern-js/plugin-testing": "^1.1.1",
-    "@modern-js/module-tools": "^1.1.5"
+    "@modern-js/module-tools": "^1.1.5",
+    "webpack": "^5.54.0",
+    "webpack-chain": "^6.5.1"
   },
   "sideEffects": false,
   "modernConfig": {
