@@ -4654,6 +4654,500 @@ importers:
       esbuild-jest: 0.5.0_esbuild@0.13.15
       jest: 27.4.5
 
+  tests:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.2.0
+      '@modern-js/core': workspace:^1.2.0
+      '@modern-js/plugin-polyfill': workspace:^1.1.1
+      '@modern-js/plugin-testing': workspace:^1.2.2
+      axios: ^0.21.4
+      cross-spawn: ^7.0.3
+      fs-extra: ^10.0.0
+      jest: ^27.3.1
+      jest-puppeteer: ^6.0.0
+      portfinder: ^1.0.28
+      puppeteer: ^10.4.0
+      rimraf: ^3.0.2
+      tree-kill: ^1.2.2
+    devDependencies:
+      '@modern-js/app-tools': link:../packages/solutions/app-tools
+      '@modern-js/core': link:../packages/cli/core
+      '@modern-js/plugin-polyfill': link:../packages/server/plugin-polyfill
+      '@modern-js/plugin-testing': link:../packages/cli/plugin-testing
+      axios: 0.21.4
+      cross-spawn: 7.0.3
+      fs-extra: 10.0.0
+      jest: 27.4.5
+      jest-puppeteer: 6.0.3_puppeteer@10.4.0
+      portfinder: 1.0.28
+      puppeteer: 10.4.0
+      rimraf: 3.0.2
+      tree-kill: 1.2.2
+
+  tests/integration/alias-set:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.2.0
+      '@modern-js/runtime': workspace:^1.1.2
+      axios: ^0.19.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/runtime': link:../../../packages/cli/plugin-runtime
+      axios: 0.19.2
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/app-tools': link:../../../packages/solutions/app-tools
+
+  tests/integration/css:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.2.0
+      '@modern-js/runtime': workspace:^1.1.2
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css-modules:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.2.0
+      '@modern-js/runtime': workspace:^1.1.2
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css-modules/fixtures/basic-module:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css-modules/fixtures/composes-basic:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css-modules/fixtures/composes-external:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css-modules/fixtures/dev-module:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css-modules/fixtures/diff-suffix-module:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/plugin-less': workspace:^1.0.0
+      '@modern-js/plugin-sass': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-less': link:../../../../../packages/cli/plugin-less
+      '@modern-js/plugin-sass': link:../../../../../packages/cli/plugin-sass
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css-modules/fixtures/global-module:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css-modules/fixtures/prod-module:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/antd-less-import:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/plugin-less': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      antd: ^4.16.13
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-less': link:../../../../../packages/cli/plugin-less
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      antd: 4.18.3_react-dom@17.0.2+react@17.0.2
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/bad-nested-npm-import:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/bad-npm-import:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/base-import:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/css-ts-declaration:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/disable-source-map:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/exclude-less:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/plugin-less': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-less': link:../../../../../packages/cli/plugin-less
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/exclude-sass:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/plugin-sass': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-sass': link:../../../../../packages/cli/plugin-sass
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/import-common-css:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/inline-css-url:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/keep-css-url:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/less-import:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/plugin-less': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-less': link:../../../../../packages/cli/plugin-less
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/less-inline-js:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/plugin-less': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-less': link:../../../../../packages/cli/plugin-less
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/less-npm-import:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/plugin-less': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-less': link:../../../../../packages/cli/plugin-less
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/multi-css:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+
+  tests/integration/css/fixtures/multi-less:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/plugin-less': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-less': link:../../../../../packages/cli/plugin-less
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/nested-npm-import:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/npm-import:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/single-css:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+
+  tests/integration/css/fixtures/single-less:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/plugin-less': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-less': link:../../../../../packages/cli/plugin-less
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/tips-to-install-less-plugin:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/plugin-testing-app:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.2.0
+      '@modern-js/plugin-jarvis': workspace:^1.1.1
+      '@modern-js/plugin-testing': workspace:^1.2.2
+      '@modern-js/runtime': workspace:^1.1.2
+      '@types/jest': ^26.0.9
+      '@types/node': ^14
+      '@types/react': ^17
+      '@types/react-dom': ^17
+      del-cli: ^4.0.1
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      '@modern-js/runtime': link:../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/app-tools': link:../../../packages/solutions/app-tools
+      '@modern-js/plugin-jarvis': link:../../../packages/cli/plugin-jarvis
+      '@modern-js/plugin-testing': link:../../../packages/cli/plugin-testing
+      '@types/jest': 26.0.24
+      '@types/node': 14.18.4
+      '@types/react': 17.0.38
+      '@types/react-dom': 17.0.11
+      del-cli: 4.0.1
+      typescript: 4.5.4
+
+  tests/integration/runtime:
+    specifiers: {}
+
+  tests/integration/runtime/fixtures/use-loader:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/plugin-ssr': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-ssr': link:../../../../../packages/cli/plugin-ssr
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/server-prod:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.2.0
+      '@modern-js/plugin-jarvis': workspace:^1.1.1
+      '@modern-js/runtime': workspace:^1.1.2
+      axios: ^0.23.0
+      express: ^4.17.1
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/runtime': link:../../../packages/cli/plugin-runtime
+      axios: 0.23.0
+      express: 4.17.2
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/app-tools': link:../../../packages/solutions/app-tools
+      '@modern-js/plugin-jarvis': link:../../../packages/cli/plugin-jarvis
+
 packages:
 
   /2-thenable/1.0.0:
@@ -13890,6 +14384,14 @@ packages:
       is-retry-allowed: 2.2.0
     dev: false
 
+  /axios/0.19.2:
+    resolution: {integrity: sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==}
+    deprecated: Critical security vulnerability fixed in v0.21.1. For more information, see https://github.com/axios/axios/pull/3410
+    dependencies:
+      esbuild: 0.13.15
+      follow-redirects: 1.5.10
+    dev: false
+
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
@@ -13906,6 +14408,15 @@ packages:
     transitivePeerDependencies:
       - debug
     dev: true
+
+  /axios/0.23.0:
+    resolution: {integrity: sha512-NmvAE4i0YAv5cKq8zlDoPd1VLKAqX5oLuZKs8xkJa4qi6RGn0uhCYFjWtHHC9EM/MwOwYWOs53W+V0aqEXq1sg==}
+    dependencies:
+      esbuild: 0.13.15
+      follow-redirects: 1.14.7
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /axios/0.24.0:
     resolution: {integrity: sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==}
@@ -19985,6 +20496,13 @@ packages:
     dependencies:
       debug: 4.3.1
     dev: true
+
+  /follow-redirects/1.5.10:
+    resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}
+    engines: {node: '>=4.0'}
+    dependencies:
+      debug: 3.1.0
+    dev: false
 
   /for-in/0.1.8:
     resolution: {integrity: sha1-2Hc5COMSVhCZUrH9ubP6hn0ndeE=}

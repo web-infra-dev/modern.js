@@ -10,3 +10,5 @@ packages:
  - 'packages/toolkit/*'
  - 'packages/toolkit/compiler/*'
  - 'scripts/*'
+ - 'tests'
+ - 'tests/integration/**'

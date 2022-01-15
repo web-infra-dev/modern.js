@@ -427,6 +427,10 @@
     {
       "name": "@scripts/codemod",
       "path": "scripts/codemod"
+    },
+    {
+      "name": "Integration Tests",
+      "path": "tests"
     }
   ],
   "settings": {
@@ -448,16 +452,17 @@
     },
     "search.useIgnoreFiles": true,
     "search.exclude": {
-      "**/build": true,
-      "**/output": true,
-      "**/dist": true,
-      "**/yarn.lock": true,
-      "**/package-lock.json": true,
+      "**/.git": true,
       "**/*.log": true,
       "**/*.pid": true,
-      "**/.git": true,
+      "**/bower_components": true,
+      "**/build": true,
+      "**/coverage": true,
+      "**/dist": true,
       "**/node_modules": true,
-      "**/bower_components": true
+      "**/output": true,
+      "**/package-lock.json": true,
+      "**/yarn.lock": true
     },
     //
     "editor.rulers": [80, 120],

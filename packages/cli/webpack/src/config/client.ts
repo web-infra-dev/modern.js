@@ -27,7 +27,7 @@ import { BaseWebpackConfig } from './base';
 
 const nodeLibsBrowser = require('node-libs-browser');
 
-class ClientWebpackConfig extends BaseWebpackConfig {
+export class ClientWebpackConfig extends BaseWebpackConfig {
   htmlFilename: (name: string) => string;
 
   constructor(appContext: IAppContext, options: NormalizedConfig) {
@@ -62,24 +62,31 @@ class ClientWebpackConfig extends BaseWebpackConfig {
   resolve() {
     super.resolve();
 
-    // local node_modules
-    this.chain.resolve.modules.add(
-      path.resolve(__dirname, '../../../../node_modules'),
-    );
+    // FIXME: local node_modules (WTF?)
+    const wtfPath = path.resolve(__dirname, '../../../../node_modules');
+    this.chain.resolve.modules.add(wtfPath);
 
     // node polyfill
     if (!this.options.output.disableNodePolyfill) {
       this.chain.resolve.merge({
         fallback: Object.keys(nodeLibsBrowser).reduce<
           Record<string, string | false>
-        >((previous, name) => {
-          if (nodeLibsBrowser[name]) {
-            previous[name] = nodeLibsBrowser[name];
-          } else {
-            previous[name] = false;
-          }
-          return previous;
-        }, {}),
+        >(
+          (previous, name) => {
+            if (nodeLibsBrowser[name]) {
+              previous[name] = nodeLibsBrowser[name];
+            } else {
+              previous[name] = false;
+            }
+            return previous;
+          },
+          {
+            // TODO: packages/review/testing-plugin-bff/src/app.ts 里面使用了 async_hooks 在 client 模式的时候，webpack 需要忽略这个模块
+            // 但是 `node-libs-browser` 里面貌似并没有提供这个 fallback，所以手工补上这个缺少的配置
+            // 从而可以保证 Integration Test 可以通过（npx jest integration/runtime/test/index.test.js)
+            async_hooks: false,
+          },
+        ),
       });
     }
   }
@@ -327,5 +334,3 @@ class ClientWebpackConfig extends BaseWebpackConfig {
     }
   }
 }
-
-export { ClientWebpackConfig };
