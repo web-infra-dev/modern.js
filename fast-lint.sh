@@ -10,4 +10,4 @@ fi
 pnpm run build --filter @modern-js/eslint-config...
 
 # run eslint --no-fix
-npx eslint --format codeframe $(git diff ${TARGET_BRANCH}... --name-only | grep -E '\.(js|jsx|ts|tsx|mjs|mjsx|cjs|cjsx)$')
+npx eslint --format codeframe $(git diff --diff-filter=ACM ${TARGET_BRANCH}... --name-only | grep -E '\.(js|jsx|ts|tsx|mjs|mjsx|cjs|cjsx)$')
