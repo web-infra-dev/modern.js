@@ -1,17 +1,14 @@
 const path = require('path');
-// const fs = require('fs');
-// const execa = require('execa');
 const spawn = require('cross-spawn');
 const treeKill = require('tree-kill');
 const portfinder = require('portfinder');
-// const rimraf = require('rimraf');
+
+const kModernBin = path.join(
+  __dirname,
+  '../node_modules/@modern-js/core/bin/modern-js',
+);
 
 function runModernCommand(argv, options = {}) {
-  const modernDir = path.dirname(
-    require.resolve('@modern-js/core/package.json'),
-  );
-  const modernBin = path.join(modernDir, 'bin/modern-js');
-
   const { cwd } = options;
   const cmd = argv[0];
   const env = {
@@ -21,7 +18,7 @@ function runModernCommand(argv, options = {}) {
 
   return new Promise((resolve, reject) => {
     // console.log(`Running command "modern ${argv.join(' ')}"`);
-    const instance = spawn(process.execPath, [modernBin, ...argv], {
+    const instance = spawn(process.execPath, [kModernBin, ...argv], {
       ...options.spawnOptions,
       cwd,
       env,
@@ -74,11 +71,6 @@ function runModernCommand(argv, options = {}) {
 }
 
 function runModernCommandDev(argv, stdOut, options = {}) {
-  const modernDir = path.dirname(
-    require.resolve('@modern-js/core/package.json'),
-  );
-  const modernBin = path.join(modernDir, 'bin/modern-js');
-
   const { cwd } = options;
   const env = {
     ...process.env,
@@ -86,7 +78,7 @@ function runModernCommandDev(argv, stdOut, options = {}) {
   };
 
   return new Promise((resolve, reject) => {
-    const instance = spawn(process.execPath, [modernBin, ...argv], {
+    const instance = spawn(process.execPath, [kModernBin, ...argv], {
       cwd,
       env,
     });
@@ -209,16 +201,12 @@ async function killApp(instance) {
 }
 
 function markGuardian() {
-  // beforeAll(() => {
-  //   // if (!process.env.IS_GUARDIAN) {
-  //   //   throw new Error('[guardian]: should use guardian');
-  //   // }
-  // });
+  // IGNORE
 }
 
+// eslint-disable-next-line no-unused-vars
 function installDeps(dir) {
-  // eslint-disable-next-line no-console
-  console.log(`Installing dependencies in ${dir}`);
+  // console.log(`Installing dependencies in ${dir}`);
   // FIXME: 跳过本地依赖的安装，因为在根目录执行 pnpm install --ignore-scripts 的时候已经安装好了
   // spawn.sync('pnpm', ['install', '--filter', './', '--ignore-scripts'], {
   //   stdio: 'inherit',
@@ -226,9 +214,9 @@ function installDeps(dir) {
   // });
 }
 
+// eslint-disable-next-line no-unused-vars
 function clearBuildDist(dir) {
-  // eslint-disable-next-line no-console
-  console.log(`Clearing build dist in ${dir}`);
+  // console.log(`Clearing build dist in ${dir}`);
   // not support nested projects
   // const _clearBuildDist = _dir => {
   //   const isProjectRoot = fs.existsSync(path.join(_dir, 'package.json'));
@@ -245,7 +233,6 @@ function clearBuildDist(dir) {
   //     });
   //   }
   // };
-
   // _clearBuildDist(dir);
 }
 

@@ -4,9 +4,10 @@
     "declaration": false,
     "jsx": "preserve",
     "baseUrl": "./",
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "paths": {},
-    "types": ["node", "jest"]
-  }
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"]
+    }
+  },
+  "include": ["src", "shared", "config"]
 }
