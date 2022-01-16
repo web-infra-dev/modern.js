@@ -3,7 +3,7 @@ const path = require('path');
 /** @type {import('@jest/types').Config.InitialOptions} */
 module.exports = {
   collectCoverage: true,
-  collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
+  collectCoverageFrom: ['<rootDir>/src/**/*.[jt]s?(x)'],
   coveragePathIgnorePatterns: ['/node_modules/', '/fixtures/'],
   transform: {
     '\\.[jt]sx?$': require.resolve('esbuild-jest'),

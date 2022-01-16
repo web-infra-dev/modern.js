@@ -128,13 +128,15 @@ export {
 
 export type { NormalizedConfig, IAppContext, UserConfig, ToolsConfig };
 
-const initAppDir = async (): Promise<string> => {
-  const pkg = await pkgUp({ cwd: process.cwd() });
+const initAppDir = async (cwd?: string): Promise<string> => {
+  if (!cwd) {
+    // eslint-disable-next-line no-param-reassign
+    cwd = process.cwd();
+  }
+  const pkg = await pkgUp({ cwd });
 
   if (!pkg) {
-    throw new Error(
-      `no package.json found in current work dir: ${process.cwd()}`,
-    );
+    throw new Error(`no package.json found in current work dir: ${cwd}`);
   }
 
   return path.dirname(pkg);

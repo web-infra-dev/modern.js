@@ -49,6 +49,28 @@ const resolvePlugin = (appDirectory: string, plugin: PluginConfigItem) => {
   return resolved;
 };
 
+export function getAppPlugins(
+  appDirectory: string,
+  pluginConfig: PluginConfig,
+  internalPlugins?: typeof INTERNAL_PLUGINS,
+) {
+  const allPlugins = internalPlugins || INTERNAL_PLUGINS;
+  const appPlugins = [
+    ...Object.keys(allPlugins)
+      .filter(name => {
+        const config: any = allPlugins[name];
+        if (config.forced === true) {
+          // 参考 packages/cli/core/src/cli.ts 文件
+          return true;
+        }
+        return isDepExists(appDirectory, name);
+      })
+      .map(name => allPlugins[name]),
+    ...pluginConfig,
+  ];
+  return appPlugins;
+}
+
 /**
  * Load internal plugins which in @modern-js scope and user's custom plugins.
  * @param appDirectory - Application root directory.
@@ -60,20 +82,7 @@ export const loadPlugins = (
   pluginConfig: PluginConfig,
   internalPlugins?: typeof INTERNAL_PLUGINS,
 ) => {
-  const pluginCandidates = internalPlugins || INTERNAL_PLUGINS;
-  const plugins = [
-    ...Object.keys(pluginCandidates)
-      .filter(name => {
-        const config: any = pluginCandidates[name];
-        if (config.forced === true) {
-          // 参考 packages/cli/core/src/cli.ts 文件
-          return true;
-        }
-        return isDepExists(appDirectory, name);
-      })
-      .map(name => pluginCandidates[name]),
-    ...pluginConfig,
-  ];
+  const plugins = getAppPlugins(appDirectory, pluginConfig, internalPlugins);
 
   return plugins.map(plugin => {
     const { cli, server } = resolvePlugin(appDirectory, plugin);
