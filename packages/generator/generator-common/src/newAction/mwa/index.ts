@@ -29,6 +29,7 @@ export const MWAActionFunctions = [
   ActionFunction.Storybook,
   // ActionFunction.E2ETest,
   // ActionFunction.Doc,
+  ActionFunction.Polyfill,
   ActionFunction.Deploy,
 ];
 export const MWAActionElements = [ActionElement.Entry, ActionElement.Server];
@@ -94,6 +95,7 @@ export const MWAActionFunctionsDependencies: Partial<
   [ActionFunction.MicroFrontend]: '@modern-js/plugin-micro-frontend',
   [ActionFunction.I18n]: '@modern-js/plugin-i18n',
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
+  [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
 };
 
 export const MWAActionFunctionsAppendTypeContent: Partial<
@@ -125,6 +127,7 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.Doc]: '@modern-js/dependence-generator',
     [ActionFunction.Storybook]: '@modern-js/dependence-generator',
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
+    [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
     [ActionFunction.Deploy]: '@modern-js/cloud-deploy-generator',
   },
   [ActionType.Refactor]: {
