@@ -173,8 +173,9 @@ class Apps {
           this.setMAppLoading(true);
         }
       };
-
-      this.appsMap[moduleInfo.name] = this.genComponent(moduleInfo);
+      const Component = this.genComponent(moduleInfo);
+      this.appsMap[moduleInfo.name] = Component;
+      moduleInfo.Component = Component;
     });
 
     this.options = {

@@ -43,7 +43,7 @@
     "@babel/runtime": "^7",
     "@modern-js/utils": "workspace:^1.1.6",
     "hoist-non-react-statics": "^3.3.2",
-    "garfish": "^0.1.8"
+    "garfish": "^1.2.17"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:^1.1.5",

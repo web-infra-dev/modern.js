@@ -1,8 +1,10 @@
 import React from 'react';
+import { ModulesInfo } from '../typings';
 
 export interface GarfishContextType {
   MApp: React.FC<any>;
   apps: Record<string, React.ComponentType<any>>;
+  modules: ModulesInfo;
 }
 
 const GarfishContext = React.createContext<GarfishContextType>(null as any);

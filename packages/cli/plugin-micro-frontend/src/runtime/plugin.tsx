@@ -20,6 +20,7 @@ export default ((config: Config) => {
           () => ({
             MApp: appsInstance.getMApp(),
             apps: appsInstance.getApps(),
+            modules: appsInstance.modules,
           }),
           [],
         );
