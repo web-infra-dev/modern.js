@@ -13,7 +13,7 @@
   ],
   "version": "1.0.1",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/index.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
@@ -36,13 +36,13 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build --no-tsc",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/core": "workspace:^1.2.0",
-    "@modern-js/utils": "workspace:^1.1.5",
-    "@modern-js/webpack": "workspace:^1.1.3",
+    "@modern-js/utils": "workspace:^1.1.6",
+    "@modern-js/webpack": "workspace:^1.1.4",
     "axios": "^0.24.0",
     "axios-retry": "^3.2.4",
     "body-parser": "^1.19.0",
@@ -65,9 +65,8 @@
     "webpack-sources": "^3.2.2"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "^1.1.5",
+    "@scripts/build": "workspace:*",
     "@modern-js/module-tools-hooks": "workspace:^1.1.2",
-    "@modern-js/plugin-testing": "^1.2.0",
     "@types/body-parser": "^1.19.1",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
@@ -81,7 +80,9 @@
     "@types/semver": "^7.3.9",
     "@types/uuid": "^8.3.3",
     "typescript": "^4",
-    "webpack-chain": "^6.5.1"
+    "webpack-chain": "^6.5.1",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "sideEffects": false,
   "modernConfig": {
@@ -91,6 +92,7 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/types/index.d.ts"
   }
 }

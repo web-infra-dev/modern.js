@@ -13,7 +13,7 @@
   ],
   "version": "1.2.1",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/index.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
@@ -33,7 +33,7 @@
     "new": "modern new",
     "build": "modern build",
     "dev": "modern build --watch",
-    "test": "modern test"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/core": "^7.15.0",
@@ -70,8 +70,7 @@
     "ws": "^8.2.0"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "^1.1.5",
-    "@modern-js/plugin-testing": "^1.2.0",
+    "@scripts/build": "workspace:*",
     "@modern-js/types": "workspace:^1.1.5",
     "@types/jest": "^26",
     "@types/lru-cache": "^5.1.1",
@@ -89,7 +88,9 @@
     "typescript": "^4",
     "webpack": "^5.54.0",
     "node-mocks-http": "^1.11.0",
-    "portfinder": "^1.0.28"
+    "portfinder": "^1.0.28",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
     "webpack": "^5.54.0"
@@ -102,6 +103,7 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/types/index.d.ts"
   }
 }
