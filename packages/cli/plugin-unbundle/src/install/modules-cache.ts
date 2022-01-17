@@ -2,8 +2,10 @@ import os from 'os';
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import logger from 'signale';
-import fetch from 'node-fetch';
 import { VIRTUAL_DEPS_MAP } from '../constants';
+
+// FIXME: declare module 不生效的问题
+const fetch = require('node-fetch');
 
 const createCacheDir = (name: string): string => {
   switch (os.platform()) {
@@ -195,7 +197,7 @@ export class ModulesCache {
           file,
         };
       }
-    } catch (err) {
+    } catch (err: any) {
       logger.error(
         `request http://${PDN_HOST}${`/esm/bv/${normalized}?meta`} error: ${
           err.message

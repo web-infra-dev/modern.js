@@ -1,13 +1,15 @@
 import * as parser from '@babel/parser';
 import * as types from '@babel/types';
-import traverse from '@babel/traverse';
-import generate from '@babel/generator';
 import { Plugin as RollupPlugin } from 'rollup';
 import {
   GLOBAL_CACHE_DIR_NAME,
   DEFAULT_LAZY_IMPORT_UI_COMPONENTS,
 } from '../constants';
 import { isJsRequest } from '../utils';
+
+// FIXME: declare module 不生效的问题
+const traverse = require('@babel/traverse');
+const generate = require('@babel/generator');
 
 function shouldProcess(code: string, id: string) {
   // transform js only
@@ -53,7 +55,7 @@ function changeImport(code: string) {
 
   // 遍历，转换
   traverse(ast, {
-    ImportDeclaration(path) {
+    ImportDeclaration(path: any) {
       const { node } = path;
       const source = node.source.value;
       const { specifiers } = node;

@@ -13,7 +13,7 @@
   ],
   "version": "1.2.4",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/index.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/js/node/main.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
@@ -39,26 +39,27 @@
     "new": "modern new",
     "build": "modern build",
     "build:csmith": "csmith-tools build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "devDependencies": {
     "@babel/runtime": "^7",
     "@modern-js/codesmith": "^1.0.8",
     "@modern-js/codesmith-tools": "^1.0.8",
-    "@modern-js/module-tools": "^1.1.5",
-    "@modern-js/plugin-testing": "^1.2.0",
+    "@scripts/build": "workspace:*",
     "@modern-js/i18n-cli-language-detector": "workspace:^1.1.1",
     "@modern-js/generator-plugin-plugin": "workspace:^1.0.6",
-    "@modern-js/plugin-i18n": "workspace:^1.1.1",
+    "@modern-js/plugin-i18n": "workspace:^1.1.2",
     "@modern-js/repo-generator": "workspace:^1.2.6",
-    "@modern-js/utils": "workspace:^1.1.5",
+    "@modern-js/utils": "workspace:^1.1.6",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "commander": "^8.0.0",
     "ts-node": "^10.1.0",
-    "typescript": "^4"
+    "typescript": "^4",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "modernConfig": {
     "output": {
@@ -69,6 +70,7 @@
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/types/index.d.ts"
   }
 }

@@ -12,15 +12,15 @@
     "modern.js"
   ],
   "version": "1.1.4",
-  "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/runtime/index.d.ts",
+  "jsnext:source": "./src/runtime/index.tsx",
+  "types": "./src/runtime/index.tsx",
   "main": "./dist/js/node/runtime/index.js",
   "module": "./dist/js/treeshaking/runtime/index.js",
   "jsnext:modern": "./dist/js/modern/runtime/index.js",
   "exports": {
     ".": {
       "node": {
-        "jsnext:source": "./src/runtime/index.ts",
+        "jsnext:source": "./src/runtime/index.tsx",
         "import": "./dist/js/modern/runtime/index.js",
         "require": "./dist/js/node/runtime/index.js"
       },
@@ -54,7 +54,7 @@
     "prepublishOnly": "pnpm build --platform",
     "new": "modern new",
     "build": "modern build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7",
@@ -71,7 +71,7 @@
   "devDependencies": {
     "@modern-js/core": "workspace:^1.2.0",
     "@modern-js/plugin": "workspace:^1.1.2",
-    "@modern-js/runtime-core": "workspace:^1.1.3",
+    "@modern-js/runtime-core": "workspace:^1.1.4",
     "@modern-js/utils": "workspace:^1.1.6",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "^26",
@@ -80,8 +80,9 @@
     "@types/react-dom": "^17",
     "react": "^17.0.2",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.2.0",
-    "@modern-js/module-tools": "^1.1.5"
+    "@scripts/build": "workspace:*",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "sideEffects": false,
   "peerDependencies": {
@@ -92,6 +93,7 @@
   "modernConfig": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/types/runtime/index.d.ts"
   }
 }

@@ -48,8 +48,8 @@
     ]
   },
   "devDependencies": {
-    "@modern-js/monorepo-tools": "^1.0.0",
-    "@modern-js/plugin-jarvis": "^1.0.0"
+    "@modern-js/monorepo-tools": "workspace:^1.2.0",
+    "@modern-js/plugin-jarvis": "workspace:^1.1.1"
   },
   "publishConfig": {
     "access": "public",

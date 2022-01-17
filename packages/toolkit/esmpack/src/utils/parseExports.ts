@@ -76,7 +76,8 @@ async function doParse(ctx: ParseContext, fileLoc: string) {
     throw new Error('parseExportVariableNames failed');
   }
   traverse(
-    ast,
+    // TODO: error TS2345: Argument of type 'File | Program' is not assignable to parameter of type 'Node | Node[] | null | undefined'
+    ast as any,
     visitorCreator({
       testUMD: true,
     }),
@@ -181,10 +182,10 @@ async function doParse(ctx: ParseContext, fileLoc: string) {
               let hasTestModule = false;
               // 'object' === typeof exports && 'undefined' !== typeof module
               if (t.isLogicalExpression(test)) {
-                const { left } = test;
-                const { right } = test;
-                testAndAnd(left);
-                testAndAnd(right);
+                const { left, right } = test;
+                // TODO: error TS2345: Argument of type 'import("/node_modules/.pnpm/@babel+types@7.12.17/node_modules/@babel/types/lib/index").Expression' is not assignable to parameter of type 'babel.types.Expression'.
+                testAndAnd(left as any);
+                testAndAnd(right as any);
                 function testAndAnd(exp: babel.types.Expression) {
                   if (t.isBinaryExpression(exp)) {
                     if (exp.operator === '==' || exp.operator === '===') {
@@ -332,7 +333,8 @@ export const parseExportInfoFromESMCode = async (code: string) => {
   const addToDefaultExportAssignedKeySet = (k: string) => {
     addToSet(defaultExportAssignedKeySet, k);
   };
-  babel.traverse(ast, {
+  // TODO: error TS2345: Argument of type 'File | Program' is not assignable to parameter of type 'Node | Node[] | null | undefined'
+  babel.traverse(ast as any, {
     ExportDefaultDeclaration: path => {
       hasDefaultExport = true;
       const { declaration } = path.node;

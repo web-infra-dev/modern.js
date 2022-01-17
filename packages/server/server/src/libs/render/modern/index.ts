@@ -1,8 +1,9 @@
 import Parser from 'ua-parser-js';
-import nativeModules from '@babel/compat-data/native-modules';
 import compareVersions from 'compare-versions';
 import { ModernServerContext } from '../../context';
 import { NativeModuleNameMap } from './browser-list';
+
+const nativeModules = require('@babel/compat-data/native-modules');
 
 export const supportModern = (context: ModernServerContext) => {
   if (context.query.modern_es6) {

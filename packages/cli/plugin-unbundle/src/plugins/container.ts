@@ -71,9 +71,11 @@ import type {
 import { Parser } from 'acorn';
 import logger from 'signale';
 import { chalk, createDebugger } from '@modern-js/utils';
-import acornClassFields from 'acorn-class-fields';
-import mergeSourceMap from 'merge-source-map';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
+
+// FIXME: declare module 不生效的问题
+const acornClassFields = require('acorn-class-fields');
+const mergeSourceMap = require('merge-source-map');
 
 const debug = createDebugger('esm:plugin-container');
 
@@ -321,7 +323,7 @@ export const createPluginContainer = async (
         plugin = p;
         let result;
         try {
-          result = await p.resolveId.call(ctx as any, id, importer, {});
+          result = await p.resolveId.call(ctx as any, id, importer, {} as any);
         } finally {
           if (_skip) {
             resolveSkips.delete(p, key);

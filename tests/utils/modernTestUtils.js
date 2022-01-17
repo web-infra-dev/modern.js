@@ -1,17 +1,14 @@
 const path = require('path');
-const fs = require('fs');
-// const execa = require('execa');
 const spawn = require('cross-spawn');
 const treeKill = require('tree-kill');
 const portfinder = require('portfinder');
-const rimraf = require('rimraf');
+
+const kModernBin = path.join(
+  __dirname,
+  '../node_modules/@modern-js/core/bin/modern-js',
+);
 
 function runModernCommand(argv, options = {}) {
-  const modernDir = path.dirname(
-    require.resolve('@modern-js/core/package.json'),
-  );
-  const modernBin = path.join(modernDir, 'bin/modern-js');
-
   const { cwd } = options;
   const cmd = argv[0];
   const env = {
@@ -21,7 +18,7 @@ function runModernCommand(argv, options = {}) {
 
   return new Promise((resolve, reject) => {
     // console.log(`Running command "modern ${argv.join(' ')}"`);
-    const instance = spawn(process.execPath, [modernBin, ...argv], {
+    const instance = spawn(process.execPath, [kModernBin, ...argv], {
       ...options.spawnOptions,
       cwd,
       env,
@@ -74,11 +71,6 @@ function runModernCommand(argv, options = {}) {
 }
 
 function runModernCommandDev(argv, stdOut, options = {}) {
-  const modernDir = path.dirname(
-    require.resolve('@modern-js/core/package.json'),
-  );
-  const modernBin = path.join(modernDir, 'bin/modern-js');
-
   const { cwd } = options;
   const env = {
     ...process.env,
@@ -86,7 +78,7 @@ function runModernCommandDev(argv, stdOut, options = {}) {
   };
 
   return new Promise((resolve, reject) => {
-    const instance = spawn(process.execPath, [modernBin, ...argv], {
+    const instance = spawn(process.execPath, [kModernBin, ...argv], {
       cwd,
       env,
     });
@@ -156,13 +148,14 @@ function modernDeploy(dir, mode = '', opts = {}) {
   });
 }
 
-function launchApp(dir, port, opts = {}) {
+function launchApp(dir, port, opts = {}, env = {}) {
   return runModernCommandDev(['dev'], undefined, {
     ...opts,
     cwd: dir,
     env: {
       PORT: port,
       NODE_ENV: 'development',
+      ...env,
     },
   });
 }
@@ -208,40 +201,39 @@ async function killApp(instance) {
 }
 
 function markGuardian() {
-  /* eslint-disable-next-line no-undef */
-  beforeAll(() => {
-    // if (!process.env.IS_GUARDIAN) {
-    //   throw new Error('[guardian]: should use guardian');
-    // }
-  });
+  // IGNORE
 }
 
+// eslint-disable-next-line no-unused-vars
 function installDeps(dir) {
-  spawn.sync('pnpm', ['install', '--filter', './', '--ignore-scripts'], {
-    stdio: 'inherit',
-    cwd: dir,
-  });
+  // console.log(`Installing dependencies in ${dir}`);
+  // FIXME: 跳过本地依赖的安装，因为在根目录执行 pnpm install --ignore-scripts 的时候已经安装好了
+  // spawn.sync('pnpm', ['install', '--filter', './', '--ignore-scripts'], {
+  //   stdio: 'inherit',
+  //   cwd: dir,
+  // });
 }
 
+// eslint-disable-next-line no-unused-vars
 function clearBuildDist(dir) {
+  // console.log(`Clearing build dist in ${dir}`);
   // not support nested projects
-  const _clearBuildDist = _dir => {
-    const isProjectRoot = fs.existsSync(path.join(_dir, 'package.json'));
-    if (isProjectRoot) {
-      rimraf.sync(path.join(_dir, 'dist'));
-    } else {
-      const files = fs.readdirSync(_dir);
-      files.forEach(f => {
-        const curPath = path.join(_dir, f);
-        const isDir = fs.statSync(curPath).isDirectory();
-        if (f !== 'node_modules' && isDir) {
-          _clearBuildDist(curPath);
-        }
-      });
-    }
-  };
-
-  _clearBuildDist(dir);
+  // const _clearBuildDist = _dir => {
+  //   const isProjectRoot = fs.existsSync(path.join(_dir, 'package.json'));
+  //   if (isProjectRoot) {
+  //     rimraf.sync(path.join(_dir, 'dist'));
+  //   } else {
+  //     const files = fs.readdirSync(_dir);
+  //     files.forEach(f => {
+  //       const curPath = path.join(_dir, f);
+  //       const isDir = fs.statSync(curPath).isDirectory();
+  //       if (f !== 'node_modules' && isDir) {
+  //         _clearBuildDist(curPath);
+  //       }
+  //     });
+  //   }
+  // };
+  // _clearBuildDist(dir);
 }
 
 async function getPort() {

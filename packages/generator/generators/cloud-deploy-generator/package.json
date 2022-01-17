@@ -24,13 +24,12 @@
     "new": "modern new",
     "build": "modern build",
     "build:csmith": "csmith-tools build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "devDependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/module-tools": "^1.1.5",
+    "@scripts/build": "workspace:*",
     "@modern-js/plugin-jarvis": "workspace:^1.1.1",
-    "@modern-js/plugin-testing": "^1.2.0",
     "@modern-js/codesmith": "^1.0.8",
     "@modern-js/codesmith-tools": "^1.0.8",
     "@modern-js/codesmith-api-app": "^1.0.7",
@@ -41,7 +40,9 @@
     "del-cli": "^4.0.1",
     "typescript": "^4",
     "@types/jest": "^26.0.9",
-    "@types/node": "^14"
+    "@types/node": "^14",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "sideEffects": [
     "*.css",
@@ -52,5 +53,6 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
-  }
+  },
+  "types": "./src/index.ts"
 }

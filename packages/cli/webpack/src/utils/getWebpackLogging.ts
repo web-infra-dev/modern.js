@@ -1,4 +1,4 @@
-import nodeConsole from 'webpack/lib/node/nodeConsole';
+const nodeConsole = require('webpack/lib/node/nodeConsole');
 
 const webpackLogger = nodeConsole({
   colors: process.env.isTTY,

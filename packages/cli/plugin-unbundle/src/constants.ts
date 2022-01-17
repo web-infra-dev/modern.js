@@ -6,7 +6,7 @@ export const WEB_MODULES_DIR = './node_modules/.modern_js_web_modules';
 
 export const META_DATA_FILE_NAME = 'metadata.json';
 
-export const DEFAULT_DEPS = [
+export const DEFAULT_DEPS: string[] = [
   'react',
   'react-dom',
   '@modern-js/runtime',
@@ -21,14 +21,14 @@ export const DEFAULT_DEPS = [
   '@modern-js/create-request',
 ];
 
-export const MODERN_JS_INTERNAL_PACKAGES = {
+export const MODERN_JS_INTERNAL_PACKAGES: Record<string, string> = {
   '@modern-js/plugin-state': '@modern-js/runtime',
   '@modern-js/plugin-router': '@modern-js/runtime',
   '@modern-js/plugin-ssr': '@modern-js/runtime',
   '@modern-js/create-request/client': '@modern-js/plugin-unbundle',
 };
 
-export const VIRTUAL_DEPS_MAP = {
+export const VIRTUAL_DEPS_MAP: Record<string, string> = {
   '@modern-js/create-request': `export * from '@modern-js/create-request/client';`,
   '@modern-js/runtime/plugins': `
     export { default as router } from '@modern-js/plugin-router';

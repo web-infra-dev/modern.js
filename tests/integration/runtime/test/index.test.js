@@ -1,9 +1,7 @@
-/* eslint-disable no-undef */
 const { join } = require('path');
 const path = require('path');
+const puppeteer = require('puppeteer');
 const {
-  installDeps,
-  clearBuildDist,
   launchApp,
   getPort,
   killApp,
@@ -11,32 +9,37 @@ const {
 } = require('../../../utils/modernTestUtils');
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
-let appPort;
-
-beforeAll(async () => {
-  installDeps(fixtureDir);
-  appPort = await getPort();
-});
-
-afterAll(() => {
-  clearBuildDist(fixtureDir);
-});
 
 describe('useLoader with SSR', () => {
   let $data;
   let logs = [];
   let errors = [];
-  let app;
+  let app,
+    /** @type {puppeteer.Page} */
+    page,
+    /** @type {puppeteer.Browser} */
+    browser;
+
   beforeAll(async () => {
     const appDir = join(fixtureDir, 'use-loader');
+    const appPort = await getPort();
     app = await launchApp(appDir, appPort);
+
+    browser = await puppeteer.launch({ headless: true, dumpio: true });
+    page = await browser.newPage();
+
     page.on('console', msg => logs.push(msg.text));
     page.on('pageerror', error => errors.push(error.text));
-    await page.goto(`http://localhost:${appPort}`);
+    await page.goto(`http://localhost:${appPort}`, {
+      waitUntil: ['networkidle0'],
+    });
     $data = await page.$('#data');
   });
 
   afterAll(async () => {
+    if (browser) {
+      browser.close();
+    }
     if (app) {
       await killApp(app);
     }
@@ -55,7 +58,7 @@ describe('useLoader with SSR', () => {
     logs = [];
     errors = [];
     await page.click('#add');
-    await sleep(1000);
+    await sleep(2000);
     const targetText = await page.evaluate(el => el.textContent, $data);
     expect(targetText).toEqual('1');
 
@@ -68,7 +71,7 @@ describe('useLoader with SSR', () => {
     logs = [];
     errors = [];
     await page.click('#reload');
-    await sleep(1000);
+    await sleep(2000);
     const targetText = await page.evaluate(el => el.textContent, $data);
     expect(targetText).toEqual('1');
 
@@ -81,7 +84,7 @@ describe('useLoader with SSR', () => {
     logs = [];
     errors = [];
     await page.click('#update');
-    await sleep(1000);
+    await sleep(2000);
     const targetText = await page.evaluate(el => el.textContent, $data);
     expect(targetText).toEqual('100');
 
@@ -90,4 +93,3 @@ describe('useLoader with SSR', () => {
     expect(logMsg).not.toMatch('useLoader success: 100');
   });
 });
-/* eslint-enable no-undef */
