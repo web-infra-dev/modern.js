@@ -33,7 +33,7 @@
     "build:watch": "tsc -p ./tsconfig.build.json",
     "prepublishOnly": "npm run build",
     "serve:fixture": "serve -l 8088 fixture",
-    "test": "echo \"No tests!\" && exit 0",
+    "test": "jest --passWithNoTests",
     "test:e2e": "JEST_PUPPETEER_CONFIG=e2e/jest-puppeteer.config.js jest -c ./e2e/jest.config.js --run-in-band",
     "test:unit": "jest -c ./__tests__/jest.config.js"
   },
@@ -111,7 +111,8 @@
     "tar-fs": "~2.1.1",
     "tempy": "~1.0.0",
     "ts-jest": "~27.0.5",
-    "typescript": "^4"
+    "typescript": "^4",
+    "@scripts/jest-config": "workspace:*"
   },
   "engines": {
     "node": ">=14.17.6"

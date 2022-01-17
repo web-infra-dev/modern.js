@@ -4270,6 +4270,7 @@ importers:
       '@rollup/plugin-replace': ~2.3.4
       '@rollup/plugin-wasm': ~5.1.1
       '@rollup/pluginutils': ~4.1.0
+      '@scripts/jest-config': workspace:*
       '@types/autoprefixer': ~9.7.2
       '@types/babel__core': ~7.1.12
       '@types/babel__traverse': ~7.14.2
@@ -4364,6 +4365,7 @@ importers:
       tapable: 2.2.1
       validate-npm-package-name: 3.0.0
     devDependencies:
+      '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__core': 7.1.18
       '@types/babel__traverse': 7.14.2
       '@types/es-module-lexer': 0.3.0

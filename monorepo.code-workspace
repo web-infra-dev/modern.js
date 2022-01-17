@@ -447,8 +447,10 @@
       "README": "markdown"
     },
     "files.exclude": {
+      "**/*/adapters/**/index.js": true,
       "**/*/adapters/**/index.ts": true,
-      "**/*/adapters/**/index.js": true
+      "**/coverage": true,
+      "**/dist": true
     },
     "search.useIgnoreFiles": true,
     "search.exclude": {
