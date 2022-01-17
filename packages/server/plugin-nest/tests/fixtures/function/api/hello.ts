@@ -1,3 +1,3 @@
-export default () => ({ name: 'kjc' });
+export default () => ({ name: 'modernjs' });
 
-export const post = () => 'kjc';
+export const post = () => 'modernjs';
