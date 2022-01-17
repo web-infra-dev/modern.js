@@ -1,5 +1,17 @@
 # @modern-js/new-action
 
+## 1.2.3
+
+### Patch Changes
+
+- ad107726: feat: new action support apppend type define
+- f73fee4b: feat: upgrade codesmith version to add get npm package timeout's time
+- Updated dependencies [ad107726]
+- Updated dependencies [f73fee4b]
+  - @modern-js/generator-common@1.2.4
+  - @modern-js/generator-plugin@1.1.4
+  - @modern-js/generator-utils@1.1.3
+
 ## 1.2.2
 
 ### Patch Changes

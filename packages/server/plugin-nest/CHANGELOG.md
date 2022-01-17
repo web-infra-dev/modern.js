@@ -1,5 +1,11 @@
 # @modern-js/plugin-nest
 
+## 1.2.2
+
+### Patch Changes
+
+- ad107726: feat: new action support apppend type define
+
 ## 1.2.1
 
 ### Patch Changes
