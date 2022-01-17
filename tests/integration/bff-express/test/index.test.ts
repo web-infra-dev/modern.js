@@ -30,7 +30,7 @@ describe('bff in dev', () => {
     await page.goto(`${host}:${port}/${BASE_PAGE}`);
     const text1 = await page.$eval('.hello', el => el.textContent);
     expect(text1).toBe('bff-express');
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 200));
     const text2 = await page.$eval('.hello', el => el.textContent);
     expect(text2).toBe('Hello Modern.js');
   });
@@ -70,7 +70,7 @@ describe('bff in prod', () => {
     await page.goto(`${host}:${port}/${BASE_PAGE}`);
     const text1 = await page.$eval('.hello', el => el.textContent);
     expect(text1).toBe('bff-express');
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 200));
     const text2 = await page.$eval('.hello', el => el.textContent);
     expect(text2).toBe('Hello Modern.js');
   });

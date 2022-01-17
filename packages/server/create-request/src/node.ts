@@ -33,6 +33,8 @@ export const createRequest: RequestCreator = (
   path: string,
   method: string,
   port: number,
+  // 后续可能要修改，暂时先保留
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fetch = nodeFetch as any,
 ) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });

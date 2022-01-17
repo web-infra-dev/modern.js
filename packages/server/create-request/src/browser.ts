@@ -30,6 +30,8 @@ export const createRequest: RequestCreator = (
   path,
   method,
   port,
+  // 后续可能要修改，暂时先保留
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fetch = originFetch,
 ) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
