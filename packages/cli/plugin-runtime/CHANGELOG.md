@@ -1,5 +1,14 @@
 # @modern-js/runtime
 
+## 1.1.3
+
+### Patch Changes
+
+- b8deff8b: feat: add isBrowser in runtime context
+- Updated dependencies [e63591cc]
+  - @modern-js/plugin-router@1.1.3
+  - @modern-js/runtime-core@1.1.4
+
 ## 1.1.2
 
 ### Patch Changes
