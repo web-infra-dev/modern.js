@@ -11,7 +11,7 @@
     "test": "modern test"
   },
   "dependencies": {
-    "@modern-js/runtime": "workspace:^1.1.2",
+    "@modern-js/runtime": "workspace:^1.1.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },

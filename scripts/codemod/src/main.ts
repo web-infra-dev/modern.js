@@ -242,14 +242,19 @@ function fixWorkspacePackagesVersions(file: string) {
     return;
   }
 
+  const ignoredPkg = new Set<string>([
+    '@scripts/build',
+    '@scripts/jest-config',
+  ]);
+
   const { dependencies = {}, devDependencies = {} } = c;
   for (const key of Object.keys(dependencies)) {
-    if (kWorkspace.has(key)) {
+    if (kWorkspace.has(key) && !ignoredPkg.has(key)) {
       dependencies[key] = `workspace:^${kWorkspace.get(key)!}`;
     }
   }
   for (const key of Object.keys(devDependencies)) {
-    if (kWorkspace.has(key)) {
+    if (kWorkspace.has(key) && !ignoredPkg.has(key)) {
       devDependencies[key] = `workspace:^${kWorkspace.get(key)!}`;
     }
   }
@@ -337,8 +342,9 @@ function main() {
     nodir: true,
     ignore: ['**/node_modules/**', '**/dist/**', '**/fixtures/**'],
   });
-  files.forEach(fixTypesField);
-  // files.forEach(fixWorkspacePackagesVersions);
+  // files.forEach(fixTypesField);
+  files.forEach(getWorkspacePackages);
+  files.forEach(fixWorkspacePackagesVersions);
   // files.forEach(addPublishConfig);
   // console.log([...kWorkspace]);
 
