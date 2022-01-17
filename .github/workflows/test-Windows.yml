@@ -49,4 +49,4 @@ jobs:
 
       - name: Test
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm run fast-test
+        run: pnpm run test:ut

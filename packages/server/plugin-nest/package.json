@@ -11,9 +11,9 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.1",
+  "version": "1.2.2",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/index.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "jsnext:modern": "./dist/index.js",
@@ -41,7 +41,7 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "tsc",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@modern-js/adapter-helpers": "workspace:^1.1.1",
@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@modern-js/bff-utils": "workspace:^1.1.1",
-    "@modern-js/runtime": "workspace:^1.1.2",
+    "@modern-js/runtime": "workspace:^1.1.3",
     "@modern-js/bff-runtime": "workspace:^1.1.1",
     "@modern-js/server-utils": "workspace:^1.1.2",
     "@types/babel__traverse": "^7.14.2",
@@ -80,8 +80,9 @@
     "@nestjs/core": "^8.0.6",
     "@modern-js/core": "workspace:^1.2.0",
     "@modern-js/server-plugin": "workspace:^1.1.4",
-    "@modern-js/plugin-testing": "^1.2.0",
-    "@modern-js/module-tools": "^1.1.5"
+    "@scripts/build": "workspace:*",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
     "express": "^4.17.1",
@@ -109,6 +110,7 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/index.d.ts"
   }
 }

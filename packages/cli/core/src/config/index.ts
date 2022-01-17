@@ -175,8 +175,13 @@ export const defineConfig = (config: ConfigParam): ConfigParam => config;
 export const loadUserConfig = async (
   appDirectory: string,
   filePath?: string,
+  packageJsonConfig?: string,
 ): Promise<LoadedConfig> => {
-  const loaded = await loadConfig<ConfigParam>(appDirectory, filePath);
+  const loaded = await loadConfig<ConfigParam>(
+    appDirectory,
+    filePath,
+    packageJsonConfig,
+  );
 
   const config = !loaded
     ? {}
@@ -186,7 +191,7 @@ export const loadUserConfig = async (
 
   return {
     config: mergeWith({}, config || {}, loaded?.pkgConfig || {}),
-    jsConfig: config || {},
+    jsConfig: (config || {}) as any,
     pkgConfig: (loaded?.pkgConfig || {}) as UserConfig,
     filePath: loaded?.path,
     dependencies: loaded?.dependencies || [],
@@ -282,7 +287,7 @@ export const resolveConfig = async (
       throw new Error(`Validate configuration error.`);
     }
   }
-  const resolved = mergeConfig([defaults, ...configs, userConfig]);
+  const resolved = mergeConfig([defaults as any, ...configs, userConfig]);
 
   resolved._raw = loaded.config;
 

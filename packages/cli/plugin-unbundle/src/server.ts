@@ -16,7 +16,8 @@ import {
   clearConsole,
 } from '@modern-js/utils';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
-import { macrosPlugin } from './plugins/macro';
+// FIXME: 很奇怪，换了名字之后就可以编译通过了，可能 `macro` 这个名字有啥特殊的含义？
+import { macrosPlugin } from './plugins/_macro';
 import { lanuchEditorMiddleware } from './middlewares/lanuch-editor';
 import { assetsPlugin } from './plugins/assets';
 import { transformMiddleware } from './middlewares/transform';
@@ -97,7 +98,7 @@ export const createDevServer = async (
   );
 
   const server: ESMServer = {
-    https,
+    https: https!,
     appDirectory,
     config,
     httpServer,

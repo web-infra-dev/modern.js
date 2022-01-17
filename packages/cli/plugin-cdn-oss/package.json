@@ -13,7 +13,7 @@
     "modern.js"
   ],
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/index.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
@@ -37,27 +37,28 @@
     "dev": "modern dev",
     "build": "modern build",
     "new": "modern new",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/core": "workspace:^1.1.2",
-    "@modern-js/utils": "workspace:^1.1.2",
+    "@modern-js/core": "workspace:^1.2.0",
+    "@modern-js/utils": "workspace:^1.1.6",
     "ali-oss": "^6",
     "js-yaml": "^4.1.0",
     "walk": "^2.3.15"
   },
   "devDependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/module-tools": "^1.1.5",
+    "@scripts/build": "workspace:*",
     "@modern-js/plugin-jarvis": "workspace:^1.1.1",
-    "@modern-js/plugin-testing": "^1.1.1",
     "del-cli": "^4.0.1",
     "typescript": "^4",
     "@types/jest": "^26.0.9",
     "@types/node": "^14",
     "@types/ali-oss": "^6",
     "@types/js-yaml": "^4.0.4",
-    "@types/walk": "^2.3.1"
+    "@types/walk": "^2.3.1",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "sideEffects": [
     "*.css",
@@ -67,6 +68,7 @@
   ],
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "types": "./dist/types/index.d.ts"
   }
 }

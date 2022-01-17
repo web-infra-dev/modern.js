@@ -1,5 +1,11 @@
 # @modern-js/plugin-analyze
 
+## 1.1.3
+
+### Patch Changes
+
+- fix: template error
+
 ## 1.1.2
 
 ### Patch Changes

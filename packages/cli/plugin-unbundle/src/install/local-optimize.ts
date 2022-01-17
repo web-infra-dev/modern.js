@@ -219,7 +219,7 @@ const compileDeps = async (
                       resolveDepVersion(
                         MODERN_JS_INTERNAL_PACKAGES[specifier],
                         appDirectory,
-                      ).filePath,
+                      ).filePath!,
                     ).filePath
                   : virtualImporter,
               );

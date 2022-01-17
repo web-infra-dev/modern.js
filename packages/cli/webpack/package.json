@@ -11,9 +11,9 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.3",
+  "version": "1.1.4",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/index.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
@@ -32,14 +32,14 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/babel-chain": "workspace:^1.1.1",
+    "@modern-js/babel-chain": "workspace:^1.1.2",
     "@modern-js/babel-preset-app": "workspace:^1.1.1",
-    "@modern-js/css-config": "workspace:^1.1.1",
-    "@modern-js/utils": "workspace:^1.1.3",
+    "@modern-js/css-config": "workspace:^1.1.2",
+    "@modern-js/utils": "workspace:^1.1.6",
     "@svgr/webpack": "^5.5.0",
     "babel-loader": "^8.2.2",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
@@ -54,7 +54,7 @@
     "json-loader": "^0.5.7",
     "lodash.template": "^4.5.0",
     "markdown-loader": "^6.0.0",
-    "mini-css-extract-plugin": "^2.1.0",
+    "mini-css-extract-plugin": "~2.4.5",
     "node-libs-browser": "^2.2.1",
     "postcss": "^8.3.6",
     "postcss-loader": "^6.1.1",
@@ -74,10 +74,9 @@
     "yaml-loader": "^0.6.0"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.1.3",
-    "@modern-js/module-tools": "^1.1.5",
-    "@modern-js/plugin-testing": "^1.1.1",
-    "@modern-js/types": "workspace:^1.1.2",
+    "@modern-js/core": "workspace:^1.2.0",
+    "@scripts/build": "workspace:*",
+    "@modern-js/types": "workspace:^1.1.5",
     "@types/case-sensitive-paths-webpack-plugin": "^2.1.6",
     "@types/copy-webpack-plugin": "^8.0.1",
     "@types/css-minimizer-webpack-plugin": "^3.0.2",
@@ -89,7 +88,9 @@
     "@types/webpack-bundle-analyzer": "^4.4.1",
     "@types/webpack-node-externals": "^2.5.2",
     "tapable": "^2.2.1",
-    "typescript": "^4"
+    "typescript": "^4",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
     "@modern-js/core": "workspace:^1.1.3"
@@ -102,6 +103,7 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/types/index.d.ts"
   }
 }
