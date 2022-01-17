@@ -1,5 +1,11 @@
 # @modern-js/webpack
 
+## 1.1.4
+
+### Patch Changes
+
+- fix: webpack mini-css-extract-plugin version
+
 ## 1.1.3
 
 ### Patch Changes
