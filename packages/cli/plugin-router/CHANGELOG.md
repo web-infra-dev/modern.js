@@ -1,5 +1,13 @@
 # @modern-js/plugin-router
 
+## 1.1.3
+
+### Patch Changes
+
+- e63591cc: fix page project dev error
+- Updated dependencies [e63591cc]
+  - @modern-js/runtime-core@1.1.4
+
 ## 1.1.2
 
 ### Patch Changes
