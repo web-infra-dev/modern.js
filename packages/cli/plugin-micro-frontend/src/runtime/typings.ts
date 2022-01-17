@@ -1,7 +1,12 @@
-import garfish from 'garfish';
+import garfish, { interfaces } from 'garfish';
 
 export type Options = typeof garfish.options;
-export type ModulesInfo = Required<Options>['apps'];
+export type ModulesInfo = Array<
+  interfaces.AppInfo & {
+    Component?: React.FC<any>;
+    originInfo?: Record<string, unknown>;
+  }
+>;
 export type ModuleInfo = ModulesInfo[number];
 
 export type Config = Partial<Options> & {

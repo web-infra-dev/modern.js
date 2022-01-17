@@ -12,3 +12,11 @@ export function useModuleApp() {
 
   return MApp;
 }
+
+export function useLegacyModuleApps() {
+  const { MApp, modules } = useContext(GarfishContext);
+  return {
+    MApp,
+    apps: modules,
+  };
+}

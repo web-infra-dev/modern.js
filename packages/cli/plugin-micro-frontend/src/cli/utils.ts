@@ -18,10 +18,15 @@ export const makeProvider = () => `
         const SubApp = render(props, basename);
 
         return createPortal(<SubApp />, dom.querySelector('#' + MOUNT_ID));
+      },
+      jupiter_submodule_app_key: () => {
+        const SubApp = render(props, basename);
+
+        return createPortal(<SubApp />, dom.querySelector('#' + MOUNT_ID));
       }
     }
   }
-  `;
+`;
 
 export const makeRenderFunction = (code: string) =>
   code
