@@ -1,5 +1,11 @@
 # @modern-js/generator-utils
 
+## 1.1.3
+
+### Patch Changes
+
+- f73fee4b: feat: upgrade codesmith version to add get npm package timeout's time
+
 ## 1.1.2
 
 ### Patch Changes

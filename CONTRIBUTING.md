@@ -36,6 +36,12 @@ To develop locally:
 
 6. Start developing.
 
+7. Add changeset. Select changed packages in this commits and add changeset info.
+
+   ```zsh
+   pnpm run change
+   ```
+
 ## Building
 
 You can build single package, with:
@@ -96,19 +102,13 @@ Repository maintainers can publish a new version of all packages to npm.
     pnpm run prepare
     ```
 
-4. Add changeset
-
-   ```zsh
-   pnpm run change
-   ```
-
-5. Bump version
+4. Bump version
 
    ```zsh
    pnpm run bump
    ```
 
-6. Commit version change. The format of commit message should be `chore: va.b.c` which is the main version of current release.
+5. Commit version change. The format of commit message should be `chore: va.b.c` which is the main version of current release.
 
     ```zsh
     git add .

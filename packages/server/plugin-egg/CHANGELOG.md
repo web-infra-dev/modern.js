@@ -1,5 +1,11 @@
 # @modern-js/plugin-egg
 
+## 1.3.3
+
+### Patch Changes
+
+- ad107726: feat: new action support apppend type define
+
 ## 1.3.0
 
 ### Minor Changes

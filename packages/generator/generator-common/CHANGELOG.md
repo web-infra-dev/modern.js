@@ -1,5 +1,11 @@
 # @modern-js/generator-common
 
+## 1.2.4
+
+### Patch Changes
+
+- ad107726: feat: new action support apppend type define
+
 ## 1.2.3
 
 ### Patch Changes

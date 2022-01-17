@@ -1,5 +1,17 @@
 # @modern-js/plugin-storybook
 
+## 1.1.6
+
+### Patch Changes
+
+- 300abe9b: add MODERN_CUSTOM_STORYBOOK_ADDON env vars
+- 300abe9b: optimize webpack config
+- Updated dependencies [b8deff8b]
+- Updated dependencies [e63591cc]
+  - @modern-js/runtime@1.1.3
+  - @modern-js/plugin-router@1.1.3
+  - @modern-js/runtime-core@1.1.4
+
 ## 1.1.5
 
 ### Patch Changes
