@@ -61,6 +61,28 @@ describe('load user config file', () => {
     expect(config).toHaveProperty('output.polyfill', 'off');
   });
 
+  test(`should support specify package.json config property name`, async () => {
+    const fixturePath = path.resolve(__dirname, './fixtures/config/file-param');
+    const customUserConfig = await loadConfig<any>(
+      path.join(fixturePath),
+      undefined,
+      'aConfig',
+    );
+    const { pkgConfig: customPkgConfig } = customUserConfig;
+
+    expect(customPkgConfig).toBeTruthy();
+
+    expect(customPkgConfig).toHaveProperty('hasAConfig');
+    expect(customPkgConfig).not.toHaveProperty('hasModernConfig');
+
+    const defaultUserConfig = await loadConfig<any>(path.join(fixturePath));
+    const { pkgConfig: defaultPkgConfig } = defaultUserConfig;
+
+    expect(defaultPkgConfig).toBeTruthy();
+    expect(defaultPkgConfig).toHaveProperty('hasModernConfig');
+    expect(defaultPkgConfig).not.toHaveProperty('hasAConfig');
+  });
+
   test(`have no config file found`, async () => {
     const fixturePath = path.resolve(__dirname, './fixtures/config/no-config');
 

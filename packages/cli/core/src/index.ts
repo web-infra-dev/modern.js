@@ -142,6 +142,7 @@ const initAppDir = async (): Promise<string> => {
 
 export interface CoreOptions {
   configFile?: string;
+  packageJsonConfig?: string;
   plugins?: typeof INTERNAL_PLUGINS;
   beforeUsePlugins: (
     plugins: any,
@@ -162,7 +163,11 @@ const createCli = () => {
 
     loadEnv(appDirectory);
 
-    const loaded = await loadUserConfig(appDirectory, options?.configFile);
+    const loaded = await loadUserConfig(
+      appDirectory,
+      options?.configFile,
+      options?.packageJsonConfig,
+    );
 
     let plugins = loadPlugins(
       appDirectory,
