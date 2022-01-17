@@ -34,7 +34,8 @@ const plugin: any = () =>
           pickedContext: {
             ...pickedContext,
             request: context?.ssrContext?.request,
-          },
+            // FIXME: error TS2322: Type '{ request: any; store: Store<any, AnyAction> & { use: UseModel; }; }' is not assignable to type 'TRuntimeContext'. Object literal may only specify known properties, and 'request' does not exist in type 'TRuntimeContext'.
+          } as any,
         }),
     }),
     { name: '@modern-js/plugin-ssr' },

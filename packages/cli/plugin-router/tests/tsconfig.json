@@ -6,11 +6,7 @@
     "baseUrl": "./",
     "isolatedModules": true,
     "esModuleInterop": true,
-    "paths": {
-      ,
-      "@modern-js/plugin": ["node_modules/@modern-js/plugin"],
-      "@modern-js/runtime-core": ["node_modules/@modern-js/runtime-core"]
-    },
+    "paths": {},
     "types": ["node", "jest"]
   }
 }

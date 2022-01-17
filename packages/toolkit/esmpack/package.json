@@ -12,7 +12,18 @@
     "modern",
     "modern.js"
   ],
-  "main": "dist/index.js",
+  "jsnext:source": "./src/index.ts",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "node": {
+        "jsnext:source": "./src/index.ts",
+        "import": "./dist/index.js",
+        "require": "./dist/index.js"
+      },
+      "default": "./dist/index.js"
+    }
+  },
   "files": [
     "dist"
   ],
@@ -22,12 +33,12 @@
     "build:watch": "tsc -p ./tsconfig.build.json",
     "prepublishOnly": "npm run build",
     "serve:fixture": "serve -l 8088 fixture",
-    "test": "echo \"No tests!\" && exit 0",
+    "test": "jest --passWithNoTests",
     "test:e2e": "JEST_PUPPETEER_CONFIG=e2e/jest-puppeteer.config.js jest -c ./e2e/jest.config.js --run-in-band",
     "test:unit": "jest -c ./__tests__/jest.config.js"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:1.1.6",
+    "@modern-js/utils": "workspace:^1.1.6",
     "@babel/core": "~7.12.10",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
@@ -100,7 +111,8 @@
     "tar-fs": "~2.1.1",
     "tempy": "~1.0.0",
     "ts-jest": "~27.0.5",
-    "typescript": "^4"
+    "typescript": "^4",
+    "@scripts/jest-config": "workspace:*"
   },
   "engines": {
     "node": ">=14.17.6"
@@ -108,5 +120,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
-  }
+  },
+  "types": "./src/index.ts"
 }

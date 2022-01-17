@@ -1,0 +1,18 @@
+{
+  "name": "@scripts/build",
+  "private": true,
+  "version": "0.0.0",
+  "main": "./src/index.js",
+  "bin": {
+    "modern": "./bin/modern.js"
+  },
+  "devDependencies": {
+    "btsm": "2.2.2",
+    "@types/jest": "^26",
+    "@types/node": "^14"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
+}

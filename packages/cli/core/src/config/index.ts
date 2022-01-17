@@ -191,7 +191,7 @@ export const loadUserConfig = async (
 
   return {
     config: mergeWith({}, config || {}, loaded?.pkgConfig || {}),
-    jsConfig: config || {},
+    jsConfig: (config || {}) as any,
     pkgConfig: (loaded?.pkgConfig || {}) as UserConfig,
     filePath: loaded?.path,
     dependencies: loaded?.dependencies || [],
@@ -287,7 +287,7 @@ export const resolveConfig = async (
       throw new Error(`Validate configuration error.`);
     }
   }
-  const resolved = mergeConfig([defaults, ...configs, userConfig]);
+  const resolved = mergeConfig([defaults as any, ...configs, userConfig]);
 
   resolved._raw = loaded.config;
 

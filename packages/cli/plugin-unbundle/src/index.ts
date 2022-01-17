@@ -18,13 +18,13 @@ export default createPlugin(
 
       const devCommand = program.commandsMap.get('dev');
 
-      devCommand.option('--unbundled', 'dev with unbundled mode');
+      devCommand?.option('--unbundled', 'dev with unbundled mode');
 
       if (
         process.argv.slice(2)[0] === 'dev' &&
         process.argv.includes('--unbundled')
       ) {
-        devCommand.action(async () => {
+        devCommand?.action(async () => {
           await dev(config, appContext);
         });
       }
