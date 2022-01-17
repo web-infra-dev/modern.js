@@ -37,6 +37,7 @@ export const EN_LOCALE = {
       runtime_api: 'Enable "Runtime API"',
       mwa_storybook: 'Enable "Visual Testing (Storybook)"',
       ssg: 'Enable "SSG"',
+      polyfill: 'Enable "UA-based Polyfill feature"',
       deploy: 'Enable "Deploy"',
     },
     element: {
