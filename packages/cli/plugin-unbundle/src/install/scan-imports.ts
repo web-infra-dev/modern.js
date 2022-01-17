@@ -181,7 +181,7 @@ const scanFiles = async (
         useBabelMacros = true;
       }
 
-      if (VIRTUAL_DEPS_MAP[specifier]) {
+      if (VIRTUAL_DEPS_MAP[specifier!]) {
         continue;
       }
 

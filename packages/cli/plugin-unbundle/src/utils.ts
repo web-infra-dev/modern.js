@@ -74,7 +74,7 @@ export const replaceAsync = (
       // 1. Run fake pass of `replace`, collect values from `replacer` calls
       // 2. Resolve them with `Promise.all`
       // 3. Run `replace` with resolved values
-      const values = [];
+      const values: any[] = [];
       String.prototype.replace.call(str, searchValue, (...args) => {
         // eslint-disable-next-line prefer-spread
         values.push(replacer.apply(undefined, args as any));

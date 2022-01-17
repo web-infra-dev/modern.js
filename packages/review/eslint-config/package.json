@@ -12,7 +12,6 @@
     "modern",
     "modern.js"
   ],
-  "main": "index.js",
   "scripts": {
     "check": "eslint-find-rules --unused index.js",
     "stat": "eslint-index index.js --format table"
@@ -37,7 +36,7 @@
     "prettier": "^2.0.1"
   },
   "dependencies": {
-    "@modern-js-app/eslint-config": "workspace:^1.1.0"
+    "@modern-js-app/eslint-config": "workspace:^1.1.2"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
@@ -47,5 +46,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
-  }
+  },
+  "main": "index.js"
 }
