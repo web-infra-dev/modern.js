@@ -1,5 +1,11 @@
 # @modern-js/bff-refactor-generator
 
+## 1.1.6
+
+### Patch Changes
+
+- f73fee4b: feat: upgrade codesmith version to add get npm package timeout's time
+
 ## 1.1.5
 
 ### Patch Changes

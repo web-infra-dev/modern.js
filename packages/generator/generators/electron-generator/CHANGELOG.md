@@ -1,5 +1,11 @@
 # @modern-js/electron-generator
 
+## 1.1.8
+
+### Patch Changes
+
+- f73fee4b: feat: upgrade codesmith version to add get npm package timeout's time
+
 ## 1.1.7
 
 ### Patch Changes

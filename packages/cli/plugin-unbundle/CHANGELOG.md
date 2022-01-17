@@ -1,5 +1,11 @@
 # @modern-js/plugin-unbundle
 
+## 1.1.3
+
+### Patch Changes
+
+- fix: unbundle error
+
 ## 1.1.2
 
 ### Patch Changes
