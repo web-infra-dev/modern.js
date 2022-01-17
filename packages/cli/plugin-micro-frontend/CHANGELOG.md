@@ -1,5 +1,14 @@
 # @modern-js/plugin-micro-frontend
 
+## 1.1.3
+
+### Patch Changes
+
+- ad107726: feat: new action support apppend type define
+- Updated dependencies [e63591cc]
+  - @modern-js/plugin-router@1.1.3
+  - @modern-js/runtime-core@1.1.4
+
 ## 1.1.2
 
 ### Patch Changes

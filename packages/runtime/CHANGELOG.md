@@ -1,5 +1,11 @@
 # @modern-js/runtime-core
 
+## 1.1.4
+
+### Patch Changes
+
+- e63591cc: fix page project dev error
+
 ## 1.1.3
 
 ### Patch Changes

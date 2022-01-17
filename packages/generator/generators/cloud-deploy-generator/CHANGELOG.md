@@ -1,5 +1,11 @@
 # @modern-js/cloud-deploy-generator
 
+## 1.0.13
+
+### Patch Changes
+
+- f73fee4b: feat: upgrade codesmith version to add get npm package timeout's time
+
 ## 1.0.12
 
 ### Patch Changes

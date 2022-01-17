@@ -1,5 +1,12 @@
 # @modern-js/dependence-generator
 
+## 1.1.6
+
+### Patch Changes
+
+- ad107726: feat: new action support apppend type define
+- f73fee4b: feat: upgrade codesmith version to add get npm package timeout's time
+
 ## 1.1.5
 
 ### Patch Changes
