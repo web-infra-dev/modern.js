@@ -24,7 +24,7 @@
     "new": "modern new",
     "build": "modern build",
     "build:csmith": "csmith-tools build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "devDependencies": {
     "@babel/runtime": "^7",
@@ -36,11 +36,12 @@
     "@modern-js/codesmith-api-json": "^1.0.7",
     "@modern-js/generator-common": "workspace:^1.2.4",
     "@modern-js/generator-utils": "workspace:^1.1.3",
-    "@modern-js/module-tools": "^1.1.5",
-    "@modern-js/plugin-testing": "^1.2.0",
+    "@scripts/build": "workspace:*",
     "@types/jest": "^26",
     "@types/node": "^14",
-    "typescript": "^4"
+    "typescript": "^4",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "sideEffects": false,
   "modernConfig": {
@@ -52,5 +53,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
-  }
+  },
+  "types": "./src/index.ts"
 }

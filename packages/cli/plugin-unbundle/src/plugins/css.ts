@@ -75,7 +75,7 @@ const initTailwindConfig = (config: NormalizedConfig) => {
       // TODO: talwindcss config.
       tailwindConfig = (config.tools as any).tailwind;
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err.code !== 'MODULE_NOT_FOUND') {
       throw err;
     }
@@ -177,7 +177,7 @@ export class CustomLessFileManager extends less.FileManager {
         options,
         environment,
       );
-    } catch (err) {
+    } catch (err: any) {
       if (err.type !== 'File') {
         return Promise.reject(err);
       }
@@ -224,7 +224,7 @@ const compileLess = async (
     );
 
     return { css: res.css, deps: res.imports || [], map: res.map };
-  } catch (err) {
+  } catch (err: any) {
     if (err.filename) {
       err.frame = codeFrameColumns(fs.readFileSync(err.filename, 'utf8'), {
         start: {
@@ -293,7 +293,7 @@ const compileSass = async (
       deps: result.stats.includedFiles || [],
       map: result.map.toString(),
     };
-  } catch (e) {
+  } catch (e: any) {
     e.loc = {
       file: e.file,
       line: e.line,
@@ -417,7 +417,7 @@ const transformCSS = async (
       css: result.css,
       map: result.map as any,
     };
-  } catch (err) {
+  } catch (err: any) {
     if (err.line !== undefined && err.column !== undefined) {
       err.loc = {
         file: err.file,

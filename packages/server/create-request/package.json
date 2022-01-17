@@ -13,7 +13,7 @@
   ],
   "version": "1.1.2",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/index.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
@@ -53,7 +53,7 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7",
@@ -62,9 +62,8 @@
     "path-to-regexp": "^6.2.0"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "^1.1.5",
+    "@scripts/build": "workspace:*",
     "@modern-js/plugin-ssr": "workspace:^1.1.3",
-    "@modern-js/plugin-testing": "^1.1.1",
     "@types/jest": "^27.0.3",
     "@types/node": "^14",
     "@types/node-fetch": "^2.5.12",
@@ -72,7 +71,9 @@
     "@types/react-dom": "^17",
     "isomorphic-fetch": "^3.0.0",
     "nock": "^13.2.1",
-    "typescript": "^4"
+    "typescript": "^4",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
     "@modern-js/plugin-ssr": "workspace:^1.1.3"
@@ -80,6 +81,7 @@
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/types/index.d.ts"
   }
 }

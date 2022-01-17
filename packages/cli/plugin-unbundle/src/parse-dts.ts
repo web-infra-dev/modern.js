@@ -1,7 +1,6 @@
 import fs from 'fs';
 import merge from 'lodash.merge';
-
-import ts = require('typescript');
+import ts from 'typescript';
 
 let enumsMap = {};
 
@@ -35,6 +34,7 @@ const createEnumObject = (enumNode: ts.EnumDeclaration, namespace?: string) => {
 const visit = (node: ts.Node) => {
   if (
     node.kind === ts.SyntaxKind.EnumDeclaration &&
+    node.modifiers &&
     node?.modifiers[0].kind === ts.SyntaxKind.DeclareKeyword &&
     node?.modifiers[1].kind === ts.SyntaxKind.ConstKeyword
   ) {

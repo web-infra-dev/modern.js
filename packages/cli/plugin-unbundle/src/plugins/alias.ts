@@ -77,7 +77,7 @@ export const aliasPlugin = (
       return plugin.buildStart?.call(this, options);
     },
     resolveId(id: string, importer?: string) {
-      return plugin.resolveId?.call(this, id, importer, {});
+      return plugin.resolveId?.call(this, id, importer, {} as any);
     },
   };
 };
