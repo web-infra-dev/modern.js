@@ -175,8 +175,13 @@ export const defineConfig = (config: ConfigParam): ConfigParam => config;
 export const loadUserConfig = async (
   appDirectory: string,
   filePath?: string,
+  packageJsonConfig?: string,
 ): Promise<LoadedConfig> => {
-  const loaded = await loadConfig<ConfigParam>(appDirectory, filePath);
+  const loaded = await loadConfig<ConfigParam>(
+    appDirectory,
+    filePath,
+    packageJsonConfig,
+  );
 
   const config = !loaded
     ? {}
