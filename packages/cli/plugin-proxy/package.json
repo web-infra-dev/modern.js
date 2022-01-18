@@ -38,9 +38,6 @@
     "build": "modern build",
     "test": "jest --passWithNoTests"
   },
-  "bin": {
-    "modern": "./bin/modern.js"
-  },
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/utils": "workspace:^1.1.6",
