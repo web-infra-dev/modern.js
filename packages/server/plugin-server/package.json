@@ -51,6 +51,9 @@
   "devDependencies": {
     "@modern-js/core": "workspace:^1.2.0",
     "@scripts/build": "workspace:*",
+    "@modern-js/module-tools": "^1.1.5",
+    "@modern-js/plugin-testing": "^1.0.0",
+    "@modern-js/types": "workspace:^1.1.5",
     "del-cli": "^4.0.1",
     "typescript": "^4",
     "@types/jest": "^26.0.9",
