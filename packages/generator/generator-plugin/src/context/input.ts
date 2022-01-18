@@ -1,6 +1,6 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable max-lines */
-import { Schema } from '@modern-js/easy-form-core';
+import { Schema, SchemaValidateType } from '@modern-js/easy-form-core';
 import { isFunction } from 'lodash';
 
 export enum InputType {
@@ -28,10 +28,7 @@ export interface IInput {
     input: Record<string, unknown>,
     extra?: Record<string, unknown>,
   ) => boolean;
-  validate?: (
-    input: Record<string, unknown>,
-    extra?: Record<string, unknown>,
-  ) => Promise<{ success: boolean; error?: string }>;
+  validate?: SchemaValidateType;
 }
 export class PluginInputContext {
   inputValue: Record<string, unknown> = {};
