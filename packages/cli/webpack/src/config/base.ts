@@ -27,6 +27,7 @@ import {
   SVG_REGEX,
   ASSETS_REGEX,
   CSS_MODULE_REGEX,
+  GLOBAL_CSS_REGEX,
   JS_RESOLVE_EXTENSIONS,
   CACHE_DIRECTORY,
 } from '../utils/constants';
@@ -286,27 +287,28 @@ class BaseWebpackConfig {
       loaders.oneOf('js').include.add(include);
       loaders.oneOfs.has('ts') && loaders.oneOf('ts').include.add(include);
     }
-
+    const disableCssModuleExtension =
+      this.options.output?.disableCssModuleExtension ?? false;
     // css
-    if (!this.options.output?.disableCssModuleExtension) {
-      createCSSRule(
-        this.chain,
-        {
-          appDirectory: this.appDirectory,
-          config: this.options,
-        },
-        {
-          name: 'css',
-          test: CSS_REGEX,
-          exclude: [CSS_MODULE_REGEX],
-        },
-        {
-          importLoaders: 1,
-          esModule: false,
-          sourceMap: isProd() && !this.options.output?.disableSourceMap,
-        },
-      );
-    }
+    createCSSRule(
+      this.chain,
+      {
+        appDirectory: this.appDirectory,
+        config: this.options,
+      },
+      {
+        name: 'css',
+        // when disableCssModuleExtension is true,
+        // only transfer *.global.css in css-loader
+        test: disableCssModuleExtension ? GLOBAL_CSS_REGEX : CSS_REGEX,
+        exclude: [CSS_MODULE_REGEX],
+      },
+      {
+        importLoaders: 1,
+        esModule: false,
+        sourceMap: isProd() && !this.options.output?.disableSourceMap,
+      },
+    );
 
     // css modules
     createCSSRule(
@@ -317,11 +319,9 @@ class BaseWebpackConfig {
       },
       {
         name: 'css-modules',
-        test: this.options.output?.disableCssModuleExtension
-          ? CSS_REGEX
-          : CSS_MODULE_REGEX,
-        exclude: this.options.output?.disableCssModuleExtension
-          ? [/node_modules/, /\.global\.css$/]
+        test: disableCssModuleExtension ? CSS_REGEX : CSS_MODULE_REGEX,
+        exclude: disableCssModuleExtension
+          ? [/node_modules/, GLOBAL_CSS_REGEX]
           : [],
         genTSD: this.options.output?.enableCssModuleTSDeclaration,
       },
@@ -447,6 +447,7 @@ class BaseWebpackConfig {
 
     return loaders;
   }
+
   /* eslint-enable max-statements */
 
   plugins() {
@@ -550,6 +551,7 @@ class BaseWebpackConfig {
         .use(TsConfigPathsPlugin, [this.appDirectory]);
     }
   }
+
   /* eslint-enable  max-statements */
 
   cache() {
