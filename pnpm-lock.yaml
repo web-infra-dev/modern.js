@@ -36,6 +36,56 @@ importers:
       jest: 27.4.5
       scan-deps: 0.1.0
 
+  examples/dashboard:
+    specifiers:
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/plugin-jarvis': workspace:*
+      '@modern-js/plugin-micro-frontend': workspace:*
+      '@modern-js/runtime': workspace:*
+      '@types/node': ^14
+      '@types/react': ^17
+      '@types/react-dom': ^17
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      '@modern-js/plugin-micro-frontend': link:../../packages/cli/plugin-micro-frontend
+      '@modern-js/runtime': link:../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/app-tools': link:../../packages/solutions/app-tools
+      '@modern-js/plugin-jarvis': link:../../packages/cli/plugin-jarvis
+      '@types/node': 14.18.4
+      '@types/react': 17.0.38
+      '@types/react-dom': 17.0.11
+      typescript: 4.5.4
+
+  examples/main:
+    specifiers:
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/plugin-jarvis': workspace:*
+      '@modern-js/plugin-micro-frontend': workspace:*
+      '@modern-js/runtime': workspace:*
+      '@types/node': ^14
+      '@types/react': ^17
+      '@types/react-dom': ^17
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      '@modern-js/plugin-micro-frontend': link:../../packages/cli/plugin-micro-frontend
+      '@modern-js/runtime': link:../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/app-tools': link:../../packages/solutions/app-tools
+      '@modern-js/plugin-jarvis': link:../../packages/cli/plugin-jarvis
+      '@types/node': 14.18.4
+      '@types/react': 17.0.38
+      '@types/react-dom': 17.0.11
+      typescript: 4.5.4
+
   packages/cli/babel-preset-app:
     specifiers:
       '@babel/core': ^7.9.0

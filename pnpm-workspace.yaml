@@ -12,4 +12,4 @@ packages:
  - 'scripts/*'
  - 'tests'
  - 'tests/integration/**/*'
- - 'examples/micro-apps/*'
+ - 'examples/*'
