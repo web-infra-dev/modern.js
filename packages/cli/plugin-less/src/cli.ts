@@ -19,6 +19,8 @@ const LESS_REGEX = /\.less$/;
 
 const LESS_MODULE_REGEX = /\.module\.less$/;
 
+const GLOBAL_LESS_REGEX = /\.global\.less$/;
+
 export default core.createPlugin(
   () => ({
     validateSchema() {
@@ -38,22 +40,24 @@ export default core.createPlugin(
 
             const loaders = chain.module.rule('loaders');
 
-            if (!disableCssModuleExtension) {
-              loaders
-                .oneOf('less')
-                .before('fallback')
-                .merge({
-                  test: LESS_REGEX,
-                  exclude: LESS_MODULE_REGEX,
-                  use: [
-                    ...(loaders.oneOf('css') as any).toConfig().use,
-                    {
-                      loader: require.resolve('less-loader'),
-                      options: lessOptions,
-                    },
-                  ],
-                });
-            }
+            loaders
+              .oneOf('less')
+              .before('fallback')
+              .merge({
+                // when disableCssModuleExtension is true,
+                // only transfer *.global.less in less-loader
+                test: disableCssModuleExtension
+                  ? GLOBAL_LESS_REGEX
+                  : LESS_REGEX,
+                exclude: LESS_MODULE_REGEX,
+                use: [
+                  ...(loaders.oneOf('css') as any).toConfig().use,
+                  {
+                    loader: require.resolve('less-loader'),
+                    options: lessOptions,
+                  },
+                ],
+              });
 
             loaders
               .oneOf('less-modules')
@@ -62,7 +66,7 @@ export default core.createPlugin(
                 test: disableCssModuleExtension
                   ? LESS_REGEX
                   : LESS_MODULE_REGEX,
-                exclude: [/node_modules/, /\.global\.less$/],
+                exclude: [/node_modules/, GLOBAL_LESS_REGEX],
                 use: [
                   ...(loaders.oneOf('css-modules') as any).toConfig().use,
                   {

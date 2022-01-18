@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plugin sass test config 1`] = `
+Array [
+  Object {
+    "tools": Object {
+      "webpack": [Function],
+    },
+  },
+]
+`;
+
+exports[`plugin sass test schema 1`] = `
+Array [
+  Array [
+    Object {
+      "schema": Object {
+        "typeof": Array [
+          "object",
+          "function",
+        ],
+      },
+      "target": "tools.sass",
+    },
+  ],
+]
+`;
