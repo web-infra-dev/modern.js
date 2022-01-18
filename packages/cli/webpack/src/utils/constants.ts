@@ -2,6 +2,8 @@ export const CSS_REGEX = /\.css$/;
 
 export const CSS_MODULE_REGEX = /\.module\.css$/;
 
+export const GLOBAL_CSS_REGEX = /\.global\.css$/;
+
 export const JS_REGEX = /\.(js|mjs|jsx)$/;
 
 export const TS_REGEX = /\.tsx?$/;
