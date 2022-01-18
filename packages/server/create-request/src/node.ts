@@ -59,7 +59,6 @@ export const createRequest: RequestCreator = (
       : plainPath;
     const headers = payload.headers || {};
     let body: any;
-    // BFF 内网请求需要携带 SSR 请求中的 cookie 和 traceId, 如果有压测头，则添加压测头
     for (const key of realAllowedHeaders) {
       if (typeof webRequestHeaders[key] !== 'undefined') {
         headers[key] = webRequestHeaders[key];

@@ -1,9 +1,9 @@
 import path from 'path';
 import { createPlugin } from '@modern-js/testing';
-import { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/core';
 import { modernjs_config_key } from '../../constant';
 
-const getModuleNameMapper = (config: any) => {
+export const getModuleNameMapper = (config: any) => {
   const {
     resolve: { alias = {} },
   } = config;
@@ -31,7 +31,7 @@ const getModuleNameMapper = (config: any) => {
   }, {} as any);
 };
 
-const mergeUserJestConfig = async (testUtils: any) => {
+export const mergeUserJestConfig = async (testUtils: any) => {
   const resolveJestConfig = testUtils.testConfig.jest;
 
   if (resolveJestConfig && typeof resolveJestConfig !== 'function') {

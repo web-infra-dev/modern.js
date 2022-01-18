@@ -3,7 +3,7 @@ import { createPlugin } from '@modern-js/testing';
 import { chalk } from '@modern-js/utils';
 import { bff_info_key } from './constant';
 
-const isBFFProject = (pwd: string) => {
+export const isBFFProject = (pwd: string) => {
   try {
     // eslint-disable-next-line import/no-dynamic-require,@typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
     const packageJson = require(path.join(pwd, './package.json'));
