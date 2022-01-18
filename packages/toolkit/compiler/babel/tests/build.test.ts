@@ -24,7 +24,6 @@ describe('test build', () => {
     await build({ rootDir: srcDir, filenames, distDir });
     const globFindFiles = glob.sync(`${distDir}/**/*.js`);
     expect(globFindFiles.length).toBe(1);
-    fs.removeSync(distDir);
   });
 
   it('build with enableVirtualDist and success', async () => {
@@ -80,7 +79,6 @@ describe('test build', () => {
     });
     const globFindFiles = glob.sync(`${distDir}/**/*.js`);
     expect(globFindFiles.length).toBe(1);
-    fs.removeSync(distDir);
   });
 
   it('build multiple files and success', async () => {

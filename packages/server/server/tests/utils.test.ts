@@ -3,6 +3,7 @@ import {
   mergeExtension,
   toMessage,
   createErrorDocument,
+  createMiddlewareCollecter,
 } from '../src/utils';
 
 describe('test server utils', () => {
@@ -36,5 +37,35 @@ describe('test server utils', () => {
     expect(doc).toMatch('302');
     expect(doc).toMatch('redirect');
     expect(doc).toMatch('302: redirect');
+  });
+
+  describe('test middleware collector', () => {
+    test('shoule return web middleware correctly', () => {
+      const { addWebMiddleware, getMiddlewares } = createMiddlewareCollecter();
+
+      const before = getMiddlewares();
+      expect(before.web).toEqual([]);
+
+      const middleware = async () => {
+        // empty
+      };
+      addWebMiddleware(middleware);
+      const after = getMiddlewares();
+      expect(after.web).toEqual([middleware]);
+    });
+
+    test('shoule return api middleware correctly', () => {
+      const { addAPIMiddleware, getMiddlewares } = createMiddlewareCollecter();
+
+      const before = getMiddlewares();
+      expect(before.web).toEqual([]);
+
+      const middleware = async () => {
+        // empty
+      };
+      addAPIMiddleware(middleware);
+      const after = getMiddlewares();
+      expect(after.api).toEqual([middleware]);
+    });
   });
 });

@@ -1,13 +1,4 @@
-// eslint-disable-next-line max-classes-per-file
-import { hook } from '@modern-js/server-utils';
-import {
-  Controller,
-  Get,
-  Injectable,
-  Module,
-  NestMiddleware,
-} from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express';
+import { Controller, Get, Injectable, Module } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
@@ -16,18 +7,13 @@ export class AppService {
   }
 }
 
-@Injectable()
-export class LoggerMiddleware implements NestMiddleware {
-  use(req: Request, res: Response, next: NextFunction) {
-    console.info(`access url: ${req.url}`);
-    next();
-  }
-}
-
 @Controller('cats')
 export class CatsController {
-  // eslint-disable-next-line @typescript-eslint/no-parameter-properties
-  constructor(private readonly catsService: AppService) {}
+  private readonly catsService: AppService;
+
+  constructor(catsService: AppService) {
+    this.catsService = catsService;
+  }
 
   @Get()
   getHello() {
@@ -41,7 +27,3 @@ export class CatsController {
 })
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class AppModule {}
-
-export default hook(({ addMiddleware }) => {
-  addMiddleware(AppModule);
-});
