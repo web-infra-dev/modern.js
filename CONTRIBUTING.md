@@ -42,7 +42,7 @@ To develop locally:
 
 7. Start developing.
 
-7. Add changeset. Select changed packages in this commits and add changeset info.
+8. Add changeset. Select changed packages in this commits and add changeset info.
 
    ```zsh
    pnpm run change
