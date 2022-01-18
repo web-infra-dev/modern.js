@@ -1,5 +1,4 @@
 import { TestConfigOperator } from '../testConfigOperator';
-import { patchMergeUserJestConfig } from './mergeUserJestConfig';
 import { patchTransformer } from './transformer';
 import { patchAssetsModule } from './assetsModule';
 
@@ -14,7 +13,7 @@ const _applyPatches = async (
   }
 };
 
-const patches = [patchTransformer, patchMergeUserJestConfig, patchAssetsModule];
+const patches = [patchTransformer, patchAssetsModule];
 
 export const applyPatches = async (testConfig: TestConfigOperator) => {
   await _applyPatches(patches, testConfig);

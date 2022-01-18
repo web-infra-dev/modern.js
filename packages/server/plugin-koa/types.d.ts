@@ -12,4 +12,6 @@ declare module '@modern-js/runtime/server' {
   export function useContext(): Context;
 
   export function hook(attacher: KoaAttacher): KoaAttacher;
+
+  export * from '@modern-js/bff-runtime';
 }

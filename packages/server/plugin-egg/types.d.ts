@@ -15,4 +15,5 @@ declare module '@modern-js/runtime/server' {
   type EggAttacher = (options: EggOptions) => void;
 
   export function hook(attacher: EggAttacher): EggAttacher;
+  export * from '@modern-js/bff-runtime';
 }
