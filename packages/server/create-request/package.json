@@ -48,6 +48,19 @@
       "default": "./dist/js/node/hook.js"
     }
   },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
+      "client": [
+        "./dist/types/browser.d.ts"
+      ],
+      "server": [
+        "./dist/types/node.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "prepare": "pnpm build",
     "prepublishOnly": "pnpm build -- --platform",

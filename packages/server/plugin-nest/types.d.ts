@@ -7,9 +7,6 @@ declare module '@modern-js/runtime/server' {
     response: Response;
   };
   export function useContext(): NestContext;
-
-
-  // declare interface
   interface Interface {
     new (...input: any): any;
   }
@@ -18,4 +15,5 @@ declare module '@modern-js/runtime/server' {
   };
   type NestAttacher = (options: NestOptions) => void;
   export function hook(attacher: NestAttacher): NestAttacher;
+  export * from '@modern-js/bff-runtime';
 }

@@ -32,7 +32,7 @@
     "prepublishOnly": "pnpm build --platform",
     "new": "modern new",
     "build": "modern build",
-    "test": "echo \"No tests!\" && exit 0"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7",
