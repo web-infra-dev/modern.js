@@ -6,7 +6,12 @@ module.exports = {
   collectCoverageFrom: ['<rootDir>/src/**/*.[jt]s?(x)'],
   coveragePathIgnorePatterns: ['/node_modules/', '/fixtures/'],
   transform: {
-    '\\.[jt]sx?$': require.resolve('esbuild-jest'),
+    '\\.[jt]sx?$': [
+      require.resolve('esbuild-jest'),
+      {
+        sourcemap: true,
+      },
+    ],
   },
   moduleNameMapper: {},
   globals: {},
