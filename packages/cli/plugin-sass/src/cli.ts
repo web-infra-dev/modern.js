@@ -19,6 +19,8 @@ const SASS_REGEX = /\.s(a|c)ss$/;
 
 const SASS_MODULE_REGEX = /\.module\.s(a|c)ss$/;
 
+const GLOBAL_SASS_REGEX = /\.global\.s(a|c)ss$/;
+
 export default core.createPlugin(
   () => ({
     validateSchema() {
@@ -38,23 +40,24 @@ export default core.createPlugin(
 
             const loaders = chain.module.rule('loaders');
 
-            if (!disableCssModuleExtension) {
-              loaders
-                .oneOf('sass')
-                .before('fallback')
-                .merge({
-                  test: SASS_REGEX,
-                  exclude: SASS_MODULE_REGEX,
-                  use: [
-                    ...(loaders.oneOf('css') as any).toConfig().use,
-                    {
-                      loader: require.resolve('sass-loader'),
-
-                      options: sassOptions,
-                    },
-                  ],
-                });
-            }
+            loaders
+              .oneOf('sass')
+              .before('fallback')
+              .merge({
+                // when disableCssModuleExtension is true,
+                // only transfer *.global.sa(c)ss in sass-loader
+                test: disableCssModuleExtension
+                  ? GLOBAL_SASS_REGEX
+                  : SASS_REGEX,
+                exclude: SASS_MODULE_REGEX,
+                use: [
+                  ...(loaders.oneOf('css') as any).toConfig().use,
+                  {
+                    loader: require.resolve('sass-loader'),
+                    options: sassOptions,
+                  },
+                ],
+              });
 
             loaders
               .oneOf('sass-modules')
@@ -63,7 +66,7 @@ export default core.createPlugin(
                 test: disableCssModuleExtension
                   ? SASS_REGEX
                   : SASS_MODULE_REGEX,
-                exclude: [/node_modules/, /\.global\.sass$/],
+                exclude: [/node_modules/, GLOBAL_SASS_REGEX],
                 use: [
                   ...(loaders.oneOf('css-modules') as any).toConfig().use,
                   {
