@@ -69,26 +69,23 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     // node polyfill
     if (!this.options.output.disableNodePolyfill) {
       this.chain.resolve.merge({
-        fallback: Object.keys(nodeLibsBrowser).reduce<
-          Record<string, string | false>
-        >(
-          (previous, name) => {
-            if (nodeLibsBrowser[name]) {
-              previous[name] = nodeLibsBrowser[name];
-            } else {
-              previous[name] = false;
-            }
-            return previous;
-          },
-          {
-            // TODO: packages/review/testing-plugin-bff/src/app.ts 里面使用了 async_hooks 在 client 模式的时候，webpack 需要忽略这个模块
-            // 但是 `node-libs-browser` 里面貌似并没有提供这个 fallback，所以手工补上这个缺少的配置
-            // 从而可以保证 Integration Test 可以通过（npx jest integration/runtime/test/index.test.js)
-            async_hooks: false,
-          },
-        ),
+        fallback: this.getNodePolyfill(),
       });
     }
+  }
+
+  private getNodePolyfill(): Record<string, string | false> {
+    return Object.keys(nodeLibsBrowser).reduce<Record<string, string | false>>(
+      (previous, name) => {
+        if (nodeLibsBrowser[name]) {
+          previous[name] = nodeLibsBrowser[name];
+        } else {
+          previous[name] = false;
+        }
+        return previous;
+      },
+      {},
+    );
   }
 
   private useDefinePlugin() {
