@@ -16,6 +16,13 @@ const test = async () => {
   const webpackConfigs = getWebpackConfig(WebpackConfigTarget.CLIENT);
 
   userConfig.testing = userConfig.testing || {};
+
+  const jest = userConfig.testing.jest || (userConfig.tools as any).jest;
+
+  if (Array.isArray(jest)) {
+    userConfig.testing.jest = jest[0];
+  }
+
   userConfig.testing.jest =
     userConfig.testing.jest || (userConfig.tools as any).jest;
 

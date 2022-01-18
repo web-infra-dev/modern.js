@@ -20,6 +20,8 @@ export type GenClientOptions = {
 
 export const DEFAULT_CLIENT_REQUEST_CREATOR = '@modern-js/create-request';
 
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable max-statements */
 export const generateClient = async ({
   resourcePath,
   source,
@@ -36,6 +38,19 @@ export const generateClient = async ({
     requestCreator = requireResolve(
       `${DEFAULT_CLIENT_REQUEST_CREATOR}${target ? `/${target}` : ''}`,
     ).replace(/\\/g, '/');
+  } else {
+    // 这里约束传入的 requestCreator 包也必须有两个导出 client 和 server，因为目前的机制 client 和 server 要导出不同的 configure 函数；该 api 不对使用者暴露，后续可优化
+    let resolvedPath = requestCreator;
+    try {
+      resolvedPath = requireResolve(requestCreator);
+    } catch (error) {
+      console.error(error);
+    }
+    // eslint-disable-next-line no-param-reassign
+    requestCreator = `${resolvedPath}${target ? `/${target}` : ''}`.replace(
+      /\\/g,
+      '/',
+    );
   }
 
   const routeRsult = getRouteName(resourcePath, apiDir);

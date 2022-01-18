@@ -68,7 +68,7 @@ export class Server {
   }
 
   public listen(port = 8080, listener: any) {
-    this.app.listen(port, () => {
+    this.app.listen(process.env.PORT || port, () => {
       if (listener) {
         listener();
       }

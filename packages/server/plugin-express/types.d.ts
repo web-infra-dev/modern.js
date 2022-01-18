@@ -14,4 +14,6 @@ declare module '@modern-js/runtime/server' {
   export function useContext(): Context;
 
   export function hook(attacher: ExpressAttacher): ExpressAttacher;
+
+  export * from '@modern-js/bff-runtime';
 }

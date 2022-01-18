@@ -7,5 +7,7 @@ module.exports = {
   setupFilesAfterEnv: ['./utils/jest.setup.js'],
   testMatch: ['<rootDir>/integration/**/*.(spec|test).[tj]s?(x)'],
   testPathIgnorePatterns: ['/node_modules/'],
-  transform: {},
+  transform: {
+    '^.+.tsx?$': 'ts-jest',
+  },
 };
