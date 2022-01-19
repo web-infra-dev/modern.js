@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse, IncomingHttpHeaders } from 'http';
 import { URL } from 'url';
 import qs from 'querystring';
-import { Metrics, Logger } from './util';
+import { Metrics, Logger } from './utils';
 
 export interface ModernServerContext {
   req: IncomingMessage;
