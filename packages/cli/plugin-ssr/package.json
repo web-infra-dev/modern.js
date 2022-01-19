@@ -12,11 +12,11 @@
     "modern.js"
   ],
   "version": "1.1.3",
-  "jsnext:source": "./src/index.node.tsx",
-  "types": "./src/index.node.tsx",
+  "jsnext:source": "./src/index.tsx",
+  "types": "./src/index.tsx",
   "main": "./dist/js/node/index.node.js",
-  "module": "./dist/js/treeshaking/index.node.js",
-  "jsnext:modern": "./dist/js/modern/index.node.js",
+  "module": "./dist/js/treeshaking/index.js",
+  "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": {
       "node": {
