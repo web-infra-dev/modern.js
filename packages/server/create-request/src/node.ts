@@ -1,7 +1,7 @@
 import qs from 'querystring';
 import nodeFetch from 'node-fetch';
 import { compile, pathToRegexp, Key } from 'path-to-regexp';
-import { useHeaders } from '@modern-js/plugin-ssr';
+import { useHeaders } from '@modern-js/plugin-ssr/node';
 import { handleRes } from './handleRes';
 import type {
   BFFRequestPayload,
