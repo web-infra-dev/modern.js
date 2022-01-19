@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { HttpMethod } from '../constant';
 import { isAllowedHttpMethod } from '../utils';
 import { Result, Ok, Err } from './result';
@@ -42,9 +43,9 @@ export const generateClient = async ({
     // 这里约束传入的 requestCreator 包也必须有两个导出 client 和 server，因为目前的机制 client 和 server 要导出不同的 configure 函数；该 api 不对使用者暴露，后续可优化
     let resolvedPath = requestCreator;
     try {
-      resolvedPath = requireResolve(requestCreator);
+      resolvedPath = path.dirname(requireResolve(requestCreator));
     } catch (error) {
-      console.error(error);
+      console.warn(error);
     }
     // eslint-disable-next-line no-param-reassign
     requestCreator = `${resolvedPath}${target ? `/${target}` : ''}`.replace(
