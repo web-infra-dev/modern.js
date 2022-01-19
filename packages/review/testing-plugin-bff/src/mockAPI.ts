@@ -1,9 +1,9 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-var-requires */
 import * as ptr from 'path-to-regexp';
-import type { Test } from 'supertest';
+// import type { Test } from 'supertest';
 import * as mock_appModule from './app';
-import { getAllAPIInfos } from './utils';
+// import { getAllAPIInfos } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const mock_replaceUrlWithParams = (
@@ -11,7 +11,7 @@ const mock_replaceUrlWithParams = (
   paramValues: (string | number)[],
   payload: Record<string, any>,
 ) => {
-  const keys: ptr.Key[] = [];
+  const keys: any[] = [];
   ptr.pathToRegexp(url, keys);
   const params = keys.reduce((cur, key, index) => {
     if (paramValues[index]) {
@@ -49,7 +49,7 @@ const mock_getParamsAndPayload = (
 
 export default (
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  mock_apiInfosByFile: Record<string, ReturnType<typeof getAllAPIInfos>>,
+  mock_apiInfosByFile: Record<string, any[]>,
   mock_app: any,
 ) => {
   const files = Object.keys(mock_apiInfosByFile);
@@ -73,9 +73,7 @@ export default (
                 params,
                 payload.params,
               );
-              let test = supertest(mock_app)[info.method.toLowerCase()](
-                url,
-              ) as Test;
+              let test = supertest(mock_app)[info.method.toLowerCase()](url);
 
               if (payload.query) {
                 test = test.query(payload.query);
