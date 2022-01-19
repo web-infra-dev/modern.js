@@ -41,7 +41,7 @@ export default createPlugin(
       reset() {
         storage.reset();
         const newApiModule = requireExistModule(apiAppPath);
-        if (newApiModule) {
+        if (newApiModule && typeof newApiModule === 'function') {
           newApiModule(transformAPI);
         }
       },
