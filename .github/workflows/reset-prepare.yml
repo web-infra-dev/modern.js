@@ -1,0 +1,41 @@
+name: Reset repo and run prepare and run integration test
+
+on:
+  schedule:
+    - cron:  '0 0 10 * *'
+
+jobs:
+  Modern:
+    name: prepare
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [16.x]
+        os: [ubuntu-latest] # ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 25
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: latest
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: reset
+        run: rm -rf node_modules && rm -rf pnpm-lock.yaml
+
+      - name: Init
+        run: pnpm install --ignore-scripts
+
+      - name: Prepare
+        run: pnpm run prepare --filter ./packages
+
+      - name: Install Puppeteer
+        run: cd ./tests/node_modules/puppeteer && npm run install && cd ../..
+
+      - name: Test
+        run: cd ./tests && pnpm run test
+
