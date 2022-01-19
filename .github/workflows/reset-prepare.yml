@@ -2,7 +2,7 @@ name: Reset repo and run prepare and run integration test
 
 on:
   schedule:
-    - cron: '0 0 16 * * ?'
+    - cron:  '0 0 10 * *'
 
 jobs:
   Modern:
@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: reset:
+      - name: reset
         run: rm -rf node_modules && rm -rf pnpm-lock.yaml
 
       - name: Init
