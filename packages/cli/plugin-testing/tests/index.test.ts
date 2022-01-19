@@ -1,7 +1,7 @@
-import plugin from '../src';
+import { createStore } from '../src';
 
 describe('plugin-testing', () => {
   it('default', () => {
-    expect(plugin).toBeDefined();
+    expect(createStore).toBeDefined();
   });
 });
