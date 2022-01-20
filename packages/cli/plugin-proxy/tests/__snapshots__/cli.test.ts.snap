@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plugin proxy test config 1`] = `Array []`;
+
+exports[`plugin proxy test schema 1`] = `
+Array [
+  Array [
+    Object {
+      "schema": Object {
+        "typeof": Array [
+          "string",
+          "object",
+        ],
+      },
+      "target": "dev.proxy",
+    },
+  ],
+]
+`;
