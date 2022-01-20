@@ -1,6 +1,6 @@
-import fs from 'fs/promises';
 import path from 'path';
 import { randomUUID } from 'crypto';
+import { fs } from '@modern-js/utils';
 import { build, Loader, Plugin, BuildOptions } from 'esbuild';
 
 const JS_EXT_RE = /\.(mjs|cjs|ts|js|tsx|jsx)$/;
@@ -113,7 +113,7 @@ export async function bundleRequire(filepath: string, options?: Options) {
         name: 'replace-path',
         setup(ctx) {
           ctx.onLoad({ filter: JS_EXT_RE }, async args => {
-            const contents = await fs.readFile(args.path, 'utf-8');
+            const contents = fs.readFileSync(args.path, 'utf-8');
             return {
               contents: contents
                 .replace(/\b__filename\b/g, JSON.stringify(args.path))
@@ -156,7 +156,7 @@ export async function bundleRequire(filepath: string, options?: Options) {
     mod = await req(outfile);
   } finally {
     // Remove the outfile after executed
-    await fs.unlink(outfile);
+    fs.unlinkSync(outfile);
   }
 
   return mod;
