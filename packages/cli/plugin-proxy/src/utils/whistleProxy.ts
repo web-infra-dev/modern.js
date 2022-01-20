@@ -62,6 +62,6 @@ export default class WhistleProxy {
   close() {
     execSync(`${this.bin} stop`);
     disableGlobalProxy();
-    logger.info(`Proxy Server has closed`);
+    logger.info(`Proxy Server has been closed`);
   }
 }
