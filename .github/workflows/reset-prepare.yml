@@ -2,7 +2,7 @@ name: Reset repo and run prepare and run integration test
 
 on:
   schedule:
-    - cron:  '0 0 10 * *'
+    - cron:  '0 1,16 * * *'
 
 jobs:
   Modern:
