@@ -6,6 +6,9 @@ concurrency:
 
 # Controls when the action will run.
 on:
+  # Triggers unit test on push events for the main branch to collect unit test coverage
+  push:
+    branches: [main]
   # Triggers the workflow on pull request events but only for the main branch
   pull_request:
     branches: [main]
