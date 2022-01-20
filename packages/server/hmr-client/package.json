@@ -37,7 +37,7 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/utils": "workspace:^1.1.6",
-    "react-error-overlay": "^6.0.9",
+    "react-error-overlay": "6.0.9",
     "strip-ansi": "^7.0.0",
     "url": "^0.11.0"
   },
