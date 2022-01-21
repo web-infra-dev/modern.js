@@ -6,6 +6,7 @@ test('require', async () => {
     path.join(__dirname, './fixture/input.ts'),
   );
   expect(result.default.a.filename.endsWith('a.ts')).toEqual(true);
+  expect(result.default.a.showFileName().endsWith('a.ts')).toEqual(true);
 });
 
 describe('external regexp', () => {

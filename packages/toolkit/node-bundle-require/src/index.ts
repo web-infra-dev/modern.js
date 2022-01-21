@@ -66,6 +66,10 @@ export async function bundleRequire(filepath: string, options?: Options) {
     format: 'cjs',
     platform: 'node',
     bundle: true,
+    // fix transforming error when the project's tsconfig.json
+    // sets `target: "es5"`
+    // reference: https://github.com/evanw/esbuild/releases/tag/v0.12.6
+    target: 'esnext',
     ...options?.esbuildOptions,
     plugins: [
       ...(options?.esbuildPlugins || []),
