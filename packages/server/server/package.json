@@ -36,7 +36,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.15.0",
+    "@babel/core": "7.16.7",
     "@babel/compat-data": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-typescript": "^7.15.0",
