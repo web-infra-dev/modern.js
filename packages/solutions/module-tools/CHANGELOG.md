@@ -1,5 +1,33 @@
 # @modern-js/module-tools
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [2da09c69]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [2c049918]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [146dcd85]
+  - @modern-js/utils@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/new-action@1.3.0
+  - @modern-js/babel-preset-module@1.2.0
+  - @modern-js/css-config@1.2.0
+  - @modern-js/i18n-cli-language-detector@1.2.0
+  - @modern-js/plugin-analyze@1.2.0
+  - @modern-js/plugin-changeset@1.2.0
+  - @modern-js/plugin-fast-refresh@1.2.0
+  - @modern-js/plugin-i18n@1.2.0
+  - @modern-js/babel-compiler@1.2.0
+  - @modern-js/style-compiler@1.2.0
+  - @modern-js/module-tools-hooks@1.2.0
+
 ## 1.1.5
 
 ### Patch Changes

@@ -1,5 +1,33 @@
 # @modern-js/plugin-bff
 
+## 1.3.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 8e7603ee: fix custom requestCreator path
+- Updated dependencies [2da09c69]
+- Updated dependencies [5597289b]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [146dcd85]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [146dcd85]
+- Updated dependencies [8e7603ee]
+- Updated dependencies [146dcd85]
+  - @modern-js/utils@1.2.0
+  - @modern-js/create-request@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/server-utils@1.2.0
+  - @modern-js/babel-preset-lib@1.2.0
+  - @modern-js/bff-utils@1.2.0
+  - @modern-js/server-plugin@1.2.0
+  - @modern-js/babel-chain@1.2.0
+  - @modern-js/babel-compiler@1.2.0
+
 ## 1.2.1
 
 ### Patch Changes

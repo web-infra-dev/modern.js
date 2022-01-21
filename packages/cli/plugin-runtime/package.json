@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.3",
+  "version": "1.2.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -110,22 +110,22 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/plugin-router": "workspace:^1.1.3",
-    "@modern-js/plugin-ssr": "workspace:^1.1.3",
-    "@modern-js/plugin-state": "workspace:^1.1.4",
-    "@modern-js/runtime-core": "workspace:^1.1.4",
-    "@modern-js/utils": "workspace:^1.1.6",
-    "@modern-js/bff-runtime": "workspace:^1.1.1",
-    "@modern-js/create-request": "workspace:^1.1.2",
+    "@modern-js/plugin-router": "workspace:^1.2.0",
+    "@modern-js/plugin-ssr": "workspace:^1.2.0",
+    "@modern-js/plugin-state": "workspace:^1.2.0",
+    "@modern-js/runtime-core": "workspace:^1.2.0",
+    "@modern-js/utils": "workspace:^1.2.0",
+    "@modern-js/bff-runtime": "workspace:^1.2.0",
+    "@modern-js/create-request": "workspace:^1.2.0",
     "@loadable/component": "^5.15.0",
     "react-helmet": "^6.1.0",
     "styled-components": "^5.3.1"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.2.0",
+    "@modern-js/core": "workspace:^1.3.0",
     "@scripts/build": "workspace:*",
-    "@modern-js/module-tools": "^1.1.5",
-    "@modern-js/plugin-testing": "^1.1.1",
+    "@modern-js/module-tools": "^1.2.0",
+    "@modern-js/plugin-testing": "^1.3.0",
     "@types/loadable__component": "^5.13.4",
     "@types/react-helmet": "^6.1.2",
     "@types/styled-components": "^5.1.13",
@@ -138,7 +138,7 @@
     "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.1.2"
+    "@modern-js/core": "workspace:^1.3.0"
   },
   "sideEffects": false,
   "modernConfig": {},

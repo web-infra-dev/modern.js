@@ -1,5 +1,15 @@
 # @modern-js/eslint-generator
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 2c049918: feat: polyfill function support enable using new command
+
 ## 1.1.7
 
 ### Patch Changes
