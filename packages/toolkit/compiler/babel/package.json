@@ -35,7 +35,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.15.0",
+    "@babel/core": "7.16.7",
     "@babel/runtime": "^7",
     "@modern-js/utils": "workspace:^1.1.6",
     "chokidar": "^3.5.2",
