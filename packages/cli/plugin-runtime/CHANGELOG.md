@@ -1,5 +1,34 @@
 # @modern-js/runtime
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 146dcd85: modify server framework plugin hook types and hook context
+- 146dcd85: modify server framework plugin hook types
+- 146dcd85: fix test case in babel compiler
+- Updated dependencies [2da09c69]
+- Updated dependencies [5597289b]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [146dcd85]
+- Updated dependencies [a2cb9abc]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [146dcd85]
+- Updated dependencies [146dcd85]
+  - @modern-js/utils@1.2.0
+  - @modern-js/plugin-ssr@1.2.0
+  - @modern-js/create-request@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/bff-runtime@1.2.0
+  - @modern-js/runtime-core@1.2.0
+  - @modern-js/plugin-router@1.2.0
+  - @modern-js/plugin-state@1.2.0
+
 ## 1.1.3
 
 ### Patch Changes

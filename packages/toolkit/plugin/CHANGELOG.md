@@ -1,5 +1,11 @@
 # @modern-js/plugin
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
 ## 1.1.2
 
 ### Patch Changes

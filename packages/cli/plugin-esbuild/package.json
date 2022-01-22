@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.1",
+  "version": "1.2.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -39,12 +39,12 @@
     "test": "jest --passWithNoTests"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.1.2",
+    "@modern-js/core": "workspace:^1.3.0",
     "webpack": "^5.54.0"
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.1.6",
+    "@modern-js/utils": "workspace:^1.2.0",
     "esbuild": "^0.12.22",
     "webpack": "^5.54.0",
     "webpack-chain": "^6.5.1"
@@ -53,7 +53,7 @@
     "@types/jest": "^26",
     "@types/node": "^14",
     "typescript": "^4",
-    "@modern-js/core": "workspace:^1.2.0",
+    "@modern-js/core": "workspace:^1.3.0",
     "@scripts/build": "workspace:*",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*"
