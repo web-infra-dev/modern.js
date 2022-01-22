@@ -1,38 +1,88 @@
 import { createPlugin } from '@modern-js/runtime-core';
-import { useMemo } from 'react';
+import React from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { GarfishProvider } from './utils/Context';
-import Apps from './utils/apps';
 import setExternal from './utils/setExternal';
-import { Config } from './typings';
+import { Config, ModulesInfo, Options } from './typings';
+import { generateMApp } from './utils/MApp';
+import { AppMap, generateApps } from './utils/apps';
+
+async function initOptions(config: Config, options: Options) {
+  let modules: ModulesInfo = [];
+
+  // get inject modules list
+  if (window?.modern_manifest?.modules) {
+    modules = window?.modern_manifest?.modules;
+  }
+
+  // use manifest modules
+  if (config?.manifest?.modules) {
+    modules = config?.manifest?.modules;
+  }
+
+  // get module list
+  if (config?.getAppList) {
+    modules = await config?.getAppList();
+  }
+
+  return {
+    apps: modules,
+    ...options,
+  };
+}
 
 export default ((config: Config) => {
   setExternal();
-  const appsInstance = new Apps(config);
+  const { manifest, getAppList, LoadingComponent, ...GarfishOptions } = config;
+  const ModernMicroConfig = {
+    manifest,
+    getAppList,
+    LoadingComponent,
+  };
+  const promise = initOptions(config, GarfishOptions);
 
   return createPlugin(() => ({
     hoc({ App }, next) {
-      appsInstance.run();
+      class GetMicroFrontendApp extends React.Component {
+        state: {
+          MApp: React.FC<any>;
+          apps: AppMap;
+          appInfoList: ModulesInfo;
+        } = {
+          MApp: () => React.createElement('div'),
+          apps: {},
+          appInfoList: [],
+        };
 
-      const getMicroFrontendApp = (props: any) => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const value = useMemo(
-          () => ({
-            MApp: appsInstance.getMApp(),
-            apps: appsInstance.getApps(),
-            modules: appsInstance.modules,
-          }),
-          [],
-        );
+        constructor(props: any) {
+          super(props);
+          const load = async () => {
+            const GarfishConfig = await promise;
+            const MApp = generateMApp(GarfishConfig, ModernMicroConfig);
+            const { appInfoList, apps } = generateApps(
+              GarfishConfig,
+              ModernMicroConfig,
+            );
+            this.setState({
+              MApp,
+              apps,
+              appInfoList,
+            });
+          };
+          load();
+        }
 
-        return (
-          <GarfishProvider value={value}>
-            <App {...props} />
-          </GarfishProvider>
-        );
-      };
+        render() {
+          return (
+            <GarfishProvider value={this.state}>
+              <App {...this.props} {...this.state} />
+            </GarfishProvider>
+          );
+        }
+      }
+
       return next({
-        App: hoistNonReactStatics(getMicroFrontendApp, App),
+        App: hoistNonReactStatics(GetMicroFrontendApp, App),
       });
     },
   }));

@@ -9,7 +9,12 @@ export type ModulesInfo = Array<
 >;
 export type ModuleInfo = ModulesInfo[number];
 
-export type Config = Partial<Options> & {
-  manifest: { modules: ModulesInfo | string };
+export type ModernConfig = {
+  manifest: {
+    modules?: ModulesInfo;
+  };
+  getAppList?: () => Promise<Array<interfaces.AppInfo>>;
   LoadingComponent?: React.ComponentType | React.ElementType;
 };
+
+export type Config = Partial<Options> & ModernConfig;
