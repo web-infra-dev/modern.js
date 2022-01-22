@@ -1,5 +1,26 @@
 # @modern-js/testing
 
+## 1.3.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- c3d46ee4: fix: test config invalid
+- Updated dependencies [2da09c69]
+- Updated dependencies [5597289b]
+- Updated dependencies [4a85378c]
+- Updated dependencies [e453e421]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [1ebc7ee2]
+  - @modern-js/utils@1.2.0
+  - @modern-js/webpack@1.2.0
+  - @modern-js/babel-preset-app@1.2.0
+  - @modern-js/plugin@1.2.0
+
 ## 1.2.0
 
 ### Minor Changes
