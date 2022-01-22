@@ -14,10 +14,10 @@ export function useModuleApp() {
 }
 
 export function useLegacyModuleApps() {
-  const { MApp, modules, apps } = useContext(GarfishContext);
+  const { MApp, appInfoList, apps } = useContext(GarfishContext);
   return {
     MApp,
-    apps: modules,
+    apps: appInfoList,
     appComponents: apps,
   };
 }

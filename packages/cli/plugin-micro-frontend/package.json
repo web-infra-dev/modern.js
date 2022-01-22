@@ -43,29 +43,39 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/utils": "workspace:^1.1.6",
+    "@types/react-loadable": "^5.5.6",
+    "garfish": "^1.2.18",
+    "history": "^5.2.0",
     "hoist-non-react-statics": "^3.3.2",
-    "garfish": "^1.2.17"
+    "react-loadable": "^5.5.0"
   },
   "devDependencies": {
+    "@modern-js/core": "workspace:^1.2.0",
+    "@modern-js/plugin-router": "workspace:^1.1.3",
+    "@modern-js/runtime-core": "workspace:^1.1.4",
     "@modern-js/types": "workspace:^1.1.5",
+    "@scripts/build": "workspace:*",
+    "@scripts/jest-config": "workspace:*",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/react-hooks": "^7.0.1",
+    "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
-    "typescript": "^4",
-    "webpack-chain": "^6.5.1",
-    "@modern-js/core": "workspace:^1.2.0",
-    "@modern-js/plugin-router": "workspace:^1.1.3",
-    "@modern-js/runtime-core": "workspace:^1.1.4",
-    "@scripts/build": "workspace:*",
-    "@types/hoist-non-react-statics": "^3.3.1",
     "jest": "^27",
-    "@scripts/jest-config": "workspace:*"
+    "jest-fetch-mock": "^3.0.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.2.1",
+    "typescript": "^4",
+    "webpack-chain": "^6.5.1"
   },
   "peerDependencies": {
     "@modern-js/core": "workspace:^1.1.2",
-    "@modern-js/runtime-core": "workspace:^1.1.4",
-    "@modern-js/plugin-router": "workspace:^1.1.3"
+    "@modern-js/plugin-router": "workspace:^1.1.3",
+    "@modern-js/runtime-core": "workspace:^1.1.4"
   },
   "sideEffects": false,
   "modernConfig": {},
