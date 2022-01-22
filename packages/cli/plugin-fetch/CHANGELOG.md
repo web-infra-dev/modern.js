@@ -1,5 +1,20 @@
 # @modern-js/plugin-fetch
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [2da09c69]
+- Updated dependencies [a2cb9abc]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+  - @modern-js/utils@1.2.0
+  - @modern-js/runtime-core@1.2.0
+
 ## 1.1.1
 
 ### Patch Changes
