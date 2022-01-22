@@ -1,5 +1,15 @@
 # @modern-js/1.0.0-rc.19
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 59cbcb77: fix esbuild error when project's tsconfig.json sets "target:es5"
+
 ## 1.1.1
 
 ### Patch Changes

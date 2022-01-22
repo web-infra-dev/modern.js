@@ -1,5 +1,22 @@
 # @modern-js/plugin-sass
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- e453e421: feat: add \*.global.less/sass/scss support when "output.disableCssModuleExtension" is true
+- Updated dependencies [2da09c69]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+  - @modern-js/utils@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/css-config@1.2.0
+
 ## 1.1.2
 
 ### Patch Changes

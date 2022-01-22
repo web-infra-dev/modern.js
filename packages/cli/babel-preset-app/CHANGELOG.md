@@ -1,5 +1,21 @@
 # @modern-js/babel-preset-app
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 1ebc7ee2: fix: @babel/core version
+- Updated dependencies [2da09c69]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+  - @modern-js/utils@1.2.0
+  - @modern-js/babel-preset-base@1.2.0
+  - @modern-js/babel-chain@1.2.0
+
 ## 1.1.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @modern-js/tsconfig
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
 ## 1.1.0
 
 ### Minor Changes

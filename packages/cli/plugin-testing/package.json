@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.2",
+  "version": "1.3.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -71,22 +71,22 @@
   "dependencies": {
     "@babel/preset-env": "^7.15.6",
     "@babel/runtime": "^7",
-    "@modern-js/babel-compiler": "workspace:^1.1.4",
-    "@modern-js/testing": "workspace:^1.2.0",
-    "@modern-js/utils": "workspace:^1.1.6",
-    "@modern-js/webpack": "workspace:^1.1.4",
+    "@modern-js/babel-compiler": "workspace:^1.2.0",
+    "@modern-js/testing": "workspace:^1.3.0",
+    "@modern-js/utils": "workspace:^1.2.0",
+    "@modern-js/webpack": "workspace:^1.2.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "enhanced-resolve": "^5.8.3",
-    "@modern-js/testing-plugin-bff": "workspace:^1.1.3"
+    "@modern-js/testing-plugin-bff": "workspace:^1.2.0"
   },
   "peerDependencies": {
     "@modern-js-reduck/plugin-auto-actions": "^1.0.0",
     "@modern-js-reduck/plugin-effects": "^1.0.0",
     "@modern-js-reduck/plugin-immutable": "^1.0.0",
     "@modern-js-reduck/store": "^1.0.0",
-    "@modern-js/core": "workspace:^1.2.0",
-    "@modern-js/runtime-core": "workspace:^1.1.2"
+    "@modern-js/core": "workspace:^1.3.0",
+    "@modern-js/runtime-core": "workspace:^1.2.0"
   },
   "devDependencies": {
     "@modern-js-reduck/plugin-auto-actions": "^1.0.0",
@@ -94,8 +94,8 @@
     "@modern-js-reduck/plugin-immutable": "^1.0.0",
     "@modern-js-reduck/store": "^1.0.0",
     "@scripts/build": "workspace:*",
-    "@modern-js/core": "workspace:^1.2.0",
-    "@modern-js/runtime-core": "workspace:^1.1.4",
+    "@modern-js/core": "workspace:^1.3.0",
+    "@modern-js/runtime-core": "workspace:^1.2.0",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react": "^17",
