@@ -1,5 +1,21 @@
 # @modern-js/load-config
 
+## 1.2.0
+
+### Minor Changes
+
+- fc71e36f: support custom property name for the config in package.json
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [2da09c69]
+- Updated dependencies [59cbcb77]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+  - @modern-js/utils@1.2.0
+  - @modern-js/node-bundle-require@1.2.0
+
 ## 1.1.1
 
 ### Patch Changes
