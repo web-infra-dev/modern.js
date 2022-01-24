@@ -30,6 +30,11 @@ output/
 output_resource/
 examples/
 
+# git ignore for local test projects
+local-test-project/*/
+local-test-project/*
+!local-test-project/pnpm-workspace.yaml
+
 .vscode/**/*
 !.vscode/settings.json
 !.vscode/extensions.json
