@@ -1,0 +1,13 @@
+packages:
+ - './*'
+ - '../packages/*'
+ - '../packages/cli/*'
+ - '../packages/generator/*'
+ - '../packages/generator/generators/*'
+ - '../packages/generator/plugins/*'
+ - '../packages/review/*'
+ - '../packages/server/*'
+ - '../packages/solutions/*'
+ - '../packages/toolkit/*'
+ - '../packages/toolkit/compiler/*'
+ - '../scripts/*'
