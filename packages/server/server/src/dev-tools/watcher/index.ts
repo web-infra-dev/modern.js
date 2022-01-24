@@ -1,4 +1,4 @@
-import chokidar, { FSWatcher } from 'chokidar';
+import chokidar, { FSWatcher, WatchOptions } from 'chokidar';
 import { DependencyTree } from './dependency-tree';
 import { StatsCache } from './stats-cache';
 
@@ -18,14 +18,16 @@ export default class Watcher {
 
   private watcher!: FSWatcher;
 
-  public listen(files: string[], callback: (changed: string) => void) {
+  public listen(
+    files: string[],
+    options: WatchOptions,
+    callback: (changed: string) => void,
+  ) {
     const watched = files.filter(Boolean);
+    const filenames = watched.map(filename => filename.replace(/\\/g, '/'));
 
     const cache = new StatsCache();
-    const watcher = chokidar.watch(watched, {
-      // 初始化的时候不触发 add、addDir 事件
-      ignoreInitial: true,
-    });
+    const watcher = chokidar.watch(filenames, options);
 
     watcher.on('ready', () => {
       cache.add(getWatchedFiles(watcher));
