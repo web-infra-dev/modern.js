@@ -20,7 +20,7 @@
 "@modern-js/plugin-lambda-fc": minor
 "@modern-js/plugin-lambda-scf": minor
 "@modern-js/plugin-less": minor
-"@modern-js/plugin-micro-frontend": minor
+"@modern-js/plugin-garfish": minor
 "@modern-js/plugin-multiprocess": minor
 "@modern-js/plugin-nocode": minor
 "@modern-js/plugin-proxy": minor
