@@ -1,5 +1,18 @@
 # @modern-js/module-tools-hooks
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [fc71e36f]
+- Updated dependencies [cfe11628]
+  - @modern-js/core@1.3.0
+  - @modern-js/plugin@1.2.0
+
 ## 1.1.2
 
 ### Patch Changes

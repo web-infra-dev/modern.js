@@ -1,5 +1,16 @@
 # @modern-js/eslint-config
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [cfe11628]
+  - @modern-js-app/eslint-config@1.2.0
+
 ## 1.1.0
 
 ### Minor Changes
