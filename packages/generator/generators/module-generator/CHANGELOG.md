@@ -1,5 +1,27 @@
 # @modern-js/module-generator
 
+## 1.3.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 2c049918: feat: polyfill function support enable using new command
+
+## 1.2.4
+
+### Patch Changes
+
+- f73fee4b: feat: upgrade codesmith version to add get npm package timeout's time
+
+## 1.2.3
+
+### Patch Changes
+
+- 4819a3c7: feat: update generator version
+
 ## 1.2.2
 
 ### Patch Changes

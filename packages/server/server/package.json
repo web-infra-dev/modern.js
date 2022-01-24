@@ -11,15 +11,16 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.0",
+  "version": "1.3.0",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/index.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": {
       "node": {
+        "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
@@ -32,21 +33,21 @@
     "new": "modern new",
     "build": "modern build",
     "dev": "modern build --watch",
-    "test": "modern test"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.15.0",
+    "@babel/core": "7.16.7",
     "@babel/compat-data": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-typescript": "^7.15.0",
     "@babel/register": "^7.15.3",
     "@babel/runtime": "^7",
-    "@modern-js/core": "workspace:^1.2.0",
-    "@modern-js/hmr-client": "workspace:^1.1.1",
-    "@modern-js/server-plugin": "workspace:^1.1.3",
-    "@modern-js/server-utils": "workspace:^1.1.2",
-    "@modern-js/bff-utils": "workspace:^1.1.1",
-    "@modern-js/utils": "workspace:^1.1.5",
+    "@modern-js/core": "workspace:^1.3.0",
+    "@modern-js/hmr-client": "workspace:^1.2.0",
+    "@modern-js/server-plugin": "workspace:^1.2.0",
+    "@modern-js/server-utils": "workspace:^1.2.0",
+    "@modern-js/bff-utils": "workspace:^1.2.0",
+    "@modern-js/utils": "workspace:^1.2.0",
     "axios": "^0.21.4",
     "babel-plugin-module-resolver": "^4.1.0",
     "chokidar": "^3.5.2",
@@ -66,12 +67,12 @@
     "tsconfig-paths": "^3.11.0",
     "ua-parser-js": "^0.7.28",
     "webpack-dev-middleware": "^5.0.0",
-    "ws": "^8.2.0"
+    "ws": "^8.2.0",
+    "lodash.clone": "^4.5.0"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "^1.1.3",
-    "@modern-js/plugin-testing": "^1.2.0",
-    "@modern-js/types": "workspace:^1.1.4",
+    "@scripts/build": "workspace:*",
+    "@modern-js/types": "workspace:^1.2.0",
     "@types/jest": "^26",
     "@types/lru-cache": "^5.1.1",
     "@types/mime-types": "^2.1.0",
@@ -85,10 +86,14 @@
     "@types/ua-parser-js": "^0.7.36",
     "@types/webpack-dev-middleware": "^5.0.2",
     "@types/ws": "^7.4.7",
+    "@types/lodash.clone": "^4",
     "typescript": "^4",
     "webpack": "^5.54.0",
     "node-mocks-http": "^1.11.0",
-    "portfinder": "^1.0.28"
+    "portfinder": "^1.0.28",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*",
+    "websocket": "^1"
   },
   "peerDependencies": {
     "webpack": "^5.54.0"
@@ -101,6 +106,7 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/types/index.d.ts"
   }
 }

@@ -1,5 +1,36 @@
 # @modern-js/runtime-core
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- a2cb9abc: fix(runtime): useLoader fallback logic
+- Updated dependencies [2da09c69]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+  - @modern-js/utils@1.2.0
+  - @modern-js/plugin@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- e63591cc: fix page project dev error
+
+## 1.1.3
+
+### Patch Changes
+
+- 4a281912: app init function support sync function && ssr data add i18n data
+- 4a281912: fix: app init function not work
+- eb026119: change exports config
+- Updated dependencies [b7fb82ec]
+  - @modern-js/utils@1.1.6
+
 ## 1.1.2
 
 ### Patch Changes

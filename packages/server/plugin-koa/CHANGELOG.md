@@ -1,5 +1,37 @@
 # @modern-js/plugin-koa
 
+## 1.3.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 146dcd85: modify server framework plugin hook types and hook context
+- 146dcd85: modify server framework plugin hook types
+- 146dcd85: fix test case in babel compiler
+- Updated dependencies [2da09c69]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [146dcd85]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [146dcd85]
+- Updated dependencies [8e7603ee]
+- Updated dependencies [146dcd85]
+  - @modern-js/utils@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/bff-runtime@1.2.0
+  - @modern-js/adapter-helpers@1.2.0
+  - @modern-js/bff-utils@1.2.0
+  - @modern-js/server-plugin@1.2.0
+
+## 1.2.1
+
+### Patch Changes
+
+- ad107726: feat: new action support apppend type define
+
 ## 1.2.0
 
 ### Minor Changes

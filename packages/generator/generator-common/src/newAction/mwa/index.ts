@@ -7,7 +7,7 @@ import {
   ActionTypeText,
   ActionTypeTextMap,
 } from '../common';
-import { i18n, localeKeys } from '@/locale';
+import { i18n, localeKeys } from '../../locale';
 
 export const MWAActionTypes = [
   ActionType.Element,
@@ -29,6 +29,7 @@ export const MWAActionFunctions = [
   ActionFunction.Storybook,
   // ActionFunction.E2ETest,
   // ActionFunction.Doc,
+  ActionFunction.Polyfill,
   ActionFunction.Deploy,
 ];
 export const MWAActionElements = [ActionElement.Entry, ActionElement.Server];
@@ -94,6 +95,14 @@ export const MWAActionFunctionsDependencies: Partial<
   [ActionFunction.MicroFrontend]: '@modern-js/plugin-micro-frontend',
   [ActionFunction.I18n]: '@modern-js/plugin-i18n',
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
+  [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
+};
+
+export const MWAActionFunctionsAppendTypeContent: Partial<
+  Record<ActionFunction, string>
+> = {
+  [ActionFunction.Test]: `/// <reference types='@modern-js/plugin-testing/type' />`,
+  [ActionFunction.MicroFrontend]: `/// <reference types='@modern-js/plugin-micro-frontend/type' />`,
 };
 
 export const MWANewActionGenerators: Record<
@@ -118,6 +127,7 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.Doc]: '@modern-js/dependence-generator',
     [ActionFunction.Storybook]: '@modern-js/dependence-generator',
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
+    [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
     [ActionFunction.Deploy]: '@modern-js/cloud-deploy-generator',
   },
   [ActionType.Refactor]: {

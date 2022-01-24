@@ -10,6 +10,7 @@ import {
   MWAActionFunctions,
   ActionFunction,
   MWAActionFunctionsDependencies,
+  MWAActionFunctionsAppendTypeContent,
   MWAActionFunctionsDevDependencies,
   MWANewActionGenerators,
   ActionType,
@@ -109,7 +110,8 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     ans,
     {
       locale: (UserConfig.locale as string) || locale,
-      packageManager: getPackageManager(cwd),
+      packageManager:
+        UserConfig.packageManager || (await getPackageManager(cwd)),
     },
     {
       devDependencies: devDependency
@@ -118,6 +120,8 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
       dependencies: dependency
         ? { [dependency]: `^${await getPackageVersion(dependency)}` }
         : {},
+      appendTypeContent:
+        MWAActionFunctionsAppendTypeContent[action as ActionFunction],
     },
   );
 

@@ -1,7 +1,7 @@
 import { Schema } from '@modern-js/easy-form-core';
-import { i18n, localeKeys } from '@/locale';
-import { BooleanConfig, BooleanSchemas } from '@/common/boolean';
-import { EnableLessSchema, EnableSassSchema } from '@/common/css';
+import { i18n, localeKeys } from '../locale';
+import { BooleanConfig, BooleanSchemas } from '../common/boolean';
+import { EnableLessSchema, EnableSassSchema } from '../common/css';
 
 export const mwaConfigWhenFunc = (values: Record<string, any>) =>
   values.needModifyMWAConfig === BooleanConfig.YES;
@@ -96,4 +96,11 @@ export const FrameworkSchema: Schema = {
     key: framework,
     label: () => i18n.t(localeKeys.framework[framework]),
   })),
+};
+
+export const FrameworkAppendTypeContent: Record<Framework, string> = {
+  [Framework.Express]: `/// <reference types='@modern-js/plugin-express/types' />`,
+  [Framework.Koa]: `/// <reference types='@modern-js/plugin-koa/types' />`,
+  [Framework.Egg]: `/// <reference types='@modern-js/plugin-egg/types' />`,
+  [Framework.Nest]: `/// <reference types='@modern-js/plugin-nest/types' />`,
 };

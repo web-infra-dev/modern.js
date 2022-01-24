@@ -128,13 +128,15 @@ export {
 
 export type { NormalizedConfig, IAppContext, UserConfig, ToolsConfig };
 
-const initAppDir = async (): Promise<string> => {
-  const pkg = await pkgUp({ cwd: process.cwd() });
+const initAppDir = async (cwd?: string): Promise<string> => {
+  if (!cwd) {
+    // eslint-disable-next-line no-param-reassign
+    cwd = process.cwd();
+  }
+  const pkg = await pkgUp({ cwd });
 
   if (!pkg) {
-    throw new Error(
-      `no package.json found in current work dir: ${process.cwd()}`,
-    );
+    throw new Error(`no package.json found in current work dir: ${cwd}`);
   }
 
   return path.dirname(pkg);
@@ -142,8 +144,9 @@ const initAppDir = async (): Promise<string> => {
 
 export interface CoreOptions {
   configFile?: string;
+  packageJsonConfig?: string;
   plugins?: typeof INTERNAL_PLUGINS;
-  beforeUsePlugins: (
+  beforeUsePlugins?: (
     plugins: any,
     config: any,
   ) => { cli: any; cliPath: any; server: any; serverPath: any }[];
@@ -162,7 +165,11 @@ const createCli = () => {
 
     loadEnv(appDirectory);
 
-    const loaded = await loadUserConfig(appDirectory, options?.configFile);
+    const loaded = await loadUserConfig(
+      appDirectory,
+      options?.configFile,
+      options?.packageJsonConfig,
+    );
 
     let plugins = loadPlugins(
       appDirectory,

@@ -16,17 +16,18 @@ import webpack, {
   HotModuleReplacementPlugin,
   ProvidePlugin,
 } from 'webpack';
-import nodeLibsBrowser from 'node-libs-browser';
 import { Entrypoint } from '@modern-js/types';
 import CopyPlugin from 'copy-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { RouteManifest } from '../plugins/route-manifest-plugin';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
 import { AppIconPlugin } from '../plugins/app-icon-plugin';
+import { ICON_EXTENSIONS } from '../utils/constants';
 import { BaseWebpackConfig } from './base';
-import { ICON_EXTENSIONS } from '@/utils/constants';
 
-class ClientWebpackConfig extends BaseWebpackConfig {
+const nodeLibsBrowser = require('node-libs-browser');
+
+export class ClientWebpackConfig extends BaseWebpackConfig {
   htmlFilename: (name: string) => string;
 
   constructor(appContext: IAppContext, options: NormalizedConfig) {
@@ -61,26 +62,30 @@ class ClientWebpackConfig extends BaseWebpackConfig {
   resolve() {
     super.resolve();
 
-    // local node_modules
-    this.chain.resolve.modules.add(
-      path.resolve(__dirname, '../../../../node_modules'),
-    );
+    // FIXME: local node_modules (WTF?)
+    const wtfPath = path.resolve(__dirname, '../../../../node_modules');
+    this.chain.resolve.modules.add(wtfPath);
 
     // node polyfill
     if (!this.options.output.disableNodePolyfill) {
       this.chain.resolve.merge({
-        fallback: Object.keys(nodeLibsBrowser).reduce<
-          Record<string, string | false>
-        >((previous, name) => {
-          if (nodeLibsBrowser[name]) {
-            previous[name] = nodeLibsBrowser[name];
-          } else {
-            previous[name] = false;
-          }
-          return previous;
-        }, {}),
+        fallback: this.getNodePolyfill(),
       });
     }
+  }
+
+  private getNodePolyfill(): Record<string, string | false> {
+    return Object.keys(nodeLibsBrowser).reduce<Record<string, string | false>>(
+      (previous, name) => {
+        if (nodeLibsBrowser[name]) {
+          previous[name] = nodeLibsBrowser[name];
+        } else {
+          previous[name] = false;
+        }
+        return previous;
+      },
+      {},
+    );
   }
 
   private useDefinePlugin() {
@@ -95,7 +100,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
         }, {}),
         ...Object.keys(globalVars || {}).reduce<Record<string, string>>(
           (memo, name) => {
-            memo[name] = JSON.stringify(globalVars![name]);
+            memo[name] = globalVars ? JSON.stringify(globalVars[name]) : '';
             return memo;
           },
           {},
@@ -179,7 +184,7 @@ class ClientWebpackConfig extends BaseWebpackConfig {
                 packageName,
               ),
               mountId: this.options.output.mountId!,
-              staticPrefix: this.chain.output.get('publicPath'),
+              assetPrefix: removeTailSlash(this.chain.output.get('publicPath')),
               meta: generateMetaTags(
                 getEntryOptions(
                   entryName,
@@ -263,11 +268,17 @@ class ClientWebpackConfig extends BaseWebpackConfig {
               }
 
               return require('lodash.template')(content.toString('utf8'))({
-                staticPrefix: removeTailSlash(
+                assetPrefix: removeTailSlash(
                   this.chain.output.get('publicPath'),
                 ),
               });
             },
+          },
+          {
+            from: '**/*',
+            to: 'upload',
+            context: path.posix.join(configDir.replace(/\\/g, '/'), 'upload'),
+            noErrorOnMissing: true,
           },
         ],
       },
@@ -320,5 +331,3 @@ class ClientWebpackConfig extends BaseWebpackConfig {
     }
   }
 }
-
-export { ClientWebpackConfig };

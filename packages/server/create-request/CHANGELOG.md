@@ -1,5 +1,32 @@
 # @modern-js/create-request
 
+## 1.2.0
+
+### Minor Changes
+
+- 5597289b: Fix @modern-js/plugin-ssr exported configuration
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [2da09c69]
+- Updated dependencies [5597289b]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+  - @modern-js/utils@1.2.0
+  - @modern-js/plugin-ssr@1.2.0
+
+## 1.1.2
+
+### Patch Changes
+
+- e51b1db3: feat: support custom sdk, interceptor, headers for bff request
+- Updated dependencies [e51b1db3]
+- Updated dependencies [4a281912]
+- Updated dependencies [b7fb82ec]
+  - @modern-js/plugin-ssr@1.1.3
+  - @modern-js/utils@1.1.6
+
 ## 1.1.1
 
 ### Patch Changes

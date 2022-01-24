@@ -1,19 +1,12 @@
 {
+  "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
-    "outDir": "dist",
-    "lib": ["ESNext"],
-    "module": "commonjs",
-    "target": "ES5",
-    "sourceMap": false,
+    "declaration": false,
     "jsx": "preserve",
     "baseUrl": "./",
-    "skipLibCheck": true,
+    "isolatedModules": true,
     "esModuleInterop": true,
-    "downlevelIteration": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    },
-    "types": ["node"]
+    "paths": {}
   },
   "include": ["src"],
   "exclude": ["src/client"]

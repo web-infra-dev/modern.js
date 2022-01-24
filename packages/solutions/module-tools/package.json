@@ -11,25 +11,32 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.3",
+  "version": "1.2.0",
   "bin": {
     "modern": "./bin/modern.js"
   },
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/index.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": {
       "node": {
+        "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
     },
-    "./cli": "./dist/js/node/index.js",
-    "./build": "./dist/js/node/build.js"
+    "./cli": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/js/node/index.js"
+    },
+    "./build": {
+      "jsnext:source": "./src/build.ts",
+      "default": "./dist/js/node/build.js"
+    }
   },
   "typesVersions": {
     "*": {
@@ -43,7 +50,7 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/generator": "^7.15.0",
@@ -51,19 +58,19 @@
     "@babel/runtime": "^7",
     "@babel/traverse": "^7.15.0",
     "@babel/types": "^7.15.0",
-    "@modern-js/babel-compiler": "workspace:^1.1.3",
-    "@modern-js/babel-preset-module": "workspace:^1.1.2",
-    "@modern-js/core": "workspace:^1.2.0",
-    "@modern-js/css-config": "workspace:^1.1.2",
-    "@modern-js/i18n-cli-language-detector": "workspace:^1.1.1",
-    "@modern-js/module-tools-hooks": "workspace:^1.1.2",
-    "@modern-js/new-action": "workspace:^1.2.0",
-    "@modern-js/plugin-analyze": "workspace:^1.1.2",
-    "@modern-js/plugin-changeset": "workspace:^1.1.1",
-    "@modern-js/plugin-fast-refresh": "workspace:^1.1.1",
-    "@modern-js/plugin-i18n": "workspace:^1.1.1",
-    "@modern-js/style-compiler": "workspace:^1.1.3",
-    "@modern-js/utils": "workspace:^1.1.5",
+    "@modern-js/babel-compiler": "workspace:^1.2.0",
+    "@modern-js/babel-preset-module": "workspace:^1.2.0",
+    "@modern-js/core": "workspace:^1.3.0",
+    "@modern-js/css-config": "workspace:^1.2.0",
+    "@modern-js/i18n-cli-language-detector": "workspace:^1.2.0",
+    "@modern-js/module-tools-hooks": "workspace:^1.2.0",
+    "@modern-js/new-action": "workspace:^1.3.0",
+    "@modern-js/plugin-analyze": "workspace:^1.2.0",
+    "@modern-js/plugin-changeset": "workspace:^1.2.0",
+    "@modern-js/plugin-fast-refresh": "workspace:^1.2.0",
+    "@modern-js/plugin-i18n": "workspace:^1.2.0",
+    "@modern-js/style-compiler": "workspace:^1.2.0",
+    "@modern-js/utils": "workspace:^1.2.0",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.2",
     "dotenv": "^10.0.0",
@@ -82,7 +89,7 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.15.0",
-    "@modern-js/babel-chain": "workspace:^1.1.1",
+    "@modern-js/babel-chain": "workspace:^1.2.0",
     "@types/babel__core": "^7.1.15",
     "@types/babel__generator": "^7.6.3",
     "@types/babel__traverse": "^7.14.2",
@@ -95,8 +102,9 @@
     "@types/signale": "^1.4.2",
     "commander": "^8.1.0",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.2.0",
-    "@modern-js/module-tools": "^1.1.3"
+    "@scripts/build": "workspace:*",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "sideEffects": false,
   "modernConfig": {
@@ -106,6 +114,7 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/types/index.d.ts"
   }
 }

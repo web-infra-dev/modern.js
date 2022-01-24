@@ -1,5 +1,17 @@
 # @modern-js/babel-chain
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+## 1.1.2
+
+### Patch Changes
+
+- b37f78c8: add missing type
+
 ## 1.1.1
 
 ### Patch Changes

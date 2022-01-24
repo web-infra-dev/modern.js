@@ -1,5 +1,5 @@
 import path from 'path';
-import { ensureAbsolutePath } from '@/ensureAbsolutePath';
+import { ensureAbsolutePath } from '../src/ensureAbsolutePath';
 
 describe('ensure absolute file path', () => {
   test('should return filePath directly', () => {

@@ -1,5 +1,59 @@
 # @modern-js/app-tools
 
+## 1.3.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [2da09c69]
+- Updated dependencies [e2464fe5]
+- Updated dependencies [5597289b]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [4a85378c]
+- Updated dependencies [146dcd85]
+- Updated dependencies [e453e421]
+- Updated dependencies [2c049918]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [1ebc7ee2]
+- Updated dependencies [146dcd85]
+- Updated dependencies [146dcd85]
+- Updated dependencies [1ebc7ee2]
+  - @modern-js/utils@1.2.0
+  - @modern-js/types@1.2.0
+  - @modern-js/webpack@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/server@1.3.0
+  - @modern-js/new-action@1.3.0
+  - @modern-js/i18n-cli-language-detector@1.2.0
+  - @modern-js/plugin-analyze@1.2.0
+  - @modern-js/plugin-fast-refresh@1.2.0
+  - @modern-js/plugin-i18n@1.2.0
+  - @modern-js/plugin-polyfill@1.2.0
+  - @modern-js/plugin@1.2.0
+
+## 1.2.0
+
+### Minor Changes
+
+- 212f749f: fix(app-tools): app-tools exported types
+
+### Patch Changes
+
+- Updated dependencies [e51b1db3]
+- Updated dependencies [5e3de7d8]
+- Updated dependencies [4819a3c7]
+- Updated dependencies [b7fb82ec]
+- Updated dependencies [81d93503]
+  - @modern-js/server@1.2.1
+  - @modern-js/types@1.1.5
+  - @modern-js/plugin-i18n@1.1.2
+  - @modern-js/new-action@1.2.2
+  - @modern-js/utils@1.1.6
+
 ## 1.1.5
 
 ### Patch Changes

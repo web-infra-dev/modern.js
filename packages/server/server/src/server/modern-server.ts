@@ -4,10 +4,10 @@ import util from 'util';
 import path from 'path';
 import { fs, ROUTE_SPEC_FILE } from '@modern-js/utils';
 import { Adapter, APIServerStartInput } from '@modern-js/server-plugin';
-import { createMiddlewareCollecter } from '@modern-js/server-utils';
 import type { NormalizedConfig } from '@modern-js/core';
 import mime from 'mime-types';
 import axios from 'axios';
+import clone from 'lodash.clone';
 import {
   ModernServerOptions,
   NextFunction,
@@ -16,27 +16,32 @@ import {
   Logger,
   ReadyOptions,
   ConfWithBFF,
-} from '@/type';
+} from '../type';
 import {
   RouteMatchManager,
   ModernRouteInterface,
   ModernRoute,
   RouteMatcher,
-} from '@/libs/route';
-import { createRenderHandler } from '@/libs/render';
-import { createStaticFileHandler } from '@/libs/serve-file';
-import { createErrorDocument, mergeExtension, noop } from '@/utils';
-import * as reader from '@/libs/render/reader';
-import { createProxyHandler, ProxyOptions } from '@/libs/proxy';
-import { createContext, ModernServerContext } from '@/libs/context';
+} from '../libs/route';
+import { createRenderHandler } from '../libs/render';
+import { createStaticFileHandler } from '../libs/serve-file';
+import {
+  createErrorDocument,
+  createMiddlewareCollecter,
+  mergeExtension,
+  noop,
+} from '../utils';
+import * as reader from '../libs/render/reader';
+import { createProxyHandler, ProxyOptions } from '../libs/proxy';
+import { createContext, ModernServerContext } from '../libs/context';
 import {
   AGGRED_DIR,
   ApiServerMode,
   ERROR_DIGEST,
   ERROR_PAGE_TEXT,
-} from '@/constants';
-import { createTemplateAPI } from '@/libs/hook-api/template';
-import { createRouteAPI } from '@/libs/hook-api/route';
+} from '../constants';
+import { createTemplateAPI } from '../libs/hook-api/template';
+import { createRouteAPI } from '../libs/hook-api/route';
 
 type ModernServerHandler = (
   context: ModernServerContext,
@@ -319,9 +324,13 @@ export class ModernServer {
 
   protected async emitRouteHook(
     eventName: 'beforeMatch' | 'afterMatch' | 'beforeRender' | 'afterRender',
-    input: any,
+    input: {
+      context: ModernServerContext;
+      [propsName: string]: any;
+    },
   ) {
-    return this.runner[eventName](input, { onLast: noop as any });
+    input.context = clone(input.context);
+    return this.runner[eventName](input as any, { onLast: noop as any });
   }
 
   // warmup ssr function

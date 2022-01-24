@@ -16,7 +16,7 @@ export async function change(options: ChangeOptions) {
   if (isMonorepo(appDir)) {
     const packages = getMonorepoPackages(appDir);
     if (packages.length === 0) {
-      const packageManager = getPackageManager(appDir);
+      const packageManager = await getPackageManager(appDir);
       logger.warn(
         i18n.t(localeKeys.command.change.no_packages, {
           packageManager:
@@ -36,5 +36,5 @@ export async function change(options: ChangeOptions) {
     params.push('--open');
   }
 
-  await execaWithStreamLog('node', params);
+  await execaWithStreamLog(process.execPath, params);
 }

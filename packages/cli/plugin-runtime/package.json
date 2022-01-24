@@ -11,50 +11,64 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.1",
+  "version": "1.2.0",
   "jsnext:source": "./src/index.ts",
-  "types": "./type.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": {
-      "node": "./dist/js/node/index.js",
+      "node": {
+        "jsnext:source": "./src/index.ts",
+        "default": "./dist/js/node/index.js"
+      },
       "default": "./dist/js/treeshaking/index.js"
     },
     "./loadable": {
+      "jsnext:source": "./src/exports/loadable.ts",
       "node": "./dist/js/node/exports/loadable.js",
       "default": "./dist/js/treeshaking/exports/loadable.js"
     },
     "./head": {
+      "jsnext:source": "./src/exports/head.ts",
       "node": "./dist/js/node/exports/head.js",
       "default": "./dist/js/treeshaking/exports/head.js"
     },
     "./styled": {
+      "jsnext:source": "./src/exports/styled.ts",
       "node": "./dist/js/node/exports/styled.js",
       "default": "./dist/js/treeshaking/exports/styled.js"
     },
     "./server": {
+      "jsnext:source": "./src/exports/server.ts",
       "node": "./dist/js/node/exports/server.js",
       "default": "./dist/js/treeshaking/exports/server.js"
     },
     "./router": {
+      "jsnext:source": "./src/exports/router.ts",
       "node": "./dist/js/node/exports/router.js",
       "default": "./dist/js/treeshaking/exports/router.js"
     },
     "./ssr": {
+      "jsnext:source": "./src/exports/ssr.ts",
       "node": "./dist/js/node/exports/ssr.js",
       "default": "./dist/js/treeshaking/exports/ssr.js"
     },
     "./model": {
+      "jsnext:source": "./src/exports/model.ts",
       "node": "./dist/js/node/exports/model.js",
       "default": "./dist/js/treeshaking/exports/model.js"
     },
     "./request": {
+      "jsnext:source": "./src/exports/request.ts",
       "node": "./dist/js/node/exports/request.js",
       "default": "./dist/js/treeshaking/exports/request.js"
     },
-    "./cli": "./dist/js/node/cli/index.js"
+    "./cli": {
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/js/node/cli/index.js"
+    }
   },
   "typesVersions": {
     "*": {
@@ -92,41 +106,43 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7",
+    "@modern-js/plugin-router": "workspace:^1.2.0",
+    "@modern-js/plugin-ssr": "workspace:^1.2.0",
+    "@modern-js/plugin-state": "workspace:^1.2.0",
+    "@modern-js/runtime-core": "workspace:^1.2.0",
+    "@modern-js/utils": "workspace:^1.2.0",
+    "@modern-js/bff-runtime": "workspace:^1.2.0",
+    "@modern-js/create-request": "workspace:^1.2.0",
     "@loadable/component": "^5.15.0",
-    "@modern-js/bff-runtime": "workspace:^1.1.1",
-    "@modern-js/create-request": "workspace:^1.1.1",
-    "@modern-js/plugin-router": "workspace:^1.1.1",
-    "@modern-js/plugin-ssr": "workspace:^1.1.1",
-    "@modern-js/plugin-state": "workspace:^1.1.2",
-    "@modern-js/runtime-core": "workspace:^1.1.1",
-    "@modern-js/utils": "workspace:^1.1.2",
-    "@types/loadable__component": "^5.13.4",
-    "@types/react-helmet": "^6.1.2",
-    "@types/styled-components": "^5.1.13",
     "react-helmet": "^6.1.0",
     "styled-components": "^5.3.1"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.1.2",
-    "@modern-js/module-tools": "^1.1.1",
-    "@modern-js/plugin-testing": "^1.1.1",
+    "@modern-js/core": "workspace:^1.3.0",
+    "@scripts/build": "workspace:*",
+    "@types/loadable__component": "^5.13.4",
+    "@types/react-helmet": "^6.1.2",
+    "@types/styled-components": "^5.1.13",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
-    "typescript": "^4"
+    "typescript": "^4",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.1.2"
+    "@modern-js/core": "workspace:^1.3.0"
   },
   "sideEffects": false,
   "modernConfig": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./type.d.ts"
   }
 }

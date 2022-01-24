@@ -6,7 +6,7 @@ concurrency:
 
 # Controls when the action will run.
 on:
-  # Triggers the workflow on pull request events but only for the master branch
+  # Triggers the workflow on pull request events but only for the main branch
   pull_request:
     branches: [main]
 
@@ -47,10 +47,6 @@ jobs:
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: pnpm install --ignore-scripts
 
-      - name: Prepare
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm run prepare --filter ./packages
-
       - name: Test
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm run test
+        run: pnpm run test:ut

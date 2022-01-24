@@ -1,5 +1,36 @@
 # @modern-js/plugin-ssr
 
+## 1.2.0
+
+### Minor Changes
+
+- 5597289b: Fix @modern-js/plugin-ssr exported configuration
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [2da09c69]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [a2cb9abc]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+  - @modern-js/utils@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/runtime-core@1.2.0
+
+## 1.1.3
+
+### Patch Changes
+
+- e51b1db3: feat: support custom sdk, interceptor, headers for bff request
+- 4a281912: app init function support sync function && ssr data add i18n data
+- Updated dependencies [4a281912]
+- Updated dependencies [4a281912]
+- Updated dependencies [b7fb82ec]
+- Updated dependencies [eb026119]
+  - @modern-js/runtime-core@1.1.3
+  - @modern-js/utils@1.1.6
+
 ## 1.1.2
 
 ### Patch Changes

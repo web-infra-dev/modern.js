@@ -1,5 +1,29 @@
 # @modern-js/plugin-state
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [fc71e36f]
+- Updated dependencies [a2cb9abc]
+- Updated dependencies [cfe11628]
+  - @modern-js/core@1.3.0
+  - @modern-js/runtime-core@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- 4a281912: fix: app init function not work
+- Updated dependencies [4a281912]
+- Updated dependencies [4a281912]
+- Updated dependencies [eb026119]
+  - @modern-js/runtime-core@1.1.3
+
 ## 1.1.3
 
 ### Patch Changes

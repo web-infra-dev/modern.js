@@ -1,6 +1,6 @@
 import { Schema } from '@modern-js/easy-form-core';
-import { i18n, localeKeys } from '@/locale';
-import { BooleanConfig, BooleanSchemas } from '@/common';
+import { i18n, localeKeys } from '../locale';
+import { BooleanConfig, BooleanSchemas } from '../common';
 
 export enum CDNType {
   OSS = 'oss',
@@ -41,7 +41,6 @@ export const LambdaTypeSchema: Schema = {
   type: ['string'],
   label: () => i18n.t(localeKeys.deploy.lambda.self),
   mutualExclusion: true,
-  when: values => values.disableModernServer === BooleanConfig.NO,
   items: Object.values(LambdaType).map(deployType => ({
     key: deployType,
     label: () => i18n.t(localeKeys.deploy.lambda[deployType]),

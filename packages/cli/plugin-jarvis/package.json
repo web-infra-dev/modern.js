@@ -11,37 +11,41 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.1",
+  "version": "1.2.0",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/index.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": {
       "node": {
+        "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
     },
-    "./cli": "./dist/js/node/index.js"
+    "./cli": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/js/node/index.js"
+    }
   },
   "scripts": {
     "prepare": "pnpm build",
     "prepublishOnly": "pnpm build --platform",
     "new": "modern new",
     "build": "modern build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.15.0",
     "@babel/eslint-plugin": "^7.14.5",
     "@babel/runtime": "^7.15.3",
-    "@modern-js-app/eslint-config": "workspace:^1.1.0",
-    "@modern-js/eslint-config": "workspace:^1.1.0",
-    "@modern-js/tsconfig": "workspace:^1.1.0",
-    "@modern-js/utils": "workspace:^1.1.2",
+    "@modern-js-app/eslint-config": "workspace:^1.2.0",
+    "@modern-js/eslint-config": "workspace:^1.2.0",
+    "@modern-js/tsconfig": "workspace:^1.2.0",
+    "@modern-js/utils": "workspace:^1.2.0",
     "@types/minimist": "^1.2.2",
     "@typescript-eslint/eslint-plugin": "^4.8.0",
     "@typescript-eslint/parser": "^4.8.0",
@@ -72,17 +76,19 @@
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "typescript": "^4",
-    "@modern-js/core": "workspace:^1.1.2",
-    "@modern-js/plugin-testing": "^1.1.1",
-    "@modern-js/module-tools": "^1.1.1"
+    "@modern-js/core": "workspace:^1.3.0",
+    "@scripts/build": "workspace:*",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.1.2"
+    "@modern-js/core": "workspace:^1.3.0"
   },
   "modernConfig": {},
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/types/index.d.ts"
   }
 }

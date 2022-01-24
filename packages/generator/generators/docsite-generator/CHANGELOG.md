@@ -1,5 +1,29 @@
 # @modern-js/docsite-generator
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 2c049918: feat: polyfill function support enable using new command
+
+## 1.1.6
+
+### Patch Changes
+
+- f73fee4b: feat: upgrade codesmith version to add get npm package timeout's time
+
+## 1.1.5
+
+### Patch Changes
+
+- 4819a3c7: feat: update generator version
+- b7fb82ec: fix: get package manager function
+- 81d93503: fix: generator new action get package manager
+
 ## 1.1.4
 
 ### Patch Changes

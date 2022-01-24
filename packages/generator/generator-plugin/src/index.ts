@@ -1,7 +1,7 @@
 import path from 'path';
 import EventEmitter from 'events';
 import packageJson from 'package-json';
-import { GeneratorCore, ILogger } from '@modern-js/codesmith';
+import { GeneratorCore, ILogger, getPackageInfo } from '@modern-js/codesmith';
 import { fs, i18n as utilsI18n } from '@modern-js/generator-utils';
 import {
   Solution,
@@ -52,18 +52,23 @@ export class GeneratorPlugin {
     i18n.changeLanguage({ locale });
   }
 
-  async setupPlugin(plugins: string[], registry?: string, distTag?: string) {
+  async setupPlugin(plugins: string[], registry?: string) {
     await Promise.all(
       plugins.map(async plugin => {
         let pkgJSON;
         if (path.isAbsolute(plugin)) {
           pkgJSON = await fs.readJSON(path.join(plugin, 'package.json'));
         } else {
-          pkgJSON = await packageJson(plugin.toLowerCase(), {
+          const { name, version: pkgVersion } = getPackageInfo(plugin);
+          pkgJSON = await packageJson(name.toLowerCase(), {
             registryUrl: registry,
             fullMetadata: true,
-            version: distTag,
+            version: pkgVersion,
           });
+          const version = pkgJSON['dist-tags']
+            ? pkgJSON['dist-tags'][pkgVersion || 'latest']
+            : '';
+          pkgJSON = version ? pkgJSON.versions[version] : pkgJSON;
         }
         const { meta } = pkgJSON;
         if (!meta) {

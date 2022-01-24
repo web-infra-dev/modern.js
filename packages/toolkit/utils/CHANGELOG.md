@@ -1,5 +1,22 @@
 # @modern-js/utils
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 2da09c69: Add "typescript" to the dependency list
+- c3d46ee4: fix: test config invalid
+
+## 1.1.6
+
+### Patch Changes
+
+- b7fb82ec: fix: get package manager function
+
 ## 1.1.5
 
 ### Patch Changes

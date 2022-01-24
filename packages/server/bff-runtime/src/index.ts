@@ -1,7 +1,6 @@
 export * from 'farrow-schema';
 export * from 'farrow-api';
 export * from 'farrow-pipeline';
-export { hook } from '@modern-js/server-utils';
 
 export { match, isHandler, isSchemaHandler } from './match';
 

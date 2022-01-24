@@ -1,5 +1,60 @@
 # @modern-js/runtime
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 146dcd85: modify server framework plugin hook types and hook context
+- 146dcd85: modify server framework plugin hook types
+- 146dcd85: fix test case in babel compiler
+- Updated dependencies [2da09c69]
+- Updated dependencies [5597289b]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [146dcd85]
+- Updated dependencies [a2cb9abc]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [146dcd85]
+- Updated dependencies [146dcd85]
+  - @modern-js/utils@1.2.0
+  - @modern-js/plugin-ssr@1.2.0
+  - @modern-js/create-request@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/bff-runtime@1.2.0
+  - @modern-js/runtime-core@1.2.0
+  - @modern-js/plugin-router@1.2.0
+  - @modern-js/plugin-state@1.2.0
+
+## 1.1.3
+
+### Patch Changes
+
+- b8deff8b: feat: add isBrowser in runtime context
+- Updated dependencies [e63591cc]
+  - @modern-js/plugin-router@1.1.3
+  - @modern-js/runtime-core@1.1.4
+
+## 1.1.2
+
+### Patch Changes
+
+- e51b1db3: feat: support custom sdk, interceptor, headers for bff request
+- Updated dependencies [e51b1db3]
+- Updated dependencies [4a281912]
+- Updated dependencies [4a281912]
+- Updated dependencies [b7fb82ec]
+- Updated dependencies [eb026119]
+  - @modern-js/plugin-ssr@1.1.3
+  - @modern-js/create-request@1.1.2
+  - @modern-js/runtime-core@1.1.3
+  - @modern-js/plugin-router@1.1.2
+  - @modern-js/plugin-state@1.1.4
+  - @modern-js/utils@1.1.6
+
 ## 1.1.1
 
 ### Patch Changes

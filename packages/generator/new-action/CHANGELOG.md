@@ -1,5 +1,45 @@
 # @modern-js/new-action
 
+## 1.3.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 2c049918: feat: polyfill function support enable using new command
+- 1ebc7ee2: fix: new action cycle dependence
+- Updated dependencies [2c049918]
+- Updated dependencies [cfe11628]
+  - @modern-js/generator-common@1.3.0
+  - @modern-js/generator-utils@1.2.0
+
+## 1.2.3
+
+### Patch Changes
+
+- ad107726: feat: new action support apppend type define
+- f73fee4b: feat: upgrade codesmith version to add get npm package timeout's time
+- Updated dependencies [ad107726]
+- Updated dependencies [f73fee4b]
+  - @modern-js/generator-common@1.2.4
+  - @modern-js/generator-plugin@1.1.4
+  - @modern-js/generator-utils@1.1.3
+
+## 1.2.2
+
+### Patch Changes
+
+- 4819a3c7: feat: update generator version
+- b7fb82ec: fix: get package manager function
+- 81d93503: fix: generator new action get package manager
+- Updated dependencies [4819a3c7]
+- Updated dependencies [b7fb82ec]
+  - @modern-js/generator-common@1.2.3
+  - @modern-js/generator-plugin@1.1.3
+  - @modern-js/generator-utils@1.1.2
+
 ## 1.2.1
 
 ### Patch Changes

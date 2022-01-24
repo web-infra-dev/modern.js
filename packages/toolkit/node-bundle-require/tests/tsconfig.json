@@ -2,10 +2,9 @@
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
     "declaration": false,
+    "target": "es5",
     "jsx": "preserve",
     "baseUrl": "./",
-    "paths": {
-      "@/*": ["../src/*"]
-    }
+    "paths": {}
   }
 }

@@ -1,5 +1,17 @@
 # @modern-js/create
 
+## 1.3.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+## 1.2.4
+
+### Patch Changes
+
+- f73fee4b: feat: upgrade codesmith version to add get npm package timeout's time
+
 ## 1.2.2
 
 ### Patch Changes

@@ -5,7 +5,7 @@ import {
   getMWANewCases,
   getModuleNewCases,
   getMonorepoNewCases,
-} from '@/index';
+} from '../src';
 
 describe('test generator cases', () => {
   test('test getMWACases', async () => {
@@ -22,7 +22,7 @@ describe('test generator cases', () => {
   });
   test('test getMWANewCases', async () => {
     const mwaNewCases = getMWANewCases();
-    expect(mwaNewCases.length).toBe(24);
+    expect(mwaNewCases.length).toBe(25);
   });
   test('test getModuleNewCases', async () => {
     const moduleNewCases = getModuleNewCases();

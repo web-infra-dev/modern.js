@@ -245,7 +245,7 @@ export const PLUGIN_SCHEMAS = {
     },
     {
       target: 'tools.jest',
-      schema: { typeof: ['object'] },
+      schema: { typeof: ['object', 'function'] },
     },
   ],
   '@modern-js/plugin-micro-frontend': [

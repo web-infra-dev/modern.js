@@ -12,29 +12,41 @@ To develop locally:
    local.
 2. Create a new branch:
 
-    ```zsh
-    git checkout -b MY_BRANCH_NAME
-    ```
+   ```zsh
+   git checkout -b MY_BRANCH_NAME
+   ```
 
-3. Install pnpm:
+3. Install pnpm
 
-    ```zsh
-    npm install -g pnpm
-    ```
+   ```zsh
+   npm install -g pnpm
+   ```
 
-4. Install the dependencies with:
+4. Install the dependencies
 
-    ```zsh
-    pnpm run setup
-    ```
+   ```zsh
+   pnpm run setup
+   ```
 
-5. Go into package which you want to contribute.
+5. Build the eslint-config packages
 
-    ```zsh
-    cd ./packages/
-    ```
+   ```zsh
+   pnpm run build --filter @modern-js/eslint-config...
+   ```
 
-6. Start developing.
+6. Go into package which you want to contribute.
+
+   ```zsh
+   cd ./packages/
+   ```
+
+7. Start developing.
+
+8. Add changeset. Select changed packages in this commits and add changeset info.
+
+   ```zsh
+   pnpm run change
+   ```
 
 ## Building
 
@@ -86,31 +98,25 @@ Repository maintainers can publish a new version of all packages to npm.
 1. Fetch newest code at branch `main`.
 2. Install
 
-    ```zsh
-    pnpm run setup
-    ```
+   ```zsh
+   pnpm run setup
+   ```
 
 3. Prepare
 
-    ```zsh
-    pnpm run prepare
-    ```
-
-4. Add changeset
-
    ```zsh
-   pnpm run change
+   pnpm run prepare
    ```
 
-5. Bump version
+4. Bump version
 
    ```zsh
    pnpm run bump
    ```
 
-6. Commit version change. The format of commit message should be `chore: va.b.c` which is the main version of current release.
+5. Commit version change. The format of commit message should be `chore: va.b.c` which is the main version of current release.
 
-    ```zsh
-    git add .
-    git commit -m "chore: va.b.c"
-    ```
+   ```zsh
+   git add .
+   git commit -m "chore: va.b.c"
+   ```

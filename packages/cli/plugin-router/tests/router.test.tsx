@@ -1,6 +1,7 @@
+import React from 'react';
 import { createApp, createPlugin } from '@modern-js/runtime-core';
 import { render } from '@testing-library/react';
-import createRouterPlugin from '@/runtime';
+import createRouterPlugin from '../src/runtime';
 
 describe('@modern-js/plugin-router', () => {
   it('base usage', () => {

@@ -1,9 +1,10 @@
 import path from 'path';
 import { createMatchPath } from 'tsconfig-paths';
-import { resolvePath } from 'babel-plugin-module-resolver';
 import { PluginOptions } from '@babel/core';
 import { getUserAlias } from '@modern-js/utils';
 import { AliasOption } from '../types';
+
+const { resolvePath } = require('babel-plugin-module-resolver');
 
 const defaultPaths = { '@': ['./src'] };
 
@@ -37,6 +38,10 @@ export const aliasPlugin = (alias: AliasOption): [string, PluginOptions] => {
     currentFile: string,
     opts: any,
   ) => {
+    // fix by: https://github.com/tleunen/babel-plugin-module-resolver/pull/409/files
+    if (sourcePath === '.' || sourcePath === './') {
+      return sourcePath;
+    }
     /**
      *以下是匹配到tsconfig的paths的情况进行进一步匹配和转换
      */

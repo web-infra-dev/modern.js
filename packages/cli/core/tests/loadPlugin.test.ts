@@ -1,7 +1,21 @@
 import path from 'path';
-import { loadPlugins } from '@/loadPlugins';
+import { loadPlugins, getAppPlugins } from '../src/loadPlugins';
 
 describe('load plugins', () => {
+  test('getAppPlugins', () => {
+    const appDirectory = path.resolve(
+      __dirname,
+      './fixtures/load-plugin/user-plugins',
+    );
+    const plugins = getAppPlugins(appDirectory, ['foo' as any], {
+      x: {
+        cli: 'x',
+        forced: true,
+      } as any,
+    });
+    expect(plugins).toEqual([{ cli: 'x', forced: true }, 'foo']);
+  });
+
   test('should load user plugin successfully', () => {
     const fixture = path.resolve(
       __dirname,
@@ -27,6 +41,27 @@ describe('load plugins', () => {
           pluginPath: path.join(fixture, './test-plugin-b.js'),
         },
         serverPath: './test-plugin-b',
+      },
+    ]);
+  });
+
+  test('should load user string plugin successfully', () => {
+    const fixture = path.resolve(
+      __dirname,
+      './fixtures/load-plugin/user-plugins',
+    );
+
+    const plugins = loadPlugins(fixture, [
+      path.join(fixture, './test-plugin-a.js') as any,
+    ]);
+
+    expect(plugins).toEqual([
+      {
+        cli: {
+          name: 'a',
+          pluginPath: path.join(fixture, './test-plugin-a.js'),
+        },
+        cliPath: path.join(fixture, './test-plugin-a.js'),
       },
     ]);
   });

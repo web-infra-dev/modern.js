@@ -1,5 +1,38 @@
 # @modern-js/plugin-unbundle
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 1ebc7ee2: fix: @babel/core version
+- Updated dependencies [2da09c69]
+- Updated dependencies [5597289b]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [146dcd85]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [146dcd85]
+- Updated dependencies [8e7603ee]
+- Updated dependencies [146dcd85]
+- Updated dependencies [1ebc7ee2]
+  - @modern-js/utils@1.2.0
+  - @modern-js/create-request@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/server@1.3.0
+  - @modern-js/css-config@1.2.0
+  - @modern-js/bff-utils@1.2.0
+  - @modern-js/esmpack@1.2.0
+
+## 1.1.3
+
+### Patch Changes
+
+- fix: unbundle error
+
 ## 1.1.2
 
 ### Patch Changes

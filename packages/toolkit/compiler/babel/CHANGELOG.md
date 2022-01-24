@@ -1,5 +1,28 @@
 # @modern-js/babel-compiler
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 146dcd85: fix test case in babel compiler
+- 1ebc7ee2: fix: @babel/core version
+- Updated dependencies [2da09c69]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+  - @modern-js/utils@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- 2da27d3b: fix sourcemap 'source' config
+- Updated dependencies [b7fb82ec]
+  - @modern-js/utils@1.1.6
+
 ## 1.1.3
 
 ### Patch Changes

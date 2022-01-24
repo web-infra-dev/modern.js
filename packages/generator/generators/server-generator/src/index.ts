@@ -10,6 +10,7 @@ import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
   Framework,
+  FrameworkAppendTypeContent,
   i18n,
   Language,
   ServerSchema,
@@ -147,6 +148,21 @@ const handleTemplateFile = async (
         .replace(`templates/${framework as string}/`, 'server/')
         .replace('.handlebars', ''),
   );
+
+  const appendTypeContent = FrameworkAppendTypeContent[framework as Framework];
+
+  if (appendTypeContent) {
+    const typePath = path.join(appDir, 'src', 'modern-app-env.d.ts');
+    if (fs.existsSync(typePath)) {
+      const npmrc = fs.readFileSync(typePath, 'utf-8');
+      if (!npmrc.includes(appendTypeContent)) {
+        fs.writeFileSync(typePath, `${npmrc}${appendTypeContent}\n`, 'utf-8');
+      }
+    } else {
+      fs.ensureFileSync(typePath);
+      fs.writeFileSync(typePath, appendTypeContent, 'utf-8');
+    }
+  }
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {

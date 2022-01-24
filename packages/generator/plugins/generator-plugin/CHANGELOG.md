@@ -1,5 +1,21 @@
 # @modern-js/generator-plugin-plugin
 
+## 1.1.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 2c049918: feat: polyfill function support enable using new command
+
+## 1.0.6
+
+### Patch Changes
+
+- 4819a3c7: feat: update generator version
+
 ## 1.0.5
 
 ### Patch Changes

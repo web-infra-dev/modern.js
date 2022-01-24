@@ -4,9 +4,9 @@
     "declaration": false,
     "jsx": "preserve",
     "baseUrl": "./",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "paths": {}
   },
   "include": ["src"]
 }

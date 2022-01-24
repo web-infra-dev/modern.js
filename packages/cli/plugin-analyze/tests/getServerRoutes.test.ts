@@ -1,8 +1,8 @@
 import path from 'path';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import { IAppContext } from '@modern-js/core';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils/constants';
-import { getServerRoutes } from '@/getServerRoutes';
-import { Entrypoint } from '@/getFileSystemEntry';
+import { getServerRoutes } from '../src/getServerRoutes';
+import { Entrypoint } from '../src/getFileSystemEntry';
 
 describe('get server routes', () => {
   const appContext: any = {
@@ -243,8 +243,13 @@ describe('get server routes', () => {
       config: {
         source: sourceConfig,
         output: outputConfig,
-        server: serverConfig,
-      } as NormalizedConfig,
+        server: {
+          ...serverConfig,
+          publicRoutes: {
+            'wx.txt': '/app/authentication',
+          },
+        },
+      } as any,
     });
 
     expect(routes).toMatchObject([
@@ -274,7 +279,7 @@ describe('get server routes', () => {
         isSSR: false,
       },
       {
-        urlPath: '/wx.txt',
+        urlPath: '/app/authentication',
         entryPath: 'public/wx.txt',
         isSPA: true,
         isSSR: false,

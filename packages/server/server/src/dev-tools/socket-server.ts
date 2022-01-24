@@ -4,7 +4,7 @@ import ws from 'ws';
 import type { Stats } from 'webpack';
 import { logger } from '@modern-js/utils';
 import { DevServerOptions } from '../type';
-import { noop } from '@/utils';
+import { noop } from '../utils';
 
 interface ExtWebSocket extends ws {
   isAlive: boolean;

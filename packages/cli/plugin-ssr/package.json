@@ -11,22 +11,29 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.2",
-  "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/index.d.ts",
+  "version": "1.2.0",
+  "jsnext:source": "./src/index.tsx",
+  "types": "./src/index.tsx",
   "main": "./dist/js/node/index.node.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": {
       "node": {
+        "jsnext:source": "./src/index.node.tsx",
         "import": "./dist/js/modern/index.node.js",
         "require": "./dist/js/node/index.node.js"
       },
       "default": "./dist/js/treeshaking/index.js"
     },
-    "./cli": "./dist/js/node/cli/index.js",
-    "./node": "./dist/js/node/index.node.js"
+    "./cli": {
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/js/node/cli/index.js"
+    },
+    "./node": {
+      "jsnext:source": "./src/index.node.tsx",
+      "default": "./dist/js/node/index.node.js"
+    }
   },
   "files": [
     "dist",
@@ -50,14 +57,14 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/server": "^5.15.1",
     "@loadable/webpack-plugin": "^5.15.1",
-    "@modern-js/utils": "workspace:^1.1.5",
+    "@modern-js/utils": "workspace:^1.2.0",
     "react": "^17",
     "react-dom": "^17",
     "react-helmet": "^6.1.0",
@@ -65,10 +72,10 @@
     "serialize-javascript": "^6.0.0"
   },
   "devDependencies": {
-    "@modern-js/babel-chain": "workspace:^1.1.1",
-    "@modern-js/core": "workspace:^1.2.0",
-    "@modern-js/runtime-core": "workspace:^1.1.2",
-    "@modern-js/server": "workspace:^1.2.0",
+    "@modern-js/babel-chain": "workspace:^1.2.0",
+    "@modern-js/core": "workspace:^1.3.0",
+    "@modern-js/runtime-core": "workspace:^1.2.0",
+    "@modern-js/server": "workspace:^1.3.0",
     "@loadable/component": "^5.15.0",
     "@types/loadable__component": "^5.13.4",
     "@types/jest": "^26",
@@ -81,18 +88,20 @@
     "@types/loadable__webpack-plugin": "^5.7.3",
     "@types/serialize-javascript": "^5.0.1",
     "@types/react-helmet": "^6.1.2",
-    "@modern-js/plugin-testing": "^1.2.0",
-    "@modern-js/module-tools": "^1.1.3"
+    "@scripts/build": "workspace:*",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.2.0",
-    "@modern-js/runtime-core": "workspace:^1.1.2",
+    "@modern-js/core": "workspace:^1.3.0",
+    "@modern-js/runtime-core": "workspace:^1.2.0",
     "@loadable/component": "^5.15.0",
     "@types/loadable__component": "^5.13.4"
   },
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/types/index.d.ts"
   }
 }

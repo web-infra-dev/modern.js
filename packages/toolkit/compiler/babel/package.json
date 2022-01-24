@@ -11,15 +11,16 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.3",
+  "version": "1.2.0",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/index.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": {
       "node": {
+        "jsnext:source": "./src/index.ts",
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
@@ -31,12 +32,12 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.15.0",
+    "@babel/core": "7.16.7",
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.1.5",
+    "@modern-js/utils": "workspace:^1.2.0",
     "chokidar": "^3.5.2",
     "glob": "^7.1.6"
   },
@@ -49,8 +50,9 @@
     "@types/node": "^14",
     "jest-jasmine2": "^27.2.2",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "^1.2.0",
-    "@modern-js/module-tools": "^1.1.3"
+    "@scripts/build": "workspace:*",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "sideEffects": false,
   "modernConfig": {
@@ -60,6 +62,7 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/types/index.d.ts"
   }
 }

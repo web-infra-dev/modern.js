@@ -4,9 +4,7 @@
     "declaration": false,
     "jsx": "preserve",
     "baseUrl": "./",
-    "paths": {
-      "@/*": ["../src/*"]
-    },
+    "paths": {},
     "types": ["node", "jest"]
   }
 }

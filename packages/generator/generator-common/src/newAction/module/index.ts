@@ -5,7 +5,7 @@ import {
   ActionType,
   ActionTypeText,
 } from '../common';
-import { i18n, localeKeys } from '@/locale';
+import { i18n, localeKeys } from '../../locale';
 
 export const ModuleActionTypes = [ActionType.Function];
 export const ModuleActionFunctions = [

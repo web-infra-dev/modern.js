@@ -1,4 +1,4 @@
-import { i18n, localeKeys } from '@/locale';
+import { i18n, localeKeys } from '../../locale';
 
 export enum ActionType {
   Function = 'function',
@@ -26,6 +26,7 @@ export enum ActionFunction {
   Storybook = 'storybook',
   RuntimeApi = 'runtimeApi',
   SSG = 'ssg',
+  Polyfill = 'polyfill',
   Deploy = 'deploy',
 }
 
@@ -63,6 +64,7 @@ export const ActionFunctionText: Record<ActionFunction, () => string> = {
   [ActionFunction.RuntimeApi]: () =>
     i18n.t(localeKeys.action.function.runtime_api),
   [ActionFunction.SSG]: () => i18n.t(localeKeys.action.function.ssg),
+  [ActionFunction.Polyfill]: () => i18n.t(localeKeys.action.function.polyfill),
   [ActionFunction.Deploy]: () => i18n.t(localeKeys.action.function.deploy),
 };
 

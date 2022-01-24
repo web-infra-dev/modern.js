@@ -1,5 +1,23 @@
 # @modern-js/types
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- e2464fe5: add more server types
+- Updated dependencies [cfe11628]
+  - @modern-js/plugin@1.2.0
+
+## 1.1.5
+
+### Patch Changes
+
+- e51b1db3: feat: support custom sdk, interceptor, headers for bff request
+
 ## 1.1.4
 
 ### Patch Changes

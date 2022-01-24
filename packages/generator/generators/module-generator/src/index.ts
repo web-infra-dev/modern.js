@@ -24,7 +24,7 @@ import {
   getPackageVersion,
   getPackageManagerText,
 } from '@modern-js/generator-utils';
-import { i18n, localeKeys } from '@/locale';
+import { i18n, localeKeys } from './locale';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {

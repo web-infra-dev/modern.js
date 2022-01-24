@@ -1,5 +1,33 @@
 # @modern-js/webpack
 
+## 1.2.0
+
+### Minor Changes
+
+- 5597289b: Fix @modern-js/plugin-ssr exported configuration
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 4a85378c: fix: fix @types/mini-css-extract-plugin version
+- e453e421: feat: add \*.global.less/sass/scss support when "output.disableCssModuleExtension" is true
+- Updated dependencies [2da09c69]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [1ebc7ee2]
+  - @modern-js/utils@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/babel-preset-app@1.2.0
+  - @modern-js/css-config@1.2.0
+  - @modern-js/babel-chain@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- fix: webpack mini-css-extract-plugin version
+
 ## 1.1.3
 
 ### Patch Changes

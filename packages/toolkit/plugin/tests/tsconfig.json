@@ -7,9 +7,7 @@
     "isolatedModules": true,
     "target": "ES5",
     "esModuleInterop": true,
-    "paths": {
-      "@/*": ["../src/*"]
-    },
+    "paths": {},
     "types": ["node", "jest"]
   }
 }

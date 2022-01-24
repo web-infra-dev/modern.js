@@ -1,5 +1,32 @@
 # @modern-js/plugin-changeset
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [2da09c69]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+  - @modern-js/utils@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/i18n-cli-language-detector@1.2.0
+  - @modern-js/plugin-i18n@1.2.0
+
+## 1.1.2
+
+### Patch Changes
+
+- b7fb82ec: fix: get package manager function
+- Updated dependencies [5e3de7d8]
+- Updated dependencies [b7fb82ec]
+  - @modern-js/plugin-i18n@1.1.2
+  - @modern-js/utils@1.1.6
+
 ## 1.1.1
 
 ### Patch Changes
