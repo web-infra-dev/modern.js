@@ -84,7 +84,6 @@ export class ModernDevServer extends ModernServer {
   // Complete the preparation of services
   public async init(runner: ServerHookRunner) {
     const { conf, pwd, compiler } = this;
-
     // mock handler
     this.mockHandler = createMockHandler({ pwd });
     this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
@@ -150,9 +149,13 @@ export class ModernDevServer extends ModernServer {
     super.close();
     await this.watcher.close();
     await new Promise<void>(resolve => {
-      this.devMiddleware.close(() => {
+      if (this.devMiddleware) {
+        this.devMiddleware.close(() => {
+          resolve();
+        });
+      } else {
         resolve();
-      });
+      }
     });
   }
 
@@ -252,32 +255,45 @@ export class ModernDevServer extends ModernServer {
     const { pwd } = this;
     const { mock } = AGGRED_DIR;
     const defaultWatched = [
-      `${pwd}/${mock}/**/*`,
-      `${pwd}/${SERVER_DIR}/**/*`,
-      `${pwd}/${API_DIR}/!(typings)/**`,
-      `${pwd}/${SHARED_DIR}/**/*`,
+      `${mock}/**/*`,
+      `${SERVER_DIR}/**/*`,
+      `${API_DIR}/**`,
+      `${SHARED_DIR}/**/*`,
     ];
+
+    const defaultWatchedPaths = defaultWatched.map(p =>
+      path.normalize(path.join(pwd, p)),
+    );
+    const mockPath = path.normalize(path.join(pwd, mock));
 
     const watcher = new Watcher();
     watcher.createDepTree();
 
     // 监听文件变动，如果有变动则给 client，也就是 start 启动的插件发消息
-    watcher.listen(defaultWatched, (filepath: string) => {
-      watcher.updateDepTree();
-      watcher.cleanDepCache(filepath);
+    watcher.listen(
+      defaultWatchedPaths,
+      {
+        // 初始化的时候不触发 add、addDir 事件
+        ignoreInitial: true,
+        ignored: /api\/typings\/.*/,
+      },
+      (filepath: string) => {
+        watcher.updateDepTree();
+        watcher.cleanDepCache(filepath);
 
-      this.runner.reset();
+        this.runner.reset();
 
-      if (filepath.startsWith(`${pwd}/${mock}`)) {
-        this.mockHandler = createMockHandler({ pwd });
-      } else {
-        try {
-          this.prepareFrameHandler();
-        } catch (e) {
-          this.logger.error(e as Error);
+        if (filepath.startsWith(mockPath)) {
+          this.mockHandler = createMockHandler({ pwd });
+        } else {
+          try {
+            this.prepareFrameHandler();
+          } catch (e) {
+            this.logger.error(e as Error);
+          }
         }
-      }
-    });
+      },
+    );
 
     this.watcher = watcher;
   }
