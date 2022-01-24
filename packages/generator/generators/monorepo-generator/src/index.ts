@@ -20,7 +20,7 @@ const getGeneratorPath = (generator: string, distTag: string) => {
   return generator;
 };
 
-const handleTemplateFile = async (
+export const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
   appApi: AppAPI,

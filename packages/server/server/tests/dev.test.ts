@@ -5,7 +5,7 @@ describe('test dev tools', () => {
   test('should socket server work correctly', () => {
     const socketServer: any = new SocketServer({
       client: {
-        port: '8080',
+        port: '7542',
         overlay: false,
         logging: 'error',
         path: '/',
@@ -22,7 +22,7 @@ describe('test dev tools', () => {
       .createServer((req, res) => {
         res.end();
       })
-      .listen(8080);
+      .listen(7542);
 
     socketServer.prepare(app);
     expect(socketServer.app).toBe(app);
