@@ -44,9 +44,7 @@ export const generateClient = async ({
     let resolvedPath = requestCreator;
     try {
       resolvedPath = path.dirname(requireResolve(requestCreator));
-    } catch (error) {
-      console.warn(error);
-    }
+    } catch (error) {}
     // eslint-disable-next-line no-param-reassign
     requestCreator = `${resolvedPath}${target ? `/${target}` : ''}`.replace(
       /\\/g,
