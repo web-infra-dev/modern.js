@@ -57,7 +57,9 @@ const handleTemplateFile = async (
     'templates/base-template/**/*',
     undefined,
     (resourceKey: string) =>
-      resourceKey.replace('templates/base-template/', ''),
+      resourceKey
+        .replace('templates/base-template/', '')
+        .replace('.handlebars', ''),
     { packageManager },
   );
 
