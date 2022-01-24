@@ -62,7 +62,7 @@ export default createPlugin(
         };
       },
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-micro-frontend'];
+        return PLUGIN_SCHEMAS['@modern-js/plugin-garfish'];
       },
       modifyEntryImports({ entrypoint, imports }: any) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -147,6 +147,6 @@ export default createPlugin(
     };
   }) as any,
   {
-    name: '@modern-js/plugin-micro-frontend',
+    name: '@modern-js/plugin-garfish',
   },
 ) as any;
