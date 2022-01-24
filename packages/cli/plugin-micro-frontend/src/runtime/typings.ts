@@ -1,9 +1,9 @@
-import garfish, { interfaces } from 'garfish';
+import garfish, { interfaces as GarfishInterfaces } from 'garfish';
 
 export type Options = typeof garfish.options;
 export type ModulesInfo = Array<
-  interfaces.AppInfo & {
-    Component?: React.FC<any>;
+  GarfishInterfaces.AppInfo & {
+    Component?: React.ComponentType | React.ElementType;
     originInfo?: Record<string, unknown>;
   }
 >;
@@ -13,7 +13,7 @@ export type ModernConfig = {
   manifest: {
     modules?: ModulesInfo;
   };
-  getAppList?: () => Promise<Array<interfaces.AppInfo>>;
+  getAppList?: () => Promise<Array<GarfishInterfaces.AppInfo>>;
   LoadingComponent?: React.ComponentType | React.ElementType;
 };
 

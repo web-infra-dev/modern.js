@@ -1,6 +1,7 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 // eslint-disable-next-line import/no-named-as-default
-import Garfish, { interfaces as GarfishInterfaces } from 'garfish';
+import Garfish from 'garfish';
+import { useRouteMatch } from '@modern-js/plugin-router';
 import { ModernConfig, ModulesInfo } from '../typings';
 import {
   generateSubAppContainerKey,
@@ -20,17 +21,17 @@ declare module 'garfish' {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   export namespace interfaces {
     export interface AppInfo {
-      Component: () => JSX.Element;
+      Component: React.ComponentType;
     }
   }
 }
 
 export interface AppMap {
-  [key: string]: ReturnType<typeof getAppInstance>;
+  [key: string]: React.ComponentType;
 }
 
 function getAppInstance(
-  appInfo: GarfishInterfaces.AppInfo,
+  appInfo: ModulesInfo[number],
   modernMicroConfig: ModernConfig,
 ) {
   return function App() {
@@ -40,12 +41,15 @@ function getAppInstance(
       null,
     );
 
+    const matched = useRouteMatch();
     useEffect(() => {
       async function load() {
-        const { name, ...options } = appInfo;
+        const { name, basename = '', ...options } = appInfo;
         setLoading(true);
         const app = await Garfish.loadApp(name, {
-          domGetter: domID,
+          domGetter: `#${domID}`,
+          basename: basename + matched?.url || '',
+          cache: true,
           // eslint-disable-next-line consistent-return
           customLoader(provider) {
             const AppComponent =
@@ -73,7 +77,7 @@ function getAppInstance(
         // If the show has been rendered and triggered, only the first rendering triggers mount, and subsequent renderings can trigger show to provide performance
         try {
           if (app?.mounted) {
-            app.show();
+            await app.show();
           } else {
             await app?.mount();
           }
@@ -85,13 +89,83 @@ function getAppInstance(
       }
       load();
     }, []);
+
     return (
-      <>
+      <div id={domID}>
         {RenderLoading(loading, modernMicroConfig)}
-        <div id={domID}>{ModuleApp && <ModuleApp />}</div>
-      </>
+        {ModuleApp && <ModuleApp />}
+      </div>
     );
   };
+
+  // let appInstance: GarfishInterfaces.App | null;
+  // class App extends React.Component<any, any> {
+  //   state: {
+  //     loading: boolean;
+  //     domId: string;
+  //     MicroApp: React.ComponentType<any> | null;
+  //   } = {
+  //     loading: false,
+  //     domId: generateSubAppContainerKey(appInfo),
+  //     MicroApp: null,
+  //   };
+
+  //   async componentDidMount() {
+  //     const { domId } = this.state;
+
+  //     const app = await Garfish.loadApp(appInfo.name, {
+  //       domGetter: `#${domId}`,
+  //       basename: appInfo.activeWhen as string,
+  //       ...appInfo,
+  //       // eslint-disable-next-line consistent-return
+  //       customLoader: provider => {
+  //         const AppComponent =
+  //           (provider as Provider)[SUBMODULE_APP_COMPONENT_KEY] ||
+  //           (provider as Provider)[JUPITER_SUBMODULE_APP_COMPONENT_KEY];
+
+  //         if (AppComponent) {
+  //           return {
+  //             mount: () => {
+  //               this.setState({
+  //                 MicroApp: <AppComponent {...appInfo.props} />,
+  //               });
+  //             },
+  //             unmount: () => {
+  //               this.setState({
+  //                 MicroApp: null,
+  //               });
+  //             },
+  //           };
+  //         }
+  //       },
+  //     });
+
+  //     appInstance = app;
+
+  //     if (app?.mounted) {
+  //       await app?.show();
+  //     } else {
+  //       await app?.mount();
+  //     }
+  //   }
+
+  //   async componentWillUnmount() {
+  //     if (appInstance) {
+  //       appInstance.hide();
+  //     }
+  //   }
+
+  //   render() {
+  //     const { MicroApp, domId, loading } = this.state;
+  //     return (
+  //       <>
+  //         {RenderLoading(loading, modernMicroConfig)}
+  //         <div id={domId}>{MicroApp && <MicroApp />}</div>
+  //       </>
+  //     );
+  //   }
+  // }
+  // return App;
 }
 
 export function generateApps(

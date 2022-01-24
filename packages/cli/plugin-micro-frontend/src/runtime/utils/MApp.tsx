@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 // eslint-disable-next-line import/no-named-as-default
 import Garfish from 'garfish';
-import type { Config, ModulesInfo, Options, ModernConfig } from '../typings';
+import type { ModulesInfo, ModernConfig } from '../typings';
 import { generateSubAppContainerKey } from './constant';
 
 declare global {
@@ -27,66 +27,63 @@ export function RenderLoading(
   return LoadingComponent;
 }
 
-export async function initOptions(config: Config, options: Options) {
-  let modules: ModulesInfo = [];
-
-  // get inject modules list
-  if (window?.modern_manifest?.modules) {
-    modules = window?.modern_manifest?.modules;
-  }
-
-  // use manifest modules
-  if (config?.manifest?.modules) {
-    modules = config?.manifest?.modules;
-  }
-
-  // get module list
-  if (config?.getAppList) {
-    modules = await config?.getAppList();
-  }
-
-  return {
-    apps: modules,
-    ...options,
-  };
-}
-
 export function generateMApp(
   options: typeof Garfish.options,
   modernMicroConfig: ModernConfig,
-): React.FC<any> {
-  const Component = function (props: any) {
-    const [loading, setLoading] = useState(false);
-    const domId = generateSubAppContainerKey();
+) {
+  return class MApp extends React.Component {
+    state: {
+      loading: boolean;
+      domId: string;
+    } = {
+      loading: false,
+      domId: generateSubAppContainerKey(),
+    };
 
-    Garfish.usePlugin(() => ({
-      name: 'JupiterLifeCycle',
-      beforeLoad() {
-        setLoading(true);
-      },
-      beforeMount() {
-        setLoading(false);
-      },
-    }));
+    componentDidMount() {
+      const { domId } = this.state;
 
-    useEffect(() => {
+      // start auto render able
+      Garfish.router.setRouterConfig({ listening: true });
       if (!Garfish.running) {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        Garfish.usePlugin(() => ({
+          name: 'JupiterLifeCycle',
+          beforeLoad: () => {
+            this.setState({
+              loading: true,
+            });
+          },
+          beforeMount: () => {
+            this.setState({
+              loading: false,
+            });
+          },
+        }));
         Garfish.run({
           domGetter: `#${domId}`,
-          props: {
-            ...props,
-          },
           ...options,
         });
       }
-    }, []);
+    }
 
-    return (
-      <>
-        <div id={generateSubAppContainerKey()}></div>
-        {RenderLoading(loading, modernMicroConfig)}
-      </>
-    );
+    componentWillUnmount() {
+      // close auto render able
+      Garfish.router.setRouterConfig({ listening: false });
+      this.setState({
+        loading: false,
+      });
+    }
+
+    render() {
+      const { loading } = this.state;
+      return (
+        <>
+          <div id={generateSubAppContainerKey()}>
+            {RenderLoading(loading, modernMicroConfig)}
+          </div>
+        </>
+      );
+    }
   };
-  return Component;
 }
