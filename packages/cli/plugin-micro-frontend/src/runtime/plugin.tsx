@@ -50,7 +50,14 @@ export default ((config: Config) => {
           appInfoList: ModulesInfo;
         } = {
           MApp: () => React.createElement('div'),
-          apps: {},
+          apps: new Proxy(
+            {},
+            {
+              get(_target, _p) {
+                return () => React.createElement('div');
+              },
+            },
+          ),
           appInfoList: [],
         };
 
