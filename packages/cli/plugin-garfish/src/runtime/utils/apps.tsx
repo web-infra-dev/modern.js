@@ -45,7 +45,8 @@ function getAppInstance(
       MicroApp: null,
     };
 
-    async componentWillMount() {
+    async componentDidMount() {
+      // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({
         loading: true,
       });
@@ -86,6 +87,7 @@ function getAppInstance(
         await app?.mount();
       }
 
+      // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({
         loading: false,
       });
