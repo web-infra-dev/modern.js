@@ -20,13 +20,7 @@ import { enable } from '@modern-js/plugin/node';
 
 import type { Hooks } from '@modern-js/types';
 import { program, Command } from './utils/commander';
-import {
-  resolveConfig,
-  defineConfig,
-  loadUserConfig,
-  UserConfig,
-  ToolsConfig,
-} from './config';
+import { resolveConfig, loadUserConfig } from './config';
 import { loadPlugins } from './loadPlugins';
 import {
   AppContext,
@@ -43,8 +37,7 @@ import { NormalizedConfig } from './config/mergeConfig';
 import { loadEnv } from './loadEnv';
 
 export type { Hooks };
-export { defaultsConfig, mergeConfig } from './config';
-
+export * from './config';
 export * from '@modern-js/plugin';
 export * from '@modern-js/plugin/node';
 
@@ -117,7 +110,6 @@ export const usePlugins = (plugins: string[]) =>
   );
 
 export {
-  defineConfig,
   AppContext,
   ResolvedConfigContext,
   useAppContext,
@@ -126,7 +118,7 @@ export {
   ConfigContext,
 };
 
-export type { NormalizedConfig, IAppContext, UserConfig, ToolsConfig };
+export type { NormalizedConfig, IAppContext };
 
 const initAppDir = async (cwd?: string): Promise<string> => {
   if (!cwd) {
@@ -283,4 +275,4 @@ const createCli = () => {
 
 export const cli = createCli();
 
-export { loadUserConfig, initAppDir, initAppContext };
+export { initAppDir, initAppContext };

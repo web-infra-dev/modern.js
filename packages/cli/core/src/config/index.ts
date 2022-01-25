@@ -24,7 +24,7 @@ const debug = createDebugger('resolve-config');
 export { defaults as defaultsConfig };
 export { mergeConfig };
 
-export interface SourceConfig {
+interface SourceConfig {
   entries?: Record<
     string,
     | string
@@ -49,7 +49,7 @@ export interface SourceConfig {
   include?: Array<string | RegExp>;
 }
 
-export interface OutputConfig {
+interface OutputConfig {
   assetPrefix?: string;
   htmlPath?: string;
   jsPath?: string;
@@ -92,7 +92,7 @@ export interface OutputConfig {
   enableTsLoader?: boolean;
 }
 
-export interface ServerConfig {
+interface ServerConfig {
   routes?: Record<
     string,
     | string
@@ -111,12 +111,12 @@ export interface ServerConfig {
   enableMicroFrontendDebug?: boolean;
 }
 
-export interface DevConfig {
+interface DevConfig {
   assetPrefix?: string | boolean;
   https?: boolean;
 }
 
-export interface DeployConfig {
+interface DeployConfig {
   microFrontend?: boolean & Record<string, unknown>;
   domain?: string | Array<string>;
   domainByEntries?: Record<string, string | Array<string>>;
@@ -126,7 +126,7 @@ type ConfigFunction =
   | Record<string, unknown>
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   | ((config: Record<string, unknown>) => Record<string, unknown> | void);
-export interface ToolsConfig {
+interface ToolsConfig {
   webpack?: ConfigFunction;
   babel?: ConfigFunction;
   autoprefixer?: ConfigFunction;
@@ -139,13 +139,13 @@ export interface ToolsConfig {
   esbuild?: Record<string, unknown>;
 }
 
-export type RuntimeConfig = Record<string, any>;
+type RuntimeConfig = Record<string, any>;
 
-export interface RuntimeByEntriesConfig {
+interface RuntimeByEntriesConfig {
   [name: string]: RuntimeConfig;
 }
 
-export interface UserConfig {
+interface UserConfig {
   source?: SourceConfig;
   output?: OutputConfig;
   server?: ServerConfig;
@@ -157,12 +157,12 @@ export interface UserConfig {
   runtimeByEntries?: RuntimeByEntriesConfig;
 }
 
-export type ConfigParam =
+type ConfigParam =
   | UserConfig
   | Promise<UserConfig>
   | ((env: any) => UserConfig | Promise<UserConfig>);
 
-export interface LoadedConfig {
+interface LoadedConfig {
   config: UserConfig;
   filePath: string | false;
   dependencies: string[];
@@ -306,3 +306,17 @@ export const resolveConfig = async (
   return resolved;
 };
 /* eslint-enable max-statements, max-params */
+
+export type {
+  SourceConfig,
+  OutputConfig,
+  ServerConfig,
+  DevConfig,
+  DeployConfig,
+  ToolsConfig,
+  RuntimeConfig,
+  RuntimeByEntriesConfig,
+  UserConfig,
+  ConfigParam,
+  LoadedConfig,
+};
