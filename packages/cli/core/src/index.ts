@@ -155,6 +155,7 @@ export interface CoreOptions {
 const createCli = () => {
   let hooksRunner: HooksRunner;
   let isRestart = false;
+  let restartWithExistingPort = 0;
 
   const init = async (argv: string[] = [], options?: CoreOptions) => {
     enable();
@@ -215,7 +216,7 @@ const createCli = () => {
       loaded,
       extraConfigs as any,
       extraSchemas as any,
-      isRestart,
+      restartWithExistingPort,
       argv,
     );
 
@@ -256,6 +257,7 @@ const createCli = () => {
 
   async function restart() {
     isRestart = true;
+    restartWithExistingPort = isRestart ? AppContext.use().value?.port ?? 0 : 0;
 
     logger.info('Restart...\n');
 
