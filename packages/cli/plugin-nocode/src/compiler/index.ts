@@ -105,6 +105,14 @@ const compile = async (
   webpackConfig.plugins = webpackConfig.plugins.filter(
     p => p.constructor.name !== 'HtmlWebpackPlugin',
   );
+  (webpackConfig?.module?.rules as any)?.[1]?.oneOf?.forEach((rule: any) => {
+    if (
+      Array.isArray(rule.use) &&
+      (rule.use[0]?.loader || '').includes('mini-css-extract-plugin')
+    ) {
+      rule.use[0].loader = 'style-loader';
+    }
+  });
   await build(webpackConfig, { editorEntryFile, isDev });
 };
 
