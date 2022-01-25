@@ -119,7 +119,10 @@ export const INTERNAL_PLUGINS: {
   '@modern-js/plugin-static-hosting': {
     cli: '@modern-js/plugin-static-hosting/cli',
   },
-  '@modern-js/plugin-polyfill': { server: '@modern-js/plugin-polyfill' },
+  '@modern-js/plugin-polyfill': {
+    cli: '@modern-js/plugin-polyfill/cli',
+    server: '@modern-js/plugin-polyfill',
+  },
   '@modern-js/plugin-multiprocess': {
     cli: '@modern-js/plugin-multiprocess/cli',
   },

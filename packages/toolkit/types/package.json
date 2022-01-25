@@ -11,10 +11,10 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.5",
+  "version": "1.2.0",
   "types": "./index.d.ts",
   "dependencies": {
-    "@modern-js/plugin": "workspace:^1.1.2",
+    "@modern-js/plugin": "workspace:^1.2.0",
     "webpack": "^5.54.0"
   },
   "exports": {

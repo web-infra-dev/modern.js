@@ -123,15 +123,11 @@ export const bootstrap: BootStrap = async (
       (res: any, key) => {
         const loaderData = loadersData[key];
 
-        if (
-          loaderData.loading !== false ||
-          loaderData.error ||
-          typeof loaderData.data === 'undefined'
-        ) {
+        if (loaderData.loading !== false) {
           return res;
         }
 
-        res[key] = loaderData.data;
+        res[key] = loaderData;
         return res;
       },
       {},

@@ -1,5 +1,24 @@
 # @modern-js/plugin-docsite
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [2da09c69]
+- Updated dependencies [5597289b]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [4a85378c]
+- Updated dependencies [e453e421]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+  - @modern-js/utils@1.2.0
+  - @modern-js/webpack@1.2.0
+  - @modern-js/core@1.3.0
+
 ## 1.1.3
 
 ### Patch Changes
