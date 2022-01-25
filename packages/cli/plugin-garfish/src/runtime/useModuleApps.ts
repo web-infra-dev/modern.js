@@ -18,6 +18,6 @@ export function useLegacyModuleApps() {
   return {
     MApp,
     apps: appInfoList,
-    appComponents: apps,
+    Components: apps,
   };
 }
