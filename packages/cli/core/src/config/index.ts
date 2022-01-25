@@ -231,7 +231,7 @@ export const resolveConfig = async (
   loaded: LoadedConfig,
   configs: UserConfig[],
   schemas: PluginValidateSchema[],
-  isRestart: boolean,
+  restartWithExistingPort: number,
   argv: string[],
 ): Promise<NormalizedConfig> => {
   const { config: userConfig, jsConfig, pkgConfig } = loaded;
@@ -291,8 +291,14 @@ export const resolveConfig = async (
 
   resolved._raw = loaded.config;
 
-  if (isDev() && argv[0] === 'dev' && !isRestart) {
-    resolved.server.port = await getPort(resolved.server.port!);
+  if (isDev() && argv[0] === 'dev') {
+    if (restartWithExistingPort > 0) {
+      // dev server is restarted, should use existing port number
+      resolved.server.port = restartWithExistingPort;
+    } else {
+      // get port for new dev server
+      resolved.server.port = await getPort(resolved.server.port!);
+    }
   }
 
   debug('resolved %o', resolved);
