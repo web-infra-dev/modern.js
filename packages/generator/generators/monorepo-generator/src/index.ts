@@ -20,7 +20,7 @@ const getGeneratorPath = (generator: string, distTag: string) => {
   return generator;
 };
 
-const handleTemplateFile = async (
+export const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
   appApi: AppAPI,
@@ -57,7 +57,9 @@ const handleTemplateFile = async (
     'templates/base-template/**/*',
     undefined,
     (resourceKey: string) =>
-      resourceKey.replace('templates/base-template/', ''),
+      resourceKey
+        .replace('templates/base-template/', '')
+        .replace('.handlebars', ''),
     { packageManager },
   );
 
