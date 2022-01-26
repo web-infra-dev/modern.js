@@ -12,7 +12,6 @@ import {
   useLocation,
   MemoryRouter,
 } from '@modern-js/plugin-router';
-// import { createMemoryHistory } from 'history';
 import ModernGarfishPlugin, { useLegacyModuleApps } from '../src/runtime';
 import {
   TABLE_LIST_ESCAPE_NODE,
