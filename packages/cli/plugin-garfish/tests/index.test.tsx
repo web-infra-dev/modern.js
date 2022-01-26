@@ -24,14 +24,28 @@ import {
   DASHBOARD_HTML,
   DASHBOARD_ROOT_NODE,
 } from './resource/dashboard';
+import {
+  USER_INFO_ESCAPE_NODE,
+  USER_INFO_HTML,
+  USER_INFO_ROOT_NODE,
+} from './resource/userInfo';
 
 global.React = React;
 global.fetch = fetchMock;
 
+function waitFor(delay = 200) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(false);
+    }, delay);
+  });
+}
+
 const dashboardPath = 'http://garfish-mock.com/dashboard';
 const tableListPath = 'http://garfish-mock.com/table-list';
+const userInfoPath = 'http://garfish-mock.com/user-info';
 
-describe('plugin-micro-frontend', () => {
+describe('plugin-garfish', () => {
   beforeEach(() => {
     // https://www.npmjs.com/package/jest-fetch-mock
     fetchMock.mockIf(/^https?:\/\/garfish-mock.com.*$/, req => {
@@ -49,6 +63,13 @@ describe('plugin-micro-frontend', () => {
             'Content-Type': 'text/html',
           },
         });
+      } else if (req.url.endsWith('/user-info')) {
+        return Promise.resolve({
+          body: USER_INFO_HTML,
+          headers: {
+            'Content-Type': 'text/html',
+          },
+        });
       } else {
         return Promise.resolve({
           status: 404,
@@ -61,20 +82,24 @@ describe('plugin-micro-frontend', () => {
   });
 
   // testing-library.com/docs/example-react-router/
-  test('legacyModule hooks', async () => {
-    const tableListModuleInfo = {
+  test('legacyModule hooks Components', async () => {
+    const dashBoardModuleInfo = {
       name: 'Dashboard',
       entry: dashboardPath,
     };
-    const dashBoardModuleInfo = {
+    const tableListModuleInfo = {
       name: 'TableList',
       entry: tableListPath,
     };
+    const userInfo = {
+      name: 'UserInfo',
+      activeWhen: '/user-info',
+      entry: userInfoPath,
+    };
     const HomeTitle = 'Micro home page';
-    fetchMock.doMock();
 
     const microFrontendConfig = {
-      apps: [tableListModuleInfo, dashBoardModuleInfo],
+      apps: [tableListModuleInfo, dashBoardModuleInfo, userInfo],
       LoadingComponent() {
         return <div data-testid="loading-id">loading</div>;
       },
@@ -94,9 +119,12 @@ describe('plugin-micro-frontend', () => {
 
       if (apps.length > 0) {
         expect(apps[0].name).toBe(tableListModuleInfo.name);
-        expect(apps[1].name).toBe(dashBoardModuleInfo.name);
         expect(apps[0].entry).toBe(tableListModuleInfo.entry);
+        // expect(apps[0].Component).toBe(Dashboard);
+
+        expect(apps[1].name).toBe(dashBoardModuleInfo.name);
         expect(apps[1].entry).toBe(dashBoardModuleInfo.entry);
+        // expect(apps[1].Component).toBe(TableList);
       }
 
       return (
@@ -108,6 +136,9 @@ describe('plugin-micro-frontend', () => {
             </Link>
             <Link data-testid="table-list-link" to="/table-list">
               table-list
+            </Link>
+            <Link data-testid="user-info-link" to="/user-info">
+              user-info
             </Link>
             <Switch>
               <Route exact={true} path="/">
@@ -141,7 +172,10 @@ describe('plugin-micro-frontend', () => {
     expect(
       await screen.findByText(DASHBOARD_ESCAPE_NODE.text),
     ).toBeInTheDocument();
-    userEvent.click(screen.getByTestId('table-list-link'));
+
+    userEvent.click(screen.getByTestId('table-list-link'), leftClick);
+    expect(screen.queryByText(DASHBOARD_ROOT_NODE.text)).toBeNull();
+    expect(screen.queryByText(DASHBOARD_ESCAPE_NODE.text)).toBeNull();
     expect(await screen.findByText('loading')).toBeInTheDocument();
     expect(
       await screen.findByText(TABLE_LIST_ROOT_NODE.text),
@@ -151,10 +185,75 @@ describe('plugin-micro-frontend', () => {
     ).toBeInTheDocument();
 
     unmount();
-    expect(screen.queryByText('loading')).toBeNull();
-    expect(screen.queryByText(DASHBOARD_ROOT_NODE.text)).toBeNull();
-    expect(screen.queryByText(DASHBOARD_ESCAPE_NODE.text)).toBeNull();
-    expect(screen.queryByText(TABLE_LIST_ROOT_NODE.text)).toBeNull();
-    expect(screen.queryByText(TABLE_LIST_ESCAPE_NODE.text)).toBeNull();
+  });
+
+  test('legacyModule hooks MApp', async () => {
+    const userInfo = {
+      name: 'UserInfo',
+      activeWhen: '/user-info',
+      entry: userInfoPath,
+    };
+    const tableList2 = {
+      name: 'tablist2',
+      activeWhen: '/table-list',
+      entry: tableListPath,
+    };
+
+    const microFrontendConfig = {
+      apps: [userInfo, tableList2],
+      LoadingComponent() {
+        return <div data-testid="loading-id">loading</div>;
+      },
+    };
+
+    const App = () => {
+      const { MApp } = useLegacyModuleApps();
+
+      return (
+        <MemoryRouter>
+          <div id="app">
+            <Link to="/">home</Link>
+            <Link data-testid="dashboard-link" to="/dashboard">
+              dashboard
+            </Link>
+            <Link data-testid="table-list-link" to="/table-list">
+              table-list
+            </Link>
+            <Link data-testid="user-info-link" to="/user-info">
+              user-info
+            </Link>
+            <MApp />
+          </div>
+        </MemoryRouter>
+      );
+    };
+
+    const AppWrapper = createApp({
+      plugins: [ModernGarfishPlugin(microFrontendConfig)],
+    })(App);
+
+    const { unmount } = render(<AppWrapper />);
+
+    history.pushState(null, '', '/user-info');
+    expect(
+      await screen.findByText(USER_INFO_ROOT_NODE.text),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText(USER_INFO_ESCAPE_NODE.text),
+    ).toBeInTheDocument();
+
+    history.pushState(null, '', '/table-list');
+    await waitFor();
+    expect(screen.queryByText(USER_INFO_ROOT_NODE.text)).toBeNull();
+    expect(screen.queryByText(USER_INFO_ESCAPE_NODE.text)).toBeNull();
+
+    expect(
+      await screen.findByText(TABLE_LIST_ROOT_NODE.text),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText(TABLE_LIST_ESCAPE_NODE.text),
+    ).toBeInTheDocument();
+
+    unmount();
   });
 });

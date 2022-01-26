@@ -32,7 +32,7 @@ export const TABLE_LIST_HTML = `
               },
               destroy ({ dom , basename }){
                 document.body.removeChild(document.querySelector("#${TABLE_LIST_ESCAPE_NODE.id}"));
-                dom.querySelector('#root').removeChild(dom.querySelector("${TABLE_LIST_ROOT_NODE.id}"));
+                dom.querySelector('#root').removeChild(dom.querySelector("#${TABLE_LIST_ROOT_NODE.id}"));
               }
             }
           }

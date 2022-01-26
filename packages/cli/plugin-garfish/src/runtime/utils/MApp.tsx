@@ -29,7 +29,7 @@ export function RenderLoading(
 
 export function generateMApp(
   options: typeof Garfish.options,
-  modernMicroConfig: ModernConfig,
+  { LoadingComponent }: ModernConfig,
 ) {
   return class MApp extends React.Component {
     state: {
@@ -42,24 +42,22 @@ export function generateMApp(
 
     componentDidMount() {
       const { domId } = this.state;
-
       // start auto render able
       Garfish.router.setRouterConfig({ listening: true });
       if (!Garfish.running) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        Garfish.usePlugin(() => ({
-          name: 'JupiterLifeCycle',
-          beforeLoad: () => {
-            this.setState({
-              loading: true,
-            });
-          },
-          beforeMount: () => {
-            this.setState({
-              loading: false,
-            });
-          },
-        }));
+        // Garfish.usePlugin(() => ({
+        //   name: 'JupiterLifeCycle',
+        //   beforeLoad: () => {
+        //     // this.setState({
+        //     //   loading: true,
+        //     // });
+        //   },
+        //   beforeMount: () => {
+        //     // this.setState({
+        //     //   loading: false,
+        //     // });
+        //   },
+        // }));
         Garfish.run({
           domGetter: `#${domId}`,
           ...options,
@@ -80,7 +78,9 @@ export function generateMApp(
       return (
         <>
           <div id={generateSubAppContainerKey()}>
-            {RenderLoading(loading, modernMicroConfig)}
+            {loading && typeof LoadingComponent === 'function' && (
+              <LoadingComponent />
+            )}
           </div>
         </>
       );
