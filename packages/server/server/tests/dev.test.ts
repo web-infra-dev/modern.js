@@ -1,11 +1,16 @@
 import http from 'http';
 import SocketServer from '../src/dev-tools/socket-server';
 
+function getRandomPort() {
+  return Math.floor(Math.random() * (8000 - 1024)) + 1024;
+}
+
 describe('test dev tools', () => {
   test('should socket server work correctly', () => {
+    const port = getRandomPort();
     const socketServer: any = new SocketServer({
       client: {
-        port: '7542',
+        port: port.toString(),
         overlay: false,
         logging: 'error',
         path: '/',
@@ -22,7 +27,7 @@ describe('test dev tools', () => {
       .createServer((req, res) => {
         res.end();
       })
-      .listen(7542);
+      .listen(port);
 
     socketServer.prepare(app);
     expect(socketServer.app).toBe(app);
