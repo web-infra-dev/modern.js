@@ -33,8 +33,9 @@ function getAppInstance(
   appInfo: ModulesInfo[number],
   modernMicroConfig: ModernConfig,
 ) {
-  let appInstance: any;
   class App extends React.Component<any, any> {
+    appInstance: any;
+
     state: {
       loading: boolean;
       domId: string;
@@ -55,6 +56,7 @@ function getAppInstance(
       const app = await Garfish.loadApp(appInfo.name, {
         domGetter: `#${domId}`,
         basename: appInfo.activeWhen as string,
+        cache: true,
         ...appInfo,
         // eslint-disable-next-line consistent-return
         customLoader: provider => {
@@ -66,7 +68,7 @@ function getAppInstance(
             return {
               mount: () => {
                 this.setState({
-                  MicroApp: <AppComponent {...appInfo.props} />,
+                  MicroApp: AppComponent,
                 });
               },
               unmount: () => {
@@ -79,7 +81,7 @@ function getAppInstance(
         },
       });
 
-      appInstance = app;
+      this.appInstance = app;
 
       if (app?.mounted) {
         await app?.show();
@@ -93,9 +95,9 @@ function getAppInstance(
       });
     }
 
-    async componentWillUnmount() {
-      if (appInstance) {
-        appInstance.hide();
+    componentWillUnmount() {
+      if (this.appInstance) {
+        this.appInstance.hide();
       }
     }
 
