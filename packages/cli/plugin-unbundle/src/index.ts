@@ -2,9 +2,15 @@ import {
   createPlugin,
   useAppContext,
   useResolvedConfigContext,
+  registerHook,
 } from '@modern-js/core';
 import { PLUGIN_SCHEMAS } from '@modern-js/utils';
 import { dev } from './dev';
+import * as unbundleHooks from './hooks';
+
+export * from './hooks';
+
+registerHook({ ...unbundleHooks });
 
 export default createPlugin(
   () => ({

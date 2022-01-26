@@ -100,9 +100,10 @@ let matchAlias: (request: string) => Alias | undefined;
 const createIsAliasRequest = (
   config: NormalizedConfig,
   appContext: IAppContext,
+  defaultDeps: string[],
 ) => {
   if (!matchAlias) {
-    const aliasOptions = normalizeAlias(config, appContext);
+    const aliasOptions = normalizeAlias(config, appContext, defaultDeps);
     matchAlias = (request: string) =>
       aliasOptions.find((alias: Alias) => {
         const { find } = alias;
@@ -465,6 +466,7 @@ const rewriteCssUrl = async (
 export const cssPlugin = (
   config: NormalizedConfig,
   appContext: IAppContext,
+  defaultDeps: string[],
 ): RollupPlugin => ({
   name: 'esm-css',
   async transform(code: string, importer: string) {
@@ -483,7 +485,7 @@ export const cssPlugin = (
 
     initTailwindConfig(config);
 
-    createIsAliasRequest(config, appContext);
+    createIsAliasRequest(config, appContext, defaultDeps);
 
     const { css, map } = await transformCSS(code, importer, config, appContext);
 

@@ -13,12 +13,7 @@ import glob from 'fast-glob';
 import { loadConfig } from 'tsconfig-paths';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { LexerParseResult } from '../plugins/import-rewrite';
-import {
-  BARE_SPECIFIER_REGEX,
-  DEFAULT_DEPS,
-  BABEL_MACRO_EXTENSIONS,
-  VIRTUAL_DEPS_MAP,
-} from '../constants';
+import { BARE_SPECIFIER_REGEX, BABEL_MACRO_EXTENSIONS } from '../constants';
 import { normalizePackageName } from '../utils';
 import { fsWatcher } from '../watcher';
 
@@ -70,6 +65,8 @@ export type DepSpecifier = {
 export const scanImports = async (
   config: NormalizedConfig,
   { appDirectory }: IAppContext,
+  defaultDependencies: string[],
+  virtualDependenciesMap: Record<string, string>,
 ): Promise<{ deps: DepSpecifier[]; enableBabelMacros: boolean }> => {
   const {
     source: { alias },
@@ -100,20 +97,27 @@ export const scanImports = async (
   await init;
 
   const deps = removeDuplicate([
-    ...(await scanFiles(config, appDirectory, aliasNames)),
-    ...DEFAULT_DEPS.filter(name => {
-      // deps which already installed will be transformed
-      try {
-        require.resolve(name, { paths: [appDirectory] });
-      } catch (_err) {
-        // should always transform virtual deps.
-        return Boolean(VIRTUAL_DEPS_MAP[name]);
-      }
-      return true;
-    }).map(name => ({
-      specifier: name,
-      importer: appDirectory,
-    })),
+    ...(await scanFiles(
+      config,
+      appDirectory,
+      aliasNames,
+      virtualDependenciesMap,
+    )),
+    ...defaultDependencies
+      .filter(name => {
+        // deps which already installed will be transformed
+        try {
+          require.resolve(name, { paths: [appDirectory] });
+        } catch (_err) {
+          // should always transform virtual deps.
+          return Boolean(virtualDependenciesMap[name]);
+        }
+        return true;
+      })
+      .map(name => ({
+        specifier: name,
+        importer: appDirectory,
+      })),
   ]);
 
   debug(`scan imports result:`, deps);
@@ -128,6 +132,7 @@ const scanFiles = async (
   config: NormalizedConfig,
   dir: string,
   aliasNames: string[],
+  virtualDependenciesMap: Record<string, string>,
 ): Promise<Array<DepSpecifier>> => {
   if (seen.has(dir)) {
     return [];
@@ -181,7 +186,7 @@ const scanFiles = async (
         useBabelMacros = true;
       }
 
-      if (VIRTUAL_DEPS_MAP[specifier!]) {
+      if (virtualDependenciesMap[specifier!]) {
         continue;
       }
 
@@ -213,7 +218,14 @@ const scanFiles = async (
               )
             ) {
               fsWatcher.add(found.path);
-              ret.push(...(await scanFiles(config, found.path, aliasNames)));
+              ret.push(
+                ...(await scanFiles(
+                  config,
+                  found.path,
+                  aliasNames,
+                  virtualDependenciesMap,
+                )),
+              );
             } else {
               ret.push({ specifier, importer: file, forceCompile: true });
             }

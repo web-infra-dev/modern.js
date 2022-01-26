@@ -19,6 +19,7 @@ describe('alias', () => {
     const result = normalizeAlias(
       config as NormalizedConfig,
       appContext as IAppContext,
+      [],
     );
 
     expect(result).toEqual(
