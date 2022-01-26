@@ -1,5 +1,11 @@
 # @modern-js/mwa-generator
 
+## 1.3.1
+
+### Patch Changes
+
+- 3c5621f0: fix tsconfig template
+
 ## 1.3.0
 
 ### Minor Changes
