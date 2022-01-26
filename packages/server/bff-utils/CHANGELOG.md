@@ -1,5 +1,13 @@
 # @modern-js/bff-utils
 
+## 1.2.1
+
+### Patch Changes
+
+- 823809c6: fix: remove plugin-polyfill from app-tools
+- Updated dependencies [823809c6]
+  - @modern-js/utils@1.2.1
+
 ## 1.2.0
 
 ### Minor Changes

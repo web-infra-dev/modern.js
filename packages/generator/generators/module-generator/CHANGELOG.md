@@ -1,5 +1,12 @@
 # @modern-js/module-generator
 
+## 1.3.1
+
+### Patch Changes
+
+- 3c5621f0: fix tsconfig template
+- dab7737e: change modern-app-env.d.ts
+
 ## 1.3.0
 
 ### Minor Changes

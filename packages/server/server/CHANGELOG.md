@@ -1,5 +1,19 @@
 # @modern-js/server
 
+## 1.3.1
+
+### Patch Changes
+
+- e2d3a575: fix extending core config interface
+- 823809c6: fix: hot reload not working on windows
+- e2d3a575: fix extending core config interface
+- Updated dependencies [823809c6]
+- Updated dependencies [4584cc04]
+- Updated dependencies [7c19fd94]
+  - @modern-js/bff-utils@1.2.1
+  - @modern-js/utils@1.2.1
+  - @modern-js/core@1.3.1
+
 ## 1.3.0
 
 ### Minor Changes

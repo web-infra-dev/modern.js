@@ -1,5 +1,14 @@
 # @modern-js/core
 
+## 1.3.1
+
+### Patch Changes
+
+- 4584cc04: export DeployConfig interface
+- 7c19fd94: use existing port number for AppContext when dev server is restarted
+- Updated dependencies [823809c6]
+  - @modern-js/utils@1.2.1
+
 ## 1.3.0
 
 ### Minor Changes

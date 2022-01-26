@@ -1,5 +1,16 @@
 # @modern-js/babel-preset-module
 
+## 1.3.0
+
+### Minor Changes
+
+- 0d9516f3: fix resolve static file and add -p params
+
+### Patch Changes
+
+- Updated dependencies [823809c6]
+  - @modern-js/utils@1.2.1
+
 ## 1.2.0
 
 ### Minor Changes
