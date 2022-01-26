@@ -15,7 +15,7 @@ import type { ServerRoute } from '@modern-js/types';
 
 declare module '@modern-js/core' {
   interface UserConfig {
-    bff: {
+    bff?: {
       prefix?: string;
       requestCreator?: string;
       fetcher?: string;
