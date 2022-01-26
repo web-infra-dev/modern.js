@@ -56,10 +56,10 @@ importers:
     devDependencies:
       '@modern-js/app-tools': link:../../packages/solutions/app-tools
       '@modern-js/plugin-jarvis': link:../../packages/cli/plugin-jarvis
-      '@types/node': 14.18.4
+      '@types/node': 14.18.9
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
-      typescript: 4.5.4
+      typescript: 4.5.5
 
   examples/main:
     specifiers:
@@ -81,10 +81,35 @@ importers:
     devDependencies:
       '@modern-js/app-tools': link:../../packages/solutions/app-tools
       '@modern-js/plugin-jarvis': link:../../packages/cli/plugin-jarvis
-      '@types/node': 14.18.4
+      '@types/node': 14.18.9
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
-      typescript: 4.5.4
+      typescript: 4.5.5
+
+  examples/test2:
+    specifiers:
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/plugin-garfish': workspace:*
+      '@modern-js/plugin-jarvis': workspace:*
+      '@modern-js/runtime': workspace:*
+      '@types/node': ^14
+      '@types/react': ^17
+      '@types/react-dom': ^17
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      '@modern-js/plugin-garfish': link:../../packages/cli/plugin-garfish
+      '@modern-js/runtime': link:../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/app-tools': link:../../packages/solutions/app-tools
+      '@modern-js/plugin-jarvis': link:../../packages/cli/plugin-jarvis
+      '@types/node': 14.18.9
+      '@types/react': 17.0.38
+      '@types/react-dom': 17.0.11
+      typescript: 4.5.5
 
   packages/cli/babel-preset-app:
     specifiers:
@@ -903,71 +928,6 @@ importers:
       typescript: 4.5.5
       webpack-chain: 6.5.1
 
-  packages/cli/plugin-garfish:
-    specifiers:
-      '@babel/runtime': ^7
-      '@modern-js/core': workspace:^1.2.0
-      '@modern-js/plugin-router': workspace:^1.1.3
-      '@modern-js/runtime-core': workspace:^1.1.4
-      '@modern-js/types': workspace:^1.1.5
-      '@modern-js/utils': workspace:^1.1.6
-      '@scripts/build': workspace:*
-      '@scripts/jest-config': workspace:*
-      '@testing-library/jest-dom': ^5.16.1
-      '@testing-library/react': ^12.0.0
-      '@testing-library/react-hooks': ^7.0.1
-      '@testing-library/user-event': ^13.5.0
-      '@types/hoist-non-react-statics': ^3.3.1
-      '@types/jest': ^26
-      '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
-      '@types/react-loadable': ^5.5.6
-      garfish: ^1.2.20
-      history: ^5.2.0
-      hoist-non-react-statics: ^3.3.2
-      html-webpack-externals-plugin: ^3.8.0
-      jest: ^27
-      jest-fetch-mock: ^3.0.3
-      react: ^17.0.2
-      react-dom: ^17.0.2
-      react-loadable: ^5.5.0
-      react-router-dom: ^6.2.1
-      typescript: ^4
-      webpack-chain: ^6.5.1
-    dependencies:
-      '@babel/runtime': 7.16.7
-      '@modern-js/utils': link:../../toolkit/utils
-      '@types/react-loadable': 5.5.6
-      garfish: 1.2.20
-      history: 5.2.0
-      hoist-non-react-statics: 3.3.2
-      react-loadable: 5.5.0_react@17.0.2
-    devDependencies:
-      '@modern-js/core': link:../core
-      '@modern-js/plugin-router': link:../plugin-router
-      '@modern-js/runtime-core': link:../../runtime
-      '@modern-js/types': link:../../toolkit/types
-      '@scripts/build': link:../../../scripts/build
-      '@scripts/jest-config': link:../../../scripts/jest-config
-      '@testing-library/jest-dom': 5.16.1
-      '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
-      '@testing-library/react-hooks': 7.0.2_react-dom@17.0.2+react@17.0.2
-      '@testing-library/user-event': 13.5.0
-      '@types/hoist-non-react-statics': 3.3.1
-      '@types/jest': 26.0.24
-      '@types/node': 14.18.4
-      '@types/react': 17.0.38
-      '@types/react-dom': 17.0.11
-      html-webpack-externals-plugin: 3.8.0
-      jest: 27.4.5
-      jest-fetch-mock: 3.0.3
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-router-dom: 6.2.1_react-dom@17.0.2+react@17.0.2
-      typescript: 4.5.4
-      webpack-chain: 6.5.1
-
   packages/cli/plugin-i18n:
     specifiers:
       '@babel/runtime': ^7
@@ -1175,10 +1135,10 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
       '@types/less': 3.0.3
-      '@types/node': 14.18.4
-      jest: 27.4.5
-      typescript: 4.5.4
-      webpack: 5.65.0_esbuild@0.13.15
+      '@types/node': 14.18.9
+      jest: 27.4.7
+      typescript: 4.5.5
+      webpack: 5.67.0
       webpack-chain: 6.5.1
 
   packages/cli/plugin-multiprocess:
@@ -8901,51 +8861,51 @@ packages:
     resolution: {integrity: sha512-82cpyJyKRoQoRi+14ibCeGPu0CwypgtBAdBhq1WfvagpCZNKqwXbKwXllYSMG91DhmG4jt9gN8eP6lGOtozuaw==}
     dev: false
 
-  /@garfish/browser-snapshot/1.2.20:
-    resolution: {integrity: sha512-KEowx/uuky8U7w4fEboUmA6O6Bc6bpHWTPjDiU3yRiNjEn1iGOjJKrFTea09PrY3BKZIkqotEJPGo/zUVgheFQ==}
+  /@garfish/browser-snapshot/1.3.0:
+    resolution: {integrity: sha512-K+UwrBzOxZp9rzFHVhHunOYSxF2kZ0ptH8m+78QNyJKEkm+alDvcuHM3kFwHA299gNjTthL1erVkn8Ne5DwLJw==}
     dependencies:
-      '@garfish/core': 1.2.20
-      '@garfish/utils': 1.2.20
+      '@garfish/core': 1.3.0
+      '@garfish/utils': 1.3.0
     dev: false
 
-  /@garfish/browser-vm/1.2.20:
-    resolution: {integrity: sha512-lP1HFy/usx+44Nx0ABB3I1UHkqn4Pdm76UHof8JDYl5lNxDVFi3EDfRikgHT/aslICAYfxKEzcWYKcILOE4UGw==}
+  /@garfish/browser-vm/1.3.0:
+    resolution: {integrity: sha512-R2qIbVnrFy8y3PIjM8czNyERwAGikc3JNrnHm0d7bK3wXbNwTPl7+VPfzVtemfYedVv0frVjVZTu1iz3MfWBdg==}
     dependencies:
-      '@garfish/core': 1.2.20
-      '@garfish/hooks': 1.2.20
-      '@garfish/loader': 1.2.20
-      '@garfish/utils': 1.2.20
+      '@garfish/core': 1.3.0
+      '@garfish/hooks': 1.3.0
+      '@garfish/loader': 1.3.0
+      '@garfish/utils': 1.3.0
     dev: false
 
-  /@garfish/core/1.2.20:
-    resolution: {integrity: sha512-GRR4FWBSgdtpiQw1knhnBWsURlGe9gKKvoREGZhA2EuVxZO5+NkgiFHrUJOsD74wECouOkK9gwZX7+46h4WgUw==}
+  /@garfish/core/1.3.0:
+    resolution: {integrity: sha512-WYcUKwo77kIJiKPiDncXT0xVsYc2bO/8F6udK9bZo/4HJZXXPOiVeCyC7cA17bi6jz2KE36JMDa6br5Z84L+Mg==}
     dependencies:
-      '@garfish/hooks': 1.2.20
-      '@garfish/loader': 1.2.20
-      '@garfish/utils': 1.2.20
+      '@garfish/hooks': 1.3.0
+      '@garfish/loader': 1.3.0
+      '@garfish/utils': 1.3.0
       eventemitter2: 6.4.5
     dev: false
 
-  /@garfish/hooks/1.2.20:
-    resolution: {integrity: sha512-mjDSRVSHczxHwnkUFtnGOiNin9PfrAzKNa2zOhzoCZSeXlpzgVh8bZ0mOQ3pPxK7r+FQPFcj0iw6KJxI7xqOOQ==}
+  /@garfish/hooks/1.3.0:
+    resolution: {integrity: sha512-9QwzSOhZDlIHhqs5c9WZ+tYcSK/jkxGUwQaQmbcM0aidzMRWOPS10j7Y65WkhS7G3o5kWGd32hVuECWfHiKNYw==}
     dev: false
 
-  /@garfish/loader/1.2.20:
-    resolution: {integrity: sha512-Yv5jH5n9ORQYVwf/RiV+836kFL0rRwexlm1jTi1YlUJlSDbuWPAPQYAmjmTzEUC9tEOaJ0DDdm8rQjZpUTib5g==}
+  /@garfish/loader/1.3.0:
+    resolution: {integrity: sha512-RqK+T2huvptyRoNeYQM5kbsnGMFl88dj3Fu6E2+EIJvB9XhA6Yauv1ZV88g4/7r4EHgltOpnlhlHO1tjDwrXgw==}
     dependencies:
-      '@garfish/hooks': 1.2.20
-      '@garfish/utils': 1.2.20
+      '@garfish/hooks': 1.3.0
+      '@garfish/utils': 1.3.0
     dev: false
 
-  /@garfish/router/1.2.20:
-    resolution: {integrity: sha512-80tn8QuSwxRv9ylqhIdPY6BCYUFDULBWko3xLve0AdCg8uybzL3HX0wh/Olgb/gKHaHxXqGp8RFM+mkhn7YZ9A==}
+  /@garfish/router/1.3.0:
+    resolution: {integrity: sha512-JS/hmfDrwoiyglGxlWWlgwYtb81SpeSDFbdyGMHg0/PiXAIhEf55c2i53rkldPVNaZuS9rqiGYvmXwPFJZeSww==}
     dependencies:
-      '@garfish/core': 1.2.20
-      '@garfish/utils': 1.2.20
+      '@garfish/core': 1.3.0
+      '@garfish/utils': 1.3.0
     dev: false
 
-  /@garfish/utils/1.2.20:
-    resolution: {integrity: sha512-6Agq3RZ3bpYo1VUqsDeYVBbloUTd3BBozuSOjQAqVwlg7H/FSSr3lbeJqkWTyLsBd98gMcVw82aZHTceCUJOKg==}
+  /@garfish/utils/1.3.0:
+    resolution: {integrity: sha512-LgjXOHr1Qwl+X2UUGp35E50LSNX65g1IIRDYqMCYlLoVFc+H11wHbeIVNDLHlg2ErKEreHkilGIaYMbt6al8yw==}
     dev: false
 
   /@hapi/hoek/9.2.1:
@@ -12509,13 +12469,13 @@ packages:
     dependencies:
       jest-diff: 26.6.2
       pretty-format: 26.6.2
-    dev: true
 
   /@types/jest/27.4.0:
     resolution: {integrity: sha512-gHl8XuC1RZ8H2j5sHv/JqsaxXkDDM9iDOgu0Wp8sjs4u/snb2PVehyWXJPr+ORA0RPpgw231mnutWI1+0hgjIQ==}
     dependencies:
-      jest-diff: 27.4.2
-      pretty-format: 27.4.2
+      jest-diff: 27.4.6
+      pretty-format: 27.4.6
+    dev: true
 
   /@types/js-yaml/4.0.5:
     resolution: {integrity: sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==}
@@ -12832,15 +12792,8 @@ packages:
     dependencies:
       '@types/react': 17.0.38
 
-  /@types/react-loadable/5.5.6:
-    resolution: {integrity: sha512-2M7xH/wawZxNybbs/a76JkpUsMk4z6AxBh92cUtIBy2vK7EYYuitQbC4laY0hGz0e05R+mQ44YeHMtH2U+gMsw==}
-    dependencies:
-      '@types/react': 17.0.38
-      '@types/webpack': 4.41.32
-    dev: false
-
-  /@types/react-router-dom/5.3.2:
-    resolution: {integrity: sha512-ELEYRUie2czuJzaZ5+ziIp9Hhw+juEw8b7C11YNA4QdLCVbQ3qLi2l4aq8XnlqM7V31LZX8dxUuFUCrzHm6sqQ==}
+  /@types/react-router-dom/5.3.3:
+    resolution: {integrity: sha512-kpqnYK4wcdm5UaWI3fLcELopqLrHgLqNsdpHauzlQktfkHL3npOSwtj1Uz9oKBAzs7lFtVkV8j83voAz2D8fhw==}
     dependencies:
       '@types/history': 4.7.11
       '@types/react': 17.0.38
@@ -13032,7 +12985,7 @@ packages:
   /@types/testing-library__jest-dom/5.14.2:
     resolution: {integrity: sha512-vehbtyHUShPxIa9SioxDwCvgxukDMH//icJG90sXQBUm5lJOHLT5kNeU9tnivhnA/TkOFMzGIXN2cTc4hY8/kg==}
     dependencies:
-      '@types/jest': 27.4.0
+      '@types/jest': 26.0.24
 
   /@types/through/0.0.30:
     resolution: {integrity: sha512-FvnCJljyxhPM3gkRgWmxmDZyAQSiBQQWLI0A0VFL0K7W1oRUrPJSqNO0NvTnLkBcotdlp3lKvaT0JrnyRDkzOg==}
@@ -13139,14 +13092,14 @@ packages:
   /@types/webpack-sources/3.2.0:
     resolution: {integrity: sha512-Ft7YH3lEVRQ6ls8k4Ff1oB4jN6oy/XmU6tQISKdhfh+1mR+viZFphS6WL0IrtDOzvefmJg5a0s7ZQoRXwqTEFg==}
     dependencies:
-      '@types/node': 16.11.18
+      '@types/node': 14.18.9
       '@types/source-list-map': 0.1.2
       source-map: 0.7.3
 
   /@types/webpack/4.41.32:
     resolution: {integrity: sha512-cb+0ioil/7oz5//7tZUSwbrSAN/NWHrQylz5cW8G0dWTcF/g+/dSdMlKVZspBYuMAN1+WnwHrkxiRrLcwd0Heg==}
     dependencies:
-      '@types/node': 16.11.18
+      '@types/node': 14.18.9
       '@types/tapable': 1.0.8
       '@types/uglify-js': 3.13.1
       '@types/webpack-sources': 3.2.0
@@ -15165,7 +15118,7 @@ packages:
     dependencies:
       ansi-align: 2.0.0
       camelcase: 4.1.0
-      chalk: 2.4.1
+      chalk: 2.4.2
       cli-boxes: 1.0.0
       string-width: 2.1.1
       term-size: 1.2.0
@@ -15480,7 +15433,7 @@ packages:
       bluebird: 3.7.2
       chownr: 1.1.4
       glob: 7.2.0
-      graceful-fs: 4.2.8
+      graceful-fs: 4.2.9
       lru-cache: 4.1.5
       mississippi: 2.0.0
       mkdirp: 0.5.5
@@ -15758,6 +15711,7 @@ packages:
       ansi-styles: 3.2.1
       escape-string-regexp: 1.0.5
       supports-color: 5.5.0
+    dev: true
 
   /chalk/2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -16201,7 +16155,7 @@ packages:
     engines: {node: '>= 4.0'}
     dependencies:
       '@types/q': 1.5.5
-      chalk: 2.4.1
+      chalk: 2.4.2
       q: 1.5.1
     dev: false
 
@@ -16814,7 +16768,7 @@ packages:
       serialize-javascript: 1.9.1
     dev: true
 
-  /copy-webpack-plugin/9.1.0_webpack@5.65.0:
+  /copy-webpack-plugin/9.1.0_webpack@5.67.0:
     resolution: {integrity: sha512-rxnR7PaGigJzhqETHGmAcxKnLZSR5u1Y3/bcIv/1FnqXedcL/E2ewK7ZCNrArJKCiSv8yVXhTqetJh8inDvfsA==}
     engines: {node: '>= 12.13.0'}
     peerDependencies:
@@ -17035,11 +16989,13 @@ packages:
       moment-timezone: 0.5.34
     dev: true
 
-  /cross-fetch/3.1.4:
-    resolution: {integrity: sha512-1eAtFWdIubi6T4XPy6ei9iUFoKpUkIF971QLN8lIvvvwueI65+Nw5haMNKUwfJxabqlIIDODJKGrQ66gxC0PbQ==}
+  /cross-fetch/3.1.5:
+    resolution: {integrity: sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==}
     dependencies:
       esbuild: 0.13.15
-      node-fetch: 2.6.1
+      node-fetch: 2.6.7
+    transitivePeerDependencies:
+      - encoding
     dev: true
 
   /cross-spawn/5.1.0:
@@ -17917,7 +17873,6 @@ packages:
   /diff-sequences/26.6.2:
     resolution: {integrity: sha512-Mv/TDa3nZ9sbc5soK+OoA74BsS3mL37yixCvUAQkiuA4Wz6YtwP/K47n2rv2ovzHZvoiQeA5FTQOschKkEwB0Q==}
     engines: {node: '>= 10.14.2'}
-    dev: true
 
   /diff-sequences/27.4.0:
     resolution: {integrity: sha512-YqiQzkrsmHMH5uuh8OdQFU9/ZpADnwzml8z0O5HvRNda+5UZsaX/xN+AAxfR2hWq1Y7HZnAzO9J5lJXOuDz2Ww==}
@@ -20909,14 +20864,14 @@ packages:
       esbuild: 0.13.15
     dev: false
 
-  /garfish/1.2.20:
-    resolution: {integrity: sha512-vbJeCcMb8rcHeS3ZN0SsB2aamfBeHxrAaVqcYv08F3Bh9UZm31N5B2q4LdFy3u7O5yZQRPxufvncgaxgR4lU+Q==}
+  /garfish/1.3.0:
+    resolution: {integrity: sha512-7XRE6/mZ1It6x5tFV2EOvuOX0s1mEVGK2RQqsr9bctnSfvJLTiX9b2vfB/+K0f1Sro2BEMojaV6JEpP9yIc/EA==}
     dependencies:
-      '@garfish/browser-snapshot': 1.2.20
-      '@garfish/browser-vm': 1.2.20
-      '@garfish/core': 1.2.20
-      '@garfish/router': 1.2.20
-      '@garfish/utils': 1.2.20
+      '@garfish/browser-snapshot': 1.3.0
+      '@garfish/browser-vm': 1.3.0
+      '@garfish/core': 1.3.0
+      '@garfish/router': 1.3.0
+      '@garfish/utils': 1.3.0
     dev: false
 
   /gauge/2.7.4:
@@ -23219,7 +23174,6 @@ packages:
       diff-sequences: 26.6.2
       jest-get-type: 26.3.0
       pretty-format: 26.6.2
-    dev: true
 
   /jest-diff/27.4.6:
     resolution: {integrity: sha512-zjaB0sh0Lb13VyPsd92V7HkqF6yKRH9vm33rwBt7rPYrpQvS1nCvlIy2pICbKta+ZjWngYLNn4cCK4nyZkjS/w==}
@@ -23302,14 +23256,15 @@ packages:
   /jest-fetch-mock/3.0.3:
     resolution: {integrity: sha512-Ux1nWprtLrdrH4XwE7O7InRY6psIi3GOsqNESJgMJ+M5cv4A8Lh7SN9d2V2kKRZ8ebAfcd1LNyZguAOb6JiDqw==}
     dependencies:
-      cross-fetch: 3.1.4
+      cross-fetch: 3.1.5
       promise-polyfill: 8.2.1
+    transitivePeerDependencies:
+      - encoding
     dev: true
 
   /jest-get-type/26.3.0:
     resolution: {integrity: sha512-TpfaviN1R2pQWkIihlfEanwOXK0zcxrKEE4MlU6Tn7keoXdN6/3gK/xl0yEh8DOunn5pOVGKf8hB4R9gVh04ig==}
     engines: {node: '>= 10.14.2'}
-    dev: true
 
   /jest-get-type/27.4.0:
     resolution: {integrity: sha512-tk9o+ld5TWq41DkK14L4wox4s2D9MtTpKaAVzXfr5CUKm5ZK2ExcaFE0qls2W71zE/6R2TxxrK9w2r6svAFDBQ==}
@@ -27625,7 +27580,6 @@ packages:
       ansi-regex: 5.0.1
       ansi-styles: 4.3.0
       react-is: 17.0.2
-    dev: true
 
   /pretty-format/27.4.6:
     resolution: {integrity: sha512-NblstegA1y/RJW2VyML+3LlpFjzx62cUrtBIKIWDXEDkjNeleA7Od7nrzcs/VLQvAeV4CgSYhrN39DRN88Qi/g==}
@@ -28717,16 +28671,6 @@ packages:
     transitivePeerDependencies:
       - react
       - react-dom
-    dev: false
-
-  /react-loadable/5.5.0_react@17.0.2:
-    resolution: {integrity: sha512-C8Aui0ZpMd4KokxRdVAm2bQtI03k2RMRNzOB+IipV3yxFTSVICv7WoUr5L9ALB5BmKO1iHgZtWM8EvYG83otdg==}
-    peerDependencies:
-      react: '*'
-    dependencies:
-      esbuild: 0.13.15
-      prop-types: 15.8.0
-      react: 17.0.2
     dev: false
 
   /react-popper-tooltip/3.1.1:
@@ -31328,7 +31272,7 @@ packages:
     deprecated: This SVGO version is no longer supported. Upgrade to v2.x.x.
     hasBin: true
     dependencies:
-      chalk: 2.4.1
+      chalk: 2.4.2
       coa: 2.0.2
       css-select: 2.1.0
       css-select-base-adapter: 0.1.1
