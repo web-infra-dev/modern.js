@@ -1,5 +1,11 @@
 # @modern-js/monorepo-generator
 
+## 1.3.1
+
+### Patch Changes
+
+- fix: monorepo template
+
 ## 1.3.0
 
 ### Minor Changes
