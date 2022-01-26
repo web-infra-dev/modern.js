@@ -1,5 +1,11 @@
 # @modern-js/utils
 
+## 1.2.1
+
+### Patch Changes
+
+- 823809c6: fix: remove plugin-polyfill from app-tools
+
 ## 1.2.0
 
 ### Minor Changes
