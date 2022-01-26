@@ -14,7 +14,7 @@ declare module 'http' {
 
 declare module '@modern-js/core' {
   interface UserConfig {
-    bff: {
+    bff?: {
       proxy: Record<string, any>;
     };
   }
