@@ -1,7 +1,6 @@
 /// <reference types="node" />
 /// <reference types="react" />
 /// <reference types="react-dom" />
-/// <reference path="../dist/types/index.d.ts" />
 
 declare namespace NodeJS {
   interface ProcessEnv {
