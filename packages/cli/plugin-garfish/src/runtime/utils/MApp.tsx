@@ -46,7 +46,7 @@ export function generateMApp(
       Garfish.router.setRouterConfig({ listening: true });
       if (!Garfish.running) {
         // Garfish.usePlugin(() => ({
-        //   name: 'JupiterLifeCycle',
+        //   name: 'ModernLifeCycle',
         //   beforeLoad: () => {
         //     // this.setState({
         //     //   loading: true,
