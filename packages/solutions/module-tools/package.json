@@ -40,8 +40,8 @@
   },
   "typesVersions": {
     "*": {
-      "build": [
-        "./dist/types/build.d.ts"
+      "type": [
+        "./lib/types.d.ts"
       ]
     }
   },
