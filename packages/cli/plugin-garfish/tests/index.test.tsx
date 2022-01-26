@@ -108,7 +108,6 @@ describe('plugin-garfish', () => {
     const App = () => {
       const Home = () => <div data-testid="home-title">{HomeTitle}</div>;
       const {
-        apps,
         Components: { Dashboard, TableList },
       } = useLegacyModuleApps();
 
@@ -116,16 +115,6 @@ describe('plugin-garfish', () => {
         const location = useLocation();
         return <div data-testid="location-display">{location.pathname}</div>;
       };
-
-      if (apps.length > 0) {
-        expect(apps[0].name).toBe(tableListModuleInfo.name);
-        expect(apps[0].entry).toBe(tableListModuleInfo.entry);
-        // expect(apps[0].Component).toBe(Dashboard);
-
-        expect(apps[1].name).toBe(dashBoardModuleInfo.name);
-        expect(apps[1].entry).toBe(dashBoardModuleInfo.entry);
-        // expect(apps[1].Component).toBe(TableList);
-      }
 
       return (
         <MemoryRouter>

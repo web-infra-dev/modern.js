@@ -1,6 +1,8 @@
+import path from 'path';
 import React from 'react';
 // eslint-disable-next-line import/no-named-as-default
 import Garfish from 'garfish';
+import { withRouter } from '@modern-js/plugin-router';
 import { ModernConfig, ModulesInfo } from '../typings';
 import {
   generateSubAppContainerKey,
@@ -33,8 +35,11 @@ function getAppInstance(
   appInfo: ModulesInfo[number],
   modernMicroConfig: ModernConfig,
 ) {
+  const AppComponentMaps: any = {};
   class App extends React.Component<any, any> {
     appInstance: any;
+
+    _isMounted: boolean = false;
 
     state: {
       loading: boolean;
@@ -43,33 +48,56 @@ function getAppInstance(
     } = {
       loading: true,
       domId: generateSubAppContainerKey(appInfo),
-      MicroApp: null,
+      MicroApp: AppComponentMaps[appInfo.name],
     };
 
-    async componentDidMount() {
-      // eslint-disable-next-line react/no-did-mount-set-state
+    async componentWillMount() {
+      this._isMounted = true;
+      const { domId } = this.state;
       this.setState({
         loading: true,
       });
 
-      const { domId } = this.state;
+      // ignore withRouter props
+      const { history, location, match, staticContext, ...userProps } =
+        this.props;
+      const { options } = Garfish;
       const app = await Garfish.loadApp(appInfo.name, {
-        domGetter: `#${domId}`,
-        basename: appInfo.activeWhen as string,
-        cache: true,
         ...appInfo,
+        domGetter: `#${domId}`,
+        basename: path.join(
+          options?.basename || '/',
+          // eslint-disable-next-line react/destructuring-assignment
+          this.props?.match?.path,
+        ),
+        cache: true,
+        props: {
+          ...appInfo.props,
+          ...userProps,
+        },
         // eslint-disable-next-line consistent-return
-        customLoader: provider => {
+        customLoader: (provider, nAppInfo) => {
           const AppComponent =
             (provider as Provider)[SUBMODULE_APP_COMPONENT_KEY] ||
             (provider as Provider)[JUPITER_SUBMODULE_APP_COMPONENT_KEY];
 
-          if (AppComponent) {
+          if (AppComponent && !AppComponentMaps[appInfo.name]) {
             return {
               mount: () => {
-                this.setState({
-                  MicroApp: AppComponent,
-                });
+                // in the unmount state can't change state
+                if (this._isMounted) {
+                  const nAppComponent = () => (
+                    <AppComponent
+                      appName={nAppInfo.name}
+                      basename={nAppInfo.basename}
+                      props={nAppInfo.props}
+                    />
+                  );
+                  AppComponentMaps[appInfo.name] = nAppComponent;
+                  this.setState({
+                    MicroApp: nAppComponent,
+                  });
+                }
               },
               unmount: () => {
                 this.setState({
@@ -81,6 +109,14 @@ function getAppInstance(
         },
       });
 
+      if (!app) {
+        throw new Error(
+          `${appInfo.name} loaded error, appInfo: ${JSON.stringify(
+            appInfo,
+          )}, options: ${JSON.stringify(options)}`,
+        );
+      }
+
       this.appInstance = app;
 
       if (app?.mounted) {
@@ -88,14 +124,13 @@ function getAppInstance(
       } else {
         await app?.mount();
       }
-
-      // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({
         loading: false,
       });
     }
 
     componentWillUnmount() {
+      this._isMounted = false;
       if (this.appInstance) {
         this.appInstance.hide();
       }
@@ -113,7 +148,7 @@ function getAppInstance(
       );
     }
   }
-  return App;
+  return withRouter(App);
 }
 
 export function generateApps(
@@ -123,18 +158,12 @@ export function generateApps(
   apps: AppMap;
   appInfoList: ModulesInfo;
 } {
+  const apps: AppMap = {};
   options.apps?.forEach(appInfo => {
     const Component = getAppInstance(appInfo, modernMicroConfig);
     appInfo.Component = Component;
+    apps[appInfo.name] = Component;
   });
-
-  const apps: AppMap = {};
-  options.apps?.reduce((res, appInfo) => {
-    if (appInfo.Component) {
-      res[appInfo.name] = appInfo.Component;
-    }
-    return res;
-  }, apps);
 
   return { apps, appInfoList: options.apps || [] };
 }
