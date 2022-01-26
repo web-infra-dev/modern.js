@@ -41,7 +41,7 @@ export type LoaderResult = {
 
 const createLoader = (
   id: string,
-  initialData: LoaderResult = {
+  initialData: Partial<LoaderResult> = {
     loading: false,
     reloading: false,
     data: undefined,
@@ -171,7 +171,7 @@ export const createLoaderManager = (
         id,
         typeof initialDataMap[id] !== 'undefined'
           ? initialDataMap[id]
-          : loaderOptions.initialData,
+          : { data: loaderOptions.initialData },
         loaderFn,
         // Todo whether static loader is exec when CSR
         skipExec,
