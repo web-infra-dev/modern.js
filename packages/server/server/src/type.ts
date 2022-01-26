@@ -49,7 +49,7 @@ export type ModernServerOptions = {
   config: NormalizedConfig;
   plugins?: any[];
   dev?: boolean | Partial<DevServerOptions>;
-  compiler?: Webpack.MultiCompiler | Webpack.Compiler;
+  compiler?: Webpack.MultiCompiler | Webpack.Compiler | null;
   routes?: ModernRouteInterface[];
   staticGenerate?: boolean;
   customServer?: boolean;
