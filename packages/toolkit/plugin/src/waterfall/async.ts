@@ -11,15 +11,15 @@ const ASYNC_WATERFALL_SYMBOL = Symbol('ASYNC_WATERFALL_SYMBOL');
 export type AsyncBrook<I = unknown> = (I: I) => MaybeAsync<I>;
 export type AsyncBrookInput<I = unknown> =
   | AsyncBrook<I>
-  | { middlware: AsyncBrook<I> };
+  | { middleware: AsyncBrook<I> };
 export type AsyncBrooks<I = unknown> = AsyncBrook<I>[];
 export type AsyncBrookInputs<I = unknown> = AsyncBrookInput<I>[];
 
 export const getAsyncBrook = <I>(input: AsyncBrookInput<I>) => {
   if (typeof input === 'function') {
     return input;
-  } else if (input && typeof input.middlware === 'function') {
-    return input.middlware;
+  } else if (input && typeof input.middleware === 'function') {
+    return input.middleware;
   }
   // eslint-disable-next-line @typescript-eslint/no-base-to-string,@typescript-eslint/restrict-template-expressions
   throw new Error(`${input} is not a AsyncBrook or { brook: AsyncBrook }`);
@@ -33,7 +33,7 @@ export type RunAsyncWaterfallOptions<I = unknown> = {
 export type AsyncWaterfall<I> = {
   run: (input: I, options?: RunAsyncWaterfallOptions<I>) => MaybeAsync<I>;
   use: (...I: AsyncBrookInputs<I>) => AsyncWaterfall<I>;
-  middlware: AsyncBrook<I>;
+  middleware: AsyncBrook<I>;
   [ASYNC_WATERFALL_SYMBOL]: true;
 };
 
@@ -82,7 +82,7 @@ export const createAsyncWaterfall = <I = void>(): AsyncWaterfall<I> => {
     // eslint-disable-next-line @typescript-eslint/no-shadow
     pipeline.run(input, { ...options, onLast: input => input });
 
-  const middlware: AsyncWaterfall<I>['middlware'] = input => {
+  const middleware: AsyncWaterfall<I>['middleware'] = input => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const container = useContainer();
     // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -93,7 +93,7 @@ export const createAsyncWaterfall = <I = void>(): AsyncWaterfall<I> => {
     ...pipeline,
     use,
     run,
-    middlware,
+    middleware,
     [ASYNC_WATERFALL_SYMBOL]: true as const,
   };
 
