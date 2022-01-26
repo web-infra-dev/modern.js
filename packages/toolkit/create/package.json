@@ -14,7 +14,7 @@
   "version": "1.3.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/main.js",
+  "main": "./dist/js/node/node.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "bin": {
@@ -69,6 +69,7 @@
   },
   "sideEffects": false,
   "publishConfig": {
+    "main": "./dist/js/node/main.js",
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/types/index.d.ts"

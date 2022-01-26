@@ -13,7 +13,7 @@
   ],
   "version": "1.2.0",
   "jsnext:source": "./src/index.ts",
-  "main": "./dist/js/node/main.js",
+  "main": "./dist/js/node/index.js",
   "files": [
     "/templates",
     "/dist/js/node/main.js"
@@ -49,6 +49,7 @@
     }
   },
   "publishConfig": {
+    "main": "./dist/js/node/main.js",
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
