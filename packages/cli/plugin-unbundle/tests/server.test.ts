@@ -7,6 +7,11 @@ import { createDevServer } from '../src/server';
 import { fsWatcher } from '../src/watcher';
 import { proxyMiddleware } from '../src/middlewares/proxy';
 import { onFileChange } from '../src/websocket-server';
+import {
+  DEFAULT_DEPS,
+  MODERN_JS_INTERNAL_PACKAGES,
+  VIRTUAL_DEPS_MAP,
+} from '../src/constants';
 
 jest.mock('koa');
 jest.mock('http');
@@ -43,6 +48,12 @@ describe('plugin-unbundle server', () => {
   let mockAppContext: any;
   let mockConfig: any;
 
+  const defaultDependencies = {
+    defaultDeps: DEFAULT_DEPS,
+    internalPackages: MODERN_JS_INTERNAL_PACKAGES,
+    virtualDeps: VIRTUAL_DEPS_MAP,
+  };
+
   beforeAll(() => {
     (fsWatcher.init as jest.Mock).mockImplementation(() => new FSWatcher());
     (proxyMiddleware as jest.Mock).mockImplementation(() => []);
@@ -65,7 +76,11 @@ describe('plugin-unbundle server', () => {
   });
 
   it('create dev server', async () => {
-    const server = await createDevServer(mockConfig, mockAppContext);
+    const server = await createDevServer(
+      mockConfig,
+      mockAppContext,
+      defaultDependencies,
+    );
     expect(server).toBeTruthy();
 
     // default config uses http server
@@ -76,7 +91,11 @@ describe('plugin-unbundle server', () => {
 
   it('create https server', async () => {
     mockConfig.dev.https = true;
-    const server = await createDevServer(mockConfig, mockAppContext);
+    const server = await createDevServer(
+      mockConfig,
+      mockAppContext,
+      defaultDependencies,
+    );
     expect(server).toBeTruthy();
 
     // should now create https server
@@ -88,7 +107,7 @@ describe('plugin-unbundle server', () => {
   it('server listen to file changes', async () => {
     const mockFsWatcher = new FSWatcher();
     (fsWatcher.init as jest.Mock).mockReturnValue(mockFsWatcher);
-    await createDevServer(mockConfig, mockAppContext);
+    await createDevServer(mockConfig, mockAppContext, defaultDependencies);
 
     expect(mockFsWatcher.on).toHaveBeenCalledTimes(1);
     const [eventName, callback] = (mockFsWatcher.on as jest.Mock).mock.calls[0];
