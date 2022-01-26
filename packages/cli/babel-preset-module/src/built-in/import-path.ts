@@ -37,7 +37,7 @@ const getImportFileDistPath = (
   return importFileDistPath;
 };
 
-export const isStaticFile = (file: string) => {
+export const isStaticFile = (file: string, filename: string) => {
   const tests: [RegExp, string][] = [
     [/\.js$/, '.js'],
     [/\.jsx$/, '.jsx'],
@@ -48,7 +48,10 @@ export const isStaticFile = (file: string) => {
   // check this file is static file
   // by string and determine if the file with the added suffix exists
   return !tests.some(
-    ([regex, prefix]) => regex.test(file) || fs.existsSync(file + prefix),
+    ([regex, prefix]) =>
+      regex.test(file) ||
+      fs.existsSync(path.join(path.dirname(filename), file) + prefix) ||
+      fs.existsSync(path.join(path.dirname(filename), file, 'index') + prefix),
   );
 };
 
@@ -72,7 +75,7 @@ const getReplacePath = (
     return '';
   }
 
-  if (!isStaticFile(importName)) {
+  if (!isStaticFile(importName, filename)) {
     return '';
   }
 
