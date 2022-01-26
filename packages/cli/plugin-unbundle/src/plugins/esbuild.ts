@@ -31,11 +31,22 @@ export const esbuildPlugin = (
   _config: NormalizedConfig,
   _appContext: IAppContext,
 ): RollupPlugin => {
+  // no need to import if React is already imported
+  const alreadyInjectedReact = RegExp(
+    [
+      // match: import React from 'react'
+      /import\s+React(,\s*{[^'"]*})?\s*from\s+['"]react['"]/,
+      // match: import * from 'react'
+      /import\s+\*\s+as\s+React\s+from\s+['"]react['"]/,
+      // React is already defined, avoid conflict: var React =
+      /(const|var|let)\s+React\s*=/,
+    ]
+      .map(exp => exp.source)
+      .join('|'),
+  );
   // auto inject `import react from 'react';`
   const shouldAutoInjectReact = (code: string) =>
-    !/import\s+React(,\s*{[^'"]*})?\s*from\s+['"]react['"]|import\s+\*\s+as\s+React\s+from\s+['"]react['"]/.test(
-      code,
-    );
+    !alreadyInjectedReact.test(code);
 
   return {
     name: 'esm-esbuild',
