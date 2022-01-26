@@ -52,7 +52,8 @@ function getAppInstance(
       MicroApp: AppComponentMaps[appInfo.name],
     };
 
-    async componentWillMount() {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    async UNSAFE_componentWillMount() {
       this._isMounted = true;
       const { domId } = this.state;
       this.setState({
