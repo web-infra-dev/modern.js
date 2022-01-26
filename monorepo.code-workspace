@@ -266,7 +266,7 @@
     },
     {
       "name": "@modern-js/plugin-garfish",
-      "path": "packages/cli/plugin-micro-frontend"
+      "path": "packages/cli/plugin-garfish"
     },
     {
       "name": "@modern-js/plugin-multiprocess",
