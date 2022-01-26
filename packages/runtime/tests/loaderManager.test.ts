@@ -16,10 +16,13 @@ describe('loaderManager', () => {
     const { add, get, awaitPendingLoaders } = loaderManager;
 
     add(() => Promise.resolve('hello modern'), { params: '1' });
-    add(() => Promise.resolve('hello modern2'), { params: '2', initialData });
+    add(() => Promise.resolve('hello modern2'), {
+      params: '2',
+      initialData: initialData.data,
+    });
     add(() => Promise.reject(new Error('error occurs')), {
       params: '3',
-      initialData,
+      initialData: initialData.data,
     });
 
     const loader1 = get(JSON.stringify('1'));
@@ -27,7 +30,8 @@ describe('loaderManager', () => {
     const loader3 = get(JSON.stringify('3'));
 
     expect(loader1?.result).toEqual(initialData);
-    expect(loader2?.result).toEqual(initialData);
+    // error is initialized to undefined when initialData doesn't set this field.
+    expect(loader2?.result).toEqual({ ...initialData, error: undefined });
 
     loader1?.load();
     loader2?.load();
