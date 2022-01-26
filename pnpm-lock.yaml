@@ -1741,6 +1741,7 @@ importers:
       '@types/es-module-lexer': ^0.3.0
       '@types/estree': ^0.0.46
       '@types/etag': ^1.8.0
+      '@types/jest': ^27.4.0
       '@types/koa': ^2.11.7
       '@types/koa__cors': ^3.0.2
       '@types/koa-compress': ^4.0.1
@@ -1868,6 +1869,7 @@ importers:
       '@types/babel__core': 7.1.18
       '@types/es-module-lexer': 0.3.0
       '@types/estree': 0.0.46
+      '@types/jest': 27.4.0
       '@types/koa': 2.13.4
       '@types/koa__cors': 3.1.1
       '@types/koa-compress': 4.0.3
