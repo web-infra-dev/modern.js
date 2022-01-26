@@ -11,7 +11,6 @@ export { defineConfig };
 usePlugins([
   require.resolve('@modern-js/plugin-analyze/cli'),
   require.resolve('@modern-js/plugin-fast-refresh/cli'),
-  require.resolve('@modern-js/plugin-polyfill/cli'),
 ]);
 
 export default createPlugin(

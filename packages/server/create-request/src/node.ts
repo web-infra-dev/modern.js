@@ -1,7 +1,7 @@
 import qs from 'querystring';
 import nodeFetch from 'node-fetch';
 import { compile, pathToRegexp, Key } from 'path-to-regexp';
-import { useHeaders } from '@modern-js/plugin-ssr';
+import { useHeaders } from '@modern-js/plugin-ssr/node';
 import { handleRes } from './handleRes';
 import type {
   BFFRequestPayload,
@@ -33,6 +33,8 @@ export const createRequest: RequestCreator = (
   path: string,
   method: string,
   port: number,
+  // 后续可能要修改，暂时先保留
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fetch = nodeFetch as any,
 ) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
@@ -57,9 +59,10 @@ export const createRequest: RequestCreator = (
       : plainPath;
     const headers = payload.headers || {};
     let body: any;
-    // BFF 内网请求需要携带 SSR 请求中的 cookie 和 traceId, 如果有压测头，则添加压测头
     for (const key of realAllowedHeaders) {
-      headers[key] = webRequestHeaders[key];
+      if (typeof webRequestHeaders[key] !== 'undefined') {
+        headers[key] = webRequestHeaders[key];
+      }
     }
 
     if (payload.data) {
@@ -88,7 +91,7 @@ export const createRequest: RequestCreator = (
 
     const url = `http://localhost:${port}${finalPath}`;
 
-    const fetcher = realRequest || fetch;
+    const fetcher = realRequest || originFetch;
 
     return fetcher(url, { method, body, headers });
   };

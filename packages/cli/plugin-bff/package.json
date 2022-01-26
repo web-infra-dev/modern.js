@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.1",
+  "version": "1.3.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -57,25 +57,25 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.15.5",
+    "@babel/core": "7.16.7",
     "@babel/runtime": "^7",
-    "@modern-js/babel-chain": "workspace:^1.1.2",
-    "@modern-js/babel-compiler": "workspace:^1.1.4",
-    "@modern-js/babel-preset-lib": "workspace:^1.1.6",
-    "@modern-js/create-request": "workspace:^1.1.2",
-    "@modern-js/server-utils": "workspace:^1.1.2",
-    "@modern-js/utils": "workspace:^1.1.6",
+    "@modern-js/babel-chain": "workspace:^1.2.0",
+    "@modern-js/babel-compiler": "workspace:^1.2.0",
+    "@modern-js/babel-preset-lib": "workspace:^1.2.0",
+    "@modern-js/create-request": "workspace:^1.2.0",
+    "@modern-js/server-utils": "workspace:^1.2.0",
+    "@modern-js/utils": "workspace:^1.2.1",
     "fs-extra": "^10.0.0",
     "loader-utils": "^2.0.0"
   },
   "devDependencies": {
-    "@modern-js/bff-utils": "workspace:^1.1.1",
-    "@modern-js/core": "workspace:^1.2.0",
+    "@modern-js/bff-utils": "workspace:^1.2.1",
+    "@modern-js/core": "workspace:^1.3.1",
     "@scripts/build": "workspace:*",
-    "@modern-js/plugin-analyze": "workspace:^1.1.3",
-    "@modern-js/runtime": "workspace:^1.1.3",
-    "@modern-js/server-plugin": "workspace:^1.1.4",
-    "@modern-js/types": "workspace:^1.1.5",
+    "@modern-js/plugin-analyze": "workspace:^1.2.0",
+    "@modern-js/runtime": "workspace:^1.2.0",
+    "@modern-js/server-plugin": "workspace:^1.2.0",
+    "@modern-js/types": "workspace:^1.2.0",
     "@types/babel__core": "^7.1.15",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^26",
@@ -90,9 +90,9 @@
     "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/bff-utils": "workspace:^1.1.1",
-    "@modern-js/core": "workspace:^1.2.0",
-    "@modern-js/server-plugin": "workspace:^1.1.4"
+    "@modern-js/bff-utils": "workspace:^1.2.1",
+    "@modern-js/core": "workspace:^1.3.1",
+    "@modern-js/server-plugin": "workspace:^1.2.0"
   },
   "modernConfig": {
     "output": {

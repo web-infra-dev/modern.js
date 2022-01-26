@@ -1,5 +1,49 @@
 # @modern-js/server
 
+## 1.3.1
+
+### Patch Changes
+
+- e2d3a575: fix extending core config interface
+- 823809c6: fix: hot reload not working on windows
+- e2d3a575: fix extending core config interface
+- Updated dependencies [823809c6]
+- Updated dependencies [4584cc04]
+- Updated dependencies [7c19fd94]
+  - @modern-js/bff-utils@1.2.1
+  - @modern-js/utils@1.2.1
+  - @modern-js/core@1.3.1
+
+## 1.3.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 146dcd85: modify server framework plugin hook types and hook context
+- c3d46ee4: fix: test config invalid
+- 146dcd85: modify server framework plugin hook types
+- 146dcd85: fix test case in babel compiler
+- 1ebc7ee2: fix: @babel/core version
+- Updated dependencies [2da09c69]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [146dcd85]
+- Updated dependencies [74ce3bb7]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [146dcd85]
+- Updated dependencies [8e7603ee]
+- Updated dependencies [146dcd85]
+- Updated dependencies [1ebc7ee2]
+  - @modern-js/utils@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/server-utils@1.2.0
+  - @modern-js/hmr-client@1.2.0
+  - @modern-js/bff-utils@1.2.0
+  - @modern-js/server-plugin@1.2.0
+
 ## 1.2.1
 
 ### Patch Changes

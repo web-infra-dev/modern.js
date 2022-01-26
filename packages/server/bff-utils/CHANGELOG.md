@@ -1,5 +1,32 @@
 # @modern-js/bff-utils
 
+## 1.2.1
+
+### Patch Changes
+
+- 823809c6: fix: remove plugin-polyfill from app-tools
+- Updated dependencies [823809c6]
+  - @modern-js/utils@1.2.1
+
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 8e7603ee: fix custom requestCreator path
+- Updated dependencies [2da09c69]
+- Updated dependencies [146dcd85]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [146dcd85]
+- Updated dependencies [146dcd85]
+  - @modern-js/utils@1.2.0
+  - @modern-js/bff-runtime@1.2.0
+  - @modern-js/plugin@1.2.0
+
 ## 1.1.1
 
 ### Patch Changes

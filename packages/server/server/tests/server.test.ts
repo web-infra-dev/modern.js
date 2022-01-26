@@ -2,6 +2,8 @@ import path from 'path';
 import { defaultsConfig, NormalizedConfig } from '@modern-js/core';
 import { ModernServerContext, NextFunction } from '@modern-js/types';
 import createServer, { Server } from '../src';
+import { ModernServer } from '../src/server/modern-server';
+import Watcher from '../src/dev-tools/watcher';
 
 describe('test server', () => {
   test('should throw error when ', resolve => {
@@ -58,7 +60,7 @@ describe('test server', () => {
         config: defaultsConfig as NormalizedConfig,
         pwd: appDirectory,
       });
-      const modernServer = server.server as any;
+      const modernServer = (server as any).server;
 
       const len = modernServer.handlers.length;
 
@@ -85,5 +87,34 @@ describe('test server', () => {
       expect(newLen + 1).toBe(nextLen);
       expect(modernServer.handlers[nextLen - 1]).toBe(asyncHandler);
     });
+
+    test('should get request handler correctly', async () => {
+      const server = await createServer({
+        config: defaultsConfig as NormalizedConfig,
+        pwd: appDirectory,
+      });
+
+      const modernServer: ModernServer = (server as any).server;
+      const handler = modernServer.getRequestHandler();
+      expect(typeof handler === 'function').toBeTruthy();
+    });
+  });
+});
+
+describe('dev server', () => {
+  const pwd = path.join(__dirname, './fixtures/pure');
+  let devServer: Server;
+
+  test('watch', async () => {
+    devServer = await createServer({
+      config: defaultsConfig as NormalizedConfig,
+      pwd,
+      dev: true,
+    });
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    expect(devServer.server.watcher).toBeInstanceOf(Watcher);
+    await devServer.close();
   });
 });

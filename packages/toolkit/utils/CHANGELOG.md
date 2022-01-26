@@ -1,5 +1,22 @@
 # @modern-js/utils
 
+## 1.2.1
+
+### Patch Changes
+
+- 823809c6: fix: remove plugin-polyfill from app-tools
+
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 2da09c69: Add "typescript" to the dependency list
+- c3d46ee4: fix: test config invalid
+
 ## 1.1.6
 
 ### Patch Changes

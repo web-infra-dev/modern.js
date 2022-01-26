@@ -1,5 +1,17 @@
 # @modern-js-app/eslint-config
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [cfe11628]
+- Updated dependencies [1ebc7ee2]
+  - @modern-js/babel-preset-app@1.2.0
+
 ## 1.1.2
 
 ### Patch Changes

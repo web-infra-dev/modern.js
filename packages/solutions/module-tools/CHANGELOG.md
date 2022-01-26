@@ -1,5 +1,53 @@
 # @modern-js/module-tools
 
+## 2.0.0
+
+### Major Changes
+
+- c5973e7a: add dev sub commands
+- 0d9516f3: fix resolve static file and add -p params
+
+### Patch Changes
+
+- c1455cd6: fix module-tools type file
+- Updated dependencies [823809c6]
+- Updated dependencies [4584cc04]
+- Updated dependencies [7c19fd94]
+- Updated dependencies [0d9516f3]
+  - @modern-js/utils@1.2.1
+  - @modern-js/core@1.3.1
+  - @modern-js/babel-preset-module@1.3.0
+
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [2da09c69]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [2c049918]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [1ebc7ee2]
+- Updated dependencies [146dcd85]
+- Updated dependencies [1ebc7ee2]
+  - @modern-js/utils@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/new-action@1.3.0
+  - @modern-js/babel-preset-module@1.2.0
+  - @modern-js/css-config@1.2.0
+  - @modern-js/i18n-cli-language-detector@1.2.0
+  - @modern-js/plugin-analyze@1.2.0
+  - @modern-js/plugin-changeset@1.2.0
+  - @modern-js/plugin-fast-refresh@1.2.0
+  - @modern-js/plugin-i18n@1.2.0
+  - @modern-js/babel-compiler@1.2.0
+  - @modern-js/style-compiler@1.2.0
+  - @modern-js/module-tools-hooks@1.2.0
+
 ## 1.1.5
 
 ### Patch Changes

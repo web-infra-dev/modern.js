@@ -64,7 +64,7 @@ export const createDevServer = async (
 ): Promise<ESMServer> => {
   const { appDirectory } = appContext;
   const { https } = config.dev || {};
-  const { disableAutoImportStyle } = (config.output as any) || {};
+  const { disableAutoImportStyle } = config.output || {};
 
   const app = new Koa();
 

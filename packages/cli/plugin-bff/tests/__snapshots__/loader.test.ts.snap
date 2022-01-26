@@ -35,7 +35,7 @@ export const patch = createRequest('api/hello', 'PATCH', process.env.PORT || 300
 `;
 
 exports[`bff loader should work well with requestCreator 1`] = `
-"import { createRequest } from '/packages/cli/plugin-bff/tests/fixtures/test-requestCreator';
+"import { createRequest } from '/packages/cli/plugin-bff/tests/fixtures/requestCreator/client';
 
 export const get = createRequest('/hello', 'GET', process.env.PORT || 80);
 export const patch = createRequest('/hello', 'PATCH', process.env.PORT || 80);

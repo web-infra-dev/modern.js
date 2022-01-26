@@ -1,5 +1,20 @@
 # @modern-js/runtime-core
 
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- a2cb9abc: fix(runtime): useLoader fallback logic
+- Updated dependencies [2da09c69]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+  - @modern-js/utils@1.2.0
+  - @modern-js/plugin@1.2.0
+
 ## 1.1.4
 
 ### Patch Changes
