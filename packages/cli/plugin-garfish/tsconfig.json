@@ -9,5 +9,5 @@
     "paths": {},
     "types": ["node", "jest","@types/jest"]
   },
-  "include": ["src","tests"]
+  "include": ["src"]
 }
