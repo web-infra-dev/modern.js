@@ -19,11 +19,11 @@ export default createPlugin(
       const { internalDirectory } = useAppContext();
       /* eslint-enable react-hooks/rules-of-hooks */
 
-      if (!(dev as any).proxy) {
+      if (!dev?.proxy) {
         return;
       }
 
-      const rule = createProxyRule(internalDirectory, (dev as any).proxy);
+      const rule = createProxyRule(internalDirectory, dev.proxy);
       proxyServer = new WhistleProxy({ port: 8899, rule });
       await proxyServer.start();
     },
@@ -39,8 +39,6 @@ export type ProxyOptions = string | Record<string, string>;
 
 declare module '@modern-js/core' {
   export interface DevConfig {
-    dev: {
-      proxy?: ProxyOptions;
-    };
+    proxy?: ProxyOptions;
   }
 }

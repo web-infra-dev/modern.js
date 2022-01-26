@@ -6,7 +6,7 @@ declare module '@modern-js/core' {
   }
 
   interface OutputConfig {
-    disableAutoImportStyle: boolean;
+    disableAutoImportStyle?: boolean;
   }
 }
 
