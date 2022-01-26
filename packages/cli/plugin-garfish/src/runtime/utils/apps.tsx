@@ -6,7 +6,6 @@ import { withRouter } from '@modern-js/plugin-router';
 import { ModernConfig, ModulesInfo } from '../typings';
 import {
   generateSubAppContainerKey,
-  JUPITER_SUBMODULE_APP_COMPONENT_KEY,
   SUBMODULE_APP_COMPONENT_KEY,
 } from './constant';
 import { RenderLoading } from './MApp';
@@ -15,7 +14,6 @@ type Provider = {
   render: () => void;
   destroy: () => void;
   [SUBMODULE_APP_COMPONENT_KEY]?: React.ComponentType<any>;
-  [JUPITER_SUBMODULE_APP_COMPONENT_KEY]?: React.ComponentType<any>;
 };
 
 declare module 'garfish' {
@@ -35,6 +33,9 @@ function getAppInstance(
   appInfo: ModulesInfo[number],
   modernMicroConfig: ModernConfig,
 ) {
+  const { manifest = {} } = modernMicroConfig;
+  const { componentKey = '' } = manifest;
+
   const AppComponentMaps: any = {};
   class App extends React.Component<any, any> {
     appInstance: any;
@@ -77,9 +78,9 @@ function getAppInstance(
         },
         // eslint-disable-next-line consistent-return
         customLoader: (provider, nAppInfo) => {
-          const AppComponent =
+          const AppComponent: React.ComponentType<any> =
             (provider as Provider)[SUBMODULE_APP_COMPONENT_KEY] ||
-            (provider as Provider)[JUPITER_SUBMODULE_APP_COMPONENT_KEY];
+            (provider as any)[componentKey];
 
           if (AppComponent && !AppComponentMaps[appInfo.name]) {
             return {

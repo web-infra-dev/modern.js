@@ -129,11 +129,16 @@ export default createPlugin(
       },
       modifyEntryExport({ entrypoint, exportStatement }: any) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const mConfig = useMicrofrontendConfig();
+        const config = useResolvedConfigContext();
+        const masterApp = config?.runtime?.masterApp;
+        const manifest = masterApp?.manifest || {};
+        const { componentKey = 'dynamicComponent' } = manifest;
 
         return {
           entrypoint,
-          exportStatement: mConfig ? makeProvider() : exportStatement,
+          exportStatement: config?.deploy?.microFrontend
+            ? makeProvider(componentKey)
+            : exportStatement,
         };
       },
       addRuntimeExports() {

@@ -10,11 +10,12 @@ export type ModulesInfo = Array<
 export type ModuleInfo = ModulesInfo[number];
 
 export type ModernConfig = {
-  manifest: {
+  manifest?: {
     modules?: ModulesInfo;
+    getAppList?: () => Promise<Array<GarfishInterfaces.AppInfo>>;
+    LoadingComponent?: React.ComponentType | React.ElementType;
+    componentKey?: string;
   };
-  getAppList?: () => Promise<Array<GarfishInterfaces.AppInfo>>;
-  LoadingComponent?: React.ComponentType | React.ElementType;
 };
 
 export type Config = Partial<Options> & ModernConfig;
