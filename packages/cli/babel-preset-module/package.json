@@ -48,7 +48,6 @@
   "devDependencies": {
     "@babel/core": "7.16.7",
     "@types/babel__core": "^7.1.15",
-    "@types/fs-extra": "^9.0.12",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react": "^17",
