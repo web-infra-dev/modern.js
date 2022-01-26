@@ -23,7 +23,9 @@ export interface IDevOption {
   tsconfig: string;
 }
 
-export const dev = async (option: IDevOption) => {
+const existSubCmd = (subCmd: string) => subCmd.length > 0;
+
+export const dev = async (option: IDevOption, subCmd = '') => {
   const { tsconfig: tsconfigName } = option;
   const appContext = core.useAppContext();
   const modernConfig = core.useResolvedConfigContext();
@@ -36,6 +38,15 @@ export const dev = async (option: IDevOption) => {
 
   const isTsProject = tsConfigutils.existTsConfigFile(tsconfigPath);
 
-  // await devFeature.showMenu({ isTsProject, appDirectory });
-  await devFeature.devStorybook({ isTsProject, appDirectory });
+  if (existSubCmd(subCmd)) {
+    await devFeature.runSubCmd(subCmd, { isTsProject, appDirectory });
+    return;
+  }
+
+  // Compatible with the use of jupiter, RUN_PLATFORM is used in jupiter
+  if (process.env.RUN_PLATFORM) {
+    await devFeature.showMenu({ isTsProject, appDirectory });
+  } else {
+    await devFeature.devStorybook({ isTsProject, appDirectory });
+  }
 };
