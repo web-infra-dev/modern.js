@@ -1,4 +1,4 @@
-import { ModuleInfo } from '../typings';
+import { ModuleInfo } from '../useModuleApps';
 
 export const SUBMODULE_APP_COMPONENT_KEY = 'SubModuleComponent';
 

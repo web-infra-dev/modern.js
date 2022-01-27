@@ -3,11 +3,11 @@ import React from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { GarfishProvider } from './utils/Context';
 import setExternal from './utils/setExternal';
-import { Config, ModulesInfo, Options } from './typings';
+import { Config, Manifest, ModulesInfo, Options } from './useModuleApps';
 import { generateMApp } from './utils/MApp';
 import { AppMap, generateApps } from './utils/apps';
 
-async function initOptions(config: Config, options: Options) {
+async function initOptions(manifest: Manifest = {}, options: Options) {
   let modules: ModulesInfo = [];
 
   // get inject modules list
@@ -16,13 +16,13 @@ async function initOptions(config: Config, options: Options) {
   }
 
   // use manifest modules
-  if (config?.manifest?.modules) {
-    modules = config?.manifest?.modules;
+  if (manifest?.modules) {
+    modules = manifest?.modules;
   }
 
   // get module list
-  if (config?.getAppList) {
-    modules = await config?.getAppList();
+  if (manifest?.getAppList) {
+    modules = await manifest?.getAppList();
   }
 
   return {
@@ -33,13 +33,8 @@ async function initOptions(config: Config, options: Options) {
 
 export default ((config: Config) => {
   setExternal();
-  const { manifest, getAppList, LoadingComponent, ...GarfishOptions } = config;
-  const ModernMicroConfig = {
-    manifest,
-    getAppList,
-    LoadingComponent,
-  };
-  const promise = initOptions(config, GarfishOptions);
+  const { manifest = {}, ...GarfishOptions } = config;
+  const promise = initOptions(manifest, GarfishOptions);
 
   return createPlugin(() => ({
     hoc({ App }, next) {
@@ -65,11 +60,8 @@ export default ((config: Config) => {
           super(props);
           const load = async () => {
             const GarfishConfig = await promise;
-            const MApp = generateMApp(GarfishConfig, ModernMicroConfig);
-            const { appInfoList, apps } = generateApps(
-              GarfishConfig,
-              ModernMicroConfig,
-            );
+            const MApp = generateMApp(GarfishConfig, manifest);
+            const { appInfoList, apps } = generateApps(GarfishConfig, manifest);
             this.setState({
               MApp,
               apps,

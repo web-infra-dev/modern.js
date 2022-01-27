@@ -1,5 +1,5 @@
 import React from 'react';
-import { ModulesInfo } from '../typings';
+import { ModulesInfo } from '../useModuleApps';
 
 export interface GarfishContextType {
   MApp: React.FC<any>;

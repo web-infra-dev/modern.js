@@ -84,7 +84,7 @@ export default createPlugin(
             value: '@modern-js/runtime/plugins',
             specifiers: [
               {
-                imported: 'microFrontend',
+                imported: 'masterApp',
               },
             ],
           });
@@ -109,7 +109,7 @@ export default createPlugin(
 
         if (masterAppConfig) {
           plugins.push({
-            name: 'microFrontend',
+            name: 'masterApp',
             options: JSON.stringify(masterAppConfig),
           });
         }
@@ -144,7 +144,7 @@ export default createPlugin(
       addRuntimeExports() {
         const mfPackage = path.resolve(__dirname, '../../../../');
         pluginsExportsUtils.addExport(
-          `export { default as microFrontend } from '${mfPackage}'`,
+          `export { default as masterApp } from '${mfPackage}'`,
         );
 
         runtimeExportsUtils.addExport(`export * from '${mfPackage}'`);

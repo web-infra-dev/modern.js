@@ -3,7 +3,7 @@ import React from 'react';
 // eslint-disable-next-line import/no-named-as-default
 import Garfish from 'garfish';
 import { withRouter } from '@modern-js/plugin-router';
-import { ModernConfig, ModulesInfo } from '../typings';
+import { Manifest, ModulesInfo } from '../useModuleApps';
 import {
   generateSubAppContainerKey,
   SUBMODULE_APP_COMPONENT_KEY,
@@ -29,11 +29,7 @@ export interface AppMap {
   [key: string]: React.ComponentType;
 }
 
-function getAppInstance(
-  appInfo: ModulesInfo[number],
-  modernMicroConfig: ModernConfig,
-) {
-  const { manifest = {} } = modernMicroConfig;
+function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
   const { componentKey = '' } = manifest;
 
   const AppComponentMaps: any = {};
@@ -51,13 +47,6 @@ function getAppInstance(
       domId: generateSubAppContainerKey(appInfo),
       MicroApp: AppComponentMaps[appInfo.name],
     };
-
-    constructor(props: any) {
-      super(props);
-      this.setState({
-        loading: true,
-      });
-    }
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     async UNSAFE_componentWillMount() {
@@ -144,10 +133,16 @@ function getAppInstance(
 
     render() {
       const { MicroApp, domId, loading } = this.state;
+      // eslint-disable-next-line no-console
+      console.log(
+        '开始渲染拉，状态是啥子哦',
+        loading,
+        manifest.LoadingComponent,
+      );
       return (
         <>
           <div id={domId}>
-            {RenderLoading(loading, modernMicroConfig)}
+            {RenderLoading(loading, manifest)}
             {MicroApp && <MicroApp />}
           </div>
         </>
@@ -159,14 +154,14 @@ function getAppInstance(
 
 export function generateApps(
   options: typeof Garfish.options,
-  modernMicroConfig: ModernConfig,
+  manifest: Manifest,
 ): {
   apps: AppMap;
   appInfoList: ModulesInfo;
 } {
   const apps: AppMap = {};
   options.apps?.forEach(appInfo => {
-    const Component = getAppInstance(appInfo, modernMicroConfig);
+    const Component = getAppInstance(appInfo, manifest);
     appInfo.Component = Component;
     apps[appInfo.name] = Component;
   });

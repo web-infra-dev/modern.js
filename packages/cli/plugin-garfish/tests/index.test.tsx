@@ -95,16 +95,18 @@ describe('plugin-garfish', () => {
       activeWhen: '/user-info',
       entry: userInfoPath,
     };
-    const HomeTitle = 'Micro home page';
 
     const microFrontendConfig = {
       apps: [tableListModuleInfo, dashBoardModuleInfo, userInfo],
-      LoadingComponent() {
-        return <div data-testid="loading-id">loading</div>;
+      manifest: {
+        LoadingComponent() {
+          return <div data-testid="loading-id">loading</div>;
+        },
       },
     };
 
     const App = () => {
+      const HomeTitle = 'Micro home page';
       const Home = () => <div data-testid="home-title">{HomeTitle}</div>;
       const {
         Components: { Dashboard, TableList },
@@ -153,6 +155,7 @@ describe('plugin-garfish', () => {
     expect(screen.getByTestId('home-title')).toBeInTheDocument();
     const leftClick = { button: 0 };
     userEvent.click(screen.getByTestId('dashboard-link'), leftClick);
+
     expect(await screen.findByText('loading')).toBeInTheDocument();
     expect(
       await screen.findByText(DASHBOARD_ROOT_NODE.text),

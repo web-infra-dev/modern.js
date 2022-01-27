@@ -1,7 +1,7 @@
 import React from 'react';
 // eslint-disable-next-line import/no-named-as-default
 import Garfish from 'garfish';
-import type { ModulesInfo, ModernConfig } from '../typings';
+import { Manifest, ModulesInfo } from '../useModuleApps';
 import { generateSubAppContainerKey } from './constant';
 
 declare global {
@@ -14,7 +14,7 @@ declare global {
 
 export function RenderLoading(
   isLoading: boolean,
-  { LoadingComponent }: ModernConfig,
+  { LoadingComponent }: Manifest,
 ) {
   if (!isLoading) {
     return null;
@@ -29,7 +29,7 @@ export function RenderLoading(
 
 export function generateMApp(
   options: typeof Garfish.options,
-  { LoadingComponent }: ModernConfig,
+  { LoadingComponent }: Manifest,
 ) {
   return class MApp extends React.Component {
     state: {
