@@ -133,12 +133,6 @@ function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
 
     render() {
       const { MicroApp, domId, loading } = this.state;
-      // eslint-disable-next-line no-console
-      console.log(
-        '开始渲染拉，状态是啥子哦',
-        loading,
-        manifest.LoadingComponent,
-      );
       return (
         <>
           <div id={domId}>
