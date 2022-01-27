@@ -12,146 +12,153 @@ import {
 import type WebpackChain from 'webpack-chain';
 import { makeProvider, makeRenderFunction } from './utils';
 
-const useMicrofrontendConfig = () => {
+const useMicroFrontEndConfig = () => {
   const userConfig = useResolvedConfigContext();
 
   return userConfig?.deploy?.microFrontend;
 };
 
-export default createPlugin(
-  (() => {
-    const configMap = new Map<string, any>();
-    let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils> =
-      {} as any;
+type GetFirstArgumentOfFunction<T> = T extends (
+  first: infer FirstArgument,
+  ...args: any[]
+) => any
+  ? FirstArgument
+  : never;
 
-    let runtimeExportsUtils: ReturnType<typeof createRuntimeExportsUtils> =
-      {} as any;
+export const initializer: GetFirstArgumentOfFunction<
+  typeof createPlugin
+> = () => {
+  const configMap = new Map<string, any>();
+  let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
 
-    return {
-      config() {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useAppContext();
+  let runtimeExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
 
-        pluginsExportsUtils = createRuntimeExportsUtils(
-          config.internalDirectory,
-          'plugins',
-        );
+  return {
+    config() {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const config = useAppContext();
 
-        runtimeExportsUtils = createRuntimeExportsUtils(
-          config.internalDirectory,
-          'index',
-        );
+      pluginsExportsUtils = createRuntimeExportsUtils(
+        config.internalDirectory,
+        'plugins',
+      );
 
-        return {
-          source: {
-            alias: {
-              '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
-            },
+      runtimeExportsUtils = createRuntimeExportsUtils(
+        config.internalDirectory,
+        'index',
+      );
+
+      return {
+        source: {
+          alias: {
+            '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
           },
-          tools: {
-            webpack: (_config: any, { chain }: { chain: WebpackChain }) => {
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const mConfig = useMicrofrontendConfig();
-              chain.output.libraryTarget('umd');
+        },
+        tools: {
+          webpack: (_config: any, { chain }: { chain: WebpackChain }) => {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const mConfig = useMicroFrontEndConfig();
+            chain.output.libraryTarget('umd');
 
-              if (mConfig) {
-                chain.externals({ 'react-dom': 'react-dom', react: 'react' });
-              }
-            },
+            if (mConfig) {
+              chain.externals({ 'react-dom': 'react-dom', react: 'react' });
+            }
           },
-        };
-      },
-      validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-garfish'];
-      },
-      modifyEntryImports({ entrypoint, imports }: any) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useResolvedConfigContext();
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { packageName } = useAppContext();
+        },
+      };
+    },
+    validateSchema() {
+      return PLUGIN_SCHEMAS['@modern-js/plugin-garfish'];
+    },
+    modifyEntryImports({ entrypoint, imports }: any) {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const config = useResolvedConfigContext();
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { packageName } = useAppContext();
 
-        const masterAppConfig = getEntryOptions(
-          entrypoint.entryName,
-          config?.runtime?.masterApp,
-          config.runtimeByEntries,
-          packageName,
-        );
+      const masterAppConfig = getEntryOptions(
+        entrypoint.entryName,
+        config?.runtime?.masterApp,
+        config.runtimeByEntries,
+        packageName,
+      );
 
-        configMap.set(entrypoint.entryName, masterAppConfig);
+      configMap.set(entrypoint.entryName, masterAppConfig);
 
-        if (masterAppConfig) {
-          imports.push({
-            value: '@modern-js/runtime/plugins',
-            specifiers: [
-              {
-                imported: 'masterApp',
-              },
-            ],
-          });
-        }
-
+      if (masterAppConfig) {
         imports.push({
-          value: 'react-dom',
+          value: '@modern-js/runtime/plugins',
           specifiers: [
             {
-              imported: 'unmountComponentAtNode',
-            },
-            {
-              imported: 'createPortal',
+              imported: 'masterApp',
             },
           ],
         });
+      }
 
-        return { imports, entrypoint };
-      },
-      modifyEntryRuntimePlugins({ entrypoint, plugins }: any) {
-        const masterAppConfig = configMap.get(entrypoint.entryName);
+      imports.push({
+        value: 'react-dom',
+        specifiers: [
+          {
+            imported: 'unmountComponentAtNode',
+          },
+          {
+            imported: 'createPortal',
+          },
+        ],
+      });
 
-        if (masterAppConfig) {
-          plugins.push({
-            name: 'masterApp',
-            options: JSON.stringify(masterAppConfig),
-          });
-        }
-      },
-      modifyEntryRenderFunction({ entrypoint, code }: any) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useResolvedConfigContext();
+      return { imports, entrypoint };
+    },
+    modifyEntryRuntimePlugins({ entrypoint, plugins }: any) {
+      const masterAppConfig = configMap.get(entrypoint.entryName);
 
-        if (!config?.deploy?.microFrontend) {
-          return { entrypoint, code };
-        }
+      if (masterAppConfig) {
+        plugins.push({
+          name: 'masterApp',
+          options: JSON.stringify(masterAppConfig),
+        });
+      }
+      return { entrypoint, plugins };
+    },
+    modifyEntryRenderFunction({ entrypoint, code }: any) {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const config = useResolvedConfigContext();
 
-        return {
-          entrypoint,
-          code: makeRenderFunction(code),
-        };
-      },
-      modifyEntryExport({ entrypoint, exportStatement }: any) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useResolvedConfigContext();
-        const masterApp = config?.runtime?.masterApp;
-        const manifest = masterApp?.manifest || {};
-        const { componentKey = 'dynamicComponent' } = manifest;
+      if (!config?.deploy?.microFrontend) {
+        return { entrypoint, code };
+      }
 
-        return {
-          entrypoint,
-          exportStatement: config?.deploy?.microFrontend
-            ? makeProvider(componentKey)
-            : exportStatement,
-        };
-      },
-      addRuntimeExports() {
-        const mfPackage = path.resolve(__dirname, '../../../../');
-        pluginsExportsUtils.addExport(
-          `export { default as masterApp } from '${mfPackage}'`,
-        );
+      return {
+        entrypoint,
+        code: makeRenderFunction(code),
+      };
+    },
+    modifyEntryExport({ entrypoint, exportStatement }: any) {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const config = useResolvedConfigContext();
+      const masterApp = config?.runtime?.masterApp;
+      const manifest = masterApp?.manifest || {};
+      const { componentKey = 'dynamicComponent' } = manifest;
 
-        runtimeExportsUtils.addExport(`export * from '${mfPackage}'`);
-      },
-    };
-  }) as any,
-  {
-    name: '@modern-js/plugin-garfish',
-  },
-) as any;
+      return {
+        entrypoint,
+        exportStatement: config?.deploy?.microFrontend
+          ? makeProvider(componentKey)
+          : exportStatement,
+      };
+    },
+    addRuntimeExports() {
+      const mfPackage = path.resolve(__dirname, '../../../../');
+      pluginsExportsUtils.addExport(
+        `export { default as masterApp } from '${mfPackage}'`,
+      );
+
+      runtimeExportsUtils.addExport(`export * from '${mfPackage}'`);
+    },
+  };
+};
+
+export default createPlugin(initializer, {
+  name: '@modern-js/plugin-garfish',
+});
