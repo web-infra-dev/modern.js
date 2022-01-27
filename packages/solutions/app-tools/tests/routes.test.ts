@@ -17,11 +17,11 @@ jest.mock('@modern-js/utils', () => {
 
 describe('routes', () => {
   test('generateRoutes', async () => {
-    const mockedAppContext = {
+    const mockAppContext = {
       serverRoutes: [],
       distDirectory: './dist',
     };
-    await generateRoutes(mockedAppContext as any);
+    await generateRoutes(mockAppContext as any);
     expect(fs.writeFile).toHaveBeenCalledTimes(1);
   });
 });

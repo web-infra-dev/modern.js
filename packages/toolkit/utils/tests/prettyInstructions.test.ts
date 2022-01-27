@@ -1,6 +1,6 @@
 import { prettyInstructions } from '../src/prettyInstructions';
 
-const mockedNetworkInterfaces = {
+const mockNetworkInterfaces = {
   lo0: [
     {
       address: '127.0.0.1',
@@ -51,7 +51,7 @@ jest.mock('os', () => {
     ...originalModule,
     default: {
       networkInterfaces() {
-        return mockedNetworkInterfaces;
+        return mockNetworkInterfaces;
       },
     },
   };
@@ -70,7 +70,7 @@ jest.mock('chalk', () => ({
 
 describe('prettyInstructions', () => {
   test('basic usage', () => {
-    const mockedAppContext = {
+    const mockAppContext = {
       entrypoints: [
         {
           entryName: 'main',
@@ -99,19 +99,19 @@ describe('prettyInstructions', () => {
       port: 8080,
       existSrc: true,
     };
-    const mockedConfig = {
+    const mockConfig = {
       dev: {
         https: true,
       },
     };
 
-    const message = prettyInstructions(mockedAppContext, mockedConfig);
+    const message = prettyInstructions(mockAppContext, mockConfig);
 
     expect(message).toMatchSnapshot();
   });
 
   test('The src directory does not exist', () => {
-    const mockedAppContext = {
+    const mockAppContext = {
       entrypoints: [],
       serverRoutes: [
         {
@@ -126,13 +126,13 @@ describe('prettyInstructions', () => {
       existSrc: false,
     };
 
-    const mockedConfig = {
+    const mockConfig = {
       dev: {
         https: true,
       },
     };
 
-    const message = prettyInstructions(mockedAppContext, mockedConfig);
+    const message = prettyInstructions(mockAppContext, mockConfig);
 
     expect(message).toMatchSnapshot();
   });

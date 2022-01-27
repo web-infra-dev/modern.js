@@ -83,59 +83,9 @@ export default createPlugin(
       }
 
       const existSrc = await fs.pathExists(appContext.srcDirectory);
-
       await (mountHook() as any).addRuntimeExports();
-      if (existSrc) {
-        const [
-          { getBundleEntry },
-          { getServerRoutes },
-          { generateCode },
-          { getHtmlTemplate },
-        ] = await Promise.all([
-          import('./getBundleEntry'),
-          import('./getServerRoutes'),
-          import('./generateCode'),
-          import('./getHtmlTemplate'),
-        ]);
 
-        const entrypoints = getBundleEntry(appContext, resolvedConfig);
-
-        debug(`entrypoints: %o`, entrypoints);
-
-        const initialRoutes = getServerRoutes(entrypoints, {
-          appContext,
-          config: resolvedConfig,
-        });
-
-        const { routes } = await (mountHook() as any).modifyServerRoutes({
-          routes: initialRoutes,
-        });
-
-        debug(`server routes: %o`, routes);
-
-        AppContext.set({
-          ...appContext,
-          entrypoints,
-          serverRoutes: routes,
-        });
-
-        await generateCode(appContext, resolvedConfig, entrypoints);
-
-        const htmlTemplates = await getHtmlTemplate(entrypoints, {
-          appContext,
-          config: resolvedConfig,
-        });
-
-        debug(`html templates: %o`, htmlTemplates);
-
-        AppContext.set({
-          ...appContext,
-          entrypoints,
-          existSrc,
-          serverRoutes: routes,
-          htmlTemplates,
-        });
-      } else {
+      if (!existSrc) {
         const { routes } = await (mountHook() as any).modifyServerRoutes({
           routes: [],
         });
@@ -147,7 +97,58 @@ export default createPlugin(
           existSrc,
           serverRoutes: routes,
         });
+        return;
       }
+
+      const [
+        { getBundleEntry },
+        { getServerRoutes },
+        { generateCode },
+        { getHtmlTemplate },
+      ] = await Promise.all([
+        import('./getBundleEntry'),
+        import('./getServerRoutes'),
+        import('./generateCode'),
+        import('./getHtmlTemplate'),
+      ]);
+
+      const entrypoints = getBundleEntry(appContext, resolvedConfig);
+
+      debug(`entrypoints: %o`, entrypoints);
+
+      const initialRoutes = getServerRoutes(entrypoints, {
+        appContext,
+        config: resolvedConfig,
+      });
+
+      const { routes } = await (mountHook() as any).modifyServerRoutes({
+        routes: initialRoutes,
+      });
+
+      debug(`server routes: %o`, routes);
+
+      AppContext.set({
+        ...appContext,
+        entrypoints,
+        serverRoutes: routes,
+      });
+
+      await generateCode(appContext, resolvedConfig, entrypoints);
+
+      const htmlTemplates = await getHtmlTemplate(entrypoints, {
+        appContext,
+        config: resolvedConfig,
+      });
+
+      debug(`html templates: %o`, htmlTemplates);
+
+      AppContext.set({
+        ...appContext,
+        entrypoints,
+        existSrc,
+        serverRoutes: routes,
+        htmlTemplates,
+      });
     },
   }),
   { name: '@modern-js/plugin-analyze' },
