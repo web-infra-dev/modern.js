@@ -28,19 +28,34 @@ export const initAppContext = (
     server: any;
   }>,
   configFile: string | false,
-): IAppContext => ({
-  appDirectory,
-  configFile,
-  ip: address.ip(),
-  port: 0,
-  packageName: require(path.resolve(appDirectory, './package.json')).name,
-  srcDirectory: path.resolve(appDirectory, './src'),
-  distDirectory: '',
-  sharedDirectory: path.resolve(appDirectory, './shared'),
-  nodeModulesDirectory: path.resolve(appDirectory, './node_modules'),
-  internalDirectory: path.resolve(appDirectory, './node_modules/.modern-js'),
-  plugins,
-  htmlTemplates: {},
-  serverRoutes: [],
-  entrypoints: [],
-});
+  options?: {
+    srcDir?: string;
+    distDir?: string;
+    sharedDir?: string;
+    internalDir?: string;
+  },
+): IAppContext => {
+  const {
+    srcDir = 'src',
+    distDir = '',
+    sharedDir = 'shared',
+    internalDir = '.modern-js',
+  } = options || {};
+
+  return {
+    appDirectory,
+    configFile,
+    ip: address.ip(),
+    port: 0,
+    packageName: require(path.resolve(appDirectory, './package.json')).name,
+    srcDirectory: path.resolve(appDirectory, srcDir),
+    distDirectory: distDir,
+    sharedDirectory: path.resolve(appDirectory, sharedDir),
+    nodeModulesDirectory: path.resolve(appDirectory, './node_modules'),
+    internalDirectory: path.resolve(appDirectory, internalDir),
+    plugins,
+    htmlTemplates: {},
+    serverRoutes: [],
+    entrypoints: [],
+  };
+};

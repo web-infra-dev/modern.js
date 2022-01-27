@@ -25,4 +25,36 @@ describe('context', () => {
       entrypoints: [],
     });
   });
+
+  it('custom AppContext', () => {
+    const appDirectory = path.resolve(
+      __dirname,
+      './fixtures/load-plugin/user-plugins',
+    );
+
+    const customOptions = {
+      srcDir: 'source',
+      distDir: 'dist',
+      sharedDir: 'myShared',
+      internalDir: 'myInternal',
+    };
+
+    const appContext = initAppContext(appDirectory, [], false, customOptions);
+    expect(appContext).toEqual({
+      appDirectory,
+      configFile: false,
+      ip: expect.any(String),
+      port: 0,
+      packageName: 'user-plugins',
+      srcDirectory: path.resolve(appDirectory, './source'),
+      distDirectory: 'dist',
+      sharedDirectory: path.resolve(appDirectory, './myShared'),
+      nodeModulesDirectory: expect.any(String),
+      internalDirectory: path.resolve(appDirectory, './myInternal'),
+      plugins: [],
+      htmlTemplates: {},
+      serverRoutes: [],
+      entrypoints: [],
+    });
+  });
 });
