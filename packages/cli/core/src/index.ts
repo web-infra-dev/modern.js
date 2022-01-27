@@ -142,6 +142,12 @@ export interface CoreOptions {
     plugins: any,
     config: any,
   ) => { cli: any; cliPath: any; server: any; serverPath: any }[];
+  options?: {
+    srcDir?: string;
+    distDir?: string;
+    sharedDir?: string;
+    internalDir?: string;
+  };
 }
 
 const createCli = () => {
@@ -176,7 +182,12 @@ const createCli = () => {
 
     plugins.forEach(plugin => plugin.cli && manager.usePlugin(plugin.cli));
 
-    const appContext = initAppContext(appDirectory, plugins, loaded.filePath);
+    const appContext = initAppContext(
+      appDirectory,
+      plugins,
+      loaded.filePath,
+      options?.options,
+    );
 
     manager.run(() => {
       ConfigContext.set(loaded.config);
