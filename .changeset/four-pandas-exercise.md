@@ -1,5 +1,7 @@
 ---
 "@modern-js/plugin-garfish": minor
+"@modern-js/utils": minor
+"@modern-js/generator-common": minor
 ---
 
 refactor plugin-garfish:
