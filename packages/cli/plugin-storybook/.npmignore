@@ -38,3 +38,4 @@ output_resource/
 **/*/adapters/**/index.js
 .storybook
 !*.d.ts
+src/

@@ -1,8 +1,8 @@
 # @modern-js/module-tools
 
-## 2.0.0
+## 1.3.0
 
-### Major Changes
+### Minor Changes
 
 - c5973e7a: add dev sub commands
 - 0d9516f3: fix resolve static file and add -p params
