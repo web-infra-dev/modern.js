@@ -14,7 +14,7 @@
   "version": "1.3.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/main.js",
+  "main": "./dist/js/node/node.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "bin": {
@@ -44,7 +44,7 @@
   "devDependencies": {
     "@babel/runtime": "^7",
     "@modern-js/codesmith": "^1.0.8",
-    "@modern-js/codesmith-tools": "^1.0.8",
+    "@modern-js/codesmith-tools": "^1.0.9",
     "@scripts/build": "workspace:*",
     "@modern-js/i18n-cli-language-detector": "workspace:^1.2.0",
     "@modern-js/generator-plugin-plugin": "workspace:^1.1.0",
@@ -69,6 +69,7 @@
   },
   "sideEffects": false,
   "publishConfig": {
+    "main": "./dist/js/node/main.js",
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/types/index.d.ts"
