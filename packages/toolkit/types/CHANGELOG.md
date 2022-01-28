@@ -1,5 +1,14 @@
 # @modern-js/types
 
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- b7c48198: feat: add beforeGenerateRoutes hook
+- Updated dependencies [83166714]
+  - @modern-js/plugin@1.2.1
+
 ## 1.2.0
 
 ### Minor Changes

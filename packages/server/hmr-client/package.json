@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.0",
+  "version": "1.2.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.2.0",
+    "@modern-js/utils": "workspace:^1.2.2",
     "react-error-overlay": "6.0.9",
     "strip-ansi": "^7.0.0",
     "url": "^0.11.0"
