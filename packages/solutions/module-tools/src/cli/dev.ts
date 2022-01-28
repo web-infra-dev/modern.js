@@ -10,7 +10,7 @@ const commands: typeof import('../commands') = Import.lazy(
 
 export const devCli = (program: Command) => {
   program
-    .command('dev')
+    .command('dev [subCmd]')
     .usage('[options]')
     .description(local.i18n.t(local.localeKeys.command.dev.describe))
     .option(
@@ -18,7 +18,7 @@ export const devCli = (program: Command) => {
       local.i18n.t(local.localeKeys.command.build.tsconfig),
       './tsconfig.json',
     )
-    .action(async (params: IDevOption) => {
-      await commands.dev(params);
+    .action(async (subCmd: string, params: IDevOption) => {
+      await commands.dev(params, subCmd);
     });
 };

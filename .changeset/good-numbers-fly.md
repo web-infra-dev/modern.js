@@ -2,4 +2,4 @@
 "@modern-js/core": patch
 ---
 
-export DeployConfig interface
+feat: extend CoreOptions

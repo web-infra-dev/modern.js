@@ -1,5 +1,23 @@
 # @modern-js/module-tools
 
+## 1.3.0
+
+### Minor Changes
+
+- c5973e7a: add dev sub commands
+- 0d9516f3: fix resolve static file and add -p params
+
+### Patch Changes
+
+- c1455cd6: fix module-tools type file
+- Updated dependencies [823809c6]
+- Updated dependencies [4584cc04]
+- Updated dependencies [7c19fd94]
+- Updated dependencies [0d9516f3]
+  - @modern-js/utils@1.2.1
+  - @modern-js/core@1.3.1
+  - @modern-js/babel-preset-module@1.3.0
+
 ## 1.2.0
 
 ### Minor Changes
