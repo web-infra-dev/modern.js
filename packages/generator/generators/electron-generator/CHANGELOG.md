@@ -1,5 +1,11 @@
 # @modern-js/electron-generator
 
+## 1.2.1
+
+### Patch Changes
+
+- e06c7c25: change generator main path on development mode
+
 ## 1.2.0
 
 ### Minor Changes
