@@ -45,7 +45,9 @@ const createImportSpecifier = (specifiers: ImportSpecifier[]): string => {
   }
 };
 
-const createImportStatements = (statements: ImportStatement[]): string => {
+export const createImportStatements = (
+  statements: ImportStatement[],
+): string => {
   // merge import statements with the same value.
   const deDuplicated: ImportStatement[] = [];
 
@@ -108,12 +110,17 @@ export const generateCode = async (
           routes: initialRoutes,
         });
 
+        const { code } = await mountHook().beforeGenerateRoutes({
+          entrypoint,
+          code: templates.fileSystemRoutes({ routes }),
+        });
+
         fs.outputFileSync(
           path.resolve(
             internalDirectory,
             `./${entryName}/${FILE_SYSTEM_ROUTES_FILE_NAME}`,
           ),
-          templates.fileSystemRoutes({ routes }),
+          code,
           'utf8',
         );
       }
