@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { compatRequire } from '@modern-js/utils';
+import { match } from 'path-to-regexp';
 import { NextFunction } from '../../type';
 import { ModernServerContext } from '../../libs/context';
 
@@ -106,4 +107,25 @@ export default (filepath: string) => {
 
   const data = normalizeConfig(mockModule);
   return data;
+};
+
+export const getMatched = (
+  context: ModernServerContext,
+  mockApiList: MockApi[],
+) => {
+  const { path: targetPathname, method: targetMethod } = context;
+
+  const matched = mockApiList.find(mockApi => {
+    const { method, path: pathname } = mockApi;
+    if (method.toLowerCase() === targetMethod.toLowerCase()) {
+      return match(pathname, {
+        encode: encodeURI,
+        decode: decodeURIComponent,
+      })(targetPathname);
+    }
+
+    return false;
+  });
+
+  return matched;
 };
