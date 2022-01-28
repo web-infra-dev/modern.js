@@ -52,7 +52,10 @@ export const initAppContext = (
     distDirectory: distDir,
     sharedDirectory: path.resolve(appDirectory, sharedDir),
     nodeModulesDirectory: path.resolve(appDirectory, './node_modules'),
-    internalDirectory: path.resolve(appDirectory, internalDir),
+    internalDirectory: path.resolve(
+      appDirectory,
+      `./node_modules/${internalDir}`,
+    ),
     plugins,
     htmlTemplates: {},
     serverRoutes: [],
