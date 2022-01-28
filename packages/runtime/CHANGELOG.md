@@ -1,5 +1,15 @@
 # @modern-js/runtime-core
 
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- c74597bd: fix: useLoader initial data
+- Updated dependencies [83166714]
+  - @modern-js/plugin@1.2.1
+  - @modern-js/utils@1.2.2
+
 ## 1.2.0
 
 ### Minor Changes

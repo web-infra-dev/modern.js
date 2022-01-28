@@ -1,5 +1,18 @@
 # @modern-js/plugin-multiprocess
 
+## 1.1.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+- Updated dependencies [b7c48198]
+  - @modern-js/core@1.3.2
+  - @modern-js/types@1.2.1
+  - @modern-js/utils@1.2.2
+
 ## 1.1.0
 
 ### Minor Changes

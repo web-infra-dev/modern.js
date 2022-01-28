@@ -1,5 +1,11 @@
 # @modern-js/1.0.0-rc.19
 
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+
 ## 1.2.0
 
 ### Minor Changes
