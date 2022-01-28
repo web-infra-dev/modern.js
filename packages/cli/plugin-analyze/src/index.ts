@@ -51,6 +51,11 @@ export const htmlPartials = createAsyncWaterfall<{
   partials: HtmlPartials;
 }>();
 
+export const beforeGenerateRoutes = createAsyncWaterfall<{
+  entrypoint: Entrypoint;
+  code: string;
+}>();
+
 registerHook({
   modifyEntryImports,
   modifyEntryExport,
@@ -60,6 +65,7 @@ registerHook({
   modifyServerRoutes,
   htmlPartials,
   addRuntimeExports,
+  beforeGenerateRoutes,
 });
 
 export default createPlugin(
