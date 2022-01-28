@@ -33,6 +33,7 @@ function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
   const { componentKey = '' } = manifest;
 
   const AppComponentMaps: any = {};
+  let locationHref = '';
   class App extends React.Component<any, any> {
     appInstance: any;
 
@@ -95,9 +96,11 @@ function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
                 }
               },
               unmount: () => {
-                this.setState({
-                  MicroApp: null,
-                });
+                if (this._isMounted) {
+                  this.setState({
+                    MicroApp: null,
+                  });
+                }
               },
             };
           }
@@ -122,6 +125,14 @@ function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
       this.setState({
         loading: false,
       });
+
+      // history?.listen(() => {
+      //   if (locationHref !== history.location.pathname) {
+      //     locationHref = history.location.pathname;
+      //     const popStateEvent = new PopStateEvent('popstate');
+      //     dispatchEvent(popStateEvent);
+      //   }
+      // });
     }
 
     componentWillUnmount() {
