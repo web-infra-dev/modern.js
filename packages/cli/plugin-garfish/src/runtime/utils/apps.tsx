@@ -33,7 +33,7 @@ function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
   const { componentKey = '' } = manifest;
 
   const AppComponentMaps: any = {};
-  let locationHref = '';
+  // let locationHref = '';
   class App extends React.Component<any, any> {
     appInstance: any;
 
