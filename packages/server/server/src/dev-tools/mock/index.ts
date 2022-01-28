@@ -1,28 +1,9 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import { match } from 'path-to-regexp';
 import { NextFunction } from '../../type';
 import { ModernServerContext } from '../../libs/context';
 import { AGGRED_DIR } from '../../constants';
-import getMockData, { MockApi } from './getMockData';
-
-const getMatched = (context: ModernServerContext, mockApiList: MockApi[]) => {
-  const { path: targetPathname, method: targetMethod } = context;
-
-  const matched = mockApiList.find(mockApi => {
-    const { method, path: pathname } = mockApi;
-    if (method.toLowerCase() === targetMethod.toLowerCase()) {
-      return match(pathname, {
-        encode: encodeURI,
-        decode: decodeURIComponent,
-      })(targetPathname);
-    }
-
-    return false;
-  });
-
-  return matched;
-};
+import getMockData, { getMatched } from './getMockData';
 
 export const createMockHandler = ({ pwd }: { pwd: string }) => {
   const exts = ['.ts', '.js'];
