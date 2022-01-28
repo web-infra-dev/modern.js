@@ -50,7 +50,10 @@ describe('context', () => {
       distDirectory: 'dist',
       sharedDirectory: path.resolve(appDirectory, './myShared'),
       nodeModulesDirectory: expect.any(String),
-      internalDirectory: path.resolve(appDirectory, './myInternal'),
+      internalDirectory: path.resolve(
+        appDirectory,
+        './node_modules/myInternal',
+      ),
       plugins: [],
       htmlTemplates: {},
       serverRoutes: [],
