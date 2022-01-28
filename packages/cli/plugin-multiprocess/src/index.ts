@@ -6,6 +6,7 @@ import {
   SERVER_DIR,
   SHARED_DIR,
   SERVER_BUNDLE_DIRECTORY,
+  ROUTE_SPEC_FILE,
 } from '@modern-js/utils';
 import { api, ssr, web } from './generate';
 
@@ -36,7 +37,7 @@ export default createPlugin(
       const { distDirectory, plugins } = useAppContext();
       const serverPluginPkgs = plugins.map(p => p.serverPath).filter(Boolean);
 
-      const routeJSON = path.join(distDirectory, 'route.json');
+      const routeJSON = path.join(distDirectory, ROUTE_SPEC_FILE);
       const { routes } = fs.readJSONSync(routeJSON);
 
       let useSSR = false;
