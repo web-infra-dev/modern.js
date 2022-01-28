@@ -1,5 +1,17 @@
 # @modern-js/core
 
+## 1.3.2
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- c3de9882: fix: internalDirectory path
+- 33ff48af: feat: extend CoreOptions
+- Updated dependencies [83166714]
+  - @modern-js/load-config@1.2.1
+  - @modern-js/plugin@1.2.1
+  - @modern-js/utils@1.2.2
+
 ## 1.3.1
 
 ### Patch Changes
