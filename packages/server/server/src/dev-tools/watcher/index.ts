@@ -1,13 +1,14 @@
+import path from 'path';
 import chokidar, { FSWatcher, WatchOptions } from 'chokidar';
 import { DependencyTree } from './dependency-tree';
 import { StatsCache } from './stats-cache';
 
-const getWatchedFiles = (watcher: chokidar.FSWatcher) => {
+export const getWatchedFiles = (watcher: chokidar.FSWatcher) => {
   const watched = watcher.getWatched();
   const files: string[] = [];
   Object.keys(watched).forEach(dir => {
     watched[dir].forEach((fileName: string) => {
-      files.push(`${dir}/${fileName}`);
+      files.push(path.join(dir, fileName));
     });
   });
   return files;
