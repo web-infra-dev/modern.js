@@ -43,6 +43,8 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/utils": "workspace:^1.1.6",
+    "@types/debug": "^4.1.7",
+    "debug": "^4.3.2",
     "garfish": "^1.2.20",
     "hoist-non-react-statics": "^3.3.2"
   },

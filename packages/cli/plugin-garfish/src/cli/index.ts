@@ -10,12 +10,13 @@ import {
   useResolvedConfigContext,
 } from '@modern-js/core';
 import type WebpackChain from 'webpack-chain';
+import { debug } from '../util';
 import { makeProvider, makeRenderFunction } from './utils';
 
 const useMicroFrontEndConfig = () => {
   const userConfig = useResolvedConfigContext();
 
-  return userConfig?.deploy?.microFrontend;
+  return userConfig || {};
 };
 
 type GetFirstArgumentOfFunction<T> = T extends (
@@ -57,11 +58,20 @@ export const initializer: GetFirstArgumentOfFunction<
         tools: {
           webpack: (_config: any, { chain }: { chain: WebpackChain }) => {
             // eslint-disable-next-line react-hooks/rules-of-hooks
-            const mConfig = useMicroFrontEndConfig();
+            const userConfig = useMicroFrontEndConfig();
             chain.output.libraryTarget('umd');
+            debug(
+              'plugin config life ',
+              JSON.stringify({
+                server: userConfig?.server,
+                runtime: userConfig?.runtime,
+                deploy: userConfig?.deploy,
+              }),
+            );
 
-            if (mConfig) {
+            if (userConfig?.deploy?.microFrontend) {
               chain.externals({ 'react-dom': 'react-dom', react: 'react' });
+              debug('plugin config life setExternal', _config);
             }
           },
         },
@@ -115,7 +125,7 @@ export const initializer: GetFirstArgumentOfFunction<
 
       if (masterAppConfig) {
         plugins.push({
-          name: 'masterApp',
+          name: 'garfish',
           options: JSON.stringify(masterAppConfig),
         });
       }
@@ -151,7 +161,7 @@ export const initializer: GetFirstArgumentOfFunction<
     addRuntimeExports() {
       const mfPackage = path.resolve(__dirname, '../../../../');
       pluginsExportsUtils.addExport(
-        `export { default as masterApp } from '${mfPackage}'`,
+        `export { default as garfish } from '${mfPackage}'`,
       );
 
       runtimeExportsUtils.addExport(`export * from '${mfPackage}'`);
