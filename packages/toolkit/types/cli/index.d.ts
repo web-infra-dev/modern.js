@@ -121,4 +121,8 @@ export interface Hooks {
     partials: HtmlPartials;
   }>;
   addRuntimeExports: AsyncWaterfall<void>;
+  beforeGenerateRoutes: AsyncWaterfall<{
+    entrypoint: Entrypoint;
+    code: string;
+  }>;
 }
