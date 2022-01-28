@@ -1,5 +1,12 @@
 # @modern-js/monorepo-generator
 
+## 1.3.2
+
+### Patch Changes
+
+- e06c7c25: change generator main path on development mode
+- e06c7c25: fix: delete jest config template
+
 ## 1.3.1
 
 ### Patch Changes

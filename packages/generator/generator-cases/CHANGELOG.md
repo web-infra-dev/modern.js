@@ -1,5 +1,13 @@
 # @modern-js/generator-cases
 
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/generator-common@1.3.1
+
 ## 1.2.0
 
 ### Minor Changes

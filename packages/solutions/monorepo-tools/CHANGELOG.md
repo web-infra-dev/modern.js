@@ -1,5 +1,20 @@
 # @modern-js/monorepo-tools
 
+## 1.3.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+  - @modern-js/core@1.3.2
+  - @modern-js/i18n-cli-language-detector@1.2.1
+  - @modern-js/plugin-changeset@1.2.1
+  - @modern-js/plugin-i18n@1.2.1
+  - @modern-js/new-action@1.3.1
+  - @modern-js/utils@1.2.2
+
 ## 1.3.0
 
 ### Minor Changes

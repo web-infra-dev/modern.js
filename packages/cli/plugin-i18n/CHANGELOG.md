@@ -1,5 +1,11 @@
 # @modern-js/plugin-i18n
 
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+
 ## 1.2.0
 
 ### Minor Changes

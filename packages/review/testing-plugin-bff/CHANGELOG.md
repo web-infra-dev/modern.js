@@ -1,5 +1,16 @@
 # @modern-js/testing-plugin-bff
 
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/testing@1.3.1
+  - @modern-js/bff-utils@1.2.2
+  - @modern-js/server@1.3.2
+  - @modern-js/utils@1.2.2
+
 ## 1.2.0
 
 ### Minor Changes
