@@ -1,5 +1,28 @@
 # @modern-js/module-tools
 
+## 1.3.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+- Updated dependencies [b7c48198]
+  - @modern-js/babel-preset-module@1.3.1
+  - @modern-js/core@1.3.2
+  - @modern-js/css-config@1.2.1
+  - @modern-js/i18n-cli-language-detector@1.2.1
+  - @modern-js/plugin-analyze@1.2.1
+  - @modern-js/plugin-changeset@1.2.1
+  - @modern-js/plugin-fast-refresh@1.2.1
+  - @modern-js/plugin-i18n@1.2.1
+  - @modern-js/new-action@1.3.1
+  - @modern-js/babel-compiler@1.2.1
+  - @modern-js/style-compiler@1.2.1
+  - @modern-js/module-tools-hooks@1.2.1
+  - @modern-js/utils@1.2.2
+
 ## 1.3.0
 
 ### Minor Changes

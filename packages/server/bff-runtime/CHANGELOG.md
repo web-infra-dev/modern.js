@@ -1,5 +1,13 @@
 # @modern-js/bff-runtime
 
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/server-utils@1.2.1
+
 ## 1.2.0
 
 ### Minor Changes

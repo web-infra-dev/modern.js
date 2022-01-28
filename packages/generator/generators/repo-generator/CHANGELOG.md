@@ -1,5 +1,11 @@
 # @modern-js/repo-generator
 
+## 1.3.1
+
+### Patch Changes
+
+- e06c7c25: change generator main path on development mode
+
 ## 1.3.0
 
 ### Minor Changes
