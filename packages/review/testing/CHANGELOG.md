@@ -1,5 +1,16 @@
 # @modern-js/testing
 
+## 1.3.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/babel-preset-app@1.2.1
+  - @modern-js/webpack@1.2.1
+  - @modern-js/plugin@1.2.1
+  - @modern-js/utils@1.2.2
+
 ## 1.3.0
 
 ### Minor Changes
