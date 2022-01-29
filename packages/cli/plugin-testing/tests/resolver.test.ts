@@ -25,8 +25,6 @@ describe('plugin-testing', () => {
     );
     expect(
       resolver('@modern-js/runtime/module', { basedir: __dirname }),
-    ).toContain(
-      'packages/cli/plugin-testing/tests/node_modules/@modern-js/runtime/module/index.js',
-    );
+    ).toContain('module');
   });
 });
