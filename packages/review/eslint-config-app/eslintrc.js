@@ -995,7 +995,7 @@ module.exports = {
         singleQuote: true,
         trailingComma: 'all',
         bracketSpacing: true,
-        jsxBracketSameLine: true,
+        bracketSameLine: true,
         arrowParens: 'avoid',
         endOfLine: 'auto',
       },
