@@ -1,5 +1,14 @@
 # @modern-js/plugin-testing
 
+## 1.3.2
+
+### Patch Changes
+
+- b57ded28: fix testing resolver
+- 1b22634e: fix: plugin testing types
+- Updated dependencies [7dc5aa75]
+  - @modern-js/webpack@1.2.2
+
 ## 1.3.1
 
 ### Patch Changes
