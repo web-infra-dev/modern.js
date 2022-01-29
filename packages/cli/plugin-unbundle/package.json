@@ -92,7 +92,6 @@
     "strip-ansi": "^6.0.0",
     "strip-comments": "^2.0.1",
     "stylus": "^0.54.8",
-    "tailwindcss": "^2.0.4",
     "tsconfig-paths": "^3.9.0",
     "ws": "^7.4.3"
   },
