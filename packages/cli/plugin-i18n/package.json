@@ -52,6 +52,15 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/types/index.d.ts"
+    "types": "./dist/types/index.d.ts",
+    "exports": {
+      ".": {
+        "node": {
+          "import": "./dist/js/modern/index.js",
+          "require": "./dist/js/node/index.js"
+        },
+        "default": "./dist/js/treeshaking/index.js"
+      }
+    }
   }
 }
