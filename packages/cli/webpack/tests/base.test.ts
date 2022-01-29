@@ -1,5 +1,7 @@
 import path from 'path';
 import { BaseWebpackConfig } from '../src/config/base';
+import { JS_REGEX, TS_REGEX } from '../src/utils/constants';
+import { mergeRegex } from '../src/utils/mergeRegex';
 import { userConfig } from './util';
 
 describe('base webpack config', () => {
@@ -17,9 +19,11 @@ describe('base webpack config', () => {
     ],
   };
   test(`default webpack config`, () => {
+    userConfig.source.include = ['query-string'];
+
     const config = new BaseWebpackConfig(
       appContext as any,
-      userConfig,
+      userConfig as any,
     ).config();
 
     // todo fix
@@ -36,5 +40,16 @@ describe('base webpack config', () => {
     expect(config.optimization?.splitChunks).toEqual({ chunks: 'all' });
 
     expect(config.cache).toHaveProperty('type', 'filesystem');
+
+    expect(config.module.rules).toContainEqual(
+      expect.objectContaining({
+        oneOf: expect.arrayContaining([
+          expect.objectContaining({
+            include: expect.arrayContaining([expect.any(Function)]),
+            test: mergeRegex(JS_REGEX, TS_REGEX),
+          }),
+        ]),
+      }),
+    );
   });
 });
