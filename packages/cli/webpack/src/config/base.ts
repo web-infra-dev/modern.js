@@ -283,10 +283,13 @@ class BaseWebpackConfig {
 
     const includes = getSourceIncludes(this.appDirectory, this.options);
 
-    for (const include of includes) {
-      loaders.oneOf('js').include.add(include);
-      loaders.oneOfs.has('ts') && loaders.oneOf('ts').include.add(include);
+    if (includes.length > 0) {
+      const includeRegex = mergeRegex(...includes);
+      const testResource = (resource: string) => includeRegex.test(resource);
+      loaders.oneOf('js').include.add(testResource);
+      loaders.oneOfs.has('ts') && loaders.oneOf('ts').include.add(testResource);
     }
+
     const disableCssModuleExtension =
       this.options.output?.disableCssModuleExtension ?? false;
     // css
