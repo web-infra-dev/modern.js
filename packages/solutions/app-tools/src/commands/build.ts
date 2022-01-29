@@ -25,6 +25,7 @@ interface CliOptions {
   analyze?: boolean;
 }
 
+// eslint-disable-next-line max-statements
 export const build = async (options?: CliOptions) => {
   const webpackBuild = async (webpackConfig: Configuration, type?: string) => {
     const compiler = webpack(webpackConfig);
@@ -123,6 +124,8 @@ export const build = async (options?: CliOptions) => {
       await webpackBuild(config, buildType);
     } catch (error) {
       printBuildError(error as Error);
+      // eslint-disable-next-line no-process-exit
+      process.exit(1);
     }
   }
   await (mountHook() as any).afterBuild();
