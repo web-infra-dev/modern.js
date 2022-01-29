@@ -1,9 +1,10 @@
 import path from 'path';
 import React from 'react';
 // eslint-disable-next-line import/no-named-as-default
-import Garfish from 'garfish';
+import Garfish, { interfaces as garfishInterfaces } from 'garfish';
 import { withRouter } from '@modern-js/plugin-router';
 import { Manifest, ModulesInfo } from '../useModuleApps';
+import { logger } from '../../util';
 import {
   generateSubAppContainerKey,
   SUBMODULE_APP_COMPONENT_KEY,
@@ -58,7 +59,8 @@ function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
       const { history, location, match, staticContext, ...userProps } =
         this.props;
       const { options } = Garfish;
-      const app = await Garfish.loadApp(appInfo.name, {
+
+      const loadAppOptions: Omit<garfishInterfaces.AppInfo, 'name'> = {
         ...appInfo,
         domGetter: `#${domId}`,
         basename: path.join(
@@ -76,10 +78,19 @@ function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
           const AppComponent: React.ComponentType<any> =
             (provider as Provider)[SUBMODULE_APP_COMPONENT_KEY] ||
             (provider as any)[componentKey];
+          logger(`MicroApp customLoader "${nAppInfo.name}"`, {
+            AppComponent,
+            provider,
+          });
 
-          if (AppComponent && !AppComponentMaps[appInfo.name]) {
+          if (AppComponent && !AppComponentMaps[nAppInfo.name]) {
             return {
               mount: () => {
+                logger(`MicroApp customLoader mount "${nAppInfo.name}"`, {
+                  AppComponent,
+                  provider,
+                  _isMounted: this._isMounted,
+                });
                 // in the unmount state can't change state
                 if (this._isMounted) {
                   const nAppComponent = () => (
@@ -96,6 +107,9 @@ function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
                 }
               },
               unmount: () => {
+                logger(`MicroApp destroy "${nAppInfo.name}"`, {
+                  _isMounted: this._isMounted,
+                });
                 if (this._isMounted) {
                   this.setState({
                     MicroApp: null,
@@ -105,6 +119,20 @@ function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
             };
           }
         },
+      };
+
+      logger(`MicroApp componentWillMount "${appInfo.name}"`, {
+        domId,
+        appInfo,
+        options,
+        loadAppOptions,
+        location,
+      });
+
+      const app = await Garfish.loadApp(appInfo.name, loadAppOptions);
+
+      logger(`MicroApp Garfish.loadApp "${appInfo.name}" result`, {
+        appInstance: app,
       });
 
       if (!app) {
@@ -118,8 +146,10 @@ function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
       this.appInstance = app;
 
       if (app?.mounted) {
+        logger(`MicroApp Garfish.loadApp "${appInfo.name}" show`);
         await app?.show();
       } else {
+        logger(`MicroApp Garfish.loadApp "${appInfo.name}" mount`);
         await app?.mount();
       }
       this.setState({
@@ -137,6 +167,9 @@ function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
 
     componentWillUnmount() {
       this._isMounted = false;
+      logger(`MicroApp componentWillUnmount "${appInfo.name}" hide`, {
+        appInstance: this.appInstance,
+      });
       if (this.appInstance) {
         this.appInstance.hide();
       }
@@ -144,6 +177,13 @@ function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
 
     render() {
       const { MicroApp, domId, loading } = this.state;
+      logger(`MicroApp component render "${appInfo.name}"`, {
+        MicroApp,
+        domId,
+        loading,
+        appInfo,
+      });
+
       return (
         <>
           <div id={domId}>

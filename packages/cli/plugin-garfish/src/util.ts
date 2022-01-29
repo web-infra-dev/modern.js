@@ -1,3 +1,3 @@
 import createDebug from 'debug';
 
-export const debug = createDebug('modern-js:plugin-garfish');
+export const logger = createDebug('modern-js:plugin-garfish');

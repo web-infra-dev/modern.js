@@ -1,6 +1,7 @@
 import { createPlugin } from '@modern-js/runtime-core';
 import React from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import { logger } from '../util';
 import { GarfishProvider } from './utils/Context';
 import setExternal from './utils/setExternal';
 import { Config, Manifest, ModulesInfo, Options } from './useModuleApps';
@@ -8,33 +9,38 @@ import { generateMApp } from './utils/MApp';
 import { AppMap, generateApps } from './utils/apps';
 
 async function initOptions(manifest: Manifest = {}, options: Options) {
-  let modules: ModulesInfo = [];
-
-  // get inject modules list
-  if (window?.modern_manifest?.modules) {
-    modules = window?.modern_manifest?.modules;
-  }
+  let apps: ModulesInfo = [];
 
   // use manifest modules
   if (manifest?.modules) {
-    modules = manifest?.modules;
+    apps = manifest?.modules;
+    logger('manifest modules', apps);
   }
 
   // get module list
   if (manifest?.getAppList) {
-    modules = await manifest?.getAppList();
+    apps = await manifest?.getAppList();
+    logger('getAppList modules', apps);
+  }
+
+  // get inject modules list
+  if (window?.modern_manifest?.modules) {
+    apps = window?.modern_manifest?.modules;
+    logger('modern_manifest', apps);
   }
 
   return {
-    apps: modules,
+    apps,
     ...options,
   };
 }
 
 export default ((config: Config) => {
   setExternal();
-  const { manifest = {}, ...GarfishOptions } = config;
-  const promise = initOptions(manifest, GarfishOptions);
+  const { manifest = {}, ...options } = config;
+  logger('createPlugin', { config });
+
+  const promise = initOptions(manifest, options);
 
   return createPlugin(() => ({
     hoc({ App }, next) {
@@ -44,11 +50,15 @@ export default ((config: Config) => {
           apps: AppMap;
           appInfoList: ModulesInfo;
         } = {
-          MApp: () => React.createElement('div'),
+          MApp: () => {
+            logger('MApp init Component Render');
+            return React.createElement('div');
+          },
           apps: new Proxy(
             {},
             {
               get(_target, _p) {
+                logger('apps init Component Render', _p);
                 return () => React.createElement('div');
               },
             },
@@ -60,8 +70,10 @@ export default ((config: Config) => {
           super(props);
           const load = async () => {
             const GarfishConfig = await promise;
+            logger('initOptions result', { manifest, GarfishConfig });
             const MApp = generateMApp(GarfishConfig, manifest);
             const { appInfoList, apps } = generateApps(GarfishConfig, manifest);
+            logger('generateApps', { MApp, apps, appInfoList });
             this.setState({
               MApp,
               apps,
@@ -72,6 +84,7 @@ export default ((config: Config) => {
         }
 
         render() {
+          logger('GarfishProvider state', this.state);
           return (
             <GarfishProvider value={this.state}>
               <App {...this.props} {...this.state} />

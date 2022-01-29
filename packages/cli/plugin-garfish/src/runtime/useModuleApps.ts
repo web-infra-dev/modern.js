@@ -1,5 +1,6 @@
 import garfish, { interfaces as GarfishInterfaces } from 'garfish';
 import { useContext } from 'react';
+import { logger } from '../util';
 import { GarfishContext } from './utils/Context';
 
 export type Options = typeof garfish.options;
@@ -24,18 +25,19 @@ export type Config = Partial<Options> & ModernGarfishConfig;
 
 export function useModuleApps() {
   const { apps } = useContext(GarfishContext);
-
+  logger('call useModuleApps', apps);
   return apps;
 }
 
 export function useModuleApp() {
   const { MApp } = useContext(GarfishContext);
-
+  logger('call useModuleApps', MApp);
   return MApp;
 }
 
 export function useLegacyModuleApps() {
   const { MApp, appInfoList, apps } = useContext(GarfishContext);
+  logger('call useLegacyModuleApps', { MApp, appInfoList, apps });
   return {
     MApp,
     apps: appInfoList,

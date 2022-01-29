@@ -2,6 +2,7 @@ import React from 'react';
 // eslint-disable-next-line import/no-named-as-default
 import Garfish from 'garfish';
 import { Manifest, ModulesInfo } from '../useModuleApps';
+import { logger } from '../../util';
 import { generateSubAppContainerKey } from './constant';
 
 declare global {
@@ -44,6 +45,15 @@ export function generateMApp(
       const { domId } = this.state;
       // start auto render able
       Garfish.router.setRouterConfig({ listening: true });
+      const garfishOptions = {
+        domGetter: `#${domId}`,
+        ...options,
+      };
+      logger('MApp componentDidMount', {
+        garfishRunning: Garfish.running,
+        garfishOptions,
+      });
+
       if (!Garfish.running) {
         // Garfish.usePlugin(() => ({
         //   name: 'ModernLifeCycle',
@@ -58,10 +68,7 @@ export function generateMApp(
         //     // });
         //   },
         // }));
-        Garfish.run({
-          domGetter: `#${domId}`,
-          ...options,
-        });
+        Garfish.run(garfishOptions);
       }
     }
 
@@ -71,10 +78,12 @@ export function generateMApp(
       this.setState({
         loading: false,
       });
+      logger('MApp componentWillUnmount');
     }
 
     render() {
       const { loading } = this.state;
+      logger('MApp render status', { loading, LoadingComponent });
       return (
         <>
           <div id={generateSubAppContainerKey()}>

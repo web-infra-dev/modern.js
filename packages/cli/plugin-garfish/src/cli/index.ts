@@ -60,22 +60,27 @@ export const initializer: GetFirstArgumentOfFunction<
             // eslint-disable-next-line react-hooks/rules-of-hooks
             const userConfig = useMicroFrontEndConfig();
             chain.output.libraryTarget('umd');
-            debug(
-              'plugin config life ',
-              JSON.stringify({
-                server: userConfig?.server,
-                runtime: userConfig?.runtime,
-                deploy: userConfig?.deploy,
-              }),
-            );
+            debug('useConfig', {
+              server: userConfig?.server,
+              runtime: userConfig?.runtime,
+              deploy: userConfig?.deploy,
+            });
 
             if (userConfig?.deploy?.microFrontend) {
               chain.externals({ 'react-dom': 'react-dom', react: 'react' });
-              debug('plugin config life setExternal', _config);
+              debug('externals', chain.toConfig().externals);
             }
           },
         },
       };
+    },
+    addRuntimeExports() {
+      const mfPackage = path.resolve(__dirname, '../../../../');
+      const addExportStatement = `export { default as garfish } from '${mfPackage}'`;
+      debug('exportStatement', addExportStatement);
+      pluginsExportsUtils.addExport(addExportStatement);
+
+      runtimeExportsUtils.addExport(`export * from '${mfPackage}'`);
     },
     validateSchema() {
       return PLUGIN_SCHEMAS['@modern-js/plugin-garfish'];
@@ -100,7 +105,7 @@ export const initializer: GetFirstArgumentOfFunction<
           value: '@modern-js/runtime/plugins',
           specifiers: [
             {
-              imported: 'masterApp',
+              imported: 'garfish',
             },
           ],
         });
@@ -124,8 +129,11 @@ export const initializer: GetFirstArgumentOfFunction<
       const masterAppConfig = configMap.get(entrypoint.entryName);
 
       if (masterAppConfig) {
+        debug('garfishPlugin options', masterAppConfig);
+
         plugins.push({
           name: 'garfish',
+          args: 'masterApp',
           options: JSON.stringify(masterAppConfig),
         });
       }
@@ -138,10 +146,11 @@ export const initializer: GetFirstArgumentOfFunction<
       if (!config?.deploy?.microFrontend) {
         return { entrypoint, code };
       }
-
+      const nCode = makeRenderFunction(code);
+      debug('makeRenderFunction', nCode);
       return {
         entrypoint,
-        code: makeRenderFunction(code),
+        code: nCode,
       };
     },
     modifyEntryExport({ entrypoint, exportStatement }: any) {
@@ -151,20 +160,14 @@ export const initializer: GetFirstArgumentOfFunction<
       const manifest = masterApp?.manifest || {};
       const { componentKey = 'dynamicComponent' } = manifest;
 
+      const exportStatementCode = makeProvider(componentKey);
+      debug('exportStatement', exportStatementCode);
       return {
         entrypoint,
         exportStatement: config?.deploy?.microFrontend
-          ? makeProvider(componentKey)
+          ? exportStatementCode
           : exportStatement,
       };
-    },
-    addRuntimeExports() {
-      const mfPackage = path.resolve(__dirname, '../../../../');
-      pluginsExportsUtils.addExport(
-        `export { default as garfish } from '${mfPackage}'`,
-      );
-
-      runtimeExportsUtils.addExport(`export * from '${mfPackage}'`);
     },
   };
 };
