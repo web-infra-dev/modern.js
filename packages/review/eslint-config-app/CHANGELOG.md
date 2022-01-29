@@ -1,5 +1,11 @@
 # @modern-js-app/eslint-config
 
+## 1.2.1
+
+### Patch Changes
+
+- 294c4dbf: feat: upgrade prettier version
+
 ## 1.2.0
 
 ### Minor Changes
