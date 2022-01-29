@@ -37,7 +37,11 @@ export function useModuleApp() {
 
 export function useLegacyModuleApps() {
   const { MApp, appInfoList, apps } = useContext(GarfishContext);
-  logger('call useLegacyModuleApps', { MApp, appInfoList, apps });
+  logger('call useLegacyModuleApps', {
+    MApp,
+    apps: appInfoList,
+    Components: apps,
+  });
   return {
     MApp,
     apps: appInfoList,
