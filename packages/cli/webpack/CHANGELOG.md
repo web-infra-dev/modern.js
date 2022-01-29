@@ -1,5 +1,11 @@
 # @modern-js/webpack
 
+## 1.2.2
+
+### Patch Changes
+
+- 7dc5aa75: fix: source.include supports regexp
+
 ## 1.2.1
 
 ### Patch Changes
