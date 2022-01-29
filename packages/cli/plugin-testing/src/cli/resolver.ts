@@ -11,6 +11,5 @@ module.exports = function (request: string, options: any) {
   if (shouldResolveByEnhance(request)) {
     return resolver(options.basedir, request);
   }
-
   return options.defaultResolver(request, options);
 };
