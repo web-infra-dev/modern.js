@@ -38,7 +38,7 @@ if (
 } else {
   // eslint-disable-next-line no-console
   console.log(
-    `The built directory The build content has not been modified and does not need to be rebuilt`,
+    `The build directory has not been modified and does not need to be rebuilt`,
   );
   // IGNORE 如果目录源码的修改时间小于等于 dist 的时间跳过重新构建节省时间
 }
