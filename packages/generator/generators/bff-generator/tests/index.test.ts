@@ -10,7 +10,7 @@ import {
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import generator, { handleTemplateFile } from '../src';
 
-jest.setTimeout(30000);
+jest.setTimeout(40000);
 
 describe('bff-generator', () => {
   it('default', () => {
@@ -27,7 +27,6 @@ describe('run bff generator', () => {
       { name: 'mwa-bff' },
       'utf-8',
     );
-    fs.writeJSONSync(path.join(projectDir, 'tsconfig.json'), {}, 'utf-8');
   });
   afterEach(() => {
     const projectDir = path.join(os.tmpdir(), 'modern-js-test', 'mwa-bff');
@@ -53,6 +52,7 @@ describe('run bff generator', () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
   ) => {};
   it('new nest funtion bff', async () => {
+    fs.writeJSONSync(path.join(projectDir, 'tsconfig.json'), {}, 'utf-8');
     mockGeneratorCore._context.config = {
       bffType: 'func',
       framework: 'nest',
@@ -70,5 +70,39 @@ describe('run bff generator', () => {
     expect(typeof pkg.dependencies['@nestjs/core']).toBe('string');
     expect(typeof pkg.dependencies['@nestjs/common']).toBe('string');
     expect(typeof pkg.devDependencies['@types/express']).toBe('string');
+  });
+  it('new nest funtion bff in js project', async () => {
+    mockGeneratorCore._context.config = {
+      bffType: 'func',
+      framework: 'nest',
+      noNeedInstall: true,
+    };
+    try {
+      await handleTemplateFile(
+        mockGeneratorCore._context,
+        mockGeneratorCore,
+        appApi,
+      );
+    } catch (e: any) {
+      expect(e.message).toBe('nest not support js project');
+    }
+  });
+  it('new bff when api dir already exist', async () => {
+    fs.ensureDirSync(path.join(projectDir, 'api'));
+    fs.writeFileSync(path.join(projectDir, 'api', 'index.ts'), '', 'utf-8');
+    mockGeneratorCore._context.config = {
+      bffType: 'func',
+      framework: 'nest',
+      noNeedInstall: true,
+    };
+    try {
+      await handleTemplateFile(
+        mockGeneratorCore._context,
+        mockGeneratorCore,
+        appApi,
+      );
+    } catch (e: any) {
+      expect(e.message).toBe("'api' is already exist");
+    }
   });
 });
