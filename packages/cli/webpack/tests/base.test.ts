@@ -52,4 +52,26 @@ describe('base webpack config', () => {
       }),
     );
   });
+  test('ts-loader webpack config', () => {
+    userConfig.source.include = ['query-string'];
+
+    const config = new BaseWebpackConfig(appContext as any, {
+      ...(userConfig as any),
+      output: {
+        ...userConfig.output,
+        enableTsLoader: true,
+      },
+    }).config();
+
+    expect(config.module.rules).toContainEqual(
+      expect.objectContaining({
+        oneOf: expect.arrayContaining([
+          expect.objectContaining({
+            include: expect.arrayContaining([expect.any(Function)]),
+            test: TS_REGEX,
+          }),
+        ]),
+      }),
+    );
+  });
 });
