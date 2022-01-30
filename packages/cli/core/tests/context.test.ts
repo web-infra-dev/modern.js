@@ -18,6 +18,7 @@ describe('context', () => {
       distDirectory: expect.any(String),
       sharedDirectory: expect.any(String),
       nodeModulesDirectory: expect.any(String),
+      internalDir: expect.any(String),
       internalDirectory: expect.any(String),
       plugins: [],
       htmlTemplates: {},
@@ -50,6 +51,7 @@ describe('context', () => {
       distDirectory: 'dist',
       sharedDirectory: path.resolve(appDirectory, './myShared'),
       nodeModulesDirectory: expect.any(String),
+      internalDir: 'myInternal',
       internalDirectory: path.resolve(
         appDirectory,
         './node_modules/myInternal',

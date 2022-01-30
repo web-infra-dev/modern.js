@@ -53,6 +53,7 @@ export interface IAppContext {
   srcDirectory: string;
   sharedDirectory: string;
   nodeModulesDirectory: string;
+  internalDir: string;
   internalDirectory: string;
   plugins: {
     cli?: any;

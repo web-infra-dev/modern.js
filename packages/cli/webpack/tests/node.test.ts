@@ -5,6 +5,7 @@ import { userConfig } from './util';
 describe('node webpack config', () => {
   const fixtures = path.resolve(__dirname, './fixtures');
   const appContext = {
+    internalDir: '.modern-js',
     internalDirectory: '/node_modules/.modern-js',
     srcDirectory: '/src',
     sharedDirectory: './shared',
@@ -19,7 +20,7 @@ describe('node webpack config', () => {
   test(`webpack config target should be node`, () => {
     const config = new NodeWebpackConfig(
       appContext as any,
-      userConfig,
+      userConfig as any,
     ).config();
 
     expect(config.target).toEqual('node');
