@@ -15,7 +15,7 @@ export class LoggerMiddleware implements NestMiddleware {
   }
 }
 
-@Module()
+@Module({})
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('*');

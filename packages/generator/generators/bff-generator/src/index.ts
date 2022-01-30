@@ -86,6 +86,9 @@ const handleTemplateFile = async (
       updateInfo['dependencies.express'] = `^${await getPackageVersion(
         'express',
       )}`;
+      updateInfo[
+        'devDependencies.@types/express'
+      ] = `^${await getPackageVersion('@types/express')}`;
     }
   } else {
     updateInfo = {
