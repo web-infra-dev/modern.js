@@ -5,7 +5,7 @@ import { JsonAPI } from '@modern-js/codesmith-api-json';
 import { i18n } from '@modern-js/generator-common';
 import { fs } from '@modern-js/generator-utils';
 
-const handleTemplateFile = async (
+export const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
 ) => {
@@ -16,6 +16,7 @@ const handleTemplateFile = async (
     peerDependencies,
     appendTypeContent,
     sourceTypeFile,
+    projectPath,
   } = context.config;
 
   const setJSON: Record<string, Record<string, string>> = {};
@@ -29,15 +30,21 @@ const handleTemplateFile = async (
     setJSON[`peerDependencies.${key}`] = peerDependencies[key];
   });
   if (Object.keys(setJSON).length > 0) {
-    await jsonAPI.update(context.materials.default.get(`package.json`), {
-      query: {},
-      update: { $set: setJSON },
-    });
+    await jsonAPI.update(
+      context.materials.default.get(
+        path.join(projectPath || '', 'package.json'),
+      ),
+      {
+        query: {},
+        update: { $set: setJSON },
+      },
+    );
   }
   if (appendTypeContent) {
     const appDir = context.materials.default.basePath;
     const typePath = path.join(
       appDir,
+      projectPath || '',
       'src',
       sourceTypeFile || 'modern-app-env.d.ts',
     );
