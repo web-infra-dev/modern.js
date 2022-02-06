@@ -155,8 +155,7 @@ describe('plugin-garfish', () => {
     expect(screen.getByTestId('home-title')).toBeInTheDocument();
     const leftClick = { button: 0 };
     userEvent.click(screen.getByTestId('dashboard-link'), leftClick);
-
-    expect(await screen.findByText('loading')).toBeInTheDocument();
+    // expect(await screen.findByText('loading')).toBeInTheDocument();
     expect(
       await screen.findByText(DASHBOARD_ROOT_NODE.text),
     ).toBeInTheDocument();
@@ -167,7 +166,7 @@ describe('plugin-garfish', () => {
     userEvent.click(screen.getByTestId('table-list-link'), leftClick);
     expect(screen.queryByText(DASHBOARD_ROOT_NODE.text)).toBeNull();
     expect(screen.queryByText(DASHBOARD_ESCAPE_NODE.text)).toBeNull();
-    expect(await screen.findByText('loading')).toBeInTheDocument();
+    // expect(await screen.findByText('loading')).toBeInTheDocument();
     expect(
       await screen.findByText(TABLE_LIST_ROOT_NODE.text),
     ).toBeInTheDocument();
