@@ -31,7 +31,8 @@ function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
       domId: generateSubAppContainerKey(appInfo),
     };
 
-    async componentWillMount() {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    async UNSAFE_componentWillMount() {
       const { match, history, setLoadingState, ...userProps } = this.props;
       const { domId } = this.state;
       const { options } = Garfish;

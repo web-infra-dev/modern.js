@@ -42,6 +42,7 @@ export function generateMApp(
       const garfishOptions: typeof Garfish.options = {
         domGetter: `#${domId}`,
         beforeLoad(...args) {
+          // logger('MApp beforeLoad', args);
           setLoadingState({
             isLoading: true,
             error: null,
@@ -49,24 +50,28 @@ export function generateMApp(
           return beforeLoad?.(...args);
         },
         beforeMount(...args) {
+          // logger('MApp beforeMount', args);
           setLoadingState({
             isLoading: false,
           });
           return beforeMount?.(...args);
         },
         errorLoadApp(error, ...args) {
+          // logger('MApp errorLoadApp', args);
           setLoadingState({
             error,
           });
           return errorLoadApp?.(error, ...args);
         },
         errorMountApp(error, ...args) {
+          // logger('MApp errorMountApp', args);
           setLoadingState({
             error,
           });
           return errorMountApp?.(error, ...args);
         },
         errorUnmountApp(error, ...args) {
+          // logger('MApp errorUnmountApp', args);
           setLoadingState({
             error,
           });

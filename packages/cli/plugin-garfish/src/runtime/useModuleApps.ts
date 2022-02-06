@@ -19,6 +19,7 @@ export type Manifest = {
 };
 
 export type ModernGarfishConfig = {
+  LoadingComponent?: LoadingComponent;
   manifest?: Manifest;
 };
 

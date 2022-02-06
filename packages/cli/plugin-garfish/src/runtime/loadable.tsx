@@ -50,11 +50,13 @@ export function Loadable(WrapComponent: any) {
 
       constructor(props: { loadingConfig: LoadingConfig }) {
         super(props);
+
         const {
           LoadingComponent = defaultLoadingComponent,
           timeout = 10000,
           delay = 200,
-        } = props.loadingConfig;
+        } = props.loadingConfig || {};
+
         // eslint-disable-next-line react/state-in-constructor
         this.state = {
           LoadingComponent,
@@ -67,7 +69,8 @@ export function Loadable(WrapComponent: any) {
         };
       }
 
-      componentWillMount() {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      UNSAFE_componentWillMount() {
         const { delay, timeout } = this.state;
         if (typeof delay === 'number') {
           if (delay === 0) {
@@ -126,7 +129,7 @@ export function Loadable(WrapComponent: any) {
 
         return (
           <>
-            {showLoading && (
+            {showLoading && LoadingComponent && (
               <LoadingComponent
                 isLoading={isLoading}
                 pastDelay={pastDelay}

@@ -37,8 +37,11 @@ async function initOptions(manifest: Manifest = {}, options: Options) {
 
 export default ((config: Config) => {
   setExternal();
-  const { manifest = {}, ...options } = config;
+  const { manifest = {}, LoadingComponent, ...options } = config;
   logger('createPlugin', { config });
+  if (!manifest.LoadingComponent && LoadingComponent) {
+    manifest.LoadingComponent = LoadingComponent;
+  }
 
   const promise = initOptions(manifest, options);
 
