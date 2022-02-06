@@ -2,8 +2,8 @@ import React from 'react';
 // eslint-disable-next-line import/no-named-as-default
 import Garfish from 'garfish';
 import { Manifest, ModulesInfo } from '../useModuleApps';
-import { logger } from '../../util';
-import { generateSubAppContainerKey } from './constant';
+import { logger, generateSubAppContainerKey } from '../../util';
+import { Loadable, MicroProps } from '../loadable';
 
 declare global {
   interface Window {
@@ -13,61 +13,74 @@ declare global {
   }
 }
 
-export function RenderLoading(
-  isLoading: boolean,
-  { LoadingComponent }: Manifest,
-) {
-  if (!isLoading) {
-    return null;
-  }
-
-  if (typeof LoadingComponent === 'function') {
-    return <LoadingComponent />;
-  }
-
-  return LoadingComponent;
-}
-
 export function generateMApp(
   options: typeof Garfish.options,
   { LoadingComponent }: Manifest,
 ) {
-  return class MApp extends React.Component {
+  class MApp extends React.Component<MicroProps, any> {
     state: {
-      loading: boolean;
       domId: string;
     } = {
-      loading: false,
       domId: generateSubAppContainerKey(),
     };
 
     componentDidMount() {
       const { domId } = this.state;
+      const { setLoadingState } = this.props;
+      const {
+        beforeLoad,
+        beforeMount,
+        errorLoadApp,
+        errorMountApp,
+        errorUnmountApp,
+        ...otherOptions
+      } = options;
+
       // start auto render able
       Garfish.router.setRouterConfig({ listening: true });
-      const garfishOptions = {
+
+      const garfishOptions: typeof Garfish.options = {
         domGetter: `#${domId}`,
-        ...options,
+        beforeLoad(...args) {
+          setLoadingState({
+            isLoading: true,
+            error: null,
+          });
+          return beforeLoad?.(...args);
+        },
+        beforeMount(...args) {
+          setLoadingState({
+            isLoading: false,
+          });
+          return beforeMount?.(...args);
+        },
+        errorLoadApp(error, ...args) {
+          setLoadingState({
+            error,
+          });
+          return errorLoadApp?.(error, ...args);
+        },
+        errorMountApp(error, ...args) {
+          setLoadingState({
+            error,
+          });
+          return errorMountApp?.(error, ...args);
+        },
+        errorUnmountApp(error, ...args) {
+          setLoadingState({
+            error,
+          });
+          return errorUnmountApp?.(error, ...args);
+        },
+        ...otherOptions,
       };
+
       logger('MApp componentDidMount', {
         garfishRunning: Garfish.running,
         garfishOptions,
       });
 
       if (!Garfish.running) {
-        // Garfish.usePlugin(() => ({
-        //   name: 'ModernLifeCycle',
-        //   beforeLoad: () => {
-        //     // this.setState({
-        //     //   loading: true,
-        //     // });
-        //   },
-        //   beforeMount: () => {
-        //     // this.setState({
-        //     //   loading: false,
-        //     // });
-        //   },
-        // }));
         Garfish.run(garfishOptions);
       }
     }
@@ -75,24 +88,14 @@ export function generateMApp(
     componentWillUnmount() {
       // close auto render able
       Garfish.router.setRouterConfig({ listening: false });
-      this.setState({
-        loading: false,
-      });
       logger('MApp componentWillUnmount');
     }
 
     render() {
-      const { loading } = this.state;
-      logger('MApp render status', { loading, LoadingComponent });
-      return (
-        <>
-          <div id={generateSubAppContainerKey()}>
-            {loading && typeof LoadingComponent === 'function' && (
-              <LoadingComponent />
-            )}
-          </div>
-        </>
-      );
+      logger('MApp render status', this.state);
+      return <div id={generateSubAppContainerKey()}></div>;
     }
-  };
+  }
+
+  return Loadable(MApp)(LoadingComponent);
 }

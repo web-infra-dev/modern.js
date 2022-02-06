@@ -1,200 +1,144 @@
+// The loading logic of the current component refers to react-loadable https://github.com/jamiebuilds/react-loadable
 import path from 'path';
 import React from 'react';
 // eslint-disable-next-line import/no-named-as-default
-import Garfish, { interfaces as garfishInterfaces } from 'garfish';
+import Garfish, { interfaces } from 'garfish';
 import { withRouter } from '@modern-js/plugin-router';
+// import Loadable from 'react-loadable';
 import { Manifest, ModulesInfo } from '../useModuleApps';
-import { logger } from '../../util';
-import {
-  generateSubAppContainerKey,
-  SUBMODULE_APP_COMPONENT_KEY,
-} from './constant';
-import { RenderLoading } from './MApp';
+import { logger, generateSubAppContainerKey } from '../../util';
+import { Loadable, MicroProps } from '../loadable';
 
-type Provider = {
-  render: () => void;
-  destroy: () => void;
-  [SUBMODULE_APP_COMPONENT_KEY]?: React.ComponentType<any>;
-};
-
-declare module 'garfish' {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  export namespace interfaces {
-    export interface AppInfo {
-      Component: React.ComponentType;
-    }
-  }
-}
+// type Provider = {
+//   render: () => void;
+//   destroy: () => void;
+//   [SUBMODULE_APP_COMPONENT_KEY]?: React.ComponentType<any>;
+// };
 
 export interface AppMap {
   [key: string]: React.ComponentType;
 }
 
 function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
-  const { componentKey = '' } = manifest;
-
-  const AppComponentMaps: any = {};
-  // let locationHref = '';
-  class App extends React.Component<any, any> {
-    appInstance: any;
-
-    _isMounted: boolean = false;
-
+  const { LoadingComponent } = manifest;
+  let locationHref = '';
+  class MicroApp extends React.Component<MicroProps, any> {
     state: {
-      loading: boolean;
+      appInstance: any;
       domId: string;
-      MicroApp: React.ComponentType<any> | null;
     } = {
-      loading: true,
+      appInstance: null,
       domId: generateSubAppContainerKey(appInfo),
-      MicroApp: AppComponentMaps[appInfo.name],
     };
 
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    async UNSAFE_componentWillMount() {
-      this._isMounted = true;
+    async componentWillMount() {
+      const { match, history, setLoadingState, ...userProps } = this.props;
       const { domId } = this.state;
-
-      // ignore withRouter props
-      const { history, location, match, staticContext, ...userProps } =
-        this.props;
       const { options } = Garfish;
-
-      const loadAppOptions: Omit<garfishInterfaces.AppInfo, 'name'> = {
+      const loadAppOptions: Omit<interfaces.AppInfo, 'name'> = {
         ...appInfo,
         domGetter: `#${domId}`,
-        basename: path.join(
-          options?.basename || '/',
-          // eslint-disable-next-line react/destructuring-assignment
-          this.props?.match?.path,
-        ),
+        basename: path.join(options?.basename || '/', match?.path || '/'),
         cache: true,
         props: {
           ...appInfo.props,
           ...userProps,
         },
-        // eslint-disable-next-line consistent-return
-        customLoader: (provider, nAppInfo) => {
-          const AppComponent: React.ComponentType<any> =
-            (provider as Provider)[SUBMODULE_APP_COMPONENT_KEY] ||
-            (provider as any)[componentKey];
-          logger(`MicroApp customLoader "${nAppInfo.name}"`, {
-            AppComponent,
-            provider,
-          });
-
-          if (AppComponent && !AppComponentMaps[nAppInfo.name]) {
-            return {
-              mount: () => {
-                logger(`MicroApp customLoader mount "${nAppInfo.name}"`, {
-                  AppComponent,
-                  provider,
-                  _isMounted: this._isMounted,
-                });
-                // in the unmount state can't change state
-                if (this._isMounted) {
-                  const nAppComponent = () => (
-                    <AppComponent
-                      appName={nAppInfo.name}
-                      basename={nAppInfo.basename}
-                      props={nAppInfo.props}
-                    />
-                  );
-                  AppComponentMaps[appInfo.name] = nAppComponent;
-                  this.setState({
-                    MicroApp: nAppComponent,
-                  });
-                }
-              },
-              unmount: () => {
-                logger(`MicroApp destroy "${nAppInfo.name}"`, {
-                  _isMounted: this._isMounted,
-                });
-                if (this._isMounted) {
-                  this.setState({
-                    MicroApp: null,
-                  });
-                }
-              },
-            };
-          }
+        customLoader: provider => {
+          const { render, destroy } = provider;
+          return {
+            mount(...props) {
+              logger('MicroApp customer render', props);
+              return render?.apply(provider, props);
+            },
+            unmount(...props) {
+              logger('MicroApp customer destroy', props);
+              return destroy?.apply(provider, props);
+            },
+          };
         },
       };
 
-      logger(`MicroApp componentWillMount "${appInfo.name}"`, {
-        domId,
-        appInfo,
-        options,
+      setLoadingState({
+        isLoading: true,
+        error: null,
+      });
+
+      logger(`MicroApp Garfish.loadApp "${appInfo.name}"`, {
         loadAppOptions,
-        location,
       });
 
-      const app = await Garfish.loadApp(appInfo.name, loadAppOptions);
+      try {
+        const appInstance = await Garfish.loadApp(appInfo.name, loadAppOptions);
+        if (!appInstance) {
+          throw new Error(
+            `MicroApp Garfish.loadApp "${appInfo.name}" result is null`,
+          );
+        }
 
-      logger(`MicroApp Garfish.loadApp "${appInfo.name}" result`, {
-        appInstance: app,
-      });
+        this.setState({
+          appInstance,
+        });
 
-      if (!app) {
-        throw new Error(
-          `${appInfo.name} loaded error, appInfo: ${JSON.stringify(
-            appInfo,
-          )}, options: ${JSON.stringify(options)}`,
-        );
+        setLoadingState({
+          isLoading: false,
+        });
+
+        if (appInstance.mounted && appInstance.appInfo.cache) {
+          logger(`MicroApp Garfish.loadApp "${appInfo.name}" show`, {
+            appInfo: appInstance.appInfo,
+            appInstance,
+          });
+          await appInstance?.show();
+        } else {
+          logger(`MicroApp Garfish.loadApp "${appInfo.name}" mount`, {
+            appInfo: appInstance.appInfo,
+            appInstance,
+          });
+          await appInstance?.mount();
+        }
+        history?.listen(() => {
+          if (locationHref !== history.location.pathname) {
+            locationHref = history.location.pathname;
+            const popStateEvent = new PopStateEvent('popstate');
+            dispatchEvent(popStateEvent);
+            logger(`MicroApp Garfish.loadApp popstate`);
+          }
+        });
+      } catch (error) {
+        setLoadingState({
+          isLoading: true,
+          error,
+        });
       }
-
-      this.appInstance = app;
-
-      if (app?.mounted) {
-        logger(`MicroApp Garfish.loadApp "${appInfo.name}" show`);
-        await app?.show();
-      } else {
-        logger(`MicroApp Garfish.loadApp "${appInfo.name}" mount`);
-        await app?.mount();
-      }
-      this.setState({
-        loading: false,
-      });
-
-      // history?.listen(() => {
-      //   if (locationHref !== history.location.pathname) {
-      //     locationHref = history.location.pathname;
-      //     const popStateEvent = new PopStateEvent('popstate');
-      //     dispatchEvent(popStateEvent);
-      //   }
-      // });
     }
 
-    componentWillUnmount() {
-      this._isMounted = false;
-      logger(`MicroApp componentWillUnmount "${appInfo.name}" hide`, {
-        appInstance: this.appInstance,
-      });
-      if (this.appInstance) {
-        this.appInstance.hide();
+    async componentWillUnmount() {
+      const { appInstance } = this.state;
+      if (appInstance) {
+        // eslint-disable-next-line @typescript-eslint/no-shadow
+        const { appInfo } = appInstance;
+        if (appInfo.cache) {
+          logger(`MicroApp Garfish.loadApp "${appInfo.name}" hide`);
+          appInstance?.hide();
+        } else {
+          logger(`MicroApp Garfish.loadApp "${appInfo.name}" unmount`);
+          appInstance?.unmount();
+        }
       }
     }
 
     render() {
-      const { MicroApp, domId, loading } = this.state;
-      logger(`MicroApp component render "${appInfo.name}"`, {
-        MicroApp,
-        domId,
-        loading,
-        appInfo,
-      });
-
+      const { domId } = this.state;
       return (
         <>
-          <div id={domId}>
-            {RenderLoading(loading, manifest)}
-            {MicroApp && <MicroApp />}
-          </div>
+          <div id={domId}></div>
         </>
       );
     }
   }
-  return withRouter(App);
+
+  return Loadable(withRouter(MicroApp as any))(LoadingComponent);
 }
 
 export function generateApps(
@@ -207,8 +151,8 @@ export function generateApps(
   const apps: AppMap = {};
   options.apps?.forEach(appInfo => {
     const Component = getAppInstance(appInfo, manifest);
-    appInfo.Component = Component;
-    apps[appInfo.name] = Component;
+    (appInfo as any).Component = Component;
+    apps[appInfo.name] = Component as any;
   });
 
   return { apps, appInfoList: options.apps || [] };

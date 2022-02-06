@@ -10,7 +10,7 @@ import {
   useResolvedConfigContext,
 } from '@modern-js/core';
 import type WebpackChain from 'webpack-chain';
-import { debug } from '../util';
+import { logger } from '../util';
 import { makeProvider, makeRenderFunction } from './utils';
 
 const useMicroFrontEndConfig = () => {
@@ -60,7 +60,7 @@ export const initializer: GetFirstArgumentOfFunction<
             // eslint-disable-next-line react-hooks/rules-of-hooks
             const userConfig = useMicroFrontEndConfig();
             chain.output.libraryTarget('umd');
-            debug('useConfig', {
+            logger('useConfig', {
               server: userConfig?.server,
               runtime: userConfig?.runtime,
               deploy: userConfig?.deploy,
@@ -68,7 +68,7 @@ export const initializer: GetFirstArgumentOfFunction<
 
             if (userConfig?.deploy?.microFrontend) {
               chain.externals({ 'react-dom': 'react-dom', react: 'react' });
-              debug('externals', chain.toConfig().externals);
+              logger('externals', chain.toConfig().externals);
             }
           },
         },
@@ -77,7 +77,7 @@ export const initializer: GetFirstArgumentOfFunction<
     addRuntimeExports() {
       const mfPackage = path.resolve(__dirname, '../../../../');
       const addExportStatement = `export { default as garfish } from '${mfPackage}'`;
-      debug('exportStatement', addExportStatement);
+      logger('exportStatement', addExportStatement);
       pluginsExportsUtils.addExport(addExportStatement);
 
       runtimeExportsUtils.addExport(`export * from '${mfPackage}'`);
@@ -129,7 +129,7 @@ export const initializer: GetFirstArgumentOfFunction<
       const masterAppConfig = configMap.get(entrypoint.entryName);
 
       if (masterAppConfig) {
-        debug('garfishPlugin options', masterAppConfig);
+        logger('garfishPlugin options', masterAppConfig);
 
         plugins.push({
           name: 'garfish',
@@ -147,7 +147,7 @@ export const initializer: GetFirstArgumentOfFunction<
         return { entrypoint, code };
       }
       const nCode = makeRenderFunction(code);
-      debug('makeRenderFunction', nCode);
+      logger('makeRenderFunction', nCode);
       return {
         entrypoint,
         code: nCode,
@@ -161,7 +161,7 @@ export const initializer: GetFirstArgumentOfFunction<
       const { componentKey = 'dynamicComponent' } = manifest;
 
       const exportStatementCode = makeProvider(componentKey);
-      debug('exportStatement', exportStatementCode);
+      logger('exportStatement', exportStatementCode);
       return {
         entrypoint,
         exportStatement: config?.deploy?.microFrontend

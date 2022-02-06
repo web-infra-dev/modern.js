@@ -1,6 +1,7 @@
 import garfish, { interfaces as GarfishInterfaces } from 'garfish';
 import { useContext } from 'react';
 import { logger } from '../util';
+import { LoadingComponent } from './loadable';
 import { GarfishContext } from './utils/Context';
 
 export type Options = typeof garfish.options;
@@ -13,7 +14,7 @@ export type ModulesInfo = Array<ModuleInfo>;
 export type Manifest = {
   modules?: ModulesInfo;
   getAppList?: () => Promise<Array<GarfishInterfaces.AppInfo>>;
-  LoadingComponent?: React.ComponentType | React.ElementType;
+  LoadingComponent?: LoadingComponent;
   componentKey?: string;
 };
 
