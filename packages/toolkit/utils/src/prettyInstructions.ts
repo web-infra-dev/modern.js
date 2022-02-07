@@ -47,10 +47,11 @@ const getAddressUrls = (protocol = 'http', port: number) => {
 };
 
 export const prettyInstructions = (appContext: any, config: any) => {
-  const { entrypoints, serverRoutes, port } = appContext as {
+  const { entrypoints, serverRoutes, port, existSrc } = appContext as {
     entrypoints: EntryPoint[];
     serverRoutes: ServerRoute[];
     port: number;
+    existSrc: boolean;
   };
 
   const urls = getAddressUrls(
@@ -58,11 +59,13 @@ export const prettyInstructions = (appContext: any, config: any) => {
     port,
   );
 
-  const routes = serverRoutes.filter(route => route.entryName);
+  const routes = existSrc
+    ? serverRoutes.filter(route => route.entryName)
+    : serverRoutes;
 
   let message = 'App running at:\n\n';
 
-  if (isSingleEntry(entrypoints)) {
+  if (isSingleEntry(entrypoints) || !existSrc) {
     message += urls
       .map(
         ({ type, url }) =>

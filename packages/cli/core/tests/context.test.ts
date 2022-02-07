@@ -23,6 +23,7 @@ describe('context', () => {
       htmlTemplates: {},
       serverRoutes: [],
       entrypoints: [],
+      existSrc: true,
     });
   });
 
@@ -58,6 +59,7 @@ describe('context', () => {
       htmlTemplates: {},
       serverRoutes: [],
       entrypoints: [],
+      existSrc: true,
     });
   });
 });
