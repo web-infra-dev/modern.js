@@ -15,8 +15,8 @@ interface IBuildTaskOption {
 }
 
 const taskMain = async ({ appContext }: IBuildTaskOption) => {
-  const { appDirectory } = appContext;
-  await features.buildDocs({ appDirectory });
+  const { appDirectory, internalDirectory } = appContext;
+  await features.buildDocs({ appDirectory, internalDirectory });
 };
 
 (async () => {
