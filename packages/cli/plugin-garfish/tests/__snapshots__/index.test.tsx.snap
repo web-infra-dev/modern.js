@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`plugin-garfish legacyModule hooks Components 1`] = `"<div><div id=\\"app\\"><a href=\\"/\\">home</a><a data-testid=\\"dashboard-link\\" href=\\"/dashboard\\">dashboard</a><a data-testid=\\"table-list-link\\" href=\\"/table-list\\">table-list</a><a data-testid=\\"user-info-link\\" href=\\"/user-info\\">user-info</a><div></div></div></div>"`;
-
-exports[`plugin-garfish legacyModule hooks Components 2`] = `"<div><div id=\\"app\\"><a href=\\"/\\">home</a><a data-testid=\\"dashboard-link\\" href=\\"/dashboard\\">dashboard</a><a data-testid=\\"table-list-link\\" href=\\"/table-list\\">table-list</a><a data-testid=\\"user-info-link\\" href=\\"/user-info\\">user-info</a><div></div></div></div>"`;

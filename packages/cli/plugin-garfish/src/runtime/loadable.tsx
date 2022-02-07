@@ -40,6 +40,14 @@ export function Loadable(WrapComponent: any) {
         delay: number;
         timeout: number;
         LoadingComponent?: LoadingComponent;
+      } = {
+        LoadingComponent: defaultLoadingComponent,
+        timeout: 10000,
+        delay: 200,
+        error: null,
+        pastDelay: false,
+        timedOut: false,
+        isLoading: false,
       };
 
       private mounted: boolean = false;
@@ -48,29 +56,16 @@ export function Loadable(WrapComponent: any) {
 
       private timeout: NodeJS.Timeout | undefined;
 
-      constructor(props: { loadingConfig: LoadingConfig }) {
-        super(props);
-
-        const {
-          LoadingComponent = defaultLoadingComponent,
-          timeout = 10000,
-          delay = 200,
-        } = props.loadingConfig || {};
-
-        // eslint-disable-next-line react/state-in-constructor
-        this.state = {
-          LoadingComponent,
-          timeout,
-          delay,
-          error: null,
-          pastDelay: false,
-          timedOut: false,
-          isLoading: false,
-        };
-      }
-
       // eslint-disable-next-line @typescript-eslint/naming-convention
       UNSAFE_componentWillMount() {
+        this.mounted = true;
+        const { loadingConfig } = this.props;
+        if (loadingConfig?.LoadingComponent) {
+          this.setStateWithMountCheck({
+            LoadingComponent: loadingConfig.LoadingComponent,
+          });
+        }
+
         const { delay, timeout } = this.state;
         if (typeof delay === 'number') {
           if (delay === 0) {
@@ -89,10 +84,6 @@ export function Loadable(WrapComponent: any) {
         }
       }
 
-      componentDidMount() {
-        this.mounted = true;
-      }
-
       componentWillUnmount() {
         this.mounted = false;
         this.setStateWithMountCheck({
@@ -107,6 +98,7 @@ export function Loadable(WrapComponent: any) {
           return;
         }
 
+        logger('Loadable state', this.state);
         this.setState(newState);
       }
 
@@ -125,7 +117,6 @@ export function Loadable(WrapComponent: any) {
         const { isLoading, error, pastDelay, timedOut, LoadingComponent } =
           this.state;
         const showLoading = (isLoading || error) && LoadingComponent;
-        logger('Loadable state', this.state);
 
         return (
           <>
