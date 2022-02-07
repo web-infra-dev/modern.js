@@ -15,12 +15,14 @@ const DEFAULT_PORT = 5000;
 
 interface IBuildDocsParams {
   appDirectory: string;
+  internalDirectory: string;
   webpackConfig?: Configuration;
   isDev?: boolean;
   port?: number;
 }
 export async function buildDocs({
   appDirectory,
+  internalDirectory,
   isDev = false,
   port = DEFAULT_PORT,
 }: IBuildDocsParams) {
@@ -39,7 +41,7 @@ export async function buildDocs({
     logger.warn('not find md(x) files');
     return;
   }
-  const tmpDir = path.join(appDirectory, './node_modules/.modern-js/docs');
+  const tmpDir = path.join(internalDirectory, './docs');
   fs.ensureDirSync(tmpDir);
   const finalWebpackConfig = wp.generatorWebpackConfig(
     appDirectory,

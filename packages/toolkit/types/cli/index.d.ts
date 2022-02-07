@@ -44,6 +44,7 @@ export interface HtmlTemplates {
 }
 
 export interface IAppContext {
+  metaName: string; // name for generating conventional constants, such as .modern-js
   appDirectory: string;
   configFile: string | false;
   ip?: string;
@@ -64,6 +65,8 @@ export interface IAppContext {
   serverRoutes: ServerRoute[];
   htmlTemplates: HtmlTemplates;
   existSrc: boolean;
+  internalDirAlias: string;
+  internalSrcAlias: string;
 }
 
 export interface Hooks {

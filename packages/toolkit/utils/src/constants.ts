@@ -1,14 +1,4 @@
 /**
- * alias to src directory
- */
-export const INTERNAL_SRC_ALIAS = '@_modern_js_src';
-
-/**
- * alias to node_modules/.modern-js
- */
-export const INTERNAL_DIR_ALAIS = '@_modern_js_internal';
-
-/**
  * hmr socket connect path
  */
 export const HMR_SOCK_PATH = '/_modern_js_hmr_ws';
@@ -47,11 +37,6 @@ export const SERVER_RENDER_FUNCTION_NAME = 'serverRender';
  * loadbale manifest json file
  */
 export const LOADABLE_STATS_FILE = 'loadable-stats.json';
-
-/**
- * real entry generate by modern.js
- */
-export const HIDE_MODERN_JS_DIR = './node_modules/.modern-js';
 
 /**
  * internal specified folder
