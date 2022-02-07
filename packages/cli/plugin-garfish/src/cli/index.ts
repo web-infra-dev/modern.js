@@ -137,6 +137,11 @@ export const initializer: GetFirstArgumentOfFunction<
         packageName,
       );
 
+      // use router basename
+      if (masterAppConfig && !masterAppConfig.basename) {
+        masterAppConfig.basename = config.runtime?.router?.basename || '/';
+      }
+
       configMap.set(entrypoint.entryName, masterAppConfig);
 
       if (masterAppConfig) {
