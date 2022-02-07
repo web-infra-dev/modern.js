@@ -198,14 +198,18 @@ export const initializer: GetFirstArgumentOfFunction<
       const masterApp = config?.runtime?.masterApp;
       const manifest = masterApp?.manifest || {};
       const { componentKey = 'dynamicComponent' } = manifest;
+      if (config?.deploy?.microFrontend) {
+        const exportStatementCode = makeProvider(componentKey);
+        logger('exportStatement', exportStatementCode);
+        return {
+          entrypoint,
+          exportStatement: exportStatementCode,
+        };
+      }
 
-      const exportStatementCode = makeProvider(componentKey);
-      logger('exportStatement', exportStatementCode);
       return {
         entrypoint,
-        exportStatement: config?.deploy?.microFrontend
-          ? exportStatementCode
-          : exportStatement,
+        exportStatement,
       };
     },
   };
