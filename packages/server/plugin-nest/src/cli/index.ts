@@ -43,7 +43,7 @@ export default createPlugin(
           },
         };
       },
-      modifyEntryImports(input) {
+      addRuntimeExports(input) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const { appDirectory } = useAppContext();
         const runtimePath = require.resolve(`@modern-js/runtime`, {

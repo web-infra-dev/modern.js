@@ -63,6 +63,7 @@ export interface IAppContext {
   entrypoints: Entrypoint[];
   serverRoutes: ServerRoute[];
   htmlTemplates: HtmlTemplates;
+  existSrc: boolean;
 }
 
 export interface Hooks {
