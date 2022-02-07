@@ -13,7 +13,7 @@ export class ModernSSRServer extends ModernServer {
   }
 
   protected verifyMatch(context: ModernServerContext, matched: RouteMatcher) {
-    if (matched.generate().isApi) {
+    if (matched.generate(context.url).isApi) {
       this.render404(context);
     }
   }

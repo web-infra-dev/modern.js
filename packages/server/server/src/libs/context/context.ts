@@ -33,11 +33,14 @@ export class ModernServerContext implements ModernServerContextInterface {
 
   public metrics?: Metrics;
 
+  public serverData: Record<string, any>;
+
   constructor(req: IncomingMessage, res: ServerResponse) {
     this.req = req;
     this.res = res;
     this.logger = req.logger;
     this.metrics = req.metrics;
+    this.serverData = {};
 
     this.bind();
   }
@@ -50,6 +53,10 @@ export class ModernServerContext implements ModernServerContextInterface {
 
   public setParams(params: Record<string, string>) {
     this.params = params;
+  }
+
+  public setServerData(key: string, value: any) {
+    this.serverData[key] = value;
   }
 
   public getReqHeader(key: string) {
