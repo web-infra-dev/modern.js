@@ -52,9 +52,9 @@ export function useModuleApp() {
   return MApp;
 }
 
-export function useLegacyModuleApps() {
+export function useMicroApps() {
   const { MApp, appInfoList, apps } = useContext(GarfishContext);
-  logger('call useLegacyModuleApps', {
+  logger('call useMicroApps', {
     MApp,
     apps: appInfoList,
     Components: apps,
