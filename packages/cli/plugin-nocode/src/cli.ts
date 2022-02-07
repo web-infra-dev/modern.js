@@ -28,14 +28,19 @@ export default core.createPlugin(
         });
 
       const devCommand = program.commandsMap.get('dev');
-      const { appDirectory } = core.useAppContext();
+      const { appDirectory, internalDirectory } = core.useAppContext();
       const modernConfig = core.useResolvedConfigContext();
       if (devCommand) {
         devCommand.command('nocode').action(async () => {
           const webpackConfig = getWebpackConfig(
             WebpackConfigTarget.CLIENT,
           ) as Configuration;
-          await dev(appDirectory, webpackConfig, modernConfig);
+          await dev(
+            appDirectory,
+            internalDirectory,
+            webpackConfig,
+            modernConfig,
+          );
         });
       }
     },
@@ -59,12 +64,17 @@ export default core.createPlugin(
         }: {
           isTsProject: boolean;
         }) => {
-          const { appDirectory } = core.useAppContext();
+          const { appDirectory, internalDirectory } = core.useAppContext();
           const modernConfig = core.useResolvedConfigContext();
           const webpackConfig = getWebpackConfig(
             WebpackConfigTarget.CLIENT,
           ) as Configuration;
-          await dev(appDirectory, webpackConfig, modernConfig);
+          await dev(
+            appDirectory,
+            internalDirectory,
+            webpackConfig,
+            modernConfig,
+          );
         },
       };
     },

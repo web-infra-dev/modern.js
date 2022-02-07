@@ -1,11 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import {
-  INTERNAL_SRC_ALIAS,
-  INTERNAL_DIR_ALAIS,
-  applyOptionsChain,
-  findExists,
-} from '@modern-js/utils';
+import { applyOptionsChain, findExists } from '@modern-js/utils';
 import { NormalizedInputOptions, Plugin as RollupPlugin } from 'rollup';
 import alias, { Alias } from '@rollup/plugin-alias';
 import { createMatchPath, loadConfig, MatchPath } from 'tsconfig-paths';
@@ -25,11 +20,11 @@ export const normalizeAlias = (
 ) => {
   const result: Alias[] = [
     {
-      find: new RegExp(`^/?${INTERNAL_DIR_ALAIS}/(.*)`),
+      find: new RegExp(`^/?${appContext.internalDirAlias}/(.*)`),
       replacement: `${appContext.internalDirectory}/$1`,
     },
     {
-      find: new RegExp(`^/?${INTERNAL_SRC_ALIAS}/(.*)`),
+      find: new RegExp(`^/?${appContext.internalSrcAlias}/(.*)`),
       replacement: `${appContext.srcDirectory}/$1`,
     },
     {

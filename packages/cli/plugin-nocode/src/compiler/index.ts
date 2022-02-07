@@ -2,12 +2,7 @@ import * as path from 'path';
 import type { Configuration, WebpackPluginInstance } from 'webpack';
 import { fs, logger } from '@modern-js/utils';
 import webpack from 'webpack';
-import {
-  EDITOR_ENTRY,
-  DOT_BLOCK_TOOLS_EDITOR_ENTRY,
-  DEFAULT_ENTRY,
-  MODE,
-} from '../contants';
+import { EDITOR_ENTRY, DEFAULT_ENTRY, MODE } from '../contants';
 import createSyntheticEntry from './createSyntheticEntry';
 import { buildUmd as build } from './umd-build';
 
@@ -114,7 +109,13 @@ const buildUmd = async (
     editorEntryFile,
     isDev,
     appDirectory,
-  }: { editorEntryFile: string; isDev: boolean; appDirectory: string },
+    internalDirectory,
+  }: {
+    editorEntryFile: string;
+    isDev: boolean;
+    appDirectory: string;
+    internalDirectory: string;
+  },
 ) => {
   const hasEditor = true;
   const { meta } = require(path.resolve(appDirectory, 'package.json'));
@@ -123,6 +124,7 @@ const buildUmd = async (
   if (hasEditor) {
     const syntheticEntry = await createSyntheticEntry(
       appDirectory,
+      internalDirectory,
       editorEntryFile,
     );
     await compile(webpackConfig, {
@@ -145,10 +147,12 @@ export default async (
   webpackConfig: any,
   {
     appDirectory,
+    internalDirectory,
     isDev = false,
     type: _ = MODE.BLOCK,
   }: {
     appDirectory: string;
+    internalDirectory: string;
     isDev?: boolean;
     type: string;
   },
@@ -161,13 +165,11 @@ export default async (
     await buildUmd(webpackConfig, {
       editorEntryFile: userEditorEntryFile,
       appDirectory,
+      internalDirectory,
       isDev,
     });
   } else {
-    const autoEditorEntryDir = path.join(
-      appDirectory,
-      DOT_BLOCK_TOOLS_EDITOR_ENTRY,
-    );
+    const autoEditorEntryDir = path.join(internalDirectory, '__editor__');
     const autoEditorEntryFile = path.join(autoEditorEntryDir, 'index.js');
     fs.removeSync(autoEditorEntryDir);
     fs.ensureFileSync(autoEditorEntryFile);
@@ -175,6 +177,7 @@ export default async (
     await buildUmd(webpackConfig, {
       editorEntryFile: autoEditorEntryFile,
       appDirectory,
+      internalDirectory,
       isDev,
     });
   }

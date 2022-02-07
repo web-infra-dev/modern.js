@@ -1,10 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import {
-  INTERNAL_DIR_ALAIS,
-  INTERNAL_SRC_ALIAS,
-  normalizeToPosixPath,
-} from '@modern-js/utils';
+import { normalizeToPosixPath } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
 import type { ImportStatement } from './generateCode';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from './constants';
@@ -22,9 +18,13 @@ export const walkDirectory = (dir: string): string[] =>
 export const getDefaultImports = ({
   entrypoint,
   srcDirectory,
+  internalSrcAlias,
+  internalDirAlias,
 }: {
   entrypoint: Entrypoint;
   srcDirectory: string;
+  internalSrcAlias: string;
+  internalDirAlias: string;
 }): ImportStatement[] => {
   const { entryName, fileSystemRoutes, customBootstrap, entry } = entrypoint;
   const imports = [
@@ -39,7 +39,7 @@ export const getDefaultImports = ({
     customBootstrap && {
       specifiers: [{ local: 'customBootstrap' }],
       value: normalizeToPosixPath(
-        customBootstrap.replace(srcDirectory, INTERNAL_SRC_ALIAS),
+        customBootstrap.replace(srcDirectory, internalSrcAlias),
       ),
     },
   ].filter(Boolean) as ImportStatement[];
@@ -48,14 +48,14 @@ export const getDefaultImports = ({
     const route: ImportStatement = {
       specifiers: [{ imported: 'routes' }],
       value: normalizeToPosixPath(
-        `${INTERNAL_DIR_ALAIS}/${entryName}/${FILE_SYSTEM_ROUTES_FILE_NAME}`,
+        `${internalDirAlias}/${entryName}/${FILE_SYSTEM_ROUTES_FILE_NAME}`,
       ),
     };
     if (fileSystemRoutes.globalApp) {
       imports.push({
         specifiers: [{ local: 'App' }],
         value: normalizeToPosixPath(
-          fileSystemRoutes.globalApp.replace(srcDirectory, INTERNAL_SRC_ALIAS),
+          fileSystemRoutes.globalApp.replace(srcDirectory, internalSrcAlias),
         ),
       });
     } else {
@@ -67,7 +67,7 @@ export const getDefaultImports = ({
     imports.push({
       specifiers: [{ local: 'App' }],
       value: normalizeToPosixPath(
-        entry.replace(srcDirectory, INTERNAL_SRC_ALIAS),
+        entry.replace(srcDirectory, internalSrcAlias),
       ),
     });
   }

@@ -24,7 +24,7 @@ describe('get entrypoints from file system', () => {
     ]);
   });
 
-  test(`should have one  entry include src/pages`, () => {
+  test(`should have one entry include src/pages`, () => {
     const appContext = {
       appDirectory: path.resolve(fixtures, './file-system-routes'),
     };

@@ -12,21 +12,26 @@ const features: typeof import('./features') = Import.lazy(
 export default core.createPlugin(
   () => ({
     commands({ program }: any) {
-      const { appDirectory } = core.useAppContext();
+      const { appDirectory, internalDirectory } = core.useAppContext();
       const devCommand = program.commandsMap.get('dev');
       if (devCommand) {
         devCommand.command('docs').action(async () => {
-          await features.buildDocs({ appDirectory, isDev: true });
+          await features.buildDocs({
+            appDirectory,
+            internalDirectory,
+            isDev: true,
+          });
         });
       }
     },
     // module-tools menu mode
     moduleToolsMenu() {
-      const { appDirectory } = core.useAppContext();
+      const { appDirectory, internalDirectory } = core.useAppContext();
       return {
         name: 'Docsite 调试',
         value: 'docsite',
-        runTask: async () => features.buildDocs({ appDirectory, isDev: true }),
+        runTask: async () =>
+          features.buildDocs({ appDirectory, internalDirectory, isDev: true }),
       };
     },
     platformBuild() {

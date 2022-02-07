@@ -47,6 +47,8 @@ class BaseWebpackConfig {
 
   appContext: IAppContext;
 
+  metaName: string;
+
   options: NormalizedConfig;
 
   appDirectory: string;
@@ -67,6 +69,8 @@ class BaseWebpackConfig {
     this.appContext = appContext;
 
     this.appDirectory = this.appContext.appDirectory;
+
+    this.metaName = this.appContext.metaName;
 
     this.options = options;
 
@@ -225,12 +229,13 @@ class BaseWebpackConfig {
       .oneOf('js')
       .test(useTsLoader ? JS_REGEX : mergeRegex(JS_REGEX, TS_REGEX))
       .include.add(this.appContext.srcDirectory)
-      .add(path.resolve(this.appDirectory, './node_modules/.modern-js'))
+      .add(this.appContext.internalDirectory)
       .end()
       .use('babel')
       .loader(require.resolve('babel-loader'))
       .options(
         getBabelOptions(
+          this.metaName,
           this.appDirectory,
           this.options,
           this.chain.get('name'),
@@ -243,7 +248,7 @@ class BaseWebpackConfig {
         .oneOf('ts')
         .test(TS_REGEX)
         .include.add(this.appContext.srcDirectory)
-        .add(/node_modules\/\.modern-js\//)
+        .add(this.appContext.internalDirectory)
         .end()
         .use('babel')
         .loader(require.resolve('babel-loader'))
@@ -252,6 +257,7 @@ class BaseWebpackConfig {
             [
               require.resolve('@modern-js/babel-preset-app'),
               {
+                metaName: this.metaName,
                 appDirectory: this.appDirectory,
                 target: 'client',
                 useTsLoader: true,

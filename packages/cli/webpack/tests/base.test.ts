@@ -17,6 +17,8 @@ describe('base webpack config', () => {
         entryPath: path.resolve(fixtures, './demo/src/page-a/index.jsx'),
       },
     ],
+    internalDirAlias: '@_modern_js_internal',
+    internalSrcAlias: '@_modern_js_src',
   };
   test(`default webpack config`, () => {
     userConfig.source.include = ['query-string'];

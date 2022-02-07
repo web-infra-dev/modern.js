@@ -13,4 +13,5 @@ export type Options = {
   styledCompontents?: Record<string, any>;
   appDirectory: string;
   chain?: BabelChain;
+  metaName?: string;
 };
