@@ -23,6 +23,10 @@ describe('context', () => {
       htmlTemplates: {},
       serverRoutes: [],
       entrypoints: [],
+      existSrc: true,
+      internalDirAlias: '@_modern_js_internal',
+      internalSrcAlias: '@_modern_js_src',
+      metaName: 'modern-js',
     });
   });
 
@@ -36,7 +40,7 @@ describe('context', () => {
       srcDir: 'source',
       distDir: 'dist',
       sharedDir: 'myShared',
-      internalDir: 'myInternal',
+      metaName: 'jupiter',
     };
 
     const appContext = initAppContext(appDirectory, [], false, customOptions);
@@ -50,14 +54,15 @@ describe('context', () => {
       distDirectory: 'dist',
       sharedDirectory: path.resolve(appDirectory, './myShared'),
       nodeModulesDirectory: expect.any(String),
-      internalDirectory: path.resolve(
-        appDirectory,
-        './node_modules/myInternal',
-      ),
+      internalDirectory: path.resolve(appDirectory, './node_modules/.jupiter'),
       plugins: [],
       htmlTemplates: {},
       serverRoutes: [],
       entrypoints: [],
+      existSrc: true,
+      internalDirAlias: '@_jupiter_internal',
+      internalSrcAlias: '@_jupiter_src',
+      metaName: 'jupiter',
     });
   });
 });

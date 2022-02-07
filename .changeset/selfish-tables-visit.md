@@ -2,4 +2,4 @@
 "@modern-js/plugin-unbundle": patch
 ---
 
-fix "tailwindcss" logics in plugin-unbundle
+fix plugin-unbundle missing file error

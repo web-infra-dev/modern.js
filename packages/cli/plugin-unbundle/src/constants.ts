@@ -64,8 +64,8 @@ export const DEFAULT_EXTENSIONS = [
 export const CSS_REGEX = /\.(css|sass|scss|less|styl)($|\?)/;
 export const CSS_MODULE_REGEX = /\.module.(css|sass|scss|less|styl)($|\?)/;
 
-// hmr sockjs client
-export const DEV_CLIENT_PATH = path.resolve(__dirname, './client');
+// hmr sockjs client, should inject modern build into client
+export const DEV_CLIENT_PATH = path.resolve(__dirname, '../modern/client');
 
 export const DEV_CLIENT_PATH_ALIAS = `@_modern_js_dev_client`;
 

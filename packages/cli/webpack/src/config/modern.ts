@@ -57,6 +57,7 @@ class ModernWebpackConfig extends ClientWebpackConfig {
           [
             require.resolve('@modern-js/babel-preset-app'),
             {
+              metaName: this.appContext.metaName,
               appDirectory: this.appDirectory,
               target: 'client',
               useLegacyDecorators: !this.options.output?.enableLatestDecorators,

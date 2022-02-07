@@ -39,7 +39,7 @@ const getGeneratorPath = (generator: string, distTag: string) => {
 };
 
 // eslint-disable-next-line max-statements
-const handleTemplateFile = async (
+export const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
   appApi: AppAPI,
@@ -210,6 +210,7 @@ const handleTemplateFile = async (
         dependencies: {
           [lessDependence]: `^${await getPackageVersion(lessDependence)}`,
         },
+        projectPath,
         isSubGenerator: true,
       },
     );
@@ -225,6 +226,7 @@ const handleTemplateFile = async (
         dependencies: {
           [sassDependence]: `${await getPackageVersion(sassDependence)}`,
         },
+        projectPath,
         isSubGenerator: true,
       },
     );

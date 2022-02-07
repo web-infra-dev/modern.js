@@ -29,20 +29,21 @@ export const initAppContext = (
   }>,
   configFile: string | false,
   options?: {
+    metaName?: string;
     srcDir?: string;
     distDir?: string;
     sharedDir?: string;
-    internalDir?: string;
   },
 ): IAppContext => {
   const {
+    metaName = 'modern-js',
     srcDir = 'src',
     distDir = '',
     sharedDir = 'shared',
-    internalDir = '.modern-js',
   } = options || {};
 
   return {
+    metaName,
     appDirectory,
     configFile,
     ip: address.ip(),
@@ -54,11 +55,14 @@ export const initAppContext = (
     nodeModulesDirectory: path.resolve(appDirectory, './node_modules'),
     internalDirectory: path.resolve(
       appDirectory,
-      `./node_modules/${internalDir}`,
+      `./node_modules/.${metaName}`,
     ),
     plugins,
     htmlTemplates: {},
     serverRoutes: [],
     entrypoints: [],
+    existSrc: true,
+    internalDirAlias: `@_${metaName.replace(/-/g, '_')}_internal`,
+    internalSrcAlias: `@_${metaName.replace(/-/g, '_')}_src`,
   };
 };
