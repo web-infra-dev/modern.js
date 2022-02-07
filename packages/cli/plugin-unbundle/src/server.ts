@@ -32,7 +32,7 @@ import {
 import { historyApiFallbackMiddleware } from './middlewares/history-api-fallback';
 import { notFoundMiddleware } from './middlewares/not-found';
 import { aliasPlugin, tsAliasPlugin } from './plugins/alias';
-import { esbuldPlugin } from './plugins/esbuild';
+import { esbuildPlugin } from './plugins/esbuild';
 import { hmrPlugin } from './plugins/hmr';
 import { jsonPlugin } from './plugins/json';
 import { resolvePlugin } from './plugins/resolve';
@@ -62,7 +62,7 @@ export const createDevServer = async (
   config: NormalizedConfig,
   appContext: IAppContext,
 ): Promise<ESMServer> => {
-  const { appDirectory } = appContext;
+  const { appDirectory, internalDirectory } = appContext;
   const { https } = config.dev || {};
   const { disableAutoImportStyle } = config.output || {};
 
@@ -74,7 +74,7 @@ export const createDevServer = async (
 
   const wsServer = new WebSocketServer(httpServer, HMR_SOCK_PATH);
 
-  const watcher = fsWatcher.init(appDirectory);
+  const watcher = fsWatcher.init(appDirectory, internalDirectory);
 
   const pluginContainer = await createPluginContainer(
     [
@@ -82,7 +82,7 @@ export const createDevServer = async (
       isTypescript(appDirectory) && tsAliasPlugin(config, appContext),
       assetsPlugin(config, appContext),
       shouldUseBff(appDirectory) && lambdaApiPlugin(config, appContext),
-      esbuldPlugin(config, appContext),
+      esbuildPlugin(config, appContext),
       shouldEnableBabelMacros(appDirectory) && macrosPlugin(config),
       !disableAutoImportStyle && lazyImportPlugin(),
       resolvePlugin(config, appContext),
