@@ -60,5 +60,6 @@ export const initAppContext = (
     htmlTemplates: {},
     serverRoutes: [],
     entrypoints: [],
+    existSrc: true,
   };
 };
