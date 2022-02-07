@@ -34,6 +34,35 @@ export const initializer: GetFirstArgumentOfFunction<
   let runtimeExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
 
   return {
+    resolvedConfig(config) {
+      const { resolved } = config;
+      const { runtime = {} } = resolved;
+      const { masterApp, router } = runtime;
+
+      const nConfig = {
+        resolved: {
+          ...resolved,
+        },
+      };
+
+      if (masterApp) {
+        // basename does not exist use router's basename
+        nConfig.resolved.runtime.masterApp = Object.assign(
+          typeof masterApp === 'object' ? { ...masterApp } : {},
+          {
+            basename: router?.basename || '/',
+          },
+        );
+      }
+
+      logger(`resolvedConfig`, {
+        runtime: nConfig.resolved.runtime,
+        deploy: nConfig.resolved.deploy,
+        server: nConfig.resolved.server,
+      });
+
+      return nConfig;
+    },
     config() {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const config = useAppContext();
@@ -67,20 +96,9 @@ export const initializer: GetFirstArgumentOfFunction<
             // eslint-disable-next-line react-hooks/rules-of-hooks
             const userConfig = useMicroFrontEndConfig();
             const { deploy = {} } = userConfig;
-            chain.output.libraryTarget('umd');
-
-            logger('useConfig', {
-              server: userConfig?.server,
-              runtime: userConfig?.runtime,
-              deploy,
-              env,
-            });
 
             if (deploy?.microFrontend) {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-expect-error
-              const { enableHtmlEntry = true, externalBasicLibrary = true } =
-                deploy.microFrontend || {};
+              chain.output.libraryTarget('umd');
 
               if (userConfig.server.port) {
                 chain.output.publicPath(
@@ -90,6 +108,20 @@ export const initializer: GetFirstArgumentOfFunction<
                 );
               }
 
+              // add comments avoid sourcemap abnormal
+              chain
+                .plugin('banner')
+                .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
+
+              const { enableHtmlEntry = true, externalBasicLibrary = true } =
+                typeof deploy?.microFrontend === 'object'
+                  ? deploy.microFrontend
+                  : {};
+              // external
+              if (externalBasicLibrary) {
+                chain.externals({ 'react-dom': 'react-dom', react: 'react' });
+              }
+              // use html mode
               if (!enableHtmlEntry) {
                 chain.output.filename('index.js');
                 chain.plugins.delete('html-main');
@@ -98,17 +130,14 @@ export const initializer: GetFirstArgumentOfFunction<
                   chunks: 'async',
                 });
               }
-
-              // add comments avoid sourcemap abnormal
-              chain
-                .plugin('banner')
-                .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
-
-              if (deploy?.microFrontend && externalBasicLibrary) {
-                chain.externals({ 'react-dom': 'react-dom', react: 'react' });
-                logger('externals', chain.toConfig().externals);
-              }
             }
+
+            const webpackConfig = chain.toConfig();
+            logger('webpackConfig', {
+              output: webpackConfig.output,
+              externals: webpackConfig.externals,
+              env,
+            });
           },
         },
       };
@@ -136,11 +165,6 @@ export const initializer: GetFirstArgumentOfFunction<
         config.runtimeByEntries,
         packageName,
       );
-
-      // use router basename
-      if (masterAppConfig && !masterAppConfig.basename) {
-        masterAppConfig.basename = config.runtime?.router?.basename || '/';
-      }
 
       configMap.set(entrypoint.entryName, masterAppConfig);
 
