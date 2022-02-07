@@ -3,12 +3,12 @@ import chokidar, { FSWatcher } from 'chokidar';
 let _watcher: FSWatcher;
 
 export const fsWatcher = {
-  init: (appDirectory: string): FSWatcher => {
+  init: (appDirectory: string, internalDirectory: string): FSWatcher => {
     _watcher = chokidar.watch([appDirectory], {
       cwd: appDirectory,
       disableGlobbing: true,
       ignored: [
-        /node_modules(?!\/\.modern-js\/)/,
+        `${internalDirectory}/**`,
         /\.(git|vscode|DS_Store)\//,
         '**/dist/**',
         '**/build/**',

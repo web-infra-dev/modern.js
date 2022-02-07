@@ -12,6 +12,7 @@ import { readPackageJson } from './readPackageJson';
 import { CACHE_DIRECTORY } from './constants';
 
 export const getBabelOptions = (
+  metaName: string,
   appDirectory: string,
   config: NormalizedConfig,
   name: string,
@@ -37,6 +38,7 @@ export const getBabelOptions = (
     [
       require.resolve('@modern-js/babel-preset-app'),
       {
+        metaName,
         appDirectory,
         target: 'client',
         lodash: applyOptionsChain(

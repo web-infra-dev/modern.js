@@ -15,11 +15,13 @@ describe('node webpack config', () => {
         entryPath: path.resolve(fixtures, './demo/src/page-a/index.jsx'),
       },
     ],
+    internalDirAlias: '@_modern_js_internal',
+    internalSrcAlias: '@_modern_js_src',
   };
   test(`webpack config target should be node`, () => {
     const config = new NodeWebpackConfig(
       appContext as any,
-      userConfig,
+      userConfig as any,
     ).config();
 
     expect(config.target).toEqual('node');
