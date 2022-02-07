@@ -43,12 +43,18 @@ function createErrorOverlay(data) {
   }
 }
 
+type LoggerFunction = (...args: any[]) => void;
+type LoggerType = {
+  info: LoggerFunction;
+  error: LoggerFunction;
+  warn: LoggerFunction;
+};
 const logger = [`info`, 'error', 'warn'].reduce((m, c) => {
   m[c] = (...params) =>
     // eslint-disable-next-line no-console
     console[c === 'info' ? 'log' : c](`[HMR]:`, ...params);
   return m;
-}, {});
+}, {} as LoggerType);
 
 let isFisrtUpdate = true;
 
@@ -158,7 +164,7 @@ let updateQueue = [];
 let updating = false;
 
 const doAccept = async (id, acceptedPath, timestamp) => {
-  if (updateQueue.indexOf(id) < 0) {
+  if (!updateQueue.includes(id)) {
     updateQueue.push({ id, acceptedPath });
   }
 
@@ -243,6 +249,7 @@ export const createHotContext = url => {
     // private
     _id: id,
     _declinedDeps: {},
+    _acceptedDeps: {},
     _selfAccepted: false,
     _selfDeclined: false,
     _disposeCallbacks: [],
