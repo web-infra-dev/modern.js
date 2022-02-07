@@ -33,6 +33,7 @@ export const genCommon = (options: Options): BabelChain => {
   const {
     lodash: lodashOptions,
     target,
+    metaName,
     appDirectory,
     useLegacyDecorators,
     modules,
@@ -96,7 +97,9 @@ export const genCommon = (options: Options): BabelChain => {
 
   chain
     .plugin('built-in/babel-plugin-lock-corejs-version')
-    .use(require.resolve('./built-in/babel-plugin-lock-corejs-version'));
+    .use(require.resolve('./built-in/babel-plugin-lock-corejs-version'), [
+      { metaName },
+    ]);
 
   // TODO depened on pnpm @modern-cli/dev-utils/monorepo
   // if (isPnpm(appDirectory)) {

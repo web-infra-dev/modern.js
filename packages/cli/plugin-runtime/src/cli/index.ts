@@ -2,13 +2,7 @@ import path from 'path';
 import { PLUGIN_SCHEMAS, createRuntimeExportsUtils } from '@modern-js/utils';
 import { createPlugin, usePlugins, useAppContext } from '@modern-js/core';
 
-const useInternalDirectory = () => {
-  try {
-    return useAppContext().internalDirectory;
-  } catch {
-    return path.join(process.cwd(), 'node_modules/.modern-js');
-  }
-};
+const useInternalDirectory = () => useAppContext().internalDirectory;
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 usePlugins([

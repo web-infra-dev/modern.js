@@ -22,6 +22,7 @@ export const enableRegister = (
     only: [
       function (filePath: string) {
         // TODO: wait params
+        // FIXME: 删除hardcode，根据 AppContext 中的 metaName 设置路径
         if (filePath.includes(`node_modules${path.sep}.modern-js`)) {
           return true;
         }

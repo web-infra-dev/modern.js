@@ -8,7 +8,7 @@ import { DEV_CLIENT_PATH, GLOBAL_CACHE_DIR_NAME } from '../constants';
 
 const debug = createDebugger('esm:esbuild');
 
-export const shouldProcess = (file: string): boolean => {
+export const shouldProcess = (file: string, internalDir: string): boolean => {
   if (file.startsWith(DEV_CLIENT_PATH)) {
     return false;
   }
@@ -18,10 +18,7 @@ export const shouldProcess = (file: string): boolean => {
   }
 
   if (isJsRequest(file)) {
-    if (
-      /node_modules(?!\/.modern-js\/)/.test(file) ||
-      file.includes(GLOBAL_CACHE_DIR_NAME)
-    ) {
+    if (file.startsWith(internalDir) || file.includes(GLOBAL_CACHE_DIR_NAME)) {
       return false;
     }
     return true;
@@ -30,7 +27,7 @@ export const shouldProcess = (file: string): boolean => {
   return false;
 };
 
-export const esbuldPlugin = (
+export const esbuildPlugin = (
   _config: NormalizedConfig,
   _appContext: IAppContext,
 ): RollupPlugin => {
@@ -43,7 +40,8 @@ export const esbuldPlugin = (
   return {
     name: 'esm-esbuild',
     async transform(code: string, importer: string) {
-      if (shouldProcess(importer)) {
+      const { internalDirectory } = _appContext;
+      if (shouldProcess(importer, internalDirectory)) {
         try {
           const result = await transform(code, {
             loader: getEsbuildLoader(importer),

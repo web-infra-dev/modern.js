@@ -5,8 +5,15 @@ describe('babel-preset-app', () => {
     expect(generateBabelChain).toBeDefined();
 
     const cache = jest.fn();
-    const webpackConfig = generateBabelChain({ cache });
+    const webpackConfig = generateBabelChain(
+      { cache },
+      { appDirectory: process.cwd() },
+    );
     expect(Object.keys(webpackConfig)).toEqual(['presets', 'plugins']);
+    expect(webpackConfig.plugins).toContainEqual([
+      require.resolve('../src/built-in/babel-plugin-lock-corejs-version'),
+      expect.objectContaining({ metaName: 'modern-js' }),
+    ]);
     expect(cache).toBeCalledWith(true);
   });
 });

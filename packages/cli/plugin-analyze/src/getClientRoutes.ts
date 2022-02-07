@@ -3,8 +3,6 @@ import {
   fs,
   createDebugger,
   findExists,
-  INTERNAL_DIR_ALAIS,
-  INTERNAL_SRC_ALIAS,
   normalizeToPosixPath,
 } from '@modern-js/utils';
 import { makeLegalIdentifier } from '@rollup/pluginutils';
@@ -65,11 +63,13 @@ const recursiveReadDir = ({
   routes,
   basePath = '/',
   srcDirectory,
+  srcAlias,
 }: {
   dir: string;
   routes: Route[];
   basePath: string;
   srcDirectory: string;
+  srcAlias: string;
 }) => {
   let hasDynamicRoute = false;
   let resetParent = false;
@@ -81,7 +81,7 @@ const recursiveReadDir = ({
     if (basePath === '/') {
       throw new Error(`should use _app instead of _layout in ${dir}`);
     } else {
-      const alias = replaceWithAlias(srcDirectory, layout, INTERNAL_SRC_ALIAS);
+      const alias = replaceWithAlias(srcDirectory, layout, srcAlias);
       const route: Route = {
         path: `${basePath.substring(0, basePath.length - 1)}`,
         exact: false,
@@ -103,11 +103,7 @@ const recursiveReadDir = ({
 
     if (!shouldSkip(filePath)) {
       const filename = path.basename(filePath, path.extname(filePath));
-      const alias = replaceWithAlias(
-        srcDirectory,
-        filePath,
-        INTERNAL_SRC_ALIAS,
-      );
+      const alias = replaceWithAlias(srcDirectory, filePath, srcAlias);
 
       const dynamicRouteMatched =
         FILE_SYSTEM_ROUTES_DYNAMIC_REGEXP.exec(filename);
@@ -140,6 +136,7 @@ const recursiveReadDir = ({
           routes,
           basePath: `${route.path}/`,
           srcDirectory,
+          srcAlias,
         });
         continue;
       }
@@ -174,6 +171,7 @@ const normalizeNestedRoutes = (
   nested: Route[],
   internalComponentsDir: string,
   internalDirectory: string,
+  internalDirAlias: string,
 ) => {
   const flat = (routes: Route[]): Route[] =>
     routes.reduce<Route[]>(
@@ -216,7 +214,7 @@ const normalizeNestedRoutes = (
 
     return {
       component: lastComponent,
-      _component: replaceWithAlias(internalDirectory, file, INTERNAL_DIR_ALAIS),
+      _component: replaceWithAlias(internalDirectory, file, internalDirAlias),
     };
   };
 
@@ -235,17 +233,21 @@ const getRouteWeight = (route: string) =>
 export const getClientRoutes = ({
   entrypoint,
   srcDirectory,
+  srcAlias,
   internalDirectory,
+  internalDirAlias,
 }: {
   entrypoint: Entrypoint;
   srcDirectory: string;
+  srcAlias: string;
   internalDirectory: string;
+  internalDirAlias: string;
 }) => {
   const { entry, entryName } = entrypoint;
 
   if (!fs.existsSync(entry)) {
     throw new Error(
-      `generate file system routes error, ${entry} direcotry not found.`,
+      `generate file system routes error, ${entry} directory not found.`,
     );
   }
 
@@ -262,6 +264,7 @@ export const getClientRoutes = ({
     routes,
     basePath: '/',
     srcDirectory,
+    srcAlias,
   });
 
   const internalComponentsDir = path.resolve(
@@ -275,6 +278,7 @@ export const getClientRoutes = ({
     routes,
     internalComponentsDir,
     internalDirectory,
+    internalDirAlias,
   );
 
   parents.length = 0;
