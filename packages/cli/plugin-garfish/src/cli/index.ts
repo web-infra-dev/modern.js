@@ -56,9 +56,14 @@ export const initializer: GetFirstArgumentOfFunction<
         },
         tools: {
           webpack: (
-            _config: any,
-            { chain, webpack }: { chain: WebpackChain; webpack: any },
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+            config: any,
+            {
+              chain,
+              webpack,
+            }: { chain: WebpackChain; webpack: any; env: string },
           ) => {
+            const env = process.env.NODE_ENV;
             // eslint-disable-next-line react-hooks/rules-of-hooks
             const userConfig = useMicroFrontEndConfig();
             const { deploy = {} } = userConfig;
@@ -68,6 +73,7 @@ export const initializer: GetFirstArgumentOfFunction<
               server: userConfig?.server,
               runtime: userConfig?.runtime,
               deploy,
+              env,
             });
 
             if (deploy?.microFrontend) {
@@ -75,6 +81,14 @@ export const initializer: GetFirstArgumentOfFunction<
               // @ts-expect-error
               const { enableHtmlEntry = true, externalBasicLibrary = true } =
                 deploy.microFrontend || {};
+
+              if (userConfig.server.port) {
+                chain.output.publicPath(
+                  env === 'development'
+                    ? `//localhost:${userConfig.server.port}/`
+                    : config.output.publicPath,
+                );
+              }
 
               if (!enableHtmlEntry) {
                 chain.output.filename('index.js');
