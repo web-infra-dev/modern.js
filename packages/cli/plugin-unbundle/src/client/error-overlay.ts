@@ -924,6 +924,16 @@ const OPEN_EDITOR_PATH = `/__open-stack-frame-in-editor`;
 customElements.define(
   'modern-js-error-overlay',
   class HmrErrorOverlay extends HTMLElement {
+    message: any = undefined;
+
+    fileLoc: any = undefined;
+
+    stack: any = undefined;
+
+    frame: any = undefined;
+
+    sr: any = undefined;
+
     constructor({ title, message, frame, loc, stack }) {
       super();
       this.title = title;
@@ -985,11 +995,7 @@ customElements.define(
       this.sr.querySelector('[data-nextjs-codeframe]').addEventListener(
         'click',
         event => {
-          if (
-            event &&
-            event.target &&
-            event.target.className === 'error-file-link'
-          ) {
+          if (event?.target?.className === 'error-file-link') {
             fetch(
               `${OPEN_EDITOR_PATH}?filename=${encodeURIComponent(
                 event.target.innerText,
