@@ -82,7 +82,23 @@ export default createPlugin(
         // FIXME:
       }
 
+      const existSrc = await fs.pathExists(appContext.srcDirectory);
       await (mountHook() as any).addRuntimeExports();
+
+      if (!existSrc) {
+        const { routes } = await (mountHook() as any).modifyServerRoutes({
+          routes: [],
+        });
+
+        debug(`server routes: %o`, routes);
+
+        AppContext.set({
+          ...appContext,
+          existSrc,
+          serverRoutes: routes,
+        });
+        return;
+      }
 
       const [
         { getBundleEntry },
@@ -129,6 +145,7 @@ export default createPlugin(
       AppContext.set({
         ...appContext,
         entrypoints,
+        existSrc,
         serverRoutes: routes,
         htmlTemplates,
       });

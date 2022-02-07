@@ -19,7 +19,6 @@ import webpack, {
 import { Entrypoint } from '@modern-js/types';
 import CopyPlugin from 'copy-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-import { RouteManifest } from '../plugins/route-manifest-plugin';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
 import { AppIconPlugin } from '../plugins/app-icon-plugin';
 import { ICON_EXTENSIONS } from '../utils/constants';
@@ -281,13 +280,6 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
             noErrorOnMissing: true,
           },
         ],
-      },
-    ]);
-
-    this.chain.plugin('route-manitest').use(RouteManifest, [
-      {
-        options: this.options,
-        appContext: this.appContext,
       },
     ]);
 

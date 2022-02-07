@@ -6,8 +6,9 @@ export const printInstructions = async (
   config: NormalizedConfig,
 ) => {
   let message = prettyInstructions(appContext, config);
+  const { existSrc } = appContext;
 
-  if (isDev()) {
+  if (isDev() && existSrc) {
     message += `\n${chalk.cyanBright(
       [
         `Note that the development build is not optimized.`,
