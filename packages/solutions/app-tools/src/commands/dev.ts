@@ -18,6 +18,8 @@ import {
 } from '@modern-js/core';
 import { createCompiler } from '../utils/createCompiler';
 import { createServer } from '../utils/createServer';
+import { generateRoutes } from '../utils/routes';
+import { printInstructions } from '../utils/printInstructions';
 
 export const dev = async () => {
   /* eslint-disable react-hooks/rules-of-hooks */
@@ -25,22 +27,27 @@ export const dev = async () => {
   const userConfig = useResolvedConfigContext();
   /* eslint-enable react-hooks/rules-of-hooks */
 
-  const { appDirectory, distDirectory, port } = appContext;
+  const { appDirectory, distDirectory, port, existSrc } = appContext;
 
   fs.emptyDirSync(distDirectory);
 
   await (mountHook() as any).beforeDev();
 
-  const webpackConfigs = [
-    isSSR(userConfig) && getWebpackConfig(WebpackConfigTarget.NODE),
-    getWebpackConfig(WebpackConfigTarget.CLIENT),
-  ].filter(Boolean) as Configuration[];
+  let compiler = null;
+  if (existSrc) {
+    const webpackConfigs = [
+      isSSR(userConfig) && getWebpackConfig(WebpackConfigTarget.NODE),
+      getWebpackConfig(WebpackConfigTarget.CLIENT),
+    ].filter(Boolean) as Configuration[];
 
-  const compiler = await createCompiler({
-    webpackConfigs,
-    userConfig,
-    appContext,
-  });
+    compiler = await createCompiler({
+      webpackConfigs,
+      userConfig,
+      appContext,
+    });
+  }
+
+  await generateRoutes(appContext);
 
   const app = await createServer({
     dev: {
@@ -68,13 +75,16 @@ export const dev = async () => {
       .map((p: any) => p.server),
   });
 
-  app.listen(port, (err: Error) => {
+  app.listen(port, async (err: Error) => {
     if (err) {
       throw err;
     }
 
-    clearConsole();
-
-    logger.log(chalk.cyan(`Starting the development server...`));
+    if (existSrc) {
+      clearConsole();
+      logger.log(chalk.cyan(`Starting the development server...`));
+    } else {
+      await printInstructions(appContext, userConfig);
+    }
   });
 };
