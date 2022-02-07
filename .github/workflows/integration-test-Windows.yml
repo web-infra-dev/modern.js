@@ -25,6 +25,10 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Git config
+        shell: bash
+        run: |
+          git config --system core.longpaths true
       - uses: actions/checkout@v2
         with:
           fetch-depth: 25
