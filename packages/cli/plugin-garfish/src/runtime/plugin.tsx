@@ -4,7 +4,13 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import { logger } from '../util';
 import { GarfishProvider } from './utils/Context';
 import setExternal from './utils/setExternal';
-import { Config, Manifest, ModulesInfo, Options } from './useModuleApps';
+import {
+  Config,
+  Manifest,
+  MicroComponentProps,
+  ModulesInfo,
+  Options,
+} from './useModuleApps';
 import { generateMApp } from './utils/MApp';
 import { AppMap, generateApps } from './utils/apps';
 
@@ -49,7 +55,7 @@ export default ((config: Config) => {
     hoc({ App }, next) {
       class GetMicroFrontendApp extends React.Component {
         state: {
-          MApp: React.FC<any>;
+          MApp: React.FC<MicroComponentProps>;
           apps: AppMap;
           appInfoList: ModulesInfo;
         } = {

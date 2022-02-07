@@ -1,20 +1,7 @@
 // logical reference to https://github.com/jamiebuilds/react-loadable/blob/6201c5837b212d6244c57f3748f2b1375096beeb/src/index.js
 import React from 'react';
 import { logger } from '../util';
-
-export type LoadingComponent = React.ComponentType<{
-  isLoading: boolean;
-  pastDelay: boolean;
-  timedOut: boolean;
-  error: any;
-  retry: () => void;
-}>;
-
-export interface LoadingConfig {
-  timeout?: number;
-  delay?: number;
-  LoadingComponent?: LoadingComponent;
-}
+import { LoadingComponent, MicroComponentProps } from './useModuleApps';
 
 interface SetLoadingState {
   isLoading?: boolean;
@@ -29,7 +16,7 @@ export interface MicroProps {
 export function Loadable(WrapComponent: any) {
   return function (defaultLoadingComponent?: LoadingComponent) {
     return class LoadableComponent extends React.Component<
-      { loadingConfig: LoadingConfig },
+      MicroComponentProps,
       any
     > {
       state: {
@@ -114,6 +101,7 @@ export function Loadable(WrapComponent: any) {
       }
 
       render() {
+        // eslint-disable-next-line @typescript-eslint/no-shadow
         const { isLoading, error, pastDelay, timedOut, LoadingComponent } =
           this.state;
         const showLoading = (isLoading || error) && LoadingComponent;

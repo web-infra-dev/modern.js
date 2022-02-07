@@ -1,7 +1,6 @@
 import garfish, { interfaces as GarfishInterfaces } from 'garfish';
 import { useContext } from 'react';
 import { logger } from '../util';
-import { LoadingComponent } from './loadable';
 import { GarfishContext } from './utils/Context';
 
 export type Options = typeof garfish.options;
@@ -22,6 +21,22 @@ export type ModernGarfishConfig = {
   LoadingComponent?: LoadingComponent;
   manifest?: Manifest;
 };
+
+export type LoadingComponent = React.ComponentType<{
+  isLoading: boolean;
+  pastDelay: boolean;
+  timedOut: boolean;
+  error: any;
+  retry: () => void;
+}>;
+
+export interface LoadingConfig {
+  timeout?: number;
+  delay?: number;
+  LoadingComponent?: LoadingComponent;
+}
+
+export type MicroComponentProps = { loadingConfig: LoadingConfig };
 
 export type Config = Partial<Options> & ModernGarfishConfig;
 
