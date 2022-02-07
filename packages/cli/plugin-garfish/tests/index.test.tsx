@@ -12,7 +12,7 @@ import {
   useLocation,
   MemoryRouter,
 } from '@modern-js/plugin-router';
-import ModernGarfishPlugin, { useLegacyModuleApps } from '../src/runtime';
+import ModernGarfishPlugin, { useMicroApps } from '../src/runtime';
 import {
   TABLE_LIST_ESCAPE_NODE,
   TABLE_LIST_HTML,
@@ -110,7 +110,7 @@ describe('plugin-garfish', () => {
       const Home = () => <div data-testid="home-title">{HomeTitle}</div>;
       const {
         Components: { Dashboard, TableList },
-      } = useLegacyModuleApps();
+      } = useMicroApps();
 
       const LocationDisplay = () => {
         const location = useLocation();
@@ -197,7 +197,7 @@ describe('plugin-garfish', () => {
     };
 
     const App = () => {
-      const { MApp } = useLegacyModuleApps();
+      const { MApp } = useMicroApps();
 
       return (
         <MemoryRouter>

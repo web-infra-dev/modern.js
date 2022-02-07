@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { createApp } from '@modern-js/runtime-core';
 import '@testing-library/jest-dom';
 import ModernGarfishPlugin, {
-  useLegacyModuleApps,
+  useMicroApps,
   useModuleApp,
   useModuleApps,
 } from '../src/runtime';
@@ -32,7 +32,7 @@ describe('plugin-garfish', () => {
     };
 
     const App = () => {
-      const { MApp, apps, Components } = useLegacyModuleApps();
+      const { MApp, apps, Components } = useMicroApps();
       const { Dashboard, TableList } = Components;
       const NMApp = useModuleApp();
       const NApps = useModuleApps();
