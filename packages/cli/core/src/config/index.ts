@@ -116,8 +116,13 @@ interface DevConfig {
   https?: boolean;
 }
 
+interface MicroFrontend {
+  enableHtmlEntry: boolean;
+  externalBasicLibrary: boolean;
+}
+
 interface DeployConfig {
-  microFrontend?: boolean & Record<string, unknown>;
+  microFrontend?: boolean | MicroFrontend;
   domain?: string | Array<string>;
   domainByEntries?: Record<string, string | Array<string>>;
 }

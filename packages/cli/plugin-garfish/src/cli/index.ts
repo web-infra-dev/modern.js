@@ -15,8 +15,7 @@ import { makeProvider, makeRenderFunction } from './utils';
 
 const useMicroFrontEndConfig = () => {
   const userConfig = useResolvedConfigContext();
-
-  return userConfig || {};
+  return userConfig;
 };
 
 type GetFirstArgumentOfFunction<T> = T extends (
@@ -59,16 +58,34 @@ export const initializer: GetFirstArgumentOfFunction<
           webpack: (_config: any, { chain }: { chain: WebpackChain }) => {
             // eslint-disable-next-line react-hooks/rules-of-hooks
             const userConfig = useMicroFrontEndConfig();
+            const { deploy = {} } = userConfig;
             chain.output.libraryTarget('umd');
+
             logger('useConfig', {
               server: userConfig?.server,
               runtime: userConfig?.runtime,
-              deploy: userConfig?.deploy,
+              deploy,
             });
 
-            if (userConfig?.deploy?.microFrontend) {
-              chain.externals({ 'react-dom': 'react-dom', react: 'react' });
-              logger('externals', chain.toConfig().externals);
+            if (deploy?.microFrontend) {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-expect-error
+              const { enableHtmlEntry = true, externalBasicLibrary = true } =
+                deploy.microFrontend || {};
+
+              if (!enableHtmlEntry) {
+                chain.output.filename('index.js');
+                chain.plugins.delete('html-main');
+                chain.optimization.runtimeChunk(false);
+                chain.optimization.splitChunks({
+                  chunks: 'async',
+                });
+              }
+
+              if (deploy?.microFrontend && externalBasicLibrary) {
+                chain.externals({ 'react-dom': 'react-dom', react: 'react' });
+                logger('externals', chain.toConfig().externals);
+              }
             }
           },
         },
@@ -87,7 +104,7 @@ export const initializer: GetFirstArgumentOfFunction<
     },
     modifyEntryImports({ entrypoint, imports }: any) {
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const config = useResolvedConfigContext();
+      const config = useMicroFrontEndConfig();
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { packageName } = useAppContext();
 

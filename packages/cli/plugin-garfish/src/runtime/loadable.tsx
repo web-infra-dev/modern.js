@@ -10,7 +10,7 @@ export type LoadingComponent = React.ComponentType<{
   retry: () => void;
 }>;
 
-interface LoadingConfig {
+export interface LoadingConfig {
   timeout?: number;
   delay?: number;
   LoadingComponent?: LoadingComponent;
@@ -50,11 +50,11 @@ export function Loadable(WrapComponent: any) {
         isLoading: false,
       };
 
-      private mounted: boolean = false;
+      mounted: boolean = false;
 
-      private delay: NodeJS.Timeout | undefined;
+      delay: NodeJS.Timeout | undefined;
 
-      private timeout: NodeJS.Timeout | undefined;
+      timeout: NodeJS.Timeout | undefined;
 
       // eslint-disable-next-line @typescript-eslint/naming-convention
       UNSAFE_componentWillMount() {
@@ -93,7 +93,7 @@ export function Loadable(WrapComponent: any) {
         this.clearTimeouts();
       }
 
-      private setStateWithMountCheck(newState: Partial<typeof this.state>) {
+      setStateWithMountCheck(newState: Partial<typeof this.state>) {
         if (!this.mounted) {
           return;
         }
@@ -102,13 +102,13 @@ export function Loadable(WrapComponent: any) {
         this.setState(newState);
       }
 
-      private readonly retry = () => {
+      readonly retry = () => {
         this.setState({ error: null, isLoading: true, timedOut: false });
         // res = loadFn(opts.loader);
         // this._loadModule();
       };
 
-      private clearTimeouts() {
+      clearTimeouts() {
         this.delay && clearTimeout(this.delay);
         this.timeout && clearTimeout(this.timeout);
       }

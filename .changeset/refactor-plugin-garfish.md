@@ -1,6 +1,8 @@
 ---
 "@modern-js/plugin-garfish": minor
+"@modern-js/plugin-analyze": minor
 "@modern-js/utils": minor
+"@modern-js/core": minor
 "@modern-js/generator-common": minor
 ---
 
