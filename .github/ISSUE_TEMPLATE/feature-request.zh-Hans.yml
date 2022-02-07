@@ -1,5 +1,7 @@
 name: "✨ 新功能建议"
 description: 给 Modern.js 提交新功能建议
+title: "[RFC]: "
+labels: ["rfc"]
 body:
   - type: markdown
     attributes:
