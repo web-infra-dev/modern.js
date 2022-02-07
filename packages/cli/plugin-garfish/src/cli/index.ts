@@ -55,7 +55,10 @@ export const initializer: GetFirstArgumentOfFunction<
           },
         },
         tools: {
-          webpack: (_config: any, { chain }: { chain: WebpackChain }) => {
+          webpack: (
+            _config: any,
+            { chain, webpack }: { chain: WebpackChain; webpack: any },
+          ) => {
             // eslint-disable-next-line react-hooks/rules-of-hooks
             const userConfig = useMicroFrontEndConfig();
             const { deploy = {} } = userConfig;
@@ -81,6 +84,11 @@ export const initializer: GetFirstArgumentOfFunction<
                   chunks: 'async',
                 });
               }
+
+              // add comments avoid sourcemap abnormal
+              chain
+                .plugin('banner')
+                .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
 
               if (deploy?.microFrontend && externalBasicLibrary) {
                 chain.externals({ 'react-dom': 'react-dom', react: 'react' });
