@@ -16,6 +16,7 @@ import {
   logger,
   isUseSSRBundle,
 } from '@modern-js/utils';
+import { generateRoutes } from '../utils/routes';
 
 // These sizes are pretty large. We'll warn for bundles exceeding them.
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
@@ -25,7 +26,26 @@ interface CliOptions {
   analyze?: boolean;
 }
 
+// eslint-disable-next-line max-statements
 export const build = async (options?: CliOptions) => {
+  /* eslint-disable react-hooks/rules-of-hooks */
+  const resolvedConfig = useResolvedConfigContext();
+  const appContext = useAppContext();
+  const { existSrc } = appContext;
+  /* eslint-enable react-hooks/rules-of-hooks */
+
+  if (!existSrc) {
+    await (mountHook() as any).beforeBuild({
+      webpackConfigs: [],
+    });
+
+    await generateRoutes(appContext);
+
+    await (mountHook() as any).afterBuild();
+
+    return;
+  }
+
   const webpackBuild = async (webpackConfig: Configuration, type?: string) => {
     const compiler = webpack(webpackConfig);
 
@@ -79,11 +99,6 @@ export const build = async (options?: CliOptions) => {
     });
   };
 
-  /* eslint-disable react-hooks/rules-of-hooks */
-  const resolvedConfig = useResolvedConfigContext();
-  const appContext = useAppContext();
-  /* eslint-enable react-hooks/rules-of-hooks */
-
   manager.run(() => {
     ResolvedConfigContext.set({ ...resolvedConfig, cliOptions: options });
   });
@@ -92,8 +107,7 @@ export const build = async (options?: CliOptions) => {
   const previousFileSizes = await measureFileSizesBeforeBuild(outputPath);
   fs.emptyDirSync(outputPath);
 
-  const buildConfigs = [];
-
+  const buildConfigs: Array<{ type: string; config: any }> = [];
   buildConfigs.push({
     type: 'legacy',
     config: getWebpackConfig(WebpackConfigTarget.CLIENT)!,
@@ -123,7 +137,12 @@ export const build = async (options?: CliOptions) => {
       await webpackBuild(config, buildType);
     } catch (error) {
       printBuildError(error as Error);
+      // eslint-disable-next-line no-process-exit
+      process.exit(1);
     }
   }
+
+  await generateRoutes(appContext);
+
   await (mountHook() as any).afterBuild();
 };

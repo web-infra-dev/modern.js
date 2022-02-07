@@ -87,7 +87,12 @@ export const generateCode = async (
   config: NormalizedConfig,
   entrypoints: Entrypoint[],
 ) => {
-  const { internalDirectory, srcDirectory } = appContext;
+  const {
+    internalDirectory,
+    srcDirectory,
+    internalDirAlias,
+    internalSrcAlias,
+  } = appContext;
 
   const {
     output: { mountId },
@@ -102,7 +107,9 @@ export const generateCode = async (
         const initialRoutes = getClientRoutes({
           entrypoint,
           srcDirectory,
+          srcAlias: internalSrcAlias,
           internalDirectory,
+          internalDirAlias,
         });
 
         const { routes } = await (mountHook() as any).modifyFileSystemRoutes({
@@ -133,6 +140,8 @@ export const generateCode = async (
         imports: getDefaultImports({
           entrypoint,
           srcDirectory,
+          internalSrcAlias,
+          internalDirAlias,
         }),
       });
 

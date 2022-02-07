@@ -13,7 +13,7 @@ import path from 'path';
 import { Buffer } from 'buffer';
 import zlib from 'zlib';
 import bodyParser from 'body-parser';
-import { fs, HIDE_MODERN_JS_DIR } from '@modern-js/utils';
+import { fs } from '@modern-js/utils';
 import cors from 'cors';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import type { Express } from 'express';
@@ -53,20 +53,20 @@ export default function (
     type,
     port,
     appDirectory,
-  }: { type: string; port: string; appDirectory: string },
+    internalDirectory,
+  }: {
+    type: string;
+    port: string;
+    appDirectory: string;
+    internalDirectory: string;
+  },
   { isTest = false, debug = false },
 ) {
   // 可以通过环境变量EDITOR_REMOTE_URL 动态设置编辑器地址
   const editorStaticPath =
     process.env.EDITOR_REMOTE_URL || getEditorStaticPath(isTest);
-  const localSandbox = path.join(
-    appDirectory,
-    `${HIDE_MODERN_JS_DIR}/.nocode.sandbox.json`,
-  );
-  const localSandboxPage = path.join(
-    appDirectory,
-    `${HIDE_MODERN_JS_DIR}/.nocode.page.json`,
-  );
+  const localSandbox = path.join(internalDirectory, `.nocode.sandbox.json`);
+  const localSandboxPage = path.join(internalDirectory, `.nocode.page.json`);
 
   app.use(cors());
 
@@ -172,7 +172,7 @@ export default function (
         const pageData = JSON.parse(
           fs.readFileSync(localSandboxPage, 'utf-8') || '[]',
         );
-        const data = pageData.find(it => it.pageId === req.params.id);
+        const data = pageData.find((it: any) => it.pageId === req.params.id);
         return res.json(data ? data : null);
       }
 
@@ -189,7 +189,9 @@ export default function (
         let pageData = JSON.parse(
           fs.readFileSync(localSandboxPage, 'utf-8') || '[]',
         );
-        const index = pageData.findIndex(it => it.pageId === req.params.id);
+        const index = pageData.findIndex(
+          (it: any) => it.pageId === req.params.id,
+        );
         if (index > -1) {
           pageData[index] = req.body.pageData;
         } else {
@@ -266,7 +268,7 @@ export default function (
     }
   });
 
-  app.all('/ui_tools_api/dependency_map/*', (req, res) => {
+  app.all('/ui_tools_api/dependency_map/*', (req: any, res) => {
     try {
       const pkgName = req.params['0'];
       const mapText = getDependencyMap(pkgName);
@@ -312,7 +314,7 @@ export default function (
 
   app.get('/ui_tools_api/sources', async (req, res) => {
     try {
-      const block = await readdir(path.resolve(__dirname, '../'), 'src', {});
+      const block = await readdir(path.resolve(__dirname, '../'), 'src');
       responseSuccess(res, { ...block });
     } catch (err) {
       console.error(err);
@@ -376,18 +378,18 @@ export default function (
       target: editorStaticPath,
       changeOrigin: true,
       logLevel: debug ? 'debug' : 'silent',
-      pathRewrite: (urlPath, req) => {
+      pathRewrite: (urlPath: string, req: any) => {
         const { pathname } = url.parse(req.url);
-        if (pathname === '/' || /\/p\/*/.test(pathname)) {
+        if (pathname === '/' || /\/p\/*/.test(pathname || '')) {
           return indexHtml;
         }
 
         return path;
       },
       selfHandleResponse: true,
-      onProxyRes: (proxyRes, request, res) => {
-        const bodyChunks = [];
-        proxyRes.on('data', chunk => {
+      onProxyRes: (proxyRes: any, request: any, res: any) => {
+        const bodyChunks: any = [];
+        proxyRes.on('data', (chunk: any) => {
           bodyChunks.push(chunk);
         });
 
@@ -422,7 +424,7 @@ export default function (
           res.end();
         });
       },
-    }),
+    } as any),
   );
 }
 /* eslint-enable node/no-deprecated-api */

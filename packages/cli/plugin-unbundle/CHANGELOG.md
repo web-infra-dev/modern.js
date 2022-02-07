@@ -1,5 +1,11 @@
 # @modern-js/plugin-unbundle
 
+## 1.2.2
+
+### Patch Changes
+
+- d14ba2f3: fix "tailwindcss" logics in plugin-unbundle
+
 ## 1.2.1
 
 ### Patch Changes

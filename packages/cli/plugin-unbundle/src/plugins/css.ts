@@ -157,6 +157,10 @@ const isCSSModule = (config: NormalizedConfig, id: string): boolean => {
   return CSS_MODULE_REGEX.test(id);
 };
 
+export const hasTailwind = (appDirectory: string) =>
+  hasDependency(appDirectory, `@modern-js/plugin-tailwindcss`) &&
+  hasDependency(appDirectory, `tailwindcss`);
+
 export class CustomLessFileManager extends less.FileManager {
   async loadFile(
     filename: string,
@@ -367,7 +371,9 @@ const transformCSS = async (
     );
   }
 
-  if (hasDependency(appDirectory, `@modern-js/plugin-tailwindcss`)) {
+  // As @modern-js/plugin-tailwindcss requires 'tailwindcss' as peer depenedency,
+  // so we could safely require both plugins when using tailwind features
+  if (hasTailwind(appDirectory)) {
     postcssPlugins.push(require('tailwindcss')(tailwindConfig));
   }
 
