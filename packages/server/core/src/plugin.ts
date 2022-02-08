@@ -6,6 +6,7 @@ import {
   PluginFromAsyncManager,
   createParallelWorkflow,
   createAsyncWaterfall,
+  createContext,
 } from '@modern-js/plugin';
 import { enable } from '@modern-js/plugin/node';
 import type {
@@ -14,7 +15,8 @@ import type {
   Metrics,
   Logger,
 } from '@modern-js/types/server';
-import type { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig, UserConfig } from '@modern-js/core';
+import type { IAppContext } from '@modern-js/types';
 
 enable();
 
@@ -179,4 +181,10 @@ export type ServerPlugin = PluginFromAsyncManager<typeof serverManager>;
 
 export const { createPlugin } = serverManager;
 
-export const collectPlugin = (): Plugin[] => [];
+export const AppContext = createContext<IAppContext>({} as IAppContext);
+
+export const ConfigContext = createContext<UserConfig>({} as UserConfig);
+
+export const useAppContext = () => AppContext.use().value;
+
+export const useConfigContext = () => ConfigContext.use().value;

@@ -62,7 +62,7 @@
     "@modern-js/bff-runtime": "workspace:^1.2.1",
     "@modern-js/bff-utils": "workspace:^1.2.2",
     "@modern-js/core": "workspace:^1.3.2",
-    "@modern-js/server-plugin": "workspace:^1.2.1",
+    "@modern-js/server-core": "workspace:^1.2.1",
     "@scripts/build": "workspace:*",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*"
@@ -75,7 +75,7 @@
   "peerDependencies": {
     "@modern-js/bff-utils": "workspace:^1.2.2",
     "@modern-js/core": "workspace:^1.3.2",
-    "@modern-js/server-plugin": "workspace:^1.2.1",
+    "@modern-js/server-core": "workspace:^1.2.1",
     "@modern-js/bff-runtime": "workspace:^1.2.1",
     "koa": "^2.13.3"
   },

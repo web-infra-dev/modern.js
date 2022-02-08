@@ -1,6 +1,10 @@
 {
   "folders": [
     {
+      "name": "server/core",
+      "path": "packages/server/core/"
+    },
+    {
       "name": "@modern-js-app/eslint-config",
       "path": "packages/review/eslint-config-app"
     },
@@ -467,12 +471,18 @@
       "**/yarn.lock": true
     },
     //
-    "editor.rulers": [80, 120],
+    "editor.rulers": [
+      80,
+      120
+    ],
     "files.eol": "\n",
     "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
     //
-    "todo-tree.general.tags": ["TODO:", "FIXME:"],
+    "todo-tree.general.tags": [
+      "TODO:",
+      "FIXME:"
+    ],
     "todo-tree.highlights.defaultHighlight": {
       "gutterIcon": true
     },
