@@ -19,6 +19,8 @@ export class ModernRoute implements ModernRouteInterface {
 
   public enableModernMode?: boolean;
 
+  public params: Record<string, any> = {};
+
   constructor(routeSpec: ModernRouteInterface) {
     this.entryName = routeSpec.entryName || '';
     this.urlPath = routeSpec.urlPath;

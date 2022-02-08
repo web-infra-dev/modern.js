@@ -47,6 +47,7 @@ export interface ModernServerContext {
 
 export type BaseSSRServerContext = {
   request: {
+    baseUrl: string;
     params: Record<string, string>;
     pathname: string;
     query: Record<string, string>;

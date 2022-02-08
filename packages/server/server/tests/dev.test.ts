@@ -121,7 +121,6 @@ describe('test dev tools', () => {
 
       setTimeout(() => {
         const fl = getWatchedFiles(watcher.watcher);
-        console.info(fl, filepatha, filepath, txt);
         expect(fl.includes(filepatha)).toBeTruthy();
         expect(fl.includes(filepath)).toBeTruthy();
         expect(fl.includes(txt)).toBeTruthy();

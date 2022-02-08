@@ -10,7 +10,7 @@ describe('test hook api', () => {
     manager.reset(spec.routes);
     const matcher = manager.match('/home');
 
-    const routeAPI = createRouteAPI(matcher!, manager);
+    const routeAPI = createRouteAPI(matcher!, manager, '');
     expect(routeAPI.cur().entryName).toBe('home');
     expect(routeAPI.get('entry')?.entryPath).toBe('html/entry/index.html');
 
