@@ -1196,6 +1196,7 @@ importers:
       '@modern-js/plugin': workspace:^1.2.1
       '@modern-js/plugin-analyze': workspace:^1.2.1
       '@modern-js/runtime-core': workspace:^1.2.1
+      '@modern-js/types': workspace:^1.2.1
       '@modern-js/utils': workspace:^1.2.2
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -1228,6 +1229,7 @@ importers:
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-analyze': link:../plugin-analyze
       '@modern-js/runtime-core': link:../../runtime
+      '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
@@ -3099,6 +3101,7 @@ importers:
       '@babel/runtime': ^7
       '@loadable/component': ^5.15.0
       '@modern-js/plugin': workspace:^1.2.1
+      '@modern-js/types': workspace:^1.2.1
       '@modern-js/utils': workspace:^1.2.2
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -3130,6 +3133,7 @@ importers:
       styled-components: 5.3.3_react-dom@17.0.2+react@17.0.2
     devDependencies:
       '@loadable/component': 5.15.2_react@17.0.2
+      '@modern-js/types': link:../toolkit/types
       '@scripts/build': link:../../scripts/build
       '@scripts/jest-config': link:../../scripts/jest-config
       '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
@@ -32739,6 +32743,7 @@ packages:
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
 
   /v8-compile-cache/2.3.0:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}

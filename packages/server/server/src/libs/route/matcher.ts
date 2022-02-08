@@ -5,6 +5,7 @@ import {
   match,
   pathToRegexp,
 } from 'path-to-regexp';
+import { toPath } from '../../utils';
 import { ModernRoute, ModernRouteInterface } from './route';
 
 // eslint-disable-next-line no-useless-escape
@@ -24,8 +25,16 @@ export class RouteMatcher {
   }
 
   // generate modern route object
-  public generate() {
-    return new ModernRoute(this.spec);
+  public generate(url: string) {
+    const route = new ModernRoute(this.spec);
+
+    if (this.urlPath) {
+      const params = this.parseURLParams(url);
+      route.urlPath = toPath(route.urlPath, params);
+      route.params = params;
+    }
+
+    return route;
   }
 
   public parseURLParams(pathname: string) {
@@ -86,8 +95,14 @@ export class RouteMatcher {
 
     const useReg = regCharsDetector.test(urlPath);
     if (useReg) {
-      this.urlMatcher = match(urlPath, { decode: decodeURIComponent });
-      this.urlReg = pathToRegexp(urlPath);
+      this.urlMatcher = match(urlPath, {
+        end: false,
+        decode: decodeURIComponent,
+      });
+
+      this.urlReg = pathToRegexp(urlPath, [], {
+        end: false,
+      });
     }
   }
 }

@@ -14,6 +14,7 @@ describe('test server context', () => {
       method: 'GET',
     });
     const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+    const context = createContext(req, res);
     const {
       method,
       url,
@@ -25,7 +26,7 @@ describe('test server context', () => {
       querystring,
       protocol,
       params,
-    } = createContext(req, res);
+    } = context;
 
     expect(method).toBe('GET');
     expect(url).toBe('/pathname?foo=baz');
@@ -37,5 +38,15 @@ describe('test server context', () => {
     expect(querystring).toBe('foo=baz');
     expect(protocol).toBe('http');
     expect(params).toEqual({});
+
+    expect(context.serverData).toEqual({});
+    context.setServerData('foo', {
+      name: 'foo',
+    });
+    expect(context.serverData).toEqual({
+      foo: {
+        name: 'foo',
+      },
+    });
   });
 });
