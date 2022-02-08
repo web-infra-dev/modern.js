@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import { PLUGIN_SCHEMAS } from '@modern-js/utils';
 import { makeProvider } from '../src/cli/utils';
 import GarfishPlugin, { initializer } from '../src/cli';
 
@@ -30,7 +31,13 @@ describe('plugin-garfish cli', () => {
   });
 
   test('test modifyEntryExport', () => {
-    const lifeCycle: any = initializer();
+    const lifeCycle: any = initializer({
+      validateSchema() {
+        return PLUGIN_SCHEMAS['@modern-js/plugin-garfish'];
+      },
+      externals: { 'react-dom': 'react-dom', react: 'react' },
+      componentKey: 'test-dynamic-key',
+    })();
     const { exportStatement } = lifeCycle.modifyEntryExport({
       entrypoint: 'hello',
       exportStatement: '',
