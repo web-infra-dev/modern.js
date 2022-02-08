@@ -47,12 +47,12 @@ export interface ModernServerContext {
 
 export type BaseSSRServerContext = {
   request: {
-    baseUrl: string;
     params: Record<string, string>;
     pathname: string;
     query: Record<string, string>;
     headers: IncomingHttpHeaders;
     cookie?: string;
+    baseUrl?: string;
   };
   redirection: { url?: string; status?: number };
   distDir: string;
@@ -61,4 +61,5 @@ export type BaseSSRServerContext = {
   logger: Logger;
   metrics?: Metrics;
   loadableManifest?: string;
+  cacheConfig?: any;
 };

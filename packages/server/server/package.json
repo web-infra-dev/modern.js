@@ -44,7 +44,7 @@
     "@babel/runtime": "^7",
     "@modern-js/core": "workspace:^1.3.2",
     "@modern-js/hmr-client": "workspace:^1.2.1",
-    "@modern-js/server-plugin": "workspace:^1.2.1",
+    "@modern-js/server-core": "workspace:^1.2.1",
     "@modern-js/server-utils": "workspace:^1.2.1",
     "@modern-js/bff-utils": "workspace:^1.2.2",
     "@modern-js/utils": "workspace:^1.2.2",

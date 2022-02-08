@@ -1,13 +1,15 @@
 import { IncomingMessage, ServerResponse, Server as httpServer } from 'http';
 import path from 'path';
-import { serverManager } from '@modern-js/server-plugin';
+import {
+  serverManager,
+  AppContext,
+  ConfigContext,
+} from '@modern-js/server-core';
 import { logger as defaultLogger } from '@modern-js/utils';
 import {
-  AppContext,
   initAppContext,
   initAppDir,
   loadUserConfig,
-  ConfigContext,
   UserConfig,
 } from '@modern-js/core';
 import { ModernServerOptions, ServerHookRunner, ReadyOptions } from '../type';
