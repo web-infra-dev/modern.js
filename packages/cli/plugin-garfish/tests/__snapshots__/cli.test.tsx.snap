@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plugin-garfish cli makeProvider 1`] = `
+"
+  export const provider = function ({basename, dom, ...props}) {
+    return {
+      render({basename, dom}) {
+        const SubApp = render(props, basename);
+        const node = dom.querySelector('#' + MOUNT_ID) || dom;
+
+        bootstrap(SubApp, node);
+      },
+      destroy({ dom }) {
+        const node = dom.querySelector('#' + MOUNT_ID) || dom;
+
+        if (node) {
+          unmountComponentAtNode(node);
+        }
+      },
+      SubModuleComponent: (props) => {
+        const SubApp = render(props, basename);
+
+        return createPortal(<SubApp />, dom.querySelector('#' + MOUNT_ID)  || dom);
+      },
+      modernJSExportComponent: () => {
+        const SubApp = render(props, basename);
+
+        return createPortal(<SubApp />, dom.querySelector('#' + MOUNT_ID)  || dom);
+      }
+    }
+  };
+  if (typeof __GARFISH_EXPORTS__ !== 'undefined') {
+    __GARFISH_EXPORTS__.provider = provider;
+  }
+"
+`;
+
+exports[`plugin-garfish cli test modifyEntryExport 1`] = `
+"
+  export const provider = function ({basename, dom, ...props}) {
+    return {
+      render({basename, dom}) {
+        const SubApp = render(props, basename);
+        const node = dom.querySelector('#' + MOUNT_ID) || dom;
+
+        bootstrap(SubApp, node);
+      },
+      destroy({ dom }) {
+        const node = dom.querySelector('#' + MOUNT_ID) || dom;
+
+        if (node) {
+          unmountComponentAtNode(node);
+        }
+      },
+      SubModuleComponent: (props) => {
+        const SubApp = render(props, basename);
+
+        return createPortal(<SubApp />, dom.querySelector('#' + MOUNT_ID)  || dom);
+      },
+      test-dynamic-key: () => {
+        const SubApp = render(props, basename);
+
+        return createPortal(<SubApp />, dom.querySelector('#' + MOUNT_ID)  || dom);
+      }
+    }
+  };
+  if (typeof __GARFISH_EXPORTS__ !== 'undefined') {
+    __GARFISH_EXPORTS__.provider = provider;
+  }
+"
+`;

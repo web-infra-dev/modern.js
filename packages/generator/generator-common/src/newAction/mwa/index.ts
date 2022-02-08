@@ -92,7 +92,7 @@ export const MWAActionFunctionsDependencies: Partial<
   [ActionFunction.Less]: '@modern-js/plugin-less',
   [ActionFunction.Sass]: '@modern-js/plugin-sass',
   [ActionFunction.BFF]: '@modern-js/plugin-bff',
-  [ActionFunction.MicroFrontend]: '@modern-js/plugin-micro-frontend',
+  [ActionFunction.MicroFrontend]: '@modern-js/plugin-garfish',
   [ActionFunction.I18n]: '@modern-js/plugin-i18n',
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
   [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
@@ -102,7 +102,7 @@ export const MWAActionFunctionsAppendTypeContent: Partial<
   Record<ActionFunction, string>
 > = {
   [ActionFunction.Test]: `/// <reference types='@modern-js/plugin-testing/type' />`,
-  [ActionFunction.MicroFrontend]: `/// <reference types='@modern-js/plugin-micro-frontend/type' />`,
+  [ActionFunction.MicroFrontend]: `/// <reference types='@modern-js/plugin-garfish/type' />`,
 };
 
 export const MWANewActionGenerators: Record<

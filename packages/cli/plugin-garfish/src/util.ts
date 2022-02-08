@@ -1,4 +1,7 @@
-import { ModuleInfo } from '../typings';
+import createDebug from 'debug';
+import { ModuleInfo } from './runtime';
+
+export const logger = createDebug('modern-js:plugin-garfish');
 
 export const SUBMODULE_APP_COMPONENT_KEY = 'SubModuleComponent';
 
