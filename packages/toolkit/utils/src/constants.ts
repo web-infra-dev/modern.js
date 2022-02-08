@@ -92,8 +92,8 @@ export const INTERNAL_PLUGINS: {
     cli: '@modern-js/plugin-server/cli',
     server: '@modern-js/plugin-server/server',
   },
-  '@modern-js/plugin-micro-frontend': {
-    cli: '@modern-js/plugin-micro-frontend/cli',
+  '@modern-js/plugin-garfish': {
+    cli: '@modern-js/plugin-garfish/cli',
   },
   '@modern-js/plugin-jarvis': { cli: '@modern-js/plugin-jarvis/cli' },
   '@modern-js/plugin-tailwindcss': { cli: '@modern-js/plugin-tailwindcss/cli' },
@@ -236,7 +236,7 @@ export const PLUGIN_SCHEMAS = {
       schema: { typeof: ['object', 'function'] },
     },
   ],
-  '@modern-js/plugin-micro-frontend': [
+  '@modern-js/plugin-garfish': [
     {
       target: 'runtime.masterApp',
       schema: { type: ['object'] },
