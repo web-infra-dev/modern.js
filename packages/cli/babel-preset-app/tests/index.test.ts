@@ -16,4 +16,13 @@ describe('babel-preset-app', () => {
     ]);
     expect(cache).toBeCalledWith(true);
   });
+
+  it('no options', () => {
+    expect(generateBabelChain).toBeDefined();
+
+    const cache = jest.fn();
+    const webpackConfig = generateBabelChain({ cache });
+    expect(Object.keys(webpackConfig)).toEqual(['presets', 'plugins']);
+    expect(cache).toBeCalledWith(true);
+  });
 });
