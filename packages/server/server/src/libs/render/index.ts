@@ -53,6 +53,7 @@ export const createRenderHandler = ({
           {
             distDir,
             entryName: route.entryName,
+            urlPath: route.urlPath,
             bundle: route.bundle,
             template: templateHTML,
             staticGenerate,
