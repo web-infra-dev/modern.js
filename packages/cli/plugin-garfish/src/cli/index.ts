@@ -27,6 +27,8 @@ interface InitializerOptions {
   componentKey: string;
 }
 
+type InitializerFn = GetFirstArgumentOfFunction<typeof createPlugin>;
+
 function getRuntimeConfig(config: NormalizedConfig) {
   if (config?.runtime?.feature) {
     return config?.runtime?.feature;
@@ -43,9 +45,7 @@ function setRuntimeConfig(config: NormalizedConfig, key: string, value: any) {
   }
 }
 
-export const initializer: (
-  options: InitializerOptions,
-) => GetFirstArgumentOfFunction<typeof createPlugin> =
+export const initializer: (options: InitializerOptions) => InitializerFn =
   ({ validateSchema, externals, componentKey, ...otherLifeCycle }) =>
   () => {
     const configMap = new Map<string, any>();
