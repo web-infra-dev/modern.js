@@ -1,4 +1,4 @@
-# @modern-js/plugin-micro-frontend
+# @modern-js/plugin-garfish
 
 ## 1.2.1
 
