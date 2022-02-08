@@ -1,4 +1,4 @@
-import { APIServerStartInput } from '@modern-js/server-plugin';
+import { APIServerStartInput } from '@modern-js/server-core';
 import { mergeExtension } from '../utils';
 import { ModernRoute, ModernRouteInterface, RouteMatcher } from '../libs/route';
 import { ApiServerMode } from '../constants';

@@ -1,5 +1,5 @@
 import path from 'path';
-import { serverManager } from '@modern-js/server-plugin';
+import { serverManager } from '@modern-js/server-core';
 import request from 'supertest';
 // import type { Context } from 'egg';
 import plugin from '../src/plugin';

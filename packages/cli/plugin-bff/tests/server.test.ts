@@ -1,5 +1,5 @@
 import path from 'path';
-import { serverManager } from '@modern-js/server-plugin';
+import { serverManager } from '@modern-js/server-core';
 import { useAPIHandlerInfos } from '@modern-js/bff-utils';
 import plugin from '../src/server';
 
