@@ -9,6 +9,7 @@ import {
   createPlugin,
   useResolvedConfigContext,
 } from '@modern-js/core';
+import { ServerRoute } from '@modern-js/types';
 
 const PLUGIN_IDENTIFIER = 'router';
 
@@ -83,15 +84,18 @@ export default createPlugin(
 
         const runtimeConfig = runtimeConfigMap.get(entryName);
         if (runtimeConfig.router) {
+          // Todo: plugin-router best to only handle manage client route.
+          // here support base server route usage, part for compatibility
+          const serverBase = serverRoutes
+            .filter((route: ServerRoute) => route.entryName === entryName)
+            .map(route => route.urlPath)
+            .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
+
           plugins.push({
             name: PLUGIN_IDENTIFIER,
             options: JSON.stringify({
+              serverBase,
               ...runtimeConfig.router,
-              historyOptions: {
-                basename: serverRoutes.find(
-                  (route: any) => route.entryName === entryName,
-                )?.urlPath,
-              },
               routesConfig: fileSystemRoutes
                 ? `{ ${ROUTES_IDENTIFIER}, globalApp: App }`
                 : undefined,

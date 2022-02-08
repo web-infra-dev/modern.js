@@ -1,3 +1,5 @@
+import { compile } from 'path-to-regexp';
+
 export const mergeExtension = (users: any[]) => {
   const output: any[] = [];
   return { middleware: output.concat(users) };
@@ -76,4 +78,9 @@ export const createMiddlewareCollecter = () => {
     addWebMiddleware,
     addAPIMiddleware,
   };
+};
+
+export const toPath = (reg: string, params: Record<string, any>) => {
+  const fn = compile(reg, { encode: encodeURIComponent });
+  return fn(params);
 };

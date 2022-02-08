@@ -13,7 +13,6 @@ export class RouteMatchManager {
   // get all routes matches pathname
   private filter(pathname: string) {
     return this.matchers.reduce((matches, matcher) => {
-      // 非网关来的，或网关匹配上之后，内部再进行一次自己的匹配
       if (matcher.matchUrlPath(pathname)) {
         matches.push(matcher);
       }

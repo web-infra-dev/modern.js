@@ -5,19 +5,22 @@ class RouteAPI {
 
   private current: RouteMatcher;
 
-  constructor(matched: RouteMatcher, router: RouteMatchManager) {
+  private readonly url: string;
+
+  constructor(matched: RouteMatcher, router: RouteMatchManager, url: string) {
     this.current = matched;
     this.router = router;
+    this.url = url;
   }
 
   public cur() {
-    return this.current.generate();
+    return this.current.generate(this.url);
   }
 
   public get(entryName: string) {
     const { router } = this;
     const matched = router.matchEntry(entryName);
-    return matched ? matched.generate() : null;
+    return matched ? matched.generate(this.url) : null;
   }
 
   public use(entryName: string) {
@@ -35,4 +38,5 @@ class RouteAPI {
 export const createRouteAPI = (
   matched: RouteMatcher,
   router: RouteMatchManager,
-) => new RouteAPI(matched, router);
+  url: string,
+) => new RouteAPI(matched, router, url);
