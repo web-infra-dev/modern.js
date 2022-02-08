@@ -1,4 +1,4 @@
-import { createPlugin } from '@modern-js/server-plugin';
+import { createPlugin } from '@modern-js/server-core';
 import { NextFunction, ModernServerContext } from '@modern-js/types/server';
 import type { NormalizedConfig } from '@modern-js/core';
 import { getPolyfillString } from '@modern-js/polyfill-lib';

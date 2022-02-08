@@ -1,5 +1,5 @@
 {
-  "name": "@modern-js/server-plugin",
+  "name": "@modern-js/server-core",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -35,7 +35,6 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/runtime": "^7",
     "@modern-js/plugin": "workspace:^1.2.1"
   },
   "devDependencies": {

@@ -3,7 +3,7 @@ import Koa, { Middleware } from 'koa';
 import type Application from 'koa';
 import Router from 'koa-router';
 import koaBody from 'koa-body';
-import { createPlugin } from '@modern-js/server-plugin';
+import { createPlugin } from '@modern-js/server-core';
 import { requireModule } from '@modern-js/bff-utils';
 import { fs } from '@modern-js/utils';
 import { run } from './context';

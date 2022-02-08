@@ -1,4 +1,4 @@
-import { createPlugin } from '@modern-js/server-plugin';
+import { createPlugin } from '@modern-js/server-core';
 import { isFunction, logger } from '@modern-js/utils';
 import { NestFactory } from '@nestjs/core';
 import {
