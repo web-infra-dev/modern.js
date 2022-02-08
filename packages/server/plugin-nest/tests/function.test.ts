@@ -1,6 +1,6 @@
 import * as path from 'path';
 import request from 'supertest';
-import { serverManager } from '@modern-js/server-plugin';
+import { serverManager } from '@modern-js/server-core';
 import plugin from '../src/server';
 import { AppModule } from './fixtures/function/api/_app';
 import { APIPlugin } from './helpers';

@@ -1,6 +1,5 @@
 import path from 'path';
-import { createPlugin } from '@modern-js/server-plugin';
-import { useAppContext } from '@modern-js/core';
+import { createPlugin, useAppContext } from '@modern-js/server-core';
 import { isProd, requireExistModule, SERVER_DIR } from '@modern-js/utils';
 import { ModernServerContext } from '@modern-js/types';
 

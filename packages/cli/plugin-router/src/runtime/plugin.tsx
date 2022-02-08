@@ -9,6 +9,7 @@ import {
 import { Router, StaticRouter, RouteProps } from 'react-router-dom';
 import { createPlugin, RuntimeReactContext } from '@modern-js/runtime-core';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import { BaseSSRServerContext } from '@modern-js/types';
 import { renderRoutes, getLocation, urlJoin } from './utils';
 
 declare global {
@@ -100,9 +101,11 @@ export const routerPlugin: any = ({
 
           return (props: any) => {
             const runtimeContext = useContext(RuntimeReactContext);
-            const location = getLocation(runtimeContext?.ssrContext);
-            const ctx = runtimeContext?.ssrContext?.redirection || {};
-            const request = runtimeContext.ssrContext?.request;
+            const { ssrContext }: { ssrContext?: BaseSSRServerContext } =
+              runtimeContext;
+            const location = getLocation(ssrContext);
+            const routerContext = ssrContext?.redirection || {};
+            const request = ssrContext?.request;
             const basename = urlJoin(
               request?.baseUrl as string,
               historyOptions.basename as string,
@@ -112,7 +115,7 @@ export const routerPlugin: any = ({
               <StaticRouter
                 basename={basename}
                 location={location}
-                context={ctx}>
+                context={routerContext}>
                 {routesConfig ? (
                   renderRoutes(routesConfig, props)
                 ) : (

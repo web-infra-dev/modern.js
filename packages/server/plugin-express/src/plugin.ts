@@ -2,7 +2,7 @@ import * as path from 'path';
 import express, { RequestHandler, Express } from 'express';
 import type { Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
-import { createPlugin } from '@modern-js/server-plugin';
+import { createPlugin } from '@modern-js/server-core';
 import { requireModule } from '@modern-js/bff-utils';
 import { fs, createDebugger } from '@modern-js/utils';
 import finalhandler from 'finalhandler';

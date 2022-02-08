@@ -1,7 +1,7 @@
 import * as path from 'path';
 import request from 'supertest';
 import Koa from 'koa';
-import { serverManager } from '@modern-js/server-plugin';
+import { serverManager } from '@modern-js/server-core';
 import Router from 'koa-router';
 import koaBody from 'koa-body';
 import plugin from '../src/plugin';
