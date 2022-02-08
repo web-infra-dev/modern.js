@@ -1,11 +1,12 @@
 import { createContext } from 'react';
+import { BaseSSRServerContext } from '@modern-js/types';
 import { createLoaderManager } from './loader/loaderManager';
 import { runtime } from './plugin';
 
 export interface RuntimeContext {
   loaderManager: ReturnType<typeof createLoaderManager>;
   runner: ReturnType<typeof runtime.init>;
-  ssrContext?: any;
+  ssrContext?: BaseSSRServerContext;
   [key: string]: any;
 }
 

@@ -398,17 +398,20 @@ export class ModernServer {
       return;
     }
 
-    const routeAPI = createRouteAPI(matched, this.router);
+    const routeAPI = createRouteAPI(matched, this.router, context.url);
     await this.emitRouteHook('afterMatch', { context, routeAPI });
 
     if (res.headersSent) {
       return;
     }
 
-    const { current } = routeAPI as any;
-    const route: ModernRoute = current.generate();
-    const params = current.parseURLParams(context.url);
-    context.setParams(params);
+    const { current }: { current: RouteMatcher } = routeAPI as any;
+    const route: ModernRoute = current.generate(context.url);
+    context.setParams(route.params);
+    context.setServerData('router', {
+      baseUrl: route.urlPath,
+      params: route.params,
+    });
 
     // route is api service
     if (route.isApi) {
@@ -447,6 +450,11 @@ export class ModernServer {
       const templateAPI = createTemplateAPI(file.content.toString());
       await this.emitRouteHook('afterRender', { context, templateAPI });
       await this.injectMicroFE(context, templateAPI);
+      templateAPI.appendHead(
+        `<script>window._SERVER_DATA=${JSON.stringify(
+          context.serverData,
+        )}</script>`,
+      );
       response = templateAPI.get();
     }
 
@@ -588,7 +596,7 @@ export class ModernServer {
       this.router.match(statusPage) || this.router.match(customErrorPage);
     // if no custom status page find
     if (matched) {
-      const route = matched.generate();
+      const route = matched.generate(context.url);
       const { entryName } = route;
       // check entryName, aviod matched '/' route
       if (entryName === status.toString() || entryName === '_error') {

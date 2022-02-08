@@ -11,18 +11,20 @@ export const render = async (
   renderOptions: {
     distDir: string;
     bundle: string;
+    urlPath: string;
     template: string;
     entryName: string;
     staticGenerate: boolean;
   },
   runner: ServerHookRunner,
 ): Promise<RenderResult> => {
-  const { bundle, distDir, template, entryName, staticGenerate } =
+  const { urlPath, bundle, distDir, template, entryName, staticGenerate } =
     renderOptions;
   const bundleJS = path.join(distDir, bundle);
 
   const context: SSRServerContext = {
     request: {
+      baseUrl: urlPath,
       params: ctx.params,
       pathname: ctx.path,
       query: ctx.query as Record<string, string>,

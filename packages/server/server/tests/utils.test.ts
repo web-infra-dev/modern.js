@@ -1,3 +1,4 @@
+import { compile } from 'path-to-regexp';
 import {
   noop,
   mergeExtension,
@@ -67,5 +68,10 @@ describe('test server utils', () => {
       const after = getMiddlewares();
       expect(after.api).toEqual([middleware]);
     });
+  });
+
+  test('should return full path', () => {
+    const fn = compile('/home/:id', { encode: encodeURIComponent });
+    expect(fn({ id: 2 })).toBe('/home/2');
   });
 });
