@@ -1,5 +1,5 @@
 import path from 'path';
-import { createPlugin } from '@modern-js/server-plugin';
+import { createPlugin } from '@modern-js/server-core';
 import { injectAPIHandlerInfos, API_DIR } from '@modern-js/bff-utils';
 
 export const APIPlugin = createPlugin(() => ({
