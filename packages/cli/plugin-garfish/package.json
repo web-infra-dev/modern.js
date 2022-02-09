@@ -18,7 +18,6 @@
   "module": "./dist/js/treeshaking/runtime/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
-    "./type": "./type.d.ts",
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
@@ -85,6 +84,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./type.d.ts"
+    "types": "./dist/types/runtime/index.d.ts"
   }
 }
