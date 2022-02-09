@@ -185,6 +185,6 @@ export const AppContext = createContext<IAppContext>({} as IAppContext);
 
 export const ConfigContext = createContext<UserConfig>({} as UserConfig);
 
-export const useAppContext = () => AppContext.use().value;
-
 export const useConfigContext = () => ConfigContext.use().value;
+
+export const useAppContext = () => AppContext.use().value;

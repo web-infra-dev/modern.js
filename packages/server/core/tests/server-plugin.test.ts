@@ -1,7 +1,7 @@
 import { serverManager } from '../src';
 
 describe('Default cases', () => {
-  it('Have returns', async () => {
+  it('Have returns plugins', async () => {
     let count = 0;
 
     serverManager.usePlugin(
