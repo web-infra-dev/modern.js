@@ -117,8 +117,9 @@ interface DevConfig {
 }
 
 interface MicroFrontend {
-  enableHtmlEntry: boolean;
-  externalBasicLibrary: boolean;
+  enableHtmlEntry?: boolean;
+  externalBasicLibrary?: boolean;
+  moduleApp?: boolean;
 }
 
 interface DeployConfig {
