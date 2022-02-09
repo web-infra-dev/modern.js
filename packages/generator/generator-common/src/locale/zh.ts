@@ -36,7 +36,7 @@ export const ZH_LOCALE = {
       runtime_api: '启用「Rumtime API」',
       mwa_storybook: '启用「Visual Testing (Storybook)」模式',
       ssg: '启用「SSG」功能',
-      polyfill: '启用基于「UA 的 Polyfill」功能',
+      polyfill: '启用「基于 UA 的 Polyfill」功能',
       deploy: '启用「部署」功能',
     },
     element: {
