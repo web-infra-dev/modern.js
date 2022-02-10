@@ -96,6 +96,8 @@ const hooksMap = {
   >(),
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   beforeExit: createAsyncWorkflow<void, void>(),
+  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+  beforeRestart: createAsyncWorkflow<void, void>(),
 };
 
 export const manager = createAsyncManager<Hooks, typeof hooksMap>(hooksMap);
@@ -267,6 +269,10 @@ const createCli = () => {
     logger.info('Restart...\n');
 
     let hasGetError = false;
+
+    const runner = manager.useRunner();
+    await runner.beforeRestart();
+
     try {
       await init(process.argv.slice(2));
     } catch (err) {
