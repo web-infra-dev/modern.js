@@ -63,6 +63,7 @@ export type HooksRunner = Progresses2Runners<{
   fileChange: AsyncWorkflow<
     {
       filename: string;
+      eventType: 'add' | 'change' | 'unlink';
     },
     void
   >;
@@ -88,6 +89,7 @@ const hooksMap = {
   fileChange: createAsyncWorkflow<
     {
       filename: string;
+      eventType: 'add' | 'change' | 'unlink';
     },
     // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
     void
