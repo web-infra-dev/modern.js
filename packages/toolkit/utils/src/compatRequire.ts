@@ -23,3 +23,9 @@ export const requireExistModule = (
 
   return compatRequire(exist);
 };
+
+export const cleanRequireCache = (filelist: string[]) => {
+  filelist.forEach(filepath => {
+    delete require.cache[filepath];
+  });
+};

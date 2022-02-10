@@ -157,6 +157,7 @@ export class ModernDevServer extends ModernServer {
         resolve();
       }
     });
+    this.socketServer?.close();
   }
 
   public async createHTTPServer(
