@@ -29,3 +29,4 @@ export * from './alias';
 export * from './import';
 export * from './watch';
 export * from './nodeEnv';
+export * from './wait';
