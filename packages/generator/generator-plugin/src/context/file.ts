@@ -96,9 +96,10 @@ export class PluginFileAPI {
   }
 
   async updateModernConfig(updateInfo: Record<string, any>) {
-    const update = Object.keys(updateInfo).map(key => ({
-      [`modernConfig.${key}`]: updateInfo[key],
-    }));
+    const update: Record<string, any> = {};
+    Object.keys(updateInfo).forEach(key => {
+      update[`modernConfig.${key}`] = updateInfo[key];
+    });
     await this.updateJSONFile('package.json', update);
   }
 

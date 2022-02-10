@@ -12,7 +12,7 @@
     "dev": "modern dev",
     "build": "modern build",
     "new": "modern new",
-    "test": "jest --passWithNoTests"
+    "test": "jest"
   },
   "dependencies": {
     "@babel/runtime": "^7",
