@@ -1,6 +1,7 @@
 import path from 'path';
 import { SERVER_RENDER_FUNCTION_NAME } from '@modern-js/utils';
 import mime from 'mime-types';
+import cookie from 'cookie';
 import { ModernServerContext } from '../context';
 import { RenderResult, ServerHookRunner } from '../../type';
 import cache from './cache';
@@ -27,9 +28,11 @@ export const render = async (
       baseUrl: urlPath,
       params: ctx.params,
       pathname: ctx.path,
+      host: ctx.host,
       query: ctx.query as Record<string, string>,
+      url: ctx.href,
+      cookieMap: cookie.parse(ctx.headers.cookie || ''),
       headers: ctx.headers,
-      cookie: ctx.headers.cookie,
     },
     redirection: {},
     template,
