@@ -56,21 +56,29 @@ const ssr: any = () =>
           ReactDOM.render(<App context={context} />, rootElement);
         }
       },
-      pickContext: ({ context, pickedContext }, next) =>
-        next({
+      pickContext: ({ context, pickedContext }, next) => {
+        const request: SSRServerContext['request'] | undefined =
+          window?._SSR_DATA?.context?.request;
+        return next({
           context,
           pickedContext: {
             ...pickedContext,
             request: {
               params: {},
+              host: location.host,
               pathname: location.pathname,
               query: getQuery(),
               headers: {},
-              cookie: document.cookie,
-              ...(window?._SSR_DATA?.context?.request || {}),
+              url: location.href,
+              cookieMap: request?.cookieMap || {},
+              cookie: request?.headers.cookie || document.cookie,
+              referer: request?.referer || document.referrer,
+              userAgent: request?.headers['user-agent'] || navigator.userAgent,
+              ...request,
             },
           },
-        }),
+        });
+      },
     }),
     { name: '@modern-js/plugin-ssr' },
   );

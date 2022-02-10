@@ -51,8 +51,9 @@ export type BaseSSRServerContext = {
     pathname: string;
     query: Record<string, string>;
     headers: IncomingHttpHeaders;
+    host: string;
     cookie?: string;
-    baseUrl?: string;
+    [propsName: string]: any;
   };
   redirection: { url?: string; status?: number };
   distDir: string;
