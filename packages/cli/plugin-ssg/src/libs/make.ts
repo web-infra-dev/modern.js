@@ -30,7 +30,7 @@ export function makeRoute(
       ...baseRoute,
       urlPath: normalize(`${urlPath}${route}`) || '/',
       headers,
-      output: path.join(entryPath, `..${route}`),
+      output: path.join(entryPath, `..${route === '/' ? '' : route}`),
     };
   } else {
     return {
@@ -39,7 +39,7 @@ export function makeRoute(
       headers: { ...headers, ...route.headers },
       output: route.output
         ? path.normalize(route.output)
-        : path.join(entryPath, `..${route.url}`),
+        : path.join(entryPath, `..${route.url === '/' ? '' : route.url}`),
     };
   }
 }
