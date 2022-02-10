@@ -1,3 +1,4 @@
+// eslint-disable-next-line filenames/match-exported
 import { createPlugin } from '@modern-js/runtime-core';
 import React from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
@@ -15,7 +16,7 @@ import { generateMApp } from './utils/MApp';
 import { AppMap, generateApps } from './utils/apps';
 
 async function initOptions(manifest: Manifest = {}, options: Options) {
-  let apps: ModulesInfo = [];
+  let apps: ModulesInfo = options.apps || [];
 
   // use manifest modules
   if (manifest?.modules) {
@@ -36,15 +37,16 @@ async function initOptions(manifest: Manifest = {}, options: Options) {
   }
 
   return {
-    apps,
     ...options,
+    apps,
   };
 }
 
-export default ((config: Config) => {
+const GarfishPlugin = (config: Config) => {
   setExternal();
   const { manifest = {}, LoadingComponent, ...options } = config;
   logger('createPlugin', { config });
+
   if (!manifest.LoadingComponent && LoadingComponent) {
     manifest.LoadingComponent = LoadingComponent;
   }
@@ -107,4 +109,6 @@ export default ((config: Config) => {
       });
     },
   }));
-}) as any;
+};
+
+export default GarfishPlugin;
