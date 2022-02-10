@@ -7,7 +7,7 @@ export enum RenderLevel {
   SERVER_RENDER,
 }
 
-export type { SSRServerContext } from '@modern-js/server';
+export type { BaseSSRServerContext as SSRServerContext } from '@modern-js/types';
 
 export type ModernSSRReactComponent = React.ComponentType<any> & {
   init: (context: RuntimeContext) => Promise<void>;
