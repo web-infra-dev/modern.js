@@ -88,6 +88,8 @@ export default createPlugin(
             await MWANewAction({ ...options, locale });
           });
       },
+
+      // 这里会被 core/initWatcher 监听的文件变动触发，如果是 src 目录下的文件变动，则不做 restart
       async fileChange(e: { filename: string; eventType: string }) {
         const { filename, eventType } = e;
         // eslint-disable-next-line react-hooks/rules-of-hooks

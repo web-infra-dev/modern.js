@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
-import { isDev, createDebugger } from '@modern-js/utils';
+import { isDev, createDebugger, isTest } from '@modern-js/utils';
 import chokidar from 'chokidar';
 import { LoadedConfig } from './config';
 import { HooksRunner } from '.';
@@ -19,10 +19,10 @@ export const initWatcher = async (
   configDir: string | undefined,
   hooksRunner: HooksRunner,
   argv: string[],
-  // eslint-disable-next-line max-params
+  // eslint-disable-next-line consistent-return
 ) => {
   // only add fs watcher on dev mode.
-  if (isDev() && argv[0] === 'dev') {
+  if ((isDev() || isTest()) && argv[0] === 'dev') {
     const extraFiles = await hooksRunner.watchFiles();
 
     const configPath = path.join(appDirectory, configDir!);
@@ -39,7 +39,6 @@ export const initWatcher = async (
     const watcher = chokidar.watch(watched, {
       cwd: appDirectory,
       ignorePermissionErrors: true,
-      ignoreInitial: true,
       ignored: [
         /node_modules/,
         '**/__test__/**',
@@ -88,5 +87,7 @@ export const initWatcher = async (
     watcher.on('error', err => {
       throw err;
     });
+
+    return watcher;
   }
 };
