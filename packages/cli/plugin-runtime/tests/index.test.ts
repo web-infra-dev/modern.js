@@ -7,5 +7,8 @@ describe('plugin-runtime', () => {
     expect(createApp).toBeDefined();
     expect(createPlugin).toBeDefined();
     expect(useRuntimeContext).toBeDefined();
+
+    const hooks = plugin.initializer();
+    expect(hooks.beforeRestart).toBeDefined();
   });
 });
