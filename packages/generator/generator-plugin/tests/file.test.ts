@@ -37,6 +37,10 @@ describe('test file api', () => {
     expect(content.devDependencies).toEqual({
       '@modern-js/plugin-tailwind': '^1.0.0',
     });
+    fs.writeJsonSync(
+      path.resolve(__dirname, 'fixtures', 'file-test', 'package.json'),
+      { name: 'file-test', version: '1.0.0' },
+    );
   });
   test('update modern config', async () => {
     const pluginFileApi = new PluginFileAPI();
@@ -60,5 +64,33 @@ describe('test file api', () => {
         router: true,
       },
     });
+    fs.writeJsonSync(
+      path.resolve(__dirname, 'fixtures', 'file-test', 'package.json'),
+      { name: 'file-test', version: '1.0.0' },
+      { spaces: 2 },
+    );
+  });
+  test('update text raw file', async () => {
+    const pluginFileApi = new PluginFileAPI();
+    pluginFileApi.prepare(
+      mockGeneratorCore,
+      path.resolve(__dirname, 'fixtures', 'file-test'),
+      path.resolve(__dirname, 'fixtures', 'file-test', 'templates'),
+    );
+    await pluginFileApi.updateTextRawFile('test.txt', content => [
+      ...content,
+      'line2',
+      'line3',
+    ]);
+    const content = fs.readFileSync(
+      path.resolve(__dirname, 'fixtures', 'file-test', 'test.txt'),
+      'utf-8',
+    );
+    expect(content).toEqual('line1\nline2\nline3');
+    fs.writeFileSync(
+      path.resolve(__dirname, 'fixtures', 'file-test', 'test.txt'),
+      'line1',
+      'utf-8',
+    );
   });
 });
