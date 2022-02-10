@@ -74,3 +74,15 @@ export const getDefaultImports = ({
 
   return imports;
 };
+
+export const isRouteComponentFile = (filePath: string) => {
+  if (/\.(d|test|spec|e2e)\.(js|jsx|ts|tsx)$/.test(filePath)) {
+    return false;
+  }
+
+  if (['.js', '.jsx', '.ts', '.tsx'].includes(path.extname(filePath))) {
+    return true;
+  }
+
+  return false;
+};
