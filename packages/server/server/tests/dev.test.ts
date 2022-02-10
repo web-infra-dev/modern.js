@@ -50,6 +50,17 @@ describe('test dev tools', () => {
     };
     socketServer.updateStats(mockStats);
     expect(socketServer.stats).toBe(mockStats);
+
+    const socket = {
+      state: 1,
+      close() {
+        socket.state = 0;
+        // empty
+      },
+    };
+    socketServer.sockets = [socket];
+    socketServer.close();
+    expect(socket.state).toBe(0);
   });
 
   test('should dev server plugin work correctly', () => {

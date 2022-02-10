@@ -125,6 +125,7 @@ export class Server {
 
   private async createHookRunner() {
     const { options } = this;
+    serverManager.clear();
 
     options.plugins?.forEach(p => {
       serverManager.usePlugin(p);

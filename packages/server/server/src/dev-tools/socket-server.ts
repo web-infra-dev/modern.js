@@ -126,8 +126,10 @@ export default class SocketServer {
     });
   }
 
-  public close(connection: ws) {
-    connection.close();
+  public close() {
+    this.sockets.forEach(socket => {
+      socket.close();
+    });
   }
 
   // get standard stats

@@ -1,5 +1,9 @@
 import path from 'path';
-import { PLUGIN_SCHEMAS, createRuntimeExportsUtils } from '@modern-js/utils';
+import {
+  PLUGIN_SCHEMAS,
+  createRuntimeExportsUtils,
+  cleanRequireCache,
+} from '@modern-js/utils';
 import { createPlugin, usePlugins, useAppContext } from '@modern-js/core';
 
 const useInternalDirectory = () => useAppContext().internalDirectory;
@@ -40,6 +44,13 @@ export default createPlugin(
         const runtimePackage = path.resolve(__dirname, '../../../../');
 
         runtimeExportsUtils.addExport(`export * from '${runtimePackage}'`);
+      },
+      async beforeRestart() {
+        cleanRequireCache([
+          require.resolve('@modern-js/plugin-state/cli'),
+          require.resolve('@modern-js/plugin-router/cli'),
+          require.resolve('@modern-js/plugin-ssr/cli'),
+        ]);
       },
     };
   },
