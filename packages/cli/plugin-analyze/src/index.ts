@@ -1,3 +1,4 @@
+import * as path from 'path';
 import {
   createPlugin,
   registerHook,
@@ -14,8 +15,10 @@ import type {
   Route,
   HtmlPartials,
 } from '@modern-js/types';
+import clone from 'clone';
 import type { ImportStatement } from './generateCode';
 import type { RuntimePlugin } from './templates';
+import { isRouteComponentFile } from './utils';
 
 const debug = createDebugger('plugin-analyze');
 
@@ -67,6 +70,9 @@ registerHook({
   addRuntimeExports,
   beforeGenerateRoutes,
 });
+
+let pagesDir: string[] = [];
+let originEntrypoints: any[] = [];
 
 export default createPlugin(
   () => ({
@@ -133,6 +139,9 @@ export default createPlugin(
         serverRoutes: routes,
       });
 
+      pagesDir = entrypoints.map(point => point.entry);
+      originEntrypoints = clone(entrypoints);
+
       await generateCode(appContext, resolvedConfig, entrypoints);
 
       const htmlTemplates = await getHtmlTemplate(entrypoints, {
@@ -149,6 +158,30 @@ export default createPlugin(
         serverRoutes: routes,
         htmlTemplates,
       });
+    },
+    watchFiles() {
+      return pagesDir;
+    },
+    async fileChange(e) {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const appContext = useAppContext();
+      const { appDirectory } = appContext;
+      const { filename, eventType } = e;
+
+      const isPageFile = (name: string) =>
+        pagesDir.some(pageDir => name.includes(pageDir));
+
+      const absoluteFilePath = path.resolve(appDirectory, filename);
+      const isRouteComponent =
+        isPageFile(absoluteFilePath) && isRouteComponentFile(absoluteFilePath);
+
+      if (isRouteComponent && (eventType === 'add' || eventType === 'unlink')) {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const resolvedConfig = useResolvedConfigContext();
+        const { generateCode } = await import('./generateCode');
+        const entrypoints = clone(originEntrypoints);
+        generateCode(appContext, resolvedConfig, entrypoints);
+      }
     },
   }),
   { name: '@modern-js/plugin-analyze' },

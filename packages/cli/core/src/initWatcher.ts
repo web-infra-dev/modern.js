@@ -39,6 +39,7 @@ export const initWatcher = async (
     const watcher = chokidar.watch(watched, {
       cwd: appDirectory,
       ignorePermissionErrors: true,
+      ignoreInitial: true,
       ignored: [
         /node_modules/,
         '**/__test__/**',
@@ -58,8 +59,20 @@ export const initWatcher = async (
 
         hashMap.set(changed, currentHash);
 
-        hooksRunner.fileChange({ filename: changed });
+        hooksRunner.fileChange({ filename: changed, eventType: 'change' });
       }
+    });
+
+    watcher.on('add', name => {
+      debug(`add file: %s`, name);
+
+      const currentHash = md5(
+        fs.readFileSync(path.join(appDirectory, name), 'utf8'),
+      );
+
+      hashMap.set(name, currentHash);
+
+      hooksRunner.fileChange({ filename: name, eventType: 'add' });
     });
 
     watcher.on('unlink', name => {
@@ -68,6 +81,8 @@ export const initWatcher = async (
       if (hashMap.has(name)) {
         hashMap.delete(name);
       }
+
+      hooksRunner.fileChange({ filename: name, eventType: 'unlink' });
     });
 
     watcher.on('error', err => {

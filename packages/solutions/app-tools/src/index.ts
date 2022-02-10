@@ -1,4 +1,11 @@
-import { createPlugin, defineConfig, usePlugins, cli } from '@modern-js/core';
+import * as path from 'path';
+import {
+  createPlugin,
+  defineConfig,
+  usePlugins,
+  cli,
+  useAppContext,
+} from '@modern-js/core';
 import { lifecycle } from './lifecycle';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils/language';
@@ -81,8 +88,18 @@ export default createPlugin(
             await MWANewAction({ ...options, locale });
           });
       },
-      async fileChange() {
-        await cli.restart();
+      async fileChange(e: { filename: string; eventType: string }) {
+        const { filename, eventType } = e;
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const appContext = useAppContext();
+        const { appDirectory, srcDirectory } = appContext;
+        const absolutePath = path.resolve(appDirectory, filename);
+        if (
+          !absolutePath.includes(srcDirectory) &&
+          (eventType === 'change' || eventType === 'unlink')
+        ) {
+          await cli.restart();
+        }
       },
     };
   }) as any,
