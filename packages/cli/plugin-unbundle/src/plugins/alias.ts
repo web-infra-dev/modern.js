@@ -10,13 +10,13 @@ import {
   DEV_CLIENT_PATH_ALIAS,
   BARE_SPECIFIER_REGEX,
   DEFAULT_EXTENSIONS,
-  DEFAULT_DEPS,
 } from '../constants';
 
 // webpack alias to rollup alias entries
 export const normalizeAlias = (
   config: NormalizedConfig,
   appContext: IAppContext,
+  defaultDeps: string[],
 ) => {
   const result: Alias[] = [
     {
@@ -47,7 +47,7 @@ export const normalizeAlias = (
     const isAbsolute = path.isAbsolute(aliasPath);
 
     // should exclude modern-js/runtime api
-    if (!DEFAULT_DEPS.includes(key)) {
+    if (!defaultDeps.includes(key)) {
       result.push({
         find: key,
         replacement: isAbsolute
@@ -63,8 +63,9 @@ export const normalizeAlias = (
 export const aliasPlugin = (
   config: NormalizedConfig,
   appContext: IAppContext,
+  defaultDeps: string[],
 ): RollupPlugin => {
-  const aliasOptions = normalizeAlias(config, appContext);
+  const aliasOptions = normalizeAlias(config, appContext, defaultDeps);
   const plugin = alias({ entries: aliasOptions });
   return {
     name: 'esm-alias',

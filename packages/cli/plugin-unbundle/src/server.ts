@@ -15,14 +15,19 @@ import {
   prettyInstructions,
   clearConsole,
 } from '@modern-js/utils';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import { IAppContext, mountHook, NormalizedConfig } from '@modern-js/core';
 // FIXME: 很奇怪，换了名字之后就可以编译通过了，可能 `macro` 这个名字有啥特殊的含义？
 import { macrosPlugin } from './plugins/_macro';
 import { lanuchEditorMiddleware } from './middlewares/lanuch-editor';
 import { assetsPlugin } from './plugins/assets';
 import { transformMiddleware } from './middlewares/transform';
 import { WebSocketServer, onFileChange } from './websocket-server';
-import { HOST } from './constants';
+import {
+  DEFAULT_DEPS,
+  HOST,
+  MODERN_JS_INTERNAL_PACKAGES,
+  VIRTUAL_DEPS_MAP,
+} from './constants';
 import { optimizeDeps } from './install/local-optimize';
 import {
   getBFFMiddleware,
@@ -47,6 +52,7 @@ import { lazyImportPlugin } from './plugins/lazy-import';
 import { startTimer } from './dev';
 import { fsWatcher } from './watcher';
 import { lambdaApiPlugin } from './plugins/lambda-api';
+import { UnbundleDependencies } from './hooks';
 
 export interface ESMServer {
   https: boolean;
@@ -61,6 +67,7 @@ export interface ESMServer {
 export const createDevServer = async (
   config: NormalizedConfig,
   appContext: IAppContext,
+  dependencies: UnbundleDependencies,
 ): Promise<ESMServer> => {
   const { appDirectory, internalDirectory } = appContext;
   const { https } = config.dev || {};
@@ -78,7 +85,7 @@ export const createDevServer = async (
 
   const pluginContainer = await createPluginContainer(
     [
-      aliasPlugin(config, appContext),
+      aliasPlugin(config, appContext, dependencies.defaultDeps),
       isTypescript(appDirectory) && tsAliasPlugin(config, appContext),
       assetsPlugin(config, appContext),
       shouldUseBff(appDirectory) && lambdaApiPlugin(config, appContext),
@@ -88,7 +95,7 @@ export const createDevServer = async (
       resolvePlugin(config, appContext),
       definePlugin(config),
       jsonPlugin(config),
-      cssPlugin(config, appContext),
+      cssPlugin(config, appContext, dependencies.defaultDeps),
       importRewritePlugin(config, appContext, wsServer),
       fastRefreshPlugin(),
       hmrPlugin(config, appContext),
@@ -165,14 +172,27 @@ export const startDevServer = async (
   // TODO: bff
   // await setupBFFAPI(userConfig, api, port);
 
+  const dependencies = await mountHook().unbundleDependencies({
+    defaultDeps: DEFAULT_DEPS,
+    internalPackages: MODERN_JS_INTERNAL_PACKAGES,
+    virtualDeps: VIRTUAL_DEPS_MAP,
+  });
+
   const { httpServer, pluginContainer } = await createDevServer(
     userConfig,
     appContext,
+    dependencies,
   );
 
   await pluginContainer.buildStart({});
 
-  await optimizeDeps(userConfig, appContext);
+  await optimizeDeps({
+    userConfig,
+    appContext,
+    defaultDependencies: dependencies.defaultDeps,
+    virtualDependenciesMap: dependencies.virtualDeps,
+    internalPackages: dependencies.internalPackages,
+  });
 
   httpServer.listen(port, HOST, () => {
     startTimer.end = Date.now();

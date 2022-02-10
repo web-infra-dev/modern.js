@@ -2,7 +2,6 @@ import os from 'os';
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import logger from 'signale';
-import { VIRTUAL_DEPS_MAP } from '../constants';
 
 // FIXME: declare module 不生效的问题
 const fetch = require('node-fetch');
@@ -43,10 +42,6 @@ const request = async (urlPath: string): Promise<ResponseType> => {
   });
 
   const json = (await response.json()) as ResponseType;
-
-  if (response.status !== 200) {
-    throw new Error(json.message);
-  }
 
   return json;
 };
@@ -129,6 +124,7 @@ export class ModulesCache {
     return file;
   }
 
+  // TODO: solve @latest version not updating
   has(name: string, version: string) {
     return this.cachedMap.hasOwnProperty(`${name}@${version}`);
   }
@@ -151,6 +147,7 @@ export class ModulesCache {
   async requestRemoteCache(
     name: string,
     version: string,
+    virtualDependenciesMap: Record<string, string>,
   ): Promise<CacheItem | false> {
     let normalized = '';
 
@@ -159,8 +156,8 @@ export class ModulesCache {
     version = version.trim();
 
     // deps that can't convert to esm format
-    if (VIRTUAL_DEPS_MAP[name]) {
-      const file = this.set(name, version, VIRTUAL_DEPS_MAP[name], []);
+    if (virtualDependenciesMap[name]) {
+      const file = this.set(name, version, virtualDependenciesMap[name], []);
       return {
         file,
         dependencies: [],
