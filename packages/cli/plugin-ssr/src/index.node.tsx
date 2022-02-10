@@ -1,7 +1,7 @@
 // eslint-disable-next-line filenames/match-exported
 import path from 'path';
 import { createPlugin, registerPrefetch } from '@modern-js/runtime-core';
-import { SSRServerContext } from '@modern-js/server';
+import { SSRServerContext } from './serverRender/type';
 import prefetch from './prefetch';
 
 export { run, useHeaders } from './hook';
