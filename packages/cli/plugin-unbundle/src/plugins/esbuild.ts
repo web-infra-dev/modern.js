@@ -37,7 +37,7 @@ export const esbuildPlugin = (
       // match: import React from 'react'
       /import\s+React(,\s*{[^'"]*})?\s*from\s+['"]react['"]/,
       // match: import * from 'react'
-      /import\s+\*\s+as\s+React\s+from\s+['"]react['"]/,
+      /import\s*\*\s*as\s+React\s+from\s*['"]react['"]/,
       // React is already defined, avoid conflict: var React =
       /(const|var|let)\s+React\s*=/,
     ]
