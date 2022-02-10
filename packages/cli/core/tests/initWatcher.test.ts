@@ -9,6 +9,14 @@ const mockConfigDir = './config';
 const mockSrcDirectory = path.join(mockAppDirectory, './src');
 
 describe('initWatcher', () => {
+  afterAll(() => {
+    const file = path.join(mockSrcDirectory, './index.ts');
+    if (fs.existsSync(file)) {
+      fs.unlinkSync(file);
+    }
+  });
+
+  // eslint-disable-next-line max-statements
   test('will trigger add event', async () => {
     let triggeredType = '';
     let triggeredFile = '';

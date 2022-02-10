@@ -6,6 +6,7 @@ import {
   cli,
   useAppContext,
 } from '@modern-js/core';
+import { cleanRequireCache } from '@modern-js/utils';
 import { lifecycle } from './lifecycle';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils/language';
@@ -103,9 +104,16 @@ export default createPlugin(
           await cli.restart();
         }
       },
+      async beforeRestart() {
+        cleanRequireCache([
+          require.resolve('@modern-js/plugin-analyze/cli'),
+          require.resolve('@modern-js/plugin-fast-refresh/cli'),
+        ]);
+      },
     };
   }) as any,
   {
+    name: '@modern-js/app-tools',
     post: [
       '@modern-js/plugin-analyze',
       '@modern-js/plugin-fast-refresh',
