@@ -7,7 +7,7 @@ jest.mock('@modern-js/utils', () => {
     __esModule: true,
     ...originalModule,
     fs: {
-      writeFile: jest.fn((filename: string, output: string) => ({
+      outputFile: jest.fn((filename: string, output: string) => ({
         filename,
         output,
       })),
@@ -22,6 +22,6 @@ describe('routes', () => {
       distDirectory: './dist',
     };
     await generateRoutes(mockAppContext as any);
-    expect(fs.writeFile).toHaveBeenCalledTimes(1);
+    expect(fs.outputFile).toHaveBeenCalledTimes(1);
   });
 });
