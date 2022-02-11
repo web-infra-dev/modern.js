@@ -138,7 +138,7 @@ export const SubSolutionSchema: Schema = {
           label: plugin.name,
         }));
         if (data.solution && data.solution !== 'custom') {
-          items.push({
+          items.unshift({
             key: data.solution,
             label: `${SubSolutionText[data.solution as SubSolution]()}(${i18n.t(
               localeKeys.solution.default,
