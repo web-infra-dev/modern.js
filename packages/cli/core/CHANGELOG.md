@@ -1,5 +1,28 @@
 # @modern-js/core
 
+## 1.4.0
+
+### Minor Changes
+
+- bada2879: refactor plugin-garfish:
+  - change @modern-js/plugin-micro-frontend => @modern-js/plugin-garfish
+  - remove disableCustomerRouter logic
+  - adding unit test
+  - fix plugin-garfish type error
+
+### Patch Changes
+
+- d9cc5ea9: support resatrt options transfer
+- bd819a8d: fix: file route changed not trigger hot reload
+- d099e5c5: fix error when modify modern.config.js
+- 24f616ca: feat: support custom meta info
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+  - @modern-js/utils@1.3.0
+
 ## 1.3.2
 
 ### Patch Changes

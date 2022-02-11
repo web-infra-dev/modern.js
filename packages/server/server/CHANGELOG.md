@@ -1,5 +1,31 @@
 # @modern-js/server
 
+## 1.4.0
+
+### Minor Changes
+
+- ec4dbffb: feat: support as a pure api service
+
+### Patch Changes
+
+- 816fd721: support more server context
+- d9cc5ea9: support resatrt options transfer
+- bfbea9a7: support multi base url and dynamic base url
+- d099e5c5: fix error when modify modern.config.js
+- 24f616ca: feat: support custom meta info
+- 272cab15: refactor server plugin manager
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [272cab15]
+  - @modern-js/core@1.4.0
+  - @modern-js/utils@1.3.0
+  - @modern-js/server-core@1.2.2
+
 ## 1.3.2
 
 ### Patch Changes

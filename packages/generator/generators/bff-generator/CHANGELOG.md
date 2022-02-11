@@ -1,5 +1,12 @@
 # @modern-js/bff-generator
 
+## 1.2.2
+
+### Patch Changes
+
+- e0e4fbba: fix: bff generator template
+- 2ba581e4: fix: bff nest function template
+
 ## 1.2.1
 
 ### Patch Changes
