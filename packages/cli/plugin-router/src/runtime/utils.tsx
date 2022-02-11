@@ -60,13 +60,16 @@ export function renderRoutes(
 export function getLocation(serverContext: any): string {
   const { pathname, url }: { [p: string]: string } =
     serverContext?.request || {};
-  const index = (url || '').indexOf(pathname);
+
+  const cleanUrl = url.replace('http://', '').replace('https://', '');
+
+  const index = (cleanUrl || '').indexOf(pathname);
 
   if (index === -1) {
     return pathname;
   }
 
-  return url.substring(index);
+  return cleanUrl.substring(index);
 }
 
 export const urlJoin = (...parts: string[]) => {
