@@ -1,5 +1,11 @@
 # @modern-js/plugin-router
 
+## 1.2.3
+
+### Patch Changes
+
+- 3e5d5371: fix router location error
+
 ## 1.2.2
 
 ### Patch Changes
