@@ -1,5 +1,31 @@
 # @modern-js/plugin-garfish
 
+## 1.3.0
+
+### Minor Changes
+
+- bada2879: refactor plugin-garfish:
+  - change @modern-js/plugin-micro-frontend => @modern-js/plugin-garfish
+  - remove disableCustomerRouter logic
+  - adding unit test
+  - fix plugin-garfish type error
+
+### Patch Changes
+
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [bfbea9a7]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [272cab15]
+  - @modern-js/core@1.4.0
+  - @modern-js/plugin-router@1.2.2
+  - @modern-js/runtime-core@1.2.2
+  - @modern-js/utils@1.3.0
+
 ## 1.2.1
 
 ### Patch Changes

@@ -1,5 +1,34 @@
 # @modern-js/app-tools
 
+## 1.4.0
+
+### Minor Changes
+
+- ec4dbffb: feat: support as a pure api service
+
+### Patch Changes
+
+- bd819a8d: fix: file route changed not trigger hot reload
+- 62cd58c6: fix: create route.json failure
+- d099e5c5: fix error when modify modern.config.js
+- Updated dependencies [816fd721]
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [ddf0c3a6]
+- Updated dependencies [bfbea9a7]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [272cab15]
+  - @modern-js/server@1.4.0
+  - @modern-js/types@1.3.0
+  - @modern-js/core@1.4.0
+  - @modern-js/plugin-analyze@1.3.0
+  - @modern-js/webpack@1.3.0
+  - @modern-js/utils@1.3.0
+
 ## 1.3.2
 
 ### Patch Changes

@@ -1,5 +1,27 @@
 # @modern-js/runtime
 
+## 1.2.2
+
+### Patch Changes
+
+- d099e5c5: fix error when modify modern.config.js
+- 24f616ca: feat: support custom meta info
+- Updated dependencies [816fd721]
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [bfbea9a7]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [272cab15]
+  - @modern-js/plugin-ssr@1.2.1
+  - @modern-js/core@1.4.0
+  - @modern-js/plugin-router@1.2.2
+  - @modern-js/runtime-core@1.2.2
+  - @modern-js/utils@1.3.0
+
 ## 1.2.1
 
 ### Patch Changes

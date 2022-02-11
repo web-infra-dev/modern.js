@@ -1,5 +1,31 @@
 # @modern-js/plugin-analyze
 
+## 1.3.0
+
+### Minor Changes
+
+- ec4dbffb: feat: support as a pure api service
+- bada2879: refactor plugin-garfish:
+  - change @modern-js/plugin-micro-frontend => @modern-js/plugin-garfish
+  - remove disableCustomerRouter logic
+  - adding unit test
+  - fix plugin-garfish type error
+
+### Patch Changes
+
+- ddf0c3a6: feat: support bottom template
+- bd819a8d: fix: file route changed not trigger hot reload
+- 24f616ca: feat: support custom meta info
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+  - @modern-js/core@1.4.0
+  - @modern-js/utils@1.3.0
+
 ## 1.2.1
 
 ### Patch Changes

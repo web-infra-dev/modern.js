@@ -1,5 +1,18 @@
 # @modern-js/types
 
+## 1.3.0
+
+### Minor Changes
+
+- ec4dbffb: feat: support as a pure api service
+
+### Patch Changes
+
+- 816fd721: support more server context
+- bfbea9a7: support multi base url and dynamic base url
+- 24f616ca: feat: support custom meta info
+- 272cab15: refactor server plugin manager
+
 ## 1.2.1
 
 ### Patch Changes
