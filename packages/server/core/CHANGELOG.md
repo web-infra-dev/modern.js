@@ -1,5 +1,11 @@
 # @modern-js/server-plugin
 
+## 1.2.2
+
+### Patch Changes
+
+- 272cab15: refactor server plugin manager
+
 ## 1.2.1
 
 ### Patch Changes

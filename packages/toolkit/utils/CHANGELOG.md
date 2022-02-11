@@ -1,5 +1,22 @@
 # @modern-js/utils
 
+## 1.3.0
+
+### Minor Changes
+
+- ec4dbffb: feat: support as a pure api service
+- bada2879: refactor plugin-garfish:
+  - change @modern-js/plugin-micro-frontend => @modern-js/plugin-garfish
+  - remove disableCustomerRouter logic
+  - adding unit test
+  - fix plugin-garfish type error
+
+### Patch Changes
+
+- d099e5c5: fix error when modify modern.config.js
+- 24f616ca: feat: support custom meta info
+- bd819a8d: feat: add wait function
+
 ## 1.2.2
 
 ### Patch Changes

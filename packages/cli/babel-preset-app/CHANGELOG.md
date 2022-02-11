@@ -1,5 +1,18 @@
 # @modern-js/babel-preset-app
 
+## 1.2.2
+
+### Patch Changes
+
+- 24f616ca: feat: support custom meta info
+- 198fd9c0: fix: babel preset options
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+  - @modern-js/utils@1.3.0
+
 ## 1.2.1
 
 ### Patch Changes
