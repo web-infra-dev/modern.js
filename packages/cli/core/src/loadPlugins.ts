@@ -93,8 +93,9 @@ export const loadPlugins = (
     });
 
     const cliPlugin = cli && { ...compatRequire(cli), pluginPath: cli };
+    // server plugin should be required by server
     const serverPlugin = server && {
-      ...compatRequire(server),
+      // ...compatRequire(server),
       pluginPath: server,
     };
 
