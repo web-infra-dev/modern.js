@@ -25,7 +25,11 @@ const shouldInline = (limit: number | undefined, size: number) => {
 };
 
 // svgr
-const transformSvg = (code: string, transformed: string, filePath: string) =>
+export const transformSvg = (
+  code: string,
+  transformed: string,
+  filePath: string,
+) =>
   require('@svgr/core').default(
     code,
     { titleProp: true },
@@ -33,7 +37,7 @@ const transformSvg = (code: string, transformed: string, filePath: string) =>
       caller: {
         name: '@modern-js/plugin-unbundle',
         previousExport: transformed,
-        defaultPlugins: [jsxPlugin],
+        defaultPlugins: [jsxPlugin.default || jsxPlugin],
       },
       filePath,
     },
