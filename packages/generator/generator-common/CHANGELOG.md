@@ -1,5 +1,11 @@
 # @modern-js/generator-common
 
+## 1.4.1
+
+### Patch Changes
+
+- 9a505589: fix: generator scenes order
+
 ## 1.4.0
 
 ### Minor Changes
