@@ -1,5 +1,11 @@
 # @modern-js/plugin-router
 
+## 1.2.4
+
+### Patch Changes
+
+- 290390b0: fix basename in node
+
 ## 1.2.3
 
 ### Patch Changes
