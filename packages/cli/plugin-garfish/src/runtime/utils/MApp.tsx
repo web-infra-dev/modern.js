@@ -15,7 +15,7 @@ declare global {
 
 export function generateMApp(
   options: typeof Garfish.options,
-  { LoadingComponent }: Manifest,
+  manifest?: Manifest,
 ) {
   class MApp extends React.Component<MicroProps, any> {
     state: {
@@ -102,5 +102,5 @@ export function generateMApp(
     }
   }
 
-  return Loadable(MApp)(LoadingComponent);
+  return Loadable(MApp)(manifest?.loadable);
 }

@@ -44,12 +44,8 @@ async function initOptions(manifest: Manifest = {}, options: Options) {
 
 const GarfishPlugin = (config: Config) => {
   setExternal();
-  const { manifest = {}, LoadingComponent, ...options } = config;
+  const { manifest, ...options } = config;
   logger('createPlugin', { config });
-
-  if (!manifest.LoadingComponent && LoadingComponent) {
-    manifest.LoadingComponent = LoadingComponent;
-  }
 
   const promise = initOptions(manifest, options);
 
