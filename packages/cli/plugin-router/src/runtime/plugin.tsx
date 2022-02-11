@@ -113,7 +113,7 @@ export const routerPlugin: any = ({
 
             return (
               <StaticRouter
-                basename={basename}
+                basename={basename === '/' ? '' : basename}
                 location={location}
                 context={routerContext}>
                 {routesConfig ? (
