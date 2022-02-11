@@ -1967,6 +1967,7 @@ importers:
       '@types/copy-webpack-plugin': ^8.0.1
       '@types/css-minimizer-webpack-plugin': ^3.0.2
       '@types/jest': ^26
+      '@types/lodash.template': ^4.5.0
       '@types/mini-css-extract-plugin': ~2.2.0
       '@types/node': ^14
       '@types/react': ^17
@@ -2056,6 +2057,7 @@ importers:
       '@types/copy-webpack-plugin': 8.0.1
       '@types/css-minimizer-webpack-plugin': 3.2.1_esbuild@0.13.15+webpack@5.65.0
       '@types/jest': 26.0.24
+      '@types/lodash.template': 4.5.0
       '@types/mini-css-extract-plugin': 2.2.0
       '@types/node': 14.18.4
       '@types/react': 17.0.38
@@ -25966,6 +25968,7 @@ packages:
 
   /npmlog/4.1.2:
     resolution: {integrity: sha512-2uUqazuKlTaSI/dC8AzicUck7+IrEaOnN/e0jd3Xtt1KcGpwx30v50mL7oPyr/h9bL3E4aZccVwpwP+5W9Vjkg==}
+    requiresBuild: true
     dependencies:
       are-we-there-yet: 1.1.7
       console-control-strings: 1.1.0

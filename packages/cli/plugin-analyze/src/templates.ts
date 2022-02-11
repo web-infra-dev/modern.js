@@ -92,6 +92,7 @@ export const html = (partials: {
   ${partials.body.join('\n')}
   <!--<?- chunksMap.js ?>-->
   <!--<?- SSRDataScript ?>-->
+  <!--<?- bottomTemplate ?>-->
 </body>
 
 </html>
