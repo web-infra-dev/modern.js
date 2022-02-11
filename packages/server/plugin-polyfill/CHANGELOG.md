@@ -1,5 +1,19 @@
 # @modern-js/plugin-polyfill
 
+## 1.2.2
+
+### Patch Changes
+
+- 272cab15: refactor server plugin manager
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [272cab15]
+  - @modern-js/core@1.4.0
+  - @modern-js/server-core@1.2.2
+
 ## 1.2.1
 
 ### Patch Changes

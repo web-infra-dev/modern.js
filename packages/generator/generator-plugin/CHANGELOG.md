@@ -1,5 +1,14 @@
 # @modern-js/generator-plugin
 
+## 1.2.2
+
+### Patch Changes
+
+- d0a3602d: fix: fix update modern config api
+- Updated dependencies [5a7901d7]
+- Updated dependencies [bada2879]
+  - @modern-js/generator-common@1.4.0
+
 ## 1.2.1
 
 ### Patch Changes

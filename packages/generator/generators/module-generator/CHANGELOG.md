@@ -1,5 +1,11 @@
 # @modern-js/module-generator
 
+## 1.3.3
+
+### Patch Changes
+
+- 2ba581e4: fix: mwa and module sub project dependence error
+
 ## 1.3.2
 
 ### Patch Changes

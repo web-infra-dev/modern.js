@@ -1,5 +1,22 @@
 # @modern-js/plugin-docsite
 
+## 1.2.2
+
+### Patch Changes
+
+- 24f616ca: feat: support custom meta info
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [ddf0c3a6]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+  - @modern-js/core@1.4.0
+  - @modern-js/webpack@1.3.0
+  - @modern-js/utils@1.3.0
+
 ## 1.2.1
 
 ### Patch Changes

@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.3.2",
+  "version": "1.3.3",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -64,18 +64,18 @@
     "@modern-js/babel-preset-lib": "workspace:^1.2.1",
     "@modern-js/create-request": "workspace:^1.2.1",
     "@modern-js/server-utils": "workspace:^1.2.1",
-    "@modern-js/utils": "workspace:^1.2.2",
+    "@modern-js/utils": "workspace:^1.3.0",
     "fs-extra": "^10.0.0",
     "loader-utils": "^2.0.0"
   },
   "devDependencies": {
     "@modern-js/bff-utils": "workspace:^1.2.2",
-    "@modern-js/core": "workspace:^1.3.2",
+    "@modern-js/core": "workspace:^1.4.0",
     "@scripts/build": "workspace:*",
-    "@modern-js/plugin-analyze": "workspace:^1.2.1",
-    "@modern-js/runtime": "workspace:^1.2.1",
-    "@modern-js/server-core": "workspace:^1.2.1",
-    "@modern-js/types": "workspace:^1.2.1",
+    "@modern-js/plugin-analyze": "workspace:^1.3.0",
+    "@modern-js/runtime": "workspace:^1.2.2",
+    "@modern-js/server-core": "workspace:^1.2.2",
+    "@modern-js/types": "workspace:^1.3.0",
     "@types/babel__core": "^7.1.15",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^26",
@@ -91,8 +91,8 @@
   },
   "peerDependencies": {
     "@modern-js/bff-utils": "workspace:^1.2.2",
-    "@modern-js/core": "workspace:^1.3.2",
-    "@modern-js/server-core": "workspace:^1.2.1"
+    "@modern-js/core": "workspace:^1.4.0",
+    "@modern-js/server-core": "workspace:^1.2.2"
   },
   "modernConfig": {
     "output": {
