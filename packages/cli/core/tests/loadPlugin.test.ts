@@ -37,7 +37,6 @@ describe('load plugins', () => {
       },
       {
         server: {
-          name: 'b',
           pluginPath: path.join(fixture, './test-plugin-b.js'),
         },
         serverPath: './test-plugin-b',
