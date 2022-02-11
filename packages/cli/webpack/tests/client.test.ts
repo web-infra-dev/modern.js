@@ -7,6 +7,12 @@ describe('@modern-js/webpack#config/client', () => {
       appDirectory: __dirname,
       distDirectory: `${__dirname}/dist`,
       srcDirectory: `${__dirname}/src`,
+      entrypoints: [
+        {
+          entryName: 'main',
+          entry: `${__dirname}/node_modules/.modern-js/main/index.js`,
+        },
+      ],
     } as any;
     const options: NormalizedConfig = {
       source: {} as any,

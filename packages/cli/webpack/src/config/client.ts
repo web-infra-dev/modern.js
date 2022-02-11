@@ -18,9 +18,11 @@ import webpack, {
 } from 'webpack';
 import { Entrypoint } from '@modern-js/types';
 import CopyPlugin from 'copy-webpack-plugin';
+import lodashTemplate from 'lodash.template';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
 import { AppIconPlugin } from '../plugins/app-icon-plugin';
+import { BottomTemplatePlugin } from '../plugins/bottom-template-plugin';
 import { ICON_EXTENSIONS } from '../utils/constants';
 import { BaseWebpackConfig } from './base';
 
@@ -108,6 +110,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     ]);
   }
 
+  // eslint-disable-next-line max-statements
   plugins() {
     super.plugins();
 
@@ -121,8 +124,35 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
     // output html files
     for (const { entryName } of entrypoints) {
+      const baseTemplateParams = {
+        entryName,
+        title: getEntryOptions<string | undefined>(
+          entryName,
+          this.options.output.title,
+          this.options.output.titleByEntries,
+          packageName,
+        ),
+        mountId: this.options.output.mountId!,
+        assetPrefix: removeTailSlash(this.chain.output.get('publicPath')),
+        meta: generateMetaTags(
+          getEntryOptions(
+            entryName,
+            this.options.output.meta,
+            this.options.output.metaByEntries,
+            packageName,
+          ),
+        ),
+        ...getEntryOptions<Record<string, unknown> | undefined>(
+          entryName,
+          this.options.output.templateParameters,
+          this.options.output.templateParametersByEntries,
+          packageName,
+        ),
+      };
+
       this.chain.plugin(`html-${entryName}`).use(HtmlWebpackPlugin, [
         {
+          __internal__: true, // flag for internal html-webpack-plugin usage
           filename: this.htmlFilename(entryName),
           chunks: [entryName],
           template: this.appContext.htmlTemplates[entryName],
@@ -163,46 +193,28 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
             assets,
             assetTags,
             pluginOptions,
-          ) => {
-            let stats: any;
-            return {
-              entryName,
-              get webpack() {
-                return stats || (stats = compilation.getStats().toJson());
-              },
-              webpackConfig: compilation.options,
-              htmlWebpackPlugin: {
-                tags: assetTags,
-                files: assets,
-                options: pluginOptions,
-              },
-              title: getEntryOptions<string | undefined>(
-                entryName,
-                this.options.output.title,
-                this.options.output.titleByEntries,
-                packageName,
-              ),
-              mountId: this.options.output.mountId!,
-              assetPrefix: removeTailSlash(this.chain.output.get('publicPath')),
-              meta: generateMetaTags(
-                getEntryOptions(
-                  entryName,
-                  this.options.output.meta,
-                  this.options.output.metaByEntries,
-                  packageName,
-                ),
-              ),
-              ...getEntryOptions<Record<string, unknown> | undefined>(
-                entryName,
-                this.options.output.templateParameters,
-                this.options.output.templateParametersByEntries,
-                packageName,
-              ),
-            };
-          },
+          ) => ({
+            webpackConfig: compilation.options,
+            htmlWebpackPlugin: {
+              tags: assetTags,
+              files: assets,
+              options: pluginOptions,
+            },
+            ...baseTemplateParams,
+          }),
+          bottomTemplate:
+            this.appContext.htmlTemplates[`__${entryName}-bottom__`] &&
+            lodashTemplate(
+              this.appContext.htmlTemplates[`__${entryName}-bottom__`],
+            )(baseTemplateParams),
         },
       ]);
     }
+    // eslint-enable-next-line max-statements
+
+    this.chain
+      .plugin('bottom-template')
+      .use(BottomTemplatePlugin, [HtmlWebpackPlugin]);
 
     // add app icon
     const appIcon = findExists(

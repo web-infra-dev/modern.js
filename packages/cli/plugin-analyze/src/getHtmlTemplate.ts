@@ -9,6 +9,7 @@ enum PartialPosition {
   TOP = 'top',
   HEAD = 'head',
   BODY = 'body',
+  BOTTOM = 'bottom',
   INDEX = 'index',
 }
 
@@ -104,6 +105,15 @@ export const getHtmlTemplate = async (
       fs.outputFileSync(templatePath, templates.html(partials), 'utf8');
 
       htmlTemplates[entryName] = templatePath;
+
+      const bottomTemplate = findPartials(
+        htmlDir,
+        name,
+        PartialPosition.BOTTOM,
+      );
+      if (bottomTemplate) {
+        htmlTemplates[`__${entryName}-bottom__`] = bottomTemplate.content;
+      }
     }
   }
 
