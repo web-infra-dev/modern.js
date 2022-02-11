@@ -158,11 +158,14 @@ const createCli = () => {
   let hooksRunner: HooksRunner;
   let isRestart = false;
   let restartWithExistingPort = 0;
+  let restartOptions: CoreOptions | undefined;
 
   const init = async (argv: string[] = [], options?: CoreOptions) => {
     enable();
 
     manager.clear();
+
+    restartOptions = options;
 
     const appDirectory = await initAppDir();
 
@@ -274,7 +277,7 @@ const createCli = () => {
     await runner.beforeRestart();
 
     try {
-      await init(process.argv.slice(2));
+      await init(process.argv.slice(2), restartOptions);
     } catch (err) {
       console.error(err);
       hasGetError = true;

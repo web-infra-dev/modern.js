@@ -47,7 +47,7 @@ export type DevServerOptions = {
 export type ModernServerOptions = {
   pwd: string;
   config: NormalizedConfig;
-  plugins?: any[];
+  plugins?: { pluginPath: string }[];
   dev?: boolean | Partial<DevServerOptions>;
   compiler?: Webpack.MultiCompiler | Webpack.Compiler | null;
   routes?: ModernRouteInterface[];
