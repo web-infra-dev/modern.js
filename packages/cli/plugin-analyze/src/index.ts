@@ -77,6 +77,7 @@ export default createPlugin(
     let originEntrypoints: any[] = [];
 
     return {
+      // eslint-disable-next-line max-statements
       async prepare() {
         /* eslint-disable react-hooks/rules-of-hooks */
         const appContext = useAppContext();

@@ -62,6 +62,7 @@ export interface IAppContext {
     serverPath?: any;
   }[];
   entrypoints: Entrypoint[];
+  checkedEntries: string[];
   serverRoutes: ServerRoute[];
   htmlTemplates: HtmlTemplates;
   existSrc: boolean;

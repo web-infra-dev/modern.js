@@ -3,6 +3,7 @@ export const ZH_LOCALE = {
     dev: {
       describe: '本地开发命令',
       config: '制定配置文件路径',
+      entry: '按入口编译',
     },
     build: { describe: '构建应用命令', analyze: '分析构建产物' },
     start: { describe: '应用启动命令' },
