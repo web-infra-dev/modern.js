@@ -68,6 +68,7 @@
     "@modern-js/server": "workspace:^1.4.0",
     "@modern-js/utils": "workspace:^1.3.0",
     "@modern-js/webpack": "workspace:^1.3.0",
+    "inquirer": "^8.2.0",
     "webpack": "^5.54.0"
   },
   "devDependencies": {
@@ -78,7 +79,8 @@
     "typescript": "^4",
     "@scripts/build": "workspace:*",
     "jest": "^27",
-    "@scripts/jest-config": "workspace:*"
+    "@scripts/jest-config": "workspace:*",
+    "@types/inquirer": "^8.2.0"
   },
   "sideEffects": false,
   "modernConfig": {

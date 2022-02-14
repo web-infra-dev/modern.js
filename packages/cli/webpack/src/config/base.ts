@@ -144,9 +144,12 @@ class BaseWebpackConfig {
   }
 
   entry() {
-    const { entrypoints = [] } = this.appContext;
+    const { entrypoints = [], checkedEntries } = this.appContext;
 
     for (const { entryName, entry } of entrypoints) {
+      if (checkedEntries && !checkedEntries.includes(entryName)) {
+        continue;
+      }
       this.chain.entry(entryName).add(entry);
     }
   }
