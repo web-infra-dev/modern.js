@@ -36,6 +36,39 @@ importers:
       jest: 27.4.5
       scan-deps: 0.1.0
 
+  examples/deploy:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/plugin-bff': workspace:*
+      '@modern-js/plugin-express': workspace:*
+      '@modern-js/plugin-jarvis': workspace:^1.0.0
+      '@modern-js/plugin-server': workspace:*
+      '@modern-js/runtime': workspace:^1.0.0
+      '@nestjs/common': ^8
+      '@types/node': ^14
+      '@types/react': ^17
+      '@types/react-dom': ^17
+      del-cli: ^4.0.1
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      '@modern-js/runtime': link:../../packages/cli/plugin-runtime
+      '@nestjs/common': 8.2.4
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/app-tools': link:../../packages/solutions/app-tools
+      '@modern-js/plugin-bff': link:../../packages/cli/plugin-bff
+      '@modern-js/plugin-express': link:../../packages/server/plugin-express
+      '@modern-js/plugin-jarvis': link:../../packages/cli/plugin-jarvis
+      '@modern-js/plugin-server': link:../../packages/server/plugin-server
+      '@types/node': 14.18.4
+      '@types/react': 17.0.38
+      '@types/react-dom': 17.0.11
+      del-cli: 4.0.1
+      typescript: 4.5.4
+
   packages/cli/babel-preset-app:
     specifiers:
       '@babel/core': 7.16.7
@@ -3891,11 +3924,13 @@ importers:
       '@modern-js/webpack': workspace:^1.3.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
+      '@types/inquirer': ^8.2.0
       '@types/jest': ^26
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
       esbuild: ^0.13.13
+      inquirer: ^8.2.0
       jest: ^27
       typescript: ^4
       webpack: ^5.54.0
@@ -3913,10 +3948,12 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@modern-js/webpack': link:../../cli/webpack
       esbuild: 0.13.15
+      inquirer: 8.2.0
       webpack: 5.65.0_esbuild@0.13.15
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
+      '@types/inquirer': 8.2.0
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
       '@types/react': 17.0.38
@@ -9485,6 +9522,30 @@ packages:
       call-me-maybe: 1.0.1
       glob-to-regexp: 0.3.0
 
+  /@nestjs/common/8.2.4:
+    resolution: {integrity: sha512-zb6Y//Rd7tRsMsY2qDvX7qk/msr6sBid7V9YNvdePzGNYfMOvtwgNoqtHgbq2F6V4kCtMO7slmmM4/zptSghiQ==}
+    peerDependencies:
+      cache-manager: '*'
+      class-transformer: '*'
+      class-validator: '*'
+      reflect-metadata: ^0.1.12
+      rxjs: ^7.1.0
+    peerDependenciesMeta:
+      cache-manager:
+        optional: true
+      class-transformer:
+        optional: true
+      class-validator:
+        optional: true
+    dependencies:
+      axios: 0.24.0
+      iterare: 1.2.1
+      tslib: 2.3.1
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /@nestjs/common/8.2.4_88a789cb3f20cca25c3f70fe96f41643:
     resolution: {integrity: sha512-zb6Y//Rd7tRsMsY2qDvX7qk/msr6sBid7V9YNvdePzGNYfMOvtwgNoqtHgbq2F6V4kCtMO7slmmM4/zptSghiQ==}
     peerDependencies:
@@ -12292,6 +12353,13 @@ packages:
       rxjs: 7.5.2
     dev: true
 
+  /@types/inquirer/8.2.0:
+    resolution: {integrity: sha512-BNoMetRf3gmkpAlV5we+kxyZTle7YibdOntIZbU5pyIfMdcwy784KfeZDAcuyMznkh5OLa17RVXZOGA5LTlkgQ==}
+    dependencies:
+      '@types/through': 0.0.30
+      rxjs: 7.5.2
+    dev: true
+
   /@types/invariant/2.2.35:
     resolution: {integrity: sha512-DxX1V9P8zdJPYQat1gHyY0xj3efl8gnMVjiM9iCY6y27lj+PoQWkgjt8jDqmovPqULkKVpKRg8J36iQiA+EtEg==}
     dev: true
@@ -12864,7 +12932,7 @@ packages:
   /@types/through/0.0.30:
     resolution: {integrity: sha512-FvnCJljyxhPM3gkRgWmxmDZyAQSiBQQWLI0A0VFL0K7W1oRUrPJSqNO0NvTnLkBcotdlp3lKvaT0JrnyRDkzOg==}
     dependencies:
-      '@types/node': 14.18.4
+      '@types/node': 16.11.18
     dev: true
 
   /@types/tmp/0.0.33:
@@ -22969,7 +23037,6 @@ packages:
   /iterare/1.2.1:
     resolution: {integrity: sha512-RKYVTCjAnRthyJes037NX/IiqeidgN1xc3j1RjFfECFp28A1GVwK9nA+i0rJPaHqSZwygLzRnFlzUuHFoWWy+Q==}
     engines: {node: '>=6'}
-    dev: true
 
   /iterate-iterator/1.0.2:
     resolution: {integrity: sha512-t91HubM4ZDQ70M9wqp+pcNpu8OyJ9UAtXntT/Bcsvp5tZMnz9vRa+IunKXeI8AnfZMTv0jNuVEmGeLSMjVvfPw==}
@@ -25550,7 +25617,7 @@ packages:
     resolution: {integrity: sha1-MHXOk7whuPq0PhvE2n6BFe0ee6s=}
 
   /mute-stream/0.0.8:
-    resolution: {integrity: sha1-FjDEKyJR/4HiooPelqVJfqkuXg0=}
+    resolution: {integrity: sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==}
 
   /mz-modules/2.1.0:
     resolution: {integrity: sha512-sjk8lcRW3vrVYnZ+W+67L/2rL+jbO5K/N6PFGIcLWTiYytNr22Ah9FDXFs+AQntTM1boZcoHi5qS+CV1seuPog==}
