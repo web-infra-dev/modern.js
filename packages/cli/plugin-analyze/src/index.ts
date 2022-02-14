@@ -1,3 +1,4 @@
+import * as path from 'path';
 import {
   createPlugin,
   registerHook,
@@ -14,8 +15,10 @@ import type {
   Route,
   HtmlPartials,
 } from '@modern-js/types';
+import clone from 'clone';
 import type { ImportStatement } from './generateCode';
 import type { RuntimePlugin } from './templates';
+import { isRouteComponentFile } from './utils';
 
 const debug = createDebugger('plugin-analyze');
 
@@ -69,87 +72,126 @@ registerHook({
 });
 
 export default createPlugin(
-  () => ({
-    async prepare() {
-      /* eslint-disable react-hooks/rules-of-hooks */
-      const appContext = useAppContext();
-      const resolvedConfig = useResolvedConfigContext();
-      /* eslint-enable react-hooks/rules-of-hooks */
+  () => {
+    let pagesDir: string[] = [];
+    let originEntrypoints: any[] = [];
 
-      try {
-        fs.emptydirSync(appContext.internalDirectory);
-      } catch {
-        // FIXME:
-      }
+    return {
+      // eslint-disable-next-line max-statements
+      async prepare() {
+        /* eslint-disable react-hooks/rules-of-hooks */
+        const appContext = useAppContext();
+        const resolvedConfig = useResolvedConfigContext();
+        /* eslint-enable react-hooks/rules-of-hooks */
 
-      const existSrc = await fs.pathExists(appContext.srcDirectory);
-      await (mountHook() as any).addRuntimeExports();
+        try {
+          fs.emptydirSync(appContext.internalDirectory);
+        } catch {
+          // FIXME:
+        }
 
-      if (!existSrc) {
+        const existSrc = await fs.pathExists(appContext.srcDirectory);
+        await (mountHook() as any).addRuntimeExports();
+
+        if (!existSrc) {
+          const { routes } = await (mountHook() as any).modifyServerRoutes({
+            routes: [],
+          });
+
+          debug(`server routes: %o`, routes);
+
+          AppContext.set({
+            ...appContext,
+            existSrc,
+            serverRoutes: routes,
+          });
+          return;
+        }
+
+        const [
+          { getBundleEntry },
+          { getServerRoutes },
+          { generateCode },
+          { getHtmlTemplate },
+        ] = await Promise.all([
+          import('./getBundleEntry'),
+          import('./getServerRoutes'),
+          import('./generateCode'),
+          import('./getHtmlTemplate'),
+        ]);
+
+        const entrypoints = getBundleEntry(appContext, resolvedConfig);
+
+        debug(`entrypoints: %o`, entrypoints);
+
+        const initialRoutes = getServerRoutes(entrypoints, {
+          appContext,
+          config: resolvedConfig,
+        });
+
         const { routes } = await (mountHook() as any).modifyServerRoutes({
-          routes: [],
+          routes: initialRoutes,
         });
 
         debug(`server routes: %o`, routes);
 
         AppContext.set({
           ...appContext,
-          existSrc,
+          entrypoints,
           serverRoutes: routes,
         });
-        return;
-      }
 
-      const [
-        { getBundleEntry },
-        { getServerRoutes },
-        { generateCode },
-        { getHtmlTemplate },
-      ] = await Promise.all([
-        import('./getBundleEntry'),
-        import('./getServerRoutes'),
-        import('./generateCode'),
-        import('./getHtmlTemplate'),
-      ]);
+        pagesDir = entrypoints.map(point => point.entry);
+        originEntrypoints = clone(entrypoints);
 
-      const entrypoints = getBundleEntry(appContext, resolvedConfig);
+        await generateCode(appContext, resolvedConfig, entrypoints);
 
-      debug(`entrypoints: %o`, entrypoints);
+        const htmlTemplates = await getHtmlTemplate(entrypoints, {
+          appContext,
+          config: resolvedConfig,
+        });
 
-      const initialRoutes = getServerRoutes(entrypoints, {
-        appContext,
-        config: resolvedConfig,
-      });
+        debug(`html templates: %o`, htmlTemplates);
 
-      const { routes } = await (mountHook() as any).modifyServerRoutes({
-        routes: initialRoutes,
-      });
+        AppContext.set({
+          ...appContext,
+          entrypoints,
+          existSrc,
+          serverRoutes: routes,
+          htmlTemplates,
+        });
+      },
 
-      debug(`server routes: %o`, routes);
+      watchFiles() {
+        return pagesDir;
+      },
 
-      AppContext.set({
-        ...appContext,
-        entrypoints,
-        serverRoutes: routes,
-      });
+      async fileChange(e) {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const appContext = useAppContext();
+        const { appDirectory } = appContext;
+        const { filename, eventType } = e;
 
-      await generateCode(appContext, resolvedConfig, entrypoints);
+        const isPageFile = (name: string) =>
+          pagesDir.some(pageDir => name.includes(pageDir));
 
-      const htmlTemplates = await getHtmlTemplate(entrypoints, {
-        appContext,
-        config: resolvedConfig,
-      });
+        const absoluteFilePath = path.resolve(appDirectory, filename);
+        const isRouteComponent =
+          isPageFile(absoluteFilePath) &&
+          isRouteComponentFile(absoluteFilePath);
 
-      debug(`html templates: %o`, htmlTemplates);
-
-      AppContext.set({
-        ...appContext,
-        entrypoints,
-        existSrc,
-        serverRoutes: routes,
-        htmlTemplates,
-      });
-    },
-  }),
+        if (
+          isRouteComponent &&
+          (eventType === 'add' || eventType === 'unlink')
+        ) {
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          const resolvedConfig = useResolvedConfigContext();
+          const { generateCode } = await import('./generateCode');
+          const entrypoints = clone(originEntrypoints);
+          generateCode(appContext, resolvedConfig, entrypoints);
+        }
+      },
+    };
+  },
   { name: '@modern-js/plugin-analyze' },
 );

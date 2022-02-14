@@ -5,7 +5,7 @@ import {
   AppContext,
   ConfigContext,
 } from '@modern-js/server-core';
-import { logger as defaultLogger } from '@modern-js/utils';
+import { compatRequire, logger as defaultLogger } from '@modern-js/utils';
 import {
   initAppContext,
   initAppDir,
@@ -126,8 +126,10 @@ export class Server {
   private async createHookRunner() {
     const { options } = this;
 
+    serverManager.clear();
+
     options.plugins?.forEach(p => {
-      serverManager.usePlugin(p);
+      serverManager.usePlugin(compatRequire(p.pluginPath));
     });
 
     const appContext = await this.initAppContext();

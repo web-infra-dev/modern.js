@@ -1,5 +1,25 @@
 # @modern-js/generator-common
 
+## 1.4.1
+
+### Patch Changes
+
+- 9a505589: fix: generator scenes order
+
+## 1.4.0
+
+### Minor Changes
+
+- bada2879: refactor plugin-garfish:
+  - change @modern-js/plugin-micro-frontend => @modern-js/plugin-garfish
+  - remove disableCustomerRouter logic
+  - adding unit test
+  - fix plugin-garfish type error
+
+### Patch Changes
+
+- 5a7901d7: fix ssg url
+
 ## 1.3.1
 
 ### Patch Changes

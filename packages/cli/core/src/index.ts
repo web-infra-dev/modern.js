@@ -63,6 +63,7 @@ export type HooksRunner = Progresses2Runners<{
   fileChange: AsyncWorkflow<
     {
       filename: string;
+      eventType: 'add' | 'change' | 'unlink';
     },
     void
   >;
@@ -88,12 +89,15 @@ const hooksMap = {
   fileChange: createAsyncWorkflow<
     {
       filename: string;
+      eventType: 'add' | 'change' | 'unlink';
     },
     // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
     void
   >(),
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   beforeExit: createAsyncWorkflow<void, void>(),
+  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+  beforeRestart: createAsyncWorkflow<void, void>(),
 };
 
 export const manager = createAsyncManager<Hooks, typeof hooksMap>(hooksMap);
@@ -154,11 +158,15 @@ const createCli = () => {
   let hooksRunner: HooksRunner;
   let isRestart = false;
   let restartWithExistingPort = 0;
+  let restartOptions: CoreOptions | undefined;
 
+  // eslint-disable-next-line max-statements
   const init = async (argv: string[] = [], options?: CoreOptions) => {
     enable();
 
     manager.clear();
+
+    restartOptions = options;
 
     const appDirectory = await initAppDir();
 
@@ -265,8 +273,12 @@ const createCli = () => {
     logger.info('Restart...\n');
 
     let hasGetError = false;
+
+    const runner = manager.useRunner();
+    await runner.beforeRestart();
+
     try {
-      await init(process.argv.slice(2));
+      await init(process.argv.slice(2), restartOptions);
     } catch (err) {
       console.error(err);
       hasGetError = true;
