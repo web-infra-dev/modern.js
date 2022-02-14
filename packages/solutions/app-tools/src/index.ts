@@ -12,6 +12,8 @@ import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils/language';
 import { start } from './commands/start';
 import { dev } from './commands/dev';
+import { DevOptions } from './utils/types';
+import { closeServer } from './utils/createServer';
 
 export { defineConfig };
 
@@ -35,8 +37,9 @@ export default createPlugin(
           .usage('[options]')
           .description(i18n.t(localeKeys.command.dev.describe))
           .option('-c --config <config>', i18n.t(localeKeys.command.dev.config))
-          .action(async () => {
-            await dev();
+          .option('-e --entry [entry...]', i18n.t(localeKeys.command.dev.entry))
+          .action(async (options: DevOptions) => {
+            await dev(options);
           });
 
         program
@@ -101,6 +104,7 @@ export default createPlugin(
           !absolutePath.includes(srcDirectory) &&
           (eventType === 'change' || eventType === 'unlink')
         ) {
+          await closeServer();
           await cli.restart();
         }
       },
