@@ -29,23 +29,27 @@ jobs:
         shell: bash
         run: |
           git config --system core.longpaths true
+
       - uses: actions/checkout@v2
         with:
           fetch-depth: 25
+
       - uses: pnpm/action-setup@v2.0.1
         with:
           version: latest
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
 
       - name: Check docs only change
         run: echo "::set-output name=DOCS_CHANGE::$(node skip-docs-change.js echo 'not-docs-only-change')"
         id: docs-change
 
       - run: echo "${{steps.docs-change.outputs.DOCS_CHANGE}}"
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: Init
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}

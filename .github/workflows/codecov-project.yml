@@ -1,0 +1,13 @@
+name: codecov/project
+on:
+  pull_request:
+    paths-ignore:
+      - '.changeset/**'
+      - '.github/**'
+      - '.vscode/**'
+      - 'skip-docs-change.js'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No Codecov" '
