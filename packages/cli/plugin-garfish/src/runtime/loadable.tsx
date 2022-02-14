@@ -79,11 +79,6 @@ export function Loadable(WrapComponent: any) {
         if (!this.mounted) {
           return;
         }
-
-        logger('Loadable state', {
-          state: this.state,
-          props: this.props,
-        });
         this.setState(newState);
       }
 
@@ -108,6 +103,13 @@ export function Loadable(WrapComponent: any) {
           },
         } = this.props;
         const { loading: LoadingComponent } = loadable;
+
+        logger('Loadable render state', {
+          state: this.state,
+          props: this.props,
+          loadable,
+          defaultLoadable,
+        });
 
         const showLoading = (isLoading || error) && LoadingComponent;
         return (
