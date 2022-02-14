@@ -81,16 +81,26 @@ export const prettyInstructions = (appContext: any, config: any) => {
 
     urls.forEach(({ type, url }) => {
       message += `  ${chalk.bold(`> ${type}`)}\n`;
-      routes.forEach(({ entryName, urlPath }) => {
+      routes.forEach(({ entryName, urlPath, isSSR }) => {
         if (!checkedEntries.includes(entryName)) {
           return;
         }
 
         message += `    ${chalk.yellowBright(
+          isSSR ? 'λ' : '○',
+        )}  ${chalk.yellowBright(
           entryName.padEnd(maxNameLength + 8),
         )}${chalk.cyanBright(normalizeUrl(`${url}/${urlPath}`))}\n`;
       });
     });
+
+    message += '\n';
+    message += chalk.cyanBright(
+      '  λ  (Server)  server-side renders at runtime\n',
+    );
+    message += chalk.cyanBright(
+      '  ○  (Static)  client-side rendered as static HTML\n',
+    );
   }
 
   return message;
