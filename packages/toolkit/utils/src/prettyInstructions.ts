@@ -96,10 +96,10 @@ export const prettyInstructions = (appContext: any, config: any) => {
 
     message += '\n';
     message += chalk.cyanBright(
-      '  λ  (Server)  server-side renders at runtime\n',
+      '  λ (Server) server-side renders at runtime\n',
     );
     message += chalk.cyanBright(
-      '  ○  (Static)  client-side rendered as static HTML\n',
+      '  ○ (Static) client-side rendered as static HTML\n',
     );
   }
 
