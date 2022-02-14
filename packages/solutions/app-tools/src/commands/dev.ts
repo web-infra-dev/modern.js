@@ -34,18 +34,16 @@ export const dev = async (options: DevOptions) => {
   const { appDirectory, distDirectory, port, existSrc, entrypoints } =
     appContext;
 
-  if (options.entry) {
-    const checkedEntries = await getSpecifiedEntries(
-      options.entry || false,
-      entrypoints,
-    );
+  const checkedEntries = await getSpecifiedEntries(
+    options.entry || false,
+    entrypoints,
+  );
 
-    AppContext.set({
-      ...appContext,
-      checkedEntries,
-    });
-    appContext.checkedEntries = checkedEntries;
-  }
+  AppContext.set({
+    ...appContext,
+    checkedEntries,
+  });
+  appContext.checkedEntries = checkedEntries;
 
   fs.emptyDirSync(distDirectory);
 
