@@ -3891,11 +3891,13 @@ importers:
       '@modern-js/webpack': workspace:^1.3.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
+      '@types/inquirer': ^8.2.0
       '@types/jest': ^26
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
       esbuild: ^0.13.13
+      inquirer: ^8.2.0
       jest: ^27
       typescript: ^4
       webpack: ^5.54.0
@@ -3913,10 +3915,12 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@modern-js/webpack': link:../../cli/webpack
       esbuild: 0.13.15
+      inquirer: 8.2.0
       webpack: 5.65.0_esbuild@0.13.15
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
+      '@types/inquirer': 8.2.0
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
       '@types/react': 17.0.38
@@ -12292,6 +12296,13 @@ packages:
       rxjs: 7.5.2
     dev: true
 
+  /@types/inquirer/8.2.0:
+    resolution: {integrity: sha512-BNoMetRf3gmkpAlV5we+kxyZTle7YibdOntIZbU5pyIfMdcwy784KfeZDAcuyMznkh5OLa17RVXZOGA5LTlkgQ==}
+    dependencies:
+      '@types/through': 0.0.30
+      rxjs: 7.5.2
+    dev: true
+
   /@types/invariant/2.2.35:
     resolution: {integrity: sha512-DxX1V9P8zdJPYQat1gHyY0xj3efl8gnMVjiM9iCY6y27lj+PoQWkgjt8jDqmovPqULkKVpKRg8J36iQiA+EtEg==}
     dev: true
@@ -12864,7 +12875,7 @@ packages:
   /@types/through/0.0.30:
     resolution: {integrity: sha512-FvnCJljyxhPM3gkRgWmxmDZyAQSiBQQWLI0A0VFL0K7W1oRUrPJSqNO0NvTnLkBcotdlp3lKvaT0JrnyRDkzOg==}
     dependencies:
-      '@types/node': 14.18.4
+      '@types/node': 16.11.18
     dev: true
 
   /@types/tmp/0.0.33:
@@ -25550,7 +25561,7 @@ packages:
     resolution: {integrity: sha1-MHXOk7whuPq0PhvE2n6BFe0ee6s=}
 
   /mute-stream/0.0.8:
-    resolution: {integrity: sha1-FjDEKyJR/4HiooPelqVJfqkuXg0=}
+    resolution: {integrity: sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==}
 
   /mz-modules/2.1.0:
     resolution: {integrity: sha512-sjk8lcRW3vrVYnZ+W+67L/2rL+jbO5K/N6PFGIcLWTiYytNr22Ah9FDXFs+AQntTM1boZcoHi5qS+CV1seuPog==}

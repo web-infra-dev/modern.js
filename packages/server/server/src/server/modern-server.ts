@@ -415,7 +415,7 @@ export class ModernServer {
 
     // route is api service
     if (route.isApi) {
-      this.handleAPI(context);
+      await this.handleAPI(context);
       return;
     }
 

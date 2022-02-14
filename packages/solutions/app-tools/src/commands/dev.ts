@@ -15,19 +15,35 @@ import {
   useAppContext,
   useResolvedConfigContext,
   mountHook,
+  AppContext,
 } from '@modern-js/core';
+
 import { createCompiler } from '../utils/createCompiler';
 import { createServer } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
 import { printInstructions } from '../utils/printInstructions';
+import { DevOptions } from '../utils/types';
+import { getSpecifiedEntries } from '../utils/getSpecifiedEntries';
 
-export const dev = async () => {
+export const dev = async (options: DevOptions) => {
   /* eslint-disable react-hooks/rules-of-hooks */
   const appContext = useAppContext();
   const userConfig = useResolvedConfigContext();
   /* eslint-enable react-hooks/rules-of-hooks */
 
-  const { appDirectory, distDirectory, port, existSrc } = appContext;
+  const { appDirectory, distDirectory, port, existSrc, entrypoints } =
+    appContext;
+
+  const checkedEntries = await getSpecifiedEntries(
+    options.entry || false,
+    entrypoints,
+  );
+
+  AppContext.set({
+    ...appContext,
+    checkedEntries,
+  });
+  appContext.checkedEntries = checkedEntries;
 
   fs.emptyDirSync(distDirectory);
 
