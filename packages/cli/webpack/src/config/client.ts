@@ -118,12 +118,13 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
     isDev() && this.chain.plugin('hmr').use(HotModuleReplacementPlugin);
 
-    const { entrypoints = [], packageName } = this.appContext as IAppContext & {
+    const { packageName } = this.appContext as IAppContext & {
       entrypoints: Entrypoint[];
     };
 
     // output html files
-    for (const { entryName } of entrypoints) {
+    const entrypoints = Object.keys(this.chain.entryPoints.entries() || {});
+    for (const entryName of entrypoints) {
       const baseTemplateParams = {
         entryName,
         title: getEntryOptions<string | undefined>(

@@ -160,6 +160,7 @@ const createCli = () => {
   let restartWithExistingPort = 0;
   let restartOptions: CoreOptions | undefined;
 
+  // eslint-disable-next-line max-statements
   const init = async (argv: string[] = [], options?: CoreOptions) => {
     enable();
 

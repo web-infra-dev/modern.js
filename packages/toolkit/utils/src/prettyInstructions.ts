@@ -47,12 +47,14 @@ const getAddressUrls = (protocol = 'http', port: number) => {
 };
 
 export const prettyInstructions = (appContext: any, config: any) => {
-  const { entrypoints, serverRoutes, port, existSrc } = appContext as {
-    entrypoints: EntryPoint[];
-    serverRoutes: ServerRoute[];
-    port: number;
-    existSrc: boolean;
-  };
+  const { entrypoints, serverRoutes, port, existSrc, checkedEntries } =
+    appContext as {
+      entrypoints: EntryPoint[];
+      serverRoutes: ServerRoute[];
+      port: number;
+      existSrc: boolean;
+      checkedEntries: string[];
+    };
 
   const urls = getAddressUrls(
     config.dev.https && isDev() ? 'https' : 'http',
@@ -80,6 +82,10 @@ export const prettyInstructions = (appContext: any, config: any) => {
     urls.forEach(({ type, url }) => {
       message += `  ${chalk.bold(`> ${type}`)}\n`;
       routes.forEach(({ entryName, urlPath }) => {
+        if (!checkedEntries.includes(entryName)) {
+          return;
+        }
+
         message += `    ${chalk.yellowBright(
           entryName.padEnd(maxNameLength + 8),
         )}${chalk.cyanBright(normalizeUrl(`${url}/${urlPath}`))}\n`;

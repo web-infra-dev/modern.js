@@ -61,6 +61,7 @@ export const initAppContext = (
     htmlTemplates: {},
     serverRoutes: [],
     entrypoints: [],
+    checkedEntries: [],
     existSrc: true,
     internalDirAlias: `@_${metaName.replace(/-/g, '_')}_internal`,
     internalSrcAlias: `@_${metaName.replace(/-/g, '_')}_src`,
