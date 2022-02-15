@@ -1,30 +1,7 @@
 import path from 'path';
-import { createPlugin } from '@modern-js/testing';
-import { chalk } from '@modern-js/utils';
+import { createPlugin, getModuleNameMapper } from '@modern-js/testing';
 import { bff_info_key } from './constant';
-
-export const isBFFProject = (pwd: string) => {
-  try {
-    // eslint-disable-next-line import/no-dynamic-require,@typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
-    const packageJson = require(path.join(pwd, './package.json'));
-
-    const { dependencies, devDependencies } = packageJson;
-
-    const isBFF = Object.keys({ ...dependencies, ...devDependencies }).some(
-      (dependency: string) => dependency.includes('plugin-bff'),
-    );
-
-    const isMWA = Object.keys(devDependencies).some((devDependency: string) =>
-      devDependency.includes('app-tools'),
-    );
-
-    return isMWA && isBFF;
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(chalk.red(error));
-    return false;
-  }
-};
+import { isBFFProject, existSrc } from './utils';
 
 export default ({
   pwd,
@@ -59,26 +36,57 @@ export default ({
           },
         };
 
+        const {
+          source: { alias },
+        } = userConfig;
+
+        const aliasMapper = getModuleNameMapper(alias);
+
         const { transform, moduleNameMapper, resolver } = utils.jestConfig;
 
-        utils.setJestConfig(
-          {
-            projects: [
-              {
-                ...utils.jestConfig,
-              },
-              {
-                transform,
-                moduleNameMapper,
-                resolver,
-                ...bffConfig,
-              },
-            ],
-          },
-          {
-            force: true,
-          },
-        );
+        const isExistSrc = await existSrc(pwd);
+
+        const mergedModuleNameMapper = {
+          ...moduleNameMapper,
+          ...aliasMapper,
+        };
+
+        if (isExistSrc) {
+          utils.setJestConfig(
+            {
+              projects: [
+                {
+                  ...utils.jestConfig,
+                },
+                {
+                  transform,
+                  moduleNameMapper: mergedModuleNameMapper,
+                  resolver,
+                  ...bffConfig,
+                },
+              ],
+            },
+            {
+              force: true,
+            },
+          );
+        } else {
+          utils.setJestConfig(
+            {
+              projects: [
+                {
+                  transform,
+                  moduleNameMapper: mergedModuleNameMapper,
+                  resolver,
+                  ...bffConfig,
+                },
+              ],
+            },
+            {
+              force: true,
+            },
+          );
+        }
         return next(utils);
       },
     }),
