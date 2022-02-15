@@ -5,7 +5,7 @@ on:
     - cron:  '0 1,16 * * *'
 
 jobs:
-  Modern:
+  reset-prepare:
     name: prepare
     runs-on: ${{ matrix.os }}
     strategy:
