@@ -21,7 +21,7 @@ const createCacheItem = async (filepath: string, mtime: Date) => {
     mtime,
   };
 };
-class LruReader {
+export class LruReader {
   private readonly cache: LRU<string, FileCache>;
 
   // private timer?: NodeJS.Timeout;
