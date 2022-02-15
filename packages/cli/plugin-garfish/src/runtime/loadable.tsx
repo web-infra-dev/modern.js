@@ -101,12 +101,13 @@ export function Loadable(WrapComponent: any) {
             timeout: 10000,
             loading: null,
           },
+          ...otherProps
         } = this.props;
         const { loading: LoadingComponent } = loadable;
 
         logger('Loadable render state', {
           state: this.state,
-          props: this.props,
+          props: otherProps,
           loadable,
           defaultLoadable,
         });
@@ -128,7 +129,7 @@ export function Loadable(WrapComponent: any) {
               setLoadingState={(props: SetLoadingState) =>
                 this.setStateWithMountCheck(props)
               }
-              {...this.props}
+              {...otherProps}
             />
           </>
         );

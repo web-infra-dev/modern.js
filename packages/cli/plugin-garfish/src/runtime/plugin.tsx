@@ -31,7 +31,10 @@ async function initOptions(manifest: Manifest = {}, options: Options) {
   }
 
   // get inject modules list
-  if (window?.modern_manifest?.modules) {
+  if (
+    window?.modern_manifest?.modules &&
+    window?.modern_manifest?.modules.length > 0
+  ) {
     apps = window?.modern_manifest?.modules;
     logger('modern_manifest', apps);
   }
