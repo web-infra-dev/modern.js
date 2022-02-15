@@ -28,6 +28,7 @@ import { createStaticFileHandler } from '../libs/serve-file';
 import {
   createErrorDocument,
   createMiddlewareCollecter,
+  getStaticReg,
   mergeExtension,
   noop,
 } from '../utils';
@@ -133,7 +134,6 @@ export class ModernServer {
   }
 
   // server prepare
-  // eslint-disable-next-line max-statements
   public async init(runner: ServerHookRunner) {
     this.runner = runner;
 
@@ -168,19 +168,9 @@ export class ModernServer {
 
     await this.prepareFrameHandler();
 
-    const { favicon, faviconByEntries, cssPath, jsPath, mediaPath } =
-      this.conf.output || {};
-    const favicons = this.prepareFavicons(favicon, faviconByEntries);
-    const staticFiles = [cssPath, jsPath, mediaPath].filter(v => Boolean(v));
     // Only work when without setting `assetPrefix`.
     // Setting `assetPrefix` means these resources should be uploaded to CDN.
-
-    console.log(staticFiles, '~~~');
-    const staticPathRegExp = new RegExp(
-      `^/(static/|upload/|favicon.ico|icon.png${
-        favicons.length > 0 ? `|${favicons.join('|')}` : ''
-      }|${staticFiles.join('|')})`,
-    );
+    const staticPathRegExp = getStaticReg(this.conf.output || {});
 
     this.staticFileHandler = createStaticFileHandler([
       {
@@ -623,27 +613,6 @@ export class ModernServer {
 
     const text = ERROR_PAGE_TEXT[status] || ERROR_PAGE_TEXT[500];
     res.end(createErrorDocument(status, text));
-  }
-
-  private prepareFavicons(
-    favicon: string | undefined,
-    faviconByEntries?: Record<string, string | undefined>,
-  ) {
-    const faviconNames = [];
-    if (favicon) {
-      faviconNames.push(favicon.substring(favicon.lastIndexOf('/') + 1));
-    }
-    if (faviconByEntries) {
-      Object.keys(faviconByEntries).forEach(f => {
-        const curFavicon = faviconByEntries[f];
-        if (curFavicon) {
-          faviconNames.push(
-            curFavicon.substring(curFavicon.lastIndexOf('/') + 1),
-          );
-        }
-      });
-    }
-    return faviconNames;
   }
 }
 /* eslint-enable max-lines */
