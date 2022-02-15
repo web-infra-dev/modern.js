@@ -71,7 +71,8 @@
     "webpack-merge": "^5.8.0",
     "webpack-node-externals": "^3.0.0",
     "webpackbar": "^5.0.0-3",
-    "yaml-loader": "^0.6.0"
+    "yaml-loader": "^0.6.0",
+    "style-loader": "^3.3.1"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:^1.4.0",

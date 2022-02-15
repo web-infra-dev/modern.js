@@ -35,15 +35,21 @@ export const createCSSRule = (
 
   const loaders = chain.module.rule('loaders');
 
-  loaders
-    .oneOf(name)
-    .test(test)
-    .use('mini-css-extract')
-    .loader(require('mini-css-extract-plugin').loader)
-    .options(
-      chain.output.get('publicPath') === './' ? { publicPath: '../../' } : {},
-    )
-    .end()
+  const cssRules = loaders.oneOf(name).test(test);
+
+  if (config.output.disableCssExtract) {
+    cssRules.use('style').loader(require.resolve('style-loader')).end();
+  } else {
+    cssRules
+      .use('mini-css-extract')
+      .loader(require('mini-css-extract-plugin').loader)
+      .options(
+        chain.output.get('publicPath') === './' ? { publicPath: '../../' } : {},
+      )
+      .end();
+  }
+
+  cssRules
     .when(Boolean(genTSD), c => {
       c.use('css-modules-typescript')
         .loader(require.resolve('css-modules-typescript-loader'))

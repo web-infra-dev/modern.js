@@ -472,13 +472,14 @@ class BaseWebpackConfig {
     isDev() &&
       this.chain.plugin('case-sensitive').use(CaseSensitivePathsPlugin);
 
-    this.chain.plugin('mini-css-extract').use(MiniCssExtractPlugin, [
-      {
-        filename: this.cssChunkname,
-        chunkFilename: this.cssChunkname,
-        ignoreOrder: true,
-      },
-    ]);
+    !this.options.output.disableCssExtract &&
+      this.chain.plugin('mini-css-extract').use(MiniCssExtractPlugin, [
+        {
+          filename: this.cssChunkname,
+          chunkFilename: this.cssChunkname,
+          ignoreOrder: true,
+        },
+      ]);
 
     this.chain.plugin('ignore').use(IgnorePlugin, [
       {
