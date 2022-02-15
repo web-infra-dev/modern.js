@@ -40,6 +40,15 @@
       },
       "default": "./dist/js/treeshaking/runtime-testing/index.js"
     },
+    "./runtime-base": {
+      "jsnext:source": "./src/runtime-testing/base.ts",
+      "node": {
+        "import": "./dist/js/modern/runtime-testing/base.js",
+        "require": "./dist/js/node/runtime-testing/base.js",
+        "types": "./types/base.d.ts"
+      },
+      "default": "./dist/js/treeshaking/runtime-testing/base.js"
+    },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/js/node/cli/index.js"
