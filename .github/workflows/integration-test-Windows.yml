@@ -15,7 +15,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  Modern:
+  integration-test-windows:
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     strategy:
@@ -35,17 +35,19 @@ jobs:
       - uses: pnpm/action-setup@v2.0.1
         with:
           version: latest
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
 
       - name: Check docs only change
         run: echo "::set-output name=DOCS_CHANGE::$(node skip-docs-change.js echo 'not-docs-only-change')"
         id: docs-change
 
       - run: echo "${{steps.docs-change.outputs.DOCS_CHANGE}}"
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: Init
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
