@@ -31,11 +31,13 @@ process.on('message', async (chunk: string) => {
   const context = JSON.parse(chunk as any);
   const {
     routes,
+    renderRoutes,
     options,
     appDirectory,
     plugins,
   }: {
     routes: ModernRoute[];
+    renderRoutes: ModernRoute[];
     options: NormalizedConfig;
     appDirectory: string;
     plugins: string[];
@@ -73,7 +75,7 @@ process.on('message', async (chunk: string) => {
       // get server handler, render to ssr
       const render = createRender(modernServer.getRequestHandler());
       const renderPromiseAry = makeRender(
-        routes.filter(route => !route.isApi) as SsgRoute[],
+        renderRoutes as SsgRoute[],
         render,
         port,
       );
