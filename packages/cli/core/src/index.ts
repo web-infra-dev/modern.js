@@ -147,10 +147,10 @@ export interface CoreOptions {
     config: any,
   ) => { cli: any; cliPath: any; server: any; serverPath: any }[];
   options?: {
+    metaName?: string;
     srcDir?: string;
     distDir?: string;
     sharedDir?: string;
-    internalDir?: string;
   };
 }
 
