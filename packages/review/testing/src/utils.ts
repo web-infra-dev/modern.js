@@ -49,3 +49,26 @@ export const readCompilerOptions = (
     ...tsConfig.compilerOptions,
   };
 };
+
+export const getModuleNameMapper = (alias: any) =>
+  Object.keys(alias).reduce((memo, cur) => {
+    const aliasValue = Array.isArray(alias[cur]) ? alias[cur] : [alias[cur]];
+
+    const isFile = aliasValue.some((s: string) => s.endsWith('.js'));
+
+    // It's special for if using @modern-js/runtime alias other module @modern-js/runtime/model would not work.
+    if (cur === '@modern-js/runtime$') {
+      memo[`.+${cur}`] = aliasValue[0];
+
+      return memo;
+    }
+
+    if (isFile) {
+      memo[cur] = aliasValue[0];
+    }
+
+    const key = `^${cur}/(.*)$`;
+    const value = path.normalize(`${aliasValue}/$1`);
+    memo[key] = value;
+    return memo;
+  }, {} as any);

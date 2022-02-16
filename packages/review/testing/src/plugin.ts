@@ -25,4 +25,4 @@ export const createLifeCycle = (plugins?: any[]) => {
 
 export type Plugin = PluginFromManager<typeof manager>;
 
-export { createPlugin };
+export { createPlugin, manager };

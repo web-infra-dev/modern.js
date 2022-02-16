@@ -1,4 +1,4 @@
-import { mergeUserJestConfig, getModuleNameMapper } from './modern';
+import { mergeUserJestConfig } from './modern';
 
 describe('modern plugin', () => {
   test('mergeUserJestConfig support object', () => {
@@ -50,19 +50,5 @@ describe('modern plugin', () => {
       a: 1,
       b: 1,
     });
-  });
-
-  // TODO: 临时测试代码，待补充
-  test('getModuleNameMapper', () => {
-    const mockConfig = {
-      resolve: {
-        alias: {
-          '@modern-js/runtime/core': '/xxx',
-        },
-      },
-    };
-
-    const alias = getModuleNameMapper(mockConfig);
-    expect(alias).toBeDefined();
   });
 });
