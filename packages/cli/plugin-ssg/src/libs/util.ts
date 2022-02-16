@@ -1,5 +1,10 @@
 import path from 'path';
-import { ROUTE_SPEC_FILE, fs, isSingleEntry } from '@modern-js/utils';
+import {
+  ROUTE_SPEC_FILE,
+  fs,
+  isSingleEntry,
+  SERVER_BUNDLE_DIRECTORY,
+} from '@modern-js/utils';
 import { ServerRoute as ModernRoute } from '@modern-js/types';
 import { EntryPoint, MultiEntryOptions, SSG, SsgRoute } from '../types';
 
@@ -125,3 +130,10 @@ export const standardOptions = (ssgOptions: SSG, entrypoints: EntryPoint[]) => {
 
   return false;
 };
+
+export const openRouteSSR = (routes: ModernRoute[]) =>
+  routes.map(ssgRoute => ({
+    ...ssgRoute,
+    isSSR: true,
+    bundle: `${SERVER_BUNDLE_DIRECTORY}/${ssgRoute.entryName as string}.js`,
+  }));
