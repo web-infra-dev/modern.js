@@ -5,7 +5,7 @@ import "./dist/types/runtime-testing"
 
 declare module '@modern-js/runtime/testing' {
   export * from '@testing-library/react';
-  export { renderApp, createStore } from './dist/types/runtime-testing';
+  export { renderApp, createStore, testBff } from './dist/types/runtime-testing';
 }
 
 declare module '@modern-js/core' {

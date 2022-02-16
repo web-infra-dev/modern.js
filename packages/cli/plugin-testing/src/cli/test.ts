@@ -4,6 +4,7 @@ import { useAppContext, useResolvedConfigContext } from '@modern-js/core';
 import { runTest } from '@modern-js/testing';
 import { getWebpackConfig, WebpackConfigTarget } from '@modern-js/webpack';
 import testingBffPlugin from '@modern-js/testing-plugin-bff';
+import { fs } from '@modern-js/utils';
 import modernTestPlugin from './plugins/modern';
 
 const test = async () => {
@@ -12,8 +13,8 @@ const test = async () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const config = useAppContext();
 
-  // todo: consider lib-tools ...
-  const webpackConfigs = getWebpackConfig(WebpackConfigTarget.CLIENT);
+  const { srcDirectory } = config;
+  const existSrc = await fs.pathExists(srcDirectory);
 
   userConfig.testing = userConfig.testing || {};
 
@@ -26,16 +27,31 @@ const test = async () => {
   userConfig.testing.jest =
     userConfig.testing.jest || (userConfig.tools as any).jest;
 
-  userConfig.testing.plugins = [
-    ...(userConfig.testing.plugins || []),
-    modernTestPlugin(webpackConfigs, userConfig, config.appDirectory),
-    testingBffPlugin({
-      pwd: config.appDirectory,
-      userConfig,
-      plugins: config.plugins.map(p => p.server).filter(Boolean),
-      routes: (config as any).serverRoutes,
-    }),
-  ];
+  if (existSrc) {
+    // todo: consider lib-tools ...
+    const webpackConfigs = getWebpackConfig(WebpackConfigTarget.CLIENT);
+
+    userConfig.testing.plugins = [
+      ...(userConfig.testing.plugins || []),
+      modernTestPlugin(webpackConfigs, userConfig, config.appDirectory),
+      testingBffPlugin({
+        pwd: config.appDirectory,
+        userConfig,
+        plugins: config.plugins.map(p => p.server).filter(Boolean),
+        routes: (config as any).serverRoutes,
+      }),
+    ];
+  } else {
+    userConfig.testing.plugins = [
+      ...(userConfig.testing.plugins || []),
+      testingBffPlugin({
+        pwd: config.appDirectory,
+        userConfig,
+        plugins: config.plugins.map(p => p.server).filter(Boolean),
+        routes: (config as any).serverRoutes,
+      }),
+    ];
+  }
 
   const runtimeExportsPath = path.join(
     config.internalDirectory,
