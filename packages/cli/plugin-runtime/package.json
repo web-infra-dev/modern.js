@@ -68,10 +68,6 @@
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/js/node/cli/index.js"
-    },
-    "./theme": {
-      "node": "./dist/js/node/exports/theme.js",
-      "default": "./dist/js/treeshaking/exports/theme.js"
     }
   },
   "typesVersions": {
@@ -122,11 +118,7 @@
     "@modern-js/bff-runtime": "workspace:^1.2.1",
     "@modern-js/create-request": "workspace:^1.2.1",
     "@loadable/component": "^5.15.0",
-    "@modern-js/plugin-theme-token": "workspace:^1.0.0",
     "@modern-js/plugin-design-token": "workspace:^1.0.0",
-    "@types/loadable__component": "^5.13.4",
-    "@types/react-helmet": "^6.1.2",
-    "@types/styled-components": "^5.1.13",
     "react-helmet": "^6.1.0",
     "styled-components": "^5.3.1"
   },

@@ -13,18 +13,20 @@
   ],
   "version": "1.0.0",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/runtime/index.d.ts",
-  "main": "./dist/js/node/runtime/index.js",
-  "module": "./dist/js/treeshaking/runtime/index.js",
-  "jsnext:modern": "./dist/js/modern/runtime/index.js",
+  "types": "./src/index.ts",
+  "main": "./dist/js/node/index.js",
+  "module": "./dist/js/treeshaking/index.js",
+  "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": {
       "node": {
-        "import": "./dist/js/modern/runtime/index.js",
-        "require": "./dist/js/node/runtime/index.js"
+        "jsnext:source": "./src/index.ts",
+        "import": "./dist/js/modern/index.js",
+        "require": "./dist/js/node/index.js"
       },
-      "default": "./dist/js/treeshaking/runtime/index.js"
+      "default": "./dist/js/treeshaking/index.js"
     },
+    "./runtime": "./dist/js/treeshaking/runtime/index.js",
     "./cli": "./dist/js/node/cli/index.js"
   },
   "typesVersions": {
@@ -32,8 +34,8 @@
       ".": [
         "./dist/types/runtime/index.d.ts"
       ],
-      "plugins": [
-        "./dist/types/plugins.d.ts"
+      "cli": [
+        "./dist/types/cli/index.d.ts"
       ]
     }
   },
@@ -58,7 +60,8 @@
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "react": "^17.0.2",
-    "typescript": "^4"
+    "typescript": "^4",
+    "postcss": "^8.4.6"
   },
   "sideEffects": false,
   "peerDependencies": {

@@ -50,3 +50,5 @@ local-test-project/*
 **/*/tsconfig.temp.json
 
 .changeset/pre.json
+# Dynamically generated
+.runtime-exports/

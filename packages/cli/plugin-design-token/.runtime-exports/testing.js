@@ -1,1 +1,0 @@
-export * from '/Users/bytedance/github/targeral/modern.js/node_modules/.pnpm/@modern-js+plugin-testing@1.2.1_@types+jest@26.0.24+react@17.0.2+typescript@4.5.4/node_modules/@modern-js/plugin-testing/dist/js/node'
