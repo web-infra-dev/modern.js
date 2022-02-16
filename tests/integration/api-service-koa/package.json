@@ -7,7 +7,8 @@
     "build": "modern build",
     "start": "modern start",
     "new": "modern new",
-    "lint": "modern lint"
+    "lint": "modern lint",
+    "test": "modern test"
   },
   "engines": {
     "node": ">=14.17.6"
@@ -48,13 +49,14 @@
     "@modern-js/app-tools": "workspace:^1.0.0",
     "@modern-js/plugin-jarvis": "workspace:^1.0.0",
     "@types/koa": "^2.13.4",
-    "@types/jest": "^27.4.0",
+    "@types/jest": "^26.0.9",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "axios": "^0.24.0",
     "del-cli": "^4.0.1",
-    "typescript": "^4"
+    "typescript": "^4",
+    "@modern-js/plugin-testing": "workspace:^1.3.2"
   },
   "modernConfig": {
     "runtime": {
