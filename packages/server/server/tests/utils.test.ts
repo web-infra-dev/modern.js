@@ -5,6 +5,7 @@ import {
   toMessage,
   createErrorDocument,
   createMiddlewareCollecter,
+  getStaticReg,
 } from '../src/utils';
 
 describe('test server utils', () => {
@@ -73,5 +74,33 @@ describe('test server utils', () => {
   test('should return full path', () => {
     const fn = compile('/home/:id', { encode: encodeURIComponent });
     expect(fn({ id: 2 })).toBe('/home/2');
+  });
+
+  describe('test create static reg', () => {
+    test('should test static path correctly', () => {
+      const reg = getStaticReg();
+      expect(reg.test('/static')).toBeTruthy();
+      expect(reg.test('/upload')).toBeTruthy();
+    });
+
+    test('should test custom static path correctly', () => {
+      const reg = getStaticReg({
+        cssPath: 'static-css',
+      });
+      expect(reg.test('/static-css')).toBeTruthy();
+    });
+
+    test('should test favicon path correctly', () => {
+      const reg = getStaticReg({
+        favicon: 'index.icon',
+        faviconByEntries: {
+          foo: 'foo.icon',
+          baz: 'baz.icon',
+        },
+      });
+      expect(reg.test('/index.icon')).toBeTruthy();
+      expect(reg.test('/foo.icon')).toBeTruthy();
+      expect(reg.test('/baz.icon')).toBeTruthy();
+    });
   });
 });
