@@ -1,5 +1,4 @@
 import NodeEnvironment from 'jest-environment-node';
-import { compatRequire } from '@modern-js/utils';
 import { createApp } from './app';
 import { bff_info_key } from './constant';
 
@@ -8,9 +7,7 @@ export default class extends NodeEnvironment {
 
   async setup() {
     const bff_info = (this.global as any)[bff_info_key];
-    const plugins = bff_info.plugins.map((plugin: { pluginPath: string }) =>
-      compatRequire(plugin.pluginPath),
-    );
+    const { plugins } = bff_info;
 
     // eslint-disable-next-line no-multi-assign
     this.global.app = this.app = await createApp(
