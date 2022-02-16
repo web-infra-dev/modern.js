@@ -8,6 +8,7 @@ import { CLOSE_SIGN } from './consts';
 
 export const createServer = (
   ssgRoutes: SsgRoute[],
+  pageRoutes: ModernRoute[],
   apiRoutes: ModernRoute[],
   options: NormalizedConfig,
   appDirectory: string,
@@ -15,7 +16,7 @@ export const createServer = (
   new Promise((resolve, reject) => {
     // this side of the shallow copy of a route for subsequent render processing, to prevent the modification of the current field
     // manually enable the server-side rendering configuration for all routes that require SSG
-    const backup: ModernRoute[] = ssgRoutes.map(ssgRoute => ({
+    const backup: ModernRoute[] = pageRoutes.map(ssgRoute => ({
       ...ssgRoute,
       isSSR: true,
       bundle: `${SERVER_BUNDLE_DIRECTORY}/${ssgRoute.entryName as string}.js`,
@@ -37,6 +38,7 @@ export const createServer = (
     cp.send(
       JSON.stringify({
         options,
+        renderRoutes: ssgRoutes,
         routes: total,
         appDirectory,
         plugins,
@@ -55,7 +57,7 @@ export const createServer = (
         htmlChunks.length = 0;
       }
 
-      if (htmlAry.length === backup.length) {
+      if (htmlAry.length === ssgRoutes.length) {
         cp.send(CLOSE_SIGN);
         resolve(htmlAry);
       }

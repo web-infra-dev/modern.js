@@ -187,6 +187,7 @@ export default createPlugin(
 
         const htmlAry = await createServer(
           ssgRoutes,
+          pageRoutes,
           apiRoutes,
           resolvedConfig,
           appDirectory,
