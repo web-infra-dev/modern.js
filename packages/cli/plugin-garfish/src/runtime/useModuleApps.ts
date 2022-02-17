@@ -12,14 +12,8 @@ export type ModulesInfo = Array<ModuleInfo>;
 
 export type Manifest = {
   modules?: ModulesInfo;
+  loadable?: LoadableConfig;
   getAppList?: () => Promise<Array<GarfishInterfaces.AppInfo>>;
-  LoadingComponent?: LoadingComponent;
-  componentKey?: string;
-};
-
-export type ModernGarfishConfig = {
-  LoadingComponent?: LoadingComponent;
-  manifest?: Manifest;
 };
 
 export type LoadingComponent = React.ComponentType<{
@@ -30,13 +24,17 @@ export type LoadingComponent = React.ComponentType<{
   retry: () => void;
 }>;
 
-export interface LoadingConfig {
+export interface LoadableConfig {
   timeout?: number;
   delay?: number;
-  LoadingComponent?: LoadingComponent;
+  loading?: LoadingComponent;
 }
 
-export type MicroComponentProps = { loadingConfig: LoadingConfig };
+export type ModernGarfishConfig = {
+  manifest?: Manifest;
+};
+
+export type MicroComponentProps = { loadable?: LoadableConfig };
 
 export type Config = Partial<Options> & ModernGarfishConfig;
 

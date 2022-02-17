@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { createApp } from '@modern-js/runtime-core';
 import '@testing-library/jest-dom';
+
 import ModernGarfishPlugin, {
   useMicroApps,
   useModuleApp,
