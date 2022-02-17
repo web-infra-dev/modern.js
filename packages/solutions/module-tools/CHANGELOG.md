@@ -1,5 +1,19 @@
 # @modern-js/module-tools
 
+## 1.3.2
+
+### Patch Changes
+
+- c78400c7: fix: remove stylus support
+- Updated dependencies [b7a9eeba]
+- Updated dependencies [53aca274]
+- Updated dependencies [78279953]
+- Updated dependencies [e116ace5]
+- Updated dependencies [4d72edea]
+  - @modern-js/plugin-analyze@1.3.1
+  - @modern-js/core@1.4.1
+  - @modern-js/utils@1.3.1
+
 ## 1.3.1
 
 ### Patch Changes

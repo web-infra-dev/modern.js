@@ -1,5 +1,11 @@
 # @modern-js/mwa-generator
 
+## 1.3.4
+
+### Patch Changes
+
+- 389e8bca: fix: fix eslint error with "modern.config.ts"
+
 ## 1.3.3
 
 ### Patch Changes
