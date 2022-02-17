@@ -1,5 +1,18 @@
 # @modern-js/server
 
+## 1.4.1
+
+### Patch Changes
+
+- 2cfc4235: support cssPath/jsPath/mediaPath in production mode
+- 8d55e234: fix: catch api error
+- Updated dependencies [53aca274]
+- Updated dependencies [78279953]
+- Updated dependencies [e116ace5]
+- Updated dependencies [4d72edea]
+  - @modern-js/core@1.4.1
+  - @modern-js/utils@1.3.1
+
 ## 1.4.0
 
 ### Minor Changes

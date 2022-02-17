@@ -1,5 +1,17 @@
 # @modern-js/plugin-ssg
 
+## 1.2.3
+
+### Patch Changes
+
+- 1e17ef11: fix: fix ssg with new plugin route logic
+- Updated dependencies [53aca274]
+- Updated dependencies [78279953]
+- Updated dependencies [e116ace5]
+- Updated dependencies [4d72edea]
+  - @modern-js/core@1.4.1
+  - @modern-js/utils@1.3.1
+
 ## 1.2.2
 
 ### Patch Changes
