@@ -206,6 +206,10 @@ export class ModernDevServer extends ModernServer {
     };
 
     const addHooks = (compiler: Compiler) => {
+      if (compiler.name === 'server') {
+        return;
+      }
+
       const { compile, invalid, done } = compiler.hooks;
 
       compile.tap('modern-dev-server', invalidPlugin);
