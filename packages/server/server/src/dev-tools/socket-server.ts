@@ -21,6 +21,8 @@ export default class SocketServer {
 
   private stats?: Stats;
 
+  private timer: NodeJS.Timeout | null = null;
+
   constructor(options: DevServerOptions) {
     this.options = options;
   }
@@ -50,7 +52,7 @@ export default class SocketServer {
       logger.error(err);
     });
 
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.wsServer.clients.forEach(socket => {
         const extWs = socket as ExtWebSocket;
         if (!extWs.isAlive) {
@@ -63,51 +65,7 @@ export default class SocketServer {
     }, 30000);
 
     this.wsServer.on('connection', socket => {
-      const connection = socket as ExtWebSocket;
-
-      connection.isAlive = true;
-      connection.on('pong', () => {
-        connection.isAlive = true;
-      });
-
-      if (!connection) {
-        return;
-      }
-
-      this.sockets.push(connection);
-
-      connection.on('close', () => {
-        const idx = this.sockets.indexOf(connection);
-
-        if (idx >= 0) {
-          this.sockets.splice(idx, 1);
-        }
-      });
-
-      if (this.options.client.logging) {
-        this.sockWrite('logging', this.options.client.logging);
-      }
-
-      if (this.options.hot || this.options.hot === 'only') {
-        this.sockWrite('hot');
-      }
-
-      if (this.options.liveReload) {
-        this.sockWrite('liveReload');
-      }
-
-      if (this.options.client.progress) {
-        this.sockWrite('progress', this.options.client.progress);
-      }
-
-      if (this.options.client.overlay) {
-        this.sockWrite('overlay', this.options.client.overlay);
-      }
-
-      // send first stats to active client sock if stats exist
-      if (this.stats) {
-        this.sendStats(true);
-      }
+      this.onConnect(socket);
     });
   }
 
@@ -126,10 +84,71 @@ export default class SocketServer {
     });
   }
 
+  public singleWrite(
+    socket: ws,
+    type: string,
+    data?: Record<string, any> | string | boolean,
+  ) {
+    this.send(socket, JSON.stringify({ type, data }));
+  }
+
   public close() {
     this.sockets.forEach(socket => {
       socket.close();
     });
+
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+  }
+
+  private onConnect(socket: ws) {
+    const connection = socket as ExtWebSocket;
+
+    connection.isAlive = true;
+    connection.on('pong', () => {
+      connection.isAlive = true;
+    });
+
+    if (!connection) {
+      return;
+    }
+
+    this.sockets.push(connection);
+
+    connection.on('close', () => {
+      const idx = this.sockets.indexOf(connection);
+
+      if (idx >= 0) {
+        this.sockets.splice(idx, 1);
+      }
+    });
+
+    if (this.options.client.logging) {
+      this.singleWrite(connection, 'logging', this.options.client.logging);
+    }
+
+    if (this.options.hot || this.options.hot === 'only') {
+      this.singleWrite(connection, 'hot');
+    }
+
+    if (this.options.liveReload) {
+      this.singleWrite(connection, 'liveReload');
+    }
+
+    if (this.options.client.progress) {
+      this.singleWrite(connection, 'progress', this.options.client.progress);
+    }
+
+    if (this.options.client.overlay) {
+      this.singleWrite(connection, 'overlay', this.options.client.overlay);
+    }
+
+    // send first stats to active client sock if stats exist
+    if (this.stats) {
+      this.sendStats(true);
+    }
   }
 
   // get standard stats
