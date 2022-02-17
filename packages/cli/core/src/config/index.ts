@@ -119,11 +119,11 @@ interface DevConfig {
 interface MicroFrontend {
   enableHtmlEntry?: boolean;
   externalBasicLibrary?: boolean;
-  moduleApp?: boolean;
+  moduleApp?: string;
 }
 
 interface DeployConfig {
-  microFrontend?: boolean | MicroFrontend;
+  microFrontend?: false | MicroFrontend;
   domain?: string | Array<string>;
   domainByEntries?: Record<string, string | Array<string>>;
 }
