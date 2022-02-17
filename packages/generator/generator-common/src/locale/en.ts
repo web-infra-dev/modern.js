@@ -39,6 +39,7 @@ export const EN_LOCALE = {
       ssg: 'Enable "SSG"',
       polyfill: 'Enable "UA-based Polyfill feature"',
       deploy: 'Enable "Deploy"',
+      proxy: 'Enable "Global Proxy"',
     },
     element: {
       self: 'Create project element',
