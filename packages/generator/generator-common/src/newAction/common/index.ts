@@ -28,6 +28,7 @@ export enum ActionFunction {
   SSG = 'ssg',
   Polyfill = 'polyfill',
   Deploy = 'deploy',
+  Proxy = 'proxy',
 }
 
 export enum ActionRefactor {
@@ -66,6 +67,7 @@ export const ActionFunctionText: Record<ActionFunction, () => string> = {
   [ActionFunction.SSG]: () => i18n.t(localeKeys.action.function.ssg),
   [ActionFunction.Polyfill]: () => i18n.t(localeKeys.action.function.polyfill),
   [ActionFunction.Deploy]: () => i18n.t(localeKeys.action.function.deploy),
+  [ActionFunction.Proxy]: () => i18n.t(localeKeys.action.function.proxy),
 };
 
 export const ActionRefactorText: Record<ActionRefactor, () => string> = {
