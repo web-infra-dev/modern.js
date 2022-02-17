@@ -38,6 +38,7 @@ export const ZH_LOCALE = {
       ssg: '启用「SSG」功能',
       polyfill: '启用「基于 UA 的 Polyfill」功能',
       deploy: '启用「部署」功能',
+      proxy: '启用「全局代理」',
     },
     element: {
       self: '创建工程元素',
