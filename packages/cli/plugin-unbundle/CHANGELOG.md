@@ -1,5 +1,20 @@
 # @modern-js/plugin-unbundle
 
+## 1.3.1
+
+### Patch Changes
+
+- c78400c7: fix: remove stylus support
+- Updated dependencies [2cfc4235]
+- Updated dependencies [8d55e234]
+- Updated dependencies [53aca274]
+- Updated dependencies [78279953]
+- Updated dependencies [e116ace5]
+- Updated dependencies [4d72edea]
+  - @modern-js/server@1.4.1
+  - @modern-js/core@1.4.1
+  - @modern-js/utils@1.3.1
+
 ## 1.3.0
 
 ### Minor Changes

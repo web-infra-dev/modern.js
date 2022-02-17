@@ -1,5 +1,11 @@
 # @modern-js/generator-common
 
+## 1.4.2
+
+### Patch Changes
+
+- 1fad4bb7: feat: support enable proxy in mwa project
+
 ## 1.4.1
 
 ### Patch Changes
