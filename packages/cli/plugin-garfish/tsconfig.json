@@ -7,7 +7,8 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "paths": {},
-    "types": ["node", "jest","@types/jest"]
+    "types": ["node", "jest", "@types/jest"]
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["**/*.test.tsx"]
 }
