@@ -57,12 +57,17 @@ describe('test dev tools', () => {
       data: '',
       close() {
         socket.state = 0;
-        // empty
       },
       send(data: string) {
         socket.data = data;
       },
+      on() {
+        // empty
+      },
     };
+
+    socketServer.onConnect(socket);
+
     socketServer.sockets = [socket];
     socketServer.sockWrite('test');
     expect(socket.data).toBe(JSON.stringify({ type: 'test' }));

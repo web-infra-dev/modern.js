@@ -65,51 +65,7 @@ export default class SocketServer {
     }, 30000);
 
     this.wsServer.on('connection', socket => {
-      const connection = socket as ExtWebSocket;
-
-      connection.isAlive = true;
-      connection.on('pong', () => {
-        connection.isAlive = true;
-      });
-
-      if (!connection) {
-        return;
-      }
-
-      this.sockets.push(connection);
-
-      connection.on('close', () => {
-        const idx = this.sockets.indexOf(connection);
-
-        if (idx >= 0) {
-          this.sockets.splice(idx, 1);
-        }
-      });
-
-      if (this.options.client.logging) {
-        this.singleWrite(connection, 'logging', this.options.client.logging);
-      }
-
-      if (this.options.hot || this.options.hot === 'only') {
-        this.singleWrite(connection, 'hot');
-      }
-
-      if (this.options.liveReload) {
-        this.singleWrite(connection, 'liveReload');
-      }
-
-      if (this.options.client.progress) {
-        this.singleWrite(connection, 'progress', this.options.client.progress);
-      }
-
-      if (this.options.client.overlay) {
-        this.singleWrite(connection, 'overlay', this.options.client.overlay);
-      }
-
-      // send first stats to active client sock if stats exist
-      if (this.stats) {
-        this.sendStats(true);
-      }
+      this.onConnect(socket);
     });
   }
 
@@ -144,6 +100,54 @@ export default class SocketServer {
     if (this.timer) {
       clearInterval(this.timer);
       this.timer = null;
+    }
+  }
+
+  private onConnect(socket: ws) {
+    const connection = socket as ExtWebSocket;
+
+    connection.isAlive = true;
+    connection.on('pong', () => {
+      connection.isAlive = true;
+    });
+
+    if (!connection) {
+      return;
+    }
+
+    this.sockets.push(connection);
+
+    connection.on('close', () => {
+      const idx = this.sockets.indexOf(connection);
+
+      if (idx >= 0) {
+        this.sockets.splice(idx, 1);
+      }
+    });
+
+    if (this.options.client.logging) {
+      this.singleWrite(connection, 'logging', this.options.client.logging);
+    }
+
+    if (this.options.hot || this.options.hot === 'only') {
+      this.singleWrite(connection, 'hot');
+    }
+
+    if (this.options.liveReload) {
+      this.singleWrite(connection, 'liveReload');
+    }
+
+    if (this.options.client.progress) {
+      this.singleWrite(connection, 'progress', this.options.client.progress);
+    }
+
+    if (this.options.client.overlay) {
+      this.singleWrite(connection, 'overlay', this.options.client.overlay);
+    }
+
+    // send first stats to active client sock if stats exist
+    if (this.stats) {
+      this.sendStats(true);
     }
   }
 
