@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.3.0",
+  "version": "1.3.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -49,8 +49,8 @@
     "@modern-js/create-request": "workspace:^1.2.0",
     "@modern-js/css-config": "workspace:^1.2.0",
     "@modern-js/esmpack": "workspace:^1.2.0",
-    "@modern-js/server": "workspace:^1.4.0",
-    "@modern-js/utils": "workspace:^1.3.0",
+    "@modern-js/server": "workspace:^1.4.1",
+    "@modern-js/utils": "workspace:^1.3.1",
     "@modern-js/plugin": "workspace:^1.2.0",
     "@rollup/plugin-alias": "^3.1.2",
     "@rollup/pluginutils": "^4.1.0",
@@ -99,9 +99,9 @@
   "devDependencies": {
     "@babel/types": "^7.13.0",
     "@modern-js/bff-utils": "workspace:^1.2.1",
-    "@modern-js/core": "workspace:^1.4.0",
+    "@modern-js/core": "workspace:^1.4.1",
     "@modern-js/tsconfig": "workspace:^1.2.0",
-    "@modern-js/types": "workspace:^1.3.0",
+    "@modern-js/types": "workspace:^1.3.1",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__code-frame": "^7.0.2",
@@ -131,7 +131,7 @@
   },
   "peerDependencies": {
     "@modern-js/bff-utils": "workspace:^1.2.1",
-    "@modern-js/core": "workspace:^1.4.0",
+    "@modern-js/core": "workspace:^1.4.1",
     "typescript": "^4"
   },
   "publishConfig": {

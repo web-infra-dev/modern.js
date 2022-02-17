@@ -1,5 +1,19 @@
 # @modern-js/webpack
 
+## 1.3.1
+
+### Patch Changes
+
+- 75f4eeb8: fix: output.enableInlineScripts not working
+- 78279953: compiler entry bug fix and dev build console
+- 4d72edea: support dev compiler by entry
+- Updated dependencies [53aca274]
+- Updated dependencies [78279953]
+- Updated dependencies [e116ace5]
+- Updated dependencies [4d72edea]
+  - @modern-js/core@1.4.1
+  - @modern-js/utils@1.3.1
+
 ## 1.3.0
 
 ### Minor Changes

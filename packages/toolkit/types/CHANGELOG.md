@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 1.3.1
+
+### Patch Changes
+
+- 78279953: compiler entry bug fix and dev build console
+- 4d72edea: support dev compiler by entry
+
 ## 1.3.0
 
 ### Minor Changes
