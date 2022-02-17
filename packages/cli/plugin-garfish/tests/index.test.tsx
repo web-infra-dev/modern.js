@@ -99,8 +99,10 @@ describe('plugin-garfish', () => {
     const microFrontendConfig = {
       apps: [tableListModuleInfo, dashBoardModuleInfo, userInfo],
       manifest: {
-        LoadingComponent() {
-          return <div data-testid="loading-id">loading</div>;
+        loadable: {
+          loading: ()=> {
+            return <div data-testid="loading-id">loading</div>;
+          }
         },
       },
     };
