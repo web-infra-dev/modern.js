@@ -14,21 +14,6 @@ import type WebpackChain from 'webpack-chain';
 import { logger } from '../util';
 import { makeProvider, makeRenderFunction } from './utils';
 
-type GetFirstArgumentOfFunction<T> = T extends (
-  first: infer FirstArgument,
-  ...args: any[]
-) => any
-  ? FirstArgument
-  : never;
-
-interface InitializerOptions {
-  validateSchema: () => Array<any>;
-  externals: any;
-  componentKey: string;
-}
-
-type InitializerFn = GetFirstArgumentOfFunction<typeof createPlugin>;
-
 function getRuntimeConfig(config: NormalizedConfig) {
   if (config?.runtime?.feature) {
     return config?.runtime?.feature;
@@ -45,8 +30,8 @@ function setRuntimeConfig(config: NormalizedConfig, key: string, value: any) {
   }
 }
 
-export const initializer: (options: InitializerOptions) => InitializerFn =
-  ({ validateSchema, externals, componentKey, ...otherLifeCycle }) =>
+const externals = { 'react-dom': 'react-dom', react: 'react' };
+export default createPlugin(
   () => {
     const configMap = new Map<string, any>();
     let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
@@ -158,6 +143,7 @@ export const initializer: (options: InitializerOptions) => InitializerFn =
                 output: resolveWebpackConfig.output,
                 externals: resolveWebpackConfig.externals,
                 env,
+                alias: resolveWebpackConfig.resolve?.alias,
               });
             },
           },
@@ -171,7 +157,9 @@ export const initializer: (options: InitializerOptions) => InitializerFn =
 
         runtimeExportsUtils.addExport(`export * from '${mfPackage}'`);
       },
-      validateSchema,
+      validateSchema() {
+        return PLUGIN_SCHEMAS['@modern-js/plugin-garfish'];
+      },
       modifyEntryImports({ entrypoint, imports }: any) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const resolvedConfig = useResolvedConfigContext();
@@ -246,7 +234,7 @@ export const initializer: (options: InitializerOptions) => InitializerFn =
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const resolvedConfig = useResolvedConfigContext();
         if (resolvedConfig?.deploy?.microFrontend) {
-          const exportStatementCode = makeProvider(componentKey);
+          const exportStatementCode = makeProvider();
           logger('exportStatement', exportStatementCode);
           return {
             entrypoint,
@@ -259,18 +247,8 @@ export const initializer: (options: InitializerOptions) => InitializerFn =
           exportStatement,
         };
       },
-      ...otherLifeCycle,
     };
-  };
-
-export default createPlugin(
-  initializer({
-    validateSchema() {
-      return PLUGIN_SCHEMAS['@modern-js/plugin-garfish'];
-    },
-    externals: { 'react-dom': 'react-dom', react: 'react' },
-    componentKey: 'dynamicComponent',
-  }),
+  },
   {
     name: '@modern-js/plugin-garfish',
   },
