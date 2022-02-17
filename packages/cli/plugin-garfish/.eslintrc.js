@@ -3,5 +3,5 @@ module.exports = {
   parserOptions: {
     project: require.resolve('./tsconfig.json'),
   },
-  ignorePatterns: ['type.d.ts'],
+  ignorePatterns: ['type.d.ts', 'tests/**/*.tsx'],
 };

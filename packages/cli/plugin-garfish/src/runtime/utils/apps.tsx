@@ -19,8 +19,7 @@ export interface AppMap {
   [key: string]: React.ComponentType<MicroComponentProps>;
 }
 
-function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
-  const { LoadingComponent } = manifest;
+function getAppInstance(appInfo: ModulesInfo[number], manifest?: Manifest) {
   let locationHref = '';
   class MicroApp extends React.Component<MicroProps, any> {
     state: {
@@ -139,12 +138,12 @@ function getAppInstance(appInfo: ModulesInfo[number], manifest: Manifest) {
     }
   }
 
-  return Loadable(withRouter(MicroApp as any))(LoadingComponent);
+  return Loadable(withRouter(MicroApp as any))(manifest?.loadable);
 }
 
 export function generateApps(
   options: typeof Garfish.options,
-  manifest: Manifest,
+  manifest?: Manifest,
 ): {
   apps: AppMap;
   appInfoList: ModulesInfo;

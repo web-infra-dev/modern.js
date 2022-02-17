@@ -1,4 +1,4 @@
-export const makeProvider = (componentKey: string) => `
+export const makeProvider = () => `
   export const provider = function ({basename, dom, ...props}) {
     return {
       render({basename, dom}) {
@@ -15,11 +15,6 @@ export const makeProvider = (componentKey: string) => `
         }
       },
       SubModuleComponent: (props) => {
-        const SubApp = render(props, basename);
-
-        return createPortal(<SubApp />, dom.querySelector('#' + MOUNT_ID)  || dom);
-      },
-      ${componentKey}: () => {
         const SubApp = render(props, basename);
 
         return createPortal(<SubApp />, dom.querySelector('#' + MOUNT_ID)  || dom);
