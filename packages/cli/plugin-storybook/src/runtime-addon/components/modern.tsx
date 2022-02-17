@@ -24,7 +24,7 @@ const allowedRuntimeAPI = {
 };
 const allowedRuntimeAPIValues = Object.values(allowedRuntimeAPI);
 
-const resolvePlugins = (runtime: IConfig['modernConfigRuntime']) => {
+export const resolvePlugins = (runtime: IConfig['modernConfigRuntime']) => {
   const plugins: Plugin[] = [];
 
   if (!runtime) {
