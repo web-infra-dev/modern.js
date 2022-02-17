@@ -47,8 +47,8 @@ export const handleTemplateFile = async (
   if (fs.existsSync(apiDir) && !isEmptyApiDir(apiDir)) {
     const files = fs.readdirSync(apiDir);
     if (files.length > 0) {
-      generator.logger.warn("'api' is already exist");
-      throw Error("'api' is already exist");
+      generator.logger.warn("'api' already exists");
+      throw Error("'api' already exists");
     }
   }
 

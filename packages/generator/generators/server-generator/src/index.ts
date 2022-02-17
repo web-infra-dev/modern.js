@@ -45,7 +45,7 @@ const handleTemplateFile = async (
   if (fs.existsSync(serverDir) && !isEmptyServerDir(serverDir)) {
     const files = fs.readdirSync('server');
     if (files.length > 0) {
-      generator.logger.warn("'server' is already exist");
+      generator.logger.warn("'server' already exists");
       // eslint-disable-next-line no-process-exit
       process.exit(1);
     }

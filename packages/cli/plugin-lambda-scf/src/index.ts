@@ -33,7 +33,7 @@ export default createPlugin(() => ({
       fs.mkdir(publishDir);
     } else {
       logger.info(
-        `The tmp upload directory is already exist, empty: ${publishDir}`,
+        `The tmp upload directory already exists, empty: ${publishDir}`,
       );
       fs.emptyDirSync(publishDir);
     }

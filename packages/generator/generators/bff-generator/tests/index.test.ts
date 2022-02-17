@@ -102,7 +102,7 @@ describe('run bff generator', () => {
         appApi,
       );
     } catch (e: any) {
-      expect(e.message).toBe("'api' is already exist");
+      expect(e.message).toBe("'api' already exists");
     }
   });
 });
