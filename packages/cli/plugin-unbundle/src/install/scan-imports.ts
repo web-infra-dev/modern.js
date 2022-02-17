@@ -198,7 +198,7 @@ const scanFiles = async (
             !alias.startsWith('@modern-js/runtime') &&
             alias.startsWith(specifier.split('/')[0]),
         ) &&
-        !/\.(css|less|scss|styl)$/.test(specifier)
+        !/\.(css|less|scss)$/.test(specifier)
       ) {
         if (monorepoRootDir) {
           const found = monorepoPackages.find(({ name }) =>
