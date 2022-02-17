@@ -121,6 +121,7 @@ export default createPlugin(
         ]);
 
         const entrypoints = getBundleEntry(appContext, resolvedConfig);
+        const defaultChecked = entrypoints.map(point => point.entryName);
 
         debug(`entrypoints: %o`, entrypoints);
 
@@ -156,6 +157,7 @@ export default createPlugin(
         AppContext.set({
           ...appContext,
           entrypoints,
+          checkedEntries: defaultChecked,
           existSrc,
           serverRoutes: routes,
           htmlTemplates,

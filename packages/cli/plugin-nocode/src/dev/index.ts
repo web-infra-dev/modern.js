@@ -18,7 +18,7 @@ export default async (
     type,
   });
   // 启动调试服务
-  server({ appDirectory, mode: type });
+  server({ appDirectory, internalDirectory, mode: type });
 };
 
 export { close } from './server';
