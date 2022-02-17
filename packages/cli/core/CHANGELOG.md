@@ -1,5 +1,17 @@
 # @modern-js/core
 
+## 1.4.1
+
+### Patch Changes
+
+- 53aca274: modify garfish-plugin config type
+- 78279953: compiler entry bug fix and dev build console
+- e116ace5: fix: coreOptions types
+- 4d72edea: support dev compiler by entry
+- Updated dependencies [78279953]
+- Updated dependencies [4d72edea]
+  - @modern-js/utils@1.3.1
+
 ## 1.4.0
 
 ### Minor Changes
