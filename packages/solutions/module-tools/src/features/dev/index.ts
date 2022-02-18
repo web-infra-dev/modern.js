@@ -64,7 +64,12 @@ export const devStorybook = async (config: IDevConfig) => {
 export const runSubCmd = async (subCmd: string, config: IDevConfig) => {
   const metas = await (core.mountHook() as any).moduleToolsMenu(undefined);
 
-  const devMeta = metas.find((meta: any) => meta.value === subCmd);
+  const devMeta = metas.find(
+    (meta: any) =>
+      meta.value === subCmd ||
+      (Array.isArray(meta.aliasValues) &&
+        (meta.aliasValues as string[]).includes(subCmd)),
+  );
   if (devMeta) {
     await devMeta.runTask(config);
   } else {

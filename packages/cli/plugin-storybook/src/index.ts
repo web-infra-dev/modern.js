@@ -50,6 +50,14 @@ export default core.createPlugin(
             isModuleTools: program.$$libraryName === 'module-tools',
           });
         });
+        // Both story and storybook subcommands are supported
+        devCommand.command('storybook').action(async () => {
+          await features.runDev({
+            isTsProject: isTypescript(appDirectory),
+            stories,
+            isModuleTools: program.$$libraryName === 'module-tools',
+          });
+        });
       }
     },
     // module-tools build platform
@@ -66,6 +74,7 @@ export default core.createPlugin(
       return {
         name: 'Storybook 调试',
         value: 'storybook',
+        aliasValues: ['story'],
         runTask: ({ isTsProject = false }: { isTsProject: boolean }) =>
           features.runDev({
             isTsProject,
