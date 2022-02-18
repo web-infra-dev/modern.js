@@ -364,7 +364,7 @@ const transformCSS = async (
       require('postcss-modules')({
         localsConvention: 'camelCase',
         generateScopedName: config.output.cssModuleLocalIdentName,
-        globalModulePaths: [/\.global\.(css|scss|sass|less|stylus|styl)$/],
+        globalModulePaths: [/\.global\.(css|scss|sass|less)$/],
         getJSON(_: string, _modules: Record<string, string>) {
           moduleLocalsMap.set(filename, _modules);
         },
@@ -476,7 +476,7 @@ export const cssPlugin = (
 
     const { appDirectory } = appContext;
 
-    // find parent node_modules paths for sass and stylus
+    // find parent node_modules paths for sass and less
     nodeModulesPaths = require('find-node-modules')({ cwd: appDirectory });
 
     initProcessorOptions(config);

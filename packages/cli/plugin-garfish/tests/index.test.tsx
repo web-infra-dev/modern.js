@@ -12,7 +12,8 @@ import {
   useLocation,
   MemoryRouter,
 } from '@modern-js/plugin-router';
-import ModernGarfishPlugin, { useMicroApps } from '../src/runtime';
+import ModernGarfishPlugin from '../src/runtime';
+import { useMicroApps } from '../src';
 import {
   TABLE_LIST_ESCAPE_NODE,
   TABLE_LIST_HTML,
@@ -99,8 +100,10 @@ describe('plugin-garfish', () => {
     const microFrontendConfig = {
       apps: [tableListModuleInfo, dashBoardModuleInfo, userInfo],
       manifest: {
-        LoadingComponent() {
-          return <div data-testid="loading-id">loading</div>;
+        loadable: {
+          loading: ()=> {
+            return <div data-testid="loading-id">loading</div>;
+          }
         },
       },
     };

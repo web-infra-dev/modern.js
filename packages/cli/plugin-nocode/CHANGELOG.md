@@ -1,5 +1,19 @@
 # @modern-js/plugin-nocode
 
+## 1.1.3
+
+### Patch Changes
+
+- 0639b004: fix: nocode path
+- Updated dependencies [75f4eeb8]
+- Updated dependencies [53aca274]
+- Updated dependencies [78279953]
+- Updated dependencies [e116ace5]
+- Updated dependencies [4d72edea]
+  - @modern-js/webpack@1.3.1
+  - @modern-js/core@1.4.1
+  - @modern-js/utils@1.3.1
+
 ## 1.1.2
 
 ### Patch Changes

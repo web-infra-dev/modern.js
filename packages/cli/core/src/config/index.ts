@@ -119,11 +119,11 @@ interface DevConfig {
 interface MicroFrontend {
   enableHtmlEntry?: boolean;
   externalBasicLibrary?: boolean;
-  moduleApp?: boolean;
+  moduleApp?: string;
 }
 
 interface DeployConfig {
-  microFrontend?: boolean | MicroFrontend;
+  microFrontend?: false | MicroFrontend;
   domain?: string | Array<string>;
   domainByEntries?: Record<string, string | Array<string>>;
 }
@@ -207,12 +207,14 @@ export const loadUserConfig = async (
 const showAdditionalPropertiesError = (error: ErrorObject) => {
   if (
     error.keyword === 'additionalProperties' &&
-    error.instancePath &&
     error.params.additionalProperty
   ) {
-    const target = `${error.instancePath.substr(1)}.${
-      error.params.additionalProperty
-    }`;
+    const target = [
+      error.instancePath.slice(1),
+      error.params.additionalProperty,
+    ]
+      .filter(Boolean)
+      .join('.');
 
     const name = Object.keys(PLUGIN_SCHEMAS).find(key =>
       (PLUGIN_SCHEMAS as Record<string, any>)[key].some(
@@ -239,6 +241,7 @@ export const resolveConfig = async (
   schemas: PluginValidateSchema[],
   restartWithExistingPort: number,
   argv: string[],
+  onSchemaError: (error: ErrorObject) => void = showAdditionalPropertiesError,
 ): Promise<NormalizedConfig> => {
   const { config: userConfig, jsConfig, pkgConfig } = loaded;
 
@@ -256,7 +259,7 @@ export const resolveConfig = async (
   const valid = validate(userConfig);
 
   if (!valid && validate.errors?.length) {
-    showAdditionalPropertiesError(validate?.errors[0]);
+    onSchemaError(validate?.errors[0]);
     const errors = betterAjvErrors(
       validateSchema,
       userConfig,
