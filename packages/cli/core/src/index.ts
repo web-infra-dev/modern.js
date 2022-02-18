@@ -19,6 +19,7 @@ import {
 import { enable } from '@modern-js/plugin/node';
 
 import type { Hooks } from '@modern-js/types';
+import { ErrorObject } from 'ajv';
 import { program, Command } from './utils/commander';
 import { resolveConfig, loadUserConfig } from './config';
 import { loadPlugins } from './loadPlugins';
@@ -146,6 +147,7 @@ export interface CoreOptions {
     plugins: any,
     config: any,
   ) => { cli: any; cliPath: any; server: any; serverPath: any }[];
+  onSchemaError?: (error: ErrorObject) => void;
   options?: {
     metaName?: string;
     srcDir?: string;
@@ -229,6 +231,7 @@ const createCli = () => {
       extraSchemas as any,
       restartWithExistingPort,
       argv,
+      options?.onSchemaError,
     );
 
     const { resolved } = await hooksRunner.resolvedConfig({
