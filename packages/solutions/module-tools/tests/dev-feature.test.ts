@@ -12,7 +12,7 @@ jest.mock('@modern-js/core', () => ({
 
 describe('dev feature with subCmd', () => {
   beforeEach(() => {
-    console.info('asdas');
+    jest.clearAllMocks();
   });
   it('should run task with "storybook" params when storybook plugin exist', async () => {
     mockModuleToolsMenu.mockReturnValue([
@@ -26,5 +26,21 @@ describe('dev feature with subCmd', () => {
     mockModuleToolsMenu.mockReturnValue([]);
     await runSubCmd('storybook', { isTsProject: true, appDirectory: '' });
     expect(exit).toHaveBeenCalled();
+  });
+
+  it('should run task with alias name "story" params when storybook plugin exist', async () => {
+    mockModuleToolsMenu.mockReturnValue([
+      { value: 'storybook', aliasValues: ['story'], runTask: mockDevMeta },
+    ]);
+    await runSubCmd('story', { isTsProject: true, appDirectory: '' });
+    expect(mockDevMeta.mock.calls.length).toBe(1);
+  });
+
+  it('should run task with alias name "story1" params when storybook plugin exist', async () => {
+    mockModuleToolsMenu.mockReturnValue([
+      { value: 'storybook', aliasValues: ['story'], runTask: mockDevMeta },
+    ]);
+    await runSubCmd('story1', { isTsProject: true, appDirectory: '' });
+    expect(mockDevMeta.mock.calls.length).toBe(0);
   });
 });
