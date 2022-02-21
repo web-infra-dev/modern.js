@@ -24,7 +24,7 @@ const handleTemplateFile = async (
       ...context.config,
       dependencies: {
         ...(context.config.dependencies || {}),
-        tailwindcss: `^2.2.19`,
+        tailwindcss: `^3.0.23`,
       },
     },
   );

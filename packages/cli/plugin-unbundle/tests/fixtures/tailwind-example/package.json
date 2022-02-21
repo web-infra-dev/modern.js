@@ -12,7 +12,7 @@
     "@modern-js/runtime": "latest",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "tailwindcss": "^2.2.17"
+    "tailwindcss": "^3.0.23"
   },
   "devDependencies": {
     "@modern-js/app-tools": "latest",
