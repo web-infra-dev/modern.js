@@ -10,3 +10,4 @@ export {
   registerInit,
   useRuntimeContext,
 } from '@modern-js/runtime-core';
+export * from '@modern-js/plugin-design-token';
