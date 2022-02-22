@@ -172,7 +172,8 @@ const createCli = () => {
 
     const appDirectory = await initAppDir();
 
-    loadEnv(appDirectory);
+    const metaName = options?.options?.metaName ?? 'MODERN';
+    loadEnv(appDirectory, process.env[`${metaName.toUpperCase()}_ENV`]);
 
     const loaded = await loadUserConfig(
       appDirectory,
