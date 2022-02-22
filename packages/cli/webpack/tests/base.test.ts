@@ -14,7 +14,7 @@ describe('base webpack config', () => {
     entrypoints: [
       {
         entryName: 'page-a',
-        entryPath: path.resolve(fixtures, './demo/src/page-a/index.jsx'),
+        entry: path.resolve(fixtures, './demo/src/page-a/index.jsx'),
       },
     ],
     internalDirAlias: '@_modern_js_internal',
