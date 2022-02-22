@@ -4,6 +4,7 @@ import { ClientWebpackConfig } from '../src/config/client';
 describe('@modern-js/webpack#config/client', () => {
   it('ClientWebpackConfig', () => {
     const appContext: IAppContext = {
+      metaName: 'modern-js',
       appDirectory: __dirname,
       distDirectory: `${__dirname}/dist`,
       srcDirectory: `${__dirname}/src`,
@@ -75,5 +76,9 @@ describe('@modern-js/webpack#config/client', () => {
       'vm',
       'zlib',
     ]);
+
+    const getCustomPublicEnv = jest.spyOn(client, 'getCustomPublicEnv');
+    client.useDefinePlugin();
+    expect(getCustomPublicEnv).toBeCalled();
   });
 });

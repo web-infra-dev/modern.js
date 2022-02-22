@@ -67,7 +67,7 @@ describe('@modern-js/core test', () => {
     };
     options.beforeUsePlugins.mockImplementation((plugins, _) => plugins);
     await cli.init(['dev'], options);
-    expect(loadEnv).toHaveBeenCalledWith(cwd);
+    expect(loadEnv).toHaveBeenCalledWith(cwd, undefined);
     expect(options.beforeUsePlugins).toHaveBeenCalledWith([], {});
     // TODO: add more test cases
   });

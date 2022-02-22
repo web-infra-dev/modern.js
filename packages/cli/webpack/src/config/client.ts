@@ -89,13 +89,24 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     );
   }
 
+  private getCustomPublicEnv() {
+    const { metaName } = this.appContext;
+    const prefix = `${metaName.split(/[-_]/)[0]}_`.toUpperCase();
+    const envReg = new RegExp(`^${prefix}`);
+    return Object.keys(process.env).filter(key => envReg.test(key));
+  }
+
   private useDefinePlugin() {
     const { envVars, globalVars } = this.options.source || {};
+    const publicEnvVars = this.getCustomPublicEnv();
     this.chain.plugin('define').use(DefinePlugin, [
       {
-        ...['NODE_ENV', 'BUILD_MODE', ...(envVars || [])].reduce<
-          Record<string, string>
-        >((memo, name) => {
+        ...[
+          'NODE_ENV',
+          'BUILD_MODE',
+          ...publicEnvVars,
+          ...(envVars || []),
+        ].reduce<Record<string, string>>((memo, name) => {
           memo[`process.env.${name}`] = JSON.stringify(process.env[name]);
           return memo;
         }, {}),
