@@ -37,7 +37,7 @@ export const genCommon = (options: Options): BabelChain => {
     appDirectory,
     useLegacyDecorators,
     modules,
-    styledCompontents,
+    styledComponents,
     useTsLoader,
   } = options;
 
@@ -89,7 +89,7 @@ export const genCommon = (options: Options): BabelChain => {
             // 内部默认 removeImport: true,
           }
         : false,
-      styledCompontentsOptions: styledCompontents,
+      styledComponentsOptions: styledComponents,
     },
     syntax: 'es5',
     useLegacyDecorators,
