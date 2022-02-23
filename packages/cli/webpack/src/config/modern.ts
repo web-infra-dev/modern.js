@@ -64,7 +64,7 @@ class ModernWebpackConfig extends ClientWebpackConfig {
               useBuiltIns: false,
               useModern: true,
               chain: this.babelChain,
-              styledCompontents: applyOptionsChain(
+              styledComponents: applyOptionsChain(
                 {
                   pure: true,
                   displayName: true,

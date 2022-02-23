@@ -17,7 +17,7 @@ export interface IBaseBabelConfigOption {
       };
     };
     transformReactRemovePropTypes?: false | Record<string, any>;
-    styledCompontentsOptions?: Record<string, any>;
+    styledComponentsOptions?: Record<string, any>;
     lodashOptions?: any;
   };
   useLegacyDecorators?: boolean;
