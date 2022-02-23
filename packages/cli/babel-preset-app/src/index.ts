@@ -14,7 +14,7 @@ const defaultOptions = {
   useLegacyDecorators: true,
   useTsLoader: false,
   lodash: {},
-  styledCompontents: {},
+  styledComponents: {},
 };
 
 /* eslint-disable  no-param-reassign */

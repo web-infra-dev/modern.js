@@ -10,7 +10,7 @@ export type Options = {
   useLegacyDecorators?: boolean;
   useTsLoader?: boolean;
   lodash?: Record<string, any>;
-  styledCompontents?: Record<string, any>;
+  styledComponents?: Record<string, any>;
   appDirectory: string;
   chain?: BabelChain;
   metaName?: string;

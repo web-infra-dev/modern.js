@@ -11,5 +11,6 @@ export const tools = {
     autoprefixer: { typeof: ['object', 'function'] },
     terser: { typeof: ['object', 'function'] },
     minifyCss: { typeof: ['object', 'function'] },
+    styledComponents: { typeof: ['object', 'function'] },
   },
 };

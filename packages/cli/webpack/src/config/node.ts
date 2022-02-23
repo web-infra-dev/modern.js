@@ -93,7 +93,7 @@ class NodeWebpackConfig extends BaseWebpackConfig {
               useLegacyDecorators: !this.options.output?.enableLatestDecorators,
               useBuiltIns: false,
               chain: this.babelChain,
-              styledCompontents: applyOptionsChain(
+              styledComponents: applyOptionsChain(
                 {
                   pure: true,
                   displayName: true,
