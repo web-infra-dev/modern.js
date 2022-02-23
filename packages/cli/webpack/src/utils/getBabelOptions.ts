@@ -51,7 +51,7 @@ export const getBabelOptions = (
             ? false
             : config.output?.polyfill,
         chain,
-        styledCompontents: applyOptionsChain(
+        styledComponents: applyOptionsChain(
           {
             pure: true,
             displayName: true,

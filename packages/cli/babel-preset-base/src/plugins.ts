@@ -9,7 +9,7 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
       import: babelPluginImport,
       transformRuntime,
       transformReactRemovePropTypes,
-      styledCompontentsOptions,
+      styledComponentsOptions,
       lodashOptions,
     } = {},
     useLegacyDecorators = true,
@@ -181,7 +181,7 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
   chain
     .plugin('babel-plugin-styled-components')
     .use(require.resolve('babel-plugin-styled-components'), [
-      styledCompontentsOptions || {},
+      styledComponentsOptions || {},
       'styled-components',
     ]);
 
