@@ -325,7 +325,7 @@ importers:
       '@types/react-dom': ^17
       autoprefixer: ^10.3.1
       jest: ^27
-      postcss: ^8.3.8
+      postcss: 8.4.5
       postcss-custom-properties: ^11.0.0
       postcss-flexbugs-fixes: ^5.0.2
       postcss-font-variant: ^5.0.0
@@ -1993,7 +1993,7 @@ importers:
       markdown-loader: ^6.0.0
       mini-css-extract-plugin: ~2.4.5
       node-libs-browser: ^2.2.1
-      postcss: ^8.3.6
+      postcss: 8.4.5
       postcss-loader: ^6.1.1
       regenerator-runtime: ^0.13.9
       tapable: ^2.2.1
@@ -4211,7 +4211,7 @@ importers:
       jest: ^27
       less: ^4.1.1
       lodash: ^4.17.21
-      postcss: ^8.3.6
+      postcss: 8.4.5
       postcss-import: ^14.0.2
       sass: ^1.45.0
       typescript: ^4
@@ -25609,6 +25609,7 @@ packages:
   /nanoid/3.1.30:
     resolution: {integrity: sha512-zJpuPDwOv8D2zq2WRoMe1HsfZthVewpel9CAvTfc/2mBD1uUT/agc5f7GHGWXlYkFvi1mVxe4IjvP2HNrop7nQ==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
 
   /nanomatch/1.2.13:
     resolution: {integrity: sha512-fpoe2T0RbHwBTBUOftAfBPaDEi06ufaUai0mE6Yn1kacc3SnTErfb/h+X94VXzI64rKFHYImXSvdwGGCmwOqCA==}
@@ -32309,6 +32310,7 @@ packages:
   /ts-node/9.1.1_typescript@4.5.4:
     resolution: {integrity: sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==}
     engines: {node: '>=10.0.0'}
+    hasBin: true
     peerDependencies:
       typescript: '>=2.7'
     dependencies:
