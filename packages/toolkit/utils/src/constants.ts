@@ -178,10 +178,6 @@ export const PLUGIN_SCHEMAS = {
       target: 'tools.tailwindcss',
       schema: { typeof: ['object', 'function'] },
     },
-    {
-      target: 'source.designSystem',
-      schema: { typeof: ['object'] },
-    },
   ],
   '@modern-js/plugin-proxy': [
     {
@@ -225,6 +221,10 @@ export const PLUGIN_SCHEMAS = {
   ],
   '@modern-js/plugin-design-token': [
     // Legacy Features
+    {
+      target: 'source.designSystem',
+      schema: { typeof: ['object'] },
+    },
     {
       target: 'source.designSystem.supportStyledComponents',
       schema: { type: ['boolean'] },

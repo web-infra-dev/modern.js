@@ -27,7 +27,10 @@
       "default": "./dist/js/treeshaking/index.js"
     },
     "./runtime": "./dist/js/treeshaking/runtime/index.js",
-    "./cli": "./dist/js/node/cli/index.js"
+    "./cli": {
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/js/node/cli/index.js"
+    }
   },
   "typesVersions": {
     "*": {

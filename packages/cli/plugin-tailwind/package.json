@@ -41,6 +41,7 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/utils": "workspace:^1.2.2",
+    "@modern-js/plugin-design-token": "workspace:^1.0.0",
     "lodash.clonedeep": "^4.5.0",
     "lodash.merge": "^4.6.2"
   },
