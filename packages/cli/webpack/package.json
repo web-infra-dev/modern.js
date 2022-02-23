@@ -56,7 +56,7 @@
     "markdown-loader": "^6.0.0",
     "mini-css-extract-plugin": "~2.4.5",
     "node-libs-browser": "^2.2.1",
-    "postcss": "^8.3.6",
+    "postcss": "8.4.5",
     "postcss-loader": "^6.1.1",
     "regenerator-runtime": "^0.13.9",
     "terser-webpack-plugin": "^5.1.4",
