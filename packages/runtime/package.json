@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.2",
+  "version": "1.2.3",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -66,7 +66,7 @@
     "@types/loadable__component": "^5.13.4"
   },
   "devDependencies": {
-    "@modern-js/types": "workspace:^1.3.0",
+    "@modern-js/types": "workspace:^1.3.2",
     "@testing-library/react": "^12.0.0",
     "@testing-library/react-hooks": "^7.0.1",
     "@loadable/component": "^5.15.0",
