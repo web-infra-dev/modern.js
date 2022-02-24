@@ -6,6 +6,9 @@ const core: typeof import('@modern-js/core') = Import.lazy(
   require,
 );
 
+// support designSystem.supportStyledComponents
+core.usePlugins([require.resolve('@modern-js/plugin-design-token/cli')]);
+
 export default core.createPlugin(
   () => ({
     validateSchema() {

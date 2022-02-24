@@ -130,4 +130,5 @@ export interface Hooks {
     entrypoint: Entrypoint;
     code: string;
   }>;
+  addDefineTypes: AsyncWaterfall<void>;
 }
