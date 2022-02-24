@@ -1,5 +1,17 @@
 # @modern-js/plugin-tailwindcss
 
+## 1.2.2
+
+### Patch Changes
+
+- 6891e4c2: add @modern-js/plugin-design-token, support 'source.designSystem.supportStyledComponents' config
+- Updated dependencies [6891e4c2]
+- Updated dependencies [b376c8d6]
+- Updated dependencies [e62c4efd]
+- Updated dependencies [e2a8233f]
+  - @modern-js/plugin-design-token@1.0.1
+  - @modern-js/core@1.4.2
+
 ## 1.2.1
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @modern-js/core
 
+## 1.4.2
+
+### Patch Changes
+
+- b376c8d6: feat: enhance custom env
+- e62c4efd: fix error typo for 'styledComponents'
+- e2a8233f: support add schem error hook to core.init
+
 ## 1.4.1
 
 ### Patch Changes

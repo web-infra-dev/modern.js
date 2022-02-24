@@ -1,5 +1,11 @@
 # @modern-js/css-config
 
+## 1.2.2
+
+### Patch Changes
+
+- 118da5b4: fix: fix tailwindcss sourcemap building error
+
 ## 1.2.1
 
 ### Patch Changes

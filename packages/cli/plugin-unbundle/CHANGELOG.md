@@ -1,5 +1,19 @@
 # @modern-js/plugin-unbundle
 
+## 1.3.2
+
+### Patch Changes
+
+- f05825dc: fix: fix plugin-unbundle parsing error with tsconfig
+- Updated dependencies [118da5b4]
+- Updated dependencies [b376c8d6]
+- Updated dependencies [735b2a81]
+- Updated dependencies [e62c4efd]
+- Updated dependencies [e2a8233f]
+  - @modern-js/css-config@1.2.2
+  - @modern-js/core@1.4.2
+  - @modern-js/server@1.4.2
+
 ## 1.3.1
 
 ### Patch Changes

@@ -1,5 +1,25 @@
 # @modern-js/plugin-storybook
 
+## 1.3.0
+
+### Minor Changes
+
+- 67503500: add alais subCmd
+
+### Patch Changes
+
+- Updated dependencies [118da5b4]
+- Updated dependencies [b376c8d6]
+- Updated dependencies [e62c4efd]
+- Updated dependencies [6891e4c2]
+- Updated dependencies [5ed05e65]
+- Updated dependencies [0cd8b592]
+- Updated dependencies [e2a8233f]
+  - @modern-js/webpack@1.3.2
+  - @modern-js/core@1.4.2
+  - @modern-js/runtime@1.2.3
+  - @modern-js/runtime-core@1.2.3
+
 ## 1.2.1
 
 ### Patch Changes
