@@ -58,6 +58,7 @@ export const beforeGenerateRoutes = createAsyncWaterfall<{
   entrypoint: Entrypoint;
   code: string;
 }>();
+export const addDefineTypes = createAsyncWaterfall();
 
 registerHook({
   modifyEntryImports,
@@ -69,6 +70,7 @@ registerHook({
   htmlPartials,
   addRuntimeExports,
   beforeGenerateRoutes,
+  addDefineTypes,
 });
 
 export default createPlugin(
@@ -153,6 +155,10 @@ export default createPlugin(
         });
 
         debug(`html templates: %o`, htmlTemplates);
+
+        await (mountHook() as any).addDefineTypes();
+
+        debug(`add Define Types`);
 
         AppContext.set({
           ...appContext,
