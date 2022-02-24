@@ -1,5 +1,15 @@
 # @modern-js/server
 
+## 1.4.2
+
+### Patch Changes
+
+- 735b2a81: prevent ssr compiler to send socket message
+- Updated dependencies [b376c8d6]
+- Updated dependencies [e62c4efd]
+- Updated dependencies [e2a8233f]
+  - @modern-js/core@1.4.2
+
 ## 1.4.1
 
 ### Patch Changes

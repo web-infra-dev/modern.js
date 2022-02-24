@@ -1,5 +1,11 @@
 # @modern-js/types
 
+## 1.3.2
+
+### Patch Changes
+
+- 6891e4c2: add addDefineTypes define
+
 ## 1.3.1
 
 ### Patch Changes
