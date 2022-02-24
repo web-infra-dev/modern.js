@@ -1,5 +1,13 @@
 # @modern-js/babel-preset-app
 
+## 1.2.3
+
+### Patch Changes
+
+- e62c4efd: fix error typo for 'styledComponents'
+- Updated dependencies [e62c4efd]
+  - @modern-js/babel-preset-base@1.2.2
+
 ## 1.2.2
 
 ### Patch Changes

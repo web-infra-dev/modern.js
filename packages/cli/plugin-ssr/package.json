@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.1",
+  "version": "1.2.2",
   "jsnext:source": "./src/index.tsx",
   "types": "./src/index.tsx",
   "main": "./dist/js/node/index.node.js",
@@ -73,9 +73,9 @@
   },
   "devDependencies": {
     "@modern-js/babel-chain": "workspace:^1.2.0",
-    "@modern-js/core": "workspace:^1.4.0",
-    "@modern-js/runtime-core": "workspace:^1.2.2",
-    "@modern-js/types": "workspace:^1.3.0",
+    "@modern-js/core": "workspace:^1.4.2",
+    "@modern-js/runtime-core": "workspace:^1.2.3",
+    "@modern-js/types": "workspace:^1.3.2",
     "@loadable/component": "^5.15.0",
     "@types/loadable__component": "^5.13.4",
     "@types/jest": "^26",
@@ -93,8 +93,8 @@
     "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.4.0",
-    "@modern-js/runtime-core": "workspace:^1.2.2",
+    "@modern-js/core": "workspace:^1.4.2",
+    "@modern-js/runtime-core": "workspace:^1.2.3",
     "@loadable/component": "^5.15.0",
     "@types/loadable__component": "^5.13.4"
   },

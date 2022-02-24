@@ -1,5 +1,11 @@
 # @modern-js/runtime-core
 
+## 1.2.3
+
+### Patch Changes
+
+- 5ed05e65: feat: ensure bootstrap work with normal Component
+
 ## 1.2.2
 
 ### Patch Changes
