@@ -118,14 +118,14 @@
     "@modern-js/bff-runtime": "workspace:^1.2.1",
     "@modern-js/create-request": "workspace:^1.2.1",
     "@loadable/component": "^5.15.0",
+    "@types/loadable__component": "^5.13.4",
+    "@types/react-helmet": "^6.1.2",
     "react-helmet": "^6.1.0",
     "styled-components": "^5.3.1"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:^1.4.0",
     "@scripts/build": "workspace:*",
-    "@types/loadable__component": "^5.13.4",
-    "@types/react-helmet": "^6.1.2",
     "@types/styled-components": "^5.1.13",
     "@types/jest": "^26",
     "@types/node": "^14",
