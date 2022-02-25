@@ -209,7 +209,10 @@ export default createPlugin(
         await next();
         if (!ctx.body) {
           // restore statusCode
-          if (ctx.res.statusCode === 404) {
+          if (
+            ctx.res.statusCode === 404 &&
+            !(ctx.response as any)._explicitStatus
+          ) {
             ctx.res.statusCode = 200;
           }
           ctx.respond = false;
