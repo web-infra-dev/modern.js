@@ -6,5 +6,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "@xxx/plugin-bff": "^1.0.0"
+  }
 }
