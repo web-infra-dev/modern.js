@@ -7,7 +7,6 @@ module.exports = {
         to: '',
       },
     ],
-    // enableTsChecker: true,
     disableSourceMap: true,
   },
 };
