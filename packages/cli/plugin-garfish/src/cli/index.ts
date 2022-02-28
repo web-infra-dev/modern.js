@@ -57,7 +57,7 @@ export default createPlugin(
             Object.assign(
               typeof masterApp === 'object' ? { ...masterApp } : {},
               {
-                basename: router?.basename || '/',
+                basename: router?.historyOptions?.basename || '/',
               },
             ),
           );

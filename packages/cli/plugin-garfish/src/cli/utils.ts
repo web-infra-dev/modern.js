@@ -1,10 +1,28 @@
 export const makeProvider = () => `
+  function generateRouterBaseName(basename) {
+    if (!App.config) {
+      App.config = {};
+    }
+    if (App.config.router) {
+      App.config.router.historyOptions = {
+        ...App.config.router.historyOptions,
+      };
+    } else {
+      App.config.router = {
+        historyOptions: {
+          basename: basename
+        }
+      };
+    }
+  }
+
   export const provider = function ({basename, dom, ...props}) {
     return {
       render({basename, dom}) {
+        console.log('App.config', App.config);
         const SubApp = render(props, basename);
         const node = dom.querySelector('#' + MOUNT_ID) || dom;
-
+        generateRouterBaseName(basename);
         bootstrap(SubApp, node);
       },
       destroy({ dom }) {
@@ -27,13 +45,10 @@ export const makeProvider = () => `
 `;
 
 export const makeRenderFunction = (code: string) =>
-  code
-    .replace(
-      'IS_BROWSER',
-      `
+  code.replace(
+    'IS_BROWSER',
+    `
         IS_BROWSER &&
         typeof __GARFISH_EXPORTS__ === 'undefined'
       `,
-    )
-    .replace('(App)', '(() => <App {...(arguments[0] || {})} />)')
-    .replace('"basename":"/"', '"basename":arguments[1] || "/"');
+  );
