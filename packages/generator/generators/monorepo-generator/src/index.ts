@@ -42,6 +42,7 @@ export const handleTemplateFile = async (
   const ans = await appApi.getInputBySchema(schema, {
     ...context.config,
     ...inputValue,
+    isMonorepo: true,
   });
 
   generator.logger.debug(`ans=`, ans);
