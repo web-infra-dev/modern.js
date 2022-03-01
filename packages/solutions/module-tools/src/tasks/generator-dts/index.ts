@@ -3,6 +3,7 @@ import * as path from 'path';
 import { Import, fs } from '@modern-js/utils';
 import type { NormalizedConfig, CoreOptions } from '@modern-js/core';
 import type { ITsconfig } from '../../types';
+import type { IGeneratorConfig } from './utils';
 
 const core: typeof import('@modern-js/core') = Import.lazy(
   '@modern-js/core',
@@ -51,18 +52,6 @@ const resolveLog = (
     console.error(chunk.toString());
   });
 };
-
-interface IGeneratorConfig {
-  sourceDirName?: string;
-  srcDir: string;
-  distDir: string;
-  projectData: {
-    appDirectory: string;
-  };
-  tsconfigPath?: string;
-  tsCheck?: boolean;
-  watch?: boolean;
-}
 
 const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
   const {

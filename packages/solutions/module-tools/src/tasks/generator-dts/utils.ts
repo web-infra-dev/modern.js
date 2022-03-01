@@ -22,6 +22,18 @@ const deepMerge: typeof import('lodash.merge') = Import.lazy(
   require,
 );
 
+export interface IGeneratorConfig {
+  sourceDirName?: string;
+  srcDir: string;
+  distDir: string;
+  projectData: {
+    appDirectory: string;
+  };
+  tsconfigPath?: string;
+  tsCheck?: boolean;
+  watch?: boolean;
+}
+
 export const generatorTsConfig = (
   projectTsconfig: ITsconfig,
   {
