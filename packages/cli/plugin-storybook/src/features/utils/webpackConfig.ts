@@ -236,7 +236,9 @@ export const getCustomWebpackConfigHandle: any = ({
   chain.plugins
     .delete('progress')
     .delete('case-sensitive') // main入口文件的 html-plugin
-    .delete('html-main');
+    .delete('html-main')
+    // remove `ForkTsCheckerWebpackPlugin`, because storybook is supported
+    .delete('ts-checker');
   chain.resolve.merge({
     fallback: {
       perf_hooks: false,

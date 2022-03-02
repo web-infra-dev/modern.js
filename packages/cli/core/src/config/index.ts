@@ -67,6 +67,7 @@ interface OutputConfig {
   faviconByEntries?: Record<string, string | undefined>;
   copy?: Record<string, unknown>;
   scriptExt?: Record<string, unknown>;
+  disableTsChecker?: boolean;
   disableHtmlFolder?: boolean;
   disableCssModuleExtension?: boolean;
   disableCssExtract?: boolean;
