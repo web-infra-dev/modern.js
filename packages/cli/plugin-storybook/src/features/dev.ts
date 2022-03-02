@@ -38,9 +38,9 @@ export const runDev = async ({
   const modernConfig = core.useResolvedConfigContext();
   const { appDirectory, port = constants.STORYBOOK_PORT } = appContext;
   const {
-    dev: { disableTsChecker = false },
+    output: { disableTsChecker = false },
   } = modernConfig as NormalizedConfig & {
-    dev: {
+    output: {
       disableTsChecker?: boolean;
     }; // TODO: 使用 module-tools 提供的完整类型
   };

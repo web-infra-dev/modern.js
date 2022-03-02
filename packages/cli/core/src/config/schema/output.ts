@@ -35,6 +35,7 @@ export const output = {
     },
     copy: { type: 'array' },
     scriptExt: { type: 'object' },
+    disableTsChecker: { type: 'boolean' },
     disableHtmlFolder: { type: 'boolean' },
     disableCssModuleExtension: { type: 'boolean' },
     disableCssExtract: { type: 'boolean' },
