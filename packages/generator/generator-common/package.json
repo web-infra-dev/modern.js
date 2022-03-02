@@ -47,7 +47,7 @@
     "jest": "^27",
     "@scripts/jest-config": "workspace:*",
     "@modern-js/codesmith": "^1.0.7",
-    "@modern-js/codesmith-api-app": "^1.0.7",
+    "@modern-js/codesmith-api-app": "^1.0.8",
     "fs-extra": "^10.0.1",
     "@types/fs-extra": "^9.0.13"
   },

@@ -1,15 +1,21 @@
 import path from 'path';
-import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
+import {
+  canUsePnpm,
+  canUseYarn,
+  GeneratorContext,
+  GeneratorCore,
+} from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
-  i18n,
+  i18n as commonI18n,
   BaseGenerator,
   Solution,
   MonorepoSchema,
   PackageManager,
   ChangesetGenerator,
 } from '@modern-js/generator-common';
+import { i18n, localeKeys } from './locale';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {
@@ -107,14 +113,18 @@ export const handleTemplateFile = async (
   );
 };
 
+// eslint-disable-next-line max-statements
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const appApi = new AppAPI(context, generator);
 
   const { locale } = context.config;
+  commonI18n.changeLanguage({ locale });
   i18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
 
-  if (!(await appApi.checkEnvironment())) {
+  // monorepo 场景下必须使用 pnpm 或者 yarn
+  if (!(await canUsePnpm()) && !(await canUseYarn())) {
+    generator.logger.warn(i18n.t(localeKeys.enviroment.yarn_pnpm));
     // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
