@@ -16,6 +16,7 @@ const argv: typeof import('process.argv').default = Import.lazy(
   require,
 );
 const utils: typeof import('./utils') = Import.lazy('./utils', require);
+const glob: typeof import('glob') = Import.lazy('glob', require);
 
 let removeTsconfigPath = '';
 
@@ -53,15 +54,31 @@ const resolveLog = (
   });
 };
 
+// copy .d.ts files from src dir to dist dir
+const copyDts = async (srcDir: string, distDir: string) => {
+  const files = glob.sync(`${srcDir}/**/*.d.ts`);
+
+  if (files.length) {
+    return Promise.all(
+      files.map(filePath =>
+        fs.copy(filePath, filePath.replace(srcDir, distDir)),
+      ),
+    );
+  }
+};
+
 const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
   const {
     tsconfigPath,
+    srcDir,
     distDir,
     sourceDirName = 'src',
     projectData: { appDirectory },
     tsCheck = false,
     watch = false,
   } = config;
+
+  await copyDts(srcDir, distDir);
 
   const userTsconfig = getProjectTsconfig(tsconfigPath);
   const willDeleteTsconfigPath = utils.generatorTsConfig(userTsconfig, {
