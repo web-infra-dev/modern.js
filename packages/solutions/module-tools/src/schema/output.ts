@@ -16,10 +16,6 @@ export const outputSchema = [
     schema: { typeof: 'object' },
   },
   {
-    target: 'output.disableTsChecker',
-    schema: { typeof: 'boolean' },
-  },
-  {
     target: 'output.enableSourceMap',
     schema: { typeof: 'boolean' },
   },
