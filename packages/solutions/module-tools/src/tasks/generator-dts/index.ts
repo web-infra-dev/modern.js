@@ -57,14 +57,9 @@ const resolveLog = (
 // copy .d.ts files from src dir to dist dir
 const copyDts = async (srcDir: string, distDir: string) => {
   const files = glob.sync(`${srcDir}/**/*.d.ts`);
-
-  if (files.length) {
-    return Promise.all(
-      files.map(filePath =>
-        fs.copy(filePath, filePath.replace(srcDir, distDir)),
-      ),
-    );
-  }
+  Promise.all(
+    files.map(filePath => fs.copy(filePath, filePath.replace(srcDir, distDir))),
+  );
 };
 
 const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
