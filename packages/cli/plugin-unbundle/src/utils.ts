@@ -209,3 +209,24 @@ export const logWithHistory = () => {
     }
   };
 };
+
+export const setIgnoreDependencies = (
+  userConfig: NormalizedConfig,
+  virtualDeps: Record<string, string>,
+) => {
+  const ignore = userConfig?.dev?.unbundle?.ignore;
+  if (!ignore) {
+    return;
+  }
+
+  const normalizeIgnore = Array.isArray(ignore) ? ignore : [ignore];
+  normalizeIgnore.forEach(dependencyToIgnore => {
+    virtualDeps[dependencyToIgnore] = `
+      /**
+       * Dependency ${dependencyToIgnore} ignored via user config
+       * /
+      export {};
+      export default {};
+    `;
+  });
+};
