@@ -40,14 +40,17 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/core": "workspace:^1.3.2",
     "@modern-js/utils": "workspace:^1.2.2",
     "@alicloud/fun": "3.6.24",
     "js-yaml": "^4.1.0"
   },
+  "peerDependencies": {
+    "@modern-js/core": "workspace:^1.3.2"
+  },
   "devDependencies": {
     "@babel/runtime": "^7",
     "@scripts/build": "workspace:*",
+    "@modern-js/core": "workspace:^1.3.2",
     "@modern-js/plugin-jarvis": "workspace:^1.2.1",
     "typescript": "^4",
     "@types/jest": "^26.0.9",
