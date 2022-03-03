@@ -2,4 +2,4 @@
 "@modern-js/plugin-garfish": minor
 ---
 
-feat(plugin-garfish): subapp auto add basename
+feat(plugin-garfish): Sub-applications automatically increment basename
