@@ -1,5 +1,12 @@
 # @modern-js/generator-common
 
+## 1.4.3
+
+### Patch Changes
+
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+- 6668a1bf: feat: package manager options support npm
+
 ## 1.4.2
 
 ### Patch Changes
