@@ -37,7 +37,6 @@
     "@modern-js/generator-common": "workspace:^1.3.1",
     "@modern-js/generator-utils": "workspace:^1.2.1",
     "@modern-js/dependence-generator": "workspace:^1.2.1",
-    "del-cli": "^4.0.1",
     "typescript": "^4",
     "@types/jest": "^26.0.9",
     "@types/node": "^14",
