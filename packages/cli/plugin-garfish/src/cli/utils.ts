@@ -1,54 +1,57 @@
 export const makeProvider = () => `
-  function generateRouterBaseName(basename) {
-    if (!App.config) {
-      App.config = {};
-    }
-    if (App.config.router) {
-      App.config.router.historyOptions = {
-        ...App.config.router.historyOptions,
-      };
-    } else {
-      App.config.router = {
-        historyOptions: {
-          basename: basename
-        }
-      };
-    }
-  }
+export const provider = function ({basename, dom, ...props}) {
+  return {
+    render({basename, dom}) {
+      console.log('App.config', App.config);
+      const SubApp = render({props, basename});
+      const node = dom.querySelector('#' + MOUNT_ID) || dom;
+      bootstrap(SubApp, node);
+    },
+    destroy({ dom }) {
+      const node = dom.querySelector('#' + MOUNT_ID) || dom;
 
-  export const provider = function ({basename, dom, ...props}) {
-    return {
-      render({basename, dom}) {
-        console.log('App.config', App.config);
-        const SubApp = render(props, basename);
-        const node = dom.querySelector('#' + MOUNT_ID) || dom;
-        generateRouterBaseName(basename);
-        bootstrap(SubApp, node);
-      },
-      destroy({ dom }) {
-        const node = dom.querySelector('#' + MOUNT_ID) || dom;
-
-        if (node) {
-          unmountComponentAtNode(node);
-        }
-      },
-      SubModuleComponent: (props) => {
-        const SubApp = render(props, basename);
-
-        return createPortal(<SubApp />, dom.querySelector('#' + MOUNT_ID)  || dom);
+      if (node) {
+        unmountComponentAtNode(node);
       }
+    },
+    SubModuleComponent: (props) => {
+      const SubApp = render({props, basename});
+
+      return createPortal(<SubApp />, dom.querySelector('#' + MOUNT_ID)  || dom);
     }
-  };
-  if (typeof __GARFISH_EXPORTS__ !== 'undefined') {
-    __GARFISH_EXPORTS__.provider = provider;
   }
+};
+
+if (typeof __GARFISH_EXPORTS__ !== 'undefined') {
+  __GARFISH_EXPORTS__.provider = provider;
+}
 `;
 
-export const makeRenderFunction = (code: string) =>
-  code.replace(
-    'IS_BROWSER',
-    `
-        IS_BROWSER &&
-        typeof __GARFISH_EXPORTS__ === 'undefined'
-      `,
-  );
+export const makeRenderFunction = (code: string) => {
+  const inGarfishToRender = `
+  const { basename, props } = arguments[0] || {};
+  let renderByGarfish = false;
+
+  if (IS_BROWSER && window.Garfish && window.Garfish.activeApps && window.Garfish.activeApps.length !== 0) renderByGarfish = true;
+  if (IS_BROWSER && window.Garfish && window.Garfish.apps && Object.keys(window.Garfish.apps).length !== 0) renderByGarfish = true;
+  if (typeof __GARFISH_EXPORTS__ !== 'undefined' || typeof __GARFISH__ !== 'undefined') renderByGarfish = true;
+  if (renderByGarfish && !basename) return null;
+
+  function RouterPlugin (routerConfig) {
+    if (basename) {
+      routerConfig.basename = basename;
+      if (routerConfig.supportHtml5History !== false) {
+        if (!routerConfig.historyOptions) {
+          routerConfig.historyOptions = {
+            basename: basename
+          };
+        } else {
+          routerConfig.historyOptions.basename = basename;
+        }
+      }
+    }
+    return router(routerConfig);
+  }
+  `;
+  return inGarfishToRender + code.replace(`router(`, `RouterPlugin(`);
+};
