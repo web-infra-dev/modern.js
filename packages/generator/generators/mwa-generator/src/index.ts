@@ -159,6 +159,15 @@ export const handleTemplateFile = async (
           .replace('templates/ts-template/', projectPath)
           .replace('.handlebars', ''),
     );
+  } else {
+    await appApi.forgeTemplate(
+      'templates/js-template/**/*',
+      undefined,
+      resourceKey =>
+        resourceKey
+          .replace('templates/js-template/', projectPath)
+          .replace('.handlebars', ''),
+    );
   }
 
   if (!isMonorepoSubProject && packageManager === PackageManager.Pnpm) {
