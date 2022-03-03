@@ -23,7 +23,7 @@ export async function release(options: PublishOptions) {
     params.push(tag);
   }
 
-  if (!isMonorepo || packageManager === 'yarn') {
+  if (!isMonorepo || packageManager === 'yarn' || packageManager === 'npm') {
     await execaWithStreamLog(process.execPath, [CHANGESET_PATH, ...params]);
     return;
   }
