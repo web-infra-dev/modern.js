@@ -49,7 +49,9 @@ export const ModuleValueMap: Record<string, string[]> = {
 };
 
 export const MonorepoValueMap: Record<string, string[]> = {
-  packageManager: PackageManagerValues,
+  packageManager: PackageManagerValues.filter(
+    packageManager => packageManager !== 'npm',
+  ),
 };
 
 export const getMWACases = (length?: number) => {
