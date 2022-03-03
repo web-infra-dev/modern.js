@@ -93,7 +93,7 @@ const getTplInfo = (clientRoute: ClientRoute, isTs: boolean) => {
   if (clientRoute === ClientRoute.ConventionalRoute) {
     return {
       name: 'pages-router',
-      space: '    ',
+      space: '  ',
       fileExtra,
       entry: `Index.${fileExtra}`,
       css: 'index.css',
@@ -214,7 +214,7 @@ const updatePackageJSON = async (
   });
 };
 
-const handleTemplateFile = async (
+export const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
   appApi: AppAPI,

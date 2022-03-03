@@ -54,5 +54,19 @@ describe('run module-generator', () => {
     expect(fs.existsSync(path.join(projectDir, 'package.json'))).toBe(true);
     const pkg = fs.readJSONSync(path.join(projectDir, 'package.json'), 'utf-8');
     expect(pkg.devDependencies['@modern-js/app-tools']).toBe('^1.0.0');
+    expect(fs.existsSync(path.join(projectDir, 'modern.config.ts'))).toBe(true);
+  });
+  it('run mwa generator with js', async () => {
+    mockGeneratorCore._context.config = {
+      ...MWADefaultConfig,
+      language: 'js',
+      noNeedInstall: true,
+    };
+    await handleTemplateFile(
+      mockGeneratorCore._context,
+      mockGeneratorCore,
+      appApi,
+    );
+    expect(fs.existsSync(path.join(projectDir, 'modern.config.js'))).toBe(true);
   });
 });

@@ -114,13 +114,6 @@
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true
   },
-  "prettier.trailingComma": "all",
-  "prettier.printWidth": 80,
-  "prettier.semi": true,
-  "prettier.arrowParens": "avoid",
-  "prettier.bracketSpacing": true,
-  "prettier.jsxBracketSameLine": true,
-  //
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
