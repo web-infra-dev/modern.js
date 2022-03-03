@@ -1,6 +1,6 @@
 export * as fs from 'fs-extra';
 export * from './chalk';
-export * from './formatWebpackMessages';
+export * from './format';
 export * from './FileSizeReporter';
 export * from './printBuildError';
 export * from './debug';

@@ -3,7 +3,7 @@
  * see: https://github.com/facebookincubator/create-react-app/tree/master/packages/react-dev-utils
  */
 import { LAUNCH_EDITOR_ENDPOINT } from '@modern-js/utils/constants';
-import { formatWebpackMessages } from '@modern-js/utils/formatWebpackMessages';
+import { formatWebpackMessages } from '@modern-js/utils/format';
 import stripAnsi from 'strip-ansi';
 import webpack from 'webpack';
 import { createSocketUrl } from './createSocketUrl';
