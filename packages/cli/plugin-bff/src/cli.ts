@@ -1,3 +1,4 @@
+import './types';
 import path from 'path';
 import fs from 'fs-extra';
 import {
@@ -12,17 +13,6 @@ import { resolveBabelConfig } from '@modern-js/server-utils';
 import type { Configuration } from 'webpack';
 import type Chain from 'webpack-chain';
 import type { ServerRoute } from '@modern-js/types';
-
-declare module '@modern-js/core' {
-  interface UserConfig {
-    bff?: {
-      prefix?: string;
-      requestCreator?: string;
-      fetcher?: string;
-      proxy: Record<string, any>;
-    };
-  }
-}
 
 const DEFAULT_API_PREFIX = '/api';
 const TS_CONFIG_FILENAME = 'tsconfig.json';
