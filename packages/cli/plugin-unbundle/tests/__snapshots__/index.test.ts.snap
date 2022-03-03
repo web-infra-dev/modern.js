@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plugin-unbundle schema 1`] = `
+Array [
+  Array [
+    Object {
+      "schema": Object {
+        "type": "boolean",
+      },
+      "target": "source.disableAutoImportStyle",
+    },
+    Object {
+      "schema": Object {
+        "type": "boolean",
+      },
+      "target": "server.https",
+    },
+    Object {
+      "schema": Object {
+        "properties": Object {
+          "ignore": Object {
+            "items": Object {
+              "type": "string",
+            },
+            "type": Array [
+              "string",
+              "array",
+            ],
+          },
+        },
+        "type": "object",
+      },
+      "target": "dev.unbundle",
+    },
+  ],
+]
+`;
