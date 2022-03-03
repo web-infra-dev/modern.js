@@ -8,8 +8,8 @@ import {
 import { isJsRequest } from '../utils';
 
 // FIXME: declare module 不生效的问题
-const traverse = require('@babel/traverse');
-const generate = require('@babel/generator');
+const traverse = require('@babel/traverse').default;
+const generate = require('@babel/generator').default;
 
 function shouldProcess(code: string, id: string) {
   // transform js only
