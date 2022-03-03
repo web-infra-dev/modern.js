@@ -15,7 +15,6 @@ import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import webpack, { IgnorePlugin } from 'webpack';
-import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { merge } from 'webpack-merge';
@@ -469,9 +468,6 @@ class BaseWebpackConfig {
       this.chain
         .plugin('progress')
         .use(WebpackBar, [{ name: this.chain.get('name') }]);
-
-    isDev() &&
-      this.chain.plugin('case-sensitive').use(CaseSensitivePathsPlugin);
 
     this.chain.plugin('mini-css-extract').use(MiniCssExtractPlugin, [
       {
