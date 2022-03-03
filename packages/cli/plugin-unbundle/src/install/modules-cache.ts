@@ -36,10 +36,13 @@ interface ResponseType {
 }
 
 const request = async (urlPath: string): Promise<ResponseType> => {
-  const response = await fetch(`http:${PDN_HOST}/${urlPath}`, {
-    method: 'GET',
-    redirect: 'follow',
-  });
+  const response = await fetch(
+    `http:${process.env.PDN_HOST || PDN_HOST}/${urlPath}`,
+    {
+      method: 'GET',
+      redirect: 'follow',
+    },
+  );
 
   const json = (await response.json()) as ResponseType;
 
@@ -196,9 +199,9 @@ export class ModulesCache {
       }
     } catch (err: any) {
       logger.error(
-        `request http://${PDN_HOST}${`/esm/bv/${normalized}?meta`} error: ${
-          err.message
-        }`,
+        `request http://${
+          process.env.PDN_HOST || PDN_HOST
+        }${`/esm/bv/${normalized}?meta`} error: ${err.message}`,
       );
       throw err;
     }
