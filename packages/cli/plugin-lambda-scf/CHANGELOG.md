@@ -1,5 +1,15 @@
 # @modern-js/plugin-lambda-scf
 
+## 1.1.2
+
+### Patch Changes
+
+- fab92861: fix: @modern-js/core phantom dep
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
 ## 1.1.1
 
 ### Patch Changes
