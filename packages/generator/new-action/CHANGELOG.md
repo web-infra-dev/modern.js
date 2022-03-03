@@ -1,5 +1,14 @@
 # @modern-js/new-action
 
+## 1.3.2
+
+### Patch Changes
+
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+- Updated dependencies [6668a1bf]
+- Updated dependencies [6668a1bf]
+  - @modern-js/generator-common@1.4.3
+
 ## 1.3.1
 
 ### Patch Changes

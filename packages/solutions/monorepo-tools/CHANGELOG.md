@@ -1,5 +1,19 @@
 # @modern-js/monorepo-tools
 
+## 1.3.2
+
+### Patch Changes
+
+- fab92861: fix: @modern-js/core phantom dep
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+- Updated dependencies [6668a1bf]
+- Updated dependencies [6668a1bf]
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+  - @modern-js/new-action@1.3.2
+  - @modern-js/plugin-changeset@1.2.2
+
 ## 1.3.1
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @modern-js/plugin-bff
 
+## 1.3.4
+
+### Patch Changes
+
+- 8f24a514: fix: allow reference typings to index file
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
 ## 1.3.3
 
 ### Patch Changes

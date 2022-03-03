@@ -1,5 +1,13 @@
 # @modern-js/core
 
+## 1.4.3
+
+### Patch Changes
+
+- 54786e58: add ts check
+- Updated dependencies [deeaa602]
+  - @modern-js/utils@1.3.2
+
 ## 1.4.2
 
 ### Patch Changes
