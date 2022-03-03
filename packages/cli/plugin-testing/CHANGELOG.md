@@ -1,5 +1,17 @@
 # @modern-js/plugin-testing
 
+## 1.3.4
+
+### Patch Changes
+
+- 9594df3f: fix: allow other bff plugin in unbundle mode
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+- Updated dependencies [3da3bf48]
+  - @modern-js/utils@1.3.2
+  - @modern-js/webpack@1.4.0
+  - @modern-js/core@1.4.3
+
 ## 1.3.3
 
 ### Patch Changes

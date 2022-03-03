@@ -1,5 +1,15 @@
 # @modern-js/plugin-changeset
 
+## 1.2.2
+
+### Patch Changes
+
+- 6668a1bf: feat: package manager options support npm
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
 ## 1.2.1
 
 ### Patch Changes

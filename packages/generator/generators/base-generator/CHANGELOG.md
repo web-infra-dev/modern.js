@@ -1,5 +1,12 @@
 # @modern-js/base-generator
 
+## 1.3.2
+
+### Patch Changes
+
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+- 9e0aed14: feat: adjust generator editor config
+
 ## 1.3.1
 
 ### Patch Changes

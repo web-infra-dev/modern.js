@@ -1,5 +1,13 @@
 # @modern-js/mwa-generator
 
+## 1.3.5
+
+### Patch Changes
+
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+- 9e0aed14: feat: add modern config file when create project
+- fab92861: fix: @modern-js/core phantom dep
+
 ## 1.3.4
 
 ### Patch Changes

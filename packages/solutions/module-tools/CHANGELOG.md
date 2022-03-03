@@ -1,5 +1,25 @@
 # @modern-js/module-tools
 
+## 1.4.1
+
+### Patch Changes
+
+- 02ff289d: Modify the type of error text and display log messages
+- 54786e58: add ts check
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+- fab92861: fix: @modern-js/core phantom dep
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+- Updated dependencies [6668a1bf]
+- Updated dependencies [6668a1bf]
+- Updated dependencies [fab92861]
+  - @modern-js/plugin-analyze@1.3.3
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+  - @modern-js/new-action@1.3.2
+  - @modern-js/plugin-changeset@1.2.2
+  - @modern-js/module-tools-hooks@1.2.2
+
 ## 1.4.0
 
 ### Minor Changes
