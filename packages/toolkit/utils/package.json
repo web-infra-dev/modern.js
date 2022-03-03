@@ -26,9 +26,9 @@
       },
       "default": "./dist/js/treeshaking/index.js"
     },
-    "./formatWebpackMessages": {
-      "jsnext:source": "./src/formatWebpackMessages.ts",
-      "default": "./dist/js/treeshaking/formatWebpackMessages.js"
+    "./format": {
+      "jsnext:source": "./src/format.ts",
+      "default": "./dist/js/treeshaking/format.js"
     },
     "./constants": {
       "jsnext:source": "./src/constants.ts",
@@ -37,8 +37,8 @@
   },
   "typesVersions": {
     "*": {
-      "formatWebpackMessages": [
-        "./dist/types/formatWebpackMessages.d.ts"
+      "format": [
+        "./dist/types/format.d.ts"
       ],
       "constants": [
         "./dist/types/constants.d.ts"
@@ -82,7 +82,8 @@
     "webpack": "^5.54.0",
     "@scripts/build": "workspace:*",
     "jest": "^27",
-    "@scripts/jest-config": "workspace:*"
+    "@scripts/jest-config": "workspace:*",
+    "@modern-js/types": "workspace:^1.3.2"
   },
   "sideEffects": false,
   "publishConfig": {
