@@ -1,5 +1,11 @@
 # @modern-js/utils
 
+## 1.3.2
+
+### Patch Changes
+
+- deeaa602: support svg/proxy/multi-version in unbundled
+
 ## 1.3.1
 
 ### Patch Changes

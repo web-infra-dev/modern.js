@@ -1,5 +1,15 @@
 # @modern-js/plugin-analyze
 
+## 1.3.3
+
+### Patch Changes
+
+- deeaa602: support svg/proxy/multi-version in unbundled
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
 ## 1.3.2
 
 ### Patch Changes
