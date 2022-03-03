@@ -18,6 +18,11 @@ export const provider = function ({basename, dom, ...props}) {
       const SubApp = render({props, basename});
 
       return createPortal(<SubApp />, dom.querySelector('#' + MOUNT_ID)  || dom);
+    },
+    jupiter_submodule_app_key: (props) => {
+      const SubApp = render({props, basename});
+
+      return createPortal(<SubApp />, dom.querySelector('#' + MOUNT_ID)  || dom);
     }
   }
 };
@@ -34,7 +39,7 @@ export const makeRenderFunction = (code: string) => {
 
   if (IS_BROWSER && window.Garfish && window.Garfish.activeApps && window.Garfish.activeApps.length !== 0) renderByGarfish = true;
   if (IS_BROWSER && window.Garfish && window.Garfish.apps && Object.keys(window.Garfish.apps).length !== 0) renderByGarfish = true;
-  if (typeof __GARFISH_EXPORTS__ !== 'undefined' || typeof __GARFISH__ !== 'undefined') renderByGarfish = true;
+  if (typeof __GARFISH_EXPORTS__ !== 'undefined') renderByGarfish = true;
   if (renderByGarfish && !basename) return null;
 
   function RouterPlugin (routerConfig) {
