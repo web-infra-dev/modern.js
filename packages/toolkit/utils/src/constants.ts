@@ -194,6 +194,18 @@ export const PLUGIN_SCHEMAS = {
       target: 'server.https',
       schema: { type: 'boolean' },
     },
+    {
+      target: 'dev.unbundle',
+      schema: {
+        type: 'object',
+        properties: {
+          ignore: {
+            type: ['string', 'array'],
+            items: { type: 'string' },
+          },
+        },
+      },
+    },
   ],
   '@modern-js/plugin-ssg': [
     {

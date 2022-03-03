@@ -91,6 +91,7 @@ export interface PluginContainer {
   options: InputOptions;
   buildStart: (options: InputOptions) => Promise<void>;
   watchChange: (id: string) => void;
+  closeWatcher: () => void;
   // resolveImportMeta(property: string): string | null
   resolveId: (
     id: string,
@@ -295,6 +296,15 @@ export const createPluginContainer = async (
             event: event as ChangeEvent,
           });
         }
+      }
+    },
+
+    closeWatcher() {
+      for (plugin of plugins) {
+        if (!plugin.closeWatcher) {
+          continue;
+        }
+        plugin.closeWatcher.call(ctx as any);
       }
     },
 
