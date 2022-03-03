@@ -1,5 +1,15 @@
 # @modern-js/plugin-koa
 
+## 1.4.1
+
+### Patch Changes
+
+- 9594df3f: fix: allow user to set statusCode 404
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
 ## 1.4.0
 
 ### Minor Changes

@@ -1,5 +1,20 @@
 # @modern-js/plugin-unbundle
 
+## 1.3.3
+
+### Patch Changes
+
+- 19aac189: fix 'React already imported' due to buggy regex test
+- 9594df3f: fix: allow other bff plugin in unbundle mode
+- deeaa602: support svg/proxy/multi-version in unbundled
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+- Updated dependencies [fab92861]
+  - @modern-js/server@1.4.3
+  - @modern-js/esmpack@1.2.1
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
 ## 1.3.2
 
 ### Patch Changes
