@@ -31,6 +31,7 @@ import {
 import { optimizeDeps } from './install/local-optimize';
 import {
   getBFFMiddleware,
+  setIgnoreDependencies,
   shouldEnableBabelMacros,
   shouldUseBff,
 } from './utils';
@@ -62,6 +63,7 @@ export interface ESMServer {
   wsServer: WebSocketServer;
   watcher: FSWatcher;
   pluginContainer: PluginContainer;
+  closeServer: () => Promise<void>;
 }
 
 export const createDevServer = async (
@@ -112,6 +114,25 @@ export const createDevServer = async (
     wsServer,
     watcher,
     pluginContainer,
+    closeServer: async () => {
+      const httpServerClosePromise = new Promise<void>((resolve, reject) => {
+        httpServer.close(err => {
+          if (!err) {
+            resolve();
+          } else {
+            reject(err);
+          }
+        });
+      });
+      const wsServerClosePromise = wsServer.close();
+      const fileWatcherClosePromise = watcher.close();
+      pluginContainer.closeWatcher();
+      await Promise.all([
+        httpServerClosePromise,
+        wsServerClosePromise,
+        fileWatcherClosePromise,
+      ]);
+    },
   };
 
   watcher.on('change', filename => onFileChange(server, filename));
@@ -178,7 +199,9 @@ export const startDevServer = async (
     virtualDeps: VIRTUAL_DEPS_MAP,
   });
 
-  const { httpServer, pluginContainer } = await createDevServer(
+  setIgnoreDependencies(userConfig, dependencies.virtualDeps);
+
+  const { httpServer, pluginContainer, closeServer } = await createDevServer(
     userConfig,
     appContext,
     dependencies,
@@ -217,6 +240,8 @@ export const startDevServer = async (
     // eslint-disable-next-line no-console
     console.log(message);
   });
+
+  return closeServer;
 };
 
 const createHttpsServer = async (app: Koa): Promise<Server> => {
