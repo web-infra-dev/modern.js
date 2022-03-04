@@ -4,7 +4,7 @@ describe('validate type', () => {
   it('should validate string correctly', () => {
     expect(isString('')).toBeTruthy();
     expect(isString('foo')).toBeTruthy();
-    expect(isString(null)).toBeTruthy();
+    expect(isString(null)).toBeFalsy();
     expect(isString(123)).toBeFalsy();
   });
 
