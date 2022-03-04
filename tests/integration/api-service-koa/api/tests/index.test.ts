@@ -1,5 +1,5 @@
 import { testBff } from '@modern-js/runtime/testing';
-import get from '.';
+import get from '..';
 
 describe('hello', () => {
   it('should support get', async () => {
