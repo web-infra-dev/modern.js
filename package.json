@@ -17,7 +17,7 @@
     "setup": "npm run reset && pnpm install --ignore-scripts",
     "reset": "pnpm dlx del-cli ./node_modules",
     "test": "npm run test:ut",
-    "test:ut": "node --conditions=jsnext:source -r btsm node_modules/jest/bin/jest.js -c jest.config.js",
+    "test:ut": "node --conditions=jsnext:source -r btsm node_modules/jest/bin/jest.js -c jest.config.js --maxWorkers=50%",
     "test:e2e": "cd tests && npm run test",
     "fast-lint": "sh -x ./fast-lint.sh",
     "prepare": "pnpm run prepare --filter ./packages",
