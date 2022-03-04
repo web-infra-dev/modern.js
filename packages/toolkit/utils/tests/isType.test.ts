@@ -10,7 +10,7 @@ describe('validate type', () => {
 
   it('should validate undeinfed correctly', () => {
     expect(isUndefined(undefined)).toBeTruthy();
-    expect(isUndefined(null)).toBeTruthy();
+    expect(isUndefined(null)).toBeFalsy();
     expect(isUndefined('')).toBeFalsy();
     expect(isUndefined(123)).toBeFalsy();
   });
