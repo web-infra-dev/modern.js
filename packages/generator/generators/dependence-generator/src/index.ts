@@ -51,7 +51,7 @@ export const handleTemplateFile = async (
     if (fs.existsSync(typePath)) {
       const npmrc = fs.readFileSync(typePath, 'utf-8');
       if (!npmrc.includes(appendTypeContent)) {
-        fs.writeFileSync(typePath, `${npmrc}${appendTypeContent}\n`, 'utf-8');
+        fs.writeFileSync(typePath, `${appendTypeContent}\n${npmrc}`, 'utf-8');
       }
     } else {
       fs.ensureFileSync(typePath);
