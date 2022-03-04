@@ -1,5 +1,14 @@
 # @modern-js/generator-cases
 
+## 1.2.2
+
+### Patch Changes
+
+- 6668a1bf: feat: package manager options support npm
+- Updated dependencies [6668a1bf]
+- Updated dependencies [6668a1bf]
+  - @modern-js/generator-common@1.4.3
+
 ## 1.2.1
 
 ### Patch Changes

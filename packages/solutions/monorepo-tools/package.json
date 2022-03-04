@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.3.1",
+  "version": "1.3.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -44,11 +44,11 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/i18n-cli-language-detector": "workspace:^1.2.1",
-    "@modern-js/new-action": "workspace:^1.3.1",
-    "@modern-js/plugin-changeset": "workspace:^1.2.1",
+    "@modern-js/new-action": "workspace:^1.3.2",
+    "@modern-js/plugin-changeset": "workspace:^1.2.2",
     "@modern-js/plugin-i18n": "workspace:^1.2.1",
     "commander": "^8.1.0",
-    "@modern-js/utils": "workspace:^1.2.2",
+    "@modern-js/utils": "workspace:^1.3.2",
     "@rushstack/node-core-library": "^3.39.1",
     "@rushstack/package-deps-hash": "^3.0.54",
     "anymatch": "^3.1.2",
@@ -61,10 +61,10 @@
     "signale": "^1.4.0"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.4.2"
+    "@modern-js/core": "workspace:^1.4.3"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.4.2",
+    "@modern-js/core": "workspace:^1.4.3",
     "@types/jest": "^26",
     "@types/js-yaml": "^4.0.2",
     "@types/md5": "^2.3.1",

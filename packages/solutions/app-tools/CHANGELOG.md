@@ -1,5 +1,23 @@
 # @modern-js/app-tools
 
+## 1.4.2
+
+### Patch Changes
+
+- fab92861: fix: @modern-js/core phantom dep
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+- Updated dependencies [6668a1bf]
+- Updated dependencies [fab92861]
+- Updated dependencies [3da3bf48]
+  - @modern-js/plugin-analyze@1.3.3
+  - @modern-js/server@1.4.3
+  - @modern-js/types@1.3.3
+  - @modern-js/utils@1.3.2
+  - @modern-js/webpack@1.4.0
+  - @modern-js/core@1.4.3
+  - @modern-js/new-action@1.3.2
+
 ## 1.4.1
 
 ### Patch Changes
