@@ -1,5 +1,19 @@
 # @modern-js/webpack
 
+## 1.4.0
+
+### Minor Changes
+
+- 54786e58: add ts check
+
+### Patch Changes
+
+- 3da3bf48: perf: remove case-sensetive-webpack-plugin to improve compile performance
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
 ## 1.3.2
 
 ### Patch Changes

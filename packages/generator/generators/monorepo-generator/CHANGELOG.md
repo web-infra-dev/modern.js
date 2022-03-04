@@ -1,5 +1,13 @@
 # @modern-js/monorepo-generator
 
+## 1.3.3
+
+### Patch Changes
+
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+- 6668a1bf: feat: package manager options support npm
+- fab92861: fix: @modern-js/core phantom dep
+
 ## 1.3.2
 
 ### Patch Changes

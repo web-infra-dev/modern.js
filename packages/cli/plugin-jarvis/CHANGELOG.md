@@ -1,5 +1,18 @@
 # @modern-js/plugin-jarvis
 
+## 1.2.2
+
+### Patch Changes
+
+- c35f710a: fix: typescript version warning when running lint
+- Updated dependencies [c35f710a]
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+  - @modern-js/eslint-config@1.2.1
+  - @modern-js-app/eslint-config@1.2.2
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
 ## 1.2.1
 
 ### Patch Changes

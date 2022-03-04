@@ -1,5 +1,15 @@
 # @modern-js/plugin-sass
 
+## 1.2.2
+
+### Patch Changes
+
+- 8f24a514: fix: UserConfig is missing tools.sass type
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
 ## 1.2.1
 
 ### Patch Changes

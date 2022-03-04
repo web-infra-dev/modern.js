@@ -1,5 +1,12 @@
 # @modern-js/entry-generator
 
+## 1.3.2
+
+### Patch Changes
+
+- 9e0aed14: fix: mwa pages index lint error
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+
 ## 1.3.1
 
 ### Patch Changes
