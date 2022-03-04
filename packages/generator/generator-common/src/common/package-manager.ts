@@ -19,13 +19,8 @@ export const PackageManagerSchema: Schema = {
   label: () => i18n.t(localeKeys.packageManager.self),
   mutualExclusion: true,
   when: (_values, extra) => !extra?.isMonorepoSubProject,
-  items: (_values, extra) =>
-    Object.values(PackageManager)
-      .filter(packageManager =>
-        extra?.isMonorepo ? packageManager !== PackageManager.Npm : true,
-      )
-      .map(packageManager => ({
-        key: packageManager,
-        label: PackageManagerName[packageManager],
-      })),
+  items: Object.values(PackageManager).map(packageManager => ({
+    key: packageManager,
+    label: PackageManagerName[packageManager],
+  })),
 };
