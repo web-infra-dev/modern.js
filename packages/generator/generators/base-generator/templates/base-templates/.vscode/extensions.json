@@ -6,6 +6,7 @@
     "cpylua.language-postcss",
     "EditorConfig.editorconfig",
     "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
     "drKnoxy.eslint-disable-snippets",
     "mkaufman.htmlhint",
     "streetsidesoftware.code-spell-checker",
