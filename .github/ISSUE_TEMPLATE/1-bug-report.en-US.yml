@@ -1,0 +1,54 @@
+name: "🐞 Bug Report"
+description: Report a Bug to Modern.js
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this issue! Before submitting, please note:
+
+         - Confirm that your problem cannot be solved by official documentation.
+         - Make sure you searched in the [Issues](https://github.com/modern-js-dev/modern.js/issues) and didn't find the same issue.
+         - If it's not bug report, please post on the [Discussions](https://github.com/modern-js-dev/modern.js/discussions).
+
+  - type: textarea
+    id: versions
+    attributes:
+      label: Version
+      description: Use the `npm ls @modern-js/app-tools` command.
+      placeholder: |
+        middle-platform@0.1.0
+          └── @modern-js/app-tools@1.4.1
+      render: sh
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Please describe the Bug, including screenshots, etc.
+    validations:
+      required: true
+
+  - type: input
+    id: repro
+    attributes:
+      label: Reproduce link
+      description: "Please provide a simplest reproduction of the problem (minimal demo without redundant dependencies). You can create it on CodePen ([<kbd>⌘</kbd>Click here to open the template](https://codepen.io/Justineo/pen/yLbxxOR)), or provide the URL of the project:"
+      placeholder: paste link here
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce-steps
+    attributes:
+      label: Reproduce Steps
+      description: Please provide the simplest steps so that we can quickly reproduce the problem.
+      placeholder: |
+        for example:
+        1. execute `yarn dev`
+        2. find `xxx` error message in the console
+    validations:
+      required: true
