@@ -49,6 +49,6 @@ body:
       placeholder: |
         比如：
         1. 执行 `yarn dev`
-        2. 控制台出现 xx 异常信息
+        2. 控制台出现 `xxx` 异常信息
     validations:
       required: true
