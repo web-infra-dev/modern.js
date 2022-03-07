@@ -22,7 +22,7 @@ import type { Hooks } from '@modern-js/types';
 import { ErrorObject } from 'ajv';
 import { program, Command } from './utils/commander';
 import { resolveConfig, loadUserConfig } from './config';
-import { loadPlugins } from './loadPlugins';
+import { loadPlugins, TransformPlugin } from './loadPlugins';
 import {
   AppContext,
   ConfigContext,
@@ -143,10 +143,7 @@ export interface CoreOptions {
   configFile?: string;
   packageJsonConfig?: string;
   plugins?: typeof INTERNAL_PLUGINS;
-  beforeUsePlugins?: (
-    plugins: any,
-    config: any,
-  ) => { cli: any; cliPath: any; server: any; serverPath: any }[];
+  transformPlugin?: TransformPlugin;
   onSchemaError?: (error: ErrorObject) => void;
   options?: {
     metaName?: string;
@@ -162,7 +159,6 @@ const createCli = () => {
   let restartWithExistingPort = 0;
   let restartOptions: CoreOptions | undefined;
 
-  // eslint-disable-next-line max-statements
   const init = async (argv: string[] = [], options?: CoreOptions) => {
     enable();
 
@@ -181,15 +177,10 @@ const createCli = () => {
       options?.packageJsonConfig,
     );
 
-    let plugins = loadPlugins(
-      appDirectory,
-      loaded.config.plugins || [],
-      options?.plugins,
-    );
-
-    if (options?.beforeUsePlugins) {
-      plugins = options.beforeUsePlugins(plugins, loaded.config);
-    }
+    const plugins = loadPlugins(appDirectory, loaded.config, {
+      internalPlugins: options?.plugins,
+      transformPlugin: options?.transformPlugin,
+    });
 
     plugins.forEach(plugin => plugin.cli && manager.usePlugin(plugin.cli));
 

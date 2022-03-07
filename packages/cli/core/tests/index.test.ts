@@ -62,13 +62,8 @@ describe('@modern-js/core test', () => {
 
   it('test cli init dev', async () => {
     cwdSpy.mockReturnValue(path.join(cwd, 'nested-folder'));
-    const options = {
-      beforeUsePlugins: jest.fn(),
-    };
-    options.beforeUsePlugins.mockImplementation((plugins, _) => plugins);
-    await cli.init(['dev'], options);
+    await cli.init(['dev']);
     expect(loadEnv).toHaveBeenCalledWith(cwd, undefined);
-    expect(options.beforeUsePlugins).toHaveBeenCalledWith([], {});
     // TODO: add more test cases
   });
 });

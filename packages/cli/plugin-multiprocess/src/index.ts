@@ -35,7 +35,7 @@ export default createPlugin(
     afterBuild() {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { distDirectory, plugins } = useAppContext();
-      const serverPluginPkgs = plugins.map(p => p.serverPath).filter(Boolean);
+      const serverPluginPkgs = plugins.map(p => p.serverPkg).filter(Boolean);
 
       const routeJSON = path.join(distDirectory, ROUTE_SPEC_FILE);
       const { routes } = fs.readJSONSync(routeJSON);
