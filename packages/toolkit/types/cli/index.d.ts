@@ -57,9 +57,9 @@ export interface IAppContext {
   internalDirectory: string;
   plugins: {
     cli?: any;
-    cliPath?: any;
+    cliPkg?: any;
     server?: any;
-    serverPath?: any;
+    serverPkg?: any;
   }[];
   entrypoints: Entrypoint[];
   checkedEntries: string[];

@@ -4,6 +4,7 @@ import address from 'address';
 import type { IAppContext } from '@modern-js/types';
 import { UserConfig } from './config';
 import { NormalizedConfig } from './config/mergeConfig';
+import type { LoadedPlugin } from './loadPlugins';
 
 export type { IAppContext };
 
@@ -23,10 +24,7 @@ export const useResolvedConfigContext = () => ResolvedConfigContext.use().value;
 
 export const initAppContext = (
   appDirectory: string,
-  plugins: Array<{
-    cli: any;
-    server: any;
-  }>,
+  plugins: Array<LoadedPlugin>,
   configFile: string | false,
   options?: {
     metaName?: string;
