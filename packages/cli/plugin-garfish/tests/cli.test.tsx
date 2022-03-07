@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import GarfishPlugin from '../src/cli';
+import GarfishPlugin, { makeRenderFunction } from '../src/cli';
 
 jest.mock('@modern-js/core', () => {
   const originalModule = jest.requireActual('@modern-js/core');
@@ -34,5 +34,42 @@ describe('plugin-garfish cli', () => {
       }
     };
     expect((pluginLifeCycle as any).resolvedConfig(resolveConfig).resolved.runtime.masterApp.basename).toBe(basename);
+  });
+
+  test('cli makeRender function', ()=>{
+    const code = `
+      const router = (config)=> config;
+      const App = {};
+      const routerConfig = router({...App?.config?.router, ...App?.config?.features?.router});
+      const resultConfig = {
+        routerConfig,
+        renderByProvider: true,
+      };
+    
+      if (IS_BROWSER) {
+        resultConfig.renderByProvider = false;
+      }
+      return resultConfig;
+    `;
+    const generateNewRenderFn = new Function('appInfo', 'IS_BROWSER', '__GARFISH_EXPORTS__', makeRenderFunction(code));
+    
+    // render byGarfish but don't provider appInfo
+    expect(generateNewRenderFn(undefined, true, false)).toBe(null);
+
+    // run alone
+    expect(generateNewRenderFn(undefined, true)).toMatchObject({
+      renderByProvider: false
+    });
+
+    // render ByGarfish and provider appInfo
+    expect(generateNewRenderFn({ basename: '/test' }, true, true)).toMatchObject({
+      renderByProvider: true,
+      routerConfig: {
+        basename: '/test',
+        historyOptions: {
+          basename: '/test'
+        }
+      }
+    });
   });
 });

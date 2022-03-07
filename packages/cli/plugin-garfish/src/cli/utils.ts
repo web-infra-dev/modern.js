@@ -36,11 +36,12 @@ export const makeRenderFunction = (code: string) => {
   const inGarfishToRender = `
   const { basename, props } = arguments[0] || {};
   let renderByGarfish = false;
+  const renderByProvider = !!basename;
 
   if (IS_BROWSER && window.Garfish && window.Garfish.activeApps && window.Garfish.activeApps.length !== 0) renderByGarfish = true;
   if (IS_BROWSER && window.Garfish && window.Garfish.apps && Object.keys(window.Garfish.apps).length !== 0) renderByGarfish = true;
   if (typeof __GARFISH_EXPORTS__ !== 'undefined') renderByGarfish = true;
-  if (renderByGarfish && !basename) return null;
+  if (renderByGarfish && !renderByProvider) return null;
 
   function RouterPlugin (routerConfig) {
     if (basename) {
@@ -58,5 +59,10 @@ export const makeRenderFunction = (code: string) => {
     return router(routerConfig);
   }
   `;
-  return inGarfishToRender + code.replace(`router(`, `RouterPlugin(`);
+  return (
+    inGarfishToRender +
+    code
+      .replace(`router(`, `RouterPlugin(`)
+      .replace('IS_BROWSER', `IS_BROWSER && !renderByGarfish`)
+  );
 };
