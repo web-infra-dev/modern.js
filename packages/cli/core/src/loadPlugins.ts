@@ -17,10 +17,12 @@ export type LoadedPlugin = {
   serverPkg?: string;
 };
 
-export interface PluginConfigItem {
-  cli?: Plugin;
-  server?: Plugin;
-}
+export type PluginConfigItem =
+  | {
+      cli?: Plugin;
+      server?: Plugin;
+    }
+  | string;
 
 export type PluginConfig = Array<PluginConfigItem>;
 
@@ -115,7 +117,9 @@ export const loadPlugins = (
   );
 
   return plugins.map(plugin => {
-    const { cli, server } = plugin;
+    const _plugin = typeof plugin === 'string' ? { cli: plugin } : plugin;
+
+    const { cli, server } = _plugin;
     const loadedPlugin: LoadedPlugin = {} as LoadedPlugin;
     if (cli) {
       const { pkg, path, module } = resolvePlugin(cli);
@@ -124,11 +128,12 @@ export const loadPlugins = (
       loadedPlugin.cliPkg = pkg;
     }
 
-    if (server) {
-      const { pkg, path, module } = resolvePlugin(server);
+    // server plugins don't support to accept params
+    if (server && typeof server === 'string') {
+      const path = tryResolve(server, appDirectory);
 
-      loadedPlugin.server = { ...module, pluginPath: path };
-      loadedPlugin.serverPkg = pkg;
+      loadedPlugin.server = { pluginPath: path };
+      loadedPlugin.serverPkg = server;
     }
 
     debug(`resolve plugin %s: %s`, plugin, {

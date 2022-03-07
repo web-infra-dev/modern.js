@@ -39,7 +39,6 @@ describe('load plugins', () => {
       },
       {
         server: {
-          name: 'b',
           pluginPath: path.join(fixture, './test-plugin-b.js'),
         },
         serverPkg: './test-plugin-b',
@@ -64,6 +63,27 @@ describe('load plugins', () => {
           pluginPath: path.join(fixture, './test-plugin-c.js'),
         },
         cliPkg: './test-plugin-c',
+      },
+    ]);
+  });
+
+  test('should load user string plugin successfully', () => {
+    const fixture = path.resolve(
+      __dirname,
+      './fixtures/load-plugin/user-plugins',
+    );
+
+    const plugins = loadPlugins(fixture, {
+      plugins: [path.join(fixture, './test-plugin-a.js') as any],
+    });
+
+    expect(plugins).toEqual([
+      {
+        cli: {
+          name: 'a',
+          pluginPath: path.join(fixture, './test-plugin-a.js'),
+        },
+        cliPkg: path.join(fixture, './test-plugin-a.js'),
       },
     ]);
   });
