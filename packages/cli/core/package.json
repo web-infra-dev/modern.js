@@ -63,7 +63,6 @@
     "dotenv-expand": "^5.1.0",
     "lodash.clonedeep": "^4.5.0",
     "lodash.mergewith": "^4.6.2",
-    "minimist": "^1.2.5",
     "signale": "^1.4.0",
     "v8-compile-cache": "^2.3.0"
   },
