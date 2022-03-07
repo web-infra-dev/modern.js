@@ -65,6 +65,8 @@ class BaseWebpackConfig {
 
   babelChain: BabelChain;
 
+  isTsProject: boolean;
+
   constructor(appContext: IAppContext, options: NormalizedConfig) {
     this.appContext = appContext;
 
@@ -118,6 +120,8 @@ class BaseWebpackConfig {
     );
 
     this.babelChain = createBabelChain();
+
+    this.isTsProject = isTypescript(this.appDirectory);
   }
 
   name() {
@@ -485,8 +489,29 @@ class BaseWebpackConfig {
     ]);
 
     const { output } = this.options;
-    if (!output.disableTsChecker) {
-      this.chain.plugin('ts-checker').use(ForkTsCheckerWebpackPlugin);
+    if (
+      // only enable ts-checker plugin in ts project
+      this.isTsProject &&
+      // no need to use ts-checker plugin when using ts-loader
+      !output.enableTsLoader &&
+      !output.disableTsChecker
+    ) {
+      this.chain.plugin('ts-checker').use(ForkTsCheckerWebpackPlugin, [
+        {
+          typescript: {
+            // avoid OOM issue
+            memoryLimit: 8192,
+            // use tsconfig of user project
+            configFile: path.resolve(this.appDirectory, './tsconfig.json'),
+            // use typescript of user project
+            typescriptPath: require.resolve('typescript'),
+          },
+          issue: {
+            include: [{ file: '**/src/**/*' }],
+            exclude: [{ file: '**/*.(spec|test).ts' }],
+          },
+        },
+      ]);
     }
   }
 
@@ -494,7 +519,7 @@ class BaseWebpackConfig {
   resolve() {
     // resolve extensions
     const extensions = JS_RESOLVE_EXTENSIONS.filter(
-      ext => isTypescript(this.appContext.appDirectory) || !ext.includes('ts'),
+      ext => this.isTsProject || !ext.includes('ts'),
     );
 
     for (const ext of extensions) {
@@ -558,7 +583,7 @@ class BaseWebpackConfig {
       },
     ]);
 
-    if (isTypescript(this.appDirectory)) {
+    if (this.isTsProject) {
       // aliases from tsconfig.json
       this.chain.resolve
         .plugin('ts-config-paths')
@@ -580,7 +605,7 @@ class BaseWebpackConfig {
         defaultWebpack: [require.resolve('webpack/lib')],
         config: [__filename, this.appContext.configFile].filter(Boolean),
         tsconfig: [
-          isTypescript(this.appDirectory) &&
+          this.isTsProject &&
             path.resolve(this.appDirectory, './tsconfig.json'),
         ].filter(Boolean),
       },

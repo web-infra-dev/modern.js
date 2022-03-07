@@ -1,5 +1,13 @@
 # @modern-js/module-tools-hooks
 
+## 1.2.2
+
+### Patch Changes
+
+- fab92861: fix: @modern-js/core phantom dep
+- Updated dependencies [54786e58]
+  - @modern-js/core@1.4.3
+
 ## 1.2.1
 
 ### Patch Changes
