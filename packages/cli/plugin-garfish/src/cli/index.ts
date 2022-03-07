@@ -32,16 +32,19 @@ function setRuntimeConfig(config: NormalizedConfig, key: string, value: any) {
 
 export const webpackConfigCallback = (
   webpackConfig: any,
-  { chain, webpack }: { chain: WebpackChain; webpack: any; env: string },
+  {
+    chain,
+    webpack,
+    env = process.env.NODE_ENV || 'development',
+  }: { chain: WebpackChain; webpack: any; env: string },
 ) => {
-  const env = process.env.NODE_ENV;
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const resolvedConfig = useResolvedConfigContext();
 
   if (resolvedConfig?.deploy?.microFrontend) {
     chain.output.libraryTarget('umd');
 
-    if (resolvedConfig.server.port) {
+    if (resolvedConfig?.server?.port) {
       chain.output.publicPath(
         env === 'development'
           ? `//localhost:${resolvedConfig.server.port}/`
@@ -50,14 +53,17 @@ export const webpackConfigCallback = (
     }
 
     // add comments avoid sourcemap abnormal
-    chain
-      .plugin('banner')
-      .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
+    if (webpack.BannerPlugin) {
+      chain
+        .plugin('banner')
+        .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
+    }
 
-    const { enableHtmlEntry = true, externalBasicLibrary = true } =
+    const { enableHtmlEntry = true, externalBasicLibrary = false } =
       typeof resolvedConfig?.deploy?.microFrontend === 'object'
         ? resolvedConfig?.deploy?.microFrontend
         : {};
+
     // external
     if (externalBasicLibrary) {
       chain.externals(externals);
