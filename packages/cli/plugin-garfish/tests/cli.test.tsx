@@ -92,7 +92,7 @@ describe('plugin-garfish cli', () => {
         publicPath: '//localhost:8080/'
       }
     });
-    expect(Object.keys(generateConfig.externals || {}).length).toBe(0);
-    expect(generateConfig.output.filename).not.toBe('index.js');
+    expect(generateConfig.externals).toBeNull();
+    expect(generateConfig.output.filename).toBeNull();
   });
 });
