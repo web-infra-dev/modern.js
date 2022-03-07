@@ -25,5 +25,6 @@ import GarfishPlugin from '../src/cli';
 describe('plugin-garfish cli', () => {
   test('cli garfish plugin', () => {
     expect(GarfishPlugin.name).toBe('@modern-js/plugin-garfish');
+    expect(GarfishPlugin.name).toBe('@modern-js/plugin-garfish');
   });
 });
