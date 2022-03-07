@@ -4,49 +4,52 @@ import {
   compatRequire,
   INTERNAL_PLUGINS,
 } from '@modern-js/utils';
+import type { UserConfig } from './config';
 
 const debug = createDebugger('load-plugins');
 
-export interface PluginConfigItem {
-  cli?: string;
-  server?: string;
-}
+type Plugin = string | [string, any];
+
+export type LoadedPlugin = {
+  cli?: Required<{ pluginPath: string }>;
+  cliPkg?: string;
+  server?: Required<{ pluginPath: string }>;
+  serverPkg?: string;
+};
+
+export type PluginConfigItem =
+  | {
+      cli?: Plugin;
+      server?: Plugin;
+    }
+  | string;
 
 export type PluginConfig = Array<PluginConfigItem>;
 
+export type TransformPlugin = (
+  plugin: PluginConfig,
+  resolvedConfig: UserConfig,
+  pluginOptions?: any,
+) => PluginConfig;
+
 /**
  * Try to resolve plugin entry file path.
+ * @param name - Plugin name.
  * @param appDirectory - Application root directory.
- * @param plugin - Plugin name or plugin name with options.
  * @returns Resolved file path.
  */
-const resolvePlugin = (appDirectory: string, plugin: PluginConfigItem) => {
-  const tryResolve = (name: string) => {
-    let filePath = '';
-    try {
-      filePath = require.resolve(name, { paths: [appDirectory] });
-      delete require.cache[filePath];
-    } catch (err) {
-      if ((err as any).code === 'MODULE_NOT_FOUND') {
-        throw new Error(`Can not find plugin ${name}.`);
-      }
-      throw err;
+const tryResolve = (name: string, appDirectory: string) => {
+  let filePath = '';
+  try {
+    filePath = require.resolve(name, { paths: [appDirectory] });
+    delete require.cache[filePath];
+  } catch (err) {
+    if ((err as any).code === 'MODULE_NOT_FOUND') {
+      throw new Error(`Can not find plugin ${name}.`);
     }
-    return filePath;
-  };
-
-  const resolved: PluginConfigItem = {};
-
-  if (typeof plugin === 'string' || plugin.cli) {
-    resolved.cli =
-      typeof plugin === 'string' ? tryResolve(plugin) : tryResolve(plugin.cli!);
+    throw err;
   }
-
-  if (plugin.server) {
-    resolved.server = tryResolve(plugin.server);
-  }
-
-  return resolved;
+  return filePath;
 };
 
 export function getAppPlugins(
@@ -74,36 +77,70 @@ export function getAppPlugins(
 /**
  * Load internal plugins which in @modern-js scope and user's custom plugins.
  * @param appDirectory - Application root directory.
- * @param pluginsConfig - Plugins declared in the user configuration.
+ * @param userConfig - Resolved user config.
+ * @param options.internalPlugins - Internal plugins.
+ * @param options.transformPlugin - transform plugin before using it.
  * @returns Plugin Objects has been required.
  */
 export const loadPlugins = (
   appDirectory: string,
-  pluginConfig: PluginConfig,
-  internalPlugins?: typeof INTERNAL_PLUGINS,
+  userConfig: UserConfig,
+  options: {
+    internalPlugins?: typeof INTERNAL_PLUGINS;
+    transformPlugin?: TransformPlugin;
+  } = {},
 ) => {
-  const plugins = getAppPlugins(appDirectory, pluginConfig, internalPlugins);
+  const { internalPlugins, transformPlugin } = options;
 
-  return plugins.map(plugin => {
-    const { cli, server } = resolvePlugin(appDirectory, plugin);
-
-    debug(`resolve plugin %s: %s`, plugin, {
-      cli,
-      server,
-    });
-
-    const cliPlugin = cli && { ...compatRequire(cli), pluginPath: cli };
-    // server plugin should be required by server
-    const serverPlugin = server && {
-      // ...compatRequire(server),
-      pluginPath: server,
-    };
+  const resolvePlugin = (p: Plugin) => {
+    const pkg = typeof p === 'string' ? p : p[0];
+    const path = tryResolve(pkg, appDirectory);
+    let module = compatRequire(path);
+    const pluginOptions = Array.isArray(p) ? p[1] : undefined;
+    if (transformPlugin) {
+      module = transformPlugin(module, userConfig, pluginOptions);
+    } else {
+      module = typeof module === 'function' ? module(pluginOptions) : module;
+    }
 
     return {
-      cli: cliPlugin,
-      cliPath: typeof plugin === 'string' ? plugin : plugin.cli,
-      server: serverPlugin,
-      serverPath: typeof plugin === 'string' ? undefined : plugin.server,
+      pkg,
+      path,
+      module,
     };
+  };
+
+  const plugins = getAppPlugins(
+    appDirectory,
+    userConfig.plugins || [],
+    internalPlugins,
+  );
+
+  return plugins.map(plugin => {
+    const _plugin = typeof plugin === 'string' ? { cli: plugin } : plugin;
+
+    const { cli, server } = _plugin;
+    const loadedPlugin: LoadedPlugin = {} as LoadedPlugin;
+    if (cli) {
+      const { pkg, path, module } = resolvePlugin(cli);
+
+      loadedPlugin.cli = { ...module, pluginPath: path };
+      loadedPlugin.cliPkg = pkg;
+    }
+
+    // server plugins don't support to accept params
+    if (server && typeof server === 'string') {
+      const path = tryResolve(server, appDirectory);
+
+      loadedPlugin.server = { pluginPath: path };
+      loadedPlugin.serverPkg = server;
+    }
+
+    debug(`resolve plugin %s: %s`, plugin, {
+      cli: loadedPlugin.cli,
+      server: loadedPlugin.server,
+    });
+
+    return loadedPlugin;
   });
 };
