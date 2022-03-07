@@ -36,7 +36,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "execa": "^5.1.1",
     "covertable": "^2.2.2",
     "@modern-js/generator-common": "workspace:^1.4.3"
   },
