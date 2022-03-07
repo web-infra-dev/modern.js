@@ -1,5 +1,5 @@
-import Less from 'less';
-import { LoaderContext } from 'webpack';
+import type Less from 'less';
+import type { LoaderContext } from 'webpack';
 import '@modern-js/core';
 
 type Options = {

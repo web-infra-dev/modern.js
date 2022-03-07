@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.4.2",
+  "version": "1.4.3",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -42,12 +42,11 @@
     "@babel/preset-typescript": "^7.15.0",
     "@babel/register": "^7.15.3",
     "@babel/runtime": "^7",
-    "@modern-js/core": "workspace:^1.4.2",
-    "@modern-js/hmr-client": "workspace:^1.2.1",
+    "@modern-js/hmr-client": "workspace:^1.2.2",
     "@modern-js/server-core": "workspace:^1.2.2",
     "@modern-js/server-utils": "workspace:^1.2.1",
     "@modern-js/bff-utils": "workspace:^1.2.2",
-    "@modern-js/utils": "workspace:^1.3.1",
+    "@modern-js/utils": "workspace:^1.3.2",
     "axios": "^0.24.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "chokidar": "^3.5.2",
@@ -60,9 +59,7 @@
     "lru-cache": "^6.0.0",
     "mime-types": "^2.1.32",
     "minimatch": "^3.0.4",
-    "parseurl": "^1.3.3",
     "path-to-regexp": "^6.2.0",
-    "serialize-javascript": "^6.0.0",
     "serve-static": "^1.14.1",
     "tsconfig-paths": "^3.11.0",
     "ua-parser-js": "^0.7.28",
@@ -72,17 +69,16 @@
     "cookie": "^0.4.2"
   },
   "devDependencies": {
+    "@modern-js/core": "workspace:^1.4.3",
     "@scripts/build": "workspace:*",
-    "@modern-js/types": "workspace:^1.3.2",
+    "@modern-js/types": "workspace:^1.3.3",
     "@types/jest": "^26",
     "@types/lru-cache": "^5.1.1",
     "@types/mime-types": "^2.1.0",
     "@types/minimatch": "^3.0.5",
     "@types/node": "^14",
-    "@types/parseurl": "^1.3.1",
     "@types/react": "^17",
     "@types/react-dom": "^17",
-    "@types/serialize-javascript": "^5.0.1",
     "@types/serve-static": "^1.13.10",
     "@types/ua-parser-js": "^0.7.36",
     "@types/webpack-dev-middleware": "^5.0.2",
@@ -98,7 +94,8 @@
     "websocket": "^1"
   },
   "peerDependencies": {
-    "webpack": "^5.54.0"
+    "webpack": "^5.54.0",
+    "@modern-js/core": "workspace:^1.4.3"
   },
   "sideEffects": false,
   "modernConfig": {

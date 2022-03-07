@@ -330,8 +330,11 @@ const compileDeps = async (
 
   const { outputs } = bundleResult.metafile;
 
+  // match short length key first
+  // eg: specifier is 'foo.js', but user import '@bar/node_modules/foo.js' and 'foo.js'
+  const keys = Object.keys(outputs).sort((a, b) => a.length - b.length);
   deps.forEach(({ specifier, forceCompile }) => {
-    const key = Object.keys(outputs).find(key => {
+    const key = keys.find(key => {
       const { entryPoint } = outputs[key];
       // local compile monorepo packages
       // eg: entryPoint: ../../packages/common-utils/dist/index.js

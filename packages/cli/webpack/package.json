@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.3.2",
+  "version": "1.4.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -39,16 +39,16 @@
     "@modern-js/babel-chain": "workspace:^1.2.1",
     "@modern-js/babel-preset-app": "workspace:^1.2.3",
     "@modern-js/css-config": "workspace:^1.2.2",
-    "@modern-js/utils": "workspace:^1.3.1",
+    "@modern-js/utils": "workspace:^1.3.2",
     "@svgr/webpack": "^5.5.0",
     "babel-loader": "^8.2.2",
-    "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "copy-webpack-plugin": "^9.0.1",
     "core-js": "^3",
     "css-loader": "^6.2.0",
     "css-minimizer-webpack-plugin": "^3.0.2",
     "css-modules-typescript-loader": "^4.0.1",
     "file-loader": "^6.2.0",
+    "fork-ts-checker-webpack-plugin": "^7.2.1",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
     "json-loader": "^0.5.7",
@@ -74,11 +74,10 @@
     "yaml-loader": "^0.6.0"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.4.2",
-    "@modern-js/types": "workspace:^1.3.2",
+    "@modern-js/core": "workspace:^1.4.3",
+    "@modern-js/types": "workspace:^1.3.3",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@types/case-sensitive-paths-webpack-plugin": "^2.1.6",
     "@types/copy-webpack-plugin": "^8.0.1",
     "@types/css-minimizer-webpack-plugin": "^3.0.2",
     "@types/jest": "^26",
@@ -94,7 +93,7 @@
     "typescript": "^4"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.4.2"
+    "@modern-js/core": "workspace:^1.4.3"
   },
   "sideEffects": false,
   "modernConfig": {
