@@ -9,9 +9,9 @@ export interface IFeaturesProps {
 }
 
 const Features: React.FC<IFeaturesProps> = ({ title, features }) => {
-  const renderedCards = features.map((card, cardIndex) => (
+  const renderedCards = features.map(card => (
     <ListCard
-      key={cardIndex}
+      key={card.icon}
       desc={card.desc}
       icon={card.icon}
       href={card.href}

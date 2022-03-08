@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentType, SVGProps } from 'react';
 import Link from '@docusaurus/Link';
 import cl from 'classnames';
 import styles from './index.module.css';
@@ -6,7 +6,7 @@ import styles from './index.module.css';
 export interface ContentCardProps {
   title: string;
   desc?: string;
-  img: string;
+  img: string | ComponentType<SVGProps<SVGSVGElement>>;
   href?: string;
   isSwiper?: boolean;
 }

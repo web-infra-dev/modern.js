@@ -55,14 +55,11 @@ const OverviewNavCard: React.FC<IOverviewNavCard> = ({
 
 const OverviewNav = ({ cards, ret }) => (
   <div>
-    {ret && ret()}
+    {ret?.()}
     <Masonry
       className={'nav-container-block'} // default ''
-      // elementType={'ul'} // default 'div'
-      // options={masonryOptions} // default {}
       disableImagesLoaded={false} // default false
       updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
-      // imagesLoadedOptions={imagesLoadedOptions} // default {}
     >
       {cards?.map(card => {
         if (card.label === '概览') {

@@ -14,7 +14,9 @@ export interface INavTabs {
 const NavTabs: React.FC<INavTabs> = ({ tabs }) => {
   const renderedTabs = tabs.map(({ tabName, href }) => (
     <SwiperSlide key={tabName} className={styles.tab}>
-      <Link to={href} style={{textDecoration: 'none'}}>{tabName}</Link>
+      <Link to={href} style={{ textDecoration: 'none' }}>
+        {tabName}
+      </Link>
     </SwiperSlide>
   ));
 

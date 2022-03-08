@@ -1,3 +1,6 @@
+/* eslint-disable eslint-comments/no-unlimited-disable */
+/* eslint-disable */
+// TODO: enable eslint
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -36,7 +39,8 @@ function FooterLink({
         : {
             to: toUrl,
           })}
-      {...props}>
+      {...props}
+    >
       {href && !isInternalUrl(href) ? (
         <span>
           {label}
@@ -91,11 +95,13 @@ function FooterItem(props) {
           onClick={() => setShow(!show)}
           onMouseEnter={e => mouseEnterHandler(e)}
           onMouseLeave={e => mouseLeaveHandler(e)}
-          className={classArr.join(' ')}>
+          className={classArr.join(' ')}
+        >
           <img width="32" height="32" src={props.icon} alt={props.alt} />
           <span
             className={styles.qrcodeWrap}
-            style={{ display: show ? 'flex' : 'none' }}>
+            style={{ display: show ? 'flex' : 'none' }}
+          >
             <img
               width="108"
               height="108"
@@ -168,7 +174,8 @@ function Footer(): JSX.Element | null {
     <footer
       className={clsx('footer', {
         'footer--dark': footer.style === 'dark',
-      })}>
+      })}
+    >
       <div className="container">
         {links && links.length > 0 && (
           <div className="row footer__links">
@@ -217,3 +224,5 @@ function Footer(): JSX.Element | null {
 }
 
 export default Footer;
+
+/* eslint-enable */

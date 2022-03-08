@@ -1,4 +1,6 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable eslint-comments/no-unlimited-disable */
+/* eslint-disable */
+// TODO: enable eslint
 import React from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
@@ -449,11 +451,6 @@ export default function Home() {
           <div className={styles['swiper-container']}>
             <Swiper
               slidesPerView={1.65}
-              breakpoints={{
-                '1024': {
-                  slidesPerView: '4',
-                },
-              }}
               spaceBetween={18}
               className={styles.swiper}
               breakpoints={{
@@ -557,3 +554,4 @@ export default function Home() {
     </Layout>
   );
 }
+/* eslint-enable */
