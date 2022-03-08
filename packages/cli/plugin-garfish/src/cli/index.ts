@@ -131,7 +131,10 @@ export const resolvedConfig: NonNullable<
 };
 
 export const initializer: (
-  hooks: LifeCycle,
+  hooks: {
+    resolvedConfig: LifeCycle['resolvedConfig'];
+    validateSchema: LifeCycle['validateSchema'];
+  },
   initializerConfig: {
     runtimePluginName?: string;
   },
