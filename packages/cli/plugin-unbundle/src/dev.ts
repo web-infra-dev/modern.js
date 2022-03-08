@@ -22,5 +22,6 @@ export const dev = async (
   // create html template for each js entry
   createHtml(config, appContext);
 
-  await startDevServer(config, appContext);
+  const closeServer = await startDevServer(config, appContext);
+  return closeServer;
 };

@@ -3,7 +3,8 @@ import { createServer } from 'http';
 import { createSecureServer } from 'http2';
 import { FSWatcher } from 'chokidar';
 import { certificateFor } from 'devcert';
-import { createDevServer } from '../src/server';
+import { mountHook } from '@modern-js/core';
+import * as ServerModule from '../src/server';
 import { fsWatcher } from '../src/watcher';
 import { proxyMiddleware } from '../src/middlewares/proxy';
 import { onFileChange } from '../src/websocket-server';
@@ -12,6 +13,9 @@ import {
   MODERN_JS_INTERNAL_PACKAGES,
   VIRTUAL_DEPS_MAP,
 } from '../src/constants';
+import { createPluginContainer } from '../src/plugins/container';
+
+const { createDevServer, startDevServer } = ServerModule;
 
 jest.mock('koa');
 jest.mock('http');
@@ -22,6 +26,7 @@ jest.mock('../src/watcher');
 jest.mock('../src/websocket-server');
 jest.mock('../src/utils');
 jest.mock('../src/dev');
+jest.mock('@modern-js/core');
 
 // mock middlewares
 jest.mock('../src/middlewares/history-api-fallback');
@@ -43,6 +48,9 @@ jest.mock('../src/plugins/import-rewrite');
 jest.mock('../src/plugins/fast-refresh');
 jest.mock('../src/plugins/lazy-import');
 jest.mock('../src/plugins/lambda-api');
+
+// mock install
+jest.mock('../src/install/local-optimize');
 
 describe('plugin-unbundle server', () => {
   let mockAppContext: any;
@@ -117,5 +125,26 @@ describe('plugin-unbundle server', () => {
     expect(onFileChange).not.toHaveBeenCalled();
     callback('test');
     expect(onFileChange).toHaveBeenCalled();
+  });
+
+  it('start dev server', async () => {
+    jest
+      .mocked(mountHook)
+      .mockImplementation(
+        () => ({ unbundleDependencies: (param: any) => param } as any),
+      );
+    jest
+      .mocked(createPluginContainer)
+      .mockResolvedValue({ buildStart: jest.fn() } as any);
+    jest.mocked(createServer).mockImplementation(
+      () =>
+        ({
+          listen: jest.fn(),
+        } as any),
+    );
+    mockConfig.server = {
+      port: 8080,
+    };
+    await startDevServer(mockConfig, mockAppContext);
   });
 });
