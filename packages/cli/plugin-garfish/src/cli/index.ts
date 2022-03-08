@@ -14,14 +14,18 @@ import type WebpackChain from 'webpack-chain';
 import { logger } from '../util';
 import { makeProvider, makeRenderFunction } from './utils';
 
-function getRuntimeConfig(config: NormalizedConfig) {
+export function getRuntimeConfig(config: NormalizedConfig) {
   if (config?.runtime?.feature) {
     return config?.runtime?.feature;
   }
   return config?.runtime;
 }
 
-function setRuntimeConfig(config: NormalizedConfig, key: string, value: any) {
+export function setRuntimeConfig(
+  config: NormalizedConfig,
+  key: string,
+  value: any,
+) {
   if (config?.runtime && config?.runtime[key]) {
     config.runtime[key] = value;
   }
@@ -88,11 +92,23 @@ export const webpackConfigCallback = (
   });
 };
 
-export { makeProvider, makeRenderFunction } from './utils';
-
 export const externals = { 'react-dom': 'react-dom', react: 'react' };
 
-export default createPlugin(
+type Initializer = Parameters<typeof createPlugin>[0];
+// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+type NonVoidPromiseAble<T> = T extends void | Promise<any> ? never : T;
+type LifeCycle = NonVoidPromiseAble<ReturnType<Initializer>>;
+
+export const initializer: (
+  hooks: LifeCycle,
+  initializerConfig: {
+    runtimePluginName?: string;
+  },
+) => Initializer =
+  (
+    { resolvedConfig, validateSchema },
+    { runtimePluginName = '@modern-js/runtime/plugins' },
+  ) =>
   () => {
     const configMap = new Map<string, any>();
     let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
@@ -100,38 +116,8 @@ export default createPlugin(
     let runtimeExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
 
     return {
-      resolvedConfig(config) {
-        const { resolved } = config;
-        const { masterApp, router } = getRuntimeConfig(resolved);
-
-        const nConfig = {
-          resolved: {
-            ...resolved,
-          },
-        };
-
-        if (masterApp) {
-          // basename does not exist use router's basename
-          setRuntimeConfig(
-            nConfig.resolved,
-            'masterApp',
-            Object.assign(
-              typeof masterApp === 'object' ? { ...masterApp } : {},
-              {
-                basename: router?.historyOptions?.basename || '/',
-              },
-            ),
-          );
-        }
-
-        logger(`resolvedConfig`, {
-          runtime: nConfig.resolved.runtime,
-          deploy: nConfig.resolved.deploy,
-          server: nConfig.resolved.server,
-        });
-
-        return nConfig;
-      },
+      validateSchema,
+      resolvedConfig,
       config() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const config = useAppContext();
@@ -159,27 +145,24 @@ export default createPlugin(
       },
       addRuntimeExports() {
         const mfPackage = path.resolve(__dirname, '../../../../');
-        const addExportStatement = `export { default as garfish } from '${mfPackage}'`;
+        const addExportStatement = `export { default as garfish, default as masterApp } from '${mfPackage}'`;
         logger('exportStatement', addExportStatement);
         pluginsExportsUtils.addExport(addExportStatement);
 
         runtimeExportsUtils.addExport(`export * from '${mfPackage}'`);
       },
-      validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-garfish'];
-      },
       modifyEntryImports({ entrypoint, imports }: any) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const resolvedConfig = useResolvedConfigContext();
+        const config = useResolvedConfigContext();
         // support legacy config
-        const { masterApp } = getRuntimeConfig(resolvedConfig);
+        const { masterApp } = getRuntimeConfig(config);
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const { packageName } = useAppContext();
 
         const masterAppConfig = getEntryOptions(
           entrypoint.entryName,
           masterApp,
-          resolvedConfig.runtimeByEntries,
+          config.runtimeByEntries,
           packageName,
         );
 
@@ -187,10 +170,18 @@ export default createPlugin(
 
         if (masterAppConfig) {
           imports.push({
-            value: '@modern-js/runtime/plugins',
+            value: runtimePluginName,
             specifiers: [
               {
                 imported: 'garfish',
+              },
+            ],
+          });
+          imports.push({
+            value: runtimePluginName,
+            specifiers: [
+              {
+                imported: 'masterApp',
               },
             ],
           });
@@ -219,7 +210,10 @@ export default createPlugin(
           plugins.push({
             name: 'garfish',
             args: 'masterApp',
-            options: JSON.stringify(masterAppConfig),
+            options:
+              masterAppConfig === true
+                ? JSON.stringify({})
+                : JSON.stringify(masterAppConfig),
           });
         }
         return { entrypoint, plugins };
@@ -240,8 +234,8 @@ export default createPlugin(
       },
       modifyEntryExport({ entrypoint, exportStatement }: any) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const resolvedConfig = useResolvedConfigContext();
-        if (resolvedConfig?.deploy?.microFrontend) {
+        const config = useResolvedConfigContext();
+        if (config?.deploy?.microFrontend) {
           const exportStatementCode = makeProvider();
           logger('exportStatement', exportStatementCode);
           return {
@@ -256,7 +250,50 @@ export default createPlugin(
         };
       },
     };
-  },
+  };
+
+export default createPlugin(
+  initializer(
+    {
+      async resolvedConfig(config) {
+        const { resolved } = config;
+        const { masterApp, router } = getRuntimeConfig(resolved);
+
+        const nConfig = {
+          resolved: {
+            ...resolved,
+          },
+        };
+
+        if (masterApp) {
+          // basename does not exist use router's basename
+          setRuntimeConfig(
+            nConfig.resolved,
+            'masterApp',
+            Object.assign(
+              typeof masterApp === 'object' ? { ...masterApp } : {},
+              {
+                basename: router?.historyOptions?.basename || '/',
+              },
+            ),
+          );
+        }
+
+        logger(`resolvedConfig`, {
+          runtime: nConfig.resolved.runtime,
+          deploy: nConfig.resolved.deploy,
+          server: nConfig.resolved.server,
+        });
+        return nConfig;
+      },
+      validateSchema() {
+        return PLUGIN_SCHEMAS['@modern-js/plugin-garfish'];
+      },
+    },
+    {
+      runtimePluginName: '@modern-js/runtime/plugins',
+    },
+  ),
   {
     name: '@modern-js/plugin-garfish',
   },
