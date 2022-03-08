@@ -1,6 +1,6 @@
 import { logger, chalk } from '@modern-js/utils';
 import { useAppContext, useResolvedConfigContext } from '@modern-js/core';
-import server from '@modern-js/server';
+import server from '@modern-js/prod-server';
 import { printInstructions } from '../utils/printInstructions';
 
 export const start = async () => {

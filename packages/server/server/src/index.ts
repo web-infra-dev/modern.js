@@ -1,11 +1,10 @@
-import { ModernServerOptions } from './type';
-import { Server } from './server';
+import { DevServer as Server } from './server';
+import { ModernDevServerOptions } from './types';
 
-export type { SSRServerContext } from './libs/render/type';
 export { Server };
-export type { ModernServerOptions };
+export type { ModernDevServerOptions };
 
-export default (options: ModernServerOptions): Promise<Server> => {
+export default (options: ModernDevServerOptions): Promise<Server> => {
   if (options == null) {
     throw new Error('can not start mserver without options');
   }

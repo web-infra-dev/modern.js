@@ -2,7 +2,7 @@ import path from 'path';
 import { defaultsConfig, NormalizedConfig } from '@modern-js/core';
 import { ModernServerContext, NextFunction } from '@modern-js/types';
 import createServer, { Server } from '../src';
-import Watcher from '../src/dev-tools/watcher';
+import { ModernServer } from '../src/server/modern-server';
 
 describe('test server', () => {
   test('should throw error when ', resolve => {
@@ -20,7 +20,6 @@ describe('test server', () => {
     const server = await createServer({
       config: defaultsConfig as NormalizedConfig,
       pwd: path.join(__dirname, './fixtures/pure'),
-      dev: true,
     });
     expect(server instanceof Server).toBe(true);
   });
@@ -32,7 +31,6 @@ describe('test server', () => {
       const server = await createServer({
         config: defaultsConfig as NormalizedConfig,
         pwd: appDirectory,
-        dev: true,
       });
       const modernServer = (server as any).server;
 
@@ -48,7 +46,7 @@ describe('test server', () => {
       } = modernServer;
       expect(pwd).toBe(appDirectory);
       expect(distDir).toBe(path.join(appDirectory, 'dist'));
-      expect(workDir).toBe(appDirectory);
+      expect(workDir).toBe(distDir);
       expect(conf).toBe(defaultsConfig);
       expect(handlers).toBeDefined();
       expect(isDev).toBeFalsy();
@@ -60,7 +58,6 @@ describe('test server', () => {
       const server = await createServer({
         config: defaultsConfig as NormalizedConfig,
         pwd: appDirectory,
-        dev: true,
       });
       const modernServer = (server as any).server;
 
@@ -94,30 +91,11 @@ describe('test server', () => {
       const server = await createServer({
         config: defaultsConfig as NormalizedConfig,
         pwd: appDirectory,
-        dev: true,
       });
 
-      const modernServer: any = (server as any).server;
+      const modernServer: ModernServer = (server as any).server;
       const handler = modernServer.getRequestHandler();
       expect(typeof handler === 'function').toBeTruthy();
     });
-  });
-});
-
-describe('dev server', () => {
-  const pwd = path.join(__dirname, './fixtures/pure');
-  let devServer: Server;
-
-  test('watch', async () => {
-    devServer = await createServer({
-      config: defaultsConfig as NormalizedConfig,
-      pwd,
-      dev: true,
-    });
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    expect(devServer.server.watcher).toBeInstanceOf(Watcher);
-    await devServer.close();
   });
 });
