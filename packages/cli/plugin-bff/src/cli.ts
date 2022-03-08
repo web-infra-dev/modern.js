@@ -115,7 +115,7 @@ export default createPlugin(
           distDir,
           sourceDir: sourceAbsDir,
           extensions: FILE_EXTENSIONS,
-          ignore: [`**/__tests__/**`, '**/typings/**', '*.d.ts'],
+          ignore: [`**/__tests__/**`, '**/typings/**', '*.d.ts', '*.test.ts'],
         },
         babelConfig,
       );

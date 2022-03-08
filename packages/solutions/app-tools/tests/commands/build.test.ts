@@ -4,19 +4,23 @@ const mockBeforeBuild = jest.fn();
 const mockAfterBuild = jest.fn();
 const mockGenerateRoutes = jest.fn();
 
-jest.mock('@modern-js/core', () => ({
-  __esModule: true,
-  mountHook() {
-    return {
-      beforeBuild: mockBeforeBuild,
-      afterBuild: mockAfterBuild,
-    };
-  },
-  useAppContext: jest.fn(() => ({
-    existSrc: false,
-  })),
-  useResolvedConfigContext: jest.fn(),
-}));
+// eslint-disable-next-line arrow-body-style
+jest.mock('@modern-js/core', () => {
+  return {
+    __esModule: true,
+    mountHook() {
+      return {
+        beforeBuild: mockBeforeBuild,
+        afterBuild: mockAfterBuild,
+      };
+    },
+    useAppContext: jest.fn(() => ({
+      existSrc: false,
+      distDirectory: '',
+    })),
+    useResolvedConfigContext: jest.fn(),
+  };
+});
 
 jest.mock('../../src/utils/routes', () => ({
   __esModule: true,
