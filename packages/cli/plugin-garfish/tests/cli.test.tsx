@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
-import GarfishPlugin, { externals, makeRenderFunction, webpackConfigCallback } from '../src/cli';
+import GarfishPlugin, { externals, webpackConfigCallback } from '../src/cli';
 import WebpackChain from 'webpack-chain';
+import { makeRenderFunction } from '../src/cli/utils';
 
 jest.mock('@modern-js/core', () => {
   const originalModule = jest.requireActual('@modern-js/core');
@@ -22,9 +23,9 @@ jest.mock('@modern-js/core', () => {
 });
 
 describe('plugin-garfish cli', () => {
-  test('cli garfish basename', () => {
+  test('cli garfish basename', async () => {
     expect(GarfishPlugin.name).toBe('@modern-js/plugin-garfish');
-    const pluginLifeCycle = GarfishPlugin.initializer();
+    const pluginLifeCycle = await GarfishPlugin.initializer();
     const basename = '/test';
     const resolveConfig = {
       resolved: {
@@ -36,7 +37,10 @@ describe('plugin-garfish cli', () => {
         }
       }
     };
-    expect((pluginLifeCycle as any).resolvedConfig(resolveConfig).resolved.runtime.masterApp.basename).toBe(basename);
+    if (pluginLifeCycle) {
+      const config = await pluginLifeCycle.resolvedConfig(resolveConfig as any);
+      expect(config.resolved.runtime.masterApp.basename).toBe(basename);
+    }
   });
 
   test('cli makeRender function', ()=>{

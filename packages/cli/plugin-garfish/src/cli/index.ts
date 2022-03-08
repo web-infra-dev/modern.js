@@ -97,7 +97,7 @@ export const externals = { 'react-dom': 'react-dom', react: 'react' };
 type Initializer = Parameters<typeof createPlugin>[0];
 // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 type NonVoidPromiseAble<T> = T extends void | Promise<any> ? never : T;
-type LifeCycle = NonVoidPromiseAble<ReturnType<Initializer>>;
+export type LifeCycle = NonVoidPromiseAble<ReturnType<Initializer>>;
 
 export const initializer: (
   hooks: LifeCycle,
