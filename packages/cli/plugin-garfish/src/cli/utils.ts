@@ -1,3 +1,5 @@
+import { NormalizedConfig } from '@modern-js/core';
+
 export const makeProvider = () => `
 export const provider = function ({basename, dom, ...props}) {
   return {
@@ -66,3 +68,28 @@ export const makeRenderFunction = (code: string) => {
       .replace('IS_BROWSER', `IS_BROWSER && !renderByGarfish`)
   );
 };
+
+// support legacy config
+export function getRuntimeConfig(config: Partial<NormalizedConfig>) {
+  if (config?.runtime?.features) {
+    return config?.runtime?.features;
+  }
+  return config?.runtime;
+}
+
+// support legacy config
+export function setRuntimeConfig(
+  config: Partial<NormalizedConfig>,
+  key: string,
+  value: any,
+): undefined {
+  if (config?.runtime?.features && config?.runtime?.features[key]) {
+    config.runtime.features[key] = value;
+    return undefined;
+  }
+  if (config?.runtime && config?.runtime[key]) {
+    config.runtime[key] = value;
+    return undefined;
+  }
+  return undefined;
+}
