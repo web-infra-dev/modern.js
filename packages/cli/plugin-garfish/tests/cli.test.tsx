@@ -150,7 +150,7 @@ describe('plugin-garfish cli', () => {
     expect(runtimeConfig.runtime.features.masterApp).toBe(true);
   });
 
-  test('close external and use js entry', async ()=>{
+  test('webpack config close external and use js entry', async ()=>{
     const main = manager.clone().usePlugin(GarfishPlugin);
     const runner = await main.init();
     await runner.prepare();
@@ -186,7 +186,7 @@ describe('plugin-garfish cli', () => {
     });
   })
 
-  test('default micro config', async ()=>{
+  test('webpack config default micro config', async ()=>{
     const main = manager.clone().usePlugin(GarfishPlugin);
     const runner = await main.init();
     await runner.prepare();
