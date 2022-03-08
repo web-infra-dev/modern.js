@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import GarfishPlugin, { resolvedConfig } from '../src/cli';
-import { makeRenderFunction } from '../src/cli/utils';
+import { getRuntimeConfig, makeRenderFunction, setRuntimeConfig } from '../src/cli/utils';
 
 describe('plugin-garfish cli', () => {
   test('cli garfish basename', async () => {
@@ -55,5 +55,71 @@ describe('plugin-garfish cli', () => {
         }
       }
     });
+  });
+
+  test('cli get runtime config', ()=>{
+    const runtimeConfig = getRuntimeConfig({
+      runtime: {
+        masterApp: {
+          basename: '/test'
+        }
+      }
+    });
+    expect(runtimeConfig).toMatchObject({
+      masterApp: {
+        basename: '/test'
+      }
+    });
+  });
+
+  test('cli get runtime features config', ()=>{
+    const runtimeConfig = getRuntimeConfig({
+      runtime: {
+        masterApp: {
+          basename: '/test'
+        },
+        features: {
+          masterApp: {
+            basename: '/test2'
+          }
+        }
+      }
+    });
+
+    expect(runtimeConfig).toMatchObject({
+      masterApp: {
+        basename: '/test2'
+      }
+    });
+  });
+
+  test('cli set runtime config', ()=>{
+    const runtimeConfig = {
+      runtime: {
+        masterApp: {
+          basename: '/test'
+        }
+      }
+    };
+
+    setRuntimeConfig(runtimeConfig, 'masterApp', true);
+
+    expect(runtimeConfig.runtime.masterApp).toBe(true);
+  });
+
+  test('cli set runtime features config', ()=>{
+    const runtimeConfig = {
+      runtime: {
+        features: {
+          masterApp: {
+            basename: '/test'
+          }
+        }
+      }
+    };
+
+    setRuntimeConfig(runtimeConfig, 'masterApp', true);
+
+    expect(runtimeConfig.runtime.features.masterApp).toBe(true);
   });
 });

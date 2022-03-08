@@ -6,33 +6,17 @@ import {
 } from '@modern-js/utils';
 import {
   createPlugin,
-  NormalizedConfig,
   useAppContext,
   useResolvedConfigContext,
 } from '@modern-js/core';
 import type WebpackChain from 'webpack-chain';
 import { logger } from '../util';
-import { makeProvider, makeRenderFunction } from './utils';
-
-export function getRuntimeConfig(config: NormalizedConfig) {
-  if (config?.runtime?.feature) {
-    return config?.runtime?.feature;
-  }
-  return config?.runtime;
-}
-
-export function setRuntimeConfig(
-  config: NormalizedConfig,
-  key: string,
-  value: any,
-) {
-  if (config?.runtime && config?.runtime[key]) {
-    config.runtime[key] = value;
-  }
-  if (config?.runtime?.feature && config?.runtime?.feature[key]) {
-    config.runtime.feature[key] = value;
-  }
-}
+import {
+  getRuntimeConfig,
+  makeProvider,
+  makeRenderFunction,
+  setRuntimeConfig,
+} from './utils';
 
 export const webpackConfigCallback = (
   webpackConfig: any,
