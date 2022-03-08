@@ -1,5 +1,5 @@
 import path from 'path';
-import { createRuntimeExportsUtils, PLUGIN_SCHEMAS } from '@modern-js/utils';
+import { createRuntimeExportsUtils } from '@modern-js/utils';
 import {
   createPlugin,
   useAppContext,
@@ -261,7 +261,20 @@ export default createPlugin(
     {
       resolvedConfig,
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-garfish'];
+        return [
+          {
+            target: 'runtime.masterApp',
+            schema: { type: ['boolean', 'object'] },
+          },
+          {
+            target: 'dev.withMasterApp',
+            schema: { type: ['object'] },
+          },
+          {
+            target: 'deploy.microFrontend',
+            schema: { type: ['boolean', 'object'] },
+          },
+        ];
       },
     },
     {
