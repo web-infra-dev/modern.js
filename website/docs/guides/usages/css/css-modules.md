@@ -79,8 +79,7 @@ export default function Button() {
 
 最终效果如下：
 
-![](/img/usage/css/more-css-modules.png)
-
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/more-css-modules.png)
 
 :::tip 提示
 使用 [babel-plugin-react-css-modules](https://github.com/gajus/babel-plugin-react-css-modules) 时需要注意，该插件的配置选项 `generateScopedName` 需要和 [`output.cssModuleLocalIdentName`](/docs/apis/config/output/css-module-localIdent-name) 保持一致。

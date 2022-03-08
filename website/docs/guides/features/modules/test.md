@@ -16,7 +16,7 @@ pnpm run test
 
 执行之后，会看到测试的结果：
 
-![test-result](/img/guides/features/module/test-result.png)
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/guides/test-result.png)
 
 ## 添加测试配置
 

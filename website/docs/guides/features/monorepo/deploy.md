@@ -32,7 +32,7 @@ pnpm deploy app
 `output` 目录就是需要部署到服务器上的目录，可以通过命令参数进行路径修改。可以查看 [deploy 命令](/docs/apis/commands/monorepo/deploy)。
 :::
 
-![monorepo-output](/img/guides/features/monorepo/monorepo-output.png)
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/guides/monorepo-output.png)
 
 然后会自动进行依赖的安装。
 

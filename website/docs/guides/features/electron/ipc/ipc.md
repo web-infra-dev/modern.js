@@ -18,7 +18,7 @@ sidebar_position: 2
 
 关于单向通信，如下图：
 
-![](/img/electron/ipc2.png)
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/electron/ipc2.png)
 
 可参考相关 API 即可：
 - [`winService.sendTo`](/docs/apis/runtime/electron/main-process/win-service#sendto)（主进程）
@@ -29,7 +29,7 @@ sidebar_position: 2
 
 关于双向通信，如下图所示，展示了彼此之间的通信关系：
 
-![](/img/electron/ipc.png)
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/electron/ipc.png)
 
 
 - **主进程**通过  `Runtime` 实例化时在 `mainServices` 中注册了 `test1` 服务函数，**渲染进程**通过  `callMain` 的通信方式让主进程执行 `test1` 并获得结果。

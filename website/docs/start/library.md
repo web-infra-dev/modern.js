@@ -119,7 +119,7 @@ export default {
 
 执行 `pnpm run dev` 调试运行结果，如下图所示：
 
-![调试 storybook](/img/start/library/storybook.png)
+![调试 storybook](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/storybook.png)
 
 ## 产物模式
 
@@ -157,7 +157,7 @@ export default {
 
   执行 `pnpm run change`，根据提示选择升级的版本，并填写变更信息。
 
-![填写变更信息](/img/start/library/changeset.png)
+![填写变更信息](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/changeset.png)
 
 2. 升级对应版本号，并生成 changelog
 
@@ -357,7 +357,7 @@ export default App;
 
 然后我们在 `apps/app` 目录下执行 `pnpm run dev` 命令，可以看到页面渲染效果如下：
 
-![app-tools](/img/start/library/app-tools.png)
+![app-tools](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/app-tools.png)
 
 ### 批量发布
 
@@ -389,7 +389,7 @@ export const lowerCase = (s: string) => s.toLowerCase();
 
   在 Monorepo 根目录执行 pnpm run change，根据提示选择发布的包(注意这里只选择工具库包名)和升级的版本，并填写变更信息。
 
-![monorepo 添加 changeset](/img/start/library/monorepo-changeset.png)
+![monorepo 添加 changeset](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/monorepo-changeset.png)
 
 2. 升级发布包对应版本号，并生成 changelog
 

@@ -95,7 +95,7 @@ describe('默认值 cases', () => {
 pnpm run test
 ```
 
-![component-test-result](/img/start/component/test-result.png)
+![component-test-result](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/component/test-result.png)
 
 ## IDE
 
@@ -239,7 +239,7 @@ export default {
 
 执行 `pnpm run dev` 查看运行结果：
 
-![调试 storybook](/img/start/component/storybook.png)
+![调试 storybook](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/component/storybook.png)
 
 ## 开发组件样式
 
@@ -420,7 +420,7 @@ module.exports = {
 
 最后重新启动 Storybook 调试程序观察效果，可以看到 `TableList` 组件上展示的数据内容是从接口返回的动态数据：
 
-![component-with-model](/img/start/component/storybook-with-fetch.png)
+![component-with-model](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/component/storybook-with-fetch.png)
 
 ## 发布
 
@@ -432,7 +432,7 @@ module.exports = {
 
   执行 `pnpm run change`，根据提示选择升级的版本，并填写变更信息。
 
-![填写变更信息](/img/start/component/changeset.png)
+![填写变更信息](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/component/changeset.png)
 
 2. 升级对应版本号，并生成 changelog
 
@@ -641,7 +641,7 @@ export default App;
 
 然后我们在 `apps/app` 目录下执行 `dev` 命令，可以看到组件被正确渲染出来：
 
-![app-tools](/img/start/component/app-tools.png)
+![app-tools](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/component/app-tools.png)
 
 ### 批量发布
 
@@ -677,7 +677,7 @@ export default function () {
 
   在 Monorepo 根目录执行 `pnpm run change`，根据提示选择发布的包(注意这里只选择 UI 组件包名)和升级的版本，并填写变更信息。
 
-![monorepo 添加 changeset](/img/start/component/monorepo-changeset.png)
+![monorepo 添加 changeset](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/component/monorepo-changeset.png)
 
 #### 升级发布包对应版本号，并生成 changelog
 

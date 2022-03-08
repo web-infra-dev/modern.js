@@ -504,7 +504,7 @@ Modern.js 支持修改默认使用的 HTML 模板文件。
 
 在构建生成的 HTML 页面 `<head>` 标签内，将包含上面的代码，如下图所示：
 
-![custom-html](/img/start/mobile/custom-html.png)
+![custom-html](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/custom-html.png)
 
 :::info 补充信息
 更多信息，请参考【[自定义 HTML 模板](/docs/guides/usages/basic-configuration/html)】。

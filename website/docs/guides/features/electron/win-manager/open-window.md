@@ -68,4 +68,4 @@ exposeInMainWorld(apis);
 import bridge from '@modern-js/runtime/electron-bridge';
 bridge.openWindow('demo');
 ```
-![](/img/electron/open_window.png)
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/electron/open_window.png)

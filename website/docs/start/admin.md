@@ -212,7 +212,7 @@ export default TableList;
 
 当前代码在构建后，会把所有路由用到的组件都打包到一个 JS 文件中。打开浏览器开发者工具的 Network 窗口， `console.js` 对应所有路由组件打包后的 JS 文件，如下图所示：
 
-![code-split-1](/img/start/admin/code-split-1.png)
+![code-split-1](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/code-split-1.png)
 
 我们可以使用 loadable，并根据路由划分，对代码进行分片。
 
@@ -233,7 +233,7 @@ export default App;
 
 此时，切换不同路由，会按需加载对应路由所需要的组件代码。如下图所示：
 
-![code-split-2](/img/start/admin/code-split-2.png)
+![code-split-2](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/code-split-2.png)
 
 当访问 `/console` 路由时，会加载 `src_console_dashboard_index_tsx.js` 这个文件；当访问 `/console/table` 路由时，会加载 `src_console_tableList_index_tsx.js` 这个文件。
 

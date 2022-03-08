@@ -111,11 +111,11 @@ export default async (): Promise<
 
 在 VSCode 的 Terminal 面板，选择 Debugger Terminal，执行 `pnpm run dev` 命令，运行 API 服务。
 
-![alt terminal](/img/start/api-service/service-project-terminal.png)
+![alt terminal](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/service-project-terminal.png)
 
 打上断点，重新访问 `http://localhost:8080/api/users`，代码逻辑会在对应的断点暂停。
 
-![alt debug](/img/start/api-service/debug.png)
+![alt debug](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/debug.png)
 
 ### 获取单个用户
 

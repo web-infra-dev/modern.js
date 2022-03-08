@@ -295,7 +295,7 @@ export default TableList
 
 访问主应用地址 `http://localhost:8080`，效果如下：
 
-![demo](/img/start/micro-frontend/micro-frontend-demo.gif)
+![demo](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/micro-frontend-demo.gif)
 
 ## 微前端子应用模式
 

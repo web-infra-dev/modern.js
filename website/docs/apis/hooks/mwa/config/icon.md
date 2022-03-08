@@ -14,4 +14,4 @@ sidebar_position: 2
 
 最终 html 中会注入 app icon `link` 标签, 如下:
 
-![app-icon](/img/api/app-icon.png)
+![app-icon](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/api/app-icon.png)

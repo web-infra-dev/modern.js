@@ -23,7 +23,7 @@ sidebar_position: 2
 
 ## 整体架构
 
-![架构图](../../../../static/img/electron/electron6.png)
+![架构图](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/electron/electron6.png)
 
 ## 适用人群
 

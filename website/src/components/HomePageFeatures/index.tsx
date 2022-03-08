@@ -3,14 +3,19 @@ import SecondaryTitle from '../SecondaryTitle';
 import ListCard, { ICardProps } from '../ListCard';
 import styles from './index.module.css';
 
-export interface IFeaturesProps{
+export interface IFeaturesProps {
   title: string;
   features: ICardProps[];
 }
 
 const Features: React.FC<IFeaturesProps> = ({ title, features }) => {
   const renderedCards = features.map((card, cardIndex) => (
-    <ListCard key={cardIndex} desc={card.desc} icon={card.icon} href={card.href} />
+    <ListCard
+      key={cardIndex}
+      desc={card.desc}
+      icon={card.icon}
+      href={card.href}
+    />
   ));
   return (
     <div className={styles.features}>

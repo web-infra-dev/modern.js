@@ -5,7 +5,7 @@ import styles from './index.module.css';
 
 export interface ContentCardProps {
   title: string;
-  desc: string;
+  desc?: string;
   img: string;
   href?: string;
   isSwiper?: boolean;

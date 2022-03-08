@@ -34,7 +34,7 @@ pnpm run new
 
 新增 `./stories` 目录以及默认的 `./stories/index.stories.tsx` 文件：
 
-![storybook-add-dir](/img/guides/features/module/storybook-add-dir.png)
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/guides/storybook-add-dir.png)
 
 ## 使用 Storybook 功能
 
@@ -56,12 +56,12 @@ Modern.js 后续会新增更加丰富的调试功能。当开启多个调试功�
 
 当成功运行后，我们会看到如下 log 信息：
 
-![storybook-log](/img/guides/features/module/storybook-log.png)
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/guides/storybook-log.png)
 
 
 访问其中的 URL 地址，可以看到：
 
-![storybook-iframe](/img/guides/features/module/storybook-iframe.png)
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/guides/storybook-iframe.png)
 
 
 想了解关于 Storybook 的更多内容，可以在 [Introduction to Storybook for React](https://storybook.js.org/docs/react/get-started/introduction) 这里查看。

@@ -1,5 +1,4 @@
 import React from 'react';
-import RightArrow from '@site/static/img/homepage/right-arrow-color.svg';
 import styles from './index.module.css';
 
 export interface VideoCardProps {
@@ -24,7 +23,12 @@ const VideoCard: React.FC<VideoCardProps> = ({
           <div className={styles.title}>{title}</div>
           <a href={detailUrl} className={styles.seeDetails}>
             查看详情
-            <RightArrow width="20" height="20" className={styles.rightArrow} />
+            <img
+              src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/right-arrow-color.svg"
+              width="20"
+              height="20"
+              className={styles.rightArrow}
+            />
           </a>
         </div>
         <img className={styles.videoWrap} src={imgUrl} alt="" />
@@ -37,7 +41,12 @@ const VideoCard: React.FC<VideoCardProps> = ({
           <div className={styles.title}>{title}</div>
           <a href={detailUrl} className={styles.seeDetails}>
             查看详情
-            <RightArrow width="20" height="20" className={styles.rightArrow} />
+            <img
+              src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/right-arrow-color.svg"
+              width="20"
+              height="20"
+              className={styles.rightArrow}
+            />
           </a>
         </div>
         <img className={styles.videoWrap} src={imgUrl} alt="" />

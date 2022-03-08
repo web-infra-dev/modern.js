@@ -100,24 +100,26 @@ module.exports = {
           title: '关注我们',
           items: [
             {
-              icon: '/img/homepage/icons/weixin.png',
-              qrcode: '/img/homepage/weixin-qrcode.jpeg',
+              icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/icons/weixin.png',
+              qrcode:
+                'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/icons/weixin-qrcode.jpeg',
               to: '/weixin',
               label: '微信',
             },
             {
-              icon: '/img/homepage/icons/bilibili.png',
+              icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/icons/bilibili.png',
               to: 'https://space.bilibili.com/1195398938',
               label: 'bilibili',
             },
             {
-              icon: '/img/homepage/icons/feishu.png',
-              qrcode: '/img/homepage/icons/feishu-qrcode.png',
+              icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/icons/feishu.png',
+              qrcode:
+                'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/icons/feishu-qrcode.png',
               to: 'Feishu',
               label: '飞书',
             },
             {
-              icon: '/img/homepage/icons/github.png',
+              icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/icons/github.png',
               qrcode: '',
               to: 'https://github.com/modern-js-dev/modern.js',
               label: 'GitHub',

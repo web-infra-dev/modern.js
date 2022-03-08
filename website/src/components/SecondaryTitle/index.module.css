@@ -1,17 +1,17 @@
-.titleWrap{
+.titleWrap {
   display: flex;
   justify-content: space-between;
-  background-image: url(/img/homepage/text-bg.png);
+  background-image: url(https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/text-bg.png);
   background-size: 499px 43.6px;
   background-repeat: no-repeat;
 }
-.title{
+.title {
   padding-top: 27px;
   color: #fff;
   font-size: 48px;
   margin-bottom: 25px;
 }
-.seqNum{
+.seqNum {
   position: relative;
   display: flex;
   justify-content: center;
@@ -21,7 +21,7 @@
   height: 93px;
 }
 
-.seqImg{
+.seqImg {
   position: absolute;
   left: 0;
   top: 0;
@@ -29,7 +29,7 @@
   animation: rotate360 50s linear infinite;
 }
 
-.num{
+.num {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -42,29 +42,29 @@
 }
 
 @keyframes rotate360 {
-  0%{
-    transform: rotateZ(0deg);;
+  0% {
+    transform: rotateZ(0deg);
   }
-  100%{
-    transform: rotateZ(360deg);;
+  100% {
+    transform: rotateZ(360deg);
   }
 }
 
 @media screen and (max-width: 966px) {
-  .seqNum{
+  .seqNum {
     display: none;
   }
 }
 
 @media screen and (max-width: 700px) {
-  .titleWrap{
+  .titleWrap {
     background-size: 51.6vw 4.51vw;
   }
-  .title{
+  .title {
     padding-top: 13.5px;
     font-size: 4.96vw;
   }
-  .seqNum{
+  .seqNum {
     font-size: 2.48vw;
   }
 }

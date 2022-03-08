@@ -30,7 +30,7 @@ pnpm run build
 
 当执行 `pnpm run build` 构建成功后 `dist` 目录的结构如下：
 
-![dist-struct](/img/guides/features/module/dist-struct.png)
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/guides/dist-struct.png)
 
 接下来针对构建产物讲解一下 `dist` 各个目录的用途以及在构建过程中做了哪些事情。
 
@@ -101,7 +101,7 @@ export default function () {
 
 则在构建成功后，`dist` 的目录结构如下：
 
-![assets-dist](/img/guides/features/module/assets-dist.png)
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/guides/assets-dist.png)
 
 其中 `./dist/js/modern/index.js` 文件的内容如下：
 

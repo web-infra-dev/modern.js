@@ -1,4 +1,4 @@
-.quickStart{
+.quickStart {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -7,35 +7,35 @@
   height: 181px;
   background-position: center center;
   background-size: cover;
-  background-image: url(/img/homepage/quick-start-card-bg.png);
+  background-image: url(https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/quick-start-card-bg.png);
 }
-.title{
+.title {
   font-weight: normal;
   font-size: 18px;
   line-height: 25px;
 
-  color: #FFFFFF;
+  color: #ffffff;
 }
-.quickStartBtn{
+.quickStartBtn {
   display: flex;
   margin-top: 19px;
   justify-content: center;
   align-items: center;
   width: 132px;
   height: 42px;
-  color: rgba(0,0,0,1);
-  background: #4ECAFF;
+  color: rgba(0, 0, 0, 1);
+  background: #4ecaff;
   border-radius: 39px;
   text-decoration: none;
 }
 
-.quickStartBtn:hover{
-  color: rgba(0,0,0,1);
+.quickStartBtn:hover {
+  color: rgba(0, 0, 0, 1);
   text-decoration: none;
 }
 
 @media screen and (max-width: 966px) {
-  .quickStart{
+  .quickStart {
     display: none;
   }
 }

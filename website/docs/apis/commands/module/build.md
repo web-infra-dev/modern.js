@@ -25,7 +25,7 @@ import CommandTip from '@site/docs/components/command-tip.md'
 
 `modern build` 命令默认在 `dist` 目录输出模块构建产物。 产物目录结构如下:
 
-![dist-output](/img/api/dist-output.png)
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/api/dist-output.png)
 
 其中：
 

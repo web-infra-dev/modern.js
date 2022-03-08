@@ -128,7 +128,7 @@ window.electron.doThing();
 
   即可：
 
-  ![image](/img/electron/bridge_05.png)
+  ![image](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/electron/bridge_05.png)
 
 ## 窗口中开启 Node
 

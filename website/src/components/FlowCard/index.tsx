@@ -25,14 +25,14 @@ const FlowCard: React.FC<FlowCardProps> = ({
     {direction === 'right' && (
       <img
         className={styles.leftDot}
-        src="/img/homepage/flow/right-dot.png"
+        src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/right-dot.png"
         alt="decoration"
       />
     )}
     {direction === 'left' && (
       <img
         className={styles.rightDot}
-        src="/img/homepage/flow/left-dot.png"
+        src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/left-dot.png"
         alt="decoration"
       />
     )}
