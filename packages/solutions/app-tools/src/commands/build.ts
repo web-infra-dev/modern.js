@@ -8,13 +8,13 @@ import {
   manager,
 } from '@modern-js/core';
 import {
-  fs,
   formatWebpackMessages,
   measureFileSizesBeforeBuild,
   printFileSizesAfterBuild,
   printBuildError,
   logger,
   isUseSSRBundle,
+  emptyDir,
 } from '@modern-js/utils';
 import { generateRoutes } from '../utils/routes';
 
@@ -35,6 +35,8 @@ export const build = async (options?: CliOptions) => {
   /* eslint-enable react-hooks/rules-of-hooks */
 
   if (!existSrc) {
+    const { distDirectory } = appContext;
+    await emptyDir(distDirectory);
     await (mountHook() as any).beforeBuild({
       webpackConfigs: [],
     });
@@ -71,7 +73,7 @@ export const build = async (options?: CliOptions) => {
             printFileSizesAfterBuild(
               stats,
               previousFileSizes,
-              outputPath,
+              distDirectory,
               WARN_AFTER_BUNDLE_GZIP_SIZE,
               WARN_AFTER_CHUNK_GZIP_SIZE,
             );
@@ -103,9 +105,9 @@ export const build = async (options?: CliOptions) => {
     ResolvedConfigContext.set({ ...resolvedConfig, cliOptions: options });
   });
 
-  const outputPath = appContext.distDirectory;
-  const previousFileSizes = await measureFileSizesBeforeBuild(outputPath);
-  fs.emptyDirSync(outputPath);
+  const { distDirectory } = appContext;
+  const previousFileSizes = await measureFileSizesBeforeBuild(distDirectory);
+  await emptyDir(distDirectory);
 
   const buildConfigs: Array<{ type: string; config: any }> = [];
   buildConfigs.push({
