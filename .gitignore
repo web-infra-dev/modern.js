@@ -52,3 +52,7 @@ local-test-project/*
 .changeset/pre.json
 # Dynamically generated
 .runtime-exports/
+
+# website
+website/.docusaurus
+website/build
