@@ -1,30 +1,37 @@
 import '@testing-library/jest-dom';
-import GarfishPlugin, { externals, makeRenderFunction, webpackConfigCallback } from '../src/cli';
+import { manager, useAppContext } from '@modern-js/core';
 import WebpackChain from 'webpack-chain';
+import GarfishPlugin, { externals, resolvedConfig } from '../src/cli';
+import { getRuntimeConfig, makeRenderFunction, setRuntimeConfig } from '../src/cli/utils';
+
+const mock_config_context = {
+  context: {},
+  get() {
+    return this.context;
+  },
+  set(newContext: any) {
+    Object.assign(this.context, newContext);
+  },
+  recover(newContext: any) {
+    this.context = newContext;
+  }
+};
 
 jest.mock('@modern-js/core', () => {
   const originalModule = jest.requireActual('@modern-js/core');
   return {
     __esModule: true,
     ...originalModule,
-    useResolvedConfigContext: () => ({
-      runtime: {
-        masterApp: {},
-      },
-      deploy: {
-        microFrontend: true,
-      },
-      server: {
-        port: '8080'
-      }
-    }),
+    useResolvedConfigContext: ()=>{
+      return mock_config_context.get();
+    }
   };
 });
 
+
 describe('plugin-garfish cli', () => {
-  test('cli garfish basename', () => {
+  test('cli garfish basename', async () => {
     expect(GarfishPlugin.name).toBe('@modern-js/plugin-garfish');
-    const pluginLifeCycle = GarfishPlugin.initializer();
     const basename = '/test';
     const resolveConfig = {
       resolved: {
@@ -33,10 +40,11 @@ describe('plugin-garfish cli', () => {
             historyOptions: { basename }
           },
           masterApp: {}
-        }
+        },
       }
     };
-    expect((pluginLifeCycle as any).resolvedConfig(resolveConfig).resolved.runtime.masterApp.basename).toBe(basename);
+    const config = await resolvedConfig(resolveConfig as any);
+    expect(config.resolved.runtime.masterApp.basename).toBe(basename);
   });
 
   test('cli makeRender function', ()=>{
@@ -76,10 +84,125 @@ describe('plugin-garfish cli', () => {
     });
   });
 
-  test('cli webpack config',()=>{
+  test('cli get runtime config', ()=>{
+    const runtimeConfig = getRuntimeConfig({
+      runtime: {
+        masterApp: {
+          basename: '/test'
+        }
+      }
+    });
+    expect(runtimeConfig).toMatchObject({
+      masterApp: {
+        basename: '/test'
+      }
+    });
+  });
+
+  test('cli get runtime features config', ()=>{
+    const runtimeConfig = getRuntimeConfig({
+      runtime: {
+        masterApp: {
+          basename: '/test'
+        },
+        features: {
+          masterApp: {
+            basename: '/test2'
+          }
+        }
+      }
+    });
+
+    expect(runtimeConfig).toMatchObject({
+      masterApp: {
+        basename: '/test2'
+      }
+    });
+  });
+
+  test('cli set runtime config', ()=>{
+    const runtimeConfig = {
+      runtime: {
+        masterApp: {
+          basename: '/test'
+        }
+      }
+    };
+
+    setRuntimeConfig(runtimeConfig, 'masterApp', true);
+
+    expect(runtimeConfig.runtime.masterApp).toBe(true);
+  });
+
+  test('cli set runtime features config', ()=>{
+    const runtimeConfig = {
+      runtime: {
+        features: {
+          masterApp: {
+            basename: '/test'
+          }
+        }
+      }
+    };
+
+    setRuntimeConfig(runtimeConfig, 'masterApp', true);
+
+    expect(runtimeConfig.runtime.features.masterApp).toBe(true);
+  });
+
+  test('webpack config close external and use js entry', async ()=>{
+    const main = manager.clone().usePlugin(GarfishPlugin);
+    const runner = await main.init();
+    await runner.prepare();
+    const config: any = await runner.config();
+    const webpackConfig = new WebpackChain();
+    mock_config_context.recover({
+      deploy: {
+        microFrontend: {
+          externalBasicLibrary: true,
+          enableHtmlEntry: false,
+        },
+      },
+      server: {
+        port: '8080'
+      }
+    });
+
+    config[0].tools.webpack({}, {
+      chain: webpackConfig,
+      webpack: jest.fn(),
+      env: 'development'
+    });
+
+    const generateConfig = webpackConfig.toConfig();
+    expect(generateConfig).toMatchObject({
+      output: {
+        libraryTarget: 'umd',
+        publicPath: '//localhost:8080/',
+        filename: 'index.js'
+      },
+      externals,
+      optimization: { runtimeChunk: false, splitChunks: { chunks: 'async' } }
+    });
+  })
+
+  test('webpack config default micro config', async ()=>{
+    const main = manager.clone().usePlugin(GarfishPlugin);
+    const runner = await main.init();
+    await runner.prepare();
+    const config: any = await runner.config();
     const webpackConfig = new WebpackChain();
 
-    webpackConfigCallback({}, {
+    mock_config_context.recover({
+      deploy: {
+        microFrontend: true,
+      },
+      server: {
+        port: '8080'
+      }
+    });
+
+    config[0].tools.webpack({}, {
       chain: webpackConfig,
       webpack: jest.fn(),
       env: 'development'
