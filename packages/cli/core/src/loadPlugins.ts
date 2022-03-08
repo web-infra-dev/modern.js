@@ -11,9 +11,9 @@ const debug = createDebugger('load-plugins');
 type Plugin = string | [string, any];
 
 export type LoadedPlugin = {
-  cli?: Required<{ pluginPath: string }>;
+  cli?: any;
   cliPkg?: string;
-  server?: Required<{ pluginPath: string }>;
+  server?: any;
   serverPkg?: string;
 };
 
