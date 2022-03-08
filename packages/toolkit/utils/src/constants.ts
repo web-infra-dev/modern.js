@@ -261,11 +261,15 @@ export const PLUGIN_SCHEMAS = {
   '@modern-js/plugin-garfish': [
     {
       target: 'runtime.masterApp',
-      schema: { type: ['object'] },
+      schema: { type: ['boolean', 'object'] },
     },
     {
       target: 'dev.withMasterApp',
       schema: { type: ['object'] },
+    },
+    {
+      target: 'deploy.microFrontend',
+      schema: { type: ['boolean', 'object'] },
     },
   ],
 };
