@@ -144,4 +144,4 @@ Universal JS 代码是既能浏览器端也能在服务器端运行的代码。
 --parser-options=project:../tsconfig.json
 ```
 
-![webstorm-lint-error](./assets/webstorm-lint-error.png)
+![webstorm-lint-error](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/webstorm-lint-error.png)

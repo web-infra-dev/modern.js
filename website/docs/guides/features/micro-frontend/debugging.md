@@ -155,7 +155,7 @@ function App() {
 
 此时访问主应用后，服务端注入的子应用模块信息将被替换为我们 Query 里的信息。即 `TableList` 子应用 `entry` 为 `http://localhost:8080`。线上主应用切换到 `/tablelist` 路由后将会加载本地的子应用。
 
-![query-debug](./assets/query-debug.png)
+![query-debug](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/query-debug.png)
 
 
 ### Header 模式调试（推荐）
@@ -176,6 +176,6 @@ Query 调试时，当路透跳转的时候，Query 参数会丢失，reload 页�
 
 访问主应用地址如下所示
 
-![header-debug](./assets/header-debug.png)
+![header-debug](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/header-debug.png)
 
 可以看到此时服务端返回的 `TableList` 子应用信息是 Header 里面指定的本地域名 `http://localhost:8080`

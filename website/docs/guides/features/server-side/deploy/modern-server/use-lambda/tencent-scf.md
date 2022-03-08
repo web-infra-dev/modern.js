@@ -50,13 +50,13 @@ CLOUD_SECRET_KEY
 
 上述相关配置都可以在腾讯云平台的 [API 秘钥管理](https://console.cloud.tencent.com/cam/capi)中获取：
 
-![aksk](../../assets/tencent-aksk.png)
+![aksk](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/tencent-aksk.png)
 
 ## 部署应用
 
 在项目中执行 `pnpm deploy`，应用会首先进行构建，随后可以看到开始部署到腾讯云函数：
 
-![scf](./assets/tencent-scf-deploy.png)
+![scf](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/tencent-scf-deploy.png)
 
 发布后，腾讯云会输出一个临时可用的域名，打开浏览器访问即可。
 
@@ -64,6 +64,6 @@ CLOUD_SECRET_KEY
 
 可以通过[腾讯云 SCF 控制台](https://console.cloud.tencent.com/scf/list)查看已经部署的函数，Modern.js 默认会使用项目 `package.json` 中的的 `name` 值作为函数前缀：
 
-![scf-list](./assets/tencent-scf-list.png)
+![scf-list](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/tencent-scf-list.png)
 
 在控制台中，可以进入函数进行调试、部署版本、添加新的 Trigger，或是为函数添加自定义域名等。

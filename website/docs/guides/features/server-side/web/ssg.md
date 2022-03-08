@@ -52,11 +52,11 @@ module.exports = {
 
 在项目根路径下执行 `pnpm run dev` 命令，查看 `dist/` 目录，此时只生成一个 HTML 文件：
 
-![vsc-alert](./assets/ssg-dev.png)
+![vsc-alert](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/ssg-dev.png)
 
 在项目根路径下执行 `pnpm run build` 命令，构建完成后，查看 `dist/` 目录，此时生成 `main/index.html`、`main/home/index.html` 和 `main/info/index.html` 3 个 HTML 文件，分别对应 `/`、`/home`、`/info` 3 个约定式路由，可见**约定式路由**中的每一条路由，都会生成一个单独的 HTML 文件。查看 `main/index.html`，可以发现包含 `index page` 的文本内容，这正是 SSG 的效果。
 
-![vsc-alert](./assets/ssg-build.png)
+![vsc-alert](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/ssg-build.png)
 
 执行 `pnpm run start` 启动项目后，访问页面，在浏览器我们工具的 Network 窗口，查看请求返回的文档，文档包含组件渲染后的完整页面内容。
 
@@ -101,7 +101,7 @@ export default defineConfig({
 
 查看构建产物文件，可以看到 `dist/` 目录中，在默认的 `main` 入口产物目录下，新增一个 `foo.html` 文件：
 
-![vsc-alert](./assets/ssg-foo.png)
+![vsc-alert](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/ssg-foo.png)
 
 :::note
 以上仅介绍了单入口的情况，与部分配置。更多相关内容可以查看 [API 文档](/docs/apis/config/output/ssg)。

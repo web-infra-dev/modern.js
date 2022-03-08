@@ -126,7 +126,7 @@ function SubModelApp() {
 
 当该 **Model** 在主应用 **Store** 上不存在的时候，会自动挂载到子应用自身的 **Store** 上。
 
-![微前端通信流程图](../assets/mf-communicate.svg)
+![微前端通信流程图](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/mf-communicate.svg)
 
 需要注意的是，子应用在使用 `useModel` 去访问主应用 **Model** 的时候，如果主应用 **Model** 未初始化（还未挂载到 **Store** 上），会自动降级挂载到子应用自身的 **Store** 上。
 

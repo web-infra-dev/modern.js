@@ -60,21 +60,21 @@ CLOUD_SECRET_KEY
 
 1. AccountID 在[阿里云账号中心页](https://account.console.aliyun.com/v2/#/basic-info/index)获取：
 
-![accountId](../assets/aliyun-account-id.png)
+![accountId](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/aliyun-account-id.png)
 
 2. SecretID（AccessKey ID），SecretKey（AccessKey Secret），在[用户信息管理页](https://usercenter.console.aliyun.com/#/manage/ak)获取：
 
-![aksk](../assets/aliyun-aksk.png)
+![aksk](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/aliyun-aksk.png)
 
 3. Bucket 信息可以从阿里云 OSS 的 [Bucket 列表](https://oss.console.aliyun.com/bucket)中获取：
 
-![bucket](./assets/oss-bucket-list.png)
+![bucket](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/oss-bucket-list.png)
 
 ## 查看资源文件
 
 直接访问指定 Bucket 的文件列表，点击文件详情即可获取访问 URL：
 
-![bucket-file](./assets/oss-file.png)
+![bucket-file](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/oss-file.png)
 
 :::note 注
 若要通过外网直接访问对象存储的临时域名，必须修改该桶权限为对外可读。

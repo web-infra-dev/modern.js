@@ -59,7 +59,7 @@ Modern.js 生成器已经在 `tsconfig.json` 中配置 `@api` 别名，因此可
 
 执行 `pnpm run dev` 打开 <http://localhost:8080/> 可以看到页面已经展示了 BFF 函数返回的内容，在Network，可以看到页面向 <http://localhost:8080/api/hello> 发送了请求：
 
-![Network](./assets/hello-modern.png)
+![Network](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/hello-modern.png)
 
 ## 函数路由
 

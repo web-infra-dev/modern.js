@@ -54,17 +54,17 @@ CLOUD_SECRET_KEY
 
 1. AccountID 在[阿里云账号中心页](https://account.console.aliyun.com/v2/#/basic-info/index)获取：
 
-![aksk](../../assets/aliyun-account-id.png)
+![aksk](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs//aliyun-account-id.png)
 
 2. SecretID（AccessKey ID），SecretKey（AccessKey Secret），在[用户信息管理页](https://usercenter.console.aliyun.com/#/manage/ak)获取：
 
-![aksk](../../assets/aliyun-aksk.png)
+![aksk](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs//aliyun-aksk.png)
 
 ## 部署应用
 
 在项目中执行 `pnpm deploy`，应用会首先进行构建，随后可以看到开始部署到阿里云函数：
 
-![fc](./assets/aliyun-fc-deploy.png)
+![fc](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/aliyun-fc-deploy.png)
 
 发布后，阿里云会输出一个临时可用的域名，打开浏览器访问即可。
 
@@ -76,6 +76,6 @@ CLOUD_SECRET_KEY
 
 可以通过[阿里云 FC 控制台](https://fcnext.console.aliyun.com/overview)查看已经部署的函数，Modern.js 默认会使用项目 `package.json` 中的的 `name` 值作为函数前缀：
 
-![fc](./assets/aliyun-fc-list.png)
+![fc](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/aliyun-fc-list.png)
 
 在控制台中，可以进入函数进行调试、部署版本、添加新的 Trigger，或是为函数添加自定义域名等。

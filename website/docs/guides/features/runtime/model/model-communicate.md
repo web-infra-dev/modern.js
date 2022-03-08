@@ -84,10 +84,7 @@ Modern.js 默认开启 [自动生成 actions](./auto-actions)，所以 `stepMode
 
 最终效果如下：
 
-![communicate-models](../assets/models-communicate.gif)
-
-
-
+![communicate-models](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/models-communicate.gif)
 
 :::info 补充信息
 - 本节完整的示例代码：[章节示例代码](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/models-communication)。

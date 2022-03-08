@@ -106,7 +106,7 @@ export default () => {
 
 然后 `pnpm run dev` 启动项目，访问 [http://localhost:8080/](http://localhost:8080/) 会发现 `/api/hello` 的请求被拦截了：
 
-![Network](./assets/network2.png)
+![Network](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/network2.png)
 
 我们再修改前端代码 `src/App.tsx`，在访问 `/api/hello` 前先调用登录接口：
 
@@ -135,7 +135,7 @@ export default () => {
 
 刷新页面，可以看到 `/api/hello` 访问成功：
 
-![Network](./assets/network3.png)
+![Network](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/network3.png)
 
 以上代码模拟了在 `/api/_app.ts` 中添加中间件的方式，实现了简易的登录功能。
 

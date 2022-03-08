@@ -56,17 +56,17 @@ CLOUD_SECRET_KEY
 
 1. 上述账号相关配置都可以在腾讯云平台的 [API 秘钥管理](https://console.cloud.tencent.com/cam/capi)中获取：
 
-![aksk](../assets/tencent-aksk.png)
+![aksk](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/tencent-aksk.png)
 
 2. Bucket 信息可以从腾讯云 COS 的 [Bucket 列表](https://console.cloud.tencent.com/cos5/bucket)中获取：
 
-![bucket](./assets/cos-bucket-list.png)
+![bucket](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/cos-bucket-list.png)
 
 ## 查看资源文件
 
 直接访问指定 Bucket 的文件列表，点击文件详情即可获取访问 URL：
 
-![bucket-file](./assets/cos-file.png)
+![bucket-file](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/cos-file.png)
 
 :::note 注
 若要通过外网直接访问对象存储的临时域名，必须修改该桶权限为对外可读。

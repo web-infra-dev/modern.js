@@ -37,7 +37,8 @@ Modern.js 中还提供了基于浏览器 [UA](https://developer.mozilla.org/zh-C
 
 在 Chrome 51 下访问页面可以看到 `http://localhost:8080/__polyfill__` 返回内容如下:
 
-![ua-polyfill](../assets/ua-polyfill.png)
+
+![ua-polyfill](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/ua-polyfill.png)
 
 
 ## 差异化分发

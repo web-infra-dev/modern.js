@@ -82,7 +82,7 @@ To create a production build, execute build command.
 
 访问 `localhost:8899`, 可以在 UI 界面上查看 Network 以及配置代理规则：
 
-![proxy ui 界面](./assets/dev-proxy.png)
+![proxy ui 界面](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/dev-proxy.png)
 
 :::caution 注意
 https 代理自动安装证书需要获取 root 权限, 请根据提示输入密码即可。**密码仅在信任证书时使用，不会泄漏或者用于其他环节**。

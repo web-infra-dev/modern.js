@@ -40,7 +40,7 @@ import a from '../utils/a';
 
 在 `dev` 是会有错误提示:
 
-![scopes-error](./assets/module-scopes-error.png)
+![scopes-error](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/module-scopes-error.png)
 
 通过该选项配置 `utils` 目录即可:
 

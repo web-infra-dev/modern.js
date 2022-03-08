@@ -148,7 +148,7 @@ To create a production build, execute build command.
 
 访问 `http://localhost:8899`，显示下图所示的 UI 界面后，即可通过界面设置规则。
 
-![debug-proxy-ui](./assets/debug-proxy-ui.png)
+![debug-proxy-ui](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/debug/debug-proxy-ui.png)
 
 
 ### BFF 代理
