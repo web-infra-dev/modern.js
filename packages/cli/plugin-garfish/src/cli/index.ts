@@ -30,7 +30,68 @@ function setRuntimeConfig(config: NormalizedConfig, key: string, value: any) {
   }
 }
 
-const externals = { 'react-dom': 'react-dom', react: 'react' };
+export const webpackConfigCallback = (
+  webpackConfig: any,
+  {
+    chain,
+    webpack,
+    env = process.env.NODE_ENV || 'development',
+  }: { chain: WebpackChain; webpack: any; env: string },
+) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const resolvedConfig = useResolvedConfigContext();
+
+  if (resolvedConfig?.deploy?.microFrontend) {
+    chain.output.libraryTarget('umd');
+
+    if (resolvedConfig?.server?.port) {
+      chain.output.publicPath(
+        env === 'development'
+          ? `//localhost:${resolvedConfig.server.port}/`
+          : webpackConfig.output.publicPath,
+      );
+    }
+
+    // add comments avoid sourcemap abnormal
+    if (webpack.BannerPlugin) {
+      chain
+        .plugin('banner')
+        .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
+    }
+
+    const { enableHtmlEntry = true, externalBasicLibrary = false } =
+      typeof resolvedConfig?.deploy?.microFrontend === 'object'
+        ? resolvedConfig?.deploy?.microFrontend
+        : {};
+
+    // external
+    if (externalBasicLibrary) {
+      chain.externals(externals);
+    }
+    // use html mode
+    if (!enableHtmlEntry) {
+      chain.output.filename('index.js');
+      chain.plugins.delete('html-main');
+      chain.optimization.runtimeChunk(false);
+      chain.optimization.splitChunks({
+        chunks: 'async',
+      });
+    }
+  }
+
+  const resolveWebpackConfig = chain.toConfig();
+  logger('webpackConfig', {
+    output: resolveWebpackConfig.output,
+    externals: resolveWebpackConfig.externals,
+    env,
+    alias: resolveWebpackConfig.resolve?.alias,
+  });
+};
+
+export { makeProvider, makeRenderFunction } from './utils';
+
+export const externals = { 'react-dom': 'react-dom', react: 'react' };
+
 export default createPlugin(
   () => {
     const configMap = new Map<string, any>();
@@ -57,7 +118,7 @@ export default createPlugin(
             Object.assign(
               typeof masterApp === 'object' ? { ...masterApp } : {},
               {
-                basename: router?.basename || '/',
+                basename: router?.historyOptions?.basename || '/',
               },
             ),
           );
@@ -92,60 +153,7 @@ export default createPlugin(
             },
           },
           tools: {
-            webpack: (
-              webpackConfig: any,
-              {
-                chain,
-                webpack,
-              }: { chain: WebpackChain; webpack: any; env: string },
-            ) => {
-              const env = process.env.NODE_ENV;
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const resolvedConfig = useResolvedConfigContext();
-
-              if (resolvedConfig?.deploy?.microFrontend) {
-                chain.output.libraryTarget('umd');
-
-                if (resolvedConfig.server.port) {
-                  chain.output.publicPath(
-                    env === 'development'
-                      ? `//localhost:${resolvedConfig.server.port}/`
-                      : webpackConfig.output.publicPath,
-                  );
-                }
-
-                // add comments avoid sourcemap abnormal
-                chain
-                  .plugin('banner')
-                  .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
-
-                const { enableHtmlEntry = true, externalBasicLibrary = true } =
-                  typeof resolvedConfig?.deploy?.microFrontend === 'object'
-                    ? resolvedConfig?.deploy?.microFrontend
-                    : {};
-                // external
-                if (externalBasicLibrary) {
-                  chain.externals(externals);
-                }
-                // use html mode
-                if (!enableHtmlEntry) {
-                  chain.output.filename('index.js');
-                  chain.plugins.delete('html-main');
-                  chain.optimization.runtimeChunk(false);
-                  chain.optimization.splitChunks({
-                    chunks: 'async',
-                  });
-                }
-              }
-
-              const resolveWebpackConfig = chain.toConfig();
-              logger('webpackConfig', {
-                output: resolveWebpackConfig.output,
-                externals: resolveWebpackConfig.externals,
-                env,
-                alias: resolveWebpackConfig.resolve?.alias,
-              });
-            },
+            webpack: webpackConfigCallback,
           },
         };
       },
