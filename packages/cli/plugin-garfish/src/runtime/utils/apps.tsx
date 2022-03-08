@@ -19,7 +19,11 @@ export interface AppMap {
   [key: string]: React.ComponentType<MicroComponentProps>;
 }
 
-function getAppInstance(appInfo: ModulesInfo[number], manifest?: Manifest) {
+function getAppInstance(
+  options: typeof Garfish.options,
+  appInfo: ModulesInfo[number],
+  manifest?: Manifest,
+) {
   let locationHref = '';
   class MicroApp extends React.Component<MicroProps, any> {
     state: {
@@ -34,7 +38,6 @@ function getAppInstance(appInfo: ModulesInfo[number], manifest?: Manifest) {
     async UNSAFE_componentWillMount() {
       const { match, history, setLoadingState, ...userProps } = this.props;
       const { domId } = this.state;
-      const { options } = Garfish;
       const loadAppOptions: Omit<interfaces.AppInfo, 'name'> = {
         ...appInfo,
         domGetter: `#${domId}`,
@@ -150,7 +153,7 @@ export function generateApps(
 } {
   const apps: AppMap = {};
   options.apps?.forEach(appInfo => {
-    const Component = getAppInstance(appInfo, manifest);
+    const Component = getAppInstance(options, appInfo, manifest);
     (appInfo as any).Component = Component;
     apps[appInfo.name] = Component as any;
   });
