@@ -1,31 +1,10 @@
 import '@testing-library/jest-dom';
-import GarfishPlugin, { externals, webpackConfigCallback } from '../src/cli';
-import WebpackChain from 'webpack-chain';
+import GarfishPlugin, { resolvedConfig } from '../src/cli';
 import { makeRenderFunction } from '../src/cli/utils';
-
-jest.mock('@modern-js/core', () => {
-  const originalModule = jest.requireActual('@modern-js/core');
-  return {
-    __esModule: true,
-    ...originalModule,
-    useResolvedConfigContext: () => ({
-      runtime: {
-        masterApp: {},
-      },
-      deploy: {
-        microFrontend: true,
-      },
-      server: {
-        port: '8080'
-      }
-    }),
-  };
-});
 
 describe('plugin-garfish cli', () => {
   test('cli garfish basename', async () => {
     expect(GarfishPlugin.name).toBe('@modern-js/plugin-garfish');
-    const pluginLifeCycle = await GarfishPlugin.initializer();
     const basename = '/test';
     const resolveConfig = {
       resolved: {
@@ -34,13 +13,11 @@ describe('plugin-garfish cli', () => {
             historyOptions: { basename }
           },
           masterApp: {}
-        }
+        },
       }
     };
-    if (pluginLifeCycle) {
-      const config = await pluginLifeCycle.resolvedConfig(resolveConfig as any);
-      expect(config.resolved.runtime.masterApp.basename).toBe(basename);
-    }
+    const config = await resolvedConfig(resolveConfig as any);
+    expect(config.resolved.runtime.masterApp.basename).toBe(basename);
   });
 
   test('cli makeRender function', ()=>{
@@ -78,25 +55,5 @@ describe('plugin-garfish cli', () => {
         }
       }
     });
-  });
-
-  test('cli webpack config',()=>{
-    const webpackConfig = new WebpackChain();
-
-    webpackConfigCallback({}, {
-      chain: webpackConfig,
-      webpack: jest.fn(),
-      env: 'development'
-    });
-
-    const generateConfig = webpackConfig.toConfig();
-    expect(generateConfig).toMatchObject({
-      output: {
-        libraryTarget: 'umd',
-        publicPath: '//localhost:8080/'
-      }
-    });
-    expect(generateConfig.externals).toBeUndefined();
-    expect(generateConfig.output.filename).toBeUndefined();
   });
 });

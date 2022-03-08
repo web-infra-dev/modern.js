@@ -23,8 +23,8 @@ jest.mock('@modern-js/core', () => {
   };
 });
 
-describe('plugin-garfish cli', () => {
-  test('cli webpack microFronted',()=>{
+describe('plugin-garfish cli js entry', () => {
+  test('cli js entry webpack config',()=>{
     const webpackConfig = new WebpackChain();
 
     webpackConfigCallback({}, {

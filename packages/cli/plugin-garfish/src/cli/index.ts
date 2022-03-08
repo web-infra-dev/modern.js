@@ -99,6 +99,37 @@ type Initializer = Parameters<typeof createPlugin>[0];
 type NonVoidPromiseAble<T> = T extends void | Promise<any> ? never : T;
 export type LifeCycle = NonVoidPromiseAble<ReturnType<Initializer>>;
 
+export const resolvedConfig: NonNullable<
+  LifeCycle['resolvedConfig']
+> = async config => {
+  const { resolved } = config;
+  const { masterApp, router } = getRuntimeConfig(resolved);
+
+  const nConfig = {
+    resolved: {
+      ...resolved,
+    },
+  };
+
+  if (masterApp) {
+    // basename does not exist use router's basename
+    setRuntimeConfig(
+      nConfig.resolved,
+      'masterApp',
+      Object.assign(typeof masterApp === 'object' ? { ...masterApp } : {}, {
+        basename: router?.historyOptions?.basename || '/',
+      }),
+    );
+  }
+
+  logger(`resolvedConfig`, {
+    runtime: nConfig.resolved.runtime,
+    deploy: nConfig.resolved.deploy,
+    server: nConfig.resolved.server,
+  });
+  return nConfig;
+};
+
 export const initializer: (
   hooks: LifeCycle,
   initializerConfig: {
@@ -106,6 +137,7 @@ export const initializer: (
   },
 ) => Initializer =
   (
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     { resolvedConfig, validateSchema },
     { runtimePluginName = '@modern-js/runtime/plugins' },
   ) =>
@@ -255,37 +287,7 @@ export const initializer: (
 export default createPlugin(
   initializer(
     {
-      async resolvedConfig(config) {
-        const { resolved } = config;
-        const { masterApp, router } = getRuntimeConfig(resolved);
-
-        const nConfig = {
-          resolved: {
-            ...resolved,
-          },
-        };
-
-        if (masterApp) {
-          // basename does not exist use router's basename
-          setRuntimeConfig(
-            nConfig.resolved,
-            'masterApp',
-            Object.assign(
-              typeof masterApp === 'object' ? { ...masterApp } : {},
-              {
-                basename: router?.historyOptions?.basename || '/',
-              },
-            ),
-          );
-        }
-
-        logger(`resolvedConfig`, {
-          runtime: nConfig.resolved.runtime,
-          deploy: nConfig.resolved.deploy,
-          server: nConfig.resolved.server,
-        });
-        return nConfig;
-      },
+      resolvedConfig,
       validateSchema() {
         return PLUGIN_SCHEMAS['@modern-js/plugin-garfish'];
       },
