@@ -57,21 +57,21 @@ export function generateMApp(
           return beforeMount?.(...args);
         },
         errorLoadApp(error, ...args) {
-          logger('MApp errorLoadApp', args);
+          logger('MApp errorLoadApp', error, args);
           setLoadingState({
             error,
           });
           return errorLoadApp?.(error, ...args);
         },
         errorMountApp(error, ...args) {
-          logger('MApp errorMountApp', args);
+          logger('MApp errorMountApp', error, args);
           setLoadingState({
             error,
           });
           return errorMountApp?.(error, ...args);
         },
         errorUnmountApp(error, ...args) {
-          logger('MApp errorUnmountApp', args);
+          logger('MApp errorUnmountApp', error, args);
           setLoadingState({
             error,
           });
