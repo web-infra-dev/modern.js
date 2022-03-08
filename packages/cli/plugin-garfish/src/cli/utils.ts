@@ -69,6 +69,7 @@ export const makeRenderFunction = (code: string) => {
   );
 };
 
+// support legacy config
 export function getRuntimeConfig(config: Partial<NormalizedConfig>) {
   if (config?.runtime?.features) {
     return config?.runtime?.features;
@@ -76,6 +77,7 @@ export function getRuntimeConfig(config: Partial<NormalizedConfig>) {
   return config?.runtime;
 }
 
+// support legacy config
 export function setRuntimeConfig(
   config: Partial<NormalizedConfig>,
   key: string,
