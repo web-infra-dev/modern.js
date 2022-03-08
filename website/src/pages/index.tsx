@@ -6,7 +6,35 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
+import JavascriptSVG from '@site/static/img/features/javascript.svg';
+import BrowserSVG from '@site/static/img/features/browser.svg';
 import cl from 'classnames';
+import UnitySVG from '@site/static/img/features/unity.svg';
+import ServerLessSVG from '@site/static/img/features/serverless.svg';
+import FrameWorkSVG from '@site/static/img/features/framework.svg';
+import DeveloperSVG from '@site/static/img/features/developer.svg';
+import AISVG from '@site/static/img/features/ai.svg';
+import CloudSVG from '@site/static/img/features/cloud.svg';
+import BlocksSVG from '@site/static/img/features/blocks.svg';
+import UrltSVG from '@site/static/img/features/url.svg';
+import DynamicSVG from '@site/static/img/features/dynamic.svg';
+import APISVG from '@site/static/img/features/api.svg';
+import AppSVG from '@site/static/img/features/app.svg';
+import WebServerSVG from '@site/static/img/features/web-server.svg';
+import HTMLSVG from '@site/static/img/features/html.svg';
+import CodingBackEndSVG from '@site/static/img/features/coding-backend.svg';
+import ServerNetworkSVG from '@site/static/img/features/server-network.svg';
+import FrameworksSVG from '@site/static/img/features/frameworks.svg';
+import CustomizeSVG from '@site/static/img/features/customize.svg';
+import TrinitySVG from '@site/static/img/features/trinity.svg';
+import CompilerSVG from '@site/static/img/features/compiler.svg';
+import CssFileSVG from '@site/static/img/features/css-file.svg';
+import FrameWorkConfigSVG from '@site/static/img/features/framework-config.svg';
+import TestSVG from '@site/static/img/features/test.svg';
+import EditorSVG from '@site/static/img/features/editor.svg';
+import ProductSVG from '@site/static/img/features/product.svg';
+import VisualSVG from '@site/static/img/features/visual.svg';
+import MonorepoSVG from '@site/static/img/features/monorepo.svg';
 import VideoCard from '../components/VideoCard';
 import NavTabs from '../components/NavTabs';
 import QuickStartCard from '../components/QuickStartCard';
@@ -55,71 +83,70 @@ const headerTabs = [
 
 const features = [
   {
-    icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/browser.svg',
+    icon: BrowserSVG,
     desc: '客户端为中心的 Web 框架',
     href: '/docs/guides/tutorials/c01-getting-started/1.2-minimal-mwa',
   },
   {
-    icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/javascript.svg',
+    icon: JavascriptSVG,
     desc: 'JS 为中心、FP 优先的 GUI 软件研发技术栈',
     href: '/docs/guides/tutorials/c07-app-entry/7.1-intro',
   },
   {
-    icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/unity.svg',
+    icon: UnitySVG,
     desc: '从「前后端分离」到「前后端一体化」',
     href: '/docs/guides/features/server-side/web/routes',
   },
   {
-    icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/serverless.svg',
+    icon: ServerLessSVG,
     desc: 'Serverless 优先',
     href: '/docs/guides/tutorials/c09-bff/9.1-serverless',
   },
   {
-    icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/framework.svg',
+    icon: FrameWorkSVG,
     desc: '对 Web 应用开发的充分抽象',
     href: '/docs/guides/tutorials/c01-getting-started/1.2-minimal-mwa',
   },
   {
-    icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/developer.svg',
+    icon: DeveloperSVG,
     desc: 'DX 和 UX 同时最大化',
     href: '/docs/guides/usages/basic-configuration/compatibility',
   },
   {
-    icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/ai.svg',
+    icon: AISVG,
     desc: '智能化',
     href: '/docs/guides/tutorials/c03-ide/3.2-hints-in-ide',
   },
   {
-    icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/cloud.svg',
+    icon: CloudSVG,
     desc: '平台化',
     href: '/coming-soon',
   },
   {
-    icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/blocks.svg',
+    icon: BlocksSVG,
     desc: '低码化',
     href: '/coming-soon',
   },
 ];
-
 const univeralGroups: ContentCardProps[] = [
   {
     title: '同时支持「服务器端路由」和「客户端路由」',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/url.svg',
+    img: UrltSVG,
     href: '/docs/guides/tutorials/c07-app-entry/7.1-intro',
   },
   {
     title: 'Serverless 范式的「动静一体 Web」',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/dynamic.svg',
+    img: DynamicSVG,
     href: '/docs/guides/features/server-side/web/ssg',
   },
   {
     title: '低门槛、全功能、一体化的「BFF」开发',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/api.svg',
+    img: APISVG,
     href: '/docs/guides/tutorials/c09-bff/9.2-enable-bff',
   },
   {
     title: '不同类型的应用',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/app.svg',
+    img: AppSVG,
     href: '/docs/guides/features/electron/basic',
   },
 ];
@@ -127,37 +154,37 @@ const univeralGroups: ContentCardProps[] = [
 const feBe: ContentCardProps[] = [
   {
     title: '自带 Web Server',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/web-server.svg',
+    img: WebServerSVG,
     href: '/docs/guides/tutorials/c01-getting-started/1.4-enable-ssr',
   },
   {
     title: '一体化 SSR/SPR/SSG',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/html.svg',
+    img: HTMLSVG,
     href: '/docs/guides/features/server-side/web/ssr-and-spr',
   },
   {
     title: '一体化 BFF',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/coding-backend.svg',
+    img: CodingBackEndSVG,
     href: '/docs/guides/features/server-side/bff/function',
   },
   {
     title: '为 Serverless 优化',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/server-network.svg',
+    img: ServerNetworkSVG,
     href: '/coming-soon',
   },
   {
     title: '多框架',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/frameworks.svg',
+    img: FrameworksSVG,
     href: '/docs/guides/features/server-side/bff/frameworks',
   },
   {
     title: '定制 Web Server',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/customize.svg',
+    img: CustomizeSVG,
     href: '/docs/guides/features/server-side/web/web-server',
   },
   {
     title: '三位一体',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/trinity.svg',
+    img: TrinitySVG,
     href: '/docs/start/api-service',
   },
 ];
@@ -208,42 +235,42 @@ const flowCards = [
 const bestPratice = [
   {
     title: 'Post-Webpack Era',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/compiler.svg',
+    img: CompilerSVG,
     href: '/docs/guides/usages/debug/unbundled',
   },
   {
     title: 'CSS 解决方案',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/css-file.svg',
+    img: CssFileSVG,
     href: '/docs/guides/tutorials/c06-css-and-component/6.1-css-in-js',
   },
   {
     title: '默认零配置、样板文件最小化',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/framework-config.svg',
+    img: FrameWorkConfigSVG,
     href: '/docs/guides/tutorials/c01-getting-started/1.2-minimal-mwa',
   },
   {
     title: '单元测试、集成测试',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/test.svg',
+    img: TestSVG,
     href: '/docs/guides/tutorials/c11-container/11.4-testing',
   },
   {
     title: 'Eslint 全量规则集、IDE 支持',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/editor.svg',
+    img: EditorSVG,
     href: '/docs/guides/tutorials/c03-ide/3.1-setting-up',
   },
   {
     title: '模块构建产物规范',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/product.svg',
+    img: ProductSVG,
     href: '/docs/guides/features/modules/build',
   },
   {
     title: 'Visual Testing',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/visual.svg',
+    img: VisualSVG,
     href: '/docs/guides/features/modules/storybook',
   },
   {
     title: 'Monorepo',
-    img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/features/monorepo.svg',
+    img: MonorepoSVG,
     href: '/docs/guides/features/monorepo/intro',
   },
 ];
