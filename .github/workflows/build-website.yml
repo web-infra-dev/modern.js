@@ -27,7 +27,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Dependencies
-        run: pnpm install
+        run: pnpm install --filter @modern-js/website
 
       - name: Build Website
         run: cd website && npm run build
