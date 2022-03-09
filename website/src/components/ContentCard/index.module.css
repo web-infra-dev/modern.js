@@ -1,0 +1,90 @@
+
+.card{
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  padding: 56px 32px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-sizing: border-box;
+  border-radius: 8px;
+  width: calc(25% - 16px);
+  margin-left: 16px;
+  height: 257px;
+  cursor: pointer;
+  margin-bottom: 25px;
+  flex: 0 0 auto;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.swiperCard.swiperCard{
+  width: 100%;
+  margin-left: 0;
+  margin-bottom: 0;
+}
+
+.title{
+  display: inline-block;
+  margin-top: 30px;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.card:hover{
+  transition: all 0.3s ease;
+  color: #fff;
+  background: rgba(78, 202, 255, 0.2);
+}
+.desc{
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(255,255,255,0.6);
+}
+
+.icon{
+  width: 48px;
+  height: 48px;
+  fill: #fff;
+}
+
+@media screen and (max-width: 1240px) {
+  .card{
+    width: calc(50% - 16px);
+    height: 284px;
+    padding: 33.5px 3.9vw;
+    margin-bottom: 16px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .card{
+    width: calc(50% - 16px);
+    height: 34vw;
+    padding: 33.5px 3.9vw;
+    margin-bottom: 16px;
+  }
+  .swiperCard.swiperCard{
+    width: 52vw;
+    height: 53.2vw;
+    padding: 33.5px 3.9vw;
+    margin-bottom: 0;
+  }
+  .title{
+    font-size: 16px;
+    margin-top: 15px;
+  }
+  .desc{
+    margin-top: 8px;
+    font-size: 12px;
+  }
+  .icon{
+    width: 24px;
+    height: 24px;
+  }
+}
