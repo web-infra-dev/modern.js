@@ -74,7 +74,7 @@ CLOUD_STATIC_FILES="."
 在 CDN 托管方式下，如果已经为 CDN 设置了 `CLOUD_BUCKET_PATH`，指定了 CDN 的上传目录，则还需要将 `assetPrefix` 修改为相对路径，保证 HTML 中的静态资源文件能够被正常访问：
 
 ```js title="module.config.js"
-module.exports = {
+export default defineConfig({
   output: {
     assetPrefix: './'
   }

@@ -38,7 +38,7 @@ pnpm run lint:error
 
 这种情况下可以用 [eslint-disable](https://eslint.org/docs/user-guide/configuring/rules#disabling-rules) 注释，对符合**少数情况**的代码块做标注，声明这里是一个例外，应该忽略。比如：
 
-```javascript
+```js
 /* eslint-disable filenames/match-exported */
 ...
 /* eslint-enable filenames/match-exported */

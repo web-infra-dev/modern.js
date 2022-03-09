@@ -15,9 +15,7 @@ Options:
 
 默认情况下，应用将会在 `localhost:8080` 启动，可以通过 `server.port` 修改 Server 端口号：
 
-```javascript
-import { defineConfig } from '@modern-js/app-tools';
-
+```js
 export default defineConfig({
   server: {
     port: 8081,
