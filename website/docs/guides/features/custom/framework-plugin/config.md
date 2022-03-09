@@ -4,27 +4,11 @@ sidebar_position: 5
 
 # 插件与配置
 
-Modern.js 是配置驱动的，所以在 Modern.js 提供了统一的方式进行配置维护、校验和获取。
+Modern.js 是配置驱动的，并提供了统一的方式进行配置维护、校验和获取。
 
-### 维护
+### 配置维护
 
-这里主要在 `modern.config.ts` 中进行维护，Modern.js 中提供了 `defineConfig` 方法用于开发者设置用户配置。
-
-```ts title=modern.config.ts
-import { defineConfig } from '@modern-js/app-tools'
-
-export default defineConfig({
-  /** add some config */
-});
-```
-
-:::note 注
-需要注意的是，不同的工程方案导出 `defineConfig` 方法是不一样的，目前有以下工程方案：
-
-* MWA：`@modern-js/app-tools`
-* 模块工程方案：`@modern-js/module-tools`
-* Monorepo 工程方案：`@modern-js/monorepo-tools`
-:::
+配置主要在 `modern.config.ts` 中进行维护，详见 [配置使用](/docs/apis/config/usage)。
 
 ### 校验
 
@@ -61,7 +45,7 @@ declare module '@modern-js/core' {
 
 此时，可在你的 modern.js 项目的 `modern.config.ts` 中配置 'foo' 字段与属性值，以及配置上面写好的 'fooPlugin' 插件([配置插件教程](/docs/guides/features/custom/framework-plugin/implement#开发本地插件))：
 
-```ts title=modern.config.ts
+```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools'
 
 export default defineConfig({
