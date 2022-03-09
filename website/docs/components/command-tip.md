@@ -9,7 +9,7 @@ Yarn 和 pnpm 调用命令时接收参数的方式不同，例如，在如下 `p
 }
 ```
 
-当需要执行 `modern command --option` ：
+当需要执行 `modern command --option`：
 
 使用 Yarn 时，需要执行 `yarn command --option`。
 
