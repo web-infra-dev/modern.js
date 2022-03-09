@@ -1,0 +1,24 @@
+.feature-layout{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  margin-top: 121px;
+  margin-bottom: 90px;
+}
+
+
+@media screen and (min-width: 966px) and (max-width: 1300px) {
+  .feature-layout{
+    padding: 0 40px;
+  }
+}
+
+@media screen and (max-width: 966px) {
+  .feature-layout{
+    display: flex;
+    margin-top: 41px;
+    padding: 0 21.5px;
+  }
+}

@@ -1,0 +1,247 @@
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+.heroBanner {
+  display: flex;
+  padding-left: 18%;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  background-image: url(https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/bg.png);
+  background-size: cover;
+  background-position: center bottom;
+  box-sizing: border-box;
+  height: 691px;
+  background-origin: border-box;
+  align-items: flex-start;
+  background-color: #000;
+}
+
+.logo {
+  width: 539px;
+  margin-top: 60px;
+}
+
+.title {
+  font-family: Noto Sans SC;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 4rem;
+  color: #fff;
+  margin-top: 21px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 87px;
+}
+
+.start:hover,
+.doc-btn:hover {
+  text-decoration: none;
+}
+
+.start:hover {
+  transition: opacity 0.3s ease;
+  opacity: 1;
+  color: #000;
+}
+
+.start {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 48px;
+  height: 48px;
+  background: linear-gradient(274.85deg, #4ecaff 3%, #64cfde 97.17%);
+  box-shadow: 0px 1px 39px rgba(133, 250, 202, 0.34);
+  border-radius: 39px;
+  color: #000000;
+  width: 147px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.doc-btn:hover {
+  color: rgba(132, 218, 255, 1);
+  border: 1px solid #84daff;
+  transition: all 0.3s ease;
+}
+
+.doc-btn {
+  display: flex;
+  width: 130px;
+  height: 49px;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid #4ecaff;
+  box-sizing: border-box;
+  border-radius: 39px;
+  margin-left: 32px;
+  cursor: pointer;
+  color: var(--ifm-color-primary);
+  transition: all 0.3s ease;
+}
+
+.section-title {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  margin: 1rem 0;
+  font-size: 2rem;
+  background: linear-gradient(91.82deg, #60dee8 -1.68%, #dca1e7 20.54%);
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.swiper-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.swiper-container::-webkit-scrollbar {
+  display: none;
+}
+
+.swiper {
+  width: 1240px;
+  margin-top: 16px;
+  margin-bottom: 28px;
+  overflow-x: hidden;
+}
+
+.cardContainer {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
+  margin-top: 16px;
+  margin-left: -16px;
+}
+
+.homepage-main {
+  padding: 1px 0;
+  background-color: #000;
+  background-image: url('https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/main-bg.png');
+  background-repeat: no-repeat;
+  background-position: center 900px;
+}
+
+.start-arrow {
+  margin-left: 8px;
+}
+
+.flowContainer {
+  position: relative;
+  width: 1021px;
+  max-width: 100%;
+  margin: 0 auto;
+  height: 1261px;
+  overflow-y: hidden;
+}
+
+.flowLine {
+  position: absolute;
+  width: 95px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.flowLineMobile {
+  left: 30px;
+  width: 37.5px;
+}
+
+.singleImgWrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 48px;
+  border: 1px solid #6f6f6f;
+  border-radius: 8px;
+}
+
+.singleImg {
+  max-width: 910px;
+  object-fit: contain;
+}
+
+.singleImgCard {
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+}
+
+.singleImgCard:hover {
+  background: rgba(78, 202, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+@media screen and (max-width: 700px) {
+  .swiper {
+    /* width: calc(52vw * 4 + 17px); */
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 14px;
+  }
+  .section-title {
+    font-size: 1rem;
+    font-size: 4vw;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .singleImg {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .swiper {
+    /* width: calc(52vw * 4 + 17px); */
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 14px;
+  }
+}
+
+@media screen and (max-width: 966px) {
+  .heroBanner {
+    padding: 2rem;
+    align-items: center;
+    background-image: url(https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/banner-mobile-bg.png);
+  }
+  .buttons {
+    width: 65%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 30px;
+  }
+  .start,
+  .doc-btn {
+    width: 100%;
+  }
+  .doc-btn {
+    margin-left: 0;
+    margin-top: 42px;
+  }
+  .logo {
+    width: 70vw;
+  }
+  .title {
+    font-size: 8vw;
+  }
+  .singleImg {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .flowContainer {
+    height: auto;
+    overflow: visible;
+  }
+}
