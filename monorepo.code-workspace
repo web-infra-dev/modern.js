@@ -357,6 +357,10 @@
       "path": "packages/server/server"
     },
     {
+      "name": "@modern-js/prod-server",
+      "path": "packages/server/prod-server"
+    },
+    {
       "name": "@modern-js/server-generator",
       "path": "packages/generator/generators/server-generator"
     },
@@ -475,12 +479,18 @@
       "**/yarn.lock": true
     },
     //
-    "editor.rulers": [80, 120],
+    "editor.rulers": [
+      80,
+      120
+    ],
     "files.eol": "\n",
     "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
     //
-    "todo-tree.general.tags": ["TODO:", "FIXME:"],
+    "todo-tree.general.tags": [
+      "TODO:",
+      "FIXME:"
+    ],
     "todo-tree.highlights.defaultHighlight": {
       "gutterIcon": true
     },
