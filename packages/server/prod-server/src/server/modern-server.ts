@@ -81,9 +81,9 @@ export class ModernServer {
 
   protected readonly metrics: Metrics;
 
-  protected readonly proxyTarget: ModernServerOptions['proxyTarget'];
+  protected reader: typeof reader = reader;
 
-  private readonly isDev: boolean = false;
+  protected readonly proxyTarget: ModernServerOptions['proxyTarget'];
 
   private staticFileHandler!: ReturnType<typeof createStaticFileHandler>;
 
@@ -102,7 +102,6 @@ export class ModernServer {
   constructor({
     pwd,
     config,
-    dev,
     routes,
     staticGenerate,
     logger,
@@ -110,11 +109,10 @@ export class ModernServer {
     proxyTarget,
   }: ModernServerOptions) {
     require('ignore-styles');
-    this.isDev = Boolean(dev);
 
     this.pwd = pwd;
     this.distDir = path.join(pwd, config.output?.path || 'dist');
-    this.workDir = this.isDev ? pwd : this.distDir;
+    this.workDir = this.distDir;
     this.conf = config;
     this.logger = logger!;
     this.metrics = metrics!;
@@ -137,7 +135,7 @@ export class ModernServer {
   public async init(runner: ServerHookRunner) {
     this.runner = runner;
 
-    const { distDir, isDev, staticGenerate, conf } = this;
+    const { distDir, staticGenerate, conf } = this;
 
     this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
       ctx.res.setHeader('Access-Control-Allow-Origin', '*');
@@ -154,17 +152,14 @@ export class ModernServer {
     }
 
     // start reader, include an time interval
-    reader.init();
+    this.reader.init();
 
     // use preset routes priority
     this.router.reset(
       this.filterRoutes(this.presetRoutes || this.readRouteSpec()),
     );
 
-    if (!isDev) {
-      // The route spec may not be produced at this phase in development
-      this.warmupSSRBundle();
-    }
+    this.warmupSSRBundle();
 
     await this.prepareFrameHandler();
 
@@ -202,8 +197,8 @@ export class ModernServer {
   }
 
   // close any thing run in server
-  public close() {
-    reader.close();
+  public async close() {
+    this.reader.close();
   }
 
   public async createHTTPServer(
