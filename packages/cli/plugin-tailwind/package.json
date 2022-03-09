@@ -31,6 +31,16 @@
       "default": "./dist/js/node/cli.js"
     }
   },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
+      "types": [
+        "./dist/types/types.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "prepare": "pnpm build",
     "prepublishOnly": "pnpm build -- --platform",

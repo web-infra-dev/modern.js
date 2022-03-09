@@ -33,6 +33,7 @@
     "@modern-js/codesmith-tools": "^1.0.9",
     "@modern-js/generator-common": "workspace:^1.4.3",
     "@modern-js/dependence-generator": "workspace:^1.2.3",
+    "@modern-js/generator-utils":"workspace:^1",
     "@types/jest": "^26",
     "@types/lodash": "^4.14.168",
     "@types/node": "^14",

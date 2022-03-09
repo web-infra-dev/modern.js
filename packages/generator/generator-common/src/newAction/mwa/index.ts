@@ -98,6 +98,7 @@ export const MWAActionFunctionsDependencies: Partial<
   [ActionFunction.I18n]: '@modern-js/plugin-i18n',
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
   [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
+  [ActionFunction.TailwindCSS]: 'tailwindcss',
 };
 
 export const MWAActionFunctionsAppendTypeContent: Partial<
@@ -105,6 +106,7 @@ export const MWAActionFunctionsAppendTypeContent: Partial<
 > = {
   [ActionFunction.Test]: `/// <reference types='@modern-js/plugin-testing/type' />`,
   [ActionFunction.MicroFrontend]: `/// <reference types='@modern-js/plugin-garfish/type' />`,
+  [ActionFunction.TailwindCSS]: `/// <reference types='@modern-js/plugin-tailwindcss/types' />`,
 };
 
 export const MWANewActionGenerators: Record<

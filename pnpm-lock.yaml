@@ -2852,6 +2852,7 @@ importers:
       '@modern-js/codesmith-tools': ^1.0.9
       '@modern-js/dependence-generator': workspace:^1.2.3
       '@modern-js/generator-common': workspace:^1.4.3
+      '@modern-js/generator-utils': workspace:^1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -2866,6 +2867,7 @@ importers:
       '@modern-js/codesmith-tools': 1.0.9
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/generator-common': link:../../generator-common
+      '@modern-js/generator-utils': link:../../generator-utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/jest': 26.0.24
