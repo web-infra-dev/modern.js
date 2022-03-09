@@ -13,12 +13,16 @@ jobs:
         node-version: [16.x]
         os: [ubuntu-latest] # ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
           fetch-depth: 25
-      - uses: pnpm/action-setup@v2.0.1
+
+      - name: Install Pnpm
+        uses: pnpm/action-setup@v2.0.1
         with:
           version: latest
+
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -27,7 +31,7 @@ jobs:
       - name: reset
         run: rm -rf node_modules && rm -rf pnpm-lock.yaml
 
-      - name: Init
+      - name: Install Dependencies
         run: pnpm install --ignore-scripts
 
       - name: Prepare

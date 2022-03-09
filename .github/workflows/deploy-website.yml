@@ -10,7 +10,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
+      - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 25
@@ -30,7 +30,7 @@ jobs:
         run: pnpm install --ignore-scripts
 
       - name: Build Site
-        run: cd website && npm run build:site
+        run: cd website && npm run build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.1
