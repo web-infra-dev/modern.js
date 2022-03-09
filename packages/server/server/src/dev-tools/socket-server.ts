@@ -3,8 +3,7 @@ import { Socket } from 'net';
 import ws from 'ws';
 import type { Stats } from 'webpack';
 import { logger } from '@modern-js/utils';
-import { DevServerOptions } from '../type';
-import { noop } from '../utils';
+import { DevServerOptions } from '../types';
 
 interface ExtWebSocket extends ws {
   isAlive: boolean;
@@ -59,7 +58,9 @@ export default class SocketServer {
           extWs.terminate();
         } else {
           extWs.isAlive = false;
-          extWs.ping(noop);
+          extWs.ping(() => {
+            // empty
+          });
         }
       });
     }, 30000);

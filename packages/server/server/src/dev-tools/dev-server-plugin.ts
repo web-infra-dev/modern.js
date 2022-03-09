@@ -1,5 +1,5 @@
 import Webpack from 'webpack';
-import { DevServerOptions } from '../type';
+import { DevServerOptions } from '../types';
 
 const { EntryPlugin } = Webpack;
 export default class DevServerPlugin {

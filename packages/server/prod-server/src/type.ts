@@ -1,5 +1,4 @@
 import { Buffer } from 'buffer';
-import type Webpack from 'webpack';
 import { serverManager } from '@modern-js/server-core';
 import type { NormalizedConfig } from '@modern-js/core';
 import type { Metrics, Logger, NextFunction } from '@modern-js/types/server';
@@ -20,39 +19,12 @@ declare module '@modern-js/core' {
   }
 }
 
-export type DevServerOptions = {
-  // hmr client 配置
-  client: {
-    port: string;
-    overlay: boolean;
-    logging: string;
-    path: string;
-    host: string;
-    progress?: boolean;
-  };
-  dev: {
-    writeToDisk: boolean | ((filename: string) => boolean);
-  };
-  // 是否监听文件变化
-  watch: boolean;
-  // 是否开启 hot reload
-  hot: boolean | string;
-  // 是否开启 page reload
-  liveReload: boolean;
-  // 是否开启 https
-  https?: boolean | { key: string; cert: string };
-  [propName: string]: any;
-};
-
 export type ModernServerOptions = {
   pwd: string;
   config: NormalizedConfig;
   plugins?: { pluginPath: string }[];
-  dev?: boolean | Partial<DevServerOptions>;
-  compiler?: Webpack.MultiCompiler | Webpack.Compiler | null;
   routes?: ModernRouteInterface[];
   staticGenerate?: boolean;
-  customServer?: boolean;
   loggerOptions?: Record<string, string>;
   metricsOptions?: Record<string, string>;
   logger?: Logger;
@@ -64,6 +36,7 @@ export type ModernServerOptions = {
     ssr?: string;
     api?: string;
   };
+  [propName: string]: any;
 };
 
 export type RenderResult = {

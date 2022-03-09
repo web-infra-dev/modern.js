@@ -1,4 +1,4 @@
-import Server from '@modern-js/server';
+import server from '@modern-js/server';
 import { ServerRoute as ModernRoute } from '@modern-js/types';
 import portfinder from 'portfinder';
 import { NormalizedConfig } from '@modern-js/core';
@@ -47,14 +47,14 @@ process.on('message', async (chunk: string) => {
 
   let modernServer: ModernServer | null = null;
   try {
-    const { server } = options;
+    const { server: serverOptions } = options;
 
     // start server in default port
-    const defaultPort = Number(process.env.PORT) || server.port;
+    const defaultPort = Number(process.env.PORT) || serverOptions.port;
     portfinder.basePort = defaultPort!;
     const port = await portfinder.getPortPromise();
 
-    modernServer = await Server({
+    modernServer = await server({
       pwd: appDirectory,
       config: options,
       routes,
