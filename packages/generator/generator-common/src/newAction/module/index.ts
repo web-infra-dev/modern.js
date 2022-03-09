@@ -63,7 +63,6 @@ export const ModuleActionFunctionsPeerDependencies: Partial<
   Record<ActionFunction, string>
 > = {
   [ActionFunction.RuntimeApi]: '@modern-js/runtime',
-  [ActionFunction.TailwindCSS]: 'tailwindcss',
 };
 
 export const ModuleActionFunctionsDependencies: Partial<
@@ -79,7 +78,7 @@ export const ModuleNewActionGenerators: Partial<
   Record<ActionType, Record<string, string>>
 > = {
   [ActionType.Function]: {
-    [ActionFunction.TailwindCSS]: '@modern-js/dependence-generator',
+    [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
     [ActionFunction.Less]: '@modern-js/dependence-generator',
     [ActionFunction.Sass]: '@modern-js/dependence-generator',
     [ActionFunction.I18n]: '@modern-js/dependence-generator',
