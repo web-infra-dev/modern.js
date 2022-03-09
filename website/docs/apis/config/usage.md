@@ -26,7 +26,7 @@ Modern.js 支持在 `package.json` 文件和 `modern.config.js` 配置文件中�
 
 ## 配置文件
 
-Modern.js 的配置文件定义在项目的根目录下，同时支持 `js` 和 `ts` 两种格式：
+Modern.js 的配置文件定义在项目的根目录下，同时支持 `.js` 和 `.ts` 两种格式：
 
 - `modern.config.js`
 - `modern.config.ts`
@@ -67,7 +67,7 @@ export default {
 - 模块工程方案：`@modern-js/module-tools`。
 - 项目组工程方案：`@modern-js/monorepo-tools`。
 
-调用 `defineConfig` 工具函数后，会自动进行配置的类型推导和类型补全：
+`defineConfig` 函数会帮助你进行配置的类型推导和类型补全：
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
