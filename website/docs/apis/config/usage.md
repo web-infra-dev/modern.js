@@ -59,7 +59,7 @@ export default {
 
 ### modern.config.ts
 
-我们推荐使用 .ts 格式的配置文件，以获得更友好的 TypeScript 类型提示。
+我们推荐使用 .ts 格式的配置文件，它提供了友好的 TypeScript 类型提示，从而帮助你避免配置中的错误。
 
 你可以依据自己的工程方案，从以下包中导入 `defineConfig` 工具函数：
 
