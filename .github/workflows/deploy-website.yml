@@ -1,0 +1,40 @@
+name: Deploy Website
+
+on:
+  push:
+    branches: [main, deploy_website_ci_0309]
+    paths:
+      - 'website/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 25
+
+      - name: Install Pnpm
+        uses: pnpm/action-setup@v2.0.1
+        with:
+          version: latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --ignore-scripts
+
+      - name: Build Site
+        run: cd website && npm run build:site
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          branch: gh-pages
+          folder: website/build
+          clean: false
