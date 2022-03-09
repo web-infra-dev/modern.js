@@ -1,7 +1,6 @@
 import type { APIServerStartInput } from '@modern-js/server-core';
-import { mergeExtension } from '../../utils';
-import { ModernRouteInterface } from '../../libs/route';
-import { ApiServerMode } from '../../constants';
+import { ServerRoute as ModernRouteInterface } from '@modern-js/types';
+import { ApiServerMode } from '@modern-js/prod-server';
 import { ModernDevServer } from './dev-server';
 
 export class ModernSSRDevServer extends ModernDevServer {
@@ -12,9 +11,7 @@ export class ModernSSRDevServer extends ModernDevServer {
     return null as any;
   }
 
-  protected async prepareWebHandler(
-    extension: ReturnType<typeof mergeExtension>,
-  ) {
+  protected async prepareWebHandler(extension: { middleware: any[] }) {
     return super.prepareWebHandler(extension);
   }
 

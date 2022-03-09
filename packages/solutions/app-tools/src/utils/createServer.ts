@@ -1,4 +1,4 @@
-import { Server, ModernServerOptions } from '@modern-js/server';
+import { Server, ModernDevServerOptions } from '@modern-js/server';
 
 let server: Server | null = null;
 
@@ -11,7 +11,7 @@ export const closeServer = async () => {
   }
 };
 
-export const createServer = async (options: ModernServerOptions) => {
+export const createServer = async (options: ModernDevServerOptions) => {
   if (server) {
     await server.close();
   }

@@ -3690,98 +3690,56 @@ importers:
       jest: 27.4.5
       typescript: 4.5.4
 
-  packages/server/server:
+  packages/server/prod-server:
     specifiers:
-      '@babel/compat-data': ^7.15.0
-      '@babel/core': 7.16.7
-      '@babel/preset-env': ^7.15.0
-      '@babel/preset-typescript': ^7.15.0
-      '@babel/register': ^7.15.3
-      '@babel/runtime': ^7
-      '@modern-js/bff-utils': workspace:^1.2.2
+      '@babel/compat-data': ^7.17.0
       '@modern-js/core': workspace:^1.4.3
-      '@modern-js/hmr-client': workspace:^1.2.2
       '@modern-js/server-core': workspace:^1.2.2
-      '@modern-js/server-utils': workspace:^1.2.1
       '@modern-js/types': workspace:^1.3.3
       '@modern-js/utils': workspace:^1.3.2
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/cookie': ^0.4.1
-      '@types/jest': ^26
+      '@types/jest': ^26.0.9
       '@types/lodash.clone': ^4
       '@types/lru-cache': ^5.1.1
       '@types/mime-types': ^2.1.0
-      '@types/minimatch': ^3.0.5
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       '@types/serve-static': ^1.13.10
       '@types/ua-parser-js': ^0.7.36
-      '@types/webpack-dev-middleware': ^5.0.2
-      '@types/ws': ^7.4.7
       axios: ^0.24.0
-      babel-plugin-module-resolver: ^4.1.0
-      chokidar: ^3.5.2
       compare-versions: ^3.6.0
       cookie: ^0.4.2
-      devcert: ^1.1.3
-      esbuild: ^0.13.13
-      fs-extra: ^10.0.0
+      del-cli: ^4.0.1
       http-proxy-middleware: ^2.0.1
       ignore-styles: ^5.0.1
       jest: ^27
-      launch-editor: ^2.2.1
       lodash.clone: ^4.5.0
       lru-cache: ^6.0.0
       mime-types: ^2.1.32
-      minimatch: ^3.0.4
       node-mocks-http: ^1.11.0
       path-to-regexp: ^6.2.0
       portfinder: ^1.0.28
       serve-static: ^1.14.1
-      tsconfig-paths: ^3.11.0
       typescript: ^4
       ua-parser-js: ^0.7.28
-      webpack: ^5.54.0
-      webpack-dev-middleware: ^5.0.0
-      websocket: ^1
-      ws: ^8.2.0
     dependencies:
-      '@babel/compat-data': 7.16.8
-      '@babel/core': 7.16.7
-      '@babel/preset-env': 7.16.8_@babel+core@7.16.7
-      '@babel/preset-typescript': 7.16.7_@babel+core@7.16.7
-      '@babel/register': 7.16.8_@babel+core@7.16.7
-      '@babel/runtime': 7.16.7
-      '@modern-js/bff-utils': link:../bff-utils
-      '@modern-js/hmr-client': link:../hmr-client
+      '@babel/compat-data': 7.17.0
+      '@modern-js/core': link:../../cli/core
       '@modern-js/server-core': link:../core
-      '@modern-js/server-utils': link:../utils
       '@modern-js/utils': link:../../toolkit/utils
       axios: 0.24.0
-      babel-plugin-module-resolver: 4.1.0
-      chokidar: 3.5.2
       compare-versions: 3.6.0
       cookie: 0.4.2
-      devcert: 1.2.0
-      esbuild: 0.13.15
-      fs-extra: 10.0.0
       http-proxy-middleware: 2.0.1
       ignore-styles: 5.0.1
-      launch-editor: 2.3.0
       lodash.clone: 4.5.0
       lru-cache: 6.0.0
       mime-types: 2.1.34
-      minimatch: 3.0.4
       path-to-regexp: 6.2.0
       serve-static: 1.14.2
-      tsconfig-paths: 3.12.0
       ua-parser-js: 0.7.31
-      webpack-dev-middleware: 5.3.0_webpack@5.65.0
-      ws: 8.4.0
     devDependencies:
-      '@modern-js/core': link:../../cli/core
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -3790,17 +3748,72 @@ importers:
       '@types/lodash.clone': 4.5.6
       '@types/lru-cache': 5.1.1
       '@types/mime-types': 2.1.1
-      '@types/minimatch': 3.0.5
       '@types/node': 14.18.4
-      '@types/react': 17.0.38
-      '@types/react-dom': 17.0.11
       '@types/serve-static': 1.13.10
       '@types/ua-parser-js': 0.7.36
-      '@types/webpack-dev-middleware': 5.3.0_webpack@5.65.0
-      '@types/ws': 7.4.7
+      del-cli: 4.0.1
       jest: 27.4.5
       node-mocks-http: 1.11.0
       portfinder: 1.0.28
+      typescript: 4.5.4
+
+  packages/server/server:
+    specifiers:
+      '@babel/register': ^7.15.3
+      '@modern-js/core': workspace:^1.4.3
+      '@modern-js/hmr-client': workspace:^1.2.2
+      '@modern-js/prod-server': workspace:^1.0.0
+      '@modern-js/server-core': workspace:^1.2.2
+      '@modern-js/server-utils': workspace:^1.2.1
+      '@modern-js/types': workspace:^1.3.3
+      '@modern-js/utils': workspace:^1.3.2
+      '@scripts/build': workspace:*
+      '@scripts/jest-config': workspace:*
+      '@types/jest': ^26
+      '@types/minimatch': ^3.0.5
+      '@types/node': ^14
+      '@types/webpack-dev-middleware': ^5.0.2
+      '@types/ws': ^7.4.7
+      chokidar: ^3.5.2
+      devcert: ^1.1.3
+      esbuild: ^0.13.13
+      jest: ^27
+      launch-editor: ^2.2.1
+      minimatch: ^3.0.4
+      path-to-regexp: ^6.2.0
+      tsconfig-paths: ^3.11.0
+      typescript: ^4
+      webpack: ^5.54.0
+      webpack-dev-middleware: ^5.0.0
+      websocket: ^1
+      ws: ^8.2.0
+    dependencies:
+      '@babel/register': 7.16.8
+      '@modern-js/hmr-client': link:../hmr-client
+      '@modern-js/prod-server': link:../prod-server
+      '@modern-js/server-utils': link:../utils
+      '@modern-js/utils': link:../../toolkit/utils
+      chokidar: 3.5.2
+      devcert: 1.2.0
+      esbuild: 0.13.15
+      launch-editor: 2.3.0
+      minimatch: 3.0.4
+      path-to-regexp: 6.2.0
+      tsconfig-paths: 3.12.0
+      webpack-dev-middleware: 5.3.0_webpack@5.65.0
+      ws: 8.4.0
+    devDependencies:
+      '@modern-js/core': link:../../cli/core
+      '@modern-js/server-core': link:../core
+      '@modern-js/types': link:../../toolkit/types
+      '@scripts/build': link:../../../scripts/build
+      '@scripts/jest-config': link:../../../scripts/jest-config
+      '@types/jest': 26.0.24
+      '@types/minimatch': 3.0.5
+      '@types/node': 14.18.4
+      '@types/webpack-dev-middleware': 5.3.0_webpack@5.65.0
+      '@types/ws': 7.4.7
+      jest: 27.4.5
       typescript: 4.5.4
       webpack: 5.65.0_esbuild@0.13.15
       websocket: 1.0.34
@@ -3868,6 +3881,7 @@ importers:
       '@modern-js/plugin-analyze': workspace:^1.3.3
       '@modern-js/plugin-fast-refresh': workspace:^1.2.1
       '@modern-js/plugin-i18n': workspace:^1.2.1
+      '@modern-js/prod-server': workspace:^1.0.0
       '@modern-js/server': workspace:^1.4.3
       '@modern-js/types': workspace:^1.3.3
       '@modern-js/utils': workspace:^1.3.2
@@ -3892,6 +3906,7 @@ importers:
       '@modern-js/plugin-analyze': link:../../cli/plugin-analyze
       '@modern-js/plugin-fast-refresh': link:../../cli/plugin-fast-refresh
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
+      '@modern-js/prod-server': link:../../server/prod-server
       '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
@@ -5694,6 +5709,11 @@ packages:
   /@babel/compat-data/7.16.8:
     resolution: {integrity: sha512-m7OkX0IdKLKPpBlJtF561YJal5y/jyI5fNfWbPxh2D/nbzzGI4qRyrD8xO2jB24u7l+5I2a43scCG2IrfjC50Q==}
     engines: {node: '>=6.9.0'}
+
+  /@babel/compat-data/7.17.0:
+    resolution: {integrity: sha512-392byTlpGWXMv4FbyWw3sAZ/FrW/DrwqLGXpy0mbyNe9Taqv1mg9yON5/o0cnr8XYCkFTZbC1eV+c+LAROgrng==}
+    engines: {node: '>=6.9.0'}
+    dev: false
 
   /@babel/core/7.12.9:
     resolution: {integrity: sha512-gTXYh3M5wb7FRXQy+FErKFAv90BnlOuNn1QkCK2lREoPAjrQCO49+HVSrFoe5uakFAF5eenS75KbO2vQiLrTMQ==}
@@ -8141,6 +8161,19 @@ packages:
       '@babel/plugin-transform-typescript': 7.16.8_@babel+core@7.16.7
     transitivePeerDependencies:
       - supports-color
+
+  /@babel/register/7.16.8:
+    resolution: {integrity: sha512-aoUj2ocH92k7qyyA59y07sUaCVxxS7VjNul/jR0mpAyYvpo6n5HELZmyUGtrgFm7/1b0UutT7I1w/4bAkXxCHA==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      clone-deep: 4.0.1
+      find-cache-dir: 2.1.0
+      make-dir: 2.1.0
+      pirates: 4.0.4
+      source-map-support: 0.5.21
+    dev: false
 
   /@babel/register/7.16.8_@babel+core@7.16.7:
     resolution: {integrity: sha512-aoUj2ocH92k7qyyA59y07sUaCVxxS7VjNul/jR0mpAyYvpo6n5HELZmyUGtrgFm7/1b0UutT7I1w/4bAkXxCHA==}
@@ -13821,7 +13854,7 @@ packages:
   /@types/http-proxy/1.17.8:
     resolution: {integrity: sha512-5kPLG5BKpWYkw/LVOGWpiq3nEVqxiN32rTgI53Sk12/xHFQ2rG3ehI9IO+O3W2QoKeyB92dJkoka8SUm6BX1pA==}
     dependencies:
-      '@types/node': 14.18.4
+      '@types/node': 16.11.18
 
   /@types/inquirer/8.1.3:
     resolution: {integrity: sha512-AayK4ZL5ssPzR1OtnOLGAwpT0Dda3Xi/h1G0l1oJDNrowp7T1423q4Zb8/emr7tzRlCy4ssEri0LWVexAqHyKQ==}
@@ -14337,7 +14370,7 @@ packages:
     resolution: {integrity: sha512-nCkHGI4w7ZgAdNkrEu0bv+4xNV/XDqW+DydknebMOQwkpDGx8G+HTlj7R7ABI8i8nKxVw0wtKPi1D+lPOkh4YQ==}
     dependencies:
       '@types/mime': 1.3.2
-      '@types/node': 14.18.4
+      '@types/node': 16.11.18
 
   /@types/signale/1.4.3:
     resolution: {integrity: sha512-rxdOM+UCMF1PW09V7u/R0g/BsS1jtksxZaFCvcqL/K7yjT5rKUTf1Z+OTV7S9GGYHiklRfn3paTowHNddRFRVA==}
@@ -15916,7 +15949,7 @@ packages:
     resolution: {integrity: sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==}
     dependencies:
       esbuild: 0.13.15
-      follow-redirects: 1.14.7
+      follow-redirects: 1.14.9
     transitivePeerDependencies:
       - debug
 
@@ -22283,8 +22316,17 @@ packages:
       debug:
         optional: true
 
-  /follow-redirects/1.14.7_debug@4.3.3:
-    resolution: {integrity: sha512-+hbxoLbFMbRKDwohX8GkTataGqO6Jb7jGwpAlwgy2bIz25XtRm7KEzJM76R1WiNT5SwZkX4Y75SwBolkpmE7iQ==}
+  /follow-redirects/1.14.9:
+    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+
+  /follow-redirects/1.14.9_debug@4.3.3:
+    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -22294,16 +22336,6 @@ packages:
     dependencies:
       debug: 4.3.3_supports-color@6.1.0
     dev: false
-
-  /follow-redirects/1.14.9:
-    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dev: true
 
   /for-in/0.1.8:
     resolution: {integrity: sha1-2Hc5COMSVhCZUrH9ubP6hn0ndeE=}
@@ -23815,7 +23847,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.7
+      follow-redirects: 1.14.9
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -23825,7 +23857,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.7_debug@4.3.3
+      follow-redirects: 1.14.9_debug@4.3.3
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
