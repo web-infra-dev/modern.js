@@ -23,6 +23,7 @@ describe('test server', () => {
       dev: true,
     });
     expect(server instanceof Server).toBe(true);
+    await server.close();
   });
 
   describe('shoule get production modern server instance', () => {
@@ -54,6 +55,7 @@ describe('test server', () => {
       expect(isDev).toBeFalsy();
       expect(staticGenerate).toBeFalsy();
       expect(presetRoutes).toBeUndefined();
+      await server.close();
     });
 
     test('should add handler correctly', async () => {
@@ -88,6 +90,7 @@ describe('test server', () => {
 
       expect(newLen + 1).toBe(nextLen);
       expect(modernServer.handlers[nextLen - 1]).toBe(asyncHandler);
+      await server.close();
     });
 
     test('should get request handler correctly', async () => {
@@ -100,6 +103,7 @@ describe('test server', () => {
       const modernServer: any = (server as any).server;
       const handler = modernServer.getRequestHandler();
       expect(typeof handler === 'function').toBeTruthy();
+      await server.close();
     });
   });
 });
