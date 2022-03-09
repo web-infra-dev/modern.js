@@ -1,0 +1,33 @@
+.features{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-top: 108px;
+}
+
+.card-list{
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 25px;
+  margin-left: -16px;
+}
+
+@media screen and (min-width: 966px) and (max-width: 1300px) {
+  .features{
+    padding: 108px 43px 0;
+  }
+}
+
+@media screen and (max-width: 966px) {
+  .features{
+    padding: 70px 21.5px 0;
+  }
+  .card-list{
+    margin-left: 0;
+    flex-direction: column;
+  }
+}
+
