@@ -27,10 +27,10 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Dependencies
-        run: pnpm install --filter @modern-js/website
+        run: pnpm install --ignore-scripts
 
       - name: Build Website
-        run: cd website && npm run build
+        run: cd website && build:nodejieba && npm run build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.1
