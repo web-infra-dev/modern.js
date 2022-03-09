@@ -29,10 +29,14 @@ jobs:
         shell: bash
         run: |
           git config --system core.longpaths true
-      - uses: actions/checkout@v2
+
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
           fetch-depth: 25
-      - uses: pnpm/action-setup@v2.0.1
+
+      - name: Install Pnpm
+        uses: pnpm/action-setup@v2.0.1
         with:
           version: latest
 
@@ -49,7 +53,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: Init
+      - name: Install Dependencies
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: pnpm install --ignore-scripts
 
