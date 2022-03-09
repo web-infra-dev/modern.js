@@ -2,7 +2,7 @@ name: Build Website
 
 on:
   push:
-    branches: [main, deploy_website_ci_0309]
+    branches: [main]
     paths:
       - 'website/**'
 
