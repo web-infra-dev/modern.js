@@ -12,20 +12,30 @@ const getGeneratorPath = (generator: string, distTag: string) => {
   return generator;
 };
 
-const handleTemplateFile = async (
+export const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
+  const { dependencies, peerDependencies, devDependencies } = context.config;
+  const TailwindCSSVersion = '^2.2.19';
+  if (dependencies?.tailwindcss) {
+    dependencies.tailwindcss = TailwindCSSVersion;
+  }
+  if (peerDependencies?.tailwindcss) {
+    peerDependencies.tailwindcss = TailwindCSSVersion;
+  }
+  if (devDependencies?.tailwindcss) {
+    devDependencies.tailwindcss = TailwindCSSVersion;
+  }
   await appApi.runSubGenerator(
     getGeneratorPath(DependenceGenerator, context.config.distTag),
     undefined,
     {
       ...context.config,
-      dependencies: {
-        ...(context.config.dependencies || {}),
-        tailwindcss: `^2.2.19`,
-      },
+      dependencies,
+      devDependencies,
+      peerDependencies,
     },
   );
 };
