@@ -98,6 +98,7 @@ export const MWAActionFunctionsDependencies: Partial<
   [ActionFunction.I18n]: '@modern-js/plugin-i18n',
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
   [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
+  [ActionFunction.TailwindCSS]: 'tailwindcss',
 };
 
 export const MWAActionFunctionsAppendTypeContent: Partial<

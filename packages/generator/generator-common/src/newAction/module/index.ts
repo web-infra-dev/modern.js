@@ -63,6 +63,7 @@ export const ModuleActionFunctionsPeerDependencies: Partial<
   Record<ActionFunction, string>
 > = {
   [ActionFunction.RuntimeApi]: '@modern-js/runtime',
+  [ActionFunction.TailwindCSS]: 'tailwindcss',
 };
 
 export const ModuleActionFunctionsDependencies: Partial<
