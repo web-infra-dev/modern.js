@@ -1,4 +1,4 @@
-name: Deploy Website
+name: Build Website
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - 'website/**'
 
 jobs:
-  build-and-deploy:
+  build-website:
     runs-on: macos-latest
     steps:
       - name: Checkout
@@ -27,9 +27,9 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Dependencies
-        run: pnpm install --ignore-scripts
+        run: pnpm install
 
-      - name: Build Site
+      - name: Build Website
         run: cd website && npm run build
 
       - name: Deploy 🚀
