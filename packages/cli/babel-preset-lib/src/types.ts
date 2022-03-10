@@ -1,3 +1,5 @@
+import type { IStyledComponentOptions } from '@modern-js/babel-preset-base';
+
 export interface ISyntaxOption {
   syntax: 'es5' | 'es6+';
   type: 'module' | 'commonjs';
@@ -19,6 +21,7 @@ export interface ILibPresetOption {
   envVars?: string[];
   globalVars?: Record<string, string>;
   jsxTransformRuntime?: JsxTransformRuntimeType;
+  styledComponentsOptions?: IStyledComponentOptions;
 }
 
 export type JsxTransformRuntimeType = 'automatic' | 'classic';

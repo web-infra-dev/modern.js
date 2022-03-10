@@ -24,3 +24,14 @@ export type EnvOptions = Partial<{
   browserslistEnv: string;
   shippedProposals: boolean;
 }>;
+
+export interface IStyledComponentOptions {
+  pure?: boolean;
+  displayName?: boolean;
+  ssr?: boolean;
+  fileName?: boolean;
+  meaninglessFileNames?: string[];
+  minify?: boolean;
+  transpileTemplateLiterals?: boolean;
+  namespace?: string;
+}

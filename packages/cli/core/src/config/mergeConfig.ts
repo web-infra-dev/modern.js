@@ -22,10 +22,14 @@ export interface NormalizedToolsConfig
     | 'terser'
     | 'minifyCss'
     | 'esbuild'
+    | 'styledComponents'
   > {
   webpack: ToolsConfig['webpack'] | Array<NonNullable<ToolsConfig['webpack']>>;
   babel: ToolsConfig['babel'] | Array<NonNullable<ToolsConfig['babel']>>;
   postcss: ToolsConfig['postcss'] | Array<NonNullable<ToolsConfig['postcss']>>;
+  styledComponents:
+    | ToolsConfig['styledComponents']
+    | Array<NonNullable<ToolsConfig['styledComponents']>>;
   autoprefixer:
     | ToolsConfig['autoprefixer']
     | Array<NonNullable<ToolsConfig['autoprefixer']>>;

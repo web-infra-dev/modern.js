@@ -18,6 +18,7 @@ export const getBabelChain = (
     enableReactPreset,
     enableTypescriptPreset,
     lodashOptions,
+    styledComponentsOptions,
   } = libPresetOption;
   const { syntax, type } = syntaxOption;
   const chain = createBabelChain();
@@ -38,6 +39,7 @@ export const getBabelChain = (
         // helpers: true,
       },
       lodashOptions,
+      styledComponentsOptions,
     },
     jsxTransformRuntime,
   });

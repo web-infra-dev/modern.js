@@ -3,7 +3,7 @@ import {
   getModuleBabelChain,
 } from '@modern-js/babel-preset-module';
 import { TransformOptions } from '@babel/core';
-import { applyOptionsChain, getAlias } from '@modern-js/utils';
+import { applyOptionsChain, getAlias, isUseSSRBundle } from '@modern-js/utils';
 import { NormalizedConfig } from '@modern-js/core';
 import type { BabelChain } from '@modern-js/babel-chain';
 import { IPackageModeValue, ModuleToolsConfig } from '../types';
@@ -40,7 +40,7 @@ export const resolveBabelConfig = (
   const {
     source: { envVars, globalVars, jsxTransformRuntime = 'automatic' },
     output: { importStyle },
-    tools: { lodash: userLodashOption },
+    tools: { lodash: userLodashOption, styledComponents },
   } = modernConfig as ModuleToolsConfig;
 
   // alias config
@@ -67,6 +67,15 @@ export const resolveBabelConfig = (
       lodashOptions,
       jsxTransformRuntime,
       importStyle,
+      styledComponentsOptions: applyOptionsChain(
+        {
+          pure: true,
+          displayName: true,
+          ssr: isUseSSRBundle(modernConfig),
+          transpileTemplateLiterals: true,
+        },
+        styledComponents,
+      ),
     },
     {
       type: option.type,

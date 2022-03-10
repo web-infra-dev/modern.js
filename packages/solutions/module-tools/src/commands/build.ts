@@ -42,7 +42,8 @@ export const build = async ({
   const tsconfigPath = path.join(appDirectory, tsconfigName);
   dotenv.config();
   const isTsProject = tsConfigutils.existTsConfigFile(tsconfigPath);
-  const enableTscCompiler = isTsProject && tsc;
+  const enableTscCompiler =
+    isTsProject && tsc && !modernConfig.output.disableTsChecker;
 
   valid.valideBeforeTask({ modernConfig, tsconfigPath });
 
