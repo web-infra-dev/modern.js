@@ -1,5 +1,17 @@
 # @modern-js/new-action
 
+## 1.3.3
+
+### Patch Changes
+
+- 83059b93: fix tailwindcss type reference
+- 83059b93: fix tailwindcss generator
+- Updated dependencies [c29451a5]
+- Updated dependencies [83059b93]
+- Updated dependencies [83059b93]
+- Updated dependencies [83059b93]
+  - @modern-js/generator-common@1.4.4
+
 ## 1.3.2
 
 ### Patch Changes

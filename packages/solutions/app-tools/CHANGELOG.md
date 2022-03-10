@@ -1,5 +1,36 @@
 # @modern-js/app-tools
 
+## 1.4.3
+
+### Patch Changes
+
+- 4b5d4bf4: feat: add img resource's inline and url type declaration
+- bdcf0865: fix: empty distDirectory for api service
+- 02fb4146: support product server
+- edc3bd3d: fix: @modern-js/core package not found
+- Updated dependencies [969f172f]
+- Updated dependencies [0ad75faa]
+- Updated dependencies [4c792f68]
+- Updated dependencies [83059b93]
+- Updated dependencies [4b5d4bf4]
+- Updated dependencies [0ad75faa]
+- Updated dependencies [62f5b8c8]
+- Updated dependencies [55e18278]
+- Updated dependencies [4499a674]
+- Updated dependencies [0ad75faa]
+- Updated dependencies [02fb4146]
+- Updated dependencies [403f5169]
+- Updated dependencies [e37ea5b2]
+- Updated dependencies [a7f42f48]
+- Updated dependencies [83059b93]
+  - @modern-js/core@1.4.4
+  - @modern-js/webpack@1.4.1
+  - @modern-js/utils@1.3.3
+  - @modern-js/new-action@1.3.3
+  - @modern-js/server@1.4.4
+  - @modern-js/types@1.3.4
+  - @modern-js/prod-server@1.0.1
+
 ## 1.4.2
 
 ### Patch Changes

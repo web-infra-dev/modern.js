@@ -1,5 +1,25 @@
 # @modern-js/webpack
 
+## 1.4.1
+
+### Patch Changes
+
+- 0ad75faa: fix: should not enable fork-ts-checker when using ts-loader
+- 4b5d4bf4: fix: output.copy type
+- 0ad75faa: feat: improve default options of fork-ts-checker
+- 0ad75faa: fix: should only enable fork-ts-checker in typescript project
+- Updated dependencies [969f172f]
+- Updated dependencies [4c792f68]
+- Updated dependencies [4b5d4bf4]
+- Updated dependencies [62f5b8c8]
+- Updated dependencies [55e18278]
+- Updated dependencies [4499a674]
+- Updated dependencies [403f5169]
+- Updated dependencies [a7f42f48]
+  - @modern-js/babel-preset-app@1.2.4
+  - @modern-js/core@1.4.4
+  - @modern-js/utils@1.3.3
+
 ## 1.4.0
 
 ### Minor Changes

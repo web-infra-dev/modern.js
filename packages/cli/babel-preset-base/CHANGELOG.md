@@ -1,5 +1,14 @@
 # @modern-js/babel-preset-base
 
+## 1.2.3
+
+### Patch Changes
+
+- 969f172f: support tools.styledComponents for module-tools,support close tsc process with disbaleTsChecker
+- Updated dependencies [4c792f68]
+- Updated dependencies [a7f42f48]
+  - @modern-js/utils@1.3.3
+
 ## 1.2.2
 
 ### Patch Changes
