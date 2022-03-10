@@ -33,11 +33,7 @@ export const createMockHandler = ({ pwd }: { pwd: string }) => {
       return next();
     }
 
-    if (matched) {
-      res.setHeader('Access-Control-Allow-Origin', '*');
-      return matched.handler(context, next);
-    } else {
-      return next();
-    }
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    return matched.handler(context, next);
   };
 };

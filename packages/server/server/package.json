@@ -33,7 +33,7 @@
     "new": "modern new",
     "build": "modern build",
     "dev": "modern build --watch",
-    "test": "jest --passWithNoTests"
+    "test": "jest"
   },
   "dependencies": {
     "@modern-js/prod-server": "workspace:^1.0.1",
