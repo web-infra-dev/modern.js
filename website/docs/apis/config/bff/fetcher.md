@@ -21,10 +21,7 @@ MWA 项目需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用�
 
 自定义 `fetch` 函数，可以用于 Native、小程序场景下的 `fetch` 函数定制。
 
-```ts
-// modern.config.ts
-import { defineConfig } from '@modern-js/app-tools'
-
+```ts title="modern.config.ts"
 export default defineConfig({
   bff: {
     fetcher: 'custome-fetch'

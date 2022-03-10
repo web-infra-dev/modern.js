@@ -18,9 +18,7 @@ sidebar_position: 4
 
 当值类型为 `string` 时，当前值即表示访问该入口的路由名称。
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   server: {
     routes: {
@@ -35,9 +33,7 @@ export default defineConfig({
 
 也可以通过 `Array<string>` 为入口设置多个访问路由:
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   server: {
     routes: {

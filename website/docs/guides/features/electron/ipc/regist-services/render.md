@@ -14,7 +14,7 @@ sidebar_position: 3
 
 ### 实现服务内容
 
-```typescript title='services/index.ts'
+```ts title='services/index.ts'
 export const getPageLocation = () => {
   return window.location.href;
 }
@@ -22,7 +22,7 @@ export const getPageLocation = () => {
 
 ### 注册服务
 
-```typescript title="xx/xx.tsx（渲染进程）"
+```ts title="xx/xx.tsx（渲染进程）"
 // 渲染进程中
 import { winService } from '@modern-js/runtime/electron-render';
 import * as services from './services';
@@ -32,7 +32,7 @@ winService.registerServices(services);
 
 ### 主进程中访问服务
 
-```typescript title="electron/services/index.ts（主进程）"
+```ts title="electron/services/index.ts（主进程）"
 // 主进程中
 
 import { winService } from '@modern-js/runtime/electron-main';
@@ -47,7 +47,7 @@ export const getPageLocationOfMainWindow = () => {
 
 ### 实现服务内容
 
-```typescript title='services/index.ts'
+```ts title='services/index.ts'
 export const getWindowName = () => {
   return 'main';
 }
@@ -55,7 +55,7 @@ export const getWindowName = () => {
 
 ### 注册服务
 
-```typescript title="xx/xx.tsx（渲染进程）"
+```ts title="xx/xx.tsx（渲染进程）"
 // 渲染进程中
 import { webviewService } from '@modern-js/runtime/electron-render';
 import * as services from './services';
@@ -65,7 +65,7 @@ webviewService.registerServices(services);
 
 ### webview 进程中访问服务
 
-```typescript title="xx/xx.tsx（webview 进程）"
+```ts title="xx/xx.tsx（webview 进程）"
 // webview 进程中
 
 import webviewBridge from '@modern-js/runtime/electron-webview';

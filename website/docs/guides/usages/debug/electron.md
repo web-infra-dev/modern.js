@@ -17,7 +17,7 @@ sidebar_position: 4
 ### 调试主进程
 对于主进程，只需在打包主进程代码的时候，设置相关参数即可。在 Modern.js 应用项目中**启用「Electron」模式**的情况下，会有如下可执行命令:
 
-```javascript
+```js
 "build:main": "modern build electron-main --development"
 ```
 

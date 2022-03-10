@@ -10,7 +10,7 @@ sidebar_position: 8
 
 其类型定义为：
 
-```typescript
+```ts
 export type ForgedAPI = {
   updateModernConfig: (updateInfo: Record<string, any>) => Promise<void>;
   ...

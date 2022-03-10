@@ -16,7 +16,7 @@ sidebar_position: 4
   <summary>styledComponents 配置详情</summary>
 
 
-```javascript
+```js
 {
   pure: true,
   displayName: true,
@@ -33,9 +33,7 @@ sidebar_position: 4
 对应 [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components) 的配置。
 值为 `Object` 类型时，利用 `Object.assign` 函数与默认配置合并。
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     styledComponents: {}
@@ -45,9 +43,7 @@ export default defineConfig({
 
 值为 `Function` 类型时，默认配置作为参数传入，可以直接修改配置对象不返回任何东西，也可以返回一个值作为最终结果：
 
-```javascript
-import { defineConfig } from '@modern-js/app-tools';
-
+```js
 export default defineConfig({
   tools: {
     styledComponents: opts => {}

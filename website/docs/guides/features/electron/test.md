@@ -20,7 +20,7 @@ sidebar_position: 8
 我们会把所有的测试用例，统一写在：`electron/tests`中。
 我们会新建一个 `electron/tests/index.test.ts`：
 
-```typescript title='electron/tests/index.test.ts'
+```ts title='electron/tests/index.test.ts'
 /**
  * @jest-environment @modern-js/electron-test/dist/js/node/testEnvironment.js
  */
@@ -40,7 +40,7 @@ sidebar_position: 8
 
   首先，我们先注册需要测试的主进程函数`testMainFunc`：
 
-  ```typescript title="electron/main.ts"
+  ```ts title="electron/main.ts"
     import { testServices } from '@modern-js/electron-test/main';
 
     const services = {
@@ -66,7 +66,7 @@ sidebar_position: 8
 
 - 测试主进程`testMainFunc`函数。
 
-  ```typescript title="electron/tests/main-process/index.ts"
+  ```ts title="electron/tests/main-process/index.ts"
     // test main services
 
     import TestDriver from '@modern-js/electron-test';
@@ -101,7 +101,7 @@ sidebar_position: 8
 
 - 注册渲染进程所需函数`testRenderFunc`。
 
-  ```typescript title='electron/preload/browserWindow/index.ts'
+  ```ts title='electron/preload/browserWindow/index.ts'
   import {
     exposeInMainWorld,
     browserWindowPreloadApis,
@@ -126,7 +126,7 @@ sidebar_position: 8
 
 - 测试窗口中注册的函数`testRenderFunc`。
 
-  ```typescript title='electron/tests/render-process/index.ts'
+  ```ts title='electron/tests/render-process/index.ts'
   // test render services
 
   import TestDriver from '@modern-js/electron-test';
@@ -160,7 +160,7 @@ sidebar_position: 8
 
 - 新建 webview 的预加载脚本，注册 `testWebviewFunc` 函数。
 
-  ```typescript title='electron/preload/webview/index.ts'
+  ```ts title='electron/preload/webview/index.ts'
   import {
     webviewPreloadApis,
     exposeInMainWorld,
@@ -176,7 +176,7 @@ sidebar_position: 8
 
   ```
 
-  ```typescript title='electron/preload/webview/index.dev.js'
+  ```ts title='electron/preload/webview/index.dev.js'
   const { join } = require('path');
   const babel = require('@babel/register');
   const { babelConfig } = require('@modern-js/plugin-electron/tools');
@@ -194,7 +194,7 @@ sidebar_position: 8
 
   首先，渲染进程预加载脚本中注册一个获得路径的方法。
 
-  ```typescript title="electron/browserWindow/index.ts"
+  ```ts title="electron/browserWindow/index.ts"
     ...
     export const apis = testServices({
       ...
@@ -211,7 +211,7 @@ sidebar_position: 8
 
   其次，添加`webview`组件，加上预加载脚本路径。
 
-  ```typescript title="xx/xx.tsx（渲染进程）"
+  ```ts title="xx/xx.tsx（渲染进程）"
   const App: React.FC = () => (
     <div>
       ...
@@ -231,7 +231,7 @@ sidebar_position: 8
 
 - 编写测试用例。
 
-  ```typescript
+  ```ts
   import TestDriver from '@modern-js/electron-test';
 
   let testDriver: TestDriver | null = null;
@@ -281,7 +281,7 @@ sidebar_position: 8
   - 在 `beforeAll` 中
     - 等待 `webview` 加载完毕。
 
-    ```typescript
+    ```ts
     await testDriver?.whenReady('main', {
       webviewId: x,
     });
@@ -289,7 +289,7 @@ sidebar_position: 8
 
     - 将 `webview` 加入 `webviewService` 的管理。（`webviewService.addWebview`）。
 
-    ```typescript
+    ```ts
     await testDriver?.call({
       funcName: 'webviewService.addWebview',
       winName: 'main',
@@ -299,7 +299,7 @@ sidebar_position: 8
 
   - 在测试用例中，我们通过渲染进程中的`webviewService.callWebview`来调用`webview`中注册的服务。
 
-    ```typescript
+    ```ts
     const result = await testDriver?.call({
       funcName: 'webviewService.callWebview',
       winName: 'main',
@@ -313,7 +313,7 @@ sidebar_position: 8
 
 我们可以这样，新建一个实例：
 
-```typescript
+```ts
   const winName = 'main';
   let myDriver: TestDriver | null;
   beforeAll(async () => {
@@ -329,7 +329,7 @@ sidebar_position: 8
 
 接着，我们来测试此实例关闭的表现：
 
-```typescript
+```ts
   it(`will quit if set forceQuit=true`, async () => {
     await myDriver?.call({
       funcName: 'lifecycleService.quit',
@@ -353,7 +353,7 @@ sidebar_position: 8
 
 我们将所有测试用例从 `index.test.ts` 中引入：
 
-```typescript title="electron/tests/index.test.ts"
+```ts title="electron/tests/index.test.ts"
 
 /**
  * @jest-environment @modern-js/electron-test/dist/js/node/testEnvironment.js

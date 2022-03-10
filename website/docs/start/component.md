@@ -410,8 +410,7 @@ export const TableList: React.FC = () => {
 接着新增 `modern.config.js` 文件并添加配置 [`runtime.state`](/docs/apis/config/runtime/state) 开启支持 Model 功能：
 
 ``` javascript title=modern.config.js
-/** @type {import('@modern-js/module-tools').UserConfig} */
-module.exports = {
+export default defineConfig({
   runtime: {
     state: true,
   },
@@ -663,7 +662,7 @@ pnpm run new
 
 删除 `packages/component2/src/index.ts` 文件，新建 `packages/component2/src/index.tsx` 文件，增加 Button 组件:
 
-```typescript
+```ts
 import Button from 'antd/es/button';
 
 export default function () {

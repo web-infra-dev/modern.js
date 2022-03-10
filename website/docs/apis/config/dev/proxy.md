@@ -23,9 +23,7 @@ sidebar_position: 1
 
 例如：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   dev: {
     proxy: {
@@ -40,9 +38,7 @@ export default defineConfig({
 值为 `string` 时， 可以用来指定单独的代理文件，例如：
 
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   dev: {
     proxy: './proxy.js',
@@ -50,7 +46,7 @@ export default defineConfig({
 });
 ```
 
-```javascript title="proxy.js"
+```js title="proxy.js"
 module.exports = {
   name: 'my-app',
   rules: `

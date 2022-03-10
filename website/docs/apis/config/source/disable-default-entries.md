@@ -20,9 +20,7 @@ sidebar_position: 7
 
 设置如下，即可关闭默认的行为：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   source: {
     disableDefaultEntries: true

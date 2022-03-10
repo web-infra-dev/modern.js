@@ -7,7 +7,7 @@ sidebar_position: 1
 :::info 补充信息
 * 使用进程：[渲染进程](/docs/guides/features/electron/basic#渲染进程)。
 
-```typescript
+```ts
 import { browserWindowPreloadApis } from '@modern-js/runtime/electron-render';
 ```
 :::
@@ -24,7 +24,7 @@ import { browserWindowPreloadApis } from '@modern-js/runtime/electron-render';
 
 :::tip 提示
 从 `@modern-js/runtime/electron-webview` 引入的 `exposeInMainWorld` 相当于是：
-```typescript
+```ts
 import { exposeInMainWorld } from 'electron';
 
 exposeInMainWorld('bridge', apis);
