@@ -59,6 +59,7 @@ const runBabelCompiler = async (
       rootDir: srcRootDir,
       filenames: willCompilerFiles,
       distDir,
+      ignore: ['*.d.ts'],
     },
     babelConfig,
   );
