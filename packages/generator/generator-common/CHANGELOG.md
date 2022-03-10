@@ -1,5 +1,14 @@
 # @modern-js/generator-common
 
+## 1.4.4
+
+### Patch Changes
+
+- c29451a5: fix package manager schema
+- 83059b93: fix tailwindcss type reference
+- 83059b93: fix module solution tailwindcss version when new tainwindcss function
+- 83059b93: fix tailwindcss generator
+
 ## 1.4.3
 
 ### Patch Changes

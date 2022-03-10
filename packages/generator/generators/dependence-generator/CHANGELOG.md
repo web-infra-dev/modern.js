@@ -1,5 +1,11 @@
 # @modern-js/dependence-generator
 
+## 1.2.4
+
+### Patch Changes
+
+- c29451a5: fix: fix append type error when enable plugin
+
 ## 1.2.3
 
 ### Patch Changes

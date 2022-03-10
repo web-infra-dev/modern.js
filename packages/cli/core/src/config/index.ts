@@ -66,7 +66,7 @@ interface OutputConfig {
   mountId?: string;
   favicon?: string;
   faviconByEntries?: Record<string, string | undefined>;
-  copy?: Record<string, unknown>;
+  copy?: Array<Record<string, unknown> & { from: string }>;
   scriptExt?: Record<string, unknown>;
   disableTsChecker?: boolean;
   disableHtmlFolder?: boolean;
@@ -139,6 +139,7 @@ interface ToolsConfig {
   babel?: ConfigFunction;
   autoprefixer?: ConfigFunction;
   postcss?: ConfigFunction;
+  styledComponents?: ConfigFunction;
   lodash?: ConfigFunction;
   devServer?: Record<string, unknown>;
   tsLoader?: ConfigFunction;

@@ -1,5 +1,11 @@
 # @modern-js/adapter-helpers
 
+## 1.2.2
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+
 ## 1.2.1
 
 ### Patch Changes

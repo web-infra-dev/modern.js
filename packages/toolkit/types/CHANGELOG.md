@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 1.3.4
+
+### Patch Changes
+
+- 4499a674: feat: support to pass options to plugins
+- e37ea5b2: feat: add afterMonorepoDeploy hook
+
 ## 1.3.3
 
 ### Patch Changes
