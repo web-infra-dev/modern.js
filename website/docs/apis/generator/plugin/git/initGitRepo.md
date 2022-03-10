@@ -8,7 +8,7 @@ sidebar_position: 2
 
 其类型定义为：
 
-```typescript
+```ts
 export type AfterForgedAPI = {
   initGitRepo: () => Promise<void>;
   ...

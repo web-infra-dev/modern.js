@@ -8,7 +8,7 @@ sidebar_position: 0
 * 用于框架启动初始化功能。
 * 使用进程：[主进程](/docs/guides/features/electron/basic#主进程)。
 
-```typescript
+```ts
 import Runtime from '@modern-js/runtime/electron-main';
 ```
 :::
@@ -41,7 +41,7 @@ import Runtime from '@modern-js/runtime/electron-main';
 
 ## 示例
 
-```typescript title="electron/main.ts"
+```ts title="electron/main.ts"
 import Runtime from '@modern-js/runtime/electron-main';
 const runtime = new Runtime({
   windowsConfig,

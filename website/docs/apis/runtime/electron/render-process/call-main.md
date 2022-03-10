@@ -7,7 +7,7 @@ sidebar_position: 3
 :::info 补充信息
 * 使用进程：[渲染进程](/docs/guides/features/electron/basic#渲染进程)。
 
-```typescript
+```ts
 import { callMain } from '@modern-js/runtime/electron-render';
 ```
 :::

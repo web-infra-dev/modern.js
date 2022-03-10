@@ -54,7 +54,7 @@ library-project 为创建的项目名。
 
 修改 `src/index.ts` 文件，增加工具库函数(以将字符串字母都转为大写为例)：
 
-```typescript
+```ts
 export const upperCase = (s: string) => s.toUpperCase();
 ```
 
@@ -62,7 +62,7 @@ export const upperCase = (s: string) => s.toUpperCase();
 
 修改默认测试文件 `tests/index.test.ts`：
 
-```typescript
+```ts
 import { upperCase } from '@/index';
 
 describe('upperCase cases', () => {
@@ -96,7 +96,7 @@ import DevIDE from '@site/docs/components/dev-ide.md'
 
 启用成功后，会自动创建 `stories/` 目录，修改 `stories/index.stories.tsx` 文件内容：
 
-```typescript
+```ts
 import { useState } from "react";
 import { upperCase } from "@/index";
 
@@ -379,7 +379,7 @@ pnpm run new
 
 修改 `packages/library2/src/index.ts` 文件，增加工具库函数:
 
-```typescript
+```ts
 export const lowerCase = (s: string) => s.toLowerCase();
 ```
 

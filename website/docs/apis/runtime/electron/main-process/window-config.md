@@ -7,7 +7,7 @@ sidebar_position: 5
 :::info 补充信息
 * 使用进程：[主进程](/docs/guides/features/electron/basic#主进程)。
 
-```typescript
+```ts
 import type { WindowConfig } from '@modern-js/runtime/electron-main';
 ```
 
@@ -21,7 +21,7 @@ WindowConfig
 
 - [multiple]：`boolean`，是否允许此窗口打开多个，默认为 `false`。
 - [options]：[`BrowserWindowConstructorOptions`](https://www.electronjs.org/zh/docs/latest/api/browser-window#new-browserwindowoptions)，窗口基础配置，默认为：
-  ```typescript
+  ```ts
   {
     width: 1024,
     height: 800,

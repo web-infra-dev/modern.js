@@ -14,7 +14,7 @@ sidebar_label: terser
 <details>
   <summary>terser 配置详情</summary>
 
-```javascript
+```js
   terserOptions: {
     parse: {
       ecma: 8,
@@ -51,9 +51,7 @@ sidebar_label: terser
 对应 [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin) 的配置，值为 `Object` 类型时，与默认配置通过 `Object.assign` 合并，例如生产环境下去除 console：
 
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     terser: {
@@ -69,9 +67,7 @@ export default defineConfig({
 
 值为 `Function` 类型时，默认配置作为第一个参数传入，可以直接修改配置对象不做返回，也可以返回一个值最为最终结果：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     terser: opts => {

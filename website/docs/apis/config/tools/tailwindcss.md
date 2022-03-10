@@ -15,7 +15,7 @@ sidebar_position: 5
 <details>
   <summary>Tailwindcss 配置详情</summary>
 
-```javascript
+```js
   const tailwind = {
     purge: {
         enabled: options.env === 'production',

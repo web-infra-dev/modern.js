@@ -62,7 +62,7 @@ export default App;
 
 路由分为 **浏览器路由** 和 **哈希路由**。Modern.js 默认启用的是浏览器路由类型，如果你想使用哈希路由，可以关闭 `supportHtml5History` 选项。
 
-```javascript title=package.json
+```js title=package.json
 {
   "modernConfig": {
     "runtime": {

@@ -17,10 +17,8 @@ sidebar_position: 2
 使用子应用调试的模式时，应该先确保主应用开启了线上 debug 模式。
 :::
 
-```ts title=modern.config.js
-import { defineConfig } from '@modern-js/app-tools';
-
-module.exports = defineConfig({
+```js title=modern.config.js
+export default defineConfig({
   dev: {
     withMasterApp: {
       // 主应用的路径
