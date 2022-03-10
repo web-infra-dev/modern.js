@@ -24,7 +24,7 @@ sidebar_position: 1
 ### 导出变量
 > 目前这种场景使用的较少，可以了解下。
 
-```typescript title="electron/services/index.ts（主进程）"
+```ts title="electron/services/index.ts（主进程）"
 export const a = 1;
 export const b = {
   a: 1,
@@ -32,7 +32,7 @@ export const b = {
 ```
 - 主进程中定义的服务，渲染进程中访问方式。
 
-```typescript title="xx/xx.tsx（渲染进程）"
+```ts title="xx/xx.tsx（渲染进程）"
 
 import { callMain } from '@modern-js/runtime/electron-render';
 ...
@@ -42,7 +42,7 @@ callMain('b.a') // 访问 b 对象中的 a
 ```
 - 渲染进程中（main 窗口）定义服务，主进程访问。
 
-```typescript title="electron/services/index.ts（主进程中）"
+```ts title="electron/services/index.ts（主进程中）"
 // 主进程中
 import { winService } from '@modern-js/runtime/electron-main';
 ...
@@ -56,7 +56,7 @@ export const testCall = () => {
 - 渲染进程中（main 窗口）定义服务，webview 访问。
 
 
-```typescript title="xxx/xx.tsx（webview 进程中）"
+```ts title="xxx/xx.tsx（webview 进程中）"
 // webview 进程中
 import webviewBridge from '@modern-js/runtime/electron-webview';
 
@@ -72,14 +72,14 @@ webviewBridge.callBrowserWindow('main', 'a.b');
 - 在 webview 中**访问渲染进程的服务**的时候有两种方式：
   - 窗口中关闭 Node 后，通过如下方式调用：`callBrowserWindow`。
 
-  ```typescript title='xxx/xx.tsx（webview 进程中）'
+  ```ts title='xxx/xx.tsx（webview 进程中）'
   import { webviewPreloadApis } from '@modern-js/runtime/electron-webview';
   const { callBrowserWindow } = webviewPreloadApis;
   ```
 
   - 窗口中开启 Node 后，通过上面示例方式调用：`callBrowserWindow`。
 
-  ```typescript title='xxx/xx.tsx（webview 进程中）'
+  ```ts title='xxx/xx.tsx（webview 进程中）'
     import webviewBridge from '@modern-js/runtime/electron-webview';
     ...
     webviewBridge.callBrowserWindow('main', 'a');
@@ -91,7 +91,7 @@ webviewBridge.callBrowserWindow('main', 'a.b');
 这种场景使用的较多，以**主进程注册服务，供渲染进程访问**为例子：
 
 
-```typescript title='electron/services/index.ts（主进程中）'
+```ts title='electron/services/index.ts（主进程中）'
 
 // 主进程里的 services (比如：electron/services/index.ts（主进程）)
 export const openWindow = (winName: string) => {
@@ -105,7 +105,7 @@ export const closeWindow = (winName: string) => {
 
 渲染进程中访问:
 
-```typescript title="xx/xxx.tsx"
+```ts title="xx/xxx.tsx"
 import { callMain } from '@modern-js/runtime/electron-render';
 ...
 callMain('openWindow', 'demo')  // 打开 demo 窗口
@@ -126,7 +126,7 @@ callMain('closeWindow', 'demo') // 关闭 demo 的窗口
 
 基于上面导出函数的示例，我们发现在调用的时候是这样的：
 
-```typescript title="xx/xxx.tsx"
+```ts title="xx/xxx.tsx"
 callMain('openWindow', 'demo')  // 打开 demo 窗口
 callMain('closeWindow', 1) // 关闭 id 为 1 的窗口
 ```
@@ -135,7 +135,7 @@ callMain('closeWindow', 1) // 关闭 id 为 1 的窗口
 
 
 
-```typescript title="electron/services/index.ts（主进程）"
+```ts title="electron/services/index.ts（主进程）"
 // 主进程里的 services (比如：electron/services/index.ts（主进程）)
 import { winService } from '@modern-js/runtime/electron-main';
 
@@ -156,7 +156,7 @@ export const winManager = new WindowManager();
 ```
 这时候，我们可以在渲染进程中这样访问：
 
-```typescript title='xxx/xx.tsx'
+```ts title='xxx/xx.tsx'
 callMain('winManager.openWindow', 'demo')  // 打开 demo 窗口
 callMain('winManager.closeWindow', 'demo') // 关闭 demo 的窗口
 ```
@@ -168,7 +168,7 @@ callMain('winManager.closeWindow', 'demo') // 关闭 demo 的窗口
 基于函数形式的内容，我们封装一层命名空间如下：
 
 
-```typescript title='electron/services/index.ts（主进程）'
+```ts title='electron/services/index.ts（主进程）'
 import { winService } from '@modern-js/runtime/electron-main';
 export namespace winManager {
   export const openWindow = (winName: string) => {
@@ -186,7 +186,7 @@ export namespace winManager {
 
 这时候，我们可以在渲染进程中这样访问，与对象相似：
 
-```typescript title='xx/xxx.tsx（渲染进程）'
+```ts title='xx/xxx.tsx（渲染进程）'
 callMain('winManager.openWindow', 'demo')  // 打开 demo 窗口
 callMain('winManager.closeWindow', 'demo') // 关闭 demo 的窗口
 ```

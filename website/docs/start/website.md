@@ -110,7 +110,7 @@ touch pages/about.tsx pages/introduction.tsx
 
 文件内容如下：
 
-```javascript title="about.tsx"
+```js title="about.tsx"
 const About = () => (
   <div>About page</div>
 )
@@ -118,7 +118,7 @@ const About = () => (
 export default About;
 ```
 
-```javascript title="introduction.tsx"
+```js title="introduction.tsx"
 const Introduction = () => (
   <div>Introduction page</div>
 )
@@ -132,7 +132,7 @@ export default Introduction;
 
 我们修改 `index.tsx` 文件的内容，增加跳转到其他两个路由的链接：
 
-```javascript title="index.tsx" {15-20}
+```js title="index.tsx" {15-20}
 import { Link } from '@modern-js/runtime/router'
 import './index.css';
 
@@ -178,7 +178,7 @@ export default Index;
 
 通常，当网站发生页面切换时，我们希望页面的 `title` 元素信息也能随之改变。我们可以使用 `@modern-js/runtime/head` 提供的 `Helmet` 组件，更改不同路由中的 `head` 元素。分别对 `index.tsx`、`about.tsx`、`introduction.tsx` 这三个文件做修改，关键代码如下：
 
-```javascript title="index.tsx" {1,5-7}
+```js title="index.tsx" {1,5-7}
 import { Helmet } from '@modern-js/runtime/head';
 
 const Index = () => (
@@ -192,7 +192,7 @@ const Index = () => (
 )
 ```
 
-```javascript title="about.tsx" {1,5-7}
+```js title="about.tsx" {1,5-7}
 import { Helmet } from '@modern-js/runtime/head';
 
 const About = () => (
@@ -207,7 +207,7 @@ const About = () => (
 export default About;
 ```
 
-```javascript title="introduction.tsx" {1,5-7}
+```js title="introduction.tsx" {1,5-7}
 import { Helmet } from '@modern-js/runtime/head';
 
 const Introduction = () => (
@@ -248,7 +248,7 @@ Modern.js 集成了主流的 Utility Class 解决方案 —— [Tailwind CSS](ht
 
 然后，新建 `src/pages/_app.tsx`，`pages/` 目录下的 `_app.tsx` 相当于入口的根组件，负责全局布局、样式等工作。在这个文件中，我们引入 Tailwind CSS 的样式文件：
 
-```javascript title="_app.tsx"
+```js title="_app.tsx"
 import 'tailwindcss/base.css';
 import 'tailwindcss/components.css';
 import 'tailwindcss/utilities.css';
@@ -256,7 +256,7 @@ import 'tailwindcss/utilities.css';
 
 现在，我们就可以在组件中使用 Tailwind CSS 提供的 Utility Class 了。我们使用 `text-center` 这个 Class，为 `src/pages/about.tsx` 中的文字设置居中效果：
 
-```javascript title="about.tsx"
+```js title="about.tsx"
 const About = () => (
   <div>
     <div className="text-center">About page</div>
@@ -278,13 +278,13 @@ const About = () => (
 
 首先，在文件中引入 `styled` 模块：
 
-```javascript title="introduction.tsx"
+```js title="introduction.tsx"
 import styled from '@modern-js/runtime/styled'
 ```
 
 `styled` 模块的使用方式同 [styled-components](https://styled-components.com/) 一致，我们可以定义如下样式组件：
 
-```javascript title="src/pages/introduction.tsx"
+```js title="src/pages/introduction.tsx"
 const Title = styled.div`
   font-size: 24px;
   font-weight: bold;
@@ -294,7 +294,7 @@ const Title = styled.div`
 
 `src/pages/introduction.tsx` 完整的代码如下：
 
-```javascript title="introduction.tsx" {2,4-8,15}
+```js title="introduction.tsx" {2,4-8,15}
 import { Helmet } from '@modern-js/runtime/head';
 import styled from '@modern-js/runtime/styled'
 
@@ -340,7 +340,7 @@ import LaunchBFFChoices from '@site/docs/components/launch-bff-choices.md';
 
 执行完成后，项目中新增了 `api/` 目录，添加 `api/data.ts` 文件，代码如下：
 
-```javascript title="api/data.ts"
+```js title="api/data.ts"
 export default async () => {
   return {
     title: 'Introduction to Modern.js',
@@ -357,7 +357,7 @@ export default async () => {
 
 通常情况下，组件代码中通过 `axios`，执行请求地址来获取数据。但是 Modern.js 提供了一种更加简洁的方式，可以像使用函数一样来调用 API，关键代码如下：
 
-```javascript title="introduction.tsx" {9-19}
+```js title="introduction.tsx" {9-19}
 import { useState, useEffect } from 'react'
 import styled from '@modern-js/runtime/styled';
 import { Helmet } from '@modern-js/runtime/head';
@@ -405,7 +405,7 @@ export default Introduction;
 
 Modern.js 提供了 `useLoader` API，可以同构在浏览器端、服务端渲染时的数据获取。现在，我们用 `useLoader` 替换 `useEffect`，关键代码如下：
 
-```javascript title="introduction.tsx" {1,7-10}
+```js title="introduction.tsx" {1,7-10}
 import { useLoader } from '@modern-js/runtime';
 import getData from '@api/data';
 // ...
@@ -439,7 +439,7 @@ Modern.js 提供的一体化 BFF 调用能同构的在 CSR/SSR 时获取数据�
 
 有些场景下，我们不希望整个页面都是 SSR，即在使用 SSR 时，页面的局部依然是 CSR（客户端渲染）。例如，`/introduction` 页面有一个实时显示当前时间的组件，我们可以通过 `NoSSR` 组件实现页面局部的 CSR。关键代码如下：
 
-```javascript title="introduction.tsx" {2,23-25}
+```js title="introduction.tsx" {2,23-25}
 import { useState, useEffect } from 'react';
 import { NoSSR } from '@modern-js/runtime/ssr';
 
@@ -490,7 +490,7 @@ Modern.js 支持修改默认使用的 HTML 模板文件。
 
 以 Google Analytics 为例，我们新建 `config/html/top.html` 文件，内容如下：
 
-```javascript
+```js
 <!-- Global Site Tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
 <script>
@@ -523,7 +523,7 @@ Modern.js 内置 [Jest](https://jestjs.io/) 、[Testing Library](https://testing
 
 现在，我们对首页做集成测试。在 `src/` 目录下新建 `__tests__` 目录，用于放置测试用例，编写测试用例 `index.test.tsx`：
 
-```javascript title="index.test.tsx"
+```js title="index.test.tsx"
 import { renderApp } from '@modern-js/runtime/testing';
 import Index from '../pages/index';
 

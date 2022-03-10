@@ -10,7 +10,7 @@ sidebar_position: 5
 
 在窗口配置中给对应窗口配置：`useFileProtocolInDev: true`。
 
-```typescript
+```ts
 export const windowsConfig: WindowConfig[] = [
   {
     name: 'main',
@@ -29,9 +29,8 @@ export const windowsConfig: WindowConfig[] = [
 
 在 `modern.config.js` 中, 将 `supportHtml5History` 始终设置为 `false` 即可。
 
-```typescript
-module.exports = {
-  ...
+```ts
+export default defineConfig({
   runtime: {
     router: {
       supportHtml5History: false,

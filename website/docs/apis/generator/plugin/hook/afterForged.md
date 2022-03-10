@@ -10,7 +10,7 @@ afterForged 函数为生成器插件生命周期函数，其通常用于定义�
 
 其类型定义为：
 
-```typescript
+```ts
 export type PluginAfterForgedFunc = (
   api: AfterForgedAPI,
   inputData: Record<string, unknown>,

@@ -8,7 +8,7 @@
 ## Class: TestDriver
 
 :::info 补充信息
-```typescript
+```ts
 import TestDriver from '@modern-js/electron-test';
 ```
 :::
@@ -29,7 +29,7 @@ import TestDriver from '@modern-js/electron-test';
 :::warning 警告
 当我们需要启动多个实例的时候，我们需要在环境变量中添加：`TEST_FOLDER` 变量，用于区分实例运行目录。
 比如：
-```typescript
+```ts
 new TestDriver({
   cwd: 'xxx/electron',
   envs: {

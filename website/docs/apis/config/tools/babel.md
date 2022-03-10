@@ -15,7 +15,7 @@ sidebar_position: 1
   <summary>babel 配置详情</summary>
 
 
-```javascript
+```js
 {
   presets: ['@modern-js/babel-preset-app'],
   plugins: []
@@ -32,10 +32,8 @@ sidebar_position: 1
 
 值为 `Object` 类型时，与默认配置通过 `Object.assign` 合并。
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
-module.exports = {
+```js title="modern.config.js"
+export default defineConfig({
   tools: {
     babel: {},
   },
@@ -44,9 +42,7 @@ module.exports = {
 
 值为 `Function` 类型时，默认配置作为第一个参数传入，可以直接修改配置对象，也可以返回一个值作为最终结果，第二个参数对象提供了一些可以直接调用的工具函数：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     babel: config => {

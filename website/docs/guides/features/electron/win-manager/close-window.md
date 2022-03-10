@@ -12,7 +12,7 @@ sidebar_position: 3
 ## 直接关闭窗口
 我们有窗口管理服务，因此可以直接使用 `winService` 来关闭窗口。
 
-```typescript
+```ts
 // 渲染进程中
 import bridge from '@modern-js/runtime/electron-bridge';
 
@@ -31,7 +31,7 @@ bridge.winService.closeWindowByName('demo');
 
   比如在 `demo` 的窗口配置中增加：
 
-  ```typescript
+  ```ts
   export const windowsConfig: WindowConfig[] = [
     {
       name: 'demo',
@@ -46,7 +46,7 @@ bridge.winService.closeWindowByName('demo');
 
 - 注册确认回调。
 
-  ```typescript
+  ```ts
   // 渲染进程中
   const onBeforeCloseListener = bridge.winService.registerBeforeClose(() => {
       return true;
@@ -63,7 +63,7 @@ bridge.winService.closeWindowByName('demo');
 - 忽略所有回调，直接关闭窗口。
   当我们期望强制关闭窗口，忽略关闭确认弹窗时候，我们可以在关闭的时候传参数，比如：
 
-  ```typescript
+  ```ts
   // 渲染进程中
   import bridge from '@modern-js/runtime/electron-bridge';
 
@@ -87,7 +87,7 @@ bridge.winService.closeWindowByName('demo');
 
   比如在 demo 的窗口配置中增加：
 
-  ```typescript
+  ```ts
   export const windowsConfig: WindowConfig[] = [
     {
       name: 'demo',
@@ -98,7 +98,7 @@ bridge.winService.closeWindowByName('demo');
   ```
 
 - 渲染进程注册回调。
-  ```typescript
+  ```ts
   // 渲染进程中
   const onWillCloseListener = bridge.winService.registerWillClose(() => {
       console.log('do something before close');

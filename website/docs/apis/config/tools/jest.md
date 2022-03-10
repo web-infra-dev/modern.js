@@ -19,9 +19,7 @@ sidebar_position: 10
 
 对应 [Jest](https://jestjs.io/docs/configuration) 的配置，当为 `Object` 类型时，可以配置 Jest 所支持的所有底层配置 。
 
-```ts title=modern.config.js
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title=modern.config.js
 export default defineConfig({
   tools: {
     jest: {
@@ -33,9 +31,7 @@ export default defineConfig({
 
 值为 `Function` 类型时，默认配置作为第一个参数传入，需要返回新的 Jest 配置对象。
 
-```ts title=modern.config.js
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title=modern.config.js
 export default defineConfig({
   tools: {
     jest: options => {

@@ -52,9 +52,7 @@ export default createPlugin(() => {
 
 然后将它的文件地址添加到 `modern.config.ts` 中：
 
-```ts title=modern.config.ts
-import { defineConfig } from '@modern-js/app-tools'
-
+```ts title="modern.config.ts"
 export default defineConfig({
   plugins: [
     {
@@ -91,9 +89,7 @@ export default createPlugin(() => {
 
 发布之后，安装到需要使用的项目 `pnpm add custom-plugin`，这里以一个应用项目为例，然后在 `modern.config.ts` 中添加：
 
-```ts title=modern.config.ts
-import { defineConfig } from '@modern-js/app-tools'
-
+```ts title="modern.config.ts"
 export default defineConfig({
   plugins: [
     {

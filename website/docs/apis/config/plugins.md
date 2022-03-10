@@ -18,7 +18,7 @@ sidebar_position: 9
 
 :::info 补充信息
 数组中 plugin 类型如下：
-```typescript
+```ts
 type PluginItem = {
   server?: string,
   cli?: string
@@ -30,9 +30,7 @@ type PluginItem = {
 
 * npm package
 
-```typescript title=modern.config.ts
-import { defineConfig } from '@modern-js/app-tools'
-
+```ts title="modern.config.ts"
 export default defineConfig({
   plugins: [
     {
@@ -45,9 +43,7 @@ export default defineConfig({
 
 * 本地文件
 
-```typescript title=modern.config.ts
-import { defineConfig } from '@modern-js/app-tools';
-
+```ts title="modern.config.ts"
 export default defineConfig({
   plugins: [
     {

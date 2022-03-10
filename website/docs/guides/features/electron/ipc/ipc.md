@@ -46,14 +46,14 @@ sidebar_position: 2
 
   - 主进程给某个渲染进程（即窗口）发送消息。
 
-  ```typescript title="主进程"
+  ```ts title="主进程"
   // 主进程发送消息
   const win = new BrowserWindow();
 
   win.webContents.send('xxChannel', {msg: 'this is msg'});
   ```
 
-  ```typescript title="渲染进程"
+  ```ts title="渲染进程"
   // 渲染进程接收消息
   import { ipcRenderer } from 'electron';
   ipcRenderer.on('xxChannel', (e, msg) => {
@@ -68,7 +68,7 @@ sidebar_position: 2
   - 主进程给渲染进程发消息依赖 `BrowserWindow` 实例，因此需要设计**窗口管理**。
   - 监听了消息，解除监听依赖 `handler` ，有点不便捷。
 
-  ```typescript title="渲染进程"
+  ```ts title="渲染进程"
   const handler = (e, msg) => {
     console.log('msg:', msg);
   };
@@ -79,7 +79,7 @@ sidebar_position: 2
   ```
   在 ModernJs Electron 中：
 
-  ```typescript title="主进程"
+  ```ts title="主进程"
   // 主进程发送消息给渲染进程
   import { winService } from '@modern-js/runtime/electron-main';
   ...
@@ -87,7 +87,7 @@ sidebar_position: 2
   winService.sendTo('demo', 'xxChannel', {data: 'this is msg from main'});
   ```
 
-  ```typescript title="渲染进程"
+  ```ts title="渲染进程"
   // 渲染进程监听消息
 
   import { winService } from '@modern-js/runtime/electron-render';

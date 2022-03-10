@@ -5,7 +5,7 @@ sidebar_position: 2
 
 :::info 补充信息
 通过 Style Component 在页面上使用 CSS。
-```typescript
+```ts
 import styled from '@modern-js/runtime/styled';
 ```
 :::

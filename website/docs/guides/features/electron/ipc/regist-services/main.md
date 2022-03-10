@@ -5,7 +5,7 @@ sidebar_position: 2
 # 主进程注册服务
 在前面有这么一段例子：
 
-```typescript title="electron/main.ts"
+```ts title="electron/main.ts"
 // 主进程
 import * as services from './services';
 const runtime = new Runtime({
@@ -20,7 +20,7 @@ const runtime = new Runtime({
 上述示例，完成了在主进程中的服务注册：
 - 将所有期望作为服务提供出去的：函数、对象、变量等全部统一导出。
 
-```typescript title='services/index.ts'
+```ts title='services/index.ts'
 export const openWindow = (winName: string) => {
   console.log('open window by name', winName);
 };
@@ -32,7 +32,7 @@ export const openWindow = (winName: string) => {
 
 - 在实例化 `Runtime` 时候，传递给 `Runtime` 完成服务注册。
 
-```typescript title='electron/main.ts'
+```ts title='electron/main.ts'
 import * as services from './services';
 
 const runtime = new Runtime({
@@ -43,7 +43,7 @@ const runtime = new Runtime({
 
 ## 渲染进程中访问
 
-```typescript title="xx/xx.tsx（渲染进程）"
+```ts title="xx/xx.tsx（渲染进程）"
 import { callMain } from '@modern-js/runtime/electron-render';
 ...
 callMain('openWindow', 'demo')  // 打开 demo 窗口

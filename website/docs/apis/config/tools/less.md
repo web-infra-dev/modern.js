@@ -20,9 +20,7 @@ MWA 项目需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用 L
 
 对应 [less-loader](https://lesscss.org/) 的配置，值为 `Object` 类型时，与默认配置通过 `Object.assign` 合并：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     less: {
@@ -37,9 +35,7 @@ export default defineConfig({
 如下，修改 less 和 css 变量实现主题定制需求：
 
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     less: opts => ({

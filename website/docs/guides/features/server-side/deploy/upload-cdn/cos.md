@@ -77,7 +77,7 @@ CLOUD_SECRET_KEY
 在测试阶段，可以直接在配置文件中设置静态资源前缀 `output.assetPrefix` 为腾讯云 COS 的临时域名：
 
 ```js
-module.exports = {
+export default defineConfig({
   output: {
     assetPrefix: "https://{bucketName}.cos.{bucketRegion}.myqcloud.com/"
   }

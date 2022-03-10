@@ -84,7 +84,7 @@ function Test(props) {
 
 ### selector 用法
 
-```javascript
+```js
 import todoModel from 'models/todo';
 import filterModel from 'models/filter';
 

@@ -70,7 +70,7 @@ sidebar_position: 3
 
   当需要修改 PostCSS 配置时，可以通过底层配置 [`tools.postcss`](/docs/apis/config/tools/postcss) 来实现，下面是一个示例：
 
-  ```javascript title="package.json"
+  ```js title="package.json"
   {
     "modernConfig": {
       "tools": {

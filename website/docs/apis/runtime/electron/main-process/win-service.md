@@ -8,7 +8,7 @@ sidebar_position: 1
 * 窗口管理服务。
 * 使用进程：[主进程](/docs/guides/features/electron/basic#主进程)。
 
-```typescript
+```ts
 import { winService } from '@modern-js/runtime/electron-main';
 ```
 :::
@@ -157,7 +157,7 @@ import { winService } from '@modern-js/runtime/electron-main';
 
 ### 示例
 
-```typescript
+```ts
 // in main process
 import { winService } from '@modern-js/electron-runtime';
 ...

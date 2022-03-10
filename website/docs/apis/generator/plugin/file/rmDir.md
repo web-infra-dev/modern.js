@@ -12,7 +12,7 @@ sidebar_position: 10
 
 其类型定义为：
 
-```typescript
+```ts
 export type ForgedAPI = {
   rmDir: (dirName: string) => Promise<void>;
   ...

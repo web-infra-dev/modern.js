@@ -63,7 +63,7 @@ pages 目录下的文件满足以下条件的不会被当做路由文件
 
 对应生成的路由配置为:
 
-```javascript
+```js
 [
   { path: '/', component: 'pages/index.jsx' },
   { path: '/info', component: 'pages/info.jsx' },
@@ -81,7 +81,7 @@ pages 目录下的文件满足以下条件的不会被当做路由文件
 
 整个应用需要全局的 `layout` 时， 可以通过 `pages/_app.tsx` 实现，具体写法如下:
 
-```javascript
+```js
 import React from 'react';
 import UserLayout from 'xxxx';
 
@@ -139,7 +139,7 @@ export default const App = ({Component, ...pageProps}:{ Component: React.Compone
     └── index.js
 ```
 
-```javascript title="pages/a/_layout.js"
+```js title="pages/a/_layout.js"
 import React from 'react';
 
 const ALayout = ({ Component, ...pageProps }) => {

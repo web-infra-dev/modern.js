@@ -11,7 +11,7 @@ sidebar_position: 3
 
 只需要 `src/index.[tj]s` 默认导出函数:
 
-```javascript title=src/index.js
+```js title=src/index.js
 import { bootstrap } from '@modern-js/runtime';
 
 export default App => {
@@ -26,7 +26,7 @@ export default App => {
 当 `src/index.[tj]sx?` 下没有默认导出函数时，该文件即为真正的 webpack 打包入口文件, 可以直接像使用 create-react-app 等脚手架一样组织代码:
 
 
-```javascript title=src/index.jsx
+```js title=src/index.jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';

@@ -6,7 +6,7 @@ sidebar_position: 6
 
 :::info 补充信息
 * 使用进程：[主进程](/docs/guides/features/electron/basic#主进程)。
-```typescript
+```ts
 import { testServices } from '@modern-js/runtime/electron-test/main';
 ```
 :::
@@ -22,7 +22,7 @@ import { testServices } from '@modern-js/runtime/electron-test/main';
 
 ## 示例
 
-```typescript
+```ts
 import { testServices } from '@modern-js/electron-test/main';
 ...
 const runtime = new Runtime({

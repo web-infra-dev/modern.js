@@ -9,7 +9,7 @@ sidebar_position: 3
 * webview 通信管理。
 * 使用进程：[渲染进程（webview）](/docs/guides/features/electron/basic#渲染进程)。
 
-```typescript
+```ts
 import { webviewBridge } from '@modern-js/runtime/electron-bridge';
 ```
 :::
@@ -25,7 +25,7 @@ import { webviewBridge } from '@modern-js/runtime/electron-bridge';
 #### 返回值
 - `void`。
 
-```typescript
+```ts
 registerServices(services: { [key: string]: unknown }): void;
 ```
 注册服务，提供给 webview 父窗口访问。
@@ -76,7 +76,7 @@ registerServices(services: { [key: string]: unknown }): void;
 - channel：`string`，通信频道名。
 - [args]：`any[]`，通信参数。
 
-```typescript
+```ts
 send(channel: string, data?: any): void;
 ```
 发送消息给 webview 父窗口。
@@ -86,7 +86,7 @@ send(channel: string, data?: any): void;
 
 在 webview 预加载脚本中：
 
-```typescript
+```ts
 import { webviewBridge } from '@modern-js/runtime/electron-bridge';
 
 // 接收 browserWindow 的消息

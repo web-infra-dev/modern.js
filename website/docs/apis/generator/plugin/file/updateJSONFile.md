@@ -12,7 +12,7 @@ sidebar_position: 6
 
 其类型定义为：
 
-```typescript
+```ts
 export type ForgedAPI = {
   updateJSONFile: (
     fileName: string,
@@ -33,7 +33,7 @@ JSON 文件的文件名或者文件路径。
 
 例如需要更新 name 字段：
 
-```typescript
+```ts
 api.updateJSONFile(file, {
     name: "新名称"
 })
@@ -41,7 +41,7 @@ api.updateJSONFile(file, {
 
 需更新嵌套字段：
 
-```typescript
+```ts
 api.updateJSONFile(file, {
   "dependencies.name": "新名称"
 })

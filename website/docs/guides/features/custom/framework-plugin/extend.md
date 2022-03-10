@@ -95,7 +95,7 @@ export default createPlugin(() => {
 
 然后在 `modern.config.ts` 中添加这个插件：
 
-```ts title=modern.config.ts
+```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/runtime'
 
 export default defineConfig({
@@ -127,7 +127,7 @@ export default createPlugin(() => {
 
 将它添加到配置中：
 
-```ts title=modern.config.ts
+```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/runtime'
 
 export default defineConfig({

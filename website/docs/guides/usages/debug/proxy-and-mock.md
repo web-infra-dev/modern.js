@@ -26,7 +26,7 @@ Modern.js 提供了快速生成 Mock 数据的功能，能够让前端独立自�
 
 `./config/mock/index.js` 文件只需要导出一个包含所有 Mock API 的对象，对象的属性由请求配置 `method` 和 `url` 组成，对应的属性值可以为 `Object`、`Array`、`Function`:
 
-```javascript
+```js
 module.exports = {
   /* 属性为具体的 method 和 请求 url，值为 object 或 array作为请求的结果 */
   'GET /api/getInfo': { data: [1, 2, 3, 4] },
@@ -48,7 +48,7 @@ module.exports = {
 
 可以在 `./config/mock/index.js` 中自主引入 [Mock.js](https://github.com/nuysoft/Mock/wiki/Getting-Started)、[faker.js](https://github.com/marak/Faker.js/) 等库生成随机数据，例如：
 
-```javascript
+```js
 const Mock = require('mockjs');
 const faker = require('faker');
 
@@ -76,7 +76,7 @@ module.exports = {
 - 可以使用浏览器「 弱网模拟 」的功能实现。
 - 可以通过 `setTimeout` 为单个接口设置延迟，例如：
 
-```javascript
+```js
 module.exports = {
   'api/getInfo': (req, res) => {
     setTimeout(() => {
@@ -92,7 +92,7 @@ module.exports = {
 
 Modern.js 在 [`tools.devServer`](/docs/apis/config/tools/dev-server) 中提供了配置开发环境代理的方式。例如，将本地开发接口，代理到线上某个地址：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig }  from '@modern-js/app-tools';
 
 export default defineConfig({
@@ -155,9 +155,7 @@ To create a production build, execute build command.
 
 通过配置 [`bff.proxy`](/docs/apis/config/bff/proxy) 可以代理 BFF API 请求到指定的服务上，和[开发环境代理](/docs/apis/config/dev/proxy)不同的是，它同样可以用在生产环境：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   bff: {
     proxy: {
@@ -169,7 +167,7 @@ export default defineConfig({
 
 例如代码中使用一体化 BFF 调用时，最终请求 `http://localhost:8080/api/v1/topics` 会自动代理到 `https://cnodejs.org/api/v1/topics`：
 
-```javascript
+```js
 import getTopics from '@api/v1/topics'
 
 getTopics();

@@ -10,7 +10,7 @@ sidebar_position: 2
 
 其类型定义为：
 
-```typescript
+```ts
 export interface IPluginContext {
   addInputBefore: (key: string, input: IInput) => void;
   ...
@@ -29,7 +29,7 @@ Modern.js 工程方案的配置的问题关键字，具体配置可查看[生成
 
 在包管理工具后面添加输入：
 
-```typescript
+```ts
 context.addInputBefore('packageManager', {
     key: 'test',
     name: '测试输入',

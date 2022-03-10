@@ -7,8 +7,8 @@ Modern.js 支持通过配置直接生成 BFF 代理函数，无需用户手动�
 
 在 `modern.config.js` 文件中编写以下 BFF 代理配置，会将发送到 `localhost:8080/api/v1/topics` 的请求代理到 `https://cnodejs.org/api/v1/topics`。
 
-```javascript title=modern.config.js
-module.exports = {
+```js title="modern.config.js"
+export default defineConfig({
   bff: {
     proxy: {
       '/api/v1/topics': 'https://cnodejs.org',

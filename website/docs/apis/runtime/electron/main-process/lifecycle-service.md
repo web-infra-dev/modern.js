@@ -8,7 +8,7 @@ sidebar_position: 3
 * 应用管理服务。
 * 使用进程：[主进程](/docs/guides/features/electron/basic#主进程)。
 
-```typescript
+```ts
 import { lifecycleService } from '@modern-js/runtime/electron-main';
 ```
 :::

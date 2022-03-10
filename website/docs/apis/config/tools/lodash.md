@@ -17,9 +17,7 @@ sidebar_label: lodash
 值为 `Object` 类型时，与默认配置通过 `Object.assign` 合并:
 
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     lodash: {}
@@ -29,9 +27,7 @@ export default defineConfig({
 
 值为 `Function` 类型时，默认配置作为参数传入，可以直接修改配置对象，也可以返回一个对象作为最终配置。
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     lodash: opts => {},

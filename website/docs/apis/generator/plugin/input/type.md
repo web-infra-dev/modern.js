@@ -8,7 +8,7 @@ sidebar_position: 1
 
 输入类型结构，其类型定义为：
 
-```typescript
+```ts
 interface Input {
     key: string;
     name: string;
@@ -71,7 +71,7 @@ option 为输入选项，当自定义 Input 类型为 `radio` 或 `checkbox` 时
 
 option 类型定义为：
 
-```typescript
+```ts
 interface IOption {
     key: string;
     name: string;
