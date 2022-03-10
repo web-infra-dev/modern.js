@@ -14,7 +14,8 @@ const DOCS_FOLDERS = [
   '.changeset',
   '.github',
   '.vscode',
-  'skip-docs-change.js',
+  'website',
+  'scripts/skip-docs-change.js',
 ];
 
 async function main() {
