@@ -7,7 +7,7 @@ sidebar_position: 1
 
 开发单页面应用的场景，推荐 `src` 文件夹下放置 `App.[tj]sx` 导出应用根组件即可，Modern.js 会自动生成真正的构建打包的入口文件, 内容大致如下:
 
-```javascript
+```js
 import React from 'react';
 import { createApp, bootstrap } from '@modern-js/runtime';
 import App from '@_modern_js_src/App';

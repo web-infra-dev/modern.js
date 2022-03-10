@@ -9,7 +9,7 @@ sidebar_position: 2
 
 - 一个函数或者类
 
-```typescript
+```ts
 export default function () {
   return 'hello world';
 }
@@ -17,7 +17,7 @@ export default function () {
 
 - 一个 React 组件
 
-```typescript
+```ts
 export default () => {
   return (
     <div>Hello World</div>
@@ -27,7 +27,7 @@ export default () => {
 
 - 一个 Module 对象或者 Module 工厂函数
 
-```typescript
+```ts
 import { model } from '@modern-js/runtime/model';
 
 type State = {
@@ -58,7 +58,7 @@ export default model<State>('test').define({
 
 - 一个数据
 
-```typescript
+```ts
 export defualt {
   "test": 1,
 };

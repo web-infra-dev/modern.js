@@ -8,7 +8,7 @@ sidebar_position: 1
 
 Modern.js 允许在 JS 和 CSS 中使用别名导入自定义目录下的模块，并内置了以下别名:
 
-```javascript
+```js
 {
   '@': '<appDirectory>/src',
   '@shared': '<appDirectory>/shared',
@@ -57,16 +57,14 @@ Modern.js 也提供了自定义别名的方式，以添加 `@common` 别名为�
 
 JavaScript 项目可以在 `modern.config.js` 中配置 [`source.alias`](/docs/apis/config/source/alias):
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
-export const defineConfig({
+```js title="modern.config.js"
+export default defineConfig({
   source: {
     alias: {
       '@common': './src/common'
     }
   }
-})
+});
 ```
 
 具体别名配置可以参考 【[API 资料 - source.alias](/docs/apis/config/source/alias)】。
@@ -76,7 +74,7 @@ export const defineConfig({
 
 默认情况下，在前端代码中可以直接使用 `NODE_ENV` 环境变量，如下:
 
-```javascript
+```js
 if (process.env.NODE_ENV === 'development') {
   // do something
 }
@@ -84,7 +82,7 @@ if (process.env.NODE_ENV === 'development') {
 
 执行 `dev` 命令之后可以看到构建产物如下:
 
-```javascript
+```js
 if (true) {
   // do something
 }
@@ -92,15 +90,13 @@ if (true) {
 
 同样在自定义的 HTML 模板中，也可以直接使用环境变量。如 `config/html/head.html`:
 
-```javascript
+```js
 <meta name="test" content="<process.env.NODE_ENV>">
 ```
 
 如果想在代码中使用除 `NODE_ENV` 以外的环境变量，可以在 [`source.envVars`](/docs/apis/config/source/env-vars) 配置指定, 如下:
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   source: {
     envVars: ['VERSION']
@@ -120,7 +116,7 @@ $ set VERSION=1.0.0&&npm run dev
 
 Modern.js 也支持在 `.env` 文件中定义环境变量：
 
-```javascript title=".env"
+```js title=".env"
 VERSION=1.0.0
 ```
 
@@ -134,9 +130,7 @@ VERSION=1.0.0
 
 Modern.js 支持在编译时设置代码中使用到的全局变量:
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   source: {
     globalVars: {
@@ -148,7 +142,7 @@ export default defineConfig({
 
 在代码中可以直接使用:
 
-```typescript title="App.tsx"
+```ts title="App.tsx"
 /* TS 应用中，需要声明该变量 */
 declare const VERSION: string;
 

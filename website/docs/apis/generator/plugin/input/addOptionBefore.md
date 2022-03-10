@@ -10,7 +10,7 @@ sidebar_position: 5
 
 其类型定义为:
 
-```typescript
+```ts
 export interface IPluginContext {
     addOptionBefore: (key: string, optionKey: string, option: IOption) => void;
   ...
@@ -33,7 +33,7 @@ Modern.js 工程方案的配置的问题选项关键字，具体配置可查看[
 
 ## 示例
 
-```typescript
+```ts
 context.AddOptionBefore('packageManager', 'pnpm', {
     key: "npm",
     name: "NPM"

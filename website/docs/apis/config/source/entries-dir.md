@@ -17,9 +17,7 @@ sidebar_position: 111
 
 例如，当配置与目录结构如下时：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   source: {
     entriesDir: './src/pages'
@@ -39,7 +37,7 @@ export default defineConfig({
 
 Modern.js 会根据 `./src/pages` 目录结构生成构建入口 `a` 和入口 `b`，结果如下：
 
-```javascript
+```js
  {
    a: './src/pages/a/App.jsx',
    b: './src/pages/b/App.jsx'
