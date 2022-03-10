@@ -10,7 +10,7 @@ import {
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import generator, { handleTemplateFile } from '../src';
 
-jest.setTimeout(40000);
+jest.setTimeout(60000);
 
 describe('bff-generator', () => {
   it('default', () => {
