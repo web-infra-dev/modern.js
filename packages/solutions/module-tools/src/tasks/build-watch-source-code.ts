@@ -81,6 +81,7 @@ const runBabelCompiler = async (
       distDir: config.distDir,
       watchDir: config.srcRootDir,
       extensions: getExts(isTs),
+      ignore: ['*.d.ts'],
     },
     { ...babelConfig, sourceMaps: config.sourceMaps },
   );

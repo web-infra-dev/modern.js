@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.4.2",
+  "version": "1.4.3",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -56,26 +56,23 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@modern-js/core": "workspace:^1.4.4",
     "@babel/runtime": "^7",
-    "@modern-js/types": "workspace:^1.3.3",
+    "@modern-js/types": "workspace:^1.3.4",
     "@modern-js/i18n-cli-language-detector": "workspace:^1.2.1",
-    "@modern-js/new-action": "workspace:^1.3.2",
+    "@modern-js/new-action": "workspace:^1.3.3",
     "@modern-js/plugin": "workspace:^1.2.1",
     "@modern-js/plugin-analyze": "workspace:^1.3.3",
     "@modern-js/plugin-fast-refresh": "workspace:^1.2.1",
     "@modern-js/plugin-i18n": "workspace:^1.2.1",
-    "@modern-js/server": "workspace:^1.4.3",
-    "@modern-js/prod-server": "workspace:^1.0.0",
-    "@modern-js/utils": "workspace:^1.3.2",
-    "@modern-js/webpack": "workspace:^1.4.0",
+    "@modern-js/server": "workspace:^1.4.4",
+    "@modern-js/prod-server": "workspace:^1.0.1",
+    "@modern-js/utils": "workspace:^1.3.3",
+    "@modern-js/webpack": "workspace:^1.4.1",
     "inquirer": "^8.2.0",
     "webpack": "^5.54.0"
   },
-  "peerDependencies": {
-    "@modern-js/core": "workspace:^1.4.3"
-  },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.4.3",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react": "^17",

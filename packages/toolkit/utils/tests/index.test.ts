@@ -1,5 +1,7 @@
 import { canUseNpm, canUsePnpm, canUseYarn } from '../src';
 
+jest.setTimeout(40000);
+
 describe('test generator utils', () => {
   test('test canUseNpm', async () => {
     const npmAbility = await canUseNpm();

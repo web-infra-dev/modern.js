@@ -10,7 +10,14 @@ import {
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import generator, { handleTemplateFile } from '../src';
 
-jest.setTimeout(40000);
+jest.mock('@modern-js/generator-utils', () => {
+  const originalModule = jest.requireActual('@modern-js/generator-utils');
+  return {
+    __esModule: true,
+    ...originalModule,
+    getPackageVersion: jest.fn(() => '^1.0.0'),
+  };
+});
 
 describe('bff-generator', () => {
   it('default', () => {

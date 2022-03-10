@@ -1,5 +1,12 @@
 # @modern-js/base-generator
 
+## 1.3.3
+
+### Patch Changes
+
+- c29451a5: feat: change editor config
+- fe532786: fix: remove deprecated vscode extensions
+
 ## 1.3.2
 
 ### Patch Changes
