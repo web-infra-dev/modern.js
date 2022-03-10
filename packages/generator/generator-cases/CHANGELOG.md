@@ -1,5 +1,16 @@
 # @modern-js/generator-cases
 
+## 1.2.3
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+- Updated dependencies [c29451a5]
+- Updated dependencies [83059b93]
+- Updated dependencies [83059b93]
+- Updated dependencies [83059b93]
+  - @modern-js/generator-common@1.4.4
+
 ## 1.2.2
 
 ### Patch Changes

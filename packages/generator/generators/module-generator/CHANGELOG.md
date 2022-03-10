@@ -1,5 +1,11 @@
 # @modern-js/module-generator
 
+## 1.3.6
+
+### Patch Changes
+
+- edc3bd3d: fix: @modern-js/core package not found
+
 ## 1.3.5
 
 ### Patch Changes

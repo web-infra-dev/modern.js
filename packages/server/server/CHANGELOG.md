@@ -1,5 +1,17 @@
 # @modern-js/server
 
+## 1.4.4
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+- 02fb4146: support product server
+- Updated dependencies [4c792f68]
+- Updated dependencies [02fb4146]
+- Updated dependencies [a7f42f48]
+  - @modern-js/utils@1.3.3
+  - @modern-js/prod-server@1.0.1
+
 ## 1.4.3
 
 ### Patch Changes
