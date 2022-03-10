@@ -21,9 +21,7 @@ BFF Proxy 使用了强大的 [http-proxy-middleware](https://github.com/chimurai
 
 在 `modern.config.js` 中加入以下配置；即可开启代理：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   bff: {
     proxy: {
@@ -36,10 +34,8 @@ export default defineConfig({
 
 你可以做路径的重写，如将发送到 `localhost:8080/api/topics` 的请求代理到 `https://cnodejs.org/api/v1/topics`。
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
-module.exports = defineConfig({
+```js title="modern.config.js"
+export default defineConfig({
   bff: {
     proxy: {
       '/api': {
@@ -69,8 +65,8 @@ BFF proxy 模式下，如果不需要写 BFF 的接口， API 目录可以删除
 
 如下所示，在 `modern.config.js` 中，写入如下配置；我们将所有 web 页面发送到同域的以 `/api` 开头的请求代理到另一个域名的服务上。
 
-```javascript title="modern.config.js"
-module.exports = {
+```js title="modern.config.js"
+export default defineConfig({
   bff: {
     proxy: {
       '/api': 'https://cnodejs.org',

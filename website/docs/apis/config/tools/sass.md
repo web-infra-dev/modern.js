@@ -20,9 +20,7 @@ MWA 项目需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用 S
 
 对应 [sass-loader](https://github.com/webpack-contrib/sass-loader) 的配置，值为 `Object` 类型时，利用 `Object.assign` 函数与默认配置合并。
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     sass: {}
@@ -35,9 +33,7 @@ export default defineConfig({
 
 如下配置 [additionalData](https://github.com/webpack-contrib/sass-loader#additionaldata):
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     sass: opts => {

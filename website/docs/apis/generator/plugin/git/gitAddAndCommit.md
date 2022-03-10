@@ -8,7 +8,7 @@ sidebar_position: 3
 
 其类型定义为：
 
-```typescript
+```ts
 export type AfterForgedAPI = {
   gitAddAndCommit: (commitMessage: string) => Promise<void>;
   ...

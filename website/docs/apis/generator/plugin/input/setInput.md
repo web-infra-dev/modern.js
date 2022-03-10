@@ -10,7 +10,7 @@ sidebar_position: 4
 
 其类型定义为：
 
-```typescript
+```ts
 export interface IPluginContext {
   setInput: (key: string, field: string, value: unknown) => void;
   ...
@@ -37,6 +37,6 @@ export interface IPluginContext {
 
 修改 packageName 的展示名称
 
-```typescript
+```ts
 context.setInput('packageName', 'name', "展示名称");
 ```

@@ -16,7 +16,7 @@ sidebar_position: 3
 <details>
   <summary>postcss 配置详情</summary>
 
-```javascript
+```js
   {
     ident: 'postcss',
     plugins: () => [
@@ -43,9 +43,7 @@ sidebar_position: 3
 对应 [postcss-loader](https://github.com/postcss/postcss-loader) 的配置。
 值为 `Object` 类型时，与默认配置通过 `Object.assign` 合并。
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     postcss: {},
@@ -59,9 +57,7 @@ export default defineConfig({
 例如，在上面默认配置里面看到, `preset-env` 设置是 `stage3`，如果想在 css 中使用 [nesting-rules](https://preset-env.cssdb.org/features#nesting-rules) 特性，需要修改 `preset-env` 到 `stage1`：
 
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     postcss: opts => {

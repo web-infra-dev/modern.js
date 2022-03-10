@@ -6,7 +6,7 @@ title: defineConfig
 :::info 补充信息
 用于动态配置应用。
 ```ts
-import { defineConfig } from '@modern-js/app-tools';
+import { defineConfig } from '@modern-js/runtime';
 ```
 :::
 

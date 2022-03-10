@@ -9,7 +9,7 @@ sidebar_position: 7
 * 应用管理服务。
 * 使用进程：[渲染进程](/docs/guides/features/electron/basic#渲染进程)。
 
-```typescript
+```ts
 import { lifecycleService } from '@modern-js/runtime/electron-render';
 ```
 :::

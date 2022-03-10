@@ -10,7 +10,7 @@ sidebar_position: 3
 
 其类型定义为：
 
-```typescript
+```ts
 export enum ActionFunction {
   UnBundle = 'unbundle',
   TailwindCSS = 'tailwindcss',

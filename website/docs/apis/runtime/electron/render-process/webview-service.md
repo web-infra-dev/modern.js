@@ -8,7 +8,7 @@ sidebar_position: 5
 * webview 管理服务。
 * 使用进程：[渲染进程](/docs/guides/features/electron/basic#渲染进程)。
 
-```typescript
+```ts
 import { webviewService } from '@modern-js/runtime/electron-render';
 ```
 :::
@@ -150,7 +150,7 @@ webview 还未与父窗口建立连接之前，会缓存 webview 的消息，会
 
 在渲染进程中：
 
-```typescript
+```ts
 
 import bridge from '@modern-js/runtime/electron-bridge';
 

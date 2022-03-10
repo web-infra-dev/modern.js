@@ -21,9 +21,7 @@ sidebar_position: 11
 
 函数第二个参数中的 `chain` 对象是一个 [webpack-chain](https://github.com/neutrinojs/webpack-chain) 实例，通过 `chain` 可以对 webpack 配置进行变更:
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     webpack: (config, { chain }) => {
@@ -35,7 +33,7 @@ export default defineConfig({
 
 以下是 `chain` 常见用法的示例：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     webpack: (config, { chain }) => {
@@ -64,9 +62,7 @@ export default defineConfig({
 
 获取当前环境值为 `development` 还是 `production`：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     webpack: (config, { env }) => {
@@ -80,9 +76,7 @@ export default defineConfig({
 
 获取 Modern.js 内部使用的 webpack 对象：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     webpack: (config, { webpack }) => {

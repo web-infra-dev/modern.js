@@ -8,7 +8,7 @@ CSS-in-JS 是一种可以将 CSS 样式写在 JS 文件里的技术。Modern.js 
 
 当需要编写一个内部字体为红色的 `div` 组件时，可以如下实现：
 
-```javascript
+```js
 import styled from '@modern-js/runtime/styled'
 
 const RedDiv = styled.div`
@@ -18,7 +18,7 @@ const RedDiv = styled.div`
 
 当需要根据组件的 `props` 动态设置组件样式时，例如 `props` 的属性 `primary` 为 `true` 时，按钮的颜色为白色，其他情况为红色，实现代码如下：
 
-```javascript
+```js
 import styled from '@modern-js/runtime/styled'
 
 const Button = styled.button`

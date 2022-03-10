@@ -14,7 +14,7 @@ sidebar_label: minifyCss
 <details>
   <summary>minifyCss 配置详情</summary>
 
-```javascript
+```js
   {
     cssProcessorOptions: {
       parser: safePostCssParser,
@@ -34,9 +34,7 @@ sidebar_label: minifyCss
 对应 [optimize-css-assets-webpack-plugin](https://github.com/NMFR/optimize-css-assets-webpack-plugin) 的配置， 值为 `Object` 类型时，与默认配置合并(deep merge)：
 
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     minifyCss: {},
@@ -47,9 +45,7 @@ export default defineConfig({
 值为 `Function` 类型时，默认配置作为第一个参数传入，可以直接修改配置对象不做返回，也可以返回一个对象作为最终结果。例如下面修改 [cssnano](https://cssnano.co/) 的配置：
 
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     minifyCss: options => {

@@ -42,10 +42,10 @@ export default () => {
 
 SSG 和 SSR 一样，也是在 Node.js 环境中完成页面渲染，因此我们可以在开发阶段开启 SSR，提前在开发阶段验证 SSG 渲染效果：
 
-```javascript  title="modern.config.js"
-module.exports = {
+```js title="modern.config.js"
+export default defineConfig({
   server: {
-    ssr: process.env.NODE_ENV === 'development' ? true : false,
+    ssr: process.env.NODE_ENV === 'development',
   }
 }
 ```
@@ -66,7 +66,7 @@ module.exports = {
 
 例如有以下代码：
 
-```typescript
+```ts
 import { Switch, Route } from '@modern-js/runtime/router';
 
 export default () => (
@@ -85,9 +85,7 @@ export default () => (
 
 例如上述入口中，包含两条客户端路由，分别是 `/` 和 `/foo`，设置 `output.ssg` 为 `true` 时，默认只会渲染入口路由即 `/`。如果我们希望同时开启 `/foo` 的 SSG 功能，可以这样配置：
 
-```typescript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools'
-
+```js title="modern.config.js"
 export default defineConfig({
   output: {
     ssg: {
@@ -120,7 +118,7 @@ export default defineConfig({
 
 修改上述 `App.ts` 的代码为：
 
-```typescript title="App.ts"
+```ts title="App.ts"
 import { Switch, Route } from '@modern-js/runtime/router';
 import { useLoader } from '@modern-js/runtime';
 

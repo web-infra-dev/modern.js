@@ -12,7 +12,7 @@ sidebar_position: 3
 * 类型： `Object`
 
 :::tip 提示
-```typescript
+```ts
 export declare type Config = Partial<GarfishOptions> & {
   manifest: {
     modules: Array<{

@@ -39,7 +39,7 @@ Unbundled 模式暂不支持在 Windows 平台使用，支持即将上线。
 
 当前，很多第三方依赖只提供了 CommonJS 产物，无法直接在浏览器中运行，另外，即使第三方依赖提供 ESM 产物，如果按照习惯使用，例如:
 
-```javascript
+```js
 import { something } from 'some-package';
 ```
 
@@ -57,13 +57,13 @@ import { something } from 'some-package';
 
 4. Dev Server 启动时，动态改写源码文件中对第三方依赖的引用路径，例如：
 
-  ```javascript
+  ```js
   import { useState } from 'react'
   ```
 
   会被改写为：
 
-  ```javascript
+  ```js
   import { useState } from 'node_modules/.modern_js_web_modules/react.js'
   ```
 
@@ -104,7 +104,7 @@ Modern.js 利用 Babel 插件支持的一些语法，esbuild 并不支持，使�
 
 JS 文件中引入的图片资源会返回解析之后的 URL：
 
-```javascript title=src/App.jsx
+```js title=src/App.jsx
 import logoUrl from './logo.png';
 
 console.log(logoUrl); // 输出： '/src/logo.png';
@@ -120,7 +120,7 @@ console.log(logoUrl); // 输出： '/src/logo.png';
 
 针对 SVG 资源，默认启用了 [SVGR](https://react-svgr.com/)，可以通过 React 组件的形式导入：
 
-```javascript title=App.jsx
+```js title=App.jsx
 import logoUrl, { ReactComponent as LogoComponent } from './logo.svg';
 ```
 
@@ -159,11 +159,11 @@ console.log(jsonData); // => { name: 'a'}
 
 一般情况下，不需要进行任何修改，**Unbundled 开发模式**下就可以正常使用热更新功能。此外，**Unbundled 开发模式**在 [ESM-HMR Spec](https://github.com/snowpackjs/esm-hmr) 的基础上，增加了 Webpack 场景常用的 `module.hot` 用法支持。同时也可以直接在代码中使用 `import.meta.hot.accpet` 方式注册依赖更新时的回调，例如:
 
-```javascript title=b.js
+```js title=b.js
 export const name = 'b';
 ```
 
-```javascript title=a.js
+```js title=a.js
 import { name } from './b';
 
 export const age = 1;

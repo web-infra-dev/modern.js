@@ -10,7 +10,7 @@ sidebar_position: 2
 
 ## 新增一个窗口配置
 
-```typescript {14-17} title='electron/main.ts'
+```ts {14-17} title='electron/main.ts'
 const baseOptions = {
   options: {
       webPreferences: {
@@ -40,7 +40,7 @@ export const windowsConfig: WindowConfig[] = [
 一般，我们的窗口管理都是在主进程中。因此，打开窗口也是需要先在主进程中定义打开窗口服务。
 我们新增方法：
 
-```typescript title="electron/services/index.ts（主进程）"
+```ts title="electron/services/index.ts（主进程）"
 // 主进程
 import { winService } from '@modern-js/runtime/electron-main';
 export const openWindow = (winName: string) => {
@@ -51,7 +51,7 @@ export const openWindow = (winName: string) => {
 ```
 
 
-```typescript title="electron/preload/index.ts"
+```ts title="electron/preload/index.ts"
 // preloadJs 中
 export const apis = {
   ...,
@@ -64,7 +64,7 @@ exposeInMainWorld(apis);
 
 ```
 
-```typescript title="xx/xx.tsx"
+```ts title="xx/xx.tsx"
 import bridge from '@modern-js/runtime/electron-bridge';
 bridge.openWindow('demo');
 ```

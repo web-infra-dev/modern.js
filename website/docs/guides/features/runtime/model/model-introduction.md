@@ -11,7 +11,7 @@ Modern.js 的 Model 基于 [Redux](https://redux.js.org/) 实现，提供更高�
 
 下来我们以一个基础的 `countModel` 为例，演示如何创建一个 Model：
 
-```typescript
+```ts
 import { model } from '@modern-js/runtime/model';
 
 const countModel = model("count").define({

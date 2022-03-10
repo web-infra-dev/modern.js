@@ -10,14 +10,14 @@ sidebar_position: 4
 
 - 定义服务
 
-```typescript title='electron/services/index.ts（主进程）'
+```ts title='electron/services/index.ts（主进程）'
 export const getCurrentPageLocation = () => {
   return window.location.href;
 };
 ```
 - 注册服务
 
-```typescript title="xx/xx.tsx（webview 进程）"
+```ts title="xx/xx.tsx（webview 进程）"
 import webviewBridge from '@modern-js/runtime/electron-webview';
 import * as services from './services';
 webviewBridge.registerServices(services);
@@ -29,7 +29,7 @@ webviewBridge.registerServices(services);
 
 我们给每一个 webview 标签都添加一个唯一的 ID。如下示例，增加：`id="webview1"`：
 
-```typescript title="xx/xx.tsx（渲染进程）"
+```ts title="xx/xx.tsx（渲染进程）"
 <webview
   src={
     "https://www.baidu.com"
@@ -40,7 +40,7 @@ webviewBridge.registerServices(services);
 ```
 
 给 webview 注册到`webviewService`中，便于通信。
-```typescript title="xx/xx.tsx（渲染进程）"
+```ts title="xx/xx.tsx（渲染进程）"
 // 渲染进程中
 import { webviewService } from '@modern-js/runtime/electron-render';
 ...
@@ -54,7 +54,7 @@ webviewService.addWebview('webview1');
 
 ### 访问 webview 的服务
 
-```typescript title="xx/xx.tsx（渲染进程）"
+```ts title="xx/xx.tsx（渲染进程）"
 // 渲染进程中
 import { webviewService } from '@modern-js/runtime/electron-render';
 ...

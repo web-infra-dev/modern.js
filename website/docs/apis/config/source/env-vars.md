@@ -22,9 +22,7 @@ sidebar_position: 2
 
 举例如下:
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   source: {
     envVars: ['VERSION']
@@ -34,7 +32,7 @@ export default defineConfig({
 
 在业务代码中使用如下:
 
-```javascript
+```js
 console.log(process.env.VERSION);
 ```
 

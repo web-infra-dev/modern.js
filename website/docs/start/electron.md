@@ -112,9 +112,8 @@ pnpm run build:electron # 按产品环境的要求，构建 Electron 项目
 
 然后，在项目 `modern.config.js` 下新增如下相关配置：
 
-```typescript
-module.exports = {
-  ...,
+```ts
+export default defineConfig({
   output: {
     assetPrefix: '../../',
   },
@@ -180,7 +179,7 @@ pnpm run dev:electron
 ### 主进程注册打开窗口函数
 在 Electron 中，一般在主进程里进行窗口管理。因此，我们在主进程注册窗口打开函数。
 
-```typescript title='electron/main.ts'
+```ts title='electron/main.ts'
 import Runtime, { winService } from '@modern-js/runtime/electron-main';
 // ...
 const runtime = new Runtime({
@@ -203,7 +202,7 @@ const runtime = new Runtime({
 
 首先，我们新建 `electron/preload/index.ts`，并在其中通过 API `exposeInMainWorld` 注册窗口打开函数。
 
-```typescript title='electron/preload/index.ts'
+```ts title='electron/preload/index.ts'
 import {
   exposeInMainWorld,
   browserWindowPreloadApis,
@@ -233,7 +232,7 @@ exposeInMainWorld(apis);
 在开发时，由于在 Electron 中，`BrowserWindow` 对象预加载脚本为：Javascript。
 因此我们新建一个文件，通过 Babel 编译 TS。
 
-```javascript title='electron/preload/index.dev.js'
+```js title='electron/preload/index.dev.js'
 const { join } = require('path');
 const babel = require('@babel/register');
 const { babelConfig } = require('@modern-js/plugin-electron/tools');
@@ -251,7 +250,7 @@ require(join(__dirname, 'index.ts'));
 
 然后，我们对脚本路径进行配置：
 
-```typescript title='electron/main.ts'
+```ts title='electron/main.ts'
 import { join } from 'path';
 
 // preload js for browserwindow to provide native apis for render-process
@@ -279,7 +278,7 @@ const runtime = new Runtime({
 
 当我们使用框架提供的 `winService` 做窗口管理时，新增窗口，只需要在启动时，添加一个窗口配置即可。
 
-```typescript title='electron/main.ts'
+```ts title='electron/main.ts'
 const runtime = new Runtime({
   windowsConfig: [{
     name: 'main',
@@ -320,7 +319,7 @@ import bridge from '@modern-js/runtime/electron-bridge';
 
 - 新增类型定义文件 `typings/index.d.ts`：
 
-```typescript
+```ts
 declare module '@modern-js/electron-runtime' {
   export type BrowserWindowApis = typeof import('../electron/preload').apis;
 }
@@ -367,7 +366,7 @@ release/
 
 我们在主进程里新建一个服务函数：
 
-```typescript title='electron/main.ts'
+```ts title='electron/main.ts'
 const runtime = new Runtime({
   windowsConfig,
   mainServices: {
@@ -381,7 +380,7 @@ const runtime = new Runtime({
 
 接着，我们通过 `testServices` 注册该服务即可。
 
-```typescript title='electron/main.ts'
+```ts title='electron/main.ts'
 import { testServices } from '@modern-js/electron-test/main';
 // ...
 
@@ -402,7 +401,7 @@ const runtime = new Runtime({
 
 新建相关测试文件：
 
-```typescript title='electron/tests/index.test.ts'
+```ts title='electron/tests/index.test.ts'
 /**
  * @jest-environment @modern-js/electron-test/dist/js/node/testEnvironment.js
  */
@@ -415,7 +414,7 @@ jest.setTimeout(100000);
 此文件在加载的时候，会加载 `@jest-environment` 环境，启动一个 Electron 应用实例，挂载到
 `global` 对象上。
 
-```typescript title='electron/tests/main-process/index.ts'
+```ts title='electron/tests/main-process/index.ts'
 // test main services
 
 import TestDriver from '@modern-js/electron-test';

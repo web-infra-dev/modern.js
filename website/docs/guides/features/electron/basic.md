@@ -29,14 +29,14 @@ ELECTRON_MIRROR=https://npm.taobao.org/mirrors/electron/ yarn add electron -D
 
 新建主进程文件：`main.js`。
 
-```typescript title="main.js"
+```ts title="main.js"
 // main.js
 console.log('this is main process');
 ```
 
 接着运行这个 JS，此处在`package.json`中添加命令：
 
-```typescript
+```ts
 {
   ...
   "dev:main": "electron main.js",
@@ -58,7 +58,7 @@ Electron helper，是 GPU 处理进程。
 
 接着上述示例：
 
-```typescript title='main.js'
+```ts title='main.js'
 const { app, BrowserWindow } = require('electron');
 app.on('ready', () => {
   const win = new BrowserWindow({
@@ -76,7 +76,7 @@ app.on('ready', () => {
 
 我们需要加载一个页面：
 
-```typescript title='main.js'
+```ts title='main.js'
 const { app, BrowserWindow } = require('electron');
 app.on('ready', () => {
   const win = new BrowserWindow({
@@ -100,7 +100,7 @@ app.on('ready', () => {
 
 > `loadURL` 也可以加载一个 HTML，与浏览器的 Tab 类似。
 
-```typescript
+```ts
 win.loadURL(`file://${__dirname}/../index.html`);
 ```
 

@@ -68,19 +68,16 @@ const plugin = createPlugin(() => {
 
 ```json
 {
-  target: 'foo',
-  schema: {
-    type: 'string',
-  },
+  "target": "foo",
+  "schema": {
+    "type": "string"
+  }
 }
 ```
 
 就可以在 `modern.config.ts` 中这样配置：
 
-```ts
-// modern.config.ts
-import { defineConfig } from '@modern-js/app-tools'
-
+```ts title="modern.config.ts"
 export default defineConfig({
   foo: 'test'
 });
@@ -88,10 +85,7 @@ export default defineConfig({
 
 如果是别的类型，校验就不通过会报错，比如这样：
 
-```ts
-// modern.config.ts
-import { defineConfig } from '@modern-js/app-tools'
-
+```ts title="modern.config.ts"
 export default defineConfig({
   foo: {}
 });
@@ -154,10 +148,7 @@ export default createPlugin(() => {
 
 将上面这个插件添加到 `modern.config.ts` 中：
 
-```ts
-// modern.config.ts
-import { defineConfig } from '@modern-js/app-tools'
-
+```ts title="modern.config.ts"
 export default defineConfig({
   plugins: [
     {

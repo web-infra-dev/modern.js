@@ -17,10 +17,7 @@ sidebar_label: esbuild
 
 对应 [esbuild-webpack-plugin](https://github.com/sorrycc/esbuild-webpack-plugin) 的配置, 如下更改 `target` 为 `es6`：
 
-
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     esbuild: {

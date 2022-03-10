@@ -10,7 +10,7 @@ sidebar_position: 2
 
 其类型定义为：
 
-```typescript
+```ts
 export enum ActionElement {
   Entry = 'entry',
   Server = 'server',
@@ -24,10 +24,10 @@ export type ForgedAPI = {
 };
 ```
 
-## element 
+## element
 
 工程元素类型，支持 entry 和 server。
 
-## params 
+## params
 
 创建元素的其他参数，详细参考[应用 New 命令](/docs/apis/generator/config/mwa#new-%E5%91%BD%E4%BB%A4)。

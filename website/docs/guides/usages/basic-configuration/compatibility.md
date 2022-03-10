@@ -31,7 +31,7 @@ Modern.js 中还提供了基于浏览器 [UA](https://developer.mozilla.org/zh-C
 
 安装依赖后，配置 `output.polyfill` 为 `ua` 并且执行 `pnpm run build && pnpm run start` 启动服务器后，访问页面可以看到 HTML 产物中包含如下脚本:
 
-```javascript
+```js
 <script src="/__polyfill__" crossorigin></script>
 ```
 
@@ -62,11 +62,11 @@ Modern.js 提供了运行时基于浏览器 User Agent 的差异化分发方案,
 
 同时 HTML 也会构建出对应的 ES6 版本:
 
-```javascript title="dist/html/main/index-es6.html"
+```js title="dist/html/main/index-es6.html"
 <script defer="defer" src="/static/js/370.95db0e84-es6.js"></script>
 ```
 
-```javascript title="dist/html/main/index.html"
+```js title="dist/html/main/index.html"
 <script defer="defer" src="/static/js/370.ace5d8a0.js"></script>
 ```
 
@@ -82,7 +82,7 @@ Modern.js 支持在项目根目录 `package.json` 文件中的 `browserslist` �
 
 Modern.js 中默认值如下:
 
-```javascript
+```js
 ['> 0.01%', 'not dead', 'not op_mini all']
 ```
 

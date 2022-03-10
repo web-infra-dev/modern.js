@@ -12,11 +12,11 @@ sidebar_position: 5
 
 其类型定义为：
 
-```typescript
+```ts
 export interface AddManyFilesParams {
   type: FileType;
   destination: string;
-  templateFiles: string[] | (() => string[]); 
+  templateFiles: string[] | (() => string[]);
   templateBase?: string;
   fileNameFunc?: (name: string) => string;
   data?: Record<string, string>; // template data

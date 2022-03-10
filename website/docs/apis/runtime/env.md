@@ -45,7 +45,7 @@ BAR=456
 
 ### JS/TS 代码内使用
 通过 `process.env.*` 直接获取环境变量。
-```javascript
+```js
 console.log(process.env.NODE_ENV);
 // "development"
 ```

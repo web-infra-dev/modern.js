@@ -165,7 +165,7 @@ Modern.js 集成了主流的 Utility Class 解决方案 —— [Tailwind CSS](ht
 
 然后在入口的根组件，这里我们以主入口为例，在 `src/mobile-pages/App.tsx` 添加如下代码：
 
-```javascript title="src/mobile-pages/App.tsx"
+```js title="src/mobile-pages/App.tsx"
 import 'tailwindcss/base.css';
 import 'tailwindcss/components.css';
 import 'tailwindcss/utilities.css';
@@ -173,7 +173,7 @@ import 'tailwindcss/utilities.css';
 
 这样我们就可以在主入口下的组件中使用 Tailwind CSS 提供的 Utility Class 了。我们使用 `text-center` 这个 Class，为 `App.tsx` 中的文字设置居中效果：
 
-```javascript title="src/mobile-pages/App.tsx"
+```js title="src/mobile-pages/App.tsx"
 const App: React.FC = () => (
   <div className="text-center">Hello, Modern.js!</div>
 );
@@ -193,13 +193,13 @@ const App: React.FC = () => (
 
 首先，我们在 `src/activity/App.tsx` 里修改顶部的代码，引入 `styled` 模块：
 
-```javascript
+```js
 import styled from '@modern-js/runtime/styled'
 ```
 
 `styled` 模块的使用方式同 [styled-components](https://styled-components.com/) 一致，我们可以定义如下用于给页面标题添加样式的组件：
 
-```javascript
+```js
 const TitleWrapper = styled.div`
   font-size: 2rem;
   text-align: center;
@@ -210,7 +210,7 @@ const TitleWrapper = styled.div`
 
 此时，`src/activity/App.tsx` 的完整代码如下：
 
-```javascript title="src/activity/App.tsx"
+```js title="src/activity/App.tsx"
 import styled from '@modern-js/runtime/styled'
 
 const TitleWrapper = styled.div`
@@ -264,7 +264,7 @@ import LaunchBFFChoices from '@site/docs/components/launch-bff-choices.md';
 
 执行完成后，项目中新增了 `api/` 目录，添加 `api/products.ts` 文件，实现对数据获取 API 的调用（需要先安装 axios 依赖）：
 
-```javascript
+```js
 import axios from 'axios';
 
 export default async (): Promise<{ id:string, name: string, price: number }[]> => {
@@ -282,7 +282,7 @@ export default async (): Promise<{ id:string, name: string, price: number }[]> =
 
 通常情况下，组件代码中通过 `axios`，执行请求地址来获取数据。但是 Modern.js 提供了一种更加简洁的方式，可以像使用函数一样来调用 API，关键代码如下：
 
-```javascript title="src/activity/App.tsx"
+```js title="src/activity/App.tsx"
 import React, {useEffect, useState} from 'react';
 import products from '@api/products';
 
@@ -306,7 +306,7 @@ const App: React.FC = () => {
 
 渲染商品列表数据的关键代码如下：
 
-```javascript title="src/activity/App.tsx"
+```js title="src/activity/App.tsx"
 // ...
 
 const App: React.FC = () => {
@@ -361,7 +361,7 @@ Modern.js 支持修改默认使用的 HTML 模板文件。
 
 以 Google Analytics 为例，我们新建 `config/html/top.html` 文件，内容如下：
 
-```javascript
+```js
 <!-- Global Site Tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
 <script>
@@ -402,7 +402,7 @@ Modern.js 内置 [Jest](https://jestjs.io/) 、[Testing Library](https://testing
 
 新建 `src/mobile-pages/__tests__/` 目录，用于放置测试用例，并编写测试用例 `App.test.tsx`：
 
-```javascript title="App.test.tsx" {1,6-7}
+```js title="App.test.tsx" {1,6-7}
 import { renderApp } from '@modern-js/runtime/testing';
 import App from '../App';
 

@@ -16,7 +16,7 @@ sidebar_position: 1
 <details>
   <summary>alias 配置详情</summary>
 
-```javascript
+```js
   {
     '@': './src',
     '@shared': './shared',
@@ -32,9 +32,7 @@ Typescript 项目只需要配置 [compilerOptions.paths](https://www.typescriptl
 
 值为 `Object` 类型时，会与默认值合并:
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   source: {
     alias: {
@@ -52,10 +50,7 @@ export default defineConfig({
 
 可以直接修改默认配置，或者返回一个新的对象作为最终结果：
 
-```javascript title="modern.config.js"
-
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   source: {
     alias: opts => {

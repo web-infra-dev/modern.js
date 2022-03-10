@@ -14,7 +14,7 @@ sidebar_position: 1
 
 :::tip 提示
 
-```typescript
+```ts
 export interface BrowserHistoryBuildOptions {
     basename?: string | undefined;
     forceRefresh?: boolean | undefined;

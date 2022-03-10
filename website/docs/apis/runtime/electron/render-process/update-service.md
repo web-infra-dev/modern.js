@@ -8,7 +8,7 @@ sidebar_position: 6
 * 升级服务。
 * 使用进程：[渲染进程](/docs/guides/features/electron/basic#渲染进程)。
 
-```typescript
+```ts
 import { updateService } from '@modern-js/runtime/electron-render';
 ```
 :::
@@ -66,7 +66,7 @@ import { updateService } from '@modern-js/runtime/electron-render';
 重启并更新应用。
 
 ### 示例
-```typescript
+```ts
 
 import bridge from '@modern-js/electron-bridge';
 

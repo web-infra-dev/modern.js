@@ -10,7 +10,7 @@ sidebar_position: 3
 
 其类型定义为：
 
-```typescript
+```ts
 export type ForgedAPI = {
   addPartial: (name: string, str: Handlebars.Template) => void;
   ...

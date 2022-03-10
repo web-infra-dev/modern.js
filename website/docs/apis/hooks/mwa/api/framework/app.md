@@ -10,7 +10,7 @@ Modern.js 框架写法下，该文件可以定制 API Server 的启动逻辑。�
 
 ## [Express](https://expressjs.com/)
 
-```typescript
+```ts
 import express from 'express'
 
 const app = express();
@@ -79,7 +79,7 @@ export default defineCustom(async modules => {
 当没有 `app.ts` 的时候，Modern.js 默认会添加 `koa-body`；当有 `app.ts` 时，需要你自己添加 `koa-body` 解析请求体。
 :::
 
-```typescript
+```ts
 import Koa from 'koa'
 import koaBody from 'koa-body'
 
