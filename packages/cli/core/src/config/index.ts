@@ -139,6 +139,7 @@ interface ToolsConfig {
   babel?: ConfigFunction;
   autoprefixer?: ConfigFunction;
   postcss?: ConfigFunction;
+  styledComponents?: ConfigFunction;
   lodash?: ConfigFunction;
   devServer?: Record<string, unknown>;
   tsLoader?: ConfigFunction;
