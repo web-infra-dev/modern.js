@@ -23,9 +23,7 @@ sidebar_position: 3
 值类型为 `boolean` 时，`true` 会自动添加 `//ip:port/` 作为访问前缀：
 
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   dev: {
     assetPrefix: true
@@ -34,22 +32,23 @@ export default defineConfig({
 ```
 对应 JS chunk 在浏览器中加载的地址如下：
 
-```javascript
+```js
 <script defer={true} src="//${ip}:8080/static/js/runtime-main.js"></script>;
 ```
 
 值类型为 `string` 时，会作为前缀，自动拼接到静态资源访问路径上：
 
-```javascript
-module.exports = {
+```js
+export default defineConfig({
   dev: {
     assetPrefix: 'http://example.com/assets',
   },
 };
 ```
+
 对应 JS chunk 在浏览器中加载的地址如下：
 
-```javascript
+```js
 <script
   defer={true}
   src="http://example.com/assets/static/js/runtime-main.js"></script>;

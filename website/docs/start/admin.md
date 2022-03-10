@@ -123,7 +123,7 @@ App running at:
 
 我们对两个入口的代码做简单修改：
 
-```javascript title="middle-platform/App.tsx"
+```js title="middle-platform/App.tsx"
 import React from 'react';
 
 const App: React.FC = () => (
@@ -136,7 +136,7 @@ const App: React.FC = () => (
 export default App;
 ```
 
-```javascript title="console/App.tsx"
+```js title="console/App.tsx"
 import React from 'react';
 
 const App: React.FC = () => <div>Console</div>;
@@ -156,7 +156,7 @@ export default App;
 
 `console/App.tsx` 的代码如下：
 
-```javascript {2,10-11,13-20}
+```js {2,10-11,13-20}
 import React from 'react';
 import { Route, Switch, Link} from '@modern-js/runtime/router';
 import Dashboard from './dashboard';
@@ -186,7 +186,7 @@ export default App;
 
 `console/App.tsx` 中 `Dashboard` 和 `TableList` 两个组件，分别定义在 `console/dashboard` 和 `console/tableList` 两个文件夹下，代码如下：
 
-```javascript title="console/dashboard/index.tsx"
+```js title="console/dashboard/index.tsx"
 import React from 'react';
 
 const Dashboard: React.FC = () => <div>Dashboard Page</div>;
@@ -194,7 +194,7 @@ const Dashboard: React.FC = () => <div>Dashboard Page</div>;
 export default Dashboard;
 ```
 
-```javascript title="console/tableList/index.tsx"
+```js title="console/tableList/index.tsx"
 import React from 'react';
 
 const TableList: React.FC = () => <div>TableList Page</div>;
@@ -218,7 +218,7 @@ export default TableList;
 
 Modern.js 对 loadable 提供了开箱即用的支持，可以直接从 '@modern-js/runtime/loadable' 导出函数，例如：
 
-```javascript title="console/App.tsx"
+```js title="console/App.tsx"
 import loadable from '@modern-js/runtime/loadable'
 
 const Dashboard = loadable(() => import('./dashboard'));
@@ -253,13 +253,13 @@ pnpm add antd
 
 然后，在需要使用 Ant Design 的入口文件中引入组件库的样式，这里我们在 `/console/App.tsx` 中引入：
 
-```javascript
+```js
 import 'antd/dist/antd.css';
 ```
 
 这样，我们就可以在任意组件中使用 Ant Design 的组件了。我们在 `TableList` 组件中使用 `Table` 组件：
 
-```javascript
+```js
 import React from 'react';
 import { Table } from 'antd';
 
@@ -360,7 +360,7 @@ import LaunchBFFChoices from '@site/docs/components/launch-bff-choices.md';
 
 执行完成后，项目中新增了 `api/` 目录，添加在 `api/users.ts` 文件，实现对获取数据 API 的调用（需要先安装 axios 依赖）：
 
-```javascript
+```js
 import axios from 'axios';
 
 export default async () => {
@@ -375,7 +375,7 @@ export default async () => {
 
 下面，我们来修改 `/console/tableList/index.tsx`，我们可以在组件代码中通过 `axios` 调用 API 获取数据，但是 Modern.js 提供了一种更加简洁的方式，可以像使用函数一样来调用 API，关键代码如下：
 
-```javascript {1,15}
+```js {1,15}
 import users from '@api/users'
 
 interface User {
@@ -413,7 +413,7 @@ const TableList: React.FC  = () => {
 
 现在我们创建一个 `mockUser` API，代码如下：
 
-```javascript title="config/mock/index.ts"
+```js title="config/mock/index.ts"
 export default {
   'GET /api/mockUsers': [
     { key: '1', name: 'Mock Name 1', age: 32, country: 'America' },
@@ -441,7 +441,7 @@ Model 相关 API 由 `@modern-js/runtime/model` 导出，其中，最常用的 A
 
 我们新建 `console/tableList/models/tableList.ts` 文件，用于管理 `TableList` 组件中的状态：
 
-```javascript title="console/tableList/models/tableList.ts"
+```js title="console/tableList/models/tableList.ts"
 import { model } from '@modern-js/runtime/model';
 import users from '@api/users'
 
@@ -475,7 +475,7 @@ export default model<State>('tableList').define({
 
 接下来，我们重构 `console/tableList/index.tsx` 的代码：通过 `tableList.ts` 创建的 Model 对象，获取组件所需要的状态。这里，主要用到 `@modern-js/runtime/model` 提供的 `useModel` API，关键代码如下：
 
-```javascript title="console/tableList/index.tsx" {3-4,7,10}
+```js title="console/tableList/index.tsx" {3-4,7,10}
 import React, { useEffect } from 'react';
 import { Table } from 'antd';
 import { useModel } from '@modern-js/runtime/model';
@@ -522,7 +522,7 @@ Modern.js 内置 [Jest](https://jestjs.io/) 、[Testing Library](https://testing
 
 新建 `src/middle-platform/__tests__/App.test.tsx` 文件，作为主入口页面的测试用例：
 
-```javascript title="App.test.tsx" {1,6,7}
+```js title="App.test.tsx" {1,6,7}
 import { renderApp } from '@modern-js/runtime/testing';
 import App from '../App';
 
@@ -540,7 +540,7 @@ describe('main entry', () => {
 
 新建 `src/console/tableList/models/tableList.test.ts` 文件，作为主入口页面的测试用例，代码如下：
 
-```javascript title="tableList.test.tsx"
+```js title="tableList.test.tsx"
 import { createStore } from '@modern-js/runtime/testing';
 import tableListModel from './tableList';
 

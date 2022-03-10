@@ -18,7 +18,7 @@ Electron 窗口的配置中存在一个 `preload` 配置，用于配置在页面
 当我们关闭了窗口的 Node 配置时，我们不可以在页面中直接使用 Node 相关 API，但可以在**预加载脚本**中使用。
 再通过 Electron 提供的 `contextBridge.exposeInMainWorld` 方式注入到 `window` 上。从而我们可以在页面中，通过这种方式使用 Node API。
 :::
-```typescript title="预加载脚本"
+```ts title="预加载脚本"
 // Preload (Isolated World)
 const { contextBridge, ipcRenderer } = require('electron');
 
@@ -30,7 +30,7 @@ contextBridge.exposeInMainWorld(
 );
 ```
 
-```javascript title="渲染进程"
+```js title="渲染进程"
 // Renderer (Main World)
 window.electron.doThing();
 ```
@@ -41,7 +41,7 @@ window.electron.doThing();
 
   上面说到，Electron 官方示例中关于预加载脚本的使用。我们新建 `electron/preload` 目录，并新建：
 
-  ```typescript title='electron/preload/index.ts';
+  ```ts title='electron/preload/index.ts';
   import {
     exposeInMainWorld,
     browserWindowPreloadApis,
@@ -63,7 +63,7 @@ window.electron.doThing();
 
   在这之前，我们可以新建一个 `index.dev.js`， 通过 Babel 编译解决 TS 或者一些语法编译问题：
 
-  ```javascript title='index.dev.js'
+  ```js title='index.dev.js'
   const { join } = require('path');
   const babel = require('@babel/register');
   const { babelConfig } = require('@modern-js/electron-tools');
@@ -78,7 +78,7 @@ window.electron.doThing();
 
   然后，我们在窗口配置中，增加预加载脚本文件地址：
 
-  ```typescript title='electron/main.ts'
+  ```ts title='electron/main.ts'
   // preload js for browserwindow to provide native apis for render-process
   const PRELOAD_JS = join(
     __dirname,
@@ -107,7 +107,7 @@ window.electron.doThing();
 
   但这样，我们需要有类型提示，因此可以新建类型提示文件：
 
-  ```typescript title='typings/index.d.ts'
+  ```ts title='typings/index.d.ts'
   declare module '@modern-js/electron-runtime' {
     export type BrowserWindowApis = typeof import('../electron/preload').apis;
   }
@@ -139,7 +139,7 @@ window.electron.doThing();
 - 窗口开启 Node。
 
   在前面讲解到的窗口配置中，增加：`nodeIntegration: true`， 开启 Node 环境。
-  ```typescript
+  ```ts
   export const windowsConfig: WindowConfig[] = [
     {
       name: 'main',
@@ -158,13 +158,13 @@ window.electron.doThing();
   `dev` 启动命令增加: `modern dev electron-web`，从而在 [webpack-dev-server](https://github.com/webpack/webpack-dev-server) 编译的时候，增加相应 Webpack 配置。
   从而可以使用 Node。
 
-  ```typescript
+  ```ts
   // package.json#scripts
   "dev:render": "modern dev electron-web"
   ```
 
 - 渲染进程中直接使用 Node API。
-  ```typescript title="xx/xx.tsx"
+  ```ts title="xx/xx.tsx"
   import * as fs from 'fs';
   ...
   fs.readFileSync('xx/xxx.txt');

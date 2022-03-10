@@ -15,9 +15,7 @@ sidebar_position: 2
 对应 [autoprefixer](https://github.com/postcss/autoprefixer) 的配置。
 值为 `Object` 类型时，与默认配置通过 `Object.assign` 合并：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
  tools: {
     autoprefixer: {}
@@ -30,9 +28,7 @@ export default defineConfig({
 例如，修改 `flexbox` 配置为 `true`：
 
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     autoprefixer: opts => {

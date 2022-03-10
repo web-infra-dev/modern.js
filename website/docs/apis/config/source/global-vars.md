@@ -22,9 +22,7 @@ sidebar_position: 3
 
 例如：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   source: {
     globalVars: {
@@ -37,7 +35,7 @@ export default defineConfig({
 
 源代码中可以使用 `VERSION`，编译产物中 `VERSION` 会自动被替换为 `'1.0.2'`：
 
-```javascript
+```js
 console.log(VERSION); // => 1.0.2
 ```
 

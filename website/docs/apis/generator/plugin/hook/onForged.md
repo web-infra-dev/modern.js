@@ -10,7 +10,7 @@ onForged 函数为生成器插件生命周期函数，其通常用于定义文�
 
 其类型定义为：
 
-```typescript
+```ts
 export type PluginForgedFunc = (
   api: ForgedAPI,
   inputData: Record<string, unknown>,

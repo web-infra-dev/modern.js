@@ -7,7 +7,7 @@ sidebar_position: 8
 :::info 补充信息
 * 使用进程：[渲染进程](/docs/guides/features/electron/basic#渲染进程)。
 
-```typescript
+```ts
 import { testServices } from '@modern-js/runtime/electron-test/render';
 ```
 :::
@@ -24,7 +24,7 @@ import { testServices } from '@modern-js/runtime/electron-test/render';
 
 ## 示例
 
-```typescript title='electron/preload/browserWindow/index.ts'
+```ts title='electron/preload/browserWindow/index.ts'
 
 import { testServices } from '@modern-js/runtime/electron-test/render';
 ...

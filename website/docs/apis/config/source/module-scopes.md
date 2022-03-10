@@ -20,9 +20,7 @@ sidebar_position: 9
 
 值为 `Function` 类型时，内部默认值作为第一个参数传入，可以直接修改数组对象不做返回，也可以返回新的数组作为最终结果。
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   source: {
     moduleScopes: (opts) => {
@@ -34,7 +32,7 @@ export default defineConfig({
 
 以下代码为例, `src/App.tsx` 中导入 `src` 外的模块:
 
-```javascript title="src/App.tsx"
+```js title="src/App.tsx"
 import a from '../utils/a';
 ```
 
@@ -44,9 +42,7 @@ import a from '../utils/a';
 
 通过该选项配置 `utils` 目录即可:
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   source: {
     moduleScopes: ['./utils'];

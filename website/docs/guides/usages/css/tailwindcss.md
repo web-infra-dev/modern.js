@@ -15,7 +15,7 @@ sidebar_position: 2
 
 使用时在入口的根组件(如 `src/App.jsx`)添加如下代码：
 
-```javascript
+```js
 import 'tailwindcss/base.css';
 import 'tailwindcss/components.css';
 import 'tailwindcss/utilities.css';
@@ -29,7 +29,7 @@ import 'tailwindcss/utilities.css';
 
 当需要自定义 Tailwind CSS 的 [theme](https://tailwindcss.com/docs/theme) 配置的时候，可以在配置 [`source.designSystem`](/docs/apis/config/source/design-system) 中修改，例如，颜色主题中增加一个 `primary`：
 
-```javascript title="package.json"
+```js title="package.json"
 {
   "modernConfig": {
     "source": {
@@ -47,7 +47,7 @@ import 'tailwindcss/utilities.css';
 
 当需要对 Tailwind CSS 做 [theme](https://tailwindcss.com/docs/theme) 以外的其他特殊配置时，可以在 [`tools.tailwindcss`](/docs/apis/config/tools/tailwindcss) 中配置，例如设置 `variants`：
 
-```javascript title="package.json"
+```js title="package.json"
 {
   "modernConfig": {
     "tools": {

@@ -382,7 +382,7 @@ age is not a number
 
 例如，我们需要代理 [CNode](https://cnodejs.org/) 社区首页的接口，可以在项目的 `package.json` 中的 `modernConfig` 字段下，增加以下配置：
 
-```javascript title="package.json"
+```js title="package.json"
 {
   // ...
   "modernConfig": {
