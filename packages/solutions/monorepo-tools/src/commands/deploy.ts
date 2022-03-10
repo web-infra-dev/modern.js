@@ -12,13 +12,17 @@ export interface IDeployCommandOption {
 export const deploy = async (
   deployProjectNames: string[],
   option: IDeployCommandOption,
+  ignoreMatchs: string[] = [],
 ) => {
   const { deployPath = 'output' } = option;
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { appDirectory } = useAppContext();
   logger.info(`start deploy ${deployProjectNames.join(',')}`);
   const projects = await getProjects(
-    { packagesMatchs: { enableAutoFinder: true } },
+    {
+      packagesMatchs: { enableAutoFinder: true },
+      packagesIgnoreMatchs: ignoreMatchs,
+    },
     appDirectory,
   );
 
