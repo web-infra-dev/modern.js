@@ -53,6 +53,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@modern-js/core": "workspace:^1.4.3",
     "@babel/generator": "^7.15.0",
     "@babel/parser": "^7.15.2",
     "@babel/runtime": "^7",
@@ -84,11 +85,7 @@
     "process.argv": "^0.6.0",
     "tsconfig-paths": "^3.10.1"
   },
-  "peerDependencies": {
-    "@modern-js/core": "workspace:^1.4.3"
-  },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.4.3",
     "@babel/preset-typescript": "^7.15.0",
     "@modern-js/babel-chain": "workspace:^1.2.1",
     "@types/babel__core": "^7.1.15",
