@@ -278,7 +278,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     this.chain.plugin('copy').use(CopyPlugin, [
       {
         patterns: [
-          ...((this.options.output.copy as any) || []),
+          ...(this.options.output.copy || []),
           {
             from: '**/*',
             to: 'public',
