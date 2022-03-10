@@ -3902,6 +3902,7 @@ importers:
       webpack: ^5.54.0
     dependencies:
       '@babel/runtime': 7.16.7
+      '@modern-js/core': link:../../cli/core
       '@modern-js/i18n-cli-language-detector': link:../../cli/i18n-cli-language-detector
       '@modern-js/new-action': link:../../generator/new-action
       '@modern-js/plugin': link:../../toolkit/plugin
@@ -3917,7 +3918,6 @@ importers:
       inquirer: 8.2.0
       webpack: 5.65.0_esbuild@0.13.15
     devDependencies:
-      '@modern-js/core': link:../../cli/core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/inquirer': 8.2.0
@@ -3987,6 +3987,7 @@ importers:
       '@babel/types': 7.16.8
       '@modern-js/babel-compiler': link:../../toolkit/compiler/babel
       '@modern-js/babel-preset-module': link:../../cli/babel-preset-module
+      '@modern-js/core': link:../../cli/core
       '@modern-js/css-config': link:../../cli/css-config
       '@modern-js/i18n-cli-language-detector': link:../../cli/i18n-cli-language-detector
       '@modern-js/module-tools-hooks': link:../../toolkit/module-tools-hooks
@@ -4013,7 +4014,6 @@ importers:
     devDependencies:
       '@babel/preset-typescript': 7.16.7
       '@modern-js/babel-chain': link:../../toolkit/babel-chain
-      '@modern-js/core': link:../../cli/core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__core': 7.1.18
@@ -4066,6 +4066,7 @@ importers:
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
+      '@modern-js/core': link:../../cli/core
       '@modern-js/i18n-cli-language-detector': link:../../cli/i18n-cli-language-detector
       '@modern-js/new-action': link:../../generator/new-action
       '@modern-js/plugin': link:../../toolkit/plugin
@@ -4084,7 +4085,6 @@ importers:
       p-map: 4.0.0
       signale: 1.4.0
     devDependencies:
-      '@modern-js/core': link:../../cli/core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
@@ -17018,7 +17018,7 @@ packages:
       chownr: 1.1.4
       figgy-pudding: 3.5.2
       glob: 7.2.0
-      graceful-fs: 4.2.8
+      graceful-fs: 4.2.9
       infer-owner: 1.0.4
       lru-cache: 5.1.1
       mississippi: 3.0.0
@@ -22671,7 +22671,7 @@ packages:
   /fs-write-stream-atomic/1.0.10:
     resolution: {integrity: sha1-tH31NJPvkR33VzHnCp3tAYnbQMk=}
     dependencies:
-      graceful-fs: 4.2.8
+      graceful-fs: 4.2.9
       iferr: 0.1.5
       imurmurhash: 0.1.4
       readable-stream: 2.3.7
@@ -25951,7 +25951,7 @@ packages:
   /jsonfile/2.4.0:
     resolution: {integrity: sha1-NzaitCi4e72gzIO1P6PWM6NcKug=}
     optionalDependencies:
-      graceful-fs: 4.2.8
+      graceful-fs: 4.2.9
     dev: false
 
   /jsonfile/4.0.0:
@@ -25964,7 +25964,7 @@ packages:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: 4.2.8
+      graceful-fs: 4.2.9
 
   /jsonp-body/1.0.0:
     resolution: {integrity: sha1-5hD7b86nnPDMnye6p7Vjd9SwuzY=}
@@ -26107,7 +26107,7 @@ packages:
   /klaw/1.3.1:
     resolution: {integrity: sha1-QIhDO0azsbolnXh4XY6W9zugJDk=}
     optionalDependencies:
-      graceful-fs: 4.2.8
+      graceful-fs: 4.2.9
     dev: false
 
   /klaw/3.0.0:
@@ -26385,7 +26385,7 @@ packages:
       tslib: 2.3.1
     optionalDependencies:
       errno: 0.1.8
-      graceful-fs: 4.2.8
+      graceful-fs: 4.2.9
       image-size: 0.5.5
       make-dir: 2.1.0
       mime: 1.6.0
