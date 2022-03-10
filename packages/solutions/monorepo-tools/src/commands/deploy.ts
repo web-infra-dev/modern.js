@@ -1,4 +1,4 @@
-import { useAppContext } from '@modern-js/core';
+import { useAppContext, mountHook } from '@modern-js/core';
 import { logger } from '@modern-js/utils';
 import { initDAG } from '../dag';
 import { getMonorepoBaseData } from '../parse-config/monorepo';
@@ -29,4 +29,6 @@ export const deploy = async (
     packageManager,
     deployPath,
   });
+
+  mountHook().afterMonorepoDeploy({ operator, deployProjectNames });
 };
