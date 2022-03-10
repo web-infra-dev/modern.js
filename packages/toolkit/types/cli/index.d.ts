@@ -96,6 +96,10 @@ export interface Hooks {
     unknown
   >;
   afterBuild: AsyncWorkflow<void, unknown>;
+  afterMonorepoDeploy: AsyncWorkflow<
+    { operator: any; deployProjectNames: string[] },
+    void
+  >;
   beforeDeploy: AsyncWorkflow<Record<string, any>, unknown>;
   afterDeploy: AsyncWorkflow<Record<string, any>, unknown>;
   modifyEntryExport: AsyncWaterfall<{
