@@ -7,7 +7,7 @@ sidebar_position: 1
 :::info 补充信息
 * 使用进程：[渲染进程（webview）](/docs/guides/features/electron/basic#渲染进程)。
 
-```typescript
+```ts
 import { webviewPreloadApis } from '@modern-js/runtime/electron-webview';
 ```
 :::

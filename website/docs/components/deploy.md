@@ -50,7 +50,7 @@ CLOUD_SECRET_KEY
 我们可以根据 OSS 的 Bucket 名称和 Region 名称拼接出 OSS 的临时域名，并设置为[静态资源域名前缀](/docs/apis/config/output/asset-prefix)：
 
 ```js
-module.exports = {
+export default defineConfig({
   output: {
     assetPrefix: "https://{bucketName}.oss-{bucketRegion}.aliyuncs.com/"
   }

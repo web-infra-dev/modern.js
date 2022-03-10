@@ -45,6 +45,7 @@ interface SourceConfig {
     | ((aliases: Record<string, string>) => Record<string, unknown>);
   moduleScopes?:
     | Array<string | RegExp>
+    | ((scopes: Array<string | RegExp>) => void)
     | ((scopes: Array<string | RegExp>) => Array<string | RegExp>);
   include?: Array<string | RegExp>;
 }

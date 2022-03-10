@@ -12,7 +12,7 @@ sidebar_position: 4
 
 其类型定义为：
 
-```typescript
+```ts
 export interface AddFileParams {
   type: FileType;
   file: string;

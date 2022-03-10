@@ -60,7 +60,7 @@ npx @modern-js/create plugin --plugin @modern-js/generator-plugin-plugin
 
 在默认的输入前添加输入，比如在`选择包管理工具`问题前添加问题，具体 Modern.js 每个问题的配置可查看[生成器配置](/docs/apis/generator/config/introduce)。
 
-```typescript
+```ts
 context.addInputBefore('packageManager', {
     key: 'test',
     name: '测试输入',
@@ -72,7 +72,7 @@ context.addInputBefore('packageManager', {
 
 设置已经存在问题的属性
 
-```typescript
+```ts
 context.setInput('test', 'type', 'radio')
 context.setInput('test', 'options', [{ key: 'option1', name: '选项一' }])
 ```
@@ -91,7 +91,7 @@ context.setInput('test', 'options', [{ key: 'option1', name: '选项一' }])
 
 `onForged` 中支持的 API 函数也可参考 [生成器插件API](/docs/apis/generator/overview)。
 
-```typescript
+```ts
 context.onForged(async (api: ForgedAPI, input: Record<string, unknown>) => {
     const { language } = input;
     api.addFile({

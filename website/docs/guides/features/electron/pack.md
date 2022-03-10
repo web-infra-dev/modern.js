@@ -9,7 +9,7 @@ sidebar_position: 6
 
 ### 构建命令
 
-```typescript
+```ts
 {
   "script": {
     "build:main": "modern build electron-main"
@@ -42,7 +42,7 @@ sidebar_position: 6
 :::
 
 - 关闭 Node 集成的构建。
-```typescript
+```ts
 {
   "script": {
     "build:": "modern build"
@@ -50,7 +50,7 @@ sidebar_position: 6
 }
 ```
 - 开启 Node 集成。
-```typescript
+```ts
 {
   "script": {
     "build:": "modern build electron-render"
@@ -72,7 +72,7 @@ sidebar_position: 6
 
 对于**开启 Node 集成**，仍然需要做额外的事情，比如你使用 Webpack，则需要做相关的配置：
 
-```typescript
+```ts
   {
     "target": "electron-renderer",
     "node": {
@@ -87,7 +87,7 @@ sidebar_position: 6
 
 ### 构建命令
 
-```typescript
+```ts
 {
   "script": {
     "build:app": "modern build electron-app"
@@ -100,7 +100,7 @@ sidebar_position: 6
 
 在 `builder` 这个配置下有如下一些配置：
 
-```typescript
+```ts
 import { Configuration } from 'electron-builder';
 
 export type BuildConfig = {
@@ -125,7 +125,7 @@ export type BuildConfig = {
 
 在项目创建之初，我们默认了打包需要的一些最基本的配置，放在了 `baseConfig` 里：
 
-```typescript
+```ts
   baseConfig: {
     extraMetadata: {
       name: 'Demo',
@@ -164,14 +164,14 @@ export type BuildConfig = {
 
 对于每一个应用来说，都会有一个相对唯一的应用 ID，必须得配置，一般默认结构为：
 
-```typescript
+```ts
 appId: "com.example.app"
 ```
 
 #### `artifactName`
 
 这是应用的安装程序名，一般结构为：`应用名_版本号.文件后缀`。
-```typescript
+```ts
 ${productName} Web Setup ${version}.${ext}
 ```
 可以看到上述示例，其中有三个变量为 electron-builder 的变量：
@@ -185,7 +185,7 @@ ${productName} Web Setup ${version}.${ext}
 
 #### `directories.app`
 
-```typescript
+```ts
   directories: {
     app: 'dist',
   },
@@ -208,7 +208,7 @@ ${productName} Web Setup ${version}.${ext}
 
 当然，应用的一些静态资源，比如：`assets`， 我们也需要拷贝，一般放在项目根目录。因此，相对于 `dist` 路径为：`../assets`。
 
-```typescript
+```ts
 files: [
   { from: '../assets', to: 'assets' },
   {

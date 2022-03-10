@@ -103,7 +103,7 @@ Modern.js 内置了 "@" 别名，指向 `src` 目录。
 
 在 MWA 项目中，推荐入口目录下只放置 `App` 文件，默认导出整个应用的根组件即可，如下:
 
-```javascript title=src/App.jsx
+```js title=src/App.jsx
 import React from 'react';
 
 const App = () => {
@@ -115,7 +115,7 @@ export default App;
 
 当 Modern.js 检测到入口中存在 `App` 文件时，会自动生成真正的 Webpack 入口文件，完成将组件挂载到 DOM 节点等所有工作，大致代码逻辑如下:
 
-```javascript
+```js
 import { createApp, bootstrap } from '@modern-js/runtime';
 import React from 'react';
 import App from 'xxxx/src/App';
@@ -165,7 +165,7 @@ Modern.js 也同样提供了约定式路由，即**文件系统即路由**。
 
   例如：
 
-  ```javascript title=src/index.jsx
+  ```js title=src/index.jsx
   import { bootstrap } from '@modern-js/runtime';
 
   export default App => {
@@ -176,7 +176,7 @@ Modern.js 也同样提供了约定式路由，即**文件系统即路由**。
 
   Modern.js 生成的文件内容如下：
 
-  ```javascript
+  ```js
   import customRender from 'xxxx/src/index.js';
   import { createApp, bootstrap } from '@modern-js/runtime';
   import React from 'react';
@@ -209,7 +209,7 @@ Modern.js 也同样提供了约定式路由，即**文件系统即路由**。
 
   当 `index` 文件没有导出函数时，这时候 `index` 文件就是真正的 Webpack 入口文件，这里和 [Create React App](https://github.com/facebook/create-react-app) 类似，需要自己将组件挂载到 DOM 节点、添加热更新代码等。如下:
 
-  ```javascript title=src/index.jsx
+  ```js title=src/index.jsx
   import React from 'react';
   import ReactDOM from 'react-dom';
   import App from './App';
@@ -242,9 +242,7 @@ Modern.js 也同样提供了约定式路由，即**文件系统即路由**。
 
 在不想改变目录结构的情况下（如项目迁移），可以通过 `source.entries` 自定义入口：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   source: {
     entries: {
@@ -263,9 +261,7 @@ export default defineConfig({
 
 针对上面 `chat` 和 `home` 两个入口的目录结构，当配置如下时：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
  source: {
     entries: {
@@ -297,9 +293,7 @@ Modern.js 不会为 `src/entry/home.tsx` 生成额外的入口代码，而是直
 
 需要在 `routes` 目录开启约定式路由时，配置如下：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
  source: {
     entries: {
@@ -343,8 +337,8 @@ export default defineConfig({
 
 Modern.js 分析 `src/` 目录，得到默认入口 `chat` 和 `home`。当用户在 `modern.config.js` 文件中配置如下时：
 
-```javascript title="modern.config.js"
-module.exports = {
+```js title="modern.config.js"
+export default defineConfig({
   source: {
     entries: {
       index: './src/home/index.js',

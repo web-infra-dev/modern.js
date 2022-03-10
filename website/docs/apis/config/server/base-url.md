@@ -15,9 +15,7 @@ sidebar_position: 3
 
 统一设置服务端路由前缀（常用于共享域名的情况，区分流量)。
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   server: {
     // 所有生成的路由前面都会自动加上前缀 `/base`

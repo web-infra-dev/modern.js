@@ -16,9 +16,7 @@ sidebar_position: 4
 
 对象的 `key` 为当前应用的相对文件路径（不使用 `./`）, 值可以是 `string`。
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   server: {
     publicRoutes: {

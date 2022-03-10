@@ -23,7 +23,7 @@ sidebar_position: 4
 <details>
   <summary>designSystem 配置详情</summary>
 
-```javascript
+```js
   const designSystem =  {
     screens: {
       sm: '640px',
@@ -661,7 +661,7 @@ sidebar_position: 4
 
 使用`screens` 可以自定义项目中的响应断点：
 
-```javascript
+```js
 const designSystem = {
   screens: {
     sm: '640px',
@@ -676,7 +676,7 @@ const designSystem = {
 
 默认断点受常见设备分辨率的启发：
 
-```javascript
+```js
 const designSystem = {
   screens: {
     sm: '640px',
@@ -696,7 +696,7 @@ const designSystem = {
 
 你可以在你的项目中使用任意你喜欢的名称作为断点的属性：
 
-```javascript
+```js
 const designSystem = {
   screens: {
     tablet: '640px',
@@ -733,7 +733,7 @@ const designSystem = {
 
 如果要使用 `max-width` 断点而不是 `min-width`，可以将屏幕指定为具有 `max` 属性的对象：
 
-```javascript
+```js
 const designSystem = {
   screens: {
     xl: { max: '1279px' },
@@ -753,7 +753,7 @@ const designSystem = {
 
 如有必要，以创建带有 `min-width` 和  `max-width` 定义的断点，例如：
 
-```javascript
+```js
 const designSystem = {
   screens: {
     sm: { min: '640px', max: '767px' },
@@ -770,7 +770,7 @@ const designSystem = {
 
 例如，假设您有一个 `sidebar`，并且希望断点基于内容区域宽度而不是整个视口。您可以模拟这种情况，当 `sidebar` 可见并缩小内容区域时，断点的样式使用较小的断点样式：
 
-```javascript
+```js
 const designSystem = {
   screens: {
     sm: '500px',
@@ -791,7 +791,7 @@ const designSystem = {
 
 如果需要为断点提供完全自定义的媒体查询，则可以使用带有 `raw` 属性的对象：
 
-```javascript
+```js
 const designSystem = {
   extend: {
     screens: {
@@ -808,7 +808,7 @@ const designSystem = {
 
 需要做的就是在 `designSystem.extend.screens` 下添加一个 `print`：
 
-```javascript
+```js
 const designSystem = {
   extend: {
     screens: {
@@ -831,7 +831,7 @@ const designSystem = {
 
 `raw` 选项可以用于实现 “暗模式” 屏幕：
 
-```javascript
+```js
 const designSystem = {
   extend: {
     screens: {
@@ -856,7 +856,7 @@ const designSystem = {
 
 `colors` 属性可让您自定义项目的全局调色板。
 
-```javascript
+```js
 const designSystem = {
   colors: {
     transparent: 'transparent',
@@ -881,7 +881,7 @@ const designSystem = {
 
 使用 `space` 属性，可以自定义项目的全局间距和缩放比例：
 
-```javascript
+```js
 const designSystem = {
   spacing: {
     px: '1px',
@@ -917,7 +917,7 @@ const designSystem = {
 
 例如，`borderRadius` 属性可让您自定义将生成的圆角的 `utilities`：
 
-```javascript
+```js
 const designSystem = {
   borderRadius: {
     none: '0',
@@ -951,9 +951,7 @@ const designSystem = {
 
 要覆盖默认配置中的选项，请在 `designSystem` 中添加要覆盖的属性：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 const designSystem = {
   // Replaces all of the default `opacity` values
   opacity: {
@@ -983,9 +981,7 @@ export default defineConfig({
 
 例如，如果您想添加一个额外的断点但保留现有的断点，则可以扩展 `screens` 属性：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 const designSystem = {
   extend: {
     // Adds a new breakpoint in addition to the default breakpoints
@@ -1004,9 +1000,7 @@ export default defineConfig({
 
 您当然可以覆盖默认主题的某些部分，并在同一配置中扩展默认主题的其他部分：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 const designSystem = {
   opacity: {
     0: '0',
@@ -1036,9 +1030,7 @@ export default defineConfig({
 
 例如，您可以在 `fill` 配置上通过引用 `theme('colors')` 为调色板中的每种颜色生成 `fill` utilities。
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 const designSystem = {
   colors: {
     // ...
@@ -1059,9 +1051,7 @@ export default defineConfig({
 
 如果出于任何原因想要引用默认配置中的值，则可以从 `tailwindcss/defaultTheme` 导入它。一个有用的示例是，如果要将添加默认配置提供的字体中某一个字体：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 const designSystem = {
@@ -1083,7 +1073,7 @@ export default defineConfig({
 
 如果您不想为某个核心插件生成任何类，则最好在 `corePlugins` 配置中将该插件设置为 `false`，而不是在配置中为该属性提供一个空对象：
 
-```javascript
+```js
 // Don't assign an empty object in your theme configuration
 
 const designSystem = {
@@ -1106,7 +1096,7 @@ const designSyttem = {
 
 其中一个示例是添加新属性为多个核心插件之间复用。例如，您可以提取一个 `positions`对象，`backgroundPosition` 和 `objectPosition` 插件都可以引用该对象：
 
-```javascript
+```js
 const designSystem = {
   positions: {
     bottom: 'bottom',
@@ -1126,9 +1116,7 @@ const designSystem = {
 
 另一个示例是在自定义插件中添加新的属性以进行引用。例如，如果您为项目编写了渐变插件，则可以向该插件引用的主题对象添加渐变属性：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 const designSystem = {
   gradients: theme => ({
     'blue-green': [theme('colors.blue.500'), theme('colors.green.500')],
