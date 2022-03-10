@@ -18,9 +18,7 @@ sidebar_position: 2
 「 入口名 」默认为目录名，少数情况下通过 `source.entries` 自定义入口时，入口名为 `source.entries` 对象的 `key`。
 :::
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   server: {
     ssr: true,

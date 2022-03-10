@@ -16,7 +16,7 @@ Modern.js 为 [CSS Modules](https://github.com/css-modules/css-modules) 提供�
 }
 ```
 
-```javascript title="Button.jsx"
+```js title="Button.jsx"
 import styles from './button.module.css';
 
 export default function Button() {
@@ -30,7 +30,7 @@ export default function Button() {
 
 最终将被编译为
 
-```javascript
+```js
 <button type="button" className="button_redColor__1-RBg">
   red button
 </button>;
@@ -56,7 +56,7 @@ export default function Button() {
 }
 ```
 
-```javascript title="App.jsx"
+```js title="App.jsx"
 import './app.global.css';
 import styles from './button.css';
 
@@ -71,7 +71,7 @@ export default function Button() {
 
 最终将被编译为:
 
-```javascript
+```js
 <button type="button" className="button__redColor--JsFYl bg-blue">
   button
 </button>;

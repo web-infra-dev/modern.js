@@ -32,7 +32,7 @@ sidebar_position: 7
 ### 主进程中定义检查更新
 我们在主进程 `electron/services/index.ts（主进程）` 中定义一个检测升级的函数。
 
-```typescript title='electron/services/index.ts（主进程）'
+```ts title='electron/services/index.ts（主进程）'
 
 export const startToUpdate = (url: string) => {
   return updateService.checkForUpdates({
@@ -54,7 +54,7 @@ export const startToUpdate = (url: string) => {
 
 ### 预加载脚本中提供检测升级函数
 
-```typescript title='electron/preload/browserWindow/index.ts'
+```ts title='electron/preload/browserWindow/index.ts'
 export const apis = {
   ...
   startToUpdate: (url: string) => {
@@ -67,7 +67,7 @@ export const apis = {
 
 - 点击按钮，检测升级。
 
-```typescript
+```ts
 // 渲染进程中（比如： App.tsx）
 import bridge from '@modern-js/runtime/electron-bridge';
 
@@ -82,7 +82,7 @@ import bridge from '@modern-js/runtime/electron-bridge';
 
 - 注册升级流程回调。
 
-```typescript
+```ts
 // 渲染进程中（比如： App.tsx）
 import bridge, { IUpdateProgressInfo } from '@modern-js/runtime/electron-bridge';
 

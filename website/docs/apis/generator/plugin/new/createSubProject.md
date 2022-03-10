@@ -10,7 +10,7 @@ sidebar_position: 4
 
 其类型定义为：
 
-```typescript
+```ts
 export enum SubSolution {
   MWA = 'mwa',
   MWATest = 'mwa_test',

@@ -16,9 +16,7 @@ sidebar_position: 6
 
 如需自定义构建入口时，可以通过该选项指定。例如，当值为 `string` 时，指向入口的文件路径:
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   source: {
     entries: {
@@ -40,8 +38,8 @@ export default defineConfig({
 * `disableMount`：`boolean = false`，关闭 Modern.js 生成入口代码的行为。
 * `enableFileSystemRoutes`：`boolean = false`，是否 [使用约定式路由](/docs/apis/hooks/mwa/src/pages)。
 
-```javascript
-module.exports = {
+```js
+export default defineConfig({
   source: {
     entries: {
       entry_customize: {

@@ -47,7 +47,7 @@ Nest 支持添加两种类型的内容：Express 的函数中间件和 Nest 中�
 
 Nest 的函数中间件的添加与 Express 段中的示例相同，Module 写法如下：
 
-```typescript title=api/_app.ts
+```ts title=api/_app.ts
 import { hook } from "@modern-js/runtime/server";
 import { Module, Injectable, Controller, Get } from "@nestjs/common";
 
@@ -146,7 +146,7 @@ Express 的框架写法支持可在 `api/app.[tj]s` 定义 API Server 的启动�
 
 BFF 函数定义的路由会在 `app.ts` 文件定义的路由之后注册，所以在这里你也可以拦截 BFF 函数定义的路由，进行预处理或是提前响应。
 
-```typescript
+```ts
 import express from "express";
 
 const app = express();
@@ -183,7 +183,7 @@ Nest 虽然有定制的启动器，但本质与 Express、Koa 相同，所以 Mo
 
 不包含内置 Module：
 
-```typescript title=api/main.ts
+```ts title=api/main.ts
 import { defineCustom } from "@modern-js/plugin-nest";
 import { NestFactory } from "@nestjs/core";
 import { Module } from "@nestjs/common";
@@ -194,7 +194,7 @@ export default NestFactory.create(AppModule);
 
 包含内置 Modlue：
 
-```typescript title=api/main.ts
+```ts title=api/main.ts
 import { defineCustom } from "@modern-js/plugin-nest";
 import { NestFactory } from "@nestjs/core";
 import { Module } from "@nestjs/common";
@@ -224,7 +224,7 @@ BFF 函数定义的路由会在 `app.ts` 文件定义的路由之后注册，所
 在框架写法下，当没有 `app.ts` 的时候，Modern.js 默认会添加 `koa-body`；当有 `app.ts` 时，如果开发者希望使用带有 Body 的 BFF 函数，需要确保 `koa-body` 中间件已经添加。
 :::
 
-```typescript
+```ts
 import koa from "koa";
 
 const app = new Koa();
@@ -278,7 +278,7 @@ Modern.js 在 egg 框架写法中添加的初始样板文件较为简单，但 M
 
 假设有以下目录结构和文件：
 
-```javascript {4-5}
+```js {4-5}
 .
 ├── api/
 │   ├── app/

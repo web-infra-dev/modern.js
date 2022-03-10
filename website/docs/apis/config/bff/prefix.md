@@ -28,9 +28,7 @@ api
 
 该配置选项可以修改默认的路由前缀：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   bff: {
     prefix: '/api-demo'

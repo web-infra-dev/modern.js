@@ -7,7 +7,7 @@ sidebar_position: 2
 :::info 补充信息
 * 使用进程：[渲染进程（webview）](/docs/guides/features/electron/basic#渲染进程)。
 
-```typescript
+```ts
 import { exposeInMainWorld } from '@modern-js/runtime/electron-webview';
 ```
 :::
@@ -21,12 +21,12 @@ import { exposeInMainWorld } from '@modern-js/runtime/electron-webview';
 
 通过 Electron 官方提供的原生 API: `exposeInMainWorld(key, apis)` 进行注册 `apis`。最终在前端中可以入下方式获得对应服务：
 
-```typescript
+```ts
 window[key].xxx
 ```
 在 Modern Electron 中，我们进行了一层简易封装，支持类型提示。我们可以通过如下方式获得 API：
 
-```typescript title="xxx/xxx.tsx"
+```ts title="xxx/xxx.tsx"
 import { webviewBridge } from '@modern-js/runtime/electron-bridge';
 
 ...
@@ -35,7 +35,7 @@ webviewBridge.xxx
 
 ## 示例
 
-```typescript title="electron/preload/webview/index.ts"
+```ts title="electron/preload/webview/index.ts"
 import {
   exposeInMainWorld,
   webviewPreloadApis,
@@ -50,7 +50,7 @@ exposeInMainWorld(apis);
 
 :::info 补充信息
 从 `@modern-js/runtime/electron-webview` 引入的 `exposeInMainWorld` 相当于是：
-```typescript
+```ts
 import { exposeInMainWorld } from 'electron';
 
 exposeInMainWorld('webviewBridge', apis);

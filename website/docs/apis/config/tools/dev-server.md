@@ -14,9 +14,7 @@ sidebar_position: 12
 
 对应 [DevServer](https://webpack.docschina.org/configuration/dev-server/#devserverlivereload) 的配置，用于配置开发环境运行的服务器的选项：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     devServer: {

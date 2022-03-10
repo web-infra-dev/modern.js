@@ -7,7 +7,7 @@ sidebar_position: 4
 * 窗口管理服务。
 * 使用进程：[渲染进程](/docs/guides/features/electron/basic#渲染进程)。
 
-```typescript
+```ts
 import { winService } from '@modern-js/runtime/electron-render';
 ```
 :::
@@ -101,7 +101,7 @@ import { winService } from '@modern-js/runtime/electron-render';
 #### 返回值
 - `IDisposable`，返回消息监听引用，可使用 `.dispose()` 解除监听。
 
-```typescript
+```ts
 export enum CloseReason {
   /** Window is closed */
   CLOSE = 1,
@@ -150,7 +150,7 @@ export enum CloseReason {
 #### 返回值
 - `void`。
 
-```typescript
+```ts
   registerServices(services: { [key: string]: unknown }): void;
 ```
 注册服务，供其余窗口访问。
@@ -188,7 +188,7 @@ export enum CloseReason {
 
 ### 示例
 
-```typescript
+```ts
 import  { winService } from '@modern-js/runtime/electron-render';
 ...
 
@@ -216,7 +216,7 @@ winService.closeCurrentWindow();
 
 #### 窗口即将关闭，是否继续关闭。
 
-```typescript
+```ts
 // 窗口即将关闭，是否继续关闭
 const onBeforeCloseListener = winService.registerBeforeClose(
   () => {
@@ -243,7 +243,7 @@ onBeforeCloseListener.dispose();
 
 #### 窗口即将关闭，你可以做一些事情，并等待你完成后，会关闭窗口。
 
-```typescript
+```ts
 const willCloseListener = windowService.registerWillClose(() => {
     console.log('I can do something before close');
     return Promise.resolve();

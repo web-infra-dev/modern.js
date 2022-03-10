@@ -11,9 +11,7 @@ Modern.js 内部默认集成了 [Babel](https://babeljs.io/)、[TypeScript](http
 
 以配置 Webpack 为例，只需要在 `modern.config.js` 中添加 [`tools.webpack`](/docs/apis/config/tools/webpack) 即可：
 
-```javascript title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title="modern.config.js"
 export default defineConfig({
   tools: {
     webpack: config => {

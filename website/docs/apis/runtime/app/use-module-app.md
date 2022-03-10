@@ -24,9 +24,7 @@ import { useModuleApp } from '@modern-js/runtime';
 
 需要先配置微前端子应用信息。
 
-```ts title=modern.config.js
-import { defineConfig } from '@modern-js/app-tools';
-
+```js title=modern.config.js
 defineConfig({
   runtime: {
     masterApp: {
