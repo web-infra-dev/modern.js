@@ -14,7 +14,9 @@ export const deployCli = (program: Command) => {
     .description('deploy project')
     .action(
       async (deployProjectNames: string[], option: IDeployCommandOption) => {
-        await deploy(deployProjectNames, option);
+        // 在查找 workspace 下项目时，默认忽略 output 下面的项目
+        const ignoreMatchs = ['**/output/**'];
+        await deploy(deployProjectNames, option, ignoreMatchs);
       },
     );
 };
