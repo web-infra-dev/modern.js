@@ -10,7 +10,7 @@ import { CLOSE_SIGN } from './consts';
 
 type Then<T> = T extends PromiseLike<infer U> ? U : T;
 
-type ModernServer = Then<ReturnType<typeof Server>>;
+type ModernServer = Then<ReturnType<typeof server>>;
 
 const safetyRequire = (filename: string, base: string) => {
   try {
