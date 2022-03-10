@@ -1,5 +1,11 @@
 # @modern-js/runtime-core
 
+## 1.2.4
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+
 ## 1.2.3
 
 ### Patch Changes
