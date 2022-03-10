@@ -1,5 +1,24 @@
 # @modern-js/plugin-bff
 
+## 1.3.5
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+- bdcf0865: fix: add default types for plugin bff
+- bdcf0865: fix: Ignore \*.test.ts files for api dir build
+- Updated dependencies [969f172f]
+- Updated dependencies [4c792f68]
+- Updated dependencies [4b5d4bf4]
+- Updated dependencies [62f5b8c8]
+- Updated dependencies [55e18278]
+- Updated dependencies [4499a674]
+- Updated dependencies [403f5169]
+- Updated dependencies [a7f42f48]
+  - @modern-js/core@1.4.4
+  - @modern-js/utils@1.3.3
+  - @modern-js/babel-compiler@1.2.2
+
 ## 1.3.4
 
 ### Patch Changes

@@ -1,5 +1,21 @@
 # @modern-js/core
 
+## 1.4.4
+
+### Patch Changes
+
+- 969f172f: support tools.styledComponents for module-tools,support close tsc process with disbaleTsChecker
+- 4b5d4bf4: fix: output.copy type
+- 62f5b8c8: fix: types
+- 55e18278: chore: remove unused dependencies and devDependencies
+- 4499a674: feat: support to pass options to plugins
+- 403f5169: fix source.moduleScopes type
+- Updated dependencies [4c792f68]
+- Updated dependencies [55e18278]
+- Updated dependencies [a7f42f48]
+  - @modern-js/utils@1.3.3
+  - @modern-js/load-config@1.2.2
+
 ## 1.4.3
 
 ### Patch Changes

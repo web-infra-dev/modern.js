@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.4.3",
+  "version": "1.4.4",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -36,11 +36,11 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/prod-server": "workspace:^1.0.0",
+    "@modern-js/prod-server": "workspace:^1.0.1",
     "@babel/register": "^7.15.3",
     "@modern-js/hmr-client": "workspace:^1.2.2",
     "@modern-js/server-utils": "workspace:^1.2.1",
-    "@modern-js/utils": "workspace:^1.3.2",
+    "@modern-js/utils": "workspace:^1.3.3",
     "chokidar": "^3.5.2",
     "devcert": "^1.1.3",
     "launch-editor": "^2.2.1",
@@ -52,9 +52,9 @@
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:^1.2.2",
-    "@modern-js/core": "workspace:^1.4.3",
+    "@modern-js/core": "workspace:^1.4.4",
     "@scripts/build": "workspace:*",
-    "@modern-js/types": "workspace:^1.3.3",
+    "@modern-js/types": "workspace:^1.3.4",
     "@types/jest": "^26",
     "@types/minimatch": "^3.0.5",
     "@types/node": "^14",

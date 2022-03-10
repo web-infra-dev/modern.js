@@ -1,5 +1,12 @@
 # @modern-js/monorepo-generator
 
+## 1.3.4
+
+### Patch Changes
+
+- c29451a5: feat: change editor config
+- edc3bd3d: fix: @modern-js/core package not found
+
 ## 1.3.3
 
 ### Patch Changes
