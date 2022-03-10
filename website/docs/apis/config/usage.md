@@ -65,7 +65,6 @@ export default {
 
 - 应用工程方案：`@modern-js/app-tools`。
 - 模块工程方案：`@modern-js/module-tools`。
-- 项目组工程方案：`@modern-js/monorepo-tools`。
 
 `defineConfig` 函数会帮助你进行配置的类型推导和类型补全：
 
@@ -83,5 +82,5 @@ export default defineConfig({
 
 ## 注意事项
 
-- 当两种配置同时存在时，`package.json` 中的配置优先级高于 `modern.config.js`。
+- 不建议同时使用 `package.json` 和 `modern.config.js` 进行配置。如果同时使用了两者并出现配置冲突，modern.js 会在命令行进行提示。
 - `@modern-js/runtime` 导出了同名的 [defineConfig](/docs/apis/runtime/app/define-config) API，请注意区分。
