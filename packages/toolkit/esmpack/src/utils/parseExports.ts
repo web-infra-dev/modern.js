@@ -333,8 +333,7 @@ export const parseExportInfoFromESMCode = async (code: string) => {
   const addToDefaultExportAssignedKeySet = (k: string) => {
     addToSet(defaultExportAssignedKeySet, k);
   };
-  // TODO: error TS2345: Argument of type 'File | Program' is not assignable to parameter of type 'Node | Node[] | null | undefined'
-  babel.traverse(ast as any, {
+  babel.traverse(ast, {
     ExportDefaultDeclaration: path => {
       hasDefaultExport = true;
       const { declaration } = path.node;
