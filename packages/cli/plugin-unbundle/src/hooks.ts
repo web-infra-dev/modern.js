@@ -4,6 +4,7 @@ export interface UnbundleDependencies {
   defaultDeps: string[];
   internalPackages: Record<string, string>;
   virtualDeps: Record<string, string>;
+  defaultPdnHost: string;
 }
 
 export const unbundleDependencies =
