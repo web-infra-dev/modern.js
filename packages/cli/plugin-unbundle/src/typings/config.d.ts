@@ -6,6 +6,10 @@ declare module '@modern-js/core' {
   }
 
   interface OutputConfig {
+    /**
+     * disables lazy import support for styles
+     * currently supports antd and arco-design
+     */
     disableAutoImportStyle?: boolean;
   }
 
@@ -19,6 +23,24 @@ declare module '@modern-js/core' {
        * to ensure transpilation of package A to ESM
        */
       ignore?: string | string[];
+
+      /**
+       * ignores cached esm modules and recompiles dependencies not available
+       * from PDN host on dev start.
+       * default: false
+       */
+      ignoreModuleCache?: boolean;
+
+      /**
+       * clears cache of downloaded esm modules (from PDN) on dev start.
+       * default: false
+       */
+      clearPdnCache?: boolean;
+
+      /**
+       * modifies host to attempt to download esm modules from
+       */
+      pdnHost?: string;
     };
   }
 }

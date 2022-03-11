@@ -1,4 +1,4 @@
-import path from 'path';
+import ScanImportsModule from 'path';
 import {
   isModernjsMonorepo,
   getMonorepoPackages,
@@ -41,7 +41,7 @@ const shouldScanSpecifierPackage = (
 
   if (
     modernjsMonorepo &&
-    packageDir.startsWith(path.resolve(rootDir, './features'))
+    packageDir.startsWith(ScanImportsModule.resolve(rootDir, './features'))
   ) {
     return true;
   }
@@ -172,7 +172,7 @@ const scanFiles = async (
       {
         // fix: can't use tsx loader for ts file
         // https://esbuild.github.io/content-types/#ts-vs-tsx
-        loader: path.extname(file).slice(1),
+        loader: ScanImportsModule.extname(file).slice(1),
         sourcemap: false,
         sourcefile: file,
       },
