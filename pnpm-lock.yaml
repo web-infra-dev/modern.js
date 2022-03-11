@@ -3764,6 +3764,7 @@ importers:
   packages/server/server:
     specifiers:
       '@babel/register': ^7.15.3
+      '@modern-js/bff-utils': workspace:^1.2.2
       '@modern-js/core': workspace:^1.4.4
       '@modern-js/hmr-client': workspace:^1.2.2
       '@modern-js/prod-server': workspace:^1.0.1
@@ -3793,6 +3794,7 @@ importers:
       ws: ^8.2.0
     dependencies:
       '@babel/register': 7.16.8
+      '@modern-js/bff-utils': link:../bff-utils
       '@modern-js/hmr-client': link:../hmr-client
       '@modern-js/prod-server': link:../prod-server
       '@modern-js/server-utils': link:../utils
@@ -25591,7 +25593,7 @@ packages:
     engines: {node: '>= 10.14.2'}
     dependencies:
       '@types/node': 16.11.18
-      graceful-fs: 4.2.8
+      graceful-fs: 4.2.9
 
   /jest-serializer/27.4.0:
     resolution: {integrity: sha512-RDhpcn5f1JYTX2pvJAGDcnsNTnsV9bjYPU8xcV+xPwOXnUPOQwf4ZEuiU6G9H1UztH+OapMgu/ckEVwO87PwnQ==}
