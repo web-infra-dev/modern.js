@@ -6,5 +6,4 @@ declare module 'launch-editor';
 declare module 'merge-source-map';
 declare module 'convert-source-map';
 declare module 'node-fetch';
-declare module '@babel/traverse';
 declare module '@babel/generator';
