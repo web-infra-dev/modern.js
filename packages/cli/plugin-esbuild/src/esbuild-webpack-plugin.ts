@@ -93,9 +93,7 @@ export class ESBuildPlugin {
     files: Array<string>,
     devtool: string | boolean | undefined,
   ): Promise<void> {
-
     for (const file of files) {
-
       if (!/\.(m?js|css)(\?.*)?$/i.test(file)) {
         continue;
       }
