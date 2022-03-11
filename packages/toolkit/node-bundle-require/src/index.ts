@@ -1,7 +1,7 @@
 import path from 'path';
-import { randomUUID } from 'crypto';
 import { fs } from '@modern-js/utils';
 import { build, Loader, Plugin, BuildOptions } from 'esbuild';
+import { nanoid } from 'nanoid';
 
 const JS_EXT_RE = /\.(mjs|cjs|ts|js|tsx|jsx)$/;
 
@@ -45,12 +45,7 @@ export interface Options {
 }
 
 const defaultGetOutputFile = (filepath: string) =>
-  path.resolve(
-    CACHE_DIR,
-    `${filepath}-${Date.now()}.${randomUUID({
-      disableEntropyCache: true,
-    })}.bundled.cjs`,
-  );
+  path.resolve(CACHE_DIR, `${filepath}-${Date.now()}.${nanoid()}.bundled.cjs`);
 
 export async function bundleRequire(filepath: string, options?: Options) {
   if (!JS_EXT_RE.test(filepath)) {

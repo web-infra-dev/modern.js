@@ -35,7 +35,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "esbuild": "^0.13.8"
+    "esbuild": "^0.13.8",
+    "nanoid": "^3.3.1"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
