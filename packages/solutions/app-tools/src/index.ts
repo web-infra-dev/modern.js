@@ -12,8 +12,8 @@ import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils/language';
 import { start } from './commands/start';
 import { dev } from './commands/dev';
-import { DevOptions } from './utils/types';
 import { closeServer } from './utils/createServer';
+import type { DevOptions, BuildOptions } from './utils/types';
 
 export { defineConfig };
 
@@ -47,7 +47,7 @@ export default createPlugin(
           .usage('[options]')
           .description(i18n.t(localeKeys.command.build.describe))
           .option('--analyze', i18n.t(localeKeys.command.build.analyze))
-          .action(async (options: any) => {
+          .action(async (options: BuildOptions) => {
             const { build } = await import('./commands/build');
             await build(options);
             // force exit after build.
