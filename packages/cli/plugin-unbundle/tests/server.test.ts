@@ -10,6 +10,7 @@ import { proxyMiddleware } from '../src/middlewares/proxy';
 import { onFileChange } from '../src/websocket-server';
 import {
   DEFAULT_DEPS,
+  DEFAULT_PDN_HOST,
   MODERN_JS_INTERNAL_PACKAGES,
   VIRTUAL_DEPS_MAP,
 } from '../src/constants';
@@ -60,6 +61,7 @@ describe('plugin-unbundle server', () => {
     defaultDeps: DEFAULT_DEPS,
     internalPackages: MODERN_JS_INTERNAL_PACKAGES,
     virtualDeps: VIRTUAL_DEPS_MAP,
+    defaultPdnHost: DEFAULT_PDN_HOST,
   };
 
   beforeAll(() => {
