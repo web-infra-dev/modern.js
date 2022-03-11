@@ -17,6 +17,16 @@
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
+      "types": [
+        "./dist/types/types.d.ts"
+      ]
+    }
+  },
   "exports": {
     ".": {
       "node": {
@@ -33,6 +43,14 @@
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
+    },
+    "./types": {
+      "node": {
+        "import": "./dist/js/modern/types.js",
+        "require": "./dist/js/node/types.js",
+        "types": "./dist/types/types.d.ts"
+      },
+      "default": "./dist/js/treeshaking/types.js"
     }
   },
   "scripts": {
