@@ -19,7 +19,6 @@
   },
   "search.useIgnoreFiles": true,
   "search.exclude": {
-    "**/build": true,
     "**/output": true,
     "**/dist": true,
     "**/yarn.lock": true,
