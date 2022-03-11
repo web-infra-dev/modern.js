@@ -2,8 +2,8 @@
  * refactor from https://github.com/sorrycc/esbuild-webpack-plugin/blob/master/src/index.ts
  * support webpack 5 and esbuild ^0.12.22
  */
-import webpack, { ModuleFilenameHelpers, Compiler, Compilation } from 'webpack';
 import { transform, TransformOptions, TransformResult } from 'esbuild';
+import type { Compiler, Compilation } from 'webpack';
 
 export type ESBuildPluginOptions = Omit<
   TransformOptions,
@@ -53,13 +53,14 @@ export class ESBuildPlugin {
 
   apply(compiler: Compiler): void {
     const { devtool } = compiler.options;
-    const isWebpack5 = webpack.version.startsWith('5');
+    const isWebpack5 = compiler.webpack.version.startsWith('5');
 
     const plugin = 'ESBuild Plugin';
     compiler.hooks.compilation.tap(plugin, (compilation: Compilation) => {
       if (isWebpack5) {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
+        // eslint-disable @typescript-eslint/no-shadow
         const { Compilation } = compiler.webpack;
+        // eslint-enable @typescript-eslint/no-shadow
 
         compilation.hooks.processAssets.tapPromise(
           {
@@ -92,12 +93,7 @@ export class ESBuildPlugin {
     files: Array<string>,
     devtool: string | boolean | undefined,
   ): Promise<void> {
-    const matchObject = ModuleFilenameHelpers.matchObject.bind(undefined, {});
-
     for (const file of files) {
-      if (!matchObject(file)) {
-        continue;
-      }
       if (!/\.(m?js|css)(\?.*)?$/i.test(file)) {
         continue;
       }
