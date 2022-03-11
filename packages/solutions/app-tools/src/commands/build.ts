@@ -17,17 +17,14 @@ import {
   emptyDir,
 } from '@modern-js/utils';
 import { generateRoutes } from '../utils/routes';
+import type { BuildOptions } from '../utils/types';
 
 // These sizes are pretty large. We'll warn for bundles exceeding them.
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
-interface CliOptions {
-  analyze?: boolean;
-}
-
 // eslint-disable-next-line max-statements
-export const build = async (options?: CliOptions) => {
+export const build = async (options?: BuildOptions) => {
   /* eslint-disable react-hooks/rules-of-hooks */
   const resolvedConfig = useResolvedConfigContext();
   const appContext = useAppContext();

@@ -19,12 +19,12 @@ import webpack, {
 import { Entrypoint } from '@modern-js/types';
 import CopyPlugin from 'copy-webpack-plugin';
 import lodashTemplate from 'lodash.template';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
 import { AppIconPlugin } from '../plugins/app-icon-plugin';
 import { BottomTemplatePlugin } from '../plugins/bottom-template-plugin';
 import { ICON_EXTENSIONS } from '../utils/constants';
 import { BaseWebpackConfig } from './base';
+import { enableBundleAnalyzer } from './shared';
 
 const nodeLibsBrowser = require('node-libs-browser');
 
@@ -337,13 +337,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     }
 
     if (this.options.cliOptions?.analyze) {
-      this.chain.plugin('bundle-analyze').use(BundleAnalyzerPlugin, [
-        {
-          analyzerMode: 'static',
-          openAnalyzer: false,
-          reportFilename: 'report.html',
-        },
-      ]);
+      enableBundleAnalyzer(this.chain, 'report.html');
     }
   }
 }
