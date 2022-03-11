@@ -104,3 +104,5 @@ export const DEFAULT_LAZY_IMPORT_UI_COMPONENTS = [
 export const ESBUILD_RESOLVE_PLUGIN_NAME = 'esm-resolve-plugin';
 
 export const BFF_API_DIR = './api';
+
+export const DEFAULT_PDN_HOST = `pdn.zijieapi.com`;

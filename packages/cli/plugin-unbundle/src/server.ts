@@ -24,6 +24,7 @@ import { transformMiddleware } from './middlewares/transform';
 import { WebSocketServer, onFileChange } from './websocket-server';
 import {
   DEFAULT_DEPS,
+  DEFAULT_PDN_HOST,
   HOST,
   MODERN_JS_INTERNAL_PACKAGES,
   VIRTUAL_DEPS_MAP,
@@ -197,6 +198,7 @@ export const startDevServer = async (
     defaultDeps: DEFAULT_DEPS,
     internalPackages: MODERN_JS_INTERNAL_PACKAGES,
     virtualDeps: VIRTUAL_DEPS_MAP,
+    defaultPdnHost: DEFAULT_PDN_HOST,
   });
 
   setIgnoreDependencies(userConfig, dependencies.virtualDeps);
@@ -212,9 +214,7 @@ export const startDevServer = async (
   await optimizeDeps({
     userConfig,
     appContext,
-    defaultDependencies: dependencies.defaultDeps,
-    virtualDependenciesMap: dependencies.virtualDeps,
-    internalPackages: dependencies.internalPackages,
+    dependencies,
   });
 
   httpServer.listen(port, HOST, () => {
