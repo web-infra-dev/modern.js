@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.4.4",
+  "version": "1.4.5",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -38,6 +38,7 @@
   "dependencies": {
     "@modern-js/prod-server": "workspace:^1.0.1",
     "@babel/register": "^7.15.3",
+    "@modern-js/bff-utils": "workspace:^1.2.2",
     "@modern-js/hmr-client": "workspace:^1.2.2",
     "@modern-js/server-utils": "workspace:^1.2.1",
     "@modern-js/utils": "workspace:^1.3.3",
@@ -60,9 +61,9 @@
     "@types/node": "^14",
     "@types/webpack-dev-middleware": "^5.0.2",
     "@types/ws": "^7.4.7",
+    "jest": "^27",
     "typescript": "^4",
     "webpack": "^5.54.0",
-    "jest": "^27",
     "@scripts/jest-config": "workspace:*",
     "websocket": "^1"
   },
