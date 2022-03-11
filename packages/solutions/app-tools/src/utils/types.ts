@@ -1,3 +1,7 @@
 export type DevOptions = {
-  entry: string[] | boolean;
+  entry?: string[] | boolean;
+};
+
+export type BuildOptions = {
+  analyze?: boolean;
 };
