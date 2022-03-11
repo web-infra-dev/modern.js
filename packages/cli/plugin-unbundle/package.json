@@ -44,7 +44,7 @@
     "@babel/parser": "^7.15.6",
     "@babel/plugin-syntax-import-meta": "^7.10.4",
     "@babel/traverse": "^7.15.4",
-    "@babel/types": "^7.15.6",
+    "@babel/types": "^7.17.0",
     "@koa/cors": "^3.1.0",
     "@modern-js/create-request": "workspace:^1.2.0",
     "@modern-js/css-config": "workspace:^1.2.2",
@@ -94,7 +94,6 @@
     "ws": "^7.4.3"
   },
   "devDependencies": {
-    "@babel/types": "^7.13.0",
     "@modern-js/bff-utils": "workspace:^1.2.1",
     "@modern-js/core": "workspace:^1.4.4",
     "@modern-js/tsconfig": "workspace:^1.2.0",
