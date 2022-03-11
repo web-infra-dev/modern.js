@@ -1,5 +1,7 @@
 import { ServerRoute as ModernRoute } from '@modern-js/types';
 
+import '@modern-js/core';
+
 export type AgreedRoute = {
   path: string;
   component: string;
@@ -49,3 +51,9 @@ export type SSG =
 export type ExtendOutputConfig = {
   ssg: SSG;
 };
+
+declare module '@modern-js/core' {
+  interface OutputConfig {
+    ssg?: SSG;
+  }
+}
