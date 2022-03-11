@@ -70,12 +70,10 @@ import type {
 } from 'rollup';
 import { Parser } from 'acorn';
 import logger from 'signale';
+import acornClassFields from 'acorn-class-fields';
+import mergeSourceMap from 'merge-source-map';
 import { chalk, createDebugger } from '@modern-js/utils';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
-
-// FIXME: declare module 不生效的问题
-const acornClassFields = require('acorn-class-fields');
-const mergeSourceMap = require('merge-source-map');
 
 const debug = createDebugger('esm:plugin-container');
 
