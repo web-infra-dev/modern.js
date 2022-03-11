@@ -105,7 +105,7 @@ const transfromSingleFileAlias = ({
     errorRecovery: true, // 防止typescript不支持的语法出现而报错
     plugins: ['typescript'],
   });
-  traverse(ast as any, {
+  traverse(ast, {
     CallExpression: transformCall({ filename, baseUrl, paths }) as any,
     ImportDeclaration: transformImport({
       filename,
