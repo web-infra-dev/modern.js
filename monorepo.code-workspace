@@ -1,6 +1,10 @@
 {
   "folders": [
     {
+      "name": "server/core",
+      "path": "packages/server/core/"
+    },
+    {
       "name": "@modern-js-app/eslint-config",
       "path": "packages/review/eslint-config-app"
     },
@@ -265,8 +269,8 @@
       "path": "packages/cli/plugin-less"
     },
     {
-      "name": "@modern-js/plugin-micro-frontend",
-      "path": "packages/cli/plugin-micro-frontend"
+      "name": "@modern-js/plugin-garfish",
+      "path": "packages/cli/plugin-garfish"
     },
     {
       "name": "@modern-js/plugin-multiprocess",
@@ -353,6 +357,10 @@
       "path": "packages/server/server"
     },
     {
+      "name": "@modern-js/prod-server",
+      "path": "packages/server/prod-server"
+    },
+    {
       "name": "@modern-js/server-generator",
       "path": "packages/generator/generators/server-generator"
     },
@@ -431,6 +439,10 @@
     {
       "name": "Integration Tests",
       "path": "tests"
+    },
+    {
+      "name": "Local Test Projects",
+      "path": "local-test-project"
     }
   ],
   "settings": {
@@ -467,12 +479,18 @@
       "**/yarn.lock": true
     },
     //
-    "editor.rulers": [80, 120],
+    "editor.rulers": [
+      80,
+      120
+    ],
     "files.eol": "\n",
     "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
     //
-    "todo-tree.general.tags": ["TODO:", "FIXME:"],
+    "todo-tree.general.tags": [
+      "TODO:",
+      "FIXME:"
+    ],
     "todo-tree.highlights.defaultHighlight": {
       "gutterIcon": true
     },
@@ -492,23 +510,21 @@
     //
     "cSpell.diagnosticLevel": "Hint",
     "[javascript]": {
-      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[javascriptreact]": {
-      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[typescript]": {
-      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[typescriptreact]": {
-      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[vue]": {
-      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "eslint.alwaysShowStatus": true,
-    // "eslint.nodePath": "./node_modules",
-    // "eslint.packageManager": "yarn",
     "eslint.run": "onType",
     "eslint.options": {
       "rules": {

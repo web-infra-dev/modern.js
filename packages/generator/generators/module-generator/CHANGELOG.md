@@ -1,5 +1,45 @@
 # @modern-js/module-generator
 
+## 1.3.6
+
+### Patch Changes
+
+- edc3bd3d: fix: @modern-js/core package not found
+
+## 1.3.5
+
+### Patch Changes
+
+- 6668a1bf: feat: adjust module template tests directory
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+- 9e0aed14: feat: add modern config file when create project
+- fab92861: fix: @modern-js/core phantom dep
+
+## 1.3.4
+
+### Patch Changes
+
+- 389e8bca: fix: fix eslint error with "modern.config.ts"
+
+## 1.3.3
+
+### Patch Changes
+
+- 2ba581e4: fix: mwa and module sub project dependence error
+
+## 1.3.2
+
+### Patch Changes
+
+- e06c7c25: change generator main path on development mode
+
+## 1.3.1
+
+### Patch Changes
+
+- 3c5621f0: fix tsconfig template
+- dab7737e: change modern-app-env.d.ts
+
 ## 1.3.0
 
 ### Minor Changes

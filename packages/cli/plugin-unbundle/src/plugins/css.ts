@@ -100,9 +100,10 @@ let matchAlias: (request: string) => Alias | undefined;
 const createIsAliasRequest = (
   config: NormalizedConfig,
   appContext: IAppContext,
+  defaultDeps: string[],
 ) => {
   if (!matchAlias) {
-    const aliasOptions = normalizeAlias(config, appContext);
+    const aliasOptions = normalizeAlias(config, appContext, defaultDeps);
     matchAlias = (request: string) =>
       aliasOptions.find((alias: Alias) => {
         const { find } = alias;
@@ -156,6 +157,10 @@ const isCSSModule = (config: NormalizedConfig, id: string): boolean => {
 
   return CSS_MODULE_REGEX.test(id);
 };
+
+export const hasTailwind = (appDirectory: string) =>
+  hasDependency(appDirectory, `@modern-js/plugin-tailwindcss`) &&
+  hasDependency(appDirectory, `tailwindcss`);
 
 export class CustomLessFileManager extends less.FileManager {
   async loadFile(
@@ -359,7 +364,7 @@ const transformCSS = async (
       require('postcss-modules')({
         localsConvention: 'camelCase',
         generateScopedName: config.output.cssModuleLocalIdentName,
-        globalModulePaths: [/\.global\.(css|scss|sass|less|stylus|styl)$/],
+        globalModulePaths: [/\.global\.(css|scss|sass|less)$/],
         getJSON(_: string, _modules: Record<string, string>) {
           moduleLocalsMap.set(filename, _modules);
         },
@@ -367,7 +372,9 @@ const transformCSS = async (
     );
   }
 
-  if (hasDependency(appDirectory, `@modern-js/plugin-tailwindcss`)) {
+  // As @modern-js/plugin-tailwindcss requires 'tailwindcss' as peer depenedency,
+  // so we could safely require both plugins when using tailwind features
+  if (hasTailwind(appDirectory)) {
     postcssPlugins.push(require('tailwindcss')(tailwindConfig));
   }
 
@@ -459,6 +466,7 @@ const rewriteCssUrl = async (
 export const cssPlugin = (
   config: NormalizedConfig,
   appContext: IAppContext,
+  defaultDeps: string[],
 ): RollupPlugin => ({
   name: 'esm-css',
   async transform(code: string, importer: string) {
@@ -468,7 +476,7 @@ export const cssPlugin = (
 
     const { appDirectory } = appContext;
 
-    // find parent node_modules paths for sass and stylus
+    // find parent node_modules paths for sass and less
     nodeModulesPaths = require('find-node-modules')({ cwd: appDirectory });
 
     initProcessorOptions(config);
@@ -477,7 +485,7 @@ export const cssPlugin = (
 
     initTailwindConfig(config);
 
-    createIsAliasRequest(config, appContext);
+    createIsAliasRequest(config, appContext, defaultDeps);
 
     const { css, map } = await transformCSS(code, importer, config, appContext);
 

@@ -1,0 +1,16 @@
+.container{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 30px;
+  font-size: 22px;
+  font-family: PingFang SC;
+  font-weight: 500;
+}
+
+.qrcode{
+  width: 300px;
+  margin: 40px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}

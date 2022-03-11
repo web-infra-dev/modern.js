@@ -1,0 +1,54 @@
+name: "🐞 Bug 报告"
+description: 给 Modern.js 报告 bug
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢你花时间报告这个问题！在提交 Bug 报告前，请注意：
+
+        - 确认你的问题无法通过官方文档得到解决。
+        - 确认你搜索过 [历史 issue](https://github.com/modern-js-dev/modern.js/issues)，并且没有发现同样的问题。
+        - 如果不是反馈 Bug，请到 [Discussions 讨论区](https://github.com/modern-js-dev/modern.js/discussions) 发帖。
+
+  - type: textarea
+    id: versions
+    attributes:
+      label: 版本信息
+      description: 在命令行执行 `npm ls @modern-js/app-tools` 命令，并将输出内容粘贴到下方区域。
+      placeholder: |
+        middle-platform@0.1.0
+          └── @modern-js/app-tools@1.4.1
+      render: sh
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: 问题详情
+      description: 请清晰地描述你遇到的问题，可包括截图等内容。
+    validations:
+      required: true
+
+  - type: input
+    id: repro
+    attributes:
+      label: 复现链接
+      description: "请提供一个精炼的问题复现（去除无关依赖的最小化可运行 demo）。 你可以基于 CodePen 进行创建（[<kbd>⌘</kbd>点击这里打开模板](https://codepen.io/Justineo/pen/yLbxxOR)），或者提供复现项目的仓库地址："
+      placeholder: 将链接粘贴到此处
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce-steps
+    attributes:
+      label: 复现步骤
+      description: 请提供一个最简单的操作步骤，方便我们快速复现问题。
+      placeholder: |
+        比如：
+        1. 执行 `yarn dev`
+        2. 控制台出现 `xxx` 异常信息
+    validations:
+      required: true

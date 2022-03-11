@@ -6,6 +6,7 @@ import {
   getOutput,
   replaceWithAlias,
   standardOptions,
+  openRouteSSR,
 } from '../src/libs/util';
 
 describe('test ssg util function', () => {
@@ -73,6 +74,7 @@ describe('test ssg util function', () => {
     expect(replaceWithAlias('/src', '/src/app.js', '@src')).toBe('@src/app.js');
   });
 
+  // eslint-disable-next-line max-statements
   it('should starndar user config correctly', () => {
     const opt0 = standardOptions(false, []);
     expect(opt0).toBeFalsy();
@@ -98,47 +100,58 @@ describe('test ssg util function', () => {
     };
     const opt4 = standardOptions(ssg1, [{ entryName: 'main', entry: '' }]);
     expect(opt4).toEqual({ main: ssg1 });
+
+    // error usage, just test
+    const ssg2 = {
+      routes: ['/foo', { url: '/baz' }],
+    };
+    const opt5 = standardOptions(ssg2, [
+      { entryName: 'main', entry: '' },
+      { entryName: 'home', entry: '' },
+    ]);
+    expect(opt5).toEqual(ssg2);
+
+    const ssg3 = {
+      main: { routes: ['/foo', { url: '/baz' }] },
+      home: false,
+    };
+    const opt6 = standardOptions(ssg3, [
+      { entryName: 'main', entry: '' },
+      { entryName: 'home', entry: '' },
+    ]);
+    expect(opt6).toEqual(ssg3);
+
+    const ssg4 = () => true;
+    const opt7 = standardOptions(ssg4, [
+      { entryName: 'main', entry: '' },
+      { entryName: 'home', entry: '' },
+    ]);
+    expect(opt7).toEqual({ main: true, home: true });
+
+    const ssg5 = (entryName: string) => {
+      if (entryName === 'main') {
+        return true;
+      } else {
+        return {
+          routes: ['/foo'],
+        };
+      }
+    };
+    const opt8 = standardOptions(ssg5, [
+      { entryName: 'main', entry: '' },
+      { entryName: 'home', entry: '' },
+    ]);
+    expect(opt8).toEqual({ main: true, home: { routes: ['/foo'] } });
   });
 
-  // error usage, just test
-  const ssg2 = {
-    routes: ['/foo', { url: '/baz' }],
-  };
-  const opt5 = standardOptions(ssg2, [
-    { entryName: 'main', entry: '' },
-    { entryName: 'home', entry: '' },
-  ]);
-  expect(opt5).toEqual(ssg2);
+  it('should get ssr route correctly', () => {
+    const ssrRoutes = openRouteSSR([
+      {
+        isSSR: false,
+      },
+    ] as any);
 
-  const ssg3 = {
-    main: { routes: ['/foo', { url: '/baz' }] },
-    home: false,
-  };
-  const opt6 = standardOptions(ssg3, [
-    { entryName: 'main', entry: '' },
-    { entryName: 'home', entry: '' },
-  ]);
-  expect(opt6).toEqual(ssg3);
-
-  const ssg4 = () => true;
-  const opt7 = standardOptions(ssg4, [
-    { entryName: 'main', entry: '' },
-    { entryName: 'home', entry: '' },
-  ]);
-  expect(opt7).toEqual({ main: true, home: true });
-
-  const ssg5 = (entryName: string) => {
-    if (entryName === 'main') {
-      return true;
-    } else {
-      return {
-        routes: ['/foo'],
-      };
-    }
-  };
-  const opt8 = standardOptions(ssg5, [
-    { entryName: 'main', entry: '' },
-    { entryName: 'home', entry: '' },
-  ]);
-  expect(opt8).toEqual({ main: true, home: { routes: ['/foo'] } });
+    expect(ssrRoutes[0].isSSR).toBeTruthy();
+    expect(ssrRoutes[0].bundle).toBeDefined();
+  });
 });

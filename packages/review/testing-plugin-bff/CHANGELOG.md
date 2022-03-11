@@ -1,5 +1,30 @@
 # @modern-js/testing-plugin-bff
 
+## 1.2.2
+
+### Patch Changes
+
+- 698ad9e8: feat: support test bff for api service
+- Updated dependencies [2cfc4235]
+- Updated dependencies [698ad9e8]
+- Updated dependencies [8d55e234]
+- Updated dependencies [78279953]
+- Updated dependencies [4d72edea]
+  - @modern-js/server@1.4.1
+  - @modern-js/testing@1.3.2
+  - @modern-js/utils@1.3.1
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/testing@1.3.1
+  - @modern-js/bff-utils@1.2.2
+  - @modern-js/server@1.3.2
+  - @modern-js/utils@1.2.2
+
 ## 1.2.0
 
 ### Minor Changes

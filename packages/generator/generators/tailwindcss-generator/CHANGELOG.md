@@ -1,5 +1,23 @@
 # @modern-js/tailwindcss-generator
 
+## 1.2.3
+
+### Patch Changes
+
+- 83059b93: fix tailwindcss generator
+
+## 1.2.2
+
+### Patch Changes
+
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+
+## 1.2.1
+
+### Patch Changes
+
+- e06c7c25: change generator main path on development mode
+
 ## 1.2.0
 
 ### Minor Changes

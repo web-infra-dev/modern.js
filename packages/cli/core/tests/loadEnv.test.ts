@@ -124,6 +124,34 @@ describe('load environment variables', () => {
     delete process.env.NODE_ENV;
   });
 
+  test(`get custom .env file by MODERN_ENV`, () => {
+    createFixtures('custom_environment', [
+      {
+        name: '.env',
+        content: `DB_HOST=localhost
+        DB_USER=root
+        DB_PASS=root
+        `,
+      },
+      {
+        name: '.env.staging',
+        content: `DB_HOST=localhost
+        DB_USER=root-local-dev
+        `,
+      },
+    ]);
+
+    loadEnv(path.join(fixture, 'custom_environment'), 'staging');
+
+    expect(process.env.DB_HOST).toBe('localhost');
+
+    expect(process.env.DB_USER).toBe('root-local-dev');
+
+    expect(process.env.DB_PASS).toBe('root');
+
+    delete process.env.MODERN_ENV;
+  });
+
   test(`support dotenv-expand`, () => {
     createFixtures('expand', [
       {

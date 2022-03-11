@@ -4,6 +4,7 @@ import address from 'address';
 import type { IAppContext } from '@modern-js/types';
 import { UserConfig } from './config';
 import { NormalizedConfig } from './config/mergeConfig';
+import type { LoadedPlugin } from './loadPlugins';
 
 export type { IAppContext };
 
@@ -23,24 +24,44 @@ export const useResolvedConfigContext = () => ResolvedConfigContext.use().value;
 
 export const initAppContext = (
   appDirectory: string,
-  plugins: Array<{
-    cli: any;
-    server: any;
-  }>,
+  plugins: Array<LoadedPlugin>,
   configFile: string | false,
-): IAppContext => ({
-  appDirectory,
-  configFile,
-  ip: address.ip(),
-  port: 0,
-  packageName: require(path.resolve(appDirectory, './package.json')).name,
-  srcDirectory: path.resolve(appDirectory, './src'),
-  distDirectory: '',
-  sharedDirectory: path.resolve(appDirectory, './shared'),
-  nodeModulesDirectory: path.resolve(appDirectory, './node_modules'),
-  internalDirectory: path.resolve(appDirectory, './node_modules/.modern-js'),
-  plugins,
-  htmlTemplates: {},
-  serverRoutes: [],
-  entrypoints: [],
-});
+  options?: {
+    metaName?: string;
+    srcDir?: string;
+    distDir?: string;
+    sharedDir?: string;
+  },
+): IAppContext => {
+  const {
+    metaName = 'modern-js',
+    srcDir = 'src',
+    distDir = '',
+    sharedDir = 'shared',
+  } = options || {};
+
+  return {
+    metaName,
+    appDirectory,
+    configFile,
+    ip: address.ip(),
+    port: 0,
+    packageName: require(path.resolve(appDirectory, './package.json')).name,
+    srcDirectory: path.resolve(appDirectory, srcDir),
+    distDirectory: distDir,
+    sharedDirectory: path.resolve(appDirectory, sharedDir),
+    nodeModulesDirectory: path.resolve(appDirectory, './node_modules'),
+    internalDirectory: path.resolve(
+      appDirectory,
+      `./node_modules/.${metaName}`,
+    ),
+    plugins,
+    htmlTemplates: {},
+    serverRoutes: [],
+    entrypoints: [],
+    checkedEntries: [],
+    existSrc: true,
+    internalDirAlias: `@_${metaName.replace(/-/g, '_')}_internal`,
+    internalSrcAlias: `@_${metaName.replace(/-/g, '_')}_src`,
+  };
+};

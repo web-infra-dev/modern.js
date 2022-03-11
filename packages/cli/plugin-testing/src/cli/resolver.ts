@@ -1,7 +1,7 @@
 import enhanceResolve from 'enhanced-resolve';
 
 const resolver = enhanceResolve.create.sync({
-  conditionNames: ['jsnext:source', 'require', 'node', 'default'],
+  conditionNames: ['require', 'node', 'default'],
   extensions: ['.js', '.json', '.node', '.ts', '.tsx'],
 });
 
@@ -11,6 +11,5 @@ module.exports = function (request: string, options: any) {
   if (shouldResolveByEnhance(request)) {
     return resolver(options.basedir, request);
   }
-
   return options.defaultResolver(request, options);
 };

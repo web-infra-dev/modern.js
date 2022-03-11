@@ -5,6 +5,8 @@ import type { Options } from './type';
 export type { Options };
 
 const defaultOptions = {
+  appDirectory: process.cwd(),
+  metaName: 'modern-js',
   target: 'client',
   modules: false,
   useBuiltIns: 'entry',
@@ -12,17 +14,14 @@ const defaultOptions = {
   useLegacyDecorators: true,
   useTsLoader: false,
   lodash: {},
-  styledCompontents: {},
+  styledComponents: {},
 };
 
 /* eslint-disable  no-param-reassign */
-export default function (
-  api: any,
-  options: Options = { appDirectory: process.cwd() },
-) {
+export default function (api: any, options?: Options) {
   api.cache(true);
 
-  options = { ...(defaultOptions as Options), ...options };
+  options = { ...(defaultOptions as Options), ...(options ?? {}) };
 
   return generate(options, options.chain || createBabelChain()).toJSON();
 }

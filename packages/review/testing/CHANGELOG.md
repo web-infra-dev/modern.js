@@ -1,5 +1,27 @@
 # @modern-js/testing
 
+## 1.3.2
+
+### Patch Changes
+
+- 698ad9e8: feat: support test bff for api service
+- Updated dependencies [75f4eeb8]
+- Updated dependencies [78279953]
+- Updated dependencies [4d72edea]
+  - @modern-js/webpack@1.3.1
+  - @modern-js/utils@1.3.1
+
+## 1.3.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/babel-preset-app@1.2.1
+  - @modern-js/webpack@1.2.1
+  - @modern-js/plugin@1.2.1
+  - @modern-js/utils@1.2.2
+
 ## 1.3.0
 
 ### Minor Changes

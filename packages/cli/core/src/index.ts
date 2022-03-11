@@ -19,15 +19,10 @@ import {
 import { enable } from '@modern-js/plugin/node';
 
 import type { Hooks } from '@modern-js/types';
+import { ErrorObject } from 'ajv';
 import { program, Command } from './utils/commander';
-import {
-  resolveConfig,
-  defineConfig,
-  loadUserConfig,
-  UserConfig,
-  ToolsConfig,
-} from './config';
-import { loadPlugins } from './loadPlugins';
+import { resolveConfig, loadUserConfig } from './config';
+import { loadPlugins, TransformPlugin } from './loadPlugins';
 import {
   AppContext,
   ConfigContext,
@@ -43,8 +38,7 @@ import { NormalizedConfig } from './config/mergeConfig';
 import { loadEnv } from './loadEnv';
 
 export type { Hooks };
-export { defaultsConfig, mergeConfig } from './config';
-
+export * from './config';
 export * from '@modern-js/plugin';
 export * from '@modern-js/plugin/node';
 
@@ -70,6 +64,7 @@ export type HooksRunner = Progresses2Runners<{
   fileChange: AsyncWorkflow<
     {
       filename: string;
+      eventType: 'add' | 'change' | 'unlink';
     },
     void
   >;
@@ -95,12 +90,15 @@ const hooksMap = {
   fileChange: createAsyncWorkflow<
     {
       filename: string;
+      eventType: 'add' | 'change' | 'unlink';
     },
     // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
     void
   >(),
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   beforeExit: createAsyncWorkflow<void, void>(),
+  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+  beforeRestart: createAsyncWorkflow<void, void>(),
 };
 
 export const manager = createAsyncManager<Hooks, typeof hooksMap>(hooksMap);
@@ -117,7 +115,6 @@ export const usePlugins = (plugins: string[]) =>
   );
 
 export {
-  defineConfig,
   AppContext,
   ResolvedConfigContext,
   useAppContext,
@@ -126,7 +123,7 @@ export {
   ConfigContext,
 };
 
-export type { NormalizedConfig, IAppContext, UserConfig, ToolsConfig };
+export type { NormalizedConfig, IAppContext };
 
 const initAppDir = async (cwd?: string): Promise<string> => {
   if (!cwd) {
@@ -146,24 +143,33 @@ export interface CoreOptions {
   configFile?: string;
   packageJsonConfig?: string;
   plugins?: typeof INTERNAL_PLUGINS;
-  beforeUsePlugins?: (
-    plugins: any,
-    config: any,
-  ) => { cli: any; cliPath: any; server: any; serverPath: any }[];
+  transformPlugin?: TransformPlugin;
+  onSchemaError?: (error: ErrorObject) => void;
+  options?: {
+    metaName?: string;
+    srcDir?: string;
+    distDir?: string;
+    sharedDir?: string;
+  };
 }
 
 const createCli = () => {
   let hooksRunner: HooksRunner;
   let isRestart = false;
+  let restartWithExistingPort = 0;
+  let restartOptions: CoreOptions | undefined;
 
   const init = async (argv: string[] = [], options?: CoreOptions) => {
     enable();
 
     manager.clear();
 
+    restartOptions = options;
+
     const appDirectory = await initAppDir();
 
-    loadEnv(appDirectory);
+    const metaName = options?.options?.metaName ?? 'MODERN';
+    loadEnv(appDirectory, process.env[`${metaName.toUpperCase()}_ENV`]);
 
     const loaded = await loadUserConfig(
       appDirectory,
@@ -171,19 +177,19 @@ const createCli = () => {
       options?.packageJsonConfig,
     );
 
-    let plugins = loadPlugins(
-      appDirectory,
-      loaded.config.plugins || [],
-      options?.plugins,
-    );
-
-    if (options?.beforeUsePlugins) {
-      plugins = options.beforeUsePlugins(plugins, loaded.config);
-    }
+    const plugins = loadPlugins(appDirectory, loaded.config, {
+      internalPlugins: options?.plugins,
+      transformPlugin: options?.transformPlugin,
+    });
 
     plugins.forEach(plugin => plugin.cli && manager.usePlugin(plugin.cli));
 
-    const appContext = initAppContext(appDirectory, plugins, loaded.filePath);
+    const appContext = initAppContext(
+      appDirectory,
+      plugins,
+      loaded.filePath,
+      options?.options,
+    );
 
     manager.run(() => {
       ConfigContext.set(loaded.config);
@@ -215,8 +221,9 @@ const createCli = () => {
       loaded,
       extraConfigs as any,
       extraSchemas as any,
-      isRestart,
+      restartWithExistingPort,
       argv,
+      options?.onSchemaError,
     );
 
     const { resolved } = await hooksRunner.resolvedConfig({
@@ -256,12 +263,17 @@ const createCli = () => {
 
   async function restart() {
     isRestart = true;
+    restartWithExistingPort = isRestart ? AppContext.use().value?.port ?? 0 : 0;
 
     logger.info('Restart...\n');
 
     let hasGetError = false;
+
+    const runner = manager.useRunner();
+    await runner.beforeRestart();
+
     try {
-      await init(process.argv.slice(2));
+      await init(process.argv.slice(2), restartOptions);
     } catch (err) {
       console.error(err);
       hasGetError = true;
@@ -281,4 +293,4 @@ const createCli = () => {
 
 export const cli = createCli();
 
-export { loadUserConfig, initAppDir, initAppContext };
+export { initAppDir, initAppContext };

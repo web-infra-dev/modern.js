@@ -28,7 +28,7 @@ export const buildCli = (program: Command) => {
       local.i18n.t(local.localeKeys.command.build.style_only),
     )
     .option(
-      '--platform [platform]',
+      '-p, --platform [platform]',
       local.i18n.t(local.localeKeys.command.build.platform),
     )
     .option('--no-tsc', local.i18n.t(local.localeKeys.command.build.no_tsc))

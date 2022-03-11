@@ -1,5 +1,47 @@
 # @modern-js/plugin-ssr
 
+## 1.2.3
+
+### Patch Changes
+
+- deeaa602: support svg/proxy/multi-version in unbundled
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
+## 1.2.2
+
+### Patch Changes
+
+- 735b2a81: prevent ssr compiler to send socket message
+- 735b2a81: fix ssg bug when use ssr by entries
+- Updated dependencies [b376c8d6]
+- Updated dependencies [e62c4efd]
+- Updated dependencies [5ed05e65]
+- Updated dependencies [e2a8233f]
+  - @modern-js/core@1.4.2
+  - @modern-js/runtime-core@1.2.3
+
+## 1.2.1
+
+### Patch Changes
+
+- 816fd721: support more server context
+- 272cab15: refactor server plugin manager
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [bfbea9a7]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [272cab15]
+  - @modern-js/core@1.4.0
+  - @modern-js/runtime-core@1.2.2
+  - @modern-js/utils@1.3.0
+
 ## 1.2.0
 
 ### Minor Changes

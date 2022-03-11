@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.0",
+  "version": "1.2.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -36,11 +36,14 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/core": "workspace:^1.3.0",
-    "@modern-js/plugin": "workspace:^1.2.0"
+    "@modern-js/plugin": "workspace:^1.2.1"
+  },
+  "peerDependencies": {
+    "@modern-js/core": "workspace:^1.4.3"
   },
   "devDependencies": {
-    "@modern-js/style-compiler": "workspace:^1.2.0",
+    "@modern-js/core": "workspace:^1.4.3",
+    "@modern-js/style-compiler": "workspace:^1.2.1",
     "typescript": "^4",
     "@scripts/build": "workspace:*",
     "jest": "^27",

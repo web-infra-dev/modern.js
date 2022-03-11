@@ -1,5 +1,17 @@
 # @modern-js/adapter-helpers
 
+## 1.2.2
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+
 ## 1.2.0
 
 ### Minor Changes

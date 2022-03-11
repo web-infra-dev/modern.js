@@ -1,5 +1,93 @@
 # @modern-js/core
 
+## 1.4.4
+
+### Patch Changes
+
+- 969f172f: support tools.styledComponents for module-tools,support close tsc process with disbaleTsChecker
+- 4b5d4bf4: fix: output.copy type
+- 62f5b8c8: fix: types
+- 55e18278: chore: remove unused dependencies and devDependencies
+- 4499a674: feat: support to pass options to plugins
+- 403f5169: fix source.moduleScopes type
+- Updated dependencies [4c792f68]
+- Updated dependencies [55e18278]
+- Updated dependencies [a7f42f48]
+  - @modern-js/utils@1.3.3
+  - @modern-js/load-config@1.2.2
+
+## 1.4.3
+
+### Patch Changes
+
+- 54786e58: add ts check
+- Updated dependencies [deeaa602]
+  - @modern-js/utils@1.3.2
+
+## 1.4.2
+
+### Patch Changes
+
+- b376c8d6: feat: enhance custom env
+- e62c4efd: fix error typo for 'styledComponents'
+- e2a8233f: support add schem error hook to core.init
+
+## 1.4.1
+
+### Patch Changes
+
+- 53aca274: modify garfish-plugin config type
+- 78279953: compiler entry bug fix and dev build console
+- e116ace5: fix: coreOptions types
+- 4d72edea: support dev compiler by entry
+- Updated dependencies [78279953]
+- Updated dependencies [4d72edea]
+  - @modern-js/utils@1.3.1
+
+## 1.4.0
+
+### Minor Changes
+
+- bada2879: refactor plugin-garfish:
+  - change @modern-js/plugin-micro-frontend => @modern-js/plugin-garfish
+  - remove disableCustomerRouter logic
+  - adding unit test
+  - fix plugin-garfish type error
+
+### Patch Changes
+
+- d9cc5ea9: support resatrt options transfer
+- bd819a8d: fix: file route changed not trigger hot reload
+- d099e5c5: fix error when modify modern.config.js
+- 24f616ca: feat: support custom meta info
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+  - @modern-js/utils@1.3.0
+
+## 1.3.2
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- c3de9882: fix: internalDirectory path
+- 33ff48af: feat: extend CoreOptions
+- Updated dependencies [83166714]
+  - @modern-js/load-config@1.2.1
+  - @modern-js/plugin@1.2.1
+  - @modern-js/utils@1.2.2
+
+## 1.3.1
+
+### Patch Changes
+
+- 4584cc04: export DeployConfig interface
+- 7c19fd94: use existing port number for AppContext when dev server is restarted
+- Updated dependencies [823809c6]
+  - @modern-js/utils@1.2.1
+
 ## 1.3.0
 
 ### Minor Changes

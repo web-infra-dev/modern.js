@@ -1,5 +1,35 @@
 # @modern-js/new-action
 
+## 1.3.3
+
+### Patch Changes
+
+- 83059b93: fix tailwindcss type reference
+- 83059b93: fix tailwindcss generator
+- Updated dependencies [c29451a5]
+- Updated dependencies [83059b93]
+- Updated dependencies [83059b93]
+- Updated dependencies [83059b93]
+  - @modern-js/generator-common@1.4.4
+
+## 1.3.2
+
+### Patch Changes
+
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+- Updated dependencies [6668a1bf]
+- Updated dependencies [6668a1bf]
+  - @modern-js/generator-common@1.4.3
+
+## 1.3.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/generator-common@1.3.1
+  - @modern-js/generator-utils@1.2.1
+
 ## 1.3.0
 
 ### Minor Changes

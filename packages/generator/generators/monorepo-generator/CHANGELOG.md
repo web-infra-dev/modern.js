@@ -1,5 +1,33 @@
 # @modern-js/monorepo-generator
 
+## 1.3.4
+
+### Patch Changes
+
+- c29451a5: feat: change editor config
+- edc3bd3d: fix: @modern-js/core package not found
+
+## 1.3.3
+
+### Patch Changes
+
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+- 6668a1bf: feat: package manager options support npm
+- fab92861: fix: @modern-js/core phantom dep
+
+## 1.3.2
+
+### Patch Changes
+
+- e06c7c25: change generator main path on development mode
+- e06c7c25: fix: delete jest config template
+
+## 1.3.1
+
+### Patch Changes
+
+- fix: monorepo template
+
 ## 1.3.0
 
 ### Minor Changes

@@ -1,5 +1,28 @@
 # @modern-js/plugin-proxy
 
+## 1.2.2
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+  - @modern-js/core@1.3.2
+  - @modern-js/utils@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- e2d3a575: fix extending core config interface
+- e2d3a575: fix extending core config interface
+- Updated dependencies [823809c6]
+- Updated dependencies [4584cc04]
+- Updated dependencies [7c19fd94]
+  - @modern-js/utils@1.2.1
+  - @modern-js/core@1.3.1
+
 ## 1.2.0
 
 ### Minor Changes

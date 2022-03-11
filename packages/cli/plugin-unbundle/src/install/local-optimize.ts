@@ -12,8 +12,6 @@ import {
   TEMP_MODULES_DIR,
   META_DATA_FILE_NAME,
   ESBUILD_RESOLVE_PLUGIN_NAME,
-  VIRTUAL_DEPS_MAP,
-  MODERN_JS_INTERNAL_PACKAGES,
 } from '../constants';
 import { findPackageJson, pathToUrl } from '../utils';
 import { scanImports } from './scan-imports';
@@ -23,7 +21,6 @@ const resolve = enhancedResolve.create.sync({
   conditionNames: ['import', 'module', 'development', 'browser'],
   mainFields: ['browser', 'module', 'main'],
 });
-
 // init global local modules cache
 const modulesCache = new ModulesCache(GLOBAL_CACHE_DIR_NAME);
 
@@ -56,6 +53,7 @@ const resolvedDepsMap: ResolvedDepsMap = new Map();
 const resolveDepVersion = (
   dep: string,
   importer: string,
+  virtualDependenciesMap: Record<string, string>,
 ): { version: string; filePath: string | null } => {
   const cached = resolvedDepsMap.get(`${dep}${importer}`);
 
@@ -66,7 +64,7 @@ const resolveDepVersion = (
   let version = 'latest';
   let filePath = null;
 
-  if (!VIRTUAL_DEPS_MAP[dep]) {
+  if (!virtualDependenciesMap[dep]) {
     try {
       const resolved = resolve(importer, dep);
       if (resolved) {
@@ -93,10 +91,19 @@ const resolveDepVersion = (
   };
 };
 
-export async function optimizeDeps(
-  userConfig: NormalizedConfig,
-  appContext: IAppContext,
-) {
+export async function optimizeDeps({
+  userConfig,
+  appContext,
+  defaultDependencies,
+  virtualDependenciesMap,
+  internalPackages,
+}: {
+  userConfig: NormalizedConfig;
+  appContext: IAppContext;
+  defaultDependencies: string[];
+  virtualDependenciesMap: Record<string, string>;
+  internalPackages: Record<string, string>;
+}) {
   const timer = process.hrtime();
 
   const { appDirectory } = appContext;
@@ -114,7 +121,12 @@ export async function optimizeDeps(
     fs.removeSync(tempModulesDir);
   }
 
-  const { deps, enableBabelMacros } = await scanImports(userConfig, appContext);
+  const { deps, enableBabelMacros } = await scanImports(
+    userConfig,
+    appContext,
+    defaultDependencies,
+    virtualDependenciesMap,
+  );
 
   const data: DepsMetadata = {
     hash: getDepHash(appDirectory, deps),
@@ -149,7 +161,13 @@ export async function optimizeDeps(
   activeLogger.await(`Start pre-optimizing node_modules...`);
 
   try {
-    await compileDeps(appDirectory, deps, data);
+    await compileDeps(
+      appDirectory,
+      deps,
+      data,
+      internalPackages,
+      virtualDependenciesMap,
+    );
   } catch (err) {
     logger.error(`Pre optimize deps error: \n${err as string}`);
 
@@ -172,6 +190,8 @@ const compileDeps = async (
   appDirectory: string,
   deps: Array<{ specifier: string; importer: string; forceCompile?: boolean }>,
   metaData: DepsMetadata,
+  internalPackages: Record<string, string>,
+  virtualDependenciesMap: Record<string, string>,
 ) => {
   const bundleResult = await await require('esbuild').build({
     entryPoints: deps.map(dep => dep.specifier),
@@ -181,7 +201,7 @@ const compileDeps = async (
     metafile: true,
     outdir: webModulesDir,
     format: 'esm',
-    treeShaking: 'ignore-annotations',
+    ignoreAnnotations: true,
     plugins: [
       {
         name: ESBUILD_RESOLVE_PLUGIN_NAME,
@@ -211,17 +231,27 @@ const compileDeps = async (
               }
 
               activeLogger.await(`${chalk.yellow(`compile ${specifier}...`)}`);
+              const internalPackageEntryFile =
+                internalPackages[specifier] &&
+                resolveDepVersion(
+                  internalPackages[specifier],
+                  appDirectory,
+                  virtualDependenciesMap,
+                ).filePath;
+              const internalPackageEntryDir =
+                internalPackageEntryFile &&
+                path.dirname(internalPackageEntryFile);
+              const importer = internalPackageEntryFile
+                ? resolveDepVersion(
+                    specifier,
+                    internalPackageEntryFile,
+                    virtualDependenciesMap,
+                  ).filePath
+                : virtualImporter;
               const { version, filePath } = resolveDepVersion(
                 specifier,
-                MODERN_JS_INTERNAL_PACKAGES[specifier]
-                  ? resolveDepVersion(
-                      specifier,
-                      resolveDepVersion(
-                        MODERN_JS_INTERNAL_PACKAGES[specifier],
-                        appDirectory,
-                      ).filePath!,
-                    ).filePath
-                  : virtualImporter,
+                importer,
+                virtualDependenciesMap,
               );
 
               const cached = modulesCache.get(specifier, version);
@@ -241,6 +271,7 @@ const compileDeps = async (
                 const remoteResult = await modulesCache.requestRemoteCache(
                   specifier,
                   version,
+                  virtualDependenciesMap,
                 );
                 if (remoteResult) {
                   return {
@@ -255,7 +286,8 @@ const compileDeps = async (
               // TODO
               const compiler: Compiler =
                 await require('@modern-js/esmpack').esmpack({
-                  cwd: appDirectory,
+                  // should use internal package path as cwd for internal packages
+                  cwd: internalPackageEntryDir || appDirectory,
                   outDir: tempModulesDir,
                   env: { NODE_ENV: JSON.stringify('development') },
                 });
@@ -266,6 +298,12 @@ const compileDeps = async (
               });
 
               if (result.rollupOutput?.output[0].fileName) {
+                // ensure monorepo package is written to metadata
+                const builtDep = deps.find(dep => dep.specifier === specifier);
+                if (builtDep) {
+                  builtDep.forceCompile = true;
+                }
+
                 return {
                   path: path.join(
                     tempModulesDir,
@@ -292,8 +330,11 @@ const compileDeps = async (
 
   const { outputs } = bundleResult.metafile;
 
+  // match short length key first
+  // eg: specifier is 'foo.js', but user import '@bar/node_modules/foo.js' and 'foo.js'
+  const keys = Object.keys(outputs).sort((a, b) => a.length - b.length);
   deps.forEach(({ specifier, forceCompile }) => {
-    const key = Object.keys(outputs).find(key => {
+    const key = keys.find(key => {
       const { entryPoint } = outputs[key];
       // local compile monorepo packages
       // eg: entryPoint: ../../packages/common-utils/dist/index.js

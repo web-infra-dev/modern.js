@@ -2,7 +2,7 @@ import * as path from 'path';
 import fs from 'fs';
 import cp from 'child_process';
 import { Application } from 'egg';
-import { createPlugin } from '@modern-js/server-plugin';
+import { createPlugin } from '@modern-js/server-core';
 import { createTsHelperInstance } from 'egg-ts-helper';
 import { registerMiddleware, registerRoutes } from './utils';
 
@@ -209,7 +209,10 @@ export default createPlugin(
         await next();
         if (!ctx.body) {
           // restore statusCode
-          if (ctx.res.statusCode === 404) {
+          if (
+            ctx.res.statusCode === 404 &&
+            !(ctx.response as any)._explicitStatus
+          ) {
             ctx.res.statusCode = 200;
           }
           ctx.respond = false;
@@ -239,6 +242,6 @@ export default createPlugin(
     name: '@modern-js/plugin-egg',
     pre: ['@modern-js/plugin-bff'],
   },
-);
+) as any;
 
 export { default as egg } from 'egg';

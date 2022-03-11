@@ -1,5 +1,49 @@
 # @modern-js/plugin-router
 
+## 1.2.4
+
+### Patch Changes
+
+- 290390b0: fix basename in node
+
+## 1.2.3
+
+### Patch Changes
+
+- 3e5d5371: fix router location error
+
+## 1.2.2
+
+### Patch Changes
+
+- bfbea9a7: support multi base url and dynamic base url
+- 272cab15: refactor server plugin manager
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [bfbea9a7]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [272cab15]
+  - @modern-js/core@1.4.0
+  - @modern-js/runtime-core@1.2.2
+  - @modern-js/utils@1.3.0
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+- Updated dependencies [c74597bd]
+  - @modern-js/core@1.3.2
+  - @modern-js/runtime-core@1.2.1
+  - @modern-js/utils@1.2.2
+
 ## 1.2.0
 
 ### Minor Changes

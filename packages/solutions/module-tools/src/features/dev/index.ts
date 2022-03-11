@@ -60,3 +60,20 @@ export const devStorybook = async (config: IDevConfig) => {
     process.exit(0);
   }
 };
+
+export const runSubCmd = async (subCmd: string, config: IDevConfig) => {
+  const metas = await (core.mountHook() as any).moduleToolsMenu(undefined);
+
+  const devMeta = metas.find(
+    (meta: any) =>
+      meta.value === subCmd ||
+      (Array.isArray(meta.aliasValues) &&
+        (meta.aliasValues as string[]).includes(subCmd)),
+  );
+  if (devMeta) {
+    await devMeta.runTask(config);
+  } else {
+    // eslint-disable-next-line no-process-exit
+    process.exit(0);
+  }
+};

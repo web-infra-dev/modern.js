@@ -3,6 +3,7 @@ import type { Entrypoint, Route } from '@modern-js/types';
 export interface RuntimePlugin {
   name: string;
   options: string;
+  args?: string;
 }
 
 export const index = ({
@@ -45,8 +46,8 @@ export const renderFunction = ({
     plugins: [
      ${plugins
        .map(
-         ({ name, options }) =>
-           `${name}({...${options}, ...App?.config?.${name}}),`,
+         ({ name, options, args }) =>
+           `${name}({...${options}, ...App?.config?.${args || name}}),`,
        )
        .join('\n')}
     ]
@@ -91,6 +92,7 @@ export const html = (partials: {
   ${partials.body.join('\n')}
   <!--<?- chunksMap.js ?>-->
   <!--<?- SSRDataScript ?>-->
+  <!--<?- bottomTemplate ?>-->
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 import { createBabelChain } from '@modern-js/babel-chain';
 import { getPresetChain } from './presets';
 import { getPluginsChain } from './plugins';
+import { IStyledComponentOptions } from './type';
 
 export interface IBaseBabelConfigOption {
   appDirectory: string;
@@ -17,7 +18,7 @@ export interface IBaseBabelConfigOption {
       };
     };
     transformReactRemovePropTypes?: false | Record<string, any>;
-    styledCompontentsOptions?: Record<string, any>;
+    styledComponentsOptions?: IStyledComponentOptions;
     lodashOptions?: any;
   };
   useLegacyDecorators?: boolean;

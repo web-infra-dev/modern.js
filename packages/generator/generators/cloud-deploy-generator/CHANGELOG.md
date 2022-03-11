@@ -1,5 +1,23 @@
 # @modern-js/cloud-deploy-generator
 
+## 1.1.3
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+
+## 1.1.2
+
+### Patch Changes
+
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+
+## 1.1.1
+
+### Patch Changes
+
+- e06c7c25: change generator main path on development mode
+
 ## 1.1.0
 
 ### Minor Changes

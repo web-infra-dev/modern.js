@@ -1,5 +1,56 @@
 # @modern-js/utils
 
+## 1.3.3
+
+### Patch Changes
+
+- 4c792f68: feat(plugin-garfish): Sub-applications automatically increment basename
+  feat(plugin-garfish): export common generate code function
+  fix(plugin-garfish): modify plugin-garfish schema config
+- a7f42f48: new user config for plugin-unbundle
+
+## 1.3.2
+
+### Patch Changes
+
+- deeaa602: support svg/proxy/multi-version in unbundled
+
+## 1.3.1
+
+### Patch Changes
+
+- 78279953: compiler entry bug fix and dev build console
+- 4d72edea: support dev compiler by entry
+
+## 1.3.0
+
+### Minor Changes
+
+- ec4dbffb: feat: support as a pure api service
+- bada2879: refactor plugin-garfish:
+  - change @modern-js/plugin-micro-frontend => @modern-js/plugin-garfish
+  - remove disableCustomerRouter logic
+  - adding unit test
+  - fix plugin-garfish type error
+
+### Patch Changes
+
+- d099e5c5: fix error when modify modern.config.js
+- 24f616ca: feat: support custom meta info
+- bd819a8d: feat: add wait function
+
+## 1.2.2
+
+### Patch Changes
+
+- 83166714: change .npmignore
+
+## 1.2.1
+
+### Patch Changes
+
+- 823809c6: fix: remove plugin-polyfill from app-tools
+
 ## 1.2.0
 
 ### Minor Changes

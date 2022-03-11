@@ -87,12 +87,13 @@ class NodeWebpackConfig extends BaseWebpackConfig {
           [
             require.resolve('@modern-js/babel-preset-app'),
             {
+              metaName: this.appContext.metaName,
               appDirectory: this.appDirectory,
               target: 'server',
               useLegacyDecorators: !this.options.output?.enableLatestDecorators,
               useBuiltIns: false,
               chain: this.babelChain,
-              styledCompontents: applyOptionsChain(
+              styledComponents: applyOptionsChain(
                 {
                   pure: true,
                   displayName: true,

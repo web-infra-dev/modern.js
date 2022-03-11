@@ -1,5 +1,29 @@
 # @modern-js/dependence-generator
 
+## 1.2.4
+
+### Patch Changes
+
+- c29451a5: fix: fix append type error when enable plugin
+
+## 1.2.3
+
+### Patch Changes
+
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+
+## 1.2.2
+
+### Patch Changes
+
+- 2ba581e4: fix: mwa and module sub project dependence error
+
+## 1.2.1
+
+### Patch Changes
+
+- e06c7c25: change generator main path on development mode
+
 ## 1.2.0
 
 ### Minor Changes

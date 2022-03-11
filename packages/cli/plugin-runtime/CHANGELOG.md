@@ -1,5 +1,60 @@
 # @modern-js/runtime
 
+## 1.2.3
+
+### Patch Changes
+
+- 6891e4c2: add theme token some config logic
+- 0cd8b592: fix: runtime head and loadable type not found
+- Updated dependencies [b376c8d6]
+- Updated dependencies [735b2a81]
+- Updated dependencies [e62c4efd]
+- Updated dependencies [5ed05e65]
+- Updated dependencies [735b2a81]
+- Updated dependencies [e2a8233f]
+  - @modern-js/core@1.4.2
+  - @modern-js/plugin-ssr@1.2.2
+  - @modern-js/runtime-core@1.2.3
+
+## 1.2.2
+
+### Patch Changes
+
+- d099e5c5: fix error when modify modern.config.js
+- 24f616ca: feat: support custom meta info
+- Updated dependencies [816fd721]
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [bfbea9a7]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [272cab15]
+  - @modern-js/plugin-ssr@1.2.1
+  - @modern-js/core@1.4.0
+  - @modern-js/plugin-router@1.2.2
+  - @modern-js/runtime-core@1.2.2
+  - @modern-js/utils@1.3.0
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+- Updated dependencies [c74597bd]
+  - @modern-js/core@1.3.2
+  - @modern-js/plugin-router@1.2.1
+  - @modern-js/plugin-state@1.2.1
+  - @modern-js/runtime-core@1.2.1
+  - @modern-js/bff-runtime@1.2.1
+  - @modern-js/create-request@1.2.1
+  - @modern-js/utils@1.2.2
+
 ## 1.2.0
 
 ### Minor Changes

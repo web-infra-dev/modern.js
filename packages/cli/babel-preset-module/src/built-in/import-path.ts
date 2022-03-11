@@ -1,4 +1,5 @@
 import path from 'path';
+import { fs } from '@modern-js/utils';
 import { types as t } from '@babel/core';
 import type { NodePath, PluginPass } from '@babel/core';
 import type { ImportStyleType } from '../types';
@@ -36,9 +37,22 @@ const getImportFileDistPath = (
   return importFileDistPath;
 };
 
-const isStaticFile = (file: string) => {
-  const tests = [/\.js$/, /\.jsx$/, /\.ts$/, /\.tsx$/];
-  return !(tests.some(regex => regex.test(file)) || path.extname(file) === '');
+export const isStaticFile = (file: string, filename: string) => {
+  const tests: [RegExp, string][] = [
+    [/\.js$/, '.js'],
+    [/\.jsx$/, '.jsx'],
+    [/\.ts$/, '.ts'],
+    [/\.tsx$/, '.tsx'],
+  ];
+
+  // check this file is static file
+  // by string and determine if the file with the added suffix exists
+  return !tests.some(
+    ([regex, prefix]) =>
+      regex.test(file) ||
+      fs.existsSync(path.join(path.dirname(filename), file) + prefix) ||
+      fs.existsSync(path.join(path.dirname(filename), file, 'index') + prefix),
+  );
 };
 
 const isStyleFile = (file: string) => {
@@ -61,7 +75,7 @@ const getReplacePath = (
     return '';
   }
 
-  if (!isStaticFile(importName)) {
+  if (!isStaticFile(importName, filename)) {
     return '';
   }
 

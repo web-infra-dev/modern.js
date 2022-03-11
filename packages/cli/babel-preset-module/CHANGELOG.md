@@ -1,5 +1,26 @@
 # @modern-js/babel-preset-module
 
+## 1.3.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/babel-preset-lib@1.2.1
+  - @modern-js/babel-chain@1.2.1
+  - @modern-js/utils@1.2.2
+
+## 1.3.0
+
+### Minor Changes
+
+- 0d9516f3: fix resolve static file and add -p params
+
+### Patch Changes
+
+- Updated dependencies [823809c6]
+  - @modern-js/utils@1.2.1
+
 ## 1.2.0
 
 ### Minor Changes

@@ -1,5 +1,17 @@
 # @modern-js-app/eslint-config
 
+## 1.2.2
+
+### Patch Changes
+
+- c35f710a: fix: typescript version warning when running lint
+
+## 1.2.1
+
+### Patch Changes
+
+- 294c4dbf: feat: upgrade prettier version
+
 ## 1.2.0
 
 ### Minor Changes

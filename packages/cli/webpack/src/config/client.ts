@@ -18,10 +18,11 @@ import webpack, {
 } from 'webpack';
 import { Entrypoint } from '@modern-js/types';
 import CopyPlugin from 'copy-webpack-plugin';
+import lodashTemplate from 'lodash.template';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-import { RouteManifest } from '../plugins/route-manifest-plugin';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
 import { AppIconPlugin } from '../plugins/app-icon-plugin';
+import { BottomTemplatePlugin } from '../plugins/bottom-template-plugin';
 import { ICON_EXTENSIONS } from '../utils/constants';
 import { BaseWebpackConfig } from './base';
 
@@ -88,13 +89,24 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     );
   }
 
+  private getCustomPublicEnv() {
+    const { metaName } = this.appContext;
+    const prefix = `${metaName.split(/[-_]/)[0]}_`.toUpperCase();
+    const envReg = new RegExp(`^${prefix}`);
+    return Object.keys(process.env).filter(key => envReg.test(key));
+  }
+
   private useDefinePlugin() {
     const { envVars, globalVars } = this.options.source || {};
+    const publicEnvVars = this.getCustomPublicEnv();
     this.chain.plugin('define').use(DefinePlugin, [
       {
-        ...['NODE_ENV', 'BUILD_MODE', ...(envVars || [])].reduce<
-          Record<string, string>
-        >((memo, name) => {
+        ...[
+          'NODE_ENV',
+          'BUILD_MODE',
+          ...publicEnvVars,
+          ...(envVars || []),
+        ].reduce<Record<string, string>>((memo, name) => {
           memo[`process.env.${name}`] = JSON.stringify(process.env[name]);
           return memo;
         }, {}),
@@ -109,6 +121,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     ]);
   }
 
+  // eslint-disable-next-line max-statements
   plugins() {
     super.plugins();
 
@@ -116,14 +129,42 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
     isDev() && this.chain.plugin('hmr').use(HotModuleReplacementPlugin);
 
-    const { entrypoints = [], packageName } = this.appContext as IAppContext & {
+    const { packageName } = this.appContext as IAppContext & {
       entrypoints: Entrypoint[];
     };
 
     // output html files
-    for (const { entryName } of entrypoints) {
+    const entrypoints = Object.keys(this.chain.entryPoints.entries() || {});
+    for (const entryName of entrypoints) {
+      const baseTemplateParams = {
+        entryName,
+        title: getEntryOptions<string | undefined>(
+          entryName,
+          this.options.output.title,
+          this.options.output.titleByEntries,
+          packageName,
+        ),
+        mountId: this.options.output.mountId!,
+        assetPrefix: removeTailSlash(this.chain.output.get('publicPath')),
+        meta: generateMetaTags(
+          getEntryOptions(
+            entryName,
+            this.options.output.meta,
+            this.options.output.metaByEntries,
+            packageName,
+          ),
+        ),
+        ...getEntryOptions<Record<string, unknown> | undefined>(
+          entryName,
+          this.options.output.templateParameters,
+          this.options.output.templateParametersByEntries,
+          packageName,
+        ),
+      };
+
       this.chain.plugin(`html-${entryName}`).use(HtmlWebpackPlugin, [
         {
+          __internal__: true, // flag for internal html-webpack-plugin usage
           filename: this.htmlFilename(entryName),
           chunks: [entryName],
           template: this.appContext.htmlTemplates[entryName],
@@ -164,46 +205,28 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
             assets,
             assetTags,
             pluginOptions,
-          ) => {
-            let stats: any;
-            return {
-              entryName,
-              get webpack() {
-                return stats || (stats = compilation.getStats().toJson());
-              },
-              webpackConfig: compilation.options,
-              htmlWebpackPlugin: {
-                tags: assetTags,
-                files: assets,
-                options: pluginOptions,
-              },
-              title: getEntryOptions<string | undefined>(
-                entryName,
-                this.options.output.title,
-                this.options.output.titleByEntries,
-                packageName,
-              ),
-              mountId: this.options.output.mountId!,
-              assetPrefix: removeTailSlash(this.chain.output.get('publicPath')),
-              meta: generateMetaTags(
-                getEntryOptions(
-                  entryName,
-                  this.options.output.meta,
-                  this.options.output.metaByEntries,
-                  packageName,
-                ),
-              ),
-              ...getEntryOptions<Record<string, unknown> | undefined>(
-                entryName,
-                this.options.output.templateParameters,
-                this.options.output.templateParametersByEntries,
-                packageName,
-              ),
-            };
-          },
+          ) => ({
+            webpackConfig: compilation.options,
+            htmlWebpackPlugin: {
+              tags: assetTags,
+              files: assets,
+              options: pluginOptions,
+            },
+            ...baseTemplateParams,
+          }),
+          bottomTemplate:
+            this.appContext.htmlTemplates[`__${entryName}-bottom__`] &&
+            lodashTemplate(
+              this.appContext.htmlTemplates[`__${entryName}-bottom__`],
+            )(baseTemplateParams),
         },
       ]);
     }
+    // eslint-enable-next-line max-statements
+
+    this.chain
+      .plugin('bottom-template')
+      .use(BottomTemplatePlugin, [HtmlWebpackPlugin]);
 
     // add app icon
     const appIcon = findExists(
@@ -255,7 +278,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     this.chain.plugin('copy').use(CopyPlugin, [
       {
         patterns: [
-          ...((this.options.output.copy as any) || []),
+          ...(this.options.output.copy || []),
           {
             from: '**/*',
             to: 'public',
@@ -281,13 +304,6 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
             noErrorOnMissing: true,
           },
         ],
-      },
-    ]);
-
-    this.chain.plugin('route-manitest').use(RouteManifest, [
-      {
-        options: this.options,
-        appContext: this.appContext,
       },
     ]);
 

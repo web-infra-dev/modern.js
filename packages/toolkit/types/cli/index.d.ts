@@ -44,6 +44,7 @@ export interface HtmlTemplates {
 }
 
 export interface IAppContext {
+  metaName: string; // name for generating conventional constants, such as .modern-js
   appDirectory: string;
   configFile: string | false;
   ip?: string;
@@ -56,13 +57,17 @@ export interface IAppContext {
   internalDirectory: string;
   plugins: {
     cli?: any;
-    cliPath?: any;
+    cliPkg?: any;
     server?: any;
-    serverPath?: any;
+    serverPkg?: any;
   }[];
   entrypoints: Entrypoint[];
+  checkedEntries: string[];
   serverRoutes: ServerRoute[];
   htmlTemplates: HtmlTemplates;
+  existSrc: boolean;
+  internalDirAlias: string;
+  internalSrcAlias: string;
 }
 
 export interface Hooks {
@@ -91,6 +96,10 @@ export interface Hooks {
     unknown
   >;
   afterBuild: AsyncWorkflow<void, unknown>;
+  afterMonorepoDeploy: AsyncWorkflow<
+    { operator: any; deployProjectNames: string[] },
+    void
+  >;
   beforeDeploy: AsyncWorkflow<Record<string, any>, unknown>;
   afterDeploy: AsyncWorkflow<Record<string, any>, unknown>;
   modifyEntryExport: AsyncWaterfall<{
@@ -121,4 +130,9 @@ export interface Hooks {
     partials: HtmlPartials;
   }>;
   addRuntimeExports: AsyncWaterfall<void>;
+  beforeGenerateRoutes: AsyncWaterfall<{
+    entrypoint: Entrypoint;
+    code: string;
+  }>;
+  addDefineTypes: AsyncWaterfall<void>;
 }

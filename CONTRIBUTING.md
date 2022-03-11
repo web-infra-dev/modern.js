@@ -196,10 +196,24 @@ You need write th new tests for new feature or modify exist tests for changes.
 
 We wish you write unit tests at `PACKAGE_DIR/tests`. Test syntax is based on [jest](https://jestjs.io/).
 
-### Run Testing
+### Run Unit Testing
 
 ```sh
 pnpm run test
+```
+
+### Run E2E Testing
+
+1. If you want to run the e2e command, you must first execute the e2e prepare command
+
+```sh
+pnpm run prepare --filter "tests"
+```
+
+2. start test
+
+```sh
+pnpm run test:e2e
 ```
 
 ## Linting

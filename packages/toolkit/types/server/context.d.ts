@@ -51,7 +51,9 @@ export type BaseSSRServerContext = {
     pathname: string;
     query: Record<string, string>;
     headers: IncomingHttpHeaders;
+    host: string;
     cookie?: string;
+    [propsName: string]: any;
   };
   redirection: { url?: string; status?: number };
   distDir: string;
@@ -60,4 +62,5 @@ export type BaseSSRServerContext = {
   logger: Logger;
   metrics?: Metrics;
   loadableManifest?: string;
+  cacheConfig?: any;
 };
