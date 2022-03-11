@@ -2,9 +2,7 @@ import os from 'os';
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import logger from 'signale';
-
-// FIXME: declare module 不生效的问题
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
 const createCacheDir = (name: string): string => {
   switch (os.platform()) {
