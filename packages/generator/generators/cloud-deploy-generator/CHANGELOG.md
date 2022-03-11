@@ -1,5 +1,11 @@
 # @modern-js/cloud-deploy-generator
 
+## 1.1.3
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+
 ## 1.1.2
 
 ### Patch Changes

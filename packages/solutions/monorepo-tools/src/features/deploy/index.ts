@@ -122,6 +122,7 @@ const checkAndRunDeployCommand = async (
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const installDependency = async (
   deployDir: string,
   packageManager: PackageManagerType,
@@ -205,7 +206,7 @@ export const deploy = async (
   }
 
   generatorAndCopyRequiredFiles(rootPath, realDeployPath);
-  await installDependency(realDeployPath, packageManager);
+  // await installDependency(realDeployPath, packageManager);
 
   success(`Deploy success. The deploy dir is in '${rootPath}/output'`);
 };

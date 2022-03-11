@@ -1,5 +1,14 @@
 # @modern-js/utils
 
+## 1.3.3
+
+### Patch Changes
+
+- 4c792f68: feat(plugin-garfish): Sub-applications automatically increment basename
+  feat(plugin-garfish): export common generate code function
+  fix(plugin-garfish): modify plugin-garfish schema config
+- a7f42f48: new user config for plugin-unbundle
+
 ## 1.3.2
 
 ### Patch Changes

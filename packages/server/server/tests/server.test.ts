@@ -2,7 +2,6 @@ import path from 'path';
 import { defaultsConfig, NormalizedConfig } from '@modern-js/core';
 import { ModernServerContext, NextFunction } from '@modern-js/types';
 import createServer, { Server } from '../src';
-import { ModernServer } from '../src/server/modern-server';
 import Watcher from '../src/dev-tools/watcher';
 
 describe('test server', () => {
@@ -21,8 +20,10 @@ describe('test server', () => {
     const server = await createServer({
       config: defaultsConfig as NormalizedConfig,
       pwd: path.join(__dirname, './fixtures/pure'),
+      dev: true,
     });
     expect(server instanceof Server).toBe(true);
+    await server.close();
   });
 
   describe('shoule get production modern server instance', () => {
@@ -32,6 +33,7 @@ describe('test server', () => {
       const server = await createServer({
         config: defaultsConfig as NormalizedConfig,
         pwd: appDirectory,
+        dev: true,
       });
       const modernServer = (server as any).server;
 
@@ -47,18 +49,20 @@ describe('test server', () => {
       } = modernServer;
       expect(pwd).toBe(appDirectory);
       expect(distDir).toBe(path.join(appDirectory, 'dist'));
-      expect(workDir).toBe(distDir);
+      expect(workDir).toBe(appDirectory);
       expect(conf).toBe(defaultsConfig);
       expect(handlers).toBeDefined();
       expect(isDev).toBeFalsy();
       expect(staticGenerate).toBeFalsy();
       expect(presetRoutes).toBeUndefined();
+      await server.close();
     });
 
     test('should add handler correctly', async () => {
       const server = await createServer({
         config: defaultsConfig as NormalizedConfig,
         pwd: appDirectory,
+        dev: true,
       });
       const modernServer = (server as any).server;
 
@@ -86,17 +90,20 @@ describe('test server', () => {
 
       expect(newLen + 1).toBe(nextLen);
       expect(modernServer.handlers[nextLen - 1]).toBe(asyncHandler);
+      await server.close();
     });
 
     test('should get request handler correctly', async () => {
       const server = await createServer({
         config: defaultsConfig as NormalizedConfig,
         pwd: appDirectory,
+        dev: true,
       });
 
-      const modernServer: ModernServer = (server as any).server;
+      const modernServer: any = (server as any).server;
       const handler = modernServer.getRequestHandler();
       expect(typeof handler === 'function').toBeTruthy();
+      await server.close();
     });
   });
 });

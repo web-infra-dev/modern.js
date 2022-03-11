@@ -1,6 +1,5 @@
 import { LAUNCH_EDITOR_ENDPOINT, logger } from '@modern-js/utils';
-import { ModernServerContext } from '../../libs/context';
-import { NextFunction } from '../../type';
+import { ModernServerContext, NextFunction } from '@modern-js/types';
 
 export const createLaunchEditorHandler =
   // eslint-disable-next-line consistent-return

@@ -45,6 +45,7 @@ interface SourceConfig {
     | ((aliases: Record<string, string>) => Record<string, unknown>);
   moduleScopes?:
     | Array<string | RegExp>
+    | ((scopes: Array<string | RegExp>) => void)
     | ((scopes: Array<string | RegExp>) => Array<string | RegExp>);
   include?: Array<string | RegExp>;
 }
@@ -65,7 +66,7 @@ interface OutputConfig {
   mountId?: string;
   favicon?: string;
   faviconByEntries?: Record<string, string | undefined>;
-  copy?: Record<string, unknown>;
+  copy?: Array<Record<string, unknown> & { from: string }>;
   scriptExt?: Record<string, unknown>;
   disableTsChecker?: boolean;
   disableHtmlFolder?: boolean;
@@ -138,6 +139,7 @@ interface ToolsConfig {
   babel?: ConfigFunction;
   autoprefixer?: ConfigFunction;
   postcss?: ConfigFunction;
+  styledComponents?: ConfigFunction;
   lodash?: ConfigFunction;
   devServer?: Record<string, unknown>;
   tsLoader?: ConfigFunction;

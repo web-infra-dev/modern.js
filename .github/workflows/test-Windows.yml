@@ -29,14 +29,19 @@ jobs:
         shell: bash
         run: |
           git config --system core.longpaths true
-      - uses: actions/checkout@v2
+
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
           fetch-depth: 25
-      - uses: pnpm/action-setup@v2.0.1
+
+      - name: Install Pnpm
+        uses: pnpm/action-setup@v2.0.1
         with:
           version: latest
+
       - name: Check docs only change
-        run: echo "::set-output name=DOCS_CHANGE::$(node skip-docs-change.js echo 'not-docs-only-change')"
+        run: echo "::set-output name=DOCS_CHANGE::$(node ./scripts/skip-docs-change.js echo 'not-docs-only-change')"
         id: docs-change
 
       - run: echo "${{steps.docs-change.outputs.DOCS_CHANGE}}"
@@ -48,7 +53,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: Init
+      - name: Install Dependencies
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: pnpm install --ignore-scripts
 

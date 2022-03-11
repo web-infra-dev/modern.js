@@ -26,12 +26,17 @@ export default core.createPlugin(
     },
     // module-tools menu mode
     moduleToolsMenu() {
-      const { appDirectory, internalDirectory } = core.useAppContext();
+      const { appDirectory, internalDirectory, port } = core.useAppContext();
       return {
         name: 'Docsite 调试',
         value: 'docsite',
         runTask: async () =>
-          features.buildDocs({ appDirectory, internalDirectory, isDev: true }),
+          features.buildDocs({
+            appDirectory,
+            internalDirectory,
+            isDev: true,
+            port,
+          }),
       };
     },
     platformBuild() {

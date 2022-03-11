@@ -7,4 +7,7 @@ declare module '@modern-js/core' {
       // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
       | ((options: Record<string, any>) => Record<string, any> | void);
   }
+  interface SourceConfig {
+    designSystem?: Record<string, any>;
+  }
 }

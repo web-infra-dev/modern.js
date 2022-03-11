@@ -194,6 +194,18 @@ export const PLUGIN_SCHEMAS = {
       target: 'server.https',
       schema: { type: 'boolean' },
     },
+    {
+      target: 'dev.unbundle',
+      schema: {
+        type: 'object',
+        properties: {
+          ignore: {
+            type: ['string', 'array'],
+            items: { type: 'string' },
+          },
+        },
+      },
+    },
   ],
   '@modern-js/plugin-ssg': [
     {
@@ -249,11 +261,15 @@ export const PLUGIN_SCHEMAS = {
   '@modern-js/plugin-garfish': [
     {
       target: 'runtime.masterApp',
-      schema: { type: ['object'] },
+      schema: { type: ['boolean', 'object'] },
     },
     {
       target: 'dev.withMasterApp',
       schema: { type: ['object'] },
+    },
+    {
+      target: 'deploy.microFrontend',
+      schema: { type: ['boolean', 'object'] },
     },
   ],
   '@modern-js/plugin-nocode': [],

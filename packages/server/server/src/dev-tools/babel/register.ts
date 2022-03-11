@@ -1,6 +1,6 @@
 import path from 'path';
 import { resolveBabelConfig } from '@modern-js/server-utils';
-import { ModernServerOptions } from '../../type';
+import { ModernServerOptions } from '@modern-js/prod-server';
 
 const registerDirs = ['./api', './server', './config/mock', './shared'];
 

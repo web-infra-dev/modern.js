@@ -1,0 +1,70 @@
+.titleWrap {
+  display: flex;
+  justify-content: space-between;
+  background-image: url(https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/text-bg.png);
+  background-size: 499px 43.6px;
+  background-repeat: no-repeat;
+}
+.title {
+  padding-top: 27px;
+  color: #fff;
+  font-size: 48px;
+  margin-bottom: 25px;
+}
+.seqNum {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  width: 90.7px;
+  height: 93px;
+}
+
+.seqImg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  animation: rotate360 50s linear infinite;
+}
+
+.num {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: Impact;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+@keyframes rotate360 {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+@media screen and (max-width: 966px) {
+  .seqNum {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .titleWrap {
+    background-size: 51.6vw 4.51vw;
+  }
+  .title {
+    padding-top: 13.5px;
+    font-size: 4.96vw;
+  }
+  .seqNum {
+    font-size: 2.48vw;
+  }
+}
