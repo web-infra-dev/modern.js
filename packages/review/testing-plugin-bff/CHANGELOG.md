@@ -1,5 +1,52 @@
 # @modern-js/testing-plugin-bff
 
+## 1.2.2
+
+### Patch Changes
+
+- 698ad9e8: feat: support test bff for api service
+- Updated dependencies [2cfc4235]
+- Updated dependencies [698ad9e8]
+- Updated dependencies [8d55e234]
+- Updated dependencies [78279953]
+- Updated dependencies [4d72edea]
+  - @modern-js/server@1.4.1
+  - @modern-js/testing@1.3.2
+  - @modern-js/utils@1.3.1
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/testing@1.3.1
+  - @modern-js/bff-utils@1.2.2
+  - @modern-js/server@1.3.2
+  - @modern-js/utils@1.2.2
+
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- c3d46ee4: fix: test config invalid
+- Updated dependencies [2da09c69]
+- Updated dependencies [146dcd85]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [146dcd85]
+- Updated dependencies [8e7603ee]
+- Updated dependencies [146dcd85]
+- Updated dependencies [1ebc7ee2]
+  - @modern-js/utils@1.2.0
+  - @modern-js/server@1.3.0
+  - @modern-js/testing@1.3.0
+  - @modern-js/bff-utils@1.2.0
+
 ## 1.1.3
 
 ### Patch Changes

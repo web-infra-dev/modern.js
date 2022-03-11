@@ -11,9 +11,9 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.2",
+  "version": "1.2.2",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/index.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
@@ -36,27 +36,28 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7",
     "@changesets/cli": "2.16.0",
     "@changesets/git": "^1.1.2",
-    "@modern-js/i18n-cli-language-detector": "workspace:^1.1.1",
-    "@modern-js/plugin-i18n": "workspace:^1.1.2",
-    "@modern-js/utils": "workspace:^1.1.6",
+    "@modern-js/i18n-cli-language-detector": "workspace:^1.2.1",
+    "@modern-js/plugin-i18n": "workspace:^1.2.1",
+    "@modern-js/utils": "workspace:^1.3.2",
     "execa": "^5.1.1"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.1.2",
-    "@modern-js/module-tools": "^1.1.5",
-    "@modern-js/plugin-testing": "^1.1.1",
+    "@modern-js/core": "workspace:^1.4.3",
+    "@scripts/build": "workspace:*",
     "@types/jest": "^26",
     "@types/node": "^14",
-    "typescript": "^4"
+    "typescript": "^4",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.1.2"
+    "@modern-js/core": "workspace:^1.4.3"
   },
   "sideEffects": false,
   "modernConfig": {
@@ -66,6 +67,7 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/types/index.d.ts"
   }
 }

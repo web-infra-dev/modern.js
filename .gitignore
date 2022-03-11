@@ -26,9 +26,12 @@ node_modules/
 dist/
 coverage/
 release/
-output/
-output_resource/
 examples/
+
+# git ignore for local test projects
+local-test-project/*/
+local-test-project/*
+!local-test-project/pnpm-workspace.yaml
 
 .vscode/**/*
 !.vscode/settings.json
@@ -45,3 +48,9 @@ examples/
 **/*/tsconfig.temp.json
 
 .changeset/pre.json
+# Dynamically generated
+.runtime-exports/
+
+# website
+website/.docusaurus
+website/build

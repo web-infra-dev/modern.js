@@ -1,7 +1,7 @@
 import path from 'path';
-import { createPlugin } from '@modern-js/server-plugin';
-import { useAppContext } from '@modern-js/core';
+import { createPlugin, useAppContext } from '@modern-js/server-core';
 import { isProd, requireExistModule, SERVER_DIR } from '@modern-js/utils';
+import { ModernServerContext } from '@modern-js/types';
 
 const WEB_APP_NAME = 'index';
 
@@ -29,6 +29,9 @@ const createTransformAPI = (storage: Storage) =>
       },
     },
   );
+
+type AfterMatchContext = ModernServerContext & { router: any };
+type AfterRenderContext = ModernServerContext & { template: any };
 
 export default createPlugin(
   () => {
@@ -60,16 +63,18 @@ export default createPlugin(
         });
       },
       beforeMatch({ context }, next) {
-        return storage.hooks.beforeMatch?.({ ...context }, next);
+        return storage.hooks.beforeMatch?.(context, next);
       },
       afterMatch({ context, routeAPI }, next) {
-        return storage.hooks.afterMatch?.({ ...context, routeAPI }, next);
+        (context as AfterMatchContext).router = routeAPI;
+        return storage.hooks.afterMatch?.(context, next);
       },
       beforeRender({ context }, next) {
-        return storage.hooks.beforeRender?.({ ...context }, next);
+        return storage.hooks.beforeRender?.(context, next);
       },
       afterRender({ context, templateAPI }, next) {
-        return storage.hooks.afterRender?.({ ...context, templateAPI }, next);
+        (context as AfterRenderContext).template = templateAPI;
+        return storage.hooks.afterRender?.(context, next);
       },
     };
   },

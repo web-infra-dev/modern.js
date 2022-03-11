@@ -25,7 +25,7 @@ const defaultOptions = {
   isTsProject: false,
 };
 
-const getConfigDir = (appDir: string) => {
+export const getConfigDir = (appDir: string) => {
   const storybookConfigsPath = path.join(constants.CURRENT_PKG_PATH, 'configs');
   fs.ensureDirSync(storybookConfigsPath);
   const projectConfigtPath = path.join(

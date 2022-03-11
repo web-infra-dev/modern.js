@@ -1,6 +1,6 @@
 export * as fs from 'fs-extra';
 export * from './chalk';
-export * from './formatWebpackMessages';
+export * from './format';
 export * from './FileSizeReporter';
 export * from './printBuildError';
 export * from './debug';
@@ -29,3 +29,5 @@ export * from './alias';
 export * from './import';
 export * from './watch';
 export * from './nodeEnv';
+export * from './wait';
+export * from './emptyDir';

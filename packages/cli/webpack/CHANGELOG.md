@@ -1,5 +1,138 @@
 # @modern-js/webpack
 
+## 1.4.1
+
+### Patch Changes
+
+- 0ad75faa: fix: should not enable fork-ts-checker when using ts-loader
+- 4b5d4bf4: fix: output.copy type
+- 0ad75faa: feat: improve default options of fork-ts-checker
+- 0ad75faa: fix: should only enable fork-ts-checker in typescript project
+- Updated dependencies [969f172f]
+- Updated dependencies [4c792f68]
+- Updated dependencies [4b5d4bf4]
+- Updated dependencies [62f5b8c8]
+- Updated dependencies [55e18278]
+- Updated dependencies [4499a674]
+- Updated dependencies [403f5169]
+- Updated dependencies [a7f42f48]
+  - @modern-js/babel-preset-app@1.2.4
+  - @modern-js/core@1.4.4
+  - @modern-js/utils@1.3.3
+
+## 1.4.0
+
+### Minor Changes
+
+- 54786e58: add ts check
+
+### Patch Changes
+
+- 3da3bf48: perf: remove case-sensetive-webpack-plugin to improve compile performance
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
+## 1.3.2
+
+### Patch Changes
+
+- 118da5b4: fix: fix tailwindcss sourcemap building error
+- b376c8d6: feat: enhance custom env
+- e62c4efd: fix error typo for 'styledComponents'
+- Updated dependencies [118da5b4]
+- Updated dependencies [b376c8d6]
+- Updated dependencies [e62c4efd]
+- Updated dependencies [e2a8233f]
+  - @modern-js/css-config@1.2.2
+  - @modern-js/core@1.4.2
+  - @modern-js/babel-preset-app@1.2.3
+
+## 1.3.1
+
+### Patch Changes
+
+- 75f4eeb8: fix: output.enableInlineScripts not working
+- 78279953: compiler entry bug fix and dev build console
+- 4d72edea: support dev compiler by entry
+- Updated dependencies [53aca274]
+- Updated dependencies [78279953]
+- Updated dependencies [e116ace5]
+- Updated dependencies [4d72edea]
+  - @modern-js/core@1.4.1
+  - @modern-js/utils@1.3.1
+
+## 1.3.0
+
+### Minor Changes
+
+- ec4dbffb: feat: support as a pure api service
+
+### Patch Changes
+
+- ddf0c3a6: feat: support bottom template
+- 24f616ca: feat: support custom meta info
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [198fd9c0]
+- Updated dependencies [bd819a8d]
+  - @modern-js/core@1.4.0
+  - @modern-js/utils@1.3.0
+  - @modern-js/babel-preset-app@1.2.2
+
+## 1.2.2
+
+### Patch Changes
+
+- 7dc5aa75: fix: source.include supports regexp
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+  - @modern-js/babel-preset-app@1.2.1
+  - @modern-js/core@1.3.2
+  - @modern-js/css-config@1.2.1
+  - @modern-js/babel-chain@1.2.1
+  - @modern-js/utils@1.2.2
+
+## 1.2.0
+
+### Minor Changes
+
+- 5597289b: Fix @modern-js/plugin-ssr exported configuration
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 4a85378c: fix: fix @types/mini-css-extract-plugin version
+- e453e421: feat: add \*.global.less/sass/scss support when "output.disableCssModuleExtension" is true
+- Updated dependencies [2da09c69]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [1ebc7ee2]
+  - @modern-js/utils@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/babel-preset-app@1.2.0
+  - @modern-js/css-config@1.2.0
+  - @modern-js/babel-chain@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- fix: webpack mini-css-extract-plugin version
+
 ## 1.1.3
 
 ### Patch Changes

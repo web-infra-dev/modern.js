@@ -1,5 +1,73 @@
 # @modern-js/generator-common
 
+## 1.4.4
+
+### Patch Changes
+
+- c29451a5: fix package manager schema
+- 83059b93: fix tailwindcss type reference
+- 83059b93: fix module solution tailwindcss version when new tainwindcss function
+- 83059b93: fix tailwindcss generator
+
+## 1.4.3
+
+### Patch Changes
+
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+- 6668a1bf: feat: package manager options support npm
+
+## 1.4.2
+
+### Patch Changes
+
+- 1fad4bb7: feat: support enable proxy in mwa project
+
+## 1.4.1
+
+### Patch Changes
+
+- 9a505589: fix: generator scenes order
+
+## 1.4.0
+
+### Minor Changes
+
+- bada2879: refactor plugin-garfish:
+  - change @modern-js/plugin-micro-frontend => @modern-js/plugin-garfish
+  - remove disableCustomerRouter logic
+  - adding unit test
+  - fix plugin-garfish type error
+
+### Patch Changes
+
+- 5a7901d7: fix ssg url
+
+## 1.3.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/plugin-i18n@1.2.1
+
+## 1.3.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 2c049918: feat: polyfill function support enable using new command
+- Updated dependencies [cfe11628]
+  - @modern-js/plugin-i18n@1.2.0
+
+## 1.2.4
+
+### Patch Changes
+
+- ad107726: feat: new action support apppend type define
+
 ## 1.2.3
 
 ### Patch Changes

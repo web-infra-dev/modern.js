@@ -1,11 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import {
-  INTERNAL_SRC_ALIAS,
-  INTERNAL_DIR_ALAIS,
-  applyOptionsChain,
-  findExists,
-} from '@modern-js/utils';
+import { applyOptionsChain, findExists } from '@modern-js/utils';
 import { NormalizedInputOptions, Plugin as RollupPlugin } from 'rollup';
 import alias, { Alias } from '@rollup/plugin-alias';
 import { createMatchPath, loadConfig, MatchPath } from 'tsconfig-paths';
@@ -15,21 +10,21 @@ import {
   DEV_CLIENT_PATH_ALIAS,
   BARE_SPECIFIER_REGEX,
   DEFAULT_EXTENSIONS,
-  DEFAULT_DEPS,
 } from '../constants';
 
 // webpack alias to rollup alias entries
 export const normalizeAlias = (
   config: NormalizedConfig,
   appContext: IAppContext,
+  defaultDeps: string[],
 ) => {
   const result: Alias[] = [
     {
-      find: new RegExp(`^/?${INTERNAL_DIR_ALAIS}/(.*)`),
+      find: new RegExp(`^/?${appContext.internalDirAlias}/(.*)`),
       replacement: `${appContext.internalDirectory}/$1`,
     },
     {
-      find: new RegExp(`^/?${INTERNAL_SRC_ALIAS}/(.*)`),
+      find: new RegExp(`^/?${appContext.internalSrcAlias}/(.*)`),
       replacement: `${appContext.srcDirectory}/$1`,
     },
     {
@@ -52,7 +47,7 @@ export const normalizeAlias = (
     const isAbsolute = path.isAbsolute(aliasPath);
 
     // should exclude modern-js/runtime api
-    if (!DEFAULT_DEPS.includes(key)) {
+    if (!defaultDeps.includes(key)) {
       result.push({
         find: key,
         replacement: isAbsolute
@@ -68,8 +63,9 @@ export const normalizeAlias = (
 export const aliasPlugin = (
   config: NormalizedConfig,
   appContext: IAppContext,
+  defaultDeps: string[],
 ): RollupPlugin => {
-  const aliasOptions = normalizeAlias(config, appContext);
+  const aliasOptions = normalizeAlias(config, appContext, defaultDeps);
   const plugin = alias({ entries: aliasOptions });
   return {
     name: 'esm-alias',
@@ -77,7 +73,7 @@ export const aliasPlugin = (
       return plugin.buildStart?.call(this, options);
     },
     resolveId(id: string, importer?: string) {
-      return plugin.resolveId?.call(this, id, importer, {});
+      return plugin.resolveId?.call(this, id, importer, {} as any);
     },
   };
 };

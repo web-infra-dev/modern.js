@@ -1,5 +1,65 @@
 # @modern-js/types
 
+## 1.3.4
+
+### Patch Changes
+
+- 4499a674: feat: support to pass options to plugins
+- e37ea5b2: feat: add afterMonorepoDeploy hook
+
+## 1.3.3
+
+### Patch Changes
+
+- deeaa602: support svg/proxy/multi-version in unbundled
+
+## 1.3.2
+
+### Patch Changes
+
+- 6891e4c2: add addDefineTypes define
+
+## 1.3.1
+
+### Patch Changes
+
+- 78279953: compiler entry bug fix and dev build console
+- 4d72edea: support dev compiler by entry
+
+## 1.3.0
+
+### Minor Changes
+
+- ec4dbffb: feat: support as a pure api service
+
+### Patch Changes
+
+- 816fd721: support more server context
+- bfbea9a7: support multi base url and dynamic base url
+- 24f616ca: feat: support custom meta info
+- 272cab15: refactor server plugin manager
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- b7c48198: feat: add beforeGenerateRoutes hook
+- Updated dependencies [83166714]
+  - @modern-js/plugin@1.2.1
+
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- e2464fe5: add more server types
+- Updated dependencies [cfe11628]
+  - @modern-js/plugin@1.2.0
+
 ## 1.1.5
 
 ### Patch Changes

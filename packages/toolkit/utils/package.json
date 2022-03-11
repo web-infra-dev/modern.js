@@ -11,9 +11,9 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.6",
+  "version": "1.3.3",
   "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/index.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
@@ -26,9 +26,9 @@
       },
       "default": "./dist/js/treeshaking/index.js"
     },
-    "./formatWebpackMessages": {
-      "jsnext:source": "./src/formatWebpackMessages.ts",
-      "default": "./dist/js/treeshaking/formatWebpackMessages.js"
+    "./format": {
+      "jsnext:source": "./src/format.ts",
+      "default": "./dist/js/treeshaking/format.js"
     },
     "./constants": {
       "jsnext:source": "./src/constants.ts",
@@ -37,8 +37,8 @@
   },
   "typesVersions": {
     "*": {
-      "formatWebpackMessages": [
-        "./dist/types/formatWebpackMessages.d.ts"
+      "format": [
+        "./dist/types/format.d.ts"
       ],
       "constants": [
         "./dist/types/constants.d.ts"
@@ -50,7 +50,7 @@
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
-    "test": "modern test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7",
@@ -69,7 +69,8 @@
     "strip-ansi": "6.0.0",
     "upath": "^2.0.1",
     "yaml": "^1.10.2",
-    "execa": "5"
+    "execa": "5",
+    "typescript": "^4"
   },
   "devDependencies": {
     "@types/debug": "^4.1.7",
@@ -78,17 +79,16 @@
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/recursive-readdir": "^2.2.0",
-    "typescript": "^4",
     "webpack": "^5.54.0",
-    "@modern-js/plugin-testing": "^1.2.0",
-    "@modern-js/module-tools": "^1.1.5"
-  },
-  "peerDependencies": {
-    "typescript": "^4"
+    "@scripts/build": "workspace:*",
+    "jest": "^27",
+    "@scripts/jest-config": "workspace:*",
+    "@modern-js/types": "workspace:^1.3.4"
   },
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/types/index.d.ts"
   }
 }

@@ -1,7 +1,6 @@
 import fs from 'fs';
 import merge from 'lodash.merge';
-
-import ts = require('typescript');
+import ts from 'typescript';
 
 let enumsMap = {};
 
@@ -35,6 +34,7 @@ const createEnumObject = (enumNode: ts.EnumDeclaration, namespace?: string) => {
 const visit = (node: ts.Node) => {
   if (
     node.kind === ts.SyntaxKind.EnumDeclaration &&
+    node.modifiers &&
     node?.modifiers[0].kind === ts.SyntaxKind.DeclareKeyword &&
     node?.modifiers[1].kind === ts.SyntaxKind.ConstKeyword
   ) {
@@ -81,13 +81,14 @@ const visit = (node: ts.Node) => {
  */
 export const parseDTS = (files: string[]): Record<string, unknown> => {
   for (const filepath of files) {
-    const source = ts.createSourceFile(
-      filepath,
-      fs.readFileSync(filepath, 'utf8'),
-      ts.ScriptTarget.ES2015,
-    );
-
-    visit(source);
+    if (fs.existsSync(filepath)) {
+      const source = ts.createSourceFile(
+        filepath,
+        fs.readFileSync(filepath, 'utf8'),
+        ts.ScriptTarget.ES2015,
+      );
+      visit(source);
+    }
   }
 
   return enumsMap;

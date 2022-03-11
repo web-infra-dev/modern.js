@@ -14,11 +14,13 @@ const REWRITE_TARGETS = {
 const matchedKey = (value: string) =>
   Object.keys(REWRITE_TARGETS).find(name => value.startsWith(`${name}/`));
 
-export default () => ({
+export default (_: any, options: { metaName: string }) => ({
   post({ path, ...stats }: any) {
     const { sourceFileName } = stats.opts;
+    const { metaName } = options;
 
-    if (/node_modules(?!\/\.modern-js\/)/.test(sourceFileName)) {
+    const regExp = new RegExp(`node_modules(?!\\/\\.${metaName}\\/)`);
+    if (regExp.test(sourceFileName)) {
       return;
     }
 

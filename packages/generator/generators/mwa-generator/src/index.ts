@@ -39,7 +39,7 @@ const getGeneratorPath = (generator: string, distTag: string) => {
 };
 
 // eslint-disable-next-line max-statements
-const handleTemplateFile = async (
+export const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
   appApi: AppAPI,
@@ -159,6 +159,15 @@ const handleTemplateFile = async (
           .replace('templates/ts-template/', projectPath)
           .replace('.handlebars', ''),
     );
+  } else {
+    await appApi.forgeTemplate(
+      'templates/js-template/**/*',
+      undefined,
+      resourceKey =>
+        resourceKey
+          .replace('templates/js-template/', projectPath)
+          .replace('.handlebars', ''),
+    );
   }
 
   if (!isMonorepoSubProject && packageManager === PackageManager.Pnpm) {
@@ -210,6 +219,7 @@ const handleTemplateFile = async (
         dependencies: {
           [lessDependence]: `^${await getPackageVersion(lessDependence)}`,
         },
+        projectPath,
         isSubGenerator: true,
       },
     );
@@ -225,6 +235,7 @@ const handleTemplateFile = async (
         dependencies: {
           [sassDependence]: `${await getPackageVersion(sassDependence)}`,
         },
+        projectPath,
         isSubGenerator: true,
       },
     );

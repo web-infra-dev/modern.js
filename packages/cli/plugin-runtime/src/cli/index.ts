@@ -1,14 +1,12 @@
 import path from 'path';
-import { PLUGIN_SCHEMAS, createRuntimeExportsUtils } from '@modern-js/utils';
+import {
+  PLUGIN_SCHEMAS,
+  createRuntimeExportsUtils,
+  cleanRequireCache,
+} from '@modern-js/utils';
 import { createPlugin, usePlugins, useAppContext } from '@modern-js/core';
 
-const useInternalDirectory = () => {
-  try {
-    return useAppContext().internalDirectory;
-  } catch {
-    return path.join(process.cwd(), 'node_modules/.modern-js');
-  }
-};
+const useInternalDirectory = () => useAppContext().internalDirectory;
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 usePlugins([
@@ -47,6 +45,13 @@ export default createPlugin(
 
         runtimeExportsUtils.addExport(`export * from '${runtimePackage}'`);
       },
+      async beforeRestart() {
+        cleanRequireCache([
+          require.resolve('@modern-js/plugin-state/cli'),
+          require.resolve('@modern-js/plugin-router/cli'),
+          require.resolve('@modern-js/plugin-ssr/cli'),
+        ]);
+      },
     };
   },
   {
@@ -55,6 +60,7 @@ export default createPlugin(
       '@modern-js/plugin-router',
       '@modern-js/plugin-ssr',
       '@modern-js/plugin-state',
+      '@modern-js/plugin-design-token',
     ],
   },
 ) as any;

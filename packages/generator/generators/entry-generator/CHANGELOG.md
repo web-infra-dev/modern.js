@@ -1,5 +1,34 @@
 # @modern-js/entry-generator
 
+## 1.3.2
+
+### Patch Changes
+
+- 9e0aed14: fix: mwa pages index lint error
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+
+## 1.3.1
+
+### Patch Changes
+
+- e06c7c25: change generator main path on development mode
+
+## 1.3.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 2c049918: feat: polyfill function support enable using new command
+
+## 1.2.4
+
+### Patch Changes
+
+- f73fee4b: feat: upgrade codesmith version to add get npm package timeout's time
+
 ## 1.2.3
 
 ### Patch Changes

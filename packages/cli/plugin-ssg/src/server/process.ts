@@ -1,4 +1,4 @@
-import Server from '@modern-js/server';
+import server from '@modern-js/server';
 import { ServerRoute as ModernRoute } from '@modern-js/types';
 import portfinder from 'portfinder';
 import { NormalizedConfig } from '@modern-js/core';
@@ -10,7 +10,7 @@ import { CLOSE_SIGN } from './consts';
 
 type Then<T> = T extends PromiseLike<infer U> ? U : T;
 
-type ModernServer = Then<ReturnType<typeof Server>>;
+type ModernServer = Then<ReturnType<typeof server>>;
 
 const safetyRequire = (filename: string, base: string) => {
   try {
@@ -31,11 +31,13 @@ process.on('message', async (chunk: string) => {
   const context = JSON.parse(chunk as any);
   const {
     routes,
+    renderRoutes,
     options,
     appDirectory,
     plugins,
   }: {
     routes: ModernRoute[];
+    renderRoutes: ModernRoute[];
     options: NormalizedConfig;
     appDirectory: string;
     plugins: string[];
@@ -45,14 +47,14 @@ process.on('message', async (chunk: string) => {
 
   let modernServer: ModernServer | null = null;
   try {
-    const { server } = options;
+    const { server: serverOptions } = options;
 
     // start server in default port
-    const defaultPort = Number(process.env.PORT) || server.port;
+    const defaultPort = Number(process.env.PORT) || serverOptions.port;
     portfinder.basePort = defaultPort!;
     const port = await portfinder.getPortPromise();
 
-    modernServer = await Server({
+    modernServer = await server({
       pwd: appDirectory,
       config: options,
       routes,
@@ -73,7 +75,7 @@ process.on('message', async (chunk: string) => {
       // get server handler, render to ssr
       const render = createRender(modernServer.getRequestHandler());
       const renderPromiseAry = makeRender(
-        routes.filter(route => !route.isApi) as SsgRoute[],
+        renderRoutes as SsgRoute[],
         render,
         port,
       );

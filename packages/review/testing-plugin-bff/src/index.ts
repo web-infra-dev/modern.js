@@ -1,28 +1,88 @@
 import path from 'path';
-import { createPlugin } from '@modern-js/testing';
-import { chalk } from '@modern-js/utils';
+import {
+  createPlugin,
+  getModuleNameMapper,
+  TestConfigOperator,
+} from '@modern-js/testing';
 import { bff_info_key } from './constant';
+import { isBFFProject, existSrc } from './utils';
 
-const isBFFProject = (pwd: string) => {
-  try {
-    // eslint-disable-next-line import/no-dynamic-require,@typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
-    const packageJson = require(path.join(pwd, './package.json'));
+export const setJestConfigForBFF = async ({
+  pwd,
+  userConfig,
+  plugins,
+  routes,
+  utils,
+}: {
+  pwd: string;
+  userConfig: any;
+  plugins: any[];
+  routes: any[];
+  utils: TestConfigOperator;
+}) => {
+  const bffConfig = {
+    rootDir: path.join(pwd, './api'),
+    setupFilesAfterEnv: [require.resolve('./setup')],
+    testEnvironment: require.resolve('./env'),
+    testMatch: [`**/api/**/*.test.[jt]s`],
+    globals: {
+      [bff_info_key]: {
+        appDir: pwd,
+        modernUserConfig: userConfig,
+        plugins,
+        routes,
+      },
+    },
+  };
 
-    const { dependencies, devDependencies } = packageJson;
+  const alias = userConfig?.source?.alias || {};
 
-    const isBFF = Object.keys({ ...dependencies, ...devDependencies }).some(
-      (dependency: string) => dependency.includes('plugin-bff'),
+  const aliasMapper = getModuleNameMapper(alias);
+
+  const { transform, moduleNameMapper, resolver } = utils.jestConfig;
+
+  const isExistSrc = await existSrc(pwd);
+
+  const mergedModuleNameMapper = {
+    ...moduleNameMapper,
+    ...aliasMapper,
+  };
+
+  if (isExistSrc) {
+    utils.setJestConfig(
+      {
+        projects: [
+          {
+            ...utils.jestConfig,
+          },
+          {
+            transform,
+            moduleNameMapper: mergedModuleNameMapper,
+            resolver,
+            ...bffConfig,
+          },
+        ],
+      },
+      {
+        force: true,
+      },
     );
-
-    const isMWA = Object.keys(devDependencies).some((devDependency: string) =>
-      devDependency.includes('app-tools'),
+  } else {
+    utils.setJestConfig(
+      {
+        projects: [
+          {
+            transform,
+            moduleNameMapper: mergedModuleNameMapper,
+            resolver,
+            ...bffConfig,
+          },
+        ],
+      },
+      {
+        force: true,
+      },
     );
-
-    return isMWA && isBFF;
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(chalk.red(error));
-    return false;
   }
 };
 
@@ -44,37 +104,14 @@ export default ({
           return next(utils);
         }
 
-        const bffConfig = {
-          rootDir: path.join(pwd, './api'),
-          setupFilesAfterEnv: [require.resolve('./setup')],
-          testEnvironment: require.resolve('./env'),
-          testMatch: [`**/api/**/*.test.[jt]s`],
-          globals: {
-            [bff_info_key]: {
-              appDir: pwd,
-              modernUserConfig: userConfig,
-              plugins,
-              routes,
-            },
-          },
-        };
+        await setJestConfigForBFF({
+          pwd,
+          userConfig,
+          plugins,
+          routes,
+          utils,
+        });
 
-        utils.setJestConfig(
-          {
-            projects: [
-              {
-                ...utils.jestConfig,
-              },
-              {
-                ...utils.jestConfig,
-                ...bffConfig,
-              },
-            ],
-          },
-          {
-            force: true,
-          },
-        );
         return next(utils);
       },
     }),

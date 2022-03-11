@@ -1,5 +1,37 @@
 # @modern-js/module-tools-hooks
 
+## 1.2.2
+
+### Patch Changes
+
+- fab92861: fix: @modern-js/core phantom dep
+- Updated dependencies [54786e58]
+  - @modern-js/core@1.4.3
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+  - @modern-js/core@1.3.2
+  - @modern-js/plugin@1.2.1
+
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [fc71e36f]
+- Updated dependencies [cfe11628]
+  - @modern-js/core@1.3.0
+  - @modern-js/plugin@1.2.0
+
 ## 1.1.2
 
 ### Patch Changes

@@ -1,5 +1,23 @@
 # @modern-js/plugin-i18n
 
+## 1.2.2
+
+### Patch Changes
+
+- 1b22634e: fix: plugin-i18n exports
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
 ## 1.1.2
 
 ### Patch Changes

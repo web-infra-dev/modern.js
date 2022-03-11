@@ -23,8 +23,12 @@ const debug = createDebugger('esm:hmr-plugin');
 const hasHotContext = (code: string) =>
   code.includes('module.hot') || code.includes(`import.meta.hot`);
 
-const shouldApplyHmr = (code: string, filename: string) => {
-  if (/node_modules\/(?!\.modern-js\/)/.test(filename)) {
+const shouldApplyHmr = (
+  code: string,
+  filename: string,
+  internalDirectory: string,
+) => {
+  if (filename.startsWith(internalDirectory)) {
     return false;
   }
 
@@ -45,11 +49,11 @@ export const hmrPlugin = (
   appContext: IAppContext,
 ): RollupPlugin => {
   const { appDirectory } = appContext;
-
   return {
     name: 'esm-hmr',
     async transform(code: string, importer: string) {
-      if (!shouldApplyHmr(code, importer)) {
+      const { internalDirectory } = appContext;
+      if (!shouldApplyHmr(code, importer, internalDirectory)) {
         return null;
       }
 
@@ -83,8 +87,8 @@ export const hmrPlugin = (
           [
             `\nimport.meta.hot.accept();`,
             `import.meta.hot.prune(() => {
-              removeStyle(${JSON.stringify(importer)})
-            });`,
+                removeStyle(${JSON.stringify(importer)})
+              });`,
           ].join('\n'),
         );
 

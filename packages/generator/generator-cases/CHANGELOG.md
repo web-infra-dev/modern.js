@@ -1,5 +1,46 @@
 # @modern-js/generator-cases
 
+## 1.2.3
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+- Updated dependencies [c29451a5]
+- Updated dependencies [83059b93]
+- Updated dependencies [83059b93]
+- Updated dependencies [83059b93]
+  - @modern-js/generator-common@1.4.4
+
+## 1.2.2
+
+### Patch Changes
+
+- 6668a1bf: feat: package manager options support npm
+- Updated dependencies [6668a1bf]
+- Updated dependencies [6668a1bf]
+  - @modern-js/generator-common@1.4.3
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/generator-common@1.3.1
+
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 2c049918: feat: polyfill function support enable using new command
+- Updated dependencies [2c049918]
+- Updated dependencies [cfe11628]
+  - @modern-js/generator-common@1.3.0
+
 ## 1.1.3
 
 ### Patch Changes

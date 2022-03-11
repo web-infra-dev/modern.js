@@ -1,0 +1,101 @@
+
+.card{
+  position: absolute;
+  display: flex;
+  /* width: 43vw;
+  max-width: 587px;
+  max-height: 498px; */
+  /* padding: 48px 32px; */
+  width: 483px;
+  padding: 24px 26px;
+  flex-direction: column;
+  color: #fff;
+  font-weight: 500;
+  font-size: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-sizing: border-box;
+  border-radius: 8px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.rightDot{
+  position: absolute;
+  width: 60px;
+  height: 26px;
+  left: -41px;
+  /* right: -3.3vw; */
+  top: 27px;
+}
+
+.leftDot{
+  position: absolute;
+  width: 60px;
+  height: 26px;
+  right: -41px;
+  /* right: -3.3vw; */
+  top: 27px;
+}
+
+.title{
+  display: inline-block;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.icon{
+  /* width: 38vw;
+  height: 22vw;
+  max-width: 521px;
+  max-height: 372px; */
+  /* width: 523px;
+  height: 303px; */
+  width: 431px;
+  height: 250px;
+}
+
+.card:hover{
+  transition: all 0.3s ease;
+  color: #fff;
+  background: rgba(78, 202, 255, 0.2);
+}
+
+.desc{
+  display: inline-block;
+  margin-top: 16px;
+  margin-bottom: 21px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(255,255,255,0.6);
+}
+
+/* @media screen and (min-width: 966px) and (max-width: 1366px) {
+  .card{
+    padding: 3.5vw 2.3vw;
+  }
+} */
+
+@media screen and (max-width: 1100px){
+  .card{
+    position: static;
+    width: 100%;
+    margin-top: 20px;
+    padding: 3.5vw 2.3vw;
+  }
+  .desc{
+    margin-top: 8px;
+    margin-bottom: 7.5px;
+  }
+  .title{
+    font-size: 26px;
+  }
+  .icon{
+    width: calc(100% - 4.6vw);
+    height: calc(100% - 7vw);
+  }
+  .leftDot, .rightDot{
+    display: none;
+  }
+}

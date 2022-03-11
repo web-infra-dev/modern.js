@@ -1,5 +1,24 @@
 # @modern-js/eslint-config
 
+## 1.2.1
+
+### Patch Changes
+
+- c35f710a: fix: typescript version warning when running lint
+- Updated dependencies [c35f710a]
+  - @modern-js-app/eslint-config@1.2.2
+
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [cfe11628]
+  - @modern-js-app/eslint-config@1.2.0
+
 ## 1.1.0
 
 ### Minor Changes

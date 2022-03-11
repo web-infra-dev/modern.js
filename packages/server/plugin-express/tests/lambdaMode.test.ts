@@ -1,7 +1,7 @@
 import path from 'path';
 import express from 'express';
 import request from 'supertest';
-import { serverManager } from '@modern-js/server-plugin';
+import { serverManager } from '@modern-js/server-core';
 import { INTROSPECTION_ROUTE_PATH } from '@modern-js/bff-utils';
 import plugin from '../src/plugin';
 import { APIPlugin } from './helpers';

@@ -3,8 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import { Plugin as RollupPlugin } from 'rollup';
 import mime from 'mime-types';
-import jsxPlugin from '@svgr/plugin-jsx';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import jsxPlugin from '@svgr/plugin-jsx';
 import { ASSETS_REGEX } from '../constants';
 
 const ENCODING_FORMAT = 'base64';
@@ -23,7 +23,11 @@ const shouldInline = (limit: number | undefined, size: number) => {
 };
 
 // svgr
-const transformSvg = (code: string, transformed: string, filePath: string) =>
+export const transformSvg = (
+  code: string,
+  transformed: string,
+  filePath: string,
+) =>
   require('@svgr/core').default(
     code,
     { titleProp: true },
@@ -31,7 +35,7 @@ const transformSvg = (code: string, transformed: string, filePath: string) =>
       caller: {
         name: '@modern-js/plugin-unbundle',
         previousExport: transformed,
-        defaultPlugins: [jsxPlugin],
+        defaultPlugins: [jsxPlugin.default || jsxPlugin],
       },
       filePath,
     },

@@ -16,12 +16,15 @@ export const PACKAGE_JSON_CONFIG_NAME = 'modernConfig';
  * @param appDirectory - App root directory.
  * @returns modernConfig or undefined
  */
-export const getPackageConfig = <T>(appDirectory: string) => {
+export const getPackageConfig = <T>(
+  appDirectory: string,
+  packageJsonConfig?: string,
+) => {
   const json = JSON.parse(
     fs.readFileSync(path.resolve(appDirectory, './package.json'), 'utf8'),
   );
 
-  return json[PACKAGE_JSON_CONFIG_NAME] as T | undefined;
+  return json[packageJsonConfig ?? PACKAGE_JSON_CONFIG_NAME] as T | undefined;
 };
 
 /**
@@ -73,6 +76,7 @@ const bundleRequireWithCatch = async (configFile: string): Promise<any> => {
 export const loadConfig = async <T>(
   appDirectory: string,
   filePath?: string,
+  packageJsonConfig?: string,
 ): Promise<{
   path: string | false;
   config?: T;
@@ -87,7 +91,7 @@ export const loadConfig = async <T>(
         ),
       );
 
-  const pkgConfig = getPackageConfig<T>(appDirectory);
+  const pkgConfig = getPackageConfig<T>(appDirectory, packageJsonConfig);
 
   let config: T | undefined;
 

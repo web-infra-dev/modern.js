@@ -1,5 +1,31 @@
 # @modern-js/bff-runtime
 
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/server-utils@1.2.1
+
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 146dcd85: modify server framework plugin hook types and hook context
+- 146dcd85: modify server framework plugin hook types
+- 146dcd85: fix test case in babel compiler
+- Updated dependencies [146dcd85]
+- Updated dependencies [cfe11628]
+- Updated dependencies [146dcd85]
+- Updated dependencies [146dcd85]
+- Updated dependencies [1ebc7ee2]
+  - @modern-js/server-utils@1.2.0
+
 ## 1.1.1
 
 ### Patch Changes

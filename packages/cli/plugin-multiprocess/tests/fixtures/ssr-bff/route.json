@@ -1,0 +1,14 @@
+{
+  "routes": [
+    {
+      "urlPath": "/foo",
+      "entryPath": "html/foo/index.html",
+      "entryName": "entry",
+      "isSSR": true
+    },
+    {
+      "urlPath": "/api",
+      "isApi": true
+    }
+  ]
+}

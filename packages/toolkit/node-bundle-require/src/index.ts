@@ -1,7 +1,7 @@
-import fs from 'fs/promises';
 import path from 'path';
-import { randomUUID } from 'crypto';
+import { fs } from '@modern-js/utils';
 import { build, Loader, Plugin, BuildOptions } from 'esbuild';
+import { nanoid } from 'nanoid';
 
 const JS_EXT_RE = /\.(mjs|cjs|ts|js|tsx|jsx)$/;
 
@@ -45,12 +45,7 @@ export interface Options {
 }
 
 const defaultGetOutputFile = (filepath: string) =>
-  path.resolve(
-    CACHE_DIR,
-    `${filepath}-${Date.now()}.${randomUUID({
-      disableEntropyCache: true,
-    })}.bundled.cjs`,
-  );
+  path.resolve(CACHE_DIR, `${filepath}-${Date.now()}.${nanoid()}.bundled.cjs`);
 
 export async function bundleRequire(filepath: string, options?: Options) {
   if (!JS_EXT_RE.test(filepath)) {
@@ -66,6 +61,10 @@ export async function bundleRequire(filepath: string, options?: Options) {
     format: 'cjs',
     platform: 'node',
     bundle: true,
+    // fix transforming error when the project's tsconfig.json
+    // sets `target: "es5"`
+    // reference: https://github.com/evanw/esbuild/releases/tag/v0.12.6
+    target: 'esnext',
     ...options?.esbuildOptions,
     plugins: [
       ...(options?.esbuildPlugins || []),
@@ -113,7 +112,7 @@ export async function bundleRequire(filepath: string, options?: Options) {
         name: 'replace-path',
         setup(ctx) {
           ctx.onLoad({ filter: JS_EXT_RE }, async args => {
-            const contents = await fs.readFile(args.path, 'utf-8');
+            const contents = fs.readFileSync(args.path, 'utf-8');
             return {
               contents: contents
                 .replace(/\b__filename\b/g, JSON.stringify(args.path))
@@ -156,7 +155,7 @@ export async function bundleRequire(filepath: string, options?: Options) {
     mod = await req(outfile);
   } finally {
     // Remove the outfile after executed
-    await fs.unlink(outfile);
+    fs.unlinkSync(outfile);
   }
 
   return mod;

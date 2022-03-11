@@ -79,12 +79,15 @@ export default createPlugin(
           `export { default as ssr } from '${ssrModulePath}'`,
         );
 
-        const ssrConfig = getEntryOptions(
-          entryName,
-          userConfig.server.ssr || Boolean((userConfig.output as any).ssg),
-          userConfig.server.ssrByEntries,
-          packageName,
-        );
+        // if use ssg then set ssr config to true
+        const ssrConfig =
+          Boolean((userConfig.output as any).ssg) ||
+          getEntryOptions(
+            entryName,
+            userConfig.server.ssr,
+            userConfig.server.ssrByEntries,
+            packageName,
+          );
 
         ssrConfigMap.set(entryName, ssrConfig);
 

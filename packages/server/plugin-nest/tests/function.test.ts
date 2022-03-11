@@ -1,8 +1,8 @@
 import * as path from 'path';
 import request from 'supertest';
-import { serverManager } from '@modern-js/server-plugin';
-import { gather } from '@modern-js/server-utils';
+import { serverManager } from '@modern-js/server-core';
 import plugin from '../src/server';
+import { AppModule } from './fixtures/function/api/_app';
 import { APIPlugin } from './helpers';
 
 const pwd = path.join(__dirname, './fixtures/function');
@@ -19,24 +19,23 @@ describe('function-mode', () => {
       .usePlugin(APIPlugin, plugin)
       .init();
 
-    const result = gather(pwd);
     apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'function',
-      config: { middleware: result.api },
+      config: { middleware: [AppModule] },
     });
   });
 
   it('should works', async () => {
     const res = await request(apiHandler).get('/hello');
     expect(res.status).toBe(200);
-    expect(res.body).toStrictEqual({ name: 'kjc' });
+    expect(res.body).toStrictEqual({ name: 'modernjs' });
   });
 
   it('should works with string result', async () => {
     const res = await request(apiHandler).post('/hello');
     expect(res.status).toBe(200);
-    expect(res.body).toBe('kjc');
+    expect(res.body).toBe('modernjs');
   });
 
   it('should works with body', async () => {
@@ -60,8 +59,8 @@ describe('function-mode', () => {
   });
 
   // TODO: 后续修复（目前在 btsm + esbuild 的时候无法正常运行，缺少 ReflectMeta 的支持）
-  xit('should works with middleware', async () => {
-    const res = await request(apiHandler).get('/cats');
-    expect(res.status).toBe(200);
-  });
+  // it('should works with middleware', async () => {
+  //   const res = await request(apiHandler).get('/cats');
+  //   expect(res.status).toBe(200);
+  // });
 });

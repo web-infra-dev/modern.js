@@ -1,16 +1,15 @@
 {
   "recommendations": [
-    "jpoissonnier.vscode-styled-components",
+    "styled-components.vscode-styled-components",
     "kumar-harsh.graphql-for-vscode",
     "dtsvet.vscode-wasm",
     "cpylua.language-postcss",
     "EditorConfig.editorconfig",
     "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
     "drKnoxy.eslint-disable-snippets",
     "mkaufman.htmlhint",
     "streetsidesoftware.code-spell-checker",
-    "msjsdiag.debugger-for-chrome",
-    "ms-vscode.node-debug2",
     "codezombiech.gitignore",
     "aaron-bond.better-comments",
     "ziyasal.vscode-open-in-github",

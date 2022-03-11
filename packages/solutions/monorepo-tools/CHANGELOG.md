@@ -1,5 +1,79 @@
 # @modern-js/monorepo-tools
 
+## 1.4.0
+
+### Minor Changes
+
+- e37ea5b2: feat: add afterMonorepoDeploy hook
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+- edc3bd3d: fix: @modern-js/core package not found
+- Updated dependencies [969f172f]
+- Updated dependencies [4c792f68]
+- Updated dependencies [83059b93]
+- Updated dependencies [4b5d4bf4]
+- Updated dependencies [62f5b8c8]
+- Updated dependencies [55e18278]
+- Updated dependencies [4499a674]
+- Updated dependencies [403f5169]
+- Updated dependencies [a7f42f48]
+- Updated dependencies [83059b93]
+  - @modern-js/core@1.4.4
+  - @modern-js/utils@1.3.3
+  - @modern-js/new-action@1.3.3
+
+## 1.3.2
+
+### Patch Changes
+
+- fab92861: fix: @modern-js/core phantom dep
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+- Updated dependencies [6668a1bf]
+- Updated dependencies [6668a1bf]
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+  - @modern-js/new-action@1.3.2
+  - @modern-js/plugin-changeset@1.2.2
+
+## 1.3.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+  - @modern-js/core@1.3.2
+  - @modern-js/i18n-cli-language-detector@1.2.1
+  - @modern-js/plugin-changeset@1.2.1
+  - @modern-js/plugin-i18n@1.2.1
+  - @modern-js/new-action@1.3.1
+  - @modern-js/utils@1.2.2
+
+## 1.3.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [2da09c69]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [2c049918]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [1ebc7ee2]
+  - @modern-js/utils@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/new-action@1.3.0
+  - @modern-js/i18n-cli-language-detector@1.2.0
+  - @modern-js/plugin-changeset@1.2.0
+  - @modern-js/plugin-i18n@1.2.0
+
 ## 1.2.0
 
 ### Minor Changes

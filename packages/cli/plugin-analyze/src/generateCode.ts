@@ -45,7 +45,9 @@ const createImportSpecifier = (specifiers: ImportSpecifier[]): string => {
   }
 };
 
-const createImportStatements = (statements: ImportStatement[]): string => {
+export const createImportStatements = (
+  statements: ImportStatement[],
+): string => {
   // merge import statements with the same value.
   const deDuplicated: ImportStatement[] = [];
 
@@ -85,7 +87,12 @@ export const generateCode = async (
   config: NormalizedConfig,
   entrypoints: Entrypoint[],
 ) => {
-  const { internalDirectory, srcDirectory } = appContext;
+  const {
+    internalDirectory,
+    srcDirectory,
+    internalDirAlias,
+    internalSrcAlias,
+  } = appContext;
 
   const {
     output: { mountId },
@@ -100,7 +107,9 @@ export const generateCode = async (
         const initialRoutes = getClientRoutes({
           entrypoint,
           srcDirectory,
+          srcAlias: internalSrcAlias,
           internalDirectory,
+          internalDirAlias,
         });
 
         const { routes } = await (mountHook() as any).modifyFileSystemRoutes({
@@ -108,12 +117,17 @@ export const generateCode = async (
           routes: initialRoutes,
         });
 
+        const { code } = await mountHook().beforeGenerateRoutes({
+          entrypoint,
+          code: templates.fileSystemRoutes({ routes }),
+        });
+
         fs.outputFileSync(
           path.resolve(
             internalDirectory,
             `./${entryName}/${FILE_SYSTEM_ROUTES_FILE_NAME}`,
           ),
-          templates.fileSystemRoutes({ routes }),
+          code,
           'utf8',
         );
       }
@@ -126,6 +140,8 @@ export const generateCode = async (
         imports: getDefaultImports({
           entrypoint,
           srcDirectory,
+          internalSrcAlias,
+          internalDirAlias,
         }),
       });
 

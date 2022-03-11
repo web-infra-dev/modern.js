@@ -1,5 +1,39 @@
 # @modern-js/load-config
 
+## 1.2.2
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+- Updated dependencies [4c792f68]
+- Updated dependencies [a7f42f48]
+  - @modern-js/utils@1.3.3
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/node-bundle-require@1.2.1
+  - @modern-js/utils@1.2.2
+
+## 1.2.0
+
+### Minor Changes
+
+- fc71e36f: support custom property name for the config in package.json
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [2da09c69]
+- Updated dependencies [59cbcb77]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+  - @modern-js/utils@1.2.0
+  - @modern-js/node-bundle-require@1.2.0
+
 ## 1.1.1
 
 ### Patch Changes

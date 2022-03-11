@@ -74,6 +74,7 @@ export const createCompiler = async ({
     logger.log(chalk.red(`Failed to compile.`));
     logger.log();
     logger.log(err as any);
+    // FIXME: 这里最好抛出异常，执行 process.exit 的地方尽可能少或者控制在几个统一的地方比较合适
     // eslint-disable-next-line no-process-exit
     process.exit(1);
   }

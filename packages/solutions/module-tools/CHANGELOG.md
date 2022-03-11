@@ -1,5 +1,151 @@
 # @modern-js/module-tools
 
+## 1.4.2
+
+### Patch Changes
+
+- 4b5d4bf4: feat: add img resource's inline and url type declaration
+- 969f172f: support tools.styledComponents for module-tools,support close tsc process with disbaleTsChecker
+- 55e18278: chore: remove unused dependencies and devDependencies
+- edc3bd3d: fix: @modern-js/core package not found
+- Updated dependencies [969f172f]
+- Updated dependencies [4c792f68]
+- Updated dependencies [83059b93]
+- Updated dependencies [4b5d4bf4]
+- Updated dependencies [62f5b8c8]
+- Updated dependencies [55e18278]
+- Updated dependencies [4499a674]
+- Updated dependencies [403f5169]
+- Updated dependencies [a7f42f48]
+- Updated dependencies [83059b93]
+  - @modern-js/core@1.4.4
+  - @modern-js/utils@1.3.3
+  - @modern-js/new-action@1.3.3
+  - @modern-js/babel-compiler@1.2.2
+
+## 1.4.1
+
+### Patch Changes
+
+- 02ff289d: Modify the type of error text and display log messages
+- 54786e58: add ts check
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+- fab92861: fix: @modern-js/core phantom dep
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+- Updated dependencies [6668a1bf]
+- Updated dependencies [6668a1bf]
+- Updated dependencies [fab92861]
+  - @modern-js/plugin-analyze@1.3.3
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+  - @modern-js/new-action@1.3.2
+  - @modern-js/plugin-changeset@1.2.2
+  - @modern-js/module-tools-hooks@1.2.2
+
+## 1.4.0
+
+### Minor Changes
+
+- 67503500: add alais subCmd
+
+### Patch Changes
+
+- Updated dependencies [118da5b4]
+- Updated dependencies [b376c8d6]
+- Updated dependencies [e62c4efd]
+- Updated dependencies [6891e4c2]
+- Updated dependencies [e2a8233f]
+  - @modern-js/css-config@1.2.2
+  - @modern-js/style-compiler@1.2.2
+  - @modern-js/core@1.4.2
+  - @modern-js/plugin-analyze@1.3.2
+
+## 1.3.2
+
+### Patch Changes
+
+- c78400c7: fix: remove stylus support
+- Updated dependencies [b7a9eeba]
+- Updated dependencies [53aca274]
+- Updated dependencies [78279953]
+- Updated dependencies [e116ace5]
+- Updated dependencies [4d72edea]
+  - @modern-js/plugin-analyze@1.3.1
+  - @modern-js/core@1.4.1
+  - @modern-js/utils@1.3.1
+
+## 1.3.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+- Updated dependencies [b7c48198]
+  - @modern-js/babel-preset-module@1.3.1
+  - @modern-js/core@1.3.2
+  - @modern-js/css-config@1.2.1
+  - @modern-js/i18n-cli-language-detector@1.2.1
+  - @modern-js/plugin-analyze@1.2.1
+  - @modern-js/plugin-changeset@1.2.1
+  - @modern-js/plugin-fast-refresh@1.2.1
+  - @modern-js/plugin-i18n@1.2.1
+  - @modern-js/new-action@1.3.1
+  - @modern-js/babel-compiler@1.2.1
+  - @modern-js/style-compiler@1.2.1
+  - @modern-js/module-tools-hooks@1.2.1
+  - @modern-js/utils@1.2.2
+
+## 1.3.0
+
+### Minor Changes
+
+- c5973e7a: add dev sub commands
+- 0d9516f3: fix resolve static file and add -p params
+
+### Patch Changes
+
+- c1455cd6: fix module-tools type file
+- Updated dependencies [823809c6]
+- Updated dependencies [4584cc04]
+- Updated dependencies [7c19fd94]
+- Updated dependencies [0d9516f3]
+  - @modern-js/utils@1.2.1
+  - @modern-js/core@1.3.1
+  - @modern-js/babel-preset-module@1.3.0
+
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [2da09c69]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [2c049918]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [1ebc7ee2]
+- Updated dependencies [146dcd85]
+- Updated dependencies [1ebc7ee2]
+  - @modern-js/utils@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/new-action@1.3.0
+  - @modern-js/babel-preset-module@1.2.0
+  - @modern-js/css-config@1.2.0
+  - @modern-js/i18n-cli-language-detector@1.2.0
+  - @modern-js/plugin-analyze@1.2.0
+  - @modern-js/plugin-changeset@1.2.0
+  - @modern-js/plugin-fast-refresh@1.2.0
+  - @modern-js/plugin-i18n@1.2.0
+  - @modern-js/babel-compiler@1.2.0
+  - @modern-js/style-compiler@1.2.0
+  - @modern-js/module-tools-hooks@1.2.0
+
 ## 1.1.5
 
 ### Patch Changes

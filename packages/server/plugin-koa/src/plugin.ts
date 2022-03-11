@@ -3,7 +3,7 @@ import Koa, { Middleware } from 'koa';
 import type Application from 'koa';
 import Router from 'koa-router';
 import koaBody from 'koa-body';
-import { createPlugin } from '@modern-js/server-plugin';
+import { createPlugin } from '@modern-js/server-core';
 import { requireModule } from '@modern-js/bff-utils';
 import { fs } from '@modern-js/utils';
 import { run } from './context';
@@ -95,7 +95,10 @@ export default createPlugin(
         await next();
         if (!ctx.body) {
           // restore statusCode
-          if (ctx.res.statusCode === 404) {
+          if (
+            ctx.res.statusCode === 404 &&
+            !(ctx.response as any)._explicitStatus
+          ) {
             ctx.res.statusCode = 200;
           }
           ctx.respond = false;

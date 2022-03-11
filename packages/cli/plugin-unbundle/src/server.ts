@@ -15,23 +15,30 @@ import {
   prettyInstructions,
   clearConsole,
 } from '@modern-js/utils';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
-import { macrosPlugin } from './plugins/macro';
+import { IAppContext, mountHook, NormalizedConfig } from '@modern-js/core';
+// FIXME: 很奇怪，换了名字之后就可以编译通过了，可能 `macro` 这个名字有啥特殊的含义？
+import { macrosPlugin } from './plugins/_macro';
 import { lanuchEditorMiddleware } from './middlewares/lanuch-editor';
 import { assetsPlugin } from './plugins/assets';
 import { transformMiddleware } from './middlewares/transform';
 import { WebSocketServer, onFileChange } from './websocket-server';
-import { HOST } from './constants';
+import {
+  DEFAULT_DEPS,
+  HOST,
+  MODERN_JS_INTERNAL_PACKAGES,
+  VIRTUAL_DEPS_MAP,
+} from './constants';
 import { optimizeDeps } from './install/local-optimize';
 import {
   getBFFMiddleware,
+  setIgnoreDependencies,
   shouldEnableBabelMacros,
   shouldUseBff,
 } from './utils';
 import { historyApiFallbackMiddleware } from './middlewares/history-api-fallback';
 import { notFoundMiddleware } from './middlewares/not-found';
 import { aliasPlugin, tsAliasPlugin } from './plugins/alias';
-import { esbuldPlugin } from './plugins/esbuild';
+import { esbuildPlugin } from './plugins/esbuild';
 import { hmrPlugin } from './plugins/hmr';
 import { jsonPlugin } from './plugins/json';
 import { resolvePlugin } from './plugins/resolve';
@@ -46,6 +53,7 @@ import { lazyImportPlugin } from './plugins/lazy-import';
 import { startTimer } from './dev';
 import { fsWatcher } from './watcher';
 import { lambdaApiPlugin } from './plugins/lambda-api';
+import { UnbundleDependencies } from './hooks';
 
 export interface ESMServer {
   https: boolean;
@@ -55,15 +63,17 @@ export interface ESMServer {
   wsServer: WebSocketServer;
   watcher: FSWatcher;
   pluginContainer: PluginContainer;
+  closeServer: () => Promise<void>;
 }
 
 export const createDevServer = async (
   config: NormalizedConfig,
   appContext: IAppContext,
+  dependencies: UnbundleDependencies,
 ): Promise<ESMServer> => {
-  const { appDirectory } = appContext;
+  const { appDirectory, internalDirectory } = appContext;
   const { https } = config.dev || {};
-  const { disableAutoImportStyle } = (config.output as any) || {};
+  const { disableAutoImportStyle } = config.output || {};
 
   const app = new Koa();
 
@@ -73,21 +83,21 @@ export const createDevServer = async (
 
   const wsServer = new WebSocketServer(httpServer, HMR_SOCK_PATH);
 
-  const watcher = fsWatcher.init(appDirectory);
+  const watcher = fsWatcher.init(appDirectory, internalDirectory);
 
   const pluginContainer = await createPluginContainer(
     [
-      aliasPlugin(config, appContext),
+      aliasPlugin(config, appContext, dependencies.defaultDeps),
       isTypescript(appDirectory) && tsAliasPlugin(config, appContext),
       assetsPlugin(config, appContext),
       shouldUseBff(appDirectory) && lambdaApiPlugin(config, appContext),
-      esbuldPlugin(config, appContext),
+      esbuildPlugin(config, appContext),
       shouldEnableBabelMacros(appDirectory) && macrosPlugin(config),
       !disableAutoImportStyle && lazyImportPlugin(),
       resolvePlugin(config, appContext),
       definePlugin(config),
       jsonPlugin(config),
-      cssPlugin(config, appContext),
+      cssPlugin(config, appContext, dependencies.defaultDeps),
       importRewritePlugin(config, appContext, wsServer),
       fastRefreshPlugin(),
       hmrPlugin(config, appContext),
@@ -97,13 +107,32 @@ export const createDevServer = async (
   );
 
   const server: ESMServer = {
-    https,
+    https: https!,
     appDirectory,
     config,
     httpServer,
     wsServer,
     watcher,
     pluginContainer,
+    closeServer: async () => {
+      const httpServerClosePromise = new Promise<void>((resolve, reject) => {
+        httpServer.close(err => {
+          if (!err) {
+            resolve();
+          } else {
+            reject(err);
+          }
+        });
+      });
+      const wsServerClosePromise = wsServer.close();
+      const fileWatcherClosePromise = watcher.close();
+      pluginContainer.closeWatcher();
+      await Promise.all([
+        httpServerClosePromise,
+        wsServerClosePromise,
+        fileWatcherClosePromise,
+      ]);
+    },
   };
 
   watcher.on('change', filename => onFileChange(server, filename));
@@ -164,14 +193,29 @@ export const startDevServer = async (
   // TODO: bff
   // await setupBFFAPI(userConfig, api, port);
 
-  const { httpServer, pluginContainer } = await createDevServer(
+  const dependencies = await mountHook().unbundleDependencies({
+    defaultDeps: DEFAULT_DEPS,
+    internalPackages: MODERN_JS_INTERNAL_PACKAGES,
+    virtualDeps: VIRTUAL_DEPS_MAP,
+  });
+
+  setIgnoreDependencies(userConfig, dependencies.virtualDeps);
+
+  const { httpServer, pluginContainer, closeServer } = await createDevServer(
     userConfig,
     appContext,
+    dependencies,
   );
 
   await pluginContainer.buildStart({});
 
-  await optimizeDeps(userConfig, appContext);
+  await optimizeDeps({
+    userConfig,
+    appContext,
+    defaultDependencies: dependencies.defaultDeps,
+    virtualDependenciesMap: dependencies.virtualDeps,
+    internalPackages: dependencies.internalPackages,
+  });
 
   httpServer.listen(port, HOST, () => {
     startTimer.end = Date.now();
@@ -196,6 +240,8 @@ export const startDevServer = async (
     // eslint-disable-next-line no-console
     console.log(message);
   });
+
+  return closeServer;
 };
 
 const createHttpsServer = async (app: Koa): Promise<Server> => {

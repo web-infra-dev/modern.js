@@ -60,23 +60,38 @@ export function renderRoutes(
 export function getLocation(serverContext: any): string {
   const { pathname, url }: { [p: string]: string } =
     serverContext?.request || {};
-  const index = (url || '').indexOf(pathname);
+
+  const cleanUrl = url.replace('http://', '').replace('https://', '');
+
+  const index = (cleanUrl || '').indexOf(pathname);
 
   if (index === -1) {
     return pathname;
   }
 
-  return url.substring(index);
+  return cleanUrl.substring(index);
 }
 
-export function resolveBasename(basename?: string): string {
-  if (typeof basename !== 'string') {
-    return '';
+export const urlJoin = (...parts: string[]) => {
+  const separator = '/';
+  const replace = new RegExp(`${separator}{1,}`, 'g');
+  return standardSlash(parts.join(separator).replace(replace, separator));
+};
+
+export function standardSlash(str: string) {
+  let addr = str;
+  if (!addr || typeof addr !== 'string') {
+    return addr;
+  }
+  if (addr.startsWith('.')) {
+    addr = addr.slice(1);
+  }
+  if (!addr.startsWith('/')) {
+    addr = `/${addr}`;
+  }
+  if (addr.endsWith('/') && addr !== '/') {
+    addr = addr.slice(0, addr.length - 1);
   }
 
-  if (basename.endsWith('/')) {
-    return resolveBasename(basename.substr(0, basename.length - 1));
-  }
-
-  return basename;
+  return addr;
 }

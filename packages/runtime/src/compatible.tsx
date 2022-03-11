@@ -87,12 +87,15 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
 };
 
 interface BootStrap {
-  (App: React.ComponentType, id?: string): void;
-  (App: React.ComponentType, serverContext: Record<string, unknown>): void;
+  (App: React.ComponentType, id?: string): Promise<unknown>;
+  (
+    App: React.ComponentType,
+    serverContext: Record<string, unknown>,
+  ): Promise<unknown>;
 }
 
 export const bootstrap: BootStrap = async (
-  App: React.ComponentType,
+  BootApp: React.ComponentType,
 
   /**
    * When csr, id is root id.
@@ -100,16 +103,23 @@ export const bootstrap: BootStrap = async (
    */
   id: string | any,
 ) => {
-  const runner = runnerMap.get(App)!;
+  let App = BootApp;
+  let runner = runnerMap.get(App);
 
-  const context = {
+  // ensure Component used is created by `createApp`
+  if (!runner) {
+    App = createApp({ plugins: [] })(App);
+    runner = runnerMap.get(App)!;
+  }
+
+  const context: any = {
     loaderManager: createLoaderManager({}),
     runner,
     isBrowser: true,
   };
 
   const runInit = (_context: RuntimeContext) =>
-    runner.init(
+    runner!.init(
       { context: _context },
       {
         onLast: ({ context: context1 }) => (App as any)?.init?.(context1),
@@ -123,15 +133,11 @@ export const bootstrap: BootStrap = async (
       (res: any, key) => {
         const loaderData = loadersData[key];
 
-        if (
-          loaderData.loading !== false ||
-          loaderData.error ||
-          typeof loaderData.data === 'undefined'
-        ) {
+        if (loaderData.loading !== false) {
           return res;
         }
 
-        res[key] = loaderData.data;
+        res[key] = loaderData;
         return res;
       },
       {},
@@ -188,7 +194,7 @@ export const useRuntimeContext = () => {
   const memoizedContext = useMemo(
     () =>
       context.runner.pickContext(
-        { context, pickedContext: {} },
+        { context, pickedContext: {} as any },
         {
           onLast: ({ pickedContext }: { pickedContext: TRuntimeContext }) =>
             pickedContext,

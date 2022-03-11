@@ -1,5 +1,29 @@
 # @modern-js/create-request
 
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/utils@1.2.2
+
+## 1.2.0
+
+### Minor Changes
+
+- 5597289b: Fix @modern-js/plugin-ssr exported configuration
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [2da09c69]
+- Updated dependencies [5597289b]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+  - @modern-js/utils@1.2.0
+  - @modern-js/plugin-ssr@1.2.0
+
 ## 1.1.2
 
 ### Patch Changes

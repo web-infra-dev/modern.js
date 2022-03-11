@@ -1,5 +1,116 @@
 # @modern-js/plugin-storybook
 
+## 1.3.2
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+- Updated dependencies [969f172f]
+- Updated dependencies [0ad75faa]
+- Updated dependencies [4c792f68]
+- Updated dependencies [4b5d4bf4]
+- Updated dependencies [0ad75faa]
+- Updated dependencies [62f5b8c8]
+- Updated dependencies [55e18278]
+- Updated dependencies [4499a674]
+- Updated dependencies [0ad75faa]
+- Updated dependencies [403f5169]
+- Updated dependencies [a7f42f48]
+  - @modern-js/core@1.4.4
+  - @modern-js/webpack@1.4.1
+  - @modern-js/utils@1.3.3
+  - @modern-js/runtime-core@1.2.4
+
+## 1.3.1
+
+### Patch Changes
+
+- 54786e58: add ts check
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+- Updated dependencies [3da3bf48]
+  - @modern-js/utils@1.3.2
+  - @modern-js/webpack@1.4.0
+  - @modern-js/core@1.4.3
+
+## 1.3.0
+
+### Minor Changes
+
+- 67503500: add alais subCmd
+
+### Patch Changes
+
+- Updated dependencies [118da5b4]
+- Updated dependencies [b376c8d6]
+- Updated dependencies [e62c4efd]
+- Updated dependencies [6891e4c2]
+- Updated dependencies [5ed05e65]
+- Updated dependencies [0cd8b592]
+- Updated dependencies [e2a8233f]
+  - @modern-js/webpack@1.3.2
+  - @modern-js/core@1.4.2
+  - @modern-js/runtime@1.2.3
+  - @modern-js/runtime-core@1.2.3
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+- Updated dependencies [c74597bd]
+  - @modern-js/core@1.3.2
+  - @modern-js/plugin-router@1.2.1
+  - @modern-js/runtime@1.2.1
+  - @modern-js/plugin-state@1.2.1
+  - @modern-js/webpack@1.2.1
+  - @modern-js/runtime-core@1.2.1
+  - @modern-js/esbuild-compiler@0.2.1
+  - @modern-js/utils@1.2.2
+
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [2da09c69]
+- Updated dependencies [5597289b]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [4a85378c]
+- Updated dependencies [146dcd85]
+- Updated dependencies [a2cb9abc]
+- Updated dependencies [e453e421]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [146dcd85]
+- Updated dependencies [146dcd85]
+  - @modern-js/utils@1.2.0
+  - @modern-js/webpack@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/runtime@1.2.0
+  - @modern-js/runtime-core@1.2.0
+  - @modern-js/plugin-router@1.2.0
+  - @modern-js/plugin-state@1.2.0
+  - @modern-js/esbuild-compiler@0.2.0
+
+## 1.1.6
+
+### Patch Changes
+
+- 300abe9b: add MODERN_CUSTOM_STORYBOOK_ADDON env vars
+- 300abe9b: optimize webpack config
+- Updated dependencies [b8deff8b]
+- Updated dependencies [e63591cc]
+  - @modern-js/runtime@1.1.3
+  - @modern-js/plugin-router@1.1.3
+  - @modern-js/runtime-core@1.1.4
+
 ## 1.1.5
 
 ### Patch Changes

@@ -70,9 +70,9 @@ import type {
 } from 'rollup';
 import { Parser } from 'acorn';
 import logger from 'signale';
-import { chalk, createDebugger } from '@modern-js/utils';
 import acornClassFields from 'acorn-class-fields';
 import mergeSourceMap from 'merge-source-map';
+import { chalk, createDebugger } from '@modern-js/utils';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 
 const debug = createDebugger('esm:plugin-container');
@@ -89,6 +89,7 @@ export interface PluginContainer {
   options: InputOptions;
   buildStart: (options: InputOptions) => Promise<void>;
   watchChange: (id: string) => void;
+  closeWatcher: () => void;
   // resolveImportMeta(property: string): string | null
   resolveId: (
     id: string,
@@ -296,6 +297,15 @@ export const createPluginContainer = async (
       }
     },
 
+    closeWatcher() {
+      for (plugin of plugins) {
+        if (!plugin.closeWatcher) {
+          continue;
+        }
+        plugin.closeWatcher.call(ctx as any);
+      }
+    },
+
     async resolveId(
       id: string,
       importer: string = appDirectory,
@@ -321,7 +331,7 @@ export const createPluginContainer = async (
         plugin = p;
         let result;
         try {
-          result = await p.resolveId.call(ctx as any, id, importer, {});
+          result = await p.resolveId.call(ctx as any, id, importer, {} as any);
         } finally {
           if (_skip) {
             resolveSkips.delete(p, key);

@@ -1,5 +1,5 @@
 import Webpack from 'webpack';
-import { DevServerOptions } from '../type';
+import { DevServerOptions } from '../types';
 
 const { EntryPlugin } = Webpack;
 export default class DevServerPlugin {
@@ -16,7 +16,6 @@ export default class DevServerPlugin {
     const path = `&path=${options.client.path}`;
     const port = `&port=${options.client.port}`;
 
-    // Todo @songzhenwei
     const clientEntry = `${require.resolve(
       '@modern-js/hmr-client',
     )}?${host}${path}${port}`;
@@ -33,6 +32,7 @@ export default class DevServerPlugin {
     // Todo remove, client must inject.
     const compilerOptions = compiler.options;
     compilerOptions.plugins = compilerOptions.plugins || [];
+
     if (
       hotEntry &&
       !compilerOptions.plugins.find(

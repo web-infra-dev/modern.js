@@ -30,6 +30,22 @@ const camelToKebab = (s: string) =>
     .replace(/\s+/g, '-')
     .toLowerCase();
 
+// assemble css import path
+// now only supports ant design and arco design
+// examples:
+// import 'antd/es/button/style/index.js'
+// import '@arco-design/web-react/es/Button/style/index.js'
+// import '@arco-design/web-react/icon/react-icon/IconArrowRight/index.js'
+export const assembleCSSImportPath = (source: string, importedName: string) => {
+  let libName = 'es';
+  let subFolder = 'style/';
+  if (source === '@arco-design/web-react/icon') {
+    libName = 'react-icon';
+    subFolder = '';
+  }
+  return `import '${source}/${libName}/${importedName}/${subFolder}index.js'`;
+};
+
 function changeImport(code: string) {
   const ast = parser.parse(code, {
     sourceType: 'module',
@@ -53,7 +69,7 @@ function changeImport(code: string) {
 
   // 遍历，转换
   traverse(ast, {
-    ImportDeclaration(path) {
+    ImportDeclaration(path: any) {
       const { node } = path;
       const source = node.source.value;
       const { specifiers } = node;
@@ -76,10 +92,10 @@ function changeImport(code: string) {
 
       if (!isImportDefaultSpecifier && !isImportNamespaceSpecifier) {
         specifiers.forEach((specifier: any) => {
-          const importedName = ['antd'].includes(source)
+          const importedName = source.includes('antd')
             ? camelToKebab(specifier.imported.name)
             : specifier.imported.name;
-          const cssImporter = `import '${source}/es/${importedName}/style/index.js'`;
+          const cssImporter = assembleCSSImportPath(source, importedName);
           const cssImporterAst = parser.parse(cssImporter, {
             sourceType: 'module',
             plugins: ['jsx', 'typescript'],

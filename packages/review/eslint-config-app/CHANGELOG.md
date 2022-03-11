@@ -1,5 +1,29 @@
 # @modern-js-app/eslint-config
 
+## 1.2.2
+
+### Patch Changes
+
+- c35f710a: fix: typescript version warning when running lint
+
+## 1.2.1
+
+### Patch Changes
+
+- 294c4dbf: feat: upgrade prettier version
+
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [cfe11628]
+- Updated dependencies [1ebc7ee2]
+  - @modern-js/babel-preset-app@1.2.0
+
 ## 1.1.2
 
 ### Patch Changes

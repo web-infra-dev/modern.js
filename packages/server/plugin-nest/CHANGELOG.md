@@ -1,5 +1,73 @@
 # @modern-js/plugin-nest
 
+## 1.4.0
+
+### Minor Changes
+
+- ec4dbffb: feat: support as a pure api service
+
+### Patch Changes
+
+- 272cab15: refactor server plugin manager
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [272cab15]
+  - @modern-js/core@1.4.0
+  - @modern-js/utils@1.3.0
+  - @modern-js/server-core@1.2.2
+
+## 1.3.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+  - @modern-js/core@1.3.2
+  - @modern-js/adapter-helpers@1.2.1
+  - @modern-js/bff-runtime@1.2.1
+  - @modern-js/bff-utils@1.2.2
+  - @modern-js/server-plugin@1.2.1
+  - @modern-js/utils@1.2.2
+
+## 1.3.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 146dcd85: modify server framework plugin hook types and hook context
+- 146dcd85: modify server framework plugin hook types
+- 146dcd85: fix test case in babel compiler
+- Updated dependencies [2da09c69]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [146dcd85]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [146dcd85]
+- Updated dependencies [8e7603ee]
+- Updated dependencies [146dcd85]
+  - @modern-js/utils@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/bff-runtime@1.2.0
+  - @modern-js/adapter-helpers@1.2.0
+  - @modern-js/bff-utils@1.2.0
+  - @modern-js/server-plugin@1.2.0
+
+## 1.2.2
+
+### Patch Changes
+
+- ad107726: feat: new action support apppend type define
+
 ## 1.2.1
 
 ### Patch Changes

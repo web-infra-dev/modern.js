@@ -1,5 +1,31 @@
 # @modern-js/plugin-state
 
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+- Updated dependencies [c74597bd]
+  - @modern-js/core@1.3.2
+  - @modern-js/runtime-core@1.2.1
+
+## 1.2.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- Updated dependencies [fc71e36f]
+- Updated dependencies [a2cb9abc]
+- Updated dependencies [cfe11628]
+  - @modern-js/core@1.3.0
+  - @modern-js/runtime-core@1.2.0
+
 ## 1.1.4
 
 ### Patch Changes

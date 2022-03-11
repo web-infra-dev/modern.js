@@ -7,11 +7,11 @@ import {
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
 import nodeExternals from 'webpack-node-externals';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { mergeRegex } from '../utils/mergeRegex';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
 import { JS_RESOLVE_EXTENSIONS } from '../utils/constants';
 import { BaseWebpackConfig } from './base';
+import { enableBundleAnalyzer } from './shared';
 
 class NodeWebpackConfig extends BaseWebpackConfig {
   get externalsAllowlist() {
@@ -87,12 +87,13 @@ class NodeWebpackConfig extends BaseWebpackConfig {
           [
             require.resolve('@modern-js/babel-preset-app'),
             {
+              metaName: this.appContext.metaName,
               appDirectory: this.appDirectory,
               target: 'server',
               useLegacyDecorators: !this.options.output?.enableLatestDecorators,
               useBuiltIns: false,
               chain: this.babelChain,
-              styledCompontents: applyOptionsChain(
+              styledComponents: applyOptionsChain(
                 {
                   pure: true,
                   displayName: true,
@@ -115,13 +116,7 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     super.plugins();
 
     if (this.options.cliOptions?.analyze) {
-      this.chain.plugin('bundle-analyze').use(BundleAnalyzerPlugin, [
-        {
-          analyzerMode: 'static',
-          openAnalyzer: false,
-          reportFilename: 'report-ssr.html',
-        },
-      ]);
+      enableBundleAnalyzer(this.chain, 'report-ssr.html');
     }
   }
 

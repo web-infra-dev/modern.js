@@ -1,14 +1,4 @@
 /**
- * alias to src directory
- */
-export const INTERNAL_SRC_ALIAS = '@_modern_js_src';
-
-/**
- * alias to node_modules/.modern-js
- */
-export const INTERNAL_DIR_ALAIS = '@_modern_js_internal';
-
-/**
  * hmr socket connect path
  */
 export const HMR_SOCK_PATH = '/_modern_js_hmr_ws';
@@ -47,11 +37,6 @@ export const SERVER_RENDER_FUNCTION_NAME = 'serverRender';
  * loadbale manifest json file
  */
 export const LOADABLE_STATS_FILE = 'loadable-stats.json';
-
-/**
- * real entry generate by modern.js
- */
-export const HIDE_MODERN_JS_DIR = './node_modules/.modern-js';
 
 /**
  * internal specified folder
@@ -107,8 +92,8 @@ export const INTERNAL_PLUGINS: {
     cli: '@modern-js/plugin-server/cli',
     server: '@modern-js/plugin-server/server',
   },
-  '@modern-js/plugin-micro-frontend': {
-    cli: '@modern-js/plugin-micro-frontend/cli',
+  '@modern-js/plugin-garfish': {
+    cli: '@modern-js/plugin-garfish/cli',
   },
   '@modern-js/plugin-jarvis': { cli: '@modern-js/plugin-jarvis/cli' },
   '@modern-js/plugin-tailwindcss': { cli: '@modern-js/plugin-tailwindcss/cli' },
@@ -119,11 +104,17 @@ export const INTERNAL_PLUGINS: {
   '@modern-js/plugin-static-hosting': {
     cli: '@modern-js/plugin-static-hosting/cli',
   },
-  '@modern-js/plugin-polyfill': { server: '@modern-js/plugin-polyfill' },
+  '@modern-js/plugin-polyfill': {
+    cli: '@modern-js/plugin-polyfill/cli',
+    server: '@modern-js/plugin-polyfill',
+  },
   '@modern-js/plugin-multiprocess': {
     cli: '@modern-js/plugin-multiprocess/cli',
   },
   '@modern-js/plugin-nocode': { cli: '@modern-js/plugin-nocode/cli' },
+  '@modern-js/plugin-design-token': {
+    cli: '@modern-js/plugin-design-token/cli',
+  },
 };
 
 /**
@@ -187,10 +178,6 @@ export const PLUGIN_SCHEMAS = {
       target: 'tools.tailwindcss',
       schema: { typeof: ['object', 'function'] },
     },
-    {
-      target: 'source.designSystem',
-      schema: { typeof: ['object'] },
-    },
   ],
   '@modern-js/plugin-proxy': [
     {
@@ -206,6 +193,18 @@ export const PLUGIN_SCHEMAS = {
     {
       target: 'server.https',
       schema: { type: 'boolean' },
+    },
+    {
+      target: 'dev.unbundle',
+      schema: {
+        type: 'object',
+        properties: {
+          ignore: {
+            type: ['string', 'array'],
+            items: { type: 'string' },
+          },
+        },
+      },
     },
   ],
   '@modern-js/plugin-ssg': [
@@ -232,6 +231,17 @@ export const PLUGIN_SCHEMAS = {
       schema: { type: ['boolean', 'object'] },
     },
   ],
+  '@modern-js/plugin-design-token': [
+    // Legacy Features
+    {
+      target: 'source.designSystem',
+      schema: { typeof: ['object'] },
+    },
+    {
+      target: 'source.designSystem.supportStyledComponents',
+      schema: { type: ['boolean'] },
+    },
+  ],
   '@modern-js/plugin-router': [
     {
       target: 'runtime.router',
@@ -245,17 +255,21 @@ export const PLUGIN_SCHEMAS = {
     },
     {
       target: 'tools.jest',
-      schema: { typeof: ['object'] },
+      schema: { typeof: ['object', 'function'] },
     },
   ],
-  '@modern-js/plugin-micro-frontend': [
+  '@modern-js/plugin-garfish': [
     {
       target: 'runtime.masterApp',
-      schema: { type: ['object'] },
+      schema: { type: ['boolean', 'object'] },
     },
     {
       target: 'dev.withMasterApp',
       schema: { type: ['object'] },
+    },
+    {
+      target: 'deploy.microFrontend',
+      schema: { type: ['boolean', 'object'] },
     },
   ],
   '@modern-js/plugin-nocode': [],

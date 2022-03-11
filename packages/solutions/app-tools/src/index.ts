@@ -1,9 +1,19 @@
-import { createPlugin, defineConfig, usePlugins, cli } from '@modern-js/core';
+import * as path from 'path';
+import {
+  createPlugin,
+  defineConfig,
+  usePlugins,
+  cli,
+  useAppContext,
+} from '@modern-js/core';
+import { cleanRequireCache } from '@modern-js/utils';
 import { lifecycle } from './lifecycle';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils/language';
 import { start } from './commands/start';
 import { dev } from './commands/dev';
+import { closeServer } from './utils/createServer';
+import type { DevOptions, BuildOptions } from './utils/types';
 
 export { defineConfig };
 
@@ -11,7 +21,6 @@ export { defineConfig };
 usePlugins([
   require.resolve('@modern-js/plugin-analyze/cli'),
   require.resolve('@modern-js/plugin-fast-refresh/cli'),
-  require.resolve('@modern-js/plugin-polyfill/cli'),
 ]);
 
 export default createPlugin(
@@ -28,8 +37,9 @@ export default createPlugin(
           .usage('[options]')
           .description(i18n.t(localeKeys.command.dev.describe))
           .option('-c --config <config>', i18n.t(localeKeys.command.dev.config))
-          .action(async () => {
-            await dev();
+          .option('-e --entry [entry...]', i18n.t(localeKeys.command.dev.entry))
+          .action(async (options: DevOptions) => {
+            await dev(options);
           });
 
         program
@@ -37,7 +47,7 @@ export default createPlugin(
           .usage('[options]')
           .description(i18n.t(localeKeys.command.build.describe))
           .option('--analyze', i18n.t(localeKeys.command.build.analyze))
-          .action(async (options: any) => {
+          .action(async (options: BuildOptions) => {
             const { build } = await import('./commands/build');
             await build(options);
             // force exit after build.
@@ -82,12 +92,32 @@ export default createPlugin(
             await MWANewAction({ ...options, locale });
           });
       },
-      async fileChange() {
-        await cli.restart();
+
+      // 这里会被 core/initWatcher 监听的文件变动触发，如果是 src 目录下的文件变动，则不做 restart
+      async fileChange(e: { filename: string; eventType: string }) {
+        const { filename, eventType } = e;
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const appContext = useAppContext();
+        const { appDirectory, srcDirectory } = appContext;
+        const absolutePath = path.resolve(appDirectory, filename);
+        if (
+          !absolutePath.includes(srcDirectory) &&
+          (eventType === 'change' || eventType === 'unlink')
+        ) {
+          await closeServer();
+          await cli.restart();
+        }
+      },
+      async beforeRestart() {
+        cleanRequireCache([
+          require.resolve('@modern-js/plugin-analyze/cli'),
+          require.resolve('@modern-js/plugin-fast-refresh/cli'),
+        ]);
       },
     };
   }) as any,
   {
+    name: '@modern-js/app-tools',
     post: [
       '@modern-js/plugin-analyze',
       '@modern-js/plugin-fast-refresh',

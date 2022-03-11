@@ -1,7 +1,6 @@
 import path from 'path';
-import { createPlugin } from '@modern-js/server-plugin';
+import { createPlugin, useAppContext } from '@modern-js/server-core';
 import { injectAPIHandlerInfos } from '@modern-js/bff-utils';
-import { useAppContext } from '@modern-js/core';
 import { API_DIR, isProd, requireExistModule } from '@modern-js/utils';
 import { API_APP_NAME } from './constants';
 
@@ -41,7 +40,7 @@ export default createPlugin(
       reset() {
         storage.reset();
         const newApiModule = requireExistModule(apiAppPath);
-        if (newApiModule) {
+        if (newApiModule && typeof newApiModule === 'function') {
           newApiModule(transformAPI);
         }
       },

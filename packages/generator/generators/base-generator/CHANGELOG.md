@@ -1,5 +1,41 @@
 # @modern-js/base-generator
 
+## 1.3.3
+
+### Patch Changes
+
+- c29451a5: feat: change editor config
+- fe532786: fix: remove deprecated vscode extensions
+
+## 1.3.2
+
+### Patch Changes
+
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+- 9e0aed14: feat: adjust generator editor config
+
+## 1.3.1
+
+### Patch Changes
+
+- e06c7c25: change generator main path on development mode
+
+## 1.3.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- 2c049918: feat: polyfill function support enable using new command
+
+## 1.2.4
+
+### Patch Changes
+
+- f73fee4b: feat: upgrade codesmith version to add get npm package timeout's time
+
 ## 1.2.3
 
 ### Patch Changes

@@ -3,7 +3,6 @@ import path from 'path';
 import { fs } from '@modern-js/utils';
 import logger from 'signale';
 import fetch from 'node-fetch';
-import { VIRTUAL_DEPS_MAP } from '../constants';
 
 const createCacheDir = (name: string): string => {
   switch (os.platform()) {
@@ -35,16 +34,15 @@ interface ResponseType {
 }
 
 const request = async (urlPath: string): Promise<ResponseType> => {
-  const response = await fetch(`http:${PDN_HOST}/${urlPath}`, {
-    method: 'GET',
-    redirect: 'follow',
-  });
+  const response = await fetch(
+    `http:${process.env.PDN_HOST || PDN_HOST}/${urlPath}`,
+    {
+      method: 'GET',
+      redirect: 'follow',
+    },
+  );
 
   const json = (await response.json()) as ResponseType;
-
-  if (response.status !== 200) {
-    throw new Error(json.message);
-  }
 
   return json;
 };
@@ -127,6 +125,7 @@ export class ModulesCache {
     return file;
   }
 
+  // TODO: solve @latest version not updating
   has(name: string, version: string) {
     return this.cachedMap.hasOwnProperty(`${name}@${version}`);
   }
@@ -149,6 +148,7 @@ export class ModulesCache {
   async requestRemoteCache(
     name: string,
     version: string,
+    virtualDependenciesMap: Record<string, string>,
   ): Promise<CacheItem | false> {
     let normalized = '';
 
@@ -157,8 +157,8 @@ export class ModulesCache {
     version = version.trim();
 
     // deps that can't convert to esm format
-    if (VIRTUAL_DEPS_MAP[name]) {
-      const file = this.set(name, version, VIRTUAL_DEPS_MAP[name], []);
+    if (virtualDependenciesMap[name]) {
+      const file = this.set(name, version, virtualDependenciesMap[name], []);
       return {
         file,
         dependencies: [],
@@ -195,11 +195,11 @@ export class ModulesCache {
           file,
         };
       }
-    } catch (err) {
+    } catch (err: any) {
       logger.error(
-        `request http://${PDN_HOST}${`/esm/bv/${normalized}?meta`} error: ${
-          err.message
-        }`,
+        `request http://${
+          process.env.PDN_HOST || PDN_HOST
+        }${`/esm/bv/${normalized}?meta`} error: ${err.message}`,
       );
       throw err;
     }

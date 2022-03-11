@@ -15,7 +15,6 @@ const createGetId = () => {
     }
 
     // WARNING: id should be unique after serialize.
-    // In some cases， such as 0/'0' would generate the same id.
     const id = JSON.stringify(objectId);
 
     invariant(id, 'params should be not null value');
@@ -42,14 +41,18 @@ export type LoaderResult = {
 
 const createLoader = (
   id: string,
-  initialData: any,
+  initialData: Partial<LoaderResult> = {
+    loading: false,
+    reloading: false,
+    data: undefined,
+    error: undefined,
+  },
   loaderFn: () => Promise<any>,
   skip = false,
 ) => {
   let promise: Promise<any> | null;
   let status: LoaderStatus = LoaderStatus.idle;
-  let data: any = initialData;
-  let error: any;
+  let { data, error } = initialData;
   let hasLoaded = false;
 
   const handlers = new Set<
@@ -80,7 +83,7 @@ const createLoader = (
         })
         // eslint-disable-next-line promise/prefer-await-to-then
         .catch(e => {
-          error = e;
+          error = e instanceof Error ? `${e.message}` : e;
           data = null;
           status = LoaderStatus.rejected;
           notify();
@@ -168,7 +171,7 @@ export const createLoaderManager = (
         id,
         typeof initialDataMap[id] !== 'undefined'
           ? initialDataMap[id]
-          : loaderOptions.initialData,
+          : { data: loaderOptions.initialData },
         loaderFn,
         // Todo whether static loader is exec when CSR
         skipExec,

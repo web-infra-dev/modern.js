@@ -1,5 +1,88 @@
 # @modern-js/plugin-testing
 
+## 1.3.4
+
+### Patch Changes
+
+- 9594df3f: fix: allow other bff plugin in unbundle mode
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+- Updated dependencies [3da3bf48]
+  - @modern-js/utils@1.3.2
+  - @modern-js/webpack@1.4.0
+  - @modern-js/core@1.4.3
+
+## 1.3.3
+
+### Patch Changes
+
+- 698ad9e8: feat: support test bff for api service
+- 11fda442: fix: add testing runtime base
+- Updated dependencies [75f4eeb8]
+- Updated dependencies [698ad9e8]
+- Updated dependencies [53aca274]
+- Updated dependencies [78279953]
+- Updated dependencies [e116ace5]
+- Updated dependencies [4d72edea]
+  - @modern-js/webpack@1.3.1
+  - @modern-js/testing@1.3.2
+  - @modern-js/testing-plugin-bff@1.2.2
+  - @modern-js/core@1.4.1
+  - @modern-js/utils@1.3.1
+
+## 1.3.2
+
+### Patch Changes
+
+- b57ded28: fix testing resolver
+- 1b22634e: fix: plugin testing types
+- Updated dependencies [7dc5aa75]
+  - @modern-js/webpack@1.2.2
+
+## 1.3.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+- Updated dependencies [c74597bd]
+  - @modern-js/core@1.3.2
+  - @modern-js/webpack@1.2.1
+  - @modern-js/testing@1.3.1
+  - @modern-js/testing-plugin-bff@1.2.1
+  - @modern-js/runtime-core@1.2.1
+  - @modern-js/babel-compiler@1.2.1
+  - @modern-js/utils@1.2.2
+
+## 1.3.0
+
+### Minor Changes
+
+- cfe11628: Make Modern.js self bootstraping
+
+### Patch Changes
+
+- c3d46ee4: fix: test config invalid
+- Updated dependencies [2da09c69]
+- Updated dependencies [5597289b]
+- Updated dependencies [fc71e36f]
+- Updated dependencies [4a85378c]
+- Updated dependencies [a2cb9abc]
+- Updated dependencies [e453e421]
+- Updated dependencies [c3d46ee4]
+- Updated dependencies [cfe11628]
+- Updated dependencies [146dcd85]
+- Updated dependencies [1ebc7ee2]
+  - @modern-js/utils@1.2.0
+  - @modern-js/webpack@1.2.0
+  - @modern-js/core@1.3.0
+  - @modern-js/runtime-core@1.2.0
+  - @modern-js/testing@1.3.0
+  - @modern-js/testing-plugin-bff@1.2.0
+  - @modern-js/babel-compiler@1.2.0
+
 ## 1.2.1
 
 ### Patch Changes

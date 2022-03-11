@@ -15,32 +15,55 @@ import {
   useAppContext,
   useResolvedConfigContext,
   mountHook,
+  AppContext,
 } from '@modern-js/core';
+
 import { createCompiler } from '../utils/createCompiler';
 import { createServer } from '../utils/createServer';
+import { generateRoutes } from '../utils/routes';
+import { printInstructions } from '../utils/printInstructions';
+import { DevOptions } from '../utils/types';
+import { getSpecifiedEntries } from '../utils/getSpecifiedEntries';
 
-export const dev = async () => {
+export const dev = async (options: DevOptions) => {
   /* eslint-disable react-hooks/rules-of-hooks */
   const appContext = useAppContext();
   const userConfig = useResolvedConfigContext();
   /* eslint-enable react-hooks/rules-of-hooks */
 
-  const { appDirectory, distDirectory, port } = appContext;
+  const { appDirectory, distDirectory, port, existSrc, entrypoints } =
+    appContext;
+
+  const checkedEntries = await getSpecifiedEntries(
+    options.entry || false,
+    entrypoints,
+  );
+
+  AppContext.set({
+    ...appContext,
+    checkedEntries,
+  });
+  appContext.checkedEntries = checkedEntries;
 
   fs.emptyDirSync(distDirectory);
 
   await (mountHook() as any).beforeDev();
 
-  const webpackConfigs = [
-    isSSR(userConfig) && getWebpackConfig(WebpackConfigTarget.NODE),
-    getWebpackConfig(WebpackConfigTarget.CLIENT),
-  ].filter(Boolean) as Configuration[];
+  let compiler = null;
+  if (existSrc) {
+    const webpackConfigs = [
+      isSSR(userConfig) && getWebpackConfig(WebpackConfigTarget.NODE),
+      getWebpackConfig(WebpackConfigTarget.CLIENT),
+    ].filter(Boolean) as Configuration[];
 
-  const compiler = await createCompiler({
-    webpackConfigs,
-    userConfig,
-    appContext,
-  });
+    compiler = await createCompiler({
+      webpackConfigs,
+      userConfig,
+      appContext,
+    });
+  }
+
+  await generateRoutes(appContext);
 
   const app = await createServer({
     dev: {
@@ -68,13 +91,16 @@ export const dev = async () => {
       .map((p: any) => p.server),
   });
 
-  app.listen(port, (err: Error) => {
+  app.listen(port, async (err: Error) => {
     if (err) {
       throw err;
     }
 
-    clearConsole();
-
-    logger.log(chalk.cyan(`Starting the development server...`));
+    if (existSrc) {
+      clearConsole();
+      logger.log(chalk.cyan(`Starting the development server...`));
+    } else {
+      await printInstructions(appContext, userConfig);
+    }
   });
 };

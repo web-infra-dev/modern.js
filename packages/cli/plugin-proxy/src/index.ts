@@ -7,6 +7,7 @@ import { PLUGIN_SCHEMAS } from '@modern-js/utils';
 import { createProxyRule } from './utils/createProxyRule';
 import WhistleProxy from './utils/whistleProxy';
 
+let proxyServer: WhistleProxy;
 export default createPlugin(
   () => ({
     validateSchema() {
@@ -18,19 +19,17 @@ export default createPlugin(
       const { internalDirectory } = useAppContext();
       /* eslint-enable react-hooks/rules-of-hooks */
 
-      if (!(dev as any).proxy) {
+      if (!dev?.proxy) {
         return;
       }
 
-      const rule = createProxyRule(internalDirectory, (dev as any).proxy);
-      const proxyServer = new WhistleProxy({ port: 8899, rule });
+      const rule = createProxyRule(internalDirectory, dev.proxy);
+      proxyServer = new WhistleProxy({ port: 8899, rule });
       await proxyServer.start();
-
-      // TODO
-      // should exit proxy server before process exit
-      // api.on('process-exit', () => {
-      //   proxyServer.close();
-      // });
+    },
+    beforeExit() {
+      // terminate whistle proxy
+      proxyServer?.close();
     },
   }),
   { name: '@modern-js/plugin-proxy' },
@@ -40,8 +39,6 @@ export type ProxyOptions = string | Record<string, string>;
 
 declare module '@modern-js/core' {
   export interface DevConfig {
-    dev: {
-      proxy?: ProxyOptions;
-    };
+    proxy?: ProxyOptions;
   }
 }
