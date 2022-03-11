@@ -3,15 +3,13 @@ import { createDebugger } from '@modern-js/utils';
 import { Plugin as RollupPlugin } from 'rollup';
 import MagicString from 'magic-string';
 import { Parser } from 'acorn';
+import acornClassFields from 'acorn-class-fields';
 import { CallExpression, MemberExpression, Identifier, Literal } from 'estree';
 import { simple as esWalk } from 'acorn-walk';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { isJsRequest, isCSSRequest } from '../utils';
 import { DEV_CLIENT_URL } from '../constants';
 import { fileToModules } from '../AssetModule';
-
-// FIXME: declare module 不生效的问题
-const acornClassFields = require('acorn-class-fields');
 
 type AcceptDep = Literal & { start: number; end: number };
 

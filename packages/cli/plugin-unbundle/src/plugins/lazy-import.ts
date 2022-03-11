@@ -1,14 +1,13 @@
 import * as parser from '@babel/parser';
 import * as types from '@babel/types';
+import traverse from '@babel/traverse';
+import generate from '@babel/generator';
 import { Plugin as RollupPlugin } from 'rollup';
 import {
   GLOBAL_CACHE_DIR_NAME,
   DEFAULT_LAZY_IMPORT_UI_COMPONENTS,
 } from '../constants';
 import { isJsRequest } from '../utils';
-// FIXME: declare module 不生效的问题
-const traverse = require('@babel/traverse').default;
-const generate = require('@babel/generator').default;
 
 function shouldProcess(code: string, id: string) {
   // transform js only
