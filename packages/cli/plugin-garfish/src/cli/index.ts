@@ -1,5 +1,5 @@
 import path from 'path';
-import { createRuntimeExportsUtils, INTERNAL_PLUGINS } from '@modern-js/utils';
+import { createRuntimeExportsUtils, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import {
   createPlugin,
   useAppContext,
@@ -261,7 +261,7 @@ export default createPlugin(
     {
       resolvedConfig,
       validateSchema() {
-        return INTERNAL_PLUGINS['@modern-js/plugin-garfish'];
+        return PLUGIN_SCHEMAS['@modern-js/plugin-garfish'];
       },
     },
     {

@@ -8,16 +8,14 @@ describe('patch schemas', () => {
         schema: { type: 'string' },
       },
       {
-        target: 'deploy.microFrontend.foo',
+        target: 'deploy.foo',
         schema: { type: 'number' },
       },
     ]);
 
     expect(schema.properties).toHaveProperty('foo');
 
-    expect(
-      schema.properties.deploy.properties.microFrontend.properties,
-    ).toHaveProperty('foo');
+    expect(schema.properties.deploy.properties).toHaveProperty('foo');
   });
 
   test('should throw error when node is undefined', () => {
