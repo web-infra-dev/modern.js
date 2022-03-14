@@ -57,7 +57,6 @@ const client = createAsyncPipeline<
     readonly context?: RuntimeContext;
     rootElement: HTMLElement;
   },
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   void
 >();
 
