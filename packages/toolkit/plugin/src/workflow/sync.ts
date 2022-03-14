@@ -24,32 +24,25 @@ export type Workflow2Worker<W extends Workflow<any, any>> = W extends Workflow<
 
 export type WorkflowRecord = Record<string, Workflow<any, any>>;
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type Workflows2Workers<PS extends WorkflowRecord | void> = {
   [K in keyof PS]: PS[K] extends Workflow<any, any>
     ? Workflow2Worker<PS[K]>
-    : // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    PS[K] extends void
-    ? // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      void
+    : PS[K] extends void
+    ? void
     : never;
 };
 
 export type RunnerFromWorkflow<W extends Workflow<any, any>> =
   W extends Workflow<infer I, infer O> ? Workflow<I, O>['run'] : never;
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type Workflows2Runners<PS extends WorkflowRecord | void> = {
   [K in keyof PS]: PS[K] extends Workflow<any, any>
     ? RunnerFromWorkflow<PS[K]>
-    : // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    PS[K] extends void
-    ? // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      void
+    : PS[K] extends void
+    ? void
     : never;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export const createWorkflow = <I = void, O = unknown>(): Workflow<I, O> => {
   const pipeline = createPipeline<I, O[]>();
 
