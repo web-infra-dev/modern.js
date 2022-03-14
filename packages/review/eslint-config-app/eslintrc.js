@@ -2013,8 +2013,6 @@ module.exports = {
         '@typescript-eslint/no-for-in-array': 'error',
         // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#supported-rules
         '@typescript-eslint/no-implicit-any-catch': 'off',
-        // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-invalid-void-type.md
-        '@typescript-eslint/no-invalid-void-type': 'error',
         // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-inferrable-types.md
         '@typescript-eslint/no-inferrable-types': [
           'error',

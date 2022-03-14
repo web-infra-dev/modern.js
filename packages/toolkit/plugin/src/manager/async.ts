@@ -12,7 +12,6 @@ import {
 } from './sync';
 import { useRunner } from './runner';
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type AsyncInitializer<O> = () => void | O | Promise<O | void>;
 
 const ASYNC_PLUGIN_SYMBOL = 'ASYNC_PLUGIN_SYMBOL';
@@ -41,7 +40,6 @@ export type PluginFromAsyncManager<M extends AsyncManager<any, any>> =
 
 export type AsyncManager<
   EP extends Record<string, any>,
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   PR extends ProgressRecord | void = void,
 > = {
   createPlugin: (
@@ -73,7 +71,6 @@ export type AsyncManager<
 export const createAsyncManager = <
   // eslint-disable-next-line @typescript-eslint/ban-types
   EP extends Record<string, any> = {},
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   PR extends ProgressRecord | void = void,
 >(
   processes?: PR,

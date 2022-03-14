@@ -36,7 +36,6 @@ import {
 } from '../workflow';
 import { RunnerContext, useRunner } from './runner';
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type Initializer<O> = () => O | void;
 
 const SYNC_PLUGIN_SYMBOL = 'SYNC_PLUGIN_SYMBOL';
@@ -91,14 +90,11 @@ export type Progress2Thread<P extends Progress> = P extends Workflow<
 
 export type ProgressRecord = Record<string, Progress>;
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type Progresses2Threads<PS extends ProgressRecord | void> = {
   [K in keyof PS]: PS[K] extends Progress
     ? Progress2Thread<PS[K]>
-    : // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    PS[K] extends void
-    ? // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      void
+    : PS[K] extends void
+    ? void
     : never;
 };
 
@@ -120,14 +116,11 @@ export type RunnerFromProgress<P extends Progress> = P extends Waterfall<
   ? AsyncPipeline<I, O>['run']
   : never;
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type Progresses2Runners<PS extends ProgressRecord | void> = {
   [K in keyof PS]: PS[K] extends Progress
     ? RunnerFromProgress<PS[K]>
-    : // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    PS[K] extends void
-    ? // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      void
+    : PS[K] extends void
+    ? void
     : never;
 };
 
@@ -146,7 +139,6 @@ export type InitOptions = {
 };
 export type Manager<
   EP extends Record<string, any>,
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   PR extends ProgressRecord | void = void,
 > = {
   createPlugin: (
@@ -184,7 +176,6 @@ export const DEFAULT_OPTIONS: Required<PluginOptions> = {
 export const createManager = <
   // eslint-disable-next-line @typescript-eslint/ban-types
   EP extends Record<string, any> = {},
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   PR extends ProgressRecord | void = void,
 >(
   processes?: PR,
@@ -296,10 +287,8 @@ export const createManager = <
 export const generateRunner = <
   // eslint-disable-next-line @typescript-eslint/ban-types
   EP extends Record<string, any> = {},
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   PR extends ProgressRecord | void = void,
 >(
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   hooksList: (void | Partial<
     Progresses2Threads<PR & ClearDraftProgress<EP>>
   >)[],
@@ -364,7 +353,6 @@ export const cloneProgress = (progress: Progress): Progress => {
   throw new Error(`Unknown progress: ${progress}`);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export const cloneProgressRecord = <PR extends ProgressRecord | void>(
   record: PR,
 ): PR => {
