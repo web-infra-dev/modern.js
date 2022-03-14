@@ -4,7 +4,6 @@ import {
   HooksToThreads,
   HooksToRunners,
   PluginOptions,
-  ClearDraftProgress,
   InitOptions,
   generateRunner,
   hasOwnProperty,
@@ -29,50 +28,57 @@ export type AsyncPlugins<O> = AsyncPlugin<O>[];
 export type AsyncIndexPlugins<O> = IndexAsyncPlugin<O>[];
 
 export type AsyncPluginFromAsyncManager<M extends AsyncManager<any, any>> =
-  M extends AsyncManager<infer EP, infer PR>
-    ? AsyncPlugin<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>
+  M extends AsyncManager<infer ExtraHooks, infer InitialHooks>
+    ? AsyncPlugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>
     : never;
 
 export type PluginFromAsyncManager<M extends AsyncManager<any, any>> =
-  M extends AsyncManager<infer EP, infer PR>
-    ? AsyncPlugin<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>
+  M extends AsyncManager<infer ExtraHooks, infer InitialHooks>
+    ? AsyncPlugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>
     : never;
 
 export type AsyncManager<
-  EP extends Record<string, any>,
-  PR extends HooksMap | void = void,
+  ExtraHooks extends HooksMap,
+  InitialHooks extends HooksMap | void = void,
 > = {
   createPlugin: (
-    setup: AsyncSetupFn<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>,
+    setup: AsyncSetupFn<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>,
     options?: PluginOptions,
-  ) => AsyncPlugin<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>;
+  ) => AsyncPlugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>;
+
   isPlugin: (
     input: Record<string, unknown>,
-  ) => input is AsyncPlugin<
-    Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>
-  >;
+  ) => input is AsyncPlugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>;
+
   usePlugin: (
-    ...input: AsyncPlugins<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>
-  ) => AsyncManager<EP, PR>;
+    ...input: AsyncPlugins<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>
+  ) => AsyncManager<ExtraHooks, InitialHooks>;
+
   init: (
     options?: InitOptions,
-  ) => Promise<HooksToRunners<PR & ClearDraftProgress<EP>>>;
+  ) => Promise<HooksToRunners<InitialHooks & ExtraHooks>>;
+
   run: <O>(cb: () => O, options?: InitOptions) => O;
-  registe: (newShape: Partial<EP>) => void;
-  clone: () => AsyncManager<EP, PR>;
+
+  registerHook: (newHooks: Partial<ExtraHooks>) => void;
+
+  clone: () => AsyncManager<ExtraHooks, InitialHooks>;
+
   clear: () => void;
-  useRunner: () => HooksToRunners<PR & ClearDraftProgress<EP>>;
+
+  useRunner: () => HooksToRunners<InitialHooks & ExtraHooks>;
 };
 
 export const createAsyncManager = <
   // eslint-disable-next-line @typescript-eslint/ban-types
-  EP extends Record<string, any> = {},
-  PR extends HooksMap | void = void,
+  ExtraHooks extends Record<string, any> = {},
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  InitialHooks extends HooksMap = {},
 >(
-  hooks?: PR,
-): AsyncManager<EP, PR> => {
+  hooks: InitialHooks,
+): AsyncManager<ExtraHooks, InitialHooks> => {
   let index = 0;
-  const createPlugin: AsyncManager<EP, PR>['createPlugin'] = (
+  const createPlugin: AsyncManager<ExtraHooks, InitialHooks>['createPlugin'] = (
     setup,
     options = {},
   ) => ({
@@ -83,15 +89,16 @@ export const createAsyncManager = <
     setup,
   });
 
-  const isPlugin: AsyncManager<EP, PR>['isPlugin'] = (
+  const isPlugin: AsyncManager<ExtraHooks, InitialHooks>['isPlugin'] = (
     input,
-  ): input is AsyncPlugin<
-    Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>
-  > =>
+  ): input is AsyncPlugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>> =>
     hasOwnProperty(input, ASYNC_PLUGIN_SYMBOL) &&
     input[ASYNC_PLUGIN_SYMBOL] === ASYNC_PLUGIN_SYMBOL;
 
-  const registe: AsyncManager<EP, PR>['registe'] = extraHooks => {
+  const registerHook: AsyncManager<
+    ExtraHooks,
+    InitialHooks
+  >['registerHook'] = extraHooks => {
     // eslint-disable-next-line no-param-reassign
     hooks = {
       ...extraHooks,
@@ -101,10 +108,12 @@ export const createAsyncManager = <
 
   const clone = () => {
     let plugins: AsyncIndexPlugins<
-      Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>
+      Partial<HooksToThreads<InitialHooks & ExtraHooks>>
     > = [];
 
-    const usePlugin: AsyncManager<EP, PR>['usePlugin'] = (...input) => {
+    const usePlugin: AsyncManager<ExtraHooks, InitialHooks>['usePlugin'] = (
+      ...input
+    ) => {
       for (const plugin of input) {
         if (isPlugin(plugin)) {
           if (!includeAsyncPlugin(plugins, plugin)) {
@@ -129,7 +138,10 @@ export const createAsyncManager = <
 
     const currentContainer = createContainer();
 
-    const init: AsyncManager<EP, PR>['init'] = async options => {
+    const init: AsyncManager<
+      ExtraHooks,
+      InitialHooks
+    >['init'] = async options => {
       const container = options?.container || currentContainer;
 
       const sortedPlugins = sortAsyncPlugins(plugins);
@@ -142,10 +154,17 @@ export const createAsyncManager = <
         ),
       );
 
-      return generateRunner<EP, PR>(hooksList, container, hooks);
+      return generateRunner<ExtraHooks, InitialHooks>(
+        hooksList,
+        container,
+        hooks,
+      );
     };
 
-    const run: AsyncManager<EP, PR>['run'] = (cb, options) => {
+    const run: AsyncManager<ExtraHooks, InitialHooks>['run'] = (
+      cb,
+      options,
+    ) => {
       const container = options?.container || currentContainer;
 
       return runWithContainer(cb, container);
@@ -159,7 +178,7 @@ export const createAsyncManager = <
       run,
       clear,
       clone,
-      registe,
+      registerHook,
       useRunner,
     };
 

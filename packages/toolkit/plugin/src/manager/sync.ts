@@ -69,10 +69,7 @@ export type Hook =
   | Pipeline<any, any>
   | AsyncPipeline<any, any>;
 
-export type Progress2Thread<P extends Hook> = P extends Workflow<
-  infer I,
-  infer O
->
+export type HookToThread<P extends Hook> = P extends Workflow<infer I, infer O>
   ? Worker<I, O>
   : P extends AsyncWorkflow<infer I, infer O>
   ? AsyncWorker<I, O>
@@ -92,7 +89,7 @@ export type HooksMap = Record<string, Hook>;
 
 export type HooksToThreads<PS extends HooksMap | void> = {
   [K in keyof PS]: PS[K] extends Hook
-    ? Progress2Thread<PS[K]>
+    ? HookToThread<PS[K]>
     : PS[K] extends void
     ? void
     : never;
@@ -122,39 +119,45 @@ export type HooksToRunners<PS extends HooksMap | void> = {
     : never;
 };
 
-export type ClearDraftProgress<I extends Record<string, any>> = {
-  [K in keyof I]: I[K] extends Hook ? I[K] : never;
-};
-
 export type PluginFromManager<M extends Manager<any, any>> = M extends Manager<
-  infer EP,
-  infer PR
+  infer ExtraHooks,
+  infer InitialHooks
 >
-  ? Plugin<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>
+  ? Plugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>
   : never;
+
 export type InitOptions = {
   container?: Container;
 };
+
 export type Manager<
-  EP extends Record<string, any>,
-  PR extends HooksMap | void = void,
+  ExtraHooks extends Record<string, any>,
+  InitialHooks extends HooksMap | void = void,
 > = {
   createPlugin: (
-    setup: SetupFn<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>,
+    setup: SetupFn<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>,
     options?: PluginOptions,
-  ) => Plugin<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>;
+  ) => Plugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>;
+
   isPlugin: (
     input: Record<string, unknown>,
-  ) => input is Plugin<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>;
+  ) => input is Plugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>;
+
   usePlugin: (
-    ...input: Plugins<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>
-  ) => Manager<EP, PR>;
-  init: (options?: InitOptions) => HooksToRunners<PR & ClearDraftProgress<EP>>;
+    ...input: Plugins<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>
+  ) => Manager<ExtraHooks, InitialHooks>;
+
+  init: (options?: InitOptions) => HooksToRunners<InitialHooks & ExtraHooks>;
+
   run: <O>(cb: () => O, options?: InitOptions) => O;
-  registe: (newShape: Partial<EP>) => void;
+
+  registerHook: (hewHooks: Partial<ExtraHooks>) => void;
+
   clear: () => void;
-  clone: () => Manager<EP, PR>;
-  useRunner: () => HooksToRunners<PR & ClearDraftProgress<EP>>;
+
+  clone: () => Manager<ExtraHooks, InitialHooks>;
+
+  useRunner: () => HooksToRunners<InitialHooks & ExtraHooks>;
 };
 
 export const DEFAULT_OPTIONS: Required<PluginOptions> = {
@@ -167,13 +170,14 @@ export const DEFAULT_OPTIONS: Required<PluginOptions> = {
 
 export const createManager = <
   // eslint-disable-next-line @typescript-eslint/ban-types
-  EP extends Record<string, any> = {},
-  PR extends HooksMap | void = void,
+  ExtraHooks extends Record<string, any> = {},
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  InitialHooks extends HooksMap = {},
 >(
-  hooks?: PR,
-): Manager<EP, PR> => {
+  hooks: InitialHooks,
+): Manager<ExtraHooks, InitialHooks> => {
   let index = 0;
-  const createPlugin: Manager<EP, PR>['createPlugin'] = (
+  const createPlugin: Manager<ExtraHooks, InitialHooks>['createPlugin'] = (
     setup,
     options = {},
   ) => ({
@@ -184,26 +188,31 @@ export const createManager = <
     setup,
   });
 
-  const isPlugin: Manager<EP, PR>['isPlugin'] = (
+  const isPlugin: Manager<ExtraHooks, InitialHooks>['isPlugin'] = (
     input,
-  ): input is Plugin<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>> =>
+  ): input is Plugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>> =>
     hasOwnProperty(input, SYNC_PLUGIN_SYMBOL) &&
     input[SYNC_PLUGIN_SYMBOL] === SYNC_PLUGIN_SYMBOL;
 
-  const registe: Manager<EP, PR>['registe'] = extraHooks => {
+  const registerHook: Manager<
+    ExtraHooks,
+    InitialHooks
+  >['registerHook'] = extraHooks => {
     // eslint-disable-next-line no-param-reassign
     hooks = {
       ...extraHooks,
       ...hooks,
-    } as any;
+    };
   };
 
   const clone = () => {
     let plugins: IndexPlugins<
-      Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>
+      Partial<HooksToThreads<InitialHooks & ExtraHooks>>
     > = [];
 
-    const usePlugin: Manager<EP, PR>['usePlugin'] = (...input) => {
+    const usePlugin: Manager<ExtraHooks, InitialHooks>['usePlugin'] = (
+      ...input
+    ) => {
       for (const plugin of input) {
         if (isPlugin(plugin)) {
           if (!includePlugin(plugins, plugin)) {
@@ -226,7 +235,7 @@ export const createManager = <
         init,
         run,
         clear,
-        registe,
+        registerHook,
         useRunner,
         clone,
       };
@@ -238,7 +247,7 @@ export const createManager = <
 
     const currentContainer = createContainer();
 
-    const init: Manager<EP, PR>['init'] = options => {
+    const init: Manager<ExtraHooks, InitialHooks>['init'] = options => {
       const container = options?.container || currentContainer;
 
       const sortedPlugins = sortPlugins(plugins);
@@ -249,10 +258,14 @@ export const createManager = <
         runWithContainer(() => plugin.setup(), container),
       );
 
-      return generateRunner<EP, PR>(hooksList, container, hooks);
+      return generateRunner<ExtraHooks, InitialHooks>(
+        hooksList,
+        container,
+        hooks,
+      );
     };
 
-    const run: Manager<EP, PR>['run'] = (cb, options) => {
+    const run: Manager<ExtraHooks, InitialHooks>['run'] = (cb, options) => {
       const container = options?.container || currentContainer;
 
       return runWithContainer(cb, container);
@@ -265,7 +278,7 @@ export const createManager = <
       init,
       clear,
       run,
-      registe,
+      registerHook,
       useRunner,
       clone,
     };
@@ -276,17 +289,17 @@ export const createManager = <
 
 export const generateRunner = <
   // eslint-disable-next-line @typescript-eslint/ban-types
-  EP extends Record<string, any> = {},
-  PR extends HooksMap | void = void,
+  ExtraHooks extends Record<string, any> = {},
+  InitialHooks extends HooksMap | void = void,
 >(
-  hooksList: (void | Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>)[],
+  hooksList: (void | Partial<HooksToThreads<InitialHooks & ExtraHooks>>)[],
   container: Container,
-  processes?: PR,
-): HooksToRunners<PR & ClearDraftProgress<EP>> => {
+  hooksMap?: InitialHooks,
+): HooksToRunners<InitialHooks & ExtraHooks> => {
   const runner = {};
-  const cloneShape = closeHooksMap(processes);
+  const cloneShape = closeHooksMap(hooksMap);
 
-  if (processes) {
+  if (hooksMap) {
     for (const key in cloneShape) {
       for (const hooks of hooksList) {
         if (!hooks) {
@@ -341,12 +354,14 @@ export const cloneHook = (hook: Hook): Hook => {
   throw new Error(`Unknown hook: ${hook}`);
 };
 
-export const closeHooksMap = <PR extends HooksMap | void>(record: PR): PR => {
+export const closeHooksMap = <InitialHooks extends HooksMap | void>(
+  record: InitialHooks,
+): InitialHooks => {
   if (!record) {
     return record;
   }
 
-  const result: PR = {} as any;
+  const result: InitialHooks = {} as any;
 
   for (const key in record) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

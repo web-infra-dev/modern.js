@@ -111,7 +111,7 @@ export const { usePlugin } = main;
 
 export const initPlugins = main.init;
 
-export const registeManager = main.registe;
+export const registeManager = main.registerHook;
 
 export const { useRunner } = main;
 
