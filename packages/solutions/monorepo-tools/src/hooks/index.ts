@@ -7,7 +7,6 @@ const afterMonorepoDeploy = createAsyncWorkflow<
     operator: DagOperator;
     deployProjectNames: string[];
   },
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   void
 >();
 

@@ -76,8 +76,7 @@ async function doParse(ctx: ParseContext, fileLoc: string) {
     throw new Error('parseExportVariableNames failed');
   }
   traverse(
-    // TODO: error TS2345: Argument of type 'File | Program' is not assignable to parameter of type 'Node | Node[] | null | undefined'
-    ast as any,
+    ast,
     visitorCreator({
       testUMD: true,
     }),
