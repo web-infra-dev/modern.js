@@ -27,7 +27,6 @@ export type RunWaterfallOptions<I = unknown> = {
   onLast?: Brook<I>;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type Waterfall<I = void> = {
   run: (input: I, options?: RunWaterfallOptions<I>) => I;
   use: (...I: BrookInputs<I>) => Waterfall<I>;
@@ -43,14 +42,11 @@ export type Waterfall2Brook<P extends Waterfall<any>> = P extends Waterfall<
 
 export type WaterfallRecord = Record<string, Waterfall<any>>;
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type Waterfalls2Brooks<PS extends WaterfallRecord | void> = {
   [K in keyof PS]: PS[K] extends Waterfall<any>
     ? Waterfall2Brook<PS[K]>
-    : // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    PS[K] extends void
-    ? // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      void
+    : PS[K] extends void
+    ? void
     : never;
 };
 
@@ -60,18 +56,14 @@ export type RunnerFromWaterfall<M extends Waterfall<any>> = M extends Waterfall<
   ? Waterfall<VS>['run']
   : never;
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type Waterfalls2Runners<PS extends WaterfallRecord | void> = {
   [K in keyof PS]: PS[K] extends Waterfall<any>
     ? RunnerFromWaterfall<PS[K]>
-    : // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    PS[K] extends void
-    ? // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      void
+    : PS[K] extends void
+    ? void
     : never;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export const createWaterfall = <I = void>(): Waterfall<I> => {
   const pipeline = createPipeline<I, I>();
 

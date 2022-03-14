@@ -14,7 +14,6 @@ type Options = {
 
 declare module '@modern-js/core' {
   interface ToolsConfig {
-    // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
     less?: Options | ((options: Options) => Options | void);
   }
 }

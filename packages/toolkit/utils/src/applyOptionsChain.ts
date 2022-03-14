@@ -3,12 +3,10 @@ import { isFunction, logger, isPlainObject } from './index';
 
 export const applyOptionsChain = <T, U>(
   defaults: T,
-  /* eslint-disable @typescript-eslint/no-invalid-void-type */
   options?:
     | T
     | ((config: T, utils?: U) => T | void)
     | Array<T | ((config: T, utils?: U) => T | void)>,
-  /* eslint-enable @typescript-eslint/no-invalid-void-type */
   utils?: U,
   mergeFn = Object.assign,
 ): T => {
