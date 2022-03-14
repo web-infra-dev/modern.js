@@ -60,7 +60,7 @@ export type PluginOptions = {
   required?: string[];
 };
 
-export type Progress =
+export type Hook =
   | Waterfall<any>
   | AsyncWaterfall<any>
   | Workflow<any, any>
@@ -69,7 +69,7 @@ export type Progress =
   | Pipeline<any, any>
   | AsyncPipeline<any, any>;
 
-export type Progress2Thread<P extends Progress> = P extends Workflow<
+export type Progress2Thread<P extends Hook> = P extends Workflow<
   infer I,
   infer O
 >
@@ -88,19 +88,17 @@ export type Progress2Thread<P extends Progress> = P extends Workflow<
   ? Middleware<I, MaybeAsync<O>>
   : never;
 
-export type ProgressRecord = Record<string, Progress>;
+export type HooksMap = Record<string, Hook>;
 
-export type Progresses2Threads<PS extends ProgressRecord | void> = {
-  [K in keyof PS]: PS[K] extends Progress
+export type HooksToThreads<PS extends HooksMap | void> = {
+  [K in keyof PS]: PS[K] extends Hook
     ? Progress2Thread<PS[K]>
     : PS[K] extends void
     ? void
     : never;
 };
 
-export type RunnerFromProgress<P extends Progress> = P extends Waterfall<
-  infer I
->
+export type RunnerFromProgress<P extends Hook> = P extends Waterfall<infer I>
   ? Waterfall<I>['run']
   : P extends AsyncWaterfall<infer I>
   ? AsyncWaterfall<I>['run']
@@ -116,8 +114,8 @@ export type RunnerFromProgress<P extends Progress> = P extends Waterfall<
   ? AsyncPipeline<I, O>['run']
   : never;
 
-export type Progresses2Runners<PS extends ProgressRecord | void> = {
-  [K in keyof PS]: PS[K] extends Progress
+export type HooksToRunners<PS extends HooksMap | void> = {
+  [K in keyof PS]: PS[K] extends Hook
     ? RunnerFromProgress<PS[K]>
     : PS[K] extends void
     ? void
@@ -125,42 +123,38 @@ export type Progresses2Runners<PS extends ProgressRecord | void> = {
 };
 
 export type ClearDraftProgress<I extends Record<string, any>> = {
-  [K in keyof I]: I[K] extends Progress ? I[K] : never;
+  [K in keyof I]: I[K] extends Hook ? I[K] : never;
 };
 
 export type PluginFromManager<M extends Manager<any, any>> = M extends Manager<
   infer EP,
   infer PR
 >
-  ? Plugin<Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>>
+  ? Plugin<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>
   : never;
 export type InitOptions = {
   container?: Container;
 };
 export type Manager<
   EP extends Record<string, any>,
-  PR extends ProgressRecord | void = void,
+  PR extends HooksMap | void = void,
 > = {
   createPlugin: (
-    setup: SetupFn<Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>>,
+    setup: SetupFn<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>,
     options?: PluginOptions,
-  ) => Plugin<Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>>;
+  ) => Plugin<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>;
   isPlugin: (
     input: Record<string, unknown>,
-  ) => input is Plugin<
-    Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>
-  >;
+  ) => input is Plugin<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>;
   usePlugin: (
-    ...input: Plugins<Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>>
+    ...input: Plugins<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>
   ) => Manager<EP, PR>;
-  init: (
-    options?: InitOptions,
-  ) => Progresses2Runners<PR & ClearDraftProgress<EP>>;
+  init: (options?: InitOptions) => HooksToRunners<PR & ClearDraftProgress<EP>>;
   run: <O>(cb: () => O, options?: InitOptions) => O;
   registe: (newShape: Partial<EP>) => void;
   clear: () => void;
   clone: () => Manager<EP, PR>;
-  useRunner: () => Progresses2Runners<PR & ClearDraftProgress<EP>>;
+  useRunner: () => HooksToRunners<PR & ClearDraftProgress<EP>>;
 };
 
 export const DEFAULT_OPTIONS: Required<PluginOptions> = {
@@ -174,9 +168,9 @@ export const DEFAULT_OPTIONS: Required<PluginOptions> = {
 export const createManager = <
   // eslint-disable-next-line @typescript-eslint/ban-types
   EP extends Record<string, any> = {},
-  PR extends ProgressRecord | void = void,
+  PR extends HooksMap | void = void,
 >(
-  processes?: PR,
+  hooks?: PR,
 ): Manager<EP, PR> => {
   let index = 0;
   const createPlugin: Manager<EP, PR>['createPlugin'] = (
@@ -192,23 +186,21 @@ export const createManager = <
 
   const isPlugin: Manager<EP, PR>['isPlugin'] = (
     input,
-  ): input is Plugin<
-    Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>
-  > =>
+  ): input is Plugin<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>> =>
     hasOwnProperty(input, SYNC_PLUGIN_SYMBOL) &&
     input[SYNC_PLUGIN_SYMBOL] === SYNC_PLUGIN_SYMBOL;
 
-  const registe: Manager<EP, PR>['registe'] = extraProcesses => {
+  const registe: Manager<EP, PR>['registe'] = extraHooks => {
     // eslint-disable-next-line no-param-reassign
-    processes = {
-      ...extraProcesses,
-      ...processes,
+    hooks = {
+      ...extraHooks,
+      ...hooks,
     } as any;
   };
 
   const clone = () => {
     let plugins: IndexPlugins<
-      Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>
+      Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>
     > = [];
 
     const usePlugin: Manager<EP, PR>['usePlugin'] = (...input) => {
@@ -257,7 +249,7 @@ export const createManager = <
         runWithContainer(() => plugin.setup(), container),
       );
 
-      return generateRunner<EP, PR>(hooksList, container, processes);
+      return generateRunner<EP, PR>(hooksList, container, hooks);
     };
 
     const run: Manager<EP, PR>['run'] = (cb, options) => {
@@ -285,16 +277,14 @@ export const createManager = <
 export const generateRunner = <
   // eslint-disable-next-line @typescript-eslint/ban-types
   EP extends Record<string, any> = {},
-  PR extends ProgressRecord | void = void,
+  PR extends HooksMap | void = void,
 >(
-  hooksList: (void | Partial<
-    Progresses2Threads<PR & ClearDraftProgress<EP>>
-  >)[],
+  hooksList: (void | Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>)[],
   container: Container,
   processes?: PR,
-): Progresses2Runners<PR & ClearDraftProgress<EP>> => {
+): HooksToRunners<PR & ClearDraftProgress<EP>> => {
   const runner = {};
-  const cloneShape = cloneProgressRecord(processes);
+  const cloneShape = closeHooksMap(processes);
 
   if (processes) {
     for (const key in cloneShape) {
@@ -322,38 +312,36 @@ export const generateRunner = <
   return runner as any;
 };
 
-export const cloneProgress = (progress: Progress): Progress => {
-  if (isWaterfall(progress)) {
+export const cloneHook = (hook: Hook): Hook => {
+  if (isWaterfall(hook)) {
     return createWaterfall();
   }
 
-  if (isAsyncWaterfall(progress)) {
+  if (isAsyncWaterfall(hook)) {
     return createAsyncWaterfall();
   }
 
-  if (isWorkflow(progress)) {
+  if (isWorkflow(hook)) {
     return createWorkflow();
   }
 
-  if (isAsyncWorkflow(progress)) {
+  if (isAsyncWorkflow(hook)) {
     return createAsyncWorkflow();
   }
 
-  if (isParallelWorkflow(progress)) {
+  if (isParallelWorkflow(hook)) {
     return createParallelWorkflow();
   }
 
-  if (isPipeline(progress)) {
+  if (isPipeline(hook)) {
     return createPipeline();
   }
 
   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-  throw new Error(`Unknown progress: ${progress}`);
+  throw new Error(`Unknown hook: ${hook}`);
 };
 
-export const cloneProgressRecord = <PR extends ProgressRecord | void>(
-  record: PR,
-): PR => {
+export const closeHooksMap = <PR extends HooksMap | void>(record: PR): PR => {
   if (!record) {
     return record;
   }
@@ -363,7 +351,7 @@ export const cloneProgressRecord = <PR extends ProgressRecord | void>(
   for (const key in record) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    result[key] = cloneProgress(record[key]);
+    result[key] = cloneHook(record[key]);
   }
 
   return result;

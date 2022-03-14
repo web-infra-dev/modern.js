@@ -1,8 +1,8 @@
 import { runWithContainer, createContainer } from 'farrow-pipeline';
 import {
-  ProgressRecord,
-  Progresses2Threads,
-  Progresses2Runners,
+  HooksMap,
+  HooksToThreads,
+  HooksToRunners,
   PluginOptions,
   ClearDraftProgress,
   InitOptions,
@@ -30,50 +30,46 @@ export type AsyncIndexPlugins<O> = IndexAsyncPlugin<O>[];
 
 export type AsyncPluginFromAsyncManager<M extends AsyncManager<any, any>> =
   M extends AsyncManager<infer EP, infer PR>
-    ? AsyncPlugin<Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>>
+    ? AsyncPlugin<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>
     : never;
 
 export type PluginFromAsyncManager<M extends AsyncManager<any, any>> =
   M extends AsyncManager<infer EP, infer PR>
-    ? AsyncPlugin<Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>>
+    ? AsyncPlugin<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>
     : never;
 
 export type AsyncManager<
   EP extends Record<string, any>,
-  PR extends ProgressRecord | void = void,
+  PR extends HooksMap | void = void,
 > = {
   createPlugin: (
-    setup: AsyncSetupFn<
-      Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>
-    >,
+    setup: AsyncSetupFn<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>,
     options?: PluginOptions,
-  ) => AsyncPlugin<Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>>;
+  ) => AsyncPlugin<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>;
   isPlugin: (
     input: Record<string, unknown>,
   ) => input is AsyncPlugin<
-    Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>
+    Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>
   >;
   usePlugin: (
-    ...input: AsyncPlugins<
-      Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>
-    >
+    ...input: AsyncPlugins<Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>>
   ) => AsyncManager<EP, PR>;
   init: (
     options?: InitOptions,
-  ) => Promise<Progresses2Runners<PR & ClearDraftProgress<EP>>>;
+  ) => Promise<HooksToRunners<PR & ClearDraftProgress<EP>>>;
   run: <O>(cb: () => O, options?: InitOptions) => O;
   registe: (newShape: Partial<EP>) => void;
   clone: () => AsyncManager<EP, PR>;
   clear: () => void;
-  useRunner: () => Progresses2Runners<PR & ClearDraftProgress<EP>>;
+  useRunner: () => HooksToRunners<PR & ClearDraftProgress<EP>>;
 };
 
 export const createAsyncManager = <
   // eslint-disable-next-line @typescript-eslint/ban-types
   EP extends Record<string, any> = {},
-  PR extends ProgressRecord | void = void,
+  PR extends HooksMap | void = void,
 >(
-  processes?: PR,
+  hooks?: PR,
 ): AsyncManager<EP, PR> => {
   let index = 0;
   const createPlugin: AsyncManager<EP, PR>['createPlugin'] = (
@@ -90,22 +86,22 @@ export const createAsyncManager = <
   const isPlugin: AsyncManager<EP, PR>['isPlugin'] = (
     input,
   ): input is AsyncPlugin<
-    Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>
+    Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>
   > =>
     hasOwnProperty(input, ASYNC_PLUGIN_SYMBOL) &&
     input[ASYNC_PLUGIN_SYMBOL] === ASYNC_PLUGIN_SYMBOL;
 
-  const registe: AsyncManager<EP, PR>['registe'] = extraProcesses => {
+  const registe: AsyncManager<EP, PR>['registe'] = extraHooks => {
     // eslint-disable-next-line no-param-reassign
-    processes = {
-      ...extraProcesses,
-      ...processes,
+    hooks = {
+      ...extraHooks,
+      ...hooks,
     } as any;
   };
 
   const clone = () => {
     let plugins: AsyncIndexPlugins<
-      Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>
+      Partial<HooksToThreads<PR & ClearDraftProgress<EP>>>
     > = [];
 
     const usePlugin: AsyncManager<EP, PR>['usePlugin'] = (...input) => {
@@ -146,7 +142,7 @@ export const createAsyncManager = <
         ),
       );
 
-      return generateRunner<EP, PR>(hooksList, container, processes);
+      return generateRunner<EP, PR>(hooksList, container, hooks);
     };
 
     const run: AsyncManager<EP, PR>['run'] = (cb, options) => {
