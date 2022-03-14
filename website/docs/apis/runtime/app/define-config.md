@@ -10,7 +10,7 @@ import { defineConfig } from '@modern-js/runtime';
 ```
 :::
 
-Runtime 配置通常可以在 `modern.config.js` 的 `runtime` 空间下配置。如 [runtime.router](http://localhost:3000/docs/apis/config/runtime/router) 配置。
+Runtime 配置通常可以在 `modern.config.js` 的 `runtime` 空间下配置。如 [runtime.router](/docs/apis/config/runtime/router) 配置。
 但如果一些配置参数是运行时获取的，或者配置参数是来自于源码中的一个模块（如组件），开发者就可以在 `modern.config.js` 使用 `defineConfig` API 进行运行时的配置。
 
 ## API
@@ -37,7 +37,7 @@ defineConfig(App, {
 ```
 
 
-1. `defineConfig` 里可配置 [runtime.state](http://localhost:3000/docs/apis/config/runtime/state)、[runtime.router](http://localhost:3000/docs/apis/config/runtime/router) 等运行时配置。字段和 `modern.config.js` 下的 `runtime` 配置字段一致。
+1. `defineConfig` 里可配置 [runtime.state](/docs/apis/config/runtime/state)、[runtime.router](/docs/apis/config/runtime/router) 等运行时配置。字段和 `modern.config.js` 下的 `runtime` 配置字段一致。
 
 2. `defineConfig` 在配置某个属性之前，如 `router`，需要确保 `modern.config.js` 已经配置开启了该功能。
 
