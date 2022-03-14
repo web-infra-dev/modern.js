@@ -37,7 +37,7 @@ export type SingleEntryOptions =
   | {
       preventDefault?: string[];
       headers?: Record<string, any>;
-      routes: RouteOptions[];
+      routes?: RouteOptions[];
     };
 
 export type MultiEntryOptions = Record<string, SingleEntryOptions>;
