@@ -61,13 +61,15 @@ export const mergeConfig = (
   configs: Array<UserConfig | NormalizedConfig>,
 ): NormalizedConfig =>
   mergeWith({}, ...configs, (target: any, source: any) => {
-    if (Array.isArray(target) && Array.isArray(source)) {
-      return [...target, ...source];
+    if (Array.isArray(target)) {
+      if (Array.isArray(source)) {
+        return [...target, ...source];
+      } else {
+        return typeof source !== 'undefined' ? [...target, source] : target;
+      }
+    } else if (isFunction(source)) {
+      return typeof target !== 'undefined' ? [target, source] : [source];
     }
-    if (isFunction(source)) {
-      return Array.isArray(target)
-        ? [...target, source]
-        : [target, source].filter(Boolean);
-    }
+
     return undefined;
   });

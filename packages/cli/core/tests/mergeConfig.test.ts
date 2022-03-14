@@ -19,7 +19,7 @@ describe('load plugins', () => {
     });
   });
 
-  test(`should set value when property value is undefined `, () => {
+  test(`should set value when property value is not undefined `, () => {
     expect(
       mergeConfig([
         { source: { entries: { app: './App.tsx' } } },
@@ -35,6 +35,22 @@ describe('load plugins', () => {
       },
       server: { baseUrl: './a' },
     });
+  });
+
+  test(`should ignore undefined property`, () => {
+    const config = mergeConfig([
+      { source: { entries: { app: './App.tsx' } } },
+      { source: { entries: undefined } },
+      { tools: { webpack: () => ({}) } },
+      { tools: { webpack: undefined } },
+    ]);
+    expect(config.source).toEqual({
+      entries: {
+        app: './App.tsx',
+      },
+    });
+    expect(Array.isArray(config.tools.webpack)).toBe(true);
+    expect(config.tools.webpack?.length).toBe(1);
   });
 
   test(`should merge array value`, () => {
@@ -67,12 +83,15 @@ describe('load plugins', () => {
       { source: { alias: { a: 'b' } } },
       { source: { alias: () => ({ c: 'd' }) } },
       { tools: { webpack: () => ({}) } },
+      { tools: { webpack: { name: 'test' } } },
+      { tools: { webpack: () => ({}) } },
     ]);
     expect(Array.isArray(config.source.alias)).toBe(true);
     expect(config?.source?.alias?.length).toBe(2);
     expect(typeof (config.source.alias as Array<any>)[1]).toBe('function');
-
     expect(Array.isArray(config.tools.webpack)).toBe(true);
-    expect(config.tools.webpack?.length).toBe(1);
+    expect(config.tools.webpack?.length).toBe(3);
+    expect(typeof (config.tools.webpack as Array<any>)[0]).toBe('function');
+    expect(typeof (config.tools.webpack as Array<any>)[2]).toBe('function');
   });
 });
