@@ -46,12 +46,15 @@
     "cookie-parser": "^1.4.5",
     "finalhandler": "^1.1.2",
     "formidable": "^1.2.2",
-    "type-is": "^1.6.18"
+    "type-is": "^1.6.18",
+    "@modern-js/core": "workspace:^1.4.0",
+    "@modern-js/bff-utils": "workspace:^1.2.2",
+    "@modern-js/server-core": "workspace:^1.2.2",
+    "@modern-js/bff-runtime": "workspace:^1.2.1"
   },
   "devDependencies": {
     "express": "^4.17.1",
     "@modern-js/server-utils": "workspace:^1.2.1",
-    "@modern-js/bff-runtime": "workspace:^1.2.1",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.13",
     "@types/finalhandler": "^1.1.1",
@@ -62,9 +65,7 @@
     "@types/type-is": "^1.6.3",
     "supertest": "^6.1.6",
     "typescript": "^4",
-    "@modern-js/bff-utils": "workspace:^1.2.2",
     "@modern-js/core": "workspace:^1.4.0",
-    "@modern-js/server-core": "workspace:^1.2.2",
     "@scripts/build": "workspace:*",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*"
@@ -75,10 +76,6 @@
     }
   },
   "peerDependencies": {
-    "@modern-js/bff-utils": "workspace:^1.2.2",
-    "@modern-js/core": "workspace:^1.4.0",
-    "@modern-js/server-core": "workspace:^1.2.2",
-    "@modern-js/bff-runtime": "workspace:^1.2.1",
     "express": "^4.17.1"
   },
   "publishConfig": {
