@@ -40,7 +40,7 @@ describe('async manager', () => {
     expect(getBar()).toBe(3);
   });
 
-  it('should support async initializer', async () => {
+  it('should support async setup function', async () => {
     const manager = createAsyncManager();
 
     const countContext = createContext(0);

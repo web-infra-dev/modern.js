@@ -12,12 +12,12 @@ import {
 } from './sync';
 import { useRunner } from './runner';
 
-export type AsyncInitializer<O> = () => void | O | Promise<O | void>;
+export type AsyncSetupFn<O> = () => void | O | Promise<O | void>;
 
 const ASYNC_PLUGIN_SYMBOL = 'ASYNC_PLUGIN_SYMBOL';
 
 export type AsyncPlugin<O> = {
-  initializer: AsyncInitializer<O>;
+  setup: AsyncSetupFn<O>;
   ASYNC_PLUGIN_SYMBOL: typeof ASYNC_PLUGIN_SYMBOL;
 } & Required<PluginOptions>;
 
@@ -43,7 +43,7 @@ export type AsyncManager<
   PR extends ProgressRecord | void = void,
 > = {
   createPlugin: (
-    initializer: AsyncInitializer<
+    setup: AsyncSetupFn<
       Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>
     >,
     options?: PluginOptions,
@@ -77,14 +77,14 @@ export const createAsyncManager = <
 ): AsyncManager<EP, PR> => {
   let index = 0;
   const createPlugin: AsyncManager<EP, PR>['createPlugin'] = (
-    initializer,
+    setup,
     options = {},
   ) => ({
     ...DEFAULT_OPTIONS,
     name: `No.${index++} plugin`,
     ...options,
     ASYNC_PLUGIN_SYMBOL,
-    initializer,
+    setup,
   });
 
   const isPlugin: AsyncManager<EP, PR>['isPlugin'] = (
@@ -142,7 +142,7 @@ export const createAsyncManager = <
 
       const hooksList = await Promise.all(
         sortedPlugins.map(plugin =>
-          runWithContainer(() => plugin.initializer(), container),
+          runWithContainer(() => plugin.setup(), container),
         ),
       );
 

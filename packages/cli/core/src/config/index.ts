@@ -132,7 +132,6 @@ interface DeployConfig {
 
 type ConfigFunction =
   | Record<string, unknown>
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   | ((config: Record<string, unknown>) => Record<string, unknown> | void);
 interface ToolsConfig {
   webpack?: ConfigFunction;

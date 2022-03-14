@@ -36,12 +36,12 @@ import {
 } from '../workflow';
 import { RunnerContext, useRunner } from './runner';
 
-export type Initializer<O> = () => O | void;
+export type SetupFn<O> = () => O | void;
 
 const SYNC_PLUGIN_SYMBOL = 'SYNC_PLUGIN_SYMBOL';
 
 export type Plugin<O> = {
-  initializer: Initializer<O>;
+  setup: SetupFn<O>;
   SYNC_PLUGIN_SYMBOL: typeof SYNC_PLUGIN_SYMBOL;
 } & Required<PluginOptions>;
 
@@ -142,9 +142,7 @@ export type Manager<
   PR extends ProgressRecord | void = void,
 > = {
   createPlugin: (
-    initializer: Initializer<
-      Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>
-    >,
+    setup: SetupFn<Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>>,
     options?: PluginOptions,
   ) => Plugin<Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>>;
   isPlugin: (
@@ -182,14 +180,14 @@ export const createManager = <
 ): Manager<EP, PR> => {
   let index = 0;
   const createPlugin: Manager<EP, PR>['createPlugin'] = (
-    initializer,
+    setup,
     options = {},
   ) => ({
     ...DEFAULT_OPTIONS,
     name: `No.${index++} plugin`,
     ...options,
     SYNC_PLUGIN_SYMBOL,
-    initializer,
+    setup,
   });
 
   const isPlugin: Manager<EP, PR>['isPlugin'] = (
@@ -256,7 +254,7 @@ export const createManager = <
       checkPlugins(sortedPlugins);
 
       const hooksList = sortedPlugins.map(plugin =>
-        runWithContainer(() => plugin.initializer(), container),
+        runWithContainer(() => plugin.setup(), container),
       );
 
       return generateRunner<EP, PR>(hooksList, container, processes);
