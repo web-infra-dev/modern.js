@@ -99,7 +99,7 @@ export const server = {
     middleware: { instanceof: ['Array', 'Function'] },
     renderHook: { instanceof: 'Function' },
     logger: { type: 'object' },
-    metrics: { type: 'object' },
+    metrics: { type: ['object', 'boolean'] },
     proxy: { type: 'object' },
     enableMicroFrontendDebug: { type: 'boolean' },
   },
