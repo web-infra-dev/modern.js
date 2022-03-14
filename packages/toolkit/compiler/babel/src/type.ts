@@ -1,4 +1,4 @@
-import { TransformOptions } from '@babel/core';
+import type { TransformOptions } from '@babel/core';
 import type { IOptions } from 'glob';
 
 export type BabelOptions = TransformOptions;

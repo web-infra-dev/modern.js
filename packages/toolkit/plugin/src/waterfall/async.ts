@@ -42,32 +42,25 @@ export type AsyncWaterfall2AsyncBrook<P extends AsyncWaterfall<any>> =
 
 export type AsyncWaterfallRecord = Record<string, AsyncWaterfall<any>>;
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type AsyncWaterfalls2Brooks<PS extends AsyncWaterfallRecord | void> = {
   [K in keyof PS]: PS[K] extends AsyncWaterfall<any>
     ? AsyncWaterfall2AsyncBrook<PS[K]>
-    : // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    PS[K] extends void
-    ? // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      void
+    : PS[K] extends void
+    ? void
     : never;
 };
 
 export type RunnerFromAsyncWaterfall<M extends AsyncWaterfall<any>> =
   M extends AsyncWaterfall<infer VS> ? AsyncWaterfall<VS>['run'] : never;
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type AsyncWaterfalls2Runners<PS extends AsyncWaterfallRecord | void> = {
   [K in keyof PS]: PS[K] extends AsyncWaterfall<any>
     ? RunnerFromAsyncWaterfall<PS[K]>
-    : // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    PS[K] extends void
-    ? // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      void
+    : PS[K] extends void
+    ? void
     : never;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export const createAsyncWaterfall = <I = void>(): AsyncWaterfall<I> => {
   const pipeline = createAsyncPipeline<I, I>();
 
