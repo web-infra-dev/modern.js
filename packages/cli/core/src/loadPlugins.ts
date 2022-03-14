@@ -22,7 +22,7 @@ export type PluginConfigItem =
       cli?: Plugin;
       server?: Plugin;
     }
-  | string;
+  | Plugin;
 
 export type PluginConfig = Array<PluginConfigItem>;
 
@@ -117,7 +117,10 @@ export const loadPlugins = (
   );
 
   return plugins.map(plugin => {
-    const _plugin = typeof plugin === 'string' ? { cli: plugin } : plugin;
+    const _plugin =
+      typeof plugin === 'string' || Array.isArray(plugin)
+        ? { cli: plugin }
+        : plugin;
 
     const { cli, server } = _plugin;
     const loadedPlugin: LoadedPlugin = {} as LoadedPlugin;
