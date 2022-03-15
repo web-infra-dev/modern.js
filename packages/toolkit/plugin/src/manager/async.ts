@@ -11,12 +11,12 @@ import {
 } from './sync';
 import { useRunner } from './runner';
 
-export type AsyncSetupFn<O> = () => void | O | Promise<O | void>;
+export type AsyncSetup<O> = () => void | O | Promise<O | void>;
 
 const ASYNC_PLUGIN_SYMBOL = 'ASYNC_PLUGIN_SYMBOL';
 
 export type AsyncPlugin<O> = {
-  setup: AsyncSetupFn<O>;
+  setup: AsyncSetup<O>;
   ASYNC_PLUGIN_SYMBOL: typeof ASYNC_PLUGIN_SYMBOL;
 } & Required<PluginOptions>;
 
@@ -28,57 +28,57 @@ export type AsyncPlugins<O> = AsyncPlugin<O>[];
 export type AsyncIndexPlugins<O> = IndexAsyncPlugin<O>[];
 
 export type AsyncPluginFromAsyncManager<M extends AsyncManager<any, any>> =
-  M extends AsyncManager<infer ExtraHooks, infer InitialHooks>
-    ? AsyncPlugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>
+  M extends AsyncManager<infer ExtraHooks, infer BaseHooks>
+    ? AsyncPlugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>
     : never;
 
 export type PluginFromAsyncManager<M extends AsyncManager<any, any>> =
-  M extends AsyncManager<infer ExtraHooks, infer InitialHooks>
-    ? AsyncPlugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>
+  M extends AsyncManager<infer ExtraHooks, infer BaseHooks>
+    ? AsyncPlugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>
     : never;
 
 export type AsyncManager<
   ExtraHooks extends HooksMap,
-  InitialHooks extends HooksMap | void = void,
+  BaseHooks extends HooksMap | void = void,
 > = {
   createPlugin: (
-    setup: AsyncSetupFn<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>,
+    setup: AsyncSetup<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>,
     options?: PluginOptions,
-  ) => AsyncPlugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>;
+  ) => AsyncPlugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>;
 
   isPlugin: (
     input: Record<string, unknown>,
-  ) => input is AsyncPlugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>;
+  ) => input is AsyncPlugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>;
 
   usePlugin: (
-    ...input: AsyncPlugins<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>
-  ) => AsyncManager<ExtraHooks, InitialHooks>;
+    ...input: AsyncPlugins<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>
+  ) => AsyncManager<ExtraHooks, BaseHooks>;
 
   init: (
     options?: InitOptions,
-  ) => Promise<HooksToRunners<InitialHooks & ExtraHooks>>;
+  ) => Promise<HooksToRunners<BaseHooks & ExtraHooks>>;
 
   run: <O>(cb: () => O, options?: InitOptions) => O;
 
   registerHook: (newHooks: Partial<ExtraHooks>) => void;
 
-  clone: () => AsyncManager<ExtraHooks, InitialHooks>;
+  clone: () => AsyncManager<ExtraHooks, BaseHooks>;
 
   clear: () => void;
 
-  useRunner: () => HooksToRunners<InitialHooks & ExtraHooks>;
+  useRunner: () => HooksToRunners<BaseHooks & ExtraHooks>;
 };
 
 export const createAsyncManager = <
   // eslint-disable-next-line @typescript-eslint/ban-types
   ExtraHooks extends Record<string, any> = {},
   // eslint-disable-next-line @typescript-eslint/ban-types
-  InitialHooks extends HooksMap = {},
+  BaseHooks extends HooksMap = {},
 >(
-  hooks: InitialHooks,
-): AsyncManager<ExtraHooks, InitialHooks> => {
+  hooks: BaseHooks,
+): AsyncManager<ExtraHooks, BaseHooks> => {
   let index = 0;
-  const createPlugin: AsyncManager<ExtraHooks, InitialHooks>['createPlugin'] = (
+  const createPlugin: AsyncManager<ExtraHooks, BaseHooks>['createPlugin'] = (
     setup,
     options = {},
   ) => ({
@@ -89,15 +89,15 @@ export const createAsyncManager = <
     setup,
   });
 
-  const isPlugin: AsyncManager<ExtraHooks, InitialHooks>['isPlugin'] = (
+  const isPlugin: AsyncManager<ExtraHooks, BaseHooks>['isPlugin'] = (
     input,
-  ): input is AsyncPlugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>> =>
+  ): input is AsyncPlugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>> =>
     hasOwnProperty(input, ASYNC_PLUGIN_SYMBOL) &&
     input[ASYNC_PLUGIN_SYMBOL] === ASYNC_PLUGIN_SYMBOL;
 
   const registerHook: AsyncManager<
     ExtraHooks,
-    InitialHooks
+    BaseHooks
   >['registerHook'] = extraHooks => {
     // eslint-disable-next-line no-param-reassign
     hooks = {
@@ -108,10 +108,10 @@ export const createAsyncManager = <
 
   const clone = () => {
     let plugins: AsyncIndexPlugins<
-      Partial<HooksToThreads<InitialHooks & ExtraHooks>>
+      Partial<HooksToThreads<BaseHooks & ExtraHooks>>
     > = [];
 
-    const usePlugin: AsyncManager<ExtraHooks, InitialHooks>['usePlugin'] = (
+    const usePlugin: AsyncManager<ExtraHooks, BaseHooks>['usePlugin'] = (
       ...input
     ) => {
       for (const plugin of input) {
@@ -138,10 +138,7 @@ export const createAsyncManager = <
 
     const currentContainer = createContainer();
 
-    const init: AsyncManager<
-      ExtraHooks,
-      InitialHooks
-    >['init'] = async options => {
+    const init: AsyncManager<ExtraHooks, BaseHooks>['init'] = async options => {
       const container = options?.container || currentContainer;
 
       const sortedPlugins = sortAsyncPlugins(plugins);
@@ -154,17 +151,10 @@ export const createAsyncManager = <
         ),
       );
 
-      return generateRunner<ExtraHooks, InitialHooks>(
-        hooksList,
-        container,
-        hooks,
-      );
+      return generateRunner<ExtraHooks, BaseHooks>(hooksList, container, hooks);
     };
 
-    const run: AsyncManager<ExtraHooks, InitialHooks>['run'] = (
-      cb,
-      options,
-    ) => {
+    const run: AsyncManager<ExtraHooks, BaseHooks>['run'] = (cb, options) => {
       const container = options?.container || currentContainer;
 
       return runWithContainer(cb, container);

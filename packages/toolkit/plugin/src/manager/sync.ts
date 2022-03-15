@@ -36,12 +36,12 @@ import {
 } from '../workflow';
 import { RunnerContext, useRunner } from './runner';
 
-export type SetupFn<O> = () => O | void;
+export type Setup<O> = () => O | void;
 
 const SYNC_PLUGIN_SYMBOL = 'SYNC_PLUGIN_SYMBOL';
 
 export type Plugin<O> = {
-  setup: SetupFn<O>;
+  setup: Setup<O>;
   SYNC_PLUGIN_SYMBOL: typeof SYNC_PLUGIN_SYMBOL;
 } & Required<PluginOptions>;
 
@@ -121,9 +121,9 @@ export type HooksToRunners<PS extends HooksMap | void> = {
 
 export type PluginFromManager<M extends Manager<any, any>> = M extends Manager<
   infer ExtraHooks,
-  infer InitialHooks
+  infer BaseHooks
 >
-  ? Plugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>
+  ? Plugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>
   : never;
 
 export type InitOptions = {
@@ -132,22 +132,22 @@ export type InitOptions = {
 
 export type Manager<
   ExtraHooks extends Record<string, any>,
-  InitialHooks extends HooksMap | void = void,
+  BaseHooks extends HooksMap | void = void,
 > = {
   createPlugin: (
-    setup: SetupFn<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>,
+    setup: Setup<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>,
     options?: PluginOptions,
-  ) => Plugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>;
+  ) => Plugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>;
 
   isPlugin: (
     input: Record<string, unknown>,
-  ) => input is Plugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>;
+  ) => input is Plugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>;
 
   usePlugin: (
-    ...input: Plugins<Partial<HooksToThreads<InitialHooks & ExtraHooks>>>
-  ) => Manager<ExtraHooks, InitialHooks>;
+    ...input: Plugins<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>
+  ) => Manager<ExtraHooks, BaseHooks>;
 
-  init: (options?: InitOptions) => HooksToRunners<InitialHooks & ExtraHooks>;
+  init: (options?: InitOptions) => HooksToRunners<BaseHooks & ExtraHooks>;
 
   run: <O>(cb: () => O, options?: InitOptions) => O;
 
@@ -155,9 +155,9 @@ export type Manager<
 
   clear: () => void;
 
-  clone: () => Manager<ExtraHooks, InitialHooks>;
+  clone: () => Manager<ExtraHooks, BaseHooks>;
 
-  useRunner: () => HooksToRunners<InitialHooks & ExtraHooks>;
+  useRunner: () => HooksToRunners<BaseHooks & ExtraHooks>;
 };
 
 export const DEFAULT_OPTIONS: Required<PluginOptions> = {
@@ -172,12 +172,12 @@ export const createManager = <
   // eslint-disable-next-line @typescript-eslint/ban-types
   ExtraHooks extends Record<string, any> = {},
   // eslint-disable-next-line @typescript-eslint/ban-types
-  InitialHooks extends HooksMap = {},
+  BaseHooks extends HooksMap = {},
 >(
-  hooks: InitialHooks,
-): Manager<ExtraHooks, InitialHooks> => {
+  hooks: BaseHooks,
+): Manager<ExtraHooks, BaseHooks> => {
   let index = 0;
-  const createPlugin: Manager<ExtraHooks, InitialHooks>['createPlugin'] = (
+  const createPlugin: Manager<ExtraHooks, BaseHooks>['createPlugin'] = (
     setup,
     options = {},
   ) => ({
@@ -188,15 +188,15 @@ export const createManager = <
     setup,
   });
 
-  const isPlugin: Manager<ExtraHooks, InitialHooks>['isPlugin'] = (
+  const isPlugin: Manager<ExtraHooks, BaseHooks>['isPlugin'] = (
     input,
-  ): input is Plugin<Partial<HooksToThreads<InitialHooks & ExtraHooks>>> =>
+  ): input is Plugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>> =>
     hasOwnProperty(input, SYNC_PLUGIN_SYMBOL) &&
     input[SYNC_PLUGIN_SYMBOL] === SYNC_PLUGIN_SYMBOL;
 
   const registerHook: Manager<
     ExtraHooks,
-    InitialHooks
+    BaseHooks
   >['registerHook'] = extraHooks => {
     // eslint-disable-next-line no-param-reassign
     hooks = {
@@ -206,11 +206,10 @@ export const createManager = <
   };
 
   const clone = () => {
-    let plugins: IndexPlugins<
-      Partial<HooksToThreads<InitialHooks & ExtraHooks>>
-    > = [];
+    let plugins: IndexPlugins<Partial<HooksToThreads<BaseHooks & ExtraHooks>>> =
+      [];
 
-    const usePlugin: Manager<ExtraHooks, InitialHooks>['usePlugin'] = (
+    const usePlugin: Manager<ExtraHooks, BaseHooks>['usePlugin'] = (
       ...input
     ) => {
       for (const plugin of input) {
@@ -247,7 +246,7 @@ export const createManager = <
 
     const currentContainer = createContainer();
 
-    const init: Manager<ExtraHooks, InitialHooks>['init'] = options => {
+    const init: Manager<ExtraHooks, BaseHooks>['init'] = options => {
       const container = options?.container || currentContainer;
 
       const sortedPlugins = sortPlugins(plugins);
@@ -258,14 +257,10 @@ export const createManager = <
         runWithContainer(() => plugin.setup(), container),
       );
 
-      return generateRunner<ExtraHooks, InitialHooks>(
-        hooksList,
-        container,
-        hooks,
-      );
+      return generateRunner<ExtraHooks, BaseHooks>(hooksList, container, hooks);
     };
 
-    const run: Manager<ExtraHooks, InitialHooks>['run'] = (cb, options) => {
+    const run: Manager<ExtraHooks, BaseHooks>['run'] = (cb, options) => {
       const container = options?.container || currentContainer;
 
       return runWithContainer(cb, container);
@@ -290,12 +285,12 @@ export const createManager = <
 export const generateRunner = <
   // eslint-disable-next-line @typescript-eslint/ban-types
   ExtraHooks extends Record<string, any> = {},
-  InitialHooks extends HooksMap | void = void,
+  BaseHooks extends HooksMap | void = void,
 >(
-  hooksList: (void | Partial<HooksToThreads<InitialHooks & ExtraHooks>>)[],
+  hooksList: (void | Partial<HooksToThreads<BaseHooks & ExtraHooks>>)[],
   container: Container,
-  hooksMap?: InitialHooks,
-): HooksToRunners<InitialHooks & ExtraHooks> => {
+  hooksMap?: BaseHooks,
+): HooksToRunners<BaseHooks & ExtraHooks> => {
   const runner = {};
   const cloneShape = closeHooksMap(hooksMap);
 
@@ -354,14 +349,14 @@ export const cloneHook = (hook: Hook): Hook => {
   throw new Error(`Unknown hook: ${hook}`);
 };
 
-export const closeHooksMap = <InitialHooks extends HooksMap | void>(
-  record: InitialHooks,
-): InitialHooks => {
+export const closeHooksMap = <BaseHooks extends HooksMap | void>(
+  record: BaseHooks,
+): BaseHooks => {
   if (!record) {
     return record;
   }
 
-  const result: InitialHooks = {} as any;
+  const result: BaseHooks = {} as any;
 
   for (const key in record) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
