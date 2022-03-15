@@ -91,7 +91,7 @@ export const createAsyncManager = <
 
   const pluginAPI = {
     ...api,
-    registerHook,
+    useHookRunners: useRunner,
   } as API & CommonAPI<Hooks>;
 
   const clone = () => {

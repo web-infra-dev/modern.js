@@ -22,6 +22,7 @@ import {
 import { RunnerContext, useRunner } from './runner';
 import type {
   Hook,
+  CommonAPI,
   ToRunners,
   ToThreads,
   InitOptions,
@@ -115,10 +116,8 @@ export const createManager = <
 
   const pluginAPI = {
     ...api,
-    registerHook,
-  } as API & {
-    registerHook: typeof registerHook;
-  };
+    useHookRunners: useRunner,
+  } as API & CommonAPI<Hooks>;
 
   const clone = () => {
     let plugins: Plugins<Hooks, API> = [];

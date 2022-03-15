@@ -92,5 +92,5 @@ export type InitOptions = {
 };
 
 export type CommonAPI<Hooks> = {
-  registerHook: (newHooks: Partial<Hooks>) => void;
+  useHookRunners: () => ToRunners<Hooks>;
 };
