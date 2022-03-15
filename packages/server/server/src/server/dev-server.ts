@@ -6,23 +6,19 @@ import http, {
 } from 'http';
 import path from 'path';
 import { createServer as createHttpsServer } from 'https';
-import {
-  API_DIR,
-  HMR_SOCK_PATH,
-  SERVER_DIR,
-  SHARED_DIR,
-} from '@modern-js/utils';
+import { API_DIR, SERVER_DIR, SHARED_DIR } from '@modern-js/utils';
 import type { MultiCompiler, Compiler } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import {
   createProxyHandler,
   NextFunction,
   ServerHookRunner,
-  ReadyOptions,
   ModernServer,
   AGGRED_DIR,
+  BuildOptions,
 } from '@modern-js/prod-server';
 import { ModernServerContext, ProxyOptions } from '@modern-js/types';
+import { DEFAULT_DEV_OPTIONS } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import SocketServer from '../dev-tools/socket-server';
 import DevServerPlugin from '../dev-tools/dev-server-plugin';
@@ -31,24 +27,7 @@ import { enableRegister } from '../dev-tools/babel/register';
 import Watcher from '../dev-tools/watcher';
 import { DevServerOptions, ModernDevServerOptions } from '../types';
 
-const DEFAULT_DEV_OPTIONS: DevServerOptions = {
-  client: {
-    port: '8080',
-    overlay: false,
-    logging: 'none',
-    path: HMR_SOCK_PATH,
-    host: 'localhost',
-  },
-  https: false,
-  dev: { writeToDisk: true },
-  watch: true,
-  hot: true,
-  liveReload: true,
-};
-
 export class ModernDevServer extends ModernServer {
-  private devProxyHandler: ReturnType<typeof createProxyHandler> = null;
-
   private mockHandler: ReturnType<typeof createMockHandler> = null;
 
   private readonly dev: DevServerOptions;
@@ -67,29 +46,27 @@ export class ModernDevServer extends ModernServer {
   constructor(options: ModernDevServerOptions) {
     super(options);
 
+    // dev server should work in pwd
     this.workDir = this.pwd;
 
     // set webpack compiler
     this.compiler = options.compiler!;
 
     // set dev server options, like webpack-dev-server
-    this.dev =
-      typeof options.dev === 'boolean'
-        ? DEFAULT_DEV_OPTIONS
-        : { ...DEFAULT_DEV_OPTIONS, ...options.dev };
+    this.dev = {
+      ...DEFAULT_DEV_OPTIONS,
+      ...(typeof options.dev === 'boolean' ? {} : options.dev),
+    };
 
     enableRegister(this.pwd, this.conf);
   }
 
   // Complete the preparation of services
-  public async init(runner: ServerHookRunner) {
-    const { conf, pwd, compiler } = this;
+  public async onInit(runner: ServerHookRunner) {
+    const { conf, pwd, compiler, dev } = this;
     // mock handler
     this.mockHandler = createMockHandler({ pwd });
     this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
-      ctx.res.setHeader('Access-Control-Allow-Origin', '*');
-      ctx.res.setHeader('Access-Control-Allow-Credentials', 'false');
-
       if (this.mockHandler) {
         this.mockHandler(ctx, next);
       } else {
@@ -98,11 +75,11 @@ export class ModernDevServer extends ModernServer {
     });
 
     // dev proxy handler, each proxy has own handler
-    this.devProxyHandler = createProxyHandler(
+    const proxyHandlers = createProxyHandler(
       conf.tools?.devServer?.proxy as ProxyOptions,
     );
-    if (this.devProxyHandler) {
-      this.devProxyHandler.forEach(handler => {
+    if (proxyHandlers) {
+      proxyHandlers.forEach(handler => {
         this.addHandler(handler);
       });
     }
@@ -110,7 +87,7 @@ export class ModernDevServer extends ModernServer {
     // do webpack build / plugin apply / socket server when pass compiler instance
     if (compiler) {
       // init socket server
-      this.socketServer = new SocketServer(this.dev);
+      this.socketServer = new SocketServer(dev);
 
       // open file in edtor.
       this.addHandler(createLaunchEditorHandler());
@@ -120,33 +97,16 @@ export class ModernDevServer extends ModernServer {
       this.addHandler(devMiddlewareHandler);
     }
 
-    await super.init(runner);
+    await super.onInit(runner);
 
     // watch mock/ server/ api/ dir file change
-    if (this.dev.watch) {
+    if (dev.watch) {
       this.startWatcher();
     }
   }
 
-  public ready(options: ReadyOptions = {}) {
-    // reset the routing management instance every times the service starts
-    this.router.reset(
-      this.filterRoutes(options.routes || this.presetRoutes || []),
-    );
-    this.cleanSSRCache();
-
-    // reset static file
-    this.reader.updateFile();
-
-    this.runner.reset();
-  }
-
-  public onListening(app: Server) {
-    this.socketServer?.prepare(app);
-  }
-
-  public async close() {
-    super.close();
+  public async onClose() {
+    await super.onClose();
     await this.watcher.close();
     await new Promise<void>(resolve => {
       if (this.devMiddleware) {
@@ -158,6 +118,28 @@ export class ModernDevServer extends ModernServer {
       }
     });
     this.socketServer?.close();
+  }
+
+  public onRepack(options: BuildOptions = {}) {
+    // reset the routing management instance every times the service starts
+    if (Array.isArray(options.routes)) {
+      this.router.reset(this.filterRoutes(options.routes));
+    }
+
+    // clean ssr bundle cache
+    this.cleanSSRCache();
+
+    // reset static file
+    this.reader.updateFile();
+
+    // emit reset hook
+    this.runner.reset();
+
+    super.onRepack(options);
+  }
+
+  public onListening(app: Server) {
+    this.socketServer?.prepare(app);
   }
 
   public async createHTTPServer(
@@ -179,7 +161,25 @@ export class ModernDevServer extends ModernServer {
   }
 
   protected warmupSSRBundle() {
-    // empty
+    // not warmup ssr bundle on development
+  }
+
+  protected onServerChange({ filepath }: { filepath: string }) {
+    const { pwd } = this;
+    const { mock } = AGGRED_DIR;
+    const mockPath = path.normalize(path.join(pwd, mock));
+
+    this.runner.reset();
+
+    if (filepath.startsWith(mockPath)) {
+      this.mockHandler = createMockHandler({ pwd });
+    } else {
+      try {
+        super.onServerChange({ filepath });
+      } catch (e) {
+        this.logger.error(e as Error);
+      }
+    }
   }
 
   // set up plugin to each compiler
@@ -223,7 +223,7 @@ export class ModernDevServer extends ModernServer {
 
         // Reset only when client compile done
         if (stats.toJson({ all: false }).name === 'client') {
-          this.ready({ routes: this.readRouteSpec() });
+          this.onRepack({ routes: this.getRoutes() });
         }
       });
     };
@@ -273,7 +273,6 @@ export class ModernDevServer extends ModernServer {
     const defaultWatchedPaths = defaultWatched.map(p =>
       path.normalize(path.join(pwd, p)),
     );
-    const mockPath = path.normalize(path.join(pwd, mock));
 
     const watcher = new Watcher();
     watcher.createDepTree();
@@ -290,17 +289,9 @@ export class ModernDevServer extends ModernServer {
         watcher.updateDepTree();
         watcher.cleanDepCache(filepath);
 
-        this.runner.reset();
-
-        if (filepath.startsWith(mockPath)) {
-          this.mockHandler = createMockHandler({ pwd });
-        } else {
-          try {
-            this.prepareFrameHandler();
-          } catch (e) {
-            this.logger.error(e as Error);
-          }
-        }
+        this.onServerChange({
+          filepath,
+        });
       },
     );
 

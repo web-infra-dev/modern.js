@@ -1,4 +1,5 @@
 import path from 'path';
+import { fs } from '@modern-js/utils';
 import chokidar, { FSWatcher, WatchOptions } from 'chokidar';
 import { DependencyTree } from './dependency-tree';
 import { StatsCache } from './stats-cache';
@@ -35,7 +36,7 @@ export default class Watcher {
     });
 
     watcher.on('change', changed => {
-      if (cache.isDiff(changed)) {
+      if (!fs.existsSync(changed) || cache.isDiff(changed)) {
         cache.refresh(changed);
         callback(changed);
       }
