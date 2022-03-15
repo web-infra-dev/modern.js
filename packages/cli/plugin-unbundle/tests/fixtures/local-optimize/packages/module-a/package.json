@@ -1,0 +1,10 @@
+{
+  "name": "local-optimize-module-a",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {}
+}
