@@ -1,4 +1,5 @@
 import { Buffer } from 'buffer';
+import { IncomingMessage, Server, ServerResponse } from 'http';
 import { serverManager } from '@modern-js/server-core';
 import type { NormalizedConfig } from '@modern-js/core';
 import type { Metrics, Logger, NextFunction } from '@modern-js/types/server';
@@ -36,6 +37,7 @@ export type ModernServerOptions = {
     ssr?: string;
     api?: string;
   };
+  runMode?: string;
   [propName: string]: any;
 };
 
@@ -56,6 +58,44 @@ export type Then<T> = T extends PromiseLike<infer U> ? U : T;
 
 export type ServerHookRunner = Then<ReturnType<typeof serverManager.init>>;
 
-export type ReadyOptions = { routes?: ModernRouteInterface[] };
+export type BuildOptions = { routes?: ModernRouteInterface[] };
 
 export type { Metrics, Logger, NextFunction };
+
+export type HookNames =
+  | 'beforeMatch'
+  | 'afterMatch'
+  | 'beforeRender'
+  | 'afterRender';
+
+export interface ModernServerInterface {
+  pwd: string;
+
+  distDir: string;
+
+  onInit: (runner: ServerHookRunner) => Promise<void>;
+
+  onClose: () => Promise<void>;
+
+  onRepack: (options: BuildOptions) => void;
+
+  onListening: (app: Server) => void;
+
+  getRequestHandler: () => (
+    req: IncomingMessage,
+    res: ServerResponse,
+    next?: () => void,
+  ) => void;
+
+  createHTTPServer: (
+    handler: (
+      req: IncomingMessage,
+      res: ServerResponse,
+      next?: () => void,
+    ) => void,
+  ) => Promise<Server>;
+}
+
+export type ServerConstructor = (
+  options: ModernServerOptions,
+) => ModernServerInterface;

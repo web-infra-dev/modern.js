@@ -1,11 +1,13 @@
 import path from 'path';
-import { render } from '../src/libs/render/ssr';
+import { createRenderHandler } from '../src/libs/render';
+import { render as renderSSR } from '../src/libs/render/ssr';
 import { handleDirectory } from '../src/libs/render/static';
 import { LruReader } from '../src/libs/render/reader';
+import { supportModern } from '../src/libs/render/modern';
 
 describe('test render function', () => {
   test('should return content correctly ', async () => {
-    const renderResult = await render(
+    const renderResult = await renderSSR(
       {
         params: {},
         pathname: '/foo',
@@ -98,5 +100,107 @@ describe('test render function', () => {
     const res2 = await reader.read(path.join(dir, 'index.ts'));
     expect(res2).not.toBeNull();
     expect(res2?.content.toString()).toMatch('modern');
+  });
+
+  test('should entry render fn work correctly', async () => {
+    const render = createRenderHandler({
+      distDir: path.join(__dirname, 'fixtures', 'ssr'),
+      staticGenerate: false,
+    });
+    const renderResult = await render({
+      ctx: {
+        params: {},
+        pathname: '/foo',
+        host: 'localhost:8080',
+        query: {},
+        url: 'localhost:8080/foo',
+        cookieMap: {},
+        headers: {},
+        resHasHandled: () => false,
+      } as any,
+      route: {
+        urlPath: '/foo',
+        bundle: 'bundle.js',
+        entryPath: 'tpl.html',
+        entryName: 'foo',
+        isSSR: true,
+        isSPA: true,
+      } as any,
+      runner: {
+        extendSSRContext: () => {
+          // empty
+        },
+      } as any,
+    });
+    expect(renderResult!.content).toMatch('Modern.js');
+    expect(renderResult!.contentType).toMatch('text/html; charset=utf-8');
+  });
+
+  test('should entry render fn fallback work correctly', async () => {
+    const render = createRenderHandler({
+      distDir: path.join(__dirname, 'fixtures', 'ssr'),
+      staticGenerate: false,
+    });
+    const renderResult = await render({
+      ctx: {
+        params: {},
+        pathname: '/foo',
+        host: 'localhost:8080',
+        query: {},
+        url: 'localhost:8080/foo',
+        cookieMap: {},
+        headers: {},
+        res: {
+          setHeader: () => false,
+        },
+        error: () => false,
+        resHasHandled: () => false,
+      } as any,
+      route: {
+        urlPath: '/foo',
+        bundle: 'bundle-error.js',
+        entryPath: 'tpl.html',
+        entryName: 'foo',
+        isSSR: true,
+        isSPA: true,
+      } as any,
+      runner: {
+        extendSSRContext: () => {
+          // empty
+        },
+      } as any,
+    });
+    expect(renderResult!.content.toString()).toMatch('csr');
+    expect(renderResult!.contentType).toMatch('text/html; charset=utf-8');
+  });
+});
+
+describe('test modern render', () => {
+  test('should return true if has target query', () => {
+    const res = supportModern({ query: { modern_es6: true } } as any);
+    expect(res).toBeTruthy();
+  });
+
+  test('should return false if no ua', () => {
+    const res = supportModern({ headers: {} } as any);
+    expect(res).toBeFalsy();
+  });
+
+  test('should return false if ua is not string', () => {
+    const res = supportModern({ headers: { 'user-agent': true } } as any);
+    expect(res).toBeFalsy();
+  });
+
+  test('should return false if ua no browser version', () => {
+    const res = supportModern({ headers: { 'user-agent': 'mock' } } as any);
+    expect(res).toBeFalsy();
+  });
+
+  test('should return false if ua no match name', () => {
+    const ua =
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36';
+
+    const res = supportModern({ headers: { 'user-agent': ua } } as any);
+    expect(res).toBeTruthy();
   });
 });

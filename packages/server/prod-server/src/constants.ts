@@ -24,3 +24,8 @@ export const ERROR_PAGE_TEXT: Record<number, string> = {
   404: 'This page could not be found.',
   500: 'Internal Server Error.',
 };
+
+export const RUN_MODE = {
+  FULL: 'full',
+  TYPE: 'type',
+};
