@@ -78,12 +78,13 @@ export type ToRunners<PS> = {
     : never;
 };
 
-export type PluginOptions = {
+export type PluginOptions<Setup = undefined> = {
   name?: string;
   pre?: string[];
   post?: string[];
   rivals?: string[];
   required?: string[];
+  setup?: Setup;
 };
 
 export type InitOptions = {

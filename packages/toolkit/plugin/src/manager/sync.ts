@@ -37,7 +37,7 @@ const SYNC_PLUGIN_SYMBOL = 'SYNC_PLUGIN_SYMBOL';
 export type Plugin<Hooks, API> = {
   setup: Setup<Hooks, API>;
   SYNC_PLUGIN_SYMBOL: typeof SYNC_PLUGIN_SYMBOL;
-} & Required<PluginOptions>;
+} & Required<PluginOptions<Setup<Hooks, API>>>;
 
 export type Plugins<Hooks, API> = Plugin<Hooks, API>[];
 
@@ -51,7 +51,7 @@ export type PluginFromManager<M extends Manager<any, any>> = M extends Manager<
 export type Manager<Hooks, API> = {
   createPlugin: (
     setup: Setup<Hooks, API>,
-    options?: PluginOptions,
+    options?: PluginOptions<Setup<Hooks, API>>,
   ) => Plugin<Hooks, API>;
 
   isPlugin: (input: Record<string, unknown>) => input is Plugin<Hooks, API>;
@@ -71,7 +71,7 @@ export type Manager<Hooks, API> = {
   useRunner: () => ToRunners<Hooks>;
 };
 
-export const DEFAULT_OPTIONS: Required<PluginOptions> = {
+export const DEFAULT_OPTIONS = {
   name: 'untitled',
   pre: [],
   post: [],
