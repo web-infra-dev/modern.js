@@ -23,7 +23,7 @@ const resolve = enhancedResolve.create.sync({
   mainFields: ['browser', 'module', 'main'],
 });
 // init global local modules cache
-const modulesCache = new ModulesCache(GLOBAL_CACHE_DIR_NAME);
+export const modulesCache = new ModulesCache(GLOBAL_CACHE_DIR_NAME);
 
 // local web_modules dir， bundled by esbuild
 let webModulesDir: string;
