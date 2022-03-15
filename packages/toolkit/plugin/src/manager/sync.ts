@@ -1,40 +1,32 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable max-lines */
 import {
-  Middleware,
-  Pipeline,
+  Container,
   isPipeline,
   createPipeline,
-  AsyncPipeline,
-  MaybeAsync,
   runWithContainer,
   createContainer,
-  Container,
 } from 'farrow-pipeline';
 import {
-  Waterfall,
-  Brook,
   isWaterfall,
   createWaterfall,
-  AsyncWaterfall,
-  AsyncBrook,
   isAsyncWaterfall,
   createAsyncWaterfall,
 } from '../waterfall';
 import {
-  Worker,
-  Workflow,
   isWorkflow,
   createWorkflow,
-  AsyncWorker,
-  AsyncWorkflow,
   isAsyncWorkflow,
   createAsyncWorkflow,
-  ParallelWorkflow,
   isParallelWorkflow,
   createParallelWorkflow,
 } from '../workflow';
 import { RunnerContext, useRunner } from './runner';
+import type {
+  Hook,
+  HooksMap,
+  PluginOptions,
+  HooksToRunners,
+  HooksToThreads,
+} from './types';
 
 export type Setup<O> = () => O | void;
 
@@ -51,73 +43,6 @@ export type IndexPlugin<O> = Plugin<O> & {
 
 export type Plugins<O> = Plugin<O>[];
 export type IndexPlugins<O> = IndexPlugin<O>[];
-
-export type PluginOptions = {
-  name?: string;
-  pre?: string[];
-  post?: string[];
-  rivals?: string[];
-  required?: string[];
-};
-
-export type Hook =
-  | Waterfall<any>
-  | AsyncWaterfall<any>
-  | Workflow<any, any>
-  | AsyncWorkflow<any, any>
-  | ParallelWorkflow<any>
-  | Pipeline<any, any>
-  | AsyncPipeline<any, any>;
-
-export type HookToThread<P extends Hook> = P extends Workflow<infer I, infer O>
-  ? Worker<I, O>
-  : P extends AsyncWorkflow<infer I, infer O>
-  ? AsyncWorker<I, O>
-  : P extends ParallelWorkflow<infer I, infer O>
-  ? AsyncWorker<I, O>
-  : P extends Waterfall<infer I>
-  ? Brook<I>
-  : P extends AsyncWaterfall<infer I>
-  ? AsyncBrook<I>
-  : P extends Pipeline<infer I, infer O>
-  ? Middleware<I, O>
-  : P extends AsyncPipeline<infer I, infer O>
-  ? Middleware<I, MaybeAsync<O>>
-  : never;
-
-export type HooksMap = Record<string, Hook>;
-
-export type HooksToThreads<PS extends HooksMap | void> = {
-  [K in keyof PS]: PS[K] extends Hook
-    ? HookToThread<PS[K]>
-    : PS[K] extends void
-    ? void
-    : never;
-};
-
-export type RunnerFromProgress<P extends Hook> = P extends Waterfall<infer I>
-  ? Waterfall<I>['run']
-  : P extends AsyncWaterfall<infer I>
-  ? AsyncWaterfall<I>['run']
-  : P extends Workflow<infer I, infer O>
-  ? Workflow<I, O>['run']
-  : P extends AsyncWorkflow<infer I, infer O>
-  ? AsyncWorkflow<I, O>['run']
-  : P extends ParallelWorkflow<infer I, infer O>
-  ? ParallelWorkflow<I, O>['run']
-  : P extends Pipeline<infer I, infer O>
-  ? Pipeline<I, O>['run']
-  : P extends AsyncPipeline<infer I, infer O>
-  ? AsyncPipeline<I, O>['run']
-  : never;
-
-export type HooksToRunners<PS extends HooksMap | void> = {
-  [K in keyof PS]: PS[K] extends Hook
-    ? RunnerFromProgress<PS[K]>
-    : PS[K] extends void
-    ? void
-    : never;
-};
 
 export type PluginFromManager<M extends Manager<any, any>> = M extends Manager<
   infer ExtraHooks,

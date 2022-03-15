@@ -1,15 +1,17 @@
 import { runWithContainer, createContainer } from 'farrow-pipeline';
 import {
-  HooksMap,
-  HooksToThreads,
-  HooksToRunners,
-  PluginOptions,
   InitOptions,
   generateRunner,
   hasOwnProperty,
   DEFAULT_OPTIONS,
 } from './sync';
 import { useRunner } from './runner';
+import type {
+  HooksMap,
+  PluginOptions,
+  HooksToRunners,
+  HooksToThreads,
+} from './types';
 
 export type AsyncSetup<O> = () => void | O | Promise<O | void>;
 
