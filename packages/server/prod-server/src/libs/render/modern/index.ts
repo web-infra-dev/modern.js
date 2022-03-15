@@ -6,7 +6,7 @@ import { NativeModuleNameMap } from './browser-list';
 const nativeModules = require('@babel/compat-data/native-modules');
 
 export const supportModern = (context: ModernServerContext) => {
-  if (context.query.modern_es6) {
+  if (context.query?.modern_es6) {
     return true;
   }
 
