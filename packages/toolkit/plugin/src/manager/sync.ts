@@ -23,58 +23,53 @@ import { RunnerContext, useRunner } from './runner';
 import type {
   Hook,
   HooksMap,
-  InitOptions,
-  PluginOptions,
   ToRunners,
   ToThreads,
+  InitOptions,
+  PluginOptions,
 } from './types';
 
-export type Setup<O> = () => O | void;
+export type Setup<Hooks extends HooksMap, API = never> = (
+  api: API,
+) => Partial<ToThreads<Hooks>> | void;
 
 const SYNC_PLUGIN_SYMBOL = 'SYNC_PLUGIN_SYMBOL';
 
-export type Plugin<O> = {
-  setup: Setup<O>;
+export type Plugin<Hooks extends HooksMap, API> = {
+  setup: Setup<Hooks, API>;
   SYNC_PLUGIN_SYMBOL: typeof SYNC_PLUGIN_SYMBOL;
 } & Required<PluginOptions>;
 
-export type Plugins<O> = Plugin<O>[];
+export type Plugins<Hooks extends HooksMap, API> = Plugin<Hooks, API>[];
 
 export type PluginFromManager<M extends Manager<any, any>> = M extends Manager<
-  infer ExtraHooks,
-  infer BaseHooks
+  infer Hooks,
+  infer API
 >
-  ? Plugin<Partial<ToThreads<BaseHooks & ExtraHooks>>>
+  ? Plugin<Hooks, API>
   : never;
 
-export type Manager<
-  ExtraHooks extends Record<string, any>,
-  BaseHooks extends HooksMap | void = void,
-> = {
+export type Manager<Hooks extends HooksMap, API> = {
   createPlugin: (
-    setup: Setup<Partial<ToThreads<BaseHooks & ExtraHooks>>>,
+    setup: Setup<Hooks, API>,
     options?: PluginOptions,
-  ) => Plugin<Partial<ToThreads<BaseHooks & ExtraHooks>>>;
+  ) => Plugin<Hooks, API>;
 
-  isPlugin: (
-    input: Record<string, unknown>,
-  ) => input is Plugin<Partial<ToThreads<BaseHooks & ExtraHooks>>>;
+  isPlugin: (input: Record<string, unknown>) => input is Plugin<Hooks, API>;
 
-  usePlugin: (
-    ...input: Plugins<Partial<ToThreads<BaseHooks & ExtraHooks>>>
-  ) => Manager<ExtraHooks, BaseHooks>;
+  usePlugin: (...input: Plugins<Hooks, API>) => Manager<Hooks, API>;
 
-  init: (options?: InitOptions) => ToRunners<BaseHooks & ExtraHooks>;
+  init: (options: InitOptions) => ToRunners<Hooks>;
 
   run: <O>(cb: () => O, options?: InitOptions) => O;
 
-  registerHook: (hewHooks: Partial<ExtraHooks>) => void;
+  registerHook: (hewHooks: Partial<Hooks>) => void;
 
   clear: () => void;
 
-  clone: () => Manager<ExtraHooks, BaseHooks>;
+  clone: () => Manager<Hooks, API>;
 
-  useRunner: () => ToRunners<BaseHooks & ExtraHooks>;
+  useRunner: () => ToRunners<Hooks>;
 };
 
 export const DEFAULT_OPTIONS: Required<PluginOptions> = {
@@ -86,15 +81,16 @@ export const DEFAULT_OPTIONS: Required<PluginOptions> = {
 };
 
 export const createManager = <
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  ExtraHooks extends Record<string, any> = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  BaseHooks extends HooksMap = {},
+  Hooks extends HooksMap,
+  API extends Record<string, any> = Record<string, never>,
 >(
-  hooks: BaseHooks,
-): Manager<ExtraHooks, BaseHooks> => {
+  hooks?: Hooks,
+  api?: API,
+): Manager<Hooks, API> => {
   let index = 0;
-  const createPlugin: Manager<ExtraHooks, BaseHooks>['createPlugin'] = (
+  let currentHooks = { ...hooks } as Hooks;
+
+  const createPlugin: Manager<Hooks, API>['createPlugin'] = (
     setup,
     options = {},
   ) => ({
@@ -105,29 +101,30 @@ export const createManager = <
     setup,
   });
 
-  const isPlugin: Manager<ExtraHooks, BaseHooks>['isPlugin'] = (
+  const isPlugin: Manager<Hooks, API>['isPlugin'] = (
     input,
-  ): input is Plugin<Partial<ToThreads<BaseHooks & ExtraHooks>>> =>
+  ): input is Plugin<Hooks, API> =>
     hasOwnProperty(input, SYNC_PLUGIN_SYMBOL) &&
     input[SYNC_PLUGIN_SYMBOL] === SYNC_PLUGIN_SYMBOL;
 
-  const registerHook: Manager<
-    ExtraHooks,
-    BaseHooks
-  >['registerHook'] = extraHooks => {
-    // eslint-disable-next-line no-param-reassign
-    hooks = {
+  const registerHook: Manager<Hooks, API>['registerHook'] = extraHooks => {
+    currentHooks = {
       ...extraHooks,
-      ...hooks,
+      ...currentHooks,
     };
   };
 
-  const clone = () => {
-    let plugins: Plugins<Partial<ToThreads<BaseHooks & ExtraHooks>>> = [];
+  const pluginAPI = {
+    ...api,
+    registerHook,
+  } as API & {
+    registerHook: typeof registerHook;
+  };
 
-    const usePlugin: Manager<ExtraHooks, BaseHooks>['usePlugin'] = (
-      ...input
-    ) => {
+  const clone = () => {
+    let plugins: Plugins<Hooks, API> = [];
+
+    const usePlugin: Manager<Hooks, API>['usePlugin'] = (...input) => {
       for (const plugin of input) {
         if (isPlugin(plugin)) {
           if (!includePlugin(plugins, plugin)) {
@@ -159,21 +156,20 @@ export const createManager = <
 
     const currentContainer = createContainer();
 
-    const init: Manager<ExtraHooks, BaseHooks>['init'] = options => {
+    const init: Manager<Hooks, API>['init'] = options => {
       const container = options?.container || currentContainer;
-
       const sortedPlugins = sortPlugins(plugins);
 
       checkPlugins(sortedPlugins);
 
       const hooksList = sortedPlugins.map(plugin =>
-        runWithContainer(() => plugin.setup(), container),
+        runWithContainer(() => plugin.setup(pluginAPI), container),
       );
 
-      return generateRunner<ExtraHooks, BaseHooks>(hooksList, container, hooks);
+      return generateRunner<Hooks>(hooksList, container, currentHooks);
     };
 
-    const run: Manager<ExtraHooks, BaseHooks>['run'] = (cb, options) => {
+    const run: Manager<Hooks, API>['run'] = (cb, options) => {
       const container = options?.container || currentContainer;
 
       return runWithContainer(cb, container);
@@ -195,15 +191,11 @@ export const createManager = <
   return clone();
 };
 
-export const generateRunner = <
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  ExtraHooks extends Record<string, any> = {},
-  BaseHooks extends HooksMap | void = void,
->(
-  hooksList: (void | Partial<ToThreads<BaseHooks & ExtraHooks>>)[],
+export const generateRunner = <Hooks extends HooksMap>(
+  hooksList: (void | Partial<ToThreads<Hooks>>)[],
   container: Container,
-  hooksMap?: BaseHooks,
-): ToRunners<BaseHooks & ExtraHooks> => {
+  hooksMap?: Hooks,
+): ToRunners<Hooks> => {
   const runner = {};
   const cloneShape = closeHooksMap(hooksMap);
 
@@ -280,7 +272,10 @@ export const closeHooksMap = <BaseHooks extends HooksMap | void>(
   return result;
 };
 
-const includePlugin = <O>(plugins: Plugins<O>, input: Plugin<O>): boolean => {
+const includePlugin = <Hooks extends HooksMap, API>(
+  plugins: Plugins<Hooks, API>,
+  input: Plugin<Hooks, API>,
+): boolean => {
   for (const plugin of plugins) {
     if (plugin.name === input.name) {
       return true;
@@ -290,7 +285,9 @@ const includePlugin = <O>(plugins: Plugins<O>, input: Plugin<O>): boolean => {
   return false;
 };
 
-const sortPlugins = <O>(input: Plugins<O>): Plugins<O> => {
+const sortPlugins = <Hooks extends HooksMap, API>(
+  input: Plugins<Hooks, API>,
+): Plugins<Hooks, API> => {
   let plugins = input.slice();
 
   for (let i = 0; i < plugins.length; i++) {
@@ -326,7 +323,9 @@ const sortPlugins = <O>(input: Plugins<O>): Plugins<O> => {
   return plugins;
 };
 
-const checkPlugins = <O>(plugins: Plugins<O>) => {
+const checkPlugins = <Hooks extends HooksMap, API>(
+  plugins: Plugins<Hooks, API>,
+) => {
   for (const origin of plugins) {
     for (const rival of origin.rivals) {
       for (const plugin of plugins) {

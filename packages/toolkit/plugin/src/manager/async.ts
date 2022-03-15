@@ -5,72 +5,71 @@ import type {
   HooksMap,
   ToRunners,
   ToThreads,
+  CommonAPI,
   InitOptions,
   PluginOptions,
 } from './types';
 
-export type AsyncSetup<O> = () => void | O | Promise<O | void>;
+export type AsyncSetup<Hooks extends HooksMap, API = never> = (
+  api: API & CommonAPI<Hooks>,
+) =>
+  | Partial<ToThreads<Hooks>>
+  | Promise<Partial<ToThreads<Hooks>> | void>
+  | void;
 
 const ASYNC_PLUGIN_SYMBOL = 'ASYNC_PLUGIN_SYMBOL';
 
-export type AsyncPlugin<O> = {
-  setup: AsyncSetup<O>;
+export type AsyncPlugin<Hooks extends HooksMap, API> = {
+  setup: AsyncSetup<Hooks, API>;
   ASYNC_PLUGIN_SYMBOL: typeof ASYNC_PLUGIN_SYMBOL;
 } & Required<PluginOptions>;
 
-export type AsyncPlugins<O> = AsyncPlugin<O>[];
-
-export type AsyncPluginFromAsyncManager<M extends AsyncManager<any, any>> =
-  M extends AsyncManager<infer ExtraHooks, infer BaseHooks>
-    ? AsyncPlugin<Partial<ToThreads<BaseHooks & ExtraHooks>>>
-    : never;
+export type AsyncPlugins<Hooks extends HooksMap, API> = AsyncPlugin<
+  Hooks,
+  API
+>[];
 
 export type PluginFromAsyncManager<M extends AsyncManager<any, any>> =
-  M extends AsyncManager<infer ExtraHooks, infer BaseHooks>
-    ? AsyncPlugin<Partial<ToThreads<BaseHooks & ExtraHooks>>>
+  M extends AsyncManager<infer Hooks, infer API>
+    ? AsyncPlugin<Hooks, API>
     : never;
 
-export type AsyncManager<
-  ExtraHooks extends HooksMap,
-  BaseHooks extends HooksMap | void = void,
-> = {
+export type AsyncManager<Hooks extends HooksMap, API> = {
   createPlugin: (
-    setup: AsyncSetup<Partial<ToThreads<BaseHooks & ExtraHooks>>>,
+    setup: AsyncSetup<Hooks, API>,
     options?: PluginOptions,
-  ) => AsyncPlugin<Partial<ToThreads<BaseHooks & ExtraHooks>>>;
+  ) => AsyncPlugin<Hooks, API>;
 
   isPlugin: (
     input: Record<string, unknown>,
-  ) => input is AsyncPlugin<Partial<ToThreads<BaseHooks & ExtraHooks>>>;
+  ) => input is AsyncPlugin<Hooks, API>;
 
-  usePlugin: (
-    ...input: AsyncPlugins<Partial<ToThreads<BaseHooks & ExtraHooks>>>
-  ) => AsyncManager<ExtraHooks, BaseHooks>;
+  usePlugin: (...input: AsyncPlugins<Hooks, API>) => AsyncManager<Hooks, API>;
 
-  init: (options?: InitOptions) => Promise<ToRunners<BaseHooks & ExtraHooks>>;
+  init: (options?: InitOptions) => Promise<ToRunners<Hooks>>;
 
   run: <O>(cb: () => O, options?: InitOptions) => O;
 
-  registerHook: (newHooks: Partial<ExtraHooks>) => void;
+  registerHook: (newHooks: Partial<Hooks>) => void;
 
-  clone: () => AsyncManager<ExtraHooks, BaseHooks>;
+  clone: () => AsyncManager<Hooks, API>;
 
   clear: () => void;
 
-  useRunner: () => ToRunners<BaseHooks & ExtraHooks>;
+  useRunner: () => ToRunners<Hooks>;
 };
 
 export const createAsyncManager = <
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  ExtraHooks extends Record<string, any> = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  BaseHooks extends HooksMap = {},
+  Hooks extends Record<string, any>,
+  API extends Record<string, any> = Record<string, never>,
 >(
-  hooks: BaseHooks,
-): AsyncManager<ExtraHooks, BaseHooks> => {
+  hooks?: Partial<Hooks>,
+  api?: API,
+): AsyncManager<Hooks, API> => {
   let index = 0;
+  let currentHooks = { ...hooks } as Hooks;
 
-  const createPlugin: AsyncManager<ExtraHooks, BaseHooks>['createPlugin'] = (
+  const createPlugin: AsyncManager<Hooks, API>['createPlugin'] = (
     setup,
     options = {},
   ) => ({
@@ -81,29 +80,28 @@ export const createAsyncManager = <
     setup,
   });
 
-  const isPlugin: AsyncManager<ExtraHooks, BaseHooks>['isPlugin'] = (
+  const isPlugin: AsyncManager<Hooks, API>['isPlugin'] = (
     input,
-  ): input is AsyncPlugin<Partial<ToThreads<BaseHooks & ExtraHooks>>> =>
+  ): input is AsyncPlugin<Hooks, API> =>
     hasOwnProperty(input, ASYNC_PLUGIN_SYMBOL) &&
     input[ASYNC_PLUGIN_SYMBOL] === ASYNC_PLUGIN_SYMBOL;
 
-  const registerHook: AsyncManager<
-    ExtraHooks,
-    BaseHooks
-  >['registerHook'] = extraHooks => {
-    // eslint-disable-next-line no-param-reassign
-    hooks = {
+  const registerHook: AsyncManager<Hooks, API>['registerHook'] = extraHooks => {
+    currentHooks = {
       ...extraHooks,
-      ...hooks,
-    } as any;
+      ...currentHooks,
+    };
   };
 
-  const clone = () => {
-    let plugins: AsyncPlugins<Partial<ToThreads<BaseHooks & ExtraHooks>>> = [];
+  const pluginAPI = {
+    ...api,
+    registerHook,
+  } as API & CommonAPI<Hooks>;
 
-    const usePlugin: AsyncManager<ExtraHooks, BaseHooks>['usePlugin'] = (
-      ...input
-    ) => {
+  const clone = () => {
+    let plugins: AsyncPlugins<Hooks, API> = [];
+
+    const usePlugin: AsyncManager<Hooks, API>['usePlugin'] = (...input) => {
       for (const plugin of input) {
         if (isPlugin(plugin)) {
           if (!includeAsyncPlugin(plugins, plugin)) {
@@ -125,7 +123,7 @@ export const createAsyncManager = <
 
     const currentContainer = createContainer();
 
-    const init: AsyncManager<ExtraHooks, BaseHooks>['init'] = async options => {
+    const init: AsyncManager<Hooks, API>['init'] = async options => {
       const container = options?.container || currentContainer;
 
       const sortedPlugins = sortAsyncPlugins(plugins);
@@ -134,14 +132,14 @@ export const createAsyncManager = <
 
       const hooksList = await Promise.all(
         sortedPlugins.map(plugin =>
-          runWithContainer(() => plugin.setup(), container),
+          runWithContainer(() => plugin.setup(pluginAPI), container),
         ),
       );
 
-      return generateRunner<ExtraHooks, BaseHooks>(hooksList, container, hooks);
+      return generateRunner<Hooks>(hooksList, container, currentHooks);
     };
 
-    const run: AsyncManager<ExtraHooks, BaseHooks>['run'] = (cb, options) => {
+    const run: AsyncManager<Hooks, API>['run'] = (cb, options) => {
       const container = options?.container || currentContainer;
 
       return runWithContainer(cb, container);
@@ -165,9 +163,9 @@ export const createAsyncManager = <
   return clone();
 };
 
-const includeAsyncPlugin = <O>(
-  plugins: AsyncPlugins<O>,
-  input: AsyncPlugin<O>,
+const includeAsyncPlugin = <Hooks extends HooksMap, API>(
+  plugins: AsyncPlugins<Hooks, API>,
+  input: AsyncPlugin<Hooks, API>,
 ): boolean => {
   for (const plugin of plugins) {
     if (plugin.name === input.name) {
@@ -178,7 +176,9 @@ const includeAsyncPlugin = <O>(
   return false;
 };
 
-const sortAsyncPlugins = <O>(input: AsyncPlugins<O>): AsyncPlugins<O> => {
+const sortAsyncPlugins = <Hooks extends HooksMap, API>(
+  input: AsyncPlugins<Hooks, API>,
+): AsyncPlugins<Hooks, API> => {
   let plugins = input.slice();
 
   for (let i = 0; i < plugins.length; i++) {
@@ -214,7 +214,9 @@ const sortAsyncPlugins = <O>(input: AsyncPlugins<O>): AsyncPlugins<O> => {
   return plugins;
 };
 
-const checkAsyncPlugins = <O>(plugins: AsyncPlugins<O>) => {
+const checkAsyncPlugins = <Hooks extends HooksMap, API>(
+  plugins: AsyncPlugins<Hooks, API>,
+) => {
   for (const origin of plugins) {
     for (const rival of origin.rivals) {
       for (const plugin of plugins) {

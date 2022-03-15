@@ -89,3 +89,7 @@ export type PluginOptions = {
 export type InitOptions = {
   container?: Container;
 };
+
+export type CommonAPI<Hooks> = {
+  registerHook: (newHooks: Partial<Hooks>) => void;
+};
