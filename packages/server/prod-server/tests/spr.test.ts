@@ -1,5 +1,4 @@
 import renderCreator from '../src/libs/render/cache';
-import { CacheContext } from '../src/libs/render/cache/type';
 
 const createCacheConfig = (config: any = {}) => ({
   excludes: null,
