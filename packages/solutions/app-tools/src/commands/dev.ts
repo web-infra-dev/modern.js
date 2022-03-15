@@ -47,7 +47,7 @@ export const dev = async (options: DevOptions) => {
 
   fs.emptyDirSync(distDirectory);
 
-  await (mountHook() as any).beforeDev();
+  await mountHook().beforeDev();
 
   let compiler = null;
   if (existSrc) {
