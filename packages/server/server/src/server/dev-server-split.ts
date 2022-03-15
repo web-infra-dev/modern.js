@@ -1,6 +1,6 @@
 import type { APIServerStartInput } from '@modern-js/server-core';
 import { ServerRoute as ModernRouteInterface } from '@modern-js/types';
-import { ApiServerMode } from '@modern-js/prod-server';
+import { ApiServerMode, HookNames, RUN_MODE } from '@modern-js/prod-server';
 import { ModernDevServer } from './dev-server';
 
 export class ModernSSRDevServer extends ModernDevServer {
@@ -11,21 +11,26 @@ export class ModernSSRDevServer extends ModernDevServer {
     return null as any;
   }
 
-  protected async prepareWebHandler(extension: { middleware: any[] }) {
-    return super.prepareWebHandler(extension);
+  protected filterRoutes(routes: ModernRouteInterface[]) {
+    return routes.filter(route => route.isSSR);
   }
 
-  protected filterRoutes(routes: ModernRouteInterface[]) {
-    return routes.filter(route => route.entryName);
+  protected async preServerInit() {
+    if (this.runMode === RUN_MODE.FULL) {
+      await super.preServerInit();
+    }
+  }
+
+  protected async emitRouteHook(_: HookNames, _input: any) {
+    if (this.runMode === RUN_MODE.FULL) {
+      await super.emitRouteHook(_, _input);
+    }
   }
 }
 
 export class ModernAPIDevServer extends ModernDevServer {
-  protected async prepareAPIHandler(
-    mode: ApiServerMode,
-    extension: APIServerStartInput['config'],
-  ) {
-    return super.prepareAPIHandler(mode, extension);
+  protected prepareWebHandler(_: APIServerStartInput['config']) {
+    return null as any;
   }
 
   protected filterRoutes(routes: ModernRouteInterface[]) {
@@ -33,6 +38,14 @@ export class ModernAPIDevServer extends ModernDevServer {
   }
 
   protected async preServerInit() {
-    // noop
+    if (this.runMode === RUN_MODE.FULL) {
+      await super.preServerInit();
+    }
+  }
+
+  protected async emitRouteHook(_: HookNames, _input: any) {
+    if (this.runMode === RUN_MODE.FULL) {
+      await super.emitRouteHook(_, _input);
+    }
   }
 }

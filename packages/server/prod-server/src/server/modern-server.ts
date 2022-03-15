@@ -14,8 +14,10 @@ import {
   ServerHookRunner,
   Metrics,
   Logger,
-  ReadyOptions,
   ConfWithBFF,
+  ModernServerInterface,
+  HookNames,
+  BuildOptions,
 } from '../type';
 import {
   RouteMatchManager,
@@ -40,6 +42,7 @@ import {
   ApiServerMode,
   ERROR_DIGEST,
   ERROR_PAGE_TEXT,
+  RUN_MODE,
 } from '../constants';
 import { createTemplateAPI } from '../libs/hook-api/template';
 import { createRouteAPI } from '../libs/hook-api/route';
@@ -57,12 +60,12 @@ type ModernServerAsyncHandler = (
 const API_DIR = './api';
 const SERVER_DIR = './server';
 
-export class ModernServer {
+export class ModernServer implements ModernServerInterface {
   // appDirectory
-  protected pwd: string;
+  public pwd: string;
 
   // product dist dir
-  protected distDir: string;
+  public distDir: string;
 
   // work on src or dist
   protected workDir: string;
@@ -81,6 +84,8 @@ export class ModernServer {
 
   protected readonly metrics: Metrics;
 
+  protected readonly runMode: string;
+
   protected reader: typeof reader = reader;
 
   protected readonly proxyTarget: ModernServerOptions['proxyTarget'];
@@ -97,7 +102,7 @@ export class ModernServer {
 
   private _handler!: (context: ModernServerContext, next: NextFunction) => void;
 
-  private readonly staticGenerate: boolean = false;
+  private readonly staticGenerate: boolean;
 
   constructor({
     pwd,
@@ -106,6 +111,7 @@ export class ModernServer {
     staticGenerate,
     logger,
     metrics,
+    runMode,
     proxyTarget,
   }: ModernServerOptions) {
     require('ignore-styles');
@@ -119,24 +125,18 @@ export class ModernServer {
     this.router = new RouteMatchManager();
     this.presetRoutes = routes;
     this.proxyTarget = proxyTarget;
-
-    if (staticGenerate) {
-      this.staticGenerate = staticGenerate;
-    }
+    this.staticGenerate = staticGenerate || false;
+    this.runMode = runMode || RUN_MODE.TYPE;
     process.env.BUILD_TYPE = `${this.staticGenerate ? 'ssg' : 'ssr'}`;
   }
 
-  // exposed requestHandler
-  public getRequestHandler() {
-    return this.requestHandler.bind(this);
-  }
-
   // server prepare
-  public async init(runner: ServerHookRunner) {
+  public async onInit(runner: ServerHookRunner) {
     this.runner = runner;
 
     const { distDir, staticGenerate, conf } = this;
 
+    // Todo: why add this middleware
     this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
       ctx.res.setHeader('Access-Control-Allow-Origin', '*');
       ctx.res.setHeader('Access-Control-Allow-Credentials', 'false');
@@ -151,14 +151,14 @@ export class ModernServer {
       });
     }
 
-    // start reader, include an time interval
+    // start file reader
     this.reader.init();
 
     // use preset routes priority
-    this.router.reset(
-      this.filterRoutes(this.presetRoutes || this.readRouteSpec()),
-    );
+    const usageRoutes = this.filterRoutes(this.getRoutes());
+    this.router.reset(usageRoutes);
 
+    // warmup ssr bundle in production env
     this.warmupSSRBundle();
 
     await this.prepareFrameHandler();
@@ -166,7 +166,6 @@ export class ModernServer {
     // Only work when without setting `assetPrefix`.
     // Setting `assetPrefix` means these resources should be uploaded to CDN.
     const staticPathRegExp = getStaticReg(this.conf.output || {});
-
     this.staticFileHandler = createStaticFileHandler([
       {
         path: staticPathRegExp,
@@ -184,21 +183,32 @@ export class ModernServer {
     this.addHandler(this.staticFileHandler);
     this.addHandler(this.routeHandler.bind(this));
 
+    // compose middlewares to http handler
     this.compose();
   }
 
+  // close any thing run in server
+  public async onClose() {
+    this.reader.close();
+  }
+
   // server ready
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public ready(_: ReadyOptions) {}
+  public onRepack(_: BuildOptions) {
+    // empty
+  }
 
   // invoke when http server listen
   public onListening(_: Server) {
     // empty
   }
 
-  // close any thing run in server
-  public async close() {
-    this.reader.close();
+  protected onServerChange(_: Record<string, any>) {
+    this.prepareFrameHandler();
+  }
+
+  // exposed requestHandler
+  public getRequestHandler() {
+    return this.requestHandler.bind(this);
   }
 
   public async createHTTPServer(
@@ -211,10 +221,16 @@ export class ModernServer {
     return createServer(handler);
   }
 
-  // read route spec from route.json
-  protected readRouteSpec() {
-    const file = path.join(this.distDir, ROUTE_SPEC_FILE);
+  /* —————————————————————— function will be overwrite —————————————————————— */
+  // get routes info
+  protected getRoutes() {
+    // Preferred to use preset routes
+    if (this.presetRoutes) {
+      return this.presetRoutes;
+    }
 
+    // read routes from spec file
+    const file = path.join(this.distDir, ROUTE_SPEC_FILE);
     if (fs.existsSync(file)) {
       const content: { routes: ModernRouteInterface[] } = fs.readJSONSync(file);
       return content.routes;
@@ -269,12 +285,6 @@ export class ModernServer {
     }
   }
 
-  // Todo
-  protected async proxy() {
-    return null as any;
-  }
-
-  /* —————————————————————— function will be overwrite —————————————————————— */
   protected async prepareWebHandler(
     extension: ReturnType<typeof mergeExtension>,
   ) {
@@ -313,7 +323,7 @@ export class ModernServer {
   }
 
   protected async emitRouteHook(
-    eventName: 'beforeMatch' | 'afterMatch' | 'beforeRender' | 'afterRender',
+    eventName: HookNames,
     input: {
       context: ModernServerContext;
       [propsName: string]: any;
@@ -321,18 +331,6 @@ export class ModernServer {
   ) {
     input.context = clone(input.context);
     return this.runner[eventName](input as any, { onLast: noop as any });
-  }
-
-  // warmup ssr function
-  protected warmupSSRBundle() {
-    const { distDir } = this;
-    const bundles = this.router.getBundles();
-
-    bundles.forEach(bundle => {
-      const filepath = path.join(distDir, bundle as string);
-      // if error, just throw and let process die
-      require(filepath);
-    });
   }
 
   protected async preServerInit() {
@@ -363,8 +361,20 @@ export class ModernServer {
     });
   }
 
-  protected verifyMatch(_c: ModernServerContext, _m: RouteMatcher) {
-    // empty
+  protected async proxy() {
+    return null as any;
+  }
+
+  // warmup ssr function
+  protected warmupSSRBundle() {
+    const { distDir } = this;
+    const bundles = this.router.getBundles();
+
+    bundles.forEach(bundle => {
+      const filepath = path.join(distDir, bundle as string);
+      // if error, just throw and let process die
+      require(filepath);
+    });
   }
 
   /* —————————————————————— private function —————————————————————— */
@@ -380,8 +390,6 @@ export class ModernServer {
     if (!matched) {
       this.render404(context);
       return;
-    } else {
-      this.verifyMatch(context, matched);
     }
 
     if (res.headersSent) {
