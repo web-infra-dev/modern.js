@@ -1,0 +1,13 @@
+{
+  "name": "local-optimize-importer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "module-a": "workspace:*",
+    "module-b": "workspace:*"
+  },
+  "devDependencies": {}
+}
