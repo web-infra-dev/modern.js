@@ -85,7 +85,8 @@ export type PluginOptions<Hooks, Setup = undefined> = {
   setup?: Setup;
   rivals?: string[];
   required?: string[];
-  regiserHook?: Partial<Hooks>;
+  usePlugins?: PluginOptions<Hooks, Setup>[];
+  registerHook?: Partial<Hooks>;
 };
 
 export type InitOptions = {

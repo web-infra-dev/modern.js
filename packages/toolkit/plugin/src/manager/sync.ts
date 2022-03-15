@@ -78,7 +78,8 @@ export const DEFAULT_OPTIONS = {
   post: [],
   rivals: [],
   required: [],
-  regiserHook: {},
+  usePlugins: [],
+  registerHook: {},
 };
 
 export const createManager = <
