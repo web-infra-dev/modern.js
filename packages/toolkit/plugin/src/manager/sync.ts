@@ -38,7 +38,7 @@ const SYNC_PLUGIN_SYMBOL = 'SYNC_PLUGIN_SYMBOL';
 export type Plugin<Hooks, API> = {
   setup: Setup<Hooks, API>;
   SYNC_PLUGIN_SYMBOL: typeof SYNC_PLUGIN_SYMBOL;
-} & Required<PluginOptions<Setup<Hooks, API>>>;
+} & Required<PluginOptions<Hooks, Setup<Hooks, API>>>;
 
 export type Plugins<Hooks, API> = Plugin<Hooks, API>[];
 
@@ -52,7 +52,7 @@ export type PluginFromManager<M extends Manager<any, any>> = M extends Manager<
 export type Manager<Hooks, API> = {
   createPlugin: (
     setup: Setup<Hooks, API>,
-    options?: PluginOptions<Setup<Hooks, API>>,
+    options?: PluginOptions<Hooks, Setup<Hooks, API>>,
   ) => Plugin<Hooks, API>;
 
   isPlugin: (input: Record<string, unknown>) => input is Plugin<Hooks, API>;
@@ -78,6 +78,7 @@ export const DEFAULT_OPTIONS = {
   post: [],
   rivals: [],
   required: [],
+  regiserHook: {},
 };
 
 export const createManager = <

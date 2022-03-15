@@ -21,7 +21,7 @@ const ASYNC_PLUGIN_SYMBOL = 'ASYNC_PLUGIN_SYMBOL';
 export type AsyncPlugin<Hooks, API> = {
   setup: AsyncSetup<Hooks, API>;
   ASYNC_PLUGIN_SYMBOL: typeof ASYNC_PLUGIN_SYMBOL;
-} & Required<PluginOptions<AsyncSetup<Hooks, API>>>;
+} & Required<PluginOptions<Hooks, AsyncSetup<Hooks, API>>>;
 
 export type AsyncPlugins<Hooks, API> = AsyncPlugin<Hooks, API>[];
 
@@ -33,7 +33,7 @@ export type PluginFromAsyncManager<M extends AsyncManager<any, any>> =
 export type AsyncManager<Hooks, API> = {
   createPlugin: (
     setup: AsyncSetup<Hooks, API>,
-    options?: PluginOptions<AsyncSetup<Hooks, API>>,
+    options?: PluginOptions<Hooks, AsyncSetup<Hooks, API>>,
   ) => AsyncPlugin<Hooks, API>;
 
   isPlugin: (
