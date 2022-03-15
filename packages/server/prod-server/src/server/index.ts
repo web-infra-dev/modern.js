@@ -78,7 +78,7 @@ export class Server {
     };
   }
 
-  private createHookRunner() {
+  private async createHookRunner() {
     // clear server manager every create time
     serverManager.clear();
 
