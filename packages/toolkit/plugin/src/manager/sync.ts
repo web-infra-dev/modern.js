@@ -22,25 +22,24 @@ import {
 import { RunnerContext, useRunner } from './runner';
 import type {
   Hook,
-  HooksMap,
   ToRunners,
   ToThreads,
   InitOptions,
   PluginOptions,
 } from './types';
 
-export type Setup<Hooks extends HooksMap, API = never> = (
+export type Setup<Hooks, API = never> = (
   api: API,
 ) => Partial<ToThreads<Hooks>> | void;
 
 const SYNC_PLUGIN_SYMBOL = 'SYNC_PLUGIN_SYMBOL';
 
-export type Plugin<Hooks extends HooksMap, API> = {
+export type Plugin<Hooks, API> = {
   setup: Setup<Hooks, API>;
   SYNC_PLUGIN_SYMBOL: typeof SYNC_PLUGIN_SYMBOL;
 } & Required<PluginOptions>;
 
-export type Plugins<Hooks extends HooksMap, API> = Plugin<Hooks, API>[];
+export type Plugins<Hooks, API> = Plugin<Hooks, API>[];
 
 export type PluginFromManager<M extends Manager<any, any>> = M extends Manager<
   infer Hooks,
@@ -49,7 +48,7 @@ export type PluginFromManager<M extends Manager<any, any>> = M extends Manager<
   ? Plugin<Hooks, API>
   : never;
 
-export type Manager<Hooks extends HooksMap, API> = {
+export type Manager<Hooks, API> = {
   createPlugin: (
     setup: Setup<Hooks, API>,
     options?: PluginOptions,
@@ -81,7 +80,7 @@ export const DEFAULT_OPTIONS: Required<PluginOptions> = {
 };
 
 export const createManager = <
-  Hooks extends HooksMap,
+  Hooks,
   API extends Record<string, any> = Record<string, never>,
 >(
   hooks?: Hooks,
@@ -191,7 +190,7 @@ export const createManager = <
   return clone();
 };
 
-export const generateRunner = <Hooks extends HooksMap>(
+export const generateRunner = <Hooks extends Record<string, any>>(
   hooksList: (void | Partial<ToThreads<Hooks>>)[],
   container: Container,
   hooksMap?: Hooks,
@@ -206,8 +205,6 @@ export const generateRunner = <Hooks extends HooksMap>(
           continue;
         }
         if (hooks[key]) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
           cloneShape[key].use(hooks[key]);
         }
       }
@@ -254,14 +251,12 @@ export const cloneHook = (hook: Hook): Hook => {
   throw new Error(`Unknown hook: ${hook}`);
 };
 
-export const closeHooksMap = <BaseHooks extends HooksMap | void>(
-  record: BaseHooks,
-): BaseHooks => {
+export const closeHooksMap = <Hooks>(record: Hooks): Hooks => {
   if (!record) {
     return record;
   }
 
-  const result: BaseHooks = {} as any;
+  const result: Hooks = {} as any;
 
   for (const key in record) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -272,7 +267,7 @@ export const closeHooksMap = <BaseHooks extends HooksMap | void>(
   return result;
 };
 
-const includePlugin = <Hooks extends HooksMap, API>(
+const includePlugin = <Hooks, API>(
   plugins: Plugins<Hooks, API>,
   input: Plugin<Hooks, API>,
 ): boolean => {
@@ -285,7 +280,7 @@ const includePlugin = <Hooks extends HooksMap, API>(
   return false;
 };
 
-const sortPlugins = <Hooks extends HooksMap, API>(
+const sortPlugins = <Hooks, API>(
   input: Plugins<Hooks, API>,
 ): Plugins<Hooks, API> => {
   let plugins = input.slice();
@@ -323,9 +318,7 @@ const sortPlugins = <Hooks extends HooksMap, API>(
   return plugins;
 };
 
-const checkPlugins = <Hooks extends HooksMap, API>(
-  plugins: Plugins<Hooks, API>,
-) => {
+const checkPlugins = <Hooks, API>(plugins: Plugins<Hooks, API>) => {
   for (const origin of plugins) {
     for (const rival of origin.rivals) {
       for (const plugin of plugins) {

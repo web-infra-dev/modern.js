@@ -46,7 +46,7 @@ export type ToThread<P extends Hook> = P extends Workflow<infer I, infer O>
   ? Middleware<I, MaybeAsync<O>>
   : never;
 
-export type ToThreads<PS extends HooksMap | void> = {
+export type ToThreads<PS> = {
   [K in keyof PS]: PS[K] extends Hook
     ? ToThread<PS[K]>
     : PS[K] extends void
@@ -70,7 +70,7 @@ export type RunnerFromHook<P extends Hook> = P extends Waterfall<infer I>
   ? AsyncPipeline<I, O>['run']
   : never;
 
-export type ToRunners<PS extends HooksMap | void> = {
+export type ToRunners<PS> = {
   [K in keyof PS]: PS[K] extends Hook
     ? RunnerFromHook<PS[K]>
     : PS[K] extends void
