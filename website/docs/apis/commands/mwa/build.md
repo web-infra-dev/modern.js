@@ -30,7 +30,7 @@ File sizes after production build:
   645 B      dist/static/css/main.0dd3ecc1.css
 ```
 
-执行 `open ./dist/report.html` 命令，在浏览器中打开上述 HTML 文件（或者手动在浏览器中打开），可以看到打包产物瓦片图，并进行包体积分析和优化：
+手动在浏览器中打开上述 HTML 文件，可以看到打包产物瓦片图，并进行包体积分析和优化：
 
 <img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/mwa-build-analyze-8784f762c1ab0cb20935829d5f912c4c.png" />
 
