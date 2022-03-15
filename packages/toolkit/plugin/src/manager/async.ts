@@ -1,16 +1,12 @@
 import { runWithContainer, createContainer } from 'farrow-pipeline';
-import {
-  InitOptions,
-  generateRunner,
-  hasOwnProperty,
-  DEFAULT_OPTIONS,
-} from './sync';
+import { generateRunner, hasOwnProperty, DEFAULT_OPTIONS } from './sync';
 import { useRunner } from './runner';
 import type {
   HooksMap,
+  ToRunners,
+  ToThreads,
+  InitOptions,
   PluginOptions,
-  HooksToRunners,
-  HooksToThreads,
 } from './types';
 
 export type AsyncSetup<O> = () => void | O | Promise<O | void>;
@@ -22,21 +18,16 @@ export type AsyncPlugin<O> = {
   ASYNC_PLUGIN_SYMBOL: typeof ASYNC_PLUGIN_SYMBOL;
 } & Required<PluginOptions>;
 
-export type IndexAsyncPlugin<O> = AsyncPlugin<O> & {
-  index: number;
-};
-
 export type AsyncPlugins<O> = AsyncPlugin<O>[];
-export type AsyncIndexPlugins<O> = IndexAsyncPlugin<O>[];
 
 export type AsyncPluginFromAsyncManager<M extends AsyncManager<any, any>> =
   M extends AsyncManager<infer ExtraHooks, infer BaseHooks>
-    ? AsyncPlugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>
+    ? AsyncPlugin<Partial<ToThreads<BaseHooks & ExtraHooks>>>
     : never;
 
 export type PluginFromAsyncManager<M extends AsyncManager<any, any>> =
   M extends AsyncManager<infer ExtraHooks, infer BaseHooks>
-    ? AsyncPlugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>
+    ? AsyncPlugin<Partial<ToThreads<BaseHooks & ExtraHooks>>>
     : never;
 
 export type AsyncManager<
@@ -44,21 +35,19 @@ export type AsyncManager<
   BaseHooks extends HooksMap | void = void,
 > = {
   createPlugin: (
-    setup: AsyncSetup<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>,
+    setup: AsyncSetup<Partial<ToThreads<BaseHooks & ExtraHooks>>>,
     options?: PluginOptions,
-  ) => AsyncPlugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>;
+  ) => AsyncPlugin<Partial<ToThreads<BaseHooks & ExtraHooks>>>;
 
   isPlugin: (
     input: Record<string, unknown>,
-  ) => input is AsyncPlugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>;
+  ) => input is AsyncPlugin<Partial<ToThreads<BaseHooks & ExtraHooks>>>;
 
   usePlugin: (
-    ...input: AsyncPlugins<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>
+    ...input: AsyncPlugins<Partial<ToThreads<BaseHooks & ExtraHooks>>>
   ) => AsyncManager<ExtraHooks, BaseHooks>;
 
-  init: (
-    options?: InitOptions,
-  ) => Promise<HooksToRunners<BaseHooks & ExtraHooks>>;
+  init: (options?: InitOptions) => Promise<ToRunners<BaseHooks & ExtraHooks>>;
 
   run: <O>(cb: () => O, options?: InitOptions) => O;
 
@@ -68,7 +57,7 @@ export type AsyncManager<
 
   clear: () => void;
 
-  useRunner: () => HooksToRunners<BaseHooks & ExtraHooks>;
+  useRunner: () => ToRunners<BaseHooks & ExtraHooks>;
 };
 
 export const createAsyncManager = <
@@ -80,6 +69,7 @@ export const createAsyncManager = <
   hooks: BaseHooks,
 ): AsyncManager<ExtraHooks, BaseHooks> => {
   let index = 0;
+
   const createPlugin: AsyncManager<ExtraHooks, BaseHooks>['createPlugin'] = (
     setup,
     options = {},
@@ -93,7 +83,7 @@ export const createAsyncManager = <
 
   const isPlugin: AsyncManager<ExtraHooks, BaseHooks>['isPlugin'] = (
     input,
-  ): input is AsyncPlugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>> =>
+  ): input is AsyncPlugin<Partial<ToThreads<BaseHooks & ExtraHooks>>> =>
     hasOwnProperty(input, ASYNC_PLUGIN_SYMBOL) &&
     input[ASYNC_PLUGIN_SYMBOL] === ASYNC_PLUGIN_SYMBOL;
 
@@ -109,9 +99,7 @@ export const createAsyncManager = <
   };
 
   const clone = () => {
-    let plugins: AsyncIndexPlugins<
-      Partial<HooksToThreads<BaseHooks & ExtraHooks>>
-    > = [];
+    let plugins: AsyncPlugins<Partial<ToThreads<BaseHooks & ExtraHooks>>> = [];
 
     const usePlugin: AsyncManager<ExtraHooks, BaseHooks>['usePlugin'] = (
       ...input
@@ -119,10 +107,7 @@ export const createAsyncManager = <
       for (const plugin of input) {
         if (isPlugin(plugin)) {
           if (!includeAsyncPlugin(plugins, plugin)) {
-            plugins.push({
-              ...plugin,
-              index: plugins.length,
-            });
+            plugins.push({ ...plugin });
           }
         } else {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -193,9 +178,7 @@ const includeAsyncPlugin = <O>(
   return false;
 };
 
-const sortAsyncPlugins = <O>(
-  input: AsyncIndexPlugins<O>,
-): AsyncIndexPlugins<O> => {
+const sortAsyncPlugins = <O>(input: AsyncPlugins<O>): AsyncPlugins<O> => {
   let plugins = input.slice();
 
   for (let i = 0; i < plugins.length; i++) {
@@ -231,7 +214,7 @@ const sortAsyncPlugins = <O>(
   return plugins;
 };
 
-const checkAsyncPlugins = <O>(plugins: AsyncIndexPlugins<O>) => {
+const checkAsyncPlugins = <O>(plugins: AsyncPlugins<O>) => {
   for (const origin of plugins) {
     for (const rival of origin.rivals) {
       for (const plugin of plugins) {

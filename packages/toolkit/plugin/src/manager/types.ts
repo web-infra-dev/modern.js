@@ -1,14 +1,15 @@
 import type {
-  Middleware,
   Pipeline,
-  AsyncPipeline,
+  Container,
   MaybeAsync,
+  Middleware,
+  AsyncPipeline,
 } from 'farrow-pipeline';
 import type {
-  Waterfall,
   Brook,
-  AsyncWaterfall,
+  Waterfall,
   AsyncBrook,
+  AsyncWaterfall,
 } from '../waterfall';
 import type {
   Worker,
@@ -29,7 +30,7 @@ export type Hook =
 
 export type HooksMap = Record<string, Hook>;
 
-export type HookToThread<P extends Hook> = P extends Workflow<infer I, infer O>
+export type ToThread<P extends Hook> = P extends Workflow<infer I, infer O>
   ? Worker<I, O>
   : P extends AsyncWorkflow<infer I, infer O>
   ? AsyncWorker<I, O>
@@ -45,15 +46,15 @@ export type HookToThread<P extends Hook> = P extends Workflow<infer I, infer O>
   ? Middleware<I, MaybeAsync<O>>
   : never;
 
-export type HooksToThreads<PS extends HooksMap | void> = {
+export type ToThreads<PS extends HooksMap | void> = {
   [K in keyof PS]: PS[K] extends Hook
-    ? HookToThread<PS[K]>
+    ? ToThread<PS[K]>
     : PS[K] extends void
     ? void
     : never;
 };
 
-export type RunnerFromProgress<P extends Hook> = P extends Waterfall<infer I>
+export type RunnerFromHook<P extends Hook> = P extends Waterfall<infer I>
   ? Waterfall<I>['run']
   : P extends AsyncWaterfall<infer I>
   ? AsyncWaterfall<I>['run']
@@ -69,9 +70,9 @@ export type RunnerFromProgress<P extends Hook> = P extends Waterfall<infer I>
   ? AsyncPipeline<I, O>['run']
   : never;
 
-export type HooksToRunners<PS extends HooksMap | void> = {
+export type ToRunners<PS extends HooksMap | void> = {
   [K in keyof PS]: PS[K] extends Hook
-    ? RunnerFromProgress<PS[K]>
+    ? RunnerFromHook<PS[K]>
     : PS[K] extends void
     ? void
     : never;
@@ -83,4 +84,8 @@ export type PluginOptions = {
   post?: string[];
   rivals?: string[];
   required?: string[];
+};
+
+export type InitOptions = {
+  container?: Container;
 };

@@ -23,9 +23,10 @@ import { RunnerContext, useRunner } from './runner';
 import type {
   Hook,
   HooksMap,
+  InitOptions,
   PluginOptions,
-  HooksToRunners,
-  HooksToThreads,
+  ToRunners,
+  ToThreads,
 } from './types';
 
 export type Setup<O> = () => O | void;
@@ -37,42 +38,33 @@ export type Plugin<O> = {
   SYNC_PLUGIN_SYMBOL: typeof SYNC_PLUGIN_SYMBOL;
 } & Required<PluginOptions>;
 
-export type IndexPlugin<O> = Plugin<O> & {
-  index: number;
-};
-
 export type Plugins<O> = Plugin<O>[];
-export type IndexPlugins<O> = IndexPlugin<O>[];
 
 export type PluginFromManager<M extends Manager<any, any>> = M extends Manager<
   infer ExtraHooks,
   infer BaseHooks
 >
-  ? Plugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>
+  ? Plugin<Partial<ToThreads<BaseHooks & ExtraHooks>>>
   : never;
-
-export type InitOptions = {
-  container?: Container;
-};
 
 export type Manager<
   ExtraHooks extends Record<string, any>,
   BaseHooks extends HooksMap | void = void,
 > = {
   createPlugin: (
-    setup: Setup<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>,
+    setup: Setup<Partial<ToThreads<BaseHooks & ExtraHooks>>>,
     options?: PluginOptions,
-  ) => Plugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>;
+  ) => Plugin<Partial<ToThreads<BaseHooks & ExtraHooks>>>;
 
   isPlugin: (
     input: Record<string, unknown>,
-  ) => input is Plugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>;
+  ) => input is Plugin<Partial<ToThreads<BaseHooks & ExtraHooks>>>;
 
   usePlugin: (
-    ...input: Plugins<Partial<HooksToThreads<BaseHooks & ExtraHooks>>>
+    ...input: Plugins<Partial<ToThreads<BaseHooks & ExtraHooks>>>
   ) => Manager<ExtraHooks, BaseHooks>;
 
-  init: (options?: InitOptions) => HooksToRunners<BaseHooks & ExtraHooks>;
+  init: (options?: InitOptions) => ToRunners<BaseHooks & ExtraHooks>;
 
   run: <O>(cb: () => O, options?: InitOptions) => O;
 
@@ -82,7 +74,7 @@ export type Manager<
 
   clone: () => Manager<ExtraHooks, BaseHooks>;
 
-  useRunner: () => HooksToRunners<BaseHooks & ExtraHooks>;
+  useRunner: () => ToRunners<BaseHooks & ExtraHooks>;
 };
 
 export const DEFAULT_OPTIONS: Required<PluginOptions> = {
@@ -115,7 +107,7 @@ export const createManager = <
 
   const isPlugin: Manager<ExtraHooks, BaseHooks>['isPlugin'] = (
     input,
-  ): input is Plugin<Partial<HooksToThreads<BaseHooks & ExtraHooks>>> =>
+  ): input is Plugin<Partial<ToThreads<BaseHooks & ExtraHooks>>> =>
     hasOwnProperty(input, SYNC_PLUGIN_SYMBOL) &&
     input[SYNC_PLUGIN_SYMBOL] === SYNC_PLUGIN_SYMBOL;
 
@@ -131,8 +123,7 @@ export const createManager = <
   };
 
   const clone = () => {
-    let plugins: IndexPlugins<Partial<HooksToThreads<BaseHooks & ExtraHooks>>> =
-      [];
+    let plugins: Plugins<Partial<ToThreads<BaseHooks & ExtraHooks>>> = [];
 
     const usePlugin: Manager<ExtraHooks, BaseHooks>['usePlugin'] = (
       ...input
@@ -140,10 +131,7 @@ export const createManager = <
       for (const plugin of input) {
         if (isPlugin(plugin)) {
           if (!includePlugin(plugins, plugin)) {
-            plugins.push({
-              ...plugin,
-              index: plugins.length,
-            });
+            plugins.push({ ...plugin });
           }
         } else {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -212,10 +200,10 @@ export const generateRunner = <
   ExtraHooks extends Record<string, any> = {},
   BaseHooks extends HooksMap | void = void,
 >(
-  hooksList: (void | Partial<HooksToThreads<BaseHooks & ExtraHooks>>)[],
+  hooksList: (void | Partial<ToThreads<BaseHooks & ExtraHooks>>)[],
   container: Container,
   hooksMap?: BaseHooks,
-): HooksToRunners<BaseHooks & ExtraHooks> => {
+): ToRunners<BaseHooks & ExtraHooks> => {
   const runner = {};
   const cloneShape = closeHooksMap(hooksMap);
 
@@ -302,7 +290,7 @@ const includePlugin = <O>(plugins: Plugins<O>, input: Plugin<O>): boolean => {
   return false;
 };
 
-const sortPlugins = <O>(input: IndexPlugins<O>): IndexPlugins<O> => {
+const sortPlugins = <O>(input: Plugins<O>): Plugins<O> => {
   let plugins = input.slice();
 
   for (let i = 0; i < plugins.length; i++) {
