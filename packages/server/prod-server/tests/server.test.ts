@@ -97,13 +97,38 @@ describe('test server', () => {
 
     test('should get request handler correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: {
+          ...(defaultsConfig as NormalizedConfig),
+          output: {
+            path: 'test-dist',
+          },
+        },
         pwd: appDirectory,
       });
 
       const modernServer: ModernServer = (server as any).server;
       const handler = modernServer.getRequestHandler();
       expect(typeof handler === 'function').toBeTruthy();
+
+      const req = httpMocks.createRequest({
+        url: '/',
+        headers: {
+          host: 'modernjs.com',
+        },
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+      const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+      handler(req, res, () => {
+        // empty
+      });
+      const html = await new Promise((resolve, _reject) => {
+        res.on('finish', () => {
+          resolve(res._getData());
+        });
+      });
+
+      expect(html).toMatch('<div>Modern.js</div>');
     });
   });
 
