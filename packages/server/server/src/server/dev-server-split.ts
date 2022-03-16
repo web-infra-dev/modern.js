@@ -44,8 +44,6 @@ export class ModernAPIDevServer extends ModernDevServer {
   }
 
   protected async emitRouteHook(_: HookNames, _input: any) {
-    if (this.runMode === RUN_MODE.FULL) {
-      await super.emitRouteHook(_, _input);
-    }
+    // empty
   }
 }
