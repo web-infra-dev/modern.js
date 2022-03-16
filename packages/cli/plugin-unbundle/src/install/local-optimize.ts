@@ -6,6 +6,7 @@ import enhancedResolve from 'enhanced-resolve';
 import { Plugin as ESBuildPlugin } from 'esbuild';
 import type { Compiler } from '@modern-js/esmpack';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import { UnbundleDependencies } from 'src';
 import {
   WEB_MODULES_DIR,
   GLOBAL_CACHE_DIR_NAME,
@@ -22,10 +23,7 @@ const resolve = enhancedResolve.create.sync({
   mainFields: ['browser', 'module', 'main'],
 });
 // init global local modules cache
-const modulesCache = new ModulesCache(GLOBAL_CACHE_DIR_NAME);
-
-// force ignore deps cache
-const SKIP_DEPS_CACHE = process.env.SKIP_DEPS_CACHE === 'true';
+export const modulesCache = new ModulesCache(GLOBAL_CACHE_DIR_NAME);
 
 // local web_modules dir， bundled by esbuild
 let webModulesDir: string;
@@ -94,16 +92,26 @@ const resolveDepVersion = (
 export async function optimizeDeps({
   userConfig,
   appContext,
-  defaultDependencies,
-  virtualDependenciesMap,
-  internalPackages,
+  dependencies,
 }: {
   userConfig: NormalizedConfig;
   appContext: IAppContext;
-  defaultDependencies: string[];
-  virtualDependenciesMap: Record<string, string>;
-  internalPackages: Record<string, string>;
+  dependencies: UnbundleDependencies;
 }) {
+  const {
+    defaultDeps: defaultDependencies,
+    virtualDeps: virtualDependenciesMap,
+    internalPackages,
+  } = dependencies;
+
+  const ignoreModuleCache =
+    userConfig?.dev?.unbundle?.ignoreModuleCache ||
+    process.env.SKIP_DEPS_CACHE === 'true';
+  const clearPdnCache =
+    userConfig?.dev?.unbundle?.clearPdnCache ||
+    process.env.CLEAN_CACHE === 'true';
+  const pdnHost =
+    userConfig?.dev?.unbundle?.pdnHost || dependencies.defaultPdnHost;
   const timer = process.hrtime();
 
   const { appDirectory } = appContext;
@@ -115,7 +123,13 @@ export async function optimizeDeps({
   const dataPath = path.join(webModulesDir, META_DATA_FILE_NAME);
 
   // should clean gloabl modules cache and local cache
-  if (process.env.CLEAN_CACHE === 'true') {
+  if (clearPdnCache) {
+    const isProcessEnv = process.env.CLEAN_CACHE === 'true';
+    const configSource = isProcessEnv
+      ? 'process.env.CLEAN_CACHE'
+      : 'clearPdnCache';
+    logger.info(`${configSource} is true, clear pdn cache.`);
+
     modulesCache.clean();
     fs.removeSync(webModulesDir);
     fs.removeSync(tempModulesDir);
@@ -141,13 +155,17 @@ export async function optimizeDeps({
 
   // hash is consistent, no need to re-bundle
   // should ignore optimize deps when SKIP_DEPS_CACHE is falsy
-  if (prevData && prevData.hash === data.hash && !SKIP_DEPS_CACHE) {
+  if (prevData && prevData.hash === data.hash && !ignoreModuleCache) {
     logger.info('Skip dependencies pre-optimization...');
     return;
   }
 
-  if (SKIP_DEPS_CACHE) {
-    logger.info(`SKIP_DEPS_CACHE is true, pre-optimize dependencies.`);
+  if (ignoreModuleCache) {
+    const isProcessEnv = process.env.SKIP_DEPS_CACHE === 'true';
+    const configSource = isProcessEnv
+      ? 'process.env.SKIP_DEPS_CACHE'
+      : 'ignoreModuleCache';
+    logger.info(`${configSource} is true, pre-optimize dependencies.`);
   }
 
   [webModulesDir, tempModulesDir].forEach(dir => {
@@ -167,6 +185,7 @@ export async function optimizeDeps({
       data,
       internalPackages,
       virtualDependenciesMap,
+      pdnHost,
     );
   } catch (err) {
     logger.error(`Pre optimize deps error: \n${err as string}`);
@@ -186,12 +205,13 @@ export async function optimizeDeps({
   );
 }
 
-const compileDeps = async (
+export const compileDeps = async (
   appDirectory: string,
   deps: Array<{ specifier: string; importer: string; forceCompile?: boolean }>,
   metaData: DepsMetadata,
   internalPackages: Record<string, string>,
   virtualDependenciesMap: Record<string, string>,
+  pdnHost: string,
 ) => {
   const bundleResult = await await require('esbuild').build({
     entryPoints: deps.map(dep => dep.specifier),
@@ -272,6 +292,7 @@ const compileDeps = async (
                   specifier,
                   version,
                   virtualDependenciesMap,
+                  pdnHost,
                 );
                 if (remoteResult) {
                   return {
