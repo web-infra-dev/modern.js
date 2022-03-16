@@ -1,26 +1,14 @@
 import path from 'path';
 import {
-  compatRequire,
   pkgUp,
   ensureAbsolutePath,
   logger,
   INTERNAL_PLUGINS,
 } from '@modern-js/utils';
-import {
-  createAsyncManager,
-  createAsyncWorkflow,
-  createParallelWorkflow,
-  ParallelWorkflow,
-  AsyncWorkflow,
-  Progresses2Runners,
-  createAsyncWaterfall,
-  AsyncWaterfall,
-} from '@modern-js/plugin';
 import { enable } from '@modern-js/plugin/node';
-
 import type { Hooks } from '@modern-js/types';
 import { ErrorObject } from 'ajv';
-import { program, Command } from './utils/commander';
+import { program } from './utils/commander';
 import { resolveConfig, loadUserConfig } from './config';
 import { loadPlugins, TransformPlugin } from './loadPlugins';
 import {
@@ -29,99 +17,24 @@ import {
   IAppContext,
   initAppContext,
   ResolvedConfigContext,
-  useAppContext,
-  useConfigContext,
-  useResolvedConfigContext,
 } from './context';
 import { initWatcher } from './initWatcher';
-import { NormalizedConfig } from './config/mergeConfig';
+import type { NormalizedConfig } from './config/mergeConfig';
 import { loadEnv } from './loadEnv';
+import { manager, HooksRunner } from './manager';
 
 export type { Hooks };
 export * from './config';
+export * from './manager';
 export * from '@modern-js/plugin';
 export * from '@modern-js/plugin/node';
+
+export * from './pluginAPI';
 
 program
   .name('modern')
   .usage('<command> [options]')
   .version(process.env.MODERN_JS_VERSION || '0.1.0');
-
-export type HooksRunner = Progresses2Runners<{
-  config: ParallelWorkflow<void>;
-  resolvedConfig: AsyncWaterfall<{
-    resolved: NormalizedConfig;
-  }>;
-  validateSchema: ParallelWorkflow<void>;
-  prepare: AsyncWorkflow<void, void>;
-  commands: AsyncWorkflow<
-    {
-      program: Command;
-    },
-    void
-  >;
-  watchFiles: ParallelWorkflow<void>;
-  fileChange: AsyncWorkflow<
-    {
-      filename: string;
-      eventType: 'add' | 'change' | 'unlink';
-    },
-    void
-  >;
-  beforeExit: AsyncWorkflow<void, void>;
-}>;
-
-const hooksMap = {
-  config: createParallelWorkflow(),
-  resolvedConfig: createAsyncWaterfall<{
-    resolved: NormalizedConfig;
-  }>(),
-  validateSchema: createParallelWorkflow(),
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-  prepare: createAsyncWorkflow<void, void>(),
-  commands: createAsyncWorkflow<
-    {
-      program: Command;
-    },
-    // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    void
-  >(),
-  watchFiles: createParallelWorkflow(),
-  fileChange: createAsyncWorkflow<
-    {
-      filename: string;
-      eventType: 'add' | 'change' | 'unlink';
-    },
-    // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    void
-  >(),
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-  beforeExit: createAsyncWorkflow<void, void>(),
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-  beforeRestart: createAsyncWorkflow<void, void>(),
-};
-
-export const manager = createAsyncManager<Hooks, typeof hooksMap>(hooksMap);
-
-export const {
-  createPlugin,
-  registe: registerHook,
-  useRunner: mountHook,
-} = manager;
-
-export const usePlugins = (plugins: string[]) =>
-  plugins.forEach(plugin =>
-    manager.usePlugin(compatRequire(require.resolve(plugin))),
-  );
-
-export {
-  AppContext,
-  ResolvedConfigContext,
-  useAppContext,
-  useConfigContext,
-  useResolvedConfigContext,
-  ConfigContext,
-};
 
 export type { NormalizedConfig, IAppContext };
 
