@@ -97,7 +97,12 @@ describe('test server', () => {
 
     test('should get request handler correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: {
+          ...(defaultsConfig as NormalizedConfig),
+          output: {
+            path: 'test-dist',
+          },
+        },
         pwd: appDirectory,
       });
 

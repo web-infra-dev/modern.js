@@ -1,0 +1,13 @@
+{
+  "routes": [
+    {
+      "urlPath": "/",
+      "entryName": "main",
+      "entryPath": "html/main/index.html",
+      "isSPA": true,
+      "isSSR": true,
+      "enableModernMode": false,
+      "bundle": "bundles/main.js"
+    }
+  ]
+}
