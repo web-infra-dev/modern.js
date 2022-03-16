@@ -78,10 +78,12 @@ export const routerPlugin: any = ({
       hoc: ({ App }, next) => {
         const getRouteApp = () => {
           if (isBrow) {
-            historyOptions.basename = urlJoin(
-              window._SERVER_DATA?.router.baseUrl || select(location.pathname),
-              historyOptions.basename as string,
-            );
+            const baseUrl =
+              window._SERVER_DATA?.router.baseUrl || select(location.pathname);
+            historyOptions.basename =
+              baseUrl === '/'
+                ? urlJoin(baseUrl, historyOptions.basename as string)
+                : baseUrl;
 
             const history =
               customHistory || supportHtml5History
@@ -106,10 +108,11 @@ export const routerPlugin: any = ({
             const location = getLocation(ssrContext);
             const routerContext = ssrContext?.redirection || {};
             const request = ssrContext?.request;
-            const basename = urlJoin(
-              request?.baseUrl as string,
-              historyOptions.basename as string,
-            );
+            const baseUrl = request?.baseUrl as string;
+            const basename =
+              baseUrl === '/'
+                ? urlJoin(baseUrl, historyOptions.basename as string)
+                : baseUrl;
 
             return (
               <StaticRouter
