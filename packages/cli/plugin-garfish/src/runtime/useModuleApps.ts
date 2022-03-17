@@ -39,9 +39,13 @@ export type MicroComponentProps = { loadable?: LoadableConfig };
 export type Config = Partial<Options> & ModernGarfishConfig;
 
 export function useModuleApps() {
-  const { apps } = useContext(GarfishContext);
+  const { apps, MApp, appInfoList } = useContext(GarfishContext);
   logger('call useModuleApps', apps);
-  return apps;
+  return {
+    ...apps,
+    MApp,
+    apps: appInfoList,
+  };
 }
 
 export function useModuleApp() {
