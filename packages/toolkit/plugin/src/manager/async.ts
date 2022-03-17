@@ -32,7 +32,7 @@ export type PluginFromAsyncManager<M extends AsyncManager<any, any>> =
 
 export type AsyncManager<Hooks, API> = {
   createPlugin: (
-    setup: AsyncSetup<Hooks, API>,
+    setup?: AsyncSetup<Hooks, API>,
     options?: PluginOptions<Hooks, AsyncSetup<Hooks, API>>,
   ) => AsyncPlugin<Hooks, API>;
 
@@ -72,23 +72,6 @@ export const createAsyncManager = <
     };
   };
 
-  const createPlugin: AsyncManager<Hooks, API>['createPlugin'] = (
-    setup,
-    options = {},
-  ) => {
-    if (options.registerHook) {
-      registerHook(options.registerHook);
-    }
-
-    return {
-      ...DEFAULT_OPTIONS,
-      name: `No.${index++} plugin`,
-      ...options,
-      ASYNC_PLUGIN_SYMBOL,
-      setup,
-    };
-  };
-
   const isPlugin: AsyncManager<Hooks, API>['isPlugin'] = (
     input,
   ): input is AsyncPlugin<Hooks, API> =>
@@ -117,6 +100,30 @@ export const createAsyncManager = <
       }
 
       return manager;
+    };
+
+    const createPlugin: AsyncManager<Hooks, API>['createPlugin'] = (
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      setup = () => {},
+      options = {},
+    ) => {
+      if (options.usePlugins?.length) {
+        options.usePlugins.forEach(plugin => {
+          usePlugin(createPlugin(plugin.setup, plugin));
+        });
+      }
+
+      if (options.registerHook) {
+        registerHook(options.registerHook);
+      }
+
+      return {
+        ...DEFAULT_OPTIONS,
+        name: `No.${index++} plugin`,
+        ...options,
+        ASYNC_PLUGIN_SYMBOL,
+        setup,
+      };
     };
 
     const clear = () => {

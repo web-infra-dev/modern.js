@@ -51,7 +51,7 @@ export type PluginFromManager<M extends Manager<any, any>> = M extends Manager<
 
 export type Manager<Hooks, API> = {
   createPlugin: (
-    setup: Setup<Hooks, API>,
+    setup?: Setup<Hooks, API>,
     options?: PluginOptions<Hooks, Setup<Hooks, API>>,
   ) => Plugin<Hooks, API>;
 
@@ -99,23 +99,6 @@ export const createManager = <
     };
   };
 
-  const createPlugin: Manager<Hooks, API>['createPlugin'] = (
-    setup,
-    options = {},
-  ) => {
-    if (options.registerHook) {
-      registerHook(options.registerHook);
-    }
-
-    return {
-      ...DEFAULT_OPTIONS,
-      name: `No.${index++} plugin`,
-      ...options,
-      SYNC_PLUGIN_SYMBOL,
-      setup,
-    };
-  };
-
   const isPlugin: Manager<Hooks, API>['isPlugin'] = (
     input,
   ): input is Plugin<Hooks, API> =>
@@ -143,16 +126,30 @@ export const createManager = <
         }
       }
 
+      return manager;
+    };
+
+    const createPlugin: Manager<Hooks, API>['createPlugin'] = (
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      setup = () => {},
+      options = {},
+    ) => {
+      if (options.usePlugins?.length) {
+        options.usePlugins.forEach(plugin => {
+          usePlugin(createPlugin(plugin.setup, plugin));
+        });
+      }
+
+      if (options.registerHook) {
+        registerHook(options.registerHook);
+      }
+
       return {
-        createPlugin,
-        isPlugin,
-        usePlugin,
-        init,
-        run,
-        clear,
-        registerHook,
-        useRunner,
-        clone,
+        ...DEFAULT_OPTIONS,
+        name: `No.${index++} plugin`,
+        ...options,
+        SYNC_PLUGIN_SYMBOL,
+        setup,
       };
     };
 
@@ -181,7 +178,7 @@ export const createManager = <
       return runWithContainer(cb, container);
     };
 
-    return {
+    const manager = {
       createPlugin,
       isPlugin,
       usePlugin,
@@ -192,6 +189,8 @@ export const createManager = <
       useRunner,
       clone,
     };
+
+    return manager;
   };
 
   return clone();
