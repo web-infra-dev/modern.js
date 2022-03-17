@@ -12,7 +12,7 @@ import {
   useLocation,
   MemoryRouter,
 } from '@modern-js/plugin-router';
-import ModernGarfishPlugin from '../src/runtime';
+import ModernGarfishPlugin, { useModuleApp } from '../src/runtime';
 import { useModuleApps } from '../src';
 import {
   TABLE_LIST_ESCAPE_NODE,
@@ -199,6 +199,8 @@ describe('plugin-garfish', () => {
 
     const App = () => {
       const { MApp } = useModuleApps();
+      const NMApp = useModuleApp();
+      expect(MApp).toBe(NMApp);
 
       return (
         <MemoryRouter>
