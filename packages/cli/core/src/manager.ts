@@ -1,5 +1,7 @@
 import {
   ToRunners,
+  AsyncSetup,
+  PluginOptions,
   AsyncWorkflow,
   AsyncWaterfall,
   ParallelWorkflow,
@@ -64,10 +66,17 @@ const baseHooks = {
   beforeRestart: createAsyncWorkflow<void, void>(),
 };
 
-export const manager = createAsyncManager<typeof baseHooks & Hooks, PluginAPI>(
+type AllHooks = typeof baseHooks & Hooks;
+
+export const manager = createAsyncManager<AllHooks, PluginAPI>(
   baseHooks,
   pluginAPI,
 );
+
+export type CliPlugin = PluginOptions<
+  AllHooks,
+  AsyncSetup<AllHooks, PluginAPI>
+>;
 
 // TODO: remove export after refactor all plugins
 export const { createPlugin, registerHook, useRunner: mountHook } = manager;

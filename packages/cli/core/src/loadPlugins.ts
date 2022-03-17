@@ -5,6 +5,7 @@ import {
   INTERNAL_PLUGINS,
 } from '@modern-js/utils';
 import type { UserConfig } from './config';
+import { createPlugin } from './manager';
 
 const debug = createDebugger('load-plugins');
 
@@ -90,7 +91,10 @@ export const loadPlugins = (
     let module = compatRequire(path);
     const pluginOptions = Array.isArray(p) ? p[1] : undefined;
 
-    module = typeof module === 'function' ? module(pluginOptions) : module;
+    if (typeof module === 'function') {
+      const plugin = module(pluginOptions);
+      module = createPlugin(plugin.setup, plugin);
+    }
 
     return {
       pkg,
