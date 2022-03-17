@@ -92,29 +92,35 @@ export const createManager = <
   let index = 0;
   let currentHooks = { ...hooks } as Hooks;
 
-  const createPlugin: Manager<Hooks, API>['createPlugin'] = (
-    setup,
-    options = {},
-  ) => ({
-    ...DEFAULT_OPTIONS,
-    name: `No.${index++} plugin`,
-    ...options,
-    SYNC_PLUGIN_SYMBOL,
-    setup,
-  });
-
-  const isPlugin: Manager<Hooks, API>['isPlugin'] = (
-    input,
-  ): input is Plugin<Hooks, API> =>
-    hasOwnProperty(input, SYNC_PLUGIN_SYMBOL) &&
-    input[SYNC_PLUGIN_SYMBOL] === SYNC_PLUGIN_SYMBOL;
-
   const registerHook: Manager<Hooks, API>['registerHook'] = extraHooks => {
     currentHooks = {
       ...extraHooks,
       ...currentHooks,
     };
   };
+
+  const createPlugin: Manager<Hooks, API>['createPlugin'] = (
+    setup,
+    options = {},
+  ) => {
+    if (options.registerHook) {
+      registerHook(options.registerHook);
+    }
+
+    return {
+      ...DEFAULT_OPTIONS,
+      name: `No.${index++} plugin`,
+      ...options,
+      SYNC_PLUGIN_SYMBOL,
+      setup,
+    };
+  };
+
+  const isPlugin: Manager<Hooks, API>['isPlugin'] = (
+    input,
+  ): input is Plugin<Hooks, API> =>
+    hasOwnProperty(input, SYNC_PLUGIN_SYMBOL) &&
+    input[SYNC_PLUGIN_SYMBOL] === SYNC_PLUGIN_SYMBOL;
 
   const pluginAPI = {
     ...api,

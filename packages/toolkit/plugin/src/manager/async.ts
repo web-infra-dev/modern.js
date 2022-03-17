@@ -65,29 +65,35 @@ export const createAsyncManager = <
   let index = 0;
   let currentHooks = { ...hooks } as Hooks;
 
-  const createPlugin: AsyncManager<Hooks, API>['createPlugin'] = (
-    setup,
-    options = {},
-  ) => ({
-    ...DEFAULT_OPTIONS,
-    name: `No.${index++} plugin`,
-    ...options,
-    ASYNC_PLUGIN_SYMBOL,
-    setup,
-  });
-
-  const isPlugin: AsyncManager<Hooks, API>['isPlugin'] = (
-    input,
-  ): input is AsyncPlugin<Hooks, API> =>
-    hasOwnProperty(input, ASYNC_PLUGIN_SYMBOL) &&
-    input[ASYNC_PLUGIN_SYMBOL] === ASYNC_PLUGIN_SYMBOL;
-
   const registerHook: AsyncManager<Hooks, API>['registerHook'] = extraHooks => {
     currentHooks = {
       ...extraHooks,
       ...currentHooks,
     };
   };
+
+  const createPlugin: AsyncManager<Hooks, API>['createPlugin'] = (
+    setup,
+    options = {},
+  ) => {
+    if (options.registerHook) {
+      registerHook(options.registerHook);
+    }
+
+    return {
+      ...DEFAULT_OPTIONS,
+      name: `No.${index++} plugin`,
+      ...options,
+      ASYNC_PLUGIN_SYMBOL,
+      setup,
+    };
+  };
+
+  const isPlugin: AsyncManager<Hooks, API>['isPlugin'] = (
+    input,
+  ): input is AsyncPlugin<Hooks, API> =>
+    hasOwnProperty(input, ASYNC_PLUGIN_SYMBOL) &&
+    input[ASYNC_PLUGIN_SYMBOL] === ASYNC_PLUGIN_SYMBOL;
 
   const pluginAPI = {
     ...api,
