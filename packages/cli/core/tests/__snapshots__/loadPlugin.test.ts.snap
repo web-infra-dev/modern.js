@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`load plugins should pass options to Plugin 1`] = `
+Array [
+  Object {
+    "cli": Object {
+      "ASYNC_PLUGIN_SYMBOL": "ASYNC_PLUGIN_SYMBOL",
+      "name": "c",
+      "pluginPath": "/Users/chenjiahan/Project/modern.js/packages/cli/core/tests/fixtures/load-plugin/user-plugins/test-plugin-c.js",
+      "post": Array [],
+      "pre": Array [],
+      "registerHook": Object {},
+      "required": Array [],
+      "rivals": Array [],
+      "setup": [Function],
+      "usePlugins": Array [],
+    },
+    "cliPkg": "./test-plugin-c",
+  },
+  Object {
+    "cli": Object {
+      "ASYNC_PLUGIN_SYMBOL": "ASYNC_PLUGIN_SYMBOL",
+      "name": "c2",
+      "pluginPath": "/Users/chenjiahan/Project/modern.js/packages/cli/core/tests/fixtures/load-plugin/user-plugins/test-plugin-c.js",
+      "post": Array [],
+      "pre": Array [],
+      "registerHook": Object {},
+      "required": Array [],
+      "rivals": Array [],
+      "setup": [Function],
+      "usePlugins": Array [],
+    },
+    "cliPkg": "./test-plugin-c",
+  },
+]
+`;

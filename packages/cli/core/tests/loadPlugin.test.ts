@@ -56,22 +56,7 @@ describe('load plugins', () => {
       plugins: [{ cli: ['./test-plugin-c', 'c'] }, ['./test-plugin-c', 'c2']],
     });
 
-    expect(plugins).toEqual([
-      {
-        cli: {
-          name: 'c',
-          pluginPath: path.join(fixture, './test-plugin-c.js'),
-        },
-        cliPkg: './test-plugin-c',
-      },
-      {
-        cli: {
-          name: 'c2',
-          pluginPath: path.join(fixture, './test-plugin-c.js'),
-        },
-        cliPkg: './test-plugin-c',
-      },
-    ]);
+    expect(plugins).toMatchSnapshot();
   });
 
   test('should load user string plugin successfully', () => {
