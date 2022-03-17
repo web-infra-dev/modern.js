@@ -18,6 +18,9 @@ Array [
     Object {
       "schema": Object {
         "properties": Object {
+          "clearPdnCache": Object {
+            "type": "boolean",
+          },
           "ignore": Object {
             "items": Object {
               "type": "string",
@@ -26,6 +29,12 @@ Array [
               "string",
               "array",
             ],
+          },
+          "ignoreModuleCache": Object {
+            "type": "boolean",
+          },
+          "pdnHost": Object {
+            "type": "string",
           },
         },
         "type": "object",

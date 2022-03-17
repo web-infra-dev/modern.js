@@ -98,7 +98,7 @@ export default createPlugin(
             // only add entry route if entryOptions is true
             if (entryOptions === true) {
               ssgRoutes.push({ ...pageRoute, output: entryPath });
-            } else if (entryOptions.routes?.length > 0) {
+            } else if (entryOptions.routes && entryOptions.routes.length > 0) {
               // if entryOptions is object and has routes options
               // add every route in options
               const { routes: enrtyRoutes, headers } = entryOptions;

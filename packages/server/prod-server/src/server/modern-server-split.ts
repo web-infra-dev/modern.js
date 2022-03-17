@@ -1,23 +1,11 @@
 import { APIServerStartInput } from '@modern-js/server-core';
-import { mergeExtension } from '../utils';
-import { ModernRoute, ModernRouteInterface, RouteMatcher } from '../libs/route';
-import { ApiServerMode } from '../constants';
+import { ModernRoute, ModernRouteInterface } from '../libs/route';
+import { ApiServerMode, RUN_MODE } from '../constants';
 import { ModernServerContext } from '../libs/context';
+import { ModernServerOptions, ModernServerInterface, HookNames } from '../type';
 import { ModernServer } from './modern-server';
 
-export class ModernSSRServer extends ModernServer {
-  // Todo should not invoke any route hook in modernSSRServer
-
-  protected async warmupSSRBundle() {
-    // empty
-  }
-
-  protected verifyMatch(context: ModernServerContext, matched: RouteMatcher) {
-    if (matched.generate(context.url).isApi) {
-      this.render404(context);
-    }
-  }
-
+class ModernSSRServer extends ModernServer {
   protected prepareAPIHandler(
     _m: ApiServerMode,
     _: APIServerStartInput['config'],
@@ -25,39 +13,26 @@ export class ModernSSRServer extends ModernServer {
     return null as any;
   }
 
-  protected async prepareWebHandler(
-    extension: ReturnType<typeof mergeExtension>,
-  ) {
-    return super.prepareWebHandler(extension);
+  protected filterRoutes(routes: ModernRouteInterface[]) {
+    return routes.filter(route => route.isSSR);
   }
 
-  // protected filterRoutes(routes: ModernRouteInterface[]) {
-  //   return routes.filter(route => route.entryName);
-  // }
-
   protected async preServerInit() {
-    // empty
+    if (this.runMode === RUN_MODE.FULL) {
+      await super.preServerInit();
+    }
+  }
+
+  protected async emitRouteHook(_: HookNames, _input: any) {
+    if (this.runMode === RUN_MODE.FULL) {
+      await super.emitRouteHook(_, _input);
+    }
   }
 }
 
-export class ModernAPIServer extends ModernServer {
-  protected async emitRouteHook(_: string, _input: any) {
-    // empty
-  }
-
-  protected async warmupSSRBundle() {
-    // empty
-  }
-
-  protected prepareWebHandler(_: ReturnType<typeof mergeExtension>) {
+class ModernAPIServer extends ModernServer {
+  protected prepareWebHandler(_: APIServerStartInput['config']) {
     return null as any;
-  }
-
-  protected async prepareAPIHandler(
-    mode: ApiServerMode,
-    extension: APIServerStartInput['config'],
-  ) {
-    return super.prepareAPIHandler(mode, extension);
   }
 
   protected filterRoutes(routes: ModernRouteInterface[]) {
@@ -65,21 +40,28 @@ export class ModernAPIServer extends ModernServer {
   }
 
   protected async preServerInit() {
+    if (this.runMode === RUN_MODE.FULL) {
+      await super.preServerInit();
+    }
+  }
+
+  protected async emitRouteHook(_: HookNames, _input: any) {
     // empty
   }
 }
 
-export class ModernWebServer extends ModernServer {
+class ModernWebServer extends ModernServer {
   protected async warmupSSRBundle() {
-    // empty
+    return null;
   }
 
   protected async handleAPI(context: ModernServerContext) {
     const { proxyTarget } = this;
-    if (!proxyTarget?.api) {
-      this.proxy();
+
+    if (proxyTarget?.api) {
+      return this.proxy();
     } else {
-      this.render404(context);
+      return this.render404(context);
     }
   }
 
@@ -95,3 +77,17 @@ export class ModernWebServer extends ModernServer {
     }
   }
 }
+
+export const createProdServer = (
+  options: ModernServerOptions,
+): ModernServerInterface => {
+  if (options.apiOnly) {
+    return new ModernAPIServer(options);
+  } else if (options.ssrOnly) {
+    return new ModernSSRServer(options);
+  } else if (options.webOnly) {
+    return new ModernWebServer(options);
+  } else {
+    return new ModernServer(options);
+  }
+};

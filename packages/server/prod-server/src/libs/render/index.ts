@@ -68,6 +68,7 @@ export const createRenderHandler = ({
     }
 
     const content = await readFile(templateHTML);
+
     if (!content) {
       return null;
     }

@@ -1,9 +1,14 @@
 import path from 'path';
+import { EventEmitter, Readable } from 'stream';
 import { defaultsConfig, NormalizedConfig } from '@modern-js/core';
 import { ModernServerContext, NextFunction } from '@modern-js/types';
-import createServer, { Server } from '../src';
+import httpMocks from 'node-mocks-http';
+import portfinder from 'portfinder';
+import createServer, { RUN_MODE, Server } from '../src';
 import { ModernServer } from '../src/server/modern-server';
+import { createContext } from '../src/libs/context';
 
+const appDirectory = path.join(__dirname, './fixtures/pure');
 describe('test server', () => {
   test('should throw error when ', resolve => {
     try {
@@ -19,14 +24,17 @@ describe('test server', () => {
   test('shoule get modern server instance', async () => {
     const server = await createServer({
       config: defaultsConfig as NormalizedConfig,
-      pwd: path.join(__dirname, './fixtures/pure'),
+      pwd: appDirectory,
     });
+    const port = await portfinder.getPortPromise();
     expect(server instanceof Server).toBe(true);
+
+    server.listen(port, () => {
+      server.close();
+    });
   });
 
   describe('shoule get production modern server instance', () => {
-    const appDirectory = path.join(__dirname, './fixtures/pure');
-
     test('should init server correctly', async () => {
       const server = await createServer({
         config: defaultsConfig as NormalizedConfig,
@@ -89,13 +97,118 @@ describe('test server', () => {
 
     test('should get request handler correctly', async () => {
       const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
+        config: {
+          ...(defaultsConfig as NormalizedConfig),
+          output: {
+            path: 'test-dist',
+          },
+        },
         pwd: appDirectory,
       });
 
       const modernServer: ModernServer = (server as any).server;
       const handler = modernServer.getRequestHandler();
       expect(typeof handler === 'function').toBeTruthy();
+
+      const req = httpMocks.createRequest({
+        url: '/',
+        headers: {
+          host: 'modernjs.com',
+        },
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+      const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+      handler(req, res, () => {
+        // empty
+      });
+      const html = await new Promise((resolve, _reject) => {
+        res.on('finish', () => {
+          resolve(res._getData());
+        });
+      });
+
+      expect(html).toMatch('<div>Modern.js</div>');
+    });
+  });
+
+  describe('should split server work correctly', () => {
+    test('should init api server correctly', async () => {
+      const server = await createServer({
+        config: defaultsConfig as NormalizedConfig,
+        pwd: appDirectory,
+        apiOnly: true,
+        runMode: RUN_MODE.FULL,
+      });
+      const modernServer = (server as any).server;
+      modernServer.emitRouteHook('reset', {});
+      expect(modernServer.prepareWebHandler()).toBeNull();
+      await server.close();
+    });
+
+    test('should init web server correctly', async () => {
+      const server = await createServer({
+        config: defaultsConfig as NormalizedConfig,
+        pwd: appDirectory,
+        ssrOnly: true,
+        runMode: RUN_MODE.FULL,
+      });
+      const modernServer = (server as any).server;
+      modernServer.emitRouteHook('reset', {});
+      expect(modernServer.prepareAPIHandler()).toBeNull();
+      await server.close();
+    });
+
+    test('should init ssr server correctly', async () => {
+      const server = await createServer({
+        config: defaultsConfig as NormalizedConfig,
+        pwd: appDirectory,
+        webOnly: true,
+      });
+      const modernServer = (server as any).server;
+      const req = httpMocks.createRequest({
+        url: '/',
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+      const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+      const ctx = createContext(req, res);
+      ctx.resHasHandled = () => true;
+      ctx.error = () => {
+        // empty
+      };
+      expect(await modernServer.warmupSSRBundle()).toBeNull();
+      expect(await modernServer.handleAPI(ctx, {})).toBeUndefined();
+      expect(await modernServer.handleWeb(ctx, {})).toBeNull();
+    });
+
+    test('should init web server with proxy correctly', async () => {
+      const server = await createServer({
+        config: defaultsConfig as NormalizedConfig,
+        pwd: appDirectory,
+        webOnly: true,
+        proxyTarget: {
+          api: '/',
+          ssr: '/',
+        },
+      });
+      const modernServer = (server as any).server;
+      const req = httpMocks.createRequest({
+        url: '/',
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+      const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+      const ctx = createContext(req, res);
+      ctx.resHasHandled = () => true;
+      ctx.error = () => {
+        // empty
+      };
+
+      expect(await modernServer.warmupSSRBundle()).toBeNull();
+      expect(await modernServer.handleAPI(ctx, {})).toBeNull();
+      expect(await modernServer.handleWeb(ctx, { isSSR: true })).toBeNull();
+      await server.close();
     });
   });
 });
