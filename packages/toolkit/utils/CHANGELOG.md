@@ -1,5 +1,11 @@
 # @modern-js/utils
 
+## 1.3.4
+
+### Patch Changes
+
+- db43dce6: expose plugin-unbundle configs
+
 ## 1.3.3
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # @modern-js/plugin-bff
 
+## 1.3.6
+
+### Patch Changes
+
+- 3eee457b: fix: move some peerDependencies to dependecies
+- Updated dependencies [cc5e8001]
+- Updated dependencies [2520ea86]
+- Updated dependencies [3eee457b]
+- Updated dependencies [db43dce6]
+- Updated dependencies [e81fd9b7]
+- Updated dependencies [1c411e71]
+  - @modern-js/core@1.4.6
+  - @modern-js/create-request@1.2.2
+  - @modern-js/utils@1.3.4
+
 ## 1.3.5
 
 ### Patch Changes
