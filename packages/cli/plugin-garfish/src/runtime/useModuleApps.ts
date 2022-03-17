@@ -38,32 +38,23 @@ export type MicroComponentProps = { loadable?: LoadableConfig };
 
 export type Config = Partial<Options> & ModernGarfishConfig;
 
+interface UseModuleApps {
+  readonly MApp: React.FC<any>;
+  readonly apps: ModulesInfo;
+  [index: string]: any;
+}
+
 export function useModuleApps() {
   const { apps, MApp, appInfoList } = useContext(GarfishContext);
-  logger('call useModuleApps', apps);
-  return {
-    ...apps,
-    MApp,
-    apps: appInfoList,
-  };
+  logger('call useModuleApps', apps, MApp, appInfoList);
+  apps.MApp = MApp;
+  (apps as any).apps = appInfoList;
+
+  return apps as UseModuleApps;
 }
 
 export function useModuleApp() {
   const { MApp } = useContext(GarfishContext);
   logger('call useModuleApps', MApp);
   return MApp;
-}
-
-export function useMicroApps() {
-  const { MApp, appInfoList, apps } = useContext(GarfishContext);
-  logger('call useMicroApps', {
-    MApp,
-    apps: appInfoList,
-    Components: apps,
-  });
-  return {
-    MApp,
-    apps: appInfoList,
-    Components: apps,
-  };
 }

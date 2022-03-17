@@ -13,7 +13,7 @@ import {
   MemoryRouter,
 } from '@modern-js/plugin-router';
 import ModernGarfishPlugin from '../src/runtime';
-import { useMicroApps } from '../src';
+import { useModuleApps } from '../src';
 import {
   TABLE_LIST_ESCAPE_NODE,
   TABLE_LIST_HTML,
@@ -82,7 +82,7 @@ describe('plugin-garfish', () => {
   });
 
   // testing-library.com/docs/example-react-router/
-  test('legacyModule hooks Components', async () => {
+  test('useModuleApps hooks', async () => {
     const dashBoardModuleInfo = {
       name: 'Dashboard',
       entry: dashboardPath,
@@ -111,9 +111,7 @@ describe('plugin-garfish', () => {
     const App = () => {
       const HomeTitle = 'Micro home page';
       const Home = () => <div data-testid="home-title">{HomeTitle}</div>;
-      const {
-        Components: { Dashboard, TableList },
-      } = useMicroApps();
+      const { Dashboard, TableList } = useModuleApps();
 
       const LocationDisplay = () => {
         const location = useLocation();
@@ -200,7 +198,7 @@ describe('plugin-garfish', () => {
     };
 
     const App = () => {
-      const { MApp } = useMicroApps();
+      const { MApp } = useModuleApps();
 
       return (
         <MemoryRouter>

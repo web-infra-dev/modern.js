@@ -72,9 +72,15 @@ const GarfishPlugin = (config: Config) => {
           apps: new Proxy(
             {},
             {
-              get(_target, _p) {
-                logger('apps init Component Render', _p);
+              get(target, p, receiver) {
+                logger('apps init Component Render', p);
+                if (typeof p === 'string' && p in target) {
+                  return Reflect.get(target, p, receiver);
+                }
                 return () => React.createElement('div');
+              },
+              set(target, p, value) {
+                return Reflect.get(target, p, value);
               },
             },
           ),
