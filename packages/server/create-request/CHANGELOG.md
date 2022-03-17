@@ -1,5 +1,13 @@
 # @modern-js/create-request
 
+## 1.2.2
+
+### Patch Changes
+
+- 3eee457b: fix: move some peerDependencies to dependecies
+- Updated dependencies [db43dce6]
+  - @modern-js/utils@1.3.4
+
 ## 1.2.1
 
 ### Patch Changes

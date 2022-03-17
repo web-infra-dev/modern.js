@@ -1,5 +1,16 @@
 # @modern-js/core
 
+## 1.4.6
+
+### Patch Changes
+
+- cc5e8001: fix: load plugins
+- 2520ea86: fix: garfish schema
+- e81fd9b7: fix: update "server.metrics" type
+- 1c411e71: fix: mergeConfig util function
+- Updated dependencies [db43dce6]
+  - @modern-js/utils@1.3.4
+
 ## 1.4.4
 
 ### Patch Changes
