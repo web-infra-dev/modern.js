@@ -108,7 +108,7 @@ interface ServerConfig {
   ssrByEntries?: Record<string, boolean | Record<string, unknown>>;
   baseUrl?: string | Array<string>;
   port?: number;
-  logger?: Record<string, any>;
+  logger?: boolean | Record<string, any>;
   metrics?: Record<string, any>;
   enableMicroFrontendDebug?: boolean;
 }
