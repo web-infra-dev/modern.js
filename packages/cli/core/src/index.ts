@@ -10,7 +10,7 @@ import type { Hooks } from '@modern-js/types';
 import { ErrorObject } from 'ajv';
 import { program } from './utils/commander';
 import { resolveConfig, loadUserConfig } from './config';
-import { loadPlugins, TransformPlugin } from './loadPlugins';
+import { loadPlugins } from './loadPlugins';
 import {
   AppContext,
   ConfigContext,
@@ -56,7 +56,6 @@ export interface CoreOptions {
   configFile?: string;
   packageJsonConfig?: string;
   plugins?: typeof INTERNAL_PLUGINS;
-  transformPlugin?: TransformPlugin;
   onSchemaError?: (error: ErrorObject) => void;
   options?: {
     metaName?: string;
@@ -92,7 +91,6 @@ const createCli = () => {
 
     const plugins = loadPlugins(appDirectory, loaded.config, {
       internalPlugins: options?.plugins,
-      transformPlugin: options?.transformPlugin,
     });
 
     plugins.forEach(plugin => plugin.cli && manager.usePlugin(plugin.cli));

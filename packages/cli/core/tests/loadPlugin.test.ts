@@ -95,26 +95,6 @@ describe('load plugins', () => {
     ]);
   });
 
-  test('should call transformPlugin', () => {
-    const fixture = path.resolve(
-      __dirname,
-      './fixtures/load-plugin/user-plugins',
-    );
-
-    const options = {
-      transformPlugin: jest.fn(),
-    };
-    options.transformPlugin.mockImplementation((plugins, _) => plugins);
-
-    loadPlugins(
-      fixture,
-      { plugins: [{ cli: path.join(fixture, './test-plugin-a.js') }] },
-      options,
-    );
-
-    expect(options.transformPlugin).toHaveBeenCalled();
-  });
-
   test(`should throw error when plugin not found `, () => {
     const fixture = path.resolve(__dirname, './fixtures/load-plugin/not-found');
 
