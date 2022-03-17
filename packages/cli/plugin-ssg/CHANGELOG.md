@@ -1,5 +1,20 @@
 # @modern-js/plugin-ssg
 
+## 1.2.5
+
+### Patch Changes
+
+- 73306c0d: fix ssg type
+- 59010b7a: rewrite server lifecycle, add unit test
+- aed9912e: fix: output.ssg type error
+- Updated dependencies [cc5e8001]
+- Updated dependencies [2520ea86]
+- Updated dependencies [db43dce6]
+- Updated dependencies [e81fd9b7]
+- Updated dependencies [1c411e71]
+  - @modern-js/core@1.4.6
+  - @modern-js/utils@1.3.4
+
 ## 1.2.4
 
 ### Patch Changes
