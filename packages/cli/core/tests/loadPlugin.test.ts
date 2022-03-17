@@ -56,7 +56,8 @@ describe('load plugins', () => {
       plugins: [{ cli: ['./test-plugin-c', 'c'] }, ['./test-plugin-c', 'c2']],
     });
 
-    expect(plugins).toMatchSnapshot();
+    expect(plugins[0].cli.name).toEqual('c');
+    expect(plugins[1].cli.name).toEqual('c2');
   });
 
   test('should load user string plugin successfully', () => {
