@@ -9,7 +9,7 @@ import type {
   PluginOptions,
 } from './types';
 
-export type AsyncSetup<Hooks, API = never> = (
+export type AsyncSetup<Hooks, API = Record<string, never>> = (
   api: API & CommonAPI<Hooks>,
 ) =>
   | Partial<ToThreads<Hooks>>
@@ -134,7 +134,6 @@ export const createAsyncManager = <
 
     const init: AsyncManager<Hooks, API>['init'] = async options => {
       const container = options?.container || currentContainer;
-
       const sortedPlugins = sortAsyncPlugins(plugins);
 
       checkAsyncPlugins(sortedPlugins);

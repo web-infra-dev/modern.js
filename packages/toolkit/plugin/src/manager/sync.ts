@@ -29,7 +29,7 @@ import type {
   PluginOptions,
 } from './types';
 
-export type Setup<Hooks, API = never> = (
+export type Setup<Hooks, API = Record<string, never>> = (
   api: API,
 ) => Partial<ToThreads<Hooks>> | void;
 
@@ -59,7 +59,7 @@ export type Manager<Hooks, API> = {
 
   usePlugin: (...input: Plugins<Hooks, API>) => Manager<Hooks, API>;
 
-  init: (options: InitOptions) => ToRunners<Hooks>;
+  init: (options?: InitOptions) => ToRunners<Hooks>;
 
   run: <O>(cb: () => O, options?: InitOptions) => O;
 
@@ -86,7 +86,7 @@ export const createManager = <
   Hooks,
   API extends Record<string, any> = Record<string, never>,
 >(
-  hooks?: Hooks,
+  hooks?: Partial<Hooks>,
   api?: API,
 ): Manager<Hooks, API> => {
   let index = 0;
