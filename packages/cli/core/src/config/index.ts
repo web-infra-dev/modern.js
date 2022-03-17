@@ -108,7 +108,7 @@ interface ServerConfig {
   ssrByEntries?: Record<string, boolean | Record<string, unknown>>;
   baseUrl?: string | Array<string>;
   port?: number;
-  logger?: Record<string, any>;
+  logger?: boolean | Record<string, any>;
   metrics?: Record<string, any>;
   enableMicroFrontendDebug?: boolean;
 }
@@ -132,7 +132,6 @@ interface DeployConfig {
 
 type ConfigFunction =
   | Record<string, unknown>
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   | ((config: Record<string, unknown>) => Record<string, unknown> | void);
 interface ToolsConfig {
   webpack?: ConfigFunction;
