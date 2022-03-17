@@ -1,5 +1,18 @@
 # @modern-js/plugin-router
 
+## 1.2.5
+
+### Patch Changes
+
+- 6a2fd32e: not contact server.baseUrl and router.historyOptions.basename
+- Updated dependencies [cc5e8001]
+- Updated dependencies [2520ea86]
+- Updated dependencies [db43dce6]
+- Updated dependencies [e81fd9b7]
+- Updated dependencies [1c411e71]
+  - @modern-js/core@1.4.6
+  - @modern-js/utils@1.3.4
+
 ## 1.2.4
 
 ### Patch Changes
