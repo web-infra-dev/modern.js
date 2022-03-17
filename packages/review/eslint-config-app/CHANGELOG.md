@@ -1,5 +1,11 @@
 # @modern-js-app/eslint-config
 
+## 1.2.3
+
+### Patch Changes
+
+- b44c02d4: fix: remove no-invalid-void-type rule
+
 ## 1.2.2
 
 ### Patch Changes

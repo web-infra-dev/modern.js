@@ -1,5 +1,12 @@
 # @modern-js/generator-common
 
+## 1.4.5
+
+### Patch Changes
+
+- 3eee457b: fix: move some peerDependencies to dependecies
+- aed9912e: fix: output.ssg type error
+
 ## 1.4.4
 
 ### Patch Changes
