@@ -1,5 +1,19 @@
 # @modern-js/server
 
+## 1.4.6
+
+### Patch Changes
+
+- a78e32d8: remove server hook when api only
+- 59010b7a: rewrite server lifecycle, add unit test
+- Updated dependencies [a78e32d8]
+- Updated dependencies [e11eaafc]
+- Updated dependencies [cbba492b]
+- Updated dependencies [db43dce6]
+- Updated dependencies [59010b7a]
+  - @modern-js/prod-server@1.0.2
+  - @modern-js/utils@1.3.4
+
 ## 1.4.4
 
 ### Patch Changes
