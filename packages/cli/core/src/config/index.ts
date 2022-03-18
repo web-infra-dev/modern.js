@@ -109,7 +109,7 @@ interface ServerConfig {
   baseUrl?: string | Array<string>;
   port?: number;
   logger?: boolean | Record<string, any>;
-  metrics?: Record<string, any>;
+  metrics?: boolean | Record<string, any>;
   enableMicroFrontendDebug?: boolean;
 }
 
