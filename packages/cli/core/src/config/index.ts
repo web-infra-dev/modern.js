@@ -98,6 +98,7 @@ interface ServerConfig {
   routes?: Record<
     string,
     | string
+    | string[]
     | {
         route: string | string[];
         disableSpa?: boolean;
