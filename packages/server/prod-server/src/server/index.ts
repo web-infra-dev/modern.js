@@ -5,8 +5,13 @@ import {
   AppContext,
   ConfigContext,
 } from '@modern-js/server-core';
-import { compatRequire, logger as defaultLogger } from '@modern-js/utils';
-import { initAppContext, UserConfig } from '@modern-js/core';
+import {
+  compatRequire,
+  logger as defaultLogger,
+  SHARED_DIR,
+} from '@modern-js/utils';
+import type { UserConfig } from '@modern-js/core';
+import { ISAppContext } from '@modern-js/types';
 import {
   ModernServerOptions,
   ServerHookRunner,
@@ -37,14 +42,14 @@ export class Server {
   public async init() {
     const { options } = this;
 
-    // initialize server runner
-    this.runner = await this.createHookRunner();
-
     // initialize server
     this.server = this.serverImpl(options);
 
     // create http-server
     this.app = await this.server.createHTTPServer(this.getRequestHandler());
+
+    // initialize server runner
+    this.runner = await this.createHookRunner();
 
     // runner can only be used after server init
     await this.server.onInit(this.runner);
@@ -83,16 +88,14 @@ export class Server {
     serverManager.clear();
 
     const { options } = this;
-    const { pwd: appDirectory, plugins = [] } = options;
+    const { plugins = [] } = options;
 
     // server app context for serve plugin
-    const serverPlugins = plugins.map(p => {
+    plugins.forEach(p => {
       serverManager.usePlugin(compatRequire(p.pluginPath));
-      return {
-        server: p,
-      };
     });
-    const appContext = initAppContext(appDirectory, serverPlugins, '');
+
+    const appContext = this.initAppContext();
     serverManager.run(() => {
       ConfigContext.set(this.options.config as UserConfig);
       AppContext.set({
@@ -105,5 +108,20 @@ export class Server {
     });
 
     return serverManager.init({});
+  }
+
+  private initAppContext(): ISAppContext {
+    const { options } = this;
+    const { pwd: appDirectory, plugins = [], config } = options;
+    const serverPlugins = plugins.map(p => ({
+      server: p,
+    }));
+
+    return {
+      appDirectory,
+      distDirectory: path.join(appDirectory, config.output?.path || 'dist'),
+      sharedDirectory: path.resolve(appDirectory, SHARED_DIR),
+      plugins: serverPlugins,
+    };
   }
 }

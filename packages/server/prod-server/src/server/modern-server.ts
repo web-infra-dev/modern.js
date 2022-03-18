@@ -593,6 +593,7 @@ export class ModernServer implements ModernServerInterface {
     const matched =
       this.router.match(statusPage) || this.router.match(customErrorPage);
     // if no custom status page find
+
     if (matched) {
       const route = matched.generate(context.url);
       const { entryName } = route;
@@ -613,9 +614,8 @@ export class ModernServer implements ModernServerInterface {
         }
       }
     }
-
     const text = ERROR_PAGE_TEXT[status] || ERROR_PAGE_TEXT[500];
-    res.end(createErrorDocument(status, text));
+    context.res.end(createErrorDocument(status, text));
   }
 }
 /* eslint-enable max-lines */
