@@ -17,7 +17,7 @@ describe('plugin-multiprocess', () => {
     expect(plugin).toBeDefined();
 
     const afterBuild = createAsyncWorkflow<any, any>();
-    manager.registe({
+    manager.registerHook({
       afterBuild,
     });
     manager.usePlugin(plugin);

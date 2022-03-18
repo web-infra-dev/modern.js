@@ -109,8 +109,7 @@ const baseHooks = { foo }
 export interface Hooks {}
 
 // 2. 通过 Hook 模型创建 manager
-const manager = createManager<Hooks, typeof baseHooks>(baseHooks);
-
+const manager = createManager<Hooks & typeof baseHooks>(baseHooks);
 
 // 2.1.1 创建需要动态注册的 Hook 模型
 const bar = createWaterfall<number>()
@@ -194,7 +193,7 @@ const baseHooks = { foo }
 export interface Hooks {}
 
 // 2. 通过 Hook 模型创建 manager
-const manager = createManager<Hooks, typeof baseHooks>(baseHooks);
+const manager = createManager<Hooks & typeof baseHooks>(baseHooks);
 
 /** ... */
 

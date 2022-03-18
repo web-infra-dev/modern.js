@@ -22,10 +22,10 @@ export const createCompiler = async ({
   appContext: IAppContext;
 }) => {
   try {
-    await (mountHook() as any).beforeCreateCompiler({ webpackConfigs });
+    await mountHook().beforeCreateCompiler({ webpackConfigs });
     const compiler = webpack(webpackConfigs);
 
-    await (mountHook() as any).afterCreateCompiler({ compiler });
+    await mountHook().afterCreateCompiler({ compiler });
 
     let isFirstCompile = true;
 
@@ -51,7 +51,7 @@ export const createCompiler = async ({
         logger.log(errors.join('\n\n'));
         logger.log();
       } else if (process.stdout.isTTY || isFirstCompile) {
-        await (mountHook() as any).afterDev();
+        await mountHook().afterDev();
         if (warnings.length) {
           logger.log(chalk.yellow(`Compiled with warnings.\n`));
           logger.log(warnings.join('\n\n'));
