@@ -130,6 +130,80 @@ describe('test server', () => {
 
       expect(html).toMatch('<div>Modern.js</div>');
     });
+
+    test('should error handler correctly with custom entry', async () => {
+      const server = await createServer({
+        config: {
+          ...(defaultsConfig as NormalizedConfig),
+          output: {
+            path: 'test-dist',
+          },
+        },
+        pwd: appDirectory,
+      });
+
+      const modernServer: ModernServer = (server as any).server;
+      const req = httpMocks.createRequest({
+        url: '/',
+        headers: {
+          host: 'modernjs.com',
+        },
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+      const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+      const ctx = createContext(req, res);
+      ctx.error = () => {
+        // empty
+      };
+
+      setTimeout(() => {
+        (modernServer as any).onError(ctx, new Error('test error'));
+      }, 100);
+      const html = await new Promise((resolve, _reject) => {
+        res.on('finish', () => {
+          resolve(res._getData());
+        });
+      });
+      expect(html).toMatch('<div>Modern.js</div>');
+    });
+
+    test('should error handler correctly with fallback doc', async () => {
+      const server = await createServer({
+        config: {
+          ...(defaultsConfig as NormalizedConfig),
+          output: {
+            path: 'test-dist',
+          },
+        },
+        pwd: appDirectory,
+      });
+
+      const modernServer: ModernServer = (server as any).server;
+      const req = httpMocks.createRequest({
+        url: '/',
+        headers: {
+          host: 'modernjs.com',
+        },
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+      const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+      const ctx = createContext(req, res);
+      ctx.error = () => {
+        // empty
+      };
+
+      setTimeout(() => {
+        (modernServer as any).renderErrorPage(ctx, 404);
+      }, 100);
+      const html = await new Promise((resolve, _reject) => {
+        res.on('finish', () => {
+          resolve(res._getData());
+        });
+      });
+      expect(html).toMatch('This page could not be found.');
+    });
   });
 
   describe('should split server work correctly', () => {

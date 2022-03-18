@@ -3697,7 +3697,7 @@ importers:
   packages/server/prod-server:
     specifiers:
       '@babel/compat-data': ^7.17.0
-      '@modern-js/core': workspace:^1.4.6
+      '@modern-js/core': workspace:^1.4.4
       '@modern-js/server-core': workspace:^1.2.2
       '@modern-js/types': workspace:^1.3.4
       '@modern-js/utils': workspace:^1.3.4
@@ -3729,7 +3729,6 @@ importers:
       ua-parser-js: ^0.7.28
     dependencies:
       '@babel/compat-data': 7.17.0
-      '@modern-js/core': link:../../cli/core
       '@modern-js/server-core': link:../core
       '@modern-js/utils': link:../../toolkit/utils
       axios: 0.24.0
@@ -3744,6 +3743,7 @@ importers:
       serve-static: 1.14.2
       ua-parser-js: 0.7.31
     devDependencies:
+      '@modern-js/core': link:../../cli/core
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
