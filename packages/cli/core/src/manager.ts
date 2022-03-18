@@ -1,4 +1,5 @@
 import {
+  ToThreads,
   ToRunners,
   AsyncSetup,
   PluginOptions,
@@ -66,16 +67,20 @@ const baseHooks = {
   beforeRestart: createAsyncWorkflow<void, void>(),
 };
 
-type AllHooks = typeof baseHooks & Hooks;
+/** all hooks of cli plugin */
+export type CliHooks = typeof baseHooks & Hooks;
 
-export const manager = createAsyncManager<AllHooks, PluginAPI>(
+/** all hook callbacks of cli plugin */
+export type CliHookCallbacks = ToThreads<CliHooks>;
+
+export const manager = createAsyncManager<CliHooks, PluginAPI>(
   baseHooks,
   pluginAPI,
 );
 
 export type CliPlugin = PluginOptions<
-  AllHooks,
-  AsyncSetup<AllHooks, PluginAPI>
+  CliHooks,
+  AsyncSetup<CliHooks, PluginAPI>
 >;
 
 // TODO: remove export after refactor all plugins
@@ -84,11 +89,5 @@ export const { createPlugin, registerHook, useRunner: mountHook } = manager;
 export const usePlugins = (plugins: string[]) =>
   plugins.forEach(pluginPath => {
     const module = compatRequire(require.resolve(pluginPath));
-
-    if (typeof module === 'function') {
-      const plugin = module();
-      manager.usePlugin(createPlugin(plugin.setup, plugin));
-    } else {
-      manager.usePlugin(module);
-    }
+    manager.usePlugin(module);
   });
