@@ -3,7 +3,7 @@ import { ModulesInfo } from '../useModuleApps';
 
 export interface GarfishContextType {
   MApp: React.FC<any>;
-  apps: Record<string, React.ComponentType<any>>;
+  apps: Record<string, React.FC<any>>;
   appInfoList: ModulesInfo;
 }
 

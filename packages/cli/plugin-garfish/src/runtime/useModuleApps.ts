@@ -1,5 +1,5 @@
 import garfish, { interfaces as GarfishInterfaces } from 'garfish';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { logger } from '../util';
 import { GarfishContext } from './utils/Context';
 
@@ -38,28 +38,41 @@ export type MicroComponentProps = { loadable?: LoadableConfig };
 
 export type Config = Partial<Options> & ModernGarfishConfig;
 
+export type UseModuleApps = {
+  [index in 'apps' | string]: index extends 'apps'
+    ? ModulesInfo
+    : React.FC<any>;
+} & {
+  readonly MApp: React.FC<any>;
+  readonly apps: ModulesInfo;
+};
+
 export function useModuleApps() {
-  const { apps } = useContext(GarfishContext);
-  logger('call useModuleApps', apps);
-  return apps;
+  const { apps, MApp, appInfoList } = useContext(GarfishContext);
+  logger('call useModuleApps', apps, MApp, appInfoList);
+
+  const Info = new Proxy(
+    {
+      MApp,
+      apps: appInfoList,
+      ...apps,
+    },
+    {
+      get(target, p, receiver) {
+        logger('apps init Component Render', p);
+        if (typeof p === 'string' && p in target) {
+          return Reflect.get(target, p, receiver);
+        }
+        return () => React.createElement('div');
+      },
+    },
+  );
+
+  return Info as UseModuleApps;
 }
 
 export function useModuleApp() {
   const { MApp } = useContext(GarfishContext);
   logger('call useModuleApps', MApp);
   return MApp;
-}
-
-export function useMicroApps() {
-  const { MApp, appInfoList, apps } = useContext(GarfishContext);
-  logger('call useMicroApps', {
-    MApp,
-    apps: appInfoList,
-    Components: apps,
-  });
-  return {
-    MApp,
-    apps: appInfoList,
-    Components: apps,
-  };
 }
