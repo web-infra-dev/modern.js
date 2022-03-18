@@ -603,7 +603,7 @@ describe('async manager', () => {
           done();
         },
       };
-      manager.usePlugin(manager.createPlugin(plugin.setup, plugin));
+      manager.usePlugin(() => plugin);
       manager.init();
     });
 
@@ -627,7 +627,7 @@ describe('async manager', () => {
         },
       };
 
-      manager.usePlugin(manager.createPlugin(plugin.setup, plugin));
+      manager.usePlugin(() => plugin);
       manager.init();
     });
   });
@@ -652,7 +652,7 @@ describe('async manager', () => {
         },
       };
 
-      manager.usePlugin(manager.createPlugin(plugin1.setup, plugin1));
+      manager.usePlugin(() => plugin1);
 
       await manager.init();
 
@@ -670,7 +670,7 @@ describe('async manager', () => {
         },
       };
 
-      const plugin1: TestAsyncPlugin = {
+      const plugin1 = {
         name: 'plugin1',
         usePlugins: [plugin0],
         setup: () => {
@@ -678,7 +678,7 @@ describe('async manager', () => {
         },
       };
 
-      const plugin2: TestAsyncPlugin = {
+      const plugin2 = {
         name: 'plugin2',
         usePlugins: [plugin1],
         setup: () => {
@@ -686,7 +686,7 @@ describe('async manager', () => {
         },
       };
 
-      manager.usePlugin(manager.createPlugin(plugin2.setup, plugin2));
+      manager.usePlugin(() => plugin2);
 
       await manager.init();
 
