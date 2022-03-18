@@ -1,3 +1,4 @@
+import { isObject } from '@modern-js/utils';
 import {
   Container,
   isPipeline,
@@ -53,9 +54,13 @@ export type Manager<Hooks, API> = {
     options?: PluginOptions<Hooks, Setup<Hooks, API>>,
   ) => Plugin<Hooks, API>;
 
-  isPlugin: (input: Record<string, unknown>) => input is Plugin<Hooks, API>;
+  isPlugin: (input: unknown) => input is Plugin<Hooks, API>;
 
-  usePlugin: (...plugins: Plugin<Hooks, API>[]) => Manager<Hooks, API>;
+  usePlugin: (
+    ...plugins:
+      | Plugin<Hooks, API>[]
+      | Array<() => PluginOptions<Hooks, Setup<Hooks, API>>>
+  ) => Manager<Hooks, API>;
 
   init: (options?: InitOptions) => ToRunners<Hooks>;
 
@@ -100,6 +105,7 @@ export const createManager = <
   const isPlugin: Manager<Hooks, API>['isPlugin'] = (
     input,
   ): input is Plugin<Hooks, API> =>
+    isObject(input) &&
     hasOwnProperty(input, SYNC_PLUGIN_SYMBOL) &&
     input[SYNC_PLUGIN_SYMBOL] === SYNC_PLUGIN_SYMBOL;
 
@@ -111,12 +117,19 @@ export const createManager = <
   const clone = () => {
     let plugins: Plugin<Hooks, API>[] = [];
 
+    const addPlugin = (plugin: Plugin<Hooks, API>) => {
+      if (!includePlugin(plugins, plugin)) {
+        plugins.push({ ...plugin });
+      }
+    };
+
     const usePlugin: Manager<Hooks, API>['usePlugin'] = (...input) => {
       for (const plugin of input) {
         if (isPlugin(plugin)) {
-          if (!includePlugin(plugins, plugin)) {
-            plugins.push({ ...plugin });
-          }
+          addPlugin(plugin);
+        } else if (typeof plugin === 'function') {
+          const options = plugin();
+          addPlugin(createPlugin(options.setup, options));
         } else {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
