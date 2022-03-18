@@ -573,7 +573,7 @@ describe('sync manager', () => {
           done();
         },
       };
-      manager.usePlugin(manager.createPlugin(plugin.setup, plugin));
+      manager.usePlugin(() => plugin);
       manager.init();
     });
 
@@ -594,7 +594,7 @@ describe('sync manager', () => {
         },
       };
 
-      manager.usePlugin(manager.createPlugin(plugin.setup, plugin));
+      manager.usePlugin(() => plugin);
       manager.init();
     });
   });
@@ -619,8 +619,7 @@ describe('sync manager', () => {
         },
       };
 
-      manager.usePlugin(manager.createPlugin(plugin1.setup, plugin1));
-
+      manager.usePlugin(() => plugin1);
       manager.init();
 
       expect(list).toStrictEqual([0, 1]);
@@ -653,8 +652,7 @@ describe('sync manager', () => {
         },
       };
 
-      manager.usePlugin(manager.createPlugin(plugin2.setup, plugin2));
-
+      manager.usePlugin(() => plugin2);
       manager.init();
 
       expect(list).toStrictEqual([0, 1, 2]);
