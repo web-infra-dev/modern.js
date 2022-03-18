@@ -63,7 +63,7 @@ export function useModuleApps() {
         if (typeof p === 'string' && p in target) {
           return Reflect.get(target, p, receiver);
         }
-        return Reflect.get(target, p, receiver);
+        return () => React.createElement('div');
       },
     },
   );
