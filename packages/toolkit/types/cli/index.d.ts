@@ -79,7 +79,6 @@ export interface Hooks {
     },
     unknown
   >;
-
   afterCreateCompiler: AsyncWorkflow<
     {
       compiler: Compiler | MultiCompiler | undefined;

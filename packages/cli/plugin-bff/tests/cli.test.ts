@@ -89,7 +89,7 @@ describe('bff cli plugin', () => {
 
   it('server routes', async () => {
     const main = manager.clone().usePlugin(plugin);
-    main.registe({ modifyServerRoutes });
+    main.registerHook({ modifyServerRoutes });
     const runner = await main.init();
     const result = await runner.modifyServerRoutes({ routes: [] });
 

@@ -18,7 +18,7 @@ export const printInstructions = async (
   }
 
   // call beforePrintInstructions hook.
-  const { instructions } = await (mountHook() as any).beforePrintInstructions({
+  const { instructions } = await mountHook().beforePrintInstructions({
     instructions: message,
   });
 

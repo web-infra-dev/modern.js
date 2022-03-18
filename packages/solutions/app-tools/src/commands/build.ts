@@ -34,13 +34,13 @@ export const build = async (options?: BuildOptions) => {
   if (!existSrc) {
     const { distDirectory } = appContext;
     await emptyDir(distDirectory);
-    await (mountHook() as any).beforeBuild({
+    await mountHook().beforeBuild({
       webpackConfigs: [],
     });
 
     await generateRoutes(appContext);
 
-    await (mountHook() as any).afterBuild();
+    await mountHook().afterBuild();
 
     return;
   }
@@ -126,7 +126,7 @@ export const build = async (options?: BuildOptions) => {
     });
   }
 
-  await (mountHook() as any).beforeBuild({
+  await mountHook().beforeBuild({
     webpackConfigs: buildConfigs.map(({ config }) => config),
   });
 
@@ -143,5 +143,5 @@ export const build = async (options?: BuildOptions) => {
 
   await generateRoutes(appContext);
 
-  await (mountHook() as any).afterBuild();
+  await mountHook().afterBuild();
 };

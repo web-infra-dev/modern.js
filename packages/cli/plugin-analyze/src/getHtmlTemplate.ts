@@ -74,7 +74,7 @@ export const getHtmlTemplate = async (
     if (customIndexTemplate) {
       htmlTemplates[entryName] = customIndexTemplate.file;
     } else {
-      const { partials } = await (mountHook() as any).htmlPartials({
+      const { partials } = await mountHook().htmlPartials({
         entrypoint,
         partials: [
           PartialPosition.TOP,
