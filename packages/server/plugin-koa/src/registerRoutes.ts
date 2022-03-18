@@ -3,7 +3,6 @@ import { isSchemaHandler, InputType } from '@modern-js/bff-runtime';
 import Router from 'koa-router';
 import { Context } from 'koa';
 import typeIs from 'type-is';
-import formidable from 'formidable';
 import { sortDynamicRoutes } from '@modern-js/adapter-helpers';
 import { createDebugger } from '@modern-js/utils';
 
@@ -41,8 +40,6 @@ const registerRoutes = (router: Router, prefix?: string) => {
         }
       } else {
         const args = Object.values(input.params as any).concat(input);
-        // eslint-disable-next-line require-atomic-updates
-        ctx.type = 'json';
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         // eslint-disable-next-line require-atomic-updates
@@ -80,7 +77,7 @@ const getInputFromRequest = async (ctx: Context): Promise<InputType> => {
   if (typeIs.is(ctx.request.type, ['application/json'])) {
     draft.data = ctx.request.body;
   } else if (typeIs.is(ctx.request.type, ['multipart/form-data'])) {
-    draft.formData = await resvoleFormData(ctx);
+    draft.formData = ctx.request.files;
   } else if (
     typeIs.is(ctx.request.type, ['application/x-www-form-urlencoded'])
   ) {
@@ -90,20 +87,4 @@ const getInputFromRequest = async (ctx: Context): Promise<InputType> => {
   }
 
   return draft as any;
-};
-
-const resvoleFormData = (ctx: Context): Promise<Record<string, any>> => {
-  const form = formidable({ multiples: true });
-  return new Promise((resolve, reject) => {
-    form.parse(ctx.req, (err, fields, files) => {
-      if (err) {
-        reject(err);
-      }
-
-      resolve({
-        ...fields,
-        ...files,
-      });
-    });
-  });
 };
