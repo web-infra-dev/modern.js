@@ -1,3 +1,4 @@
+import { isObject } from '@modern-js/utils';
 import { runWithContainer, createContainer } from 'farrow-pipeline';
 import { generateRunner, hasOwnProperty, DEFAULT_OPTIONS } from './sync';
 import { useRunner } from './runner';
@@ -34,12 +35,12 @@ export type AsyncManager<Hooks, API> = {
     options?: PluginOptions<Hooks, AsyncSetup<Hooks, API>>,
   ) => AsyncPlugin<Hooks, API>;
 
-  isPlugin: (
-    input: Record<string, unknown>,
-  ) => input is AsyncPlugin<Hooks, API>;
+  isPlugin: (input: unknown) => input is AsyncPlugin<Hooks, API>;
 
   usePlugin: (
-    ...plugins: AsyncPlugin<Hooks, API>[]
+    ...plugins:
+      | AsyncPlugin<Hooks, API>[]
+      | Array<() => PluginOptions<Hooks, AsyncSetup<Hooks, API>>>
   ) => AsyncManager<Hooks, API>;
 
   init: (options?: InitOptions) => Promise<ToRunners<Hooks>>;
@@ -75,6 +76,7 @@ export const createAsyncManager = <
   const isPlugin: AsyncManager<Hooks, API>['isPlugin'] = (
     input,
   ): input is AsyncPlugin<Hooks, API> =>
+    isObject(input) &&
     hasOwnProperty(input, ASYNC_PLUGIN_SYMBOL) &&
     input[ASYNC_PLUGIN_SYMBOL] === ASYNC_PLUGIN_SYMBOL;
 
@@ -86,12 +88,19 @@ export const createAsyncManager = <
   const clone = () => {
     let plugins: AsyncPlugin<Hooks, API>[] = [];
 
+    const addPlugin = (plugin: AsyncPlugin<Hooks, API>) => {
+      if (!includeAsyncPlugin(plugins, plugin)) {
+        plugins.push({ ...plugin });
+      }
+    };
+
     const usePlugin: AsyncManager<Hooks, API>['usePlugin'] = (...input) => {
       for (const plugin of input) {
         if (isPlugin(plugin)) {
-          if (!includeAsyncPlugin(plugins, plugin)) {
-            plugins.push({ ...plugin });
-          }
+          addPlugin(plugin);
+        } else if (typeof plugin === 'function') {
+          const options = plugin();
+          addPlugin(createPlugin(options.setup, options));
         } else {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
