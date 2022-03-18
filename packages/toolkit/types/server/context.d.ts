@@ -64,3 +64,13 @@ export type BaseSSRServerContext = {
   loadableManifest?: string;
   cacheConfig?: any;
 };
+
+export interface ISAppContext {
+  appDirectory: string;
+  distDirectory: string;
+  sharedDirectory: string;
+  plugins: {
+    server?: any;
+    serverPkg?: any;
+  }[];
+}
