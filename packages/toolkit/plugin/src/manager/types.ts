@@ -19,6 +19,7 @@ import type {
   ParallelWorkflow,
 } from '../workflow';
 
+/** all hook types */
 export type Hook =
   | Waterfall<any>
   | AsyncWaterfall<any>
@@ -30,6 +31,7 @@ export type Hook =
 
 export type HooksMap = Record<string, Hook>;
 
+/** extract the type of callback function from a hook */
 export type ToThread<P extends Hook> = P extends Workflow<infer I, infer O>
   ? Worker<I, O>
   : P extends AsyncWorkflow<infer I, infer O>
@@ -46,6 +48,7 @@ export type ToThread<P extends Hook> = P extends Workflow<infer I, infer O>
   ? Middleware<I, MaybeAsync<O>>
   : never;
 
+/** extract types of callback function from hooks */
 export type ToThreads<PS> = {
   [K in keyof PS]: PS[K] extends Hook
     ? ToThread<PS[K]>
@@ -54,6 +57,7 @@ export type ToThreads<PS> = {
     : never;
 };
 
+/** extract run method from a hook */
 export type RunnerFromHook<P extends Hook> = P extends Waterfall<infer I>
   ? Waterfall<I>['run']
   : P extends AsyncWaterfall<infer I>
@@ -70,6 +74,7 @@ export type RunnerFromHook<P extends Hook> = P extends Waterfall<infer I>
   ? AsyncPipeline<I, O>['run']
   : never;
 
+/** extract all run methods from hooks */
 export type ToRunners<PS> = {
   [K in keyof PS]: PS[K] extends Hook
     ? RunnerFromHook<PS[K]>
@@ -78,6 +83,7 @@ export type ToRunners<PS> = {
     : never;
 };
 
+/** all options to define a plugin */
 export type PluginOptions<Hooks, Setup = undefined> = {
   name?: string;
   pre?: string[];
@@ -89,10 +95,12 @@ export type PluginOptions<Hooks, Setup = undefined> = {
   registerHook?: Partial<Hooks>;
 };
 
+/** options of manager.init method */
 export type InitOptions = {
   container?: Container;
 };
 
+/** common api of setup function */
 export type CommonAPI<Hooks> = {
   useHookRunners: () => ToRunners<Hooks>;
 };

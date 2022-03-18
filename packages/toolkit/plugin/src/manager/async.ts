@@ -9,6 +9,7 @@ import type {
   PluginOptions,
 } from './types';
 
+/** setup function of async plugin */
 export type AsyncSetup<Hooks, API = Record<string, never>> = (
   api: API & CommonAPI<Hooks>,
 ) =>
@@ -19,11 +20,8 @@ export type AsyncSetup<Hooks, API = Record<string, never>> = (
 const ASYNC_PLUGIN_SYMBOL = 'ASYNC_PLUGIN_SYMBOL';
 
 export type AsyncPlugin<Hooks, API> = {
-  setup: AsyncSetup<Hooks, API>;
   ASYNC_PLUGIN_SYMBOL: typeof ASYNC_PLUGIN_SYMBOL;
 } & Required<PluginOptions<Hooks, AsyncSetup<Hooks, API>>>;
-
-export type AsyncPlugins<Hooks, API> = AsyncPlugin<Hooks, API>[];
 
 export type PluginFromAsyncManager<M extends AsyncManager<any, any>> =
   M extends AsyncManager<infer Hooks, infer API>
@@ -40,7 +38,9 @@ export type AsyncManager<Hooks, API> = {
     input: Record<string, unknown>,
   ) => input is AsyncPlugin<Hooks, API>;
 
-  usePlugin: (...input: AsyncPlugins<Hooks, API>) => AsyncManager<Hooks, API>;
+  usePlugin: (
+    ...plugins: AsyncPlugin<Hooks, API>[]
+  ) => AsyncManager<Hooks, API>;
 
   init: (options?: InitOptions) => Promise<ToRunners<Hooks>>;
 
@@ -84,7 +84,7 @@ export const createAsyncManager = <
   } as API & CommonAPI<Hooks>;
 
   const clone = () => {
-    let plugins: AsyncPlugins<Hooks, API> = [];
+    let plugins: AsyncPlugin<Hooks, API>[] = [];
 
     const usePlugin: AsyncManager<Hooks, API>['usePlugin'] = (...input) => {
       for (const plugin of input) {
@@ -172,7 +172,7 @@ export const createAsyncManager = <
 };
 
 const includeAsyncPlugin = <Hooks, API>(
-  plugins: AsyncPlugins<Hooks, API>,
+  plugins: AsyncPlugin<Hooks, API>[],
   input: AsyncPlugin<Hooks, API>,
 ): boolean => {
   for (const plugin of plugins) {
@@ -185,8 +185,8 @@ const includeAsyncPlugin = <Hooks, API>(
 };
 
 const sortAsyncPlugins = <Hooks, API>(
-  input: AsyncPlugins<Hooks, API>,
-): AsyncPlugins<Hooks, API> => {
+  input: AsyncPlugin<Hooks, API>[],
+): AsyncPlugin<Hooks, API>[] => {
   let plugins = input.slice();
 
   for (let i = 0; i < plugins.length; i++) {
@@ -222,7 +222,7 @@ const sortAsyncPlugins = <Hooks, API>(
   return plugins;
 };
 
-const checkAsyncPlugins = <Hooks, API>(plugins: AsyncPlugins<Hooks, API>) => {
+const checkAsyncPlugins = <Hooks, API>(plugins: AsyncPlugin<Hooks, API>[]) => {
   for (const origin of plugins) {
     for (const rival of origin.rivals) {
       for (const plugin of plugins) {

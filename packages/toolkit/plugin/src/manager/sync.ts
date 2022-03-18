@@ -29,6 +29,7 @@ import type {
   PluginOptions,
 } from './types';
 
+/** setup function of sync plugin */
 export type Setup<Hooks, API = Record<string, never>> = (
   api: API,
 ) => Partial<ToThreads<Hooks>> | void;
@@ -36,11 +37,8 @@ export type Setup<Hooks, API = Record<string, never>> = (
 const SYNC_PLUGIN_SYMBOL = 'SYNC_PLUGIN_SYMBOL';
 
 export type Plugin<Hooks, API> = {
-  setup: Setup<Hooks, API>;
   SYNC_PLUGIN_SYMBOL: typeof SYNC_PLUGIN_SYMBOL;
 } & Required<PluginOptions<Hooks, Setup<Hooks, API>>>;
-
-export type Plugins<Hooks, API> = Plugin<Hooks, API>[];
 
 export type PluginFromManager<M extends Manager<any, any>> = M extends Manager<
   infer Hooks,
@@ -57,7 +55,7 @@ export type Manager<Hooks, API> = {
 
   isPlugin: (input: Record<string, unknown>) => input is Plugin<Hooks, API>;
 
-  usePlugin: (...input: Plugins<Hooks, API>) => Manager<Hooks, API>;
+  usePlugin: (...plugins: Plugin<Hooks, API>[]) => Manager<Hooks, API>;
 
   init: (options?: InitOptions) => ToRunners<Hooks>;
 
@@ -111,7 +109,7 @@ export const createManager = <
   } as API & CommonAPI<Hooks>;
 
   const clone = () => {
-    let plugins: Plugins<Hooks, API> = [];
+    let plugins: Plugin<Hooks, API>[] = [];
 
     const usePlugin: Manager<Hooks, API>['usePlugin'] = (...input) => {
       for (const plugin of input) {
@@ -274,7 +272,7 @@ export const closeHooksMap = <Hooks>(record: Hooks): Hooks => {
 };
 
 const includePlugin = <Hooks, API>(
-  plugins: Plugins<Hooks, API>,
+  plugins: Plugin<Hooks, API>[],
   input: Plugin<Hooks, API>,
 ): boolean => {
   for (const plugin of plugins) {
@@ -287,8 +285,8 @@ const includePlugin = <Hooks, API>(
 };
 
 const sortPlugins = <Hooks, API>(
-  input: Plugins<Hooks, API>,
-): Plugins<Hooks, API> => {
+  input: Plugin<Hooks, API>[],
+): Plugin<Hooks, API>[] => {
   let plugins = input.slice();
 
   for (let i = 0; i < plugins.length; i++) {
@@ -324,7 +322,7 @@ const sortPlugins = <Hooks, API>(
   return plugins;
 };
 
-const checkPlugins = <Hooks, API>(plugins: Plugins<Hooks, API>) => {
+const checkPlugins = <Hooks, API>(plugins: Plugin<Hooks, API>[]) => {
   for (const origin of plugins) {
     for (const rival of origin.rivals) {
       for (const plugin of plugins) {
