@@ -16,7 +16,7 @@ import type {
   Logger,
 } from '@modern-js/types/server';
 import type { NormalizedConfig, UserConfig } from '@modern-js/core';
-import type { IAppContext } from '@modern-js/types';
+import type { ISAppContext } from '@modern-js/types';
 
 enable();
 
@@ -181,7 +181,7 @@ export type ServerPlugin = PluginFromAsyncManager<typeof serverManager>;
 
 export const { createPlugin } = serverManager;
 
-export const AppContext = createContext<IAppContext>({} as IAppContext);
+export const AppContext = createContext<ISAppContext>({} as ISAppContext);
 
 export const ConfigContext = createContext<UserConfig>({} as UserConfig);
 
