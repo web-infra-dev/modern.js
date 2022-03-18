@@ -56,22 +56,8 @@ describe('load plugins', () => {
       plugins: [{ cli: ['./test-plugin-c', 'c'] }, ['./test-plugin-c', 'c2']],
     });
 
-    expect(plugins).toEqual([
-      {
-        cli: {
-          name: 'c',
-          pluginPath: path.join(fixture, './test-plugin-c.js'),
-        },
-        cliPkg: './test-plugin-c',
-      },
-      {
-        cli: {
-          name: 'c2',
-          pluginPath: path.join(fixture, './test-plugin-c.js'),
-        },
-        cliPkg: './test-plugin-c',
-      },
-    ]);
+    expect(plugins[0].cli.name).toEqual('c');
+    expect(plugins[1].cli.name).toEqual('c2');
   });
 
   test('should load user string plugin successfully', () => {
@@ -93,26 +79,6 @@ describe('load plugins', () => {
         cliPkg: path.join(fixture, './test-plugin-a.js'),
       },
     ]);
-  });
-
-  test('should call transformPlugin', () => {
-    const fixture = path.resolve(
-      __dirname,
-      './fixtures/load-plugin/user-plugins',
-    );
-
-    const options = {
-      transformPlugin: jest.fn(),
-    };
-    options.transformPlugin.mockImplementation((plugins, _) => plugins);
-
-    loadPlugins(
-      fixture,
-      { plugins: [{ cli: path.join(fixture, './test-plugin-a.js') }] },
-      options,
-    );
-
-    expect(options.transformPlugin).toHaveBeenCalled();
   });
 
   test(`should throw error when plugin not found `, () => {

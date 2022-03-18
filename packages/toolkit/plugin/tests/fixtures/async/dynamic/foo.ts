@@ -1,5 +1,5 @@
 import { createAsyncWaterfall } from '../../../../src';
-import { createPlugin, registeManager, useRunner } from '../core';
+import { createPlugin, registerHook, useRunner } from '../core';
 
 // declare new lifecircle type
 declare module '../core' {
@@ -13,7 +13,7 @@ const fooWaterfall = createAsyncWaterfall();
 
 const foo = createPlugin(() => {
   // registe new lifecircle
-  registeManager({ fooWaterfall });
+  registerHook({ fooWaterfall });
 
   return {
     preDev: () => {

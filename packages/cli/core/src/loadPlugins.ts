@@ -5,6 +5,7 @@ import {
   INTERNAL_PLUGINS,
 } from '@modern-js/utils';
 import type { UserConfig } from './config';
+import { createPlugin } from './manager';
 
 const debug = createDebugger('load-plugins');
 
@@ -25,12 +26,6 @@ export type PluginConfigItem =
   | Plugin;
 
 export type PluginConfig = Array<PluginConfigItem>;
-
-export type TransformPlugin = (
-  plugin: PluginConfig,
-  resolvedConfig: UserConfig,
-  pluginOptions?: any,
-) => PluginConfig;
 
 /**
  * Try to resolve plugin entry file path.
@@ -79,7 +74,6 @@ export function getAppPlugins(
  * @param appDirectory - Application root directory.
  * @param userConfig - Resolved user config.
  * @param options.internalPlugins - Internal plugins.
- * @param options.transformPlugin - transform plugin before using it.
  * @returns Plugin Objects has been required.
  */
 export const loadPlugins = (
@@ -87,20 +81,19 @@ export const loadPlugins = (
   userConfig: UserConfig,
   options: {
     internalPlugins?: typeof INTERNAL_PLUGINS;
-    transformPlugin?: TransformPlugin;
   } = {},
 ) => {
-  const { internalPlugins, transformPlugin } = options;
+  const { internalPlugins } = options;
 
   const resolvePlugin = (p: Plugin) => {
     const pkg = typeof p === 'string' ? p : p[0];
     const path = tryResolve(pkg, appDirectory);
     let module = compatRequire(path);
     const pluginOptions = Array.isArray(p) ? p[1] : undefined;
-    if (transformPlugin) {
-      module = transformPlugin(module, userConfig, pluginOptions);
-    } else {
-      module = typeof module === 'function' ? module(pluginOptions) : module;
+
+    if (typeof module === 'function') {
+      const plugin = module(pluginOptions);
+      module = createPlugin(plugin.setup, plugin);
     }
 
     return {
