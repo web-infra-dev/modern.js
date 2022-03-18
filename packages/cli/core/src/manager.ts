@@ -82,6 +82,13 @@ export type CliPlugin = PluginOptions<
 export const { createPlugin, registerHook, useRunner: mountHook } = manager;
 
 export const usePlugins = (plugins: string[]) =>
-  plugins.forEach(plugin =>
-    manager.usePlugin(compatRequire(require.resolve(plugin))),
-  );
+  plugins.forEach(pluginPath => {
+    const module = compatRequire(require.resolve(pluginPath));
+
+    if (typeof module === 'function') {
+      const plugin = module();
+      manager.usePlugin(createPlugin(plugin.setup, plugin));
+    } else {
+      manager.usePlugin(module);
+    }
+  });
