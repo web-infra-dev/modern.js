@@ -6,8 +6,8 @@ export function isUndefined(obj: any): obj is undefined {
   return typeof obj === 'undefined';
 }
 
-export function isArray(obj: any): obj is any[] {
-  return Object.prototype.toString.call(obj) === '[object Array]';
+export function isArray(obj: unknown): obj is any[] {
+  return Array.isArray(obj);
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -15,16 +15,13 @@ export function isFunction(func: any): func is Function {
   return typeof func === 'function';
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export function isObject(obj: any): obj is object {
-  return typeof obj === 'object';
+export function isObject(obj: unknown): obj is Record<string, any> {
+  return obj !== null && typeof obj === 'object';
 }
 
-export function isPlainObject(obj: any): obj is Record<string, any> {
+export function isPlainObject(obj: unknown): obj is Record<string, any> {
   return (
-    obj &&
-    typeof obj === 'object' &&
-    Object.prototype.toString.call(obj) === '[object Object]'
+    isObject(obj) && Object.prototype.toString.call(obj) === '[object Object]'
   );
 }
 
