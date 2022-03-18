@@ -15,15 +15,13 @@ export function isFunction(func: any): func is Function {
   return typeof func === 'function';
 }
 
-export function isObject(obj: any): obj is object {
+export function isObject(obj: unknown): obj is Record<string, any> {
   return obj !== null && typeof obj === 'object';
 }
 
-export function isPlainObject(obj: any): obj is Record<string, any> {
+export function isPlainObject(obj: unknown): obj is Record<string, any> {
   return (
-    obj &&
-    typeof obj === 'object' &&
-    Object.prototype.toString.call(obj) === '[object Object]'
+    isObject(obj) && Object.prototype.toString.call(obj) === '[object Object]'
   );
 }
 

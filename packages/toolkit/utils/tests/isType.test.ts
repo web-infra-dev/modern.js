@@ -1,4 +1,4 @@
-import { isObject, isString, isUndefined } from '../src/is/type';
+import { isObject, isString, isUndefined, isPlainObject } from '../src/is/type';
 
 describe('validate type', () => {
   it('should validate string correctly', () => {
@@ -23,5 +23,19 @@ describe('validate type', () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     expect(isObject(() => {})).toBeFalsy();
     expect(isObject({})).toBeTruthy();
+    expect(isObject([])).toBeTruthy();
+    expect(isObject(/foo/)).toBeTruthy();
+  });
+
+  it('should validate plain object correctly', () => {
+    expect(isPlainObject(1)).toBeFalsy();
+    expect(isPlainObject('1')).toBeFalsy();
+    expect(isPlainObject(undefined)).toBeFalsy();
+    expect(isPlainObject(null)).toBeFalsy();
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    expect(isPlainObject(() => {})).toBeFalsy();
+    expect(isPlainObject({})).toBeTruthy();
+    expect(isPlainObject([])).toBeFalsy();
+    expect(isPlainObject(/foo/)).toBeFalsy();
   });
 });
