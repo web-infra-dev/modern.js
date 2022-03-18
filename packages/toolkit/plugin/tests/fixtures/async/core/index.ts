@@ -3,6 +3,8 @@ import {
   createWaterfall,
   createWorkflow,
   createContext,
+  PluginOptions,
+  AsyncSetup,
 } from '../../../../src';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -99,9 +101,15 @@ const lifecircle = {
   preBuild,
   postBuild,
 };
-export const main = createAsyncManager<ExternalProgress, typeof lifecircle>(
-  lifecircle,
-);
+
+export type TestAsyncHooks = ExternalProgress & typeof lifecircle;
+
+export const main = createAsyncManager<TestAsyncHooks>(lifecircle);
+
+export type TestAsyncPlugin = PluginOptions<
+  TestAsyncHooks,
+  AsyncSetup<TestAsyncHooks>
+>;
 
 export const { createPlugin } = main;
 
@@ -111,7 +119,7 @@ export const { usePlugin } = main;
 
 export const initPlugins = main.init;
 
-export const registeManager = main.registe;
+export const { registerHook } = main;
 
 export const { useRunner } = main;
 

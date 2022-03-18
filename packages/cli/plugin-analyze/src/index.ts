@@ -93,10 +93,10 @@ export default createPlugin(
         }
 
         const existSrc = await fs.pathExists(appContext.srcDirectory);
-        await (mountHook() as any).addRuntimeExports();
+        await mountHook().addRuntimeExports();
 
         if (!existSrc) {
-          const { routes } = await (mountHook() as any).modifyServerRoutes({
+          const { routes } = await mountHook().modifyServerRoutes({
             routes: [],
           });
 
@@ -132,7 +132,7 @@ export default createPlugin(
           config: resolvedConfig,
         });
 
-        const { routes } = await (mountHook() as any).modifyServerRoutes({
+        const { routes } = await mountHook().modifyServerRoutes({
           routes: initialRoutes,
         });
 
@@ -156,7 +156,7 @@ export default createPlugin(
 
         debug(`html templates: %o`, htmlTemplates);
 
-        await (mountHook() as any).addDefineTypes();
+        await mountHook().addDefineTypes();
 
         debug(`add Define Types`);
 
