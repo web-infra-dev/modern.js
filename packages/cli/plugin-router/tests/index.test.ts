@@ -11,7 +11,7 @@ describe('plugin-router', () => {
 
 describe('cli-router', () => {
   test('should hooks work correctly', async () => {
-    const hooks: any = cliPlugin.initializer();
+    const hooks: any = cliPlugin.setup({} as any);
     expect(hooks.config).toBeDefined();
   });
 });

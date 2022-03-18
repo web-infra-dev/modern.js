@@ -112,7 +112,7 @@ export const generateCode = async (
           internalDirAlias,
         });
 
-        const { routes } = await (mountHook() as any).modifyFileSystemRoutes({
+        const { routes } = await mountHook().modifyFileSystemRoutes({
           entrypoint,
           routes: initialRoutes,
         });
@@ -146,25 +146,24 @@ export const generateCode = async (
       });
 
       // call modifyEntryRuntimePlugins hook
-      const { plugins } = await (mountHook() as any).modifyEntryRuntimePlugins({
+      const { plugins } = await mountHook().modifyEntryRuntimePlugins({
         entrypoint,
         plugins: [],
       });
 
       // call modifyEntryRenderFunction hook
-      const { code: renderFunction } = await (
-        mountHook() as any
-      ).modifyEntryRenderFunction({
-        entrypoint,
-        code: templates.renderFunction({
-          plugins,
-          customBootstrap,
-          fileSystemRoutes,
-        }),
-      });
+      const { code: renderFunction } =
+        await mountHook().modifyEntryRenderFunction({
+          entrypoint,
+          code: templates.renderFunction({
+            plugins,
+            customBootstrap,
+            fileSystemRoutes,
+          }),
+        });
 
       // call modifyEntryExport hook
-      const { exportStatement } = await (mountHook() as any).modifyEntryExport({
+      const { exportStatement } = await mountHook().modifyEntryExport({
         entrypoint,
         exportStatement: 'export default AppWrapper;',
       });
