@@ -6,6 +6,7 @@ import {
   createContext,
   createContainer,
 } from 'farrow-pipeline';
+import type { PluginOptions, Setup } from '../src';
 import { createManager, createAsyncManager, useRunner } from '../src/manager';
 import { createWaterfall, createAsyncWaterfall } from '../src/waterfall';
 import {
@@ -13,7 +14,7 @@ import {
   createAsyncWorkflow,
   createParallelWorkflow,
 } from '../src/workflow';
-import { main } from './fixtures/sync/core';
+import { main, TestHooks, TestPlugin } from './fixtures/sync/core';
 import foo from './fixtures/sync/base/foo';
 import bar, { getBar } from './fixtures/sync/base/bar';
 import dFoo from './fixtures/sync/dynamic/foo';
@@ -497,11 +498,11 @@ describe('sync manager', () => {
 
     runner.pipeline({});
     await runner.asyncPipeline({});
-    runner.waterfall({});
-    await runner.asyncWaterfall({});
-    runner.workflow({});
-    await runner.asyncWorkflow({});
-    await runner.parallelWorkflow({});
+    runner.waterfall();
+    await runner.asyncWaterfall();
+    runner.workflow();
+    await runner.asyncWorkflow();
+    await runner.parallelWorkflow();
 
     expect(list).toStrictEqual([
       'pipeline',
@@ -559,6 +560,102 @@ describe('sync manager', () => {
           `Can't call useContainer out of scope, it should be placed on top of the function`,
         ),
       );
+    });
+  });
+
+  describe('setup api', () => {
+    it('should allow to access api.useHookRunners by default', done => {
+      const manager = createManager<TestHooks>();
+      const plugin: TestPlugin = {
+        name: 'plugin',
+        setup: api => {
+          expect(api.useHookRunners).toBeTruthy();
+          done();
+        },
+      };
+      manager.usePlugin(() => plugin);
+      manager.init();
+    });
+
+    it('should allow to register extra api', done => {
+      type API = { foo: () => void };
+
+      const manager = createAsyncManager<TestHooks, API>(
+        {},
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        { foo: () => {} },
+      );
+
+      const plugin: PluginOptions<TestHooks, Setup<TestHooks, API>> = {
+        name: 'plugin',
+        setup: api => {
+          expect(api.foo).toBeTruthy();
+          done();
+        },
+      };
+
+      manager.usePlugin(() => plugin);
+      manager.init();
+    });
+  });
+
+  describe('usePlugins option', () => {
+    it('should allow to use single plugin', async () => {
+      const manager = createManager<TestHooks>();
+
+      const list: number[] = [];
+      const plugin0: TestPlugin = {
+        name: 'plugin0',
+        setup: () => {
+          list.push(0);
+        },
+      };
+
+      const plugin1: TestPlugin = {
+        name: 'plugin1',
+        usePlugins: [plugin0],
+        setup: () => {
+          list.push(1);
+        },
+      };
+
+      manager.usePlugin(() => plugin1);
+      manager.init();
+
+      expect(list).toStrictEqual([0, 1]);
+    });
+
+    it('should allow to use multiple plugins', async () => {
+      const manager = createManager<TestHooks>();
+
+      const list: number[] = [];
+      const plugin0: TestPlugin = {
+        name: 'plugin0',
+        setup: () => {
+          list.push(0);
+        },
+      };
+
+      const plugin1: TestPlugin = {
+        name: 'plugin1',
+        usePlugins: [plugin0],
+        setup: () => {
+          list.push(1);
+        },
+      };
+
+      const plugin2: TestPlugin = {
+        name: 'plugin2',
+        usePlugins: [plugin1],
+        setup: () => {
+          list.push(2);
+        },
+      };
+
+      manager.usePlugin(() => plugin2);
+      manager.init();
+
+      expect(list).toStrictEqual([0, 1, 2]);
     });
   });
 });

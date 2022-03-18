@@ -251,7 +251,7 @@ importers:
       '@modern-js/load-config': workspace:^1.2.2
       '@modern-js/plugin': workspace:^1.2.1
       '@modern-js/types': workspace:^1.3.4
-      '@modern-js/utils': workspace:^1.3.3
+      '@modern-js/utils': workspace:^1.3.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__code-frame': ^7.0.3
@@ -430,14 +430,14 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/babel-compiler': workspace:^1.2.2
       '@modern-js/bff-utils': workspace:^1.2.2
-      '@modern-js/core': workspace:^1.4.4
-      '@modern-js/create-request': workspace:^1.2.1
+      '@modern-js/core': workspace:^1.4.6
+      '@modern-js/create-request': workspace:^1.2.2
       '@modern-js/plugin-analyze': workspace:^1.3.3
       '@modern-js/runtime': workspace:^1.2.2
       '@modern-js/server-core': workspace:^1.2.2
       '@modern-js/server-utils': workspace:^1.2.1
       '@modern-js/types': workspace:^1.3.4
-      '@modern-js/utils': workspace:^1.3.3
+      '@modern-js/utils': workspace:^1.3.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
@@ -818,11 +818,11 @@ importers:
   packages/cli/plugin-garfish:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/core': workspace:^1.4.4
-      '@modern-js/plugin-router': workspace:^1.2.2
+      '@modern-js/core': workspace:^1.4.6
+      '@modern-js/plugin-router': workspace:^1.2.5
       '@modern-js/runtime-core': workspace:^1.2.4
       '@modern-js/types': workspace:^1.3.4
-      '@modern-js/utils': workspace:^1.3.3
+      '@modern-js/utils': workspace:^1.3.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@testing-library/jest-dom': ^5.16.1
@@ -1231,12 +1231,12 @@ importers:
   packages/cli/plugin-router:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/core': workspace:^1.4.0
+      '@modern-js/core': workspace:^1.4.6
       '@modern-js/plugin': workspace:^1.2.1
       '@modern-js/plugin-analyze': workspace:^1.3.0
       '@modern-js/runtime-core': workspace:^1.2.2
       '@modern-js/types': workspace:^1.3.0
-      '@modern-js/utils': workspace:^1.3.0
+      '@modern-js/utils': workspace:^1.3.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@testing-library/react': ^12.0.0
@@ -1407,10 +1407,10 @@ importers:
   packages/cli/plugin-ssg:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/core': workspace:^1.4.4
-      '@modern-js/prod-server': workspace:^1.0.0
+      '@modern-js/core': workspace:^1.4.6
+      '@modern-js/prod-server': workspace:^1.0.2
       '@modern-js/types': workspace:^1.3.4
-      '@modern-js/utils': workspace:^1.3.3
+      '@modern-js/utils': workspace:^1.3.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -1755,15 +1755,15 @@ importers:
       '@babel/types': ^7.17.0
       '@koa/cors': ^3.1.0
       '@modern-js/bff-utils': workspace:^1.2.1
-      '@modern-js/core': workspace:^1.4.4
-      '@modern-js/create-request': workspace:^1.2.0
+      '@modern-js/core': workspace:^1.4.6
+      '@modern-js/create-request': workspace:^1.2.2
       '@modern-js/css-config': workspace:^1.2.2
       '@modern-js/esmpack': workspace:^1.2.2
       '@modern-js/plugin': workspace:^1.2.0
-      '@modern-js/server': workspace:^1.4.4
+      '@modern-js/server': workspace:^1.4.6
       '@modern-js/tsconfig': workspace:^1.2.0
       '@modern-js/types': workspace:^1.3.4
-      '@modern-js/utils': workspace:^1.3.3
+      '@modern-js/utils': workspace:^1.3.4
       '@rollup/plugin-alias': ^3.1.2
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -3312,7 +3312,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/plugin-ssr': workspace:^1.2.0
-      '@modern-js/utils': workspace:^1.2.2
+      '@modern-js/utils': workspace:^1.3.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27.0.3
@@ -3435,10 +3435,10 @@ importers:
       '@modern-js/adapter-helpers': workspace:^1.2.1
       '@modern-js/bff-runtime': workspace:^1.2.1
       '@modern-js/bff-utils': workspace:^1.2.2
-      '@modern-js/core': workspace:^1.4.0
+      '@modern-js/core': workspace:^1.4.6
       '@modern-js/server-core': workspace:^1.2.2
       '@modern-js/server-utils': workspace:^1.2.1
-      '@modern-js/utils': workspace:^1.3.0
+      '@modern-js/utils': workspace:^1.3.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/cookie-parser': ^1.4.2
@@ -3492,9 +3492,9 @@ importers:
       '@modern-js/adapter-helpers': workspace:^1.2.1
       '@modern-js/bff-runtime': workspace:^1.2.1
       '@modern-js/bff-utils': workspace:^1.2.2
-      '@modern-js/core': workspace:^1.4.3
+      '@modern-js/core': workspace:^1.4.6
       '@modern-js/server-core': workspace:^1.2.2
-      '@modern-js/utils': workspace:^1.3.2
+      '@modern-js/utils': workspace:^1.3.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/formidable': ^1.2.3
@@ -3544,11 +3544,11 @@ importers:
       '@modern-js/adapter-helpers': workspace:^1.2.1
       '@modern-js/bff-runtime': workspace:^1.2.1
       '@modern-js/bff-utils': workspace:^1.2.2
-      '@modern-js/core': workspace:^1.4.0
+      '@modern-js/core': workspace:^1.4.6
       '@modern-js/runtime': workspace:^1.2.2
       '@modern-js/server-core': workspace:^1.2.2
       '@modern-js/server-utils': workspace:^1.2.1
-      '@modern-js/utils': workspace:^1.3.0
+      '@modern-js/utils': workspace:^1.3.4
       '@nestjs/common': ^8.0.6
       '@nestjs/core': ^8.0.6
       '@nestjs/platform-express': ^8.0.6
@@ -3700,7 +3700,7 @@ importers:
       '@modern-js/core': workspace:^1.4.4
       '@modern-js/server-core': workspace:^1.2.2
       '@modern-js/types': workspace:^1.3.4
-      '@modern-js/utils': workspace:^1.3.3
+      '@modern-js/utils': workspace:^1.3.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/cookie': ^0.4.1
@@ -3729,7 +3729,6 @@ importers:
       ua-parser-js: ^0.7.28
     dependencies:
       '@babel/compat-data': 7.17.0
-      '@modern-js/core': link:../../cli/core
       '@modern-js/server-core': link:../core
       '@modern-js/utils': link:../../toolkit/utils
       axios: 0.24.0
@@ -3744,6 +3743,7 @@ importers:
       serve-static: 1.14.2
       ua-parser-js: 0.7.31
     devDependencies:
+      '@modern-js/core': link:../../cli/core
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -3765,13 +3765,13 @@ importers:
     specifiers:
       '@babel/register': ^7.15.3
       '@modern-js/bff-utils': workspace:^1.2.2
-      '@modern-js/core': workspace:^1.4.4
+      '@modern-js/core': workspace:^1.4.6
       '@modern-js/hmr-client': workspace:^1.2.2
-      '@modern-js/prod-server': workspace:^1.0.1
+      '@modern-js/prod-server': workspace:^1.0.2
       '@modern-js/server-core': workspace:^1.2.2
       '@modern-js/server-utils': workspace:^1.2.1
       '@modern-js/types': workspace:^1.3.4
-      '@modern-js/utils': workspace:^1.3.3
+      '@modern-js/utils': workspace:^1.3.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -4525,6 +4525,7 @@ importers:
   packages/toolkit/plugin:
     specifiers:
       '@babel/runtime': ^7
+      '@modern-js/utils': workspace:^1.3.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -4534,6 +4535,7 @@ importers:
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
+      '@modern-js/utils': link:../utils
       farrow-pipeline: 1.11.3
     devDependencies:
       '@scripts/build': link:../../../scripts/build
@@ -8732,6 +8734,7 @@ packages:
   /@docusaurus/core/2.0.0-beta.6_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-XMeI+lJKeJBGYBNOfO/Tc+5FMf21E5p1xZjfe75cgYcfZdERZ+W7aemXquwReno8xxHb4Rnfmi9dxkbOLDjqDA==}
     engines: {node: '>=12.13.0'}
+    hasBin: true
     peerDependencies:
       react: ^16.8.4 || ^17.0.0
       react-dom: ^16.8.4 || ^17.0.0
@@ -8833,6 +8836,7 @@ packages:
   /@docusaurus/core/2.0.0-beta.7_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-owJDhldpimQBOCr6YbGJiQRQufK3A9zmA3lyDnbtipAGV+sDRQNiYKUDtwnbESCchA4vhKj7suvcLvA4sSEVIQ==}
     engines: {node: '>=12.13.0'}
+    hasBin: true
     peerDependencies:
       react: ^16.8.4 || ^17.0.0
       react-dom: ^16.8.4 || ^17.0.0
@@ -12965,6 +12969,7 @@ packages:
   /@storybook/react/6.4.9_1f1693298126c370e07b9852cef0d39b:
     resolution: {integrity: sha512-GVbCeii2dIKSD66pAdn9bY7mRoOzBE6ll+vRDW1n00FIvGfckmoIZtQHpurca7iNTAoufv8+t0L9i7IItdrUuw==}
     engines: {node: '>=10.13.0'}
+    hasBin: true
     peerDependencies:
       '@babel/core': ^7.11.5
       react: ^16.8.0 || ^17.0.0
@@ -15897,6 +15902,7 @@ packages:
   /autoprefixer/10.4.1_postcss@8.4.5:
     resolution: {integrity: sha512-B3ZEG7wtzXDRCEFsan7HmR2AeNsxdJB0+sEC0Hc5/c2NbhJqPwuZm+tn233GBVw82L+6CtD6IPSfVruwKjfV3A==}
     engines: {node: ^10 || ^12 || >=14}
+    hasBin: true
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
@@ -15912,6 +15918,7 @@ packages:
   /autoprefixer/10.4.1_postcss@8.4.6:
     resolution: {integrity: sha512-B3ZEG7wtzXDRCEFsan7HmR2AeNsxdJB0+sEC0Hc5/c2NbhJqPwuZm+tn233GBVw82L+6CtD6IPSfVruwKjfV3A==}
     engines: {node: ^10 || ^12 || >=14}
+    hasBin: true
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
@@ -21006,6 +21013,7 @@ packages:
 
   /eslint-config-prettier/8.3.0_eslint@7.32.0:
     resolution: {integrity: sha512-BgZuLUSeKzvlL/VUjx/Yb787VQ26RU3gGjA3iiFvdsp/2bMfVIWUVP7tjxtjS0e+HP409cPlPvNkQloz8C91ew==}
+    hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
     dependencies:
@@ -21014,6 +21022,7 @@ packages:
 
   /eslint-find-rules/3.6.1_eslint@7.32.0:
     resolution: {integrity: sha512-GvXdZwdjvgeBXfW3rw8pcUNdGlay8hqTo0SgYi2siY+o+dOppgejSEwYezk2B8s+nZFaaOAzZVlmn8l6wkmhUA==}
+    hasBin: true
     peerDependencies:
       eslint: ^3.12.0 || ^4 || ^5 || ^6 || ^7
     dependencies:
@@ -25070,6 +25079,7 @@ packages:
   /jest-cli/27.4.5:
     resolution: {integrity: sha512-hrky3DSgE0u7sQxaCL7bdebEPHx5QzYmrGuUjaPLmPE8jx5adtvGuOlRspvMoVLTTDOHRnZDoRLYJuA+VCI7Hg==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
+    hasBin: true
     peerDependencies:
       node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
     peerDependenciesMeta:
@@ -25098,6 +25108,7 @@ packages:
   /jest-cli/27.4.5_ts-node@10.4.0:
     resolution: {integrity: sha512-hrky3DSgE0u7sQxaCL7bdebEPHx5QzYmrGuUjaPLmPE8jx5adtvGuOlRspvMoVLTTDOHRnZDoRLYJuA+VCI7Hg==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
+    hasBin: true
     peerDependencies:
       node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
     peerDependenciesMeta:
@@ -25676,6 +25687,7 @@ packages:
   /jest/27.4.5:
     resolution: {integrity: sha512-uT5MiVN3Jppt314kidCk47MYIRilJjA/l2mxwiuzzxGUeJIvA8/pDaJOAX5KWvjAo7SCydcW0/4WEtgbLMiJkg==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
+    hasBin: true
     peerDependencies:
       node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
     peerDependenciesMeta:
@@ -25695,6 +25707,7 @@ packages:
   /jest/27.4.5_ts-node@10.4.0:
     resolution: {integrity: sha512-uT5MiVN3Jppt314kidCk47MYIRilJjA/l2mxwiuzzxGUeJIvA8/pDaJOAX5KWvjAo7SCydcW0/4WEtgbLMiJkg==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
+    hasBin: true
     peerDependencies:
       node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
     peerDependenciesMeta:
@@ -34443,6 +34456,7 @@ packages:
   /tailwindcss/2.2.19:
     resolution: {integrity: sha512-6Ui7JSVtXadtTUo2NtkBBacobzWiQYVjYW0ZnKaP9S1ZCKQ0w7KVNz+YSDI/j7O7KCMHbOkz94ZMQhbT9pOqjw==}
     engines: {node: '>=12.13.0'}
+    hasBin: true
     peerDependencies:
       autoprefixer: ^10.0.2
       postcss: ^8.0.9
@@ -34486,6 +34500,7 @@ packages:
   /tailwindcss/2.2.19_postcss@8.4.6:
     resolution: {integrity: sha512-6Ui7JSVtXadtTUo2NtkBBacobzWiQYVjYW0ZnKaP9S1ZCKQ0w7KVNz+YSDI/j7O7KCMHbOkz94ZMQhbT9pOqjw==}
     engines: {node: '>=12.13.0'}
+    hasBin: true
     peerDependencies:
       autoprefixer: ^10.0.2
       postcss: ^8.0.9
@@ -34862,6 +34877,7 @@ packages:
   /terser/5.10.0:
     resolution: {integrity: sha512-AMmF99DMfEDiRJfxfY5jj5wNH/bYO09cniSqhfoyxc8sFoYIgkJy86G04UoZU5VjlpnplVu0K6Tx6E9b5+DlHA==}
     engines: {node: '>=10'}
+    hasBin: true
     peerDependencies:
       acorn: ^8.5.0
     peerDependenciesMeta:
@@ -34876,6 +34892,7 @@ packages:
   /terser/5.10.0_acorn@7.4.1:
     resolution: {integrity: sha512-AMmF99DMfEDiRJfxfY5jj5wNH/bYO09cniSqhfoyxc8sFoYIgkJy86G04UoZU5VjlpnplVu0K6Tx6E9b5+DlHA==}
     engines: {node: '>=10'}
+    hasBin: true
     peerDependencies:
       acorn: ^8.5.0
     peerDependenciesMeta:
@@ -34891,6 +34908,7 @@ packages:
   /terser/5.10.0_acorn@8.7.0:
     resolution: {integrity: sha512-AMmF99DMfEDiRJfxfY5jj5wNH/bYO09cniSqhfoyxc8sFoYIgkJy86G04UoZU5VjlpnplVu0K6Tx6E9b5+DlHA==}
     engines: {node: '>=10'}
+    hasBin: true
     peerDependencies:
       acorn: ^8.5.0
     peerDependenciesMeta:
@@ -35175,6 +35193,7 @@ packages:
   /ts-jest/27.0.7_c429ac29ea0f977ca2fccbb56c1c2dfd:
     resolution: {integrity: sha512-O41shibMqzdafpuP+CkrOL7ykbmLh+FqQrXEmV9CydQ5JBk0Sj0uAEF5TNNe94fZWKm3yYvWa/IbyV4Yg1zK2Q==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
+    hasBin: true
     peerDependencies:
       '@babel/core': '>=7.0.0-beta.0 <8'
       '@types/jest': ^27.0.0
@@ -35206,6 +35225,7 @@ packages:
   /ts-jest/27.1.2_38de93d2b218a583018ba888125d8b8b:
     resolution: {integrity: sha512-eSOiJOWq6Hhs6Khzk5wKC5sgWIXgXqOCiIl1+3lfnearu58Hj4QpE5tUhQcA3xtZrELbcvAGCsd6HB8OsaVaTA==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
+    hasBin: true
     peerDependencies:
       '@babel/core': '>=7.0.0-beta.0 <8'
       '@types/jest': ^27.0.0
@@ -35241,6 +35261,7 @@ packages:
   /ts-jest/27.1.2_50d3259478c5da3223040f0c0a45f857:
     resolution: {integrity: sha512-eSOiJOWq6Hhs6Khzk5wKC5sgWIXgXqOCiIl1+3lfnearu58Hj4QpE5tUhQcA3xtZrELbcvAGCsd6HB8OsaVaTA==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
+    hasBin: true
     peerDependencies:
       '@babel/core': '>=7.0.0-beta.0 <8'
       '@types/jest': ^27.0.0
@@ -35276,6 +35297,7 @@ packages:
   /ts-jest/27.1.2_743809a00aeb4d67cf768db6b5b553b9:
     resolution: {integrity: sha512-eSOiJOWq6Hhs6Khzk5wKC5sgWIXgXqOCiIl1+3lfnearu58Hj4QpE5tUhQcA3xtZrELbcvAGCsd6HB8OsaVaTA==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
+    hasBin: true
     peerDependencies:
       '@babel/core': '>=7.0.0-beta.0 <8'
       '@types/jest': ^27.0.0
@@ -35325,6 +35347,7 @@ packages:
 
   /ts-node/10.4.0_872ff86d573dc12b01711ea7d61300e3:
     resolution: {integrity: sha512-g0FlPvvCXSIO1JDF6S232P5jPYqBkRL9qly81ZgAOSU7rwI0stphCgd2kLiCrU9DjQCrJMWEqcNSjQL02s6d8A==}
+    hasBin: true
     peerDependencies:
       '@swc/core': '>=1.2.50'
       '@swc/wasm': '>=1.2.50'
@@ -35369,6 +35392,7 @@ packages:
   /ts-node/9.1.1_typescript@4.5.4:
     resolution: {integrity: sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==}
     engines: {node: '>=10.0.0'}
+    hasBin: true
     peerDependencies:
       typescript: '>=2.7'
     dependencies:
@@ -36487,6 +36511,7 @@ packages:
   /webpack-dev-server/3.11.3_webpack@5.65.0:
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==}
     engines: {node: '>= 6.11.5'}
+    hasBin: true
     peerDependencies:
       webpack: ^4.0.0 || ^5.0.0
       webpack-cli: '*'
@@ -36534,6 +36559,7 @@ packages:
   /webpack-dev-server/3.11.3_webpack@5.70.0:
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==}
     engines: {node: '>= 6.11.5'}
+    hasBin: true
     peerDependencies:
       webpack: ^4.0.0 || ^5.0.0
       webpack-cli: '*'
@@ -36580,6 +36606,7 @@ packages:
   /webpack-dev-server/4.7.2_webpack@5.65.0:
     resolution: {integrity: sha512-s6yEOSfPpB6g1T2+C5ZOUt5cQOMhjI98IVmmvMNb5cdiqHoxSUfACISHqU/wZy+q4ar/A9jW0pbNj7sa50XRVA==}
     engines: {node: '>= 12.13.0'}
+    hasBin: true
     peerDependencies:
       webpack: ^4.37.0 || ^5.0.0
       webpack-cli: '*'
@@ -36719,6 +36746,7 @@ packages:
   /webpack/4.46.0:
     resolution: {integrity: sha512-6jJuJjg8znb/xRItk7bkT0+Q7AHCYjjFnvKIWQPkNIOyRqoCGvkOs0ipeQzrqz4l5FtN5ZI/ukEHroeX/o1/5Q==}
     engines: {node: '>=6.11.5'}
+    hasBin: true
     peerDependencies:
       webpack-cli: '*'
       webpack-command: '*'
@@ -36756,6 +36784,7 @@ packages:
   /webpack/5.65.0_esbuild@0.13.15:
     resolution: {integrity: sha512-Q5or2o6EKs7+oKmJo7LaqZaMOlDWQse9Tm5l1WAfU/ujLGN5Pb0SqGeVkN/4bpPmEqEP5RnVhiqsOtWtUVwGRw==}
     engines: {node: '>=10.13.0'}
+    hasBin: true
     peerDependencies:
       webpack-cli: '*'
     peerDependenciesMeta:
@@ -36794,6 +36823,7 @@ packages:
   /webpack/5.70.0_esbuild@0.13.15:
     resolution: {integrity: sha512-ZMWWy8CeuTTjCxbeaQI21xSswseF2oNOwc70QSKNePvmxE7XW36i7vpBMYZFAUHPwQiEbNGCEYIOOlyRbdGmxw==}
     engines: {node: '>=10.13.0'}
+    hasBin: true
     peerDependencies:
       webpack-cli: '*'
     peerDependenciesMeta:

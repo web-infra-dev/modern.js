@@ -1,122 +1,106 @@
+import { isObject } from '@modern-js/utils';
 import { runWithContainer, createContainer } from 'farrow-pipeline';
-import {
-  ProgressRecord,
-  Progresses2Threads,
-  Progresses2Runners,
-  PluginOptions,
-  ClearDraftProgress,
-  InitOptions,
-  generateRunner,
-  hasOwnProperty,
-  DEFAULT_OPTIONS,
-} from './sync';
+import { generateRunner, hasOwnProperty, DEFAULT_OPTIONS } from './sync';
 import { useRunner } from './runner';
+import type {
+  ToRunners,
+  ToThreads,
+  CommonAPI,
+  InitOptions,
+  PluginOptions,
+} from './types';
 
-export type AsyncInitializer<O> = () => void | O | Promise<O | void>;
+/** setup function of async plugin */
+export type AsyncSetup<Hooks, API = Record<string, never>> = (
+  api: API & CommonAPI<Hooks>,
+) =>
+  | Partial<ToThreads<Hooks>>
+  | Promise<Partial<ToThreads<Hooks>> | void>
+  | void;
 
 const ASYNC_PLUGIN_SYMBOL = 'ASYNC_PLUGIN_SYMBOL';
 
-export type AsyncPlugin<O> = {
-  initializer: AsyncInitializer<O>;
+export type AsyncPlugin<Hooks, API> = {
   ASYNC_PLUGIN_SYMBOL: typeof ASYNC_PLUGIN_SYMBOL;
-} & Required<PluginOptions>;
-
-export type IndexAsyncPlugin<O> = AsyncPlugin<O> & {
-  index: number;
-};
-
-export type AsyncPlugins<O> = AsyncPlugin<O>[];
-export type AsyncIndexPlugins<O> = IndexAsyncPlugin<O>[];
-
-export type AsyncPluginFromAsyncManager<M extends AsyncManager<any, any>> =
-  M extends AsyncManager<infer EP, infer PR>
-    ? AsyncPlugin<Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>>
-    : never;
+} & Required<PluginOptions<Hooks, AsyncSetup<Hooks, API>>>;
 
 export type PluginFromAsyncManager<M extends AsyncManager<any, any>> =
-  M extends AsyncManager<infer EP, infer PR>
-    ? AsyncPlugin<Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>>
+  M extends AsyncManager<infer Hooks, infer API>
+    ? AsyncPlugin<Hooks, API>
     : never;
 
-export type AsyncManager<
-  EP extends Record<string, any>,
-  PR extends ProgressRecord | void = void,
-> = {
+export type AsyncManager<Hooks, API> = {
   createPlugin: (
-    initializer: AsyncInitializer<
-      Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>
-    >,
-    options?: PluginOptions,
-  ) => AsyncPlugin<Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>>;
-  isPlugin: (
-    input: Record<string, unknown>,
-  ) => input is AsyncPlugin<
-    Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>
-  >;
+    setup?: AsyncSetup<Hooks, API>,
+    options?: PluginOptions<Hooks, AsyncSetup<Hooks, API>>,
+  ) => AsyncPlugin<Hooks, API>;
+
+  isPlugin: (input: unknown) => input is AsyncPlugin<Hooks, API>;
+
   usePlugin: (
-    ...input: AsyncPlugins<
-      Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>
-    >
-  ) => AsyncManager<EP, PR>;
-  init: (
-    options?: InitOptions,
-  ) => Promise<Progresses2Runners<PR & ClearDraftProgress<EP>>>;
+    ...plugins:
+      | AsyncPlugin<Hooks, API>[]
+      | Array<() => PluginOptions<Hooks, AsyncSetup<Hooks, API>>>
+  ) => AsyncManager<Hooks, API>;
+
+  init: (options?: InitOptions) => Promise<ToRunners<Hooks>>;
+
   run: <O>(cb: () => O, options?: InitOptions) => O;
-  registe: (newShape: Partial<EP>) => void;
-  clone: () => AsyncManager<EP, PR>;
+
+  registerHook: (newHooks: Partial<Hooks>) => void;
+
+  clone: () => AsyncManager<Hooks, API>;
+
   clear: () => void;
-  useRunner: () => Progresses2Runners<PR & ClearDraftProgress<EP>>;
+
+  useRunner: () => ToRunners<Hooks>;
 };
 
 export const createAsyncManager = <
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  EP extends Record<string, any> = {},
-  PR extends ProgressRecord | void = void,
+  Hooks extends Record<string, any>,
+  API extends Record<string, any> = Record<string, never>,
 >(
-  processes?: PR,
-): AsyncManager<EP, PR> => {
+  hooks?: Partial<Hooks>,
+  api?: API,
+): AsyncManager<Hooks, API> => {
   let index = 0;
-  const createPlugin: AsyncManager<EP, PR>['createPlugin'] = (
-    initializer,
-    options = {},
-  ) => ({
-    ...DEFAULT_OPTIONS,
-    name: `No.${index++} plugin`,
-    ...options,
-    ASYNC_PLUGIN_SYMBOL,
-    initializer,
-  });
+  let currentHooks = { ...hooks } as Hooks;
 
-  const isPlugin: AsyncManager<EP, PR>['isPlugin'] = (
+  const registerHook: AsyncManager<Hooks, API>['registerHook'] = extraHooks => {
+    currentHooks = {
+      ...extraHooks,
+      ...currentHooks,
+    };
+  };
+
+  const isPlugin: AsyncManager<Hooks, API>['isPlugin'] = (
     input,
-  ): input is AsyncPlugin<
-    Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>
-  > =>
+  ): input is AsyncPlugin<Hooks, API> =>
+    isObject(input) &&
     hasOwnProperty(input, ASYNC_PLUGIN_SYMBOL) &&
     input[ASYNC_PLUGIN_SYMBOL] === ASYNC_PLUGIN_SYMBOL;
 
-  const registe: AsyncManager<EP, PR>['registe'] = extraProcesses => {
-    // eslint-disable-next-line no-param-reassign
-    processes = {
-      ...extraProcesses,
-      ...processes,
-    } as any;
-  };
+  const pluginAPI = {
+    ...api,
+    useHookRunners: useRunner,
+  } as API & CommonAPI<Hooks>;
 
   const clone = () => {
-    let plugins: AsyncIndexPlugins<
-      Partial<Progresses2Threads<PR & ClearDraftProgress<EP>>>
-    > = [];
+    let plugins: AsyncPlugin<Hooks, API>[] = [];
 
-    const usePlugin: AsyncManager<EP, PR>['usePlugin'] = (...input) => {
+    const addPlugin = (plugin: AsyncPlugin<Hooks, API>) => {
+      if (!includeAsyncPlugin(plugins, plugin)) {
+        plugins.push({ ...plugin });
+      }
+    };
+
+    const usePlugin: AsyncManager<Hooks, API>['usePlugin'] = (...input) => {
       for (const plugin of input) {
         if (isPlugin(plugin)) {
-          if (!includeAsyncPlugin(plugins, plugin)) {
-            plugins.push({
-              ...plugin,
-              index: plugins.length,
-            });
-          }
+          addPlugin(plugin);
+        } else if (typeof plugin === 'function') {
+          const options = plugin();
+          addPlugin(createPlugin(options.setup, options));
         } else {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
@@ -127,29 +111,52 @@ export const createAsyncManager = <
       return manager;
     };
 
+    const createPlugin: AsyncManager<Hooks, API>['createPlugin'] = (
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      setup = () => {},
+      options = {},
+    ) => {
+      if (options.usePlugins?.length) {
+        options.usePlugins.forEach(plugin => {
+          usePlugin(createPlugin(plugin.setup, plugin));
+        });
+      }
+
+      if (options.registerHook) {
+        registerHook(options.registerHook);
+      }
+
+      return {
+        ...DEFAULT_OPTIONS,
+        name: `No.${index++} plugin`,
+        ...options,
+        ASYNC_PLUGIN_SYMBOL,
+        setup,
+      };
+    };
+
     const clear = () => {
       plugins = [];
     };
 
     const currentContainer = createContainer();
 
-    const init: AsyncManager<EP, PR>['init'] = async options => {
+    const init: AsyncManager<Hooks, API>['init'] = async options => {
       const container = options?.container || currentContainer;
-
       const sortedPlugins = sortAsyncPlugins(plugins);
 
       checkAsyncPlugins(sortedPlugins);
 
       const hooksList = await Promise.all(
         sortedPlugins.map(plugin =>
-          runWithContainer(() => plugin.initializer(), container),
+          runWithContainer(() => plugin.setup(pluginAPI), container),
         ),
       );
 
-      return generateRunner<EP, PR>(hooksList, container, processes);
+      return generateRunner<Hooks>(hooksList, container, currentHooks);
     };
 
-    const run: AsyncManager<EP, PR>['run'] = (cb, options) => {
+    const run: AsyncManager<Hooks, API>['run'] = (cb, options) => {
       const container = options?.container || currentContainer;
 
       return runWithContainer(cb, container);
@@ -163,7 +170,7 @@ export const createAsyncManager = <
       run,
       clear,
       clone,
-      registe,
+      registerHook,
       useRunner,
     };
 
@@ -173,9 +180,9 @@ export const createAsyncManager = <
   return clone();
 };
 
-const includeAsyncPlugin = <O>(
-  plugins: AsyncPlugins<O>,
-  input: AsyncPlugin<O>,
+const includeAsyncPlugin = <Hooks, API>(
+  plugins: AsyncPlugin<Hooks, API>[],
+  input: AsyncPlugin<Hooks, API>,
 ): boolean => {
   for (const plugin of plugins) {
     if (plugin.name === input.name) {
@@ -186,9 +193,9 @@ const includeAsyncPlugin = <O>(
   return false;
 };
 
-const sortAsyncPlugins = <O>(
-  input: AsyncIndexPlugins<O>,
-): AsyncIndexPlugins<O> => {
+const sortAsyncPlugins = <Hooks, API>(
+  input: AsyncPlugin<Hooks, API>[],
+): AsyncPlugin<Hooks, API>[] => {
   let plugins = input.slice();
 
   for (let i = 0; i < plugins.length; i++) {
@@ -224,7 +231,7 @@ const sortAsyncPlugins = <O>(
   return plugins;
 };
 
-const checkAsyncPlugins = <O>(plugins: AsyncIndexPlugins<O>) => {
+const checkAsyncPlugins = <Hooks, API>(plugins: AsyncPlugin<Hooks, API>[]) => {
   for (const origin of plugins) {
     for (const rival of origin.rivals) {
       for (const plugin of plugins) {

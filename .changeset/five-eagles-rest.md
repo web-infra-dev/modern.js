@@ -2,4 +2,4 @@
 '@modern-js/core': patch
 ---
 
-fix: load plugins
+fix: server.logger type

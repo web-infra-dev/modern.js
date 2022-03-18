@@ -2,4 +2,4 @@
 '@modern-js/core': patch
 ---
 
-fix: mergeConfig util function
+fix: server.routes type
