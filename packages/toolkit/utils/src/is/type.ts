@@ -15,9 +15,8 @@ export function isFunction(func: any): func is Function {
   return typeof func === 'function';
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function isObject(obj: any): obj is object {
-  return typeof obj === 'object';
+  return obj !== null && typeof obj === 'object';
 }
 
 export function isPlainObject(obj: any): obj is Record<string, any> {
