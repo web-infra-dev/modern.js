@@ -5,7 +5,7 @@ import React from 'react';
 import Garfish, { interfaces } from 'garfish';
 import { withRouter } from '@modern-js/plugin-router';
 // import Loadable from 'react-loadable';
-import { Manifest, MicroComponentProps, ModulesInfo } from '../useModuleApps';
+import { Manifest, ModulesInfo } from '../useModuleApps';
 import { logger, generateSubAppContainerKey } from '../../util';
 import { Loadable, MicroProps } from '../loadable';
 
@@ -16,7 +16,7 @@ import { Loadable, MicroProps } from '../loadable';
 // };
 
 export interface AppMap {
-  [key: string]: React.ComponentType<MicroComponentProps>;
+  [key: string]: React.FC<any>;
 }
 
 function getAppInstance(
