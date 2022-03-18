@@ -6,6 +6,7 @@ import {
 import { PLUGIN_SCHEMAS } from '@modern-js/utils';
 import { createProxyRule } from './utils/createProxyRule';
 import WhistleProxy from './utils/whistleProxy';
+import './types';
 
 let proxyServer: WhistleProxy;
 export default createPlugin(
@@ -34,11 +35,3 @@ export default createPlugin(
   }),
   { name: '@modern-js/plugin-proxy' },
 ) as any;
-
-export type ProxyOptions = string | Record<string, string>;
-
-declare module '@modern-js/core' {
-  export interface DevConfig {
-    proxy?: ProxyOptions;
-  }
-}
