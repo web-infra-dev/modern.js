@@ -1,4 +1,10 @@
-import { isObject, isString, isUndefined, isPlainObject } from '../src/is/type';
+import {
+  isArray,
+  isObject,
+  isString,
+  isUndefined,
+  isPlainObject,
+} from '../src/is/type';
 
 describe('validate type', () => {
   it('should validate string correctly', () => {
@@ -13,6 +19,15 @@ describe('validate type', () => {
     expect(isUndefined(null)).toBeFalsy();
     expect(isUndefined('')).toBeFalsy();
     expect(isUndefined(123)).toBeFalsy();
+  });
+
+  it('should validate array correctly', () => {
+    expect(isArray(undefined)).toBeFalsy();
+    expect(isArray(null)).toBeFalsy();
+    expect(isArray('')).toBeFalsy();
+    expect(isArray(123)).toBeFalsy();
+    expect(isArray({})).toBeFalsy();
+    expect(isArray([])).toBeTruthy();
   });
 
   it('should validate object correctly', () => {
