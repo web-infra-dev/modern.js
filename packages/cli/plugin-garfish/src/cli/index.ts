@@ -3,6 +3,7 @@ import { createRuntimeExportsUtils, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import {
   createPlugin,
   useAppContext,
+  CliHookCallbacks,
   useResolvedConfigContext,
 } from '@modern-js/core';
 import type WebpackChain from 'webpack-chain';
@@ -17,11 +18,10 @@ import {
 export const externals = { 'react-dom': 'react-dom', react: 'react' };
 
 type Initializer = Parameters<typeof createPlugin>[0];
-type NonVoidPromiseAble<T> = T extends void | Promise<any> ? never : T;
-export type LifeCycle = NonVoidPromiseAble<ReturnType<Initializer>>;
+export type LifeCycle = CliHookCallbacks;
 
 export const resolvedConfig: NonNullable<
-  LifeCycle['resolvedConfig']
+  CliHookCallbacks['resolvedConfig']
 > = async config => {
   const { resolved } = config;
   const { masterApp, router } = getRuntimeConfig(resolved);
