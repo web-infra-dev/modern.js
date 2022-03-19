@@ -4,7 +4,6 @@ import { createApp } from '@modern-js/runtime-core';
 import '@testing-library/jest-dom';
 
 import ModernGarfishPlugin, {
-  useMicroApps,
   useModuleApp,
   useModuleApps,
 } from '../src/runtime';
@@ -33,13 +32,8 @@ describe('plugin-garfish', () => {
     };
 
     const App = () => {
-      const { MApp, apps, Components } = useMicroApps();
-      const { Dashboard, TableList } = Components;
-      const NMApp = useModuleApp();
-      const NApps = useModuleApps();
+      const { MApp, apps, Dashboard, TableList } = useModuleApps();
 
-      expect(NMApp === MApp).toBeTruthy();
-      expect(Components === NApps).toBeTruthy();
 
       if (apps.length > 0) {
         expect(apps[0].name).toBe(tableListModuleInfo.name);
