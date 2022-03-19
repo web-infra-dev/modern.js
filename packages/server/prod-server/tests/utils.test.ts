@@ -79,8 +79,8 @@ describe('test server utils', () => {
   describe('test create static reg', () => {
     test('should test static path correctly', () => {
       const reg = getStaticReg();
-      expect(reg.test('/static')).toBeTruthy();
-      expect(reg.test('/upload')).toBeTruthy();
+      expect(reg.test('/static/')).toBeTruthy();
+      expect(reg.test('/upload/')).toBeTruthy();
     });
 
     test('should test custom static path correctly', () => {
