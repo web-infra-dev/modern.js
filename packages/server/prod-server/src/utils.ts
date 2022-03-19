@@ -94,7 +94,7 @@ export const getStaticReg = (output: NormalizedConfig['output'] = {}) => {
   const staticPathRegExp = new RegExp(
     `^/(static/|upload/|favicon.ico|icon.png${
       favicons.length > 0 ? `|${favicons.join('|')}` : ''
-    }|${staticFiles.join('|')})`,
+    }${staticFiles.length > 0 ? `|${staticFiles.join('|')}` : ''})`,
   );
 
   return staticPathRegExp;
