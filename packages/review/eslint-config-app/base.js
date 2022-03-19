@@ -23,8 +23,9 @@ module.exports = {
   // https://eslint.org/docs/user-guide/configuring#specifying-environments
   env: {
     es6: true,
+    commonjs: false,
     'shared-node-browser': true,
-    browser: false,
+    browser: true,
     node: false,
     worker: false,
     serviceworker: false,
@@ -35,8 +36,6 @@ module.exports = {
   globals: { gql: 'readable' },
   // https://eslint.org/docs/user-guide/configuring#configuring-plugins
   plugins: [
-    // https://www.npmjs.com/package/eslint-plugin-prettier
-    'prettier',
     // https://www.npmjs.com/package/@babel/eslint-plugin
     '@babel',
     // https://www.npmjs.com/package/eslint-plugin-react
@@ -2303,6 +2302,15 @@ module.exports = {
     {
       files: ['**/*.md'],
       processor: 'markdown/markdown',
+    },
+    // ignore auto-generated css module declarations
+    {
+      files: ['*.css.d.ts'],
+      rules: {
+        'pre/match-regex': 'off',
+        'filenames/match-exported': 'off',
+        'prettier/prettier': 'off',
+      },
     },
   ],
 };
