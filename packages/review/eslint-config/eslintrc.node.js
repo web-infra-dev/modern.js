@@ -1,7 +1,6 @@
 const { jsExtensions } = require('@modern-js-app/eslint-config/utils');
 
 module.exports = {
-  extends: ['@modern-js-app'],
   env: {
     commonjs: false,
     browser: false,
