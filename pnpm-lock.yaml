@@ -5140,6 +5140,20 @@ importers:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
 
+  tests/integration/css/fixtures/multi-sass:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/plugin-sass': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-sass': link:../../../../../packages/cli/plugin-sass
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
   tests/integration/css/fixtures/nested-npm-import:
     specifiers:
       '@modern-js/app-tools': workspace:^1.0.0
@@ -5187,6 +5201,20 @@ importers:
     dependencies:
       '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
       '@modern-js/plugin-less': link:../../../../../packages/cli/plugin-less
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  tests/integration/css/fixtures/single-sass:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/plugin-sass': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      react: ^17.0.1
+      react-dom: ^17.0.1
+    dependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-sass': link:../../../../../packages/cli/plugin-sass
       '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
