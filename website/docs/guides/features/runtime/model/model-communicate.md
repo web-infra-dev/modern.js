@@ -88,5 +88,5 @@ Modern.js 默认开启 [自动生成 actions](./auto-actions)，所以 `stepMode
 
 :::info 补充信息
 - 本节完整的示例代码：[章节示例代码](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/models-communication)。
-- 相关 API 的更多介绍，请参考：[通过函数创建-model](/docs/apis/runtime/model/model#通过函数创建-model)。
+- 相关 API 的更多介绍，请参考：[通过函数创建-model](/docs/apis/runtime/model/model_#通过函数创建-model)。
 :::
