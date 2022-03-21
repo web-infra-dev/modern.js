@@ -1,6 +1,10 @@
-import { isObject } from '@modern-js/utils';
 import { runWithContainer, createContainer } from 'farrow-pipeline';
-import { generateRunner, hasOwnProperty, DEFAULT_OPTIONS } from './sync';
+import {
+  isObject,
+  generateRunner,
+  hasOwnProperty,
+  DEFAULT_OPTIONS,
+} from './sync';
 import { useRunner } from './runner';
 import type {
   ToRunners,
