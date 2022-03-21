@@ -140,6 +140,7 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
+          breadcrumbs: false,
           // Please change this to your repo.
           // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
         },
@@ -156,7 +157,7 @@ module.exports = {
     ],
   ],
 
-  plugins: [
+  themes: [
     [
       require.resolve('@easyops-cn/docusaurus-search-local'),
       {
@@ -170,6 +171,8 @@ module.exports = {
         language: ['en', 'zh'],
       },
     ],
+  ],
+  plugins: [
     [
       '@docusaurus/plugin-client-redirects',
       {
@@ -261,12 +264,8 @@ module.exports = {
   ],
   i18n: {
     defaultLocale: 'zh-cn',
-    locales: ['en', 'zh-cn'],
+    locales: ['zh-cn'],
     localeConfigs: {
-      en: {
-        label: 'English (Auto)',
-        direction: 'ltr',
-      },
       'zh-cn': {
         label: '简体中文（中国）',
         direction: 'ltr',
