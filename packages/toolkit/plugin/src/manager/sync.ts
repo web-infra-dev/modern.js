@@ -1,4 +1,3 @@
-import { isObject } from '@modern-js/utils';
 import {
   Container,
   isPipeline,
@@ -354,6 +353,9 @@ const checkPlugins = <Hooks, API>(plugins: Plugin<Hooks, API>[]) => {
     }
   }
 };
+
+export const isObject = (obj: unknown): obj is Record<string, any> =>
+  obj !== null && typeof obj === 'object';
 
 export const hasOwnProperty = <
   X extends Record<string, unknown>,
