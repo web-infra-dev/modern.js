@@ -1,13 +1,15 @@
 import { NormalizedConfig } from '@modern-js/core';
 
 export const makeProvider = () => `
-export const provider = function ({basename, dom, ...props}) {
+export const provider = function ({basename, dom}) {
   return {
-    render({basename, dom}) {
-      console.log('App.config', App.config);
-      const SubApp = render({props, basename});
+    render({basename, dom, props}) {
+      const SubApp = render({ props, basename });
       const node = dom.querySelector('#' + MOUNT_ID) || dom;
-      bootstrap(SubApp, node);
+      const App = function () {
+        return React.createElement(SubApp, props)
+      };
+      bootstrap(App, node);
     },
     destroy({ dom }) {
       const node = dom.querySelector('#' + MOUNT_ID) || dom;
