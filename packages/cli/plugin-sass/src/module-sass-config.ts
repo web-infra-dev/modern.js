@@ -1,5 +1,5 @@
-import { NormalizedConfig } from '@modern-js/core';
 import { getSassConfig, SassOption } from '@modern-js/css-config';
+import type { NormalizedConfig } from '@modern-js/core';
 import { SassOptions as ResolvedSassOption } from '@modern-js/style-compiler';
 
 export const moduleSassConfig = ({
