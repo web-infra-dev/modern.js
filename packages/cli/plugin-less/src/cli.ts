@@ -1,11 +1,8 @@
 import { Import, PLUGIN_SCHEMAS } from '@modern-js/utils';
+import type { CliPlugin } from '@modern-js/core';
 import type { Configuration } from 'webpack';
 import type Chain from 'webpack-chain';
 
-const core: typeof import('@modern-js/core') = Import.lazy(
-  '@modern-js/core',
-  require,
-);
 const cssConfig: typeof import('@modern-js/css-config') = Import.lazy(
   '@modern-js/css-config',
   require,
@@ -21,8 +18,10 @@ const LESS_MODULE_REGEX = /\.module\.less$/;
 
 const GLOBAL_LESS_REGEX = /\.global\.less$/;
 
-export default core.createPlugin(
-  () => ({
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-less',
+
+  setup: api => ({
     validateSchema() {
       return PLUGIN_SCHEMAS['@modern-js/plugin-less'];
     },
@@ -30,7 +29,7 @@ export default core.createPlugin(
       return {
         tools: {
           webpack: (config: Configuration, { chain }: { chain: Chain }) => {
-            const options = core.useResolvedConfigContext();
+            const options = api.useResolvedConfigContext();
 
             const {
               output: { disableCssModuleExtension },
@@ -86,5 +85,4 @@ export default core.createPlugin(
     },
     moduleLessConfig: mlc.moduleLessConfig as any,
   }),
-  { name: '@modern-js/plugin-less' },
-) as any;
+});

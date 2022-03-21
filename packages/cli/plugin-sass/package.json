@@ -31,10 +31,21 @@
       "default": "./dist/js/node/cli.js"
     }
   },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
+      "cli": [
+        "./dist/types/cli.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "prepare": "pnpm build",
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
+    "dev": "modern build --watch",
     "build": "modern build",
     "test": "jest --passWithNoTests"
   },
