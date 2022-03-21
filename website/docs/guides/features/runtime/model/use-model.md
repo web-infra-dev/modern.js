@@ -37,5 +37,5 @@ export default function App() {
 本节完整的示例代码可以在[这里](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/counter-model)查看。
 
 :::info 补充信息
-相关 API 的更多介绍，请参考[这里](/docs/apis/runtime/model/model))。
+相关 API 的更多介绍，请参考[这里](/docs/apis/runtime/model/model_))。
 :::

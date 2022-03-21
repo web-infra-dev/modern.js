@@ -24,7 +24,7 @@ sidebar_position: 2
 - [`winService.sendTo`](/docs/apis/runtime/electron/main-process/win-service#sendto)（主进程）
 - [`winService.sendTo`](/docs/apis/runtime/electron/render-process/win-service#sendto)（渲染进程）
 - [`webviewService.sendToWebview`](/docs/apis/runtime/electron/render-process/webview-service#sendtowebview)
-- [`webviewBridge.send`](/docs/apis/runtime/electron/webview-process/index#send)
+- [`webviewBridge.send`](/docs/apis/runtime/electron/webview-process/index_#send)
 
 
 关于双向通信，如下图所示，展示了彼此之间的通信关系：

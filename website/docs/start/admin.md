@@ -238,7 +238,7 @@ export default App;
 当访问 `/console` 路由时，会加载 `src_console_dashboard_index_tsx.js` 这个文件；当访问 `/console/table` 路由时，会加载 `src_console_tableList_index_tsx.js` 这个文件。
 
 :::info 补充信息
-关于 `loadable` 的更多用法，请参考【[loadable API](/docs/apis/runtime/utility/loadable/loadable)】。
+关于 `loadable` 的更多用法，请参考【[loadable API](/docs/apis/runtime/utility/loadable/loadable_)】。
 :::
 
 ## 集成组件库

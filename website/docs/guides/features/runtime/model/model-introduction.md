@@ -63,5 +63,5 @@ export default countModel;
 上面就是 Model 的创建，你可能还想了解：[如何使用 Model](./use-model)。
 
 :::info 补充信息
-相关 API 的更多介绍，请参考[这里](/docs/apis/runtime/model/model)。
+相关 API 的更多介绍，请参考[这里](/docs/apis/runtime/model/model_)。
 :::

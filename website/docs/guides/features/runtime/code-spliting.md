@@ -35,7 +35,7 @@ function MyComponent() {
 }
 ```
 
-`loadable` 更多用法请见 [loadable API](/docs/apis/runtime/utility/loadable/loadable)。
+`loadable` 更多用法请见 [loadable API](/docs/apis/runtime/utility/loadable/loadable_)。
 
 :::note 注
 `loadable` 开箱即用的支持 SSR。
