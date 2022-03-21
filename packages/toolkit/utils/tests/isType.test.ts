@@ -2,6 +2,7 @@ import {
   isArray,
   isObject,
   isString,
+  isRegExp,
   isUndefined,
   isPlainObject,
 } from '../src/is/type';
@@ -52,5 +53,15 @@ describe('validate type', () => {
     expect(isPlainObject({})).toBeTruthy();
     expect(isPlainObject([])).toBeFalsy();
     expect(isPlainObject(/foo/)).toBeFalsy();
+  });
+
+  it('should validate RegExp correctly', () => {
+    expect(isRegExp(1)).toBeFalsy();
+    expect(isRegExp('1')).toBeFalsy();
+    expect(isRegExp(undefined)).toBeFalsy();
+    expect(isRegExp(null)).toBeFalsy();
+    expect(isRegExp({})).toBeFalsy();
+    expect(isRegExp([])).toBeFalsy();
+    expect(isRegExp(/foo/)).toBeTruthy();
   });
 });
