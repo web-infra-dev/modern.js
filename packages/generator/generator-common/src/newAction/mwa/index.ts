@@ -108,6 +108,7 @@ export const MWAActionFunctionsAppendTypeContent: Partial<
   [ActionFunction.MicroFrontend]: `/// <reference types='@modern-js/plugin-garfish/type' />`,
   [ActionFunction.TailwindCSS]: `/// <reference types='@modern-js/plugin-tailwindcss/types' />`,
   [ActionFunction.SSG]: `/// <reference types='@modern-js/plugin-ssg/types' />`,
+  [ActionFunction.Proxy]: `/// <reference types='@modern-js/plugin-proxy/types' />`,
 };
 
 export const MWANewActionGenerators: Record<

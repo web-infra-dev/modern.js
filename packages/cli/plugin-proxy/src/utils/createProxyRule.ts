@@ -1,6 +1,6 @@
 import path from 'path';
 import { logger, fs } from '@modern-js/utils';
-import type { ProxyOptions } from '..';
+import type { ProxyOptions } from '../types';
 
 interface ProxyRule {
   pattern: string;
