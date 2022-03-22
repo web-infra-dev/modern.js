@@ -1,12 +1,14 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import type { Component } from 'react';
 import {
+  ToThreads,
+  AsyncSetup,
+  PluginOptions,
+  createContext,
   createAsyncManager,
   createAsyncPipeline,
-  PluginFromAsyncManager,
-  createParallelWorkflow,
   createAsyncWaterfall,
-  createContext,
+  createParallelWorkflow,
 } from '@modern-js/plugin';
 import { enable } from '@modern-js/plugin/node';
 import type {
@@ -143,44 +145,6 @@ const afterSend = createParallelWorkflow<{
 
 const reset = createParallelWorkflow();
 
-export const createServerManager = () =>
-  createAsyncManager({
-    // server hook
-    gather,
-    create,
-    prepareWebServer,
-    prepareApiServer,
-    preDevServerInit,
-    setupCompiler,
-    postDevServerInit,
-    beforeRouteSet,
-    afterRouteSet,
-    preServerInit,
-    postServerInit,
-    listen,
-    beforeServerReset,
-    afterServerReset,
-    // request hook
-    extendSSRContext,
-    extendContext,
-    handleError,
-    beforeMatch,
-    afterMatch,
-    prefetch,
-    renderToString,
-    beforeRender,
-    afterRender,
-    beforeSend,
-    afterSend,
-    reset,
-  });
-
-export const serverManager = createServerManager();
-
-export type ServerPlugin = PluginFromAsyncManager<typeof serverManager>;
-
-export const { createPlugin } = serverManager;
-
 export const AppContext = createContext<ISAppContext>({} as ISAppContext);
 
 export const ConfigContext = createContext<UserConfig>({} as UserConfig);
@@ -188,3 +152,59 @@ export const ConfigContext = createContext<UserConfig>({} as UserConfig);
 export const useConfigContext = () => ConfigContext.use().value;
 
 export const useAppContext = () => AppContext.use().value;
+
+const pluginAPI = {
+  useAppContext,
+  useConfigContext,
+};
+
+type PluginAPI = typeof pluginAPI;
+
+const serverHooks = {
+  // server hook
+  gather,
+  create,
+  prepareWebServer,
+  prepareApiServer,
+  preDevServerInit,
+  setupCompiler,
+  postDevServerInit,
+  beforeRouteSet,
+  afterRouteSet,
+  preServerInit,
+  postServerInit,
+  listen,
+  beforeServerReset,
+  afterServerReset,
+  // request hook
+  extendSSRContext,
+  extendContext,
+  handleError,
+  beforeMatch,
+  afterMatch,
+  prefetch,
+  renderToString,
+  beforeRender,
+  afterRender,
+  beforeSend,
+  afterSend,
+  reset,
+};
+
+/** all hooks of server plugin */
+export type ServerHooks = typeof serverHooks;
+
+/** all hook callbacks of server plugin */
+export type ServerHookCallbacks = ToThreads<ServerHooks>;
+
+export const createServerManager = () =>
+  createAsyncManager(serverHooks, pluginAPI);
+
+export const serverManager = createServerManager();
+
+export type ServerPlugin = PluginOptions<
+  ServerHooks,
+  AsyncSetup<ServerHooks, PluginAPI>
+>;
+
+export const { createPlugin } = serverManager;
