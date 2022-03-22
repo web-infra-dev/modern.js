@@ -69,7 +69,7 @@ export type Manager<Hooks, API> = {
 
   clear: () => void;
 
-  clone: () => Manager<Hooks, API>;
+  clone: (overrideAPI?: Partial<API & CommonAPI<Hooks>>) => Manager<Hooks, API>;
 
   useRunner: () => ToRunners<Hooks>;
 };
@@ -108,12 +108,14 @@ export const createManager = <
     hasOwnProperty(input, SYNC_PLUGIN_SYMBOL) &&
     input[SYNC_PLUGIN_SYMBOL] === SYNC_PLUGIN_SYMBOL;
 
+  type PluginAPI = API & CommonAPI<Hooks>;
+
   const pluginAPI = {
     ...api,
     useHookRunners: useRunner,
-  } as API & CommonAPI<Hooks>;
+  } as PluginAPI;
 
-  const clone = () => {
+  const clone = (overrideAPI?: Partial<PluginAPI>) => {
     let plugins: Plugin<Hooks, API>[] = [];
 
     const addPlugin = (plugin: Plugin<Hooks, API>) => {
@@ -172,11 +174,15 @@ export const createManager = <
     const init: Manager<Hooks, API>['init'] = options => {
       const container = options?.container || currentContainer;
       const sortedPlugins = sortPlugins(plugins);
+      const mergedPluginAPI = {
+        ...pluginAPI,
+        ...overrideAPI,
+      };
 
       checkPlugins(sortedPlugins);
 
       const hooksList = sortedPlugins.map(plugin =>
-        runWithContainer(() => plugin.setup(pluginAPI), container),
+        runWithContainer(() => plugin.setup(mergedPluginAPI), container),
       );
 
       return generateRunner<Hooks>(hooksList, container, currentHooks);
