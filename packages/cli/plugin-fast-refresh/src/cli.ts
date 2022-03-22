@@ -1,10 +1,12 @@
-import { createPlugin } from '@modern-js/core';
+import { isFastRefresh } from '@modern-js/utils';
+import type { CliPlugin } from '@modern-js/core';
 import type { Configuration } from 'webpack';
 import type Chain from 'webpack-chain';
-import { isFastRefresh } from '@modern-js/utils';
 
-export default createPlugin(
-  () => ({
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-fast-refresh',
+
+  setup: () => ({
     config() {
       return {
         tools: {
@@ -44,5 +46,4 @@ export default createPlugin(
       };
     },
   }),
-  { name: '@modern-js/plugin-fast-refresh' },
-) as any;
+});
