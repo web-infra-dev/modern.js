@@ -9,7 +9,6 @@ module.exports = {
     ecmaVersion: 8,
     ecmaFeatures: {
       impliedStrict: true,
-      ecmaVersion: 2018,
       jsx: true,
     },
     sourceType: 'module',
