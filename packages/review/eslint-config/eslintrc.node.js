@@ -1,7 +1,6 @@
 const { jsExtensions } = require('@modern-js-app/eslint-config/utils');
 
 module.exports = {
-  extends: ['@modern-js-app'],
   env: {
     commonjs: false,
     browser: false,
@@ -10,7 +9,8 @@ module.exports = {
   settings: { 'import/resolver': 'node' },
   rules: {
     'node/no-unsupported-features/es-builtins': 2,
-    'node/no-unsupported-features/es-syntax': 2,
+    // disable the rule for out of date reason, refer to: https://github.com/mysticatea/eslint-plugin-node/issues/216
+    'node/no-unsupported-features/es-syntax': 0,
     'node/no-unsupported-features/node-builtins': 2,
     'node/prefer-global/url': [2, 'never'],
     'node/prefer-global/url-search-params': [2, 'never'],
