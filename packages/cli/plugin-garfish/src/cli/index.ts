@@ -1,9 +1,6 @@
 import path from 'path';
 import { createRuntimeExportsUtils, PLUGIN_SCHEMAS } from '@modern-js/utils';
-import {
-  CliHookCallbacks,
-  CliPlugin,
-} from '@modern-js/core';
+import { CliHookCallbacks, CliPlugin } from '@modern-js/core';
 import type WebpackChain from 'webpack-chain';
 import { logger } from '../util';
 import {
@@ -51,12 +48,15 @@ export const resolvedConfig: NonNullable<
 
 const runtimePluginName = '@modern-js/runtime/plugins';
 
-export const initializer: Initializer = ({ useAppContext, useResolvedConfigContext }) => {
+export const initializer: Initializer = ({
+  useAppContext,
+  useResolvedConfigContext,
+}) => {
   let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
   let runtimeExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
 
   return {
-    validateSchema () {
+    validateSchema() {
       return PLUGIN_SCHEMAS['@modern-js/plugin-garfish'];
     },
     resolvedConfig: async config => {
@@ -90,6 +90,8 @@ export const initializer: Initializer = ({ useAppContext, useResolvedConfigConte
     config() {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const config = useAppContext();
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const resolveOptions = useResolvedConfigContext();
 
       pluginsExportsUtils = createRuntimeExportsUtils(
         config.internalDirectory,
@@ -116,8 +118,6 @@ export const initializer: Initializer = ({ useAppContext, useResolvedConfigConte
               env = process.env.NODE_ENV || 'development',
             }: { chain: WebpackChain; webpack: any; env: string },
           ) => {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const resolveOptions = useResolvedConfigContext();
             if (resolveOptions?.deploy?.microFrontend) {
               chain.output.libraryTarget('umd');
               if (resolveOptions?.server?.port) {
@@ -133,10 +133,7 @@ export const initializer: Initializer = ({ useAppContext, useResolvedConfigConte
                   .plugin('banner')
                   .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
               }
-              const {
-                enableHtmlEntry = defaultEnableHtmlEntry,
-                externalBasicLibrary = defaultExternalBasicLibrary,
-              } =
+              const { enableHtmlEntry = true, externalBasicLibrary = false } =
                 typeof resolveOptions?.deploy?.microFrontend === 'object'
                   ? resolveOptions?.deploy?.microFrontend
                   : {};
@@ -223,9 +220,7 @@ export const initializer: Initializer = ({ useAppContext, useResolvedConfigConte
           name: 'garfish',
           args: 'masterApp',
           options:
-            masterApp === true
-              ? JSON.stringify({})
-              : JSON.stringify(masterApp),
+            masterApp === true ? JSON.stringify({}) : JSON.stringify(masterApp),
         });
       }
       return { entrypoint, plugins };

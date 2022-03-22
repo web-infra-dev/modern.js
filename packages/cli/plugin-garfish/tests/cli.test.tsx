@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { manager, useAppContext } from '@modern-js/core';
+import { manager } from '@modern-js/core';
 import WebpackChain from 'webpack-chain';
 import GarfishPlugin, { externals, resolvedConfig } from '../src/cli';
 import { getRuntimeConfig, makeRenderFunction, setRuntimeConfig } from '../src/cli/utils';
@@ -20,18 +20,17 @@ const mock_config_context = {
 jest.mock('@modern-js/core', () => {
   const originalModule = jest.requireActual('@modern-js/core');
   return {
-    __esModule: true,
-    ...originalModule,
-    useResolvedConfigContext: ()=>{
-      return mock_config_context.get();
-    }
+      __esModule: true,
+      ...originalModule,
+      useResolvedConfigContext: ()=>{
+        return mock_config_context.get();
+      }
   };
 });
 
-
 describe('plugin-garfish cli', () => {
   test('cli garfish basename', async () => {
-    expect(GarfishPlugin.name).toBe('@modern-js/plugin-garfish');
+    expect(GarfishPlugin().name).toBe('@modern-js/plugin-garfish');
     const basename = '/test';
     const resolveConfig = {
       resolved: {
@@ -56,14 +55,14 @@ describe('plugin-garfish cli', () => {
         routerConfig,
         renderByProvider: true,
       };
-    
+
       if (IS_BROWSER) {
         resultConfig.renderByProvider = false;
       }
       return resultConfig;
     `;
     const generateNewRenderFn = new Function('appInfo', 'IS_BROWSER', '__GARFISH_EXPORTS__', makeRenderFunction(code));
-    
+
     // render byGarfish but don't provider appInfo
     expect(generateNewRenderFn(undefined, true, false)).toBe(null);
 
@@ -152,10 +151,6 @@ describe('plugin-garfish cli', () => {
 
   test('webpack config close external and use js entry', async ()=>{
     const main = manager.clone().usePlugin(GarfishPlugin);
-    const runner = await main.init();
-    await runner.prepare();
-    const config: any = await runner.config();
-    const webpackConfig = new WebpackChain();
     mock_config_context.recover({
       deploy: {
         microFrontend: {
@@ -167,6 +162,11 @@ describe('plugin-garfish cli', () => {
         port: '8080'
       }
     });
+
+    const runner = await main.init();
+    await runner.prepare();
+    const config: any = await runner.config();
+    const webpackConfig = new WebpackChain();
 
     config[0].tools.webpack({}, {
       chain: webpackConfig,
