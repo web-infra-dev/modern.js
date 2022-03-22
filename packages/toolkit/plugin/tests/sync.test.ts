@@ -392,6 +392,22 @@ describe('sync manager', () => {
     expect(count).toBe(1);
   });
 
+  it('should support manager clone and override pluginAPI', done => {
+    const myAPI = { hello: () => 1 };
+    const manager = createManager({}, myAPI);
+    const plugin = {
+      setup(api: typeof myAPI) {
+        expect(api.hello()).toEqual(2);
+        done();
+      },
+    };
+    const clonedManager = manager.clone({
+      hello: () => 2,
+    });
+
+    clonedManager.usePlugin(() => plugin).init();
+  });
+
   it('isPlugin: exclusive plugins of manager', () => {
     const manager0 = createAsyncManager();
     const manager1 = createManager();
