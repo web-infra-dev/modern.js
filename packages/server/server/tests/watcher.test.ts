@@ -39,9 +39,13 @@ describe('watcher', () => {
         ignored: /api\/typings\/.*/,
       },
       async () => {
-        callback();
-        expect(callback).toHaveBeenCalledTimes(1);
-        await watcher.close();
+        try {
+          callback();
+          expect(callback).toHaveBeenCalledTimes(1);
+          await watcher.close();
+        } catch (e) {
+          console.error(e);
+        }
         done();
       },
     );
