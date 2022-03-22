@@ -1,10 +1,12 @@
-import { createPlugin } from '@modern-js/core';
+import type { CliPlugin } from '@modern-js/core';
 import { change, bump, pre, release } from './commands';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils';
 
-export default createPlugin(
-  () => {
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-changeset',
+
+  setup: () => {
     // initial cli language
     i18n.changeLanguage({ locale: getLocaleLanguage() });
 
@@ -59,5 +61,4 @@ export default createPlugin(
       },
     };
   },
-  { name: '@modern-js/plugin-changeset' },
-) as any;
+});
