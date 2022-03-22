@@ -53,7 +53,9 @@ export type AsyncManager<Hooks, API> = {
 
   registerHook: (newHooks: Partial<Hooks>) => void;
 
-  clone: () => AsyncManager<Hooks, API>;
+  clone: (
+    overrideAPI?: Partial<API & CommonAPI<Hooks>>,
+  ) => AsyncManager<Hooks, API>;
 
   clear: () => void;
 
@@ -84,12 +86,14 @@ export const createAsyncManager = <
     hasOwnProperty(input, ASYNC_PLUGIN_SYMBOL) &&
     input[ASYNC_PLUGIN_SYMBOL] === ASYNC_PLUGIN_SYMBOL;
 
+  type PluginAPI = API & CommonAPI<Hooks>;
+
   const pluginAPI = {
     ...api,
     useHookRunners: useRunner,
-  } as API & CommonAPI<Hooks>;
+  } as PluginAPI;
 
-  const clone = () => {
+  const clone = (overrideAPI?: Partial<PluginAPI>) => {
     let plugins: AsyncPlugin<Hooks, API>[] = [];
 
     const addPlugin = (plugin: AsyncPlugin<Hooks, API>) => {
@@ -148,12 +152,16 @@ export const createAsyncManager = <
     const init: AsyncManager<Hooks, API>['init'] = async options => {
       const container = options?.container || currentContainer;
       const sortedPlugins = sortAsyncPlugins(plugins);
+      const mergedPluginAPI = {
+        ...pluginAPI,
+        ...overrideAPI,
+      };
 
       checkAsyncPlugins(sortedPlugins);
 
       const hooksList = await Promise.all(
         sortedPlugins.map(plugin =>
-          runWithContainer(() => plugin.setup(pluginAPI), container),
+          runWithContainer(() => plugin.setup(mergedPluginAPI), container),
         ),
       );
 
