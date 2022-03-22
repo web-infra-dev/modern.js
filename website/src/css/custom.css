@@ -6,7 +6,6 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  /* --ifm-color-primary: rgba(78, 202, 255, 1); */
   --ifm-color-primary: #00b3ff;
   --ifm-color-primary-dark: rgb(33, 175, 144);
   --ifm-color-primary-darker: rgb(31, 165, 136);
@@ -20,6 +19,7 @@
   --ifm-navbar-search-input-background-color: rgba(255, 255, 255, 0.24);
   --search-local-hit-color: #444950;
   --home-border-color: rgba(78, 202, 255, 0.3);
+  --ifm-navbar-height: 3.375rem;
   --ifm-navbar-search-input-icon: url(https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/search-icon.png);
   --ifm-navbar-search-input-color: #fff;
   --search-local-modal-background: #000;
