@@ -24,9 +24,10 @@
   --ifm-navbar-search-input-color: #fff;
   --search-local-modal-background: #000;
   --ifm-link-color: #2972b7;
-  --ifm-code-border-radius: 3px;
-  --ifm-code-padding-horizontal: 0.2rem;
+  --ifm-code-border-radius: 6px;
+  --ifm-code-padding-horizontal: 0.4rem;
   --ifm-code-padding-vertical: 0.2rem;
+  --ifm-code-background: #f1f1f1;
   --ifm-line-height-base: 1.8;
 }
 
@@ -115,9 +116,7 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 }
 
 code {
-  padding: 0.2em 0.4em;
   border: none;
-  background-color: #f1f1f1;
 }
 
 video {
