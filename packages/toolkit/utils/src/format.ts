@@ -11,7 +11,7 @@
 // Modified by Chao Xu (xuchaobei)
 
 import webpack, { StatsCompilation } from 'webpack';
-import { ProxyDetail, ProxyOptions } from '@modern-js/types';
+import type { ProxyDetail, ProxyOptions } from '@modern-js/types';
 
 const friendlySyntaxErrorLabel = 'Syntax error:';
 
