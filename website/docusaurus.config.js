@@ -16,8 +16,6 @@ module.exports = {
       additionalLanguages: ['powershell'],
     },
     navbar: {
-      hideOnScroll: true,
-      // title: 'Modernjs Site',
       logo: {
         alt: 'Modernjs Logo',
         src: 'https://lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/assets/images/images/modernjs-logo.svg',

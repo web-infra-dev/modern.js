@@ -1,9 +1,8 @@
 {
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
-    "declaration": false,
-    "jsx": "preserve"
+    "noEmit": true
   },
-  "include": ["**/src", "**/tests"],
-  "exclude": ["**/node_modules/"]
+  "include": ["packages", "tests"],
+  "exclude": ["**/node_modules/", "**/dist/"]
 }
