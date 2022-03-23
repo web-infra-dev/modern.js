@@ -1,4 +1,4 @@
-import { useAppContext } from '@modern-js/core';
+import type { PluginAPI } from '@modern-js/core';
 import { getProjects } from '../projects/get-projects';
 import { getMonorepoBaseData } from '../parse-config/monorepo';
 import { runClearTask } from '../features/clear';
@@ -10,10 +10,10 @@ export interface IClearCommandOption {
 export const clear = async (
   projectNames: string[],
   option: IClearCommandOption,
+  api: PluginAPI,
 ) => {
   const { removeDirs } = option;
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { appDirectory } = useAppContext();
+  const { appDirectory } = api.useAppContext();
   const projects = await getProjects(
     { packagesMatchs: { enableAutoFinder: true } },
     appDirectory,
