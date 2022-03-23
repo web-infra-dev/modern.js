@@ -21,8 +21,7 @@ export const initializer: Initializer = ({
 }) => {
   let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
   let runtimeExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
-  const runtimePluginName =
-    process.env.PLUGIN_RUNTIME_PATH || '@modern-js/runtime/plugins';
+  const runtimePluginName = '@modern-js/runtime/plugins';
 
   return {
     validateSchema() {
