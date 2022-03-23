@@ -15,7 +15,8 @@ export const externals = { 'react-dom': 'react-dom', react: 'react' };
 type Initializer = CliPlugin['setup'];
 export type LifeCycle = CliHookCallbacks;
 
-const runtimePluginName = '@modern-js/runtime/plugins';
+const runtimePluginName =
+  process.env.PLUGIN_RUNTIME_PATH || '@modern-js/runtime/plugins';
 
 export const initializer: Initializer = ({
   useAppContext,
