@@ -81,7 +81,7 @@ export type AsyncManager<Hooks, API> = {
 
   /**
    * Return a cloned manager.
-   * @param overrideAPI override the default plugin API
+   * @param overrideAPI override the default plugin API.
    */
   clone: (
     overrideAPI?: Partial<API & CommonAPI<Hooks>>,
