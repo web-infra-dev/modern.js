@@ -29,7 +29,7 @@ import type {
   PluginOptions,
 } from './types';
 
-/** setup function of sync plugin */
+/** Setup function of sync plugin. */
 export type Setup<Hooks, API = Record<string, never>> = (
   api: API,
 ) => Partial<ToThreads<Hooks>> | void;
@@ -48,29 +48,65 @@ export type PluginFromManager<M extends Manager<any, any>> = M extends Manager<
   : never;
 
 export type Manager<Hooks, API> = {
+  /**
+   * Create a sync plugin.
+   * @param setup the setup function.
+   * @param options optional plugin options.
+   */
   createPlugin: (
     setup?: Setup<Hooks, API>,
     options?: PluginOptions<Hooks, Setup<Hooks, API>>,
   ) => Plugin<Hooks, API>;
 
+  /**
+   * Determine if a value is a sync plugin.
+   * @param input
+   */
   isPlugin: (input: unknown) => input is Plugin<Hooks, API>;
 
+  /**
+   * Register new plugins to current manager.
+   * @param plugins one or more plugin.
+   */
   usePlugin: (
     ...plugins:
       | Plugin<Hooks, API>[]
       | Array<() => PluginOptions<Hooks, Setup<Hooks, API>>>
   ) => Manager<Hooks, API>;
 
+  /**
+   * Init manager, it will call the setup function of all registered plugins.
+   * @param options passing a custom container.
+   */
   init: (options?: InitOptions) => ToRunners<Hooks>;
 
+  /**
+   * Run callback function with current container.
+   * @param callback
+   * @param options passing a custom container.
+   */
   run: <O>(cb: () => O, options?: InitOptions) => O;
 
+  /**
+   * Register new hooks.
+   * @param newHooks
+   */
   registerHook: (hewHooks: Partial<Hooks>) => void;
 
+  /**
+   * Clear all registered plugins.
+   */
   clear: () => void;
 
+  /**
+   * Return a cloned manager.
+   * @param overrideAPI override the default plugin API
+   */
   clone: (overrideAPI?: Partial<API & CommonAPI<Hooks>>) => Manager<Hooks, API>;
 
+  /**
+   * Get all runner functions of the hooks.
+   */
   useRunner: () => ToRunners<Hooks>;
 };
 
