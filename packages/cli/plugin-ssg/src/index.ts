@@ -1,16 +1,11 @@
 import path from 'path';
 import { logger, PLUGIN_SCHEMAS } from '@modern-js/utils';
-import {
-  createPlugin,
-  useAppContext,
-  useResolvedConfigContext,
-} from '@modern-js/core';
+import { CliPlugin } from '@modern-js/core';
 import { generatePath } from 'react-router-dom';
 import {
   AgreedRoute,
   AgreedRouteMap,
   EntryPoint,
-  ExtendOutputConfig,
   SSG,
   SsgRoute,
 } from './types';
@@ -26,8 +21,10 @@ import { writeHtmlFile } from './libs/output';
 import { replaceRoute } from './libs/replace';
 import { makeRoute } from './libs/make';
 
-export default createPlugin(
-  (() => {
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-ssg',
+
+  setup: api => {
     const agreedRouteMap: AgreedRouteMap = {};
 
     return {
@@ -48,15 +45,12 @@ export default createPlugin(
       },
       // eslint-disable-next-line max-statements
       async afterBuild() {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const resolvedConfig = useResolvedConfigContext();
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const appContext = useAppContext();
+        const resolvedConfig = api.useResolvedConfigContext();
+        const appContext = api.useAppContext();
 
         const { appDirectory, entrypoints } = appContext;
         const { output } = resolvedConfig;
-        const { ssg, path: outputPath } = output as typeof output &
-          ExtendOutputConfig;
+        const { ssg, path: outputPath } = output;
 
         const ssgOptions: SSG = Array.isArray(ssg) ? ssg.pop() : ssg;
         // no ssg configuration, skip ssg render.
@@ -205,6 +199,5 @@ export default createPlugin(
         logger.info('ssg Compiled successfully');
       },
     };
-  }) as any,
-  { name: '@modern-js/plugin-ssg' },
-) as any;
+  },
+});

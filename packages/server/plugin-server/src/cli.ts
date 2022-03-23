@@ -1,13 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import type {
-  NormalizedConfig,
-  CliPlugin
-} from '@modern-js/core';
+import type { NormalizedConfig, CliPlugin } from '@modern-js/core';
 import { compiler } from '@modern-js/babel-compiler';
 import { resolveBabelConfig } from '@modern-js/server-utils';
 import { SHARED_DIR, SERVER_DIR } from '@modern-js/utils';
-
 
 const TS_CONFIG_FILENAME = 'tsconfig.json';
 const FILE_EXTENSIONS = ['.js', '.ts', '.mjs', '.ejs'];
@@ -62,9 +58,7 @@ export default (): CliPlugin => ({
       return {};
     },
     async afterBuild() {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       const { appDirectory, distDirectory } = api.useAppContext();
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       const modernConfig = api.useResolvedConfigContext();
 
       const distDir = path.resolve(distDirectory);
