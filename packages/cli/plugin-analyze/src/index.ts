@@ -141,7 +141,7 @@ export default (): CliPlugin => ({
         pagesDir = entrypoints.map(point => point.entry);
         originEntrypoints = clone(entrypoints);
 
-        await generateCode(appContext, resolvedConfig, entrypoints);
+        await generateCode(appContext, resolvedConfig, entrypoints, api);
 
         const htmlTemplates = await getHtmlTemplate(entrypoints, {
           appContext,
@@ -188,7 +188,7 @@ export default (): CliPlugin => ({
           const resolvedConfig = api.useResolvedConfigContext();
           const { generateCode } = await import('./generateCode');
           const entrypoints = clone(originEntrypoints);
-          generateCode(appContext, resolvedConfig, entrypoints);
+          generateCode(appContext, resolvedConfig, entrypoints, api);
         }
       },
     };
