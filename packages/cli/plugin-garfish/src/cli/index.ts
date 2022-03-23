@@ -15,15 +15,14 @@ export const externals = { 'react-dom': 'react-dom', react: 'react' };
 type Initializer = CliPlugin['setup'];
 export type LifeCycle = CliHookCallbacks;
 
-const runtimePluginName =
-  process.env.PLUGIN_RUNTIME_PATH || '@modern-js/runtime/plugins';
-
 export const initializer: Initializer = ({
   useAppContext,
   useResolvedConfigContext,
 }) => {
   let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
   let runtimeExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
+  const runtimePluginName =
+    process.env.PLUGIN_RUNTIME_PATH || '@modern-js/runtime/plugins';
 
   return {
     validateSchema() {
