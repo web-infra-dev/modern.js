@@ -15,7 +15,7 @@ import { compatRequire } from '@modern-js/utils';
 import type { Hooks } from '@modern-js/types';
 import type { Command } from './utils/commander';
 import type { NormalizedConfig } from './config/mergeConfig';
-import { pluginAPI, PluginAPI } from './pluginAPI';
+import { pluginAPI } from './pluginAPI';
 
 export type HooksRunner = ToRunners<{
   config: ParallelWorkflow<void>;
@@ -73,17 +73,16 @@ export type CliHooks = typeof baseHooks & Hooks;
 /** all hook callbacks of cli plugin */
 export type CliHookCallbacks = ToThreads<CliHooks>;
 
-export const manager = createAsyncManager<CliHooks, PluginAPI>(
+export const manager = createAsyncManager<CliHooks, typeof pluginAPI>(
   baseHooks,
   pluginAPI,
 );
 
 export type CliPlugin = PluginOptions<
   CliHooks,
-  AsyncSetup<CliHooks, PluginAPI>
+  AsyncSetup<CliHooks, typeof pluginAPI>
 >;
 
-// TODO: remove export after refactor all plugins
 export const { createPlugin, registerHook, useRunner: mountHook } = manager;
 
 export const usePlugins = (plugins: string[]) =>

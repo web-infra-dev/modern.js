@@ -25,11 +25,29 @@ import { manager, HooksRunner } from './manager';
 
 export type { Hooks };
 export * from './config';
-export * from './manager';
 export * from '@modern-js/plugin';
 export * from '@modern-js/plugin/node';
 
-export * from './pluginAPI';
+// TODO: remove export after refactor all plugins
+export {
+  manager,
+  mountHook,
+  usePlugins,
+  createPlugin,
+  registerHook,
+} from './manager';
+export type { CliHooks, CliPlugin, CliHookCallbacks } from './manager';
+
+// TODO: remove export after refactor all plugins
+export {
+  AppContext,
+  ConfigContext,
+  ResolvedConfigContext,
+  useAppContext,
+  useConfigContext,
+  useResolvedConfigContext,
+} from './pluginAPI';
+export type { PluginAPI } from './pluginAPI';
 
 program
   .name('modern')

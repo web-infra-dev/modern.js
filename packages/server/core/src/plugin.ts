@@ -1,6 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import type { Component } from 'react';
 import {
+  CommonAPI,
   ToThreads,
   AsyncSetup,
   PluginOptions,
@@ -158,8 +159,6 @@ const pluginAPI = {
   useConfigContext,
 };
 
-type PluginAPI = typeof pluginAPI;
-
 const serverHooks = {
   // server hook
   gather,
@@ -196,6 +195,9 @@ export type ServerHooks = typeof serverHooks;
 
 /** all hook callbacks of server plugin */
 export type ServerHookCallbacks = ToThreads<ServerHooks>;
+
+/** all apis for server plugin */
+export type PluginAPI = typeof pluginAPI & CommonAPI<ServerHooks>;
 
 export const createServerManager = () =>
   createAsyncManager(serverHooks, pluginAPI);
