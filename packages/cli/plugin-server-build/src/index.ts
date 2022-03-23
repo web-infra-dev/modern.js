@@ -1,13 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import {
-  createPlugin,
-  useAppContext,
-  useResolvedConfigContext,
-  NormalizedConfig,
-} from '@modern-js/core';
 import { compiler } from '@modern-js/babel-compiler';
 import { resolveBabelConfig } from '@modern-js/server-utils';
+import type { NormalizedConfig, CliPlugin } from '@modern-js/core';
 
 const SERVER_DIR = './server';
 const SHARED_DIR = './shared';
@@ -56,16 +51,13 @@ const compile = async (
   });
 };
 
-export default createPlugin(
-  () => ({
-    config() {
-      return {};
-    },
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-server-build',
+
+  setup: api => ({
     async afterBuild() {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { appDirectory, distDirectory } = useAppContext();
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const modernConfig = useResolvedConfigContext();
+      const { appDirectory, distDirectory } = api.useAppContext();
+      const modernConfig = api.useResolvedConfigContext();
 
       const distDir = path.resolve(distDirectory);
       const serverDir = path.resolve(appDirectory, SERVER_DIR);
@@ -94,5 +86,4 @@ export default createPlugin(
       }
     },
   }),
-  { name: '@modern-js/plugin-server-build' },
-) as any;
+});
