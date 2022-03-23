@@ -15,37 +15,6 @@ export const externals = { 'react-dom': 'react-dom', react: 'react' };
 type Initializer = CliPlugin['setup'];
 export type LifeCycle = CliHookCallbacks;
 
-export const resolvedConfig: NonNullable<
-  CliHookCallbacks['resolvedConfig']
-> = async config => {
-  const { resolved } = config;
-  const { masterApp, router } = getRuntimeConfig(resolved);
-
-  const nConfig = {
-    resolved: {
-      ...resolved,
-    },
-  };
-
-  if (masterApp) {
-    // basename does not exist use router's basename
-    setRuntimeConfig(
-      nConfig.resolved,
-      'masterApp',
-      Object.assign(typeof masterApp === 'object' ? { ...masterApp } : {}, {
-        basename: router?.historyOptions?.basename || '/',
-      }),
-    );
-  }
-
-  logger(`resolvedConfig`, {
-    runtime: nConfig.resolved.runtime,
-    deploy: nConfig.resolved.deploy,
-    server: nConfig.resolved.server,
-  });
-  return nConfig;
-};
-
 const runtimePluginName = '@modern-js/runtime/plugins';
 
 export const initializer: Initializer = ({
