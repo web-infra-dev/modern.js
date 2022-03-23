@@ -1,6 +1,6 @@
 import path from 'path';
 import { createRuntimeExportsUtils, PLUGIN_SCHEMAS } from '@modern-js/utils';
-import { CliHookCallbacks, CliPlugin } from '@modern-js/core';
+import type { CliHookCallbacks, CliPlugin } from '@modern-js/core';
 import type WebpackChain from 'webpack-chain';
 import { logger } from '../util';
 import {

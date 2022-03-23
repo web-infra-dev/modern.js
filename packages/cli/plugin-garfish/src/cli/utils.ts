@@ -1,4 +1,4 @@
-import { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/core';
 
 export const makeProvider = () => `
 export const provider = function ({basename, dom}) {
