@@ -1,3 +1,5 @@
+import type { CommonAPI } from '@modern-js/plugin';
+import type { CliHooks } from './manager';
 import {
   AppContext,
   ConfigContext,
@@ -15,7 +17,8 @@ export const pluginAPI = {
   useResolvedConfigContext,
 };
 
-export type PluginAPI = typeof pluginAPI;
+/** all apis for cli plugin */
+export type PluginAPI = typeof pluginAPI & CommonAPI<CliHooks>;
 
 // TODO: only export types after refactor all plugins
 export {
