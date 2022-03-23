@@ -1,13 +1,15 @@
 import {
   AppContext,
   ConfigContext,
-  ResolvedConfigContext,
+  setAppContext,
   useAppContext,
   useConfigContext,
+  ResolvedConfigContext,
   useResolvedConfigContext,
 } from './context';
 
 export const pluginAPI = {
+  setAppContext,
   useAppContext,
   useConfigContext,
   useResolvedConfigContext,
