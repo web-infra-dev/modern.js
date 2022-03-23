@@ -44,9 +44,6 @@
     "@alicloud/fun": "3.6.24",
     "js-yaml": "^4.1.0"
   },
-  "peerDependencies": {
-    "@modern-js/core": "workspace:^1.4.3"
-  },
   "devDependencies": {
     "@babel/runtime": "^7",
     "@scripts/build": "workspace:*",

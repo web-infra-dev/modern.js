@@ -15,6 +15,7 @@ describe('plugin-multiprocess', () => {
 
   it('default', async () => {
     expect(plugin).toBeDefined();
+    expect(plugin().name).toBe('@modern-js/plugin-multiprocess');
 
     const afterBuild = createAsyncWorkflow<any, any>();
     manager.registerHook({
