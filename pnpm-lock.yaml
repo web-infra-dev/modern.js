@@ -459,7 +459,6 @@ importers:
       '@babel/runtime': 7.16.7
       '@modern-js/babel-compiler': link:../../toolkit/compiler/babel
       '@modern-js/bff-utils': link:../../server/bff-utils
-      '@modern-js/core': link:../core
       '@modern-js/create-request': link:../../server/create-request
       '@modern-js/server-core': link:../../server/core
       '@modern-js/server-utils': link:../../server/utils
@@ -468,6 +467,7 @@ importers:
       fs-extra: 10.0.0
       loader-utils: 2.0.2
     devDependencies:
+      '@modern-js/core': link:../core
       '@modern-js/plugin-analyze': link:../plugin-analyze
       '@modern-js/runtime': link:../plugin-runtime
       '@modern-js/types': link:../../toolkit/types
