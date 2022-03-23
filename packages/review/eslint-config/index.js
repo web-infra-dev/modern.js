@@ -1,1 +1,1 @@
-module.exports = { extends: ['./eslintrc.node.js'] };
+module.exports = { extends: ['@modern-js-app', './eslintrc.node.js'] };
