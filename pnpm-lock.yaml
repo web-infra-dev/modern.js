@@ -3407,13 +3407,13 @@ importers:
       '@modern-js/adapter-helpers': link:../adapter-helpers
       '@modern-js/bff-runtime': link:../bff-runtime
       '@modern-js/bff-utils': link:../bff-utils
-      '@modern-js/core': link:../../cli/core
       '@modern-js/server-core': link:../core
       '@modern-js/utils': link:../../toolkit/utils
       egg-ts-helper: 1.29.1
       formidable: 1.2.6
       type-is: 1.6.18
     devDependencies:
+      '@modern-js/core': link:../../cli/core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/formidable': 1.2.5
@@ -3462,7 +3462,6 @@ importers:
       '@modern-js/adapter-helpers': link:../adapter-helpers
       '@modern-js/bff-runtime': link:../bff-runtime
       '@modern-js/bff-utils': link:../bff-utils
-      '@modern-js/core': link:../../cli/core
       '@modern-js/server-core': link:../core
       '@modern-js/utils': link:../../toolkit/utils
       cookie-parser: 1.4.6
@@ -3470,6 +3469,7 @@ importers:
       formidable: 1.2.6
       type-is: 1.6.18
     devDependencies:
+      '@modern-js/core': link:../../cli/core
       '@modern-js/server-utils': link:../utils
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -3517,7 +3517,6 @@ importers:
       '@modern-js/adapter-helpers': link:../adapter-helpers
       '@modern-js/bff-runtime': link:../bff-runtime
       '@modern-js/bff-utils': link:../bff-utils
-      '@modern-js/core': link:../../cli/core
       '@modern-js/server-core': link:../core
       '@modern-js/utils': link:../../toolkit/utils
       formidable: 1.2.6
@@ -3525,6 +3524,7 @@ importers:
       koa-router: 10.1.1
       type-is: 1.6.18
     devDependencies:
+      '@modern-js/core': link:../../cli/core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/formidable': 1.2.5
@@ -3582,7 +3582,6 @@ importers:
       '@modern-js/adapter-helpers': link:../adapter-helpers
       '@modern-js/bff-runtime': link:../bff-runtime
       '@modern-js/bff-utils': link:../bff-utils
-      '@modern-js/core': link:../../cli/core
       '@modern-js/server-core': link:../core
       '@modern-js/utils': link:../../toolkit/utils
       '@nestjs/platform-express': 8.2.4_4074b1ae164556f5db19ac4b8b5667b7
@@ -3594,6 +3593,7 @@ importers:
       rxjs: 7.5.2
       type-is: 1.6.18
     devDependencies:
+      '@modern-js/core': link:../../cli/core
       '@modern-js/runtime': link:../../cli/plugin-runtime
       '@modern-js/server-utils': link:../utils
       '@nestjs/common': 8.2.4_88a789cb3f20cca25c3f70fe96f41643
