@@ -121,6 +121,9 @@ export const initializer: Initializer = ({
           ) => {
             if (resolveOptions?.deploy?.microFrontend) {
               chain.output.libraryTarget('umd');
+              chain.devServer.headers({
+                'Access-Control-Allow-Origin': '*',
+              });
               if (resolveOptions?.server?.port) {
                 chain.output.publicPath(
                   env === 'development'
