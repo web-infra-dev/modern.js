@@ -1,5 +1,5 @@
 import path from 'path';
-import { CliPlugin } from '@modern-js/core';
+import type { CliPlugin } from '@modern-js/core';
 import {
   fs,
   API_DIR,

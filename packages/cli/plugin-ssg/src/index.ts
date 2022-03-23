@@ -1,6 +1,6 @@
 import path from 'path';
 import { logger, PLUGIN_SCHEMAS } from '@modern-js/utils';
-import { CliPlugin } from '@modern-js/core';
+import type { CliPlugin } from '@modern-js/core';
 import { generatePath } from 'react-router-dom';
 import {
   AgreedRoute,

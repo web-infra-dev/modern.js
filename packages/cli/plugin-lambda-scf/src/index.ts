@@ -2,7 +2,7 @@ import path from 'path';
 import os from 'os';
 import cp from 'child_process';
 import { fs, getPackageManager, logger } from '@modern-js/utils';
-import { CliPlugin } from '@modern-js/core';
+import type { CliPlugin } from '@modern-js/core';
 import { dump } from 'js-yaml';
 import { entry, spec } from './generator';
 
