@@ -4,30 +4,6 @@ import WebpackChain from 'webpack-chain';
 import GarfishPlugin, { externals, resolvedConfig } from '../src/cli';
 import { getRuntimeConfig, makeRenderFunction, setRuntimeConfig } from '../src/cli/utils';
 
-const mock_config_context = {
-  context: {},
-  get() {
-    return this.context;
-  },
-  set(newContext: any) {
-    Object.assign(this.context, newContext);
-  },
-  recover(newContext: any) {
-    this.context = newContext;
-  }
-};
-
-jest.mock('@modern-js/core', () => {
-  const originalModule = jest.requireActual('@modern-js/core');
-  return {
-      __esModule: true,
-      ...originalModule,
-      useResolvedConfigContext: ()=>{
-        return mock_config_context.get();
-      }
-  };
-});
-
 describe('plugin-garfish cli', () => {
   test('cli garfish basename', async () => {
     expect(GarfishPlugin().name).toBe('@modern-js/plugin-garfish');
@@ -150,8 +126,7 @@ describe('plugin-garfish cli', () => {
   });
 
   test('webpack config close external and use js entry', async ()=>{
-    const main = manager.clone().usePlugin(GarfishPlugin);
-    mock_config_context.recover({
+    const resolveConfig: any = {
       deploy: {
         microFrontend: {
           externalBasicLibrary: true,
@@ -159,9 +134,13 @@ describe('plugin-garfish cli', () => {
         },
       },
       server: {
-        port: '8080'
+        port: 8080
       }
-    });
+    };
+
+    const main = manager.clone({
+      useResolvedConfigContext: ()=>resolveConfig
+    }).usePlugin(GarfishPlugin);
 
     const runner = await main.init();
     await runner.prepare();
@@ -187,20 +166,22 @@ describe('plugin-garfish cli', () => {
   })
 
   test('webpack config default micro config', async ()=>{
-    const main = manager.clone().usePlugin(GarfishPlugin);
-    const runner = await main.init();
-    await runner.prepare();
-    const config: any = await runner.config();
-    const webpackConfig = new WebpackChain();
-
-    mock_config_context.recover({
+    const resolveConfig: any = {
       deploy: {
         microFrontend: true,
       },
       server: {
         port: '8080'
       }
-    });
+    };
+
+    const main = manager.clone({
+      useResolvedConfigContext: ()=>resolveConfig
+    }).usePlugin(GarfishPlugin);
+    const runner = await main.init();
+    await runner.prepare();
+    const config: any = await runner.config();
+    const webpackConfig = new WebpackChain();
 
     config[0].tools.webpack({}, {
       chain: webpackConfig,
