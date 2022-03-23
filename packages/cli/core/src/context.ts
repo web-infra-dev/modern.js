@@ -16,6 +16,8 @@ export const ResolvedConfigContext = createContext<NormalizedConfig>(
   {} as NormalizedConfig,
 );
 
+export const setAppContext = (value: IAppContext) => AppContext.set(value);
+
 export const useAppContext = () => AppContext.use().value;
 
 export const useConfigContext = () => ConfigContext.use().value;
