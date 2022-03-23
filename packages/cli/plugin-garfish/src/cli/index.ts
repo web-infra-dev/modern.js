@@ -75,7 +75,8 @@ export const initializer: Initializer = ({
           nConfig.resolved,
           'masterApp',
           Object.assign(typeof masterApp === 'object' ? { ...masterApp } : {}, {
-            basename: router?.historyOptions?.basename || '/',
+            basename:
+              router?.historyOptions?.basename || router?.basename || '/',
           }),
         );
       }
