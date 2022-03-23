@@ -16,7 +16,7 @@ export type LifeCycle = CliHookCallbacks;
 
 export default ({
   runtimePluginName = '@modern-js/runtime/plugins',
-}): CliPlugin => ({
+} = {}): CliPlugin => ({
   name: '@modern-js/plugin-garfish',
   setup: ({ useAppContext, useResolvedConfigContext }) => {
     let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
