@@ -1,11 +1,6 @@
 import './types';
 import path from 'path';
 import fs from 'fs-extra';
-import {
-  createPlugin,
-  useAppContext,
-  useResolvedConfigContext,
-} from '@modern-js/core';
 import { compiler } from '@modern-js/babel-compiler';
 import { PLUGIN_SCHEMAS, normalizeOutputPath, API_DIR } from '@modern-js/utils';
 import { resolveBabelConfig } from '@modern-js/server-utils';
@@ -13,13 +8,15 @@ import { resolveBabelConfig } from '@modern-js/server-utils';
 import type { Configuration } from 'webpack';
 import type Chain from 'webpack-chain';
 import type { ServerRoute } from '@modern-js/types';
+import type { CliPlugin } from '@modern-js/core';
 
 const DEFAULT_API_PREFIX = '/api';
 const TS_CONFIG_FILENAME = 'tsconfig.json';
 const FILE_EXTENSIONS = ['.js', '.ts', '.mjs', '.ejs'];
 
-export default createPlugin(
-  () => ({
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-bff',
+  setup: api => ({
     validateSchema() {
       return PLUGIN_SCHEMAS['@modern-js/plugin-bff'];
     },
@@ -27,10 +24,8 @@ export default createPlugin(
       return {
         tools: {
           webpack: (_config: Configuration, { chain }: { chain: Chain }) => {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const { appDirectory, port } = useAppContext();
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const modernConfig = useResolvedConfigContext();
+            const { appDirectory, port } = api.useAppContext();
+            const modernConfig = api.useResolvedConfigContext();
 
             const { bff } = modernConfig || {};
             const { fetcher } = bff || {};
@@ -68,8 +63,7 @@ export default createPlugin(
       };
     },
     modifyServerRoutes({ routes }: any) {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const modernConfig = useResolvedConfigContext();
+      const modernConfig = api.useResolvedConfigContext();
 
       const { bff } = modernConfig || {};
       const prefix = bff?.prefix || '/api';
@@ -93,10 +87,8 @@ export default createPlugin(
       return { routes: routes.concat(apiServerRoutes) };
     },
     async afterBuild() {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { appDirectory, distDirectory } = useAppContext();
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const modernConfig = useResolvedConfigContext();
+      const { appDirectory, distDirectory } = api.useAppContext();
+      const modernConfig = api.useResolvedConfigContext();
 
       const rootDir = path.resolve(appDirectory, API_DIR);
       const distDir = path.resolve(distDirectory, API_DIR);
@@ -132,5 +124,4 @@ export default createPlugin(
       }
     },
   }),
-  { name: '@modern-js/plugin-bff' },
-) as any;
+});
