@@ -1,5 +1,21 @@
 # @modern-js/server
 
+## 1.4.7
+
+### Patch Changes
+
+- d95f28c3: remove server hook when api only
+- d5bf095a: fix: disable load webpack when apiOnly mode
+- 9229dfd1: support custom headers, fix hmr url concat
+- Updated dependencies [5bf5868d]
+- Updated dependencies [d95f28c3]
+- Updated dependencies [d95f28c3]
+- Updated dependencies [0923c182]
+- Updated dependencies [2008fdbd]
+- Updated dependencies [ca0bcf13]
+  - @modern-js/utils@1.3.5
+  - @modern-js/prod-server@1.0.4
+
 ## 1.4.6
 
 ### Patch Changes

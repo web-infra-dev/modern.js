@@ -1,5 +1,15 @@
 # @modern-js/plugin
 
+## 1.3.0
+
+### Minor Changes
+
+- 80d8ddfe: feat: support `setup`, `registerHook`, `usePlugins` in plugin options.
+
+### Patch Changes
+
+- 491145e3: feat: allow manger.clone to override pluginAPI
+
 ## 1.2.1
 
 ### Patch Changes
