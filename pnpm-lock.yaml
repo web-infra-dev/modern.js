@@ -20601,6 +20601,7 @@ packages:
   /del-cli/4.0.1:
     resolution: {integrity: sha512-KtR/6cBfZkGDAP2NA7z+bP4p1OMob3wjN9mq13+SWvExx6jT9gFWfLgXEeX8J2B47OKeNCq9yTONmtryQ+m+6g==}
     engines: {node: '>=12.20'}
+    hasBin: true
     dependencies:
       del: 6.0.0
       meow: 10.1.2
@@ -20611,7 +20612,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       globby: 11.0.4
-      graceful-fs: 4.2.8
+      graceful-fs: 4.2.9
       is-glob: 4.0.3
       is-path-cwd: 2.2.0
       is-path-inside: 3.0.3
