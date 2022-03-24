@@ -411,7 +411,7 @@ describe('async manager', () => {
       hello: () => 2,
     });
 
-    clonedManager.usePlugin(() => plugin).init();
+    clonedManager.usePlugin(plugin).init();
   });
 
   it('isPlugin if exclusive plugins of manager', () => {
@@ -619,7 +619,7 @@ describe('async manager', () => {
           done();
         },
       };
-      manager.usePlugin(() => plugin);
+      manager.usePlugin(plugin);
       manager.init();
     });
 
@@ -643,7 +643,7 @@ describe('async manager', () => {
         },
       };
 
-      manager.usePlugin(() => plugin);
+      manager.usePlugin(plugin);
       manager.init();
     });
   });
@@ -668,7 +668,7 @@ describe('async manager', () => {
         },
       };
 
-      manager.usePlugin(() => plugin1);
+      manager.usePlugin(plugin1);
 
       await manager.init();
 
@@ -702,7 +702,7 @@ describe('async manager', () => {
         },
       };
 
-      manager.usePlugin(() => plugin2);
+      manager.usePlugin(plugin2);
 
       await manager.init();
 
