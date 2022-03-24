@@ -67,10 +67,10 @@ const baseHooks = {
   beforeRestart: createAsyncWorkflow<void, void>(),
 };
 
-/** all hooks of cli plugin */
+/** All hooks of cli plugin. */
 export type CliHooks = typeof baseHooks & Hooks;
 
-/** all hook callbacks of cli plugin */
+/** All hook callbacks of cli plugin. */
 export type CliHookCallbacks = ToThreads<CliHooks>;
 
 export const manager = createAsyncManager<CliHooks, typeof pluginAPI>(
@@ -78,6 +78,7 @@ export const manager = createAsyncManager<CliHooks, typeof pluginAPI>(
   pluginAPI,
 );
 
+/** Plugin options of a cli plugin. */
 export type CliPlugin = PluginOptions<
   CliHooks,
   AsyncSetup<CliHooks, typeof pluginAPI>

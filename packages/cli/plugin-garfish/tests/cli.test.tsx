@@ -1,87 +1,41 @@
 import '@testing-library/jest-dom';
-import { manager, useAppContext } from '@modern-js/core';
+import { manager } from '@modern-js/core';
 import WebpackChain from 'webpack-chain';
-import GarfishPlugin, { externals, resolvedConfig } from '../src/cli';
+import GarfishPlugin, { externals } from '../src/cli';
 import { getRuntimeConfig, makeRenderFunction, setRuntimeConfig } from '../src/cli/utils';
-
-const mock_config_context = {
-  context: {},
-  get() {
-    return this.context;
-  },
-  set(newContext: any) {
-    Object.assign(this.context, newContext);
-  },
-  recover(newContext: any) {
-    this.context = newContext;
-  }
-};
-
-jest.mock('@modern-js/core', () => {
-  const originalModule = jest.requireActual('@modern-js/core');
-  return {
-    __esModule: true,
-    ...originalModule,
-    useResolvedConfigContext: ()=>{
-      return mock_config_context.get();
-    }
-  };
-});
-
 
 describe('plugin-garfish cli', () => {
   test('cli garfish basename', async () => {
-    expect(GarfishPlugin.name).toBe('@modern-js/plugin-garfish');
-    const basename = '/test';
-    const resolveConfig = {
+    expect(GarfishPlugin().name).toBe('@modern-js/plugin-garfish');
+
+    const main = manager.clone().usePlugin(GarfishPlugin);
+    const runner = await main.init();
+    await runner.prepare();
+    const configHistoryOptions: any = await runner.resolvedConfig({
       resolved: {
         runtime: {
           router: {
-            historyOptions: { basename }
+            historyOptions: { basename: '/test' }
           },
           masterApp: {}
         },
       }
-    };
-    const config = await resolvedConfig(resolveConfig as any);
-    expect(config.resolved.runtime.masterApp.basename).toBe(basename);
-  });
-
-  test('cli makeRender function', ()=>{
-    const code = `
-      const router = (config)=> config;
-      const App = {};
-      const routerConfig = router({...App?.config?.router, ...App?.config?.features?.router});
-      const resultConfig = {
-        routerConfig,
-        renderByProvider: true,
-      };
+    } as any);
     
-      if (IS_BROWSER) {
-        resultConfig.renderByProvider = false;
+    expect(configHistoryOptions.resolved.runtime.masterApp.basename).toBe('/test');
+
+    const configHistory: any = await runner.resolvedConfig({
+      resolved: {
+        runtime: {
+          router: {
+            basename: '/test2'
+          },
+          masterApp: {}
+        },
       }
-      return resultConfig;
-    `;
-    const generateNewRenderFn = new Function('appInfo', 'IS_BROWSER', '__GARFISH_EXPORTS__', makeRenderFunction(code));
+    } as any);
     
-    // render byGarfish but don't provider appInfo
-    expect(generateNewRenderFn(undefined, true, false)).toBe(null);
-
-    // run alone
-    expect(generateNewRenderFn(undefined, true)).toMatchObject({
-      renderByProvider: false
-    });
-
-    // render ByGarfish and provider appInfo
-    expect(generateNewRenderFn({ basename: '/test' }, true, true)).toMatchObject({
-      renderByProvider: true,
-      routerConfig: {
-        basename: '/test',
-        historyOptions: {
-          basename: '/test'
-        }
-      }
-    });
+    expect(configHistory.resolved.runtime.masterApp.basename).toBe('/test2');
   });
 
   test('cli get runtime config', ()=>{
@@ -92,11 +46,7 @@ describe('plugin-garfish cli', () => {
         }
       }
     });
-    expect(runtimeConfig).toMatchObject({
-      masterApp: {
-        basename: '/test'
-      }
-    });
+    expect(runtimeConfig).toMatchSnapshot();
   });
 
   test('cli get runtime features config', ()=>{
@@ -113,11 +63,7 @@ describe('plugin-garfish cli', () => {
       }
     });
 
-    expect(runtimeConfig).toMatchObject({
-      masterApp: {
-        basename: '/test2'
-      }
-    });
+    expect(runtimeConfig).toMatchSnapshot();
   });
 
   test('cli set runtime config', ()=>{
@@ -131,7 +77,7 @@ describe('plugin-garfish cli', () => {
 
     setRuntimeConfig(runtimeConfig, 'masterApp', true);
 
-    expect(runtimeConfig.runtime.masterApp).toBe(true);
+    expect(runtimeConfig.runtime).toMatchSnapshot();
   });
 
   test('cli set runtime features config', ()=>{
@@ -147,16 +93,41 @@ describe('plugin-garfish cli', () => {
 
     setRuntimeConfig(runtimeConfig, 'masterApp', true);
 
-    expect(runtimeConfig.runtime.features.masterApp).toBe(true);
+    expect(runtimeConfig.runtime).toMatchSnapshot();
   });
 
+  test('cli makeRender function', ()=>{
+    const code = `
+      const router = (config)=> config;
+      const App = {};
+      const routerConfig = router({...App?.config?.router, ...App?.config?.features?.router});
+      const resultConfig = {
+        routerConfig,
+        renderByProvider: true,
+      };
+
+      if (IS_BROWSER) {
+        resultConfig.renderByProvider = false;
+      }
+      return resultConfig;
+    `;
+    const generateNewRenderFn = new Function('appInfo', 'IS_BROWSER', '__GARFISH_EXPORTS__', makeRenderFunction(code));
+
+    // render byGarfish but don't provider appInfo
+    expect(generateNewRenderFn(undefined, true, false)).toBe(null);
+
+    // run alone
+    expect(generateNewRenderFn(undefined, true)).toMatchObject({
+      renderByProvider: false
+    });
+
+    // render ByGarfish and provider appInfo
+    expect(generateNewRenderFn({ basename: '/test' }, true, true)).toMatchSnapshot();
+  });
+
+
   test('webpack config close external and use js entry', async ()=>{
-    const main = manager.clone().usePlugin(GarfishPlugin);
-    const runner = await main.init();
-    await runner.prepare();
-    const config: any = await runner.config();
-    const webpackConfig = new WebpackChain();
-    mock_config_context.recover({
+    const resolveConfig: any = {
       deploy: {
         microFrontend: {
           externalBasicLibrary: true,
@@ -164,9 +135,18 @@ describe('plugin-garfish cli', () => {
         },
       },
       server: {
-        port: '8080'
+        port: 8080
       }
-    });
+    };
+
+    const main = manager.clone({
+      useResolvedConfigContext: ()=>resolveConfig
+    }).usePlugin(GarfishPlugin);
+
+    const runner = await main.init();
+    await runner.prepare();
+    const config: any = await runner.config();
+    const webpackConfig = new WebpackChain();
 
     config[0].tools.webpack({}, {
       chain: webpackConfig,
@@ -175,6 +155,7 @@ describe('plugin-garfish cli', () => {
     });
 
     const generateConfig = webpackConfig.toConfig();
+    expect(generateConfig).toMatchSnapshot();
     expect(generateConfig).toMatchObject({
       output: {
         libraryTarget: 'umd',
@@ -187,20 +168,22 @@ describe('plugin-garfish cli', () => {
   })
 
   test('webpack config default micro config', async ()=>{
-    const main = manager.clone().usePlugin(GarfishPlugin);
-    const runner = await main.init();
-    await runner.prepare();
-    const config: any = await runner.config();
-    const webpackConfig = new WebpackChain();
-
-    mock_config_context.recover({
+    const resolveConfig: any = {
       deploy: {
         microFrontend: true,
       },
       server: {
         port: '8080'
       }
-    });
+    };
+
+    const main = manager.clone({
+      useResolvedConfigContext: ()=>resolveConfig
+    }).usePlugin(GarfishPlugin);
+    const runner = await main.init();
+    await runner.prepare();
+    const config: any = await runner.config();
+    const webpackConfig = new WebpackChain();
 
     config[0].tools.webpack({}, {
       chain: webpackConfig,
@@ -209,6 +192,7 @@ describe('plugin-garfish cli', () => {
     });
 
     const generateConfig = webpackConfig.toConfig();
+    expect(generateConfig).toMatchSnapshot();
     expect(generateConfig).toMatchObject({
       output: {
         libraryTarget: 'umd',
