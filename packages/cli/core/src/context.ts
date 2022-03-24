@@ -16,12 +16,25 @@ export const ResolvedConfigContext = createContext<NormalizedConfig>(
   {} as NormalizedConfig,
 );
 
+/**
+ * Set app context.
+ * @param value new app context. It will override previous app context.
+ */
 export const setAppContext = (value: IAppContext) => AppContext.set(value);
 
+/**
+ * Get app context, including directories, plugins and some static infos.
+ */
 export const useAppContext = () => AppContext.use().value;
 
+/**
+ * Get original content of user config.
+ */
 export const useConfigContext = () => ConfigContext.use().value;
 
+/**
+ * Get normalized content of user config.
+ */
 export const useResolvedConfigContext = () => ResolvedConfigContext.use().value;
 
 export const initAppContext = (
