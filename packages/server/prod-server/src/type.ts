@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer';
 import { IncomingMessage, Server, ServerResponse } from 'http';
-import { serverManager } from '@modern-js/server-core';
+import { serverManager, ServerPlugin } from '@modern-js/server-core';
 import type { NormalizedConfig } from '@modern-js/core';
 import type { Metrics, Logger, NextFunction } from '@modern-js/types/server';
 import { ModernRouteInterface } from './libs/route';
@@ -20,10 +20,11 @@ declare module '@modern-js/core' {
   }
 }
 
+type Plugin = string | [string, any] | ServerPlugin;
 export type ModernServerOptions = {
   pwd: string;
   config: NormalizedConfig;
-  plugins?: { pluginPath: string }[];
+  plugins?: Plugin[];
   routes?: ModernRouteInterface[];
   staticGenerate?: boolean;
   loggerOptions?: Record<string, string>;
