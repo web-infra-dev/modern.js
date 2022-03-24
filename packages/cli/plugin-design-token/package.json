@@ -72,7 +72,6 @@
     "@modern-js/core": "workspace:^1.4.2",
     "react": "^17.0.2"
   },
-  "modernConfig": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
