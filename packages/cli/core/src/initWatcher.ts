@@ -4,7 +4,7 @@ import path from 'path';
 import { isDev, createDebugger, isTest } from '@modern-js/utils';
 import chokidar from 'chokidar';
 import { LoadedConfig } from './config';
-import { HooksRunner } from '.';
+import { HooksRunner } from './manager';
 
 const debug = createDebugger('watch-files');
 

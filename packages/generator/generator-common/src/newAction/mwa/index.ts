@@ -109,6 +109,7 @@ export const MWAActionFunctionsAppendTypeContent: Partial<
   [ActionFunction.TailwindCSS]: `/// <reference types='@modern-js/plugin-tailwindcss/types' />`,
   [ActionFunction.SSG]: `/// <reference types='@modern-js/plugin-ssg/types' />`,
   [ActionFunction.Proxy]: `/// <reference types='@modern-js/plugin-proxy/types' />`,
+  [ActionFunction.Less]: `/// <reference types='@modern-js/plugin-less/types' />`,
 };
 
 export const MWANewActionGenerators: Record<
