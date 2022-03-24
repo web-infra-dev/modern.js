@@ -1,5 +1,18 @@
 # @modern-js/plugin-express
 
+## 1.4.2
+
+### Patch Changes
+
+- ef7b0a54: feat: convert to new plugin
+- Updated dependencies [5bf5868d]
+- Updated dependencies [d95f28c3]
+- Updated dependencies [2e8dec93]
+- Updated dependencies [2008fdbd]
+- Updated dependencies [2e8dec93]
+  - @modern-js/utils@1.3.5
+  - @modern-js/server-core@1.2.3
+
 ## 1.4.1
 
 ### Patch Changes
