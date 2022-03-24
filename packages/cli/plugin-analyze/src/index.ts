@@ -1,18 +1,11 @@
 import * as path from 'path';
-import {
-  createPlugin,
-  registerHook,
-  useAppContext,
-  AppContext,
-  useResolvedConfigContext,
-  mountHook,
-} from '@modern-js/core';
 import { createAsyncWaterfall } from '@modern-js/plugin';
 import { createDebugger, fs } from '@modern-js/utils';
+import type { CliPlugin } from '@modern-js/core';
 import type {
+  Route,
   Entrypoint,
   ServerRoute,
-  Route,
   HtmlPartials,
 } from '@modern-js/types';
 import clone from 'clone';
@@ -60,31 +53,32 @@ export const beforeGenerateRoutes = createAsyncWaterfall<{
 }>();
 export const addDefineTypes = createAsyncWaterfall();
 
-registerHook({
-  modifyEntryImports,
-  modifyEntryExport,
-  modifyEntryRuntimePlugins,
-  modifyEntryRenderFunction,
-  modifyFileSystemRoutes,
-  modifyServerRoutes,
-  htmlPartials,
-  addRuntimeExports,
-  beforeGenerateRoutes,
-  addDefineTypes,
-});
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-analyze',
 
-export default createPlugin(
-  () => {
+  registerHook: {
+    modifyEntryImports,
+    modifyEntryExport,
+    modifyEntryRuntimePlugins,
+    modifyEntryRenderFunction,
+    modifyFileSystemRoutes,
+    modifyServerRoutes,
+    htmlPartials,
+    addRuntimeExports,
+    beforeGenerateRoutes,
+    addDefineTypes,
+  },
+
+  setup: api => {
     let pagesDir: string[] = [];
     let originEntrypoints: any[] = [];
 
     return {
       // eslint-disable-next-line max-statements
       async prepare() {
-        /* eslint-disable react-hooks/rules-of-hooks */
-        const appContext = useAppContext();
-        const resolvedConfig = useResolvedConfigContext();
-        /* eslint-enable react-hooks/rules-of-hooks */
+        const appContext = api.useAppContext();
+        const resolvedConfig = api.useResolvedConfigContext();
+        const hookRunners = api.useHookRunners();
 
         try {
           fs.emptydirSync(appContext.internalDirectory);
@@ -93,16 +87,16 @@ export default createPlugin(
         }
 
         const existSrc = await fs.pathExists(appContext.srcDirectory);
-        await mountHook().addRuntimeExports();
+        await hookRunners.addRuntimeExports();
 
         if (!existSrc) {
-          const { routes } = await mountHook().modifyServerRoutes({
+          const { routes } = await hookRunners.modifyServerRoutes({
             routes: [],
           });
 
           debug(`server routes: %o`, routes);
 
-          AppContext.set({
+          api.setAppContext({
             ...appContext,
             existSrc,
             serverRoutes: routes,
@@ -132,13 +126,13 @@ export default createPlugin(
           config: resolvedConfig,
         });
 
-        const { routes } = await mountHook().modifyServerRoutes({
+        const { routes } = await hookRunners.modifyServerRoutes({
           routes: initialRoutes,
         });
 
         debug(`server routes: %o`, routes);
 
-        AppContext.set({
+        api.setAppContext({
           ...appContext,
           entrypoints,
           serverRoutes: routes,
@@ -147,7 +141,7 @@ export default createPlugin(
         pagesDir = entrypoints.map(point => point.entry);
         originEntrypoints = clone(entrypoints);
 
-        await generateCode(appContext, resolvedConfig, entrypoints);
+        await generateCode(appContext, resolvedConfig, entrypoints, api);
 
         const htmlTemplates = await getHtmlTemplate(entrypoints, {
           appContext,
@@ -156,11 +150,11 @@ export default createPlugin(
 
         debug(`html templates: %o`, htmlTemplates);
 
-        await mountHook().addDefineTypes();
+        await hookRunners.addDefineTypes();
 
         debug(`add Define Types`);
 
-        AppContext.set({
+        api.setAppContext({
           ...appContext,
           entrypoints,
           checkedEntries: defaultChecked,
@@ -175,8 +169,7 @@ export default createPlugin(
       },
 
       async fileChange(e) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const appContext = useAppContext();
+        const appContext = api.useAppContext();
         const { appDirectory } = appContext;
         const { filename, eventType } = e;
 
@@ -192,14 +185,12 @@ export default createPlugin(
           isRouteComponent &&
           (eventType === 'add' || eventType === 'unlink')
         ) {
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const resolvedConfig = useResolvedConfigContext();
+          const resolvedConfig = api.useResolvedConfigContext();
           const { generateCode } = await import('./generateCode');
           const entrypoints = clone(originEntrypoints);
-          generateCode(appContext, resolvedConfig, entrypoints);
+          generateCode(appContext, resolvedConfig, entrypoints, api);
         }
       },
     };
   },
-  { name: '@modern-js/plugin-analyze' },
-);
+});
