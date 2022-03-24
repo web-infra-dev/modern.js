@@ -1,6 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { initialWrapper, createRuntime, createApp, createPlugin } from '../src';
+import {
+  Plugin,
+  initialWrapper,
+  createRuntime,
+  createApp,
+  createPlugin,
+} from '../src';
 
 declare module '..' {
   interface RuntimeContext {
@@ -118,6 +124,34 @@ describe('create-app', () => {
             next({ App: App1, rootElement }),
         })),
       ],
+    });
+
+    interface Props {
+      test: number;
+    }
+    function App({ test }: Props) {
+      return <div>App:{test}</div>;
+    }
+
+    const AppWrapper = wrap(App);
+
+    const { container } = render(<AppWrapper test={1} />);
+    expect(container.firstChild?.textContent).toEqual('App:1');
+    expect(container.innerHTML).toBe('<div><div>App:1</div></div>');
+  });
+
+  it('createApp with plugin options', () => {
+    const plugin = (): Plugin => ({
+      setup: () => ({
+        provide: ({ element }) => <div>{element}</div>,
+        hoc: ({ App: App1 }, next) => next({ App: App1 }),
+        client: ({ App: App1, rootElement }, next) =>
+          next({ App: App1, rootElement }),
+      }),
+    });
+
+    const wrap = createApp({
+      plugins: [plugin()],
     });
 
     interface Props {

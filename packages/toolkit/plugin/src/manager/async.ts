@@ -55,9 +55,11 @@ export type AsyncManager<Hooks, API> = {
    * @param plugins one or more plugin.
    */
   usePlugin: (
-    ...plugins:
-      | AsyncPlugin<Hooks, API>[]
-      | Array<() => PluginOptions<Hooks, AsyncSetup<Hooks, API>>>
+    ...plugins: Array<
+      | AsyncPlugin<Hooks, API>
+      | PluginOptions<Hooks, AsyncSetup<Hooks, API>>
+      | (() => PluginOptions<Hooks, AsyncSetup<Hooks, API>>)
+    >
   ) => AsyncManager<Hooks, API>;
 
   /**
@@ -140,15 +142,22 @@ export const createAsyncManager = <
 
     const usePlugin: AsyncManager<Hooks, API>['usePlugin'] = (...input) => {
       for (const plugin of input) {
+        // already created by createPlugin
         if (isPlugin(plugin)) {
           addPlugin(plugin);
-        } else if (typeof plugin === 'function') {
+        }
+        // using function to return plugin options
+        else if (typeof plugin === 'function') {
           const options = plugin();
           addPlugin(createPlugin(options.setup, options));
-        } else {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
-          console.warn(`Unknown plugin: ${plugin.name}`);
+        }
+        // plain plugin options
+        else if (plugin.setup) {
+          addPlugin(createPlugin(plugin.setup, plugin));
+        }
+        // unknown plugin
+        else {
+          console.warn(`Unknown plugin: ${plugin.name || ''}`);
         }
       }
 
