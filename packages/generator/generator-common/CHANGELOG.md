@@ -1,5 +1,12 @@
 # @modern-js/generator-common
 
+## 1.4.6
+
+### Patch Changes
+
+- 0c556e59: fix: tools.less type
+- 9b2640fe: fix: dev.proxy type not work
+
 ## 1.4.5
 
 ### Patch Changes

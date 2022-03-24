@@ -1,5 +1,14 @@
 # @modern-js/types
 
+## 1.3.5
+
+### Patch Changes
+
+- d95f28c3: should enable babel register before server plugin require
+- Updated dependencies [80d8ddfe]
+- Updated dependencies [491145e3]
+  - @modern-js/plugin@1.3.0
+
 ## 1.3.4
 
 ### Patch Changes

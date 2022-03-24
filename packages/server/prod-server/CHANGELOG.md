@@ -1,5 +1,22 @@
 # @modern-js/prod-server
 
+## 1.0.4
+
+### Patch Changes
+
+- d95f28c3: should enable babel register before server plugin require
+- d95f28c3: remove server hook when api only
+- 0923c182: fix static handler when static file not exist
+- 2008fdbd: convert two packages server part, support server load plugin itself
+- ca0bcf13: publish prod-server local
+- Updated dependencies [5bf5868d]
+- Updated dependencies [d95f28c3]
+- Updated dependencies [2e8dec93]
+- Updated dependencies [2008fdbd]
+- Updated dependencies [2e8dec93]
+  - @modern-js/utils@1.3.5
+  - @modern-js/server-core@1.2.3
+
 ## 1.0.2
 
 ### Patch Changes

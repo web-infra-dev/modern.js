@@ -1,5 +1,19 @@
 # @modern-js/server-plugin
 
+## 1.2.3
+
+### Patch Changes
+
+- d95f28c3: should enable babel register before server plugin require
+- 2e8dec93: feat: adust `ServerPlugin` type to define new plugin
+- 2008fdbd: convert two packages server part, support server load plugin itself
+- 2e8dec93: add `useAppContext`、`useConfigContext` to plugin api
+- Updated dependencies [5bf5868d]
+- Updated dependencies [80d8ddfe]
+- Updated dependencies [491145e3]
+  - @modern-js/utils@1.3.5
+  - @modern-js/plugin@1.3.0
+
 ## 1.2.2
 
 ### Patch Changes
