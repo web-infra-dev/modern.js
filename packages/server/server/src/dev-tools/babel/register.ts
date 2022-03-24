@@ -33,6 +33,7 @@ export const enableRegister = (
     ],
     extensions: ['.js', '.ts'],
     babelrc: false,
+    configFile: false,
     root: projectRoot,
   });
 };
