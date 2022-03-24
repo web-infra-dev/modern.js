@@ -150,8 +150,14 @@ export const AppContext = createContext<ISAppContext>({} as ISAppContext);
 
 export const ConfigContext = createContext<UserConfig>({} as UserConfig);
 
+/**
+ * Get original content of user config.
+ */
 export const useConfigContext = () => ConfigContext.use().value;
 
+/**
+ * Get app context, including directories, plugins and some static infos.
+ */
 export const useAppContext = () => AppContext.use().value;
 
 const pluginAPI = {
@@ -190,13 +196,13 @@ const serverHooks = {
   reset,
 };
 
-/** all hooks of server plugin */
+/** All hooks of server plugin. */
 export type ServerHooks = typeof serverHooks;
 
-/** all hook callbacks of server plugin */
+/** All hook callbacks of server plugin. */
 export type ServerHookCallbacks = ToThreads<ServerHooks>;
 
-/** all apis for server plugin */
+/** All apis for server plugin. */
 export type PluginAPI = typeof pluginAPI & CommonAPI<ServerHooks>;
 
 export const createServerManager = () =>
@@ -204,6 +210,7 @@ export const createServerManager = () =>
 
 export const serverManager = createServerManager();
 
+/** Plugin options of a server plugin. */
 export type ServerPlugin = PluginOptions<
   ServerHooks,
   AsyncSetup<ServerHooks, PluginAPI>
