@@ -1,8 +1,4 @@
-import {
-  Configuration,
-  getWebpackConfig,
-  WebpackConfigTarget,
-} from '@modern-js/webpack';
+import type { Configuration } from '@modern-js/webpack';
 import {
   fs,
   logger,
@@ -51,6 +47,9 @@ export const dev = async (options: DevOptions) => {
 
   let compiler = null;
   if (existSrc) {
+    const { getWebpackConfig, WebpackConfigTarget } = await import(
+      '@modern-js/webpack'
+    );
     const webpackConfigs = [
       isSSR(userConfig) && getWebpackConfig(WebpackConfigTarget.NODE),
       getWebpackConfig(WebpackConfigTarget.CLIENT),
@@ -69,7 +68,7 @@ export const dev = async (options: DevOptions) => {
     dev: {
       ...{
         client: {
-          port: port!.toString(),
+          port: port.toString(),
           overlay: false,
           logging: 'none',
           path: HMR_SOCK_PATH,
