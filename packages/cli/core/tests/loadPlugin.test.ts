@@ -38,9 +38,7 @@ describe('load plugins', () => {
         cliPkg: path.join(fixture, './test-plugin-a.js'),
       },
       {
-        server: {
-          pluginPath: path.join(fixture, './test-plugin-b.js'),
-        },
+        server: './test-plugin-b',
         serverPkg: './test-plugin-b',
       },
     ]);

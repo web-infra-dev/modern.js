@@ -1,4 +1,4 @@
-import { createPlugin } from '@modern-js/server-core';
+import type { ServerPlugin } from '@modern-js/server-core';
 import { NextFunction, ModernServerContext } from '@modern-js/types/server';
 import type { NormalizedConfig } from '@modern-js/core';
 import { getPolyfillString } from '@modern-js/polyfill-lib';
@@ -7,8 +7,10 @@ import Parser from 'ua-parser-js';
 import { defaultFeatures, defaultPolyfill } from './const';
 import PolyfillCache, { generateCacheKey } from './libs/cache';
 
-export default createPlugin(
-  () => ({
+export default (): ServerPlugin => ({
+  name: '@modern-js/plugin-polyfill',
+
+  setup: () => ({
     preServerInit(_: NormalizedConfig) {
       const cache = new PolyfillCache();
       const route = defaultPolyfill;
@@ -60,7 +62,4 @@ export default createPlugin(
       };
     },
   }),
-  {
-    name: '@modern-js/plugin-polyfill',
-  },
-) as any;
+});
