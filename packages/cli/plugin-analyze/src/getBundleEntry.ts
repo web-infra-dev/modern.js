@@ -85,7 +85,7 @@ export const getBundleEntry = (
   }
 
   // find main entry point which server route is '/'.
-  const entriesDirAbs = ensureAbsolutePath(appDirectory, entriesDir);
+  const entriesDirAbs = ensureAbsolutePath(appDirectory, entriesDir!);
   const found = defaults.find(
     ({ entryName, entry }) =>
       entryName === packageName || path.dirname(entry) === entriesDirAbs,
