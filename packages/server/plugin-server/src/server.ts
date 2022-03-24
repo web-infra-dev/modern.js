@@ -1,5 +1,5 @@
 import path from 'path';
-import { createPlugin, useAppContext } from '@modern-js/server-core';
+import type { ServerPlugin } from '@modern-js/server-core';
 import { isProd, requireExistModule, SERVER_DIR } from '@modern-js/utils';
 import { ModernServerContext } from '@modern-js/types';
 
@@ -33,9 +33,11 @@ const createTransformAPI = (storage: Storage) =>
 type AfterMatchContext = ModernServerContext & { router: any };
 type AfterRenderContext = ModernServerContext & { template: any };
 
-export default createPlugin(
-  () => {
-    const { appDirectory, distDirectory } = useAppContext();
+export default (): ServerPlugin => ({
+  name: '@modern-js/plugin-server',
+
+  setup: api => {
+    const { appDirectory, distDirectory } = api.useAppContext();
     const pwd = isProd() ? distDirectory : appDirectory;
 
     const serverPath = path.resolve(pwd, SERVER_DIR);
@@ -78,7 +80,4 @@ export default createPlugin(
       },
     };
   },
-  {
-    name: '@modern-js/plugin-server',
-  },
-) as any;
+});

@@ -126,9 +126,7 @@ export const loadPlugins = (
 
     // server plugins don't support to accept params
     if (server && typeof server === 'string') {
-      const path = tryResolve(server, appDirectory);
-
-      loadedPlugin.server = { pluginPath: path };
+      loadedPlugin.server = server;
       loadedPlugin.serverPkg = server;
     }
 
