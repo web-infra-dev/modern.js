@@ -47,7 +47,6 @@
     "finalhandler": "^1.1.2",
     "formidable": "^1.2.2",
     "type-is": "^1.6.18",
-    "@modern-js/core": "workspace:^1.4.6",
     "@modern-js/bff-utils": "workspace:^1.2.2",
     "@modern-js/server-core": "workspace:^1.2.2",
     "@modern-js/bff-runtime": "workspace:^1.2.1"

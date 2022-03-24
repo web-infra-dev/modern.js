@@ -70,8 +70,7 @@
     "fs-extra": "^10.0.0",
     "loader-utils": "^2.0.0",
     "@modern-js/bff-utils": "workspace:^1.2.2",
-    "@modern-js/server-core": "workspace:^1.2.2",
-    "@modern-js/core": "workspace:^1.4.6"
+    "@modern-js/server-core": "workspace:^1.2.2"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
@@ -89,12 +88,8 @@
     "webpack": "^5.54.0",
     "webpack-chain": "^6.5.1",
     "jest": "^27",
-    "@scripts/jest-config": "workspace:*"
-  },
-  "modernConfig": {
-    "output": {
-      "packageMode": "node-js"
-    }
+    "@scripts/jest-config": "workspace:*",
+    "@modern-js/core": "workspace:^1.4.6"
   },
   "sideEffects": false,
   "publishConfig": {
