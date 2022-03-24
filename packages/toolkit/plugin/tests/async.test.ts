@@ -427,21 +427,6 @@ describe('async manager', () => {
     expect(manager1.isPlugin('' as any)).toBeFalsy();
   });
 
-  it('usePlugin should only add exclusive plugins of manager', async () => {
-    const manager0 = createManager();
-    const manager1 = createAsyncManager();
-
-    let count = 0;
-    const plugin = manager0.createPlugin(() => {
-      count += 1;
-    });
-
-    manager1.usePlugin(plugin as any);
-    await manager1.init();
-
-    expect(count).toBe(0);
-  });
-
   it('should support clear plugins', async () => {
     const manager = createAsyncManager();
 

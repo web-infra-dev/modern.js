@@ -421,21 +421,6 @@ describe('sync manager', () => {
     expect(manager1.isPlugin('' as any)).toBeFalsy();
   });
 
-  it('usePlugin: exclusive plugins of manager', () => {
-    const manager0 = createAsyncManager();
-    const manager1 = createManager();
-
-    let count = 0;
-    const plugin = manager0.createPlugin(() => {
-      count += 1;
-    });
-
-    manager1.usePlugin(plugin as any);
-    manager1.init();
-
-    expect(count).toBe(0);
-  });
-
   it('should support clear plugins', () => {
     setNumber(0);
 
