@@ -2,4 +2,4 @@
 '@modern-js/runtime-core': minor
 ---
 
-feat(runtime): support new plugin syntax
+feat: support new plugin syntax
