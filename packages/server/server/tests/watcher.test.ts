@@ -54,34 +54,34 @@ describe('watcher', () => {
   //   setTimeout(() => writeFiles('test', path.join(watchDir, 'index.js')), 100);
   // });
 
-  test('should emit unlink', done => {
-    const watcher = new Watcher();
+  // test('should emit unlink', done => {
+  //   const watcher = new Watcher();
 
-    const callback = jest.fn();
-    const watchDir = path.join(serverDir, 'unlink');
-    fs.mkdirSync(watchDir);
+  //   const callback = jest.fn();
+  //   const watchDir = path.join(serverDir, 'unlink');
+  //   fs.mkdirSync(watchDir);
 
-    const filepath = path.join(watchDir, 'index.js');
-    writeFiles('unlink', filepath);
+  //   const filepath = path.join(watchDir, 'index.js');
+  //   writeFiles('unlink', filepath);
 
-    watcher.listen(
-      [`${watchDir}/**/*`],
-      {
-        ignoreInitial: true,
-        ignored: /api\/typings\/.*/,
-      },
-      async () => {
-        callback();
-        expect(callback).toHaveBeenCalledTimes(1);
-        await watcher.close();
-        done();
-      },
-    );
+  //   watcher.listen(
+  //     [`${watchDir}/**/*`],
+  //     {
+  //       ignoreInitial: true,
+  //       ignored: /api\/typings\/.*/,
+  //     },
+  //     async () => {
+  //       callback();
+  //       expect(callback).toHaveBeenCalledTimes(1);
+  //       await watcher.close();
+  //       done();
+  //     },
+  //   );
 
-    setTimeout(() => {
-      fs.removeSync(filepath);
-    }, 100);
-  });
+  //   setTimeout(() => {
+  //     fs.removeSync(filepath);
+  //   }, 100);
+  // });
 
   test('should emit change', done => {
     const watcher = new Watcher();

@@ -405,7 +405,7 @@ describe('sync manager', () => {
       hello: () => 2,
     });
 
-    clonedManager.usePlugin(() => plugin).init();
+    clonedManager.usePlugin(plugin).init();
   });
 
   it('isPlugin: exclusive plugins of manager', () => {
@@ -419,21 +419,6 @@ describe('sync manager', () => {
     expect(manager1.isPlugin(plugin)).toBeFalsy();
     expect(manager1.isPlugin({})).toBeFalsy();
     expect(manager1.isPlugin('' as any)).toBeFalsy();
-  });
-
-  it('usePlugin: exclusive plugins of manager', () => {
-    const manager0 = createAsyncManager();
-    const manager1 = createManager();
-
-    let count = 0;
-    const plugin = manager0.createPlugin(() => {
-      count += 1;
-    });
-
-    manager1.usePlugin(plugin as any);
-    manager1.init();
-
-    expect(count).toBe(0);
   });
 
   it('should support clear plugins', () => {
@@ -589,7 +574,7 @@ describe('sync manager', () => {
           done();
         },
       };
-      manager.usePlugin(() => plugin);
+      manager.usePlugin(plugin);
       manager.init();
     });
 
@@ -610,7 +595,7 @@ describe('sync manager', () => {
         },
       };
 
-      manager.usePlugin(() => plugin);
+      manager.usePlugin(plugin);
       manager.init();
     });
   });
@@ -635,7 +620,7 @@ describe('sync manager', () => {
         },
       };
 
-      manager.usePlugin(() => plugin1);
+      manager.usePlugin(plugin1);
       manager.init();
 
       expect(list).toStrictEqual([0, 1]);
@@ -668,10 +653,27 @@ describe('sync manager', () => {
         },
       };
 
-      manager.usePlugin(() => plugin2);
+      manager.usePlugin(plugin2);
       manager.init();
 
       expect(list).toStrictEqual([0, 1, 2]);
+    });
+
+    it('should allow to use function plugin', async () => {
+      const manager = createManager<TestHooks>();
+
+      const list: number[] = [];
+      const plugin0: TestPlugin = {
+        name: 'plugin0',
+        setup: () => {
+          list.push(0);
+        },
+      };
+
+      manager.usePlugin(() => plugin0);
+      manager.init();
+
+      expect(list).toStrictEqual([0]);
     });
   });
 });

@@ -411,7 +411,7 @@ describe('async manager', () => {
       hello: () => 2,
     });
 
-    clonedManager.usePlugin(() => plugin).init();
+    clonedManager.usePlugin(plugin).init();
   });
 
   it('isPlugin if exclusive plugins of manager', () => {
@@ -425,21 +425,6 @@ describe('async manager', () => {
     expect(manager1.isPlugin(plugin)).toBeFalsy();
     expect(manager1.isPlugin({})).toBeFalsy();
     expect(manager1.isPlugin('' as any)).toBeFalsy();
-  });
-
-  it('usePlugin should only add exclusive plugins of manager', async () => {
-    const manager0 = createManager();
-    const manager1 = createAsyncManager();
-
-    let count = 0;
-    const plugin = manager0.createPlugin(() => {
-      count += 1;
-    });
-
-    manager1.usePlugin(plugin as any);
-    await manager1.init();
-
-    expect(count).toBe(0);
   });
 
   it('should support clear plugins', async () => {
@@ -619,7 +604,7 @@ describe('async manager', () => {
           done();
         },
       };
-      manager.usePlugin(() => plugin);
+      manager.usePlugin(plugin);
       manager.init();
     });
 
@@ -643,7 +628,7 @@ describe('async manager', () => {
         },
       };
 
-      manager.usePlugin(() => plugin);
+      manager.usePlugin(plugin);
       manager.init();
     });
   });
@@ -668,7 +653,7 @@ describe('async manager', () => {
         },
       };
 
-      manager.usePlugin(() => plugin1);
+      manager.usePlugin(plugin1);
 
       await manager.init();
 
@@ -702,11 +687,29 @@ describe('async manager', () => {
         },
       };
 
-      manager.usePlugin(() => plugin2);
+      manager.usePlugin(plugin2);
 
       await manager.init();
 
       expect(list).toStrictEqual([0, 1, 2]);
+    });
+
+    it('should allow to use function plugin', async () => {
+      const manager = createAsyncManager<TestAsyncHooks>();
+
+      const list: number[] = [];
+      const plugin0: TestAsyncPlugin = {
+        name: 'plugin0',
+        setup: () => {
+          list.push(0);
+        },
+      };
+
+      manager.usePlugin(() => plugin0);
+
+      await manager.init();
+
+      expect(list).toStrictEqual([0]);
     });
   });
 });
