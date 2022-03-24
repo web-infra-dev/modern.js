@@ -1,5 +1,33 @@
 # @modern-js/app-tools
 
+## 1.4.4
+
+### Patch Changes
+
+- d5bf095a: fix: disable load webpack when apiOnly mode
+- Updated dependencies [5bf5868d]
+- Updated dependencies [80d3cfb7]
+- Updated dependencies [42c6b136]
+- Updated dependencies [80d8ddfe]
+- Updated dependencies [4e7dcbd5]
+- Updated dependencies [d95f28c3]
+- Updated dependencies [d95f28c3]
+- Updated dependencies [d5bf095a]
+- Updated dependencies [9e8bc4ab]
+- Updated dependencies [0923c182]
+- Updated dependencies [0c556e59]
+- Updated dependencies [80d8ddfe]
+- Updated dependencies [491145e3]
+- Updated dependencies [2008fdbd]
+- Updated dependencies [ca0bcf13]
+- Updated dependencies [9229dfd1]
+  - @modern-js/utils@1.3.5
+  - @modern-js/core@1.5.0
+  - @modern-js/plugin@1.3.0
+  - @modern-js/prod-server@1.0.4
+  - @modern-js/types@1.3.5
+  - @modern-js/server@1.4.7
+
 ## 1.4.3
 
 ### Patch Changes

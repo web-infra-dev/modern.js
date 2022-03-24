@@ -1,5 +1,11 @@
 # @modern-js/utils
 
+## 1.3.5
+
+### Patch Changes
+
+- 5bf5868d: fix: isObject should return false when input is null
+
 ## 1.3.4
 
 ### Patch Changes

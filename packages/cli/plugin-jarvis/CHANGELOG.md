@@ -1,5 +1,24 @@
 # @modern-js/plugin-jarvis
 
+## 1.2.4
+
+### Patch Changes
+
+- 87e68464: refactor: eslint rule configs
+- Updated dependencies [5bf5868d]
+- Updated dependencies [80d3cfb7]
+- Updated dependencies [42c6b136]
+- Updated dependencies [4e7dcbd5]
+- Updated dependencies [9e8bc4ab]
+- Updated dependencies [0c556e59]
+- Updated dependencies [87e68464]
+- Updated dependencies [80d8ddfe]
+- Updated dependencies [2008fdbd]
+  - @modern-js/utils@1.3.5
+  - @modern-js/core@1.5.0
+  - @modern-js/eslint-config@1.2.2
+  - @modern-js-app/eslint-config@1.2.4
+
 ## 1.2.3
 
 ### Patch Changes

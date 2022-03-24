@@ -1,5 +1,13 @@
 # @modern-js/eslint-config
 
+## 1.2.2
+
+### Patch Changes
+
+- 87e68464: refactor: eslint rule configs
+- Updated dependencies [87e68464]
+  - @modern-js-app/eslint-config@1.2.4
+
 ## 1.2.1
 
 ### Patch Changes

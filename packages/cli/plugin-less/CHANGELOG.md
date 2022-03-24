@@ -1,5 +1,21 @@
 # @modern-js/plugin-less
 
+## 1.2.3
+
+### Patch Changes
+
+- 0c556e59: fix: tools.less type
+- Updated dependencies [5bf5868d]
+- Updated dependencies [80d3cfb7]
+- Updated dependencies [42c6b136]
+- Updated dependencies [4e7dcbd5]
+- Updated dependencies [9e8bc4ab]
+- Updated dependencies [0c556e59]
+- Updated dependencies [80d8ddfe]
+- Updated dependencies [2008fdbd]
+  - @modern-js/utils@1.3.5
+  - @modern-js/core@1.5.0
+
 ## 1.2.2
 
 ### Patch Changes
