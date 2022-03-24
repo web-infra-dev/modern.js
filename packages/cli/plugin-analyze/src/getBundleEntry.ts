@@ -5,7 +5,7 @@ import {
   findExists,
   MAIN_ENTRY_NAME,
 } from '@modern-js/utils';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import type { Entrypoint } from '@modern-js/types';
 import { getFileSystemEntry } from './getFileSystemEntry';
 import { JS_EXTENSIONS } from './constants';

@@ -1,2 +1,6 @@
 /** @type {import('@modern-js/module-tools').UserConfig} */
-module.exports = {};
+module.exports = {
+  output: {
+    packageMode: 'node-js',
+  },
+};
