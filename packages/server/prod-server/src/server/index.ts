@@ -4,12 +4,9 @@ import {
   serverManager,
   AppContext,
   ConfigContext,
+  loadPlugins,
 } from '@modern-js/server-core';
-import {
-  compatRequire,
-  logger as defaultLogger,
-  SHARED_DIR,
-} from '@modern-js/utils';
+import { logger as defaultLogger, SHARED_DIR } from '@modern-js/utils';
 import type { UserConfig } from '@modern-js/core';
 import { ISAppContext } from '@modern-js/types';
 import {
@@ -88,22 +85,20 @@ export class Server {
     serverManager.clear();
 
     const { options } = this;
-    const { plugins = [] } = options;
+    const { plugins = [], pwd, config } = options;
 
     // server app context for serve plugin
-    plugins.forEach(p => {
-      serverManager.usePlugin(compatRequire(p.pluginPath));
+    const loadedPlugins = loadPlugins(plugins, pwd);
+    loadedPlugins.forEach(p => {
+      serverManager.usePlugin(p);
     });
 
     const appContext = this.initAppContext();
     serverManager.run(() => {
-      ConfigContext.set(this.options.config as UserConfig);
+      ConfigContext.set(config as UserConfig);
       AppContext.set({
         ...appContext,
-        distDirectory: path.join(
-          options.pwd,
-          options.config.output?.path || 'dist',
-        ),
+        distDirectory: path.join(pwd, config.output?.path || 'dist'),
       });
     });
 
