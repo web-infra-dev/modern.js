@@ -47,7 +47,6 @@
     "type-is": "^1.6.18",
     "egg-ts-helper": "^1.29.1",
     "@modern-js/bff-utils": "workspace:^1.2.2",
-    "@modern-js/core": "workspace:^1.4.3",
     "@modern-js/server-core": "workspace:^1.2.2",
     "@modern-js/bff-runtime": "workspace:^1.2.1"
   },
@@ -65,7 +64,8 @@
     "supertest": "^6.1.6",
     "@scripts/build": "workspace:*",
     "jest": "^27",
-    "@scripts/jest-config": "workspace:*"
+    "@scripts/jest-config": "workspace:*",
+    "@modern-js/core": "workspace:^1.4.3"
   },
   "modernConfig": {
     "output": {

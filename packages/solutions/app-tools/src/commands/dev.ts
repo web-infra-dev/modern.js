@@ -68,7 +68,8 @@ export const dev = async (options: DevOptions) => {
     dev: {
       ...{
         client: {
-          port: port.toString(),
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+          port: port!.toString(),
           overlay: false,
           logging: 'none',
           path: HMR_SOCK_PATH,

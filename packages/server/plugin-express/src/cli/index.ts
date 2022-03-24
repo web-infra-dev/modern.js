@@ -1,12 +1,13 @@
 import * as path from 'path';
-import { useAppContext, createPlugin } from '@modern-js/core';
+import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils } from '@modern-js/utils';
 
-export default createPlugin(
-  () => {
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-express',
+  setup: api => {
     let bffExportsUtils: any;
+    const { useAppContext } = api;
     const runtimeModulePath = path.resolve(__dirname, '../runtime');
-
     return {
       config() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -81,5 +82,4 @@ export default createPlugin(
       },
     };
   },
-  { name: '@modern-js/plugin-express' },
-);
+});
