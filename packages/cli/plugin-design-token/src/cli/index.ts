@@ -1,54 +1,50 @@
 import * as path from 'path';
 import {
-  createRuntimeExportsUtils,
-  PLUGIN_SCHEMAS,
   lazyImport,
+  PLUGIN_SCHEMAS,
+  createRuntimeExportsUtils,
 } from '@modern-js/utils';
-import {
-  createPlugin,
-  NormalizedConfig,
-  useAppContext,
-  useResolvedConfigContext,
-} from '@modern-js/core';
+import type { CliPlugin, NormalizedConfig } from '@modern-js/core';
 
-const resolveConfig = lazyImport('tailwindcss/resolveConfig', require);
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-design-token',
 
-const PLUGIN_IDENTIFIER = 'designToken';
-
-const getDesignTokens = (userConfig: NormalizedConfig) => {
-  const {
-    source: { designSystem },
-  } = userConfig as NormalizedConfig & {
-    source: {
-      designSystem: Record<string, any>;
-    };
-  }; // TODO: Type to be filled
-
-  const tailwindcssConfig: Record<string, any> = {};
-
-  tailwindcssConfig.theme = designSystem ? { ...designSystem } : {};
-
-  // not use default design token when designToken.defaultTheme is false or theme is false
-  if (!designSystem) {
-    tailwindcssConfig.presets = [];
-  }
-
-  // when only designSystem exist, need remove supportStyledComponents
-  if (designSystem) {
-    delete tailwindcssConfig.theme.supportStyledComponents;
-  }
-  return resolveConfig(tailwindcssConfig).theme || {};
-};
-
-const index = createPlugin(
-  (() => {
+  setup(api) {
     let pluginsExportsUtils: any;
     const designTokenModulePath = path.resolve(__dirname, '../../../../');
 
+    const resolveConfig = lazyImport('tailwindcss/resolveConfig', require);
+
+    const PLUGIN_IDENTIFIER = 'designToken';
+
+    const getDesignTokens = (userConfig: NormalizedConfig) => {
+      const {
+        source: { designSystem },
+      } = userConfig as NormalizedConfig & {
+        source: {
+          designSystem: Record<string, any>;
+        };
+      }; // TODO: Type to be filled
+
+      const tailwindcssConfig: Record<string, any> = {};
+
+      tailwindcssConfig.theme = designSystem ? { ...designSystem } : {};
+
+      // not use default design token when designToken.defaultTheme is false or theme is false
+      if (!designSystem) {
+        tailwindcssConfig.presets = [];
+      }
+
+      // when only designSystem exist, need remove supportStyledComponents
+      if (designSystem) {
+        delete tailwindcssConfig.theme.supportStyledComponents;
+      }
+      return resolveConfig(tailwindcssConfig).theme || {};
+    };
+
     return {
       config() {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const appContext = useAppContext();
+        const appContext = api.useAppContext();
 
         pluginsExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
@@ -69,15 +65,16 @@ const index = createPlugin(
           },
         };
       },
+
       modifyEntryImports({ entrypoint, imports }: any) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const userConfig = useResolvedConfigContext() as NormalizedConfig & {
-          source: {
-            designSystem?: {
-              supportStyledComponents?: boolean;
+        const userConfig =
+          api.useResolvedConfigContext() as NormalizedConfig & {
+            source: {
+              designSystem?: {
+                supportStyledComponents?: boolean;
+              };
             };
           };
-        };
         const {
           source: { designSystem },
         } = userConfig;
@@ -112,8 +109,7 @@ const index = createPlugin(
       modifyEntryRuntimePlugins({ entrypoint, plugins }: any) {
         const {
           source: { designSystem },
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-        } = useResolvedConfigContext() as NormalizedConfig & {
+        } = api.useResolvedConfigContext() as NormalizedConfig & {
           source: {
             designSystem?: {
               supportStyledComponents?: boolean;
@@ -142,20 +138,17 @@ const index = createPlugin(
           plugins,
         };
       },
+
       validateSchema() {
         // add source.designSystem.supportStyledComponents config
         return PLUGIN_SCHEMAS['@modern-js/plugin-design-token'];
       },
+
       addRuntimeExports() {
         pluginsExportsUtils.addExport(
           `export { default as designToken } from '${designTokenModulePath}'`,
         );
       },
     };
-  }) as any,
-  {
-    name: '@modern-js/plugin-design-token',
   },
-);
-
-export default index;
+});
