@@ -5,6 +5,5 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "isolatedModules": true
-  },
-  "include": ["src"]
+  }
 }
