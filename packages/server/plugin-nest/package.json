@@ -55,7 +55,6 @@
     "rxjs": "^7.3.0",
     "type-is": "^1.6.18",
     "@modern-js/bff-utils": "workspace:^1.2.2",
-    "@modern-js/core": "workspace:^1.4.6",
     "@modern-js/server-core": "workspace:^1.2.2",
     "@modern-js/bff-runtime": "workspace:^1.2.1"
   },
@@ -82,7 +81,8 @@
     "@nestjs/core": "^8.0.6",
     "@scripts/build": "workspace:*",
     "jest": "^27",
-    "@scripts/jest-config": "workspace:*"
+    "@scripts/jest-config": "workspace:*",
+    "@modern-js/core": "workspace:^1.4.6"
   },
   "peerDependencies": {
     "express": "^4.17.1",
