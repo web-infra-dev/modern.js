@@ -658,5 +658,22 @@ describe('sync manager', () => {
 
       expect(list).toStrictEqual([0, 1, 2]);
     });
+
+    it('should allow to use function plugin', async () => {
+      const manager = createManager<TestHooks>();
+
+      const list: number[] = [];
+      const plugin0: TestPlugin = {
+        name: 'plugin0',
+        setup: () => {
+          list.push(0);
+        },
+      };
+
+      manager.usePlugin(() => plugin0);
+      manager.init();
+
+      expect(list).toStrictEqual([0]);
+    });
   });
 });
