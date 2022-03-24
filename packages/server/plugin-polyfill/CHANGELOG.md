@@ -1,5 +1,12 @@
 # @modern-js/plugin-polyfill
 
+## 1.2.3
+
+### Patch Changes
+
+- c7dc7f54: migrate to new plugin style
+- 2008fdbd: convert two packages server part, support server load plugin itself
+
 ## 1.2.2
 
 ### Patch Changes
