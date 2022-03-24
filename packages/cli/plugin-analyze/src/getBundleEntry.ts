@@ -5,7 +5,7 @@ import {
   findExists,
   MAIN_ENTRY_NAME,
 } from '@modern-js/utils';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import type { Entrypoint } from '@modern-js/types';
 import { getFileSystemEntry } from './getFileSystemEntry';
 import { JS_EXTENSIONS } from './constants';
@@ -85,7 +85,7 @@ export const getBundleEntry = (
   }
 
   // find main entry point which server route is '/'.
-  const entriesDirAbs = ensureAbsolutePath(appDirectory, entriesDir!);
+  const entriesDirAbs = ensureAbsolutePath(appDirectory, entriesDir);
   const found = defaults.find(
     ({ entryName, entry }) =>
       entryName === packageName || path.dirname(entry) === entriesDirAbs,
