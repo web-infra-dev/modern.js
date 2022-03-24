@@ -6,11 +6,7 @@ import {
   ConfigContext,
   loadPlugins,
 } from '@modern-js/server-core';
-import {
-  compatRequire,
-  logger as defaultLogger,
-  SHARED_DIR,
-} from '@modern-js/utils';
+import { logger as defaultLogger, SHARED_DIR } from '@modern-js/utils';
 import type { UserConfig } from '@modern-js/core';
 import { ISAppContext } from '@modern-js/types';
 import {
