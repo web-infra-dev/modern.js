@@ -3284,6 +3284,7 @@ importers:
       '@modern-js/core': workspace:^1.4.0
       '@modern-js/plugin': workspace:^1.2.1
       '@modern-js/types': workspace:^1.3.0
+      '@modern-js/utils': workspace:^1.3.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -3295,6 +3296,7 @@ importers:
       typescript: ^4
     dependencies:
       '@modern-js/plugin': link:../../toolkit/plugin
+      '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
       '@modern-js/core': link:../../cli/core
       '@modern-js/types': link:../../toolkit/types
@@ -3642,12 +3644,12 @@ importers:
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/polyfill-lib': 1.0.2_@types+node@14.18.4
-      '@modern-js/server-core': link:../core
       lru-cache: 6.0.0
       mime-types: 2.1.34
       ua-parser-js: 0.7.31
     devDependencies:
       '@modern-js/core': link:../../cli/core
+      '@modern-js/server-core': link:../core
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -3680,11 +3682,11 @@ importers:
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/babel-compiler': link:../../toolkit/compiler/babel
-      '@modern-js/server-core': link:../core
       '@modern-js/server-utils': link:../utils
       '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
       '@modern-js/core': link:../../cli/core
+      '@modern-js/server-core': link:../core
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
