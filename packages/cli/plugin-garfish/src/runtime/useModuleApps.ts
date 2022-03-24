@@ -49,7 +49,11 @@ export type UseModuleApps = {
 
 export function useModuleApps() {
   const { apps, MApp, appInfoList } = useContext(GarfishContext);
-  logger('call useModuleApps', apps, MApp, appInfoList);
+  logger('call useModuleApps', {
+    MApp,
+    apps: appInfoList,
+    ...apps,
+  });
 
   const Info = new Proxy(
     {
@@ -59,7 +63,6 @@ export function useModuleApps() {
     },
     {
       get(target, p, receiver) {
-        logger('apps init Component Render', p);
         if (typeof p === 'string' && p in target) {
           return Reflect.get(target, p, receiver);
         }

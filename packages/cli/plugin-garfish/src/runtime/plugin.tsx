@@ -72,8 +72,7 @@ const GarfishPlugin = (config: Config) => {
           apps: new Proxy(
             {},
             {
-              get(target, p) {
-                logger('apps init Component Render', p);
+              get() {
                 return () => React.createElement('div');
               },
             },

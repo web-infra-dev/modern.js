@@ -87,7 +87,6 @@
     "webpack-chain": "^6.5.1"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.4.6",
     "@modern-js/plugin-router": "workspace:^1.2.5",
     "@modern-js/runtime-core": "workspace:^1.2.4"
   },

@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plugin-garfish cli cli get runtime config 1`] = `
+Object {
+  "masterApp": Object {
+    "basename": "/test",
+  },
+}
+`;
+
+exports[`plugin-garfish cli cli get runtime features config 1`] = `
+Object {
+  "masterApp": Object {
+    "basename": "/test2",
+  },
+}
+`;
+
+exports[`plugin-garfish cli cli makeRender function 1`] = `
+Object {
+  "renderByProvider": true,
+  "routerConfig": Object {
+    "basename": "/test",
+    "historyOptions": Object {
+      "basename": "/test",
+    },
+  },
+}
+`;
+
+exports[`plugin-garfish cli cli set runtime config 1`] = `
+Object {
+  "masterApp": true,
+}
+`;
+
+exports[`plugin-garfish cli cli set runtime features config 1`] = `
+Object {
+  "features": Object {
+    "masterApp": true,
+  },
+}
+`;
+
+exports[`plugin-garfish cli webpack config close external and use js entry 1`] = `
+Object {
+  "devServer": Object {
+    "headers": Object {
+      "Access-Control-Allow-Origin": "*",
+    },
+  },
+  "externals": Object {
+    "react": "react",
+    "react-dom": "react-dom",
+  },
+  "optimization": Object {
+    "runtimeChunk": false,
+    "splitChunks": Object {
+      "chunks": "async",
+    },
+  },
+  "output": Object {
+    "filename": "index.js",
+    "libraryTarget": "umd",
+    "publicPath": "//localhost:8080/",
+  },
+}
+`;
+
+exports[`plugin-garfish cli webpack config default micro config 1`] = `
+Object {
+  "devServer": Object {
+    "headers": Object {
+      "Access-Control-Allow-Origin": "*",
+    },
+  },
+  "output": Object {
+    "libraryTarget": "umd",
+    "publicPath": "//localhost:8080/",
+  },
+}
+`;
