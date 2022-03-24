@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { createContainer } from '@modern-js/plugin';
-import { runtime, AppComponentContext, Plugin } from './plugin';
+import { Plugin, runtime, AppComponentContext } from './plugin';
 import {
   RuntimeReactContext,
   RuntimeContext,
