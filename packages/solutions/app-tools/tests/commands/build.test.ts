@@ -1,24 +1,20 @@
+import { manager } from '@modern-js/core';
 import { build } from '../../src/commands/build';
 
 const mockBeforeBuild = jest.fn();
 const mockAfterBuild = jest.fn();
 const mockGenerateRoutes = jest.fn();
 
-// eslint-disable-next-line arrow-body-style
 jest.mock('@modern-js/core', () => {
   return {
     __esModule: true,
+    ...jest.requireActual('@modern-js/core'),
     mountHook() {
       return {
         beforeBuild: mockBeforeBuild,
         afterBuild: mockAfterBuild,
       };
     },
-    useAppContext: jest.fn(() => ({
-      existSrc: false,
-      distDirectory: '',
-    })),
-    useResolvedConfigContext: jest.fn(),
   };
 });
 
@@ -33,9 +29,25 @@ describe('command build', () => {
   });
 
   test('existSrc is false', async () => {
-    await build();
-    expect(mockBeforeBuild).toBeCalled();
-    expect(mockGenerateRoutes).toBeCalled();
-    expect(mockAfterBuild).toBeCalled();
+    const mockAPI = {
+      useAppContext: jest.fn(
+        () =>
+          ({
+            existSrc: false,
+            distDirectory: '',
+          } as any),
+      ),
+      useResolvedConfigContext: jest.fn(),
+    };
+
+    manager.clone(mockAPI).usePlugin({
+      async setup(api) {
+        await build(api);
+        expect(mockBeforeBuild).toBeCalled();
+        expect(mockGenerateRoutes).toBeCalled();
+        expect(mockAfterBuild).toBeCalled();
+      },
+    });
+    await manager.init();
   });
 });
