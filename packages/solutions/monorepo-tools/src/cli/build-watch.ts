@@ -1,7 +1,8 @@
+import type { PluginAPI } from '@modern-js/core';
 import { Command } from 'commander';
 import { buildWatch, IBuildWatchCommandOption } from '../commands';
 
-export const buildWatchCli = (program: Command) => {
+export const buildWatchCli = (program: Command, api: PluginAPI) => {
   program
     .command('build-watch [project]')
     .usage('[options]')
@@ -10,7 +11,7 @@ export const buildWatchCli = (program: Command) => {
     .description('watch target project and target project’s dependences')
     .action(
       async (targetProjectName: string, option: IBuildWatchCommandOption) => {
-        await buildWatch(targetProjectName, option);
+        await buildWatch(targetProjectName, option, api);
       },
     );
 };
