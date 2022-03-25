@@ -1,12 +1,6 @@
 import { Configuration, webpack } from 'webpack';
 import { WebpackConfigTarget, getWebpackConfig } from '@modern-js/webpack';
-import {
-  useAppContext,
-  useResolvedConfigContext,
-  mountHook,
-  ResolvedConfigContext,
-  manager,
-} from '@modern-js/core';
+import { manager, PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import {
   formatWebpackMessages,
   measureFileSizesBeforeBuild,
@@ -24,23 +18,22 @@ const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
 // eslint-disable-next-line max-statements
-export const build = async (options?: BuildOptions) => {
-  /* eslint-disable react-hooks/rules-of-hooks */
-  const resolvedConfig = useResolvedConfigContext();
-  const appContext = useAppContext();
+export const build = async (api: PluginAPI, options?: BuildOptions) => {
+  const resolvedConfig = api.useResolvedConfigContext();
+  const appContext = api.useAppContext();
+  const hookRunners = api.useHookRunners();
   const { existSrc } = appContext;
-  /* eslint-enable react-hooks/rules-of-hooks */
 
   if (!existSrc) {
     const { distDirectory } = appContext;
     await emptyDir(distDirectory);
-    await mountHook().beforeBuild({
+    await hookRunners.beforeBuild({
       webpackConfigs: [],
     });
 
     await generateRoutes(appContext);
 
-    await mountHook().afterBuild();
+    await hookRunners.afterBuild();
 
     return;
   }
@@ -126,7 +119,7 @@ export const build = async (options?: BuildOptions) => {
     });
   }
 
-  await mountHook().beforeBuild({
+  await hookRunners.beforeBuild({
     webpackConfigs: buildConfigs.map(({ config }) => config),
   });
 
@@ -142,6 +135,5 @@ export const build = async (options?: BuildOptions) => {
   }
 
   await generateRoutes(appContext);
-
-  await mountHook().afterBuild();
+  await hookRunners.afterBuild();
 };
