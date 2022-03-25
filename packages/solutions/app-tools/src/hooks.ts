@@ -1,5 +1,4 @@
 import { createAsyncWaterfall, createAsyncWorkflow } from '@modern-js/plugin';
-import { registerHook } from '@modern-js/core';
 
 import type { Compiler, Configuration, MultiCompiler } from '@modern-js/types';
 
@@ -28,16 +27,14 @@ export const beforeDeploy = createAsyncWorkflow<Record<string, any>>();
 
 export const afterDeploy = createAsyncWorkflow<Record<string, any>>();
 
-export const lifecycle = () => {
-  registerHook({
-    beforeDev,
-    afterDev,
-    beforeCreateCompiler,
-    afterCreateCompiler,
-    beforePrintInstructions,
-    beforeBuild,
-    afterBuild,
-    beforeDeploy,
-    afterDeploy,
-  });
+export const hooks = {
+  beforeDev,
+  afterDev,
+  beforeCreateCompiler,
+  afterCreateCompiler,
+  beforePrintInstructions,
+  beforeBuild,
+  afterBuild,
+  beforeDeploy,
+  afterDeploy,
 };
