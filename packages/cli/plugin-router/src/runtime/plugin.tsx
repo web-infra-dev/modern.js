@@ -86,9 +86,10 @@ export const routerPlugin: any = ({
                 : baseUrl;
 
             const history =
-              customHistory || supportHtml5History
+              customHistory ||
+              (supportHtml5History
                 ? createBrowserHistory(historyOptions)
-                : createHashHistory(historyOptions);
+                : createHashHistory(historyOptions));
 
             return (props: any) => (
               <Router history={history}>
