@@ -1,4 +1,4 @@
-import { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/core';
 import { Plugin as RollupPlugin } from 'rollup';
 import { isJsRequest } from '../utils';
 
