@@ -1,5 +1,5 @@
 import webpack, { Configuration, StatsCompilation } from 'webpack';
-import { IAppContext, NormalizedConfig, mountHook } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig, PluginAPI } from '@modern-js/core';
 import {
   chalk,
   logger,
@@ -12,20 +12,23 @@ const prettyTime = (stats: StatsCompilation) =>
   Math.max(...(stats.children?.map(child => child.time || 0) || []));
 
 export const createCompiler = async ({
+  api,
   webpackConfigs,
   // TODO: params
   userConfig,
   appContext,
 }: {
+  api: PluginAPI;
   webpackConfigs: Configuration[];
   userConfig: NormalizedConfig;
   appContext: IAppContext;
 }) => {
   try {
-    await mountHook().beforeCreateCompiler({ webpackConfigs });
+    const hookRunners = api.useHookRunners();
+    await hookRunners.beforeCreateCompiler({ webpackConfigs });
     const compiler = webpack(webpackConfigs);
 
-    await mountHook().afterCreateCompiler({ compiler });
+    await hookRunners.afterCreateCompiler({ compiler });
 
     let isFirstCompile = true;
 
@@ -51,7 +54,7 @@ export const createCompiler = async ({
         logger.log(errors.join('\n\n'));
         logger.log();
       } else if (process.stdout.isTTY || isFirstCompile) {
-        await mountHook().afterDev();
+        await hookRunners.afterDev();
         if (warnings.length) {
           logger.log(chalk.yellow(`Compiled with warnings.\n`));
           logger.log(warnings.join('\n\n'));
@@ -63,7 +66,7 @@ export const createCompiler = async ({
             ),
           );
         }
-        await printInstructions(appContext, userConfig);
+        await printInstructions(api, appContext, userConfig);
       }
       // eslint-disable-next-line require-atomic-updates
       isFirstCompile = false;

@@ -1,5 +1,5 @@
 import path from 'path';
-import { IAppContext } from '@modern-js/core';
+import type { IAppContext } from '@modern-js/core';
 import { fs, ROUTE_SPEC_FILE } from '@modern-js/utils';
 
 const generateRoutes = async (appContext: IAppContext) => {
