@@ -1,5 +1,14 @@
 # @modern-js/plugin-server
 
+## 1.1.3
+
+### Patch Changes
+
+- c7dc7f54: migrate to new plugin style
+- 2008fdbd: convert two packages server part, support server load plugin itself
+- Updated dependencies [5bf5868d]
+  - @modern-js/utils@1.3.5
+
 ## 1.1.2
 
 ### Patch Changes

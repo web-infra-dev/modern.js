@@ -1,5 +1,13 @@
 # @modern-js/plugin-static-hosting
 
+## 1.1.4
+
+### Patch Changes
+
+- c7dc7f54: migrate to new plugin style
+- Updated dependencies [5bf5868d]
+  - @modern-js/utils@1.3.5
+
 ## 1.1.3
 
 ### Patch Changes

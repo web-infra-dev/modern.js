@@ -1,5 +1,14 @@
 # @modern-js/plugin-garfish
 
+## 1.4.3
+
+### Patch Changes
+
+- e27cefee: feat(plugin-garfish): compatible garfish hooks
+- a4dd12c9: feat(plugin-garfish): support automatic parameter transfer
+- Updated dependencies [5bf5868d]
+  - @modern-js/utils@1.3.5
+
 ## 1.4.2
 
 ### Patch Changes

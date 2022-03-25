@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.2",
+  "version": "1.2.3",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -46,13 +46,13 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/polyfill-lib": "^1.0.0",
-    "@modern-js/server-core": "workspace:^1.2.2",
     "lru-cache": "^6.0.0",
     "mime-types": "^2.1.32",
     "ua-parser-js": "^0.7.28"
   },
   "devDependencies": {
-    "@modern-js/types": "workspace:^1.3.0",
+    "@modern-js/server-core": "workspace:^1.2.3",
+    "@modern-js/types": "workspace:^1.3.5",
     "@types/jest": "^26",
     "@types/lru-cache": "^5.1.1",
     "@types/mime-types": "^2.1.1",
@@ -61,7 +61,7 @@
     "@types/react-dom": "^17",
     "@types/ua-parser-js": "^0.7.36",
     "typescript": "^4",
-    "@modern-js/core": "workspace:^1.4.0",
+    "@modern-js/core": "workspace:^1.5.0",
     "@scripts/build": "workspace:*",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*"

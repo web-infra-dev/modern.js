@@ -1013,12 +1013,6 @@ module.exports = {
     'react/button-has-type': 'error',
     // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/default-props-match-prop-types.md
     'react/default-props-match-prop-types': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/destructuring-assignment.md
-    'react/destructuring-assignment': [
-      'error',
-      'always',
-      { ignoreClassFields: true },
-    ],
 
     /*
      * https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/display-name.md
@@ -1042,59 +1036,6 @@ module.exports = {
      * - 嗯ok，这个规则现在的性价比是不太高了…
      */
     'react/display-name': 'off',
-    // 'react/display-name': [
-    //   'error',
-    //   {
-    //     ignoreTranspilerName: false,
-    //   },
-    // ],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/forbid-component-props.md
-    'react/forbid-component-props': 'off',
-
-    /*
-     * @CUSTOM
-     * "react/forbid-component-props": [
-     *   "error",
-     *   {
-     *     "forbid": [
-     *       "className",
-     *       "style"
-     *     ]
-     *   }
-     * ],
-     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/forbid-dom-props.md
-     */
-    'react/forbid-dom-props': 'off',
-
-    /*
-     * @CUSTOM
-     * "react/forbid-dom-props": [
-     *   "error",
-     *   {
-     *     "forbid": []
-     *   }
-     * ],
-     * https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/forbid-elements.md
-     */
-    'react/forbid-elements': 'off',
-
-    /*
-     * @CUSTOM
-     * "react/forbid-elements": [
-     *   "error",
-     *   {
-     *     "forbid": [
-     *       {
-     *         "element": "button",
-     *         "message": "use <Button> instead"
-     *       }
-     *     ]
-     *   }
-     * ],
-     * https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/forbid-prop-types.md
-     */
-    'react/forbid-prop-types': 'off',
-
     /*
      * @CUSTOM
      * "react/forbid-prop-types": [
@@ -1118,52 +1059,22 @@ module.exports = {
     'react/no-access-state-in-setstate': 'error',
     // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-array-index-key.md
     'react/no-array-index-key': 'warn',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-children-prop.md
-    'react/no-children-prop': 'error',
-
     /*
      * https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-danger.md
      * @TIPS
      * explicitly declare `eslint-disable` when truly necessary
      */
     'react/no-danger': 'error',
-
-    /*
-     * https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-danger-with-children.md
-     * @TIPS
-     * explicitly declare `eslint-disable` when truly necessary
-     */
-    'react/no-danger-with-children': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-deprecated.md
-    'react/no-deprecated': 'error',
     // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-did-mount-set-state.md
     'react/no-did-mount-set-state': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-did-update-set-state.md
-    'react/no-did-update-set-state': 'off',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-direct-mutation-state.md
-    'react/no-direct-mutation-state': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-find-dom-node.md
-    'react/no-find-dom-node': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-is-mounted.md
-    'react/no-is-mounted': 'error',
     // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-multi-comp.md
     'react/no-multi-comp': ['error', { ignoreStateless: true }],
     // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-redundant-should-component-update.md
     'react/no-redundant-should-component-update': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-render-return-value.md
-    'react/no-render-return-value': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-set-state.md
-    'react/no-set-state': 'off',
     // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-typos.md
     'react/no-typos': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-string-refs.md
-    'react/no-string-refs': 'error',
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-this-in-sfc.md
     'react/no-this-in-sfc': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-unescaped-entities.md
-    'react/no-unescaped-entities': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-unknown-property.md
-    'react/no-unknown-property': 'error',
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unsafe.md
     'react/no-unsafe': ['error', { checkAliases: true }],
     // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-unused-prop-types.md
@@ -1194,14 +1105,6 @@ module.exports = {
       { forbidDefaultForRequired: true },
     ],
 
-    /*
-     * https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/require-optimization.md
-     * https://github.com/facebook/react/pull/7195#issuecomment-236361372
-     * https://hackernoon.com/react-purecomponent-considered-harmful-8155b5c1d4bc
-     */
-    'react/require-optimization': 'off',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/require-render-return.md
-    'react/require-render-return': 'error',
     // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/self-closing-comp.md
     'react/self-closing-comp': [
       'error',
@@ -1210,102 +1113,15 @@ module.exports = {
         html: false,
       },
     ],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/sort-comp.md
-    'react/sort-comp': [
-      'error',
-      {
-        order: [
-          'type-annotations',
-          'class-properties-and-methods',
-          'instance-variables',
-          'state',
-          'getInitialState',
-          'getChildContext',
-          'getDefaultProps',
-          'constructor',
-          'lifecycle',
-          '/^is.+$/',
-          '/^_is.+$/',
-          '/^has.+$/',
-          '/^_has.+$/',
-          '/^should.+$/',
-          '/^_should.+$/',
-          '/^get.+$/',
-          '/^_get.+$/',
-          'getters',
-          '/^set.+$/',
-          '/^_set.+$/',
-          'setters',
-          '/^on.+$/',
-          '/^_on.+$/',
-          '/^handle.+$/',
-          '/^_handle.+$/',
-          'instance-methods',
-          'everything-else',
-          'rendering',
-        ],
-        groups: {
-          'class-properties-and-methods': [
-            'displayName',
-            'propTypes',
-            'contextTypes',
-            'childContextTypes',
-            'mixins',
-            'statics',
-            'defaultProps',
-            'getDerivedStateFromProps',
-            'static-methods',
-          ],
-          lifecycle: [
-            'UNSAFE_componentWillMount',
-            'componentWillMount',
-            'componentDidMount',
-            'UNSAFE_componentWillReceiveProps',
-            'componentWillReceiveProps',
-            'shouldComponentUpdate',
-            'getSnapshotBeforeUpdate',
-            'UNSAFE_componentWillUpdate',
-            'componentWillUpdate',
-            'componentDidUpdate',
-            'componentWillUnmount',
-          ],
-          rendering: ['/^render.+$/', 'render'],
-        },
-      },
-    ],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/sort-prop-types.md
-    'react/sort-prop-types': 'off',
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/style-prop-object.md
     'react/style-prop-object': 'error',
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/void-dom-elements-no-children.md
     'react/void-dom-elements-no-children': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md
-    'react/jsx-boolean-value': ['error', 'always'],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-child-element-spacing.md
-    'react/jsx-child-element-spacing': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-closing-bracket-location.md
-    'react/jsx-closing-bracket-location': [
-      'error',
-      {
-        // "selfClosing": "props-aligned",
-        selfClosing: 'after-props',
-        // "nonEmpty": "props-aligned"
-        nonEmpty: 'after-props',
-      },
-    ],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-closing-tag-location.md
-    'react/jsx-closing-tag-location': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-curly-spacing.md
-    'react/jsx-curly-spacing': ['error', { when: 'never' }],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-equals-spacing.md
-    'react/jsx-equals-spacing': ['error', 'never'],
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-filename-extension.md
     'react/jsx-filename-extension': [
       'error',
       { extensions: ['.jsx', '.tsx', '.mjsx', '.cjsx'] },
     ],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-first-prop-new-line.md
-    'react/jsx-first-prop-new-line': ['error', 'multiline'],
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-handler-names.md
     'react/jsx-handler-names': [
       'error',
@@ -1313,22 +1129,6 @@ module.exports = {
         eventHandlerPrefix: '',
         // eventHandlerPrefix: 'handle',
         eventHandlerPropPrefix: 'on',
-      },
-    ],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent.md
-    'react/jsx-indent': ['error', 2],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent-props.md
-    'react/jsx-indent-props': ['error', 2],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-key.md
-    'react/jsx-key': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-max-depth.md
-    'react/jsx-max-depth': 'off',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-max-props-per-line.md
-    'react/jsx-max-props-per-line': [
-      'error',
-      {
-        maximum: 1,
-        when: 'always',
       },
     ],
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md
@@ -1339,85 +1139,20 @@ module.exports = {
         allowArrowFunctions: true,
       },
     ],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-comment-textnodes.md
-    'react/jsx-no-comment-textnodes': 'error',
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-duplicate-props.md
     'react/jsx-no-duplicate-props': ['error', { ignoreCase: true }],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-literals.md
-    'react/jsx-no-literals': 'off',
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-target-blank.md
     'react/jsx-no-target-blank': 'off',
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-undef.md
     'react/jsx-no-undef': ['error', { allowGlobals: true }],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-one-expression-per-line.md
-    'react/jsx-one-expression-per-line': ['error', { allow: 'single-child' }],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-curly-brace-presence.md
-    'react/jsx-curly-brace-presence': 'off',
-
-    /*
-     * "react/jsx-curly-brace-presence": [
-     *   "error",
-     *   "never"
-     * ],
-     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-fragments.md
-     * @TODO bug
-     */
-    'react/jsx-fragments': 'off', // ['error', 'syntax'],
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-pascal-case.md
     'react/jsx-pascal-case': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-props-no-multi-spaces.md
-    'react/jsx-props-no-multi-spaces': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-sort-default-props.md
-    'react/jsx-sort-default-props': 'off',
-
-    /*
-     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-sort-props.md
-     * @TODO bug: conflict with prettier
-     */
-    'react/jsx-sort-props': 'off',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-tag-spacing.md
-    'react/jsx-tag-spacing': [
-      'error',
-      {
-        closingSlash: 'never',
-        beforeSelfClosing: 'always',
-        afterOpening: 'never',
-        beforeClosing: 'never',
-      },
-    ],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-uses-react.md
-    // react 17
-    'react/jsx-uses-react': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-uses-vars.md
-    'react/jsx-uses-vars': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-wrap-multilines.md
-    'react/jsx-wrap-multilines': [
-      'error',
-      {
-        declaration: true,
-        assignment: true,
-        return: true,
-        arrow: true,
-        condition: 'parens-new-line',
-        logical: 'parens-new-line',
-        prop: 'parens-new-line',
-      },
-    ],
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unused-state.md
     'react/no-unused-state': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-props-no-spreading.md
-    'react/jsx-props-no-spreading': 'off',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-read-only-props.md
-    'react/prefer-read-only-props': 'off',
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/state-in-constructor.md
     'react/state-in-constructor': ['error', 'never'],
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/static-property-placement.md
     'react/static-property-placement': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-curly-newline.md
-    'react/jsx-curly-newline': [
-      'error',
-      { multiline: 'require', singleline: 'forbid' },
-    ],
     // https://reactjs.org/docs/hooks-rules.html
     'react-hooks/rules-of-hooks': 'error',
     // https://github.com/facebook/react/issues/16006
