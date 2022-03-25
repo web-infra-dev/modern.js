@@ -7,12 +7,7 @@ import {
   chalk,
   isSSR,
 } from '@modern-js/utils';
-import {
-  useAppContext,
-  useResolvedConfigContext,
-  mountHook,
-  AppContext,
-} from '@modern-js/core';
+import type { PluginAPI } from '@modern-js/core';
 
 import { createCompiler } from '../utils/createCompiler';
 import { createServer } from '../utils/createServer';
@@ -21,11 +16,10 @@ import { printInstructions } from '../utils/printInstructions';
 import { DevOptions } from '../utils/types';
 import { getSpecifiedEntries } from '../utils/getSpecifiedEntries';
 
-export const dev = async (options: DevOptions) => {
-  /* eslint-disable react-hooks/rules-of-hooks */
-  const appContext = useAppContext();
-  const userConfig = useResolvedConfigContext();
-  /* eslint-enable react-hooks/rules-of-hooks */
+export const dev = async (api: PluginAPI, options: DevOptions) => {
+  const appContext = api.useAppContext();
+  const userConfig = api.useResolvedConfigContext();
+  const hookRunners = api.useHookRunners();
 
   const { appDirectory, distDirectory, port, existSrc, entrypoints } =
     appContext;
@@ -35,7 +29,7 @@ export const dev = async (options: DevOptions) => {
     entrypoints,
   );
 
-  AppContext.set({
+  api.setAppContext({
     ...appContext,
     checkedEntries,
   });
@@ -43,7 +37,7 @@ export const dev = async (options: DevOptions) => {
 
   fs.emptyDirSync(distDirectory);
 
-  await mountHook().beforeDev();
+  await hookRunners.beforeDev();
 
   let compiler = null;
   if (existSrc) {
@@ -56,6 +50,7 @@ export const dev = async (options: DevOptions) => {
     ].filter(Boolean) as Configuration[];
 
     compiler = await createCompiler({
+      api,
       webpackConfigs,
       userConfig,
       appContext,
@@ -68,7 +63,6 @@ export const dev = async (options: DevOptions) => {
     dev: {
       ...{
         client: {
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
           port: port!.toString(),
           overlay: false,
           logging: 'none',
@@ -100,7 +94,7 @@ export const dev = async (options: DevOptions) => {
       clearConsole();
       logger.log(chalk.cyan(`Starting the development server...`));
     } else {
-      await printInstructions(appContext, userConfig);
+      await printInstructions(api, appContext, userConfig);
     }
   });
 };
