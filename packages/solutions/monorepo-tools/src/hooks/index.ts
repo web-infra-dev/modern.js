@@ -1,4 +1,3 @@
-import { registerHook } from '@modern-js/core';
 import { createAsyncWorkflow } from '@modern-js/plugin';
 import type { DagOperator } from '../dag/operator';
 
@@ -10,8 +9,6 @@ const afterMonorepoDeploy = createAsyncWorkflow<
   void
 >();
 
-export const lifecycle = () => {
-  registerHook({
-    afterMonorepoDeploy,
-  });
+export const hooks = {
+  afterMonorepoDeploy,
 };

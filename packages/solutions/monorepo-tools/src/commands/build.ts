@@ -1,4 +1,4 @@
-import { useAppContext } from '@modern-js/core';
+import type { PluginAPI } from '@modern-js/core';
 import { getMonorepoBaseData } from '../parse-config/monorepo';
 import { runBuildTask, runAllBuildTask } from '../features/build';
 import { getProjects } from '../projects/get-projects';
@@ -18,9 +18,9 @@ export interface IBuildCommandOption {
 export const build = async (
   targetProjectName: string,
   option: IBuildCommandOption,
+  api: PluginAPI,
 ) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { appDirectory } = useAppContext();
+  const { appDirectory } = api.useAppContext();
   const {
     self = true,
     dept = false,

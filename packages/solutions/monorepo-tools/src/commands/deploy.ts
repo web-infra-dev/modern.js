@@ -1,5 +1,5 @@
-import { useAppContext, mountHook } from '@modern-js/core';
 import { logger } from '@modern-js/utils';
+import type { PluginAPI } from '@modern-js/core';
 import { initDAG } from '../dag';
 import { getMonorepoBaseData } from '../parse-config/monorepo';
 import { getProjects } from '../projects/get-projects';
@@ -10,13 +10,13 @@ export interface IDeployCommandOption {
 }
 
 export const deploy = async (
+  api: PluginAPI,
   deployProjectNames: string[],
   option: IDeployCommandOption,
   ignoreMatchs: string[] = [],
 ) => {
   const { deployPath = 'output' } = option;
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { appDirectory } = useAppContext();
+  const { appDirectory } = api.useAppContext();
   logger.info(`start deploy ${deployProjectNames.join(',')}`);
   const projects = await getProjects(
     {
@@ -34,5 +34,6 @@ export const deploy = async (
     deployPath,
   });
 
-  mountHook().afterMonorepoDeploy({ operator, deployProjectNames });
+  const runners = api.useHookRunners();
+  runners.afterMonorepoDeploy({ operator, deployProjectNames });
 };
