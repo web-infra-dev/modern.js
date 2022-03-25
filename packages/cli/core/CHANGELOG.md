@@ -1,5 +1,25 @@
 # @modern-js/core
 
+## 1.5.0
+
+### Minor Changes
+
+- 80d8ddfe: feat: add `CliPlugin` type to define new plugin
+
+### Patch Changes
+
+- 80d3cfb7: fix: server.metrics type
+- 42c6b136: feat: support api.setAppContext
+- 4e7dcbd5: fix: server.logger type
+- 9e8bc4ab: fix: server.routes type
+- 0c556e59: fix: tools.less type
+- 2008fdbd: convert two packages server part, support server load plugin itself
+- Updated dependencies [5bf5868d]
+- Updated dependencies [80d8ddfe]
+- Updated dependencies [491145e3]
+  - @modern-js/utils@1.3.5
+  - @modern-js/plugin@1.3.0
+
 ## 1.4.6
 
 ### Patch Changes
