@@ -53,6 +53,7 @@
     "prepare": "pnpm build",
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
+    "dev": "modern build --watch",
     "build": "modern build",
     "test": "jest --passWithNoTests"
   },
@@ -77,17 +78,9 @@
     "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.4.4",
     "tailwindcss": "^2.0.4"
   },
   "sideEffects": false,
-  "modernConfig": {
-    "output": {
-      "packageFields": {
-        "main": "CJS+ES6"
-      }
-    }
-  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",

@@ -1,26 +1,26 @@
-import { Import, PLUGIN_SCHEMAS } from '@modern-js/utils';
+import { PLUGIN_SCHEMAS } from '@modern-js/utils';
+import DesignTokenPlugin from '@modern-js/plugin-design-token/cli';
+import type { CliPlugin } from '@modern-js/core';
 import { getTailwindConfig } from './tailwind';
 
-const core: typeof import('@modern-js/core') = Import.lazy(
-  '@modern-js/core',
-  require,
-);
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-tailwindcss',
 
-// support designSystem.supportStyledComponents
-core.usePlugins([require.resolve('@modern-js/plugin-design-token/cli')]);
+  // support designSystem.supportStyledComponents
+  usePlugins: [DesignTokenPlugin()],
 
-export default core.createPlugin(
-  () => ({
+  setup: api => ({
     validateSchema() {
       return PLUGIN_SCHEMAS['@modern-js/plugin-tailwindcss'];
     },
+
     config() {
       return {
         tools: {
           // TODO: Add interface about postcss config
           // TODO: In module project, also is called, but should not be called.
           postcss: (config: Record<string, any>) => {
-            const modernConfig = core.useResolvedConfigContext();
+            const modernConfig = api.useResolvedConfigContext();
             const tailwindConfig = getTailwindConfig(modernConfig, {
               pureConfig: {
                 content: [
@@ -53,8 +53,9 @@ export default core.createPlugin(
         },
       };
     },
+
     moduleTailwindConfig() {
-      const modernConfig = core.useResolvedConfigContext();
+      const modernConfig = api.useResolvedConfigContext();
       const tailwindConfig = getTailwindConfig(modernConfig, {
         pureConfig: {
           content: [
@@ -76,5 +77,4 @@ export default core.createPlugin(
       return require('tailwindcss')(tailwindConfig);
     },
   }),
-  { name: '@modern-js/plugin-tailwindcss' },
-) as any;
+});
