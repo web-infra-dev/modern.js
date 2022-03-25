@@ -52,6 +52,7 @@
     "prepare": "pnpm build",
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
+    "dev": "modern build --watch",
     "build": "modern build",
     "test": "jest --passWithNoTests"
   },
@@ -84,11 +85,6 @@
     "@types/inquirer": "^8.2.0"
   },
   "sideEffects": false,
-  "modernConfig": {
-    "output": {
-      "packageMode": "node-js"
-    }
-  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",

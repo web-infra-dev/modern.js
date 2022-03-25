@@ -1,2 +1,8 @@
 /** @type {import('@modern-js/module-tools').UserConfig} */
-module.exports = {};
+module.exports = {
+  output: {
+    packageFields: {
+      main: 'CJS+ES6',
+    },
+  },
+};

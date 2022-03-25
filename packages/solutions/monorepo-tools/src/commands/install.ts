@@ -1,4 +1,4 @@
-import { useAppContext } from '@modern-js/core';
+import type { PluginAPI } from '@modern-js/core';
 import { runInstallTask } from '../features/install';
 import { getMonorepoBaseData } from '../parse-config/monorepo';
 import { getProjects } from '../projects/get-projects';
@@ -11,9 +11,9 @@ export interface IInstallCommandOption {
 export const install = async (
   projectNames: string[] = [],
   option: IInstallCommandOption,
+  api: PluginAPI,
 ) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { appDirectory } = useAppContext();
+  const { appDirectory } = api.useAppContext();
   const { auto } = option;
   const projects = await getProjects(
     { packagesMatchs: { enableAutoFinder: true } },
