@@ -1,12 +1,13 @@
 import path from 'path';
 import { createRuntimeExportsUtils, PLUGIN_SCHEMAS } from '@modern-js/utils';
-import { createPlugin, useAppContext } from '@modern-js/core';
+import type { CliPlugin } from '@modern-js/core';
 import test from './test';
 
-export default createPlugin(
-  () => {
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-testing',
+  setup: api => {
     let testingExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
-
+    const { useAppContext } = api;
     return {
       commands: ({ program }: any) => {
         program
@@ -44,5 +45,4 @@ export default createPlugin(
       },
     };
   },
-  { name: '@modern-js/plugin-testing' },
-) as any;
+});
