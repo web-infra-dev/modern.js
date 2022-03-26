@@ -4,17 +4,15 @@ import {
   createRuntimeExportsUtils,
   PLUGIN_SCHEMAS,
 } from '@modern-js/utils';
-import {
-  createPlugin,
-  useAppContext,
-  useResolvedConfigContext,
-} from '@modern-js/core';
+import type { CliPlugin } from '@modern-js/core';
 import {} from '../types';
 
 const PLUGIN_IDENTIFIER = 'state';
 
-const index = createPlugin(
-  (() => {
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-state',
+  required: ['@modern-js/runtime'],
+  setup: api => {
     const stateConfigMap = new Map<string, any>();
 
     let pluginsExportsUtils: any;
@@ -22,8 +20,7 @@ const index = createPlugin(
 
     return {
       config() {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const appContext = useAppContext();
+        const appContext = api.useAppContext();
 
         pluginsExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
@@ -40,10 +37,8 @@ const index = createPlugin(
       },
       modifyEntryImports({ entrypoint, imports }: any) {
         const { entryName } = entrypoint;
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const userConfig = useResolvedConfigContext();
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { packageName } = useAppContext();
+        const userConfig = api.useResolvedConfigContext();
+        const { packageName } = api.useAppContext();
 
         const stateConfig = getEntryOptions(
           entryName,
@@ -134,11 +129,5 @@ const index = createPlugin(
         );
       },
     };
-  }) as any,
-  {
-    name: '@modern-js/plugin-state',
-    required: ['@modern-js/runtime'],
   },
-);
-
-export default index;
+});
