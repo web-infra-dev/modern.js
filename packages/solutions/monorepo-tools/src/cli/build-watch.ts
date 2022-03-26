@@ -8,7 +8,7 @@ export const buildWatchCli = (program: Command, api: PluginAPI) => {
     .usage('[options]')
     .option('--only-self', 'build target project with nothing')
     .option('-i, --init', 'init build beforebuild watch ')
-    .description('watch target project and target project’s dependences')
+    .description('watch target project and target project’s dependencies')
     .action(
       async (targetProjectName: string, option: IBuildWatchCommandOption) => {
         await buildWatch(targetProjectName, option, api);
