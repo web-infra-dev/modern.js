@@ -1,5 +1,5 @@
 import path from 'path';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { esbuildPlugin } from '../src/plugins/esbuild';
 
 describe.only('esbuild', () => {
