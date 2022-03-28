@@ -39,7 +39,7 @@ export const useResolvedConfigContext = () => ResolvedConfigContext.use().value;
 
 export const initAppContext = (
   appDirectory: string,
-  plugins: Array<LoadedPlugin>,
+  plugins: LoadedPlugin[],
   configFile: string | false,
   options?: {
     metaName?: string;

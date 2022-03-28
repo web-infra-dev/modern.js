@@ -1,5 +1,5 @@
 {
-  "name": "deploy",
+  "name": "prod-server-pure",
   "version": "0.1.0",
   "scripts": {
     "reset": "del-cli node_modules",
