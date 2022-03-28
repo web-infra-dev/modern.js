@@ -2,7 +2,7 @@ import path from 'path';
 import { createDebugger } from '@modern-js/utils';
 import { Plugin as RollupPlugin } from 'rollup';
 import resolve from 'enhanced-resolve';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { DEFAULT_EXTENSIONS, BARE_SPECIFIER_REGEX } from '../constants';
 
 const debug = createDebugger('esm:resolve');

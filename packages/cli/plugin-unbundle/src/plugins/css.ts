@@ -8,7 +8,7 @@ import { codeFrameColumns } from '@babel/code-frame';
 import logger from 'signale';
 import type { LegacyImporterResult } from 'sass';
 import less from 'less';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import {
   getLessConfig,
   getPostcssConfig,

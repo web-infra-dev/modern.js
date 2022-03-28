@@ -10,6 +10,10 @@ export interface UnbundleDependencies {
 export const unbundleDependencies =
   createAsyncWaterfall<UnbundleDependencies>();
 
+export const hooks = {
+  unbundleDependencies,
+};
+
 declare module '@modern-js/core' {
   export interface Hooks {
     unbundleDependencies: typeof unbundleDependencies;

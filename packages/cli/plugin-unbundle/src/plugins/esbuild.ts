@@ -2,7 +2,7 @@ import { createDebugger } from '@modern-js/utils';
 import { Plugin as RollupPlugin } from 'rollup';
 import { codeFrameColumns } from '@babel/code-frame';
 import { transform } from 'esbuild';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { isJsRequest, getEsbuildLoader } from '../utils';
 import { DEV_CLIENT_PATH, GLOBAL_CACHE_DIR_NAME } from '../constants';
 
