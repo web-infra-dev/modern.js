@@ -3,20 +3,18 @@ import {
   isTypescript,
   createRuntimeExportsUtils,
 } from '@modern-js/utils';
+import type { CliPlugin } from '@modern-js/core';
 
-const core: typeof import('@modern-js/core') = Import.lazy(
-  '@modern-js/core',
-  require,
-);
 const features: typeof import('./features') = Import.lazy(
   './features',
   require,
 );
 
-export default core.createPlugin(
-  () => ({
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-storybook',
+  setup: api => ({
     config() {
-      const appContext = core.useAppContext();
+      const appContext = api.useAppContext();
 
       const pluginsExportsUtils = createRuntimeExportsUtils(
         appContext.internalDirectory,
@@ -33,7 +31,7 @@ export default core.createPlugin(
     },
     // app-tools and module-tools `dev storybook`
     commands({ program }: any) {
-      const { appDirectory } = core.useAppContext();
+      const { appDirectory } = api.useAppContext();
       const devCommand = program.commandsMap.get('dev');
       const stories =
         program.$$libraryName === 'module-tools'
@@ -44,7 +42,7 @@ export default core.createPlugin(
           : [`./src/**/*.stories.@(js|jsx|ts|tsx|mdx)`];
       if (devCommand) {
         devCommand.command('story').action(async () => {
-          await features.runDev({
+          await features.runDev(api, {
             isTsProject: isTypescript(appDirectory),
             stories,
             isModuleTools: program.$$libraryName === 'module-tools',
@@ -52,7 +50,7 @@ export default core.createPlugin(
         });
         // Both story and storybook subcommands are supported
         devCommand.command('storybook').action(async () => {
-          await features.runDev({
+          await features.runDev(api, {
             isTsProject: isTypescript(appDirectory),
             stories,
             isModuleTools: program.$$libraryName === 'module-tools',
@@ -76,7 +74,7 @@ export default core.createPlugin(
         value: 'storybook',
         aliasValues: ['story'],
         runTask: ({ isTsProject = false }: { isTsProject: boolean }) =>
-          features.runDev({
+          features.runDev(api, {
             isTsProject,
             stories: [
               `./stories/**/*.stories.mdx`,
@@ -86,5 +84,4 @@ export default core.createPlugin(
       };
     },
   }),
-  { name: '@modern-js/plugin-storybook' },
-);
+});

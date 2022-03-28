@@ -1,11 +1,7 @@
 import { Import } from '@modern-js/utils';
-import type { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
 import { valid } from './utils/valid';
 
-const core: typeof import('@modern-js/core') = Import.lazy(
-  '@modern-js/core',
-  require,
-);
 const storybook: typeof import('@storybook/react/standalone') = Import.lazy(
   '@storybook/react/standalone',
   require,
@@ -29,13 +25,12 @@ export interface IRunDevOption {
   isModuleTools?: boolean;
 }
 
-export const runDev = async ({
-  isTsProject = false,
-  stories,
-  isModuleTools = false,
-}: IRunDevOption) => {
-  const appContext = core.useAppContext();
-  const modernConfig = core.useResolvedConfigContext();
+export const runDev = async (
+  api: PluginAPI,
+  { isTsProject = false, stories, isModuleTools = false }: IRunDevOption,
+) => {
+  const appContext = api.useAppContext();
+  const modernConfig = api.useResolvedConfigContext();
   const { appDirectory, port = constants.STORYBOOK_PORT } = appContext;
   const {
     output: { disableTsChecker = false },
