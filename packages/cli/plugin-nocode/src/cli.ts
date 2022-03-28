@@ -1,17 +1,15 @@
-import { Import, PLUGIN_SCHEMAS } from '@modern-js/utils';
+import { PLUGIN_SCHEMAS } from '@modern-js/utils';
 import { WebpackConfigTarget, getWebpackConfig } from '@modern-js/webpack';
 import type { Configuration } from 'webpack';
+import type { CliPlugin } from '@modern-js/core';
 import dev from './dev';
 import { register } from './register';
 
-const core: typeof import('@modern-js/core') = Import.lazy(
-  '@modern-js/core',
-  require,
-);
 process.env.RUN_PLATFORM = 'true';
 
-export default core.createPlugin(
-  () => ({
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-nocode',
+  setup: api => ({
     commands({ program }) {
       program
         .command('deploy [subcmd]')
@@ -28,8 +26,8 @@ export default core.createPlugin(
         });
 
       const devCommand = program.commandsMap.get('dev');
-      const { appDirectory, internalDirectory } = core.useAppContext();
-      const modernConfig = core.useResolvedConfigContext();
+      const { appDirectory, internalDirectory } = api.useAppContext();
+      const modernConfig = api.useResolvedConfigContext();
       if (devCommand) {
         devCommand.command('nocode').action(async () => {
           const webpackConfig = getWebpackConfig(
@@ -47,7 +45,7 @@ export default core.createPlugin(
     validateSchema() {
       return PLUGIN_SCHEMAS['@modern-js/plugin-nocode'];
     },
-    platformBuild({ isTsProject: _ }) {
+    platformBuild() {
       return {
         name: 'nocode',
         title: 'Run Nocode log',
@@ -64,8 +62,8 @@ export default core.createPlugin(
         }: {
           isTsProject: boolean;
         }) => {
-          const { appDirectory, internalDirectory } = core.useAppContext();
-          const modernConfig = core.useResolvedConfigContext();
+          const { appDirectory, internalDirectory } = api.useAppContext();
+          const modernConfig = api.useResolvedConfigContext();
           const webpackConfig = getWebpackConfig(
             WebpackConfigTarget.CLIENT,
           ) as Configuration;
@@ -79,5 +77,4 @@ export default core.createPlugin(
       };
     },
   }),
-  { name: '@modern-js/plugin-nocode' },
-) as any;
+});
