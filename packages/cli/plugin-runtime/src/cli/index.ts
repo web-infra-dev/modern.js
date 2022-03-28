@@ -17,7 +17,7 @@ export default (): CliPlugin => ({
     '@modern-js/plugin-state',
     '@modern-js/plugin-design-token',
   ],
-  usePlugins: [PluginState, PluginRouter, PluginSSR],
+  usePlugins: [PluginState(), PluginRouter(), PluginSSR()],
   setup: api => {
     let runtimeExportsUtils: ReturnType<typeof createRuntimeExportsUtils> =
       {} as any;
