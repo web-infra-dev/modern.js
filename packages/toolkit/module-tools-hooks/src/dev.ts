@@ -6,6 +6,10 @@ export const moduleToolsMenu = createParallelWorkflow<
   { name: string; value: string; runTask: (p: any) => void | Promise<void> }
 >();
 
+export const devHooks = {
+  moduleToolsMenu,
+};
+
 export const lifecycle = () => {
   registerHook({ moduleToolsMenu });
 };

@@ -1,3 +1,4 @@
+import { manager } from '@modern-js/core';
 import { dev } from '../src/commands/dev';
 
 const mockRunSubCmd = jest.fn();
@@ -5,11 +6,6 @@ jest.mock('../src/features/dev', () => ({
   __esModule: true,
   runSubCmd: mockRunSubCmd,
   devStorybook: jest.fn(),
-}));
-jest.mock('@modern-js/core', () => ({
-  __esModule: true,
-  useAppContext: jest.fn(() => ({ appDirectory: '' })),
-  useResolvedConfigContext: jest.fn(),
 }));
 
 jest.mock('dotenv', () => ({
@@ -32,13 +28,43 @@ describe('dev command with subCmd', () => {
     jest.clearAllMocks();
   });
   it('should call runSubCmd with storybook param', async () => {
-    await dev({ tsconfig: 'tsconfig.json' }, 'storybook');
-    expect(mockRunSubCmd.mock.calls.length).toBe(1);
-    expect(mockRunSubCmd.mock.calls[0][0]).toBe('storybook');
+    const mockAPI = {
+      useAppContext: jest.fn((): any => ({
+        existSrc: false,
+        distDirectory: '',
+        appDirectory: '',
+      })),
+      useResolvedConfigContext: jest.fn(),
+    };
+
+    const cloned = manager.clone(mockAPI);
+    cloned.usePlugin({
+      async setup(api) {
+        await dev(api, { tsconfig: 'tsconfig.json' }, 'storybook');
+        expect(mockRunSubCmd.mock.calls.length).toBe(1);
+        expect(mockRunSubCmd.mock.calls[0][1]).toBe('storybook');
+      },
+    });
+    await cloned.init();
   });
 
   it('should not call runSubCmd with nothing param', async () => {
-    await dev({ tsconfig: 'tsconfig.json' });
-    expect(mockRunSubCmd.mock.calls.length).toBe(0);
+    const mockAPI = {
+      useAppContext: jest.fn((): any => ({
+        existSrc: false,
+        distDirectory: '',
+        appDirectory: '',
+      })),
+      useResolvedConfigContext: jest.fn(),
+    };
+
+    const cloned = manager.clone(mockAPI);
+    cloned.usePlugin({
+      async setup(api) {
+        await dev(api, { tsconfig: 'tsconfig.json' });
+        expect(mockRunSubCmd.mock.calls.length).toBe(0);
+      },
+    });
+    await cloned.init();
   });
 });
