@@ -1,4 +1,5 @@
 import path from 'path';
+import { CliPlugin } from '../src';
 import { loadPlugins, getAppPlugins } from '../src/loadPlugins';
 
 describe('load plugins', () => {
@@ -33,9 +34,7 @@ describe('load plugins', () => {
       {
         cli: {
           name: 'a',
-          pluginPath: path.join(fixture, './test-plugin-a.js'),
         },
-        cliPkg: path.join(fixture, './test-plugin-a.js'),
       },
       {
         server: './test-plugin-b',
@@ -54,8 +53,8 @@ describe('load plugins', () => {
       plugins: [{ cli: ['./test-plugin-c', 'c'] }, ['./test-plugin-c', 'c2']],
     });
 
-    expect(plugins[0].cli.name).toEqual('c');
-    expect(plugins[1].cli.name).toEqual('c2');
+    expect(plugins[0].cli!.name).toEqual('c');
+    expect(plugins[1].cli!.name).toEqual('c2');
   });
 
   test('should load user string plugin successfully', () => {
@@ -72,9 +71,7 @@ describe('load plugins', () => {
       {
         cli: {
           name: 'a',
-          pluginPath: path.join(fixture, './test-plugin-a.js'),
         },
-        cliPkg: path.join(fixture, './test-plugin-a.js'),
       },
     ]);
   });
@@ -87,5 +84,33 @@ describe('load plugins', () => {
         plugins: [{ cli: './test-plugin-a' }, { cli: './plugin-b' }],
       });
     }).toThrowError(/^Can not find plugin /);
+  });
+
+  test(`should load new plugin array correctly`, () => {
+    const appDirectory = path.resolve(
+      __dirname,
+      './fixtures/load-plugin/user-plugins',
+    );
+    const plugin = (): CliPlugin => ({
+      name: 'foo',
+    });
+    const userConfig = { plugins: [plugin()] };
+    const loadedPlugins = loadPlugins(appDirectory, userConfig);
+
+    expect(loadedPlugins[0].cli?.name).toEqual('foo');
+  });
+
+  test(`should load new plugin object correctly`, () => {
+    const appDirectory = path.resolve(
+      __dirname,
+      './fixtures/load-plugin/user-plugins',
+    );
+    const plugin = (): CliPlugin => ({
+      name: 'foo',
+    });
+    const userConfig = { plugins: { cli: [plugin()] } };
+    const loadedPlugins = loadPlugins(appDirectory, userConfig);
+
+    expect(loadedPlugins[0].cli?.name).toEqual('foo');
   });
 });
