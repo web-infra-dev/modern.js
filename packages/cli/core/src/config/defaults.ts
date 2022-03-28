@@ -98,4 +98,7 @@ export const defaults = {
   dev: devDefaults,
   deploy: deployDefaults,
   tools: toolsDefaults,
+  plugins: [],
+  runtime: {},
+  runtimeByEntries: {},
 };

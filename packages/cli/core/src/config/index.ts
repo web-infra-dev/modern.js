@@ -299,7 +299,7 @@ export const resolveConfig = async (
       throw new Error(`Validate configuration error.`);
     }
   }
-  const resolved = mergeConfig([defaults as any, ...configs, userConfig]);
+  const resolved = mergeConfig([defaults, ...configs, userConfig]);
 
   resolved._raw = loaded.config;
 
