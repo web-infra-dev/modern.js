@@ -57,7 +57,6 @@ export interface IAppContext {
   internalDirectory: string;
   plugins: {
     cli?: any;
-    cliPkg?: any;
     server?: any;
     serverPkg?: any;
   }[];
