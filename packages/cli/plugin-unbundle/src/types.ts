@@ -1,10 +1,6 @@
 import '@modern-js/core';
 
 declare module '@modern-js/core' {
-  interface ServerConfig {
-    https?: boolean;
-  }
-
   interface OutputConfig {
     /**
      * disables lazy import support for styles
