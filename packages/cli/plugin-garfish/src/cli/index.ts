@@ -16,6 +16,7 @@ export type LifeCycle = CliHookCallbacks;
 
 export default ({
   runtimePluginName = '@modern-js/runtime/plugins',
+  mfPackagePath = path.resolve(__dirname, '../../../../'),
 } = {}): CliPlugin => ({
   name: '@modern-js/plugin-garfish',
   setup: ({ useAppContext, useResolvedConfigContext }) => {
@@ -130,11 +131,10 @@ export default ({
         };
       },
       addRuntimeExports() {
-        const mfPackage = path.resolve(__dirname, '../../../../');
-        const addExportStatement = `export { default as garfish, default as masterApp } from '${mfPackage}'`;
+        const addExportStatement = `export { default as garfish, default as masterApp } from '${mfPackagePath}'`;
         logger('exportStatement', addExportStatement);
         pluginsExportsUtils.addExport(addExportStatement);
-        runtimeExportsUtils.addExport(`export * from '${mfPackage}'`);
+        runtimeExportsUtils.addExport(`export * from '${mfPackagePath}'`);
       },
       modifyEntryImports({ entrypoint, imports }: any) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
