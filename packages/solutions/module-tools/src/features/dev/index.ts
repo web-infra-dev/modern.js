@@ -1,10 +1,7 @@
 import { Import } from '@modern-js/utils';
+import type { PluginAPI } from '@modern-js/core';
 import chalk from 'chalk';
 
-const core: typeof import('@modern-js/core') = Import.lazy(
-  '@modern-js/core',
-  require,
-);
 const inquirer: typeof import('inquirer') = Import.lazy('inquirer', require);
 const color: typeof import('../../utils/color') = Import.lazy(
   '../../utils/color',
@@ -18,8 +15,9 @@ export interface IDevConfig {
 
 export type DevTaskType = 'storybook' | 'docsite' | 'unknow';
 
-export const showMenu = async (config: IDevConfig) => {
-  const metas = await (core.mountHook() as any).moduleToolsMenu(undefined);
+export const showMenu = async (api: PluginAPI, config: IDevConfig) => {
+  const runners = api.useHookRunners();
+  const metas = await runners.moduleToolsMenu(undefined);
   if (metas.length <= 0) {
     console.info(
       chalk.yellow(
@@ -45,8 +43,9 @@ export const showMenu = async (config: IDevConfig) => {
   }
 };
 
-export const devStorybook = async (config: IDevConfig) => {
-  const metas = await (core.mountHook() as any).moduleToolsMenu(undefined);
+export const devStorybook = async (api: PluginAPI, config: IDevConfig) => {
+  const runners = api.useHookRunners();
+  const metas = await runners.moduleToolsMenu(undefined);
   const findStorybook = metas.find((meta: any) => meta.value === 'storybook');
   if (findStorybook) {
     await findStorybook.runTask(config);
@@ -61,8 +60,13 @@ export const devStorybook = async (config: IDevConfig) => {
   }
 };
 
-export const runSubCmd = async (subCmd: string, config: IDevConfig) => {
-  const metas = await (core.mountHook() as any).moduleToolsMenu(undefined);
+export const runSubCmd = async (
+  api: PluginAPI,
+  subCmd: string,
+  config: IDevConfig,
+) => {
+  const runners = api.useHookRunners();
+  const metas = await runners.moduleToolsMenu(undefined);
 
   const devMeta = metas.find(
     (meta: any) =>
