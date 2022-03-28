@@ -4,19 +4,17 @@ import {
   createRuntimeExportsUtils,
   PLUGIN_SCHEMAS,
 } from '@modern-js/utils';
-import {
-  useAppContext,
-  createPlugin,
-  useResolvedConfigContext,
-} from '@modern-js/core';
 import { ServerRoute } from '@modern-js/types';
+import type { CliPlugin } from '@modern-js/core';
 
 const PLUGIN_IDENTIFIER = 'router';
 
 const ROUTES_IDENTIFIER = 'routes';
 
-export default createPlugin(
-  (() => {
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-router',
+  required: ['@modern-js/runtime'],
+  setup: api => {
     const runtimeConfigMap = new Map<string, any>();
 
     let pluginsExportsUtils: any;
@@ -24,8 +22,7 @@ export default createPlugin(
 
     return {
       config() {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const appContext = useAppContext();
+        const appContext = api.useAppContext();
 
         pluginsExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
@@ -45,21 +42,19 @@ export default createPlugin(
       },
       modifyEntryImports({ entrypoint, imports }: any) {
         const { entryName, fileSystemRoutes } = entrypoint;
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const userConfig = useResolvedConfigContext();
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { packageName } = useAppContext();
+        const userConfig = api.useResolvedConfigContext();
+        const { packageName } = api.useAppContext();
 
         const runtimeConfig = getEntryOptions(
           entryName,
-          (userConfig as any).runtime,
-          (userConfig as any).runtimeByEntries,
+          userConfig.runtime,
+          userConfig.runtimeByEntries,
           packageName,
         );
 
         runtimeConfigMap.set(entryName, runtimeConfig);
 
-        if (runtimeConfig.router) {
+        if (runtimeConfig?.router) {
           imports.push({
             value: '@modern-js/runtime/plugins',
             specifiers: [{ imported: PLUGIN_IDENTIFIER }],
@@ -77,11 +72,7 @@ export default createPlugin(
       },
       modifyEntryRuntimePlugins({ entrypoint, plugins }: any) {
         const { entryName, fileSystemRoutes } = entrypoint;
-        const {
-          serverRoutes,
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-        } = useAppContext();
-
+        const { serverRoutes } = api.useAppContext();
         const runtimeConfig = runtimeConfigMap.get(entryName);
         if (runtimeConfig.router) {
           // Todo: plugin-router best to only handle manage client route.
@@ -116,9 +107,5 @@ export default createPlugin(
         );
       },
     };
-  }) as any,
-  {
-    name: '@modern-js/plugin-router',
-    required: ['@modern-js/runtime'],
   },
-);
+});
