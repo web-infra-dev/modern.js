@@ -1,6 +1,7 @@
 import * as path from 'path';
 import * as os from 'os';
 import { Import, chalk } from '@modern-js/utils';
+import type { PluginAPI } from '@modern-js/core';
 import type {
   IBuildConfig,
   IPackageModeValue,
@@ -12,10 +13,6 @@ import type { LoggerText } from './logger';
 
 const constants: typeof import('./constants') = Import.lazy(
   './constants',
-  require,
-);
-const core: typeof import('@modern-js/core') = Import.lazy(
-  '@modern-js/core',
   require,
 );
 
@@ -36,10 +33,10 @@ const updateMapper = (
   }
 };
 
-export const getCodeInitMapper = (_: IBuildConfig) => {
+export const getCodeInitMapper = (api: PluginAPI, _: IBuildConfig) => {
   const {
     output: { packageFields, packageMode },
-  } = core.useResolvedConfigContext() as ModuleToolsConfig;
+  } = api.useResolvedConfigContext() as ModuleToolsConfig;
   let initMapper: IPackageModeValue[] = [];
 
   // 如果不存在packageFields配置或者packageFields为空对象，则使用 packageMode
@@ -86,21 +83,24 @@ export const getCodeInitMapper = (_: IBuildConfig) => {
 };
 
 // 获取执行构建源码的参数
-export const getCodeMapper = ({
-  logger,
-  taskPath,
-  config,
-  initMapper,
-  srcRootDir,
-  willCompilerDirOrFile,
-}: ITaskMapper & {
-  config: IBuildConfig;
-  initMapper: IPackageModeValue[];
-  srcRootDir: string;
-  willCompilerDirOrFile: string;
-}) => {
-  const { appDirectory } = core.useAppContext();
-  const modernConfig = core.useResolvedConfigContext();
+export const getCodeMapper = (
+  api: PluginAPI,
+  {
+    logger,
+    taskPath,
+    config,
+    initMapper,
+    srcRootDir,
+    willCompilerDirOrFile,
+  }: ITaskMapper & {
+    config: IBuildConfig;
+    initMapper: IPackageModeValue[];
+    srcRootDir: string;
+    willCompilerDirOrFile: string;
+  },
+) => {
+  const { appDirectory } = api.useAppContext();
+  const modernConfig = api.useResolvedConfigContext();
   const {
     output: { enableSourceMap, jsPath = 'js', path: distDir = 'dist' },
   } = modernConfig as ModuleToolsConfig;
@@ -135,9 +135,13 @@ export const getCodeMapper = ({
 };
 
 // 获取执行生成 d.ts 的参数
-export const getDtsMapper = (config: IBuildConfig, logger: LoggerText) => {
-  const { appDirectory } = core.useAppContext();
-  const modernConfig = core.useResolvedConfigContext();
+export const getDtsMapper = (
+  api: PluginAPI,
+  config: IBuildConfig,
+  logger: LoggerText,
+) => {
+  const { appDirectory } = api.useAppContext();
+  const modernConfig = api.useResolvedConfigContext();
   const {
     output: { disableTsChecker, path: outputPath = 'dist' },
   } = modernConfig as ModuleToolsConfig;
