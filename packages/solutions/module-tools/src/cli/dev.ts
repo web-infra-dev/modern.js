@@ -1,4 +1,5 @@
 import { Import } from '@modern-js/utils';
+import type { PluginAPI } from '@modern-js/core';
 import type { Command } from 'commander';
 import type { IDevOption } from '../commands/dev';
 
@@ -8,7 +9,7 @@ const commands: typeof import('../commands') = Import.lazy(
   require,
 );
 
-export const devCli = (program: Command) => {
+export const devCli = (program: Command, api: PluginAPI) => {
   program
     .command('dev [subCmd]')
     .usage('[options]')
@@ -19,6 +20,6 @@ export const devCli = (program: Command) => {
       './tsconfig.json',
     )
     .action(async (subCmd: string, params: IDevOption) => {
-      await commands.dev(params, subCmd);
+      await commands.dev(api, params, subCmd);
     });
 };

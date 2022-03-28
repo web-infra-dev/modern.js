@@ -1,3 +1,4 @@
+import { manager } from '@modern-js/core';
 import { program } from 'commander';
 import { devCli } from '../src/cli/dev';
 
@@ -11,15 +12,48 @@ describe('dev cli subCmd', () => {
       dev: mockCommandDev,
     }));
   });
-  it('should be storybook with "dev storybook"', () => {
-    devCli(program);
-    program.parse(['', '', 'dev', 'storybook']);
-    expect(mockCommandDev.mock.calls[0][1]).toBe('storybook');
+  it('should be storybook with "dev storybook"', async () => {
+    const mockAPI = {
+      useAppContext: jest.fn((): any => ({
+        existSrc: false,
+        distDirectory: '',
+      })),
+      useResolvedConfigContext: jest.fn(),
+      useHookRunners: (): any => ({}),
+    };
+    const cloned = manager.clone(mockAPI);
+    cloned.usePlugin({
+      setup(api) {
+        devCli(program, api);
+        program.parse(['', '', 'dev', 'storybook']);
+        expect(mockCommandDev.mock.calls[0][2]).toBe('storybook');
+      },
+    });
+    await cloned.init();
   });
 
-  it('should be undefined with "dev"', () => {
-    devCli(program);
-    program.parse(['', '', 'dev']);
-    expect(mockCommandDev.mock.calls[0][1]).toBe(undefined);
+  it('should be undefined with "dev"', async () => {
+    const mockBeforeBuild = jest.fn();
+    const mockAfterBuild = jest.fn();
+    const mockAPI = {
+      useAppContext: jest.fn((): any => ({
+        existSrc: false,
+        distDirectory: '',
+      })),
+      useResolvedConfigContext: jest.fn(),
+      useHookRunners: (): any => ({
+        afterBuild: mockAfterBuild,
+        beforeBuild: mockBeforeBuild,
+      }),
+    };
+    const cloned = manager.clone(mockAPI);
+    cloned.usePlugin({
+      setup(api) {
+        devCli(program, api);
+        program.parse(['', '', 'dev']);
+        expect(mockCommandDev.mock.calls[0][2]).toBe(undefined);
+      },
+    });
+    await cloned.init();
   });
 });
