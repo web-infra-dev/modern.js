@@ -1,6 +1,8 @@
 // eslint-disable-next-line filenames/match-exported
 import path from 'path';
-import { createPlugin, registerPrefetch } from '@modern-js/runtime-core';
+import { registerPrefetch } from '@modern-js/runtime-core';
+import type { Plugin } from '@modern-js/runtime-core';
+
 import { SSRServerContext } from './serverRender/type';
 import prefetch from './prefetch';
 
@@ -8,9 +10,10 @@ export { run, useHeaders } from './hook';
 
 const registeredApps = new WeakSet();
 
-const plugin: any = () =>
-  createPlugin(
-    () => ({
+const plugin = (): Plugin => ({
+  name: '@modern-js/plugin-ssr',
+  setup: () => {
+    return {
       server: async ({ App, context }) => {
         if (!registeredApps.has(App)) {
           registerPrefetch(App, _context => prefetch(App, _context));
@@ -53,9 +56,9 @@ const plugin: any = () =>
           } as any,
         });
       },
-    }),
-    { name: '@modern-js/plugin-ssr' },
-  );
+    };
+  },
+});
 
 export default plugin;
 export * from './react';

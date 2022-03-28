@@ -7,19 +7,17 @@ import {
   createRuntimeExportsUtils,
   PLUGIN_SCHEMAS,
 } from '@modern-js/utils';
-import {
-  createPlugin,
-  useAppContext,
-  useResolvedConfigContext,
-} from '@modern-js/core';
+import type { CliPlugin } from '@modern-js/core';
 import LoadableWebpackPlugin from '@loadable/webpack-plugin';
 import type WebpackChain from 'webpack-chain';
 import type { BabelChain } from '@modern-js/babel-chain';
 
 const PLUGIN_IDENTIFIER = 'ssr';
 
-export default createPlugin(
-  (() => {
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-ssr',
+  required: ['@modern-js/runtime'],
+  setup: api => {
     const ssrConfigMap = new Map<string, any>();
 
     let pluginsExportsUtils: any;
@@ -27,9 +25,7 @@ export default createPlugin(
 
     return {
       config() {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const appContext = useAppContext();
-
+        const appContext = api.useAppContext();
         pluginsExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
           'plugins',
@@ -43,8 +39,7 @@ export default createPlugin(
           },
           tools: {
             webpack: (config: any, { chain }: { chain: WebpackChain }) => {
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const userConfig = useResolvedConfigContext();
+              const userConfig = api.useResolvedConfigContext();
               if (isUseSSRBundle(userConfig) && config.name !== 'server') {
                 chain
                   .plugin('loadable')
@@ -54,8 +49,7 @@ export default createPlugin(
               }
             },
             babel: (config: any, { chain }: { chain: BabelChain }) => {
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const userConfig = useResolvedConfigContext();
+              const userConfig = api.useResolvedConfigContext();
               if (isUseSSRBundle(userConfig)) {
                 chain
                   ?.plugin('loadable')
@@ -70,10 +64,8 @@ export default createPlugin(
       },
       modifyEntryImports({ entrypoint, imports }: any) {
         const { entryName } = entrypoint;
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const userConfig = useResolvedConfigContext();
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { packageName } = useAppContext();
+        const userConfig = api.useResolvedConfigContext();
+        const { packageName } = api.useAppContext();
 
         pluginsExportsUtils.addExport(
           `export { default as ssr } from '${ssrModulePath}'`,
@@ -81,6 +73,7 @@ export default createPlugin(
 
         // if use ssg then set ssr config to true
         const ssrConfig =
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
           Boolean((userConfig.output as any).ssg) ||
           getEntryOptions(
             entryName,
@@ -88,9 +81,7 @@ export default createPlugin(
             userConfig.server.ssrByEntries,
             packageName,
           );
-
         ssrConfigMap.set(entryName, ssrConfig);
-
         if (ssrConfig) {
           imports.push({
             value: '@modern-js/runtime/plugins',
@@ -129,9 +120,5 @@ export default createPlugin(
         return { entrypoint, exportStatement };
       },
     };
-  }) as any,
-  {
-    name: '@modern-js/plugin-ssr',
-    required: ['@modern-js/runtime'],
   },
-);
+});

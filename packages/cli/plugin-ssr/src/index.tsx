@@ -1,6 +1,6 @@
 // eslint-disable-next-line filenames/match-exported
 import ReactDOM from 'react-dom';
-import { createPlugin } from '@modern-js/runtime-core';
+import type { Plugin } from '@modern-js/runtime-core';
 import { loadableReady } from '@loadable/component';
 import { RenderLevel, SSRServerContext } from './serverRender/type';
 
@@ -30,9 +30,10 @@ const getQuery = () =>
       return res;
     }, {});
 
-const ssr: any = () =>
-  createPlugin(
-    () => ({
+const ssr = (): Plugin => ({
+  name: '@modern-js/plugin-ssr',
+  setup: () => {
+    return {
       client: async ({ App, context, rootElement }) => {
         const renderLevel = window?._SSR_DATA?.renderLevel;
 
@@ -79,9 +80,9 @@ const ssr: any = () =>
           },
         });
       },
-    }),
-    { name: '@modern-js/plugin-ssr' },
-  );
+    };
+  },
+});
 
 export default ssr;
 
