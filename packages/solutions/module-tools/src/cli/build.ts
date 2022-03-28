@@ -1,5 +1,6 @@
 import { Import } from '@modern-js/utils';
 import type { Command } from 'commander';
+import type { PluginAPI } from '@modern-js/core';
 import type { IBuildOption } from '../commands/build';
 
 const local: typeof import('../locale') = Import.lazy(
@@ -11,7 +12,7 @@ const commands: typeof import('../commands') = Import.lazy(
   require,
 );
 
-export const buildCli = (program: Command) => {
+export const buildCli = (program: Command, api: PluginAPI) => {
   // TODO: 初始化环境变量
   program
     .command('build')
@@ -34,6 +35,6 @@ export const buildCli = (program: Command) => {
     .option('--no-tsc', local.i18n.t(local.localeKeys.command.build.no_tsc))
     .option('--no-clear', local.i18n.t(local.localeKeys.command.build.no_clear))
     .action(async (subCommand: IBuildOption) => {
-      await commands.build(subCommand);
+      await commands.build(api, subCommand);
     });
 };

@@ -1,12 +1,9 @@
 import * as path from 'path';
 import { Import } from '@modern-js/utils';
+import type { PluginAPI } from '@modern-js/core';
 
 const devFeature: typeof import('../features/dev') = Import.lazy(
   '../features/dev',
-  require,
-);
-const core: typeof import('@modern-js/core') = Import.lazy(
-  '@modern-js/core',
   require,
 );
 const dotenv: typeof import('dotenv') = Import.lazy('dotenv', require);
@@ -25,10 +22,10 @@ export interface IDevOption {
 
 const existSubCmd = (subCmd: string) => subCmd.length > 0;
 
-export const dev = async (option: IDevOption, subCmd = '') => {
+export const dev = async (api: PluginAPI, option: IDevOption, subCmd = '') => {
   const { tsconfig: tsconfigName } = option;
-  const appContext = core.useAppContext();
-  const modernConfig = core.useResolvedConfigContext();
+  const appContext = api.useAppContext();
+  const modernConfig = api.useResolvedConfigContext();
   const { appDirectory } = appContext;
   const tsconfigPath = path.join(appDirectory, tsconfigName);
 
@@ -39,14 +36,14 @@ export const dev = async (option: IDevOption, subCmd = '') => {
   const isTsProject = tsConfigutils.existTsConfigFile(tsconfigPath);
 
   if (existSubCmd(subCmd)) {
-    await devFeature.runSubCmd(subCmd, { isTsProject, appDirectory });
+    await devFeature.runSubCmd(api, subCmd, { isTsProject, appDirectory });
     return;
   }
 
   // Compatible with the use of jupiter, RUN_PLATFORM is used in jupiter
   if (process.env.RUN_PLATFORM) {
-    await devFeature.showMenu({ isTsProject, appDirectory });
+    await devFeature.showMenu(api, { isTsProject, appDirectory });
   } else {
-    await devFeature.devStorybook({ isTsProject, appDirectory });
+    await devFeature.devStorybook(api, { isTsProject, appDirectory });
   }
 };
