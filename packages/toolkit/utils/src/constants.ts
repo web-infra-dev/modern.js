@@ -187,11 +187,11 @@ export const PLUGIN_SCHEMAS = {
   ],
   '@modern-js/plugin-unbundle': [
     {
-      target: 'source.disableAutoImportStyle',
+      target: 'output.disableAutoImportStyle',
       schema: { type: 'boolean' },
     },
     {
-      target: 'server.https',
+      target: 'dev.https',
       schema: { type: 'boolean' },
     },
     {

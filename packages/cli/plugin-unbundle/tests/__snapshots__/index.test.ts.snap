@@ -7,13 +7,13 @@ Array [
       "schema": Object {
         "type": "boolean",
       },
-      "target": "source.disableAutoImportStyle",
+      "target": "output.disableAutoImportStyle",
     },
     Object {
       "schema": Object {
         "type": "boolean",
       },
-      "target": "server.https",
+      "target": "dev.https",
     },
     Object {
       "schema": Object {
