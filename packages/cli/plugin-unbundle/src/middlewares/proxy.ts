@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { NextFunction, ProxyOptions } from '@modern-js/types';
 import { formatProxyOptions } from '@modern-js/utils';

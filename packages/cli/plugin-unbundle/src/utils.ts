@@ -6,7 +6,7 @@ import { Loader } from 'esbuild';
 import { Server } from '@modern-js/server';
 import logger from 'signale';
 
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import {
   CSS_REGEX,
   CSS_MODULE_REGEX,

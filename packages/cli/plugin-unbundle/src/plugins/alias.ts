@@ -4,7 +4,7 @@ import { applyOptionsChain, findExists } from '@modern-js/utils';
 import { NormalizedInputOptions, Plugin as RollupPlugin } from 'rollup';
 import alias, { Alias } from '@rollup/plugin-alias';
 import { createMatchPath, loadConfig, MatchPath } from 'tsconfig-paths';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import {
   DEV_CLIENT_PATH,
   DEV_CLIENT_PATH_ALIAS,

@@ -1,7 +1,7 @@
 import url from 'url';
 import { createDebugger } from '@modern-js/utils';
 import { Middleware } from 'koa';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 
 const debug = createDebugger('esm:history-api-fallback');
 

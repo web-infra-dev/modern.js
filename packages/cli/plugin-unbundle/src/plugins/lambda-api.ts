@@ -5,7 +5,7 @@ import {
   getLambdaDir,
   generateClient,
 } from '@modern-js/bff-utils';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { BFF_API_DIR } from '../constants';
 
 export const lambdaApiPlugin = (

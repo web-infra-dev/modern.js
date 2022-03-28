@@ -1,27 +1,25 @@
-import {
-  createPlugin,
-  useAppContext,
-  useResolvedConfigContext,
-  registerHook,
-} from '@modern-js/core';
+import type { CliPlugin } from '@modern-js/core';
 import { PLUGIN_SCHEMAS } from '@modern-js/utils';
 import { dev } from './dev';
-import * as unbundleHooks from './hooks';
+import { hooks } from './hooks';
 
 export * from './hooks';
 
-export default createPlugin(
-  () => {
-    registerHook({ ...unbundleHooks });
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-unbundle',
+
+  registerHook: hooks,
+
+  setup: api => {
     let closeDevServer: (() => Promise<void>) | undefined;
+
     return {
       validateSchema() {
         return PLUGIN_SCHEMAS['@modern-js/plugin-unbundle'];
       },
       commands({ program }) {
-        const appContext = useAppContext();
-
-        const config = useResolvedConfigContext();
+        const appContext = api.useAppContext();
+        const config = api.useResolvedConfigContext();
 
         const devCommand = program.commandsMap.get('dev');
 
@@ -36,7 +34,7 @@ export default createPlugin(
               await closeDevServer();
               closeDevServer = undefined;
             }
-            closeDevServer = await dev(config, appContext);
+            closeDevServer = await dev(api, config, appContext);
           });
         }
       },
@@ -48,8 +46,8 @@ export default createPlugin(
       },
       async htmlPartials({ entrypoint, partials }) {
         if (process.argv[2] === 'dev' && process.argv.includes('--unbundled')) {
-          const appContext = useAppContext();
-          const config = useResolvedConfigContext();
+          const appContext = api.useAppContext();
+          const config = api.useResolvedConfigContext();
 
           const { createHtmlPartials } = await import('./create-entry');
 
@@ -65,5 +63,4 @@ export default createPlugin(
       },
     };
   },
-  { name: '@modern-js/plugin-unbundle' },
-);
+});
