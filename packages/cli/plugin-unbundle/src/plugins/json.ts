@@ -1,6 +1,6 @@
 import { Plugin as RollupPlugin } from 'rollup';
 import { fs } from '@modern-js/utils';
-import { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/core';
 
 export const jsonPlugin = (_config: NormalizedConfig): RollupPlugin => ({
   name: 'esm-json',
