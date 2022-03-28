@@ -5,7 +5,7 @@ import logger, { Signale } from 'signale';
 import enhancedResolve from 'enhanced-resolve';
 import { Plugin as ESBuildPlugin } from 'esbuild';
 import type { Compiler } from '@modern-js/esmpack';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { UnbundleDependencies } from 'src';
 import {
   WEB_MODULES_DIR,

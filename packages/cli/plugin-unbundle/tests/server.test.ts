@@ -147,6 +147,18 @@ describe('plugin-unbundle server', () => {
     mockConfig.server = {
       port: 8080,
     };
-    await startDevServer(mockConfig, mockAppContext);
+
+    const mockUnbundleDependencies = jest.fn();
+    const mockAPI: any = {
+      useHookRunners: () => ({
+        unbundleDependencies() {
+          mockUnbundleDependencies();
+          return {};
+        },
+      }),
+    };
+
+    await startDevServer(mockAPI, mockConfig, mockAppContext);
+    expect(mockUnbundleDependencies).toHaveBeenCalled();
   });
 });

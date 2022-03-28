@@ -15,7 +15,7 @@ import {
   prettyInstructions,
   clearConsole,
 } from '@modern-js/utils';
-import { IAppContext, mountHook, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig, PluginAPI } from '@modern-js/core';
 // FIXME: 很奇怪，换了名字之后就可以编译通过了，可能 `macro` 这个名字有啥特殊的含义？
 import { macrosPlugin } from './plugins/_macro';
 import { lanuchEditorMiddleware } from './middlewares/lanuch-editor';
@@ -186,6 +186,7 @@ export const createDevServer = async (
 };
 
 export const startDevServer = async (
+  api: PluginAPI,
   userConfig: NormalizedConfig,
   appContext: IAppContext,
 ) => {
@@ -194,7 +195,8 @@ export const startDevServer = async (
   // TODO: bff
   // await setupBFFAPI(userConfig, api, port);
 
-  const dependencies = await mountHook().unbundleDependencies({
+  const hookRunners = api.useHookRunners();
+  const dependencies = await hookRunners.unbundleDependencies({
     defaultDeps: DEFAULT_DEPS,
     internalPackages: MODERN_JS_INTERNAL_PACKAGES,
     virtualDeps: VIRTUAL_DEPS_MAP,
