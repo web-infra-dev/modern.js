@@ -21,7 +21,7 @@ export const loadPlugins = (plugins: Plugin[], appDirectory: string) => {
     const isPluginInstance = typeof p !== 'string' && !Array.isArray(p);
     if (isPluginInstance) {
       return {
-        module: p,
+        module: createPlugin(p.setup, p),
       };
     }
 

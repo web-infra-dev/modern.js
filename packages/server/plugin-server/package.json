@@ -41,6 +41,19 @@
     "new": "modern new",
     "test": "jest --passWithNoTests"
   },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
+      "cli": [
+        "./dist/types/cli.d.ts"
+      ],
+      "server": [
+        "./dist/types/server.d.ts"
+      ]
+    }
+  },
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/babel-compiler": "workspace:^1.2.1",
