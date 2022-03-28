@@ -31,6 +31,13 @@ export const moduleTailwindConfig = createAsyncPipeline<
   any
 >();
 
+export const buildHooks = {
+  platformBuild,
+  moduleLessConfig,
+  moduleSassConfig,
+  moduleTailwindConfig,
+};
+
 export const lifecycle = () => {
   registerHook({
     moduleLessConfig,
