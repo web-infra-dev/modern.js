@@ -1,13 +1,11 @@
 import { logger, chalk } from '@modern-js/utils';
-import { useAppContext, useResolvedConfigContext } from '@modern-js/core';
+import type { PluginAPI } from '@modern-js/core';
 import server from '@modern-js/prod-server';
 import { printInstructions } from '../utils/printInstructions';
 
-export const start = async () => {
-  /* eslint-disable react-hooks/rules-of-hooks */
-  const appContext = useAppContext();
-  const userConfig = useResolvedConfigContext();
-  /* eslint-enable react-hooks/rules-of-hooks */
+export const start = async (api: PluginAPI) => {
+  const appContext = api.useAppContext();
+  const userConfig = api.useResolvedConfigContext();
 
   const { appDirectory, port } = appContext;
 
@@ -25,6 +23,6 @@ export const start = async () => {
     if (err) {
       throw err;
     }
-    await printInstructions(appContext, userConfig);
+    await printInstructions(api, appContext, userConfig);
   });
 };
