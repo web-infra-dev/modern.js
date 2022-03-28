@@ -29,11 +29,13 @@ type OldPluginConfig = Array<
     }
 >;
 
-type NewPluginConfig = {
-  cli?: CliPlugin[];
-  /** Custom server plugin is not supported yet. */
-  server?: never;
-};
+type NewPluginConfig =
+  | CliPlugin[]
+  | {
+      cli?: CliPlugin[];
+      /** Custom server plugin is not supported yet. */
+      server?: never;
+    };
 
 export type PluginConfig = OldPluginConfig | NewPluginConfig;
 
@@ -92,6 +94,15 @@ const resolveCliPlugin = (p: PluginItem, appDirectory: string): CliPlugin => {
   return module;
 };
 
+const isOldPluginConfig = (config?: PluginConfig): config is OldPluginConfig =>
+  Array.isArray(config) &&
+  config.some(item => {
+    if (typeof item === 'string' || Array.isArray(item)) {
+      return true;
+    }
+    return 'cli' in item || 'server' in item;
+  });
+
 /**
  * Load internal plugins which in @modern-js scope and user's custom plugins.
  * @param appDirectory - Application root directory.
@@ -109,7 +120,7 @@ export const loadPlugins = (
   const pluginConfig = userConfig.plugins;
   const plugins = getAppPlugins(
     appDirectory,
-    Array.isArray(pluginConfig) ? pluginConfig : [],
+    isOldPluginConfig(pluginConfig) ? pluginConfig : [],
     options.internalPlugins,
   );
 
@@ -140,12 +151,18 @@ export const loadPlugins = (
     return loadedPlugin;
   });
 
-  if (!Array.isArray(pluginConfig) && pluginConfig?.cli?.length) {
-    loadedPlugins.push(
-      ...pluginConfig.cli.map(item => ({
-        cli: createPlugin(item.setup, item),
-      })),
-    );
+  if (!isOldPluginConfig(pluginConfig)) {
+    const cliPlugins = Array.isArray(pluginConfig)
+      ? pluginConfig
+      : pluginConfig?.cli;
+
+    if (cliPlugins?.length) {
+      loadedPlugins.push(
+        ...cliPlugins.map(item => ({
+          cli: createPlugin(item.setup, item),
+        })),
+      );
+    }
   }
 
   return loadedPlugins;

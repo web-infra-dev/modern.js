@@ -86,7 +86,21 @@ describe('load plugins', () => {
     }).toThrowError(/^Can not find plugin /);
   });
 
-  test(`should load new plugin correctly`, () => {
+  test(`should load new plugin array correctly`, () => {
+    const appDirectory = path.resolve(
+      __dirname,
+      './fixtures/load-plugin/user-plugins',
+    );
+    const plugin = (): CliPlugin => ({
+      name: 'foo',
+    });
+    const userConfig = { plugins: [plugin()] };
+    const loadedPlugins = loadPlugins(appDirectory, userConfig);
+
+    expect(loadedPlugins[0].cli?.name).toEqual('foo');
+  });
+
+  test(`should load new plugin object correctly`, () => {
     const appDirectory = path.resolve(
       __dirname,
       './fixtures/load-plugin/user-plugins',
