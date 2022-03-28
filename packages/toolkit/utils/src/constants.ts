@@ -191,10 +191,6 @@ export const PLUGIN_SCHEMAS = {
       schema: { type: 'boolean' },
     },
     {
-      target: 'dev.https',
-      schema: { type: 'boolean' },
-    },
-    {
       target: 'dev.unbundle',
       schema: {
         type: 'object',

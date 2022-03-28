@@ -11,12 +11,6 @@ Array [
     },
     Object {
       "schema": Object {
-        "type": "boolean",
-      },
-      "target": "dev.https",
-    },
-    Object {
-      "schema": Object {
         "properties": Object {
           "clearPdnCache": Object {
             "type": "boolean",
