@@ -2,8 +2,8 @@ import * as path from 'path';
 import fs from 'fs';
 import cp from 'child_process';
 import { Application } from 'egg';
-import { createPlugin } from '@modern-js/server-core';
 import { createTsHelperInstance } from 'egg-ts-helper';
+import type { ServerPlugin } from '@modern-js/server-core';
 import { registerMiddleware, registerRoutes } from './utils';
 
 interface FrameConfig {
@@ -154,8 +154,10 @@ const initEggConfig = (app: Application) => {
   };
 };
 
-export default createPlugin(
-  () => ({
+export default (): ServerPlugin => ({
+  name: '@modern-js/plugin-egg',
+  pre: ['@modern-js/plugin-bff'],
+  setup: () => ({
     async prepareApiServer({ pwd, mode, config, prefix }) {
       const apiDir = path.join(pwd, API_DIR);
 
@@ -238,10 +240,6 @@ export default createPlugin(
       };
     },
   }),
-  {
-    name: '@modern-js/plugin-egg',
-    pre: ['@modern-js/plugin-bff'],
-  },
-) as any;
+});
 
 export { default as egg } from 'egg';
