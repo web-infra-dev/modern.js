@@ -1,6 +1,6 @@
 import path from 'path';
 import { Import, fs } from '@modern-js/utils';
-import type { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
 import type { IBuildConfig } from '../../types';
 
 const buildFeature: typeof import('./build') = Import.lazy('./build', require);
@@ -14,6 +14,7 @@ const buildWatchFeature: typeof import('./build-watch') = Import.lazy(
 // );
 
 export const build = async (
+  api: PluginAPI,
   config: IBuildConfig,
   modernConfig: NormalizedConfig,
 ) => {
@@ -23,12 +24,16 @@ export const build = async (
   } = modernConfig;
   // TODO: maybe need watch mode in build platform
   if (typeof platform === 'boolean' && platform) {
-    // await bp.buildPlatform({ platform: 'all', isTsProject });
+    if (process.env.RUN_PLATFORM) {
+      await bp.buildPlatform(api, { platform: 'all', isTsProject });
+    }
     return;
   }
 
   if (typeof platform === 'string') {
-    // await bp.buildPlatform({ platform, isTsProject });
+    if (process.env.RUN_PLATFORM) {
+      await bp.buildPlatform(api, { platform, isTsProject });
+    }
     return;
   }
 
@@ -37,8 +42,8 @@ export const build = async (
   }
 
   if (enableWatchMode) {
-    await buildWatchFeature.buildInWatchMode(config, modernConfig);
+    await buildWatchFeature.buildInWatchMode(api, config, modernConfig);
   } else {
-    await buildFeature.buildSourceCode(config, modernConfig);
+    await buildFeature.buildSourceCode(api, config, modernConfig);
   }
 };
