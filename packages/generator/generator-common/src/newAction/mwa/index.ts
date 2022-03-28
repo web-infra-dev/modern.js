@@ -110,6 +110,7 @@ export const MWAActionFunctionsAppendTypeContent: Partial<
   [ActionFunction.SSG]: `/// <reference types='@modern-js/plugin-ssg/types' />`,
   [ActionFunction.Proxy]: `/// <reference types='@modern-js/plugin-proxy/types' />`,
   [ActionFunction.Less]: `/// <reference types='@modern-js/plugin-less/types' />`,
+  [ActionFunction.UnBundle]: `/// <reference types='@modern-js/plugin-unbundle/types' />`,
 };
 
 export const MWANewActionGenerators: Record<
