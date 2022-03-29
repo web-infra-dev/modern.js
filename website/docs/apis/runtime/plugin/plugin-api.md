@@ -2,9 +2,26 @@
 sidebar_position: 5
 ---
 
-# Context API
+# Plugin API
 
-插件中基于【[上下文共享机制](/docs/apis/runtime/plugin/context)】提供了用于获取配置和应用执行上下文的 API。
+插件的 setup 函数会接收一个 api 入参，你可以调用 api 上提供的一些方法来获取到配置、应用上下文等信息。
+
+```ts
+import type { CliPlugin } from '@modern-js/core';
+
+export default (): CliPlugin => ({
+  name: 'my-plugin',
+
+  setup(api) {
+    // 获取应用原始配置
+    const config = api.useConfigContext();
+    // 获取应用运行上下文
+    const appContext = api.useAppContext();
+    // 获取解析之后的最终配置
+    const resovledConfig = api.useResolvedConfigContext();
+  },
+});
+```
 
 ## API
 
@@ -81,41 +98,20 @@ interface NormalizedConfig {
 
 具体配置字段的意义请参考【[配置](/docs/apis/config/source/alias)】。
 
-## 使用示例
+### useHookRunners
+
+用于获取 Hooks 的执行器，并触发特定的 Hook 执行。
 
 ```ts
-import { createPlugin, useAppContext, useResolvedConfigContext } from '@modern-js/core'
+import type { CliPlugin } from '@modern-js/core';
 
-export default createPlugin(() => {
-  return {
-    prepare() {
-      const sourceConfig = useConfigContext()
-      const finalConfig = useResolvedConfigContext()
-      const context = useAppContext()
+export default (): CliPlugin => ({
+  name: 'my-plugin',
 
-      /** do something */
-    },
-  }
-})
+  async setup(api) {
+    const hookRunners = api.useHookRunners();
+    // 触发 afterBuild Hook
+    await hookRunners.afterBuild();
+  },
+});
 ```
-
-:::tip 提示
-【[如何编写插件](/docs/guides/features/custom/framework-plugin/implement)】
-:::
-
-:::note 注
-需要注意的是，上面提到的函数只能在 Hook 函数中使用，即只能在下面示例中的 **C 位置**使用。
-
-```ts
-/** A */
-export default createPlugin(() => {
-  /** B */
-  return {
-    prepare() {
-      /** C */
-    },
-  }
-})
-```
-
-:::
