@@ -4,7 +4,9 @@ sidebar_position: 4
 
 # 扩展插件 Hook
 
-这一部分主要是通过【[动态注册 Hook 模型](/docs/apis/runtime/plugin/manager#动态注册-hook-模型)】的方式来扩展。
+本章节介绍如何通过【[动态注册 Hook 模型](/docs/apis/runtime/plugin/manager#动态注册-hook-模型)】的方式来扩展插件 Hook。
+
+## 示例
 
 这里我们用一个简单的例子演示一下。假设我们要添加一些管理控制台输出信息的 Hook。
 
@@ -13,6 +15,8 @@ sidebar_position: 4
 ```console
 $ npx @modern-js/create modern-js-demo
 ```
+
+### 创建 Hook
 
 我们先创建一个 Hook 模型：
 
@@ -45,6 +49,8 @@ declare module '@modern-js/core' {
   }
 }
 ```
+
+### 使用 Hook
 
 创建插件，通过 `commands` Hook 函数，添加命令处理逻辑：
 
