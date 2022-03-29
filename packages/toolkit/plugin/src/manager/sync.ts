@@ -173,7 +173,7 @@ export const createManager = <
           const options = plugin();
           addPlugin(createPlugin(options.setup, options));
         }
-        // plain plugin options
+        // plain plugin options with `setup` param
         else if (plugin.setup) {
           addPlugin(createPlugin(plugin.setup, plugin));
         }
