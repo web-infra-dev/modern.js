@@ -11,17 +11,17 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 25
 
       - name: Install Pnpm
-        uses: pnpm/action-setup@v2.0.1
+        uses: pnpm/action-setup@v2.2.1
         with:
           version: latest
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'pnpm'
@@ -33,7 +33,7 @@ jobs:
         run: cd website && npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.1
+        uses: JamesIves/github-pages-deploy-action@4.2.5
         with:
           branch: gh-pages
           folder: website/dist
