@@ -63,12 +63,12 @@ export type APIServerStartInput = {
 };
 const prepareApiServer = createAsyncPipeline<APIServerStartInput, Adapter>();
 
-const preDevServerInit = createParallelWorkflow<NormalizedConfig, any>();
+const beforeDevServer = createParallelWorkflow<NormalizedConfig, any>();
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 const setupCompiler = createParallelWorkflow<{}, any[]>();
 
-const postDevServerInit = createParallelWorkflow<NormalizedConfig, any>();
+const afterDevServer = createParallelWorkflow<NormalizedConfig, any>();
 
 // TODO FIXME
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -171,9 +171,9 @@ const serverHooks = {
   create,
   prepareWebServer,
   prepareApiServer,
-  preDevServerInit,
+  beforeDevServer,
   setupCompiler,
-  postDevServerInit,
+  afterDevServer,
   beforeRouteSet,
   afterRouteSet,
   preServerInit,
