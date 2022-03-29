@@ -1,6 +1,7 @@
 import Chain from 'webpack-chain';
 import { getPostcssConfig } from '@modern-js/css-config';
 import { NormalizedConfig } from '@modern-js/core';
+import { isProd } from '@modern-js/utils';
 
 interface CSSLoaderOptions {
   modules?:
@@ -32,18 +33,29 @@ export const createCSSRule = (
   options: CSSLoaderOptions,
 ) => {
   const postcssOptions = getPostcssConfig(appDirectory, config);
+  const {
+    output: { disableCssExtract = false },
+  } = config;
 
   const loaders = chain.module.rule('loaders');
+  const isExtractCSS = !disableCssExtract && isProd();
 
   loaders
     .oneOf(name)
     .test(test)
-    .use('mini-css-extract')
-    .loader(require('mini-css-extract-plugin').loader)
-    .options(
-      chain.output.get('publicPath') === './' ? { publicPath: '../../' } : {},
-    )
-    .end()
+    .when(isExtractCSS, c => {
+      c.use('mini-css-extract')
+        .loader(require('mini-css-extract-plugin').loader)
+        .options(
+          chain.output.get('publicPath') === './'
+            ? { publicPath: '../../' }
+            : {},
+        )
+        .end();
+    })
+    .when(!isExtractCSS, c => {
+      c.use('style-loader').loader(require.resolve('style-loader')).end();
+    })
     .when(Boolean(genTSD), c => {
       c.use('css-modules-typescript')
         .loader(require.resolve('css-modules-typescript-loader'))
