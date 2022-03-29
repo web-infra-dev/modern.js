@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 const { jsExtensions } = require('./utils');
 
 module.exports = {
@@ -165,7 +166,21 @@ module.exports = {
             leadingUnderscore: 'allowSingleOrDouble',
             trailingUnderscore: 'allowSingleOrDouble',
           },
-
+          // https://typescript-eslint.io/rules/naming-convention/#ignore-properties-that-require-quotes
+          {
+            selector: [
+              'classProperty',
+              'objectLiteralProperty',
+              'typeProperty',
+              'classMethod',
+              'objectLiteralMethod',
+              'typeMethod',
+              'accessor',
+              'enumMember',
+            ],
+            format: null,
+            modifiers: ['requiresQuotes'],
+          },
           {
             selector: 'variable',
             format: ['camelCase', 'PascalCase', 'UPPER_CASE', 'snake_case'],
@@ -403,3 +418,4 @@ module.exports = {
     },
   ],
 };
+/* eslint-enable max-lines */
