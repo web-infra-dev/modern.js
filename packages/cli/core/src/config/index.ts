@@ -134,6 +134,13 @@ interface DeployConfig {
 type ConfigFunction =
   | Record<string, unknown>
   | ((config: Record<string, unknown>) => Record<string, unknown> | void);
+
+type DevServerConfig = {
+  headers: Record<string, string>;
+  onBeforeSetupMiddleware: any;
+  onAfterSetupMiddleware: any;
+  [propsName: string]: any;
+};
 interface ToolsConfig {
   webpack?: ConfigFunction;
   babel?: ConfigFunction;
@@ -141,7 +148,7 @@ interface ToolsConfig {
   postcss?: ConfigFunction;
   styledComponents?: ConfigFunction;
   lodash?: ConfigFunction;
-  devServer?: Record<string, unknown>;
+  devServer?: DevServerConfig;
   tsLoader?: ConfigFunction;
   terser?: ConfigFunction;
   minifyCss?: ConfigFunction;
