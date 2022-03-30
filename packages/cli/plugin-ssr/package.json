@@ -93,8 +93,6 @@
     "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.4.3",
-    "@modern-js/runtime-core": "workspace:^1.2.3",
     "@loadable/component": "^5.15.0",
     "@types/loadable__component": "^5.13.4"
   },

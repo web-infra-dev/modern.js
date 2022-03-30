@@ -45,9 +45,6 @@
     "cos-nodejs-sdk-v5": "^2.10.10",
     "mime-types": "^2.1.34"
   },
-  "peerDependencies": {
-    "@modern-js/core": "workspace:^1.4.4"
-  },
   "devDependencies": {
     "@babel/runtime": "^7",
     "@scripts/build": "workspace:*",
