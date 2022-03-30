@@ -53,7 +53,7 @@ export default defineConfig({
 使用本地代码仓库中的插件，直接通过相对路径 import 引入即可。
 
 ```ts title="modern.config.ts"
-import MyPlguin from './config/plugin/MyPlugin';
+import MyPlugin from './config/plugin/MyPlugin';
 
 export default defineConfig({
   plugins: [MyPlugin()],
