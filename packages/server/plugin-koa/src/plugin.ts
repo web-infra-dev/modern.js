@@ -3,9 +3,9 @@ import Koa, { Middleware } from 'koa';
 import type Application from 'koa';
 import Router from 'koa-router';
 import koaBody from 'koa-body';
-import { createPlugin } from '@modern-js/server-core';
 import { requireModule } from '@modern-js/bff-utils';
 import { fs } from '@modern-js/utils';
+import type { ServerPlugin } from '@modern-js/server-core';
 import { run } from './context';
 import registerRoutes from './registerRoutes';
 
@@ -41,9 +41,10 @@ const initMiddlewares = (
 
 export type Mode = 'function' | 'framework';
 
-export default createPlugin(
-  () => ({
-    // eslint-disable-next-line max-statements
+export default (): ServerPlugin => ({
+  name: '@modern-js/plugin-koa',
+  pre: ['@modern-js/plugin-bff'],
+  setup: () => ({
     async prepareApiServer({ pwd, mode, config, prefix }) {
       let app: Application;
       const router = new Router();
@@ -121,8 +122,4 @@ export default createPlugin(
       };
     },
   }),
-  {
-    name: '@modern-js/plugin-koa',
-    pre: ['@modern-js/plugin-bff'],
-  },
-) as any;
+});
