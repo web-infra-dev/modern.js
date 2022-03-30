@@ -62,7 +62,7 @@ export type RouterConfig = Partial<HistoryConfig> & {
 // todo: check
 const isBrowser = () => typeof window !== 'undefined';
 
-export const routerPlugin: any = ({
+export const routerPlugin = ({
   serverBase = [],
   history: customHistory,
   supportHtml5History = true,
@@ -74,7 +74,7 @@ export const routerPlugin: any = ({
   const select = (pathname: string) =>
     serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
   return {
-    name: 'foo',
+    name: '@modern-js/plugin-router',
     setup: () => {
       return {
         hoc: ({ App }, next) => {
