@@ -76,7 +76,7 @@ export function getRuntimeConfig(config: Partial<NormalizedConfig>) {
   if (config?.runtime?.features) {
     return config?.runtime?.features;
   }
-  return config?.runtime;
+  return config?.runtime || {};
 }
 
 // support legacy config
