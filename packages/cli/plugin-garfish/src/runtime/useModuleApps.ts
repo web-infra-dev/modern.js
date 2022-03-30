@@ -13,7 +13,7 @@ export type ModulesInfo = Array<ModuleInfo>;
 export type Manifest = {
   modules?: ModulesInfo;
   loadable?: LoadableConfig;
-  getAppList?: () => Promise<Array<GarfishInterfaces.AppInfo>>;
+  getAppList?: (info: any) => Promise<Array<GarfishInterfaces.AppInfo>>;
 };
 
 export type LoadingComponent = React.ComponentType<{
