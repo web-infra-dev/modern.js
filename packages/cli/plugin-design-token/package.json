@@ -68,8 +68,6 @@
   },
   "sideEffects": false,
   "peerDependencies": {
-    "@modern-js/runtime-core": "workspace:^1.2.3",
-    "@modern-js/core": "workspace:^1.4.2",
     "react": "^17.0.2"
   },
   "publishConfig": {
