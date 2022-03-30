@@ -25,7 +25,53 @@ export default defineConfig({
   }
 });
 ```
+
 :::tip 提示
-为了方便接入，Modern.js 大部分配置与 Webpack DevServer 保持一致。
+为了方便接入，Modern.js 大部分配置与 Webpack DevServer 保持一致，部分配置仍有差异。
 :::
 
+## 配置差异
+
+### onBeforeSetupMiddleware
+
+:::info 实验性的
+这是一个实验性功能。
+:::
+
+* 类型： `Array`
+* 默认值： `null`
+
+在所有开发环境中间件前执行：
+
+```javascript
+devServer: {
+  onBeforeSetupMiddleware: [
+    async (ctx, next) => {
+      console.log('before dev middleware');
+      next();
+    },
+  ],
+},
+```
+
+### onAfterSetupMiddleware
+
+:::info 实验性的
+这是一个实验性功能。
+:::
+
+* 类型： `Array`
+* 默认值： `null`
+
+在所有开发环境中间件后执行：
+
+```javascript
+devServer: {
+  onAfterSetupMiddleware: [
+    async (ctx, next) => {
+      console.log('after dev middleware');
+      next();
+    },
+  ],
+},
+```
