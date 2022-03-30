@@ -2,10 +2,10 @@ import * as path from 'path';
 import express, { RequestHandler, Express } from 'express';
 import type { Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
-import { createPlugin } from '@modern-js/server-core';
 import { requireModule } from '@modern-js/bff-utils';
 import { fs, createDebugger } from '@modern-js/utils';
 import finalhandler from 'finalhandler';
+import type { ServerPlugin } from '@modern-js/server-core';
 import { run } from './context';
 import registerRoutes from './registerRoutes';
 
@@ -57,9 +57,10 @@ const initApp = (app: express.Express) => {
   return app;
 };
 
-export default createPlugin(
-  () => ({
-    // eslint-disable-next-line max-statements
+export default (): ServerPlugin => ({
+  name: '@modern-js/plugin-express',
+  pre: ['@modern-js/plugin-bff'],
+  setup: () => ({
     async prepareApiServer({ pwd, mode, config }) {
       let app: Express;
       const apiDir = path.join(pwd, './api');
@@ -150,8 +151,4 @@ export default createPlugin(
         });
     },
   }),
-  {
-    name: '@modern-js/plugin-express',
-    pre: ['@modern-js/plugin-bff'],
-  },
-) as any;
+});
