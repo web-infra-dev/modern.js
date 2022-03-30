@@ -61,9 +61,7 @@
   },
   "peerDependencies": {
     "react": ">=16.8",
-    "react-dom": ">=16.8",
-    "@modern-js/core": "workspace:^1.4.6",
-    "@modern-js/runtime-core": "workspace:^1.2.2"
+    "react-dom": ">=16.8"
   },
   "dependencies": {
     "@babel/runtime": "^7",

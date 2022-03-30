@@ -67,9 +67,6 @@
     "jest": "^27",
     "@scripts/jest-config": "workspace:*"
   },
-  "peerDependencies": {
-    "@modern-js/core": "workspace:^1.3.2"
-  },
   "sideEffects": false,
   "modernConfig": {
     "output": {
