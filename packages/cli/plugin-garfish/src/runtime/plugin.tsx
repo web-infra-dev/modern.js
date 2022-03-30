@@ -1,5 +1,5 @@
-import type { Plugin } from '@modern-js/runtime-core';
 import React from 'react';
+import type { Plugin } from '@modern-js/runtime-core';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { merge } from 'lodash';
 import { logger } from '../util';
