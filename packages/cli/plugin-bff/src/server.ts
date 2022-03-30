@@ -1,7 +1,7 @@
 import path from 'path';
-import { createPlugin, useAppContext } from '@modern-js/server-core';
 import { injectAPIHandlerInfos } from '@modern-js/bff-utils';
 import { API_DIR, isProd, requireExistModule } from '@modern-js/utils';
+import type { ServerPlugin } from '@modern-js/server-core';
 import { API_APP_NAME } from './constants';
 
 type SF = (args: any) => void;
@@ -19,9 +19,10 @@ const createTransformAPI = (storage: Storage) => ({
   },
 });
 
-export default createPlugin(
-  () => {
-    const { appDirectory, distDirectory } = useAppContext();
+export default (): ServerPlugin => ({
+  name: '@modern-js/plugin-bff',
+  setup: api => {
+    const { appDirectory, distDirectory } = api.useAppContext();
 
     const root = isProd() ? distDirectory : appDirectory;
 
@@ -35,7 +36,6 @@ export default createPlugin(
     if (apiMod && typeof apiMod === 'function') {
       apiMod(transformAPI);
     }
-
     return {
       reset() {
         storage.reset();
@@ -59,5 +59,4 @@ export default createPlugin(
       },
     };
   },
-  { name: '@modern-js/plugin-bff' },
-) as any;
+});
