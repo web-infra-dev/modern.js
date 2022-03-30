@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Plugin } from '@modern-js/runtime-core';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { merge } from 'lodash';
 import { logger } from '../util';
 import { GarfishProvider } from './utils/Context';
 import setExternal from './utils/setExternal';
@@ -51,13 +50,13 @@ async function initOptions(manifest: Manifest = {}, options: Options) {
 }
 
 // export default GarfishPlugin;
-export default (defaultConfig: Partial<Config>): Plugin => ({
+export default (config: Config): Plugin => ({
   name: '@modern-js/garfish-plugin',
-  setup: (config: Config) => {
+  setup: () => {
     setExternal();
 
-    const { manifest, ...options } = merge(defaultConfig, config);
-    logger('createPlugin', { config });
+    const { manifest, ...options } = config;
+    logger('createPlugin', config);
     const promise = initOptions(manifest, options);
     return {
       hoc({ App }, next) {
