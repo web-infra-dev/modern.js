@@ -40,7 +40,6 @@
     "test": "jest --passWithNoTests"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^1.3.2",
     "webpack": "^5.54.0"
   },
   "dependencies": {

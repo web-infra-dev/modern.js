@@ -146,7 +146,6 @@
   },
   "peerDependencies": {
     "@modern-js/bff-utils": "workspace:^1.2.1",
-    "@modern-js/core": "workspace:^1.4.6",
     "typescript": "^4"
   },
   "publishConfig": {

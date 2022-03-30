@@ -63,9 +63,6 @@
     "webpack": "^5.65.0",
     "webpack-sources": "^3.2.2"
   },
-  "peerDependencies": {
-    "@modern-js/core": "workspace:^1.4.4"
-  },
   "devDependencies": {
     "@scripts/build": "workspace:*",
     "@modern-js/core": "workspace:^1.4.4",
