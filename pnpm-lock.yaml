@@ -5289,6 +5289,39 @@ importers:
       del-cli: 4.0.1
       typescript: 4.5.4
 
+  tests/integration/plugin-testing-bff:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.2.0
+      '@modern-js/plugin-bff': workspace:^1.2.1
+      '@modern-js/plugin-express': workspace:^1.2.0
+      '@modern-js/plugin-jarvis': workspace:^1.1.1
+      '@modern-js/plugin-testing': workspace:^1.2.2
+      '@modern-js/runtime': workspace:^1.1.3
+      '@types/jest': ^26.0.9
+      '@types/node': ^14
+      '@types/react': ^17
+      '@types/react-dom': ^17
+      del-cli: ^4.0.1
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      '@modern-js/plugin-bff': link:../../../packages/cli/plugin-bff
+      '@modern-js/plugin-express': link:../../../packages/server/plugin-express
+      '@modern-js/runtime': link:../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/app-tools': link:../../../packages/solutions/app-tools
+      '@modern-js/plugin-jarvis': link:../../../packages/cli/plugin-jarvis
+      '@modern-js/plugin-testing': link:../../../packages/cli/plugin-testing
+      '@types/jest': 26.0.24
+      '@types/node': 14.18.4
+      '@types/react': 17.0.38
+      '@types/react-dom': 17.0.11
+      del-cli: 4.0.1
+      typescript: 4.5.4
+
   tests/integration/runtime:
     specifiers: {}
 

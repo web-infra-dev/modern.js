@@ -1,5 +1,5 @@
 {
-  "name": "plugin-testing-app",
+  "name": "testing-app",
   "version": "0.1.0",
   "scripts": {
     "reset": "del-cli node_modules",
@@ -25,11 +25,5 @@
     "@types/node": "^14",
     "@modern-js/plugin-testing": "workspace:^1.2.2",
     "@types/jest": "^26.0.9"
-  },
-  "modernConfig": {
-    "runtime": {
-      "router": true,
-      "state": true
-    }
   }
 }
