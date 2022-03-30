@@ -45,9 +45,6 @@
     "js-yaml": "^4.1.0",
     "walk": "^2.3.15"
   },
-  "peerDependencies": {
-    "@modern-js/core": "workspace:^1.4.4"
-  },
   "devDependencies": {
     "@babel/runtime": "^7",
     "@scripts/build": "workspace:*",
