@@ -1,5 +1,5 @@
 export { runTest, runJest } from './runJest';
-export { createPlugin, manager } from './plugin';
 export { getModuleNameMapper } from './utils';
 export { TestConfigOperator } from './config/testConfigOperator';
+export { jestConfigHook } from './hook';
 export * from './types';
