@@ -5,7 +5,7 @@ import { ModernServerContext } from './context';
 
 export type { ProxyOptions };
 
-export const createProxyHandler = (proxyOptions: ProxyOptions) => {
+export const createProxyHandler = (proxyOptions?: ProxyOptions) => {
   if (!proxyOptions) {
     return null;
   }
