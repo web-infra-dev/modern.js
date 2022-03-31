@@ -32,7 +32,7 @@ export default defineConfig({
 
 ## 配置差异
 
-### onBeforeSetupMiddleware
+### before
 
 :::info 实验性的
 这是一个实验性功能。
@@ -45,8 +45,8 @@ export default defineConfig({
 
 ```javascript
 devServer: {
-  onBeforeSetupMiddleware: [
-    async (ctx, next) => {
+  before: [
+    async (req, res, next) => {
       console.log('before dev middleware');
       next();
     },
@@ -54,7 +54,7 @@ devServer: {
 },
 ```
 
-### onAfterSetupMiddleware
+### after
 
 :::info 实验性的
 这是一个实验性功能。
@@ -67,8 +67,8 @@ devServer: {
 
 ```javascript
 devServer: {
-  onAfterSetupMiddleware: [
-    async (ctx, next) => {
+  after: [
+    async (req, res, next) => {
       console.log('after dev middleware');
       next();
     },
