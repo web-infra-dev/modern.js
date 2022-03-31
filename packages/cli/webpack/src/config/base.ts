@@ -31,7 +31,7 @@ import {
   JS_RESOLVE_EXTENSIONS,
   CACHE_DIRECTORY,
 } from '../utils/constants';
-import { createCSSRule, disableCssExtract } from '../utils/createCSSRule';
+import { createCSSRule, enableCssExtract } from '../utils/createCSSRule';
 import { mergeRegex } from '../utils/mergeRegex';
 import { getWebpackLogging } from '../utils/getWebpackLogging';
 import { getBabelOptions } from '../utils/getBabelOptions';
@@ -471,7 +471,7 @@ class BaseWebpackConfig {
       this.chain
         .plugin('progress')
         .use(WebpackBar, [{ name: this.chain.get('name') }]);
-    if (!disableCssExtract(this.options)) {
+    if (enableCssExtract(this.options)) {
       this.chain.plugin('mini-css-extract').use(MiniCssExtractPlugin, [
         {
           filename: this.cssChunkname,

@@ -3,8 +3,8 @@ import { getPostcssConfig } from '@modern-js/css-config';
 import type { NormalizedConfig } from '@modern-js/core';
 import { isProd } from '@modern-js/utils';
 
-export const disableCssExtract = (config: NormalizedConfig) => {
-  return isProd() && config.output.disableCssExtract === true;
+export const enableCssExtract = (config: NormalizedConfig) => {
+  return isProd() && config.output.disableCssExtract !== true;
 };
 
 interface CSSLoaderOptions {
@@ -39,12 +39,12 @@ export const createCSSRule = (
   const postcssOptions = getPostcssConfig(appDirectory, config);
 
   const loaders = chain.module.rule('loaders');
-  const isExtractCSS = disableCssExtract(config);
+  const isExtractCSS = enableCssExtract(config);
 
   loaders
     .oneOf(name)
     .test(test)
-    .when(!isExtractCSS, c => {
+    .when(isExtractCSS, c => {
       c.use('mini-css-extract')
         .loader(require('mini-css-extract-plugin').loader)
         .options(
@@ -54,7 +54,7 @@ export const createCSSRule = (
         )
         .end();
     })
-    .when(isExtractCSS, c => {
+    .when(!isExtractCSS, c => {
       c.use('style-loader').loader(require.resolve('style-loader')).end();
     })
     .when(Boolean(genTSD), c => {
