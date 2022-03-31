@@ -1,5 +1,11 @@
 # @modern-js/utils
 
+## 1.3.6
+
+### Patch Changes
+
+- c2046f37: fix: plugin unbundle schema define
+
 ## 1.3.5
 
 ### Patch Changes

@@ -1,5 +1,29 @@
 # @modern-js/plugin-testing
 
+## 1.4.0
+
+### Minor Changes
+
+- 13684fad: feat: convert testing plugin to new cli plugin
+
+### Patch Changes
+
+- 3a7ce758: feat(plugin-testing): convert to new plugin
+- Updated dependencies [05ce88a0]
+- Updated dependencies [a8df060e]
+- Updated dependencies [c2046f37]
+- Updated dependencies [13684fad]
+- Updated dependencies [a2261fed]
+- Updated dependencies [66cbef42]
+- Updated dependencies [6a7acb81]
+- Updated dependencies [4e2026e4]
+  - @modern-js/core@1.6.0
+  - @modern-js/utils@1.3.6
+  - @modern-js/testing@1.4.0
+  - @modern-js/testing-plugin-bff@1.3.0
+  - @modern-js/runtime-core@1.4.0
+  - @modern-js/webpack@1.5.0
+
 ## 1.3.4
 
 ### Patch Changes

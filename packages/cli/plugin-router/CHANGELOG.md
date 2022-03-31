@@ -1,5 +1,15 @@
 # @modern-js/plugin-router
 
+## 1.2.6
+
+### Patch Changes
+
+- cee0efcc: fix: custom router history
+- e31ce644: feat(plugin-router): convert to new plugin
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [c2046f37]
+  - @modern-js/utils@1.3.6
+
 ## 1.2.5
 
 ### Patch Changes

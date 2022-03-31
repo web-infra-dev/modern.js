@@ -1,5 +1,22 @@
 # @modern-js/testing-plugin-bff
 
+## 1.3.0
+
+### Minor Changes
+
+- 13684fad: feat: convert testing plugin to new cli plugin
+
+### Patch Changes
+
+- Updated dependencies [a8df060e]
+- Updated dependencies [c2046f37]
+- Updated dependencies [13684fad]
+- Updated dependencies [d2d0fa11]
+- Updated dependencies [6a7acb81]
+  - @modern-js/server@1.4.8
+  - @modern-js/utils@1.3.6
+  - @modern-js/testing@1.4.0
+
 ## 1.2.2
 
 ### Patch Changes

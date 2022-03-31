@@ -472,14 +472,15 @@ class BaseWebpackConfig {
       this.chain
         .plugin('progress')
         .use(WebpackBar, [{ name: this.chain.get('name') }]);
-
-    this.chain.plugin('mini-css-extract').use(MiniCssExtractPlugin, [
-      {
-        filename: this.cssChunkname,
-        chunkFilename: this.cssChunkname,
-        ignoreOrder: true,
-      },
-    ]);
+    if (!this.options.output?.disableCssExtract && isProd()) {
+      this.chain.plugin('mini-css-extract').use(MiniCssExtractPlugin, [
+        {
+          filename: this.cssChunkname,
+          chunkFilename: this.cssChunkname,
+          ignoreOrder: true,
+        },
+      ]);
+    }
 
     this.chain.plugin('ignore').use(IgnorePlugin, [
       {

@@ -1,5 +1,16 @@
 # @modern-js/plugin-analyze
 
+## 1.3.4
+
+### Patch Changes
+
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [c2046f37]
+- Updated dependencies [dc88abf9]
+- Updated dependencies [0462ff77]
+  - @modern-js/utils@1.3.6
+  - @modern-js/plugin@1.3.2
+
 ## 1.3.3
 
 ### Patch Changes
