@@ -1,5 +1,18 @@
 # @modern-js/plugin-nocode
 
+## 1.1.6
+
+### Patch Changes
+
+- b04a6c91: fix error path in windows
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- 4f9a8ad1: nocode plugin support style-loader
+- 91bd06cb: convert to new plugin
+- Updated dependencies [c2046f37]
+- Updated dependencies [66cbef42]
+  - @modern-js/utils@1.3.6
+  - @modern-js/webpack@1.5.0
+
 ## 1.1.5
 
 ### Patch Changes

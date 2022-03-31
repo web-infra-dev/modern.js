@@ -1,5 +1,14 @@
 # @modern-js/eslint-config
 
+## 1.2.3
+
+### Patch Changes
+
+- 10f47286: fix: typescript eslint rule due to @typescript-eslint/eslint-plugin's breaking change
+- Updated dependencies [10f47286]
+- Updated dependencies [0ef81796]
+  - @modern-js-app/eslint-config@1.2.5
+
 ## 1.2.2
 
 ### Patch Changes

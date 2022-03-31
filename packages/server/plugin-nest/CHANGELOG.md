@@ -1,5 +1,13 @@
 # @modern-js/plugin-nest
 
+## 1.4.3
+
+### Patch Changes
+
+- c1b8fa0a: feat: convert to new server plugin
+- Updated dependencies [c2046f37]
+  - @modern-js/utils@1.3.6
+
 ## 1.4.2
 
 ### Patch Changes

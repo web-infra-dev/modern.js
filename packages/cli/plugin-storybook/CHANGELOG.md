@@ -1,5 +1,25 @@
 # @modern-js/plugin-storybook
 
+## 1.3.3
+
+### Patch Changes
+
+- d11e4cef: convert to new plugin
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [c2046f37]
+- Updated dependencies [cee0efcc]
+- Updated dependencies [94d02b35]
+- Updated dependencies [66cbef42]
+- Updated dependencies [e31ce644]
+- Updated dependencies [808cec13]
+- Updated dependencies [681a1ff9]
+- Updated dependencies [e8bbc315]
+  - @modern-js/utils@1.3.6
+  - @modern-js/plugin-router@1.2.6
+  - @modern-js/runtime@1.2.4
+  - @modern-js/plugin-state@1.2.2
+  - @modern-js/webpack@1.5.0
+
 ## 1.3.2
 
 ### Patch Changes

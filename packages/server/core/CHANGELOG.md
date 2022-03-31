@@ -1,5 +1,17 @@
 # @modern-js/server-plugin
 
+## 1.2.4
+
+### Patch Changes
+
+- a8df060e: support setup dev middleware first step
+- 18db013a: support load plugin instace
+- Updated dependencies [c2046f37]
+- Updated dependencies [dc88abf9]
+- Updated dependencies [0462ff77]
+  - @modern-js/utils@1.3.6
+  - @modern-js/plugin@1.3.2
+
 ## 1.2.3
 
 ### Patch Changes

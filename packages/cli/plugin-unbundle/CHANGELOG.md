@@ -1,5 +1,25 @@
 # @modern-js/plugin-unbundle
 
+## 1.3.6
+
+### Patch Changes
+
+- c2046f37: fix(plugin-unbundle): fix unbundle types
+- c2046f37: fix: plugin unbundle schema define
+- 61e3f623: feat: convert to new plugin
+- d2d0fa11: fix: missing devServer.proxy typing
+- 61e3f623: feat: convert to new plugin
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [a8df060e]
+- Updated dependencies [c2046f37]
+- Updated dependencies [dc88abf9]
+- Updated dependencies [d2d0fa11]
+- Updated dependencies [0462ff77]
+- Updated dependencies [6a7acb81]
+  - @modern-js/server@1.4.8
+  - @modern-js/utils@1.3.6
+  - @modern-js/plugin@1.3.2
+
 ## 1.3.5
 
 ### Patch Changes

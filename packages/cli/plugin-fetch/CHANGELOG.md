@@ -1,5 +1,15 @@
 # @modern-js/plugin-fetch
 
+## 1.2.2
+
+### Patch Changes
+
+- 6557851c: feat: convert to new plugin
+- Updated dependencies [c2046f37]
+- Updated dependencies [a2261fed]
+  - @modern-js/utils@1.3.6
+  - @modern-js/runtime-core@1.4.0
+
 ## 1.2.1
 
 ### Patch Changes

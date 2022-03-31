@@ -1,5 +1,11 @@
 # @modern-js/module-generator
 
+## 1.3.7
+
+### Patch Changes
+
+- ee1458dd: fix: remove module generator @types/react-dom dependence
+
 ## 1.3.6
 
 ### Patch Changes

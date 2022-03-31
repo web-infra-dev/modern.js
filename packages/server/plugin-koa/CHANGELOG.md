@@ -1,5 +1,14 @@
 # @modern-js/plugin-koa
 
+## 1.4.4
+
+### Patch Changes
+
+- 952432ac: fix: upload files
+- c1b8fa0a: feat: convert to new server plugin
+- Updated dependencies [c2046f37]
+  - @modern-js/utils@1.3.6
+
 ## 1.4.3
 
 ### Patch Changes

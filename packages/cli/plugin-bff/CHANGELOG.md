@@ -1,5 +1,13 @@
 # @modern-js/plugin-bff
 
+## 1.3.8
+
+### Patch Changes
+
+- c1b8fa0a: feat: convert to new server plugin
+- Updated dependencies [c2046f37]
+  - @modern-js/utils@1.3.6
+
 ## 1.3.6
 
 ### Patch Changes

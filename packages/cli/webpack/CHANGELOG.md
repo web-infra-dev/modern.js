@@ -1,5 +1,21 @@
 # @modern-js/webpack
 
+## 1.5.0
+
+### Minor Changes
+
+- 66cbef42: support disableCssExtract
+
+### Patch Changes
+
+- Updated dependencies [05ce88a0]
+- Updated dependencies [a8df060e]
+- Updated dependencies [c2046f37]
+- Updated dependencies [6a7acb81]
+- Updated dependencies [4e2026e4]
+  - @modern-js/core@1.6.0
+  - @modern-js/utils@1.3.6
+
 ## 1.4.1
 
 ### Patch Changes
