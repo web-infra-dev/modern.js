@@ -17,7 +17,7 @@ import {
   AGGRED_DIR,
   BuildOptions,
 } from '@modern-js/prod-server';
-import { ModernServerContext, ProxyOptions } from '@modern-js/types';
+import { ModernServerContext } from '@modern-js/types';
 import { DEFAULT_DEV_OPTIONS } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import SocketServer from '../dev-tools/socket-server';
@@ -83,9 +83,7 @@ export class ModernDevServer extends ModernServer {
     });
 
     // dev proxy handler, each proxy has own handler
-    const proxyHandlers = createProxyHandler(
-      conf.tools?.devServer?.proxy as ProxyOptions,
-    );
+    const proxyHandlers = createProxyHandler(conf.tools?.devServer?.proxy);
     if (proxyHandlers) {
       proxyHandlers.forEach(handler => {
         this.addHandler(handler);
