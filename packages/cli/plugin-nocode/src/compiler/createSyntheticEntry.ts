@@ -1,5 +1,6 @@
 import * as path from 'path';
-import { fs } from '@modern-js/utils';
+import { fs, normalizeOutputPath } from '@modern-js/utils';
+import slash from 'slash';
 import { loadTemplate } from '../utils';
 import getStyleFiles from './getStyleFiles';
 
@@ -13,8 +14,10 @@ export default async (
   const styleFiles = getStyleFiles(rootDir, entryPath);
   const entryTemplate = await loadTemplate('umd-entry.tmpl');
   const entryContent = entryTemplate({
-    base: path.relative(path.dirname(entryPath), path.resolve(rootDir, 'src')),
-    editor: editorEntry,
+    base: slash(
+      path.relative(path.dirname(entryPath), path.resolve(rootDir, 'src')),
+    ),
+    editor: normalizeOutputPath(editorEntry),
     styleFiles,
   });
   await fs.outputFile(entryPath, entryContent);
