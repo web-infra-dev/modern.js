@@ -1,5 +1,19 @@
 # @modern-js/plugin-jarvis
 
+## 1.2.5
+
+### Patch Changes
+
+- 10f47286: fix: typescript eslint rule due to @typescript-eslint/eslint-plugin's breaking change
+- 6bda867c: feat(plugin-jarvis): convert to new plugin
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [c2046f37]
+- Updated dependencies [10f47286]
+- Updated dependencies [0ef81796]
+  - @modern-js/utils@1.3.6
+  - @modern-js/eslint-config@1.2.3
+  - @modern-js-app/eslint-config@1.2.5
+
 ## 1.2.4
 
 ### Patch Changes

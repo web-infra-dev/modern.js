@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.3",
+  "version": "1.2.4",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -110,11 +110,11 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/plugin-router": "workspace:^1.2.2",
-    "@modern-js/plugin-ssr": "workspace:^1.2.2",
-    "@modern-js/plugin-state": "workspace:^1.2.1",
-    "@modern-js/runtime-core": "workspace:^1.2.3",
-    "@modern-js/utils": "workspace:^1.3.0",
+    "@modern-js/plugin-router": "workspace:^1.2.6",
+    "@modern-js/plugin-ssr": "workspace:^1.2.4",
+    "@modern-js/plugin-state": "workspace:^1.2.2",
+    "@modern-js/runtime-core": "workspace:^1.4.0",
+    "@modern-js/utils": "workspace:^1.3.6",
     "@modern-js/bff-runtime": "workspace:^1.2.1",
     "@modern-js/create-request": "workspace:^1.2.1",
     "@loadable/component": "^5.15.0",
@@ -124,7 +124,7 @@
     "styled-components": "^5.3.1"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.4.2",
+    "@modern-js/core": "workspace:^1.6.0",
     "@scripts/build": "workspace:*",
     "@types/styled-components": "^5.1.13",
     "@types/jest": "^26",

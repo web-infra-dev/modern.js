@@ -1,5 +1,11 @@
 # @modern-js/1.0.0-rc.19
 
+## 1.2.3
+
+### Patch Changes
+
+- 0f4b9b05: fix: release @modern-js/node-bundle-require for change randomUUID to nanoid
+
 ## 1.2.1
 
 ### Patch Changes

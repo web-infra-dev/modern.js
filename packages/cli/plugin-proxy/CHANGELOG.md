@@ -1,5 +1,13 @@
 # @modern-js/plugin-proxy
 
+## 1.2.4
+
+### Patch Changes
+
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [c2046f37]
+  - @modern-js/utils@1.3.6
+
 ## 1.2.3
 
 ### Patch Changes

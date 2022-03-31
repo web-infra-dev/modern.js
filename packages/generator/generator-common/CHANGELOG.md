@@ -1,5 +1,11 @@
 # @modern-js/generator-common
 
+## 1.4.7
+
+### Patch Changes
+
+- c2046f37: fix(plugin-unbundle): fix unbundle types
+
 ## 1.4.6
 
 ### Patch Changes

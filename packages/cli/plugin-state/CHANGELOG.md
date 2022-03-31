@@ -1,5 +1,13 @@
 # @modern-js/plugin-state
 
+## 1.2.2
+
+### Patch Changes
+
+- 94d02b35: feat(plugin-runtime): convert to new plugin
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- e8bbc315: feat(plugin-state): convert to new plugin
+
 ## 1.2.1
 
 ### Patch Changes

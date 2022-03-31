@@ -1,5 +1,17 @@
 # @modern-js/runtime-core
 
+## 1.4.0
+
+### Minor Changes
+
+- a2261fed: feat: support new plugin syntax
+
+### Patch Changes
+
+- Updated dependencies [dc88abf9]
+- Updated dependencies [0462ff77]
+  - @modern-js/plugin@1.3.2
+
 ## 1.2.4
 
 ### Patch Changes

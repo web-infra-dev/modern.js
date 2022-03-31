@@ -1,6 +1,16 @@
 # @modern-js/plugin-design-token
 
+## 1.0.2
+
+### Patch Changes
+
+- 10379961: feat: convert runtime plugin to new plugin
+- 61e3f623: feat: convert to new plugin
+- Updated dependencies [c2046f37]
+  - @modern-js/utils@1.3.6
+
 ## 1.0.1
+
 ### Patch Changes
 
 - 6891e4c2: add design-token plugin

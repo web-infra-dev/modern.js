@@ -1,5 +1,13 @@
 # @modern-js/plugin-server
 
+## 1.1.4
+
+### Patch Changes
+
+- 18db013a: support load plugin instace
+- Updated dependencies [c2046f37]
+  - @modern-js/utils@1.3.6
+
 ## 1.1.3
 
 ### Patch Changes
