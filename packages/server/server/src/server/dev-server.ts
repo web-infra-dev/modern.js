@@ -69,7 +69,10 @@ export class ModernDevServer extends ModernServer {
     // before dev handler
     const beforeHandlers = await this.setupBeforeDevMiddleware();
     beforeHandlers.forEach(handler => {
-      this.addHandler(handler);
+      this.addHandler((ctx, next) => {
+        const { req, res } = ctx;
+        return handler(req, res, next);
+      });
     });
 
     // mock handler
@@ -106,7 +109,10 @@ export class ModernDevServer extends ModernServer {
     // after dev handler
     const afterHandlers = await this.setupAfterDevMiddleware();
     afterHandlers.forEach(handler => {
-      this.addHandler(handler);
+      this.addHandler((ctx, next) => {
+        const { req, res } = ctx;
+        return handler(req, res, next);
+      });
     });
 
     await super.onInit(runner);
@@ -269,7 +275,7 @@ export class ModernDevServer extends ModernServer {
   private async setupBeforeDevMiddleware() {
     const { runner, conf } = this;
 
-    const setupMids = conf.tools.devServer?.onBeforeSetupMiddleware || [];
+    const setupMids = conf.tools.devServer?.before || [];
     const pluginMids = await runner.beforeDevServer(conf);
 
     return [...setupMids, ...pluginMids].flat();
@@ -278,7 +284,7 @@ export class ModernDevServer extends ModernServer {
   private async setupAfterDevMiddleware() {
     const { runner, conf } = this;
 
-    const setupMids = conf.tools.devServer?.onAfterSetupMiddleware || [];
+    const setupMids = conf.tools.devServer?.after || [];
     const pluginMids = await runner.afterDevServer(conf);
 
     return [...pluginMids, ...setupMids].flat();
