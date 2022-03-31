@@ -123,5 +123,20 @@ describe('framework', () => {
       expect(res.status).toBe(200);
       expect(res.body.protocol).toBe('Farrow-API');
     });
+
+    test('should support upload file', done => {
+      request(apiHandler)
+        .post('/upload')
+        .field('my_field', 'value')
+        .attach('file', __filename)
+        .end(async (err, res) => {
+          if (err) {
+            throw err;
+          }
+          expect(res.statusCode).toBe(200);
+          expect(res.body.message).toBe('success');
+          done();
+        });
+    });
   });
 });
