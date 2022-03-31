@@ -694,6 +694,29 @@ describe('async manager', () => {
       expect(list).toStrictEqual([0, 1, 2]);
     });
 
+    it('should allow to use plugin without setup function', async () => {
+      const manager = createAsyncManager<TestAsyncHooks>();
+
+      const list: number[] = [];
+      const plugin0: TestAsyncPlugin = {
+        name: 'plugin0',
+        setup: () => {
+          list.push(0);
+        },
+      };
+
+      const plugin1 = {
+        name: 'plugin1',
+        usePlugins: [plugin0],
+      };
+
+      manager.usePlugin(plugin1);
+
+      await manager.init();
+
+      expect(list).toStrictEqual([0]);
+    });
+
     it('should allow to use function plugin', async () => {
       const manager = createAsyncManager<TestAsyncHooks>();
 
