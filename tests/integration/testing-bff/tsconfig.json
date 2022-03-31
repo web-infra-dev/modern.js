@@ -6,5 +6,5 @@
     "baseUrl": "./",
     "paths": {}
   },
-  "include": ["src"]
+  "include": ["src", "api", "modern.config.ts"]
 }
