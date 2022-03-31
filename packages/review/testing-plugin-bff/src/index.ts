@@ -1,9 +1,6 @@
 import path from 'path';
-import {
-  createPlugin,
-  getModuleNameMapper,
-  TestConfigOperator,
-} from '@modern-js/testing';
+import { getModuleNameMapper, TestConfigOperator } from '@modern-js/testing';
+import type { CliPlugin } from '@modern-js/core';
 import { bff_info_key } from './constant';
 import { isBFFProject, existSrc } from './utils';
 
@@ -86,38 +83,34 @@ export const setJestConfigForBFF = async ({
   }
 };
 
-export default ({
-  pwd,
-  userConfig,
-  plugins,
-  routes,
-}: {
-  pwd: string;
-  userConfig: any;
-  plugins: any[];
-  routes: any[];
-}) =>
-  createPlugin(
-    () => ({
+export default (): CliPlugin => ({
+  name: '@modern-js/testing-plugin-bff',
+
+  setup(api) {
+    return {
       jestConfig: async (utils, next) => {
+        const appContext = api.useAppContext();
+        const pwd = appContext.appDirectory;
+
         if (!isBFFProject(pwd)) {
           return next(utils);
         }
+
+        const userConfig = api.useResolvedConfigContext();
+        const plugins = appContext.plugins.map(p => p.server).filter(Boolean);
 
         await setJestConfigForBFF({
           pwd,
           userConfig,
           plugins,
-          routes,
+          routes: appContext.serverRoutes,
           utils,
         });
 
         return next(utils);
       },
-    }),
-    {
-      name: '@modern-js/testing-plugin-bff',
-    },
-  );
+    };
+  },
+});
 
 export { request as testBff } from './utils';

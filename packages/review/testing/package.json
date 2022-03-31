@@ -31,6 +31,7 @@
     "prepare": "pnpm build",
     "prepublishOnly": "pnpm build --platform",
     "new": "modern new",
+    "dev": "modern build --watch",
     "build": "modern build",
     "test": "jest --passWithNoTests"
   },
@@ -53,6 +54,7 @@
   "devDependencies": {
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
+    "@modern-js/core": "workspace:^1.4.3",
     "@types/jest": "^27.4.0",
     "@types/lodash.merge": "^4.6.6",
     "@types/node": "^14",

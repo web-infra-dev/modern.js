@@ -1,8 +1,8 @@
-import { mergeUserJestConfig } from './modern';
+import { mergeUserJestConfig } from '../src/cli';
 
-describe('modern plugin', () => {
+describe('mergeUserJestConfig', () => {
   test('mergeUserJestConfig support object', () => {
-    const testUtils = {
+    const testUtils: any = {
       _jestConfig: {
         a: 1,
       },
@@ -28,7 +28,7 @@ describe('modern plugin', () => {
   });
 
   test('mergeUserJestConfig support function', () => {
-    const testUtils = {
+    const testUtils: any = {
       _jestConfig: {
         a: 1,
       },
