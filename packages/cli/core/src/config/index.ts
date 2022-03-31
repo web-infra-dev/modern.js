@@ -1,3 +1,4 @@
+import http from 'http';
 import { loadConfig } from '@modern-js/load-config';
 import Ajv, { ErrorObject } from 'ajv';
 import ajvKeywords from 'ajv-keywords';
@@ -13,7 +14,7 @@ import {
 import mergeWith from 'lodash.mergewith';
 import betterAjvErrors from 'better-ajv-errors';
 import { codeFrameColumns } from '@babel/code-frame';
-import type { ProxyOptions } from '@modern-js/types';
+import type { NextFunction, ProxyOptions } from '@modern-js/types';
 import { PluginConfig } from '../loadPlugins';
 import { repeatKeyWarning } from '../utils/repeatKeyWarning';
 import { defaults } from './defaults';
@@ -136,11 +137,16 @@ type ConfigFunction =
   | Record<string, unknown>
   | ((config: Record<string, unknown>) => Record<string, unknown> | void);
 
+type RequestHandler = (
+  req: http.IncomingMessage,
+  res: http.ServerResponse,
+  next: NextFunction,
+) => void;
 type DevServerConfig = {
   proxy?: ProxyOptions;
   headers?: Record<string, string>;
-  onBeforeSetupMiddleware?: any;
-  onAfterSetupMiddleware?: any;
+  before?: RequestHandler[];
+  after?: RequestHandler[];
   [propsName: string]: any;
 };
 
