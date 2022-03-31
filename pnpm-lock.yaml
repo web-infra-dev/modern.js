@@ -1994,6 +1994,7 @@ importers:
       postcss: 8.4.5
       postcss-loader: ^6.1.1
       regenerator-runtime: ^0.13.9
+      style-loader: ^3.3.1
       tapable: ^2.2.1
       terser-webpack-plugin: ^5.1.4
       toml-loader: ^1.0.0
@@ -2035,6 +2036,7 @@ importers:
       postcss: 8.4.5
       postcss-loader: 6.2.1_postcss@8.4.5+webpack@5.65.0
       regenerator-runtime: 0.13.9
+      style-loader: 3.3.1_webpack@5.65.0
       terser-webpack-plugin: 5.3.0_esbuild@0.13.15+webpack@5.65.0
       toml-loader: 1.0.0
       ts-loader: 9.2.6_typescript@4.5.4+webpack@5.65.0
@@ -35803,6 +35805,16 @@ packages:
       esbuild: 0.13.15
       loader-utils: 2.0.2
       schema-utils: 3.1.1
+      webpack: 5.65.0_esbuild@0.13.15
+    dev: false
+
+  /style-loader/3.3.1_webpack@5.65.0:
+    resolution: {integrity: sha512-GPcQ+LDJbrcxHORTRes6Jy2sfvK2kS6hpSfI/fXhPt+spVzxF6LJ1dHLN9zIGmVaaP044YKaIatFaufENRiDoQ==}
+    engines: {node: '>= 12.13.0'}
+    peerDependencies:
+      webpack: ^5.0.0
+    dependencies:
+      esbuild: 0.13.15
       webpack: 5.65.0_esbuild@0.13.15
     dev: false
 
