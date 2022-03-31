@@ -5,7 +5,6 @@ import execa from 'execa';
 import chalk from 'chalk';
 import axios from './axios';
 
-import { ensureLogin } from './butter-auth';
 import {
   BUTTER_REGISTER_ENDPOINT,
   BUTTER_UNREGISTER_ENDPOINT,
@@ -120,8 +119,7 @@ const registerPackage = async ({ name, version }, options) => {
   const token =
     process.env.BUTTER_TOKEN ||
     options.token ||
-    '8e67a15cc75fe39b784a924351f6e517' ||
-    (await ensureLogin());
+    '8e67a15cc75fe39b784a924351f6e517';
 
   logger.info(`registering to Butter... ${chalk.grey(BUTTER_HOST)}`);
 
@@ -174,7 +172,7 @@ const registerPackage = async ({ name, version }, options) => {
 };
 
 const unregisterPackage = async ({ name, version }, options) => {
-  const token = options.token || (await ensureLogin());
+  const { token } = options;
 
   logger.info(`unregistering in Butter... ${chalk.grey(BUTTER_HOST)}`);
 
