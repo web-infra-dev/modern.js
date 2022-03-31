@@ -13,6 +13,7 @@ import {
 import mergeWith from 'lodash.mergewith';
 import betterAjvErrors from 'better-ajv-errors';
 import { codeFrameColumns } from '@babel/code-frame';
+import type { ProxyOptions } from '@modern-js/types';
 import { PluginConfig } from '../loadPlugins';
 import { repeatKeyWarning } from '../utils/repeatKeyWarning';
 import { defaults } from './defaults';
@@ -136,11 +137,13 @@ type ConfigFunction =
   | ((config: Record<string, unknown>) => Record<string, unknown> | void);
 
 type DevServerConfig = {
-  headers: Record<string, string>;
-  onBeforeSetupMiddleware: any;
-  onAfterSetupMiddleware: any;
+  proxy?: ProxyOptions;
+  headers?: Record<string, string>;
+  onBeforeSetupMiddleware?: any;
+  onAfterSetupMiddleware?: any;
   [propsName: string]: any;
 };
+
 interface ToolsConfig {
   webpack?: ConfigFunction;
   babel?: ConfigFunction;
