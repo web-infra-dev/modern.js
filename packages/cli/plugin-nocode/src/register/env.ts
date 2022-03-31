@@ -14,7 +14,7 @@ const SERVICE_ID = isStaging ? STG_SERVICE_ID : PROD_SERVICE_ID;
 // if (isLocalDebug) {
 //   BUTTER_HOST = 'http://localhost:3000';
 // }
-const BUTTER_HOST = `https://butter.bytedance.com`;
+const BUTTER_HOST = process.env.BUTTER_HOST || `https://butter.bytedance.com`;
 
 const BUTTER_REGISTER_ENDPOINT = `${BUTTER_HOST}/api/v2/register`;
 const BUTTER_UNREGISTER_ENDPOINT = `${BUTTER_HOST}/api/v2/unregister`;
@@ -28,6 +28,7 @@ const BUTTER_TYPE_ROUTE_MAP = {
   PLUGIN: 'plugins',
   PRESET: 'presets',
   BLOCK: 'components',
+  MODEL: 'models',
 };
 
 export {
