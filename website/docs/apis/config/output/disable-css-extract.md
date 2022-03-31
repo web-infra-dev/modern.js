@@ -12,9 +12,9 @@ sidebar_position: 18
 * 类型： `boolean`
 * 默认值： `false`
 
-生产环境下，默认会把 css 提取为独立文件输出到 dist 目录。
+Modern.js 默认会把 CSS 提取为独立文件，并输出到 `dist` 目录。
 
-设置该选项为 true 后，生产环境不会提取 css 文件，会在运行时动态插入 style 标签加载项目的样式。
+设置该选项为 `true` 后，CSS 文件会经过 `style-loader` 处理并内联到 JS 文件中，在运行时动态插入 style 标签，从而加载项目的样式。
 
 具体配置如下:
 
