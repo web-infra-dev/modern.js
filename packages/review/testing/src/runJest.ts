@@ -10,10 +10,10 @@ import { Config } from '@jest/types';
 import yargs from 'yargs/yargs';
 import { runCLI } from 'jest';
 import chalk from 'chalk';
+import type { PluginAPI } from '@modern-js/core';
 import { getJestUtils, patchConfig } from './config';
 import { TestConfig } from './types';
 import { debug } from './utils';
-import { createLifeCycle } from './plugin';
 
 type Agrv = Omit<Config.Argv, '_' | '$0'>;
 
@@ -107,17 +107,20 @@ export async function runJest(
 /**
  * Node API: run test
  */
-export async function runTest(config: TestConfig, pwd: string = process.cwd()) {
+export async function runTest(
+  api: PluginAPI,
+  config: TestConfig,
+  pwd: string = process.cwd(),
+) {
   process.env.NODE_ENV = 'test';
-
-  const lifeCycle = createLifeCycle(config.plugins);
 
   const jestUtils = getJestUtils(config);
 
   await patchConfig(jestUtils);
 
-  await lifeCycle.jestConfig(jestUtils, {
-    onLast: input => input as any,
+  const hookRunners = api.useHookRunners();
+  await hookRunners.jestConfig(jestUtils, {
+    onLast: input => input,
   });
 
   const finalConfig = jestUtils.jestConfig;
