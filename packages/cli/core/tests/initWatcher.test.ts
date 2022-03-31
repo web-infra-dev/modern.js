@@ -8,7 +8,7 @@ const mockAppDirectory = path.join(__dirname, './fixtures/index-test');
 const mockConfigDir = './config';
 const mockSrcDirectory = path.join(mockAppDirectory, './src');
 
-describe('initWatcher', () => {
+describe.skip('initWatcher', () => {
   afterAll(() => {
     const file = path.join(mockSrcDirectory, './index.ts');
     if (fs.existsSync(file)) {
