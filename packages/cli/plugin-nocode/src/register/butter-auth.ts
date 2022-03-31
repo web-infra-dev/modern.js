@@ -35,7 +35,7 @@ const checkLoggedIn = async (token: any) => {
   return res.data.isLogin;
 };
 
-const checkAuth = async (token: any) => {
+const checkAuth = async (token: string) => {
   const isLoggedIn = await checkLoggedIn(token);
   if (!isLoggedIn) {
     throw new Error('not logged in yet');
@@ -43,7 +43,10 @@ const checkAuth = async (token: any) => {
   return token;
 };
 
-const waitForAuth = async (token: any, time = 0) => {
+const waitForAuth: (token: string, time?: number) => Promise<string> = async (
+  token: string,
+  time = 0,
+) => {
   await delay(AUTH_WAIT_INTERVAL);
 
   if (time >= AUTH_WAIT_COUNT) {
@@ -53,7 +56,6 @@ const waitForAuth = async (token: any, time = 0) => {
   try {
     return await checkAuth(token);
   } catch (err) {
-    // eslint-disable-next-line @typescript-eslint/return-await
     return await waitForAuth(token, time + 1);
   }
 };
@@ -91,7 +93,7 @@ const readLocalConfig = async () => {
   return data;
 };
 
-const writeLocalConfig = async data =>
+const writeLocalConfig = async (data: any) =>
   fs.writeJson(BUTTER_CONFIG, data, { spaces: 2 });
 
 const readLocalToken = async () => {

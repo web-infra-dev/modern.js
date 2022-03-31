@@ -1,5 +1,9 @@
 import * as path from 'path';
-import type { Configuration, WebpackPluginInstance } from 'webpack';
+import type {
+  Configuration,
+  RuleSetRule,
+  WebpackPluginInstance,
+} from 'webpack';
 import { fs, logger } from '@modern-js/utils';
 import webpack from 'webpack';
 import { EDITOR_ENTRY, DEFAULT_ENTRY, MODE } from '../contants';
@@ -16,21 +20,18 @@ const getEntryFile = (prefix: string) => {
   return prefix;
 };
 
-const compile = async (
+export const handleWebpackConfig = (
   webpackConfig: Configuration,
   {
     umdEntryFile,
-    editorEntryFile,
     appDirectory,
     isDev,
   }: {
     appDirectory: string;
     umdEntryFile: string;
-    editorEntryFile: string;
     isDev: boolean;
   },
 ) => {
-  logger.info('compile UMD entry', umdEntryFile);
   webpackConfig.externals = [
     'react',
     'react/jsx-runtime',
@@ -41,6 +42,9 @@ const compile = async (
     '@modern-js-reduck/react',
     '@modern-js-reduck/store',
     '@modern-js-block/runtime',
+    '@modern-js-model/runtime',
+    // 星夜区块单独发布的 reduck 版本
+    '@modern-js-model/reduck-core',
     '@modern-js/runtime',
     '@modern-js/runtime-core',
     '@modern-js/plugin-router',
@@ -100,6 +104,29 @@ const compile = async (
   webpackConfig.plugins = webpackConfig.plugins.filter(
     p => p.constructor.name !== 'HtmlWebpackPlugin',
   );
+  (webpackConfig?.module?.rules as RuleSetRule[])?.[1]?.oneOf?.forEach(rule => {
+    if (
+      Array.isArray(rule.use) &&
+      typeof rule.use[0] === 'object' &&
+      (rule.use[0]?.loader || '').includes('mini-css-extract-plugin')
+    ) {
+      rule.use[0].loader = 'style-loader';
+    }
+  });
+};
+
+const compile = async (
+  webpackConfig: Configuration,
+  options: {
+    appDirectory: string;
+    umdEntryFile: string;
+    editorEntryFile: string;
+    isDev: boolean;
+  },
+) => {
+  const { umdEntryFile, editorEntryFile, isDev } = options;
+  logger.info('compile UMD entry', umdEntryFile);
+  handleWebpackConfig(webpackConfig, options);
   await build(webpackConfig, { editorEntryFile, isDev });
 };
 
