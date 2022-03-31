@@ -1,5 +1,24 @@
 # @modern-js/monorepo-tools
 
+## 1.4.1
+
+### Patch Changes
+
+- 57419eb4: convert to new plugin
+- Updated dependencies [05ce88a0]
+- Updated dependencies [a8df060e]
+- Updated dependencies [c2046f37]
+- Updated dependencies [dc88abf9]
+- Updated dependencies [0462ff77]
+- Updated dependencies [61e3f623]
+- Updated dependencies [6a7acb81]
+- Updated dependencies [681a1ff9]
+- Updated dependencies [4e2026e4]
+  - @modern-js/core@1.6.0
+  - @modern-js/utils@1.3.6
+  - @modern-js/plugin@1.3.2
+  - @modern-js/plugin-changeset@1.2.3
+
 ## 1.4.0
 
 ### Minor Changes

@@ -1,5 +1,16 @@
 # @modern-js/prod-server
 
+## 1.0.5
+
+### Patch Changes
+
+- d2d0fa11: fix: missing devServer.proxy typing
+- Updated dependencies [a8df060e]
+- Updated dependencies [c2046f37]
+- Updated dependencies [18db013a]
+  - @modern-js/server-core@1.2.4
+  - @modern-js/utils@1.3.6
+
 ## 1.0.4
 
 ### Patch Changes

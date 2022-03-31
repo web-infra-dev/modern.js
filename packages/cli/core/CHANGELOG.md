@@ -1,5 +1,22 @@
 # @modern-js/core
 
+## 1.6.0
+
+### Minor Changes
+
+- 4e2026e4: feat: support new plugin config
+
+### Patch Changes
+
+- 05ce88a0: fix: set default value for type NormalizedConfig to ensure all config keys are required
+- a8df060e: support setup dev middleware first step
+- 6a7acb81: modify devServer type and name
+- Updated dependencies [c2046f37]
+- Updated dependencies [dc88abf9]
+- Updated dependencies [0462ff77]
+  - @modern-js/utils@1.3.6
+  - @modern-js/plugin@1.3.2
+
 ## 1.5.0
 
 ### Minor Changes
