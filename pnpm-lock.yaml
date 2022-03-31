@@ -3414,6 +3414,7 @@ importers:
       koa: ^2.13.1
       supertest: ^6.1.6
       type-is: ^1.6.18
+      typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/adapter-helpers': link:../adapter-helpers
@@ -3438,6 +3439,7 @@ importers:
       jest: 27.4.5
       koa: 2.13.4
       supertest: 6.2.0
+      typescript: 4.5.4
 
   packages/server/plugin-express:
     specifiers:
@@ -3519,6 +3521,7 @@ importers:
       koa-router: ^10.0.0
       supertest: ^6.1.6
       type-is: ^1.6.18
+      typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/adapter-helpers': link:../adapter-helpers
@@ -3542,6 +3545,7 @@ importers:
       jest: 27.4.5
       koa: 2.13.4
       supertest: 6.2.0
+      typescript: 4.5.4
 
   packages/server/plugin-nest:
     specifiers:
