@@ -1,5 +1,19 @@
 # @modern-js/module-tools-hooks
 
+## 1.2.3
+
+### Patch Changes
+
+- 366cf4fd: convert module-tools to new plugin
+- Updated dependencies [05ce88a0]
+- Updated dependencies [a8df060e]
+- Updated dependencies [dc88abf9]
+- Updated dependencies [0462ff77]
+- Updated dependencies [6a7acb81]
+- Updated dependencies [4e2026e4]
+  - @modern-js/core@1.6.0
+  - @modern-js/plugin@1.3.2
+
 ## 1.2.2
 
 ### Patch Changes

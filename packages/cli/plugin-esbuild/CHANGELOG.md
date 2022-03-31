@@ -1,5 +1,14 @@
 # @modern-js/plugin-esbuild
 
+## 1.2.2
+
+### Patch Changes
+
+- 61e3f623: feat: convert to new plugin
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [c2046f37]
+  - @modern-js/utils@1.3.6
+
 ## 1.2.1
 
 ### Patch Changes

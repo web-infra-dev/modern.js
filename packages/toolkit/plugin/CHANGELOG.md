@@ -1,5 +1,12 @@
 # @modern-js/plugin
 
+## 1.3.2
+
+### Patch Changes
+
+- dc88abf9: fix: should allow to use plugin without setup function
+- 0462ff77: feat: add compatible logic of plugin options with "setup" param
+
 ## 1.3.0
 
 ### Minor Changes
