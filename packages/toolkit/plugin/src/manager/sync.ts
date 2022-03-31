@@ -173,13 +173,13 @@ export const createManager = <
           const options = plugin();
           addPlugin(createPlugin(options.setup, options));
         }
-        // plain plugin options with `setup` param
-        else if (plugin.setup) {
+        // plain plugin object
+        else if (isObject(plugin)) {
           addPlugin(createPlugin(plugin.setup, plugin));
         }
         // unknown plugin
         else {
-          console.warn(`Unknown plugin: ${plugin.name || ''}`);
+          console.warn(`Unknown plugin: ${JSON.stringify(plugin)}`);
         }
       }
 
