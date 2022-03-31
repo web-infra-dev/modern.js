@@ -77,6 +77,7 @@
     "prepare": "pnpm build",
     "prepublishOnly": "pnpm build --platform",
     "new": "modern new",
+    "dev": "modern build --watch",
     "build": "modern build",
     "test": "jest --passWithNoTests"
   },
