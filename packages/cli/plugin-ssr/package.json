@@ -33,10 +33,6 @@
     "./node": {
       "jsnext:source": "./src/index.node.tsx",
       "default": "./dist/js/node/index.node.js"
-    },
-    "./loadable": {
-      "jsnext:source": "./src/loadable.ts",
-      "default": "./dist/js/treeshaking/loadable.js"
     }
   },
   "files": [
@@ -52,9 +48,6 @@
       ],
       "cli": [
         "./dist/types/cli/index.d.ts"
-      ],
-      "loadable": [
-        "./dist/types/loadable.d.ts"
       ]
     }
   },
@@ -70,21 +63,20 @@
     "@babel/runtime": "^7",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/server": "^5.15.1",
-    "@loadable/component": "^5.15.0",
     "@loadable/webpack-plugin": "^5.15.1",
     "@modern-js/utils": "workspace:^1.3.6",
-    "react": "^17",
     "react-dom": "^17",
     "react-helmet": "^6.1.0",
     "react-side-effect": "^2.1.1",
-    "serialize-javascript": "^6.0.0",
-    "@types/loadable__component": "^5.13.4"
+    "serialize-javascript": "^6.0.0"
   },
   "devDependencies": {
     "@modern-js/babel-chain": "workspace:^1.2.0",
     "@modern-js/core": "workspace:^1.6.0",
     "@modern-js/runtime-core": "workspace:^1.4.0",
     "@modern-js/types": "workspace:^1.3.3",
+    "@loadable/component": "^5.15.0",
+    "@types/loadable__component": "^5.13.4",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react": "^17",
@@ -98,6 +90,11 @@
     "@scripts/build": "workspace:*",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^17",
+    "@loadable/component": "^5.15.0",
+    "@modern-js/runtime-core": "workspace:^1.4.0"
   },
   "sideEffects": false,
   "publishConfig": {
