@@ -4,7 +4,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import { NextFunction, ProxyOptions } from '@modern-js/types';
 import { formatProxyOptions } from '@modern-js/utils';
 
-export const createProxyHandler = (proxyOptions: ProxyOptions) => {
+export const createProxyHandler = (proxyOptions?: ProxyOptions) => {
   if (!proxyOptions) {
     return [
       (req: any, res: any, next: any) => {
@@ -52,7 +52,5 @@ export function proxyMiddleware(
     tools: { devServer },
   } = config;
 
-  const options = (devServer || {}).proxy as ProxyOptions;
-
-  return createProxyHandler(options);
+  return createProxyHandler(devServer?.proxy);
 }
