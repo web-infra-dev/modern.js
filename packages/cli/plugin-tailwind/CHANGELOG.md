@@ -1,5 +1,17 @@
 # @modern-js/plugin-tailwindcss
 
+## 1.2.5
+
+### Patch Changes
+
+- b851d628: feat: convert to new plugin
+- 61e3f623: feat: convert to new plugin
+- Updated dependencies [c2046f37]
+- Updated dependencies [10379961]
+- Updated dependencies [61e3f623]
+  - @modern-js/utils@1.3.6
+  - @modern-js/plugin-design-token@1.0.2
+
 ## 1.2.4
 
 ### Patch Changes

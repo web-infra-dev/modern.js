@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.3.2",
+  "version": "1.3.3",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -46,10 +46,10 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/esbuild-compiler": "workspace:^0.2.1",
-    "@modern-js/plugin-router": "workspace:^1.2.1",
-    "@modern-js/plugin-state": "workspace:^1.2.1",
-    "@modern-js/utils": "workspace:^1.3.3",
-    "@modern-js/webpack": "workspace:^1.4.1",
+    "@modern-js/plugin-router": "workspace:^1.2.6",
+    "@modern-js/plugin-state": "workspace:^1.2.2",
+    "@modern-js/utils": "workspace:^1.3.6",
+    "@modern-js/webpack": "workspace:^1.5.0",
     "@storybook/addon-actions": "^6.3.8",
     "@storybook/addon-essentials": "^6.3.8",
     "@storybook/addon-links": "^6.3.8",
@@ -66,10 +66,10 @@
     "process.argv": "^0.6.0"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.4.4",
-    "@modern-js/module-tools-hooks": "workspace:^1.2.2",
-    "@modern-js/runtime": "workspace:^1.2.3",
-    "@modern-js/runtime-core": "workspace:^1.2.4",
+    "@modern-js/core": "workspace:^1.6.0",
+    "@modern-js/module-tools-hooks": "workspace:^1.2.3",
+    "@modern-js/runtime": "workspace:^1.2.4",
+    "@modern-js/runtime-core": "workspace:^1.4.0",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@storybook/addons": "^6.3.7",
@@ -88,7 +88,7 @@
     "webpack-chain": "^6.5.1"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^1.2.3",
+    "@modern-js/runtime": "workspace:^1.2.4",
     "react": "^17"
   },
   "sideEffects": false,
