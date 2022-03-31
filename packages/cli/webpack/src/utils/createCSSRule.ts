@@ -1,7 +1,11 @@
 import Chain from 'webpack-chain';
 import { getPostcssConfig } from '@modern-js/css-config';
-import { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/core';
 import { isProd } from '@modern-js/utils';
+
+export const enableCssExtract = (config: NormalizedConfig) => {
+  return isProd() && config.output.disableCssExtract !== true;
+};
 
 interface CSSLoaderOptions {
   modules?:
@@ -33,12 +37,9 @@ export const createCSSRule = (
   options: CSSLoaderOptions,
 ) => {
   const postcssOptions = getPostcssConfig(appDirectory, config);
-  const {
-    output: { disableCssExtract = false },
-  } = config;
 
   const loaders = chain.module.rule('loaders');
-  const isExtractCSS = !disableCssExtract && isProd();
+  const isExtractCSS = enableCssExtract(config);
 
   loaders
     .oneOf(name)
