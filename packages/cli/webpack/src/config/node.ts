@@ -57,11 +57,14 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     // css & css modules
     if (loaders.oneOfs.has('css')) {
       loaders.oneOf('css').uses.delete('mini-css-extract');
+      loaders.oneOf('css').uses.delete('style-loader');
     }
 
     loaders
       .oneOf('css-modules')
       .uses.delete('mini-css-extract')
+      .end()
+      .uses.delete('style-loader')
       .end()
       .use('css')
       .options({
