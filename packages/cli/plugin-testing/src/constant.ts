@@ -1,1 +1,1 @@
-export const modernjs_config_key = '__modernjs_config__';
+export const MODERNJS_CONFIG_KEY = '__modernjs_config__';

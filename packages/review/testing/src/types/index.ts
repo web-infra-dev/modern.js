@@ -1,5 +1,4 @@
 import { Config } from '@jest/types';
-import { Plugin } from '../plugin';
 
 export type JestConfig = Config.InitialOptions;
 
@@ -9,11 +8,6 @@ export interface TestConfig {
    * Default: babel-jest
    */
   transformer?: 'babel-jest' | 'ts-jest';
-
-  /**
-   * test plugins
-   */
-  plugins?: Plugin[];
 
   /**
    * Original jest config
