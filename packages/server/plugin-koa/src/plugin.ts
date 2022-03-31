@@ -54,7 +54,11 @@ export default (): ServerPlugin => ({
         app = await findAppModule(apiDir);
         if (!(app instanceof Koa)) {
           app = new Koa();
-          app.use(koaBody());
+          app.use(
+            koaBody({
+              multipart: true,
+            }),
+          );
         }
 
         if (config) {
@@ -66,7 +70,11 @@ export default (): ServerPlugin => ({
         registerRoutes(router, prefix as string);
       } else if (mode === 'function') {
         app = new Koa();
-        app.use(koaBody());
+        app.use(
+          koaBody({
+            multipart: true,
+          }),
+        );
         if (config) {
           const { middleware } = config as FrameConfig;
           initMiddlewares(middleware, app);

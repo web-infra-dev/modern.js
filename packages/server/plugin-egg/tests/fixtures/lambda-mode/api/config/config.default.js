@@ -25,6 +25,10 @@ module.exports = appInfo => {
     // myAppName: 'egg',
   };
 
+  config.multipart = {
+    mode: 'file',
+  };
+
   return {
     ...config,
     ...userConfig,

@@ -58,6 +58,21 @@ describe('function-mode', () => {
     expect(res.body.id).toBe(777);
   });
 
+  test('should support upload file', done => {
+    request(apiHandler)
+      .post('/upload')
+      .field('my_field', 'value')
+      .attach('file', __filename)
+      .end(async (err, res) => {
+        if (err) {
+          throw err;
+        }
+        expect(res.statusCode).toBe(200);
+        expect(res.body.message).toBe('success');
+        done();
+      });
+  });
+
   // TODO: 后续修复（目前在 btsm + esbuild 的时候无法正常运行，缺少 ReflectMeta 的支持）
   // it('should works with middleware', async () => {
   //   const res = await request(apiHandler).get('/cats');
