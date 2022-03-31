@@ -48,4 +48,21 @@ describe('function-mode', () => {
     });
     expect(res3.status).toBe(500);
   });
+
+  test('should support upload file', done => {
+    request(apiHandler)
+      .post('/upload')
+      .field('my_field', 'value')
+      .attach('file', path.join(__dirname, './fixtures/assets/index.html'))
+      // https://stackoverflow.com/questions/61096108/sending-binary-file-in-express-leads-to-econnaborted
+      .set('Connection', 'keep-alive')
+      .end(async (err, res) => {
+        if (err) {
+          throw err;
+        }
+        expect(res.statusCode).toBe(200);
+        expect(res.body.message).toBe('success');
+        done();
+      });
+  });
 });
