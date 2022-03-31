@@ -24,8 +24,9 @@
   --ifm-navbar-search-input-color: #fff;
   --search-local-modal-background: #000;
   --ifm-link-color: #2972b7;
-  --ifm-code-border-radius: 3px;
-  --ifm-code-padding-horizontal: 0.2rem;
+  --ifm-code-border-radius: 4px;
+  --ifm-code-background: #f1f1f1;
+  --ifm-code-padding-horizontal: 0.4rem;
   --ifm-code-padding-vertical: 0.2rem;
   --ifm-line-height-base: 1.8;
 }
@@ -116,6 +117,11 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 
 video {
   margin-bottom: 20px;
+}
+
+code {
+  color: #476582;
+  border: none;
 }
 
 @media screen and (max-width: 966px) {
