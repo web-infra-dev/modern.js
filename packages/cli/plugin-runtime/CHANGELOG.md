@@ -1,5 +1,26 @@
 # @modern-js/runtime
 
+## 1.2.4
+
+### Patch Changes
+
+- 94d02b35: feat(plugin-runtime): convert to new plugin
+- 808cec13: fix(plugin-runtime): fix usePlugins error
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [c2046f37]
+- Updated dependencies [a2261fed]
+- Updated dependencies [cee0efcc]
+- Updated dependencies [94d02b35]
+- Updated dependencies [57e8ce98]
+- Updated dependencies [e31ce644]
+- Updated dependencies [681a1ff9]
+- Updated dependencies [e8bbc315]
+  - @modern-js/utils@1.3.6
+  - @modern-js/runtime-core@1.4.0
+  - @modern-js/plugin-router@1.2.6
+  - @modern-js/plugin-state@1.2.2
+  - @modern-js/plugin-ssr@1.2.4
+
 ## 1.2.3
 
 ### Patch Changes

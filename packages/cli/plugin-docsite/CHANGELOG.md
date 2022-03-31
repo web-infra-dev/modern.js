@@ -1,5 +1,16 @@
 # @modern-js/plugin-docsite
 
+## 1.2.4
+
+### Patch Changes
+
+- 3e6d9f6d: convert to new plugin
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [c2046f37]
+- Updated dependencies [66cbef42]
+  - @modern-js/utils@1.3.6
+  - @modern-js/webpack@1.5.0
+
 ## 1.2.3
 
 ### Patch Changes

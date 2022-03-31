@@ -1,5 +1,25 @@
 # @modern-js/plugin-garfish
 
+## 1.4.4
+
+### Patch Changes
+
+- 77116fc6: refactor(plugin-garfish): refactor garfish runtime plugin to new plugin mechanise
+  fix(plugin-garfish): fix plugin-garfish runtime config
+- Updated dependencies [05ce88a0]
+- Updated dependencies [a8df060e]
+- Updated dependencies [c2046f37]
+- Updated dependencies [a2261fed]
+- Updated dependencies [cee0efcc]
+- Updated dependencies [e31ce644]
+- Updated dependencies [6a7acb81]
+- Updated dependencies [681a1ff9]
+- Updated dependencies [4e2026e4]
+  - @modern-js/core@1.6.0
+  - @modern-js/utils@1.3.6
+  - @modern-js/runtime-core@1.4.0
+  - @modern-js/plugin-router@1.2.6
+
 ## 1.4.3
 
 ### Patch Changes

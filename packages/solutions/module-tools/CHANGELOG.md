@@ -1,5 +1,25 @@
 # @modern-js/module-tools
 
+## 1.4.3
+
+### Patch Changes
+
+- 366cf4fd: convert module-tools to new plugin
+- Updated dependencies [05ce88a0]
+- Updated dependencies [a8df060e]
+- Updated dependencies [c2046f37]
+- Updated dependencies [366cf4fd]
+- Updated dependencies [61e3f623]
+- Updated dependencies [6a7acb81]
+- Updated dependencies [681a1ff9]
+- Updated dependencies [4e2026e4]
+  - @modern-js/core@1.6.0
+  - @modern-js/utils@1.3.6
+  - @modern-js/module-tools-hooks@1.2.3
+  - @modern-js/plugin-changeset@1.2.3
+  - @modern-js/plugin-fast-refresh@1.2.2
+  - @modern-js/plugin-analyze@1.3.4
+
 ## 1.4.2
 
 ### Patch Changes

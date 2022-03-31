@@ -1,5 +1,17 @@
 # @modern-js/server
 
+## 1.4.8
+
+### Patch Changes
+
+- a8df060e: support setup dev middleware first step
+- d2d0fa11: fix: missing devServer.proxy typing
+- 6a7acb81: modify devServer type and name
+- Updated dependencies [c2046f37]
+- Updated dependencies [d2d0fa11]
+  - @modern-js/utils@1.3.6
+  - @modern-js/prod-server@1.0.5
+
 ## 1.4.7
 
 ### Patch Changes
