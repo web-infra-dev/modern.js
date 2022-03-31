@@ -36,6 +36,33 @@ importers:
       jest: 27.5.1
       scan-deps: 0.1.0
 
+  examples/deploy:
+    specifiers:
+      '@modern-js/app-tools': workspace:^1.0.0
+      '@modern-js/plugin-jarvis': workspace:^1.0.0
+      '@modern-js/runtime': workspace:^1.0.0
+      '@nestjs/common': ^8
+      '@types/node': ^14
+      '@types/react': ^17
+      '@types/react-dom': ^17
+      del-cli: ^4.0.1
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      '@modern-js/runtime': link:../../packages/cli/plugin-runtime
+      '@nestjs/common': 8.2.4
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/app-tools': link:../../packages/solutions/app-tools
+      '@modern-js/plugin-jarvis': link:../../packages/cli/plugin-jarvis
+      '@types/node': 14.18.4
+      '@types/react': 17.0.38
+      '@types/react-dom': 17.0.11
+      del-cli: 4.0.1
+      typescript: 4.5.4
+
   packages/cli/babel-preset-app:
     specifiers:
       '@babel/core': 7.16.7
@@ -1294,7 +1321,6 @@ importers:
   packages/cli/plugin-runtime:
     specifiers:
       '@babel/runtime': ^7
-      '@loadable/component': ^5.15.0
       '@modern-js/bff-runtime': workspace:^1.2.1
       '@modern-js/core': workspace:^1.6.0
       '@modern-js/create-request': workspace:^1.2.1
@@ -1306,7 +1332,6 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/loadable__component': ^5.13.4
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -1318,7 +1343,6 @@ importers:
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
-      '@loadable/component': 5.15.2
       '@modern-js/bff-runtime': link:../../server/bff-runtime
       '@modern-js/create-request': link:../../server/create-request
       '@modern-js/plugin-router': link:../plugin-router
@@ -1326,7 +1350,6 @@ importers:
       '@modern-js/plugin-state': link:../plugin-state
       '@modern-js/runtime-core': link:../../runtime
       '@modern-js/utils': link:../../toolkit/utils
-      '@types/loadable__component': 5.13.4
       '@types/react-helmet': 6.1.5
       react-helmet: 6.1.0
       styled-components: 5.3.3
@@ -1489,16 +1512,17 @@ importers:
     dependencies:
       '@babel/runtime': 7.16.7
       '@loadable/babel-plugin': 5.13.2
+      '@loadable/component': 5.15.2_react@17.0.2
       '@loadable/server': 5.15.2_c6e2d081aed1691d2f3d66152539fe63
       '@loadable/webpack-plugin': 5.15.2
       '@modern-js/utils': link:../../toolkit/utils
+      '@types/loadable__component': 5.13.4
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-helmet: 6.1.0_react@17.0.2
       react-side-effect: 2.1.1_react@17.0.2
       serialize-javascript: 6.0.0
     devDependencies:
-      '@loadable/component': 5.15.2_react@17.0.2
       '@modern-js/babel-chain': link:../../toolkit/babel-chain
       '@modern-js/core': link:../core
       '@modern-js/runtime-core': link:../../runtime
@@ -1506,7 +1530,6 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/loadable__component': 5.13.4
       '@types/loadable__webpack-plugin': 5.7.3
       '@types/node': 14.18.4
       '@types/react': 17.0.38
@@ -11485,17 +11508,6 @@ packages:
       '@babel/plugin-syntax-dynamic-import': 7.8.3
     dev: false
 
-  /@loadable/component/5.15.2:
-    resolution: {integrity: sha512-ryFAZOX5P2vFkUdzaAtTG88IGnr9qxSdvLRvJySXcUA4B4xVWurUNADu3AnKPksxOZajljqTrDEDcYjeL4lvLw==}
-    engines: {node: '>=8'}
-    peerDependencies:
-      react: '>=16.3.0'
-    dependencies:
-      '@babel/runtime': 7.16.7
-      hoist-non-react-statics: 3.3.2
-      react-is: 16.13.1
-    dev: false
-
   /@loadable/component/5.15.2_react@17.0.2:
     resolution: {integrity: sha512-ryFAZOX5P2vFkUdzaAtTG88IGnr9qxSdvLRvJySXcUA4B4xVWurUNADu3AnKPksxOZajljqTrDEDcYjeL4lvLw==}
     engines: {node: '>=8'}
@@ -11506,7 +11518,7 @@ packages:
       hoist-non-react-statics: 3.3.2
       react: 17.0.2
       react-is: 16.13.1
-    dev: true
+    dev: false
 
   /@loadable/server/5.15.2_c6e2d081aed1691d2f3d66152539fe63:
     resolution: {integrity: sha512-Nk/6Plz8qTn+A+u2qg/vrbYZwTmzzjy5bw4Ts80pM/rqW8H37IooKU/HVWSje63RZ4vTqEsHsrdiX97RB9dMjw==}
@@ -11860,6 +11872,30 @@ packages:
     dependencies:
       call-me-maybe: 1.0.1
       glob-to-regexp: 0.3.0
+
+  /@nestjs/common/8.2.4:
+    resolution: {integrity: sha512-zb6Y//Rd7tRsMsY2qDvX7qk/msr6sBid7V9YNvdePzGNYfMOvtwgNoqtHgbq2F6V4kCtMO7slmmM4/zptSghiQ==}
+    peerDependencies:
+      cache-manager: '*'
+      class-transformer: '*'
+      class-validator: '*'
+      reflect-metadata: ^0.1.12
+      rxjs: ^7.1.0
+    peerDependenciesMeta:
+      cache-manager:
+        optional: true
+      class-transformer:
+        optional: true
+      class-validator:
+        optional: true
+    dependencies:
+      axios: 0.24.0
+      iterare: 1.2.1
+      tslib: 2.3.1
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /@nestjs/common/8.2.4_88a789cb3f20cca25c3f70fe96f41643:
     resolution: {integrity: sha512-zb6Y//Rd7tRsMsY2qDvX7qk/msr6sBid7V9YNvdePzGNYfMOvtwgNoqtHgbq2F6V4kCtMO7slmmM4/zptSghiQ==}
@@ -26224,7 +26260,6 @@ packages:
   /iterare/1.2.1:
     resolution: {integrity: sha512-RKYVTCjAnRthyJes037NX/IiqeidgN1xc3j1RjFfECFp28A1GVwK9nA+i0rJPaHqSZwygLzRnFlzUuHFoWWy+Q==}
     engines: {node: '>=6'}
-    dev: true
 
   /iterate-iterator/1.0.2:
     resolution: {integrity: sha512-t91HubM4ZDQ70M9wqp+pcNpu8OyJ9UAtXntT/Bcsvp5tZMnz9vRa+IunKXeI8AnfZMTv0jNuVEmGeLSMjVvfPw==}

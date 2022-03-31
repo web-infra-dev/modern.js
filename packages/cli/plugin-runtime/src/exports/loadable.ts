@@ -1,5 +1,5 @@
-import loadable from '@loadable/component';
+import loadable from '@modern-js/plugin-ssr/loadable';
 
 export default loadable;
 
-export * from '@loadable/component';
+export * from '@modern-js/plugin-ssr/loadable';
