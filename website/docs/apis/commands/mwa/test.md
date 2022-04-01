@@ -26,7 +26,7 @@ Snapshots:   0 total
 Time:        0.994 s, estimated 1 s
 ```
 
-:::note 注
+:::info 注
 `src` 和 `api` 目录下面 `*.test.(js|ts)` 都会默认识别为测试用例。
 :::
 

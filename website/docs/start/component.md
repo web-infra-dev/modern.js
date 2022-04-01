@@ -6,7 +6,7 @@ sidebar_position: 10
 
 本章将介绍如何使用 Modern.js 进行 UI 组件项目的开发。本章对应的代码仓库地址：[独立项目场景](https://github.com/modern-js-dev/modern-js-examples/tree/main/quick-start/components-project) 、[Monorepo 场景](https://github.com/modern-js-dev/modern-js-examples/tree/main/quick-start/monorepo-component)。
 
-:::note 注
+:::info 注
 在 Modern.js 中，UI 组件项目是指基于 React 开发组件类型可复用模块的项目。
 :::
 
@@ -34,7 +34,7 @@ import EnvPrepare from '@site/docs/components/env-prepare.md';
 npx @modern-js/create components-project
 ```
 
-:::note 注
+:::info 注
 components-project 为创建项目的目录名称。
 :::
 
@@ -48,7 +48,7 @@ components-project 为创建项目的目录名称。
 ? 是否需要调整默认配置? 否
 ```
 
-:::note 注
+:::info 注
 项目名称为 `package.json` 中的 `"name"` 字段值。
 :::
 
@@ -109,7 +109,7 @@ import DevIDE from '@site/docs/components/dev-ide.md'
 
 ### 准备工作
 
-:::note 注
+:::info 注
 这里基于 [Ant Design](https://ant.design/) 组件库进行 UI 组件的开发。你也可以使用其他组件库，或不使用任何组件库。
 :::
 
@@ -253,7 +253,7 @@ export default {
 
 在 Modern.js 中，位于 `src` 目录下的样式称为组件的内置样式。
 
-:::note 注
+:::info 注
 关于更多内置样式的内容，请参考【[什么是内置样式](/docs/guides/features/modules/code-style#什么是内置样式)】章节。
 :::
 
@@ -263,7 +263,7 @@ export default {
 import './tableList.less';
 ```
 
-:::note 注
+:::info 注
 Modern.js 对于在组件代码中引用内置样式文件的情况，在构建组件代码的过程中会进行一些特殊的处理，更多内容请参考【[内置样式与独立样式的构建产物](/docs/guides/features/modules/code-style#内置样式与独立样式的构建产物)】。
 :::
 
@@ -271,7 +271,7 @@ Modern.js 对于在组件代码中引用内置样式文件的情况，在构建�
 
 在 Modern.js 中，位于 `styles` 目录下的样式称为组件的独立样式。
 
-:::note 注
+:::info 注
 关于更多独立样式的内容，请参考【[什么是独立样式](/docs/guides/features/modules/code-style#什么是独立样式)】章节。
 :::
 
@@ -280,7 +280,7 @@ Modern.js 对于在组件代码中引用内置样式文件的情况，在构建�
 - 通过 [babel-plugin-import](https://github.com/ant-design/babel-plugin-import) **按需加载**组件的独立样式文件产物。
 - 手动导入组件的独立样式文件产物。
 
-:::note 注
+:::info 注
 关于 Ant Design 的按需加载，可以参考 Ant Design 官网【[按需加载](https://ant.design/docs/react/getting-started-cn#%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD)】章节内容。
 :::
 
@@ -457,7 +457,7 @@ export default defineConfig({
 npx @modern-js/create monorepo
 ```
 
-:::note 注
+:::info 注
 monorepo 即为创建的 Monorepo 目录名称，又是项目的名称。
 :::
 

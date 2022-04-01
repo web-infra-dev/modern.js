@@ -11,7 +11,7 @@ Modern.js 在编译时默认通过 [core-js](https://github.com/zloirock/core-js
 
 默认情况下会根据项目 [Browserslist](https://github.com/browserslist/browserslist) 的设置情况引入所需的 Polyfill 代码， 这样基本不用再担心项目源码和第三方依赖的 Polyfill 问题了，但是因为包含了一些没有用到的 Polyfill 代码，所以最终的包大小可能会有所增加。
 
-:::note 注
+:::info 注
 对于明确第三方依赖不需要 Polyfill 的场景, 可以设置 [`output.polyfill`](/docs/apis/config/output/polyfill) 为 `usage`, 这样 Babel 编译时只会根据代码中使用到的语法引入 Polyfill 代码。
 :::
 
@@ -72,7 +72,7 @@ Modern.js 提供了运行时基于浏览器 User Agent 的差异化分发方案,
 
 通过 `pnpm run build && pnpm run start` 启动服务器, 访问页面时，会根据浏览器信息决定返回 `index-es6.html` 还是 `index.html`。
 
-:::note 注
+:::info 注
 内部目前使用 [@babel/compat-data](https://github.com/babel/babel/blob/main/packages/babel-compat-data/data/native-modules.json) 来判断具体浏览器是否支持 es6 语法。
 :::
 

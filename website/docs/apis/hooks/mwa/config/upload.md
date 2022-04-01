@@ -13,7 +13,7 @@ sidebar_position: 4
 
 该文件约定主要用于开发者使用插件，主动上传静态资源文件到 CDN。
 
-:::note 注
+:::info 注
 目前 Modern.js 中提供的 CDN 上传插件（[OSS](/docs/guides/features/server-side/deploy/upload-cdn/oss)、[COS](/docs/guides/features/server-side/deploy/upload-cdn/cos)）都已经支持将该目录同步上传到云平台中。
 :::
 
@@ -39,7 +39,7 @@ sidebar_position: 4
 <script src="<%=assetPrefix %>/upload/index.js"></script>
 ```
 
-:::note 注
+:::info 注
 
 Modern.js 没有支持在 `config/public/*.css`（例如 background-image）中通过 URL 使用 `config/upload/` 下的文件。
 
