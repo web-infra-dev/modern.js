@@ -29,6 +29,14 @@
     "./cli": {
       "jsnext:source": "./src/cli.ts",
       "default": "./dist/js/node/cli.js"
+    },
+    "./types": {
+      "node": {
+        "import": "./dist/js/modern/types.js",
+        "require": "./dist/js/node/types.js",
+        "types": "./dist/types/types.d.ts"
+      },
+      "default": "./dist/js/treeshaking/types.js"
     }
   },
   "typesVersions": {
@@ -38,6 +46,9 @@
       ],
       "cli": [
         "./dist/types/cli.d.ts"
+      ],
+      "types": [
+        "./dist/types/types.d.ts"
       ]
     }
   },
