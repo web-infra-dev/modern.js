@@ -18,6 +18,10 @@
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
+    "./types": {
+      "jsnext:source": "./type.d.ts",
+      "default": "./type.d.ts"
+    },
     "./type": {
       "jsnext:source": "./type.d.ts",
       "default": "./type.d.ts"
@@ -66,6 +70,9 @@
         "./dist/types/runtime-testing/index.d.ts"
       ],
       "type": [
+        "./type.d.ts"
+      ],
+      "types": [
         "./type.d.ts"
       ],
       "runtime-base": [
