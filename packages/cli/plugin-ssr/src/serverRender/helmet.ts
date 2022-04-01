@@ -4,7 +4,7 @@ import { HelmetData } from 'react-helmet';
 const RE_HTML_ATTR = /<html[^>]*>/;
 const RE_BODY_ATTR = /<body[^>]*>/;
 const RE_LAST_IN_HEAD = /<\/head>/;
-const RE_TITLE = /<title[^>]*>([\s\S\n\r]*?)<\/title>/;
+const RE_TITLE = /<title[^>]*>([\s\S\n\r]*?)<\/title>/g;
 
 // 通过 react-helmet 修改模板
 export default function helmet(content: string, helmetData: HelmetData) {
@@ -27,9 +27,9 @@ export default function helmet(content: string, helmetData: HelmetData) {
   const style = helmetData.style.toString();
   const title = helmetData.title.toString();
 
-  // helmetData 中是否有写 title 标签，有的话替换模板中的 title
-  const hasHelmetTitle = RE_TITLE.exec(title);
-  if (hasHelmetTitle?.[1]) {
+  // 如果模板中存在 title，且 helmetData title 有内容则做替换
+  const existTitle = RE_TITLE.test(content);
+  if (title.trim() && existTitle) {
     result = result.replace(RE_TITLE, title);
   }
 
@@ -42,7 +42,7 @@ export default function helmet(content: string, helmetData: HelmetData) {
     ${noscript}
     ${script}
     ${style}
-    ${title}
+    ${existTitle ? '' : title}
     </head>
   `,
   );

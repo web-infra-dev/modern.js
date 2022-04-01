@@ -1310,11 +1310,13 @@ importers:
       '@types/react-dom': ^17
       '@types/react-helmet': ^6.1.2
       jest: ^27
+      react: ^17
       react-helmet: ^6.1.0
+      react-side-effect: ^2.1.1
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
-      '@loadable/component': 5.15.2
+      '@loadable/component': 5.15.2_react@17.0.2
       '@modern-js/bff-runtime': link:../../server/bff-runtime
       '@modern-js/create-request': link:../../server/create-request
       '@modern-js/plugin-router': link:../plugin-router
@@ -1324,7 +1326,8 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@types/loadable__component': 5.13.4
       '@types/react-helmet': 6.1.5
-      react-helmet: 6.1.0
+      react-helmet: 6.1.0_react@17.0.2
+      react-side-effect: 2.1.1_react@17.0.2
     devDependencies:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
@@ -1334,6 +1337,7 @@ importers:
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
       jest: 27.4.5
+      react: 17.0.2
       typescript: 4.5.4
 
   packages/cli/plugin-sass:
@@ -1473,6 +1477,7 @@ importers:
       '@types/react-side-effect': ^1.1.1
       '@types/serialize-javascript': ^5.0.1
       jest: ^27
+      react: ^17
       react-dom: ^17
       react-helmet: ^6.1.0
       react-side-effect: ^2.1.1
@@ -1482,15 +1487,13 @@ importers:
     dependencies:
       '@babel/runtime': 7.16.7
       '@loadable/babel-plugin': 5.13.2
-      '@loadable/server': 5.15.2_@loadable+component@5.15.2
+      '@loadable/server': 5.15.2_c6e2d081aed1691d2f3d66152539fe63
       '@loadable/webpack-plugin': 5.15.2
       '@modern-js/utils': link:../../toolkit/utils
-      react-dom: 17.0.2
-      react-helmet: 6.1.0
-      react-side-effect: 2.1.1
+      react-dom: 17.0.2_react@17.0.2
       serialize-javascript: 6.0.0
     devDependencies:
-      '@loadable/component': 5.15.2
+      '@loadable/component': 5.15.2_react@17.0.2
       '@modern-js/babel-chain': link:../../toolkit/babel-chain
       '@modern-js/core': link:../core
       '@modern-js/runtime-core': link:../../runtime
@@ -1507,6 +1510,9 @@ importers:
       '@types/react-side-effect': 1.1.1
       '@types/serialize-javascript': 5.0.2
       jest: 27.4.5
+      react: 17.0.2
+      react-helmet: 6.1.0_react@17.0.2
+      react-side-effect: 2.1.1_react@17.0.2
       typescript: 4.5.4
       webpack-chain: 6.5.1
 
@@ -11474,7 +11480,7 @@ packages:
       '@babel/plugin-syntax-dynamic-import': 7.8.3
     dev: false
 
-  /@loadable/component/5.15.2:
+  /@loadable/component/5.15.2_react@17.0.2:
     resolution: {integrity: sha512-ryFAZOX5P2vFkUdzaAtTG88IGnr9qxSdvLRvJySXcUA4B4xVWurUNADu3AnKPksxOZajljqTrDEDcYjeL4lvLw==}
     engines: {node: '>=8'}
     peerDependencies:
@@ -11482,17 +11488,19 @@ packages:
     dependencies:
       '@babel/runtime': 7.17.8
       hoist-non-react-statics: 3.3.2
+      react: 17.0.2
       react-is: 16.13.1
 
-  /@loadable/server/5.15.2_@loadable+component@5.15.2:
+  /@loadable/server/5.15.2_c6e2d081aed1691d2f3d66152539fe63:
     resolution: {integrity: sha512-Nk/6Plz8qTn+A+u2qg/vrbYZwTmzzjy5bw4Ts80pM/rqW8H37IooKU/HVWSje63RZ4vTqEsHsrdiX97RB9dMjw==}
     engines: {node: '>=8'}
     peerDependencies:
       '@loadable/component': ^5.0.1
       react: '>=16.3.0'
     dependencies:
-      '@loadable/component': 5.15.2
+      '@loadable/component': 5.15.2_react@17.0.2
       lodash: 4.17.21
+      react: 17.0.2
     dev: false
 
   /@loadable/webpack-plugin/5.15.2:
@@ -33078,16 +33086,6 @@ packages:
       - supports-color
     dev: false
 
-  /react-dom/17.0.2:
-    resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
-    peerDependencies:
-      react: 17.0.2
-    dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
-      scheduler: 0.20.2
-    dev: false
-
   /react-dom/17.0.2_react@17.0.2:
     resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
     peerDependencies:
@@ -33191,16 +33189,16 @@ packages:
       shallowequal: 1.1.0
     dev: false
 
-  /react-helmet/6.1.0:
+  /react-helmet/6.1.0_react@17.0.2:
     resolution: {integrity: sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==}
     peerDependencies:
       react: '>=16.3.0'
     dependencies:
       object-assign: 4.1.1
       prop-types: 15.8.0
+      react: 17.0.2
       react-fast-compare: 3.2.0
-      react-side-effect: 2.1.1
-    dev: false
+      react-side-effect: 2.1.1_react@17.0.2
 
   /react-inspector/5.1.1_react@17.0.2:
     resolution: {integrity: sha512-GURDaYzoLbW8pMGXwYPDBIv6nqei4kK7LPRZ9q9HCZF54wqXz/dnylBp/kfE9XmekBhHvLDdcYeyIwSrvtOiWg==}
@@ -33449,11 +33447,12 @@ packages:
       history: 5.2.0
       react: 17.0.2
 
-  /react-side-effect/2.1.1:
+  /react-side-effect/2.1.1_react@17.0.2:
     resolution: {integrity: sha512-2FoTQzRNTncBVtnzxFOk2mCpcfxQpenBMbk5kSVBg5UcPqV9fRbgY2zhb7GTWWOlpFmAxhClBDlIq8Rsubz1yQ==}
     peerDependencies:
       react: ^16.3.0 || ^17.0.0
-    dev: false
+    dependencies:
+      react: 17.0.2
 
   /react-simple-code-editor/0.11.0_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-xGfX7wAzspl113ocfKQAR8lWPhavGWHL3xSzNLeseDRHysT+jzRBi/ExdUqevSMos+7ZtdfeuBOXtgk9HTwsrw==}
