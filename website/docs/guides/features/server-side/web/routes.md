@@ -48,7 +48,7 @@ Modern.js 在运行时是一个 **Universal App（大统一应用）**——— 
 
 `src/contacts/` 和 `src/landing-page/` 目录下包含 `App.tsx` 这个**入口标识**，将会生成由入口名为 `contacts` 和 `landing-page` 组成的多入口应用，两个入口对应的服务端路由分别为 `/contacts` 和 `/landing-page`。
 
-:::note 注
+:::info 注
 当**入口名**和**项目名**（`package.json` 里的 `name`）相同时，会被认为是应用主入口，对应的服务端路由为根路径 `/`，即主入口对应的服务端路由不需要包含**入口名**这部分路径。
 :::
 

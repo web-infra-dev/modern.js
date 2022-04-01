@@ -130,7 +130,7 @@ export default hook(({ addMiddleware }) => {
 
 和函数写法相比，框架写法虽然能够利用更多框架的结构，在复杂场景下让整个 BFF Server 更加清晰，但也相的更加复杂，需要关心更多框架层面的内容。
 
-:::note 注
+:::info 注
 多数情况下，函数写法就能覆盖大多数 BFF 函数的定制需求。只有当你的项目服务端逻辑比较复杂，代码需要分层，或者需要使用更多框架的元素时（如 egg 插件），才需要使用框架写法。
 :::
 
@@ -140,7 +140,7 @@ export default hook(({ addMiddleware }) => {
 
 Express 的框架写法支持可在 `api/app.[tj]s` 定义 API Server 的启动逻辑，执行应用的初始化工作，添加全局中间件，声明路由，甚至扩展原有框架等。
 
-:::note 注
+:::info 注
 注意这里是 `app.[tj]s`，而不是函数写法中的钩子文件 `_app.[tj]s`。
 :::
 
@@ -214,7 +214,7 @@ export default defineCustom(async (modules) => {
 
 Koa 框架写法与 Express 类似，支持在 `app.[tj]s` 定义 API Server 的启动逻辑，执行应用的初始化工作，添加全局中间件，声明路由，扩展原有框架等。
 
-:::note 注
+:::info 注
 注意这里是 `app.[tj]s`，而不是函数写法中的钩子文件 `_app.[tj]s`。
 :::
 

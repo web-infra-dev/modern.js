@@ -68,7 +68,7 @@ CLOUD_SECRET_KEY
 
 ![bucket-file](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/cos-file.png)
 
-:::note 注
+:::info 注
 若要通过外网直接访问对象存储的临时域名，必须修改该桶权限为对外可读。
 :::
 

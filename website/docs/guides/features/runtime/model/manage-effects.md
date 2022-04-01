@@ -125,7 +125,7 @@ const todoModel = model("todo").define((context, { use }) => {
 
 `load` 副作用返回一个函数，异步地请求 TODO 列表，并在请求的回调函数（`then` 和 `catch`）手动调用 `actions.load.fulfilled` 和 `actions.load.rejected` 更新状态。
 
-:::note 注
+:::info 注
 可以使用 `use` 函数加载其它 Model（包括 Model 自身），实现 [Model 间通信](/docs/guides/features/runtime/model/model-communicate)。
 :::
 

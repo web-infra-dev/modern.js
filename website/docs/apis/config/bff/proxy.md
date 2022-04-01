@@ -59,7 +59,7 @@ export default defineConfig({
 在项目开发过程中，因为 web 页面和接口服务不是部署在同一个域名下，常常会遇到跨域问题。
 解决跨域问题的方式有很多，在这里我们使用 `bff.proxy` 可以轻松解决跨域问题。
 
-:::note 注
+:::info 注
 BFF proxy 模式下，如果不需要写 BFF 的接口， API 目录可以删除；此时 BFF proxy仍会开启。
 :::
 

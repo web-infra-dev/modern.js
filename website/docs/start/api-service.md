@@ -14,7 +14,7 @@ sidebar_position: 6
 - 如何使用测试功能。
 
 
-:::note 注
+:::info 注
 API 服务指提供 HTTP 接口的服务端项目。
 :::
 
@@ -33,7 +33,7 @@ import EnvPrepare from '@site/docs/components/env-prepare.md';
 npx @modern-js/create api-service-demo
 ```
 
-:::note 注
+:::info 注
 api-service-demo 为创建的项目名。
 :::
 
@@ -163,7 +163,7 @@ export default async () => {
 {"key":"1","name":"John Brown","age":32,"country":"America"}
 ```
 
-:::note 注
+:::info 注
 Modern.js 服务端的代码同样是支持热更新功能的，修改代码后无需重启服务。
 :::
 
@@ -173,7 +173,7 @@ Modern.js 服务端的代码同样是支持热更新功能的，修改代码后�
 
 我们以 MySQL 数据库为例：
 
-:::note 注
+:::info 注
 如果没有安装 MySQL，需要先进行[下载安装](https://dev.mysql.com/downloads/mysql/)。
 :::
 

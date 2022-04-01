@@ -5,7 +5,7 @@ title: Model 介绍
 
 Modern.js 中引入 Model 的概念作为应用状态管理模型。Model 用来封装业务数据和数据处理方法，在代码组织上与 View（视图）分离。
 
-:::note 注
+:::info 注
 Modern.js 的 Model 基于 [Redux](https://redux.js.org/) 实现，提供更高层级的抽象，并完全兼容 Redux 生态。
 :::
 
