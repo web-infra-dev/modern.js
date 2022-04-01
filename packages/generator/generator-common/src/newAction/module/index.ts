@@ -80,6 +80,7 @@ export const ModuleActionFunctionsAppendTypeContent: Partial<
 > = {
   [ActionFunction.TailwindCSS]: `/// <reference types='@modern-js/plugin-tailwindcss/types' />`,
   [ActionFunction.Less]: `/// <reference types='@modern-js/plugin-less/types' />`,
+  [ActionFunction.Sass]: `/// <reference types='@modern-js/plugin-sass/types' />`,
 };
 
 export const ModuleNewActionGenerators: Partial<
