@@ -147,8 +147,8 @@ export default class Entry {
         entryName: this.entryName,
       };
       html = reduce(App, renderContext, [
-        loadableRenderer.toHtml,
         styledComponentRenderer.toHtml,
+        loadableRenderer.toHtml,
         (jsx: React.ReactElement) => ReactDomServer.renderToString(jsx),
       ]);
 
