@@ -30,7 +30,7 @@
       "jsnext:source": "./src/index.ts",
       "default": "./dist/js/node/index.js"
     },
-    "./type": {
+    "./types": {
       "jsnext:source": "./lib/types.d.ts",
       "default": "./lib/types.d.ts"
     }
