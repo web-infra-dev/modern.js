@@ -24,6 +24,9 @@
       ],
       "runtime": [
         "./dist/types/runtime/index.d.ts"
+      ],
+      "types": [
+        "./type.d.ts"
       ]
     }
   },
@@ -31,6 +34,7 @@
   "module": "./dist/js/treeshaking/runtime/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
+    "./types": "./type.d.ts",
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",

@@ -1,2 +1,2 @@
-/// <reference types='@modern-js/module-tools/type' />
-/// <reference types='@modern-js/plugin-testing/type' />
+/// <reference types='@modern-js/module-tools/types' />
+/// <reference types='@modern-js/plugin-testing/types' />
