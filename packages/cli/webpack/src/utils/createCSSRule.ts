@@ -1,10 +1,9 @@
 import Chain from 'webpack-chain';
 import { getPostcssConfig } from '@modern-js/css-config';
 import type { NormalizedConfig } from '@modern-js/core';
-import { isProd } from '@modern-js/utils';
 
 export const enableCssExtract = (config: NormalizedConfig) => {
-  return isProd() && config.output.disableCssExtract !== true;
+  return config.output.disableCssExtract !== true;
 };
 
 interface CSSLoaderOptions {
