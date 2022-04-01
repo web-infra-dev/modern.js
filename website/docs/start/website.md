@@ -30,7 +30,7 @@ import EnvPrepare from '@site/docs/components/env-prepare.md';
 npx @modern-js/create website
 ```
 
-:::note 注
+:::info 注
 `website` 为创建的项目名。
 :::
 
@@ -48,7 +48,7 @@ npx @modern-js/create website
 ? 是否启用 Sass 支持： 否
 ```
 
-:::note 注
+:::info 注
 这里将**客户端路由方式**改为：约定式路由，其他选项则依然使用的是默认选项。
 :::
 
@@ -74,7 +74,7 @@ import DevUnbundle from '@site/docs/components/dev-unbundle.md'
 
 <DevUnbundle/>
 
-:::note 注
+:::info 注
 Unbundled 模式暂不支持在 Windows 平台使用，支持即将上线。
 :::
 
@@ -98,7 +98,7 @@ import DevIDE from '@site/docs/components/dev-ide.md'
 
 `pages/` 目录是 Modern.js 中启用约定式路由的标识，`pages/` 中的文件路径和文件内容，将被自动转换成客户端路由逻辑。以当前项目为例，访问 `http://localhost:8080` 会渲染 `index.tsx` 的组件内容。
 
-:::note 注
+:::info 注
 `pages/` 中的 `index.[jt]sx`，将会被映射到上一级路由。
 :::
 
@@ -316,7 +316,7 @@ const Introduction = () => (
 export default Introduction;
 ```
 
-:::note 注
+:::info 注
 上面的示例也可以通过 Tailwind CSS 提供的 Utility Class 实现，这里仅用于举例说明 CSS in JS 的使用方式。通常，Utility Class + CSS in JS 的方案可以满足绝大多数项目的样式编写需求。
 :::
 
@@ -351,7 +351,7 @@ export default async () => {
 
 这样我们就成功创建了一个 BFF API。访问 `http://localhost:8080/api/data`，返回的数据就是 `data.ts` 中默认导出函数的返回值。
 
-:::note 注
+:::info 注
 这里只演示了如何创建 BFF API，返回的数据依然是静态数据，实际场景中，`data.ts` 应该调用其他 API 或从数据库中获取动态数据。
 :::
 
@@ -425,7 +425,7 @@ const Introduction = () => {
 export default Introduction;
 ```
 
-:::note 注
+:::info 注
 Modern.js 提供的一体化 BFF 调用能同构的在 CSR/SSR 时获取数据，开发者无需关心环境差异。
 :::
 

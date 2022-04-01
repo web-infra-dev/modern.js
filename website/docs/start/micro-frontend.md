@@ -27,7 +27,7 @@ title: 开发微前端
 npx @modern-js/create main
 ```
 
-:::note 注
+:::info 注
 main 为创建的项目名。
 :::
 
@@ -78,7 +78,7 @@ main 为创建的项目名。
 npx @modern-js/create dashboard
 ```
 
-:::note 注
+:::info 注
 dashboard 为创建的项目名。
 :::
 
@@ -118,7 +118,7 @@ dashboard 为创建的项目名。
 npx @modern-js/create table
 ```
 
-:::note 注
+:::info 注
 table 为创建的项目名。
 :::
 

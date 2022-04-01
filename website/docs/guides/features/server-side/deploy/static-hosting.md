@@ -10,7 +10,7 @@ sidebar_position: 3
 
 Modern.js 为这类场景提供了独立的插件来支持。
 
-:::note 注
+:::info 注
 使用静态 Web 服务器会导致原有的 Modern.js 功能的损失，例如 SSR、SSG，自动的 MAP/SPA 路由等。
 :::
 
@@ -59,7 +59,7 @@ Modern.js 支持直接使用 CDN 来托管使用上述插件后的构建产物�
 CLOUD_STATIC_FILES="."
 ```
 
-:::note 注
+:::info 注
 默认情况下，Modern.js 的 CDN 插件会上传构建产物中 `static` 文件夹下的内容，修改为 `.` 后，将会上传整个产物目录。
 :::
 

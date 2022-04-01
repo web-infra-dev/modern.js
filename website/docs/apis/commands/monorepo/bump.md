@@ -14,7 +14,7 @@ Options:
   -h, --help     display help for command
 ```
 
-:::note 注
+:::info 注
 `bump` 命令执行之前需要提前执行 [`change`](/docs/apis/commands/monorepo/change) 命令添加 changeset。
 :::
 
