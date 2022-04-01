@@ -171,7 +171,7 @@ function Home({ username }) {
 
 我们可以根据 `reloading` 的值来判断当前的 Loader 是否处于正在更新的状态中。
 
-:::note 注
+:::info 注
 - 当一个 Loader 更新的时候，该 Loader 所在的其它组件也会响应 Loader 更新，进行重新渲染。
 :::
 
@@ -190,7 +190,7 @@ function Home({ username }) {
 
 我们点击 `reload` 按钮，执行 `reload('kitten')` 函数，此时会触发 Loader 的重新执行，`'kitten'` 会作为新的参数传给 Loader 函数。
 
-:::note 注
+:::info 注
 - 当需要用之前参数更新 Loader 时，可直接执行 `reload()`。
 :::
 

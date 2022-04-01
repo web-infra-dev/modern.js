@@ -33,7 +33,7 @@ describe('test model', () => {
   })
 });
 ```
-:::note 注
+:::info 注
 这里使用的 `createStore` 是从 `@modern-js/runtime/testing` 导入的，内部会使用 [`runtime.state`](/docs/apis/config/runtime/state) 的配置去创建 `store`。
 :::
 

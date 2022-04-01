@@ -86,7 +86,7 @@ function App() {
 }
 ```
 
-:::note 注
+:::info 注
 目前不支持在子应用中使用 BFF 功能。
 :::
 
@@ -97,7 +97,7 @@ function App() {
 
 当主应用项目部署之后，Modern.js 提供了用线上主应用调试本地子应用的方式。
 
-:::note 注
+:::info 注
 本小节所用线上地址均是虚构，只为演示方便。
 :::
 
@@ -128,7 +128,7 @@ function App() {
 }
 ```
 
-:::note 注
+:::info 注
 `enableMicroFrontendDebug` 会在线上开启 微前端 Debug 模式，如担心安全隐患，可只在线上测试环境开启，线上正式环境关掉该配置。
 :::
 

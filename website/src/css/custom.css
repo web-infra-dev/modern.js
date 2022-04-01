@@ -31,6 +31,10 @@
   --ifm-line-height-base: 1.8;
 }
 
+html[data-theme='dark'] {
+  --ifm-code-background: #2f2f2f;
+}
+
 .footer--dark {
   --ifm-footer-background-color: #000;
   --ifm-footer-link-color: #c9cdd4;
@@ -122,6 +126,10 @@ video {
 code {
   color: #476582;
   border: none;
+}
+
+[data-theme='dark'] code {
+  color: #aac8e4;
 }
 
 @media screen and (max-width: 966px) {

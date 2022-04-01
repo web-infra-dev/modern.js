@@ -30,7 +30,7 @@ import EnvPrepare from '@site/docs/components/env-prepare.md';
 npx @modern-js/create middle-platform
 ```
 
-:::note 注
+:::info 注
 `middle-platform` 为创建的项目名。
 :::
 
@@ -66,7 +66,7 @@ import DevUnbundle from '@site/docs/components/dev-unbundle.md'
 
 <DevUnbundle/>
 
-:::note 注
+:::info 注
 Unbundled 模式暂不支持在 Windows 平台使用，支持即将上线。
 :::
 
@@ -103,7 +103,7 @@ import DevIDE from '@site/docs/components/dev-ide.md'
 
 其中，`console/` 目录对应新建的入口，项目默认的入口（主入口）代码被移动到 `middle-platform/` 目录下。
 
-:::note 注
+:::info 注
 使用生成器将应用从单入口转换成多入口时，原本主入口的代码将会被移动到与当前应用 package.json 同名的目录下。
 :::
 
@@ -348,7 +348,7 @@ Modern.js 已经内置了 babel-plugin-import 插件，但因为 Ant Design 使�
 
 Modern.js 提供了开箱即用的 BFF 能力，支持和前端代码共同开发、调试、部署。
 
-:::note 注
+:::info 注
 如果已经具备了为前端项目专门开发的、部署在同域下的 API，则不需要再创建 BFF 层，前端代码直接调用 API 即可。
 :::
 

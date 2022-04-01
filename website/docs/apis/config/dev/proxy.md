@@ -55,7 +55,7 @@ module.exports = {
 };
 ```
 
-:::note 注
+:::info 注
 Modern.js 全局代理实现底层基于 [whistle](https://wproxy.org/whistle/), 更多匹配模式请参考: [匹配模式](https://wproxy.org/whistle/pattern.html)
 :::
 

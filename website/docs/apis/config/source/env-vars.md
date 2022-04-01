@@ -40,7 +40,7 @@ console.log(process.env.VERSION);
 环境变量的值需要提前设置好，具体设置的方式可以参考：环境变量设置。
 :::
 
-:::note 注
+:::info 注
 `process.env.NODE_ENV` 会根据当前运行的命令设置对应的值：
 
 * `build` 命令执行为 `production`

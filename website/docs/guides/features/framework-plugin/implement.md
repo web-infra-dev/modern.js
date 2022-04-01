@@ -53,7 +53,7 @@ const MyPlugin: CliPlugin = {
 };
 ```
 
-:::note 注
+:::info 注
 插件可以注册丰富的 Hooks，不同的 Hook 拥有不同的模型和运行规则，详见 [Hook 模型](/docs/apis/runtime/plugin/hook)。
 :::
 

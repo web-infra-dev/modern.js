@@ -15,7 +15,7 @@ sidebar_position: 3
 开发环境设置静态资源访问前缀。
 
 
-:::note 注
+:::info 注
 区别于 [output.assetPrefix](/docs/apis/config/output/asset-prefix)（针对 production 模式），该选项只用于 development 模式。
 :::
 

@@ -14,7 +14,7 @@ sidebar_position: 2
 npx @modern-js/create tools-lib
 ```
 
-:::note 注
+:::info 注
 tools-lib 是创建项目的目录名称。
 :::
 
@@ -131,7 +131,7 @@ Modern.js 集成了主流的状态管理解决方案，它通过 `@modern-js/run
 pnpm add @modern-js/runtime
 ```
 
-:::note 注
+:::info 注
 推荐通过使用微生成器来启用 Runtime API，微生成器的使用可以参考 [使用微生成器](/docs/guides/features/modules/micro-generator)。
 :::
 

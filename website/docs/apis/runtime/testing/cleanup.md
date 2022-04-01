@@ -16,7 +16,7 @@ import { cleanup } from '@modern-js/runtime/testing';
 
 ## 示例
 
-:::note 注
+:::info 注
 请注意，如果你使用的测试框架支持 afterEach，并且它被注入到你的测试环境中（如mocha、Jest和Jasmine），**会默认在 afterEach 钩子里执行 `cleanup`**。否则，你将需要在每次测试后进行手动清理。
 :::
 

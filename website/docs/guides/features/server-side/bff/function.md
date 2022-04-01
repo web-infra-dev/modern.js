@@ -51,7 +51,7 @@ export default () => {
 };
 ```
 
-:::note 注
+:::info 注
 Modern.js 生成器已经在 `tsconfig.json` 中配置 `@api` 别名，因此可以直接通过别名的方式引入函数。
 :::
 
@@ -69,7 +69,7 @@ Modern.js 中，BFF 函数对应的路由系统是基于文件系统实现的，
 
 以下的 `$BASENAME` 指的是 BFF 函数的[路由前缀](/docs/apis/config/bff/prefix)，可以在 `modern.config.js` 中进行配置，默认值为 `/api`。
 
-:::note 注
+:::info 注
 你可以通过 [prefix](/docs/apis/config/bff/prefix) 设置公共路由的前缀。
 :::
 
@@ -108,7 +108,7 @@ Modern.js 中，BFF 函数对应的路由系统是基于文件系统实现的，
 
 Modern.js 的 BFF 函数需要遵循 RESTful API 标准来定义, 遵循 HTTP Method 规范，并且不允许自由定义参数。
 
-:::note 注
+:::info 注
 假设函数允许自由定义参数，产出的路由必然由**私有协议**进行调用（原因是无法区分请求参数与请求体），而无法实现任意的 RESTful API。
 
 如果服务仅用于应用本身不存在问题，但它**不标准的接口定义**无法融入更大的体系。 在多个系统共同工作的情况下（例如 BFF 低码搭建），会导致其他系统也需要遵循**私有协议**。
@@ -146,7 +146,7 @@ export const post = async () => {
 
 * 可以在一个文件中定义多个不同 Method 的函数，但如果定义多个相同 Method 的函数，则只有第一个会生效。
 
-:::note 注
+:::info 注
 需要注意的是，定义的函数都应该是异步的，与函数调用时类型有关，后面会提到。
 :::
 

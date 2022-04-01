@@ -77,7 +77,7 @@ function Counter() {
 
 根据 `a`、`b`、`c` 三个不同的字段分别生成 `setA`、`setB`、`setC` 三个 Actions。
 
-:::note 注
+:::info 注
 当用户自定义的 Action 和 Modern.js 自动生成的 Action 名字一致时，用户自定义的 Action 优先级更高。例如，
 在 `countModel` 中已经自定义 `setA` 这个 Action，调用 `actions.setA()` 时，最终执行的是用户自定义的 `setA`。
 :::
