@@ -26,7 +26,7 @@ import { useModel } from '@modern-js/runtime/model';
 - state：[`State`](/docs/apis/runtime/model/state)，**Model** 的 **state**。
 - actions：[`Actions`](/docs/apis/runtime/model/actions)，**Model** 的 **actions**。
 
-:::note 注
+:::info 注
 
 state、action 做合并操作时，如果有同名属性，后面 Model（state、action） 会覆盖前一个 Model 的。
 
@@ -53,7 +53,7 @@ state、action 做合并操作时，如果有同名属性，后面 Model（state
 - actions：[`Actions`](/docs/apis/runtime/model/actions)，**Model** 的 **actions**。
 
 
-:::note
+:::info
 
 如果忽略该函数，则会默认将所有 Model 的 actions 合并作为 useModel 返回值数组的第二个元素。
 
@@ -77,7 +77,7 @@ function Test(props) {
 }
 ```
 
-:::note 注
+:::info 注
 上述方式若 todoModel、filterModel 其中一个任一 model、任一状态改变，都会触发 `Test 组件` 的 rerender。
 对于性能敏感的应用或场景可以借助 `selector` 进行优化。
 :::

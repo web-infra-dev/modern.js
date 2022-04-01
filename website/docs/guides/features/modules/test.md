@@ -77,7 +77,7 @@ describe('默认值 cases', () => {
 });
 ```
 
-:::note 注
+:::info 注
 项目需要安装 `@modern-js/rutime` 模块，可以通过 [微生成器](/docs/guides/features/modules/micro-generator) 来开启。
 :::
 

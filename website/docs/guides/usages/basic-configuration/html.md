@@ -3,7 +3,7 @@ title: 自定义 HTML 模板
 sidebar_position: 2
 ---
 
-:::note 注
+:::info 注
 默认情况下，Modern.js 会内置一份 HTML 模板。应用开发中，可以通过代码片段来自定义模板内容。
 :::
 
@@ -98,7 +98,7 @@ sidebar_position: 2
 
 该文件将替代默认的 HTML 模板。
 
-:::note 注
+:::info 注
 内部默认 HTML 模板可以在 `node_modules/.modern-js/${entryName}/index.html` 中查看。
 :::
 

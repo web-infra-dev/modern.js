@@ -15,7 +15,7 @@ Modern.js 启用 SSR 非常简单，只需要设置 [`server.ssr`](/docs/apis/co
 }
 ```
 
-:::note 注
+:::info 注
 目前，Modern.js 还不支持 Unbundled 开发模式下开启该功能。
 :::
 
@@ -63,7 +63,7 @@ Warning: Expected server HTML to contain a matching <div> in <div>.
 
 这是因为 React 在客户端执行注水逻辑时，发现渲染结果与 SSR 渲染结果不一致造成的。虽然页面表现正常，但在复杂应用中，很有可能因此出现 DOM 层级混乱、样式混乱等问题。
 
-:::note 注
+:::info 注
 关于注水逻辑请参考[这里](https://reactjs.org/docs/react-dom.html#hydrate)。
 :::
 

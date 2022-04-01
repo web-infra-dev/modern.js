@@ -29,7 +29,7 @@ export default defineConfig({
 });
 ```
 
-:::note 注
+:::info 注
 使用 Modern.js monorepo 方案时，对于 monorepo 内部的组件库，也可以直接在应用编译的过程中处理这些库的源代码，只需要在这个选项中设置对应的包名即可:
 
 ```js title="modern.config.js"

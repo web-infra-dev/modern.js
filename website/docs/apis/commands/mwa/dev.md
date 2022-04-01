@@ -35,7 +35,7 @@ import CommandTip from '@site/docs/components/command-tip.md'
 
 ## Unbundled 开发模式
 
-:::note 注
+:::info 注
 Unbundled 模式暂不支持在 Windows 平台使用，支持即将上线。
 :::
 

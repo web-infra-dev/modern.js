@@ -16,9 +16,9 @@ sidebar_position: 1
 
 多数问题会被 ESLint 规则的自动修复功能或 [Prettier](https://prettier.io/) 的代码格式化功能（已被集成到 ESLint 里）自动解决，开发者不需要关心问题的细节和解决方式。
 
-:::note 注
+:::info 注
 主要在 IDE 保存文件的环节执行这种自动修复，少数漏网之鱼会在提交代码环节被自动修复。
-:::note 注
+:::info 注
 ### 批量自动修复
 
 在少数情况下，比如旧项目迁移的时候，可以执行以下命令，批量修复和检查所有文件：
@@ -44,7 +44,7 @@ pnpm run lint:error
 /* eslint-enable filenames/match-exported */
 ```
 
-:::note 注
+:::info 注
 在 VSCode 编辑器里输入 eslint，会自动出现关于 "eslint-disable" 的提示框，选择提示选项生成对应注释对。
 :::
 
@@ -78,7 +78,7 @@ pnpm run lint:error
 
 Modern.js 的 MWA 项目、模块项目，源代码目录里都会默认有这个配置文件，是针对 Universal JS 代码设计的。
 
-:::note 注
+:::info 注
 Universal JS 代码是既能浏览器端也能在服务器端运行的代码。
 :::
 
