@@ -51,7 +51,7 @@ describe('run dependence-generator', () => {
       dependencies: { '@modern-js/runtime': '^1' },
       peerDependencies: { '@modern-js/core': '^1' },
       appendTypeContent:
-        "/// <reference types='@modern-js/plugin-testing/type' />",
+        "/// <reference types='@modern-js/plugin-testing/types' />",
     };
     await handleTemplateFile(mockGeneratorCore._context, mockGeneratorCore);
     expect(fs.existsSync(path.join(projectDir, 'package.json'))).toBe(true);
@@ -64,7 +64,7 @@ describe('run dependence-generator', () => {
       'utf-8',
     );
     expect(typeContent).toContain(
-      "/// <reference types='@modern-js/plugin-testing/type' />",
+      "/// <reference types='@modern-js/plugin-testing/types' />",
     );
   });
   it('config has project path', async () => {
@@ -79,7 +79,7 @@ describe('run dependence-generator', () => {
       dependencies: { '@modern-js/runtime': '^1' },
       peerDependencies: { '@modern-js/core': '^1' },
       appendTypeContent:
-        "/// <reference types='@modern-js/plugin-testing/type' />",
+        "/// <reference types='@modern-js/plugin-testing/types' />",
       projectPath: 'apps/mwa',
     };
     await handleTemplateFile(mockGeneratorCore._context, mockGeneratorCore);
@@ -98,7 +98,7 @@ describe('run dependence-generator', () => {
       'utf-8',
     );
     expect(typeContent).toContain(
-      "/// <reference types='@modern-js/plugin-testing/type' />",
+      "/// <reference types='@modern-js/plugin-testing/types' />",
     );
   });
 });

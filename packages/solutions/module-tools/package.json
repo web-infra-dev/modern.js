@@ -40,6 +40,9 @@
   },
   "typesVersions": {
     "*": {
+      "types": [
+        "./lib/types.d.ts"
+      ],
       "type": [
         "./lib/types.d.ts"
       ]
