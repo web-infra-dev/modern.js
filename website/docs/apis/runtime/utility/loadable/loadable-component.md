@@ -40,7 +40,7 @@ OtherComponent.preload()
 
 `preload` 接收的参数会全部传给 `loadFn`。
 
-:::note 注
+:::info 注
 预加载脚本中函数始终不会返回一个 Promise 对象，如果你想等待组件加载完成，请使用 [load](#LoadableComponent.load) 函数
 :::
 
@@ -56,6 +56,6 @@ OtherComponent.load().then(() => {
 })
 ```
 
-:::note 注
+:::info 注
 如果你无需等待组件加载完成，则使用 [preload](#LoadableComponent.preload) 即可。
 :::

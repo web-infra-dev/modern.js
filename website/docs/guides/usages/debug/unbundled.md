@@ -7,11 +7,11 @@ sidebar_position: 2
 
 Modern.js 提供 **Unbundled 开发模式**。当项目以 **Unbundled 开发模式**启动时，项目依赖的模块不会被进行打包处理，而是直接使用原生的 ESM 模块，由现代浏览器负责模块的解析和加载，从而实现模块的按需加载。**Unbundled 开发模式**可以让 Dev Server 拥有秒级的启动速度和热更新速度，极大地提高了开发效率和体验。
 
-:::note 注
+:::info 注
 ES modules（ESM）是 JavaScript 官方的标准化模块系统。
 :::
 
-:::note 注
+:::info 注
 Unbundled 模式暂不支持在 Windows 平台使用，支持即将上线。
 :::
 

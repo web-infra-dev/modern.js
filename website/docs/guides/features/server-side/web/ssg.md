@@ -5,7 +5,7 @@ title: 一体化 SSG
 
 SSG（Static Site Generation）是一种基于数据与模板，在构建时渲染完整静态网页的技术解决方案。
 
-:::note 注
+:::info 注
 SSG 是构建阶段的解决方案，因此仅对生产环境有效。通过 `dev` 命令运行时，表现效果与 SSR 相同。
 :::
 
@@ -101,7 +101,7 @@ export default defineConfig({
 
 ![vsc-alert](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/ssg-foo.png)
 
-:::note
+:::info
 以上仅介绍了单入口的情况，与部分配置。更多相关内容可以查看 [API 文档](/docs/apis/config/output/ssg)。
 :::
 
@@ -111,7 +111,7 @@ export default defineConfig({
 
 调用 `useLoader` 时，在第二个参数中设置 `{ static: true }`，可以在 SSG 阶段执行数据的请求。
 
-:::note 注
+:::info 注
 - Modern.js 目前还不支持 SSG 与 SSR 混合渲染，敬请期待。
 - 在开发阶段，不管 `useLoader` 是否配置 `{ static: true }`，函数都会在 SSR 时获取数据。
 :::

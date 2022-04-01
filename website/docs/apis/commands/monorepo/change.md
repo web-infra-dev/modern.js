@@ -13,7 +13,7 @@ Options:
   -h, --help  display help for command
 ```
 
-:::note 注
+:::info 注
 [`change`](/docs/apis/commands/module/change)、[`pre`](/docs/apis/commands/module/pre)、[`bump`](/docs/apis/commands/module/bump)、[`release`](/docs/apis/commands/module/release) 命令集成了工具 [`changesets`](https://github.com/atlassian/changesets) 管理版本变更和 Changelog。
 :::
 

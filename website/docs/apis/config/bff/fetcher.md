@@ -29,6 +29,6 @@ export default defineConfig({
 });
 ```
 
-:::note 注
+:::info 注
 这里定制就需要定制两种场景下的 `fetch` 函数，即自行判断运行环境，实现同构的 fetch 函数。
 :::

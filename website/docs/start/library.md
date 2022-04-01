@@ -6,7 +6,7 @@ sidebar_position: 9
 
 本章将介绍如何使用 Modern.js，进行工具库项目的开发。本章对应的代码仓库地址：[独立项目场景](https://github.com/modern-js-dev/modern-js-examples/tree/main/quick-start/library-project) 、[Monorepo 场景](https://github.com/modern-js-dev/modern-js-examples/tree/main/quick-start/monorepo-library)。
 
-:::note 注
+:::info 注
 工具库项目是指开发类似 [Lodash](https://lodash.com/)、JavaScript SDK 等可复用模块的项目。
 :::
 
@@ -32,7 +32,7 @@ import EnvPrepare from '@site/docs/components/env-prepare.md';
 npx @modern-js/create library-project
 ```
 
-:::note 注
+:::info 注
 library-project 为创建的项目名。
 :::
 
@@ -46,7 +46,7 @@ library-project 为创建的项目名。
 ? 是否需要调整默认配置? 否
 ```
 
-:::note 注
+:::info 注
 项目名称为 package.json 中的 `name` 字段值。
 :::
 
@@ -183,7 +183,7 @@ export default {
 npx @modern-js/create library-monorepo
 ```
 
-:::note 注
+:::info 注
 library-monorepo 既是创建的 Monorepo 目录名称，又是项目的名称。
 :::
 
@@ -295,7 +295,7 @@ pnpm add library
 
 接下来导入内部模块 `internal-lib`，由于内部模块并不需要进行发布，因此通过如下方式添加到项目中：
 
-:::note 注
+:::info 注
 内部模块是指不需要发布到 npm 上的 package，它们只提供源码给应用项目使用，应用项目会将它们打包到构建产物中。
 :::
 

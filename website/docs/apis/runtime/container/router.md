@@ -398,7 +398,7 @@ function App() {
 }
 ```
 
-:::note 注
+:::info 注
 component 的优先级高于 render。
 :::
 
