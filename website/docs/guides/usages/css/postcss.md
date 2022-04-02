@@ -70,17 +70,12 @@ sidebar_position: 3
 
   当需要修改 PostCSS 配置时，可以通过底层配置 [`tools.postcss`](/docs/apis/config/tools/postcss) 来实现，下面是一个示例：
 
-  ```js title="package.json"
-  {
-    "modernConfig": {
-      "tools": {
-        "postcss": {
-          "plugins": [
-            "autoprefixer",
-            "postcss-flexbugs-fixes": {}
-          ]
-        }
-      }
-    }
-  }
-  ```
+```js title="modern.config.js"
+export default defineConfig({
+  tools: {
+    postcss: {
+      plugins: ['autoprefixer', ('postcss-flexbugs-fixes': {})],
+    },
+  },
+});
+```
