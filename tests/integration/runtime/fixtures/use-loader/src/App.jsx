@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable node/no-unsupported-features/es-syntax */
 import React, { useState } from 'react';
 import { useLoader } from '@modern-js/runtime';
 
@@ -61,4 +60,3 @@ function App() {
 
 export default App;
 /* eslint-enable no-console */
-/* eslint-enable node/no-unsupported-features/es-syntax */

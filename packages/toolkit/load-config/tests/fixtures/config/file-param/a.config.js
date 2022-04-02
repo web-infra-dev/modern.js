@@ -1,5 +1,5 @@
-/* eslint-disable filenames/match-exported,  node/no-unsupported-features/es-syntax */
+/* eslint-disable filenames/match-exported */
 const config = { output: { polyfill: 'off' } };
 
 export default config;
-/* eslint-enable filenames/match-exported,  node/no-unsupported-features/es-syntax */
+/* eslint-enable filenames/match-exported */
