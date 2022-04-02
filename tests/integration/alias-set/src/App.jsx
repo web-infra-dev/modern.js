@@ -1,4 +1,3 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
 import React from 'react';
 import test from '@common/test';
 
@@ -7,4 +6,3 @@ function App() {
 }
 
 export default App;
-/* eslint-enable node/no-unsupported-features/es-syntax */
