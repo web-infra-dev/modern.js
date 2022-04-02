@@ -16,7 +16,7 @@ sidebar_position: 36
 按入口设置 script 标签插入位置，对象的 `key` 为入口名，对应的值设置参考 [`output.inject`](./inject)。
 
 
-:::note 注
+:::info 注
 「 入口名 」默认为目录名，少数情况下通过 `source.entries` 自定义入口时，入口名为 `source.entries` 对象的 `key`。
 :::
 

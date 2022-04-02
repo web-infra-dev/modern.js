@@ -15,7 +15,7 @@ sidebar_position: 3
 按入口设置 html 页面 `title` 标签，对象的 `key` 为入口名。
 
 
-:::note 注
+:::info 注
 「 入口名 」默认为目录名，少数情况下通过 `source.entries` 自定义入口时，入口名为 `source.entries` 对象的 `key`。
 :::
 
