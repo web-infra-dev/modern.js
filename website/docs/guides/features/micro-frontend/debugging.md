@@ -16,28 +16,25 @@ title: 子应用调试
 
 #### 配置
 
-```json title=package.json
-{
-  "modernConfig": {
-    "runtime": {
-      "router": true,
-      "masterApp": {
-        "manifest": {
-          "modules": [
-            {
-              "name": "Dashboard",
-              "entry": "http://localhost:8081"
-            }
-          ]
-        }
-      }
-    }
-  }
-}
+```js title="modern.config.js"
+export default defineConfig({
+  runtime: {
+    router: true,
+    masterApp: {
+      manifest: {
+        modules: [
+          {
+            name: 'Dashboard',
+            entry: 'http://localhost:8081',
+          },
+        ],
+      },
+    },
+  },
+});
 ```
 
 假设本地的子应用的名字为 `DashBoard` 且启动服务的地址为 `http://localhost:8081`。配置 `runtime.masterApp.modules` 字段指定子应用的相关信息。
-
 
 #### 加载子应用
 
@@ -49,12 +46,14 @@ import { useModuleApps } from '@modern-js/runtime';
 function App() {
   const { Dashboard } = useModuleApps();
 
-  return <div>
-    Master APP
-    <Route path='/dashboard'>
-      <Dashboard />
-    </Route>
-  </div>;
+  return (
+    <div>
+      Master APP
+      <Route path="/dashboard">
+        <Dashboard />
+      </Route>
+    </div>
+  );
 }
 ```
 
@@ -62,14 +61,12 @@ function App() {
 
 #### 配置
 
-```json title=package.json
-{
-  "modernConfig": {
-    "deploy": {
-      "microFrontend": true
-    }
-  }
-}
+```js title="modern.config.js"
+export default defineConfig({
+  deploy: {
+    microFrontend: true,
+  },
+});
 ```
 
 当 `deploy.microFrontend` 字段配置为 true 的时候，Modern.js 将认为当前应用是一个微前端子应用，并将其编译为符合 Garfish 子应用规范的产物。
@@ -80,9 +77,7 @@ function App() {
 
 ```tsx title=src/App.tsx
 function App() {
-  return <div>
-    dashboard
-  </div>;
+  return <div>dashboard</div>;
 }
 ```
 
@@ -91,7 +86,6 @@ function App() {
 :::
 
 然后分别启动主应用和子应用（执行 `pnpm dev`），主应用访问 `8080` 端口，子应用访问 `8081` 端口。浏览器打开 `http://localhost:8080/dashboard` 就能看到加载了 `Dashboard` 子应用的效果了。
-
 
 ## 使用线上主应用调试
 
@@ -105,27 +99,25 @@ function App() {
 
 #### 配置
 
-```json title=package.json
-{
-  "modernConfig": {
-    "server": {
-      "enableMicroFrontendDebug": true
+```js title="modern.config.js"
+export default defineConfig({
+  server: {
+    enableMicroFrontendDebug: true,
+  },
+  runtime: {
+    router: true,
+    masterApp: {
+      manifest: {
+        modules: [
+          {
+            name: 'Dashboard',
+            entry: 'http://modern-js.dev/dashboard',
+          },
+        ],
+      },
     },
-    "runtime": {
-      "router": true,
-      "masterApp": {
-        "manifest": {
-          "modules": [
-            {
-              "name": "Dashboard",
-              "entry": "http://modern-js.dev/dashboard"
-            }
-          ]
-        }
-      }
-    }
-  }
-}
+  },
+});
 ```
 
 :::info 注
@@ -136,18 +128,15 @@ function App() {
 
 #### 配置
 
-```json title=package.json
-{
-  "modernConfig": {
-    "deploy": {
-      "microFrontend": true
-    }
-  }
-}
+```js title="modern.config.js"
+export default defineConfig({
+  deploy: {
+    microFrontend: true,
+  },
+});
 ```
 
 本地启动子应用，其端口为 `8080`。
-
 
 ### Query 模式调试
 
@@ -156,7 +145,6 @@ function App() {
 此时访问主应用后，服务端注入的子应用模块信息将被替换为我们 Query 里的信息。即 `TableList` 子应用 `entry` 为 `http://localhost:8080`。线上主应用切换到 `/tablelist` 路由后将会加载本地的子应用。
 
 ![query-debug](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/query-debug.png)
-
 
 ### Header 模式调试（推荐）
 
@@ -168,11 +156,10 @@ Query 调试时，当路透跳转的时候，Query 参数会丢失，reload 页�
 
 #### 配置 Header
 
-配置如下 Header
+配置如下 Header:
 
-`x-micro-frontend-module-name  TableList`
-
-`x-micro-frontend-module-entry  http://localhost:8080`
+- `x-micro-frontend-module-name TableList`
+- `x-micro-frontend-module-entry http://localhost:8080`
 
 访问主应用地址如下所示
 

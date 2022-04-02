@@ -27,38 +27,34 @@ import 'tailwindcss/utilities.css';
 根据不同需求，可以选择性的导入 Tailwind CSS 提供的 CSS 文件。由于使用 `@taiwind` 与直接导入 CSS 文件的作用等价，因此关于 Tailwind CSS 提供的 CSS 文件的用途，可以参考 [`@tailwind` 的使用](https://tailwindcss.com/docs/functions-and-directives#tailwind) 文档中注释里的内容。
 :::
 
-当需要自定义 Tailwind CSS 的 [theme](https://tailwindcss.com/docs/theme) 配置的时候，可以在配置 [`source.designSystem`](/docs/apis/config/source/design-system) 中修改，例如，颜色主题中增加一个 `primary`：
+当需要自定义 Tailwind CSS 的 [theme](https://tailwindcss.com/docs/theme) 配置的时候，可以在配置 [`source.designSystem`](/docs/apis/config/source/design-system) 中修改，例如，颜色主题中增加一个 `primary`：
 
-```js title="package.json"
-{
-  "modernConfig": {
-    "source": {
-      "designSystem": {
-        "extend": {
-          "colors": {
-            "primary": "#5c6ac4"
-          }
-        }
-      }
-    }
-  }
-}
+```js title="modern.config.js"
+export default defineConfig({
+  source: {
+    designSystem: {
+      extend: {
+        colors: {
+          primary: '#5c6ac4',
+        },
+      },
+    },
+  },
+});
 ```
 
 当需要对 Tailwind CSS 做 [theme](https://tailwindcss.com/docs/theme) 以外的其他特殊配置时，可以在 [`tools.tailwindcss`](/docs/apis/config/tools/tailwindcss) 中配置，例如设置 `variants`：
 
-```js title="package.json"
-{
-  "modernConfig": {
-    "tools": {
-      "tailwindcss": {
-        "variants": {
-          "extend": {
-            "backgroundColor": ["active"]
-          }
-        }
-      }
-    }
-  }
-}
+```js title="modern.config.js"
+export default defineConfig({
+  tools: {
+    tailwindcss: {
+      variants: {
+        extend: {
+          backgroundColor: ['active'],
+        },
+      },
+    },
+  },
+});
 ```
