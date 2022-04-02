@@ -62,7 +62,7 @@ Modern.js 中的 BFF 和 API 服务支持四种不同的运行时框架，详细
 
 ## IDE 支持
 
-Modern.js 对 VSCode 等主流 IDE 提供了开箱即用的支持，具备 Lint 问题自动检测、自动修复，代码提交前的准入检查等功能特性，可以让代码开发更加高效和智能。详细介绍请参考【[确认编程环境](/docs/guides/tutorials/c03-ide/3.1-setting-up)】。
+Modern.js 对 VS Code 等主流 IDE 提供了开箱即用的支持，具备 Lint 问题自动检测、自动修复，代码提交前的准入检查等功能特性，可以让代码开发更加高效和智能。详细介绍请参考【[确认编程环境](/docs/guides/tutorials/c03-ide/3.1-setting-up)】。
 
 ## 开发调试
 
@@ -104,9 +104,9 @@ export default async (): Promise<
 
 ### 调试接口
 
-通过 VSCode 的 Debugger 模式，我们可以很容易地调试 API 服务。
+通过 VS Code 的 Debugger 模式，我们可以很容易地调试 API 服务。
 
-在 VSCode 的 Terminal 面板，选择 Debugger Terminal，执行 `pnpm run dev` 命令，运行 API 服务。
+在 VS Code 的 Terminal 面板，选择 Debugger Terminal，执行 `pnpm run dev` 命令，运行 API 服务。
 
 ![alt terminal](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/service-project-terminal.png)
 
