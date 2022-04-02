@@ -1,4 +1,3 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
 import React from 'react';
 import styles from './index.module.css';
 
@@ -9,4 +8,3 @@ const App = () => (
 );
 
 export default App;
-/* eslint-enable node/no-unsupported-features/es-syntax */

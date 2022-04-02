@@ -1,4 +1,3 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
 import React from 'react';
 import blueStyles from './blue.module.sass';
 import greenStyles from './green.module.less';
@@ -11,4 +10,3 @@ const App = () => (
 );
 
 export default App;
-/* eslint-enable node/no-unsupported-features/es-syntax */
