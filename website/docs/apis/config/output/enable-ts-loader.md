@@ -23,7 +23,7 @@ export default defineConfig({
 });
 ```
 
-:::note 注
+:::info 注
 默认情况下，Modern.js 使用 Babel 编译 TS 文件，由于一些已知问题例如：
 
 * 不支持 const enum
