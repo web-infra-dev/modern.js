@@ -26,7 +26,7 @@ title: 定制 Web Server
 由于不同框架 API 的差异性，自定义逻辑的写法也有所不同。假设有以下场景：当请求的 cookies 中包含 `login-token` 时，认为用户已登录，正常返回页面；否则返回 404 状态码。下面就以此场景为例，演示不同框架下如何实现定制 Web Server 逻辑。
 
 :::info 注
-目前 Modern.js 只支持前置中间件的扩展。
+目前 Modern.js 只支持前置中间件的扩展。
 :::
 
 ### Express

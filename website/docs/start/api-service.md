@@ -13,11 +13,9 @@ sidebar_position: 6
 - BFF 函数写法和框架写法。
 - 如何使用测试功能。
 
-
 :::info 注
 API 服务指提供 HTTP 接口的服务端项目。
 :::
-
 
 ## 环境准备
 
@@ -65,7 +63,6 @@ Modern.js 中的 BFF 和 API 服务支持四种不同的运行时框架，详细
 ## IDE 支持
 
 Modern.js 对 VSCode 等主流 IDE 提供了开箱即用的支持，具备 Lint 问题自动检测、自动修复，代码提交前的准入检查等功能特性，可以让代码开发更加高效和智能。详细介绍请参考【[确认编程环境](/docs/guides/tutorials/c03-ide/3.1-setting-up)】。
-
 
 ## 开发调试
 
@@ -160,7 +157,7 @@ export default async () => {
 这样我们获取用户数据的接口就开发完成了，访问 `http://localhost:8080/api/users/1`，会返回以下数据：
 
 ```json
-{"key":"1","name":"John Brown","age":32,"country":"America"}
+{ "key": "1", "name": "John Brown", "age": 32, "country": "America" }
 ```
 
 :::info 注
@@ -226,11 +223,11 @@ pnpm add mysql2
 
 ```ts
 const connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : 'password',
-  database : 'modernjs'
-})
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  database: 'modernjs',
+});
 ```
 
 - 创建一个 `query` 函数，支持通过 `sql` 语句查询数据库：
@@ -253,16 +250,15 @@ const query = (sql: string) =>
 export default async (): Promise<User | string> => {
   const users: User[] = await query(`select * from users`);
   const ctx = useContext();
-  const user = users.find(user => user.id == ctx.params.id)
-  return user || 'not found'
+  const user = users.find(user => user.id == ctx.params.id);
+  return user || 'not found';
 };
-
 ```
 
 - 访问 `http://localhost:8080/api/users/1`，会得到下面的数据：
 
 ```json
-{"id":1,"name":"John Brown","age":32,"country":"America"}
+{ "id": 1, "name": "John Brown", "age": 32, "country": "America" }
 ```
 
 ### 添加数据
@@ -293,16 +289,16 @@ const addUser = ({
 然后创建 `post` 函数，并将该 `post` 函数导出：
 
 ```ts title=api/users.ts
-export const post = async({
-  data
+export const post = async ({
+  data,
 }: {
-  data: Pick<User, 'name' | 'age' | 'country'>
+  data: Pick<User, 'name' | 'age' | 'country'>;
 }) => {
-  const id: number = await addUser(data)
+  const id: number = await addUser(data);
   return {
-    id
-  }
-}
+    id,
+  };
+};
 ```
 
 :::info 补充信息
@@ -322,7 +318,7 @@ curl -H "Content-类型: application/json" -X POST -d '{"name":"Modernjs", "age"
   { "id": 1, "name": "John Brown", "age": 32, "country": "America" },
   { "id": 2, "name": "Jim Green", "age": 42, "country": "England" },
   { "id": 3, "name": "Ming Li", "age": 30, "country": "China" },
-  { "id": 4, "name": "Modernjs", "age": 0, "country": "China"}
+  { "id": 4, "name": "Modernjs", "age": 0, "country": "China" }
 ]
 ```
 
@@ -380,25 +376,22 @@ age is not a number
 
 在一些场景下，我们只是做接口的转发；此时我们并不需要像前面所述，从零开发一个 API 服务的接口，而是可以直接使用 Modern.js 提供的 BFF 代理功能做请求转发。
 
-例如，我们需要代理 [CNode](https://cnodejs.org/) 社区首页的接口，可以在项目的 `package.json` 中的 `modernConfig` 字段下，增加以下配置：
+例如，我们需要代理 [CNode](https://cnodejs.org/) 社区首页的接口，可以在项目的 `modern.config.js` 下，增加以下配置：
 
-```js title="package.json"
-{
-  // ...
-  "modernConfig": {
-    "bff": {
-      "proxy": {
-        "/api/v1/topics": "https://cnodejs.org",
-      },
+```js title="modern.config.js"
+export default defineConfig({
+  bff: {
+    proxy: {
+      '/api/v1/topics': 'https://cnodejs.org',
     },
-  }
-}
+  },
+});
 ```
 
 现在访问 `http://localhost:8080/api/v1/topics`，就会得到 [CNode](https://cnodejs.org/) 首页的数据。
 
 :::info 补充信息
-更多用法，请参考【[BFF代理](/docs/apis/config/bff/proxy)】。
+更多用法，请参考【[BFF 代理](/docs/apis/config/bff/proxy)】。
 更多 Modern.js 的代理方式请参考【[调试代理和 Mock](/docs/guides/usages/debug/proxy-and-mock)】。
 :::
 

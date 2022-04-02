@@ -2,8 +2,6 @@
 sidebar_position: 2
 ---
 
-
-
 # 开发移动页面
 
 本章将介绍如何使用 Modern.js，进行移动页面的开发。本章对应的代码仓库地址在[这里查看](https://github.com/modern-js-dev/modern-js-examples/tree/main/quick-start/mobile-pages)。
@@ -127,18 +125,15 @@ App running at:
 
 默认生成的项目是开启客户端路由和状态管理功能的，而一个移动项目一般都是由多个相对简单的独立页面组成，不涉及客户端路由和复杂的状态管理，此时我们可以关闭客户端路由和状态管理功能，以减少项目打包后的体积大小，提高页面性能。
 
-我们打开项目根路径下的 `package.json`，然后找到 `modernConfig` 这个配置项，目前应该是这样的：
+我们打开项目根路径下的 `modern.config.js`，目前应该是这样的：
 
-```json
-{
-  "modernConfig": {
-    "runtime": {
-        "state": true,
-        "router": true
-      }
-    }
-  }
-}
+```js title="modern.config.js"
+export default defineConfig({
+  runtime: {
+    state: true,
+    router: true,
+  },
+});
 ```
 
 然后我们将 `state` 和 `router` 这两个配置项设置为 `false`，就关闭了客户端路由和状态管理功能。
@@ -194,7 +189,7 @@ const App: React.FC = () => (
 首先，我们在 `src/activity/App.tsx` 里修改顶部的代码，引入 `styled` 模块：
 
 ```js
-import styled from '@modern-js/runtime/styled'
+import styled from '@modern-js/runtime/styled';
 ```
 
 `styled` 模块的使用方式同 [styled-components](https://styled-components.com/) 一致，我们可以定义如下用于给页面标题添加样式的组件：
@@ -205,26 +200,26 @@ const TitleWrapper = styled.div`
   text-align: center;
   margin: 0.5rem 0;
   color: goldenrod;
-`
+`;
 ```
 
 此时，`src/activity/App.tsx` 的完整代码如下：
 
 ```js title="src/activity/App.tsx"
-import styled from '@modern-js/runtime/styled'
+import styled from '@modern-js/runtime/styled';
 
 const TitleWrapper = styled.div`
   font-size: 2rem;
   text-align: center;
   margin: 0.5rem 0;
   color: goldenrod;
-`
+`;
 const App: React.FC = () => {
   return (
     <div>
       <TitleWrapper>Promotion Campaign</TitleWrapper>
     </div>
-  )
+  );
 };
 
 export default App;
@@ -244,7 +239,7 @@ Modern.js 提供自动 Polyfill、Browserslist 配置、差异化分发等特性
 
 ## 一体化 BFF
 
-现在 `activity` 入口页面还没有数据，我们可以通过服务端 API 动态获取数据（商品列表数据）。服务端 API 地址为：<https://lf3-static.bytednsdoc.com/obj/eden-cn/beeh7uvzhq/products.json>。
+现在 `activity` 入口页面还没有数据，我们可以通过服务端 API 动态获取数据（商品列表数据）。服务端 API 地址为：<https://lf3-static.bytednsdoc.com/obj/eden-cn/beeh7uvzhq/products.json>。
 
 但这个 API 并不是专门为当前项目提供的，部署也是在一个独立的域名下。
 
@@ -267,13 +262,14 @@ import LaunchBFFChoices from '@site/docs/components/launch-bff-choices.md';
 ```js
 import axios from 'axios';
 
-export default async (): Promise<{ id:string, name: string, price: number }[]> => {
+export default async (): Promise<
+  { id: string, name: string, price: number }[],
+> => {
   const res = await axios.get(
     'https://lf3-static.bytednsdoc.com/obj/eden-cn/beeh7uvzhq/products.json',
   );
   return res.data;
 };
-
 ```
 
 重新执行 `dev` 命令，我们已经可以访问 `http://localhost:8080/api/products`，并成功获取推荐的商品数据。
