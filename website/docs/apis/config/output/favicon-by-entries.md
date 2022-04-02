@@ -14,7 +14,7 @@ sidebar_position: 7
 
 按入口设置网页的 favicon。
 
-:::note 注
+:::info 注
 「 入口名 」默认为目录名，少数情况下通过 `source.entries` 自定义入口时，入口名为 `source.entries` 对象的 `key`。
 :::
 
