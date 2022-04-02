@@ -12,7 +12,7 @@
     "description": "The first paragraph of the 404 page"
   },
   "theme.NotFound.p2": {
-    "message": "该链接已失效，请通过 Github 或 飞书反馈失效的链接.",
+    "message": "该链接已失效，请通过 GitHub 或 飞书反馈失效的链接.",
     "description": "The 2nd paragraph of the 404 page"
   },
   "theme.AnnouncementBar.closeButtonAriaLabel": {

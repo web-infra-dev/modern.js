@@ -53,7 +53,7 @@ ields) 配置来修改。
 
 ### 类型文件生成
 
-在可复用模块的构建过程中，如果项目是一个 Typescript 项目，那么会在 `dist/types` 目录下生成 `src` 目录里 TS 文件对应的 `*.d.ts` 类型文件。
+在可复用模块的构建过程中，如果项目是一个 TypeScript 项目，那么会在 `dist/types` 目录下生成 `src` 目录里 TS 文件对应的 `*.d.ts` 类型文件。
 
 我们可以在项目的 `package.json` 中的 `types` 字段使用它：
 
