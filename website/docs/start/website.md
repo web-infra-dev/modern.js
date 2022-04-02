@@ -111,17 +111,13 @@ touch pages/about.tsx pages/introduction.tsx
 文件内容如下：
 
 ```js title="about.tsx"
-const About = () => (
-  <div>About page</div>
-)
+const About = () => <div>About page</div>;
 
 export default About;
 ```
 
 ```js title="introduction.tsx"
-const Introduction = () => (
-  <div>Introduction page</div>
-)
+const Introduction = () => <div>Introduction page</div>;
 
 export default Introduction;
 ```
@@ -133,7 +129,7 @@ export default Introduction;
 我们修改 `index.tsx` 文件的内容，增加跳转到其他两个路由的链接：
 
 ```js title="index.tsx" {15-20}
-import { Link } from '@modern-js/runtime/router'
+import { Link } from '@modern-js/runtime/router';
 import './index.css';
 
 const Index = () => (
@@ -202,7 +198,7 @@ const About = () => (
     </Helmet>
     <div>About page</div>
   </div>
-)
+);
 
 export default About;
 ```
@@ -217,7 +213,7 @@ const Introduction = () => (
     </Helmet>
     <div>Introduction page</div>
   </div>
-)
+);
 
 export default Introduction;
 ```
@@ -261,7 +257,7 @@ const About = () => (
   <div>
     <div className="text-center">About page</div>
   </div>
-)
+);
 ```
 
 浏览器访问 `http://localhost:8080/about`，会发现 `About page` 已经居中显示了。
@@ -279,7 +275,7 @@ const About = () => (
 首先，在文件中引入 `styled` 模块：
 
 ```js title="introduction.tsx"
-import styled from '@modern-js/runtime/styled'
+import styled from '@modern-js/runtime/styled';
 ```
 
 `styled` 模块的使用方式同 [styled-components](https://styled-components.com/) 一致，我们可以定义如下样式组件：
@@ -289,20 +285,20 @@ const Title = styled.div`
   font-size: 24px;
   font-weight: bold;
   text-align: center;
-`
+`;
 ```
 
 `src/pages/introduction.tsx` 完整的代码如下：
 
 ```js title="introduction.tsx" {2,4-8,15}
 import { Helmet } from '@modern-js/runtime/head';
-import styled from '@modern-js/runtime/styled'
+import styled from '@modern-js/runtime/styled';
 
 const Title = styled.div`
   font-size: 24px;
   font-weight: bold;
   text-align: center;
-`
+`;
 
 const Introduction = () => (
   <div>
@@ -311,7 +307,7 @@ const Introduction = () => (
     </Helmet>
     <Title>Introduction page</Title>
   </div>
-)
+);
 
 export default Introduction;
 ```
@@ -344,9 +340,10 @@ import LaunchBFFChoices from '@site/docs/components/launch-bff-choices.md';
 export default async () => {
   return {
     title: 'Introduction to Modern.js',
-    content: 'Modern.js is a modern web development solution. It offers best practice for different scenarios，such as mobile pages, websites, API services, etc.'
-  }
-}
+    content:
+      'Modern.js is a modern web development solution. It offers best practice for different scenarios，such as mobile pages, websites, API services, etc.',
+  };
+};
 ```
 
 这样我们就成功创建了一个 BFF API。访问 `http://localhost:8080/api/data`，返回的数据就是 `data.ts` 中默认导出函数的返回值。
@@ -393,14 +390,14 @@ export default Introduction;
 
 当前 `/introduction` 页面中的数据是在浏览器端获取的，即 CSR 运行模式。网站通常更关注页面的 SEO 和首屏渲染时间，因此使用服务端渲染（ SSR ）更适合网站开发场景。Modern.js 内置 SSR Server，只需要一行配置即可使用 SSR 能力。
 
-在 `package.json` 的 `modernConfig` 配置中，开启 `ssr` 选项：
+在 `modern.config.js` 中，开启 `ssr` 选项：
 
-```json
-"modernConfig": {
-  "server":{
-    "ssr": true,
+```js title="modern.config.js"
+export default defineConfig({
+  server: {
+    ssr: true,
   },
-}
+});
 ```
 
 Modern.js 提供了 `useLoader` API，可以同构在浏览器端、服务端渲染时的数据获取。现在，我们用 `useLoader` 替换 `useEffect`，关键代码如下：

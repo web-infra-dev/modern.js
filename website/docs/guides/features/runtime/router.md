@@ -57,21 +57,18 @@ export default App;
 2. Modern.js 中使用路由，不需要使用 `BrowserRouter` 或 `HashRouter` 包裹根组件。
 :::
 
-
 ## 如何切换路由类型
 
 路由分为 **浏览器路由** 和 **哈希路由**。Modern.js 默认启用的是浏览器路由类型，如果你想使用哈希路由，可以关闭 `supportHtml5History` 选项。
 
-```js title=package.json
-{
-  "modernConfig": {
-    "runtime": {
-      "router": {
-        "supportHtml5History": true
-      }
-    }
-  }
-}
+```js title="modern.config.js"
+export default defineConfig({
+  runtime: {
+    router: {
+      supportHtml5History: true,
+    },
+  },
+});
 ```
 
 除了**切换路由类型**之外，Modern.js 也支持其它路由的相关配置，更多使用请参考【[Router 配置](/docs/apis/config/runtime/router)】。
