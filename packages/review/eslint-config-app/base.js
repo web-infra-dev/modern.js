@@ -97,7 +97,7 @@ module.exports = {
 
     /*
      * https://eslint.org/docs/rules/no-debugger
-     * @TIPS: for non-VSCode users, please use `debugger // eslint-disable-line`
+     * @TIPS: for non-VS Code users, please use `debugger // eslint-disable-line`
      *        instead of `debugger` to avoid it to be removed by IDE's autoFixOnSave feature
      */
     'no-debugger': 'error',

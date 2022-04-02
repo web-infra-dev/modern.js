@@ -88,7 +88,7 @@ const fooFeat = require('foo/feature');
 关于 `.cjs` 与 `.mjs`
 
 * `.mjs` 为后缀的文件其代码会被识别为使用了 ES Module 模块系统。
-* `.cjs` 为后缀的文件其代码会被识别为使用了 Commonjs 模块系统。
+* `.cjs` 为后缀的文件其代码会被识别为使用了 CommonJS 模块系统。
 :::
 
 除了像上面使用直接映射方式之外，还可以使用嵌套条件的方式来定义 "exports"，例如：

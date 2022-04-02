@@ -13,7 +13,7 @@ sidebar_position: 5
 * 默认值：见下方配置详情。
 
 <details>
-  <summary>Tailwindcss 配置详情</summary>
+  <summary>TailwindCSS 配置详情</summary>
 
 ```js
   const tailwind = {
@@ -39,11 +39,11 @@ sidebar_position: 5
 ```
 
 :::tip 提示
-更多关于：<a href="https://tailwindcss.com/docs/configuration" target="_blank">Tailwindcss 配置</a>。
+更多关于：<a href="https://tailwindcss.com/docs/configuration" target="_blank">TailwindCSS 配置</a>。
 :::
 </details>
 
-对应 [Tailwindcss](https://tailwindcss.com/docs/configuration) 的配置，值为 `Object` 类型时，与默认配置通过 `Object.assign` 合并。
+对应 [TailwindCSS](https://tailwindcss.com/docs/configuration) 的配置，值为 `Object` 类型时，与默认配置通过 `Object.assign` 合并。
 
 值为 `Function` 类型时，函数返回的对象与默认配置通过 `Object.assign` 合并。
 

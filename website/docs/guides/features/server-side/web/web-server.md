@@ -17,7 +17,7 @@ title: 定制 Web Server
 ? 请选择运行时框架： Express/Koa/Egg/Nest
 ```
 
-目前 Modern.js 默认支持 4 种主流的 Node.js Server 框架：[Express](https://expressjs.com/)、[Koa](https://koajs.com/)、[EggJS](https://eggjs.org/zh-cn/)、[Nest](https://nestjs.com/)，选择运行时框架时，可根据自身偏好进行选择。
+目前 Modern.js 默认支持 4 种主流的 Node.js Server 框架：[Express](https://expressjs.com/)、[Koa](https://koajs.com/)、[Egg.js](https://eggjs.org/zh-cn/)、[Nest](https://nestjs.com/)，选择运行时框架时，可根据自身偏好进行选择。
 
 执行命令后，项目目录下会新建 `server/index.ts` 文件，自定义逻辑在这个文件中编写。
 

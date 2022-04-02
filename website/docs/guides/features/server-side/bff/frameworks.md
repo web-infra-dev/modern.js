@@ -9,7 +9,7 @@ title: 运行时框架
 
 所有框架均支持 BFF 函数的所有能力，并且使用方式是相同的，例如：
 
-- Restful API
+- RESTful API
 - Schema 模式
 - Hooks(useContext)
 - 不同的数据类型
