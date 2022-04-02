@@ -27,7 +27,7 @@ sidebar_position: 1
 Modern.js 支持在 JS 和 CSS 中通过别名引用具体路径。通过该选项可以自定义项目下的别名配置。
 
 :::tip 提示
-Typescript 项目只需要配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths)。
+TypeScript 项目只需要配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths)。
 :::
 
 值为 `Object` 类型时，会与默认值合并:

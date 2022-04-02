@@ -12,7 +12,7 @@ sidebar_position: 4
 
 ## 生成变更记录
 
-在开发阶段，当某个模块的功能开完完成之后，一般需要提交代码（例如提交到 [Github](https://github.com/) 上）并需要记录本次修改的内容。在 Modern.js 的 Monorepo 工程中，我们可以在 monorepo 根目录执行命令：
+在开发阶段，当某个模块的功能开完完成之后，一般需要提交代码（例如提交到 [GitHub](https://github.com/) 上）并需要记录本次修改的内容。在 Modern.js 的 Monorepo 工程中，我们可以在 monorepo 根目录执行命令：
 
 ```
 pnpm run change
