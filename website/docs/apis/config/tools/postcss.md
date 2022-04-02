@@ -36,7 +36,7 @@ sidebar_position: 3
 ```
 
 :::tip 提示
-更多关于：<a href="https://github.com/postcss/postcss-loader" target="_blank">PostCss 配置</a>。
+更多关于：<a href="https://github.com/postcss/postcss-loader" target="_blank">PostCSS 配置</a>。
 :::
 </details>
 

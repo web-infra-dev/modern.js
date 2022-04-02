@@ -256,7 +256,7 @@ const bestPratice = [
     href: '/docs/guides/tutorials/c11-container/11.4-testing',
   },
   {
-    title: 'Eslint 全量规则集、IDE 支持',
+    title: 'ESLint 全量规则集、IDE 支持',
     img: EditorSVG,
     href: '/docs/guides/tutorials/c03-ide/3.1-setting-up',
   },

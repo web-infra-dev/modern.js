@@ -1,5 +1,5 @@
 /**
- * Echarts contains zrender.
+ * ECharts contains zrender.
  * but zrender/lib/zrender use internal Group
  * echarts use zrender/lib/container/Group
  * Those two Group is different in esm.

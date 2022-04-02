@@ -45,7 +45,7 @@ pnpm run lint:error
 ```
 
 :::info 注
-在 VSCode 编辑器里输入 eslint，会自动出现关于 "eslint-disable" 的提示框，选择提示选项生成对应注释对。
+在 VS Code 编辑器里输入 eslint，会自动出现关于 "eslint-disable" 的提示框，选择提示选项生成对应注释对。
 :::
 
 【Modern.js ESLint 规则集】要求 [eslint-disable](https://eslint.org/docs/user-guide/configuring/rules#disabling-rules) 必须成对使用，必须明确表达要影响的范围，以及在这个范围内明确表达要禁用什么规则，目的是让**例外**有明确的、最小化的范围，避免 [eslint-disable](https://eslint.org/docs/user-guide/configuring/rules#disabling-rules) 被滥用，导致不属于例外的代码也被禁用了规则。

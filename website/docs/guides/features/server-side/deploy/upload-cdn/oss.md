@@ -45,7 +45,7 @@ CLOUD_BUCKET_REGION
 CLOUD_BUCKET_PATH
 ```
 
-另外与账号鉴权相关的信息，必须确保放在平台上，例如 [Github Environments](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment) 中。
+另外与账号鉴权相关的信息，必须确保放在平台上，例如 [GitHub Environments](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment) 中。
 
 ```bash
 # 阿里云访问 AK
