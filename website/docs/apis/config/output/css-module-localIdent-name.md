@@ -26,6 +26,6 @@ export default defineConfig({
 
 更多配置与解释参考：[css-loader#localIdentName](https://github.com/webpack-contrib/css-loader#localidentname)。
 
-:::note 注
+:::info 注
 使用 [babel-plugin-react-css-modules](https://github.com/gajus/babel-plugin-react-css-modules) 时，该插件的配置选项 `generateScopedName` 需要和 `output.cssModuleLocalIdentName` 保持一致。
 :::

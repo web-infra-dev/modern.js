@@ -473,7 +473,6 @@
       "**/coverage": true,
       "**/dist": true,
       "**/node_modules": true,
-      "**/output": true,
       "**/package-lock.json": true,
       "**/yarn.lock": true
     },
