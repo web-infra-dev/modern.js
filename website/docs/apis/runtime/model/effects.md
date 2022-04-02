@@ -35,7 +35,7 @@ interface ModelEffects {
 
 
 ### VoidEffect
-副作用调用并不只是异步请求，比如还有 localStorage、Dom 操作等，这些操作没有返回，那么也无需进行 pending、fulfilled、rejected 等阶段的处理。
+副作用调用并不只是异步请求，比如还有 localStorage、DOM 操作等，这些操作没有返回，那么也无需进行 pending、fulfilled、rejected 等阶段的处理。
 
 对于不需要进行 pending、fulfilled、rejected 等阶段处理的异步请求也可以选择不 return。
 
