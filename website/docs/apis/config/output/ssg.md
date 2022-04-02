@@ -13,7 +13,7 @@ sidebar_position: 9
 
 开启**自控式路由**或**约定式路由** SSG 功能的配置。
 
-:::note 客户端路由
+:::info 客户端路由
 相关内容可以查看[自控式路由](/docs/guides/tutorials/c08-client-side-routing/8.1-code-based-routing)或[约定式路由](/docs/guides/tutorials/c08-client-side-routing/8.2-file-based-routing)。
 :::
 
@@ -157,7 +157,7 @@ module.exports = {
 };
 ```
 
-:::note
+:::info
 路由中设置的 `headers` 会覆盖入口中设置的 `headers`。
 :::
 
@@ -187,7 +187,7 @@ module.exports = {
 
 可以这样设置，禁用某一条客户端路由的默认行为：
 
-:::note 注
+:::info 注
 该配置仅在渲染动态路径的约定式路由时使用。
 :::
 

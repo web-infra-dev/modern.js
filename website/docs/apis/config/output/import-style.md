@@ -24,7 +24,7 @@ sidebar_label: importStyle
 - `./src/index.tsx`
 - `./src/index.less`
 
-:::note 注
+:::info 注
 假设开启了处理 Less 的功能。
 :::
 
