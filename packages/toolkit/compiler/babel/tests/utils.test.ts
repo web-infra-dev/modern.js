@@ -14,7 +14,7 @@ describe('utils test', () => {
     // expect(rightCodeWithSourceMappingUrl.trim()).toMatch(
     //   codeWithSourceMappingUrl.trim(),
     // );
-    // FIXME: git 回车在 Windows 与 Unix 下不一致
+    // FIXME: git 回车在 Windows 与 UNIX 下不一致
     expect(0).toBe(0);
   });
 });

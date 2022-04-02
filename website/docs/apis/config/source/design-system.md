@@ -646,7 +646,7 @@ sidebar_position: 4
 ```
 
 :::tip 提示
-更多关于：<a href="https://tailwindcss.com/docs/configuration#theme" target="_blank">Tailwindcss 配置</a>。
+更多关于：<a href="https://tailwindcss.com/docs/configuration#theme" target="_blank">TailwindCSS 配置</a>。
 :::
 </details>
 

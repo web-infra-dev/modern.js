@@ -26,7 +26,7 @@ jest.mock('@modern-js/utils', () => ({
 
 describe('config', () => {
   /**
-   * Typescript Type annotations cannot be used for esbuild-jest
+   * TypeScript Type annotations cannot be used for esbuild-jest
    * test files that use jest.mock('@some/module')
    * refer to this esbuild-jest issue:
    * https://github.com/aelbore/esbuild-jest/issues/57

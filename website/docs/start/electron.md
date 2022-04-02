@@ -229,7 +229,7 @@ exposeInMainWorld(apis);
 
 我们只需要在窗口配置上，增加预加载脚本路径即可。
 
-在开发时，由于在 Electron 中，`BrowserWindow` 对象预加载脚本为：Javascript。
+在开发时，由于在 Electron 中，`BrowserWindow` 对象预加载脚本为：JavaScript。
 因此我们新建一个文件，通过 Babel 编译 TS。
 
 ```js title='electron/preload/index.dev.js'
@@ -357,7 +357,7 @@ release/
 ```
 
 :::info 补充信息
-默认针对 MacOS 系统做构建，更多操作系统打包请参考【[构建](/docs/guides/features/electron/pack)】。
+默认针对 macOS 系统做构建，更多操作系统打包请参考【[构建](/docs/guides/features/electron/pack)】。
 :::
 
 ## 测试

@@ -363,7 +363,7 @@ class Compilation {
     this.rollupPlugins.push(rollupPluginNodeResolve(nodeResolveOptions));
 
     /**
-     * Json
+     * JSON
      */
     const jsonOptions = {
       preferConst: true,
@@ -389,7 +389,7 @@ class Compilation {
     this.rollupPlugins.push(rollupPluginLess(lessOptions));
 
     /**
-     * Scss
+     * SCSS
      */
     const scssOptions: ScssOptions = {
       includePaths: [path.resolve(cwd, 'node_modules')],
@@ -409,7 +409,7 @@ class Compilation {
     this.rollupPlugins.push(rollupPluginSvgr() as any);
 
     /**
-     * Commonjs
+     * CommonJS
      */
     const commonjsOptions: RollupCommonJSOptions = {
       transformMixedEsModules: true,

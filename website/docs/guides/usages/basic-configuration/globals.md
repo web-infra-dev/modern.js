@@ -38,7 +38,7 @@ import utils from '@/src/common/utils';
 import '@/src/common/styles/base.css';
 ```
 
-Modern.js 也提供了自定义别名的方式，以添加 `@common` 别名为例，对于 Typescript 项目，只需要在项目根目录 `tsconfig.json` 下配置 `compilerOptions.paths` 如下:
+Modern.js 也提供了自定义别名的方式，以添加 `@common` 别名为例，对于 TypeScript 项目，只需要在项目根目录 `tsconfig.json` 下配置 `compilerOptions.paths` 如下:
 
 ```json
 {

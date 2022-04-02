@@ -40,5 +40,5 @@ console.log(VERSION); // => 1.0.2
 ```
 
 :::tip 提示
-Typescript 项目中需要处理全局变量的类型，如: `declare let VERSION;`。
+TypeScript 项目中需要处理全局变量的类型，如: `declare let VERSION;`。
 :::

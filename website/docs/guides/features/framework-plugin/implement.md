@@ -102,7 +102,7 @@ export default (): CliPlugin => ({
 
 ### 异步 setup
 
-Cli 插件的 setup 可以是一个异步函数，在初始化过程中执行异步逻辑。
+CLI 插件的 setup 可以是一个异步函数，在初始化过程中执行异步逻辑。
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';

@@ -83,7 +83,7 @@ const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
   resolveLog(childProgress, { tsCheck, watch });
   try {
     await childProgress;
-    console.info('[Tsc Compiler]: Successfully');
+    console.info('[TSC Compiler]: Successfully');
   } catch (e) {
     if (!tsCheck) {
       console.info(
