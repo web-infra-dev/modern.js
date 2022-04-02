@@ -4,25 +4,7 @@ sidebar_position: 0
 
 # 配置使用
 
-Modern.js 支持在 `package.json` 文件和 `modern.config.js` 配置文件中自定义配置选项。
-
-## 在 package.json 中配置
-
-在 `package.json` 中的 `modernConfig` 字段下设置自定义的配置选项，如：
-
-```json title="package.json"
-{
-  "modernConfig": {
-    "source": {
-      "alias": {
-        "@common": "./src/common"
-      }
-    }
-  }
-}
-```
-
-由于 JSON 文件格式的限制，`package.json` 中只能定义数字、字符串、布尔值、数组等简单类型的值，当我们需要设置函数类型的值时，可以在 Modern.js 配置文件中进行设置。
+Modern.js 支持在 `modern.config.js` 配置文件或 `package.json` 文件中自定义配置选项。
 
 ## 配置文件
 
@@ -79,6 +61,25 @@ export default defineConfig({
   },
 });
 ```
+
+
+## 在 package.json 中配置（不推荐）
+
+除了配置文件外，也可以在 `package.json` 中的 `modernConfig` 字段下设置配置选项，如：
+
+```json title="package.json"
+{
+  "modernConfig": {
+    "source": {
+      "alias": {
+        "@common": "./src/common"
+      }
+    }
+  }
+}
+```
+
+由于 JSON 文件格式的限制，`package.json` 中只能定义数字、字符串、布尔值、数组等简单类型的值，当我们需要设置函数类型的值时，建议在 Modern.js 配置文件中进行设置。
 
 ## 注意事项
 

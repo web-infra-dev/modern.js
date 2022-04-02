@@ -43,31 +43,29 @@ main 为创建的项目名。
 
 使用 `pnpm new` 选择 `「开启微前端」`
 
-配置 `package.json`：
+配置 `modern.config.js`：
 
-```json
-{
-  "modernConfig": {
-    "runtime": {
-      "router": true,
-      "state": true,
-      "masterApp": {
-        "manifest": {
-          "modules": [
-            {
-              "name": "Dashboard",
-              "entry": "http://localhost:8081"
-            },
-            {
-              "name": "TableList",
-              "entry": "http://localhost:8082"
-            }
-          ]
-        }
-      }
-    }
-  }
-}
+```js title="modern.config.js"
+export default defineConfig({
+  runtime: {
+    router: true,
+    state: true,
+    masterApp: {
+      manifest: {
+        modules: [
+          {
+            name: 'Dashboard',
+            entry: 'http://localhost:8081',
+          },
+          {
+            name: 'TableList',
+            entry: 'http://localhost:8082',
+          },
+        ],
+      },
+    },
+  },
+});
 ```
 
 ### 创建 dashboard 子应用
@@ -94,20 +92,18 @@ dashboard 为创建的项目名。
 
 使用 `pnpm new` 选择 `「开启微前端」`
 
-配置 `package.json`：
+配置 `modern.config.js`：
 
-```json
-{
-  "modernConfig": {
-    "runtime": {
-      "router": true,
-      "state": true
-    },
-    "deploy": {
-      "microFrontend": true
-    }
-  }
-}
+```js title="modern.config.js"
+export default defineConfig({
+  runtime: {
+    router: true,
+    state: true,
+  },
+  deploy: {
+    microFrontend: true,
+  },
+});
 ```
 
 ### 创建 table 子应用
@@ -134,20 +130,18 @@ table 为创建的项目名。
 
 使用 `pnpm new` 选择 `「开启微前端」`
 
-配置 `package.json`：
+配置 `modern.config.js`：
 
-```json
-{
-  "modernConfig": {
-    "runtime": {
-      "router": true,
-      "state": true
-    },
-    "deploy": {
-      "microFrontend": true
-    }
-  }
-}
+```js title="modern.config.js"
+export default defineConfig({
+  runtime: {
+    router: true,
+    state: true,
+  },
+  deploy: {
+    microFrontend: true,
+  },
+});
 ```
 
 ## 迁移代码
@@ -163,10 +157,7 @@ import { useModuleApps } from '@modern-js/runtime';
 import './App.css';
 
 const App: React.FC = () => {
-  const {
-    Dashboard,
-    TableList
-  } = useModuleApps();
+  const { Dashboard, TableList } = useModuleApps();
 
   return (
     <div>
@@ -179,7 +170,7 @@ const App: React.FC = () => {
           <Dashboard />
         </Route>
         <Route path="/table">
-          <TableList/>
+          <TableList />
         </Route>
       </Switch>
     </div>
@@ -195,15 +186,15 @@ export default App;
 
 ```tsx
 export default () => {
-  return <div>Dashboard Page</div>
-}
+  return <div>Dashboard Page</div>;
+};
 ```
 
 ### table
 
 将[开发中后台](/docs/start/admin)中的 console 组件下的代码复制过来。
 
-`console/tableList/models/tableList.tsx`  ---> `src/models/tableList.tsx`
+`console/tableList/models/tableList.tsx` ---> `src/models/tableList.tsx`
 
 ```tsx title=src/models/tableList.tsx
 import { model } from '@modern-js/runtime/model';
@@ -229,32 +220,35 @@ export default model<State>('tableList').define({
 
         return state;
       },
-    }
+    },
   },
   effects: {
     async load() {
-      const data = (await fetch('https://lf3-static.bytednsdoc.com/obj/eden-cn/beeh7uvzhq/users.json')).json();
+      const data = (
+        await fetch(
+          'https://lf3-static.bytednsdoc.com/obj/eden-cn/beeh7uvzhq/users.json',
+        )
+      ).json();
       return data;
     },
   },
 });
 ```
 
-`console/tableList/index.tsx`  ---> `src/App.tsx`
+`console/tableList/index.tsx` ---> `src/App.tsx`
 
 ```tsx title=src/App.tsx
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Table } from 'antd';
 import { useModel } from '@modern-js/runtime/model';
 import tableListModel from './models/tableList';
 
-const TableList: React.FC  = () => {
-
-  const [{data}, {load}] = useModel(tableListModel);
+const TableList: React.FC = () => {
+  const [{ data }, { load }] = useModel(tableListModel);
 
   useEffect(() => {
     load();
-  }, [])
+  }, []);
 
   const columns = [
     {
@@ -272,26 +266,25 @@ const TableList: React.FC  = () => {
       dataIndex: 'country',
       key: 'country',
     },
-  ]
+  ];
 
   return (
     <div>
       <Table columns={columns} dataSource={data} />
     </div>
-  )
+  );
+};
 
-}
-
-export default TableList
+export default TableList;
 ```
 
 ## 调试
 
 分别启动 **main**、**dashboard**、 **table**
 
-- main      - `http://localhost:8080`
+- main - `http://localhost:8080`
 - dashboard - `http://localhost:8081`
-- table     - `http://localhost:8082`
+- table - `http://localhost:8082`
 
 访问主应用地址 `http://localhost:8080`，效果如下：
 
@@ -301,19 +294,17 @@ export default TableList
 
 上面的调试演示需要在本地分别启动主应用、和子应用，作为独立负责大型项目中一个子应用开发的团队/个人来说，需要在本地启动庞大的主应用，以及可能需要启动其它相关子应用进行调试，使得开发体验降低。
 
-Modern.js 中支持使用线上的主应用来调试本地子应用，首选需要配置主应用开启调试模式
+Modern.js 中支持使用线上的主应用来调试本地子应用，首选需要配置主应用开启调试模式：
 
-```json title=main/package.json
-{
-  "modernConfig": {
-    "runtime": {
-      // ...
-    },
-    "server": {
-      "enableMicroFrontendDebug": true
-    }
-  }
-}
+```js title="modern.config.js"
+export default defineConfig({
+  runtime: {
+    // ...
+  },
+  server: {
+    enableMicroFrontendDebug: true,
+  },
+});
 ```
 
 配置 `server.enableMicroFrontendDebug` 为 `true` 开启线上调试模式。

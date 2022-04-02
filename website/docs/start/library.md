@@ -67,10 +67,9 @@ import { upperCase } from '@/index';
 
 describe('upperCase cases', () => {
   test('upperCase', () => {
-    expect(upperCase('abc')).toBe('ABC')
+    expect(upperCase('abc')).toBe('ABC');
   });
 });
-
 ```
 
 执行 `test` 命令对工具函数进行测试，命令如下：
@@ -97,14 +96,14 @@ import DevIDE from '@site/docs/components/dev-ide.md'
 启用成功后，会自动创建 `stories/` 目录，修改 `stories/index.stories.tsx` 文件内容：
 
 ```ts
-import { useState } from "react";
-import { upperCase } from "@/index";
+import { useState } from 'react';
+import { upperCase } from '@/index';
 
 const Component = () => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   return (
     <div>
-      <input value={value} onChange={(e) => setValue(e.target.value)} />
+      <input value={value} onChange={e => setValue(e.target.value)} />
       <div>result: {upperCase(value)}</div>
     </div>
   );
@@ -113,7 +112,7 @@ const Component = () => {
 export const YourStory = () => <Component />;
 
 export default {
-  title: "Your Stories",
+  title: 'Your Stories',
 };
 ```
 
@@ -135,14 +134,14 @@ export default {
 
 具体每个值对应的产物结构详见 [`output.packageMode`](/docs/apis/config/output/package-mode)。
 
-对于当前场景，如果开发的工具库只支持 Node.js 环境，可以在项目 `package.json` 中增加如下配置：
+对于当前场景，如果开发的工具库只支持 Node.js 环境，可以在项目 `modern.config.js` 中增加如下配置：
 
-```json
-"modernConfig": {
-  "output": {
-    "packageMode": "node-js"
-  }
-}
+```js title="modern.config.js"
+export default defineConfig({
+  output: {
+    packageMode: 'node-js',
+  },
+});
 ```
 
 执行 `pnpm run build` 之后，查看 `dist/` 目录产物，可以看到只生成 `node` 和 `modern` 两种类型的产物。
@@ -282,7 +281,7 @@ pnpm add library
 
 此时可以观察到 app 项目的 `package.json` 内容更新如下：
 
-``` json
+```json
 {
   "dependencies": {
     "@modern-js/runtime": "^1",
@@ -306,7 +305,7 @@ pnpm add internal-lib -D
 
 此时可以观察到 app 项目的 `package.json` 内容更新如下：
 
-``` json
+```json
 {
   "devDependencies": {
     "@modern-js/app-tools": "^1",
@@ -323,7 +322,7 @@ pnpm add internal-lib -D
 
 此时在 app 项目下的 `src/App.tsx` 文件引用 `library` 的 `upperCase` 函数以及 `internal-lib` 模块，并使用它们：
 
-``` tsx title="App.tsx"
+```tsx title="App.tsx"
 import { Switch, Route } from '@modern-js/runtime/router';
 import { upperCase } from 'library';
 import sayHelloWorld from 'internal-lib';
@@ -334,9 +333,7 @@ const App = () => (
   <Switch>
     <Route exact={true} path="/">
       <div className="container">
-        <main>
-          {/* //... */}
-        </main>
+        <main>{/* //... */}</main>
         <div>{upperCase('abc')}</div>
         <div>{sayHelloWorld()}</div>
         <footer className="footer">
@@ -387,18 +384,18 @@ export const lowerCase = (s: string) => s.toLowerCase();
 
 1. 添加 changeset
 
-  在 Monorepo 根目录执行 pnpm run change，根据提示选择发布的包(注意这里只选择工具库包名)和升级的版本，并填写变更信息。
+在 Monorepo 根目录执行 pnpm run change，根据提示选择发布的包(注意这里只选择工具库包名)和升级的版本，并填写变更信息。
 
 ![monorepo 添加 changeset](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/monorepo-changeset.png)
 
 2. 升级发布包对应版本号，并生成 changelog
 
-  执行 `pnpm run bump`，该命令会根据上述生成的 changeset 自动更新版本号和 CHANGELOG 信息，检查信息无误后提交。
+执行 `pnpm run bump`，该命令会根据上述生成的 changeset 自动更新版本号和 CHANGELOG 信息，检查信息无误后提交。
 
 3. 发布
 
-  执行 `pnpm run release`， 发布对应的多个工具包。
+执行 `pnpm run release`， 发布对应的多个工具包。
 
 4. 推送 tags
 
-  发布完成之后执行 `git push --follow-tags`，推送当前发布对应生成的 git tag。
+发布完成之后执行 `git push --follow-tags`，推送当前发布对应生成的 git tag。
