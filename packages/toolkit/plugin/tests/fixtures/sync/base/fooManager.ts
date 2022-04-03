@@ -13,7 +13,6 @@ export const useConfig = (): Config => {
   const config = ConfigContext.use().value;
 
   if (!config) {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     throw new Error(`Expected modern config, but got: ${config}`);
   }
 

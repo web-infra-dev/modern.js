@@ -14,7 +14,6 @@ export const useContext = (): CTX => {
   const context = CTXContext.use().value;
 
   if (!context) {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     throw new Error(`Expected modern context, but got: ${context}`);
   }
 
@@ -28,7 +27,6 @@ export const useConfig = (): Config => {
   const config = ConfigContext.use().value;
 
   if (!config) {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     throw new Error(`Expected modern config, but got: ${config}`);
   }
 
@@ -42,7 +40,6 @@ export const useWebpackConfig = (): WebpackConfig => {
   const webpackConfig = WebpackConfigContext.use().value;
 
   if (!webpackConfig) {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     throw new Error(`Expected webpack config, but got: ${webpackConfig}`);
   }
 
@@ -56,7 +53,6 @@ export const useBabelConfig = (): BabelConfig => {
   const babelConfig = BabelConfigContext.use().value;
 
   if (!babelConfig) {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     throw new Error(`Expected babel config, but got: ${babelConfig}`);
   }
 

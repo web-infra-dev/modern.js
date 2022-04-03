@@ -18,7 +18,7 @@ export const getBrook = <I>(input: BrookInput<I>) => {
   } else if (input && typeof input.middleware === 'function') {
     return input.middleware;
   }
-  // eslint-disable-next-line @typescript-eslint/no-base-to-string,@typescript-eslint/restrict-template-expressions
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   throw new Error(`${input} is not a Brook or { brook: Brook }`);
 };
 

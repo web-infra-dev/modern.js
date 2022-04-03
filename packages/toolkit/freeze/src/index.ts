@@ -4,7 +4,6 @@ export const createBistate = <State extends Record<string, any>>(
 ): State => {
   if (!isArray(initialState) && !isObject(initialState)) {
     throw new Error(
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       `Expected initialState to be array or object, but got ${initialState}`,
     );
   }
@@ -288,7 +287,6 @@ export const freeze = <I>(input: I, key: keyof I) => {
   if (top) {
     store.freeze(top, path);
   } else {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     throw new Error(`input: ${input} is not bistate`);
   }
 };
@@ -298,7 +296,6 @@ export const hasFreezed = <I>(input: I, key: keyof I) => {
   if (top) {
     return store.hasFreezed(top, path);
   } else {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     throw new Error(`input: ${input} is not bistate`);
   }
 };
