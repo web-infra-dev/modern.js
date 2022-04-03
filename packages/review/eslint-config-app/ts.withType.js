@@ -2,7 +2,8 @@ module.exports = {
   overrides: [
     {
       files: ['*.ts', '*.d.ts', '*.tsx'],
-      extends: ['./ts'],
+      // modern.config.ts is usually not included in tsconfig.json
+      excludedFiles: ['modern.config.ts'],
       parserOptions: {
         ecmaFeatures: { jsx: true },
         // don't set tsconfigRootDir, using the path relative to the cwd
