@@ -27,7 +27,6 @@ export const createBistate = <State extends Record<string, any>>(
   };
 
   const handlers: ProxyHandler<State> = {
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     get: (target, key) => {
       if (key === BISTATE) {
         return internal;
@@ -54,7 +53,6 @@ export const createBistate = <State extends Record<string, any>>(
     deleteProperty: (current, key) => {
       throw new Error(`It's not allowed to delete property: ${key.toString()}`);
     },
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     has: (target, key) => {
       if (scapegoat) {
         return Reflect.has(scapegoat, key);
@@ -62,7 +60,6 @@ export const createBistate = <State extends Record<string, any>>(
         return Reflect.has(target, key);
       }
     },
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     ownKeys: target => {
       if (scapegoat) {
         return Reflect.ownKeys(scapegoat);
@@ -70,7 +67,6 @@ export const createBistate = <State extends Record<string, any>>(
         return Reflect.ownKeys(target);
       }
     },
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     getPrototypeOf: target => {
       if (scapegoat) {
         return Reflect.getPrototypeOf(scapegoat);
@@ -83,7 +79,6 @@ export const createBistate = <State extends Record<string, any>>(
         `bistate only supports plain object or array, it's not allowed to setPrototypeOf`,
       );
     },
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     getOwnPropertyDescriptor: (target, prop) => {
       if (scapegoat) {
         return Reflect.getOwnPropertyDescriptor(scapegoat, prop);
@@ -307,7 +302,6 @@ const getPathAndTop = <I>(
   const path: (string | symbol)[] = [key as any];
   let top: null | symbol = null;
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const getParantpath = (current: any, parent: any) => {
     if (!parent) {
       return;
@@ -317,7 +311,6 @@ const getPathAndTop = <I>(
       return;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     for (const key in parent) {
       if (parent[key] === current) {
         path.push(key);

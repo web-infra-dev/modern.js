@@ -125,7 +125,6 @@ export const develop = async (context: CTX) => {
   });
   runner.prepare();
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const { config, webpackConfig, babelConfig } = runner.config({
     config: defaultConfig,
     webpackConfig: defaultWebpackConfig,
@@ -149,7 +148,6 @@ export const build = async (context: CTX) => {
   });
   runner.prepare();
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const { config, webpackConfig, babelConfig } = runner.config({
     config: defaultConfig,
     webpackConfig: defaultWebpackConfig,

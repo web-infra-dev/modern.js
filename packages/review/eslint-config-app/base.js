@@ -423,17 +423,6 @@ module.exports = {
       // @CUSTOM
     ],
 
-    /*
-     * https://eslint.org/docs/rules/no-shadow
-     * "no-shadow": "off",
-     */
-    'no-shadow': [
-      'error',
-      {
-        builtinGlobals: false,
-        allow: [],
-      },
-    ],
     // https://eslint.org/docs/rules/no-shadow-restricted-names
     'no-shadow-restricted-names': 'error',
     // https://eslint.org/docs/rules/no-undef

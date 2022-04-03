@@ -74,7 +74,6 @@ describe('sync manager', () => {
   });
 
   it('could without progress hook in plugin', () => {
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     const foo = createWaterfall<number>();
     const manager = createManager({ foo });
 
@@ -529,9 +528,7 @@ describe('sync manager', () => {
 
   describe('useRunner', () => {
     it('base usage', () => {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       const foo = createPipeline();
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       const bar = createPipeline();
       const manager = createManager({ foo, bar });
 

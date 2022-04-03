@@ -56,7 +56,6 @@ export const createAsyncWorkflow = <I = void, O = unknown>(): AsyncWorkflow<
   const run: AsyncWorkflow<I, O>['run'] = async (input, options) => {
     const result = pipeline.run(input, { ...options, onLast: () => [] });
     if (isPromise(result)) {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       return result.then(result => result.filter(Boolean));
     } else {
       return result.filter(Boolean);

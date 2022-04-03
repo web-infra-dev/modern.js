@@ -5,7 +5,6 @@
     "prefer-destructuring": "off",
     "consistent-return": "off",
     "max-statements": "off",
-    "@typescript-eslint/no-shadow": "off",
     "max-depth": "off",
     "@typescript-eslint/member-ordering": "off",
     "max-lines": "off",

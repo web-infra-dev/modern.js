@@ -73,13 +73,11 @@ export const createWaterfall = <I = void>(): Waterfall<I> => {
   };
 
   const run: Waterfall<I>['run'] = (input, options) =>
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     pipeline.run(input, { ...options, onLast: input => input });
 
   const middleware: Waterfall<I>['middleware'] = input => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const container = useContainer();
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     return pipeline.run(input, { container, onLast: input => input });
   };
 

@@ -31,7 +31,6 @@ export const wrap = <P = Record<string, unknown>>(
       { element, props: { ...props }, context: {} as any },
       {
         container,
-        // eslint-disable-next-line @typescript-eslint/no-shadow
         onLast: ({ element }) => element,
       },
     );
@@ -41,7 +40,6 @@ export const wrap = <P = Record<string, unknown>>(
     { App: WrapperComponent },
     {
       container,
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       onLast: ({ App }) => {
         const WrapComponent = ({ context, ...props }: any) =>
           React.createElement(

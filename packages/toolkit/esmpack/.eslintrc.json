@@ -30,7 +30,6 @@
     "@typescript-eslint/lines-between-class-members": "off",
     "@typescript-eslint/prefer-readonly": "off",
     "@typescript-eslint/prefer-includes": "off",
-    "@typescript-eslint/no-shadow": "off",
     "@typescript-eslint/require-await": "off",
     "@typescript-eslint/prefer-string-starts-ends-with": "off",
     "@typescript-eslint/prefer-regexp-exec": "off",
