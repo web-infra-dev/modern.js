@@ -155,10 +155,6 @@ module.exports = {
     'no-unsafe-finally': 'error',
     // https://eslint.org/docs/rules/no-unsafe-negation
     'no-unsafe-negation': 'error',
-    // https://eslint.org/docs/rules/require-atomic-updates
-    // @bug https://github.com/eslint/eslint/issues/11899
-    'require-atomic-updates': 'warn',
-    // 'require-atomic-updates': 'error',
     // https://eslint.org/docs/rules/use-isnan
     'use-isnan': 'error',
     // https://eslint.org/docs/rules/valid-typeof

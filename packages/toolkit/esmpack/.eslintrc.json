@@ -16,7 +16,6 @@
     "no-param-reassign": "off",
     "no-lonely-if": "off",
     "no-useless-escape": "off",
-    "require-atomic-updates": "off",
     "prefer-template": "off",
     "consistent-return": "off",
     "object-shorthand": "off",

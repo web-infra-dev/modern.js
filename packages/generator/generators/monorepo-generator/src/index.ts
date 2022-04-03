@@ -40,7 +40,6 @@ export const handleTemplateFile = async (
     await generatorPlugin.installPlugins(Solution.Monorepo, extra);
     schema = generatorPlugin.getInputSchema(Solution.Monorepo);
     inputValue = generatorPlugin.getInputValue();
-    // eslint-disable-next-line require-atomic-updates
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
   }
