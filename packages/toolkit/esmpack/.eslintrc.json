@@ -16,7 +16,6 @@
     "no-param-reassign": "off",
     "no-lonely-if": "off",
     "no-useless-escape": "off",
-    "promise/prefer-await-to-then": "off",
     "require-atomic-updates": "off",
     "prefer-template": "off",
     "consistent-return": "off",

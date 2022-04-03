@@ -56,7 +56,7 @@ export const createAsyncWorkflow = <I = void, O = unknown>(): AsyncWorkflow<
   const run: AsyncWorkflow<I, O>['run'] = async (input, options) => {
     const result = pipeline.run(input, { ...options, onLast: () => [] });
     if (isPromise(result)) {
-      // eslint-disable-next-line @typescript-eslint/no-shadow,promise/prefer-await-to-then
+      // eslint-disable-next-line @typescript-eslint/no-shadow
       return result.then(result => result.filter(Boolean));
     } else {
       return result.filter(Boolean);
@@ -79,11 +79,9 @@ const mapAsyncWorkerToAsyncMiddleware =
     [await worker(input), ...(await next(input))];
 
 function isPromise(obj: any): obj is Promise<any> {
-  /* eslint-disable promise/prefer-await-to-then */
   return (
     Boolean(obj) &&
     (typeof obj === 'object' || typeof obj === 'function') &&
     typeof obj.then === 'function'
   );
-  /* eslint-enable promise/prefer-await-to-then */
 }

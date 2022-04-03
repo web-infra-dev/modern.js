@@ -155,7 +155,6 @@ export const isObject = (input: any): input is Record<string, any> => {
 };
 
 export const isThenable = (input: any): input is PromiseLike<any> =>
-  // eslint-disable-next-line promise/prefer-await-to-then
   Boolean(input && typeof input.then === 'function');
 
 const getBistateValue = (value: any, currentProxy: any, previousProxy: any) => {

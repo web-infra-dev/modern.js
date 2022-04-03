@@ -1395,12 +1395,6 @@ module.exports = {
     'promise/valid-params': 'error',
 
     /*
-     * https://github.com/xjamundx/eslint-plugin-promise/blob/master/docs/rules/prefer-await-to-then.md
-     * @CUSTOM
-     */
-    'promise/prefer-await-to-then': 'error',
-
-    /*
      * https://github.com/xjamundx/eslint-plugin-promise/blob/master/docs/rules/prefer-await-to-callbacks.md
      * @CUSTOM
      */
