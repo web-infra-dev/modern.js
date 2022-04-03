@@ -1359,8 +1359,6 @@ module.exports = {
      * use Camel Case for others
      */
     'filenames/match-regex': ['error', '^[\\[\\]_a-zA-Z0-9.-]+$'],
-    // https://www.npmjs.com/package/eslint-plugin-filenames#matching-exported-values-match-exported
-    'filenames/match-exported': ['error', ['kebab', 'camel', 'pascal']],
     // https://www.npmjs.com/package/eslint-plugin-filenames#dont-allow-indexjs-files-no-index
     'filenames/no-index': 'off',
 
@@ -1554,7 +1552,6 @@ module.exports = {
       files: ['**/pages/**/_*', '**/pages/**/index.*', '**/pages/**/\\[**'],
       rules: {
         'filenames/match-regex': 'off',
-        'filenames/match-exported': 'off',
       },
     },
     {

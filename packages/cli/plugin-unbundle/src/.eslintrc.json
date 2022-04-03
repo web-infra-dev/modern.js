@@ -1,7 +1,6 @@
 {
   "rules": {
     "no-param-reassign": "off",
-    "filenames/match-exported": "off",
     "@typescript-eslint/no-loop-func": "off",
     "prefer-destructuring": "off",
     "consistent-return": "off",
