@@ -2,6 +2,8 @@ module.exports = {
   overrides: [
     {
       files: ['*.ts', '*.d.ts', '*.tsx'],
+      // modern.config.ts is usually not included in tsconfig.json
+      excludedFiles: ['modern.config.ts'],
       extends: ['./ts'],
       parserOptions: {
         ecmaFeatures: { jsx: true },
