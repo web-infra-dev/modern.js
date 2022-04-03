@@ -59,9 +59,10 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.navbar__brand img {
-  width: 211px;
+.navbar__logo {
+  height: 1.8rem;
 }
+
 
 .navbar__items {
   color: #fff;
