@@ -155,10 +155,6 @@ module.exports = {
     'no-unsafe-finally': 'error',
     // https://eslint.org/docs/rules/no-unsafe-negation
     'no-unsafe-negation': 'error',
-    // https://eslint.org/docs/rules/require-atomic-updates
-    // @bug https://github.com/eslint/eslint/issues/11899
-    'require-atomic-updates': 'warn',
-    // 'require-atomic-updates': 'error',
     // https://eslint.org/docs/rules/use-isnan
     'use-isnan': 'error',
     // https://eslint.org/docs/rules/valid-typeof
@@ -427,17 +423,6 @@ module.exports = {
       // @CUSTOM
     ],
 
-    /*
-     * https://eslint.org/docs/rules/no-shadow
-     * "no-shadow": "off",
-     */
-    'no-shadow': [
-      'error',
-      {
-        builtinGlobals: false,
-        allow: [],
-      },
-    ],
     // https://eslint.org/docs/rules/no-shadow-restricted-names
     'no-shadow-restricted-names': 'error',
     // https://eslint.org/docs/rules/no-undef
@@ -1363,8 +1348,6 @@ module.exports = {
      * use Camel Case for others
      */
     'filenames/match-regex': ['error', '^[\\[\\]_a-zA-Z0-9.-]+$'],
-    // https://www.npmjs.com/package/eslint-plugin-filenames#matching-exported-values-match-exported
-    'filenames/match-exported': ['error', ['kebab', 'camel', 'pascal']],
     // https://www.npmjs.com/package/eslint-plugin-filenames#dont-allow-indexjs-files-no-index
     'filenames/no-index': 'off',
 
@@ -1393,12 +1376,6 @@ module.exports = {
     'promise/no-new-statics': 'error',
     // https://github.com/xjamundx/eslint-plugin-promise/blob/master/docs/rules/valid-params.md
     'promise/valid-params': 'error',
-
-    /*
-     * https://github.com/xjamundx/eslint-plugin-promise/blob/master/docs/rules/prefer-await-to-then.md
-     * @CUSTOM
-     */
-    'promise/prefer-await-to-then': 'error',
 
     /*
      * https://github.com/xjamundx/eslint-plugin-promise/blob/master/docs/rules/prefer-await-to-callbacks.md
@@ -1564,7 +1541,6 @@ module.exports = {
       files: ['**/pages/**/_*', '**/pages/**/index.*', '**/pages/**/\\[**'],
       rules: {
         'filenames/match-regex': 'off',
-        'filenames/match-exported': 'off',
       },
     },
     {
