@@ -8,8 +8,9 @@ import type { LessConfig, LessLoaderOptions } from './less';
 import type { UnbundleConfig } from './unbundle';
 import type {
   SSGConfig,
-  SSGSingleEntryOptions,
+  SSGRouteOptions,
   SSGMultiEntryOptions,
+  SSGSingleEntryOptions,
 } from './ssg';
 
 export type {
@@ -20,6 +21,7 @@ export type {
   LessConfig,
   LessLoaderOptions,
   SSGConfig,
+  SSGRouteOptions,
   SSGMultiEntryOptions,
   SSGSingleEntryOptions,
 };

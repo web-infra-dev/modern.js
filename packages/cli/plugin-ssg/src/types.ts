@@ -1,11 +1,17 @@
 import type { ServerRoute as ModernRoute } from '@modern-js/types';
 import type {
   SSGConfig,
+  SSGRouteOptions,
   SSGMultiEntryOptions,
   SSGSingleEntryOptions,
 } from '@modern-js/core';
 
-export type { SSGConfig, SSGMultiEntryOptions, SSGSingleEntryOptions };
+export type {
+  SSGConfig,
+  SSGRouteOptions,
+  SSGMultiEntryOptions,
+  SSGSingleEntryOptions,
+};
 
 export type AgreedRoute = {
   path: string;
