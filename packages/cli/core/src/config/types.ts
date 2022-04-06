@@ -201,6 +201,13 @@ export interface RuntimeByEntriesConfig {
   [name: string]: RuntimeConfig;
 }
 
+export type BffConfig = {
+  prefix?: string;
+  requestCreator?: string;
+  fetcher?: string;
+  proxy: Record<string, any>;
+};
+
 export interface UserConfig {
   source?: SourceConfig;
   output?: OutputConfig;
@@ -211,6 +218,10 @@ export interface UserConfig {
   plugins?: PluginConfig;
   runtime?: RuntimeConfig;
   runtimeByEntries?: RuntimeByEntriesConfig;
+  /**
+   * @requires plugin-bff
+   */
+  bff?: BffConfig;
 }
 
 export type ConfigParam =
