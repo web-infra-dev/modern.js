@@ -61,6 +61,7 @@
     "@types/react-dom": "^17",
     "@types/semver": "^7.3.8",
     "@types/yargs": "^17.0.2",
+    "@jest/types": "^27.0.6",
     "jest": "^27",
     "typescript": "^4"
   },
