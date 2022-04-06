@@ -43,6 +43,7 @@ export interface NormalizedToolsConfig
     | Array<NonNullable<ToolsConfig['minifyCss']>>;
   esbuild: ToolsConfig['esbuild'] | Array<NonNullable<ToolsConfig['esbuild']>>;
 }
+
 export interface NormalizedConfig
   extends Omit<Required<UserConfig>, 'source' | 'tools'> {
   source: NormalizedSourceConfig;

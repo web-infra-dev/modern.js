@@ -11,7 +11,7 @@
 // Modified by Chao Xu (xuchaobei)
 
 import webpack, { StatsCompilation } from 'webpack';
-import type { ProxyDetail, ProxyOptions } from '@modern-js/types';
+import type { ProxyDetail, BffProxyOptions } from '@modern-js/types';
 
 const friendlySyntaxErrorLabel = 'Syntax error:';
 
@@ -131,7 +131,7 @@ export { formatWebpackMessages };
 /* eslint-enable max-statements */
 /* eslint-enable no-param-reassign */
 
-function formatProxyOptions(proxyOptions: ProxyOptions) {
+function formatProxyOptions(proxyOptions: BffProxyOptions) {
   const formatedProxy: ProxyDetail[] = [];
   if (!Array.isArray(proxyOptions)) {
     if ('target' in proxyOptions) {

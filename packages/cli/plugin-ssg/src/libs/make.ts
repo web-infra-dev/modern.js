@@ -2,7 +2,7 @@ import path from 'path';
 import { ServerRoute as ModernRoute } from '@modern-js/types';
 import normalize from 'normalize-path';
 import { compile } from '../server/prerender';
-import { RouteOptions, SsgRoute } from '../types';
+import { SSGRouteOptions, SsgRoute } from '../types';
 
 export function makeRender(
   ssgRoutes: SsgRoute[],
@@ -20,7 +20,7 @@ export function makeRender(
 
 export function makeRoute(
   baseRoute: ModernRoute,
-  route: string | RouteOptions,
+  route: string | SSGRouteOptions,
   headers: Record<string, any> = {},
 ): SsgRoute {
   const { urlPath, entryPath } = baseRoute;

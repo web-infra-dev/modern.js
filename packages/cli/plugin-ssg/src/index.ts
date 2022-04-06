@@ -6,7 +6,7 @@ import {
   AgreedRoute,
   AgreedRouteMap,
   EntryPoint,
-  SSG,
+  SSGConfig,
   SsgRoute,
 } from './types';
 import {
@@ -52,7 +52,7 @@ export default (): CliPlugin => ({
         const { output } = resolvedConfig;
         const { ssg, path: outputPath } = output;
 
-        const ssgOptions: SSG = Array.isArray(ssg) ? ssg.pop() : ssg;
+        const ssgOptions: SSGConfig = Array.isArray(ssg) ? ssg.pop() : ssg;
         // no ssg configuration, skip ssg render.
         if (!ssgOptions) {
           return;

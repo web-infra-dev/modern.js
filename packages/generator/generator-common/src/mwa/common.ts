@@ -99,8 +99,8 @@ export const FrameworkSchema: Schema = {
 };
 
 export const FrameworkAppendTypeContent: Record<Framework, string> = {
-  [Framework.Express]: `/// <reference types='@modern-js/plugin-express/types' />\n/// <reference types='@modern-js/plugin-bff/types' />`,
-  [Framework.Koa]: `/// <reference types='@modern-js/plugin-koa/types' />\n/// <reference types='@modern-js/plugin-bff/types' />`,
-  [Framework.Egg]: `/// <reference types='@modern-js/plugin-egg/types' />\n/// <reference types='@modern-js/plugin-bff/types' />`,
-  [Framework.Nest]: `/// <reference types='@modern-js/plugin-nest/types' />\n/// <reference types='@modern-js/plugin-bff/types' />`,
+  [Framework.Express]: `/// <reference types='@modern-js/plugin-express/types' />`,
+  [Framework.Koa]: `/// <reference types='@modern-js/plugin-koa/types' />`,
+  [Framework.Egg]: `/// <reference types='@modern-js/plugin-egg/types' />`,
+  [Framework.Nest]: `/// <reference types='@modern-js/plugin-nest/types' />`,
 };
