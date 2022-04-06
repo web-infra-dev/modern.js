@@ -49,7 +49,7 @@
     "@babel/runtime": "^7",
     "@scripts/build": "workspace:*",
     "@modern-js/plugin-jarvis": "workspace:^1.2.5",
-    "@modern-js/core": "workspace:^1.6.0",
+    "@modern-js/core": "workspace:*",
     "typescript": "^4",
     "@types/jest": "^26.0.9",
     "@types/node": "^14",
