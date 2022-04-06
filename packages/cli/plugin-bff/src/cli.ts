@@ -1,4 +1,3 @@
-import './types';
 import path from 'path';
 import fs from 'fs-extra';
 import { compiler } from '@modern-js/babel-compiler';

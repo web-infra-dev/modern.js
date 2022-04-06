@@ -2,7 +2,6 @@ import { PLUGIN_SCHEMAS } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { createProxyRule } from './utils/createProxyRule';
 import WhistleProxy from './utils/whistleProxy';
-import './types';
 
 export default (): CliPlugin => {
   let proxyServer: WhistleProxy;
