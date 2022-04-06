@@ -6,7 +6,12 @@ import {
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
 import { ServerRoute as ModernRoute } from '@modern-js/types';
-import { EntryPoint, MultiEntryOptions, SSG, SsgRoute } from '../types';
+import {
+  SsgRoute,
+  SSGConfig,
+  EntryPoint,
+  SSGMultiEntryOptions,
+} from '../types';
 
 export function formatOutput(filename: string) {
   const outputPath = path.extname(filename)
@@ -100,7 +105,10 @@ export const replaceWithAlias = (
   alias: string,
 ) => path.posix.join(alias, path.posix.relative(base, filePath));
 
-export const standardOptions = (ssgOptions: SSG, entrypoints: EntryPoint[]) => {
+export const standardOptions = (
+  ssgOptions: SSGConfig,
+  entrypoints: EntryPoint[],
+) => {
   if (ssgOptions === false) {
     return false;
   }
@@ -109,17 +117,17 @@ export const standardOptions = (ssgOptions: SSG, entrypoints: EntryPoint[]) => {
     return entrypoints.reduce((opt, entry) => {
       opt[entry.entryName] = ssgOptions;
       return opt;
-    }, {} as MultiEntryOptions);
+    }, {} as SSGMultiEntryOptions);
   } else if (typeof ssgOptions === 'object') {
     const isSingle = isSingleEntry(entrypoints);
 
     if (isSingle && typeof (ssgOptions as any).main === 'undefined') {
-      return { main: ssgOptions } as MultiEntryOptions;
+      return { main: ssgOptions } as SSGMultiEntryOptions;
     } else {
-      return ssgOptions as MultiEntryOptions;
+      return ssgOptions as SSGMultiEntryOptions;
     }
   } else if (typeof ssgOptions === 'function') {
-    const intermediateOptions: MultiEntryOptions = {};
+    const intermediateOptions: SSGMultiEntryOptions = {};
     for (const entrypoint of entrypoints) {
       const { entryName } = entrypoint;
       // Todo may be async function
