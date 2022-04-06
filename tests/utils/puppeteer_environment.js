@@ -1,4 +1,4 @@
-/* eslint-disable filenames/match-exported,no-useless-constructor */
+/* eslint-disable no-useless-constructor */
 // puppeteer_environment.js
 const { readFile } = require('fs').promises;
 const os = require('os');
@@ -37,4 +37,4 @@ class PuppeteerEnvironment extends NodeEnvironment {
 }
 
 module.exports = PuppeteerEnvironment;
-/* eslint-enable filenames/match-exported,no-useless-constructor */
+/* eslint-enable no-useless-constructor */

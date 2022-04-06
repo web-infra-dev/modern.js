@@ -1,5 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable filenames/match-exported */
 const { Controller } = require('egg');
 
 class HomeController extends Controller {

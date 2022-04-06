@@ -1,4 +1,3 @@
-// eslint-disable-next-line filenames/match-exported
 import { useContext } from 'react';
 import { RuntimeReactContext } from '@modern-js/runtime-core';
 import { createStore, Store } from '@modern-js-reduck/store';

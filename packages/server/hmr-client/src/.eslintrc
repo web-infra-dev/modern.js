@@ -1,7 +1,6 @@
 {
   "extends": ["@modern-js-app"],
   "rules": {
-    "no-console": "off",
-    "promise/prefer-await-to-then": "off"
+    "no-console": "off"
   }
 }

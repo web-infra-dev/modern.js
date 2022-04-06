@@ -66,10 +66,9 @@
     "process.argv": "^0.6.0"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.6.0",
-    "@modern-js/module-tools-hooks": "workspace:^1.2.3",
+    "@modern-js/core": "workspace:*",
     "@modern-js/runtime": "workspace:^1.2.4",
-    "@modern-js/runtime-core": "workspace:^1.4.0",
+    "@modern-js/runtime-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@storybook/addons": "^6.3.7",

@@ -547,7 +547,6 @@ export class ModernServer implements ModernServerInterface {
           return next();
         }
 
-        // eslint-disable-next-line promise/prefer-await-to-then
         return handler(context, dispatch as NextFunction).catch(onError);
       };
 

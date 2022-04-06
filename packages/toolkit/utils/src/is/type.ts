@@ -26,13 +26,11 @@ export function isPlainObject(obj: unknown): obj is Record<string, any> {
 }
 
 export function isPromise(obj: any): obj is Promise<any> {
-  /* eslint-disable promise/prefer-await-to-then */
   return (
     Boolean(obj) &&
     (typeof obj === 'object' || typeof obj === 'function') &&
     typeof obj.then === 'function'
   );
-  /* eslint-enable promise/prefer-await-to-then */
 }
 
 export function isRegExp(obj: any): obj is RegExp {

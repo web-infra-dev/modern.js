@@ -66,8 +66,7 @@
     "webpack-sources": "^3.2.2"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.6.0",
-    "@modern-js/module-tools-hooks": "workspace:^1.2.3",
+    "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/body-parser": "^1.19.1",

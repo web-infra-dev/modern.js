@@ -1,4 +1,3 @@
-// eslint-disable-next-line filenames/match-exported
 import ReactDOM from 'react-dom';
 import type { Plugin } from '@modern-js/runtime-core';
 import { loadableReady } from '@loadable/component';
