@@ -2,7 +2,7 @@ import { Import } from '@modern-js/utils';
 import ChangesetPlugin from '@modern-js/plugin-changeset';
 import AnalyzePlugin from '@modern-js/plugin-analyze';
 import type { CliPlugin } from '@modern-js/core';
-import { hooks } from '@modern-js/module-tools-hooks';
+import { hooks } from './hooks';
 
 const cli: typeof import('./cli') = Import.lazy('./cli', require);
 const local: typeof import('./locale') = Import.lazy('./locale', require);
@@ -43,7 +43,7 @@ export default (): CliPlugin => ({
         cli.buildCli(program, api);
         cli.newCli(program, locale);
         // 便于其他插件辨别
-        (program as any).$$libraryName = 'module-tools';
+        program.$$libraryName = 'module-tools';
       },
     };
   },

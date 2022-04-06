@@ -17,10 +17,7 @@ const cssConfig: typeof import('@modern-js/css-config') = Import.lazy(
   '@modern-js/css-config',
   require,
 );
-const hooks: typeof import('@modern-js/module-tools-hooks') = Import.lazy(
-  '@modern-js/module-tools-hooks',
-  require,
-);
+const hooks: typeof import('../hooks') = Import.lazy('../hooks', require);
 const core: typeof import('@modern-js/core') = Import.lazy(
   '@modern-js/core',
   require,
