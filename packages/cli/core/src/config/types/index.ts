@@ -4,6 +4,7 @@ import type { MetaOptions } from '@modern-js/utils';
 import type { PluginConfig } from '../../loadPlugins';
 import type { TestConfig } from './test';
 import type { SassConfig, SassLoaderOptions } from './sass';
+import type { LessConfig, LessLoaderOptions } from './less';
 import type { UnbundleConfig } from './unbundle';
 import type {
   SSGConfig,
@@ -16,6 +17,8 @@ export type {
   UnbundleConfig,
   SassConfig,
   SassLoaderOptions,
+  LessConfig,
+  LessLoaderOptions,
   SSGConfig,
   SSGMultiEntryOptions,
   SSGSingleEntryOptions,
@@ -204,6 +207,11 @@ export interface ToolsConfig {
    * @requires plugin-sass
    */
   sass?: SassConfig;
+
+  /**
+   * @requires plugin-less
+   */
+  less?: LessConfig;
 }
 
 export type RuntimeConfig = Record<string, any>;
