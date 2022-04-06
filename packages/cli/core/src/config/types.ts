@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'http';
 import type { NextFunction, BffProxyOptions } from '@modern-js/types';
 import type { MetaOptions } from '@modern-js/utils';
+import type { Config as JestConfigTypes } from '@jest/types';
 import type { PluginConfig } from '../loadPlugins';
 
 export interface SourceConfig {
@@ -27,6 +28,7 @@ export interface SourceConfig {
     | ((scopes: Array<string | RegExp>) => void)
     | ((scopes: Array<string | RegExp>) => Array<string | RegExp>);
   include?: Array<string | RegExp>;
+
   /**
    * @requires plugin-tailwindcss
    */
@@ -75,6 +77,7 @@ export interface OutputConfig {
   federation?: boolean;
   disableNodePolyfill?: boolean;
   enableTsLoader?: boolean;
+
   /**
    * disables lazy import support for styles
    * currently supports antd and arco-design
@@ -108,10 +111,12 @@ export type DevProxyOptions = string | Record<string, string>;
 export interface DevConfig {
   assetPrefix?: string | boolean;
   https?: boolean;
+
   /**
    * @requires plugin-proxy
    */
   proxy?: DevProxyOptions;
+
   /**
    * @requires plugin-unbundle
    */
@@ -175,6 +180,22 @@ export type DevServerConfig = {
   [propsName: string]: any;
 };
 
+export type JestConfig = JestConfigTypes.InitialOptions;
+
+export interface TestConfig {
+  /**
+   * Decide which transformer will be used to compile file
+   * Default: babel-jest
+   */
+  transformer?: 'babel-jest' | 'ts-jest';
+
+  /**
+   * Original jest config
+   * Doc: https://jestjs.io/docs/configuration
+   */
+  jest?: JestConfig | ((jestConfig: JestConfig) => JestConfig);
+}
+
 export interface ToolsConfig {
   webpack?: ConfigFunction;
   babel?: ConfigFunction;
@@ -187,12 +208,18 @@ export interface ToolsConfig {
   terser?: ConfigFunction;
   minifyCss?: ConfigFunction;
   esbuild?: Record<string, unknown>;
+
   /**
    * @requires plugin-tailwindcss
    */
   tailwindcss?:
     | Record<string, any>
     | ((options: Record<string, any>) => Record<string, any> | void);
+
+  /**
+   * @requires plugin-testing
+   */
+  jest?: TestConfig['jest'];
 }
 
 export type RuntimeConfig = Record<string, any>;
@@ -218,10 +245,16 @@ export interface UserConfig {
   plugins?: PluginConfig;
   runtime?: RuntimeConfig;
   runtimeByEntries?: RuntimeByEntriesConfig;
+
   /**
    * @requires plugin-bff
    */
   bff?: BffConfig;
+
+  /**
+   * @requires plugin-testing
+   */
+  testing?: TestConfig;
 }
 
 export type ConfigParam =
