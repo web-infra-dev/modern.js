@@ -1,6 +1,17 @@
-import { ServerRoute as ModernRoute } from '@modern-js/types';
+import type { ServerRoute as ModernRoute } from '@modern-js/types';
+import type {
+  SSGConfig,
+  SSGRouteOptions,
+  SSGMultiEntryOptions,
+  SSGSingleEntryOptions,
+} from '@modern-js/core';
 
-import '@modern-js/core';
+export type {
+  SSGConfig,
+  SSGRouteOptions,
+  SSGMultiEntryOptions,
+  SSGSingleEntryOptions,
+};
 
 export type AgreedRoute = {
   path: string;
@@ -23,37 +34,6 @@ export type SsgRoute = ModernRoute & {
   headers?: Record<string, string>;
 };
 
-export type RouteOptions =
-  | string
-  | {
-      url: string;
-      output?: string;
-      params?: Record<string, any>[];
-      headers?: Record<string, any>;
-    };
-
-export type SingleEntryOptions =
-  | boolean
-  | {
-      preventDefault?: string[];
-      headers?: Record<string, any>;
-      routes?: RouteOptions[];
-    };
-
-export type MultiEntryOptions = Record<string, SingleEntryOptions>;
-
-export type SSG =
-  | boolean
-  | SingleEntryOptions
-  | MultiEntryOptions
-  | ((entryName: string) => SingleEntryOptions);
-
 export type ExtendOutputConfig = {
-  ssg: SSG;
+  ssg: SSGConfig;
 };
-
-declare module '@modern-js/core' {
-  interface OutputConfig {
-    ssg?: SSG;
-  }
-}

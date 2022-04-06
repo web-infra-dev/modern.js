@@ -104,14 +104,7 @@ export const MWAActionFunctionsDependencies: Partial<
 export const MWAActionFunctionsAppendTypeContent: Partial<
   Record<ActionFunction, string>
 > = {
-  [ActionFunction.Test]: `/// <reference types='@modern-js/plugin-testing/types' />`,
   [ActionFunction.MicroFrontend]: `/// <reference types='@modern-js/plugin-garfish/types' />`,
-  [ActionFunction.TailwindCSS]: `/// <reference types='@modern-js/plugin-tailwindcss/types' />`,
-  [ActionFunction.SSG]: `/// <reference types='@modern-js/plugin-ssg/types' />`,
-  [ActionFunction.Proxy]: `/// <reference types='@modern-js/plugin-proxy/types' />`,
-  [ActionFunction.Less]: `/// <reference types='@modern-js/plugin-less/types' />`,
-  [ActionFunction.Sass]: `/// <reference types='@modern-js/plugin-sass/types' />`,
-  [ActionFunction.UnBundle]: `/// <reference types='@modern-js/plugin-unbundle/types' />`,
 };
 
 export const MWANewActionGenerators: Record<

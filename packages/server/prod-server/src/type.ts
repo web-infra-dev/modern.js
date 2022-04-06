@@ -12,14 +12,6 @@ declare module 'http' {
   }
 }
 
-declare module '@modern-js/core' {
-  interface UserConfig {
-    bff?: {
-      proxy: Record<string, any>;
-    };
-  }
-}
-
 type Plugin = string | [string, any] | ServerPlugin;
 export type ModernServerOptions = {
   pwd: string;

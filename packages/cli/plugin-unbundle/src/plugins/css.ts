@@ -27,7 +27,7 @@ import { normalizeAlias } from './alias';
 export interface PreProcessOptions {
   lessOptions?: Record<string, any>;
   sassOptions?: Record<string, any>;
-  additionalData: string | ((content: string, filename: string) => string);
+  additionalData?: string | ((content: string, filename: string) => string);
 }
 
 export interface TransformRes {
