@@ -28,13 +28,13 @@ export type ProxyDetail = {
   bypass?: (
     req: IncomingMessage,
     res: ServerResponse,
-    proxyOptions: ProxyOptions,
+    proxyOptions: BffProxyOptions,
   ) => string | undefined | null | false;
   context?: string | string[];
   changeOrigin?: boolean;
 };
 
-export type ProxyOptions =
+export type BffProxyOptions =
   | Record<string, string>
   | Record<string, ProxyDetail>
   | ProxyDetail[]

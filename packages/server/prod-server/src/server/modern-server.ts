@@ -35,7 +35,7 @@ import {
   noop,
 } from '../utils';
 import * as reader from '../libs/render/reader';
-import { createProxyHandler, ProxyOptions } from '../libs/proxy';
+import { createProxyHandler, BffProxyOptions } from '../libs/proxy';
 import { createContext, ModernServerContext } from '../libs/context';
 import {
   AGGRED_DIR,
@@ -144,7 +144,7 @@ export class ModernServer implements ModernServerInterface {
     });
 
     // proxy handler, each proxy has own handler
-    this.proxyHandler = createProxyHandler(conf.bff?.proxy as ProxyOptions);
+    this.proxyHandler = createProxyHandler(conf.bff?.proxy as BffProxyOptions);
     if (this.proxyHandler) {
       this.proxyHandler.forEach(handler => {
         this.addHandler(handler);
