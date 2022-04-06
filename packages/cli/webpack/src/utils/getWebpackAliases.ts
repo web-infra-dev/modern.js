@@ -1,4 +1,4 @@
-import { IAppContext, UserConfig } from '@modern-js/core';
+import type { IAppContext, UserConfig } from '@modern-js/core';
 import {
   isProdProfile,
   isTypescript,

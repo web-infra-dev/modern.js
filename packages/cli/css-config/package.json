@@ -48,7 +48,7 @@
     "postcss-page-break": "^3.0.4"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.4.2",
+    "@modern-js/core": "workspace:*",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react-dom": "^17",

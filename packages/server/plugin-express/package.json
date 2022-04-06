@@ -63,10 +63,10 @@
     "@types/type-is": "^1.6.3",
     "supertest": "^6.1.6",
     "typescript": "^4",
-    "@modern-js/core": "workspace:^1.6.0",
+    "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "jest": "^27",
-    "@modern-js/server-core": "workspace:^1.2.4",
+    "@modern-js/server-core": "workspace:*",
     "@scripts/jest-config": "workspace:*"
   },
   "modernConfig": {

@@ -76,7 +76,7 @@
     "typescript": "^4",
     "webpack": "^5.54.0",
     "webpack-chain": "^6.5.1",
-    "@modern-js/core": "workspace:^1.6.0",
+    "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*"

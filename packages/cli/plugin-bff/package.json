@@ -88,8 +88,8 @@
     "webpack-chain": "^6.5.1",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*",
-    "@modern-js/server-core": "workspace:^1.2.4",
-    "@modern-js/core": "workspace:^1.6.0"
+    "@modern-js/server-core": "workspace:*",
+    "@modern-js/core": "workspace:*"
   },
   "sideEffects": false,
   "publishConfig": {
