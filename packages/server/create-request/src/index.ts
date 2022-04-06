@@ -1,5 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable filenames/match-exported */
 import { isBrowser } from '@modern-js/utils';
 import { createRequest as browser } from './browser';
 import { createRequest as node } from './node';

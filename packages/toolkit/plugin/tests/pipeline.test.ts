@@ -588,7 +588,6 @@ describe('createPipeline', () => {
     it('should throw error when all middlewares calling next() and onLast is not exist', async () => {
       const pipeline = createAsyncPipeline<number, number>();
 
-      // eslint-disable-next-line promise/prefer-await-to-then
       pipeline.use((input, next) => Promise.resolve().then(() => next(input)));
 
       await expect(() => pipeline.run(0)).rejects.toThrowError();

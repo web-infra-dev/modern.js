@@ -12,7 +12,6 @@ describe('postcss', () => {
     `,
         { from: '', to: undefined },
       )
-      // eslint-disable-next-line promise/prefer-await-to-then
       .then((result: Result) => {
         expect(result.css).toMatchSnapshot();
       });

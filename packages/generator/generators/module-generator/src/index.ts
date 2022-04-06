@@ -73,7 +73,6 @@ export const handleTemplateFile = async (
     await generatorPlugin.installPlugins(Solution.Module, extra);
     schema = generatorPlugin.getInputSchema(Solution.Module);
     inputValue = generatorPlugin.getInputValue();
-    // eslint-disable-next-line require-atomic-updates
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
   }

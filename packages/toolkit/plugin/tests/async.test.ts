@@ -81,7 +81,6 @@ describe('async manager', () => {
   });
 
   it('could without progress hook in plugin', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     const foo = createWaterfall<number>();
     const manager = createAsyncManager({ foo });
 
@@ -522,9 +521,7 @@ describe('async manager', () => {
 
   describe('useRunner', () => {
     it('should work well', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       const foo = createAsyncPipeline();
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       const bar = createAsyncPipeline();
       const manager = createAsyncManager({ foo, bar });
 
@@ -553,9 +550,7 @@ describe('async manager', () => {
     });
 
     it('should throw error useRunner out plugin hook', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       const foo = createAsyncPipeline();
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       const bar = createAsyncPipeline();
       const manager = createAsyncManager({ foo, bar });
 
