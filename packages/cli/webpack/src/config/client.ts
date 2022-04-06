@@ -9,7 +9,7 @@ import {
   findExists,
 } from '@modern-js/utils';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import webpack, {
   DefinePlugin,

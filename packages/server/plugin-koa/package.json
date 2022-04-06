@@ -59,8 +59,8 @@
     "@types/supertest": "^2.0.11",
     "@types/type-is": "^1.6.3",
     "jest": "^27",
-    "@modern-js/server-core": "workspace:^1.2.4",
-    "@modern-js/core": "workspace:^1.6.0",
+    "@modern-js/server-core": "workspace:*",
+    "@modern-js/core": "workspace:*",
     "supertest": "^6.1.6",
     "koa": "^2.13.3",
     "typescript": "^4"

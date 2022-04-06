@@ -81,8 +81,8 @@
     "@scripts/build": "workspace:*",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*",
-    "@modern-js/server-core": "workspace:^1.2.4",
-    "@modern-js/core": "workspace:^1.6.0"
+    "@modern-js/server-core": "workspace:*",
+    "@modern-js/core": "workspace:*"
   },
   "peerDependencies": {
     "express": "^4.17.1",
