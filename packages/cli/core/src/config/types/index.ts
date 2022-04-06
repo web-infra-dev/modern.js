@@ -3,6 +3,7 @@ import type { NextFunction, BffProxyOptions } from '@modern-js/types';
 import type { MetaOptions } from '@modern-js/utils';
 import type { PluginConfig } from '../../loadPlugins';
 import type { TestConfig } from './test';
+import type { SassConfig, SassLoaderOptions } from './sass';
 import type { UnbundleConfig } from './unbundle';
 import type {
   SSGConfig,
@@ -13,6 +14,8 @@ import type {
 export type {
   TestConfig,
   UnbundleConfig,
+  SassConfig,
+  SassLoaderOptions,
   SSGConfig,
   SSGMultiEntryOptions,
   SSGSingleEntryOptions,
@@ -196,6 +199,11 @@ export interface ToolsConfig {
    * @requires plugin-testing
    */
   jest?: TestConfig['jest'];
+
+  /**
+   * @requires plugin-sass
+   */
+  sass?: SassConfig;
 }
 
 export type RuntimeConfig = Record<string, any>;

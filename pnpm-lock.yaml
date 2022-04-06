@@ -275,6 +275,7 @@ importers:
       jest: ^27
       lodash.clonedeep: ^4.5.0
       lodash.mergewith: ^4.6.2
+      sass: ^1.45.0
       signale: ^1.4.0
       typescript: ^4
       v8-compile-cache: ^2.3.0
@@ -311,6 +312,7 @@ importers:
       '@types/signale': 1.4.3
       btsm: 2.2.2
       jest: 27.4.5
+      sass: 1.45.2
       typescript: 4.5.4
 
   packages/cli/css-config:
@@ -34479,10 +34481,11 @@ packages:
   /sass/1.45.2:
     resolution: {integrity: sha512-cKfs+F9AMPAFlbbTXNsbGvg3y58nV0mXA3E94jqaySKcC8Kq3/8983zVKQ0TLMUrHw7hF9Tnd3Bz9z5Xgtrl9g==}
     engines: {node: '>=8.9.0'}
+    hasBin: true
     dependencies:
-      chokidar: 3.5.2
+      chokidar: 3.5.3
       immutable: 4.0.0
-      source-map-js: 1.0.1
+      source-map-js: 1.0.2
 
   /sax/1.2.4:
     resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
