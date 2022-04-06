@@ -68,7 +68,7 @@ export const routerPlugin = ({
   supportHtml5History = true,
   routesConfig,
   historyOptions = {},
-}: RouterConfig) => {
+}: RouterConfig): Plugin => {
   const isBrow = isBrowser();
 
   const select = (pathname: string) =>
@@ -136,5 +136,5 @@ export const routerPlugin = ({
         },
       };
     },
-  } as Plugin;
+  };
 };
