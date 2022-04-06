@@ -1,5 +1,5 @@
 import { createBabelChain } from '@modern-js/babel-chain';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import {
   applyOptionsChain,
   isUseSSRBundle,

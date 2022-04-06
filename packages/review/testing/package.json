@@ -54,7 +54,7 @@
   "devDependencies": {
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@modern-js/core": "workspace:^1.6.0",
+    "@modern-js/core": "workspace:*",
     "@types/jest": "^27.4.0",
     "@types/lodash.merge": "^4.6.6",
     "@types/node": "^14",

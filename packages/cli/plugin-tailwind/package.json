@@ -65,7 +65,7 @@
     "lodash.merge": "^4.6.2"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.6.0",
+    "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@types/jest": "^26",
     "@types/lodash.clonedeep": "^4.5.6",
