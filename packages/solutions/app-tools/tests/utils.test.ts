@@ -40,7 +40,6 @@ describe('test app-tools utils', () => {
     getSpecifiedEntries(['c'], [
       { entryName: 'a' },
       { entryName: 'b' },
-      // eslint-disable-next-line promise/prefer-await-to-then
     ] as any).catch(e => {
       expect((e as Error).message).toMatch('can not found entry c');
       resolve();

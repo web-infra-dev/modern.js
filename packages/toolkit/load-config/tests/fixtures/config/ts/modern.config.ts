@@ -1,4 +1,3 @@
-/* eslint-disable filenames/match-exported */
 import { source, runtime } from './dep-a';
 
 const config = {
@@ -8,4 +7,3 @@ const config = {
 };
 
 export default config;
-/* eslint-enable filenames/match-exported */

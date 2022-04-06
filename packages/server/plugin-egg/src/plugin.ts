@@ -69,9 +69,7 @@ const initApp = async (options: StartOptions): Promise<Application> => {
 
   agent = new Agent({ ...options });
   await agent.ready();
-  // eslint-disable-next-line require-atomic-updates
   application = new App({ ...options });
-  // eslint-disable-next-line require-atomic-updates
   application.agent = agent;
   agent.application = application;
   await application.ready();

@@ -119,7 +119,6 @@ function getAppInstance(
     async componentWillUnmount() {
       const { appInstance } = this.state;
       if (appInstance) {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
         const { appInfo } = appInstance;
         if (appInfo.cache) {
           logger(`MicroApp Garfish.loadApp "${appInfo.name}" hide`);

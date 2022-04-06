@@ -49,7 +49,6 @@ export default (renderFn: RenderFunction, ctx: ModernServerContext) => {
       );
 
       render()
-        // eslint-disable-next-line promise/prefer-await-to-then
         .then(res => {
           if (res.value && res.isOrigin) {
             const { cacheConfig } = context;
@@ -60,7 +59,6 @@ export default (renderFn: RenderFunction, ctx: ModernServerContext) => {
             }
           }
         })
-        // eslint-disable-next-line promise/prefer-await-to-then
         .catch(e => {
           sprCache.del(cacheContext, cacheHash);
           ctx.error(ERROR_DIGEST.ERENDER, e);

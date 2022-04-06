@@ -71,7 +71,6 @@ export async function bundleRequire(filepath: string, options?: Options) {
       // https://github.com/evanw/esbuild/issues/1051#issuecomment-806325487
       {
         name: 'native-node-modules',
-        // eslint-disable-next-line @typescript-eslint/no-shadow
         setup(build) {
           // If a ".node" file is imported within a module in the "file" namespace, resolve
           // it to an absolute path and put it into the "node-file" virtual namespace.
