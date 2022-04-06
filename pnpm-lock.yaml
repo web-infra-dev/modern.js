@@ -632,7 +632,6 @@ importers:
       '@mdx-js/mdx': ^1.6.22
       '@mdx-js/react': ^1.6.22
       '@modern-js/core': workspace:*
-      '@modern-js/module-tools-hooks': workspace:^1.2.3
       '@modern-js/utils': workspace:^1.3.6
       '@modern-js/webpack': workspace:^1.5.0
       '@scripts/build': workspace:*
@@ -699,7 +698,6 @@ importers:
       webpack-dev-server: 4.7.2_webpack@5.65.0
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools-hooks': link:../../toolkit/module-tools-hooks
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/core-js': 2.5.5
@@ -1120,7 +1118,6 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
-      '@modern-js/module-tools-hooks': workspace:^1.2.3
       '@modern-js/utils': workspace:^1.3.6
       '@modern-js/webpack': workspace:^1.5.0
       '@scripts/build': workspace:*
@@ -1191,7 +1188,6 @@ importers:
       webpack-sources: 3.2.2
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools-hooks': link:../../toolkit/module-tools-hooks
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/body-parser': 1.19.2
@@ -1574,7 +1570,6 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
       '@modern-js/esbuild-compiler': workspace:^0.2.1
-      '@modern-js/module-tools-hooks': workspace:^1.2.3
       '@modern-js/plugin-router': workspace:^1.2.6
       '@modern-js/plugin-state': workspace:^1.2.2
       '@modern-js/runtime': workspace:^1.2.4
@@ -1636,7 +1631,6 @@ importers:
       process.argv: 0.6.0
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools-hooks': link:../../toolkit/module-tools-hooks
       '@modern-js/runtime': link:../plugin-runtime
       '@modern-js/runtime-core': link:../../runtime
       '@scripts/build': link:../../../scripts/build
@@ -3952,8 +3946,8 @@ importers:
       '@modern-js/core': workspace:^1.6.0
       '@modern-js/css-config': workspace:^1.2.2
       '@modern-js/i18n-cli-language-detector': workspace:^1.2.1
-      '@modern-js/module-tools-hooks': workspace:^1.2.3
       '@modern-js/new-action': workspace:^1.3.3
+      '@modern-js/plugin': workspace:^1.3.2
       '@modern-js/plugin-analyze': workspace:^1.3.4
       '@modern-js/plugin-changeset': workspace:^1.2.3
       '@modern-js/plugin-fast-refresh': workspace:^1.2.2
@@ -4000,8 +3994,8 @@ importers:
       '@modern-js/core': link:../../cli/core
       '@modern-js/css-config': link:../../cli/css-config
       '@modern-js/i18n-cli-language-detector': link:../../cli/i18n-cli-language-detector
-      '@modern-js/module-tools-hooks': link:../../toolkit/module-tools-hooks
       '@modern-js/new-action': link:../../generator/new-action
+      '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-analyze': link:../../cli/plugin-analyze
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
       '@modern-js/plugin-fast-refresh': link:../../cli/plugin-fast-refresh
@@ -4479,27 +4473,6 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
-      jest: 27.4.5
-      typescript: 4.5.4
-
-  packages/toolkit/module-tools-hooks:
-    specifiers:
-      '@babel/runtime': ^7
-      '@modern-js/core': workspace:^1.6.0
-      '@modern-js/plugin': workspace:^1.3.2
-      '@modern-js/style-compiler': workspace:^1.2.1
-      '@scripts/build': workspace:*
-      '@scripts/jest-config': workspace:*
-      jest: ^27
-      typescript: ^4
-    dependencies:
-      '@babel/runtime': 7.16.7
-      '@modern-js/plugin': link:../plugin
-    devDependencies:
-      '@modern-js/core': link:../../cli/core
-      '@modern-js/style-compiler': link:../compiler/style
-      '@scripts/build': link:../../../scripts/build
-      '@scripts/jest-config': link:../../../scripts/jest-config
       jest: 27.4.5
       typescript: 4.5.4
 

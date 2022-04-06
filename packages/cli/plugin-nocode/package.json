@@ -67,7 +67,6 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/module-tools-hooks": "workspace:^1.2.3",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/body-parser": "^1.19.1",

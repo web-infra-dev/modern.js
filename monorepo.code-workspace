@@ -173,10 +173,6 @@
       "path": "packages/solutions/module-tools"
     },
     {
-      "name": "@modern-js/module-tools-hooks",
-      "path": "packages/toolkit/module-tools-hooks"
-    },
-    {
       "name": "@modern-js/monorepo-generator",
       "path": "packages/generator/generators/monorepo-generator"
     },
