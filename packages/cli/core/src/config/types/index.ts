@@ -1,8 +1,22 @@
 import type { IncomingMessage, ServerResponse } from 'http';
 import type { NextFunction, BffProxyOptions } from '@modern-js/types';
 import type { MetaOptions } from '@modern-js/utils';
-import type { Config as JestConfigTypes } from '@jest/types';
-import type { PluginConfig } from '../loadPlugins';
+import type { PluginConfig } from '../../loadPlugins';
+import type { TestConfig } from './test';
+import type { UnbundleConfig } from './unbundle';
+import type {
+  SSGConfig,
+  SSGSingleEntryOptions,
+  SSGMultiEntryOptions,
+} from './ssg';
+
+export type {
+  TestConfig,
+  UnbundleConfig,
+  SSGConfig,
+  SSGMultiEntryOptions,
+  SSGSingleEntryOptions,
+};
 
 export interface SourceConfig {
   entries?: Record<
@@ -84,6 +98,11 @@ export interface OutputConfig {
    * @requires plugin-unbundle
    */
   disableAutoImportStyle?: boolean;
+
+  /**
+   * @requires plugin-ssg
+   */
+  ssg?: SSGConfig;
 }
 
 export interface ServerConfig {
@@ -120,34 +139,7 @@ export interface DevConfig {
   /**
    * @requires plugin-unbundle
    */
-  unbundle?: {
-    /**
-     * Some package A may require another package B that is intended for Node.js
-     * use only. In such a case, if package B cannot be converted to ESM, it will
-     * cause package A to fail during unbundle development, even though package B
-     * is not really required. Package B can thus be safely ignored via this option
-     * to ensure transpilation of package A to ESM
-     */
-    ignore?: string | string[];
-
-    /**
-     * ignores cached esm modules and recompiles dependencies not available
-     * from PDN host on dev start.
-     * default: false
-     */
-    ignoreModuleCache?: boolean;
-
-    /**
-     * clears cache of downloaded esm modules (from PDN) on dev start.
-     * default: false
-     */
-    clearPdnCache?: boolean;
-
-    /**
-     * modifies host to attempt to download esm modules from
-     */
-    pdnHost?: string;
-  };
+  unbundle?: UnbundleConfig;
 }
 
 export interface MicroFrontend {
@@ -179,22 +171,6 @@ export type DevServerConfig = {
   after?: RequestHandler[];
   [propsName: string]: any;
 };
-
-export type JestConfig = JestConfigTypes.InitialOptions;
-
-export interface TestConfig {
-  /**
-   * Decide which transformer will be used to compile file
-   * Default: babel-jest
-   */
-  transformer?: 'babel-jest' | 'ts-jest';
-
-  /**
-   * Original jest config
-   * Doc: https://jestjs.io/docs/configuration
-   */
-  jest?: JestConfig | ((jestConfig: JestConfig) => JestConfig);
-}
 
 export interface ToolsConfig {
   webpack?: ConfigFunction;
@@ -232,7 +208,7 @@ export type BffConfig = {
   prefix?: string;
   requestCreator?: string;
   fetcher?: string;
-  proxy: Record<string, any>;
+  proxy?: Record<string, any>;
 };
 
 export interface UserConfig {
