@@ -69,7 +69,7 @@
     "prettier": "^2.3.2"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:^1.6.0",
+    "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/cross-spawn": "^6.0.2",
