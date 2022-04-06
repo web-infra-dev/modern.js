@@ -50,7 +50,6 @@ const generateSource = async (
       react: '^16.12.0',
       'react-dom': '^16.12.0',
     },
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     maintainers: maintainers.map(name => ({ name })),
     meta: {
       title,
@@ -63,7 +62,6 @@ const generateSource = async (
 
   const entryFile = path.resolve(tmpDir, 'src/index.ts');
   const entryContent = Object.keys(comps)
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     .map(name => {
       const lastName = _.last(name.split('/'));
       const importName = _.upperFirst(_.camelCase(lastName));
@@ -148,7 +146,6 @@ const registerPackage = async ({ name, version }, options) => {
         JSON.stringify(res.data, null, 4),
       );
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       const { name, version, _id, packageType } = pkg;
       logger.success(
         `package registered ${chalk.blue(`${name}@${version}`)} / ${chalk.grey(

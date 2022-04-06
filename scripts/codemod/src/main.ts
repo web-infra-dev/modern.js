@@ -317,7 +317,6 @@ function fixTypesField(file: string) {
     return;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const { types, publishConfig, main } = c;
   if (publishConfig?.main) {
     // 恢复之前的 main 配置

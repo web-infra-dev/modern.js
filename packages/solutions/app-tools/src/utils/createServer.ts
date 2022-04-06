@@ -16,7 +16,6 @@ export const createServer = async (options: ModernDevServerOptions) => {
     await server.close();
   }
 
-  // eslint-disable-next-line require-atomic-updates
   server = new Server(options);
 
   const app = await server.init();

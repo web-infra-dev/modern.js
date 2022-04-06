@@ -10,7 +10,6 @@ const registerMiddleware = (app: Application, middleware: Middleware) => {
   }
 
   if (!Array.isArray(middleware)) {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     throw new Error(`middleware must be a array, but found ${middleware}`);
   }
 

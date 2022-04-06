@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 const { jsExtensions } = require('./utils');
 
 module.exports = {
@@ -391,15 +390,6 @@ module.exports = {
         // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-redeclare.md
         'no-redeclare': 'off',
         '@typescript-eslint/no-redeclare': ['error', { builtinGlobals: true }],
-        // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-shadow.md
-        'no-shadow': 'off',
-        '@typescript-eslint/no-shadow': [
-          'error',
-          {
-            builtinGlobals: false,
-            allow: [],
-          },
-        ],
 
         // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/space-before-function-paren.md
         'space-before-function-paren': 'off',
@@ -418,4 +408,3 @@ module.exports = {
     },
   ],
 };
-/* eslint-enable max-lines */

@@ -31,7 +31,6 @@ export const createBabelPluginChain = (): BabelPluginChain => {
   const plugin = (name: string) => {
     const pluginExist = plugins.find(plugin => plugin.name === name);
     const isExist = Boolean(pluginExist);
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     const plugin = pluginExist || { name, options: [] };
 
     const tap = (options: any[]) => {
@@ -43,7 +42,6 @@ export const createBabelPluginChain = (): BabelPluginChain => {
 
     const del = () => {
       if (isExist) {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
         plugins = plugins.filter(plugin => !plugin.name.includes(name));
       }
     };
@@ -67,7 +65,6 @@ export const createBabelPluginChain = (): BabelPluginChain => {
       }
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     const use = (path: string, options?: any[]) => {
       plugin.path = path;
       plugin.options = options || [];
@@ -85,7 +82,6 @@ export const createBabelPluginChain = (): BabelPluginChain => {
   };
 
   const toJSON = (): PluginItem[] =>
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     plugins.map(plugin =>
       plugin.options
         ? [plugin.path || plugin.name, ...plugin.options]
@@ -95,7 +91,6 @@ export const createBabelPluginChain = (): BabelPluginChain => {
   // merge preset with replacing
   // see https://babeljs.io/docs/en/configuration#how-babel-merges-config-items
   const merge = (other: BabelPluginChain): BabelPluginChain => {
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     for (const plugin of other.plugins) {
       if (plugin.path) {
         chain.plugin(plugin.name).use(plugin.path, plugin.options);

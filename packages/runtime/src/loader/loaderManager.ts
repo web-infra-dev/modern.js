@@ -73,7 +73,6 @@ const createLoader = (
 
     promise = new Promise(resolve => {
       loaderFn()
-        // eslint-disable-next-line promise/prefer-await-to-then
         .then(value => {
           data = value;
           error = null;
@@ -81,7 +80,6 @@ const createLoader = (
           notify();
           resolve(value);
         })
-        // eslint-disable-next-line promise/prefer-await-to-then
         .catch(e => {
           error = e instanceof Error ? `${e.message}` : e;
           data = null;
@@ -89,7 +87,6 @@ const createLoader = (
           notify();
           resolve(e);
         })
-        // eslint-disable-next-line promise/prefer-await-to-then
         .finally(() => {
           promise = null;
           hasLoaded = true;

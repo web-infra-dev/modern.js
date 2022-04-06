@@ -24,11 +24,6 @@ module.exports = {
         ],
         // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unnecessary-type-assertion.md
         '@typescript-eslint/no-unnecessary-type-assertion': 'error',
-        // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/restrict-template-expressions.md
-        '@typescript-eslint/restrict-template-expressions': [
-          'error',
-          { allowNumber: true, allowAny: true },
-        ],
         // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-base-to-string.md
         '@typescript-eslint/no-base-to-string': 'error',
         // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unnecessary-boolean-literal-compare.md

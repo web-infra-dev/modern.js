@@ -3,19 +3,18 @@ import { createContainer } from '@modern-js/plugin';
 import { runtime, Plugin, AppComponentContext } from './plugin';
 import { RuntimeReactContext } from './runtime-context';
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type WrapOptions = {};
+export type WrapOptions = Record<string, unknown>;
 
 export const initialWrapper = (plugins: Plugin[], manager = runtime) => {
   manager.usePlugin(...plugins);
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  return <P = {}>(App: React.ComponentType<P>, config: WrapOptions) =>
-    wrap(App, config, manager);
+  return <P = Record<string, unknown>>(
+    App: React.ComponentType<P>,
+    config: WrapOptions,
+  ) => wrap(App, config, manager);
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export const wrap = <P = {}>(
+export const wrap = <P = Record<string, unknown>>(
   App: React.ComponentType<P>,
   // eslint-disable-next-line no-empty-pattern
   {}: WrapOptions,
@@ -32,7 +31,6 @@ export const wrap = <P = {}>(
       { element, props: { ...props }, context: {} as any },
       {
         container,
-        // eslint-disable-next-line @typescript-eslint/no-shadow
         onLast: ({ element }) => element,
       },
     );
@@ -42,7 +40,6 @@ export const wrap = <P = {}>(
     { App: WrapperComponent },
     {
       container,
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       onLast: ({ App }) => {
         const WrapComponent = ({ context, ...props }: any) =>
           React.createElement(

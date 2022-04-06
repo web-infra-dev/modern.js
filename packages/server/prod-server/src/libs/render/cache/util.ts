@@ -58,7 +58,6 @@ export function withCoalescedInvoke<F extends (...args: any[]) => Promise<any>>(
   return async function (key: string, args: Parameters<F>) {
     const entry = globalInvokeCache.get(key);
     if (entry) {
-      // eslint-disable-next-line promise/prefer-await-to-then
       return entry.then(res => ({
         isOrigin: false,
         value: res.value as UnwrapPromise<ReturnType<F>>,
@@ -70,12 +69,10 @@ export function withCoalescedInvoke<F extends (...args: any[]) => Promise<any>>(
     }
 
     const future = __wrapper()
-      // eslint-disable-next-line promise/prefer-await-to-then
       .then(res => {
         globalInvokeCache.delete(key);
         return { isOrigin: true, value: res as UnwrapPromise<ReturnType<F>> };
       })
-      // eslint-disable-next-line promise/prefer-await-to-then
       .catch(err => {
         globalInvokeCache.delete(key);
         throw err;
