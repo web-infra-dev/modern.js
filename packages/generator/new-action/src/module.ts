@@ -13,7 +13,6 @@ import {
   ModuleActionFunctionsDependencies,
   ModuleActionFunctionsDevDependencies,
   ModuleActionFunctionsPeerDependencies,
-  ModuleActionFunctionsAppendTypeContent,
   ModuleNewActionGenerators,
   ActionType,
 } from '@modern-js/generator-common';
@@ -141,8 +140,6 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
             [peerDependency]: `^${await getPackageVersion(peerDependency)}`,
           }
         : {},
-      appendTypeContent:
-        ModuleActionFunctionsAppendTypeContent[action as ActionFunction],
     },
   );
 

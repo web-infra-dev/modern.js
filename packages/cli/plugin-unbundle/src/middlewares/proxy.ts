@@ -1,10 +1,10 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import { NextFunction, ProxyOptions } from '@modern-js/types';
+import { NextFunction, BffProxyOptions } from '@modern-js/types';
 import { formatProxyOptions } from '@modern-js/utils';
 
-export const createProxyHandler = (proxyOptions?: ProxyOptions) => {
+export const createProxyHandler = (proxyOptions?: BffProxyOptions) => {
   if (!proxyOptions) {
     return [
       (req: any, res: any, next: any) => {

@@ -75,14 +75,6 @@ export const ModuleActionFunctionsDependencies: Partial<
   [ActionFunction.Sass]: '@modern-js/plugin-sass',
 };
 
-export const ModuleActionFunctionsAppendTypeContent: Partial<
-  Record<ActionFunction, string>
-> = {
-  [ActionFunction.TailwindCSS]: `/// <reference types='@modern-js/plugin-tailwindcss/types' />`,
-  [ActionFunction.Less]: `/// <reference types='@modern-js/plugin-less/types' />`,
-  [ActionFunction.Sass]: `/// <reference types='@modern-js/plugin-sass/types' />`,
-};
-
 export const ModuleNewActionGenerators: Partial<
   Record<ActionType, Record<string, string>>
 > = {
