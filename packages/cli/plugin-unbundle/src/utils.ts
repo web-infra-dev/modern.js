@@ -95,7 +95,6 @@ export const replaceAsync = (
         values.push(replacer.apply(undefined, args as any));
         return '';
       });
-      // eslint-disable-next-line promise/prefer-await-to-then
       return Promise.all(values).then(resolvedValues =>
         String.prototype.replace.call(str, searchValue, () =>
           resolvedValues.shift(),

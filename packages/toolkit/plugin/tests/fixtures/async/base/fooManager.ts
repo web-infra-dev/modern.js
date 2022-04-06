@@ -6,15 +6,13 @@ import {
 } from '../../../../src';
 
 // foo plugin
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type Config = {};
+export type Config = Record<string, unknown>;
 const defaultConfig = {};
 const ConfigContext = createContext<Config>(defaultConfig);
 export const useConfig = (): Config => {
   const config = ConfigContext.use().value;
 
   if (!config) {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions,@typescript-eslint/no-base-to-string
     throw new Error(`Expected modern config, but got: ${config}`);
   }
 

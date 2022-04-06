@@ -314,7 +314,6 @@ export const cloneHook = (hook: Hook): Hook => {
     return createPipeline();
   }
 
-  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
   throw new Error(`Unknown hook: ${hook}`);
 };
 

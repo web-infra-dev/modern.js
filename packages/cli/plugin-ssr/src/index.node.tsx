@@ -1,4 +1,3 @@
-// eslint-disable-next-line filenames/match-exported
 import path from 'path';
 import { registerPrefetch } from '@modern-js/runtime-core';
 import type { Plugin } from '@modern-js/runtime-core';

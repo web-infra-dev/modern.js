@@ -58,9 +58,7 @@ export class ESBuildPlugin {
     const plugin = 'ESBuild Plugin';
     compiler.hooks.compilation.tap(plugin, (compilation: Compilation) => {
       if (isWebpack5) {
-        // eslint-disable @typescript-eslint/no-shadow
         const { Compilation } = compiler.webpack;
-        // eslint-enable @typescript-eslint/no-shadow
 
         compilation.hooks.processAssets.tapPromise(
           {

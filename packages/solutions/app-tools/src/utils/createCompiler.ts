@@ -68,7 +68,6 @@ export const createCompiler = async ({
         }
         await printInstructions(api, appContext, userConfig);
       }
-      // eslint-disable-next-line require-atomic-updates
       isFirstCompile = false;
     });
 

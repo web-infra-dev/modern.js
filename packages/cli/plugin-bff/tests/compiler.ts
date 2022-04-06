@@ -12,7 +12,6 @@ global.setImmediate = setTimeout;
 global.clearImmediate = clearTimeout;
 
 export const compiler = (fixture: string, options: APILoaderOptions) => {
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const compiler = webpack({
     context: __dirname,
     entry: fixture,

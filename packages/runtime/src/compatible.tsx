@@ -36,7 +36,6 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
         { element, props: { ...props }, context },
         {
           container,
-          // eslint-disable-next-line @typescript-eslint/no-shadow
           onLast: ({ element }) => element,
         },
       );
@@ -50,7 +49,6 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
       { App: WrapperComponent },
       {
         container,
-        // eslint-disable-next-line @typescript-eslint/no-shadow
         onLast: ({ App }: any) => {
           const WrapComponent = ({ context, ...props }: any) => {
             let contextValue = context;
@@ -159,7 +157,6 @@ export const bootstrap: BootStrap = async (
           typeof id !== 'string' ? id : document.getElementById(id || 'root')!,
       },
       {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
         onLast: async ({ App, rootElement }) => {
           ReactDOM.render(React.createElement(App, { context }), rootElement);
         },

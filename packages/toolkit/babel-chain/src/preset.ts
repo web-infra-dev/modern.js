@@ -30,7 +30,6 @@ export const createBabelPresetChain = (): BabelPresetChain => {
 
   const preset = (name: string) => {
     const isExist = presets.some(plugin => plugin.name === name);
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     const preset: Preset = { name, options: [] };
 
     const tap = (options: any[]) => {
@@ -42,7 +41,6 @@ export const createBabelPresetChain = (): BabelPresetChain => {
 
     const del = () => {
       if (isExist) {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
         presets = presets.filter(preset => !preset.name.includes(name));
       }
     };
@@ -66,7 +64,6 @@ export const createBabelPresetChain = (): BabelPresetChain => {
       }
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     const use = (path: string, options?: any[]) => {
       preset.path = path;
       preset.options = options || [];
@@ -84,7 +81,6 @@ export const createBabelPresetChain = (): BabelPresetChain => {
   };
 
   const toJSON = (): PluginItem[] =>
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     presets.map(preset =>
       preset.options
         ? [preset.path || preset.name, ...preset.options]
@@ -94,7 +90,6 @@ export const createBabelPresetChain = (): BabelPresetChain => {
   // merge preset with replacing
   // see https://babeljs.io/docs/en/configuration#how-babel-merges-config-items
   const merge = (other: BabelPresetChain): BabelPresetChain => {
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     for (const preset of other.presets) {
       if (preset.path) {
         chain.preset(preset.name).use(preset.path, preset.options);

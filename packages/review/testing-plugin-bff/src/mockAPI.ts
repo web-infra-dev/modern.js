@@ -97,7 +97,6 @@ export default (
                 return test;
               }
 
-              // eslint-disable-next-line promise/prefer-await-to-then
               return test.then((value: any) => {
                 try {
                   return JSON.parse(value.text);

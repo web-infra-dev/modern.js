@@ -43,7 +43,6 @@ export default ({
 
   // Reload code here
   (reload as any)(app)
-    // eslint-disable-next-line promise/prefer-await-to-then
     .then((reloadReturned: any) => {
       // reloadReturned is documented in the returns API in the README
       setReloadReturned(reloadReturned);
@@ -61,7 +60,6 @@ export default ({
         });
       }
     })
-    // eslint-disable-next-line promise/prefer-await-to-then
     .catch((err: any) => {
       console.error(
         'Reload could not start, could not start server/sample app',

@@ -26,7 +26,6 @@ describe('configure', () => {
   // });
 
   test('should support custom request', done => {
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     const url = 'http://localhost:9090';
     const port = 9090;
 

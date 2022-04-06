@@ -113,14 +113,11 @@ export default (): CliPlugin => ({
         // upload files
         const uploadPromise = fl.map(filepath => {
           const uploadPath = path.relative(distDirectory, filepath);
-          return (
-            ossClient
-              .put(path.join(prefix, uploadPath), filepath)
-              // eslint-disable-next-line promise/prefer-await-to-then
-              .then(() => {
-                logger.info(`Upload ${uploadPath} success`);
-              })
-          );
+          return ossClient
+            .put(path.join(prefix, uploadPath), filepath)
+            .then(() => {
+              logger.info(`Upload ${uploadPath} success`);
+            });
         });
 
         await Promise.all(uploadPromise);

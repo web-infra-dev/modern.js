@@ -33,7 +33,6 @@ export function chokidarFile(
           await generateFiles(appDirectory, tmpDir, files, isDev);
           logger.info('built');
         }
-        // eslint-disable-next-line require-atomic-updates
         building = false;
 
         if (dirty) {
