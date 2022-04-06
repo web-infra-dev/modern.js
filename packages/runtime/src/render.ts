@@ -26,7 +26,6 @@ export const clientRender = (
   return runner.client(
     { App, rootElement },
     {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       onLast: async ({ App, rootElement }) => {
         ReactDOM.render(React.createElement(App), rootElement);
       },

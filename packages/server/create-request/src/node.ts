@@ -14,13 +14,11 @@ import type {
 let realRequest: Fetch;
 let realAllowedHeaders: string[] = [];
 const originFetch = (...params: Parameters<typeof nodeFetch>) =>
-  nodeFetch(...params)
-    // eslint-disable-next-line promise/prefer-await-to-then
-    .then(handleRes);
+  nodeFetch(...params).then(handleRes);
 
-export const configure = (options: IOptions<typeof nodeFetch>) => {
+export const configure = (options: IOptions) => {
   const { request, interceptor, allowedHeaders } = options;
-  realRequest = (request as Fetch) || originFetch;
+  realRequest = request || originFetch;
   if (interceptor && !request) {
     realRequest = interceptor(nodeFetch);
   }
@@ -35,7 +33,7 @@ export const createRequest: RequestCreator = (
   port: number,
   // 后续可能要修改，暂时先保留
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  fetch = nodeFetch as any,
+  fetch = nodeFetch,
 ) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
   const keys: Key[] = [];

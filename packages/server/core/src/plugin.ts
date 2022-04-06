@@ -65,14 +65,12 @@ const prepareApiServer = createAsyncPipeline<APIServerStartInput, Adapter>();
 
 const beforeDevServer = createParallelWorkflow<NormalizedConfig, any>();
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-const setupCompiler = createParallelWorkflow<{}, any[]>();
+const setupCompiler = createParallelWorkflow<Record<string, unknown>, any[]>();
 
 const afterDevServer = createParallelWorkflow<NormalizedConfig, any>();
 
 // TODO FIXME
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type Route = {};
+export type Route = Record<string, unknown>;
 const beforeRouteSet = createAsyncPipeline<Route[], Route[]>();
 
 const afterRouteSet = createAsyncPipeline();
@@ -114,15 +112,13 @@ const afterMatch = createAsyncPipeline<
 >();
 
 // TODO FIXME
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type SSRServerContext = {};
+export type SSRServerContext = Record<string, unknown>;
 const prefetch = createParallelWorkflow<{
   context: SSRServerContext;
 }>();
 
 // TODO FIXME
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type RenderContext = {};
+export type RenderContext = Record<string, unknown>;
 const renderToString = createAsyncPipeline<
   { App: Component; context: RenderContext },
   string

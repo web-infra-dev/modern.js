@@ -66,7 +66,6 @@ export const createParallelWorkflow = <
   };
 
   const run: ParallelWorkflow<I, O>['run'] = async (input, options) =>
-    // eslint-disable-next-line promise/prefer-await-to-then
     Promise.all(pipeline.run(input, { ...options, onLast: () => [] })).then(
       result => result.filter(Boolean),
     );

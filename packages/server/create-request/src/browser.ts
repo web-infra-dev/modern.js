@@ -10,9 +10,7 @@ import type {
 let realRequest: typeof fetch;
 let realAllowedHeaders: string[];
 const originFetch = (...params: Parameters<typeof fetch>) =>
-  fetch(...params)
-    // eslint-disable-next-line promise/prefer-await-to-then
-    .then(handleRes);
+  fetch(...params).then(handleRes);
 
 export const configure = (options: IOptions) => {
   const { request, interceptor, allowedHeaders } = options;
