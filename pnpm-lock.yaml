@@ -4683,6 +4683,22 @@ importers:
       esbuild-jest: 0.5.0_esbuild@0.13.15
       jest: 27.4.5
 
+  scripts/prebundle:
+    specifiers:
+      '@modern-js/tsconfig': workspace:*
+      '@modern-js/utils': workspace:*
+      '@scripts/build': workspace:*
+      '@types/node': ^14
+      '@vercel/ncc': ^0.33.3
+      typescript: ^4
+    devDependencies:
+      '@modern-js/tsconfig': link:../../packages/review/tsconfig
+      '@modern-js/utils': link:../../packages/toolkit/utils
+      '@scripts/build': link:../build
+      '@types/node': 14.18.4
+      '@vercel/ncc': 0.33.3
+      typescript: 4.5.4
+
   tests:
     specifiers:
       '@modern-js/app-tools': workspace:^1.2.0
@@ -16001,6 +16017,13 @@ packages:
       '@typescript-eslint/types': 5.17.0
       eslint-visitor-keys: 3.3.0
     dev: false
+
+  /@vercel/ncc/0.33.3:
+    resolution: {integrity: sha512-JGZ11QV+/ZcfudW2Cz2JVp54/pJNXbsuWRgSh2ZmmZdQBKXqBtIGrwI1Wyx8nlbzAiEFe7FHi4K1zX4//jxTnQ==}
+    hasBin: true
+    dependencies:
+      esbuild: 0.13.15
+    dev: true
 
   /@webassemblyjs/ast/1.11.1:
     resolution: {integrity: sha512-ukBh14qFLjxTQNTXocdyksN5QdM28S1CxHt2rdskFyL+xFV7VremuBLVbmCePj+URalXBENx/9Lm7lnhihtCSw==}

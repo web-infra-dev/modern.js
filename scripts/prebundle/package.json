@@ -1,0 +1,23 @@
+{
+  "name": "@scripts/prebundle",
+  "private": true,
+  "version": "0.0.0",
+  "main": "./dist/index.js",
+  "scripts": {
+    "dev": "modern build --watch",
+    "build": "modern build",
+    "start": "pnpm build && node ./dist/js/node/index.js"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.33.3",
+    "@types/node": "^14",
+    "@modern-js/utils": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*",
+    "@scripts/build": "workspace:*",
+    "typescript": "^4"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
+}
