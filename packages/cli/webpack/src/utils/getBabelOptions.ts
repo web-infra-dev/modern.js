@@ -58,7 +58,7 @@ export const getBabelOptions = (
             ssr: isUseSSRBundle(config),
             transpileTemplateLiterals: true,
           },
-          (config.tools as any)?.styledComponents,
+          config.tools?.styledComponents,
         ),
       } as BabelPresetAppOptions,
     ],
