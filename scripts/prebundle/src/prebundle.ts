@@ -30,9 +30,7 @@ function emitDts(task: ParsedTask) {
 }
 
 function emitPackageJson(task: ParsedTask) {
-  const packageJsonPath = require.resolve(join(task.depName, 'package.json'), {
-    paths: [join(task.packagePath, 'node_modules')],
-  });
+  const packageJsonPath = join(task.depPath, 'package.json');
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
   const outputPath = join(task.distPath, 'package.json');
 
@@ -51,16 +49,19 @@ function emitPackageJson(task: ParsedTask) {
   );
 }
 
-function findEntry(task: ParsedTask) {
-  return require.resolve(task.depName, {
-    paths: [join(task.packagePath, 'node_modules')],
-  });
+function emitLicense(task: ParsedTask) {
+  const licensePath = join(task.depPath, 'LICENSE');
+  if (fs.existsSync(licensePath)) {
+    fs.copySync(licensePath, join(task.distPath, 'license'));
+  }
 }
 
 export async function prebundle(task: ParsedTask) {
+  console.log(`==== Start prebundle "${task.depName}" ====`);
+
   externals[task.depName] = task.importPath;
 
-  const entry = findEntry(task);
+  const entry = require.resolve(task.depPath);
   const { code, assets } = await ncc(entry, {
     externals,
     assetBuilds: false,
@@ -69,5 +70,8 @@ export async function prebundle(task: ParsedTask) {
   emitIndex(code, task.distPath);
   emitAssets(assets, task.distPath);
   emitDts(task);
+  emitLicense(task);
   emitPackageJson(task);
+
+  console.log(`==== End prebundle "${task.depName}" ====\n\n`);
 }

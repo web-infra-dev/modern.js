@@ -1,8 +1,9 @@
-import { join } from 'path';
+import { dirname, join } from 'path';
 import { TASKS, DIST_DIR, PACKAGES_DIR } from './constant';
 
 export type ParsedTask = {
   depName: string;
+  depPath: string;
   distPath: string;
   importPath: string;
   packageDir: string;
@@ -18,8 +19,15 @@ export function parseTasks() {
       const importPath = join(packageName, DIST_DIR, name);
       const packagePath = join(PACKAGES_DIR, packageDir);
       const distPath = join(packagePath, DIST_DIR, name);
+      const depPath = dirname(
+        require.resolve(join(name, 'package.json'), {
+          paths: [join(packagePath, 'node_modules')],
+        }),
+      );
+
       result.push({
         depName: name,
+        depPath,
         distPath,
         importPath,
         packageDir,
