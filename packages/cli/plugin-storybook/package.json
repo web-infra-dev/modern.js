@@ -83,7 +83,7 @@
     "jest": "^27",
     "react": "^17",
     "typescript": "^4",
-    "webpack": "^5.54.0",
+    "webpack": "^5.71.0",
     "webpack-chain": "^6.5.1"
   },
   "peerDependencies": {
