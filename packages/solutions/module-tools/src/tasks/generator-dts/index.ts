@@ -1,9 +1,8 @@
 import type { ChildProcess } from 'child_process';
-import * as path from 'path';
-import { Import, fs } from '@modern-js/utils';
+import { Import, fs, isObject } from '@modern-js/utils';
 import type { NormalizedConfig, CoreOptions } from '@modern-js/core';
 import type { ITsconfig } from '../../types';
-import type { IGeneratorConfig } from './utils';
+import { getTscBinPath, IGeneratorConfig } from './utils';
 
 const core: typeof import('@modern-js/core') = Import.lazy(
   '@modern-js/core',
@@ -53,7 +52,6 @@ const resolveLog = (
   });
 };
 
-/* eslint-disable max-statements */
 const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
   const {
     tsconfigPath,
@@ -71,13 +69,7 @@ const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
     sourceDir: sourceDirName,
   });
   removeTsconfigPath = willDeleteTsconfigPath;
-  const tscBinFile = path.join(appDirectory, './node_modules/.bin/tsc');
-
-  if (!fs.existsSync(tscBinFile)) {
-    throw new Error(
-      'Failed to excute the `tsc` command, please check if `typescript` is installed correctly in the current directory.',
-    );
-  }
+  const tscBinFile = getTscBinPath(appDirectory);
 
   const watchParams = watch ? ['-w'] : [];
   const childProgress = execa(
@@ -97,22 +89,16 @@ const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
       console.info(
         `There are some type warnings, which can be checked by configuring 'output.disableTsChecker = false'`,
       );
+    }
+    // 通过使用 execa，可以将 tsc 的 data 类型的报错信息变为异常错误信息
+    else if (isObject(e) && e.stdout) {
+      console.error(e.stdout);
     } else {
-      const isRecord = (input: any): input is Record<string, any> =>
-        typeof input === 'object';
-      // 通过使用 execa，可以将tsc 的 data 类型的报错信息变为异常错误信息
-      if (isRecord(e)) {
-        if (e.stdout) {
-          console.error(e.stdout);
-        } else {
-          console.error(e);
-        }
-      }
+      console.error(e);
     }
   }
   fs.removeSync(willDeleteTsconfigPath);
 };
-/* eslint-enable max-statements */
 
 interface ITaskConfig {
   srcDir: string;
