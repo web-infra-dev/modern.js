@@ -1,5 +1,6 @@
 import { join } from 'path';
 import ncc from '@vercel/ncc';
+import { Package as DtsPacker } from 'dts-packer';
 import { fs } from '@modern-js/utils';
 import { ParsedTask } from './helper';
 
@@ -20,6 +21,14 @@ function emitIndex(code: string, distPath: string) {
   fs.outputFileSync(distIndex, code);
 }
 
+function emitDts(task: ParsedTask) {
+  return new DtsPacker({
+    cwd: task.packagePath,
+    name: task.depName,
+    typesRoot: task.distPath,
+  });
+}
+
 function findEntry(task: ParsedTask) {
   return require.resolve(task.depName, {
     paths: [join(task.packagePath, 'node_modules')],
@@ -37,4 +46,5 @@ export async function prebundle(task: ParsedTask) {
 
   emitIndex(code, task.distPath);
   emitAssets(assets, task.distPath);
+  emitDts(task);
 }
