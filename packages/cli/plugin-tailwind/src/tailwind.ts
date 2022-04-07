@@ -52,7 +52,7 @@ const getTailwindConfig = (
   };
   const tailwindConfig = applyOptionsChain(
     defaultTailwindConfig,
-    (config.tools as any).tailwindcss || {},
+    config.tools.tailwindcss || {},
   );
 
   const designSystem = getPureDesignSystemConfig(

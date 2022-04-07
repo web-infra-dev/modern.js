@@ -103,7 +103,7 @@ class NodeWebpackConfig extends BaseWebpackConfig {
                   ssr: isUseSSRBundle(this.options),
                   transpileTemplateLiterals: true,
                 },
-                (this.options.tools as any)?.styledComponents,
+                this.options.tools?.styledComponents,
               ),
             },
           ],
