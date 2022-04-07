@@ -73,8 +73,7 @@ export default (): CliPlugin => ({
 
         // if use ssg then set ssr config to true
         const ssrConfig =
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-          Boolean((userConfig.output as any).ssg) ||
+          Boolean(userConfig.output.ssg) ||
           getEntryOptions(
             entryName,
             userConfig.server.ssr,

@@ -46,7 +46,7 @@ export const loadUserConfig = async (
 
   return {
     config: mergeWith({}, config || {}, loaded?.pkgConfig || {}),
-    jsConfig: (config || {}) as any,
+    jsConfig: config || {},
     pkgConfig: (loaded?.pkgConfig || {}) as UserConfig,
     filePath: loaded?.path,
     dependencies: loaded?.dependencies || [],
