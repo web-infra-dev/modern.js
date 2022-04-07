@@ -1,11 +1,6 @@
-import {
-  getBabelConfig,
-  getModuleBabelChain,
-} from '@modern-js/babel-preset-module';
-import { TransformOptions } from '@babel/core';
+import { getBabelConfig } from '@modern-js/babel-preset-module';
 import { applyOptionsChain, getAlias, isUseSSRBundle } from '@modern-js/utils';
 import { NormalizedConfig } from '@modern-js/core';
-import type { BabelChain } from '@modern-js/babel-chain';
 import { IPackageModeValue, ModuleToolsConfig } from '../types';
 
 export const getFinalAlias: any = (
@@ -86,28 +81,6 @@ export const resolveBabelConfig = (
   // Preventing warning when files are too large
   internalBabelConfig.compact = false;
 
-  const babelChain = getModuleBabelChain(
-    {
-      appDirectory,
-      enableReactPreset: true,
-      enableTypescriptPreset: true,
-      alias: aliasConfig,
-      envVars,
-      globalVars,
-      lodashOptions,
-      jsxTransformRuntime,
-      importStyle,
-    },
-    {
-      type: option.type,
-      syntax: option.syntax,
-    },
-  );
   const userBabelConfig = modernConfig.tools.babel;
-  return applyOptionsChain<TransformOptions, { chain: BabelChain }>(
-    internalBabelConfig,
-    // TODO: 感觉 userBabelConfig 的类型应该是TransformOptions
-    userBabelConfig as any,
-    { chain: babelChain },
-  );
+  return applyOptionsChain(internalBabelConfig, userBabelConfig);
 };

@@ -73,6 +73,7 @@ class ModernWebpackConfig extends ClientWebpackConfig {
                 },
                 this.options.tools?.styledComponents,
               ),
+              userBabelConfig: this.options.tools.babel,
             },
           ],
         ],
