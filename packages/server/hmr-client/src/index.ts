@@ -2,29 +2,10 @@
  * This has been adapted from `create-react-app`, authored by Facebook, Inc.
  * see: https://github.com/facebookincubator/create-react-app/tree/master/packages/react-dev-utils
  */
-import { LAUNCH_EDITOR_ENDPOINT } from '@modern-js/utils/constants';
 import { formatWebpackMessages } from '@modern-js/utils/format';
 import stripAnsi from 'strip-ansi';
-import webpack from 'webpack';
+import type webpack from 'webpack';
 import { createSocketUrl } from './createSocketUrl';
-
-/* eslint-disable @typescript-eslint/no-var-requires, import/no-commonjs, @typescript-eslint/no-require-imports */
-const ErrorOverlay = require('react-error-overlay');
-/* eslint-enable @typescript-eslint/no-var-requires, import/no-commonjs, @typescript-eslint/no-require-imports */
-
-ErrorOverlay.setEditorHandler(function editorHandler(errorLocation: {
-  fileName: string;
-  lineNumber?: number | string;
-  colNumber?: number | string;
-}) {
-  fetch(
-    `${LAUNCH_EDITOR_ENDPOINT}?filename=${window.encodeURIComponent(
-      errorLocation.fileName,
-    )}&line=${window.encodeURIComponent(
-      errorLocation.lineNumber || 1,
-    )}&column=${window.encodeURIComponent(errorLocation.colNumber || 1)}`,
-  );
-});
 
 // We need to keep track of if there has been a runtime error.
 // Essentially, we cannot guarantee application state was not corrupted by the
@@ -32,20 +13,7 @@ ErrorOverlay.setEditorHandler(function editorHandler(errorLocation: {
 // application. This is handled below when we are notified of a compile (code
 // change).
 // See https://github.com/facebook/create-react-app/issues/3096
-let hadRuntimeError = false;
-ErrorOverlay.startReportingRuntimeErrors({
-  onError() {
-    hadRuntimeError = true;
-  },
-  filename: '/static/js/bundle.js',
-});
-
-if (module.hot && typeof module.hot.dispose === 'function') {
-  module.hot.dispose(() => {
-    // TODO: why do we need this?
-    ErrorOverlay.stopReportingRuntimeErrors();
-  });
-}
+const hadRuntimeError = false;
 
 // Connect to Dev Server
 const socketUrl = createSocketUrl(__resourceQuery);
@@ -87,11 +55,7 @@ function handleSuccess() {
 
   // Attempt to apply hot updates or reload.
   if (isHotUpdate) {
-    tryApplyUpdates(function onHotUpdateSuccess() {
-      // Only dismiss it when we're sure it's a hot update.
-      // Otherwise it would flicker right before the reload.
-      tryDismissErrorOverlay();
-    });
+    tryApplyUpdates();
   }
 }
 
@@ -128,11 +92,7 @@ function handleWarnings(warnings: webpack.StatsError[]) {
 
   // Attempt to apply hot updates or reload.
   if (isHotUpdate) {
-    tryApplyUpdates(function onSuccessfulHotUpdate() {
-      // Only dismiss it when we're sure it's a hot update.
-      // Otherwise it would flicker right before the reload.
-      tryDismissErrorOverlay();
-    });
+    tryApplyUpdates();
   }
 }
 
@@ -149,9 +109,6 @@ function handleErrors(errors: webpack.StatsError[]) {
     warnings: [],
   });
 
-  // Only show the first error.
-  ErrorOverlay.reportBuildError(formatted.errors[0]);
-
   // Also log them to the console.
   if (typeof console !== 'undefined' && typeof console.error === 'function') {
     for (const error of formatted.errors) {
@@ -161,12 +118,6 @@ function handleErrors(errors: webpack.StatsError[]) {
 
   // Do not attempt to reload now.
   // We will reload on next success instead.
-}
-
-function tryDismissErrorOverlay() {
-  if (!hasCompileErrors) {
-    ErrorOverlay.dismissBuildError();
-  }
 }
 
 // There is a newer version of the code available.
@@ -214,7 +165,7 @@ function canApplyUpdates() {
 }
 
 // Attempt to update code on the fly, fall back to a hard reload.
-function tryApplyUpdates(onHotUpdateSuccess?: () => void) {
+function tryApplyUpdates() {
   if (!module.hot) {
     // HotModuleReplacementPlugin is not in webpack configuration.
     window.location.reload();
@@ -233,11 +184,6 @@ function tryApplyUpdates(onHotUpdateSuccess?: () => void) {
     if (!hasReactRefresh && wantsForcedReload) {
       window.location.reload();
       return;
-    }
-
-    if (typeof onHotUpdateSuccess === 'function') {
-      // Maybe we want to do something.
-      onHotUpdateSuccess();
     }
 
     if (isUpdateAvailable()) {
