@@ -125,3 +125,15 @@ export const resolveAlias = (
     fs.writeFileSync(r.path, r.content);
   }
 };
+
+export const getTscBinPath = (appDirectory: string) => {
+  const tscBinFile = path.join(appDirectory, './node_modules/.bin/tsc');
+
+  if (!fs.existsSync(tscBinFile)) {
+    throw new Error(
+      'Failed to excute the `tsc` command, please check if `typescript` is installed correctly in the current directory.',
+    );
+  }
+
+  return tscBinFile;
+};
