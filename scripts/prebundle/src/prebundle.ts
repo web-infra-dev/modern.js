@@ -2,7 +2,7 @@ import { join } from 'path';
 import ncc from '@vercel/ncc';
 import { Package as DtsPacker } from 'dts-packer';
 import { fs } from '@modern-js/utils';
-import { ParsedTask } from './helper';
+import { ParsedTask, pick } from './helper';
 
 const externals: Record<string, string> = {};
 
@@ -29,6 +29,28 @@ function emitDts(task: ParsedTask) {
   });
 }
 
+function emitPackageJson(task: ParsedTask) {
+  const packageJsonPath = require.resolve(join(task.depName, 'package.json'), {
+    paths: [join(task.packagePath, 'node_modules')],
+  });
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+  const outputPath = join(task.distPath, 'package.json');
+
+  fs.writeJSONSync(
+    outputPath,
+    pick(packageJson, [
+      'name',
+      'author',
+      'version',
+      'funding',
+      'license',
+      'types',
+      'typing',
+      'typings',
+    ]),
+  );
+}
+
 function findEntry(task: ParsedTask) {
   return require.resolve(task.depName, {
     paths: [join(task.packagePath, 'node_modules')],
@@ -47,4 +69,5 @@ export async function prebundle(task: ParsedTask) {
   emitIndex(code, task.distPath);
   emitAssets(assets, task.distPath);
   emitDts(task);
+  emitPackageJson(task);
 }
