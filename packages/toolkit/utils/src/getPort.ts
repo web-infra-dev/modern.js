@@ -1,5 +1,5 @@
 import net from 'net';
-import { chalk } from './chalk';
+import { chalk } from './compiled';
 import { logger } from './logger';
 
 /**

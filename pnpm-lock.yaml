@@ -933,7 +933,6 @@ importers:
       '@types/react-dom': ^17
       '@typescript-eslint/eslint-plugin': ^5.17.0
       '@typescript-eslint/parser': ^5.17.0
-      chalk: ^3.0.0
       cross-spawn: ^7.0.1
       eslint: ^7.32.0
       eslint-config-prettier: ^8.3.0
@@ -964,7 +963,6 @@ importers:
       '@types/minimist': 1.2.2
       '@typescript-eslint/eslint-plugin': 5.17.0_2de05dc4f6e006e27551942a75536f07
       '@typescript-eslint/parser': 5.17.0_eslint@7.32.0+typescript@4.5.4
-      chalk: 3.0.0
       cross-spawn: 7.0.3
       eslint: 7.32.0
       eslint-config-prettier: 8.3.0_eslint@7.32.0
@@ -1147,7 +1145,6 @@ importers:
       axios: ^0.24.0
       axios-retry: ^3.2.4
       body-parser: ^1.19.0
-      chalk: '4'
       chokidar: ^3.5.2
       cors: ^2.8.5
       esbuild: ^0.13.13
@@ -1176,7 +1173,6 @@ importers:
       axios: 0.24.0
       axios-retry: 3.2.4
       body-parser: 1.19.1
-      chalk: 4.1.2
       chokidar: 3.5.2
       cors: 2.8.5
       esbuild: 0.13.15
@@ -3071,7 +3067,6 @@ importers:
       '@types/semver': ^7.3.8
       '@types/yargs': ^17.0.2
       babel-jest: ^27.0.6
-      chalk: ^4.1.2
       identity-obj-proxy: ^3.0.0
       jest: ^27.0.6
       lodash.merge: ^4.6.2
@@ -3086,7 +3081,6 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@modern-js/webpack': link:../../cli/webpack
       babel-jest: 27.4.5
-      chalk: 4.1.2
       identity-obj-proxy: 3.0.0
       jest: 27.4.5
       lodash.merge: 4.6.2
@@ -3975,7 +3969,6 @@ importers:
       '@types/normalize-path': ^3.0.0
       '@types/react': ^17
       '@types/react-dom': ^17
-      chalk: ^4.1.2
       commander: ^8.1.0
       dotenv: ^10.0.0
       execa: ^5.1.1
@@ -4010,7 +4003,6 @@ importers:
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/style-compiler': link:../../toolkit/compiler/style
       '@modern-js/utils': link:../../toolkit/utils
-      chalk: 4.1.2
       dotenv: 10.0.0
       execa: 5.1.1
       fast-glob: 3.2.7
@@ -4065,7 +4057,6 @@ importers:
       '@types/react-dom': ^17
       '@types/signale': ^1.4.2
       anymatch: ^3.1.2
-      chalk: ^4.1.1
       chokidar: ^3.5.2
       commander: ^8.1.0
       execa: ^5.1.1
@@ -4088,7 +4079,6 @@ importers:
       '@rushstack/node-core-library': 3.44.3
       '@rushstack/package-deps-hash': 3.1.11
       anymatch: 3.1.2
-      chalk: 4.1.2
       chokidar: 3.5.2
       commander: 8.3.0
       globby: 11.0.4
@@ -4344,7 +4334,6 @@ importers:
       '@types/tar-fs': ~2.0.0
       '@types/validate-npm-package-name': ~3.0.2
       axios: ^0.24.0
-      chalk: ~4.1.0
       del-cli: ^4.0.1
       enhanced-resolve: ^5.8.3
       es-module-lexer: ~0.3.26
@@ -4391,7 +4380,6 @@ importers:
       '@rollup/plugin-url': 6.1.0_rollup@2.50.6
       '@rollup/plugin-wasm': 5.1.2_rollup@2.50.6
       '@svgr/rollup': 6.2.1
-      chalk: 4.1.2
       enhanced-resolve: 5.8.3
       es-module-lexer: 0.3.26
       find-up: 5.0.0
@@ -4591,7 +4579,7 @@ importers:
       '@types/node': ^14
       '@types/recursive-readdir': ^2.2.0
       browserslist: ^4.16.7
-      chalk: ^4.1.2
+      chalk: 4.1.2
       chokidar: ^3.5.2
       debug: ^4.3.2
       esbuild: ^0.13.13
@@ -4613,7 +4601,6 @@ importers:
       '@babel/runtime': 7.16.7
       '@types/fs-extra': 9.0.13
       browserslist: 4.19.1
-      chalk: 4.1.2
       chokidar: 3.5.2
       debug: 4.3.3
       esbuild: 0.13.15
@@ -4638,6 +4625,7 @@ importers:
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
       '@types/recursive-readdir': 2.2.0
+      chalk: 4.1.2
       jest: 27.4.5
       webpack: 5.71.0_esbuild@0.13.15
 

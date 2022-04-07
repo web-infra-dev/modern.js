@@ -65,6 +65,7 @@
     "node_modules/",
     "dist/",
     "lib/",
+    "compiled/",
     ".rpt2_cache/",
     "coverage/"
   ],

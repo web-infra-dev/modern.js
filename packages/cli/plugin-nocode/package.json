@@ -45,7 +45,6 @@
     "axios": "^0.24.0",
     "axios-retry": "^3.2.4",
     "body-parser": "^1.19.0",
-    "chalk": "4",
     "chokidar": "^3.5.2",
     "cors": "^2.8.5",
     "execa": "5",
