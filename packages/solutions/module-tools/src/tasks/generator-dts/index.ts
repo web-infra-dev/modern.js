@@ -53,6 +53,7 @@ const resolveLog = (
   });
 };
 
+/* eslint-disable max-statements */
 const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
   const {
     tsconfigPath,
@@ -71,6 +72,13 @@ const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
   });
   removeTsconfigPath = willDeleteTsconfigPath;
   const tscBinFile = path.join(appDirectory, './node_modules/.bin/tsc');
+
+  if (!fs.existsSync(tscBinFile)) {
+    throw new Error(
+      'Failed to excute the `tsc` command, please check if `typescript` is installed correctly in the current directory.',
+    );
+  }
+
   const watchParams = watch ? ['-w'] : [];
   const childProgress = execa(
     tscBinFile,
@@ -94,12 +102,17 @@ const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
         typeof input === 'object';
       // 通过使用 execa，可以将tsc 的 data 类型的报错信息变为异常错误信息
       if (isRecord(e)) {
-        console.error(e.stdout);
+        if (e.stdout) {
+          console.error(e.stdout);
+        } else {
+          console.error(e);
+        }
       }
     }
   }
   fs.removeSync(willDeleteTsconfigPath);
 };
+/* eslint-enable max-statements */
 
 interface ITaskConfig {
   srcDir: string;
