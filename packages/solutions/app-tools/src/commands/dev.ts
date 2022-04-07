@@ -79,7 +79,7 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
     },
     compiler,
     pwd: appDirectory,
-    config: userConfig as any,
+    config: userConfig,
     plugins: appContext.plugins
       .filter((p: any) => p.server)
       .map((p: any) => p.server),
