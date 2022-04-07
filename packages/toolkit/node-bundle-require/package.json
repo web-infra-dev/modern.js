@@ -25,6 +25,17 @@
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
+    },
+    "./bundle": "./dist/js/node/bundle.js"
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
+      "bundle": [
+        "./dist/types/bundle.d.ts"
+      ]
     }
   },
   "scripts": {
@@ -36,23 +47,18 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "esbuild": "^0.13.15",
-    "nanoid": "^3.3.1"
+    "nanoid": "^3.3.2"
   },
   "devDependencies": {
-    "@scripts/build": "workspace:*",
     "@modern-js/utils": "workspace:^1.3.7",
+    "@scripts/build": "workspace:*",
+    "@scripts/jest-config": "workspace:*",
     "@types/jest": "^26.0.9",
     "@types/node": "^14",
-    "typescript": "^4",
     "jest": "^27",
-    "@scripts/jest-config": "workspace:*"
+    "typescript": "^4"
   },
   "sideEffects": false,
-  "modernConfig": {
-    "output": {
-      "packageMode": "node-js"
-    }
-  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",

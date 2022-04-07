@@ -5,7 +5,9 @@ import {
   AppContext,
   ConfigContext,
   loadPlugins,
+  ServerConfigContext,
 } from '@modern-js/server-core';
+import type { ServerPlugin } from '@modern-js/server-core';
 import { logger as defaultLogger, SHARED_DIR } from '@modern-js/utils';
 import type { UserConfig } from '@modern-js/core';
 import { ISAppContext } from '@modern-js/types';
@@ -16,6 +18,12 @@ import {
   ModernServerInterface,
 } from '../type';
 import { metrics as defaultMetrics } from '../libs/metrics';
+import {
+  loadConfig,
+  getServerConfigPath,
+  requireConfig,
+} from '../libs/loadConfig';
+import { debug } from '../utils';
 import { createProdServer } from './modern-server-split';
 
 export class Server {
@@ -39,6 +47,8 @@ export class Server {
   public async init() {
     const { options } = this;
 
+    this.initServerConfig(options);
+
     // initialize server
     this.server = this.serverImpl(options);
 
@@ -52,6 +62,25 @@ export class Server {
     await this.server.onInit(this.runner);
 
     return this;
+  }
+
+  private initServerConfig(options: ModernServerOptions) {
+    const { pwd, config, serverConfigFile } = options;
+
+    const serverConfigPath = getServerConfigPath(pwd, serverConfigFile);
+    const serverConfig = requireConfig(serverConfigPath);
+    const resolvedConfigPath = path.join(
+      pwd,
+      config?.output?.path || 'dist',
+      'modern.config.json',
+    );
+
+    options.serverConfig = serverConfig;
+    options.config = loadConfig({
+      cliConfig: config,
+      serverConfig,
+      resolvedConfigPath,
+    });
   }
 
   public async close() {
@@ -85,16 +114,23 @@ export class Server {
     serverManager.clear();
 
     const { options } = this;
-    const { plugins = [], pwd, config } = options;
+    // TODO: 确认下这里是不是可以不从 options 中取插件，而是从 config 中取和过滤
+    const { plugins = [], pwd, config, serverConfig } = options;
 
     // server app context for serve plugin
-    const loadedPlugins = loadPlugins(plugins, pwd);
+    const loadedPlugins = loadPlugins(
+      plugins.concat(config.plugins as ServerPlugin[]),
+      pwd,
+    );
+
+    debug('plugins', config.plugins, loadedPlugins);
     loadedPlugins.forEach(p => {
       serverManager.usePlugin(p);
     });
 
     const appContext = this.initAppContext();
     serverManager.run(() => {
+      ServerConfigContext.set(serverConfig || {});
       ConfigContext.set(config as UserConfig);
       AppContext.set({
         ...appContext,

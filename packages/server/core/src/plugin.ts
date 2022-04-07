@@ -10,6 +10,7 @@ import {
   createAsyncPipeline,
   createAsyncWaterfall,
   createParallelWorkflow,
+  createWaterfall,
 } from '@modern-js/plugin';
 import { enable } from '@modern-js/plugin/node';
 import type {
@@ -20,6 +21,7 @@ import type {
 } from '@modern-js/types/server';
 import type { NormalizedConfig, UserConfig } from '@modern-js/core';
 import type { ISAppContext } from '@modern-js/types';
+import type { Options } from 'http-proxy-middleware';
 
 enable();
 
@@ -38,6 +40,22 @@ type InitExtension = {
   logger: Logger;
   metrics: Metrics;
 };
+
+// TODO: change to immutable
+const defaultServerConfig = {};
+export const ServerConfigContext =
+  createContext<ServerConfig>(defaultServerConfig);
+export const useServerConfig = (): ServerConfig => {
+  const config = ServerConfigContext.use().value;
+
+  if (!config) {
+    throw new Error(`Expected modern server config, but got: ${config}`);
+  }
+
+  return config;
+};
+// config
+const config = createWaterfall<ServerConfig>();
 
 const create = createAsyncPipeline<ServerInitInput, InitExtension>();
 
@@ -157,6 +175,7 @@ export const useConfigContext = () => ConfigContext.use().value;
 export const useAppContext = () => AppContext.use().value;
 
 const pluginAPI = {
+  useServerConfig,
   useAppContext,
   useConfigContext,
 };
@@ -164,6 +183,7 @@ const pluginAPI = {
 const serverHooks = {
   // server hook
   gather,
+  config,
   create,
   prepareWebServer,
   prepareApiServer,
@@ -211,5 +231,12 @@ export type ServerPlugin = PluginOptions<
   ServerHooks,
   AsyncSetup<ServerHooks, PluginAPI>
 >;
+
+export type ServerConfig = {
+  bff?: Partial<{
+    proxy: Record<string, Options>;
+  }>;
+  plugins?: ServerPlugin[];
+};
 
 export const { createPlugin } = serverManager;

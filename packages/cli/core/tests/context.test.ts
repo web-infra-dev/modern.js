@@ -1,4 +1,5 @@
 import path from 'path';
+import { DEFAULT_SERVER_CONFIG } from '@modern-js/utils';
 import { initAppContext } from '../src/context';
 
 describe('context', () => {
@@ -7,10 +8,17 @@ describe('context', () => {
       __dirname,
       './fixtures/load-plugin/user-plugins',
     );
-    const appContext = initAppContext(appDirectory, [], false);
+    const appContext = initAppContext({
+      appDirectory,
+      plugins: [],
+      configFile: false,
+      serverConfigFile: DEFAULT_SERVER_CONFIG,
+    });
+
     expect(appContext).toEqual({
       appDirectory,
       configFile: false,
+      serverConfigFile: 'modern.server.config',
       ip: expect.any(String),
       port: 0,
       packageName: expect.any(String),
@@ -44,10 +52,17 @@ describe('context', () => {
       metaName: 'jupiter',
     };
 
-    const appContext = initAppContext(appDirectory, [], false, customOptions);
+    const appContext = initAppContext({
+      appDirectory,
+      plugins: [],
+      configFile: false,
+      options: customOptions,
+      serverConfigFile: DEFAULT_SERVER_CONFIG,
+    });
     expect(appContext).toEqual({
       appDirectory,
       configFile: false,
+      serverConfigFile: 'modern.server.config',
       ip: expect.any(String),
       port: 0,
       packageName: 'user-plugins',

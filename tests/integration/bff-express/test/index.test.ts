@@ -10,7 +10,7 @@ import {
 
 declare const page: Page;
 
-describe('bff in dev', () => {
+describe('server config in dev', () => {
   let port = 8080;
   const SSR_PAGE = 'ssr';
   const BASE_PAGE = 'base';
@@ -46,7 +46,7 @@ describe('bff in dev', () => {
   });
 });
 
-describe('bff in prod', () => {
+describe('server config in prod', () => {
   let port = 8080;
   const SSR_PAGE = 'ssr';
   const BASE_PAGE = 'base';

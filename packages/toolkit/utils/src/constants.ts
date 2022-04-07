@@ -48,6 +48,18 @@ export const SERVER_DIR = 'server';
 export const SHARED_DIR = 'shared';
 
 /**
+ * Modern.config.ts cached dir
+ */
+export const CONFIG_CACHE_DIR = './node_modules/.node-bundle-require';
+
+export const CONFIG_FILE_EXTENSIONS = ['.js', '.ts', '.ejs', '.mjs'];
+
+/**
+ * Default server config basename
+ */
+export const DEFAULT_SERVER_CONFIG = 'modern.server.config';
+
+/**
  * Internal plugins that work as soon as they are installed.
  */
 export const INTERNAL_PLUGINS: {

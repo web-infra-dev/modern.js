@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import { requireModule } from '@modern-js/bff-utils';
 import { fs, createDebugger } from '@modern-js/utils';
 import finalhandler from 'finalhandler';
-import type { ServerPlugin } from '@modern-js/server-core';
+import type { ServerPlugin } from '@modern-js/types';
 import { run } from './context';
 import registerRoutes from './registerRoutes';
 

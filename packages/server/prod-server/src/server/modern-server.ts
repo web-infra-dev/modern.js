@@ -3,11 +3,16 @@ import { IncomingMessage, ServerResponse, Server, createServer } from 'http';
 import util from 'util';
 import path from 'path';
 import { fs, ROUTE_SPEC_FILE } from '@modern-js/utils';
-import { Adapter, APIServerStartInput } from '@modern-js/server-core';
+import {
+  Adapter,
+  APIServerStartInput,
+  ServerConfig,
+} from '@modern-js/server-core';
 import type { NormalizedConfig } from '@modern-js/core';
 import mime from 'mime-types';
 import axios from 'axios';
-import { clone } from '@modern-js/utils/lodash';
+import clone from 'lodash.clone';
+import mergeDeep from 'merge-deep';
 import {
   ModernServerOptions,
   NextFunction,
@@ -33,6 +38,7 @@ import {
   getStaticReg,
   mergeExtension,
   noop,
+  debug,
 } from '../utils';
 import * as reader from '../libs/render/reader';
 import { createProxyHandler, BffProxyOptions } from '../libs/proxy';
@@ -71,6 +77,8 @@ export class ModernServer implements ModernServerInterface {
   protected workDir: string;
 
   protected router!: RouteMatchManager;
+
+  protected serverConfig?: ServerConfig;
 
   protected conf: NormalizedConfig;
 
@@ -113,6 +121,7 @@ export class ModernServer implements ModernServerInterface {
     metrics,
     runMode,
     proxyTarget,
+    serverConfig,
   }: ModernServerOptions) {
     require('ignore-styles');
 
@@ -120,6 +129,8 @@ export class ModernServer implements ModernServerInterface {
     this.distDir = path.join(pwd, config.output?.path || 'dist');
     this.workDir = this.distDir;
     this.conf = config;
+    this.serverConfig = serverConfig;
+    debug('server config', this.serverConfig, this.conf);
     this.logger = logger!;
     this.metrics = metrics!;
     this.router = new RouteMatchManager();
@@ -134,6 +145,11 @@ export class ModernServer implements ModernServerInterface {
   public async onInit(runner: ServerHookRunner) {
     this.runner = runner;
 
+    // Execute config hooks
+    const newServerConfig = runner.config(this.serverConfig || {});
+    this.serverConfig = newServerConfig;
+    this.conf = mergeDeep({}, this.conf, newServerConfig);
+
     const { distDir, staticGenerate, conf } = this;
 
     // Todo: why add this middleware
@@ -143,6 +159,7 @@ export class ModernServer implements ModernServerInterface {
       next();
     });
 
+    debug('final server conf', this.conf);
     // proxy handler, each proxy has own handler
     this.proxyHandler = createProxyHandler(conf.bff?.proxy as BffProxyOptions);
     if (this.proxyHandler) {
@@ -279,6 +296,7 @@ export class ModernServer implements ModernServerInterface {
         ? ApiServerMode.frame
         : ApiServerMode.func;
 
+      debug('exists api dir', mode);
       // if use lambda/, mean framework style of writing, then discard user extension
       const apiExtension = mergeExtension(pluginAPIExt);
       this.frameAPIHandler = await this.prepareAPIHandler(mode, apiExtension);
@@ -306,7 +324,6 @@ export class ModernServer implements ModernServerInterface {
     const { workDir, runner, conf } = this;
     const { bff } = conf as ConfWithBFF;
     const prefix = bff?.prefix || '/api';
-
     return runner.prepareApiServer(
       {
         pwd: workDir,

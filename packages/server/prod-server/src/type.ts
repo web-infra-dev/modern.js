@@ -1,6 +1,7 @@
 import { Buffer } from 'buffer';
 import { IncomingMessage, Server, ServerResponse } from 'http';
-import { serverManager, ServerPlugin } from '@modern-js/server-core';
+import { serverManager, ServerConfig } from '@modern-js/server-core';
+import type { ServerPlugin } from '@modern-js/server-core';
 import type { NormalizedConfig } from '@modern-js/core';
 import type { Metrics, Logger, NextFunction } from '@modern-js/types/server';
 import { ModernRouteInterface } from './libs/route';
@@ -31,6 +32,7 @@ export type ModernServerOptions = {
     api?: string;
   };
   runMode?: string;
+  serverConfig?: ServerConfig;
   [propName: string]: any;
 };
 

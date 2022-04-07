@@ -33,7 +33,7 @@ describe('test dev server', () => {
             },
           },
         },
-      } as any,
+      },
       pwd: appDirectory,
       dev: true,
     });
@@ -63,7 +63,7 @@ describe('test dev server', () => {
       expect(pwd).toBe(appDirectory);
       expect(distDir).toBe(path.join(appDirectory, 'dist'));
       expect(workDir).toBe(appDirectory);
-      expect(conf).toBe(defaultsConfig);
+      expect(conf).toStrictEqual(defaultsConfig);
       expect(handlers).toBeDefined();
       expect(isDev).toBeFalsy();
       expect(staticGenerate).toBeFalsy();

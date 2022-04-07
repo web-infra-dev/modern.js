@@ -1,4 +1,5 @@
 import { serverManager } from '../src';
+import { useServerConfig, ServerConfig } from '../src/plugin';
 
 describe('Default cases', () => {
   it('Have returns plugins', async () => {
@@ -18,5 +19,45 @@ describe('Default cases', () => {
     await runner.prepareApiServer({ pwd: '', mode: 'function', config: {} });
 
     expect(count).toBe(1);
+  });
+
+  it('config hook should works correctly', async () => {
+    const proxy = {
+      '/bff': {
+        target: 'https://modernjs.dev',
+        changeOrigin: true,
+      },
+    };
+    const expectedServerConfig = {
+      bff: {
+        proxy,
+      },
+    };
+    let receivedServerConfig: ServerConfig = {};
+
+    serverManager.usePlugin(
+      serverManager.createPlugin(() => ({
+        config() {
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          const serverConfig = useServerConfig();
+          serverConfig.bff = {
+            proxy,
+          };
+          return serverConfig;
+        },
+      })),
+
+      serverManager.createPlugin(() => ({
+        config() {
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          receivedServerConfig = useServerConfig();
+          return receivedServerConfig;
+        },
+      })),
+    );
+
+    const runner = await serverManager.init();
+    runner.config({});
+    expect(expectedServerConfig).toEqual(receivedServerConfig);
   });
 });
