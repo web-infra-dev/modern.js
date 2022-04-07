@@ -71,7 +71,7 @@ class ModernWebpackConfig extends ClientWebpackConfig {
                   ssr: isUseSSRBundle(this.options),
                   transpileTemplateLiterals: true,
                 },
-                (this.options.tools as any)?.styledComponents,
+                this.options.tools?.styledComponents,
               ),
             },
           ],

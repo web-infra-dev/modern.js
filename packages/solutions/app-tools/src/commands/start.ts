@@ -13,10 +13,8 @@ export const start = async (api: PluginAPI) => {
 
   const app = await server({
     pwd: appDirectory,
-    config: userConfig as any,
-    plugins: appContext.plugins
-      .filter((p: any) => p.server)
-      .map((p: any) => p.server),
+    config: userConfig,
+    plugins: appContext.plugins.filter(p => p.server).map(p => p.server),
   });
 
   app.listen(port, async (err: Error) => {

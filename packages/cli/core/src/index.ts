@@ -148,8 +148,8 @@ const createCli = () => {
 
     const config = await resolveConfig(
       loaded,
-      extraConfigs as any,
-      extraSchemas as any,
+      extraConfigs,
+      extraSchemas,
       restartWithExistingPort,
       argv,
       options?.onSchemaError,
