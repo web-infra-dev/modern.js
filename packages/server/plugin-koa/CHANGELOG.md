@@ -1,5 +1,13 @@
 # @modern-js/plugin-koa
 
+## 1.4.5
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- Updated dependencies [132f7b53]
+  - @modern-js/utils@1.3.7
+
 ## 1.4.4
 
 ### Patch Changes

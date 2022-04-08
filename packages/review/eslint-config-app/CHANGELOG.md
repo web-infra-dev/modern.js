@@ -1,5 +1,18 @@
 # @modern-js-app/eslint-config
 
+## 1.2.6
+
+### Patch Changes
+
+- 8e737893: feat: disable promise/prefer-await-to-then
+- 8e737893: feat: disable require-atomic-updates
+- a2761eb7: fix: exclude modern.config.ts from with type rules
+- 8e737893: feat: disable no-shadow
+- 8e737893: feat: disable @typescript-eslint/no-base-to-string
+- 8e737893: feat: disable filenames/match-exported
+- Updated dependencies [9d4a005b]
+  - @modern-js/babel-preset-app@1.2.5
+
 ## 1.2.5
 
 ### Patch Changes

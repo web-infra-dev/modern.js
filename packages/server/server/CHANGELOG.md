@@ -1,5 +1,18 @@
 # @modern-js/server
 
+## 1.4.9
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- Updated dependencies [bebb39b6]
+- Updated dependencies [afc836f4]
+- Updated dependencies [132f7b53]
+  - @modern-js/prod-server@1.0.6
+  - @modern-js/server-utils@1.2.2
+  - @modern-js/hmr-client@1.2.3
+  - @modern-js/utils@1.3.7
+
 ## 1.4.8
 
 ### Patch Changes
