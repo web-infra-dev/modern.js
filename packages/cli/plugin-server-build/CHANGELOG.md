@@ -1,5 +1,15 @@
 # @modern-js/plugin-server-build
 
+## 1.2.4
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- Updated dependencies [bebb39b6]
+- Updated dependencies [132f7b53]
+  - @modern-js/server-utils@1.2.2
+  - @modern-js/utils@1.3.7
+
 ## 1.2.3
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @modern-js/server-utils
 
+## 1.2.2
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- Updated dependencies [132f7b53]
+  - @modern-js/utils@1.3.7
+
 ## 1.2.1
 
 ### Patch Changes

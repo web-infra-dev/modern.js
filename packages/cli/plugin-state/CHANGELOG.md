@@ -1,5 +1,11 @@
 # @modern-js/plugin-state
 
+## 1.2.3
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+
 ## 1.2.2
 
 ### Patch Changes

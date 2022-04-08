@@ -1,5 +1,11 @@
 # @modern-js/utils
 
+## 1.3.7
+
+### Patch Changes
+
+- 132f7b53: feat: move config declarations to @modern-js/core
+
 ## 1.3.6
 
 ### Patch Changes
