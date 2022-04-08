@@ -38,6 +38,7 @@ export const initWatcher = async (
 
     const watcher = chokidar.watch(watched, {
       cwd: appDirectory,
+      ignoreInitial: true,
       ignorePermissionErrors: true,
       ignored: [
         /node_modules/,
