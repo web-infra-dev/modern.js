@@ -26,6 +26,7 @@ export type {
   SSGRouteOptions,
   SSGMultiEntryOptions,
   SSGSingleEntryOptions,
+  TransformOptions,
 };
 
 export interface SourceConfig {
