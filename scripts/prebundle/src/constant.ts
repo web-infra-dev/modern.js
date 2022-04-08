@@ -8,6 +8,12 @@ export const TASKS = [
   {
     packageDir: 'toolkit/utils',
     packageName: '@modern-js/utils',
-    dependencies: ['filesize', 'chalk'],
+    dependencies: [
+      // zero dependency
+      'filesize',
+      'import-lazy',
+      // with dependency
+      'chalk',
+    ],
   },
 ];

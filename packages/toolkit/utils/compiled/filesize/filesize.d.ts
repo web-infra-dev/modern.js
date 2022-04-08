@@ -1,10 +1,10 @@
-// Type definitions for filesize 6.0.1
+// Type definitions for filesize 8.0.3
 // Project: https://github.com/avoidwork/filesize.js, https://filesizejs.com
 // Definitions by: Giedrius Grabauskas <https://github.com/GiedriusGrabauskas>
 //                 Renaud Chaput <https://github.com/renchap>
 //                 Roman Nuritdinov <https://github.com/Ky6uk>
 //                 Sam Hulick <https://github.com/ffxsam>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+//                 Tomoto S. Washio <https://github.com/tomoto>
 
 declare var fileSize: Filesize.Filesize;
 export = fileSize;
@@ -39,7 +39,7 @@ declare namespace Filesize {
 
     interface Options {
         /**
-         * Number base, default is 2
+         * Number base, default is 10
          */
         base?: number;
         /**
@@ -71,9 +71,21 @@ declare namespace Filesize {
          */
         output?: "array" | "exponent" | "object" | "string";
         /**
+         * Decimal place end padding, default is false
+         */
+        pad?: boolean;
+        /**
+         * Sets precision of numerical output, default is 0
+         */
+        precision?: number;
+        /**
          * Decimal place, default is 2
          */
         round?: number;
+        /**
+         * Rounding method, can be round, floor, or ceil, default is round
+         */
+        roundingMethod?: "round" | "floor" | "ceil";
         /**
          * Decimal separator character, default is `.`
          */
@@ -83,7 +95,7 @@ declare namespace Filesize {
          */
         spacer?: string;
         /**
-         * Standard unit of measure, can be iec or jedec, default is jedec; can be overruled by base
+         * Standard unit of measure, can be iec or jedec, default is iec; can be overruled by base
          */
         standard?: "iec" | "jedec";
         /**
@@ -94,14 +106,26 @@ declare namespace Filesize {
          *  Enables unix style human readable output, e.g ls -lh, default is false
          */
         unix?: boolean;
-        /**
-         * Rounding method, can be round, floor, or ceil, default is round
-         */
-        roundingMethod?: "round" | "floor" | "ceil";
     }
 
+    // Result type inference from the output option
+    interface ResultTypeMap {
+        array: [number, string];
+        exponent: number;
+        object: {
+            value: number,
+            symbol: string,
+            exponent: number,
+            unit: string,
+        };
+        string: string;
+    }
+    type DefaultOutput<O extends Options> = Exclude<O["output"], keyof ResultTypeMap> extends never ? never : "string"
+    type CanonicalOutput<O extends Options> = Extract<O["output"], keyof ResultTypeMap> | DefaultOutput<O>
+
     interface Filesize {
-        (bytes: number, options?: Options): string;
-        partial: (options: Options) => ((bytes: number) => string);
+        (bytes: number): string;
+        <O extends Options>(bytes: number, options: O): ResultTypeMap[CanonicalOutput<O>];
+        partial: <O extends Options>(options: O) => ((bytes: number) => ResultTypeMap[CanonicalOutput<O>]);
     }
 }
