@@ -5,10 +5,11 @@ import {
   CONFIG_FILE_EXTENSIONS,
   fs,
   getServerConfig,
+  OUTPUT_CONFIG_FILE,
 } from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
 
-import type { ServerConfig } from '@modern-js/prod-server';
+import type { ServerConfig } from '@modern-js/server-core';
 
 export const defineServerConfig = (config: ServerConfig): ServerConfig =>
   config;
@@ -37,6 +38,26 @@ export const buildServerConfig = async (
   }
 };
 
+/**
+ *
+ * 处理循环引用的 replacer
+ */
+export const safeReplacer = () => {
+  const cache: unknown[] = [];
+  const keyCache: string[] = [];
+  return function (key: string, value: unknown) {
+    if (typeof value === 'object' && value !== null) {
+      const index = cache.indexOf(value);
+      if (index !== -1) {
+        return `[Circular ${keyCache[index]}]`;
+      }
+      cache.push(value);
+      keyCache.push(key || 'root');
+    }
+    return value;
+  };
+};
+
 export const emitResolvedConfig = async (
   appDirectory: string,
   resolvedConfig: NormalizedConfig,
@@ -44,9 +65,10 @@ export const emitResolvedConfig = async (
   const outputPath = path.join(
     appDirectory,
     resolvedConfig?.output?.path || './dist',
-    'modern.config.json',
+    OUTPUT_CONFIG_FILE,
   );
   await fs.writeJSON(outputPath, resolvedConfig, {
     spaces: 2,
+    replacer: safeReplacer(),
   });
 };

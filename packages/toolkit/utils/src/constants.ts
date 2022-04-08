@@ -55,6 +55,11 @@ export const CONFIG_CACHE_DIR = './node_modules/.node-bundle-require';
 export const CONFIG_FILE_EXTENSIONS = ['.js', '.ts', '.ejs', '.mjs'];
 
 /**
+ * Serialized config path
+ */
+export const OUTPUT_CONFIG_FILE = 'modern.config.json';
+
+/**
  * Default server config basename
  */
 export const DEFAULT_SERVER_CONFIG = 'modern.server.config';

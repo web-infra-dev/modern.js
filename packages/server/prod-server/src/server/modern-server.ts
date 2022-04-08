@@ -3,16 +3,11 @@ import { IncomingMessage, ServerResponse, Server, createServer } from 'http';
 import util from 'util';
 import path from 'path';
 import { fs, ROUTE_SPEC_FILE } from '@modern-js/utils';
-import {
-  Adapter,
-  APIServerStartInput,
-  ServerConfig,
-} from '@modern-js/server-core';
+import { Adapter, APIServerStartInput } from '@modern-js/server-core';
 import type { NormalizedConfig } from '@modern-js/core';
 import mime from 'mime-types';
 import axios from 'axios';
 import clone from 'lodash.clone';
-import mergeDeep from 'merge-deep';
 import {
   ModernServerOptions,
   NextFunction,
@@ -78,8 +73,6 @@ export class ModernServer implements ModernServerInterface {
 
   protected router!: RouteMatchManager;
 
-  protected serverConfig?: ServerConfig;
-
   protected conf: NormalizedConfig;
 
   protected handlers: ModernServerAsyncHandler[] = [];
@@ -121,7 +114,6 @@ export class ModernServer implements ModernServerInterface {
     metrics,
     runMode,
     proxyTarget,
-    serverConfig,
   }: ModernServerOptions) {
     require('ignore-styles');
 
@@ -129,8 +121,7 @@ export class ModernServer implements ModernServerInterface {
     this.distDir = path.join(pwd, config.output?.path || 'dist');
     this.workDir = this.distDir;
     this.conf = config;
-    this.serverConfig = serverConfig;
-    debug('server config', this.serverConfig, this.conf);
+    debug('server conf', this.conf);
     this.logger = logger!;
     this.metrics = metrics!;
     this.router = new RouteMatchManager();
@@ -144,11 +135,6 @@ export class ModernServer implements ModernServerInterface {
   // server prepare
   public async onInit(runner: ServerHookRunner) {
     this.runner = runner;
-
-    // Execute config hooks
-    const newServerConfig = runner.config(this.serverConfig || {});
-    this.serverConfig = newServerConfig;
-    this.conf = mergeDeep({}, this.conf, newServerConfig);
 
     const { distDir, staticGenerate, conf } = this;
 

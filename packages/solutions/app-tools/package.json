@@ -75,6 +75,7 @@
     "webpack": "^5.71.0"
   },
   "devDependencies": {
+    "@modern-js/server-core": "workspace:^1.2.4",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/inquirer": "^8.2.0",

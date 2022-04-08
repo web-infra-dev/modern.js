@@ -43,7 +43,9 @@ export const mergeConfig = (
 };
 
 /**
- * resolvedConfigPath 构建生成的 modern.config.js 文件路径
+ * 对配置进行合并，开发环境下,cliConfig 与 serverConfig 进行深合并
+ * 生产环境下，resolvedConfig 与 serverConfig 进行深合并
+ * resolvedConfigPath: 构建序列化后的 modern.config.js 文件路径
  */
 export const loadConfig = ({
   cliConfig,

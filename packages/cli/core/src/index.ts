@@ -139,6 +139,7 @@ const createCli = () => {
       serverConfigFile: mergedOptions?.serverConfigFile,
     });
 
+    // 将 server.config 加入到 loaded.dependencies，以便对文件监听做热更新
     addServerConfigToDeps(
       loaded.dependencies,
       appDirectory,

@@ -1,5 +1,5 @@
 import { serverManager } from '../src';
-import { useServerConfig, ServerConfig } from '../src/plugin';
+import { ServerConfig } from '../src/plugin';
 
 describe('Default cases', () => {
   it('Have returns plugins', async () => {
@@ -37,9 +37,7 @@ describe('Default cases', () => {
 
     serverManager.usePlugin(
       serverManager.createPlugin(() => ({
-        config() {
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const serverConfig = useServerConfig();
+        config(serverConfig) {
           serverConfig.bff = {
             proxy,
           };
@@ -48,9 +46,8 @@ describe('Default cases', () => {
       })),
 
       serverManager.createPlugin(() => ({
-        config() {
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          receivedServerConfig = useServerConfig();
+        config(serverConfig) {
+          receivedServerConfig = serverConfig;
           return receivedServerConfig;
         },
       })),

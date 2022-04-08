@@ -3392,11 +3392,10 @@ importers:
       '@modern-js/adapter-helpers': workspace:^1.2.1
       '@modern-js/bff-runtime': workspace:^1.2.1
       '@modern-js/bff-utils': workspace:^1.2.2
-      '@modern-js/core': workspace:^1.6.0
+      '@modern-js/core': workspace:*
       '@modern-js/runtime': workspace:^1.2.4
-      '@modern-js/server-core': workspace:^1.2.4
+      '@modern-js/server-core': workspace:*
       '@modern-js/server-utils': workspace:^1.2.1
-      '@modern-js/types': workspace:^1.3.5
       '@modern-js/utils': workspace:^1.3.6
       '@nestjs/common': ^8.0.6
       '@nestjs/core': ^8.0.6
@@ -3431,7 +3430,6 @@ importers:
       '@modern-js/adapter-helpers': link:../adapter-helpers
       '@modern-js/bff-runtime': link:../bff-runtime
       '@modern-js/bff-utils': link:../bff-utils
-      '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
       '@nestjs/platform-express': 8.2.4_4074b1ae164556f5db19ac4b8b5667b7
       '@types/type-is': 1.6.3
@@ -3738,6 +3736,7 @@ importers:
       '@modern-js/plugin-i18n': workspace:^1.2.1
       '@modern-js/prod-server': workspace:^1.0.6
       '@modern-js/server': workspace:^1.4.9
+      '@modern-js/server-core': workspace:^1.2.4
       '@modern-js/types': workspace:^1.3.6
       '@modern-js/utils': workspace:^1.3.7
       '@modern-js/webpack': workspace:^1.5.3
@@ -3772,6 +3771,7 @@ importers:
       inquirer: 8.2.0
       webpack: 5.71.0_esbuild@0.13.15
     devDependencies:
+      '@modern-js/server-core': link:../../server/core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/inquirer': 8.2.0

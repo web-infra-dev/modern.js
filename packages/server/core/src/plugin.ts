@@ -41,19 +41,6 @@ type InitExtension = {
   metrics: Metrics;
 };
 
-// TODO: change to immutable
-const defaultServerConfig = {};
-export const ServerConfigContext =
-  createContext<ServerConfig>(defaultServerConfig);
-export const useServerConfig = (): ServerConfig => {
-  const config = ServerConfigContext.use().value;
-
-  if (!config) {
-    throw new Error(`Expected modern server config, but got: ${config}`);
-  }
-
-  return config;
-};
 // config
 const config = createWaterfall<ServerConfig>();
 
@@ -175,7 +162,6 @@ export const useConfigContext = () => ConfigContext.use().value;
 export const useAppContext = () => AppContext.use().value;
 
 const pluginAPI = {
-  useServerConfig,
   useAppContext,
   useConfigContext,
 };

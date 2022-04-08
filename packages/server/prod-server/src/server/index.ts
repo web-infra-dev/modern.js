@@ -5,12 +5,16 @@ import {
   AppContext,
   ConfigContext,
   loadPlugins,
-  ServerConfigContext,
 } from '@modern-js/server-core';
 import type { ServerPlugin } from '@modern-js/server-core';
-import { logger as defaultLogger, SHARED_DIR } from '@modern-js/utils';
+import {
+  logger as defaultLogger,
+  SHARED_DIR,
+  OUTPUT_CONFIG_FILE,
+} from '@modern-js/utils';
 import type { UserConfig } from '@modern-js/core';
 import { ISAppContext } from '@modern-js/types';
+import mergeDeep from 'merge-deep';
 import {
   ModernServerOptions,
   ServerHookRunner,
@@ -47,7 +51,12 @@ export class Server {
   public async init() {
     const { options } = this;
 
-    this.initServerConfig(options);
+    this.initConfig(options);
+
+    // initialize server runner
+    this.runner = await this.createHookRunner();
+
+    this.runConfigHook(this.runner, options);
 
     // initialize server
     this.server = this.serverImpl(options);
@@ -55,16 +64,28 @@ export class Server {
     // create http-server
     this.app = await this.server.createHTTPServer(this.getRequestHandler());
 
-    // initialize server runner
-    this.runner = await this.createHookRunner();
-
     // runner can only be used after server init
     await this.server.onInit(this.runner);
 
     return this;
   }
 
-  private initServerConfig(options: ModernServerOptions) {
+  /**
+   * Execute config hooks
+   * @param runner
+   * @param options
+   */
+  runConfigHook(runner: ServerHookRunner, options: ModernServerOptions) {
+    const { serverConfig } = options;
+    const newServerConfig = runner.config(serverConfig || {});
+    options.config = mergeDeep({}, options.config, newServerConfig);
+  }
+
+  /**
+   *
+   * merge cliConfig and serverConfig
+   */
+  private initConfig(options: ModernServerOptions) {
     const { pwd, config, serverConfigFile } = options;
 
     const serverConfigPath = getServerConfigPath(pwd, serverConfigFile);
@@ -72,7 +93,7 @@ export class Server {
     const resolvedConfigPath = path.join(
       pwd,
       config?.output?.path || 'dist',
-      'modern.config.json',
+      OUTPUT_CONFIG_FILE,
     );
 
     options.serverConfig = serverConfig;
@@ -115,7 +136,7 @@ export class Server {
 
     const { options } = this;
     // TODO: 确认下这里是不是可以不从 options 中取插件，而是从 config 中取和过滤
-    const { plugins = [], pwd, config, serverConfig } = options;
+    const { plugins = [], pwd, config } = options;
 
     // server app context for serve plugin
     const loadedPlugins = loadPlugins(
@@ -130,7 +151,6 @@ export class Server {
 
     const appContext = this.initAppContext();
     serverManager.run(() => {
-      ServerConfigContext.set(serverConfig || {});
       ConfigContext.set(config as UserConfig);
       AppContext.set({
         ...appContext,
