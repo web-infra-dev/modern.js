@@ -13,8 +13,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { chalk } from './compiled';
-import filesize from 'filesize';
+import { chalk, filesize } from './compiled';
 import recursive from 'recursive-readdir';
 import stripAnsi from 'strip-ansi';
 import gzipSize from 'gzip-size';

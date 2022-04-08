@@ -63,6 +63,7 @@ export async function prebundle(task: ParsedTask) {
 
   const entry = require.resolve(task.depPath);
   const { code, assets } = await ncc(entry, {
+    minify: true,
     externals,
     assetBuilds: false,
   });
