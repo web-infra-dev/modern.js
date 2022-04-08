@@ -6,6 +6,7 @@ import { stripAnsi, formatWebpackMessages } from '@modern-js/utils';
 import type webpack from 'webpack';
 import { createSocketUrl } from './createSocketUrl';
 
+// declare any to fix the type of `module.hot`
 declare const module: any;
 
 // We need to keep track of if there has been a runtime error.
