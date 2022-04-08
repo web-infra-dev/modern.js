@@ -1,5 +1,23 @@
 # @modern-js/webpack
 
+## 1.5.3
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- 4b4e73b7: feat: enable css extract in dev mode by default.
+- da60172c: style-loader should never use ssr bundle
+- 6cff93dc: chore: bump webpack and esbuild version
+- 9d4a005b: fix: config babel via tools.babel
+- Updated dependencies [bebb39b6]
+- Updated dependencies [ef28a4e6]
+- Updated dependencies [132f7b53]
+- Updated dependencies [9d4a005b]
+  - @modern-js/css-config@1.2.3
+  - @modern-js/core@1.6.1
+  - @modern-js/utils@1.3.7
+  - @modern-js/babel-preset-app@1.2.5
+
 ## 1.5.0
 
 ### Minor Changes

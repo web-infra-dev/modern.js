@@ -1,5 +1,20 @@
 # @modern-js/plugin-jarvis
 
+## 1.2.6
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- Updated dependencies [8e737893]
+- Updated dependencies [8e737893]
+- Updated dependencies [a2761eb7]
+- Updated dependencies [8e737893]
+- Updated dependencies [132f7b53]
+- Updated dependencies [8e737893]
+- Updated dependencies [8e737893]
+  - @modern-js-app/eslint-config@1.2.6
+  - @modern-js/utils@1.3.7
+
 ## 1.2.5
 
 ### Patch Changes

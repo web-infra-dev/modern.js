@@ -1,5 +1,21 @@
 # @modern-js/plugin-nocode
 
+## 1.1.7
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- d6852eac: remove butter auth
+- 133a5dd7: remove module hooks dep
+- Updated dependencies [bebb39b6]
+- Updated dependencies [4b4e73b7]
+- Updated dependencies [da60172c]
+- Updated dependencies [6cff93dc]
+- Updated dependencies [132f7b53]
+- Updated dependencies [9d4a005b]
+  - @modern-js/webpack@1.5.3
+  - @modern-js/utils@1.3.7
+
 ## 1.1.6
 
 ### Patch Changes

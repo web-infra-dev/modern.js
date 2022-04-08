@@ -1,5 +1,23 @@
 # @modern-js/plugin-testing
 
+## 1.4.1
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- 132f7b53: feat: move config declarations to @modern-js/core
+- 8491b6dd: fix: optimise "types" exports from plugin
+- Updated dependencies [bebb39b6]
+- Updated dependencies [4b4e73b7]
+- Updated dependencies [da60172c]
+- Updated dependencies [6cff93dc]
+- Updated dependencies [132f7b53]
+- Updated dependencies [9d4a005b]
+  - @modern-js/webpack@1.5.3
+  - @modern-js/testing@1.4.1
+  - @modern-js/utils@1.3.7
+  - @modern-js/testing-plugin-bff@1.3.0
+
 ## 1.4.0
 
 ### Minor Changes

@@ -1,5 +1,15 @@
 # @modern-js/plugin-fast-refresh
 
+## 1.2.3
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- Updated dependencies [afc836f4]
+- Updated dependencies [132f7b53]
+  - @modern-js/hmr-client@1.2.3
+  - @modern-js/utils@1.3.7
+
 ## 1.2.2
 
 ### Patch Changes
