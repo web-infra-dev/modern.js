@@ -2,10 +2,11 @@
  * This has been adapted from `create-react-app`, authored by Facebook, Inc.
  * see: https://github.com/facebookincubator/create-react-app/tree/master/packages/react-dev-utils
  */
-import { formatWebpackMessages } from '@modern-js/utils/format';
-import stripAnsi from 'strip-ansi';
+import { stripAnsi, formatWebpackMessages } from '@modern-js/utils';
 import type webpack from 'webpack';
 import { createSocketUrl } from './createSocketUrl';
+
+declare const module: any;
 
 // We need to keep track of if there has been a runtime error.
 // Essentially, we cannot guarantee application state was not corrupted by the

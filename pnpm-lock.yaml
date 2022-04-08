@@ -1793,7 +1793,6 @@ importers:
       '@types/node': ^16.9.2
       '@types/semver': ^7.3.4
       '@types/signale': ^1.4.1
-      '@types/strip-ansi': ^5.2.1
       '@types/strip-comments': ^2.0.0
       '@types/ws': ^7.4.0
       acorn: ^8.0.5
@@ -1832,7 +1831,6 @@ importers:
       sass: ^1.45.0
       semver: ^7.3.5
       signale: ^1.4.0
-      strip-ansi: ^6.0.0
       strip-comments: ^2.0.1
       tsconfig-paths: ^3.9.0
       typescript: ^4
@@ -1888,7 +1886,6 @@ importers:
       sass: 1.45.2
       semver: 7.3.5
       signale: 1.4.0
-      strip-ansi: 6.0.1
       strip-comments: 2.0.1
       tsconfig-paths: 3.12.0
       ws: 7.5.6
@@ -1916,7 +1913,6 @@ importers:
       '@types/node': 16.11.18
       '@types/semver': 7.3.9
       '@types/signale': 1.4.3
-      '@types/strip-ansi': 5.2.1
       '@types/strip-comments': 2.0.1
       '@types/ws': 7.4.7
       axios: 0.26.0
@@ -3365,7 +3361,6 @@ importers:
       '@types/node': ^14
       esbuild: ^0.13.13
       jest: ^27
-      strip-ansi: ^7.0.0
       typescript: ^4
       url: ^0.11.0
       webpack: ^5.71.0
@@ -3373,7 +3368,6 @@ importers:
       '@babel/runtime': 7.16.7
       '@modern-js/utils': link:../../toolkit/utils
       esbuild: 0.13.15
-      strip-ansi: 7.0.1
       url: 0.11.0
     devDependencies:
       '@scripts/build': link:../../../scripts/build
@@ -4588,11 +4582,11 @@ importers:
       fs-extra: ^10.0.0
       glob: ^7.1.7
       gzip-size: ^6.0.0
-      import-lazy: ^4.0.0
+      import-lazy: 4.0.0
       jest: ^27
       pkg-up: ^3.1.0
       recursive-readdir: ^2.2.2
-      strip-ansi: 6.0.0
+      strip-ansi: 6.0.1
       typescript: ^4
       upath: ^2.0.1
       webpack: ^5.71.0
@@ -4608,10 +4602,8 @@ importers:
       fs-extra: 10.0.0
       glob: 7.2.0
       gzip-size: 6.0.0
-      import-lazy: 4.0.0
       pkg-up: 3.1.0
       recursive-readdir: 2.2.2
-      strip-ansi: 6.0.0
       typescript: 4.5.4
       upath: 2.0.1
       yaml: 1.10.2
@@ -4626,7 +4618,9 @@ importers:
       '@types/recursive-readdir': 2.2.0
       chalk: 4.1.2
       filesize: 8.0.7
+      import-lazy: 4.0.0
       jest: 27.4.5
+      strip-ansi: 6.0.1
       webpack: 5.71.0_esbuild@0.13.15
 
   scripts/build:
@@ -4674,19 +4668,21 @@ importers:
   scripts/prebundle:
     specifiers:
       '@modern-js/tsconfig': workspace:*
-      '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
+      '@types/fs-extra': ^9.0.13
       '@types/node': ^14
       '@vercel/ncc': 0.33.3
       dts-packer: 0.0.3
+      fs-extra: ^10.0.0
       typescript: ^4
     devDependencies:
       '@modern-js/tsconfig': link:../../packages/review/tsconfig
-      '@modern-js/utils': link:../../packages/toolkit/utils
       '@scripts/build': link:../build
+      '@types/fs-extra': 9.0.13
       '@types/node': 14.18.4
       '@vercel/ncc': 0.33.3
       dts-packer: 0.0.3
+      fs-extra: 10.0.1
       typescript: 4.5.4
 
   tests:
@@ -15664,12 +15660,6 @@ packages:
   /@types/stack-utils/2.0.1:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
 
-  /@types/strip-ansi/5.2.1:
-    resolution: {integrity: sha512-1l5iM0LBkVU8JXxnIoBqNvg+yyOXxPeN6DNoD+7A9AN1B8FhYPSeIXgyNqwIqg1uzipTgVC2hmuDzB0u9qw/PA==}
-    dependencies:
-      strip-ansi: 6.0.1
-    dev: true
-
   /@types/strip-comments/2.0.1:
     resolution: {integrity: sha512-7xjBu+wvKSRHSmgZoRAfUBZMIupd7634b2+uI2qeBDUvfoX+VELjuWCzlL6CF40eG/TGKwU+pqoJfvcvs3fzKA==}
     dev: true
@@ -25338,7 +25328,6 @@ packages:
   /import-lazy/4.0.0:
     resolution: {integrity: sha512-rKtvo6a868b5Hu3heneU+L4yEQ4jYKLtjpnPeUdK7h0yzXGmyBTypknlkCvHFBqfX9YlorEiMM6Dnq/5atfHkw==}
     engines: {node: '>=8'}
-    dev: false
 
   /import-local/3.0.3:
     resolution: {integrity: sha512-bE9iaUY3CXH8Cwfan/abDKAxe1KGT9kyGsBPqf6DMK/z0a2OzAsrukeYNgIH6cH5Xr452jb1TUL8rSfCLjZ9uA==}
@@ -35672,13 +35661,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       ansi-regex: 4.1.0
-    dev: false
-
-  /strip-ansi/6.0.0:
-    resolution: {integrity: sha512-AuvKTrTfQNYNIctbR1K/YGTR1756GycPsg7b9bdV9Duqur4gv6aKqHXah67Z8ImS7WEz5QVcOtlfW2rZEugt6w==}
-    engines: {node: '>=8'}
-    dependencies:
-      ansi-regex: 5.0.1
     dev: false
 
   /strip-ansi/6.0.1:

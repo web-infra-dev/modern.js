@@ -14,34 +14,30 @@
   "version": "1.3.6",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
-  "module": "./dist/js/treeshaking/index.js",
-  "jsnext:modern": "./dist/js/modern/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "jsnext:modern": "./dist/index.js",
   "exports": {
     ".": {
-      "node": {
-        "jsnext:source": "./src/index.ts",
-        "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
-      },
-      "default": "./dist/js/treeshaking/index.js"
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/index.js"
     },
     "./format": {
       "jsnext:source": "./src/format.ts",
-      "default": "./dist/js/treeshaking/format.js"
+      "default": "./dist/format.js"
     },
     "./constants": {
       "jsnext:source": "./src/constants.ts",
-      "default": "./dist/js/treeshaking/constants.js"
+      "default": "./dist/constants.js"
     }
   },
   "typesVersions": {
     "*": {
       "format": [
-        "./dist/types/format.d.ts"
+        "./dist/format.d.ts"
       ],
       "constants": [
-        "./dist/types/constants.d.ts"
+        "./dist/constants.d.ts"
       ]
     }
   },
@@ -49,7 +45,7 @@
     "prepare": "pnpm build",
     "prepublishOnly": "pnpm build -- --platform",
     "new": "modern new",
-    "build": "modern build",
+    "build": "tsc",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -64,7 +60,6 @@
     "gzip-size": "^6.0.0",
     "pkg-up": "^3.1.0",
     "recursive-readdir": "^2.2.2",
-    "strip-ansi": "6.0.0",
     "typescript": "^4",
     "upath": "^2.0.1",
     "yaml": "^1.10.2"
@@ -83,12 +78,13 @@
     "import-lazy": "4.0.0",
     "chalk": "4.1.2",
     "filesize": "8.0.7",
+    "strip-ansi": "6.0.1",
     "webpack": "^5.71.0"
   },
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/types/index.d.ts"
+    "types": "./dist/index.d.ts"
   }
 }

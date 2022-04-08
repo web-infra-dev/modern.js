@@ -11,6 +11,20 @@ export type ParsedTask = {
   packageName: string;
 };
 
+function findDepPath(name: string, packagePath: string) {
+  let entry = dirname(
+    require.resolve(join(name), {
+      paths: [join(packagePath, 'node_modules')],
+    }),
+  );
+
+  while (!dirname(entry).endsWith('node_modules')) {
+    entry = dirname(entry);
+  }
+
+  return entry;
+}
+
 export function parseTasks() {
   const result: ParsedTask[] = [];
 
@@ -19,11 +33,7 @@ export function parseTasks() {
       const importPath = join(packageName, DIST_DIR, name);
       const packagePath = join(PACKAGES_DIR, packageDir);
       const distPath = join(packagePath, DIST_DIR, name);
-      const depPath = dirname(
-        require.resolve(join(name, 'package.json'), {
-          paths: [join(packagePath, 'node_modules')],
-        }),
-      );
+      const depPath = findDepPath(name, packagePath);
 
       result.push({
         depName: name,

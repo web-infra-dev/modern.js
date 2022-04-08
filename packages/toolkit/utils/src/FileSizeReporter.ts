@@ -13,9 +13,8 @@
 
 import fs from 'fs';
 import path from 'path';
-import { chalk, filesize } from './compiled';
+import { chalk, filesize, stripAnsi } from './compiled';
 import recursive from 'recursive-readdir';
-import stripAnsi from 'strip-ansi';
 import gzipSize from 'gzip-size';
 import { logger } from './logger';
 

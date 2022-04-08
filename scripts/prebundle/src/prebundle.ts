@@ -1,7 +1,7 @@
 import { join } from 'path';
 import ncc from '@vercel/ncc';
 import { Package as DtsPacker } from 'dts-packer';
-import { fs } from '@modern-js/utils';
+import fs from 'fs-extra';
 import { ParsedTask, pick } from './helper';
 
 const externals: Record<string, string> = {};
@@ -74,5 +74,5 @@ export async function prebundle(task: ParsedTask) {
   emitLicense(task);
   emitPackageJson(task);
 
-  console.log(`==== End prebundle "${task.depName}" ====\n\n`);
+  console.log(`==== Finish prebundle "${task.depName}" ====\n\n`);
 }
