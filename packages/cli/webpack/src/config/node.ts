@@ -105,6 +105,7 @@ class NodeWebpackConfig extends BaseWebpackConfig {
                 },
                 this.options.tools?.styledComponents,
               ),
+              userBabelConfig: this.options.tools.babel,
             },
           ],
         ],

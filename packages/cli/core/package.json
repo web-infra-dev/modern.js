@@ -72,6 +72,7 @@
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__code-frame": "^7.0.3",
+    "@types/babel__core": "^7.1.16",
     "@types/jest": "^26",
     "@types/less": "^3.0.3",
     "@types/lodash.clonedeep": "^4.5.6",

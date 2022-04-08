@@ -1,4 +1,5 @@
 import { createBabelChain } from '@modern-js/babel-chain';
+import { applyOptionsChain } from '@modern-js/utils';
 import { generate } from './generate';
 import type { Options } from './type';
 
@@ -23,6 +24,12 @@ export default function (api: any, options?: Options) {
 
   options = { ...(defaultOptions as Options), ...(options ?? {}) };
 
-  return generate(options, options.chain || createBabelChain()).toJSON();
+  const babelChain = generate(options, options.chain || createBabelChain());
+
+  if (options.userBabelConfig) {
+    return applyOptionsChain(babelChain.toJSON(), options.userBabelConfig);
+  }
+
+  return babelChain.toJSON();
 }
 /* eslint-enable  no-param-reassign */

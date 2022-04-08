@@ -272,6 +272,7 @@ class BaseWebpackConfig {
                   this.options.output.polyfill === 'ua'
                     ? false
                     : this.options.output.polyfill,
+                userBabelConfig: this.options.tools.babel,
               },
             ],
           ],
@@ -684,23 +685,12 @@ class BaseWebpackConfig {
     this.devtool();
     this.entry();
     this.output();
-    const loaders = this.loaders();
+    this.loaders();
     this.plugins();
     this.resolve();
     this.cache();
     this.optimization();
     this.stats();
-
-    loaders
-      .oneOf('js')
-      .use('babel')
-      .options(
-        applyOptionsChain(
-          loaders.oneOf('js').use('babel').get('options'),
-          this.options.tools?.babel,
-          { chain: this.babelChain },
-        ),
-      );
 
     const config = this.chain.toConfig();
 
