@@ -60,6 +60,7 @@ export const getBabelOptions = (
           },
           config.tools?.styledComponents,
         ),
+        userBabelConfig: config.tools.babel,
       } as BabelPresetAppOptions,
     ],
   ],

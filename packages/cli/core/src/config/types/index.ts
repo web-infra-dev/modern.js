@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'http';
 import type { NextFunction, BffProxyOptions } from '@modern-js/types';
 import type { MetaOptions } from '@modern-js/utils';
+import type { TransformOptions } from '@babel/core';
 import type { PluginConfig } from '../../loadPlugins';
 import type { TestConfig, JestConfig } from './test';
 import type { SassConfig, SassLoaderOptions } from './sass';
@@ -190,9 +191,13 @@ export type DevServerConfig = {
   [propsName: string]: any;
 };
 
+export type BabelConfig =
+  | TransformOptions
+  | ((config: TransformOptions) => TransformOptions | void);
+
 export interface ToolsConfig {
   webpack?: ConfigFunction;
-  babel?: ConfigFunction;
+  babel?: BabelConfig;
   autoprefixer?: ConfigFunction;
   postcss?: ConfigFunction;
   styledComponents?: ConfigFunction;

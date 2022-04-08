@@ -1,3 +1,4 @@
+import path from 'path';
 import generateBabelChain from '../src';
 
 describe('babel-preset-app', () => {
@@ -5,12 +6,12 @@ describe('babel-preset-app', () => {
     expect(generateBabelChain).toBeDefined();
 
     const cache = jest.fn();
-    const webpackConfig = generateBabelChain(
+    const babelOptions = generateBabelChain(
       { cache },
       { appDirectory: process.cwd() },
     );
-    expect(Object.keys(webpackConfig)).toEqual(['presets', 'plugins']);
-    expect(webpackConfig.plugins).toContainEqual([
+    expect(Object.keys(babelOptions)).toEqual(['presets', 'plugins']);
+    expect(babelOptions.plugins).toContainEqual([
       require.resolve('../src/built-in/babel-plugin-lock-corejs-version'),
       expect.objectContaining({ metaName: 'modern-js' }),
     ]);
@@ -21,8 +22,29 @@ describe('babel-preset-app', () => {
     expect(generateBabelChain).toBeDefined();
 
     const cache = jest.fn();
-    const webpackConfig = generateBabelChain({ cache });
-    expect(Object.keys(webpackConfig)).toEqual(['presets', 'plugins']);
+    const babelOptions = generateBabelChain({ cache });
+    expect(Object.keys(babelOptions)).toEqual(['presets', 'plugins']);
     expect(cache).toBeCalledWith(true);
+  });
+
+  it('with tools.babel config', () => {
+    const toolsBabelConfig = (config: any) => {
+      config.plugins = config.plugins.filter((item: any) => {
+        const name = typeof item === 'string' ? item : item[0];
+        return !name.includes(`@babel${path.sep}plugin-syntax-dynamic-import`);
+      });
+    };
+
+    const cache = jest.fn();
+    const babelOptions = generateBabelChain(
+      { cache },
+      { appDirectory: process.cwd(), userBabelConfig: toolsBabelConfig },
+    );
+
+    expect(babelOptions.plugins).toEqual(
+      expect.not.arrayContaining([
+        [require.resolve('@babel/plugin-syntax-dynamic-import')],
+      ]),
+    );
   });
 });
