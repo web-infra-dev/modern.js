@@ -1,5 +1,11 @@
 # @modern-js/types
 
+## 1.3.6
+
+### Patch Changes
+
+- 132f7b53: feat: move config declarations to @modern-js/core
+
 ## 1.3.5
 
 ### Patch Changes

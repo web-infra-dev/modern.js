@@ -1,5 +1,14 @@
 # @modern-js/plugin-proxy
 
+## 1.2.5
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- 132f7b53: feat: move config declarations to @modern-js/core
+- Updated dependencies [132f7b53]
+  - @modern-js/utils@1.3.7
+
 ## 1.2.4
 
 ### Patch Changes

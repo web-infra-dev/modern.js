@@ -1,5 +1,21 @@
 # @modern-js/runtime
 
+## 1.2.5
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- ff73a5cc: fix style-component bugs
+- Updated dependencies [bebb39b6]
+- Updated dependencies [132f7b53]
+- Updated dependencies [c4a7e4a3]
+- Updated dependencies [ff73a5cc]
+- Updated dependencies [9d4a005b]
+  - @modern-js/plugin-router@1.2.8
+  - @modern-js/plugin-ssr@1.2.5
+  - @modern-js/plugin-state@1.2.3
+  - @modern-js/utils@1.3.7
+
 ## 1.2.4
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @modern-js/core
 
+## 1.6.1
+
+### Patch Changes
+
+- ef28a4e6: fix: module-tools build error
+- 132f7b53: feat: move config declarations to @modern-js/core
+- 9d4a005b: fix: config babel via tools.babel
+- Updated dependencies [132f7b53]
+  - @modern-js/utils@1.3.7
+
 ## 1.6.0
 
 ### Minor Changes

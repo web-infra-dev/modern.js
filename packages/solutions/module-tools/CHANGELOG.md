@@ -1,5 +1,26 @@
 # @modern-js/module-tools
 
+## 1.4.4
+
+### Patch Changes
+
+- 12b4dd41: fix: throw error when tsc is not installed
+- 132f7b53: feat: move config declarations to @modern-js/core
+- 8491b6dd: fix: optimise "types" exports from plugin
+- 133a5dd7: remove module hooks dep
+- 9d4a005b: fix: config babel via tools.babel
+- Updated dependencies [bebb39b6]
+- Updated dependencies [ef28a4e6]
+- Updated dependencies [132f7b53]
+- Updated dependencies [ff73a5cc]
+- Updated dependencies [9d4a005b]
+  - @modern-js/css-config@1.2.3
+  - @modern-js/plugin-analyze@1.3.5
+  - @modern-js/plugin-changeset@1.2.4
+  - @modern-js/plugin-fast-refresh@1.2.3
+  - @modern-js/core@1.6.1
+  - @modern-js/utils@1.3.7
+
 ## 1.4.3
 
 ### Patch Changes
