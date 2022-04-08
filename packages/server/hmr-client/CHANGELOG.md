@@ -1,5 +1,13 @@
 # @modern-js/hmr-client
 
+## 1.2.3
+
+### Patch Changes
+
+- afc836f4: fix: remove react-error-overlay
+- Updated dependencies [132f7b53]
+  - @modern-js/utils@1.3.7
+
 ## 1.2.2
 
 ### Patch Changes

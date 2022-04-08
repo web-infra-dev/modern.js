@@ -1,5 +1,14 @@
 # @modern-js/plugin-lambda-scf
 
+## 1.1.5
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- 8491b6dd: fix: optimise "types" exports from plugin
+- Updated dependencies [132f7b53]
+  - @modern-js/utils@1.3.7
+
 ## 1.1.4
 
 ### Patch Changes

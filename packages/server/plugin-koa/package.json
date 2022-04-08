@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.4.4",
+  "version": "1.4.5",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -44,7 +44,7 @@
     "@modern-js/adapter-helpers": "workspace:^1.2.1",
     "@modern-js/bff-runtime": "workspace:^1.2.1",
     "@modern-js/bff-utils": "workspace:^1.2.2",
-    "@modern-js/utils": "workspace:^1.3.6",
+    "@modern-js/utils": "workspace:^1.3.7",
     "koa-body": "^4.2.0",
     "koa-router": "^10.0.0",
     "type-is": "^1.6.18"

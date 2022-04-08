@@ -1,5 +1,15 @@
 # @modern-js/plugin-ssr
 
+## 1.2.5
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- ff73a5cc: fix style-component bugs
+- 9d4a005b: fix: config babel via tools.babel
+- Updated dependencies [132f7b53]
+  - @modern-js/utils@1.3.7
+
 ## 1.2.4
 
 ### Patch Changes

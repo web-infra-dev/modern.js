@@ -1,5 +1,11 @@
 # @modern-js/plugin-polyfill
 
+## 1.2.4
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+
 ## 1.2.3
 
 ### Patch Changes

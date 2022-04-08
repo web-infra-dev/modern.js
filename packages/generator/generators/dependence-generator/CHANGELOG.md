@@ -1,5 +1,11 @@
 # @modern-js/dependence-generator
 
+## 1.2.5
+
+### Patch Changes
+
+- 8491b6dd: fix: optimise "types" exports from plugin
+
 ## 1.2.4
 
 ### Patch Changes

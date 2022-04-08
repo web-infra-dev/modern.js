@@ -1,5 +1,13 @@
 # @modern-js/babel-preset-app
 
+## 1.2.5
+
+### Patch Changes
+
+- 9d4a005b: fix: config babel via tools.babel
+- Updated dependencies [132f7b53]
+  - @modern-js/utils@1.3.7
+
 ## 1.2.4
 
 ### Patch Changes

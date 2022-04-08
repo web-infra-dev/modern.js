@@ -1,5 +1,16 @@
 # @modern-js/prod-server
 
+## 1.0.6
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- 132f7b53: feat: move config declarations to @modern-js/core
+- Updated dependencies [bebb39b6]
+- Updated dependencies [132f7b53]
+  - @modern-js/server-core@1.2.5
+  - @modern-js/utils@1.3.7
+
 ## 1.0.5
 
 ### Patch Changes

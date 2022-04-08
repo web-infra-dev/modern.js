@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.3",
+  "version": "1.1.4",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -33,13 +33,13 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.3.5",
-    "@modern-js/types": "workspace:^1.3.5"
+    "@modern-js/utils": "workspace:^1.3.7",
+    "@modern-js/types": "workspace:^1.3.6"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:^1.2.4",
+    "@modern-js/plugin-jarvis": "workspace:^1.2.6",
     "typescript": "^4",
     "@types/jest": "^26.0.9",
     "@types/node": "^14",
