@@ -1,5 +1,14 @@
 # @modern-js/plugin-analyze
 
+## 1.3.5
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- ff73a5cc: fix style-component bugs
+- Updated dependencies [132f7b53]
+  - @modern-js/utils@1.3.7
+
 ## 1.3.4
 
 ### Patch Changes

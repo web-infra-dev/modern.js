@@ -1,5 +1,11 @@
 # @modern-js/module-generator
 
+## 1.3.8
+
+### Patch Changes
+
+- 8491b6dd: fix: optimise "types" exports from plugin
+
 ## 1.3.7
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @modern-js/plugin-garfish
 
+## 1.4.5
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- 8491b6dd: fix: optimise "types" exports from plugin
+- Updated dependencies [bebb39b6]
+- Updated dependencies [132f7b53]
+- Updated dependencies [c4a7e4a3]
+  - @modern-js/plugin-router@1.2.8
+  - @modern-js/utils@1.3.7
+
 ## 1.4.4
 
 ### Patch Changes
