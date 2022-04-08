@@ -10,7 +10,6 @@ import {
 import type { CliPlugin } from '@modern-js/core';
 import LoadableWebpackPlugin from '@loadable/webpack-plugin';
 import type WebpackChain from 'webpack-chain';
-import type { BabelChain } from '@modern-js/babel-chain';
 
 const PLUGIN_IDENTIFIER = 'ssr';
 
@@ -48,12 +47,10 @@ export default (): CliPlugin => ({
                   ]);
               }
             },
-            babel: (config: any, { chain }: { chain: BabelChain }) => {
+            babel: (config: any) => {
               const userConfig = api.useResolvedConfigContext();
               if (isUseSSRBundle(userConfig)) {
-                chain
-                  ?.plugin('loadable')
-                  .use(require.resolve('@loadable/babel-plugin'));
+                config.plugins.push(require.resolve('@loadable/babel-plugin'));
               }
             },
           },
@@ -73,8 +70,7 @@ export default (): CliPlugin => ({
 
         // if use ssg then set ssr config to true
         const ssrConfig =
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-          Boolean((userConfig.output as any).ssg) ||
+          Boolean(userConfig.output.ssg) ||
           getEntryOptions(
             entryName,
             userConfig.server.ssr,

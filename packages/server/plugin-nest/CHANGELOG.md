@@ -1,5 +1,13 @@
 # @modern-js/plugin-nest
 
+## 1.4.4
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- Updated dependencies [132f7b53]
+  - @modern-js/utils@1.3.7
+
 ## 1.4.3
 
 ### Patch Changes

@@ -29,7 +29,7 @@ export const initWatcher = async (
 
     const watched = [
       `${configPath}/html`,
-      ...(extraFiles as any),
+      ...extraFiles,
       loaded?.filePath,
       ...loaded.dependencies,
     ].filter(Boolean);

@@ -1,5 +1,12 @@
 # @modern-js/generator-common
 
+## 1.4.8
+
+### Patch Changes
+
+- 132f7b53: feat: move config declarations to @modern-js/core
+- 8491b6dd: fix: optimise "types" exports from plugin
+
 ## 1.4.7
 
 ### Patch Changes
