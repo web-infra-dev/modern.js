@@ -469,6 +469,7 @@
       "**/coverage": true,
       "**/dist": true,
       "**/node_modules": true,
+      "**/compiled": true,
       "**/package-lock.json": true,
       "**/yarn.lock": true
     },

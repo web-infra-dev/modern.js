@@ -1,12 +1,10 @@
 {
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
-    "declaration": false,
-    "allowJs": true,
-    "jsx": "preserve",
+    "declaration": true,
+    "outDir": "./dist",
     "baseUrl": "./",
-    "isolatedModules": true,
-    "paths": {}
+    "isolatedModules": true
   },
   "include": ["src"]
 }

@@ -1,4 +1,4 @@
-import chalk, { Color } from 'chalk';
+import chalk, { Color } from '../compiled/chalk';
 
 type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 

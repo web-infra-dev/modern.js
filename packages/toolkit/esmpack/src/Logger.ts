@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import chalk from 'chalk';
+import { chalk } from '@modern-js/utils';
 
 export type LogType = 'error' | 'warn' | 'debug' | 'info' | 'silent' | 'silly';
 
