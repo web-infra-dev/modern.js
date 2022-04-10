@@ -937,7 +937,6 @@ importers:
       '@types/react-dom': ^17
       '@typescript-eslint/eslint-plugin': ^5.17.0
       '@typescript-eslint/parser': ^5.17.0
-      chalk: ^3.0.0
       cross-spawn: ^7.0.1
       eslint: ^7.32.0
       eslint-config-prettier: ^8.3.0
@@ -968,7 +967,6 @@ importers:
       '@types/minimist': 1.2.2
       '@typescript-eslint/eslint-plugin': 5.17.0_2de05dc4f6e006e27551942a75536f07
       '@typescript-eslint/parser': 5.17.0_eslint@7.32.0+typescript@4.5.4
-      chalk: 3.0.0
       cross-spawn: 7.0.3
       eslint: 7.32.0
       eslint-config-prettier: 8.3.0_eslint@7.32.0
@@ -1151,7 +1149,6 @@ importers:
       axios: ^0.24.0
       axios-retry: ^3.2.4
       body-parser: ^1.19.0
-      chalk: '4'
       chokidar: ^3.5.2
       cors: ^2.8.5
       esbuild: ^0.13.13
@@ -1180,7 +1177,6 @@ importers:
       axios: 0.24.0
       axios-retry: 3.2.4
       body-parser: 1.19.1
-      chalk: 4.1.2
       chokidar: 3.5.2
       cors: 2.8.5
       esbuild: 0.13.15
@@ -1801,7 +1797,6 @@ importers:
       '@types/node': ^16.9.2
       '@types/semver': ^7.3.4
       '@types/signale': ^1.4.1
-      '@types/strip-ansi': ^5.2.1
       '@types/strip-comments': ^2.0.0
       '@types/ws': ^7.4.0
       acorn: ^8.0.5
@@ -1840,7 +1835,6 @@ importers:
       sass: ^1.45.0
       semver: ^7.3.5
       signale: ^1.4.0
-      strip-ansi: ^6.0.0
       strip-comments: ^2.0.1
       tsconfig-paths: ^3.9.0
       typescript: ^4
@@ -1896,7 +1890,6 @@ importers:
       sass: 1.45.2
       semver: 7.3.5
       signale: 1.4.0
-      strip-ansi: 6.0.1
       strip-comments: 2.0.1
       tsconfig-paths: 3.12.0
       ws: 7.5.6
@@ -1924,7 +1917,6 @@ importers:
       '@types/node': 16.11.18
       '@types/semver': 7.3.9
       '@types/signale': 1.4.3
-      '@types/strip-ansi': 5.2.1
       '@types/strip-comments': 2.0.1
       '@types/ws': 7.4.7
       axios: 0.26.0
@@ -3075,7 +3067,6 @@ importers:
       '@types/semver': ^7.3.8
       '@types/yargs': ^17.0.2
       babel-jest: ^27.0.6
-      chalk: ^4.1.2
       identity-obj-proxy: ^3.0.0
       jest: ^27.0.6
       lodash.merge: ^4.6.2
@@ -3090,7 +3081,6 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@modern-js/webpack': link:../../cli/webpack
       babel-jest: 27.4.5
-      chalk: 4.1.2
       identity-obj-proxy: 3.0.0
       jest: 27.4.5
       lodash.merge: 4.6.2
@@ -3375,7 +3365,6 @@ importers:
       '@types/node': ^14
       esbuild: ^0.13.13
       jest: ^27
-      strip-ansi: ^7.0.0
       typescript: ^4
       url: ^0.11.0
       webpack: ^5.71.0
@@ -3383,7 +3372,6 @@ importers:
       '@babel/runtime': 7.16.7
       '@modern-js/utils': link:../../toolkit/utils
       esbuild: 0.13.15
-      strip-ansi: 7.0.1
       url: 0.11.0
     devDependencies:
       '@scripts/build': link:../../../scripts/build
@@ -3979,7 +3967,6 @@ importers:
       '@types/normalize-path': ^3.0.0
       '@types/react': ^17
       '@types/react-dom': ^17
-      chalk: ^4.1.2
       commander: ^8.1.0
       dotenv: ^10.0.0
       execa: ^5.1.1
@@ -4014,7 +4001,6 @@ importers:
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/style-compiler': link:../../toolkit/compiler/style
       '@modern-js/utils': link:../../toolkit/utils
-      chalk: 4.1.2
       dotenv: 10.0.0
       execa: 5.1.1
       fast-glob: 3.2.7
@@ -4069,7 +4055,6 @@ importers:
       '@types/react-dom': ^17
       '@types/signale': ^1.4.2
       anymatch: ^3.1.2
-      chalk: ^4.1.1
       chokidar: ^3.5.2
       commander: ^8.1.0
       execa: ^5.1.1
@@ -4092,7 +4077,6 @@ importers:
       '@rushstack/node-core-library': 3.44.3
       '@rushstack/package-deps-hash': 3.1.11
       anymatch: 3.1.2
-      chalk: 4.1.2
       chokidar: 3.5.2
       commander: 8.3.0
       globby: 11.0.4
@@ -4348,7 +4332,6 @@ importers:
       '@types/tar-fs': ~2.0.0
       '@types/validate-npm-package-name': ~3.0.2
       axios: ^0.24.0
-      chalk: ~4.1.0
       del-cli: ^4.0.1
       enhanced-resolve: ^5.8.3
       es-module-lexer: ~0.3.26
@@ -4395,7 +4378,6 @@ importers:
       '@rollup/plugin-url': 6.1.0_rollup@2.50.6
       '@rollup/plugin-wasm': 5.1.2_rollup@2.50.6
       '@svgr/rollup': 6.2.1
-      chalk: 4.1.2
       enhanced-resolve: 5.8.3
       es-module-lexer: 0.3.26
       find-up: 5.0.0
@@ -4595,20 +4577,20 @@ importers:
       '@types/node': ^14
       '@types/recursive-readdir': ^2.2.0
       browserslist: ^4.16.7
-      chalk: ^4.1.2
+      chalk: 4.1.2
       chokidar: ^3.5.2
       debug: ^4.3.2
       esbuild: ^0.13.13
       execa: '5'
-      filesize: ^7.0.0
+      filesize: 8.0.7
       fs-extra: ^10.0.0
       glob: ^7.1.7
       gzip-size: ^6.0.0
-      import-lazy: ^4.0.0
+      import-lazy: 4.0.0
       jest: ^27
       pkg-up: ^3.1.0
       recursive-readdir: ^2.2.2
-      strip-ansi: 6.0.0
+      strip-ansi: 6.0.1
       typescript: ^4
       upath: ^2.0.1
       webpack: ^5.71.0
@@ -4617,19 +4599,15 @@ importers:
       '@babel/runtime': 7.16.7
       '@types/fs-extra': 9.0.13
       browserslist: 4.19.1
-      chalk: 4.1.2
       chokidar: 3.5.2
       debug: 4.3.3
       esbuild: 0.13.15
       execa: 5.1.1
-      filesize: 7.0.0
       fs-extra: 10.0.0
       glob: 7.2.0
       gzip-size: 6.0.0
-      import-lazy: 4.0.0
       pkg-up: 3.1.0
       recursive-readdir: 2.2.2
-      strip-ansi: 6.0.0
       typescript: 4.5.4
       upath: 2.0.1
       yaml: 1.10.2
@@ -4642,7 +4620,11 @@ importers:
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
       '@types/recursive-readdir': 2.2.0
+      chalk: 4.1.2
+      filesize: 8.0.7
+      import-lazy: 4.0.0
       jest: 27.4.5
+      strip-ansi: 6.0.1
       webpack: 5.71.0_esbuild@0.13.15
 
   scripts/build:
@@ -4686,6 +4668,26 @@ importers:
       esbuild: 0.13.15
       esbuild-jest: 0.5.0_esbuild@0.13.15
       jest: 27.4.5
+
+  scripts/prebundle:
+    specifiers:
+      '@modern-js/tsconfig': workspace:*
+      '@scripts/build': workspace:*
+      '@types/fs-extra': ^9.0.13
+      '@types/node': ^14
+      '@vercel/ncc': 0.33.3
+      dts-packer: 0.0.3
+      fs-extra: ^10.0.0
+      typescript: ^4
+    devDependencies:
+      '@modern-js/tsconfig': link:../../packages/review/tsconfig
+      '@scripts/build': link:../build
+      '@types/fs-extra': 9.0.13
+      '@types/node': 14.18.4
+      '@vercel/ncc': 0.33.3
+      dts-packer: 0.0.3
+      fs-extra: 10.0.1
+      typescript: 4.5.4
 
   tests:
     specifiers:
@@ -14844,7 +14846,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.3
-      '@types/node': 14.18.4
+      '@types/node': 17.0.21
       '@types/responselike': 1.0.0
 
   /@types/caseless/0.12.2:
@@ -15192,7 +15194,7 @@ packages:
   /@types/keyv/3.1.3:
     resolution: {integrity: sha512-FXCJgyyN3ivVgRoml4h94G/p3kY+u/B86La+QptcqJaWtBWtmc6TtkNfS40n9bIvyLteHh7zXOtgbobORKPbDg==}
     dependencies:
-      '@types/node': 14.18.4
+      '@types/node': 17.0.21
 
   /@types/koa-compose/3.2.5:
     resolution: {integrity: sha512-B8nG/OoE1ORZqCkBVsup/AKcvjdgoHnfi4pZMn5UwAPCbhk/96xyv284eBYW8JlQbQ7zDmnpFr68I/40mFoIBQ==}
@@ -15593,7 +15595,7 @@ packages:
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 14.18.4
+      '@types/node': 17.0.21
 
   /@types/retry/0.12.1:
     resolution: {integrity: sha512-xoDlM2S4ortawSWORYqsdU+2rxdh4LRW9ytc3zmT37RIKQh6IHyKwwtKhKis9ah8ol07DCkZxPt8BBvPjC6v4g==}
@@ -15661,12 +15663,6 @@ packages:
 
   /@types/stack-utils/2.0.1:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
-
-  /@types/strip-ansi/5.2.1:
-    resolution: {integrity: sha512-1l5iM0LBkVU8JXxnIoBqNvg+yyOXxPeN6DNoD+7A9AN1B8FhYPSeIXgyNqwIqg1uzipTgVC2hmuDzB0u9qw/PA==}
-    dependencies:
-      strip-ansi: 6.0.1
-    dev: true
 
   /@types/strip-comments/2.0.1:
     resolution: {integrity: sha512-7xjBu+wvKSRHSmgZoRAfUBZMIupd7634b2+uI2qeBDUvfoX+VELjuWCzlL6CF40eG/TGKwU+pqoJfvcvs3fzKA==}
@@ -16005,6 +16001,13 @@ packages:
       '@typescript-eslint/types': 5.17.0
       eslint-visitor-keys: 3.3.0
     dev: false
+
+  /@vercel/ncc/0.33.3:
+    resolution: {integrity: sha512-JGZ11QV+/ZcfudW2Cz2JVp54/pJNXbsuWRgSh2ZmmZdQBKXqBtIGrwI1Wyx8nlbzAiEFe7FHi4K1zX4//jxTnQ==}
+    hasBin: true
+    dependencies:
+      esbuild: 0.13.15
+    dev: true
 
   /@webassemblyjs/ast/1.11.1:
     resolution: {integrity: sha512-ukBh14qFLjxTQNTXocdyksN5QdM28S1CxHt2rdskFyL+xFV7VremuBLVbmCePj+URalXBENx/9Lm7lnhihtCSw==}
@@ -21223,6 +21226,19 @@ packages:
       wordwrap: 1.0.0
     dev: false
 
+  /dts-packer/0.0.3:
+    resolution: {integrity: sha512-TwswWgdV5mXQKO+Bu3ylBZfLfPpnTDtwi4L+GZyWxFjGfUOwvX0FRcquZg7AGY4BiiMomwFHd9H0pyOrrQNlZA==}
+    hasBin: true
+    dependencies:
+      chalk: 4.1.2
+      got: 11.8.3
+      is-core-module: 2.8.0
+      mkdirp: 1.0.4
+      resolve: 1.21.0
+      semver: 7.3.5
+      yargs-parser: 20.2.9
+    dev: true
+
   /duplexer/0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
 
@@ -23404,15 +23420,9 @@ packages:
     resolution: {integrity: sha512-hjPFI8oE/2iQPVe4gbrJ73Pp+Xfub2+WI2LlXDbsaJBwT5wuMh35WNWVYYTpnz895shtwfyutMFLFywpQAFdLg==}
     engines: {node: '>= 6'}
 
-  /filesize/7.0.0:
-    resolution: {integrity: sha512-Wsstw+O1lZ9gVmOI1thyeQvODsaoId2qw14lCqIzUhoHKXX7T2hVpB7BR6SvgodMBgWccrx/y2eyV8L7tDmY6A==}
-    engines: {node: '>= 0.4.0'}
-    dev: false
-
   /filesize/8.0.7:
     resolution: {integrity: sha512-pjmC+bkIF8XI7fWaH8KxHcZL3DPybs1roSKP4rKDvy20tAWwIObE4+JIseG2byfGKhud5ZnM4YSGKBz7Sh0ndQ==}
     engines: {node: '>= 0.4.0'}
-    dev: false
 
   /fill-range/4.0.0:
     resolution: {integrity: sha1-1USBHUKPmOsGpj3EAtJAPDKMOPc=}
@@ -25322,7 +25332,6 @@ packages:
   /import-lazy/4.0.0:
     resolution: {integrity: sha512-rKtvo6a868b5Hu3heneU+L4yEQ4jYKLtjpnPeUdK7h0yzXGmyBTypknlkCvHFBqfX9YlorEiMM6Dnq/5atfHkw==}
     engines: {node: '>=8'}
-    dev: false
 
   /import-local/3.0.3:
     resolution: {integrity: sha512-bE9iaUY3CXH8Cwfan/abDKAxe1KGT9kyGsBPqf6DMK/z0a2OzAsrukeYNgIH6cH5Xr452jb1TUL8rSfCLjZ9uA==}
@@ -34147,6 +34156,7 @@ packages:
 
   /resolve/1.21.0:
     resolution: {integrity: sha512-3wCbTpk5WJlyE4mSOtDLhqQmGFi0/TD9VPwmiolnk8U0wRgMEktqCXd3vy5buTO3tljvalNvKrjHEfrd2WpEKA==}
+    hasBin: true
     dependencies:
       is-core-module: 2.8.0
       path-parse: 1.0.7
@@ -34621,6 +34631,7 @@ packages:
   /semver/7.3.5:
     resolution: {integrity: sha512-PoeGJYh8HK4BTO/a9Tf6ZG3veo/A7ZVsYrSA6J8ny9nb3B1VrpkuN+z9OE5wfE5p6H4LchYZsegiQgbJD94ZFQ==}
     engines: {node: '>=10'}
+    hasBin: true
     dependencies:
       lru-cache: 6.0.0
 
@@ -35654,13 +35665,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       ansi-regex: 4.1.0
-    dev: false
-
-  /strip-ansi/6.0.0:
-    resolution: {integrity: sha512-AuvKTrTfQNYNIctbR1K/YGTR1756GycPsg7b9bdV9Duqur4gv6aKqHXah67Z8ImS7WEz5QVcOtlfW2rZEugt6w==}
-    engines: {node: '>=8'}
-    dependencies:
-      ansi-regex: 5.0.1
     dev: false
 
   /strip-ansi/6.0.1:

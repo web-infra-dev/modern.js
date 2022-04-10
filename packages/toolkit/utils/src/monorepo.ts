@@ -92,7 +92,7 @@ export const getMonorepoPackages = (
           ignore: ['**/node_modules/**'],
         }),
       )
-      .flat()
+      .reduce((acc, val) => acc.concat(val), [])
       .filter(filepath => fs.existsSync(path.resolve(filepath, 'package.json')))
       .map(filepath => ({
         path: filepath,

@@ -9,7 +9,7 @@
 import { Config } from '@jest/types';
 import yargs from 'yargs/yargs';
 import { runCLI } from 'jest';
-import chalk from 'chalk';
+import { chalk } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import { getJestUtils, patchConfig } from './config';
 import { TestConfig } from './types';
