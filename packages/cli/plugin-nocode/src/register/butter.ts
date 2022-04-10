@@ -1,8 +1,7 @@
 import * as path from 'path';
-import { fs } from '@modern-js/utils';
+import { fs, chalk } from '@modern-js/utils';
 import _ from 'lodash';
 import execa from 'execa';
-import chalk from 'chalk';
 import axios from './axios';
 
 import {
