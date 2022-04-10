@@ -10,7 +10,7 @@
 
 // Modified by Chao Xu (xuchaobei)
 
-import chalk from 'chalk';
+import { chalk } from './compiled';
 import { logger } from './logger';
 
 export function printBuildError(err: Error) {

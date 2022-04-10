@@ -1,5 +1,5 @@
 import os from 'os';
-import chalk from 'chalk';
+import { chalk } from './compiled';
 import { isDev } from './is';
 
 // TODO: type

@@ -57,7 +57,7 @@ jest.mock('os', () => {
   };
 });
 
-jest.mock('chalk', () => ({
+jest.mock('../compiled/chalk', () => ({
   __esModule: true,
   default: {
     bold: jest.fn(str => str),
