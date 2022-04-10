@@ -1,5 +1,5 @@
 export * as fs from 'fs-extra';
-export * from './chalk';
+export * from './compiled';
 export * from './format';
 export * from './FileSizeReporter';
 export * from './printBuildError';

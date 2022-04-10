@@ -25,6 +25,7 @@
     "**/*.log": true,
     "**/*.pid": true,
     "**/.git": true,
+    "**/compiled": true,
     "**/node_modules": true,
     "**/bower_components": true
   },

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import chalk from 'chalk';
+import { chalk } from './compiled';
 import { readTsConfigByFile } from './readTsConfig';
 import { applyOptionsChain } from './applyOptionsChain';
 

@@ -88,7 +88,6 @@
     "sass": "^1.45.0",
     "semver": "^7.3.5",
     "signale": "^1.4.0",
-    "strip-ansi": "^6.0.0",
     "strip-comments": "^2.0.1",
     "tsconfig-paths": "^3.9.0",
     "ws": "^7.4.3"
@@ -117,7 +116,6 @@
     "@types/node": "^16.9.2",
     "@types/semver": "^7.3.4",
     "@types/signale": "^1.4.1",
-    "@types/strip-ansi": "^5.2.1",
     "@types/strip-comments": "^2.0.0",
     "@types/ws": "^7.4.0",
     "fs-extra": "^9.1.0",

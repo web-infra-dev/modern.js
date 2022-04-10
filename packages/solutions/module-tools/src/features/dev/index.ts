@@ -1,6 +1,5 @@
-import { Import } from '@modern-js/utils';
+import { chalk, Import } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
-import chalk from 'chalk';
 
 const inquirer: typeof import('inquirer') = Import.lazy('inquirer', require);
 const color: typeof import('../../utils/color') = Import.lazy(
