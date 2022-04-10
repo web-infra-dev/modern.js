@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "new": "modern new",
-    "setup": "npm run reset && pnpm install --ignore-scripts",
+    "setup": "npm run reset && pnpm install",
     "reset": "pnpm dlx del-cli ./node_modules",
     "test": "npm run test:ut",
     "test:ut": "node --conditions=jsnext:source -r btsm node_modules/jest/bin/jest.js -c jest.config.js --maxWorkers=2",
@@ -47,12 +47,10 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
-      "git add"
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
     ],
     "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
-      "git add"
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
     ]
   },
   "eslintConfig": {
