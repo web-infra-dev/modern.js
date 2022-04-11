@@ -4585,10 +4585,10 @@ importers:
       filesize: 8.0.7
       fs-extra: ^10.0.0
       glob: ^7.1.7
-      gzip-size: ^6.0.0
+      gzip-size: 6.0.0
       import-lazy: 4.0.0
       jest: ^27
-      pkg-up: ^3.1.0
+      pkg-up: 3.1.0
       recursive-readdir: ^2.2.2
       strip-ansi: 6.0.1
       typescript: ^4
@@ -4605,8 +4605,6 @@ importers:
       execa: 5.1.1
       fs-extra: 10.0.0
       glob: 7.2.0
-      gzip-size: 6.0.0
-      pkg-up: 3.1.0
       recursive-readdir: 2.2.2
       typescript: 4.5.4
       upath: 2.0.1
@@ -4622,8 +4620,10 @@ importers:
       '@types/recursive-readdir': 2.2.0
       chalk: 4.1.2
       filesize: 8.0.7
+      gzip-size: 6.0.0
       import-lazy: 4.0.0
       jest: 27.4.5
+      pkg-up: 3.1.0
       strip-ansi: 6.0.1
       webpack: 5.71.0_esbuild@0.13.15
 
@@ -24550,7 +24550,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       duplexer: 0.1.2
-    dev: false
 
   /hagent/0.9.0:
     resolution: {integrity: sha512-1eDyqa3lHDwn278hxhjU26ZDB1QT8002UF8Mnh6q6tMn42ZB01tFW0JxcMqabpPgmgu21JfXEXkQEHCACjjyRw==}

@@ -19,6 +19,7 @@ export const TASKS = [
       // a few dependencies
       'strip-ansi',
       'gzip-size',
+      'pkg-up',
       // more dependencies
       'chalk',
     ],

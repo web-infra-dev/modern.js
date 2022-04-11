@@ -12,7 +12,6 @@ export * from './constants';
 export * from './ensureAbsolutePath';
 export * from './getCacheIdentifier';
 export * from './clearConsole';
-export * from './pkgUp';
 export * from './applyOptionsChain';
 export * from './getBrowserslist';
 export * from './removeSlash';
