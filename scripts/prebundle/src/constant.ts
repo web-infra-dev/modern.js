@@ -18,6 +18,7 @@ export const TASKS = [
       'import-lazy',
       // a few dependencies
       'strip-ansi',
+      'gzip-size',
       // more dependencies
       'chalk',
     ],

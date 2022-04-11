@@ -1,4 +1,5 @@
 import chalk from '../compiled/chalk';
+import gzipSize from '../compiled/gzip-size';
 import { Import } from './import';
 
 const filesize: typeof import('../compiled/filesize') = Import.lazy(
@@ -11,4 +12,4 @@ const stripAnsi: typeof import('../compiled/strip-ansi') = Import.lazy(
   require,
 );
 
-export { chalk, filesize, stripAnsi };
+export { chalk, filesize, stripAnsi, gzipSize };
