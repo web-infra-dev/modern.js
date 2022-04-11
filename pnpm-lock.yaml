@@ -4592,7 +4592,7 @@ importers:
       recursive-readdir: ^2.2.2
       strip-ansi: 6.0.1
       typescript: ^4
-      upath: ^2.0.1
+      upath: 2.0.1
       webpack: ^5.71.0
       yaml: ^1.10.2
     dependencies:
@@ -4607,7 +4607,6 @@ importers:
       glob: 7.2.0
       recursive-readdir: 2.2.2
       typescript: 4.5.4
-      upath: 2.0.1
       yaml: 1.10.2
     devDependencies:
       '@modern-js/types': link:../types
@@ -4625,6 +4624,7 @@ importers:
       jest: 27.4.5
       pkg-up: 3.1.0
       strip-ansi: 6.0.1
+      upath: 2.0.1
       webpack: 5.71.0_esbuild@0.13.15
 
   scripts/build:
@@ -37379,7 +37379,7 @@ packages:
   /upath/2.0.1:
     resolution: {integrity: sha512-1uEe95xksV1O0CYKXo8vQvN1JEbtJp7lb7C5U9HMsIp6IVwntkH/oNUzyVNQSd4S1sYk2FpSSW44FqMc8qee5w==}
     engines: {node: '>=4'}
-    dev: false
+    dev: true
 
   /update-check/1.5.2:
     resolution: {integrity: sha512-1TrmYLuLj/5ZovwUS7fFd1jMH3NnFDN1y1A8dboedIDt7zs/zJMo6TwwlhYKkSeEwzleeiSBV5/3c9ufAQWDaQ==}

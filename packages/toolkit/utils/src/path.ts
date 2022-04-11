@@ -1,5 +1,5 @@
 import path from 'path';
-import upath from 'upath';
+import { upath } from './compiled';
 
 export const isRelativePath = (test: string): boolean =>
   /^\.\.?($|[\\/])/.test(test);

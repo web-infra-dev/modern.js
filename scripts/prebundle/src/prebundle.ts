@@ -22,11 +22,24 @@ function emitIndex(code: string, distPath: string) {
 }
 
 function emitDts(task: ParsedTask) {
-  return new DtsPacker({
+  // eslint-disable-next-line no-new
+  new DtsPacker({
     cwd: task.packagePath,
     name: task.depName,
     typesRoot: task.distPath,
   });
+
+  // Fix "declare module 'xxx'"
+  if (task.depName === 'upath') {
+    const filePath = join(task.distPath, 'upath.d.ts');
+    const content = fs.readFileSync(filePath, 'utf-8');
+    const newContent = `${content.replace(
+      'declare module "upath"',
+      'declare namespace upath',
+    )}\nexport = upath;`;
+
+    fs.writeFileSync(filePath, newContent);
+  }
 }
 
 function emitPackageJson(task: ParsedTask) {

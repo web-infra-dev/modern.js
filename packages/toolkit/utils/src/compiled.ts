@@ -1,3 +1,4 @@
+import upath from '../compiled/upath';
 import chalk from '../compiled/chalk';
 import pkgUp from '../compiled/pkg-up';
 import gzipSize from '../compiled/gzip-size';
@@ -13,4 +14,4 @@ const stripAnsi: typeof import('../compiled/strip-ansi') = Import.lazy(
   require,
 );
 
-export { chalk, pkgUp, filesize, stripAnsi, gzipSize };
+export { chalk, upath, pkgUp, filesize, stripAnsi, gzipSize };

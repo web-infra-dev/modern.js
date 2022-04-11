@@ -14,6 +14,7 @@ export const TASKS = [
     packageName: '@modern-js/utils',
     dependencies: [
       // zero dependency
+      'upath',
       'filesize',
       'import-lazy',
       // a few dependencies
