@@ -69,7 +69,6 @@
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "@types/signale": "^1.4.2",
-    "execa": "^5.1.1",
     "jest": "^27",
     "typescript": "^4"
   },

@@ -1,6 +1,5 @@
 import * as path from 'path';
-import { fs } from '@modern-js/utils';
-import execa from 'execa';
+import { fs, execa } from '@modern-js/utils';
 import { LOCK_FILE } from '../constants';
 
 import { PackageManagerType } from '../parse-config';

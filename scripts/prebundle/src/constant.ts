@@ -26,6 +26,7 @@ export const TASKS = [
       'recursive-readdir',
       // more dependencies
       'chalk',
+      'execa',
       'fs-extra',
       'browserslist',
     ],

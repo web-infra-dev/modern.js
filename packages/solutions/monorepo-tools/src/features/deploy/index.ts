@@ -4,9 +4,8 @@ import {
   IPackageJson,
   JsonFile,
 } from '@rushstack/node-core-library';
-import execa from 'execa';
 import { success } from 'signale';
-import { fs, yaml, logger, chalk } from '@modern-js/utils';
+import { fs, yaml, execa, logger, chalk } from '@modern-js/utils';
 import { WORKSPACE_FILE } from '../../constants';
 import { IPnpmWorkSpace } from '../../type';
 import { DagOperator } from '../../dag/operator';

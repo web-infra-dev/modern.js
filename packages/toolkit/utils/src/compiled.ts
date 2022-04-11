@@ -9,6 +9,11 @@ export const yaml: typeof import('../compiled/js-yaml') = Import.lazy(
   require,
 );
 
+export const execa: typeof import('../compiled/execa') = Import.lazy(
+  '../compiled/execa',
+  require,
+);
+
 export const pkgUp: typeof import('../compiled/pkg-up') = Import.lazy(
   '../compiled/pkg-up',
   require,

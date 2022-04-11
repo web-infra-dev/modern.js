@@ -47,7 +47,6 @@
     "body-parser": "^1.19.0",
     "chokidar": "^3.5.2",
     "cors": "^2.8.5",
-    "execa": "5",
     "express": "^4.17.1",
     "glob": "^7.2.0",
     "http-proxy-middleware": "1",
