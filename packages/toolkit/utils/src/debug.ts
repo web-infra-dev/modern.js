@@ -1,4 +1,4 @@
-import debug from 'debug';
+import { debug } from './compiled';
 
 /**
  * Create debug function with unified namespace prefix.
