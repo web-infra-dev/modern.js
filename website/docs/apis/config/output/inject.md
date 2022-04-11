@@ -21,7 +21,7 @@ MWA。
 
 ## 默认插入位置
 
-默认情况下，`dev` 可以看到 script 标签会插入到 `head` 中：
+执行 `dev` 命令，可以看到 script 标签默认在 `head` 标签内：
 
 ```html
 <html>
@@ -40,7 +40,7 @@ MWA。
 
 ## 插入至 body 标签
 
-配置如下时:
+按照如下配置，可以将 script 插入至 body 标签：
 
 ```javascript title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
@@ -52,7 +52,7 @@ export default defineConfig({
 });
 ```
 
-可以看到 script 标签会插入到 `body` 中：
+执行 `dev` 命令，可以看到 script 标签在 `body` 标签尾部：
 
 ```html
 <html>
