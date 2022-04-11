@@ -1,13 +1,12 @@
 const path = require('path');
-const fs = require('fs');
-const fse = require('fs-extra');
+const { fs } = require('@modern-js/utils');
 
 const src = path.resolve(__dirname, '../src/client');
 const dist = path.resolve(__dirname, '../dist/client');
 
 const JS_EXT_REGEXP = /\.(mjs|cjs|js|jsx)$/;
 
-fse.copy(
+fs.copy(
   src,
   dist,
   {

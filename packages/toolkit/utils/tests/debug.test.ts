@@ -1,4 +1,4 @@
-import debug from 'debug';
+import { debug } from '../src/compiled';
 import { stripAnsi } from '../src';
 import { createDebugger } from '../src/debug';
 

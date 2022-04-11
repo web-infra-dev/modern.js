@@ -1,8 +1,7 @@
 import path from 'path';
 import os from 'os';
-import { fs, logger } from '@modern-js/utils';
+import { fs, logger, yaml } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
-import { load, dump } from 'js-yaml';
 import OSS from 'ali-oss';
 import walk from 'walk';
 
@@ -50,7 +49,7 @@ export default (): CliPlugin => ({
           if (!fs.existsSync(profDir)) {
             fs.mkdirSync(profDir);
           }
-          fs.writeFileSync(profPath, dump(deploySpec));
+          fs.writeFileSync(profPath, yaml.dump(deploySpec));
         } else if (!fs.existsSync(profPath)) {
           logger.warn(
             'Using Aliyun must provide AccountId, SecretId and SecretKey, visit xxx to see more information',
@@ -101,7 +100,7 @@ export default (): CliPlugin => ({
         const {
           access_key_id: accessKeyId,
           access_key_secret: accessKeySecret,
-        } = load(config) as AliYunConfigYaml;
+        } = yaml.load(config) as AliYunConfigYaml;
 
         const ossClient = new OSS({
           accessKeyId: process.env.CLOUD_SECRET_ID || accessKeyId,

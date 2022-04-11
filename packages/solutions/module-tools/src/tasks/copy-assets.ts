@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { fs, watch, WatchChangeType, Import } from '@modern-js/utils';
+import { fs, watch, glob, WatchChangeType, Import } from '@modern-js/utils';
 import type {
   NormalizedConfig,
   IAppContext,
@@ -11,7 +11,6 @@ const argv: typeof import('process.argv').default = Import.lazy(
   'process.argv',
   require,
 );
-const glob: typeof import('glob') = Import.lazy('glob', require);
 const core: typeof import('@modern-js/core') = Import.lazy(
   '@modern-js/core',
   require,

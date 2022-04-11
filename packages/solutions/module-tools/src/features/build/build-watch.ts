@@ -1,11 +1,10 @@
 import * as path from 'path';
 import * as os from 'os';
-import { Import } from '@modern-js/utils';
+import { execa, Import } from '@modern-js/utils';
 
 import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
 import type { IBuildConfig, ITaskMapper } from '../../types';
 
-const execa: typeof import('execa') = Import.lazy('execa', require);
 const lg: typeof import('./logger') = Import.lazy('./logger', require);
 const pMap: typeof import('p-map') = Import.lazy('p-map', require);
 const utils: typeof import('./utils') = Import.lazy('./utils', require);

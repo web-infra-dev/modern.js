@@ -1,6 +1,5 @@
 import * as path from 'path';
-import { fs } from '@modern-js/utils';
-import yaml from 'js-yaml';
+import { fs, yaml } from '@modern-js/utils';
 import { JsonFile } from '@rushstack/node-core-library';
 import { WORKSPACE_FILE } from '../../constants';
 import type { ICommandConfig, IPnpmWorkSpace } from '../../type';
@@ -22,15 +21,12 @@ const replaceWorkspaces = ({
   const pnpmWsFilePath = path.join(rootPath, WORKSPACE_FILE.PNPM);
   if (fs.existsSync(pnpmWsFilePath)) {
     const pnpmWorkspace = fs.readFileSync(pnpmWsFilePath, 'utf-8');
-    // eslint-disable-next-line import/no-named-as-default-member
     const orignalPnpmWorkspaces = yaml.load(pnpmWorkspace) as IPnpmWorkSpace;
     fs.writeFileSync(
       pnpmWsFilePath,
-      // eslint-disable-next-line import/no-named-as-default-member
       yaml.dump({ packages: projectsInWorkspacs }),
     );
     return () => {
-      // eslint-disable-next-line import/no-named-as-default-member
       yaml.dump(orignalPnpmWorkspaces);
     };
   }
