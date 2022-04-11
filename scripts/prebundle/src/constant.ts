@@ -25,6 +25,7 @@ export const TASKS = [
       'pkg-up',
       'recursive-readdir',
       // more dependencies
+      'glob',
       'chalk',
       'execa',
       'fs-extra',

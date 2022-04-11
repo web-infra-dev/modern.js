@@ -1,5 +1,5 @@
 import path from 'path';
-import glob from 'glob';
+import { glob } from '@modern-js/utils';
 
 // get style file's real path
 const getRealFiles = (files: string[] = [], stylesDir = process.cwd()) =>

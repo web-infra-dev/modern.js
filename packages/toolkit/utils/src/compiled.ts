@@ -3,6 +3,12 @@ import chalk from '../compiled/chalk';
 import { Import } from './import';
 
 export { fs, chalk };
+export type { IOptions as GlobOptions } from '../compiled/glob';
+
+export const glob: typeof import('../compiled/glob') = Import.lazy(
+  '../compiled/glob',
+  require,
+);
 
 export const yaml: typeof import('../compiled/js-yaml') = Import.lazy(
   '../compiled/js-yaml',

@@ -1,5 +1,4 @@
-import * as glob from 'glob';
-import { chalk } from '@modern-js/utils';
+import { glob, chalk } from '@modern-js/utils';
 
 interface ValidOption {
   stories: string[];

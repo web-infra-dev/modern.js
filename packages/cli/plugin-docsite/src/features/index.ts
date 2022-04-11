@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs, Import, logger } from '@modern-js/utils';
+import { fs, glob, Import, logger } from '@modern-js/utils';
 import type { Configuration } from 'webpack';
 import { valid } from './utils/valid';
 
@@ -9,7 +9,6 @@ const wp: typeof import('./utils/webpack') = Import.lazy(
   './utils/webpack',
   require,
 );
-const glob: typeof import('glob') = Import.lazy('glob', require);
 
 const DEFAULT_PORT = 5000;
 
