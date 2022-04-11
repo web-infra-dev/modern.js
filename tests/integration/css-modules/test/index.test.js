@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 
 const { join } = require('path');
-const { readdir, readFile, remove } = require('fs-extra');
+const { fs } = require('@modern-js/utils');
 const {
   modernBuild,
   getPort,
@@ -11,6 +11,8 @@ const {
   installDeps,
   clearBuildDist,
 } = require('../../../utils/modernTestUtils');
+
+const { readdir, readFile, remove } = fs;
 
 const fixturesDir = join(__dirname, '../fixtures');
 

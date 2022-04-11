@@ -14,12 +14,23 @@ export const TASKS = [
     packageName: '@modern-js/utils',
     dependencies: [
       // zero dependency
+      'upath',
       'filesize',
       'import-lazy',
       // a few dependencies
+      'debug',
+      'js-yaml',
       'strip-ansi',
+      'gzip-size',
+      'pkg-up',
+      'recursive-readdir',
       // more dependencies
+      'glob',
       'chalk',
+      'execa',
+      'fs-extra',
+      'browserslist',
+      'chokidar',
     ],
   },
 ];

@@ -1,6 +1,5 @@
 import * as path from 'path';
-import { logger, fs } from '@modern-js/utils';
-import glob from 'glob';
+import { logger, fs, glob } from '@modern-js/utils';
 
 const validEditorDirectory = (
   appDirectory: string,

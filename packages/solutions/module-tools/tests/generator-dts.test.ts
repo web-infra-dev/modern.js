@@ -9,17 +9,6 @@ jest.mock('@modern-js/core', () => ({
   },
 }));
 jest.mock('process.argv', () => () => (o: any) => ({ ...o, tsCheck: false }));
-jest.mock('execa', () => () => {
-  // eslint-disable-next-line prefer-promise-reject-errors
-  const fn = Promise.reject('error');
-  (fn as any).stdout = {
-    on: () => 0,
-  };
-  (fn as any).stderr = {
-    on: () => 0,
-  };
-  return fn;
-});
 jest.mock('../src/tasks/generator-dts/utils');
 jest.mock('@modern-js/utils', () => {
   const originalModule = jest.requireActual('@modern-js/utils');

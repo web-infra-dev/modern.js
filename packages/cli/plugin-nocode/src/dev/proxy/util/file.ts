@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import chokidar from 'chokidar';
+import { chokidar } from '@modern-js/utils';
 
 export const cwdFileChange = (list: any) => {
   const cwd = process.cwd();

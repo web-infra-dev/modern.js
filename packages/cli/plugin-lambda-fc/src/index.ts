@@ -1,9 +1,8 @@
 import path from 'path';
 import os from 'os';
 import cp from 'child_process';
-import { fs, getPackageManager, logger } from '@modern-js/utils';
+import { fs, yaml, getPackageManager, logger } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
-import { dump } from 'js-yaml';
 import { entry, spec } from './generator';
 
 export default (): CliPlugin => ({
@@ -44,7 +43,7 @@ export default (): CliPlugin => ({
           if (!fs.existsSync(profDir)) {
             fs.mkdirSync(profDir);
           }
-          fs.writeFileSync(profPath, dump(deploySpec));
+          fs.writeFileSync(profPath, yaml.dump(deploySpec));
         } else if (!fs.existsSync(profPath)) {
           logger.warn(
             'Deployment to Aliyun must provide AccountId, SecretId and SecretKey, visit xxx to see more information',
@@ -74,7 +73,7 @@ export default (): CliPlugin => ({
           serviceName: `${name}-service`,
           funcName: `${name}-fun`,
         });
-        const yamlStr = dump(jsonspec);
+        const yamlStr = yaml.dump(jsonspec);
         fs.writeFileSync(path.join(publishDir, 'template.yml'), yamlStr);
 
         // app.js

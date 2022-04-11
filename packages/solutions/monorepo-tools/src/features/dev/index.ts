@@ -1,5 +1,5 @@
-import { Import } from '@rushstack/node-core-library';
 import anymatch from 'anymatch';
+import { chokidar } from '@modern-js/utils';
 import { ICommandConfig } from '../../type';
 import { MultitasksLogger } from '../../log/multi-tasks-log';
 import { DagOperator } from '../../dag/operator';
@@ -8,8 +8,6 @@ import { Argu } from '../../utils/types';
 import { WatchedProjectsState } from './watch-projects-state';
 import { defaultBuildWatchCmds, BuildWatchCmdsType } from './cmds';
 import { createDependenciesTask, createDevTask } from './create-task';
-
-const chokidar: typeof import('chokidar') = Import.lazy('chokidar', require);
 
 export interface IBuildWatchConfig extends ICommandConfig {
   onlySelf?: boolean;
@@ -59,7 +57,7 @@ export const runBuildWatchTask = async (
   const fromNodes = operator.getNodeAllDependencyData(projectName);
   const watchedProjectState = new WatchedProjectsState(fromNodes, config);
 
-  const watcher: import('chokidar').FSWatcher = new chokidar.FSWatcher({
+  const watcher = new chokidar.FSWatcher({
     persistent: true,
     cwd: config.rootPath,
     followSymlinks: false,

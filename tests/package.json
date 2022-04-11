@@ -18,6 +18,7 @@
     "jest": "^27.3.1",
     "@modern-js/app-tools": "workspace:^1.2.0",
     "@modern-js/core": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "@modern-js/plugin-polyfill": "workspace:^1.1.1",
     "@modern-js/plugin-testing": "workspace:^1.2.2",
     "axios": "^0.24.0",

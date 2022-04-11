@@ -1,5 +1,5 @@
 import path from 'path';
-import fs from 'fs-extra';
+import { fs } from '@modern-js/utils';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { getBundleEntry } from '../src/getBundleEntry';
 import { getClientRoutes } from '../src/getClientRoutes';

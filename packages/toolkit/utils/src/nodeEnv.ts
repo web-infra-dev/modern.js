@@ -1,4 +1,4 @@
-import execa from 'execa';
+import { execa } from './compiled';
 
 export async function canUseNpm() {
   try {

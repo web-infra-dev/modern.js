@@ -6,7 +6,7 @@ import type {
   CoreOptions,
 } from '@modern-js/core';
 import type { ICompilerResult, PostcssOption } from '@modern-js/style-compiler';
-import { fs, watch, WatchChangeType, Import } from '@modern-js/utils';
+import { fs, glob, watch, WatchChangeType, Import } from '@modern-js/utils';
 import type { ModuleToolsOutput } from '../types';
 
 const logger: typeof import('../features/build/logger') = Import.lazy(
@@ -26,7 +26,6 @@ const compiler: typeof import('@modern-js/style-compiler') = Import.lazy(
   '@modern-js/style-compiler',
   require,
 );
-const glob: typeof import('glob') = Import.lazy('glob', require);
 
 const STYLE_DIRS = 'styles';
 const SRC_STYLE_DIRS = 'src';

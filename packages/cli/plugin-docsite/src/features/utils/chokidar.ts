@@ -1,7 +1,5 @@
 import path from 'path';
-import { logger } from '@modern-js/utils';
-import chokidar from 'chokidar';
-import glob from 'glob';
+import { glob, logger, chokidar } from '@modern-js/utils';
 import { generateFiles } from './generate-files';
 
 export function chokidarFile(

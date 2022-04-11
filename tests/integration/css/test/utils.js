@@ -1,5 +1,7 @@
 const path = require('path');
-const { readdirSync, readFileSync, copySync } = require('fs-extra');
+const { fs } = require('@modern-js/utils');
+
+const { readdirSync, readFileSync, copySync } = fs;
 
 const getCssFiles = appDir =>
   readdirSync(path.resolve(appDir, 'dist/static/css')).filter(filepath =>
