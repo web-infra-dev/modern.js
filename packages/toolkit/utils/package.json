@@ -51,7 +51,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "chokidar": "^3.5.2",
     "typescript": "^4"
   },
   "devDependencies": {
@@ -69,6 +68,7 @@
     "browserslist": "4.20.2",
     "import-lazy": "4.0.0",
     "chalk": "4.1.2",
+    "chokidar": "3.5.3",
     "debug": "4.3.4",
     "glob": "7.2.0",
     "execa": "5.1.1",

@@ -53,7 +53,6 @@
     "@rushstack/node-core-library": "^3.39.1",
     "@rushstack/package-deps-hash": "^3.0.54",
     "anymatch": "^3.1.2",
-    "chokidar": "^3.5.2",
     "commander": "^8.1.0",
     "globby": "^11.0.0",
     "md5": "^2.3.0",

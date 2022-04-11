@@ -30,6 +30,7 @@ export const TASKS = [
       'execa',
       'fs-extra',
       'browserslist',
+      'chokidar',
     ],
   },
 ];

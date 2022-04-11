@@ -4,6 +4,7 @@ import { Import } from './import';
 
 export { fs, chalk };
 export type { IOptions as GlobOptions } from '../compiled/glob';
+export type { FSWatcher, WatchOptions } from '../compiled/chokidar';
 
 export const glob: typeof import('../compiled/glob') = Import.lazy(
   '../compiled/glob',
@@ -32,6 +33,11 @@ export const upath: typeof import('../compiled/upath') = Import.lazy(
 
 export const debug: typeof import('../compiled/debug') = Import.lazy(
   '../compiled/debug',
+  require,
+);
+
+export const chokidar: typeof import('../compiled/chokidar') = Import.lazy(
+  '../compiled/chokidar',
   require,
 );
 
