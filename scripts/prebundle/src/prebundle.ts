@@ -22,12 +22,17 @@ function emitIndex(code: string, distPath: string) {
 }
 
 function emitDts(task: ParsedTask) {
-  // eslint-disable-next-line no-new
-  new DtsPacker({
-    cwd: task.packagePath,
-    name: task.depName,
-    typesRoot: task.distPath,
-  });
+  try {
+    // eslint-disable-next-line no-new
+    new DtsPacker({
+      cwd: task.packagePath,
+      name: task.depName,
+      typesRoot: task.distPath,
+    });
+  } catch (error) {
+    console.error(`DtsPacker failed: ${task.depName}`);
+    console.error(error);
+  }
 
   // Fix "declare module 'xxx'"
   if (task.depName === 'upath') {

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import glob from 'glob';
-import yaml from 'yaml';
+import { yaml } from './compiled';
 
 const PACKAGE_MAX_DEPTH = 5;
 
@@ -79,9 +79,11 @@ export const getMonorepoPackages = (
     );
     ({ packages } = json);
   } else {
-    ({ packages } = yaml.parse(
+    ({ packages } = yaml.load(
       fs.readFileSync(path.join(root, WOKRSPACES_FILES.PNPM), 'utf8'),
-    ));
+    ) as {
+      packages: string[];
+    });
   }
 
   if (packages) {

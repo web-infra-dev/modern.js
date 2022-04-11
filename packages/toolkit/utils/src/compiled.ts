@@ -1,3 +1,4 @@
+import yaml from '../compiled/js-yaml';
 import upath from '../compiled/upath';
 import chalk from '../compiled/chalk';
 import pkgUp from '../compiled/pkg-up';
@@ -14,4 +15,4 @@ const stripAnsi: typeof import('../compiled/strip-ansi') = Import.lazy(
   require,
 );
 
-export { chalk, upath, pkgUp, filesize, stripAnsi, gzipSize };
+export { yaml, chalk, upath, pkgUp, filesize, stripAnsi, gzipSize };

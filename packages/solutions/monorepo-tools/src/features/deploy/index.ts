@@ -6,8 +6,7 @@ import {
 } from '@rushstack/node-core-library';
 import execa from 'execa';
 import { success } from 'signale';
-import yaml from 'js-yaml';
-import { fs, logger, chalk } from '@modern-js/utils';
+import { fs, yaml, logger, chalk } from '@modern-js/utils';
 import { WORKSPACE_FILE } from '../../constants';
 import { IPnpmWorkSpace } from '../../type';
 import { DagOperator } from '../../dag/operator';
@@ -55,14 +54,12 @@ const checkAndUpdatePMWorkspaces = (deployDir: string) => {
   // pnpm-workspace
   const pnpmWp = path.join(deployDir, WORKSPACE_FILE.PNPM);
   if (fs.existsSync(pnpmWp)) {
-    // eslint-disable-next-line import/no-named-as-default-member
     const pnpmWorkspace = yaml.load(
       fs.readFileSync(pnpmWp, 'utf-8'),
     ) as IPnpmWorkSpace;
     if (pnpmWorkspace.packages && Array.isArray(pnpmWorkspace.packages)) {
       pnpmWorkspace.packages.push('apps/**');
     }
-    // eslint-disable-next-line import/no-named-as-default-member
     fs.writeFileSync(pnpmWp, yaml.dump(pnpmWorkspace));
   }
 
