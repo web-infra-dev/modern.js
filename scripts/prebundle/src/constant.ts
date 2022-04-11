@@ -23,6 +23,7 @@ export const TASKS = [
       'strip-ansi',
       'gzip-size',
       'pkg-up',
+      'recursive-readdir',
       // more dependencies
       'chalk',
       'fs-extra',

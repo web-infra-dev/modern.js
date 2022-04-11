@@ -13,8 +13,13 @@
 
 import fs from 'fs';
 import path from 'path';
-import { chalk, filesize, stripAnsi, gzipSize } from './compiled';
-import recursive from 'recursive-readdir';
+import {
+  chalk,
+  filesize,
+  stripAnsi,
+  gzipSize,
+  recursiveReaddir,
+} from './compiled';
 import { logger } from './logger';
 
 function canReadAsset(asset: string) {
@@ -167,7 +172,7 @@ function measureFileSizesBeforeBuild(
   buildFolder: string,
 ): Promise<{ root: string; sizes: Record<string, number[]> }> {
   return new Promise(resolve => {
-    recursive(buildFolder, (err, fileNames) => {
+    recursiveReaddir(buildFolder, (err, fileNames) => {
       var sizes;
       if (!err && fileNames) {
         sizes = fileNames

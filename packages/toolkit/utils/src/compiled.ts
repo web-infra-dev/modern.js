@@ -41,3 +41,6 @@ export const stripAnsi: typeof import('../compiled/strip-ansi') = Import.lazy(
 
 export const browserslist: typeof import('../compiled/browserslist') =
   Import.lazy('../compiled/browserslist', require);
+
+export const recursiveReaddir: typeof import('../compiled/recursive-readdir') =
+  Import.lazy('../compiled/recursive-readdir', require);
