@@ -1,5 +1,5 @@
 import os from 'os';
-import execa from 'execa';
+import { execa } from '@modern-js/utils';
 import signale from 'signale';
 import type { IProjectNode } from '../../projects/get-projects';
 import type { ICommandConfig } from '../../type';

@@ -1,5 +1,5 @@
 import nodePath from 'path';
-import fs from 'fs-extra';
+import { fs } from '@modern-js/utils';
 import * as babel from '@babel/core';
 import type { NodePath } from '@babel/core';
 import type { Binding, Visitor } from '@babel/traverse';

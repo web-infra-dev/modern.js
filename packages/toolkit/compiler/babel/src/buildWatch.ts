@@ -1,7 +1,6 @@
 import * as path from 'path';
 import * as Event from 'events';
-import { logger, watch, WatchChangeType } from '@modern-js/utils';
-import { FSWatcher } from 'chokidar';
+import { logger, watch, FSWatcher, WatchChangeType } from '@modern-js/utils';
 import { build } from './build';
 import { CompilerErrorResult } from './compilerErrorResult';
 import type {

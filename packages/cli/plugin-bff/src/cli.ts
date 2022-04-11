@@ -1,7 +1,11 @@
 import path from 'path';
-import fs from 'fs-extra';
 import { compiler } from '@modern-js/babel-compiler';
-import { PLUGIN_SCHEMAS, normalizeOutputPath, API_DIR } from '@modern-js/utils';
+import {
+  fs,
+  API_DIR,
+  PLUGIN_SCHEMAS,
+  normalizeOutputPath,
+} from '@modern-js/utils';
 import { resolveBabelConfig } from '@modern-js/server-utils';
 
 import type { Configuration } from 'webpack';

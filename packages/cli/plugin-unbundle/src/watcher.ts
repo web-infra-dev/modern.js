@@ -1,4 +1,4 @@
-import chokidar, { FSWatcher } from 'chokidar';
+import { chokidar, FSWatcher } from '@modern-js/utils';
 
 let _watcher: FSWatcher;
 

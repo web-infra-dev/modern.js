@@ -3,7 +3,7 @@ import {
   ResolverFactory,
   Resolver,
 } from 'enhanced-resolve';
-import fs from 'fs-extra';
+import { fs } from '@modern-js/utils';
 
 const resolver: Resolver = ResolverFactory.createResolver({
   fileSystem: new CachedInputFileSystem(fs, 4000),

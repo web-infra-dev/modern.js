@@ -1,5 +1,5 @@
 import path from 'path';
-import fs from 'fs-extra';
+import { fs } from '@modern-js/utils';
 import type { EsmpackPlugin } from '../Options';
 import type { Compiler } from '../Compiler';
 import { rewriteExports } from '../utils/rewriteExports';

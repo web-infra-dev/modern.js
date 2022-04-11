@@ -1,6 +1,6 @@
 import os from 'os';
 import path from 'path';
-import fs from 'fs-extra';
+import { fs } from './compiled';
 import { canUsePnpm, canUseYarn } from './nodeEnv';
 
 const MAX_TIMES = 5;

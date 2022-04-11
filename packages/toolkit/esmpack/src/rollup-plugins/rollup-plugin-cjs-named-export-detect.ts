@@ -1,5 +1,5 @@
 import path from 'path';
-import fs from 'fs-extra';
+import { fs } from '@modern-js/utils';
 import { isPlainObject } from 'lodash';
 import type { Plugin } from 'rollup';
 import { init, parse } from 'es-module-lexer';

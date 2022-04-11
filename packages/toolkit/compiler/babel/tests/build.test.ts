@@ -1,6 +1,5 @@
 import * as path from 'path';
-import * as glob from 'glob';
-import { fs, logger } from '@modern-js/utils';
+import { fs, glob, logger } from '@modern-js/utils';
 import { build } from '../src/build';
 
 const projectDir = path.join(__dirname, './fixtures/build');

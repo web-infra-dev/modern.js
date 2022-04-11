@@ -1,5 +1,4 @@
-import execa from 'execa';
-import { logger } from '@modern-js/utils';
+import { execa, logger } from '@modern-js/utils';
 import type { IProjectNode } from '../../projects/get-projects';
 import { errorLog } from '../../log/error';
 import * as timeLog from '../../log/time';
