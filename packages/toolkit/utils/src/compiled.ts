@@ -1,23 +1,42 @@
-import yaml from '../compiled/js-yaml';
-import upath from '../compiled/upath';
 import chalk from '../compiled/chalk';
-import pkgUp from '../compiled/pkg-up';
-import gzipSize from '../compiled/gzip-size';
 import { Import } from './import';
 
-const debug: typeof import('../compiled/debug') = Import.lazy(
+export { chalk };
+
+export const yaml: typeof import('../compiled/js-yaml') = Import.lazy(
+  '../compiled/js-yaml',
+  require,
+);
+
+export const pkgUp: typeof import('../compiled/pkg-up') = Import.lazy(
+  '../compiled/pkg-up',
+  require,
+);
+
+export const upath: typeof import('../compiled/upath') = Import.lazy(
+  '../compiled/upath',
+  require,
+);
+
+export const debug: typeof import('../compiled/debug') = Import.lazy(
   '../compiled/debug',
   require,
 );
 
-const filesize: typeof import('../compiled/filesize') = Import.lazy(
+export const gzipSize: typeof import('../compiled/gzip-size') = Import.lazy(
+  '../compiled/gzip-size',
+  require,
+);
+
+export const filesize: typeof import('../compiled/filesize') = Import.lazy(
   '../compiled/filesize',
   require,
 );
 
-const stripAnsi: typeof import('../compiled/strip-ansi') = Import.lazy(
+export const stripAnsi: typeof import('../compiled/strip-ansi') = Import.lazy(
   '../compiled/strip-ansi',
   require,
 );
 
-export { yaml, chalk, debug, upath, pkgUp, filesize, stripAnsi, gzipSize };
+export const browserslist: typeof import('../compiled/browserslist') =
+  Import.lazy('../compiled/browserslist', require);

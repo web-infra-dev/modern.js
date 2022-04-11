@@ -52,7 +52,6 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@types/fs-extra": "^9.0.12",
-    "browserslist": "^4.16.7",
     "chokidar": "^3.5.2",
     "execa": "5",
     "fs-extra": "^10.0.0",
@@ -72,6 +71,7 @@
     "@types/js-yaml": "4.0.5",
     "@types/recursive-readdir": "^2.2.0",
     "jest": "^27",
+    "browserslist": "4.20.2",
     "import-lazy": "4.0.0",
     "chalk": "4.1.2",
     "debug": "4.3.4",
