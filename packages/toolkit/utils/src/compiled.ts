@@ -1,7 +1,8 @@
+import fs from '../compiled/fs-extra';
 import chalk from '../compiled/chalk';
 import { Import } from './import';
 
-export { chalk };
+export { fs, chalk };
 
 export const yaml: typeof import('../compiled/js-yaml') = Import.lazy(
   '../compiled/js-yaml',

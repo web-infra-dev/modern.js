@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
 const path = require('path');
-const fs = require('fs');
 const { resolve } = require('path');
-const { readdirSync, readFileSync } = require('fs-extra');
+const { fs } = require('@modern-js/utils');
 const {
   modernBuild,
   installDeps,
@@ -13,6 +12,8 @@ const {
 } = require('../../../utils/modernTestUtils');
 
 const { getCssFiles, readCssFile, copyModules } = require('./utils');
+
+const { readdirSync, readFileSync } = fs;
 
 const fixtures = path.resolve(__dirname, '../fixtures');
 

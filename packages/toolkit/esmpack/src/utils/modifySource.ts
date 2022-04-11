@@ -1,4 +1,4 @@
-import fs from 'fs-extra';
+import { fs } from '@modern-js/utils';
 import type { Logger } from '../Logger';
 
 export function modifySourceBySpecifier(

@@ -1,4 +1,3 @@
-export * as fs from 'fs-extra';
 export * from './compiled';
 export * from './format';
 export * from './FileSizeReporter';

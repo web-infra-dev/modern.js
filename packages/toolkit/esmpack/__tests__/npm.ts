@@ -1,6 +1,6 @@
 import path from 'path';
 import axios from 'axios';
-import fs from 'fs-extra';
+import { fs } from '@modern-js/utils';
 import tar from 'tar-fs';
 import gunzip from 'gunzip-maybe';
 import execa from 'execa';

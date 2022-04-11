@@ -118,7 +118,6 @@
     "@types/signale": "^1.4.1",
     "@types/strip-comments": "^2.0.0",
     "@types/ws": "^7.4.0",
-    "fs-extra": "^9.1.0",
     "jest": "^27",
     "typescript": "^4",
     "axios": "^0.26.0",

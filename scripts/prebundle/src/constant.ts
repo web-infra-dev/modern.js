@@ -25,6 +25,7 @@ export const TASKS = [
       'pkg-up',
       // more dependencies
       'chalk',
+      'fs-extra',
       'browserslist',
     ],
   },
