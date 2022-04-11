@@ -1,5 +1,5 @@
 import * as path from 'path';
-import * as chokidar from 'chokidar';
+import { chokidar } from '@modern-js/utils';
 
 export type ChangeTypeValueT = 'add' | 'unlink' | 'change';
 

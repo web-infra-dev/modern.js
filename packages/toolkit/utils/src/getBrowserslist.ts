@@ -1,6 +1,6 @@
-import { loadConfig } from 'browserslist';
+import { browserslist } from './compiled';
 
 export const defaults = ['> 0.01%', 'not dead', 'not op_mini all'];
 
 export const getBrowserslist = (appDirectory: string) =>
-  loadConfig({ path: appDirectory }) || defaults;
+  browserslist.loadConfig({ path: appDirectory }) || defaults;

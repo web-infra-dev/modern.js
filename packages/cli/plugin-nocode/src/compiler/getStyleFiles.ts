@@ -1,5 +1,5 @@
 import * as path from 'path';
-import glob from 'glob';
+import { glob } from '@modern-js/utils';
 
 export default (rootDir: string, entryPath: string) => {
   const stylesPath = path.resolve(rootDir, 'styles');

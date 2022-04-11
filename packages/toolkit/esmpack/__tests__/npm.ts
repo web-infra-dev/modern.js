@@ -1,9 +1,8 @@
 import path from 'path';
 import axios from 'axios';
-import fs from 'fs-extra';
+import { fs, execa } from '@modern-js/utils';
 import tar from 'tar-fs';
 import gunzip from 'gunzip-maybe';
-import execa from 'execa';
 
 const NPM_REGISTRY_URL = 'http://registry.npmjs.org';
 

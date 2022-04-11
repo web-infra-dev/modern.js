@@ -1,6 +1,6 @@
 import path from 'path';
 import os from 'os';
-import fs from 'fs-extra';
+import { fs } from '@modern-js/utils';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
   CodeSmith,
