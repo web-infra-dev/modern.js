@@ -1,4 +1,4 @@
-import execa from 'execa';
+import { execa } from '@modern-js/utils';
 
 export const CHANGESET_PATH = require.resolve('@changesets/cli');
 

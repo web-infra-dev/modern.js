@@ -1,5 +1,4 @@
-import * as glob from 'glob';
-import type { IOptions } from 'glob';
+import { glob, GlobOptions } from '@modern-js/utils';
 import { DEFAULT_EXTENSIONS } from '@babel/core';
 import {
   Extensions,
@@ -45,7 +44,7 @@ export const getFilesFromDir = ({
 }: {
   dir: string;
   finalExt?: string[];
-  ignore?: IOptions['ignore'];
+  ignore?: GlobOptions['ignore'];
 }) => {
   let globFindFilenames: string[] = [];
   const globPattern = getGlobPattern(dir, finalExt);

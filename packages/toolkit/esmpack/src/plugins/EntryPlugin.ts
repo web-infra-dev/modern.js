@@ -1,6 +1,6 @@
 import path from 'path';
-import fs from 'fs-extra';
 import findUp from 'find-up';
+import { fs } from '@modern-js/utils';
 import type { Compiler } from '../Compiler';
 import type { EsmpackPlugin } from '../Options';
 import { getWebDependencyName, normalizePackageName } from '../utils/package';

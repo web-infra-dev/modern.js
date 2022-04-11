@@ -1,5 +1,5 @@
 import path from 'path';
-import fs from 'fs-extra';
+import { fs } from './compiled';
 import { normalizeOutputPath } from './path';
 
 const memo = <T extends (...args: any[]) => any>(fn: T) => {

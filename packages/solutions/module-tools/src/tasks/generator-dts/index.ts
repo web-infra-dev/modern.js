@@ -1,5 +1,5 @@
 import type { ChildProcess } from 'child_process';
-import { Import, fs, isObject } from '@modern-js/utils';
+import { Import, execa, fs, isObject } from '@modern-js/utils';
 import type { NormalizedConfig, CoreOptions } from '@modern-js/core';
 import type { ITsconfig } from '../../types';
 import { getTscBinPath, IGeneratorConfig } from './utils';
@@ -8,7 +8,6 @@ const core: typeof import('@modern-js/core') = Import.lazy(
   '@modern-js/core',
   require,
 );
-const execa: typeof import('execa') = Import.lazy('execa', require);
 const JSON5: typeof import('json5') = Import.lazy('json5', require);
 const argv: typeof import('process.argv').default = Import.lazy(
   'process.argv',

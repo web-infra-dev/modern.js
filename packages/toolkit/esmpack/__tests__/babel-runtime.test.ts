@@ -1,5 +1,5 @@
 import path from 'path';
-import fs from 'fs-extra';
+import { fs } from '@modern-js/utils';
 import { Compiler, esmpack } from '../src';
 import { Compilation } from '../src/Compilation';
 import { preparePackage } from './npm';

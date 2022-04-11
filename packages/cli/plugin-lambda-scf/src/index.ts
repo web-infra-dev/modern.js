@@ -1,9 +1,8 @@
 import path from 'path';
 import os from 'os';
 import cp from 'child_process';
-import { fs, getPackageManager, logger } from '@modern-js/utils';
+import { fs, yaml, getPackageManager, logger } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
-import { dump } from 'js-yaml';
 import { entry, spec } from './generator';
 
 const tmpDir = '.modern-tencent-serverless';
@@ -49,7 +48,7 @@ export default (): CliPlugin => ({
           funcName: `${name}-fun`,
           region: process.env.CLOUD_REGION || 'ap-guangzhou',
         });
-        const yamlStr = dump(jsonspec);
+        const yamlStr = yaml.dump(jsonspec);
         fs.writeFileSync(path.join(publishDir, 'serverless.yml'), yamlStr);
 
         // app.js

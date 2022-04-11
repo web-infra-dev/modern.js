@@ -1,8 +1,7 @@
-import { Import, chalk } from '@modern-js/utils';
+import { execa, Import, chalk } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type { LoggerText } from './logger';
 
-const execa: typeof import('execa') = Import.lazy('execa', require);
 const lg: typeof import('./logger') = Import.lazy('./logger', require);
 const pMap: typeof import('p-map') = Import.lazy('p-map', require);
 

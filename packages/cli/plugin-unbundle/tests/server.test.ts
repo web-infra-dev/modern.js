@@ -1,7 +1,7 @@
 import { createServer } from 'http';
 // eslint-disable-next-line node/no-unsupported-features/node-builtins
 import { createSecureServer } from 'http2';
-import { FSWatcher } from 'chokidar';
+import { chokidar } from '@modern-js/utils';
 import { certificateFor } from 'devcert';
 import { mountHook } from '@modern-js/core';
 import * as ServerModule from '../src/server';
@@ -65,7 +65,9 @@ describe('plugin-unbundle server', () => {
   };
 
   beforeAll(() => {
-    (fsWatcher.init as jest.Mock).mockImplementation(() => new FSWatcher());
+    (fsWatcher.init as jest.Mock).mockImplementation(
+      () => new chokidar.FSWatcher(),
+    );
     (proxyMiddleware as jest.Mock).mockImplementation(() => []);
     (certificateFor as jest.Mock).mockImplementation(() => ({}));
   });
@@ -115,7 +117,7 @@ describe('plugin-unbundle server', () => {
   });
 
   it('server listen to file changes', async () => {
-    const mockFsWatcher = new FSWatcher();
+    const mockFsWatcher = new chokidar.FSWatcher();
     (fsWatcher.init as jest.Mock).mockReturnValue(mockFsWatcher);
     await createDevServer(mockConfig, mockAppContext, defaultDependencies);
 

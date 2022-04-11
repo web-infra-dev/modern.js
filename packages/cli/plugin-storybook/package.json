@@ -61,7 +61,6 @@
     "esbuild": "^0.13.12",
     "findup-sync": "^4.0.0",
     "fs-extra": "^10.0.0",
-    "glob": "^7.1.7",
     "lodash.template": "^4.5.0",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "process.argv": "^0.6.0"

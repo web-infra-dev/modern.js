@@ -1,8 +1,7 @@
 /* eslint-disable max-statements */
 import { promisify } from 'util';
 import path from 'path';
-import { fs } from '@modern-js/utils';
-import globModule from 'glob';
+import { fs, glob as globModule } from '@modern-js/utils';
 import inquirer from 'inquirer';
 import semver from 'semver';
 import { NormalizedConfig } from '@modern-js/core';

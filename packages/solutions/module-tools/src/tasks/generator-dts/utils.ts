@@ -1,9 +1,8 @@
 import * as path from 'path';
-import { Import, fs } from '@modern-js/utils';
+import { Import, glob, fs } from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
 import type { ITsconfig } from '../../types';
 
-const glob: typeof import('glob') = Import.lazy('glob', require);
 const babel: typeof import('../../utils/babel') = Import.lazy(
   '../../utils/babel',
   require,

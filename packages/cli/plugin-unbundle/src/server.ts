@@ -7,9 +7,9 @@ import koaStatic from 'koa-static';
 import koaCors from '@koa/cors';
 import c2k from 'koa-connect';
 import type { Plugin as RollupPlugin } from 'rollup';
-import { FSWatcher } from 'chokidar';
 import {
   chalk,
+  FSWatcher,
   HMR_SOCK_PATH,
   isTypescript,
   prettyInstructions,
