@@ -1,8 +1,11 @@
 /**
  * This has been adapted from `create-react-app`, authored by Facebook, Inc.
  * see: https://github.com/facebookincubator/create-react-app/tree/master/packages/react-dev-utils
+ *
+ * Tips: this package will be bundled and running in the browser, do not import from the entry of @modern-js/utils.
  */
-import { stripAnsi, formatWebpackMessages } from '@modern-js/utils';
+import stripAnsi from '@modern-js/utils/strip-ansi';
+import { formatWebpackMessages } from '@modern-js/utils/format';
 import type webpack from 'webpack';
 import { createSocketUrl } from './createSocketUrl';
 
