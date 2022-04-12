@@ -1,6 +1,6 @@
 import path from 'path';
 // import os from 'os';
-import { isDev, getPort } from '@modern-js/utils';
+import { isDev, getPort, DEFAULT_SERVER_CONFIG } from '@modern-js/utils';
 import { resolveConfig, addServerConfigToDeps } from '../src/config';
 import {
   cli,
@@ -137,8 +137,10 @@ describe('addServerConfigToDeps', () => {
   it('should add server config to deps', async () => {
     const appDirectory = path.join(__dirname, './fixtures/index-test');
     const deps: string[] = [];
-    await addServerConfigToDeps(deps, appDirectory, 'modern.server.config');
+    await addServerConfigToDeps(deps, appDirectory, DEFAULT_SERVER_CONFIG);
     expect(deps.length).toBe(1);
-    expect(deps[0]).toBe(path.join(appDirectory, 'modern.server.config.js'));
+    expect(deps[0]).toBe(
+      path.join(appDirectory, `${DEFAULT_SERVER_CONFIG}.js`),
+    );
   });
 });

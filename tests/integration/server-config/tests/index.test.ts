@@ -18,10 +18,10 @@ const supportServerConfig = async ({
   port: number;
   prefix: string;
 }) => {
-  const res = await fetch(`${host}:${port}${prefix}/modernjs`);
+  const res = await fetch(`${host}:${port}${prefix}/proxy`);
   expect(res.status).toBe(200);
-  const data = await res.json();
-  expect(typeof data === 'object').toBe(true);
+  const text = await res.text();
+  expect(text).toBe('foo');
 };
 
 const supportServerPlugins = async ({
@@ -47,15 +47,15 @@ const supportConfigHook = async ({
   port: number;
   prefix: string;
 }) => {
-  const res = await fetch(`${host}:${port}${prefix}/modernjs`);
+  const res = await fetch(`${host}:${port}${prefix}/bar`);
   expect(res.status).toBe(200);
-  const data = await res.json();
-  expect(typeof data === 'object').toBe(true);
+  const text = await res.text();
+  expect(text).toBe('foo');
 };
 
-describe('bff in dev', () => {
+describe('server config in dev', () => {
   let port = 8080;
-  const prefix = '/bff';
+  const prefix = '/api';
   const host = `http://localhost`;
   const appPath = path.resolve(__dirname, '../');
   let app: any;
@@ -85,7 +85,7 @@ describe('bff in dev', () => {
     supportConfigHook({
       host,
       port,
-      prefix: '/foo',
+      prefix,
     }));
 
   afterAll(async () => {
@@ -93,9 +93,9 @@ describe('bff in dev', () => {
   });
 });
 
-describe('bff in prod', () => {
+describe('server config in prod', () => {
   let port = 8080;
-  const prefix = '/bff';
+  const prefix = '/api';
   const host = `http://localhost`;
   const appPath = path.resolve(__dirname, '../');
   let app: any;
@@ -132,7 +132,7 @@ describe('bff in prod', () => {
     supportConfigHook({
       host,
       port,
-      prefix: '/foo',
+      prefix,
     }));
 
   afterAll(async () => {

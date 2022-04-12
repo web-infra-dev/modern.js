@@ -109,7 +109,7 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
       clearConsole();
       logger.log(chalk.cyan(`Starting the development server...`));
     } else {
-      await printInstructions(api, appContext, userConfig);
+      await printInstructions(hookRunners, appContext, userConfig);
     }
   });
 };

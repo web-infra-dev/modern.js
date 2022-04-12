@@ -7,6 +7,7 @@ import {
   modernBuild,
   modernStart,
 } from '../../../utils/modernTestUtils';
+import 'isomorphic-fetch';
 
 declare const page: Page;
 
@@ -15,6 +16,7 @@ describe('server config in dev', () => {
   const SSR_PAGE = 'ssr';
   const BASE_PAGE = 'base';
   const host = `http://localhost`;
+  const prefix = '/bff-api';
   const appPath = path.resolve(__dirname, '../');
   let app: any;
 
@@ -41,6 +43,12 @@ describe('server config in dev', () => {
     expect(text1).toBe('Hello Modern.js');
   });
 
+  test('support _app.ts', async () => {
+    const res = await fetch(`${host}:${port}${prefix}/foo`);
+    const text = await res.text();
+    expect(text).toBe('foo');
+  });
+
   afterAll(async () => {
     await killApp(app);
   });
@@ -51,6 +59,7 @@ describe('server config in prod', () => {
   const SSR_PAGE = 'ssr';
   const BASE_PAGE = 'base';
   const host = `http://localhost`;
+  const prefix = '/bff-api';
   const appPath = path.resolve(__dirname, '../');
   let app: any;
 
@@ -79,6 +88,12 @@ describe('server config in prod', () => {
     await page.goto(`${host}:${port}/${SSR_PAGE}`);
     const text1 = await page.$eval('.hello', el => el.textContent);
     expect(text1).toBe('Hello Modern.js');
+  });
+
+  test('support _app.ts', async () => {
+    const res = await fetch(`${host}:${port}${prefix}/foo`);
+    const text = await res.text();
+    expect(text).toBe('foo');
   });
 
   afterAll(async () => {

@@ -62,7 +62,7 @@ export const OUTPUT_CONFIG_FILE = 'modern.config.json';
 /**
  * Default server config basename
  */
-export const DEFAULT_SERVER_CONFIG = 'modern.server.config';
+export const DEFAULT_SERVER_CONFIG = 'modern.server-runtime.config';
 
 /**
  * Internal plugins that work as soon as they are installed.

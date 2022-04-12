@@ -22,21 +22,21 @@ const createTransformAPI = (storage: Storage) => ({
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-bff',
   setup: api => {
+    const storage = new Storage();
+    const transformAPI = createTransformAPI(storage);
     const { appDirectory, distDirectory } = api.useAppContext();
 
     const root = isProd() ? distDirectory : appDirectory;
 
     const apiPath = path.resolve(root || process.cwd(), API_DIR);
     const apiAppPath = path.resolve(apiPath, API_APP_NAME);
-
-    const storage = new Storage();
-    const transformAPI = createTransformAPI(storage);
-
-    const apiMod = requireExistModule(apiAppPath);
-    if (apiMod && typeof apiMod === 'function') {
-      apiMod(transformAPI);
-    }
     return {
+      prepare() {
+        const apiMod = requireExistModule(apiAppPath);
+        if (apiMod && typeof apiMod === 'function') {
+          apiMod(transformAPI);
+        }
+      },
       reset() {
         storage.reset();
         const newApiModule = requireExistModule(apiAppPath);

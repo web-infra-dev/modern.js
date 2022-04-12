@@ -5,10 +5,11 @@ title: 使用 BFF 代理
 
 通过配置 BFF 代理，无需手动写码，即可对 API 请求进行转发。
 
-在 `modern.server.config.js` 文件中编写以下 BFF 代理配置，会将发送到 `localhost:8080/api/v1/topics` 的请求代理到 `https://cnodejs.org/api/v1/topics`。
+在 `modern.server-runtime.config.js` 文件中编写以下 BFF 代理配置，会将发送到 `localhost:8080/api/v1/topics` 的请求代理到 `https://cnodejs.org/api/v1/topics`。
 
-```js title="modern.config.js"
-export default defineServerConfig({
+```js title="modern.server-runtime.config.js"
+import { defineConfig } from '@modern-js/app-tools/server';
+export default defineConfig({
   bff: {
     proxy: {
       '/api/v1/topics': 'https://cnodejs.org',

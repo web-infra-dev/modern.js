@@ -46,7 +46,8 @@
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "del-cli": "^4.0.1",
-    "typescript": "^4"
+    "typescript": "^4",
+    "@types/express": "^4.17.13"
   },
   "modernConfig": {
     "runtime": {

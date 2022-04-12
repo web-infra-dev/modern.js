@@ -33,6 +33,10 @@
     "./types": {
       "jsnext:source": "./lib/types.d.ts",
       "default": "./lib/types.d.ts"
+    },
+    "./server": {
+      "jsnext:source": "./src/exports/server.ts",
+      "default": "./dist/js/node/exports/server.js"
     }
   },
   "typesVersions": {
@@ -42,6 +46,9 @@
       ],
       "types": [
         "./lib/types.d.ts"
+      ],
+      "server": [
+        "./dist/types/exports/server.d.ts"
       ]
     }
   },

@@ -18,7 +18,7 @@ describe('context', () => {
     expect(appContext).toEqual({
       appDirectory,
       configFile: false,
-      serverConfigFile: 'modern.server.config',
+      serverConfigFile: DEFAULT_SERVER_CONFIG,
       ip: expect.any(String),
       port: 0,
       packageName: expect.any(String),
@@ -62,7 +62,7 @@ describe('context', () => {
     expect(appContext).toEqual({
       appDirectory,
       configFile: false,
-      serverConfigFile: 'modern.server.config',
+      serverConfigFile: DEFAULT_SERVER_CONFIG,
       ip: expect.any(String),
       port: 0,
       packageName: 'user-plugins',

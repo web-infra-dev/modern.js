@@ -6,6 +6,7 @@ import { printInstructions } from '../utils/printInstructions';
 export const start = async (api: PluginAPI) => {
   const appContext = api.useAppContext();
   const userConfig = api.useResolvedConfigContext();
+  const hookRunners = api.useHookRunners();
 
   const { appDirectory, port, serverConfigFile } = appContext;
 
@@ -24,6 +25,6 @@ export const start = async (api: PluginAPI) => {
     if (err) {
       throw err;
     }
-    await printInstructions(api, appContext, userConfig);
+    await printInstructions(hookRunners, appContext, userConfig);
   });
 };

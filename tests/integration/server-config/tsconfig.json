@@ -5,10 +5,24 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"],
-      "@shared/*": ["./shared/*"],
-      "@api/*": ["./api/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@shared/*": [
+        "./shared/*"
+      ],
+      "@api/*": [
+        "./api/*"
+      ]
     }
   },
-  "include": ["src", "shared", "config", "api", "tests", "plugins"]
+  "include": [
+    "src",
+    "shared",
+    "config",
+    "api",
+    "tests",
+    "plugins",
+    "server"
+  ]
 }

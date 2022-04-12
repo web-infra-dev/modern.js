@@ -44,6 +44,8 @@ type InitExtension = {
 // config
 const config = createWaterfall<ServerConfig>();
 
+const prepare = createWaterfall();
+
 const create = createAsyncPipeline<ServerInitInput, InitExtension>();
 
 export type Adapter = (
@@ -170,6 +172,7 @@ const serverHooks = {
   // server hook
   gather,
   config,
+  prepare,
   create,
   prepareWebServer,
   prepareApiServer,

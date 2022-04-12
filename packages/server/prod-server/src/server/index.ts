@@ -61,6 +61,8 @@ export class Server {
     // initialize server
     this.server = this.serverImpl(options);
 
+    await this.runPrepareHook(this.runner);
+
     // create http-server
     this.app = await this.server.createHTTPServer(this.getRequestHandler());
 
@@ -79,6 +81,10 @@ export class Server {
     const { serverConfig } = options;
     const newServerConfig = runner.config(serverConfig || {});
     options.config = mergeDeep({}, options.config, newServerConfig);
+  }
+
+  async runPrepareHook(runner: ServerHookRunner) {
+    runner.prepare();
   }
 
   /**

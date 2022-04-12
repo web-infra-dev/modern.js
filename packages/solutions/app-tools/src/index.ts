@@ -11,7 +11,6 @@ import { dev } from './commands/dev';
 import { closeServer } from './utils/createServer';
 import type { DevOptions, BuildOptions } from './utils/types';
 
-export { defineServerConfig } from './utils/config';
 export { defineConfig };
 
 export default (): CliPlugin => ({
