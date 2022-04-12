@@ -615,16 +615,15 @@ class BaseWebpackConfig {
       .runtimeChunk({ name: (entrypoint: any) => `runtime-${entrypoint.name}` })
       .minimizer('js')
       .use(TerserPlugin, [
-        applyOptionsChain(
+        // FIXME: any type
+        applyOptionsChain<any, any>(
           {
             terserOptions: {
               parse: { ecma: 8 },
               compress: {
                 ecma: 5,
                 warnings: false,
-
                 comparisons: false,
-
                 inline: 2,
               },
               mangle: { safari10: true },
@@ -639,7 +638,7 @@ class BaseWebpackConfig {
           },
           this.options.tools?.terser,
         ),
-      ] as any)
+      ])
       .end()
       .minimizer('css')
       // FIXME: add `<any>` reason: Since the css-minimizer-webpack-plugin has been updated

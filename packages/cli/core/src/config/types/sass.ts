@@ -9,4 +9,5 @@ export interface SassLoaderOptions {
 
 export type SassConfig =
   | SassLoaderOptions
-  | ((options: SassLoaderOptions) => SassLoaderOptions | void);
+  // FIXME: utils type
+  | ((options: SassLoaderOptions, utils?: any) => SassLoaderOptions | void);
