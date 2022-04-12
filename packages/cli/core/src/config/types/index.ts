@@ -2,8 +2,7 @@ import type { IncomingMessage, ServerResponse } from 'http';
 import type { NextFunction, BffProxyOptions } from '@modern-js/types';
 import type { MetaOptions } from '@modern-js/utils';
 import type { TransformOptions } from '@babel/core';
-import type { Configuration as WebpackConfiguration, webpack } from 'webpack';
-import Chain from 'webpack-chain';
+import type { Configuration as WebpackConfiguration } from 'webpack';
 import autoprefixer from 'autoprefixer';
 import type {
   BasePluginOptions,
@@ -188,7 +187,11 @@ export interface DeployConfig {
 
 type ConfigFunction =
   | Record<string, unknown>
-  | ((config: Record<string, unknown>) => Record<string, unknown> | void);
+  | ((
+      config: Record<string, unknown>,
+      // FIXME: utils type
+      utils?: any,
+    ) => Record<string, unknown> | void);
 
 export type RequestHandler = (
   req: IncomingMessage,
@@ -208,12 +211,14 @@ export type WebpackConfig =
   | WebpackConfiguration
   | ((
       config: WebpackConfiguration,
-      utils?: { chain: Chain; name: string; webpack: typeof webpack },
+      // FIXME: utils type
+      utils?: any,
     ) => WebpackConfiguration | void);
 
 export type BabelConfig =
   | TransformOptions
-  | ((config: TransformOptions) => TransformOptions | void);
+  // FIXME: utils type
+  | ((config: TransformOptions, utils?: any) => TransformOptions | void);
 
 export type AutoprefixerConfig =
   | AutoprefixerOptions
@@ -267,18 +272,20 @@ export interface ToolsConfig {
   less?: LessConfig;
 }
 
-export type RuntimeConfig = Record<string, any>;
+export interface RuntimeConfig {
+  [name: string]: RuntimeConfig;
+}
 
 export interface RuntimeByEntriesConfig {
   [name: string]: RuntimeConfig;
 }
 
-export type BffConfig = {
+export interface BffConfig {
   prefix?: string;
   requestCreator?: string;
   fetcher?: string;
   proxy?: Record<string, any>;
-};
+}
 
 export interface UserConfig {
   source?: SourceConfig;

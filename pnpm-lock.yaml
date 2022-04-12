@@ -282,7 +282,6 @@ importers:
       lodash.mergewith: ^4.6.2
       sass: ^1.45.0
       signale: ^1.4.0
-      tailwindcss: ^2.0.4
       terser-webpack-plugin: ^5.1.4
       typescript: ^4
       v8-compile-cache: ^2.3.0
@@ -325,7 +324,6 @@ importers:
       btsm: 2.2.2
       jest: 27.4.5
       sass: 1.45.2
-      tailwindcss: 2.2.19_autoprefixer@10.4.4
       terser-webpack-plugin: 5.3.1_esbuild@0.13.15+webpack@5.71.0
       typescript: 4.5.4
       webpack: 5.71.0_esbuild@0.13.15
@@ -35950,51 +35948,6 @@ packages:
       postcss: ^8.0.9
     dependencies:
       arg: 5.0.1
-      bytes: 3.1.1
-      chalk: 4.1.2
-      chokidar: 3.5.3
-      color: 4.1.0
-      cosmiconfig: 7.0.1
-      detective: 5.2.0
-      didyoumean: 1.2.2
-      dlv: 1.1.3
-      fast-glob: 3.2.7
-      fs-extra: 10.0.1
-      glob-parent: 6.0.2
-      html-tags: 3.1.0
-      is-color-stop: 1.1.0
-      is-glob: 4.0.3
-      lodash: 4.17.21
-      lodash.topath: 4.5.2
-      modern-normalize: 1.1.0
-      node-emoji: 1.11.0
-      normalize-path: 3.0.0
-      object-hash: 2.2.0
-      postcss-js: 3.0.3
-      postcss-load-config: 3.1.1
-      postcss-nested: 5.0.6
-      postcss-selector-parser: 6.0.9
-      postcss-value-parser: 4.2.0
-      pretty-hrtime: 1.0.3
-      purgecss: 4.1.3
-      quick-lru: 5.1.1
-      reduce-css-calc: 2.1.8
-      resolve: 1.21.0
-      tmp: 0.2.1
-    transitivePeerDependencies:
-      - ts-node
-    dev: true
-
-  /tailwindcss/2.2.19_autoprefixer@10.4.4:
-    resolution: {integrity: sha512-6Ui7JSVtXadtTUo2NtkBBacobzWiQYVjYW0ZnKaP9S1ZCKQ0w7KVNz+YSDI/j7O7KCMHbOkz94ZMQhbT9pOqjw==}
-    engines: {node: '>=12.13.0'}
-    hasBin: true
-    peerDependencies:
-      autoprefixer: ^10.0.2
-      postcss: ^8.0.9
-    dependencies:
-      arg: 5.0.1
-      autoprefixer: 10.4.4
       bytes: 3.1.1
       chalk: 4.1.2
       chokidar: 3.5.3
