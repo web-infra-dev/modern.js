@@ -272,9 +272,7 @@ export interface ToolsConfig {
   less?: LessConfig;
 }
 
-export interface RuntimeConfig {
-  [name: string]: RuntimeConfig;
-}
+export type RuntimeConfig = Record<string, any>;
 
 export interface RuntimeByEntriesConfig {
   [name: string]: RuntimeConfig;
