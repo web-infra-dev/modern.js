@@ -136,7 +136,7 @@ describe('Global Module CSS Module Support', () => {
     const cssContent = await readFile(join(cssFolder, cssFiles[0]), 'utf8');
 
     expect(cssContent.replace(/\/\*.*?\*\//g, '').trim()).toMatch(
-      /\.index-module__foo--.*\{position:relative\}\.index-module__foo--.* \.bar,\.index-module__foo--.* \.baz\{height:100%;overflow:hidden\}\.index-module__foo--.* \.lol,\.index-module__foo--.*>\.lel\{width:80%\}/,
+      /\.index-module__foo--.*\{position:relative\}\.index-module__foo--.* \.bar,\.index-module__foo--.* \.baz\{height:100%;overflow:hidden\}\.index-module__foo--.* \.lol\{width:80%\}\.index-module__foo--.*>\.lel\{width:80%\}/,
     );
   });
 });
