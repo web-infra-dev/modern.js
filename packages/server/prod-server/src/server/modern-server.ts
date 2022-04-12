@@ -379,7 +379,6 @@ export class ModernServer implements ModernServerInterface {
 
   /* —————————————————————— private function —————————————————————— */
   // handler route.json, include api / csr / ssr
-  // eslint-disable-next-line max-statements
   private async routeHandler(context: ModernServerContext) {
     const { req, res } = context;
 
@@ -460,7 +459,6 @@ export class ModernServer implements ModernServerInterface {
     res.end(response);
   }
 
-  // eslint-disable-next-line max-statements
   private async injectMicroFE(
     context: ModernServerContext,
     templateAPI: ReturnType<typeof createTemplateAPI>,

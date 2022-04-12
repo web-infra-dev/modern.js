@@ -194,7 +194,6 @@ const fillObjectBistate = (
   target: any,
   scapegoat: any,
   previousProxy: any,
-  // eslint-disable-next-line max-params
 ) => {
   for (const key in initialObject) {
     const value = getBistateValue(
@@ -213,7 +212,6 @@ const fillArrayBistate = (
   target: any,
   scapegoat: any,
   previousProxy: any,
-  // eslint-disable-next-line max-params
 ) => {
   for (let i = 0; i < initialArray.length; i++) {
     const item = getBistateValue(initialArray[i], currentProxy, previousProxy);

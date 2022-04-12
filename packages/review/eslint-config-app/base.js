@@ -1,5 +1,4 @@
-/* eslint-disable max-lines, no-magic-numbers */
-
+/* eslint-disable max-lines */
 const { jsExtensions } = require('./utils');
 
 module.exports = {
@@ -619,28 +618,11 @@ module.exports = {
         skipComments: true,
       },
     ],
-    // https://eslint.org/docs/rules/max-lines-per-function
-    'max-lines-per-function': 'off',
 
     /*
-     * 'max-lines-per-function': [
-     *   'error',
-     *   {
-     *     max: 50,
-     *     skipBlankLines: true,
-     *     skipComments: true,
-     *     IIFEs: true,
-     *   },
-     * ],
      * https://eslint.org/docs/rules/max-nested-callbacks
      */
     'max-nested-callbacks': ['warn', 4],
-    // https://eslint.org/docs/rules/max-params
-    'max-params': ['warn', 4],
-    // https://eslint.org/docs/rules/max-statements
-    'max-statements': ['warn', 20],
-    // https://eslint.org/docs/rules/max-statements-per-line
-    'max-statements-per-line': ['error', { max: 1 }],
     // https://eslint.org/docs/rules/multiline-comment-style
     // @TODO bug:
     // // class Foo {
@@ -1560,4 +1542,4 @@ module.exports = {
     },
   ],
 };
-/* eslint-enable max-lines, no-magic-numbers */
+/* eslint-enable max-lines */

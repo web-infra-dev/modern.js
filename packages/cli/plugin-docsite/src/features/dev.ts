@@ -5,7 +5,6 @@ import WebpackDevServer from 'webpack-dev-server';
 import { chokidarFile } from './utils/chokidar';
 import { generateFiles } from './utils/generate-files';
 
-// eslint-disable-next-line max-params
 export async function dev(
   appDirectory: string,
   tmpDir: string,
