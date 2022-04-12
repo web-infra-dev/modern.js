@@ -57,7 +57,7 @@ const replaceWithAlias = (base: string, filePath: string, alias: string) =>
 
 const parents: Route[] = [];
 
-/* eslint-disable max-statements, no-param-reassign */
+/* eslint-disable no-param-reassign */
 const recursiveReadDir = ({
   dir,
   routes,
@@ -165,7 +165,7 @@ const recursiveReadDir = ({
     }
   }
 };
-/* eslint-enable max-statements, no-param-reassign */
+/* eslint-enable  no-param-reassign */
 
 const normalizeNestedRoutes = (
   nested: Route[],

@@ -83,7 +83,6 @@ const showAdditionalPropertiesError = (error: ErrorObject) => {
   }
 };
 
-/* eslint-disable  max-statements, max-params */
 export const resolveConfig = async (
   loaded: LoadedConfig,
   configs: UserConfig[],
@@ -163,5 +162,3 @@ export const resolveConfig = async (
 
   return resolved;
 };
-
-/* eslint-enable max-statements, max-params */

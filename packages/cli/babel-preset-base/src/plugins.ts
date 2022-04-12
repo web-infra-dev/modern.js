@@ -1,4 +1,3 @@
-/* eslint-disable max-statements */
 import { createBabelChain } from '@modern-js/babel-chain';
 import { IBaseBabelConfigOption } from '.';
 
@@ -187,5 +186,3 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
 
   return chain;
 };
-
-/* eslint-enable max-statements */

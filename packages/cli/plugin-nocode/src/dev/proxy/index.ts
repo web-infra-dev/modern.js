@@ -2,7 +2,6 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable consistent-return */
 /* eslint-disable node/no-deprecated-api */
-/* eslint-disable max-statements */
 /**
  * create-react-app
  * Configuring the Proxy Manually

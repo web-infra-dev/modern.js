@@ -110,7 +110,6 @@ export const post = createRequest('/:id/origin/foo', 'POST', process.env.PORT ||
   });
 
   describe('getMethodAndStatementFromName', () => {
-    // eslint-disable-next-line max-statements
     it('should support normal http method', () => {
       const result0 = getMethodAndStatementFromName('get');
 
@@ -187,7 +186,6 @@ export const post = createRequest('/:id/origin/foo', 'POST', process.env.PORT ||
       expect(result.value[1]).toBe('default');
     });
 
-    // eslint-disable-next-line max-statements
     it('should case insensitive at method and case sensitive at valuable name', () => {
       const result0 = getMethodAndStatementFromName('Get');
 

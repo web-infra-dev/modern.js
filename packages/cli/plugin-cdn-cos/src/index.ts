@@ -9,7 +9,6 @@ export default (): CliPlugin => ({
   name: '@modern-js/plugin-cdn-cos',
 
   setup: api => ({
-    // eslint-disable-next-line max-statements
     async beforeDeploy() {
       console.info('');
       logger.info('Uploading resource to COS...');

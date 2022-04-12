@@ -121,7 +121,6 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     ]);
   }
 
-  // eslint-disable-next-line max-statements
   plugins() {
     super.plugins();
 
@@ -222,7 +221,6 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
         },
       ]);
     }
-    // eslint-enable-next-line max-statements
 
     this.chain
       .plugin('bottom-template')

@@ -220,7 +220,6 @@ class BaseWebpackConfig {
     return publicPath;
   }
 
-  /* eslint-disable max-statements */
   loaders() {
     this.chain.module
       .rule('mjs')
@@ -465,7 +464,6 @@ class BaseWebpackConfig {
     return loaders;
   }
 
-  /* eslint-enable max-statements */
   plugins() {
     // progress bar
     process.stdout.isTTY &&
@@ -516,7 +514,6 @@ class BaseWebpackConfig {
     }
   }
 
-  /* eslint-disable  max-statements */
   resolve() {
     // resolve extensions
     const extensions = JS_RESOLVE_EXTENSIONS.filter(
@@ -591,8 +588,6 @@ class BaseWebpackConfig {
         .use(TsConfigPathsPlugin, [this.appDirectory]);
     }
   }
-
-  /* eslint-enable  max-statements */
 
   cache() {
     this.chain.cache({

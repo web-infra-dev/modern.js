@@ -1,4 +1,3 @@
-/* eslint-disable max-statements */
 import { promisify } from 'util';
 import path from 'path';
 import { fs, glob as globModule } from '@modern-js/utils';
@@ -208,5 +207,3 @@ export const register = async (
     process.exit(1);
   }
 };
-
-/* eslint-enable max-statements */

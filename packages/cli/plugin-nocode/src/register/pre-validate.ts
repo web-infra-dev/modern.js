@@ -1,6 +1,5 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable no-proto */
-/* eslint-disable max-params */
 /* eslint-disable func-name-matching */
 /* eslint-disable no-eval */
 import path from 'path';

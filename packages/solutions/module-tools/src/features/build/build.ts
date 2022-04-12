@@ -1,4 +1,3 @@
-/* eslint-disable max-statements */
 import * as path from 'path';
 import * as os from 'os';
 import { execa, Import } from '@modern-js/utils';
@@ -103,5 +102,3 @@ export const buildSourceCode = async (
     process.exit(1);
   }
 };
-
-/* eslint-enable max-statements */

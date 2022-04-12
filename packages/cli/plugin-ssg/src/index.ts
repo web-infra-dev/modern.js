@@ -43,7 +43,6 @@ export default (): CliPlugin => ({
 
         return { entrypoint, routes };
       },
-      // eslint-disable-next-line max-statements
       async afterBuild() {
         const resolvedConfig = api.useResolvedConfigContext();
         const appContext = api.useAppContext();

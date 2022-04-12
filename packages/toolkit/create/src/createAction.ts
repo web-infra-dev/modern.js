@@ -22,7 +22,6 @@ type RunnerTask = Array<{
 const REPO_GENERAROE = '@modern-js/repo-generator';
 // const GENERATOR_PLUGIN = '@modern-js/generator-plugin-plugin';
 
-// eslint-disable-next-line max-statements
 function getDefaultConfing(
   projectDir: string = path.basename(process.cwd()),
   options: Options,

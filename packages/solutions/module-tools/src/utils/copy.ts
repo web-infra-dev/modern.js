@@ -9,7 +9,6 @@ const normalizePath: typeof import('normalize-path') = Import.lazy(
   require,
 );
 
-// eslint-disable-next-line max-statements
 export const copyTask = async (option: {
   modernConfig: NormalizedConfig;
   appContext: IAppContext;

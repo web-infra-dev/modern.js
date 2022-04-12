@@ -30,7 +30,6 @@ function isEmptyServerDir(serverDir: string) {
   });
 }
 
-// eslint-disable-next-line max-statements
 const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,

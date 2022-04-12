@@ -74,7 +74,6 @@ export default (): CliPlugin => ({
     let originEntrypoints: any[] = [];
 
     return {
-      // eslint-disable-next-line max-statements
       async prepare() {
         const appContext = api.useAppContext();
         const resolvedConfig = api.useResolvedConfigContext();

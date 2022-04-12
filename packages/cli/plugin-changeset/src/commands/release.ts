@@ -8,7 +8,7 @@ interface PublishOptions {
   ignoreScripts: boolean;
   gitChecks: boolean;
 }
-// eslint-disable-next-line max-statements
+
 export async function release(options: PublishOptions) {
   const appDir = process.cwd();
   const isMonorepo = isModernjsMonorepo(appDir);

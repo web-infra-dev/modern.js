@@ -176,7 +176,6 @@ export class PluginInputContext {
     }
   }
 
-  // eslint-disable-next-line max-statements
   setInput(
     key: string,
     field: string,

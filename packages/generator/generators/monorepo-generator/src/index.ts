@@ -112,7 +112,6 @@ export const handleTemplateFile = async (
   );
 };
 
-// eslint-disable-next-line max-statements
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const appApi = new AppAPI(context, generator);
 

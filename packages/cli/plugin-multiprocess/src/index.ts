@@ -37,7 +37,6 @@ export default (): CliPlugin => {
 
     setup: api => {
       return {
-        // eslint-disable-next-line max-statements
         afterBuild() {
           const { distDirectory, plugins } = api.useAppContext();
           const serverPluginPkgs = plugins
