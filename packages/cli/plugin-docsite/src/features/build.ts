@@ -10,7 +10,6 @@ const gen: typeof import('./utils/generate-files') = Import.lazy(
   require,
 );
 
-// eslint-disable-next-line max-params
 export async function build(
   appDirectory: string,
   tmpDir: string,

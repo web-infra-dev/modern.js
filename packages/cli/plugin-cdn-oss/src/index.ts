@@ -17,7 +17,6 @@ export default (): CliPlugin => ({
     const defaultRegion = 'cn-hangzhou';
 
     return {
-      // eslint-disable-next-line max-statements
       async beforeDeploy() {
         console.info('');
         logger.info('Uploading resource to OSS...');

@@ -35,7 +35,6 @@ const getGeneratorPath = (generator: string, distTag: string) => {
   return generator;
 };
 
-// eslint-disable-next-line max-statements
 export const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
@@ -231,7 +230,6 @@ export const handleTemplateFile = async (
   return { projectPath };
 };
 
-// eslint-disable-next-line max-statements
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const appApi = new AppAPI(context, generator);
 

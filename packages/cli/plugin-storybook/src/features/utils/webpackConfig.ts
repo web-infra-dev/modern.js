@@ -1,4 +1,3 @@
-/* eslint-disable max-statements */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import path from 'path';
 import { fs, Import } from '@modern-js/utils';
@@ -270,4 +269,3 @@ export const getCustomWebpackConfigHandle: any = ({
   };
 };
 /* eslint-enable @typescript-eslint/no-unused-vars */
-/* eslint-enable max-statements */
