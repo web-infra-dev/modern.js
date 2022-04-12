@@ -16,9 +16,9 @@ let realAllowedHeaders: string[] = [];
 const originFetch = (...params: Parameters<typeof nodeFetch>) =>
   nodeFetch(...params).then(handleRes);
 
-export const configure = (options: IOptions) => {
+export const configure = (options: IOptions<typeof nodeFetch>) => {
   const { request, interceptor, allowedHeaders } = options;
-  realRequest = request || originFetch;
+  realRequest = (request as Fetch) || originFetch;
   if (interceptor && !request) {
     realRequest = interceptor(nodeFetch);
   }
