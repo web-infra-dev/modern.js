@@ -150,7 +150,6 @@ export class GeneratorPlugin {
     return result;
   }
 
-  // eslint-disable-next-line max-params
   async handleForged(
     solution: Solution | 'custom',
     basePath: string,

@@ -7,7 +7,6 @@
     "import/no-commonjs": "off",
     "prefer-arrow-callback": "off",
     "prefer-destructuring": "off",
-    "max-statements": "off",
     "max-classes-per-file": "off",
     "no-inner-declarations": "off",
     "max-depth": "off",

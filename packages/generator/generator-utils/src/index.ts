@@ -25,7 +25,6 @@ export {
 
 export { i18n } from './locale';
 
-// eslint-disable-next-line max-statements
 export async function getPackageVersion(
   packageName: string,
   registry?: string,

@@ -40,7 +40,6 @@ describe('plugin-unbundle', () => {
     expect(result).toMatchSnapshot();
   });
 
-  // eslint-disable-next-line max-statements
   it('commands', async () => {
     const main = manager.clone().usePlugin(plugin);
     const runner = await main.init();
