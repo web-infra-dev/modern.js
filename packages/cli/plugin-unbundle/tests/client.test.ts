@@ -5,7 +5,6 @@ const { __addQuery__, updateStyle, removeStyle } = require('../src/client');
 
 // const MockedWebSocket = jest.mocked(WebSocket);
 
-// eslint-disable-next-line max-statements
 describe('plugin-unbundled client test', () => {
   let OriginalWebSocket: any;
   let originalLocation: any;
@@ -259,7 +258,6 @@ describe('plugin-unbundled client test', () => {
   });
 
   it('test "createHotContext"', () => {
-    // eslint-disable-next-line max-statements
     jest.isolateModules(() => {
       const { createHotContext } = require('../src/client');
       const hotmodule = createHotContext('myModule');

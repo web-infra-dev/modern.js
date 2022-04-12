@@ -71,7 +71,6 @@ export const recursiveGetDependency = (
 };
 
 // 拓扑排序
-// eslint-disable-next-line max-statements
 export const sortProjects = (projects: IProjectNode[]) => {
   const sortedQueue = []; // 排好序的队列
   let readyIntoSortedQueue = []; // 用来准备放入 sortedQueue的数组

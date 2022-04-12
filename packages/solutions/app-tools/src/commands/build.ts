@@ -17,7 +17,6 @@ import type { BuildOptions } from '../utils/types';
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
-// eslint-disable-next-line max-statements
 export const build = async (api: PluginAPI, options?: BuildOptions) => {
   const resolvedConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();

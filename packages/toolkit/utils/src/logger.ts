@@ -94,7 +94,6 @@ class Logger {
     }
   }
 
-  // eslint-disable-next-line max-statements
   private _log(type: string, message?: LogMsg) {
     if (message === undefined) {
       // eslint-disable-next-line no-console

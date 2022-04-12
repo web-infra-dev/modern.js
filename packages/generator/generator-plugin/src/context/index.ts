@@ -144,7 +144,6 @@ export class PluginContext {
     };
   }
 
-  // eslint-disable-next-line max-params
   handlePrepareContext(
     generator: GeneratorCore,
     solution: Solution | 'custom',
