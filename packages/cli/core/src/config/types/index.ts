@@ -2,6 +2,12 @@ import type { IncomingMessage, ServerResponse } from 'http';
 import type { NextFunction, BffProxyOptions } from '@modern-js/types';
 import type { MetaOptions } from '@modern-js/utils';
 import type { TransformOptions } from '@babel/core';
+import type { Configuration as WebpackConfiguration } from 'webpack';
+import autoprefixer from 'autoprefixer';
+import type {
+  BasePluginOptions,
+  TerserOptions as RawTerserOptions,
+} from 'terser-webpack-plugin';
 import type { PluginConfig } from '../../loadPlugins';
 import type { TestConfig, JestConfig } from './test';
 import type { SassConfig, SassLoaderOptions } from './sass';
@@ -13,6 +19,9 @@ import type {
   SSGMultiEntryOptions,
   SSGSingleEntryOptions,
 } from './ssg';
+
+type AutoprefixerOptions = autoprefixer.Options;
+type TerserOptions = BasePluginOptions & RawTerserOptions;
 
 export type {
   TestConfig,
@@ -27,6 +36,8 @@ export type {
   SSGMultiEntryOptions,
   SSGSingleEntryOptions,
   TransformOptions,
+  AutoprefixerOptions,
+  TerserOptions,
 };
 
 export interface SourceConfig {
@@ -176,7 +187,11 @@ export interface DeployConfig {
 
 type ConfigFunction =
   | Record<string, unknown>
-  | ((config: Record<string, unknown>) => Record<string, unknown> | void);
+  | ((
+      config: Record<string, unknown>,
+      // FIXME: utils type
+      utils?: any,
+    ) => Record<string, unknown> | void);
 
 export type RequestHandler = (
   req: IncomingMessage,
@@ -192,20 +207,37 @@ export type DevServerConfig = {
   [propsName: string]: any;
 };
 
+export type WebpackConfig =
+  | WebpackConfiguration
+  | ((
+      config: WebpackConfiguration,
+      // FIXME: utils type
+      utils?: any,
+    ) => WebpackConfiguration | void);
+
 export type BabelConfig =
   | TransformOptions
-  | ((config: TransformOptions) => TransformOptions | void);
+  // FIXME: utils type
+  | ((config: TransformOptions, utils?: any) => TransformOptions | void);
+
+export type AutoprefixerConfig =
+  | AutoprefixerOptions
+  | ((config: AutoprefixerOptions) => AutoprefixerOptions | void);
+
+export type TerserConfig =
+  | TerserOptions
+  | ((config: TerserOptions) => TerserOptions | void);
 
 export interface ToolsConfig {
-  webpack?: ConfigFunction;
+  webpack?: WebpackConfig;
   babel?: BabelConfig;
-  autoprefixer?: ConfigFunction;
+  autoprefixer?: AutoprefixerConfig;
   postcss?: ConfigFunction;
   styledComponents?: ConfigFunction;
   lodash?: ConfigFunction;
   devServer?: DevServerConfig;
   tsLoader?: ConfigFunction;
-  terser?: ConfigFunction;
+  terser?: TerserConfig;
   minifyCss?: ConfigFunction;
   esbuild?: Record<string, unknown>;
 
@@ -240,18 +272,20 @@ export interface ToolsConfig {
   less?: LessConfig;
 }
 
-export type RuntimeConfig = Record<string, any>;
+export interface RuntimeConfig {
+  [name: string]: RuntimeConfig;
+}
 
 export interface RuntimeByEntriesConfig {
   [name: string]: RuntimeConfig;
 }
 
-export type BffConfig = {
+export interface BffConfig {
   prefix?: string;
   requestCreator?: string;
   fetcher?: string;
   proxy?: Record<string, any>;
-};
+}
 
 export interface UserConfig {
   source?: SourceConfig;
