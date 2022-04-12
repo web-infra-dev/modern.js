@@ -29,6 +29,10 @@
     "./constants": {
       "jsnext:source": "./src/constants.ts",
       "default": "./dist/constants.js"
+    },
+    "./strip-ansi": {
+      "jsnext:source": "./compiled/strip-ansi/index.js",
+      "default": "./compiled/strip-ansi/index.js"
     }
   },
   "typesVersions": {
@@ -38,6 +42,9 @@
       ],
       "constants": [
         "./dist/constants.d.ts"
+      ],
+      "strip-ansi": [
+        "./compiled/strip-ansi/index.d.ts"
       ]
     }
   },
