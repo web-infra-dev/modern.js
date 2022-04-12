@@ -16,4 +16,5 @@ export type LessLoaderOptions = {
 
 export type LessConfig =
   | LessLoaderOptions
-  | ((options: LessLoaderOptions) => LessLoaderOptions | void);
+  // FIXME: utils type
+  | ((options: LessLoaderOptions, utils?: any) => LessLoaderOptions | void);
