@@ -74,7 +74,6 @@ describe('test ssg util function', () => {
     expect(replaceWithAlias('/src', '/src/app.js', '@src')).toBe('@src/app.js');
   });
 
-  // eslint-disable-next-line max-statements
   it('should starndar user config correctly', () => {
     const opt0 = standardOptions(false, []);
     expect(opt0).toBeFalsy();

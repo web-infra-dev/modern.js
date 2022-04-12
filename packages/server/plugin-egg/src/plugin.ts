@@ -37,7 +37,6 @@ const mockFn = (
   };
 };
 
-// eslint-disable-next-line max-statements
 const initApp = async (options: StartOptions): Promise<Application> => {
   options.baseDir = options.baseDir || process.cwd();
   options.mode = 'single';

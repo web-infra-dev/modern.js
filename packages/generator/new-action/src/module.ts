@@ -30,7 +30,7 @@ interface IModuleNewActionOption {
   config?: string;
   cwd?: string;
 }
-// eslint-disable-next-line max-statements
+
 export const ModuleNewAction = async (options: IModuleNewActionOption) => {
   const {
     locale = 'zh',

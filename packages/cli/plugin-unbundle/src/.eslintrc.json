@@ -4,7 +4,6 @@
     "@typescript-eslint/no-loop-func": "off",
     "prefer-destructuring": "off",
     "consistent-return": "off",
-    "max-statements": "off",
     "max-depth": "off",
     "@typescript-eslint/member-ordering": "off",
     "max-lines": "off",

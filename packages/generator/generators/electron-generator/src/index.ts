@@ -11,7 +11,6 @@ import {
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
-// eslint-disable-next-line max-statements
 const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,

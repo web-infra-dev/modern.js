@@ -16,9 +16,9 @@ let realAllowedHeaders: string[] = [];
 const originFetch = (...params: Parameters<typeof nodeFetch>) =>
   nodeFetch(...params).then(handleRes);
 
-export const configure = (options: IOptions<typeof nodeFetch>) => {
+export const configure = (options: IOptions) => {
   const { request, interceptor, allowedHeaders } = options;
-  realRequest = (request as Fetch) || originFetch;
+  realRequest = request || originFetch;
   if (interceptor && !request) {
     realRequest = interceptor(nodeFetch);
   }
@@ -39,7 +39,6 @@ export const createRequest: RequestCreator = (
   const keys: Key[] = [];
   pathToRegexp(path, keys);
 
-  // eslint-disable-next-line max-statements
   const sender: Sender = (...args) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const webRequestHeaders = useHeaders();

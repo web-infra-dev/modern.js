@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable max-statements */
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  *
@@ -128,7 +127,6 @@ function formatWebpackMessages(json: StatsCompilation): {
 }
 
 export { formatWebpackMessages };
-/* eslint-enable max-statements */
 /* eslint-enable no-param-reassign */
 
 function formatProxyOptions(proxyOptions: BffProxyOptions) {

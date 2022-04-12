@@ -12,7 +12,6 @@ export default (): CliPlugin => ({
 
   setup: api => {
     return {
-      // eslint-disable-next-line max-statements
       async afterDeploy() {
         console.info('');
         logger.info('Deploying application to Tencent SCF...');

@@ -39,7 +39,6 @@ interface Node {
   children?: Node[];
 }
 
-// eslint-disable-next-line max-statements
 async function handleFile(
   appDirectory: string,
   tmpDir: string,

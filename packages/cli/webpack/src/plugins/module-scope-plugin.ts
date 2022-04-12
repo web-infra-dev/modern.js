@@ -8,7 +8,6 @@
 import path from 'path';
 import { chalk } from '@modern-js/utils';
 
-/* eslint-disable max-statements */
 export class ModuleScopePlugin {
   appSrcs: Array<string | RegExp>;
 
@@ -128,4 +127,3 @@ export class ModuleScopePlugin {
     );
   }
 }
-/* eslint-enable max-statements */

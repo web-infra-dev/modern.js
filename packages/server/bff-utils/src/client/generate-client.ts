@@ -21,8 +21,6 @@ export type GenClientOptions = {
 
 export const DEFAULT_CLIENT_REQUEST_CREATOR = '@modern-js/create-request';
 
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable max-statements */
 export const generateClient = async ({
   resourcePath,
   source,

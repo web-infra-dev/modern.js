@@ -1,4 +1,3 @@
-/* eslint-disable max-statements */
 import * as path from 'path';
 import type {
   NormalizedConfig,
@@ -264,4 +263,3 @@ const taskMain = async ({
     }
   });
 })();
-/* eslint-enable max-statements */
