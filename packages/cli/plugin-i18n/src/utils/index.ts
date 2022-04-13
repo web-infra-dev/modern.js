@@ -1,4 +1,4 @@
-import { isObject, isString } from 'lodash';
+import { isObject, isString } from '@modern-js/utils/lodash';
 
 interface ITem {
   [key: string]: string | ITem;

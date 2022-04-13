@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get } from '@modern-js/utils/lodash';
 import { NodeVM } from 'vm2';
 
 const cache: Record<string, unknown> = {};

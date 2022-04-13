@@ -1,4 +1,4 @@
-import { merge } from 'lodash';
+import { merge } from '@modern-js/utils/lodash';
 import {
   CodeSmith,
   GeneratorCore,

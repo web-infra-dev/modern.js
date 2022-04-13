@@ -1,4 +1,4 @@
-import { merge } from 'lodash';
+import { merge } from '@modern-js/utils/lodash';
 import { CodeSmith } from '@modern-js/codesmith';
 import { i18n } from '@modern-js/generator-common';
 import { getPackageManager } from '@modern-js/generator-utils';

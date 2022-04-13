@@ -1,5 +1,6 @@
 import * as path from 'path';
 import { Import, glob, fs } from '@modern-js/utils';
+import { merge as deepMerge } from '@modern-js/utils/lodash';
 import type { NormalizedConfig } from '@modern-js/core';
 import type { ITsconfig } from '../../types';
 
@@ -13,11 +14,6 @@ const tsPathsTransform: typeof import('../../utils/tspaths-transform') =
 
 const constants: typeof import('../constants') = Import.lazy(
   '../constants',
-  require,
-);
-
-const deepMerge: typeof import('lodash.merge') = Import.lazy(
-  'lodash.merge',
   require,
 );
 

@@ -1,14 +1,6 @@
 import type { NormalizedConfig } from '@modern-js/core';
-import { Import, applyOptionsChain, logger } from '@modern-js/utils';
-
-const cloneDeep: typeof import('lodash.clonedeep') = Import.lazy(
-  'lodash.clonedeep',
-  require,
-);
-const merge: typeof import('lodash.merge') = Import.lazy(
-  'lodash.merge',
-  require,
-);
+import { applyOptionsChain, logger } from '@modern-js/utils';
+import { merge, cloneDeep } from '@modern-js/utils/lodash';
 
 const checkIfExistNotAllowKeys = (
   tailwindConfig: Record<string, any>,

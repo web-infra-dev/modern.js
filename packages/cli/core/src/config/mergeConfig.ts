@@ -1,4 +1,4 @@
-import mergeWith from 'lodash.mergewith';
+import { mergeWith } from '@modern-js/utils/lodash';
 import { isFunction } from '@modern-js/utils';
 import { UserConfig, SourceConfig, ToolsConfig } from '.';
 

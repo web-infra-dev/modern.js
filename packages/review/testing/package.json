@@ -44,7 +44,6 @@
     "babel-jest": "^27.0.6",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.0.6",
-    "lodash.merge": "^4.6.2",
     "semver": "^7.3.5",
     "ts-jest": "^27.0.4",
     "yargs": "^17.0.1"
@@ -54,7 +53,6 @@
     "@scripts/jest-config": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@types/jest": "^27.4.0",
-    "@types/lodash.merge": "^4.6.6",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",

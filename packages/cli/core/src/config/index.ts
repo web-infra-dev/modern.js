@@ -9,7 +9,7 @@ import {
   PLUGIN_SCHEMAS,
   chalk,
 } from '@modern-js/utils';
-import mergeWith from 'lodash.mergewith';
+import { mergeWith } from '@modern-js/utils/lodash';
 import betterAjvErrors from 'better-ajv-errors';
 import { codeFrameColumns } from '@babel/code-frame';
 
