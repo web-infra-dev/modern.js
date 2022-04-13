@@ -1,12 +1,8 @@
 import path from 'path';
 import type { NormalizedConfig } from '@modern-js/core';
-import { fs, Import, normalizeOutputPath } from '@modern-js/utils';
+import { fs, normalizeOutputPath } from '@modern-js/utils';
+import { template } from '@modern-js/utils/lodash';
 import { STORYBOOK_TEMPLATE_DIR } from '../constants';
-
-const template: typeof import('lodash.template') = Import.lazy(
-  'lodash.template',
-  require,
-);
 
 const INTERPOLATE_REGPEXP = /<%=([\s\S]+?)%>/g;
 

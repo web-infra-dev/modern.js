@@ -1,5 +1,5 @@
 import fs from 'fs';
-import merge from 'lodash.merge';
+import { merge } from '@modern-js/utils/lodash';
 import ts from 'typescript';
 
 let enumsMap = {};

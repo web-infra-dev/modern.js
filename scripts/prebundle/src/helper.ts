@@ -14,7 +14,7 @@ export type ParsedTask = {
   packageJsonField: string[];
 };
 
-function findDepPath(name: string, packagePath: string) {
+export function findDepPath(name: string, packagePath: string) {
   let entry = dirname(
     require.resolve(join(name), {
       paths: [join(packagePath, 'node_modules')],

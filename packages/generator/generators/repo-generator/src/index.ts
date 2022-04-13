@@ -1,5 +1,5 @@
 import path from 'path';
-import { merge } from 'lodash';
+import { merge } from '@modern-js/utils/lodash';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
