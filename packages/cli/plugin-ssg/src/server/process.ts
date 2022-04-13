@@ -1,7 +1,7 @@
 import server from '@modern-js/prod-server';
 import { ServerRoute as ModernRoute } from '@modern-js/types';
 import portfinder from 'portfinder';
-import { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/core';
 import { compatRequire } from '@modern-js/utils';
 import { makeRender } from '../libs/make';
 import { SsgRoute } from '../types';
