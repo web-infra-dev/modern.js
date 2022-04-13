@@ -1,5 +1,5 @@
 import { manager } from '@modern-js/core';
-import { program } from 'commander';
+import { program } from '@modern-js/utils';
 import { devCli } from '../src/cli/dev';
 
 const mockCommandDev = jest.fn();

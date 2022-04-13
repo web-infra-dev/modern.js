@@ -54,7 +54,6 @@
     "opener": "^1.5.2",
     "reload": "^3.2.0",
     "semver": "^7.3.5",
-    "signale": "^1.4.0",
     "slash": "^3.0.0",
     "style-loader": "^3.3.1",
     "uuid": "^8.3.2",

@@ -1,10 +1,10 @@
-import logger from 'signale';
+import { signale } from '@modern-js/utils';
 
-logger.config({
+signale.config({
   displayBadge: false,
   displayFilename: false,
   displayTimestamp: true,
   displayDate: false,
 });
 
-export default logger;
+export default signale;

@@ -1,6 +1,5 @@
 import { Middleware } from 'koa';
-import logger from 'signale';
-import { LAUNCH_EDITOR_ENDPOINT } from '@modern-js/utils';
+import { signale as logger, LAUNCH_EDITOR_ENDPOINT } from '@modern-js/utils';
 
 // try vscode first
 const specifiedEditor = 'code';

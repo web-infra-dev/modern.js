@@ -1,5 +1,4 @@
-import { Import } from '@modern-js/utils';
-import type { Command } from 'commander';
+import { Import, Command } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type { IBuildOption } from '../commands/build';
 
