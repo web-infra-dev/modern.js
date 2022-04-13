@@ -4,6 +4,7 @@ import { program, Command } from '../compiled/commander';
 import { Import } from './import';
 
 export { fs, chalk, program, Command };
+export type { Signale, SignaleOptions } from '../compiled/signale';
 export type { IOptions as GlobOptions } from '../compiled/glob';
 export type { FSWatcher, WatchOptions } from '../compiled/chokidar';
 
@@ -39,6 +40,11 @@ export const debug: typeof import('../compiled/debug') = Import.lazy(
 
 export const chokidar: typeof import('../compiled/chokidar') = Import.lazy(
   '../compiled/chokidar',
+  require,
+);
+
+export const signale: typeof import('../compiled/signale') = Import.lazy(
+  '../compiled/signale',
   require,
 );
 

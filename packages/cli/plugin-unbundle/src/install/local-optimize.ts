@@ -1,7 +1,6 @@
 import { createHash } from 'crypto';
 import path from 'path';
-import { chalk, fs } from '@modern-js/utils';
-import logger, { Signale } from 'signale';
+import { chalk, fs, signale as logger, Signale } from '@modern-js/utils';
 import enhancedResolve from 'enhanced-resolve';
 import { Plugin as ESBuildPlugin } from 'esbuild';
 import type { Compiler } from '@modern-js/esmpack';

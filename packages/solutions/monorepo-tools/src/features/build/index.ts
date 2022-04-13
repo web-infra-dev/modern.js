@@ -1,6 +1,5 @@
 import os from 'os';
-import { execa } from '@modern-js/utils';
-import signale from 'signale';
+import { execa, signale } from '@modern-js/utils';
 import type { IProjectNode } from '../../projects/get-projects';
 import type { ICommandConfig } from '../../type';
 import { DagOperator } from '../../dag/operator';

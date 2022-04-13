@@ -1,5 +1,5 @@
 import type { ChildProcess } from 'child_process';
-import { Signale, SignaleOptions } from 'signale';
+import { signale, SignaleOptions } from '@modern-js/utils';
 import { formatLog } from './utils';
 
 export interface ITaskLogProviderConfig {
@@ -29,7 +29,7 @@ const createLogger = (
       },
     },
   };
-  return new Signale(options);
+  return new signale.Signale(options);
 };
 
 const createListenHandler = (

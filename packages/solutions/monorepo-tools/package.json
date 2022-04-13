@@ -55,8 +55,7 @@
     "anymatch": "^3.1.2",
     "globby": "^11.0.0",
     "md5": "^2.3.0",
-    "p-map": "^4.0.0",
-    "signale": "^1.4.0"
+    "p-map": "^4.0.0"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
@@ -66,7 +65,6 @@
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
-    "@types/signale": "^1.4.2",
     "jest": "^27",
     "typescript": "^4"
   },

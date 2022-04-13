@@ -1,7 +1,7 @@
-import signale, { Signale } from 'signale';
+import { signale, Signale, SignaleOptions } from '@modern-js/utils';
 
-export const initTimeLog = (option: signale.SignaleOptions = {}) =>
-  new Signale({ interactive: true, scope: 'time-log', ...option });
+export const initTimeLog = (option: SignaleOptions = {}) =>
+  new signale.Signale({ interactive: true, scope: 'time-log', ...option });
 
 export const startTime = (signaleInstance: Signale, prefix = '') => {
   signaleInstance.time(prefix);
