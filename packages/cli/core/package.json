@@ -59,8 +59,6 @@
     "better-ajv-errors": "^0.7.0",
     "dotenv": "^10.0.0",
     "dotenv-expand": "^5.1.0",
-    "lodash.clonedeep": "^4.5.0",
-    "lodash.mergewith": "^4.6.2",
     "v8-compile-cache": "^2.3.0"
   },
   "devDependencies": {
@@ -72,8 +70,6 @@
     "@types/babel__core": "^7.1.16",
     "@types/jest": "^26",
     "@types/less": "^3.0.3",
-    "@types/lodash.clonedeep": "^4.5.6",
-    "@types/lodash.mergewith": "^4.6.6",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
