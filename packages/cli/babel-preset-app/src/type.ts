@@ -1,5 +1,5 @@
 import { BabelChain } from '@modern-js/babel-chain';
-import { BabelConfig } from '@modern-js/core';
+import type { BabelConfig } from '@modern-js/core';
 import { IStyledComponentOptions } from '@modern-js/babel-preset-base';
 
 export type {
