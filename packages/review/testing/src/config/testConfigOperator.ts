@@ -1,4 +1,4 @@
-import merge from 'lodash.merge';
+import { merge } from '@modern-js/utils/lodash';
 import { JestConfig, TestConfig } from '../types';
 
 class TestConfigOperator {
