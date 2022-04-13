@@ -48,7 +48,6 @@
     "serve-static": "^1.14.1",
     "lru-cache": "^6.0.0",
     "ua-parser-js": "^0.7.28",
-    "lodash.clone": "^4.5.0",
     "cookie": "^0.4.2"
   },
   "devDependencies": {
@@ -61,7 +60,6 @@
     "@types/mime-types": "^2.1.0",
     "@types/serve-static": "^1.13.10",
     "@types/ua-parser-js": "^0.7.36",
-    "@types/lodash.clone": "^4",
     "@types/cookie": "^0.4.1",
     "typescript": "^4",
     "@types/jest": "^26.0.9",

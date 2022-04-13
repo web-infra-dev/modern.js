@@ -3,7 +3,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { Plugin } from 'rollup';
 import less from 'less';
-import { clone } from 'lodash';
+import { clone } from '@modern-js/utils/lodash';
 import LessPluginImportNodeModules from './lessPluginImportNodeModules';
 
 export type LessOptions = Less.Options & {

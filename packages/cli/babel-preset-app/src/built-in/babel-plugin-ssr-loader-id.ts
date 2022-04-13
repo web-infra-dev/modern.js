@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import { Buffer } from 'buffer';
 import * as t from '@babel/types';
-import get from 'lodash.get';
+import { get } from '@modern-js/utils/lodash';
 
 const RUNTIME_PACKAGE_NAMES = ['@modern-js/runtime'];
 const FUNCTION_USE_LOADER_NAME = 'useLoader';

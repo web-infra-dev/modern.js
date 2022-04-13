@@ -8,7 +8,7 @@ import {
   SolutionSchemas,
   i18n as commonI18n,
 } from '@modern-js/generator-common';
-import { isFunction, merge } from 'lodash';
+import { isFunction, merge } from '@modern-js/utils/lodash';
 import { Schema } from '@modern-js/easy-form-core';
 import {
   LifeCycle,
