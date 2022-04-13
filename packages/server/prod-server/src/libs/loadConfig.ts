@@ -2,7 +2,7 @@ import * as path from 'path';
 import { compatRequire, fs, DEFAULT_SERVER_CONFIG } from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
 import type { ServerConfig } from '@modern-js/server-core';
-import merge from 'merge-deep';
+import mergeDeep from 'merge-deep';
 import { debug } from '../utils';
 
 export const getServerConfigPath = (
@@ -26,13 +26,6 @@ export const requireConfig = (serverConfigPath: string) => {
   return {};
 };
 
-export const mergeConfig = (
-  cliConfig: NormalizedConfig,
-  serverConfig: ServerConfig,
-) => {
-  return merge(cliConfig, serverConfig);
-};
-
 /**
  * 对配置进行合并，开发环境下,cliConfig 与 serverConfig 进行深合并
  * 生产环境下，resolvedConfig 与 serverConfig 进行深合并
@@ -50,15 +43,17 @@ export const loadConfig = ({
   let config = null;
   if (process.env.NODE_ENV === 'production') {
     const resolvedConfig = requireConfig(resolvedConfigPath);
-    config = mergeConfig(
+    // cli config has a higher priority,because it's an argument passed in.
+    config = mergeDeep(
       {
         ...resolvedConfig,
         plugins: [], // filter cli plugins
       },
       serverConfig,
+      cliConfig,
     );
   } else {
-    config = mergeConfig(
+    config = mergeDeep(
       {
         ...cliConfig,
         plugins: [],
