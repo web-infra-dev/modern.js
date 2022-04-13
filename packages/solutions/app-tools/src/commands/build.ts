@@ -99,7 +99,11 @@ export const build = async (api: PluginAPI, options?: BuildOptions) => {
   const previousFileSizes = await measureFileSizesBeforeBuild(distDirectory);
   await emptyDir(distDirectory);
 
-  await buildServerConfig(appDirectory, serverConfigFile);
+  await buildServerConfig({
+    appDirectory,
+    distDirectory,
+    configFile: serverConfigFile,
+  });
 
   const buildConfigs: Array<{ type: string; config: any }> = [];
   buildConfigs.push({

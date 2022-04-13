@@ -44,9 +44,14 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
 
   fs.emptyDirSync(distDirectory);
 
-  await buildServerConfig(appDirectory, serverConfigFile, {
-    esbuildOptions: {
-      watch: true,
+  await buildServerConfig({
+    appDirectory,
+    distDirectory,
+    configFile: serverConfigFile,
+    options: {
+      esbuildOptions: {
+        watch: true,
+      },
     },
   });
 

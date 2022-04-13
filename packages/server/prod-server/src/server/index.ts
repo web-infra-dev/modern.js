@@ -94,18 +94,22 @@ export class Server {
    * @param runner
    * @param options
    */
-  runConfigHook(runner: ServerHookRunner, serverConfig: ServerConfig) {
+  private runConfigHook(runner: ServerHookRunner, serverConfig: ServerConfig) {
     const newServerConfig = runner.config(serverConfig || {});
     return newServerConfig;
   }
 
-  async runPrepareHook(runner: ServerHookRunner) {
+  private async runPrepareHook(runner: ServerHookRunner) {
     runner.prepare();
   }
 
   private initServerConfig(options: ModernServerOptions) {
     const { pwd, serverConfigFile } = options;
-    const serverConfigPath = getServerConfigPath(pwd, serverConfigFile);
+    const distDirectory = path.join(pwd, options.config.output?.path || 'dist');
+    const serverConfigPath = getServerConfigPath(
+      distDirectory,
+      serverConfigFile,
+    );
     const serverConfig = requireConfig(serverConfigPath);
     this.serverConfig = serverConfig;
   }
