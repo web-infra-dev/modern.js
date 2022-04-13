@@ -4,8 +4,7 @@ import {
   IPackageJson,
   JsonFile,
 } from '@rushstack/node-core-library';
-import { success } from 'signale';
-import { fs, yaml, execa, logger, chalk } from '@modern-js/utils';
+import { fs, yaml, execa, logger, chalk, signale } from '@modern-js/utils';
 import { WORKSPACE_FILE } from '../../constants';
 import { IPnpmWorkSpace } from '../../type';
 import { DagOperator } from '../../dag/operator';
@@ -204,5 +203,5 @@ export const deploy = async (
   generatorAndCopyRequiredFiles(rootPath, realDeployPath);
   // await installDependency(realDeployPath, packageManager);
 
-  success(`Deploy success. The deploy dir is in '${rootPath}/output'`);
+  signale.success(`Deploy success. The deploy dir is in '${rootPath}/output'`);
 };

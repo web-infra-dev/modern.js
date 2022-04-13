@@ -1,5 +1,4 @@
-import type { Command } from 'commander';
-import { Import } from '@modern-js/utils';
+import { Import, Command } from '@modern-js/utils';
 
 const newAction: typeof import('@modern-js/new-action') = Import.lazy(
   '@modern-js/new-action',

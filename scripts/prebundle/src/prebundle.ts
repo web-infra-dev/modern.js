@@ -4,8 +4,6 @@ import { Package as DtsPacker } from 'dts-packer';
 import fs from 'fs-extra';
 import { ParsedTask, pick } from './helper';
 
-const externals: Record<string, string> = {};
-
 function emitAssets(
   assets: Record<string, { source: string }>,
   distPath: string,
@@ -63,6 +61,7 @@ function emitPackageJson(task: ParsedTask) {
       'types',
       'typing',
       'typings',
+      ...task.packageJsonField,
     ]),
   );
 }
@@ -77,12 +76,10 @@ function emitLicense(task: ParsedTask) {
 export async function prebundle(task: ParsedTask) {
   console.log(`==== Start prebundle "${task.depName}" ====`);
 
-  externals[task.depName] = task.importPath;
-
   const entry = require.resolve(task.depPath);
   const { code, assets } = await ncc(entry, {
-    minify: true,
-    externals,
+    minify: task.minify,
+    externals: task.externals,
     assetBuilds: false,
   });
 

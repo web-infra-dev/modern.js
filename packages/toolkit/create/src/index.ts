@@ -1,4 +1,4 @@
-import { Command } from 'commander';
+import { Command } from '@modern-js/utils';
 import { createAction } from './createAction';
 import { getLocaleLanguage } from './utils';
 import { i18n, localeKeys } from './locale';
