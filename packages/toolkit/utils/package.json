@@ -30,10 +30,6 @@
       "jsnext:source": "./src/constants.ts",
       "default": "./dist/constants.js"
     },
-    "./chalk": {
-      "jsnext:source": "./compiled/chalk/index.js",
-      "default": "./compiled/chalk/index.js"
-    },
     "./strip-ansi": {
       "jsnext:source": "./compiled/strip-ansi/index.js",
       "default": "./compiled/strip-ansi/index.js"
@@ -46,9 +42,6 @@
       ],
       "constants": [
         "./dist/constants.d.ts"
-      ],
-      "chalk": [
-        "./compiled/chalk/index.d.ts"
       ],
       "strip-ansi": [
         "./compiled/strip-ansi/index.d.ts"

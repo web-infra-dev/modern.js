@@ -49,6 +49,7 @@ export const TASKS: Task[] = [
       {
         name: 'signale',
         externals: {
+          chalk: '../chalk',
           // ncc bundled wrong package.json, using external to avoid this problem
           './package.json': './package.json',
         },
