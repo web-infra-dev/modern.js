@@ -1,5 +1,5 @@
 import path from 'path';
-import { isEqual, merge } from 'lodash';
+import { isEqual, merge } from '@modern-js/utils/lodash';
 import { fs, getPackageObj, isTsProject } from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';

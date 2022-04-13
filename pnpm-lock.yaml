@@ -51,12 +51,10 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash.get': ^4.4.6
       '@types/node': ^14
       '@types/semver': ^7.3.8
       core-js: ^3.6.4
       jest: ^27
-      lodash.get: ^4.4.2
       regenerator-runtime: ^0.13.9
       semver: ^7.3.5
       typescript: ^4
@@ -71,7 +69,6 @@ importers:
       '@modern-js/babel-preset-base': link:../babel-preset-base
       '@modern-js/utils': link:../../toolkit/utils
       core-js: 3.20.2
-      lodash.get: 4.4.2
       regenerator-runtime: 0.13.9
       semver: 7.3.5
     devDependencies:
@@ -79,7 +76,6 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash.get': 4.4.6
       '@types/node': 14.18.4
       '@types/semver': 7.3.9
       jest: 27.4.5
@@ -111,7 +107,6 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash.get': ^4.4.6
       '@types/node': ^14
       '@types/semver': ^7.3.8
       babel-plugin-dynamic-import-node: ^2.3.3
@@ -156,7 +151,6 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash.get': 4.4.6
       '@types/node': 14.18.4
       '@types/semver': 7.3.9
       jest: 27.4.5
@@ -261,8 +255,6 @@ importers:
       '@types/babel__core': ^7.1.16
       '@types/jest': ^26
       '@types/less': ^3.0.3
-      '@types/lodash.clonedeep': ^4.5.6
-      '@types/lodash.mergewith': ^4.6.6
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -276,8 +268,6 @@ importers:
       dotenv-expand: ^5.1.0
       esbuild: ^0.13.13
       jest: ^27
-      lodash.clonedeep: ^4.5.0
-      lodash.mergewith: ^4.6.2
       sass: ^1.45.0
       terser-webpack-plugin: ^5.1.4
       typescript: ^4
@@ -297,8 +287,6 @@ importers:
       dotenv: 10.0.0
       dotenv-expand: 5.1.0
       esbuild: 0.13.15
-      lodash.clonedeep: 4.5.0
-      lodash.mergewith: 4.6.2
       v8-compile-cache: 2.3.0
     devDependencies:
       '@jest/types': 27.5.1
@@ -309,8 +297,6 @@ importers:
       '@types/babel__core': 7.1.18
       '@types/jest': 26.0.24
       '@types/less': 3.0.3
-      '@types/lodash.clonedeep': 4.5.6
-      '@types/lodash.mergewith': 4.6.6
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -640,7 +626,6 @@ importers:
       '@types/github-slugger': ^1.3.0
       '@types/glob': ^7.1.4
       '@types/jest': ^26
-      '@types/lodash': ^4.14.168
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -652,7 +637,6 @@ importers:
       gray-matter: ^4.0.3
       html-webpack-plugin: ^5.3.2
       jest: ^27
-      lodash: ^4.17.21
       mdast-util-to-string: ^2.0.0
       path-browserify: ^1.0.1
       prism-react-renderer: ^1.2.1
@@ -679,7 +663,6 @@ importers:
       github-slugger: 1.4.0
       gray-matter: 4.0.3
       html-webpack-plugin: 5.5.0_webpack@5.71.0
-      lodash: 4.17.21
       mdast-util-to-string: 2.0.0
       path-browserify: 1.0.1
       prism-react-renderer: 1.2.1_react@17.0.2
@@ -700,7 +683,6 @@ importers:
       '@types/github-slugger': 1.3.0
       '@types/glob': 7.2.0
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -823,7 +805,6 @@ importers:
       '@testing-library/user-event': ^13.5.0
       '@types/hoist-non-react-statics': ^3.3.1
       '@types/jest': ^26.0.24
-      '@types/lodash': ^4.14.181
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -832,7 +813,6 @@ importers:
       hoist-non-react-statics: ^3.3.2
       jest: ^27
       jest-fetch-mock: ^3.0.3
-      lodash: ^4.17.21
       react: ^17.0.2
       react-dom: ^17.0.2
       react-loadable: ^5.5.0
@@ -845,7 +825,6 @@ importers:
       '@types/react-loadable': 5.5.6
       garfish: 1.3.3
       hoist-non-react-statics: 3.3.2
-      lodash: 4.17.21
       react-loadable: 5.5.0_react@17.0.2
     devDependencies:
       '@modern-js/core': link:../core
@@ -860,7 +839,6 @@ importers:
       '@testing-library/user-event': 13.5.0
       '@types/hoist-non-react-statics': 3.3.1
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.181
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -875,22 +853,20 @@ importers:
   packages/cli/plugin-i18n:
     specifiers:
       '@babel/runtime': ^7
+      '@modern-js/utils': workspace:^1.3.7
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.126
       '@types/node': ^14
       jest: ^27
-      lodash: ^4.17.11
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
-      lodash: 4.17.21
     devDependencies:
+      '@modern-js/utils': link:../../toolkit/utils
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -1111,7 +1087,6 @@ importers:
       '@types/inquirer': ^8.1.3
       '@types/jest': ^26
       '@types/less': ^3.0.3
-      '@types/lodash': ^4.14.178
       '@types/node': ^14
       '@types/opener': ^1.4.0
       '@types/semver': ^7.3.9
@@ -1126,7 +1101,6 @@ importers:
       inquirer: ^8.1.5
       jest: ^27
       jsdom: ^19.0.0
-      lodash: ^4.17.21
       opener: ^1.5.2
       reload: ^3.2.0
       semver: ^7.3.5
@@ -1149,7 +1123,6 @@ importers:
       http-proxy-middleware: 1.3.1
       inquirer: 8.2.0
       jsdom: 19.0.0
-      lodash: 4.17.21
       opener: 1.5.2
       reload: 3.2.0
       semver: 7.3.5
@@ -1169,7 +1142,6 @@ importers:
       '@types/inquirer': 8.1.3
       '@types/jest': 26.0.24
       '@types/less': 3.0.3
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       '@types/opener': 1.4.0
       '@types/semver': 7.3.9
@@ -1563,7 +1535,6 @@ importers:
       '@types/fs-extra': ^9.0.12
       '@types/glob': ^7.1.4
       '@types/jest': ^26
-      '@types/lodash.template': ^4.5.0
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -1571,7 +1542,6 @@ importers:
       findup-sync: ^4.0.0
       fs-extra: ^10.0.0
       jest: ^27
-      lodash.template: ^4.5.0
       node-polyfill-webpack-plugin: ^1.1.4
       process.argv: ^0.6.0
       react: ^17
@@ -1596,7 +1566,6 @@ importers:
       esbuild: 0.13.15
       findup-sync: 4.0.0
       fs-extra: 10.0.1
-      lodash.template: 4.5.0
       node-polyfill-webpack-plugin: 1.1.4_webpack@5.71.0
       process.argv: 0.6.0
     devDependencies:
@@ -1610,7 +1579,6 @@ importers:
       '@types/fs-extra': 9.0.13
       '@types/glob': 7.2.0
       '@types/jest': 26.0.24
-      '@types/lodash.template': 4.5.0
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -1629,28 +1597,20 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash.clonedeep': ^4.5.6
-      '@types/lodash.merge': ^4.6.6
       '@types/node': ^14
       '@types/tailwindcss': ^2.2.1
       jest: ^27
-      lodash.clonedeep: ^4.5.0
-      lodash.merge: ^4.6.2
       tailwindcss: ^2.0.4
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/plugin-design-token': link:../plugin-design-token
       '@modern-js/utils': link:../../toolkit/utils
-      lodash.clonedeep: 4.5.0
-      lodash.merge: 4.6.2
     devDependencies:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash.clonedeep': 4.5.6
-      '@types/lodash.merge': 4.6.6
       '@types/node': 14.18.4
       '@types/tailwindcss': 2.2.4
       jest: 27.4.5
@@ -1751,8 +1711,6 @@ importers:
       '@types/koa-compress': ^4.0.1
       '@types/koa-static': ^4.0.1
       '@types/less': ^3.0.2
-      '@types/lodash.merge': ^4.6.6
-      '@types/lodash.template': ^4.5.0
       '@types/mime-types': ^2.1.0
       '@types/node': ^16.9.2
       '@types/semver': ^7.3.4
@@ -1778,8 +1736,6 @@ importers:
       koa-static: ^5.0.0
       launch-editor: ^2.2.1
       less: ^4.1.1
-      lodash.merge: ^4.6.2
-      lodash.template: ^4.5.0
       magic-string: ^0.25.7
       merge-source-map: ^1.1.0
       mime-types: ^2.1.29
@@ -1832,8 +1788,6 @@ importers:
       koa-static: 5.0.0
       launch-editor: 2.3.0
       less: 4.1.2
-      lodash.merge: 4.6.2
-      lodash.template: 4.5.0
       magic-string: 0.25.7
       merge-source-map: 1.1.0
       mime-types: 2.1.34
@@ -1865,8 +1819,6 @@ importers:
       '@types/koa-compress': 4.0.3
       '@types/koa-static': 4.0.2
       '@types/less': 3.0.3
-      '@types/lodash.merge': 4.6.6
-      '@types/lodash.template': 4.5.0
       '@types/mime-types': 2.1.1
       '@types/node': 16.11.18
       '@types/semver': 7.3.9
@@ -1919,7 +1871,6 @@ importers:
       '@types/copy-webpack-plugin': ^8.0.1
       '@types/css-minimizer-webpack-plugin': ^3.0.2
       '@types/jest': ^26
-      '@types/lodash.template': ^4.5.0
       '@types/mini-css-extract-plugin': ~2.2.0
       '@types/node': ^14
       '@types/react': ^17
@@ -1939,7 +1890,6 @@ importers:
       html-webpack-plugin: ^5.3.2
       jest: ^27
       json-loader: ^0.5.7
-      lodash.template: ^4.5.0
       markdown-loader: ^6.0.0
       mini-css-extract-plugin: ~2.4.5
       node-libs-browser: ^2.2.1
@@ -1981,7 +1931,6 @@ importers:
       html-loader: 2.1.2_webpack@5.71.0
       html-webpack-plugin: 5.5.0_webpack@5.71.0
       json-loader: 0.5.7
-      lodash.template: 4.5.0
       markdown-loader: 6.0.0
       mini-css-extract-plugin: 2.4.5_webpack@5.71.0
       node-libs-browser: 2.2.1
@@ -2010,7 +1959,6 @@ importers:
       '@types/copy-webpack-plugin': 8.0.1
       '@types/css-minimizer-webpack-plugin': 3.2.1_esbuild@0.13.15+webpack@5.71.0
       '@types/jest': 26.0.24
-      '@types/lodash.template': 4.5.0
       '@types/mini-css-extract-plugin': 2.2.0
       '@types/node': 14.18.4
       '@types/react': 17.0.38
@@ -2086,17 +2034,16 @@ importers:
       '@modern-js/new-action': workspace:^1.3.3
       '@modern-js/plugin-i18n': workspace:^1.2.1
       '@modern-js/plugin-jarvis': workspace:^1.2.3
+      '@modern-js/utils': workspace:^1.3.7
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26.0.9
-      '@types/lodash': ^4.14.126
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
       globby: ^11.0.2
       handlebars: ^4.7.7
       jest: ^27
-      lodash: ^4.17.11
       package-json: ^7.0.0
       react: ^17
       typescript: ^4
@@ -2112,9 +2059,9 @@ importers:
       '@modern-js/generator-utils': link:../generator-utils
       '@modern-js/new-action': link:../new-action
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
+      '@modern-js/utils': link:../../toolkit/utils
       globby: 11.0.4
       handlebars: 4.7.7
-      lodash: 4.17.21
       package-json: 7.0.0
       vm2: 3.9.5
     devDependencies:
@@ -2122,7 +2069,6 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -2195,7 +2141,6 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.168
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2210,7 +2155,6 @@ importers:
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2225,7 +2169,6 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.168
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2238,7 +2181,6 @@ importers:
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2253,7 +2195,6 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.168
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2266,7 +2207,6 @@ importers:
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2317,7 +2257,6 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.168
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2332,7 +2271,6 @@ importers:
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2440,13 +2378,12 @@ importers:
       '@modern-js/generator-common': workspace:^1.4.3
       '@modern-js/generator-utils': workspace:^1.2.1
       '@modern-js/plugin-i18n': workspace:^1.2.1
+      '@modern-js/utils': workspace:^1.3.7
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.172
       '@types/node': ^14
       jest: ^27
-      lodash: ^4.17.21
       typescript: ^4
     devDependencies:
       '@babel/runtime': 7.16.7
@@ -2458,13 +2395,12 @@ importers:
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
+      '@modern-js/utils': link:../../../toolkit/utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
-      lodash: 4.17.21
       typescript: 4.5.4
 
   packages/generator/generators/eslint-generator:
@@ -2478,7 +2414,6 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.168
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2492,7 +2427,6 @@ importers:
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2511,10 +2445,8 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.168
       '@types/node': ^14
       jest: ^27
-      lodash: ^4.17.21
       typescript: ^4
     devDependencies:
       '@babel/runtime': 7.16.7
@@ -2529,10 +2461,8 @@ importers:
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
-      lodash: 4.17.21
       typescript: 4.5.4
 
   packages/generator/generators/module-generator:
@@ -2662,13 +2592,12 @@ importers:
       '@modern-js/module-generator': workspace:^1.3.5
       '@modern-js/monorepo-generator': workspace:^1.3.3
       '@modern-js/mwa-generator': workspace:^1.3.5
+      '@modern-js/utils': workspace:^1.3.7
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.168
       '@types/node': ^14
       jest: ^27
-      lodash: ^4.17.21
       typescript: ^4
       vm2: ^3.9.2
     dependencies:
@@ -2685,13 +2614,12 @@ importers:
       '@modern-js/module-generator': link:../module-generator
       '@modern-js/monorepo-generator': link:../monorepo-generator
       '@modern-js/mwa-generator': link:../mwa-generator
+      '@modern-js/utils': link:../../../toolkit/utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
-      lodash: 4.17.21
       typescript: 4.5.4
 
   packages/generator/generators/server-generator:
@@ -2706,7 +2634,6 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.168
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2721,7 +2648,6 @@ importers:
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2739,7 +2665,6 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.168
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2755,7 +2680,6 @@ importers:
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2775,7 +2699,6 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.168
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2793,7 +2716,6 @@ importers:
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2810,7 +2732,6 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.168
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2825,7 +2746,6 @@ importers:
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2844,7 +2764,6 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.168
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2861,7 +2780,6 @@ importers:
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2880,7 +2798,6 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.168
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2897,7 +2814,6 @@ importers:
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2909,14 +2825,13 @@ importers:
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/generator-common': workspace:^1.4.4
       '@modern-js/generator-utils': workspace:^1.2.1
+      '@modern-js/utils': workspace:^1.3.7
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.168
       '@types/node': ^14
       jest: ^27
       json5: ^2.2.0
-      lodash: ^4.17.21
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
@@ -2924,13 +2839,12 @@ importers:
       '@modern-js/codesmith-api-app': 1.0.8
       '@modern-js/generator-common': link:../generator-common
       '@modern-js/generator-utils': link:../generator-utils
+      '@modern-js/utils': link:../../toolkit/utils
       json5: 2.2.0
-      lodash: 4.17.21
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2945,7 +2859,6 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
-      '@types/lodash': ^4.14.168
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2961,7 +2874,6 @@ importers:
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -3004,7 +2916,6 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27.4.0
-      '@types/lodash.merge': ^4.6.6
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -3013,7 +2924,6 @@ importers:
       babel-jest: ^27.0.6
       identity-obj-proxy: ^3.0.0
       jest: ^27.0.6
-      lodash.merge: ^4.6.2
       semver: ^7.3.5
       ts-jest: ^27.0.4
       typescript: ^4
@@ -3027,7 +2937,6 @@ importers:
       babel-jest: 27.4.5
       identity-obj-proxy: 3.0.0
       jest: 27.4.5
-      lodash.merge: 4.6.2
       semver: 7.3.5
       ts-jest: 27.1.2_38de93d2b218a583018ba888125d8b8b
       yargs: 17.3.1
@@ -3037,7 +2946,6 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.4.0
-      '@types/lodash.merge': 4.6.6
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -3645,7 +3553,6 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/cookie': ^0.4.1
       '@types/jest': ^26.0.9
-      '@types/lodash.clone': ^4
       '@types/lru-cache': ^5.1.1
       '@types/mime-types': ^2.1.0
       '@types/node': ^14
@@ -3658,7 +3565,6 @@ importers:
       http-proxy-middleware: ^2.0.1
       ignore-styles: ^5.0.1
       jest: ^27
-      lodash.clone: ^4.5.0
       lru-cache: ^6.0.0
       mime-types: ^2.1.32
       node-mocks-http: ^1.11.0
@@ -3676,7 +3582,6 @@ importers:
       cookie: 0.4.2
       http-proxy-middleware: 2.0.1
       ignore-styles: 5.0.1
-      lodash.clone: 4.5.0
       lru-cache: 6.0.0
       mime-types: 2.1.34
       path-to-regexp: 6.2.0
@@ -3689,7 +3594,6 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/cookie': 0.4.1
       '@types/jest': 26.0.24
-      '@types/lodash.clone': 4.5.6
       '@types/lru-cache': 5.1.1
       '@types/mime-types': 2.1.1
       '@types/node': 14.18.4
@@ -3900,7 +3804,6 @@ importers:
       '@types/glob': ^7.1.4
       '@types/inquirer': ^8.1.1
       '@types/jest': ^26
-      '@types/lodash.merge': ^4.6.6
       '@types/node': ^14
       '@types/normalize-path': ^3.0.0
       '@types/react': ^17
@@ -3911,7 +3814,6 @@ importers:
       inquirer: ^8.1.5
       jest: ^27
       json5: ^2.2.0
-      lodash.merge: ^4.6.2
       normalize-path: ^3.0.0
       p-map: ^4
       process.argv: ^0.6.0
@@ -3941,7 +3843,6 @@ importers:
       globby: 11.0.4
       inquirer: 8.2.0
       json5: 2.2.0
-      lodash.merge: 4.6.2
       normalize-path: 3.0.0
       p-map: 4.0.0
       process.argv: 0.6.0
@@ -3957,7 +3858,6 @@ importers:
       '@types/glob': 7.2.0
       '@types/inquirer': 8.1.3
       '@types/jest': 26.0.24
-      '@types/lodash.merge': 4.6.6
       '@types/node': 14.18.4
       '@types/normalize-path': 3.0.0
       '@types/react': 17.0.38
@@ -4102,7 +4002,6 @@ importers:
       '@types/glob': ^7.1.4
       '@types/jest': ^26
       '@types/less': ^3.0.3
-      '@types/lodash': ^4.14.172
       '@types/node': ^14
       '@types/postcss-custom-properties': ^9.1.1
       '@types/postcss-flexbugs-fixes': ^4.2.1
@@ -4112,7 +4011,6 @@ importers:
       '@types/tailwindcss': ^2.2.1
       jest: ^27
       less: ^4.1.1
-      lodash: ^4.17.21
       postcss: 8.4.5
       postcss-import: ^14.0.2
       sass: ^1.45.0
@@ -4121,7 +4019,6 @@ importers:
       '@babel/runtime': 7.16.7
       '@modern-js/utils': link:../../utils
       less: 4.1.2
-      lodash: 4.17.21
       postcss: 8.4.5
       postcss-import: 14.0.2_postcss@8.4.5
       sass: 1.45.2
@@ -4131,7 +4028,6 @@ importers:
       '@types/glob': 7.2.0
       '@types/jest': 26.0.24
       '@types/less': 3.0.3
-      '@types/lodash': 4.14.178
       '@types/node': 14.18.4
       '@types/postcss-custom-properties': 9.1.1
       '@types/postcss-flexbugs-fixes': 4.2.1
@@ -4229,7 +4125,6 @@ importers:
       '@types/jest': ~26.0.20
       '@types/jest-environment-puppeteer': ~4.4.1
       '@types/less': ~3.0.2
-      '@types/lodash': ~4.14.167
       '@types/node': ~14.14.20
       '@types/puppeteer': ~5.4.2
       '@types/resolve': ~1.17.1
@@ -4250,7 +4145,6 @@ importers:
       jest-environment-puppeteer: ~6.0.0
       jest-puppeteer: ~6.0.0
       less: ~4.1.0
-      lodash: ~4.17.20
       postcss: ~8.2.4
       puppeteer: ~10.4.0
       resolve: ~1.19.0
@@ -4288,7 +4182,6 @@ importers:
       find-up: 5.0.0
       is-builtin-module: 3.1.0
       less: 4.1.2
-      lodash: 4.17.21
       postcss: 8.2.15
       resolve: 1.19.0
       rollup: 2.50.6
@@ -4305,7 +4198,6 @@ importers:
       '@types/jest': 26.0.24
       '@types/jest-environment-puppeteer': 4.4.1
       '@types/less': 3.0.3
-      '@types/lodash': 4.14.178
       '@types/node': 14.14.45
       '@types/puppeteer': 5.4.4
       '@types/resolve': 1.17.1
@@ -4477,6 +4369,7 @@ importers:
       '@types/glob': ^7.1.4
       '@types/jest': ^26
       '@types/js-yaml': 4.0.5
+      '@types/lodash': 4.14.181
       '@types/node': ^14
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4
@@ -4494,6 +4387,7 @@ importers:
       import-lazy: 4.0.0
       jest: ^27
       js-yaml: 4.1.0
+      lodash: 4.17.21
       pkg-up: 3.1.0
       recursive-readdir: 2.2.2
       signale: 1.4.0
@@ -4514,6 +4408,7 @@ importers:
       '@types/glob': 7.2.0
       '@types/jest': 26.0.24
       '@types/js-yaml': 4.0.5
+      '@types/lodash': 4.14.181
       '@types/node': 14.18.4
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4
@@ -4530,6 +4425,7 @@ importers:
       import-lazy: 4.0.0
       jest: 27.4.5
       js-yaml: 4.1.0
+      lodash: 4.17.21
       pkg-up: 3.1.0
       recursive-readdir: 2.2.2
       signale: 1.4.0
@@ -15182,44 +15078,9 @@ packages:
       '@types/webpack': 4.41.32
     dev: true
 
-  /@types/lodash.clone/4.5.6:
-    resolution: {integrity: sha512-cmwjyhyjvdWfTcuCmyjHzqxNv4yYGnlnpN24crxq8JwIKLtMI+ro0ScUcLSYo6wy8ToLczi6Sln0tqZntLganA==}
-    dependencies:
-      '@types/lodash': 4.14.178
-    dev: true
-
-  /@types/lodash.clonedeep/4.5.6:
-    resolution: {integrity: sha512-cE1jYr2dEg1wBImvXlNtp0xDoS79rfEdGozQVgliDZj1uERH4k+rmEMTudP9b4VQ8O6nRb5gPqft0QzEQGMQgA==}
-    dependencies:
-      '@types/lodash': 4.14.178
-    dev: true
-
-  /@types/lodash.get/4.4.6:
-    resolution: {integrity: sha512-E6zzjR3GtNig8UJG/yodBeJeIOtgPkMgsLjDU3CbgCAPC++vJ0eCMnJhVpRZb/ENqEFlov1+3K9TKtY4UdWKtQ==}
-    dependencies:
-      '@types/lodash': 4.14.178
-    dev: true
-
-  /@types/lodash.merge/4.6.6:
-    resolution: {integrity: sha512-IB90krzMf7YpfgP3u/EvZEdXVvm4e3gJbUvh5ieuI+o+XqiNEt6fCzqNRaiLlPVScLI59RxIGZMQ3+Ko/DJ8vQ==}
-    dependencies:
-      '@types/lodash': 4.14.178
-    dev: true
-
-  /@types/lodash.mergewith/4.6.6:
-    resolution: {integrity: sha512-RY/8IaVENjG19rxTZu9Nukqh0W2UrYgmBj5sdns4hWRZaV8PqR7wIKHFKzvOTjo4zVRV7sVI+yFhAJql12Kfqg==}
-    dependencies:
-      '@types/lodash': 4.14.178
-    dev: true
-
-  /@types/lodash.template/4.5.0:
-    resolution: {integrity: sha512-4LgHxK16IPbGR7TmXpPvNT7iNGsLCdQY6Rc0mi1a/JECt8et/D4hx6NMVAJej/d932sj1mJsg0QYHKL189O0Qw==}
-    dependencies:
-      '@types/lodash': 4.14.178
-    dev: true
-
   /@types/lodash/4.14.178:
     resolution: {integrity: sha512-0d5Wd09ItQWH1qFbEyQ7oTQ3GZrMfth5JkbN3EvTKLXcHLRDSXeLnlvlOn0wvxVIwK5o2M8JzP/OWz7T3NRsbw==}
+    dev: false
 
   /@types/lodash/4.14.181:
     resolution: {integrity: sha512-n3tyKthHJbkiWhDZs3DkhkCzt2MexYHXlX0td5iMplyfwketaOeKboEVBqzceH7juqvEg3q5oUoBFxSLu7zFag==}
@@ -28188,10 +28049,6 @@ packages:
     dependencies:
       p-locate: 5.0.0
 
-  /lodash._reinterpolate/3.0.0:
-    resolution: {integrity: sha1-DM8tiRZq8Ds2Y8eWU4t1rG4RTZ0=}
-    dev: false
-
   /lodash.assignin/4.2.0:
     resolution: {integrity: sha1-uo31+4QesKPoBEIysOJjqNxqKKI=}
     dev: false
@@ -28202,14 +28059,6 @@ packages:
 
   /lodash.camelcase/4.3.0:
     resolution: {integrity: sha1-soqmKIorn8ZRA1x3EfZathkDMaY=}
-    dev: false
-
-  /lodash.clone/4.5.0:
-    resolution: {integrity: sha1-GVhwRQ9aExkkeN9Lw9I9LeoZB7Y=}
-    dev: false
-
-  /lodash.clonedeep/4.5.0:
-    resolution: {integrity: sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=}
     dev: false
 
   /lodash.curry/4.1.1:
@@ -28269,10 +28118,6 @@ packages:
   /lodash.merge/4.6.2:
     resolution: {integrity: sha1-VYqlO0O2YeGSWgr9+japoQhf5Xo=}
 
-  /lodash.mergewith/4.6.2:
-    resolution: {integrity: sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ==}
-    dev: false
-
   /lodash.pick/4.4.0:
     resolution: {integrity: sha1-UvBWEP/53tQiYRRB7R/BI6AwAbM=}
     dev: false
@@ -28299,19 +28144,6 @@ packages:
 
   /lodash.startcase/4.4.0:
     resolution: {integrity: sha1-lDbjTtJgk+1/+uGTYUQ1CRXZrdg=}
-    dev: false
-
-  /lodash.template/4.5.0:
-    resolution: {integrity: sha512-84vYFxIkmidUiFxidA/KjjH9pAycqW+h980j7Fuz5qxRtO9pgB7MDFTdys1N7A5mcucRiDyEq4fusljItR1T/A==}
-    dependencies:
-      lodash._reinterpolate: 3.0.0
-      lodash.templatesettings: 4.2.0
-    dev: false
-
-  /lodash.templatesettings/4.2.0:
-    resolution: {integrity: sha1-5IExDwSdPPbUfpEq0JMTsVTw+zM=}
-    dependencies:
-      lodash._reinterpolate: 3.0.0
     dev: false
 
   /lodash.topath/4.5.2:

@@ -43,6 +43,12 @@ function emitDts(task: ParsedTask) {
 
     fs.writeFileSync(filePath, newContent);
   }
+
+  // Fix lodash types, copy `common` folder
+  if (task.depName === 'lodash') {
+    const from = join(task.packagePath, 'node_modules/@types/lodash/common');
+    fs.copySync(from, join(task.distPath, 'common'));
+  }
 }
 
 function emitPackageJson(task: ParsedTask) {
