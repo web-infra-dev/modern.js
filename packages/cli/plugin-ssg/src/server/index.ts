@@ -1,13 +1,14 @@
 import childProcess from 'child_process';
 import path from 'path';
 import { logger } from '@modern-js/utils';
-import { NormalizedConfig, useAppContext } from '@modern-js/core';
+import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
 import { ServerRoute as ModernRoute } from '@modern-js/types';
 import { openRouteSSR } from '../libs/util';
 import { SsgRoute } from '../types';
 import { CLOSE_SIGN } from './consts';
 
 export const createServer = (
+  api: PluginAPI,
   ssgRoutes: SsgRoute[],
   pageRoutes: ModernRoute[],
   apiRoutes: ModernRoute[],
@@ -26,7 +27,7 @@ export const createServer = (
       silent: true,
     });
 
-    const appContext = useAppContext();
+    const appContext = api.useAppContext();
     const serverPlugins = appContext.plugins
       .filter((p: any) => p.server)
       .map((p: any) => p.server);
