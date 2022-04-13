@@ -1,6 +1,7 @@
 import path from 'path';
 import {
   pkgUp,
+  program,
   ensureAbsolutePath,
   logger,
   INTERNAL_PLUGINS,
@@ -8,7 +9,7 @@ import {
 import { enable } from '@modern-js/plugin/node';
 import type { Hooks } from '@modern-js/types';
 import { ErrorObject } from 'ajv';
-import { program } from './utils/commander';
+import { initCommandsMap } from './utils/commander';
 import { resolveConfig, loadUserConfig } from './config';
 import { loadPlugins } from './loadPlugins';
 import {
@@ -97,6 +98,8 @@ const createCli = () => {
     restartOptions = options;
 
     const appDirectory = await initAppDir();
+
+    initCommandsMap();
 
     const metaName = options?.options?.metaName ?? 'MODERN';
     loadEnv(appDirectory, process.env[`${metaName.toUpperCase()}_ENV`]);

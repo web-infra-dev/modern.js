@@ -1,10 +1,9 @@
 import path from 'path';
 // eslint-disable-next-line node/no-deprecated-api
 import { parse as parseUrl } from 'url';
-import { fs, chalk } from '@modern-js/utils';
+import { fs, chalk, signale as logger } from '@modern-js/utils';
 import { Loader } from 'esbuild';
 import { Server } from '@modern-js/server';
-import logger from 'signale';
 
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import {

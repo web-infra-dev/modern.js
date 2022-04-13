@@ -1,11 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { chalk } from '@modern-js/utils';
+import { chalk, signale as logger } from '@modern-js/utils';
 import { Alias } from '@rollup/plugin-alias';
 import { Plugin as RollupPlugin, SourceMap } from 'rollup';
 import postcss, { AcceptedPlugin, ProcessOptions } from 'postcss';
 import { codeFrameColumns } from '@babel/code-frame';
-import logger from 'signale';
 import type { LegacyImporterResult } from 'sass';
 import less from 'less';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
