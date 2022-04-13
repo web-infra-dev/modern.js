@@ -142,7 +142,7 @@ export default (): CliPlugin => ({
 
         await generateCode(appContext, resolvedConfig, entrypoints, api);
 
-        const htmlTemplates = await getHtmlTemplate(entrypoints, {
+        const htmlTemplates = await getHtmlTemplate(entrypoints, api, {
           appContext,
           config: resolvedConfig,
         });

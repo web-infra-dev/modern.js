@@ -179,6 +179,7 @@ export default (): CliPlugin => ({
         });
 
         const htmlAry = await createServer(
+          api,
           ssgRoutes,
           pageRoutes,
           apiRoutes,

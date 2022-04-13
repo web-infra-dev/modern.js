@@ -1,4 +1,4 @@
-import { createAsyncPipeline } from '@modern-js/core';
+import { createAsyncPipeline } from '@modern-js/plugin';
 import { TestConfigOperator } from './config/testConfigOperator';
 
 export const jestConfigHook = createAsyncPipeline<
