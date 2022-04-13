@@ -862,8 +862,8 @@ importers:
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
-    devDependencies:
       '@modern-js/utils': link:../../toolkit/utils
+    devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
