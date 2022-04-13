@@ -1,4 +1,4 @@
-import { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/core';
 import MagicString from 'magic-string';
 import { Plugin as RollupPlugin } from 'rollup';
 
