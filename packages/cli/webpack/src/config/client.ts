@@ -18,7 +18,7 @@ import webpack, {
 } from 'webpack';
 import { Entrypoint } from '@modern-js/types';
 import CopyPlugin from 'copy-webpack-plugin';
-import lodashTemplate from 'lodash.template';
+import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
 import { AppIconPlugin } from '../plugins/app-icon-plugin';
 import { BottomTemplatePlugin } from '../plugins/bottom-template-plugin';
@@ -288,7 +288,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
                 return content;
               }
 
-              return require('lodash.template')(content.toString('utf8'))({
+              return lodashTemplate(content.toString('utf8'))({
                 assetPrefix: removeTailSlash(
                   this.chain.output.get('publicPath'),
                 ),
