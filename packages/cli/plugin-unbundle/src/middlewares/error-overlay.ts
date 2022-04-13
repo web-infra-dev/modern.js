@@ -1,6 +1,10 @@
 import { Middleware } from 'koa';
-import logger from 'signale';
-import { createDebugger, chalk, stripAnsi } from '@modern-js/utils';
+import {
+  chalk,
+  stripAnsi,
+  createDebugger,
+  signale as logger,
+} from '@modern-js/utils';
 import { ESMServer } from '../server';
 
 const debug = createDebugger(`esm:error`);

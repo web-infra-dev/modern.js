@@ -1,8 +1,8 @@
 import { loadConfig } from '@modern-js/load-config';
 import Ajv, { ErrorObject } from 'ajv';
 import ajvKeywords from 'ajv-keywords';
-import logger from 'signale';
 import {
+  signale as logger,
   createDebugger,
   getPort,
   isDev,

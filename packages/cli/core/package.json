@@ -57,12 +57,10 @@
     "ajv": "^8.6.2",
     "ajv-keywords": "^5.0.0",
     "better-ajv-errors": "^0.7.0",
-    "commander": "^8.1.0",
     "dotenv": "^10.0.0",
     "dotenv-expand": "^5.1.0",
     "lodash.clonedeep": "^4.5.0",
     "lodash.mergewith": "^4.6.2",
-    "signale": "^1.4.0",
     "v8-compile-cache": "^2.3.0"
   },
   "devDependencies": {
@@ -79,7 +77,6 @@
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
-    "@types/signale": "^1.4.2",
     "autoprefixer": "^10.3.1",
     "btsm": "2.2.2",
     "jest": "^27",
