@@ -273,7 +273,6 @@ importers:
       autoprefixer: ^10.3.1
       better-ajv-errors: ^0.7.0
       btsm: 2.2.2
-      commander: ^8.1.0
       dotenv: ^10.0.0
       dotenv-expand: ^5.1.0
       esbuild: ^0.13.13
@@ -297,7 +296,6 @@ importers:
       ajv: 8.8.2
       ajv-keywords: 5.1.0_ajv@8.8.2
       better-ajv-errors: 0.7.0_ajv@8.8.2
-      commander: 8.3.0
       dotenv: 10.0.0
       dotenv-expand: 5.1.0
       esbuild: 0.13.15
@@ -3917,7 +3915,6 @@ importers:
       '@types/normalize-path': ^3.0.0
       '@types/react': ^17
       '@types/react-dom': ^17
-      commander: ^8.1.0
       dotenv: ^10.0.0
       fast-glob: ^3.2.5
       globby: ^11
@@ -3975,7 +3972,6 @@ importers:
       '@types/normalize-path': 3.0.0
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
-      commander: 8.3.0
       jest: 27.4.5
       typescript: 4.5.4
 
@@ -4000,7 +3996,6 @@ importers:
       '@types/react-dom': ^17
       '@types/signale': ^1.4.2
       anymatch: ^3.1.2
-      commander: ^8.1.0
       globby: ^11.0.0
       jest: ^27
       md5: ^2.3.0
@@ -4019,7 +4014,6 @@ importers:
       '@rushstack/node-core-library': 3.44.3
       '@rushstack/package-deps-hash': 3.1.11
       anymatch: 3.1.2
-      commander: 8.3.0
       globby: 11.0.4
       md5: 2.3.0
       p-map: 4.0.0
@@ -4178,7 +4172,6 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
-      commander: ^8.0.0
       jest: ^27
       ts-node: ^10.1.0
       typescript: ^4
@@ -4197,7 +4190,6 @@ importers:
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
-      commander: 8.3.0
       jest: 27.4.5_ts-node@10.4.0
       ts-node: 10.4.0_872ff86d573dc12b01711ea7d61300e3
       typescript: 4.5.4

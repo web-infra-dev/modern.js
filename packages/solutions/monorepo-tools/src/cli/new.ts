@@ -1,4 +1,4 @@
-import { Command } from 'commander';
+import type { Command } from '@modern-js/utils';
 import { MonorepoNewAction } from '@modern-js/new-action';
 import { i18n, localeKeys } from '../locale';
 

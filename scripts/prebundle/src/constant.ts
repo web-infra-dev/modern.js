@@ -16,6 +16,7 @@ export const TASKS = [
       // zero dependency
       'upath',
       'filesize',
+      'commander',
       'import-lazy',
       // a few dependencies
       'debug',

@@ -1,6 +1,6 @@
-import 'commander';
+import '@modern-js/utils';
 
-declare module 'commander' {
+declare module '@modern-js/utils/compiled/commander' {
   export interface Command {
     $$libraryName: string;
   }

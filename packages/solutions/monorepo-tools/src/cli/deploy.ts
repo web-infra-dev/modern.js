@@ -1,4 +1,4 @@
-import { Command } from 'commander';
+import type { Command } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import { deploy } from '../commands';
 import type { IDeployCommandOption } from '../commands';

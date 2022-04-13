@@ -1,5 +1,5 @@
 import type { PluginAPI } from '@modern-js/core';
-import { Command } from 'commander';
+import type { Command } from '@modern-js/utils';
 import { build, IBuildCommandOption } from '../commands';
 
 export const buildCli = (program: Command, api: PluginAPI) => {

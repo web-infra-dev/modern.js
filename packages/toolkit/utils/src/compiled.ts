@@ -1,8 +1,9 @@
 import fs from '../compiled/fs-extra';
 import chalk from '../compiled/chalk';
+import { program, Command } from '../compiled/commander';
 import { Import } from './import';
 
-export { fs, chalk };
+export { fs, chalk, program, Command };
 export type { IOptions as GlobOptions } from '../compiled/glob';
 export type { FSWatcher, WatchOptions } from '../compiled/chokidar';
 
