@@ -5,7 +5,7 @@ import {
   applyOptionsChain,
   isUseSSRBundle,
 } from '@modern-js/utils';
-import { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/core';
 import { Options as BabelPresetAppOptions } from '@modern-js/babel-preset-app';
 import type { BabelChain } from '@modern-js/babel-chain';
 import { readPackageJson } from './readPackageJson';

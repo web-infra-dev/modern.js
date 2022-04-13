@@ -1,6 +1,6 @@
 import { getBabelConfig } from '@modern-js/babel-preset-module';
 import { applyOptionsChain, getAlias, isUseSSRBundle } from '@modern-js/utils';
-import { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/core';
 import { IPackageModeValue, ModuleToolsConfig } from '../types';
 
 export const getFinalAlias: any = (
