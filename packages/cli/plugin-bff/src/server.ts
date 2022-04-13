@@ -24,14 +24,14 @@ export default (): ServerPlugin => ({
   setup: api => {
     const storage = new Storage();
     const transformAPI = createTransformAPI(storage);
-    const { appDirectory, distDirectory } = api.useAppContext();
-
-    const root = isProd() ? distDirectory : appDirectory;
-
-    const apiPath = path.resolve(root || process.cwd(), API_DIR);
-    const apiAppPath = path.resolve(apiPath, API_APP_NAME);
+    let apiAppPath = '';
     return {
       prepare() {
+        const { appDirectory, distDirectory } = api.useAppContext();
+        const root = isProd() ? distDirectory : appDirectory;
+        const apiPath = path.resolve(root || process.cwd(), API_DIR);
+        apiAppPath = path.resolve(apiPath, API_APP_NAME);
+
         const apiMod = requireExistModule(apiAppPath);
         if (apiMod && typeof apiMod === 'function') {
           apiMod(transformAPI);

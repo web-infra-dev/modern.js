@@ -5,8 +5,8 @@ import {
   AppContext,
   ConfigContext,
   loadPlugins,
+  ServerConfig,
 } from '@modern-js/server-core';
-import type { ServerPlugin } from '@modern-js/server-core';
 import {
   logger as defaultLogger,
   SHARED_DIR,
@@ -14,7 +14,6 @@ import {
 } from '@modern-js/utils';
 import type { UserConfig } from '@modern-js/core';
 import { ISAppContext } from '@modern-js/types';
-import mergeDeep from 'merge-deep';
 import {
   ModernServerOptions,
   ServerHookRunner,
@@ -41,22 +40,40 @@ export class Server {
 
   private runner!: ServerHookRunner;
 
+  private serverConfig: ServerConfig;
+
   constructor(options: ModernServerOptions) {
     options.logger = options.logger || defaultLogger;
     options.metrics = options.metrics || defaultMetrics;
 
     this.options = options;
+    this.serverConfig = {};
   }
 
+  /**
+   * 初始化顺序
+   * - 获取 server runtime config
+   * - 创建 hooksRunner
+   * - 合并插件，内置插件和 serverConfig 中配置的插件
+   * - 执行 config hook
+   * - 获取最终的配置
+   * - 设置配置到 context
+   * - 初始化 server
+   * - 执行 prepare hook
+   * - 执行 server init
+   */
   public async init() {
     const { options } = this;
 
-    this.initConfig(options);
+    this.initServerConfig(options);
 
     // initialize server runner
     this.runner = await this.createHookRunner();
 
-    this.runConfigHook(this.runner, options);
+    // init config and execute config hook
+    await this.initConfig(this.runner, options);
+
+    await this.injectContext(this.runner, options);
 
     // initialize server
     this.server = this.serverImpl(options);
@@ -77,35 +94,45 @@ export class Server {
    * @param runner
    * @param options
    */
-  runConfigHook(runner: ServerHookRunner, options: ModernServerOptions) {
-    const { serverConfig } = options;
+  runConfigHook(runner: ServerHookRunner, serverConfig: ServerConfig) {
     const newServerConfig = runner.config(serverConfig || {});
-    options.config = mergeDeep({}, options.config, newServerConfig);
+    return newServerConfig;
   }
 
   async runPrepareHook(runner: ServerHookRunner) {
     runner.prepare();
   }
 
+  private initServerConfig(options: ModernServerOptions) {
+    const { pwd, serverConfigFile } = options;
+    const serverConfigPath = getServerConfigPath(pwd, serverConfigFile);
+    const serverConfig = requireConfig(serverConfigPath);
+    this.serverConfig = serverConfig;
+  }
+
   /**
    *
    * merge cliConfig and serverConfig
    */
-  private initConfig(options: ModernServerOptions) {
-    const { pwd, config, serverConfigFile } = options;
+  private async initConfig(
+    runner: ServerHookRunner,
+    options: ModernServerOptions,
+  ) {
+    const { pwd, config } = options;
 
-    const serverConfigPath = getServerConfigPath(pwd, serverConfigFile);
-    const serverConfig = requireConfig(serverConfigPath);
+    const { serverConfig } = this;
+
+    const finalServerConfig = this.runConfigHook(runner, serverConfig);
+
     const resolvedConfigPath = path.join(
       pwd,
       config?.output?.path || 'dist',
       OUTPUT_CONFIG_FILE,
     );
 
-    options.serverConfig = serverConfig;
     options.config = loadConfig({
       cliConfig: config,
-      serverConfig,
+      serverConfig: finalServerConfig,
       resolvedConfigPath,
     });
   }
@@ -144,18 +171,29 @@ export class Server {
     // TODO: 确认下这里是不是可以不从 options 中取插件，而是从 config 中取和过滤
     const { plugins = [], pwd, config } = options;
 
+    const serverPlugins = this.serverConfig.plugins || [];
+
     // server app context for serve plugin
-    const loadedPlugins = loadPlugins(
-      plugins.concat(config.plugins as ServerPlugin[]),
-      pwd,
-    );
+    const loadedPlugins = loadPlugins(plugins.concat(serverPlugins), pwd);
 
     debug('plugins', config.plugins, loadedPlugins);
     loadedPlugins.forEach(p => {
       serverManager.usePlugin(p);
     });
 
+    // create runner
+    const hooksRunner = await serverManager.init({});
+
+    return hooksRunner;
+  }
+
+  private async injectContext(
+    runner: ServerHookRunner,
+    options: ModernServerOptions,
+  ) {
     const appContext = this.initAppContext();
+    const { config, pwd } = options;
+
     serverManager.run(() => {
       ConfigContext.set(config as UserConfig);
       AppContext.set({
@@ -163,8 +201,6 @@ export class Server {
         distDirectory: path.join(pwd, config.output?.path || 'dist'),
       });
     });
-
-    return serverManager.init({});
   }
 
   private initAppContext(): ISAppContext {
