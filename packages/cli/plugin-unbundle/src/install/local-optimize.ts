@@ -32,7 +32,10 @@ let tempModulesDir: string;
 
 // const debug = createDebugger(`esm:local-optimize`);
 
-const activeLogger = new Signale({ interactive: true, scope: 'optimize-deps' });
+const activeLogger = new Signale({
+  interactive: true,
+  scope: 'optimize-deps',
+});
 
 export interface DepsMetadata {
   hash: string;
