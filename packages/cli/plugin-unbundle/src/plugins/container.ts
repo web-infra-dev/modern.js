@@ -69,10 +69,9 @@ import type {
   SourceMap,
 } from 'rollup';
 import { Parser } from 'acorn';
-import logger from 'signale';
 import acornClassFields from 'acorn-class-fields';
 import mergeSourceMap from 'merge-source-map';
-import { chalk, createDebugger } from '@modern-js/utils';
+import { chalk, createDebugger, signale as logger } from '@modern-js/utils';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 
 const debug = createDebugger('esm:plugin-container');

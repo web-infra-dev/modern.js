@@ -1,7 +1,6 @@
 import os from 'os';
 import path from 'path';
-import { fs } from '@modern-js/utils';
-import logger from 'signale';
+import { fs, signale as logger } from '@modern-js/utils';
 import fetch from 'node-fetch';
 
 const createCacheDir = (name: string): string => {

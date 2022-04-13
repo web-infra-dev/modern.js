@@ -42,6 +42,7 @@ export default (): CliPlugin => ({
         cli.devCli(program, api);
         cli.buildCli(program, api);
         cli.newCli(program, locale);
+
         // 便于其他插件辨别
         program.$$libraryName = 'module-tools';
       },

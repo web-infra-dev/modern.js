@@ -1,6 +1,5 @@
-import { Import } from '@modern-js/utils';
+import { Import, Command } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
-import type { Command } from 'commander';
 import type { IDevOption } from '../commands/dev';
 
 const local: typeof import('../locale') = Import.lazy('../locale', require);
