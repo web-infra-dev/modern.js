@@ -1,4 +1,6 @@
 ---
+'@modern-js/testing': patch
+'@modern-js/plugin-testing': patch
 '@modern-js/testing-plugin-bff': patch
 ---
 
