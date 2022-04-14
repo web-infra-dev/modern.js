@@ -24,11 +24,6 @@ export const buildServerConfig = async ({
   configFile: string;
   options?: Parameters<typeof bundle>[1];
 }) => {
-  const configHelperFilePath = path.join(distDirectory, './config-helper.js');
-  const helperCode = `
-    export const defineConfig = (config) => config;
-  `;
-
   const configFilePath = await getServerConfig(appDirectory, configFile);
 
   const getOutputFile = (filepath: string) =>
@@ -40,9 +35,12 @@ export const buildServerConfig = async ({
       )}.js`,
     );
 
-  await fs.writeFile(configHelperFilePath, helperCode);
-
   if (configFilePath) {
+    const configHelperFilePath = path.join(distDirectory, './config-helper.js');
+    const helperCode = `
+      export const defineConfig = (config) => config;
+    `;
+    await fs.writeFile(configHelperFilePath, helperCode);
     await bundle(configFilePath, {
       ...options,
       getOutputFile,
