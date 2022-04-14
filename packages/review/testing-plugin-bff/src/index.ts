@@ -36,7 +36,7 @@ export const setJestConfigForBFF = async ({
 
   const aliasMapper = getModuleNameMapper(alias);
 
-  const { transform, moduleNameMapper, resolver } = utils.jestConfig;
+  const { transform, moduleNameMapper } = utils.jestConfig;
 
   const isExistSrc = await existSrc(pwd);
 
@@ -44,6 +44,8 @@ export const setJestConfigForBFF = async ({
     ...moduleNameMapper,
     ...aliasMapper,
   };
+
+  const resolver = utils.jestConfig.resolver || require.resolve('./resolver');
 
   if (isExistSrc) {
     utils.setJestConfig(
