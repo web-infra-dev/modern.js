@@ -37,17 +37,18 @@ export default (): ServerPlugin => ({
   name: '@modern-js/plugin-server',
 
   setup: api => {
+    const { appDirectory, distDirectory } = api.useAppContext();
     const storage = new Storage();
     const transformAPI = createTransformAPI(storage);
     let webAppPath = '';
 
     return {
       prepare() {
-        const { appDirectory, distDirectory } = api.useAppContext();
         const pwd = isProd() ? distDirectory : appDirectory;
-        const serverPath = path.resolve(pwd, SERVER_DIR);
 
+        const serverPath = path.resolve(pwd, SERVER_DIR);
         webAppPath = path.resolve(serverPath, WEB_APP_NAME);
+
         const webMod = requireExistModule(webAppPath);
         if (webMod) {
           webMod(transformAPI);
