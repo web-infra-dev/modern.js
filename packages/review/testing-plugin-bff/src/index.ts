@@ -1,5 +1,9 @@
 import path from 'path';
-import { getModuleNameMapper, TestConfigOperator } from '@modern-js/testing';
+import {
+  TestConfigOperator,
+  getModuleNameMapper,
+  DEFAULT_RESOLVER_PATH,
+} from '@modern-js/testing';
 import type { CliPlugin } from '@modern-js/core';
 import { bff_info_key } from './constant';
 import { isBFFProject, existSrc } from './utils';
@@ -36,7 +40,7 @@ export const setJestConfigForBFF = async ({
 
   const aliasMapper = getModuleNameMapper(alias);
 
-  const { transform, moduleNameMapper, resolver } = utils.jestConfig;
+  const { transform, moduleNameMapper } = utils.jestConfig;
 
   const isExistSrc = await existSrc(pwd);
 
@@ -44,6 +48,8 @@ export const setJestConfigForBFF = async ({
     ...moduleNameMapper,
     ...aliasMapper,
   };
+
+  const resolver = utils.jestConfig.resolver || DEFAULT_RESOLVER_PATH;
 
   if (isExistSrc) {
     utils.setJestConfig(

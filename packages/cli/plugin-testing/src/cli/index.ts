@@ -9,6 +9,7 @@ import {
   jestConfigHook,
   TestConfigOperator,
   getModuleNameMapper,
+  DEFAULT_RESOLVER_PATH,
 } from '@modern-js/testing';
 import { getWebpackConfig, WebpackConfigTarget } from '@modern-js/webpack';
 import TestingBffPlugin from '@modern-js/testing-plugin-bff';
@@ -100,7 +101,7 @@ export default (): CliPlugin => {
             },
             moduleNameMapper: getModuleNameMapper(alias),
             testEnvironment: 'jsdom',
-            resolver: require.resolve('./resolver'),
+            resolver: DEFAULT_RESOLVER_PATH,
           });
 
           utils.setJestConfig({
