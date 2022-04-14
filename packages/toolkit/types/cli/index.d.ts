@@ -47,6 +47,7 @@ export interface IAppContext {
   metaName: string; // name for generating conventional constants, such as .modern-js
   appDirectory: string;
   configFile: string | false;
+  serverConfigFile: string;
   ip?: string;
   port?: number;
   distDirectory: string;

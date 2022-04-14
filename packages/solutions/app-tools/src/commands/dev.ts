@@ -15,14 +15,21 @@ import { generateRoutes } from '../utils/routes';
 import { printInstructions } from '../utils/printInstructions';
 import { DevOptions } from '../utils/types';
 import { getSpecifiedEntries } from '../utils/getSpecifiedEntries';
+import { buildServerConfig } from '../utils/config';
 
 export const dev = async (api: PluginAPI, options: DevOptions) => {
   const appContext = api.useAppContext();
   const userConfig = api.useResolvedConfigContext();
   const hookRunners = api.useHookRunners();
 
-  const { appDirectory, distDirectory, port, existSrc, entrypoints } =
-    appContext;
+  const {
+    appDirectory,
+    distDirectory,
+    port,
+    existSrc,
+    entrypoints,
+    serverConfigFile,
+  } = appContext;
 
   const checkedEntries = await getSpecifiedEntries(
     options.entry || false,
@@ -36,6 +43,17 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
   appContext.checkedEntries = checkedEntries;
 
   fs.emptyDirSync(distDirectory);
+
+  await buildServerConfig({
+    appDirectory,
+    distDirectory,
+    configFile: serverConfigFile,
+    options: {
+      esbuildOptions: {
+        watch: true,
+      },
+    },
+  });
 
   await hookRunners.beforeDev();
 
@@ -63,6 +81,7 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
     dev: {
       ...{
         client: {
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
           port: port!.toString(),
           overlay: false,
           logging: 'none',
@@ -80,6 +99,7 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
     compiler,
     pwd: appDirectory,
     config: userConfig,
+    serverConfigFile,
     plugins: appContext.plugins
       .filter((p: any) => p.server)
       .map((p: any) => p.server),
@@ -94,7 +114,7 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
       clearConsole();
       logger.log(chalk.cyan(`Starting the development server...`));
     } else {
-      await printInstructions(api, appContext, userConfig);
+      await printInstructions(hookRunners, appContext, userConfig);
     }
   });
 };
