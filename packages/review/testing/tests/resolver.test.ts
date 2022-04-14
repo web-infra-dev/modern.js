@@ -1,7 +1,7 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
 
-const resolver = require('../src/cli/resolver');
+const resolver = require('../src/config/resolver');
 
 describe('plugin-testing', () => {
   it('resolver', () => {
