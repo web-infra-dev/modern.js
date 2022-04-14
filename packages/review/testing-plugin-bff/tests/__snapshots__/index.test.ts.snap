@@ -13,7 +13,7 @@ Object {
         },
       },
       "moduleNameMapper": Object {},
-      "resolver": "/packages/review/testing-plugin-bff/src/resolver.ts",
+      "resolver": "/packages/review/testing/src/config/resolver.ts",
       "rootDir": "/packages/review/testing-plugin-bff/tests/fixtures/bff1/api",
       "setupFilesAfterEnv": Array [
         "/packages/review/testing-plugin-bff/src/setup.ts",

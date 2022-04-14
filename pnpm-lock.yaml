@@ -1636,7 +1636,6 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
-      enhanced-resolve: ^5.8.3
       jest: ^27
       react: ^17
       react-dom: ^17
@@ -1651,7 +1650,6 @@ importers:
       '@modern-js/webpack': link:../webpack
       '@testing-library/jest-dom': 5.16.1
       '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
-      enhanced-resolve: 5.8.3
     devDependencies:
       '@modern-js-reduck/plugin-auto-actions': 1.0.1_@modern-js-reduck+store@1.0.1
       '@modern-js-reduck/plugin-effects': 1.0.1_@modern-js-reduck+store@1.0.1
@@ -2918,6 +2916,7 @@ importers:
       '@types/semver': ^7.3.8
       '@types/yargs': ^17.0.2
       babel-jest: ^27.0.6
+      enhanced-resolve: ^5.8.3
       identity-obj-proxy: ^3.0.0
       jest: ^27.0.6
       semver: ^7.3.5
@@ -2931,6 +2930,7 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@modern-js/webpack': link:../../cli/webpack
       babel-jest: 27.4.5
+      enhanced-resolve: 5.9.2
       identity-obj-proxy: 3.0.0
       jest: 27.4.5
       semver: 7.3.5
@@ -2964,7 +2964,6 @@ importers:
       '@types/react': ^17
       '@types/react-dom': ^17
       '@types/supertest': ^2.0.11
-      enhanced-resolve: ^5.8.3
       jest-environment-node: ^27.2.2
       path-to-regexp: ^6.2.0
       supertest: ^6.1.6
@@ -2973,7 +2972,6 @@ importers:
       '@babel/runtime': 7.16.7
       '@modern-js/server': link:../../server/server
       '@modern-js/utils': link:../../toolkit/utils
-      enhanced-resolve: 5.9.2
       jest-environment-node: 27.4.4
       path-to-regexp: 6.2.0
       supertest: 6.2.0
