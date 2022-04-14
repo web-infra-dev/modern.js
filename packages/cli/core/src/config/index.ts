@@ -8,6 +8,7 @@ import {
   isDev,
   PLUGIN_SCHEMAS,
   chalk,
+  getServerConfig,
 } from '@modern-js/utils';
 import { mergeWith } from '@modern-js/utils/lodash';
 import betterAjvErrors from 'better-ajv-errors';
@@ -24,6 +25,17 @@ const debug = createDebugger('resolve-config');
 export { defaults as defaultsConfig };
 export { mergeConfig };
 export * from './types';
+
+export const addServerConfigToDeps = async (
+  dependencies: string[],
+  appDirectory: string,
+  serverConfigFile: string,
+) => {
+  const serverConfig = await getServerConfig(appDirectory, serverConfigFile);
+  if (serverConfig) {
+    dependencies.push(serverConfig);
+  }
+};
 
 export const defineConfig = (config: ConfigParam): ConfigParam => config;
 

@@ -38,20 +38,22 @@ export default (): ServerPlugin => ({
 
   setup: api => {
     const { appDirectory, distDirectory } = api.useAppContext();
-    const pwd = isProd() ? distDirectory : appDirectory;
-
-    const serverPath = path.resolve(pwd, SERVER_DIR);
-    const webAppPath = path.resolve(serverPath, WEB_APP_NAME);
-
     const storage = new Storage();
     const transformAPI = createTransformAPI(storage);
-
-    const webMod = requireExistModule(webAppPath);
-    if (webMod) {
-      webMod(transformAPI);
-    }
+    let webAppPath = '';
 
     return {
+      prepare() {
+        const pwd = isProd() ? distDirectory : appDirectory;
+
+        const serverPath = path.resolve(pwd, SERVER_DIR);
+        webAppPath = path.resolve(serverPath, WEB_APP_NAME);
+
+        const webMod = requireExistModule(webAppPath);
+        if (webMod) {
+          webMod(transformAPI);
+        }
+      },
       reset() {
         storage.reset();
         const newWebModule = requireExistModule(webAppPath);
