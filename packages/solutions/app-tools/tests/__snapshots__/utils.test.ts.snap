@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test app-tools utils safeReplacer should handle circular object 1`] = `"{\\"name\\":\\"a\\",\\"b\\":{\\"name\\":\\"b\\",\\"a\\":\\"[Circular root]\\"}}"`;
+
+exports[`test app-tools utils safeReplacer should handle circular object 2`] = `"{\\"name\\":\\"c\\",\\"d\\":{\\"name\\":\\"d\\",\\"e\\":{\\"name\\":\\"e\\",\\"c\\":\\"[Circular root]\\"}}}"`;

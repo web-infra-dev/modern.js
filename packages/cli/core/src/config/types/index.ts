@@ -278,12 +278,12 @@ export interface RuntimeByEntriesConfig {
   [name: string]: RuntimeConfig;
 }
 
-export interface BffConfig {
-  prefix?: string;
-  requestCreator?: string;
-  fetcher?: string;
-  proxy?: Record<string, any>;
-}
+export type BffConfig = Partial<{
+  prefix: string;
+  requestCreator: string;
+  fetcher: string;
+  proxy: Record<string, any>;
+}>;
 
 export interface UserConfig {
   source?: SourceConfig;

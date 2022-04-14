@@ -1,5 +1,8 @@
 import type { NormalizedConfig } from '@modern-js/core';
 import { compile } from 'path-to-regexp';
+import { createDebugger } from '@modern-js/utils';
+
+export const debug = createDebugger('prod-server') as any;
 
 export const mergeExtension = (users: any[]) => {
   const output: any[] = [];

@@ -1,5 +1,6 @@
 import path from 'path';
-import { bundleRequire, EXTERNAL_REGEXP } from '../src';
+import { bundleRequire } from '../src';
+import { EXTERNAL_REGEXP } from '../src/bundle';
 
 test('require', async () => {
   const result = await bundleRequire(

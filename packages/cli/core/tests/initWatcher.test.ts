@@ -8,7 +8,7 @@ const mockAppDirectory = path.join(__dirname, './fixtures/index-test');
 const mockConfigDir = './config';
 const mockSrcDirectory = path.join(mockAppDirectory, './src');
 
-describe.skip('initWatcher', () => {
+describe('initWatcher', () => {
   afterAll(() => {
     const file = path.join(mockSrcDirectory, './index.ts');
     if (fs.existsSync(file)) {
@@ -16,7 +16,7 @@ describe.skip('initWatcher', () => {
     }
   });
 
-  test('will trigger add event', async () => {
+  xtest('will trigger add event', async () => {
     let triggeredType = '';
     let triggeredFile = '';
     const loaded = {

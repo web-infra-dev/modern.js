@@ -7,7 +7,7 @@ import { Adapter, APIServerStartInput } from '@modern-js/server-core';
 import type { NormalizedConfig } from '@modern-js/core';
 import mime from 'mime-types';
 import axios from 'axios';
-import { clone } from '@modern-js/utils/lodash';
+import clone from 'lodash.clone';
 import {
   ModernServerOptions,
   NextFunction,
@@ -33,6 +33,7 @@ import {
   getStaticReg,
   mergeExtension,
   noop,
+  debug,
 } from '../utils';
 import * as reader from '../libs/render/reader';
 import { createProxyHandler, BffProxyOptions } from '../libs/proxy';
@@ -120,6 +121,7 @@ export class ModernServer implements ModernServerInterface {
     this.distDir = path.join(pwd, config.output?.path || 'dist');
     this.workDir = this.distDir;
     this.conf = config;
+    debug('server conf', this.conf);
     this.logger = logger!;
     this.metrics = metrics!;
     this.router = new RouteMatchManager();
@@ -143,6 +145,7 @@ export class ModernServer implements ModernServerInterface {
       next();
     });
 
+    debug('final server conf', this.conf);
     // proxy handler, each proxy has own handler
     this.proxyHandler = createProxyHandler(conf.bff?.proxy as BffProxyOptions);
     if (this.proxyHandler) {
@@ -279,6 +282,7 @@ export class ModernServer implements ModernServerInterface {
         ? ApiServerMode.frame
         : ApiServerMode.func;
 
+      debug('exists api dir', mode);
       // if use lambda/, mean framework style of writing, then discard user extension
       const apiExtension = mergeExtension(pluginAPIExt);
       this.frameAPIHandler = await this.prepareAPIHandler(mode, apiExtension);
@@ -306,7 +310,6 @@ export class ModernServer implements ModernServerInterface {
     const { workDir, runner, conf } = this;
     const { bff } = conf as ConfWithBFF;
     const prefix = bff?.prefix || '/api';
-
     return runner.prepareApiServer(
       {
         pwd: workDir,

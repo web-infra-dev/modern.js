@@ -66,7 +66,7 @@ export const createCompiler = async ({
             ),
           );
         }
-        await printInstructions(api, appContext, userConfig);
+        await printInstructions(hookRunners, appContext, userConfig);
       }
       isFirstCompile = false;
     });

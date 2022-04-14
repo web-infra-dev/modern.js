@@ -37,17 +37,24 @@ export const useConfigContext = () => ConfigContext.use().value;
  */
 export const useResolvedConfigContext = () => ResolvedConfigContext.use().value;
 
-export const initAppContext = (
-  appDirectory: string,
-  plugins: LoadedPlugin[],
-  configFile: string | false,
+export const initAppContext = ({
+  appDirectory,
+  plugins,
+  configFile,
+  options,
+  serverConfigFile,
+}: {
+  appDirectory: string;
+  plugins: LoadedPlugin[];
+  configFile: string | false;
   options?: {
     metaName?: string;
     srcDir?: string;
     distDir?: string;
     sharedDir?: string;
-  },
-): IAppContext => {
+  };
+  serverConfigFile: string;
+}): IAppContext => {
   const {
     metaName = 'modern-js',
     srcDir = 'src',
@@ -59,6 +66,7 @@ export const initAppContext = (
     metaName,
     appDirectory,
     configFile,
+    serverConfigFile,
     ip: address.ip(),
     port: 0,
     packageName: require(path.resolve(appDirectory, './package.json')).name,

@@ -20,6 +20,8 @@ describe('plugin-server', () => {
       }),
     } as any);
 
+    hooks.prepare();
+
     const sign = { status: 0 };
     hooks.gather({
       addWebMiddleware: (fn: any) => {
