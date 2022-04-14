@@ -53,6 +53,7 @@ export class Server {
   /**
    * 初始化顺序
    * - 获取 server runtime config
+   * - 设置 context
    * - 创建 hooksRunner
    * - 合并插件，内置插件和 serverConfig 中配置的插件
    * - 执行 config hook
@@ -66,6 +67,8 @@ export class Server {
     const { options } = this;
 
     this.initServerConfig(options);
+
+    await this.injectContext(this.runner, options);
 
     // initialize server runner
     this.runner = await this.createHookRunner();
