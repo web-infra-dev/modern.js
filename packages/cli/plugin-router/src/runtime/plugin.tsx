@@ -96,11 +96,9 @@ export const routerPlugin = ({
 
               return (props: any) => (
                 <Router history={history}>
-                  {routesConfig ? (
-                    renderRoutes(routesConfig, props)
-                  ) : (
-                    <App {...props} />
-                  )}
+                  <App {...props}>
+                    {routesConfig ? renderRoutes(routesConfig, props) : null}
+                  </App>
                 </Router>
               );
             }
@@ -121,11 +119,9 @@ export const routerPlugin = ({
                   basename={basename === '/' ? '' : basename}
                   location={location}
                   context={routerContext}>
-                  {routesConfig ? (
-                    renderRoutes(routesConfig, props)
-                  ) : (
-                    <App {...props} />
-                  )}
+                  <App {...props}>
+                    {routesConfig ? renderRoutes(routesConfig, props) : null}
+                  </App>
                 </StaticRouter>
               );
             };

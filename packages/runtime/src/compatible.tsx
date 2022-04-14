@@ -29,7 +29,11 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
     const container = createContainer({ App: AppComponentContext.create(App) });
 
     const WrapperComponent: React.ComponentType<any> = props => {
-      const element = React.createElement(App, { ...props }, props.children);
+      const element = React.createElement(
+        App || React.Fragment,
+        { ...props },
+        props.children,
+      );
       const context = useContext(RuntimeReactContext);
 
       return runner.provide(
