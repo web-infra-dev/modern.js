@@ -1,7 +1,7 @@
 import path from 'path';
 // import os from 'os';
-import { isDev, getPort } from '@modern-js/utils';
-import { resolveConfig } from '../src/config';
+import { isDev, getPort, DEFAULT_SERVER_CONFIG } from '@modern-js/utils';
+import { resolveConfig, addServerConfigToDeps } from '../src/config';
 import {
   cli,
   loadUserConfig,
@@ -133,5 +133,14 @@ describe('config', () => {
   });
 });
 
-// type TEST = Parameters<typeof resolveConfig>;
-// type TypeC = TEST[1];
+describe('addServerConfigToDeps', () => {
+  it('should add server config to deps', async () => {
+    const appDirectory = path.join(__dirname, './fixtures/index-test');
+    const deps: string[] = [];
+    await addServerConfigToDeps(deps, appDirectory, DEFAULT_SERVER_CONFIG);
+    expect(deps.length).toBe(1);
+    expect(deps[0]).toBe(
+      path.join(appDirectory, `${DEFAULT_SERVER_CONFIG}.js`),
+    );
+  });
+});

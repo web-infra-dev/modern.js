@@ -1,0 +1,6 @@
+{
+  "extends": "@modern-js",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  }
+}

@@ -19,9 +19,10 @@ MWA 项目需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用�
 通过简单配置，无需编写代码，Modern.js 会自动转发请求。发送给 Modern.js BFF server 的请求，会代理到指定的服务上。
 BFF Proxy 使用了强大的 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware)，如果需要更多高级的用法；可以查看它的[文档](https://github.com/chimurai/http-proxy-middleware#options)。
 
-在 `modern.config.js` 中加入以下配置；即可开启代理：
+在 `modern.server-runtime.config.js` 中加入以下配置；即可开启代理：
 
-```js title="modern.config.js"
+```js title="modern.server-runtime.config.js"
+import { defineConfig } from '@modern-js/app-tools/server';
 export default defineConfig({
   bff: {
     proxy: {
@@ -34,7 +35,8 @@ export default defineConfig({
 
 你可以做路径的重写，如将发送到 `localhost:8080/api/topics` 的请求代理到 `https://cnodejs.org/api/v1/topics`。
 
-```js title="modern.config.js"
+```js title="modern.server-runtime.config.js"
+import { defineConfig } from '@modern-js/app-tools/server';
 export default defineConfig({
   bff: {
     proxy: {
@@ -63,10 +65,10 @@ export default defineConfig({
 BFF proxy 模式下，如果不需要写 BFF 的接口， API 目录可以删除；此时 BFF proxy仍会开启。
 :::
 
-如下所示，在 `modern.config.js` 中，写入如下配置；我们将所有 web 页面发送到同域的以 `/api` 开头的请求代理到另一个域名的服务上。
+如下所示，在 `modern.server-runtime.config.js` 中，写入如下配置；我们将所有 web 页面发送到同域的以 `/api` 开头的请求代理到另一个域名的服务上。
 
-```js title="modern.config.js"
-export default defineConfig({
+```js title="modern.server-runtime.config.js"
+export default defineServerConfig({
   bff: {
     proxy: {
       '/api': 'https://cnodejs.org',
