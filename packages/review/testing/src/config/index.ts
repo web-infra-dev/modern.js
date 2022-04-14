@@ -18,4 +18,6 @@ const patchConfig = async (testOprator: TestConfigOperator) => {
   return testOprator.jestConfig;
 };
 
+export const DEFAULT_RESOLVER_PATH = require.resolve('./resolver');
+
 export { getJestUtils, patchConfig };
