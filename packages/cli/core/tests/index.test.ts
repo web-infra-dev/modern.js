@@ -1,5 +1,5 @@
 import path from 'path';
-import { cli } from '../src';
+import { cli, mergeOptions } from '../src';
 import { resolveConfig, loadUserConfig } from '../src/config';
 import { loadEnv } from '../src/loadEnv';
 
@@ -65,5 +65,19 @@ describe('@modern-js/core test', () => {
     await cli.init(['dev']);
     expect(loadEnv).toHaveBeenCalledWith(cwd, undefined);
     // TODO: add more test cases
+  });
+});
+
+describe('test mergeOptions', () => {
+  it('serverConfigFile must exist', () => {
+    const options = mergeOptions({});
+    expect(options).toHaveProperty('serverConfigFile');
+  });
+
+  it('serverConfigFile can be overwritten', () => {
+    const options = mergeOptions({
+      serverConfigFile: 'test',
+    });
+    expect(options.serverConfigFile).toBe('test');
   });
 });

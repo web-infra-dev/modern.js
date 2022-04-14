@@ -55,7 +55,7 @@ describe('test server', () => {
       expect(pwd).toBe(appDirectory);
       expect(distDir).toBe(path.join(appDirectory, 'dist'));
       expect(workDir).toBe(distDir);
-      expect(conf).toBe(defaultsConfig);
+      expect(conf).toEqual(defaultsConfig);
       expect(handlers).toBeDefined();
       expect(isDev).toBeFalsy();
       expect(staticGenerate).toBeFalsy();

@@ -1,8 +1,13 @@
 import { prettyInstructions, logger, isDev, chalk } from '@modern-js/utils';
-import type { PluginAPI, IAppContext, NormalizedConfig } from '@modern-js/core';
+import type {
+  IAppContext,
+  NormalizedConfig,
+  ToRunners,
+  CliHooks,
+} from '@modern-js/core';
 
 export const printInstructions = async (
-  api: PluginAPI,
+  hookRunners: ToRunners<CliHooks>,
   appContext: IAppContext,
   config: NormalizedConfig,
 ) => {
@@ -19,7 +24,6 @@ export const printInstructions = async (
   }
 
   // call beforePrintInstructions hook.
-  const hookRunners = api.useHookRunners();
   const { instructions } = await hookRunners.beforePrintInstructions({
     instructions: message,
   });

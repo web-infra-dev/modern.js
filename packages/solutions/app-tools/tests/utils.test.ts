@@ -6,6 +6,7 @@ import {
   getServer,
 } from '../src/utils/createServer';
 import { getSpecifiedEntries } from '../src/utils/getSpecifiedEntries';
+import { safeReplacer } from '../src/utils/config';
 
 describe('test app-tools utils', () => {
   it('should return all entryNames correctly', async () => {
@@ -62,5 +63,50 @@ describe('test app-tools utils', () => {
 
     await closeServer();
     expect(getServer()).toBeNull();
+  });
+
+  it('safeReplacer should handle circular object', () => {
+    const a: {
+      [key: string]: unknown;
+    } = {
+      name: 'a',
+    };
+
+    const b: {
+      [key: string]: unknown;
+    } = {
+      name: 'b',
+    };
+
+    a.b = b;
+    b.a = a;
+
+    const res1 = JSON.stringify(a, safeReplacer());
+    expect(res1).toMatchSnapshot();
+
+    const c: {
+      [key: string]: unknown;
+    } = {
+      name: 'c',
+    };
+
+    const d: {
+      [key: string]: unknown;
+    } = {
+      name: 'd',
+    };
+
+    const e: {
+      [key: string]: unknown;
+    } = {
+      name: 'e',
+    };
+
+    c.d = d;
+    d.e = e;
+    e.c = c;
+
+    const res2 = JSON.stringify(c, safeReplacer());
+    expect(res2).toMatchSnapshot();
   });
 });
