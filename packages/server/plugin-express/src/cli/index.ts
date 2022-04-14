@@ -1,7 +1,7 @@
 import * as path from 'path';
-import os from 'os';
 import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils } from '@modern-js/utils';
+import { getRelativeRuntimePath } from '@modern-js/adapter-helpers';
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-express',
@@ -21,26 +21,10 @@ export default (): CliPlugin => ({
 
         const serverRuntimePath = bffExportsUtils.getPath();
 
-        let relativeRuntimePath = '';
-        if (os.platform() === 'win32') {
-          relativeRuntimePath = path.normalize(
-            path.join('../../', path.relative(appDirectory, serverRuntimePath)),
-          );
-        } else {
-          // Look up one level, because the artifacts after build have dist directories
-          relativeRuntimePath = path.normalize(
-            path.join('../', path.relative(appDirectory, serverRuntimePath)),
-          );
-        }
-
-        if (
-          process.env.NODE_ENV === 'development' ||
-          process.env.NODE_ENV === 'test'
-        ) {
-          relativeRuntimePath = path.normalize(
-            `./${path.relative(appDirectory, serverRuntimePath)}`,
-          );
-        }
+        const relativeRuntimePath = getRelativeRuntimePath(
+          appDirectory,
+          serverRuntimePath,
+        );
 
         return {
           source: {
