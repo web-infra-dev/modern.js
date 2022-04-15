@@ -1,5 +1,19 @@
 # @modern-js/utils
 
+## 1.4.0
+
+### Minor Changes
+
+- 77ff9754: feat: prebundle some deps (chalk, filesize, import-lazy, strip-ansi)
+- d2d1d6b2: feat: support server config
+
+### Patch Changes
+
+- 07a4887e: feat: prebundle commander and signale to @modern-js/utils
+- ea2ae711: feat: prebundle dependencies, reduce install size
+- 17d0cc46: feat: prebundle lodash to @modern-js/utils/lodash
+- d2d1d6b2: feat: add prepare hook
+
 ## 1.3.7
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @modern-js/bff-generator
 
+## 1.2.4
+
+### Patch Changes
+
+- 17d0cc46: feat: prebundle lodash to @modern-js/utils/lodash
+
 ## 1.2.3
 
 ### Patch Changes

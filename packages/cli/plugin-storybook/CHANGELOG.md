@@ -1,5 +1,24 @@
 # @modern-js/plugin-storybook
 
+## 1.3.5
+
+### Patch Changes
+
+- 17d0cc46: feat: prebundle lodash to @modern-js/utils/lodash
+- Updated dependencies [485375ae]
+- Updated dependencies [ec1b7367]
+- Updated dependencies [77ff9754]
+- Updated dependencies [d2d1d6b2]
+- Updated dependencies [07a4887e]
+- Updated dependencies [ea2ae711]
+- Updated dependencies [17d0cc46]
+- Updated dependencies [d2d1d6b2]
+  - @modern-js/plugin-router@1.2.9
+  - @modern-js/webpack@1.5.4
+  - @modern-js/utils@1.4.0
+  - @modern-js/runtime@1.2.5
+  - @modern-js/plugin-state@1.2.3
+
 ## 1.3.4
 
 ### Patch Changes
