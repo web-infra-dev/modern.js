@@ -7,7 +7,7 @@ export default async (type, { query }) => {
   };
 };
 
-export const post = async (type,{ query, data }) => {
+export const post = async (type, { query, data }) => {
   const { username } = query;
   const { message } = data;
   return Promise.resolve({

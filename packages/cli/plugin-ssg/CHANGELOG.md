@@ -1,5 +1,18 @@
 # @modern-js/plugin-ssg
 
+## 1.2.8
+
+### Patch Changes
+
+- 046e58aa: fix: plugin-analyze and plugin-ssg should not import method from core
+- Updated dependencies [77ff9754]
+- Updated dependencies [d2d1d6b2]
+- Updated dependencies [07a4887e]
+- Updated dependencies [ea2ae711]
+- Updated dependencies [17d0cc46]
+- Updated dependencies [d2d1d6b2]
+  - @modern-js/utils@1.4.0
+
 ## 1.2.7
 
 ### Patch Changes
