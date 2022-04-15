@@ -1,5 +1,23 @@
 # @modern-js/prod-server
 
+## 1.1.0
+
+### Minor Changes
+
+- d2d1d6b2: feat: support server config
+
+### Patch Changes
+
+- 17d0cc46: feat: prebundle lodash to @modern-js/utils/lodash
+- Updated dependencies [77ff9754]
+- Updated dependencies [d2d1d6b2]
+- Updated dependencies [07a4887e]
+- Updated dependencies [ea2ae711]
+- Updated dependencies [17d0cc46]
+- Updated dependencies [d2d1d6b2]
+  - @modern-js/utils@1.4.0
+  - @modern-js/server-core@1.3.0
+
 ## 1.0.6
 
 ### Patch Changes
