@@ -1,5 +1,26 @@
 # @modern-js/core
 
+## 1.7.0
+
+### Minor Changes
+
+- d2d1d6b2: feat: support server config
+
+### Patch Changes
+
+- 60855eb2: fix: ignore initial watching add event
+- ec1b7367: fix: tools config types
+- 07a4887e: feat: prebundle commander and signale to @modern-js/utils
+- 17d0cc46: feat: prebundle lodash to @modern-js/utils/lodash
+- Updated dependencies [77ff9754]
+- Updated dependencies [d2d1d6b2]
+- Updated dependencies [07a4887e]
+- Updated dependencies [ea2ae711]
+- Updated dependencies [17d0cc46]
+- Updated dependencies [d2d1d6b2]
+  - @modern-js/utils@1.4.0
+  - @modern-js/load-config@1.3.0
+
 ## 1.6.1
 
 ### Patch Changes

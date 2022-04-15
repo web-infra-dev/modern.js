@@ -1,5 +1,11 @@
 # @modern-js/monorepo-generator
 
+## 1.3.5
+
+### Patch Changes
+
+- 6c651ee7: fix: lint-staged warning
+
 ## 1.3.4
 
 ### Patch Changes
