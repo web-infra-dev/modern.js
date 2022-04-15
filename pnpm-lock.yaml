@@ -1400,7 +1400,7 @@ importers:
       '@modern-js/core': workspace:*
       '@modern-js/runtime-core': workspace:*
       '@modern-js/types': workspace:^1.4.0
-      '@modern-js/utils': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -3167,8 +3167,8 @@ importers:
   packages/server/create-request:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/plugin-ssr': workspace:^1.2.0
-      '@modern-js/utils': workspace:^1.3.4
+      '@modern-js/plugin-ssr': workspace:^1.2.6
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27.0.3

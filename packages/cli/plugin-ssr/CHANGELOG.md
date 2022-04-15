@@ -1,5 +1,13 @@
 # @modern-js/plugin-ssr
 
+## 1.2.6
+
+### Patch Changes
+
+- 6800be3b: feat: move storage from plugin-ssr to utils
+- Updated dependencies [6800be3b]
+  - @modern-js/utils@1.4.1
+
 ## 1.2.5
 
 ### Patch Changes
