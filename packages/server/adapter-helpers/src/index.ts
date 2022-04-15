@@ -1,2 +1,2 @@
-export { sortDynamicRoutes } from './utils';
+export * from './utils';
 export * from './storage';
