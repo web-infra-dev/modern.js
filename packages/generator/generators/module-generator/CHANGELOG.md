@@ -1,5 +1,11 @@
 # @modern-js/module-generator
 
+## 1.3.9
+
+### Patch Changes
+
+- 6c651ee7: fix: lint-staged warning
+
 ## 1.3.8
 
 ### Patch Changes

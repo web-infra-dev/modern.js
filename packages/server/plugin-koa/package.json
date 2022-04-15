@@ -44,7 +44,7 @@
     "@modern-js/adapter-helpers": "workspace:^1.2.1",
     "@modern-js/bff-runtime": "workspace:^1.2.1",
     "@modern-js/bff-utils": "workspace:^1.2.2",
-    "@modern-js/utils": "workspace:^1.3.7",
+    "@modern-js/utils": "workspace:^1.4.0",
     "koa-body": "^4.2.0",
     "koa-router": "^10.0.0",
     "type-is": "^1.6.18"

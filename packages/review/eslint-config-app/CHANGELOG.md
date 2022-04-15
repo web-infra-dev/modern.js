@@ -1,5 +1,13 @@
 # @modern-js-app/eslint-config
 
+## 1.2.7
+
+### Patch Changes
+
+- d6522e85: feat: remove max-params and max-statements rule
+- Updated dependencies [17d0cc46]
+  - @modern-js/babel-preset-app@1.2.6
+
 ## 1.2.6
 
 ### Patch Changes
