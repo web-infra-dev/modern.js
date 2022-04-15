@@ -1,5 +1,21 @@
 # @modern-js/plugin-garfish
 
+## 1.4.6
+
+### Patch Changes
+
+- 17d0cc46: feat: prebundle lodash to @modern-js/utils/lodash
+- Updated dependencies [485375ae]
+- Updated dependencies [77ff9754]
+- Updated dependencies [d2d1d6b2]
+- Updated dependencies [07a4887e]
+- Updated dependencies [ea2ae711]
+- Updated dependencies [17d0cc46]
+- Updated dependencies [d2d1d6b2]
+  - @modern-js/plugin-router@1.2.9
+  - @modern-js/runtime-core@1.4.1
+  - @modern-js/utils@1.4.0
+
 ## 1.4.5
 
 ### Patch Changes

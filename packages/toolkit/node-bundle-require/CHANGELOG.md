@@ -1,4 +1,10 @@
-# @modern-js/1.0.0-rc.19
+# @modern-js/node-bundle-require
+
+## 1.3.0
+
+### Minor Changes
+
+- d2d1d6b2: feat: support server config
 
 ## 1.2.4
 

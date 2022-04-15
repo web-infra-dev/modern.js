@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.6.1",
+  "version": "1.7.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -50,9 +50,9 @@
   "dependencies": {
     "@babel/code-frame": "^7.14.5",
     "@babel/runtime": "^7",
-    "@modern-js/load-config": "workspace:^1.2.2",
+    "@modern-js/load-config": "workspace:^1.3.0",
     "@modern-js/plugin": "workspace:^1.3.2",
-    "@modern-js/utils": "workspace:^1.3.7",
+    "@modern-js/utils": "workspace:^1.4.0",
     "address": "^1.1.2",
     "ajv": "^8.6.2",
     "ajv-keywords": "^5.0.0",
@@ -63,7 +63,7 @@
   },
   "devDependencies": {
     "@jest/types": "^27.0.6",
-    "@modern-js/types": "workspace:^1.3.6",
+    "@modern-js/types": "workspace:^1.4.0",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__code-frame": "^7.0.3",

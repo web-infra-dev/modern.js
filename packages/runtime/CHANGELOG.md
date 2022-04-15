@@ -1,5 +1,11 @@
 # @modern-js/runtime-core
 
+## 1.4.1
+
+### Patch Changes
+
+- 485375ae: fix: hoc hook break in conventional routes
+
 ## 1.4.0
 
 ### Minor Changes

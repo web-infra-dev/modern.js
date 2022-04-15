@@ -1,5 +1,11 @@
 # @modern-js/generator-plugin-plugin
 
+## 1.1.2
+
+### Patch Changes
+
+- 17d0cc46: feat: prebundle lodash to @modern-js/utils/lodash
+
 ## 1.1.1
 
 ### Patch Changes

@@ -1,5 +1,24 @@
 # @modern-js/webpack
 
+## 1.5.4
+
+### Patch Changes
+
+- ec1b7367: fix: tools config types
+- 17d0cc46: feat: prebundle lodash to @modern-js/utils/lodash
+- Updated dependencies [60855eb2]
+- Updated dependencies [ec1b7367]
+- Updated dependencies [77ff9754]
+- Updated dependencies [d2d1d6b2]
+- Updated dependencies [07a4887e]
+- Updated dependencies [ea2ae711]
+- Updated dependencies [17d0cc46]
+- Updated dependencies [d2d1d6b2]
+  - @modern-js/core@1.7.0
+  - @modern-js/utils@1.4.0
+  - @modern-js/babel-preset-app@1.2.6
+  - @modern-js/css-config@1.2.3
+
 ## 1.5.3
 
 ### Patch Changes

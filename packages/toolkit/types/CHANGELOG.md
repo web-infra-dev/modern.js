@@ -1,5 +1,11 @@
 # @modern-js/types
 
+## 1.4.0
+
+### Minor Changes
+
+- d2d1d6b2: feat: support server config
+
 ## 1.3.6
 
 ### Patch Changes

@@ -1,5 +1,30 @@
 # @modern-js/module-tools
 
+## 1.4.5
+
+### Patch Changes
+
+- 07a4887e: feat: prebundle commander and signale to @modern-js/utils
+- 17d0cc46: feat: prebundle lodash to @modern-js/utils/lodash
+- Updated dependencies [60855eb2]
+- Updated dependencies [046e58aa]
+- Updated dependencies [ec1b7367]
+- Updated dependencies [77ff9754]
+- Updated dependencies [d2d1d6b2]
+- Updated dependencies [07a4887e]
+- Updated dependencies [ea2ae711]
+- Updated dependencies [17d0cc46]
+- Updated dependencies [d2d1d6b2]
+  - @modern-js/core@1.7.0
+  - @modern-js/plugin-analyze@1.3.6
+  - @modern-js/utils@1.4.0
+  - @modern-js/plugin-i18n@1.2.3
+  - @modern-js/new-action@1.3.5
+  - @modern-js/style-compiler@1.2.3
+  - @modern-js/css-config@1.2.3
+  - @modern-js/plugin-changeset@1.2.4
+  - @modern-js/plugin-fast-refresh@1.2.3
+
 ## 1.4.4
 
 ### Patch Changes

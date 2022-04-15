@@ -1,5 +1,22 @@
 # @modern-js/server-plugin
 
+## 1.3.0
+
+### Minor Changes
+
+- d2d1d6b2: feat: support server config
+
+### Patch Changes
+
+- d2d1d6b2: feat: add prepare hook
+- Updated dependencies [77ff9754]
+- Updated dependencies [d2d1d6b2]
+- Updated dependencies [07a4887e]
+- Updated dependencies [ea2ae711]
+- Updated dependencies [17d0cc46]
+- Updated dependencies [d2d1d6b2]
+  - @modern-js/utils@1.4.0
+
 ## 1.2.5
 
 ### Patch Changes
