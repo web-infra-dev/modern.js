@@ -1,5 +1,11 @@
 # @modern-js/create
 
+## 1.3.2
+
+### Patch Changes
+
+- 07a4887e: feat: prebundle commander and signale to @modern-js/utils
+
 ## 1.3.1
 
 ### Patch Changes

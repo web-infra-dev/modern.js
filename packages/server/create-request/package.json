@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.2",
+  "version": "1.2.3",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -70,10 +70,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.3.4",
+    "@modern-js/utils": "workspace:^1.4.1",
     "node-fetch": "^2.6.1",
     "path-to-regexp": "^6.2.0",
-    "@modern-js/plugin-ssr": "workspace:^1.2.0"
+    "@modern-js/plugin-ssr": "workspace:^1.2.6"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",

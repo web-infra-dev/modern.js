@@ -1,5 +1,11 @@
 # @modern-js/mwa-generator
 
+## 1.3.7
+
+### Patch Changes
+
+- 6c651ee7: fix: lint-staged warning
+
 ## 1.3.6
 
 ### Patch Changes
