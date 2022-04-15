@@ -1,5 +1,11 @@
 # @modern-js/utils
 
+## 1.4.1
+
+### Patch Changes
+
+- 6800be3b: feat: move storage from plugin-ssr to utils
+
 ## 1.4.0
 
 ### Minor Changes

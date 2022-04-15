@@ -1,6 +1,6 @@
 import { RuntimeContext } from '@modern-js/runtime-core';
+import { run } from '@modern-js/utils';
 import { PreRender } from '../react/prerender';
-import { run } from '../hook';
 import SSREntry from './entry';
 import { ModernSSRReactComponent } from './type';
 
