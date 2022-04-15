@@ -1,5 +1,11 @@
 # @modern-js/entry-generator
 
+## 1.3.3
+
+### Patch Changes
+
+- 17d0cc46: feat: prebundle lodash to @modern-js/utils/lodash
+
 ## 1.3.2
 
 ### Patch Changes
