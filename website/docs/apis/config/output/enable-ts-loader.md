@@ -5,7 +5,7 @@ sidebar_label: enableTsLoader
 # `output.enableTsLoader`
 
 :::info 适用的工程方案
-MWA，模块。
+MWA。
 :::
 
 - 类型： `boolean`
