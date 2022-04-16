@@ -43,7 +43,7 @@
     "@types/node": "^14",
     "typescript": "^4",
     "@scripts/build": "workspace:*",
-    "@modern-js/codesmith-tools": "0.0.0-canary-20220416073241",
+    "@modern-js/codesmith-tools": "^1.1.0",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*"
   },
