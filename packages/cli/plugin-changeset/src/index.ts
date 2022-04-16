@@ -14,7 +14,7 @@ export default (): CliPlugin => ({
       plugins() {
         return [{}];
       },
-      commands({ program }: any) {
+      commands({ program }) {
         program
           .command('change')
           .description(i18n.t(localeKeys.command.change.describe))
