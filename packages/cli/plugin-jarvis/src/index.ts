@@ -6,7 +6,7 @@ export default (): CliPlugin => ({
   name: '@modern-js/plugin-jarvis',
   setup: () => {
     return {
-      commands({ program }: any) {
+      commands({ program }) {
         program
           .command('lint [...files]')
           .allowUnknownOption()

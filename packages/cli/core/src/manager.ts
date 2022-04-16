@@ -11,8 +11,9 @@ import {
   createAsyncWaterfall,
   createParallelWorkflow,
 } from '@modern-js/plugin';
-import { compatRequire, Command } from '@modern-js/utils';
+import { compatRequire } from '@modern-js/utils';
 import type { Hooks } from '@modern-js/types';
+import type { Command } from './utils/commander';
 import type { NormalizedConfig } from './config/mergeConfig';
 import { pluginAPI } from './pluginAPI';
 
