@@ -2,7 +2,11 @@
 sidebar_position: 1
 ---
 
-# 编译构建
+# 编译构建问题
+
+### 如何配置 Webpack/Babel 等工具？
+
+请参考 [配置底层工具](/docs/guides/usages/advanced-configuration/low-level)。
 
 ### 打包时出现 JavaScript heap out of memory?
 
@@ -17,3 +21,9 @@ NODE_OPTIONS=--max_old_space_size=16384 modern build
 ```
 
 参数的值代表内存上限大小（MB)，一般情况下设置为 `16384`（16GB）即可。
+
+:::info
+Node.js 官方文档中有对以下参数更详细的解释：
+- [NODE_OPTIONS](http://nodejs.cn/api/cli/node_options_options.html)
+- [--max-old-space-size](http://nodejs.cn/api/cli/max_old_space_size_size_in_megabytes.html)
+:::
