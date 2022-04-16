@@ -21,4 +21,5 @@ export function initCommandsMap() {
   }
 }
 
+export type { Command };
 export { program };

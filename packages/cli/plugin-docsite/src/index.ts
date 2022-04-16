@@ -9,7 +9,7 @@ const features: typeof import('./features') = Import.lazy(
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-docsite',
   setup: api => ({
-    commands({ program }: any) {
+    commands({ program }) {
       const { appDirectory, internalDirectory } = api.useAppContext();
       const devCommand = program.commandsMap.get('dev');
       if (devCommand) {
