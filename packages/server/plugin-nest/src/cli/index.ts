@@ -1,6 +1,7 @@
 import * as path from 'path';
 import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils } from '@modern-js/utils';
+import { getRelativeRuntimePath } from '@modern-js/adapter-helpers';
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-nest',
@@ -20,21 +21,10 @@ export default (): CliPlugin => ({
 
         const serverRuntimePath = bffExportsUtils.getPath();
 
-        // Look up one level, because the artifacts after build have dist directories
-        let relativeRuntimePath = path.join(
-          '../',
-          path.relative(appDirectory, serverRuntimePath),
+        const relativeRuntimePath = getRelativeRuntimePath(
+          appDirectory,
+          serverRuntimePath,
         );
-
-        if (
-          process.env.NODE_ENV === 'development' ||
-          process.env.NODE_ENV === 'test'
-        ) {
-          relativeRuntimePath = `./${path.relative(
-            appDirectory,
-            serverRuntimePath,
-          )}`;
-        }
 
         return {
           source: {
