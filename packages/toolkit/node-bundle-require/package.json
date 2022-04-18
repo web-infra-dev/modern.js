@@ -50,7 +50,7 @@
     "nanoid": "^3.3.2"
   },
   "devDependencies": {
-    "@modern-js/utils": "workspace:^1.4.0",
+    "@modern-js/utils": "workspace:^1.4.1",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^26.0.9",

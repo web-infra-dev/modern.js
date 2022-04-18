@@ -76,7 +76,7 @@
     "@modern-js/prod-server": "workspace:^1.1.0",
     "@modern-js/server": "workspace:^1.4.9",
     "@modern-js/types": "workspace:^1.4.0",
-    "@modern-js/utils": "workspace:^1.4.0",
+    "@modern-js/utils": "workspace:^1.4.1",
     "@modern-js/webpack": "workspace:^1.5.4",
     "inquirer": "^8.2.0",
     "webpack": "^5.71.0"

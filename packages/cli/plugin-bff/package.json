@@ -67,7 +67,7 @@
     "@modern-js/bff-utils": "workspace:^1.2.2",
     "@modern-js/create-request": "workspace:^1.2.2",
     "@modern-js/server-utils": "workspace:^1.2.2",
-    "@modern-js/utils": "workspace:^1.4.0",
+    "@modern-js/utils": "workspace:^1.4.1",
     "loader-utils": "^2.0.0"
   },
   "devDependencies": {
