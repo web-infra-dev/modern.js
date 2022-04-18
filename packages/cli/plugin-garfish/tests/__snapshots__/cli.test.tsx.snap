@@ -51,11 +51,6 @@ Object {
 
 exports[`plugin-garfish cli webpack config close external and use js entry 1`] = `
 Object {
-  "devServer": Object {
-    "headers": Object {
-      "Access-Control-Allow-Origin": "*",
-    },
-  },
   "externals": Object {
     "react": "react",
     "react-dom": "react-dom",
@@ -76,11 +71,6 @@ Object {
 
 exports[`plugin-garfish cli webpack config default micro config 1`] = `
 Object {
-  "devServer": Object {
-    "headers": Object {
-      "Access-Control-Allow-Origin": "*",
-    },
-  },
   "output": Object {
     "libraryTarget": "umd",
     "publicPath": "//localhost:8080/",
