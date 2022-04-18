@@ -33,8 +33,8 @@ export default defineConfig({
 
 | 底层工具 | 配置   |
 | -------- | --------- |
-| webpack dev server  | [tools.devServer](/docs/apis/config/tools/dev-server) |
-| Babel        | [tools.babel](/docs/apis/config/tools/babel)|
+| DevServer | [tools.devServer](/docs/apis/config/tools/dev-server) |
+| Babel | [tools.babel](/docs/apis/config/tools/babel)|
 | styled-components | [tools.styledComponents](/docs/apis/config/tools/styled-components)|
 | PostCSS | [tools.postcss](/docs/apis/config/tools/postcss)|
 | Less | [tools.less](/docs/apis/config/tools/less) |
