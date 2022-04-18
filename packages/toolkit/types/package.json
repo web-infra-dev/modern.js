@@ -42,6 +42,7 @@
     "types": "./index.d.ts"
   },
   "scripts": {
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "prepublishOnly": "only-allow-pnpm"
   }
 }
