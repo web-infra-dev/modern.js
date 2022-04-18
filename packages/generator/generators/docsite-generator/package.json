@@ -20,6 +20,7 @@
   ],
   "scripts": {
     "prepare": "pnpm build && pnpm build:csmith",
+    "prepublishOnly": "only-allow-pnpm",
     "build": "modern build",
     "build:csmith": "csmith-tools build",
     "new": "modern new",
