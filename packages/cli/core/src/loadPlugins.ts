@@ -17,6 +17,12 @@ export type LoadedPlugin = {
   serverPkg?: string;
 };
 
+export type TransformPlugin = (
+  plugin: PluginConfig,
+  resolvedConfig: UserConfig,
+  pluginOptions?: any,
+) => PluginConfig;
+
 /**
  * @deprecated
  * Using NewPluginConfig insteand.
@@ -81,16 +87,26 @@ export function getAppPlugins(
   return appPlugins;
 }
 
-const resolveCliPlugin = (p: PluginItem, appDirectory: string): CliPlugin => {
+const resolveCliPlugin = (
+  p: PluginItem,
+  userConfig: UserConfig,
+  appDirectory: string,
+  transformPlugin?: TransformPlugin,
+): CliPlugin => {
   const pkg = typeof p === 'string' ? p : p[0];
+  const pluginOptions = typeof p === 'string' ? undefined : p[1];
   const path = tryResolve(pkg, appDirectory);
-  const module = compatRequire(path);
+
+  let module = compatRequire(path);
+  if (transformPlugin) {
+    module = transformPlugin(module, userConfig, pluginOptions);
+  }
 
   if (typeof module === 'function') {
-    const pluginOptions = Array.isArray(p) ? p[1] : undefined;
     const result: CliPlugin = module(pluginOptions);
     return createPlugin(result.setup, result);
   }
+
   return module;
 };
 
@@ -108,6 +124,7 @@ const isOldPluginConfig = (config?: PluginConfig): config is OldPluginConfig =>
  * @param appDirectory - Application root directory.
  * @param userConfig - Resolved user config.
  * @param options.internalPlugins - Internal plugins.
+ * @param options.transformPlugin - transform legacy plugin before using it.
  * @returns Plugin Objects has been required.
  */
 export const loadPlugins = (
@@ -115,6 +132,7 @@ export const loadPlugins = (
   userConfig: UserConfig,
   options: {
     internalPlugins?: typeof INTERNAL_PLUGINS;
+    transformPlugin?: TransformPlugin;
   } = {},
 ) => {
   const pluginConfig = userConfig.plugins;
@@ -134,7 +152,12 @@ export const loadPlugins = (
     const loadedPlugin: LoadedPlugin = {};
 
     if (cli) {
-      loadedPlugin.cli = resolveCliPlugin(cli, appDirectory);
+      loadedPlugin.cli = resolveCliPlugin(
+        cli,
+        userConfig,
+        appDirectory,
+        options.transformPlugin,
+      );
     }
 
     // server plugins don't support to accept params
