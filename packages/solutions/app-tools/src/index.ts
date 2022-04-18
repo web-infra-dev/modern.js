@@ -34,7 +34,7 @@ export default (): CliPlugin => ({
     i18n.changeLanguage({ locale });
 
     return {
-      commands({ program }: any) {
+      commands({ program }) {
         program
           .command('dev')
           .usage('[options]')

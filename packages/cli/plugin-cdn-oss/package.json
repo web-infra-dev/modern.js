@@ -33,14 +33,14 @@
   },
   "scripts": {
     "prepare": "modern build",
-    "prepublishOnly": "modern build --platform",
+    "prepublishOnly": "only-allow-pnpm && modern build --platform",
     "dev": "modern build --watch",
     "build": "modern build",
     "new": "modern new",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.3.7",
+    "@modern-js/utils": "workspace:^1.4.1",
     "ali-oss": "^6",
     "walk": "^2.3.15"
   },

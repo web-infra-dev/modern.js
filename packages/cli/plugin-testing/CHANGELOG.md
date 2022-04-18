@@ -1,5 +1,25 @@
 # @modern-js/plugin-testing
 
+## 1.4.2
+
+### Patch Changes
+
+- 77043407: feat: add default enhanced resolver
+- Updated dependencies [485375ae]
+- Updated dependencies [ec1b7367]
+- Updated dependencies [77ff9754]
+- Updated dependencies [d2d1d6b2]
+- Updated dependencies [07a4887e]
+- Updated dependencies [ea2ae711]
+- Updated dependencies [77043407]
+- Updated dependencies [17d0cc46]
+- Updated dependencies [d2d1d6b2]
+  - @modern-js/runtime-core@1.4.1
+  - @modern-js/webpack@1.5.4
+  - @modern-js/utils@1.4.0
+  - @modern-js/testing@1.4.2
+  - @modern-js/testing-plugin-bff@1.3.1
+
 ## 1.4.1
 
 ### Patch Changes

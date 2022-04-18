@@ -29,7 +29,7 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
     "test": "jest --passWithNoTests"
@@ -38,7 +38,7 @@
     "@babel/runtime": "^7",
     "@modern-js/bff-runtime": "workspace:^1.2.1",
     "@modern-js/plugin": "workspace:^1.2.1",
-    "@modern-js/utils": "workspace:^1.2.2",
+    "@modern-js/utils": "workspace:^1.4.1",
     "es-module-lexer": "^0.4.1",
     "farrow-api": "^1.10.9",
     "globby": "^11.0.2"

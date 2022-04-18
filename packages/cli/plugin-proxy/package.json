@@ -33,7 +33,7 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "dev": "modern build --watch",
     "build": "modern build",
@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.3.7",
+    "@modern-js/utils": "workspace:^1.4.1",
     "whistle": "^2.7.18"
   },
   "devDependencies": {

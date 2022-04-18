@@ -5,7 +5,7 @@ import React from 'react';
 import Garfish, { interfaces } from 'garfish';
 import { withRouter } from '@modern-js/plugin-router';
 // import Loadable from 'react-loadable';
-import { Manifest, ModulesInfo } from '../useModuleApps';
+import { Manifest, MicroComponentProps, ModulesInfo } from '../useModuleApps';
 import { logger, generateSubAppContainerKey } from '../../util';
 import { Loadable, MicroProps } from '../loadable';
 
@@ -16,7 +16,7 @@ import { Loadable, MicroProps } from '../loadable';
 // };
 
 export interface AppMap {
-  [key: string]: React.FC<any>;
+  [key: string]: React.FC<MicroComponentProps>;
 }
 
 function getAppInstance(
@@ -33,6 +33,8 @@ function getAppInstance(
       appInstance: null,
       domId: generateSubAppContainerKey(appInfo),
     };
+
+    unregisterHistoryListener: any;
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     async UNSAFE_componentWillMount() {
@@ -100,7 +102,7 @@ function getAppInstance(
           });
           await appInstance?.mount();
         }
-        history?.listen(() => {
+        this.unregisterHistoryListener = history?.listen(() => {
           if (locationHref !== history.location.pathname) {
             locationHref = history.location.pathname;
             const popStateEvent = new PopStateEvent('popstate');
@@ -118,6 +120,8 @@ function getAppInstance(
 
     async componentWillUnmount() {
       const { appInstance } = this.state;
+      this.unregisterHistoryListener();
+
       if (appInstance) {
         const { appInfo } = appInstance;
         if (appInfo.cache) {

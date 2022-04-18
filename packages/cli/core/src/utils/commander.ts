@@ -1,11 +1,5 @@
 import { program, Command } from '@modern-js/utils';
 
-declare module '@modern-js/utils/compiled/commander' {
-  export interface Command {
-    commandsMap: Map<string, Command>;
-  }
-}
-
 export function initCommandsMap() {
   if (!program.hasOwnProperty('commandsMap')) {
     Object.defineProperty(program, 'commandsMap', {
@@ -21,4 +15,5 @@ export function initCommandsMap() {
   }
 }
 
+export type { Command };
 export { program };

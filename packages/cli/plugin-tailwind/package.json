@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.6",
+  "version": "1.2.7",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -33,7 +33,7 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "dev": "modern build --watch",
     "build": "modern build",
@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.3.7",
+    "@modern-js/utils": "workspace:^1.4.1",
     "@modern-js/plugin-design-token": "workspace:^1.0.3"
   },
   "devDependencies": {

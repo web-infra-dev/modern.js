@@ -29,14 +29,14 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.3.7",
+    "@modern-js/utils": "workspace:^1.4.1",
     "isomorphic-fetch": "^3.0.0"
   },
   "devDependencies": {
@@ -54,7 +54,7 @@
     "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/runtime-core": "workspace:^1.4.0"
+    "@modern-js/runtime-core": "workspace:^1.4.1"
   },
   "sideEffects": false,
   "publishConfig": {

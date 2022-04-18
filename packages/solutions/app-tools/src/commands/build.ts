@@ -11,6 +11,7 @@ import {
   emptyDir,
 } from '@modern-js/utils';
 import { generateRoutes } from '../utils/routes';
+import { buildServerConfig, emitResolvedConfig } from '../utils/config';
 import type { BuildOptions } from '../utils/types';
 
 // These sizes are pretty large. We'll warn for bundles exceeding them.
@@ -94,9 +95,15 @@ export const build = async (api: PluginAPI, options?: BuildOptions) => {
     ResolvedConfigContext.set({ ...resolvedConfig, cliOptions: options });
   });
 
-  const { distDirectory } = appContext;
+  const { distDirectory, appDirectory, serverConfigFile } = appContext;
   const previousFileSizes = await measureFileSizesBeforeBuild(distDirectory);
   await emptyDir(distDirectory);
+
+  await buildServerConfig({
+    appDirectory,
+    distDirectory,
+    configFile: serverConfigFile,
+  });
 
   const buildConfigs: Array<{ type: string; config: any }> = [];
   buildConfigs.push({
@@ -135,4 +142,5 @@ export const build = async (api: PluginAPI, options?: BuildOptions) => {
 
   await generateRoutes(appContext);
   await hookRunners.afterBuild();
+  await emitResolvedConfig(appDirectory, resolvedConfig);
 };

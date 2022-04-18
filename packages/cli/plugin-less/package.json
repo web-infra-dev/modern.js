@@ -43,7 +43,7 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "dev": "modern build --watch",
     "build": "modern build",
@@ -52,7 +52,7 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/css-config": "workspace:^1.2.3",
-    "@modern-js/utils": "workspace:^1.3.7",
+    "@modern-js/utils": "workspace:^1.4.1",
     "@types/less": "^3.0.3",
     "less": "^4.1.1",
     "less-loader": "^10.0.1",
@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/style-compiler": "workspace:^1.2.1",
+    "@modern-js/style-compiler": "workspace:^1.2.3",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^26",

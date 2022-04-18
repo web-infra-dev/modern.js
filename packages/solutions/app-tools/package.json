@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.4.6",
+  "version": "1.5.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -33,6 +33,10 @@
     "./types": {
       "jsnext:source": "./lib/types.d.ts",
       "default": "./lib/types.d.ts"
+    },
+    "./server": {
+      "jsnext:source": "./src/exports/server.ts",
+      "default": "./dist/js/node/exports/server.js"
     }
   },
   "typesVersions": {
@@ -42,6 +46,9 @@
       ],
       "types": [
         "./lib/types.d.ts"
+      ],
+      "server": [
+        "./dist/types/exports/server.d.ts"
       ]
     }
   },
@@ -50,7 +57,7 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "dev": "modern build --watch",
     "build": "modern build",
@@ -58,22 +65,24 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/core": "workspace:^1.6.1",
+    "@modern-js/core": "workspace:^1.7.1",
     "@modern-js/i18n-cli-language-detector": "workspace:^1.2.1",
-    "@modern-js/new-action": "workspace:^1.3.3",
+    "@modern-js/new-action": "workspace:^1.3.5",
+    "@modern-js/node-bundle-require": "workspace:^1.3.0",
     "@modern-js/plugin": "workspace:^1.3.2",
-    "@modern-js/plugin-analyze": "workspace:^1.3.5",
+    "@modern-js/plugin-analyze": "workspace:^1.3.6",
     "@modern-js/plugin-fast-refresh": "workspace:^1.2.3",
-    "@modern-js/plugin-i18n": "workspace:^1.2.1",
-    "@modern-js/prod-server": "workspace:^1.0.6",
+    "@modern-js/plugin-i18n": "workspace:^1.2.3",
+    "@modern-js/prod-server": "workspace:^1.1.0",
     "@modern-js/server": "workspace:^1.4.9",
-    "@modern-js/types": "workspace:^1.3.6",
-    "@modern-js/utils": "workspace:^1.3.7",
-    "@modern-js/webpack": "workspace:^1.5.3",
+    "@modern-js/types": "workspace:^1.4.0",
+    "@modern-js/utils": "workspace:^1.4.1",
+    "@modern-js/webpack": "workspace:^1.5.4",
     "inquirer": "^8.2.0",
     "webpack": "^5.71.0"
   },
   "devDependencies": {
+    "@modern-js/server-core": "workspace:^1.3.0",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/inquirer": "^8.2.0",

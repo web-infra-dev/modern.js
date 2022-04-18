@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "prepare": "pnpm build && pnpm build:csmith",
-    "prepublishOnly": "pnpm build --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern new",
     "build": "modern build",
     "build:csmith": "csmith-tools build",
@@ -31,7 +31,7 @@
     "@scripts/build": "workspace:*",
     "@modern-js/plugin-jarvis": "workspace:^1.2.6",
     "@modern-js/codesmith": "^1.0.8",
-    "@modern-js/codesmith-tools": "^1.0.9",
+    "@modern-js/codesmith-tools": "^1.1.0",
     "@modern-js/codesmith-api-app": "^1.0.8",
     "@modern-js/codesmith-api-json": "^1.0.7",
     "@modern-js/generator-common": "workspace:^1.4.8",
