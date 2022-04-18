@@ -207,6 +207,12 @@ describe('plugin-garfish cli', () => {
     });
 
     const generateConfig = webpackConfig.toConfig();
+    expect(config[0].tools.devServer).toMatchObject({
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
+
     expect(generateConfig).toMatchSnapshot();
     expect(generateConfig).toMatchObject({
       output: {
@@ -231,7 +237,7 @@ describe('plugin-garfish cli', () => {
         internalDirectory: 'test'
       }),
     } as any);
-    
+
     lifecycle && lifecycle.config();
     lifecycle && lifecycle.addRuntimeExports()
     expect(addExportList).toMatchSnapshot();
