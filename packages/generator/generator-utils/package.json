@@ -37,7 +37,7 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/plugin-i18n": "workspace:^1.2.1",
-    "@modern-js/utils": "workspace:^1.2.2",
+    "@modern-js/utils": "workspace:^1.4.1",
     "ora": "^5.4.1"
   },
   "devDependencies": {

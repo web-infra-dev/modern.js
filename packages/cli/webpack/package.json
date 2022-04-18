@@ -39,7 +39,7 @@
     "@modern-js/babel-chain": "workspace:^1.2.1",
     "@modern-js/babel-preset-app": "workspace:^1.2.6",
     "@modern-js/css-config": "workspace:^1.2.3",
-    "@modern-js/utils": "workspace:^1.4.0",
+    "@modern-js/utils": "workspace:^1.4.1",
     "@svgr/webpack": "^5.5.0",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^9.0.1",
