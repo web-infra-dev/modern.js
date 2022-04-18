@@ -54,7 +54,7 @@
   "scripts": {
     "prepare": "pnpm build",
     "dev": "modern build --watch",
-    "prepublishOnly": "pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
     "test": "jest --passWithNoTests"
