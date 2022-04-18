@@ -249,3 +249,9 @@ const createCli = () => {
 export const cli = createCli();
 
 export { initAppDir, initAppContext };
+
+declare module '@modern-js/utils/compiled/commander' {
+  export interface Command {
+    commandsMap: Map<string, Command>;
+  }
+}
