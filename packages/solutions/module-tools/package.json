@@ -73,7 +73,7 @@
     "@modern-js/plugin-fast-refresh": "workspace:^1.2.3",
     "@modern-js/plugin-i18n": "workspace:^1.2.3",
     "@modern-js/style-compiler": "workspace:^1.2.3",
-    "@modern-js/utils": "workspace:^1.4.0",
+    "@modern-js/utils": "workspace:^1.4.1",
     "dotenv": "^10.0.0",
     "fast-glob": "^3.2.5",
     "globby": "^11",

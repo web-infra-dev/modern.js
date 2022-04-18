@@ -114,7 +114,7 @@
     "@modern-js/plugin-ssr": "workspace:^1.2.5",
     "@modern-js/plugin-state": "workspace:^1.2.3",
     "@modern-js/runtime-core": "workspace:^1.4.1",
-    "@modern-js/utils": "workspace:^1.4.0",
+    "@modern-js/utils": "workspace:^1.4.1",
     "@modern-js/bff-runtime": "workspace:^1.2.1",
     "@modern-js/create-request": "workspace:^1.2.1",
     "@loadable/component": "^5.15.0",

@@ -93,7 +93,7 @@
     "@babel/runtime": "^7",
     "@modern-js/babel-compiler": "workspace:^1.2.1",
     "@modern-js/testing": "workspace:^1.4.2",
-    "@modern-js/utils": "workspace:^1.4.0",
+    "@modern-js/utils": "workspace:^1.4.1",
     "@modern-js/webpack": "workspace:^1.5.4",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
