@@ -124,7 +124,7 @@ const isOldPluginConfig = (config?: PluginConfig): config is OldPluginConfig =>
  * @param appDirectory - Application root directory.
  * @param userConfig - Resolved user config.
  * @param options.internalPlugins - Internal plugins.
- * @param options.transformPlugin - transform legacy plugin before using it.
+ * @param options.transformPlugin - transform plugin before using it. Used for compatible with legacy jupiter plugins.
  * @returns Plugin Objects has been required.
  */
 export const loadPlugins = (
