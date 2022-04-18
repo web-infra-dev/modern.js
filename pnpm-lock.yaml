@@ -12,6 +12,7 @@ importers:
       '@modern-js/monorepo-tools': workspace:^1.4.0
       '@modern-js/plugin-jarvis': workspace:^1.2.3
       '@modern-js/tsconfig': workspace:^1.2.0
+      '@scripts/build': workspace:*
       babel-plugin-module-resolver: ^4.1.0
       btsm: 2.2.2
       enhanced-resolve: ^5.9.2
@@ -28,6 +29,7 @@ importers:
       '@modern-js/monorepo-tools': link:packages/solutions/monorepo-tools
       '@modern-js/plugin-jarvis': link:packages/cli/plugin-jarvis
       '@modern-js/tsconfig': link:packages/review/tsconfig
+      '@scripts/build': link:scripts/build
       babel-plugin-module-resolver: 4.1.0
       btsm: 2.2.2
       enhanced-resolve: 5.9.2
@@ -586,6 +588,7 @@ importers:
       '@modern-js/plugin-testing': workspace:^1.4.2
       '@modern-js/runtime-core': workspace:*
       '@modern-js/utils': workspace:^1.4.1
+      '@scripts/build': workspace:*
       '@types/jest': ^26
       '@types/node': ^14
       '@types/react': ^17
@@ -603,6 +606,7 @@ importers:
       '@modern-js/module-tools': link:../../solutions/module-tools
       '@modern-js/plugin-testing': link:../plugin-testing
       '@modern-js/runtime-core': link:../../runtime
+      '@scripts/build': link:../../../scripts/build
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
       '@types/react': 17.0.38
@@ -2875,12 +2879,14 @@ importers:
   packages/review/eslint-config:
     specifiers:
       '@modern-js-app/eslint-config': workspace:^1.2.5
+      '@scripts/build': workspace:*
       eslint: ^7.32.0
       eslint-find-rules: ^3.4.0
       eslint-index: ^1.5.0
     dependencies:
       '@modern-js-app/eslint-config': link:../eslint-config-app
     devDependencies:
+      '@scripts/build': link:../../../scripts/build
       eslint: 7.32.0
       eslint-find-rules: 3.6.1_eslint@7.32.0
       eslint-index: 1.5.0
@@ -2888,12 +2894,14 @@ importers:
   packages/review/eslint-config-app:
     specifiers:
       '@modern-js/babel-preset-app': workspace:^1.2.6
+      '@scripts/build': workspace:*
       eslint: ^7.32.0
       eslint-find-rules: ^3.4.0
       eslint-index: ^1.5.0
     dependencies:
       '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
     devDependencies:
+      '@scripts/build': link:../../../scripts/build
       eslint: 7.32.0
       eslint-find-rules: 3.6.1_eslint@7.32.0
       eslint-index: 1.5.0
@@ -2989,7 +2997,10 @@ importers:
       typescript: 4.5.4
 
   packages/review/tsconfig:
-    specifiers: {}
+    specifiers:
+      '@scripts/build': workspace:*
+    devDependencies:
+      '@scripts/build': link:../../../scripts/build
 
   packages/runtime:
     specifiers:

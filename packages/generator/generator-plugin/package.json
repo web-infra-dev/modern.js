@@ -8,7 +8,7 @@
   "jsnext:modern": "./dist/js/modern/index.js",
   "scripts": {
     "prepare": "modern build",
-    "prepublishOnly": "modern build --platform",
+    "prepublishOnly": "only-allow-pnpm && modern build --platform",
     "dev": "modern dev",
     "build": "modern build",
     "new": "modern new",

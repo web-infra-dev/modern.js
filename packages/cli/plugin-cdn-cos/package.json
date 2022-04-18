@@ -33,7 +33,7 @@
   },
   "scripts": {
     "prepare": "modern build",
-    "prepublishOnly": "modern build --platform",
+    "prepublishOnly": "only-allow-pnpm && modern build --platform",
     "dev": "modern build --watch",
     "build": "modern build",
     "new": "modern new",
