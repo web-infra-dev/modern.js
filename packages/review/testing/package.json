@@ -39,7 +39,7 @@
     "@babel/runtime": "^7",
     "@modern-js/babel-preset-app": "workspace:^1.2.6",
     "@modern-js/plugin": "workspace:^1.3.2",
-    "@modern-js/utils": "workspace:^1.4.0",
+    "@modern-js/utils": "workspace:^1.4.1",
     "@modern-js/webpack": "workspace:^1.5.4",
     "babel-jest": "^27.0.6",
     "enhanced-resolve": "^5.8.3",

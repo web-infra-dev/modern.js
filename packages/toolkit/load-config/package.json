@@ -37,7 +37,7 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/node-bundle-require": "workspace:^1.3.0",
-    "@modern-js/utils": "workspace:^1.4.0"
+    "@modern-js/utils": "workspace:^1.4.1"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
