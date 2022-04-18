@@ -44,6 +44,7 @@
   },
   "scripts": {
     "prepare": "pnpm build",
+    "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
     "build": "modern build",
     "test": "modern test --passWithNoTests"
@@ -58,6 +59,7 @@
     "@modern-js/plugin-testing": "workspace:^1.4.2",
     "@modern-js/runtime-core": "workspace:*",
     "@modern-js/core": "workspace:*",
+    "@scripts/build": "workspace:*",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react": "^17",
