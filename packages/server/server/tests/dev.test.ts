@@ -88,14 +88,13 @@ describe('test dev tools', () => {
       liveReload: true,
     }).apply(compiler);
 
-    // expect(compiler.options.entry)
     const entryPluginHook = compiler.hooks.compilation.taps.filter(
       tap => tap.name === 'EntryPlugin',
     );
     const hotPluginHook = compiler.hooks.compilation.taps.filter(
       tap => tap.name === 'HotModuleReplacementPlugin',
     );
-    expect(entryPluginHook.length).toBe(3);
+    expect(entryPluginHook.length).toBe(2);
     expect(hotPluginHook.length).toBe(1);
   });
 
@@ -117,14 +116,13 @@ describe('test dev tools', () => {
       liveReload: true,
     }).apply(compiler);
 
-    // expect(compiler.options.entry)
     const entryPluginHook = compiler.hooks.compilation.taps.filter(
       tap => tap.name === 'EntryPlugin',
     );
     const hotPluginHook = compiler.hooks.compilation.taps.filter(
       tap => tap.name === 'HotModuleReplacementPlugin',
     );
-    expect(entryPluginHook.length).toBe(3);
+    expect(entryPluginHook.length).toBe(2);
     expect(hotPluginHook.length).toBe(1);
   });
 });
