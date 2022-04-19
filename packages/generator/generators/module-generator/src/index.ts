@@ -12,7 +12,6 @@ import {
   DependenceGenerator,
   ModuleActionFunctionsDependencies,
   ActionFunction,
-  PackageManager,
   BooleanConfig,
 } from '@modern-js/generator-common';
 import {

@@ -11,7 +11,6 @@ import {
   Language,
   BooleanConfig,
   ClientRoute,
-  PackageManager,
   RunWay,
   EntryGenerator,
   ElectronGenerator,
