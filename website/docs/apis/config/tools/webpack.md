@@ -9,7 +9,7 @@ sidebar_position: 11
 - MWA
 :::
 
-- 类型： `(config, { dev, chain, webpack }) => void`
+- 类型： `(config, { env, chain, webpack }) => void`
 - 默认值： `undefined`
 
 对应 [webpack](https://webpack.js.org/) 的配置，值为 `Function` 类型。
