@@ -80,7 +80,7 @@
     "node-fetch": "^2.6.5",
     "postcss": "^8",
     "postcss-modules": "^4.2.2",
-    "react-refresh": "^0.9.0",
+    "react-refresh": "0.12.0",
     "rollup": "^2.38.5",
     "sass": "^1.45.0",
     "semver": "^7.3.5",
