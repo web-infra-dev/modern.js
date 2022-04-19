@@ -691,7 +691,7 @@ class BaseWebpackConfig {
     applyOptionsChain(
       config,
       // FIXME: type
-      this.options.tools?.webpack,
+      this.options.tools?.webpack as any,
       {
         chain: this.chain,
         name: this.chain.get('name'),
