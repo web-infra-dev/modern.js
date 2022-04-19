@@ -264,7 +264,7 @@ importers:
       ajv: ^8.6.2
       ajv-keywords: ^5.0.0
       autoprefixer: ^10.3.1
-      better-ajv-errors: ^0.7.0
+      better-ajv-errors: 1.2.0
       btsm: 2.2.2
       dotenv: ^10.0.0
       dotenv-expand: ^5.1.0
@@ -285,7 +285,7 @@ importers:
       address: 1.1.2
       ajv: 8.8.2
       ajv-keywords: 5.1.0_ajv@8.8.2
-      better-ajv-errors: 0.7.0_ajv@8.8.2
+      better-ajv-errors: 1.2.0_ajv@8.8.2
       dotenv: 10.0.0
       dotenv-expand: 5.1.0
       esbuild: 0.13.15
@@ -10796,6 +10796,11 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@humanwhocodes/momoa/2.0.4:
+    resolution: {integrity: sha512-RE815I4arJFtt+FVeU1Tgp9/Xvecacji8w/V6XtXsWWH/wz/eNkNbhb+ny/+PlVZjV0rxQpRSQKNKE3lcktHEA==}
+    engines: {node: '>=10.10.0'}
+    dev: false
+
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
 
@@ -17665,18 +17670,17 @@ packages:
     dependencies:
       tweetnacl: 0.14.5
 
-  /better-ajv-errors/0.7.0_ajv@8.8.2:
-    resolution: {integrity: sha512-6GtJQ/AwVSo1pI1MDQU/yg8O86gMsrt5RKtELo08Epa2zWJPCOK85v/O8/U5A9JkWmwRkE16JpSgssKSx6moog==}
+  /better-ajv-errors/1.2.0_ajv@8.8.2:
+    resolution: {integrity: sha512-UW+IsFycygIo7bclP9h5ugkNH8EjCSgqyFB/yQ4Hqqa1OEYDtb0uFIkYE0b6+CjkgJYVM5UKI/pJPxjYe9EZlA==}
+    engines: {node: '>= 12.13.0'}
     peerDependencies:
-      ajv: 4.11.8 - 6
+      ajv: 4.11.8 - 8
     dependencies:
       '@babel/code-frame': 7.16.7
-      '@babel/runtime': 7.16.7
+      '@humanwhocodes/momoa': 2.0.4
       ajv: 8.8.2
-      chalk: 2.4.2
-      core-js: 3.20.2
-      json-to-ast: 2.1.0
-      jsonpointer: 4.1.0
+      chalk: 4.1.2
+      jsonpointer: 5.0.0
       leven: 3.1.0
     dev: false
 
@@ -18915,11 +18919,6 @@ packages:
       '@types/q': 1.5.5
       chalk: 2.4.2
       q: 1.5.1
-    dev: false
-
-  /code-error-fragment/0.0.230:
-    resolution: {integrity: sha512-cadkfKp6932H8UkhzE/gcUqhRMNf8jHzkAN7+5Myabswaghu4xABTgPHDCjW+dBAJxj/SpkTYokpzDqY4pCzQw==}
-    engines: {node: '>= 4'}
     dev: false
 
   /code-point-at/1.1.0:
@@ -27429,14 +27428,6 @@ packages:
   /json-stringify-safe/5.0.1:
     resolution: {integrity: sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=}
 
-  /json-to-ast/2.1.0:
-    resolution: {integrity: sha512-W9Lq347r8tA1DfMvAGn9QNcgYm4Wm7Yc+k8e6vezpMnRT+NHbtlxgNBXRVjXe9YM6eTn6+p/MKOlV/aABJcSnQ==}
-    engines: {node: '>= 4'}
-    dependencies:
-      code-error-fragment: 0.0.230
-      grapheme-splitter: 1.0.4
-    dev: false
-
   /json2mq/0.2.0:
     resolution: {integrity: sha1-tje9O6nqvhIsg+lyBIOusQ0skEo=}
     dependencies:
@@ -27490,8 +27481,8 @@ packages:
     engines: {'0': node >= 0.2.0}
     dev: true
 
-  /jsonpointer/4.1.0:
-    resolution: {integrity: sha512-CXcRvMyTlnR53xMcKnuMzfCA5i/nfblTnnr74CZb6C4vG39eu6w51t7nKmU5MfLfbTgGItliNyjO/ciNPDqClg==}
+  /jsonpointer/5.0.0:
+    resolution: {integrity: sha512-PNYZIdMjVIvVgDSYKTT63Y+KZ6IZvGRNNWcxwD+GNnUz1MKPfv30J8ueCjdwcN0nDx2SlshgyB7Oy0epAzVRRg==}
     engines: {node: '>=0.10.0'}
     dev: false
 

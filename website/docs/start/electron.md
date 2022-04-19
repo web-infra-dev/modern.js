@@ -87,22 +87,7 @@ middle-platform-electron 为创建的项目名。
 
 ? 请选择你想要的操作 启用可选功能
 ? 启用可选功能 启用「Electron」模式
- WARN  @modern-js/app-tools > @modern-js/core: better-ajv-errors@0.7.0 requires a peer of ajv@4.11.8 - 6 but version 8.6.3 was installed.
- WARN  @modern-js/app-tools > @modern-js/server > @modern-js/server-utils > @modern-js/babel-preset-lib > @modern-js/babel-preset-base: babel-plugin-styled-components@1.13.3 requires a peer of styled-components@>= 2 but none was installed.
- WARN  @modern-js/app-tools > @modern-js/server > @modern-js/bff-utils > @modern-js/create-request > @modern-js/runtime > @modern-js/plugin-state > @modern-js-reduck/plugin-devtools: redux-devtools-extension@2.13.9 requires a peer of redux@^3.1.0 || ^4.0.0 but none was installed.
- WARN  @modern-js/app-tools > @modern-js/server > @modern-js/bff-utils > @modern-js/create-request > @modern-js/runtime > @modern-js/plugin-state > @modern-js-reduck/plugin-effects: redux-promise-middleware@6.1.2 requires a peer of redux@^2.0.0 || ^3.0.0 || ^4.0.0 but none was installed.
- WARN  @modern-js/app-tools > @modern-js/server > @modern-js/bff-utils > @modern-js/create-request > @modern-js/runtime > @modern-js/plugin-state > @modern-js-reduck/plugin-effects: redux-thunk@2.4.0 requires a peer of redux@^4 but none was installed.
- WARN  18 other warnings
-Packages: +220
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Progress: resolved 1020, reused 1004, downloaded 0, added 220, done
 
-devDependencies:
-+ @babel/register 7.15.3
-+ @babel/runtime 7.15.4
-+ @modern-js/plugin-electron 1.0.0
-+ electron 13.6.0 (15.3.0 is available)
-+ electron-builder 22.13.1
 [INFO] 依赖自动安装成功
 [INFO] 启用 Electron 模式成功!
 可在项目的目录下运行以下命令：
