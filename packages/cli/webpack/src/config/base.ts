@@ -689,7 +689,8 @@ class BaseWebpackConfig {
     const config = this.chain.toConfig();
 
     applyOptionsChain(
-      config as any,
+      config,
+      // FIXME: type
       this.options.tools?.webpack,
       {
         chain: this.chain,

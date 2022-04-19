@@ -37,7 +37,7 @@ export default (): CliPlugin => ({
             },
           },
           tools: {
-            webpack: (config: any, { chain }: { chain: WebpackChain }) => {
+            webpack: (config, { chain }: { chain: WebpackChain }) => {
               const userConfig = api.useResolvedConfigContext();
               if (isUseSSRBundle(userConfig) && config.name !== 'server') {
                 chain

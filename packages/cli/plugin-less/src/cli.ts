@@ -1,7 +1,5 @@
 import { Import, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
-import type { Configuration } from 'webpack';
-import type Chain from 'webpack-chain';
 
 const cssConfig: typeof import('@modern-js/css-config') = Import.lazy(
   '@modern-js/css-config',
@@ -28,7 +26,7 @@ export default (): CliPlugin => ({
     config() {
       return {
         tools: {
-          webpack: (config: Configuration, { chain }: { chain: Chain }) => {
+          webpack: (config, { chain }) => {
             const options = api.useResolvedConfigContext();
 
             const {
@@ -50,7 +48,7 @@ export default (): CliPlugin => ({
                   : LESS_REGEX,
                 exclude: LESS_MODULE_REGEX,
                 use: [
-                  ...(loaders.oneOf('css') as any).toConfig().use,
+                  ...loaders.oneOf('css').toConfig().use,
                   {
                     loader: require.resolve('less-loader'),
                     options: lessOptions,
@@ -67,7 +65,7 @@ export default (): CliPlugin => ({
                   : LESS_MODULE_REGEX,
                 exclude: [/node_modules/, GLOBAL_LESS_REGEX],
                 use: [
-                  ...(loaders.oneOf('css-modules') as any).toConfig().use,
+                  ...loaders.oneOf('css-modules').toConfig().use,
                   {
                     loader: require.resolve('less-loader'),
                     options: lessOptions,

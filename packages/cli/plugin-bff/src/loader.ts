@@ -1,6 +1,6 @@
 import { getOptions } from 'loader-utils';
 import { generateClient, GenClientOptions } from '@modern-js/bff-utils';
-import { LoaderContext } from 'webpack';
+import type { LoaderContext } from 'webpack';
 
 export type APILoaderOptions = {
   prefix: string;
