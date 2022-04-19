@@ -12,7 +12,6 @@ import {
   DependenceGenerator,
   ModuleActionFunctionsDependencies,
   ActionFunction,
-  PackageManager,
   BooleanConfig,
 } from '@modern-js/generator-common';
 import {
@@ -167,17 +166,6 @@ export const handleTemplateFile = async (
       resourceKey =>
         resourceKey
           .replace('templates/js-template/', projectPath)
-          .replace('.handlebars', ''),
-    );
-  }
-
-  if (!isMonorepoSubProject && packageManager === PackageManager.Pnpm) {
-    await appApi.forgeTemplate(
-      'templates/pnpm-template/**/*',
-      undefined,
-      resourceKey =>
-        resourceKey
-          .replace('templates/pnpm-template/', projectPath)
           .replace('.handlebars', ''),
     );
   }
