@@ -15,7 +15,7 @@ sidebar_position: 11
 对应 [webpack](https://webpack.js.org/) 的配置，值为 `Function` 类型。
 
 - 函数的第一个参数为内部的默认配置（只读）。
-- 函数的第二个参数为修改 webpack 配置的工具集合，包括 `chain`、`env`、`webpack` 等。
+- 函数的第二个参数为修改 webpack 配置的工具集合，包括 `env`、`chain`、`webpack` 等。
 
 ### chain
 
