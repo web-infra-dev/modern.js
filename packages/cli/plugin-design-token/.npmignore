@@ -26,6 +26,7 @@ coverage/
 release/
 output/
 output_resource/
+tests/
 
 .vscode/**/*
 !.vscode/settings.json
