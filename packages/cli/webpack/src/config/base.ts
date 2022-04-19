@@ -695,7 +695,7 @@ class BaseWebpackConfig {
       this.options.tools?.webpack,
       {
         chain: this.chain,
-        env: process.env.NODE_ENV!,
+        env: process.env.NODE_ENV,
         name: this.chain.get('name'),
         webpack,
       },
