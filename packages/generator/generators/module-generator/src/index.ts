@@ -171,17 +171,6 @@ export const handleTemplateFile = async (
     );
   }
 
-  if (!isMonorepoSubProject && packageManager === PackageManager.Pnpm) {
-    await appApi.forgeTemplate(
-      'templates/pnpm-template/**/*',
-      undefined,
-      resourceKey =>
-        resourceKey
-          .replace('templates/pnpm-template/', projectPath)
-          .replace('.handlebars', ''),
-    );
-  }
-
   if (enableLess === BooleanConfig.YES) {
     const lessDependence =
       ModuleActionFunctionsDependencies[ActionFunction.Less]!;

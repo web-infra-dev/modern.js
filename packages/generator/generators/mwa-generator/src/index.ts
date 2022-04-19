@@ -168,17 +168,6 @@ export const handleTemplateFile = async (
     );
   }
 
-  if (!isMonorepoSubProject && packageManager === PackageManager.Pnpm) {
-    await appApi.forgeTemplate(
-      'templates/pnpm-template/**/*',
-      undefined,
-      resourceKey =>
-        resourceKey
-          .replace('templates/pnpm-template/', projectPath)
-          .replace('.handlebars', ''),
-    );
-  }
-
   await appApi.runSubGenerator(
     getGeneratorPath(EntryGenerator, context.config.distTag),
     `./${projectPath}`,
