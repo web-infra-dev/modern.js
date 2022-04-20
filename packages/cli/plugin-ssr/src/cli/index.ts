@@ -9,7 +9,6 @@ import {
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import LoadableWebpackPlugin from '@loadable/webpack-plugin';
-import type WebpackChain from 'webpack-chain';
 
 const PLUGIN_IDENTIFIER = 'ssr';
 
@@ -37,7 +36,7 @@ export default (): CliPlugin => ({
             },
           },
           tools: {
-            webpack: (config: any, { chain }: { chain: WebpackChain }) => {
+            webpack: (config, { chain }) => {
               const userConfig = api.useResolvedConfigContext();
               if (isUseSSRBundle(userConfig) && config.name !== 'server') {
                 chain

@@ -15,10 +15,11 @@ import { compatRequire } from '@modern-js/utils';
 import type { Hooks } from '@modern-js/types';
 import type { Command } from './utils/commander';
 import type { NormalizedConfig } from './config/mergeConfig';
+import type { UserConfig } from './config';
 import { pluginAPI } from './pluginAPI';
 
 export type HooksRunner = ToRunners<{
-  config: ParallelWorkflow<void>;
+  config: ParallelWorkflow<void, UserConfig>;
   resolvedConfig: AsyncWaterfall<{
     resolved: NormalizedConfig;
   }>;
@@ -43,7 +44,7 @@ export type HooksRunner = ToRunners<{
 }>;
 
 const baseHooks = {
-  config: createParallelWorkflow(),
+  config: createParallelWorkflow<void, UserConfig>(),
   resolvedConfig: createAsyncWaterfall<{
     resolved: NormalizedConfig;
   }>(),
