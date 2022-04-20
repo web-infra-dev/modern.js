@@ -1,7 +1,0 @@
-{
-  "extends": "@modern-js/tsconfig/base",
-  "compilerOptions": {
-    "declaration": false,
-    "jsx": "preserve"
-  }
-}
