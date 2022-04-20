@@ -34,12 +34,10 @@ describe('test build', () => {
         FAST_REFRESH: 'false',
       },
     );
-    const logs = [];
     const errors = [];
 
     const browser = await puppeteer.launch({ headless: true, dumpio: true });
     const page = await browser.newPage();
-    page.on('console', msg => logs.push(msg.text()));
     page.on('pageerror', error => errors.push(error.text));
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
@@ -49,7 +47,6 @@ describe('test build', () => {
     const targetText = await page.evaluate(el => el.textContent, root);
     expect(targetText.trim()).toEqual('Hello Modern.js! 1');
     expect(errors.length).toEqual(0);
-    expect(logs[0]).toEqual('[HMR] Waiting for update signal from WDS...');
 
     browser.close();
     await killApp(app);
