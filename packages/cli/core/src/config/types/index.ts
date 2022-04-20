@@ -20,6 +20,7 @@ import type {
   SSGMultiEntryOptions,
   SSGSingleEntryOptions,
 } from './ssg';
+import { ElectronConfig } from './electron';
 
 type AutoprefixerOptions = autoprefixer.Options;
 type TerserOptions = BasePluginOptions & RawTerserOptions;
@@ -314,6 +315,12 @@ export interface UserConfig {
    * @requires `@modern-js/plugin-testing`
    */
   testing?: TestConfig;
+  /**
+   * The configuration of `electron` is provided by plugin `@modern-js/plugin-electron`.
+   * Please use `yarn new` to enable the corresponding capability.
+   * @requires `@modern-js/plugin-electron`
+   */
+  electron?: ElectronConfig;
 }
 
 export type ConfigParam =

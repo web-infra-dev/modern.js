@@ -1,5 +1,7 @@
-/** @type {import('@modern-tools/app-tools').UserConfig} */
-module.exports = {
+import { defineConfig } from '@modern-js/app-tools';
+
+// https://modernjs.dev/docs/apis/config/overview
+export default defineConfig({
   output: {
     assetPrefix: '../../',
   },
@@ -29,4 +31,4 @@ module.exports = {
       },
     },
   },
-};
+});
