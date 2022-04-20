@@ -1,7 +1,6 @@
 import path from 'path';
 import { createRuntimeExportsUtils, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import type { CliHookCallbacks, CliPlugin } from '@modern-js/core';
-import type WebpackChain from 'webpack-chain';
 import { logger } from '../util';
 import {
   getRuntimeConfig,
@@ -82,11 +81,7 @@ export default ({
             },
             webpack: (
               webpackConfig: any,
-              {
-                chain,
-                webpack,
-                env = process.env.NODE_ENV || 'development',
-              }: { chain: WebpackChain; webpack: any; env: string },
+              { chain, webpack, env = process.env.NODE_ENV || 'development' },
             ) => {
               if (resolveOptions?.deploy?.microFrontend) {
                 chain.output.libraryTarget('umd');
