@@ -8,7 +8,6 @@ module.exports = {
     ecmaVersion: 8,
     ecmaFeatures: {
       impliedStrict: true,
-      jsx: true,
     },
     sourceType: 'module',
     babelOptions: {
@@ -35,10 +34,6 @@ module.exports = {
   plugins: [
     // https://www.npmjs.com/package/@babel/eslint-plugin
     '@babel',
-    // https://www.npmjs.com/package/eslint-plugin-react
-    'react',
-    // https://www.npmjs.com/package/eslint-plugin-react-hooks
-    'react-hooks',
     // https://www.npmjs.com/package/eslint-plugin-import
     'import',
     // https://www.npmjs.com/package/eslint-plugin-eslint-comments
@@ -58,7 +53,6 @@ module.exports = {
   extends: [
     // https://eslint.org/docs/user-guide/configuring#using-eslintrecommended
     'eslint:recommended',
-    'plugin:react/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:eslint-comments/recommended',
@@ -966,166 +960,6 @@ module.exports = {
     ],
 
     /*
-     * react
-     * https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/boolean-prop-naming.md
-     */
-    'react/boolean-prop-naming': [
-      'error',
-      {
-        propTypeNames: ['bool'],
-        rule: '^(is|has|should)[A-Z]([A-Za-z0-9]?)+',
-      },
-    ],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/button-has-type.md
-    'react/button-has-type': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/default-props-match-prop-types.md
-    'react/default-props-match-prop-types': 'error',
-
-    /*
-     * https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/display-name.md
-     * @TODO
-     * @TIPS
-     * for stateless component: use named function for now
-     * const Dialog = ({ children }) => (
-     *   <div className="dialog">{children}</div>
-     * )
-     * ->
-     * const Dialog = function Dialog({ children }) {
-     *   return (
-     *     <div className="dialog">{children}</div>
-     *   )
-     * }
-     * issues:
-     * https://github.com/yannickcr/eslint-plugin-react/issues/1297
-     * https://github.com/yannickcr/eslint-plugin-react/issues/412
-     * feedback:
-     * - 把一个render 作为props传入组件还是比较常见的
-     * - 嗯ok，这个规则现在的性价比是不太高了…
-     */
-    'react/display-name': 'off',
-    /*
-     * @CUSTOM
-     * "react/forbid-prop-types": [
-     *   "error",
-     *   {
-     *     "forbid": [],
-     *     "allowInPropTypes": []
-     *   }
-     * ],
-     * https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/forbid-foreign-prop-types.md
-     */
-    'react/forbid-foreign-prop-types': 'error',
-
-    /*
-     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-access-state-in-setstate.md
-     * @TIPS
-     * this.setState({value: this.state.value + 1});
-     * ->
-     * this.setState(prevState => ({value: prevState.value + 1}));
-     */
-    'react/no-access-state-in-setstate': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-array-index-key.md
-    'react/no-array-index-key': 'warn',
-    /*
-     * https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-danger.md
-     * @TIPS
-     * explicitly declare `eslint-disable` when truly necessary
-     */
-    'react/no-danger': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-did-mount-set-state.md
-    'react/no-did-mount-set-state': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-multi-comp.md
-    'react/no-multi-comp': ['error', { ignoreStateless: true }],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-redundant-should-component-update.md
-    'react/no-redundant-should-component-update': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-typos.md
-    'react/no-typos': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-this-in-sfc.md
-    'react/no-this-in-sfc': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unsafe.md
-    'react/no-unsafe': ['error', { checkAliases: true }],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-unused-prop-types.md
-    'react/no-unused-prop-types': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/no-will-update-set-state.md
-    'react/no-will-update-set-state': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/prefer-es6-class.md
-    'react/prefer-es6-class': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/prefer-stateless-function.md
-    'react/prefer-stateless-function': [
-      'error',
-      { ignorePureComponents: false },
-    ],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/prop-types.md
-    'react/prop-types': [
-      'error',
-      {
-        skipUndeclared: true,
-        ignore: ['children', 'className'],
-      },
-    ],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/react-in-jsx-scope.md
-    // react 17
-    'react/react-in-jsx-scope': 'off',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/require-default-props.md
-    'react/require-default-props': [
-      'error',
-      { forbidDefaultForRequired: true },
-    ],
-
-    // https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/self-closing-comp.md
-    'react/self-closing-comp': [
-      'error',
-      {
-        component: true,
-        html: false,
-      },
-    ],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/style-prop-object.md
-    'react/style-prop-object': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/void-dom-elements-no-children.md
-    'react/void-dom-elements-no-children': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-filename-extension.md
-    'react/jsx-filename-extension': [
-      'error',
-      { extensions: ['.jsx', '.tsx', '.mjsx', '.cjsx'] },
-    ],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-handler-names.md
-    'react/jsx-handler-names': [
-      'error',
-      {
-        eventHandlerPrefix: '',
-        // eventHandlerPrefix: 'handle',
-        eventHandlerPropPrefix: 'on',
-      },
-    ],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md
-    'react/jsx-no-bind': [
-      'error',
-      {
-        ignoreRefs: true,
-        allowArrowFunctions: true,
-      },
-    ],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-duplicate-props.md
-    'react/jsx-no-duplicate-props': ['error', { ignoreCase: true }],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-target-blank.md
-    'react/jsx-no-target-blank': 'off',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-undef.md
-    'react/jsx-no-undef': ['error', { allowGlobals: true }],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-pascal-case.md
-    'react/jsx-pascal-case': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unused-state.md
-    'react/no-unused-state': 'error',
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/state-in-constructor.md
-    'react/state-in-constructor': ['error', 'never'],
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/static-property-placement.md
-    'react/static-property-placement': 'error',
-    // https://reactjs.org/docs/hooks-rules.html
-    'react-hooks/rules-of-hooks': 'error',
-    // https://github.com/facebook/react/issues/16006
-    'react-hooks/exhaustive-deps': 'off',
-
-    /*
      * import
      * Static analysis
      * https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-unresolved.md
@@ -1435,71 +1269,11 @@ module.exports = {
     'node/prefer-promises/dns': 'off',
     // https://github.com/mysticatea/eslint-plugin-node/blob/v9.0.0/docs/rules/prefer-promises/fs.md
     'node/prefer-promises/fs': 'off',
-
-    /*
-     * JSDoc
-     * @TIPS
-     * if your block comments are not JSDoc,
-     * change `/**` into `/*`
-     * https://github.com/gajus/eslint-plugin-jsdoc#check-alignment
-     */
-    // 'jsdoc/check-alignment': 'error',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#check-examples
-    // 'jsdoc/check-examples': 'off',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#check-indentation
-    // 'jsdoc/check-indentation': 'off',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#check-param-names
-    // 'jsdoc/check-param-names': 'error',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#check-syntax
-    // 'jsdoc/check-syntax': 'error',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#check-tag-names
-    // 'jsdoc/check-tag-names': 'error',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#check-types
-    // 'jsdoc/check-types': 'error',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#implements-on-classes
-    // 'jsdoc/implements-on-classes': 'error',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#match-description
-    // 'jsdoc/match-description': 'off',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#newline-after-description
-    // 'jsdoc/newline-after-description': ['error', 'always'],
-    // // https://github.com/gajus/eslint-plugin-jsdoc#no-types
-    // 'jsdoc/no-types': 'off',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#no-undefined-types
-    // 'jsdoc/no-undefined-types': 'error',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#require-description-complete-sentence
-    // 'jsdoc/require-description-complete-sentence': 'off',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#require-description
-    // 'jsdoc/require-description': 'error',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#require-example
-    // 'jsdoc/require-example': 'off',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#require-hyphen-before-param-description
-    // 'jsdoc/require-hyphen-before-param-description': ['error', 'always'],
-    // // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-jsdoc
-    // 'jsdoc/require-jsdoc': 'off',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#require-param-description
-    // 'jsdoc/require-param-description': 'error',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#require-param-name
-    // 'jsdoc/require-param-name': 'error',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#require-param-type
-    // 'jsdoc/require-param-type': 'off',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#require-param
-    // 'jsdoc/require-param': 'off',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#require-returns-check
-    // 'jsdoc/require-returns-check': 'error',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#require-returns-description
-    // 'jsdoc/require-returns-description': 'error',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#require-returns-type
-    // 'jsdoc/require-returns-type': 'off',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#require-returns
-    // 'jsdoc/require-returns': 'off',
-    // // https://github.com/gajus/eslint-plugin-jsdoc#valid-types
-    // 'jsdoc/valid-types': 'off',
   },
   settings: {
     'import/resolver': 'webpack',
     'import/extensions': jsExtensions,
     'import/ignore': ['\\.coffee$'],
-    react: { version: '16.0' },
   },
   // https://eslint.org/docs/user-guide/configuring#configuration-based-on-glob-patterns
   // https://eslint.org/docs/user-guide/migrating-to-6.0.0#-overrides-in-an-extended-config-file-can-now-be-overridden-by-a-parent-config-file
