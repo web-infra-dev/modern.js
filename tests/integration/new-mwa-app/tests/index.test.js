@@ -20,12 +20,8 @@ describe('test dev', () => {
   it(`should render page correctly`, async () => {
     const appPort = await getPort();
     const app = await launchApp(appDir, appPort, {}, {});
-    const logs = [];
     const errors = [];
 
-    page.on('console', msg => {
-      logs.push(msg.text());
-    });
     page.on('pageerror', error => {
       errors.push(error.message);
     });
@@ -37,7 +33,6 @@ describe('test dev', () => {
     const targetText = await page.evaluate(el => el.textContent, root);
     expect(targetText.trim()).toEqual('Get started by editing src/App.tsx');
     expect(errors.length).toEqual(0);
-    expect(logs).toEqual(['[HMR] Waiting for update signal from WDS...']);
 
     await killApp(app);
   });
