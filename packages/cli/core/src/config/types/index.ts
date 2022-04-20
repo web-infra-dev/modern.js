@@ -2,6 +2,7 @@ import type { IncomingMessage, ServerResponse } from 'http';
 import type { NextFunction, BffProxyOptions } from '@modern-js/types';
 import type { MetaOptions } from '@modern-js/utils';
 import type { TransformOptions } from '@babel/core';
+import type webpack from 'webpack';
 import type { Configuration as WebpackConfiguration } from 'webpack';
 import autoprefixer from 'autoprefixer';
 import type {
@@ -212,7 +213,11 @@ export type WebpackConfig =
   | ((
       config: WebpackConfiguration,
       // FIXME: utils type
-      utils?: any,
+      utils: {
+        env: string;
+        webpack: typeof webpack;
+        [key: string]: any;
+      },
     ) => WebpackConfiguration | void);
 
 export type BabelConfig =

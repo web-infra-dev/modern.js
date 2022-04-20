@@ -8,8 +8,6 @@ import {
 } from '@modern-js/utils';
 import { resolveBabelConfig } from '@modern-js/server-utils';
 
-import type { Configuration } from 'webpack';
-import type Chain from 'webpack-chain';
 import type { ServerRoute } from '@modern-js/types';
 import type { CliPlugin, UserConfig } from '@modern-js/core';
 
@@ -26,7 +24,7 @@ export default (): CliPlugin => ({
     config() {
       return {
         tools: {
-          webpack: (_config: Configuration, { chain }: { chain: Chain }) => {
+          webpack: (_config, { chain }) => {
             const { appDirectory, port } = api.useAppContext();
             const modernConfig = api.useResolvedConfigContext() as UserConfig;
             const { bff } = modernConfig || {};
