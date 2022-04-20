@@ -4,7 +4,6 @@ import type { MetaOptions } from '@modern-js/utils';
 import type { TransformOptions } from '@babel/core';
 import type webpack from 'webpack';
 import type { Configuration as WebpackConfiguration } from 'webpack';
-import type WebpackChain from 'webpack-chain';
 import autoprefixer from 'autoprefixer';
 import type {
   BasePluginOptions,
@@ -216,7 +215,6 @@ export type WebpackConfig =
       // FIXME: utils type
       utils: {
         env: string;
-        chain: WebpackChain;
         webpack: typeof webpack;
         [key: string]: any;
       },
