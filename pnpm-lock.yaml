@@ -734,18 +734,14 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
       '@types/node': ^14
-      esbuild: ^0.13.13
       jest: ^27
       react-refresh: 0.12.0
       typescript: ^4
-      webpack: ^5.71.0
-      webpack-chain: ^6.5.1
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/hmr-client': link:../../server/hmr-client
       '@modern-js/utils': link:../../toolkit/utils
-      '@pmmmwh/react-refresh-webpack-plugin': 0.5.5_a216167e90b46f5c642a8053711dc100
-      esbuild: 0.13.15
+      '@pmmmwh/react-refresh-webpack-plugin': 0.5.5_react-refresh@0.12.0
       react-refresh: 0.12.0
     devDependencies:
       '@modern-js/core': link:../core
@@ -755,8 +751,6 @@ importers:
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
-      webpack: 5.71.0_esbuild@0.13.15
-      webpack-chain: 6.5.1
 
   packages/cli/plugin-fetch:
     specifiers:
@@ -1033,7 +1027,6 @@ importers:
       less-plugin-npm-import: ^2.1.0
       typescript: ^4
       webpack: ^5.71.0
-      webpack-chain: ^6.5.1
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/css-config': link:../css-config
@@ -1053,7 +1046,6 @@ importers:
       jest: 27.4.5
       typescript: 4.5.4
       webpack: 5.71.0_esbuild@0.13.15
-      webpack-chain: 6.5.1
 
   packages/cli/plugin-multiprocess:
     specifiers:
@@ -1301,7 +1293,6 @@ importers:
       sass-loader: ^12.4.0
       typescript: ^4
       webpack: ^5.71.0
-      webpack-chain: ^6.5.1
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/css-config': link:../css-config
@@ -1319,7 +1310,6 @@ importers:
       jest: 27.4.5
       typescript: 4.5.4
       webpack: 5.71.0_esbuild@0.13.15
-      webpack-chain: 6.5.1
 
   packages/cli/plugin-server-build:
     specifiers:
@@ -11966,7 +11956,7 @@ packages:
       webpack: 4.46.0
     dev: false
 
-  /@pmmmwh/react-refresh-webpack-plugin/0.5.5_a216167e90b46f5c642a8053711dc100:
+  /@pmmmwh/react-refresh-webpack-plugin/0.5.5_react-refresh@0.12.0:
     resolution: {integrity: sha512-RbG7h6TuP6nFFYKJwbcToA1rjC1FyPg25NR2noAZ0vKI+la01KTSRPkuVPE+U88jXv7javx2JHglUcL1MHcshQ==}
     engines: {node: '>= 10.13'}
     peerDependencies:
@@ -12002,7 +11992,6 @@ packages:
       react-refresh: 0.12.0
       schema-utils: 3.1.1
       source-map: 0.7.3
-      webpack: 5.71.0_esbuild@0.13.15
     dev: false
 
   /@polka/url/1.0.0-next.21:

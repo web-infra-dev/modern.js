@@ -689,10 +689,13 @@ class BaseWebpackConfig {
     const config = this.chain.toConfig();
 
     applyOptionsChain(
-      config as any,
+      config,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error utils type incompatible
       this.options.tools?.webpack,
       {
         chain: this.chain,
+        env: process.env.NODE_ENV,
         name: this.chain.get('name'),
         webpack,
       },
