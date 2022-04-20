@@ -132,15 +132,6 @@ export const handleTemplateFile = async (
         },
       );
     }
-  } else {
-    await appApi.forgeTemplate(
-      'templates/js-template/**/*',
-      undefined,
-      resourceKey =>
-        resourceKey
-          .replace('templates/js-template/', 'api/')
-          .replace('.handlebars', `.${language}`),
-    );
   }
 
   if (bffType === BFFType.Func) {

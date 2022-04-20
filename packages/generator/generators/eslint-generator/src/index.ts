@@ -14,7 +14,6 @@ const handleTemplateFile = async (
     onlyApp = false,
     dirs = [],
     appExtend = '@modern-js-app',
-    extend = '@modern-js',
   } = context.config.eslintConfig || {};
 
   for (const dir of dirs) {
@@ -27,7 +26,7 @@ const handleTemplateFile = async (
             .replace('templates/ts-template/', `${dir}/`)
             .replace('.handlebars', ``),
         {
-          extends: extend,
+          extends: appExtend,
         },
       );
     } else {
