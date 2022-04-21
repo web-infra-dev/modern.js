@@ -42,6 +42,9 @@ export const getProjectsByWorkspaceFile = async (
   } else if (workspaceFile === WORKSPACE_FILE.YARN) {
     const pkgJson = JsonFile.load(path.resolve(rootPath, workspaceFile));
     packagesConfig = pkgJson?.workspaces?.packages || [];
+  } else if (workspaceFile === WORKSPACE_FILE.LERNA) {
+    const lernaJson = JsonFile.load(path.resolve(rootPath, workspaceFile));
+    packagesConfig = lernaJson.packages ?? [];
   }
 
   const projects = await getProjetsByPackageConfig(
@@ -87,6 +90,9 @@ export const syncGetProjectsByWorkspaceFile = (
   } else if (workspaceFile === WORKSPACE_FILE.YARN) {
     const pkgJson = JsonFile.load(path.resolve(rootPath, workspaceFile));
     packagesConfig = pkgJson?.workspaces?.packages || [];
+  } else if (workspaceFile === WORKSPACE_FILE.LERNA) {
+    const lernaJson = JsonFile.load(path.resolve(rootPath, workspaceFile));
+    packagesConfig = lernaJson.packages ?? [];
   }
 
   const projects = syncGetProjetsByPackageConfig(
