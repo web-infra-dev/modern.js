@@ -150,10 +150,7 @@ export const handleTemplateFile = async (
 
     await appApi.forgeTemplate(
       'templates/ts-template/**/*',
-      resourceKey =>
-        isMonorepoSubProject && resourceKey.includes('.eslintrc.js.handlebars')
-          ? resourceKey.includes('src')
-          : true,
+      undefined,
       resourceKey =>
         resourceKey
           .replace('templates/ts-template/', projectPath)
@@ -162,10 +159,7 @@ export const handleTemplateFile = async (
   } else {
     await appApi.forgeTemplate(
       'templates/js-template/**/*',
-      resourceKey =>
-        isMonorepoSubProject && resourceKey.includes('.eslintrc.js.handlebars')
-          ? resourceKey.includes('src')
-          : true,
+      undefined,
       resourceKey =>
         resourceKey
           .replace('templates/js-template/', projectPath)
