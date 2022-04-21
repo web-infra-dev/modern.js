@@ -32,7 +32,7 @@ const createStorage = <T>() => {
     const context = storage.getStore();
     if (!context) {
       throw new Error(
-        `Can't call useContext out of scope, it should be placed on top of the function`,
+        `Can't call useContext out of scope, it should be placed in the bff function`,
       );
     }
 

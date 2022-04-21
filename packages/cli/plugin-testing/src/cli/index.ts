@@ -1,8 +1,8 @@
 import path from 'path';
 import {
-  fs,
   PLUGIN_SCHEMAS,
   createRuntimeExportsUtils,
+  isApiOnly,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import {
@@ -84,9 +84,9 @@ export default (): CliPlugin => {
         },
 
         jestConfig: async (utils, next) => {
-          const existSrc = await fs.pathExists(appContext.srcDirectory);
+          const apiOnly = await isApiOnly(appContext.srcDirectory);
 
-          if (!existSrc) {
+          if (apiOnly) {
             return next(utils);
           }
 
