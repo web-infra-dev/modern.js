@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest -w 1 && pnpm test --filter api-service-koa",
+    "test": "pnpm test --filter api-service-koa && jest -w 1",
     "prepare": "node node_modules/puppeteer/install.js"
   },
   "author": "",
