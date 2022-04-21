@@ -1,5 +1,11 @@
 # @modern-js/plugin-polyfill
 
+## 1.2.5
+
+### Patch Changes
+
+- 60f7d8bf: feat: add tests dir to npmignore
+
 ## 1.2.4
 
 ### Patch Changes

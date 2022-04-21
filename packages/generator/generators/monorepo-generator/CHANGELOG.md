@@ -1,5 +1,19 @@
 # @modern-js/monorepo-generator
 
+## 1.4.0
+
+### Minor Changes
+
+- d1480a35: feat: remove generator's .npmrc file
+- 2b12032c: feat: upgrade csmith tools
+- a4330c73: feat: adjust generator eslint and tsconig file
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+
 ## 1.3.5
 
 ### Patch Changes

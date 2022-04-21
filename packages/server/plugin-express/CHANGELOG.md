@@ -1,5 +1,25 @@
 # @modern-js/plugin-express
 
+## 1.5.1
+
+### Patch Changes
+
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- befd9e5b: fix: compatible with babel-plugin-resolver's handling of relative paths on windows
+- 305e0bb4: fix: commander.commandsMap typing not work
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [befd9e5b]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/adapter-helpers@1.2.3
+  - @modern-js/bff-runtime@1.2.2
+  - @modern-js/bff-utils@1.2.3
+  - @modern-js/types@1.5.0
+
 ## 1.5.0
 
 ### Minor Changes

@@ -1,5 +1,18 @@
 # @modern-js/dependence-generator
 
+## 1.3.0
+
+### Minor Changes
+
+- 5f4eb1ec: fix: js generator problem
+- 2b12032c: feat: upgrade csmith tools
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+
 ## 1.2.6
 
 ### Patch Changes

@@ -1,5 +1,25 @@
 # @modern-js/plugin-unbundle
 
+## 1.3.9
+
+### Patch Changes
+
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- ebfcbb35: chore: bump react-refresh@0.12.0, fix unmet peer deps
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+- Updated dependencies [28ac120a]
+  - @modern-js/utils@1.5.0
+  - @modern-js/css-config@1.2.4
+  - @modern-js/bff-utils@1.2.3
+  - @modern-js/server@1.4.10
+  - @modern-js/esmpack@1.2.4
+  - @modern-js/plugin@1.3.3
+  - @modern-js/create-request@1.2.4
+
 ## 1.3.8
 
 ### Patch Changes
