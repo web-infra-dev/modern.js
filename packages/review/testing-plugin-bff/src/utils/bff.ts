@@ -5,7 +5,7 @@ import {
   getLambdaDir,
   extractModuleInfoFromFilenames,
 } from '@modern-js/bff-utils';
-import { chalk, fs } from '@modern-js/utils';
+import { chalk } from '@modern-js/utils';
 
 export const getAllAPIInfos = (appDir: string, prefix = '/api') => {
   const lambdaDir = getLambdaDir(path.join(appDir, './api'));
@@ -60,10 +60,4 @@ export const isBFFProject = (pwd: string) => {
     console.log(chalk.red(error));
     return false;
   }
-};
-
-export const existSrc = async (pwd: string) => {
-  const srcDirectory = path.join(pwd, './src');
-  const exist = await fs.pathExists(srcDirectory);
-  return exist;
 };
