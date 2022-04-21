@@ -9,7 +9,7 @@ import { getLocaleLanguage } from './utils/language';
 import { start } from './commands/start';
 import { dev } from './commands/dev';
 import { closeServer } from './utils/createServer';
-import type { DevOptions, BuildOptions, StartOptions } from './utils/types';
+import type { DevOptions, BuildOptions } from './utils/types';
 
 export { defineConfig };
 
@@ -64,8 +64,8 @@ export default (): CliPlugin => ({
           .usage('[options]')
           .description(i18n.t(localeKeys.command.start.describe))
           .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
-          .action(async (options: StartOptions) => {
-            await start(api, options);
+          .action(async () => {
+            await start(api);
           });
 
         program
