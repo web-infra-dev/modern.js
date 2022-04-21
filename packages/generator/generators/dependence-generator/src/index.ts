@@ -40,8 +40,12 @@ export const handleTemplateFile = async (
       },
     );
   }
-  if (appendTypeContent) {
-    const appDir = context.materials.default.basePath;
+
+  const appDir = context.materials.default.basePath;
+  const isTs = fs.existsSync(
+    path.join(appDir, projectPath || '', 'tsconfig.json'),
+  );
+  if (appendTypeContent && isTs) {
     const typePath = path.join(
       appDir,
       projectPath || '',

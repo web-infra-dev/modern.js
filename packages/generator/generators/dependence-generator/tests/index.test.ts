@@ -25,6 +25,7 @@ describe('run dependence-generator', () => {
       { name: 'dependence' },
       'utf-8',
     );
+    fs.writeJSONSync(path.join(projectDir, 'tsconfig.json'), {}, 'utf-8');
   });
   afterEach(() => {
     const projectDir = path.join(os.tmpdir(), 'modern-js-test', 'dependence');
@@ -72,6 +73,11 @@ describe('run dependence-generator', () => {
     fs.writeJSONSync(
       path.join(projectDir, 'apps', 'mwa', 'package.json'),
       { name: 'dependence' },
+      'utf-8',
+    );
+    fs.writeJSONSync(
+      path.join(projectDir, 'apps', 'mwa', 'tsconfig.json'),
+      {},
       'utf-8',
     );
     mockGeneratorCore._context.config = {
