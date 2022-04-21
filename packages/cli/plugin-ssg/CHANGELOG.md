@@ -1,5 +1,16 @@
 # @modern-js/plugin-ssg
 
+## 1.2.9
+
+### Patch Changes
+
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- Updated dependencies [b8599d09]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+
 ## 1.2.8
 
 ### Patch Changes

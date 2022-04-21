@@ -1,5 +1,17 @@
 # @modern-js/runtime-core
 
+## 1.4.2
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 60f7d8bf: feat: add tests dir to npmignore
+- Updated dependencies [6cffe99d]
+- Updated dependencies [60f7d8bf]
+  - @modern-js/plugin@1.3.3
+
 ## 1.4.1
 
 ### Patch Changes
