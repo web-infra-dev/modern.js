@@ -19,6 +19,8 @@ const buildFeature: typeof import('../features/build') = Import.lazy(
 
 export interface IBuildOption {
   watch: boolean;
+  bundle?: string | true;
+  format?: 'cjs' | 'iife' | 'esm' | 'system';
   tsconfig: string;
   platform: boolean | Exclude<Platform, 'all'>;
   styleOnly: boolean;
@@ -30,6 +32,8 @@ export const build = async (
   api: PluginAPI,
   {
     watch = false,
+    bundle,
+    format,
     tsconfig: tsconfigName,
     tsc,
     clear = true,
@@ -43,7 +47,6 @@ export const build = async (
   const isTsProject = tsConfigutils.existTsConfigFile(tsconfigPath);
   const enableTscCompiler =
     isTsProject && tsc && !modernConfig.output.disableTsChecker;
-
   valid.valideBeforeTask({ modernConfig, tsconfigPath });
 
   // TODO: 一些配置只需要从modernConfig中获取
@@ -52,6 +55,8 @@ export const build = async (
     {
       appDirectory,
       enableWatchMode: watch,
+      bundle,
+      format,
       isTsProject,
       platform,
       sourceDir: 'src',

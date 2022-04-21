@@ -33,11 +33,17 @@ export interface IBuildConfig {
   platform: boolean | Exclude<Platform, 'all'>;
   enableTscCompiler: boolean;
   enableWatchMode?: boolean;
+  bundle?: string | true;
+  format?: 'cjs' | 'iife' | 'esm' | 'system';
   isTsProject: boolean;
   sourceDir: string;
   tsconfigName?: string;
   clear?: boolean;
 }
+
+export type IBundleConfig = Omit<IBuildConfig, 'bundle'> & {
+  bundle: string;
+};
 
 export interface IPackageModeValue {
   type: 'module' | 'commonjs';

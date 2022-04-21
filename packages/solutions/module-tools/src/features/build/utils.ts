@@ -4,6 +4,7 @@ import { Import, chalk } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type {
   IBuildConfig,
+  IBundleConfig,
   IPackageModeValue,
   JsSyntaxType,
   ITaskMapper,
@@ -132,6 +133,87 @@ export const getCodeMapper = (
       ],
     };
   });
+};
+
+// 获取执行speedy bundler的参数
+export const getBundlerMapper = (
+  api: PluginAPI,
+  config: IBundleConfig,
+  logger: LoggerText,
+) => {
+  const { appDirectory } = api.useAppContext();
+  const modernConfig = api.useResolvedConfigContext();
+  const {
+    output: { path: outputPath = 'dist' },
+  } = modernConfig;
+  const { enableWatchMode, bundle, format } = config;
+
+  return [
+    {
+      logger,
+      taskPath: require.resolve('../../tasks/speedy'),
+      params: [
+        `--distDir=${path.join(appDirectory, `./${outputPath}/bundle`)}`,
+        `--appDirectory=${appDirectory}`,
+        `--bundle=${bundle}`,
+        enableWatchMode ? `--watch` : '',
+        format ? `--format=${format}` : '',
+      ],
+    },
+  ];
+};
+
+export const getDtsBundlerMapper = (
+  api: PluginAPI,
+  config: IBundleConfig,
+  logger: LoggerText,
+) => {
+  const { appDirectory } = api.useAppContext();
+  const modernConfig = api.useResolvedConfigContext();
+  const {
+    output: { path: outputPath = 'dist' },
+  } = modernConfig as ModuleToolsConfig;
+  const { tsconfigName = 'tsconfig.json', enableWatchMode, bundle } = config;
+  const tsconfigPath = path.join(appDirectory, tsconfigName);
+  return [
+    {
+      logger,
+      taskPath: require.resolve('../../tasks/dts-bundle'),
+      params: [
+        `--distDir=${path.join(appDirectory, `./${outputPath}/bundle`)}`,
+        `--tsconfigPath=${tsconfigPath}`,
+        enableWatchMode ? `--watch` : '',
+        `--appDirectory=${appDirectory}`,
+        `--bundle=${bundle}`,
+      ],
+    },
+  ];
+};
+
+export const getRollupMapper = (
+  api: PluginAPI,
+  config: IBundleConfig,
+  logger: LoggerText,
+) => {
+  const { appDirectory } = api.useAppContext();
+  const modernConfig = api.useResolvedConfigContext();
+  const {
+    output: { path: outputPath = 'dist' },
+  } = modernConfig as ModuleToolsConfig;
+  const { tsconfigName = 'tsconfig.json', enableWatchMode, bundle } = config;
+  const tsconfigPath = path.join(appDirectory, tsconfigName);
+  return [
+    {
+      logger,
+      taskPath: require.resolve('../../tasks/rollup'),
+      params: [
+        `--distDir=${path.join(appDirectory, `./${outputPath}/bundle`)}`,
+        `--tsconfigPath=${tsconfigPath}`,
+        enableWatchMode ? `--watch` : '',
+        `--bundle=${bundle}`,
+      ],
+    },
+  ];
 };
 
 // 获取执行生成 d.ts 的参数

@@ -8,6 +8,11 @@ const buildWatchFeature: typeof import('./build-watch') = Import.lazy(
   './build-watch',
   require,
 );
+const buildBundleFeature: typeof import('./build-bundle') = Import.lazy(
+  './build-bundle',
+  require,
+);
+
 const bp: typeof import('./build-platform') = Import.lazy(
   './build-platform',
   require,
@@ -21,6 +26,7 @@ export const build = async (
   const {
     appDirectory,
     enableWatchMode,
+    bundle,
     platform,
     clear = true,
     isTsProject,
@@ -45,6 +51,17 @@ export const build = async (
 
   if (clear) {
     fs.removeSync(path.join(appDirectory, outputPath));
+  }
+  if (bundle) {
+    await buildBundleFeature.buildInBundleMode(
+      api,
+      {
+        ...config,
+        bundle: typeof bundle === 'string' ? bundle : './src/index.ts',
+      },
+      modernConfig,
+    );
+    return;
   }
 
   if (enableWatchMode) {

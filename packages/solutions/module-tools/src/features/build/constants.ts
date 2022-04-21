@@ -49,4 +49,6 @@ export const runBabelCompilerTitle = 'Run babel compiler code log';
 export const runTscWatchTitle = 'Run `tsc -w` log';
 export const runTscTitle = 'Run `tsc` log';
 export const runStyleCompilerTitle = 'Run style compiler code log';
+export const runBundlerTitle = 'Run speedy bundler code log';
+export const runDtsBundlerTitle = 'Run dts bundler code log';
 export const clearFlag = '\x1Bc';

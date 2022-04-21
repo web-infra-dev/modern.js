@@ -17,6 +17,14 @@ export const buildCli = (program: Command, api: PluginAPI) => {
     .command('build')
     .usage('[options]')
     .description(local.i18n.t(local.localeKeys.command.build.describe))
+    .option(
+      '--bundle [bundle]',
+      local.i18n.t(local.localeKeys.command.build.bundle),
+    )
+    .option(
+      '--format <format>',
+      local.i18n.t(local.localeKeys.command.build.format),
+    )
     .option('-w, --watch', local.i18n.t(local.localeKeys.command.build.watch))
     .option(
       '--tsconfig [tsconfig]',

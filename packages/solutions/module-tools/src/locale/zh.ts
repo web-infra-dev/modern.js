@@ -3,6 +3,8 @@ export const ZH_LOCALE = {
     build: {
       describe: '构建模块命令',
       watch: '使用 Watch 模式构建模块',
+      bundle: '打包入口',
+      format: '产物格式',
       tsconfig: '指定 tsconfig.json 文件的路径',
       style_only: '只构建样式文件',
       platform: '构建其他平台产物',
