@@ -1,4 +1,4 @@
-import { fs, onExitProcess } from '@modern-js/utils';
+import { fs } from '@modern-js/utils';
 import { bundle, Options } from './bundle';
 
 export { bundle };
@@ -25,10 +25,7 @@ export async function bundleRequire(filepath: string, options?: Options) {
     // The bundled file is temporary, so we should clear the require history to avoid breaking the webpack cache.
     deleteRequireCache(configFile);
   } finally {
-    onExitProcess(() => {
-      // Remove the configFile before exit process
-      fs.unlinkSync(configFile);
-    });
+    fs.unlinkSync(configFile);
   }
 
   return mod;
