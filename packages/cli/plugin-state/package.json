@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.3",
+  "version": "1.2.4",
   "jsnext:source": "./src/runtime/index.tsx",
   "types": "./src/runtime/index.tsx",
   "main": "./dist/js/node/runtime/index.js",
@@ -76,9 +76,9 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/plugin": "workspace:^1.3.2",
+    "@modern-js/plugin": "workspace:^1.3.3",
     "@modern-js/runtime-core": "workspace:*",
-    "@modern-js/utils": "workspace:^1.4.1",
+    "@modern-js/utils": "workspace:^1.5.0",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "^26",
     "@types/node": "^14",

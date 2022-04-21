@@ -1,5 +1,39 @@
 # @modern-js/module-tools
 
+## 1.4.6
+
+### Patch Changes
+
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- 3bf4f8b0: feat: support start api server only
+- 305e0bb4: fix: commander.commandsMap typing not work
+- Updated dependencies [a4330c73]
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [e4cec1ce]
+- Updated dependencies [3b7aa8bb]
+- Updated dependencies [5dbbeb57]
+- Updated dependencies [ebfcbb35]
+- Updated dependencies [3bf4f8b0]
+- Updated dependencies [305e0bb4]
+- Updated dependencies [ebfcbb35]
+  - @modern-js/core@1.8.0
+  - @modern-js/utils@1.5.0
+  - @modern-js/babel-preset-module@1.3.2
+  - @modern-js/css-config@1.2.4
+  - @modern-js/i18n-cli-language-detector@1.2.2
+  - @modern-js/plugin-changeset@1.2.5
+  - @modern-js/plugin-fast-refresh@1.2.4
+  - @modern-js/plugin-i18n@1.2.4
+  - @modern-js/new-action@1.3.6
+  - @modern-js/babel-compiler@1.2.3
+  - @modern-js/style-compiler@1.2.4
+  - @modern-js/plugin@1.3.3
+  - @modern-js/plugin-analyze@1.4.0
+
 ## 1.4.5
 
 ### Patch Changes

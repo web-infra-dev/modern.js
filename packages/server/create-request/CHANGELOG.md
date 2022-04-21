@@ -1,5 +1,17 @@
 # @modern-js/create-request
 
+## 1.2.4
+
+### Patch Changes
+
+- 60f7d8bf: feat: add tests dir to npmignore
+- Updated dependencies [b8599d09]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [e4cec1ce]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/plugin-ssr@1.2.7
+
 ## 1.2.3
 
 ### Patch Changes

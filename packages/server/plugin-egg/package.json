@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.5.4",
+  "version": "1.5.5",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -41,10 +41,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.15.3",
-    "@modern-js/adapter-helpers": "workspace:^1.2.1",
-    "@modern-js/bff-runtime": "workspace:^1.2.1",
-    "@modern-js/bff-utils": "workspace:^1.2.2",
-    "@modern-js/utils": "workspace:^1.4.1",
+    "@modern-js/adapter-helpers": "workspace:^1.2.3",
+    "@modern-js/bff-runtime": "workspace:^1.2.2",
+    "@modern-js/bff-utils": "workspace:^1.2.3",
+    "@modern-js/utils": "workspace:^1.5.0",
     "egg-ts-helper": "^1.29.1",
     "type-is": "^1.6.18"
   },
