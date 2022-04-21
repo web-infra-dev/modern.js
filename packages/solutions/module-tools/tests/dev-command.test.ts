@@ -30,7 +30,6 @@ describe('dev command with subCmd', () => {
   it('should call runSubCmd with storybook param', async () => {
     const mockAPI = {
       useAppContext: jest.fn((): any => ({
-        existSrc: false,
         distDirectory: '',
         appDirectory: '',
       })),
@@ -51,7 +50,6 @@ describe('dev command with subCmd', () => {
   it('should not call runSubCmd with nothing param', async () => {
     const mockAPI = {
       useAppContext: jest.fn((): any => ({
-        existSrc: false,
         distDirectory: '',
         appDirectory: '',
       })),

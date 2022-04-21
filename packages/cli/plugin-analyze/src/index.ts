@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { createAsyncWaterfall } from '@modern-js/plugin';
-import { createDebugger, fs } from '@modern-js/utils';
+import { createDebugger, fs, isApiOnly } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import type {
   Route,
@@ -85,10 +85,10 @@ export default (): CliPlugin => ({
           // FIXME:
         }
 
-        const existSrc = await fs.pathExists(appContext.srcDirectory);
+        const apiOnly = await isApiOnly(appContext.appDirectory);
         await hookRunners.addRuntimeExports();
 
-        if (!existSrc) {
+        if (apiOnly) {
           const { routes } = await hookRunners.modifyServerRoutes({
             routes: [],
           });
@@ -97,7 +97,7 @@ export default (): CliPlugin => ({
 
           api.setAppContext({
             ...appContext,
-            existSrc,
+            apiOnly,
             serverRoutes: routes,
           });
           return;
@@ -157,7 +157,7 @@ export default (): CliPlugin => ({
           ...appContext,
           entrypoints,
           checkedEntries: defaultChecked,
-          existSrc,
+          apiOnly,
           serverRoutes: routes,
           htmlTemplates,
         });

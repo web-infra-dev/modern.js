@@ -22,13 +22,19 @@ export const build = async (api: PluginAPI, options?: BuildOptions) => {
   const resolvedConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
   const hookRunners = api.useHookRunners();
-  const { existSrc } = appContext;
+  const { apiOnly } = appContext;
 
-  if (!existSrc) {
-    const { distDirectory } = appContext;
+  if (apiOnly) {
+    const { appDirectory, distDirectory, serverConfigFile } = appContext;
     await emptyDir(distDirectory);
     await hookRunners.beforeBuild({
       webpackConfigs: [],
+    });
+
+    await buildServerConfig({
+      appDirectory,
+      distDirectory,
+      configFile: serverConfigFile,
     });
 
     await generateRoutes(appContext);

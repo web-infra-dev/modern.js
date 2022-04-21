@@ -12,9 +12,9 @@ export const printInstructions = async (
   config: NormalizedConfig,
 ) => {
   let message = prettyInstructions(appContext, config);
-  const { existSrc } = appContext;
+  const { apiOnly } = appContext;
 
-  if (isDev() && existSrc) {
+  if (isDev() && !apiOnly) {
     message += `\n${chalk.cyanBright(
       [
         `Note that the development build is not optimized.`,

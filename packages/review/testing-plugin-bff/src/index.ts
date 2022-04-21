@@ -5,8 +5,9 @@ import {
   DEFAULT_RESOLVER_PATH,
 } from '@modern-js/testing';
 import type { CliPlugin } from '@modern-js/core';
+import { isApiOnly } from '@modern-js/utils';
 import { bff_info_key } from './constant';
-import { isBFFProject, existSrc } from './utils';
+import { isBFFProject } from './utils';
 
 export const setJestConfigForBFF = async ({
   pwd,
@@ -42,7 +43,7 @@ export const setJestConfigForBFF = async ({
 
   const { transform, moduleNameMapper } = utils.jestConfig;
 
-  const isExistSrc = await existSrc(pwd);
+  const apiOnly = await isApiOnly(pwd);
 
   const mergedModuleNameMapper = {
     ...moduleNameMapper,
@@ -51,7 +52,7 @@ export const setJestConfigForBFF = async ({
 
   const resolver = utils.jestConfig.resolver || DEFAULT_RESOLVER_PATH;
 
-  if (isExistSrc) {
+  if (!apiOnly) {
     utils.setJestConfig(
       {
         projects: [

@@ -12,6 +12,7 @@ Usage: modern dev [options]
 Options:
   -c --config <config>  指定配置文件路径
   -h, --help            display help for command
+  --api-only            start api server only
 ```
 
 `modern dev` 命令启动一个开发服务器，同时监听源文件变化，默认支持 React Fast Refresh：
