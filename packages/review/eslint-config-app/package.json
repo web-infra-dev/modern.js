@@ -1,6 +1,6 @@
 {
   "name": "@modern-js-app/eslint-config",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -37,7 +37,7 @@
     "prettier": "^2.5.1"
   },
   "dependencies": {
-    "@modern-js/babel-preset-app": "workspace:^1.2.6"
+    "@modern-js/babel-preset-app": "workspace:^1.2.7"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",

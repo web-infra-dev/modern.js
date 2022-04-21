@@ -1,5 +1,14 @@
 # @modern-js/plugin
 
+## 1.3.3
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 60f7d8bf: feat: add tests dir to npmignore
+
 ## 1.3.2
 
 ### Patch Changes

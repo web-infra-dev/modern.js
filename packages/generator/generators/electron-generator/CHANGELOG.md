@@ -1,5 +1,18 @@
 # @modern-js/electron-generator
 
+## 1.3.0
+
+### Minor Changes
+
+- a4330c73: fix: electron config type && electron generator template
+- 2b12032c: feat: upgrade csmith tools
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+
 ## 1.2.2
 
 ### Patch Changes

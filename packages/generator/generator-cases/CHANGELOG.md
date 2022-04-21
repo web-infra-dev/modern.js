@@ -1,5 +1,18 @@
 # @modern-js/generator-cases
 
+## 1.2.4
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 60f7d8bf: feat: add tests dir to npmignore
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+  - @modern-js/generator-common@1.4.9
+
 ## 1.2.3
 
 ### Patch Changes
