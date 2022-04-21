@@ -50,7 +50,7 @@ export const SHARED_DIR = 'shared';
 /**
  * Modern.config.ts cached dir
  */
-export const CONFIG_CACHE_DIR = './node_modules/.node-bundle-require';
+export const CONFIG_CACHE_DIR = './node_modules/.cache/node-bundle-require';
 
 export const CONFIG_FILE_EXTENSIONS = ['.js', '.ts', '.ejs', '.mjs'];
 
