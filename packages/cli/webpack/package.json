@@ -35,6 +35,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@babel/core": "7.16.7",
     "@babel/runtime": "^7",
     "@modern-js/babel-chain": "workspace:^1.2.1",
     "@modern-js/babel-preset-app": "workspace:^1.2.6",
