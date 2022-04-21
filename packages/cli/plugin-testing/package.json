@@ -94,7 +94,7 @@
     "@modern-js/babel-compiler": "workspace:^1.2.3",
     "@modern-js/testing": "workspace:^1.4.3",
     "@modern-js/utils": "workspace:^1.5.0",
-    "@modern-js/webpack": "workspace:^1.5.5",
+    "@modern-js/webpack": "workspace:^1.5.6",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@modern-js/testing-plugin-bff": "workspace:^1.4.0"
