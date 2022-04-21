@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { manager } from '@modern-js/core';
 import plugin from '../src';
 
@@ -7,7 +8,9 @@ describe('analyze', () => {
   });
 
   const mockContext: any = {
-    context: {},
+    context: {
+      appDirectory: path.join(__dirname, './fixtures/server-routes/exist-src'),
+    },
     get() {
       return this.context;
     },
@@ -16,7 +19,7 @@ describe('analyze', () => {
     },
   };
 
-  test.only('existSrc', async () => {
+  test('apiOnly', async () => {
     const main = manager
       .clone({
         useAppContext() {
@@ -32,7 +35,7 @@ describe('analyze', () => {
     await runner.prepare();
     await new Promise<void>(resolve => {
       manager.run(() => {
-        expect(mockContext.get().existSrc).toBe(false);
+        expect(mockContext.get().apiOnly).toBe(true);
         resolve();
       });
     });
