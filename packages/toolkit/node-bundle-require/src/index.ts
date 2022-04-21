@@ -1,4 +1,4 @@
-import { fs } from '@modern-js/utils';
+import { fs, onExitProcess } from '@modern-js/utils';
 import { bundle, Options } from './bundle';
 
 export { bundle };
@@ -11,8 +11,10 @@ export async function bundleRequire(filepath: string, options?: Options) {
   try {
     mod = await req(configFile);
   } finally {
-    // Remove the configFile after executed
-    fs.unlinkSync(configFile);
+    onExitProcess(() => {
+      // Remove the configFile before exit process
+      fs.unlinkSync(configFile);
+    });
   }
 
   return mod;

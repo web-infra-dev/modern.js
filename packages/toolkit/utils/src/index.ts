@@ -31,3 +31,4 @@ export * from './wait';
 export * from './emptyDir';
 export * from './getServerConfig';
 export * from './ssrHelpers';
+export * from './onExitProcess';
