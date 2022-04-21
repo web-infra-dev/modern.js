@@ -1,5 +1,16 @@
 # @modern-js/utils
 
+## 1.5.0
+
+### Minor Changes
+
+- 3bf4f8b0: feat: support start api server only
+
+### Patch Changes
+
+- b8599d09: fix: failed to generate webpack cache
+- 60f7d8bf: feat: add tests dir to npmignore
+
 ## 1.4.1
 
 ### Patch Changes
