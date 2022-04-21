@@ -4,6 +4,7 @@ export const ZH_LOCALE = {
       describe: '本地开发命令',
       config: '制定配置文件路径',
       entry: '按入口编译',
+      apiOnly: '仅启动 API 接口服务',
     },
     build: {
       describe: '构建应用命令',

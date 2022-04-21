@@ -13,13 +13,14 @@ describe('command build', () => {
     jest.resetAllMocks();
   });
 
-  test('existSrc is false', async () => {
+  test('hooks should be invoke correctly', async () => {
     const mockBeforeBuild = jest.fn();
     const mockAfterBuild = jest.fn();
     const mockAPI = {
       useAppContext: jest.fn((): any => ({
-        existSrc: false,
+        apiOnly: true,
         distDirectory: '',
+        appDirectory: '',
       })),
       useResolvedConfigContext: jest.fn(),
       useHookRunners: (): any => ({

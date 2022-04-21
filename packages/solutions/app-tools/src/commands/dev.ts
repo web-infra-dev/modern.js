@@ -26,7 +26,7 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
     appDirectory,
     distDirectory,
     port,
-    existSrc,
+    apiOnly,
     entrypoints,
     serverConfigFile,
   } = appContext;
@@ -58,7 +58,7 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
   await hookRunners.beforeDev();
 
   let compiler = null;
-  if (existSrc) {
+  if (!apiOnly) {
     const { getWebpackConfig, WebpackConfigTarget } = await import(
       '@modern-js/webpack'
     );
@@ -110,11 +110,11 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
       throw err;
     }
 
-    if (existSrc) {
-      clearConsole();
-      logger.log(chalk.cyan(`Starting the development server...`));
-    } else {
-      await printInstructions(hookRunners, appContext, userConfig);
+    if (apiOnly) {
+      return printInstructions(hookRunners, appContext, userConfig);
     }
+
+    clearConsole();
+    return logger.log(chalk.cyan(`Starting the development server...`));
   });
 };

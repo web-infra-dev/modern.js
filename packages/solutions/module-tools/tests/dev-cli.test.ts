@@ -15,7 +15,6 @@ describe('dev cli subCmd', () => {
   it('should be storybook with "dev storybook"', async () => {
     const mockAPI = {
       useAppContext: jest.fn((): any => ({
-        existSrc: false,
         distDirectory: '',
       })),
       useResolvedConfigContext: jest.fn(),
@@ -37,7 +36,6 @@ describe('dev cli subCmd', () => {
     const mockAfterBuild = jest.fn();
     const mockAPI = {
       useAppContext: jest.fn((): any => ({
-        existSrc: false,
         distDirectory: '',
       })),
       useResolvedConfigContext: jest.fn(),

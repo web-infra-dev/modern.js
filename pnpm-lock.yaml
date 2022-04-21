@@ -4391,6 +4391,7 @@ importers:
       '@types/jest': ^26
       '@types/js-yaml': 4.0.5
       '@types/lodash': 4.14.181
+      '@types/minimist': ^1.2.2
       '@types/node': ^14
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4
@@ -4409,6 +4410,7 @@ importers:
       jest: ^27
       js-yaml: 4.1.0
       lodash: 4.17.21
+      minimist: ^1.2.0
       pkg-up: 3.1.0
       recursive-readdir: 2.2.2
       signale: 1.4.0
@@ -4419,6 +4421,7 @@ importers:
     dependencies:
       '@babel/runtime': 7.16.7
       esbuild: 0.13.15
+      minimist: 1.2.5
       typescript: 4.5.4
     devDependencies:
       '@modern-js/types': link:../types
@@ -4430,6 +4433,7 @@ importers:
       '@types/jest': 26.0.24
       '@types/js-yaml': 4.0.5
       '@types/lodash': 4.14.181
+      '@types/minimist': 1.2.2
       '@types/node': 14.18.4
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4

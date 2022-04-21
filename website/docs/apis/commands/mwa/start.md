@@ -9,6 +9,7 @@ start server
 
 Options:
   -h, --help  display help for command
+  --api-only  start api server only
 ```
 
 通常使用 `modern start` 命令在生产环境下启用 MWA 应用, 需要提前执行 [`build`](/docs/apis/commands/mwa/build) 命令构建出对应产物。

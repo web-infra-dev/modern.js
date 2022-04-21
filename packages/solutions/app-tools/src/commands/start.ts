@@ -1,4 +1,4 @@
-import { logger, chalk } from '@modern-js/utils';
+import { logger, chalk, isApiOnly } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import server from '@modern-js/prod-server';
 import { printInstructions } from '../utils/printInstructions';
@@ -11,7 +11,7 @@ export const start = async (api: PluginAPI) => {
   const { appDirectory, port, serverConfigFile } = appContext;
 
   logger.log(chalk.cyan(`Starting the modern server...`));
-
+  const apiOnly = await isApiOnly(appContext.appDirectory);
   const app = await server({
     pwd: appDirectory,
     config: userConfig,
@@ -19,6 +19,7 @@ export const start = async (api: PluginAPI) => {
       .filter((p: any) => p.server)
       .map((p: any) => p.server),
     serverConfigFile,
+    apiOnly,
   });
 
   app.listen(port, async (err: Error) => {
