@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/node-bundle-require",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -51,7 +51,7 @@
     "nanoid": "^3.3.2"
   },
   "devDependencies": {
-    "@modern-js/utils": "workspace:^1.4.1",
+    "@modern-js/utils": "workspace:^1.5.0",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^26.0.9",

@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.3.1",
+  "version": "1.4.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -37,15 +37,15 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/server": "workspace:^1.4.9",
-    "@modern-js/utils": "workspace:^1.4.1",
+    "@modern-js/server": "workspace:^1.4.10",
+    "@modern-js/utils": "workspace:^1.5.0",
     "jest-environment-node": "^27.2.2",
     "path-to-regexp": "^6.2.0",
     "supertest": "^6.1.6"
   },
   "devDependencies": {
-    "@modern-js/bff-utils": "workspace:^1.2.2",
-    "@modern-js/testing": "workspace:^1.4.2",
+    "@modern-js/bff-utils": "workspace:^1.2.3",
+    "@modern-js/testing": "workspace:^1.4.3",
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:^0.0.0",
@@ -57,8 +57,8 @@
     "typescript": "^4"
   },
   "peerDependencies": {
-    "@modern-js/bff-utils": "workspace:^1.2.2",
-    "@modern-js/testing": "workspace:^1.4.2"
+    "@modern-js/bff-utils": "workspace:^1.2.3",
+    "@modern-js/testing": "workspace:^1.4.3"
   },
   "sideEffects": false,
   "modernConfig": {},

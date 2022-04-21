@@ -1,5 +1,16 @@
 # @modern-js/adapter-helpers
 
+## 1.2.3
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 60f7d8bf: feat: add tests dir to npmignore
+- befd9e5b: fix: compatible with babel-plugin-resolver's handling of relative paths on windows
+- 3bf4f8b0: feat: support start api server only
+
 ## 1.2.2
 
 ### Patch Changes
