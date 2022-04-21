@@ -97,7 +97,7 @@ describe('prettyInstructions', () => {
         },
       ],
       port: 8080,
-      existSrc: true,
+      apiOnly: false,
     };
     const mockConfig = {
       dev: {
@@ -123,7 +123,7 @@ describe('prettyInstructions', () => {
         },
       ],
       port: 8080,
-      existSrc: false,
+      apiOnly: true,
     };
 
     const mockConfig = {
