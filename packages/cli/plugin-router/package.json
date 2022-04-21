@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.8",
+  "version": "1.2.9",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/runtime/index.js",
@@ -54,7 +54,7 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
     "test": "jest"
@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.3.7",
+    "@modern-js/utils": "workspace:^1.4.1",
     "@types/history": "^4.7.9",
     "@types/react-router-dom": "^5.1.8",
     "history": "^4.7.9",
@@ -75,8 +75,8 @@
   "devDependencies": {
     "@modern-js/core": "workspace:*",
     "@modern-js/plugin": "workspace:^1.3.2",
-    "@modern-js/types": "workspace:^1.3.6",
-    "@modern-js/plugin-analyze": "workspace:^1.3.5",
+    "@modern-js/types": "workspace:^1.4.0",
+    "@modern-js/plugin-analyze": "workspace:^1.3.6",
     "@modern-js/runtime-core": "workspace:*",
     "@testing-library/react": "^12.0.0",
     "@types/hoist-non-react-statics": "^3.3.1",

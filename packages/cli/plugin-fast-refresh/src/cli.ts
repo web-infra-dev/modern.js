@@ -1,7 +1,5 @@
 import { isFastRefresh } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
-import type { Configuration } from 'webpack';
-import type Chain from 'webpack-chain';
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-fast-refresh',
@@ -10,10 +8,7 @@ export default (): CliPlugin => ({
     config() {
       return {
         tools: {
-          webpack: (
-            config: Configuration,
-            { chain, name }: { chain: Chain; name: string },
-          ) => {
+          webpack: (config, { chain, name }) => {
             if (name === 'client' && isFastRefresh()) {
               const ReactFastRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
               chain.plugin('react-fast-refresh').use(ReactFastRefreshPlugin, [

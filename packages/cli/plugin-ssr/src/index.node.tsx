@@ -5,8 +5,6 @@ import type { Plugin } from '@modern-js/runtime-core';
 import { SSRServerContext } from './serverRender/type';
 import prefetch from './prefetch';
 
-export { run, useHeaders } from './hook';
-
 const registeredApps = new WeakSet();
 
 const plugin = (): Plugin => ({

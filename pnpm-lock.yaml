@@ -12,6 +12,7 @@ importers:
       '@modern-js/monorepo-tools': workspace:^1.4.0
       '@modern-js/plugin-jarvis': workspace:^1.2.3
       '@modern-js/tsconfig': workspace:^1.2.0
+      '@scripts/build': workspace:*
       babel-plugin-module-resolver: ^4.1.0
       btsm: 2.2.2
       enhanced-resolve: ^5.9.2
@@ -28,6 +29,7 @@ importers:
       '@modern-js/monorepo-tools': link:packages/solutions/monorepo-tools
       '@modern-js/plugin-jarvis': link:packages/cli/plugin-jarvis
       '@modern-js/tsconfig': link:packages/review/tsconfig
+      '@scripts/build': link:scripts/build
       babel-plugin-module-resolver: 4.1.0
       btsm: 2.2.2
       enhanced-resolve: 5.9.2
@@ -45,9 +47,9 @@ importers:
       '@babel/runtime': ^7
       '@babel/types': ^7.17.0
       '@modern-js/babel-chain': workspace:^1.2.1
-      '@modern-js/babel-preset-base': workspace:^1.2.3
+      '@modern-js/babel-preset-base': workspace:^1.2.4
       '@modern-js/core': workspace:*
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -103,7 +105,7 @@ importers:
       '@babel/preset-typescript': ^7.15.0
       '@babel/runtime': ^7.15.4
       '@modern-js/babel-chain': workspace:^1.2.1
-      '@modern-js/utils': workspace:^1.3.3
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -162,7 +164,7 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/babel-chain': workspace:^1.2.1
       '@modern-js/babel-preset-base': workspace:^1.2.3
-      '@modern-js/utils': workspace:^1.3.3
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
@@ -208,7 +210,7 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/babel-chain': workspace:^1.2.1
       '@modern-js/babel-preset-lib': workspace:^1.2.1
-      '@modern-js/utils': workspace:^1.2.2
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
@@ -245,10 +247,10 @@ importers:
       '@babel/code-frame': ^7.14.5
       '@babel/runtime': ^7
       '@jest/types': ^27.0.6
-      '@modern-js/load-config': workspace:^1.2.2
+      '@modern-js/load-config': workspace:^1.3.0
       '@modern-js/plugin': workspace:^1.3.2
-      '@modern-js/types': workspace:^1.3.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__code-frame': ^7.0.3
@@ -262,10 +264,11 @@ importers:
       ajv: ^8.6.2
       ajv-keywords: ^5.0.0
       autoprefixer: ^10.3.1
-      better-ajv-errors: ^0.7.0
+      better-ajv-errors: 1.2.0
       btsm: 2.2.2
       dotenv: ^10.0.0
       dotenv-expand: ^5.1.0
+      electron-builder: 22.7.0
       esbuild: ^0.13.13
       jest: ^27
       sass: ^1.45.0
@@ -283,7 +286,7 @@ importers:
       address: 1.1.2
       ajv: 8.8.2
       ajv-keywords: 5.1.0_ajv@8.8.2
-      better-ajv-errors: 0.7.0_ajv@8.8.2
+      better-ajv-errors: 1.2.0_ajv@8.8.2
       dotenv: 10.0.0
       dotenv-expand: 5.1.0
       esbuild: 0.13.15
@@ -302,6 +305,7 @@ importers:
       '@types/react-dom': 17.0.11
       autoprefixer: 10.4.4
       btsm: 2.2.2
+      electron-builder: 22.7.0
       jest: 27.4.5
       sass: 1.45.2
       terser-webpack-plugin: 5.3.1_esbuild@0.13.15+webpack@5.71.0
@@ -313,7 +317,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -381,8 +385,8 @@ importers:
       '@babel/types': ^7.17.0
       '@modern-js/core': workspace:*
       '@modern-js/plugin': workspace:^1.3.2
-      '@modern-js/types': workspace:^1.3.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@rollup/pluginutils': ^4.1.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -426,12 +430,12 @@ importers:
       '@modern-js/bff-utils': workspace:^1.2.2
       '@modern-js/core': workspace:*
       '@modern-js/create-request': workspace:^1.2.2
-      '@modern-js/plugin-analyze': workspace:^1.3.5
+      '@modern-js/plugin-analyze': workspace:^1.3.6
       '@modern-js/runtime': workspace:^1.2.5
       '@modern-js/server-core': workspace:*
       '@modern-js/server-utils': workspace:^1.2.2
-      '@modern-js/types': workspace:^1.3.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
@@ -480,7 +484,7 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
       '@modern-js/plugin-jarvis': workspace:^1.2.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/inquirer': ^8.1.3
@@ -517,7 +521,7 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
       '@modern-js/plugin-jarvis': workspace:^1.2.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/ali-oss': ^6
@@ -552,8 +556,8 @@ importers:
       '@changesets/git': ^1.1.2
       '@modern-js/core': workspace:*
       '@modern-js/i18n-cli-language-detector': workspace:^1.2.1
-      '@modern-js/plugin-i18n': workspace:^1.2.1
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/plugin-i18n': workspace:^1.2.3
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -582,10 +586,11 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
-      '@modern-js/module-tools': workspace:^1.4.4
-      '@modern-js/plugin-testing': workspace:^1.4.1
+      '@modern-js/module-tools': workspace:^1.4.5
+      '@modern-js/plugin-testing': workspace:^1.4.2
       '@modern-js/runtime-core': workspace:*
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
+      '@scripts/build': workspace:*
       '@types/jest': ^26
       '@types/node': ^14
       '@types/react': ^17
@@ -603,6 +608,7 @@ importers:
       '@modern-js/module-tools': link:../../solutions/module-tools
       '@modern-js/plugin-testing': link:../plugin-testing
       '@modern-js/runtime-core': link:../../runtime
+      '@scripts/build': link:../../../scripts/build
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
       '@types/react': 17.0.38
@@ -618,8 +624,8 @@ importers:
       '@mdx-js/mdx': ^1.6.22
       '@mdx-js/react': ^1.6.22
       '@modern-js/core': workspace:*
-      '@modern-js/utils': workspace:^1.3.7
-      '@modern-js/webpack': workspace:^1.5.3
+      '@modern-js/utils': workspace:^1.4.1
+      '@modern-js/webpack': workspace:^1.5.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/core-js': ^2.5.5
@@ -694,7 +700,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -723,26 +729,22 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
-      '@modern-js/hmr-client': workspace:^1.2.3
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/hmr-client': workspace:^1.2.4
+      '@modern-js/utils': workspace:^1.4.1
       '@pmmmwh/react-refresh-webpack-plugin': ^0.5.5
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
       '@types/node': ^14
-      esbuild: ^0.13.13
       jest: ^27
-      react-refresh: ^0.9.0
+      react-refresh: 0.12.0
       typescript: ^4
-      webpack: ^5.71.0
-      webpack-chain: ^6.5.1
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/hmr-client': link:../../server/hmr-client
       '@modern-js/utils': link:../../toolkit/utils
-      '@pmmmwh/react-refresh-webpack-plugin': 0.5.5_4d3268da69c4272e2436fbf2164deb6a
-      esbuild: 0.13.15
-      react-refresh: 0.9.0
+      '@pmmmwh/react-refresh-webpack-plugin': 0.5.5_react-refresh@0.12.0
+      react-refresh: 0.12.0
     devDependencies:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
@@ -751,14 +753,12 @@ importers:
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
-      webpack: 5.71.0_esbuild@0.13.15
-      webpack-chain: 6.5.1
 
   packages/cli/plugin-fetch:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/runtime-core': workspace:*
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@testing-library/react': ^12.0.0
@@ -793,22 +793,24 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
-      '@modern-js/plugin-router': workspace:^1.2.8
+      '@modern-js/plugin-router': workspace:^1.2.9
       '@modern-js/runtime-core': workspace:*
-      '@modern-js/types': workspace:^1.3.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@testing-library/jest-dom': ^5.16.1
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^7.0.1
       '@testing-library/user-event': ^13.5.0
+      '@types/debug': ^4.1.7
       '@types/hoist-non-react-statics': ^3.3.1
       '@types/jest': ^26.0.24
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
       '@types/react-loadable': ^5.5.6
+      debug: ^4.3.2
       garfish: ^1.3.3
       hoist-non-react-statics: ^3.3.2
       jest: ^27
@@ -822,7 +824,9 @@ importers:
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/utils': link:../../toolkit/utils
+      '@types/debug': 4.1.7
       '@types/react-loadable': 5.5.6
+      debug: 4.3.4
       garfish: 1.3.3
       hoist-non-react-statics: 3.3.2
       react-loadable: 5.5.0_react@17.0.2
@@ -853,7 +857,7 @@ importers:
   packages/cli/plugin-i18n:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -876,11 +880,11 @@ importers:
       '@babel/eslint-parser': ^7.15.0
       '@babel/eslint-plugin': ^7.14.5
       '@babel/runtime': ^7.15.3
-      '@modern-js-app/eslint-config': workspace:^1.2.6
+      '@modern-js-app/eslint-config': workspace:^1.2.7
       '@modern-js/core': workspace:*
       '@modern-js/eslint-config': workspace:^1.2.3
       '@modern-js/tsconfig': workspace:^1.2.0
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/cross-spawn': ^6.0.2
@@ -956,7 +960,7 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
       '@modern-js/plugin-jarvis': workspace:^1.2.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26.0.9
@@ -982,7 +986,7 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
       '@modern-js/plugin-jarvis': workspace:^1.2.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@serverless/components': ^3.18.0
@@ -1011,8 +1015,8 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
       '@modern-js/css-config': workspace:^1.2.3
-      '@modern-js/style-compiler': workspace:^1.2.1
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/style-compiler': workspace:^1.2.3
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -1025,7 +1029,6 @@ importers:
       less-plugin-npm-import: ^2.1.0
       typescript: ^4
       webpack: ^5.71.0
-      webpack-chain: ^6.5.1
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/css-config': link:../css-config
@@ -1045,14 +1048,13 @@ importers:
       jest: 27.4.5
       typescript: 4.5.4
       webpack: 5.71.0_esbuild@0.13.15
-      webpack-chain: 6.5.1
 
   packages/cli/plugin-multiprocess:
     specifiers:
       '@modern-js/core': workspace:*
       '@modern-js/plugin-jarvis': workspace:^1.2.6
-      '@modern-js/types': workspace:^1.3.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26.0.9
@@ -1076,8 +1078,8 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
-      '@modern-js/utils': workspace:^1.3.7
-      '@modern-js/webpack': workspace:^1.5.3
+      '@modern-js/utils': workspace:^1.4.1
+      '@modern-js/webpack': workspace:^1.5.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/body-parser': ^1.19.1
@@ -1149,7 +1151,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -1175,10 +1177,10 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
       '@modern-js/plugin': workspace:^1.3.2
-      '@modern-js/plugin-analyze': workspace:^1.3.5
+      '@modern-js/plugin-analyze': workspace:^1.3.6
       '@modern-js/runtime-core': workspace:*
-      '@modern-js/types': workspace:^1.3.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@testing-library/react': ^12.0.0
@@ -1232,11 +1234,11 @@ importers:
       '@modern-js/bff-runtime': workspace:^1.2.1
       '@modern-js/core': workspace:*
       '@modern-js/create-request': workspace:^1.2.1
-      '@modern-js/plugin-router': workspace:^1.2.8
+      '@modern-js/plugin-router': workspace:^1.2.9
       '@modern-js/plugin-ssr': workspace:^1.2.5
       '@modern-js/plugin-state': workspace:^1.2.3
-      '@modern-js/runtime-core': workspace:^1.4.0
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/runtime-core': workspace:^1.4.1
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -1281,8 +1283,8 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
       '@modern-js/css-config': workspace:^1.2.3
-      '@modern-js/style-compiler': workspace:^1.2.1
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/style-compiler': workspace:^1.2.3
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -1293,7 +1295,6 @@ importers:
       sass-loader: ^12.4.0
       typescript: ^4
       webpack: ^5.71.0
-      webpack-chain: ^6.5.1
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/css-config': link:../css-config
@@ -1311,16 +1312,15 @@ importers:
       jest: 27.4.5
       typescript: 4.5.4
       webpack: 5.71.0_esbuild@0.13.15
-      webpack-chain: 6.5.1
 
   packages/cli/plugin-server-build:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/babel-compiler': workspace:^1.2.2
       '@modern-js/core': workspace:*
-      '@modern-js/plugin-analyze': workspace:^1.3.5
+      '@modern-js/plugin-analyze': workspace:^1.3.6
       '@modern-js/server-utils': workspace:^1.2.2
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
@@ -1350,9 +1350,9 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
-      '@modern-js/prod-server': workspace:^1.0.6
-      '@modern-js/types': workspace:^1.3.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/prod-server': workspace:^1.1.0
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -1399,8 +1399,8 @@ importers:
       '@modern-js/babel-chain': workspace:^1.2.0
       '@modern-js/core': workspace:*
       '@modern-js/runtime-core': workspace:*
-      '@modern-js/types': workspace:^1.3.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -1464,7 +1464,7 @@ importers:
       '@modern-js/core': workspace:*
       '@modern-js/plugin': workspace:^1.3.2
       '@modern-js/runtime-core': workspace:*
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/hoist-non-react-statics': ^3.3.1
@@ -1510,12 +1510,12 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
       '@modern-js/esbuild-compiler': workspace:^0.2.1
-      '@modern-js/plugin-router': workspace:^1.2.8
+      '@modern-js/plugin-router': workspace:^1.2.9
       '@modern-js/plugin-state': workspace:^1.2.3
       '@modern-js/runtime': workspace:^1.2.5
       '@modern-js/runtime-core': workspace:*
-      '@modern-js/utils': workspace:^1.3.7
-      '@modern-js/webpack': workspace:^1.5.3
+      '@modern-js/utils': workspace:^1.4.1
+      '@modern-js/webpack': workspace:^1.5.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@storybook/addon-actions': ^6.3.8
@@ -1589,7 +1589,7 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
       '@modern-js/plugin-design-token': workspace:^1.0.3
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -1624,10 +1624,10 @@ importers:
       '@modern-js/babel-compiler': workspace:^1.2.1
       '@modern-js/core': workspace:*
       '@modern-js/runtime-core': workspace:*
-      '@modern-js/testing': workspace:^1.4.1
-      '@modern-js/testing-plugin-bff': workspace:^1.3.0
-      '@modern-js/utils': workspace:^1.3.7
-      '@modern-js/webpack': workspace:^1.5.3
+      '@modern-js/testing': workspace:^1.4.2
+      '@modern-js/testing-plugin-bff': workspace:^1.3.1
+      '@modern-js/utils': workspace:^1.4.1
+      '@modern-js/webpack': workspace:^1.5.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@testing-library/jest-dom': ^5.14.1
@@ -1682,12 +1682,12 @@ importers:
       '@modern-js/core': workspace:*
       '@modern-js/create-request': workspace:^1.2.2
       '@modern-js/css-config': workspace:^1.2.3
-      '@modern-js/esmpack': workspace:^1.2.2
+      '@modern-js/esmpack': workspace:^1.2.3
       '@modern-js/plugin': workspace:^1.3.2
       '@modern-js/server': workspace:^1.4.9
       '@modern-js/tsconfig': workspace:^1.2.0
-      '@modern-js/types': workspace:^1.3.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@rollup/plugin-alias': ^3.1.2
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -1737,7 +1737,7 @@ importers:
       portfinder: ^1.0.28
       postcss: ^8
       postcss-modules: ^4.2.2
-      react-refresh: ^0.9.0
+      react-refresh: 0.12.0
       rollup: ^2.38.5
       sass: ^1.45.0
       semver: ^7.3.5
@@ -1788,7 +1788,7 @@ importers:
       node-fetch: 2.6.6
       postcss: 8.4.5
       postcss-modules: 4.3.0_postcss@8.4.5
-      react-refresh: 0.9.0
+      react-refresh: 0.12.0
       rollup: 2.62.0
       sass: 1.45.2
       semver: 7.3.5
@@ -1828,8 +1828,8 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
       '@modern-js/plugin-jarvis': workspace:^1.2.6
-      '@modern-js/types': workspace:^1.3.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26.0.9
@@ -1854,11 +1854,11 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/babel-chain': workspace:^1.2.1
-      '@modern-js/babel-preset-app': workspace:^1.2.5
+      '@modern-js/babel-preset-app': workspace:^1.2.6
       '@modern-js/core': workspace:*
       '@modern-js/css-config': workspace:^1.2.3
-      '@modern-js/types': workspace:^1.3.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@svgr/webpack': ^5.5.0
@@ -1993,7 +1993,7 @@ importers:
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/easy-form-core': ^1.0.0
       '@modern-js/plugin-i18n': workspace:^1.2.1
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -2025,10 +2025,10 @@ importers:
       '@modern-js/easy-form-core': ^1.0.0
       '@modern-js/generator-common': workspace:^1.4.4
       '@modern-js/generator-utils': workspace:^1.2.1
-      '@modern-js/new-action': workspace:^1.3.3
-      '@modern-js/plugin-i18n': workspace:^1.2.1
-      '@modern-js/plugin-jarvis': workspace:^1.2.3
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/new-action': workspace:^1.3.5
+      '@modern-js/plugin-i18n': workspace:^1.2.3
+      '@modern-js/plugin-jarvis': workspace:^1.2.6
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26.0.9
@@ -2075,7 +2075,7 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/plugin-i18n': workspace:^1.2.1
-      '@modern-js/utils': workspace:^1.2.2
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -2102,7 +2102,7 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
-      '@modern-js/codesmith-tools': ^1.0.9
+      '@modern-js/codesmith-tools': ^1.1.0
       '@modern-js/generator-common': workspace:^1.4.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2114,7 +2114,7 @@ importers:
       '@babel/runtime': 7.16.7
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/generator-common': link:../../generator-common
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
@@ -2129,7 +2129,7 @@ importers:
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/codesmith-api-json': ^1.0.7
-      '@modern-js/codesmith-tools': ^1.0.9
+      '@modern-js/codesmith-tools': ^1.1.0
       '@modern-js/generator-common': workspace:^1.4.3
       '@modern-js/generator-utils': workspace:^1.2.1
       '@scripts/build': workspace:*
@@ -2143,7 +2143,7 @@ importers:
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
       '@modern-js/codesmith-api-json': 1.0.7
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
       '@scripts/build': link:../../../../scripts/build
@@ -2158,7 +2158,7 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
-      '@modern-js/codesmith-tools': ^1.0.9
+      '@modern-js/codesmith-tools': ^1.1.0
       '@modern-js/generator-common': workspace:^1.4.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2170,7 +2170,7 @@ importers:
       '@babel/runtime': 7.16.7
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/generator-common': link:../../generator-common
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
@@ -2184,7 +2184,7 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
-      '@modern-js/codesmith-tools': ^1.0.9
+      '@modern-js/codesmith-tools': ^1.1.0
       '@modern-js/generator-common': workspace:^1.4.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2196,7 +2196,7 @@ importers:
       '@babel/runtime': 7.16.7
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/generator-common': link:../../generator-common
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
@@ -2211,7 +2211,7 @@ importers:
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/codesmith-api-json': ^1.0.7
-      '@modern-js/codesmith-tools': ^1.0.9
+      '@modern-js/codesmith-tools': ^1.1.0
       '@modern-js/dependence-generator': workspace:^1.2.5
       '@modern-js/generator-common': workspace:^1.4.8
       '@modern-js/generator-utils': workspace:^1.2.1
@@ -2227,7 +2227,7 @@ importers:
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
       '@modern-js/codesmith-api-json': 1.0.7
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
@@ -2245,7 +2245,7 @@ importers:
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/codesmith-api-json': ^1.0.7
-      '@modern-js/codesmith-tools': ^1.0.9
+      '@modern-js/codesmith-tools': ^1.1.0
       '@modern-js/generator-common': workspace:^1.4.8
       '@modern-js/generator-utils': workspace:^1.2.1
       '@scripts/build': workspace:*
@@ -2259,7 +2259,7 @@ importers:
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
       '@modern-js/codesmith-api-json': 1.0.7
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
       '@scripts/build': link:../../../../scripts/build
@@ -2274,7 +2274,7 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
-      '@modern-js/codesmith-tools': ^1.0.9
+      '@modern-js/codesmith-tools': ^1.1.0
       '@modern-js/dependence-generator': workspace:^1.2.3
       '@modern-js/generator-common': workspace:^1.4.3
       '@modern-js/generator-utils': workspace:^1.2.1
@@ -2288,7 +2288,7 @@ importers:
       '@babel/runtime': 7.16.7
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
@@ -2306,7 +2306,7 @@ importers:
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/codesmith-api-fs': ^1.0.0
       '@modern-js/codesmith-api-json': ^1.0.7
-      '@modern-js/codesmith-tools': ^1.0.9
+      '@modern-js/codesmith-tools': ^1.1.0
       '@modern-js/generator-utils': workspace:^1.2.1
       '@modern-js/plugin-i18n': workspace:^1.2.1
       '@scripts/build': workspace:*
@@ -2321,7 +2321,7 @@ importers:
       '@modern-js/codesmith-api-app': 1.0.8
       '@modern-js/codesmith-api-fs': 1.0.7
       '@modern-js/codesmith-api-json': 1.0.7
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/generator-utils': link:../../generator-utils
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
@@ -2337,7 +2337,7 @@ importers:
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/codesmith-api-json': ^1.0.7
-      '@modern-js/codesmith-tools': ^1.0.9
+      '@modern-js/codesmith-tools': ^1.1.0
       '@modern-js/generator-utils': workspace:^1.2.1
       '@modern-js/plugin-i18n': workspace:^1.2.1
       '@scripts/build': workspace:*
@@ -2351,7 +2351,7 @@ importers:
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
       '@modern-js/codesmith-api-json': 1.0.7
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/generator-utils': link:../../generator-utils
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
@@ -2368,11 +2368,11 @@ importers:
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/codesmith-api-handlebars': ^1.0.0
       '@modern-js/codesmith-api-json': ^1.0.7
-      '@modern-js/codesmith-tools': ^1.0.9
+      '@modern-js/codesmith-tools': ^1.1.0
       '@modern-js/generator-common': workspace:^1.4.3
       '@modern-js/generator-utils': workspace:^1.2.1
-      '@modern-js/plugin-i18n': workspace:^1.2.1
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/plugin-i18n': workspace:^1.2.3
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -2385,7 +2385,7 @@ importers:
       '@modern-js/codesmith-api-app': 1.0.8
       '@modern-js/codesmith-api-handlebars': 1.0.7
       '@modern-js/codesmith-api-json': 1.0.7
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
@@ -2402,7 +2402,7 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
-      '@modern-js/codesmith-tools': ^1.0.9
+      '@modern-js/codesmith-tools': ^1.1.0
       '@modern-js/generator-common': workspace:^1.4.3
       '@modern-js/generator-utils': workspace:^1.2.1
       '@scripts/build': workspace:*
@@ -2415,7 +2415,7 @@ importers:
       '@babel/runtime': 7.16.7
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
       '@scripts/build': link:../../../../scripts/build
@@ -2431,11 +2431,11 @@ importers:
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/codesmith-api-json': ^1.0.7
-      '@modern-js/codesmith-tools': ^1.0.9
+      '@modern-js/codesmith-tools': ^1.1.0
       '@modern-js/generator-common': workspace:^1.4.3
       '@modern-js/generator-utils': workspace:^1.2.1
-      '@modern-js/module-generator': workspace:^1.3.5
-      '@modern-js/plugin-i18n': workspace:^1.2.1
+      '@modern-js/module-generator': workspace:^1.3.9
+      '@modern-js/plugin-i18n': workspace:^1.2.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -2447,7 +2447,7 @@ importers:
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
       '@modern-js/codesmith-api-json': 1.0.7
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
       '@modern-js/module-generator': link:../module-generator
@@ -2463,15 +2463,15 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/base-generator': workspace:^1.3.3
-      '@modern-js/changeset-generator': workspace:^1.2.2
+      '@modern-js/changeset-generator': workspace:^1.2.3
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/codesmith-api-json': ^1.0.7
-      '@modern-js/codesmith-tools': ^1.0.9
-      '@modern-js/dependence-generator': workspace:^1.2.5
+      '@modern-js/codesmith-tools': ^1.1.0
+      '@modern-js/dependence-generator': workspace:^1.2.6
       '@modern-js/generator-common': workspace:^1.4.8
       '@modern-js/generator-utils': workspace:^1.2.1
-      '@modern-js/plugin-i18n': workspace:^1.2.1
+      '@modern-js/plugin-i18n': workspace:^1.2.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -2485,7 +2485,7 @@ importers:
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
       '@modern-js/codesmith-api-json': 1.0.7
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
@@ -2501,14 +2501,14 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/base-generator': workspace:^1.3.3
-      '@modern-js/changeset-generator': workspace:^1.2.2
+      '@modern-js/changeset-generator': workspace:^1.2.3
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/codesmith-api-json': ^1.0.7
-      '@modern-js/codesmith-tools': ^1.0.9
+      '@modern-js/codesmith-tools': ^1.1.0
       '@modern-js/generator-common': workspace:^1.4.4
       '@modern-js/generator-utils': workspace:^1.2.1
-      '@modern-js/plugin-i18n': workspace:^1.2.1
+      '@modern-js/plugin-i18n': workspace:^1.2.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -2522,7 +2522,7 @@ importers:
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
       '@modern-js/codesmith-api-json': 1.0.7
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
@@ -2540,13 +2540,13 @@ importers:
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/codesmith-api-json': ^1.0.7
-      '@modern-js/codesmith-tools': ^1.0.9
-      '@modern-js/dependence-generator': workspace:^1.2.4
+      '@modern-js/codesmith-tools': ^1.1.0
+      '@modern-js/dependence-generator': workspace:^1.2.6
       '@modern-js/electron-generator': workspace:^1.2.2
-      '@modern-js/entry-generator': workspace:^1.3.2
+      '@modern-js/entry-generator': workspace:^1.3.3
       '@modern-js/generator-common': workspace:^1.4.4
       '@modern-js/generator-utils': workspace:^1.2.1
-      '@modern-js/plugin-i18n': workspace:^1.2.1
+      '@modern-js/plugin-i18n': workspace:^1.2.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -2559,7 +2559,7 @@ importers:
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
       '@modern-js/codesmith-api-json': 1.0.7
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/electron-generator': link:../electron-generator
       '@modern-js/entry-generator': link:../entry-generator
@@ -2579,14 +2579,14 @@ importers:
       '@modern-js/base-generator': workspace:^1.3.2
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
-      '@modern-js/codesmith-tools': ^1.0.9
+      '@modern-js/codesmith-tools': ^1.1.0
       '@modern-js/generator-common': workspace:^1.4.3
-      '@modern-js/generator-plugin': workspace:^1.2.1
+      '@modern-js/generator-plugin': workspace:^1.2.4
       '@modern-js/generator-utils': workspace:^1.2.1
-      '@modern-js/module-generator': workspace:^1.3.5
-      '@modern-js/monorepo-generator': workspace:^1.3.3
-      '@modern-js/mwa-generator': workspace:^1.3.5
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/module-generator': workspace:^1.3.9
+      '@modern-js/monorepo-generator': workspace:^1.3.5
+      '@modern-js/mwa-generator': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -2601,7 +2601,7 @@ importers:
       '@modern-js/base-generator': link:../base-generator
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-plugin': link:../../generator-plugin
       '@modern-js/generator-utils': link:../../generator-utils
@@ -2622,7 +2622,7 @@ importers:
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/codesmith-api-json': ^1.0.7
-      '@modern-js/codesmith-tools': ^1.0.9
+      '@modern-js/codesmith-tools': ^1.1.0
       '@modern-js/generator-common': workspace:^1.4.3
       '@modern-js/generator-utils': workspace:^1.2.1
       '@scripts/build': workspace:*
@@ -2636,7 +2636,7 @@ importers:
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
       '@modern-js/codesmith-api-json': 1.0.7
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
       '@scripts/build': link:../../../../scripts/build
@@ -2652,8 +2652,8 @@ importers:
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/codesmith-api-json': ^1.0.7
-      '@modern-js/codesmith-tools': ^1.0.9
-      '@modern-js/dependence-generator': workspace:^1.2.3
+      '@modern-js/codesmith-tools': ^1.1.0
+      '@modern-js/dependence-generator': workspace:^1.2.6
       '@modern-js/generator-common': workspace:^1.4.3
       '@modern-js/generator-utils': workspace:^1.2.1
       '@scripts/build': workspace:*
@@ -2667,7 +2667,7 @@ importers:
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
       '@modern-js/codesmith-api-json': 1.0.7
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
@@ -2684,12 +2684,12 @@ importers:
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/codesmith-api-json': ^1.0.7
-      '@modern-js/codesmith-tools': ^1.0.9
-      '@modern-js/dependence-generator': workspace:^1.2.3
-      '@modern-js/eslint-generator': workspace:^1.2.2
+      '@modern-js/codesmith-tools': ^1.1.0
+      '@modern-js/dependence-generator': workspace:^1.2.6
+      '@modern-js/eslint-generator': workspace:^1.2.3
       '@modern-js/generator-common': workspace:^1.4.3
       '@modern-js/generator-utils': workspace:^1.2.1
-      '@modern-js/plugin-i18n': workspace:^1.2.1
+      '@modern-js/plugin-i18n': workspace:^1.2.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -2701,7 +2701,7 @@ importers:
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
       '@modern-js/codesmith-api-json': 1.0.7
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/eslint-generator': link:../eslint-generator
       '@modern-js/generator-common': link:../../generator-common
@@ -2719,8 +2719,8 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
-      '@modern-js/codesmith-tools': ^1.0.9
-      '@modern-js/dependence-generator': workspace:^1.2.4
+      '@modern-js/codesmith-tools': ^1.1.0
+      '@modern-js/dependence-generator': workspace:^1.2.6
       '@modern-js/generator-common': workspace:^1.4.4
       '@modern-js/generator-utils': workspace:^1
       '@scripts/build': workspace:*
@@ -2733,7 +2733,7 @@ importers:
       '@babel/runtime': 7.16.7
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
@@ -2750,11 +2750,11 @@ importers:
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/codesmith-api-json': ^1.0.7
-      '@modern-js/codesmith-tools': ^1.0.9
-      '@modern-js/dependence-generator': workspace:^1.2.3
+      '@modern-js/codesmith-tools': ^1.1.0
+      '@modern-js/dependence-generator': workspace:^1.2.6
       '@modern-js/generator-common': workspace:^1.4.3
       '@modern-js/generator-utils': workspace:^1.2.1
-      '@modern-js/plugin-i18n': workspace:^1.2.1
+      '@modern-js/plugin-i18n': workspace:^1.2.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -2766,7 +2766,7 @@ importers:
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
       '@modern-js/codesmith-api-json': 1.0.7
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
@@ -2784,11 +2784,11 @@ importers:
       '@modern-js/codesmith': ^1.0.8
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/codesmith-api-json': ^1.0.7
-      '@modern-js/codesmith-tools': ^1.0.9
-      '@modern-js/dependence-generator': workspace:^1.2.3
+      '@modern-js/codesmith-tools': ^1.1.0
+      '@modern-js/dependence-generator': workspace:^1.2.6
       '@modern-js/generator-common': workspace:^1.4.3
       '@modern-js/generator-utils': workspace:^1.2.1
-      '@modern-js/plugin-i18n': workspace:^1.2.1
+      '@modern-js/plugin-i18n': workspace:^1.2.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -2800,7 +2800,7 @@ importers:
       '@modern-js/codesmith': 1.0.8
       '@modern-js/codesmith-api-app': 1.0.8
       '@modern-js/codesmith-api-json': 1.0.7
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/dependence-generator': link:../dependence-generator
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
@@ -2819,7 +2819,7 @@ importers:
       '@modern-js/codesmith-api-app': ^1.0.8
       '@modern-js/generator-common': workspace:^1.4.4
       '@modern-js/generator-utils': workspace:^1.2.1
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -2846,10 +2846,10 @@ importers:
   packages/generator/plugins/generator-plugin:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/codesmith-tools': ^1.0.7
+      '@modern-js/codesmith-tools': ^1.1.0
       '@modern-js/generator-common': workspace:^1.3.1
-      '@modern-js/generator-plugin': workspace:^1.2.1
-      '@modern-js/plugin-i18n': workspace:^1.2.1
+      '@modern-js/generator-plugin': workspace:^1.2.4
+      '@modern-js/plugin-i18n': workspace:^1.2.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -2861,7 +2861,7 @@ importers:
       vm2: 3.9.5
     devDependencies:
       '@babel/runtime': 7.16.7
-      '@modern-js/codesmith-tools': 1.0.8
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-plugin': link:../../generator-plugin
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
@@ -2875,25 +2875,29 @@ importers:
   packages/review/eslint-config:
     specifiers:
       '@modern-js-app/eslint-config': workspace:^1.2.5
+      '@scripts/build': workspace:*
       eslint: ^7.32.0
       eslint-find-rules: ^3.4.0
       eslint-index: ^1.5.0
     dependencies:
       '@modern-js-app/eslint-config': link:../eslint-config-app
     devDependencies:
+      '@scripts/build': link:../../../scripts/build
       eslint: 7.32.0
       eslint-find-rules: 3.6.1_eslint@7.32.0
       eslint-index: 1.5.0
 
   packages/review/eslint-config-app:
     specifiers:
-      '@modern-js/babel-preset-app': workspace:^1.2.5
+      '@modern-js/babel-preset-app': workspace:^1.2.6
+      '@scripts/build': workspace:*
       eslint: ^7.32.0
       eslint-find-rules: ^3.4.0
       eslint-index: ^1.5.0
     dependencies:
       '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
     devDependencies:
+      '@scripts/build': link:../../../scripts/build
       eslint: 7.32.0
       eslint-find-rules: 3.6.1_eslint@7.32.0
       eslint-index: 1.5.0
@@ -2902,11 +2906,11 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@jest/types': ^27.0.6
-      '@modern-js/babel-preset-app': workspace:^1.2.5
+      '@modern-js/babel-preset-app': workspace:^1.2.6
       '@modern-js/core': workspace:*
       '@modern-js/plugin': workspace:^1.3.2
-      '@modern-js/utils': workspace:^1.3.7
-      '@modern-js/webpack': workspace:^1.5.3
+      '@modern-js/utils': workspace:^1.4.1
+      '@modern-js/webpack': workspace:^1.5.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27.4.0
@@ -2955,8 +2959,8 @@ importers:
       '@modern-js/bff-utils': workspace:^1.2.2
       '@modern-js/core': workspace:*
       '@modern-js/server': workspace:^1.4.9
-      '@modern-js/testing': workspace:^1.4.1
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/testing': workspace:^1.4.2
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:^0.0.0
       '@types/jest': ^26
@@ -2989,13 +2993,16 @@ importers:
       typescript: 4.5.4
 
   packages/review/tsconfig:
-    specifiers: {}
+    specifiers:
+      '@scripts/build': workspace:*
+    devDependencies:
+      '@scripts/build': link:../../../scripts/build
 
   packages/runtime:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/plugin': workspace:^1.3.2
-      '@modern-js/types': workspace:^1.3.4
+      '@modern-js/types': workspace:^1.4.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@testing-library/react': ^12.0.0
@@ -3099,7 +3106,7 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/bff-runtime': workspace:^1.2.1
       '@modern-js/plugin': workspace:^1.2.1
-      '@modern-js/utils': workspace:^1.2.2
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -3135,8 +3142,8 @@ importers:
     specifiers:
       '@modern-js/core': workspace:*
       '@modern-js/plugin': workspace:^1.3.2
-      '@modern-js/types': workspace:^1.3.5
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -3167,8 +3174,8 @@ importers:
   packages/server/create-request:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/plugin-ssr': workspace:^1.2.0
-      '@modern-js/utils': workspace:^1.3.4
+      '@modern-js/plugin-ssr': workspace:^1.2.6
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27.0.3
@@ -3204,7 +3211,7 @@ importers:
   packages/server/hmr-client:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -3236,7 +3243,7 @@ importers:
       '@modern-js/bff-utils': workspace:^1.2.2
       '@modern-js/core': workspace:*
       '@modern-js/server-core': workspace:*
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/formidable': ^1.2.3
@@ -3285,11 +3292,11 @@ importers:
       '@modern-js/adapter-helpers': workspace:^1.2.1
       '@modern-js/bff-runtime': workspace:^1.2.1
       '@modern-js/bff-utils': workspace:^1.2.2
-      '@modern-js/core': workspace:^1.6.0
-      '@modern-js/server-core': workspace:^1.2.4
-      '@modern-js/server-utils': workspace:^1.2.1
-      '@modern-js/types': workspace:^1.3.5
-      '@modern-js/utils': workspace:^1.3.6
+      '@modern-js/core': workspace:^1.7.1
+      '@modern-js/server-core': workspace:^1.3.0
+      '@modern-js/server-utils': workspace:^1.2.2
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/cookie-parser': ^1.4.2
@@ -3346,7 +3353,7 @@ importers:
       '@modern-js/bff-utils': workspace:^1.2.2
       '@modern-js/core': workspace:*
       '@modern-js/server-core': workspace:*
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27.0.1
@@ -3393,10 +3400,10 @@ importers:
       '@modern-js/bff-runtime': workspace:^1.2.1
       '@modern-js/bff-utils': workspace:^1.2.2
       '@modern-js/core': workspace:*
-      '@modern-js/runtime': workspace:^1.2.4
+      '@modern-js/runtime': workspace:^1.2.5
       '@modern-js/server-core': workspace:*
-      '@modern-js/server-utils': workspace:^1.2.1
-      '@modern-js/utils': workspace:^1.3.6
+      '@modern-js/server-utils': workspace:^1.2.2
+      '@modern-js/utils': workspace:^1.4.1
       '@nestjs/common': ^8.0.6
       '@nestjs/core': ^8.0.6
       '@nestjs/platform-express': ^8.0.6
@@ -3472,7 +3479,7 @@ importers:
       '@modern-js/core': workspace:*
       '@modern-js/polyfill-lib': ^1.0.0
       '@modern-js/server-core': workspace:*
-      '@modern-js/types': workspace:^1.3.6
+      '@modern-js/types': workspace:^1.4.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -3516,8 +3523,8 @@ importers:
       '@modern-js/core': workspace:*
       '@modern-js/server-core': workspace:*
       '@modern-js/server-utils': workspace:^1.2.2
-      '@modern-js/types': workspace:^1.3.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26.0.9
@@ -3546,9 +3553,9 @@ importers:
     specifiers:
       '@babel/compat-data': ^7.17.0
       '@modern-js/core': workspace:*
-      '@modern-js/server-core': workspace:^1.2.5
-      '@modern-js/types': workspace:^1.3.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/server-core': workspace:^1.3.0
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/cookie': ^0.4.1
@@ -3618,12 +3625,12 @@ importers:
       '@babel/register': ^7.15.3
       '@modern-js/bff-utils': workspace:^1.2.2
       '@modern-js/core': workspace:*
-      '@modern-js/hmr-client': workspace:^1.2.3
-      '@modern-js/prod-server': workspace:^1.0.6
+      '@modern-js/hmr-client': workspace:^1.2.4
+      '@modern-js/prod-server': workspace:^1.1.0
       '@modern-js/server-core': workspace:*
       '@modern-js/server-utils': workspace:^1.2.2
-      '@modern-js/types': workspace:^1.3.6
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -3686,7 +3693,7 @@ importers:
       '@modern-js/babel-preset-lib': workspace:^1.2.1
       '@modern-js/core': workspace:*
       '@modern-js/plugin': workspace:^1.2.1
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
@@ -3730,20 +3737,20 @@ importers:
   packages/solutions/app-tools:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/core': workspace:^1.6.1
+      '@modern-js/core': workspace:^1.7.1
       '@modern-js/i18n-cli-language-detector': workspace:^1.2.1
-      '@modern-js/new-action': workspace:^1.3.3
-      '@modern-js/node-bundle-require': workspace:^1.2.3
+      '@modern-js/new-action': workspace:^1.3.5
+      '@modern-js/node-bundle-require': workspace:^1.3.0
       '@modern-js/plugin': workspace:^1.3.2
-      '@modern-js/plugin-analyze': workspace:^1.3.5
+      '@modern-js/plugin-analyze': workspace:^1.3.6
       '@modern-js/plugin-fast-refresh': workspace:^1.2.3
-      '@modern-js/plugin-i18n': workspace:^1.2.1
-      '@modern-js/prod-server': workspace:^1.0.6
+      '@modern-js/plugin-i18n': workspace:^1.2.3
+      '@modern-js/prod-server': workspace:^1.1.0
       '@modern-js/server': workspace:^1.4.9
-      '@modern-js/server-core': workspace:^1.2.4
-      '@modern-js/types': workspace:^1.3.6
-      '@modern-js/utils': workspace:^1.3.7
-      '@modern-js/webpack': workspace:^1.5.3
+      '@modern-js/server-core': workspace:^1.3.0
+      '@modern-js/types': workspace:^1.4.0
+      '@modern-js/utils': workspace:^1.4.1
+      '@modern-js/webpack': workspace:^1.5.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/inquirer': ^8.2.0
@@ -3797,17 +3804,17 @@ importers:
       '@modern-js/babel-chain': workspace:^1.2.1
       '@modern-js/babel-compiler': workspace:^1.2.2
       '@modern-js/babel-preset-module': workspace:^1.3.1
-      '@modern-js/core': workspace:^1.6.1
+      '@modern-js/core': workspace:^1.7.1
       '@modern-js/css-config': workspace:^1.2.3
       '@modern-js/i18n-cli-language-detector': workspace:^1.2.1
-      '@modern-js/new-action': workspace:^1.3.3
+      '@modern-js/new-action': workspace:^1.3.5
       '@modern-js/plugin': workspace:^1.3.2
-      '@modern-js/plugin-analyze': workspace:^1.3.5
+      '@modern-js/plugin-analyze': workspace:^1.3.6
       '@modern-js/plugin-changeset': workspace:^1.2.4
       '@modern-js/plugin-fast-refresh': workspace:^1.2.3
-      '@modern-js/plugin-i18n': workspace:^1.2.1
-      '@modern-js/style-compiler': workspace:^1.2.2
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/plugin-i18n': workspace:^1.2.3
+      '@modern-js/style-compiler': workspace:^1.2.3
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
@@ -3880,13 +3887,13 @@ importers:
   packages/solutions/monorepo-tools:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/core': workspace:^1.6.0
+      '@modern-js/core': workspace:^1.7.1
       '@modern-js/i18n-cli-language-detector': workspace:^1.2.1
-      '@modern-js/new-action': workspace:^1.3.3
+      '@modern-js/new-action': workspace:^1.3.5
       '@modern-js/plugin': workspace:^1.3.2
-      '@modern-js/plugin-changeset': workspace:^1.2.3
-      '@modern-js/plugin-i18n': workspace:^1.2.1
-      '@modern-js/utils': workspace:^1.3.6
+      '@modern-js/plugin-changeset': workspace:^1.2.4
+      '@modern-js/plugin-i18n': workspace:^1.2.3
+      '@modern-js/utils': workspace:^1.4.1
       '@rushstack/node-core-library': ^3.39.1
       '@rushstack/package-deps-hash': ^3.0.54
       '@scripts/build': workspace:*
@@ -3955,7 +3962,7 @@ importers:
       '@babel/plugin-transform-classes': ^7.14.9
       '@babel/preset-typescript': ^7
       '@babel/runtime': ^7
-      '@modern-js/utils': workspace:^1.3.3
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
@@ -4008,7 +4015,7 @@ importers:
   packages/toolkit/compiler/style:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/utils': workspace:^1.2.2
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/glob': ^7.1.4
@@ -4054,12 +4061,12 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/codesmith': ^1.0.8
-      '@modern-js/codesmith-tools': ^1.0.9
-      '@modern-js/generator-plugin-plugin': workspace:^1.1.1
+      '@modern-js/codesmith-tools': ^1.1.0
+      '@modern-js/generator-plugin-plugin': workspace:^1.1.2
       '@modern-js/i18n-cli-language-detector': workspace:^1.2.1
-      '@modern-js/plugin-i18n': workspace:^1.2.1
-      '@modern-js/repo-generator': workspace:^1.3.1
-      '@modern-js/utils': workspace:^1.2.2
+      '@modern-js/plugin-i18n': workspace:^1.2.3
+      '@modern-js/repo-generator': workspace:^1.3.4
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -4072,7 +4079,7 @@ importers:
     devDependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/codesmith': 1.0.8
-      '@modern-js/codesmith-tools': 1.0.9
+      '@modern-js/codesmith-tools': 1.1.0
       '@modern-js/generator-plugin-plugin': link:../../generator/plugins/generator-plugin
       '@modern-js/i18n-cli-language-detector': link:../../cli/i18n-cli-language-detector
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
@@ -4119,7 +4126,7 @@ importers:
       '@babel/preset-react': ^7.12.7
       '@babel/traverse': ~7.12.12
       '@babel/types': ^7.17.0
-      '@modern-js/utils': workspace:^1.3.3
+      '@modern-js/utils': workspace:^1.4.1
       '@rollup/plugin-babel': ^5.2.1
       '@rollup/plugin-commonjs': ^19.0.0
       '@rollup/plugin-inject': ~4.0.2
@@ -4256,8 +4263,8 @@ importers:
   packages/toolkit/load-config:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/node-bundle-require': workspace:^1.2.1
-      '@modern-js/utils': workspace:^1.3.3
+      '@modern-js/node-bundle-require': workspace:^1.3.0
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
@@ -4279,7 +4286,7 @@ importers:
   packages/toolkit/node-bundle-require:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/utils': workspace:^1.3.7
+      '@modern-js/utils': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26.0.9
@@ -4375,7 +4382,7 @@ importers:
   packages/toolkit/utils:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/types': workspace:^1.3.6
+      '@modern-js/types': workspace:^1.4.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/debug': 4.1.7
@@ -4384,6 +4391,7 @@ importers:
       '@types/jest': ^26
       '@types/js-yaml': 4.0.5
       '@types/lodash': 4.14.181
+      '@types/minimist': ^1.2.2
       '@types/node': ^14
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4
@@ -4402,6 +4410,7 @@ importers:
       jest: ^27
       js-yaml: 4.1.0
       lodash: 4.17.21
+      minimist: ^1.2.0
       pkg-up: 3.1.0
       recursive-readdir: 2.2.2
       signale: 1.4.0
@@ -4412,6 +4421,7 @@ importers:
     dependencies:
       '@babel/runtime': 7.16.7
       esbuild: 0.13.15
+      minimist: 1.2.5
       typescript: 4.5.4
     devDependencies:
       '@modern-js/types': link:../types
@@ -4423,6 +4433,7 @@ importers:
       '@types/jest': 26.0.24
       '@types/js-yaml': 4.0.5
       '@types/lodash': 4.14.181
+      '@types/minimist': 1.2.2
       '@types/node': 14.18.4
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4
@@ -5220,6 +5231,10 @@ packages:
       d: 1.0.1
       es5-ext: 0.10.53
     dev: false
+
+  /7zip-bin/5.0.3:
+    resolution: {integrity: sha512-GLyWIFBbGvpKPGo55JyRZAo4lVbnBiD52cKlw/0Vt+wnmKvWJkpZvsjVoaIolyBXDeAQKSicRtqFNPem9w0WYA==}
+    dev: true
 
   /@algolia/autocomplete-core/1.5.2:
     resolution: {integrity: sha512-DY0bhyczFSS1b/CqJlTE/nQRtnTAHl6IemIkBy0nEWnhDzRDdtdx4p5Uuk3vwAFxwEEgi1WqKwgSSMx6DpNL4A==}
@@ -9694,6 +9709,14 @@ packages:
       tar-stream: 2.2.0
     dev: true
 
+  /@develar/schema-utils/2.6.5:
+    resolution: {integrity: sha512-0cp4PsWQ/9avqTVMCtZ+GirikIA36ikvjtHweU4/j8yLtgObI0+JUPhYFScgwlteveGB1rt3Cm8UhN04XayDig==}
+    engines: {node: '>= 8.9.0'}
+    dependencies:
+      ajv: 6.12.6
+      ajv-keywords: 3.5.2_ajv@6.12.6
+    dev: true
+
   /@discoveryjs/json-ext/0.5.6:
     resolution: {integrity: sha512-ws57AidsDvREKrZKYffXddNkyaF14iHNHm8VQnZH6t99E8gczjNN0GpvcGny0imC80yQ0tHz1xVUKk/KFQSUyA==}
     engines: {node: '>=10.0.0'}
@@ -10781,6 +10804,11 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@humanwhocodes/momoa/2.0.4:
+    resolution: {integrity: sha512-RE815I4arJFtt+FVeU1Tgp9/Xvecacji8w/V6XtXsWWH/wz/eNkNbhb+ny/+PlVZjV0rxQpRSQKNKE3lcktHEA==}
+    engines: {node: '>=10.10.0'}
+    dev: false
+
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
 
@@ -11529,24 +11557,11 @@ packages:
     transitivePeerDependencies:
       - debug
 
-  /@modern-js/codesmith-tools/1.0.8:
-    resolution: {integrity: sha512-3YSINALjGa2Ej4f5uQuNytidPlOSRgLn3146dogLLCC/ohUK0m2Wm4ynA9+ER7iIjwUPv9sbUoHJgYTuBeO5Hg==}
+  /@modern-js/codesmith-tools/1.1.0:
+    resolution: {integrity: sha512-+a5JvJ/12DVOvLELPbCLc5A0Wufzsoi75UKj9rxGPu1XF57Is/NLEwTA8jyJ5B8lydvIKOzKbvRhZZkrveFJfA==}
+    hasBin: true
     dependencies:
-      '@babel/runtime': 7.16.7
-      commander: 8.3.0
-      esbuild: 0.13.15
-      ora: 5.4.1
-      webpack: 5.71.0_esbuild@0.13.15
-    transitivePeerDependencies:
-      - '@swc/core'
-      - uglify-js
-      - webpack-cli
-    dev: true
-
-  /@modern-js/codesmith-tools/1.0.9:
-    resolution: {integrity: sha512-3qVucm/3M3/xqIBQwiMrU9ANI5cpAv52Hs4rqOI6qAFF7x6bPIZ9wEEaeySRe1Ng5qUqtqxFZcBjud3rRSfG7A==}
-    dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.8
       commander: 8.3.0
       esbuild: 0.13.15
       ora: 5.4.1
@@ -11959,7 +11974,7 @@ packages:
       webpack: 4.46.0
     dev: false
 
-  /@pmmmwh/react-refresh-webpack-plugin/0.5.5_4d3268da69c4272e2436fbf2164deb6a:
+  /@pmmmwh/react-refresh-webpack-plugin/0.5.5_react-refresh@0.12.0:
     resolution: {integrity: sha512-RbG7h6TuP6nFFYKJwbcToA1rjC1FyPg25NR2noAZ0vKI+la01KTSRPkuVPE+U88jXv7javx2JHglUcL1MHcshQ==}
     engines: {node: '>= 10.13'}
     peerDependencies:
@@ -11989,14 +12004,12 @@ packages:
       common-path-prefix: 3.0.0
       core-js-pure: 3.20.2
       error-stack-parser: 2.0.6
-      esbuild: 0.13.15
       find-up: 5.0.0
       html-entities: 2.3.2
       loader-utils: 2.0.2
-      react-refresh: 0.9.0
+      react-refresh: 0.12.0
       schema-utils: 3.1.1
       source-map: 0.7.3
-      webpack: 5.71.0_esbuild@0.13.15
     dev: false
 
   /@polka/url/1.0.0-next.21:
@@ -12346,7 +12359,6 @@ packages:
   /@sindresorhus/is/0.14.0:
     resolution: {integrity: sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==}
     engines: {node: '>=6'}
-    dev: false
 
   /@sindresorhus/is/4.2.0:
     resolution: {integrity: sha512-VkE3KLBmJwcCaVARtQpfuKcKv8gcBmUubrfHGF84dXuuW6jgsRYxPtzcIhPyK9WAPpRt2/xY6zkD9MnRaJzSyw==}
@@ -14482,7 +14494,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       defer-to-connect: 1.1.3
-    dev: false
 
   /@szmarczak/http-timer/4.0.6:
     resolution: {integrity: sha512-4BAffykYOgO+5nzBWYwE3W90sBgLJoUPRWWcL8wlyiM8IB8ipJz3UMJ9KXQd1RKQXpKp8Tutn80HZtWsu2u76w==}
@@ -14779,7 +14790,6 @@ packages:
     resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
     dependencies:
       '@types/ms': 0.7.31
-    dev: true
 
   /@types/depd/1.1.32:
     resolution: {integrity: sha512-kB2cpXs3A0TGWl4a4h74yIwvclYZUTW6Irpee/3Dc1s4Cr5rGPHtpGPpBBpEV1MaKH5z/oul+57oDkEkeRXRnw==}
@@ -15179,7 +15189,6 @@ packages:
 
   /@types/ms/0.7.31:
     resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
-    dev: true
 
   /@types/node-fetch/2.5.12:
     resolution: {integrity: sha512-MKgC4dlq4kKNa/mYrwpKfzQMB5X3ee5U6fSprkKpToBqBmX4nFZL9cW5jl6sWn+xpRJ7ypWh2yyqqr8UUCstSw==}
@@ -16428,7 +16437,6 @@ packages:
     resolution: {integrity: sha512-IOfwwBF5iczOjp/WeY4YxyjqAFMQoZufdQWDd19SEExbVLNXqvpzSJ/M7Za4/sCPmQ0+GRquoA7bGcINcxew6w==}
     dependencies:
       string-width: 4.2.3
-    dev: false
 
   /ansi-colors/3.2.4:
     resolution: {integrity: sha512-hHUXGagefjN2iRrID63xckIvotOXOojhQKWIPUZ4mNUZ9nLZW+7FMNoE1lOkEhNWYsx/7ysGIuJYCiMAA9FnrA==}
@@ -16579,6 +16587,40 @@ packages:
     dependencies:
       normalize-path: 3.0.0
       picomatch: 2.3.1
+
+  /app-builder-bin/3.5.9:
+    resolution: {integrity: sha512-NSjtqZ3x2kYiDp3Qezsgukx/AUzKPr3Xgf9by4cYt05ILWGAptepeeu0Uv+7MO+41o6ujhLixTou8979JGg2Kg==}
+    dev: true
+
+  /app-builder-lib/22.7.0:
+    resolution: {integrity: sha512-blRKwV8h0ztualXS50ciCTo39tbuDGNS+ldcy8+KLvKXuT6OpYnSJ7M6MSfPT+xWatshMHJV1rJx3Tl+k/Sn/g==}
+    engines: {node: '>=8.12.0'}
+    dependencies:
+      '@develar/schema-utils': 2.6.5
+      7zip-bin: 5.0.3
+      async-exit-hook: 2.0.1
+      bluebird-lst: 1.0.9
+      builder-util: 22.7.0
+      builder-util-runtime: 8.7.1
+      chromium-pickle-js: 0.2.0
+      debug: 4.3.4
+      ejs: 3.1.6
+      electron-publish: 22.7.0
+      fs-extra: 9.1.0
+      hosted-git-info: 3.0.8
+      is-ci: 2.0.0
+      isbinaryfile: 4.0.10
+      js-yaml: 3.14.1
+      lazy-val: 1.0.5
+      minimatch: 3.0.4
+      normalize-package-data: 2.5.0
+      read-config-file: 6.0.0
+      sanitize-filename: 1.6.3
+      semver: 7.3.5
+      temp-file: 3.4.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
 
   /app-root-dir/1.0.2:
     resolution: {integrity: sha1-OBh+wt6nV3//Az/8sSFyaS/24Rg=}
@@ -16882,6 +16924,11 @@ packages:
     dev: false
     optional: true
 
+  /async-exit-hook/2.0.1:
+    resolution: {integrity: sha512-NW2cX8m1Q7KPA7a5M2ULQeZ2wR5qI5PAbw5L0UOMxdioVk9PMZ0h1TmyZEkPYrCvYjDlFICusOu1dlEKAAeXBw==}
+    engines: {node: '>=0.12.0'}
+    dev: true
+
   /async-limiter/2.0.0:
     resolution: {integrity: sha512-nyHFzvVaR+4mfHc90/VqOUQjlnk9+ioDxQfqDuqKnm3m9sIT7joVKW8dkxeaKpamMJ3MYD73t6M8PMKEWlQESQ==}
     dev: false
@@ -16898,6 +16945,10 @@ packages:
     resolution: {integrity: sha1-trvgsGdLnXGXCMo43owjfLUmw9E=}
     dev: false
 
+  /async/0.9.2:
+    resolution: {integrity: sha1-rqdNXmHB+JlhO/ZL2mbUx48v0X0=}
+    dev: true
+
   /async/2.6.3:
     resolution: {integrity: sha512-zflvls11DCy+dQWzTW2dzuilv8Z5X/pjfmZOWba6TNIVDm+2UDaJmXSOXlasHKfNBs8oo3M0aT50fDEWfKZjXg==}
     dependencies:
@@ -16913,7 +16964,6 @@ packages:
   /at-least-node/1.0.0:
     resolution: {integrity: sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==}
     engines: {node: '>= 4.0.0'}
-    dev: false
 
   /atob/2.1.2:
     resolution: {integrity: sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==}
@@ -17666,18 +17716,17 @@ packages:
     dependencies:
       tweetnacl: 0.14.5
 
-  /better-ajv-errors/0.7.0_ajv@8.8.2:
-    resolution: {integrity: sha512-6GtJQ/AwVSo1pI1MDQU/yg8O86gMsrt5RKtELo08Epa2zWJPCOK85v/O8/U5A9JkWmwRkE16JpSgssKSx6moog==}
+  /better-ajv-errors/1.2.0_ajv@8.8.2:
+    resolution: {integrity: sha512-UW+IsFycygIo7bclP9h5ugkNH8EjCSgqyFB/yQ4Hqqa1OEYDtb0uFIkYE0b6+CjkgJYVM5UKI/pJPxjYe9EZlA==}
+    engines: {node: '>= 12.13.0'}
     peerDependencies:
-      ajv: 4.11.8 - 6
+      ajv: 4.11.8 - 8
     dependencies:
       '@babel/code-frame': 7.16.7
-      '@babel/runtime': 7.16.7
+      '@humanwhocodes/momoa': 2.0.4
       ajv: 8.8.2
-      chalk: 2.4.2
-      core-js: 3.20.2
-      json-to-ast: 2.1.0
-      jsonpointer: 4.1.0
+      chalk: 4.1.2
+      jsonpointer: 5.0.0
       leven: 3.1.0
     dev: false
 
@@ -17772,13 +17821,18 @@ packages:
     dependencies:
       inherits: 2.0.4
 
+  /bluebird-lst/1.0.9:
+    resolution: {integrity: sha512-7B1Rtx82hjnSD4PGLAjVWeYH3tHAcVUmChh85a3lltKQm6FresXh9ErQo6oAv6CqxttczC3/kEg8SY5NluPuUw==}
+    dependencies:
+      bluebird: 3.7.2
+    dev: true
+
   /bluebird/3.4.7:
     resolution: {integrity: sha1-9y12C+Cbf3bQjtj66Ysomo0F+rM=}
     dev: false
 
   /bluebird/3.7.2:
     resolution: {integrity: sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==}
-    dev: false
 
   /bn.js/4.12.0:
     resolution: {integrity: sha1-d1s/J477uXGO7HNh9IP7Nvu/6og=}
@@ -17862,6 +17916,20 @@ packages:
       type-fest: 0.3.1
       widest-line: 2.0.1
     dev: false
+
+  /boxen/4.2.0:
+    resolution: {integrity: sha512-eB4uT9RGzg2odpER62bBwSLvUeGC+WbRjjyyFhGsKnc8wp/m0+hQsMUvUe3H2V0D5vw0nBdO1hCJoZo5mKeuIQ==}
+    engines: {node: '>=8'}
+    dependencies:
+      ansi-align: 3.0.1
+      camelcase: 5.3.1
+      chalk: 3.0.0
+      cli-boxes: 2.2.1
+      string-width: 4.2.3
+      term-size: 2.2.1
+      type-fest: 0.8.1
+      widest-line: 3.1.0
+    dev: true
 
   /boxen/5.1.2:
     resolution: {integrity: sha512-9gYgQKXx+1nP8mP7CzFyaUARhg7D3n1dF/FnErWmu9l6JvGpNUN278h0aSb+QjoiKSWG+iZ3uHrcqk0qrY9RQQ==}
@@ -18114,6 +18182,37 @@ packages:
       node-gyp-build: 4.3.0
     dev: true
 
+  /builder-util-runtime/8.7.1:
+    resolution: {integrity: sha512-uEBH1nAnTvzjcsrh2XI3qOzJ39h0+9kuIuwj+kCc3a07TZNGShfJcai8fFzL3mNgGjEFxoq+XMssR11r+FOFSg==}
+    engines: {node: '>=8.2.5'}
+    dependencies:
+      debug: 4.3.4
+      sax: 1.2.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /builder-util/22.7.0:
+    resolution: {integrity: sha512-UV3MKL0mwjMq2y9JlBf28Cegpj0CrIXcjGkO0TXn+QZ6Yy9rY6lHOuUvpQ19ct2Qh1o+QSwH3Q1nKUf5viJBBg==}
+    dependencies:
+      '@types/debug': 4.1.7
+      '@types/fs-extra': 9.0.13
+      7zip-bin: 5.0.3
+      app-builder-bin: 3.5.9
+      bluebird-lst: 1.0.9
+      builder-util-runtime: 8.7.1
+      chalk: 4.1.2
+      debug: 4.3.4
+      fs-extra: 9.1.0
+      is-ci: 2.0.0
+      js-yaml: 3.14.1
+      source-map-support: 0.5.21
+      stat-mode: 1.0.0
+      temp-file: 3.4.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /builtin-modules/3.2.0:
     resolution: {integrity: sha512-lGzLKcioL90C7wMczpkY0n/oART3MbBa8R9OFGE1rJxoVI86u4WAGfEk8Wjv10eKSyTHVGkSo3bvBylCEtk7LA==}
     engines: {node: '>=6'}
@@ -18261,7 +18360,6 @@ packages:
       lowercase-keys: 2.0.0
       normalize-url: 4.5.1
       responselike: 1.0.2
-    dev: false
 
   /cacheable-request/7.0.2:
     resolution: {integrity: sha512-pouW8/FmiPQbuGpkXQ9BAPv/Mo5xDGANgSNXzTzJ8DrKGuXOssM4wIQRjfanNRh3Yu5cfYPvcorqbhg2KIJtew==}
@@ -18621,6 +18719,10 @@ packages:
     resolution: {integrity: sha512-p3KULyQg4S7NIHixdwbGX+nFHkoBiA4YQmyWtjb8XngSKV124nJmRysgAeujbUVb15vh+RvFUfCPqU7rXk+hZg==}
     engines: {node: '>=6.0'}
 
+  /chromium-pickle-js/0.2.0:
+    resolution: {integrity: sha1-BKEGZywYsIWrd02YPfo+oTjyIgU=}
+    dev: true
+
   /ci-info/2.0.0:
     resolution: {integrity: sha512-5tK7EtrZ0N+OLFMthtqOj4fI2Jeb88C4CAZPu25LDVUgXJ0A3Js4PMGqrn0JU1W0Mh1/Z8wZzYPxqUrXeBboCQ==}
 
@@ -18690,7 +18792,6 @@ packages:
   /cli-boxes/2.2.1:
     resolution: {integrity: sha512-y4coMcylgSCdVinjiDBuR8PCC2bLjyGTwEmPb9NHR/QaNU6EUOXcTY/s6VjGMD6ENSEaeQYHCY0GNGS5jfMwPw==}
     engines: {node: '>=6'}
-    dev: false
 
   /cli-boxes/3.0.0:
     resolution: {integrity: sha512-/lzGpEWL/8PfI0BmBOPRwp0c/wFNX1RdUML3jK/RcSBA9T8mZDdQpqYBKtCFTOfQbwPqWEOpjqW+Fnayc0969g==}
@@ -18801,7 +18902,6 @@ packages:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wrap-ansi: 6.2.0
-    dev: false
 
   /cliui/7.0.4:
     resolution: {integrity: sha512-OcRE68cOsVMXp1Yvonl/fzkQOyjLSu/8bhPDfQt0e0/Eb283TKP20Fs2MqoPsr9SwA595rRCA+QMzYc9nBP+JQ==}
@@ -18916,11 +19016,6 @@ packages:
       '@types/q': 1.5.5
       chalk: 2.4.2
       q: 1.5.1
-    dev: false
-
-  /code-error-fragment/0.0.230:
-    resolution: {integrity: sha512-cadkfKp6932H8UkhzE/gcUqhRMNf8jHzkAN7+5Myabswaghu4xABTgPHDCjW+dBAJxj/SpkTYokpzDqY4pCzQw==}
-    engines: {node: '>= 4'}
     dev: false
 
   /code-point-at/1.1.0:
@@ -19265,7 +19360,6 @@ packages:
       unique-string: 2.0.0
       write-file-atomic: 3.0.3
       xdg-basedir: 4.0.0
-    dev: false
 
   /connect-history-api-fallback/1.6.0:
     resolution: {integrity: sha512-e54B99q/OUoH64zYYRf3HBP5z24G38h5D3qXu23JGRoigpX5Ss4r9ZnDk3g0Z8uQC2x2lPaJ+UlWBc1ZWBWdLg==}
@@ -20402,7 +20496,6 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.2
-    dev: true
 
   /decamelize-keys/1.1.0:
     resolution: {integrity: sha1-0XGoeTMlKAfrPLYdwcFEXQeN8tk=}
@@ -20439,7 +20532,6 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       mimic-response: 1.0.1
-    dev: false
 
   /decompress-response/6.0.0:
     resolution: {integrity: sha512-aW35yZM6Bb/4oJlZncMH2LCoZtJXTRxES17vE3hoRiowU2kWHaJKFkSBDnDR+cm9J+9QhXmREyIfv0pji9ejCQ==}
@@ -20506,7 +20598,6 @@ packages:
 
   /defer-to-connect/1.1.3:
     resolution: {integrity: sha512-0ISdNousHvZT2EiFlZeZAHBUvSxmKswVCEf8hW7KWgG4a8MVEu/3Vb6uWYozkjylyCxe0JBIiRB1jV45S70WVQ==}
-    dev: false
 
   /defer-to-connect/2.0.1:
     resolution: {integrity: sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg==}
@@ -20819,6 +20910,19 @@ packages:
   /dlv/1.1.3:
     resolution: {integrity: sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==}
 
+  /dmg-builder/22.7.0:
+    resolution: {integrity: sha512-5Ea2YEz6zSNbyGzZD+O9/MzmaXb6oa15cSKWo4JQ1xP4rorOpte7IOj2jcwYjtc+Los2gu1lvT314OC1OZIWgg==}
+    dependencies:
+      app-builder-lib: 22.7.0
+      builder-util: 22.7.0
+      fs-extra: 9.1.0
+      iconv-lite: 0.5.2
+      js-yaml: 3.14.1
+      sanitize-filename: 1.6.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /dns-equal/1.0.0:
     resolution: {integrity: sha1-s55/HabrCnW6nBcySzR1PEfgZU0=}
     dev: false
@@ -21022,7 +21126,6 @@ packages:
 
   /dotenv-expand/5.1.0:
     resolution: {integrity: sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA==}
-    dev: false
 
   /dotenv/10.0.0:
     resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
@@ -21037,7 +21140,6 @@ packages:
   /dotenv/8.6.0:
     resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}
     engines: {node: '>=10'}
-    dev: false
 
   /downshift/6.1.7_react@17.0.2:
     resolution: {integrity: sha512-cVprZg/9Lvj/uhYRxELzlu1aezRcgPWBjTvspiGTVEU64gF5pRdSRKFVLcxqsZC637cLAGMbL40JavEfWnqgNg==}
@@ -21087,7 +21189,6 @@ packages:
 
   /duplexer3/0.1.4:
     resolution: {integrity: sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=}
-    dev: false
 
   /duplexify/3.7.1:
     resolution: {integrity: sha512-07z8uv2wMyS51kKhD1KsdXJg5WQ6t93RneqRxUHnskXVtlYYkLqM0gqStQZ3pj073g687jPCHrqNfCzawLYh5g==}
@@ -21443,6 +21544,52 @@ packages:
       urllib: 2.38.0
       utility: 1.17.0
       ylru: 1.2.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /ejs/3.1.6:
+    resolution: {integrity: sha512-9lt9Zse4hPucPkoP7FHDF0LQAlGyF9JVpnClFLFH3aSSbxmyoqINRpp/9wePWJTUl4KOQwRL72Iw3InHPDkoGw==}
+    engines: {node: '>=0.10.0'}
+    hasBin: true
+    dependencies:
+      jake: 10.8.4
+    dev: true
+
+  /electron-builder/22.7.0:
+    resolution: {integrity: sha512-t6E3oMutpST64YWbZCg7HodEwJOsnjUF1vnDIHm2MW6CFZPX8tlCK6efqaV66LU0E0Nkp/JH6TE5bCqQ1+VdPQ==}
+    engines: {node: '>=8.12.0'}
+    hasBin: true
+    dependencies:
+      '@types/yargs': 15.0.14
+      app-builder-lib: 22.7.0
+      bluebird-lst: 1.0.9
+      builder-util: 22.7.0
+      builder-util-runtime: 8.7.1
+      chalk: 4.1.2
+      dmg-builder: 22.7.0
+      fs-extra: 9.1.0
+      is-ci: 2.0.0
+      lazy-val: 1.0.5
+      read-config-file: 6.0.0
+      sanitize-filename: 1.6.3
+      update-notifier: 4.1.3
+      yargs: 15.4.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /electron-publish/22.7.0:
+    resolution: {integrity: sha512-hmU69xlb6vvAV3QfpHYDlkdZMFdBAgDbptoxbLFrnTq5bOkcL8AaDbvxeoZ4+lvqgs29NwqGpkHo2oN+p/hCfg==}
+    dependencies:
+      '@types/fs-extra': 9.0.13
+      bluebird-lst: 1.0.9
+      builder-util: 22.7.0
+      builder-util-runtime: 8.7.1
+      chalk: 4.1.2
+      fs-extra: 9.1.0
+      lazy-val: 1.0.5
+      mime: 2.6.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -22107,7 +22254,6 @@ packages:
   /escape-goat/2.1.1:
     resolution: {integrity: sha512-8/uIhbG12Csjy2JEW7D9pHbreaVaS/OpN3ycnyvElTdwM5n6GY6W6e2IPemfvGZeUMqZ9A/3GqIZMgKnBhAw/Q==}
     engines: {node: '>=8'}
-    dev: false
 
   /escape-html/1.0.3:
     resolution: {integrity: sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=}
@@ -23242,6 +23388,12 @@ packages:
     resolution: {integrity: sha512-hjPFI8oE/2iQPVe4gbrJ73Pp+Xfub2+WI2LlXDbsaJBwT5wuMh35WNWVYYTpnz895shtwfyutMFLFywpQAFdLg==}
     engines: {node: '>= 6'}
 
+  /filelist/1.0.2:
+    resolution: {integrity: sha512-z7O0IS8Plc39rTCq6i6iHxk43duYOn8uFJiWSewIq0Bww1RNybVHSCjahmcC87ZqAm4OTvFzlzeGu3XAzG1ctQ==}
+    dependencies:
+      minimatch: 3.0.4
+    dev: true
+
   /filesize/8.0.7:
     resolution: {integrity: sha512-pjmC+bkIF8XI7fWaH8KxHcZL3DPybs1roSKP4rKDvy20tAWwIObE4+JIseG2byfGKhud5ZnM4YSGKBz7Sh0ndQ==}
     engines: {node: '>= 0.4.0'}
@@ -23759,7 +23911,6 @@ packages:
       graceful-fs: 4.2.10
       jsonfile: 6.1.0
       universalify: 2.0.0
-    dev: false
 
   /fs-extra2/1.0.0:
     resolution: {integrity: sha1-gmbj7W2i41PJaW0KRcamhLebCV4=}
@@ -24104,6 +24255,13 @@ packages:
     dependencies:
       ini: 1.3.8
 
+  /global-dirs/2.1.0:
+    resolution: {integrity: sha512-MG6kdOUh/xBnyo9cJFeIKkLEc1AyFq42QTU4XiX51i2NEdxLxLWXIjEjmqKeSuKR7pAZjTqUVoT2b2huxVLgYQ==}
+    engines: {node: '>=8'}
+    dependencies:
+      ini: 1.3.7
+    dev: true
+
   /global-dirs/3.0.0:
     resolution: {integrity: sha512-v8ho2DS5RiCjftj1nD9NmnfaOzTdud7RRnVd9kFNOjqZbISlx5DQ+OrTkywgd0dIt7oFCvKetZSHoHcP3sDdiA==}
     engines: {node: '>=10'}
@@ -24294,7 +24452,6 @@ packages:
       p-cancelable: 1.1.0
       to-readable-stream: 1.0.0
       url-parse-lax: 3.0.0
-    dev: false
 
   /graceful-fs/4.2.10:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
@@ -24481,7 +24638,6 @@ packages:
   /has-yarn/2.1.0:
     resolution: {integrity: sha512-UqBRqi4ju7T+TqGNdqAO0PaSVGsDGJUBQvk9eUWNGRY1CFGDzYhLWoM7JQEemnlvVcv/YEmc2wNW8BC24EnUsw==}
     engines: {node: '>=8'}
-    dev: false
 
   /has/1.0.3:
     resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==}
@@ -24648,6 +24804,13 @@ packages:
 
   /hosted-git-info/2.8.9:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
+
+  /hosted-git-info/3.0.8:
+    resolution: {integrity: sha512-aXpmwoOhRBrw6X3j0h5RloK4x1OzsxMPyxqIHyNfSe2pypkVTZFpEiRoSipPEPlMrh0HW/XsjkJ5WgnCirpNUw==}
+    engines: {node: '>=10'}
+    dependencies:
+      lru-cache: 6.0.0
+    dev: true
 
   /hosted-git-info/4.0.2:
     resolution: {integrity: sha512-c9OGXbZ3guC/xOlCg1Ci/VgWlwsqDv1yMQL1CWqXDL0hDjXuNcq0zuR4xqPSuasI3kqFDhqSyTjREz5gzq0fXg==}
@@ -25026,7 +25189,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       safer-buffer: 2.1.2
-    dev: false
 
   /iconv-lite/0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
@@ -25147,7 +25309,6 @@ packages:
   /import-lazy/2.1.0:
     resolution: {integrity: sha1-BWmOPUXIjo1+nZLLBYTnfwlvPkM=}
     engines: {node: '>=4'}
-    dev: false
 
   /import-lazy/4.0.0:
     resolution: {integrity: sha512-rKtvo6a868b5Hu3heneU+L4yEQ4jYKLtjpnPeUdK7h0yzXGmyBTypknlkCvHFBqfX9YlorEiMM6Dnq/5atfHkw==}
@@ -25210,6 +25371,10 @@ packages:
 
   /inherits/2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
+
+  /ini/1.3.7:
+    resolution: {integrity: sha512-iKpRpXP+CrP2jyrxvg1kMUpXDyRUFDWurxbnVT1vQPx+Wz9uCYsMIqYuSBLV+PAaZG/d7kRLKRFc9oDMsH+mFQ==}
+    dev: true
 
   /ini/1.3.8:
     resolution: {integrity: sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==}
@@ -25496,6 +25661,7 @@ packages:
 
   /is-ci/2.0.0:
     resolution: {integrity: sha512-YfJT7rkpQB0updsdHLGWrvhBJfcfzNNawYDNIyQXJz0IViGf75O8EBPKSdvw2rF+LGCsX4FZ8tcr3b19LcZq4w==}
+    hasBin: true
     dependencies:
       ci-info: 2.0.0
 
@@ -25652,6 +25818,14 @@ packages:
       is-path-inside: 1.0.1
     dev: false
 
+  /is-installed-globally/0.3.2:
+    resolution: {integrity: sha512-wZ8x1js7Ia0kecP/CHM/3ABkAmujX7WPvQk6uu3Fly/Mk44pySulQpnHG46OMjHGXApINnV4QhY3SWnECO2z5g==}
+    engines: {node: '>=8'}
+    dependencies:
+      global-dirs: 2.1.0
+      is-path-inside: 3.0.3
+    dev: true
+
   /is-installed-globally/0.4.0:
     resolution: {integrity: sha512-iwGqO3J21aaSkC7jWnHP/difazwS7SFeIqxv6wEtLU8Y5KlzFTjyqcSIT0d8s4+dDhKytsk9PJZ2BkS5eZwQRQ==}
     engines: {node: '>=10'}
@@ -25688,6 +25862,11 @@ packages:
     resolution: {integrity: sha512-wsigDr1Kkschp2opC4G3yA6r9EgVA6NjRpWzIi9axXqeIaAATPRJc4uLujXe3Nd9uO8KoDyA4MD6aZSeXTADhA==}
     engines: {node: '>=8'}
     dev: false
+
+  /is-npm/4.0.0:
+    resolution: {integrity: sha512-96ECIfh9xtDDlPylNPXhzjsykHsMJZ18ASpaWzQyBr4YRTcVjUvzaHayDAES2oU/3KpljhHUjtSRNiDwi0F0ig==}
+    engines: {node: '>=8'}
+    dev: true
 
   /is-npm/5.0.0:
     resolution: {integrity: sha512-WW/rQLOazUq+ST/bCAVBp/2oMERWLsR7OrKyt052dNDk4DHcDE0/7QSXITlmi+VBcV13DfIbysG3tZJm5RfdBA==}
@@ -25924,7 +26103,6 @@ packages:
 
   /is-yarn-global/0.3.0:
     resolution: {integrity: sha512-VjSeb/lHmkoyd8ryPVIKvOCn4D1koMqY+vqyjjUfc3xyKtP4dYOxM44sZrnqQSzSds3xyOrUTLTC9LVCVgLngw==}
-    dev: false
 
   /is2/2.0.1:
     resolution: {integrity: sha512-+WaJvnaA7aJySz2q/8sLjMb2Mw14KTplHmSwcSpZ/fWJPkUmqw3YTzSWbPJ7OAwRvdYTWF2Wg+yYJ1AdP5Z8CA==}
@@ -25948,6 +26126,11 @@ packages:
   /isarray/2.0.5:
     resolution: {integrity: sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==}
     dev: false
+
+  /isbinaryfile/4.0.10:
+    resolution: {integrity: sha512-iHrqe5shvBUcFbmZq9zOQHBoeOhZJu6RQGrDpBgenUm/Am+F3JM2MgQj+rK3Z601fzrL5gLZWtAPH2OBaSVcyw==}
+    engines: {node: '>= 8.0.0'}
+    dev: true
 
   /isexe/2.0.0:
     resolution: {integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=}
@@ -26061,6 +26244,17 @@ packages:
       es-get-iterator: 1.1.2
       iterate-iterator: 1.0.2
     dev: false
+
+  /jake/10.8.4:
+    resolution: {integrity: sha512-MtWeTkl1qGsWUtbl/Jsca/8xSoK3x0UmS82sNbjqxxG/de/M/3b1DntdjHgPMC50enlTNwXOCRqPXLLt5cCfZA==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      async: 0.9.2
+      chalk: 4.1.2
+      filelist: 1.0.2
+      minimatch: 3.0.4
+    dev: true
 
   /javascript-stringify/2.1.0:
     resolution: {integrity: sha512-JVAfqNPTvNq3sB/VHQJAFxN/sPgKnsKrCwyRt15zwNCdrMMJDdcEOdubuy+DuJYYdm0ox1J4uzEuYKkN+9yhVg==}
@@ -27266,6 +27460,7 @@ packages:
 
   /js-yaml/3.14.1:
     resolution: {integrity: sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g==}
+    hasBin: true
     dependencies:
       argparse: 1.0.10
       esprima: 4.0.1
@@ -27378,7 +27573,6 @@ packages:
 
   /json-buffer/3.0.0:
     resolution: {integrity: sha1-Wx85evx11ne96Lz8Dkfh+aPZqJg=}
-    dev: false
 
   /json-buffer/3.0.1:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}
@@ -27430,14 +27624,6 @@ packages:
 
   /json-stringify-safe/5.0.1:
     resolution: {integrity: sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=}
-
-  /json-to-ast/2.1.0:
-    resolution: {integrity: sha512-W9Lq347r8tA1DfMvAGn9QNcgYm4Wm7Yc+k8e6vezpMnRT+NHbtlxgNBXRVjXe9YM6eTn6+p/MKOlV/aABJcSnQ==}
-    engines: {node: '>= 4'}
-    dependencies:
-      code-error-fragment: 0.0.230
-      grapheme-splitter: 1.0.4
-    dev: false
 
   /json2mq/0.2.0:
     resolution: {integrity: sha1-tje9O6nqvhIsg+lyBIOusQ0skEo=}
@@ -27492,8 +27678,8 @@ packages:
     engines: {'0': node >= 0.2.0}
     dev: true
 
-  /jsonpointer/4.1.0:
-    resolution: {integrity: sha512-CXcRvMyTlnR53xMcKnuMzfCA5i/nfblTnnr74CZb6C4vG39eu6w51t7nKmU5MfLfbTgGItliNyjO/ciNPDqClg==}
+  /jsonpointer/5.0.0:
+    resolution: {integrity: sha512-PNYZIdMjVIvVgDSYKTT63Y+KZ6IZvGRNNWcxwD+GNnUz1MKPfv30J8ueCjdwcN0nDx2SlshgyB7Oy0epAzVRRg==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -27572,7 +27758,6 @@ packages:
     resolution: {integrity: sha512-9ykJ/46SN/9KPM/sichzQ7OvXyGDYKGTaDlKMGCAlg2UK8KRy4jb0d8sFc+0Tt0YYnThq8X2RZgCg74RPxgcVA==}
     dependencies:
       json-buffer: 3.0.0
-    dev: false
 
   /keyv/4.0.4:
     resolution: {integrity: sha512-vqNHbAc8BBsxk+7QBYLW0Y219rWcClspR6WSeoHYKG5mnsSoOH+BL1pWq02DDCVdvvuUny5rkBlzMRzoqc+GIg==}
@@ -27817,7 +28002,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       package-json: 6.5.0
-    dev: false
 
   /launch-editor/2.3.0:
     resolution: {integrity: sha512-3QrsCXejlWYHjBPFXTyGNhPj4rrQdB+5+r5r3wArpLH201aR+nWUgw/zKKkTmilCfY/sv6u8qo98pNvtg8LUTA==}
@@ -27844,6 +28028,10 @@ packages:
       dotenv: 8.6.0
       dotenv-expand: 5.1.0
     dev: false
+
+  /lazy-val/1.0.5:
+    resolution: {integrity: sha512-0/BnGCCfyUMkBpeDgWihanIAF9JmZhHBgUhEqzvf+adhNGLoP6TaiI5oF8oyb3I45P+PcnrqihSf01M0l0G5+Q==}
+    dev: true
 
   /lazystream/1.0.1:
     resolution: {integrity: sha512-b94GiNHQNy6JNTrt5w6zNyffMrNkXZb3KTkCZJb2V1xaEGCk093vkZ2jk3tpaeP33/OiXC+WvK9AxUebnf5nbw==}
@@ -28299,7 +28487,6 @@ packages:
   /lowercase-keys/1.0.1:
     resolution: {integrity: sha512-G2Lj61tXDnVFFOi8VZds+SoQjtQC3dgokKdDG2mTm1tx4m50NUHBOZSBwQQHyy0V12A0JTG4icfZQH+xPyh8VA==}
     engines: {node: '>=0.10.0'}
-    dev: false
 
   /lowercase-keys/2.0.0:
     resolution: {integrity: sha512-tqNXrS78oMOE73NMxK4EMLQsQowWf8jKooH9g7xPavRT706R6bkQJ6DY2Te7QukaZsulxa30wQ7bk0pm4XiHmA==}
@@ -29470,7 +29657,6 @@ packages:
   /normalize-url/4.5.1:
     resolution: {integrity: sha512-9UZCFRHQdNrfTpGg8+1INIg93B6zE0aXMVFkw1WFwvO4SlZywU6aLg5Of0Ap/PgcbSw4LNxvMWXMeugwMCX0AA==}
     engines: {node: '>=8'}
-    dev: false
 
   /normalize-url/6.1.0:
     resolution: {integrity: sha512-DlL+XwOy3NxAQ8xuC0okPgK46iuVNAK01YN7RueYBqqFeGsBjV9XmCAzAdgt+667bCl5kPh9EqKKDwnaPG1I7A==}
@@ -29864,7 +30050,6 @@ packages:
   /p-cancelable/1.1.0:
     resolution: {integrity: sha512-s73XxOZ4zpt1edZYZzvhqFa6uvQc1vwUa0K0BdtIZgQMAJj9IbebH+JkgKZc9h+B05PKHLOTl4ajG1BmNrVZlw==}
     engines: {node: '>=6'}
-    dev: false
 
   /p-cancelable/2.1.1:
     resolution: {integrity: sha512-BZOr3nRQHOntUjTrH8+Lh54smKHoHyur8We1V8DSMVrl5A2malOOwuJRnKRDjSnkoeBh4at6BwEnb5I7Jl31wg==}
@@ -30012,7 +30197,6 @@ packages:
       registry-auth-token: 4.2.1
       registry-url: 5.1.0
       semver: 6.3.0
-    dev: false
 
   /package-json/7.0.0:
     resolution: {integrity: sha512-CHJqc94AA8YfSLHGQT3DbvSIuE12NLFekpM4n7LRrAd3dOJtA911+4xe9q6nC3/jcKraq7nNS9VxgtT0KC+diA==}
@@ -31758,7 +31942,6 @@ packages:
   /prepend-http/2.0.0:
     resolution: {integrity: sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=}
     engines: {node: '>=4'}
-    dev: false
 
   /prettier-linter-helpers/1.0.0:
     resolution: {integrity: sha512-GbK2cP9nraSSUF9N2XwUwqfzlAFlMNYYl+ShE/V+H8a9uNl/oUqB1w2EL54Jh0OlyRSd8RfWYJ3coVS4TROP2w==}
@@ -32108,7 +32291,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       escape-goat: 2.1.1
-    dev: false
 
   /puppeteer/10.4.0:
     resolution: {integrity: sha512-2cP8mBoqnu5gzAVpbZ0fRaobBWZM8GEUF4I1F6WbgHrKV/rz7SX8PG2wMymZgD0wo0UBlg2FBPNxlF/xlqW6+w==}
@@ -32782,6 +32964,7 @@ packages:
 
   /rc/1.2.8:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
+    hasBin: true
     dependencies:
       deep-extend: 0.6.0
       ini: 1.3.8
@@ -33114,8 +33297,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /react-refresh/0.9.0:
-    resolution: {integrity: sha512-Gvzk7OZpiqKSkxsQvO/mbTN1poglhmAV7gR/DdIrRrSMXraRQQlfikRJOr3Nb9GTMPC5kof948Zy6jJZIFtDvQ==}
+  /react-refresh/0.12.0:
+    resolution: {integrity: sha512-suLIhrU2IHKL5JEKR/fAwJv7bbeq4kJ+pJopf77jHwuR+HmJS/HbrPIGsTBUVfw7tXPOmYv7UJ7PCaN49e8x4A==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -33304,6 +33487,17 @@ packages:
     dependencies:
       pify: 2.3.0
     dev: false
+
+  /read-config-file/6.0.0:
+    resolution: {integrity: sha512-PHjROSdpceKUmqS06wqwP92VrM46PZSTubmNIMJ5DrMwg1OgenSTSEHIkCa6TiOJ+y/J0xnG1fFwG3M+Oi1aNA==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      dotenv: 8.6.0
+      dotenv-expand: 5.1.0
+      js-yaml: 3.14.1
+      json5: 2.2.0
+      lazy-val: 1.0.5
+    dev: true
 
   /read-pkg-up/2.0.0:
     resolution: {integrity: sha1-a3KoBImE4MQeeVEP1en6mbO1Sb4=}
@@ -33845,7 +34039,6 @@ packages:
 
   /require-main-filename/2.0.0:
     resolution: {integrity: sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==}
-    dev: false
 
   /require-package-name/2.0.1:
     resolution: {integrity: sha1-wR6XJ2tluOKSP3Xav1+y7ww4Qbk=}
@@ -33982,7 +34175,6 @@ packages:
     resolution: {integrity: sha1-kYcg7ztjHFZCvgaPFa3lpG9Loec=}
     dependencies:
       lowercase-keys: 1.0.1
-    dev: false
 
   /responselike/2.0.0:
     resolution: {integrity: sha512-xH48u3FTB9VsZw7R+vvgaKeLKzT6jOogbQhEe/jewwnZgzPcnyWui2Av6JpoYZF/91uueC+lqhWqeURw5/qhCw==}
@@ -34237,6 +34429,12 @@ packages:
       minimist: 1.2.5
       walker: 1.0.8
 
+  /sanitize-filename/1.6.3:
+    resolution: {integrity: sha512-y/52Mcy7aw3gRm7IrcGDFx/bCk4AhRh2eI9luHOQM86nZsqwiRkkq2GekHXBBD+SmPidc8i2PqtYZl+pWJ8Oeg==}
+    dependencies:
+      truncate-utf8-bytes: 1.0.2
+    dev: true
+
   /sass-loader/12.4.0_sass@1.45.2+webpack@5.71.0:
     resolution: {integrity: sha512-7xN+8khDIzym1oL9XyS6zP6Ges+Bo2B2xbPrjdMHEYyV3AQYhd/wXeru++3ODHF0zMjYmVadblSKrPrjEkL8mg==}
     engines: {node: '>= 12.13.0'}
@@ -34277,7 +34475,6 @@ packages:
 
   /sax/1.2.4:
     resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
-    dev: false
 
   /saxes/5.0.1:
     resolution: {integrity: sha512-5LBh1Tls8c9xgGjw3QrMwETmTMVk0oFgvrFSvWx62llR2hcEInrKNZ2GZCCuuy2lvWrdl5jhbpeqc5hRYKFOcw==}
@@ -34423,7 +34620,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       semver: 6.3.0
-    dev: false
 
   /semver-store/0.3.0:
     resolution: {integrity: sha512-TcZvGMMy9vodEFSse30lWinkj+JgOBvPn8wRItpQRSayhc+4ssDs335uklkfvQQJgL/WvmHLVj4Ycv2s7QCQMg==}
@@ -35171,6 +35367,11 @@ packages:
       commander: 2.7.1
       fs-extra2: 1.0.0
     dev: false
+
+  /stat-mode/1.0.0:
+    resolution: {integrity: sha512-jH9EhtKIjuXZ2cWxmXS8ZP80XyC3iasQxMDV8jzhNJpfDb7VbQLVW4Wvsxz9QZvzV+G4YoSfBUVKDOyxLzi/sg==}
+    engines: {node: '>= 6'}
+    dev: true
 
   /state-toggle/1.0.3:
     resolution: {integrity: sha512-d/5Z4/2iiCnHw6Xzghyhb+GcmF89bxwgXG60wjIiZaxnymbyOmI8Hk4VqHXiVVp6u2ysaskFfXg3ekCj4WNftQ==}
@@ -36026,6 +36227,13 @@ packages:
     resolution: {integrity: sha512-aoBAniQmmwtcKp/7BzsH8Cxzv8OL736p7v1ihGb5e9DJ9kTwGWHrQrVB5+lfVDzfGrdRzXch+ig7LHaY1JTOrg==}
     engines: {node: '>=8'}
 
+  /temp-file/3.4.0:
+    resolution: {integrity: sha512-C5tjlC/HCtVUOi3KWVokd4vHVViOmGjtLwIh4MuzPo/nMYTV/p1urt3RnMz2IWXDdKEGJH3k5+KPxtqRsUYGtg==}
+    dependencies:
+      async-exit-hook: 2.0.1
+      fs-extra: 10.0.1
+    dev: true
+
   /tempy/1.0.1:
     resolution: {integrity: sha512-biM9brNqxSc04Ee71hzFbryD11nX7VPhQQY32AdDmjFvodsRFz/3ufeoTZ6uYkRFfGo188tENcASNs3vTdsM0w==}
     engines: {node: '>=10'}
@@ -36053,7 +36261,6 @@ packages:
   /term-size/2.2.1:
     resolution: {integrity: sha512-wK0Ri4fOGjv/XPy8SBHZChl8CM7uMc5VML7SqiQ0zG7+J5Vr+RMQDoHa2CNT6KHUnTGIXH34UDMkPzAUyapBZg==}
     engines: {node: '>=8'}
-    dev: false
 
   /terminal-link/2.1.1:
     resolution: {integrity: sha512-un0FmiRUQNr5PJqy9kP7c40F5BOfpGlYTrxonDChEZB7pzZxRNp/bt+ymiy9/npwXya9KH99nJ/GXFIiUkYGFQ==}
@@ -36396,7 +36603,6 @@ packages:
   /to-readable-stream/1.0.0:
     resolution: {integrity: sha512-Iq25XBt6zD5npPhlLVXGFN3/gyR2/qODcKNNyTMd4vbm39HUaOiAM4PMq0eMVC/Tkxz+Zjdsc55g9yyz+Yq00Q==}
     engines: {node: '>=6'}
-    dev: false
 
   /to-regex-range/2.1.1:
     resolution: {integrity: sha1-fIDBe53+vlmeJzZ+DU3VWQFB2zg=}
@@ -36518,6 +36724,12 @@ packages:
   /trough/1.0.5:
     resolution: {integrity: sha512-rvuRbTarPXmMb79SmzEp8aqXNKcK+y0XaB298IXueQ8I2PsrATcPBCSPyK/dDNa2iWOhKlfNnOjdAOTBU/nkFA==}
     dev: false
+
+  /truncate-utf8-bytes/1.0.2:
+    resolution: {integrity: sha1-QFkjkJWS1W94pYGENLC3hInKXys=}
+    dependencies:
+      utf8-byte-length: 1.0.4
+    dev: true
 
   /try-require/1.2.1:
     resolution: {integrity: sha1-NEiaLKwMCcHMEO2RugEVlNQzO+I=}
@@ -37212,6 +37424,25 @@ packages:
       xdg-basedir: 3.0.0
     dev: false
 
+  /update-notifier/4.1.3:
+    resolution: {integrity: sha512-Yld6Z0RyCYGB6ckIjffGOSOmHXj1gMeE7aROz4MG+XMkmixBX4jUngrGXNYz7wPKBmtoD4MnBa2Anu7RSKht/A==}
+    engines: {node: '>=8'}
+    dependencies:
+      boxen: 4.2.0
+      chalk: 3.0.0
+      configstore: 5.0.1
+      has-yarn: 2.1.0
+      import-lazy: 2.1.0
+      is-ci: 2.0.0
+      is-installed-globally: 0.3.2
+      is-npm: 4.0.0
+      is-yarn-global: 0.3.0
+      latest-version: 5.1.0
+      pupa: 2.1.1
+      semver-diff: 3.1.1
+      xdg-basedir: 4.0.0
+    dev: true
+
   /update-notifier/5.1.0:
     resolution: {integrity: sha512-ItnICHbeMh9GqUy31hFPrD1kcuZ3rpxDZbf4KUDavXwS0bW5m7SLbDQpGX3UYr072cbrF5hFUs3r5tUsPwjfHw==}
     engines: {node: '>=10'}
@@ -37305,7 +37536,6 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       prepend-http: 2.0.0
-    dev: false
 
   /url-parse/1.5.4:
     resolution: {integrity: sha512-ITeAByWWoqutFClc/lRZnFplgXgEZr3WJ6XngMM/N9DMIm4K8zXPCZ1Jdu0rERwO84w1WC5wkle2ubwTA4NTBg==}
@@ -37423,6 +37653,10 @@ packages:
     requiresBuild: true
     dependencies:
       node-gyp-build: 4.3.0
+    dev: true
+
+  /utf8-byte-length/1.0.4:
+    resolution: {integrity: sha1-9F8VDExm7uloGGUFq5P8u4rWv2E=}
     dev: true
 
   /util-deprecate/1.0.2:
@@ -38270,7 +38504,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       string-width: 4.2.3
-    dev: false
 
   /widest-line/4.0.1:
     resolution: {integrity: sha512-o0cyEG0e8GPzT4iGHphIOh0cJOV8fivsXxddQasHPHfoZf1ZexrfeA21w2NaEN1RHE+fXlfISmOE8R9N3u3Qig==}
@@ -38372,7 +38605,6 @@ packages:
       ansi-styles: 4.3.0
       string-width: 4.2.3
       strip-ansi: 6.0.1
-    dev: false
 
   /wrap-ansi/7.0.0:
     resolution: {integrity: sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==}
@@ -38491,7 +38723,6 @@ packages:
   /xdg-basedir/4.0.0:
     resolution: {integrity: sha512-PSNhEJDejZYV7h50BohL09Er9VaIefr2LMAf3OEmpCkjOi34eYyQYAXUTjEQtZJTKcF0E2UKTh+osDLsgNim9Q==}
     engines: {node: '>=8'}
-    dev: false
 
   /xml-js/1.6.11:
     resolution: {integrity: sha512-7rVi2KMfwfWFl+GpPg6m80IVMWXLRjO+PxTq7V2CDhoGak0wzYzFgUY2m4XJ47OGdXd8eLE8EmwfAmdjw7lC1g==}
@@ -38551,7 +38782,6 @@ packages:
 
   /y18n/4.0.3:
     resolution: {integrity: sha512-JKhqTOwSrqNA1NY5lSztJ1GrBiUodLMmIZuLiDaMRJ+itFd+ABVE8XBjOvIWL+rSqNDC74LCSFmlb/U4UZ4hJQ==}
-    dev: false
 
   /y18n/5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
@@ -38599,7 +38829,6 @@ packages:
     dependencies:
       camelcase: 5.3.1
       decamelize: 1.2.0
-    dev: false
 
   /yargs-parser/20.2.9:
     resolution: {integrity: sha512-y11nGElTIV+CT3Zv9t7VKl+Q3hTQoT9a1Qzezhhl6Rp21gJ/IVTW7Z3y9EWXhuUBC2Shnf+DX0antecpAwSP8w==}
@@ -38676,7 +38905,6 @@ packages:
       which-module: 2.0.0
       y18n: 4.0.3
       yargs-parser: 18.1.3
-    dev: false
 
   /yargs/16.2.0:
     resolution: {integrity: sha512-D1mvvtDG0L5ft/jGWkLpG1+m0eQxOfaBvTNELraWj22wSVUMWxZUvYgJYcKh6jGGIkJFhH4IZPQhR4TKpc8mBw==}

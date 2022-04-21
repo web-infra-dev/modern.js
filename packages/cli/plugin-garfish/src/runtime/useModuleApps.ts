@@ -34,16 +34,19 @@ export type ModernGarfishConfig = {
   manifest?: Manifest;
 };
 
-export type MicroComponentProps = { loadable?: LoadableConfig };
+export type MicroComponentProps = {
+  loadable?: LoadableConfig;
+  [index: string]: any;
+};
 
 export type Config = Partial<Options> & ModernGarfishConfig;
 
 export type UseModuleApps = {
   [index in 'apps' | string]: index extends 'apps'
     ? ModulesInfo
-    : React.FC<any>;
+    : React.FC<MicroComponentProps>;
 } & {
-  readonly MApp: React.FC<any>;
+  readonly MApp: React.FC<MicroComponentProps>;
   readonly apps: ModulesInfo;
 };
 

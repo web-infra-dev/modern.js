@@ -132,15 +132,6 @@ export const handleTemplateFile = async (
         },
       );
     }
-  } else {
-    await appApi.forgeTemplate(
-      'templates/js-template/**/*',
-      undefined,
-      resourceKey =>
-        resourceKey
-          .replace('templates/js-template/', 'api/')
-          .replace('.handlebars', `.${language}`),
-    );
   }
 
   if (bffType === BFFType.Func) {
@@ -226,7 +217,7 @@ export const handleTemplateFile = async (
 
   const appendTypeContent = FrameworkAppendTypeContent[framework as Framework];
 
-  if (appendTypeContent) {
+  if (appendTypeContent && language === Language.TS) {
     const typePath = path.join(appDir, 'src', 'modern-app-env.d.ts');
     if (fs.existsSync(typePath)) {
       const npmrc = fs.readFileSync(typePath, 'utf-8');

@@ -9,7 +9,7 @@ import { getLocaleLanguage } from './utils/language';
 import { start } from './commands/start';
 import { dev } from './commands/dev';
 import { closeServer } from './utils/createServer';
-import type { DevOptions, BuildOptions } from './utils/types';
+import type { DevOptions, BuildOptions, StartOptions } from './utils/types';
 
 export { defineConfig };
 
@@ -34,13 +34,14 @@ export default (): CliPlugin => ({
     i18n.changeLanguage({ locale });
 
     return {
-      commands({ program }: any) {
+      commands({ program }) {
         program
           .command('dev')
           .usage('[options]')
           .description(i18n.t(localeKeys.command.dev.describe))
           .option('-c --config <config>', i18n.t(localeKeys.command.dev.config))
           .option('-e --entry [entry...]', i18n.t(localeKeys.command.dev.entry))
+          .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
           .action(async (options: DevOptions) => {
             await dev(api, options);
           });
@@ -62,8 +63,9 @@ export default (): CliPlugin => ({
           .command('start')
           .usage('[options]')
           .description(i18n.t(localeKeys.command.start.describe))
-          .action(async () => {
-            await start(api);
+          .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
+          .action(async (options: StartOptions) => {
+            await start(api, options);
           });
 
         program

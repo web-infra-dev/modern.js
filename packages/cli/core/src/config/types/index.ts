@@ -2,6 +2,7 @@ import type { IncomingMessage, ServerResponse } from 'http';
 import type { NextFunction, BffProxyOptions } from '@modern-js/types';
 import type { MetaOptions } from '@modern-js/utils';
 import type { TransformOptions } from '@babel/core';
+import type webpack from 'webpack';
 import type { Configuration as WebpackConfiguration } from 'webpack';
 import autoprefixer from 'autoprefixer';
 import type {
@@ -19,6 +20,7 @@ import type {
   SSGMultiEntryOptions,
   SSGSingleEntryOptions,
 } from './ssg';
+import { ElectronConfig } from './electron';
 
 type AutoprefixerOptions = autoprefixer.Options;
 type TerserOptions = BasePluginOptions & RawTerserOptions;
@@ -212,7 +214,11 @@ export type WebpackConfig =
   | ((
       config: WebpackConfiguration,
       // FIXME: utils type
-      utils?: any,
+      utils: {
+        env: string;
+        webpack: typeof webpack;
+        [key: string]: any;
+      },
     ) => WebpackConfiguration | void);
 
 export type BabelConfig =
@@ -309,6 +315,12 @@ export interface UserConfig {
    * @requires `@modern-js/plugin-testing`
    */
   testing?: TestConfig;
+  /**
+   * The configuration of `electron` is provided by plugin `@modern-js/plugin-electron`.
+   * Please use `yarn new` to enable the corresponding capability.
+   * @requires `@modern-js/plugin-electron`
+   */
+  electron?: ElectronConfig;
 }
 
 export type ConfigParam =

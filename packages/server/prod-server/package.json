@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.0.6",
+  "version": "1.1.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -29,16 +29,16 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "pnpm build --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern new",
     "build": "modern build",
     "dev": "modern build --watch",
     "test": "jest"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.3.7",
+    "@modern-js/utils": "workspace:^1.4.1",
     "@babel/compat-data": "^7.17.0",
-    "@modern-js/server-core": "workspace:^1.2.5",
+    "@modern-js/server-core": "workspace:^1.3.0",
     "axios": "^0.24.0",
     "compare-versions": "^3.6.0",
     "cookie": "^0.4.2",
@@ -53,7 +53,7 @@
     "ua-parser-js": "^0.7.28"
   },
   "devDependencies": {
-    "@modern-js/types": "workspace:^1.3.6",
+    "@modern-js/types": "workspace:^1.4.0",
     "@modern-js/core": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@scripts/build": "workspace:*",

@@ -12,7 +12,7 @@ import type { Hooks } from '@modern-js/types';
 import { ErrorObject } from 'ajv';
 import { initCommandsMap } from './utils/commander';
 import { resolveConfig, loadUserConfig, addServerConfigToDeps } from './config';
-import { loadPlugins } from './loadPlugins';
+import { loadPlugins, TransformPlugin } from './loadPlugins';
 import {
   AppContext,
   ConfigContext,
@@ -77,6 +77,7 @@ export interface CoreOptions {
   serverConfigFile?: string;
   packageJsonConfig?: string;
   plugins?: typeof INTERNAL_PLUGINS;
+  transformPlugin?: TransformPlugin;
   onSchemaError?: (error: ErrorObject) => void;
   options?: {
     metaName?: string;
@@ -127,6 +128,7 @@ const createCli = () => {
 
     const plugins = loadPlugins(appDirectory, loaded.config, {
       internalPlugins: mergedOptions?.plugins,
+      transformPlugin: mergedOptions?.transformPlugin,
     });
 
     plugins.forEach(plugin => plugin.cli && manager.usePlugin(plugin.cli));
@@ -249,3 +251,9 @@ const createCli = () => {
 export const cli = createCli();
 
 export { initAppDir, initAppContext };
+
+declare module '@modern-js/utils/compiled/commander' {
+  export interface Command {
+    commandsMap: Map<string, Command>;
+  }
+}

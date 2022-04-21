@@ -1,7 +1,5 @@
 import { Import, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
-import type { Configuration } from 'webpack';
-import type Chain from 'webpack-chain';
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-sass',
@@ -27,7 +25,7 @@ export default (): CliPlugin => ({
       config() {
         return {
           tools: {
-            webpack: (config: Configuration, { chain }: { chain: Chain }) => {
+            webpack: (config, { chain }) => {
               const options = api.useResolvedConfigContext();
 
               const {
@@ -49,7 +47,7 @@ export default (): CliPlugin => ({
                     : SASS_REGEX,
                   exclude: SASS_MODULE_REGEX,
                   use: [
-                    ...(loaders.oneOf('css') as any).toConfig().use,
+                    ...loaders.oneOf('css').toConfig().use,
                     {
                       loader: require.resolve('sass-loader'),
                       options: sassOptions,
@@ -66,7 +64,7 @@ export default (): CliPlugin => ({
                     : SASS_MODULE_REGEX,
                   exclude: [/node_modules/, GLOBAL_SASS_REGEX],
                   use: [
-                    ...(loaders.oneOf('css-modules') as any).toConfig().use,
+                    ...loaders.oneOf('css-modules').toConfig().use,
                     {
                       loader: require.resolve('sass-loader'),
                       options: sassOptions,

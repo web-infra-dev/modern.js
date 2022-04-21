@@ -12,9 +12,15 @@
     "modern",
     "modern.js"
   ],
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
+  },
+  "devDependencies": {
+    "@scripts/build": "workspace:*"
   },
   "main": "./base.json"
 }
