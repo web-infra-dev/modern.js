@@ -36,10 +36,14 @@ export const buildServerConfig = async ({
     );
 
   if (configFilePath) {
-    const configHelperFilePath = path.join(distDirectory, './config-helper.js');
+    const configHelperFilePath = path.normalize(
+      path.join(distDirectory, './config-helper.js'),
+    );
     const helperCode = `
       export const defineConfig = (config) => config;
     `;
+
+    await fs.ensureDir(distDirectory);
     await fs.writeFile(configHelperFilePath, helperCode);
     await bundle(configFilePath, {
       ...options,
