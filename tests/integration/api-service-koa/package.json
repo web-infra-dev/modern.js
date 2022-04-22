@@ -36,9 +36,9 @@
     "dist/"
   ],
   "dependencies": {
-    "@modern-js/plugin-bff": "workspace:^1.2.1",
-    "@modern-js/plugin-koa": "workspace:^1.2.0",
-    "@modern-js/runtime": "workspace:^1.0.0",
+    "@modern-js/plugin-bff": "workspace:*",
+    "@modern-js/plugin-koa": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
     "koa": "^2.13.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
