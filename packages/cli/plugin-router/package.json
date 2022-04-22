@@ -74,9 +74,9 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/plugin": "workspace:^1.3.3",
-    "@modern-js/types": "workspace:^1.5.0",
-    "@modern-js/plugin-analyze": "workspace:^1.4.0",
+    "@modern-js/plugin": "workspace:*",
+    "@modern-js/types": "workspace:*",
+    "@modern-js/plugin-analyze": "workspace:*",
     "@modern-js/runtime-core": "workspace:*",
     "@testing-library/react": "^12.0.0",
     "@types/hoist-non-react-statics": "^3.3.1",

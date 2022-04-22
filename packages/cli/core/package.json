@@ -63,7 +63,7 @@
   },
   "devDependencies": {
     "@jest/types": "^27.0.6",
-    "@modern-js/types": "workspace:^1.5.0",
+    "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__code-frame": "^7.0.3",

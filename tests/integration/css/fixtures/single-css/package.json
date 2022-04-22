@@ -8,6 +8,6 @@
     "@modern-js/runtime": "workspace:^1.0.0"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:^1.0.0"
+    "@modern-js/app-tools": "workspace:*"
   }
 }
