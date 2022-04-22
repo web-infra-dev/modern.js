@@ -60,6 +60,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@babel/core": "7.16.7",
     "@babel/runtime": "^7",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/server": "^5.15.1",
