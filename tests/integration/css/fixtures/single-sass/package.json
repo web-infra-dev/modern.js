@@ -5,8 +5,8 @@
   "dependencies": {
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "@modern-js/runtime": "workspace:^1.0.0",
-    "@modern-js/app-tools": "workspace:^1.0.0",
-    "@modern-js/plugin-sass": "workspace:^1.0.0"
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-sass": "workspace:*"
   }
 }

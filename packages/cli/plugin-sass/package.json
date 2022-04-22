@@ -58,7 +58,7 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/style-compiler": "workspace:^1.2.4",
+    "@modern-js/style-compiler": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^26",

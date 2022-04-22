@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/types": "workspace:^1.5.0",
+    "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__traverse": "^7.14.2",
