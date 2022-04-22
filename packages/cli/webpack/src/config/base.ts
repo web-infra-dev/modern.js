@@ -244,7 +244,6 @@ class BaseWebpackConfig {
           this.metaName,
           this.appDirectory,
           this.options,
-          this.chain.get('name'),
           this.babelChain,
         ),
       );

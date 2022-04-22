@@ -6,7 +6,7 @@ import {
   chalk,
 } from '@modern-js/utils';
 
-const verifyTsConfigPaths = (root: string, userConfig: UserConfig) => {
+export const verifyTsConfigPaths = (root: string, userConfig: UserConfig) => {
   const userAliases = userConfig.source?.alias;
 
   if (!userAliases) {
