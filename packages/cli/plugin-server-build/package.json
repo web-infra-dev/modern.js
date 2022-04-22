@@ -42,7 +42,7 @@
     "@modern-js/utils": "workspace:^1.5.0"
   },
   "devDependencies": {
-    "@modern-js/plugin-analyze": "workspace:^1.4.0",
+    "@modern-js/plugin-analyze": "workspace:*",
     "@types/babel__core": "^7.1.15",
     "@types/jest": "^26",
     "@types/node": "^14",

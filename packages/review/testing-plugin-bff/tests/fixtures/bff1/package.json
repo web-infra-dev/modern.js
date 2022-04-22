@@ -3,6 +3,6 @@
     "@modern-js/plugin-bff": "workspace:^1.2.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:^1.0.0"
+    "@modern-js/app-tools": "workspace:*"
   }
 }

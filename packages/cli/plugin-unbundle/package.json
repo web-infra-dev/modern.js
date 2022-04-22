@@ -89,10 +89,10 @@
     "ws": "^7.4.3"
   },
   "devDependencies": {
-    "@modern-js/bff-utils": "workspace:^1.2.3",
+    "@modern-js/bff-utils": "workspace:*",
     "@modern-js/core": "workspace:*",
-    "@modern-js/tsconfig": "workspace:^1.2.0",
-    "@modern-js/types": "workspace:^1.5.0",
+    "@modern-js/tsconfig": "workspace:*",
+    "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__code-frame": "^7.0.2",
