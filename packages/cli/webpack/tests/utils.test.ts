@@ -1,7 +1,24 @@
-import type { NormalizedConfig } from '@modern-js/core';
-import type { BabelChain } from '@modern-js/babel-chain';
+import { memoize } from '../src/utils/memoize';
 import { mergeRegex } from '../src/utils/mergeRegex';
 import { getBabelOptions } from '../src/utils/getBabelOptions';
+import { verifyTsConfigPaths } from '../src/utils/getWebpackAliases';
+
+jest.mock('@modern-js/utils', () => {
+  const originalModule = jest.requireActual('@modern-js/utils');
+  return {
+    __esModule: true,
+    ...originalModule,
+    readTsConfig() {
+      return {
+        compilerOptions: {
+          paths: {
+            foo: 'bar',
+          },
+        },
+      };
+    },
+  };
+});
 
 describe('mergeRegex', () => {
   it('should merge regexp correctly', () => {
@@ -18,8 +35,8 @@ describe('getBabelOptions', () => {
     const babelOptions = getBabelOptions(
       'metaName',
       '/root',
-      {} as NormalizedConfig,
-      {} as BabelChain,
+      {} as any,
+      {} as any,
     );
 
     // mock dynamic preset name
@@ -51,7 +68,21 @@ describe('getBabelOptions', () => {
         ],
       ],
     });
+  });
+});
 
-    // mockRequireResolve.mockRestore();
+describe('memoize', () => {
+  it('should return correct result', () => {
+    const double = (a: number) => a * 2;
+    const memoizeDouble = memoize(double);
+    expect(memoizeDouble(1)).toEqual(2);
+    expect(memoizeDouble(2)).toEqual(4);
+    expect(memoizeDouble(1)).toEqual(2);
+  });
+
+  describe('verifyTsConfigPaths', () => {
+    expect(() => {
+      verifyTsConfigPaths('/', { source: { alias: { foo: 'bar' } } });
+    }).toThrowError();
   });
 });
