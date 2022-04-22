@@ -36,6 +36,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@babel/core": "7.16.7",
     "@babel/register": "^7.15.3",
     "@modern-js/bff-utils": "workspace:^1.2.3",
     "@modern-js/hmr-client": "workspace:^1.2.5",
