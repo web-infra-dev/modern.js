@@ -31,7 +31,7 @@
     "@modern-js/codesmith": "^1.0.8",
     "@modern-js/codesmith-api-app": "^1.0.8",
     "@modern-js/codesmith-tools": "^1.1.0",
-    "@modern-js/generator-common": "workspace:^1.4.9",
+    "@modern-js/generator-common": "workspace:*",
     "@types/jest": "^26",
     "@types/node": "^14",
     "typescript": "^4",

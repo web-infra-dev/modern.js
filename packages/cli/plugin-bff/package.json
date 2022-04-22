@@ -72,10 +72,10 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/plugin-analyze": "workspace:^1.4.0",
-    "@modern-js/runtime": "workspace:^1.2.6",
+    "@modern-js/plugin-analyze": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
     "@modern-js/server-core": "workspace:*",
-    "@modern-js/types": "workspace:^1.5.0",
+    "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__core": "^7.1.15",

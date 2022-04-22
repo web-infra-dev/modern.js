@@ -37,16 +37,16 @@
     "dist/"
   ],
   "dependencies": {
-    "@modern-js/plugin-bff": "workspace:^1.2.1",
-    "@modern-js/plugin-express": "workspace:^1.2.0",
-    "@modern-js/runtime": "workspace:^1.0.0",
+    "@modern-js/plugin-bff": "workspace:*",
+    "@modern-js/plugin-express": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
     "express": "^4.17.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:^1.0.0",
-    "@modern-js/plugin-jarvis": "workspace:^1.0.0",
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-jarvis": "workspace:*",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.0",
     "@types/node": "^14",

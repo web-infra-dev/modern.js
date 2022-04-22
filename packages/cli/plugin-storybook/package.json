@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/runtime": "workspace:^1.2.6",
+    "@modern-js/runtime": "workspace:*",
     "@modern-js/runtime-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
