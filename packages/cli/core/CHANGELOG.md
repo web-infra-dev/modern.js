@@ -1,5 +1,30 @@
 # @modern-js/core
 
+## 1.8.0
+
+### Minor Changes
+
+- a4330c73: fix: electron config type && electron generator template
+- 3bf4f8b0: feat: support start api server only
+
+### Patch Changes
+
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- e4cec1ce: types: fix config hook type
+- 3b7aa8bb: feat: add transformPlugin option for legacy plugins
+- 5dbbeb57: fix: export extended Command type
+- ebfcbb35: chore: bump better-ajv-errors 1.2.0
+- 305e0bb4: fix: commander.commandsMap typing not work
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/load-config@1.3.1
+  - @modern-js/plugin@1.3.3
+
 ## 1.7.0
 
 ### Minor Changes

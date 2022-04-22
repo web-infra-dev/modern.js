@@ -1,5 +1,17 @@
 # @modern-js-app/eslint-config
 
+## 1.2.8
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+  - @modern-js/babel-preset-app@1.2.7
+
 ## 1.2.7
 
 ### Patch Changes

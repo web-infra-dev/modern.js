@@ -1,0 +1,6 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "noEmit": true
+  }
+}

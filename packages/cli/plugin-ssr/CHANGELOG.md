@@ -1,5 +1,17 @@
 # @modern-js/plugin-ssr
 
+## 1.2.7
+
+### Patch Changes
+
+- e4cec1ce: types: fix config hook type
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/runtime-core@1.4.2
+
 ## 1.2.6
 
 ### Patch Changes

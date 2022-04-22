@@ -1,5 +1,35 @@
 # @modern-js/monorepo-tools
 
+## 1.4.3
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- 305e0bb4: fix: commander.commandsMap typing not work
+- 2888389b: add parse config for lerna
+- Updated dependencies [a4330c73]
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [e4cec1ce]
+- Updated dependencies [3b7aa8bb]
+- Updated dependencies [5dbbeb57]
+- Updated dependencies [ebfcbb35]
+- Updated dependencies [3bf4f8b0]
+- Updated dependencies [305e0bb4]
+  - @modern-js/core@1.8.0
+  - @modern-js/utils@1.5.0
+  - @modern-js/i18n-cli-language-detector@1.2.2
+  - @modern-js/plugin-changeset@1.2.5
+  - @modern-js/plugin-i18n@1.2.4
+  - @modern-js/new-action@1.3.6
+  - @modern-js/plugin@1.3.3
+
 ## 1.4.2
 
 ### Patch Changes
