@@ -7,7 +7,6 @@ export const getBabelOptions = (
   metaName: string,
   appDirectory: string,
   config: NormalizedConfig,
-  name: string,
   chain: BabelChain,
 ) => ({
   babelrc: false,
@@ -39,7 +38,7 @@ export const getBabelOptions = (
           },
           config.tools?.styledComponents,
         ),
-        userBabelConfig: config.tools.babel,
+        userBabelConfig: config.tools?.babel,
       } as BabelPresetAppOptions,
     ],
   ],
