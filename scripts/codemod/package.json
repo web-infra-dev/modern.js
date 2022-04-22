@@ -10,7 +10,7 @@
     "glob": "^7.2.0",
     "@types/node": "^14",
     "@types/glob": "^7.1.4",
-    "@modern-js/tsconfig": "workspace:^1.1.0",
+    "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*"
   },
   "publishConfig": {

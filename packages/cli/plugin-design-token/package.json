@@ -55,8 +55,8 @@
     "tailwindcss": "^2.0.4"
   },
   "devDependencies": {
-    "@modern-js/module-tools": "workspace:^1.4.6",
-    "@modern-js/plugin-testing": "workspace:^1.5.0",
+    "@modern-js/module-tools": "workspace:*",
+    "@modern-js/plugin-testing": "workspace:*",
     "@modern-js/runtime-core": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",

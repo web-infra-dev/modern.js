@@ -70,10 +70,10 @@
     "serialize-javascript": "^6.0.0"
   },
   "devDependencies": {
-    "@modern-js/babel-chain": "workspace:^1.2.2",
+    "@modern-js/babel-chain": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/runtime-core": "workspace:*",
-    "@modern-js/types": "workspace:^1.5.0",
+    "@modern-js/types": "workspace:*",
     "react-helmet": "^6.1.0",
     "react-side-effect": "^2.1.1",
     "@loadable/component": "^5.15.0",

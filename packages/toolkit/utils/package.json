@@ -69,7 +69,7 @@
     "typescript": "^4"
   },
   "devDependencies": {
-    "@modern-js/types": "workspace:^1.5.0",
+    "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/debug": "4.1.7",

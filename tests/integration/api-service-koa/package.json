@@ -36,16 +36,16 @@
     "dist/"
   ],
   "dependencies": {
-    "@modern-js/plugin-bff": "workspace:^1.2.1",
-    "@modern-js/plugin-koa": "workspace:^1.2.0",
-    "@modern-js/runtime": "workspace:^1.0.0",
+    "@modern-js/plugin-bff": "workspace:*",
+    "@modern-js/plugin-koa": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
     "koa": "^2.13.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:^1.0.0",
-    "@modern-js/plugin-jarvis": "workspace:^1.0.0",
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-jarvis": "workspace:*",
     "@types/koa": "^2.13.4",
     "@types/jest": "^26.0.9",
     "@types/node": "^14",
@@ -55,7 +55,7 @@
     "axios": "^0.24.0",
     "del-cli": "^4.0.1",
     "typescript": "^4",
-    "@modern-js/plugin-testing": "workspace:^1.3.2"
+    "@modern-js/plugin-testing": "workspace:*"
   },
   "modernConfig": {
     "runtime": {

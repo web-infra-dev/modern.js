@@ -44,10 +44,10 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/types": "workspace:^1.5.0",
+    "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@modern-js/core": "workspace:*",
-    "@modern-js/plugin-jarvis": "workspace:^1.2.7",
+    "@modern-js/plugin-jarvis": "workspace:*",
     "typescript": "^4",
     "@types/jest": "^26.0.9",
     "@types/node": "^14",
