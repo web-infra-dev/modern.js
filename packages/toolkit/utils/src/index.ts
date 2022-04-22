@@ -9,7 +9,6 @@ export * from './compatRequire';
 export * from './logger';
 export * from './constants';
 export * from './ensureAbsolutePath';
-export * from './getCacheIdentifier';
 export * from './clearConsole';
 export * from './applyOptionsChain';
 export * from './getBrowserslist';
