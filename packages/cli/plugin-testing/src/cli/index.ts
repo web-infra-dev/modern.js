@@ -84,7 +84,7 @@ export default (): CliPlugin => {
         },
 
         jestConfig: async (utils, next) => {
-          const apiOnly = await isApiOnly(appContext.srcDirectory);
+          const apiOnly = await isApiOnly(appContext.appDirectory);
 
           if (apiOnly) {
             return next(utils);
