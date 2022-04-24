@@ -4,6 +4,11 @@ export const ROOT_DIR = join(__dirname, '..', '..', '..');
 export const PACKAGES_DIR = join(ROOT_DIR, 'packages');
 export const DIST_DIR = 'compiled';
 
+export type ImportMap = {
+  path: string;
+  content: string;
+};
+
 type Task = {
   packageDir: string;
   packageName: string;
@@ -16,6 +21,8 @@ type Task = {
         minify?: boolean;
         /** External some sub-dependencies. */
         externals?: Record<string, string>;
+        /** Extra entry files to map imports */
+        emitFiles?: ImportMap[];
         /** Copy fields from original package.json to target package.json. */
         packageJsonField?: string[];
       }
@@ -35,6 +42,7 @@ export const TASKS: Task[] = [
       'lodash',
       'upath',
       'filesize',
+      'minimist',
       'commander',
       'import-lazy',
       // a few dependencies

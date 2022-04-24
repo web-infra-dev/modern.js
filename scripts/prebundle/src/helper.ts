@@ -1,5 +1,6 @@
 import { dirname, join } from 'path';
-import { TASKS, DIST_DIR, PACKAGES_DIR } from './constant';
+import fs from 'fs-extra';
+import { TASKS, DIST_DIR, PACKAGES_DIR, ImportMap } from './constant';
 
 export type ParsedTask = {
   minify: boolean;
@@ -8,18 +9,15 @@ export type ParsedTask = {
   distPath: string;
   externals: Record<string, string>;
   importPath: string;
+  emitFiles: ImportMap[];
   packageDir: string;
   packagePath: string;
   packageName: string;
   packageJsonField: string[];
 };
 
-export function findDepPath(name: string, packagePath: string) {
-  let entry = dirname(
-    require.resolve(join(name), {
-      paths: [join(packagePath, 'node_modules')],
-    }),
-  );
+export function findDepPath(name: string) {
+  let entry = dirname(require.resolve(join(name)));
 
   while (!dirname(entry).endsWith('node_modules')) {
     entry = dirname(entry);
@@ -37,7 +35,7 @@ export function parseTasks() {
       const importPath = join(packageName, DIST_DIR, depName);
       const packagePath = join(PACKAGES_DIR, packageDir);
       const distPath = join(packagePath, DIST_DIR, depName);
-      const depPath = findDepPath(depName, packagePath);
+      const depPath = findDepPath(depName);
       const info = {
         depName,
         depPath,
@@ -52,6 +50,7 @@ export function parseTasks() {
         result.push({
           minify: true,
           externals: {},
+          emitFiles: [],
           packageJsonField: [],
           ...info,
         });
@@ -59,6 +58,7 @@ export function parseTasks() {
         result.push({
           minify: dep.minify ?? true,
           externals: dep.externals ?? {},
+          emitFiles: dep.emitFiles ?? [],
           packageJsonField: dep.packageJsonField ?? [],
           ...info,
         });
@@ -76,4 +76,13 @@ export function pick<T, U extends keyof T>(obj: T, keys: ReadonlyArray<U>) {
     }
     return ret;
   }, {} as Pick<T, U>);
+}
+
+export function replaceFileContent(
+  filePath: string,
+  replaceFn: (content: string) => string,
+) {
+  const content = fs.readFileSync(filePath, 'utf-8');
+  const newContent = replaceFn(content);
+  fs.writeFileSync(filePath, newContent);
 }
