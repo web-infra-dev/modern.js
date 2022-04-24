@@ -9,7 +9,6 @@ import {
   getServerConfig,
 } from '@modern-js/utils';
 import { mergeWith } from '@modern-js/utils/lodash';
-import { codeFrameColumns } from '@babel/code-frame';
 
 import Ajv, { ErrorObject } from '../../compiled/ajv';
 import ajvKeywords from '../../compiled/ajv-keywords';
@@ -128,24 +127,11 @@ export const resolveConfig = async (
         dataPath: e.instancePath,
       })),
       {
-        format: 'js',
         indent: 2,
       },
     );
 
-    logger.log(
-      codeFrameColumns(
-        JSON.stringify(userConfig, null, 2),
-        {
-          start: errors?.[0].start as any,
-          end: errors?.[0].end as any,
-        },
-        {
-          highlightCode: true,
-          message: errors?.[0].error,
-        },
-      ),
-    );
+    logger.log(errors);
     throw new Error(`Validate configuration error`);
   }
 
