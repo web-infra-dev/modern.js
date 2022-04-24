@@ -15,11 +15,11 @@ import { getJestUtils, patchConfig } from './config';
 import { TestConfig } from './types';
 import { debug } from './utils';
 
-type Agrv = Omit<Config.Argv, '_' | '$0'>;
+type Argv = Omit<Config.Argv, '_' | '$0'>;
 
 const buildArgv = async (
   rawArgv: string[],
-  config: Agrv,
+  config: Argv,
 ): Promise<Config.Argv> => {
   const argv = await yargs(rawArgv).argv;
 
@@ -88,7 +88,7 @@ const readResultsAndExit = (
  * Node API: excute jest
  */
 export async function runJest(
-  config: Agrv,
+  config: Argv,
   pwd: string = process.cwd(),
 ): Promise<void> {
   try {
@@ -119,11 +119,12 @@ export async function runTest(
   await patchConfig(jestUtils);
 
   const hookRunners = api.useHookRunners();
-  await hookRunners.jestConfig(jestUtils, {
+  const testConfigOperator = await hookRunners.jestConfig(jestUtils, {
     onLast: input => input,
   });
 
-  const finalConfig = jestUtils.jestConfig;
+  testConfigOperator.getFinalConfig();
+  const finalConfig = testConfigOperator.jestConfig;
 
   debug('Jest config:', finalConfig);
 
