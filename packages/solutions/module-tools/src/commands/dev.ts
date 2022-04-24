@@ -1,12 +1,11 @@
 import * as path from 'path';
-import { Import } from '@modern-js/utils';
+import { dotenv, Import } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 
 const devFeature: typeof import('../features/dev') = Import.lazy(
   '../features/dev',
   require,
 );
-const dotenv: typeof import('dotenv') = Import.lazy('dotenv', require);
 const tsConfigutils: typeof import('../utils/tsconfig') = Import.lazy(
   '../utils/tsconfig',
   require,

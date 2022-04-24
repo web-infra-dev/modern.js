@@ -36,6 +36,8 @@
     "chokidar": "3.5.3",
     "commander": "8.3.0",
     "debug": "4.3.4",
+    "dotenv": "10.0.0",
+    "dotenv-expand": "5.1.0",
     "execa": "5.1.1",
     "filesize": "8.0.7",
     "fs-extra": "10.0.1",

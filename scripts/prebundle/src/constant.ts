@@ -23,6 +23,8 @@ export const TASKS: TaskConfig[] = [
       'minimist',
       'commander',
       'import-lazy',
+      'dotenv',
+      'dotenv-expand',
       // a few dependencies
       'debug',
       'js-yaml',
@@ -57,12 +59,15 @@ export const TASKS: TaskConfig[] = [
       // some dependencies
       {
         name: 'ajv',
+        minify: false,
         beforeBundle(task) {
-          replaceFileContent(
-            task.depEntry,
-            content =>
-              `${content}\nexports.codegen = require("./compile/codegen");`,
-          );
+          replaceFileContent(task.depEntry, content => {
+            const addExports = `exports.codegen = require("./compile/codegen");`;
+            if (content.includes(addExports)) {
+              return content;
+            }
+            return `${content}\n${addExports}`;
+          });
         },
         emitFiles: [
           {
