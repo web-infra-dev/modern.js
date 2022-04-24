@@ -12,7 +12,6 @@ const getJestUtils = (testConfig: TestConfig) => {
 };
 
 const patchConfig = async (testOprator: TestConfigOperator) => {
-  testOprator.getFinalConfig();
   await applyPatches(testOprator);
 
   return testOprator.jestConfig;

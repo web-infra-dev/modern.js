@@ -45,9 +45,6 @@ export default (): CliPlugin => {
     setup: api => {
       let testingExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
 
-      const appContext = api.useAppContext();
-      const userConfig = api.useResolvedConfigContext();
-
       return {
         commands: ({ program }: any) => {
           program
@@ -64,6 +61,8 @@ export default (): CliPlugin => {
         },
 
         config() {
+          const appContext = api.useAppContext();
+
           testingExportsUtils = createRuntimeExportsUtils(
             appContext.internalDirectory,
             'testing',
@@ -84,6 +83,9 @@ export default (): CliPlugin => {
         },
 
         jestConfig: async (utils, next) => {
+          const appContext = api.useAppContext();
+          const userConfig = api.useResolvedConfigContext();
+
           const apiOnly = await isApiOnly(appContext.appDirectory);
 
           if (apiOnly) {
