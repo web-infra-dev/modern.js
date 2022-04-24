@@ -2,9 +2,10 @@ import fs from '../compiled/fs-extra';
 import chalk from '../compiled/chalk';
 import lodash from '../compiled/lodash';
 import signale from '../compiled/signale';
+import minimist from '../compiled/minimist';
 import { Import } from './import';
 
-export { fs, chalk, lodash, signale };
+export { fs, chalk, lodash, signale, minimist };
 export { program, Command } from '../compiled/commander';
 export { Signale, SignaleOptions } from '../compiled/signale';
 export type { IOptions as GlobOptions } from '../compiled/glob';
