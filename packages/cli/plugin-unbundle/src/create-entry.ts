@@ -52,8 +52,12 @@ const injectScripts = (
   ];
 
   if (isFastRefresh()) {
-    const runtimePath = require.resolve(
-      'react-refresh/cjs/react-refresh-runtime.development.js',
+    const reactFreshEntry = path.dirname(
+      require.resolve('react-refresh/package.json'),
+    );
+    const runtimePath = path.join(
+      reactFreshEntry,
+      'cjs/react-refresh-runtime.development.js',
     );
 
     const reactRefreshCode = fs
