@@ -15,6 +15,11 @@ export const glob: typeof import('../compiled/glob') = Import.lazy(
   require,
 );
 
+export const minimist: typeof import('../compiled/minimist') = Import.lazy(
+  '../compiled/minimist',
+  require,
+);
+
 export const yaml: typeof import('../compiled/js-yaml') = Import.lazy(
   '../compiled/js-yaml',
   require,
