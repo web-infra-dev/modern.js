@@ -30,7 +30,7 @@ export const TASKS: TaskConfig[] = [
       'gzip-size',
       'pkg-up',
       'recursive-readdir',
-      // more dependencies
+      // some dependencies
       'glob',
       'chalk',
       {
@@ -52,6 +52,9 @@ export const TASKS: TaskConfig[] = [
     packageDir: 'cli/core',
     packageName: '@modern-js/core',
     dependencies: [
+      // zero dependency
+      'v8-compile-cache',
+      // some dependencies
       {
         name: 'ajv',
         beforeBundle(task) {

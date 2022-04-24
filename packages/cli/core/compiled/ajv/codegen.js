@@ -1,1 +1,1 @@
-module.exports = require("./").codegen
+module.exports = require('./').codegen;

@@ -270,7 +270,6 @@ importers:
       sass: ^1.45.0
       terser-webpack-plugin: ^5.1.4
       typescript: ^4
-      v8-compile-cache: ^2.3.0
       webpack: ^5.71.0
       webpack-chain: ^6.5.1
     dependencies:
@@ -282,7 +281,6 @@ importers:
       dotenv: 10.0.0
       dotenv-expand: 5.1.0
       esbuild: 0.13.15
-      v8-compile-cache: 2.3.0
     devDependencies:
       '@jest/types': 27.5.1
       '@modern-js/types': link:../../toolkit/types
@@ -4481,6 +4479,7 @@ importers:
       strip-ansi: 6.0.1
       typescript: ^4
       upath: 2.0.1
+      v8-compile-cache: 2.3.0
     dependencies:
       '@modern-js/tsconfig': link:../../packages/review/tsconfig
       '@scripts/build': link:../build
@@ -4520,6 +4519,7 @@ importers:
       signale: 1.4.0
       strip-ansi: 6.0.1
       upath: 2.0.1
+      v8-compile-cache: 2.3.0
 
   tests:
     specifiers:
