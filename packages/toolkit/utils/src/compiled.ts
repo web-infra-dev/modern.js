@@ -41,6 +41,11 @@ export const debug: typeof import('../compiled/debug') = Import.lazy(
   require,
 );
 
+export const address: typeof import('../compiled/address') = Import.lazy(
+  '../compiled/address',
+  require,
+);
+
 export const chokidar: typeof import('../compiled/chokidar') = Import.lazy(
   '../compiled/chokidar',
   require,

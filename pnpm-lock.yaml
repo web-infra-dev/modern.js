@@ -260,7 +260,6 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
-      address: ^1.1.2
       ajv: ^8.6.2
       ajv-keywords: ^5.0.0
       autoprefixer: ^10.3.1
@@ -283,7 +282,6 @@ importers:
       '@modern-js/load-config': link:../../toolkit/load-config
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/utils': link:../../toolkit/utils
-      address: 1.1.2
       ajv: 8.8.2
       ajv-keywords: 5.1.0_ajv@8.8.2
       better-ajv-errors: 1.2.0_ajv@8.8.2
@@ -4466,6 +4464,7 @@ importers:
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4
       '@vercel/ncc': 0.33.3
+      address: 1.1.2
       browserslist: 4.20.2
       chalk: 4.1.2
       chokidar: 3.5.3
@@ -4504,6 +4503,7 @@ importers:
       '@types/minimist': 1.2.2
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4
+      address: 1.1.2
       browserslist: 4.20.2
       chalk: 4.1.2
       chokidar: 3.5.3
@@ -26505,7 +26505,7 @@ packages:
       jest-util: 27.4.2
       jest-validate: 27.4.2
       micromatch: 4.0.4
-      pretty-format: 27.4.2
+      pretty-format: 27.5.1
       slash: 3.0.0
       ts-node: 10.4.0_872ff86d573dc12b01711ea7d61300e3
     transitivePeerDependencies:

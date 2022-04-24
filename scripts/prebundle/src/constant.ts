@@ -39,6 +39,7 @@ export const TASKS: Task[] = [
     packageName: '@modern-js/utils',
     dependencies: [
       // zero dependency
+      'address',
       'lodash',
       'upath',
       'filesize',
