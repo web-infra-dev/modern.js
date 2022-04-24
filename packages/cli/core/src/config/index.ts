@@ -1,6 +1,4 @@
 import { loadConfig } from '@modern-js/load-config';
-import Ajv, { ErrorObject } from 'ajv';
-import ajvKeywords from 'ajv-keywords';
 import {
   signale as logger,
   createDebugger,
@@ -11,9 +9,11 @@ import {
   getServerConfig,
 } from '@modern-js/utils';
 import { mergeWith } from '@modern-js/utils/lodash';
-import betterAjvErrors from 'better-ajv-errors';
 import { codeFrameColumns } from '@babel/code-frame';
 
+import Ajv, { ErrorObject } from '../../compiled/ajv';
+import ajvKeywords from '../../compiled/ajv-keywords';
+import betterAjvErrors from '../../compiled/better-ajv-errors';
 import { repeatKeyWarning } from '../utils/repeatKeyWarning';
 import { defaults } from './defaults';
 import { mergeConfig, NormalizedConfig } from './mergeConfig';

@@ -2,7 +2,8 @@ import { join } from 'path';
 import ncc from '@vercel/ncc';
 import { Package as DtsPacker } from 'dts-packer';
 import fs from 'fs-extra';
-import { ParsedTask, pick, replaceFileContent } from './helper';
+import { pick, replaceFileContent } from './helper';
+import type { ParsedTask } from './types';
 
 function emitAssets(
   assets: Record<string, { source: string }>,
@@ -98,8 +99,11 @@ function emitExtraFiles(task: ParsedTask) {
 export async function prebundle(task: ParsedTask) {
   console.log(`==== Start prebundle "${task.depName}" ====`);
 
-  const entry = require.resolve(task.depName);
-  const { code, assets } = await ncc(entry, {
+  if (task.beforeBundle) {
+    await task.beforeBundle(task);
+  }
+
+  const { code, assets } = await ncc(task.depEntry, {
     minify: task.minify,
     externals: task.externals,
     assetBuilds: false,

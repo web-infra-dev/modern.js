@@ -1,39 +1,16 @@
 import { join } from 'path';
+import { replaceFileContent } from './helper';
+import type { TaskConfig } from './types';
 
 export const ROOT_DIR = join(__dirname, '..', '..', '..');
 export const PACKAGES_DIR = join(ROOT_DIR, 'packages');
 export const DIST_DIR = 'compiled';
 
-export type ImportMap = {
-  path: string;
-  content: string;
-};
-
-type Task = {
-  packageDir: string;
-  packageName: string;
-  dependencies: Array<
-    | string
-    | {
-        /** Name of dependency */
-        name: string;
-        /** Whether to minify the code. */
-        minify?: boolean;
-        /** External some sub-dependencies. */
-        externals?: Record<string, string>;
-        /** Extra entry files to map imports */
-        emitFiles?: ImportMap[];
-        /** Copy fields from original package.json to target package.json. */
-        packageJsonField?: string[];
-      }
-  >;
-};
-
 /**
  * 1. 优先打「零依赖」的包，使 externals 能更好地生效
  * 2. 预打包的依赖请锁死到固定版本
  */
-export const TASKS: Task[] = [
+export const TASKS: TaskConfig[] = [
   {
     packageDir: 'toolkit/utils',
     packageName: '@modern-js/utils',
@@ -69,6 +46,41 @@ export const TASKS: Task[] = [
       'fs-extra',
       'browserslist',
       'chokidar',
+    ],
+  },
+  {
+    packageDir: 'cli/core',
+    packageName: '@modern-js/core',
+    dependencies: [
+      {
+        name: 'ajv',
+        beforeBundle(task) {
+          replaceFileContent(
+            task.depEntry,
+            content =>
+              `${content}\nexports.codegen = require("./compile/codegen");`,
+          );
+        },
+        emitFiles: [
+          {
+            path: 'codegen.js',
+            content: `module.exports = require('./').codegen;`,
+          },
+        ],
+      },
+      {
+        name: 'ajv-keywords',
+        externals: {
+          ajv: '../ajv',
+          'ajv/dist/compile/codegen': '../ajv/codegen',
+        },
+      },
+      {
+        name: 'better-ajv-errors',
+        externals: {
+          ajv: '../ajv',
+        },
+      },
     ],
   },
 ];
