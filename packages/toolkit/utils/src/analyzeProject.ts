@@ -1,6 +1,5 @@
 import * as path from 'path';
-import minimist from 'minimist';
-import { fs } from './compiled';
+import { fs, minimist } from './compiled';
 
 export const isApiOnly = async (appDirectory: string): Promise<boolean> => {
   const srcDir = path.join(appDirectory, 'src');

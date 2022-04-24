@@ -890,7 +890,6 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/cross-spawn': ^6.0.2
       '@types/jest': ^26
-      '@types/minimist': ^1.2.2
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -912,7 +911,6 @@ importers:
       husky: ^3
       jest: ^27
       lint-staged: ^11.2.3
-      minimist: ^1.2.0
       prettier: ^2.3.2
       typescript: ^4
     dependencies:
@@ -924,7 +922,6 @@ importers:
       '@modern-js/eslint-config': link:../../review/eslint-config
       '@modern-js/tsconfig': link:../../review/tsconfig
       '@modern-js/utils': link:../../toolkit/utils
-      '@types/minimist': 1.2.2
       '@typescript-eslint/eslint-plugin': 5.17.0_2de05dc4f6e006e27551942a75536f07
       '@typescript-eslint/parser': 5.17.0_eslint@7.32.0+typescript@4.5.4
       cross-spawn: 7.0.3
@@ -942,7 +939,6 @@ importers:
       eslint-plugin-react-hooks: 4.3.0_eslint@7.32.0
       husky: 3.1.0
       lint-staged: 11.2.6
-      minimist: 1.2.5
       prettier: 2.5.1
     devDependencies:
       '@modern-js/core': link:../core
@@ -4393,77 +4389,23 @@ importers:
       '@modern-js/types': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/debug': 4.1.7
-      '@types/fs-extra': 9.0.13
-      '@types/glob': ^7.1.4
       '@types/jest': ^26
-      '@types/js-yaml': 4.0.5
-      '@types/lodash': 4.14.181
-      '@types/minimist': ^1.2.2
       '@types/node': ^14
-      '@types/recursive-readdir': 2.2.0
-      '@types/signale': 1.4.4
-      browserslist: 4.20.2
-      chalk: 4.1.2
-      chokidar: 3.5.3
-      commander: 8.3.0
-      debug: 4.3.4
       esbuild: ^0.13.13
-      execa: 5.1.1
-      filesize: 8.0.7
-      fs-extra: 10.0.1
-      glob: 7.2.0
-      gzip-size: 6.0.0
-      import-lazy: 4.0.0
       jest: ^27
-      js-yaml: 4.1.0
-      lodash: 4.17.21
-      minimist: ^1.2.0
-      pkg-up: 3.1.0
-      recursive-readdir: 2.2.2
-      signale: 1.4.0
-      strip-ansi: 6.0.1
       typescript: ^4
-      upath: 2.0.1
       webpack: ^5.71.0
     dependencies:
       '@babel/runtime': 7.16.7
       esbuild: 0.13.15
-      minimist: 1.2.5
       typescript: 4.5.4
     devDependencies:
       '@modern-js/types': link:../types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/debug': 4.1.7
-      '@types/fs-extra': 9.0.13
-      '@types/glob': 7.2.0
       '@types/jest': 26.0.24
-      '@types/js-yaml': 4.0.5
-      '@types/lodash': 4.14.181
-      '@types/minimist': 1.2.2
       '@types/node': 14.18.4
-      '@types/recursive-readdir': 2.2.0
-      '@types/signale': 1.4.4
-      browserslist: 4.20.2
-      chalk: 4.1.2
-      chokidar: 3.5.3
-      commander: 8.3.0
-      debug: 4.3.4
-      execa: 5.1.1
-      filesize: 8.0.7
-      fs-extra: 10.0.1
-      glob: 7.2.0
-      gzip-size: 6.0.0
-      import-lazy: 4.0.0
       jest: 27.4.5
-      js-yaml: 4.1.0
-      lodash: 4.17.21
-      pkg-up: 3.1.0
-      recursive-readdir: 2.2.2
-      signale: 1.4.0
-      strip-ansi: 6.0.1
-      upath: 2.0.1
       webpack: 5.71.0_esbuild@0.13.15
 
   scripts/build:
@@ -4512,13 +4454,38 @@ importers:
     specifiers:
       '@modern-js/tsconfig': workspace:*
       '@scripts/build': workspace:*
+      '@types/debug': 4.1.7
       '@types/fs-extra': ^9.0.13
+      '@types/glob': 7.2.0
+      '@types/js-yaml': 4.0.5
+      '@types/lodash': 4.14.181
+      '@types/minimist': 1.2.2
       '@types/node': ^14
+      '@types/recursive-readdir': 2.2.0
+      '@types/signale': 1.4.4
       '@vercel/ncc': 0.33.3
+      browserslist: 4.20.2
+      chalk: 4.1.2
+      chokidar: 3.5.3
+      commander: 8.3.0
+      debug: 4.3.4
       dts-packer: 0.0.3
+      execa: 5.1.1
+      filesize: 8.0.7
       fs-extra: ^10.0.0
+      glob: 7.2.0
+      gzip-size: 6.0.0
+      import-lazy: 4.0.0
+      js-yaml: 4.1.0
+      lodash: 4.17.21
+      minimist: 1.2.6
+      pkg-up: 3.1.0
+      recursive-readdir: 2.2.2
+      signale: 1.4.0
+      strip-ansi: 6.0.1
       typescript: ^4
-    devDependencies:
+      upath: 2.0.1
+    dependencies:
       '@modern-js/tsconfig': link:../../packages/review/tsconfig
       '@scripts/build': link:../build
       '@types/fs-extra': 9.0.13
@@ -4527,6 +4494,32 @@ importers:
       dts-packer: 0.0.3
       fs-extra: 10.0.1
       typescript: 4.5.4
+    devDependencies:
+      '@types/debug': 4.1.7
+      '@types/glob': 7.2.0
+      '@types/js-yaml': 4.0.5
+      '@types/lodash': 4.14.181
+      '@types/minimist': 1.2.2
+      '@types/recursive-readdir': 2.2.0
+      '@types/signale': 1.4.4
+      browserslist: 4.20.2
+      chalk: 4.1.2
+      chokidar: 3.5.3
+      commander: 8.3.0
+      debug: 4.3.4
+      execa: 5.1.1
+      filesize: 8.0.7
+      glob: 7.2.0
+      gzip-size: 6.0.0
+      import-lazy: 4.0.0
+      js-yaml: 4.1.0
+      lodash: 4.17.21
+      minimist: 1.2.6
+      pkg-up: 3.1.0
+      recursive-readdir: 2.2.2
+      signale: 1.4.0
+      strip-ansi: 6.0.1
+      upath: 2.0.1
 
   tests:
     specifiers:
@@ -14907,7 +14900,6 @@ packages:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
       '@types/node': 17.0.21
-    dev: true
 
   /@types/get-port/3.2.0:
     resolution: {integrity: sha512-TiNg8R1kjDde5Pub9F9vCwZA/BNW9HeXP5b9j7Qucqncy/McfPZ6xze/EyBdXS5FhMIGN6Fx3vg75l5KHy3V1Q==}
@@ -14928,7 +14920,7 @@ packages:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
       '@types/minimatch': 3.0.5
-      '@types/node': 14.18.4
+      '@types/node': 17.0.21
 
   /@types/graceful-fs/4.1.5:
     resolution: {integrity: sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==}
@@ -15859,7 +15851,7 @@ packages:
     hasBin: true
     dependencies:
       esbuild: 0.13.15
-    dev: true
+    dev: false
 
   /@webassemblyjs/ast/1.11.1:
     resolution: {integrity: sha512-ukBh14qFLjxTQNTXocdyksN5QdM28S1CxHt2rdskFyL+xFV7VremuBLVbmCePj+URalXBENx/9Lm7lnhihtCSw==}
@@ -21203,7 +21195,7 @@ packages:
       resolve: 1.20.0
       semver: 7.3.5
       yargs-parser: 20.2.9
-    dev: true
+    dev: false
 
   /duplexer/0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
@@ -25709,6 +25701,7 @@ packages:
     resolution: {integrity: sha512-vd15qHsaqrRL7dtH6QNuy0ndJmRDrS9HAM1CAiSifNUFv4x1a0CCVsj18hJ1mShxIG6T2i1sO78MkP56r0nYRw==}
     dependencies:
       has: 1.0.3
+    dev: false
 
   /is-core-module/2.8.1:
     resolution: {integrity: sha512-SdNCUs284hr40hFTFP6l0IfZ/RSrMXF3qgoRHd3/79unUTvrFO/JoXwkGm+5J/Oe3E/b5GsnG330uUNgRpu1PA==}
@@ -29105,6 +29098,10 @@ packages:
 
   /minimist/1.2.5:
     resolution: {integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==}
+
+  /minimist/1.2.6:
+    resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
+    dev: true
 
   /minipass-collect/1.0.2:
     resolution: {integrity: sha512-6T6lH0H8OG9kITm/Jm6tdooIbogG9e0tLgpY6mphXSm/A9u8Nq1ryBG+Qspiub9LjWlBPsPS3tWQ/Botq4FdxA==}
@@ -34182,7 +34179,7 @@ packages:
     dependencies:
       is-core-module: 2.8.1
       path-parse: 1.0.7
-    dev: true
+    dev: false
 
   /resolve/1.22.0:
     resolution: {integrity: sha512-Hhtrw0nLeSrFQ7phPp4OOcVjLPIeMnRlr5mcnVuMe7M/7eBn98A3hmFRLoFo3DLZkivSYwhRUJTyPyWAk56WLw==}

@@ -47,7 +47,6 @@
     "@modern-js/eslint-config": "workspace:^1.2.4",
     "@modern-js/tsconfig": "workspace:^1.2.0",
     "@modern-js/utils": "workspace:^1.5.0",
-    "@types/minimist": "^1.2.2",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
     "cross-spawn": "^7.0.1",
@@ -65,7 +64,6 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^3",
     "lint-staged": "^11.2.3",
-    "minimist": "^1.2.0",
     "prettier": "^2.3.2"
   },
   "devDependencies": {
