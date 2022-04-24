@@ -8,7 +8,7 @@ class TestConfigOperator {
 
   private readonly userJestConfig: any;
 
-  private readonly defualtTestConfig: TestConfig = {
+  private readonly defaultTestConfig: TestConfig = {
     transformer: 'babel-jest',
   };
 
@@ -20,7 +20,7 @@ class TestConfigOperator {
   }
 
   private initial() {
-    this._testConfig = merge({}, this.defualtTestConfig, this.testConfig);
+    this._testConfig = merge({}, this.defaultTestConfig, this.testConfig);
   }
 
   get jestConfig() {
