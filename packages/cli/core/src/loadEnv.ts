@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import dotenv from 'dotenv';
-import dotenvExpand from 'dotenv-expand';
+import { dotenv, dotenvExpand } from '@modern-js/utils';
 
 export const loadEnv = (
   appDirectory: string,
