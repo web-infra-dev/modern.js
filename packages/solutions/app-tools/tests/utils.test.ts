@@ -1,4 +1,3 @@
-import inquirer from 'inquirer';
 import { Server } from '@modern-js/server';
 import {
   closeServer,
@@ -7,6 +6,18 @@ import {
 } from '../src/utils/createServer';
 import { getSpecifiedEntries } from '../src/utils/getSpecifiedEntries';
 import { safeReplacer } from '../src/utils/config';
+
+jest.mock('@modern-js/utils', () => ({
+  __esModule: true,
+  ...jest.requireActual('@modern-js/utils'),
+  inquirer: {
+    prompt() {
+      return {
+        selected: ['b'],
+      };
+    },
+  },
+}));
 
 describe('test app-tools utils', () => {
   it('should return all entryNames correctly', async () => {
@@ -28,7 +39,6 @@ describe('test app-tools utils', () => {
   });
 
   it('should return select entry', async () => {
-    inquirer.prompt = jest.fn().mockResolvedValue({ selected: ['b'] }) as any;
     const checked = await getSpecifiedEntries(true, [
       { entryName: 'a' },
       { entryName: 'b' },

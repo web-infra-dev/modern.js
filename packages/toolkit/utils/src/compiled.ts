@@ -11,6 +11,11 @@ export { Signale, SignaleOptions } from '../compiled/signale';
 export type { IOptions as GlobOptions } from '../compiled/glob';
 export type { FSWatcher, WatchOptions } from '../compiled/chokidar';
 
+export const ora: typeof import('../compiled/ora') = Import.lazy(
+  '../compiled/ora',
+  require,
+);
+
 export const glob: typeof import('../compiled/glob') = Import.lazy(
   '../compiled/glob',
   require,
@@ -48,6 +53,11 @@ export const address: typeof import('../compiled/address') = Import.lazy(
 
 export const dotenv: typeof import('../compiled/dotenv') = Import.lazy(
   '../compiled/dotenv',
+  require,
+);
+
+export const inquirer: typeof import('../compiled/inquirer') = Import.lazy(
+  '../compiled/inquirer',
   require,
 );
 

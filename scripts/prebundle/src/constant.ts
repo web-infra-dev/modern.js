@@ -48,6 +48,21 @@ export const TASKS: TaskConfig[] = [
       'fs-extra',
       'browserslist',
       'chokidar',
+      {
+        name: 'ora',
+        externals: {
+          chalk: '../chalk',
+          'strip-ansi': '../strip-ansi',
+        },
+      },
+      {
+        name: 'inquirer',
+        externals: {
+          ora: '../ora',
+          chalk: '../chalk',
+          'strip-ansi': '../strip-ansi',
+        },
+      },
     ],
   },
   {
