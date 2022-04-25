@@ -373,11 +373,9 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__traverse': ^7.14.2
-      '@types/clone': ^2.1.1
       '@types/jest': ^26
       '@types/node': ^14
       '@types/url-join': ^4.0.1
-      clone: ^2.1.2
       jest: ^27
       typescript: ^4
       url-join: ^4.0.1
@@ -389,7 +387,6 @@ importers:
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/utils': link:../../toolkit/utils
       '@rollup/pluginutils': 4.1.2
-      clone: 2.1.2
       url-join: 4.0.1
     devDependencies:
       '@modern-js/core': link:../core
@@ -397,7 +394,6 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__traverse': 7.14.2
-      '@types/clone': 2.1.1
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
       '@types/url-join': 4.0.1
@@ -14687,10 +14683,6 @@ packages:
     resolution: {integrity: sha512-6ckxMjBBD8URvjB6J3NcnuAn5Pkl7t3TizAg+xdlzzQGSPSmBcXf8KoIH0ua/i+tio+ZRUHEXp0HEmvaR4kt0w==}
     dev: false
 
-  /@types/clone/2.1.1:
-    resolution: {integrity: sha512-BZIU34bSYye0j/BFcPraiDZ5ka6MJADjcDVELGf7glr9K+iE8NYVjFslJFVWzskSxkLLyCrSPScE82/UUoBSvg==}
-    dev: true
-
   /@types/color-convert/2.0.0:
     resolution: {integrity: sha512-m7GG7IKKGuJUXvkZ1qqG3ChccdIM/qBBo913z+Xft0nKCX4hAU/IxKwZBU4cpRZ7GS5kV4vOblUkILtSShCPXQ==}
     dependencies:
@@ -18940,11 +18932,6 @@ packages:
   /clone/1.0.4:
     resolution: {integrity: sha1-2jCcwmPfFZlMaIypAheco8fNfH4=}
     engines: {node: '>=0.8'}
-
-  /clone/2.1.2:
-    resolution: {integrity: sha1-G39Ln1kfHo+DZwQBYANFoCiHQ18=}
-    engines: {node: '>=0.8'}
-    dev: false
 
   /clsx/1.1.1:
     resolution: {integrity: sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==}
