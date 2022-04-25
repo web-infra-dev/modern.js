@@ -56,6 +56,13 @@ export const TASKS: TaskConfig[] = [
       'fs-extra',
       'browserslist',
       'chokidar',
+      'fast-glob',
+      {
+        name: 'globby',
+        externals: {
+          'fast-glob': '../fast-glob',
+        },
+      },
       {
         name: 'ora',
         externals: {

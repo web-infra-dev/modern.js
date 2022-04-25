@@ -4,12 +4,12 @@ import {
   getMonorepoPackages,
   findMonorepoRoot,
   fs,
+  fastGlob,
   createDebugger,
   isTypescript,
   applyOptionsChain,
 } from '@modern-js/utils';
 import { parse, init } from 'es-module-lexer';
-import glob from 'fast-glob';
 import { loadConfig } from 'tsconfig-paths';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { LexerParseResult } from '../plugins/import-rewrite';
@@ -140,7 +140,7 @@ const scanFiles = async (
 
   seen.set(dir, true);
 
-  const files = await glob(
+  const files = await fastGlob(
     ['.js', '.ts', '.jsx', '.tsx'].map(ext => `./src/**/*${ext}`),
     {
       cwd: dir,

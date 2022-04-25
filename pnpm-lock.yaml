@@ -4410,9 +4410,11 @@ importers:
       dotenv-expand: 5.1.0
       dts-packer: 0.0.3
       execa: 5.1.1
+      fast-glob: 3.2.11
       filesize: 8.0.7
       fs-extra: ^10.0.0
       glob: 7.2.0
+      globby: 11.1.0
       gzip-size: 6.0.0
       import-lazy: 4.0.0
       inquirer: 8.2.2
@@ -4462,8 +4464,10 @@ importers:
       dotenv: 10.0.0
       dotenv-expand: 5.1.0
       execa: 5.1.1
+      fast-glob: 3.2.11
       filesize: 8.0.7
       glob: 7.2.0
+      globby: 11.1.0
       gzip-size: 6.0.0
       import-lazy: 4.0.0
       inquirer: 8.2.2
@@ -23145,6 +23149,17 @@ packages:
       merge2: 1.4.1
       micromatch: 3.1.10
 
+  /fast-glob/3.2.11:
+    resolution: {integrity: sha512-xrO3+1bxSo3ZVHAnqzyuewYT6aMFHRAd4Kcs92MAonjwQZLsK9d0SF1IyQ3k5PoirxTW0Oe/RqFgMQ6TcNE5Ew==}
+    engines: {node: '>=8.6.0'}
+    dependencies:
+      '@nodelib/fs.stat': 2.0.5
+      '@nodelib/fs.walk': 1.2.8
+      glob-parent: 5.1.2
+      merge2: 1.4.1
+      micromatch: 4.0.4
+    dev: true
+
   /fast-glob/3.2.7:
     resolution: {integrity: sha512-rYGMRwip6lUMvYD3BTScMwT1HtAs2d71SMv66Vrxs0IekGZEjhM0pcMfjQPnknBt2zeCwQMEupiN02ZP4DiT1Q==}
     engines: {node: '>=8'}
@@ -24356,6 +24371,18 @@ packages:
       ignore: 5.2.0
       merge2: 1.4.1
       slash: 3.0.0
+
+  /globby/11.1.0:
+    resolution: {integrity: sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g==}
+    engines: {node: '>=10'}
+    dependencies:
+      array-union: 2.1.0
+      dir-glob: 3.0.1
+      fast-glob: 3.2.11
+      ignore: 5.2.0
+      merge2: 1.4.1
+      slash: 3.0.0
+    dev: true
 
   /globby/12.2.0:
     resolution: {integrity: sha512-wiSuFQLZ+urS9x2gGPl1H5drc5twabmm4m2gTR27XDFyjUHJUNsS8o/2aKyIF6IoBaR630atdher0XJ5g6OMmA==}

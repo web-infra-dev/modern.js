@@ -9,6 +9,7 @@ export { fs, chalk, lodash, signale, minimist };
 export { program, Command } from '../compiled/commander';
 export { Signale, SignaleOptions } from '../compiled/signale';
 export type { IOptions as GlobOptions } from '../compiled/glob';
+export type { GlobbyOptions } from '../compiled/globby';
 export type { FSWatcher, WatchOptions } from '../compiled/chokidar';
 
 export const ora: typeof import('../compiled/ora') = Import.lazy(
@@ -18,6 +19,16 @@ export const ora: typeof import('../compiled/ora') = Import.lazy(
 
 export const glob: typeof import('../compiled/glob') = Import.lazy(
   '../compiled/glob',
+  require,
+);
+
+export const fastGlob: typeof import('../compiled/fast-glob') = Import.lazy(
+  '../compiled/fast-glob',
+  require,
+);
+
+export const globby: typeof import('../compiled/globby') = Import.lazy(
+  '../compiled/globby',
   require,
 );
 
