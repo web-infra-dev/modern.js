@@ -1,6 +1,5 @@
 ---
 sidebar_label: cssPath
-sidebar_position: 20
 ---
 
 # `output.cssPath`

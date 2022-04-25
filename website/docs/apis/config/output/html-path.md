@@ -1,6 +1,5 @@
 ---
 sidebar_label: htmlPath
-sidebar_position: 22
 ---
 # `output.htmlPath`
 
