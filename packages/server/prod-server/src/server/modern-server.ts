@@ -7,7 +7,7 @@ import { Adapter, APIServerStartInput } from '@modern-js/server-core';
 import type { NormalizedConfig } from '@modern-js/core';
 import mime from 'mime-types';
 import axios from 'axios';
-import clone from 'lodash.clone';
+import { clone } from '@modern-js/utils/lodash';
 import {
   ModernServerOptions,
   NextFunction,
