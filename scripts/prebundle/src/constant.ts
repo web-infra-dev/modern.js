@@ -81,7 +81,6 @@ export const TASKS: TaskConfig[] = [
       // some dependencies
       {
         name: 'ajv',
-        minify: false,
         beforeBundle(task) {
           replaceFileContent(task.depEntry, content => {
             const addExports = `exports.codegen = require("./compile/codegen");`;
