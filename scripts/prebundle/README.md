@@ -37,7 +37,7 @@ const TASKS: TaskConfig[] = [
 import foo from 'foo';
 
 // New
-import foo from '../compiled/foo;
+import foo from '../compiled/foo';
 ```
 
 ## Dependency Config
