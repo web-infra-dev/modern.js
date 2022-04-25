@@ -3,7 +3,6 @@ import { compatRequire, fs, DEFAULT_SERVER_CONFIG } from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
 import type { ServerConfig } from '@modern-js/server-core';
 import mergeDeep from 'merge-deep';
-import { debug } from '../utils';
 
 export const getServerConfigPath = (
   distDirectory: string,
@@ -15,12 +14,7 @@ export const getServerConfigPath = (
 
 export const requireConfig = (serverConfigPath: string) => {
   if (fs.pathExistsSync(serverConfigPath)) {
-    try {
-      return compatRequire(serverConfigPath);
-    } catch (error) {
-      debug(error);
-      return {};
-    }
+    return compatRequire(serverConfigPath);
   }
 
   return {};
