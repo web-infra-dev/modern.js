@@ -31,6 +31,11 @@ export const execa: typeof import('../compiled/execa') = Import.lazy(
   require,
 );
 
+export const urlJoin: typeof import('../compiled/url-join') = Import.lazy(
+  '../compiled/url-join',
+  require,
+);
+
 export const pkgUp: typeof import('../compiled/pkg-up') = Import.lazy(
   '../compiled/pkg-up',
   require,

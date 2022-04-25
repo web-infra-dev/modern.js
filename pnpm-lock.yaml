@@ -375,10 +375,8 @@ importers:
       '@types/babel__traverse': ^7.14.2
       '@types/jest': ^26
       '@types/node': ^14
-      '@types/url-join': ^4.0.1
       jest: ^27
       typescript: ^4
-      url-join: ^4.0.1
     dependencies:
       '@babel/parser': 7.16.8
       '@babel/runtime': 7.16.7
@@ -387,7 +385,6 @@ importers:
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/utils': link:../../toolkit/utils
       '@rollup/pluginutils': 4.1.2
-      url-join: 4.0.1
     devDependencies:
       '@modern-js/core': link:../core
       '@modern-js/types': link:../../toolkit/types
@@ -396,7 +393,6 @@ importers:
       '@types/babel__traverse': 7.14.2
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
-      '@types/url-join': 4.0.1
       jest: 27.4.5
       typescript: 4.5.4
 
@@ -4420,6 +4416,7 @@ importers:
       '@types/node': ^14
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4
+      '@types/url-join': 4.0.1
       '@vercel/ncc': 0.33.3
       address: 1.1.2
       ajv: 8.11.0
@@ -4450,6 +4447,7 @@ importers:
       strip-ansi: 6.0.1
       typescript: ^4
       upath: 2.0.1
+      url-join: 4.0.1
       v8-compile-cache: 2.3.0
     dependencies:
       '@modern-js/tsconfig': link:../../packages/review/tsconfig
@@ -4469,6 +4467,7 @@ importers:
       '@types/minimist': 1.2.2
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4
+      '@types/url-join': 4.0.1
       address: 1.1.2
       ajv: 8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
@@ -4495,6 +4494,7 @@ importers:
       signale: 1.4.0
       strip-ansi: 6.0.1
       upath: 2.0.1
+      url-join: 4.0.1
       v8-compile-cache: 2.3.0
 
   tests:
@@ -37457,7 +37457,7 @@ packages:
 
   /url-join/4.0.1:
     resolution: {integrity: sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==}
-    dev: false
+    dev: true
 
   /url-loader/4.1.1:
     resolution: {integrity: sha512-3BTV812+AVHHOJQO8O5MkWgZ5aosP7GnROJwvzLS9hWDj00lZ6Z0wNak423Lp9PBZN05N+Jk/N5Si8jRAlGyWA==}

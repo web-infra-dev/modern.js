@@ -25,6 +25,7 @@ export const TASKS: TaskConfig[] = [
       'import-lazy',
       'dotenv',
       'dotenv-expand',
+      'url-join',
       // a few dependencies
       'debug',
       'js-yaml',

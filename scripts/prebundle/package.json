@@ -28,6 +28,7 @@
     "@types/minimist": "1.2.2",
     "@types/recursive-readdir": "2.2.0",
     "@types/signale": "1.4.4",
+    "@types/url-join": "4.0.1",
     "address": "1.1.2",
     "ajv": "8.11.0",
     "ajv-keywords": "5.1.0",
@@ -55,7 +56,8 @@
     "signale": "1.4.0",
     "strip-ansi": "6.0.1",
     "v8-compile-cache": "2.3.0",
-    "upath": "2.0.1"
+    "upath": "2.0.1",
+    "url-join": "4.0.1"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
