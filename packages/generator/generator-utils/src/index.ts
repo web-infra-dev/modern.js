@@ -1,13 +1,13 @@
 import path from 'path';
 import {
   fs,
+  ora,
   execa,
   getMonorepoPackages,
   canUseNpm,
   canUsePnpm,
   canUseYarn,
 } from '@modern-js/utils';
-import ora from 'ora';
 import { GeneratorContext } from '@modern-js/codesmith';
 import { stripAnsi } from './utils/strip-ansi';
 import { i18n, localeKeys } from './locale';
