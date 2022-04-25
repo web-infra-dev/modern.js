@@ -462,18 +462,15 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26.0.9
-      '@types/mime-types': ^2.1.1
       '@types/node': ^14
       '@types/walk': ^2.3.1
       cos-nodejs-sdk-v5: ^2.10.10
       jest: ^27
-      mime-types: ^2.1.34
       typescript: ^4
       walk: ^2.3.15
     dependencies:
       '@modern-js/utils': link:../../toolkit/utils
       cos-nodejs-sdk-v5: 2.11.6
-      mime-types: 2.1.34
       walk: 2.3.15
     devDependencies:
       '@babel/runtime': 7.16.7
@@ -482,7 +479,6 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
-      '@types/mime-types': 2.1.1
       '@types/node': 14.18.4
       '@types/walk': 2.3.1
       jest: 27.4.5
@@ -1673,7 +1669,6 @@ importers:
       '@types/koa-compress': ^4.0.1
       '@types/koa-static': ^4.0.1
       '@types/less': ^3.0.2
-      '@types/mime-types': ^2.1.0
       '@types/node': ^16.9.2
       '@types/semver': ^7.3.4
       '@types/strip-comments': ^2.0.0
@@ -1700,7 +1695,6 @@ importers:
       less: ^4.1.1
       magic-string: ^0.25.7
       merge-source-map: ^1.1.0
-      mime-types: ^2.1.29
       node-fetch: ^2.6.5
       portfinder: ^1.0.28
       postcss: ^8
@@ -1752,7 +1746,6 @@ importers:
       less: 4.1.2
       magic-string: 0.25.7
       merge-source-map: 1.1.0
-      mime-types: 2.1.34
       node-fetch: 2.6.6
       postcss: 8.4.5
       postcss-modules: 4.3.0_postcss@8.4.5
@@ -1781,7 +1774,6 @@ importers:
       '@types/koa-compress': 4.0.3
       '@types/koa-static': 4.0.2
       '@types/less': 3.0.3
-      '@types/mime-types': 2.1.1
       '@types/node': 16.11.18
       '@types/semver': 7.3.9
       '@types/strip-comments': 2.0.1
@@ -3446,25 +3438,24 @@ importers:
       '@modern-js/polyfill-lib': ^1.0.0
       '@modern-js/server-core': workspace:*
       '@modern-js/types': workspace:*
+      '@modern-js/utils': workspace:^1.5.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
       '@types/lru-cache': ^5.1.1
-      '@types/mime-types': ^2.1.1
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
       '@types/ua-parser-js': ^0.7.36
       jest: ^27
       lru-cache: ^6.0.0
-      mime-types: ^2.1.32
       typescript: ^4
       ua-parser-js: ^0.7.28
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/polyfill-lib': 1.0.2_@types+node@14.18.4
+      '@modern-js/utils': link:../../toolkit/utils
       lru-cache: 6.0.0
-      mime-types: 2.1.34
       ua-parser-js: 0.7.31
     devDependencies:
       '@modern-js/core': link:../../cli/core
@@ -3474,7 +3465,6 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
       '@types/lru-cache': 5.1.1
-      '@types/mime-types': 2.1.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -3528,7 +3518,6 @@ importers:
       '@types/jest': ^26.0.9
       '@types/lru-cache': ^5.1.1
       '@types/merge-deep': ^3.0.0
-      '@types/mime-types': ^2.1.0
       '@types/node': ^14
       '@types/serve-static': ^1.13.10
       '@types/ua-parser-js': ^0.7.36
@@ -3541,7 +3530,6 @@ importers:
       jest: ^27
       lru-cache: ^6.0.0
       merge-deep: ^3.0.3
-      mime-types: ^2.1.32
       node-mocks-http: ^1.11.0
       path-to-regexp: ^6.2.0
       portfinder: ^1.0.28
@@ -3559,7 +3547,6 @@ importers:
       ignore-styles: 5.0.1
       lru-cache: 6.0.0
       merge-deep: 3.0.3
-      mime-types: 2.1.34
       path-to-regexp: 6.2.0
       serve-static: 1.14.2
       ua-parser-js: 0.7.31
@@ -3572,7 +3559,6 @@ importers:
       '@types/jest': 26.0.24
       '@types/lru-cache': 5.1.1
       '@types/merge-deep': 3.0.0
-      '@types/mime-types': 2.1.1
       '@types/node': 14.18.4
       '@types/serve-static': 1.13.10
       '@types/ua-parser-js': 0.7.36
@@ -4404,6 +4390,7 @@ importers:
       '@types/inquirer': 8.2.1
       '@types/js-yaml': 4.0.5
       '@types/lodash': 4.14.181
+      '@types/mime-types': 2.1.1
       '@types/minimist': 1.2.2
       '@types/node': ^14
       '@types/recursive-readdir': 2.2.0
@@ -4432,6 +4419,7 @@ importers:
       js-yaml: 4.1.0
       json5: 2.2.0
       lodash: 4.17.21
+      mime-types: 2.1.35
       minimist: 1.2.6
       ora: 5.4.1
       pkg-up: 3.1.0
@@ -4457,6 +4445,7 @@ importers:
       '@types/inquirer': 8.2.1
       '@types/js-yaml': 4.0.5
       '@types/lodash': 4.14.181
+      '@types/mime-types': 2.1.1
       '@types/minimist': 1.2.2
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4
@@ -4481,6 +4470,7 @@ importers:
       js-yaml: 4.1.0
       json5: 2.2.0
       lodash: 4.17.21
+      mime-types: 2.1.35
       minimist: 1.2.6
       ora: 5.4.1
       pkg-up: 3.1.0
@@ -28931,6 +28921,11 @@ packages:
     resolution: {integrity: sha512-5y8A56jg7XVQx2mbv1lu49NR4dokRnhZYTtL+KGfaa27uq4pSTXkwQkFJl4pkRMyNFz/EtYDSkiiEHx3F7UN6g==}
     engines: {node: '>= 0.6'}
 
+  /mime-db/1.52.0:
+    resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
+    engines: {node: '>= 0.6'}
+    dev: true
+
   /mime-types/2.1.18:
     resolution: {integrity: sha512-lc/aahn+t4/SWV/qcmumYjymLsWfN3ELhpmVuUFjgsORruuZPVSwAQryq+HHGvO/SI2KVX26bx+En+zhM8g8hQ==}
     engines: {node: '>= 0.6'}
@@ -28942,6 +28937,13 @@ packages:
     engines: {node: '>= 0.6'}
     dependencies:
       mime-db: 1.51.0
+
+  /mime-types/2.1.35:
+    resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
+    engines: {node: '>= 0.6'}
+    dependencies:
+      mime-db: 1.52.0
+    dev: true
 
   /mime/1.6.0:
     resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}

@@ -21,6 +21,11 @@ export const glob: typeof import('../compiled/glob') = Import.lazy(
   require,
 );
 
+export const mime: typeof import('../compiled/mime-types') = Import.lazy(
+  '../compiled/mime-types',
+  require,
+);
+
 export const yaml: typeof import('../compiled/js-yaml') = Import.lazy(
   '../compiled/js-yaml',
   require,

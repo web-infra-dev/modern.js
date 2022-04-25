@@ -29,6 +29,7 @@ export const TASKS: TaskConfig[] = [
       // a few dependencies
       'debug',
       'js-yaml',
+      'mime-types',
       'strip-ansi',
       'gzip-size',
       'pkg-up',
