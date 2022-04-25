@@ -33,6 +33,12 @@ export const TASKS: TaskConfig[] = [
       'gzip-size',
       'pkg-up',
       'recursive-readdir',
+      {
+        name: 'json5',
+        externals: {
+          minimist: '../minimist',
+        },
+      },
       // some dependencies
       'glob',
       'chalk',

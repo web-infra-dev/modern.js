@@ -2795,7 +2795,6 @@ importers:
       '@types/jest': ^26
       '@types/node': ^14
       jest: ^27
-      json5: ^2.2.0
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
@@ -2804,7 +2803,6 @@ importers:
       '@modern-js/generator-common': link:../generator-common
       '@modern-js/generator-utils': link:../generator-utils
       '@modern-js/utils': link:../../toolkit/utils
-      json5: 2.2.0
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -3672,7 +3670,6 @@ importers:
       babel-plugin-module-resolver: ^4.1.0
       babel-plugin-transform-typescript-metadata: ^0.3.2
       jest: ^27
-      json5: ^2.2.0
       ts-jest: ^27.0.4
       typescript: ^4
     dependencies:
@@ -3688,7 +3685,6 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       babel-plugin-module-resolver: 4.1.0
       babel-plugin-transform-typescript-metadata: 0.3.2
-      json5: 2.2.0
     devDependencies:
       '@modern-js/core': link:../../cli/core
       '@scripts/build': link:../../../scripts/build
@@ -3793,7 +3789,6 @@ importers:
       fast-glob: ^3.2.5
       globby: ^11
       jest: ^27
-      json5: ^2.2.0
       normalize-path: ^3.0.0
       p-map: ^4
       process.argv: ^0.6.0
@@ -3820,7 +3815,6 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       fast-glob: 3.2.7
       globby: 11.0.4
-      json5: 2.2.0
       normalize-path: 3.0.0
       p-map: 4.0.0
       process.argv: 0.6.0
@@ -4438,6 +4432,7 @@ importers:
       import-lazy: 4.0.0
       inquirer: 8.2.2
       js-yaml: 4.1.0
+      json5: 2.2.0
       lodash: 4.17.21
       minimist: 1.2.6
       ora: 5.4.1
@@ -4486,6 +4481,7 @@ importers:
       import-lazy: 4.0.0
       inquirer: 8.2.2
       js-yaml: 4.1.0
+      json5: 2.2.0
       lodash: 4.17.21
       minimist: 1.2.6
       ora: 5.4.1
@@ -27627,8 +27623,9 @@ packages:
   /json5/2.2.0:
     resolution: {integrity: sha512-f+8cldu7X/y7RAJurMEJmdoKXGB/X550w2Nr3tTbezL6RwEE/iMcm+tZnXeoZtKuOq6ft8+CqzEkrIgx1fPoQA==}
     engines: {node: '>=6'}
+    hasBin: true
     dependencies:
-      minimist: 1.2.5
+      minimist: 1.2.6
 
   /jsonfile/2.4.0:
     resolution: {integrity: sha1-NzaitCi4e72gzIO1P6PWM6NcKug=}
@@ -29056,7 +29053,6 @@ packages:
 
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
-    dev: true
 
   /minipass-collect/1.0.2:
     resolution: {integrity: sha512-6T6lH0H8OG9kITm/Jm6tdooIbogG9e0tLgpY6mphXSm/A9u8Nq1ryBG+Qspiub9LjWlBPsPS3tWQ/Botq4FdxA==}

@@ -48,6 +48,7 @@
     "import-lazy": "4.0.0",
     "inquirer": "8.2.2",
     "js-yaml": "4.1.0",
+    "json5": "2.2.0",
     "lodash": "4.17.21",
     "minimist": "1.2.6",
     "ora": "5.4.1",

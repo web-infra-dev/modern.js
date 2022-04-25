@@ -76,7 +76,6 @@
     "@modern-js/utils": "workspace:^1.5.0",
     "fast-glob": "^3.2.5",
     "globby": "^11",
-    "json5": "^2.2.0",
     "normalize-path": "^3.0.0",
     "p-map": "^4",
     "process.argv": "^0.6.0",
