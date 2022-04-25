@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { fs, Import } from '@modern-js/utils';
+import { fs, Import, dotenv } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type { Platform } from '../types';
 
@@ -16,8 +16,6 @@ const buildFeature: typeof import('../features/build') = Import.lazy(
   '../features/build',
   require,
 );
-
-const dotenv: typeof import('dotenv') = Import.lazy('dotenv', require);
 
 export interface IBuildOption {
   watch: boolean;
