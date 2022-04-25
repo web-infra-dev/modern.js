@@ -9,7 +9,7 @@ import {
 } from '@modern-js/utils';
 import { enable } from '@modern-js/plugin/node';
 import type { Hooks } from '@modern-js/types';
-import { ErrorObject } from 'ajv';
+import type { ErrorObject } from '../compiled/ajv';
 import { initCommandsMap } from './utils/commander';
 import { resolveConfig, loadUserConfig, addServerConfigToDeps } from './config';
 import { loadPlugins, TransformPlugin } from './loadPlugins';

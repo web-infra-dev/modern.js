@@ -244,8 +244,6 @@ importers:
 
   packages/cli/core:
     specifiers:
-      '@babel/code-frame': ^7.14.5
-      '@babel/runtime': ^7
       '@jest/types': ^27.0.6
       '@modern-js/load-config': workspace:^1.3.1
       '@modern-js/plugin': workspace:^1.3.3
@@ -260,37 +258,21 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
-      address: ^1.1.2
-      ajv: ^8.6.2
-      ajv-keywords: ^5.0.0
       autoprefixer: ^10.3.1
-      better-ajv-errors: 1.2.0
       btsm: 2.2.2
-      dotenv: ^10.0.0
-      dotenv-expand: ^5.1.0
       electron-builder: 22.7.0
       esbuild: ^0.13.13
       jest: ^27
       sass: ^1.45.0
       terser-webpack-plugin: ^5.1.4
       typescript: ^4
-      v8-compile-cache: ^2.3.0
       webpack: ^5.71.0
       webpack-chain: ^6.5.1
     dependencies:
-      '@babel/code-frame': 7.16.7
-      '@babel/runtime': 7.16.7
       '@modern-js/load-config': link:../../toolkit/load-config
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/utils': link:../../toolkit/utils
-      address: 1.1.2
-      ajv: 8.8.2
-      ajv-keywords: 5.1.0_ajv@8.8.2
-      better-ajv-errors: 1.2.0_ajv@8.8.2
-      dotenv: 10.0.0
-      dotenv-expand: 5.1.0
       esbuild: 0.13.15
-      v8-compile-cache: 2.3.0
     devDependencies:
       '@jest/types': 27.5.1
       '@modern-js/types': link:../../toolkit/types
@@ -3833,7 +3815,6 @@ importers:
       '@types/normalize-path': ^3.0.0
       '@types/react': ^17
       '@types/react-dom': ^17
-      dotenv: ^10.0.0
       fast-glob: ^3.2.5
       globby: ^11
       inquirer: ^8.1.5
@@ -3863,7 +3844,6 @@ importers:
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/style-compiler': link:../../toolkit/compiler/style
       '@modern-js/utils': link:../../toolkit/utils
-      dotenv: 10.0.0
       fast-glob: 3.2.7
       globby: 11.0.4
       inquirer: 8.2.0
@@ -4387,7 +4367,6 @@ importers:
 
   packages/toolkit/utils:
     specifiers:
-      '@babel/runtime': ^7
       '@modern-js/types': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -4398,7 +4377,6 @@ importers:
       typescript: ^4
       webpack: ^5.71.0
     dependencies:
-      '@babel/runtime': 7.16.7
       esbuild: 0.13.15
       typescript: 4.5.4
     devDependencies:
@@ -4466,11 +4444,17 @@ importers:
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4
       '@vercel/ncc': 0.33.3
+      address: 1.1.2
+      ajv: 8.11.0
+      ajv-keywords: 5.1.0
+      better-ajv-errors: 1.2.0
       browserslist: 4.20.2
       chalk: 4.1.2
       chokidar: 3.5.3
       commander: 8.3.0
       debug: 4.3.4
+      dotenv: 10.0.0
+      dotenv-expand: 5.1.0
       dts-packer: 0.0.3
       execa: 5.1.1
       filesize: 8.0.7
@@ -4487,6 +4471,7 @@ importers:
       strip-ansi: 6.0.1
       typescript: ^4
       upath: 2.0.1
+      v8-compile-cache: 2.3.0
     dependencies:
       '@modern-js/tsconfig': link:../../packages/review/tsconfig
       '@scripts/build': link:../build
@@ -4504,11 +4489,17 @@ importers:
       '@types/minimist': 1.2.2
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4
+      address: 1.1.2
+      ajv: 8.11.0
+      ajv-keywords: 5.1.0_ajv@8.11.0
+      better-ajv-errors: 1.2.0_ajv@8.11.0
       browserslist: 4.20.2
       chalk: 4.1.2
       chokidar: 3.5.3
       commander: 8.3.0
       debug: 4.3.4
+      dotenv: 10.0.0
+      dotenv-expand: 5.1.0
       execa: 5.1.1
       filesize: 8.0.7
       glob: 7.2.0
@@ -4522,6 +4513,7 @@ importers:
       signale: 1.4.0
       strip-ansi: 6.0.1
       upath: 2.0.1
+      v8-compile-cache: 2.3.0
 
   tests:
     specifiers:
@@ -10827,7 +10819,7 @@ packages:
   /@humanwhocodes/momoa/2.0.4:
     resolution: {integrity: sha512-RE815I4arJFtt+FVeU1Tgp9/Xvecacji8w/V6XtXsWWH/wz/eNkNbhb+ny/+PlVZjV0rxQpRSQKNKE3lcktHEA==}
     engines: {node: '>=10.10.0'}
-    dev: false
+    dev: true
 
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
@@ -16322,6 +16314,15 @@ packages:
     dependencies:
       ajv: 6.12.6
 
+  /ajv-keywords/5.1.0_ajv@8.11.0:
+    resolution: {integrity: sha512-YCS/JNFAUyr5vAuhk1DWm1CBxRHW9LbJ2ozWeemrIqpbsqKjHVxYPyi5GC0rjZIT5JxJ3virVTS8wk4i/Z+krw==}
+    peerDependencies:
+      ajv: ^8.8.2
+    dependencies:
+      ajv: 8.11.0
+      fast-deep-equal: 3.1.3
+    dev: true
+
   /ajv-keywords/5.1.0_ajv@8.8.2:
     resolution: {integrity: sha512-YCS/JNFAUyr5vAuhk1DWm1CBxRHW9LbJ2ozWeemrIqpbsqKjHVxYPyi5GC0rjZIT5JxJ3virVTS8wk4i/Z+krw==}
     peerDependencies:
@@ -16364,6 +16365,15 @@ packages:
       require-from-string: 2.0.2
       uri-js: 4.4.1
     dev: false
+
+  /ajv/8.11.0:
+    resolution: {integrity: sha512-wGgprdCvMalC0BztXvitD2hC04YffAvtsUn93JbGXYLAtCUO4xd17mCCZQxUOItiBwZvJScWo8NIvQMQ71rdpg==}
+    dependencies:
+      fast-deep-equal: 3.1.3
+      json-schema-traverse: 1.0.0
+      require-from-string: 2.0.2
+      uri-js: 4.4.1
+    dev: true
 
   /ajv/8.8.2:
     resolution: {integrity: sha512-x9VuX+R/jcFj1DHo/fCp99esgGDWiHENrKxaCENuCxpoMCmAt/COCGVDwA7kleEpEzJjDnvh3yGoOuLu0Dtllw==}
@@ -17737,7 +17747,7 @@ packages:
     dependencies:
       tweetnacl: 0.14.5
 
-  /better-ajv-errors/1.2.0_ajv@8.8.2:
+  /better-ajv-errors/1.2.0_ajv@8.11.0:
     resolution: {integrity: sha512-UW+IsFycygIo7bclP9h5ugkNH8EjCSgqyFB/yQ4Hqqa1OEYDtb0uFIkYE0b6+CjkgJYVM5UKI/pJPxjYe9EZlA==}
     engines: {node: '>= 12.13.0'}
     peerDependencies:
@@ -17745,11 +17755,11 @@ packages:
     dependencies:
       '@babel/code-frame': 7.16.7
       '@humanwhocodes/momoa': 2.0.4
-      ajv: 8.8.2
+      ajv: 8.11.0
       chalk: 4.1.2
       jsonpointer: 5.0.0
       leven: 3.1.0
-    dev: false
+    dev: true
 
   /better-opn/2.1.1:
     resolution: {integrity: sha512-kIPXZS5qwyKiX/HcRvDYfmBQUa8XP17I0mYZZ0y4UhpYOSvtsLHDYqmomS+Mj20aDvD3knEiQ0ecQy2nhio3yA==}
@@ -21150,7 +21160,7 @@ packages:
   /dotenv/10.0.0:
     resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
     engines: {node: '>=10'}
-    dev: false
+    dev: true
 
   /dotenv/6.2.0:
     resolution: {integrity: sha512-HygQCKUBSFl8wKQZBSemMywRWcEDNidvNbjGVyZu3nbZ8qq9ubiPoGLMdRDpfSrpkkm9BXYFkpKxxFX38o/76w==}
@@ -26505,7 +26515,7 @@ packages:
       jest-util: 27.4.2
       jest-validate: 27.4.2
       micromatch: 4.0.4
-      pretty-format: 27.4.2
+      pretty-format: 27.5.1
       slash: 3.0.0
       ts-node: 10.4.0_872ff86d573dc12b01711ea7d61300e3
     transitivePeerDependencies:
@@ -27691,7 +27701,7 @@ packages:
   /jsonpointer/5.0.0:
     resolution: {integrity: sha512-PNYZIdMjVIvVgDSYKTT63Y+KZ6IZvGRNNWcxwD+GNnUz1MKPfv30J8ueCjdwcN0nDx2SlshgyB7Oy0epAzVRRg==}
     engines: {node: '>=0.10.0'}
-    dev: false
+    dev: true
 
   /jsprim/1.4.2:
     resolution: {integrity: sha512-P2bSOMAc/ciLz6DzgjVlGJP9+BrJWu5UDGK70C2iweC5QBIeFf0ZXRvGjEj2uYgrY2MkAAhsSWHDWlFtEroZWw==}
