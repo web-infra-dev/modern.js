@@ -12,7 +12,7 @@ MWA，模块。
 - 类型： `boolean`
 - 默认值： `false`
 
-默认情况下，Modern.js 集成了 [`fork-ts-checker-webpack-plugin`](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) 插件，进行 TypeScript 语法检查。
+默认情况下，Modern.js 集成了 [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) 插件，进行 TypeScript 语法检查。
 
 开启此配置项可以关闭该插件。
 
