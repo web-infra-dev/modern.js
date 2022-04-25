@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-require('v8-compile-cache');
+require('../compiled/v8-compile-cache');
 const { cli } = require('../');
 const { version } = require('../package.json');
 

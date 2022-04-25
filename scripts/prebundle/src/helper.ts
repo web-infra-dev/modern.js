@@ -1,20 +1,7 @@
 import { dirname, join } from 'path';
 import fs from 'fs-extra';
-import { TASKS, DIST_DIR, PACKAGES_DIR, ImportMap } from './constant';
-
-export type ParsedTask = {
-  minify: boolean;
-  depName: string;
-  depPath: string;
-  distPath: string;
-  externals: Record<string, string>;
-  importPath: string;
-  emitFiles: ImportMap[];
-  packageDir: string;
-  packagePath: string;
-  packageName: string;
-  packageJsonField: string[];
-};
+import { TASKS, DIST_DIR, PACKAGES_DIR } from './constant';
+import type { ParsedTask } from './types';
 
 export function findDepPath(name: string) {
   let entry = dirname(require.resolve(join(name)));
@@ -36,9 +23,11 @@ export function parseTasks() {
       const packagePath = join(PACKAGES_DIR, packageDir);
       const distPath = join(packagePath, DIST_DIR, depName);
       const depPath = findDepPath(depName);
+      const depEntry = require.resolve(depName);
       const info = {
         depName,
         depPath,
+        depEntry,
         distPath,
         importPath,
         packageDir,
@@ -59,6 +48,7 @@ export function parseTasks() {
           minify: dep.minify ?? true,
           externals: dep.externals ?? {},
           emitFiles: dep.emitFiles ?? [],
+          beforeBundle: dep.beforeBundle,
           packageJsonField: dep.packageJsonField ?? [],
           ...info,
         });

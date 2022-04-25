@@ -8,11 +8,6 @@ jest.mock('../src/features/dev', () => ({
   devStorybook: jest.fn(),
 }));
 
-jest.mock('dotenv', () => ({
-  __esModule: true,
-  config: jest.fn(),
-}));
-
 jest.mock('../src/utils/valide', () => ({
   __esModule: true,
   valideBeforeTask: jest.fn(),
