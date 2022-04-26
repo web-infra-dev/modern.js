@@ -30,9 +30,9 @@
       "jsnext:source": "./src/constants.ts",
       "default": "./dist/constants.js"
     },
-    "./ssrHelpers": {
-      "jsnext:source": "./src/ssrHelpers.ts",
-      "default": "./dist/ssrHelpers.js"
+    "./ssr": {
+      "jsnext:source": "./src/ssr.ts",
+      "default": "./dist/ssr.js"
     },
     "./lodash": {
       "jsnext:source": "./compiled/lodash/index.js",
@@ -51,8 +51,8 @@
       "constants": [
         "./dist/constants.d.ts"
       ],
-      "ssrHelpers": [
-        "./dist/ssrHelpers.d.ts"
+      "ssr": [
+        "./dist/ssr.d.ts"
       ],
       "lodash": [
         "./compiled/lodash/index.d.ts"
