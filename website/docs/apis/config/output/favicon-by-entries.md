@@ -1,6 +1,5 @@
 ---
 sidebar_label: faviconByEntries
-sidebar_position: 7
 ---
 
 # `output.faviconByEntries`

@@ -1,6 +1,5 @@
 ---
 sidebar_label: titleByEntries
-sidebar_position: 3
 ---
 
 # `output.titleByEntries`
