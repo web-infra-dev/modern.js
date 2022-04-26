@@ -8,13 +8,13 @@ export type DependencyConfig = {
   name: string;
   /** Whether to minify the code. */
   minify?: boolean;
-  /** External some sub-dependencies. */
+  /** Externals to leave as requires of the build. */
   externals?: Record<string, string>;
-  /** Extra entry files to map imports */
+  /** Emit extra entry files to map imports. */
   emitFiles?: ImportMap[];
-  /** Copy fields from original package.json to target package.json. */
+  /** Copy extra fields from original package.json to target package.json. */
   packageJsonField?: string[];
-  /* Callback before bundle */
+  /* Callback before bundle. */
   beforeBundle?: (task: ParsedTask) => void | Promise<void>;
 };
 

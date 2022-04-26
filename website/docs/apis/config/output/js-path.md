@@ -1,6 +1,5 @@
 ---
 sidebar_label: jsPath
-sidebar_position: 19
 ---
 
 # `output.jsPath`

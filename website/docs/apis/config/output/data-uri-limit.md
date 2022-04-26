@@ -1,6 +1,5 @@
 ---
 sidebar_label: dataUriLimit
-sidebar_position: 10
 ---
 
 # `output.dataUriLimit`

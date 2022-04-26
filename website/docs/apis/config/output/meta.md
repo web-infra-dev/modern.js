@@ -1,6 +1,5 @@
 ---
 sidebar_label: meta
-sidebar_position: 4
 ---
 
 # `output.meta`
