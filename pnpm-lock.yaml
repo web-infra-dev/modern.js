@@ -219,7 +219,6 @@ importers:
       '@types/react': ^17
       '@types/react-dom': ^17
       jest: ^27
-      slash: ^3.0.0
       typescript: ^4
     dependencies:
       '@babel/plugin-proposal-class-static-block': 7.16.7_@babel+core@7.16.7
@@ -231,7 +230,6 @@ importers:
       '@modern-js/babel-chain': link:../../toolkit/babel-chain
       '@modern-js/babel-preset-lib': link:../babel-preset-lib
       '@modern-js/utils': link:../../toolkit/utils
-      slash: 3.0.0
     devDependencies:
       '@babel/core': 7.16.7
       '@scripts/build': link:../../../scripts/build
@@ -4470,6 +4468,7 @@ importers:
       pkg-up: 3.1.0
       recursive-readdir: 2.2.2
       signale: 1.4.0
+      slash: 3.0.0
       strip-ansi: 6.0.1
       typescript: ^4
       upath: 2.0.1
@@ -4513,6 +4512,7 @@ importers:
       pkg-up: 3.1.0
       recursive-readdir: 2.2.2
       signale: 1.4.0
+      slash: 3.0.0
       strip-ansi: 6.0.1
       upath: 2.0.1
       v8-compile-cache: 2.3.0

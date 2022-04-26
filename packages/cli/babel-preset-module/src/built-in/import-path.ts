@@ -1,8 +1,7 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
+import { fs, slash } from '@modern-js/utils';
 import { types as t } from '@babel/core';
 import type { NodePath, PluginPass } from '@babel/core';
-import slash from 'slash';
 import type { ImportStyleType } from '../types';
 import { isProjectFile } from './utils';
 

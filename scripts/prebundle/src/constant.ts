@@ -48,6 +48,7 @@ export const TASKS: TaskConfig[] = [
       'fs-extra',
       'browserslist',
       'chokidar',
+      'slash',
     ],
   },
   {
