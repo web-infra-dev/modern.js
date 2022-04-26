@@ -28,10 +28,7 @@ export const createServer = (
     });
 
     const appContext = api.useAppContext();
-    const serverPlugins = appContext.plugins
-      .filter((p: any) => p.server)
-      .map((p: any) => p.server);
-    const plugins = serverPlugins.map((p: any) => p.name);
+    const plugins = appContext.plugins.filter(p => p.server).map(p => p.server);
 
     cp.send(
       JSON.stringify({
