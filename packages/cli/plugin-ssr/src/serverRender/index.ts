@@ -1,5 +1,5 @@
 import { RuntimeContext } from '@modern-js/runtime-core';
-import { run } from '@modern-js/utils';
+import { run } from '@modern-js/utils/ssr';
 import { PreRender } from '../react/prerender';
 import SSREntry from './entry';
 import { ModernSSRReactComponent } from './type';
