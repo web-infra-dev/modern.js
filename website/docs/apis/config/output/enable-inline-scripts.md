@@ -1,6 +1,5 @@
 ---
 sidebar_label: enableInlineScripts
-sidebar_position: 12
 ---
 
 # `output.enableInlineScripts`

@@ -1,6 +1,5 @@
 ---
 sidebar_label: disableSourceMap
-sidebar_position: 13
 ---
 # `output.disableSourceMap`
 

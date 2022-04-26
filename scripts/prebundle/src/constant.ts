@@ -26,6 +26,7 @@ export const TASKS: TaskConfig[] = [
       'dotenv',
       'dotenv-expand',
       'url-join',
+      'slash',
       // a few dependencies
       'debug',
       'js-yaml',
