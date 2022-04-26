@@ -1,6 +1,5 @@
 ---
 sidebar_label: disableMinimize
-sidebar_position: 16
 ---
 
 # `output.disableMinimize`

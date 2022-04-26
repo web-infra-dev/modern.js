@@ -1,6 +1,5 @@
 ---
 sidebar_label: ssg
-sidebar_position: 9
 ---
 # `output.ssg`
 

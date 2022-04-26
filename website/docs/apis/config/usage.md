@@ -62,7 +62,6 @@ export default defineConfig({
 });
 ```
 
-
 ## 在 package.json 中配置（不推荐）
 
 除了配置文件外，也可以在 `package.json` 中的 `modernConfig` 字段下设置配置选项，如：
