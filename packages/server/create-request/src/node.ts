@@ -40,7 +40,6 @@ export const createRequest: RequestCreator = (
   pathToRegexp(path, keys);
 
   const sender: Sender = (...args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const webRequestHeaders = useHeaders();
 
     const payload: BFFRequestPayload =
