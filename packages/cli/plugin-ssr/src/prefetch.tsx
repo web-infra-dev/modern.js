@@ -1,6 +1,6 @@
 import { RuntimeContext } from '@modern-js/runtime-core';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { run } from '@modern-js/utils/ssrHelpers';
+import { run } from '@modern-js/utils/ssr';
 
 // todo: SSRContext
 const prefetch = async (
