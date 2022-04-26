@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
+import { fs, slash } from '@modern-js/utils';
 import { types as t } from '@babel/core';
 import type { NodePath, PluginPass } from '@babel/core';
 import type { ImportStyleType } from '../types';
@@ -13,28 +13,29 @@ export interface IImportPathOpts {
 const replaceValueHash: Record<string, string> = {};
 
 const isResoureInSrc = (srcDir: string, resourecPath: string) =>
-  !path.posix.relative(srcDir, resourecPath).includes('..');
+  !path.relative(srcDir, path.dirname(resourecPath)).includes('..');
 
 const getImportFileDistPath = (
   compilerFile: string,
   srcDir: string,
   importName: string,
 ) => {
-  const dir = path.posix.dirname(compilerFile);
-  const compilerFileRelativeLoc = path.posix.relative(dir, srcDir);
-  const importFileRelativeLoc = path.posix.relative(
+  const dir = path.dirname(compilerFile);
+  const compilerFileRelativeLoc = path.relative(dir, srcDir);
+  const importFileRelativeLoc = path.relative(
     srcDir,
-    path.posix.join(dir, importName),
+    path.dirname(path.join(dir, importName)),
   );
-  const inSrc = isResoureInSrc(srcDir, path.posix.join(dir, importName));
-  const importFileDistPath = path.posix.join(
+  const inSrc = isResoureInSrc(srcDir, path.join(dir, importName));
+  const importFileDistDir = path.join(
     inSrc ? '..' : '../..',
     compilerFileRelativeLoc,
     'styles',
     importFileRelativeLoc,
   );
-
-  return importFileDistPath;
+  const importFileName = path.basename(importName);
+  const importFileDistPath = path.join(importFileDistDir, importFileName);
+  return slash(importFileDistPath);
 };
 
 export const isStaticFile = (file: string, filename: string) => {
@@ -96,7 +97,7 @@ const importPath = () => ({
           const { source } = node;
           const { appDirectory, importStyle = 'source-code' } =
             opts as IImportPathOpts;
-          const srcDir = `${appDirectory}/src`;
+          const srcDir = path.join(appDirectory, 'src');
           const {
             opts: { filename },
           } = file;
@@ -127,7 +128,7 @@ const importPath = () => ({
         CallExpression({ node }) {
           const { appDirectory, importStyle = 'source-code' } =
             opts as IImportPathOpts;
-          const srcDir = `${appDirectory}/src`;
+          const srcDir = path.join(appDirectory, 'src');
           const { filename } = file.opts;
           const { callee, arguments: args } = node;
 
