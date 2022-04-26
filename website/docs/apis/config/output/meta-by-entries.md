@@ -1,6 +1,5 @@
 ---
 sidebar_label: metaByEntries
-sidebar_position: 5
 ---
 
 # `output.metaByEntries`

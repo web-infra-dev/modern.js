@@ -1,6 +1,5 @@
 ---
 sidebar_label: cssModuleLocalIdentName
-sidebar_position: 25
 ---
 
 # `output.cssModuleLocalIdentName`

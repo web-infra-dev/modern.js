@@ -1,6 +1,5 @@
 ---
 sidebar_label: path
-sidebar_position: 18
 ---
 
 # `output.path`

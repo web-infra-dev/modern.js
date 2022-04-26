@@ -1,6 +1,5 @@
 ---
 sidebar_label: title
-sidebar_position: 2
 ---
 
 # `output.title`

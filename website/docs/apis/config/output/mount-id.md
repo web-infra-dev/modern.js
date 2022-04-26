@@ -1,6 +1,5 @@
 ---
 sidebar_label: mountId
-sidebar_position: 23
 ---
 
 # `output.mountId`

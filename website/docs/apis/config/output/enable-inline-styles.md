@@ -1,6 +1,5 @@
 ---
 sidebar_label: enableInlineStyles
-sidebar_position: 11
 ---
 # `output.enableInlineStyles`
 

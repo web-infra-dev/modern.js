@@ -1,6 +1,5 @@
 ---
 sidebar_label: inject
-sidebar_position: 35
 ---
 
 # `output.inject`

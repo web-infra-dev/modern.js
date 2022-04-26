@@ -1,6 +1,5 @@
 ---
 sidebar_label: favicon
-sidebar_position: 6
 ---
 
 # `output.favicon`

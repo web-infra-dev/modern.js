@@ -1,6 +1,5 @@
 ---
 sidebar_label: copy
-sidebar_position: 24
 ---
 
 # `output.copy`

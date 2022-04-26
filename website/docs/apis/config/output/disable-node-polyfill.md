@@ -1,6 +1,5 @@
 ---
 sidebar_label: disableNodePolyfill
-sidebar_position: 14
 ---
 
 # `output.disableNodePolyfill`

@@ -1,6 +1,5 @@
 ---
 sidebar_label: disableInlineRuntimeChunk
-sidebar_position: 15
 ---
 
 # `output.disableInlineRuntimeChunk`
