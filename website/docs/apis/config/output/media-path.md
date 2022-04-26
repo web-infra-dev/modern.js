@@ -1,6 +1,5 @@
 ---
 sidebar_label: mediaPath
-sidebar_position: 21
 ---
 
 # `output.mediaPath`

@@ -1,6 +1,5 @@
 ---
 sidebar_label: assetPrefix
-sidebar_position: 1
 ---
 
 # `output.assetPrefix`

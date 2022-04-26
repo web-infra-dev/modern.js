@@ -1,6 +1,5 @@
 ---
 sidebar_label: disableAssetsCache
-sidebar_position: 17
 ---
 
 # `output.disableAssetsCache`

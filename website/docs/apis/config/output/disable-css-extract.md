@@ -1,6 +1,5 @@
 ---
 sidebar_label: disableCssExtract
-sidebar_position: 18
 ---
 
 # `output.disableCssExtract`

@@ -1,6 +1,5 @@
 ---
 sidebar_label: polyfill
-sidebar_position: 8
 ---
 
 # `output.polyfill`
