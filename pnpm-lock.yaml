@@ -4468,6 +4468,7 @@ importers:
       pkg-up: 3.1.0
       recursive-readdir: 2.2.2
       signale: 1.4.0
+      slash: 3.0.0
       strip-ansi: 6.0.1
       typescript: ^4
       upath: 2.0.1
@@ -4511,6 +4512,7 @@ importers:
       pkg-up: 3.1.0
       recursive-readdir: 2.2.2
       signale: 1.4.0
+      slash: 3.0.0
       strip-ansi: 6.0.1
       upath: 2.0.1
       v8-compile-cache: 2.3.0
