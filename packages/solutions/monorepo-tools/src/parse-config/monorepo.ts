@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import * as path from 'path';
 import { FileSystem, JsonFile } from '@rushstack/node-core-library';
 import { WORKSPACE_FILE } from '../constants';
@@ -120,5 +119,3 @@ export const getMonorepoBaseData = (root: string = process.cwd()) => {
     packageManager: getPackageManager(rootPath),
   };
 };
-
-/* eslint-enable react-hooks/rules-of-hooks */

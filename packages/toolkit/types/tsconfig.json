@@ -6,5 +6,5 @@
     "baseUrl": "./",
     "paths": {}
   },
-  "include": ["src"]
+  "include": ["cli", "server"]
 }

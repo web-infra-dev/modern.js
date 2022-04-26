@@ -3746,11 +3746,9 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
-      esbuild: ^0.13.13
       inquirer: ^8.2.0
       jest: ^27
       typescript: ^4
-      webpack: ^5.71.0
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/core': link:../../cli/core
@@ -3766,9 +3764,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
       '@modern-js/webpack': link:../../cli/webpack
-      esbuild: 0.13.15
       inquirer: 8.2.0
-      webpack: 5.71.0_esbuild@0.13.15
     devDependencies:
       '@modern-js/server-core': link:../../server/core
       '@scripts/build': link:../../../scripts/build
