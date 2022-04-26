@@ -3166,7 +3166,7 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27.0.3
       '@types/node': ^14
-      '@types/node-fetch': ^2.5.12
+      '@types/node-fetch': ^2.6.1
       '@types/react': ^17
       '@types/react-dom': ^17
       isomorphic-fetch: ^3.0.0
@@ -3186,7 +3186,7 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.4.0
       '@types/node': 14.18.4
-      '@types/node-fetch': 2.5.12
+      '@types/node-fetch': 2.6.1
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
       isomorphic-fetch: 3.0.0
@@ -15209,6 +15209,14 @@ packages:
     dependencies:
       '@types/node': 14.18.4
       form-data: 3.0.1
+    dev: false
+
+  /@types/node-fetch/2.6.1:
+    resolution: {integrity: sha512-oMqjURCaxoSIsHSr1E47QHzbmzNR5rK8McHuNb11BOM9cHcIK3Avy0s/b2JlXHoQGTYS3NsvWzV1M0iK7l0wbA==}
+    dependencies:
+      '@types/node': 17.0.21
+      form-data: 3.0.1
+    dev: true
 
   /@types/node/12.20.24:
     resolution: {integrity: sha512-yxDeaQIAJlMav7fH5AQqPH1u8YIuhYJXYBzxaQ4PifsU0GDO38MSdmEDeRlIxrKbC6NbEaaEHDanWb+y30U8SQ==}
