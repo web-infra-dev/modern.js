@@ -1,6 +1,5 @@
 ---
 sidebar_label: assetsPath
-sidebar_position: 1
 ---
 
 # `output.assetsPath`

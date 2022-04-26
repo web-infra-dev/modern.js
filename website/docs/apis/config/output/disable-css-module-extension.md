@@ -1,6 +1,5 @@
 ---
 sidebar_label: disableCssModuleExtension
-sidebar_position: 25
 ---
 
 # `output.disableCssModuleExtension`
