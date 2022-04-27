@@ -54,6 +54,15 @@ function emitDts(task: ParsedTask) {
     );
   }
 
+  // Fix globby types, move fast-glob type to correct dir
+  if (task.depName === 'globby') {
+    fs.copySync(
+      join(task.distPath, 'fast-glob/out'),
+      join(task.distPath, 'fast-glob'),
+    );
+    fs.removeSync(join(task.distPath, 'fast-glob/out'));
+  }
+
   // Fix lodash types, copy `common` folder
   if (task.depName === 'lodash') {
     const from = join(process.cwd(), 'node_modules/@types/lodash/common');
