@@ -121,7 +121,8 @@
     "@types/loadable__component": "^5.13.4",
     "@types/react-helmet": "^6.1.2",
     "react-helmet": "^6.1.0",
-    "react-side-effect": "^2.1.1"
+    "react-side-effect": "^2.1.1",
+    "react-is": "^17"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
