@@ -86,9 +86,16 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@babel/core": "7.16.7",
     "@babel/preset-env": "^7.15.6",
     "@babel/runtime": "^7",
+    "@modern-js-reduck/plugin-auto-actions": "^1.0.2",
+    "@modern-js-reduck/plugin-effects": "^1.0.2",
+    "@modern-js-reduck/plugin-immutable": "^1.0.1",
+    "@modern-js-reduck/store": "^1.0.3",
     "@modern-js/babel-compiler": "workspace:^1.2.3",
+    "@modern-js/bff-utils": "workspace:^1.2.3",
+    "@modern-js/runtime-core": "workspace:^1.4.2",
     "@modern-js/testing": "workspace:^1.4.3",
     "@modern-js/testing-plugin-bff": "workspace:^1.4.0",
     "@modern-js/utils": "workspace:^1.5.0",
@@ -97,20 +104,8 @@
     "@testing-library/react": "^12.0.0",
     "@types/testing-library__jest-dom": "^5.14.3"
   },
-  "peerDependencies": {
-    "@modern-js-reduck/plugin-auto-actions": "^1.0.0",
-    "@modern-js-reduck/plugin-effects": "^1.0.0",
-    "@modern-js-reduck/plugin-immutable": "^1.0.0",
-    "@modern-js-reduck/store": "^1.0.0",
-    "@modern-js/runtime-core": "workspace:^1.4.2"
-  },
   "devDependencies": {
-    "@modern-js-reduck/plugin-auto-actions": "^1.0.0",
-    "@modern-js-reduck/plugin-effects": "^1.0.0",
-    "@modern-js-reduck/plugin-immutable": "^1.0.0",
-    "@modern-js-reduck/store": "^1.0.0",
     "@modern-js/core": "workspace:*",
-    "@modern-js/runtime-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^26",
