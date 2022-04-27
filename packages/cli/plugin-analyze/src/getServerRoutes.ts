@@ -1,8 +1,8 @@
 import path from 'path';
 import fs from 'fs';
-import urlJoin from 'url-join';
 import type { NormalizedConfig, IAppContext } from '@modern-js/core';
 import {
+  urlJoin,
   isPlainObject,
   removeLeadingSlash,
   getEntryOptions,
