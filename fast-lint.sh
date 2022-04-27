@@ -12,6 +12,7 @@ pnpm run build --filter @modern-js/eslint-config...
 # run eslint --no-fix
 env \
   DEBUG=eslint:cli-engine \
+  NODE_OPTIONS=--max_old_space_size=16384 \
   TIMING=1 \
   npx eslint \
   --format codeframe \

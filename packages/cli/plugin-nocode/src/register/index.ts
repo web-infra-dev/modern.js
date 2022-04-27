@@ -1,7 +1,6 @@
 import { promisify } from 'util';
 import path from 'path';
-import { fs, glob as globModule } from '@modern-js/utils';
-import inquirer from 'inquirer';
+import { fs, glob as globModule, inquirer } from '@modern-js/utils';
 import semver from 'semver';
 import type { NormalizedConfig } from '@modern-js/core';
 import axios from './axios';
