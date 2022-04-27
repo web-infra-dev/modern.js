@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # createSubProject
 
-创建子项目，只支持项目组工程方案。
+创建子项目，只支持 Monorepo 工程方案。
 
 该方法可在 onForged 生命周期的 api 参数上获取。
 
@@ -32,4 +32,4 @@ export type ForgedAPI = {
 
 ## params
 
-创建子项目的其他参数，详细参考[项目组创建子项目](/docs/apis/generator/config/monorepo#%E5%88%9B%E5%BB%BA%E5%AD%90%E9%A1%B9%E7%9B%AE)。
+创建子项目的其他参数，详细参考[Monorepo 创建子项目](/docs/apis/generator/config/monorepo#%E5%88%9B%E5%BB%BA%E5%AD%90%E9%A1%B9%E7%9B%AE)。
