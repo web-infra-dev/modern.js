@@ -527,7 +527,7 @@ export default function Home() {
             detailUrl="/docs/guides/features/modules/intro"
           />
           <VideoCard
-            title="项目组（Monorepo）"
+            title="Monorepo"
             direction="right"
             imgUrl={
               'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/modern-js-landing-pics.006.jpeg'
