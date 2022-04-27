@@ -10,7 +10,7 @@ export const DEFAULT_DEV_OPTIONS: DevServerOptions = {
     host: 'localhost',
   },
   https: false,
-  dev: { writeToDisk: true },
+  devMiddleware: { writeToDisk: true },
   watch: true,
   hot: true,
   liveReload: true,

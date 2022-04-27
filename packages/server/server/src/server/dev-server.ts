@@ -262,8 +262,8 @@ export class ModernDevServer extends ModernServer {
         ServerResponse
       >,
       publicPath: '/',
-      writeToDisk: this.dev.dev.writeToDisk,
       stats: false,
+      ...this.dev.devMiddleware,
     });
 
     return (ctx: ModernServerContext, next: NextFunction) => {
