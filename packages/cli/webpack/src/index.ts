@@ -1,3 +1,4 @@
+import webpack from 'webpack';
 import { useAppContext, useResolvedConfigContext } from '@modern-js/core';
 import {
   ClientWebpackConfig,
@@ -5,7 +6,13 @@ import {
   NodeWebpackConfig,
 } from './config';
 
-export type { Configuration } from 'webpack';
+export { webpack };
+export type {
+  Compiler,
+  Configuration,
+  MultiCompiler,
+  StatsCompilation,
+} from 'webpack';
 export { BaseWebpackConfig } from './config/base';
 
 export enum WebpackConfigTarget {
@@ -35,10 +42,8 @@ export const getWebpackConfig = (target: WebpackConfigTarget) => {
     return null;
   }
 
-  /* eslint-disable react-hooks/rules-of-hooks */
   const appContext = useAppContext();
   const options = useResolvedConfigContext();
-  /* eslint-enable react-hooks/rules-of-hooks */
 
   const config = new Config(appContext, options);
 

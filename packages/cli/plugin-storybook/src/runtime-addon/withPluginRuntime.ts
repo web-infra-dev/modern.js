@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { StoryFn as StoryFunction, useParameter } from '@storybook/addons';
 import { WrapProviders } from './components/modern';
 import { IConfig } from './type';
@@ -18,4 +17,3 @@ export const withPluginRuntime = (
     modernConfigDesignToken,
   });
 };
-/* eslint-enable react-hooks/rules-of-hooks */
