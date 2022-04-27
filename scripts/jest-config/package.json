@@ -6,10 +6,10 @@
   "devDependencies": {
     "@types/jest": "^26",
     "@types/node": "^14",
-    "jest": "^27",
-    "esbuild": "^0.13.15",
+    "enhanced-resolve": "^5.8.3",
+    "esbuild": "^0.14.38",
     "esbuild-jest": "0.5.0",
-    "enhanced-resolve": "^5.8.3"
+    "jest": "^27"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
