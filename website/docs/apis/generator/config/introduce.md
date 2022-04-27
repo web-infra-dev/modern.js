@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # 介绍
 
-Modern.js 提供了应用、模块、项目组三种工程方案类型，并支持通过 `@modern-js/create` 创建工程方案初始化项目。
+Modern.js 提供了应用、模块、Monorepo 三种工程方案类型，并支持通过 `@modern-js/create` 创建工程方案初始化项目。
 
 使用 `@modern-js/create` 时会询问用户一些问题来生成符合用户需求的项目，这一章将介绍这里的问题字段便于进行定制化工程方案开发时使用。
 
@@ -22,7 +22,7 @@ Modern.js 提供了应用、模块、项目组三种工程方案类型，并支�
 
 - 模块(module)
 
-- 项目组(monorepo)
+- Monorepo
 
 :::info
 solution 配置只能在 config 参数中使用，不能在生成器插件中通过设置输入默认值的方式使用。

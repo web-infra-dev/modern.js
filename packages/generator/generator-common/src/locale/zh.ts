@@ -3,7 +3,7 @@ export const ZH_LOCALE = {
     self: '请选择你想创建的工程类型',
     mwa: '应用',
     module: '模块',
-    monorepo: '项目组',
+    monorepo: 'Monorepo',
     custom: '自定义',
     default: '默认',
   },

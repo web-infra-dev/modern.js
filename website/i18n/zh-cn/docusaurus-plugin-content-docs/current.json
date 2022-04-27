@@ -147,9 +147,9 @@
     "message": "模块工程方案",
     "description": "The label for category 模块工程方案 in sidebar apisSidebar"
   },
-  "sidebar.apisSidebar.category.项目组工程方案": {
-    "message": "项目组工程方案",
-    "description": "The label for category 项目组工程方案 in sidebar apisSidebar"
+  "sidebar.apisSidebar.category.Monorepo 工程方案": {
+    "message": "Monorepo 工程方案",
+    "description": "The label for category Monorepo 工程方案 in sidebar apisSidebar"
   },
   "sidebar.apisSidebar.category.工具": {
     "message": "工具",
