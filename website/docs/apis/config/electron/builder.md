@@ -3,7 +3,7 @@ sidebar_label: builder
 sidebar_position: 1
 ---
 
-# `electron.builder`
+# electron.builder
 
 :::info 适用的工程方案
 * Modern.js MWA

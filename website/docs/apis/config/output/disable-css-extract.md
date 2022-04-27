@@ -2,7 +2,7 @@
 sidebar_label: disableCssExtract
 ---
 
-# `output.disableCssExtract`
+# output.disableCssExtract
 
 :::info 适用的工程方案
 * MWA

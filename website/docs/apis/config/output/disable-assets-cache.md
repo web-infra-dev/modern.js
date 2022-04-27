@@ -2,7 +2,7 @@
 sidebar_label: disableAssetsCache
 ---
 
-# `output.disableAssetsCache`
+# output.disableAssetsCache
 
 :::info 适用的工程方案
 * MWA

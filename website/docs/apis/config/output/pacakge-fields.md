@@ -2,7 +2,7 @@
 sidebar_label: packageFields
 ---
 
-# `output.packageFields`
+# output.packageFields
 
 :::info 适用的工程方案
 * 模块

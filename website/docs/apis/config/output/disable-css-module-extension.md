@@ -2,7 +2,7 @@
 sidebar_label: disableCssModuleExtension
 ---
 
-# `output.disableCssModuleExtension`
+# output.disableCssModuleExtension
 
 :::info 适用的工程方案
 * MWA

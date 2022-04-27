@@ -2,7 +2,7 @@
 sidebar_label: importStyle
 ---
 
-# `output.importStyle`
+# output.importStyle
 
 :::info 适用的工程方案
 * 模块

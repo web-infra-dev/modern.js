@@ -3,7 +3,7 @@ sidebar_label: jest
 sidebar_position: 10
 ---
 
-# `tools.jest`
+# tools.jest
 
 :::info 适用的工程方案
 * MWA

@@ -3,7 +3,7 @@ sidebar_label: masterApp
 sidebar_position: 3
 ---
 
-# `runtime.masterApp`
+# runtime.masterApp
 
 :::info 适用的工程方案
 * MWA

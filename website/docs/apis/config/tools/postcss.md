@@ -3,7 +3,7 @@ sidebar_label: postcss
 sidebar_position: 3
 ---
 
-# `tools.postcss`
+# tools.postcss
 
 :::info 适用的工程方案
 * MWA

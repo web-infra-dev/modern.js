@@ -3,7 +3,7 @@ sidebar_label: autoprefixer
 sidebar_position: 2
 ---
 
-# `tools.autoprefixer`
+# tools.autoprefixer
 
 :::info 适用的工程方案
 * MWA

@@ -2,7 +2,8 @@
 sidebar_label: withMasterApp
 sidebar_position: 2
 ---
-# `dev.withMasterApp`
+
+# dev.withMasterApp
 
 :::info 适用的工程方案
 * MWA

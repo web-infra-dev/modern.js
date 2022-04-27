@@ -2,7 +2,7 @@
 sidebar_label: jsPath
 ---
 
-# `output.jsPath`
+# output.jsPath
 
 :::info 适用的工程方案
 * MWA

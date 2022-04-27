@@ -3,7 +3,7 @@ sidebar_label: babel
 sidebar_position: 2
 ---
 
-# `electron.babel`
+# electron.babel
 
 :::info 补充信息
 - 主进程的 babel 配置。

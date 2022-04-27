@@ -2,7 +2,7 @@
 sidebar_label: minifyCss
 ---
 
-# `tools.minifyCss`
+# tools.minifyCss
 
 :::info 适用的工程方案
 * MWA

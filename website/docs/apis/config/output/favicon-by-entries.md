@@ -2,7 +2,7 @@
 sidebar_label: faviconByEntries
 ---
 
-# `output.faviconByEntries`
+# output.faviconByEntries
 
 :::info 适用的工程方案
 * MWA
