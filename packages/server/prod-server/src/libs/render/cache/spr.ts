@@ -4,7 +4,7 @@ import crypto from 'crypto';
 import { IncomingHttpHeaders } from 'http';
 import url from 'url';
 import LRUCache from 'lru-cache';
-import mime from 'mime-types';
+import { mime } from '@modern-js/utils';
 import {
   cacheAddition,
   connectFactor,

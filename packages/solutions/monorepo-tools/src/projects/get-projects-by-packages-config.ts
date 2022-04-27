@@ -1,7 +1,6 @@
 import * as path from 'path';
 import { PackageJsonLookup } from '@rushstack/node-core-library';
-import globby from 'globby';
-import type { GlobbyOptions } from 'globby';
+import { globby, GlobbyOptions } from '@modern-js/utils';
 import pMap from 'p-map';
 import { errorLog } from '../log/error';
 import { Package } from '../package';
