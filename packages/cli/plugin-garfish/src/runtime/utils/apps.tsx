@@ -34,7 +34,8 @@ function getAppInstance(
       domId: generateSubAppContainerKey(appInfo),
     };
 
-    unregisterHistoryListener: any;
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    unregisterHistoryListener?: () => void = () => {};
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     async UNSAFE_componentWillMount() {
@@ -120,7 +121,7 @@ function getAppInstance(
 
     async componentWillUnmount() {
       const { appInstance } = this.state;
-      this.unregisterHistoryListener();
+      this.unregisterHistoryListener?.();
 
       if (appInstance) {
         const { appInfo } = appInstance;
