@@ -1,5 +1,5 @@
 import type { ChildProcess } from 'child_process';
-import { Import, execa, fs, isObject } from '@modern-js/utils';
+import { Import, execa, fs, json5, isObject } from '@modern-js/utils';
 import type { NormalizedConfig, CoreOptions } from '@modern-js/core';
 import type { ITsconfig } from '../../types';
 import { getTscBinPath, IGeneratorConfig } from './utils';
@@ -8,7 +8,6 @@ const core: typeof import('@modern-js/core') = Import.lazy(
   '@modern-js/core',
   require,
 );
-const JSON5: typeof import('json5') = Import.lazy('json5', require);
 const argv: typeof import('process.argv').default = Import.lazy(
   'process.argv',
   require,
@@ -22,7 +21,7 @@ const getProjectTsconfig = (tsconfigPath: string | undefined): ITsconfig => {
     return {};
   }
 
-  return JSON5.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
+  return json5.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
 };
 
 const resolveLog = (
