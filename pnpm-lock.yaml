@@ -1210,6 +1210,7 @@ importers:
       jest: ^27
       react: ^17
       react-helmet: ^6.1.0
+      react-is: ^17
       react-side-effect: ^2.1.1
       typescript: ^4
     dependencies:
@@ -1225,6 +1226,7 @@ importers:
       '@types/loadable__component': 5.13.4
       '@types/react-helmet': 6.1.5
       react-helmet: 6.1.0_react@17.0.2
+      react-is: 17.0.2
       react-side-effect: 2.1.1_react@17.0.2
     devDependencies:
       '@modern-js/core': link:../core
@@ -1417,12 +1419,12 @@ importers:
   packages/cli/plugin-state:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js-reduck/plugin-auto-actions': ^1.0.0
-      '@modern-js-reduck/plugin-devtools': ^1.0.0
-      '@modern-js-reduck/plugin-effects': ^1.0.0
-      '@modern-js-reduck/plugin-immutable': ^1.0.0
-      '@modern-js-reduck/react': ^1.0.0
-      '@modern-js-reduck/store': ^1.0.0
+      '@modern-js-reduck/plugin-auto-actions': ^1.0.2
+      '@modern-js-reduck/plugin-devtools': ^1.0.2
+      '@modern-js-reduck/plugin-effects': ^1.0.2
+      '@modern-js-reduck/plugin-immutable': ^1.0.1
+      '@modern-js-reduck/react': ^1.0.1
+      '@modern-js-reduck/store': ^1.0.3
       '@modern-js/core': workspace:*
       '@modern-js/plugin': workspace:*
       '@modern-js/runtime-core': workspace:*
@@ -1442,12 +1444,12 @@ importers:
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
-      '@modern-js-reduck/plugin-auto-actions': 1.0.1_@modern-js-reduck+store@1.0.1
-      '@modern-js-reduck/plugin-devtools': 1.0.1_@modern-js-reduck+store@1.0.1
-      '@modern-js-reduck/plugin-effects': 1.0.1_@modern-js-reduck+store@1.0.1
-      '@modern-js-reduck/plugin-immutable': 1.0.1_@modern-js-reduck+store@1.0.1
+      '@modern-js-reduck/plugin-auto-actions': 1.0.2_@modern-js-reduck+store@1.0.3
+      '@modern-js-reduck/plugin-devtools': 1.0.2_@modern-js-reduck+store@1.0.3
+      '@modern-js-reduck/plugin-effects': 1.0.2_@modern-js-reduck+store@1.0.3
+      '@modern-js-reduck/plugin-immutable': 1.0.1_@modern-js-reduck+store@1.0.3
       '@modern-js-reduck/react': 1.0.1_react@17.0.2
-      '@modern-js-reduck/store': 1.0.1
+      '@modern-js-reduck/store': 1.0.3
       '@types/redux-logger': 3.0.9
       hoist-non-react-statics: 3.3.2
       redux-logger: 3.0.6
@@ -1577,15 +1579,17 @@ importers:
 
   packages/cli/plugin-testing:
     specifiers:
+      '@babel/core': 7.16.7
       '@babel/preset-env': ^7.15.6
       '@babel/runtime': ^7
-      '@modern-js-reduck/plugin-auto-actions': ^1.0.0
-      '@modern-js-reduck/plugin-effects': ^1.0.0
-      '@modern-js-reduck/plugin-immutable': ^1.0.0
-      '@modern-js-reduck/store': ^1.0.0
+      '@modern-js-reduck/plugin-auto-actions': ^1.0.2
+      '@modern-js-reduck/plugin-effects': ^1.0.2
+      '@modern-js-reduck/plugin-immutable': ^1.0.1
+      '@modern-js-reduck/store': ^1.0.3
       '@modern-js/babel-compiler': workspace:^1.2.3
+      '@modern-js/bff-utils': workspace:^1.2.3
       '@modern-js/core': workspace:*
-      '@modern-js/runtime-core': workspace:*
+      '@modern-js/runtime-core': workspace:^1.4.2
       '@modern-js/testing': workspace:^1.4.3
       '@modern-js/testing-plugin-bff': workspace:^1.4.0
       '@modern-js/utils': workspace:^1.5.0
@@ -1604,9 +1608,16 @@ importers:
       react-dom: ^17
       typescript: ^4
     dependencies:
-      '@babel/preset-env': 7.16.8
+      '@babel/core': 7.16.7
+      '@babel/preset-env': 7.16.8_@babel+core@7.16.7
       '@babel/runtime': 7.16.7
+      '@modern-js-reduck/plugin-auto-actions': 1.0.2_@modern-js-reduck+store@1.0.3
+      '@modern-js-reduck/plugin-effects': 1.0.2_@modern-js-reduck+store@1.0.3
+      '@modern-js-reduck/plugin-immutable': 1.0.1_@modern-js-reduck+store@1.0.3
+      '@modern-js-reduck/store': 1.0.3
       '@modern-js/babel-compiler': link:../../toolkit/compiler/babel
+      '@modern-js/bff-utils': link:../../server/bff-utils
+      '@modern-js/runtime-core': link:../../runtime
       '@modern-js/testing': link:../../review/testing
       '@modern-js/testing-plugin-bff': link:../../review/testing-plugin-bff
       '@modern-js/utils': link:../../toolkit/utils
@@ -1615,12 +1626,7 @@ importers:
       '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
       '@types/testing-library__jest-dom': 5.14.3
     devDependencies:
-      '@modern-js-reduck/plugin-auto-actions': 1.0.1_@modern-js-reduck+store@1.0.1
-      '@modern-js-reduck/plugin-effects': 1.0.1_@modern-js-reduck+store@1.0.1
-      '@modern-js-reduck/plugin-immutable': 1.0.1_@modern-js-reduck+store@1.0.1
-      '@modern-js-reduck/store': 1.0.1
       '@modern-js/core': link:../core
-      '@modern-js/runtime-core': link:../../runtime
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
@@ -2858,13 +2864,13 @@ importers:
 
   packages/review/testing:
     specifiers:
+      '@babel/core': 7.16.7
       '@babel/runtime': ^7
       '@jest/types': ^27.0.6
       '@modern-js/babel-preset-app': workspace:^1.2.7
       '@modern-js/core': workspace:*
       '@modern-js/plugin': workspace:^1.3.3
       '@modern-js/utils': workspace:^1.5.0
-      '@modern-js/webpack': workspace:^1.5.6
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27.4.0
@@ -2882,17 +2888,17 @@ importers:
       typescript: ^4
       yargs: ^17.0.1
     dependencies:
+      '@babel/core': 7.16.7
       '@babel/runtime': 7.16.7
       '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/utils': link:../../toolkit/utils
-      '@modern-js/webpack': link:../../cli/webpack
-      babel-jest: 27.4.5
+      babel-jest: 27.4.5_@babel+core@7.16.7
       enhanced-resolve: 5.9.2
       identity-obj-proxy: 3.0.0
       jest: 27.4.5
       semver: 7.3.5
-      ts-jest: 27.1.2_5a7a55c954468793f3f6f629a6f89926
+      ts-jest: 27.1.2_652b6643622fe87eb986e38ba49ad891
       yargs: 17.3.1
     devDependencies:
       '@jest/types': 27.5.1
@@ -6162,11 +6168,6 @@ packages:
     resolution: {integrity: sha512-i7jDUfrVBWc+7OKcBzEe5n7fbv3i2fWtxKzzCvOjnzSxMfWMigAhtfJ7qzZNGFNMsCCd67+uz553dYKWXPvCKw==}
     engines: {node: '>=6.0.0'}
 
-  /@babel/parser/7.17.3:
-    resolution: {integrity: sha512-7yJPvPV+ESz2IUTPbOL+YkIGyCqOyNIzdguKQuJGnH7bg1WTIifuM21YqokFt/THWh1AkCRn9IgoykTRCBVpzA==}
-    engines: {node: '>=6.0.0'}
-    hasBin: true
-
   /@babel/parser/7.17.8:
     resolution: {integrity: sha512-BoHhDJrJXqcg+ZL16Xv39H9n+AqJ4pcDrQBGZN+wHxIysrLZ3/ECwCBUch/1zUNhnsXULcONU3Ei5Hmkfk6kiQ==}
     engines: {node: '>=6.0.0'}
@@ -6934,14 +6935,6 @@ packages:
       '@babel/helper-plugin-utils': 7.16.7
     dev: false
 
-  /@babel/plugin-syntax-bigint/7.8.3:
-    resolution: {integrity: sha512-wnTnFlG+YxQm3vDxpGE57Pj0srRU4sHE/mDkt1qv2YJJSeUAec2ma4WLUnUPeKjyrfntVwe/N6dCXpU+zL3Npg==}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/helper-plugin-utils': 7.16.7
-    dev: false
-
   /@babel/plugin-syntax-bigint/7.8.3_@babel+core@7.16.7:
     resolution: {integrity: sha512-wnTnFlG+YxQm3vDxpGE57Pj0srRU4sHE/mDkt1qv2YJJSeUAec2ma4WLUnUPeKjyrfntVwe/N6dCXpU+zL3Npg==}
     peerDependencies:
@@ -7139,14 +7132,6 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.16.7
-      '@babel/helper-plugin-utils': 7.16.7
-    dev: false
-
-  /@babel/plugin-syntax-import-meta/7.10.4:
-    resolution: {integrity: sha512-Yqfm+XDx0+Prh3VSeEQCPU81yC+JWZ2pDPFSS4ZdpfZhp4MkFMaDC1UqseovEKwSUpnIL7+vK+Clp7bfh0iD7g==}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
       '@babel/helper-plugin-utils': 7.16.7
     dev: false
 
@@ -9231,6 +9216,13 @@ packages:
     dependencies:
       regenerator-runtime: 0.13.9
 
+  /@babel/runtime/7.17.9:
+    resolution: {integrity: sha512-lSiBBvodq29uShpWGNbgFdKYNiFDo5/HIYsaCEY9ff4sb10x9jizo2+pRrSyF4jKZCXqgzuqBOQKbUm90gQwJg==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.9
+    dev: false
+
   /@babel/template/7.16.7:
     resolution: {integrity: sha512-I8j/x8kHUrbYRTUxXrrMbfCa7jxkE7tZre39x3kjr9hvI82cK1FfqLygotcWN5kdPGWcLdWMHpSBavse5tWw3w==}
     engines: {node: '>=6.9.0'}
@@ -11219,7 +11211,7 @@ packages:
     resolution: {integrity: sha512-PuMet2UlZtlGzwc6L+aZmR3I7CEBpqadO03pU40l2RNY2fFJ191b9/ITB44LNOhVtsyykx0OZvj0PCyuLm7Eew==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
-      '@babel/core': 7.16.7
+      '@babel/core': 7.17.8
       '@jest/types': 27.5.1
       babel-plugin-istanbul: 6.1.1
       chalk: 4.1.2
@@ -11425,46 +11417,47 @@ packages:
     resolution: {integrity: sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==}
     dev: false
 
-  /@modern-js-reduck/plugin-auto-actions/1.0.1_@modern-js-reduck+store@1.0.1:
-    resolution: {integrity: sha512-HugxqJwckifobAaKY2TjyBZib6lM9Eco3VTNnGKoTViJW+ct6MGiLUMw6R1Hps+wiNmTdB5Ps6WSxHg6zi1F0Q==}
+  /@modern-js-reduck/plugin-auto-actions/1.0.2_@modern-js-reduck+store@1.0.3:
+    resolution: {integrity: sha512-qVBH++UdjK6LUsr+GY8e0N+HeOxBM4QtQqWfQ7i+s6wc57smqr6JswaSiCBdEspa/UwKwLAUL8UTyTyOHA1p9w==}
     peerDependencies:
       '@modern-js-reduck/store': ^1.0.1
     dependencies:
       '@babel/runtime': 7.16.7
-      '@modern-js-reduck/store': 1.0.1
-
-  /@modern-js-reduck/plugin-devtools/1.0.1_@modern-js-reduck+store@1.0.1:
-    resolution: {integrity: sha512-47Ek/edvbyX0PGYJ8aIlebs8thz75MK0VwgWCmT1/BQKUHlQTugQHd+jZhv7xtSTAbTPzLK65XdiM9GRqebAgg==}
-    peerDependencies:
-      '@modern-js-reduck/store': ^1.0.1
-    dependencies:
-      '@babel/runtime': 7.16.7
-      '@modern-js-reduck/store': 1.0.1
-      redux-devtools-extension: 2.13.9
-    transitivePeerDependencies:
-      - redux
+      '@modern-js-reduck/store': 1.0.3
     dev: false
 
-  /@modern-js-reduck/plugin-effects/1.0.1_@modern-js-reduck+store@1.0.1:
-    resolution: {integrity: sha512-Ouq0Sr8+K6MTn///k0f1KjT5UMUIO8/hA0Ka1qLYb6LwR6OgH7WFGhR6zMqHAvSxIx4L4PQWmIOpUZK9UojDRw==}
+  /@modern-js-reduck/plugin-devtools/1.0.2_@modern-js-reduck+store@1.0.3:
+    resolution: {integrity: sha512-YnBBnW6ZZ7Oib05a0JBojwkVQai50XkJVlyqzvkiHDGRDyUBWPEvMPjfg16/iMP0HfMOUxI9F6GUBthJZ37rYA==}
     peerDependencies:
       '@modern-js-reduck/store': ^1.0.1
     dependencies:
       '@babel/runtime': 7.16.7
-      '@modern-js-reduck/store': 1.0.1
-      redux-promise-middleware: 6.1.2
-      redux-thunk: 2.4.1
-    transitivePeerDependencies:
-      - redux
+      '@modern-js-reduck/store': 1.0.3
+      redux: 4.2.0
+      redux-devtools-extension: 2.13.9_redux@4.2.0
+    dev: false
 
-  /@modern-js-reduck/plugin-immutable/1.0.1_@modern-js-reduck+store@1.0.1:
+  /@modern-js-reduck/plugin-effects/1.0.2_@modern-js-reduck+store@1.0.3:
+    resolution: {integrity: sha512-rMqMVUCbpoMYo2NHkezHvEYuT0Sybo8ouVGp3cdUJ2hHihUdK3I8aaP/iKay7eFPquhalreEireYO0uzvV6XuQ==}
+    peerDependencies:
+      '@modern-js-reduck/store': ^1.0.1
+    dependencies:
+      '@babel/runtime': 7.16.7
+      '@modern-js-reduck/store': 1.0.3
+      redux: 4.2.0
+      redux-promise-middleware: 6.1.2_redux@4.2.0
+      redux-thunk: 2.4.1_redux@4.2.0
+    dev: false
+
+  /@modern-js-reduck/plugin-immutable/1.0.1_@modern-js-reduck+store@1.0.3:
     resolution: {integrity: sha512-v0Y/OB7QWAQEooCaqqEJljo1jb7HTgjwFK+sxcAhBlvueXreiJ1HXwxE+ZAFncsKEKszbSJ3Xf+KMpKxY2uMBw==}
     peerDependencies:
       '@modern-js-reduck/store': ^1.0.1
     dependencies:
       '@babel/runtime': 7.16.7
-      '@modern-js-reduck/store': 1.0.1
+      '@modern-js-reduck/store': 1.0.3
       immer: 9.0.7
+    dev: false
 
   /@modern-js-reduck/react/1.0.1_react@17.0.2:
     resolution: {integrity: sha512-DKZgznT/dRYsuSKt5299iSwSdTUk+smNN1T8vxg2L9+T/5jdMJJKelFIBJwioy6GMU/IAGJ6+E26wVOsjYOsEA==}
@@ -11472,16 +11465,17 @@ packages:
       react: ^17.0.2
     dependencies:
       '@babel/runtime': 7.16.7
-      '@modern-js-reduck/store': 1.0.1
+      '@modern-js-reduck/store': 1.0.3
       invariant: 2.2.4
       react: 17.0.2
     dev: false
 
-  /@modern-js-reduck/store/1.0.1:
-    resolution: {integrity: sha512-7ifxlN4uPy7+jXuCX19eu0Uk6Q/9fMNyHLH4kur0sfGmw7CrN/jNSxYG3vA4PeHmuFTU8JpWPs2yvgvWH2KO/Q==}
+  /@modern-js-reduck/store/1.0.3:
+    resolution: {integrity: sha512-3o7CD3d4FIbt/bIlU7vrT1HK1sFwkkAo2qQOEckqVqKmhrPoxgBK3jC/qlAUvSD5wJ2z+dw1NuS1GhaqbgPaSQ==}
     dependencies:
       '@babel/runtime': 7.16.7
       redux: 4.1.2
+    dev: false
 
   /@modern-js/codesmith-api-app/1.0.8:
     resolution: {integrity: sha512-YB3bIEmhD7MBiW0KnSCjV5SRwTtnKsoCa0jbUZQHPX0E0MWx7EUARW7b08OTQOsT8dlPb4+0cg/BlDQYrwFd+Q==}
@@ -17174,24 +17168,6 @@ packages:
       - supports-color
     dev: true
 
-  /babel-jest/27.4.5:
-    resolution: {integrity: sha512-3uuUTjXbgtODmSv/DXO9nZfD52IyC2OYTFaXGRzL0kpykzroaquCrD5+lZNafTvZlnNqZHt5pb0M08qVBZnsnA==}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-    peerDependencies:
-      '@babel/core': ^7.8.0
-    dependencies:
-      '@jest/transform': 27.4.5
-      '@jest/types': 27.5.1
-      '@types/babel__core': 7.1.18
-      babel-plugin-istanbul: 6.1.1
-      babel-preset-jest: 27.4.0
-      chalk: 4.1.2
-      graceful-fs: 4.2.10
-      slash: 3.0.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /babel-jest/27.4.5_@babel+core@7.16.7:
     resolution: {integrity: sha512-3uuUTjXbgtODmSv/DXO9nZfD52IyC2OYTFaXGRzL0kpykzroaquCrD5+lZNafTvZlnNqZHt5pb0M08qVBZnsnA==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
@@ -17353,7 +17329,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@babel/template': 7.16.7
-      '@babel/types': 7.16.8
+      '@babel/types': 7.17.0
       '@types/babel__core': 7.1.18
       '@types/babel__traverse': 7.14.2
 
@@ -17591,25 +17567,6 @@ packages:
       '@babel/helper-plugin-utils': 7.16.7
     dev: false
 
-  /babel-preset-current-node-syntax/1.0.1:
-    resolution: {integrity: sha512-M7LQ0bxarkxQoN+vz5aJPsLBn77n8QgTFmo8WK0/44auK2xlCXrYcUxHFxgU7qW5Yzw/CjmLRK2uJzaCd7LvqQ==}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-    dependencies:
-      '@babel/plugin-syntax-async-generators': 7.8.4
-      '@babel/plugin-syntax-bigint': 7.8.3
-      '@babel/plugin-syntax-class-properties': 7.12.13
-      '@babel/plugin-syntax-import-meta': 7.10.4
-      '@babel/plugin-syntax-json-strings': 7.8.3
-      '@babel/plugin-syntax-logical-assignment-operators': 7.10.4
-      '@babel/plugin-syntax-nullish-coalescing-operator': 7.8.3
-      '@babel/plugin-syntax-numeric-separator': 7.10.4
-      '@babel/plugin-syntax-object-rest-spread': 7.8.3
-      '@babel/plugin-syntax-optional-catch-binding': 7.8.3
-      '@babel/plugin-syntax-optional-chaining': 7.8.3
-      '@babel/plugin-syntax-top-level-await': 7.14.5
-    dev: false
-
   /babel-preset-current-node-syntax/1.0.1_@babel+core@7.16.7:
     resolution: {integrity: sha512-M7LQ0bxarkxQoN+vz5aJPsLBn77n8QgTFmo8WK0/44auK2xlCXrYcUxHFxgU7qW5Yzw/CjmLRK2uJzaCd7LvqQ==}
     peerDependencies:
@@ -17639,16 +17596,6 @@ packages:
       babel-plugin-jest-hoist: 26.6.2
       babel-preset-current-node-syntax: 1.0.1_@babel+core@7.16.7
     dev: true
-
-  /babel-preset-jest/27.4.0:
-    resolution: {integrity: sha512-NK4jGYpnBvNxcGo7/ZpZJr51jCGT+3bwwpVIDY2oNfTxJJldRtB4VAcYdgp1loDE50ODuTu+yBjpMAswv5tlpg==}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-    dependencies:
-      babel-plugin-jest-hoist: 27.4.0
-      babel-preset-current-node-syntax: 1.0.1
-    dev: false
 
   /babel-preset-jest/27.4.0_@babel+core@7.16.7:
     resolution: {integrity: sha512-NK4jGYpnBvNxcGo7/ZpZJr51jCGT+3bwwpVIDY2oNfTxJJldRtB4VAcYdgp1loDE50ODuTu+yBjpMAswv5tlpg==}
@@ -25365,6 +25312,7 @@ packages:
 
   /immer/9.0.7:
     resolution: {integrity: sha512-KGllzpbamZDvOIxnmJ0jI840g7Oikx58lBPWV0hUh7dtAyZpFqqrBZdKka5GlTwMTZ1Tjc/bKKW4VSFAt6BqMA==}
+    dev: false
 
   /immutable/4.0.0:
     resolution: {integrity: sha512-zIE9hX70qew5qTUjSS7wi1iwj/l7+m54KWU247nhM3v806UdGj1yDndXj+IOYxxtW9zyLI+xqFNZjTuDaLUqFw==}
@@ -26266,8 +26214,8 @@ packages:
     resolution: {integrity: sha512-czwUz525rkOFDJxfKK6mYfIs9zBKILyrZQxjz3ABhjQXhbhFsSbo1HW/BFcsDnfJYJWA6thRR5/TUY2qs5W99Q==}
     engines: {node: '>=8'}
     dependencies:
-      '@babel/core': 7.16.7
-      '@babel/parser': 7.17.3
+      '@babel/core': 7.17.8
+      '@babel/parser': 7.17.8
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.0
       semver: 6.3.0
@@ -33757,10 +33705,12 @@ packages:
       css-unit-converter: 1.1.2
       postcss-value-parser: 3.3.1
 
-  /redux-devtools-extension/2.13.9:
+  /redux-devtools-extension/2.13.9_redux@4.2.0:
     resolution: {integrity: sha512-cNJ8Q/EtjhQaZ71c8I9+BPySIBVEKssbPpskBfsXqb8HJ002A3KRVHfeRzwRo6mGPqsm7XuHTqNSNeS1Khig0A==}
     peerDependencies:
       redux: ^3.1.0 || ^4.0.0
+    dependencies:
+      redux: 4.2.0
     dev: false
 
   /redux-logger/3.0.6:
@@ -33769,22 +33719,33 @@ packages:
       deep-diff: 0.3.8
     dev: false
 
-  /redux-promise-middleware/6.1.2:
+  /redux-promise-middleware/6.1.2_redux@4.2.0:
     resolution: {integrity: sha512-ZqZu/nnSzGgwTtNbGoGVontpk7LjTOv0kigtt3CcgXI9gpq+8WlfXTXRZD0WTD5yaohRq0q2nYmJXSTjwXs83Q==}
     peerDependencies:
       redux: ^2.0.0 || ^3.0.0 || ^4.0.0
     dependencies:
-      esbuild: 0.13.15
+      redux: 4.2.0
+    dev: false
 
-  /redux-thunk/2.4.1:
+  /redux-thunk/2.4.1_redux@4.2.0:
     resolution: {integrity: sha512-OOYGNY5Jy2TWvTL1KgAlVy6dcx3siPJ1wTq741EPyUKfn6W6nChdICjZwCd0p8AZBs5kWpZlbkXW2nE/zjUa+Q==}
     peerDependencies:
       redux: ^4
+    dependencies:
+      redux: 4.2.0
+    dev: false
 
   /redux/4.1.2:
     resolution: {integrity: sha512-SH8PglcebESbd/shgf6mii6EIoRM0zrQyjcuQ+ojmfxjTtE0z9Y8pa62iA/OJ58qjP6j27uyW4kUF4jl/jd6sw==}
     dependencies:
       '@babel/runtime': 7.16.7
+    dev: false
+
+  /redux/4.2.0:
+    resolution: {integrity: sha512-oSBmcKKIuIR4ME29/AeNUnl5L+hvBq7OaJWzaptTQJAntaPvxIJqfnjbaEiCzzaIz+XmVILfqAM3Ob0aXLPfjA==}
+    dependencies:
+      '@babel/runtime': 7.17.9
+    dev: false
 
   /reflect-metadata/0.1.13:
     resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
@@ -36977,7 +36938,7 @@ packages:
       yargs-parser: 20.2.9
     dev: true
 
-  /ts-jest/27.1.2_5a7a55c954468793f3f6f629a6f89926:
+  /ts-jest/27.1.2_652b6643622fe87eb986e38ba49ad891:
     resolution: {integrity: sha512-eSOiJOWq6Hhs6Khzk5wKC5sgWIXgXqOCiIl1+3lfnearu58Hj4QpE5tUhQcA3xtZrELbcvAGCsd6HB8OsaVaTA==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
@@ -36998,8 +36959,9 @@ packages:
       esbuild:
         optional: true
     dependencies:
+      '@babel/core': 7.16.7
       '@types/jest': 27.4.0
-      babel-jest: 27.4.5
+      babel-jest: 27.4.5_@babel+core@7.16.7
       bs-logger: 0.2.6
       esbuild: 0.14.38
       fast-json-stable-stringify: 2.1.0
