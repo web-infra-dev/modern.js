@@ -2,8 +2,6 @@ import { AsyncWaterfall, AsyncWorkflow } from '@modern-js/plugin';
 import { Compiler, MultiCompiler, Configuration } from 'webpack';
 import { ServerRoute } from '../server';
 
-export type { Compiler, MultiCompiler, Configuration };
-
 /**
  * Bundle entrypoint
  */
