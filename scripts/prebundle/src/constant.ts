@@ -6,6 +6,12 @@ export const ROOT_DIR = join(__dirname, '..', '..', '..');
 export const PACKAGES_DIR = join(ROOT_DIR, 'packages');
 export const DIST_DIR = 'compiled';
 
+export const DEFAULT_EXTERNALS = {
+  // Don't bundle caniuse-lite data, so users can update it manually.
+  'caniuse-lite': 'caniuse-lite',
+  '/caniuse-lite(/.*)/': 'caniuse-lite$1',
+};
+
 /**
  * 1. 优先打「零依赖」的包，使 externals 能更好地生效
  * 2. 预打包的依赖请锁死到固定版本
