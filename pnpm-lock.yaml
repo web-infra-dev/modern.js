@@ -4310,11 +4310,13 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
       '@types/node': ^14
+      caniuse-lite: ^1.0.30001332
       esbuild: ^0.13.13
       jest: ^27
       typescript: ^4
       webpack: ^5.71.0
     dependencies:
+      caniuse-lite: 1.0.30001332
       esbuild: 0.13.15
       typescript: 4.5.4
     devDependencies:
@@ -18468,6 +18470,10 @@ packages:
 
   /caniuse-lite/1.0.30001319:
     resolution: {integrity: sha512-xjlIAFHucBRSMUo1kb5D4LYgcN1M45qdKP++lhqowDpwJwGkpIRTt5qQqnhxjj1vHcI7nrJxWhCC1ATrCEBTcw==}
+
+  /caniuse-lite/1.0.30001332:
+    resolution: {integrity: sha512-10T30NYOEQtN6C11YGg411yebhvpnC6Z102+B95eAsN0oB6KUs01ivE8u+G6FMIRtIrVlYXhL+LUwQ3/hXwDWw==}
+    dev: false
 
   /capture-exit/2.0.0:
     resolution: {integrity: sha512-PiT/hQmTonHhl/HFGN+Lx3JJUznrVYJ3+AQsnthneZbvW7x+f08Tk7yLJTLEOUvBTbduLeeBkxEaYXUOUrRq6g==}
