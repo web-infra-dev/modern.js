@@ -47,7 +47,8 @@ export const handleWebpackConfig = (
     '@modern-js-model/reduck-core',
     '@modern-js/runtime',
     '@modern-js/runtime-core',
-    '@modern-js/plugin-router',
+    // 这个包在 nocode 调试时不应该被 external
+    // '@modern-js/plugin-router',
     '@modern-js/plugin-state',
     '@modern-js/server-utils',
     'styled-components',
