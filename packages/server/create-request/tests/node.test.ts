@@ -53,6 +53,40 @@ describe('configure', () => {
     );
   });
 
+  test('query should support array', done => {
+    const url = 'http://localhost:9090';
+    const port = 9090;
+
+    run(
+      {
+        referer: url,
+      },
+      async () => {
+        nock(url)
+          .get(path)
+          .query({
+            users: ['foo', 'bar'],
+          })
+          .reply(200, response);
+
+        const customRequest = jest.fn((requestPath: any) => fetch(requestPath));
+
+        configure({ request: customRequest as unknown as typeof fetch });
+        const request = createRequest(path, method, port);
+        const res = await request({
+          query: {
+            users: ['foo', 'bar'],
+          },
+        });
+        const data = await res.json();
+
+        expect(res instanceof Response).toBe(true);
+        expect(data).toStrictEqual(response);
+        done();
+      },
+    );
+  });
+
   test('should support interceptor', done => {
     run({}, async () => {
       nock(url).get(path).reply(200, response);
