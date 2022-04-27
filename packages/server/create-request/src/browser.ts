@@ -1,4 +1,5 @@
 import { compile, pathToRegexp, Key } from 'path-to-regexp';
+import qs from 'query-string';
 import { handleRes } from './handleRes';
 import type {
   BFFRequestPayload,
@@ -47,8 +48,9 @@ export const createRequest: RequestCreator = (
     });
 
     const finalPath = getFinalPath(payload.params);
+
     const finalURL = payload.query
-      ? `${finalPath}?${qsStringify(payload.query)}`
+      ? `${finalPath}?${qs.stringify(payload.query)}`
       : finalPath;
     const headers = payload.headers || {};
     let body: any =
@@ -81,7 +83,7 @@ export const createRequest: RequestCreator = (
         // eslint-disable-next-line node/prefer-global/url-search-params,node/no-unsupported-features/node-builtins
         !(payload.formUrlencoded instanceof URLSearchParams)
       ) {
-        body = qsStringify(payload.formUrlencoded);
+        body = qs.stringify(payload.formUrlencoded);
       } else {
         body = payload.formUrlencoded;
       }
@@ -95,18 +97,4 @@ export const createRequest: RequestCreator = (
   };
 
   return sender;
-};
-
-const qsStringify = (input: Record<string, any>) => {
-  const tupleList: string[] = [];
-
-  for (const p in input) {
-    if (input.hasOwnProperty(p)) {
-      tupleList.push(
-        `${encodeURIComponent(p)}=${encodeURIComponent(input[p])}`,
-      );
-    }
-  }
-
-  return tupleList.join('&');
 };
