@@ -2,7 +2,7 @@
 sidebar_label: terser
 ---
 
-# `tools.terser`
+# tools.terser
 
 :::info 适用的工程方案
 * MWA

@@ -1,7 +1,7 @@
 ---
 sidebar_label: ssg
 ---
-# `output.ssg`
+# output.ssg
 
 :::info 适用的工程方案
 * MWA

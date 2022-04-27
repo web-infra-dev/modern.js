@@ -2,7 +2,7 @@
 sidebar_label: titleByEntries
 ---
 
-# `output.titleByEntries`
+# output.titleByEntries
 
 :::info 适用的工程方案
 * MWA

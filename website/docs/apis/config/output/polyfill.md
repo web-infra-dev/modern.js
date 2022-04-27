@@ -2,10 +2,9 @@
 sidebar_label: polyfill
 ---
 
-# `output.polyfill`
+# output.polyfill
 
 :::info 适用的工程方案
-
 * MWA
 :::
 

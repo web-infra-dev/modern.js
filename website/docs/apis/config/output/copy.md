@@ -2,7 +2,7 @@
 sidebar_label: copy
 ---
 
-# `output.copy`
+# output.copy
 
 :::info 适用的工程方案
 * MWA

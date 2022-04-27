@@ -2,7 +2,7 @@
 sidebar_label: enableInlineScripts
 ---
 
-# `output.enableInlineScripts`
+# output.enableInlineScripts
 
 :::info 适用的工程方案
 * MWA

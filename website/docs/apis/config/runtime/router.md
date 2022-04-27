@@ -3,7 +3,7 @@ sidebar_label: router
 sidebar_position: 1
 ---
 
-# `runtime.router`
+# runtime.router
 
 :::info 适用的工程方案
 * MWA

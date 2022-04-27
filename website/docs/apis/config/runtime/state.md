@@ -3,7 +3,7 @@ sidebar_label: state
 sidebar_position: 2
 ---
 
-# `runtime.state`
+# runtime.state
 
 :::info 适用的工程方案
 * MWA
