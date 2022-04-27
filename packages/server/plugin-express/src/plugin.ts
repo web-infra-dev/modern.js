@@ -77,7 +77,6 @@ export default (): ServerPlugin => ({
           const { middleware } = config as FrameConfig;
           initMiddlewares(middleware, app);
         }
-        // eslint-disable-next-line react-hooks/rules-of-hooks
         useRun(app);
 
         registerRoutes(app);
@@ -90,7 +89,6 @@ export default (): ServerPlugin => ({
           initMiddlewares(middleware, app);
         }
 
-        // eslint-disable-next-line react-hooks/rules-of-hooks
         useRun(app);
 
         registerRoutes(app);
