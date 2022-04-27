@@ -12,4 +12,4 @@ Modern.js 提供的三个工程方案支持在项目中执行 new 命令创建�
 
 - [模块](/docs/apis/generator/config/module#new-命令)
 
-- [项目组](/docs/apis/generator/config/monorepo#%E5%88%9B%E5%BB%BA%E5%AD%90%E9%A1%B9%E7%9B%AE)
+- [Monorepo](docs/apis/generator/config/monorepo#创建子项目)
