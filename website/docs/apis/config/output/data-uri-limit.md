@@ -2,7 +2,7 @@
 sidebar_label: dataUriLimit
 ---
 
-# `output.dataUriLimit`
+# output.dataUriLimit
 
 :::info 适用的工程方案
 * MWA

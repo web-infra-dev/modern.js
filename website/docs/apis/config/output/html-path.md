@@ -1,7 +1,7 @@
 ---
 sidebar_label: htmlPath
 ---
-# `output.htmlPath`
+# output.htmlPath
 
 :::info 适用的工程方案
 * MWA

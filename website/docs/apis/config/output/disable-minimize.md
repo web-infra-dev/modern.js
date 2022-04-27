@@ -2,7 +2,7 @@
 sidebar_label: disableMinimize
 ---
 
-# `output.disableMinimize`
+# output.disableMinimize
 
 :::info 适用的工程方案
 * MWA

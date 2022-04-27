@@ -2,7 +2,8 @@
 sidebar_label: ssr
 sidebar_position: 1
 ---
-# `server.ssr`
+
+# server.ssr
 
 :::info 适用的工程方案
 * MWA

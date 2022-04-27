@@ -3,7 +3,7 @@ sidebar_label: sass
 sidebar_position: 6
 ---
 
-# `tools.sass`
+# tools.sass
 
 :::info 适用的工程方案
 * MWA

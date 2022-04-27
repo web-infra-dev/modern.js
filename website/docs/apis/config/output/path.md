@@ -2,7 +2,7 @@
 sidebar_label: path
 ---
 
-# `output.path`
+# output.path
 
 :::info 适用的工程方案
 * MWA

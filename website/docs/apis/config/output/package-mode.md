@@ -2,7 +2,7 @@
 sidebar_label: packageMode
 ---
 
-# `output.packageMode`
+# output.packageMode
 
 :::info 适用的工程方案
 * 模块

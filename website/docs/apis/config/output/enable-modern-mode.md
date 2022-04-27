@@ -2,10 +2,9 @@
 sidebar_label: enableModernMode
 ---
 
-# `output.enableModernMode`
+# output.enableModernMode
 
 :::info 适用的工程方案
-
 * MWA
 :::
 

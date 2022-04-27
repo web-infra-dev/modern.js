@@ -2,7 +2,7 @@
 sidebar_label: metaByEntries
 ---
 
-# `output.metaByEntries`
+# output.metaByEntries
 
 :::info 适用的工程方案
 * MWA
