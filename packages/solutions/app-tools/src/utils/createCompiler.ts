@@ -1,4 +1,4 @@
-import webpack, { Configuration, StatsCompilation } from 'webpack';
+import { webpack, Configuration, StatsCompilation } from '@modern-js/webpack';
 import type { IAppContext, NormalizedConfig, PluginAPI } from '@modern-js/core';
 import {
   chalk,
