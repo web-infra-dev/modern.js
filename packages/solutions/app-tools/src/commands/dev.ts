@@ -88,7 +88,9 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
           path: HMR_SOCK_PATH,
           host: 'localhost',
         },
-        dev: { writeToDisk: (file: string) => !file.includes('.hot-update.') },
+        devMiddleware: {
+          writeToDisk: (file: string) => !file.includes('.hot-update.'),
+        },
         hot: true,
         liveReload: true,
         port,
