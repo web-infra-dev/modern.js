@@ -8,7 +8,7 @@ import type {
   ServerRoute,
   HtmlPartials,
 } from '@modern-js/types';
-import clone from 'clone';
+import { cloneDeep } from '@modern-js/utils/lodash';
 import type { ImportStatement } from './generateCode';
 import type { RuntimePlugin } from './templates';
 import { isRouteComponentFile } from './utils';
@@ -138,7 +138,7 @@ export default (): CliPlugin => ({
         });
 
         pagesDir = entrypoints.map(point => point.entry);
-        originEntrypoints = clone(entrypoints);
+        originEntrypoints = cloneDeep(entrypoints);
 
         await generateCode(appContext, resolvedConfig, entrypoints, api);
 
@@ -186,7 +186,7 @@ export default (): CliPlugin => ({
         ) {
           const resolvedConfig = api.useResolvedConfigContext();
           const { generateCode } = await import('./generateCode');
-          const entrypoints = clone(originEntrypoints);
+          const entrypoints = cloneDeep(originEntrypoints);
           generateCode(appContext, resolvedConfig, entrypoints, api);
         }
       },

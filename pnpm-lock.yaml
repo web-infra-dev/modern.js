@@ -373,14 +373,10 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__traverse': ^7.14.2
-      '@types/clone': ^2.1.1
       '@types/jest': ^26
       '@types/node': ^14
-      '@types/url-join': ^4.0.1
-      clone: ^2.1.2
       jest: ^27
       typescript: ^4
-      url-join: ^4.0.1
     dependencies:
       '@babel/parser': 7.16.8
       '@babel/runtime': 7.16.7
@@ -389,18 +385,14 @@ importers:
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/utils': link:../../toolkit/utils
       '@rollup/pluginutils': 4.1.2
-      clone: 2.1.2
-      url-join: 4.0.1
     devDependencies:
       '@modern-js/core': link:../core
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__traverse': 7.14.2
-      '@types/clone': 2.1.1
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
-      '@types/url-join': 4.0.1
       jest: 27.4.5
       typescript: 4.5.4
 
@@ -469,20 +461,16 @@ importers:
       '@modern-js/utils': workspace:^1.5.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/inquirer': ^8.1.3
       '@types/jest': ^26.0.9
-      '@types/mime-types': ^2.1.1
       '@types/node': ^14
       '@types/walk': ^2.3.1
       cos-nodejs-sdk-v5: ^2.10.10
       jest: ^27
-      mime-types: ^2.1.34
       typescript: ^4
       walk: ^2.3.15
     dependencies:
       '@modern-js/utils': link:../../toolkit/utils
       cos-nodejs-sdk-v5: 2.11.6
-      mime-types: 2.1.34
       walk: 2.3.15
     devDependencies:
       '@babel/runtime': 7.16.7
@@ -490,9 +478,7 @@ importers:
       '@modern-js/plugin-jarvis': link:../plugin-jarvis
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/inquirer': 8.1.3
       '@types/jest': 26.0.24
-      '@types/mime-types': 2.1.1
       '@types/node': 14.18.4
       '@types/walk': 2.3.1
       jest: 27.4.5
@@ -970,7 +956,6 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@serverless/components': ^3.18.0
-      '@types/inquirer': ^8.1.3
       '@types/jest': ^26.0.9
       '@types/node': ^14
       jest: ^27
@@ -984,7 +969,6 @@ importers:
       '@modern-js/plugin-jarvis': link:../plugin-jarvis
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/inquirer': 8.1.3
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
       jest: 27.4.5
@@ -1066,7 +1050,6 @@ importers:
       '@types/cors': ^2.8.12
       '@types/express': ^4.17.13
       '@types/glob': ^7.1.4
-      '@types/inquirer': ^8.1.3
       '@types/jest': ^26
       '@types/less': ^3.0.3
       '@types/node': ^14
@@ -1079,7 +1062,6 @@ importers:
       esbuild: ^0.13.13
       express: ^4.17.1
       http-proxy-middleware: '1'
-      inquirer: ^8.1.5
       jest: ^27
       jsdom: ^19.0.0
       opener: ^1.5.2
@@ -1101,7 +1083,6 @@ importers:
       esbuild: 0.13.15
       express: 4.17.2
       http-proxy-middleware: 1.3.1
-      inquirer: 8.2.0
       jsdom: 19.0.0
       opener: 1.5.2
       reload: 3.2.0
@@ -1118,7 +1099,6 @@ importers:
       '@types/cors': 2.8.12
       '@types/express': 4.17.13
       '@types/glob': 7.2.0
-      '@types/inquirer': 8.1.3
       '@types/jest': 26.0.24
       '@types/less': 3.0.3
       '@types/node': 14.18.4
@@ -1689,7 +1669,6 @@ importers:
       '@types/koa-compress': ^4.0.1
       '@types/koa-static': ^4.0.1
       '@types/less': ^3.0.2
-      '@types/mime-types': ^2.1.0
       '@types/node': ^16.9.2
       '@types/semver': ^7.3.4
       '@types/strip-comments': ^2.0.0
@@ -1705,7 +1684,6 @@ importers:
       es-module-lexer: ^0.4.1
       esbuild: ^0.13.15
       etag: ^1.8.1
-      fast-glob: ^3.2.5
       find-node-modules: ^2.1.2
       http-proxy-middleware: ^1.0.6
       jest: ^27
@@ -1716,7 +1694,6 @@ importers:
       less: ^4.1.1
       magic-string: ^0.25.7
       merge-source-map: ^1.1.0
-      mime-types: ^2.1.29
       node-fetch: ^2.6.5
       portfinder: ^1.0.28
       postcss: ^8
@@ -1758,7 +1735,6 @@ importers:
       es-module-lexer: 0.4.1
       esbuild: 0.13.15
       etag: 1.8.1
-      fast-glob: 3.2.7
       find-node-modules: 2.1.2
       http-proxy-middleware: 1.3.1
       koa: 2.13.4
@@ -1768,7 +1744,6 @@ importers:
       less: 4.1.2
       magic-string: 0.25.7
       merge-source-map: 1.1.0
-      mime-types: 2.1.34
       node-fetch: 2.6.6
       postcss: 8.4.5
       postcss-modules: 4.3.0_postcss@8.4.5
@@ -1797,7 +1772,6 @@ importers:
       '@types/koa-compress': 4.0.3
       '@types/koa-static': 4.0.2
       '@types/less': 3.0.3
-      '@types/mime-types': 2.1.1
       '@types/node': 16.11.18
       '@types/semver': 7.3.9
       '@types/strip-comments': 2.0.1
@@ -2021,7 +1995,6 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
-      globby: ^11.0.2
       handlebars: ^4.7.7
       jest: ^27
       package-json: ^7.0.0
@@ -2040,7 +2013,6 @@ importers:
       '@modern-js/new-action': link:../new-action
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/utils': link:../../toolkit/utils
-      globby: 11.0.4
       handlebars: 4.7.7
       package-json: 7.0.0
       vm2: 3.9.5
@@ -2067,13 +2039,11 @@ importers:
       '@types/jest': ^26
       '@types/node': ^14
       jest: ^27
-      ora: ^5.4.1
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/utils': link:../../toolkit/utils
-      ora: 5.4.1
     devDependencies:
       '@modern-js/codesmith': 1.0.8
       '@scripts/build': link:../../../scripts/build
@@ -2811,7 +2781,6 @@ importers:
       '@types/jest': ^26
       '@types/node': ^14
       jest: ^27
-      json5: ^2.2.0
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
@@ -2820,7 +2789,6 @@ importers:
       '@modern-js/generator-common': link:../generator-common
       '@modern-js/generator-utils': link:../generator-utils
       '@modern-js/utils': link:../../toolkit/utils
-      json5: 2.2.0
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -3101,7 +3069,6 @@ importers:
       '@types/react-dom': ^17
       es-module-lexer: ^0.4.1
       farrow-api: ^1.10.9
-      globby: ^11.0.2
       jest: ^27
       ts-jest: ^27.0.4
       typescript: ^4
@@ -3112,7 +3079,6 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       es-module-lexer: 0.4.1
       farrow-api: 1.11.0
-      globby: 11.0.4
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -3466,25 +3432,24 @@ importers:
       '@modern-js/polyfill-lib': ^1.0.0
       '@modern-js/server-core': workspace:*
       '@modern-js/types': workspace:*
+      '@modern-js/utils': workspace:^1.5.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
       '@types/lru-cache': ^5.1.1
-      '@types/mime-types': ^2.1.1
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
       '@types/ua-parser-js': ^0.7.36
       jest: ^27
       lru-cache: ^6.0.0
-      mime-types: ^2.1.32
       typescript: ^4
       ua-parser-js: ^0.7.28
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/polyfill-lib': 1.0.2_@types+node@14.18.4
+      '@modern-js/utils': link:../../toolkit/utils
       lru-cache: 6.0.0
-      mime-types: 2.1.34
       ua-parser-js: 0.7.31
     devDependencies:
       '@modern-js/core': link:../../cli/core
@@ -3494,7 +3459,6 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
       '@types/lru-cache': 5.1.1
-      '@types/mime-types': 2.1.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -3546,10 +3510,8 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/cookie': ^0.4.1
       '@types/jest': ^26.0.9
-      '@types/lodash.clone': ^4
       '@types/lru-cache': ^5.1.1
       '@types/merge-deep': ^3.0.0
-      '@types/mime-types': ^2.1.0
       '@types/node': ^14
       '@types/serve-static': ^1.13.10
       '@types/ua-parser-js': ^0.7.36
@@ -3560,10 +3522,8 @@ importers:
       http-proxy-middleware: ^2.0.1
       ignore-styles: ^5.0.1
       jest: ^27
-      lodash.clone: ^4.5.0
       lru-cache: ^6.0.0
       merge-deep: ^3.0.3
-      mime-types: ^2.1.32
       node-mocks-http: ^1.11.0
       path-to-regexp: ^6.2.0
       portfinder: ^1.0.28
@@ -3579,10 +3539,8 @@ importers:
       cookie: 0.4.2
       http-proxy-middleware: 2.0.1
       ignore-styles: 5.0.1
-      lodash.clone: 4.5.0
       lru-cache: 6.0.0
       merge-deep: 3.0.3
-      mime-types: 2.1.34
       path-to-regexp: 6.2.0
       serve-static: 1.14.2
       ua-parser-js: 0.7.31
@@ -3593,10 +3551,8 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/cookie': 0.4.1
       '@types/jest': 26.0.24
-      '@types/lodash.clone': 4.5.6
       '@types/lru-cache': 5.1.1
       '@types/merge-deep': 3.0.0
-      '@types/mime-types': 2.1.1
       '@types/node': 14.18.4
       '@types/serve-static': 1.13.10
       '@types/ua-parser-js': 0.7.36
@@ -3692,7 +3648,6 @@ importers:
       babel-plugin-module-resolver: ^4.1.0
       babel-plugin-transform-typescript-metadata: ^0.3.2
       jest: ^27
-      json5: ^2.2.0
       ts-jest: ^27.0.4
       typescript: ^4
     dependencies:
@@ -3708,7 +3663,6 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       babel-plugin-module-resolver: 4.1.0
       babel-plugin-transform-typescript-metadata: 0.3.2
-      json5: 2.2.0
     devDependencies:
       '@modern-js/core': link:../../cli/core
       '@scripts/build': link:../../../scripts/build
@@ -3741,13 +3695,11 @@ importers:
       '@modern-js/webpack': workspace:^1.5.6
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/inquirer': ^8.2.0
       '@types/jest': ^26
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
       esbuild: ^0.13.13
-      inquirer: ^8.2.0
       jest: ^27
       typescript: ^4
       webpack: ^5.71.0
@@ -3767,13 +3719,11 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@modern-js/webpack': link:../../cli/webpack
       esbuild: 0.13.15
-      inquirer: 8.2.0
       webpack: 5.71.0_esbuild@0.13.15
     devDependencies:
       '@modern-js/server-core': link:../../server/core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/inquirer': 8.2.0
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
       '@types/react': 17.0.38
@@ -3809,17 +3759,12 @@ importers:
       '@types/babel__generator': ^7.6.3
       '@types/babel__traverse': ^7.14.2
       '@types/glob': ^7.1.4
-      '@types/inquirer': ^8.1.1
       '@types/jest': ^26
       '@types/node': ^14
       '@types/normalize-path': ^3.0.0
       '@types/react': ^17
       '@types/react-dom': ^17
-      fast-glob: ^3.2.5
-      globby: ^11
-      inquirer: ^8.1.5
       jest: ^27
-      json5: ^2.2.0
       normalize-path: ^3.0.0
       p-map: ^4
       process.argv: ^0.6.0
@@ -3844,10 +3789,6 @@ importers:
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/style-compiler': link:../../toolkit/compiler/style
       '@modern-js/utils': link:../../toolkit/utils
-      fast-glob: 3.2.7
-      globby: 11.0.4
-      inquirer: 8.2.0
-      json5: 2.2.0
       normalize-path: 3.0.0
       p-map: 4.0.0
       process.argv: 0.6.0
@@ -3861,7 +3802,6 @@ importers:
       '@types/babel__generator': 7.6.4
       '@types/babel__traverse': 7.14.2
       '@types/glob': 7.2.0
-      '@types/inquirer': 8.1.3
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
       '@types/normalize-path': 3.0.0
@@ -3890,7 +3830,6 @@ importers:
       '@types/react': ^17
       '@types/react-dom': ^17
       anymatch: ^3.1.2
-      globby: ^11.0.0
       jest: ^27
       md5: ^2.3.0
       p-map: ^4.0.0
@@ -3907,7 +3846,6 @@ importers:
       '@rushstack/node-core-library': 3.44.3
       '@rushstack/package-deps-hash': 3.1.11
       anymatch: 3.1.2
-      globby: 11.0.4
       md5: 2.3.0
       p-map: 4.0.0
     devDependencies:
@@ -4435,14 +4373,17 @@ importers:
       '@modern-js/tsconfig': workspace:*
       '@scripts/build': workspace:*
       '@types/debug': 4.1.7
-      '@types/fs-extra': ^9.0.13
+      '@types/fs-extra': 9.0.13
       '@types/glob': 7.2.0
+      '@types/inquirer': 8.2.1
       '@types/js-yaml': 4.0.5
       '@types/lodash': 4.14.181
+      '@types/mime-types': 2.1.1
       '@types/minimist': 1.2.2
       '@types/node': ^14
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4
+      '@types/url-join': 4.0.1
       '@vercel/ncc': 0.33.3
       address: 1.1.2
       ajv: 8.11.0
@@ -4457,14 +4398,20 @@ importers:
       dotenv-expand: 5.1.0
       dts-packer: 0.0.3
       execa: 5.1.1
+      fast-glob: 3.2.11
       filesize: 8.0.7
-      fs-extra: ^10.0.0
+      fs-extra: 10.0.1
       glob: 7.2.0
+      globby: 11.1.0
       gzip-size: 6.0.0
       import-lazy: 4.0.0
+      inquirer: 8.2.2
       js-yaml: 4.1.0
+      json5: 2.2.0
       lodash: 4.17.21
+      mime-types: 2.1.35
       minimist: 1.2.6
+      ora: 5.4.1
       pkg-up: 3.1.0
       recursive-readdir: 2.2.2
       signale: 1.4.0
@@ -4472,24 +4419,27 @@ importers:
       strip-ansi: 6.0.1
       typescript: ^4
       upath: 2.0.1
+      url-join: 4.0.1
       v8-compile-cache: 2.3.0
     dependencies:
       '@modern-js/tsconfig': link:../../packages/review/tsconfig
       '@scripts/build': link:../build
-      '@types/fs-extra': 9.0.13
       '@types/node': 14.18.4
       '@vercel/ncc': 0.33.3
       dts-packer: 0.0.3
-      fs-extra: 10.0.1
       typescript: 4.5.4
     devDependencies:
       '@types/debug': 4.1.7
+      '@types/fs-extra': 9.0.13
       '@types/glob': 7.2.0
+      '@types/inquirer': 8.2.1
       '@types/js-yaml': 4.0.5
       '@types/lodash': 4.14.181
+      '@types/mime-types': 2.1.1
       '@types/minimist': 1.2.2
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4
+      '@types/url-join': 4.0.1
       address: 1.1.2
       ajv: 8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
@@ -4502,19 +4452,27 @@ importers:
       dotenv: 10.0.0
       dotenv-expand: 5.1.0
       execa: 5.1.1
+      fast-glob: 3.2.11
       filesize: 8.0.7
+      fs-extra: 10.0.1
       glob: 7.2.0
+      globby: 11.1.0
       gzip-size: 6.0.0
       import-lazy: 4.0.0
+      inquirer: 8.2.2
       js-yaml: 4.1.0
+      json5: 2.2.0
       lodash: 4.17.21
+      mime-types: 2.1.35
       minimist: 1.2.6
+      ora: 5.4.1
       pkg-up: 3.1.0
       recursive-readdir: 2.2.2
       signale: 1.4.0
       slash: 3.0.0
       strip-ansi: 6.0.1
       upath: 2.0.1
+      url-join: 4.0.1
       v8-compile-cache: 2.3.0
 
   tests:
@@ -14703,10 +14661,6 @@ packages:
     resolution: {integrity: sha512-6ckxMjBBD8URvjB6J3NcnuAn5Pkl7t3TizAg+xdlzzQGSPSmBcXf8KoIH0ua/i+tio+ZRUHEXp0HEmvaR4kt0w==}
     dev: false
 
-  /@types/clone/2.1.1:
-    resolution: {integrity: sha512-BZIU34bSYye0j/BFcPraiDZ5ka6MJADjcDVELGf7glr9K+iE8NYVjFslJFVWzskSxkLLyCrSPScE82/UUoBSvg==}
-    dev: true
-
   /@types/color-convert/2.0.0:
     resolution: {integrity: sha512-m7GG7IKKGuJUXvkZ1qqG3ChccdIM/qBBo913z+Xft0nKCX4hAU/IxKwZBU4cpRZ7GS5kV4vOblUkILtSShCPXQ==}
     dependencies:
@@ -14896,6 +14850,7 @@ packages:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
       '@types/node': 17.0.21
+    dev: true
 
   /@types/get-port/3.2.0:
     resolution: {integrity: sha512-TiNg8R1kjDde5Pub9F9vCwZA/BNW9HeXP5b9j7Qucqncy/McfPZ6xze/EyBdXS5FhMIGN6Fx3vg75l5KHy3V1Q==}
@@ -14971,18 +14926,11 @@ packages:
     dependencies:
       '@types/node': 17.0.21
 
-  /@types/inquirer/8.1.3:
-    resolution: {integrity: sha512-AayK4ZL5ssPzR1OtnOLGAwpT0Dda3Xi/h1G0l1oJDNrowp7T1423q4Zb8/emr7tzRlCy4ssEri0LWVexAqHyKQ==}
+  /@types/inquirer/8.2.1:
+    resolution: {integrity: sha512-wKW3SKIUMmltbykg4I5JzCVzUhkuD9trD6efAmYgN2MrSntY0SMRQzEnD3mkyJ/rv9NLbTC7g3hKKE86YwEDLw==}
     dependencies:
       '@types/through': 0.0.30
-      rxjs: 7.5.2
-    dev: true
-
-  /@types/inquirer/8.2.0:
-    resolution: {integrity: sha512-BNoMetRf3gmkpAlV5we+kxyZTle7YibdOntIZbU5pyIfMdcwy784KfeZDAcuyMznkh5OLa17RVXZOGA5LTlkgQ==}
-    dependencies:
-      '@types/through': 0.0.30
-      rxjs: 7.5.2
+      rxjs: 7.5.5
     dev: true
 
   /@types/invariant/2.2.35:
@@ -15123,12 +15071,6 @@ packages:
     dependencies:
       '@types/node': 14.18.4
       '@types/webpack': 4.41.32
-    dev: true
-
-  /@types/lodash.clone/4.5.6:
-    resolution: {integrity: sha512-cmwjyhyjvdWfTcuCmyjHzqxNv4yYGnlnpN24crxq8JwIKLtMI+ro0ScUcLSYo6wy8ToLczi6Sln0tqZntLganA==}
-    dependencies:
-      '@types/lodash': 4.14.181
     dev: true
 
   /@types/lodash/4.14.178:
@@ -15569,7 +15511,7 @@ packages:
   /@types/through/0.0.30:
     resolution: {integrity: sha512-FvnCJljyxhPM3gkRgWmxmDZyAQSiBQQWLI0A0VFL0K7W1oRUrPJSqNO0NvTnLkBcotdlp3lKvaT0JrnyRDkzOg==}
     dependencies:
-      '@types/node': 16.11.18
+      '@types/node': 17.0.21
     dev: true
 
   /@types/tmp/0.0.33:
@@ -18977,11 +18919,6 @@ packages:
   /clone/1.0.4:
     resolution: {integrity: sha1-2jCcwmPfFZlMaIypAheco8fNfH4=}
     engines: {node: '>=0.8'}
-
-  /clone/2.1.2:
-    resolution: {integrity: sha1-G39Ln1kfHo+DZwQBYANFoCiHQ18=}
-    engines: {node: '>=0.8'}
-    dev: false
 
   /clsx/1.1.1:
     resolution: {integrity: sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==}
@@ -23211,6 +23148,17 @@ packages:
       merge2: 1.4.1
       micromatch: 3.1.10
 
+  /fast-glob/3.2.11:
+    resolution: {integrity: sha512-xrO3+1bxSo3ZVHAnqzyuewYT6aMFHRAd4Kcs92MAonjwQZLsK9d0SF1IyQ3k5PoirxTW0Oe/RqFgMQ6TcNE5Ew==}
+    engines: {node: '>=8.6.0'}
+    dependencies:
+      '@nodelib/fs.stat': 2.0.5
+      '@nodelib/fs.walk': 1.2.8
+      glob-parent: 5.1.2
+      merge2: 1.4.1
+      micromatch: 4.0.4
+    dev: true
+
   /fast-glob/3.2.7:
     resolution: {integrity: sha512-rYGMRwip6lUMvYD3BTScMwT1HtAs2d71SMv66Vrxs0IekGZEjhM0pcMfjQPnknBt2zeCwQMEupiN02ZP4DiT1Q==}
     engines: {node: '>=8'}
@@ -24423,6 +24371,18 @@ packages:
       merge2: 1.4.1
       slash: 3.0.0
 
+  /globby/11.1.0:
+    resolution: {integrity: sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g==}
+    engines: {node: '>=10'}
+    dependencies:
+      array-union: 2.1.0
+      dir-glob: 3.0.1
+      fast-glob: 3.2.11
+      ignore: 5.2.0
+      merge2: 1.4.1
+      slash: 3.0.0
+    dev: true
+
   /globby/12.2.0:
     resolution: {integrity: sha512-wiSuFQLZ+urS9x2gGPl1H5drc5twabmm4m2gTR27XDFyjUHJUNsS8o/2aKyIF6IoBaR630atdher0XJ5g6OMmA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -25531,9 +25491,9 @@ packages:
       strip-ansi: 6.0.1
       through: 2.3.8
 
-  /inquirer/8.2.0:
-    resolution: {integrity: sha512-0crLweprevJ02tTuA6ThpoAERAGyVILC4sS74uib58Xf/zSr1/ZWtmm7D5CI+bSQEaA04f0K7idaHpQbSWgiVQ==}
-    engines: {node: '>=8.0.0'}
+  /inquirer/8.2.2:
+    resolution: {integrity: sha512-pG7I/si6K/0X7p1qU+rfWnpTE1UIkTONN1wxtzh0d+dHXtT/JG6qBgLxoyHVsQa8cFABxAPh0pD6uUUHiAoaow==}
+    engines: {node: '>=12.0.0'}
     dependencies:
       ansi-escapes: 4.3.2
       chalk: 4.1.2
@@ -25545,11 +25505,11 @@ packages:
       mute-stream: 0.0.8
       ora: 5.4.1
       run-async: 2.4.1
-      rxjs: 7.5.2
+      rxjs: 7.5.5
       string-width: 4.2.3
       strip-ansi: 6.0.1
       through: 2.3.8
-    dev: false
+    dev: true
 
   /int64-buffer/0.1.9:
     resolution: {integrity: sha1-ngOdoEOyT3ixlrKD4EZT716ZD2E=}
@@ -27677,8 +27637,9 @@ packages:
   /json5/2.2.0:
     resolution: {integrity: sha512-f+8cldu7X/y7RAJurMEJmdoKXGB/X550w2Nr3tTbezL6RwEE/iMcm+tZnXeoZtKuOq6ft8+CqzEkrIgx1fPoQA==}
     engines: {node: '>=6'}
+    hasBin: true
     dependencies:
-      minimist: 1.2.5
+      minimist: 1.2.6
 
   /jsonfile/2.4.0:
     resolution: {integrity: sha1-NzaitCi4e72gzIO1P6PWM6NcKug=}
@@ -28325,10 +28286,6 @@ packages:
 
   /lodash.camelcase/4.3.0:
     resolution: {integrity: sha1-soqmKIorn8ZRA1x3EfZathkDMaY=}
-    dev: false
-
-  /lodash.clone/4.5.0:
-    resolution: {integrity: sha1-GVhwRQ9aExkkeN9Lw9I9LeoZB7Y=}
     dev: false
 
   /lodash.curry/4.1.1:
@@ -28990,6 +28947,11 @@ packages:
     resolution: {integrity: sha512-5y8A56jg7XVQx2mbv1lu49NR4dokRnhZYTtL+KGfaa27uq4pSTXkwQkFJl4pkRMyNFz/EtYDSkiiEHx3F7UN6g==}
     engines: {node: '>= 0.6'}
 
+  /mime-db/1.52.0:
+    resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
+    engines: {node: '>= 0.6'}
+    dev: true
+
   /mime-types/2.1.18:
     resolution: {integrity: sha512-lc/aahn+t4/SWV/qcmumYjymLsWfN3ELhpmVuUFjgsORruuZPVSwAQryq+HHGvO/SI2KVX26bx+En+zhM8g8hQ==}
     engines: {node: '>= 0.6'}
@@ -29001,6 +28963,13 @@ packages:
     engines: {node: '>= 0.6'}
     dependencies:
       mime-db: 1.51.0
+
+  /mime-types/2.1.35:
+    resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
+    engines: {node: '>= 0.6'}
+    dependencies:
+      mime-db: 1.52.0
+    dev: true
 
   /mime/1.6.0:
     resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
@@ -29110,7 +29079,6 @@ packages:
 
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
-    dev: true
 
   /minipass-collect/1.0.2:
     resolution: {integrity: sha512-6T6lH0H8OG9kITm/Jm6tdooIbogG9e0tLgpY6mphXSm/A9u8Nq1ryBG+Qspiub9LjWlBPsPS3tWQ/Botq4FdxA==}
@@ -34412,7 +34380,6 @@ packages:
     dependencies:
       esbuild: 0.13.15
       tslib: 2.3.1
-    dev: false
 
   /safe-buffer/5.1.1:
     resolution: {integrity: sha512-kKvNJn6Mm93gAczWVJg7wH+wGYWNrDHdWvpUmHyEsgCtIwwo3bqPtV4tR5tuPaUhTOo/kvhVwd8XwwOllGYkbg==}
@@ -37512,7 +37479,7 @@ packages:
 
   /url-join/4.0.1:
     resolution: {integrity: sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==}
-    dev: false
+    dev: true
 
   /url-loader/4.1.1:
     resolution: {integrity: sha512-3BTV812+AVHHOJQO8O5MkWgZ5aosP7GnROJwvzLS9hWDj00lZ6Z0wNak423Lp9PBZN05N+Jk/N5Si8jRAlGyWA==}
