@@ -21,18 +21,13 @@
     ".": {
       "node": {
         "jsnext:source": "./src/index.node.tsx",
-        "import": "./dist/js/modern/index.node.js",
-        "require": "./dist/js/node/index.node.js"
+        "import": "./dist/js/treeshaking/index.node.js"
       },
       "default": "./dist/js/treeshaking/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/js/node/cli/index.js"
-    },
-    "./node": {
-      "jsnext:source": "./src/index.node.tsx",
-      "default": "./dist/js/node/index.node.js"
     }
   },
   "files": [
