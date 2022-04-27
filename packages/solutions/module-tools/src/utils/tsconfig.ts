@@ -1,6 +1,4 @@
-import { fs, Import } from '@modern-js/utils';
-
-const json5: typeof import('json5') = Import.lazy('json5', require);
+import { fs, json5 } from '@modern-js/utils';
 
 export interface ITsconfig {
   compilerOptions?:

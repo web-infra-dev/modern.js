@@ -1,7 +1,7 @@
 ---
 sidebar_label: disableSourceMap
 ---
-# `output.disableSourceMap`
+# output.disableSourceMap
 
 :::info 适用的工程方案
 * MWA

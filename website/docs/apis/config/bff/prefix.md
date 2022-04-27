@@ -3,7 +3,7 @@ sidebar_label: prefix
 sidebar_position: 1
 ---
 
-# `bff.prefix`
+# bff.prefix
 
 :::info 适用的工程方案
 * MWA

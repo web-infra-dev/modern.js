@@ -2,7 +2,7 @@
 sidebar_label: lodash
 ---
 
-# `tools.lodash`
+# tools.lodash
 
 :::info 适用的工程方案
 * MWA

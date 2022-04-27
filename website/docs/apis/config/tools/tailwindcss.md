@@ -2,7 +2,8 @@
 sidebar_label: tailwindcss
 sidebar_position: 5
 ---
-# `tools.tailwindcss`
+
+# tools.tailwindcss
 
 :::info 适用的工程方案
 * MWA

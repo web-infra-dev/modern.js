@@ -1,9 +1,8 @@
 import path from 'path';
-import { logger } from '@modern-js/utils';
+import { mime, logger } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import COS from 'cos-nodejs-sdk-v5';
 import walk from 'walk';
-import mime from 'mime-types';
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-cdn-cos',

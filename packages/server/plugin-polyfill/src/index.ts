@@ -2,7 +2,7 @@ import type { ServerPlugin } from '@modern-js/server-core';
 import { NextFunction, ModernServerContext } from '@modern-js/types/server';
 import type { NormalizedConfig } from '@modern-js/core';
 import { getPolyfillString } from '@modern-js/polyfill-lib';
-import mime from 'mime-types';
+import { mime } from '@modern-js/utils';
 import Parser from 'ua-parser-js';
 import { defaultFeatures, defaultPolyfill } from './const';
 import PolyfillCache, { generateCacheKey } from './libs/cache';

@@ -77,14 +77,12 @@
     "@modern-js/server": "workspace:^1.4.10",
     "@modern-js/types": "workspace:^1.5.0",
     "@modern-js/utils": "workspace:^1.5.0",
-    "@modern-js/webpack": "workspace:^1.5.6",
-    "inquirer": "^8.2.0"
+    "@modern-js/webpack": "workspace:^1.5.6"
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@types/inquirer": "^8.2.0",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react": "^17",
