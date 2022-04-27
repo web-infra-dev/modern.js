@@ -2,7 +2,7 @@
 sidebar_label: meta
 ---
 
-# `output.meta`
+# output.meta
 
 :::info 适用的工程方案
 * MWA

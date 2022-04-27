@@ -2,7 +2,9 @@
 sidebar_label: babel
 sidebar_position: 1
 ---
-# `tools.babel`
+
+# tools.babel
+
 :::info 适用的工程方案
 * MWA
 * 模块

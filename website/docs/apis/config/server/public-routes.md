@@ -3,7 +3,7 @@ sidebar_label: publicRoutes
 sidebar_position: 4
 ---
 
-# `server.publicRoutes`
+# server.publicRoutes
 
 :::info 适用的工程方案
 * MWA

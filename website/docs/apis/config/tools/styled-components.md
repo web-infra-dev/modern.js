@@ -3,7 +3,7 @@ sidebar_label: styledComponents
 sidebar_position: 4
 ---
 
-# `tools.styledComponents`
+# tools.styledComponents
 
 :::info 适用的工程方案
 * MWA

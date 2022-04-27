@@ -2,7 +2,7 @@
 sidebar_label: mediaPath
 ---
 
-# `output.mediaPath`
+# output.mediaPath
 
 :::info 适用的工程方案
 * MWA

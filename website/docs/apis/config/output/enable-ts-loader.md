@@ -2,7 +2,7 @@
 sidebar_label: enableTsLoader
 ---
 
-# `output.enableTsLoader`
+# output.enableTsLoader
 
 :::info 适用的工程方案
 MWA。

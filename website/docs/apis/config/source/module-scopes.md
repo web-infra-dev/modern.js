@@ -3,7 +3,7 @@ sidebar_label: moduleScopes
 sidebar_position: 9
 ---
 
-# `source.moduleScopes`
+# source.moduleScopes
 
 :::info 适用的工程方案
 * MWA

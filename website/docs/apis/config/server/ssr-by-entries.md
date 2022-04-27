@@ -3,7 +3,7 @@ sidebar_label: ssrByEntries
 sidebar_position: 2
 ---
 
-# `server.ssrByEntries`
+# server.ssrByEntries
 
 :::info 适用的工程方案
 * MWA
