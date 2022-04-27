@@ -2,6 +2,7 @@ import { join } from 'path';
 import ncc from '@vercel/ncc';
 import { Package as DtsPacker } from 'dts-packer';
 import fs from 'fs-extra';
+import { DEFAULT_EXTERNALS } from './constant';
 import { pick, replaceFileContent } from './helper';
 import type { ParsedTask } from './types';
 
@@ -105,7 +106,10 @@ export async function prebundle(task: ParsedTask) {
 
   const { code, assets } = await ncc(task.depEntry, {
     minify: task.minify,
-    externals: task.externals,
+    externals: {
+      ...DEFAULT_EXTERNALS,
+      ...task.externals,
+    },
     assetBuilds: false,
   });
 
