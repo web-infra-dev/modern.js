@@ -1,4 +1,4 @@
-import inquirer from 'inquirer';
+import { inquirer } from '@modern-js/utils';
 import { Entrypoint } from '@modern-js/types';
 
 export const getSpecifiedEntries = async (

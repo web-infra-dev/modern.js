@@ -1,5 +1,5 @@
 import * as path from 'path';
-import globby from 'globby';
+import { globby } from '@modern-js/utils';
 import { IProjectNode } from '../../projects/get-projects';
 import { IBuildWatchConfig } from '.';
 

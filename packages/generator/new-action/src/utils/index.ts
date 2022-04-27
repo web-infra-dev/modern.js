@@ -1,5 +1,5 @@
 import path from 'path';
-import json5 from 'json5';
+import { json5 } from '@modern-js/utils';
 import { ActionFunction } from '@modern-js/generator-common';
 import { fs } from '@modern-js/generator-utils';
 

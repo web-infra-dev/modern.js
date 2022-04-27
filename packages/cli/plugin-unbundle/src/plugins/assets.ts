@@ -2,7 +2,7 @@ import { Buffer } from 'buffer';
 import fs from 'fs';
 import path from 'path';
 import { Plugin as RollupPlugin } from 'rollup';
-import mime from 'mime-types';
+import { mime } from '@modern-js/utils';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import jsxPlugin from '@svgr/plugin-jsx';
 import { ASSETS_REGEX } from '../constants';

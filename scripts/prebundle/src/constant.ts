@@ -25,13 +25,22 @@ export const TASKS: TaskConfig[] = [
       'import-lazy',
       'dotenv',
       'dotenv-expand',
+      'url-join',
+      'slash',
       // a few dependencies
       'debug',
       'js-yaml',
+      'mime-types',
       'strip-ansi',
       'gzip-size',
       'pkg-up',
       'recursive-readdir',
+      {
+        name: 'json5',
+        externals: {
+          minimist: '../minimist',
+        },
+      },
       // some dependencies
       'glob',
       'chalk',
@@ -48,7 +57,28 @@ export const TASKS: TaskConfig[] = [
       'fs-extra',
       'browserslist',
       'chokidar',
-      'slash',
+      'fast-glob',
+      {
+        name: 'globby',
+        externals: {
+          'fast-glob': '../fast-glob',
+        },
+      },
+      {
+        name: 'ora',
+        externals: {
+          chalk: '../chalk',
+          'strip-ansi': '../strip-ansi',
+        },
+      },
+      {
+        name: 'inquirer',
+        externals: {
+          ora: '../ora',
+          chalk: '../chalk',
+          'strip-ansi': '../strip-ansi',
+        },
+      },
     ],
   },
   {
@@ -60,7 +90,6 @@ export const TASKS: TaskConfig[] = [
       // some dependencies
       {
         name: 'ajv',
-        minify: false,
         beforeBundle(task) {
           replaceFileContent(task.depEntry, content => {
             const addExports = `exports.codegen = require("./compile/codegen");`;

@@ -1,5 +1,5 @@
 import path from 'path';
-import globby from 'globby';
+import { globby } from '@modern-js/utils';
 import { fs } from '@modern-js/generator-utils';
 
 export enum FileType {
