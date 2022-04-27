@@ -81,7 +81,6 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
     dev: {
       ...{
         client: {
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
           port: port!.toString(),
           overlay: false,
           logging: 'none',
