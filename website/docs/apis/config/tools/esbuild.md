@@ -2,7 +2,7 @@
 sidebar_label: esbuild
 ---
 
-# `tools.esbuild`
+# tools.esbuild
 
 :::info 适用的工程方案
 * MWA

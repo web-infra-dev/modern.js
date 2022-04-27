@@ -2,7 +2,7 @@
 sidebar_label: assetsPath
 ---
 
-# `output.assetsPath`
+# output.assetsPath
 
 :::info 适用的工程方案
 * 模块

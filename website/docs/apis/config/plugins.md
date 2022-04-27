@@ -3,7 +3,7 @@ title: plugins (插件)
 sidebar_position: 9
 ---
 
-# `plugins` (插件)
+# plugins (插件)
 
 :::info 适用的工程方案
 MWA，模块。

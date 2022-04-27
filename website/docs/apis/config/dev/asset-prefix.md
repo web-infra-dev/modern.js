@@ -3,7 +3,7 @@ sidebar_label: assetPrefix
 sidebar_position: 3
 ---
 
-# `dev.assetPrefix`
+# dev.assetPrefix
 
 :::info 适用的工程方案
 * MWA

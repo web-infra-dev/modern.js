@@ -2,7 +2,7 @@
 sidebar_label: inject
 ---
 
-# `output.inject`
+# output.inject
 
 :::info 适用的工程方案
 MWA。

@@ -3,7 +3,7 @@ sidebar_label: port
 sidebar_position: 5
 ---
 
-# `server.port`
+# server.port
 
 :::info 适用的工程方案
 * MWA

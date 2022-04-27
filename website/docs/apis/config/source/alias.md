@@ -3,7 +3,7 @@ sidebar_label: alias
 sidebar_position: 1
 ---
 
-# `source.alias`
+# source.alias
 
 :::info 适用的工程方案
 * MWA

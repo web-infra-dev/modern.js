@@ -2,7 +2,7 @@
 sidebar_label: disableNodePolyfill
 ---
 
-# `output.disableNodePolyfill`
+# output.disableNodePolyfill
 
 :::info 适用的工程方案
 * MWA

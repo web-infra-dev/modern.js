@@ -3,7 +3,7 @@ sidebar_label: less
 sidebar_position: 7
 ---
 
-# `tools.less`
+# tools.less
 
 :::info 适用的工程方案
 * MWA

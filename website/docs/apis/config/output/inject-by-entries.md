@@ -2,7 +2,7 @@
 sidebar_label: injectByEntries
 ---
 
-# `output.injectByEntries`
+# output.injectByEntries
 
 :::info 适用的工程方案
 * MWA

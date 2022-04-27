@@ -2,7 +2,7 @@
 sidebar_label: assetPrefix
 ---
 
-# `output.assetPrefix`
+# output.assetPrefix
 
 :::info 适用的工程方案
 * MWA
