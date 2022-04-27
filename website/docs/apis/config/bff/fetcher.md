@@ -3,7 +3,7 @@ sidebar_label: fetcher
 sidebar_position: 2
 ---
 
-# `bff.fetcher`
+# bff.fetcher
 
 :::info 适用的工程方案
 * MWA

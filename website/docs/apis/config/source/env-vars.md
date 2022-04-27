@@ -3,7 +3,7 @@ sidebar_label: envVars
 sidebar_position: 2
 ---
 
-# `source.envVars`
+# source.envVars
 
 :::info 适用的工程方案
 * MWA

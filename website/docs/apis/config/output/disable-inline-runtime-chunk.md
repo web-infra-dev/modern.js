@@ -2,7 +2,7 @@
 sidebar_label: disableInlineRuntimeChunk
 ---
 
-# `output.disableInlineRuntimeChunk`
+# output.disableInlineRuntimeChunk
 
 :::info 适用的工程方案
 * MWA

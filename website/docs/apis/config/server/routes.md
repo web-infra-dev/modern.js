@@ -3,7 +3,7 @@ sidebar_label: routes
 sidebar_position: 4
 ---
 
-# `server.routes`
+# server.routes
 
 :::info 适用的工程方案
 * MWA

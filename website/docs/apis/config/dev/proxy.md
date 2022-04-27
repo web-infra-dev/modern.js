@@ -3,7 +3,7 @@ sidebar_label: proxy
 sidebar_position: 1
 ---
 
-# `dev.proxy`
+# dev.proxy
 
 :::info 适用的工程方案
 * MWA

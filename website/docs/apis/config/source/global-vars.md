@@ -3,7 +3,7 @@ sidebar_label: globalVars
 sidebar_position: 3
 ---
 
-# `source.globalVars`
+# source.globalVars
 
 :::info 适用的工程方案
 * MWA

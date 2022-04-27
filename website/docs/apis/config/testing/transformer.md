@@ -3,7 +3,7 @@ sidebar_label: transformer
 sidebar_position: 1
 ---
 
-# `testing.transformer`
+# testing.transformer
 
 :::info 适用的工程方案
 * MWA

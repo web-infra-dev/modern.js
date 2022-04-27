@@ -3,7 +3,7 @@ sidebar_label: disableDefaultEntries
 sidebar_position: 7
 ---
 
-# `source.disableDefaultEntries`
+# source.disableDefaultEntries
 
 :::info 适用的工程方案
 * MWA

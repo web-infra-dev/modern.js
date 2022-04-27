@@ -3,7 +3,7 @@ sidebar_label: devServer
 sidebar_position: 12
 ---
 
-# `tools.devServer`
+# tools.devServer
 
 :::info 适用的工程方案
 * MWA

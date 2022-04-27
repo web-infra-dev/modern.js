@@ -3,7 +3,7 @@ sidebar_label: entries
 sidebar_position: 6
 ---
 
-# `source.entries`
+# source.entries
 
 :::info 适用的工程方案
 * MWA

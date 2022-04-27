@@ -3,7 +3,7 @@ sidebar_label: designSystem
 sidebar_position: 4
 ---
 
-# `source.designSystem`
+# source.designSystem
 
 :::info 适用的工程方案
 * MWA

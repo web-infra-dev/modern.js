@@ -3,7 +3,7 @@ sidebar_label: configDir
 sidebar_position: 8
 ---
 
-# `source.configDir`
+# source.configDir
 
 :::info 适用的工程方案
 * MWA

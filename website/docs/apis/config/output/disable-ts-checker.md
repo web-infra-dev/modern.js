@@ -2,7 +2,7 @@
 sidebar_label: disableTsChecker
 ---
 
-# `output.disableTsChecker`
+# output.disableTsChecker
 
 :::info
 适用的工程方案：

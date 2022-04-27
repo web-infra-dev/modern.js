@@ -2,7 +2,7 @@
 sidebar_label: favicon
 ---
 
-# `output.favicon`
+# output.favicon
 
 :::info 适用的工程方案
 * MWA

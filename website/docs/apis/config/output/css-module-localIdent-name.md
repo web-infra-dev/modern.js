@@ -2,7 +2,7 @@
 sidebar_label: cssModuleLocalIdentName
 ---
 
-# `output.cssModuleLocalIdentName`
+# output.cssModuleLocalIdentName
 
 :::info 适用的工程方案
 * MWA
