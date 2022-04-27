@@ -2,15 +2,15 @@
 sidebar_position: 4
 ---
 
-# 项目组
+# Monorepo
 
-项目组项目默认只需要 [PackageManager 配置](/docs/apis/generator/config/introduce#package-manager)。
+Monorepo 项目默认只需要 [PackageManager 配置](/docs/apis/generator/config/introduce#package-manager)。
 
 ## 创建子项目
 
-项目组项目创建子项目，子项目类型支持应用、测试应用、模块、内部模块，除了应用和模块各自的配置外，这里还需要一些通用的子项目配置。
+Monorepo 项目创建子项目，子项目类型支持应用、测试应用、模块、内部模块，除了应用和模块各自的配置外，这里还需要一些通用的子项目配置。
 
-### Solution 
+### Solution
 
 子项目类型(solution)，不同子项目类型字段为:
 

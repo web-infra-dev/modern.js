@@ -3699,10 +3699,8 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
-      esbuild: ^0.13.13
       jest: ^27
       typescript: ^4
-      webpack: ^5.71.0
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/core': link:../../cli/core
@@ -3718,8 +3716,6 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
       '@modern-js/webpack': link:../../cli/webpack
-      esbuild: 0.13.15
-      webpack: 5.71.0_esbuild@0.13.15
     devDependencies:
       '@modern-js/server-core': link:../../server/core
       '@scripts/build': link:../../../scripts/build
@@ -4310,11 +4306,13 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
       '@types/node': ^14
+      caniuse-lite: ^1.0.30001332
       esbuild: ^0.13.13
       jest: ^27
       typescript: ^4
       webpack: ^5.71.0
     dependencies:
+      caniuse-lite: 1.0.30001332
       esbuild: 0.13.15
       typescript: 4.5.4
     devDependencies:
@@ -18499,6 +18497,10 @@ packages:
 
   /caniuse-lite/1.0.30001319:
     resolution: {integrity: sha512-xjlIAFHucBRSMUo1kb5D4LYgcN1M45qdKP++lhqowDpwJwGkpIRTt5qQqnhxjj1vHcI7nrJxWhCC1ATrCEBTcw==}
+
+  /caniuse-lite/1.0.30001332:
+    resolution: {integrity: sha512-10T30NYOEQtN6C11YGg411yebhvpnC6Z102+B95eAsN0oB6KUs01ivE8u+G6FMIRtIrVlYXhL+LUwQ3/hXwDWw==}
+    dev: false
 
   /capture-exit/2.0.0:
     resolution: {integrity: sha512-PiT/hQmTonHhl/HFGN+Lx3JJUznrVYJ3+AQsnthneZbvW7x+f08Tk7yLJTLEOUvBTbduLeeBkxEaYXUOUrRq6g==}
