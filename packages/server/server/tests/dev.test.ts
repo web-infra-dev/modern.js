@@ -18,7 +18,7 @@ describe('test dev tools', () => {
         path: '/',
         host: '127.0.0.1',
       },
-      dev: {
+      devMiddleware: {
         writeToDisk: false,
       },
       watch: true,
@@ -80,7 +80,7 @@ describe('test dev tools', () => {
         path: '/',
         host: '127.0.0.1',
       },
-      dev: {
+      devMiddleware: {
         writeToDisk: false,
       },
       watch: true,
@@ -108,7 +108,7 @@ describe('test dev tools', () => {
         path: '/',
         host: '127.0.0.1',
       },
-      dev: {
+      devMiddleware: {
         writeToDisk: false,
       },
       watch: true,

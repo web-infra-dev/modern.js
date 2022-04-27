@@ -71,6 +71,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "caniuse-lite": "^1.0.30001332",
     "typescript": "^4"
   },
   "devDependencies": {

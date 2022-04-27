@@ -11,7 +11,7 @@ export type DevServerOptions = {
     host: string;
     progress?: boolean;
   };
-  dev: {
+  devMiddleware: {
     writeToDisk: boolean | ((filename: string) => boolean);
   };
   // 是否监听文件变化
