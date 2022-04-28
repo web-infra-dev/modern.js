@@ -1,5 +1,11 @@
 # @modern-js/cloud-deploy-generator
 
+## 1.2.1
+
+### Patch Changes
+
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+
 ## 1.2.0
 
 ### Minor Changes

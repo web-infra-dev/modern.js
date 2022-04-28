@@ -41,8 +41,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.5.0",
-    "@modern-js/plugin-design-token": "workspace:^1.0.4"
+    "@modern-js/utils": "workspace:^1.6.0",
+    "@modern-js/plugin-design-token": "workspace:^1.0.5"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",

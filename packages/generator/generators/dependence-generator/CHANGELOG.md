@@ -1,5 +1,11 @@
 # @modern-js/dependence-generator
 
+## 1.3.1
+
+### Patch Changes
+
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+
 ## 1.3.0
 
 ### Minor Changes
