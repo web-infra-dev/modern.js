@@ -101,4 +101,4 @@ Modern.js 提供了丰富的运行时 API（后面简称 Runtime API），所有
 - Web Server API
   - [`hook`](/docs/apis/runtime/web-server/hook)
 - [Electron API](/docs/apis/runtime/electron/overview)
-- [插件 API](/docs/apis/runtime/plugin/abstruct)
+- [插件 API](/docs/apis/runtime/plugin/abstract)

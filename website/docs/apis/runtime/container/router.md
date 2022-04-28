@@ -96,7 +96,7 @@ function BlogPost() {
 }
 
 function App() {
-  returnn <Switch>
+  return <Switch>
     <Route exact path="/">
       <div>home</div>
     </Route>
@@ -275,7 +275,7 @@ interface NavLink<S = H.LocationState>
 
 类型：`object`
 
-`NavLink` 默认会和当前的 `histroy.location` 进行匹配，判断是否处于激活状态。如果你想指定要匹配的 `location` 对象，可以使用该参数。
+`NavLink` 默认会和当前的 `history.location` 进行匹配，判断是否处于激活状态。如果你想指定要匹配的 `location` 对象，可以使用该参数。
 
 **area-current**
 

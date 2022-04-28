@@ -29,10 +29,11 @@ import { updateService } from '@modern-js/runtime/electron-main';
 
 ### quitAndInstall
 
-`updateService.quitAndInstall([isSlient])`
+`updateService.quitAndInstall([isSilent])`
 
 #### 参数
-- [isSlient]：`boolean`，是否静默升级。
+
+- [isSilent]：`boolean`，是否静默升级。
 
 #### 返回值
 - `Promise<void>`。

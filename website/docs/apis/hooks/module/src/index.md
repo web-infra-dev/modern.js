@@ -59,7 +59,7 @@ export default model<State>('test').define({
 - 一个数据
 
 ```ts
-export defualt {
+export default {
   "test": 1,
 };
 ```

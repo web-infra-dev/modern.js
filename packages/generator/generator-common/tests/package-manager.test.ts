@@ -10,7 +10,7 @@ import {
 } from '@modern-js/codesmith';
 import { PackageManagerSchema } from '../src/common/package-manager';
 
-describe('test pacakge manager schema', () => {
+describe('test package manager schema', () => {
   it('get input', async () => {
     const projectDir = path.join(os.tmpdir(), 'modern-js-test', 'common');
     fs.removeSync(projectDir);
