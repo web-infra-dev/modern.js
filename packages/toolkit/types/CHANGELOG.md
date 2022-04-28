@@ -1,5 +1,11 @@
 # @modern-js/types
 
+## 1.5.1
+
+### Patch Changes
+
+- 3d1fac2a: chore: app-tools no longer depend on webpack
+
 ## 1.5.0
 
 ### Minor Changes

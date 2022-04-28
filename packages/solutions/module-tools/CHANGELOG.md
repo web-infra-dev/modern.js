@@ -1,5 +1,35 @@
 # @modern-js/module-tools
 
+## 1.5.0
+
+### Minor Changes
+
+- 0b26b93b: feat: prebundle all dependencies of @modern-js/core
+
+### Patch Changes
+
+- 592edabc: feat: prebundle url-join,mime-types,json5,fast-glob,globby,ora,inquirer
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+- Updated dependencies [2d155c4c]
+- Updated dependencies [123e432d]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/core@1.9.0
+  - @modern-js/plugin-analyze@1.4.1
+  - @modern-js/new-action@1.3.7
+  - @modern-js/babel-preset-module@1.3.3
+  - @modern-js/css-config@1.2.4
+  - @modern-js/plugin-changeset@1.2.5
+  - @modern-js/plugin-fast-refresh@1.2.4
+
 ## 1.4.6
 
 ### Patch Changes
