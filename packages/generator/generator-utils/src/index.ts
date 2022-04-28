@@ -113,7 +113,7 @@ export function validatePackagePath(
   if (fs.existsSync(packageDir)) {
     return {
       success: false,
-      error: i18n.t(localeKeys.pacakgePath.exit, { value }),
+      error: i18n.t(localeKeys.packagePath.exit, { value }),
     };
   }
   return { success: true };
