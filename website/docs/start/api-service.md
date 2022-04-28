@@ -6,6 +6,10 @@ sidebar_position: 6
 
 本章将介绍如何使用 Modern.js，进行 API 服务项目的开发。本章对应的代码仓库地址在[这里查看](https://github.com/modern-js-dev/modern-js-examples/tree/main/quick-start/api-service)。
 
+:::info
+API 服务指提供 HTTP 接口的服务端项目。
+:::
+
 通过本章你可以了解到：
 
 - 如何创建一个 API 服务项目。
@@ -13,8 +17,8 @@ sidebar_position: 6
 - BFF 函数写法和框架写法。
 - 如何使用测试功能。
 
-:::info 注
-API 服务指提供 HTTP 接口的服务端项目。
+:::info 在线预览
+在 StackBlitz 中预览：<a alt="StackBlitz" target="\_blank" rel="noopener noreferrer" style={{ verticalAlign: '-5px', marginLeft: '5px' }} href="https://stackblitz.com/edit/modern-js-api-service"><img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" /></a>
 :::
 
 ## 环境准备
