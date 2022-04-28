@@ -19,12 +19,9 @@ import test from './test';
 export const mergeUserJestConfig = (testUtils: TestConfigOperator) => {
   const resolveJestConfig = testUtils.testConfig.jest;
 
+  // resolveJestConfig 如果是函数类型，在所有测试插件 jestConfig 都执行后，再执行生成最终配置
   if (resolveJestConfig && typeof resolveJestConfig !== 'function') {
     testUtils.mergeJestConfig(resolveJestConfig);
-  }
-
-  if (typeof resolveJestConfig === 'function') {
-    resolveJestConfig(testUtils.jestConfig);
   }
 };
 
@@ -108,9 +105,6 @@ export default (): CliPlugin => {
             moduleNameMapper: getModuleNameMapper(alias),
             testEnvironment: 'jsdom',
             resolver: DEFAULT_RESOLVER_PATH,
-          });
-
-          utils.setJestConfig({
             rootDir: appContext.appDirectory || process.cwd(),
             // todo: diffrent test root for diffrent solutions
             // testMatch: [`<rootDir>/(src|tests|electron)/**/*.test.[jt]s?(x)`],
