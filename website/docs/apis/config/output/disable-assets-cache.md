@@ -26,7 +26,7 @@ sidebar_label: disableAssetsCache
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
-  outupt: {
+  output: {
     disableAssetsCache: true,
   },
 });

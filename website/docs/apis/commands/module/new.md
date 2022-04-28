@@ -30,7 +30,7 @@ $ npx modern new
   启用 Less 支持
   启用 Sass 支持
   启用「Storybook」
-  启用「Rumtime API」
+  启用「Runtime API」
 ```
 
 运行命令后，回车选择对应的能力即可启用。

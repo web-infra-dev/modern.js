@@ -5,7 +5,7 @@ sidebar_position: 6
 # 代码编译
 在主进程中，我们为了保持主进程代码的目录结构，这对于我们在主进程中使用一些动态导入等会更加方便。但也带来了一些问题：
 - 我们主进程通过 babel 编译，因此在编译不同的目录的时候，需要通过命令参数 --extra 来指定进行编译。
-- 我们在主进程使用的 node_modules 会通过 babel 去分析识别，生成 dist/package.json ，从而在构建的时候将依赖打包到应用中。未被识别的一些间接引用，则需要通过 externalDepencies 来指定。
+- 我们在主进程使用的 node_modules 会通过 babel 去分析识别，生成 dist/package.json ，从而在构建的时候将依赖打包到应用中。未被识别的一些间接引用，则需要通过 externalDependencies 来指定。
 
 ## 指定额外目录
 

@@ -21,7 +21,7 @@ import { bootstrap } from '@modern-js/runtime';
 
 ### 参数
 
-- AppComponment：`React.ComponentType<any>`，应用根组件，通过 [`createApp`](./create-app) 创建。
+- AppComponent：`React.ComponentType<any>`，应用根组件，通过 [`createApp`](./create-app) 创建。
 - rootElement：`string`，要挂载的 DOM 根元素 id，如 `"root"`。
 
 ## 示例

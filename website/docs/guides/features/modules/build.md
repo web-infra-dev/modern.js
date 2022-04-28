@@ -44,8 +44,7 @@ pnpm run build
 - `dist/js/treeshaking` 对应 `ES5`的语法以及使用 `ES Module` 模块化系统的构建产物。
 - `dist/js/modern` 对应 `ES6`的语法以及使用 `CommonJS` 模块化系统的构建产物。
 
-如果需要修改生成产物的语法和使用的模块化系统，则可以通过 [output.packageMode](/docs/apis/config/output/package-mode) 以及 [output.packageFields](/docs/apis/config/output/pacakge-f
-ields) 配置来修改。
+如果需要修改生成产物的语法和使用的模块化系统，则可以通过 [output.packageMode](/docs/apis/config/output/package-mode) 以及 [output.packageFields](/docs/apis/config/output/package-fields) 配置来修改。
 
 :::info 补充信息
 虽然默认生成三种构建产物，但是可以通过配置可以生成两种，甚至一种构建产物。根据配置不同，生成的产物结构也会有所不同。例如当配置 `output.packageMode = 'node-js'` 的时候，构建产物中只会包含 `dist/js/modern` 以及 `dist/js/node` 两个目录。
