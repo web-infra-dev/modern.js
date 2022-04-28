@@ -1,5 +1,31 @@
 # @modern-js/runtime
 
+## 1.2.7
+
+### Patch Changes
+
+- 6c1438d2: fix: missing peer deps warnings
+- 123e432d: uglify ssr bundle for treeshaking
+- Updated dependencies [2d155c4c]
+- Updated dependencies [a0475f1a]
+- Updated dependencies [123e432d]
+- Updated dependencies [6c1438d2]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [0fccff68]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/plugin-ssr@1.2.8
+  - @modern-js/plugin-state@1.2.5
+  - @modern-js/plugin-router@1.2.11
+  - @modern-js/runtime-core@1.4.3
+  - @modern-js/create-request@1.2.5
+
 ## 1.2.6
 
 ### Patch Changes

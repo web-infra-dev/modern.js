@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.3.9",
+  "version": "1.3.10",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -46,12 +46,12 @@
     "@babel/traverse": "^7.15.4",
     "@babel/types": "^7.17.0",
     "@koa/cors": "^3.1.0",
-    "@modern-js/create-request": "workspace:^1.2.4",
+    "@modern-js/create-request": "workspace:^1.2.5",
     "@modern-js/css-config": "workspace:^1.2.4",
     "@modern-js/esmpack": "workspace:^1.2.4",
     "@modern-js/plugin": "workspace:^1.3.3",
-    "@modern-js/server": "workspace:^1.4.10",
-    "@modern-js/utils": "workspace:^1.5.0",
+    "@modern-js/server": "workspace:^1.4.11",
+    "@modern-js/utils": "workspace:^1.6.0",
     "@rollup/plugin-alias": "^3.1.2",
     "@svgr/core": "^5.5.0",
     "@svgr/plugin-jsx": "^5.5.0",
@@ -114,7 +114,7 @@
     "typescript": "^4"
   },
   "peerDependencies": {
-    "@modern-js/bff-utils": "workspace:^1.2.3",
+    "@modern-js/bff-utils": "workspace:^1.2.4",
     "typescript": "^4"
   },
   "publishConfig": {

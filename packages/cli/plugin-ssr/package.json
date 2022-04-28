@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.7",
+  "version": "1.2.8",
   "jsnext:source": "./src/index.tsx",
   "types": "./src/index.tsx",
   "main": "./dist/js/treeshaking/index.node.js",
@@ -61,7 +61,7 @@
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/server": "^5.15.1",
     "@loadable/webpack-plugin": "^5.15.1",
-    "@modern-js/utils": "workspace:^1.5.0",
+    "@modern-js/utils": "workspace:^1.6.0",
     "react-dom": "^17",
     "serialize-javascript": "^6.0.0"
   },
@@ -93,7 +93,7 @@
     "react": "^17",
     "react-helmet": "^6.1.0",
     "@loadable/component": "^5.15.0",
-    "@modern-js/runtime-core": "workspace:^1.4.2"
+    "@modern-js/runtime-core": "workspace:^1.4.3"
   },
   "sideEffects": false,
   "publishConfig": {

@@ -1,5 +1,11 @@
 # @modern-js/runtime-core
 
+## 1.4.3
+
+### Patch Changes
+
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+
 ## 1.4.2
 
 ### Patch Changes

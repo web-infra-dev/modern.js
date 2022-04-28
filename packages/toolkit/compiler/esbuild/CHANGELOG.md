@@ -1,5 +1,11 @@
 # @modern-js/esbuild-compiler
 
+## 0.2.3
+
+### Patch Changes
+
+- 6c1438d2: fix: missing peer deps warnings
+
 ## 0.2.2
 
 ### Patch Changes

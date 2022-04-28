@@ -1,5 +1,40 @@
 # @modern-js/plugin-testing
 
+## 1.5.1
+
+### Patch Changes
+
+- 6c1438d2: fix: missing peer deps warnings
+- 77519490: refactor(webpack): remove `@modern-js/core`
+- 50f351b2: fix:
+
+  1. plugin-testing types
+  2. `tools.jest` not working when combined with bff testing
+
+- Updated dependencies [2d155c4c]
+- Updated dependencies [a0475f1a]
+- Updated dependencies [123e432d]
+- Updated dependencies [6c1438d2]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [71526621]
+- Updated dependencies [77519490]
+- Updated dependencies [592edabc]
+- Updated dependencies [3578716a]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3d1fac2a]
+- Updated dependencies [3578913e]
+- Updated dependencies [50f351b2]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/webpack@1.5.7
+  - @modern-js/testing@1.4.4
+  - @modern-js/bff-utils@1.2.4
+  - @modern-js/testing-plugin-bff@1.4.1
+  - @modern-js/runtime-core@1.4.3
+
 ## 1.5.0
 
 ### Minor Changes
