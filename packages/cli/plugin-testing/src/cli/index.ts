@@ -92,7 +92,11 @@ export default (): CliPlugin => {
             return next(utils);
           }
 
-          const webpackConfig = getWebpackConfig(WebpackConfigTarget.CLIENT);
+          const webpackConfig = getWebpackConfig(
+            WebpackConfigTarget.CLIENT,
+            appContext,
+            userConfig,
+          );
           const {
             resolve: { alias = {} },
           } = webpackConfig;

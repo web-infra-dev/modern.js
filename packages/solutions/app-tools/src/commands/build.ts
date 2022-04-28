@@ -118,20 +118,32 @@ export const build = async (api: PluginAPI, options?: BuildOptions) => {
   const buildConfigs: Array<{ type: string; config: any }> = [];
   buildConfigs.push({
     type: 'legacy',
-    config: getWebpackConfig(WebpackConfigTarget.CLIENT)!,
+    config: getWebpackConfig(
+      WebpackConfigTarget.CLIENT,
+      appContext,
+      resolvedConfig,
+    )!,
   });
 
   if (resolvedConfig.output.enableModernMode) {
     buildConfigs.push({
       type: 'modern',
-      config: getWebpackConfig(WebpackConfigTarget.MODERN)!,
+      config: getWebpackConfig(
+        WebpackConfigTarget.MODERN,
+        appContext,
+        resolvedConfig,
+      )!,
     });
   }
 
   if (isUseSSRBundle(resolvedConfig)) {
     buildConfigs.push({
       type: 'ssr',
-      config: getWebpackConfig(WebpackConfigTarget.NODE)!,
+      config: getWebpackConfig(
+        WebpackConfigTarget.NODE,
+        appContext,
+        resolvedConfig,
+      )!,
     });
   }
 
