@@ -16,6 +16,10 @@ sidebar_position: 2
 - 如何配置项目所需的静态资源、自定义 HTML。
 - 如何使用测试功能。
 
+:::info 在线预览
+在 StackBlitz 中预览：<a alt="StackBlitz" target="\_blank" rel="noopener noreferrer" style={{ verticalAlign: '-5px', marginLeft: '5px' }} href="https://stackblitz.com/edit/modern-js-mwa"><img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" /></a>
+:::
+
 ## 环境准备
 
 import EnvPrepare from '@site/docs/components/env-prepare.md';
