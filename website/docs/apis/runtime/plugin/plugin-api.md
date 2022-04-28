@@ -18,7 +18,7 @@ export default (): CliPlugin => ({
     // 获取应用运行上下文
     const appContext = api.useAppContext();
     // 获取解析之后的最终配置
-    const resovledConfig = api.useResolvedConfigContext();
+    const resolvedConfig = api.useResolvedConfigContext();
   },
 });
 ```

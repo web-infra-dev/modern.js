@@ -109,7 +109,7 @@ context.onForged(async (api: ForgedAPI, input: Record<string, unknown>) => {
 
 如果你的工程方案是基于 Modern.js 提供的三种工程方案进行的，这个钩子函数是可以不需要的。默认的工程方案中会自动包含安装依赖、提交代码逻辑。
 
-生成器插件还支持了一种自定义的 base 类型，这种类型只提供了少量的开发层面的最佳实践的代码，比如 `.gitinore`、`.editorConfig` 等文件，这时则需要在 `afterForged` 函数中手动补充安装依赖和 git 操作逻辑。
+生成器插件还支持了一种自定义的 base 类型，这种类型只提供了少量的开发层面的最佳实践的代码，比如 `.gitignore`、`.editorConfig` 等文件，这时则需要在 `afterForged` 函数中手动补充安装依赖和 git 操作逻辑。
 
 `afterForged` 参数也是一个回调函数，函数参数为 `api` 和 `input`。
 

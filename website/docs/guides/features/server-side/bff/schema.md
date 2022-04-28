@@ -174,7 +174,7 @@ const res = await post({ formUrlencoded: urlSearchParams })
 
 ### 校验字段
 
-在 `match` 函数的 `macher` 参数中，有些字段是可以使用 Schema Builder 描述并提供了类型校验能力，而有些字段是拥有特定类型，不支持使用 Schema Builder 描述，当然也没有类型校验能力的。
+在 `match` 函数的 `matcher` 参数中，有些字段是可以使用 Schema Builder 描述并提供了类型校验能力，而有些字段是拥有特定类型，不支持使用 Schema Builder 描述，当然也没有类型校验能力的。
 
 * `request`
   * `params`：可使用 Schema Builder 描述

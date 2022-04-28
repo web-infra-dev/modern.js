@@ -183,7 +183,7 @@ function Home({ username }) {
 
   return <div>
     <div>{JSON.stringify(data)}</div>
-    <button onClick={() => reload('kitten')}> relaod </button>
+    <button onClick={() => reload('kitten')}> reload </button>
   </div>
 }
 ```
