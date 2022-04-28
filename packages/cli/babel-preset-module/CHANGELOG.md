@@ -1,5 +1,22 @@
 # @modern-js/babel-preset-module
 
+## 1.3.3
+
+### Patch Changes
+
+- f9f66ef9: fix import static path in window env
+- Updated dependencies [2d155c4c]
+- Updated dependencies [123e432d]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+
 ## 1.3.2
 
 ### Patch Changes
