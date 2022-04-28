@@ -11,12 +11,13 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.5.0",
+  "version": "1.6.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "jsnext:modern": "./dist/index.js",
+  "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",

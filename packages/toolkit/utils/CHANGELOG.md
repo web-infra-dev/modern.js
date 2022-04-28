@@ -1,5 +1,23 @@
 # @modern-js/utils
 
+## 1.6.0
+
+### Minor Changes
+
+- 0b26b93b: feat: prebundle all dependencies of @modern-js/core
+
+### Patch Changes
+
+- 2d155c4c: feat(utils): prebundle minimist
+- 123e432d: use treeshaking product for ssr bundle
+- e5a9b26d: fix: prebundled globbdy type
+- 123e432d: uglify ssr bundle for treeshaking
+- f9f66ef9: add 'slash' module
+- 592edabc: feat: prebundle url-join,mime-types,json5,fast-glob,globby,ora,inquirer
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+- 3578913e: fix: export ssrHelpers from subpath
+- 1c3beab3: fix: skip prebundle caniuse-lite
+
 ## 1.5.0
 
 ### Minor Changes

@@ -1,5 +1,29 @@
 # @modern-js/plugin-nocode
 
+## 1.1.10
+
+### Patch Changes
+
+- 77519490: refactor(webpack): remove `@modern-js/core`
+- 592edabc: feat: prebundle url-join,mime-types,json5,fast-glob,globby,ora,inquirer
+- Updated dependencies [2d155c4c]
+- Updated dependencies [a0475f1a]
+- Updated dependencies [123e432d]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [71526621]
+- Updated dependencies [77519490]
+- Updated dependencies [592edabc]
+- Updated dependencies [3578716a]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3d1fac2a]
+- Updated dependencies [3578913e]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/webpack@1.5.7
+
 ## 1.1.9
 
 ### Patch Changes
