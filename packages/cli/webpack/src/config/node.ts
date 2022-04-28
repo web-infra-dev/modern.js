@@ -48,7 +48,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
   optimization() {
     super.optimization();
-    this.chain.optimization.minimize(false);
     this.chain.optimization.splitChunks(false as any).runtimeChunk(false);
   }
 
