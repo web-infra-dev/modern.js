@@ -52,7 +52,7 @@
     },
     "./ssr": {
       "jsnext:source": "./src/exports/ssr.ts",
-      "node": "./dist/js/node/exports/ssr.js",
+      "node": "./dist/js/treeshaking/exports/ssr.js",
       "default": "./dist/js/treeshaking/exports/ssr.js"
     },
     "./model": {

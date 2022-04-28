@@ -2,6 +2,5 @@
 // 代码真正运行的时候：
 // - 在源码模式已经通过 --conditions=jsnext:source 可以 resolve 到正确的文件了
 // - 在编译之后的模式 package.json#exports 或者 package.json#main 也可以正确的 resolve 到对应的文件
-// import { useHeaders } from '@modern-js/plugin-ssr/node';
 export { default } from './src/index.node';
 export * from './src/index.node';
