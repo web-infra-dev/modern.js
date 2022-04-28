@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "esbuild-minify-js",
+  "version": "1.0.0",
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "@modern-js/runtime": "workspace:*"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-esbuild": "workspace:*"
+  }
+}
