@@ -63,8 +63,9 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
       '@modern-js/webpack'
     );
     const webpackConfigs = [
-      isSSR(userConfig) && getWebpackConfig(WebpackConfigTarget.NODE),
-      getWebpackConfig(WebpackConfigTarget.CLIENT),
+      isSSR(userConfig) &&
+        getWebpackConfig(WebpackConfigTarget.NODE, appContext, userConfig),
+      getWebpackConfig(WebpackConfigTarget.CLIENT, appContext, userConfig),
     ].filter(Boolean) as Configuration[];
 
     compiler = await createCompiler({
