@@ -11,12 +11,14 @@ const core: typeof import('@modern-js/core') = Import.lazy(
 const build: typeof import('./compiler') = Import.lazy('./compiler', require);
 
 (async () => {
-  const { appContext } = await core.cli.init();
+  const { appContext, resolved } = await core.cli.init();
   await core.manager.run(async () => {
     try {
       const { appDirectory, internalDirectory } = appContext;
       const webpackConfig = getWebpackConfig(
         WebpackConfigTarget.CLIENT,
+        appContext,
+        resolved,
       ) as Configuration;
       build.default(webpackConfig, {
         appDirectory,

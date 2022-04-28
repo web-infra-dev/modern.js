@@ -14,7 +14,12 @@ export function generatorWebpackConfig(
   tmpDir: string,
   isDev: boolean,
 ): Configuration {
-  const originConfig: any = getWebpackConfig(WebpackConfigTarget.CLIENT);
+  // FIXME: 这个包现在没有使用，待使用时再重构 webpack 配置的获取
+  const originConfig: any = getWebpackConfig(
+    WebpackConfigTarget.CLIENT,
+    {} as any,
+    {} as any,
+  );
   const plugins = (
     (originConfig.plugins || []) as WebpackPluginInstance[]
   ).filter(p => p.constructor !== webpack.HotModuleReplacementPlugin);
