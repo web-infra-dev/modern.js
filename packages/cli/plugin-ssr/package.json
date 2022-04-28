@@ -14,13 +14,14 @@
   "version": "1.2.7",
   "jsnext:source": "./src/index.tsx",
   "types": "./src/index.tsx",
-  "main": "./dist/js/node/index.node.js",
+  "main": "./dist/js/treeshaking/index.node.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": {
       "node": {
         "jsnext:source": "./src/index.node.tsx",
+        "require": "./dist/js/treeshaking/index.node.js",
         "import": "./dist/js/treeshaking/index.node.js"
       },
       "default": "./dist/js/treeshaking/index.js"
