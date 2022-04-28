@@ -81,7 +81,7 @@ import 'button/dist/styles/button.css';
 内置样式的构建产物的输出位置位于 `dist/js/styles/` 目录下，这与独立样式构建产物的位置不同。
 
 :::info 补充信息
-在 `dist/js/styles` 路径中，`dist`、`js`、`styles` 都可以分别通过 [output.path](/docs/apis/config/output/path)、[outpout.jsPath](/docs/apis/config/output/js-path)、[output.assetsPath](/docs/apis/config/output/assets-path) 配置进行修改。
+在 `dist/js/styles` 路径中，`dist`、`js`、`styles` 都可以分别通过 [output.path](/docs/apis/config/output/path)、[output.jsPath](/docs/apis/config/output/js-path)、[output.assetsPath](/docs/apis/config/output/assets-path) 配置进行修改。
 :::
 
 如果在组件文件`.(t|j)sx` 中引用这些文件，那么在构建成功后会修改**导入内置样式文件的路径**，将路径指向 `dist/js/styles/*`目录下内置样式文件的产物。

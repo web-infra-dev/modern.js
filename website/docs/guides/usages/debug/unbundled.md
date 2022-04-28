@@ -33,7 +33,7 @@ Unbundled 模式暂不支持在 Windows 平台使用，支持即将上线。
 
 ## 实现原理和注意事项
 
-为了更好的理解 **Unbudled 开发模式**，本章节从下面几个方面分别介绍：
+为了更好的理解 **Unbundled 开发模式**，本章节从下面几个方面分别介绍：
 
 ### 依赖预处理
 
@@ -157,7 +157,7 @@ console.log(jsonData); // => { name: 'a'}
 
 ### 热更新（ HMR ）
 
-一般情况下，不需要进行任何修改，**Unbundled 开发模式**下就可以正常使用热更新功能。此外，**Unbundled 开发模式**在 [ESM-HMR Spec](https://github.com/snowpackjs/esm-hmr) 的基础上，增加了 Webpack 场景常用的 `module.hot` 用法支持。同时也可以直接在代码中使用 `import.meta.hot.accpet` 方式注册依赖更新时的回调，例如:
+一般情况下，不需要进行任何修改，**Unbundled 开发模式**下就可以正常使用热更新功能。此外，**Unbundled 开发模式**在 [ESM-HMR Spec](https://github.com/snowpackjs/esm-hmr) 的基础上，增加了 Webpack 场景常用的 `module.hot` 用法支持。同时也可以直接在代码中使用 `import.meta.hot.accept` 方式注册依赖更新时的回调，例如:
 
 ```js title=b.js
 export const name = 'b';

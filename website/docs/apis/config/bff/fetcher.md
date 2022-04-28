@@ -24,7 +24,7 @@ MWA 项目需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用�
 ```ts title="modern.config.ts"
 export default defineConfig({
   bff: {
-    fetcher: 'custome-fetch'
+    fetcher: 'custom-fetch'
   }
 });
 ```

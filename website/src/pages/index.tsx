@@ -539,7 +539,7 @@ export default function Home() {
           <SecondaryTitle seqNum={++count}>提供工程标准体系</SecondaryTitle>
           <a
             className={styles.singleImgWrap}
-            href="/docs/guides/features/custom/framework-plugin/abstruct">
+            href="/docs/guides/features/custom/framework-plugin/abstract">
             <img
               className={styles.singleImg}
               src={
