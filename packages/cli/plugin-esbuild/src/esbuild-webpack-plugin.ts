@@ -1,6 +1,6 @@
 /**
  * refactor from https://github.com/sorrycc/esbuild-webpack-plugin/blob/master/src/index.ts
- * support webpack 5 and esbuild ^0.12.22
+ * support webpack 5 and esbuild >= 0.12.22
  */
 import { transform, TransformOptions, TransformResult } from 'esbuild';
 import type { Compiler, Compilation } from 'webpack';
@@ -53,36 +53,20 @@ export class ESBuildPlugin {
 
   apply(compiler: Compiler): void {
     const { devtool } = compiler.options;
-    const isWebpack5 = compiler.webpack.version.startsWith('5');
 
     const plugin = 'ESBuild Plugin';
     compiler.hooks.compilation.tap(plugin, (compilation: Compilation) => {
-      if (isWebpack5) {
-        const { Compilation } = compiler.webpack;
+      const { Compilation } = compiler.webpack;
 
-        compilation.hooks.processAssets.tapPromise(
-          {
-            name: plugin,
-            stage: Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_SIZE,
-          },
-          async (assets: any) => {
-            await this.updateAssets(compilation, Object.keys(assets), devtool);
-          },
-        );
-      } else {
-        compilation.hooks.optimizeChunkAssets.tapPromise(
-          plugin,
-          async (chunks: any) => {
-            for (const chunk of chunks) {
-              await this.updateAssets(
-                compilation,
-                Array.from(chunk.files),
-                devtool,
-              );
-            }
-          },
-        );
-      }
+      compilation.hooks.processAssets.tapPromise(
+        {
+          name: plugin,
+          stage: Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_SIZE,
+        },
+        async (assets: any) => {
+          await this.updateAssets(compilation, Object.keys(assets), devtool);
+        },
+      );
     });
   }
 
