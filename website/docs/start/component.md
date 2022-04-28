@@ -4,7 +4,9 @@ sidebar_position: 10
 
 # 开发 UI 组件
 
-本章将介绍如何使用 Modern.js 进行 UI 组件项目的开发。本章对应的代码仓库地址：[独立项目场景](https://github.com/modern-js-dev/modern-js-examples/tree/main/quick-start/components-project) 、[Monorepo 场景](https://github.com/modern-js-dev/modern-js-examples/tree/main/quick-start/monorepo-component)。
+本章将介绍如何使用 Modern.js 进行 UI 组件项目的开发。
+
+本章对应的代码仓库地址：[独立项目场景](https://github.com/modern-js-dev/modern-js-examples/tree/main/quick-start/components-project) 、[Monorepo 场景](https://github.com/modern-js-dev/modern-js-examples/tree/main/quick-start/monorepo-component)。
 
 :::info 注
 在 Modern.js 中，UI 组件项目是指基于 React 开发组件类型可复用模块的项目。
@@ -19,6 +21,11 @@ sidebar_position: 10
 - 如何在 UI 组件项目中使用[运行时 API](/docs/apis/runtime/overview)。
 - 如何发布 UI 组件项目。
 - 在 Monorepo 中，UI 组件项目与应用项目如何联调。
+
+:::info 在线预览
+在 StackBlitz 中预览：<a alt="StackBlitz" target="\_blank" rel="noopener noreferrer" style={{ verticalAlign: '-5px', marginLeft: '5px' }} href="https://stackblitz.com/edit/modern-js-component-project"><img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" /></a>
+:::
+
 
 ## 环境准备
 
