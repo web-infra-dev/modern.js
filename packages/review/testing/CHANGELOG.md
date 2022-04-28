@@ -1,5 +1,28 @@
 # @modern-js/testing
 
+## 1.4.4
+
+### Patch Changes
+
+- 6c1438d2: fix: missing peer deps warnings
+- 50f351b2: fix:
+
+  1. plugin-testing types
+  2. `tools.jest` not working when combined with bff testing
+
+- Updated dependencies [2d155c4c]
+- Updated dependencies [123e432d]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/babel-preset-app@1.2.7
+
 ## 1.4.3
 
 ### Patch Changes

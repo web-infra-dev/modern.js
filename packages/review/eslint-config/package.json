@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/eslint-config",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -18,10 +18,10 @@
     "stat": "eslint-index index.js --format table"
   },
   "peerDependencies": {
-    "@modern-js/plugin-jarvis": "workspace:^1.2.7"
+    "@modern-js/plugin-jarvis": "workspace:^1.2.8"
   },
   "dependencies": {
-    "@modern-js-app/eslint-config": "workspace:^1.2.8"
+    "@modern-js-app/eslint-config": "workspace:^1.2.9"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",

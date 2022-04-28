@@ -1,5 +1,27 @@
 # @modern-js/plugin-ssr
 
+## 1.2.8
+
+### Patch Changes
+
+- a0475f1a: fix: missing @babel/core peer dependencies
+- 123e432d: use treeshaking product for ssr bundle
+- 123e432d: uglify ssr bundle for treeshaking
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+- 3578913e: fix: export ssrHelpers from subpath
+- Updated dependencies [2d155c4c]
+- Updated dependencies [123e432d]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/runtime-core@1.4.3
+
 ## 1.2.7
 
 ### Patch Changes

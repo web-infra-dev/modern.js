@@ -1,5 +1,15 @@
 # @modern-js-app/eslint-config
 
+## 1.2.9
+
+### Patch Changes
+
+- 86c243ca: refactor: ts type checking extends `@typescript-eslint/recommended-requiring-type-checking`
+- 3908299a: fix: peer deps warning of eslint plugins
+- Updated dependencies [a0475f1a]
+  - @modern-js/plugin-jarvis@1.2.8
+  - @modern-js/babel-preset-app@1.2.7
+
 ## 1.2.8
 
 ### Patch Changes

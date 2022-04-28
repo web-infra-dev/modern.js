@@ -1,5 +1,17 @@
 # @modern-js/eslint-config
 
+## 1.2.5
+
+### Patch Changes
+
+- a0475f1a: fix: missing @babel/core peer dependencies
+- 3908299a: fix: peer deps warning of eslint plugins
+- Updated dependencies [a0475f1a]
+- Updated dependencies [86c243ca]
+- Updated dependencies [3908299a]
+  - @modern-js/plugin-jarvis@1.2.8
+  - @modern-js-app/eslint-config@1.2.9
+
 ## 1.2.4
 
 ### Patch Changes

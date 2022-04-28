@@ -1,5 +1,33 @@
 # @modern-js/plugin-storybook
 
+## 1.3.7
+
+### Patch Changes
+
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+- Updated dependencies [2d155c4c]
+- Updated dependencies [a0475f1a]
+- Updated dependencies [123e432d]
+- Updated dependencies [6c1438d2]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [71526621]
+- Updated dependencies [77519490]
+- Updated dependencies [592edabc]
+- Updated dependencies [3578716a]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3d1fac2a]
+- Updated dependencies [3578913e]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/webpack@1.5.7
+  - @modern-js/runtime@1.2.7
+  - @modern-js/plugin-state@1.2.5
+  - @modern-js/esbuild-compiler@0.2.3
+  - @modern-js/plugin-router@1.2.11
+
 ## 1.3.6
 
 ### Patch Changes

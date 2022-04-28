@@ -1,5 +1,30 @@
 # @modern-js/webpack
 
+## 1.5.7
+
+### Patch Changes
+
+- a0475f1a: fix: missing @babel/core peer dependencies
+- 123e432d: uglify ssr bundle for treeshaking
+- 71526621: fix: remove unused babel cache
+- 77519490: refactor(webpack): remove `@modern-js/core`
+- 3578716a: fix(webpack): failed to read property of compileOptions
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+- 3d1fac2a: chore: app-tools no longer depend on webpack
+- Updated dependencies [2d155c4c]
+- Updated dependencies [123e432d]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/babel-preset-app@1.2.7
+  - @modern-js/css-config@1.2.4
+
 ## 1.5.5
 
 ### Patch Changes

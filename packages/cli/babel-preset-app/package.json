@@ -44,7 +44,7 @@
     "@babel/types": "^7.17.0",
     "@modern-js/babel-chain": "workspace:^1.2.2",
     "@modern-js/babel-preset-base": "workspace:^1.2.5",
-    "@modern-js/utils": "workspace:^1.5.0",
+    "@modern-js/utils": "workspace:^1.6.0",
     "core-js": "^3.6.4",
     "semver": "^7.3.5"
   },
