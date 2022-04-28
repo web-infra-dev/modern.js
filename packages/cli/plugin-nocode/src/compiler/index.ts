@@ -111,7 +111,7 @@ export const handleWebpackConfig = (
       typeof rule.use[0] === 'object' &&
       (rule.use[0]?.loader || '').includes('mini-css-extract-plugin')
     ) {
-      rule.use[0].loader = 'style-loader';
+      rule.use[0].loader = require.resolve('style-loader');
     }
   });
 };
