@@ -40,12 +40,15 @@ export default (): CliPlugin => ({
         });
 
       const devCommand = program.commandsMap.get('dev');
-      const { appDirectory, internalDirectory } = api.useAppContext();
+      const appContext = api.useAppContext();
+      const { appDirectory, internalDirectory } = appContext;
       const modernConfig = api.useResolvedConfigContext();
       if (devCommand) {
         devCommand.command('nocode').action(async () => {
           const webpackConfig = getWebpackConfig(
             WebpackConfigTarget.CLIENT,
+            appContext,
+            modernConfig,
           ) as Configuration;
           await dev(
             appDirectory,
@@ -77,10 +80,13 @@ export default (): CliPlugin => ({
         }: {
           isTsProject: boolean;
         }) => {
-          const { appDirectory, internalDirectory } = api.useAppContext();
+          const appContext = api.useAppContext();
+          const { appDirectory, internalDirectory } = appContext;
           const modernConfig = api.useResolvedConfigContext();
           const webpackConfig = getWebpackConfig(
             WebpackConfigTarget.CLIENT,
+            appContext,
+            modernConfig,
           ) as Configuration;
           await dev(
             appDirectory,
