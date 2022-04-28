@@ -33,7 +33,7 @@ export const ZH_LOCALE = {
       e2e_test: '启用「E2E 测试」功能',
       doc: '启用「文档站」功能',
       storybook: '启用「Storybook」',
-      runtime_api: '启用「Rumtime API」',
+      runtime_api: '启用「Runtime API」',
       mwa_storybook: '启用「Visual Testing (Storybook)」模式',
       ssg: '启用「SSG」功能',
       polyfill: '启用「基于 UA 的 Polyfill」功能',

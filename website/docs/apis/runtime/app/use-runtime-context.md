@@ -32,7 +32,7 @@ import { fooModel } from '@/common/models';
 function App() {
   const { store } = useRuntimeContext();
 
-  const [state, ations] = store.use(fooModel);
+  const [state, actions] = store.use(fooModel);
 
   return <div>state: {state}</div>
 }

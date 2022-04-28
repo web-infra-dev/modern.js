@@ -21,7 +21,7 @@ import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
   output: {
-    assetPrefix: '//cdn.example.copm/assets/',
+    assetPrefix: '//cdn.example.com/assets/',
   },
 });
 ```
@@ -31,7 +31,7 @@ export default defineConfig({
 ```javascript
 <script
   defer="defer"
-  src="//cdn.example.copm/assets/static/js/187.ebc4ff4f.js"></script>;
+  src="//cdn.example.com/assets/static/js/187.ebc4ff4f.js"></script>;
 ```
 
 

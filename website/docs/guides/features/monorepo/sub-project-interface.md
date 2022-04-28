@@ -132,7 +132,7 @@ pnpm add internal-lib -D
 
 将 `packages/components` 与 `features/internal-lib` 子项目加入到应用的依赖列表当中。
 
-执行成功后，在 `apps/app/package.jons` 会发生如下变化：
+执行成功后，在 `apps/app/package.json` 会发生如下变化：
 
 ``` json
 {
@@ -146,12 +146,12 @@ pnpm add internal-lib -D
 ```
 
 :::info 补充信息
-`workspace:^0.1.0` 是一种 PNPM 提供的 [Worksapce 协议](https://pnpm.io/workspaces#workspace-protocol-workspace)。
+`workspace:^0.1.0` 是一种 PNPM 提供的 [Workspace 协议](https://pnpm.io/workspaces#workspace-protocol-workspace)。
 :::
 
 当依赖安装成功之后，我们还需要将 `packages/components` 进行构建，因为需要使用其构建产物。
 
-到此为止，`app/apps` 应用子项目可以正常的运行了。在修改 `features/internal-lib` 的源码，或者修改 `pacakges/components` 的源码并构建之后都会触发应用子项目的热更新。
+到此为止，`app/apps` 应用子项目可以正常的运行了。在修改 `features/internal-lib` 的源码，或者修改 `packages/components` 的源码并构建之后都会触发应用子项目的热更新。
 
 ## 在使用 Yarn 的 Monorepo 中进行项目联调
 

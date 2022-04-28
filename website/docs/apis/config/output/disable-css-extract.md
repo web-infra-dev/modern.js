@@ -21,7 +21,7 @@ Modern.js 默认会把 CSS 提取为独立文件，并输出到 `dist` 目录。
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
-  outupt: {
+  output: {
     disableCssExtract: true,
   },
 });
