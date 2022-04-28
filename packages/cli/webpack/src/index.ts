@@ -1,5 +1,5 @@
 import webpack from 'webpack';
-import { useAppContext, useResolvedConfigContext } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import {
   ClientWebpackConfig,
   ModernWebpackConfig,
@@ -21,7 +21,11 @@ export enum WebpackConfigTarget {
   MODERN,
 }
 
-export const getWebpackConfig = (target: WebpackConfigTarget) => {
+export const getWebpackConfig = (
+  target: WebpackConfigTarget,
+  appContext: IAppContext,
+  resolvedConfig: NormalizedConfig,
+) => {
   let Config = null;
 
   switch (target) {
@@ -42,10 +46,7 @@ export const getWebpackConfig = (target: WebpackConfigTarget) => {
     return null;
   }
 
-  const appContext = useAppContext();
-  const options = useResolvedConfigContext();
-
-  const config = new Config(appContext, options);
+  const config = new Config(appContext, resolvedConfig);
 
   return config.config();
 };
