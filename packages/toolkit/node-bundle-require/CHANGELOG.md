@@ -1,5 +1,12 @@
 # @modern-js/node-bundle-require
 
+## 1.3.2
+
+### Patch Changes
+
+- 6c1438d2: fix: missing peer deps warnings
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+
 ## 1.3.1
 
 ### Patch Changes

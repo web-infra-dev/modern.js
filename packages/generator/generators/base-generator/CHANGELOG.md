@@ -1,5 +1,11 @@
 # @modern-js/base-generator
 
+## 1.4.1
+
+### Patch Changes
+
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+
 ## 1.4.0
 
 ### Minor Changes

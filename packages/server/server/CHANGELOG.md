@@ -1,5 +1,28 @@
 # @modern-js/server
 
+## 1.4.11
+
+### Patch Changes
+
+- a0475f1a: fix: missing @babel/core peer dependencies
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+- 247e2005: support devServer.devMiddleware, same as webpack-dev-server
+- Updated dependencies [2d155c4c]
+- Updated dependencies [a0499e4f]
+- Updated dependencies [123e432d]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/prod-server@1.1.2
+  - @modern-js/bff-utils@1.2.4
+  - @modern-js/server-utils@1.2.4
+
 ## 1.4.10
 
 ### Patch Changes
