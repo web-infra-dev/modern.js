@@ -6,7 +6,7 @@ import {
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import {
-  jestConfigHook,
+  testingHooks,
   TestConfigOperator,
   getModuleNameMapper,
   DEFAULT_RESOLVER_PATH,
@@ -35,9 +35,7 @@ export default (): CliPlugin => {
 
     post: [BffPlugin.name!],
 
-    registerHook: {
-      jestConfig: jestConfigHook,
-    },
+    registerHook: testingHooks,
 
     setup: api => {
       let testingExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
@@ -47,7 +45,7 @@ export default (): CliPlugin => {
           program
             .command('test')
             .allowUnknownOption()
-            .usage('[options]')
+            .usage('<regexForTestFiles> --[options]')
             .action(async () => {
               await test(api);
             });
