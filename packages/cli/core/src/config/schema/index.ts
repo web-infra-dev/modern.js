@@ -81,11 +81,9 @@ export const patchSchema = (
 
     const targetNode = findTargetNode(props);
 
-    if (targetNode.hasOwnProperty(mountProperty!)) {
-      throw new Error(`${target} already exists in current validate schema`);
+    if (!targetNode.hasOwnProperty(mountProperty!)) {
+      (targetNode as any)[mountProperty as string] = cloneDeep(schema);
     }
-
-    (targetNode as any)[mountProperty as string] = cloneDeep(schema);
   }
 
   debug(`final validate schema: %o`, finalSchema);
