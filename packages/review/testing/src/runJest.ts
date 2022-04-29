@@ -129,4 +129,6 @@ export async function runTest(
   debug('Jest config:', finalConfig);
 
   await runJest(finalConfig, pwd);
+
+  await hookRunners.afterTest();
 }
