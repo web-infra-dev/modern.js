@@ -70,7 +70,7 @@ export const EN_LOCALE = {
     self: 'Package Path',
     no_empty: 'The package path cannot be empty!',
     format:
-      'Only lowercase letters, numbers and delimiters (-), and underscore(_), and directory delimiters (/) can be used in package path.',
+      'Only lowercase letters, numbers and delimiters (-), and underscore (_), and directory delimiters (/) can be used in package path.',
   },
   runWay: {
     self: 'Do you need to support the following types of applications',
