@@ -62,4 +62,4 @@ New 命令的操作类型(actionType)，类型支持一种：
 
 - Storybook(mwa_storybook)
 
-- Rumtime API(runtimeApi)
+- Runtime API(runtimeApi)

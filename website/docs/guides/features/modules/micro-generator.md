@@ -24,7 +24,7 @@ pnpm run new
 - 启用 Less 支持
 - 启用 Sass 支持
 - 启用 「Storybook」
-- 启用 「Rumtime API」
+- 启用 「Runtime API」
 
 :::info 补充信息
 在编写样式的过程中，可以通过 “启用 Less 支持”、“启用 Sass 支持” 选项开启对 Less、Sass 代码的处理功能。关于如何开发样式，可以阅读 [开发样式](/docs/guides/features/modules/code-style)。
@@ -35,5 +35,5 @@ pnpm run new
 :::
 
 :::info 补充信息
-在创建「业务模型」类型的项目过程中，推荐通过 “启用 「Rumtime API」” 来新增 `@modern-js/runtime`。
+在创建「业务模型」类型的项目过程中，推荐通过 “启用 「Runtime API」” 来新增 `@modern-js/runtime`。
 :::

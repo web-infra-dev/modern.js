@@ -152,7 +152,7 @@ Query 调试时，当路透跳转的时候，Query 参数会丢失，reload 页�
 
 #### 环境要求
 
-[ModHeader](https://modheader.com/install) 是用于 Mock 浏览器请求/返回 Header 的浏览器插件。使用 ModHeader 支持的浏览器（Chrome、Firfox、Opera、Edge），并安装 ModHeader 插件。
+[ModHeader](https://modheader.com/install) 是用于 Mock 浏览器请求/返回 Header 的浏览器插件。使用 ModHeader 支持的浏览器（Chrome、Firefox、Opera、Edge），并安装 ModHeader 插件。
 
 #### 配置 Header
 

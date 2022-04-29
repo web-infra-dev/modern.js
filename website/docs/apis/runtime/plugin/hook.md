@@ -112,7 +112,7 @@ waterfall.run(1) // 4
 waterfall.run(5) // 12
 ```
 
-这个例子中，创建了一个类型为 `Waterfall<number> `，即这个模型执行的入参和返回值是一样的，这个例子中都是 `numer`，而它管理的函数的类型是：
+这个例子中，创建了一个类型为 `Waterfall<number> `，即这个模型执行的入参和返回值是一样的，这个例子中都是 `number`，而它管理的函数的类型是：
 
 ```ts
 (count: number) => number

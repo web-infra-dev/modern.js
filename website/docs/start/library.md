@@ -4,9 +4,11 @@ sidebar_position: 9
 
 # 开发工具库
 
-本章将介绍如何使用 Modern.js，进行工具库项目的开发。本章对应的代码仓库地址：[独立项目场景](https://github.com/modern-js-dev/modern-js-examples/tree/main/quick-start/library-project) 、[Monorepo 场景](https://github.com/modern-js-dev/modern-js-examples/tree/main/quick-start/monorepo-library)。
+本章将介绍如何使用 Modern.js，进行工具库项目的开发。
 
-:::info 注
+本章对应的代码仓库地址：[独立项目场景](https://github.com/modern-js-dev/modern-js-examples/tree/main/quick-start/library-project) 、[Monorepo 场景](https://github.com/modern-js-dev/modern-js-examples/tree/main/quick-start/monorepo-library)。
+
+:::info
 工具库项目是指开发类似 [Lodash](https://lodash.com/)、JavaScript SDK 等可复用模块的项目。
 :::
 
@@ -17,6 +19,10 @@ sidebar_position: 9
 - 如何为工具库项目开启 Storybook 功能并使用它进行调试。
 - 如何发布工具库项目。
 - 如何将工具库项目迁移到 Monorepo 中。
+
+:::info 在线预览
+在 StackBlitz 中预览：<a alt="StackBlitz" target="\_blank" rel="noopener noreferrer" style={{ verticalAlign: '-5px', marginLeft: '5px' }} href="https://stackblitz.com/edit/modern-js-library-project"><img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" /></a>
+:::
 
 ## 环境准备
 

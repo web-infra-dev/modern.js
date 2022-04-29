@@ -192,7 +192,7 @@ import { AppModule } from "./app.module";
 export default NestFactory.create(AppModule);
 ```
 
-包含内置 Modlue：
+包含内置 Module：
 
 ```ts title=api/main.ts
 import { defineCustom } from "@modern-js/plugin-nest";

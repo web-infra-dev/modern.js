@@ -3,7 +3,7 @@ title: api/app.[tj]s
 sidebar_position: 2
 ---
 
-Modern.js 框架写法下，该文件可以定制 API Server 的启动逻辑。在使用 `epxress`, `nest`, `koa` 时，该文件返回对应框架的实例。
+Modern.js 框架写法下，该文件可以定制 API Server 的启动逻辑。在使用 `express`, `nest`, `koa` 时，该文件返回对应框架的实例。
 在使用 `egg` 框架时，该文件返回一个 Boot 类；与 `egg` 框架自身的[约定](https://eggjs.org/zh-cn/basics/app-start.html)相同。
 
 以下为简单示例：
@@ -55,7 +55,7 @@ import { AppModule } from './app.module';
 export default NestFactory.create(AppModule);
 ```
 
-包含内置 Modlue：
+包含内置 Module：
 
 ```ts
 import { defineCustom } from '@modern-js/plugin-nest';
