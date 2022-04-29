@@ -60,6 +60,7 @@ class TestConfigOperator {
       return userJestConfig(this._jestConfig);
     }
 
+    // 确保用户设置的配置在jest配置最外层一定存在，避免有些配置在 projects 配置内不生效(https://github.com/facebook/jest/issues/9696)
     this.setJestConfig(userJestConfig);
 
     return this.jestConfig;
