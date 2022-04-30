@@ -22,6 +22,11 @@ function emitIndex(code: string, distPath: string) {
 }
 
 function emitDts(task: ParsedTask) {
+  if (task.ignoreDts) {
+    fs.writeFileSync(join(task.distPath, 'index.d.ts'), 'export = any;\n');
+    return;
+  }
+
   // Fix webpack-manifest-plugin types
   if (task.depName === 'webpack-manifest-plugin') {
     const pkgPath = require.resolve('webpack-manifest-plugin/package.json');
@@ -75,20 +80,25 @@ function emitPackageJson(task: ParsedTask) {
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
   const outputPath = join(task.distPath, 'package.json');
 
-  fs.writeJSONSync(
-    outputPath,
-    pick(packageJson, [
-      'name',
-      'author',
-      'version',
-      'funding',
-      'license',
-      'types',
-      'typing',
-      'typings',
-      ...task.packageJsonField,
-    ]),
-  );
+  const pickedPackageJson = pick(packageJson, [
+    'name',
+    'author',
+    'version',
+    'funding',
+    'license',
+    'types',
+    'typing',
+    'typings',
+    ...task.packageJsonField,
+  ]);
+
+  if (task.ignoreDts) {
+    delete pickedPackageJson.typing;
+    delete pickedPackageJson.typings;
+    pickedPackageJson.types = 'index.d.ts';
+  }
+
+  fs.writeJSONSync(outputPath, pickedPackageJson);
 }
 
 function emitLicense(task: ParsedTask) {

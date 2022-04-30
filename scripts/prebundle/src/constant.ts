@@ -7,9 +7,12 @@ export const PACKAGES_DIR = join(ROOT_DIR, 'packages');
 export const DIST_DIR = 'compiled';
 
 export const DEFAULT_EXTERNALS = {
-  // Don't bundle caniuse-lite data, so users can update it manually.
+  // External caniuse-lite data, so users can update it manually.
   'caniuse-lite': 'caniuse-lite',
   '/caniuse-lite(/.*)/': 'caniuse-lite$1',
+  // External webpack
+  webpack: 'webpack',
+  '/webpack(/.*)/': 'webpack$1',
 };
 
 /**
@@ -124,6 +127,16 @@ export const TASKS: TaskConfig[] = [
         externals: {
           ajv: '../ajv',
         },
+      },
+    ],
+  },
+  {
+    packageDir: 'cli/webpack',
+    packageName: '@modern-js/webpack',
+    dependencies: [
+      {
+        name: 'webpackbar',
+        ignoreDts: true,
       },
     ],
   },

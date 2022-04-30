@@ -18,8 +18,8 @@ import webpack, { IgnorePlugin } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { merge } from 'webpack-merge';
-import WebpackBar from 'webpackbar';
 import { createBabelChain, BabelChain } from '@modern-js/babel-chain';
+import WebpackBar from '../../compiled/webpackbar';
 import {
   CSS_REGEX,
   JS_REGEX,

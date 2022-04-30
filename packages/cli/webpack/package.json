@@ -72,7 +72,6 @@
     "webpack-manifest-plugin": "^4.0.2",
     "webpack-merge": "^5.8.0",
     "webpack-node-externals": "^3.0.0",
-    "webpackbar": "^5.0.0-3",
     "yaml-loader": "^0.6.0"
   },
   "devDependencies": {

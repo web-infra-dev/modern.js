@@ -46,6 +46,7 @@ export function parseTasks() {
       } else {
         result.push({
           minify: dep.minify ?? true,
+          ignoreDts: dep.ignoreDts,
           externals: dep.externals ?? {},
           emitFiles: dep.emitFiles ?? [],
           beforeBundle: dep.beforeBundle,

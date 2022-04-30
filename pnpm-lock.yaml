@@ -1867,7 +1867,6 @@ importers:
       webpack-manifest-plugin: ^4.0.2
       webpack-merge: ^5.8.0
       webpack-node-externals: ^3.0.0
-      webpackbar: ^5.0.0-3
       yaml-loader: ^0.6.0
     dependencies:
       '@babel/core': 7.16.7
@@ -1907,7 +1906,6 @@ importers:
       webpack-manifest-plugin: 4.0.2_webpack@5.71.0
       webpack-merge: 5.8.0
       webpack-node-externals: 3.0.0
-      webpackbar: 5.0.2_webpack@5.71.0
       yaml-loader: 0.6.0
     devDependencies:
       '@modern-js/core': link:../core
@@ -4425,6 +4423,7 @@ importers:
       upath: 2.0.1
       url-join: 4.0.1
       v8-compile-cache: 2.3.0
+      webpackbar: 5.0.2
     dependencies:
       '@modern-js/tsconfig': link:../../packages/review/tsconfig
       '@scripts/build': link:../build
@@ -4478,6 +4477,7 @@ importers:
       upath: 2.0.1
       url-join: 4.0.1
       v8-compile-cache: 2.3.0
+      webpackbar: 5.0.2
 
   tests:
     specifiers:
@@ -19301,7 +19301,7 @@ packages:
     dev: false
 
   /consola/2.15.3:
-    resolution: {integrity: sha1-LhH5jWpL5x/3LgvfB70j4Sy2FVA=}
+    resolution: {integrity: sha512-9vAdYbHj6x2fLKC4+oPH0kFzY/orMZyG2Aj+kNylHxKGJ/Ed4dpNyAQYwJOdqO4zdM7XpVHmyejQDcQHrnuXbw==}
 
   /console-browserify/1.2.0:
     resolution: {integrity: sha512-ZMkYO/LkF17QvCPqM0gxw8yUzigAOZOSWSHg91FH6orS7vcEj5dVZTidN2fQ14yBSdg97RqhSNwLUXInd52OTA==}
@@ -31994,9 +31994,8 @@ packages:
     engines: {node: '>= 0.8'}
 
   /pretty-time/1.1.0:
-    resolution: {integrity: sha1-/7dCmvq7hTXDRqNOQYc63z103Q4=}
+    resolution: {integrity: sha512-28iF6xPQrP8Oa6uxE6a1biz+lWeTOAPKggvjB8HAs6nVMKZwf5bG++632Dx614hIWgUPkgivRfG+a8uAXGTIbA==}
     engines: {node: '>=4'}
-    dev: false
 
   /prettyoutput/1.2.0:
     resolution: {integrity: sha512-G2gJwLzLcYS+2m6bTAe+CcDpwak9YpcvpScI0tE4WYb2O3lEZD/YywkMNpGqsSx5wttGvh2UXaKROTKKCyM2dw==}
@@ -35385,7 +35384,6 @@ packages:
 
   /std-env/3.0.1:
     resolution: {integrity: sha512-mC1Ps9l77/97qeOZc+HrOL7TIaOboHqMZ24dGVQrlxFcpPpfCHpH+qfUT7Dz+6mlG8+JPA1KfBQo19iC/+Ngcw==}
-    dev: false
 
   /stealthy-require/1.1.1:
     resolution: {integrity: sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=}
@@ -38343,6 +38341,19 @@ packages:
       - esbuild
       - uglify-js
 
+  /webpackbar/5.0.2:
+    resolution: {integrity: sha512-BmFJo7veBDgQzfWXl/wwYXr/VFus0614qZ8i9znqcl9fnEdiVkdbi0TedLQ6xAK92HZHDJ0QmyQ0fmuZPAgCYQ==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      webpack: 3 || 4 || 5
+    dependencies:
+      chalk: 4.1.2
+      consola: 2.15.3
+      esbuild: 0.13.15
+      pretty-time: 1.1.0
+      std-env: 3.0.1
+    dev: true
+
   /webpackbar/5.0.2_webpack@5.71.0:
     resolution: {integrity: sha512-BmFJo7veBDgQzfWXl/wwYXr/VFus0614qZ8i9znqcl9fnEdiVkdbi0TedLQ6xAK92HZHDJ0QmyQ0fmuZPAgCYQ==}
     engines: {node: '>=12'}
@@ -38351,6 +38362,7 @@ packages:
     dependencies:
       chalk: 4.1.2
       consola: 2.15.3
+      esbuild: 0.13.15
       pretty-time: 1.1.0
       std-env: 3.0.1
       webpack: 5.71.0_esbuild@0.13.15

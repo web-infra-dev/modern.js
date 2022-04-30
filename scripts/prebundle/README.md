@@ -128,3 +128,18 @@ dependencies: [
   },
 ];
 ```
+
+### ignoreDts
+
+Ignore the original .d.ts declaration file, then generate a fake .d.ts file.
+
+This can be used to reduce file size for the packages that do not require type definitions, such as webpack plugin.
+
+```ts
+dependencies: [
+  {
+    name: 'foo',
+    ignoreDts: true,
+  },
+];
+```
