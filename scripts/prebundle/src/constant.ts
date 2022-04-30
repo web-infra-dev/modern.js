@@ -117,6 +117,7 @@ export const TASKS: TaskConfig[] = [
       },
       {
         name: 'ajv-keywords',
+        ignoreDts: true,
         externals: {
           ajv: '../ajv',
           'ajv/dist/compile/codegen': '../ajv/codegen',
@@ -124,6 +125,7 @@ export const TASKS: TaskConfig[] = [
       },
       {
         name: 'better-ajv-errors',
+        ignoreDts: true,
         externals: {
           ajv: '../ajv',
         },
