@@ -4313,11 +4313,13 @@ importers:
       caniuse-lite: ^1.0.30001332
       esbuild: ^0.13.13
       jest: ^27
+      lodash: ^4.17.21
       typescript: ^4
       webpack: ^5.71.0
     dependencies:
       caniuse-lite: 1.0.30001332
       esbuild: 0.13.15
+      lodash: 4.17.21
       typescript: 4.5.4
     devDependencies:
       '@modern-js/types': link:../types
@@ -4410,7 +4412,6 @@ importers:
       inquirer: 8.2.2
       js-yaml: 4.1.0
       json5: 2.2.0
-      lodash: 4.17.21
       mime-types: 2.1.35
       minimist: 1.2.6
       ora: 5.4.1
@@ -4465,7 +4466,6 @@ importers:
       inquirer: 8.2.2
       js-yaml: 4.1.0
       json5: 2.2.0
-      lodash: 4.17.21
       mime-types: 2.1.35
       minimist: 1.2.6
       ora: 5.4.1

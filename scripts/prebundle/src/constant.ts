@@ -10,9 +10,12 @@ export const DEFAULT_EXTERNALS = {
   // External caniuse-lite data, so users can update it manually.
   'caniuse-lite': 'caniuse-lite',
   '/caniuse-lite(/.*)/': 'caniuse-lite$1',
-  // External webpack
+  // External webpack, it's hard to bundle.
   webpack: 'webpack',
   '/webpack(/.*)/': 'webpack$1',
+  // External lodash because lots of packages will depend on it.
+  lodash: 'lodash',
+  '/lodash(/.*)/': 'lodash$1',
 };
 
 /**
@@ -26,7 +29,6 @@ export const TASKS: TaskConfig[] = [
     dependencies: [
       // zero dependency
       'address',
-      'lodash',
       'upath',
       'filesize',
       'minimist',
