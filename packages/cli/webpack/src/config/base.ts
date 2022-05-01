@@ -1,6 +1,5 @@
 /* eslint-disable max-lines */
 import path from 'path';
-import Chain from 'webpack-chain';
 import {
   isProd,
   isDev,
@@ -17,8 +16,8 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import webpack, { IgnorePlugin } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import { merge } from 'webpack-merge';
 import { createBabelChain, BabelChain } from '@modern-js/babel-chain';
+import { webpackMerge, WebpackChain } from '../compiled';
 import WebpackBar from '../../compiled/webpackbar';
 import {
   CSS_REGEX,
@@ -43,7 +42,7 @@ import { getWebpackAliases } from '../utils/getWebpackAliases';
 export type ResolveAlias = { [index: string]: string };
 
 class BaseWebpackConfig {
-  chain: Chain;
+  chain: WebpackChain;
 
   appContext: IAppContext;
 
@@ -76,7 +75,7 @@ class BaseWebpackConfig {
 
     this.options = options;
 
-    this.chain = new Chain();
+    this.chain = new WebpackChain();
 
     this.dist = ensureAbsolutePath(
       this.appDirectory,
@@ -661,7 +660,7 @@ class BaseWebpackConfig {
           name: this.chain.get('name'),
           webpack,
         },
-        merge,
+        webpackMerge,
       );
     }
     return chainConfig;
@@ -698,7 +697,7 @@ class BaseWebpackConfig {
         name: this.chain.get('name'),
         webpack,
       },
-      merge,
+      webpackMerge,
     );
 
     return this.chain;

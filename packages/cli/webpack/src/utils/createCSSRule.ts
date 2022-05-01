@@ -1,6 +1,6 @@
-import Chain from 'webpack-chain';
 import { getPostcssConfig } from '@modern-js/css-config';
 import type { NormalizedConfig } from '@modern-js/core';
+import type { WebpackChain } from '../compiled';
 
 export const enableCssExtract = (config: NormalizedConfig) => {
   return config.output.disableCssExtract !== true;
@@ -25,7 +25,7 @@ interface CSSLoaderOptions {
 }
 
 export const createCSSRule = (
-  chain: Chain,
+  chain: WebpackChain,
   { appDirectory, config }: { config: NormalizedConfig; appDirectory: string },
   {
     name,

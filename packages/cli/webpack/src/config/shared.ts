@@ -1,7 +1,10 @@
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-import type Config from 'webpack-chain';
+import type { WebpackChain } from '../compiled';
 
-export function enableBundleAnalyzer(config: Config, reportFilename: string) {
+export function enableBundleAnalyzer(
+  config: WebpackChain,
+  reportFilename: string,
+) {
   config.plugin('bundle-analyze').use(BundleAnalyzerPlugin, [
     {
       analyzerMode: 'static',
