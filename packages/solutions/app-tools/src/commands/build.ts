@@ -23,7 +23,7 @@ const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
 export const build = async (api: PluginAPI, options?: BuildOptions) => {
-  const resolvedConfig = api.useResolvedConfigContext();
+  let resolvedConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
   const hookRunners = api.useHookRunners();
   const { apiOnly } = appContext;
@@ -102,7 +102,8 @@ export const build = async (api: PluginAPI, options?: BuildOptions) => {
   };
 
   manager.run(() => {
-    ResolvedConfigContext.set({ ...resolvedConfig, cliOptions: options });
+    resolvedConfig = { ...resolvedConfig, cliOptions: options };
+    ResolvedConfigContext.set(resolvedConfig);
   });
 
   const { distDirectory, appDirectory, serverConfigFile } = appContext;
