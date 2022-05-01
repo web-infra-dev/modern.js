@@ -7,7 +7,7 @@ if [ ! -z ${GITHUB_BASE_REF+x} ]; then
 fi
 
 # build @modern-js/eslint-config and related packages
-pnpm --filter @modern-js/eslint-config... build
+pnpm run build --filter @modern-js/eslint-config...
 
 # run eslint --no-fix
 env \
