@@ -2,6 +2,7 @@ import { join } from 'path';
 import ncc from '@vercel/ncc';
 import { Package as DtsPacker } from 'dts-packer';
 import fs from 'fs-extra';
+import fastGlob from 'fast-glob';
 import { DEFAULT_EXTERNALS } from './constant';
 import { pick, replaceFileContent } from './helper';
 import type { ParsedTask } from './types';
@@ -131,6 +132,13 @@ function emitExtraFiles(task: ParsedTask) {
   });
 }
 
+function removeSourceMap(task: ParsedTask) {
+  const maps = fastGlob.sync(join(task.distPath, '**/*.map'));
+  maps.forEach(mapPath => {
+    fs.removeSync(mapPath);
+  });
+}
+
 export async function prebundle(task: ParsedTask) {
   console.log(`==== Start prebundle "${task.depName}" ====`);
 
@@ -153,6 +161,7 @@ export async function prebundle(task: ParsedTask) {
   emitLicense(task);
   emitPackageJson(task);
   emitExtraFiles(task);
+  removeSourceMap(task);
 
   console.log(`==== Finish prebundle "${task.depName}" ====\n\n`);
 }
