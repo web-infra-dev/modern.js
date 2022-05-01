@@ -1826,7 +1826,6 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
-      '@types/webpack-bundle-analyzer': ^4.4.1
       '@types/webpack-node-externals': ^2.5.2
       babel-loader: ^8.2.2
       copy-webpack-plugin: ^9.0.1
@@ -1856,7 +1855,6 @@ importers:
       typescript: ^4
       url-loader: ^4.1.1
       webpack: ^5.71.0
-      webpack-bundle-analyzer: ^4.5.0
       webpack-node-externals: ^3.0.0
       webpack-sources: ^3.2.3
       yaml-loader: ^0.6.0
@@ -1893,7 +1891,6 @@ importers:
       tsconfig-paths: 3.12.0
       url-loader: 4.1.1_file-loader@6.2.0+webpack@5.71.0
       webpack: 5.71.0_esbuild@0.13.15
-      webpack-bundle-analyzer: 4.5.0
       webpack-node-externals: 3.0.0
       webpack-sources: 3.2.3
       yaml-loader: 0.6.0
@@ -1909,7 +1906,6 @@ importers:
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
-      '@types/webpack-bundle-analyzer': 4.4.1
       '@types/webpack-node-externals': 2.5.3
       jest: 27.4.5
       tapable: 2.2.1
@@ -4378,6 +4374,7 @@ importers:
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4
       '@types/url-join': 4.0.1
+      '@types/webpack-bundle-analyzer': 4.4.1
       '@vercel/ncc': 0.33.3
       address: 1.1.2
       ajv: 8.11.0
@@ -4414,6 +4411,7 @@ importers:
       upath: 2.0.1
       url-join: 4.0.1
       v8-compile-cache: 2.3.0
+      webpack-bundle-analyzer: 4.5.0
       webpack-chain: 6.5.1
       webpack-manifest-plugin: 5.0.0
       webpack-merge: 5.8.0
@@ -4437,6 +4435,7 @@ importers:
       '@types/recursive-readdir': 2.2.0
       '@types/signale': 1.4.4
       '@types/url-join': 4.0.1
+      '@types/webpack-bundle-analyzer': 4.4.1
       address: 1.1.2
       ajv: 8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
@@ -4470,6 +4469,7 @@ importers:
       upath: 2.0.1
       url-join: 4.0.1
       v8-compile-cache: 2.3.0
+      webpack-bundle-analyzer: 4.5.0
       webpack-chain: 6.5.1
       webpack-manifest-plugin: 5.0.0
       webpack-merge: 5.8.0
@@ -11981,7 +11981,6 @@ packages:
 
   /@polka/url/1.0.0-next.21:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
-    dev: false
 
   /@popperjs/core/2.11.0:
     resolution: {integrity: sha512-zrsUxjLOKAzdewIDRWy9nsV1GQsKBCWaGwsZQlCgr6/q+vjyZhFgqedLfFBuI9anTPEUT4APq9Mu0SZBTzIcGQ==}
@@ -15547,7 +15546,7 @@ packages:
   /@types/webpack-bundle-analyzer/4.4.1:
     resolution: {integrity: sha512-yQAj3l7bIYL+QRRlNJt6gyP+zrXZOlgaR4wsX0WY4yzZIbv41ZibREfZvuYjxY0iVtvQQlbhx0AeokkCuqUAQg==}
     dependencies:
-      '@types/node': 14.18.4
+      '@types/node': 17.0.21
       esbuild: 0.13.15
       tapable: 2.2.1
       webpack: 5.71.0_esbuild@0.13.15
@@ -29221,7 +29220,6 @@ packages:
   /mrmime/1.0.0:
     resolution: {integrity: sha512-a70zx7zFfVO7XpnQ2IX1Myh9yY4UYvfld/dikWRnsXxbyvMcfz+u6UfgNAtH+k2QqtJuzVpv6eLTx1G2+WKZbQ==}
     engines: {node: '>=10'}
-    dev: false
 
   /ms/2.0.0:
     resolution: {integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=}
@@ -29909,7 +29907,7 @@ packages:
 
   /opener/1.5.2:
     resolution: {integrity: sha512-ur5UIdyw5Y7yEj9wLzhqXiy6GZ3Mwx0yGI+5sMn2r0N0v3cKJvUmFH5yPP+WXh9e0xfyzyJX95D8l088DNFj7A==}
-    dev: false
+    hasBin: true
 
   /optimist/0.5.2:
     resolution: {integrity: sha1-hcjBRUszFeSniUfoV7HfAzRQv7w=}
@@ -34921,7 +34919,6 @@ packages:
       '@polka/url': 1.0.0-next.21
       mrmime: 1.0.0
       totalist: 1.1.0
-    dev: false
 
   /sisteransi/1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
@@ -36647,7 +36644,6 @@ packages:
   /totalist/1.1.0:
     resolution: {integrity: sha512-gduQwd1rOdDMGxFG1gEvhV88Oirdo2p+KjoYFU7k2g+i7n6AFFbDQ5kMPUsW0pNbfQsB/cwXvT1i4Bue0s9g5g==}
     engines: {node: '>=6'}
-    dev: false
 
   /tough-cookie/2.5.0:
     resolution: {integrity: sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g==}
@@ -37991,6 +37987,7 @@ packages:
   /webpack-bundle-analyzer/4.5.0:
     resolution: {integrity: sha512-GUMZlM3SKwS8Z+CKeIFx7CVoHn3dXFcUAjT/dcZQQmfSZGvitPfMob2ipjai7ovFFqPvTqkEZ/leL4O0YOdAYQ==}
     engines: {node: '>= 10.13.0'}
+    hasBin: true
     dependencies:
       acorn: 8.7.0
       acorn-walk: 8.2.0
@@ -38005,7 +38002,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: false
 
   /webpack-chain/6.5.1:
     resolution: {integrity: sha512-7doO/SRtLu8q5WM0s7vPKPWX580qhi0/yBHkOxNkv50f6qB76Zy9o2wRTrrPULqYTvQlVHuvbA8v+G5ayuUDsA==}

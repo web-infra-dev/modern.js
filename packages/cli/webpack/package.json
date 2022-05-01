@@ -68,7 +68,6 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.71.0",
     "webpack-sources": "^3.2.3",
-    "webpack-bundle-analyzer": "^4.5.0",
     "webpack-node-externals": "^3.0.0",
     "yaml-loader": "^0.6.0"
   },
@@ -84,7 +83,6 @@
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
-    "@types/webpack-bundle-analyzer": "^4.4.1",
     "@types/webpack-node-externals": "^2.5.2",
     "jest": "^27",
     "tapable": "^2.2.1",

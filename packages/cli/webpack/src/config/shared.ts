@@ -1,4 +1,4 @@
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import { BundleAnalyzerPlugin } from '../../compiled/webpack-bundle-analyzer';
 import type { WebpackChain } from '../compiled';
 
 export function enableBundleAnalyzer(

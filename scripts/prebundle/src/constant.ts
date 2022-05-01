@@ -14,8 +14,8 @@ export const DEFAULT_EXTERNALS = {
   webpack: 'webpack',
   '/webpack(/.*)/': 'webpack$1',
   // External lodash because lots of packages will depend on it.
-  lodash: 'lodash',
-  '/lodash(/.*)/': 'lodash$1',
+  lodash: '@modern-js/utils/lodash',
+  '/lodash(/.*)/': '@modern-js/utils/lodash$1',
   esbuild: 'esbuild',
 };
 
@@ -159,6 +159,9 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'webpackbar',
         ignoreDts: true,
+      },
+      {
+        name: 'webpack-bundle-analyzer',
       },
     ],
   },

@@ -28,6 +28,7 @@
     "@types/recursive-readdir": "2.2.0",
     "@types/signale": "1.4.4",
     "@types/url-join": "4.0.1",
+    "@types/webpack-bundle-analyzer": "4.4.1",
     "address": "1.1.2",
     "ajv": "8.11.0",
     "ajv-keywords": "5.1.0",
@@ -62,6 +63,7 @@
     "upath": "2.0.1",
     "url-join": "4.0.1",
     "webpackbar": "5.0.2",
+    "webpack-bundle-analyzer": "4.5.0",
     "webpack-chain": "6.5.1",
     "webpack-merge": "5.8.0",
     "webpack-manifest-plugin": "5.0.0"
