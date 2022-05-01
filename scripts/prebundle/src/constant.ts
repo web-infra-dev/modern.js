@@ -150,6 +150,13 @@ export const TASKS: TaskConfig[] = [
       },
       'webpack-merge',
       {
+        name: 'webpack-manifest-plugin',
+        externals: {
+          tapable: 'tapable',
+          'webpack-sources': 'webpack-sources',
+        },
+      },
+      {
         name: 'webpackbar',
         ignoreDts: true,
       },

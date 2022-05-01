@@ -67,8 +67,8 @@
     "tsconfig-paths": "^3.11.0",
     "url-loader": "^4.1.1",
     "webpack": "^5.71.0",
+    "webpack-sources": "^3.2.3",
     "webpack-bundle-analyzer": "^4.5.0",
-    "webpack-manifest-plugin": "^4.0.2",
     "webpack-node-externals": "^3.0.0",
     "yaml-loader": "^0.6.0"
   },

@@ -265,7 +265,6 @@ importers:
       terser-webpack-plugin: ^5.1.4
       typescript: ^4
       webpack: ^5.71.0
-      webpack-chain: ^6.5.1
     dependencies:
       '@modern-js/load-config': link:../../toolkit/load-config
       '@modern-js/plugin': link:../../toolkit/plugin
@@ -291,7 +290,6 @@ importers:
       terser-webpack-plugin: 5.3.1_esbuild@0.13.15+webpack@5.71.0
       typescript: 4.5.4
       webpack: 5.71.0_esbuild@0.13.15
-      webpack-chain: 6.5.1
 
   packages/cli/css-config:
     specifiers:
@@ -675,7 +673,6 @@ importers:
       jest: ^27
       typescript: ^4
       webpack: ^5.71.0
-      webpack-chain: ^6.5.1
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/utils': link:../../toolkit/utils
@@ -689,7 +686,6 @@ importers:
       jest: 27.4.5
       typescript: 4.5.4
       webpack: 5.71.0_esbuild@0.13.15
-      webpack-chain: 6.5.1
 
   packages/cli/plugin-fast-refresh:
     specifiers:
@@ -1069,7 +1065,7 @@ importers:
       style-loader: ^3.3.1
       typescript: ^4
       webpack: ^5.71.0
-      webpack-sources: ^3.2.2
+      webpack-sources: ^3.2.3
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/utils': link:../../toolkit/utils
@@ -1088,7 +1084,7 @@ importers:
       slash: 3.0.0
       style-loader: 3.3.1_webpack@5.71.0
       webpack: 5.71.0_esbuild@0.13.15
-      webpack-sources: 3.2.2
+      webpack-sources: 3.2.3
     devDependencies:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
@@ -1380,7 +1376,6 @@ importers:
       react-side-effect: ^2.1.1
       serialize-javascript: ^6.0.0
       typescript: ^4
-      webpack-chain: ^6.5.1
     dependencies:
       '@babel/core': 7.16.7
       '@babel/runtime': 7.16.7
@@ -1412,7 +1407,6 @@ importers:
       react-helmet: 6.1.0_react@17.0.2
       react-side-effect: 2.1.1_react@17.0.2
       typescript: 4.5.4
-      webpack-chain: 6.5.1
 
   packages/cli/plugin-state:
     specifiers:
@@ -1863,8 +1857,8 @@ importers:
       url-loader: ^4.1.1
       webpack: ^5.71.0
       webpack-bundle-analyzer: ^4.5.0
-      webpack-manifest-plugin: ^4.0.2
       webpack-node-externals: ^3.0.0
+      webpack-sources: ^3.2.3
       yaml-loader: ^0.6.0
     dependencies:
       '@babel/core': 7.16.7
@@ -1900,8 +1894,8 @@ importers:
       url-loader: 4.1.1_file-loader@6.2.0+webpack@5.71.0
       webpack: 5.71.0_esbuild@0.13.15
       webpack-bundle-analyzer: 4.5.0
-      webpack-manifest-plugin: 4.0.2_webpack@5.71.0
       webpack-node-externals: 3.0.0
+      webpack-sources: 3.2.3
       yaml-loader: 0.6.0
     devDependencies:
       '@modern-js/core': link:../core
@@ -4421,6 +4415,7 @@ importers:
       url-join: 4.0.1
       v8-compile-cache: 2.3.0
       webpack-chain: 6.5.1
+      webpack-manifest-plugin: 5.0.0
       webpack-merge: 5.8.0
       webpackbar: 5.0.2
     dependencies:
@@ -4476,6 +4471,7 @@ importers:
       url-join: 4.0.1
       v8-compile-cache: 2.3.0
       webpack-chain: 6.5.1
+      webpack-manifest-plugin: 5.0.0
       webpack-merge: 5.8.0
       webpackbar: 5.0.2
 
@@ -35116,8 +35112,7 @@ packages:
     dev: false
 
   /source-list-map/2.0.1:
-    resolution: {integrity: sha1-OZO9hzv8SEecyp6jpUeDXHwVSzQ=}
-    dev: false
+    resolution: {integrity: sha512-qnQ7gVMxGNxsiL4lEuJwe/To8UnK7fAnmbGEEH8RpLouuKbeEm0lhbQVFIrNSuB+G7tVrAlVsZgETT5nljf+Iw==}
 
   /source-map-js/1.0.1:
     resolution: {integrity: sha512-4+TN2b3tqOCd/kaGRJ/sTYA0tR0mdXx26ipdolxcwtJVqEnqNYvlCAt1q3ypy4QMlYus+Zh34RNtYLoq2oQ4IA==}
@@ -38204,16 +38199,16 @@ packages:
       uuid: 3.4.0
     dev: false
 
-  /webpack-manifest-plugin/4.0.2_webpack@5.71.0:
-    resolution: {integrity: sha512-Ld6j05pRblXAVoX8xdXFDsc/s97cFnR1FOmQawhTSlp6F6aeU1Jia5aqTmDpkueaAz8g9sXpgSOqmEgVAR61Xw==}
+  /webpack-manifest-plugin/5.0.0:
+    resolution: {integrity: sha512-8RQfMAdc5Uw3QbCQ/CBV/AXqOR8mt03B6GJmRbhWopE8GzRfEpn+k0ZuWywxW+5QZsffhmFDY1J6ohqJo+eMuw==}
     engines: {node: '>=12.22.0'}
     peerDependencies:
-      webpack: ^4.44.2 || ^5.47.0
+      webpack: ^5.47.0
     dependencies:
+      esbuild: 0.13.15
       tapable: 2.2.1
-      webpack: 5.71.0_esbuild@0.13.15
       webpack-sources: 2.3.1
-    dev: false
+    dev: true
 
   /webpack-merge/5.8.0:
     resolution: {integrity: sha512-/SaI7xY0831XwP6kzuwhKWVKDP9t1QY1h65lAFLbZqMPIuYcD9QAW4u9STIbU9kaJbPBB/geU/gLr1wDjOhQ+Q==}
@@ -38243,12 +38238,7 @@ packages:
     dependencies:
       source-list-map: 2.0.1
       source-map: 0.6.1
-    dev: false
-
-  /webpack-sources/3.2.2:
-    resolution: {integrity: sha512-cp5qdmHnu5T8wRg2G3vZZHoJPN14aqQ89SyQ11NpGH5zEMDCclt49rzo+MaRazk7/UeILhAI+/sEtcM+7Fr0nw==}
-    engines: {node: '>=10.13.0'}
-    dev: false
+    dev: true
 
   /webpack-sources/3.2.3:
     resolution: {integrity: sha512-/DyMEOrDgLKKIG0fmvtz+4dUX/3Ghozwgm6iPp8KRhvn+eQf9+Q7GWxVNMk3+uCPWfdXYC4ExGBckIXdFEfH1w==}

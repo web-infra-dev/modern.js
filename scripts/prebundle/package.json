@@ -63,7 +63,8 @@
     "url-join": "4.0.1",
     "webpackbar": "5.0.2",
     "webpack-chain": "6.5.1",
-    "webpack-merge": "5.8.0"
+    "webpack-merge": "5.8.0",
+    "webpack-manifest-plugin": "5.0.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
