@@ -1863,9 +1863,7 @@ importers:
       url-loader: ^4.1.1
       webpack: ^5.71.0
       webpack-bundle-analyzer: ^4.5.0
-      webpack-chain: ^6.5.1
       webpack-manifest-plugin: ^4.0.2
-      webpack-merge: ^5.8.0
       webpack-node-externals: ^3.0.0
       yaml-loader: ^0.6.0
     dependencies:
@@ -1902,9 +1900,7 @@ importers:
       url-loader: 4.1.1_file-loader@6.2.0+webpack@5.71.0
       webpack: 5.71.0_esbuild@0.13.15
       webpack-bundle-analyzer: 4.5.0
-      webpack-chain: 6.5.1
       webpack-manifest-plugin: 4.0.2_webpack@5.71.0
-      webpack-merge: 5.8.0
       webpack-node-externals: 3.0.0
       yaml-loader: 0.6.0
     devDependencies:
@@ -4424,6 +4420,8 @@ importers:
       upath: 2.0.1
       url-join: 4.0.1
       v8-compile-cache: 2.3.0
+      webpack-chain: 6.5.1
+      webpack-merge: 5.8.0
       webpackbar: 5.0.2
     dependencies:
       '@modern-js/tsconfig': link:../../packages/review/tsconfig
@@ -4477,6 +4475,8 @@ importers:
       upath: 2.0.1
       url-join: 4.0.1
       v8-compile-cache: 2.3.0
+      webpack-chain: 6.5.1
+      webpack-merge: 5.8.0
       webpackbar: 5.0.2
 
   tests:
@@ -18860,7 +18860,7 @@ packages:
       shallow-clone: 0.1.2
 
   /clone-deep/4.0.1:
-    resolution: {integrity: sha1-wZ/Zvbv4WUK0/ZechNz31fB8I4c=}
+    resolution: {integrity: sha512-neHB9xuzh/wk0dIHweyAXv2aPGZIVk3pLMe+/RNzINf17fe0OG96QroktYAUm7SM1PBnzTabaLboqqxDyMU+SQ==}
     engines: {node: '>=6'}
     dependencies:
       is-plain-object: 2.0.4
@@ -20510,6 +20510,7 @@ packages:
   /deepmerge/1.5.2:
     resolution: {integrity: sha512-95k0GDqvBjZavkuvzx/YqVLv/6YYa17fz6ILMSf7neqQITCPbnfEnQvEgMPNjH4kgobe7+WIL0yJEHku+H3qtQ==}
     engines: {node: '>=0.10.0'}
+    dev: true
 
   /deepmerge/4.2.2:
     resolution: {integrity: sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==}
@@ -26273,6 +26274,7 @@ packages:
 
   /javascript-stringify/2.1.0:
     resolution: {integrity: sha512-JVAfqNPTvNq3sB/VHQJAFxN/sPgKnsKrCwyRt15zwNCdrMMJDdcEOdubuy+DuJYYdm0ox1J4uzEuYKkN+9yhVg==}
+    dev: true
 
   /jest-changed-files/27.4.2:
     resolution: {integrity: sha512-/9x8MjekuzUQoPjDHbBiXbNEBauhrPU2ct7m8TfCg69ywt1y/N+yYwGh3gCpnqUS3klYWDU/lSNgv+JhoD2k1A==}
@@ -38017,6 +38019,7 @@ packages:
       deepmerge: 1.5.2
       esbuild: 0.13.15
       javascript-stringify: 2.1.0
+    dev: true
 
   /webpack-dev-middleware/3.7.3_webpack@4.46.0:
     resolution: {integrity: sha512-djelc/zGiz9nZj/U7PTBi2ViorGJXEWo/3ltkPbDyxCXhhEXkW0ce99falaok4TPj+AsxLiXJR0EBOb0zh9fKQ==}
@@ -38565,7 +38568,7 @@ packages:
     dev: false
 
   /wildcard/2.0.0:
-    resolution: {integrity: sha1-p30g5SAMb6qsl55LOq3Hs91/j+w=}
+    resolution: {integrity: sha512-JcKqAHLPxcdb9KM49dufGXn2x3ssnfjbcaQdLlfZsL9rH9wgDQjUtDxbo8NE0F6SFvydeu1VhZe7hZuHsB2/pw==}
 
   /win-release/1.1.1:
     resolution: {integrity: sha1-X6VeAr58qTTt/BJmVjLoSbcuUgk=}

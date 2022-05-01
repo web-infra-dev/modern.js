@@ -16,6 +16,7 @@ export const DEFAULT_EXTERNALS = {
   // External lodash because lots of packages will depend on it.
   lodash: 'lodash',
   '/lodash(/.*)/': 'lodash$1',
+  esbuild: 'esbuild',
 };
 
 /**
@@ -97,7 +98,10 @@ export const TASKS: TaskConfig[] = [
     packageName: '@modern-js/core',
     dependencies: [
       // zero dependency
-      'v8-compile-cache',
+      {
+        name: 'v8-compile-cache',
+        ignoreDts: true,
+      },
       // some dependencies
       {
         name: 'ajv',
@@ -138,6 +142,13 @@ export const TASKS: TaskConfig[] = [
     packageDir: 'cli/webpack',
     packageName: '@modern-js/webpack',
     dependencies: [
+      {
+        name: 'webpack-chain',
+        externals: {
+          tapable: 'tapable',
+        },
+      },
+      'webpack-merge',
       {
         name: 'webpackbar',
         ignoreDts: true,
