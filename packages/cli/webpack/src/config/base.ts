@@ -425,11 +425,8 @@ class BaseWebpackConfig {
     loaders
       .oneOf('yml')
       .test(/\.ya?ml$/)
-      .use('json')
-      .loader(require.resolve('json-loader'))
-      .end()
       .use('yaml')
-      .loader('yaml-loader');
+      .loader(require.resolve('../../compiled/yaml-loader'));
 
     loaders
       .oneOf('toml')

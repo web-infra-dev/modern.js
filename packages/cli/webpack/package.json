@@ -52,7 +52,6 @@
     "fork-ts-checker-webpack-plugin": "^7.2.1",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
-    "json-loader": "^0.5.7",
     "markdown-loader": "^6.0.0",
     "mini-css-extract-plugin": "~2.4.5",
     "node-libs-browser": "^2.2.1",
@@ -66,8 +65,7 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.71.0",
     "webpack-sources": "^3.2.3",
-    "webpack-node-externals": "^3.0.0",
-    "yaml-loader": "^0.6.0"
+    "webpack-node-externals": "^3.0.0"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",

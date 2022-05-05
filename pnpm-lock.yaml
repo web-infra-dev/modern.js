@@ -1837,7 +1837,6 @@ importers:
       html-loader: ^2.1.2
       html-webpack-plugin: ^5.3.2
       jest: ^27
-      json-loader: ^0.5.7
       markdown-loader: ^6.0.0
       mini-css-extract-plugin: ~2.4.5
       node-libs-browser: ^2.2.1
@@ -1847,7 +1846,6 @@ importers:
       style-loader: ^3.3.1
       tapable: ^2.2.1
       terser-webpack-plugin: ^5.1.4
-      toml-loader: ^1.0.0
       ts-loader: ^9.2.5
       tsconfig-paths: ^3.11.0
       typescript: ^4
@@ -1874,7 +1872,6 @@ importers:
       fork-ts-checker-webpack-plugin: 7.2.1_typescript@4.5.4+webpack@5.71.0
       html-loader: 2.1.2_webpack@5.71.0
       html-webpack-plugin: 5.5.0_webpack@5.71.0
-      json-loader: 0.5.7
       markdown-loader: 6.0.0
       mini-css-extract-plugin: 2.4.5_webpack@5.71.0
       node-libs-browser: 2.2.1
@@ -1883,7 +1880,6 @@ importers:
       regenerator-runtime: 0.13.9
       style-loader: 3.3.1_webpack@5.71.0
       terser-webpack-plugin: 5.3.0_esbuild@0.13.15+webpack@5.71.0
-      toml-loader: 1.0.0
       ts-loader: 9.2.6_typescript@4.5.4+webpack@5.71.0
       tsconfig-paths: 3.12.0
       url-loader: 4.1.1_file-loader@6.2.0+webpack@5.71.0
@@ -4414,6 +4410,7 @@ importers:
       webpack-manifest-plugin: 5.0.0
       webpack-merge: 5.8.0
       webpackbar: 5.0.2
+      yaml-loader: 0.8.0
     dependencies:
       '@modern-js/tsconfig': link:../../packages/review/tsconfig
       '@scripts/build': link:../build
@@ -4474,6 +4471,7 @@ importers:
       webpack-manifest-plugin: 5.0.0
       webpack-merge: 5.8.0
       webpackbar: 5.0.2
+      yaml-loader: 0.8.0
 
   tests:
     specifiers:
@@ -17660,7 +17658,6 @@ packages:
 
   /big.js/5.2.2:
     resolution: {integrity: sha512-vyL2OymJxmarO8gxMr0mhChsO9QGwhynfuu4+MHTAW6czfq9humCB7rKpUjDd9YUiDPU4mzpyupFSvOClAwbmQ==}
-    dev: false
 
   /bignumber.js/9.0.2:
     resolution: {integrity: sha512-GAcQvbpsM0pUb0zw1EI0KhQEZ+lRwR5fYaAp3vPOYuP7aDvGy6cVN6XHLauvF8SOga2y0dcLcjt3iQDTSEliyw==}
@@ -21544,7 +21541,6 @@ packages:
   /emojis-list/3.0.0:
     resolution: {integrity: sha512-/kyM18EfinwXZbno9FyUGeFh87KC8HRQBQGildHZbEuRyWFOmv1U10o9BBp8XVZDVNNuQKyIGIu5ZYAAXJ0V2Q==}
     engines: {node: '>= 4'}
-    dev: false
 
   /emoticon/3.2.0:
     resolution: {integrity: sha512-SNujglcLTTg+lDAcApPNgEdudaqQFiAbJCqzjNxJkvN9vAwCGi0uu8IUVvx+f16h+V44KCY6Y2yboroc9pilHg==}
@@ -27571,10 +27567,6 @@ packages:
       dreamopt: 0.6.0
     dev: false
 
-  /json-loader/0.5.7:
-    resolution: {integrity: sha512-QLPs8Dj7lnf3e3QYS1zkCo+4ZwqOiF9d/nZnYozTISxXWCfNs9yuky5rJw4/W34s7POaNlbZmQGaB5NiXCbP4w==}
-    dev: false
-
   /json-parse-better-errors/1.0.2:
     resolution: {integrity: sha512-mrqyZKfX5EhL7hvqcV6WG1yYjnjeuYDzDhhcAAUrq8Po85NBQBJP+ZDUT75qZQ98IkUoBqdkExkukOU7Ts2wrw==}
 
@@ -28234,7 +28226,6 @@ packages:
       big.js: 5.2.2
       emojis-list: 3.0.0
       json5: 2.2.0
-    dev: false
 
   /loader-utils/3.2.0:
     resolution: {integrity: sha512-HVl9ZqccQihZ7JM85dco1MvO9G+ONvxoGa9rkhzFsneGLKSUg1gJf9bWzhRhcvm2qChhWpebQhP44qxjKIUCaQ==}
@@ -36608,9 +36599,11 @@ packages:
     resolution: {integrity: sha1-BSSbkpS2I2ARSCYMqkgLIqZToZo=}
     dependencies:
       toml: 2.3.6
+    dev: true
 
   /toml/2.3.6:
     resolution: {integrity: sha512-gVweAectJU3ebq//Ferr2JUY4WKSDe5N+z0FvjDncLGyHmIDoxgY/2Ie4qfEIDm4IS7OA6Rmdm7pdEEdMcV/xQ==}
+    dev: true
 
   /toposort/2.0.2:
     resolution: {integrity: sha1-riF2gXXRVZ1IvvNUILL0li8JwzA=}
@@ -38835,9 +38828,23 @@ packages:
       yaml: 1.10.2
     dev: false
 
+  /yaml-loader/0.8.0:
+    resolution: {integrity: sha512-LjeKnTzVBKWiQBeE2L9ssl6WprqaUIxCSNs5tle8PaDydgu3wVFXTbMfsvF2MSErpy9TDVa092n4q6adYwJaWg==}
+    engines: {node: '>= 12.13'}
+    dependencies:
+      javascript-stringify: 2.1.0
+      loader-utils: 2.0.2
+      yaml: 2.0.1
+    dev: true
+
   /yaml/1.10.2:
     resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
     engines: {node: '>= 6'}
+
+  /yaml/2.0.1:
+    resolution: {integrity: sha512-1NpAYQ3wjzIlMs0mgdBmYzLkFgWBIWrzYVDYfrixhoFNNgJ444/jT2kUT2sicRbJES3oQYRZugjB6Ro8SjKeFg==}
+    engines: {node: '>= 14'}
+    dev: true
 
   /yargs-parser/18.1.3:
     resolution: {integrity: sha512-o50j0JeToy/4K6OZcaQmW6lyXXKhq7csREXcDwk2omFPJEwUNOVtJKvmDr9EI1fAJZUyZcRF7kxGBWmRXudrCQ==}

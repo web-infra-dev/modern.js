@@ -170,6 +170,10 @@ export const TASKS: TaskConfig[] = [
         },
       },
       {
+        name: 'yaml-loader',
+        ignoreDts: true,
+      },
+      {
         name: 'toml-loader',
         ignoreDts: true,
       },
