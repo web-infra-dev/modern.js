@@ -138,6 +138,8 @@ export const TASKS: TaskConfig[] = [
     packageDir: 'cli/webpack',
     packageName: '@modern-js/webpack',
     dependencies: [
+      'webpack-merge',
+      'webpack-node-externals',
       {
         name: 'loader-utils2',
         ignoreDts: true,
@@ -155,7 +157,6 @@ export const TASKS: TaskConfig[] = [
           tapable: 'tapable',
         },
       },
-      'webpack-merge',
       {
         name: 'webpack-manifest-plugin',
         externals: {

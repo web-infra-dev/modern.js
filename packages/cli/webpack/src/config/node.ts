@@ -6,7 +6,7 @@ import {
   isUseSSRBundle,
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
-import nodeExternals from 'webpack-node-externals';
+import nodeExternals from '../../compiled/webpack-node-externals';
 import { mergeRegex } from '../utils/mergeRegex';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
 import { JS_RESOLVE_EXTENSIONS } from '../utils/constants';
