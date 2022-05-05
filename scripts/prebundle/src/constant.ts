@@ -143,6 +143,16 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'css-modules-typescript-loader',
         ignoreDts: true,
+        externals: {
+          'loader-utils': '../loader-utils1',
+        },
+      },
+      {
+        name: 'loader-utils1',
+        ignoreDts: true,
+        externals: {
+          json5: '@modern-js/utils/json5',
+        },
       },
       {
         name: 'loader-utils2',
@@ -150,10 +160,6 @@ export const TASKS: TaskConfig[] = [
         externals: {
           json5: '@modern-js/utils/json5',
         },
-      },
-      {
-        name: 'loader-utils3',
-        ignoreDts: true,
       },
       {
         name: 'webpack-chain',
@@ -218,6 +224,14 @@ export const TASKS: TaskConfig[] = [
           'schema-utils': 'schema-utils',
           'loader-utils': '../loader-utils2',
           'mime-types': '@modern-js/utils/mime-types',
+        },
+      },
+      {
+        name: 'babel-loader',
+        ignoreDts: true,
+        externals: {
+          '@babel/core': '@babel/core',
+          'loader-utils': '../loader-utils1',
         },
       },
     ],

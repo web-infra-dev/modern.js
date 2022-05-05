@@ -237,7 +237,7 @@ class BaseWebpackConfig {
       .add(this.appContext.internalDirectory)
       .end()
       .use('babel')
-      .loader(require.resolve('babel-loader'))
+      .loader(require.resolve('../../compiled/babel-loader'))
       .options(
         getBabelOptions(
           this.metaName,
@@ -255,7 +255,7 @@ class BaseWebpackConfig {
         .add(this.appContext.internalDirectory)
         .end()
         .use('babel')
-        .loader(require.resolve('babel-loader'))
+        .loader(require.resolve('../../compiled/babel-loader'))
         .options({
           presets: [
             [
