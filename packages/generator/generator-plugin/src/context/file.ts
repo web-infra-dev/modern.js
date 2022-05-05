@@ -34,6 +34,11 @@ export class PluginFileAPI {
 
   private jsonAPI?: JsonAPI;
 
+  constructor() {
+    // 解决 renderString 使用 this 指向错误问题
+    this.renderString = this.renderString.bind(this);
+  }
+
   get context() {
     return {
       isFileExit: this.isFileExit.bind(this),
