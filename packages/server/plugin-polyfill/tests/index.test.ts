@@ -1,12 +1,12 @@
 import type { NormalizedConfig } from '@modern-js/core';
-import cliPugin from '../src/cli';
+import cliPlugin from '../src/cli';
 import serverPlugin from '../src';
 import { defaultPolyfill } from '../src/const';
 
 describe('plugin-static-hosting', () => {
   it('cli', () => {
-    expect(cliPugin).toBeDefined();
-    const instance = cliPugin();
+    expect(cliPlugin).toBeDefined();
+    const instance = cliPlugin();
     expect(instance.name).toBe('@modern-js/plugin-polyfill');
 
     const hooks: any = instance.setup?.({

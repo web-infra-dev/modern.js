@@ -34,7 +34,7 @@ export declare type SomeJTDSchemaType = (// ref
 declare type RequiredKeys<T> = {
     [K in keyof T]-?: undefined extends T[K] ? never : K;
 }[keyof T];
-/** optional or undifined-able keys of an object */
+/** optional or undefined-able keys of an object */
 declare type OptionalKeys<T> = {
     [K in keyof T]-?: undefined extends T[K] ? K : never;
 }[keyof T];
@@ -53,7 +53,7 @@ declare type IsEnum<T> = null extends EnumString<Exclude<T, null>> ? false : tru
 declare type IsElements<T> = false extends IsUnion<T> ? [T] extends [readonly unknown[]] ? undefined extends T[0.5] ? false : true : false : false;
 /** true if the the type is a values type */
 declare type IsValues<T> = false extends IsUnion<Exclude<T, null>> ? TypeEquality<keyof Exclude<T, null>, string> : false;
-/** true if type is a proeprties type and Union is false, or type is a discriminator type and Union is true */
+/** true if type is a properties type and Union is false, or type is a discriminator type and Union is true */
 declare type IsRecord<T, Union extends boolean> = Union extends IsUnion<Exclude<T, null>> ? null extends EnumString<keyof Exclude<T, null>> ? false : true : false;
 /** actual schema */
 export declare type JTDSchemaType<T, D extends Record<string, unknown> = Record<string, never>> = (// refs - where null wasn't specified, must match exactly

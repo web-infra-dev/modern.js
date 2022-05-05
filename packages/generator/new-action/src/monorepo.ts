@@ -14,7 +14,7 @@ interface IMonorepoNewActionOption {
   cwd?: string;
 }
 
-const REPO_GENERAROE = '@modern-js/repo-generator';
+const REPO_GENERATOR = '@modern-js/repo-generator';
 
 export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
   const {
@@ -54,7 +54,7 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
     plugins,
   });
 
-  let generator = REPO_GENERAROE;
+  let generator = REPO_GENERATOR;
   if (process.env.CODESMITH_ENV === 'development') {
     generator = require.resolve(generator);
   } else if (distTag) {

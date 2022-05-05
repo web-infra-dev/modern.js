@@ -53,7 +53,7 @@ describe('apply options chain', () => {
     });
   });
 
-  test(`should support funciton or object array`, () => {
+  test(`should support function or object array`, () => {
     const defaults = { a: 'a' };
 
     const options = [

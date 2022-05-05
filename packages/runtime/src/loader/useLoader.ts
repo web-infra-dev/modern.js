@@ -43,7 +43,7 @@ export interface LoaderOptions<
   initialData?: TData;
 
   /**
-   * wheather skip loader
+   * whether skip loader
    * if true, the loader will not exec.
    */
   skip?: boolean;
@@ -54,7 +54,7 @@ export interface LoaderOptions<
   params?: Params;
 
   /**
-   * wheather loader can exec on build phase.
+   * whether loader can exec on build phase.
    */
   static?: boolean;
 }

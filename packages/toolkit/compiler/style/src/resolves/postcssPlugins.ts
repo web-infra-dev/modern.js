@@ -11,27 +11,27 @@ export const likeCssLoaderPostCssPlugins = (
     // https://github.com/postcss/postcss-import
     postcssImport({
       resolve(id, basedir) {
-        let importSpecifer = id.replace(`${basedir}/`, '');
+        let importSpecifier = id.replace(`${basedir}/`, '');
 
-        if (importSpecifer.includes(basedir)) {
-          importSpecifer = id.replace(`${basedir}`, '');
+        if (importSpecifier.includes(basedir)) {
+          importSpecifier = id.replace(`${basedir}`, '');
         }
 
-        const fileName = `${importSpecifer}${
-          path.extname(importSpecifer) === '' ? ext : ''
+        const fileName = `${importSpecifier}${
+          path.extname(importSpecifier) === '' ? ext : ''
         }`;
 
-        const importFromNodeModule = importSpecifer.startsWith('~');
+        const importFromNodeModule = importSpecifier.startsWith('~');
 
         if (importFromNodeModule) {
           let findPath = '';
           try {
-            findPath = require.resolve(importSpecifer.slice(1), {
+            findPath = require.resolve(importSpecifier.slice(1), {
               paths: ['$HOME/.node_modules'],
             });
           } catch (e: any) {
-            findPath = importSpecifer.slice(1);
-            throw new Error(`${importSpecifer.slice(1)}: ${e.code}`);
+            findPath = importSpecifier.slice(1);
+            throw new Error(`${importSpecifier.slice(1)}: ${e.code}`);
           }
 
           return findPath;

@@ -33,9 +33,9 @@ const resolvePlugin = function (less: any) {
     }
     resolve(filename: string) {
       filename = filename.replace(this.prefix, '');
-      let resovledFilename = '';
+      let resolvedFilename = '';
       this.paths.forEach(path => {
-        if (resovledFilename) {
+        if (resolvedFilename) {
           return;
         }
         try {
@@ -44,14 +44,14 @@ const resolvePlugin = function (less: any) {
             extensions: ['.less', '.css'],
           });
           if (resolved) {
-            resovledFilename = resolved;
+            resolvedFilename = resolved;
           }
         } catch (e) {
           // no-catch
         }
       });
       return (
-        resovledFilename || path.join(process.cwd(), 'node_modules', filename)
+        resolvedFilename || path.join(process.cwd(), 'node_modules', filename)
       );
     }
     loadFile(

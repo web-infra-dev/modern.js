@@ -60,7 +60,7 @@ async function autoDetectExports(
     }
   } catch (_e1) {
     try {
-      // try agian with parse ast
+      // try again with parse ast
       return parseExportVariableNamesFromCJSorUMDFile(fileLoc);
     } catch (_e2) {
       logger.error(`✘ Could not auto-detect exports for ${fileLoc}`);

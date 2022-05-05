@@ -21,7 +21,7 @@ const cache = new Map<string, string[]>();
 
 /**
  * parse export variable names from commonjs or umd spec
- * @param fileLoc the aboluste path for a code file
+ * @param fileLoc the absolute path for a code file
  */
 export const parseExportVariableNamesFromCJSorUMDFile = async (
   fileLoc: string,
@@ -238,7 +238,7 @@ async function doParse(ctx: ParseContext, fileLoc: string) {
                     if (t.isIdentifier(firstParam)) {
                       aliasName = firstParam.name;
                       /**
-                       * 含有 xxx === typeof exports && xxx === typoef module,
+                       * 含有 xxx === typeof exports && xxx === typeof module,
                        * (可以 == 或者 ===, && 顺序可呼唤, === 顺序可互换)
                        * 且第一个参数是 this, 第二个是 factory 函数
                        * 以上都符合, 则认为是 UMD 的 wrapper 函数
@@ -253,12 +253,12 @@ async function doParse(ctx: ParseContext, fileLoc: string) {
             if (isUMD) {
               const umdFuncExp = args[1];
               if (t.isFunctionExpression(umdFuncExp)) {
-                type BlockStatmentNodePath = NodePath<
+                type BlockStatementNodePath = NodePath<
                   Extract<t.BlockStatement, { type: any }>
                 >;
                 const bodyPath = path.get(
                   'arguments.1.body',
-                ) as BlockStatmentNodePath;
+                ) as BlockStatementNodePath;
                 if (bodyPath) {
                   bodyPath.traverse(
                     visitorCreator({

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test useLoader it should exec loader two times when has two diffrent key 1`] = `
+exports[`test useLoader it should exec loader two times when has two different key 1`] = `
 <DocumentFragment>
   <div>
     <div>

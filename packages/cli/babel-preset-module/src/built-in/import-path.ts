@@ -12,8 +12,8 @@ export interface IImportPathOpts {
 
 const replaceValueHash: Record<string, string> = {};
 
-const isResoureInSrc = (srcDir: string, resourecPath: string) =>
-  !path.relative(srcDir, path.dirname(resourecPath)).includes('..');
+const isResourceInSrc = (srcDir: string, resourcePath: string) =>
+  !path.relative(srcDir, path.dirname(resourcePath)).includes('..');
 
 const getImportFileDistPath = (
   compilerFile: string,
@@ -26,7 +26,7 @@ const getImportFileDistPath = (
     srcDir,
     path.dirname(path.join(dir, importName)),
   );
-  const inSrc = isResoureInSrc(srcDir, path.join(dir, importName));
+  const inSrc = isResourceInSrc(srcDir, path.join(dir, importName));
   const importFileDistDir = path.join(
     inSrc ? '..' : '../..',
     compilerFileRelativeLoc,

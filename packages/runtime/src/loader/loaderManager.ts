@@ -133,7 +133,7 @@ const createLoader = (
 
 type ManagerOption = {
   /**
-   * wheather current manage only exec static loader
+   * whether current manage only exec static loader
    */
   skipStatic?: boolean;
   skipNonStatic?: boolean;
