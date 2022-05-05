@@ -4388,6 +4388,8 @@ importers:
       inquirer: 8.2.2
       js-yaml: 4.1.0
       json5: 2.2.0
+      loader-utils2: npm:loader-utils@2.0.2
+      loader-utils3: npm:loader-utils@3.2.0
       markdown-loader: 8.0.0
       mime-types: 2.1.35
       minimist: 1.2.6
@@ -4451,6 +4453,8 @@ importers:
       inquirer: 8.2.2
       js-yaml: 4.1.0
       json5: 2.2.0
+      loader-utils2: /loader-utils/2.0.2
+      loader-utils3: /loader-utils/3.2.0
       markdown-loader: 8.0.0
       mime-types: 2.1.35
       minimist: 1.2.6
@@ -28228,7 +28232,6 @@ packages:
   /loader-utils/3.2.0:
     resolution: {integrity: sha512-HVl9ZqccQihZ7JM85dco1MvO9G+ONvxoGa9rkhzFsneGLKSUg1gJf9bWzhRhcvm2qChhWpebQhP44qxjKIUCaQ==}
     engines: {node: '>= 12.13.0'}
-    dev: false
 
   /locate-path/2.0.0:
     resolution: {integrity: sha1-K1aLJl7slExtnA3pw9u7ygNUzY4=}

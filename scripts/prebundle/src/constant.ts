@@ -143,6 +143,13 @@ export const TASKS: TaskConfig[] = [
     packageName: '@modern-js/webpack',
     dependencies: [
       {
+        name: 'loader-utils2',
+        externals: {
+          json5: '@modern-js/utils/json5',
+        },
+      },
+      'loader-utils3',
+      {
         name: 'webpack-chain',
         externals: {
           tapable: 'tapable',
@@ -172,6 +179,9 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'yaml-loader',
         ignoreDts: true,
+        externals: {
+          'loader-utils': '../loader-utils2',
+        },
       },
       {
         name: 'toml-loader',

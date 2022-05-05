@@ -35,6 +35,10 @@
       "jsnext:source": "./src/ssr.ts",
       "default": "./dist/ssr.js"
     },
+    "./json5": {
+      "jsnext:source": "./compiled/json5/index.js",
+      "default": "./compiled/json5/index.js"
+    },
     "./lodash": {
       "jsnext:source": "./compiled/lodash/index.js",
       "default": "./compiled/lodash/index.js"
@@ -62,6 +66,9 @@
       ],
       "ssr": [
         "./dist/ssr.d.ts"
+      ],
+      "json5": [
+        "./compiled/json5/index.d.ts"
       ],
       "lodash": [
         "./compiled/lodash/index.d.ts"
