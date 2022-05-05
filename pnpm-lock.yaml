@@ -1837,7 +1837,6 @@ importers:
       html-loader: ^2.1.2
       html-webpack-plugin: ^5.3.2
       jest: ^27
-      markdown-loader: ^6.0.0
       mini-css-extract-plugin: ~2.4.5
       node-libs-browser: ^2.2.1
       postcss: 8.4.5
@@ -1853,7 +1852,6 @@ importers:
       webpack: ^5.71.0
       webpack-node-externals: ^3.0.0
       webpack-sources: ^3.2.3
-      yaml-loader: ^0.6.0
     dependencies:
       '@babel/core': 7.16.7
       '@babel/runtime': 7.16.7
@@ -1872,7 +1870,6 @@ importers:
       fork-ts-checker-webpack-plugin: 7.2.1_typescript@4.5.4+webpack@5.71.0
       html-loader: 2.1.2_webpack@5.71.0
       html-webpack-plugin: 5.5.0_webpack@5.71.0
-      markdown-loader: 6.0.0
       mini-css-extract-plugin: 2.4.5_webpack@5.71.0
       node-libs-browser: 2.2.1
       postcss: 8.4.5
@@ -1886,7 +1883,6 @@ importers:
       webpack: 5.71.0_esbuild@0.13.15
       webpack-node-externals: 3.0.0
       webpack-sources: 3.2.3
-      yaml-loader: 0.6.0
     devDependencies:
       '@modern-js/core': link:../core
       '@modern-js/types': link:../../toolkit/types
@@ -4392,6 +4388,7 @@ importers:
       inquirer: 8.2.2
       js-yaml: 4.1.0
       json5: 2.2.0
+      markdown-loader: 8.0.0
       mime-types: 2.1.35
       minimist: 1.2.6
       ora: 5.4.1
@@ -4454,6 +4451,7 @@ importers:
       inquirer: 8.2.2
       js-yaml: 4.1.0
       json5: 2.2.0
+      markdown-loader: 8.0.0
       mime-types: 2.1.35
       minimist: 1.2.6
       ora: 5.4.1
@@ -28592,13 +28590,15 @@ packages:
     resolution: {integrity: sha512-8z4efJYk43E0upd0NbVXwgSTQs6cT3T06etieCMEg7dRbzCbxUCK/GHlX8mhHRDcp+OLlHkPKsvqQTCvsRl2cg==}
     dev: false
 
-  /markdown-loader/6.0.0:
-    resolution: {integrity: sha512-kUTEEpWRc5zcQbdjpK0QYdp/9Z5Oep440foKSXc7wWetcRxrWm4vbbXRW0Gqhht5CKJ4gm7el4HOPPyqs/ziTA==}
+  /markdown-loader/8.0.0:
+    resolution: {integrity: sha512-dxrR3WhK/hERbStPFb/yeNdEeWCKa2qUDdXiq3VTruBUWufOtERX04X0K44K4dnlN2i9pjSEzYIQJ3LjH0xkEw==}
+    engines: {node: '>=12.22.9'}
+    peerDependencies:
+      webpack: ^5.0.0
     dependencies:
       esbuild: 0.13.15
-      loader-utils: 1.4.0
-      marked: 0.7.0
-    dev: false
+      marked: 4.0.15
+    dev: true
 
   /markdown-to-jsx/7.1.5_react@17.0.2:
     resolution: {integrity: sha512-YQEMMMCX3PYOWtUAQu8Fmz5/sH09s17eyQnDubwaAo8sWmnRTT1og96EFv1vL59l4nWfmtF3L91pqkuheVqRlA==}
@@ -28609,10 +28609,11 @@ packages:
       react: 17.0.2
     dev: false
 
-  /marked/0.7.0:
-    resolution: {integrity: sha512-c+yYdCZJQrsRjTPhUx7VKkApw9bwDkNbHUKo1ovgcfDjb2kc8rLuRbIFyXL5WOEUwzSSKo3IXpph2K6DqB/KZg==}
-    engines: {node: '>=0.10.0'}
-    dev: false
+  /marked/4.0.15:
+    resolution: {integrity: sha512-esX5lPdTfG4p8LDkv+obbRCyOKzB+820ZZyMOXJZygZBHrH9b3xXR64X4kT3sPe9Nx8qQXbmcz6kFSMt4Nfk6Q==}
+    engines: {node: '>= 12'}
+    hasBin: true
+    dev: true
 
   /masonry-layout/4.2.2:
     resolution: {integrity: sha512-iGtAlrpHNyxaR19CvKC3npnEcAwszXoyJiI8ARV2ePi7fmYhIud25MHK8Zx4P0LCC4d3TNO9+rFa1KoK1OEOaA==}
@@ -38818,14 +38819,6 @@ packages:
 
   /yaml-ast-parser/0.0.43:
     resolution: {integrity: sha512-2PTINUwsRqSd+s8XxKaJWQlUuEMHJQyEuh2edBbW8KNJz0SJPwUSD2zRWqezFEdN7IzAgeuYHFUCF7o8zRdZ0A==}
-    dev: false
-
-  /yaml-loader/0.6.0:
-    resolution: {integrity: sha1-/hxIufSAPazlWlmhR055C6arG0g=}
-    engines: {node: '>= 6'}
-    dependencies:
-      loader-utils: 1.4.0
-      yaml: 1.10.2
     dev: false
 
   /yaml-loader/0.8.0:

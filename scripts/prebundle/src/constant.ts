@@ -177,6 +177,10 @@ export const TASKS: TaskConfig[] = [
         name: 'toml-loader',
         ignoreDts: true,
       },
+      {
+        name: 'markdown-loader',
+        ignoreDts: true,
+      },
     ],
   },
 ];

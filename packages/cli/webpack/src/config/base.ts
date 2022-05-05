@@ -441,7 +441,7 @@ class BaseWebpackConfig {
       .loader(require.resolve('html-loader'))
       .end()
       .use('markdown')
-      .loader('markdown-loader');
+      .loader(require.resolve('../../compiled/markdown-loader'));
 
     //  resource fallback
     loaders
