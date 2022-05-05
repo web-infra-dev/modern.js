@@ -135,8 +135,8 @@ export default class Entry {
       this.metrics.emitTimer('app.prefetch.cost', prefetchCost);
     } catch (e) {
       this.result.renderLevel = RenderLevel.CLIENT_RENDER;
-      this.logger.error('App Prefetch', e as Error);
-      this.metrics.emitCounter('app.prefetch.error');
+      this.logger.error('App Prefetch Render', e as Error);
+      this.metrics.emitCounter('app.prefetch.render.error');
     }
 
     return prefetchData || {};

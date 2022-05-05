@@ -38,16 +38,16 @@ export const createLogger = (
   const { headers = {}, pathname = '' } = request;
 
   const debug = (message: string, ...args: any[]) => {
-    logger.debug(`SSR Debug - ${message} req.url = %s`, ...args, pathname);
+    logger.debug(`SSR Debug - ${message}, req.url = %s`, ...args, pathname);
   };
 
   const info = (message: string, ...args: any[]) => {
-    logger.info(`SSR Info - ${message} req.url = %s`, ...args, pathname);
+    logger.info(`SSR Info - ${message}, req.url = %s`, ...args, pathname);
   };
 
   const error = (message: string, e: Error | string) => {
     logger.error(
-      `SSR Error - ${message} error = %s, req.url = %s, req.headers = %o`,
+      `SSR Error - ${message}, error = %s, req.url = %s, req.headers = %o`,
       e instanceof Error ? e.stack || e.message : e,
       pathname,
       headers,

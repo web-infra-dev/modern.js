@@ -253,7 +253,7 @@ export class ModernServer implements ModernServerInterface {
 
   // return 404 page
   protected render404(context: ModernServerContext) {
-    context.error(ERROR_DIGEST.ENOTF);
+    context.error(ERROR_DIGEST.ENOTF, '404 Not Found');
     this.renderErrorPage(context, 404);
   }
 

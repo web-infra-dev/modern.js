@@ -6,7 +6,6 @@ import type {
   Metrics,
   Logger,
 } from '@modern-js/types/server';
-import { toMessage } from '../../utils';
 
 export type ContextOptions = {
   logger?: Logger;
@@ -168,18 +167,12 @@ export class ModernServerContext implements ModernServerContextInterface {
     return this.res.writableEnded;
   }
 
-  public logInfo() {
-    return {
-      headers: this.headers,
-      href: this.href,
-      url: this.url,
-    };
-  }
-
-  public error(dig: string, err: Error | string = '') {
-    const message = toMessage(dig, err);
-    const reqInfo = this.logInfo();
-
-    this.logger.error(`${reqInfo.url} - ${message}`, reqInfo);
+  public error(dig: string, e: Error | string = '') {
+    this.logger.error(
+      `Web Server Error - ${dig}, error = %s, req.url = %s, req.headers = %o`,
+      e instanceof Error ? e.stack || e.message : e,
+      this.path,
+      this.headers,
+    );
   }
 }

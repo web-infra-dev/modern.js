@@ -90,7 +90,7 @@ const useLoader = <TData = any, Params = any, E = any>(
 
             return Promise.resolve(res);
           } catch (e) {
-            return Promise.reject(e instanceof Error ? e.message : e);
+            return Promise.reject(e);
           }
         },
         {

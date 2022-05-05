@@ -81,7 +81,7 @@ const createLoader = (
           resolve(value);
         })
         .catch(e => {
-          error = e instanceof Error ? `${e.message}` : e;
+          error = e;
           data = null;
           status = LoaderStatus.rejected;
           notify();
