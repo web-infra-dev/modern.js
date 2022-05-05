@@ -141,6 +141,10 @@ export const TASKS: TaskConfig[] = [
       'webpack-merge',
       'webpack-node-externals',
       {
+        name: 'css-modules-typescript-loader',
+        ignoreDts: true,
+      },
+      {
         name: 'loader-utils2',
         ignoreDts: true,
         externals: {

@@ -58,7 +58,7 @@ export const createCSSRule = (
     })
     .when(Boolean(genTSD), c => {
       c.use('css-modules-typescript')
-        .loader(require.resolve('css-modules-typescript-loader'))
+        .loader(require.resolve('../../compiled/css-modules-typescript-loader'))
         .end();
     })
     .use('css')
