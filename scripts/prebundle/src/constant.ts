@@ -39,6 +39,7 @@ export const TASKS: TaskConfig[] = [
       'slash',
       // a few dependencies
       'debug',
+      'semver',
       'js-yaml',
       'mime-types',
       'strip-ansi',

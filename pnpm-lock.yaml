@@ -4350,6 +4350,7 @@ importers:
       '@types/minimist': 1.2.2
       '@types/node': ^14
       '@types/recursive-readdir': 2.2.0
+      '@types/semver': 7.3.9
       '@types/signale': 1.4.4
       '@types/url-join': 4.0.1
       '@types/webpack-bundle-analyzer': 4.4.1
@@ -4390,6 +4391,7 @@ importers:
       ora: 5.4.1
       pkg-up: 3.1.0
       recursive-readdir: 2.2.2
+      semver: 7.3.7
       signale: 1.4.0
       slash: 3.0.0
       strip-ansi: 6.0.1
@@ -4423,6 +4425,7 @@ importers:
       '@types/mime-types': 2.1.1
       '@types/minimist': 1.2.2
       '@types/recursive-readdir': 2.2.0
+      '@types/semver': 7.3.9
       '@types/signale': 1.4.4
       '@types/url-join': 4.0.1
       '@types/webpack-bundle-analyzer': 4.4.1
@@ -4461,6 +4464,7 @@ importers:
       ora: 5.4.1
       pkg-up: 3.1.0
       recursive-readdir: 2.2.2
+      semver: 7.3.7
       signale: 1.4.0
       slash: 3.0.0
       strip-ansi: 6.0.1
@@ -21083,7 +21087,7 @@ packages:
       is-core-module: 2.8.0
       mkdirp: 1.0.4
       resolve: 1.20.0
-      semver: 7.3.5
+      semver: 7.3.7
       yargs-parser: 20.2.9
     dev: false
 
@@ -34607,6 +34611,13 @@ packages:
 
   /semver/7.3.5:
     resolution: {integrity: sha512-PoeGJYh8HK4BTO/a9Tf6ZG3veo/A7ZVsYrSA6J8ny9nb3B1VrpkuN+z9OE5wfE5p6H4LchYZsegiQgbJD94ZFQ==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      lru-cache: 6.0.0
+
+  /semver/7.3.7:
+    resolution: {integrity: sha512-QlYTucUYOews+WeEujDoEGziz4K6c47V/Bd+LjSSYcA94p+DmINdf7ncaUinThfvZyu13lN9OY1XDxt8C0Tw0g==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:

@@ -37,6 +37,7 @@
     },
     "./chalk": "./compiled/chalk/index.js",
     "./json5": "./compiled/json5/index.js",
+    "./semver": "./compiled/semver/index.js",
     "./lodash": "./compiled/lodash/index.js",
     "./globby": "./compiled/globby/index.js",
     "./fast-glob": "./compiled/fast-glob/index.js",
@@ -60,6 +61,9 @@
       ],
       "json5": [
         "./compiled/json5/index.d.ts"
+      ],
+      "semver": [
+        "./compiled/semver/index.d.ts"
       ],
       "lodash": [
         "./compiled/lodash/index.d.ts"
