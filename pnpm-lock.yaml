@@ -404,11 +404,9 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
       '@types/jest': ^26
-      '@types/loader-utils': ^2.0.3
       '@types/node': ^14
       esbuild: ^0.13.13
       jest: ^27
-      loader-utils: ^2.0.0
       memfs: ^3.3.0
       ts-jest: ^27.0.5
       typescript: ^4
@@ -423,7 +421,6 @@ importers:
       '@modern-js/server-utils': link:../../server/utils
       '@modern-js/utils': link:../../toolkit/utils
       esbuild: 0.13.15
-      loader-utils: 2.0.2
     devDependencies:
       '@modern-js/core': link:../core
       '@modern-js/plugin-analyze': link:../plugin-analyze
@@ -434,7 +431,6 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__core': 7.1.18
       '@types/jest': 26.0.24
-      '@types/loader-utils': 2.0.3
       '@types/node': 14.18.4
       jest: 27.4.5
       memfs: 3.4.1
@@ -15027,13 +15023,6 @@ packages:
   /@types/loadable__webpack-plugin/5.7.3:
     resolution: {integrity: sha512-jdOgIovGk9xcbU1Kyveiw9RVCBbHfv9U9AKOveop8Jk4JQQOPrafE7WHaNxotza08pH1YG6vHTV84xUL2W2F1Q==}
     dependencies:
-      '@types/webpack': 4.41.32
-    dev: true
-
-  /@types/loader-utils/2.0.3:
-    resolution: {integrity: sha512-sDXXzZnTLXgdso54/iOpAFSDgqhVXabCvwGAt77Agadh/Xk0QYgOk520r3tpOouI098gyqGIFywx8Op1voc3vQ==}
-    dependencies:
-      '@types/node': 14.18.4
       '@types/webpack': 4.41.32
     dev: true
 
