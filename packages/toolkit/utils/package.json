@@ -39,6 +39,14 @@
       "jsnext:source": "./compiled/lodash/index.js",
       "default": "./compiled/lodash/index.js"
     },
+    "./globby": {
+      "jsnext:source": "./compiled/globby/index.js",
+      "default": "./compiled/globby/index.js"
+    },
+    "./fast-glob": {
+      "jsnext:source": "./compiled/fast-glob/index.js",
+      "default": "./compiled/fast-glob/index.js"
+    },
     "./strip-ansi": {
       "jsnext:source": "./compiled/strip-ansi/index.js",
       "default": "./compiled/strip-ansi/index.js"
@@ -57,6 +65,12 @@
       ],
       "lodash": [
         "./compiled/lodash/index.d.ts"
+      ],
+      "globby": [
+        "./compiled/globby/index.d.ts"
+      ],
+      "fast-glob": [
+        "./compiled/fast-glob/index.d.ts"
       ],
       "strip-ansi": [
         "./compiled/strip-ansi/index.d.ts"

@@ -14,9 +14,11 @@ export const DEFAULT_EXTERNALS = {
   webpack: 'webpack',
   '/webpack(/.*)/': 'webpack$1',
   // External lodash because lots of packages will depend on it.
-  lodash: 'lodash',
-  '/lodash(/.*)/': 'lodash$1',
+  lodash: '@modern-js/utils/lodash',
   esbuild: 'esbuild',
+  // ncc bundled wrong package.json, using external to avoid this problem
+  './package.json': './package.json',
+  '../package.json': './package.json',
 };
 
 /**
@@ -60,8 +62,6 @@ export const TASKS: TaskConfig[] = [
         name: 'signale',
         externals: {
           chalk: '../chalk',
-          // ncc bundled wrong package.json, using external to avoid this problem
-          './package.json': './package.json',
         },
         packageJsonField: ['options'],
       },
@@ -160,8 +160,14 @@ export const TASKS: TaskConfig[] = [
         name: 'webpackbar',
         ignoreDts: true,
       },
+      'webpack-bundle-analyzer',
       {
-        name: 'webpack-bundle-analyzer',
+        name: 'copy-webpack-plugin',
+        ignoreDts: true,
+        externals: {
+          globby: '@modern-js/utils/globby',
+          'fast-glob': '@modern-js/utils/fast-glob',
+        },
       },
     ],
   },

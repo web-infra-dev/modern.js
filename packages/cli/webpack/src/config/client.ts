@@ -16,8 +16,8 @@ import webpack, {
   ProvidePlugin,
 } from 'webpack';
 import { Entrypoint } from '@modern-js/types';
-import CopyPlugin from 'copy-webpack-plugin';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
+import CopyPlugin from '../../compiled/copy-webpack-plugin';
 import { WebpackManifestPlugin } from '../../compiled/webpack-manifest-plugin';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
 import { AppIconPlugin } from '../plugins/app-icon-plugin';
