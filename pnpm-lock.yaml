@@ -1822,7 +1822,6 @@ importers:
       mini-css-extract-plugin: ~2.4.5
       node-libs-browser: ^2.2.1
       postcss: 8.4.5
-      postcss-loader: ^6.1.1
       regenerator-runtime: ^0.13.9
       schema-utils: ^3.1.1
       style-loader: ^3.3.1
@@ -1851,7 +1850,6 @@ importers:
       mini-css-extract-plugin: 2.4.5_webpack@5.71.0
       node-libs-browser: 2.2.1
       postcss: 8.4.5
-      postcss-loader: 6.2.1_postcss@8.4.5+webpack@5.71.0
       regenerator-runtime: 0.13.9
       schema-utils: 3.1.1
       style-loader: 3.3.1_webpack@5.71.0
@@ -30829,21 +30827,6 @@ packages:
       klona: 2.0.5
       semver: 7.3.7
     dev: true
-
-  /postcss-loader/6.2.1_postcss@8.4.5+webpack@5.71.0:
-    resolution: {integrity: sha512-WbbYpmAaKcux/P66bZ40bpWsBucjx/TTgVVzRZ9yUO8yQfVBlameJ0ZGVaPfH64hNSBh63a+ICP5nqOpBA0w+Q==}
-    engines: {node: '>= 12.13.0'}
-    peerDependencies:
-      postcss: ^7.0.0 || ^8.0.1
-      webpack: ^5.0.0
-    dependencies:
-      cosmiconfig: 7.0.1
-      esbuild: 0.13.15
-      klona: 2.0.5
-      postcss: 8.4.5
-      semver: 7.3.7
-      webpack: 5.71.0_esbuild@0.13.15
-    dev: false
 
   /postcss-loader/6.2.1_postcss@8.4.6+webpack@5.71.0:
     resolution: {integrity: sha512-WbbYpmAaKcux/P66bZ40bpWsBucjx/TTgVVzRZ9yUO8yQfVBlameJ0ZGVaPfH64hNSBh63a+ICP5nqOpBA0w+Q==}
