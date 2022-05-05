@@ -141,7 +141,6 @@ export const TASKS: TaskConfig[] = [
     packageName: '@modern-js/webpack',
     dependencies: [
       'webpack-merge',
-      'webpack-node-externals',
       {
         name: 'css-modules-typescript-loader',
         ignoreDts: true,

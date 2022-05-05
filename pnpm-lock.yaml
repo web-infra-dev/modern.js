@@ -4326,7 +4326,6 @@ importers:
       '@types/signale': 1.4.4
       '@types/url-join': 4.0.1
       '@types/webpack-bundle-analyzer': 4.4.1
-      '@types/webpack-node-externals': 2.5.3
       '@vercel/ncc': 0.33.3
       address: 1.1.2
       ajv: 8.11.0
@@ -4378,7 +4377,6 @@ importers:
       webpack-chain: 6.5.1
       webpack-manifest-plugin: 5.0.0
       webpack-merge: 5.8.0
-      webpack-node-externals: 3.0.0
       webpackbar: 5.0.2
       yaml-loader: 0.8.0
     dependencies:
@@ -4402,7 +4400,6 @@ importers:
       '@types/signale': 1.4.4
       '@types/url-join': 4.0.1
       '@types/webpack-bundle-analyzer': 4.4.1
-      '@types/webpack-node-externals': 2.5.3
       address: 1.1.2
       ajv: 8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
@@ -4451,7 +4448,6 @@ importers:
       webpack-chain: 6.5.1
       webpack-manifest-plugin: 5.0.0
       webpack-merge: 5.8.0
-      webpack-node-externals: 3.0.0
       webpackbar: 5.0.2
       yaml-loader: 0.8.0
 
@@ -15546,18 +15542,6 @@ packages:
 
   /@types/webpack-env/1.16.3:
     resolution: {integrity: sha512-9gtOPPkfyNoEqCQgx4qJKkuNm/x0R2hKR7fdl7zvTJyHnIisuE/LfvXOsYWL0o3qq6uiBnKZNNNzi3l0y/X+xw==}
-
-  /@types/webpack-node-externals/2.5.3:
-    resolution: {integrity: sha512-A9JxaR8QXoYT95egET4AmCFuChyTlP8d18ZAnmSHuIMsFdS7QlCQQ8pmN/+FHgLIkm+ViE/VngltT5avLACY9A==}
-    dependencies:
-      '@types/node': 17.0.21
-      esbuild: 0.13.15
-      webpack: 5.71.0_esbuild@0.13.15
-    transitivePeerDependencies:
-      - '@swc/core'
-      - uglify-js
-      - webpack-cli
-    dev: true
 
   /@types/webpack-sources/3.2.0:
     resolution: {integrity: sha512-Ft7YH3lEVRQ6ls8k4Ff1oB4jN6oy/XmU6tQISKdhfh+1mR+viZFphS6WL0IrtDOzvefmJg5a0s7ZQoRXwqTEFg==}
@@ -38188,13 +38172,6 @@ packages:
       clone-deep: 4.0.1
       esbuild: 0.13.15
       wildcard: 2.0.0
-
-  /webpack-node-externals/3.0.0:
-    resolution: {integrity: sha512-LnL6Z3GGDPht/AigwRh2dvL9PQPFQ8skEpVrWZXLWBYmqcaojHNN0onvHzie6rq7EWKrrBfPYqNEzTJgiwEQDQ==}
-    engines: {node: '>=6'}
-    dependencies:
-      esbuild: 0.13.15
-    dev: true
 
   /webpack-sources/1.4.3:
     resolution: {integrity: sha512-lgTS3Xhv1lCOKo7SA5TjKXMjpSM4sBjNV5+q2bqesbSPs5FjGmU6jjtBSkX9b4qW87vDIsCIlUPOEhbZrMdjeQ==}
