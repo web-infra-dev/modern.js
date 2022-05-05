@@ -52,11 +52,9 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
       '@types/node': ^14
-      '@types/semver': ^7.3.8
       core-js: ^3.6.4
       jest: ^27
       regenerator-runtime: ^0.13.9
-      semver: ^7.3.5
       typescript: ^4
     dependencies:
       '@babel/core': 7.16.7
@@ -70,14 +68,12 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       core-js: 3.20.2
       regenerator-runtime: 0.13.9
-      semver: 7.3.5
     devDependencies:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
-      '@types/semver': 7.3.9
       jest: 27.4.5
       typescript: 4.5.4
 
@@ -108,7 +104,6 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
       '@types/node': ^14
-      '@types/semver': ^7.3.8
       babel-plugin-dynamic-import-node: ^2.3.3
       babel-plugin-import: 1.13.0
       babel-plugin-lodash: ^3.3.4
@@ -152,7 +147,6 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
-      '@types/semver': 7.3.9
       jest: 27.4.5
       typescript: 4.5.4
 
@@ -1048,7 +1042,6 @@ importers:
       '@types/less': ^3.0.3
       '@types/node': ^14
       '@types/opener': ^1.4.0
-      '@types/semver': ^7.3.9
       axios: ^0.24.0
       axios-retry: ^3.2.4
       body-parser: ^1.19.0
@@ -1060,7 +1053,6 @@ importers:
       jsdom: ^19.0.0
       opener: ^1.5.2
       reload: ^3.2.0
-      semver: ^7.3.5
       slash: ^3.0.0
       style-loader: ^3.3.1
       typescript: ^4
@@ -1080,7 +1072,6 @@ importers:
       jsdom: 19.0.0
       opener: 1.5.2
       reload: 3.2.0
-      semver: 7.3.5
       slash: 3.0.0
       style-loader: 3.3.1_webpack@5.71.0
       webpack: 5.71.0_esbuild@0.13.15
@@ -1097,7 +1088,6 @@ importers:
       '@types/less': 3.0.3
       '@types/node': 14.18.4
       '@types/opener': 1.4.0
-      '@types/semver': 7.3.9
       jest: 27.4.5
       typescript: 4.5.4
 
@@ -1668,7 +1658,6 @@ importers:
       '@types/koa-static': ^4.0.1
       '@types/less': ^3.0.2
       '@types/node': ^16.9.2
-      '@types/semver': ^7.3.4
       '@types/strip-comments': ^2.0.0
       '@types/ws': ^7.4.0
       acorn: ^8.0.5
@@ -1699,7 +1688,6 @@ importers:
       react-refresh: 0.12.0
       rollup: ^2.38.5
       sass: ^1.45.0
-      semver: ^7.3.5
       strip-comments: ^2.0.1
       tsconfig-paths: ^3.9.0
       typescript: ^4
@@ -1748,7 +1736,6 @@ importers:
       react-refresh: 0.12.0
       rollup: 2.62.0
       sass: 1.45.2
-      semver: 7.3.5
       strip-comments: 2.0.1
       tsconfig-paths: 3.12.0
       ws: 7.5.6
@@ -1771,7 +1758,6 @@ importers:
       '@types/koa-static': 4.0.2
       '@types/less': 3.0.3
       '@types/node': 16.11.18
-      '@types/semver': 7.3.9
       '@types/strip-comments': 2.0.1
       '@types/ws': 7.4.7
       axios: 0.26.0
@@ -2837,13 +2823,11 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
-      '@types/semver': ^7.3.8
       '@types/yargs': ^17.0.2
       babel-jest: ^27.0.6
       enhanced-resolve: ^5.8.3
       identity-obj-proxy: ^3.0.0
       jest: ^27.0.6
-      semver: ^7.3.5
       ts-jest: ^27.0.4
       typescript: ^4
       yargs: ^17.0.1
@@ -2857,7 +2841,6 @@ importers:
       enhanced-resolve: 5.9.2
       identity-obj-proxy: 3.0.0
       jest: 27.4.5
-      semver: 7.3.5
       ts-jest: 27.1.2_652b6643622fe87eb986e38ba49ad891
       yargs: 17.3.1
     devDependencies:
@@ -2869,7 +2852,6 @@ importers:
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
-      '@types/semver': 7.3.9
       '@types/yargs': 17.0.8
       typescript: 4.5.4
 
@@ -4036,7 +4018,6 @@ importers:
       '@types/puppeteer': ~5.4.2
       '@types/resolve': ~1.17.1
       '@types/sass': ~1.16.0
-      '@types/semver': ^7.3.4
       '@types/strip-comments': ~2.0.0
       '@types/tar-fs': ~2.0.0
       '@types/validate-npm-package-name': ~3.0.2
@@ -4058,7 +4039,6 @@ importers:
       rollup: ~2.50.6
       rollup-plugin-node-polyfills: ~0.2.1
       sass: ~1.32.2
-      semver: ^7.3.2
       serve: ~11.3.2
       strip-comments: ^2.0.1
       tapable: ~2.2.0
@@ -4109,7 +4089,6 @@ importers:
       '@types/puppeteer': 5.4.4
       '@types/resolve': 1.17.1
       '@types/sass': 1.16.1
-      '@types/semver': 7.3.9
       '@types/strip-comments': 2.0.1
       '@types/tar-fs': 2.0.1
       '@types/validate-npm-package-name': 3.0.3
@@ -4121,7 +4100,6 @@ importers:
       jest-environment-puppeteer: 6.0.3
       jest-puppeteer: 6.0.3_puppeteer@10.4.0
       puppeteer: 10.4.0
-      semver: 7.3.5
       serve: 11.3.2
       strip-comments: 2.0.1
       tar-fs: 2.1.1
@@ -4390,6 +4368,7 @@ importers:
       minimist: 1.2.6
       ora: 5.4.1
       pkg-up: 3.1.0
+      postcss-loader: 6.2.1
       recursive-readdir: 2.2.2
       semver: 7.3.7
       signale: 1.4.0
@@ -4463,6 +4442,7 @@ importers:
       minimist: 1.2.6
       ora: 5.4.1
       pkg-up: 3.1.0
+      postcss-loader: 6.2.1
       recursive-readdir: 2.2.2
       semver: 7.3.7
       signale: 1.4.0
@@ -27810,7 +27790,6 @@ packages:
   /klona/2.0.5:
     resolution: {integrity: sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==}
     engines: {node: '>= 8'}
-    dev: false
 
   /ko-sleep/1.1.4:
     resolution: {integrity: sha512-s05WGpvvzyTuRlRE8fM7ru2Z3O+InbJuBcckTWKg2W+2c1k6SnFa3IfiSSt0/peFrlYAXgNoxuJWWVNmWh+K/A==}
@@ -30838,6 +30817,19 @@ packages:
       webpack: 4.46.0
     dev: false
 
+  /postcss-loader/6.2.1:
+    resolution: {integrity: sha512-WbbYpmAaKcux/P66bZ40bpWsBucjx/TTgVVzRZ9yUO8yQfVBlameJ0ZGVaPfH64hNSBh63a+ICP5nqOpBA0w+Q==}
+    engines: {node: '>= 12.13.0'}
+    peerDependencies:
+      postcss: ^7.0.0 || ^8.0.1
+      webpack: ^5.0.0
+    dependencies:
+      cosmiconfig: 7.0.1
+      esbuild: 0.13.15
+      klona: 2.0.5
+      semver: 7.3.7
+    dev: true
+
   /postcss-loader/6.2.1_postcss@8.4.5+webpack@5.71.0:
     resolution: {integrity: sha512-WbbYpmAaKcux/P66bZ40bpWsBucjx/TTgVVzRZ9yUO8yQfVBlameJ0ZGVaPfH64hNSBh63a+ICP5nqOpBA0w+Q==}
     engines: {node: '>= 12.13.0'}
@@ -30846,9 +30838,10 @@ packages:
       webpack: ^5.0.0
     dependencies:
       cosmiconfig: 7.0.1
+      esbuild: 0.13.15
       klona: 2.0.5
       postcss: 8.4.5
-      semver: 7.3.5
+      semver: 7.3.7
       webpack: 5.71.0_esbuild@0.13.15
     dev: false
 
@@ -30860,9 +30853,10 @@ packages:
       webpack: ^5.0.0
     dependencies:
       cosmiconfig: 7.0.1
+      esbuild: 0.13.15
       klona: 2.0.5
       postcss: 8.4.6
-      semver: 7.3.5
+      semver: 7.3.7
       webpack: 5.71.0_esbuild@0.13.15
     dev: false
 

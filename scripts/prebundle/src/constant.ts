@@ -19,6 +19,7 @@ export const DEFAULT_EXTERNALS = {
   // ncc bundled wrong package.json, using external to avoid this problem
   './package.json': './package.json',
   '../package.json': './package.json',
+  postcss: 'postcss',
 };
 
 export const TASKS: TaskConfig[] = [
@@ -233,6 +234,13 @@ export const TASKS: TaskConfig[] = [
         externals: {
           '@babel/core': '@babel/core',
           'loader-utils': '../loader-utils1',
+        },
+      },
+      {
+        name: 'postcss-loader',
+        ignoreDts: true,
+        externals: {
+          semver: '@modern-js/utils/semver',
         },
       },
     ],

@@ -64,6 +64,7 @@
     "mime-types": "2.1.35",
     "ora": "5.4.1",
     "pkg-up": "3.1.0",
+    "postcss-loader": "6.2.1",
     "recursive-readdir": "2.2.2",
     "semver": "7.3.7",
     "signale": "1.4.0",

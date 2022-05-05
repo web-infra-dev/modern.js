@@ -66,7 +66,7 @@ export const createCSSRule = (
     .options(options)
     .end()
     .use('postcss')
-    .loader(require.resolve('postcss-loader'))
+    .loader(require.resolve('../../compiled/postcss-loader'))
     .options(postcssOptions);
 
   loaders.oneOf(name).merge({ sideEffects: true });
