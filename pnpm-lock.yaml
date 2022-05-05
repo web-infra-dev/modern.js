@@ -1866,7 +1866,6 @@ importers:
       webpack-chain: ^6.5.1
       webpack-manifest-plugin: ^4.0.2
       webpack-merge: ^5.8.0
-      webpack-node-externals: ^3.0.0
       webpackbar: ^5.0.0-3
       yaml-loader: ^0.6.0
     dependencies:
@@ -1906,7 +1905,6 @@ importers:
       webpack-chain: 6.5.1
       webpack-manifest-plugin: 4.0.2_webpack@5.71.0
       webpack-merge: 5.8.0
-      webpack-node-externals: 3.0.0
       webpackbar: 5.0.2_webpack@5.71.0
       yaml-loader: 0.6.0
     devDependencies:
@@ -38221,13 +38219,6 @@ packages:
       clone-deep: 4.0.1
       esbuild: 0.13.15
       wildcard: 2.0.0
-
-  /webpack-node-externals/3.0.0:
-    resolution: {integrity: sha512-LnL6Z3GGDPht/AigwRh2dvL9PQPFQ8skEpVrWZXLWBYmqcaojHNN0onvHzie6rq7EWKrrBfPYqNEzTJgiwEQDQ==}
-    engines: {node: '>=6'}
-    dependencies:
-      esbuild: 0.13.15
-    dev: false
 
   /webpack-sources/1.4.3:
     resolution: {integrity: sha512-lgTS3Xhv1lCOKo7SA5TjKXMjpSM4sBjNV5+q2bqesbSPs5FjGmU6jjtBSkX9b4qW87vDIsCIlUPOEhbZrMdjeQ==}
