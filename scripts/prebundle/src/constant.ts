@@ -198,6 +198,14 @@ export const TASKS: TaskConfig[] = [
         name: 'markdown-loader',
         ignoreDts: true,
       },
+      {
+        name: 'file-loader',
+        ignoreDts: true,
+        externals: {
+          'schema-utils': 'schema-utils',
+          'loader-utils': '../loader-utils2',
+        },
+      },
     ],
   },
 ];

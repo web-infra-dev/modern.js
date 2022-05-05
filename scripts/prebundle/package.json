@@ -44,6 +44,7 @@
     "execa": "5.1.1",
     "fast-glob": "3.2.11",
     "filesize": "8.0.7",
+    "file-loader": "6.2.0",
     "fs-extra": "10.0.1",
     "glob": "7.2.0",
     "globby": "11.1.0",

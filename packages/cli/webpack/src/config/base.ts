@@ -454,7 +454,7 @@ class BaseWebpackConfig {
       .add(/\.(html?|json|wasm|ya?ml|toml|md)$/)
       .end()
       .use('file')
-      .loader(require.resolve('file-loader'));
+      .loader(require.resolve('../../compiled/file-loader'));
 
     return loaders;
   }

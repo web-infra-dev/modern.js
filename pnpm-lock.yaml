@@ -1832,7 +1832,6 @@ importers:
       css-minimizer-webpack-plugin: ^3.0.2
       css-modules-typescript-loader: ^4.0.1
       esbuild: ^0.13.13
-      file-loader: ^6.2.0
       fork-ts-checker-webpack-plugin: ^7.2.1
       html-loader: ^2.1.2
       html-webpack-plugin: ^5.3.2
@@ -1867,7 +1866,6 @@ importers:
       css-minimizer-webpack-plugin: 3.3.1_esbuild@0.13.15+webpack@5.71.0
       css-modules-typescript-loader: 4.0.1
       esbuild: 0.13.15
-      file-loader: 6.2.0_webpack@5.71.0
       fork-ts-checker-webpack-plugin: 7.2.1_typescript@4.5.4+webpack@5.71.0
       html-loader: 2.1.2_webpack@5.71.0
       html-webpack-plugin: 5.5.0_webpack@5.71.0
@@ -1881,7 +1879,7 @@ importers:
       terser-webpack-plugin: 5.3.0_esbuild@0.13.15+webpack@5.71.0
       ts-loader: 9.2.6_typescript@4.5.4+webpack@5.71.0
       tsconfig-paths: 3.12.0
-      url-loader: 4.1.1_file-loader@6.2.0+webpack@5.71.0
+      url-loader: 4.1.1_webpack@5.71.0
       webpack: 5.71.0_esbuild@0.13.15
       webpack-node-externals: 3.0.0
       webpack-sources: 3.2.3
@@ -4381,6 +4379,7 @@ importers:
       dts-packer: 0.0.3
       execa: 5.1.1
       fast-glob: 3.2.11
+      file-loader: 6.2.0
       filesize: 8.0.7
       fs-extra: 10.0.1
       glob: 7.2.0
@@ -4446,6 +4445,7 @@ importers:
       dotenv-expand: 5.1.0
       execa: 5.1.1
       fast-glob: 3.2.11
+      file-loader: 6.2.0
       filesize: 8.0.7
       fs-extra: 10.0.1
       glob: 7.2.0
@@ -23308,6 +23308,17 @@ packages:
     dependencies:
       flat-cache: 3.0.4
 
+  /file-loader/6.2.0:
+    resolution: {integrity: sha512-qo3glqyTa61Ytg4u73GultjHGjdRyig3tG6lPtyX/jOEJvHif9uB0/OCI2Kif6ctF3caQTW2G5gym21oAsI4pw==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      webpack: ^4.0.0 || ^5.0.0
+    dependencies:
+      esbuild: 0.13.15
+      loader-utils: 2.0.2
+      schema-utils: 3.1.1
+    dev: true
+
   /file-loader/6.2.0_webpack@4.46.0:
     resolution: {integrity: sha512-qo3glqyTa61Ytg4u73GultjHGjdRyig3tG6lPtyX/jOEJvHif9uB0/OCI2Kif6ctF3caQTW2G5gym21oAsI4pw==}
     engines: {node: '>= 10.13.0'}
@@ -23326,6 +23337,7 @@ packages:
     peerDependencies:
       webpack: ^4.0.0 || ^5.0.0
     dependencies:
+      esbuild: 0.13.15
       loader-utils: 2.0.2
       schema-utils: 3.1.1
       webpack: 5.71.0_esbuild@0.13.15
@@ -37526,6 +37538,22 @@ packages:
         optional: true
     dependencies:
       file-loader: 6.2.0_webpack@5.71.0
+      loader-utils: 2.0.2
+      mime-types: 2.1.34
+      schema-utils: 3.1.1
+      webpack: 5.71.0_esbuild@0.13.15
+    dev: false
+
+  /url-loader/4.1.1_webpack@5.71.0:
+    resolution: {integrity: sha512-3BTV812+AVHHOJQO8O5MkWgZ5aosP7GnROJwvzLS9hWDj00lZ6Z0wNak423Lp9PBZN05N+Jk/N5Si8jRAlGyWA==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      file-loader: '*'
+      webpack: ^4.0.0 || ^5.0.0
+    peerDependenciesMeta:
+      file-loader:
+        optional: true
+    dependencies:
       loader-utils: 2.0.2
       mime-types: 2.1.34
       schema-utils: 3.1.1
