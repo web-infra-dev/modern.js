@@ -68,6 +68,7 @@
     "v8-compile-cache": "2.3.0",
     "upath": "2.0.1",
     "url-join": "4.0.1",
+    "url-loader": "4.1.1",
     "webpackbar": "5.0.2",
     "webpack-bundle-analyzer": "4.5.0",
     "webpack-chain": "6.5.1",

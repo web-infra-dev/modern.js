@@ -41,6 +41,7 @@
     "./globby": "./compiled/globby/index.js",
     "./fast-glob": "./compiled/fast-glob/index.js",
     "./gzip-size": "./compiled/gzip-size/index.js",
+    "./mime-types": "./compiled/mime-types/index.js",
     "./strip-ansi": "./compiled/strip-ansi/index.js"
   },
   "typesVersions": {
@@ -71,6 +72,9 @@
       ],
       "gzip-size": [
         "./compiled/gzip-size/index.d.ts"
+      ],
+      "mime-types": [
+        "./compiled/mime-types/index.d.ts"
       ],
       "strip-ansi": [
         "./compiled/strip-ansi/index.d.ts"

@@ -206,6 +206,15 @@ export const TASKS: TaskConfig[] = [
           'loader-utils': '../loader-utils2',
         },
       },
+      {
+        name: 'url-loader',
+        ignoreDts: true,
+        externals: {
+          'schema-utils': 'schema-utils',
+          'loader-utils': '../loader-utils2',
+          'mime-types': '@modern-js/utils/mime-types',
+        },
+      },
     ],
   },
 ];

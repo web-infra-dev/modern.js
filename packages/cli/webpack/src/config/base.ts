@@ -363,7 +363,7 @@ class BaseWebpackConfig {
       .options({ svgo: false })
       .end()
       .use('url')
-      .loader(require.resolve('url-loader'))
+      .loader(require.resolve('../../compiled/url-loader'))
       .options({
         limit: Infinity,
         name: this.mediaChunkname.replace(/\[ext\]$/, '.[ext]'),
@@ -379,7 +379,7 @@ class BaseWebpackConfig {
       .options({ svgo: false })
       .end()
       .use('url')
-      .loader(require.resolve('url-loader'))
+      .loader(require.resolve('../../compiled/url-loader'))
       .options({
         limit: false,
         name: this.mediaChunkname.replace(/\[ext\]$/, '.[ext]'),
@@ -394,7 +394,7 @@ class BaseWebpackConfig {
       .options({ svgo: false })
       .end()
       .use('url')
-      .loader(require.resolve('url-loader'))
+      .loader(require.resolve('../../compiled/url-loader'))
       .options({
         limit: this.options.output?.dataUriLimit,
         name: this.mediaChunkname.replace(/\[ext\]$/, '.[ext]'),

@@ -1848,7 +1848,6 @@ importers:
       ts-loader: ^9.2.5
       tsconfig-paths: ^3.11.0
       typescript: ^4
-      url-loader: ^4.1.1
       webpack: ^5.71.0
       webpack-node-externals: ^3.0.0
       webpack-sources: ^3.2.3
@@ -1879,7 +1878,6 @@ importers:
       terser-webpack-plugin: 5.3.0_esbuild@0.13.15+webpack@5.71.0
       ts-loader: 9.2.6_typescript@4.5.4+webpack@5.71.0
       tsconfig-paths: 3.12.0
-      url-loader: 4.1.1_webpack@5.71.0
       webpack: 5.71.0_esbuild@0.13.15
       webpack-node-externals: 3.0.0
       webpack-sources: 3.2.3
@@ -4404,6 +4402,7 @@ importers:
       typescript: ^4
       upath: 2.0.1
       url-join: 4.0.1
+      url-loader: 4.1.1
       v8-compile-cache: 2.3.0
       webpack-bundle-analyzer: 4.5.0
       webpack-chain: 6.5.1
@@ -4469,6 +4468,7 @@ importers:
       toml-loader: 1.0.0
       upath: 2.0.1
       url-join: 4.0.1
+      url-loader: 4.1.1_file-loader@6.2.0
       v8-compile-cache: 2.3.0
       webpack-bundle-analyzer: 4.5.0
       webpack-chain: 6.5.1
@@ -28950,7 +28950,6 @@ packages:
   /mime-db/1.52.0:
     resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
     engines: {node: '>= 0.6'}
-    dev: true
 
   /mime-types/2.1.18:
     resolution: {integrity: sha512-lc/aahn+t4/SWV/qcmumYjymLsWfN3ELhpmVuUFjgsORruuZPVSwAQryq+HHGvO/SI2KVX26bx+En+zhM8g8hQ==}
@@ -28969,7 +28968,6 @@ packages:
     engines: {node: '>= 0.6'}
     dependencies:
       mime-db: 1.52.0
-    dev: true
 
   /mime/1.6.0:
     resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
@@ -37505,9 +37503,26 @@ packages:
     dependencies:
       esbuild: 0.13.15
       loader-utils: 2.0.2
-      mime-types: 2.1.34
+      mime-types: 2.1.35
       schema-utils: 3.1.1
     dev: false
+
+  /url-loader/4.1.1_file-loader@6.2.0:
+    resolution: {integrity: sha512-3BTV812+AVHHOJQO8O5MkWgZ5aosP7GnROJwvzLS9hWDj00lZ6Z0wNak423Lp9PBZN05N+Jk/N5Si8jRAlGyWA==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      file-loader: '*'
+      webpack: ^4.0.0 || ^5.0.0
+    peerDependenciesMeta:
+      file-loader:
+        optional: true
+    dependencies:
+      esbuild: 0.13.15
+      file-loader: 6.2.0
+      loader-utils: 2.0.2
+      mime-types: 2.1.35
+      schema-utils: 3.1.1
+    dev: true
 
   /url-loader/4.1.1_file-loader@6.2.0+webpack@4.46.0:
     resolution: {integrity: sha512-3BTV812+AVHHOJQO8O5MkWgZ5aosP7GnROJwvzLS9hWDj00lZ6Z0wNak423Lp9PBZN05N+Jk/N5Si8jRAlGyWA==}
@@ -37522,7 +37537,7 @@ packages:
       esbuild: 0.13.15
       file-loader: 6.2.0_webpack@4.46.0
       loader-utils: 2.0.2
-      mime-types: 2.1.34
+      mime-types: 2.1.35
       schema-utils: 3.1.1
       webpack: 4.46.0
     dev: false
@@ -37537,25 +37552,10 @@ packages:
       file-loader:
         optional: true
     dependencies:
+      esbuild: 0.13.15
       file-loader: 6.2.0_webpack@5.71.0
       loader-utils: 2.0.2
-      mime-types: 2.1.34
-      schema-utils: 3.1.1
-      webpack: 5.71.0_esbuild@0.13.15
-    dev: false
-
-  /url-loader/4.1.1_webpack@5.71.0:
-    resolution: {integrity: sha512-3BTV812+AVHHOJQO8O5MkWgZ5aosP7GnROJwvzLS9hWDj00lZ6Z0wNak423Lp9PBZN05N+Jk/N5Si8jRAlGyWA==}
-    engines: {node: '>= 10.13.0'}
-    peerDependencies:
-      file-loader: '*'
-      webpack: ^4.0.0 || ^5.0.0
-    peerDependenciesMeta:
-      file-loader:
-        optional: true
-    dependencies:
-      loader-utils: 2.0.2
-      mime-types: 2.1.34
+      mime-types: 2.1.35
       schema-utils: 3.1.1
       webpack: 5.71.0_esbuild@0.13.15
     dev: false
