@@ -1,4 +1,3 @@
-import fs from 'fs';
 import path from 'path';
 import {
   applyOptionsChain,
@@ -6,7 +5,6 @@ import {
   isUseSSRBundle,
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
-import nodeExternals from 'webpack-node-externals';
 import { mergeRegex } from '../utils/mergeRegex';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
 import { JS_RESOLVE_EXTENSIONS } from '../utils/constants';
@@ -159,17 +157,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     // @modern-js/utils use typescript for peerDependency, but js project not depend it
     // if not externals, js ssr build error
     config.externals.push('typescript');
-
-    config.resolve?.modules?.forEach((dir: string) => {
-      if (fs.existsSync(dir)) {
-        (config.externals as any[]).push(
-          nodeExternals({
-            allowlist: this.externalsAllowlist as any,
-            modulesDir: dir,
-          }),
-        );
-      }
-    });
 
     return config;
   }
