@@ -29,17 +29,19 @@ export class ModernServerContext implements ModernServerContextInterface {
    */
   public params: Record<string, string> = {};
 
-  public logger: Logger;
+  get logger() {
+    return this.req.logger;
+  }
 
-  public metrics?: Metrics;
+  get metrics() {
+    return this.req.metrics;
+  }
 
   public serverData: Record<string, any>;
 
   constructor(req: IncomingMessage, res: ServerResponse) {
     this.req = req;
     this.res = res;
-    this.logger = req.logger;
-    this.metrics = req.metrics;
     this.serverData = {};
 
     this.bind();
