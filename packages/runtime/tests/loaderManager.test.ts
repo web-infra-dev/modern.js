@@ -20,7 +20,8 @@ describe('loaderManager', () => {
       params: '2',
       initialData: initialData.data,
     });
-    add(() => Promise.reject(new Error('error occurs')), {
+    const error = new Error('error occurs');
+    add(() => Promise.reject(error), {
       params: '3',
       initialData: initialData.data,
     });
@@ -55,7 +56,7 @@ describe('loaderManager', () => {
       loading: false,
       reloading: false,
       data: null,
-      error: 'error occurs',
+      error,
     });
   });
 });
