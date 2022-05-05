@@ -61,7 +61,6 @@
     "regenerator-runtime": "^0.13.9",
     "style-loader": "^3.3.1",
     "terser-webpack-plugin": "^5.1.4",
-    "toml-loader": "^1.0.0",
     "ts-loader": "^9.2.5",
     "tsconfig-paths": "^3.11.0",
     "url-loader": "^4.1.1",

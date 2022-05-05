@@ -435,7 +435,7 @@ class BaseWebpackConfig {
       .oneOf('toml')
       .test(/\.toml$/)
       .use('toml')
-      .loader(require.resolve('toml-loader'));
+      .loader(require.resolve('../../compiled/toml-loader'));
 
     loaders
       .oneOf('markdown')

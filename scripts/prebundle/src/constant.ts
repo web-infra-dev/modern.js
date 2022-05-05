@@ -169,6 +169,10 @@ export const TASKS: TaskConfig[] = [
           'fast-glob': '@modern-js/utils/fast-glob',
         },
       },
+      {
+        name: 'toml-loader',
+        ignoreDts: true,
+      },
     ],
   },
 ];

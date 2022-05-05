@@ -4404,6 +4404,7 @@ importers:
       signale: 1.4.0
       slash: 3.0.0
       strip-ansi: 6.0.1
+      toml-loader: 1.0.0
       typescript: ^4
       upath: 2.0.1
       url-join: 4.0.1
@@ -4464,6 +4465,7 @@ importers:
       signale: 1.4.0
       slash: 3.0.0
       strip-ansi: 6.0.1
+      toml-loader: 1.0.0
       upath: 2.0.1
       url-join: 4.0.1
       v8-compile-cache: 2.3.0
@@ -36606,11 +36608,9 @@ packages:
     resolution: {integrity: sha1-BSSbkpS2I2ARSCYMqkgLIqZToZo=}
     dependencies:
       toml: 2.3.6
-    dev: false
 
   /toml/2.3.6:
-    resolution: {integrity: sha1-JbCGZIOpciR0iVVZCItDb9Efhhs=}
-    dev: false
+    resolution: {integrity: sha512-gVweAectJU3ebq//Ferr2JUY4WKSDe5N+z0FvjDncLGyHmIDoxgY/2Ie4qfEIDm4IS7OA6Rmdm7pdEEdMcV/xQ==}
 
   /toposort/2.0.2:
     resolution: {integrity: sha1-riF2gXXRVZ1IvvNUILL0li8JwzA=}
