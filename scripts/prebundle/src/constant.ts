@@ -21,10 +21,6 @@ export const DEFAULT_EXTERNALS = {
   '../package.json': './package.json',
 };
 
-/**
- * 1. 优先打「零依赖」的包，使 externals 能更好地生效
- * 2. 预打包的依赖请锁死到固定版本
- */
 export const TASKS: TaskConfig[] = [
   {
     packageDir: 'toolkit/utils',
@@ -144,11 +140,15 @@ export const TASKS: TaskConfig[] = [
     dependencies: [
       {
         name: 'loader-utils2',
+        ignoreDts: true,
         externals: {
           json5: '@modern-js/utils/json5',
         },
       },
-      'loader-utils3',
+      {
+        name: 'loader-utils3',
+        ignoreDts: true,
+      },
       {
         name: 'webpack-chain',
         externals: {
@@ -167,13 +167,20 @@ export const TASKS: TaskConfig[] = [
         name: 'webpackbar',
         ignoreDts: true,
       },
-      'webpack-bundle-analyzer',
+      {
+        name: 'webpack-bundle-analyzer',
+        externals: {
+          chalk: '@modern-js/utils/chalk',
+          'gzip-size': '@modern-js/utils/gzip-size',
+        },
+      },
       {
         name: 'copy-webpack-plugin',
         ignoreDts: true,
         externals: {
           globby: '@modern-js/utils/globby',
           'fast-glob': '@modern-js/utils/fast-glob',
+          'schema-utils': 'schema-utils',
         },
       },
       {

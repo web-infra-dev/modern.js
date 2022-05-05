@@ -35,26 +35,13 @@
       "jsnext:source": "./src/ssr.ts",
       "default": "./dist/ssr.js"
     },
-    "./json5": {
-      "jsnext:source": "./compiled/json5/index.js",
-      "default": "./compiled/json5/index.js"
-    },
-    "./lodash": {
-      "jsnext:source": "./compiled/lodash/index.js",
-      "default": "./compiled/lodash/index.js"
-    },
-    "./globby": {
-      "jsnext:source": "./compiled/globby/index.js",
-      "default": "./compiled/globby/index.js"
-    },
-    "./fast-glob": {
-      "jsnext:source": "./compiled/fast-glob/index.js",
-      "default": "./compiled/fast-glob/index.js"
-    },
-    "./strip-ansi": {
-      "jsnext:source": "./compiled/strip-ansi/index.js",
-      "default": "./compiled/strip-ansi/index.js"
-    }
+    "./chalk": "./compiled/chalk/index.js",
+    "./json5": "./compiled/json5/index.js",
+    "./lodash": "./compiled/lodash/index.js",
+    "./globby": "./compiled/globby/index.js",
+    "./fast-glob": "./compiled/fast-glob/index.js",
+    "./gzip-size": "./compiled/gzip-size/index.js",
+    "./strip-ansi": "./compiled/strip-ansi/index.js"
   },
   "typesVersions": {
     "*": {
@@ -67,6 +54,9 @@
       "ssr": [
         "./dist/ssr.d.ts"
       ],
+      "chalk": [
+        "./compiled/chalk/index.d.ts"
+      ],
       "json5": [
         "./compiled/json5/index.d.ts"
       ],
@@ -78,6 +68,9 @@
       ],
       "fast-glob": [
         "./compiled/fast-glob/index.d.ts"
+      ],
+      "gzip-size": [
+        "./compiled/gzip-size/index.d.ts"
       ],
       "strip-ansi": [
         "./compiled/strip-ansi/index.d.ts"

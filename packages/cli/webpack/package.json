@@ -57,6 +57,7 @@
     "postcss": "8.4.5",
     "postcss-loader": "^6.1.1",
     "regenerator-runtime": "^0.13.9",
+    "schema-utils": "^3.1.1",
     "style-loader": "^3.3.1",
     "terser-webpack-plugin": "^5.1.4",
     "ts-loader": "^9.2.5",
