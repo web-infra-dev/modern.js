@@ -1,5 +1,19 @@
 # @modern-js/testing
 
+## 1.5.0
+
+### Minor Changes
+
+- 0ee4bb4e: feat: prebundle webpack loaders and plugins
+
+### Patch Changes
+
+- 3f209269: feat(testing): add `afterTest` hook for testing plugin
+- Updated dependencies [0ee4bb4e]
+- Updated dependencies [6fa74d5f]
+  - @modern-js/babel-preset-app@1.3.0
+  - @modern-js/utils@1.7.0
+
 ## 1.4.4
 
 ### Patch Changes

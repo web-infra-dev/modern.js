@@ -1,5 +1,17 @@
 # @modern-js/create-request
 
+## 1.2.6
+
+### Patch Changes
+
+- 4697d1db: fix: remove webpack-node-external for server bundle
+- Updated dependencies [0ee4bb4e]
+- Updated dependencies [a4c5fe78]
+- Updated dependencies [6fa74d5f]
+- Updated dependencies [33386756]
+  - @modern-js/plugin-ssr@1.3.0
+  - @modern-js/utils@1.7.0
+
 ## 1.2.5
 
 ### Patch Changes

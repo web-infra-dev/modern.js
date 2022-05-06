@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 1.5.2
+
+### Patch Changes
+
+- a4c5fe78: fix test case
+- 6fa74d5f: add internal metrics and logger
+
 ## 1.5.1
 
 ### Patch Changes

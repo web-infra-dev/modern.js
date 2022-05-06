@@ -1,5 +1,20 @@
 # @modern-js/webpack
 
+## 1.6.0
+
+### Minor Changes
+
+- 0ee4bb4e: feat: prebundle webpack loaders and plugins
+
+### Patch Changes
+
+- 4697d1db: fix: remove webpack-node-external for server bundle
+- Updated dependencies [0ee4bb4e]
+- Updated dependencies [6fa74d5f]
+  - @modern-js/babel-preset-app@1.3.0
+  - @modern-js/utils@1.7.0
+  - @modern-js/css-config@1.2.4
+
 ## 1.5.7
 
 ### Patch Changes

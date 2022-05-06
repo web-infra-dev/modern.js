@@ -1,5 +1,11 @@
 # @modern-js/runtime-core
 
+## 1.4.4
+
+### Patch Changes
+
+- 6fa74d5f: add internal metrics and logger
+
 ## 1.4.3
 
 ### Patch Changes
