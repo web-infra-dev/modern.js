@@ -12,4 +12,3 @@ run/
 *.un~
 typings/
 .nyc_output/
-run/
