@@ -21,7 +21,7 @@ title: 定义 head 信息
 `head.html` 可以自定义 `head` 部分内容，例如 `meta`、`title`、`script` 等标签。
 
 :::info 补充信息
-可查看 【[自定义 HTML 模板](/docs/guides/usages/basic-configuration/html) 】了解更多内容。
+可查看 【[自定义 HTML 模板](/docs/guides/usages/html) 】了解更多内容。
 :::
 
 

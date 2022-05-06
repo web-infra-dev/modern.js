@@ -1,7 +1,8 @@
 ---
-title: 客户端兼容性
-sidebar_position: 3
+sidebar_position: 5
 ---
+
+# 客户端兼容性
 
 ## Polyfill 模式
 

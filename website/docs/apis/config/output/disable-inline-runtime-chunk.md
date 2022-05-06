@@ -15,7 +15,7 @@ sidebar_label: disableInlineRuntimeChunk
 
 设置该选项为 `true` 后可以关闭这一行为：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({

@@ -27,7 +27,7 @@ sidebar_position: 4
 
 ## 更多用法
 
-不论是在[自定义 HTML](/docs/guides/usages/basic-configuration/html) 中，或是在 [`config/public/`](/docs/apis/hooks/mwa/config/public) 下的任意 HTML 文件中，都可以直接使用 HTML 标签引用 `config/upload/` 目录下的资源：
+不论是在[自定义 HTML](/docs/guides/usages/html) 中，或是在 [`config/public/`](/docs/apis/hooks/mwa/config/public) 下的任意 HTML 文件中，都可以直接使用 HTML 标签引用 `config/upload/` 目录下的资源：
 
 ```html
 <script src="/upload/index.js"></script>

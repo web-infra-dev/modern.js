@@ -1,8 +1,9 @@
 ---
-title: 别名、环境变量和全局变量
 sidebar_label: 别名、环境变量和全局变量
-sidebar_position: 1
+sidebar_position: 6
 ---
+
+# 别名、环境变量和全局变量
 
 ## 使用别名
 

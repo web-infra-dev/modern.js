@@ -41,7 +41,7 @@ MWA。
 
 按照如下配置，可以将 script 插入至 body 标签：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({

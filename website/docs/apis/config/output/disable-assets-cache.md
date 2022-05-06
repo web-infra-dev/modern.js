@@ -22,7 +22,7 @@ sidebar_label: disableAssetsCache
 
 禁用静态资源输出名带 hash 后缀, 配置如下即可：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
