@@ -1,5 +1,27 @@
 # @modern-js/app-tools
 
+## 1.6.2
+
+### Patch Changes
+
+- 8cf0ca21: fix: build commands not work
+- Updated dependencies [4697d1db]
+- Updated dependencies [0ee4bb4e]
+- Updated dependencies [a4c5fe78]
+- Updated dependencies [6fa74d5f]
+- Updated dependencies [a22d3ea8]
+- Updated dependencies [5c00db22]
+- Updated dependencies [92f4909e]
+  - @modern-js/webpack@1.6.0
+  - @modern-js/core@1.10.0
+  - @modern-js/utils@1.7.0
+  - @modern-js/prod-server@1.1.3
+  - @modern-js/types@1.5.2
+  - @modern-js/server@1.4.12
+  - @modern-js/plugin-analyze@1.4.1
+  - @modern-js/plugin-fast-refresh@1.2.4
+  - @modern-js/node-bundle-require@1.3.2
+
 ## 1.6.1
 
 ### Patch Changes

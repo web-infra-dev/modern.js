@@ -1,5 +1,14 @@
 # @modern-js/server-plugin
 
+## 1.3.3
+
+### Patch Changes
+
+- 6fa74d5f: add internal metrics and logger
+- Updated dependencies [0ee4bb4e]
+- Updated dependencies [6fa74d5f]
+  - @modern-js/utils@1.7.0
+
 ## 1.3.2
 
 ### Patch Changes

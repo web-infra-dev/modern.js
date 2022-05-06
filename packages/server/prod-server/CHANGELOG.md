@@ -1,5 +1,16 @@
 # @modern-js/prod-server
 
+## 1.1.3
+
+### Patch Changes
+
+- a4c5fe78: fix test case
+- 6fa74d5f: add internal metrics and logger
+- Updated dependencies [0ee4bb4e]
+- Updated dependencies [6fa74d5f]
+  - @modern-js/utils@1.7.0
+  - @modern-js/server-core@1.3.3
+
 ## 1.1.2
 
 ### Patch Changes
