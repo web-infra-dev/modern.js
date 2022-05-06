@@ -5,7 +5,7 @@ import { RenderLevel, SSRServerContext } from './serverRender/type';
 
 declare module '@modern-js/runtime-core' {
   interface RuntimeContext {
-    ssrContext?: any;
+    ssrContext: SSRServerContext;
   }
 
   interface TRuntimeContext {

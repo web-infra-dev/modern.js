@@ -82,9 +82,9 @@ const beforeRouteSet = createAsyncPipeline<Route[], Route[]>();
 
 const afterRouteSet = createAsyncPipeline();
 
-const preServerInit = createParallelWorkflow<NormalizedConfig, any>();
+const beforeProdServer = createParallelWorkflow<NormalizedConfig, any>();
 
-const postServerInit = createParallelWorkflow<NormalizedConfig, any>();
+const afterProdServer = createParallelWorkflow<NormalizedConfig, any>();
 
 const listen = createParallelWorkflow<
   {
@@ -181,8 +181,8 @@ const serverHooks = {
   afterDevServer,
   beforeRouteSet,
   afterRouteSet,
-  preServerInit,
-  postServerInit,
+  beforeProdServer,
+  afterProdServer,
   listen,
   beforeServerReset,
   afterServerReset,
