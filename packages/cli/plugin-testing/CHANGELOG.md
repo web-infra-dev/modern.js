@@ -1,5 +1,20 @@
 # @modern-js/plugin-testing
 
+## 1.5.3
+
+### Patch Changes
+
+- 3f209269: feat(testing): add `afterTest` hook for testing plugin
+- Updated dependencies [4697d1db]
+- Updated dependencies [0ee4bb4e]
+- Updated dependencies [6fa74d5f]
+- Updated dependencies [3f209269]
+  - @modern-js/webpack@1.6.0
+  - @modern-js/testing@1.5.0
+  - @modern-js/utils@1.7.0
+  - @modern-js/runtime-core@1.4.4
+  - @modern-js/testing-plugin-bff@1.4.1
+
 ## 1.5.1
 
 ### Patch Changes

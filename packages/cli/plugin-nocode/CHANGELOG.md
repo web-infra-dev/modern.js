@@ -1,5 +1,19 @@
 # @modern-js/plugin-nocode
 
+## 1.2.0
+
+### Minor Changes
+
+- 0ee4bb4e: feat: prebundle webpack loaders and plugins
+
+### Patch Changes
+
+- Updated dependencies [4697d1db]
+- Updated dependencies [0ee4bb4e]
+- Updated dependencies [6fa74d5f]
+  - @modern-js/webpack@1.6.0
+  - @modern-js/utils@1.7.0
+
 ## 1.1.10
 
 ### Patch Changes

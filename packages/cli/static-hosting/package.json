@@ -40,7 +40,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.6.0"
+    "@modern-js/utils": "workspace:^1.7.0"
   },
   "devDependencies": {
     "@babel/runtime": "^7",

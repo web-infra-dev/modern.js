@@ -1,5 +1,21 @@
 # @modern-js/plugin-ssr
 
+## 1.3.0
+
+### Minor Changes
+
+- 0ee4bb4e: feat: prebundle webpack loaders and plugins
+
+### Patch Changes
+
+- a4c5fe78: fix test case
+- 6fa74d5f: add internal metrics and logger
+- 33386756: reuse node entry for ssr plugin
+- Updated dependencies [0ee4bb4e]
+- Updated dependencies [6fa74d5f]
+  - @modern-js/utils@1.7.0
+  - @modern-js/runtime-core@1.4.4
+
 ## 1.2.8
 
 ### Patch Changes
