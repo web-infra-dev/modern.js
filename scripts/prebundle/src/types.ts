@@ -14,6 +14,8 @@ export type DependencyConfig = {
   emitFiles?: ImportMap[];
   /** Copy extra fields from original package.json to target package.json. */
   packageJsonField?: string[];
+  /** Whether to ignore type definitions */
+  ignoreDts?: boolean;
   /* Callback before bundle. */
   beforeBundle?: (task: ParsedTask) => void | Promise<void>;
 };
@@ -30,6 +32,7 @@ export type ParsedTask = {
   distPath: string;
   importPath: string;
   packageDir: string;
+  ignoreDts?: boolean;
   packagePath: string;
   packageName: string;
   minify: NonNullable<DependencyConfig['minify']>;

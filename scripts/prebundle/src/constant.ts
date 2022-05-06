@@ -7,15 +7,21 @@ export const PACKAGES_DIR = join(ROOT_DIR, 'packages');
 export const DIST_DIR = 'compiled';
 
 export const DEFAULT_EXTERNALS = {
-  // Don't bundle caniuse-lite data, so users can update it manually.
+  // External caniuse-lite data, so users can update it manually.
   'caniuse-lite': 'caniuse-lite',
   '/caniuse-lite(/.*)/': 'caniuse-lite$1',
+  // External webpack, it's hard to bundle.
+  webpack: 'webpack',
+  '/webpack(/.*)/': 'webpack$1',
+  // External lodash because lots of packages will depend on it.
+  lodash: '@modern-js/utils/lodash',
+  esbuild: 'esbuild',
+  // ncc bundled wrong package.json, using external to avoid this problem
+  './package.json': './package.json',
+  '../package.json': './package.json',
+  postcss: 'postcss',
 };
 
-/**
- * 1. 优先打「零依赖」的包，使 externals 能更好地生效
- * 2. 预打包的依赖请锁死到固定版本
- */
 export const TASKS: TaskConfig[] = [
   {
     packageDir: 'toolkit/utils',
@@ -23,7 +29,6 @@ export const TASKS: TaskConfig[] = [
     dependencies: [
       // zero dependency
       'address',
-      'lodash',
       'upath',
       'filesize',
       'minimist',
@@ -35,6 +40,7 @@ export const TASKS: TaskConfig[] = [
       'slash',
       // a few dependencies
       'debug',
+      'semver',
       'js-yaml',
       'mime-types',
       'strip-ansi',
@@ -54,8 +60,6 @@ export const TASKS: TaskConfig[] = [
         name: 'signale',
         externals: {
           chalk: '../chalk',
-          // ncc bundled wrong package.json, using external to avoid this problem
-          './package.json': './package.json',
         },
         packageJsonField: ['options'],
       },
@@ -92,7 +96,10 @@ export const TASKS: TaskConfig[] = [
     packageName: '@modern-js/core',
     dependencies: [
       // zero dependency
-      'v8-compile-cache',
+      {
+        name: 'v8-compile-cache',
+        ignoreDts: true,
+      },
       // some dependencies
       {
         name: 'ajv',
@@ -114,6 +121,7 @@ export const TASKS: TaskConfig[] = [
       },
       {
         name: 'ajv-keywords',
+        ignoreDts: true,
         externals: {
           ajv: '../ajv',
           'ajv/dist/compile/codegen': '../ajv/codegen',
@@ -121,8 +129,117 @@ export const TASKS: TaskConfig[] = [
       },
       {
         name: 'better-ajv-errors',
+        ignoreDts: true,
         externals: {
           ajv: '../ajv',
+        },
+      },
+    ],
+  },
+  {
+    packageDir: 'cli/webpack',
+    packageName: '@modern-js/webpack',
+    dependencies: [
+      'webpack-merge',
+      {
+        name: 'css-modules-typescript-loader',
+        ignoreDts: true,
+        externals: {
+          'loader-utils': '../loader-utils1',
+        },
+      },
+      {
+        name: 'loader-utils1',
+        ignoreDts: true,
+        externals: {
+          json5: '@modern-js/utils/json5',
+        },
+      },
+      {
+        name: 'loader-utils2',
+        ignoreDts: true,
+        externals: {
+          json5: '@modern-js/utils/json5',
+        },
+      },
+      {
+        name: 'webpack-chain',
+        externals: {
+          tapable: 'tapable',
+        },
+      },
+      {
+        name: 'webpack-manifest-plugin',
+        externals: {
+          tapable: 'tapable',
+          'webpack-sources': 'webpack-sources',
+        },
+      },
+      {
+        name: 'webpackbar',
+        ignoreDts: true,
+      },
+      {
+        name: 'webpack-bundle-analyzer',
+        externals: {
+          chalk: '@modern-js/utils/chalk',
+          'gzip-size': '@modern-js/utils/gzip-size',
+        },
+      },
+      {
+        name: 'copy-webpack-plugin',
+        ignoreDts: true,
+        externals: {
+          globby: '@modern-js/utils/globby',
+          'fast-glob': '@modern-js/utils/fast-glob',
+          'schema-utils': 'schema-utils',
+        },
+      },
+      {
+        name: 'yaml-loader',
+        ignoreDts: true,
+        externals: {
+          'loader-utils': '../loader-utils2',
+        },
+      },
+      {
+        name: 'toml-loader',
+        ignoreDts: true,
+      },
+      {
+        name: 'markdown-loader',
+        ignoreDts: true,
+      },
+      {
+        name: 'file-loader',
+        ignoreDts: true,
+        externals: {
+          'schema-utils': 'schema-utils',
+          'loader-utils': '../loader-utils2',
+        },
+      },
+      {
+        name: 'url-loader',
+        ignoreDts: true,
+        externals: {
+          'schema-utils': 'schema-utils',
+          'loader-utils': '../loader-utils2',
+          'mime-types': '@modern-js/utils/mime-types',
+        },
+      },
+      {
+        name: 'babel-loader',
+        ignoreDts: true,
+        externals: {
+          '@babel/core': '@babel/core',
+          'loader-utils': '../loader-utils1',
+        },
+      },
+      {
+        name: 'postcss-loader',
+        ignoreDts: true,
+        externals: {
+          semver: '@modern-js/utils/semver',
         },
       },
     ],
