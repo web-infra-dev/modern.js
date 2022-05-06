@@ -14,6 +14,7 @@ export type {
   StatsCompilation,
 } from 'webpack';
 export { BaseWebpackConfig } from './config/base';
+export * from './compiled';
 
 export enum WebpackConfigTarget {
   CLIENT,

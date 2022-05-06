@@ -67,8 +67,7 @@
     "@modern-js/bff-utils": "workspace:^1.2.4",
     "@modern-js/create-request": "workspace:^1.2.5",
     "@modern-js/server-utils": "workspace:^1.2.4",
-    "@modern-js/utils": "workspace:^1.6.0",
-    "loader-utils": "^2.0.0"
+    "@modern-js/utils": "workspace:^1.6.0"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
@@ -80,7 +79,6 @@
     "@scripts/jest-config": "workspace:*",
     "@types/babel__core": "^7.1.15",
     "@types/jest": "^26",
-    "@types/loader-utils": "^2.0.3",
     "@types/node": "^14",
     "jest": "^27",
     "memfs": "^3.3.0",

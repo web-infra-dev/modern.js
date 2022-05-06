@@ -1,6 +1,5 @@
 /* eslint-disable max-lines */
 import path from 'path';
-import Chain from 'webpack-chain';
 import {
   isProd,
   isDev,
@@ -17,9 +16,9 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import webpack, { IgnorePlugin } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import { merge } from 'webpack-merge';
-import WebpackBar from 'webpackbar';
 import { createBabelChain, BabelChain } from '@modern-js/babel-chain';
+import { webpackMerge, WebpackChain } from '../compiled';
+import WebpackBar from '../../compiled/webpackbar';
 import {
   CSS_REGEX,
   JS_REGEX,
@@ -43,7 +42,7 @@ import { getWebpackAliases } from '../utils/getWebpackAliases';
 export type ResolveAlias = { [index: string]: string };
 
 class BaseWebpackConfig {
-  chain: Chain;
+  chain: WebpackChain;
 
   appContext: IAppContext;
 
@@ -76,7 +75,7 @@ class BaseWebpackConfig {
 
     this.options = options;
 
-    this.chain = new Chain();
+    this.chain = new WebpackChain();
 
     this.dist = ensureAbsolutePath(
       this.appDirectory,
@@ -238,7 +237,7 @@ class BaseWebpackConfig {
       .add(this.appContext.internalDirectory)
       .end()
       .use('babel')
-      .loader(require.resolve('babel-loader'))
+      .loader(require.resolve('../../compiled/babel-loader'))
       .options(
         getBabelOptions(
           this.metaName,
@@ -256,7 +255,7 @@ class BaseWebpackConfig {
         .add(this.appContext.internalDirectory)
         .end()
         .use('babel')
-        .loader(require.resolve('babel-loader'))
+        .loader(require.resolve('../../compiled/babel-loader'))
         .options({
           presets: [
             [
@@ -364,7 +363,7 @@ class BaseWebpackConfig {
       .options({ svgo: false })
       .end()
       .use('url')
-      .loader(require.resolve('url-loader'))
+      .loader(require.resolve('../../compiled/url-loader'))
       .options({
         limit: Infinity,
         name: this.mediaChunkname.replace(/\[ext\]$/, '.[ext]'),
@@ -380,7 +379,7 @@ class BaseWebpackConfig {
       .options({ svgo: false })
       .end()
       .use('url')
-      .loader(require.resolve('url-loader'))
+      .loader(require.resolve('../../compiled/url-loader'))
       .options({
         limit: false,
         name: this.mediaChunkname.replace(/\[ext\]$/, '.[ext]'),
@@ -395,7 +394,7 @@ class BaseWebpackConfig {
       .options({ svgo: false })
       .end()
       .use('url')
-      .loader(require.resolve('url-loader'))
+      .loader(require.resolve('../../compiled/url-loader'))
       .options({
         limit: this.options.output?.dataUriLimit,
         name: this.mediaChunkname.replace(/\[ext\]$/, '.[ext]'),
@@ -426,17 +425,14 @@ class BaseWebpackConfig {
     loaders
       .oneOf('yml')
       .test(/\.ya?ml$/)
-      .use('json')
-      .loader(require.resolve('json-loader'))
-      .end()
       .use('yaml')
-      .loader('yaml-loader');
+      .loader(require.resolve('../../compiled/yaml-loader'));
 
     loaders
       .oneOf('toml')
       .test(/\.toml$/)
       .use('toml')
-      .loader(require.resolve('toml-loader'));
+      .loader(require.resolve('../../compiled/toml-loader'));
 
     loaders
       .oneOf('markdown')
@@ -445,7 +441,7 @@ class BaseWebpackConfig {
       .loader(require.resolve('html-loader'))
       .end()
       .use('markdown')
-      .loader('markdown-loader');
+      .loader(require.resolve('../../compiled/markdown-loader'));
 
     //  resource fallback
     loaders
@@ -458,7 +454,7 @@ class BaseWebpackConfig {
       .add(/\.(html?|json|wasm|ya?ml|toml|md)$/)
       .end()
       .use('file')
-      .loader(require.resolve('file-loader'));
+      .loader(require.resolve('../../compiled/file-loader'));
 
     return loaders;
   }
@@ -661,7 +657,7 @@ class BaseWebpackConfig {
           name: this.chain.get('name'),
           webpack,
         },
-        merge,
+        webpackMerge,
       );
     }
     return chainConfig;
@@ -698,7 +694,7 @@ class BaseWebpackConfig {
         name: this.chain.get('name'),
         webpack,
       },
-      merge,
+      webpackMerge,
     );
 
     return this.chain;
