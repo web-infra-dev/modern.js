@@ -43,7 +43,7 @@ export default defineConfig({
 
 在所有开发环境中间件前执行：
 
-```javascript
+```js
 devServer: {
   before: [
     async (req, res, next) => {
@@ -65,7 +65,7 @@ devServer: {
 
 在所有开发环境中间件后执行：
 
-```javascript
+```js
 devServer: {
   after: [
     async (req, res, next) => {

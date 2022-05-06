@@ -16,7 +16,7 @@ sidebar_label: copy
 
 例如，将 `src/assets` 下的文件直接拷贝到 dist 目录：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({

@@ -13,7 +13,7 @@ MWA。
 
 默认情况下，Modern.js 使用 Babel 编译 TS 文件，开启该选项后，会使用 [ts-loader](https://github.com/TypeStrong/ts-loader) 编译 TS 文件。
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({

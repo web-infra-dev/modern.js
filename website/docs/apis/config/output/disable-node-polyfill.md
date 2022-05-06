@@ -15,7 +15,7 @@ sidebar_label: disableNodePolyfill
 
 如果确认项目下不需要任何 Node Polyfill，可以在 `modern.config.js` 中配置如下关闭内置引入的 Node Polyfill：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
