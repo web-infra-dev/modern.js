@@ -21,7 +21,7 @@ sidebar_label: injectByEntries
 
 例如，项目目录结构和 `modern.config.js` 如下时：
 
-```javascript title="项目目录结构"
+```js title="项目目录结构"
 .
 └── src
     ├── page-a
@@ -30,7 +30,7 @@ sidebar_label: injectByEntries
         └── App.jsx
 ```
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({

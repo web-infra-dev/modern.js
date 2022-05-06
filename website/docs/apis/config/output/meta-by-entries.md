@@ -20,7 +20,7 @@ sidebar_label: metaByEntries
 
 例如， 项目目录结构和配置如下时：
 
-```javascript title="目录结构"
+```js title="目录结构"
 .
 └── src
     ├── page-a
@@ -29,7 +29,7 @@ sidebar_label: metaByEntries
         └── App.jsx
 ```
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({

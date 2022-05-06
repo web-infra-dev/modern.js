@@ -15,7 +15,7 @@ sidebar_label: dataUriLimit
 
 通过该选项可修改阈值, 如下修改为 20kb：
 
-```javascript
+```js
 module.exports = {
   output: {
     dataUriLimit: 20000,

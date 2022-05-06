@@ -19,7 +19,7 @@ sidebar_label: faviconByEntries
 
 例如，目录结构和配置如下时:
 
-```javascript title="项目目录结构"
+```js title="项目目录结构"
 .
 └── src
     ├── page-a
@@ -28,7 +28,7 @@ sidebar_label: faviconByEntries
         └── App.jsx
 ```
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({

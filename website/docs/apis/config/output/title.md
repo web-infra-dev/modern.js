@@ -15,7 +15,7 @@ sidebar_label: title
 配置网页 title 标签，例如：
 
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({

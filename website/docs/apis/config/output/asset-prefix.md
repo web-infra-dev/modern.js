@@ -16,7 +16,7 @@ sidebar_label: assetPrefix
 
 设置后，项目的 js、css、图片等静态资源链接都会加上 `output.assetPrefix` 作为前缀：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
@@ -28,7 +28,7 @@ export default defineConfig({
 
 `build` 之后可以看到 html 中 JS chunk 从以下地址加载：
 
-```javascript
+```js
 <script
   defer="defer"
   src="//cdn.example.com/assets/static/js/187.ebc4ff4f.js"></script>;

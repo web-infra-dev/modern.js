@@ -1,7 +1,7 @@
 ---
 title: 配置底层工具
 sidebar_label: 配置底层工具
-sidebar_position: 2
+sidebar_position: 8
 ---
 
 

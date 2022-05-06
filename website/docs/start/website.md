@@ -326,7 +326,7 @@ export default Introduction;
 
 ## 客户端兼容性
 
-Modern.js 提供自动 Polyfill、Browserslist 配置、差异化分发等特性，能够最大化的兼顾客户端兼容性和资源加载性能。关于这部分内容的更多介绍，请参考【[客户端兼容性](/docs/guides/usages/basic-configuration/compatibility)】。
+Modern.js 提供自动 Polyfill、Browserslist 配置、差异化分发等特性，能够最大化的兼顾客户端兼容性和资源加载性能。关于这部分内容的更多介绍，请参考【[客户端兼容性](/docs/guides/usages/compatibility)】。
 
 ## 一体化 BFF
 
@@ -508,7 +508,7 @@ Modern.js 支持修改默认使用的 HTML 模板文件。
 ![custom-html](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/start/custom-html.png)
 
 :::info 补充信息
-更多信息，请参考【[自定义 HTML 模板](/docs/guides/usages/basic-configuration/html)】。
+更多信息，请参考【[自定义 HTML 模板](/docs/guides/usages/html)】。
 :::
 
 ## 测试
