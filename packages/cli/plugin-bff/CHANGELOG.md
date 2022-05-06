@@ -1,5 +1,17 @@
 # @modern-js/plugin-bff
 
+## 1.4.3
+
+### Patch Changes
+
+- 0ee4bb4e: fix: remove loader-utils from dependencies
+- Updated dependencies [4697d1db]
+- Updated dependencies [0ee4bb4e]
+- Updated dependencies [6fa74d5f]
+  - @modern-js/create-request@1.2.6
+  - @modern-js/utils@1.7.0
+  - @modern-js/server-utils@1.2.4
+
 ## 1.4.2
 
 ### Patch Changes
