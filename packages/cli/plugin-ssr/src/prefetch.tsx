@@ -21,11 +21,10 @@ const prefetch = async (
     const loadersData = await context.loaderManager.awaitPendingLoaders();
     Object.keys(loadersData).forEach(id => {
       const data = loadersData[id];
-      if (data.error) {
-        ssrContext.logger.error('App Prefetch Loader', data.error);
+      if (data._error) {
+        ssrContext.logger.error('App Prefetch Loader', data._error);
         ssrContext.metrics.emitCounter('app.prefetch.loader.error');
-        data.error =
-          data.error instanceof Error ? data.error.message : data.error;
+        delete data._error;
       }
     });
 
