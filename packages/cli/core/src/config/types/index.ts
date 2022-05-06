@@ -68,9 +68,9 @@ export interface SourceConfig {
   include?: Array<string | RegExp>;
 
   /**
-   * The configuration of `source.designSystem` is provided by plugin `@modern-js/plugin-tailwindcss`.
-   * Please use `yarn new` to enable the corresponding capability.
-   * @requires `@modern-js/plugin-tailwindcss`
+   * The configuration of `source.designSystem` is provided by `tailwindcss` plugin.
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @requires `tailwindcss` plugin
    */
   designSystem?: Record<string, any>;
 }
@@ -120,16 +120,16 @@ export interface OutputConfig {
 
   /**
    * Disables lazy import support for styles, currently supports antd and arco-design.
-   * The configuration of `output.disableAutoImportStyle` is provided by plugin `@modern-js/plugin-unbundle`.
-   * Please use `yarn new` to enable the corresponding capability.
-   * @requires `@modern-js/plugin-unbundle`
+   * The configuration of `output.disableAutoImportStyle` is provided by `unbundle` plugin.
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @requires `unbundle` plugin
    */
   disableAutoImportStyle?: boolean;
 
   /**
-   * The configuration of `output.ssg` is provided by plugin `@modern-js/plugin-ssg`.
-   * Please use `yarn new` to enable the corresponding capability.
-   * @requires `@modern-js/plugin-ssg`
+   * The configuration of `output.ssg` is provided by `ssg` plugin.
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @requires `ssg` plugin
    */
   ssg?: SSGConfig;
 }
@@ -161,16 +161,16 @@ export interface DevConfig {
   https?: boolean;
 
   /**
-   * The configuration of `dev.proxy` is provided by plugin `@modern-js/plugin-proxy`.
-   * Please use `yarn new` to enable the corresponding capability.
-   * @requires `@modern-js/plugin-proxy`
+   * The configuration of `dev.proxy` is provided by `proxy` plugin.
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @requires `proxy` plugin
    */
   proxy?: DevProxyOptions;
 
   /**
-   * The configuration of `dev.unbundle` is provided by plugin `@modern-js/plugin-unbundle`.
-   * Please use `yarn new` to enable the corresponding capability.
-   * @requires `@modern-js/plugin-unbundle`
+   * The configuration of `dev.unbundle` is provided by `unbundle` plugin.
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @requires `unbundle` plugin
    */
   unbundle?: UnbundleConfig;
 }
@@ -248,32 +248,32 @@ export interface ToolsConfig {
   esbuild?: Record<string, unknown>;
 
   /**
-   * The configuration of `tools.tailwindcss` is provided by plugin `@modern-js/plugin-tailwindcss`.
-   * Please use `yarn new` to enable the corresponding capability.
-   * @requires `@modern-js/plugin-tailwindcss`
+   * The configuration of `tools.tailwindcss` is provided by `tailwindcss` plugin.
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @requires `tailwindcss` plugin
    */
   tailwindcss?:
     | Record<string, any>
     | ((options: Record<string, any>) => Record<string, any> | void);
 
   /**
-   * The configuration of `tools.jest` is provided by plugin `@modern-js/plugin-testing`.
-   * Please use `yarn new` to enable the corresponding capability.
-   * @requires `@modern-js/plugin-testing`
+   * The configuration of `tools.jest` is provided by `testing` plugin.
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @requires `testing` plugin
    */
   jest?: TestConfig['jest'];
 
   /**
-   * The configuration of `tools.sass` is provided by plugin `@modern-js/plugin-sass`.
-   * Please use `yarn new` to enable the corresponding capability.
-   * @requires `@modern-js/plugin-sass`
+   * The configuration of `tools.sass` is provided by `sass` plugin.
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @requires `sass` plugin
    */
   sass?: SassConfig;
 
   /**
-   * The configuration of `tools.less` is provided by plugin `@modern-js/plugin-less`.
-   * Please use `yarn new` to enable the corresponding capability.
-   * @requires `@modern-js/plugin-less`
+   * The configuration of `tools.less` is provided by `less` plugin.
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @requires `less` plugin
    */
   less?: LessConfig;
 }
@@ -303,22 +303,23 @@ export interface UserConfig {
   runtimeByEntries?: RuntimeByEntriesConfig;
 
   /**
-   * The configuration of `bff` is provided by plugin `@modern-js/plugin-bff`.
-   * Please use `yarn new` to enable the corresponding capability.
-   * @requires `@modern-js/plugin-bff`
+   * The configuration of `bff` is provided by `bff` plugin.
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @requires `bff` plugin
    */
   bff?: BffConfig;
 
   /**
-   * The configuration of `testing` is provided by plugin `@modern-js/plugin-testing`.
-   * Please use `yarn new` to enable the corresponding capability.
-   * @requires `@modern-js/plugin-testing`
+   * The configuration of `testing` is provided by `testing` plugin.
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @requires `testing` plugin
    */
   testing?: TestConfig;
+
   /**
-   * The configuration of `electron` is provided by plugin `@modern-js/plugin-electron`.
-   * Please use `yarn new` to enable the corresponding capability.
-   * @requires `@modern-js/plugin-electron`
+   * The configuration of `electron` is provided by `electron` plugin.
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @requires `electron` plugin
    */
   electron?: ElectronConfig;
 }
