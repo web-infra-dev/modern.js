@@ -27,7 +27,7 @@ describe('plugin-static-hosting', () => {
     expect(instance.name).toBe('@modern-js/plugin-polyfill');
 
     const hooks: any = instance.setup?.({} as any);
-    const fn = hooks.preServerInit();
+    const fn = hooks.beforeProdServer();
     expect(typeof fn).toBe('function');
 
     const errorContext = { url: '' };

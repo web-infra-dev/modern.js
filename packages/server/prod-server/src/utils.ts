@@ -9,15 +9,6 @@ export const mergeExtension = (users: any[]) => {
   return { middleware: output.concat(users) };
 };
 
-export const toMessage = (dig: string, e: Error | string): string => {
-  const message = e instanceof Error ? e.message : e;
-  if (message) {
-    return `${dig}: ${message}`;
-  } else {
-    return dig;
-  }
-};
-
 export const noop = () => {
   // noop
 };

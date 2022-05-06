@@ -4,6 +4,7 @@ import { render as renderSSR } from '../src/libs/render/ssr';
 import { handleDirectory } from '../src/libs/render/static';
 import { LruReader } from '../src/libs/render/reader';
 import { supportModern } from '../src/libs/render/modern';
+import { createLogger, createMetrics } from '../src/libs/render/measure';
 
 describe('test render function', () => {
   test('should return content correctly ', async () => {
@@ -202,5 +203,62 @@ describe('test modern render', () => {
 
     const res = supportModern({ headers: { 'user-agent': ua } } as any);
     expect(res).toBeTruthy();
+  });
+});
+
+describe('test measure', () => {
+  it('should logger work correctly', () => {
+    let code = -1;
+    const logger = createLogger(
+      {
+        entryName: '',
+        request: {
+          pathname: '/',
+        },
+      } as any,
+      {
+        error() {
+          code = 0;
+        },
+        info() {
+          code = 2;
+        },
+        debug() {
+          code = 3;
+        },
+      } as any,
+    );
+
+    logger.error('msg', 'error');
+    expect(code).toBe(0);
+    logger.info('msg', 'info');
+    expect(code).toBe(2);
+    logger.debug('msg', 'debug');
+    expect(code).toBe(3);
+  });
+
+  it('should metrics work correctly', () => {
+    let code = -1;
+    const metrics = createMetrics(
+      {
+        entryName: '',
+        request: {
+          pathname: '/',
+        },
+      } as any,
+      {
+        emitCounter() {
+          code = 0;
+        },
+        emitTimer() {
+          code = 2;
+        },
+      } as any,
+    );
+
+    metrics.emitCounter('msg');
+    expect(code).toBe(0);
+    metrics.emitTimer('msg', 1);
+    expect(code).toBe(2);
   });
 });

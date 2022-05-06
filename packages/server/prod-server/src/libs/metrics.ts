@@ -4,10 +4,10 @@ const metrics: Metrics = {
   gauges() {
     // no impl
   },
-  counter() {
+  emitCounter() {
     // no impl
   },
-  timer() {
+  emitTimer() {
     // no impl
   },
 };

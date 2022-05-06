@@ -8,9 +8,10 @@ import {
   ServerConfig,
 } from '@modern-js/server-core';
 import {
-  logger as defaultLogger,
+  Logger,
   SHARED_DIR,
   OUTPUT_CONFIG_FILE,
+  LoggerInterface,
 } from '@modern-js/utils';
 import type { UserConfig } from '@modern-js/core';
 import { ISAppContext } from '@modern-js/types';
@@ -43,7 +44,11 @@ export class Server {
   private serverConfig: ServerConfig;
 
   constructor(options: ModernServerOptions) {
-    options.logger = options.logger || defaultLogger;
+    options.logger =
+      options.logger ||
+      (new Logger({
+        level: 'warn',
+      }) as Logger & LoggerInterface);
     options.metrics = options.metrics || defaultMetrics;
 
     this.options = options;
