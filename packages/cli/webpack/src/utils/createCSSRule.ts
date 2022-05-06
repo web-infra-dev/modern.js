@@ -1,6 +1,6 @@
-import Chain from 'webpack-chain';
 import { getPostcssConfig } from '@modern-js/css-config';
 import type { NormalizedConfig } from '@modern-js/core';
+import type { WebpackChain } from '../compiled';
 
 export const enableCssExtract = (config: NormalizedConfig) => {
   return config.output.disableCssExtract !== true;
@@ -25,7 +25,7 @@ interface CSSLoaderOptions {
 }
 
 export const createCSSRule = (
-  chain: Chain,
+  chain: WebpackChain,
   { appDirectory, config }: { config: NormalizedConfig; appDirectory: string },
   {
     name,
@@ -58,7 +58,7 @@ export const createCSSRule = (
     })
     .when(Boolean(genTSD), c => {
       c.use('css-modules-typescript')
-        .loader(require.resolve('css-modules-typescript-loader'))
+        .loader(require.resolve('../../compiled/css-modules-typescript-loader'))
         .end();
     })
     .use('css')
@@ -66,7 +66,7 @@ export const createCSSRule = (
     .options(options)
     .end()
     .use('postcss')
-    .loader(require.resolve('postcss-loader'))
+    .loader(require.resolve('../../compiled/postcss-loader'))
     .options(postcssOptions);
 
   loaders.oneOf(name).merge({ sideEffects: true });

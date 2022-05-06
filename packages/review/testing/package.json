@@ -45,7 +45,6 @@
     "enhanced-resolve": "^5.8.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.0.6",
-    "semver": "^7.3.5",
     "ts-jest": "^27.0.4",
     "yargs": "^17.0.1"
   },
@@ -57,7 +56,6 @@
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
-    "@types/semver": "^7.3.8",
     "@types/yargs": "^17.0.2",
     "@jest/types": "^27.0.6",
     "jest": "^27",

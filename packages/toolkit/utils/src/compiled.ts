@@ -11,6 +11,7 @@ export { default as execa } from '../compiled/execa';
 export { default as json5 } from '../compiled/json5';
 export { default as upath } from '../compiled/upath';
 export { default as pkgUp } from '../compiled/pkg-up';
+export { default as semver } from '../compiled/semver';
 export { default as dotenv } from '../compiled/dotenv';
 export { default as lodash } from '../compiled/lodash';
 export { default as globby } from '../compiled/globby';
