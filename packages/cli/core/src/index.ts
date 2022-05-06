@@ -16,6 +16,7 @@ import { loadPlugins, TransformPlugin } from './loadPlugins';
 import {
   AppContext,
   ConfigContext,
+  useAppContext,
   IAppContext,
   initAppContext,
   ResolvedConfigContext,
@@ -200,7 +201,11 @@ const createCli = () => {
 
     await hooksRunner.prepare();
 
-    return { loadedConfig: loaded, appContext, resolved };
+    return {
+      loadedConfig: loaded,
+      appContext: useAppContext(),
+      resolved,
+    };
   };
 
   async function run(argv: string[], options?: CoreOptions) {
