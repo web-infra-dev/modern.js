@@ -9,12 +9,16 @@ type Options = {
 const resolvePlugin = function (less: any) {
   class LessImportNodeModules extends less.FileManager {
     paths: string[];
+
     prefix: string;
+
     constructor(options: Options = {}) {
       super(options);
       this.prefix = options.prefix || '~';
       this.paths = options.paths || [];
     }
+
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     supports(
       filename: string,
       currentDirectory: string,
@@ -23,6 +27,8 @@ const resolvePlugin = function (less: any) {
     ) {
       return this.prefix && filename.charAt(0) === this.prefix;
     }
+    /* eslint-enable @typescript-eslint/no-unused-vars */
+
     supportsSync(
       filename: string,
       currentDirectory: string,
@@ -31,7 +37,9 @@ const resolvePlugin = function (less: any) {
     ) {
       return this.supports(filename, currentDirectory, options, environment);
     }
+
     resolve(filename: string) {
+      // eslint-disable-next-line no-param-reassign
       filename = filename.replace(this.prefix, '');
       let resolvedFilename = '';
       this.paths.forEach(path => {
@@ -54,23 +62,28 @@ const resolvePlugin = function (less: any) {
         resolvedFilename || path.join(process.cwd(), 'node_modules', filename)
       );
     }
+
     loadFile(
       filename: string,
       currentDirectory: string,
       options: unknown,
       environment: any,
     ) {
-      filename = this.resolve(filename);
-      return super.loadFile(filename, '', options, environment);
+      return super.loadFile(this.resolve(filename), '', options, environment);
     }
+
     loadFileSync(
       filename: string,
       currentDirectory: string,
       options: unknown,
       environment: any,
     ): any {
-      filename = this.resolve(filename);
-      return this.loadFileSync(filename, '', options, environment);
+      return this.loadFileSync(
+        this.resolve(filename),
+        '',
+        options,
+        environment,
+      );
     }
   }
   return LessImportNodeModules;
@@ -78,10 +91,13 @@ const resolvePlugin = function (less: any) {
 
 class LessPluginImportNodeModules {
   minVersion: [number, number, number];
+
+  // eslint-disable-next-line @typescript-eslint/no-parameter-properties
   constructor(public options: Options = {}) {
     this.options = options;
     this.minVersion = [2, 6, 0];
   }
+
   install(less: any, pluginManager: any) {
     const LessImportNodeModules = resolvePlugin(less);
     pluginManager.addFileManager(new LessImportNodeModules(this.options));

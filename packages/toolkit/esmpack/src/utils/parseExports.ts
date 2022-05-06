@@ -1,3 +1,5 @@
+/* eslint-disable no-inner-declarations */
+
 import nodePath from 'path';
 import { fs } from '@modern-js/utils';
 import * as babel from '@babel/core';
@@ -423,14 +425,12 @@ export const parseExportInfoFromESMCode = async (code: string) => {
         // 来自其他模块的 reexport
         // 仅记录，未能处理
         for (const spec of path.node.specifiers) {
-          if (t.isExportSpecifier(spec)) {
-            if (t.isIdentifier(spec.exported)) {
-              namedExportsOutsideCode.add(spec.exported.name);
+          if (t.isExportSpecifier(spec) && t.isIdentifier(spec.exported)) {
+            namedExportsOutsideCode.add(spec.exported.name);
 
-              // export { default } from 'foo';
-              if (spec.exported.name === 'default') {
-                hasDefaultExport = true;
-              }
+            // export { default } from 'foo';
+            if (spec.exported.name === 'default') {
+              hasDefaultExport = true;
             }
           }
         }
@@ -477,3 +477,5 @@ export const parseExportInfoFromESMCode = async (code: string) => {
     namedExportAlias,
   };
 };
+
+/* eslint-enable no-inner-declarations */

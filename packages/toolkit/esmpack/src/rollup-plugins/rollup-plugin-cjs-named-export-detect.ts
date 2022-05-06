@@ -20,6 +20,7 @@ interface FileInfo {
 
 const fileLoc2FileInfo: Record<string, FileInfo> = {};
 
+/* eslint-disable consistent-return */
 async function autoDetectExports(
   fileLoc: string,
   logger = console,
@@ -67,6 +68,7 @@ async function autoDetectExports(
     }
   }
 }
+/* eslint-enable consistent-return */
 
 function rollupPluginCJSNamedExportDetect(): Plugin {
   return {
@@ -121,7 +123,7 @@ function rollupPluginCJSNamedExportDetect(): Plugin {
       const resultArr = [`export * from '${normalizedFileLoc}';`];
       // fileInfo should be ready after autoDetectExports
       const fileInfo = fileLoc2FileInfo[normalizedFileLoc];
-      if (fileInfo && fileInfo.hasDefaultExport) {
+      if (fileInfo?.hasDefaultExport) {
         resultArr.push(
           `import __eds_default_export__ from '${normalizedFileLoc}';\nexport default __eds_default_export__;`,
         );

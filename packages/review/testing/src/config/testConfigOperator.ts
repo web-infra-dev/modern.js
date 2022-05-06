@@ -35,10 +35,7 @@ class TestConfigOperator {
     this._jestConfig = merge({}, this._jestConfig, commonConfig);
   }
 
-  public setJestConfig(
-    commonConfig: JestConfig,
-    options?: { force: boolean },
-  ) {
+  public setJestConfig(commonConfig: JestConfig, options?: { force: boolean }) {
     if (options) {
       const { force } = options;
       if (force) {

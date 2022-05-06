@@ -109,6 +109,7 @@ const importPath = () => ({
             srcDir,
             importStyle,
           );
+          // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
           const hashKey = filename + (importName || '');
           if (replaceValue) {
             if (typeof filename === 'string' && !replaceValueHash[hashKey]) {
@@ -145,6 +146,8 @@ const importPath = () => ({
                 srcDir,
                 importStyle,
               );
+
+              // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
               const hashKey = filename + (importName || '');
               if (replaceValue) {
                 if (

@@ -348,6 +348,7 @@ const transformCSS = async (
   }
 
   if (errors?.length) {
+    // eslint-disable-next-line no-throw-literal
     throw errors[0] as Error;
   }
 
