@@ -7,6 +7,8 @@ import {
   generateMetaTags,
   removeTailSlash,
   findExists,
+  isUseSSRBundle,
+  LOADABLE_STATS_FILE,
 } from '@modern-js/utils';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
@@ -17,6 +19,7 @@ import webpack, {
 } from 'webpack';
 import { Entrypoint } from '@modern-js/types';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
+import LoadableWebpackPlugin from '@loadable/webpack-plugin';
 import CopyPlugin from '../../compiled/copy-webpack-plugin';
 import { WebpackManifestPlugin } from '../../compiled/webpack-manifest-plugin';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
@@ -225,6 +228,12 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     this.chain
       .plugin('bottom-template')
       .use(BottomTemplatePlugin, [HtmlWebpackPlugin]);
+
+    if (isUseSSRBundle(this.options)) {
+      this.chain
+        .plugin('loadable')
+        .use(LoadableWebpackPlugin, [{ filename: LOADABLE_STATS_FILE }]);
+    }
 
     // add app icon
     const appIcon = findExists(

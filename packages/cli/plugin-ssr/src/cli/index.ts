@@ -2,13 +2,11 @@ import path from 'path';
 import {
   getEntryOptions,
   SERVER_RENDER_FUNCTION_NAME,
-  LOADABLE_STATS_FILE,
   isUseSSRBundle,
   createRuntimeExportsUtils,
   PLUGIN_SCHEMAS,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
-import LoadableWebpackPlugin from '@loadable/webpack-plugin';
 
 const PLUGIN_IDENTIFIER = 'ssr';
 
@@ -36,16 +34,6 @@ export default (): CliPlugin => ({
             },
           },
           tools: {
-            webpack: (config, { chain }) => {
-              const userConfig = api.useResolvedConfigContext();
-              if (isUseSSRBundle(userConfig) && config.name !== 'server') {
-                chain
-                  .plugin('loadable')
-                  .use(LoadableWebpackPlugin, [
-                    { filename: LOADABLE_STATS_FILE },
-                  ]);
-              }
-            },
             babel: (config: any) => {
               const userConfig = api.useResolvedConfigContext();
               if (isUseSSRBundle(userConfig)) {

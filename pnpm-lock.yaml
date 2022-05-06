@@ -1338,7 +1338,6 @@ importers:
       '@loadable/babel-plugin': ^5.13.2
       '@loadable/component': ^5.15.0
       '@loadable/server': ^5.15.1
-      '@loadable/webpack-plugin': ^5.15.1
       '@modern-js/babel-chain': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/runtime-core': workspace:*
@@ -1348,7 +1347,6 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
       '@types/loadable__component': ^5.13.4
-      '@types/loadable__webpack-plugin': ^5.7.3
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -1367,7 +1365,6 @@ importers:
       '@babel/runtime': 7.16.7
       '@loadable/babel-plugin': 5.13.2_@babel+core@7.16.7
       '@loadable/server': 5.15.2_c6e2d081aed1691d2f3d66152539fe63
-      '@loadable/webpack-plugin': 5.15.2
       '@modern-js/utils': link:../../toolkit/utils
       react-dom: 17.0.2_react@17.0.2
       serialize-javascript: 6.0.0
@@ -1381,7 +1378,6 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
       '@types/loadable__component': 5.13.4
-      '@types/loadable__webpack-plugin': 5.7.3
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -1792,6 +1788,7 @@ importers:
     specifiers:
       '@babel/core': 7.16.7
       '@babel/runtime': ^7
+      '@loadable/webpack-plugin': ^5.15.1
       '@modern-js/babel-chain': workspace:^1.2.2
       '@modern-js/babel-preset-app': workspace:^1.3.0
       '@modern-js/core': workspace:*
@@ -1803,6 +1800,7 @@ importers:
       '@svgr/webpack': ^5.5.0
       '@types/css-minimizer-webpack-plugin': ^3.0.2
       '@types/jest': ^26
+      '@types/loadable__webpack-plugin': ^5.7.3
       '@types/mini-css-extract-plugin': ~2.2.0
       '@types/node': ^14
       '@types/react': ^17
@@ -1831,6 +1829,7 @@ importers:
     dependencies:
       '@babel/core': 7.16.7
       '@babel/runtime': 7.16.7
+      '@loadable/webpack-plugin': 5.15.2_webpack@5.71.0
       '@modern-js/babel-chain': link:../../toolkit/babel-chain
       '@modern-js/babel-preset-app': link:../babel-preset-app
       '@modern-js/css-config': link:../css-config
@@ -1861,6 +1860,7 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/css-minimizer-webpack-plugin': 3.2.1_esbuild@0.13.15+webpack@5.71.0
       '@types/jest': 26.0.24
+      '@types/loadable__webpack-plugin': 5.7.3
       '@types/mini-css-extract-plugin': 2.2.0
       '@types/node': 14.18.4
       '@types/react': 17.0.38
@@ -11284,13 +11284,14 @@ packages:
       react: 17.0.2
     dev: false
 
-  /@loadable/webpack-plugin/5.15.2:
+  /@loadable/webpack-plugin/5.15.2_webpack@5.71.0:
     resolution: {integrity: sha512-+o87jPHn3E8sqW0aBA+qwKuG8JyIfMGdz3zECv0t/JF0KHhxXtzIlTiqzlIYc5ZpFs/vKSQfjzGIR5tPJjoXDw==}
     engines: {node: '>=8'}
     peerDependencies:
       webpack: '>=4.6.0'
     dependencies:
       make-dir: 3.1.0
+      webpack: 5.71.0_esbuild@0.13.15
     dev: false
 
   /@manypkg/find-root/1.1.0:
@@ -12507,7 +12508,6 @@ packages:
       acorn-walk: 7.2.0
       core-js: 3.21.1
       doctrine: 3.0.0
-      esbuild: 0.13.15
       escodegen: 2.0.0
       fast-deep-equal: 3.1.3
       global: 4.4.0
@@ -13904,7 +13904,6 @@ packages:
     dependencies:
       debug: 4.3.3
       endent: 2.1.0
-      esbuild: 0.13.15
       find-cache-dir: 3.3.2
       flat-cache: 3.0.4
       micromatch: 4.0.4
@@ -14133,7 +14132,6 @@ packages:
       core-js-pure: 3.20.2
       downshift: 6.1.7_react@17.0.2
       emotion-theming: 10.3.0_316248eb6686a2fd4fbadcfd00de37f3
-      esbuild: 0.13.15
       fuse.js: 3.6.1
       global: 4.4.0
       lodash: 4.17.21
@@ -22240,7 +22238,6 @@ packages:
       array-find: 1.0.0
       debug: 3.2.7
       enhanced-resolve: 0.9.1
-      esbuild: 0.13.15
       eslint-plugin-import: 2.25.4_eslint@7.32.0
       find-root: 1.1.0
       has: 1.0.3
@@ -23619,7 +23616,6 @@ packages:
       chokidar: 3.5.3
       cosmiconfig: 6.0.0
       deepmerge: 4.2.2
-      esbuild: 0.13.15
       fs-extra: 9.1.0
       glob: 7.2.0
       memfs: 3.4.1
@@ -23651,7 +23647,6 @@ packages:
       chokidar: 3.5.3
       cosmiconfig: 6.0.0
       deepmerge: 4.2.2
-      esbuild: 0.13.15
       fs-extra: 9.1.0
       glob: 7.2.0
       memfs: 3.4.1
@@ -30779,7 +30774,6 @@ packages:
       webpack: ^4.0.0 || ^5.0.0
     dependencies:
       cosmiconfig: 7.0.1
-      esbuild: 0.13.15
       klona: 2.0.5
       loader-utils: 2.0.2
       postcss: 7.0.39
@@ -30809,7 +30803,6 @@ packages:
       webpack: ^5.0.0
     dependencies:
       cosmiconfig: 7.0.1
-      esbuild: 0.13.15
       klona: 2.0.5
       postcss: 8.4.6
       semver: 7.3.7
@@ -33106,7 +33099,6 @@ packages:
       react: ^17.0.0 || ^16.3.0 || ^15.5.4
       react-dom: ^17.0.0 || ^16.3.0 || ^15.5.4
     dependencies:
-      esbuild: 0.13.15
       flux: 4.0.3_react@17.0.2
       react: 17.0.2
       react-base16-styling: 0.6.0
@@ -37491,7 +37483,6 @@ packages:
       file-loader:
         optional: true
     dependencies:
-      esbuild: 0.13.15
       file-loader: 6.2.0_webpack@4.46.0
       loader-utils: 2.0.2
       mime-types: 2.1.35
@@ -37509,7 +37500,6 @@ packages:
       file-loader:
         optional: true
     dependencies:
-      esbuild: 0.13.15
       file-loader: 6.2.0_webpack@5.71.0
       loader-utils: 2.0.2
       mime-types: 2.1.35
