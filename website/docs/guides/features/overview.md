@@ -8,7 +8,7 @@ import OverviewNav from '@site/src/components/OverviewNav';
 import sidebarData from '@site/plugins/overview-loader!@site/plugins/overview-data.json'
 import Link from '@docusaurus/Link';
 
-<OverviewNav cards={sidebarData.docsSidebars.guidesSidebar[3].items}
+<OverviewNav cards={sidebarData.docsSidebars.guidesSidebar[2].items}
   ret={()=>
     <Link to='/docs/guides/overview'>« 使用指南</Link>
   }

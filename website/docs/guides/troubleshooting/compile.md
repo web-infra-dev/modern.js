@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ### 如何配置 Webpack/Babel 等工具？
 
-请参考 [配置底层工具](/docs/guides/usages/advanced-configuration/low-level)。
+请参考 [配置底层工具](/docs/guides/usages/low-level)。
 
 ### 打包时出现 JavaScript heap out of memory?
 

@@ -24,7 +24,7 @@ sidebar_label: mediaPath
 在 `modern.config.js` 设置 `output.mediaPath` 之后：
 
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({

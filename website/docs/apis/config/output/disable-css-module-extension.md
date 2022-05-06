@@ -15,7 +15,7 @@ sidebar_label: disableCssModuleExtension
 
 开启该功能之后，会将 `*.(css|scss|sass|less)` 样式文件也当做 CSS Modules 模块，具体配置如下:
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
