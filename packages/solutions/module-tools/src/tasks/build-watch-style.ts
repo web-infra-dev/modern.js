@@ -1,4 +1,3 @@
-/* eslint-disable max-statements */
 import * as path from 'path';
 import type {
   NormalizedConfig,
@@ -6,7 +5,7 @@ import type {
   CoreOptions,
 } from '@modern-js/core';
 import type { ICompilerResult, PostcssOption } from '@modern-js/style-compiler';
-import { fs, watch, WatchChangeType, Import } from '@modern-js/utils';
+import { fs, glob, watch, WatchChangeType, Import } from '@modern-js/utils';
 import type { ModuleToolsOutput } from '../types';
 
 const logger: typeof import('../features/build/logger') = Import.lazy(
@@ -17,10 +16,7 @@ const cssConfig: typeof import('@modern-js/css-config') = Import.lazy(
   '@modern-js/css-config',
   require,
 );
-const hooks: typeof import('@modern-js/module-tools-hooks') = Import.lazy(
-  '@modern-js/module-tools-hooks',
-  require,
-);
+const hooks: typeof import('../hooks') = Import.lazy('../hooks', require);
 const core: typeof import('@modern-js/core') = Import.lazy(
   '@modern-js/core',
   require,
@@ -29,7 +25,6 @@ const compiler: typeof import('@modern-js/style-compiler') = Import.lazy(
   '@modern-js/style-compiler',
   require,
 );
-const glob: typeof import('glob') = Import.lazy('glob', require);
 
 const STYLE_DIRS = 'styles';
 const SRC_STYLE_DIRS = 'src';
@@ -268,4 +263,3 @@ const taskMain = async ({
     }
   });
 })();
-/* eslint-enable max-statements */

@@ -1,5 +1,99 @@
 # @modern-js/generator-common
 
+## 1.4.9
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/plugin-i18n@1.2.4
+
+## 1.4.8
+
+### Patch Changes
+
+- 132f7b53: feat: move config declarations to @modern-js/core
+- 8491b6dd: fix: optimise "types" exports from plugin
+
+## 1.4.7
+
+### Patch Changes
+
+- c2046f37: fix(plugin-unbundle): fix unbundle types
+
+## 1.4.6
+
+### Patch Changes
+
+- 0c556e59: fix: tools.less type
+- 9b2640fe: fix: dev.proxy type not work
+
+## 1.4.5
+
+### Patch Changes
+
+- 3eee457b: fix: move some peerDependencies to dependecies
+- aed9912e: fix: output.ssg type error
+
+## 1.4.4
+
+### Patch Changes
+
+- c29451a5: fix package manager schema
+- 83059b93: fix tailwindcss type reference
+- 83059b93: fix module solution tailwindcss version when new tainwindcss function
+- 83059b93: fix tailwindcss generator
+
+## 1.4.3
+
+### Patch Changes
+
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+- 6668a1bf: feat: package manager options support npm
+
+## 1.4.2
+
+### Patch Changes
+
+- 1fad4bb7: feat: support enable proxy in mwa project
+
+## 1.4.1
+
+### Patch Changes
+
+- 9a505589: fix: generator scenes order
+
+## 1.4.0
+
+### Minor Changes
+
+- bada2879: refactor plugin-garfish:
+  - change @modern-js/plugin-micro-frontend => @modern-js/plugin-garfish
+  - remove disableCustomerRouter logic
+  - adding unit test
+  - fix plugin-garfish type error
+
+### Patch Changes
+
+- 5a7901d7: fix ssg url
+
+## 1.3.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/plugin-i18n@1.2.1
+
 ## 1.3.0
 
 ### Minor Changes

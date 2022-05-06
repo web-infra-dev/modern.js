@@ -1,11 +1,7 @@
-import { Import, chalk } from '@modern-js/utils';
+import { execa, Import, chalk } from '@modern-js/utils';
+import type { PluginAPI } from '@modern-js/core';
 import type { LoggerText } from './logger';
 
-const core: typeof import('@modern-js/core') = Import.lazy(
-  '@modern-js/core',
-  require,
-);
-const execa: typeof import('execa') = Import.lazy('execa', require);
 const lg: typeof import('./logger') = Import.lazy('./logger', require);
 const pMap: typeof import('p-map') = Import.lazy('p-map', require);
 
@@ -16,11 +12,15 @@ export interface IBuildPlatformOption {
   isTsProject?: boolean;
 }
 
-export const buildPlatform = async (option: IBuildPlatformOption) => {
+export const buildPlatform = async (
+  api: PluginAPI,
+  option: IBuildPlatformOption,
+) => {
   const { isTsProject = false, platform } = option;
   const lm = new lg.LoggerManager();
   // 获取platforms的参数
-  const buildTasks = await (core.mountHook() as any).platformBuild({
+  const runners = api.useHookRunners();
+  const buildTasks = await runners.platformBuild({
     isTsProject,
   });
 

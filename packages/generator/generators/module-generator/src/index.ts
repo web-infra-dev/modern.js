@@ -12,7 +12,6 @@ import {
   DependenceGenerator,
   ModuleActionFunctionsDependencies,
   ActionFunction,
-  PackageManager,
   BooleanConfig,
 } from '@modern-js/generator-common';
 import {
@@ -35,8 +34,7 @@ const getGeneratorPath = (generator: string, distTag: string) => {
   return generator;
 };
 
-// eslint-disable-next-line max-statements
-const handleTemplateFile = async (
+export const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
   appApi: AppAPI,
@@ -73,7 +71,6 @@ const handleTemplateFile = async (
     await generatorPlugin.installPlugins(Solution.Module, extra);
     schema = generatorPlugin.getInputSchema(Solution.Module);
     inputValue = generatorPlugin.getInputValue();
-    // eslint-disable-next-line require-atomic-updates
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
   }
@@ -144,7 +141,6 @@ const handleTemplateFile = async (
       'devDependencies.@types/jest': '^26.0.9',
       'devDependencies.@types/node': '^14',
       'devDependencies.@types/react': '^17',
-      'devDependencies.@types/react-dom': '^17',
     };
 
     await jsonAPI.update(
@@ -174,17 +170,6 @@ const handleTemplateFile = async (
     );
   }
 
-  if (!isMonorepoSubProject && packageManager === PackageManager.Pnpm) {
-    await appApi.forgeTemplate(
-      'templates/pnpm-template/**/*',
-      undefined,
-      resourceKey =>
-        resourceKey
-          .replace('templates/pnpm-template/', projectPath)
-          .replace('.handlebars', ''),
-    );
-  }
-
   if (enableLess === BooleanConfig.YES) {
     const lessDependence =
       ModuleActionFunctionsDependencies[ActionFunction.Less]!;
@@ -195,6 +180,7 @@ const handleTemplateFile = async (
         dependencies: {
           [lessDependence]: `^${await getPackageVersion(lessDependence)}`,
         },
+        projectPath,
         isSubGenerator: true,
       },
     );
@@ -210,6 +196,7 @@ const handleTemplateFile = async (
         dependencies: {
           [sassDependence]: `^${await getPackageVersion(sassDependence)}`,
         },
+        projectPath,
         isSubGenerator: true,
       },
     );
@@ -231,7 +218,6 @@ const handleTemplateFile = async (
   return { projectPath };
 };
 
-// eslint-disable-next-line max-statements
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const appApi = new AppAPI(context, generator);
 

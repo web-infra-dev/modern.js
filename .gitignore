@@ -24,10 +24,9 @@ node_modules/
 .sonarlint
 
 dist/
+!**/compiled/**/dist
 coverage/
 release/
-output/
-output_resource/
 examples/
 
 # git ignore for local test projects
@@ -50,3 +49,8 @@ local-test-project/*
 **/*/tsconfig.temp.json
 
 .changeset/pre.json
+# Dynamically generated
+.runtime-exports/
+
+# website
+website/.docusaurus

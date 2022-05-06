@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.3.0",
+  "version": "1.5.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -34,24 +34,29 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7.15.3",
-    "@modern-js/adapter-helpers": "workspace:^1.2.0",
-    "@modern-js/utils": "workspace:^1.2.0",
+    "@modern-js/adapter-helpers": "workspace:^1.2.3",
+    "@modern-js/bff-runtime": "workspace:^1.2.2",
+    "@modern-js/bff-utils": "workspace:^1.2.4",
+    "@modern-js/types": "workspace:^1.5.1",
+    "@modern-js/utils": "workspace:^1.6.0",
     "cookie-parser": "^1.4.5",
     "finalhandler": "^1.1.2",
     "formidable": "^1.2.2",
     "type-is": "^1.6.18"
   },
   "devDependencies": {
-    "express": "^4.17.1",
-    "@modern-js/server-utils": "workspace:^1.2.0",
-    "@modern-js/bff-runtime": "workspace:^1.2.0",
+    "@modern-js/core": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
+    "@modern-js/server-utils": "workspace:*",
+    "@scripts/build": "workspace:*",
+    "@scripts/jest-config": "workspace:*",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.13",
     "@types/finalhandler": "^1.1.1",
@@ -60,14 +65,10 @@
     "@types/node": "^14",
     "@types/supertest": "^2.0.11",
     "@types/type-is": "^1.6.3",
-    "supertest": "^6.1.6",
-    "typescript": "^4",
-    "@modern-js/bff-utils": "workspace:^1.2.0",
-    "@modern-js/core": "workspace:^1.3.0",
-    "@modern-js/server-plugin": "workspace:^1.2.0",
-    "@scripts/build": "workspace:*",
+    "express": "^4.17.1",
     "jest": "^27",
-    "@scripts/jest-config": "workspace:*"
+    "supertest": "^6.1.6",
+    "typescript": "^4"
   },
   "modernConfig": {
     "output": {
@@ -75,10 +76,6 @@
     }
   },
   "peerDependencies": {
-    "@modern-js/bff-utils": "workspace:^1.2.0",
-    "@modern-js/core": "workspace:^1.3.0",
-    "@modern-js/server-plugin": "workspace:^1.2.0",
-    "@modern-js/bff-runtime": "workspace:^1.2.0",
     "express": "^4.17.1"
   },
   "publishConfig": {

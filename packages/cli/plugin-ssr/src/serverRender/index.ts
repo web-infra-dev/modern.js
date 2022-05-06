@@ -1,7 +1,8 @@
 import { RuntimeContext } from '@modern-js/runtime-core';
+import { run } from '@modern-js/utils/ssr';
 import { PreRender } from '../react/prerender';
-import { run } from '../hook';
 import SSREntry from './entry';
+import { time } from './measure';
 import { ModernSSRReactComponent } from './type';
 
 declare module '@modern-js/runtime' {
@@ -15,20 +16,23 @@ export const render = async (
   _: string = process.cwd(),
   App: ModernSSRReactComponent,
 ): Promise<string> => {
-  const { entryName, template: templateHTML } = ctx.ssrContext;
-  // const templateHTML = path.join(pwd, entryPath);
+  const { ssrContext } = ctx;
 
-  return run(ctx.ssrContext.request.headers, async () => {
+  return run(ssrContext.request.headers, async () => {
     const entry = new SSREntry({
-      name: entryName,
+      ctx: ssrContext,
       App,
-      template: templateHTML,
     });
 
+    const end = time();
     const html = await entry.renderToHtml(ctx);
+    const cost = end();
+
+    entry.logger.info('App Render Total cost = %d ms', cost);
+    entry.metrics.emitTimer('app.render.cost', cost);
+
     const cacheConfig = PreRender.config();
     if (cacheConfig) {
-      // eslint-disable-next-line require-atomic-updates
       ctx.ssrContext.cacheConfig = cacheConfig;
     }
 

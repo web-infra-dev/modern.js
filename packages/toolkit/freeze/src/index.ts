@@ -4,7 +4,6 @@ export const createBistate = <State extends Record<string, any>>(
 ): State => {
   if (!isArray(initialState) && !isObject(initialState)) {
     throw new Error(
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       `Expected initialState to be array or object, but got ${initialState}`,
     );
   }
@@ -28,7 +27,6 @@ export const createBistate = <State extends Record<string, any>>(
   };
 
   const handlers: ProxyHandler<State> = {
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     get: (target, key) => {
       if (key === BISTATE) {
         return internal;
@@ -55,7 +53,6 @@ export const createBistate = <State extends Record<string, any>>(
     deleteProperty: (current, key) => {
       throw new Error(`It's not allowed to delete property: ${key.toString()}`);
     },
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     has: (target, key) => {
       if (scapegoat) {
         return Reflect.has(scapegoat, key);
@@ -63,7 +60,6 @@ export const createBistate = <State extends Record<string, any>>(
         return Reflect.has(target, key);
       }
     },
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     ownKeys: target => {
       if (scapegoat) {
         return Reflect.ownKeys(scapegoat);
@@ -71,7 +67,6 @@ export const createBistate = <State extends Record<string, any>>(
         return Reflect.ownKeys(target);
       }
     },
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     getPrototypeOf: target => {
       if (scapegoat) {
         return Reflect.getPrototypeOf(scapegoat);
@@ -84,7 +79,6 @@ export const createBistate = <State extends Record<string, any>>(
         `bistate only supports plain object or array, it's not allowed to setPrototypeOf`,
       );
     },
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     getOwnPropertyDescriptor: (target, prop) => {
       if (scapegoat) {
         return Reflect.getOwnPropertyDescriptor(scapegoat, prop);
@@ -155,7 +149,6 @@ export const isObject = (input: any): input is Record<string, any> => {
 };
 
 export const isThenable = (input: any): input is PromiseLike<any> =>
-  // eslint-disable-next-line promise/prefer-await-to-then
   Boolean(input && typeof input.then === 'function');
 
 const getBistateValue = (value: any, currentProxy: any, previousProxy: any) => {
@@ -201,7 +194,6 @@ const fillObjectBistate = (
   target: any,
   scapegoat: any,
   previousProxy: any,
-  // eslint-disable-next-line max-params
 ) => {
   for (const key in initialObject) {
     const value = getBistateValue(
@@ -220,7 +212,6 @@ const fillArrayBistate = (
   target: any,
   scapegoat: any,
   previousProxy: any,
-  // eslint-disable-next-line max-params
 ) => {
   for (let i = 0; i < initialArray.length; i++) {
     const item = getBistateValue(initialArray[i], currentProxy, previousProxy);
@@ -289,7 +280,6 @@ export const freeze = <I>(input: I, key: keyof I) => {
   if (top) {
     store.freeze(top, path);
   } else {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     throw new Error(`input: ${input} is not bistate`);
   }
 };
@@ -299,7 +289,6 @@ export const hasFreezed = <I>(input: I, key: keyof I) => {
   if (top) {
     return store.hasFreezed(top, path);
   } else {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     throw new Error(`input: ${input} is not bistate`);
   }
 };
@@ -311,7 +300,6 @@ const getPathAndTop = <I>(
   const path: (string | symbol)[] = [key as any];
   let top: null | symbol = null;
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const getParantpath = (current: any, parent: any) => {
     if (!parent) {
       return;
@@ -321,7 +309,6 @@ const getPathAndTop = <I>(
       return;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     for (const key in parent) {
       if (parent[key] === current) {
         path.push(key);

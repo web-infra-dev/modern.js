@@ -2,8 +2,6 @@ import { AsyncWaterfall, AsyncWorkflow } from '@modern-js/plugin';
 import { Compiler, MultiCompiler, Configuration } from 'webpack';
 import { ServerRoute } from '../server';
 
-export type { Compiler, MultiCompiler, Configuration };
-
 /**
  * Bundle entrypoint
  */
@@ -44,8 +42,10 @@ export interface HtmlTemplates {
 }
 
 export interface IAppContext {
+  metaName: string; // name for generating conventional constants, such as .modern-js
   appDirectory: string;
   configFile: string | false;
+  serverConfigFile: string;
   ip?: string;
   port?: number;
   distDirectory: string;
@@ -56,13 +56,16 @@ export interface IAppContext {
   internalDirectory: string;
   plugins: {
     cli?: any;
-    cliPath?: any;
     server?: any;
-    serverPath?: any;
+    serverPkg?: any;
   }[];
   entrypoints: Entrypoint[];
+  checkedEntries: string[];
   serverRoutes: ServerRoute[];
   htmlTemplates: HtmlTemplates;
+  apiOnly: boolean;
+  internalDirAlias: string;
+  internalSrcAlias: string;
 }
 
 export interface Hooks {
@@ -74,7 +77,6 @@ export interface Hooks {
     },
     unknown
   >;
-
   afterCreateCompiler: AsyncWorkflow<
     {
       compiler: Compiler | MultiCompiler | undefined;
@@ -91,6 +93,10 @@ export interface Hooks {
     unknown
   >;
   afterBuild: AsyncWorkflow<void, unknown>;
+  afterMonorepoDeploy: AsyncWorkflow<
+    { operator: any; deployProjectNames: string[] },
+    void
+  >;
   beforeDeploy: AsyncWorkflow<Record<string, any>, unknown>;
   afterDeploy: AsyncWorkflow<Record<string, any>, unknown>;
   modifyEntryExport: AsyncWaterfall<{
@@ -121,4 +127,9 @@ export interface Hooks {
     partials: HtmlPartials;
   }>;
   addRuntimeExports: AsyncWaterfall<void>;
+  beforeGenerateRoutes: AsyncWaterfall<{
+    entrypoint: Entrypoint;
+    code: string;
+  }>;
+  addDefineTypes: AsyncWaterfall<void>;
 }

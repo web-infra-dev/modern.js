@@ -1,6 +1,5 @@
 import os from 'os';
-import execa from 'execa';
-import signale from 'signale';
+import { execa, signale } from '@modern-js/utils';
 import type { IProjectNode } from '../../projects/get-projects';
 import type { ICommandConfig } from '../../type';
 import { DagOperator } from '../../dag/operator';
@@ -22,7 +21,7 @@ const createTask = (
     disableContentHash = false,
     enableGitHash = false,
   } = config;
-  // eslint-disable-next-line max-statements
+
   const task = async (project: IProjectNode) => {
     console.info('run ', project.name);
     // const taskTimeLog = timeLog.initTimeLog({ scope: '' });

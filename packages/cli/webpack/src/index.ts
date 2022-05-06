@@ -1,11 +1,18 @@
-import { useAppContext, useResolvedConfigContext } from '@modern-js/core';
+import webpack from 'webpack';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import {
   ClientWebpackConfig,
   ModernWebpackConfig,
   NodeWebpackConfig,
 } from './config';
 
-export type { Configuration } from 'webpack';
+export { webpack };
+export type {
+  Compiler,
+  Configuration,
+  MultiCompiler,
+  StatsCompilation,
+} from 'webpack';
 export { BaseWebpackConfig } from './config/base';
 
 export enum WebpackConfigTarget {
@@ -14,7 +21,11 @@ export enum WebpackConfigTarget {
   MODERN,
 }
 
-export const getWebpackConfig = (target: WebpackConfigTarget) => {
+export const getWebpackConfig = (
+  target: WebpackConfigTarget,
+  appContext: IAppContext,
+  resolvedConfig: NormalizedConfig,
+) => {
   let Config = null;
 
   switch (target) {
@@ -35,12 +46,7 @@ export const getWebpackConfig = (target: WebpackConfigTarget) => {
     return null;
   }
 
-  /* eslint-disable react-hooks/rules-of-hooks */
-  const appContext = useAppContext();
-  const options = useResolvedConfigContext();
-  /* eslint-enable react-hooks/rules-of-hooks */
-
-  const config = new Config(appContext, options);
+  const config = new Config(appContext, resolvedConfig);
 
   return config.config();
 };

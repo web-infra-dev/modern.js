@@ -1,7 +1,6 @@
 import * as path from 'path';
 import { FileSystem, JsonFile } from '@rushstack/node-core-library';
-import { fs } from '@modern-js/utils';
-import yaml from 'js-yaml';
+import { fs, yaml } from '@modern-js/utils';
 import { getWorkspaceFile } from '../parse-config/monorepo';
 import { IPnpmWorkSpace } from '../type';
 import { WORKSPACE_FILE } from '../constants';
@@ -38,12 +37,14 @@ export const getProjectsByWorkspaceFile = async (
     const yamlString = await FileSystem.readFileAsync(
       path.resolve('/', rootPath, workspaceFile),
     ).then(data => data.toString());
-    // eslint-disable-next-line import/no-named-as-default-member
     const pnpmWorkspace = yaml.load(yamlString) as IPnpmWorkSpace;
     packagesConfig = pnpmWorkspace.packages || [];
   } else if (workspaceFile === WORKSPACE_FILE.YARN) {
     const pkgJson = JsonFile.load(path.resolve(rootPath, workspaceFile));
     packagesConfig = pkgJson?.workspaces?.packages || [];
+  } else if (workspaceFile === WORKSPACE_FILE.LERNA) {
+    const lernaJson = JsonFile.load(path.resolve(rootPath, workspaceFile));
+    packagesConfig = lernaJson.packages ?? [];
   }
 
   const projects = await getProjetsByPackageConfig(
@@ -84,12 +85,14 @@ export const syncGetProjectsByWorkspaceFile = (
       path.resolve('/', rootPath, workspaceFile),
       'utf-8',
     );
-    // eslint-disable-next-line import/no-named-as-default-member
     const pnpmWorkspace = yaml.load(yamlString) as IPnpmWorkSpace;
     packagesConfig = pnpmWorkspace.packages || [];
   } else if (workspaceFile === WORKSPACE_FILE.YARN) {
     const pkgJson = JsonFile.load(path.resolve(rootPath, workspaceFile));
     packagesConfig = pkgJson?.workspaces?.packages || [];
+  } else if (workspaceFile === WORKSPACE_FILE.LERNA) {
+    const lernaJson = JsonFile.load(path.resolve(rootPath, workspaceFile));
+    packagesConfig = lernaJson.packages ?? [];
   }
 
   const projects = syncGetProjetsByPackageConfig(

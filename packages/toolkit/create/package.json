@@ -11,10 +11,10 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.3.0",
+  "version": "1.4.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/main.js",
+  "main": "./dist/js/node/node.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "bin": {
@@ -36,6 +36,7 @@
   },
   "scripts": {
     "prepare": "pnpm build && pnpm build:csmith",
+    "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
     "build": "modern build",
     "build:csmith": "csmith-tools build",
@@ -44,18 +45,17 @@
   "devDependencies": {
     "@babel/runtime": "^7",
     "@modern-js/codesmith": "^1.0.8",
-    "@modern-js/codesmith-tools": "^1.0.8",
+    "@modern-js/codesmith-tools": "^1.1.0",
     "@scripts/build": "workspace:*",
-    "@modern-js/i18n-cli-language-detector": "workspace:^1.2.0",
-    "@modern-js/generator-plugin-plugin": "workspace:^1.1.0",
-    "@modern-js/plugin-i18n": "workspace:^1.2.0",
-    "@modern-js/repo-generator": "workspace:^1.3.0",
-    "@modern-js/utils": "workspace:^1.2.0",
+    "@modern-js/i18n-cli-language-detector": "workspace:*",
+    "@modern-js/generator-plugin-plugin": "workspace:*",
+    "@modern-js/plugin-i18n": "workspace:*",
+    "@modern-js/repo-generator": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "@types/jest": "^26",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
-    "commander": "^8.0.0",
     "ts-node": "^10.1.0",
     "typescript": "^4",
     "jest": "^27",
@@ -69,6 +69,7 @@
   },
   "sideEffects": false,
   "publishConfig": {
+    "main": "./dist/js/node/main.js",
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/types/index.d.ts"

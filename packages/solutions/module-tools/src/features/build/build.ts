@@ -1,29 +1,24 @@
-/* eslint-disable max-statements */
 import * as path from 'path';
 import * as os from 'os';
-import { Import } from '@modern-js/utils';
-import type { NormalizedConfig } from '@modern-js/core';
+import { execa, Import } from '@modern-js/utils';
+import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
 import type { IBuildConfig, ITaskMapper } from '../../types';
 
 const pMap: typeof import('p-map') = Import.lazy('p-map', require);
 const utils: typeof import('./utils') = Import.lazy('./utils', require);
-const execa: typeof import('execa') = Import.lazy('execa', require);
 const lg: typeof import('./logger') = Import.lazy('./logger', require);
 const constants: typeof import('./constants') = Import.lazy(
   './constants',
   require,
 );
-const core: typeof import('@modern-js/core') = Import.lazy(
-  '@modern-js/core',
-  require,
-);
 
 export const buildSourceCode = async (
+  api: PluginAPI,
   config: IBuildConfig,
   _: NormalizedConfig,
 ) => {
   const { sourceDir, enableTscCompiler } = config;
-  const { appDirectory } = core.useAppContext();
+  const { appDirectory } = api.useAppContext();
   const concurrency = os.cpus().length;
   const srcRootDir = path.join(appDirectory, sourceDir);
   const lm = new lg.LoggerManager();
@@ -35,9 +30,9 @@ export const buildSourceCode = async (
     title: constants.runStyleCompilerTitle,
   });
   const copyLog = lm.createLoggerText({ title: 'Copy Log:' });
-  const initCodeMapper = utils.getCodeInitMapper(config);
+  const initCodeMapper = utils.getCodeInitMapper(api, config);
   const taskMapper: ITaskMapper[] = [
-    ...utils.getCodeMapper({
+    ...utils.getCodeMapper(api, {
       logger: codeLog,
       taskPath: require.resolve('../../tasks/build-source-code'),
       config,
@@ -45,7 +40,7 @@ export const buildSourceCode = async (
       initMapper: initCodeMapper,
       srcRootDir,
     }),
-    ...(enableTscCompiler ? utils.getDtsMapper(config, dtsLog) : []),
+    ...(enableTscCompiler ? utils.getDtsMapper(api, config, dtsLog) : []),
     {
       logger: styleLog,
       taskPath: require.resolve('../../tasks/build-style'),
@@ -107,5 +102,3 @@ export const buildSourceCode = async (
     process.exit(1);
   }
 };
-
-/* eslint-enable max-statements */

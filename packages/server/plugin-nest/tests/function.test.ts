@@ -1,6 +1,6 @@
 import * as path from 'path';
 import request from 'supertest';
-import { serverManager } from '@modern-js/server-plugin';
+import { serverManager } from '@modern-js/server-core';
 import plugin from '../src/server';
 import { AppModule } from './fixtures/function/api/_app';
 import { APIPlugin } from './helpers';
@@ -56,6 +56,21 @@ describe('function-mode', () => {
     });
     expect(res.status).toBe(200);
     expect(res.body.id).toBe(777);
+  });
+
+  test('should support upload file', done => {
+    request(apiHandler)
+      .post('/upload')
+      .field('my_field', 'value')
+      .attach('file', __filename)
+      .end(async (err, res) => {
+        if (err) {
+          throw err;
+        }
+        expect(res.statusCode).toBe(200);
+        expect(res.body.message).toBe('success');
+        done();
+      });
   });
 
   // TODO: 后续修复（目前在 btsm + esbuild 的时候无法正常运行，缺少 ReflectMeta 的支持）

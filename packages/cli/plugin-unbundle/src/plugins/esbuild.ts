@@ -2,13 +2,13 @@ import { createDebugger } from '@modern-js/utils';
 import { Plugin as RollupPlugin } from 'rollup';
 import { codeFrameColumns } from '@babel/code-frame';
 import { transform } from 'esbuild';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { isJsRequest, getEsbuildLoader } from '../utils';
 import { DEV_CLIENT_PATH, GLOBAL_CACHE_DIR_NAME } from '../constants';
 
 const debug = createDebugger('esm:esbuild');
 
-export const shouldProcess = (file: string): boolean => {
+export const shouldProcess = (file: string, internalDir: string): boolean => {
   if (file.startsWith(DEV_CLIENT_PATH)) {
     return false;
   }
@@ -18,10 +18,7 @@ export const shouldProcess = (file: string): boolean => {
   }
 
   if (isJsRequest(file)) {
-    if (
-      /node_modules(?!\/.modern-js\/)/.test(file) ||
-      file.includes(GLOBAL_CACHE_DIR_NAME)
-    ) {
+    if (file.startsWith(internalDir) || file.includes(GLOBAL_CACHE_DIR_NAME)) {
       return false;
     }
     return true;
@@ -30,20 +27,32 @@ export const shouldProcess = (file: string): boolean => {
   return false;
 };
 
-export const esbuldPlugin = (
+export const esbuildPlugin = (
   _config: NormalizedConfig,
   _appContext: IAppContext,
 ): RollupPlugin => {
+  // no need to import if React is already imported
+  const alreadyInjectedReact = RegExp(
+    [
+      // match: import React from 'react'
+      /import\s+React(,\s*{[^'"]*})?\s*from\s+['"]react['"]/,
+      // match: import * from 'react'
+      /import\s*\*\s*as\s+React\s+from\s*['"]react['"]/,
+      // React is already defined, avoid conflict: var React =
+      /(const|var|let)\s+React\s*=/,
+    ]
+      .map(exp => exp.source)
+      .join('|'),
+  );
   // auto inject `import react from 'react';`
   const shouldAutoInjectReact = (code: string) =>
-    !/import\s+React(,\s*{[^'"]*})?\s*from\s+['"]react['"]|import\s+\*\s+as\s+React\s+from\s+['"]react['"]/.test(
-      code,
-    );
+    !alreadyInjectedReact.test(code);
 
   return {
     name: 'esm-esbuild',
     async transform(code: string, importer: string) {
-      if (shouldProcess(importer)) {
+      const { internalDirectory } = _appContext;
+      if (shouldProcess(importer, internalDirectory)) {
         try {
           const result = await transform(code, {
             loader: getEsbuildLoader(importer),

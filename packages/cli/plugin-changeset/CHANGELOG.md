@@ -1,5 +1,64 @@
 # @modern-js/plugin-changeset
 
+## 1.2.5
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- 5dbbeb57: fix: export extended Command type
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/i18n-cli-language-detector@1.2.2
+  - @modern-js/plugin-i18n@1.2.4
+
+## 1.2.4
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- Updated dependencies [132f7b53]
+  - @modern-js/utils@1.3.7
+
+## 1.2.3
+
+### Patch Changes
+
+- 61e3f623: feat: convert to new plugin
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [c2046f37]
+  - @modern-js/utils@1.3.6
+
+## 1.2.2
+
+### Patch Changes
+
+- 6668a1bf: feat: package manager options support npm
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+  - @modern-js/core@1.3.2
+  - @modern-js/i18n-cli-language-detector@1.2.1
+  - @modern-js/plugin-i18n@1.2.1
+  - @modern-js/utils@1.2.2
+
 ## 1.2.0
 
 ### Minor Changes

@@ -1,11 +1,9 @@
-import { createApp, createPlugin, useRuntimeContext } from '../src';
+import { createApp } from '../src';
 import plugin from '../src/cli';
 
 describe('plugin-runtime', () => {
   it('default', () => {
     expect(plugin).toBeDefined();
     expect(createApp).toBeDefined();
-    expect(createPlugin).toBeDefined();
-    expect(useRuntimeContext).toBeDefined();
   });
 });

@@ -1,9 +1,9 @@
 /**
  * refactor from https://github.com/sorrycc/esbuild-webpack-plugin/blob/master/src/index.ts
- * support webpack 5 and esbuild ^0.12.22
+ * support webpack 5 and esbuild >= 0.12.22
  */
-import webpack, { ModuleFilenameHelpers, Compiler, Compilation } from 'webpack';
 import { transform, TransformOptions, TransformResult } from 'esbuild';
+import type { Compiler, Compilation } from 'webpack';
 
 export type ESBuildPluginOptions = Omit<
   TransformOptions,
@@ -53,37 +53,20 @@ export class ESBuildPlugin {
 
   apply(compiler: Compiler): void {
     const { devtool } = compiler.options;
-    const isWebpack5 = webpack.version.startsWith('5');
 
     const plugin = 'ESBuild Plugin';
     compiler.hooks.compilation.tap(plugin, (compilation: Compilation) => {
-      if (isWebpack5) {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        const { Compilation } = compiler.webpack;
+      const { Compilation } = compiler.webpack;
 
-        compilation.hooks.processAssets.tapPromise(
-          {
-            name: plugin,
-            stage: Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_SIZE,
-          },
-          async (assets: any) => {
-            await this.updateAssets(compilation, Object.keys(assets), devtool);
-          },
-        );
-      } else {
-        compilation.hooks.optimizeChunkAssets.tapPromise(
-          plugin,
-          async (chunks: any) => {
-            for (const chunk of chunks) {
-              await this.updateAssets(
-                compilation,
-                Array.from(chunk.files),
-                devtool,
-              );
-            }
-          },
-        );
-      }
+      compilation.hooks.processAssets.tapPromise(
+        {
+          name: plugin,
+          stage: Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_SIZE,
+        },
+        async (assets: any) => {
+          await this.updateAssets(compilation, Object.keys(assets), devtool);
+        },
+      );
     });
   }
 
@@ -92,12 +75,7 @@ export class ESBuildPlugin {
     files: Array<string>,
     devtool: string | boolean | undefined,
   ): Promise<void> {
-    const matchObject = ModuleFilenameHelpers.matchObject.bind(undefined, {});
-
     for (const file of files) {
-      if (!matchObject(file)) {
-        continue;
-      }
       if (!/\.(m?js|css)(\?.*)?$/i.test(file)) {
         continue;
       }

@@ -1,5 +1,146 @@
 # @modern-js/runtime
 
+## 1.2.7
+
+### Patch Changes
+
+- 6c1438d2: fix: missing peer deps warnings
+- 123e432d: uglify ssr bundle for treeshaking
+- Updated dependencies [2d155c4c]
+- Updated dependencies [a0475f1a]
+- Updated dependencies [123e432d]
+- Updated dependencies [6c1438d2]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [0fccff68]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/plugin-ssr@1.2.8
+  - @modern-js/plugin-state@1.2.5
+  - @modern-js/plugin-router@1.2.11
+  - @modern-js/runtime-core@1.4.3
+  - @modern-js/create-request@1.2.5
+
+## 1.2.6
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [e4cec1ce]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/plugin-router@1.2.10
+  - @modern-js/plugin-state@1.2.4
+  - @modern-js/runtime-core@1.4.2
+  - @modern-js/bff-runtime@1.2.2
+  - @modern-js/create-request@1.2.4
+  - @modern-js/plugin-ssr@1.2.7
+
+## 1.2.5
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- ff73a5cc: fix style-component bugs
+- Updated dependencies [bebb39b6]
+- Updated dependencies [132f7b53]
+- Updated dependencies [c4a7e4a3]
+- Updated dependencies [ff73a5cc]
+- Updated dependencies [9d4a005b]
+  - @modern-js/plugin-router@1.2.8
+  - @modern-js/plugin-ssr@1.2.5
+  - @modern-js/plugin-state@1.2.3
+  - @modern-js/utils@1.3.7
+
+## 1.2.4
+
+### Patch Changes
+
+- 94d02b35: feat(plugin-runtime): convert to new plugin
+- 808cec13: fix(plugin-runtime): fix usePlugins error
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [c2046f37]
+- Updated dependencies [a2261fed]
+- Updated dependencies [cee0efcc]
+- Updated dependencies [94d02b35]
+- Updated dependencies [57e8ce98]
+- Updated dependencies [e31ce644]
+- Updated dependencies [681a1ff9]
+- Updated dependencies [e8bbc315]
+  - @modern-js/utils@1.3.6
+  - @modern-js/runtime-core@1.4.0
+  - @modern-js/plugin-router@1.2.6
+  - @modern-js/plugin-state@1.2.2
+  - @modern-js/plugin-ssr@1.2.4
+
+## 1.2.3
+
+### Patch Changes
+
+- 6891e4c2: add theme token some config logic
+- 0cd8b592: fix: runtime head and loadable type not found
+- Updated dependencies [b376c8d6]
+- Updated dependencies [735b2a81]
+- Updated dependencies [e62c4efd]
+- Updated dependencies [5ed05e65]
+- Updated dependencies [735b2a81]
+- Updated dependencies [e2a8233f]
+  - @modern-js/core@1.4.2
+  - @modern-js/plugin-ssr@1.2.2
+  - @modern-js/runtime-core@1.2.3
+
+## 1.2.2
+
+### Patch Changes
+
+- d099e5c5: fix error when modify modern.config.js
+- 24f616ca: feat: support custom meta info
+- Updated dependencies [816fd721]
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [bfbea9a7]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [272cab15]
+  - @modern-js/plugin-ssr@1.2.1
+  - @modern-js/core@1.4.0
+  - @modern-js/plugin-router@1.2.2
+  - @modern-js/runtime-core@1.2.2
+  - @modern-js/utils@1.3.0
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+- Updated dependencies [c74597bd]
+  - @modern-js/core@1.3.2
+  - @modern-js/plugin-router@1.2.1
+  - @modern-js/plugin-state@1.2.1
+  - @modern-js/runtime-core@1.2.1
+  - @modern-js/bff-runtime@1.2.1
+  - @modern-js/create-request@1.2.1
+  - @modern-js/utils@1.2.2
+
 ## 1.2.0
 
 ### Minor Changes

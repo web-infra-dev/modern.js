@@ -1,5 +1,48 @@
 # @modern-js/esmpack
 
+## 1.2.4
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- Updated dependencies [b8599d09]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+
+## 1.2.3
+
+### Patch Changes
+
+- 17d0cc46: feat: prebundle lodash to @modern-js/utils/lodash
+- Updated dependencies [77ff9754]
+- Updated dependencies [d2d1d6b2]
+- Updated dependencies [07a4887e]
+- Updated dependencies [ea2ae711]
+- Updated dependencies [17d0cc46]
+- Updated dependencies [d2d1d6b2]
+  - @modern-js/utils@1.4.0
+
+## 1.2.2
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+- Updated dependencies [4c792f68]
+- Updated dependencies [a7f42f48]
+  - @modern-js/utils@1.3.3
+
+## 1.2.1
+
+### Patch Changes
+
+- deeaa602: support svg/proxy/multi-version in unbundled
+- Updated dependencies [deeaa602]
+  - @modern-js/utils@1.3.2
+
 ## 1.2.0
 
 ### Minor Changes

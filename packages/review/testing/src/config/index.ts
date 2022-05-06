@@ -6,16 +6,17 @@ import { TestConfigOperator } from './testConfigOperator';
  * Parse jest config
  */
 const getJestUtils = (testConfig: TestConfig) => {
-  const testOprator = new TestConfigOperator(testConfig);
+  const testOperator = new TestConfigOperator(testConfig);
 
-  return testOprator;
+  return testOperator;
 };
 
-const patchConfig = async (testOprator: TestConfigOperator) => {
-  testOprator.getFinalConfig();
-  await applyPatches(testOprator);
+const patchConfig = async (testOperator: TestConfigOperator) => {
+  await applyPatches(testOperator);
 
-  return testOprator.jestConfig;
+  return testOperator.jestConfig;
 };
+
+export const DEFAULT_RESOLVER_PATH = require.resolve('./resolver');
 
 export { getJestUtils, patchConfig };

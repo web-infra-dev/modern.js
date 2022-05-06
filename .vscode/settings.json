@@ -19,14 +19,13 @@
   },
   "search.useIgnoreFiles": true,
   "search.exclude": {
-    "**/build": true,
-    "**/output": true,
     "**/dist": true,
     "**/yarn.lock": true,
     "**/package-lock.json": true,
     "**/*.log": true,
     "**/*.pid": true,
     "**/.git": true,
+    "**/compiled": true,
     "**/node_modules": true,
     "**/bower_components": true
   },
@@ -56,23 +55,21 @@
   //
   "cSpell.diagnosticLevel": "Hint",
   "[javascript]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascriptreact]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[vue]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "eslint.alwaysShowStatus": true,
-  // "eslint.nodePath": "./node_modules",
-  // "eslint.packageManager": "yarn",
   "eslint.run": "onType",
   "eslint.options": {
     "rules": {
@@ -116,13 +113,6 @@
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true
   },
-  "prettier.trailingComma": "all",
-  "prettier.printWidth": 80,
-  "prettier.semi": true,
-  "prettier.arrowParens": "avoid",
-  "prettier.bracketSpacing": true,
-  "prettier.jsxBracketSameLine": true,
-  "prettier.singleQuote": true,
   //
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true

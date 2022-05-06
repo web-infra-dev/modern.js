@@ -1,5 +1,67 @@
 # @modern-js/plugin-polyfill
 
+## 1.2.6
+
+### Patch Changes
+
+- 592edabc: feat: prebundle url-join,mime-types,json5,fast-glob,globby,ora,inquirer
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+- Updated dependencies [2d155c4c]
+- Updated dependencies [123e432d]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+
+## 1.2.5
+
+### Patch Changes
+
+- 60f7d8bf: feat: add tests dir to npmignore
+
+## 1.2.4
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+
+## 1.2.3
+
+### Patch Changes
+
+- c7dc7f54: migrate to new plugin style
+- 2008fdbd: convert two packages server part, support server load plugin itself
+
+## 1.2.2
+
+### Patch Changes
+
+- 272cab15: refactor server plugin manager
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [272cab15]
+  - @modern-js/core@1.4.0
+  - @modern-js/server-core@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+  - @modern-js/core@1.3.2
+  - @modern-js/server-plugin@1.2.1
+
 ## 1.2.0
 
 ### Minor Changes

@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { fs, Import } from '@modern-js/utils';
+import { fs, glob, Import } from '@modern-js/utils';
 import type {
   NormalizedConfig,
   IAppContext,
@@ -20,11 +20,7 @@ const compiler: typeof import('@modern-js/style-compiler') = Import.lazy(
   '@modern-js/style-compiler',
   require,
 );
-const glob: typeof import('glob') = Import.lazy('glob', require);
-const hooks: typeof import('@modern-js/module-tools-hooks') = Import.lazy(
-  '@modern-js/module-tools-hooks',
-  require,
-);
+const hooks: typeof import('../hooks') = Import.lazy('../hooks', require);
 
 const STYLE_DIRS = 'styles';
 const SRC_STYLE_DIRS = 'src';

@@ -1,5 +1,99 @@
 # @modern-js/plugin-less
 
+## 1.2.7
+
+### Patch Changes
+
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+- Updated dependencies [2d155c4c]
+- Updated dependencies [123e432d]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/css-config@1.2.4
+
+## 1.2.6
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- e4cec1ce: types: fix config hook type
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/css-config@1.2.4
+
+## 1.2.5
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- 132f7b53: fix: incorrect lessOptions typing
+- 132f7b53: feat: move config declarations to @modern-js/core
+- Updated dependencies [bebb39b6]
+- Updated dependencies [132f7b53]
+  - @modern-js/css-config@1.2.3
+  - @modern-js/utils@1.3.7
+
+## 1.2.4
+
+### Patch Changes
+
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [c2046f37]
+  - @modern-js/utils@1.3.6
+
+## 1.2.3
+
+### Patch Changes
+
+- 0c556e59: fix: tools.less type
+- Updated dependencies [5bf5868d]
+- Updated dependencies [80d3cfb7]
+- Updated dependencies [42c6b136]
+- Updated dependencies [4e7dcbd5]
+- Updated dependencies [9e8bc4ab]
+- Updated dependencies [0c556e59]
+- Updated dependencies [80d8ddfe]
+- Updated dependencies [2008fdbd]
+  - @modern-js/utils@1.3.5
+  - @modern-js/core@1.5.0
+
+## 1.2.2
+
+### Patch Changes
+
+- 8f24a514: fix: UserConfig is missing tools.less type
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+  - @modern-js/core@1.3.2
+  - @modern-js/css-config@1.2.1
+  - @modern-js/utils@1.2.2
+
 ## 1.2.0
 
 ### Minor Changes

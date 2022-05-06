@@ -15,7 +15,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  Modern:
+  lint-linux:
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     strategy:
@@ -25,19 +25,23 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 25
-      - uses: pnpm/action-setup@v2.0.1
+
+      - name: Install Pnpm
+        uses: pnpm/action-setup@v2.2.1
         with:
-          version: latest
+          version: 6
+
       - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: Init
+      - name: Install Dependencies
         run: pnpm install --ignore-scripts
 
       - name: Lint

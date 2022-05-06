@@ -1,7 +1,8 @@
-import { Command } from 'commander';
+import type { Command } from '@modern-js/utils';
+import type { PluginAPI } from '@modern-js/core';
 import { clear, IClearCommandOption } from '../commands';
 
-export const clearCli = (program: Command) => {
+export const clearCli = (program: Command, api: PluginAPI) => {
   program
     .command('clear [projects...]')
     .usage('[options]')
@@ -9,7 +10,7 @@ export const clearCli = (program: Command) => {
     .description('clear project dirs')
     .action(
       async (targetProjectNames: string[], option: IClearCommandOption) => {
-        await clear(targetProjectNames, option);
+        await clear(targetProjectNames, option, api);
       },
     );
 };

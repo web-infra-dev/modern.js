@@ -1,12 +1,11 @@
-// eslint-disable-next-line filenames/match-exported
 import ReactDOM from 'react-dom';
-import { createPlugin } from '@modern-js/runtime-core';
+import type { Plugin } from '@modern-js/runtime-core';
 import { loadableReady } from '@loadable/component';
 import { RenderLevel, SSRServerContext } from './serverRender/type';
 
 declare module '@modern-js/runtime-core' {
   interface RuntimeContext {
-    ssrContext?: any;
+    ssrContext: SSRServerContext;
   }
 
   interface TRuntimeContext {
@@ -30,9 +29,10 @@ const getQuery = () =>
       return res;
     }, {});
 
-const ssr: any = () =>
-  createPlugin(
-    () => ({
+const ssr = (): Plugin => ({
+  name: '@modern-js/plugin-ssr',
+  setup: () => {
+    return {
       client: async ({ App, context, rootElement }) => {
         const renderLevel = window?._SSR_DATA?.renderLevel;
 
@@ -56,24 +56,32 @@ const ssr: any = () =>
           ReactDOM.render(<App context={context} />, rootElement);
         }
       },
-      pickContext: ({ context, pickedContext }, next) =>
-        next({
+      pickContext: ({ context, pickedContext }, next) => {
+        const request: SSRServerContext['request'] | undefined =
+          window?._SSR_DATA?.context?.request;
+        return next({
           context,
           pickedContext: {
             ...pickedContext,
             request: {
               params: {},
+              host: location.host,
               pathname: location.pathname,
               query: getQuery(),
               headers: {},
-              cookie: document.cookie,
-              ...(window?._SSR_DATA?.context?.request || {}),
+              url: location.href,
+              cookieMap: request?.cookieMap || {},
+              cookie: request?.headers.cookie || document.cookie,
+              referer: request?.referer || document.referrer,
+              userAgent: request?.headers['user-agent'] || navigator.userAgent,
+              ...request,
             },
           },
-        }),
-    }),
-    { name: '@modern-js/plugin-ssr' },
-  );
+        });
+      },
+    };
+  },
+});
 
 export default ssr;
 

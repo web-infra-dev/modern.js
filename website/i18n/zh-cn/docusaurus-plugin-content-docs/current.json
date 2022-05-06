@@ -1,0 +1,294 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.guidesSidebar.category.实战教程": {
+    "message": "实战教程",
+    "description": "The label for category 实战教程 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.1: 手动创建 MWA 项目": {
+    "message": "1: 手动创建 MWA 项目",
+    "description": "The label for category 1: 手动创建 MWA 项目 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.2: 自动创建 MWA 项目": {
+    "message": "2: 自动创建 MWA 项目",
+    "description": "The label for category 2: 自动创建 MWA 项目 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.3: 确认编程环境": {
+    "message": "3: 确认编程环境",
+    "description": "The label for category 3: 确认编程环境 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.4: 写 JS 代码": {
+    "message": "4: 写 JS 代码",
+    "description": "The label for category 4: 写 JS 代码 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.5: 使用 UI 组件": {
+    "message": "5: 使用 UI 组件",
+    "description": "The label for category 5: 使用 UI 组件 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.6: 添加 UI 组件": {
+    "message": "6: 添加 UI 组件",
+    "description": "The label for category 6: 添加 UI 组件 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.7: 添加应用入口": {
+    "message": "7: 添加应用入口",
+    "description": "The label for category 7: 添加应用入口 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.8: 添加客户端路由": {
+    "message": "8: 添加客户端路由",
+    "description": "The label for category 8: 添加客户端路由 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.9: 添加 BFF": {
+    "message": "9: 添加 BFF",
+    "description": "The label for category 9: 添加 BFF in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.10: 添加业务模型": {
+    "message": "10: 添加业务模型",
+    "description": "The label for category 10: 添加业务模型 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.11: 添加容器组件": {
+    "message": "11: 添加容器组件",
+    "description": "The label for category 11: 添加容器组件 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.更多用法": {
+    "message": "更多用法",
+    "description": "The label for category 更多用法 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.CSS 开发方案": {
+    "message": "CSS 开发方案",
+    "description": "The label for category CSS 开发方案 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.调试模式": {
+    "message": "调试模式",
+    "description": "The label for category 调试模式 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.常见配置": {
+    "message": "常见配置",
+    "description": "The label for category 常见配置 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.高级配置": {
+    "message": "高级配置",
+    "description": "The label for category 高级配置 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.专题详解": {
+    "message": "专题详解",
+    "description": "The label for category 专题详解 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.Runtime API": {
+    "message": "Runtime API",
+    "description": "The label for category Runtime API in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.Model 状态管理": {
+    "message": "Model 状态管理",
+    "description": "The label for category Model 状态管理 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.服务器端需求": {
+    "message": "服务器端需求",
+    "description": "The label for category 服务器端需求 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.一体化 Web": {
+    "message": "一体化 Web",
+    "description": "The label for category 一体化 Web in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.一体化 BFF": {
+    "message": "一体化 BFF",
+    "description": "The label for category 一体化 BFF in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.微前端": {
+    "message": "微前端",
+    "description": "The label for category 微前端 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.Electron": {
+    "message": "Electron",
+    "description": "The label for category Electron in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.通信": {
+    "message": "通信",
+    "description": "The label for category 通信 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.双向通信": {
+    "message": "双向通信",
+    "description": "The label for category 双向通信 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.窗口管理": {
+    "message": "窗口管理",
+    "description": "The label for category 窗口管理 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.其他": {
+    "message": "其他",
+    "description": "The label for category 其他 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.可复用模块": {
+    "message": "可复用模块",
+    "description": "The label for category 可复用模块 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.Monorepo": {
+    "message": "Monorepo",
+    "description": "The label for category Monorepo in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.定制工程方案": {
+    "message": "定制工程方案",
+    "description": "The label for category 定制工程方案 in sidebar guidesSidebar"
+  },
+  "sidebar.guidesSidebar.category.框架插件": {
+    "message": "框架插件",
+    "description": "The label for category 框架插件 in sidebar guidesSidebar"
+  },
+  "sidebar.apisSidebar.category.命令": {
+    "message": "命令",
+    "description": "The label for category 命令 in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.应用工程方案": {
+    "message": "应用工程方案",
+    "description": "The label for category 应用工程方案 in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.模块工程方案": {
+    "message": "模块工程方案",
+    "description": "The label for category 模块工程方案 in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.Monorepo 工程方案": {
+    "message": "Monorepo 工程方案",
+    "description": "The label for category Monorepo 工程方案 in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.工具": {
+    "message": "工具",
+    "description": "The label for category 工具 in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.文件约定": {
+    "message": "文件约定",
+    "description": "The label for category 文件约定 in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.src/": {
+    "message": "src/",
+    "description": "The label for category src/ in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.api/": {
+    "message": "api/",
+    "description": "The label for category api/ in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.函数写法": {
+    "message": "函数写法",
+    "description": "The label for category 函数写法 in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.框架写法": {
+    "message": "框架写法",
+    "description": "The label for category 框架写法 in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.server/": {
+    "message": "server/",
+    "description": "The label for category server/ in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.electron/": {
+    "message": "electron/",
+    "description": "The label for category electron/ in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.config/": {
+    "message": "config/",
+    "description": "The label for category config/ in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.运行时": {
+    "message": "运行时",
+    "description": "The label for category 运行时 in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.App API": {
+    "message": "App API",
+    "description": "The label for category App API in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.BFF Server API": {
+    "message": "BFF Server API",
+    "description": "The label for category BFF Server API in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.Model API": {
+    "message": "Model API",
+    "description": "The label for category Model API in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.Container API": {
+    "message": "Container API",
+    "description": "The label for category Container API in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.Testing API": {
+    "message": "Testing API",
+    "description": "The label for category Testing API in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.Web Server API": {
+    "message": "Web Server API",
+    "description": "The label for category Web Server API in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.Utility API": {
+    "message": "Utility API",
+    "description": "The label for category Utility API in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.loadable": {
+    "message": "loadable",
+    "description": "The label for category loadable in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.Electron API": {
+    "message": "Electron API",
+    "description": "The label for category Electron API in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.主进程": {
+    "message": "主进程",
+    "description": "The label for category 主进程 in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.渲染进程": {
+    "message": "渲染进程",
+    "description": "The label for category 渲染进程 in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.Webview 进程": {
+    "message": "Webview 进程",
+    "description": "The label for category Webview 进程 in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.测试": {
+    "message": "测试",
+    "description": "The label for category 测试 in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.插件 API": {
+    "message": "插件 API",
+    "description": "The label for category 插件 API in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.bff": {
+    "message": "bff",
+    "description": "The label for category bff in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.配置": {
+    "message": "配置",
+    "description": "The label for category 配置 in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.source (源文件)": {
+    "message": "source (源文件)",
+    "description": "The label for category source (源文件) in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.output (构建产物)": {
+    "message": "output (构建产物)",
+    "description": "The label for category output (构建产物) in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.runtime (运行时)": {
+    "message": "runtime (运行时)",
+    "description": "The label for category runtime (运行时) in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.server (服务器)": {
+    "message": "server (服务器)",
+    "description": "The label for category server (服务器) in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.bff (BFF API)": {
+    "message": "bff (BFF API)",
+    "description": "The label for category bff (BFF API) in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.electron (Electron)": {
+    "message": "electron (Electron)",
+    "description": "The label for category electron (Electron) in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.dev (开发调试)": {
+    "message": "dev (开发调试)",
+    "description": "The label for category dev (开发调试) in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.testing (测试)": {
+    "message": "testing (测试)",
+    "description": "The label for category testing (测试) in sidebar apisSidebar"
+  },
+  "sidebar.apisSidebar.category.tools (底层配置)": {
+    "message": "tools (底层配置)",
+    "description": "The label for category tools (底层配置) in sidebar apisSidebar"
+  }
+}

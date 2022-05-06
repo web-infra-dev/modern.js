@@ -1,5 +1,5 @@
-import { TransformOptions } from '@babel/core';
-import type { IOptions } from 'glob';
+import type { TransformOptions } from '@babel/core';
+import type { GlobOptions } from '@modern-js/utils';
 
 export type BabelOptions = TransformOptions;
 export type Extensions = string[];
@@ -15,7 +15,7 @@ export interface ICompilerOptions {
   extensions?: Extensions | ExtensionsFunc;
   filenames?: string[];
   distFileExtMap?: Record<string, string>;
-  ignore?: IOptions['ignore'];
+  ignore?: GlobOptions['ignore'];
   quiet?: boolean;
   verbose?: boolean;
   clean?: boolean;
@@ -31,7 +31,7 @@ export interface ICompilerOptionsWithDefault {
   extensions: Extensions | ExtensionsFunc;
   filenames: string[];
   distFileExtMap?: Record<string, string>;
-  ignore: IOptions['ignore'];
+  ignore: GlobOptions['ignore'];
   quiet?: boolean;
   verbose?: boolean;
   clean?: boolean;
@@ -40,7 +40,7 @@ export interface ICompilerOptionsWithDefault {
 export interface IFinaleCompilerOptions {
   rootDir: string;
   filenames: string[];
-  ignore?: IOptions['ignore'];
+  ignore?: GlobOptions['ignore'];
   enableVirtualDist?: boolean;
   distDir: string;
   watchDir?: string;

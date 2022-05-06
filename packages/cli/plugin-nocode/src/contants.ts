@@ -1,10 +1,10 @@
-import { HIDE_MODERN_JS_DIR } from '@modern-js/utils';
-
 export const EDITOR_ENTRY = './src/__editor__';
-export const DOT_BLOCK_TOOLS_EDITOR_ENTRY = `${HIDE_MODERN_JS_DIR}/__editor__`;
 export const DEFAULT_ENTRY = './src/index';
 
 export const MODE = {
   MODEL: 'MODEL',
   BLOCK: 'BLOCK',
 };
+
+export const STARRY_BLOCK_RUNTIME = '@modern-js-block/runtime';
+export const STARRY_MODEL_RUNTIME = '@modern-js-model/runtime';

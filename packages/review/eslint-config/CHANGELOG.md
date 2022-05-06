@@ -1,5 +1,52 @@
 # @modern-js/eslint-config
 
+## 1.2.5
+
+### Patch Changes
+
+- a0475f1a: fix: missing @babel/core peer dependencies
+- 3908299a: fix: peer deps warning of eslint plugins
+- Updated dependencies [a0475f1a]
+- Updated dependencies [86c243ca]
+- Updated dependencies [3908299a]
+  - @modern-js/plugin-jarvis@1.2.8
+  - @modern-js-app/eslint-config@1.2.9
+
+## 1.2.4
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- Updated dependencies [6cffe99d]
+  - @modern-js-app/eslint-config@1.2.8
+
+## 1.2.3
+
+### Patch Changes
+
+- 10f47286: fix: typescript eslint rule due to @typescript-eslint/eslint-plugin's breaking change
+- Updated dependencies [10f47286]
+- Updated dependencies [0ef81796]
+  - @modern-js-app/eslint-config@1.2.5
+
+## 1.2.2
+
+### Patch Changes
+
+- 87e68464: refactor: eslint rule configs
+- Updated dependencies [87e68464]
+  - @modern-js-app/eslint-config@1.2.4
+
+## 1.2.1
+
+### Patch Changes
+
+- c35f710a: fix: typescript version warning when running lint
+- Updated dependencies [c35f710a]
+  - @modern-js-app/eslint-config@1.2.2
+
 ## 1.2.0
 
 ### Minor Changes

@@ -1,7 +1,7 @@
-import qs from 'querystring';
 import nodeFetch from 'node-fetch';
 import { compile, pathToRegexp, Key } from 'path-to-regexp';
-import { useHeaders } from '@modern-js/plugin-ssr/node';
+import { useHeaders } from '@modern-js/utils/ssr';
+import qs from 'query-string';
 import { handleRes } from './handleRes';
 import type {
   BFFRequestPayload,
@@ -14,9 +14,7 @@ import type {
 let realRequest: Fetch;
 let realAllowedHeaders: string[] = [];
 const originFetch = (...params: Parameters<typeof nodeFetch>) =>
-  nodeFetch(...params)
-    // eslint-disable-next-line promise/prefer-await-to-then
-    .then(handleRes);
+  nodeFetch(...params).then(handleRes);
 
 export const configure = (options: IOptions<typeof nodeFetch>) => {
   const { request, interceptor, allowedHeaders } = options;
@@ -35,15 +33,13 @@ export const createRequest: RequestCreator = (
   port: number,
   // 后续可能要修改，暂时先保留
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  fetch = nodeFetch as any,
+  fetch = nodeFetch,
 ) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
   const keys: Key[] = [];
   pathToRegexp(path, keys);
 
-  // eslint-disable-next-line max-statements
   const sender: Sender = (...args) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const webRequestHeaders = useHeaders();
 
     const payload: BFFRequestPayload =

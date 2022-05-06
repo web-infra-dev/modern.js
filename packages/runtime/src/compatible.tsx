@@ -29,14 +29,17 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
     const container = createContainer({ App: AppComponentContext.create(App) });
 
     const WrapperComponent: React.ComponentType<any> = props => {
-      const element = React.createElement(App, { ...props }, props.children);
+      const element = React.createElement(
+        App || React.Fragment,
+        { ...props },
+        props.children,
+      );
       const context = useContext(RuntimeReactContext);
 
       return runner.provide(
         { element, props: { ...props }, context },
         {
           container,
-          // eslint-disable-next-line @typescript-eslint/no-shadow
           onLast: ({ element }) => element,
         },
       );
@@ -50,7 +53,6 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
       { App: WrapperComponent },
       {
         container,
-        // eslint-disable-next-line @typescript-eslint/no-shadow
         onLast: ({ App }: any) => {
           const WrapComponent = ({ context, ...props }: any) => {
             let contextValue = context;
@@ -87,12 +89,15 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
 };
 
 interface BootStrap {
-  (App: React.ComponentType, id?: string): void;
-  (App: React.ComponentType, serverContext: Record<string, unknown>): void;
+  (App: React.ComponentType, id?: string): Promise<unknown>;
+  (
+    App: React.ComponentType,
+    serverContext: Record<string, unknown>,
+  ): Promise<unknown>;
 }
 
 export const bootstrap: BootStrap = async (
-  App: React.ComponentType,
+  BootApp: React.ComponentType,
 
   /**
    * When csr, id is root id.
@@ -100,7 +105,14 @@ export const bootstrap: BootStrap = async (
    */
   id: string | any,
 ) => {
-  const runner = runnerMap.get(App)!;
+  let App = BootApp;
+  let runner = runnerMap.get(App);
+
+  // ensure Component used is created by `createApp`
+  if (!runner) {
+    App = createApp({ plugins: [] })(App);
+    runner = runnerMap.get(App)!;
+  }
 
   const context: any = {
     loaderManager: createLoaderManager({}),
@@ -109,7 +121,7 @@ export const bootstrap: BootStrap = async (
   };
 
   const runInit = (_context: RuntimeContext) =>
-    runner.init(
+    runner!.init(
       { context: _context },
       {
         onLast: ({ context: context1 }) => (App as any)?.init?.(context1),
@@ -149,7 +161,6 @@ export const bootstrap: BootStrap = async (
           typeof id !== 'string' ? id : document.getElementById(id || 'root')!,
       },
       {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
         onLast: async ({ App, rootElement }) => {
           ReactDOM.render(React.createElement(App, { context }), rootElement);
         },

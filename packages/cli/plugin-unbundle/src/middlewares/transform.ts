@@ -2,13 +2,11 @@ import path from 'path';
 import { fs, createDebugger } from '@modern-js/utils';
 import { Middleware } from 'koa';
 import calculateEtag from 'etag';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import convertSourceMap from 'convert-source-map';
 import { isCSSRequest, isJsRequest, isAssetRequest, cleanUrl } from '../utils';
 import { PluginContainer } from '../plugins/container';
 import { urlToModules, createAssetModule } from '../AssetModule';
-
-// FIXME: declare module 不生效的问题
-const convertSourceMap = require('convert-source-map');
 
 const debug = createDebugger('esm:transform');
 

@@ -2,51 +2,172 @@
 
 Thanks for that you are interested in contributing to Modern.js.
 
-## Developing
+## Setting Up Your Local Dev Environment
 
-To develop locally:
+### Fork Your Own Repo
+[Fork](https://help.github.com/articles/fork-a-repo/) this repository to your
+own GitHub account and then
+[clone](https://help.github.com/articles/cloning-a-repository/) it to your
+local.
 
-1. [Fork](https://help.github.com/articles/fork-a-repo/) this repository to your
-   own GitHub account and then
-   [clone](https://help.github.com/articles/cloning-a-repository/) it to your
-   local.
-2. Create a new branch:
+### Install pnpm
+
+```zsh
+npm install -g pnpm
+```
+
+### Set up local Modern.js repository
+
+```zsh
+pnpm run install
+```
+
+<details>
+   <summary>
+   what this will achieve
+   </summary>
+
+- install all dependencies
+- create symlinks between necessary packages in the monorepo
+- run `prepare` script, building all packages (this will take some time, but is necessary to ensure all package dependencies are built and available)
+
+A full rebuild of all packages is generally not needed after this. Should a new feature you are developing require an updated version of another package, building those necessary dependencies is usually enough.
+</details>
+
+### Set your email appropriately for git
+
+Make sure you have your email set up in <https://github.com/settings/emails>. This will be required later if you wish to submit a pull request.
+
+check if your git client is already configured:
+
+```zsh
+git config --list | grep email
+```
+
+for global settings:
+
+```zsh
+git config --global user.email "SOME_EMAIL@example.com"
+```
+
+only for this repo:
+
+```zsh
+git config user.email "SOME_EMAIL@example.com"
+```
+
+## Making Changes and Building
+
+Once you have your local dev environment set up with your [Fork](https://help.github.com/articles/fork-a-repo/) we can start developing.
+
+### Checkout A New Branch
+
+It is recomended to develop on a new branch, as it will make things easier later when you submit a pull request:
+
+```zsh
+git checkout -b MY_BRANCH_NAME
+```
+
+### Build the Package
+
+Go into the package you wish to make changes to, and then build it:
+
+changing working directory to package:
+
+```zsh
+cd ./packages/some_package
+pnpm run build
+```
+
+or at repo root:
+
+```zsh
+pnpm run build --filter @modern-js/some_package
+```
+
+## Testing Your Changes
+
+### Create Your Test Project
+
+go to the `local-test-project` directory, and create your test project
+
+```zsh
+cd local-test-project
+pnpm dlx @modern-js/create my-test-project
+cd my-test-project
+```
+
+<details>
+   <summary>
+   More details on how things work
+   </summary>
+
+   Subdirectories of `local-test-project` directory is ignored by `.gitignore` file, and thus we can safely use it as a playground for the code we are developing. Furthermore, the `local-test-project/pnpm-workspace.yaml` file helps pnpm symlink dependencies in our test project to the built files in the main monorepo. Here is more info on [pnpm Workspaces](https://pnpm.io/workspaces).
+</details>
+
+### Configure Your Test Project
+
+1. remove `.npmrc` to prevent conflicts with the root
 
    ```zsh
-   git checkout -b MY_BRANCH_NAME
+      rm .npmrc
    ```
 
-3. Install pnpm
+2. change relative dependencies to `"workspace:*"`, for example:
 
-   ```zsh
-   npm install -g pnpm
+   ```json
+   {
+      "dependencies": {
+         "@modern-js/runtime": "workspace:*"
+      },
+      "devDependencies": {
+         "@modern-js/app-tools": "workspace:*",
+         "@modern-js/plugin-jarvis": "workspace:*",
+         "@modern-js/some_package": "workspace:*",
+         ...
+      }
+   }
    ```
 
-4. Install the dependencies
+   [more info on pnpm workspaces](https://pnpm.io/workspaces).
 
-   ```zsh
-   pnpm run setup
-   ```
+### Create Symlinks
 
-5. Build the eslint-config packages
+let pnpm create the necessary symlinks:
 
-   ```zsh
-   pnpm run build --filter @modern-js/eslint-config...
-   ```
+```zsh
+pnpm install --ignore-scripts
+```
 
-6. Go into package which you want to contribute.
+the `-ignore-scripts` option is used to prevent building everything again
 
-   ```zsh
-   cd ./packages/
-   ```
+### Test Your Code
 
-7. Start developing.
+Depending on where you made your changes, you may need to run different commands
 
-8. Add changeset. Select changed packages in this commits and add changeset info.
+```zsh
+pnpm dev
+pnpm build
+pnpm deploy
+...
+```
 
-   ```zsh
-   pnpm run change
-   ```
+## Submitting Changes
+
+Be sure that you have [set up your email](#set-your-email-appropriately-for-git) accordingly. Also make sure that you are [working on a new branch](#checkout-a-new-branch).
+
+### Add a Changeset
+
+Add changeset. Select changed packages in this commits and add changeset info.
+
+```zsh
+pnpm run change
+```
+
+### Commiting your Changes
+
+Commit your changes to your forked repo, and [create a pull request](https://help.github.com/articles/creating-a-pull-request/)
+
 
 ## Building
 
@@ -75,10 +196,24 @@ You need write th new tests for new feature or modify exist tests for changes.
 
 We wish you write unit tests at `PACKAGE_DIR/tests`. Test syntax is based on [jest](https://jestjs.io/).
 
-### Run Testing
+### Run Unit Testing
 
 ```sh
 pnpm run test
+```
+
+### Run E2E Testing
+
+1. If you want to run the e2e command, you must first execute the e2e prepare command
+
+```sh
+pnpm run prepare --filter "tests"
+```
+
+2. start test
+
+```sh
+pnpm run test:e2e
 ```
 
 ## Linting

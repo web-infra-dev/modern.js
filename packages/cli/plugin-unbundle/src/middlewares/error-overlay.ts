@@ -1,7 +1,10 @@
 import { Middleware } from 'koa';
-import logger from 'signale';
-import strip from 'strip-ansi';
-import { createDebugger, chalk } from '@modern-js/utils';
+import {
+  chalk,
+  stripAnsi,
+  createDebugger,
+  signale as logger,
+} from '@modern-js/utils';
 import { ESMServer } from '../server';
 
 const debug = createDebugger(`esm:error`);
@@ -38,9 +41,9 @@ export const errorOverlayMiddleware = (server: ESMServer): Middleware => {
       wsServer.send({
         type: 'error',
         title: err?.constructor?.name || '',
-        message: strip(err.message),
-        stack: strip(cleanStack(err.stack || '')),
-        frame: strip(err.frame || ''),
+        message: stripAnsi(err.message),
+        stack: stripAnsi(cleanStack(err.stack || '')),
+        frame: stripAnsi(err.frame || ''),
         loc: err.loc,
       });
 

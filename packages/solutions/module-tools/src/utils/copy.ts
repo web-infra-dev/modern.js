@@ -1,15 +1,12 @@
 import * as path from 'path';
-import { fs, Import } from '@modern-js/utils';
+import { fs, Import, globby, fastGlob } from '@modern-js/utils';
 import type { NormalizedConfig, IAppContext } from '@modern-js/core';
 
-const globby: typeof import('globby') = Import.lazy('globby', require);
-const fastGlob: typeof import('fast-glob') = Import.lazy('fast-glob', require);
 const normalizePath: typeof import('normalize-path') = Import.lazy(
   'normalize-path',
   require,
 );
 
-// eslint-disable-next-line max-statements
 export const copyTask = async (option: {
   modernConfig: NormalizedConfig;
   appContext: IAppContext;

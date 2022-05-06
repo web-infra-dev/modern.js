@@ -1,5 +1,67 @@
 # @modern-js/plugin-esbuild
 
+## 1.2.5
+
+### Patch Changes
+
+- 6c1438d2: fix: missing peer deps warnings
+- 883adf06: fix(plugin-esbuild): no need to compatible with webpack 4
+- Updated dependencies [2d155c4c]
+- Updated dependencies [123e432d]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+
+## 1.2.4
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- e4cec1ce: types: fix config hook type
+- Updated dependencies [b8599d09]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+
+## 1.2.3
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- 6cff93dc: chore: bump webpack and esbuild version
+- Updated dependencies [132f7b53]
+  - @modern-js/utils@1.3.7
+
+## 1.2.2
+
+### Patch Changes
+
+- 61e3f623: feat: convert to new plugin
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [c2046f37]
+  - @modern-js/utils@1.3.6
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+  - @modern-js/core@1.3.2
+  - @modern-js/utils@1.2.2
+
 ## 1.2.0
 
 ### Minor Changes

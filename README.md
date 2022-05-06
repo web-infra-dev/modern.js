@@ -40,6 +40,6 @@ Some implementations of Modern.js are modified from existing projects, such as c
 
 * esbuild-webpack-plugin: modified from [esbuild-webpack-plugin](https://github.com/sorrycc/esbuild-webpack-plugin) and support webpack 5.
 
-* Webpack messages formatter and module scopes plugin: modified from [react-dev-utils](https://github.com/facebook/create-react-app/tree/main/packages/react-dev-utils) and refactored to Typescript.
+* Webpack messages formatter and module scopes plugin: modified from [react-dev-utils](https://github.com/facebook/create-react-app/tree/main/packages/react-dev-utils) and refactored to TypeScript.
 
 * bundle-require: modified from [bundle-require](https://github.com/egoist/bundle-require).

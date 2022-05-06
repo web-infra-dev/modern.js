@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.0",
+  "version": "1.2.6",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -33,34 +33,27 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
+    "dev": "modern build --watch",
     "build": "modern build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.2.0",
+    "@modern-js/utils": "workspace:^1.6.0",
     "whistle": "^2.7.18"
   },
   "devDependencies": {
     "@types/jest": "^26",
     "@types/node": "^14",
     "typescript": "^4",
-    "@modern-js/core": "workspace:^1.3.0",
+    "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*"
   },
-  "peerDependencies": {
-    "@modern-js/core": "workspace:^1.3.0"
-  },
   "sideEffects": false,
-  "modernConfig": {
-    "output": {
-      "packageMode": "node-js"
-    }
-  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",

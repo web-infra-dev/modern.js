@@ -1,10 +1,9 @@
 import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
-import { isDev, createDebugger } from '@modern-js/utils';
-import chokidar from 'chokidar';
+import { isDev, chokidar, createDebugger, isTest } from '@modern-js/utils';
 import { LoadedConfig } from './config';
-import { HooksRunner } from '.';
+import { HooksRunner } from './manager';
 
 const debug = createDebugger('watch-files');
 
@@ -19,17 +18,17 @@ export const initWatcher = async (
   configDir: string | undefined,
   hooksRunner: HooksRunner,
   argv: string[],
-  // eslint-disable-next-line max-params
+  // eslint-disable-next-line consistent-return
 ) => {
   // only add fs watcher on dev mode.
-  if (isDev() && argv[0] === 'dev') {
+  if ((isDev() || isTest()) && argv[0] === 'dev') {
     const extraFiles = await hooksRunner.watchFiles();
 
     const configPath = path.join(appDirectory, configDir!);
 
     const watched = [
       `${configPath}/html`,
-      ...(extraFiles as any),
+      ...extraFiles,
       loaded?.filePath,
       ...loaded.dependencies,
     ].filter(Boolean);
@@ -38,6 +37,7 @@ export const initWatcher = async (
 
     const watcher = chokidar.watch(watched, {
       cwd: appDirectory,
+      ignoreInitial: true,
       ignorePermissionErrors: true,
       ignored: [
         /node_modules/,
@@ -58,8 +58,20 @@ export const initWatcher = async (
 
         hashMap.set(changed, currentHash);
 
-        hooksRunner.fileChange({ filename: changed });
+        hooksRunner.fileChange({ filename: changed, eventType: 'change' });
       }
+    });
+
+    watcher.on('add', name => {
+      debug(`add file: %s`, name);
+
+      const currentHash = md5(
+        fs.readFileSync(path.join(appDirectory, name), 'utf8'),
+      );
+
+      hashMap.set(name, currentHash);
+
+      hooksRunner.fileChange({ filename: name, eventType: 'add' });
     });
 
     watcher.on('unlink', name => {
@@ -68,10 +80,14 @@ export const initWatcher = async (
       if (hashMap.has(name)) {
         hashMap.delete(name);
       }
+
+      hooksRunner.fileChange({ filename: name, eventType: 'unlink' });
     });
 
     watcher.on('error', err => {
       throw err;
     });
+
+    return watcher;
   }
 };

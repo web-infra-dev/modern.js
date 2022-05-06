@@ -33,7 +33,7 @@ export class TsConfigPathsPlugin {
 
     this.target = 'resolve';
 
-    this.compilerOptions = readTsConfig(cwd).compilerOptions;
+    this.compilerOptions = readTsConfig(cwd).compilerOptions || {};
 
     this.absoluteBaseUrl = path.resolve(
       cwd,

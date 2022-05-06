@@ -34,6 +34,11 @@ export class PluginFileAPI {
 
   private jsonAPI?: JsonAPI;
 
+  constructor() {
+    // 解决 renderString 使用 this 指向错误问题
+    this.renderString = this.renderString.bind(this);
+  }
+
   get context() {
     return {
       isFileExit: this.isFileExit.bind(this),
@@ -96,9 +101,10 @@ export class PluginFileAPI {
   }
 
   async updateModernConfig(updateInfo: Record<string, any>) {
-    const update = Object.keys(updateInfo).map(key => ({
-      [`modernConfig.${key}`]: updateInfo[key],
-    }));
+    const update: Record<string, any> = {};
+    Object.keys(updateInfo).forEach(key => {
+      update[`modernConfig.${key}`] = updateInfo[key];
+    });
     await this.updateJSONFile('package.json', update);
   }
 

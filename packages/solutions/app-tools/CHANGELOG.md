@@ -1,5 +1,323 @@
 # @modern-js/app-tools
 
+## 1.6.1
+
+### Patch Changes
+
+- 77519490: refactor(webpack): remove `@modern-js/core`
+- 592edabc: feat: prebundle url-join,mime-types,json5,fast-glob,globby,ora,inquirer
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+- 3d1fac2a: chore: app-tools no longer depend on webpack
+- 247e2005: support devServer.devMiddleware, same as webpack-dev-server
+- Updated dependencies [2d155c4c]
+- Updated dependencies [a0475f1a]
+- Updated dependencies [a0499e4f]
+- Updated dependencies [123e432d]
+- Updated dependencies [6c1438d2]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [71526621]
+- Updated dependencies [77519490]
+- Updated dependencies [592edabc]
+- Updated dependencies [3578716a]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3d1fac2a]
+- Updated dependencies [3578913e]
+- Updated dependencies [247e2005]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/webpack@1.5.7
+  - @modern-js/server@1.4.11
+  - @modern-js/prod-server@1.1.2
+  - @modern-js/node-bundle-require@1.3.2
+  - @modern-js/core@1.9.0
+  - @modern-js/plugin-analyze@1.4.1
+  - @modern-js/new-action@1.3.7
+  - @modern-js/types@1.5.1
+  - @modern-js/plugin-fast-refresh@1.2.4
+
+## 1.6.0
+
+### Minor Changes
+
+- 3bf4f8b0: feat: support start api server only
+
+### Patch Changes
+
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- 5dbbeb57: fix: export extended Command type
+- 305e0bb4: fix: commander.commandsMap typing not work
+- Updated dependencies [a4330c73]
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [e4cec1ce]
+- Updated dependencies [3b7aa8bb]
+- Updated dependencies [5dbbeb57]
+- Updated dependencies [ebfcbb35]
+- Updated dependencies [3bf4f8b0]
+- Updated dependencies [305e0bb4]
+- Updated dependencies [ebfcbb35]
+- Updated dependencies [28ac120a]
+  - @modern-js/core@1.8.0
+  - @modern-js/node-bundle-require@1.3.1
+  - @modern-js/utils@1.5.0
+  - @modern-js/i18n-cli-language-detector@1.2.2
+  - @modern-js/plugin-fast-refresh@1.2.4
+  - @modern-js/plugin-i18n@1.2.4
+  - @modern-js/webpack@1.5.5
+  - @modern-js/new-action@1.3.6
+  - @modern-js/prod-server@1.1.1
+  - @modern-js/server@1.4.10
+  - @modern-js/plugin@1.3.3
+  - @modern-js/types@1.5.0
+  - @modern-js/plugin-analyze@1.4.0
+
+## 1.5.0
+
+### Minor Changes
+
+- d2d1d6b2: feat: support server config
+
+### Patch Changes
+
+- 6aa80baa: fix: Generate config helper file only config file exist
+- Updated dependencies [60855eb2]
+- Updated dependencies [046e58aa]
+- Updated dependencies [ec1b7367]
+- Updated dependencies [77ff9754]
+- Updated dependencies [d2d1d6b2]
+- Updated dependencies [07a4887e]
+- Updated dependencies [ea2ae711]
+- Updated dependencies [17d0cc46]
+- Updated dependencies [d2d1d6b2]
+  - @modern-js/core@1.7.0
+  - @modern-js/plugin-analyze@1.3.6
+  - @modern-js/webpack@1.5.4
+  - @modern-js/utils@1.4.0
+  - @modern-js/prod-server@1.1.0
+  - @modern-js/node-bundle-require@1.3.0
+  - @modern-js/types@1.4.0
+  - @modern-js/plugin-i18n@1.2.3
+  - @modern-js/new-action@1.3.5
+  - @modern-js/plugin-fast-refresh@1.2.3
+  - @modern-js/server@1.4.9
+
+## 1.4.6
+
+### Patch Changes
+
+- 8491b6dd: fix: optimise "types" exports from plugin
+- Updated dependencies [bebb39b6]
+- Updated dependencies [4b4e73b7]
+- Updated dependencies [da60172c]
+- Updated dependencies [ef28a4e6]
+- Updated dependencies [6cff93dc]
+- Updated dependencies [132f7b53]
+- Updated dependencies [ff73a5cc]
+- Updated dependencies [9d4a005b]
+  - @modern-js/plugin-analyze@1.3.5
+  - @modern-js/plugin-fast-refresh@1.2.3
+  - @modern-js/webpack@1.5.3
+  - @modern-js/prod-server@1.0.6
+  - @modern-js/server@1.4.9
+  - @modern-js/core@1.6.1
+  - @modern-js/types@1.3.6
+  - @modern-js/utils@1.3.7
+
+## 1.4.5
+
+### Patch Changes
+
+- 32c9772c: feat: convert to new plugin
+- Updated dependencies [05ce88a0]
+- Updated dependencies [a8df060e]
+- Updated dependencies [c2046f37]
+- Updated dependencies [dc88abf9]
+- Updated dependencies [d2d0fa11]
+- Updated dependencies [66cbef42]
+- Updated dependencies [0462ff77]
+- Updated dependencies [61e3f623]
+- Updated dependencies [6a7acb81]
+- Updated dependencies [681a1ff9]
+- Updated dependencies [4e2026e4]
+  - @modern-js/core@1.6.0
+  - @modern-js/server@1.4.8
+  - @modern-js/utils@1.3.6
+  - @modern-js/plugin@1.3.2
+  - @modern-js/prod-server@1.0.5
+  - @modern-js/webpack@1.5.0
+  - @modern-js/plugin-fast-refresh@1.2.2
+  - @modern-js/plugin-analyze@1.3.4
+
+## 1.4.4
+
+### Patch Changes
+
+- d5bf095a: fix: disable load webpack when apiOnly mode
+- Updated dependencies [5bf5868d]
+- Updated dependencies [80d3cfb7]
+- Updated dependencies [42c6b136]
+- Updated dependencies [80d8ddfe]
+- Updated dependencies [4e7dcbd5]
+- Updated dependencies [d95f28c3]
+- Updated dependencies [d95f28c3]
+- Updated dependencies [d5bf095a]
+- Updated dependencies [9e8bc4ab]
+- Updated dependencies [0923c182]
+- Updated dependencies [0c556e59]
+- Updated dependencies [80d8ddfe]
+- Updated dependencies [491145e3]
+- Updated dependencies [2008fdbd]
+- Updated dependencies [ca0bcf13]
+- Updated dependencies [9229dfd1]
+  - @modern-js/utils@1.3.5
+  - @modern-js/core@1.5.0
+  - @modern-js/plugin@1.3.0
+  - @modern-js/prod-server@1.0.4
+  - @modern-js/types@1.3.5
+  - @modern-js/server@1.4.7
+
+## 1.4.3
+
+### Patch Changes
+
+- 4b5d4bf4: feat: add img resource's inline and url type declaration
+- bdcf0865: fix: empty distDirectory for api service
+- 02fb4146: support product server
+- edc3bd3d: fix: @modern-js/core package not found
+- Updated dependencies [969f172f]
+- Updated dependencies [0ad75faa]
+- Updated dependencies [4c792f68]
+- Updated dependencies [83059b93]
+- Updated dependencies [4b5d4bf4]
+- Updated dependencies [0ad75faa]
+- Updated dependencies [62f5b8c8]
+- Updated dependencies [55e18278]
+- Updated dependencies [4499a674]
+- Updated dependencies [0ad75faa]
+- Updated dependencies [02fb4146]
+- Updated dependencies [403f5169]
+- Updated dependencies [e37ea5b2]
+- Updated dependencies [a7f42f48]
+- Updated dependencies [83059b93]
+  - @modern-js/core@1.4.4
+  - @modern-js/webpack@1.4.1
+  - @modern-js/utils@1.3.3
+  - @modern-js/new-action@1.3.3
+  - @modern-js/server@1.4.4
+  - @modern-js/types@1.3.4
+  - @modern-js/prod-server@1.0.1
+
+## 1.4.2
+
+### Patch Changes
+
+- fab92861: fix: @modern-js/core phantom dep
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+- Updated dependencies [6668a1bf]
+- Updated dependencies [fab92861]
+- Updated dependencies [3da3bf48]
+  - @modern-js/plugin-analyze@1.3.3
+  - @modern-js/server@1.4.3
+  - @modern-js/types@1.3.3
+  - @modern-js/utils@1.3.2
+  - @modern-js/webpack@1.4.0
+  - @modern-js/core@1.4.3
+  - @modern-js/new-action@1.3.2
+
+## 1.4.1
+
+### Patch Changes
+
+- 78279953: compiler entry bug fix and dev build console
+- c78400c7: fix: remove stylus support
+- 4d72edea: support dev compiler by entry
+- Updated dependencies [75f4eeb8]
+- Updated dependencies [b7a9eeba]
+- Updated dependencies [2cfc4235]
+- Updated dependencies [8d55e234]
+- Updated dependencies [53aca274]
+- Updated dependencies [78279953]
+- Updated dependencies [e116ace5]
+- Updated dependencies [4d72edea]
+  - @modern-js/webpack@1.3.1
+  - @modern-js/plugin-analyze@1.3.1
+  - @modern-js/server@1.4.1
+  - @modern-js/core@1.4.1
+  - @modern-js/types@1.3.1
+  - @modern-js/utils@1.3.1
+
+## 1.4.0
+
+### Minor Changes
+
+- ec4dbffb: feat: support as a pure api service
+
+### Patch Changes
+
+- bd819a8d: fix: file route changed not trigger hot reload
+- 62cd58c6: fix: create route.json failure
+- d099e5c5: fix error when modify modern.config.js
+- Updated dependencies [816fd721]
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [ddf0c3a6]
+- Updated dependencies [bfbea9a7]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [272cab15]
+  - @modern-js/server@1.4.0
+  - @modern-js/types@1.3.0
+  - @modern-js/core@1.4.0
+  - @modern-js/plugin-analyze@1.3.0
+  - @modern-js/webpack@1.3.0
+  - @modern-js/utils@1.3.0
+
+## 1.3.2
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+- Updated dependencies [b7c48198]
+  - @modern-js/core@1.3.2
+  - @modern-js/i18n-cli-language-detector@1.2.1
+  - @modern-js/plugin-analyze@1.2.1
+  - @modern-js/plugin-fast-refresh@1.2.1
+  - @modern-js/plugin-i18n@1.2.1
+  - @modern-js/webpack@1.2.1
+  - @modern-js/new-action@1.3.1
+  - @modern-js/server@1.3.2
+  - @modern-js/plugin@1.2.1
+  - @modern-js/types@1.2.1
+  - @modern-js/utils@1.2.2
+
+## 1.3.1
+
+### Patch Changes
+
+- 823809c6: fix: remove plugin-polyfill from app-tools
+- Updated dependencies [e2d3a575]
+- Updated dependencies [823809c6]
+- Updated dependencies [823809c6]
+- Updated dependencies [4584cc04]
+- Updated dependencies [7c19fd94]
+- Updated dependencies [e2d3a575]
+  - @modern-js/server@1.3.1
+  - @modern-js/utils@1.2.1
+  - @modern-js/core@1.3.1
+
 ## 1.3.0
 
 ### Minor Changes

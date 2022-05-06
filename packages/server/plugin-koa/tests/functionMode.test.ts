@@ -1,6 +1,6 @@
 import * as path from 'path';
 import request from 'supertest';
-import { serverManager } from '@modern-js/server-plugin';
+import { serverManager } from '@modern-js/server-core';
 import plugin from '../src/plugin';
 import { APIPlugin } from './helpers';
 import './common';
@@ -49,5 +49,21 @@ describe('function-mode', () => {
       name: 'xxx',
     });
     expect(res3.status).toBe(500);
+  });
+
+  test('should support upload file', done => {
+    request(apiHandler)
+      .post('/upload')
+      .field('my_field', 'value')
+      .attach('file', path.join(__dirname, './fixtures/assets/index.html'))
+      .end(async (err, res) => {
+        if (err) {
+          throw err;
+        }
+        expect(res.statusCode).toBe(200);
+        expect(res.body.message).toBe('success');
+        expect(res.body.formData).not.toBeUndefined();
+        done();
+      });
   });
 });

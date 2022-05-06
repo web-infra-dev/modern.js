@@ -1,31 +1,53 @@
-import { Configuration, webpack } from 'webpack';
-import { WebpackConfigTarget, getWebpackConfig } from '@modern-js/webpack';
 import {
-  useAppContext,
-  useResolvedConfigContext,
-  mountHook,
-  ResolvedConfigContext,
-  manager,
-} from '@modern-js/core';
+  webpack,
+  Configuration,
+  getWebpackConfig,
+  WebpackConfigTarget,
+} from '@modern-js/webpack';
+import { manager, PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import {
-  fs,
   formatWebpackMessages,
   measureFileSizesBeforeBuild,
   printFileSizesAfterBuild,
   printBuildError,
   logger,
   isUseSSRBundle,
+  emptyDir,
 } from '@modern-js/utils';
+import { generateRoutes } from '../utils/routes';
+import { buildServerConfig, emitResolvedConfig } from '../utils/config';
+import type { BuildOptions } from '../utils/types';
 
 // These sizes are pretty large. We'll warn for bundles exceeding them.
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
-interface CliOptions {
-  analyze?: boolean;
-}
+export const build = async (api: PluginAPI, options?: BuildOptions) => {
+  let resolvedConfig = api.useResolvedConfigContext();
+  const appContext = api.useAppContext();
+  const hookRunners = api.useHookRunners();
+  const { apiOnly } = appContext;
 
-export const build = async (options?: CliOptions) => {
+  if (apiOnly) {
+    const { appDirectory, distDirectory, serverConfigFile } = appContext;
+    await emptyDir(distDirectory);
+    await hookRunners.beforeBuild({
+      webpackConfigs: [],
+    });
+
+    await buildServerConfig({
+      appDirectory,
+      distDirectory,
+      configFile: serverConfigFile,
+    });
+
+    await generateRoutes(appContext);
+
+    await hookRunners.afterBuild();
+
+    return;
+  }
+
   const webpackBuild = async (webpackConfig: Configuration, type?: string) => {
     const compiler = webpack(webpackConfig);
 
@@ -51,7 +73,7 @@ export const build = async (options?: CliOptions) => {
             printFileSizesAfterBuild(
               stats,
               previousFileSizes,
-              outputPath,
+              distDirectory,
               WARN_AFTER_BUNDLE_GZIP_SIZE,
               WARN_AFTER_CHUNK_GZIP_SIZE,
             );
@@ -79,41 +101,54 @@ export const build = async (options?: CliOptions) => {
     });
   };
 
-  /* eslint-disable react-hooks/rules-of-hooks */
-  const resolvedConfig = useResolvedConfigContext();
-  const appContext = useAppContext();
-  /* eslint-enable react-hooks/rules-of-hooks */
-
   manager.run(() => {
-    ResolvedConfigContext.set({ ...resolvedConfig, cliOptions: options });
+    resolvedConfig = { ...resolvedConfig, cliOptions: options };
+    ResolvedConfigContext.set(resolvedConfig);
   });
 
-  const outputPath = appContext.distDirectory;
-  const previousFileSizes = await measureFileSizesBeforeBuild(outputPath);
-  fs.emptyDirSync(outputPath);
+  const { distDirectory, appDirectory, serverConfigFile } = appContext;
+  const previousFileSizes = await measureFileSizesBeforeBuild(distDirectory);
+  await emptyDir(distDirectory);
 
-  const buildConfigs = [];
+  await buildServerConfig({
+    appDirectory,
+    distDirectory,
+    configFile: serverConfigFile,
+  });
 
+  const buildConfigs: Array<{ type: string; config: any }> = [];
   buildConfigs.push({
     type: 'legacy',
-    config: getWebpackConfig(WebpackConfigTarget.CLIENT)!,
+    config: getWebpackConfig(
+      WebpackConfigTarget.CLIENT,
+      appContext,
+      resolvedConfig,
+    )!,
   });
 
   if (resolvedConfig.output.enableModernMode) {
     buildConfigs.push({
       type: 'modern',
-      config: getWebpackConfig(WebpackConfigTarget.MODERN)!,
+      config: getWebpackConfig(
+        WebpackConfigTarget.MODERN,
+        appContext,
+        resolvedConfig,
+      )!,
     });
   }
 
   if (isUseSSRBundle(resolvedConfig)) {
     buildConfigs.push({
       type: 'ssr',
-      config: getWebpackConfig(WebpackConfigTarget.NODE)!,
+      config: getWebpackConfig(
+        WebpackConfigTarget.NODE,
+        appContext,
+        resolvedConfig,
+      )!,
     });
   }
 
-  await (mountHook() as any).beforeBuild({
+  await hookRunners.beforeBuild({
     webpackConfigs: buildConfigs.map(({ config }) => config),
   });
 
@@ -123,7 +158,12 @@ export const build = async (options?: CliOptions) => {
       await webpackBuild(config, buildType);
     } catch (error) {
       printBuildError(error as Error);
+      // eslint-disable-next-line no-process-exit
+      process.exit(1);
     }
   }
-  await (mountHook() as any).afterBuild();
+
+  await generateRoutes(appContext);
+  await hookRunners.afterBuild();
+  await emitResolvedConfig(appDirectory, resolvedConfig);
 };

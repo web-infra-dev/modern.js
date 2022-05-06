@@ -13,10 +13,10 @@ import {
 } from '@modern-js/utils';
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import webpack, { IgnorePlugin } from 'webpack';
-import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { merge } from 'webpack-merge';
 import WebpackBar from 'webpackbar';
 import { createBabelChain, BabelChain } from '@modern-js/babel-chain';
@@ -31,7 +31,7 @@ import {
   JS_RESOLVE_EXTENSIONS,
   CACHE_DIRECTORY,
 } from '../utils/constants';
-import { createCSSRule } from '../utils/createCSSRule';
+import { createCSSRule, enableCssExtract } from '../utils/createCSSRule';
 import { mergeRegex } from '../utils/mergeRegex';
 import { getWebpackLogging } from '../utils/getWebpackLogging';
 import { getBabelOptions } from '../utils/getBabelOptions';
@@ -46,6 +46,8 @@ class BaseWebpackConfig {
   chain: Chain;
 
   appContext: IAppContext;
+
+  metaName: string;
 
   options: NormalizedConfig;
 
@@ -63,10 +65,14 @@ class BaseWebpackConfig {
 
   babelChain: BabelChain;
 
+  isTsProject: boolean;
+
   constructor(appContext: IAppContext, options: NormalizedConfig) {
     this.appContext = appContext;
 
     this.appDirectory = this.appContext.appDirectory;
+
+    this.metaName = this.appContext.metaName;
 
     this.options = options;
 
@@ -114,6 +120,8 @@ class BaseWebpackConfig {
     );
 
     this.babelChain = createBabelChain();
+
+    this.isTsProject = isTypescript(this.appDirectory);
   }
 
   name() {
@@ -140,9 +148,12 @@ class BaseWebpackConfig {
   }
 
   entry() {
-    const { entrypoints = [] } = this.appContext;
+    const { entrypoints = [], checkedEntries } = this.appContext;
 
     for (const { entryName, entry } of entrypoints) {
+      if (checkedEntries && !checkedEntries.includes(entryName)) {
+        continue;
+      }
       this.chain.entry(entryName).add(entry);
     }
   }
@@ -209,7 +220,6 @@ class BaseWebpackConfig {
     return publicPath;
   }
 
-  /* eslint-disable max-statements */
   loaders() {
     this.chain.module
       .rule('mjs')
@@ -225,15 +235,15 @@ class BaseWebpackConfig {
       .oneOf('js')
       .test(useTsLoader ? JS_REGEX : mergeRegex(JS_REGEX, TS_REGEX))
       .include.add(this.appContext.srcDirectory)
-      .add(path.resolve(this.appDirectory, './node_modules/.modern-js'))
+      .add(this.appContext.internalDirectory)
       .end()
       .use('babel')
       .loader(require.resolve('babel-loader'))
       .options(
         getBabelOptions(
+          this.metaName,
           this.appDirectory,
           this.options,
-          this.chain.get('name'),
           this.babelChain,
         ),
       );
@@ -243,7 +253,7 @@ class BaseWebpackConfig {
         .oneOf('ts')
         .test(TS_REGEX)
         .include.add(this.appContext.srcDirectory)
-        .add(/node_modules\/\.modern-js\//)
+        .add(this.appContext.internalDirectory)
         .end()
         .use('babel')
         .loader(require.resolve('babel-loader'))
@@ -252,6 +262,7 @@ class BaseWebpackConfig {
             [
               require.resolve('@modern-js/babel-preset-app'),
               {
+                metaName: this.metaName,
                 appDirectory: this.appDirectory,
                 target: 'client',
                 useTsLoader: true,
@@ -259,6 +270,7 @@ class BaseWebpackConfig {
                   this.options.output.polyfill === 'ua'
                     ? false
                     : this.options.output.polyfill,
+                userBabelConfig: this.options.tools.babel,
               },
             ],
           ],
@@ -283,10 +295,13 @@ class BaseWebpackConfig {
 
     const includes = getSourceIncludes(this.appDirectory, this.options);
 
-    for (const include of includes) {
-      loaders.oneOf('js').include.add(include);
-      loaders.oneOfs.has('ts') && loaders.oneOf('ts').include.add(include);
+    if (includes.length > 0) {
+      const includeRegex = mergeRegex(...includes);
+      const testResource = (resource: string) => includeRegex.test(resource);
+      loaders.oneOf('js').include.add(testResource);
+      loaders.oneOfs.has('ts') && loaders.oneOf('ts').include.add(testResource);
     }
+
     const disableCssModuleExtension =
       this.options.output?.disableCssModuleExtension ?? false;
     // css
@@ -448,25 +463,21 @@ class BaseWebpackConfig {
     return loaders;
   }
 
-  /* eslint-enable max-statements */
-
   plugins() {
     // progress bar
     process.stdout.isTTY &&
       this.chain
         .plugin('progress')
         .use(WebpackBar, [{ name: this.chain.get('name') }]);
-
-    isDev() &&
-      this.chain.plugin('case-sensitive').use(CaseSensitivePathsPlugin);
-
-    this.chain.plugin('mini-css-extract').use(MiniCssExtractPlugin, [
-      {
-        filename: this.cssChunkname,
-        chunkFilename: this.cssChunkname,
-        ignoreOrder: true,
-      },
-    ]);
+    if (enableCssExtract(this.options)) {
+      this.chain.plugin('mini-css-extract').use(MiniCssExtractPlugin, [
+        {
+          filename: this.cssChunkname,
+          chunkFilename: this.cssChunkname,
+          ignoreOrder: true,
+        },
+      ]);
+    }
 
     this.chain.plugin('ignore').use(IgnorePlugin, [
       {
@@ -474,13 +485,38 @@ class BaseWebpackConfig {
         contextRegExp: /moment$/,
       },
     ]);
+
+    const { output } = this.options;
+    if (
+      // only enable ts-checker plugin in ts project
+      this.isTsProject &&
+      // no need to use ts-checker plugin when using ts-loader
+      !output.enableTsLoader &&
+      !output.disableTsChecker
+    ) {
+      this.chain.plugin('ts-checker').use(ForkTsCheckerWebpackPlugin, [
+        {
+          typescript: {
+            // avoid OOM issue
+            memoryLimit: 8192,
+            // use tsconfig of user project
+            configFile: path.resolve(this.appDirectory, './tsconfig.json'),
+            // use typescript of user project
+            typescriptPath: require.resolve('typescript'),
+          },
+          issue: {
+            include: [{ file: '**/src/**/*' }],
+            exclude: [{ file: '**/*.(spec|test).ts' }],
+          },
+        },
+      ]);
+    }
   }
 
-  /* eslint-disable  max-statements */
   resolve() {
     // resolve extensions
     const extensions = JS_RESOLVE_EXTENSIONS.filter(
-      ext => isTypescript(this.appContext.appDirectory) || !ext.includes('ts'),
+      ext => this.isTsProject || !ext.includes('ts'),
     );
 
     for (const ext of extensions) {
@@ -544,15 +580,13 @@ class BaseWebpackConfig {
       },
     ]);
 
-    if (isTypescript(this.appDirectory)) {
+    if (this.isTsProject) {
       // aliases from tsconfig.json
       this.chain.resolve
         .plugin('ts-config-paths')
         .use(TsConfigPathsPlugin, [this.appDirectory]);
     }
   }
-
-  /* eslint-enable  max-statements */
 
   cache() {
     this.chain.cache({
@@ -566,7 +600,7 @@ class BaseWebpackConfig {
         defaultWebpack: [require.resolve('webpack/lib')],
         config: [__filename, this.appContext.configFile].filter(Boolean),
         tsconfig: [
-          isTypescript(this.appDirectory) &&
+          this.isTsProject &&
             path.resolve(this.appDirectory, './tsconfig.json'),
         ].filter(Boolean),
       },
@@ -580,16 +614,15 @@ class BaseWebpackConfig {
       .runtimeChunk({ name: (entrypoint: any) => `runtime-${entrypoint.name}` })
       .minimizer('js')
       .use(TerserPlugin, [
-        applyOptionsChain(
+        // FIXME: any type
+        applyOptionsChain<any, any>(
           {
             terserOptions: {
               parse: { ecma: 8 },
               compress: {
                 ecma: 5,
                 warnings: false,
-
                 comparisons: false,
-
                 inline: 2,
               },
               mangle: { safari10: true },
@@ -604,7 +637,7 @@ class BaseWebpackConfig {
           },
           this.options.tools?.terser,
         ),
-      ] as any)
+      ])
       .end()
       .minimizer('css')
       // FIXME: add `<any>` reason: Since the css-minimizer-webpack-plugin has been updated
@@ -645,31 +678,23 @@ class BaseWebpackConfig {
     this.devtool();
     this.entry();
     this.output();
-    const loaders = this.loaders();
+    this.loaders();
     this.plugins();
     this.resolve();
     this.cache();
     this.optimization();
     this.stats();
 
-    loaders
-      .oneOf('js')
-      .use('babel')
-      .options(
-        applyOptionsChain(
-          loaders.oneOf('js').use('babel').get('options'),
-          this.options.tools?.babel,
-          { chain: this.babelChain },
-        ),
-      );
-
     const config = this.chain.toConfig();
 
     applyOptionsChain(
-      config as any,
+      config,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error utils type incompatible
       this.options.tools?.webpack,
       {
         chain: this.chain,
+        env: process.env.NODE_ENV,
         name: this.chain.get('name'),
         webpack,
       },

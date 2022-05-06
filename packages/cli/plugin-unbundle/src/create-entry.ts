@@ -8,7 +8,8 @@ import {
   generateMetaTags,
   getEntryOptions,
 } from '@modern-js/utils';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import { template } from '@modern-js/utils/lodash';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import type { Entrypoint } from '@modern-js/types';
 import { DEV_CLIENT_PATH_ALIAS, DEV_CLIENT_URL } from './constants';
 
@@ -51,8 +52,12 @@ const injectScripts = (
   ];
 
   if (isFastRefresh()) {
-    const runtimePath = require.resolve(
-      'react-refresh/cjs/react-refresh-runtime.development.js',
+    const reactFreshEntry = path.dirname(
+      require.resolve('react-refresh/package.json'),
+    );
+    const runtimePath = path.join(
+      reactFreshEntry,
+      'cjs/react-refresh-runtime.development.js',
     );
 
     const reactRefreshCode = fs
@@ -132,7 +137,7 @@ const renderTemplate = (
 ) => {
   const content = fs.readFileSync(filepath, 'utf8');
 
-  return require('lodash.template')(content)(variables);
+  return template(content)(variables);
 };
 
 const initTemplateVariables = (

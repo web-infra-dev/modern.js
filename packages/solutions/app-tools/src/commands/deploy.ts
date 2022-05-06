@@ -1,6 +1,7 @@
-import { mountHook } from '@modern-js/core';
+import type { PluginAPI } from '@modern-js/core';
 
-export const deploy = async (options: any) => {
-  await (mountHook() as any).beforeDeploy(options);
-  await (mountHook() as any).afterDeploy(options);
+export const deploy = async (api: PluginAPI, options: any) => {
+  const hookRunners = api.useHookRunners();
+  await hookRunners.beforeDeploy(options);
+  await hookRunners.afterDeploy(options);
 };

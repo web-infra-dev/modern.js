@@ -1,5 +1,5 @@
 import { createBabelChain } from '@modern-js/babel-chain';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import {
   applyOptionsChain,
   isUseSSRBundle,
@@ -57,21 +57,23 @@ class ModernWebpackConfig extends ClientWebpackConfig {
           [
             require.resolve('@modern-js/babel-preset-app'),
             {
+              metaName: this.appContext.metaName,
               appDirectory: this.appDirectory,
               target: 'client',
               useLegacyDecorators: !this.options.output?.enableLatestDecorators,
               useBuiltIns: false,
               useModern: true,
               chain: this.babelChain,
-              styledCompontents: applyOptionsChain(
+              styledComponents: applyOptionsChain(
                 {
                   pure: true,
                   displayName: true,
                   ssr: isUseSSRBundle(this.options),
                   transpileTemplateLiterals: true,
                 },
-                (this.options.tools as any)?.styledComponents,
+                this.options.tools?.styledComponents,
               ),
+              userBabelConfig: this.options.tools.babel,
             },
           ],
         ],

@@ -3,6 +3,7 @@ import type { Entrypoint, Route } from '@modern-js/types';
 export interface RuntimePlugin {
   name: string;
   options: string;
+  args?: string;
 }
 
 export const index = ({
@@ -45,8 +46,8 @@ export const renderFunction = ({
     plugins: [
      ${plugins
        .map(
-         ({ name, options }) =>
-           `${name}({...${options}, ...App?.config?.${name}}),`,
+         ({ name, options, args }) =>
+           `${name}({...${options}, ...App?.config?.${args || name}}),`,
        )
        .join('\n')}
     ]
@@ -80,10 +81,11 @@ export const html = (partials: {
     window.__assetPrefix__ = '<%= assetPrefix %>';
   </script>
   ${partials.head.join('\n')}
+
+  <!--<?- chunksMap.css ?>-->
 </head>
 
 <body>
-  <!--<?- chunksMap.css ?>-->
   <noscript>
     We're sorry but react app doesn't work properly without JavaScript enabled. Please enable it to continue.
   </noscript>
@@ -91,6 +93,7 @@ export const html = (partials: {
   ${partials.body.join('\n')}
   <!--<?- chunksMap.js ?>-->
   <!--<?- SSRDataScript ?>-->
+  <!--<?- bottomTemplate ?>-->
 </body>
 
 </html>

@@ -1,11 +1,8 @@
 import * as path from 'path';
-import { fs } from '@modern-js/utils';
-import _ from 'lodash';
-import execa from 'execa';
-import chalk from 'chalk';
+import { fs, execa, chalk } from '@modern-js/utils';
+import _ from '@modern-js/utils/lodash';
 import axios from './axios';
 
-import { ensureLogin } from './butter-auth';
 import {
   BUTTER_REGISTER_ENDPOINT,
   BUTTER_UNREGISTER_ENDPOINT,
@@ -51,7 +48,6 @@ const generateSource = async (
       react: '^16.12.0',
       'react-dom': '^16.12.0',
     },
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     maintainers: maintainers.map(name => ({ name })),
     meta: {
       title,
@@ -64,7 +60,6 @@ const generateSource = async (
 
   const entryFile = path.resolve(tmpDir, 'src/index.ts');
   const entryContent = Object.keys(comps)
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     .map(name => {
       const lastName = _.last(name.split('/'));
       const importName = _.upperFirst(_.camelCase(lastName));
@@ -120,8 +115,7 @@ const registerPackage = async ({ name, version }, options) => {
   const token =
     process.env.BUTTER_TOKEN ||
     options.token ||
-    '8e67a15cc75fe39b784a924351f6e517' ||
-    (await ensureLogin());
+    '8e67a15cc75fe39b784a924351f6e517';
 
   logger.info(`registering to Butter... ${chalk.grey(BUTTER_HOST)}`);
 
@@ -150,7 +144,6 @@ const registerPackage = async ({ name, version }, options) => {
         JSON.stringify(res.data, null, 4),
       );
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       const { name, version, _id, packageType } = pkg;
       logger.success(
         `package registered ${chalk.blue(`${name}@${version}`)} / ${chalk.grey(
@@ -174,7 +167,7 @@ const registerPackage = async ({ name, version }, options) => {
 };
 
 const unregisterPackage = async ({ name, version }, options) => {
-  const token = options.token || (await ensureLogin());
+  const { token } = options;
 
   logger.info(`unregistering in Butter... ${chalk.grey(BUTTER_HOST)}`);
 

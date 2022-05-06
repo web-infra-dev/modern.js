@@ -1,4 +1,5 @@
 import path from 'path';
+import { CliPlugin } from '../src';
 import { loadPlugins, getAppPlugins } from '../src/loadPlugins';
 
 describe('load plugins', () => {
@@ -22,27 +23,38 @@ describe('load plugins', () => {
       './fixtures/load-plugin/user-plugins',
     );
 
-    const plugins = loadPlugins(fixture, [
-      { cli: path.join(fixture, './test-plugin-a.js') },
-      { server: './test-plugin-b' },
-    ]);
+    const plugins = loadPlugins(fixture, {
+      plugins: [
+        { cli: path.join(fixture, './test-plugin-a.js') },
+        { server: './test-plugin-b' },
+      ],
+    });
 
     expect(plugins).toEqual([
       {
         cli: {
           name: 'a',
-          pluginPath: path.join(fixture, './test-plugin-a.js'),
         },
-        cliPath: path.join(fixture, './test-plugin-a.js'),
       },
       {
-        server: {
-          name: 'b',
-          pluginPath: path.join(fixture, './test-plugin-b.js'),
-        },
-        serverPath: './test-plugin-b',
+        server: './test-plugin-b',
+        serverPkg: './test-plugin-b',
       },
     ]);
+  });
+
+  test('should pass options to Plugin', () => {
+    const fixture = path.resolve(
+      __dirname,
+      './fixtures/load-plugin/user-plugins',
+    );
+
+    const plugins = loadPlugins(fixture, {
+      plugins: [{ cli: ['./test-plugin-c', 'c'] }, ['./test-plugin-c', 'c2']],
+    });
+
+    expect(plugins[0].cli!.name).toEqual('c');
+    expect(plugins[1].cli!.name).toEqual('c2');
   });
 
   test('should load user string plugin successfully', () => {
@@ -51,17 +63,15 @@ describe('load plugins', () => {
       './fixtures/load-plugin/user-plugins',
     );
 
-    const plugins = loadPlugins(fixture, [
-      path.join(fixture, './test-plugin-a.js') as any,
-    ]);
+    const plugins = loadPlugins(fixture, {
+      plugins: [path.join(fixture, './test-plugin-a.js') as any],
+    });
 
     expect(plugins).toEqual([
       {
         cli: {
           name: 'a',
-          pluginPath: path.join(fixture, './test-plugin-a.js'),
         },
-        cliPath: path.join(fixture, './test-plugin-a.js'),
       },
     ]);
   });
@@ -70,7 +80,57 @@ describe('load plugins', () => {
     const fixture = path.resolve(__dirname, './fixtures/load-plugin/not-found');
 
     expect(() => {
-      loadPlugins(fixture, [{ cli: './test-plugin-a' }, { cli: './plugin-b' }]);
+      loadPlugins(fixture, {
+        plugins: [{ cli: './test-plugin-a' }, { cli: './plugin-b' }],
+      });
     }).toThrowError(/^Can not find plugin /);
+  });
+
+  test(`should load new plugin array correctly`, () => {
+    const appDirectory = path.resolve(
+      __dirname,
+      './fixtures/load-plugin/user-plugins',
+    );
+    const plugin = (): CliPlugin => ({
+      name: 'foo',
+    });
+    const userConfig = { plugins: [plugin()] };
+    const loadedPlugins = loadPlugins(appDirectory, userConfig);
+
+    expect(loadedPlugins[0].cli?.name).toEqual('foo');
+  });
+
+  test(`should load new plugin object correctly`, () => {
+    const appDirectory = path.resolve(
+      __dirname,
+      './fixtures/load-plugin/user-plugins',
+    );
+    const plugin = (): CliPlugin => ({
+      name: 'foo',
+    });
+    const userConfig = { plugins: { cli: [plugin()] } };
+    const loadedPlugins = loadPlugins(appDirectory, userConfig);
+
+    expect(loadedPlugins[0].cli?.name).toEqual('foo');
+  });
+
+  test('should call transformPlugin', () => {
+    const fixture = path.resolve(
+      __dirname,
+      './fixtures/load-plugin/user-plugins',
+    );
+
+    const options = {
+      transformPlugin: jest.fn(),
+    };
+    options.transformPlugin.mockImplementation((plugins, _) => plugins);
+
+    loadPlugins(
+      fixture,
+      { plugins: [{ cli: path.join(fixture, './test-plugin-a.js') }] },
+      options,
+    );
+
+    expect(options.transformPlugin).toHaveBeenCalled();
   });
 });

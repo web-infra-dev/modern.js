@@ -4,9 +4,16 @@ import { ClientWebpackConfig } from '../src/config/client';
 describe('@modern-js/webpack#config/client', () => {
   it('ClientWebpackConfig', () => {
     const appContext: IAppContext = {
+      metaName: 'modern-js',
       appDirectory: __dirname,
       distDirectory: `${__dirname}/dist`,
       srcDirectory: `${__dirname}/src`,
+      entrypoints: [
+        {
+          entryName: 'main',
+          entry: `${__dirname}/node_modules/.modern-js/main/index.js`,
+        },
+      ],
     } as any;
     const options: NormalizedConfig = {
       source: {} as any,
@@ -69,5 +76,9 @@ describe('@modern-js/webpack#config/client', () => {
       'vm',
       'zlib',
     ]);
+
+    const getCustomPublicEnv = jest.spyOn(client, 'getCustomPublicEnv');
+    client.useDefinePlugin();
+    expect(getCustomPublicEnv).toBeCalled();
   });
 });

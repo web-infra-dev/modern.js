@@ -8,7 +8,7 @@ interface PublishOptions {
   ignoreScripts: boolean;
   gitChecks: boolean;
 }
-// eslint-disable-next-line max-statements
+
 export async function release(options: PublishOptions) {
   const appDir = process.cwd();
   const isMonorepo = isModernjsMonorepo(appDir);
@@ -23,7 +23,7 @@ export async function release(options: PublishOptions) {
     params.push(tag);
   }
 
-  if (!isMonorepo || packageManager === 'yarn') {
+  if (!isMonorepo || packageManager === 'yarn' || packageManager === 'npm') {
     await execaWithStreamLog(process.execPath, [CHANGESET_PATH, ...params]);
     return;
   }

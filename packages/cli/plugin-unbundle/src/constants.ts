@@ -61,11 +61,11 @@ export const DEFAULT_EXTENSIONS = [
   'jsx',
 ].map(ext => `.${ext}`);
 
-export const CSS_REGEX = /\.(css|sass|scss|less|styl)($|\?)/;
-export const CSS_MODULE_REGEX = /\.module.(css|sass|scss|less|styl)($|\?)/;
+export const CSS_REGEX = /\.(css|sass|scss|less)($|\?)/;
+export const CSS_MODULE_REGEX = /\.module.(css|sass|scss|less)($|\?)/;
 
-// hmr sockjs client
-export const DEV_CLIENT_PATH = path.resolve(__dirname, './client');
+// hmr sockjs client, should inject modern build into client
+export const DEV_CLIENT_PATH = path.resolve(__dirname, '../modern/client');
 
 export const DEV_CLIENT_PATH_ALIAS = `@_modern_js_dev_client`;
 
@@ -95,8 +95,14 @@ export const LAMBDA_API_FUNCTION_QUERY = '__lambda_api_function__';
 export const IGNORE_OPTIMIZE_DPES = ['domino'];
 
 // default lazy import ui components library
-export const DEFAULT_LAZY_IMPORT_UI_COMPONENTS = ['antd'];
+export const DEFAULT_LAZY_IMPORT_UI_COMPONENTS = [
+  'antd',
+  '@arco-design/web-react',
+  '@arco-design/web-react/icon',
+];
 
 export const ESBUILD_RESOLVE_PLUGIN_NAME = 'esm-resolve-plugin';
 
 export const BFF_API_DIR = './api';
+
+export const DEFAULT_PDN_HOST = `pdn.zijieapi.com`;

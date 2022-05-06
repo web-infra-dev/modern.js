@@ -1,13 +1,12 @@
 import * as path from 'path';
-import type { Configuration, WebpackPluginInstance } from 'webpack';
+import type {
+  Configuration,
+  RuleSetRule,
+  WebpackPluginInstance,
+} from 'webpack';
 import { fs, logger } from '@modern-js/utils';
 import webpack from 'webpack';
-import {
-  EDITOR_ENTRY,
-  DOT_BLOCK_TOOLS_EDITOR_ENTRY,
-  DEFAULT_ENTRY,
-  MODE,
-} from '../contants';
+import { EDITOR_ENTRY, DEFAULT_ENTRY, MODE } from '../contants';
 import createSyntheticEntry from './createSyntheticEntry';
 import { buildUmd as build } from './umd-build';
 
@@ -21,21 +20,18 @@ const getEntryFile = (prefix: string) => {
   return prefix;
 };
 
-const compile = async (
+export const handleWebpackConfig = (
   webpackConfig: Configuration,
   {
     umdEntryFile,
-    editorEntryFile,
     appDirectory,
     isDev,
   }: {
     appDirectory: string;
     umdEntryFile: string;
-    editorEntryFile: string;
     isDev: boolean;
   },
 ) => {
-  logger.info('compile UMD entry', umdEntryFile);
   webpackConfig.externals = [
     'react',
     'react/jsx-runtime',
@@ -46,9 +42,13 @@ const compile = async (
     '@modern-js-reduck/react',
     '@modern-js-reduck/store',
     '@modern-js-block/runtime',
+    '@modern-js-model/runtime',
+    // 星夜区块单独发布的 reduck 版本
+    '@modern-js-model/reduck-core',
     '@modern-js/runtime',
     '@modern-js/runtime-core',
-    '@modern-js/plugin-router',
+    // 这个包在 nocode 调试时不应该被 external
+    // '@modern-js/plugin-router',
     '@modern-js/plugin-state',
     '@modern-js/server-utils',
     'styled-components',
@@ -105,6 +105,29 @@ const compile = async (
   webpackConfig.plugins = webpackConfig.plugins.filter(
     p => p.constructor.name !== 'HtmlWebpackPlugin',
   );
+  (webpackConfig?.module?.rules as RuleSetRule[])?.[1]?.oneOf?.forEach(rule => {
+    if (
+      Array.isArray(rule.use) &&
+      typeof rule.use[0] === 'object' &&
+      (rule.use[0]?.loader || '').includes('mini-css-extract-plugin')
+    ) {
+      rule.use[0].loader = require.resolve('style-loader');
+    }
+  });
+};
+
+const compile = async (
+  webpackConfig: Configuration,
+  options: {
+    appDirectory: string;
+    umdEntryFile: string;
+    editorEntryFile: string;
+    isDev: boolean;
+  },
+) => {
+  const { umdEntryFile, editorEntryFile, isDev } = options;
+  logger.info('compile UMD entry', umdEntryFile);
+  handleWebpackConfig(webpackConfig, options);
   await build(webpackConfig, { editorEntryFile, isDev });
 };
 
@@ -114,7 +137,13 @@ const buildUmd = async (
     editorEntryFile,
     isDev,
     appDirectory,
-  }: { editorEntryFile: string; isDev: boolean; appDirectory: string },
+    internalDirectory,
+  }: {
+    editorEntryFile: string;
+    isDev: boolean;
+    appDirectory: string;
+    internalDirectory: string;
+  },
 ) => {
   const hasEditor = true;
   const { meta } = require(path.resolve(appDirectory, 'package.json'));
@@ -123,6 +152,7 @@ const buildUmd = async (
   if (hasEditor) {
     const syntheticEntry = await createSyntheticEntry(
       appDirectory,
+      internalDirectory,
       editorEntryFile,
     );
     await compile(webpackConfig, {
@@ -145,10 +175,12 @@ export default async (
   webpackConfig: any,
   {
     appDirectory,
+    internalDirectory,
     isDev = false,
     type: _ = MODE.BLOCK,
   }: {
     appDirectory: string;
+    internalDirectory: string;
     isDev?: boolean;
     type: string;
   },
@@ -161,13 +193,11 @@ export default async (
     await buildUmd(webpackConfig, {
       editorEntryFile: userEditorEntryFile,
       appDirectory,
+      internalDirectory,
       isDev,
     });
   } else {
-    const autoEditorEntryDir = path.join(
-      appDirectory,
-      DOT_BLOCK_TOOLS_EDITOR_ENTRY,
-    );
+    const autoEditorEntryDir = path.join(internalDirectory, '__editor__');
     const autoEditorEntryFile = path.join(autoEditorEntryDir, 'index.js');
     fs.removeSync(autoEditorEntryDir);
     fs.ensureFileSync(autoEditorEntryFile);
@@ -175,6 +205,7 @@ export default async (
     await buildUmd(webpackConfig, {
       editorEntryFile: autoEditorEntryFile,
       appDirectory,
+      internalDirectory,
       isDev,
     });
   }

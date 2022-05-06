@@ -1,5 +1,6 @@
 import Webpack from 'webpack';
-import { DevServerOptions } from '../type';
+import { DEFAULT_DEV_OPTIONS } from '../constants';
+import { DevServerOptions } from '../types';
 
 const { EntryPlugin } = Webpack;
 export default class DevServerPlugin {
@@ -12,16 +13,16 @@ export default class DevServerPlugin {
   apply(compiler: Webpack.Compiler) {
     const { options } = this;
 
-    const host = `&host=${options.client.host || 'localhost'}`;
-    const path = `&path=${options.client.path}`;
-    const port = `&port=${options.client.port}`;
+    const client = { ...DEFAULT_DEV_OPTIONS.client, ...options.client };
 
-    // Todo @songzhenwei
+    const host = `&host=${client.host}`;
+    const path = `&path=${client.path}`;
+    const port = `&port=${client.port}`;
+
     const clientEntry = `${require.resolve(
       '@modern-js/hmr-client',
     )}?${host}${path}${port}`;
-    const hotEntry = require.resolve('webpack/hot/dev-server');
-    const additionalEntries = [clientEntry, hotEntry];
+    const additionalEntries = [clientEntry];
 
     // use a hook to add entries if available
     for (const additionalEntry of additionalEntries) {
@@ -33,8 +34,8 @@ export default class DevServerPlugin {
     // Todo remove, client must inject.
     const compilerOptions = compiler.options;
     compilerOptions.plugins = compilerOptions.plugins || [];
+
     if (
-      hotEntry &&
       !compilerOptions.plugins.find(
         p => p.constructor === Webpack.HotModuleReplacementPlugin,
       )

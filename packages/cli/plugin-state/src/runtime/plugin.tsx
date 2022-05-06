@@ -1,9 +1,9 @@
-// eslint-disable-next-line filenames/match-exported
 import { useContext } from 'react';
-import { createPlugin, RuntimeReactContext } from '@modern-js/runtime-core';
+import { RuntimeReactContext } from '@modern-js/runtime-core';
 import { createStore, Store } from '@modern-js-reduck/store';
 import { Provider } from '@modern-js-reduck/react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import type { Plugin } from '@modern-js/runtime-core';
 
 declare module '@modern-js/runtime-core' {
   interface RuntimeContext {
@@ -21,9 +21,10 @@ declare module '@modern-js/runtime-core' {
 
 type PluginProps = Parameters<typeof createStore>[0];
 
-const state = (config: PluginProps) =>
-  createPlugin(
-    () => ({
+const state = (config: PluginProps): Plugin => ({
+  name: '@modern-js/plugin-state',
+  setup: () => {
+    return {
       hoc({ App }, next) {
         const getStateApp = (props: any) => {
           // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -62,11 +63,9 @@ const state = (config: PluginProps) =>
           },
         });
       },
-    }),
-    {
-      name: '@modern-js/plugin-state',
-    },
-  );
+    };
+  },
+});
 
 export default state;
 

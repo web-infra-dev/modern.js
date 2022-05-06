@@ -1,5 +1,42 @@
 # @modern-js/repo-generator
 
+## 1.4.1
+
+### Patch Changes
+
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+
+## 1.4.0
+
+### Minor Changes
+
+- 2b12032c: feat: upgrade csmith tools
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+
+## 1.3.4
+
+### Patch Changes
+
+- 17d0cc46: feat: prebundle lodash to @modern-js/utils/lodash
+
+## 1.3.2
+
+### Patch Changes
+
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+
+## 1.3.1
+
+### Patch Changes
+
+- e06c7c25: change generator main path on development mode
+
 ## 1.3.0
 
 ### Minor Changes

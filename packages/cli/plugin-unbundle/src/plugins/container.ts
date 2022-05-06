@@ -69,13 +69,10 @@ import type {
   SourceMap,
 } from 'rollup';
 import { Parser } from 'acorn';
-import logger from 'signale';
-import { chalk, createDebugger } from '@modern-js/utils';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
-
-// FIXME: declare module 不生效的问题
-const acornClassFields = require('acorn-class-fields');
-const mergeSourceMap = require('merge-source-map');
+import acornClassFields from 'acorn-class-fields';
+import mergeSourceMap from 'merge-source-map';
+import { chalk, createDebugger, signale as logger } from '@modern-js/utils';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 
 const debug = createDebugger('esm:plugin-container');
 
@@ -91,6 +88,7 @@ export interface PluginContainer {
   options: InputOptions;
   buildStart: (options: InputOptions) => Promise<void>;
   watchChange: (id: string) => void;
+  closeWatcher: () => void;
   // resolveImportMeta(property: string): string | null
   resolveId: (
     id: string,
@@ -295,6 +293,15 @@ export const createPluginContainer = async (
             event: event as ChangeEvent,
           });
         }
+      }
+    },
+
+    closeWatcher() {
+      for (plugin of plugins) {
+        if (!plugin.closeWatcher) {
+          continue;
+        }
+        plugin.closeWatcher.call(ctx as any);
       }
     },
 

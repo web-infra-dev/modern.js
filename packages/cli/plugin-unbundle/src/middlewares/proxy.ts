@@ -1,31 +1,11 @@
-import * as http from 'http';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
-import { Options, RequestHandler } from 'http-proxy-middleware';
+import { IncomingMessage, ServerResponse } from 'http';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import { createProxyMiddleware } from 'http-proxy-middleware';
+import { NextFunction, BffProxyOptions } from '@modern-js/types';
+import { formatProxyOptions } from '@modern-js/utils';
 
-export interface ProxyOptions extends Options {
-  /**
-   * webpack-dev-server style bypass function
-   */
-  bypass?: (
-    req: http.IncomingMessage,
-    res: http.ServerResponse,
-    options: ProxyOptions,
-  ) => null | undefined | false | string;
-}
-
-export function proxyMiddleware(
-  config: NormalizedConfig,
-  _appContext: IAppContext,
-): any[] {
-  const {
-    tools: { devServer },
-  } = config;
-
-  const options = (devServer || {}).proxy as Record<string, ProxyOptions>;
-
-  // const isUseBff = shouldUseBff(appDirectory, api);
-
-  if (!options) {
+export const createProxyHandler = (proxyOptions?: BffProxyOptions) => {
+  if (!proxyOptions) {
     return [
       (req: any, res: any, next: any) => {
         next();
@@ -33,47 +13,44 @@ export function proxyMiddleware(
     ];
   }
 
-  const proxies: Record<string, [RequestHandler, ProxyOptions]> = {};
+  const formatedProxy = formatProxyOptions(proxyOptions);
 
-  // if (isUseBff) {
-  //   const apiPrefix = bffConfig?.prefix || '/api';
+  const middlewares = formatedProxy.map(option => {
+    const middleware = createProxyMiddleware(option.context!, option);
 
-  //   const context = (pathname: string, req: any) => {
-  //     if (
-  //       pathname.startsWith(apiPrefix) &&
-  //       !req.url.endsWith(`${LAMBDA_API_FUNCTION_QUERY}`)
-  //     ) {
-  //       return true;
-  //     }
-  //     return false;
-  //   };
-  //   const opts = { target: `http://localhost:${process.env.BFF_PORT || 8086}` };
-  //   proxies[context as any] = [
-  //     require('http-proxy-middleware').createProxyMiddleware(context, opts),
-  //     opts,
-  //   ];
-  // }
-  if (options) {
-    Object.keys(options).forEach(context => {
-      let opts = options[context];
-      if (typeof opts === 'string') {
-        opts = { target: opts };
+    return async (
+      req: IncomingMessage,
+      res: ServerResponse,
+      next: NextFunction,
+    ) => {
+      const bypassUrl =
+        typeof option.bypass === 'function'
+          ? option.bypass(req, res, option)
+          : null;
+
+      // only false, no true
+      if (typeof bypassUrl === 'boolean') {
+        res.statusCode = 404;
+        return next();
+      } else if (typeof bypassUrl === 'string') {
+        req.url = bypassUrl;
+        return next();
       }
-      const proxy = require('http-proxy-middleware').createProxyMiddleware(
-        context,
-        opts,
-      );
 
-      proxies[context] = [proxy, { ...opts }];
-    });
-  }
+      (middleware as any)(req, res, next);
+    };
+  });
 
-  return Object.keys(proxies).map(
-    context =>
-      function (req: any, res: any, next: any) {
-        const [proxy] = proxies[context];
+  return middlewares;
+};
 
-        return proxy(req, res, next);
-      },
-  );
+export function proxyMiddleware(
+  config: NormalizedConfig,
+  _appContext: IAppContext,
+) {
+  const {
+    tools: { devServer },
+  } = config;
+
+  return createProxyHandler(devServer?.proxy);
 }

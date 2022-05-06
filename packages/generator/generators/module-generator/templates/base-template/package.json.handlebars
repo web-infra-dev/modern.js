@@ -37,11 +37,6 @@
   "engines": {
     "node": ">=14.17.6"
   },
-  "eslintConfig": {
-    "extends": [
-      "@modern-js"
-    ]
-  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -49,12 +44,10 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
-      "git add"
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
     ],
     "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
-      "git add"
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
     ]
   },
   "eslintIgnore": [
@@ -73,7 +66,10 @@
     "@modern-js/module-tools": "^1.1.5",
     "@modern-js/plugin-jarvis": "^1.0.0",
     "@modern-js/plugin-testing": "^1.0.0",
-    "del-cli": "^4.0.1"
+    "@modern-js/tsconfig":"^1.0.0",
+    "del-cli": "^4.0.1",
+    "lint-staged": "^11.2.6",
+    "prettier": "^2.6.2"
   },
   "sideEffects": [
     "*.css",

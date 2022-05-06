@@ -31,8 +31,7 @@ function isEmptyApiDir(apiDir: string) {
   });
 }
 
-// eslint-disable-next-line max-statements
-const handleTemplateFile = async (
+export const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
   appApi: AppAPI,
@@ -45,11 +44,10 @@ const handleTemplateFile = async (
   const apiDir = path.join(appDir, 'api');
 
   if (fs.existsSync(apiDir) && !isEmptyApiDir(apiDir)) {
-    const files = fs.readdirSync('api');
+    const files = fs.readdirSync(apiDir);
     if (files.length > 0) {
       generator.logger.warn("'api' is already exist");
-      // eslint-disable-next-line no-process-exit
-      process.exit(1);
+      throw Error("'api' is already exist");
     }
   }
 
@@ -59,8 +57,7 @@ const handleTemplateFile = async (
 
   if (language === Language.JS && framework === Framework.Nest) {
     generator.logger.warn('nest not support js project');
-    // eslint-disable-next-line no-process-exit
-    process.exit(1);
+    throw Error('nest not support js project');
   }
 
   let updateInfo: Record<string, string> = {};
@@ -86,6 +83,9 @@ const handleTemplateFile = async (
       updateInfo['dependencies.express'] = `^${await getPackageVersion(
         'express',
       )}`;
+      updateInfo[
+        'devDependencies.@types/express'
+      ] = `^${await getPackageVersion('@types/express')}`;
     }
   } else {
     updateInfo = {
@@ -132,15 +132,6 @@ const handleTemplateFile = async (
         },
       );
     }
-  } else {
-    await appApi.forgeTemplate(
-      'templates/js-template/**/*',
-      undefined,
-      resourceKey =>
-        resourceKey
-          .replace('templates/js-template/', 'api/')
-          .replace('.handlebars', `.${language}`),
-    );
   }
 
   if (bffType === BFFType.Func) {
@@ -226,7 +217,7 @@ const handleTemplateFile = async (
 
   const appendTypeContent = FrameworkAppendTypeContent[framework as Framework];
 
-  if (appendTypeContent) {
+  if (appendTypeContent && language === Language.TS) {
     const typePath = path.join(appDir, 'src', 'modern-app-env.d.ts');
     if (fs.existsSync(typePath)) {
       const npmrc = fs.readFileSync(typePath, 'utf-8');
@@ -256,7 +247,12 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   generator.logger.debug(`context=${JSON.stringify(context)}`);
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
-  await handleTemplateFile(context, generator, appApi);
+  try {
+    await handleTemplateFile(context, generator, appApi);
+  } catch (e) {
+    // eslint-disable-next-line no-process-exit
+    process.exit(1);
+  }
 
   await appApi.runInstall();
 

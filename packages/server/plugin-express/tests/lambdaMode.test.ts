@@ -1,7 +1,7 @@
 import path from 'path';
 import express from 'express';
 import request from 'supertest';
-import { serverManager } from '@modern-js/server-plugin';
+import { serverManager } from '@modern-js/server-core';
 import { INTROSPECTION_ROUTE_PATH } from '@modern-js/bff-utils';
 import plugin from '../src/plugin';
 import { APIPlugin } from './helpers';
@@ -13,6 +13,7 @@ const API_DIR = './api';
 describe('lambda-mode', () => {
   const id = '666';
   const name = 'modern';
+  const prefix = '/api';
   const foo = { id, name };
   let apiHandler: any;
 
@@ -21,40 +22,41 @@ describe('lambda-mode', () => {
       .clone()
       .usePlugin(APIPlugin, plugin)
       .init();
+
     apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'framework',
-      prefix: '/api',
+      prefix,
     });
   });
 
   test('should works', async () => {
-    const res = await request(apiHandler).get('/api/hello');
+    const res = await request(apiHandler).get(`${prefix}/hello`);
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ message: 'hello' });
   });
 
   test('should works with query', async () => {
-    const res = await request(apiHandler).get(`/api/nest/user?id=${id}`);
+    const res = await request(apiHandler).get(`${prefix}/nest/user?id=${id}`);
     expect(res.status).toBe(200);
     expect(res.body.query.id).toBe(id);
   });
 
   test('should works with body', async () => {
-    const res = await request(apiHandler).post('/api/nest/user').send(foo);
+    const res = await request(apiHandler).post(`${prefix}/nest/user`).send(foo);
     expect(res.status).toBe(200);
     expect(res.body.data).toEqual(foo);
   });
 
   test('should works with dynamic route ', async () => {
-    const res = await request(apiHandler).post(`/api/nest/${id}`);
+    const res = await request(apiHandler).post(`${prefix}/nest/${id}`);
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ id });
   });
 
   test('should works with context', async () => {
     const res = await request(apiHandler)
-      .post(`/api/nest/user?id=${id}`)
+      .post(`${prefix}/nest/user?id=${id}`)
       .send(foo);
     expect(res.status).toBe(200);
     expect(res.body.data).toEqual(foo);
@@ -63,7 +65,7 @@ describe('lambda-mode', () => {
 
   test('should support cookies', async () => {
     const res = await request(apiHandler)
-      .post(`/api/nest/user?id=${id}`)
+      .post(`${prefix}/nest/user?id=${id}`)
       .set('Cookie', [`id=${id};name=${name}`]);
     expect(res.status).toBe(200);
     expect(res.body.cookies.id).toBe(id);
@@ -71,19 +73,19 @@ describe('lambda-mode', () => {
   });
 
   test('should works with schema', async () => {
-    const res = await request(apiHandler).patch('/api/nest/user').send({
+    const res = await request(apiHandler).patch(`${prefix}/nest/user`).send({
       id: 777,
       name: 'xxx',
     });
     expect(res.status).toBe(200);
 
-    const res2 = await request(apiHandler).patch('/api/nest/user').send({
+    const res2 = await request(apiHandler).patch(`${prefix}/nest/user`).send({
       id: 'aaa',
       name: 'xxx',
     });
     expect(res2.status).toBe(400);
 
-    const res3 = await request(apiHandler).patch('/api/nest/user').send({
+    const res3 = await request(apiHandler).patch(`${prefix}/nest/user`).send({
       id: '777',
       name: 'xxx',
     });
@@ -96,6 +98,21 @@ describe('lambda-mode', () => {
     );
     expect(res.status).toBe(200);
     expect(res.body.protocol).toBe('Farrow-API');
+  });
+
+  test('should support upload file', done => {
+    request(apiHandler)
+      .post(`${prefix}/upload`)
+      .field('my_field', 'value')
+      .attach('file', __filename)
+      .end(async (err, res) => {
+        if (err) {
+          throw err;
+        }
+        expect(res.statusCode).toBe(200);
+        expect(res.body.message).toBe('success');
+        done();
+      });
   });
 });
 

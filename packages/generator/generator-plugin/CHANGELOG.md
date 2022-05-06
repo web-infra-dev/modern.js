@@ -1,5 +1,92 @@
 # @modern-js/generator-plugin
 
+## 1.2.6
+
+### Patch Changes
+
+- 592edabc: feat: prebundle url-join,mime-types,json5,fast-glob,globby,ora,inquirer
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+- Updated dependencies [2d155c4c]
+- Updated dependencies [123e432d]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/generator-utils@1.2.3
+  - @modern-js/new-action@1.3.7
+
+## 1.2.5
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/plugin-i18n@1.2.4
+  - @modern-js/generator-common@1.4.9
+  - @modern-js/generator-utils@1.2.2
+  - @modern-js/new-action@1.3.6
+
+## 1.2.4
+
+### Patch Changes
+
+- 17d0cc46: feat: prebundle lodash to @modern-js/utils/lodash
+- Updated dependencies [77ff9754]
+- Updated dependencies [d2d1d6b2]
+- Updated dependencies [07a4887e]
+- Updated dependencies [ea2ae711]
+- Updated dependencies [17d0cc46]
+- Updated dependencies [d2d1d6b2]
+  - @modern-js/utils@1.4.0
+  - @modern-js/plugin-i18n@1.2.3
+  - @modern-js/new-action@1.3.5
+
+## 1.2.3
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+- Updated dependencies [c29451a5]
+- Updated dependencies [83059b93]
+- Updated dependencies [83059b93]
+- Updated dependencies [83059b93]
+  - @modern-js/generator-common@1.4.4
+  - @modern-js/new-action@1.3.3
+
+## 1.2.2
+
+### Patch Changes
+
+- d0a3602d: fix: fix update modern config api
+- Updated dependencies [5a7901d7]
+- Updated dependencies [bada2879]
+  - @modern-js/generator-common@1.4.0
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/plugin-i18n@1.2.1
+  - @modern-js/generator-common@1.3.1
+  - @modern-js/generator-utils@1.2.1
+  - @modern-js/new-action@1.3.1
+
 ## 1.2.0
 
 ### Minor Changes

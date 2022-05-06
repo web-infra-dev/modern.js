@@ -1,5 +1,87 @@
 # @modern-js/babel-preset-app
 
+## 1.2.7
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/babel-preset-base@1.2.5
+  - @modern-js/babel-chain@1.2.2
+
+## 1.2.6
+
+### Patch Changes
+
+- 17d0cc46: feat: prebundle lodash to @modern-js/utils/lodash
+- Updated dependencies [77ff9754]
+- Updated dependencies [d2d1d6b2]
+- Updated dependencies [07a4887e]
+- Updated dependencies [ea2ae711]
+- Updated dependencies [17d0cc46]
+- Updated dependencies [d2d1d6b2]
+  - @modern-js/utils@1.4.0
+  - @modern-js/babel-preset-base@1.2.4
+
+## 1.2.5
+
+### Patch Changes
+
+- 9d4a005b: fix: config babel via tools.babel
+- Updated dependencies [132f7b53]
+  - @modern-js/utils@1.3.7
+
+## 1.2.4
+
+### Patch Changes
+
+- 969f172f: support tools.styledComponents for module-tools,support close tsc process with disbaleTsChecker
+- Updated dependencies [969f172f]
+- Updated dependencies [4c792f68]
+- Updated dependencies [a7f42f48]
+  - @modern-js/babel-preset-base@1.2.3
+  - @modern-js/utils@1.3.3
+
+## 1.2.3
+
+### Patch Changes
+
+- e62c4efd: fix error typo for 'styledComponents'
+- Updated dependencies [e62c4efd]
+  - @modern-js/babel-preset-base@1.2.2
+
+## 1.2.2
+
+### Patch Changes
+
+- 24f616ca: feat: support custom meta info
+- 198fd9c0: fix: babel preset options
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+  - @modern-js/utils@1.3.0
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/babel-preset-base@1.2.1
+  - @modern-js/babel-chain@1.2.1
+  - @modern-js/utils@1.2.2
+
 ## 1.2.0
 
 ### Minor Changes

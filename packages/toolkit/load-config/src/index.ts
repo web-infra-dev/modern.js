@@ -1,13 +1,15 @@
 import fs from 'fs';
 import path from 'path';
-import { findExists, createDebugger } from '@modern-js/utils';
+import {
+  findExists,
+  createDebugger,
+  CONFIG_FILE_EXTENSIONS,
+} from '@modern-js/utils';
 import { bundleRequire } from '@modern-js/node-bundle-require';
 
 const debug = createDebugger('load-config');
 
 export const CONFIG_FILE_NAME = 'modern.config';
-
-export const CONFIG_FILE_EXTENSIONS = ['.js', '.ts', '.ejs', '.mjs'];
 
 export const PACKAGE_JSON_CONFIG_NAME = 'modernConfig';
 

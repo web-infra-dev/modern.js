@@ -31,6 +31,7 @@ export const MWAActionFunctions = [
   // ActionFunction.Doc,
   ActionFunction.Polyfill,
   ActionFunction.Deploy,
+  ActionFunction.Proxy,
 ];
 export const MWAActionElements = [ActionElement.Entry, ActionElement.Server];
 export const MWAActionReactors = [ActionRefactor.BFFToApp];
@@ -84,6 +85,7 @@ export const MWAActionFunctionsDevDependencies: Partial<
   [ActionFunction.Doc]: '@modern-js/plugin-docsite',
   [ActionFunction.Electron]: '@modern-js/plugin-electron',
   [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
+  [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
 };
 
 export const MWAActionFunctionsDependencies: Partial<
@@ -92,17 +94,17 @@ export const MWAActionFunctionsDependencies: Partial<
   [ActionFunction.Less]: '@modern-js/plugin-less',
   [ActionFunction.Sass]: '@modern-js/plugin-sass',
   [ActionFunction.BFF]: '@modern-js/plugin-bff',
-  [ActionFunction.MicroFrontend]: '@modern-js/plugin-micro-frontend',
+  [ActionFunction.MicroFrontend]: '@modern-js/plugin-garfish',
   [ActionFunction.I18n]: '@modern-js/plugin-i18n',
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
   [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
+  [ActionFunction.TailwindCSS]: 'tailwindcss',
 };
 
 export const MWAActionFunctionsAppendTypeContent: Partial<
   Record<ActionFunction, string>
 > = {
-  [ActionFunction.Test]: `/// <reference types='@modern-js/plugin-testing/type' />`,
-  [ActionFunction.MicroFrontend]: `/// <reference types='@modern-js/plugin-micro-frontend/type' />`,
+  [ActionFunction.MicroFrontend]: `/// <reference types='@modern-js/plugin-garfish/types' />`,
 };
 
 export const MWANewActionGenerators: Record<
@@ -129,6 +131,7 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
     [ActionFunction.Deploy]: '@modern-js/cloud-deploy-generator',
+    [ActionFunction.Proxy]: '@modern-js/dependence-generator',
   },
   [ActionType.Refactor]: {
     [ActionRefactor.BFFToApp]: '@modern-js/bff-refactor-generator',

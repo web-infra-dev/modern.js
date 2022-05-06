@@ -1,0 +1,7 @@
+{
+  "extends": ["@modern-js-app"],
+  "rules": {
+    "babel/no-unused-expressions": 0,
+    "react/jsx-filename-extension": 0
+  }
+}

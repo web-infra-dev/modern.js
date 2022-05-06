@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs, findExists, MAIN_ENTRY_NAME } from '@modern-js/utils';
-import { IAppContext, NormalizedConfig, mountHook } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig, PluginAPI } from '@modern-js/core';
 import type { Entrypoint, HtmlPartials, HtmlTemplates } from '@modern-js/types';
 import { HTML_PARTIALS_EXTENSIONS, HTML_PARTIALS_FOLDER } from './constants';
 import * as templates from './templates';
@@ -9,6 +9,7 @@ enum PartialPosition {
   TOP = 'top',
   HEAD = 'head',
   BODY = 'body',
+  BOTTOM = 'bottom',
   INDEX = 'index',
 }
 
@@ -40,6 +41,7 @@ const findPartials = (
 // generate html template for
 export const getHtmlTemplate = async (
   entrypoints: Entrypoint[],
+  api: PluginAPI,
   {
     appContext,
     config,
@@ -73,7 +75,8 @@ export const getHtmlTemplate = async (
     if (customIndexTemplate) {
       htmlTemplates[entryName] = customIndexTemplate.file;
     } else {
-      const { partials } = await (mountHook() as any).htmlPartials({
+      const hookRunners = api.useHookRunners();
+      const { partials } = await hookRunners.htmlPartials({
         entrypoint,
         partials: [
           PartialPosition.TOP,
@@ -104,6 +107,15 @@ export const getHtmlTemplate = async (
       fs.outputFileSync(templatePath, templates.html(partials), 'utf8');
 
       htmlTemplates[entryName] = templatePath;
+
+      const bottomTemplate = findPartials(
+        htmlDir,
+        name,
+        PartialPosition.BOTTOM,
+      );
+      if (bottomTemplate) {
+        htmlTemplates[`__${entryName}-bottom__`] = bottomTemplate.content;
+      }
     }
   }
 

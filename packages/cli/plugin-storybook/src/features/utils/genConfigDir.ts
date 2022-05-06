@@ -1,9 +1,8 @@
 import path from 'path';
 import type { NormalizedConfig } from '@modern-js/core';
-import { Import, fs, logger } from '@modern-js/utils';
+import { Import, fs, glob, logger } from '@modern-js/utils';
 import { transformSync } from '@modern-js/esbuild-compiler';
 
-const glob: typeof import('glob') = Import.lazy('glob', require);
 const constants: typeof import('../constants') = Import.lazy(
   '../constants',
   require,
@@ -25,7 +24,7 @@ const defaultOptions = {
   isTsProject: false,
 };
 
-const getConfigDir = (appDir: string) => {
+export const getConfigDir = (appDir: string) => {
   const storybookConfigsPath = path.join(constants.CURRENT_PKG_PATH, 'configs');
   fs.ensureDirSync(storybookConfigsPath);
   const projectConfigtPath = path.join(

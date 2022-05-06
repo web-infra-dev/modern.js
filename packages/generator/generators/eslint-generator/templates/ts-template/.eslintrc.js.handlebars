@@ -1,6 +1,9 @@
+// eslint-disable-next-line import/no-commonjs
 module.exports = {
+  root: true,
   extends: '{{ extends }}',
   parserOptions: {
+    tsconfigRootDir: __dirname,
     project: require.resolve('./tsconfig.json'),
   },
 };

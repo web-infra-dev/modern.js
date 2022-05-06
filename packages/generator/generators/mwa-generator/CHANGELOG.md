@@ -1,5 +1,69 @@
 # @modern-js/mwa-generator
 
+## 1.4.1
+
+### Patch Changes
+
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+
+## 1.4.0
+
+### Minor Changes
+
+- d1480a35: feat: remove generator's .npmrc file
+- 2b12032c: feat: upgrade csmith tools
+- a4330c73: feat: adjust generator eslint and tsconig file
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+
+## 1.3.7
+
+### Patch Changes
+
+- 6c651ee7: fix: lint-staged warning
+
+## 1.3.6
+
+### Patch Changes
+
+- edc3bd3d: fix: @modern-js/core package not found
+
+## 1.3.5
+
+### Patch Changes
+
+- 6668a1bf: feat: upgrade @modern-js/codesmith-api-app version
+- 9e0aed14: feat: add modern config file when create project
+- fab92861: fix: @modern-js/core phantom dep
+
+## 1.3.4
+
+### Patch Changes
+
+- 389e8bca: fix: fix eslint error with "modern.config.ts"
+
+## 1.3.3
+
+### Patch Changes
+
+- 2ba581e4: fix: mwa and module sub project dependence error
+
+## 1.3.2
+
+### Patch Changes
+
+- e06c7c25: change generator main path on development mode
+
+## 1.3.1
+
+### Patch Changes
+
+- 3c5621f0: fix tsconfig template
+
 ## 1.3.0
 
 ### Minor Changes

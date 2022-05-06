@@ -1,12 +1,14 @@
 import * as path from 'path';
-import { useAppContext, createPlugin } from '@modern-js/core';
+import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils } from '@modern-js/utils';
+import { getRelativeRuntimePath } from '@modern-js/adapter-helpers';
 
-export default createPlugin(
-  () => {
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-nest',
+  setup: api => {
     let bffExportsUtils: any;
+    const { useAppContext } = api;
     const runtimeModulePath = path.resolve(__dirname, '../runtime');
-
     return {
       config() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -19,21 +21,10 @@ export default createPlugin(
 
         const serverRuntimePath = bffExportsUtils.getPath();
 
-        // Look up one level, because the artifacts after build have dist directories
-        let relativeRuntimePath = path.join(
-          '../',
-          path.relative(appDirectory, serverRuntimePath),
+        const relativeRuntimePath = getRelativeRuntimePath(
+          appDirectory,
+          serverRuntimePath,
         );
-
-        if (
-          process.env.NODE_ENV === 'development' ||
-          process.env.NODE_ENV === 'test'
-        ) {
-          relativeRuntimePath = `./${path.relative(
-            appDirectory,
-            serverRuntimePath,
-          )}`;
-        }
 
         return {
           source: {
@@ -43,7 +34,7 @@ export default createPlugin(
           },
         };
       },
-      modifyEntryImports(input) {
+      addRuntimeExports(input) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const { appDirectory } = useAppContext();
         const runtimePath = require.resolve(`@modern-js/runtime`, {
@@ -76,7 +67,4 @@ export default createPlugin(
       },
     };
   },
-  {
-    name: '@modern-js/plugin-nest',
-  },
-) as any;
+});

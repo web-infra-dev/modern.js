@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.0",
+  "version": "1.4.3",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -47,30 +47,24 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "build": "modern build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/plugin": "workspace:^1.2.0",
-    "@modern-js/utils": "workspace:^1.2.0",
+    "@modern-js/plugin": "workspace:^1.3.3",
     "@types/styled-components": "^5.1.14",
     "hoist-non-react-statics": "^3.3.2",
     "invariant": "^2.2.4",
     "styled-components": "^5.3.1"
   },
-  "peerDependencies": {
-    "@loadable/component": "^5.15.0",
-    "@types/loadable__component": "^5.13.4"
-  },
   "devDependencies": {
+    "@modern-js/types": "workspace:*",
     "@testing-library/react": "^12.0.0",
     "@testing-library/react-hooks": "^7.0.1",
-    "@loadable/component": "^5.15.0",
     "@types/hoist-non-react-statics": "^3.3.1",
-    "@types/loadable__component": "^5.13.4",
     "@types/invariant": "^2.2.30",
     "@types/jest": "^26",
     "@types/node": "^14",

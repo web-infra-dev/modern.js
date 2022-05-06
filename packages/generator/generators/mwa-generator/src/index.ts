@@ -11,7 +11,6 @@ import {
   Language,
   BooleanConfig,
   ClientRoute,
-  PackageManager,
   RunWay,
   EntryGenerator,
   ElectronGenerator,
@@ -38,8 +37,7 @@ const getGeneratorPath = (generator: string, distTag: string) => {
   return generator;
 };
 
-// eslint-disable-next-line max-statements
-const handleTemplateFile = async (
+export const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
   appApi: AppAPI,
@@ -70,7 +68,6 @@ const handleTemplateFile = async (
     await generatorPlugin.installPlugins(Solution.MWA, extra);
     schema = generatorPlugin.getInputSchema(Solution.MWA);
     inputValue = generatorPlugin.getInputValue();
-    // eslint-disable-next-line require-atomic-updates
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
   }
@@ -159,15 +156,13 @@ const handleTemplateFile = async (
           .replace('templates/ts-template/', projectPath)
           .replace('.handlebars', ''),
     );
-  }
-
-  if (!isMonorepoSubProject && packageManager === PackageManager.Pnpm) {
+  } else {
     await appApi.forgeTemplate(
-      'templates/pnpm-template/**/*',
+      'templates/js-template/**/*',
       undefined,
       resourceKey =>
         resourceKey
-          .replace('templates/pnpm-template/', projectPath)
+          .replace('templates/js-template/', projectPath)
           .replace('.handlebars', ''),
     );
   }
@@ -210,6 +205,7 @@ const handleTemplateFile = async (
         dependencies: {
           [lessDependence]: `^${await getPackageVersion(lessDependence)}`,
         },
+        projectPath,
         isSubGenerator: true,
       },
     );
@@ -225,6 +221,7 @@ const handleTemplateFile = async (
         dependencies: {
           [sassDependence]: `${await getPackageVersion(sassDependence)}`,
         },
+        projectPath,
         isSubGenerator: true,
       },
     );
@@ -240,7 +237,6 @@ const handleTemplateFile = async (
   return { projectPath, isElectron: runWay === RunWay.Electron };
 };
 
-// eslint-disable-next-line max-statements
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const appApi = new AppAPI(context, generator);
 

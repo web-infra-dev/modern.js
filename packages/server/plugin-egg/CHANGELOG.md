@@ -1,5 +1,99 @@
 # @modern-js/plugin-egg
 
+## 1.5.5
+
+### Patch Changes
+
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- befd9e5b: fix: compatible with babel-plugin-resolver's handling of relative paths on windows
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [befd9e5b]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/adapter-helpers@1.2.3
+  - @modern-js/bff-runtime@1.2.2
+  - @modern-js/bff-utils@1.2.3
+
+## 1.5.4
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- Updated dependencies [132f7b53]
+  - @modern-js/utils@1.3.7
+
+## 1.5.3
+
+### Patch Changes
+
+- 952432ac: fix: upload files
+- c1b8fa0a: feat: convert to new server plugin
+- Updated dependencies [c2046f37]
+  - @modern-js/utils@1.3.6
+
+## 1.5.2
+
+### Patch Changes
+
+- ef7b0a54: feat: convert to new plugin
+- Updated dependencies [5bf5868d]
+- Updated dependencies [d95f28c3]
+- Updated dependencies [2e8dec93]
+- Updated dependencies [2008fdbd]
+- Updated dependencies [2e8dec93]
+  - @modern-js/utils@1.3.5
+  - @modern-js/server-core@1.2.3
+
+## 1.5.1
+
+### Patch Changes
+
+- 9594df3f: fix: allow user to set statusCode 404
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
+## 1.5.0
+
+### Minor Changes
+
+- ec4dbffb: feat: support as a pure api service
+
+### Patch Changes
+
+- 272cab15: refactor server plugin manager
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [272cab15]
+  - @modern-js/core@1.4.0
+  - @modern-js/utils@1.3.0
+  - @modern-js/server-core@1.2.2
+
+## 1.4.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+  - @modern-js/core@1.3.2
+  - @modern-js/adapter-helpers@1.2.1
+  - @modern-js/bff-runtime@1.2.1
+  - @modern-js/bff-utils@1.2.2
+  - @modern-js/server-plugin@1.2.1
+  - @modern-js/utils@1.2.2
+
 ## 1.4.0
 
 ### Minor Changes

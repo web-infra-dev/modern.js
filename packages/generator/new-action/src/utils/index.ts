@@ -1,5 +1,5 @@
 import path from 'path';
-import json5 from 'json5';
+import { json5 } from '@modern-js/utils';
 import { ActionFunction } from '@modern-js/generator-common';
 import { fs } from '@modern-js/generator-utils';
 
@@ -23,7 +23,6 @@ export const readJson = (jsonPath: string) => {
   }
 };
 
-// eslint-disable-next-line max-params
 export function hasEnabledFunction(
   action: ActionFunction,
   dependencies: Record<string, string>,
@@ -37,13 +36,13 @@ export function hasEnabledFunction(
     return false;
   }
   if (dependencies[action]) {
-    return (packageJson.dependencies || {})[dependencies[action]];
+    return packageJson.dependencies?.[dependencies[action]];
   }
   if (peerDependencies[action]) {
-    return (packageJson.peerDependencies || {})[peerDependencies[action]];
+    return packageJson.peerDependencies?.[peerDependencies[action]];
   }
   if (!peerDependencies[action] && devDependencies[action]) {
-    return (packageJson.devDependencies || {})[devDependencies[action]];
+    return packageJson.devDependencies?.[devDependencies[action]];
   }
   return false;
 }

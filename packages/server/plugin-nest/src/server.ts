@@ -1,4 +1,4 @@
-import { createPlugin } from '@modern-js/server-plugin';
+import type { ServerPlugin } from '@modern-js/server-core';
 import { isFunction, logger } from '@modern-js/utils';
 import { NestFactory } from '@nestjs/core';
 import {
@@ -20,9 +20,10 @@ import {
   API_DIR,
 } from './helpers';
 
-export default createPlugin(
-  () => ({
-    // eslint-disable-next-line max-statements
+export default (): ServerPlugin => ({
+  name: '@modern-js/plugin-nest',
+  pre: ['@modern-js/plugin-bff'],
+  setup: () => ({
     prepareApiServer: async ({ prefix, config, pwd, mode }) => {
       let app: INestApplication;
       const middlewareInputs = initMiddlewares(config?.middleware || []);
@@ -145,8 +146,7 @@ export default createPlugin(
         });
     },
   }),
-  { name: '@modern-js/plugin-nest', pre: ['@modern-js/plugin-bff'] },
-) as any;
+});
 
 const isModule = (v: Record<string, unknown>) =>
   Reflect.hasMetadata('providers', v) ||

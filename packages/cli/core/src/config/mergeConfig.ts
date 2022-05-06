@@ -1,4 +1,4 @@
-import mergeWith from 'lodash.mergewith';
+import { mergeWith } from '@modern-js/utils/lodash';
 import { isFunction } from '@modern-js/utils';
 import { UserConfig, SourceConfig, ToolsConfig } from '.';
 
@@ -22,10 +22,14 @@ export interface NormalizedToolsConfig
     | 'terser'
     | 'minifyCss'
     | 'esbuild'
+    | 'styledComponents'
   > {
   webpack: ToolsConfig['webpack'] | Array<NonNullable<ToolsConfig['webpack']>>;
   babel: ToolsConfig['babel'] | Array<NonNullable<ToolsConfig['babel']>>;
   postcss: ToolsConfig['postcss'] | Array<NonNullable<ToolsConfig['postcss']>>;
+  styledComponents:
+    | ToolsConfig['styledComponents']
+    | Array<NonNullable<ToolsConfig['styledComponents']>>;
   autoprefixer:
     | ToolsConfig['autoprefixer']
     | Array<NonNullable<ToolsConfig['autoprefixer']>>;
@@ -39,6 +43,7 @@ export interface NormalizedToolsConfig
     | Array<NonNullable<ToolsConfig['minifyCss']>>;
   esbuild: ToolsConfig['esbuild'] | Array<NonNullable<ToolsConfig['esbuild']>>;
 }
+
 export interface NormalizedConfig
   extends Omit<Required<UserConfig>, 'source' | 'tools'> {
   source: NormalizedSourceConfig;
@@ -57,13 +62,15 @@ export const mergeConfig = (
   configs: Array<UserConfig | NormalizedConfig>,
 ): NormalizedConfig =>
   mergeWith({}, ...configs, (target: any, source: any) => {
-    if (Array.isArray(target) && Array.isArray(source)) {
-      return [...target, ...source];
+    if (Array.isArray(target)) {
+      if (Array.isArray(source)) {
+        return [...target, ...source];
+      } else {
+        return typeof source !== 'undefined' ? [...target, source] : target;
+      }
+    } else if (isFunction(source)) {
+      return typeof target !== 'undefined' ? [target, source] : [source];
     }
-    if (isFunction(source)) {
-      return Array.isArray(target)
-        ? [...target, source]
-        : [target, source].filter(Boolean);
-    }
+
     return undefined;
   });

@@ -1,5 +1,105 @@
 # @modern-js/plugin-tailwindcss
 
+## 1.2.8
+
+### Patch Changes
+
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- Updated dependencies [b8599d09]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/plugin-design-token@1.0.4
+
+## 1.2.7
+
+### Patch Changes
+
+- 17d0cc46: feat: prebundle lodash to @modern-js/utils/lodash
+- Updated dependencies [77ff9754]
+- Updated dependencies [d2d1d6b2]
+- Updated dependencies [07a4887e]
+- Updated dependencies [ea2ae711]
+- Updated dependencies [17d0cc46]
+- Updated dependencies [d2d1d6b2]
+  - @modern-js/utils@1.4.0
+  - @modern-js/plugin-design-token@1.0.3
+
+## 1.2.6
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- 132f7b53: feat: move config declarations to @modern-js/core
+- Updated dependencies [bebb39b6]
+- Updated dependencies [132f7b53]
+  - @modern-js/plugin-design-token@1.0.3
+  - @modern-js/utils@1.3.7
+
+## 1.2.5
+
+### Patch Changes
+
+- b851d628: feat: convert to new plugin
+- 61e3f623: feat: convert to new plugin
+- Updated dependencies [c2046f37]
+- Updated dependencies [10379961]
+- Updated dependencies [61e3f623]
+  - @modern-js/utils@1.3.6
+  - @modern-js/plugin-design-token@1.0.2
+
+## 1.2.4
+
+### Patch Changes
+
+- 83059b93: fix tailwindcss type reference
+- 83059b93: fix tailwindcss generator
+- Updated dependencies [969f172f]
+- Updated dependencies [4c792f68]
+- Updated dependencies [4b5d4bf4]
+- Updated dependencies [62f5b8c8]
+- Updated dependencies [55e18278]
+- Updated dependencies [4499a674]
+- Updated dependencies [403f5169]
+- Updated dependencies [a7f42f48]
+  - @modern-js/core@1.4.4
+  - @modern-js/utils@1.3.3
+
+## 1.2.3
+
+### Patch Changes
+
+- 8f24a514: fix: UserConfig is missing tools.tailwindcss type
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
+## 1.2.2
+
+### Patch Changes
+
+- 6891e4c2: add @modern-js/plugin-design-token, support 'source.designSystem.supportStyledComponents' config
+- Updated dependencies [6891e4c2]
+- Updated dependencies [b376c8d6]
+- Updated dependencies [e62c4efd]
+- Updated dependencies [e2a8233f]
+  - @modern-js/plugin-design-token@1.0.1
+  - @modern-js/core@1.4.2
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+  - @modern-js/core@1.3.2
+  - @modern-js/utils@1.2.2
+
 ## 1.2.0
 
 ### Minor Changes

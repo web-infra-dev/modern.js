@@ -1,7 +1,7 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable max-lines */
 import { Schema, SchemaValidateType } from '@modern-js/easy-form-core';
-import { isFunction } from 'lodash';
+import { isFunction } from '@modern-js/utils/lodash';
 
 export enum InputType {
   Input = 'input',
@@ -176,7 +176,6 @@ export class PluginInputContext {
     }
   }
 
-  // eslint-disable-next-line max-statements
   setInput(
     key: string,
     field: string,

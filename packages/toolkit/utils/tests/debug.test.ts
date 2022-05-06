@@ -1,5 +1,5 @@
-import debug from 'debug';
-import stripAnsi from 'strip-ansi';
+import { debug } from '../src/compiled';
+import { stripAnsi } from '../src';
 import { createDebugger } from '../src/debug';
 
 describe('debug utility', () => {

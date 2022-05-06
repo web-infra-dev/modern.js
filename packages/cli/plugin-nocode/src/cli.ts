@@ -1,17 +1,29 @@
-import { Import, PLUGIN_SCHEMAS } from '@modern-js/utils';
+import { join } from 'path';
+import { PLUGIN_SCHEMAS } from '@modern-js/utils';
 import { WebpackConfigTarget, getWebpackConfig } from '@modern-js/webpack';
+import type { CliPlugin } from '@modern-js/core';
 import type { Configuration } from 'webpack';
+import { MODE, STARRY_MODEL_RUNTIME } from './contants';
 import dev from './dev';
 import { register } from './register';
 
-const core: typeof import('@modern-js/core') = Import.lazy(
-  '@modern-js/core',
-  require,
-);
 process.env.RUN_PLATFORM = 'true';
 
-export default core.createPlugin(
-  () => ({
+const getMode = (appDirectory: string) => {
+  let mode = MODE.BLOCK;
+  try {
+    const { dependencies } = require(join(appDirectory, 'package.json'));
+    if (STARRY_MODEL_RUNTIME in dependencies) {
+      mode = MODE.MODEL;
+    }
+  } catch (err) {}
+  return mode;
+};
+
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-nocode',
+
+  setup: api => ({
     commands({ program }) {
       program
         .command('deploy [subcmd]')
@@ -28,21 +40,30 @@ export default core.createPlugin(
         });
 
       const devCommand = program.commandsMap.get('dev');
-      const { appDirectory } = core.useAppContext();
-      const modernConfig = core.useResolvedConfigContext();
+      const appContext = api.useAppContext();
+      const { appDirectory, internalDirectory } = appContext;
+      const modernConfig = api.useResolvedConfigContext();
       if (devCommand) {
         devCommand.command('nocode').action(async () => {
           const webpackConfig = getWebpackConfig(
             WebpackConfigTarget.CLIENT,
+            appContext,
+            modernConfig,
           ) as Configuration;
-          await dev(appDirectory, webpackConfig, modernConfig);
+          await dev(
+            appDirectory,
+            internalDirectory,
+            webpackConfig,
+            modernConfig,
+            getMode(appDirectory),
+          );
         });
       }
     },
     validateSchema() {
       return PLUGIN_SCHEMAS['@modern-js/plugin-nocode'];
     },
-    platformBuild({ isTsProject: _ }) {
+    platformBuild() {
       return {
         name: 'nocode',
         title: 'Run Nocode log',
@@ -59,15 +80,23 @@ export default core.createPlugin(
         }: {
           isTsProject: boolean;
         }) => {
-          const { appDirectory } = core.useAppContext();
-          const modernConfig = core.useResolvedConfigContext();
+          const appContext = api.useAppContext();
+          const { appDirectory, internalDirectory } = appContext;
+          const modernConfig = api.useResolvedConfigContext();
           const webpackConfig = getWebpackConfig(
             WebpackConfigTarget.CLIENT,
+            appContext,
+            modernConfig,
           ) as Configuration;
-          await dev(appDirectory, webpackConfig, modernConfig);
+          await dev(
+            appDirectory,
+            internalDirectory,
+            webpackConfig,
+            modernConfig,
+            getMode(appDirectory),
+          );
         },
       };
     },
   }),
-  { name: '@modern-js/plugin-nocode' },
-) as any;
+});

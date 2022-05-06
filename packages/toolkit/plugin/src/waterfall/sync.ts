@@ -18,7 +18,7 @@ export const getBrook = <I>(input: BrookInput<I>) => {
   } else if (input && typeof input.middleware === 'function') {
     return input.middleware;
   }
-  // eslint-disable-next-line @typescript-eslint/no-base-to-string,@typescript-eslint/restrict-template-expressions
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   throw new Error(`${input} is not a Brook or { brook: Brook }`);
 };
 
@@ -27,7 +27,6 @@ export type RunWaterfallOptions<I = unknown> = {
   onLast?: Brook<I>;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type Waterfall<I = void> = {
   run: (input: I, options?: RunWaterfallOptions<I>) => I;
   use: (...I: BrookInputs<I>) => Waterfall<I>;
@@ -43,14 +42,11 @@ export type Waterfall2Brook<P extends Waterfall<any>> = P extends Waterfall<
 
 export type WaterfallRecord = Record<string, Waterfall<any>>;
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type Waterfalls2Brooks<PS extends WaterfallRecord | void> = {
   [K in keyof PS]: PS[K] extends Waterfall<any>
     ? Waterfall2Brook<PS[K]>
-    : // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    PS[K] extends void
-    ? // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      void
+    : PS[K] extends void
+    ? void
     : never;
 };
 
@@ -60,18 +56,14 @@ export type RunnerFromWaterfall<M extends Waterfall<any>> = M extends Waterfall<
   ? Waterfall<VS>['run']
   : never;
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type Waterfalls2Runners<PS extends WaterfallRecord | void> = {
   [K in keyof PS]: PS[K] extends Waterfall<any>
     ? RunnerFromWaterfall<PS[K]>
-    : // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    PS[K] extends void
-    ? // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      void
+    : PS[K] extends void
+    ? void
     : never;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export const createWaterfall = <I = void>(): Waterfall<I> => {
   const pipeline = createPipeline<I, I>();
 
@@ -81,13 +73,11 @@ export const createWaterfall = <I = void>(): Waterfall<I> => {
   };
 
   const run: Waterfall<I>['run'] = (input, options) =>
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     pipeline.run(input, { ...options, onLast: input => input });
 
   const middleware: Waterfall<I>['middleware'] = input => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const container = useContainer();
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     return pipeline.run(input, { container, onLast: input => input });
   };
 

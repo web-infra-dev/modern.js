@@ -1,17 +1,12 @@
 import path from 'path';
 import { logger, PLUGIN_SCHEMAS } from '@modern-js/utils';
-import {
-  createPlugin,
-  useAppContext,
-  useResolvedConfigContext,
-} from '@modern-js/core';
+import type { CliPlugin } from '@modern-js/core';
 import { generatePath } from 'react-router-dom';
 import {
   AgreedRoute,
   AgreedRouteMap,
   EntryPoint,
-  ExtendOutputConfig,
-  SSG,
+  SSGConfig,
   SsgRoute,
 } from './types';
 import {
@@ -26,8 +21,10 @@ import { writeHtmlFile } from './libs/output';
 import { replaceRoute } from './libs/replace';
 import { makeRoute } from './libs/make';
 
-export default createPlugin(
-  (() => {
+export default (): CliPlugin => ({
+  name: '@modern-js/plugin-ssg',
+
+  setup: api => {
     const agreedRouteMap: AgreedRouteMap = {};
 
     return {
@@ -46,19 +43,15 @@ export default createPlugin(
 
         return { entrypoint, routes };
       },
-      // eslint-disable-next-line max-statements
       async afterBuild() {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const resolvedConfig = useResolvedConfigContext();
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const appContext = useAppContext();
+        const resolvedConfig = api.useResolvedConfigContext();
+        const appContext = api.useAppContext();
 
         const { appDirectory, entrypoints } = appContext;
         const { output } = resolvedConfig;
-        const { ssg, path: outputPath } = output as typeof output &
-          ExtendOutputConfig;
+        const { ssg, path: outputPath } = output;
 
-        const ssgOptions: SSG = Array.isArray(ssg) ? ssg.pop() : ssg;
+        const ssgOptions: SSGConfig = Array.isArray(ssg) ? ssg.pop() : ssg;
         // no ssg configuration, skip ssg render.
         if (!ssgOptions) {
           return;
@@ -98,7 +91,7 @@ export default createPlugin(
             // only add entry route if entryOptions is true
             if (entryOptions === true) {
               ssgRoutes.push({ ...pageRoute, output: entryPath });
-            } else if (entryOptions.routes?.length > 0) {
+            } else if (entryOptions.routes && entryOptions.routes.length > 0) {
               // if entryOptions is object and has routes options
               // add every route in options
               const { routes: enrtyRoutes, headers } = entryOptions;
@@ -186,7 +179,9 @@ export default createPlugin(
         });
 
         const htmlAry = await createServer(
+          api,
           ssgRoutes,
+          pageRoutes,
           apiRoutes,
           resolvedConfig,
           appDirectory,
@@ -204,6 +199,5 @@ export default createPlugin(
         logger.info('ssg Compiled successfully');
       },
     };
-  }) as any,
-  { name: '@modern-js/plugin-ssg' },
-) as any;
+  },
+});

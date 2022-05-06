@@ -1,5 +1,96 @@
 # @modern-js/types
 
+## 1.5.1
+
+### Patch Changes
+
+- 3d1fac2a: chore: app-tools no longer depend on webpack
+
+## 1.5.0
+
+### Minor Changes
+
+- 3bf4f8b0: feat: support start api server only
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 60f7d8bf: feat: add tests dir to npmignore
+- Updated dependencies [6cffe99d]
+- Updated dependencies [60f7d8bf]
+  - @modern-js/plugin@1.3.3
+
+## 1.4.0
+
+### Minor Changes
+
+- d2d1d6b2: feat: support server config
+
+## 1.3.6
+
+### Patch Changes
+
+- 132f7b53: feat: move config declarations to @modern-js/core
+
+## 1.3.5
+
+### Patch Changes
+
+- d95f28c3: should enable babel register before server plugin require
+- Updated dependencies [80d8ddfe]
+- Updated dependencies [491145e3]
+  - @modern-js/plugin@1.3.0
+
+## 1.3.4
+
+### Patch Changes
+
+- 4499a674: feat: support to pass options to plugins
+- e37ea5b2: feat: add afterMonorepoDeploy hook
+
+## 1.3.3
+
+### Patch Changes
+
+- deeaa602: support svg/proxy/multi-version in unbundled
+
+## 1.3.2
+
+### Patch Changes
+
+- 6891e4c2: add addDefineTypes define
+
+## 1.3.1
+
+### Patch Changes
+
+- 78279953: compiler entry bug fix and dev build console
+- 4d72edea: support dev compiler by entry
+
+## 1.3.0
+
+### Minor Changes
+
+- ec4dbffb: feat: support as a pure api service
+
+### Patch Changes
+
+- 816fd721: support more server context
+- bfbea9a7: support multi base url and dynamic base url
+- 24f616ca: feat: support custom meta info
+- 272cab15: refactor server plugin manager
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- b7c48198: feat: add beforeGenerateRoutes hook
+- Updated dependencies [83166714]
+  - @modern-js/plugin@1.2.1
+
 ## 1.2.0
 
 ### Minor Changes

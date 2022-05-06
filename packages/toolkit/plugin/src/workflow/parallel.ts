@@ -16,28 +16,22 @@ export type ParallelWorkflow2Worker<W extends ParallelWorkflow<any>> =
 export type ParallelWorkflowRecord = Record<string, ParallelWorkflow<any>>;
 
 export type ParallelWorkflows2Workers<
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   PS extends ParallelWorkflowRecord | void,
 > = {
   [K in keyof PS]: PS[K] extends ParallelWorkflow<any>
     ? ParallelWorkflow2Worker<PS[K]>
-    : // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    PS[K] extends void
-    ? // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      void
+    : PS[K] extends void
+    ? void
     : never;
 };
 
 export type ParallelWorkflows2AsyncWorkers<
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   PS extends ParallelWorkflowRecord | void,
 > = {
   [K in keyof PS]: PS[K] extends ParallelWorkflow<any>
     ? ParallelWorkflow2Worker<PS[K]>
-    : // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    PS[K] extends void
-    ? // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      void
+    : PS[K] extends void
+    ? void
     : never;
 };
 
@@ -47,15 +41,12 @@ export type RunnerFromParallelWorkflow<W extends ParallelWorkflow<any>> =
     : never;
 
 export type ParallelWorkflows2Runners<
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   PS extends ParallelWorkflowRecord | void,
 > = {
   [K in keyof PS]: PS[K] extends ParallelWorkflow<any>
     ? RunnerFromParallelWorkflow<PS[K]>
-    : // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    PS[K] extends void
-    ? // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      void
+    : PS[K] extends void
+    ? void
     : never;
 };
 
@@ -64,7 +55,6 @@ export const isParallelWorkflow = (
 ): input is ParallelWorkflow<any> => Boolean(input?.[PARALLEL_WORKFLOW_SYMBOL]);
 
 export const createParallelWorkflow = <
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   I = void,
   O = unknown,
 >(): ParallelWorkflow<I, O> => {
@@ -76,7 +66,6 @@ export const createParallelWorkflow = <
   };
 
   const run: ParallelWorkflow<I, O>['run'] = async (input, options) =>
-    // eslint-disable-next-line promise/prefer-await-to-then
     Promise.all(pipeline.run(input, { ...options, onLast: () => [] })).then(
       result => result.filter(Boolean),
     );

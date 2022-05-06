@@ -4,7 +4,6 @@ import { FrameworkSchema, Framework } from './common';
 
 export enum BFFType {
   Func = 'func',
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   Framework = 'framework',
 }
 

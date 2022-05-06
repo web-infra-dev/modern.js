@@ -1,5 +1,90 @@
 # @modern-js/plugin-server-build
 
+## 1.2.6
+
+### Patch Changes
+
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+- Updated dependencies [2d155c4c]
+- Updated dependencies [123e432d]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/server-utils@1.2.4
+
+## 1.2.5
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/server-utils@1.2.3
+  - @modern-js/babel-compiler@1.2.3
+
+## 1.2.4
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- Updated dependencies [bebb39b6]
+- Updated dependencies [132f7b53]
+  - @modern-js/server-utils@1.2.2
+  - @modern-js/utils@1.3.7
+
+## 1.2.3
+
+### Patch Changes
+
+- 61e3f623: feat: convert to new plugin
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [c2046f37]
+  - @modern-js/utils@1.3.6
+
+## 1.2.2
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+- Updated dependencies [969f172f]
+- Updated dependencies [4c792f68]
+- Updated dependencies [4b5d4bf4]
+- Updated dependencies [62f5b8c8]
+- Updated dependencies [55e18278]
+- Updated dependencies [4499a674]
+- Updated dependencies [403f5169]
+- Updated dependencies [a7f42f48]
+  - @modern-js/core@1.4.4
+  - @modern-js/utils@1.3.3
+  - @modern-js/babel-compiler@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+  - @modern-js/core@1.3.2
+  - @modern-js/server-utils@1.2.1
+  - @modern-js/babel-compiler@1.2.1
+  - @modern-js/utils@1.2.2
+
 ## 1.2.0
 
 ### Minor Changes

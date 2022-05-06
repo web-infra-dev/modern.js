@@ -1,7 +1,13 @@
 import path from 'path';
 import { logger, fs } from '@modern-js/utils';
 import matter from 'gray-matter';
-import { startCase, camelCase, union, template, difference } from 'lodash';
+import {
+  startCase,
+  camelCase,
+  union,
+  template,
+  difference,
+} from '@modern-js/utils/lodash';
 import GithubSlugger from 'github-slugger';
 import sortPaths from 'sort-paths';
 import visit from 'unist-util-visit';
@@ -39,7 +45,6 @@ interface Node {
   children?: Node[];
 }
 
-// eslint-disable-next-line max-statements
 async function handleFile(
   appDirectory: string,
   tmpDir: string,

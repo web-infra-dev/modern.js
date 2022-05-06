@@ -1,0 +1,31 @@
+{
+  "routes": [
+    {
+      "urlPath": "/",
+      "entryName": "main",
+      "entryPath": "html/main/index.html",
+      "isSPA": true,
+      "isSSR": true,
+      "enableModernMode": false,
+      "bundle": "bundles/main.js"
+    },
+    {
+      "urlPath": "/500",
+      "entryName": "500",
+      "entryPath": "html/main/index.html",
+      "isSPA": true,
+      "isSSR": true,
+      "enableModernMode": false,
+      "bundle": "bundles/main.js"
+    },
+    {
+      "urlPath": "/404",
+      "entryName": "500",
+      "entryPath": "html/main/index.html",
+      "isSPA": true,
+      "isSSR": true,
+      "enableModernMode": false,
+      "bundle": "bundles/main.js"
+    }
+  ]
+}

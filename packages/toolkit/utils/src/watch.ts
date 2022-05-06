@@ -1,7 +1,5 @@
 import * as path from 'path';
-import { Import } from './import';
-
-const chokidar: typeof import('chokidar') = Import.lazy('chokidar', require);
+import { chokidar } from './compiled';
 
 export type WatchChangeTypeValueT = 'add' | 'unlink' | 'change';
 

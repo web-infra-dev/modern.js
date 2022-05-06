@@ -1,15 +1,10 @@
 import * as path from 'path';
 import * as os from 'os';
-import { Import } from '@modern-js/utils';
+import { execa, Import } from '@modern-js/utils';
 
-import type { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
 import type { IBuildConfig, ITaskMapper } from '../../types';
 
-const core: typeof import('@modern-js/core') = Import.lazy(
-  '@modern-js/core',
-  require,
-);
-const execa: typeof import('execa') = Import.lazy('execa', require);
 const lg: typeof import('./logger') = Import.lazy('./logger', require);
 const pMap: typeof import('p-map') = Import.lazy('p-map', require);
 const utils: typeof import('./utils') = Import.lazy('./utils', require);
@@ -19,10 +14,11 @@ const constants: typeof import('./constants') = Import.lazy(
 );
 
 export const buildInWatchMode = async (
+  api: PluginAPI,
   config: IBuildConfig,
   _: NormalizedConfig,
 ) => {
-  const { appDirectory } = core.useAppContext();
+  const { appDirectory } = api.useAppContext();
   const { sourceDir, enableTscCompiler } = config;
   const srcRootDir = path.join(appDirectory, sourceDir);
   const concurrency = os.cpus().length;
@@ -35,9 +31,9 @@ export const buildInWatchMode = async (
     title: constants.runStyleCompilerTitle,
   });
   const copyLog = lm.createLoggerText({ title: 'Copy Log:' });
-  const initCodeMapper = utils.getCodeInitMapper(config);
+  const initCodeMapper = utils.getCodeInitMapper(api, config);
   const taskMapper: ITaskMapper[] = [
-    ...utils.getCodeMapper({
+    ...utils.getCodeMapper(api, {
       logger: codeLog,
       taskPath: require.resolve('../../tasks/build-watch-source-code'),
       config,
@@ -45,7 +41,7 @@ export const buildInWatchMode = async (
       initMapper: initCodeMapper,
       srcRootDir,
     }),
-    ...(enableTscCompiler ? utils.getDtsMapper(config, dtsLog) : []),
+    ...(enableTscCompiler ? utils.getDtsMapper(api, config, dtsLog) : []),
     {
       logger: styleLog,
       taskPath: require.resolve('../../tasks/build-watch-style'),

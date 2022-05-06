@@ -1,26 +1,17 @@
-export const AGGRED_DIR = {
-  mock: 'config/mock',
-  server: 'server',
-  api: 'api',
-  shared: 'shared',
-  lambda: 'lambda',
-};
+import { HMR_SOCK_PATH } from '@modern-js/utils';
+import { DevServerOptions } from './types';
 
-export enum ApiServerMode {
-  func = 'function',
-  frame = 'framework',
-}
-
-export const ERROR_DIGEST = {
-  INIT: 'Server init error',
-  ENOTF: 'Page could not be found',
-  WARMUP: 'SSR warmup failed',
-  EINTER: 'Internal server error',
-  ERENDER: 'SSR render failed',
-  EMICROINJ: 'Get micro-frontend info failed',
-};
-
-export const ERROR_PAGE_TEXT: Record<number, string> = {
-  404: 'This page could not be found.',
-  500: 'Internal Server Error.',
+export const DEFAULT_DEV_OPTIONS: DevServerOptions = {
+  client: {
+    port: '8080',
+    overlay: false,
+    logging: 'none',
+    path: HMR_SOCK_PATH,
+    host: 'localhost',
+  },
+  https: false,
+  devMiddleware: { writeToDisk: true },
+  watch: true,
+  hot: true,
+  liveReload: true,
 };

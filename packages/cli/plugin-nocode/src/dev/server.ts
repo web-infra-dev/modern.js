@@ -22,11 +22,13 @@ const state: {
 };
 export default ({
   appDirectory,
+  internalDirectory,
   mode,
   fes = {},
   options = {},
 }: {
   appDirectory: string;
+  internalDirectory: string;
   mode: string;
   fes?: { type?: string };
   options?: { host?: string; port?: string; debug?: boolean };
@@ -40,8 +42,7 @@ export default ({
   const app = express();
 
   // Reload code here
-  reload(app)
-    // eslint-disable-next-line promise/prefer-await-to-then
+  (reload as any)(app)
     .then((reloadReturned: any) => {
       // reloadReturned is documented in the returns API in the README
       setReloadReturned(reloadReturned);
@@ -59,7 +60,6 @@ export default ({
         });
       }
     })
-    // eslint-disable-next-line promise/prefer-await-to-then
     .catch((err: any) => {
       console.error(
         'Reload could not start, could not start server/sample app',
@@ -67,7 +67,11 @@ export default ({
       );
     });
 
-  internalProxy(app, { type, port, appDirectory }, { isTest, debug: isDebug });
+  internalProxy(
+    app,
+    { type, port: `${port}`, appDirectory, internalDirectory },
+    { isTest, debug: isDebug },
+  );
   if (isDebug) {
     app.use(
       require('morgan')(
@@ -81,13 +85,13 @@ export default ({
   app.use(bodyParser.json());
 
   app.set('port', port);
-  state.server = http.createServer(app, () => {
+  state.server = http.createServer(app as any, () => {
     const ip = getIP();
     console.info(`\n================================================`);
 
     console.info(`\n  nocode dev server is ready.`);
     console.warn(`\n    Local:\t>>> http://${host}:${port}`);
-    if (ip.length) {
+    if (ip?.length) {
       console.warn(`\n    External:\t>>> http://${ip[0].address}:${port}`);
     }
 

@@ -1,5 +1,76 @@
 # @modern-js/runtime-core
 
+## 1.4.3
+
+### Patch Changes
+
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+
+## 1.4.2
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 60f7d8bf: feat: add tests dir to npmignore
+- Updated dependencies [6cffe99d]
+- Updated dependencies [60f7d8bf]
+  - @modern-js/plugin@1.3.3
+
+## 1.4.1
+
+### Patch Changes
+
+- 485375ae: fix: hoc hook break in conventional routes
+
+## 1.4.0
+
+### Minor Changes
+
+- a2261fed: feat: support new plugin syntax
+
+### Patch Changes
+
+- Updated dependencies [dc88abf9]
+- Updated dependencies [0462ff77]
+  - @modern-js/plugin@1.3.2
+
+## 1.2.4
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+
+## 1.2.3
+
+### Patch Changes
+
+- 5ed05e65: feat: ensure bootstrap work with normal Component
+
+## 1.2.2
+
+### Patch Changes
+
+- bfbea9a7: support multi base url and dynamic base url
+- 272cab15: refactor server plugin manager
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+  - @modern-js/utils@1.3.0
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- c74597bd: fix: useLoader initial data
+- Updated dependencies [83166714]
+  - @modern-js/plugin@1.2.1
+  - @modern-js/utils@1.2.2
+
 ## 1.2.0
 
 ### Minor Changes

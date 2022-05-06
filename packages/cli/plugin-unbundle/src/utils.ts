@@ -1,12 +1,11 @@
 import path from 'path';
 // eslint-disable-next-line node/no-deprecated-api
 import { parse as parseUrl } from 'url';
-import { fs, chalk } from '@modern-js/utils';
+import { fs, chalk, signale as logger } from '@modern-js/utils';
 import { Loader } from 'esbuild';
 import { Server } from '@modern-js/server';
-import logger from 'signale';
 
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import {
   CSS_REGEX,
   CSS_MODULE_REGEX,
@@ -40,9 +39,24 @@ export const cleanUrl = (s: string) => s.replace(/(\?.*$|#.*$)/, '');
 export const isFunction = (o: unknown) =>
   Object.prototype.toString.call(o) === '[object Function]';
 
-export const shouldUseBff = (appDirectory: string): boolean =>
-  fs.existsSync(path.resolve(appDirectory, BFF_API_DIR)) &&
-  hasDependency(appDirectory, '@modern-js/plugin-bff');
+export const hasBffPlugin = (appDirectory: string): boolean => {
+  const packageJson = require(path.join(appDirectory, 'package.json'));
+  const { dependencies, devDependencies } = packageJson;
+  const hasPlugin = [
+    ...Object.keys(dependencies),
+    ...Object.keys(devDependencies),
+  ].some(name => name.includes('plugin-bff'));
+
+  return hasPlugin;
+};
+
+export const shouldUseBff = (appDirectory: string): boolean => {
+  const existBffPlugin = hasBffPlugin(appDirectory);
+
+  return (
+    fs.existsSync(path.resolve(appDirectory, BFF_API_DIR)) && existBffPlugin
+  );
+};
 
 export const getBFFMiddleware = async (
   config: NormalizedConfig,
@@ -80,7 +94,6 @@ export const replaceAsync = (
         values.push(replacer.apply(undefined, args as any));
         return '';
       });
-      // eslint-disable-next-line promise/prefer-await-to-then
       return Promise.all(values).then(resolvedValues =>
         String.prototype.replace.call(str, searchValue, () =>
           resolvedValues.shift(),
@@ -193,4 +206,25 @@ export const logWithHistory = () => {
       logger.info(chalk.green(message));
     }
   };
+};
+
+export const setIgnoreDependencies = (
+  userConfig: NormalizedConfig,
+  virtualDeps: Record<string, string>,
+) => {
+  const ignore = userConfig?.dev?.unbundle?.ignore;
+  if (!ignore) {
+    return;
+  }
+
+  const normalizeIgnore = Array.isArray(ignore) ? ignore : [ignore];
+  normalizeIgnore.forEach(dependencyToIgnore => {
+    virtualDeps[dependencyToIgnore] = `
+      /**
+       * Dependency ${dependencyToIgnore} ignored via user config
+       * /
+      export {};
+      export default {};
+    `;
+  });
 };

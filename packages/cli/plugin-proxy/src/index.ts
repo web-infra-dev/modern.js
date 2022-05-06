@@ -1,46 +1,36 @@
-import {
-  createPlugin,
-  useAppContext,
-  useResolvedConfigContext,
-} from '@modern-js/core';
 import { PLUGIN_SCHEMAS } from '@modern-js/utils';
+import type { CliPlugin } from '@modern-js/core';
 import { createProxyRule } from './utils/createProxyRule';
 import WhistleProxy from './utils/whistleProxy';
 
-let proxyServer: WhistleProxy;
-export default createPlugin(
-  () => ({
-    validateSchema() {
-      return PLUGIN_SCHEMAS['@modern-js/plugin-proxy'];
-    },
-    async afterDev() {
-      /* eslint-disable react-hooks/rules-of-hooks */
-      const { dev } = useResolvedConfigContext();
-      const { internalDirectory } = useAppContext();
-      /* eslint-enable react-hooks/rules-of-hooks */
+export default (): CliPlugin => {
+  let proxyServer: WhistleProxy;
 
-      if (!(dev as any).proxy) {
-        return;
-      }
+  return {
+    name: '@modern-js/plugin-proxy',
 
-      const rule = createProxyRule(internalDirectory, (dev as any).proxy);
-      proxyServer = new WhistleProxy({ port: 8899, rule });
-      await proxyServer.start();
-    },
-    beforeExit() {
-      // terminate whistle proxy
-      proxyServer?.close();
-    },
-  }),
-  { name: '@modern-js/plugin-proxy' },
-) as any;
+    setup: api => ({
+      validateSchema() {
+        return PLUGIN_SCHEMAS['@modern-js/plugin-proxy'];
+      },
 
-export type ProxyOptions = string | Record<string, string>;
+      async afterDev() {
+        const { dev } = api.useResolvedConfigContext();
+        const { internalDirectory } = api.useAppContext();
 
-declare module '@modern-js/core' {
-  export interface DevConfig {
-    dev: {
-      proxy?: ProxyOptions;
-    };
-  }
-}
+        if (!dev?.proxy) {
+          return;
+        }
+
+        const rule = createProxyRule(internalDirectory, dev.proxy);
+        proxyServer = new WhistleProxy({ port: 8899, rule });
+        await proxyServer.start();
+      },
+
+      beforeExit() {
+        // terminate whistle proxy
+        proxyServer?.close();
+      },
+    }),
+  };
+};

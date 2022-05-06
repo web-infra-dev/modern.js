@@ -1,11 +1,8 @@
-/* eslint-disable max-statements */
 import { promisify } from 'util';
 import path from 'path';
-import { fs } from '@modern-js/utils';
-import globModule from 'glob';
-import inquirer from 'inquirer';
+import { fs, glob as globModule, inquirer } from '@modern-js/utils';
 import semver from 'semver';
-import { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/core';
 import axios from './axios';
 import loggerModule from './logger';
 import { registerPackage, registerGroup, unregisterPackage } from './butter';
@@ -213,5 +210,3 @@ export const register = async (
     process.exit(1);
   }
 };
-
-/* eslint-enable max-statements */

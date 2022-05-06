@@ -1,4 +1,3 @@
-import fs from 'fs';
 import path from 'path';
 import {
   applyOptionsChain,
@@ -6,12 +5,11 @@ import {
   isUseSSRBundle,
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
-import nodeExternals from 'webpack-node-externals';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { mergeRegex } from '../utils/mergeRegex';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
 import { JS_RESOLVE_EXTENSIONS } from '../utils/constants';
 import { BaseWebpackConfig } from './base';
+import { enableBundleAnalyzer } from './shared';
 
 class NodeWebpackConfig extends BaseWebpackConfig {
   get externalsAllowlist() {
@@ -48,7 +46,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
   optimization() {
     super.optimization();
-    this.chain.optimization.minimize(false);
     this.chain.optimization.splitChunks(false as any).runtimeChunk(false);
   }
 
@@ -57,11 +54,14 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     // css & css modules
     if (loaders.oneOfs.has('css')) {
       loaders.oneOf('css').uses.delete('mini-css-extract');
+      loaders.oneOf('css').uses.delete('style-loader');
     }
 
     loaders
       .oneOf('css-modules')
       .uses.delete('mini-css-extract')
+      .end()
+      .uses.delete('style-loader')
       .end()
       .use('css')
       .options({
@@ -87,20 +87,22 @@ class NodeWebpackConfig extends BaseWebpackConfig {
           [
             require.resolve('@modern-js/babel-preset-app'),
             {
+              metaName: this.appContext.metaName,
               appDirectory: this.appDirectory,
               target: 'server',
               useLegacyDecorators: !this.options.output?.enableLatestDecorators,
               useBuiltIns: false,
               chain: this.babelChain,
-              styledCompontents: applyOptionsChain(
+              styledComponents: applyOptionsChain(
                 {
                   pure: true,
                   displayName: true,
                   ssr: isUseSSRBundle(this.options),
                   transpileTemplateLiterals: true,
                 },
-                (this.options.tools as any)?.styledComponents,
+                this.options.tools?.styledComponents,
               ),
+              userBabelConfig: this.options.tools.babel,
             },
           ],
         ],
@@ -115,13 +117,7 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     super.plugins();
 
     if (this.options.cliOptions?.analyze) {
-      this.chain.plugin('bundle-analyze').use(BundleAnalyzerPlugin, [
-        {
-          analyzerMode: 'static',
-          openAnalyzer: false,
-          reportFilename: 'report-ssr.html',
-        },
-      ]);
+      enableBundleAnalyzer(this.chain, 'report-ssr.html');
     }
   }
 
@@ -161,17 +157,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     // @modern-js/utils use typescript for peerDependency, but js project not depend it
     // if not externals, js ssr build error
     config.externals.push('typescript');
-
-    config.resolve?.modules?.forEach((dir: string) => {
-      if (fs.existsSync(dir)) {
-        (config.externals as any[]).push(
-          nodeExternals({
-            allowlist: this.externalsAllowlist as any,
-            modulesDir: dir,
-          }),
-        );
-      }
-    });
 
     return config;
   }

@@ -37,11 +37,12 @@ export type LoaderResult = {
   reloading: boolean;
   data: any;
   error: any;
+  _error?: any;
 };
 
 const createLoader = (
   id: string,
-  initialData: LoaderResult = {
+  initialData: Partial<LoaderResult> = {
     loading: false,
     reloading: false,
     data: undefined,
@@ -73,7 +74,6 @@ const createLoader = (
 
     promise = new Promise(resolve => {
       loaderFn()
-        // eslint-disable-next-line promise/prefer-await-to-then
         .then(value => {
           data = value;
           error = null;
@@ -81,15 +81,13 @@ const createLoader = (
           notify();
           resolve(value);
         })
-        // eslint-disable-next-line promise/prefer-await-to-then
         .catch(e => {
-          error = e instanceof Error ? `${e.message}` : e;
+          error = e;
           data = null;
           status = LoaderStatus.rejected;
           notify();
           resolve(e);
         })
-        // eslint-disable-next-line promise/prefer-await-to-then
         .finally(() => {
           promise = null;
           hasLoaded = true;
@@ -103,7 +101,9 @@ const createLoader = (
     loading: !hasLoaded && status === LoaderStatus.loading,
     reloading: hasLoaded && status === LoaderStatus.loading,
     data,
-    error,
+    error: error instanceof Error ? `${error.message}` : error,
+    // redundant fields for ssr log
+    _error: error,
   });
 
   const notify = () => {
@@ -171,7 +171,7 @@ export const createLoaderManager = (
         id,
         typeof initialDataMap[id] !== 'undefined'
           ? initialDataMap[id]
-          : loaderOptions.initialData,
+          : { data: loaderOptions.initialData },
         loaderFn,
         // Todo whether static loader is exec when CSR
         skipExec,

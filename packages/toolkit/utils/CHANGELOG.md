@@ -1,5 +1,129 @@
 # @modern-js/utils
 
+## 1.6.0
+
+### Minor Changes
+
+- 0b26b93b: feat: prebundle all dependencies of @modern-js/core
+
+### Patch Changes
+
+- 2d155c4c: feat(utils): prebundle minimist
+- 123e432d: use treeshaking product for ssr bundle
+- e5a9b26d: fix: prebundled globbdy type
+- 123e432d: uglify ssr bundle for treeshaking
+- f9f66ef9: add 'slash' module
+- 592edabc: feat: prebundle url-join,mime-types,json5,fast-glob,globby,ora,inquirer
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+- 3578913e: fix: export ssrHelpers from subpath
+- 1c3beab3: fix: skip prebundle caniuse-lite
+
+## 1.5.0
+
+### Minor Changes
+
+- 3bf4f8b0: feat: support start api server only
+
+### Patch Changes
+
+- b8599d09: fix: failed to generate webpack cache
+- 60f7d8bf: feat: add tests dir to npmignore
+
+## 1.4.1
+
+### Patch Changes
+
+- 6800be3b: feat: move storage from plugin-ssr to utils
+
+## 1.4.0
+
+### Minor Changes
+
+- 77ff9754: feat: prebundle some deps (chalk, filesize, import-lazy, strip-ansi)
+- d2d1d6b2: feat: support server config
+
+### Patch Changes
+
+- 07a4887e: feat: prebundle commander and signale to @modern-js/utils
+- ea2ae711: feat: prebundle dependencies, reduce install size
+- 17d0cc46: feat: prebundle lodash to @modern-js/utils/lodash
+- d2d1d6b2: feat: add prepare hook
+
+## 1.3.7
+
+### Patch Changes
+
+- 132f7b53: feat: move config declarations to @modern-js/core
+
+## 1.3.6
+
+### Patch Changes
+
+- c2046f37: fix: plugin unbundle schema define
+
+## 1.3.5
+
+### Patch Changes
+
+- 5bf5868d: fix: isObject should return false when input is null
+
+## 1.3.4
+
+### Patch Changes
+
+- db43dce6: expose plugin-unbundle configs
+
+## 1.3.3
+
+### Patch Changes
+
+- 4c792f68: feat(plugin-garfish): Sub-applications automatically increment basename
+  feat(plugin-garfish): export common generate code function
+  fix(plugin-garfish): modify plugin-garfish schema config
+- a7f42f48: new user config for plugin-unbundle
+
+## 1.3.2
+
+### Patch Changes
+
+- deeaa602: support svg/proxy/multi-version in unbundled
+
+## 1.3.1
+
+### Patch Changes
+
+- 78279953: compiler entry bug fix and dev build console
+- 4d72edea: support dev compiler by entry
+
+## 1.3.0
+
+### Minor Changes
+
+- ec4dbffb: feat: support as a pure api service
+- bada2879: refactor plugin-garfish:
+  - change @modern-js/plugin-micro-frontend => @modern-js/plugin-garfish
+  - remove disableCustomerRouter logic
+  - adding unit test
+  - fix plugin-garfish type error
+
+### Patch Changes
+
+- d099e5c5: fix error when modify modern.config.js
+- 24f616ca: feat: support custom meta info
+- bd819a8d: feat: add wait function
+
+## 1.2.2
+
+### Patch Changes
+
+- 83166714: change .npmignore
+
+## 1.2.1
+
+### Patch Changes
+
+- 823809c6: fix: remove plugin-polyfill from app-tools
+
 ## 1.2.0
 
 ### Minor Changes

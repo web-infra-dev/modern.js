@@ -1,4 +1,3 @@
-/* eslint-disable max-statements */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import path from 'path';
 import { fs, Import } from '@modern-js/utils';
@@ -236,7 +235,9 @@ export const getCustomWebpackConfigHandle: any = ({
   chain.plugins
     .delete('progress')
     .delete('case-sensitive') // main入口文件的 html-plugin
-    .delete('html-main');
+    .delete('html-main')
+    // remove `ForkTsCheckerWebpackPlugin`, because storybook is supported
+    .delete('ts-checker');
   chain.resolve.merge({
     fallback: {
       perf_hooks: false,
@@ -268,4 +269,3 @@ export const getCustomWebpackConfigHandle: any = ({
   };
 };
 /* eslint-enable @typescript-eslint/no-unused-vars */
-/* eslint-enable max-statements */

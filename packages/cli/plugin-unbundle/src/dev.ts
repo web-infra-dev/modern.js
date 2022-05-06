@@ -1,5 +1,5 @@
 import { chalk, logger } from '@modern-js/utils';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig, PluginAPI } from '@modern-js/core';
 
 export const startTimer = {
   start: 0,
@@ -7,6 +7,7 @@ export const startTimer = {
 };
 
 export const dev = async (
+  api: PluginAPI,
   config: NormalizedConfig,
   appContext: IAppContext,
 ) => {
@@ -22,5 +23,6 @@ export const dev = async (
   // create html template for each js entry
   createHtml(config, appContext);
 
-  await startDevServer(config, appContext);
+  const closeServer = await startDevServer(api, config, appContext);
+  return closeServer;
 };

@@ -4,10 +4,7 @@ import {
   IPackageJson,
   JsonFile,
 } from '@rushstack/node-core-library';
-import execa from 'execa';
-import { success } from 'signale';
-import yaml from 'js-yaml';
-import { fs, logger, chalk } from '@modern-js/utils';
+import { fs, yaml, execa, logger, chalk, signale } from '@modern-js/utils';
 import { WORKSPACE_FILE } from '../../constants';
 import { IPnpmWorkSpace } from '../../type';
 import { DagOperator } from '../../dag/operator';
@@ -55,14 +52,12 @@ const checkAndUpdatePMWorkspaces = (deployDir: string) => {
   // pnpm-workspace
   const pnpmWp = path.join(deployDir, WORKSPACE_FILE.PNPM);
   if (fs.existsSync(pnpmWp)) {
-    // eslint-disable-next-line import/no-named-as-default-member
     const pnpmWorkspace = yaml.load(
       fs.readFileSync(pnpmWp, 'utf-8'),
     ) as IPnpmWorkSpace;
     if (pnpmWorkspace.packages && Array.isArray(pnpmWorkspace.packages)) {
       pnpmWorkspace.packages.push('apps/**');
     }
-    // eslint-disable-next-line import/no-named-as-default-member
     fs.writeFileSync(pnpmWp, yaml.dump(pnpmWorkspace));
   }
 
@@ -122,6 +117,7 @@ const checkAndRunDeployCommand = async (
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const installDependency = async (
   deployDir: string,
   packageManager: PackageManagerType,
@@ -205,7 +201,7 @@ export const deploy = async (
   }
 
   generatorAndCopyRequiredFiles(rootPath, realDeployPath);
-  await installDependency(realDeployPath, packageManager);
+  // await installDependency(realDeployPath, packageManager);
 
-  success(`Deploy success. The deploy dir is in '${rootPath}/output'`);
+  signale.success(`Deploy success. The deploy dir is in '${rootPath}/output'`);
 };

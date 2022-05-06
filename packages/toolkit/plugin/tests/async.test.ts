@@ -7,6 +7,7 @@ import {
   createContext,
   createContainer,
 } from 'farrow-pipeline';
+import type { PluginOptions, AsyncSetup } from '../src';
 import { createManager, createAsyncManager, useRunner } from '../src/manager';
 import { createWaterfall, createAsyncWaterfall } from '../src/waterfall';
 import {
@@ -14,7 +15,7 @@ import {
   createAsyncWorkflow,
   createParallelWorkflow,
 } from '../src/workflow';
-import { main } from './fixtures/async/core';
+import { main, TestAsyncHooks, TestAsyncPlugin } from './fixtures/async/core';
 import foo from './fixtures/async/base/foo';
 import bar, { getBar } from './fixtures/async/base/bar';
 import dFoo from './fixtures/async/dynamic/foo';
@@ -40,7 +41,7 @@ describe('async manager', () => {
     expect(getBar()).toBe(3);
   });
 
-  it('should support async initializer', async () => {
+  it('should support async setup function', async () => {
     const manager = createAsyncManager();
 
     const countContext = createContext(0);
@@ -80,7 +81,6 @@ describe('async manager', () => {
   });
 
   it('could without progress hook in plugin', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     const foo = createWaterfall<number>();
     const manager = createAsyncManager({ foo });
 
@@ -397,6 +397,22 @@ describe('async manager', () => {
     expect(count).toBe(2);
   });
 
+  it('should support manager clone and override pluginAPI', done => {
+    const myAPI = { hello: () => 1 };
+    const manager = createAsyncManager({}, myAPI);
+    const plugin = {
+      setup(api: typeof myAPI) {
+        expect(api.hello()).toEqual(2);
+        done();
+      },
+    };
+    const clonedManager = manager.clone({
+      hello: () => 2,
+    });
+
+    clonedManager.usePlugin(plugin).init();
+  });
+
   it('isPlugin if exclusive plugins of manager', () => {
     const manager0 = createManager();
     const manager1 = createAsyncManager();
@@ -408,21 +424,6 @@ describe('async manager', () => {
     expect(manager1.isPlugin(plugin)).toBeFalsy();
     expect(manager1.isPlugin({})).toBeFalsy();
     expect(manager1.isPlugin('' as any)).toBeFalsy();
-  });
-
-  it('usePlugin should only add exclusive plugins of manager', async () => {
-    const manager0 = createManager();
-    const manager1 = createAsyncManager();
-
-    let count = 0;
-    const plugin = manager0.createPlugin(() => {
-      count += 1;
-    });
-
-    manager1.usePlugin(plugin as any);
-    await manager1.init();
-
-    expect(count).toBe(0);
   });
 
   it('should support clear plugins', async () => {
@@ -501,11 +502,11 @@ describe('async manager', () => {
 
     runner.pipeline({});
     await runner.asyncPipeline({});
-    runner.waterfall({});
-    await runner.asyncWaterfall({});
-    runner.workflow({});
-    await runner.asyncWorkflow({});
-    await runner.parallelWorkflow({});
+    runner.waterfall();
+    await runner.asyncWaterfall();
+    runner.workflow();
+    await runner.asyncWorkflow();
+    await runner.parallelWorkflow();
 
     expect(list).toStrictEqual([
       'pipeline',
@@ -520,9 +521,7 @@ describe('async manager', () => {
 
   describe('useRunner', () => {
     it('should work well', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       const foo = createAsyncPipeline();
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       const bar = createAsyncPipeline();
       const manager = createAsyncManager({ foo, bar });
 
@@ -551,9 +550,7 @@ describe('async manager', () => {
     });
 
     it('should throw error useRunner out plugin hook', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       const foo = createAsyncPipeline();
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       const bar = createAsyncPipeline();
       const manager = createAsyncManager({ foo, bar });
 
@@ -589,6 +586,148 @@ describe('async manager', () => {
           `Can't call useContainer out of scope, it should be placed on top of the function`,
         ),
       );
+    });
+  });
+
+  describe('setup api', () => {
+    it('should allow to access api.useHookRunners by default', done => {
+      const manager = createAsyncManager<TestAsyncHooks>();
+      const plugin: TestAsyncPlugin = {
+        name: 'plugin',
+        setup: api => {
+          expect(api.useHookRunners).toBeTruthy();
+          done();
+        },
+      };
+      manager.usePlugin(plugin);
+      manager.init();
+    });
+
+    it('should allow to register extra api', done => {
+      type API = { foo: () => void };
+
+      const manager = createAsyncManager<TestAsyncHooks, API>(
+        {},
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        { foo: () => {} },
+      );
+
+      const plugin: PluginOptions<
+        TestAsyncHooks,
+        AsyncSetup<TestAsyncHooks, API>
+      > = {
+        name: 'plugin',
+        setup: api => {
+          expect(api.foo).toBeTruthy();
+          done();
+        },
+      };
+
+      manager.usePlugin(plugin);
+      manager.init();
+    });
+  });
+
+  describe('usePlugins option', () => {
+    it('should allow to use single plugin', async () => {
+      const manager = createAsyncManager<TestAsyncHooks>();
+
+      const list: number[] = [];
+      const plugin0: TestAsyncPlugin = {
+        name: 'plugin0',
+        setup: () => {
+          list.push(0);
+        },
+      };
+
+      const plugin1: TestAsyncPlugin = {
+        name: 'plugin1',
+        usePlugins: [plugin0],
+        setup: () => {
+          list.push(1);
+        },
+      };
+
+      manager.usePlugin(plugin1);
+
+      await manager.init();
+
+      expect(list).toStrictEqual([0, 1]);
+    });
+
+    it('should allow to use multiple plugins', async () => {
+      const manager = createAsyncManager<TestAsyncHooks>();
+
+      const list: number[] = [];
+      const plugin0: TestAsyncPlugin = {
+        name: 'plugin0',
+        setup: () => {
+          list.push(0);
+        },
+      };
+
+      const plugin1 = {
+        name: 'plugin1',
+        usePlugins: [plugin0],
+        setup: () => {
+          list.push(1);
+        },
+      };
+
+      const plugin2 = {
+        name: 'plugin2',
+        usePlugins: [plugin1],
+        setup: () => {
+          list.push(2);
+        },
+      };
+
+      manager.usePlugin(plugin2);
+
+      await manager.init();
+
+      expect(list).toStrictEqual([0, 1, 2]);
+    });
+
+    it('should allow to use plugin without setup function', async () => {
+      const manager = createAsyncManager<TestAsyncHooks>();
+
+      const list: number[] = [];
+      const plugin0: TestAsyncPlugin = {
+        name: 'plugin0',
+        setup: () => {
+          list.push(0);
+        },
+      };
+
+      const plugin1 = {
+        name: 'plugin1',
+        usePlugins: [plugin0],
+      };
+
+      manager.usePlugin(plugin1);
+
+      await manager.init();
+
+      expect(list).toStrictEqual([0]);
+    });
+
+    it('should allow to use function plugin', async () => {
+      const manager = createAsyncManager<TestAsyncHooks>();
+
+      const list: number[] = [];
+      const plugin0: TestAsyncPlugin = {
+        name: 'plugin0',
+        setup: () => {
+          list.push(0);
+        },
+      };
+
+      manager.usePlugin(() => plugin0);
+
+      await manager.init();
+
+      expect(list).toStrictEqual([0]);
     });
   });
 });

@@ -1,5 +1,5 @@
 import nodePath from 'path';
-import fs from 'fs-extra';
+import { fs } from '@modern-js/utils';
 import * as babel from '@babel/core';
 import type { NodePath } from '@babel/core';
 import type { Binding, Visitor } from '@babel/traverse';
@@ -76,8 +76,7 @@ async function doParse(ctx: ParseContext, fileLoc: string) {
     throw new Error('parseExportVariableNames failed');
   }
   traverse(
-    // TODO: error TS2345: Argument of type 'File | Program' is not assignable to parameter of type 'Node | Node[] | null | undefined'
-    ast as any,
+    ast,
     visitorCreator({
       testUMD: true,
     }),
@@ -333,8 +332,7 @@ export const parseExportInfoFromESMCode = async (code: string) => {
   const addToDefaultExportAssignedKeySet = (k: string) => {
     addToSet(defaultExportAssignedKeySet, k);
   };
-  // TODO: error TS2345: Argument of type 'File | Program' is not assignable to parameter of type 'Node | Node[] | null | undefined'
-  babel.traverse(ast as any, {
+  babel.traverse(ast, {
     ExportDefaultDeclaration: path => {
       hasDefaultExport = true;
       const { declaration } = path.node;

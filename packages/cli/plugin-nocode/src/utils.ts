@@ -1,29 +1,36 @@
 import * as path from 'path';
-import { logger, fs, HIDE_MODERN_JS_DIR } from '@modern-js/utils';
-import glob from 'glob';
+import { logger, fs, glob } from '@modern-js/utils';
 
-const validEditorDirectory = (appDirectory: string) => {
+const validEditorDirectory = (
+  appDirectory: string,
+  internalDirectory: string,
+) => {
   const editorDir = path.resolve(appDirectory, 'src/__editor__');
-  const autoEditorDir = path.resolve(
-    appDirectory,
-    `${HIDE_MODERN_JS_DIR}/__editor__`,
-  );
+  const autoEditorDir = path.resolve(internalDirectory, `__editor__`);
   return fs.existsSync(editorDir) || fs.existsSync(autoEditorDir);
 };
 
-const validEditorResource = (appDirectory: string) => {
+const validEditorResource = (
+  appDirectory: string,
+  internalDirectory: string,
+) => {
   const userEditorFiles = glob.sync(
     `${appDirectory}/src/__editor__/**/*.@(js|jsx|ts|tsx)`,
   );
   const autoEditorFiles = glob.sync(
-    `${appDirectory}/${HIDE_MODERN_JS_DIR}/__editor__/**/*.@(js|jsx|ts|tsx)`,
+    `${internalDirectory}/__editor__/**/*.@(js|jsx|ts|tsx)`,
   );
   return userEditorFiles.length > 0 || autoEditorFiles.length > 0;
 };
 
-export const validEditor = (appDirectory: string, notExit = false) => {
+// 方法未用到？ @gaobowen
+export const validEditor = (
+  appDirectory: string,
+  internalDirectory: string,
+  notExit = false,
+) => {
   const projectName = path.basename(appDirectory);
-  if (!validEditorDirectory(appDirectory)) {
+  if (!validEditorDirectory(appDirectory, internalDirectory)) {
     const logText = `没有检测到 '${projectName}/src/__editor__' 目录, 请提供__editor__目录以及nocode文件`;
     if (!notExit) {
       logger.error(logText);
@@ -35,7 +42,7 @@ export const validEditor = (appDirectory: string, notExit = false) => {
     return;
   }
 
-  if (!validEditorResource(appDirectory)) {
+  if (!validEditorResource(appDirectory, internalDirectory)) {
     const logText = `没有检测到 nocode 文件`;
 
     if (!notExit) {
@@ -54,7 +61,7 @@ const _state = {
   reloadReturned: null,
 };
 
-export const setReloadReturned = value => {
+export const setReloadReturned = (value: any) => {
   _state.reloadReturned = value;
 };
 export const getReloadReturned = () => _state.reloadReturned;

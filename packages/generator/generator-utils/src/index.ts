@@ -1,13 +1,13 @@
 import path from 'path';
 import {
   fs,
+  ora,
+  execa,
   getMonorepoPackages,
   canUseNpm,
   canUsePnpm,
   canUseYarn,
 } from '@modern-js/utils';
-import execa from 'execa';
-import ora from 'ora';
 import { GeneratorContext } from '@modern-js/codesmith';
 import { stripAnsi } from './utils/strip-ansi';
 import { i18n, localeKeys } from './locale';
@@ -25,7 +25,6 @@ export {
 
 export { i18n } from './locale';
 
-// eslint-disable-next-line max-statements
 export async function getPackageVersion(
   packageName: string,
   registry?: string,
@@ -114,7 +113,7 @@ export function validatePackagePath(
   if (fs.existsSync(packageDir)) {
     return {
       success: false,
-      error: i18n.t(localeKeys.pacakgePath.exit, { value }),
+      error: i18n.t(localeKeys.packagePath.exit, { value }),
     };
   }
   return { success: true };

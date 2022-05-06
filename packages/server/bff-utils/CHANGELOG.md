@@ -1,5 +1,57 @@
 # @modern-js/bff-utils
 
+## 1.2.4
+
+### Patch Changes
+
+- 592edabc: feat: prebundle url-join,mime-types,json5,fast-glob,globby,ora,inquirer
+- Updated dependencies [2d155c4c]
+- Updated dependencies [123e432d]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+
+## 1.2.3
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/bff-runtime@1.2.2
+  - @modern-js/plugin@1.3.3
+
+## 1.2.2
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/bff-runtime@1.2.1
+  - @modern-js/plugin@1.2.1
+  - @modern-js/utils@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- 823809c6: fix: remove plugin-polyfill from app-tools
+- Updated dependencies [823809c6]
+  - @modern-js/utils@1.2.1
+
 ## 1.2.0
 
 ### Minor Changes

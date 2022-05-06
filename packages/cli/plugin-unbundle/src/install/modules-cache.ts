@@ -1,11 +1,7 @@
 import os from 'os';
 import path from 'path';
-import { fs } from '@modern-js/utils';
-import logger from 'signale';
-import { VIRTUAL_DEPS_MAP } from '../constants';
-
-// FIXME: declare module 不生效的问题
-const fetch = require('node-fetch');
+import { fs, signale as logger } from '@modern-js/utils';
+import fetch from 'node-fetch';
 
 const createCacheDir = (name: string): string => {
   switch (os.platform()) {
@@ -22,10 +18,7 @@ const createCacheDir = (name: string): string => {
   }
 };
 
-const CACHE_LOCK_FILE = 'modules-cache-lock.json';
-
-// FIXME: pdn host
-const PDN_HOST = `pdn.zijieapi.com`;
+export const CACHE_LOCK_FILE = 'modules-cache-lock.json';
 
 interface ResponseType {
   code: number;
@@ -36,17 +29,19 @@ interface ResponseType {
   };
 }
 
-const request = async (urlPath: string): Promise<ResponseType> => {
-  const response = await fetch(`http:${PDN_HOST}/${urlPath}`, {
-    method: 'GET',
-    redirect: 'follow',
-  });
+const request = async (
+  urlPath: string,
+  pdnHost: string,
+): Promise<ResponseType> => {
+  const response = await fetch(
+    `http:${process.env.PDN_HOST || pdnHost}/${urlPath}`,
+    {
+      method: 'GET',
+      redirect: 'follow',
+    },
+  );
 
   const json = (await response.json()) as ResponseType;
-
-  if (response.status !== 200) {
-    throw new Error(json.message);
-  }
 
   return json;
 };
@@ -92,13 +87,22 @@ export const normalizeSemverSpecifierVersion = (
 export class ModulesCache {
   dir: string;
 
-  lockfile: string;
+  lockfile!: string;
 
-  cachedMap: CacheJson;
+  cachedMap!: CacheJson;
 
   constructor(id: string) {
     this.dir = createCacheDir(id);
 
+    this.initCacheDir();
+  }
+
+  clean() {
+    fs.removeSync(this.dir);
+    this.initCacheDir();
+  }
+
+  initCacheDir() {
     fs.ensureDirSync(this.dir);
 
     this.lockfile = path.join(this.dir, CACHE_LOCK_FILE);
@@ -108,10 +112,6 @@ export class ModulesCache {
     const content = fs.readFileSync(this.lockfile, 'utf8').trim();
 
     this.cachedMap = content ? JSON.parse(content) : {};
-  }
-
-  clean() {
-    fs.removeSync(this.dir);
   }
 
   // add new cache item or update existed cache item
@@ -129,6 +129,7 @@ export class ModulesCache {
     return file;
   }
 
+  // TODO: solve @latest version not updating
   has(name: string, version: string) {
     return this.cachedMap.hasOwnProperty(`${name}@${version}`);
   }
@@ -151,6 +152,8 @@ export class ModulesCache {
   async requestRemoteCache(
     name: string,
     version: string,
+    virtualDependenciesMap: Record<string, string>,
+    pdnHost: string,
   ): Promise<CacheItem | false> {
     let normalized = '';
 
@@ -159,8 +162,8 @@ export class ModulesCache {
     version = version.trim();
 
     // deps that can't convert to esm format
-    if (VIRTUAL_DEPS_MAP[name]) {
-      const file = this.set(name, version, VIRTUAL_DEPS_MAP[name], []);
+    if (virtualDependenciesMap[name]) {
+      const file = this.set(name, version, virtualDependenciesMap[name], []);
       return {
         file,
         dependencies: [],
@@ -183,7 +186,7 @@ export class ModulesCache {
     }
 
     try {
-      const res = await request(`esm/bv/${normalized}?meta`);
+      const res = await request(`esm/bv/${normalized}?meta`, pdnHost);
 
       if (typeof res !== 'object' || res.code !== 0 || !res.data) {
         return false;
@@ -199,9 +202,9 @@ export class ModulesCache {
       }
     } catch (err: any) {
       logger.error(
-        `request http://${PDN_HOST}${`/esm/bv/${normalized}?meta`} error: ${
-          err.message
-        }`,
+        `request http://${
+          process.env.PDN_HOST || pdnHost
+        }${`/esm/bv/${normalized}?meta`} error: ${err.message}`,
       );
       throw err;
     }

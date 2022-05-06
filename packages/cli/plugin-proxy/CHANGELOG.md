@@ -1,5 +1,75 @@
 # @modern-js/plugin-proxy
 
+## 1.2.6
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- Updated dependencies [b8599d09]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+
+## 1.2.5
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- 132f7b53: feat: move config declarations to @modern-js/core
+- Updated dependencies [132f7b53]
+  - @modern-js/utils@1.3.7
+
+## 1.2.4
+
+### Patch Changes
+
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [c2046f37]
+  - @modern-js/utils@1.3.6
+
+## 1.2.3
+
+### Patch Changes
+
+- 9b2640fe: fix: dev.proxy type not work
+- Updated dependencies [5bf5868d]
+- Updated dependencies [80d3cfb7]
+- Updated dependencies [42c6b136]
+- Updated dependencies [4e7dcbd5]
+- Updated dependencies [9e8bc4ab]
+- Updated dependencies [0c556e59]
+- Updated dependencies [80d8ddfe]
+- Updated dependencies [2008fdbd]
+  - @modern-js/utils@1.3.5
+  - @modern-js/core@1.5.0
+
+## 1.2.2
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+  - @modern-js/core@1.3.2
+  - @modern-js/utils@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- e2d3a575: fix extending core config interface
+- e2d3a575: fix extending core config interface
+- Updated dependencies [823809c6]
+- Updated dependencies [4584cc04]
+- Updated dependencies [7c19fd94]
+  - @modern-js/utils@1.2.1
+  - @modern-js/core@1.3.1
+
 ## 1.2.0
 
 ### Minor Changes

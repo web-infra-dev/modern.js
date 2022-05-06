@@ -1,8 +1,9 @@
-import { Command } from 'commander';
+import type { Command } from '@modern-js/utils';
+import type { PluginAPI } from '@modern-js/core';
 import { deploy } from '../commands';
 import type { IDeployCommandOption } from '../commands';
 
-export const deployCli = (program: Command) => {
+export const deployCli = (program: Command, api: PluginAPI) => {
   program
     .command('deploy [project...]')
     .usage('[options]')
@@ -14,7 +15,9 @@ export const deployCli = (program: Command) => {
     .description('deploy project')
     .action(
       async (deployProjectNames: string[], option: IDeployCommandOption) => {
-        await deploy(deployProjectNames, option);
+        // 在查找 workspace 下项目时，默认忽略 output 下面的项目
+        const ignoreMatchs = ['**/output/**'];
+        await deploy(api, deployProjectNames, option, ignoreMatchs);
       },
     );
 };

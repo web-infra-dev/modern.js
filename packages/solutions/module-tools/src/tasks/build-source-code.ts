@@ -1,4 +1,4 @@
-import { Import, fs } from '@modern-js/utils';
+import { Import, glob, fs } from '@modern-js/utils';
 import type { NormalizedConfig, CoreOptions } from '@modern-js/core';
 import type { BabelOptions, IVirtualDist } from '@modern-js/babel-compiler';
 import type { ITsconfig } from '../types';
@@ -8,7 +8,6 @@ const babelCompiler: typeof import('@modern-js/babel-compiler') = Import.lazy(
   '@modern-js/babel-compiler',
   require,
 );
-const glob: typeof import('glob') = Import.lazy('glob', require);
 const argv: typeof import('process.argv').default = Import.lazy(
   'process.argv',
   require,
@@ -59,6 +58,7 @@ const runBabelCompiler = async (
       rootDir: srcRootDir,
       filenames: willCompilerFiles,
       distDir,
+      ignore: ['*.d.ts'],
     },
     babelConfig,
   );

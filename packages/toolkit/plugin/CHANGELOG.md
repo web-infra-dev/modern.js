@@ -1,5 +1,37 @@
 # @modern-js/plugin
 
+## 1.3.3
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 60f7d8bf: feat: add tests dir to npmignore
+
+## 1.3.2
+
+### Patch Changes
+
+- dc88abf9: fix: should allow to use plugin without setup function
+- 0462ff77: feat: add compatible logic of plugin options with "setup" param
+
+## 1.3.0
+
+### Minor Changes
+
+- 80d8ddfe: feat: support `setup`, `registerHook`, `usePlugins` in plugin options.
+
+### Patch Changes
+
+- 491145e3: feat: allow manger.clone to override pluginAPI
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+
 ## 1.2.0
 
 ### Minor Changes

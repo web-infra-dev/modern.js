@@ -4,7 +4,10 @@
     "declaration": false,
     "jsx": "preserve",
     "baseUrl": "./",
-    "paths": {}
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["src", "shared", "config", "modern.config.ts"]
 }

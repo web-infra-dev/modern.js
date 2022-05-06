@@ -1,5 +1,108 @@
 # @modern-js/plugin-ssr
 
+## 1.2.8
+
+### Patch Changes
+
+- a0475f1a: fix: missing @babel/core peer dependencies
+- 123e432d: use treeshaking product for ssr bundle
+- 123e432d: uglify ssr bundle for treeshaking
+- 895fa0ff: chore: using "workspace:\*" in devDependencies
+- 3578913e: fix: export ssrHelpers from subpath
+- Updated dependencies [2d155c4c]
+- Updated dependencies [123e432d]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/runtime-core@1.4.3
+
+## 1.2.7
+
+### Patch Changes
+
+- e4cec1ce: types: fix config hook type
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/runtime-core@1.4.2
+
+## 1.2.6
+
+### Patch Changes
+
+- 6800be3b: feat: move storage from plugin-ssr to utils
+- Updated dependencies [6800be3b]
+  - @modern-js/utils@1.4.1
+
+## 1.2.5
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- ff73a5cc: fix style-component bugs
+- 9d4a005b: fix: config babel via tools.babel
+- Updated dependencies [132f7b53]
+  - @modern-js/utils@1.3.7
+
+## 1.2.4
+
+### Patch Changes
+
+- 57e8ce98: feat(plugin-ssr): convert to new plugin
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [c2046f37]
+  - @modern-js/utils@1.3.6
+
+## 1.2.3
+
+### Patch Changes
+
+- deeaa602: support svg/proxy/multi-version in unbundled
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
+## 1.2.2
+
+### Patch Changes
+
+- 735b2a81: prevent ssr compiler to send socket message
+- 735b2a81: fix ssg bug when use ssr by entries
+- Updated dependencies [b376c8d6]
+- Updated dependencies [e62c4efd]
+- Updated dependencies [5ed05e65]
+- Updated dependencies [e2a8233f]
+  - @modern-js/core@1.4.2
+  - @modern-js/runtime-core@1.2.3
+
+## 1.2.1
+
+### Patch Changes
+
+- 816fd721: support more server context
+- 272cab15: refactor server plugin manager
+- Updated dependencies [d9cc5ea9]
+- Updated dependencies [bfbea9a7]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [ec4dbffb]
+- Updated dependencies [d099e5c5]
+- Updated dependencies [bada2879]
+- Updated dependencies [24f616ca]
+- Updated dependencies [bd819a8d]
+- Updated dependencies [272cab15]
+  - @modern-js/core@1.4.0
+  - @modern-js/runtime-core@1.2.2
+  - @modern-js/utils@1.3.0
+
 ## 1.2.0
 
 ### Minor Changes

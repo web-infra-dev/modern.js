@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs, Import, logger } from '@modern-js/utils';
+import { fs, glob, Import, logger } from '@modern-js/utils';
 import type { Configuration } from 'webpack';
 import { valid } from './utils/valid';
 
@@ -9,18 +9,19 @@ const wp: typeof import('./utils/webpack') = Import.lazy(
   './utils/webpack',
   require,
 );
-const glob: typeof import('glob') = Import.lazy('glob', require);
 
 const DEFAULT_PORT = 5000;
 
 interface IBuildDocsParams {
   appDirectory: string;
+  internalDirectory: string;
   webpackConfig?: Configuration;
   isDev?: boolean;
   port?: number;
 }
 export async function buildDocs({
   appDirectory,
+  internalDirectory,
   isDev = false,
   port = DEFAULT_PORT,
 }: IBuildDocsParams) {
@@ -39,7 +40,7 @@ export async function buildDocs({
     logger.warn('not find md(x) files');
     return;
   }
-  const tmpDir = path.join(appDirectory, './node_modules/.modern-js/docs');
+  const tmpDir = path.join(internalDirectory, './docs');
   fs.ensureDirSync(tmpDir);
   const finalWebpackConfig = wp.generatorWebpackConfig(
     appDirectory,

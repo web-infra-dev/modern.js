@@ -1,6 +1,6 @@
 import path from 'path';
 import { logger, fs } from '@modern-js/utils';
-import type { ProxyOptions } from '..';
+import type { DevProxyOptions } from '@modern-js/core';
 
 interface ProxyRule {
   pattern: string;
@@ -26,7 +26,7 @@ const createWhistleProxyRule = (ruleDirectory: string, rules: ProxyRule[]) => {
 
 export const createProxyRule = (
   appDirectory: string,
-  proxyOptions: ProxyOptions,
+  proxyOptions: DevProxyOptions,
 ) => {
   const rules = [];
 

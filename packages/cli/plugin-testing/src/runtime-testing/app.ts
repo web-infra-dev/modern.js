@@ -1,7 +1,7 @@
 import React from 'react';
 import { createApp } from '@modern-js/runtime-core';
-import { UserConfig } from '@modern-js/core';
-import { modernjs_config_key } from '../constant';
+import type { UserConfig } from '@modern-js/core';
+import { MODERNJS_CONFIG_KEY } from '../constant';
 import resolvePlugins from './resolvePlugins';
 
 interface CreateAppProps {
@@ -45,4 +45,4 @@ class ModernRuntime {
   }
 }
 
-export default new ModernRuntime((global as any)[modernjs_config_key] || {});
+export default new ModernRuntime((global as any)[MODERNJS_CONFIG_KEY] || {});

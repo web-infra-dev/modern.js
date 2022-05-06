@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
 const path = require('path');
-const fs = require('fs');
 const { resolve } = require('path');
-const { readdirSync, readFileSync } = require('fs-extra');
+const { fs } = require('@modern-js/utils');
 const {
   modernBuild,
   installDeps,
@@ -13,6 +12,8 @@ const {
 } = require('../../../utils/modernTestUtils');
 
 const { getCssFiles, readCssFile, copyModules } = require('./utils');
+
+const { readdirSync, readFileSync } = fs;
 
 const fixtures = path.resolve(__dirname, '../fixtures');
 
@@ -312,8 +313,49 @@ describe('less-support', () => {
         '#header{height:20px;width:10px}',
       );
     });
+
     it(`should emitted multi css file`, async () => {
       const appDir = resolve(fixtures, 'multi-less');
+
+      await modernBuild(appDir);
+
+      const cssFiles = getCssFiles(appDir);
+
+      expect(cssFiles.length).toBe(2);
+
+      expect(
+        readCssFile(
+          appDir,
+          cssFiles.find(name => /a\.[a-z\d]+\.css$/.test(name)),
+        ),
+      ).toContain('#a{width:10px}');
+
+      expect(
+        readCssFile(
+          appDir,
+          cssFiles.find(name => /b\.[a-z\d]+\.css$/.test(name)),
+        ),
+      ).toContain('#b{height:20px}');
+    });
+  });
+
+  describe('base sass support', () => {
+    it(`should emitted single css file`, async () => {
+      const appDir = resolve(fixtures, 'single-sass');
+
+      await modernBuild(appDir);
+
+      const cssFiles = getCssFiles(appDir);
+
+      expect(cssFiles.length).toBe(1);
+
+      expect(readCssFile(appDir, cssFiles[0])).toContain(
+        '#header{height:20px;width:10px}',
+      );
+    });
+
+    it(`should emitted multi css file`, async () => {
+      const appDir = resolve(fixtures, 'multi-sass');
 
       await modernBuild(appDir);
 

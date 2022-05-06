@@ -1,13 +1,20 @@
 import { prettyInstructions, logger, isDev, chalk } from '@modern-js/utils';
-import { mountHook, IAppContext, NormalizedConfig } from '@modern-js/core';
+import type {
+  IAppContext,
+  NormalizedConfig,
+  ToRunners,
+  CliHooks,
+} from '@modern-js/core';
 
 export const printInstructions = async (
+  hookRunners: ToRunners<CliHooks>,
   appContext: IAppContext,
   config: NormalizedConfig,
 ) => {
   let message = prettyInstructions(appContext, config);
+  const { apiOnly } = appContext;
 
-  if (isDev()) {
+  if (isDev() && !apiOnly) {
     message += `\n${chalk.cyanBright(
       [
         `Note that the development build is not optimized.`,
@@ -17,7 +24,7 @@ export const printInstructions = async (
   }
 
   // call beforePrintInstructions hook.
-  const { instructions } = await (mountHook() as any).beforePrintInstructions({
+  const { instructions } = await hookRunners.beforePrintInstructions({
     instructions: message,
   });
 

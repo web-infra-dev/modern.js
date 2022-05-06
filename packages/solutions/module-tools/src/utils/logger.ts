@@ -1,8 +1,6 @@
 import type { ChildProcess } from 'child_process';
 import EventEmitter from 'events';
-import { Import } from '@modern-js/utils';
-
-const chalk: typeof import('chalk') = Import.lazy('chalk', require);
+import { chalk } from '@modern-js/utils';
 
 export const clearFlag = '\x1Bc';
 

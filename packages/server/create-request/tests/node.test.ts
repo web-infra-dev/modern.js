@@ -2,8 +2,10 @@
  * @jest-environment node
  */
 import nock from 'nock';
-import { run } from '@modern-js/plugin-ssr/node';
-import fetch, { Response } from 'node-fetch';
+import { run } from '@modern-js/utils/ssr';
+// 如果通过 default 引入会报 "Property exprName of TSTypeQuery expected node to be of a type ["TSEntityName","TSImportType"] but instead got "MemberExpression"
+import * as fetch from 'node-fetch';
+import type { Response } from 'node-fetch';
 import { configure, createRequest } from '../src/node';
 
 describe('configure', () => {
@@ -26,7 +28,6 @@ describe('configure', () => {
   // });
 
   test('should support custom request', done => {
-    // eslint-disable-next-line @typescript-eslint/no-shadow
     const url = 'http://localhost:9090';
     const port = 9090;
 
@@ -45,6 +46,40 @@ describe('configure', () => {
         const data = await res.json();
 
         expect(customRequest).toHaveBeenCalledTimes(1);
+        expect(res instanceof Response).toBe(true);
+        expect(data).toStrictEqual(response);
+        done();
+      },
+    );
+  });
+
+  test('query should support array', done => {
+    const url = 'http://localhost:9090';
+    const port = 9090;
+
+    run(
+      {
+        referer: url,
+      },
+      async () => {
+        nock(url)
+          .get(path)
+          .query({
+            users: ['foo', 'bar'],
+          })
+          .reply(200, response);
+
+        const customRequest = jest.fn((requestPath: any) => fetch(requestPath));
+
+        configure({ request: customRequest as unknown as typeof fetch });
+        const request = createRequest(path, method, port);
+        const res = await request({
+          query: {
+            users: ['foo', 'bar'],
+          },
+        });
+        const data = await res.json();
+
         expect(res instanceof Response).toBe(true);
         expect(data).toStrictEqual(response);
         done();

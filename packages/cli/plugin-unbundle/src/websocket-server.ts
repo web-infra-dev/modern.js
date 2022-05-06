@@ -1,8 +1,7 @@
 import { Server } from 'http';
 import path from 'path';
-import { createDebugger } from '@modern-js/utils';
+import { createDebugger, signale as logger } from '@modern-js/utils';
 import ws from 'ws';
-import logger from 'signale';
 import { ESMServer } from './server';
 import {
   fileToModules,

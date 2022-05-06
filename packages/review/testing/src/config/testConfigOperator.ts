@@ -1,4 +1,4 @@
-import merge from 'lodash.merge';
+import { merge } from '@modern-js/utils/lodash';
 import { JestConfig, TestConfig } from '../types';
 
 class TestConfigOperator {
@@ -8,7 +8,7 @@ class TestConfigOperator {
 
   private readonly userJestConfig: any;
 
-  private readonly defualtTestConfig: TestConfig = {
+  private readonly defaultTestConfig: TestConfig = {
     transformer: 'babel-jest',
   };
 
@@ -20,7 +20,7 @@ class TestConfigOperator {
   }
 
   private initial() {
-    this._testConfig = merge({}, this.defualtTestConfig, this.testConfig);
+    this._testConfig = merge({}, this.defaultTestConfig, this.testConfig);
   }
 
   get jestConfig() {
@@ -60,6 +60,7 @@ class TestConfigOperator {
       return userJestConfig(this._jestConfig);
     }
 
+    // 确保用户设置的配置在jest配置最外层一定存在，避免有些配置在 projects 配置内不生效(https://github.com/facebook/jest/issues/9696)
     this.setJestConfig(userJestConfig);
 
     return this.jestConfig;

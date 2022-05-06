@@ -27,6 +27,7 @@ coverage/
 release/
 output/
 output_resource/
+tests/
 
 .vscode/**/*
 !.vscode/settings.json
@@ -36,3 +37,4 @@ output_resource/
 **/*/api/typings/auto-generated
 **/*/adapters/**/index.ts
 **/*/adapters/**/index.js
+src/

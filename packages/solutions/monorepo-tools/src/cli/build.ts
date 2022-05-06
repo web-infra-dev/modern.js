@@ -1,7 +1,8 @@
-import { Command } from 'commander';
+import type { PluginAPI } from '@modern-js/core';
+import type { Command } from '@modern-js/utils';
 import { build, IBuildCommandOption } from '../commands';
 
-export const buildCli = (program: Command) => {
+export const buildCli = (program: Command, api: PluginAPI) => {
   program
     .command('build [project]')
     .usage('[options]')
@@ -17,6 +18,6 @@ export const buildCli = (program: Command) => {
     .option('--git-hash', 'build target project use git hash cache')
     .description('build target project')
     .action(async (targetProjectName: string, option: IBuildCommandOption) => {
-      await build(targetProjectName, option);
+      await build(targetProjectName, option, api);
     });
 };

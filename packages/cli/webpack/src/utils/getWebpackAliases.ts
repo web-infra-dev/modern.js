@@ -1,14 +1,12 @@
-import { IAppContext, UserConfig } from '@modern-js/core';
+import type { IAppContext, UserConfig } from '@modern-js/core';
 import {
-  INTERNAL_DIR_ALAIS,
-  INTERNAL_SRC_ALIAS,
   isProdProfile,
   isTypescript,
   readTsConfig,
   chalk,
 } from '@modern-js/utils';
 
-const verifyTsConfigPaths = (root: string, userConfig: UserConfig) => {
+export const verifyTsConfigPaths = (root: string, userConfig: UserConfig) => {
   const userAliases = userConfig.source?.alias;
 
   if (!userAliases) {
@@ -41,8 +39,8 @@ export const getWebpackAliases = (
   }
 
   return {
-    [INTERNAL_DIR_ALAIS]: appContext.internalDirectory,
-    [INTERNAL_SRC_ALIAS]: appContext.srcDirectory,
+    [appContext.internalDirAlias]: appContext.internalDirectory,
+    [appContext.internalSrcAlias]: appContext.srcDirectory,
     '@': appContext.srcDirectory,
     '@shared': appContext.sharedDirectory,
     'react-native': 'react-native-web',

@@ -17,10 +17,10 @@ import helmetReplace from './helmet';
 import { reduce } from './reduce';
 import * as loadableRenderer from './loadable';
 import * as styledComponentRenderer from './styledComponent';
+import { time } from './measure';
 
 type EntryOptions = {
-  name: string;
-  template: string;
+  ctx: SSRServerContext;
   App: ModernSSRReactComponent;
 };
 
@@ -37,7 +37,10 @@ const buildTemplateData = (
         params: request.params,
         query: request.query,
         pathname: request.pathname,
+        host: request.host,
+        url: request.url,
         headers: request.headers,
+        cookieMap: request.cookieMap,
       },
     },
     renderLevel,
@@ -49,14 +52,23 @@ export default class Entry {
 
   public result: RenderResult;
 
+  public metrics: SSRServerContext['metrics'];
+
+  public logger: SSRServerContext['logger'];
+
   private readonly App: ModernSSRReactComponent;
 
   private readonly fragments: Fragment[];
 
   constructor(options: EntryOptions) {
-    this.fragments = toFragments(options.template);
-    this.entryName = options.name;
+    const { ctx } = options;
+    const { entryName, template: templateHTML } = ctx;
+    this.fragments = toFragments(templateHTML);
+    this.entryName = entryName;
     this.App = options.App;
+
+    this.metrics = ctx.metrics;
+    this.logger = ctx.logger;
 
     this.result = {
       renderLevel: RenderLevel.CLIENT_RENDER,
@@ -113,14 +125,18 @@ export default class Entry {
     } = this;
 
     let prefetchData;
+    const end = time();
 
     try {
       prefetchData = prefetch ? await prefetch(context) : null;
       this.result.renderLevel = RenderLevel.SERVER_PREFETCH;
+      const prefetchCost = end();
+      this.logger.debug(`App Prefetch cost = %d ms`, prefetchCost);
+      this.metrics.emitTimer('app.prefetch.cost', prefetchCost);
     } catch (e) {
-      // Todo report if render error or fetch data error. logic from prefetch.tsx
       this.result.renderLevel = RenderLevel.CLIENT_RENDER;
-      console.error('SSR Error - App Prefetch error = %s', e);
+      this.logger.error('App Prefetch Render', e as Error);
+      this.metrics.emitCounter('app.prefetch.render.error');
     }
 
     return prefetchData || {};
@@ -128,6 +144,8 @@ export default class Entry {
 
   private renderToString(context: RuntimeContext): string {
     let html = '';
+    const end = time();
+    const { ssrContext } = context;
 
     try {
       const App = React.createElement(this.App, {
@@ -136,22 +154,23 @@ export default class Entry {
 
       // Todo render Hook
       const renderContext = {
-        loadableManifest: path.resolve(
-          context.ssrContext.distDir,
-          LOADABLE_STATS_FILE,
-        ),
+        loadableManifest: path.resolve(ssrContext.distDir, LOADABLE_STATS_FILE),
         result: this.result,
         entryName: this.entryName,
       };
       html = reduce(App, renderContext, [
-        loadableRenderer.toHtml,
         styledComponentRenderer.toHtml,
+        loadableRenderer.toHtml,
         (jsx: React.ReactElement) => ReactDomServer.renderToString(jsx),
       ]);
 
+      const cost = end();
+      this.logger.debug('App Render To HTML cost = %d ms', cost);
+      this.metrics.emitTimer('app.render.html.cost', cost);
       this.result.renderLevel = RenderLevel.SERVER_RENDER;
     } catch (e) {
-      console.error('SSR Error - App Render To HTML error = %s', e);
+      this.logger.error('App Render To HTML', e as Error);
+      this.metrics.emitCounter('app.render.html.error');
     }
 
     return html;

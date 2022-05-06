@@ -1,5 +1,79 @@
 # @modern-js-app/eslint-config
 
+## 1.2.9
+
+### Patch Changes
+
+- 86c243ca: refactor: ts type checking extends `@typescript-eslint/recommended-requiring-type-checking`
+- 3908299a: fix: peer deps warning of eslint plugins
+- Updated dependencies [a0475f1a]
+  - @modern-js/plugin-jarvis@1.2.8
+  - @modern-js/babel-preset-app@1.2.7
+
+## 1.2.8
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- Updated dependencies [6cffe99d]
+- Updated dependencies [04ae5262]
+- Updated dependencies [60f7d8bf]
+  - @modern-js/babel-preset-app@1.2.7
+
+## 1.2.7
+
+### Patch Changes
+
+- d6522e85: feat: remove max-params and max-statements rule
+- Updated dependencies [17d0cc46]
+  - @modern-js/babel-preset-app@1.2.6
+
+## 1.2.6
+
+### Patch Changes
+
+- 8e737893: feat: disable promise/prefer-await-to-then
+- 8e737893: feat: disable require-atomic-updates
+- a2761eb7: fix: exclude modern.config.ts from with type rules
+- 8e737893: feat: disable no-shadow
+- 8e737893: feat: disable @typescript-eslint/no-base-to-string
+- 8e737893: feat: disable filenames/match-exported
+- Updated dependencies [9d4a005b]
+  - @modern-js/babel-preset-app@1.2.5
+
+## 1.2.5
+
+### Patch Changes
+
+- 10f47286: fix: typescript eslint rule due to @typescript-eslint/eslint-plugin's breaking change
+- 0ef81796: feat: simplify react eslint rules
+
+## 1.2.4
+
+### Patch Changes
+
+- 87e68464: refactor: eslint rule configs
+
+## 1.2.3
+
+### Patch Changes
+
+- b44c02d4: fix: remove no-invalid-void-type rule
+
+## 1.2.2
+
+### Patch Changes
+
+- c35f710a: fix: typescript version warning when running lint
+
+## 1.2.1
+
+### Patch Changes
+
+- 294c4dbf: feat: upgrade prettier version
+
 ## 1.2.0
 
 ### Minor Changes

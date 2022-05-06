@@ -1,5 +1,133 @@
 # @modern-js/plugin-jarvis
 
+## 1.2.8
+
+### Patch Changes
+
+- a0475f1a: fix: missing @babel/core peer dependencies
+- Updated dependencies [2d155c4c]
+- Updated dependencies [a0475f1a]
+- Updated dependencies [123e432d]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [86c243ca]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [3908299a]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/eslint-config@1.2.5
+  - @modern-js-app/eslint-config@1.2.9
+
+## 1.2.7
+
+### Patch Changes
+
+- 6cffe99d: chore:
+  remove react eslint rules for `modern-js` rule set.
+  add .eslintrc for each package to speed up linting
+- 04ae5262: chore: bump @modern-js/utils to v1.4.1 in dependencies
+- 60f7d8bf: feat: add tests dir to npmignore
+- 5dbbeb57: fix: export extended Command type
+- Updated dependencies [b8599d09]
+- Updated dependencies [6cffe99d]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/eslint-config@1.2.4
+  - @modern-js-app/eslint-config@1.2.8
+
+## 1.2.6
+
+### Patch Changes
+
+- bebb39b6: chore: improve devDependencies and peerDependencies
+- Updated dependencies [8e737893]
+- Updated dependencies [8e737893]
+- Updated dependencies [a2761eb7]
+- Updated dependencies [8e737893]
+- Updated dependencies [132f7b53]
+- Updated dependencies [8e737893]
+- Updated dependencies [8e737893]
+  - @modern-js-app/eslint-config@1.2.6
+  - @modern-js/utils@1.3.7
+
+## 1.2.5
+
+### Patch Changes
+
+- 10f47286: fix: typescript eslint rule due to @typescript-eslint/eslint-plugin's breaking change
+- 6bda867c: feat(plugin-jarvis): convert to new plugin
+- 681a1ff9: feat: remove unnecessary peerDependencies
+- Updated dependencies [c2046f37]
+- Updated dependencies [10f47286]
+- Updated dependencies [0ef81796]
+  - @modern-js/utils@1.3.6
+  - @modern-js/eslint-config@1.2.3
+  - @modern-js-app/eslint-config@1.2.5
+
+## 1.2.4
+
+### Patch Changes
+
+- 87e68464: refactor: eslint rule configs
+- Updated dependencies [5bf5868d]
+- Updated dependencies [80d3cfb7]
+- Updated dependencies [42c6b136]
+- Updated dependencies [4e7dcbd5]
+- Updated dependencies [9e8bc4ab]
+- Updated dependencies [0c556e59]
+- Updated dependencies [87e68464]
+- Updated dependencies [80d8ddfe]
+- Updated dependencies [2008fdbd]
+  - @modern-js/utils@1.3.5
+  - @modern-js/core@1.5.0
+  - @modern-js/eslint-config@1.2.2
+  - @modern-js-app/eslint-config@1.2.4
+
+## 1.2.3
+
+### Patch Changes
+
+- 55e18278: chore: remove unused dependencies and devDependencies
+- Updated dependencies [969f172f]
+- Updated dependencies [4c792f68]
+- Updated dependencies [4b5d4bf4]
+- Updated dependencies [62f5b8c8]
+- Updated dependencies [55e18278]
+- Updated dependencies [4499a674]
+- Updated dependencies [403f5169]
+- Updated dependencies [a7f42f48]
+  - @modern-js/core@1.4.4
+  - @modern-js/utils@1.3.3
+
+## 1.2.2
+
+### Patch Changes
+
+- c35f710a: fix: typescript version warning when running lint
+- Updated dependencies [c35f710a]
+- Updated dependencies [deeaa602]
+- Updated dependencies [54786e58]
+  - @modern-js/eslint-config@1.2.1
+  - @modern-js-app/eslint-config@1.2.2
+  - @modern-js/utils@1.3.2
+  - @modern-js/core@1.4.3
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+- Updated dependencies [c3de9882]
+- Updated dependencies [33ff48af]
+  - @modern-js/core@1.3.2
+  - @modern-js/utils@1.2.2
+
 ## 1.2.0
 
 ### Minor Changes

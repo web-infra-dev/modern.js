@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import { IAppContext, mountHook, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig, PluginAPI } from '@modern-js/core';
 import type { Entrypoint } from '@modern-js/types';
 import * as templates from './templates';
 import { getClientRoutes } from './getClientRoutes';
@@ -45,7 +45,9 @@ const createImportSpecifier = (specifiers: ImportSpecifier[]): string => {
   }
 };
 
-const createImportStatements = (statements: ImportStatement[]): string => {
+export const createImportStatements = (
+  statements: ImportStatement[],
+): string => {
   // merge import statements with the same value.
   const deDuplicated: ImportStatement[] = [];
 
@@ -84,8 +86,16 @@ export const generateCode = async (
   appContext: IAppContext,
   config: NormalizedConfig,
   entrypoints: Entrypoint[],
+  api: PluginAPI,
 ) => {
-  const { internalDirectory, srcDirectory } = appContext;
+  const {
+    internalDirectory,
+    srcDirectory,
+    internalDirAlias,
+    internalSrcAlias,
+  } = appContext;
+
+  const hookRunners = api.useHookRunners();
 
   const {
     output: { mountId },
@@ -100,12 +110,19 @@ export const generateCode = async (
         const initialRoutes = getClientRoutes({
           entrypoint,
           srcDirectory,
+          srcAlias: internalSrcAlias,
           internalDirectory,
+          internalDirAlias,
         });
 
-        const { routes } = await (mountHook() as any).modifyFileSystemRoutes({
+        const { routes } = await hookRunners.modifyFileSystemRoutes({
           entrypoint,
           routes: initialRoutes,
+        });
+
+        const { code } = await hookRunners.beforeGenerateRoutes({
+          entrypoint,
+          code: templates.fileSystemRoutes({ routes }),
         });
 
         fs.outputFileSync(
@@ -113,42 +130,42 @@ export const generateCode = async (
             internalDirectory,
             `./${entryName}/${FILE_SYSTEM_ROUTES_FILE_NAME}`,
           ),
-          templates.fileSystemRoutes({ routes }),
+          code,
           'utf8',
         );
       }
 
       // call modifyEntryImports hook
-      const { imports: importStatements } = await (
-        mountHook() as any
-      ).modifyEntryImports({
-        entrypoint,
-        imports: getDefaultImports({
+      const { imports: importStatements } =
+        await hookRunners.modifyEntryImports({
           entrypoint,
-          srcDirectory,
-        }),
-      });
+          imports: getDefaultImports({
+            entrypoint,
+            srcDirectory,
+            internalSrcAlias,
+            internalDirAlias,
+          }),
+        });
 
       // call modifyEntryRuntimePlugins hook
-      const { plugins } = await (mountHook() as any).modifyEntryRuntimePlugins({
+      const { plugins } = await hookRunners.modifyEntryRuntimePlugins({
         entrypoint,
         plugins: [],
       });
 
       // call modifyEntryRenderFunction hook
-      const { code: renderFunction } = await (
-        mountHook() as any
-      ).modifyEntryRenderFunction({
-        entrypoint,
-        code: templates.renderFunction({
-          plugins,
-          customBootstrap,
-          fileSystemRoutes,
-        }),
-      });
+      const { code: renderFunction } =
+        await hookRunners.modifyEntryRenderFunction({
+          entrypoint,
+          code: templates.renderFunction({
+            plugins,
+            customBootstrap,
+            fileSystemRoutes,
+          }),
+        });
 
       // call modifyEntryExport hook
-      const { exportStatement } = await (mountHook() as any).modifyEntryExport({
+      const { exportStatement } = await hookRunners.modifyEntryExport({
         entrypoint,
         exportStatement: 'export default AppWrapper;',
       });

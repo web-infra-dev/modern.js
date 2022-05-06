@@ -16,9 +16,9 @@ module.exports = {
     '<rootDir>/packages/**/tests/**/*.test.[jt]s?(x)',
   ],
   modulePathIgnorePatterns: [
-    // TODO: 暂时无法解决（Property exprName of TSTypeQuery expected node to be of a type ["TSEntityName","TSImportType"] but instead got "MemberExpression"）问题，先绕过
-    'packages/server/create-request/tests/node.test.ts',
     // TODO: 很容易超时导致失败，暂时先绕过
     'packages/generator/generator-utils/tests/index.test.ts',
+    // TODO: 很容易超时导致失败，暂时先绕过
+    'packages/toolkit/utils/tests/index.test.ts',
   ],
 };

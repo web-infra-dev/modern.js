@@ -1,5 +1,5 @@
 import os from 'os';
-import chalk from 'chalk';
+import { chalk } from './compiled';
 import { isDev } from './is';
 
 // TODO: type
@@ -47,22 +47,27 @@ const getAddressUrls = (protocol = 'http', port: number) => {
 };
 
 export const prettyInstructions = (appContext: any, config: any) => {
-  const { entrypoints, serverRoutes, port } = appContext as {
-    entrypoints: EntryPoint[];
-    serverRoutes: ServerRoute[];
-    port: number;
-  };
+  const { entrypoints, serverRoutes, port, apiOnly, checkedEntries } =
+    appContext as {
+      entrypoints: EntryPoint[];
+      serverRoutes: ServerRoute[];
+      port: number;
+      apiOnly: boolean;
+      checkedEntries: string[];
+    };
 
   const urls = getAddressUrls(
     config.dev.https && isDev() ? 'https' : 'http',
     port,
   );
 
-  const routes = serverRoutes.filter(route => route.entryName);
+  const routes = !apiOnly
+    ? serverRoutes.filter(route => route.entryName)
+    : serverRoutes;
 
   let message = 'App running at:\n\n';
 
-  if (isSingleEntry(entrypoints)) {
+  if (isSingleEntry(entrypoints) || apiOnly) {
     message += urls
       .map(
         ({ type, url }) =>
@@ -76,12 +81,26 @@ export const prettyInstructions = (appContext: any, config: any) => {
 
     urls.forEach(({ type, url }) => {
       message += `  ${chalk.bold(`> ${type}`)}\n`;
-      routes.forEach(({ entryName, urlPath }) => {
+      routes.forEach(({ entryName, urlPath, isSSR }) => {
+        if (!checkedEntries.includes(entryName)) {
+          return;
+        }
+
         message += `    ${chalk.yellowBright(
+          isSSR ? 'λ' : '○',
+        )}  ${chalk.yellowBright(
           entryName.padEnd(maxNameLength + 8),
         )}${chalk.cyanBright(normalizeUrl(`${url}/${urlPath}`))}\n`;
       });
     });
+
+    message += '\n';
+    message += chalk.cyanBright(
+      '  λ (Server) server-side renders at runtime\n',
+    );
+    message += chalk.cyanBright(
+      '  ○ (Static) client-side rendered as static HTML\n',
+    );
   }
 
   return message;

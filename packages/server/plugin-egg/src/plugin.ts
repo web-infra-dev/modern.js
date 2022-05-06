@@ -2,8 +2,8 @@ import * as path from 'path';
 import fs from 'fs';
 import cp from 'child_process';
 import { Application } from 'egg';
-import { createPlugin } from '@modern-js/server-plugin';
 import { createTsHelperInstance } from 'egg-ts-helper';
+import type { ServerPlugin } from '@modern-js/server-core';
 import { registerMiddleware, registerRoutes } from './utils';
 
 interface FrameConfig {
@@ -37,7 +37,6 @@ const mockFn = (
   };
 };
 
-// eslint-disable-next-line max-statements
 const initApp = async (options: StartOptions): Promise<Application> => {
   options.baseDir = options.baseDir || process.cwd();
   options.mode = 'single';
@@ -69,9 +68,7 @@ const initApp = async (options: StartOptions): Promise<Application> => {
 
   agent = new Agent({ ...options });
   await agent.ready();
-  // eslint-disable-next-line require-atomic-updates
   application = new App({ ...options });
-  // eslint-disable-next-line require-atomic-updates
   application.agent = agent;
   agent.application = application;
   await application.ready();
@@ -154,8 +151,10 @@ const initEggConfig = (app: Application) => {
   };
 };
 
-export default createPlugin(
-  () => ({
+export default (): ServerPlugin => ({
+  name: '@modern-js/plugin-egg',
+  pre: ['@modern-js/plugin-bff'],
+  setup: () => ({
     async prepareApiServer({ pwd, mode, config, prefix }) {
       const apiDir = path.join(pwd, API_DIR);
 
@@ -209,7 +208,10 @@ export default createPlugin(
         await next();
         if (!ctx.body) {
           // restore statusCode
-          if (ctx.res.statusCode === 404) {
+          if (
+            ctx.res.statusCode === 404 &&
+            !(ctx.response as any)._explicitStatus
+          ) {
             ctx.res.statusCode = 200;
           }
           ctx.respond = false;
@@ -235,10 +237,6 @@ export default createPlugin(
       };
     },
   }),
-  {
-    name: '@modern-js/plugin-egg',
-    pre: ['@modern-js/plugin-bff'],
-  },
-);
+});
 
 export { default as egg } from 'egg';

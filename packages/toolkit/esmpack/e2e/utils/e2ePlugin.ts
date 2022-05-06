@@ -1,4 +1,4 @@
-import fs from 'fs-extra';
+import { fs } from '@modern-js/utils';
 import semver from 'semver';
 import {
   CachedInputFileSystem,
@@ -57,7 +57,6 @@ class E2EPlguin implements EsmpackPlugin {
       await this.initP;
     });
 
-    // eslint-disable-next-line max-statements
     compiler.hooks.afterCompile.tapPromise(pluginName, async compilation => {
       const spec = compilation.specifier;
       if (!compilation.manifest?.version) {
@@ -73,9 +72,7 @@ class E2EPlguin implements EsmpackPlugin {
 
       const importerPackageName = normalizePackageName(spec);
       const importer = compilation.inputOptions.input![spec];
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       const resolve = async (id: string, importer: string) =>
-        // eslint-disable-next-line @typescript-eslint/no-shadow
         new Promise<string | undefined>((resolve, reject) =>
           this.resolver.resolve({}, importer, id, {}, (err, filePath) => {
             if (err) {
@@ -120,7 +117,6 @@ class E2EPlguin implements EsmpackPlugin {
         const other = hash(depSpec, depVersion);
         if (!this.finishTasks.has(other) && !this.pendingTasks.has(other)) {
           this.pendingTasks.add(other);
-          // eslint-disable-next-line @typescript-eslint/no-shadow
           const depName = normalizePackageName(depSpec);
           try {
             const dir = require.resolve(`${depName}/package.json`, {

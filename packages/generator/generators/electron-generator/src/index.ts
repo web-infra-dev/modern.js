@@ -11,7 +11,6 @@ import {
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
-// eslint-disable-next-line max-statements
 const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
@@ -19,6 +18,7 @@ const handleTemplateFile = async (
 ) => {
   const fsAPI = new FsAPI(generator);
   const isTs = isTsProject(context.materials.default.basePath);
+  const language = isTs ? 'ts' : 'js';
   const { material } = context.current!;
   const { projectPath = '' } = context.config;
 
@@ -28,7 +28,7 @@ const handleTemplateFile = async (
     (resourceKey: string) =>
       resourceKey
         .replace('templates/base-template/', projectPath)
-        .replace('.handlebars', isTs ? '.ts' : '.js'),
+        .replace('.handlebars', `.${language}`),
     {
       nodir: true,
       dot: true,
@@ -37,11 +37,11 @@ const handleTemplateFile = async (
 
   if (context.config.isSubGenerator) {
     await appApi.forgeTemplate(
-      'templates/init-template/**/*',
+      `templates/init-template/${language}**/*`,
       undefined,
       (resourceKey: string) =>
         resourceKey
-          .replace('templates/init-template/', projectPath)
+          .replace(`templates/init-template/${language}/`, projectPath)
           .replace('.handlebars', ''),
     );
   }

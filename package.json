@@ -14,13 +14,14 @@
   ],
   "scripts": {
     "new": "modern new",
-    "setup": "npm run reset && pnpm install --ignore-scripts",
+    "setup": "npm run reset && pnpm install",
     "reset": "pnpm dlx del-cli ./node_modules",
     "test": "npm run test:ut",
-    "test:ut": "node --conditions=jsnext:source -r btsm node_modules/jest/bin/jest.js -c jest.config.js",
+    "test:ut": "node --conditions=jsnext:source -r btsm node_modules/jest/bin/jest.js -c jest.config.js --maxWorkers=2",
     "test:e2e": "cd tests && npm run test",
     "fast-lint": "sh -x ./fast-lint.sh",
     "prepare": "pnpm run prepare --filter ./packages",
+    "preinstall": "only-allow-pnpm",
     "lint": "npm run fast-lint",
     "change": "modern change",
     "clear": "modern clear",
@@ -47,12 +48,10 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
-      "git add"
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
     ],
     "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
-      "git add"
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
     ]
   },
   "eslintConfig": {
@@ -65,24 +64,25 @@
     "node_modules/",
     "dist/",
     "lib/",
+    "compiled/",
     ".rpt2_cache/",
     "coverage/"
   ],
   "devDependencies": {
-    "btsm": "2.2.2",
-    "jest": "^27",
-    "esbuild": "^0.13.8",
-    "esbuild-jest": "0.5.0",
-    "enhanced-resolve": "^5.8.3",
-    "scan-deps": "0.1.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.16.7",
-    "babel-plugin-module-resolver": "^4.1.0",
-    "@commitlint/cli": "^13.2.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.17.7",
+    "@commitlint/cli": "^13.2.1",
     "@commitlint/config-conventional": "^13.2.0",
-    "@modern-js-app/eslint-config": "workspace:^1.1.2",
-    "@modern-js/eslint-config": "workspace:^1.1.0",
-    "@modern-js/monorepo-tools": "workspace:^1.2.0",
-    "@modern-js/plugin-jarvis": "workspace:^1.1.1",
-    "@modern-js/tsconfig": "workspace:^1.1.0"
+    "@modern-js-app/eslint-config": "workspace:*",
+    "@modern-js/eslint-config": "workspace:*",
+    "@modern-js/monorepo-tools": "workspace:*",
+    "@modern-js/plugin-jarvis": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*",
+    "@scripts/build": "workspace:*",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "btsm": "2.2.2",
+    "enhanced-resolve": "^5.9.2",
+    "esbuild": "^0.14.38",
+    "esbuild-jest": "0.5.0",
+    "jest": "^27.5.1"
   }
 }

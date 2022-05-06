@@ -4,8 +4,10 @@
   "scripts": {
     "reset": "del-cli node_modules",
     "dev": "modern dev",
+    "dev:bff": "modern dev --api-only",
     "build": "modern build",
     "start": "modern start",
+    "start:bff": "modern start --api-only",
     "new": "modern new",
     "lint": "modern lint"
   },
@@ -24,12 +26,10 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
-      "git add"
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
     ],
     "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
-      "git add"
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
     ]
   },
   "eslintIgnore": [
@@ -37,16 +37,16 @@
     "dist/"
   ],
   "dependencies": {
-    "@modern-js/plugin-bff": "workspace:^1.2.1",
-    "@modern-js/plugin-express": "workspace:^1.2.0",
-    "@modern-js/runtime": "workspace:^1.0.0",
+    "@modern-js/plugin-bff": "workspace:*",
+    "@modern-js/plugin-express": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
     "express": "^4.17.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:^1.0.0",
-    "@modern-js/plugin-jarvis": "workspace:^1.0.0",
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-jarvis": "workspace:*",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.0",
     "@types/node": "^14",

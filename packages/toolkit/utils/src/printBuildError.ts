@@ -10,7 +10,7 @@
 
 // Modified by Chao Xu (xuchaobei)
 
-import chalk from 'chalk';
+import { chalk } from './compiled';
 import { logger } from './logger';
 
 export function printBuildError(err: Error) {
@@ -33,8 +33,8 @@ export function printBuildError(err: Error) {
       const column = matched[4];
       logger.error(
         `Failed to minify the code from this file: \n\n ${chalk.yellow(
-          `\t${problemPath}:${line}${column !== '0' ? ':' + column : ''}`
-        )}\n`
+          `\t${problemPath}:${line}${column !== '0' ? ':' + column : ''}`,
+        )}\n`,
       );
     } catch (ignored) {
       logger.error(`Failed to minify the bundle. ${err}\n`);
@@ -43,5 +43,5 @@ export function printBuildError(err: Error) {
     logger.error((message || err) + '\n');
   }
   logger.log();
-};
+}
 /* eslint-enable */

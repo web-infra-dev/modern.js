@@ -3,6 +3,8 @@ export const EN_LOCALE = {
     dev: {
       describe: 'start dev server',
       config: 'specify config file',
+      entry: 'compiler by entry',
+      apiOnly: 'start api server only',
     },
     build: { describe: 'build application', analyze: 'analyze bundle' },
     start: { describe: 'start server' },

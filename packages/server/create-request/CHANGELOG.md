@@ -1,5 +1,61 @@
 # @modern-js/create-request
 
+## 1.2.5
+
+### Patch Changes
+
+- 0fccff68: feat: support array for bff request query
+- Updated dependencies [2d155c4c]
+- Updated dependencies [a0475f1a]
+- Updated dependencies [123e432d]
+- Updated dependencies [e5a9b26d]
+- Updated dependencies [0b26b93b]
+- Updated dependencies [123e432d]
+- Updated dependencies [f9f66ef9]
+- Updated dependencies [592edabc]
+- Updated dependencies [895fa0ff]
+- Updated dependencies [3578913e]
+- Updated dependencies [1c3beab3]
+  - @modern-js/utils@1.6.0
+  - @modern-js/plugin-ssr@1.2.8
+
+## 1.2.4
+
+### Patch Changes
+
+- 60f7d8bf: feat: add tests dir to npmignore
+- Updated dependencies [b8599d09]
+- Updated dependencies [60f7d8bf]
+- Updated dependencies [e4cec1ce]
+- Updated dependencies [3bf4f8b0]
+  - @modern-js/utils@1.5.0
+  - @modern-js/plugin-ssr@1.2.7
+
+## 1.2.3
+
+### Patch Changes
+
+- 6800be3b: feat: move storage from plugin-ssr to utils
+- Updated dependencies [6800be3b]
+  - @modern-js/plugin-ssr@1.2.6
+  - @modern-js/utils@1.4.1
+
+## 1.2.2
+
+### Patch Changes
+
+- 3eee457b: fix: move some peerDependencies to dependecies
+- Updated dependencies [db43dce6]
+  - @modern-js/utils@1.3.4
+
+## 1.2.1
+
+### Patch Changes
+
+- 83166714: change .npmignore
+- Updated dependencies [83166714]
+  - @modern-js/utils@1.2.2
+
 ## 1.2.0
 
 ### Minor Changes

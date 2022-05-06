@@ -1,7 +1,5 @@
 import spawn from 'cross-spawn';
-import minimist from 'minimist';
-import chalk from 'chalk';
-import { logger } from '@modern-js/utils';
+import { chalk, logger, minimist } from '@modern-js/utils';
 
 const ensureOption = (
   args: minimist.ParsedArgs,

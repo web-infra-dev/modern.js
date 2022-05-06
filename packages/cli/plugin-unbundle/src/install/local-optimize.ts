@@ -1,19 +1,17 @@
 import { createHash } from 'crypto';
 import path from 'path';
-import { chalk, fs } from '@modern-js/utils';
-import logger, { Signale } from 'signale';
+import { chalk, fs, signale as logger, Signale } from '@modern-js/utils';
 import enhancedResolve from 'enhanced-resolve';
 import { Plugin as ESBuildPlugin } from 'esbuild';
 import type { Compiler } from '@modern-js/esmpack';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import { UnbundleDependencies } from 'src';
 import {
   WEB_MODULES_DIR,
   GLOBAL_CACHE_DIR_NAME,
   TEMP_MODULES_DIR,
   META_DATA_FILE_NAME,
   ESBUILD_RESOLVE_PLUGIN_NAME,
-  VIRTUAL_DEPS_MAP,
-  MODERN_JS_INTERNAL_PACKAGES,
 } from '../constants';
 import { findPackageJson, pathToUrl } from '../utils';
 import { scanImports } from './scan-imports';
@@ -23,12 +21,8 @@ const resolve = enhancedResolve.create.sync({
   conditionNames: ['import', 'module', 'development', 'browser'],
   mainFields: ['browser', 'module', 'main'],
 });
-
 // init global local modules cache
-const modulesCache = new ModulesCache(GLOBAL_CACHE_DIR_NAME);
-
-// force ignore deps cache
-const SKIP_DEPS_CACHE = process.env.SKIP_DEPS_CACHE === 'true';
+export const modulesCache = new ModulesCache(GLOBAL_CACHE_DIR_NAME);
 
 // local web_modules dir， bundled by esbuild
 let webModulesDir: string;
@@ -38,7 +32,10 @@ let tempModulesDir: string;
 
 // const debug = createDebugger(`esm:local-optimize`);
 
-const activeLogger = new Signale({ interactive: true, scope: 'optimize-deps' });
+const activeLogger = new Signale({
+  interactive: true,
+  scope: 'optimize-deps',
+});
 
 export interface DepsMetadata {
   hash: string;
@@ -56,6 +53,7 @@ const resolvedDepsMap: ResolvedDepsMap = new Map();
 const resolveDepVersion = (
   dep: string,
   importer: string,
+  virtualDependenciesMap: Record<string, string>,
 ): { version: string; filePath: string | null } => {
   const cached = resolvedDepsMap.get(`${dep}${importer}`);
 
@@ -66,7 +64,7 @@ const resolveDepVersion = (
   let version = 'latest';
   let filePath = null;
 
-  if (!VIRTUAL_DEPS_MAP[dep]) {
+  if (!virtualDependenciesMap[dep]) {
     try {
       const resolved = resolve(importer, dep);
       if (resolved) {
@@ -93,10 +91,29 @@ const resolveDepVersion = (
   };
 };
 
-export async function optimizeDeps(
-  userConfig: NormalizedConfig,
-  appContext: IAppContext,
-) {
+export async function optimizeDeps({
+  userConfig,
+  appContext,
+  dependencies,
+}: {
+  userConfig: NormalizedConfig;
+  appContext: IAppContext;
+  dependencies: UnbundleDependencies;
+}) {
+  const {
+    defaultDeps: defaultDependencies,
+    virtualDeps: virtualDependenciesMap,
+    internalPackages,
+  } = dependencies;
+
+  const ignoreModuleCache =
+    userConfig?.dev?.unbundle?.ignoreModuleCache ||
+    process.env.SKIP_DEPS_CACHE === 'true';
+  const clearPdnCache =
+    userConfig?.dev?.unbundle?.clearPdnCache ||
+    process.env.CLEAN_CACHE === 'true';
+  const pdnHost =
+    userConfig?.dev?.unbundle?.pdnHost || dependencies.defaultPdnHost;
   const timer = process.hrtime();
 
   const { appDirectory } = appContext;
@@ -108,13 +125,24 @@ export async function optimizeDeps(
   const dataPath = path.join(webModulesDir, META_DATA_FILE_NAME);
 
   // should clean gloabl modules cache and local cache
-  if (process.env.CLEAN_CACHE === 'true') {
+  if (clearPdnCache) {
+    const isProcessEnv = process.env.CLEAN_CACHE === 'true';
+    const configSource = isProcessEnv
+      ? 'process.env.CLEAN_CACHE'
+      : 'clearPdnCache';
+    logger.info(`${configSource} is true, clear pdn cache.`);
+
     modulesCache.clean();
     fs.removeSync(webModulesDir);
     fs.removeSync(tempModulesDir);
   }
 
-  const { deps, enableBabelMacros } = await scanImports(userConfig, appContext);
+  const { deps, enableBabelMacros } = await scanImports(
+    userConfig,
+    appContext,
+    defaultDependencies,
+    virtualDependenciesMap,
+  );
 
   const data: DepsMetadata = {
     hash: getDepHash(appDirectory, deps),
@@ -129,13 +157,17 @@ export async function optimizeDeps(
 
   // hash is consistent, no need to re-bundle
   // should ignore optimize deps when SKIP_DEPS_CACHE is falsy
-  if (prevData && prevData.hash === data.hash && !SKIP_DEPS_CACHE) {
+  if (prevData && prevData.hash === data.hash && !ignoreModuleCache) {
     logger.info('Skip dependencies pre-optimization...');
     return;
   }
 
-  if (SKIP_DEPS_CACHE) {
-    logger.info(`SKIP_DEPS_CACHE is true, pre-optimize dependencies.`);
+  if (ignoreModuleCache) {
+    const isProcessEnv = process.env.SKIP_DEPS_CACHE === 'true';
+    const configSource = isProcessEnv
+      ? 'process.env.SKIP_DEPS_CACHE'
+      : 'ignoreModuleCache';
+    logger.info(`${configSource} is true, pre-optimize dependencies.`);
   }
 
   [webModulesDir, tempModulesDir].forEach(dir => {
@@ -149,7 +181,14 @@ export async function optimizeDeps(
   activeLogger.await(`Start pre-optimizing node_modules...`);
 
   try {
-    await compileDeps(appDirectory, deps, data);
+    await compileDeps(
+      appDirectory,
+      deps,
+      data,
+      internalPackages,
+      virtualDependenciesMap,
+      pdnHost,
+    );
   } catch (err) {
     logger.error(`Pre optimize deps error: \n${err as string}`);
 
@@ -168,10 +207,13 @@ export async function optimizeDeps(
   );
 }
 
-const compileDeps = async (
+export const compileDeps = async (
   appDirectory: string,
   deps: Array<{ specifier: string; importer: string; forceCompile?: boolean }>,
   metaData: DepsMetadata,
+  internalPackages: Record<string, string>,
+  virtualDependenciesMap: Record<string, string>,
+  pdnHost: string,
 ) => {
   const bundleResult = await await require('esbuild').build({
     entryPoints: deps.map(dep => dep.specifier),
@@ -181,7 +223,7 @@ const compileDeps = async (
     metafile: true,
     outdir: webModulesDir,
     format: 'esm',
-    treeShaking: 'ignore-annotations',
+    ignoreAnnotations: true,
     plugins: [
       {
         name: ESBUILD_RESOLVE_PLUGIN_NAME,
@@ -211,17 +253,27 @@ const compileDeps = async (
               }
 
               activeLogger.await(`${chalk.yellow(`compile ${specifier}...`)}`);
+              const internalPackageEntryFile =
+                internalPackages[specifier] &&
+                resolveDepVersion(
+                  internalPackages[specifier],
+                  appDirectory,
+                  virtualDependenciesMap,
+                ).filePath;
+              const internalPackageEntryDir =
+                internalPackageEntryFile &&
+                path.dirname(internalPackageEntryFile);
+              const importer = internalPackageEntryFile
+                ? resolveDepVersion(
+                    specifier,
+                    internalPackageEntryFile,
+                    virtualDependenciesMap,
+                  ).filePath
+                : virtualImporter;
               const { version, filePath } = resolveDepVersion(
                 specifier,
-                MODERN_JS_INTERNAL_PACKAGES[specifier]
-                  ? resolveDepVersion(
-                      specifier,
-                      resolveDepVersion(
-                        MODERN_JS_INTERNAL_PACKAGES[specifier],
-                        appDirectory,
-                      ).filePath!,
-                    ).filePath
-                  : virtualImporter,
+                importer,
+                virtualDependenciesMap,
               );
 
               const cached = modulesCache.get(specifier, version);
@@ -241,6 +293,8 @@ const compileDeps = async (
                 const remoteResult = await modulesCache.requestRemoteCache(
                   specifier,
                   version,
+                  virtualDependenciesMap,
+                  pdnHost,
                 );
                 if (remoteResult) {
                   return {
@@ -255,7 +309,8 @@ const compileDeps = async (
               // TODO
               const compiler: Compiler =
                 await require('@modern-js/esmpack').esmpack({
-                  cwd: appDirectory,
+                  // should use internal package path as cwd for internal packages
+                  cwd: internalPackageEntryDir || appDirectory,
                   outDir: tempModulesDir,
                   env: { NODE_ENV: JSON.stringify('development') },
                 });
@@ -266,6 +321,12 @@ const compileDeps = async (
               });
 
               if (result.rollupOutput?.output[0].fileName) {
+                // ensure monorepo package is written to metadata
+                const builtDep = deps.find(dep => dep.specifier === specifier);
+                if (builtDep) {
+                  builtDep.forceCompile = true;
+                }
+
                 return {
                   path: path.join(
                     tempModulesDir,
@@ -292,8 +353,11 @@ const compileDeps = async (
 
   const { outputs } = bundleResult.metafile;
 
+  // match short length key first
+  // eg: specifier is 'foo.js', but user import '@bar/node_modules/foo.js' and 'foo.js'
+  const keys = Object.keys(outputs).sort((a, b) => a.length - b.length);
   deps.forEach(({ specifier, forceCompile }) => {
-    const key = Object.keys(outputs).find(key => {
+    const key = keys.find(key => {
       const { entryPoint } = outputs[key];
       // local compile monorepo packages
       // eg: entryPoint: ../../packages/common-utils/dist/index.js

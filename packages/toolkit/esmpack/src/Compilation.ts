@@ -1,7 +1,7 @@
 import path from 'path';
 import { AsyncSeriesHook, SyncHook } from 'tapable';
 import { rollup } from 'rollup';
-import cloneDeep from 'lodash/cloneDeep';
+import { cloneDeep } from '@modern-js/utils/lodash';
 import type {
   Plugin as RollupPlugin,
   RollupBuild,
@@ -17,6 +17,8 @@ import rollupPluginJson from '@rollup/plugin-json';
 import type { RollupJsonOptions } from '@rollup/plugin-json';
 import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
 import type { RollupNodeResolveOptions } from '@rollup/plugin-node-resolve';
+import rollupPluginSvgr from '@svgr/rollup';
+import rollupPluginUrl from '@rollup/plugin-url';
 import type {
   EntryInput,
   InputOptions,
@@ -233,7 +235,17 @@ class Compilation {
       sourcemap: false,
       exports: 'named',
       chunkFileNames: '/_chunk_/[name]-[hash].js',
-      entryFileNames: chunk => getEntryFilename(chunk.name),
+      entryFileNames: chunk => {
+        // output in true node_modules level
+        // avoid overwritten by different version
+        const { specifier, specifierFilePath } = this;
+        const specReg = new RegExp(`/node_modules/(.+)/${specifier}`);
+        const match = specifierFilePath?.match(specReg);
+        const prefix = match?.[1] || '';
+        const filename = getEntryFilename(chunk.name);
+
+        return path.join(prefix, filename);
+      },
     };
     await this.hooks.outputOptions.promise(this.outputOptions);
   }
@@ -278,6 +290,7 @@ class Compilation {
       const lastCWD = process.cwd();
       // rollup depends on process.cwd... some one fix this plz.
       process.chdir(this.compiler.options.cwd);
+
       this.rollupBuild = await rollup(this.inputOptions);
       process.chdir(lastCWD);
     } catch (_err: any) {
@@ -350,7 +363,7 @@ class Compilation {
     this.rollupPlugins.push(rollupPluginNodeResolve(nodeResolveOptions));
 
     /**
-     * Json
+     * JSON
      */
     const jsonOptions = {
       preferConst: true,
@@ -376,7 +389,7 @@ class Compilation {
     this.rollupPlugins.push(rollupPluginLess(lessOptions));
 
     /**
-     * Scss
+     * SCSS
      */
     const scssOptions: ScssOptions = {
       includePaths: [path.resolve(cwd, 'node_modules')],
@@ -390,7 +403,13 @@ class Compilation {
     this.rollupPlugins.push(rollupPluginCss(cwd));
 
     /**
-     * Commonjs
+     * SVG
+     */
+    this.rollupPlugins.push(rollupPluginUrl());
+    this.rollupPlugins.push(rollupPluginSvgr() as any);
+
+    /**
+     * CommonJS
      */
     const commonjsOptions: RollupCommonJSOptions = {
       transformMixedEsModules: true,

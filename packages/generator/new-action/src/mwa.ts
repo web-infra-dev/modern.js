@@ -1,4 +1,4 @@
-import { merge } from 'lodash';
+import { merge } from '@modern-js/utils/lodash';
 import {
   CodeSmith,
   GeneratorCore,
@@ -31,7 +31,6 @@ interface IMWANewActionOption {
   cwd?: string;
 }
 
-// eslint-disable-next-line max-statements
 export const MWANewAction = async (options: IMWANewActionOption) => {
   const {
     locale = 'zh',

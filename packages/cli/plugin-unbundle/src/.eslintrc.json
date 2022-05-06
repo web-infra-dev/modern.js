@@ -1,13 +1,9 @@
 {
   "rules": {
     "no-param-reassign": "off",
-    "filenames/match-exported": "off",
     "@typescript-eslint/no-loop-func": "off",
     "prefer-destructuring": "off",
     "consistent-return": "off",
-    "max-statements": "off",
-    "require-atomic-updates": "off",
-    "@typescript-eslint/no-shadow": "off",
     "max-depth": "off",
     "@typescript-eslint/member-ordering": "off",
     "max-lines": "off",

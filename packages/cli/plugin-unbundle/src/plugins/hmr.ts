@@ -3,15 +3,13 @@ import { createDebugger } from '@modern-js/utils';
 import { Plugin as RollupPlugin } from 'rollup';
 import MagicString from 'magic-string';
 import { Parser } from 'acorn';
+import acornClassFields from 'acorn-class-fields';
 import { CallExpression, MemberExpression, Identifier, Literal } from 'estree';
 import { simple as esWalk } from 'acorn-walk';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { isJsRequest, isCSSRequest } from '../utils';
 import { DEV_CLIENT_URL } from '../constants';
 import { fileToModules } from '../AssetModule';
-
-// FIXME: declare module 不生效的问题
-const acornClassFields = require('acorn-class-fields');
 
 type AcceptDep = Literal & { start: number; end: number };
 
@@ -25,8 +23,12 @@ const debug = createDebugger('esm:hmr-plugin');
 const hasHotContext = (code: string) =>
   code.includes('module.hot') || code.includes(`import.meta.hot`);
 
-const shouldApplyHmr = (code: string, filename: string) => {
-  if (/node_modules\/(?!\.modern-js\/)/.test(filename)) {
+const shouldApplyHmr = (
+  code: string,
+  filename: string,
+  internalDirectory: string,
+) => {
+  if (filename.startsWith(internalDirectory)) {
     return false;
   }
 
@@ -47,11 +49,11 @@ export const hmrPlugin = (
   appContext: IAppContext,
 ): RollupPlugin => {
   const { appDirectory } = appContext;
-
   return {
     name: 'esm-hmr',
     async transform(code: string, importer: string) {
-      if (!shouldApplyHmr(code, importer)) {
+      const { internalDirectory } = appContext;
+      if (!shouldApplyHmr(code, importer, internalDirectory)) {
         return null;
       }
 
@@ -85,8 +87,8 @@ export const hmrPlugin = (
           [
             `\nimport.meta.hot.accept();`,
             `import.meta.hot.prune(() => {
-              removeStyle(${JSON.stringify(importer)})
-            });`,
+                removeStyle(${JSON.stringify(importer)})
+              });`,
           ].join('\n'),
         );
 

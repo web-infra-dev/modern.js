@@ -1,90 +1,123 @@
 import path from 'path';
-import { createPlugin } from '@modern-js/testing';
-import { chalk } from '@modern-js/utils';
+import {
+  TestConfigOperator,
+  getModuleNameMapper,
+  DEFAULT_RESOLVER_PATH,
+} from '@modern-js/testing';
+import type { CliPlugin } from '@modern-js/core';
+import { isApiOnly } from '@modern-js/utils';
 import { bff_info_key } from './constant';
+import { isBFFProject } from './utils';
 
-export const isBFFProject = (pwd: string) => {
-  try {
-    // eslint-disable-next-line import/no-dynamic-require,@typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
-    const packageJson = require(path.join(pwd, './package.json'));
-
-    const { dependencies, devDependencies } = packageJson;
-
-    const isBFF = Object.keys({ ...dependencies, ...devDependencies }).some(
-      (dependency: string) => dependency.includes('plugin-bff'),
-    );
-
-    const isMWA = Object.keys(devDependencies).some((devDependency: string) =>
-      devDependency.includes('app-tools'),
-    );
-
-    return isMWA && isBFF;
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(chalk.red(error));
-    return false;
-  }
-};
-
-export default ({
+export const setJestConfigForBFF = async ({
   pwd,
   userConfig,
   plugins,
   routes,
+  utils,
 }: {
   pwd: string;
   userConfig: any;
   plugins: any[];
   routes: any[];
-}) =>
-  createPlugin(
-    () => ({
+  utils: TestConfigOperator;
+}) => {
+  const bffConfig = {
+    rootDir: path.join(pwd, './api'),
+    setupFilesAfterEnv: [require.resolve('./setup')],
+    testEnvironment: require.resolve('./env'),
+    testMatch: [`**/api/**/*.test.[jt]s`],
+    globals: {
+      [bff_info_key]: {
+        appDir: pwd,
+        modernUserConfig: userConfig,
+        plugins,
+        routes,
+      },
+    },
+  };
+
+  const alias = userConfig?.source?.alias || {};
+
+  const aliasMapper = getModuleNameMapper(alias);
+
+  const { transform, moduleNameMapper } = utils.jestConfig;
+
+  const apiOnly = await isApiOnly(pwd);
+
+  const mergedModuleNameMapper = {
+    ...moduleNameMapper,
+    ...aliasMapper,
+  };
+
+  const resolver = utils.jestConfig.resolver || DEFAULT_RESOLVER_PATH;
+
+  if (!apiOnly) {
+    utils.setJestConfig(
+      {
+        projects: [
+          {
+            ...utils.jestConfig,
+          },
+          {
+            transform,
+            moduleNameMapper: mergedModuleNameMapper,
+            resolver,
+            ...bffConfig,
+          },
+        ],
+      },
+      {
+        force: true,
+      },
+    );
+  } else {
+    utils.setJestConfig(
+      {
+        projects: [
+          {
+            transform,
+            moduleNameMapper: mergedModuleNameMapper,
+            resolver,
+            ...bffConfig,
+          },
+        ],
+      },
+      {
+        force: true,
+      },
+    );
+  }
+};
+
+export default (): CliPlugin => ({
+  name: '@modern-js/testing-plugin-bff',
+
+  setup(api) {
+    return {
       jestConfig: async (utils, next) => {
+        const appContext = api.useAppContext();
+        const pwd = appContext.appDirectory;
+
         if (!isBFFProject(pwd)) {
           return next(utils);
         }
 
-        const bffConfig = {
-          rootDir: path.join(pwd, './api'),
-          setupFilesAfterEnv: [require.resolve('./setup')],
-          testEnvironment: require.resolve('./env'),
-          testMatch: [`**/api/**/*.test.[jt]s`],
-          globals: {
-            [bff_info_key]: {
-              appDir: pwd,
-              modernUserConfig: userConfig,
-              plugins,
-              routes,
-            },
-          },
-        };
+        const userConfig = api.useResolvedConfigContext();
+        const plugins = appContext.plugins.map(p => p.server).filter(Boolean);
 
-        const { transform, moduleNameMapper, resolver } = utils.jestConfig;
+        await setJestConfigForBFF({
+          pwd,
+          userConfig,
+          plugins,
+          routes: appContext.serverRoutes,
+          utils,
+        });
 
-        utils.setJestConfig(
-          {
-            projects: [
-              {
-                ...utils.jestConfig,
-              },
-              {
-                transform,
-                moduleNameMapper,
-                resolver,
-                ...bffConfig,
-              },
-            ],
-          },
-          {
-            force: true,
-          },
-        );
         return next(utils);
       },
-    }),
-    {
-      name: '@modern-js/testing-plugin-bff',
-    },
-  );
+    };
+  },
+});
 
 export { request as testBff } from './utils';
