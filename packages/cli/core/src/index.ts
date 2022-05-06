@@ -203,6 +203,7 @@ const createCli = () => {
 
     return {
       loadedConfig: loaded,
+      // appContext may be updated in `prepare` hook, should return latest value
       appContext: useAppContext(),
       resolved,
     };
