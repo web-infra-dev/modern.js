@@ -1,4 +1,3 @@
-import { getOptions } from 'loader-utils';
 import { generateClient, GenClientOptions } from '@modern-js/bff-utils';
 import type { LoaderContext } from 'webpack';
 
@@ -17,14 +16,14 @@ async function loader(this: LoaderContext<APILoaderOptions>, source: string) {
   // eslint-disable-next-line @babel/no-invalid-this
   const callback = this.async();
   // eslint-disable-next-line @babel/no-invalid-this
-  const draftOptions = getOptions(this as any);
+  const draftOptions = this.getOptions();
 
   const options: GenClientOptions = {
     prefix: (Array.isArray(draftOptions.prefix)
       ? draftOptions.prefix[0]
       : draftOptions.prefix) as string,
-    apiDir: draftOptions.apiDir as string,
-    target: draftOptions.target as string,
+    apiDir: draftOptions.apiDir,
+    target: draftOptions.target,
     port: Number(draftOptions.port),
     source,
     // eslint-disable-next-line @babel/no-invalid-this
@@ -32,11 +31,11 @@ async function loader(this: LoaderContext<APILoaderOptions>, source: string) {
   };
 
   if (draftOptions.fetcher) {
-    options.fetcher = draftOptions.fetcher as string;
+    options.fetcher = draftOptions.fetcher;
   }
 
   if (draftOptions.requestCreator) {
-    options.requestCreator = draftOptions.requestCreator as string;
+    options.requestCreator = draftOptions.requestCreator;
   }
 
   options.requireResolve = require.resolve;
