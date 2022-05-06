@@ -1,7 +1,9 @@
 {
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
-    "declaration": false,
+    "target": "ES2019",
+    "declaration": true,
+    "outDir": "./dist",
     "jsx": "preserve",
     "baseUrl": "./",
     "isolatedModules": true,

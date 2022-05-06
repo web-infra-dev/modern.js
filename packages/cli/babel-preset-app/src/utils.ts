@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import semver from 'semver';
+import { semver } from '@modern-js/utils';
 
 export const isBeyondReact17 = (cwd: string) => {
   const pkgInfo = JSON.parse(
