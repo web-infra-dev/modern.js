@@ -19,8 +19,12 @@ export const createMetrics = (
     });
   };
 
-  const emitCounter = (name: string, tags: Record<string, unknown> = {}) => {
-    metrics.emitCounter(name, 1, {
+  const emitCounter = (
+    name: string,
+    counter: number,
+    tags: Record<string, unknown> = {},
+  ) => {
+    metrics.emitCounter(name, counter, {
       ...tags,
       pathname,
       entry,

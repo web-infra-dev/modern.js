@@ -10,7 +10,6 @@ import { Router, StaticRouter, RouteProps } from 'react-router-dom';
 import { RuntimeReactContext } from '@modern-js/runtime-core';
 import type { Plugin } from '@modern-js/runtime-core';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { BaseSSRServerContext } from '@modern-js/types';
 import { renderRoutes, getLocation, urlJoin } from './utils';
 
 declare global {
@@ -104,8 +103,7 @@ export const routerPlugin = ({
             }
             return (props: any) => {
               const runtimeContext = useContext(RuntimeReactContext);
-              const { ssrContext }: { ssrContext?: BaseSSRServerContext } =
-                runtimeContext;
+              const { ssrContext } = runtimeContext;
               const location = getLocation(ssrContext);
               const routerContext = ssrContext?.redirection || {};
               const request = ssrContext?.request;
