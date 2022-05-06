@@ -16,7 +16,7 @@ sidebar_label: assetsPath
 
 例如，可将资源产物输出目录改成 `assets-styles` 目录：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
