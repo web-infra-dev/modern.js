@@ -256,7 +256,7 @@ describe('test measure', () => {
       } as any,
     );
 
-    metrics.emitCounter('msg');
+    metrics.emitCounter('msg', 1);
     expect(code).toBe(0);
     metrics.emitTimer('msg', 1);
     expect(code).toBe(2);
