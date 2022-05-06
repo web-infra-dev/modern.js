@@ -14,7 +14,7 @@ sidebar_label: meta
 <details>
   <summary>meta 配置详情</summary>
 
-```javascript
+```js
   {
     charset: { charset: 'utf-8'},
     viewport: 'width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no',
@@ -33,7 +33,7 @@ sidebar_label: meta
 
 举例如， 在 `modern.config.js` 设置如下:
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({

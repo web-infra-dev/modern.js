@@ -19,7 +19,7 @@ sidebar_label: enableInlineScripts
 
 生产环境下，内联 js 到 html 文件中：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
