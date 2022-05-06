@@ -70,7 +70,11 @@ export type BaseSSRServerContext = {
       cost: number,
       tags: Record<string, unknown> = {},
     ) => void;
-    emitCounter: (name: string, tags: Record<string, unknown> = {}) => void;
+    emitCounter: (
+      name: string,
+      counter: number,
+      tags: Record<string, unknown> = {},
+    ) => void;
   };
   loadableManifest?: string;
   cacheConfig?: any;

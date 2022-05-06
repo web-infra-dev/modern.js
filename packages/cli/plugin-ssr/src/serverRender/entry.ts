@@ -136,7 +136,7 @@ export default class Entry {
     } catch (e) {
       this.result.renderLevel = RenderLevel.CLIENT_RENDER;
       this.logger.error('App Prefetch Render', e as Error);
-      this.metrics.emitCounter('app.prefetch.render.error');
+      this.metrics.emitCounter('app.prefetch.render.error', 1);
     }
 
     return prefetchData || {};
@@ -170,7 +170,7 @@ export default class Entry {
       this.result.renderLevel = RenderLevel.SERVER_RENDER;
     } catch (e) {
       this.logger.error('App Render To HTML', e as Error);
-      this.metrics.emitCounter('app.render.html.error');
+      this.metrics.emitCounter('app.render.html.error', 1);
     }
 
     return html;
