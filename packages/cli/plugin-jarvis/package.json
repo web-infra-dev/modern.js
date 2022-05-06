@@ -46,7 +46,7 @@
     "@modern-js-app/eslint-config": "workspace:^1.2.9",
     "@modern-js/eslint-config": "workspace:^1.2.5",
     "@modern-js/tsconfig": "workspace:^1.2.0",
-    "@modern-js/utils": "workspace:^1.6.0",
+    "@modern-js/utils": "workspace:^1.7.0",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
     "cross-spawn": "^7.0.1",

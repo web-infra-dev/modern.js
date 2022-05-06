@@ -1,5 +1,14 @@
 # @modern-js/generator-plugin
 
+## 1.2.7
+
+### Patch Changes
+
+- e420c191: fix: generator plugin render string error
+- Updated dependencies [0ee4bb4e]
+- Updated dependencies [6fa74d5f]
+  - @modern-js/utils@1.7.0
+
 ## 1.2.6
 
 ### Patch Changes
