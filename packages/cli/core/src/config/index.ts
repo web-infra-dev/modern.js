@@ -7,6 +7,7 @@ import {
   PLUGIN_SCHEMAS,
   chalk,
   getServerConfig,
+  getPackageManager,
 } from '@modern-js/utils';
 import { mergeWith } from '@modern-js/utils/lodash';
 
@@ -64,7 +65,7 @@ export const loadUserConfig = async (
   };
 };
 
-const showAdditionalPropertiesError = (error: ErrorObject) => {
+const showAdditionalPropertiesError = async (error: ErrorObject) => {
   if (
     error.keyword === 'additionalProperties' &&
     error.params.additionalProperty
@@ -83,11 +84,12 @@ const showAdditionalPropertiesError = (error: ErrorObject) => {
     );
 
     if (name) {
+      const packageManager = await getPackageManager();
       logger.warn(
         `The configuration of ${chalk.bold(
           target,
         )} is provided by plugin ${chalk.bold(name)}. Please use ${chalk.bold(
-          'yarn new',
+          `${packageManager} run new`,
         )} to enable the corresponding capability.\n`,
       );
     }
@@ -100,7 +102,9 @@ export const resolveConfig = async (
   schemas: PluginValidateSchema[],
   restartWithExistingPort: number,
   argv: string[],
-  onSchemaError: (error: ErrorObject) => void = showAdditionalPropertiesError,
+  onSchemaError: (
+    error: ErrorObject,
+  ) => void | Promise<void> = showAdditionalPropertiesError,
 ): Promise<NormalizedConfig> => {
   const { config: userConfig, jsConfig, pkgConfig } = loaded;
 
@@ -118,7 +122,8 @@ export const resolveConfig = async (
   const valid = validate(userConfig);
 
   if (!valid && validate.errors?.length) {
-    onSchemaError(validate?.errors[0]);
+    await onSchemaError(validate?.errors[0]);
+
     const errors = betterAjvErrors(
       validateSchema,
       userConfig,
