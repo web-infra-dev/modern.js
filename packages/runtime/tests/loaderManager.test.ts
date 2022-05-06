@@ -7,6 +7,7 @@ describe('loaderManager', () => {
       reloading: false,
       data: 'hello world',
       error: null,
+      _error: null,
     };
 
     const loaderManager = createLoaderManager({
@@ -20,7 +21,8 @@ describe('loaderManager', () => {
       params: '2',
       initialData: initialData.data,
     });
-    add(() => Promise.reject(new Error('error occurs')), {
+    const error = new Error('error occurs');
+    add(() => Promise.reject(error), {
       params: '3',
       initialData: initialData.data,
     });
@@ -31,7 +33,11 @@ describe('loaderManager', () => {
 
     expect(loader1?.result).toEqual(initialData);
     // error is initialized to undefined when initialData doesn't set this field.
-    expect(loader2?.result).toEqual({ ...initialData, error: undefined });
+    expect(loader2?.result).toEqual({
+      ...initialData,
+      error: undefined,
+      _error: undefined,
+    });
 
     loader1?.load();
     loader2?.load();
@@ -44,18 +50,21 @@ describe('loaderManager', () => {
       reloading: false,
       data: 'hello modern',
       error: null,
+      _error: null,
     });
     expect(result[JSON.stringify('2')]).toEqual({
       loading: false,
       reloading: false,
       data: 'hello modern2',
       error: null,
+      _error: null,
     });
     expect(result[JSON.stringify('3')]).toEqual({
       loading: false,
       reloading: false,
       data: null,
       error: 'error occurs',
+      _error: error,
     });
   });
 });

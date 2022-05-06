@@ -15,9 +15,9 @@ export class ModernSSRDevServer extends ModernDevServer {
     return routes.filter(route => route.isSSR);
   }
 
-  protected async preServerInit() {
+  protected async setupBeforeProdMiddleware() {
     if (this.runMode === RUN_MODE.FULL) {
-      await super.preServerInit();
+      await super.setupBeforeProdMiddleware();
     }
   }
 
@@ -37,9 +37,9 @@ export class ModernAPIDevServer extends ModernDevServer {
     return routes.filter(route => route.isApi);
   }
 
-  protected async preServerInit() {
+  protected async setupBeforeProdMiddleware() {
     if (this.runMode === RUN_MODE.FULL) {
-      await super.preServerInit();
+      await super.setupBeforeProdMiddleware();
     }
   }
 

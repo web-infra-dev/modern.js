@@ -1,8 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http';
 
 export type Metrics = {
-  counter: () => void;
-  timer: () => void;
+  emitCounter: (name: string, value: number, tags: Record<string, any>) => void;
+  emitTimer: (name: string, value: number, tags: Record<string, any>) => void;
   gauges: () => void;
 };
 

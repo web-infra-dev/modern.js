@@ -2,7 +2,6 @@ import { compile } from 'path-to-regexp';
 import {
   noop,
   mergeExtension,
-  toMessage,
   createErrorDocument,
   createMiddlewareCollecter,
   getStaticReg,
@@ -18,20 +17,6 @@ describe('test server utils', () => {
     const middleware = ['foo', 'baz'];
     const extension = mergeExtension(middleware);
     expect(extension.middleware).toEqual(middleware);
-  });
-
-  describe('test some case by toMessage func', () => {
-    test('should get message from error like object', () => {
-      const error = new Error('some error happened');
-      const message = toMessage('error info', error);
-      expect(message).toBe('error info: some error happened');
-    });
-
-    test('should get message from error message', () => {
-      const errorMsg = 'some error happened';
-      const message = toMessage('error info', errorMsg);
-      expect(message).toBe('error info: some error happened');
-    });
   });
 
   test('should return document text', () => {
