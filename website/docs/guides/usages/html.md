@@ -1,6 +1,6 @@
 ---
 title: 自定义 HTML 模板
-sidebar_position: 2
+sidebar_position: 7
 ---
 
 :::info 注

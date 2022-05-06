@@ -13,7 +13,7 @@ sidebar_label: disableMinimize
 
 禁用生产环境下 JS 和 CSS 压缩, 配置如下即可：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({

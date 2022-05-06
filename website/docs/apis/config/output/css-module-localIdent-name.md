@@ -13,7 +13,7 @@ sidebar_label: cssModuleLocalIdentName
 
 设置 CSS Modules 生成的 local ident name：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({

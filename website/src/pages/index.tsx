@@ -112,7 +112,7 @@ const features = [
   {
     icon: DeveloperSVG,
     desc: 'DX 和 UX 同时最大化',
-    href: '/docs/guides/usages/basic-configuration/compatibility',
+    href: '/docs/guides/usages/compatibility',
   },
   {
     icon: AISVG,
@@ -223,7 +223,7 @@ const flowCards = [
   {
     title: '运行',
     img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/modern-js-landing-pics.007.jpeg',
-    href: '/docs/guides/usages/basic-configuration/compatibility',
+    href: '/docs/guides/usages/compatibility',
     top: 610,
   },
   {

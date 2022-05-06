@@ -1,8 +1,9 @@
 ---
-title: 自定义入口和服务器端路由
 sidebar_label: 自定义入口和服务器端路由
-sidebar_position: 1
+sidebar_position: 3
 ---
+
+# 自定义入口和服务器端路由
 
 使用 Modern.js 时，通常情况下是不需要自己指定入口的，框架会根据项目目录结构得到默认的入口。
 
