@@ -51,11 +51,10 @@
     "jsdom": "^19.0.0",
     "opener": "^1.5.2",
     "reload": "^3.2.0",
-    "semver": "^7.3.5",
     "slash": "^3.0.0",
     "style-loader": "^3.3.1",
     "webpack": "^5.71.0",
-    "webpack-sources": "^3.2.2"
+    "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
@@ -69,7 +68,6 @@
     "@types/less": "^3.0.3",
     "@types/node": "^14",
     "@types/opener": "^1.4.0",
-    "@types/semver": "^7.3.9",
     "jest": "^27",
     "typescript": "^4"
   },
