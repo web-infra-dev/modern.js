@@ -11,7 +11,7 @@ export default (): ServerPlugin => ({
   name: '@modern-js/plugin-polyfill',
 
   setup: () => ({
-    preServerInit(_: NormalizedConfig) {
+    beforeProdServer(_: NormalizedConfig) {
       const cache = new PolyfillCache();
       const route = defaultPolyfill;
       const features = defaultFeatures;
