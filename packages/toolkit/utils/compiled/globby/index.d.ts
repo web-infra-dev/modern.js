@@ -1,4 +1,4 @@
-import {Options as FastGlobOptions, Entry as FastGlobEntry} from './fast-glob';
+import {Options as FastGlobOptions, Entry as FastGlobEntry} from '../fast-glob';
 
 declare namespace globby {
 	type ExpandDirectoriesOption =

@@ -35,14 +35,15 @@
       "jsnext:source": "./src/ssr.ts",
       "default": "./dist/ssr.js"
     },
-    "./lodash": {
-      "jsnext:source": "./compiled/lodash/index.js",
-      "default": "./compiled/lodash/index.js"
-    },
-    "./strip-ansi": {
-      "jsnext:source": "./compiled/strip-ansi/index.js",
-      "default": "./compiled/strip-ansi/index.js"
-    }
+    "./chalk": "./compiled/chalk/index.js",
+    "./json5": "./compiled/json5/index.js",
+    "./semver": "./compiled/semver/index.js",
+    "./lodash": "./compiled/lodash/index.js",
+    "./globby": "./compiled/globby/index.js",
+    "./fast-glob": "./compiled/fast-glob/index.js",
+    "./gzip-size": "./compiled/gzip-size/index.js",
+    "./mime-types": "./compiled/mime-types/index.js",
+    "./strip-ansi": "./compiled/strip-ansi/index.js"
   },
   "typesVersions": {
     "*": {
@@ -55,8 +56,29 @@
       "ssr": [
         "./dist/ssr.d.ts"
       ],
+      "chalk": [
+        "./compiled/chalk/index.d.ts"
+      ],
+      "json5": [
+        "./compiled/json5/index.d.ts"
+      ],
+      "semver": [
+        "./compiled/semver/index.d.ts"
+      ],
       "lodash": [
         "./compiled/lodash/index.d.ts"
+      ],
+      "globby": [
+        "./compiled/globby/index.d.ts"
+      ],
+      "fast-glob": [
+        "./compiled/fast-glob/index.d.ts"
+      ],
+      "gzip-size": [
+        "./compiled/gzip-size/index.d.ts"
+      ],
+      "mime-types": [
+        "./compiled/mime-types/index.d.ts"
       ],
       "strip-ansi": [
         "./compiled/strip-ansi/index.d.ts"
@@ -73,6 +95,7 @@
   },
   "dependencies": {
     "caniuse-lite": "^1.0.30001332",
+    "lodash": "^4.17.21",
     "typescript": "^4"
   },
   "devDependencies": {

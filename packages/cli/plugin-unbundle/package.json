@@ -81,7 +81,6 @@
     "react-refresh": "0.12.0",
     "rollup": "^2.38.5",
     "sass": "^1.45.0",
-    "semver": "^7.3.5",
     "strip-comments": "^2.0.1",
     "tsconfig-paths": "^3.9.0",
     "ws": "^7.4.3"
@@ -105,7 +104,6 @@
     "@types/koa__cors": "^3.0.2",
     "@types/less": "^3.0.2",
     "@types/node": "^16.9.2",
-    "@types/semver": "^7.3.4",
     "@types/strip-comments": "^2.0.0",
     "@types/ws": "^7.4.0",
     "axios": "^0.26.0",

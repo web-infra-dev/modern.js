@@ -13,7 +13,7 @@ pnpm start
 ## Add a new dependency
 
 1. Remove the dependency from the `dependencies` of original package.
-2. Add the dependency to the `devDependencies` of `@scripts/prebundle`. If this package has a `@types/xxx` package, it also needs to be added.
+2. Add the dependency to the `devDependencies` of `@scripts/prebundle`. If this package has a `@types/xxx` package, it also needs to be added. It is recommended to lock the version of dependencies.
 3. Add the task config to `src/constant.ts`:
 
 ```ts
@@ -125,6 +125,21 @@ dependencies: [
         content: `module.exports = require('./').foo;`,
       },
     ],
+  },
+];
+```
+
+### ignoreDts
+
+Ignore the original .d.ts declaration file, then generate a fake .d.ts file.
+
+This can be used to reduce file size for the packages that do not require type definitions, such as webpack plugin.
+
+```ts
+dependencies: [
+  {
+    name: 'foo',
+    ignoreDts: true,
   },
 ];
 ```

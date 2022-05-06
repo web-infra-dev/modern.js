@@ -1,5 +1,4 @@
-import { fs } from '@modern-js/utils';
-import semver from 'semver';
+import { fs, semver } from '@modern-js/utils';
 import {
   CachedInputFileSystem,
   Resolver,
