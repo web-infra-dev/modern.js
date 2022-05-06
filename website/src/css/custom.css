@@ -51,6 +51,18 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
+.markdown h1:first-child {
+  --ifm-h1-font-size: 2.6rem;
+}
+
+.markdown > h2 {
+  --ifm-h2-font-size: 1.8rem;
+}
+
+.markdown > h3 {
+  --ifm-h2-font-size: 1.4rem;
+}
+
 .navbar-sidebar .menu__link {
   color: rgba(255, 255, 255, 0.8);
 }
@@ -62,7 +74,6 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 .navbar__logo {
   height: 1.8rem;
 }
-
 
 .navbar__items {
   color: #fff;
