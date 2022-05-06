@@ -33,8 +33,8 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.6.0",
-    "@modern-js/types": "workspace:^1.5.1"
+    "@modern-js/utils": "workspace:^1.7.0",
+    "@modern-js/types": "workspace:^1.5.2"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
