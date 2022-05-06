@@ -5,6 +5,7 @@ import { ModernServerContext } from '../context';
 import { RenderResult, ServerHookRunner } from '../../type';
 import cache from './cache';
 import { SSRServerContext } from './type';
+import { createLogger, createMetrics } from './measure';
 
 export const render = async (
   ctx: ModernServerContext,
@@ -38,9 +39,11 @@ export const render = async (
     entryName,
     distDir,
     staticGenerate,
-    logger: ctx.logger,
-    metrics: ctx.metrics,
+    logger: undefined!,
+    metrics: undefined!,
   };
+  context.logger = createLogger(context, ctx.logger);
+  context.metrics = createMetrics(context, ctx.metrics);
 
   runner.extendSSRContext(context);
 
