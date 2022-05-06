@@ -14,6 +14,7 @@ import {
   isTypescript,
   prettyInstructions,
   clearConsole,
+  getPackageManager,
 } from '@modern-js/utils';
 import type { IAppContext, NormalizedConfig, PluginAPI } from '@modern-js/core';
 // FIXME: 很奇怪，换了名字之后就可以编译通过了，可能 `macro` 这个名字有啥特殊的含义？
@@ -219,6 +220,8 @@ export const startDevServer = async (
     dependencies,
   });
 
+  const packageManager = await getPackageManager(appContext.appDirectory);
+
   httpServer.listen(port, HOST, () => {
     startTimer.end = Date.now();
 
@@ -235,7 +238,7 @@ export const startDevServer = async (
     message += `\n${chalk.cyanBright(
       [
         `Note that unbundle mode require native ESM dynamic import support.`,
-        `To dev for legacy browsers, use yarn dev.`,
+        `To dev for legacy browsers, use ${packageManager} run dev.`,
       ].join('\n'),
     )}`;
 
