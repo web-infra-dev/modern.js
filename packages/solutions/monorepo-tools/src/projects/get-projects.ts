@@ -2,8 +2,8 @@ import { errorLog } from '../log/error';
 import { Package } from '../package';
 import { getMonorepoBaseData } from '../parse-config/monorepo';
 import {
-  getProjetsByPackageConfig,
-  syncGetProjetsByPackageConfig,
+  getProjectsByPackageConfig,
+  syncGetProjectsByPackageConfig,
 } from './get-projects-by-packages-config';
 import {
   getProjectsByWorkspaceFile,
@@ -81,7 +81,7 @@ const getProjectsByPackagesMatch = async (
 
   if (Array.isArray(match)) {
     // like lerna`s packages config
-    projects = await getProjetsByPackageConfig(rootPath, match, ignore);
+    projects = await getProjectsByPackageConfig(rootPath, match, ignore);
   } else {
     // use workspace file
     projects = await getProjectsByWorkspaceFile(
@@ -120,7 +120,7 @@ const syncGetProjectsByPackagesMatch = (
   // TODO: code start
   if (Array.isArray(match)) {
     // like lerna`s packages config
-    projects = syncGetProjetsByPackageConfig(rootPath, match, ignore);
+    projects = syncGetProjectsByPackageConfig(rootPath, match, ignore);
   } else {
     // use workspace file
     projects = syncGetProjectsByWorkspaceFile(
@@ -172,10 +172,10 @@ const checkFindProjectsMode = (
   }
 
   if (config.projectsConfig && config.packagesMatchs) {
-    errorLog('There can not be both `pakcagesMatchs` and `projectsConfig`');
+    errorLog('There can not be both `packagesMatchs` and `projectsConfig`');
   }
 
-  errorLog('No `pakcagesMatchs` and `projectsConfig` configurations found');
+  errorLog('No `packagesMatchs` and `projectsConfig` configurations found');
 };
 
 export const getProjects = async (

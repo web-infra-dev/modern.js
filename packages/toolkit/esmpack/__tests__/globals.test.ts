@@ -1,7 +1,7 @@
 import { createUnitTest } from './createUnitTest';
 
 /**
- * globals package has identifers like a-b-c, invalid variable name
+ * globals package has identifiers like a-b-c, invalid variable name
  */
 createUnitTest({
   pkgName: 'globals',

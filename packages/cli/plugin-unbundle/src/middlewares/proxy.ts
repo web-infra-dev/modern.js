@@ -13,9 +13,9 @@ export const createProxyHandler = (proxyOptions?: BffProxyOptions) => {
     ];
   }
 
-  const formatedProxy = formatProxyOptions(proxyOptions);
+  const formattedProxy = formatProxyOptions(proxyOptions);
 
-  const middlewares = formatedProxy.map(option => {
+  const middlewares = formattedProxy.map(option => {
     const middleware = createProxyMiddleware(option.context!, option);
 
     return async (

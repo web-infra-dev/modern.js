@@ -1,7 +1,7 @@
 import withSideEffect from 'react-side-effect';
 import React, { createElement } from 'react';
 import {
-  getOuttermostProperty,
+  getOutermostProperty,
   aggKeysFromPropsList,
   exist,
   aggMatchesFromPropsList,
@@ -46,12 +46,12 @@ const mapStateOnServer = (reduceProps: GeneralizedProps) => {
 
 const reducePropsToState = (propsList: GeneralizedProps[]) => {
   const reduceProps = {
-    interval: getOuttermostProperty(propsList, PROP_NAMES.INTERVAL),
-    staleLimit: getOuttermostProperty(propsList, PROP_NAMES.STALE_LIMIT),
-    level: getOuttermostProperty(propsList, PROP_NAMES.LEVEL),
+    interval: getOutermostProperty(propsList, PROP_NAMES.INTERVAL),
+    staleLimit: getOutermostProperty(propsList, PROP_NAMES.STALE_LIMIT),
+    level: getOutermostProperty(propsList, PROP_NAMES.LEVEL),
     includes: aggKeysFromPropsList(propsList, PROP_NAMES.INCLUDES),
     excludes: aggKeysFromPropsList(propsList, PROP_NAMES.EXCLUDES),
-    fallback: getOuttermostProperty(propsList, PROP_NAMES.FALLBACK),
+    fallback: getOutermostProperty(propsList, PROP_NAMES.FALLBACK),
     matches: aggMatchesFromPropsList(propsList, PROP_NAMES.MATCHES),
   };
 

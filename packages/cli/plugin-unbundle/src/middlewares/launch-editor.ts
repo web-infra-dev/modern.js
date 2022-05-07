@@ -4,7 +4,7 @@ import { signale as logger, LAUNCH_EDITOR_ENDPOINT } from '@modern-js/utils';
 // try vscode first
 const specifiedEditor = 'code';
 
-export const lanuchEditorMiddleware = (): Middleware => {
+export const launchEditorMiddleware = (): Middleware => {
   const handleError = (filename: string, errorMessage: string) => {
     logger.error(`Launch ${filename} in editor failed.\n${errorMessage}`);
   };

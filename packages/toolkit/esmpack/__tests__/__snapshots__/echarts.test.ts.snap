@@ -9853,7 +9853,7 @@ Displayable$4.prototype = {
   },
 
   /**
-   * The string value of \`textPosition\` needs to be calculated to a real postion.
+   * The string value of \`textPosition\` needs to be calculated to a real position.
    * For example, \`'inside'\` is calculated to \`[rect.width/2, rect.height/2]\`
    * by default. See \`contain/text.js#calculateTextPosition\` for more details.
    * But some coutom shapes like \\"pin\\", \\"flag\\" have center that is not exactly
@@ -58489,7 +58489,7 @@ function estimateRootSize(seriesModel, targetInfo, viewRoot, containerWidth, con
   area < viewArea && (area = viewArea);
   var scale = Math.pow(area / viewArea, 0.5);
   return [containerWidth * scale, containerHeight * scale];
-} // Root postion base on coord of containerGroup
+} // Root position base on coord of containerGroup
 
 
 function calculateRootPosition(layoutInfo, rootRect, targetInfo) {

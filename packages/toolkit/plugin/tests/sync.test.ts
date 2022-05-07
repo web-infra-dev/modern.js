@@ -21,7 +21,7 @@ import dFoo from './fixtures/sync/dynamic/foo';
 import dBar, { getNumber, setNumber } from './fixtures/sync/dynamic/bar';
 
 describe('sync manager', () => {
-  it('base useage', () => {
+  it('base usage', () => {
     const countContext = createContext(0);
     const useCount = () => countContext.use().value;
     const manager = createManager();

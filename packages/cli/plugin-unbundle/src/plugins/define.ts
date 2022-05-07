@@ -9,7 +9,7 @@ export const definePlugin = (config: NormalizedConfig): RollupPlugin => {
 
   const replacements: Record<string, string> = {};
 
-  // replace porcess.env.xxx
+  // replace process.env.xxx
   for (const key of [
     ...loadClientEnv(),
     ...(envVars || []),

@@ -94,7 +94,7 @@ const transformExport =
     mapPathString(nodePath.get('source') as NodePath<t.StringLiteral>, option);
   };
 
-const transfromSingleFileAlias = ({
+const transformSingleFileAlias = ({
   filename,
   baseUrl,
   paths,
@@ -121,18 +121,18 @@ const transfromSingleFileAlias = ({
   return generator(ast as any).code;
 };
 
-interface TransformDtsAlaisOption {
+interface TransformDtsAliasOption {
   filenames?: string[];
   baseUrl: string;
   paths: Record<string, string[] | string>;
 }
-export const transformDtsAlias = (option: TransformDtsAlaisOption) => {
+export const transformDtsAlias = (option: TransformDtsAliasOption) => {
   const { filenames = [], baseUrl, paths } = option;
   const transformResult: { path: string; content: string }[] = [];
   for (const filename of filenames) {
     transformResult.push({
       path: filename,
-      content: transfromSingleFileAlias({ filename, baseUrl, paths }),
+      content: transformSingleFileAlias({ filename, baseUrl, paths }),
     });
   }
   return transformResult;
