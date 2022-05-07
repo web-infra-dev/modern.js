@@ -1,5 +1,5 @@
 export const EN_LOCALE = {
-  enviroment: {
+  environment: {
     yarn_pnpm: 'please install yarn or pnpm first',
   },
 };

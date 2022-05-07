@@ -1,7 +1,7 @@
 import { esmpack } from '../src';
 import { getTempDir, resolveFromFixture } from '../__tests__/paths';
 import { transformFilesWithImportMap } from './utils/transform';
-import { E2EPlguin } from './utils/e2ePlugin';
+import { E2EPlugin } from './utils/e2ePlugin';
 
 test('simple e2e should work', async done => {
   const packages: Record<string, string> = {
@@ -13,7 +13,7 @@ test('simple e2e should work', async done => {
   const compiler = await esmpack({
     cwd: workDir,
     outDir: distDir,
-    plugins: [new E2EPlguin(workDir, packages)],
+    plugins: [new E2EPlugin(workDir, packages)],
   });
 
   for (const spec of Object.keys(packages)) {

@@ -12,22 +12,22 @@ export interface IInstallConfig extends ICommandConfig {
 
 const replaceWorkspaces = ({
   rootPath,
-  projectsInWorkspacs,
+  projectsInWorkspaces,
 }: {
   rootPath: string;
-  projectsInWorkspacs: string[];
+  projectsInWorkspaces: string[];
 }) => {
   // pnpm
   const pnpmWsFilePath = path.join(rootPath, WORKSPACE_FILE.PNPM);
   if (fs.existsSync(pnpmWsFilePath)) {
     const pnpmWorkspace = fs.readFileSync(pnpmWsFilePath, 'utf-8');
-    const orignalPnpmWorkspaces = yaml.load(pnpmWorkspace) as IPnpmWorkSpace;
+    const originalPnpmWorkspaces = yaml.load(pnpmWorkspace) as IPnpmWorkSpace;
     fs.writeFileSync(
       pnpmWsFilePath,
-      yaml.dump({ packages: projectsInWorkspacs }),
+      yaml.dump({ packages: projectsInWorkspaces }),
     );
     return () => {
-      yaml.dump(orignalPnpmWorkspaces);
+      yaml.dump(originalPnpmWorkspaces);
     };
   }
 
@@ -36,7 +36,7 @@ const replaceWorkspaces = ({
     const pkg = JsonFile.load(pkgFilePath);
     if (pkg?.workspaces?.packages) {
       const originalPkg = pkg;
-      pkg.workspaces.packages = projectsInWorkspacs;
+      pkg.workspaces.packages = projectsInWorkspaces;
       JsonFile.save(pkg, pkgFilePath);
       return () => {
         JsonFile.save(originalPkg, pkgFilePath);
@@ -72,7 +72,7 @@ export const runInstallTask = async (
 
   const restorWorkspace = replaceWorkspaces({
     rootPath,
-    projectsInWorkspacs: noDupProjectList,
+    projectsInWorkspaces: noDupProjectList,
   });
 
   await installByPackageManager(packageManager, { rootPath, removeLock: true });

@@ -22,7 +22,7 @@ export const getRouteName = (
 
   if (resourcePath.startsWith(lambdaDir)) {
     if (!allApis.includes(resourcePath)) {
-      return Err('Invalid API defination file');
+      return Err('Invalid API definition file');
     }
 
     const absoluteName = resourcePath.split('.').slice(0, -1).join('.');

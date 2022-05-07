@@ -7,13 +7,13 @@ export type PluginOptions = Parameters<typeof createStore>[0] & {
    * If it's a object, it means options will pass to createLogger function
    */
   logger?: false | ReduxLoggerOptions;
-  // todo: achive effects params
+  // todo: archive effects params
   effects?: any;
   /**
    * Default: false
    * When it's true, will remove immer plugin
    */
   disableImmer?: boolean;
-  // todo: achive devtools params
+  // todo: archive devtools params
   devtools?: any;
 };

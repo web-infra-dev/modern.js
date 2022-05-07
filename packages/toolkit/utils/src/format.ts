@@ -130,13 +130,13 @@ export { formatWebpackMessages };
 /* eslint-enable no-param-reassign */
 
 function formatProxyOptions(proxyOptions: BffProxyOptions) {
-  const formatedProxy: ProxyDetail[] = [];
+  const formattedProxy: ProxyDetail[] = [];
   if (!Array.isArray(proxyOptions)) {
     if ('target' in proxyOptions) {
-      formatedProxy.push(proxyOptions as ProxyDetail);
+      formattedProxy.push(proxyOptions as ProxyDetail);
     } else {
       Array.prototype.push.apply(
-        formatedProxy,
+        formattedProxy,
         Object.keys(proxyOptions).reduce(
           (total: ProxyDetail[], source: string) => {
             const option = proxyOptions[source];
@@ -154,9 +154,9 @@ function formatProxyOptions(proxyOptions: BffProxyOptions) {
       );
     }
   } else {
-    formatedProxy.push(...proxyOptions);
+    formattedProxy.push(...proxyOptions);
   }
-  return formatedProxy;
+  return formattedProxy;
 }
 
 export { formatProxyOptions };

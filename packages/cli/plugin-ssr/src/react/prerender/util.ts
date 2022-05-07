@@ -17,7 +17,7 @@ export const getInnermostProperty = function getInnermostProperty(
   return null;
 };
 
-export const getOuttermostProperty = function getOuttermostProperty(
+export const getOutermostProperty = function getOutermostProperty(
   propsList: GeneralizedProps[],
   propName: string,
 ) {

@@ -111,7 +111,7 @@ export const getMonorepoBaseData = (root: string = process.cwd()) => {
   const rootPath = findMonorepoRoot(root);
   if (!rootPath) {
     throw new Error(
-      'not find any monorepo, you can add lerna、pnpm or yarn worksapce file',
+      'not find any monorepo, you can add lerna、pnpm or yarn workspace file',
     );
   }
   return {

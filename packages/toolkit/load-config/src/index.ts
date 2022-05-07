@@ -70,7 +70,7 @@ const bundleRequireWithCatch = async (configFile: string): Promise<any> => {
 };
 
 /**
- * Parse and load user config file, support extnesions like .ts, mjs, js, ejs.
+ * Parse and load user config file, support extensions like .ts, mjs, js, ejs.
  * @param appDirectory - App root directory, from which start search user config file.
  * @param filePath - Specific absolute config file path.
  * @returns Object contain config file path, user config object and dependency files used by config file.

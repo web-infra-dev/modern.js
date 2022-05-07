@@ -92,7 +92,7 @@ export const LAMBDA_API_FUNCTION_QUERY = '__lambda_api_function__';
 
 // dependencies that should be ignored in deps optimizaion
 // can't convert to esm format
-export const IGNORE_OPTIMIZE_DPES = ['domino'];
+export const IGNORE_OPTIMIZE_DEPS = ['domino'];
 
 // default lazy import ui components library
 export const DEFAULT_LAZY_IMPORT_UI_COMPONENTS = [

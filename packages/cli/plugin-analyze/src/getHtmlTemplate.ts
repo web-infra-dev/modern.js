@@ -16,19 +16,19 @@ enum PartialPosition {
 const findPartials = (
   dir: string,
   entryName: string,
-  postion: PartialPosition,
+  position: PartialPosition,
 ) => {
   if (fs.existsSync(dir)) {
     const base = findExists(
       HTML_PARTIALS_EXTENSIONS.map(ext =>
-        path.resolve(dir, `${postion}${ext}`),
+        path.resolve(dir, `${position}${ext}`),
       ),
     );
 
     const file = entryName
       ? findExists(
           HTML_PARTIALS_EXTENSIONS.map(ext =>
-            path.resolve(dir, entryName, `${postion}${ext}`),
+            path.resolve(dir, entryName, `${position}${ext}`),
           ),
         ) || base
       : base;
@@ -84,9 +84,9 @@ export const getHtmlTemplate = async (
           PartialPosition.BODY,
         ].reduce<HtmlPartials>(
           (previous, position) => {
-            const finded = findPartials(htmlDir, name, position);
-            previous[position as keyof HtmlPartials] = finded
-              ? [finded.content]
+            const found = findPartials(htmlDir, name, position);
+            previous[position as keyof HtmlPartials] = found
+              ? [found.content]
               : [];
             return previous;
           },

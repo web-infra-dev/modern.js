@@ -176,7 +176,7 @@ export default class SocketServer {
   private sendStats(force = false) {
     const stats = this.getStats();
 
-    // this should never happend
+    // this should never happened
     if (!stats) {
       return null;
     }

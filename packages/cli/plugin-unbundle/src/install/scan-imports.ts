@@ -247,12 +247,12 @@ const scanFiles = async (
 
 const removeDuplicate = (deps: DepSpecifier[]): DepSpecifier[] => {
   const map = new Map<string, boolean>();
-  const finnal = [];
+  const final = [];
   for (const dep of deps) {
     if (!map.has(dep.specifier)) {
-      finnal.push(dep);
+      final.push(dep);
       map.set(dep.specifier, true);
     }
   }
-  return finnal;
+  return final;
 };

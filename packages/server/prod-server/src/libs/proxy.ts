@@ -14,9 +14,9 @@ export const createProxyHandler = (proxyOptions?: BffProxyOptions) => {
 
   // If it is not an array, it may be an object that uses the context attribute
   // or an object in the form of { source: ProxyDetail }
-  const formatedProxy = formatProxyOptions(proxyOptions);
+  const formattedProxy = formatProxyOptions(proxyOptions);
 
-  const middlewares = formatedProxy.map(option => {
+  const middlewares = formattedProxy.map(option => {
     const middleware = createProxyMiddleware(option.context!, option);
 
     // eslint-disable-next-line consistent-return

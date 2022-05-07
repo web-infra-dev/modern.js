@@ -21,7 +21,7 @@ export class AssetModule {
   // dependency's id
   dependencies: Set<string>;
 
-  // depedent's id
+  // dependent's id
   dependents: Set<string>;
 
   // import.hot.accept(deps, () => {}), deps id

@@ -6,7 +6,7 @@ let enumsMap = {};
 
 const createEnumObject = (enumNode: ts.EnumDeclaration, namespace?: string) => {
   let obj: Record<string, unknown> = {};
-  const finnal = obj;
+  const final = obj;
   if (namespace) {
     namespace.split('.').forEach(s => {
       // eslint-disable-next-line no-multi-assign
@@ -28,7 +28,7 @@ const createEnumObject = (enumNode: ts.EnumDeclaration, namespace?: string) => {
             m.initializer?.text;
     });
 
-  enumsMap = merge(enumsMap, finnal);
+  enumsMap = merge(enumsMap, final);
 };
 
 const visit = (node: ts.Node) => {

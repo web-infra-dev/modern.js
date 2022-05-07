@@ -4,17 +4,17 @@ import { glob, yaml } from './compiled';
 
 const PACKAGE_MAX_DEPTH = 5;
 
-const WOKRSPACES_FILES = {
+const WORKSPACES_FILES = {
   YARN: 'package.json',
   PNPM: 'pnpm-workspaces.yaml',
   LERNA: 'lerna.json',
 };
 
 export const isLerna = (root: string) =>
-  fs.existsSync(path.join(root, WOKRSPACES_FILES.LERNA));
+  fs.existsSync(path.join(root, WORKSPACES_FILES.LERNA));
 
 export const isYarnWorkspaces = (root: string) => {
-  const pkg = path.join(root, WOKRSPACES_FILES.YARN);
+  const pkg = path.join(root, WORKSPACES_FILES.YARN);
 
   if (!fs.existsSync(pkg)) {
     return false;
@@ -26,7 +26,7 @@ export const isYarnWorkspaces = (root: string) => {
 };
 
 export const isPnpmWorkspaces = (root: string) =>
-  fs.existsSync(path.join(root, WOKRSPACES_FILES.PNPM));
+  fs.existsSync(path.join(root, WORKSPACES_FILES.PNPM));
 
 export const isMonorepo = (root: string) =>
   isLerna(root) || isYarnWorkspaces(root) || isPnpmWorkspaces(root);
@@ -79,7 +79,7 @@ export const getMonorepoPackages = (
     ({ packages } = json);
   } else {
     ({ packages } = yaml.load(
-      fs.readFileSync(path.join(root, WOKRSPACES_FILES.PNPM), 'utf8'),
+      fs.readFileSync(path.join(root, WORKSPACES_FILES.PNPM), 'utf8'),
     ) as {
       packages: string[];
     });

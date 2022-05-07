@@ -16,7 +16,7 @@ const registerRoutes = (router: Router, prefix?: string) => {
     router.prefix(prefix);
   }
   handlerInfos.forEach(({ handler, method, name }: any) => {
-    const wrapedHandler = async (ctx: Context) => {
+    const wrappedHandler = async (ctx: Context) => {
       const input = await getInputFromRequest(ctx);
 
       if (isSchemaHandler(handler)) {
@@ -38,14 +38,14 @@ const registerRoutes = (router: Router, prefix?: string) => {
     };
 
     Object.defineProperties(
-      wrapedHandler,
+      wrappedHandler,
       Object.getOwnPropertyDescriptors(handler),
     );
 
     if (isNormalMethod(method)) {
       const routeName = method.toLowerCase();
       debug('route', routeName, name);
-      (router as any)[routeName](name, wrapedHandler);
+      (router as any)[routeName](name, wrappedHandler);
     } else {
       throw new Error(`Unknown HTTP Method: ${method}`);
     }

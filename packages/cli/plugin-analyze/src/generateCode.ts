@@ -177,7 +177,7 @@ export const generateCode = async (
         exportStatement,
       });
 
-      // gnerate entry file.
+      // generate entry file.
       const entryFile = path.resolve(
         internalDirectory,
         `./${entryName}/${ENTRY_POINT_FILE_NAME}`,

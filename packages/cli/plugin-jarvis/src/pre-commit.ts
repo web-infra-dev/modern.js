@@ -25,7 +25,7 @@ const printFormattedMsg = (success: boolean) => {
 
 export default async () => {
   try {
-    // run lint-statged
+    // run lint-staged
     const success = await lintStaged();
     printFormattedMsg(success);
   } catch (err) {

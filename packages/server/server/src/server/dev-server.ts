@@ -98,7 +98,7 @@ export class ModernDevServer extends ModernServer {
       // init socket server
       this.socketServer = new SocketServer(dev);
 
-      // open file in edtor.
+      // open file in editor.
       this.addHandler(createLaunchEditorHandler());
 
       // setup compiler in server, also add dev-middleware to handler static file in memory

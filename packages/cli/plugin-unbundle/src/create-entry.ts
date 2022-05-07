@@ -93,13 +93,13 @@ const injectEnv = (userConfig: NormalizedConfig): string => {
 
   const globalVarKeys = Object.keys(globalVars);
 
-  let gloablVarStr = ``;
+  let globalVarStr = ``;
 
   globalVarKeys.forEach(key => {
-    gloablVarStr += `window.${key}=${JSON.stringify(globalVars![key])}\n`;
+    globalVarStr += `window.${key}=${JSON.stringify(globalVars![key])}\n`;
   });
 
-  return `<script>${gloablVarStr}\nwindow.process={env: { NODE_ENV: 'development'}};\nwindow.module={};\n</script>\n`;
+  return `<script>${globalVarStr}\nwindow.process={env: { NODE_ENV: 'development'}};\nwindow.module={};\n</script>\n`;
 };
 
 // inject const enum value to global object

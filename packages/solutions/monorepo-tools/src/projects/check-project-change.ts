@@ -48,13 +48,13 @@ export const checkProjectChangeByGit = async (
     });
   }
 
-  const monorepoProjecstHashJson = JsonFile.load(monorepoGitMemory);
-  const changed = monorepoProjecstHashJson[project.name] !== currentProjectHash;
+  const monorepoProjectHashJson = JsonFile.load(monorepoGitMemory);
+  const changed = monorepoProjectHashJson[project.name] !== currentProjectHash;
   if (changed) {
-    monorepoProjecstHashJson[project.name] = currentProjectHash;
+    monorepoProjectHashJson[project.name] = currentProjectHash;
     FileSystem.writeFile(
       monorepoGitMemory,
-      JsonFile.stringify(monorepoProjecstHashJson),
+      JsonFile.stringify(monorepoProjectHashJson),
       { ensureFolderExists: true },
     );
   }

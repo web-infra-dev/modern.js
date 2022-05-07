@@ -83,7 +83,7 @@ const config = createWaterfall<{
 export interface ExternalProgress {}
 
 // main process
-const lifecircle = {
+const lifecycle = {
   prepare,
   config,
 
@@ -94,9 +94,9 @@ const lifecircle = {
   postBuild,
 };
 
-export type TestHooks = ExternalProgress & typeof lifecircle;
+export type TestHooks = ExternalProgress & typeof lifecycle;
 
-export const main = createManager<TestHooks>(lifecircle);
+export const main = createManager<TestHooks>(lifecycle);
 
 export type TestPlugin = PluginOptions<TestHooks, Setup<TestHooks>>;
 

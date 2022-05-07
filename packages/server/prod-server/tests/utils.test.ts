@@ -27,7 +27,7 @@ describe('test server utils', () => {
   });
 
   describe('test middleware collector', () => {
-    test('shoule return web middleware correctly', () => {
+    test('should return web middleware correctly', () => {
       const { addWebMiddleware, getMiddlewares } = createMiddlewareCollecter();
 
       const before = getMiddlewares();
@@ -41,7 +41,7 @@ describe('test server utils', () => {
       expect(after.web).toEqual([middleware]);
     });
 
-    test('shoule return api middleware correctly', () => {
+    test('should return api middleware correctly', () => {
       const { addAPIMiddleware, getMiddlewares } = createMiddlewareCollecter();
 
       const before = getMiddlewares();

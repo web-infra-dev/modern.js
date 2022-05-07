@@ -13,7 +13,7 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
-import { APIHanlderInfo, HttpMethod } from '@modern-js/bff-utils';
+import { APIHandlerInfo, HttpMethod } from '@modern-js/bff-utils';
 import { isSchemaHandler, InputType } from '@modern-js/bff-runtime';
 import type { Request, Response } from 'express';
 import typeIs from 'type-is';
@@ -46,11 +46,11 @@ export const initMiddlewares = (middleware: any[]): any[] =>
       : middlewareItem,
   );
 
-export const generateControllers = (handlerInfos: APIHanlderInfo[]): any[] =>
+export const generateControllers = (handlerInfos: APIHandlerInfo[]): any[] =>
   handlerInfos.map(createController).filter(Boolean);
 
 export const getMiddleware =
-  ({ handler }: APIHanlderInfo) =>
+  ({ handler }: APIHandlerInfo) =>
   async (request: Request, response: Response) => {
     const input = await getInputFromRequest(request);
 
@@ -81,7 +81,7 @@ export const getMiddleware =
     response.end();
   };
 
-const createController = ({ name, method, handler }: APIHanlderInfo) => {
+const createController = ({ name, method, handler }: APIHandlerInfo) => {
   let methodDecorator = Get;
   switch (method) {
     case HttpMethod.GET: {
@@ -151,7 +151,7 @@ const getInputFromRequest = async (request: Request): Promise<InputType> => {
   if (typeIs(request, ['application/json'])) {
     draft.data = request.body;
   } else if (typeIs(request, ['multipart/form-data'])) {
-    draft.formData = await resvoleFormData(request);
+    draft.formData = await resolveFormData(request);
   } else if (typeIs(request, ['application/x-www-form-urlencoded'])) {
     draft.formUrlencoded = request.body;
   } else {
@@ -161,7 +161,7 @@ const getInputFromRequest = async (request: Request): Promise<InputType> => {
   return draft as any;
 };
 
-const resvoleFormData = (request: Request): Promise<Record<string, any>> => {
+const resolveFormData = (request: Request): Promise<Record<string, any>> => {
   const form = formidable({ multiples: true });
   return new Promise((resolve, reject) => {
     form.parse(request, (err, fields, files) => {
