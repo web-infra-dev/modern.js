@@ -15,7 +15,7 @@ sidebar_label: favicon
 
 例如以下配置：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({

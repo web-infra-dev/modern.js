@@ -33,7 +33,7 @@ sidebar_label: jsPath
 
 在 `modern.config.js` 设置 `output.jsPath` 之后：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
@@ -78,7 +78,7 @@ export default defineConfig({
 
 在 `modern.config.js` 设置 `output.jsPath` 之后：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
