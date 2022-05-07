@@ -103,7 +103,7 @@ describe('config', () => {
     expect(resolved.server.port).toEqual(defaults.server.port);
     expect(getPort).toHaveBeenCalledWith(defaults.server.port);
 
-    // getResolvedConfig should use the value givin by getPort
+    // getResolvedConfig should use the value given by getPort
     restartWithExistingPort = -1;
     (getPort as jest.Mock).mockClear();
     (getPort as jest.Mock).mockReturnValue(1111);

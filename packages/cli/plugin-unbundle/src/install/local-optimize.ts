@@ -124,7 +124,7 @@ export async function optimizeDeps({
 
   const dataPath = path.join(webModulesDir, META_DATA_FILE_NAME);
 
-  // should clean gloabl modules cache and local cache
+  // should clean global modules cache and local cache
   if (clearPdnCache) {
     const isProcessEnv = process.env.CLEAN_CACHE === 'true';
     const configSource = isProcessEnv

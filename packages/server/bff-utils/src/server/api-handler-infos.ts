@@ -6,9 +6,9 @@ import {
   INTROSPECTION_ROUTE_PATH,
   INTROSPECTION_ROUTE_METHOD,
 } from '../constant';
-import { APIHanlderInfo, extractAPIHandlers } from './extract-api-handlers';
+import { APIHandlerInfo, extractAPIHandlers } from './extract-api-handlers';
 
-export type ExtraAPIHandlerInfo = APIHanlderInfo & {
+export type ExtraAPIHandlerInfo = APIHandlerInfo & {
   path?: string;
 };
 

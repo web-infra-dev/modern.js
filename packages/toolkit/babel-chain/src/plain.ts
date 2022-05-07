@@ -20,7 +20,7 @@ export const createBabelPlainChain = (): BabelPlainChain => {
   let config: BabelPlainConfig = {};
 
   const plain: any = {
-    // delete operater
+    // delete operator
     delete: (key: keyof BabelPlainConfig) => {
       delete config[key];
     },
