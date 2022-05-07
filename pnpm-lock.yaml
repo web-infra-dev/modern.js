@@ -3429,7 +3429,6 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26.0.9
       '@types/node': ^14
-      del-cli: ^4.0.1
       jest: ^27
       typescript: ^4
     dependencies:
@@ -3445,7 +3444,6 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
-      del-cli: 4.0.1
       jest: 27.4.5
       typescript: 4.5.4
 
@@ -3468,7 +3466,6 @@ importers:
       axios: ^0.24.0
       compare-versions: ^3.6.0
       cookie: ^0.4.2
-      del-cli: ^4.0.1
       http-proxy-middleware: ^2.0.1
       ignore-styles: ^5.0.1
       jest: ^27
@@ -3506,7 +3503,6 @@ importers:
       '@types/node': 14.18.4
       '@types/serve-static': 1.13.10
       '@types/ua-parser-js': 0.7.36
-      del-cli: 4.0.1
       jest: 27.4.5
       node-mocks-http: 1.11.0
       portfinder: 1.0.28
@@ -4022,7 +4018,6 @@ importers:
       '@types/tar-fs': ~2.0.0
       '@types/validate-npm-package-name': ~3.0.2
       axios: ^0.24.0
-      del-cli: ^4.0.1
       enhanced-resolve: ^5.8.3
       es-module-lexer: ~0.3.26
       expect-puppeteer: ~4.4.0
@@ -4036,6 +4031,7 @@ importers:
       postcss: ~8.2.4
       puppeteer: ~10.4.0
       resolve: ~1.19.0
+      rimraf: 3.0.2
       rollup: ~2.50.6
       rollup-plugin-node-polyfills: ~0.2.1
       sass: ~1.32.2
@@ -4093,13 +4089,13 @@ importers:
       '@types/tar-fs': 2.0.1
       '@types/validate-npm-package-name': 3.0.3
       axios: 0.24.0
-      del-cli: 4.0.1
       expect-puppeteer: 4.4.0
       gunzip-maybe: 1.4.2
       jest: 27.4.5
       jest-environment-puppeteer: 6.0.3
       jest-puppeteer: 6.0.3_puppeteer@10.4.0
       puppeteer: 10.4.0
+      rimraf: 3.0.2
       serve: 11.3.2
       strip-comments: 2.0.1
       tar-fs: 2.1.1
@@ -4518,7 +4514,6 @@ importers:
       '@types/react': ^17
       '@types/react-dom': ^17
       axios: ^0.24.0
-      del-cli: ^4.0.1
       isomorphic-fetch: ^3.0.0
       koa: ^2.13.4
       react: ^17.0.1
@@ -4541,7 +4536,6 @@ importers:
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
       axios: 0.24.0
-      del-cli: 4.0.1
       isomorphic-fetch: 3.0.0
       typescript: 4.5.4
 
@@ -4558,7 +4552,6 @@ importers:
       '@types/react': ^17
       '@types/react-dom': ^17
       axios: ^0.24.0
-      del-cli: ^4.0.1
       express: ^4.17.2
       react: ^17.0.1
       react-dom: ^17.0.1
@@ -4579,7 +4572,6 @@ importers:
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
       axios: 0.24.0
-      del-cli: 4.0.1
       typescript: 4.5.4
 
   tests/integration/css:
@@ -5025,7 +5017,6 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
-      del-cli: ^4.0.1
       react: ^17.0.1
       react-dom: ^17.0.1
       typescript: ^4
@@ -5039,7 +5030,6 @@ importers:
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
-      del-cli: 4.0.1
       typescript: 4.5.4
 
   tests/integration/runtime:
@@ -5071,7 +5061,6 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
-      del-cli: ^4.0.1
       react: ^17.0.1
       react-dom: ^17.0.1
       typescript: ^4
@@ -5089,7 +5078,6 @@ importers:
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
-      del-cli: 4.0.1
       typescript: 4.5.4
 
   tests/integration/server-prod:
@@ -5121,7 +5109,6 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
-      del-cli: ^4.0.1
       react: ^17.0.1
       react-dom: ^17.0.1
       typescript: ^4
@@ -5137,7 +5124,6 @@ importers:
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
-      del-cli: 4.0.1
       typescript: 4.5.4
 
   website:
@@ -18291,16 +18277,6 @@ packages:
       map-obj: 4.3.0
       quick-lru: 4.0.1
 
-  /camelcase-keys/7.0.1:
-    resolution: {integrity: sha512-P331lEls98pW8JLyodNWfzuz91BEDVA4VpW2/SwXnyv2K495tq1N777xzDbFgnEigfA7UIY0xa6PwR/H9jijjA==}
-    engines: {node: '>=12'}
-    dependencies:
-      camelcase: 6.3.0
-      map-obj: 4.3.0
-      quick-lru: 5.1.1
-      type-fest: 1.4.0
-    dev: true
-
   /camelcase/1.2.1:
     resolution: {integrity: sha1-m7UwTS4LVmmLLHWLCKPqqdqlijk=}
     engines: {node: '>=0.10.0'}
@@ -20344,11 +20320,6 @@ packages:
     resolution: {integrity: sha1-9lNNFRSCabIDUue+4m9QH5oZEpA=}
     engines: {node: '>=0.10.0'}
 
-  /decamelize/5.0.1:
-    resolution: {integrity: sha512-VfxadyCECXgQlkoEAjeghAr5gY3Hf+IKjKb+X8tGVDtveCjN+USwprd2q3QXBR9T1+x2DG0XZF5/w+7HAtSaXA==}
-    engines: {node: '>=10'}
-    dev: true
-
   /decimal.js/10.3.1:
     resolution: {integrity: sha512-V0pfhfr8suzyPGOx3nmq4aHqabehUZn6Ch9kyFpV79TGDTWFmHqUqXdabR7QHqxzrYolF4+tVmJhUG4OURg5dQ==}
 
@@ -20491,15 +20462,6 @@ packages:
       escodegen: 1.14.3
       esprima: 4.0.1
       vm2: 3.9.5
-
-  /del-cli/4.0.1:
-    resolution: {integrity: sha512-KtR/6cBfZkGDAP2NA7z+bP4p1OMob3wjN9mq13+SWvExx6jT9gFWfLgXEeX8J2B47OKeNCq9yTONmtryQ+m+6g==}
-    engines: {node: '>=12.20'}
-    hasBin: true
-    dependencies:
-      del: 6.0.0
-      meow: 10.1.2
-    dev: true
 
   /del/6.0.0:
     resolution: {integrity: sha512-1shh9DQ23L16oXSZKB2JxpL7iMy2E0S9d517ptA1P8iw0alkPtQcrKH7ru31rYtKwF499HkTu+DRzq3TCKDFRQ==}
@@ -25245,11 +25207,6 @@ packages:
     resolution: {integrity: sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==}
     engines: {node: '>=8'}
 
-  /indent-string/5.0.0:
-    resolution: {integrity: sha512-m6FAo/spmsW2Ab2fU35JTYwtOKa2yAwXSwgjSv1TJzh4Mh7mC3lzAOVLBprb72XsTrgkEIsl7YrFNAiDiRhIGg==}
-    engines: {node: '>=12'}
-    dev: true
-
   /indexof/0.0.1:
     resolution: {integrity: sha1-gtwzbSMrkGIXnQWrMpOmYFn9Q10=}
 
@@ -28718,24 +28675,6 @@ packages:
     dependencies:
       readable-stream: 1.0.34
     dev: false
-
-  /meow/10.1.2:
-    resolution: {integrity: sha512-zbuAlN+V/sXlbGchNS9WTWjUzeamwMt/BApKCJi7B0QyZstZaMx0n4Unll/fg0njGtMdC9UP5SAscvOCLYdM+Q==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      '@types/minimist': 1.2.2
-      camelcase-keys: 7.0.1
-      decamelize: 5.0.1
-      decamelize-keys: 1.1.0
-      hard-rejection: 2.1.0
-      minimist-options: 4.1.0
-      normalize-package-data: 3.0.3
-      read-pkg-up: 8.0.0
-      redent: 4.0.0
-      trim-newlines: 4.0.2
-      type-fest: 1.4.0
-      yargs-parser: 20.2.9
-    dev: true
 
   /meow/6.1.1:
     resolution: {integrity: sha512-3YffViIt2QWgTy6Pale5QpopX/IvU3LPL03jOTqp6pGj3VjesdO/U8CuHMKpnQr4shCNCM5fd5XFFvIIl6JBHg==}
@@ -33400,15 +33339,6 @@ packages:
       read-pkg: 5.2.0
       type-fest: 0.8.1
 
-  /read-pkg-up/8.0.0:
-    resolution: {integrity: sha512-snVCqPczksT0HS2EC+SxUndvSzn6LRCwpfSvLrIfR5BKDQQZMaI6jPRC9dYvYFDRAuFEAnkwww8kBBNE/3VvzQ==}
-    engines: {node: '>=12'}
-    dependencies:
-      find-up: 5.0.0
-      read-pkg: 6.0.0
-      type-fest: 1.4.0
-    dev: true
-
   /read-pkg/2.0.0:
     resolution: {integrity: sha1-jvHAYjxqbbDcZxPEv6xGMysjaPg=}
     engines: {node: '>=4'}
@@ -33426,16 +33356,6 @@ packages:
       normalize-package-data: 2.5.0
       parse-json: 5.2.0
       type-fest: 0.6.0
-
-  /read-pkg/6.0.0:
-    resolution: {integrity: sha512-X1Fu3dPuk/8ZLsMhEj5f4wFAF0DWoK7qhGJvgaijocXxBmSToKfbFtqbxMO7bVjNA1dmE5huAzjXj/ey86iw9Q==}
-    engines: {node: '>=12'}
-    dependencies:
-      '@types/normalize-package-data': 2.4.1
-      normalize-package-data: 3.0.3
-      parse-json: 5.2.0
-      type-fest: 1.4.0
-    dev: true
 
   /read-yaml-file/1.1.0:
     resolution: {integrity: sha512-VIMnQi/Z4HT2Fxuwg5KrY174U1VdUIASQVWXXyqtNRtxSr9IYkn1rsI6Tb6HsrHCmB7gVpNwX6JxPTHcH6IoTA==}
@@ -33538,14 +33458,6 @@ packages:
     dependencies:
       indent-string: 4.0.0
       strip-indent: 3.0.0
-
-  /redent/4.0.0:
-    resolution: {integrity: sha512-tYkDkVVtYkSVhuQ4zBgfvciymHaeuel+zFKXShfDnFP5SyVEP7qo70Rf1jTOTCx3vGNAbnEi/xFkcfQVMIBWag==}
-    engines: {node: '>=12'}
-    dependencies:
-      indent-string: 5.0.0
-      strip-indent: 4.0.0
-    dev: true
 
   /reduce-css-calc/2.1.8:
     resolution: {integrity: sha512-8liAVezDmUcH+tdzoEGrhfbGcP7nOV4NkGE3a74+qqvE7nt9i4sKLGBuZNOnpI4WiGksiNPklZxva80061QiPg==}
@@ -35609,13 +35521,6 @@ packages:
     dependencies:
       min-indent: 1.0.1
 
-  /strip-indent/4.0.0:
-    resolution: {integrity: sha512-mnVSV2l+Zv6BLpSD/8V87CW/y9EmmbYzGCIavsnsI6/nwn26DwffM/yztm30Z/I2DY9wdS3vXVCMnHDgZaVNoA==}
-    engines: {node: '>=12'}
-    dependencies:
-      min-indent: 1.0.1
-    dev: true
-
   /strip-json-comments/2.0.1:
     resolution: {integrity: sha1-PFMZQukIwml8DsNEhYwobHygpgo=}
     engines: {node: '>=0.10.0'}
@@ -36613,11 +36518,6 @@ packages:
     resolution: {integrity: sha512-c1PTsA3tYrIsLGkJkzHF+w9F2EyxfXGo4UyJc4pFL++FMjnq0HJS69T3M7d//gKrFKwy429bouPescbjecU+Zw==}
     engines: {node: '>=8'}
 
-  /trim-newlines/4.0.2:
-    resolution: {integrity: sha512-GJtWyq9InR/2HRiLZgpIKv+ufIKrVrvjQWEj7PxAXNc5dwbNJkqhAUoAGgzRmULAnoOM5EIpveYd3J2VeSAIew==}
-    engines: {node: '>=12'}
-    dev: true
-
   /trim-trailing-lines/1.1.4:
     resolution: {integrity: sha512-rjUWSqnfTNrjbB9NQWfPMH/xRK1deHeGsHoVfpxJ++XeYXE0d6B1En37AHfw3jtfTU7dzMzZL2jjpe8Qb5gLIQ==}
     dev: false
@@ -37022,11 +36922,6 @@ packages:
   /type-fest/0.8.1:
     resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
     engines: {node: '>=8'}
-
-  /type-fest/1.4.0:
-    resolution: {integrity: sha512-yGSza74xk0UG8k+pLh5oeoYirvIiWo5t0/o3zHHAO2tRDiZcxWP7fywNlXhqb6/r6sWvwi+RsyQMWhVLe4BVuA==}
-    engines: {node: '>=10'}
-    dev: true
 
   /type-fest/2.12.1:
     resolution: {integrity: sha512-AiknQSEqKVGDDjtZqeKrUoTlcj7FKhupmnVUgz6KoOKtvMwRGE6hUNJ/nVear+h7fnUPO1q/htSkYKb1pyntkQ==}

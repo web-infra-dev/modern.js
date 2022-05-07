@@ -2,7 +2,6 @@
   "name": "prod-server-pure",
   "version": "0.1.0",
   "scripts": {
-    "reset": "del-cli node_modules",
     "dev": "modern dev",
     "build": "modern build",
     "start": "modern start",

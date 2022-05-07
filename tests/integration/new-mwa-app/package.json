@@ -2,7 +2,6 @@
   "name": "tmp",
   "version": "0.1.0",
   "scripts": {
-    "reset": "del-cli node_modules",
     "dev": "modern dev",
     "build": "modern build",
     "start": "modern start",
@@ -42,7 +41,6 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/plugin-jarvis": "workspace:*",
-    "del-cli": "^4.0.1",
     "typescript": "^4",
     "@types/react": "^17",
     "@types/react-dom": "^17",
