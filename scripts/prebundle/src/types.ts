@@ -18,6 +18,8 @@ export type DependencyConfig = {
   ignoreDts?: boolean;
   /* Callback before bundle. */
   beforeBundle?: (task: ParsedTask) => void | Promise<void>;
+  /* Callback after bundle. */
+  afterBundle?: (task: ParsedTask) => void | Promise<void>;
 };
 
 export type TaskConfig = {
@@ -39,6 +41,7 @@ export type ParsedTask = {
   depName: NonNullable<DependencyConfig['name']>;
   externals: NonNullable<DependencyConfig['externals']>;
   emitFiles: NonNullable<DependencyConfig['emitFiles']>;
+  afterBundle?: NonNullable<DependencyConfig['afterBundle']>;
   beforeBundle?: NonNullable<DependencyConfig['beforeBundle']>;
   packageJsonField: NonNullable<DependencyConfig['packageJsonField']>;
 };
