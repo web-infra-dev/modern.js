@@ -85,7 +85,7 @@ const readResultsAndExit = (
 };
 
 /**
- * Node API: excute jest
+ * Node API: execute jest
  */
 export async function runJest(
   config: Argv,

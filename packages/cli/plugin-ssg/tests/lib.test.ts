@@ -42,20 +42,20 @@ describe('test functional function', () => {
   });
 
   it('should replace route correctly', () => {
-    const matrial = JSON.parse(
+    const material = JSON.parse(
       fs.readFileSync(
         path.join(__dirname, 'material/replace.route.json'),
         'utf-8',
       ),
     );
 
-    const { origin, ssg, final } = matrial;
+    const { origin, ssg, final } = material;
     const result = replaceRoute(ssg, origin);
 
     expect(result).toEqual(final);
   });
 
-  it('shoule generate route correctly', () => {
+  it('should generate route correctly', () => {
     const baseRoute: ModernRoute = {
       urlPath: '/foo',
       isSPA: true,

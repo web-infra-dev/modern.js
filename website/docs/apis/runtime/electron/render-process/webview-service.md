@@ -29,7 +29,7 @@ import { webviewService } from '@modern-js/runtime/electron-render';
 
 :::info 补充信息
 - 一般，我们会在 webview dom-ready 的时候执行此方法
-- withIpcServer 默认为 true，我们会为每一个 webview 启动一个 ipcServicer 用于窗口和 webview 直接的双向通信。
+- withIpcServer 默认为 true，我们会为每一个 webview 启动一个 ipcService 用于窗口和 webview 直接的双向通信。
 :::
 
 ### setTimeoutDelay
@@ -107,7 +107,7 @@ webview 还未与父窗口建立连接之前，会缓存 webview 的消息，会
 #### 返回值
 - `number[]`，返回所有 webview 的 ID。
 
-获取所有 webview 的 **webcontenetsId**。
+获取所有 webview 的 **webcontentsId**。
 
 ### onMessage
 

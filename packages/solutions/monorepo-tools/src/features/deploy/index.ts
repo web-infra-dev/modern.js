@@ -92,9 +92,9 @@ const checkAndRunDeployCommand = async (
   targetProject: IProjectNode,
   packageManager: PackageManagerType,
 ) => {
-  const scritps =
+  const scripts =
     (targetProject.extra?.scripts as IPackageJson['scripts']) || {};
-  if (scritps.deploy) {
+  if (scripts.deploy) {
     logger.info(
       `The 'deploy' command for the ${targetProject.name} is detected, so 'deploy' will be executed`,
     );
