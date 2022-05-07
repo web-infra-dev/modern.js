@@ -23,7 +23,7 @@
     "build": "modern build",
     {{/if}}
     {{#unless isMonorepoSubProject}}
-    "reset": "del-cli node_modules",
+    "reset": "rimraf ./**/node_modules",
     "lint": "modern lint",
     "change": "modern change",
     "bump": "modern bump",
@@ -67,7 +67,7 @@
     "@modern-js/plugin-jarvis": "^1.0.0",
     "@modern-js/plugin-testing": "^1.0.0",
     "@modern-js/tsconfig":"^1.0.0",
-    "del-cli": "^4.0.1",
+    "rimraf": "^3.0.2",
     "lint-staged": "^11.2.6",
     "prettier": "^2.6.2"
   },

@@ -65,7 +65,6 @@
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "del-cli": "^4.0.1",
     "typescript": "^4",
     "@types/jest": "^26.0.9",
     "@types/node": "^14",
