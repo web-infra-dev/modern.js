@@ -62,7 +62,7 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": "^3",
+    "husky": "4.3.8",
     "lint-staged": "^11.2.3",
     "prettier": "^2.3.2"
   },
