@@ -2,7 +2,7 @@
   "name": "{{ name }}",
   "version": "0.1.0",
   "scripts": {
-    "reset": "del-cli node_modules",
+    "reset": "npx rimraf ./**/node_modules",
     "dev": "modern dev",
     "build": "modern build",
     "start": "modern start",
@@ -40,7 +40,7 @@
     "@modern-js/app-tools": "^1.0.0",
     "@modern-js/plugin-jarvis": "^1.0.0",
     "@modern-js/tsconfig":"^1.0.0",
-    "del-cli": "^4.0.1",
+    "rimraf": "^3.0.2",
     "lint-staged": "^11.2.6",
     "prettier": "^2.6.2"
   }
