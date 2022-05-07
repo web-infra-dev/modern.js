@@ -77,7 +77,7 @@
     "@modern-js/server": "workspace:^1.4.12",
     "@modern-js/types": "workspace:^1.5.2",
     "@modern-js/utils": "workspace:^1.7.0",
-    "@modern-js/webpack": "workspace:^1.6.0"
+    "@modern-js/webpack": "workspace:^1.6.1"
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",

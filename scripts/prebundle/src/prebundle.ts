@@ -163,5 +163,9 @@ export async function prebundle(task: ParsedTask) {
   emitExtraFiles(task);
   removeSourceMap(task);
 
+  if (task.afterBundle) {
+    await task.afterBundle(task);
+  }
+
   console.log(`==== Finish prebundle "${task.depName}" ====\n\n`);
 }
