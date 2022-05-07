@@ -583,7 +583,7 @@ importers:
       '@mdx-js/react': ^1.6.22
       '@modern-js/core': workspace:*
       '@modern-js/utils': workspace:^1.7.0
-      '@modern-js/webpack': workspace:^1.6.0
+      '@modern-js/webpack': workspace:^1.6.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/core-js': ^2.5.5
@@ -1031,7 +1031,7 @@ importers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
       '@modern-js/utils': workspace:^1.7.0
-      '@modern-js/webpack': workspace:^1.6.0
+      '@modern-js/webpack': workspace:^1.6.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/body-parser': ^1.19.1
@@ -1461,7 +1461,7 @@ importers:
       '@modern-js/runtime': workspace:*
       '@modern-js/runtime-core': workspace:*
       '@modern-js/utils': workspace:^1.7.0
-      '@modern-js/webpack': workspace:^1.6.0
+      '@modern-js/webpack': workspace:^1.6.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@storybook/addon-actions': ^6.3.8
@@ -1575,7 +1575,7 @@ importers:
       '@modern-js/testing': workspace:^1.5.0
       '@modern-js/testing-plugin-bff': workspace:^1.4.1
       '@modern-js/utils': workspace:^1.7.0
-      '@modern-js/webpack': workspace:^1.6.0
+      '@modern-js/webpack': workspace:^1.6.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@testing-library/jest-dom': ^5.14.1
@@ -3638,7 +3638,7 @@ importers:
       '@modern-js/server-core': workspace:*
       '@modern-js/types': workspace:^1.5.2
       '@modern-js/utils': workspace:^1.7.0
-      '@modern-js/webpack': workspace:^1.6.0
+      '@modern-js/webpack': workspace:^1.6.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^26
