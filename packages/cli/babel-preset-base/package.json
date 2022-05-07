@@ -62,7 +62,9 @@
     "babel-plugin-macros": "^2.8.0",
     "babel-plugin-styled-components": "^1.10.7",
     "babel-plugin-transform-modern-regexp": "^0.0.6",
-    "babel-plugin-transform-react-remove-prop-types": "0.4.24"
+    "babel-plugin-transform-react-remove-prop-types": "0.4.24",
+    "styled-components": "^5",
+    "react-is": "^18"
   },
   "devDependencies": {
     "@types/jest": "^26",
