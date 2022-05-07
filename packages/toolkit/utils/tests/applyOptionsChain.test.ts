@@ -53,7 +53,7 @@ describe('apply options chain', () => {
     });
   });
 
-  test(`should support funciton or object array`, () => {
+  test(`should support function or object array`, () => {
     const defaults = { a: 'a' };
 
     const options = [
@@ -69,6 +69,7 @@ describe('apply options chain', () => {
     ];
     expect(
       applyOptionsChain(defaults, options as any, {
+        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         add: (a: any, b: any) => a + b,
       }),
     ).toEqual({

@@ -122,7 +122,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   // monorepo 场景下必须使用 pnpm 或者 yarn
   if (!(await canUsePnpm()) && !(await canUseYarn())) {
-    generator.logger.warn(i18n.t(localeKeys.enviroment.yarn_pnpm));
+    generator.logger.warn(i18n.t(localeKeys.environment.yarn_pnpm));
     // eslint-disable-next-line no-process-exit
     process.exit(1);
   }

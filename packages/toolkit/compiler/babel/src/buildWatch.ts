@@ -43,14 +43,14 @@ export const runBuildWatch = async (
   const watchDir = option.watchDir as string;
   const { distDir, quiet } = option;
   // 第一次正常构建
-  const fisrtBuildResult = await build(option, babelConfig);
+  const firstBuildResult = await build(option, babelConfig);
 
-  const { code } = fisrtBuildResult;
+  const { code } = firstBuildResult;
   if (code === 1) {
-    errorResult.init(fisrtBuildResult);
+    errorResult.init(firstBuildResult);
     emitter.emit(BuildWatchEvent.firstCompiler, errorResult.value);
   } else {
-    emitter.emit(BuildWatchEvent.firstCompiler, fisrtBuildResult);
+    emitter.emit(BuildWatchEvent.firstCompiler, firstBuildResult);
   }
 
   return watch(

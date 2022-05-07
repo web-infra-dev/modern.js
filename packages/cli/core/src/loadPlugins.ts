@@ -25,7 +25,7 @@ export type TransformPlugin = (
 
 /**
  * @deprecated
- * Using NewPluginConfig insteand.
+ * Using NewPluginConfig instead.
  */
 type OldPluginConfig = Array<
   | PluginItem

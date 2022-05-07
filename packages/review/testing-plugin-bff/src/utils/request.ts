@@ -10,14 +10,14 @@ function request<T extends (...argss: any[]) => any>(
 ): Test;
 
 function request(...args: any): SuperTest<Test> | Test {
-  const [fn, ...extraAgrs] = args;
+  const [fn, ...extraArgs] = args;
 
   if (!fn) {
     return supertest((global as any).app);
   }
 
   fn.returnHttp = true;
-  const res = fn(...extraAgrs);
+  const res = fn(...extraArgs);
   fn.returnHttp = false;
 
   return res;

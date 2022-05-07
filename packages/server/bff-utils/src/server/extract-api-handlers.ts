@@ -50,7 +50,7 @@ export const extractModuleInfoFromFilenames = (
   return moduleInfos;
 };
 
-export type APIHanlderInfo = {
+export type APIHandlerInfo = {
   handler: Handler<any, any> | SchemaHandler<any, any>;
   method: string;
   name: string;
@@ -59,7 +59,7 @@ export type APIHanlderInfo = {
 export const extractAPIHandlersFromModuleInfos = (
   moduleInfos: ModuleInfo[],
 ) => {
-  const apiHandlers: APIHanlderInfo[] = [];
+  const apiHandlers: APIHandlerInfo[] = [];
 
   moduleInfos.forEach(({ name, module }) => {
     Object.keys(module).forEach(key => {

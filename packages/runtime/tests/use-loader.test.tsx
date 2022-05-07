@@ -137,7 +137,7 @@ describe('test useLoader', () => {
     expect(result.asFragment()).toMatchSnapshot();
   });
 
-  test('it should exec loader two times when has two diffrent key', async () => {
+  test('it should exec loader two times when has two different key', async () => {
     const AppWrapper = createApp({ plugins: [] })(() => (
       <>
         <App />

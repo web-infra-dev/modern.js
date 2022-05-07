@@ -56,7 +56,7 @@ const logger = [`info`, 'error', 'warn'].reduce((m, c) => {
   return m;
 }, {} as LoggerType);
 
-let isFisrtUpdate = true;
+let isFirstUpdate = true;
 
 const handleMessage = event => {
   const data = JSON.parse(event.data);
@@ -75,12 +75,12 @@ const handleMessage = event => {
       // if there is already a error in first update
       // which meanings some resource load failed
       // so should reload page to ensure app run correctly
-      if (isFisrtUpdate && hasErrorOverlay()) {
+      if (isFirstUpdate && hasErrorOverlay()) {
         window.location.reload();
         return;
       }
 
-      isFisrtUpdate = false;
+      isFirstUpdate = false;
 
       try {
         const timestamp = data.hmrTimestamp;

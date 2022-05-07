@@ -11,7 +11,7 @@ export interface IDevConfig {
   isTsProject: boolean;
 }
 
-export type DevTaskType = 'storybook' | 'docsite' | 'unknow';
+export type DevTaskType = 'storybook' | 'docsite' | 'unknown';
 
 export const showMenu = async (api: PluginAPI, config: IDevConfig) => {
   const runners = api.useHookRunners();

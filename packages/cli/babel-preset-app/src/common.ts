@@ -101,7 +101,7 @@ export const genCommon = (options: Options): BabelChain => {
       { metaName },
     ]);
 
-  // TODO depened on pnpm @modern-cli/dev-utils/monorepo
+  // TODO depend on pnpm @modern-cli/dev-utils/monorepo
   // if (isPnpm(appDirectory)) {
   //   chain.plugin(require.resolve('./built-in/babel-plugin-pnpm-adapter'));
   // }

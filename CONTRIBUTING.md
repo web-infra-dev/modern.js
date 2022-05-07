@@ -62,7 +62,7 @@ Once you have your local dev environment set up with your [Fork](https://help.gi
 
 ### Checkout A New Branch
 
-It is recomended to develop on a new branch, as it will make things easier later when you submit a pull request:
+It is recommended to develop on a new branch, as it will make things easier later when you submit a pull request:
 
 ```zsh
 git checkout -b MY_BRANCH_NAME
@@ -164,7 +164,7 @@ Add changeset. Select changed packages in this commits and add changeset info.
 pnpm run change
 ```
 
-### Commiting your Changes
+### Committing your Changes
 
 Commit your changes to your forked repo, and [create a pull request](https://help.github.com/articles/creating-a-pull-request/)
 

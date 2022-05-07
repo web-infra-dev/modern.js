@@ -163,9 +163,9 @@ describe('createPipeline', () => {
 
     const container = createContainer({ count: TestContext.create(10) });
 
-    const rseult1 = await pipeline.run(30, { container });
+    const result1 = await pipeline.run(30, { container });
 
-    expect(rseult1).toEqual(40);
+    expect(result1).toEqual(40);
 
     expect(container.read(TestContext)).toEqual(40);
   });

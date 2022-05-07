@@ -19,10 +19,10 @@ type RunnerTask = Array<{
   config: Record<string, any>;
 }>;
 
-const REPO_GENERAROE = '@modern-js/repo-generator';
+const REPO_GENERATOR = '@modern-js/repo-generator';
 // const GENERATOR_PLUGIN = '@modern-js/generator-plugin-plugin';
 
-function getDefaultConfing(
+function getDefaultConfig(
   projectDir: string = path.basename(process.cwd()),
   options: Options,
   logger: Logger,
@@ -112,14 +112,14 @@ export async function createAction(projectDir: string, options: Options) {
     process.exit(1);
   }
 
-  const config = getDefaultConfing(projectDir, options, smith.logger);
+  const config = getDefaultConfig(projectDir, options, smith.logger);
 
-  let generator = REPO_GENERAROE;
+  let generator = REPO_GENERATOR;
 
   if (process.env.CODESMITH_ENV === 'development') {
-    generator = require.resolve(REPO_GENERAROE);
+    generator = require.resolve(REPO_GENERATOR);
   } else if (distTag) {
-    generator = `${REPO_GENERAROE}@${distTag}`;
+    generator = `${REPO_GENERATOR}@${distTag}`;
   }
 
   const task: RunnerTask = [

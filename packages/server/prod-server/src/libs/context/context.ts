@@ -125,7 +125,7 @@ export class ModernServerContext implements ModernServerContextInterface {
 
   public set path(p) {
     const url = new URL(this.req.url!, this.origin);
-    // this should never happend
+    // this should never happened
     if (!url || !p) {
       return;
     }

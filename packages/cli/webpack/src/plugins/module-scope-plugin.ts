@@ -76,7 +76,7 @@ export class ModuleScopePlugin {
           request.__innerRequest_request,
         );
 
-        // allowd pattern
+        // allowed pattern
         if (
           allowedPatterns.some(allowedPattern =>
             allowedPattern.test(requestFullPath),

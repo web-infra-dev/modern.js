@@ -143,7 +143,7 @@ const taskMain = async ({
 
   // 编译 src 内的样式代码
   const srcDir = path.resolve(appDirectory, SRC_STYLE_DIRS);
-  const outputDirtoSrc = path.join(
+  const outputDirToSrc = path.join(
     appDirectory,
     outputPath,
     jsPath,
@@ -153,7 +153,7 @@ const taskMain = async ({
     const srcStyleResult = await compiler.styleCompiler({
       projectDir: appDirectory,
       stylesDir: srcDir,
-      outDir: outputDirtoSrc,
+      outDir: outputDirToSrc,
       enableVirtualDist: true,
       compilerOption: {
         less: lessOption,
@@ -166,7 +166,7 @@ const taskMain = async ({
       `[Style Compiler] Successfully for 'src' dir`,
     );
   } else {
-    copyOriginStyleFiles({ targetDir: srcDir, outputDir: outputDirtoSrc });
+    copyOriginStyleFiles({ targetDir: srcDir, outputDir: outputDirToSrc });
   }
 };
 

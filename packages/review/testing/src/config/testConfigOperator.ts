@@ -31,22 +31,19 @@ class TestConfigOperator {
     return this._testConfig;
   }
 
-  public mergeJestConfig(commingConfig: JestConfig) {
-    this._jestConfig = merge({}, this._jestConfig, commingConfig);
+  public mergeJestConfig(sourceConfig: JestConfig) {
+    this._jestConfig = merge({}, this._jestConfig, sourceConfig);
   }
 
-  public setJestConfig(
-    commingConfig: JestConfig,
-    options?: { force: boolean },
-  ) {
+  public setJestConfig(sourceConfig: JestConfig, options?: { force: boolean }) {
     if (options) {
       const { force } = options;
       if (force) {
-        this._jestConfig = commingConfig;
+        this._jestConfig = sourceConfig;
         return;
       }
     }
-    this._jestConfig = { ...this._jestConfig, ...commingConfig };
+    this._jestConfig = { ...this._jestConfig, ...sourceConfig };
   }
 
   public getFinalConfig() {

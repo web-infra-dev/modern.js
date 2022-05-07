@@ -1,7 +1,7 @@
 import { createImportStatements } from '../src/generateCode';
 
 describe('generate code', () => {
-  test('should create import statements sucessfully', () => {
+  test('should create import statements successfully', () => {
     const statement = createImportStatements([
       {
         value: 'react',
@@ -46,7 +46,7 @@ describe('generate code', () => {
     expect(statement).toEqual(`import { c as b, d } from 'a';\n\n`);
   });
 
-  test(`should create import statement with initilize string`, () => {
+  test(`should create import statement with initialize string`, () => {
     expect(
       createImportStatements([
         {

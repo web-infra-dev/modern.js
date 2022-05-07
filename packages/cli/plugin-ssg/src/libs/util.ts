@@ -49,7 +49,7 @@ export function getUrlPrefix(route: SsgRoute, baseUrl: string | string[]) {
     if (filters.length > 1) {
       const matched = filters.sort((a, b) => a.length - b.length)[0];
 
-      // this should never happend
+      // this should never happened
       if (!matched) {
         throw new Error('');
       }
@@ -66,7 +66,7 @@ export function getUrlPrefix(route: SsgRoute, baseUrl: string | string[]) {
 }
 
 // if no output, return default path for aggred-route(relative),
-// or thorw error for control-route
+// or throw error for control-route
 export function getOutput(route: SsgRoute, base: string, agreed?: boolean) {
   const { output } = route;
   if (output) {

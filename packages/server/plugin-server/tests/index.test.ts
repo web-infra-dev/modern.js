@@ -1,11 +1,11 @@
 import path from 'path';
-import cliPugin from '../src/cli';
+import cliPlugin from '../src/cli';
 import serverPlugin from '../src/server';
 
 describe('plugin-server', () => {
   it('cli', () => {
-    expect(cliPugin).toBeDefined();
-    expect(cliPugin().name).toBe('@modern-js/plugin-server');
+    expect(cliPlugin).toBeDefined();
+    expect(cliPlugin().name).toBe('@modern-js/plugin-server');
   });
 
   it('server', () => {

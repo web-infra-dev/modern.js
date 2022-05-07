@@ -21,7 +21,7 @@ const registerRoutes = (app: Express) => {
   debug('handlerInfos', handlerInfos);
 
   handlerInfos.forEach(({ path, handler, method, name }) => {
-    const wrapedHandler: RequestHandler = async (
+    const wrappedHandler: RequestHandler = async (
       req: Request,
       res: Response,
       next: NextFunction,
@@ -63,13 +63,13 @@ const registerRoutes = (app: Express) => {
     };
 
     Object.defineProperties(
-      wrapedHandler,
+      wrappedHandler,
       Object.getOwnPropertyDescriptors(handler),
     );
 
     if (isNormalMethod(method)) {
       const routeName = method.toLowerCase();
-      (app as any)[routeName](path || name, wrapedHandler);
+      (app as any)[routeName](path || name, wrappedHandler);
     } else {
       throw new Error(`Unknown HTTP Method: ${method}`);
     }
@@ -92,7 +92,7 @@ const getInputFromRequest = async (request: Request): Promise<InputType> => {
   if (typeIs(request, ['application/json'])) {
     draft.data = request.body;
   } else if (typeIs(request, ['multipart/form-data'])) {
-    draft.formData = await resvoleFormData(request);
+    draft.formData = await resolveFormData(request);
   } else if (typeIs(request, ['application/x-www-form-urlencoded'])) {
     draft.formUrlencoded = request.body;
   } else {
@@ -102,7 +102,7 @@ const getInputFromRequest = async (request: Request): Promise<InputType> => {
   return draft as any;
 };
 
-const resvoleFormData = (request: Request): Promise<Record<string, any>> => {
+const resolveFormData = (request: Request): Promise<Record<string, any>> => {
   const form = formidable({ multiples: true });
   return new Promise((resolve, reject) => {
     form.parse(request, (err, fields, files) => {

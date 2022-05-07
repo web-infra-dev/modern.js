@@ -1,7 +1,7 @@
 import { patchSchema, traverseSchema } from '../src/config/schema';
 
 describe('patch schemas', () => {
-  test('should add schema succcessfully', () => {
+  test('should add schema successfully', () => {
     const schema = patchSchema([
       {
         target: 'foo',
@@ -65,7 +65,7 @@ describe('patch schemas', () => {
 });
 
 describe(`traverse schema`, () => {
-  test(`should return all avaliable keys of current schema`, () => {
+  test(`should return all available keys of current schema`, () => {
     const schema = {
       type: 'object',
       properties: {

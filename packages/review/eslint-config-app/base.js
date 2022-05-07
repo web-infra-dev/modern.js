@@ -241,7 +241,7 @@ module.exports = {
      * ],
      * https://eslint.org/docs/rules/no-empty-function
      * @TIPS
-     * add commment to explain why we need a empty function/method here
+     * add comment to explain why we need a empty function/method here
      */
     'no-empty-function': ['error', { allow: [] }],
     // https://eslint.org/docs/rules/no-empty-pattern

@@ -187,7 +187,7 @@ const findUpdateBoundary = (
         }
       } else {
         debug(
-          `cant find ${assetModule.id}'s dependent(${dependent}) in moudlesMap`,
+          `cant find ${assetModule.id}'s dependent(${dependent}) in modulesMap`,
         );
       }
     }

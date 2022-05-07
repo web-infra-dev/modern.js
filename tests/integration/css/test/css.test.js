@@ -243,7 +243,7 @@ describe('test css support', () => {
     });
   });
 
-  describe('css souce map', () => {
+  describe('css source map', () => {
     const getCssMaps = appDir =>
       readdirSync(path.resolve(appDir, 'dist/static/css')).filter(filepath =>
         /\.css\.map$/.test(filepath),
@@ -268,7 +268,7 @@ describe('test css support', () => {
 
       expect(cssMaps.length).toBe(0);
     });
-    it(`should generate css ts decalration file`, async () => {
+    it(`should generate css ts declaration file`, async () => {
       const appDir = path.resolve(fixtures, 'css-ts-declaration');
       await modernBuild(appDir);
 

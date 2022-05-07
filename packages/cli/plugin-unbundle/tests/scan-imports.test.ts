@@ -11,7 +11,7 @@ describe('tes unbundle scan-import', () => {
   };
 
   // TODO
-  it('scan imports with no dependencis', async () => {
+  it('scan imports with no dependencies', async () => {
     const appContext = {
       appDirectory: path.join(__dirname, './fixtures/scan-imports'),
     };

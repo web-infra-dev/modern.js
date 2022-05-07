@@ -349,7 +349,7 @@ export class ModernServer implements ModernServerInterface {
     const { req, res } = context;
 
     if (!this.frameAPIHandler) {
-      throw new Error('can not found api hanlder');
+      throw new Error('can not found api handler');
     }
 
     await this.frameAPIHandler(req, res);
@@ -596,7 +596,7 @@ export class ModernServer implements ModernServerInterface {
     if (matched) {
       const route = matched.generate(context.url);
       const { entryName } = route;
-      // check entryName, aviod matched '/' route
+      // check entryName, avoid matched '/' route
       if (entryName === status.toString() || entryName === '_error') {
         try {
           const file = await this.routeRenderHandler({

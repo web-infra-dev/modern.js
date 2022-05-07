@@ -5,8 +5,8 @@ import { getWorkspaceFile } from '../parse-config/monorepo';
 import { IPnpmWorkSpace } from '../type';
 import { WORKSPACE_FILE } from '../constants';
 import {
-  getProjetsByPackageConfig,
-  syncGetProjetsByPackageConfig,
+  getProjectsByPackageConfig,
+  syncGetProjectsByPackageConfig,
 } from './get-projects-by-packages-config';
 
 export const getProjectsByWorkspaceFile = async (
@@ -47,7 +47,7 @@ export const getProjectsByWorkspaceFile = async (
     packagesConfig = lernaJson.packages ?? [];
   }
 
-  const projects = await getProjetsByPackageConfig(
+  const projects = await getProjectsByPackageConfig(
     rootPath,
     packagesConfig,
     ignoreConfigs,
@@ -95,7 +95,7 @@ export const syncGetProjectsByWorkspaceFile = (
     packagesConfig = lernaJson.packages ?? [];
   }
 
-  const projects = syncGetProjetsByPackageConfig(
+  const projects = syncGetProjectsByPackageConfig(
     rootPath,
     packagesConfig,
     ignoreConfigs,

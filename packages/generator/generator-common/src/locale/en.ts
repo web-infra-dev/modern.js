@@ -8,7 +8,7 @@ export const EN_LOCALE = {
     default: 'Default',
   },
   scenes: {
-    self: 'Please select the scense you want to create',
+    self: 'Please select the scene you want to create',
   },
   sub_solution: {
     self: 'Please select the solution you want to create',
