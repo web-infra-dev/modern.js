@@ -74,7 +74,7 @@ const makeFileFinder = (
   };
 };
 
-export const getProjetsByPackageConfig = async (
+export const getProjectsByPackageConfig = async (
   rootPath: string,
   packagesConfig: string[],
   ignoreConfigs: string[],
@@ -126,7 +126,7 @@ const makeSyncFileFinder = (
   };
 };
 
-export const syncGetProjetsByPackageConfig = (
+export const syncGetProjectsByPackageConfig = (
   rootPath: string,
   packagesConfig: string[],
   ignoreConfigs: string[],

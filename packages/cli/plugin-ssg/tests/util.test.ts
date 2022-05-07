@@ -74,7 +74,7 @@ describe('test ssg util function', () => {
     expect(replaceWithAlias('/src', '/src/app.js', '@src')).toBe('@src/app.js');
   });
 
-  it('should starndar user config correctly', () => {
+  it('should standard user config correctly', () => {
     const opt0 = standardOptions(false, []);
     expect(opt0).toBeFalsy();
 

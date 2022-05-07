@@ -2,7 +2,7 @@ import fs from 'fs';
 
 /**
  * Find first already exists file.
- * @param files - Asbolute file paths with extension.
+ * @param files - Absolute file paths with extension.
  * @returns The file path if exists, or false if no file exists.
  */
 export const findExists = (files: string[]): string | false => {

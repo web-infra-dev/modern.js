@@ -7,7 +7,7 @@ import {
   SolutionSchema,
   SolutionGenerator,
   Solution,
-  SolutionDefualtConfig,
+  SolutionDefaultConfig,
   BaseGenerator,
   MonorepoNewActionSchema,
   SubSolution,
@@ -33,7 +33,7 @@ const mergeDefaultConfig = (context: GeneratorContext) => {
     merge(
       context.config,
       { solution: defaultSolution },
-      SolutionDefualtConfig[defaultSolution as Solution],
+      SolutionDefaultConfig[defaultSolution as Solution],
     );
   }
 };

@@ -17,7 +17,7 @@ interface CSSLoaderOptions {
           | 'asIs'
           | 'camelCaseOnly'
           | 'dashes'
-          | 'dashsOnly';
+          | 'dashesOnly';
       };
   importLoaders: number;
   esModule?: boolean;

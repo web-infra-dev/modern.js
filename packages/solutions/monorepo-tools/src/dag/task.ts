@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import pMap from 'p-map';
 
-export interface ITaskRunnterConfig {
+export interface ITaskRunnerConfig {
   concurrency?: number;
 }
 
@@ -16,21 +16,21 @@ export class TaskRunner<S> extends EventEmitter {
 
   _concurrency: number;
 
-  _useableConcurrency: number;
+  _usableConcurrency: number;
 
   private _stopFlag: boolean;
 
-  constructor(tasks: TaskFunType<S>[], { concurrency }: ITaskRunnterConfig) {
+  constructor(tasks: TaskFunType<S>[], { concurrency }: ITaskRunnerConfig) {
     super();
     this._tasks = tasks;
     this._concurrency = concurrency || TaskRunner.DefaultConcurrency;
-    this._useableConcurrency = this._concurrency;
+    this._usableConcurrency = this._concurrency;
     this._stopFlag = false;
   }
 
   async run() {
     const tasks = this._tasks.splice(0, this._concurrency);
-    this._useableConcurrency = this._concurrency - tasks.length;
+    this._usableConcurrency = this._concurrency - tasks.length;
 
     await pMap(
       tasks,
@@ -51,11 +51,11 @@ export class TaskRunner<S> extends EventEmitter {
     }
 
     const emitValue = await task(this._stopTask.bind(this));
-    this._useableConcurrency--;
+    this._usableConcurrency--;
     this.emit(TaskRunner.TASK_FINISH, emitValue);
     if (this._tasks.length > 0) {
-      const nextTasks = this._tasks.splice(0, this._useableConcurrency);
-      this._useableConcurrency -= nextTasks.length;
+      const nextTasks = this._tasks.splice(0, this._usableConcurrency);
+      this._usableConcurrency -= nextTasks.length;
       if (nextTasks.length > 0) {
         await pMap(
           nextTasks,

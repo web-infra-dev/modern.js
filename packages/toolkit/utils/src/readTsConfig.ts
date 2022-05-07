@@ -1,7 +1,7 @@
 import path from 'path';
 
 export const readTsConfig = (root: string) => {
-  // import typescript from 'typescript' cause eslint fromat error.
+  // import typescript from 'typescript' cause eslint format error.
   const typescript = require('typescript');
 
   return typescript.readConfigFile(
@@ -11,7 +11,7 @@ export const readTsConfig = (root: string) => {
 };
 
 export const readTsConfigByFile = (filename: string) => {
-  // import typescript from 'typescript' cause eslint fromat error.
+  // import typescript from 'typescript' cause eslint format error.
   const typescript = require('typescript');
 
   return typescript.readConfigFile(

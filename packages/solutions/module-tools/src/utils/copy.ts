@@ -24,7 +24,7 @@ export const copyTask = async (option: {
   try {
     // 类型暂时这样处理，待之后优化copy的逻辑
     for (const copyOption of copy as any) {
-      // 在原来的基础上，引入了类似于 copy-webpck-plugin 的 context 属性，可以设置项目根路径
+      // 在原来的基础上，引入了类似于 copy-webpack-plugin 的 context 属性，可以设置项目根路径
       const {
         context = appDirectory,
         from,

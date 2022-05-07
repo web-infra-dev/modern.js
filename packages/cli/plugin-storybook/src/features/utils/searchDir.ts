@@ -18,9 +18,9 @@ const defaultOptions = {
 };
 
 export const searchDir = (
-  customeOptions: Pick<SearchDirOptions, 'target'> & Partial<SearchDirOptions>,
+  customOptions: Pick<SearchDirOptions, 'target'> & Partial<SearchDirOptions>,
 ) => {
-  const options: SearchDirOptions = { ...defaultOptions, ...customeOptions };
+  const options: SearchDirOptions = { ...defaultOptions, ...customOptions };
   const { cwd, target, relative } = options;
 
   const formatPath = (modulesDir: string) => {

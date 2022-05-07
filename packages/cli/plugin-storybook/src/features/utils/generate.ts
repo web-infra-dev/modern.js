@@ -4,7 +4,7 @@ import { fs, normalizeOutputPath } from '@modern-js/utils';
 import { template } from '@modern-js/utils/lodash';
 import { STORYBOOK_TEMPLATE_DIR } from '../constants';
 
-const INTERPOLATE_REGPEXP = /<%=([\s\S]+?)%>/g;
+const INTERPOLATE_REGEXP = /<%=([\s\S]+?)%>/g;
 
 export type MainOptions = {
   appDirectory: string;
@@ -29,7 +29,7 @@ export const generateMain = (options: MainOptions) => {
     stories: JSON.stringify(options.stories),
     isTsProject: String(options.isTsProject),
   };
-  const execute = template(mainTemplate, { interpolate: INTERPOLATE_REGPEXP });
+  const execute = template(mainTemplate, { interpolate: INTERPOLATE_REGEXP });
   return execute(injects);
 };
 
@@ -56,7 +56,7 @@ export const generatePreview = (options: PreviewOptions) => {
     designToken: JSON.stringify(options.designToken),
   };
   const execute = template(previewTemplate, {
-    interpolate: INTERPOLATE_REGPEXP,
+    interpolate: INTERPOLATE_REGEXP,
   });
   return execute(injects);
 };
