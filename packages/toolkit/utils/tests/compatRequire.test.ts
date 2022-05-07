@@ -20,7 +20,7 @@ describe('compat require', () => {
     expect(compatRequire(path.join(fixturePath, 'empty.js'))).toEqual(null);
   });
 
-  test('should clearn cache after fn', () => {
+  test('should clean cache after fn', () => {
     const foo = module.require('./fixtures/compat-require/foo');
     const requirePath = require.resolve('./fixtures/compat-require/foo.js');
     expect(foo.name).toBe('foo');

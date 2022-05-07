@@ -116,7 +116,7 @@ describe('lambda-mode', () => {
   });
 });
 
-describe('add middwares', () => {
+describe('add middlewares', () => {
   let runner: any;
 
   beforeAll(async () => {

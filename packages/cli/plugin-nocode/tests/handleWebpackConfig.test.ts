@@ -39,7 +39,7 @@ describe('plugin-nocode', () => {
           return (
             Array.isArray(rule.use) &&
             typeof rule.use[0] === 'object' &&
-            rule?.use?.[0]?.loader === 'style-loader'
+            rule?.use?.[0]?.loader === require.resolve('style-loader')
           );
         },
       );
@@ -55,7 +55,7 @@ describe('plugin-nocode', () => {
           return (
             Array.isArray(rule.use) &&
             typeof rule.use[0] === 'object' &&
-            rule.use[0].loader === 'style-loader'
+            rule.use[0].loader === require.resolve('style-loader')
           );
         });
       expect(hasStyleLoaderAfterHandled).toBeGreaterThanOrEqual(0);

@@ -139,7 +139,7 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
     config.target = 'node';
 
-    // dsiable sourcemap
+    // disable sourcemap
     config.devtool = false;
 
     // prod bundle all dependencies

@@ -4,7 +4,7 @@ import dynamic from './fixtures/route-spec/dynamic.json';
 
 describe('test route', () => {
   describe('test route matcher', () => {
-    test('should matcher work correctyl with simple spec', () => {
+    test('should matcher work correctly with simple spec', () => {
       const routeSpec = spec.routes[0];
       const matcher = new RouteMatcher(routeSpec);
       expect(matcher.spec).toBe(routeSpec);
