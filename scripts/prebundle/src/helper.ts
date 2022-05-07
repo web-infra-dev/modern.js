@@ -49,6 +49,7 @@ export function parseTasks() {
           ignoreDts: dep.ignoreDts,
           externals: dep.externals ?? {},
           emitFiles: dep.emitFiles ?? [],
+          afterBundle: dep.afterBundle,
           beforeBundle: dep.beforeBundle,
           packageJsonField: dep.packageJsonField ?? [],
           ...info,

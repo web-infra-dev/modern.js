@@ -226,6 +226,15 @@ export const TASKS: TaskConfig[] = [
           'loader-utils': '../loader-utils2',
           'mime-types': '@modern-js/utils/mime-types',
         },
+        afterBundle(task) {
+          replaceFileContent(join(task.distPath, 'index.js'), content => {
+            // using prebunled file-loader
+            return content.replace(
+              '"file-loader"',
+              'require.resolve("../file-loader")',
+            );
+          });
+        },
       },
       {
         name: 'babel-loader',
