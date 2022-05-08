@@ -265,6 +265,26 @@ export const TASKS: TaskConfig[] = [
         name: 'postcss-flexbugs-fixes',
         ignoreDts: true,
       },
+      {
+        name: 'postcss-font-variant',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-initial',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-media-minmax',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-nesting',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-page-break',
+        ignoreDts: true,
+      },
     ],
   },
 ];

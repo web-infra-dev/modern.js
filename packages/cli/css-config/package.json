@@ -36,15 +36,9 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/runtime": "^7",
     "@modern-js/utils": "workspace:^1.7.0",
     "autoprefixer": "^10.3.1",
-    "postcss": "8.4.5",
-    "postcss-font-variant": "^5.0.0",
-    "postcss-initial": "^3.0.4",
-    "postcss-media-minmax": "^5.0.0",
-    "postcss-nesting": "^8.0.1",
-    "postcss-page-break": "^3.0.4"
+    "postcss": "8.4.5"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",

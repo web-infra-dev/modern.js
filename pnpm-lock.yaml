@@ -291,7 +291,6 @@ importers:
 
   packages/cli/css-config:
     specifiers:
-      '@babel/runtime': ^7
       '@modern-js/core': workspace:*
       '@modern-js/utils': workspace:^1.7.0
       '@scripts/build': workspace:*
@@ -302,23 +301,12 @@ importers:
       autoprefixer: ^10.3.1
       jest: ^27
       postcss: 8.4.5
-      postcss-font-variant: ^5.0.0
-      postcss-initial: ^3.0.4
-      postcss-media-minmax: ^5.0.0
-      postcss-nesting: ^8.0.1
-      postcss-page-break: ^3.0.4
       sass: ^1.45.0
       typescript: ^4
     dependencies:
-      '@babel/runtime': 7.16.7
       '@modern-js/utils': link:../../toolkit/utils
       autoprefixer: 10.4.1_postcss@8.4.5
       postcss: 8.4.5
-      postcss-font-variant: 5.0.0_postcss@8.4.5
-      postcss-initial: 3.0.4
-      postcss-media-minmax: 5.0.0_postcss@8.4.5
-      postcss-nesting: 8.0.1_postcss@8.4.5
-      postcss-page-break: 3.0.4_postcss@8.4.5
     devDependencies:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
@@ -4359,7 +4347,12 @@ importers:
       pkg-up: 3.1.0
       postcss-custom-properties: 12.1.7
       postcss-flexbugs-fixes: 5.0.2
+      postcss-font-variant: 5.0.0
+      postcss-initial: 3.0.4
       postcss-loader: 6.2.1
+      postcss-media-minmax: 5.0.0
+      postcss-nesting: 10.1.4
+      postcss-page-break: 3.0.4
       recursive-readdir: 2.2.2
       semver: 7.3.7
       signale: 1.4.0
@@ -4433,7 +4426,12 @@ importers:
       pkg-up: 3.1.0
       postcss-custom-properties: 12.1.7
       postcss-flexbugs-fixes: 5.0.2
+      postcss-font-variant: 5.0.0
+      postcss-initial: 3.0.4
       postcss-loader: 6.2.1
+      postcss-media-minmax: 5.0.0
+      postcss-nesting: 10.1.4
+      postcss-page-break: 3.0.4
       recursive-readdir: 2.2.2
       semver: 7.3.7
       signale: 1.4.0
@@ -30611,13 +30609,11 @@ packages:
       postcss: ^8.1.4
     dev: true
 
-  /postcss-font-variant/5.0.0_postcss@8.4.5:
+  /postcss-font-variant/5.0.0:
     resolution: {integrity: sha512-1fmkBaCALD72CK2a9i468mA/+tr9/1cBxRRMXOUaZqO43oWPR5imcyPjXwuv7PXbCid4ndlP5zWhidQVVa3hmA==}
     peerDependencies:
       postcss: ^8.1.0
-    dependencies:
-      postcss: 8.4.5
-    dev: false
+    dev: true
 
   /postcss-import/14.0.2_postcss@8.4.5:
     resolution: {integrity: sha512-BJ2pVK4KhUyMcqjuKs9RijV5tatNzNa73e/32aBVE/ejYPe37iH+6vAu9WvqUkB5OAYgLHzbSvzHnorybJCm9g==}
@@ -30635,7 +30631,7 @@ packages:
     resolution: {integrity: sha512-3RLn6DIpMsK1l5UUy9jxQvoDeUN4gP939tDcKUHD/kM8SGSKbFAnvkpFpj3Bhtz3HGk1jWY5ZNWX6mPta5M9fg==}
     dependencies:
       postcss: 7.0.39
-    dev: false
+    dev: true
 
   /postcss-js/3.0.3:
     resolution: {integrity: sha512-gWnoWQXKFw65Hk/mi2+WTQTHdPD5UJdDXZmX073EY/B3BWnYjO4F4t0VneTCnCGQ5E5GsCdMkzPaTXwl3r5dJw==}
@@ -30699,14 +30695,12 @@ packages:
       webpack: 5.71.0_esbuild@0.13.15
     dev: false
 
-  /postcss-media-minmax/5.0.0_postcss@8.4.5:
+  /postcss-media-minmax/5.0.0:
     resolution: {integrity: sha512-yDUvFf9QdFZTuCUg0g0uNSHVlJ5X1lSzDZjPSFaiCWvjgsvu8vEVxtahPrLMinIDEEGnx6cBe6iqdx5YWz08wQ==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       postcss: ^8.1.0
-    dependencies:
-      postcss: 8.4.5
-    dev: false
+    dev: true
 
   /postcss-merge-idents/5.1.0_postcss@8.4.12:
     resolution: {integrity: sha512-l+awq6+uUiCILsHahWK5KE25495I4oCKlUrIA+EdBvklnVdWlBEsbkzq5+ouPKb8OAe4WwRBgFvaSq7f77FY+w==}
@@ -31068,14 +31062,14 @@ packages:
       postcss-selector-parser: 6.0.9
     dev: false
 
-  /postcss-nesting/8.0.1_postcss@8.4.5:
-    resolution: {integrity: sha512-cHPNhW5VvRQjszFDxmy16mis9qFQqQLBNw6KVmueLqqE3M182ZAk9+QoxGqbGVryzLVhannw2B5Yhosqq522fA==}
-    engines: {node: 12 - 16}
+  /postcss-nesting/10.1.4:
+    resolution: {integrity: sha512-2ixdQ59ik/Gt1+oPHiI1kHdwEI8lLKEmui9B1nl6163ANLC+GewQn7fXMxJF2JSb4i2MKL96GU8fIiQztK4TTA==}
+    engines: {node: ^12 || ^14 || >=16}
     peerDependencies:
-      postcss: ^8
+      postcss: ^8.4
     dependencies:
-      postcss: 8.4.5
-    dev: false
+      postcss-selector-parser: 6.0.10
+    dev: true
 
   /postcss-normalize-charset/5.0.1_postcss@8.4.5:
     resolution: {integrity: sha512-6J40l6LNYnBdPSk+BHZ8SF+HAkS4q2twe5jnocgd+xWpz/mx/5Sa32m3W1AA8uE8XaXN+eg8trIlfu8V9x61eg==}
@@ -31376,13 +31370,11 @@ packages:
       postcss-value-parser: 4.2.0
     dev: false
 
-  /postcss-page-break/3.0.4_postcss@8.4.5:
+  /postcss-page-break/3.0.4:
     resolution: {integrity: sha512-1JGu8oCjVXLa9q9rFTo4MbeeA5FMe00/9C7lN4va606Rdb+HkxXtXsmEDrIraQ11fGz/WvKWa8gMuCKkrXpTsQ==}
     peerDependencies:
       postcss: ^8
-    dependencies:
-      postcss: 8.4.5
-    dev: false
+    dev: true
 
   /postcss-reduce-idents/5.1.0_postcss@8.4.12:
     resolution: {integrity: sha512-2xDoPTzv98D/HFDrGTgVEBlcuS47wvua2oc4g2WoZdYPwzPWMWb2TCRruCyN7vbl+HAtVLGvEOMZIZb3wYgv7w==}
@@ -31455,6 +31447,14 @@ packages:
       postcss: 8.4.6
       postcss-value-parser: 4.2.0
     dev: false
+
+  /postcss-selector-parser/6.0.10:
+    resolution: {integrity: sha512-IQ7TZdoaqbT+LCpShg46jnZVlhWD2w6iQYAcYXfHARZ7X1t/UGhhceQDs5X0cGqKvYlHNOuv7Oa1xmb0oQuA3w==}
+    engines: {node: '>=4'}
+    dependencies:
+      cssesc: 3.0.0
+      util-deprecate: 1.0.2
+    dev: true
 
   /postcss-selector-parser/6.0.8:
     resolution: {integrity: sha512-D5PG53d209Z1Uhcc0qAZ5U3t5HagH3cxu+WLZ22jt3gLUpXM4eXXfiO14jiDWST3NNooX/E8wISfOhZ9eIjGTQ==}

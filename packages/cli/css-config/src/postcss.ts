@@ -23,11 +23,11 @@ export const getPostcssConfig = (
         plugins: [
           require('../compiled/postcss-flexbugs-fixes'),
           require('../compiled/postcss-custom-properties'),
-          require('postcss-initial'),
-          require('postcss-page-break'),
-          require('postcss-font-variant'),
-          require('postcss-media-minmax'),
-          require('postcss-nesting'),
+          require('../compiled/postcss-initial'),
+          require('../compiled/postcss-page-break'),
+          require('../compiled/postcss-font-variant'),
+          require('../compiled/postcss-media-minmax'),
+          require('../compiled/postcss-nesting'),
           autoprefixer
             ? require('autoprefixer')(
                 applyOptionsChain(
