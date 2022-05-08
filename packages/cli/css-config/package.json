@@ -14,24 +14,25 @@
   "version": "1.2.4",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
-  "module": "./dist/js/treeshaking/index.js",
-  "jsnext:modern": "./dist/js/modern/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "jsnext:modern": "./dist/index.js",
   "exports": {
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
+        "import": "./dist/index.js",
+        "require": "./dist/index.js"
       },
-      "default": "./dist/js/treeshaking/index.js"
+      "default": "./dist/index.js"
     }
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
+    "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
-    "build": "modern build",
+    "dev": "tsc --watch",
+    "build": "tsc",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
@@ -39,8 +40,6 @@
     "@modern-js/utils": "workspace:^1.7.0",
     "autoprefixer": "^10.3.1",
     "postcss": "8.4.5",
-    "postcss-custom-properties": "^11.0.0",
-    "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-font-variant": "^5.0.0",
     "postcss-initial": "^3.0.4",
     "postcss-media-minmax": "^5.0.0",
@@ -59,14 +58,9 @@
     "@scripts/jest-config": "workspace:*"
   },
   "sideEffects": false,
-  "modernConfig": {
-    "output": {
-      "packageMode": "node-js"
-    }
-  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/types/index.d.ts"
+    "types": "./dist/index.d.ts"
   }
 }

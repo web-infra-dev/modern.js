@@ -302,8 +302,6 @@ importers:
       autoprefixer: ^10.3.1
       jest: ^27
       postcss: 8.4.5
-      postcss-custom-properties: ^11.0.0
-      postcss-flexbugs-fixes: ^5.0.2
       postcss-font-variant: ^5.0.0
       postcss-initial: ^3.0.4
       postcss-media-minmax: ^5.0.0
@@ -316,8 +314,6 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       autoprefixer: 10.4.1_postcss@8.4.5
       postcss: 8.4.5
-      postcss-custom-properties: 11.0.0_postcss@8.4.5
-      postcss-flexbugs-fixes: 5.0.2_postcss@8.4.5
       postcss-font-variant: 5.0.0_postcss@8.4.5
       postcss-initial: 3.0.4
       postcss-media-minmax: 5.0.0_postcss@8.4.5
@@ -3889,7 +3885,6 @@ importers:
       '@types/less': ^3.0.3
       '@types/node': ^14
       '@types/postcss-custom-properties': ^9.1.1
-      '@types/postcss-flexbugs-fixes': ^4.2.1
       '@types/postcss-import': ^12.0.1
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -3915,7 +3910,6 @@ importers:
       '@types/less': 3.0.3
       '@types/node': 14.18.4
       '@types/postcss-custom-properties': 9.1.1
-      '@types/postcss-flexbugs-fixes': 4.2.1
       '@types/postcss-import': 12.0.1
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -4363,6 +4357,8 @@ importers:
       minimist: 1.2.6
       ora: 5.4.1
       pkg-up: 3.1.0
+      postcss-custom-properties: 12.1.7
+      postcss-flexbugs-fixes: 5.0.2
       postcss-loader: 6.2.1
       recursive-readdir: 2.2.2
       semver: 7.3.7
@@ -4435,6 +4431,8 @@ importers:
       minimist: 1.2.6
       ora: 5.4.1
       pkg-up: 3.1.0
+      postcss-custom-properties: 12.1.7
+      postcss-flexbugs-fixes: 5.0.2
       postcss-loader: 6.2.1
       recursive-readdir: 2.2.2
       semver: 7.3.7
@@ -15152,12 +15150,6 @@ packages:
 
   /@types/postcss-custom-properties/9.1.1:
     resolution: {integrity: sha512-rX6juHYgyw8BYlMi7Z5pgX+mKr5iaJpzUfqFmFWPlsR/nLJkiZ2f588L+8eryQe7Q3yUQLpXgmowurBSAajTnw==}
-    dependencies:
-      postcss: 7.0.39
-    dev: true
-
-  /@types/postcss-flexbugs-fixes/4.2.1:
-    resolution: {integrity: sha512-M0e8fl9TqPoviDIrDItiAR9iblmMpGn9ozH9AmgR0zxzYINmzW58j1V83/w+CH5B80y3SPe1J5TSketTf3jGlg==}
     dependencies:
       postcss: 7.0.39
     dev: true
@@ -25918,11 +25910,6 @@ packages:
     resolution: {integrity: sha512-knxG2q4UC3u8stRGyAVJCOdxFmv5DZiRcdlIaAQXAbSfJya+OhopNotLQrstBhququ4ZpuKbDc/8S6mgXgPFPw==}
     engines: {node: '>=10'}
 
-  /is-url-superb/4.0.0:
-    resolution: {integrity: sha512-GI+WjezhPPcbM+tqE9LnmsY5qqjwHzTvjJ36wxYX5ujNXefSUJ/T17r5bqDV8yLhcgB59KTPNOc9O9cmHTPWsA==}
-    engines: {node: '>=10'}
-    dev: false
-
   /is-url/1.2.4:
     resolution: {integrity: sha512-ITvGim8FhRiYe4IQ5uHSkj7pVaPDrCTkNd3yq3cV7iZAcJdHTUMPMEHcqSOy9xZ9qFenQCvi+2wjH9a1nXqHww==}
     dev: false
@@ -30489,15 +30476,14 @@ packages:
       postcss-value-parser: 4.2.0
     dev: false
 
-  /postcss-custom-properties/11.0.0_postcss@8.4.5:
-    resolution: {integrity: sha512-Fhnx/QLt+CTt23A/KKVx1anZD9nmVpOxKCKv5owWacMoOsBXFhMAD6SZYbmPMH4nHdIeMUnWOvLZnlY4niS0sA==}
-    engines: {node: '>=10.0.0'}
+  /postcss-custom-properties/12.1.7:
+    resolution: {integrity: sha512-N/hYP5gSoFhaqxi2DPCmvto/ZcRDVjE3T1LiAMzc/bg53hvhcHOLpXOHb526LzBBp5ZlAUhkuot/bfpmpgStJg==}
+    engines: {node: ^12 || ^14 || >=16}
     peerDependencies:
-      postcss: ^8.1.0
+      postcss: ^8.4
     dependencies:
-      postcss: 8.4.5
-      postcss-values-parser: 4.0.0
-    dev: false
+      postcss-value-parser: 4.2.0
+    dev: true
 
   /postcss-discard-comments/5.0.1_postcss@8.4.5:
     resolution: {integrity: sha512-lgZBPTDvWrbAYY1v5GYEv8fEO/WhKOu/hmZqmCYfrpD6eyDWWzAOsl2rF29lpvziKO02Gc5GJQtlpkTmakwOWg==}
@@ -30619,13 +30605,11 @@ packages:
       postcss: 7.0.39
     dev: false
 
-  /postcss-flexbugs-fixes/5.0.2_postcss@8.4.5:
+  /postcss-flexbugs-fixes/5.0.2:
     resolution: {integrity: sha512-18f9voByak7bTktR2QgDveglpn9DTbBWPUzSOe9g0N4WR/2eSt6Vrcbf0hmspvMI6YWGywz6B9f7jzpFNJJgnQ==}
     peerDependencies:
       postcss: ^8.1.4
-    dependencies:
-      postcss: 8.4.5
-    dev: false
+    dev: true
 
   /postcss-font-variant/5.0.0_postcss@8.4.5:
     resolution: {integrity: sha512-1fmkBaCALD72CK2a9i468mA/+tr9/1cBxRRMXOUaZqO43oWPR5imcyPjXwuv7PXbCid4ndlP5zWhidQVVa3hmA==}
@@ -31563,15 +31547,6 @@ packages:
 
   /postcss-value-parser/4.2.0:
     resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
-
-  /postcss-values-parser/4.0.0:
-    resolution: {integrity: sha512-R9x2D87FcbhwXUmoCXJR85M1BLII5suXRuXibGYyBJ7lVDEpRIdKZh4+8q5S+/+A4m0IoG1U5tFw39asyhX/Hw==}
-    engines: {node: '>=10'}
-    dependencies:
-      color-name: 1.1.4
-      is-url-superb: 4.0.0
-      postcss: 7.0.39
-    dev: false
 
   /postcss-zindex/5.1.0_postcss@8.4.12:
     resolution: {integrity: sha512-fgFMf0OtVSBR1va1JNHYgMxYk73yhn/qb4uQDq1DLGYolz8gHCyr/sesEuGUaYs58E3ZJRcpoGuPVoB7Meiq9A==}

@@ -253,4 +253,18 @@ export const TASKS: TaskConfig[] = [
       },
     ],
   },
+  {
+    packageDir: 'cli/css-config',
+    packageName: '@modern-js/css-config',
+    dependencies: [
+      {
+        name: 'postcss-custom-properties',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-flexbugs-fixes',
+        ignoreDts: true,
+      },
+    ],
+  },
 ];

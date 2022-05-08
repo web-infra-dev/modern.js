@@ -21,8 +21,8 @@ export const getPostcssConfig = (
     {
       postcssOptions: {
         plugins: [
-          require('postcss-flexbugs-fixes'),
-          require('postcss-custom-properties'),
+          require('../compiled/postcss-flexbugs-fixes'),
+          require('../compiled/postcss-custom-properties'),
           require('postcss-initial'),
           require('postcss-page-break'),
           require('postcss-font-variant'),

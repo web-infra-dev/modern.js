@@ -48,7 +48,6 @@
     "@types/less": "^3.0.3",
     "@types/node": "^14",
     "@types/postcss-custom-properties": "^9.1.1",
-    "@types/postcss-flexbugs-fixes": "^4.2.1",
     "@types/postcss-import": "^12.0.1",
     "@types/react": "^17",
     "@types/react-dom": "^17",
