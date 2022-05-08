@@ -258,8 +258,15 @@ export const TASKS: TaskConfig[] = [
     packageName: '@modern-js/css-config',
     dependencies: [
       {
+        name: 'postcss-value-parser',
+        ignoreDts: true,
+      },
+      {
         name: 'postcss-custom-properties',
         ignoreDts: true,
+        externals: {
+          'postcss-value-parser': '../postcss-value-parser',
+        },
       },
       {
         name: 'postcss-flexbugs-fixes',
@@ -284,6 +291,14 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'postcss-page-break',
         ignoreDts: true,
+      },
+      {
+        name: 'autoprefixer',
+        ignoreDts: true,
+        externals: {
+          browserslist: '@modern-js/utils/browserslist',
+          'postcss-value-parser': '../postcss-value-parser',
+        },
       },
     ],
   },

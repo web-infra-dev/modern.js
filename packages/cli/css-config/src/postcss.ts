@@ -29,7 +29,7 @@ export const getPostcssConfig = (
           require('../compiled/postcss-media-minmax'),
           require('../compiled/postcss-nesting'),
           autoprefixer
-            ? require('autoprefixer')(
+            ? require('../compiled/autoprefixer')(
                 applyOptionsChain(
                   {
                     flexbox: 'no-2009',
