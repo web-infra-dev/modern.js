@@ -3868,11 +3868,9 @@ importers:
       '@modern-js/utils': workspace:^1.5.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/glob': ^7.1.4
       '@types/jest': ^26
       '@types/less': ^3.0.3
       '@types/node': ^14
-      '@types/postcss-custom-properties': ^9.1.1
       '@types/postcss-import': ^12.0.1
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -3893,11 +3891,9 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/glob': 7.2.0
       '@types/jest': 26.0.24
       '@types/less': 3.0.3
       '@types/node': 14.18.4
-      '@types/postcss-custom-properties': 9.1.1
       '@types/postcss-import': 12.0.1
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -15149,12 +15145,6 @@ packages:
   /@types/parse5/5.0.3:
     resolution: {integrity: sha512-kUNnecmtkunAoQ3CnjmMkzNU/gtxG8guhi+Fk2U/kOpIKjIMKnXGp4IJCgQJrXSgMsWYimYG4TGjz/UzbGEBTw==}
     dev: false
-
-  /@types/postcss-custom-properties/9.1.1:
-    resolution: {integrity: sha512-rX6juHYgyw8BYlMi7Z5pgX+mKr5iaJpzUfqFmFWPlsR/nLJkiZ2f588L+8eryQe7Q3yUQLpXgmowurBSAajTnw==}
-    dependencies:
-      postcss: 7.0.39
-    dev: true
 
   /@types/postcss-import/12.0.1:
     resolution: {integrity: sha512-q6Lpyog1dEYjkElyEaXusDinGZzqc/y1BjSIN9DO0kvhWxwChB+CB6uJIZ7UFxQdBcwMkBT+euqu3XmoZPca1w==}
