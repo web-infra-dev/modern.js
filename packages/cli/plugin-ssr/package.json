@@ -61,7 +61,7 @@
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/server": "^5.15.1",
     "@loadable/webpack-plugin": "^5.15.1",
-    "@modern-js/utils": "workspace:^1.7.0",
+    "@modern-js/utils": "workspace:^1.7.1",
     "react-dom": "^17",
     "serialize-javascript": "^6.0.0"
   },

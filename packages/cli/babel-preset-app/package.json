@@ -44,7 +44,7 @@
     "@babel/types": "^7.17.0",
     "@modern-js/babel-chain": "workspace:^1.2.2",
     "@modern-js/babel-preset-base": "workspace:^1.3.0",
-    "@modern-js/utils": "workspace:^1.7.0",
+    "@modern-js/utils": "workspace:^1.7.1",
     "core-js": "^3.6.4"
   },
   "devDependencies": {
