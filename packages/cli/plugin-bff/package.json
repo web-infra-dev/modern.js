@@ -61,7 +61,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "7.16.7",
+    "@babel/core": "^7.17.0",
     "@babel/runtime": "^7",
     "@modern-js/babel-compiler": "workspace:^1.2.3",
     "@modern-js/bff-utils": "workspace:^1.2.4",
