@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.7.0",
+    "@modern-js/utils": "workspace:^1.7.1",
     "isomorphic-fetch": "^3.0.0"
   },
   "devDependencies": {
