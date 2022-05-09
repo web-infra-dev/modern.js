@@ -86,7 +86,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "7.16.7",
+    "@babel/core": "^7.17.0",
     "@babel/preset-env": "^7.15.6",
     "@babel/runtime": "^7",
     "@modern-js-reduck/plugin-auto-actions": "^1.0.2",
