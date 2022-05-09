@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.5.0",
+    "@modern-js/utils": "workspace:^1.7.1",
     "less": "^4.1.1",
     "postcss": "8.4.5",
     "postcss-import": "^14.0.2",
