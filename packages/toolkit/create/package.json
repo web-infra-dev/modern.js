@@ -44,8 +44,8 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/codesmith": "^1.0.9",
-    "@modern-js/codesmith-tools": "^1.1.1",
+    "@modern-js/codesmith": "^1.0.10",
+    "@modern-js/codesmith-tools": "^1.1.2",
     "@scripts/build": "workspace:*",
     "@modern-js/i18n-cli-language-detector": "workspace:*",
     "@modern-js/generator-plugin-plugin": "workspace:*",
