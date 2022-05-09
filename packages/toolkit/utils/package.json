@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.7.0",
+  "version": "1.7.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -44,6 +44,26 @@
     "./gzip-size": "./compiled/gzip-size/index.js",
     "./mime-types": "./compiled/mime-types/index.js",
     "./strip-ansi": "./compiled/strip-ansi/index.js"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": "./dist/index.js",
+      "./format": "./dist/format.js",
+      "./constants": "./dist/constants.js",
+      "./ssr": "./dist/ssr.js",
+      "./chalk": "./compiled/chalk/index.js",
+      "./json5": "./compiled/json5/index.js",
+      "./semver": "./compiled/semver/index.js",
+      "./lodash": "./compiled/lodash/index.js",
+      "./globby": "./compiled/globby/index.js",
+      "./fast-glob": "./compiled/fast-glob/index.js",
+      "./gzip-size": "./compiled/gzip-size/index.js",
+      "./mime-types": "./compiled/mime-types/index.js",
+      "./strip-ansi": "./compiled/strip-ansi/index.js"
+    }
   },
   "typesVersions": {
     "*": {
@@ -107,10 +127,5 @@
     "jest": "^27",
     "webpack": "^5.71.0"
   },
-  "sideEffects": false,
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "access": "public",
-    "types": "./dist/index.d.ts"
-  }
+  "sideEffects": false
 }

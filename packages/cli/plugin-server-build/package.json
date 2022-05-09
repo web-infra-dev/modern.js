@@ -39,7 +39,7 @@
     "@babel/runtime": "^7",
     "@modern-js/babel-compiler": "workspace:^1.2.3",
     "@modern-js/server-utils": "workspace:^1.2.4",
-    "@modern-js/utils": "workspace:^1.7.0"
+    "@modern-js/utils": "workspace:^1.7.1"
   },
   "devDependencies": {
     "@modern-js/plugin-analyze": "workspace:*",
