@@ -59,7 +59,7 @@
     "hoist-non-react-statics": "^3.3.2",
     "invariant": "^2.2.4",
     "styled-components": "^5.3.1",
-    "react-is": "^18"
+    "react-is": "^17"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",
