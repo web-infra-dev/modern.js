@@ -4345,7 +4345,7 @@ importers:
       postcss-custom-properties: 12.1.7
       postcss-flexbugs-fixes: 5.0.2
       postcss-font-variant: 5.0.0
-      postcss-initial: 3.0.4
+      postcss-initial: 4.0.1
       postcss-loader: 6.2.1
       postcss-media-minmax: 5.0.0
       postcss-nesting: 10.1.4
@@ -4426,7 +4426,7 @@ importers:
       postcss-custom-properties: 12.1.7
       postcss-flexbugs-fixes: 5.0.2
       postcss-font-variant: 5.0.0
-      postcss-initial: 3.0.4
+      postcss-initial: 4.0.1
       postcss-loader: 6.2.1
       postcss-media-minmax: 5.0.0
       postcss-nesting: 10.1.4
@@ -30639,10 +30639,10 @@ packages:
       resolve: 1.22.0
     dev: false
 
-  /postcss-initial/3.0.4:
-    resolution: {integrity: sha512-3RLn6DIpMsK1l5UUy9jxQvoDeUN4gP939tDcKUHD/kM8SGSKbFAnvkpFpj3Bhtz3HGk1jWY5ZNWX6mPta5M9fg==}
-    dependencies:
-      postcss: 7.0.39
+  /postcss-initial/4.0.1:
+    resolution: {integrity: sha512-0ueD7rPqX8Pn1xJIjay0AZeIuDoF+V+VvMt/uOnn+4ezUKhZM/NokDeP6DwMNyIoYByuN/94IQnt5FEkaN59xQ==}
+    peerDependencies:
+      postcss: ^8.0.0
     dev: true
 
   /postcss-js/3.0.3:
