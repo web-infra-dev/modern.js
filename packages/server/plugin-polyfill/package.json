@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.7.0",
+    "@modern-js/utils": "workspace:^1.7.1",
     "@modern-js/polyfill-lib": "^1.0.0",
     "lru-cache": "^6.0.0",
     "ua-parser-js": "^0.7.28"

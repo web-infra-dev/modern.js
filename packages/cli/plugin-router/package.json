@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.7.0",
+    "@modern-js/utils": "workspace:^1.7.1",
     "@types/history": "^4.7.9",
     "@types/react-router-dom": "^5.1.8",
     "history": "^4.7.9",

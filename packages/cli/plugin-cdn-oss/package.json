@@ -40,7 +40,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.7.0",
+    "@modern-js/utils": "workspace:^1.7.1",
     "ali-oss": "^6",
     "walk": "^2.3.15"
   },
