@@ -40,7 +40,7 @@
     "@modern-js/utils": "workspace:^1.7.1"
   },
   "devDependencies": {
-    "@modern-js/codesmith": "^1.0.8",
+    "@modern-js/codesmith": "^1.0.9",
     "@types/jest": "^26",
     "@types/node": "^14",
     "typescript": "^4",
