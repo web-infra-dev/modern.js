@@ -17,7 +17,7 @@ const checkIfExistNotAllowKeys = (
 
 const getPureDesignSystemConfig = (
   designSystemConfig: Record<string, any> & {
-    supportStyledComponents: boolean;
+    supportStyledComponents?: boolean;
   },
 ) => {
   const pureDesignSystemConfig = cloneDeep(designSystemConfig);
