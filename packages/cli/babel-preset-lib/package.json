@@ -45,7 +45,7 @@
     "tsconfig-paths": "^3.10.1"
   },
   "devDependencies": {
-    "@babel/core": "7.16.7",
+    "@babel/core": "^7.17.0",
     "@types/babel__core": "^7.1.15",
     "@types/jest": "^26",
     "@types/node": "^14",
