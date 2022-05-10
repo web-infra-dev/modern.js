@@ -1,5 +1,15 @@
 # @modern-js/load-config
 
+## 1.3.2
+
+### Patch Changes
+
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [69a728375]
+  - @modern-js/utils@1.7.2
+  - @modern-js/node-bundle-require@1.3.2
+
 ## 1.3.1
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @modern-js/prod-server
 
+## 1.1.4
+
+### Patch Changes
+
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [69a728375]
+  - @modern-js/utils@1.7.2
+  - @modern-js/server-core@1.3.4
+
 ## 1.1.3
 
 ### Patch Changes

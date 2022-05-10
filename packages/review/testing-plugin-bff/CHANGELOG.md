@@ -1,5 +1,18 @@
 # @modern-js/testing-plugin-bff
 
+## 1.4.2
+
+### Patch Changes
+
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [0e0537005]
+- Updated dependencies [69a728375]
+  - @modern-js/utils@1.7.2
+  - @modern-js/testing@1.5.1
+  - @modern-js/server@1.4.13
+  - @modern-js/bff-utils@1.2.5
+
 ## 1.4.1
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @modern-js/plugin-tailwindcss
 
+## 1.2.9
+
+### Patch Changes
+
+- 69a728375: fix: remove exports.jsnext:source after publish
+- 0f86e133b: fix react & react-dom types problem
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [69a728375]
+  - @modern-js/utils@1.7.2
+  - @modern-js/plugin-design-token@1.0.6
+
 ## 1.2.8
 
 ### Patch Changes

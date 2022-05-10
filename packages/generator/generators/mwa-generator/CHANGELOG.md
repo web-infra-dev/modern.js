@@ -1,5 +1,16 @@
 # @modern-js/mwa-generator
 
+## 2.0.0
+
+### Major Changes
+
+- 320067e9a: perf: replace del-cli with rimraf
+
+### Patch Changes
+
+- b38c6f267: fix: eslint template
+- 6b0bb5e3b: feat: bump codesmith version
+
 ## 1.4.1
 
 ### Patch Changes

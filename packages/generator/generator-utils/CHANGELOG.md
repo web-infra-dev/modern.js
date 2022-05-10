@@ -1,5 +1,16 @@
 # @modern-js/generator-utils
 
+## 1.2.4
+
+### Patch Changes
+
+- 6b0bb5e3b: feat: bump codesmith version
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [69a728375]
+  - @modern-js/utils@1.7.2
+  - @modern-js/plugin-i18n@1.2.5
+
 ## 1.2.3
 
 ### Patch Changes

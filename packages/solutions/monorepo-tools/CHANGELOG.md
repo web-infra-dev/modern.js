@@ -1,5 +1,19 @@
 # @modern-js/monorepo-tools
 
+## 1.4.5
+
+### Patch Changes
+
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [6b0bb5e3b]
+- Updated dependencies [69a728375]
+  - @modern-js/utils@1.7.2
+  - @modern-js/new-action@1.3.8
+  - @modern-js/core@1.10.1
+  - @modern-js/plugin-changeset@1.2.6
+  - @modern-js/plugin-i18n@1.2.5
+
 ## 1.4.4
 
 ### Patch Changes
