@@ -36,13 +36,12 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.7.1",
-    "url": "^0.11.0"
+    "@modern-js/utils": "workspace:^1.7.1"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@types/jest": "^26",
+    "@types/jest": "^27.0.1",
     "@types/node": "^14",
     "jest": "^27",
     "typescript": "^4",

@@ -3118,22 +3118,20 @@ importers:
       '@modern-js/utils': workspace:^1.7.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27.0.1
       '@types/node': ^14
       esbuild: ^0.13.13
       jest: ^27
       typescript: ^4
-      url: ^0.11.0
       webpack: ^5.71.0
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/utils': link:../../toolkit/utils
       esbuild: 0.13.15
-      url: 0.11.0
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
