@@ -1,5 +1,14 @@
 # @modern-js/plugin-cdn-oss
 
+## 1.1.8
+
+### Patch Changes
+
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [69a728375]
+  - @modern-js/utils@1.7.2
+
 ## 1.1.7
 
 ### Patch Changes

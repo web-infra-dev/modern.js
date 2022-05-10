@@ -1,5 +1,16 @@
 # @modern-js/plugin-jarvis
 
+## 1.2.9
+
+### Patch Changes
+
+- b7b8075dc: feat: bump husky from v3 to v4
+- 0e0537005: fix: unlock @babel/core version
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [69a728375]
+  - @modern-js/utils@1.7.2
+
 ## 1.2.8
 
 ### Patch Changes
