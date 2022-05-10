@@ -42,7 +42,29 @@
     "types": "./index.d.ts"
   },
   "scripts": {
-    "test": "jest --passWithNoTests",
-    "prepublishOnly": "only-allow-pnpm"
+    "test": "wireit",
+    "prepublishOnly": "only-allow-pnpm",
+    "build": "wireit"
+  },
+  "wireit": {
+    "build": {
+      "files": [
+        "src/**/*.ts",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": [
+        "dist/**/*.js"
+      ]
+    },
+    "test": {
+      "command": "jest --passWithNoTests",
+      "files": [
+        "src/**/*.ts",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": []
+    }
   }
 }

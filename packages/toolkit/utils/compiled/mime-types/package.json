@@ -1,1 +1,5 @@
-{"name":"mime-types","version":"2.1.35","license":"MIT"}
+{
+  "name": "mime-types",
+  "version": "2.1.35",
+  "license": "MIT"
+}

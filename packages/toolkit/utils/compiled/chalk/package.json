@@ -1,1 +1,6 @@
-{"name":"chalk","version":"4.1.2","funding":"https://github.com/chalk/chalk?sponsor=1","license":"MIT"}
+{
+  "name": "chalk",
+  "version": "4.1.2",
+  "funding": "https://github.com/chalk/chalk?sponsor=1",
+  "license": "MIT"
+}

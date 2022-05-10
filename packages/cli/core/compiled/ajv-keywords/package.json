@@ -1,1 +1,7 @@
-{"name":"ajv-keywords","author":"Evgeny Poberezkin","version":"5.1.0","license":"MIT","types":"index.d.ts"}
+{
+  "name": "ajv-keywords",
+  "author": "Evgeny Poberezkin",
+  "version": "5.1.0",
+  "license": "MIT",
+  "types": "index.d.ts"
+}

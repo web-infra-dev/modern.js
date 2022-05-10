@@ -46,8 +46,8 @@
     "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
-    "build": "modern build",
-    "test": "modern test --passWithNoTests"
+    "build": "wireit",
+    "test": "wireit"
   },
   "dependencies": {
     "@babel/runtime": "^7",
@@ -75,5 +75,27 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
+  },
+  "wireit": {
+    "build": {
+      "command": "modern build",
+      "files": [
+        "src/**/*.ts",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": [
+        "dist/**/*.js"
+      ]
+    },
+    "test": {
+      "command": "modern test --passWithNoTests",
+      "files": [
+        "src/**/*.ts",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": []
+    }
   }
 }
