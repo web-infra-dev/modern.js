@@ -43,20 +43,9 @@
   },
   "scripts": {
     "test": "wireit",
-    "prepublishOnly": "only-allow-pnpm",
-    "build": "wireit"
+    "prepublishOnly": "only-allow-pnpm"
   },
   "wireit": {
-    "build": {
-      "files": [
-        "src/**/*.ts",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*.js"
-      ]
-    },
     "test": {
       "command": "jest --passWithNoTests",
       "files": [
