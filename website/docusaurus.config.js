@@ -69,7 +69,7 @@ module.exports = {
             },
             {
               label: '专题详解',
-              to: '/docs/guides/features/runtime/code-spliting',
+              to: '/docs/guides/features/runtime/code-splitting',
             },
           ],
         },
