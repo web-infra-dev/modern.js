@@ -6,11 +6,7 @@ import axios from './axios';
 import loggerModule from './logger';
 import { registerPackage, registerGroup, unregisterPackage } from './butter';
 import { NPM_REGISTRY } from './constants';
-import {
-  addOfficialOwner,
-  // createDependencyCache,
-  uploadUmdToTos,
-} from './butter-cache';
+import { addOfficialOwner } from './butter-cache';
 // import preValidate from './pre-validate';
 
 const logger = loggerModule.scope('REGISTER');
@@ -157,9 +153,6 @@ export const register = async (
 
   if (mode === 'register') {
     addOfficialOwner(appDirectory);
-    // TODO: 先暂时关闭
-    // createDependencyCache(appDirectory);
-    uploadUmdToTos(appDirectory);
   }
 
   try {
