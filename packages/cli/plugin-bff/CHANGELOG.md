@@ -1,5 +1,20 @@
 # @modern-js/plugin-bff
 
+## 1.4.4
+
+### Patch Changes
+
+- 0e0537005: fix: unlock @babel/core version
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [0e0537005]
+- Updated dependencies [69a728375]
+  - @modern-js/utils@1.7.2
+  - @modern-js/server-utils@1.2.5
+  - @modern-js/babel-compiler@1.2.4
+  - @modern-js/bff-utils@1.2.5
+  - @modern-js/create-request@1.2.7
+
 ## 1.4.3
 
 ### Patch Changes
