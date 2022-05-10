@@ -113,11 +113,11 @@ const handleTemplateFile = async (
   );
 
   await appApi.forgeTemplate(
-    `templates/base-template/**/*`,
+    `templates/base-template/${language}/**/*`,
     undefined,
     resourceKey =>
       resourceKey
-        .replace(`templates/base-template/`, '')
+        .replace(`templates/base-template/${language}/`, '')
         .replace('.handlebars', ''),
   );
 
