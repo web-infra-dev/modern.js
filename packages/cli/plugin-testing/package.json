@@ -99,7 +99,7 @@
     "@modern-js/testing": "workspace:^1.5.0",
     "@modern-js/testing-plugin-bff": "workspace:^1.4.1",
     "@modern-js/utils": "workspace:^1.7.1",
-    "@modern-js/webpack": "workspace:^1.6.1",
+    "@modern-js/webpack": "workspace:^1.6.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/testing-library__jest-dom": "^5.14.3"
