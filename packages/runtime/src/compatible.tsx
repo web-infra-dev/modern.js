@@ -129,7 +129,8 @@ export const bootstrap: BootStrap = async (
     );
 
   if (typeof window !== 'undefined') {
-    const loadersData = (window as any)?._SSR_DATA?.data?.loadersData || {};
+    const ssrData = (window as any)._SSR_DATA;
+    const loadersData = ssrData?.data?.loadersData || {};
 
     const initialLoadersState = Object.keys(loadersData).reduce(
       (res: any, key) => {
@@ -149,6 +150,7 @@ export const bootstrap: BootStrap = async (
       loaderManager: createLoaderManager(initialLoadersState, {
         skipStatic: true,
       }),
+      ...(ssrData ? { ssrContext: ssrData?.context } : {}),
     });
 
     await runInit(context);

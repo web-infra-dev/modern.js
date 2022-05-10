@@ -1,32 +1,13 @@
-import path from 'path';
 import {
   applyOptionsChain,
   isProd,
   isUseSSRBundle,
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
-import { mergeRegex } from '../utils/mergeRegex';
-import { getSourceIncludes } from '../utils/getSourceIncludes';
-import { JS_RESOLVE_EXTENSIONS } from '../utils/constants';
 import { BaseWebpackConfig } from './base';
 import { enableBundleAnalyzer } from './shared';
 
 class NodeWebpackConfig extends BaseWebpackConfig {
-  get externalsAllowlist() {
-    const includes = getSourceIncludes(this.appDirectory, this.options);
-    return [
-      (name: string) => {
-        const ext = path.extname(name);
-
-        return (
-          name.includes('@modern-js/') ||
-          (ext !== '' && !JS_RESOLVE_EXTENSIONS.includes(ext))
-        );
-      },
-      includes.length && mergeRegex(...includes),
-    ].filter(Boolean);
-  }
-
   name() {
     this.chain.name('server');
   }
@@ -153,10 +134,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     if (!Array.isArray(config.externals)) {
       config.externals = [config.externals].filter(Boolean);
     }
-
-    // @modern-js/utils use typescript for peerDependency, but js project not depend it
-    // if not externals, js ssr build error
-    config.externals.push('typescript');
 
     return config;
   }
