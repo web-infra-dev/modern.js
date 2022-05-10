@@ -1,5 +1,17 @@
 # @modern-js/plugin-garfish
 
+## 1.4.10
+
+### Patch Changes
+
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [69a728375]
+- Updated dependencies [0f86e133b]
+  - @modern-js/runtime-core@1.4.5
+  - @modern-js/utils@1.7.2
+  - @modern-js/plugin-router@1.2.13
+
 ## 1.4.9
 
 ### Patch Changes
