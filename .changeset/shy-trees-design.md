@@ -2,4 +2,4 @@
 '@modern-js/runtime': minor
 ---
 
-reduck type
+fix: @modern-js/runtime/model effects type error
