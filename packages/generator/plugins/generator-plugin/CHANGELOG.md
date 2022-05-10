@@ -1,5 +1,11 @@
 # @modern-js/generator-plugin-plugin
 
+## 1.2.2
+
+### Patch Changes
+
+- 6b0bb5e3b: feat: bump codesmith version
+
 ## 1.2.1
 
 ### Patch Changes

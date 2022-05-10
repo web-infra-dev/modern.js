@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-lambda-fc",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -40,7 +40,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.7.1",
+    "@modern-js/utils": "workspace:^1.7.2",
     "@alicloud/fun": "3.6.24"
   },
   "devDependencies": {

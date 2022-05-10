@@ -1,5 +1,15 @@
 # @modern-js/monorepo-generator
 
+## 2.0.0
+
+### Major Changes
+
+- 320067e9a: perf: replace del-cli with rimraf
+
+### Patch Changes
+
+- 6b0bb5e3b: feat: bump codesmith version
+
 ## 1.4.1
 
 ### Patch Changes

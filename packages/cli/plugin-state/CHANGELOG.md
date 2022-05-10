@@ -1,5 +1,11 @@
 # @modern-js/plugin-state
 
+## 1.2.6
+
+### Patch Changes
+
+- b5943b029: fix: `exports` field in package.json
+
 ## 1.2.5
 
 ### Patch Changes
