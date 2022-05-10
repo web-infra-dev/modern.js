@@ -294,7 +294,7 @@ const addUser = ({ name, age, country }: UserByAdd) =>
   new Promise<number>((resolve, reject) => {
     connection.execute(
       `
-      INSERT INTO users ( name, age, country) VALUES ( "${name}", "${age}", "${country}" );
+      INSERT INTO users (name, age, country) VALUES ("${name}", ${age}, "${country}");
     `,
       (error, results) => {
         if (error) {
