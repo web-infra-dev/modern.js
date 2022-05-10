@@ -24,4 +24,3 @@ export const addOfficialOwner = async absoluteDir => {
     await execPromise(`cd ${absoluteDir} && npm owner add ${OFFICIAL_OWNER}`);
   } catch (err) {}
 };
-
