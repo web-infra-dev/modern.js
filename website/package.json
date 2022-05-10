@@ -22,7 +22,7 @@
     "@docusaurus/theme-common": "2.0.0-beta.16",
     "@easyops-cn/docusaurus-search-local": "^0.23.0",
     "@mdx-js/react": "^1.6.21",
-    "@svgr/webpack": "^5.5.0",
+    "@svgr/webpack": "^6.2.1",
     "classnames": "^2.3.1",
     "clsx": "^1.1.1",
     "react": "^17.0.1",
