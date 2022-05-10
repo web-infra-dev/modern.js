@@ -4,6 +4,7 @@ import type { Plugin } from '@modern-js/runtime-core';
 
 import { SSRServerContext } from './serverRender/type';
 import prefetch from './prefetch';
+import { formatServer } from './utils';
 
 const registeredApps = new WeakSet();
 
@@ -29,28 +30,23 @@ const plugin = (): Plugin => ({
 
         return null;
       },
+      init({ context }, next) {
+        const { request }: { request: SSRServerContext['request'] } =
+          context.ssrContext;
+
+        context.ssrContext.request = formatServer(request);
+        next({ context });
+      },
       pickContext: ({ context, pickedContext }, next) => {
         const { request }: { request: SSRServerContext['request'] } =
           context?.ssrContext;
-
-        const {
-          cookie,
-          'user-agent': userAgent,
-          referer,
-        } = request.headers || {};
 
         return next({
           context,
           pickedContext: {
             ...pickedContext,
-            request: {
-              cookie,
-              userAgent,
-              referer,
-              ...request,
-            },
-            // FIXME: error TS2322: Type '{ request: any; store: Store<any, AnyAction> & { use: UseModel; }; }' is not assignable to type 'TRuntimeContext'. Object literal may only specify known properties, and 'request' does not exist in type 'TRuntimeContext'.
-          } as any,
+            request,
+          },
         });
       },
     };
