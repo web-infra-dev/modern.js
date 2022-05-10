@@ -1,6 +1,7 @@
 import plugin from '../src';
 import cliPlugin from '../src/cli';
 import { time } from '../src/serverRender/measure';
+import { formatClient, formatServer } from '../src/utils';
 
 describe('plugin-ssr', () => {
   it('default', () => {
@@ -17,5 +18,34 @@ describe('plugin-ssr', () => {
     });
     const cost = end();
     expect(typeof cost === 'number').toBeTruthy();
+  });
+
+  it('should format work correctly', () => {
+    const request = {
+      params: {},
+      host: 'modernjs.com',
+      pathname: '/pathname',
+      query: {},
+      headers: {
+        cookie: 'header-cookie',
+      },
+      cookieMap: {},
+    };
+
+    expect(formatClient(request)).toEqual({
+      ...request,
+      referer: '',
+      cookie: 'header-cookie',
+      url: 'http://localhost/',
+      userAgent:
+        'Mozilla/5.0 (darwin) AppleWebKit/537.36 (KHTML, like Gecko) jsdom/16.7.0',
+    });
+
+    expect(formatServer(request)).toEqual({
+      ...request,
+      referer: undefined,
+      cookie: 'header-cookie',
+      userAgent: undefined,
+    });
   });
 });
