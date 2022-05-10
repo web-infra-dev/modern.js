@@ -1,5 +1,20 @@
 # @modern-js/webpack
 
+## 1.6.2
+
+### Patch Changes
+
+- b7b8075dc: feat: bump html-loader from v2 to v3
+- 0e0537005: fix: unlock @babel/core version
+- 738c55d39: fix: incorrect tapable version in some cases
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [0e0537005]
+- Updated dependencies [69a728375]
+  - @modern-js/utils@1.7.2
+  - @modern-js/babel-preset-app@1.3.1
+  - @modern-js/css-config@1.2.5
+
 ## 1.6.0
 
 ### Minor Changes

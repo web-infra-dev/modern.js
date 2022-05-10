@@ -1,5 +1,18 @@
 # @modern-js/plugin-docsite
 
+## 1.2.9
+
+### Patch Changes
+
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [b7b8075dc]
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [0e0537005]
+- Updated dependencies [738c55d39]
+- Updated dependencies [69a728375]
+  - @modern-js/webpack@1.6.2
+  - @modern-js/utils@1.7.2
+
 ## 1.2.8
 
 ### Patch Changes
