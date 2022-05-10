@@ -18,7 +18,7 @@
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "bin": {
-    "create": "./bin/run"
+    "create": "./bin/run.js"
   },
   "files": [
     "/bin",
