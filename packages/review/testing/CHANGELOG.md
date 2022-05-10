@@ -1,5 +1,17 @@
 # @modern-js/testing
 
+## 1.5.1
+
+### Patch Changes
+
+- 0e0537005: fix: unlock @babel/core version
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [0e0537005]
+- Updated dependencies [69a728375]
+  - @modern-js/utils@1.7.2
+  - @modern-js/babel-preset-app@1.3.1
+
 ## 1.5.0
 
 ### Minor Changes

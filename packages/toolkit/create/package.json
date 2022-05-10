@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.4.1",
+  "version": "1.4.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/node.js",
@@ -44,8 +44,8 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/codesmith": "^1.0.8",
-    "@modern-js/codesmith-tools": "^1.1.0",
+    "@modern-js/codesmith": "^1.0.10",
+    "@modern-js/codesmith-tools": "^1.1.2",
     "@scripts/build": "workspace:*",
     "@modern-js/i18n-cli-language-detector": "workspace:*",
     "@modern-js/generator-plugin-plugin": "workspace:*",
