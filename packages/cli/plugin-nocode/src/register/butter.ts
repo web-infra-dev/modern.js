@@ -9,7 +9,7 @@ import {
   BUTTER_HOST,
   BUTTER_TYPE_ROUTE_MAP,
 } from './env';
-import { SESSION_HEADER, NPM_REGISTRY } from './constants';
+import { SESSION_HEADER } from './constants';
 import loggerModule from './logger';
 import { pickOneExisting } from './utils';
 
@@ -97,7 +97,7 @@ const generateSourceAndBuild = async (root, payload, tsconfigFile) => {
     await fs.ensureDir(tmpDir);
     await generateSource(root, payload, tmpDir, tsconfigFile);
     logger.info('library source code generated, build and publish...');
-    await execa('npm', ['publish', `--registry=${NPM_REGISTRY}`], {
+    await execa('npm', ['publish'], {
       cwd: tmpDir,
       stdio: [null, 1, 2],
     });
