@@ -26,6 +26,10 @@ export default (
           } = options;
           if (useStyledComponentsThemeProvider && useDesignTokenContext) {
             const { ThemeProvider } = require('@modern-js/runtime-core/styled');
+            ThemeProvider.init =
+              (App as React.ComponentType<any> & { init: () => void }).init ||
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
+              function () {};
             return (
               <ThemeProvider theme={token}>
                 <DesignTokenContext.Provider value={token}>
@@ -35,12 +39,22 @@ export default (
             );
           } else if (useStyledComponentsThemeProvider) {
             const { ThemeProvider } = require('@modern-js/runtime-core/styled');
+            ThemeProvider.init =
+              (App as React.ComponentType<any> & { init: () => void }).init ||
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
+              function () {};
             return (
               <ThemeProvider theme={token}>
                 <App {...props} />
               </ThemeProvider>
             );
           } else if (useDesignTokenContext) {
+            (
+              DesignTokenContext as React.Context<any> & { init: () => void }
+            ).init =
+              (App as React.ComponentType<any> & { init: () => void }).init ||
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
+              function () {};
             return (
               <DesignTokenContext.Provider value={token}>
                 <App {...props} />
