@@ -1,5 +1,27 @@
 # @modern-js/app-tools
 
+## 1.6.3
+
+### Patch Changes
+
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [b7b8075dc]
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [0e0537005]
+- Updated dependencies [6b0bb5e3b]
+- Updated dependencies [738c55d39]
+- Updated dependencies [69a728375]
+  - @modern-js/webpack@1.6.2
+  - @modern-js/utils@1.7.2
+  - @modern-js/server@1.4.13
+  - @modern-js/new-action@1.3.8
+  - @modern-js/core@1.10.1
+  - @modern-js/plugin-analyze@1.4.2
+  - @modern-js/plugin-fast-refresh@1.2.5
+  - @modern-js/plugin-i18n@1.2.5
+  - @modern-js/prod-server@1.1.4
+  - @modern-js/node-bundle-require@1.3.2
+
 ## 1.6.2
 
 ### Patch Changes

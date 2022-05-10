@@ -1,5 +1,15 @@
 # @modern-js/plugin-fast-refresh
 
+## 1.2.5
+
+### Patch Changes
+
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [69a728375]
+  - @modern-js/utils@1.7.2
+  - @modern-js/hmr-client@1.2.6
+
 ## 1.2.4
 
 ### Patch Changes

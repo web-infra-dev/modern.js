@@ -1,5 +1,26 @@
 # @modern-js/module-tools
 
+## 1.5.1
+
+### Patch Changes
+
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [0e0537005]
+- Updated dependencies [6b0bb5e3b]
+- Updated dependencies [69a728375]
+  - @modern-js/utils@1.7.2
+  - @modern-js/babel-preset-module@1.3.4
+  - @modern-js/babel-compiler@1.2.4
+  - @modern-js/new-action@1.3.8
+  - @modern-js/core@1.10.1
+  - @modern-js/css-config@1.2.5
+  - @modern-js/plugin-analyze@1.4.2
+  - @modern-js/plugin-changeset@1.2.6
+  - @modern-js/plugin-fast-refresh@1.2.5
+  - @modern-js/plugin-i18n@1.2.5
+  - @modern-js/style-compiler@1.2.5
+
 ## 1.5.0
 
 ### Minor Changes

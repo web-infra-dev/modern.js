@@ -1,5 +1,11 @@
 # @modern-js/base-generator
 
+## 1.4.2
+
+### Patch Changes
+
+- 6b0bb5e3b: feat: bump codesmith version
+
 ## 1.4.1
 
 ### Patch Changes
