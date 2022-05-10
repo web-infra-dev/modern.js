@@ -18,8 +18,8 @@ const addBabelPlugins = (plugins: PluginItem[], config: TransformOptions) => {
 };
 
 const removeBabelPlugins = (plugins: string[], config: TransformOptions) => {
-  const interalPlugins = config.plugins || [];
-  config.plugins = interalPlugins.filter((p: PluginItem) => {
+  const internalPlugins = config.plugins || [];
+  config.plugins = internalPlugins.filter((p: PluginItem) => {
     const pluginName = (p as [PluginTarget, PluginOptions])[0];
     return !plugins.includes(pluginName as string);
   });
@@ -31,8 +31,8 @@ const addBabelPresets = (presets: PluginItem[], config: TransformOptions) => {
 };
 
 const removeBabelPresets = (presets: string[], config: TransformOptions) => {
-  const interalPresets = config.presets || [];
-  config.presets = interalPresets.filter((p: PluginItem) => {
+  const internalPresets = config.presets || [];
+  config.presets = internalPresets.filter((p: PluginItem) => {
     const presetName = (p as [PluginTarget, PluginOptions])[0];
     return !presets.includes(presetName as string);
   });

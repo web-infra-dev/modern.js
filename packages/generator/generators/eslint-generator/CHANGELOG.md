@@ -1,5 +1,17 @@
 # @modern-js/eslint-generator
 
+## 1.3.3
+
+### Patch Changes
+
+- 6b0bb5e3b: feat: bump codesmith version
+
+## 1.3.2
+
+### Patch Changes
+
+- b2f5d58e: fix: eslint template
+
 ## 1.3.1
 
 ### Patch Changes

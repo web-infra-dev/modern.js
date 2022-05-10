@@ -46,8 +46,10 @@ export function parseTasks() {
       } else {
         result.push({
           minify: dep.minify ?? true,
+          ignoreDts: dep.ignoreDts,
           externals: dep.externals ?? {},
           emitFiles: dep.emitFiles ?? [],
+          afterBundle: dep.afterBundle,
           beforeBundle: dep.beforeBundle,
           packageJsonField: dep.packageJsonField ?? [],
           ...info,
@@ -74,5 +76,8 @@ export function replaceFileContent(
 ) {
   const content = fs.readFileSync(filePath, 'utf-8');
   const newContent = replaceFn(content);
-  fs.writeFileSync(filePath, newContent);
+
+  if (newContent !== content) {
+    fs.writeFileSync(filePath, newContent);
+  }
 }

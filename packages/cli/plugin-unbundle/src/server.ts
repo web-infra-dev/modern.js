@@ -14,11 +14,12 @@ import {
   isTypescript,
   prettyInstructions,
   clearConsole,
+  getPackageManager,
 } from '@modern-js/utils';
 import type { IAppContext, NormalizedConfig, PluginAPI } from '@modern-js/core';
 // FIXME: 很奇怪，换了名字之后就可以编译通过了，可能 `macro` 这个名字有啥特殊的含义？
 import { macrosPlugin } from './plugins/_macro';
-import { lanuchEditorMiddleware } from './middlewares/lanuch-editor';
+import { launchEditorMiddleware } from './middlewares/launch-editor';
 import { assetsPlugin } from './plugins/assets';
 import { transformMiddleware } from './middlewares/transform';
 import { WebSocketServer, onFileChange } from './websocket-server';
@@ -138,10 +139,10 @@ export const createDevServer = async (
 
   watcher.on('change', filename => onFileChange(server, filename));
 
-  // keep it at the beginning of the middleware chain to catch interal error
+  // keep it at the beginning of the middleware chain to catch internal error
   app.use(errorOverlayMiddleware(server));
 
-  app.use(lanuchEditorMiddleware());
+  app.use(launchEditorMiddleware());
 
   proxyMiddleware(config, appContext).map(middleware =>
     app.use(c2k(middleware)),
@@ -179,7 +180,7 @@ export const createDevServer = async (
     });
   }
 
-  // hanlde 404
+  // handle 404
   app.use(notFoundMiddleware());
 
   return server;
@@ -219,6 +220,8 @@ export const startDevServer = async (
     dependencies,
   });
 
+  const packageManager = await getPackageManager(appContext.appDirectory);
+
   httpServer.listen(port, HOST, () => {
     startTimer.end = Date.now();
 
@@ -235,7 +238,7 @@ export const startDevServer = async (
     message += `\n${chalk.cyanBright(
       [
         `Note that unbundle mode require native ESM dynamic import support.`,
-        `To dev for legacy browsers, use yarn dev.`,
+        `To dev for legacy browsers, use ${packageManager} run dev.`,
       ].join('\n'),
     )}`;
 

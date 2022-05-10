@@ -1,5 +1,32 @@
 # @modern-js/plugin-nocode
 
+## 1.2.1
+
+### Patch Changes
+
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [b7b8075dc]
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [0e0537005]
+- Updated dependencies [738c55d39]
+- Updated dependencies [69a728375]
+  - @modern-js/webpack@1.6.2
+  - @modern-js/utils@1.7.2
+
+## 1.2.0
+
+### Minor Changes
+
+- 0ee4bb4e: feat: prebundle webpack loaders and plugins
+
+### Patch Changes
+
+- Updated dependencies [4697d1db]
+- Updated dependencies [0ee4bb4e]
+- Updated dependencies [6fa74d5f]
+  - @modern-js/webpack@1.6.0
+  - @modern-js/utils@1.7.0
+
 ## 1.1.10
 
 ### Patch Changes

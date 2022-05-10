@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.8",
+  "version": "1.1.9",
   "types": "./src/server.ts",
   "jsnext:source": "./src/server.ts",
   "main": "./dist/js/node/server.js",
@@ -56,16 +56,15 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/babel-compiler": "workspace:^1.2.3",
-    "@modern-js/server-utils": "workspace:^1.2.4",
-    "@modern-js/utils": "workspace:^1.6.0"
+    "@modern-js/babel-compiler": "workspace:^1.2.4",
+    "@modern-js/server-utils": "workspace:^1.2.5",
+    "@modern-js/utils": "workspace:^1.7.2"
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "del-cli": "^4.0.1",
     "typescript": "^4",
     "@types/jest": "^26.0.9",
     "@types/node": "^14",

@@ -14,8 +14,12 @@ export type DependencyConfig = {
   emitFiles?: ImportMap[];
   /** Copy extra fields from original package.json to target package.json. */
   packageJsonField?: string[];
+  /** Whether to ignore type definitions */
+  ignoreDts?: boolean;
   /* Callback before bundle. */
   beforeBundle?: (task: ParsedTask) => void | Promise<void>;
+  /* Callback after bundle. */
+  afterBundle?: (task: ParsedTask) => void | Promise<void>;
 };
 
 export type TaskConfig = {
@@ -30,12 +34,14 @@ export type ParsedTask = {
   distPath: string;
   importPath: string;
   packageDir: string;
+  ignoreDts?: boolean;
   packagePath: string;
   packageName: string;
   minify: NonNullable<DependencyConfig['minify']>;
   depName: NonNullable<DependencyConfig['name']>;
   externals: NonNullable<DependencyConfig['externals']>;
   emitFiles: NonNullable<DependencyConfig['emitFiles']>;
+  afterBundle?: NonNullable<DependencyConfig['afterBundle']>;
   beforeBundle?: NonNullable<DependencyConfig['beforeBundle']>;
   packageJsonField: NonNullable<DependencyConfig['packageJsonField']>;
 };

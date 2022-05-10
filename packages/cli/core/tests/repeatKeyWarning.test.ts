@@ -29,7 +29,7 @@ describe('check repeated keys in user config', () => {
     );
   });
 
-  test(`should exit succcessfully`, () => {
+  test(`should exit successfully`, () => {
     expect(
       repeatKeyWarning(
         {
@@ -42,7 +42,7 @@ describe('check repeated keys in user config', () => {
           },
           c: {
             type: 'object',
-            proeperties: {
+            properties: {
               d: {
                 type: 'object',
                 properties: { e: { type: 'string' } },

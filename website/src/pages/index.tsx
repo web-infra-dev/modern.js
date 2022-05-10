@@ -112,7 +112,7 @@ const features = [
   {
     icon: DeveloperSVG,
     desc: 'DX 和 UX 同时最大化',
-    href: '/docs/guides/usages/basic-configuration/compatibility',
+    href: '/docs/guides/usages/compatibility',
   },
   {
     icon: AISVG,
@@ -130,7 +130,7 @@ const features = [
     href: '/coming-soon',
   },
 ];
-const univeralGroups: ContentCardProps[] = [
+const universalGroups: ContentCardProps[] = [
   {
     title: '同时支持「服务器端路由」和「客户端路由」',
     img: UrltSVG,
@@ -223,7 +223,7 @@ const flowCards = [
   {
     title: '运行',
     img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/modern-js-landing-pics.007.jpeg',
-    href: '/docs/guides/usages/basic-configuration/compatibility',
+    href: '/docs/guides/usages/compatibility',
     top: 610,
   },
   {
@@ -234,7 +234,7 @@ const flowCards = [
   },
 ];
 
-const bestPratice = [
+const bestPractice = [
   {
     title: 'Post-Webpack Era',
     img: CompilerSVG,
@@ -432,8 +432,8 @@ const renderContentCards = cards =>
 
 export default function Home() {
   const { siteConfig } = useDocusaurusContext();
-  const renderedUniVerals = renderSwiperContentCards(univeralGroups);
-  const bestPraticeCards = renderContentCards(bestPratice);
+  const renderedUniVerals = renderSwiperContentCards(universalGroups);
+  const bestPraticeCards = renderContentCards(bestPractice);
   let count = 1;
   return (
     <Layout

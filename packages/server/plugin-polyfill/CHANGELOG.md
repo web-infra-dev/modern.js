@@ -1,5 +1,23 @@
 # @modern-js/plugin-polyfill
 
+## 1.2.8
+
+### Patch Changes
+
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [69a728375]
+  - @modern-js/utils@1.7.2
+
+## 1.2.7
+
+### Patch Changes
+
+- 6fa74d5f: add internal metrics and logger
+- Updated dependencies [0ee4bb4e]
+- Updated dependencies [6fa74d5f]
+  - @modern-js/utils@1.7.0
+
 ## 1.2.6
 
 ### Patch Changes

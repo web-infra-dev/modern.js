@@ -1,13 +1,13 @@
 import * as path from 'path';
 import * as os from 'os';
 
-type HanlderInfo = {
+type HandlerInfo = {
   handler: (...args: any[]) => any;
   method: string;
   name: string;
 };
 
-export const sortDynamicRoutes = (apiHandlers: HanlderInfo[]) => {
+export const sortDynamicRoutes = (apiHandlers: HandlerInfo[]) => {
   apiHandlers.forEach((apiHandler, handlerIndex) => {
     if (apiHandler.name.includes(':')) {
       apiHandlers.splice(handlerIndex, 1);

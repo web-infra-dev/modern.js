@@ -13,7 +13,7 @@ sidebar_label: disableSourceMap
 
 关闭生产环境生成 JS、CSS sourceMap 的功能：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({

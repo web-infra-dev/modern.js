@@ -135,7 +135,7 @@ describe('plugin-unbundled client test', () => {
 
       // initialization is already tested by previous test
       createdWebSocket.onclose!(new CloseEvent('test close'));
-      // do not immediatly reconnect, wait a while
+      // do not immediately reconnect, wait a while
       expect(jest.mocked(WebSocket)).not.toHaveBeenCalled();
       jest.advanceTimersByTime(someLongTimeDuration);
       expect(jest.mocked(WebSocket)).toHaveBeenCalled();

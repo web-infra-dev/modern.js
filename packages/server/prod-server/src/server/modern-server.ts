@@ -180,7 +180,7 @@ export class ModernServer implements ModernServerInterface {
       staticGenerate,
     });
 
-    await this.preServerInit();
+    await this.setupBeforeProdMiddleware();
 
     this.addHandler(this.staticFileHandler);
     this.addHandler(this.routeHandler.bind(this));
@@ -253,7 +253,7 @@ export class ModernServer implements ModernServerInterface {
 
   // return 404 page
   protected render404(context: ModernServerContext) {
-    context.error(ERROR_DIGEST.ENOTF);
+    context.error(ERROR_DIGEST.ENOTF, '404 Not Found');
     this.renderErrorPage(context, 404);
   }
 
@@ -335,10 +335,10 @@ export class ModernServer implements ModernServerInterface {
     return this.runner[eventName](input as any, { onLast: noop as any });
   }
 
-  protected async preServerInit() {
+  protected async setupBeforeProdMiddleware() {
     const { conf, runner } = this;
     const preMiddleware: ModernServerAsyncHandler[] =
-      await runner.preServerInit(conf);
+      await runner.beforeProdServer(conf);
 
     preMiddleware.flat().forEach(mid => {
       this.addHandler(mid);
@@ -349,7 +349,7 @@ export class ModernServer implements ModernServerInterface {
     const { req, res } = context;
 
     if (!this.frameAPIHandler) {
-      throw new Error('can not found api hanlder');
+      throw new Error('can not found api handler');
     }
 
     await this.frameAPIHandler(req, res);
@@ -565,8 +565,8 @@ export class ModernServer implements ModernServerInterface {
     },
   ) {
     res.statusCode = 200;
-    req.logger = req.logger || this.logger;
-    req.metrics = req.metrics || this.metrics;
+    req.logger = this.logger;
+    req.metrics = this.metrics;
     const context: ModernServerContext = createContext(req, res);
 
     try {
@@ -596,7 +596,7 @@ export class ModernServer implements ModernServerInterface {
     if (matched) {
       const route = matched.generate(context.url);
       const { entryName } = route;
-      // check entryName, aviod matched '/' route
+      // check entryName, avoid matched '/' route
       if (entryName === status.toString() || entryName === '_error') {
         try {
           const file = await this.routeRenderHandler({

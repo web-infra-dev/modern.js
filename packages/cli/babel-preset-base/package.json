@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.5",
+  "version": "1.3.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -35,6 +35,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@babel/core": "^7.17.0",
     "@babel/plugin-proposal-class-properties": "^7.14.5",
     "@babel/plugin-proposal-decorators": "^7.15.4",
     "@babel/plugin-proposal-export-default-from": "^7.14.5",
@@ -55,19 +56,20 @@
     "@babel/preset-typescript": "^7.15.0",
     "@babel/runtime": "^7.15.4",
     "@modern-js/babel-chain": "workspace:^1.2.2",
-    "@modern-js/utils": "workspace:^1.5.0",
+    "@modern-js/utils": "workspace:^1.7.2",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-import": "1.13.0",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-macros": "^2.8.0",
     "babel-plugin-styled-components": "^1.10.7",
     "babel-plugin-transform-modern-regexp": "^0.0.6",
-    "babel-plugin-transform-react-remove-prop-types": "0.4.24"
+    "babel-plugin-transform-react-remove-prop-types": "0.4.24",
+    "styled-components": "^5",
+    "react-is": "^17"
   },
   "devDependencies": {
     "@types/jest": "^26",
     "@types/node": "^14",
-    "@types/semver": "^7.3.8",
     "typescript": "^4",
     "@scripts/build": "workspace:*",
     "jest": "^27",

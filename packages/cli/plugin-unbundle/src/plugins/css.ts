@@ -71,7 +71,7 @@ const initProcessorOptions = (config: NormalizedConfig) => {
 const initTailwindConfig = (config: NormalizedConfig) => {
   try {
     if (!tailwindConfig) {
-      // TODO: talwindcss config.
+      // TODO: tailwindcss config.
       tailwindConfig = (config.tools as any).tailwind;
     }
   } catch (err: any) {
@@ -348,6 +348,7 @@ const transformCSS = async (
   }
 
   if (errors?.length) {
+    // eslint-disable-next-line no-throw-literal
     throw errors[0] as Error;
   }
 
@@ -371,7 +372,7 @@ const transformCSS = async (
     );
   }
 
-  // As @modern-js/plugin-tailwindcss requires 'tailwindcss' as peer depenedency,
+  // As @modern-js/plugin-tailwindcss requires 'tailwindcss' as peer dependency,
   // so we could safely require both plugins when using tailwind features
   if (hasTailwind(appDirectory)) {
     postcssPlugins.push(require('tailwindcss')(tailwindConfig));
@@ -489,7 +490,7 @@ export const cssPlugin = (
     const { css, map } = await transformCSS(code, importer, config, appContext);
 
     // css url() rewrite
-    const rewrited = await rewriteCssUrl(
+    const rewritted = await rewriteCssUrl(
       css,
       async (resource: string): Promise<string> => {
         resource = resource.replace(/(^['"])|(['"]$)/g, '').replace(/^~/, '');
@@ -534,7 +535,7 @@ export const cssPlugin = (
 
     const wrappedCss = [
       `import { updateStyle, removeStyle } from "${DEV_CLIENT_URL}"`,
-      `const code = ${JSON.stringify(rewrited)}`,
+      `const code = ${JSON.stringify(rewritted)}`,
       `const filename = ${JSON.stringify(importer)}`,
       `updateStyle(filename, code);`,
       moduleLocalsMap.has(importer) &&

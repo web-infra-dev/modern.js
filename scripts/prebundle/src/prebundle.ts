@@ -2,6 +2,7 @@ import { join } from 'path';
 import ncc from '@vercel/ncc';
 import { Package as DtsPacker } from 'dts-packer';
 import fs from 'fs-extra';
+import fastGlob from 'fast-glob';
 import { DEFAULT_EXTERNALS } from './constant';
 import { pick, replaceFileContent } from './helper';
 import type { ParsedTask } from './types';
@@ -21,7 +22,28 @@ function emitIndex(code: string, distPath: string) {
   fs.outputFileSync(distIndex, code);
 }
 
+function fixTypeExternalPath(
+  file: string,
+  task: ParsedTask,
+  externals: Record<string, string>,
+) {
+  const filepath = join(task.distPath, file);
+
+  replaceFileContent(filepath, content => {
+    let newContent = content;
+    Object.keys(externals).forEach(name => {
+      newContent = newContent.replace(`../../${name}`, externals[name]);
+    });
+    return newContent;
+  });
+}
+
 function emitDts(task: ParsedTask) {
+  if (task.ignoreDts) {
+    fs.writeFileSync(join(task.distPath, 'index.d.ts'), 'export = any;\n');
+    return;
+  }
+
   // Fix webpack-manifest-plugin types
   if (task.depName === 'webpack-manifest-plugin') {
     const pkgPath = require.resolve('webpack-manifest-plugin/package.json');
@@ -31,11 +53,19 @@ function emitDts(task: ParsedTask) {
   }
 
   try {
-    // eslint-disable-next-line no-new
-    new DtsPacker({
+    const externals = {
+      ...DEFAULT_EXTERNALS,
+      ...task.externals,
+    };
+    const { files } = new DtsPacker({
       cwd: process.cwd(),
       name: task.depName,
       typesRoot: task.distPath,
+      externals: Object.keys(externals),
+    });
+
+    Object.keys(files).forEach(file => {
+      fixTypeExternalPath(file, task, externals);
     });
   } catch (error) {
     console.error(`DtsPacker failed: ${task.depName}`);
@@ -54,15 +84,6 @@ function emitDts(task: ParsedTask) {
     );
   }
 
-  // Fix globby types, move fast-glob type to correct dir
-  if (task.depName === 'globby') {
-    fs.copySync(
-      join(task.distPath, 'fast-glob/out'),
-      join(task.distPath, 'fast-glob'),
-    );
-    fs.removeSync(join(task.distPath, 'fast-glob/out'));
-  }
-
   // Fix lodash types, copy `common` folder
   if (task.depName === 'lodash') {
     const from = join(process.cwd(), 'node_modules/@types/lodash/common');
@@ -75,20 +96,25 @@ function emitPackageJson(task: ParsedTask) {
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
   const outputPath = join(task.distPath, 'package.json');
 
-  fs.writeJSONSync(
-    outputPath,
-    pick(packageJson, [
-      'name',
-      'author',
-      'version',
-      'funding',
-      'license',
-      'types',
-      'typing',
-      'typings',
-      ...task.packageJsonField,
-    ]),
-  );
+  const pickedPackageJson = pick(packageJson, [
+    'name',
+    'author',
+    'version',
+    'funding',
+    'license',
+    'types',
+    'typing',
+    'typings',
+    ...task.packageJsonField,
+  ]);
+
+  if (task.ignoreDts) {
+    delete pickedPackageJson.typing;
+    delete pickedPackageJson.typings;
+    pickedPackageJson.types = 'index.d.ts';
+  }
+
+  fs.writeJSONSync(outputPath, pickedPackageJson);
 }
 
 function emitLicense(task: ParsedTask) {
@@ -103,6 +129,13 @@ function emitExtraFiles(task: ParsedTask) {
   emitFiles.forEach(item => {
     const path = join(task.distPath, item.path);
     fs.outputFileSync(path, item.content);
+  });
+}
+
+function removeSourceMap(task: ParsedTask) {
+  const maps = fastGlob.sync(join(task.distPath, '**/*.map'));
+  maps.forEach(mapPath => {
+    fs.removeSync(mapPath);
   });
 }
 
@@ -128,6 +161,11 @@ export async function prebundle(task: ParsedTask) {
   emitLicense(task);
   emitPackageJson(task);
   emitExtraFiles(task);
+  removeSourceMap(task);
+
+  if (task.afterBundle) {
+    await task.afterBundle(task);
+  }
 
   console.log(`==== Finish prebundle "${task.depName}" ====\n\n`);
 }

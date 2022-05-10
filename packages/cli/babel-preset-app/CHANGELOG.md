@@ -1,5 +1,31 @@
 # @modern-js/babel-preset-app
 
+## 1.3.1
+
+### Patch Changes
+
+- 0e0537005: fix: unlock @babel/core version
+- 69a728375: fix: remove exports.jsnext:source after publish
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [0e0537005]
+- Updated dependencies [69a728375]
+- Updated dependencies [0f86e133b]
+  - @modern-js/babel-preset-base@1.3.1
+  - @modern-js/utils@1.7.2
+
+## 1.3.0
+
+### Minor Changes
+
+- 0ee4bb4e: feat: prebundle webpack loaders and plugins
+
+### Patch Changes
+
+- Updated dependencies [0ee4bb4e]
+- Updated dependencies [6fa74d5f]
+  - @modern-js/babel-preset-base@1.3.0
+  - @modern-js/utils@1.7.0
+
 ## 1.2.7
 
 ### Patch Changes

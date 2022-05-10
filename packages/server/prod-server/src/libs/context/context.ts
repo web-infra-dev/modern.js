@@ -6,7 +6,6 @@ import type {
   Metrics,
   Logger,
 } from '@modern-js/types/server';
-import { toMessage } from '../../utils';
 
 export type ContextOptions = {
   logger?: Logger;
@@ -29,17 +28,19 @@ export class ModernServerContext implements ModernServerContextInterface {
    */
   public params: Record<string, string> = {};
 
-  public logger: Logger;
+  get logger() {
+    return this.req.logger;
+  }
 
-  public metrics?: Metrics;
+  get metrics() {
+    return this.req.metrics;
+  }
 
   public serverData: Record<string, any>;
 
   constructor(req: IncomingMessage, res: ServerResponse) {
     this.req = req;
     this.res = res;
-    this.logger = req.logger;
-    this.metrics = req.metrics;
     this.serverData = {};
 
     this.bind();
@@ -124,7 +125,7 @@ export class ModernServerContext implements ModernServerContextInterface {
 
   public set path(p) {
     const url = new URL(this.req.url!, this.origin);
-    // this should never happend
+    // this should never happened
     if (!url || !p) {
       return;
     }
@@ -166,18 +167,12 @@ export class ModernServerContext implements ModernServerContextInterface {
     return this.res.writableEnded;
   }
 
-  public logInfo() {
-    return {
-      headers: this.headers,
-      href: this.href,
-      url: this.url,
-    };
-  }
-
-  public error(dig: string, err: Error | string = '') {
-    const message = toMessage(dig, err);
-    const reqInfo = this.logInfo();
-
-    this.logger.error(`${reqInfo.url} - ${message}`, reqInfo);
+  public error(dig: string, e: Error | string = '') {
+    this.logger.error(
+      `Web Server Error - ${dig}, error = %s, req.url = %s, req.headers = %o`,
+      e instanceof Error ? e.stack || e.message : e,
+      this.path,
+      this.headers,
+    );
   }
 }

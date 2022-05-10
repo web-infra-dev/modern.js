@@ -2,7 +2,6 @@ import { compile } from 'path-to-regexp';
 import {
   noop,
   mergeExtension,
-  toMessage,
   createErrorDocument,
   createMiddlewareCollecter,
   getStaticReg,
@@ -20,20 +19,6 @@ describe('test server utils', () => {
     expect(extension.middleware).toEqual(middleware);
   });
 
-  describe('test some case by toMessage func', () => {
-    test('should get message from error like object', () => {
-      const error = new Error('some error happened');
-      const message = toMessage('error info', error);
-      expect(message).toBe('error info: some error happened');
-    });
-
-    test('should get message from error message', () => {
-      const errorMsg = 'some error happened';
-      const message = toMessage('error info', errorMsg);
-      expect(message).toBe('error info: some error happened');
-    });
-  });
-
   test('should return document text', () => {
     const doc = createErrorDocument(302, 'redirect');
     expect(doc).toMatch('302');
@@ -42,7 +27,7 @@ describe('test server utils', () => {
   });
 
   describe('test middleware collector', () => {
-    test('shoule return web middleware correctly', () => {
+    test('should return web middleware correctly', () => {
       const { addWebMiddleware, getMiddlewares } = createMiddlewareCollecter();
 
       const before = getMiddlewares();
@@ -56,7 +41,7 @@ describe('test server utils', () => {
       expect(after.web).toEqual([middleware]);
     });
 
-    test('shoule return api middleware correctly', () => {
+    test('should return api middleware correctly', () => {
       const { addAPIMiddleware, getMiddlewares } = createMiddlewareCollecter();
 
       const before = getMiddlewares();

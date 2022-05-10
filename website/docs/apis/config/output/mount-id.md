@@ -15,7 +15,7 @@ sidebar_label: mountId
 
 例如，修改 DOM 挂载节点 `id` 为 `app`：
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({

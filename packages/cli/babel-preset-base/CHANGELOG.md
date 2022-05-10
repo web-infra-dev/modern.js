@@ -1,5 +1,29 @@
 # @modern-js/babel-preset-base
 
+## 1.3.1
+
+### Patch Changes
+
+- cd7346b0d: fix some peer dependencies problem & change shell log
+- 0e0537005: fix: unlock @babel/core version
+- 69a728375: fix: remove exports.jsnext:source after publish
+- 0f86e133b: fix react & react-dom types problem
+- Updated dependencies [cd7346b0d]
+- Updated dependencies [69a728375]
+  - @modern-js/utils@1.7.2
+
+## 1.3.0
+
+### Minor Changes
+
+- 0ee4bb4e: feat: prebundle webpack loaders and plugins
+
+### Patch Changes
+
+- Updated dependencies [0ee4bb4e]
+- Updated dependencies [6fa74d5f]
+  - @modern-js/utils@1.7.0
+
 ## 1.2.5
 
 ### Patch Changes

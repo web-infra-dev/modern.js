@@ -1,5 +1,22 @@
 # @modern-js/utils
 
+## 1.7.2
+
+### Patch Changes
+
+- cd7346b0d: fix some peer dependencies problem & change shell log
+- 69a728375: fix: remove exports.jsnext:source after publish
+
+## 1.7.0
+
+### Minor Changes
+
+- 0ee4bb4e: feat: prebundle webpack loaders and plugins
+
+### Patch Changes
+
+- 6fa74d5f: add internal metrics and logger
+
 ## 1.6.0
 
 ### Minor Changes

@@ -59,8 +59,23 @@ export type BaseSSRServerContext = {
   distDir: string;
   template: string;
   entryName: string;
-  logger: Logger;
-  metrics?: Metrics;
+  logger: {
+    error: (message: string, e: Error | string) => void;
+    debug: (message: string, ...args: any[]) => void;
+    info: (message: string, ...args: any[]) => void;
+  };
+  metrics: {
+    emitTimer: (
+      name: string,
+      cost: number,
+      tags: Record<string, unknown> = {},
+    ) => void;
+    emitCounter: (
+      name: string,
+      counter: number,
+      tags: Record<string, unknown> = {},
+    ) => void;
+  };
   loadableManifest?: string;
   cacheConfig?: any;
 };

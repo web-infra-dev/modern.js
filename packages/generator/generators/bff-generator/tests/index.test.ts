@@ -58,7 +58,7 @@ describe('run bff generator', () => {
     _config?: Record<string, unknown>,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
   ) => {};
-  it('new nest funtion bff', async () => {
+  it('new nest function bff', async () => {
     fs.writeJSONSync(path.join(projectDir, 'tsconfig.json'), {}, 'utf-8');
     mockGeneratorCore._context.config = {
       bffType: 'func',
@@ -78,7 +78,7 @@ describe('run bff generator', () => {
     expect(typeof pkg.dependencies['@nestjs/common']).toBe('string');
     expect(typeof pkg.devDependencies['@types/express']).toBe('string');
   });
-  it('new nest funtion bff in js project', async () => {
+  it('new nest function bff in js project', async () => {
     mockGeneratorCore._context.config = {
       bffType: 'func',
       framework: 'nest',

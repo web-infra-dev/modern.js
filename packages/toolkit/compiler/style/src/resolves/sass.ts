@@ -12,11 +12,11 @@ const sassToCss = (
 ) => {
   const { file, options } = params;
   const ext = path.extname(file);
-  const enablIndentedSyntax = ext === '.sass';
+  const enableIndentedSyntax = ext === '.sass';
   const config = {
     file,
     data: sassCode,
-    indentedSyntax: enablIndentedSyntax,
+    indentedSyntax: enableIndentedSyntax,
     outFile,
   };
   const sassConfig = merge(config, options.sass);

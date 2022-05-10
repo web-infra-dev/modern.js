@@ -37,6 +37,7 @@ export type LoaderResult = {
   reloading: boolean;
   data: any;
   error: any;
+  _error?: any;
 };
 
 const createLoader = (
@@ -81,7 +82,7 @@ const createLoader = (
           resolve(value);
         })
         .catch(e => {
-          error = e instanceof Error ? `${e.message}` : e;
+          error = e;
           data = null;
           status = LoaderStatus.rejected;
           notify();
@@ -100,7 +101,9 @@ const createLoader = (
     loading: !hasLoaded && status === LoaderStatus.loading,
     reloading: hasLoaded && status === LoaderStatus.loading,
     data,
-    error,
+    error: error instanceof Error ? `${error.message}` : error,
+    // redundant fields for ssr log
+    _error: error,
   });
 
   const notify = () => {
@@ -133,7 +136,7 @@ const createLoader = (
 
 type ManagerOption = {
   /**
-   * wheather current manage only exec static loader
+   * whether current manage only exec static loader
    */
   skipStatic?: boolean;
   skipNonStatic?: boolean;

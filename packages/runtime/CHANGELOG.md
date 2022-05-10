@@ -1,5 +1,18 @@
 # @modern-js/runtime-core
 
+## 1.4.5
+
+### Patch Changes
+
+- cd7346b0d: fix some peer dependencies problem & change shell log
+- 0f86e133b: fix react & react-dom types problem
+
+## 1.4.4
+
+### Patch Changes
+
+- 6fa74d5f: add internal metrics and logger
+
 ## 1.4.3
 
 ### Patch Changes

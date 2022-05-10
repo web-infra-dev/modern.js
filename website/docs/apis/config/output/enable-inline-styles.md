@@ -19,7 +19,7 @@ sidebar_label: enableInlineStyles
 例如，在 `modern.config.js` 中配置如下时：
 
 
-```javascript title="modern.config.js"
+```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({

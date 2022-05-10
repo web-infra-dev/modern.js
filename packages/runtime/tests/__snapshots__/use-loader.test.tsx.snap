@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test useLoader it should exec loader two times when has two diffrent key 1`] = `
+exports[`test useLoader it should exec loader two times when has two different key 1`] = `
 <DocumentFragment>
   <div>
     <div>
@@ -26,7 +26,7 @@ exports[`test useLoader it should exec loader two times when has two diffrent ke
 </DocumentFragment>
 `;
 
-exports[`test useLoader it should exec loader two times when has two diffrent key 2`] = `
+exports[`test useLoader it should exec loader two times when has two different key 2`] = `
 <DocumentFragment>
   <div>
     <div>
@@ -52,7 +52,7 @@ exports[`test useLoader it should exec loader two times when has two diffrent ke
 </DocumentFragment>
 `;
 
-exports[`test useLoader it should exec loader two times when has two diffrent key 3`] = `
+exports[`test useLoader it should exec loader two times when has two different key 3`] = `
 <DocumentFragment>
   <div>
     <div>
