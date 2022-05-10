@@ -288,11 +288,9 @@ export default async () => {
 有了数据库之后，我们可以开发添加数据的接口。以上述例子为基础，在 `api/users.ts` 文件中创建 `addUser` 函数：
 
 ```ts title=api/users.ts
-const addUser = ({
-  name,
-  age,
-  country,
-}: Pick<User, 'name' | 'age' | 'country'>) =>
+type UserByAdd = Pick<User, 'name' | 'age' | 'country'>;
+
+const addUser = ({ name, age, country }: UserByAdd) =>
   new Promise<number>((resolve, reject) => {
     connection.execute(
       `
@@ -311,11 +309,7 @@ const addUser = ({
 然后创建 `post` 函数，并将该 `post` 函数导出：
 
 ```ts title=api/users.ts
-export const post = async ({
-  data,
-}: {
-  data: Pick<User, 'name' | 'age' | 'country'>;
-}) => {
+export const post = async ({ data }: { data: UserByAdd }) => {
   const id = await addUser(data);
   return {
     id,
