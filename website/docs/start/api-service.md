@@ -86,10 +86,15 @@ pnpm run dev
 ```ts title=api/users.ts
 import axios from 'axios';
 
-export default async (): Promise<
-  { key: string; name: string; age: number; country: string }[]
-> => {
-  const res = await axios.get(
+interface User {
+  key: string;
+  name: string;
+  age: number;
+  country: string;
+}
+
+export default async () => {
+  const res = await axios.get<User[]>(
     'https://lf3-static.bytednsdoc.com/obj/eden-cn/beeh7uvzhq/users.json',
   );
   return res.data;
@@ -141,20 +146,20 @@ import axios from 'axios';
 import { useContext } from '@modern-js/plugin-egg';
 
 interface User {
-  key:string;
+  key: string;
   name: string;
   age: number;
   country: string;
 }
 
 export default async () => {
-  const res = await axios<User|string>.get(
+  const res = await axios.get<User[]>(
     'https://lf3-static.bytednsdoc.com/obj/eden-cn/beeh7uvzhq/users.json',
   );
   const ctx = useContext();
-  const users: User[] = res.data;
-  const user = users.find(user => user.key === ctx.params.id)
-  return user || 'not found'
+  const users = res.data;
+  const user = users.find(user => user.key === ctx.params.id);
+  return user || 'not found';
 };
 ```
 
@@ -226,6 +231,8 @@ pnpm add mysql2
 - 编写连接数据库的代码：
 
 ```ts
+import mysql, { RowDataPacket, ResultSetHeader } from 'mysql2';
+
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -237,9 +244,9 @@ const connection = mysql.createConnection({
 - 创建一个 `query` 函数，支持通过 `sql` 语句查询数据库：
 
 ```ts
-const query = (sql: string) =>
-  new Promise((resolve, reject) => {
-    connection.query(sql, (error, results, fields) => {
+const query = <T>(sql: string) =>
+  new Promise<T[]>((resolve, reject) => {
+    connection.query<(RowDataPacket & T)[]>(sql, (error, results, fields) => {
       if (error) {
         reject(error);
       }
@@ -248,11 +255,22 @@ const query = (sql: string) =>
   });
 ```
 
-- 修改之前的示例，通过查询数据库获取数据：
+- 为了与数据库表中的数据格式对应，我们修改一下 `User` 的定义：
 
 ```ts
-export default async (): Promise<User | string> => {
-  const users: User[] = await query(`select * from users`);
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  country: string;
+} 
+```
+
+- 修改之前导出的函数，通过查询数据库获取数据：
+
+```ts
+export default async () => {
+  const users = await query<User>(`select * from users`);
   const ctx = useContext();
   const user = users.find(user => user.id == ctx.params.id);
   return user || 'not found';
@@ -275,12 +293,12 @@ const addUser = ({
   age,
   country,
 }: Pick<User, 'name' | 'age' | 'country'>) =>
-  new Promise((resolve, reject) => {
+  new Promise<number>((resolve, reject) => {
     connection.execute(
       `
       INSERT INTO users ( name, age, country) VALUES ( "${name}", "${age}", "${country}" );
     `,
-      (error: Error, results) => {
+      (error, results) => {
         if (error) {
           reject(error);
         }
@@ -298,7 +316,7 @@ export const post = async ({
 }: {
   data: Pick<User, 'name' | 'age' | 'country'>;
 }) => {
-  const id: number = await addUser(data);
+  const id = await addUser(data);
   return {
     id,
   };
@@ -312,7 +330,7 @@ export const post = async ({
 现在我们在终端通过 [curl](https://curl.se/) 发送 POST 请求到 `http://localhost:8080/api/users`，创建一个新用户：
 
 ```shell
-curl -H "Content-类型: application/json" -X POST -d '{"name":"Modernjs", "age": 0, "country": "China"}'  http://localhost:8080/api/users
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Modernjs", "age": 0, "country": "China"}'  http://localhost:8080/api/users
 ```
 
 再次访问 `http://localhost:8080/api/users`，可以看到新增了一个用户：
@@ -347,7 +365,7 @@ export const post = match(
     },
   },
   async request => {
-    const id: number = await addUser(request.data);
+    const id = await addUser(request.data);
     return {
       id,
     };
@@ -362,13 +380,13 @@ export const post = match(
 当我们发送符合数据类型格式的数据时，会正常返回新增数据的 `id`。
 
 ```shell
-curl -H "Content-类型: application/json" -X POST -d '{"name":"Modernjs", "age": 0, "country": "China"}'  http://localhost:8080/api/users
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Modernjs", "age": 0, "country": "China"}'  http://localhost:8080/api/users
 ```
 
 当我们发送的数据类型不符合数据格式要求，就会返回 400 的错误信息，例如：
 
 ```shell
-curl -H "Content-类型: application/json" -X POST -d '{"name":"Modernjs", "age": "age", "country": "China"}'  http://localhost:8080/api/users
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Modernjs", "age": "age", "country": "China"}'  http://localhost:8080/api/users
 ```
 
 ```shell
