@@ -61,7 +61,12 @@ export interface NormalizedConfig
 export const mergeConfig = (
   configs: Array<UserConfig | NormalizedConfig>,
 ): NormalizedConfig =>
-  mergeWith({}, ...configs, (target: any, source: any) => {
+  mergeWith({}, ...configs, (target: any, source: any, key: string) => {
+    // Do not use the following merge logic for source.designSystem and tools.tailwind(css)
+    if (key === 'designSystem' || key === 'tailwind' || key === 'tailwindcss') {
+      return mergeWith({}, target ?? {}, source ?? {});
+    }
+
     if (Array.isArray(target)) {
       if (Array.isArray(source)) {
         return [...target, ...source];
