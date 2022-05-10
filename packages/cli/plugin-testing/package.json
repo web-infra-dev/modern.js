@@ -86,7 +86,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "7.16.7",
+    "@babel/core": "^7.17.0",
     "@babel/preset-env": "^7.15.6",
     "@babel/runtime": "^7",
     "@modern-js-reduck/plugin-auto-actions": "^1.0.2",
@@ -98,7 +98,7 @@
     "@modern-js/runtime-core": "workspace:^1.4.4",
     "@modern-js/testing": "workspace:^1.5.0",
     "@modern-js/testing-plugin-bff": "workspace:^1.4.1",
-    "@modern-js/utils": "workspace:^1.7.0",
+    "@modern-js/utils": "workspace:^1.7.1",
     "@modern-js/webpack": "workspace:^1.6.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",

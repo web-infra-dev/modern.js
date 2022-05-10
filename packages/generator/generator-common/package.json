@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.5.0",
+    "@modern-js/utils": "workspace:^1.7.1",
     "@modern-js/easy-form-core": "^1.0.0",
     "@modern-js/plugin-i18n": "workspace:^1.2.4"
   },
@@ -47,8 +47,8 @@
     "@scripts/build": "workspace:*",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*",
-    "@modern-js/codesmith": "^1.0.7",
-    "@modern-js/codesmith-api-app": "^1.0.8"
+    "@modern-js/codesmith": "^1.0.10",
+    "@modern-js/codesmith-api-app": "^1.0.10"
   },
   "sideEffects": false,
   "modernConfig": {},

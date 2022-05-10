@@ -41,12 +41,12 @@
     "@babel/plugin-proposal-logical-assignment-operators": "^7.12.1",
     "@babel/plugin-proposal-throw-expressions": "^7.12.1",
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.6.0",
+    "@modern-js/utils": "workspace:^1.7.1",
     "@modern-js/babel-chain": "workspace:^1.2.2",
     "@modern-js/babel-preset-lib": "workspace:^1.2.3"
   },
   "devDependencies": {
-    "@babel/core": "7.16.7",
+    "@babel/core": "^7.17.0",
     "@types/babel__core": "^7.1.15",
     "@types/jest": "^26",
     "@types/node": "^14",

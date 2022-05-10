@@ -61,13 +61,13 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "7.16.7",
+    "@babel/core": "^7.17.0",
     "@babel/runtime": "^7",
     "@modern-js/babel-compiler": "workspace:^1.2.3",
     "@modern-js/bff-utils": "workspace:^1.2.4",
     "@modern-js/create-request": "workspace:^1.2.6",
     "@modern-js/server-utils": "workspace:^1.2.4",
-    "@modern-js/utils": "workspace:^1.7.0"
+    "@modern-js/utils": "workspace:^1.7.1"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",

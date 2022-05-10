@@ -44,7 +44,7 @@
     "@modern-js/adapter-helpers": "workspace:^1.2.3",
     "@modern-js/bff-runtime": "workspace:^1.2.2",
     "@modern-js/bff-utils": "workspace:^1.2.4",
-    "@modern-js/utils": "workspace:^1.7.0",
+    "@modern-js/utils": "workspace:^1.7.1",
     "egg-ts-helper": "^1.29.1",
     "type-is": "^1.6.18"
   },

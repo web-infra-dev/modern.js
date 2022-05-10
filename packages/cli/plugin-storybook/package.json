@@ -48,7 +48,7 @@
     "@modern-js/esbuild-compiler": "workspace:^0.2.3",
     "@modern-js/plugin-router": "workspace:^1.2.12",
     "@modern-js/plugin-state": "workspace:^1.2.5",
-    "@modern-js/utils": "workspace:^1.7.0",
+    "@modern-js/utils": "workspace:^1.7.1",
     "@modern-js/webpack": "workspace:^1.6.1",
     "@storybook/addon-actions": "^6.3.8",
     "@storybook/addon-essentials": "^6.3.8",

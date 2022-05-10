@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.7.0",
+    "@modern-js/utils": "workspace:^1.7.1",
     "tailwindcss": "^2.0.4"
   },
   "devDependencies": {
