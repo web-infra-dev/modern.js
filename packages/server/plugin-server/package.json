@@ -37,9 +37,9 @@
     "prepare": "modern build",
     "prepublishOnly": "only-allow-pnpm && modern build --platform",
     "dev": "modern dev",
-    "build": "modern build",
+    "build": "wireit",
     "new": "modern new",
-    "test": "jest --passWithNoTests"
+    "test": "wireit"
   },
   "typesVersions": {
     "*": {
@@ -81,5 +81,27 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/",
     "types": "./dist/types/server.d.ts"
+  },
+  "wireit": {
+    "build": {
+      "command": "modern build",
+      "files": [
+        "src/**/*.ts",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": [
+        "dist/**/*.js"
+      ]
+    },
+    "test": {
+      "command": "jest --passWithNoTests",
+      "files": [
+        "src/**/*.ts",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": []
+    }
   }
 }
