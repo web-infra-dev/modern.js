@@ -54,3 +54,5 @@ local-test-project/*
 
 # website
 website/.docusaurus
+
+.wireit/
