@@ -1,5 +1,6 @@
 import path from 'path';
 import {
+  fs,
   isDev,
   isProd,
   removeLeadingSlash,
@@ -125,6 +126,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     super.plugins();
 
     this.useDefinePlugin();
+    this.useCopyPlugin();
 
     isDev() && this.chain.plugin('hmr').use(HotModuleReplacementPlugin);
 
@@ -268,43 +270,6 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
       },
     ]);
 
-    const configDir = path.resolve(
-      this.appDirectory,
-      this.options.source.configDir!,
-    );
-
-    this.chain.plugin('copy').use(CopyPlugin, [
-      {
-        patterns: [
-          ...(this.options.output.copy || []),
-          {
-            from: '**/*',
-            to: 'public',
-            context: path.posix.join(configDir.replace(/\\/g, '/'), 'public'),
-            noErrorOnMissing: true,
-            // eslint-disable-next-line node/prefer-global/buffer
-            transform: (content: Buffer, absoluteFrom: string) => {
-              if (!/\.html?$/.test(absoluteFrom)) {
-                return content;
-              }
-
-              return lodashTemplate(content.toString('utf8'))({
-                assetPrefix: removeTailSlash(
-                  this.chain.output.get('publicPath'),
-                ),
-              });
-            },
-          },
-          {
-            from: '**/*',
-            to: 'upload',
-            context: path.posix.join(configDir.replace(/\\/g, '/'), 'upload'),
-            noErrorOnMissing: true,
-          },
-        ],
-      },
-    ]);
-
     if (isProd()) {
       const {
         disableInlineRuntimeChunk,
@@ -336,6 +301,52 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
     if (this.options.cliOptions?.analyze) {
       enableBundleAnalyzer(this.chain, 'report.html');
+    }
+  }
+
+  useCopyPlugin() {
+    const configDir = path.resolve(
+      this.appDirectory,
+      this.options.source.configDir!,
+    );
+
+    const patterns = [...(this.options.output.copy || [])];
+    const uploadDir = path.posix.join(configDir.replace(/\\/g, '/'), 'upload');
+    const publicDir = path.posix.join(configDir.replace(/\\/g, '/'), 'public');
+
+    // add the pattern only if the corresponding directory exists,
+    // otherwise it will cause the webpack recompile.
+    if (fs.existsSync(uploadDir)) {
+      patterns.push({
+        from: '**/*',
+        to: 'upload',
+        context: uploadDir,
+        noErrorOnMissing: true,
+      });
+    }
+
+    if (fs.existsSync(publicDir)) {
+      patterns.push({
+        from: '**/*',
+        to: 'public',
+        context: publicDir,
+        noErrorOnMissing: true,
+        // eslint-disable-next-line node/prefer-global/buffer
+        transform: (content: Buffer, absoluteFrom: string) => {
+          if (!/\.html?$/.test(absoluteFrom)) {
+            return content;
+          }
+
+          return lodashTemplate(content.toString('utf8'))({
+            assetPrefix: removeTailSlash(this.chain.output.get('publicPath')),
+          });
+        },
+      });
+    }
+
+    // options.patterns should be a non-empty array
+    if (patterns.length) {
+      this.chain.plugin('copy').use(CopyPlugin, [{ patterns }]);
     }
   }
 }
