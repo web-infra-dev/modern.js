@@ -7,5 +7,5 @@
     "isolatedModules": true,
     "paths": {}
   },
-  "include": ["src"]
+  "include": ["src", "types"]
 }
