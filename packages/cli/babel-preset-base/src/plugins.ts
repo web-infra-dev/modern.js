@@ -65,27 +65,6 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
           },
     ]);
 
-  // @babel/plugin-proposal-class-properties，@babel/plugin-proposal-private-methods
-  // @babel/plugin-proposal-private-property-in-object have same loose config
-  const loose = true;
-  chain.plugin('@babel/plugin-proposal-class-properties').use(
-    require.resolve('@babel/plugin-proposal-class-properties'),
-
-    [{ loose }],
-  );
-  chain
-    .plugin('@babel/plugin-proposal-private-methods')
-    .use(require.resolve('@babel/plugin-proposal-private-methods'), [
-      { loose },
-    ]);
-
-  // 这个插件原来 babel-preset-app 里没有
-  // link: https://github.com/tc39/proposal-private-fields-in-in
-  chain
-    .plugin('@babel/plugin-proposal-private-property-in-object')
-    .use(require.resolve('@babel/plugin-proposal-private-property-in-object'), [
-      { loose },
-    ]);
   // babel-preset-env have, but option should change
   // https://2ality.com/2016/10/rest-spread-properties.html
   // https://exploringjs.com/es6/ch_oop-besides-classes.html
@@ -148,16 +127,6 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
     .plugin('@babel/plugin-proposal-export-namespace-from')
     .use(require.resolve('@babel/plugin-proposal-export-namespace-from'));
 
-  // link:
-  // https://github.com/tc39/proposal-optional-chaining
-  chain
-    .plugin('@babel/plugin-proposal-optional-chaining')
-    .use(require.resolve('@babel/plugin-proposal-optional-chaining'));
-
-  chain
-    .plugin('@babel/plugin-proposal-numeric-separator')
-    .use(require.resolve('@babel/plugin-proposal-numeric-separator'));
-
   // ======= Stage1 =====
   // link: https://github.com/tc39/proposal-pipeline-operator
   chain
@@ -170,12 +139,6 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
   chain
     .plugin('@babel/plugin-proposal-partial-application')
     .use(require.resolve('@babel/plugin-proposal-partial-application'));
-
-  // link:
-  // https://github.com/tc39/proposal-nullish-coalescing
-  chain
-    .plugin('@babel/plugin-proposal-nullish-coalescing-operator')
-    .use(require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'));
 
   chain
     .plugin('babel-plugin-styled-components')
