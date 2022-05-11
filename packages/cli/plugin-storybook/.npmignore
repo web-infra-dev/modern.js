@@ -40,3 +40,10 @@ tests/
 .storybook
 !*.d.ts
 src/
+
+modern.config.js
+modern.config.ts
+jest.config.js
+.eslintrc.js
+.eslintrc
+tsconfig.json

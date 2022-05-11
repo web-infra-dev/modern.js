@@ -67,18 +67,30 @@ export default (): ServerPlugin => ({
         });
       },
       beforeMatch({ context }, next) {
-        return storage.hooks.beforeMatch?.(context, next);
+        if (!storage.hooks.beforeMatch) {
+          return next();
+        }
+        return storage.hooks.beforeMatch(context, next);
       },
       afterMatch({ context, routeAPI }, next) {
+        if (!storage.hooks.afterMatch) {
+          return next();
+        }
         (context as AfterMatchContext).router = routeAPI;
-        return storage.hooks.afterMatch?.(context, next);
+        return storage.hooks.afterMatch(context, next);
       },
       beforeRender({ context }, next) {
-        return storage.hooks.beforeRender?.(context, next);
+        if (!storage.hooks.beforeRender) {
+          return next();
+        }
+        return storage.hooks.beforeRender(context, next);
       },
       afterRender({ context, templateAPI }, next) {
+        if (!storage.hooks.afterRender) {
+          return next();
+        }
         (context as AfterRenderContext).template = templateAPI;
-        return storage.hooks.afterRender?.(context, next);
+        return storage.hooks.afterRender(context, next);
       },
     };
   },
