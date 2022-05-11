@@ -288,4 +288,5 @@ export const PLUGIN_SCHEMAS = {
       schema: { type: ['boolean', 'object'] },
     },
   ],
+  '@modern-js/plugin-nocode': [],
 };

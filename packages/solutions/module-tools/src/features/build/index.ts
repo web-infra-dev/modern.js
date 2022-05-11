@@ -8,17 +8,23 @@ const buildWatchFeature: typeof import('./build-watch') = Import.lazy(
   './build-watch',
   require,
 );
-// const bp: typeof import('./build-platform') = Import.lazy(
-//   './build-platform',
-//   require,
-// );
+const bp: typeof import('./build-platform') = Import.lazy(
+  './build-platform',
+  require,
+);
 
 export const build = async (
   api: PluginAPI,
   config: IBuildConfig,
   modernConfig: NormalizedConfig,
 ) => {
-  const { appDirectory, enableWatchMode, platform, clear = true } = config;
+  const {
+    appDirectory,
+    enableWatchMode,
+    platform,
+    clear = true,
+    isTsProject,
+  } = config;
   const {
     output: { path: outputPath = 'dist' },
   } = modernConfig;
