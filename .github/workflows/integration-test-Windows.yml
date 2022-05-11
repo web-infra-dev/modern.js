@@ -53,9 +53,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
+      - name: wireit cache
+        uses: google/wireit@setup-github-actions-caching/v1
+
       - name: Install Dependencies
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm install --ignore-scripts
+        run: pnpm install --ignore-scripts --frozen-lockfile
 
       - name: Prepare
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}

@@ -22,9 +22,9 @@
     "prepare": "pnpm build && pnpm build:csmith",
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern new",
-    "build": "modern build",
+    "build": "wireit",
     "build:csmith": "csmith-tools build",
-    "test": "jest --passWithNoTests"
+    "test": "wireit"
   },
   "devDependencies": {
     "@babel/runtime": "^7",
@@ -56,5 +56,27 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "types": "./src/index.ts"
+  "types": "./src/index.ts",
+  "wireit": {
+    "build": {
+      "command": "modern build",
+      "files": [
+        "src/**/*.ts",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": [
+        "dist/**/*.js"
+      ]
+    },
+    "test": {
+      "command": "jest --passWithNoTests",
+      "files": [
+        "src/**/*.ts",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": []
+    }
+  }
 }
