@@ -97,7 +97,7 @@
         "./dist/types/exports/request.d.ts"
       ],
       "model": [
-        "./dist/types/exports/model.d.ts"
+        "./types/model.d.ts"
       ]
     }
   },
