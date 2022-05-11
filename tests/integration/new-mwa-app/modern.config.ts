@@ -4,4 +4,8 @@ export default defineConfig({
   output: {
     enableInlineScripts: true,
   },
+  runtime: {
+    router: true,
+    state: true,
+  },
 });

@@ -21,15 +21,15 @@ export const getPostcssConfig = (
     {
       postcssOptions: {
         plugins: [
-          require('postcss-flexbugs-fixes'),
-          require('postcss-custom-properties'),
-          require('postcss-initial'),
-          require('postcss-page-break'),
-          require('postcss-font-variant'),
-          require('postcss-media-minmax'),
-          require('postcss-nesting'),
+          require('../compiled/postcss-flexbugs-fixes'),
+          require('../compiled/postcss-custom-properties'),
+          require('../compiled/postcss-initial'),
+          require('../compiled/postcss-page-break'),
+          require('../compiled/postcss-font-variant'),
+          require('../compiled/postcss-media-minmax'),
+          require('../compiled/postcss-nesting'),
           autoprefixer
-            ? require('autoprefixer')(
+            ? require('../compiled/autoprefixer')(
                 applyOptionsChain(
                   {
                     flexbox: 'no-2009',
