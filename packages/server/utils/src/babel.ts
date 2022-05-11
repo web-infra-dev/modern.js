@@ -130,12 +130,6 @@ export const resolveBabelConfig = (
       { legacy: true },
     ]);
 
-  babelChain.plugin('@babel/plugin-proposal-class-properties').use(
-    require.resolve('@babel/plugin-proposal-class-properties'),
-
-    [{ loose: true }],
-  );
-
   const internalBabelConfig = { ...babelChain.toJSON() };
 
   const userBabelConfig = modernConfig.tools.babel;
