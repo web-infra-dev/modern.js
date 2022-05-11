@@ -29,11 +29,11 @@
   ],
   "scripts": {
     "prepare": "npm run build",
-    "build": "rimraf ./dist && tsc -p tsconfig.build.json",
+    "build": "wireit",
     "build:watch": "tsc -p ./tsconfig.build.json",
     "prepublishOnly": "npm run build",
     "serve:fixture": "serve -l 8088 fixture",
-    "test": "jest --passWithNoTests",
+    "test": "wireit",
     "test:e2e": "JEST_PUPPETEER_CONFIG=e2e/jest-puppeteer.config.js jest -c ./e2e/jest.config.js --run-in-band",
     "test:unit": "jest -c ./__tests__/jest.config.js"
   },
@@ -105,5 +105,27 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "types": "./src/index.ts"
+  "types": "./src/index.ts",
+  "wireit": {
+    "build": {
+      "command": "rimraf ./dist && tsc -p tsconfig.build.json",
+      "files": [
+        "src/**/*.ts",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": [
+        "dist/**/*.js"
+      ]
+    },
+    "test": {
+      "command": "jest --passWithNoTests",
+      "files": [
+        "src/**/*.ts",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": []
+    }
+  }
 }

@@ -56,8 +56,8 @@
     "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
-    "build": "modern build",
-    "test": "jest"
+    "build": "wireit",
+    "test": "wireit"
   },
   "peerDependencies": {
     "react": ">=16.8",
@@ -97,5 +97,27 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "types": "./dist/types/runtime/index.d.ts"
+  },
+  "wireit": {
+    "build": {
+      "command": "modern build",
+      "files": [
+        "src/**/*.ts",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": [
+        "dist/**/*.js"
+      ]
+    },
+    "test": {
+      "command": "jest",
+      "files": [
+        "src/**/*.ts",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": []
+    }
   }
 }
