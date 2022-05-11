@@ -8,5 +8,5 @@
     "esModuleInterop": true,
     "types": ["node", "glob"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*", "src/**/*.tsx"]
 }
