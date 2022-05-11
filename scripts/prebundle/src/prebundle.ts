@@ -108,6 +108,10 @@ function emitPackageJson(task: ParsedTask) {
     ...task.packageJsonField,
   ]);
 
+  if (task.depName !== pickedPackageJson.name) {
+    pickedPackageJson.name = task.depName;
+  }
+
   if (task.ignoreDts) {
     delete pickedPackageJson.typing;
     delete pickedPackageJson.typings;
