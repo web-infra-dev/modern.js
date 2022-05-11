@@ -4,7 +4,7 @@ import type { MetaOptions } from '@modern-js/utils';
 import type { TransformOptions } from '@babel/core';
 import type webpack from 'webpack';
 import type { Configuration as WebpackConfiguration } from 'webpack';
-import autoprefixer from 'autoprefixer';
+import type autoprefixer from 'autoprefixer';
 import type {
   BasePluginOptions,
   TerserOptions as RawTerserOptions,
