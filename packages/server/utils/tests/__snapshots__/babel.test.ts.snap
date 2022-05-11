@@ -36,24 +36,6 @@ Object {
       },
     ],
     Array [
-      "/@babel/plugin-proposal-class-properties/lib/index.js",
-      Object {
-        "loose": true,
-      },
-    ],
-    Array [
-      "/@babel/plugin-proposal-private-methods/lib/index.js",
-      Object {
-        "loose": true,
-      },
-    ],
-    Array [
-      "/@babel/plugin-proposal-private-property-in-object/lib/index.js",
-      Object {
-        "loose": true,
-      },
-    ],
-    Array [
       "/@babel/plugin-proposal-object-rest-spread/lib/index.js",
       Object {
         "useBuiltIns": true,
@@ -85,12 +67,6 @@ Object {
       "/@babel/plugin-proposal-export-namespace-from/lib/index.js",
     ],
     Array [
-      "/@babel/plugin-proposal-optional-chaining/lib/index.js",
-    ],
-    Array [
-      "/@babel/plugin-proposal-numeric-separator/lib/index.js",
-    ],
-    Array [
       "/@babel/plugin-proposal-pipeline-operator/lib/index.js",
       Object {
         "proposal": "minimal",
@@ -98,9 +74,6 @@ Object {
     ],
     Array [
       "/@babel/plugin-proposal-partial-application/lib/index.js",
-    ],
-    Array [
-      "/@babel/plugin-proposal-nullish-coalescing-operator/lib/index.js",
     ],
     Array [
       "/babel-plugin-styled-components/lib/index.js",
