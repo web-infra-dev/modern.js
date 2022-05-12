@@ -4,7 +4,7 @@ import {
   createPipeline,
   runWithContainer,
   createContainer,
-} from 'farrow-pipeline';
+} from '../farrow-pipeline';
 import {
   isWaterfall,
   createWaterfall,

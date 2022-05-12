@@ -1,4 +1,4 @@
-import { Container, createPipeline, Middleware } from 'farrow-pipeline';
+import { Container, createPipeline, Middleware } from '../farrow-pipeline';
 
 const WORKFLOW_SYMBOL = Symbol('WORKFLOW_SYMBOL');
 

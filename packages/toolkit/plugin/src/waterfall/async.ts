@@ -4,7 +4,7 @@ import {
   MaybeAsync,
   Container,
   useContainer,
-} from 'farrow-pipeline';
+} from '../farrow-pipeline';
 
 const ASYNC_WATERFALL_SYMBOL = Symbol('ASYNC_WATERFALL_SYMBOL');
 
@@ -21,7 +21,6 @@ export const getAsyncBrook = <I>(input: AsyncBrookInput<I>) => {
   } else if (input && typeof input.middleware === 'function') {
     return input.middleware;
   }
-  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   throw new Error(`${input} is not a AsyncBrook or { brook: AsyncBrook }`);
 };
 
@@ -75,7 +74,6 @@ export const createAsyncWaterfall = <I = void>(): AsyncWaterfall<I> => {
     pipeline.run(input, { ...options, onLast: input => input });
 
   const middleware: AsyncWaterfall<I>['middleware'] = input => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const container = useContainer();
     return pipeline.run(input, { container, onLast: input => input });
   };

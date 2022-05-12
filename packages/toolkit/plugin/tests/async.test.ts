@@ -1,12 +1,12 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable max-lines */
-import { enable, disable } from 'farrow-pipeline/asyncHooks.node';
+import { enable, disable } from '../src/farrow-pipeline/asyncHooks.node';
 import {
   createPipeline,
   createAsyncPipeline,
   createContext,
   createContainer,
-} from 'farrow-pipeline';
+} from '../src/farrow-pipeline';
 import type { PluginOptions, AsyncSetup } from '../src';
 import { createManager, createAsyncManager, useRunner } from '../src/manager';
 import { createWaterfall, createAsyncWaterfall } from '../src/waterfall';

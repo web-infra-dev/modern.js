@@ -1,4 +1,4 @@
-import { runWithContainer, createContainer } from 'farrow-pipeline';
+import { runWithContainer, createContainer } from '../farrow-pipeline';
 import {
   isObject,
   generateRunner,
