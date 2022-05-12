@@ -567,12 +567,20 @@ export class ModernServer implements ModernServerInterface {
     res.statusCode = 200;
     req.logger = this.logger;
     req.metrics = this.metrics;
-    const context: ModernServerContext = createContext(req, res);
+    let context: ModernServerContext;
+    try {
+      context = createContext(req, res);
+    } catch (e) {
+      this.logger.error(e as Error);
+      res.statusCode = 500;
+      res.setHeader('content-type', mime.contentType('html') as string);
+      return res.end(createErrorDocument(500, ERROR_PAGE_TEXT[500]));
+    }
 
     try {
-      this._handler(context, next);
+      return this._handler(context, next);
     } catch (err) {
-      this.onError(context, err as Error);
+      return this.onError(context, err as Error);
     }
   }
 
