@@ -1,12 +1,11 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable max-lines */
-import * as asyncHooksImpl from 'farrow-pipeline/asyncHooks.node';
+import * as asyncHooksImpl from '../src/farrow-pipeline/asyncHooks.node';
 import {
   createContext,
   createContainer,
   createPipeline,
   createAsyncPipeline,
-  usePipeline,
   useContainer,
   isPipeline,
 } from '../src';
@@ -365,25 +364,6 @@ describe('createPipeline', () => {
       expect(() => pipeline.use({} as any)).toThrowError();
     });
 
-    it('can usePipeline in another pipeline', () => {
-      const pipeline0 = createPipeline<string, string>();
-      const pipeline1 = createPipeline<string, string>();
-
-      pipeline0.use(input => `${input} from pipeline0`);
-
-      pipeline1.use(input => {
-        const runPipeline1 = usePipeline(pipeline0);
-
-        const text = runPipeline1(' pipeline1');
-
-        return input + text;
-      });
-
-      const result = pipeline1.run('run');
-
-      expect(result).toEqual(`run pipeline1 from pipeline0`);
-    });
-
     it('isPipeline', () => {
       const pipeline = createPipeline();
 
@@ -522,25 +502,6 @@ describe('createPipeline', () => {
       expect(() => pipeline.use({} as any)).toThrowError();
     });
 
-    it('can useAsyncPipeline in another pipeline', async () => {
-      const pipeline0 = createAsyncPipeline<string, string>();
-      const pipeline1 = createAsyncPipeline<string, string>();
-
-      pipeline0.use(async input => `${input} from pipeline0`);
-
-      pipeline1.use(async input => {
-        const runPipeline1 = usePipeline(pipeline0);
-
-        const text = await runPipeline1(' pipeline1');
-
-        return input + text;
-      });
-
-      const result = await pipeline1.run('run');
-
-      expect(result).toEqual(`run pipeline1 from pipeline0`);
-    });
-
     it('support hooks', async () => {
       const pipeline = createAsyncPipeline<number, number>();
 
@@ -548,7 +509,7 @@ describe('createPipeline', () => {
 
       const incre = async () => {
         await sleep(0);
-        Count.set({ count: Count.assert().count + 1 });
+        Count.set({ count: Count.get().count + 1 });
       };
 
       const list = [] as { count: number }[];
