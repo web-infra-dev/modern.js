@@ -1,4 +1,4 @@
-import { MaybeAsync, createPipeline, Middleware } from 'farrow-pipeline';
+import { MaybeAsync, createPipeline, Middleware } from '../farrow-pipeline';
 import type { AsyncWorker, AsyncWorkers } from './async';
 import type { RunWorkflowOptions } from './sync';
 

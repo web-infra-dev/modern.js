@@ -43,3 +43,5 @@ Some implementation of Modern.js are modified from existing projects, such as cr
 * Webpack messages formatter and module scopes plugin: modified from [react-dev-utils](https://github.com/facebook/create-react-app/tree/main/packages/react-dev-utils) and refactored to TypeScript.
 
 * bundle-require: modified from [bundle-require](https://github.com/egoist/bundle-require).
+
+* farrow-pipeline: modified from [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline).

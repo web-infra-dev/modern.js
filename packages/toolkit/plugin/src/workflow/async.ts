@@ -1,4 +1,8 @@
-import { MaybeAsync, createAsyncPipeline, Middleware } from 'farrow-pipeline';
+import {
+  MaybeAsync,
+  Middleware,
+  createAsyncPipeline,
+} from '../farrow-pipeline';
 import type { RunWorkflowOptions } from './sync';
 
 const ASYNC_WORKFLOW_SYMBOL = Symbol('ASYNC_WORKFLOW_SYMBOL');

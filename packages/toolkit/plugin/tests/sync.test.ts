@@ -5,7 +5,7 @@ import {
   createAsyncPipeline,
   createContext,
   createContainer,
-} from 'farrow-pipeline';
+} from '../src/farrow-pipeline';
 import type { PluginOptions, Setup } from '../src';
 import { createManager, createAsyncManager, useRunner } from '../src/manager';
 import { createWaterfall, createAsyncWaterfall } from '../src/waterfall';
@@ -536,7 +536,6 @@ describe('sync manager', () => {
 
       const plugin = manager.createPlugin(() => ({
         foo: () => {
-          // eslint-disable-next-line react-hooks/rules-of-hooks
           const runner = useRunner();
           runner.bar();
         },
