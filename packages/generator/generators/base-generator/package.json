@@ -61,7 +61,8 @@
         "package.json"
       ],
       "output": [
-        "dist/**/*"
+        "dist/**/*",
+        "!dist/node/main.js"
       ]
     },
     "build:csmith": {
@@ -72,7 +73,7 @@
         "package.json"
       ],
       "output": [
-        "dist/**/*.js"
+        "dist/node/main.js"
       ]
     },
     "test": {
