@@ -13,13 +13,13 @@ local.
 ### Install pnpm
 
 ```zsh
-npm install -g pnpm
+npm install -g pnpm@6
 ```
 
 ### Set up local Modern.js repository
 
 ```zsh
-pnpm run install
+pnpm install
 ```
 
 <details>
