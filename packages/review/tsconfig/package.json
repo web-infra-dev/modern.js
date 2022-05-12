@@ -13,7 +13,7 @@
     "modern.js"
   ],
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm"
+    "prepublishOnly": "publish-check"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

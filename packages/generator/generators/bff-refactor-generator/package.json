@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "prepare": "pnpm build && pnpm build:csmith",
-    "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
+    "prepublishOnly": "publish-check && pnpm build --platform",
     "new": "modern new",
     "build": "wireit",
     "build:csmith": "wireit",

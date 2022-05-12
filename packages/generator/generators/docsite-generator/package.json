@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "prepare": "pnpm build && pnpm build:csmith",
-    "prepublishOnly": "only-allow-pnpm",
+    "prepublishOnly": "publish-check",
     "build": "wireit",
     "build:csmith": "wireit",
     "new": "modern new",

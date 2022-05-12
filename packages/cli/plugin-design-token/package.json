@@ -44,7 +44,7 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "only-allow-pnpm",
+    "prepublishOnly": "publish-check",
     "new": "modern new",
     "build": "wireit",
     "test": "wireit"

@@ -13,7 +13,7 @@
     "modern.js"
   ],
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm",
+    "prepublishOnly": "publish-check",
     "check": "eslint-find-rules --unused index.js",
     "stat": "eslint-index index.js --format table"
   },

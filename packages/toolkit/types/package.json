@@ -43,7 +43,7 @@
   },
   "scripts": {
     "test": "wireit",
-    "prepublishOnly": "only-allow-pnpm"
+    "prepublishOnly": "publish-check"
   },
   "wireit": {
     "test": {

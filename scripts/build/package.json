@@ -5,10 +5,13 @@
   "main": "./src/index.js",
   "bin": {
     "modern": "./bin/modern.js",
+    "publish-check": "./bin/publish-check.js",
     "only-allow-pnpm": "./bin/only-allow-pnpm.js"
   },
   "devDependencies": {
     "btsm": "2.2.2",
+    "signale": "^1.4.0",
+    "fs-extra": "^10.0.0",
     "@types/jest": "^26",
     "@types/node": "^14"
   },

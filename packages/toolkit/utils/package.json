@@ -111,7 +111,7 @@
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "only-allow-pnpm",
+    "prepublishOnly": "publish-check",
     "new": "modern new",
     "dev": "tsc --watch",
     "build": "wireit",

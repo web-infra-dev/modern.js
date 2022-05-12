@@ -4237,10 +4237,14 @@ importers:
       '@types/jest': ^26
       '@types/node': ^14
       btsm: 2.2.2
+      fs-extra: ^10.0.0
+      signale: ^1.4.0
     devDependencies:
       '@types/jest': 26.0.24
       '@types/node': 14.18.4
       btsm: 2.2.2
+      fs-extra: 10.1.0
+      signale: 1.4.0
 
   scripts/codemod:
     specifiers:
