@@ -44,14 +44,6 @@ function emitDts(task: ParsedTask) {
     return;
   }
 
-  // Fix webpack-manifest-plugin types
-  if (task.depName === 'webpack-manifest-plugin') {
-    const pkgPath = require.resolve('webpack-manifest-plugin/package.json');
-    const content = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
-    content.types = 'dist/index.d.ts';
-    fs.writeFileSync(pkgPath, JSON.stringify(content));
-  }
-
   try {
     const externals = {
       ...DEFAULT_EXTERNALS,
@@ -70,24 +62,6 @@ function emitDts(task: ParsedTask) {
   } catch (error) {
     console.error(`DtsPacker failed: ${task.depName}`);
     console.error(error);
-  }
-
-  // Fix "declare module 'xxx'"
-  if (task.depName === 'upath') {
-    replaceFileContent(
-      join(task.distPath, 'upath.d.ts'),
-      content =>
-        `${content.replace(
-          'declare module "upath"',
-          'declare namespace upath',
-        )}\nexport = upath;`,
-    );
-  }
-
-  // Fix lodash types, copy `common` folder
-  if (task.depName === 'lodash') {
-    const from = join(process.cwd(), 'node_modules/@types/lodash/common');
-    fs.copySync(from, join(task.distPath, 'common'));
   }
 }
 
@@ -145,6 +119,8 @@ function removeSourceMap(task: ParsedTask) {
 
 export async function prebundle(task: ParsedTask) {
   console.log(`==== Start prebundle "${task.depName}" ====`);
+
+  fs.removeSync(task.distPath);
 
   if (task.beforeBundle) {
     await task.beforeBundle(task);
