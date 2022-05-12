@@ -118,6 +118,9 @@ export async function runTest(
 
   await patchConfig(jestUtils);
 
+  // 确保用户设置的配置可以被插件处理，比如设置在 projects 中
+  jestUtils.setJestUserConfig();
+
   const hookRunners = api.useHookRunners();
   const testConfigOperator = await hookRunners.jestConfig(jestUtils, {
     onLast: input => input,
