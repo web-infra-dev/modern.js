@@ -28,17 +28,17 @@
   "wireit": {
     "build": {
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],
       "output": [
-        "dist/**/*.js"
+        "dist/**/*"
       ]
     },
     "test": {
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],
