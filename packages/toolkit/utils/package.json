@@ -131,5 +131,29 @@
     "jest": "^27",
     "webpack": "^5.71.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "wireit": {
+    "build": {
+      "command": "tsc",
+      "files": [
+        "src/**/*.ts",
+        "compiled/**/*.js",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": [
+        "dist/**/*"
+      ]
+    },
+    "test": {
+      "command": "jest --passWithNoTests",
+      "files": [
+        "src/**/*.ts",
+        "compiled/**/*.js",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": []
+    }
+  }
 }

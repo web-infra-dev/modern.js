@@ -109,7 +109,7 @@
         "package.json"
       ],
       "output": [
-        "dist/**/*.js"
+        "dist/**/*"
       ]
     },
     "test": {
