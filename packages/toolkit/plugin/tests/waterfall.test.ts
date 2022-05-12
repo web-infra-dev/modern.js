@@ -1,4 +1,4 @@
-import { enable, disable } from 'farrow-pipeline/asyncHooks.node';
+import { enable, disable } from '../src/farrow-pipeline/asyncHooks.node';
 import {
   createWaterfall,
   createAsyncWaterfall,
@@ -41,7 +41,7 @@ describe('waterfall', () => {
 
     const incre = async () => {
       await sleep(0);
-      Count.set({ count: Count.assert().count + 1 });
+      Count.set({ count: Count.get().count + 1 });
     };
     const list: { count: number }[] = [];
 

@@ -3,7 +3,7 @@ import {
   useContainer,
   createPipeline,
   Middleware,
-} from 'farrow-pipeline';
+} from '../farrow-pipeline';
 
 const WATERFALL_SYMBOL = Symbol('WATERFALL_SYMBOL');
 
@@ -18,7 +18,6 @@ export const getBrook = <I>(input: BrookInput<I>) => {
   } else if (input && typeof input.middleware === 'function') {
     return input.middleware;
   }
-  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   throw new Error(`${input} is not a Brook or { brook: Brook }`);
 };
 
@@ -76,7 +75,6 @@ export const createWaterfall = <I = void>(): Waterfall<I> => {
     pipeline.run(input, { ...options, onLast: input => input });
 
   const middleware: Waterfall<I>['middleware'] = input => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const container = useContainer();
     return pipeline.run(input, { container, onLast: input => input });
   };

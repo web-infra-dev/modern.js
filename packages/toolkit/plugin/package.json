@@ -27,8 +27,8 @@
       "default": "./dist/js/treeshaking/index.js"
     },
     "./node": {
-      "jsnext:source": "./node.js",
-      "default": "./node.js"
+      "jsnext:source": "./src/farrow-pipeline/asyncHooks.node.ts",
+      "default": "./dist/js/node/farrow-pipeline/asyncHooks.node.js"
     }
   },
   "scripts": {
@@ -40,8 +40,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/runtime": "^7",
-    "farrow-pipeline": "^1.10.6"
+    "@babel/runtime": "^7"
   },
   "devDependencies": {
     "@types/jest": "^26",
