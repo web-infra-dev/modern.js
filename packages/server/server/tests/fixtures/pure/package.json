@@ -7,8 +7,7 @@
     "start": "modern start",
     "new": "modern new",
     "lint": "modern lint",
-    "deploy": "modern deploy",
-    "test": "wireit"
+    "deploy": "modern deploy"
   },
   "dependencies": {},
   "devDependencies": {},
@@ -29,14 +28,6 @@
       "output": [
         "dist/**/*"
       ]
-    },
-    "test": {
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": []
     }
   }
 }
