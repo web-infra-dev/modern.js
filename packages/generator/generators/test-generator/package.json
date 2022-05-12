@@ -23,7 +23,7 @@
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern new",
     "build": "wireit",
-    "build:csmith": "csmith-tools build",
+    "build:csmith": "wireit",
     "test": "wireit"
   },
   "devDependencies": {
@@ -66,6 +66,17 @@
       ],
       "output": [
         "dist/**/*"
+      ]
+    },
+    "build:csmith": {
+      "command": "csmith-tools build",
+      "files": [
+        "src/**/*",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": [
+        "dist/**/*.js"
       ]
     },
     "test": {
