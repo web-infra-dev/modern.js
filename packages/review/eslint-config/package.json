@@ -15,9 +15,7 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "check": "eslint-find-rules --unused index.js",
-    "stat": "eslint-index index.js --format table",
-    "build": "wireit",
-    "test": "wireit"
+    "stat": "eslint-index index.js --format table"
   },
   "peerDependencies": {
     "@modern-js/plugin-jarvis": "workspace:^1.2.8"
@@ -35,25 +33,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "main": "index.js",
-  "wireit": {
-    "build": {
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*"
-      ]
-    },
-    "test": {
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": []
-    }
-  }
+  "main": "index.js"
 }
