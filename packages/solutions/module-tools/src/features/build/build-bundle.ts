@@ -1,7 +1,7 @@
 import * as os from 'os';
 import { execa, Import } from '@modern-js/utils';
-import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
-import type { IBundleConfig, ITaskMapper } from '../../types';
+import type { PluginAPI } from '@modern-js/core';
+import type { BuildConfig, ITaskMapper } from '../../types';
 
 const pMap: typeof import('p-map') = Import.lazy('p-map', require);
 const utils: typeof import('./utils') = Import.lazy('./utils', require);
@@ -13,8 +13,7 @@ const constants: typeof import('./constants') = Import.lazy(
 
 export const buildInBundleMode = async (
   api: PluginAPI,
-  config: IBundleConfig,
-  _: NormalizedConfig,
+  config: BuildConfig,
 ) => {
   const { enableTscCompiler } = config;
   const concurrency = os.cpus().length;
@@ -53,7 +52,6 @@ export const buildInBundleMode = async (
     },
     { concurrency },
   );
-
 
   if (rollupLog.hasErrorMessage || bundleLog.hasErrorMessage) {
     // eslint-disable-next-line no-process-exit

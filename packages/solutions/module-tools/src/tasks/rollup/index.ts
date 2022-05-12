@@ -21,15 +21,9 @@ const logger: typeof import('../../features/build/logger') = Import.lazy(
 interface ITaskConfig {
   distDir: string;
   watch: boolean;
-  bundle: string;
+  entry: string;
   tsconfig: string;
 }
-const defaultConfig: ITaskConfig = {
-  distDir: './dist/bundle',
-  watch: false,
-  bundle: './src/index.ts',
-  tsconfig: 'tsconfig.json',
-};
 
 // Copied from https://github.com/egoist/tsup/blob/dev/src/rollup.ts
 
@@ -53,62 +47,16 @@ type RollupConfig = {
   outputConfig: OutputOptions;
 };
 
-const findLowestCommonAncestor = (filepaths: string[]) => {
-  if (filepaths.length <= 1) {
-    return '';
-  }
-  const [first, ...rest] = filepaths;
-  let ancestor = first.split('/');
-  for (const filepath of rest) {
-    const directories = filepath.split('/', ancestor.length);
-    let index = 0;
-    for (const directory of directories) {
-      if (directory === ancestor[index]) {
-        index += 1;
-      } else {
-        ancestor = ancestor.slice(0, index);
-        break;
-      }
-    }
-    ancestor = ancestor.slice(0, index);
-  }
-
-  return ancestor.length <= 1 && ancestor[0] === ''
-    ? `/${ancestor[0]}`
-    : ancestor.join('/');
-};
-
-// Make sure the Rollup entry is an object
-// We use the base path (without extension) as the entry name
-// To make declaration files work with multiple entrypoints
-// See #316
-const toObjectEntry = (entry: string[]) => {
-  entry = entry.map(e => e.replace(/\\/g, '/'));
-  const ancestor = findLowestCommonAncestor(entry);
-  return entry.reduce((result, item) => {
-    const key = item
-      .replace(ancestor, '')
-      .replace(/^\//, '')
-      .replace(/\.[a-z]+$/, '');
-    return {
-      ...result,
-      [key]: item,
-    };
-  }, {});
-};
-
 const getRollupConfig = async (options: ITaskConfig): Promise<RollupConfig> => {
   const compilerOptions = loadCompilerOptions(options.tsconfig);
-
   // FIXME: ts-resolve plugin and resolve option
-  const dtsOptions = { entry: options.bundle, resolve: false };
+  const dtsOptions = { entry: options.entry, resolve: false };
 
   // if (Array.isArray(dtsOptions.entry) && dtsOptions.entry.length > 1) {
   //   dtsOptions.entry = toObjectEntry(dtsOptions.entry)
   // }
 
   let tsResolveOptions: TsResolveOptions | undefined;
-
   if (dtsOptions.resolve) {
     tsResolveOptions = {};
     // Only resolve specific types when `dts.resolve` is an array
@@ -215,10 +163,7 @@ async function watchRollup(options: {
       console.info(logger.clearFlag);
       console.info('dts', 'Build start');
     } else if (event.code === 'BUNDLE_END') {
-      console.info(
-        'dts',
-        `Build success in ${event.duration}ms`,
-      );
+      console.info('dts', `Build success in ${event.duration}ms`);
     } else if (event.code === 'ERROR') {
       console.error(logger.clearFlag, 'dts', 'Build failed');
       console.error(event.error);
@@ -238,7 +183,7 @@ const startRollup = async (options: ITaskConfig) => {
 const taskMain = async () => {
   // Execution of the script's parameter handling and related required configuration acquisition
   const processArgv = argv(process.argv.slice(2));
-  const config = processArgv<ITaskConfig>(defaultConfig);
+  const config = processArgv<ITaskConfig>({} as ITaskConfig);
 
   await startRollup(config);
 };

@@ -1,20 +1,20 @@
-const PACKAGE_MODE_LIST = [
-  'universal-js',
-  'universal-js-lite',
-  'browser-js',
-  'browser-js-lite',
-  'node-js',
-];
+// const PACKAGE_MODE_LIST = [
+//   'universal-js',
+//   'universal-js-lite',
+//   'browser-js',
+//   'browser-js-lite',
+//   'node-js',
+// ];
 
 export const outputSchema = [
-  {
-    target: 'output.packageMode',
-    schema: { enum: PACKAGE_MODE_LIST },
-  },
-  {
-    target: 'output.packageFields',
-    schema: { typeof: 'object' },
-  },
+  // {
+  //   target: 'output.packageMode',
+  //   schema: { enum: PACKAGE_MODE_LIST },
+  // },
+  // {
+  //   target: 'output.packageFields',
+  //   schema: { typeof: 'object' },
+  // },
   {
     target: 'output.enableSourceMap',
     schema: { typeof: 'boolean' },

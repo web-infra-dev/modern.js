@@ -4,7 +4,6 @@ export const EN_LOCALE = {
       describe: 'command for building module',
       watch: 'building module in watch mode',
       bundle: 'bundle entry',
-      format: 'output format',
       tsconfig: 'Specify a path to the tsconfig.json file',
       style_only: 'only build style',
       platform: 'building for other platforms',

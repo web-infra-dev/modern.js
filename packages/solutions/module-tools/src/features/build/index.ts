@@ -1,7 +1,8 @@
 import path from 'path';
 import { Import, fs } from '@modern-js/utils';
-import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
-import type { IBuildConfig } from '../../types';
+import type { PluginAPI } from '@modern-js/core';
+import type { IBuildConfig, ModuleToolsConfig } from '../../types';
+import { normalizeConfig } from './utils';
 
 const buildFeature: typeof import('./build') = Import.lazy('./build', require);
 const buildWatchFeature: typeof import('./build-watch') = Import.lazy(
@@ -21,12 +22,11 @@ const bp: typeof import('./build-platform') = Import.lazy(
 export const build = async (
   api: PluginAPI,
   config: IBuildConfig,
-  modernConfig: NormalizedConfig,
+  modernConfig: ModuleToolsConfig,
 ) => {
   const {
     appDirectory,
     enableWatchMode,
-    bundle,
     platform,
     clear = true,
     isTsProject,
@@ -34,6 +34,7 @@ export const build = async (
   const {
     output: { path: outputPath = 'dist' },
   } = modernConfig;
+
   // TODO: maybe need watch mode in build platform
   if (typeof platform === 'boolean' && platform) {
     if (process.env.RUN_PLATFORM) {
@@ -52,21 +53,25 @@ export const build = async (
   if (clear) {
     fs.removeSync(path.join(appDirectory, outputPath));
   }
-  if (bundle) {
-    await buildBundleFeature.buildInBundleMode(
-      api,
-      {
+  const normalizedModuleToolConfig = normalizeConfig(modernConfig);
+  normalizedModuleToolConfig.module.forEach(async moduleConfig => {
+    if (moduleConfig.bundle || moduleConfig.format === 'iife') {
+      await buildBundleFeature.buildInBundleMode(api, {
         ...config,
-        bundle: typeof bundle === 'string' ? bundle : './src/index.ts',
-      },
-      modernConfig,
-    );
-    return;
-  }
-
-  if (enableWatchMode) {
-    await buildWatchFeature.buildInWatchMode(api, config, modernConfig);
-  } else {
-    await buildFeature.buildSourceCode(api, config, modernConfig);
-  }
+        ...moduleConfig,
+      });
+      return;
+    }
+    if (enableWatchMode) {
+      await buildWatchFeature.buildInWatchMode(api, {
+        ...config,
+        ...moduleConfig,
+      });
+    } else {
+      await buildFeature.buildSourceCode(api, {
+        ...config,
+        ...moduleConfig,
+      });
+    }
+  });
 };

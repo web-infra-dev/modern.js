@@ -60,9 +60,14 @@
   },
   "sideEffects": false,
   "modernConfig": {
-    "output": {
-      "packageMode": "node-js"
-    }
+    "module": [{
+      "format": "cjs",
+      "bundle": false
+    }, {
+      "format": "esm"
+    },{
+      "format": "iife"
+    }]
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

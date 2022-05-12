@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { fs, Import, dotenv } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
-import type { Platform } from '../types';
+import type { ModuleToolsConfig, Platform } from '../types';
 
 const tsConfigutils: typeof import('../utils/tsconfig') = Import.lazy(
   '../utils/tsconfig',
@@ -19,8 +19,6 @@ const buildFeature: typeof import('../features/build') = Import.lazy(
 
 export interface IBuildOption {
   watch: boolean;
-  bundle?: string | true;
-  format?: 'cjs' | 'iife' | 'esm' | 'system';
   tsconfig: string;
   platform: boolean | Exclude<Platform, 'all'>;
   styleOnly: boolean;
@@ -32,8 +30,6 @@ export const build = async (
   api: PluginAPI,
   {
     watch = false,
-    bundle,
-    format,
     tsconfig: tsconfigName,
     tsc,
     clear = true,
@@ -41,7 +37,7 @@ export const build = async (
   }: IBuildOption,
 ) => {
   const { appDirectory } = api.useAppContext();
-  const modernConfig = api.useResolvedConfigContext();
+  const modernConfig = api.useResolvedConfigContext() as ModuleToolsConfig;
   const tsconfigPath = path.join(appDirectory, tsconfigName);
   dotenv.config();
   const isTsProject = tsConfigutils.existTsConfigFile(tsconfigPath);
@@ -55,8 +51,6 @@ export const build = async (
     {
       appDirectory,
       enableWatchMode: watch,
-      bundle,
-      format,
       isTsProject,
       platform,
       sourceDir: 'src',

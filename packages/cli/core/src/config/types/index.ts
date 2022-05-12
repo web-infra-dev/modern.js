@@ -117,7 +117,6 @@ export interface OutputConfig {
   federation?: boolean;
   disableNodePolyfill?: boolean;
   enableTsLoader?: boolean;
-
   /**
    * Disables lazy import support for styles, currently supports antd and arco-design.
    * The configuration of `output.disableAutoImportStyle` is provided by `unbundle` plugin.

@@ -1,8 +1,8 @@
 import * as path from 'path';
 import * as os from 'os';
 import { execa, Import } from '@modern-js/utils';
-import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
-import type { IBuildConfig, ITaskMapper } from '../../types';
+import type { PluginAPI } from '@modern-js/core';
+import type { BuildConfig, ITaskMapper, ModuleToolsConfig } from '../../types';
 
 const pMap: typeof import('p-map') = Import.lazy('p-map', require);
 const utils: typeof import('./utils') = Import.lazy('./utils', require);
@@ -12,11 +12,7 @@ const constants: typeof import('./constants') = Import.lazy(
   require,
 );
 
-export const buildSourceCode = async (
-  api: PluginAPI,
-  config: IBuildConfig,
-  _: NormalizedConfig,
-) => {
+export const buildSourceCode = async (api: PluginAPI, config: BuildConfig) => {
   const { sourceDir, enableTscCompiler } = config;
   const { appDirectory } = api.useAppContext();
   const concurrency = os.cpus().length;

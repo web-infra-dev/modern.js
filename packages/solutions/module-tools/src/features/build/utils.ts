@@ -3,12 +3,12 @@ import * as os from 'os';
 import { Import, chalk } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type {
-  IBuildConfig,
-  IBundleConfig,
+  BuildConfig,
   IPackageModeValue,
   JsSyntaxType,
   ITaskMapper,
   ModuleToolsConfig,
+  Module,
 } from '../../types';
 import type { LoggerText } from './logger';
 
@@ -34,7 +34,7 @@ const updateMapper = (
   }
 };
 
-export const getCodeInitMapper = (api: PluginAPI, _: IBuildConfig) => {
+export const getCodeInitMapper = (api: PluginAPI, _: BuildConfig) => {
   const {
     output: { packageFields, packageMode },
   } = api.useResolvedConfigContext() as ModuleToolsConfig;
@@ -94,7 +94,7 @@ export const getCodeMapper = (
     srcRootDir,
     willCompilerDirOrFile,
   }: ITaskMapper & {
-    config: IBuildConfig;
+    config: BuildConfig;
     initMapper: IPackageModeValue[];
     srcRootDir: string;
     willCompilerDirOrFile: string;
@@ -138,7 +138,7 @@ export const getCodeMapper = (
 // 获取执行speedy bundler的参数
 export const getBundlerMapper = (
   api: PluginAPI,
-  config: IBundleConfig,
+  config: BuildConfig,
   logger: LoggerText,
 ) => {
   const { appDirectory } = api.useAppContext();
@@ -146,18 +146,20 @@ export const getBundlerMapper = (
   const {
     output: { path: outputPath = 'dist' },
   } = modernConfig;
-  const { enableWatchMode, bundle, format } = config;
+  const { enableWatchMode, target, format, entry, sourceMap } = config;
 
   return [
     {
       logger,
       taskPath: require.resolve('../../tasks/speedy'),
       params: [
-        `--distDir=${path.join(appDirectory, `./${outputPath}/bundle`)}`,
+        `--distDir=${path.join(appDirectory, `./${outputPath}/${format}`)}`,
         `--appDirectory=${appDirectory}`,
-        `--bundle=${bundle}`,
         enableWatchMode ? `--watch` : '',
-        format ? `--format=${format}` : '',
+        `--target=${target}`,
+        `--format=${format}`,
+        `--entry=${entry}`,
+        sourceMap ? `--sourceMap` : '',
       ],
     },
   ];
@@ -165,7 +167,7 @@ export const getBundlerMapper = (
 
 export const getDtsBundlerMapper = (
   api: PluginAPI,
-  config: IBundleConfig,
+  config: BuildConfig,
   logger: LoggerText,
 ) => {
   const { appDirectory } = api.useAppContext();
@@ -173,7 +175,7 @@ export const getDtsBundlerMapper = (
   const {
     output: { path: outputPath = 'dist' },
   } = modernConfig as ModuleToolsConfig;
-  const { tsconfigName = 'tsconfig.json', enableWatchMode, bundle } = config;
+  const { tsconfigName = 'tsconfig.json', enableWatchMode } = config;
   const tsconfigPath = path.join(appDirectory, tsconfigName);
   return [
     {
@@ -184,7 +186,6 @@ export const getDtsBundlerMapper = (
         `--tsconfigPath=${tsconfigPath}`,
         enableWatchMode ? `--watch` : '',
         `--appDirectory=${appDirectory}`,
-        `--bundle=${bundle}`,
       ],
     },
   ];
@@ -192,7 +193,7 @@ export const getDtsBundlerMapper = (
 
 export const getRollupMapper = (
   api: PluginAPI,
-  config: IBundleConfig,
+  config: BuildConfig,
   logger: LoggerText,
 ) => {
   const { appDirectory } = api.useAppContext();
@@ -200,17 +201,17 @@ export const getRollupMapper = (
   const {
     output: { path: outputPath = 'dist' },
   } = modernConfig as ModuleToolsConfig;
-  const { tsconfigName = 'tsconfig.json', enableWatchMode, bundle } = config;
+  const { tsconfigName = 'tsconfig.json', enableWatchMode, entry, format } = config;
   const tsconfigPath = path.join(appDirectory, tsconfigName);
   return [
     {
       logger,
       taskPath: require.resolve('../../tasks/rollup'),
       params: [
-        `--distDir=${path.join(appDirectory, `./${outputPath}/bundle`)}`,
+        `--distDir=${path.join(appDirectory, `./${outputPath}/${format}`)}`,
         `--tsconfigPath=${tsconfigPath}`,
         enableWatchMode ? `--watch` : '',
-        `--bundle=${bundle}`,
+        `--entry=${entry}`,
       ],
     },
   ];
@@ -219,7 +220,7 @@ export const getRollupMapper = (
 // 获取执行生成 d.ts 的参数
 export const getDtsMapper = (
   api: PluginAPI,
-  config: IBuildConfig,
+  config: BuildConfig,
   logger: LoggerText,
 ) => {
   const { appDirectory } = api.useAppContext();
@@ -319,3 +320,25 @@ export class TimeCounter {
     return span < 1000 ? `${span}ms` : `${(span / 1000).toFixed(2)}s`;
   }
 }
+export const normalizeConfig = (modernConfig: ModuleToolsConfig) => {
+  const moduleArray = modernConfig.module?.length ?  modernConfig.module : [{} as Module];
+  const normalizedModule = moduleArray.map(config => {
+    const format = config.format ?? 'esm';
+    const target = config.target ?? 'es2017';
+    const bundle = config.bundle ?? true;
+    const sourceMap = config.sourceMap ?? bundle;
+    const entry = config.entry ?? 'src/index.ts';
+    return {
+      format,
+      target,
+      bundle,
+      sourceMap,
+      entry,
+    };
+  });
+  console.log(moduleArray, normalizedModule);
+  return {
+    ...modernConfig,
+    module: normalizedModule,
+  };
+};

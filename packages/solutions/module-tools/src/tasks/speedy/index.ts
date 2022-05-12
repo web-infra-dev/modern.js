@@ -1,6 +1,7 @@
 import { SpeedyBundler } from '@speedy-js/speedy-core';
 import { CLIConfig, SpeedyPlugin } from '@speedy-js/speedy-types';
 import { Import } from '@modern-js/utils';
+import { Format, Target } from '../../types';
 // import { watchChangePlugin } from './watchPlugin';
 
 const argv: typeof import('process.argv').default = Import.lazy(
@@ -20,20 +21,14 @@ interface ITaskConfig {
   appDirectory: string;
   sourceMaps: boolean;
   watch: boolean;
-  bundle: string;
-  format: 'cjs' | 'iife' | 'esm' | 'system';
+  entry: string;
+  format: Format;
+  target: Target;
+  sourceMap: boolean;
 }
-const defaultConfig: ITaskConfig = {
-  distDir: './dist/bundle',
-  appDirectory: '',
-  sourceMaps: false,
-  watch: false,
-  bundle: './src/index.ts',
-  format: 'esm',
-};
 
 export const buildInBundleMode = async (config: ITaskConfig) => {
-  const { watch, bundle, distDir, format } = config;
+  const { watch, entry, distDir, format, target, sourceMap } = config;
   const plugins: SpeedyPlugin[] = [];
   // watch && plugins.push(watchChangePlugin(() => {
   //   console.info(logger.clearFlag);
@@ -45,8 +40,10 @@ export const buildInBundleMode = async (config: ITaskConfig) => {
     platform: 'node',
     watch,
     input: {
-      index: bundle,
+      index: entry,
     },
+    target,
+    sourceMap,
     output: {
       path: distDir,
       format,
@@ -66,7 +63,7 @@ export const buildInBundleMode = async (config: ITaskConfig) => {
 const taskMain = async () => {
   // Execution of the script's parameter handling and related required configuration acquisition
   const processArgv = argv(process.argv.slice(2));
-  const config = processArgv<ITaskConfig>(defaultConfig);
+  const config = processArgv<ITaskConfig>({} as ITaskConfig);
 
   await buildInBundleMode(config);
 };
