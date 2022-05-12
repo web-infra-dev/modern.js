@@ -1,3 +1,7 @@
+/**
+ * modified from https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline
+ * license at https://github.com/farrow-js/farrow/blob/master/LICENSE
+ */
 import NodeAsyncHooks from 'async_hooks';
 import * as asyncHooksInterface from './asyncHooksInterface';
 
