@@ -63,7 +63,8 @@
       "./fast-glob": "./compiled/fast-glob/index.js",
       "./gzip-size": "./compiled/gzip-size/index.js",
       "./mime-types": "./compiled/mime-types/index.js",
-      "./strip-ansi": "./compiled/strip-ansi/index.js"
+      "./strip-ansi": "./compiled/strip-ansi/index.js",
+      "./browserslist": "./compiled/browserslist/index.js"
     }
   },
   "typesVersions": {
