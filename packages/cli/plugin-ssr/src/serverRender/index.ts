@@ -23,6 +23,7 @@ export const render = async (
       ctx: ssrContext,
       App,
     });
+    entry.metrics.emitCounter('app.visit.count', 1);
 
     const end = time();
     const html = await entry.renderToHtml(ctx);
