@@ -37,11 +37,12 @@ export const setJestConfigForBFF = async ({
     },
   };
 
+  const { jestConfig } = utils;
   const alias = userConfig?.source?.alias || {};
 
   const aliasMapper = getModuleNameMapper(alias);
 
-  const { transform, moduleNameMapper } = utils.jestConfig;
+  const { transform, moduleNameMapper } = jestConfig;
 
   const apiOnly = await isApiOnly(pwd);
 
@@ -50,14 +51,23 @@ export const setJestConfigForBFF = async ({
     ...aliasMapper,
   };
 
-  const resolver = utils.jestConfig.resolver || DEFAULT_RESOLVER_PATH;
+  const resolver = jestConfig.resolver || DEFAULT_RESOLVER_PATH;
+
+  // 这三个配置不能设置在 projects 中，需要设置在外层(https://github.com/facebook/jest/issues/9696)
+  const configFields = ['coverage', 'collectCoverage', 'testTimeout'];
+  const commonConfig = configFields.reduce((obj, field) => {
+    if (jestConfig.hasOwnProperty(field)) {
+      obj[field] = jestConfig[field as keyof typeof jestConfig];
+    }
+    return obj;
+  }, {} as Record<string, unknown>);
 
   if (!apiOnly) {
     utils.setJestConfig(
       {
         projects: [
           {
-            ...utils.jestConfig,
+            ...jestConfig,
           },
           {
             transform,
@@ -88,6 +98,8 @@ export const setJestConfigForBFF = async ({
       },
     );
   }
+
+  utils.setJestConfig(commonConfig);
 };
 
 export default (): CliPlugin => ({
