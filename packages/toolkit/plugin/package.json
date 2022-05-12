@@ -31,6 +31,13 @@
       "default": "./dist/js/node/farrow-pipeline/asyncHooks.node.js"
     }
   },
+  "typesVersions": {
+    "*": {
+      "node": [
+        "./dist/types/farrow-pipeline/asyncHooks.node.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
