@@ -7,7 +7,7 @@
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "scripts": {
-    "prepare": "modern build",
+    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && modern build --platform",
     "dev": "modern dev",
     "build": "wireit",
@@ -57,18 +57,18 @@
     "build": {
       "command": "modern build",
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],
       "output": [
-        "dist/**/*.js"
+        "dist/**/*"
       ]
     },
     "test": {
       "command": "jest",
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],

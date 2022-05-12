@@ -623,7 +623,7 @@ import './App.css';
 const App = () => (
   <Switch>
     <Route exact={true} path="/">
-      <div className="container">
+      <div className="container-box">
         <main>
           {/* //... */}
         </main>

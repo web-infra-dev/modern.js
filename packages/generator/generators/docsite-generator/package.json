@@ -22,7 +22,7 @@
     "prepare": "pnpm build && pnpm build:csmith",
     "prepublishOnly": "only-allow-pnpm",
     "build": "wireit",
-    "build:csmith": "csmith-tools build",
+    "build:csmith": "wireit",
     "new": "modern new",
     "test": "wireit"
   },
@@ -58,7 +58,18 @@
     "build": {
       "command": "modern build",
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": [
+        "dist/**/*"
+      ]
+    },
+    "build:csmith": {
+      "command": "csmith-tools build",
+      "files": [
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],
@@ -69,7 +80,7 @@
     "test": {
       "command": "jest --passWithNoTests",
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],
