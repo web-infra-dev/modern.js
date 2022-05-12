@@ -25,7 +25,7 @@
     }
   },
   "scripts": {
-    "prepare": "modern build",
+    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && modern build --platform",
     "dev": "modern dev",
     "build": "wireit",
@@ -61,18 +61,18 @@
     "build": {
       "command": "modern build",
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],
       "output": [
-        "dist/**/*.js"
+        "dist/**/*"
       ]
     },
     "test": {
       "command": "jest --passWithNoTests",
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],

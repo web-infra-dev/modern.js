@@ -137,7 +137,7 @@ import { Link } from '@modern-js/runtime/router';
 import './index.css';
 
 const Index = () => (
-  <div className="container">
+  <div className="container-box">
     <main>
       <div className="logo">
         <img
@@ -182,7 +182,7 @@ export default Index;
 import { Helmet } from '@modern-js/runtime/head';
 
 const Index = () => (
-    <div className="container">
+    <div className="container-box">
       <Helmet>
         <title>Home</title>
       </Helmet>

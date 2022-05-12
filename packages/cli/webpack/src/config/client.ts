@@ -293,7 +293,6 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
       this.chain.plugin('node-polyfill-provide').use(ProvidePlugin, [
         {
           Buffer: [nodeLibsBrowser.buffer, 'Buffer'],
-          console: [nodeLibsBrowser.console],
           process: [nodeLibsBrowser.process],
         },
       ]);

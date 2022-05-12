@@ -13,9 +13,7 @@
     "modern.js"
   ],
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm",
-    "build": "wireit",
-    "test": "wireit"
+    "prepublishOnly": "only-allow-pnpm"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -24,25 +22,5 @@
   "devDependencies": {
     "@scripts/build": "workspace:*"
   },
-  "main": "./base.json",
-  "wireit": {
-    "build": {
-      "files": [
-        "src/**/*.ts",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*.js"
-      ]
-    },
-    "test": {
-      "files": [
-        "src/**/*.ts",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": []
-    }
-  }
+  "main": "./base.json"
 }

@@ -25,31 +25,9 @@
   "scripts": {
     "start": "egg-scripts start --daemon --title=egg-server-simple",
     "stop": "egg-scripts stop --title=egg-server-simple",
-    "dev": "egg-bin dev",
-    "build": "wireit",
-    "test": "wireit"
+    "dev": "egg-bin dev"
   },
   "ci": {
     "version": "1.0.0-rc.2"
-  },
-  "wireit": {
-    "build": {
-      "files": [
-        "src/**/*.ts",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/**/*.js"
-      ]
-    },
-    "test": {
-      "files": [
-        "src/**/*.ts",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": []
-    }
   }
 }

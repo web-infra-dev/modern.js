@@ -4,7 +4,7 @@ import type {
   MaybeAsync,
   Middleware,
   AsyncPipeline,
-} from 'farrow-pipeline';
+} from '../farrow-pipeline';
 import type {
   Brook,
   Waterfall,
