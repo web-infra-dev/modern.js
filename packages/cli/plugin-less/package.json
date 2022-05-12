@@ -84,7 +84,7 @@
     "build": {
       "command": "modern build",
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],
@@ -95,7 +95,7 @@
     "test": {
       "command": "jest --passWithNoTests",
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],

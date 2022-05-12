@@ -114,8 +114,8 @@
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
     "dev": "tsc --watch",
-    "build": "tsc",
-    "test": "jest --passWithNoTests"
+    "build": "wireit",
+    "test": "wireit"
   },
   "dependencies": {
     "caniuse-lite": "^1.0.30001332",
@@ -136,7 +136,7 @@
     "build": {
       "command": "tsc",
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "compiled/**/*.js",
         "tsconfig.json",
         "package.json"
@@ -148,7 +148,7 @@
     "test": {
       "command": "jest --passWithNoTests",
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "compiled/**/*.js",
         "tsconfig.json",
         "package.json"

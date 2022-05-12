@@ -39,7 +39,7 @@
   "wireit": {
     "build": {
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],
@@ -49,7 +49,7 @@
     },
     "test": {
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],

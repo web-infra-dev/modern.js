@@ -83,7 +83,7 @@
     "build": {
       "command": "tsc",
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],
@@ -94,7 +94,7 @@
     "test": {
       "command": "jest",
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],

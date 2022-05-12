@@ -27,7 +27,7 @@
   "wireit": {
     "build": {
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],
@@ -38,7 +38,7 @@
     "test": {
       "command": "echo \"Error: no test specified\" && exit 1",
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],

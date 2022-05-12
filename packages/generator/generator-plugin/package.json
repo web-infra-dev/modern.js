@@ -57,7 +57,7 @@
     "build": {
       "command": "modern build",
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],
@@ -68,7 +68,7 @@
     "test": {
       "command": "jest",
       "files": [
-        "src/**/*.ts",
+        "src/**/*",
         "tsconfig.json",
         "package.json"
       ],
