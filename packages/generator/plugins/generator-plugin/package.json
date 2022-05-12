@@ -69,7 +69,8 @@
         "package.json"
       ],
       "output": [
-        "dist/**/*"
+        "dist/**/*",
+        "!dist/node/main.js"
       ]
     },
     "build:csmith": {
@@ -78,6 +79,9 @@
         "src/**/*",
         "tsconfig.json",
         "package.json"
+      ],
+      "output": [
+        "dist/node/main.js"
       ]
     },
     "test": {
