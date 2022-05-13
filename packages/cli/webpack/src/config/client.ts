@@ -49,10 +49,10 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
   entry() {
     super.entry();
 
-    const entrypoints = Object.keys(this.chain.entryPoints.entries() || {});
+    if (this.options.output.polyfill === 'entry') {
+      const entryPoints = Object.keys(this.chain.entryPoints.entries() || {});
 
-    for (const name of entrypoints) {
-      if (this.options.output.polyfill !== 'off') {
+      for (const name of entryPoints) {
         this.chain
           .entry(name)
           .prepend(require.resolve('regenerator-runtime/runtime'))
