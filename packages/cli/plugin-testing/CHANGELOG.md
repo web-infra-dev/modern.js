@@ -1,5 +1,31 @@
 # @modern-js/plugin-testing
 
+## 1.5.5
+
+### Patch Changes
+
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+- 1a30be07b: fix: remove some babel plugins that provided by @babel/preset-env
+- Updated dependencies [d2995e7d7]
+- Updated dependencies [47934c4da]
+- Updated dependencies [273032b07]
+- Updated dependencies [d32f35134]
+- Updated dependencies [b1f7d2aa6]
+- Updated dependencies [97086dde8]
+- Updated dependencies [6ae4a34ae]
+- Updated dependencies [97086dde8]
+- Updated dependencies [97086dde8]
+- Updated dependencies [b80229c79]
+- Updated dependencies [ff6219909]
+- Updated dependencies [948cc4436]
+  - @modern-js/webpack@1.7.0
+  - @modern-js/testing@1.5.2
+  - @modern-js/testing-plugin-bff@1.4.3
+  - @modern-js/runtime-core@1.4.6
+  - @modern-js/bff-utils@1.2.6
+  - @modern-js/babel-compiler@1.2.5
+  - @modern-js/utils@1.7.3
+
 ## 1.5.4
 
 ### Patch Changes

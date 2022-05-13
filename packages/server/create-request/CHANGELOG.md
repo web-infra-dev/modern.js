@@ -1,5 +1,19 @@
 # @modern-js/create-request
 
+## 1.2.8
+
+### Patch Changes
+
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+- Updated dependencies [d32f35134]
+- Updated dependencies [6ae4a34ae]
+- Updated dependencies [97086dde8]
+- Updated dependencies [b80229c79]
+- Updated dependencies [5bfb57321]
+- Updated dependencies [948cc4436]
+  - @modern-js/utils@1.7.3
+  - @modern-js/plugin-ssr@1.3.2
+
 ## 1.2.7
 
 ### Patch Changes

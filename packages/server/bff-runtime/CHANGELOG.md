@@ -1,5 +1,14 @@
 # @modern-js/bff-runtime
 
+## 1.2.3
+
+### Patch Changes
+
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+- Updated dependencies [d32f35134]
+- Updated dependencies [1a30be07b]
+  - @modern-js/server-utils@1.2.6
+
 ## 1.2.2
 
 ### Patch Changes

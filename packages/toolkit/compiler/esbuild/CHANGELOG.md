@@ -1,5 +1,11 @@
 # @modern-js/esbuild-compiler
 
+## 0.2.4
+
+### Patch Changes
+
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+
 ## 0.2.3
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @modern-js/plugin-fetch
 
+## 1.2.6
+
+### Patch Changes
+
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+- Updated dependencies [d32f35134]
+- Updated dependencies [6ae4a34ae]
+- Updated dependencies [97086dde8]
+- Updated dependencies [97086dde8]
+- Updated dependencies [b80229c79]
+- Updated dependencies [948cc4436]
+  - @modern-js/runtime-core@1.4.6
+  - @modern-js/utils@1.7.3
+
 ## 1.2.5
 
 ### Patch Changes
