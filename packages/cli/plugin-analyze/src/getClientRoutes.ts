@@ -159,10 +159,10 @@ const recursiveReadDir = ({
 
       routes.push(route);
     }
+  }
 
-    if (resetParent) {
-      parents.pop();
-    }
+  if (resetParent) {
+    parents.pop();
   }
 };
 /* eslint-enable  no-param-reassign */
