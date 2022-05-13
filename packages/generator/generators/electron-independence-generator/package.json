@@ -34,7 +34,7 @@
     "@modern-js/codesmith-tools": "^1.1.2",
     "@modern-js/generator-utils": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
-    "@types/jest": "^26",
+    "@types/jest": "^27",
     "@types/node": "^14",
     "typescript": "^4",
     "@scripts/build": "workspace:*",

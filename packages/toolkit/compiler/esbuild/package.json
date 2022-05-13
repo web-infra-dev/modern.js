@@ -43,7 +43,7 @@
     "@scripts/jest-config": "workspace:*",
     "@types/babel__core": "^7.1.15",
     "@types/glob": "^7.1.4",
-    "@types/jest": "^26",
+    "@types/jest": "^27",
     "@types/node": "^14",
     "jest": "^27",
     "typescript": "^4"
