@@ -1,21 +1,11 @@
 import path from 'path';
+import { fs, json5 } from './compiled';
 
 export const readTsConfig = (root: string) => {
-  // import typescript from 'typescript' cause eslint format error.
-  const typescript = require('typescript');
-
-  return typescript.readConfigFile(
-    path.resolve(root, './tsconfig.json'),
-    typescript.sys.readFile,
-  ).config;
+  return readTsConfigByFile(path.resolve(root, './tsconfig.json'));
 };
 
 export const readTsConfigByFile = (filename: string) => {
-  // import typescript from 'typescript' cause eslint format error.
-  const typescript = require('typescript');
-
-  return typescript.readConfigFile(
-    path.resolve(filename),
-    typescript.sys.readFile,
-  ).config;
+  const content = fs.readFileSync(path.resolve(filename), 'utf-8');
+  return json5.parse(content);
 };

@@ -4216,13 +4216,11 @@ importers:
       esbuild: ^0.13.13
       jest: ^27
       lodash: ^4.17.21
-      typescript: ^4
       webpack: ^5.71.0
     dependencies:
       caniuse-lite: 1.0.30001332
       esbuild: 0.13.15
       lodash: 4.17.21
-      typescript: 4.5.4
     devDependencies:
       '@modern-js/types': link:../types
       '@scripts/build': link:../../../scripts/build
