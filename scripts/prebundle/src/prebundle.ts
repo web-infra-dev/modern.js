@@ -44,14 +44,6 @@ function emitDts(task: ParsedTask) {
     return;
   }
 
-  // Fix webpack-manifest-plugin types
-  if (task.depName === 'webpack-manifest-plugin') {
-    const pkgPath = require.resolve('webpack-manifest-plugin/package.json');
-    const content = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
-    content.types = 'dist/index.d.ts';
-    fs.writeFileSync(pkgPath, JSON.stringify(content));
-  }
-
   try {
     const externals = {
       ...DEFAULT_EXTERNALS,
@@ -71,29 +63,11 @@ function emitDts(task: ParsedTask) {
     console.error(`DtsPacker failed: ${task.depName}`);
     console.error(error);
   }
-
-  // Fix "declare module 'xxx'"
-  if (task.depName === 'upath') {
-    replaceFileContent(
-      join(task.distPath, 'upath.d.ts'),
-      content =>
-        `${content.replace(
-          'declare module "upath"',
-          'declare namespace upath',
-        )}\nexport = upath;`,
-    );
-  }
-
-  // Fix lodash types, copy `common` folder
-  if (task.depName === 'lodash') {
-    const from = join(process.cwd(), 'node_modules/@types/lodash/common');
-    fs.copySync(from, join(task.distPath, 'common'));
-  }
 }
 
 function emitPackageJson(task: ParsedTask) {
   const packageJsonPath = join(task.depPath, 'package.json');
-  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+  const packageJson = fs.readJsonSync(packageJsonPath, 'utf-8');
   const outputPath = join(task.distPath, 'package.json');
 
   const pickedPackageJson = pick(packageJson, [
@@ -143,8 +117,29 @@ function removeSourceMap(task: ParsedTask) {
   });
 }
 
+function renameDistFolder(task: ParsedTask) {
+  const pkgPath = join(task.distPath, 'package.json');
+  const pkgJson = fs.readJsonSync(pkgPath, 'utf-8');
+
+  ['types', 'typing', 'typings'].forEach(key => {
+    if (pkgJson[key]?.startsWith('dist/')) {
+      pkgJson[key] = pkgJson[key].replace('dist/', 'types/');
+
+      const distFolder = join(task.distPath, 'dist');
+      const typesFolder = join(task.distPath, 'types');
+      if (fs.existsSync(distFolder)) {
+        fs.renameSync(distFolder, typesFolder);
+      }
+    }
+  });
+
+  fs.writeJSONSync(pkgPath, pkgJson);
+}
+
 export async function prebundle(task: ParsedTask) {
   console.log(`==== Start prebundle "${task.depName}" ====`);
+
+  fs.removeSync(task.distPath);
 
   if (task.beforeBundle) {
     await task.beforeBundle(task);
@@ -166,6 +161,7 @@ export async function prebundle(task: ParsedTask) {
   emitPackageJson(task);
   emitExtraFiles(task);
   removeSourceMap(task);
+  renameDistFolder(task);
 
   if (task.afterBundle) {
     await task.afterBundle(task);
