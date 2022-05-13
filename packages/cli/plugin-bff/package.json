@@ -78,7 +78,7 @@
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__core": "^7.1.15",
-    "@types/jest": "^26",
+    "@types/jest": "^27",
     "@types/node": "^14",
     "jest": "^27",
     "memfs": "^3.3.0",

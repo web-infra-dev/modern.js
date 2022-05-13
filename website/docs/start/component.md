@@ -601,7 +601,7 @@ pnpm add internal-lib -D
   "devDependencies": {
     "@modern-js/app-tools": "^1",
     "@modern-js/plugin-jarvis": "^1",
-    "@types/jest": "^26.0.9",
+    "@types/jest": "^27",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
