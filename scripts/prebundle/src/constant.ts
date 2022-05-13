@@ -29,7 +29,6 @@ export const TASKS: TaskConfig[] = [
     dependencies: [
       // zero dependency
       'address',
-      'upath',
       'filesize',
       'minimist',
       'commander',
@@ -38,6 +37,19 @@ export const TASKS: TaskConfig[] = [
       'dotenv-expand',
       'url-join',
       'slash',
+      {
+        name: 'upath',
+        afterBundle(task) {
+          replaceFileContent(
+            join(task.distPath, 'upath.d.ts'),
+            content =>
+              `${content.replace(
+                'declare module "upath"',
+                'declare namespace upath',
+              )}\nexport = upath;`,
+          );
+        },
+      },
       // a few dependencies
       'debug',
       'semver',
@@ -173,6 +185,16 @@ export const TASKS: TaskConfig[] = [
         externals: {
           tapable: 'tapable',
           'webpack-sources': 'webpack-sources',
+        },
+        beforeBundle() {
+          const pkgPath = require.resolve(
+            'webpack-manifest-plugin/package.json',
+          );
+          replaceFileContent(pkgPath, content => {
+            const json = JSON.parse(content);
+            json.types = 'dist/index.d.ts';
+            return JSON.stringify(json);
+          });
         },
       },
       {
