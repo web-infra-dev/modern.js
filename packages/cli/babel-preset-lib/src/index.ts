@@ -36,7 +36,8 @@ export const getBabelChain = (
     plugins: {
       transformRuntime: {
         corejs: false, // 关闭 corejs
-        helpers: true,
+        // for es5 code need helper functions
+        helpers: syntaxOption.syntax === 'es5',
       },
       lodashOptions,
       styledComponentsOptions,
