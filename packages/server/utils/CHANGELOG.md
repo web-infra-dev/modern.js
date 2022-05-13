@@ -1,5 +1,21 @@
 # @modern-js/server-utils
 
+## 1.2.6
+
+### Patch Changes
+
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+- 1a30be07b: fix: remove some babel plugins that provided by @babel/preset-env
+- Updated dependencies [f1ca8eb83]
+- Updated dependencies [d5913bd96]
+- Updated dependencies [d32f35134]
+- Updated dependencies [6ae4a34ae]
+- Updated dependencies [b80229c79]
+- Updated dependencies [948cc4436]
+  - @modern-js/babel-preset-lib@1.2.5
+  - @modern-js/plugin@1.3.4
+  - @modern-js/utils@1.7.3
+
 ## 1.2.5
 
 ### Patch Changes

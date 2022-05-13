@@ -1,5 +1,11 @@
 # @modern-js/node-bundle-require
 
+## 1.3.3
+
+### Patch Changes
+
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+
 ## 1.3.2
 
 ### Patch Changes

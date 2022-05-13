@@ -1,5 +1,20 @@
 # @modern-js/plugin-ssr
 
+## 1.3.2
+
+### Patch Changes
+
+- 97086dde8: fix ssr data structure
+- 5bfb57321: add ssr count metrics
+- Updated dependencies [d32f35134]
+- Updated dependencies [6ae4a34ae]
+- Updated dependencies [97086dde8]
+- Updated dependencies [97086dde8]
+- Updated dependencies [b80229c79]
+- Updated dependencies [948cc4436]
+  - @modern-js/runtime-core@1.4.6
+  - @modern-js/utils@1.7.3
+
 ## 1.3.1
 
 ### Patch Changes

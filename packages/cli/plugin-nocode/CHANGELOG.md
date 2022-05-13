@@ -1,5 +1,24 @@
 # @modern-js/plugin-nocode
 
+## 1.2.2
+
+### Patch Changes
+
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+- Updated dependencies [d2995e7d7]
+- Updated dependencies [47934c4da]
+- Updated dependencies [d32f35134]
+- Updated dependencies [b1f7d2aa6]
+- Updated dependencies [97086dde8]
+- Updated dependencies [6ae4a34ae]
+- Updated dependencies [97086dde8]
+- Updated dependencies [97086dde8]
+- Updated dependencies [b80229c79]
+- Updated dependencies [ff6219909]
+- Updated dependencies [948cc4436]
+  - @modern-js/webpack@1.7.0
+  - @modern-js/utils@1.7.3
+
 ## 1.2.1
 
 ### Patch Changes

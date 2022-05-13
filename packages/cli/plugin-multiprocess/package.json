@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.1.7",
+  "version": "1.1.8",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -33,8 +33,8 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.7.2",
-    "@modern-js/types": "workspace:^1.5.2"
+    "@modern-js/utils": "workspace:^1.7.3",
+    "@modern-js/types": "workspace:^1.5.3"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
