@@ -67,7 +67,7 @@ function emitDts(task: ParsedTask) {
 
 function emitPackageJson(task: ParsedTask) {
   const packageJsonPath = join(task.depPath, 'package.json');
-  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+  const packageJson = fs.readJsonSync(packageJsonPath, 'utf-8');
   const outputPath = join(task.distPath, 'package.json');
 
   const pickedPackageJson = pick(packageJson, [
@@ -117,6 +117,25 @@ function removeSourceMap(task: ParsedTask) {
   });
 }
 
+function renameDistFolder(task: ParsedTask) {
+  const pkgPath = join(task.distPath, 'package.json');
+  const pkgJson = fs.readJsonSync(pkgPath, 'utf-8');
+
+  ['types', 'typing', 'typings'].forEach(key => {
+    if (pkgJson[key]?.startsWith('dist/')) {
+      pkgJson[key] = pkgJson[key].replace('dist/', 'types/');
+
+      const distFolder = join(task.distPath, 'dist');
+      const typesFolder = join(task.distPath, 'types');
+      if (fs.existsSync(distFolder)) {
+        fs.renameSync(distFolder, typesFolder);
+      }
+    }
+  });
+
+  fs.writeJSONSync(pkgPath, pkgJson);
+}
+
 export async function prebundle(task: ParsedTask) {
   console.log(`==== Start prebundle "${task.depName}" ====`);
 
@@ -142,6 +161,7 @@ export async function prebundle(task: ParsedTask) {
   emitPackageJson(task);
   emitExtraFiles(task);
   removeSourceMap(task);
+  renameDistFolder(task);
 
   if (task.afterBundle) {
     await task.afterBundle(task);
