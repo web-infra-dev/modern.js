@@ -3,6 +3,14 @@ import type { NormalizedConfig } from '@modern-js/core';
 import { Options as BabelPresetAppOptions } from '@modern-js/babel-preset-app';
 import type { BabelChain } from '@modern-js/babel-chain';
 
+export const getUseBuiltIns = (config: NormalizedConfig) => {
+  const { polyfill } = config.output || {};
+  if (polyfill === 'ua' || polyfill === 'off') {
+    return false;
+  }
+  return polyfill;
+};
+
 export const getBabelOptions = (
   metaName: string,
   appDirectory: string,
@@ -24,10 +32,7 @@ export const getBabelOptions = (
           config.tools?.lodash as any,
         ),
         useLegacyDecorators: !config.output?.enableLatestDecorators,
-        useBuiltIns:
-          config.output?.polyfill === 'ua' || config.output?.polyfill === 'off'
-            ? false
-            : config.output?.polyfill,
+        useBuiltIns: getUseBuiltIns(config),
         chain,
         styledComponents: applyOptionsChain(
           {
