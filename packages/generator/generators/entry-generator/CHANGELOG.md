@@ -1,5 +1,11 @@
 # @modern-js/entry-generator
 
+## 1.4.3
+
+### Patch Changes
+
+- 8bf0dcc04: fix: entry template style conflict with tailwindcss
+
 ## 1.4.2
 
 ### Patch Changes

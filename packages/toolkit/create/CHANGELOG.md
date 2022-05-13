@@ -1,5 +1,11 @@
 # @modern-js/create
 
+## 1.4.3
+
+### Patch Changes
+
+- d6fc58a3d: fix: create toolkit command
+
 ## 1.4.2
 
 ### Patch Changes

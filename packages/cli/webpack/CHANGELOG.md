@@ -1,5 +1,30 @@
 # @modern-js/webpack
 
+## 1.7.0
+
+### Minor Changes
+
+- 47934c4da: feat: bump @svgr/webpack from v5 to v6
+
+### Patch Changes
+
+- d2995e7d7: fix: should not trigger recompile after running dev command
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+- b1f7d2aa6: fix: remove console polyfill for performance
+- 97086dde8: remove code
+- 97086dde8: fix ssr data structure
+- 97086dde8: passing ssrContext to App.init
+- ff6219909: fix(webpack): tools.polyfill usage not work
+- Updated dependencies [d32f35134]
+- Updated dependencies [6ae4a34ae]
+- Updated dependencies [b80229c79]
+- Updated dependencies [1a30be07b]
+- Updated dependencies [948cc4436]
+  - @modern-js/babel-preset-app@1.3.2
+  - @modern-js/css-config@1.2.6
+  - @modern-js/babel-chain@1.2.3
+  - @modern-js/utils@1.7.3
+
 ## 1.6.2
 
 ### Patch Changes

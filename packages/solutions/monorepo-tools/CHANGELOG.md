@@ -1,5 +1,24 @@
 # @modern-js/monorepo-tools
 
+## 1.4.6
+
+### Patch Changes
+
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+- Updated dependencies [d5913bd96]
+- Updated dependencies [d32f35134]
+- Updated dependencies [d9d398e16]
+- Updated dependencies [6ae4a34ae]
+- Updated dependencies [b80229c79]
+- Updated dependencies [948cc4436]
+  - @modern-js/plugin@1.3.4
+  - @modern-js/core@1.10.2
+  - @modern-js/i18n-cli-language-detector@1.2.3
+  - @modern-js/plugin-changeset@1.2.7
+  - @modern-js/plugin-i18n@1.2.6
+  - @modern-js/new-action@1.3.9
+  - @modern-js/utils@1.7.3
+
 ## 1.4.5
 
 ### Patch Changes

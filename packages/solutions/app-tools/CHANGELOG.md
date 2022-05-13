@@ -1,5 +1,39 @@
 # @modern-js/app-tools
 
+## 1.6.4
+
+### Patch Changes
+
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+- Updated dependencies [d2995e7d7]
+- Updated dependencies [47934c4da]
+- Updated dependencies [d5913bd96]
+- Updated dependencies [d32f35134]
+- Updated dependencies [43d9bb5fa]
+- Updated dependencies [b1f7d2aa6]
+- Updated dependencies [86fe5a657]
+- Updated dependencies [d9d398e16]
+- Updated dependencies [97086dde8]
+- Updated dependencies [6ae4a34ae]
+- Updated dependencies [97086dde8]
+- Updated dependencies [97086dde8]
+- Updated dependencies [b80229c79]
+- Updated dependencies [ff6219909]
+- Updated dependencies [948cc4436]
+  - @modern-js/webpack@1.7.0
+  - @modern-js/plugin@1.3.4
+  - @modern-js/core@1.10.2
+  - @modern-js/i18n-cli-language-detector@1.2.3
+  - @modern-js/plugin-analyze@1.4.3
+  - @modern-js/plugin-fast-refresh@1.2.6
+  - @modern-js/plugin-i18n@1.2.6
+  - @modern-js/new-action@1.3.9
+  - @modern-js/prod-server@1.1.5
+  - @modern-js/server@1.4.14
+  - @modern-js/node-bundle-require@1.3.3
+  - @modern-js/types@1.5.3
+  - @modern-js/utils@1.7.3
+
 ## 1.6.3
 
 ### Patch Changes

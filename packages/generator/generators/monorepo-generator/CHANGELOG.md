@@ -1,5 +1,11 @@
 # @modern-js/monorepo-generator
 
+## 2.0.1
+
+### Patch Changes
+
+- 9ddd004b8: feat: generator template add husky package
+
 ## 2.0.0
 
 ### Major Changes
