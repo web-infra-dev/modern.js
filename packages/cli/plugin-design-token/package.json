@@ -52,7 +52,8 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/utils": "workspace:^1.7.4",
-    "tailwindcss": "^2.0.4"
+    "tailwindcss": "^2.0.4",
+    "hoist-non-react-statics": "^3.3.2"
   },
   "devDependencies": {
     "@modern-js/module-tools": "workspace:*",
@@ -61,6 +62,7 @@
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@types/jest": "^27",
+    "@types/hoist-non-react-statics": "^3.3.1",
     "@types/node": "^14",
     "@types/react": "^17",
     "@types/react-dom": "^17",
