@@ -60,6 +60,7 @@
       "./semver": "./compiled/semver/index.js",
       "./lodash": "./compiled/lodash/index.js",
       "./globby": "./compiled/globby/index.js",
+      "./fast-glob": "./compiled/fast-glob/index.js",
       "./gzip-size": "./compiled/gzip-size/index.js",
       "./mime-types": "./compiled/mime-types/index.js",
       "./strip-ansi": "./compiled/strip-ansi/index.js",
