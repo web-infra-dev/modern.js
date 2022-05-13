@@ -52,7 +52,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       core-js: ^3.6.4
       jest: ^27
@@ -74,7 +74,7 @@ importers:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -99,7 +99,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       babel-plugin-dynamic-import-node: ^2.3.3
       babel-plugin-import: 1.13.0
@@ -141,7 +141,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -156,7 +156,7 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -180,7 +180,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__core': 7.1.18
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -202,7 +202,7 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -223,7 +223,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__core': 7.1.18
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -241,7 +241,7 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/babel__code-frame': ^7.0.3
       '@types/babel__core': ^7.1.16
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/less': ^3.0.3
       '@types/node': ^14
       '@types/react': ^17
@@ -267,7 +267,7 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__code-frame': 7.0.3
       '@types/babel__core': 7.1.18
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/less': 3.0.3
       '@types/node': 14.18.4
       '@types/react': 17.0.38
@@ -287,7 +287,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react-dom': ^17
       caniuse-lite: ^1.0.30001332
@@ -303,7 +303,7 @@ importers:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react-dom': 17.0.11
       jest: 27.4.5
@@ -315,7 +315,7 @@ importers:
       '@babel/runtime': ^7
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -324,7 +324,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -343,7 +343,7 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__traverse': ^7.14.2
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -361,7 +361,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__traverse': 7.14.2
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -383,7 +383,7 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       esbuild: ^0.13.13
       jest: ^27
@@ -410,11 +410,11 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__core': 7.1.18
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       memfs: 3.4.1
-      ts-jest: 27.1.2_deedf02b7e39115d6ae9945ae02dbbb7
+      ts-jest: 27.1.2_79cc7548f51f57175d3c5205323c7733
       typescript: 4.5.4
       webpack: 5.71.0_esbuild@0.13.15
       webpack-chain: 6.5.1
@@ -427,7 +427,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26.0.9
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/walk': ^2.3.1
       cos-nodejs-sdk-v5: ^2.10.10
@@ -444,7 +444,7 @@ importers:
       '@modern-js/plugin-jarvis': link:../plugin-jarvis
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/walk': 2.3.1
       jest: 27.4.5
@@ -459,7 +459,7 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/ali-oss': ^6
-      '@types/jest': ^26.0.9
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/walk': ^2.3.1
       ali-oss: ^6
@@ -477,7 +477,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/ali-oss': 6.16.2
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/walk': 2.3.1
       jest: 27.4.5
@@ -494,7 +494,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       execa: ^5.1.1
       jest: ^27
@@ -511,7 +511,7 @@ importers:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -525,7 +525,7 @@ importers:
       '@modern-js/runtime-core': workspace:*
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -543,7 +543,7 @@ importers:
       '@modern-js/plugin-testing': link:../plugin-testing
       '@modern-js/runtime-core': link:../../runtime
       '@scripts/build': link:../../../scripts/build
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -565,7 +565,7 @@ importers:
       '@types/core-js': ^2.5.5
       '@types/github-slugger': ^1.3.0
       '@types/glob': ^7.1.4
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -622,7 +622,7 @@ importers:
       '@types/core-js': 2.5.5
       '@types/github-slugger': 1.3.0
       '@types/glob': 7.2.0
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -637,7 +637,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       esbuild: ^0.13.13
       jest: ^27
@@ -651,7 +651,7 @@ importers:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -666,7 +666,7 @@ importers:
       '@pmmmwh/react-refresh-webpack-plugin': ^0.5.5
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       react-refresh: 0.12.0
@@ -681,7 +681,7 @@ importers:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -694,7 +694,7 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@testing-library/react': ^12.0.0
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -712,7 +712,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -737,7 +737,7 @@ importers:
       '@testing-library/user-event': ^13.5.0
       '@types/debug': ^4.1.7
       '@types/hoist-non-react-statics': ^3.3.1
-      '@types/jest': ^26.0.24
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -774,7 +774,7 @@ importers:
       '@testing-library/react-hooks': 7.0.2_react-dom@17.0.2+react@17.0.2
       '@testing-library/user-event': 13.5.0
       '@types/hoist-non-react-statics': 3.3.1
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -792,7 +792,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -802,7 +802,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -821,7 +821,7 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/cross-spawn': ^6.0.2
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -877,7 +877,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/cross-spawn': 6.0.2
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -893,7 +893,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26.0.9
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -906,7 +906,7 @@ importers:
       '@modern-js/plugin-jarvis': link:../plugin-jarvis
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -920,7 +920,7 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@serverless/components': ^3.18.0
-      '@types/jest': ^26.0.9
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -933,7 +933,7 @@ importers:
       '@modern-js/plugin-jarvis': link:../plugin-jarvis
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -947,7 +947,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/less': ^3.0.3
       '@types/node': ^14
       esbuild: ^0.13.13
@@ -971,7 +971,7 @@ importers:
       '@modern-js/style-compiler': link:../../toolkit/compiler/style
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -985,7 +985,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26.0.9
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -997,7 +997,7 @@ importers:
       '@modern-js/plugin-jarvis': link:../plugin-jarvis
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -1014,7 +1014,7 @@ importers:
       '@types/cors': ^2.8.12
       '@types/express': ^4.17.13
       '@types/glob': ^7.1.4
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/less': ^3.0.3
       '@types/node': ^14
       '@types/opener': ^1.4.0
@@ -1060,7 +1060,7 @@ importers:
       '@types/cors': 2.8.12
       '@types/express': 4.17.13
       '@types/glob': 7.2.0
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/less': 3.0.3
       '@types/node': 14.18.4
       '@types/opener': 1.4.0
@@ -1074,7 +1074,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -1087,7 +1087,7 @@ importers:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -1106,7 +1106,7 @@ importers:
       '@testing-library/react': ^12.0.0
       '@types/history': ^4.7.9
       '@types/hoist-non-react-statics': ^3.3.1
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -1137,14 +1137,14 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@testing-library/react': 12.1.2_react-dom@17.0.2+react@17.0.2
       '@types/hoist-non-react-statics': 3.3.1
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
       jest: 27.4.5
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-      ts-jest: 27.1.2_417af29a41c03d1d392a0d4efbedd79c
+      ts-jest: 27.1.2_12421b13ce8055233c654a7384a9e4cd
       typescript: 4.5.4
 
   packages/cli/plugin-runtime:
@@ -1161,7 +1161,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/loadable__component': ^5.13.4
       '@types/node': ^14
       '@types/react': ^17
@@ -1192,7 +1192,7 @@ importers:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -1209,7 +1209,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       esbuild: ^0.13.13
       jest: ^27
@@ -1229,7 +1229,7 @@ importers:
       '@modern-js/style-compiler': link:../../toolkit/compiler/style
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -1246,7 +1246,7 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       ts-jest: ^27.0.5
@@ -1262,10 +1262,10 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__core': 7.1.18
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
-      ts-jest: 27.1.2_417af29a41c03d1d392a0d4efbedd79c
+      ts-jest: 27.1.2_12421b13ce8055233c654a7384a9e4cd
       typescript: 4.5.4
 
   packages/cli/plugin-ssg:
@@ -1277,7 +1277,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -1302,7 +1302,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -1326,7 +1326,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/loadable__component': ^5.13.4
       '@types/loadable__webpack-plugin': ^5.7.3
       '@types/node': ^14
@@ -1359,7 +1359,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/loadable__component': 5.13.4
       '@types/loadable__webpack-plugin': 5.7.3
       '@types/node': 14.18.4
@@ -1390,7 +1390,7 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/hoist-non-react-statics': ^3.3.1
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -1419,7 +1419,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/hoist-non-react-statics': 3.3.1
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -1452,7 +1452,7 @@ importers:
       '@types/findup-sync': ^4.0.1
       '@types/fs-extra': ^9.0.12
       '@types/glob': ^7.1.4
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -1496,7 +1496,7 @@ importers:
       '@types/findup-sync': 4.0.2
       '@types/fs-extra': 9.0.13
       '@types/glob': 7.2.0
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -1514,7 +1514,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/tailwindcss': ^2.2.1
       jest: ^27
@@ -1528,7 +1528,7 @@ importers:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/tailwindcss': 2.2.4
       jest: 27.4.5
@@ -1556,7 +1556,7 @@ importers:
       '@scripts/jest-config': workspace:*
       '@testing-library/jest-dom': ^5.14.1
       '@testing-library/react': ^12.0.0
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -1587,7 +1587,7 @@ importers:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -1627,7 +1627,7 @@ importers:
       '@types/es-module-lexer': ^0.3.0
       '@types/estree': ^0.0.46
       '@types/etag': ^1.8.0
-      '@types/jest': ^27.4.0
+      '@types/jest': ^27
       '@types/koa': ^2.11.7
       '@types/koa__cors': ^3.0.2
       '@types/koa-compress': ^4.0.1
@@ -1727,7 +1727,7 @@ importers:
       '@types/babel__traverse': 7.14.2
       '@types/es-module-lexer': 0.3.0
       '@types/estree': 0.0.46
-      '@types/jest': 27.4.0
+      '@types/jest': 27.4.1
       '@types/koa': 2.13.4
       '@types/koa__cors': 3.1.1
       '@types/koa-compress': 4.0.3
@@ -1750,7 +1750,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26.0.9
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -1763,7 +1763,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -1782,7 +1782,7 @@ importers:
       '@scripts/jest-config': workspace:*
       '@svgr/webpack': ^6.2.1
       '@types/css-minimizer-webpack-plugin': ^3.0.2
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/mini-css-extract-plugin': ~2.2.0
       '@types/node': ^14
       '@types/react': ^17
@@ -1841,7 +1841,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/css-minimizer-webpack-plugin': 3.2.1_esbuild@0.13.15+webpack@5.71.0
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/mini-css-extract-plugin': 2.2.0
       '@types/node': 14.18.4
       '@types/react': 17.0.38
@@ -1855,7 +1855,7 @@ importers:
       '@modern-js/generator-common': workspace:^1.4.11
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       covertable: ^2.2.2
       jest: ^27
@@ -1867,7 +1867,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -1882,7 +1882,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -1896,7 +1896,7 @@ importers:
       '@modern-js/codesmith-api-app': 1.0.10
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -1917,7 +1917,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26.0.9
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -1946,7 +1946,7 @@ importers:
       '@modern-js/plugin-jarvis': link:../../cli/plugin-jarvis
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -1962,7 +1962,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -1974,7 +1974,7 @@ importers:
       '@modern-js/codesmith': 1.0.10
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -1988,7 +1988,7 @@ importers:
       '@modern-js/generator-common': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2000,7 +2000,7 @@ importers:
       '@modern-js/generator-common': link:../../generator-common
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2016,7 +2016,7 @@ importers:
       '@modern-js/generator-utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2030,7 +2030,7 @@ importers:
       '@modern-js/generator-utils': link:../../generator-utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2044,7 +2044,7 @@ importers:
       '@modern-js/generator-common': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2056,7 +2056,7 @@ importers:
       '@modern-js/generator-common': link:../../generator-common
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2070,7 +2070,7 @@ importers:
       '@modern-js/generator-common': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2082,7 +2082,7 @@ importers:
       '@modern-js/generator-common': link:../../generator-common
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2100,7 +2100,7 @@ importers:
       '@modern-js/plugin-jarvis': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26.0.9
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2116,7 +2116,7 @@ importers:
       '@modern-js/plugin-jarvis': link:../../../cli/plugin-jarvis
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2132,7 +2132,7 @@ importers:
       '@modern-js/generator-utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2146,7 +2146,7 @@ importers:
       '@modern-js/generator-utils': link:../../generator-utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2162,7 +2162,7 @@ importers:
       '@modern-js/generator-utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26.0.9
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2176,7 +2176,7 @@ importers:
       '@modern-js/generator-utils': link:../../generator-utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2193,7 +2193,7 @@ importers:
       '@modern-js/plugin-i18n': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2208,7 +2208,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2224,7 +2224,7 @@ importers:
       '@modern-js/plugin-i18n': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2238,7 +2238,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2257,7 +2257,7 @@ importers:
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2274,7 +2274,7 @@ importers:
       '@modern-js/utils': link:../../../toolkit/utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2289,7 +2289,7 @@ importers:
       '@modern-js/generator-utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2302,7 +2302,7 @@ importers:
       '@modern-js/generator-utils': link:../../generator-utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2320,7 +2320,7 @@ importers:
       '@modern-js/plugin-i18n': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2336,7 +2336,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2356,7 +2356,7 @@ importers:
       '@modern-js/plugin-i18n': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2374,7 +2374,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2393,7 +2393,7 @@ importers:
       '@modern-js/plugin-i18n': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2410,7 +2410,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2431,7 +2431,7 @@ importers:
       '@modern-js/plugin-i18n': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2450,7 +2450,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2471,7 +2471,7 @@ importers:
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2493,7 +2493,7 @@ importers:
       '@modern-js/utils': link:../../../toolkit/utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2509,7 +2509,7 @@ importers:
       '@modern-js/generator-utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2523,7 +2523,7 @@ importers:
       '@modern-js/generator-utils': link:../../generator-utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2540,7 +2540,7 @@ importers:
       '@modern-js/generator-utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2555,7 +2555,7 @@ importers:
       '@modern-js/generator-utils': link:../../generator-utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2574,7 +2574,7 @@ importers:
       '@modern-js/plugin-i18n': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2591,7 +2591,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2607,7 +2607,7 @@ importers:
       '@modern-js/generator-utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2621,7 +2621,7 @@ importers:
       '@modern-js/generator-utils': link:../../generator-utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2639,7 +2639,7 @@ importers:
       '@modern-js/plugin-i18n': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2655,7 +2655,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2673,7 +2673,7 @@ importers:
       '@modern-js/plugin-i18n': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2689,7 +2689,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2704,7 +2704,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2718,7 +2718,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2732,7 +2732,7 @@ importers:
       '@modern-js/plugin-i18n': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2747,7 +2747,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2793,7 +2793,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^27.4.0
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -2815,14 +2815,14 @@ importers:
       enhanced-resolve: 5.9.2
       identity-obj-proxy: 3.0.0
       jest: 27.4.5
-      ts-jest: 27.1.2_2d831d15289db86e2fb52b60840d90c4
+      ts-jest: 27.1.2_0b3d832772cd8c057858a0e2d8b96578
       yargs: 17.3.1
     devDependencies:
       '@jest/types': 27.5.1
       '@modern-js/core': link:../../cli/core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 27.4.0
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -2839,7 +2839,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -2861,7 +2861,7 @@ importers:
       '@modern-js/testing': link:../testing
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -2885,7 +2885,7 @@ importers:
       '@testing-library/react-hooks': ^7.0.1
       '@types/hoist-non-react-statics': ^3.3.1
       '@types/invariant': ^2.2.30
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -2915,14 +2915,14 @@ importers:
       '@testing-library/react-hooks': 7.0.2_react-dom@17.0.2+react@17.0.2
       '@types/hoist-non-react-statics': 3.3.1
       '@types/invariant': 2.2.35
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
       jest: 27.4.5
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-      ts-jest: 27.1.2_417af29a41c03d1d392a0d4efbedd79c
+      ts-jest: 27.1.2_12421b13ce8055233c654a7384a9e4cd
       typescript: 4.5.4
 
   packages/server/adapter-helpers:
@@ -2930,7 +2930,7 @@ importers:
       '@babel/runtime': ^7.15.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^27.0.1
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -2939,7 +2939,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 27.4.0
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -2950,7 +2950,7 @@ importers:
       '@modern-js/server-utils': workspace:^1.2.6
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -2971,12 +2971,12 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
       jest: 27.4.5
-      ts-jest: 27.1.2_417af29a41c03d1d392a0d4efbedd79c
+      ts-jest: 27.1.2_12421b13ce8055233c654a7384a9e4cd
       typescript: 4.5.4
 
   packages/server/bff-utils:
@@ -2987,7 +2987,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -3006,12 +3006,12 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
       jest: 27.4.5
-      ts-jest: 27.1.2_417af29a41c03d1d392a0d4efbedd79c
+      ts-jest: 27.1.2_12421b13ce8055233c654a7384a9e4cd
       typescript: 4.5.4
 
   packages/server/core:
@@ -3022,7 +3022,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -3038,13 +3038,13 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
       http-proxy-middleware: 2.0.4
       jest: 27.4.5
-      ts-jest: 27.1.2_417af29a41c03d1d392a0d4efbedd79c
+      ts-jest: 27.1.2_12421b13ce8055233c654a7384a9e4cd
       typescript: 4.5.4
 
   packages/server/create-request:
@@ -3054,7 +3054,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^27.0.3
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/node-fetch': ^2.6.1
       '@types/react': ^17
@@ -3076,7 +3076,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 27.4.0
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/node-fetch': 2.6.1
       '@types/react': 17.0.38
@@ -3092,7 +3092,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^27.0.1
+      '@types/jest': ^27
       '@types/node': ^14
       esbuild: ^0.13.13
       jest: ^27
@@ -3123,7 +3123,7 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/formidable': ^1.2.3
-      '@types/jest': ^27.0.1
+      '@types/jest': ^27
       '@types/koa': ^2.13.4
       '@types/node': ^14
       '@types/supertest': ^2.0.11
@@ -3150,7 +3150,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/formidable': 1.2.5
-      '@types/jest': 27.4.0
+      '@types/jest': 27.4.1
       '@types/koa': 2.13.4
       '@types/node': 14.18.4
       '@types/supertest': 2.0.11
@@ -3179,7 +3179,7 @@ importers:
       '@types/express': ^4.17.13
       '@types/finalhandler': ^1.1.1
       '@types/formidable': ^1.2.3
-      '@types/jest': ^27.0.1
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/supertest': ^2.0.11
       '@types/type-is': ^1.6.3
@@ -3212,7 +3212,7 @@ importers:
       '@types/express': 4.17.13
       '@types/finalhandler': 1.1.1
       '@types/formidable': 1.2.5
-      '@types/jest': 27.4.0
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/supertest': 2.0.11
       '@types/type-is': 1.6.3
@@ -3232,7 +3232,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^27.0.1
+      '@types/jest': ^27
       '@types/koa': ^2.13.4
       '@types/koa-router': ^7.4.4
       '@types/node': ^14
@@ -3259,7 +3259,7 @@ importers:
       '@modern-js/server-core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 27.4.0
+      '@types/jest': 27.4.1
       '@types/koa': 2.13.4
       '@types/koa-router': 7.4.4
       '@types/node': 14.18.4
@@ -3290,7 +3290,7 @@ importers:
       '@types/express': ^4.17.13
       '@types/finalhandler': ^1.1.1
       '@types/formidable': ^1.2.3
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -3336,7 +3336,7 @@ importers:
       '@types/express': 4.17.13
       '@types/finalhandler': 1.1.1
       '@types/formidable': 1.2.5
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -3359,7 +3359,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/lru-cache': ^5.1.1
       '@types/node': ^14
       '@types/react': ^17
@@ -3381,7 +3381,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/lru-cache': 5.1.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
@@ -3401,7 +3401,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26.0.9
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -3416,7 +3416,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -3431,7 +3431,7 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/cookie': ^0.4.1
-      '@types/jest': ^26.0.9
+      '@types/jest': ^27
       '@types/lru-cache': ^5.1.1
       '@types/merge-deep': ^3.0.0
       '@types/node': ^14
@@ -3471,7 +3471,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/cookie': 0.4.1
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/lru-cache': 5.1.1
       '@types/merge-deep': 3.0.0
       '@types/node': 14.18.4
@@ -3496,7 +3496,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/minimatch': ^3.0.5
       '@types/node': ^14
       '@types/webpack-dev-middleware': ^5.0.2
@@ -3535,7 +3535,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/minimatch': 3.0.5
       '@types/node': 14.18.4
       '@types/webpack-dev-middleware': 5.3.0_webpack@5.71.0
@@ -3560,7 +3560,7 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -3586,12 +3586,12 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__core': 7.1.18
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
       jest: 27.4.5
-      ts-jest: 27.1.2_a710d5c4af6c3a58ccc3fbaac3501bf7
+      ts-jest: 27.1.2_3eb648e7fefec14f9648e8bfa67b632f
       typescript: 4.5.4
 
   packages/solutions/app-tools:
@@ -3613,7 +3613,7 @@ importers:
       '@modern-js/webpack': workspace:^1.7.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -3638,7 +3638,7 @@ importers:
       '@modern-js/server-core': link:../../server/core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -3673,7 +3673,7 @@ importers:
       '@types/babel__generator': ^7.6.3
       '@types/babel__traverse': ^7.14.2
       '@types/glob': ^7.1.4
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/normalize-path': ^3.0.0
       '@types/react': ^17
@@ -3716,7 +3716,7 @@ importers:
       '@types/babel__generator': 7.6.4
       '@types/babel__traverse': 7.14.2
       '@types/glob': 7.2.0
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/normalize-path': 3.0.0
       '@types/react': 17.0.38
@@ -3738,7 +3738,7 @@ importers:
       '@rushstack/package-deps-hash': ^3.0.54
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/md5': ^2.3.1
       '@types/node': ^14
       '@types/react': ^17
@@ -3765,7 +3765,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/md5': 2.3.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
@@ -3779,7 +3779,7 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.16
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -3789,7 +3789,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -3805,7 +3805,7 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
       '@types/glob': ^7.1.4
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -3820,7 +3820,7 @@ importers:
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/babel__core': 7.1.18
       '@types/glob': 7.2.0
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -3832,7 +3832,7 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
       '@types/glob': ^7.1.4
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       esbuild: ^0.14.38
       jest: ^27
@@ -3845,7 +3845,7 @@ importers:
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/babel__core': 7.1.18
       '@types/glob': 7.2.0
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -3856,7 +3856,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/less': ^3.0.3
       '@types/node': ^14
       '@types/postcss-import': ^12.0.1
@@ -3879,7 +3879,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/less': 3.0.3
       '@types/node': 14.18.4
       '@types/postcss-import': 12.0.1
@@ -3901,7 +3901,7 @@ importers:
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -3919,7 +3919,7 @@ importers:
       '@modern-js/utils': link:../utils
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -3932,7 +3932,7 @@ importers:
       '@babel/runtime': ^7
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -3943,7 +3943,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -3973,7 +3973,7 @@ importers:
       '@types/babel__traverse': ^7.14.2
       '@types/es-module-lexer': ~0.3.0
       '@types/gunzip-maybe': ~1.4.0
-      '@types/jest': ~26.0.20
+      '@types/jest': ^27
       '@types/jest-environment-puppeteer': ~4.4.1
       '@types/less': ~3.0.2
       '@types/node': ~14.14.20
@@ -4044,7 +4044,7 @@ importers:
       '@types/babel__traverse': 7.14.2
       '@types/es-module-lexer': 0.3.0
       '@types/gunzip-maybe': 1.4.0
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/jest-environment-puppeteer': 4.4.1
       '@types/less': 3.0.3
       '@types/node': 14.14.45
@@ -4066,7 +4066,7 @@ importers:
       strip-comments: 2.0.1
       tar-fs: 2.1.1
       tempy: 1.0.1
-      ts-jest: 27.0.7_099dd1792fb05ddc4df8fb5bcad369b1
+      ts-jest: 27.0.7_a2f3ddd827688fef9bbf0833ddf73109
       typescript: 4.5.4
 
   packages/toolkit/freeze:
@@ -4074,7 +4074,7 @@ importers:
       '@babel/runtime': ^7
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -4083,7 +4083,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -4095,7 +4095,7 @@ importers:
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -4106,7 +4106,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -4117,7 +4117,7 @@ importers:
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26.0.9
+      '@types/jest': ^27
       '@types/node': ^14
       esbuild: ^0.14.38
       jest: ^27
@@ -4131,7 +4131,7 @@ importers:
       '@modern-js/utils': link:../utils
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -4141,7 +4141,7 @@ importers:
       '@babel/runtime': ^7
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       jest: ^27
       typescript: ^4
@@ -4150,7 +4150,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -4160,7 +4160,7 @@ importers:
       '@modern-js/plugin': workspace:^1.3.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -4176,7 +4176,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -4187,7 +4187,7 @@ importers:
       '@babel/runtime': ^7
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -4198,7 +4198,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -4210,7 +4210,7 @@ importers:
       '@modern-js/types': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       caniuse-lite: ^1.0.30001332
       esbuild: ^0.13.13
@@ -4226,7 +4226,7 @@ importers:
       '@modern-js/types': link:../types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       jest: 27.4.5
       typescript: 4.5.4
@@ -4234,11 +4234,11 @@ importers:
 
   scripts/build:
     specifiers:
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       btsm: 2.2.2
     devDependencies:
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       btsm: 2.2.2
 
@@ -4260,14 +4260,14 @@ importers:
 
   scripts/jest-config:
     specifiers:
-      '@types/jest': ^26
+      '@types/jest': ^27
       '@types/node': ^14
       enhanced-resolve: ^5.8.3
       esbuild: ^0.14.38
       esbuild-jest: 0.5.0
       jest: ^27
     devDependencies:
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       enhanced-resolve: 5.8.3
       esbuild: 0.14.38
@@ -4515,7 +4515,7 @@ importers:
       '@modern-js/plugin-koa': workspace:*
       '@modern-js/plugin-testing': workspace:*
       '@modern-js/runtime': workspace:*
-      '@types/jest': ^26.0.9
+      '@types/jest': ^27
       '@types/koa': ^2.13.4
       '@types/node': ^14
       '@types/react': ^17
@@ -4537,7 +4537,7 @@ importers:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
       '@modern-js/plugin-jarvis': link:../../../packages/cli/plugin-jarvis
       '@modern-js/plugin-testing': link:../../../packages/cli/plugin-testing
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       '@types/koa': 2.13.4
       '@types/node': 14.18.4
       '@types/react': 17.0.38
@@ -4554,7 +4554,7 @@ importers:
       '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/runtime': workspace:*
       '@types/express': ^4.17.13
-      '@types/jest': ^27.4.0
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -4574,7 +4574,7 @@ importers:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
       '@modern-js/plugin-jarvis': link:../../../packages/cli/plugin-jarvis
       '@types/express': 4.17.13
-      '@types/jest': 27.4.0
+      '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
@@ -4995,7 +4995,7 @@ importers:
 
   tests/integration/esbuild:
     specifiers:
-      '@types/jest': ^27.4.1
+      '@types/jest': ^27
       '@types/node': ^14
     dependencies:
       '@types/jest': 27.4.1
@@ -5064,7 +5064,7 @@ importers:
       '@modern-js/server-core': workspace:*
       '@modern-js/utils': workspace:*
       '@types/express': ^4.17.13
-      '@types/jest': ^27.4.1
+      '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -13441,13 +13441,6 @@ packages:
       pretty-format: 26.6.2
     dev: true
 
-  /@types/jest/27.4.0:
-    resolution: {integrity: sha512-gHl8XuC1RZ8H2j5sHv/JqsaxXkDDM9iDOgu0Wp8sjs4u/snb2PVehyWXJPr+ORA0RPpgw231mnutWI1+0hgjIQ==}
-    dependencies:
-      jest-diff: 27.4.2
-      pretty-format: 27.4.2
-    dev: true
-
   /@types/jest/27.4.1:
     resolution: {integrity: sha512-23iPJADSmicDVrWk+HT58LMJtzLAnB2AgIzplQuq/bSrGaxCrlvRFjGbXmamnnk/mAmCdLStiGqggu28ocUyiw==}
     dependencies:
@@ -19149,10 +19142,6 @@ packages:
     engines: {node: '>= 10.14.2'}
     dev: true
 
-  /diff-sequences/27.4.0:
-    resolution: {integrity: sha512-YqiQzkrsmHMH5uuh8OdQFU9/ZpADnwzml8z0O5HvRNda+5UZsaX/xN+AAxfR2hWq1Y7HZnAzO9J5lJXOuDz2Ww==}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-
   /diff-sequences/27.5.1:
     resolution: {integrity: sha512-k1gCAXAsNgLwEL+Y8Wvl+M6oEFj5bgazfZULpS5CneoPPXRaCCW7dm+q21Ky2VEE5X+VeRDBVg1Pcvvsr4TtNQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
@@ -21320,7 +21309,7 @@ packages:
     dependencies:
       '@jest/types': 27.4.2
       ansi-styles: 5.2.0
-      jest-get-type: 27.4.0
+      jest-get-type: 27.5.1
       jest-matcher-utils: 27.5.1
       jest-message-util: 27.4.2
       jest-regex-util: 27.4.0
@@ -24865,7 +24854,7 @@ packages:
       jest-circus: 27.4.5
       jest-environment-jsdom: 27.4.4
       jest-environment-node: 27.4.4
-      jest-get-type: 27.4.0
+      jest-get-type: 27.5.1
       jest-jasmine2: 27.4.5
       jest-regex-util: 27.4.0
       jest-resolve: 27.4.5
@@ -24902,7 +24891,7 @@ packages:
       jest-circus: 27.4.5
       jest-environment-jsdom: 27.4.4
       jest-environment-node: 27.4.4
-      jest-get-type: 27.4.0
+      jest-get-type: 27.5.1
       jest-jasmine2: 27.4.5
       jest-regex-util: 27.4.0
       jest-resolve: 27.4.5
@@ -24985,15 +24974,6 @@ packages:
       pretty-format: 26.6.2
     dev: true
 
-  /jest-diff/27.4.2:
-    resolution: {integrity: sha512-ujc9ToyUZDh9KcqvQDkk/gkbf6zSaeEg9AiBxtttXW59H/AcqEYp1ciXAtJp+jXWva5nAf/ePtSsgWwE5mqp4Q==}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-    dependencies:
-      chalk: 4.1.2
-      diff-sequences: 27.4.0
-      jest-get-type: 27.4.0
-      pretty-format: 27.5.1
-
   /jest-diff/27.5.1:
     resolution: {integrity: sha512-m0NvkX55LDt9T4mctTEgnZk3fmEg3NRYutvMPWM/0iPnkFj2wIeF45O1718cMSOFO1vINkqmxqD8vE37uTEbqw==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
@@ -25022,7 +25002,7 @@ packages:
     dependencies:
       '@jest/types': 27.4.2
       chalk: 4.1.2
-      jest-get-type: 27.4.0
+      jest-get-type: 27.5.1
       jest-util: 27.4.2
       pretty-format: 27.5.1
 
@@ -25133,10 +25113,6 @@ packages:
     resolution: {integrity: sha512-TpfaviN1R2pQWkIihlfEanwOXK0zcxrKEE4MlU6Tn7keoXdN6/3gK/xl0yEh8DOunn5pOVGKf8hB4R9gVh04ig==}
     engines: {node: '>= 10.14.2'}
     dev: true
-
-  /jest-get-type/27.4.0:
-    resolution: {integrity: sha512-tk9o+ld5TWq41DkK14L4wox4s2D9MtTpKaAVzXfr5CUKm5ZK2ExcaFE0qls2W71zE/6R2TxxrK9w2r6svAFDBQ==}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
 
   /jest-get-type/27.5.1:
     resolution: {integrity: sha512-2KY95ksYSaK7DMBWQn6dQz3kqAf3BB64y2udeG+hv4KfSOb9qwcYQstTJc1KCbsix+wLZWZYN8t7nwX3GOBLRw==}
@@ -25255,7 +25231,7 @@ packages:
     resolution: {integrity: sha512-ml0KvFYZllzPBJWDei3mDzUhyp/M4ubKebX++fPaudpe8OsxUE+m+P6ciVLboQsrzOCWDjE20/eXew9QMx/VGw==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
-      jest-get-type: 27.4.0
+      jest-get-type: 27.5.1
       pretty-format: 27.5.1
 
   /jest-leak-detector/27.5.1:
@@ -25610,8 +25586,8 @@ packages:
       chalk: 4.1.2
       expect: 27.4.2
       graceful-fs: 4.2.10
-      jest-diff: 27.4.2
-      jest-get-type: 27.4.0
+      jest-diff: 27.5.1
+      jest-get-type: 27.5.1
       jest-haste-map: 27.4.5
       jest-matcher-utils: 27.5.1
       jest-message-util: 27.4.2
@@ -25694,7 +25670,7 @@ packages:
       '@jest/types': 27.4.2
       camelcase: 6.3.0
       chalk: 4.1.2
-      jest-get-type: 27.4.0
+      jest-get-type: 27.5.1
       leven: 3.1.0
       pretty-format: 27.5.1
 
@@ -35097,7 +35073,7 @@ packages:
     resolution: {integrity: sha512-q5W7tVM71e2xjHZTlgfTDoPF/SmqKG5hddq9SzR49CH2hayqRKJtQ4mtRlSxKaJlR/+9rEM+mnBHf7I2/BQcpQ==}
     engines: {node: '>=6.10'}
 
-  /ts-jest/27.0.7_099dd1792fb05ddc4df8fb5bcad369b1:
+  /ts-jest/27.0.7_a2f3ddd827688fef9bbf0833ddf73109:
     resolution: {integrity: sha512-O41shibMqzdafpuP+CkrOL7ykbmLh+FqQrXEmV9CydQ5JBk0Sj0uAEF5TNNe94fZWKm3yYvWa/IbyV4Yg1zK2Q==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
@@ -35116,7 +35092,7 @@ packages:
         optional: true
     dependencies:
       '@babel/core': 7.17.8
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
       jest: 27.4.5
@@ -35129,7 +35105,7 @@ packages:
       yargs-parser: 20.2.9
     dev: true
 
-  /ts-jest/27.1.2_2d831d15289db86e2fb52b60840d90c4:
+  /ts-jest/27.1.2_0b3d832772cd8c057858a0e2d8b96578:
     resolution: {integrity: sha512-eSOiJOWq6Hhs6Khzk5wKC5sgWIXgXqOCiIl1+3lfnearu58Hj4QpE5tUhQcA3xtZrELbcvAGCsd6HB8OsaVaTA==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
@@ -35151,7 +35127,7 @@ packages:
         optional: true
     dependencies:
       '@babel/core': 7.17.8
-      '@types/jest': 27.4.0
+      '@types/jest': 27.4.1
       babel-jest: 27.4.5_@babel+core@7.17.8
       bs-logger: 0.2.6
       esbuild: 0.14.38
@@ -35166,7 +35142,7 @@ packages:
       yargs-parser: 20.2.9
     dev: false
 
-  /ts-jest/27.1.2_417af29a41c03d1d392a0d4efbedd79c:
+  /ts-jest/27.1.2_12421b13ce8055233c654a7384a9e4cd:
     resolution: {integrity: sha512-eSOiJOWq6Hhs6Khzk5wKC5sgWIXgXqOCiIl1+3lfnearu58Hj4QpE5tUhQcA3xtZrELbcvAGCsd6HB8OsaVaTA==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
@@ -35187,7 +35163,7 @@ packages:
       esbuild:
         optional: true
     dependencies:
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       bs-logger: 0.2.6
       esbuild: 0.14.38
       fast-json-stable-stringify: 2.1.0
@@ -35201,7 +35177,7 @@ packages:
       yargs-parser: 20.2.9
     dev: true
 
-  /ts-jest/27.1.2_a710d5c4af6c3a58ccc3fbaac3501bf7:
+  /ts-jest/27.1.2_3eb648e7fefec14f9648e8bfa67b632f:
     resolution: {integrity: sha512-eSOiJOWq6Hhs6Khzk5wKC5sgWIXgXqOCiIl1+3lfnearu58Hj4QpE5tUhQcA3xtZrELbcvAGCsd6HB8OsaVaTA==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
@@ -35223,7 +35199,7 @@ packages:
         optional: true
     dependencies:
       '@babel/core': 7.17.8
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       bs-logger: 0.2.6
       esbuild: 0.14.38
       fast-json-stable-stringify: 2.1.0
@@ -35237,7 +35213,7 @@ packages:
       yargs-parser: 20.2.9
     dev: true
 
-  /ts-jest/27.1.2_deedf02b7e39115d6ae9945ae02dbbb7:
+  /ts-jest/27.1.2_79cc7548f51f57175d3c5205323c7733:
     resolution: {integrity: sha512-eSOiJOWq6Hhs6Khzk5wKC5sgWIXgXqOCiIl1+3lfnearu58Hj4QpE5tUhQcA3xtZrELbcvAGCsd6HB8OsaVaTA==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
@@ -35259,7 +35235,7 @@ packages:
         optional: true
     dependencies:
       '@babel/core': 7.17.8
-      '@types/jest': 26.0.24
+      '@types/jest': 27.4.1
       bs-logger: 0.2.6
       esbuild: 0.13.15
       fast-json-stable-stringify: 2.1.0
