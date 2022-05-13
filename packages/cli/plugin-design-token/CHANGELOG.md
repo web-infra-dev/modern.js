@@ -1,5 +1,17 @@
 # @modern-js/plugin-design-token
 
+## 1.0.7
+
+### Patch Changes
+
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+- 16ca3151b: add init function
+- Updated dependencies [d32f35134]
+- Updated dependencies [6ae4a34ae]
+- Updated dependencies [b80229c79]
+- Updated dependencies [948cc4436]
+  - @modern-js/utils@1.7.3
+
 ## 1.0.6
 
 ### Patch Changes

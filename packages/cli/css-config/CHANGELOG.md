@@ -1,5 +1,17 @@
 # @modern-js/css-config
 
+## 1.2.6
+
+### Patch Changes
+
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+- 6ae4a34ae: feat: prebundle all postcss plugins
+- Updated dependencies [d32f35134]
+- Updated dependencies [6ae4a34ae]
+- Updated dependencies [b80229c79]
+- Updated dependencies [948cc4436]
+  - @modern-js/utils@1.7.3
+
 ## 1.2.5
 
 ### Patch Changes

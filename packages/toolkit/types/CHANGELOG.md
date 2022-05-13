@@ -1,5 +1,14 @@
 # @modern-js/types
 
+## 1.5.3
+
+### Patch Changes
+
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+- Updated dependencies [d5913bd96]
+- Updated dependencies [d32f35134]
+  - @modern-js/plugin@1.3.4
+
 ## 1.5.2
 
 ### Patch Changes
