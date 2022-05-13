@@ -1,14 +1,9 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { getBundleEntry } from '../src/getBundleEntry';
 import { getClientRoutes } from '../src/getClientRoutes';
 
-describe.only('get client routes', () => {
-  const fixturePath = path.resolve(
-    __dirname,
-    './fixtures/entries/file-system-routes',
-  );
+const prepareEnv = (fixturePath: string) => {
   const appContext = {
     appDirectory: fixturePath,
     srcDirectory: path.join(fixturePath, 'src'),
@@ -19,12 +14,21 @@ describe.only('get client routes', () => {
 
   const config = { source: { entriesDir: './src' } };
 
-  fs.copySync(
-    path.join(fixturePath, '_node_modules'),
-    path.join(fixturePath, 'node_modules'),
-  );
+  return {
+    appContext,
+    config,
+  };
+};
 
+describe('get client routes', () => {
   test('basic usage', () => {
+    const fixturePath = path.resolve(
+      __dirname,
+      './fixtures/entries/file-system-routes',
+    );
+
+    const { appContext, config } = prepareEnv(fixturePath);
+
     const entries = getBundleEntry(
       appContext as IAppContext,
       config as NormalizedConfig,
@@ -51,29 +55,79 @@ describe.only('get client routes', () => {
         parent: undefined,
       },
       {
-        path: '/a/b',
-        _component:
-          '@_modern_js_internal/main/internal_components/Comp___modern_js_src_pages_a_b_index_ts___modern_js_src_pages_a_b__layout_ts___modern_js_src_pages_a__layout_ts.jsx',
-        component:
-          'Comp___modern_js_src_pages_a_b_index_ts___modern_js_src_pages_a_b__layout_ts___modern_js_src_pages_a__layout_ts',
+        path: '/info',
+        _component: '@_modern_js_src/pages/info.ts',
+        component: '__modern_js_src_pages_info_ts',
         exact: true,
         parent: undefined,
       },
       {
-        path: '/a/b/info',
-        _component:
-          '@_modern_js_internal/main/internal_components/Comp___modern_js_src_pages_a_b_info_ts___modern_js_src_pages_a_b__layout_ts___modern_js_src_pages_a__layout_ts.jsx',
-        component:
-          'Comp___modern_js_src_pages_a_b_info_ts___modern_js_src_pages_a_b__layout_ts___modern_js_src_pages_a__layout_ts',
+        path: '/about',
+        _component: '@_modern_js_src/pages/about.ts',
+        component: '__modern_js_src_pages_about_ts',
+        exact: true,
+        parent: undefined,
+      },
+    ]);
+  });
+
+  test('nested routes with `_app.tsx` and `_layout.tsx`', () => {
+    const fixturePath = path.resolve(
+      __dirname,
+      './fixtures/entries/file-system-routes-nested',
+    );
+
+    const { appContext, config } = prepareEnv(fixturePath);
+
+    const entries = getBundleEntry(
+      appContext as IAppContext,
+      config as NormalizedConfig,
+    );
+
+    let routes;
+
+    for (const entrypoint of entries) {
+      routes = getClientRoutes({
+        entrypoint,
+        srcDirectory: appContext.srcDirectory,
+        srcAlias: appContext.internalSrcAlias,
+        internalDirectory: appContext.internalDirectory,
+        internalDirAlias: appContext.internalDirAlias,
+      });
+    }
+
+    expect(routes).toEqual([
+      {
+        path: '/',
+        _component: '@_modern_js_src/pages/index.ts',
+        component: '__modern_js_src_pages_index_ts',
         exact: true,
         parent: undefined,
       },
       {
-        path: '/a/b/about',
+        path: '/a',
         _component:
-          '@_modern_js_internal/main/internal_components/Comp___modern_js_src_pages_a_b_about_ts___modern_js_src_pages_a_b__layout_ts___modern_js_src_pages_a__layout_ts.jsx',
+          '@_modern_js_internal/main/internal_components/Comp___modern_js_src_pages_a_index_ts___modern_js_src_pages_a__layout_ts.jsx',
         component:
-          'Comp___modern_js_src_pages_a_b_about_ts___modern_js_src_pages_a_b__layout_ts___modern_js_src_pages_a__layout_ts',
+          'Comp___modern_js_src_pages_a_index_ts___modern_js_src_pages_a__layout_ts',
+        exact: true,
+        parent: undefined,
+      },
+      {
+        path: '/a/list',
+        _component:
+          '@_modern_js_internal/main/internal_components/Comp___modern_js_src_pages_a_list_index_ts___modern_js_src_pages_a__layout_ts.jsx',
+        component:
+          'Comp___modern_js_src_pages_a_list_index_ts___modern_js_src_pages_a__layout_ts',
+        exact: true,
+        parent: undefined,
+      },
+      {
+        path: '/a/about',
+        _component:
+          '@_modern_js_internal/main/internal_components/Comp___modern_js_src_pages_a_about_index_ts___modern_js_src_pages_a__layout_ts.jsx',
+        component:
+          'Comp___modern_js_src_pages_a_about_index_ts___modern_js_src_pages_a__layout_ts',
         exact: true,
         parent: undefined,
       },
