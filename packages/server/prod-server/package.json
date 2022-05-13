@@ -56,7 +56,7 @@
     "@scripts/jest-config": "workspace:*",
     "@scripts/build": "workspace:*",
     "@types/cookie": "^0.4.1",
-    "@types/jest": "^26.0.9",
+    "@types/jest": "^27",
     "@types/lru-cache": "^5.1.1",
     "@types/merge-deep": "^3.0.0",
     "@types/node": "^14",
