@@ -33,7 +33,7 @@ import {
 import { createCSSRule, enableCssExtract } from '../utils/createCSSRule';
 import { mergeRegex } from '../utils/mergeRegex';
 import { getWebpackLogging } from '../utils/getWebpackLogging';
-import { getBabelOptions } from '../utils/getBabelOptions';
+import { getBabelOptions, getUseBuiltIns } from '../utils/getBabelOptions';
 import { ModuleScopePlugin } from '../plugins/module-scope-plugin';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
 import { TsConfigPathsPlugin } from '../plugins/ts-config-paths-plugin';
@@ -265,10 +265,7 @@ class BaseWebpackConfig {
                 appDirectory: this.appDirectory,
                 target: 'client',
                 useTsLoader: true,
-                useBuiltIns:
-                  this.options.output.polyfill === 'ua'
-                    ? false
-                    : this.options.output.polyfill,
+                useBuiltIns: getUseBuiltIns(this.options),
                 userBabelConfig: this.options.tools.babel,
               },
             ],
