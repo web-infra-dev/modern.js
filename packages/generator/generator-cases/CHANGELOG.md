@@ -1,5 +1,13 @@
 # @modern-js/generator-cases
 
+## 1.2.5
+
+### Patch Changes
+
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+- Updated dependencies [d32f35134]
+  - @modern-js/generator-common@1.4.11
+
 ## 1.2.4
 
 ### Patch Changes

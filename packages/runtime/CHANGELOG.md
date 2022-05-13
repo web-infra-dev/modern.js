@@ -1,5 +1,16 @@
 # @modern-js/runtime-core
 
+## 1.4.6
+
+### Patch Changes
+
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+- 97086dde8: fix ssr data structure
+- 97086dde8: passing ssrContext to App.init
+- Updated dependencies [d5913bd96]
+- Updated dependencies [d32f35134]
+  - @modern-js/plugin@1.3.4
+
 ## 1.4.5
 
 ### Patch Changes

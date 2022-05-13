@@ -1,5 +1,14 @@
 # @modern-js/utils
 
+## 1.7.3
+
+### Patch Changes
+
+- d32f35134: chore: add modern/jest/eslint/ts config files to .npmignore
+- 6ae4a34ae: feat: prebundle all postcss plugins
+- b80229c79: use json5 instead typescript
+- 948cc4436: fix(utils): fix missing browserslist exports
+
 ## 1.7.2
 
 ### Patch Changes
