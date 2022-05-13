@@ -91,7 +91,6 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
         // the correct version is used
         // https://github.com/babel/babel/blob/090c364a90fe73d36a30707fc612ce037bdbbb24/packages/babel-plugin-transform-runtime/src/index.js#L35-L42
         // absoluteRuntime: absoluteRuntimePath,
-        // helpers: target === 'client' && !isTest(),
         helpers: false,
         ...(transformRuntime || {}),
       },
