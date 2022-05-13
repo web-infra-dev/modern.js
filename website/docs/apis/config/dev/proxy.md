@@ -67,7 +67,7 @@ Compiled successfully in 3178ms
   App running at:
 
   Local:    http://localhost:8080/
-  Network:  http://10.2.210.160:8080/
+  Network:  http://192.168.0.1:8080/
 
 Note that the development build is not optimized.
 To create a production build, execute build command.
