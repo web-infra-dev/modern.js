@@ -11,5 +11,5 @@ export function isArrayEqual(arr1: unknown[], arr2: unknown[]) {
 }
 
 export function formatPath(path: string) {
-  return chalk.yellow.bold(path.replace(ROOT, ''));
+  return chalk.gray.underline(path.replace(ROOT, ''));
 }

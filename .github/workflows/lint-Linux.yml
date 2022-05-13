@@ -45,7 +45,7 @@ jobs:
         run: pnpm install --ignore-scripts
 
       - name: Lint package.json
-        run: cd ./scripts/lint-package-json && pnpm start
+        run: pnpm run lint:package-json
 
       - name: Lint
         run: pnpm run fast-lint

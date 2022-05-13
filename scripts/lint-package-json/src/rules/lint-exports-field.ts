@@ -1,7 +1,32 @@
+import chalk from 'chalk';
 import logger from 'consola';
 import { formatPath, isArrayEqual } from '../utils';
 import type { PackageJSON } from '..';
 
+/**
+ * Make sure "exports" and "publishConfig.exports" contains same keys.
+ *
+ * @example correct
+ * {
+ *   "exports": {
+ *     "foo": "./src/foo.ts"
+ *   },
+ *   "publishConfig": {
+ *     "foo": "./dist/foo.js"
+ *   }
+ * }
+ *
+ * @example incorrect
+ * {
+ *   "exports": {
+ *     "foo": "./src/foo.ts",
+ *     "bar": "./src/bar.ts"
+ *   },
+ *   "publishConfig": {
+ *     "foo": "./dist/foo.js"
+ *   }
+ * }
+ */
 export function lintExportsField(packageJSONs: PackageJSON[]) {
   let failed = false;
 
@@ -12,9 +37,10 @@ export function lintExportsField(packageJSONs: PackageJSON[]) {
 
       if (!isArrayEqual(keys1, keys2)) {
         failed = true;
-        logger.error(`
-The "exports" field of ${formatPath(path)} is incorrect,
-Please check if some fields are missing in "exports" or "publishConfig.exports".`);
+
+        const name = chalk.yellow('Lint "exports" failed.');
+        logger.error(`${name}  ${formatPath(path)}
+Please check the "exports" and "publishConfig.exports" fields to see if some key is missing.`);
       }
     }
   });
