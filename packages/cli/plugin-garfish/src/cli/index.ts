@@ -57,8 +57,6 @@ export default ({
       config() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const config = useAppContext();
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const resolveOptions = useResolvedConfigContext();
         pluginsExportsUtils = createRuntimeExportsUtils(
           config.internalDirectory,
           'plugins',
@@ -83,6 +81,8 @@ export default ({
               webpackConfig: any,
               { chain, webpack, env = process.env.NODE_ENV || 'development' },
             ) => {
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              const resolveOptions = useResolvedConfigContext();
               if (resolveOptions?.deploy?.microFrontend) {
                 chain.output.libraryTarget('umd');
                 if (resolveOptions?.server?.port) {
