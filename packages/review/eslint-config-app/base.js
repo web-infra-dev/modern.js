@@ -1271,7 +1271,6 @@ module.exports = {
     'node/prefer-promises/fs': 'off',
   },
   settings: {
-    'import/resolver': 'webpack',
     'import/extensions': jsExtensions,
     'import/ignore': ['\\.coffee$'],
   },
