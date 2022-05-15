@@ -5,8 +5,8 @@ import {
   findExists,
   normalizeToPosixPath,
 } from '@modern-js/utils';
-import { makeLegalIdentifier } from '@rollup/pluginutils';
 import type { Entrypoint, Route } from '@modern-js/types';
+import { makeLegalIdentifier } from './makeLegalIdentifier';
 import {
   FILE_SYSTEM_ROUTES_COMPONENTS_DIR,
   FILE_SYSTEM_ROUTES_DYNAMIC_REGEXP,
