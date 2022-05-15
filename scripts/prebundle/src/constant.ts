@@ -37,6 +37,7 @@ export const TASKS: TaskConfig[] = [
       'dotenv-expand',
       'url-join',
       'slash',
+      'nanoid',
       {
         name: 'upath',
         afterBundle(task) {

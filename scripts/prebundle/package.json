@@ -65,6 +65,7 @@
     "markdown-loader": "8.0.0",
     "minimist": "1.2.6",
     "mime-types": "2.1.35",
+    "nanoid": "3.3.4",
     "ora": "5.4.1",
     "pkg-up": "3.1.0",
     "postcss-loader": "6.2.1",
