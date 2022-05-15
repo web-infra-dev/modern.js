@@ -828,7 +828,6 @@ importers:
       cross-spawn: ^7.0.1
       eslint: ^7.32.0
       eslint-config-prettier: ^8.3.0
-      eslint-import-resolver-webpack: ^0.13.1
       eslint-plugin-eslint-comments: ^3.2.0
       eslint-plugin-filenames: ^1.3.2
       eslint-plugin-import: ^2.24.1
@@ -857,10 +856,9 @@ importers:
       cross-spawn: 7.0.3
       eslint: 7.32.0
       eslint-config-prettier: 8.3.0_eslint@7.32.0
-      eslint-import-resolver-webpack: 0.13.2_eslint-plugin-import@2.25.4
       eslint-plugin-eslint-comments: 3.2.0_eslint@7.32.0
       eslint-plugin-filenames: 1.3.2_eslint@7.32.0
-      eslint-plugin-import: 2.25.4_c3a1a21167b945cd18ff4e2e4a79a81b
+      eslint-plugin-import: 2.25.4_4e45d3a7b9f8ef33842d7116d2543b58
       eslint-plugin-markdown: 2.2.1_eslint@7.32.0
       eslint-plugin-node: 11.1.0_eslint@7.32.0
       eslint-plugin-prettier: 4.0.0_6e6a25a49a944db0fa38418c3ba4bc86
@@ -15171,10 +15169,6 @@ packages:
     resolution: {integrity: sha1-uveeYubvTCpMC4MSMtr/7CUfnYM=}
     dev: true
 
-  /array-find/1.0.0:
-    resolution: {integrity: sha1-bI4obRHtdoMn+OYuzuhzU8o+eLg=}
-    dev: false
-
   /array-flatten/1.1.1:
     resolution: {integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=}
 
@@ -20054,15 +20048,6 @@ packages:
       has-binary2: 1.0.3
     dev: false
 
-  /enhanced-resolve/0.9.1:
-    resolution: {integrity: sha1-TW5omzcl+GCQknzMhs2fFjW4ni4=}
-    engines: {node: '>=0.6'}
-    dependencies:
-      graceful-fs: 4.2.10
-      memory-fs: 0.2.0
-      tapable: 0.1.10
-    dev: false
-
   /enhanced-resolve/4.5.0:
     resolution: {integrity: sha512-Nv9m36S/vxpsI+Hc4/ZGRs0n9mXqSWGGq49zxb/cJfPAQMbUtttJAlNPS4AQzaBdw/pKskw5bMbekT/Y7W/Wlg==}
     engines: {node: '>=6.9.0'}
@@ -20703,30 +20688,6 @@ packages:
       - supports-color
     dev: false
 
-  /eslint-import-resolver-webpack/0.13.2_eslint-plugin-import@2.25.4:
-    resolution: {integrity: sha512-XodIPyg1OgE2h5BDErz3WJoK7lawxKTJNhgPNafRST6csC/MZC+L5P6kKqsZGRInpbgc02s/WZMrb4uGJzcuRg==}
-    engines: {node: '>= 6'}
-    peerDependencies:
-      eslint-plugin-import: '>=1.4.0'
-      webpack: '>=1.11.0'
-    dependencies:
-      array-find: 1.0.0
-      debug: 3.2.7
-      enhanced-resolve: 0.9.1
-      esbuild: 0.13.15
-      eslint-plugin-import: 2.25.4_c3a1a21167b945cd18ff4e2e4a79a81b
-      find-root: 1.1.0
-      has: 1.0.3
-      interpret: 1.4.0
-      is-core-module: 2.8.0
-      is-regex: 1.1.4
-      lodash: 4.17.21
-      resolve: 1.22.0
-      semver: 5.7.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /eslint-index/1.5.0:
     resolution: {integrity: sha512-lIr1cGKFEW1M/7URdTX1r+pYWsxpSqv1p8u0SRPBVjUQvNt3r430VoOR006QzQX0eB8ngGe5fzZu8eW64TlkoA==}
     dependencies:
@@ -20739,7 +20700,7 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-module-utils/2.7.2_d13f5694549011901e1bd033c26c669d:
+  /eslint-module-utils/2.7.2_0399891fd6df64bf98347649afe6640f:
     resolution: {integrity: sha512-zquepFnWCY2ISMFwD/DqzaM++H+7PDzOpUvotJWm/y1BAFt5R4oeULgdrTejKqLkz7MA/tgstsUMNYc7wNdTrg==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -20760,7 +20721,6 @@ packages:
       '@typescript-eslint/parser': 5.17.0_eslint@7.32.0+typescript@4.5.4
       debug: 3.2.7
       eslint-import-resolver-node: 0.3.6
-      eslint-import-resolver-webpack: 0.13.2_eslint-plugin-import@2.25.4
       find-up: 2.1.0
     transitivePeerDependencies:
       - supports-color
@@ -20800,7 +20760,7 @@ packages:
       lodash.upperfirst: 4.3.1
     dev: false
 
-  /eslint-plugin-import/2.25.4_c3a1a21167b945cd18ff4e2e4a79a81b:
+  /eslint-plugin-import/2.25.4_4e45d3a7b9f8ef33842d7116d2543b58:
     resolution: {integrity: sha512-/KJBASVFxpu0xg1kIBn9AUa8hQVnszpwgE7Ld0lKAlx7Ie87yzEzCgSkekt+le/YVhiaosO4Y14GDAOc41nfxA==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -20817,7 +20777,7 @@ packages:
       doctrine: 2.1.0
       eslint: 7.32.0
       eslint-import-resolver-node: 0.3.6
-      eslint-module-utils: 2.7.2_d13f5694549011901e1bd033c26c669d
+      eslint-module-utils: 2.7.2_0399891fd6df64bf98347649afe6640f
       has: 1.0.3
       is-core-module: 2.8.0
       is-glob: 4.0.3
@@ -27234,10 +27194,6 @@ packages:
     resolution: {integrity: sha1-fIekZGREwy11Q4VwkF8tvRsagFo=}
     dependencies:
       map-or-similar: 1.5.0
-
-  /memory-fs/0.2.0:
-    resolution: {integrity: sha1-8rslNovBIeORwlIN6Slpyu4KApA=}
-    dev: false
 
   /memory-fs/0.4.1:
     resolution: {integrity: sha1-OpoguEYlI+RHz7x+i7gO1me/xVI=}
@@ -34601,11 +34557,6 @@ packages:
       tmp: 0.2.1
     transitivePeerDependencies:
       - ts-node
-    dev: false
-
-  /tapable/0.1.10:
-    resolution: {integrity: sha1-KcNXB8K3DlDQdIK10gLo7URtr9Q=}
-    engines: {node: '>=0.6'}
     dev: false
 
   /tapable/1.1.3:
