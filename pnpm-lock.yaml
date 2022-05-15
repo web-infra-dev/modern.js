@@ -164,7 +164,6 @@ importers:
       babel-plugin-transform-define: ^2
       babel-plugin-transform-inline-environment-variables: ^0.4.3
       jest: ^27
-      tsconfig-paths: ^3.10.1
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
@@ -174,7 +173,6 @@ importers:
       babel-plugin-module-resolver: 4.1.0
       babel-plugin-transform-define: 2.0.1
       babel-plugin-transform-inline-environment-variables: 0.4.3
-      tsconfig-paths: 3.12.0
     devDependencies:
       '@babel/core': 7.17.8
       '@scripts/build': link:../../../scripts/build
@@ -1665,7 +1663,6 @@ importers:
       rollup: ^2.38.5
       sass: ^1.45.0
       strip-comments: ^2.0.1
-      tsconfig-paths: ^3.9.0
       typescript: ^4
       ws: ^7.4.3
     dependencies:
@@ -1713,7 +1710,6 @@ importers:
       rollup: 2.62.0
       sass: 1.45.2
       strip-comments: 2.0.1
-      tsconfig-paths: 3.12.0
       ws: 7.5.6
     devDependencies:
       '@modern-js/bff-utils': link:../../server/bff-utils
@@ -1804,7 +1800,6 @@ importers:
       tapable: ^2.2.1
       terser-webpack-plugin: ^5.1.4
       ts-loader: ^9.2.5
-      tsconfig-paths: ^3.11.0
       typescript: ^4
       webpack: ^5.71.0
       webpack-sources: ^3.2.3
@@ -1832,7 +1827,6 @@ importers:
       tapable: 2.2.1
       terser-webpack-plugin: 5.3.0_esbuild@0.13.15+webpack@5.71.0
       ts-loader: 9.2.6_typescript@4.5.4+webpack@5.71.0
-      tsconfig-paths: 3.12.0
       webpack: 5.71.0_esbuild@0.13.15
       webpack-sources: 3.2.3
     devDependencies:
@@ -3507,7 +3501,6 @@ importers:
       launch-editor: ^2.2.1
       minimatch: ^3.0.4
       path-to-regexp: ^6.2.0
-      tsconfig-paths: ^3.11.0
       typescript: ^4
       webpack: ^5.71.0
       webpack-dev-middleware: ^5.0.0
@@ -3526,7 +3519,6 @@ importers:
       launch-editor: 2.3.0
       minimatch: 3.0.4
       path-to-regexp: 6.2.0
-      tsconfig-paths: 3.12.0
       webpack-dev-middleware: 5.3.0_webpack@5.71.0
       ws: 8.4.0
     devDependencies:
@@ -3682,7 +3674,6 @@ importers:
       normalize-path: ^3.0.0
       p-map: ^4
       process.argv: ^0.6.0
-      tsconfig-paths: ^3.10.1
       typescript: ^4
     dependencies:
       '@babel/generator': 7.16.8
@@ -3706,7 +3697,6 @@ importers:
       normalize-path: 3.0.0
       p-map: 4.0.0
       process.argv: 0.6.0
-      tsconfig-paths: 3.12.0
     devDependencies:
       '@babel/preset-typescript': 7.16.7
       '@modern-js/babel-chain': link:../../toolkit/babel-chain
@@ -4114,7 +4104,7 @@ importers:
   packages/toolkit/node-bundle-require:
     specifiers:
       '@babel/runtime': ^7
-      '@modern-js/utils': workspace:*
+      '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
@@ -4124,9 +4114,9 @@ importers:
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.16.7
+      '@modern-js/utils': link:../utils
       esbuild: 0.14.38
     devDependencies:
-      '@modern-js/utils': link:../utils
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.4.1
@@ -4362,6 +4352,7 @@ importers:
       slash: 3.0.0
       strip-ansi: 6.0.1
       toml-loader: 1.0.0
+      tsconfig-paths: 3.14.1
       typescript: ^4
       upath: 2.0.1
       url-join: 4.0.1
@@ -4449,6 +4440,7 @@ importers:
       slash: 3.0.0
       strip-ansi: 6.0.1
       toml-loader: 1.0.0
+      tsconfig-paths: 3.14.1
       upath: 2.0.1
       url-join: 4.0.1
       url-loader: 4.1.1_file-loader@6.2.0+webpack@5.71.0
@@ -13465,7 +13457,6 @@ packages:
 
   /@types/json5/0.0.29:
     resolution: {integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=}
-    dev: false
 
   /@types/keygrip/1.0.2:
     resolution: {integrity: sha512-GJhpTepz2udxGexqos8wgaBx4I/zWIDPh/KOGEwAqtuGDkOUJu5eFvwmdBX4AmB8Odsr+9pHCQqiAqDL/yKMKw==}
@@ -35439,6 +35430,15 @@ packages:
       minimist: 1.2.5
       strip-bom: 3.0.0
     dev: false
+
+  /tsconfig-paths/3.14.1:
+    resolution: {integrity: sha512-fxDhWnFSLt3VuTwtvJt5fpwxBHg5AdKWMsgcPOOIilyjymcYVZoCQF8fvFRezCNfblEXmi+PcM1eYHeOAgXCOQ==}
+    dependencies:
+      '@types/json5': 0.0.29
+      json5: 1.0.1
+      minimist: 1.2.6
+      strip-bom: 3.0.0
+    dev: true
 
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
