@@ -6,6 +6,7 @@ module.exports = {
     project: ['./tsconfig.json'],
   },
   rules: {
+    'max-lines': 'off',
     'no-console': 'off',
   },
 };

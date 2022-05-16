@@ -5,7 +5,7 @@ import {
   isRelativePath,
   createDebugger,
 } from '@modern-js/utils';
-import { createMatchPath, MatchPath } from 'tsconfig-paths';
+import { createMatchPath, MatchPath } from '@modern-js/utils/tsconfig-paths';
 import { JS_RESOLVE_EXTENSIONS } from '../utils/constants';
 import type { ResolveContext, Resolver, ResolveRequest } from './plugin.type';
 
