@@ -661,11 +661,13 @@ class BaseWebpackConfig {
   }
 
   watchOptions() {
-    this.chain.watchOptions({
-      // fix webpack watch mode rebuild twice on file change
-      // https://github.com/webpack/webpack/issues/15431
-      aggregateTimeout: 100,
-    });
+    if (isDev()) {
+      this.chain.watchOptions({
+        // fix webpack watch mode rebuild twice on file change
+        // https://github.com/webpack/webpack/issues/15431
+        aggregateTimeout: 100,
+      });
+    }
   }
 
   getChain() {
