@@ -41,8 +41,7 @@
     "@modern-js/utils": "workspace:^1.7.3",
     "babel-plugin-transform-define": "^2",
     "babel-plugin-module-resolver": "^4.0.0",
-    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
-    "tsconfig-paths": "^3.10.1"
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3"
   },
   "devDependencies": {
     "@babel/core": "^7.17.0",

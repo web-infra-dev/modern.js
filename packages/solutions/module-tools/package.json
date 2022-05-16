@@ -76,8 +76,7 @@
     "@modern-js/utils": "workspace:^1.7.3",
     "normalize-path": "^3.0.0",
     "p-map": "^4",
-    "process.argv": "^0.6.0",
-    "tsconfig-paths": "^3.10.1"
+    "process.argv": "^0.6.0"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.15.0",

@@ -1,4 +1,6 @@
 import { join } from 'path';
+import glob from 'fast-glob';
+import { copyFileSync } from 'fs-extra';
 import { replaceFileContent } from './helper';
 import type { TaskConfig } from './types';
 
@@ -37,6 +39,7 @@ export const TASKS: TaskConfig[] = [
       'dotenv-expand',
       'url-join',
       'slash',
+      'nanoid',
       {
         name: 'upath',
         afterBundle(task) {
@@ -99,6 +102,21 @@ export const TASKS: TaskConfig[] = [
           ora: '../ora',
           chalk: '../chalk',
           'strip-ansi': '../strip-ansi',
+        },
+      },
+      {
+        name: 'tsconfig-paths',
+        externals: {
+          json5: '../json5',
+          minimist: '../minimist',
+        },
+        afterBundle(task) {
+          const dtsFiles = glob.sync(join(task.depPath, 'lib', '*.d.ts'), {
+            ignore: ['**/__tests__/**'],
+          });
+          dtsFiles.forEach(file => {
+            copyFileSync(file, file.replace(task.depPath, task.distPath));
+          });
         },
       },
     ],

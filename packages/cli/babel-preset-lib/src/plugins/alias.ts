@@ -1,5 +1,5 @@
 import path from 'path';
-import { createMatchPath } from 'tsconfig-paths';
+import { createMatchPath } from '@modern-js/utils/tsconfig-paths';
 import { PluginOptions } from '@babel/core';
 import { getUserAlias } from '@modern-js/utils';
 import { AliasOption } from '../types';
