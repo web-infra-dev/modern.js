@@ -66,6 +66,9 @@ export default ({
           'index',
         );
         return {
+          output: {
+            disableCssExtract: true,
+          },
           source: {
             alias: {
               '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
