@@ -3,7 +3,7 @@ import * as parser from '@babel/parser';
 import traverse, { NodePath } from '@babel/traverse';
 import generator from '@babel/generator';
 import * as t from '@babel/types';
-import { createMatchPath } from 'tsconfig-paths';
+import { createMatchPath } from '@modern-js/utils/tsconfig-paths';
 import { fs } from '@modern-js/utils';
 import { defaultTransformedFunctions } from './constants';
 import { matchesPattern, isImportCall } from './utils';
