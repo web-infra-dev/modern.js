@@ -660,6 +660,16 @@ class BaseWebpackConfig {
     return chainConfig;
   }
 
+  watchOptions() {
+    if (isDev()) {
+      this.chain.watchOptions({
+        // fix webpack watch mode rebuild twice on file change
+        // https://github.com/webpack/webpack/issues/15431
+        aggregateTimeout: 100,
+      });
+    }
+  }
+
   getChain() {
     this.chain.context(this.appDirectory);
 
@@ -677,6 +687,7 @@ class BaseWebpackConfig {
     this.cache();
     this.optimization();
     this.stats();
+    this.watchOptions();
 
     const config = this.chain.toConfig();
 
