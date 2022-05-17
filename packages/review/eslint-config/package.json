@@ -17,9 +17,6 @@
     "check": "eslint-find-rules --unused index.js",
     "stat": "eslint-index index.js --format table"
   },
-  "peerDependencies": {
-    "@modern-js/plugin-jarvis": "workspace:^1.2.8"
-  },
   "dependencies": {
     "@modern-js-app/eslint-config": "workspace:^1.2.9"
   },
