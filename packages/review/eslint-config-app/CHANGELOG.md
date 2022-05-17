@@ -1,5 +1,15 @@
 # @modern-js-app/eslint-config
 
+## 1.2.10
+
+### Patch Changes
+
+- 40b78af3d: fix(eslint): remove eslint-import-resolver-webpack
+- Updated dependencies [602299a4d]
+- Updated dependencies [40b78af3d]
+  - @modern-js/babel-preset-app@1.3.3
+  - @modern-js/plugin-jarvis@1.2.11
+
 ## 1.2.9
 
 ### Patch Changes
