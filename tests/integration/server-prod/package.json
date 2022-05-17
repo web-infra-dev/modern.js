@@ -39,6 +39,7 @@
     ".rpt2_cache/"
   ],
   "dependencies": {
+    "@babel/runtime": "^7",
     "@modern-js/runtime": "workspace:*",
     "axios": "^0.24.0",
     "express": "^4.17.1",
