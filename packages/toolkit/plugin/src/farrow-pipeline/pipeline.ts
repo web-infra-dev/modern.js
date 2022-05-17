@@ -33,7 +33,7 @@ export type Middlewares<I = unknown, O = unknown> = Middleware<I, O>[];
 export const isPipeline = (input: any): input is Pipeline =>
   Boolean(input?.[PipelineSymbol]);
 
-const PipelineSymbol = Symbol('pipeline');
+const PipelineSymbol = Symbol.for('MODERN_PIPELINE');
 
 export type PipelineOptions = {
   contexts?: ContextStorage;
