@@ -22,7 +22,7 @@ export type Context<T = any> = {
 };
 
 export const createContext = <T>(value: T) => {
-  const id = Symbol.for('MODERN_CONTEXT_ID');
+  const id = Symbol('MODERN_CONTEXT_ID');
 
   const create = (value: T): Context<T> => {
     const use = () => {
