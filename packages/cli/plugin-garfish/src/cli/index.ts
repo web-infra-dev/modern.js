@@ -48,6 +48,7 @@ export default ({
           );
         }
         logger(`resolvedConfig`, {
+          output: nConfig.resolved.output,
           runtime: nConfig.resolved.runtime,
           deploy: nConfig.resolved.deploy,
           server: nConfig.resolved.server,
@@ -66,9 +67,6 @@ export default ({
           'index',
         );
         return {
-          output: {
-            disableCssExtract: true,
-          },
           source: {
             alias: {
               '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
@@ -113,6 +111,7 @@ export default ({
                 if (!enableHtmlEntry) {
                   chain.output.filename('index.js');
                   chain.plugins.delete('html-main');
+                  chain.plugins.delete('mini-css-extract');
                   chain.optimization.runtimeChunk(false);
                   chain.optimization.splitChunks({
                     chunks: 'async',
@@ -125,6 +124,7 @@ export default ({
                 externals: resolveWebpackConfig.externals,
                 env,
                 alias: resolveWebpackConfig.resolve?.alias,
+                plugins: resolveWebpackConfig.plugins,
               });
             },
           },

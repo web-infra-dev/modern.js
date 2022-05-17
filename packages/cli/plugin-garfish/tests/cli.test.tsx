@@ -163,6 +163,12 @@ describe('plugin-garfish cli', () => {
     const config: any = await runner.config();
     const webpackConfig = new WebpackChain();
 
+    function HTMLWebpackPlugin() {};
+    function MiniCssExtract() {};
+    webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
+    webpackConfig.plugin('mini-css-extract').use(MiniCssExtract);
+
+
     config[0].tools.webpack({}, {
       chain: webpackConfig,
       webpack: jest.fn(),
@@ -199,6 +205,10 @@ describe('plugin-garfish cli', () => {
     await runner.prepare();
     const config: any = await runner.config();
     const webpackConfig = new WebpackChain();
+    function HTMLWebpackPlugin() {};
+    function MiniCssExtract() {};
+    webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
+    webpackConfig.plugin('mini-css-extract').use(MiniCssExtract);
 
     config[0].tools.webpack({}, {
       chain: webpackConfig,

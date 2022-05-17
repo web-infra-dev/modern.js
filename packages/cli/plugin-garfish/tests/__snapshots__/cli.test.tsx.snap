@@ -75,5 +75,9 @@ Object {
     "libraryTarget": "umd",
     "publicPath": "//localhost:8080/",
   },
+  "plugins": Array [
+    HTMLWebpackPlugin {},
+    MiniCssExtract {},
+  ],
 }
 `;
