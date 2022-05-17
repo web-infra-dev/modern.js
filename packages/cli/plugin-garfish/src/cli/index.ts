@@ -160,7 +160,6 @@ export default ({
                 if (!enableHtmlEntry) {
                   chain.output.filename('index.js');
                   chain.plugins.delete('html-main');
-                  // chain.plugins.delete('mini-css-extract');
                   chain.optimization.runtimeChunk(false);
                   chain.optimization.splitChunks({
                     chunks: 'async',
