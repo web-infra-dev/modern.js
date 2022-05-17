@@ -1,5 +1,15 @@
 # @modern-js/babel-preset-lib
 
+## 1.2.6
+
+### Patch Changes
+
+- b8cfc42cd: feat: prebundle tsconfig-paths and nanoid
+- 6a95a7480: enable helpers for es5
+- Updated dependencies [b8cfc42cd]
+- Updated dependencies [804a5bb8a]
+  - @modern-js/utils@1.7.4
+
 ## 1.2.5
 
 ### Patch Changes

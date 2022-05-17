@@ -45,7 +45,7 @@
     "@modern-js/bff-runtime": "workspace:^1.2.3",
     "@modern-js/bff-utils": "workspace:^1.2.6",
     "@modern-js/types": "workspace:^1.5.3",
-    "@modern-js/utils": "workspace:^1.7.3",
+    "@modern-js/utils": "workspace:^1.7.4",
     "cookie-parser": "^1.4.5",
     "finalhandler": "^1.1.2",
     "formidable": "^1.2.2",
@@ -100,7 +100,8 @@
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "tests/**/*"
       ],
       "output": []
     }

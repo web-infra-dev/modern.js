@@ -1,5 +1,21 @@
 # @modern-js/module-tools
 
+## 1.5.3
+
+### Patch Changes
+
+- b8cfc42cd: feat: prebundle tsconfig-paths and nanoid
+- Updated dependencies [b8cfc42cd]
+- Updated dependencies [804a5bb8a]
+- Updated dependencies [3680834f2]
+- Updated dependencies [a37960018]
+  - @modern-js/utils@1.7.4
+  - @modern-js/plugin-analyze@1.4.4
+  - @modern-js/core@1.10.3
+  - @modern-js/css-config@1.2.6
+  - @modern-js/plugin-changeset@1.2.7
+  - @modern-js/plugin-fast-refresh@1.2.6
+
 ## 1.5.2
 
 ### Patch Changes
