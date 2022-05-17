@@ -130,6 +130,15 @@ export const resolveBabelConfig = (
       { legacy: true },
     ]);
 
+  // resolve "Definitely assigned fields cannot be initialized here, but only in the constructor."
+  babelChain
+    .plugin('@babel/plugin-proposal-class-properties')
+    .use(require.resolve('@babel/plugin-proposal-class-properties'), [
+      {
+        loose: true,
+      },
+    ]);
+
   const internalBabelConfig = { ...babelChain.toJSON() };
 
   const userBabelConfig = modernConfig.tools.babel;
