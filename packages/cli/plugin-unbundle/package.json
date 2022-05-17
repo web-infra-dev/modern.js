@@ -82,7 +82,6 @@
     "rollup": "^2.38.5",
     "sass": "^1.45.0",
     "strip-comments": "^2.0.1",
-    "tsconfig-paths": "^3.9.0",
     "ws": "^7.4.3"
   },
   "devDependencies": {

@@ -1,6 +1,5 @@
 import path from 'path';
-import { fs, CONFIG_CACHE_DIR, createDebugger } from '@modern-js/utils';
-import { nanoid } from 'nanoid';
+import { fs, nanoid, CONFIG_CACHE_DIR, createDebugger } from '@modern-js/utils';
 import { build, Loader, Plugin, BuildOptions } from 'esbuild';
 
 const debug = createDebugger('node-bundle');

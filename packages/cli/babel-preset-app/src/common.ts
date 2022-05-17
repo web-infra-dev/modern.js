@@ -83,6 +83,7 @@ export const genCommon = (options: Options): BabelChain => {
         // We should turn this on once the lowest version of Node LTS
         // supports ES Modules.
         useESModules: !modules,
+        helpers: target === 'client' && !isTest(),
       },
       transformReactRemovePropTypes: isProd()
         ? {
