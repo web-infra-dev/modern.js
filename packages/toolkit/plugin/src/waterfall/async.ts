@@ -6,7 +6,7 @@ import {
   useContainer,
 } from '../farrow-pipeline';
 
-const ASYNC_WATERFALL_SYMBOL = Symbol('ASYNC_WATERFALL_SYMBOL');
+const ASYNC_WATERFALL_SYMBOL = Symbol.for('MODERN_ASYNC_WATERFALL');
 
 export type AsyncBrook<I = unknown> = (I: I) => MaybeAsync<I>;
 export type AsyncBrookInput<I = unknown> =
