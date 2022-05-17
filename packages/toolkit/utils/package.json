@@ -138,7 +138,6 @@
       "command": "tsc",
       "files": [
         "src/**/*",
-        "compiled/**/*.js",
         "tsconfig.json",
         "package.json"
       ],
@@ -150,9 +149,9 @@
       "command": "jest --passWithNoTests",
       "files": [
         "src/**/*",
-        "compiled/**/*.js",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "tests/**/*"
       ],
       "output": []
     }
