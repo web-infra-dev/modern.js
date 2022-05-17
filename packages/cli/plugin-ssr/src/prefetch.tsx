@@ -1,6 +1,10 @@
+import path from 'path';
+import fs from 'fs';
 import { RuntimeContext } from '@modern-js/runtime-core';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { run } from '@modern-js/utils/ssr';
+import { LOADABLE_STATS_FILE } from '@modern-js/utils/constants';
+import { ChunkExtractor } from '@loadable/server';
 
 // todo: SSRContext
 const prefetch = async (
@@ -9,8 +13,17 @@ const prefetch = async (
 ) =>
   run(context.ssrContext.request.headers, async () => {
     const { ssrContext } = context;
+    const loadablefile = path.resolve(ssrContext.distDir, LOADABLE_STATS_FILE);
 
-    renderToStaticMarkup(<App context={context} />);
+    if (fs.existsSync(loadablefile)) {
+      const extractor = new ChunkExtractor({
+        statsFile: path.resolve(ssrContext.distDir, LOADABLE_STATS_FILE),
+        entrypoints: [ssrContext.entryName].filter(Boolean),
+      });
+      renderToStaticMarkup(extractor.collectChunks(<App context={context} />));
+    } else {
+      renderToStaticMarkup(<App context={context} />);
+    }
 
     if (!context.loaderManager.hasPendingLoaders()) {
       return {
