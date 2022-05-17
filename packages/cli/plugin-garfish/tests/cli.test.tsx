@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
-import { Hooks, manager, ToRunners } from '@modern-js/core';
+import { Hooks, manager, ToRunners, useConfigContext } from '@modern-js/core';
 import WebpackChain from 'webpack-chain';
-import GarfishPlugin, { externals } from '../src/cli';
+import GarfishPlugin, { externals, UseConfig } from '../src/cli';
 import { getRuntimeConfig, makeRenderFunction, setRuntimeConfig } from '../src/cli/utils';
 
 const addExportList = [];
@@ -164,9 +164,7 @@ describe('plugin-garfish cli', () => {
     const webpackConfig = new WebpackChain();
 
     function HTMLWebpackPlugin() {};
-    function MiniCssExtract() {};
     webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
-    webpackConfig.plugin('mini-css-extract').use(MiniCssExtract);
 
 
     config[0].tools.webpack({}, {
@@ -206,9 +204,7 @@ describe('plugin-garfish cli', () => {
     const config: any = await runner.config();
     const webpackConfig = new WebpackChain();
     function HTMLWebpackPlugin() {};
-    function MiniCssExtract() {};
     webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
-    webpackConfig.plugin('mini-css-extract').use(MiniCssExtract);
 
     config[0].tools.webpack({}, {
       chain: webpackConfig,
@@ -235,7 +231,7 @@ describe('plugin-garfish cli', () => {
   });
 
   test('cli addRuntimeExports', async ()=>{
-    const resolveConfig: any = {};
+    const resolveConfig: Partial<UseConfig> = {};
     const mfPackagePath = '@modern-js/test/plugin-garfish';
     const plugin = GarfishPlugin({
       mfPackagePath,
@@ -243,6 +239,7 @@ describe('plugin-garfish cli', () => {
 
     const lifecycle = await plugin.setup({
       useResolvedConfigContext: () => resolveConfig,
+      useConfigContext: ()=> resolveConfig,
       useAppContext: ()=>({
         internalDirectory: 'test'
       }),
@@ -251,5 +248,58 @@ describe('plugin-garfish cli', () => {
     lifecycle && lifecycle.config();
     lifecycle && lifecycle.addRuntimeExports()
     expect(addExportList).toMatchSnapshot();
+  });
+
+  test('micro fronted default config disableCssExtract false', async ()=>{
+    const resolveConfig: Partial<UseConfig> = {
+      deploy: {
+        microFrontend: {},
+      }
+    };
+
+    const main = manager.clone({
+      useResolvedConfigContext: ()=> resolveConfig as any,
+      useConfigContext: ()=> resolveConfig,
+    }).usePlugin(GarfishPlugin);
+
+    const runner = await main.init();
+    await runner.prepare();
+    const config = await runner.config();
+    expect(config[0].output.disableCssExtract).toBe(false);
+  });
+
+  test('micro fronted js entry disableCssExtract true', async ()=>{
+    const resolveConfig: Partial<UseConfig> = {
+      output: {
+        disableCssExtract: false
+      },
+      deploy: {
+        microFrontend: {
+          enableHtmlEntry: false,
+        },
+      }
+    };
+
+    const main = manager.clone({
+      useResolvedConfigContext: ()=>resolveConfig as any,
+      useConfigContext: ()=> resolveConfig,
+    }).usePlugin(GarfishPlugin);
+    const runner = await main.init();
+    await runner.prepare();
+    const config = await runner.config();
+    expect(config[0].output.disableCssExtract).toBe(true);
+  });
+
+  test('normal disableCssExtract false', async ()=>{
+    const resolveConfig: Partial<UseConfig> = {};
+
+    const main = manager.clone({
+      useResolvedConfigContext: ()=>resolveConfig as any,
+      useConfigContext: ()=> resolveConfig,
+    }).usePlugin(GarfishPlugin);
+    const runner = await main.init();
+    await runner.prepare();
+    const config = await runner.config();
+    expect(config[0].output.disableCssExtract).toBe(false);
   });
 });

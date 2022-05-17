@@ -77,7 +77,6 @@ Object {
   },
   "plugins": Array [
     HTMLWebpackPlugin {},
-    MiniCssExtract {},
   ],
 }
 `;

@@ -1,6 +1,6 @@
 import path from 'path';
 import { createRuntimeExportsUtils, PLUGIN_SCHEMAS } from '@modern-js/utils';
-import type { CliHookCallbacks, CliPlugin } from '@modern-js/core';
+import { CliHookCallbacks, CliPlugin, useConfigContext } from '@modern-js/core';
 import { logger } from '../util';
 import {
   getRuntimeConfig,
@@ -9,16 +9,40 @@ import {
   setRuntimeConfig,
 } from './utils';
 
+export type UseConfig = ReturnType<typeof useConfigContext>;
+
 export const externals = { 'react-dom': 'react-dom', react: 'react' };
 
 export type LifeCycle = CliHookCallbacks;
+
+type NonInValidAble<T> = T extends null | undefined | false ? never : T;
+
+export function getDefaultMicroFrontedConfig(
+  microFrontend: NonInValidAble<
+    NonNullable<UseConfig['deploy']>['microFrontend']
+  >,
+) {
+  if (microFrontend === true) {
+    return {
+      enableHtmlEntry: true,
+      externalBasicLibrary: false,
+      moduleApp: '',
+    };
+  }
+
+  return {
+    enableHtmlEntry: true,
+    externalBasicLibrary: false,
+    ...microFrontend,
+  };
+}
 
 export default ({
   runtimePluginName = '@modern-js/runtime/plugins',
   mfPackagePath = path.resolve(__dirname, '../../../../'),
 } = {}): CliPlugin => ({
   name: '@modern-js/plugin-garfish',
-  setup: ({ useAppContext, useResolvedConfigContext }) => {
+  setup: ({ useAppContext, useResolvedConfigContext, useConfigContext }) => {
     let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
     let runtimeExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
     return {
@@ -57,6 +81,10 @@ export default ({
       },
       config() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
+        const useConfig = useConfigContext();
+        logger('useConfig', useConfig);
+
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         const config = useAppContext();
         pluginsExportsUtils = createRuntimeExportsUtils(
           config.internalDirectory,
@@ -66,7 +94,23 @@ export default ({
           config.internalDirectory,
           'index',
         );
+
+        let disableCssExtract = useConfig.output?.disableCssExtract ?? false;
+
+        // When the micro-frontend application js entry, there is no need to extract css, close cssExtract
+        if (useConfig.deploy?.microFrontend) {
+          const { enableHtmlEntry } = getDefaultMicroFrontedConfig(
+            useConfig.deploy?.microFrontend,
+          );
+          if (!enableHtmlEntry) {
+            disableCssExtract = true;
+          }
+        }
+
         return {
+          output: {
+            disableCssExtract,
+          },
           source: {
             alias: {
               '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
@@ -99,10 +143,11 @@ export default ({
                     .plugin('banner')
                     .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
                 }
-                const { enableHtmlEntry = true, externalBasicLibrary = false } =
-                  typeof resolveOptions?.deploy?.microFrontend === 'object'
-                    ? resolveOptions?.deploy?.microFrontend
-                    : {};
+
+                const { enableHtmlEntry, externalBasicLibrary } =
+                  getDefaultMicroFrontedConfig(
+                    resolveOptions.deploy?.microFrontend,
+                  );
                 // external
                 if (externalBasicLibrary) {
                   chain.externals(externals);
@@ -111,7 +156,7 @@ export default ({
                 if (!enableHtmlEntry) {
                   chain.output.filename('index.js');
                   chain.plugins.delete('html-main');
-                  chain.plugins.delete('mini-css-extract');
+                  // chain.plugins.delete('mini-css-extract');
                   chain.optimization.runtimeChunk(false);
                   chain.optimization.splitChunks({
                     chunks: 'async',

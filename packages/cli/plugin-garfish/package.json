@@ -67,6 +67,7 @@
     "react-loadable": "^5.5.0"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.17.12",
     "@modern-js/core": "workspace:*",
     "@modern-js/plugin-router": "workspace:*",
     "@modern-js/runtime-core": "workspace:*",
@@ -89,6 +90,11 @@
     "react-router-dom": "^6.2.1",
     "typescript": "^4",
     "webpack-chain": "^6.5.1"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-typescript"
+    ]
   },
   "peerDependencies": {
     "@modern-js/plugin-router": "workspace:^1.2.14",
