@@ -1,6 +1,6 @@
 import { Container, createPipeline, Middleware } from '../farrow-pipeline';
 
-const WORKFLOW_SYMBOL = Symbol('WORKFLOW_SYMBOL');
+const WORKFLOW_SYMBOL = Symbol.for('MODERN_WORKFLOW');
 
 export type Worker<I, O> = (I: I) => O;
 export type Workers<I, O> = Worker<I, O>[];
