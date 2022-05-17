@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { Hooks, manager, ToRunners, useConfigContext } from '@modern-js/core';
+import { manager } from '@modern-js/core';
 import WebpackChain from 'webpack-chain';
 import GarfishPlugin, { externals, UseConfig } from '../src/cli';
 import { getRuntimeConfig, makeRenderFunction, setRuntimeConfig } from '../src/cli/utils';
