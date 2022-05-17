@@ -2,7 +2,7 @@ import { MaybeAsync, createPipeline, Middleware } from '../farrow-pipeline';
 import type { AsyncWorker, AsyncWorkers } from './async';
 import type { RunWorkflowOptions } from './sync';
 
-const PARALLEL_WORKFLOW_SYMBOL = Symbol('PARALLEL_WORKFLOW_SYMBOL');
+const PARALLEL_WORKFLOW_SYMBOL = Symbol.for('MODERN_PARALLEL_WORKFLOW');
 
 export type ParallelWorkflow<I, O = any> = {
   run: (input: I, options?: RunWorkflowOptions) => Promise<O[]>;
