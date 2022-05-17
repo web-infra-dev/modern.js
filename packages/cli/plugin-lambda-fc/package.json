@@ -40,7 +40,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.7.3",
+    "@modern-js/utils": "workspace:^1.7.4",
     "@alicloud/fun": "3.6.24"
   },
   "devDependencies": {

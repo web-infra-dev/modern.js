@@ -1,5 +1,14 @@
 # @modern-js/node-bundle-require
 
+## 1.3.4
+
+### Patch Changes
+
+- b8cfc42cd: feat: prebundle tsconfig-paths and nanoid
+- Updated dependencies [b8cfc42cd]
+- Updated dependencies [804a5bb8a]
+  - @modern-js/utils@1.7.4
+
 ## 1.3.3
 
 ### Patch Changes
