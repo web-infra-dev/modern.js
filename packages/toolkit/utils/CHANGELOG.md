@@ -1,5 +1,12 @@
 # @modern-js/utils
 
+## 1.7.4
+
+### Patch Changes
+
+- b8cfc42cd: feat: prebundle tsconfig-paths and nanoid
+- 804a5bb8a: fix(utils): isPnpmWorkspaces not work
+
 ## 1.7.3
 
 ### Patch Changes

@@ -52,7 +52,7 @@
   "dependencies": {
     "@babel/runtime": "^7",
     "@modern-js/hmr-client": "workspace:^1.2.7",
-    "@modern-js/utils": "workspace:^1.7.3",
+    "@modern-js/utils": "workspace:^1.7.4",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "react-refresh": "0.12.0"
   },

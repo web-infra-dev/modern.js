@@ -1,5 +1,16 @@
 # @modern-js/server
 
+## 1.4.15
+
+### Patch Changes
+
+- b8cfc42cd: feat: prebundle tsconfig-paths and nanoid
+- Updated dependencies [b8cfc42cd]
+- Updated dependencies [804a5bb8a]
+  - @modern-js/utils@1.7.4
+  - @modern-js/prod-server@1.1.5
+  - @modern-js/server-utils@1.2.6
+
 ## 1.4.14
 
 ### Patch Changes
