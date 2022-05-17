@@ -1,5 +1,14 @@
 # @modern-js/core
 
+## 1.10.3
+
+### Patch Changes
+
+- a37960018: refactor: modify deploy microFrontend type
+- Updated dependencies [b8cfc42cd]
+- Updated dependencies [804a5bb8a]
+  - @modern-js/utils@1.7.4
+
 ## 1.10.2
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @modern-js/plugin-garfish
 
+## 1.4.13
+
+### Patch Changes
+
+- a37960018: fix: default config \_SERVER_DATA to insulationVariable and set disableCssExtract to be true
+- Updated dependencies [b8cfc42cd]
+- Updated dependencies [804a5bb8a]
+  - @modern-js/utils@1.7.4
+  - @modern-js/plugin-router@1.2.14
+
 ## 1.4.11
 
 ### Patch Changes
