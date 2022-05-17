@@ -37,8 +37,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/server": "workspace:^1.4.14",
-    "@modern-js/utils": "workspace:^1.7.3",
+    "@modern-js/server": "workspace:^1.4.15",
+    "@modern-js/utils": "workspace:^1.7.4",
     "jest-environment-node": "^27.2.2",
     "path-to-regexp": "^6.2.0",
     "supertest": "^6.1.6"
@@ -84,7 +84,8 @@
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "tests/**/*"
       ],
       "output": []
     }

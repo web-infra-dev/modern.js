@@ -40,7 +40,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.7.3"
+    "@modern-js/utils": "workspace:^1.7.4"
   },
   "devDependencies": {
     "@babel/runtime": "^7",
@@ -82,7 +82,8 @@
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "tests/**/*"
       ],
       "output": []
     }
