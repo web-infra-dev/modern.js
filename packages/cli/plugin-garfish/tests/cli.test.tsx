@@ -1,23 +1,9 @@
 import '@testing-library/jest-dom';
 import { manager } from '@modern-js/core';
 import WebpackChain from 'webpack-chain';
-import GarfishPlugin, { externals, UseConfig } from '../src/cli';
+import GarfishPlugin, { externals } from '../src/cli';
+import type { UseConfig } from '../src/cli';
 import { getRuntimeConfig, makeRenderFunction, setRuntimeConfig } from '../src/cli/utils';
-
-const addExportList = [];
-jest.mock('@modern-js/utils', () => {
-  const originalModule = jest.requireActual('@modern-js/utils');
-  return {
-    __esModule: true,
-    ...originalModule,
-    createRuntimeExportsUtils: ()=>({
-      addExport: (val: any)=> {
-        addExportList.push(val);
-      },
-      getPath: ()=> 'test',
-    }),
-  }
-});
 
 describe('plugin-garfish cli', () => {
   test('cli garfish basename', async () => {
@@ -230,25 +216,6 @@ describe('plugin-garfish cli', () => {
     expect(generateConfig.output.filename).toBeUndefined();
   });
 
-  test('cli addRuntimeExports', async ()=>{
-    const resolveConfig: Partial<UseConfig> = {};
-    const mfPackagePath = '@modern-js/test/plugin-garfish';
-    const plugin = GarfishPlugin({
-      mfPackagePath,
-    });
-
-    const lifecycle = await plugin.setup({
-      useResolvedConfigContext: () => resolveConfig,
-      useConfigContext: ()=> resolveConfig,
-      useAppContext: ()=>({
-        internalDirectory: 'test'
-      }),
-    } as any);
-
-    lifecycle && lifecycle.config();
-    lifecycle && lifecycle.addRuntimeExports()
-    expect(addExportList).toMatchSnapshot();
-  });
 
   test('micro fronted default config disableCssExtract false', async ()=>{
     const resolveConfig: Partial<UseConfig> = {
