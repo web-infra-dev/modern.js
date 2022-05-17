@@ -2,7 +2,7 @@ import fs from 'fs';
 import { isPnpmWorkspaces } from '../src/monorepo';
 
 describe('isPnpmWorkspaces', () => {
-  test('should log', () => {
+  test('should return correct result', () => {
     const mockExistsSync = jest
       .spyOn(fs, 'existsSync')
       .mockImplementation(input => input === '/foo/pnpm-workspace.yaml');
