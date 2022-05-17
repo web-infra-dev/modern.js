@@ -4,7 +4,7 @@
  */
 import { createHooks } from './hook';
 
-const ContextSymbol = Symbol('Context');
+const ContextSymbol = Symbol.for('MODERN_CONTEXT');
 
 export type Context<T = any> = {
   id: symbol;
@@ -22,7 +22,7 @@ export type Context<T = any> = {
 };
 
 export const createContext = <T>(value: T) => {
-  const id = Symbol('ContextID');
+  const id = Symbol.for('MODERN_CONTEXT_ID');
 
   const create = (value: T): Context<T> => {
     const use = () => {

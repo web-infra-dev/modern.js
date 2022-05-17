@@ -5,7 +5,7 @@ import {
   Middleware,
 } from '../farrow-pipeline';
 
-const WATERFALL_SYMBOL = Symbol('WATERFALL_SYMBOL');
+const WATERFALL_SYMBOL = Symbol.for('MODERN_WATERFALL');
 
 export type Brook<I = unknown> = (I: I) => I;
 export type BrookInput<I = unknown> = Brook<I> | { middleware: Brook<I> };
