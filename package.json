@@ -20,6 +20,7 @@
     "test:ut": "node --conditions=jsnext:source -r btsm node_modules/jest/bin/jest.js -c jest.config.js --maxWorkers=2",
     "test:e2e": "cd tests && npm run test",
     "fast-lint": "sh -x ./fast-lint.sh",
+    "lint:package-json": "cd ./scripts/lint-package-json && pnpm start",
     "prepare": "pnpm run prepare --filter ./packages",
     "preinstall": "only-allow-pnpm",
     "lint": "npm run fast-lint",

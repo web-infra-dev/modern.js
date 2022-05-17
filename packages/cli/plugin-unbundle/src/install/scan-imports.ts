@@ -10,7 +10,7 @@ import {
   applyOptionsChain,
 } from '@modern-js/utils';
 import { parse, init } from 'es-module-lexer';
-import { loadConfig } from 'tsconfig-paths';
+import { loadConfig } from '@modern-js/utils/tsconfig-paths';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { LexerParseResult } from '../plugins/import-rewrite';
 import { BARE_SPECIFIER_REGEX, BABEL_MACRO_EXTENSIONS } from '../constants';

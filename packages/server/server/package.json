@@ -47,7 +47,6 @@
     "launch-editor": "^2.2.1",
     "minimatch": "^3.0.4",
     "path-to-regexp": "^6.2.0",
-    "tsconfig-paths": "^3.11.0",
     "webpack-dev-middleware": "^5.0.0",
     "ws": "^8.2.0"
   },
