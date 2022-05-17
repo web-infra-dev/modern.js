@@ -5,7 +5,7 @@ import {
 } from '../farrow-pipeline';
 import type { RunWorkflowOptions } from './sync';
 
-const ASYNC_WORKFLOW_SYMBOL = Symbol('ASYNC_WORKFLOW_SYMBOL');
+const ASYNC_WORKFLOW_SYMBOL = Symbol.for('MODERN_ASYNC_WORKFLOW');
 
 export type AsyncWorker<I, O> = (I: I) => MaybeAsync<O>;
 export type AsyncWorkers<I, O> = AsyncWorker<I, O>[];
