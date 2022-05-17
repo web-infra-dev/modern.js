@@ -1,8 +1,8 @@
 import path from 'path';
 import { Import, fs } from '@modern-js/utils';
-import type { PluginAPI } from '@modern-js/core';
-import type { IBuildConfig, ModuleToolsConfig } from '../../types';
-import { normalizeConfig } from './utils';
+import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
+import type { IBuildConfig } from '../../types';
+import { normalizeModuleConfig } from './utils';
 
 const buildFeature: typeof import('./build') = Import.lazy('./build', require);
 const buildWatchFeature: typeof import('./build-watch') = Import.lazy(
@@ -22,7 +22,7 @@ const bp: typeof import('./build-platform') = Import.lazy(
 export const build = async (
   api: PluginAPI,
   config: IBuildConfig,
-  modernConfig: ModuleToolsConfig,
+  modernConfig: NormalizedConfig,
 ) => {
   const {
     appDirectory,
@@ -53,16 +53,15 @@ export const build = async (
   if (clear) {
     fs.removeSync(path.join(appDirectory, outputPath));
   }
-  const normalizedModuleToolConfig = normalizeConfig(modernConfig);
-  normalizedModuleToolConfig.module.forEach(async moduleConfig => {
-    if (moduleConfig.bundle || moduleConfig.format === 'iife') {
+  const normalizedModuleConfig = normalizeModuleConfig(modernConfig.module);
+  Promise.all(normalizedModuleConfig.map(async moduleConfig => {
+    if (moduleConfig.bundle) {
       await buildBundleFeature.buildInBundleMode(api, {
         ...config,
         ...moduleConfig,
       });
-      return;
     }
-    if (enableWatchMode) {
+    else if (enableWatchMode) {
       await buildWatchFeature.buildInWatchMode(api, {
         ...config,
         ...moduleConfig,
@@ -73,5 +72,5 @@ export const build = async (
         ...moduleConfig,
       });
     }
-  });
+  }));
 };

@@ -1,6 +1,4 @@
-import type { OutputConfig, SourceConfig } from '@modern-js/core/config';
 import type { ImportStyleType } from '@modern-js/babel-preset-module';
-import type { NormalizedConfig } from '@modern-js/core';
 import type { LoggerText } from './features/build/logger/logText';
 import type { Platform } from './features/build/build-platform';
 
@@ -39,7 +37,7 @@ export interface IBuildConfig {
   clear?: boolean;
 }
 
-export type BuildConfig = IBuildConfig & Module;
+export type BuildConfig = IBuildConfig & Required<Module>;
 
 export interface IPackageModeValue {
   type: 'module' | 'commonjs';
@@ -61,28 +59,26 @@ export type Target =
   | 'esnext';
 
 export type Module = {
-  format: Format;
-  target: Target;
-  bundle: boolean;
-  sourceMap: boolean;
-  entry: string;
+  format?: Format[];
+  target?: Target;
+  bundle?: boolean;
+  sourceMap?: boolean;
+  entry?: string;
 };
 
-export interface ModuleToolsOutput extends OutputConfig {
-  assetsPath: string;
-  // disableTsChecker: boolean;
-  // enableSourceMap: boolean;
-  // packageMode: PackageModeType;
-  // packageFields: IPackageFields;
-  importStyle: ImportStyleType;
-}
+declare module '@modern-js/core' {
+  interface OutputConfig {
+    assetsPath: string;
+    enableSourceMap: boolean;
+    importStyle: ImportStyleType;
+    packageMode: PackageModeType;
+    packageFields: IPackageFields;
+  }
+  interface SourceConfig {
+    jsxTransformRuntime: 'automatic' | 'classic';
+  }
 
-export interface ModuleToolsSource extends SourceConfig {
-  jsxTransformRuntime: 'automatic' | 'classic';
+  interface NormalizedConfig {
+    module?: Module[] | Module
+  }
 }
-
-export type ModuleToolsConfig = NormalizedConfig & {
-  output: OutputConfig & ModuleToolsOutput;
-  source: SourceConfig & ModuleToolsSource;
-  module: Module[];
-};

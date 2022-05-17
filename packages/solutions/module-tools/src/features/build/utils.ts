@@ -1,13 +1,12 @@
 import * as path from 'path';
 import * as os from 'os';
 import { Import, chalk } from '@modern-js/utils';
-import type { PluginAPI } from '@modern-js/core';
+import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
 import type {
   BuildConfig,
   IPackageModeValue,
   JsSyntaxType,
   ITaskMapper,
-  ModuleToolsConfig,
   Module,
 } from '../../types';
 import type { LoggerText } from './logger';
@@ -37,7 +36,7 @@ const updateMapper = (
 export const getCodeInitMapper = (api: PluginAPI, _: BuildConfig) => {
   const {
     output: { packageFields, packageMode },
-  } = api.useResolvedConfigContext() as ModuleToolsConfig;
+  } = api.useResolvedConfigContext();
   let initMapper: IPackageModeValue[] = [];
 
   // 如果不存在packageFields配置或者packageFields为空对象，则使用 packageMode
@@ -104,7 +103,7 @@ export const getCodeMapper = (
   const modernConfig = api.useResolvedConfigContext();
   const {
     output: { enableSourceMap, jsPath = 'js', path: distDir = 'dist' },
-  } = modernConfig as ModuleToolsConfig;
+  } = modernConfig;
 
   const { tsconfigName = 'tsconfig.json' } = config;
   const tsconfigPath = path.join(appDirectory, tsconfigName);
@@ -148,21 +147,21 @@ export const getBundlerMapper = (
   } = modernConfig;
   const { enableWatchMode, target, format, entry, sourceMap } = config;
 
-  return [
-    {
+  return format.map(val => {
+    return {
       logger,
       taskPath: require.resolve('../../tasks/speedy'),
       params: [
-        `--distDir=${path.join(appDirectory, `./${outputPath}/${format}`)}`,
+        `--distDir=${path.join(appDirectory, `./${outputPath}/${val}`)}`,
         `--appDirectory=${appDirectory}`,
         enableWatchMode ? `--watch` : '',
         `--target=${target}`,
-        `--format=${format}`,
+        `--format=${val}`,
         `--entry=${entry}`,
         sourceMap ? `--sourceMap` : '',
       ],
-    },
-  ];
+    }
+  });
 };
 
 export const getDtsBundlerMapper = (
@@ -174,7 +173,7 @@ export const getDtsBundlerMapper = (
   const modernConfig = api.useResolvedConfigContext();
   const {
     output: { path: outputPath = 'dist' },
-  } = modernConfig as ModuleToolsConfig;
+  } = modernConfig;
   const { tsconfigName = 'tsconfig.json', enableWatchMode } = config;
   const tsconfigPath = path.join(appDirectory, tsconfigName);
   return [
@@ -200,15 +199,15 @@ export const getRollupMapper = (
   const modernConfig = api.useResolvedConfigContext();
   const {
     output: { path: outputPath = 'dist' },
-  } = modernConfig as ModuleToolsConfig;
-  const { tsconfigName = 'tsconfig.json', enableWatchMode, entry, format } = config;
+  } = modernConfig;
+  const { tsconfigName = 'tsconfig.json', enableWatchMode, entry } = config;
   const tsconfigPath = path.join(appDirectory, tsconfigName);
   return [
     {
       logger,
       taskPath: require.resolve('../../tasks/rollup'),
       params: [
-        `--distDir=${path.join(appDirectory, `./${outputPath}/${format}`)}`,
+        `--distDir=${path.join(appDirectory, `./${outputPath}/types`)}`,
         `--tsconfigPath=${tsconfigPath}`,
         enableWatchMode ? `--watch` : '',
         `--entry=${entry}`,
@@ -227,7 +226,7 @@ export const getDtsMapper = (
   const modernConfig = api.useResolvedConfigContext();
   const {
     output: { disableTsChecker, path: outputPath = 'dist' },
-  } = modernConfig as ModuleToolsConfig;
+  } = modernConfig;
   const { tsconfigName = 'tsconfig.json', enableWatchMode, sourceDir } = config;
   const srcDir = path.join(appDirectory, './src');
   const tsconfigPath = path.join(appDirectory, tsconfigName);
@@ -320,10 +319,17 @@ export class TimeCounter {
     return span < 1000 ? `${span}ms` : `${(span / 1000).toFixed(2)}s`;
   }
 }
-export const normalizeConfig = (modernConfig: ModuleToolsConfig) => {
-  const moduleArray = modernConfig.module?.length ?  modernConfig.module : [{} as Module];
+export const normalizeModuleConfig = (module?: Module[] | Module) => {
+  const defaultModule: Required<Module> = {
+    format: ['esm'],
+    target: 'es2017',
+    bundle: true,
+    sourceMap: false,
+    entry: 'src/index.ts',
+  };
+  const moduleArray = Array.isArray(module) ? (module.length === 0 ? [defaultModule] : module) : (module ? [module] : [defaultModule]);
   const normalizedModule = moduleArray.map(config => {
-    const format = config.format ?? 'esm';
+    const format = config.format ?? ['esm'];
     const target = config.target ?? 'es2017';
     const bundle = config.bundle ?? true;
     const sourceMap = config.sourceMap ?? bundle;
@@ -336,9 +342,5 @@ export const normalizeConfig = (modernConfig: ModuleToolsConfig) => {
       entry,
     };
   });
-  console.log(moduleArray, normalizedModule);
-  return {
-    ...modernConfig,
-    module: normalizedModule,
-  };
+  return normalizedModule;
 };

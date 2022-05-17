@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { fs, Import, dotenv } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
-import type { ModuleToolsConfig, Platform } from '../types';
+import type { Platform } from '../types';
 
 const tsConfigutils: typeof import('../utils/tsconfig') = Import.lazy(
   '../utils/tsconfig',
@@ -37,7 +37,7 @@ export const build = async (
   }: IBuildOption,
 ) => {
   const { appDirectory } = api.useAppContext();
-  const modernConfig = api.useResolvedConfigContext() as ModuleToolsConfig;
+  const modernConfig = api.useResolvedConfigContext();
   const tsconfigPath = path.join(appDirectory, tsconfigName);
   dotenv.config();
   const isTsProject = tsConfigutils.existTsConfigFile(tsconfigPath);

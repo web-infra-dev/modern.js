@@ -60,14 +60,9 @@
   },
   "sideEffects": false,
   "modernConfig": {
-    "module": [{
-      "format": "cjs",
-      "bundle": false
-    }, {
-      "format": "esm"
-    },{
-      "format": "iife"
-    }]
+    "module": {
+      "format": ["esm", "iife", "cjs"]
+    }
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

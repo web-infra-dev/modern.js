@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as os from 'os';
 import { execa, Import } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
-import type { BuildConfig, ITaskMapper, ModuleToolsConfig } from '../../types';
+import type { BuildConfig, ITaskMapper } from '../../types';
 
 const pMap: typeof import('p-map') = Import.lazy('p-map', require);
 const utils: typeof import('./utils') = Import.lazy('./utils', require);
