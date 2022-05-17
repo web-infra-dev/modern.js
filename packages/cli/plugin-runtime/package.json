@@ -160,7 +160,8 @@
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "tests/**/*"
       ],
       "output": []
     }
