@@ -4484,12 +4484,14 @@ importers:
 
   tests/integration/alias-set:
     specifiers:
+      '@babel/runtime': ^7
       '@modern-js/app-tools': workspace:*
       '@modern-js/runtime': workspace:*
       axios: ^0.24.0
       react: ^17.0.1
       react-dom: ^17.0.1
     dependencies:
+      '@babel/runtime': 7.17.9
       '@modern-js/runtime': link:../../../packages/cli/plugin-runtime
       axios: 0.24.0
       react: 17.0.2
@@ -4499,6 +4501,7 @@ importers:
 
   tests/integration/api-service-koa:
     specifiers:
+      '@babel/runtime': ^7
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-bff': workspace:*
       '@modern-js/plugin-jarvis': workspace:*
@@ -4517,6 +4520,7 @@ importers:
       react-dom: ^17.0.1
       typescript: ^4
     dependencies:
+      '@babel/runtime': 7.17.9
       '@modern-js/plugin-bff': link:../../../packages/cli/plugin-bff
       '@modern-js/plugin-koa': link:../../../packages/server/plugin-koa
       '@modern-js/runtime': link:../../../packages/cli/plugin-runtime
@@ -4538,6 +4542,7 @@ importers:
 
   tests/integration/bff-express:
     specifiers:
+      '@babel/runtime': ^7
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-bff': workspace:*
       '@modern-js/plugin-express': workspace:*
@@ -4554,6 +4559,7 @@ importers:
       react-dom: ^17.0.1
       typescript: ^4
     dependencies:
+      '@babel/runtime': 7.17.9
       '@modern-js/plugin-bff': link:../../../packages/cli/plugin-bff
       '@modern-js/plugin-express': link:../../../packages/server/plugin-express
       '@modern-js/runtime': link:../../../packages/cli/plugin-runtime
@@ -4993,12 +4999,14 @@ importers:
 
   tests/integration/esbuild/fixtures/minify-js:
     specifiers:
+      '@babel/runtime': ^7
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-esbuild': workspace:*
       '@modern-js/runtime': workspace:*
       react: ^17.0.1
       react-dom: ^17.0.1
     dependencies:
+      '@babel/runtime': 7.17.9
       '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -5008,6 +5016,7 @@ importers:
 
   tests/integration/new-mwa-app:
     specifiers:
+      '@babel/runtime': ^7
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/runtime': workspace:*
@@ -5018,6 +5027,7 @@ importers:
       react-dom: ^17.0.1
       typescript: ^4
     dependencies:
+      '@babel/runtime': 7.17.9
       '@modern-js/runtime': link:../../../packages/cli/plugin-runtime
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -5034,12 +5044,14 @@ importers:
 
   tests/integration/runtime/fixtures/use-loader:
     specifiers:
+      '@babel/runtime': ^7
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-ssr': workspace:*
       '@modern-js/runtime': workspace:*
       react: ^17.0.1
       react-dom: ^17.0.1
     dependencies:
+      '@babel/runtime': 7.17.9
       '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
       '@modern-js/plugin-ssr': link:../../../../../packages/cli/plugin-ssr
       '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
@@ -5048,6 +5060,7 @@ importers:
 
   tests/integration/server-config:
     specifiers:
+      '@babel/runtime': ^7
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/runtime': workspace:*
@@ -5062,6 +5075,7 @@ importers:
       react-dom: ^17.0.1
       typescript: ^4
     dependencies:
+      '@babel/runtime': 7.17.9
       '@modern-js/runtime': link:../../../packages/cli/plugin-runtime
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -5079,6 +5093,7 @@ importers:
 
   tests/integration/server-prod:
     specifiers:
+      '@babel/runtime': ^7
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/runtime': workspace:*
@@ -5087,6 +5102,7 @@ importers:
       react: ^17.0.1
       react-dom: ^17.0.1
     dependencies:
+      '@babel/runtime': 7.17.9
       '@modern-js/runtime': link:../../../packages/cli/plugin-runtime
       axios: 0.24.0
       express: 4.17.2
@@ -5098,6 +5114,7 @@ importers:
 
   tests/integration/testing-app:
     specifiers:
+      '@babel/runtime': ^7
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/plugin-testing': workspace:*
@@ -5110,6 +5127,7 @@ importers:
       react-dom: ^17.0.1
       typescript: ^4
     dependencies:
+      '@babel/runtime': 7.17.9
       '@modern-js/runtime': link:../../../packages/cli/plugin-runtime
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
