@@ -1,5 +1,14 @@
 # @modern-js/plugin-ssr
 
+## 1.3.3
+
+### Patch Changes
+
+- a2f5a1b12: fix loadable & useloader problem
+- Updated dependencies [b8cfc42cd]
+- Updated dependencies [804a5bb8a]
+  - @modern-js/utils@1.7.4
+
 ## 1.3.2
 
 ### Patch Changes

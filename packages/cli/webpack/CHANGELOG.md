@@ -1,5 +1,18 @@
 # @modern-js/webpack
 
+## 1.7.1
+
+### Patch Changes
+
+- b8cfc42cd: feat: prebundle tsconfig-paths and nanoid
+- 123532bab: fix(webpack): webpack watch mode rebuild twice on file change
+- Updated dependencies [b8cfc42cd]
+- Updated dependencies [804a5bb8a]
+- Updated dependencies [602299a4d]
+  - @modern-js/utils@1.7.4
+  - @modern-js/babel-preset-app@1.3.3
+  - @modern-js/css-config@1.2.6
+
 ## 1.7.0
 
 ### Minor Changes

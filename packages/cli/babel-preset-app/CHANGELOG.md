@@ -1,5 +1,14 @@
 # @modern-js/babel-preset-app
 
+## 1.3.3
+
+### Patch Changes
+
+- 602299a4d: feat(babel-preset-app): enable babel runtime helpers for client bundles
+- Updated dependencies [b8cfc42cd]
+- Updated dependencies [804a5bb8a]
+  - @modern-js/utils@1.7.4
+
 ## 1.3.2
 
 ### Patch Changes
