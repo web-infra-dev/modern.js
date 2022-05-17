@@ -7,6 +7,7 @@
     "build": "modern build"
   },
   "dependencies": {
+    "@babel/runtime": "^7",
     "@modern-js/runtime": "workspace:*",
     "axios": "^0.24.0",
     "react": "^17.0.1",
