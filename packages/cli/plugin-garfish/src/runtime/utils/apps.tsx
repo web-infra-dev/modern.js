@@ -43,6 +43,10 @@ function getAppInstance(
       const { domId } = this.state;
       const loadAppOptions: Omit<interfaces.AppInfo, 'name'> = {
         ...appInfo,
+        insulationVariable: [
+          ...(appInfo.insulationVariable || []),
+          '_SERVER_DATA',
+        ],
         domGetter: `#${domId}`,
         basename: path.join(options?.basename || '/', match?.path || '/'),
         cache: true,
