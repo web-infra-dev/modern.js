@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.3.2",
+  "version": "1.3.3",
   "jsnext:source": "./src/index.tsx",
   "types": "./src/index.tsx",
   "main": "./dist/js/node/index.node.js",
@@ -61,7 +61,7 @@
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/server": "^5.15.1",
     "@loadable/webpack-plugin": "^5.15.1",
-    "@modern-js/utils": "workspace:^1.7.3",
+    "@modern-js/utils": "workspace:^1.7.4",
     "react-dom": "^17",
     "serialize-javascript": "^6.0.0"
   },
