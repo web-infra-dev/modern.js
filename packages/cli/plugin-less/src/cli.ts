@@ -26,7 +26,7 @@ export default (): CliPlugin => ({
     config() {
       return {
         tools: {
-          webpack: (config, { chain }) => {
+          webpackChain: chain => {
             const options = api.useResolvedConfigContext();
 
             const {
@@ -48,6 +48,8 @@ export default (): CliPlugin => ({
                   : LESS_REGEX,
                 exclude: LESS_MODULE_REGEX,
                 use: [
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-expect-error webpack-chain missing type
                   ...loaders.oneOf('css').toConfig().use,
                   {
                     loader: require.resolve('less-loader'),
@@ -65,6 +67,8 @@ export default (): CliPlugin => ({
                   : LESS_MODULE_REGEX,
                 exclude: [/node_modules/, GLOBAL_LESS_REGEX],
                 use: [
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-expect-error webpack-chain missing type
                   ...loaders.oneOf('css-modules').toConfig().use,
                   {
                     loader: require.resolve('less-loader'),
