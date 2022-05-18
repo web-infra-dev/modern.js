@@ -219,6 +219,10 @@ export type WebpackConfig =
         env: string;
         name: string;
         webpack: typeof webpack;
+        /**
+         * @deprecated please use `tools.webpackChain` instead.
+         */
+        chain: WebpackChain;
         [key: string]: any;
       },
     ) => WebpackConfiguration | void);
