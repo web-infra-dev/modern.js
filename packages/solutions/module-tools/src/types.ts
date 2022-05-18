@@ -83,6 +83,6 @@ declare module '@modern-js/core' {
   }
 
   interface NormalizedConfig {
-    buildPreset?: BuildConfig[] | BuildConfig | 'antd'
+    buildPreset?: BuildConfig[] | BuildConfig | 'library' | 'component';
   }
 }
