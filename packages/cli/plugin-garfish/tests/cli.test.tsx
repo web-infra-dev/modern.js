@@ -153,8 +153,7 @@ describe('plugin-garfish cli', () => {
     webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
 
 
-    config[0].tools.webpack({}, {
-      chain: webpackConfig,
+    config[0].tools.webpackChain(webpackConfig, {
       webpack: jest.fn(),
       env: 'development'
     });
@@ -192,8 +191,7 @@ describe('plugin-garfish cli', () => {
     function HTMLWebpackPlugin() {};
     webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
 
-    config[0].tools.webpack({}, {
-      chain: webpackConfig,
+    config[0].tools.webpackChain(webpackConfig, {
       webpack: jest.fn(),
       env: 'development'
     });
