@@ -1,6 +1,5 @@
 ---
 sidebar_label: jest
-sidebar_position: 10
 ---
 
 # tools.jest

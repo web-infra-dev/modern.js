@@ -1,6 +1,5 @@
 ---
 sidebar_label: webpack
-sidebar_position: 11
 ---
 
 # tools.webpack

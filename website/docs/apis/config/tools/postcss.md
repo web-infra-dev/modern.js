@@ -1,6 +1,5 @@
 ---
 sidebar_label: postcss
-sidebar_position: 3
 ---
 
 # tools.postcss

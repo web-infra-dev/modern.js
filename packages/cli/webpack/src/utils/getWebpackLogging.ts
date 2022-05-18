@@ -10,20 +10,17 @@ export const getWebpackLogging = () => ({
   level: 'info',
   console: {
     ...webpackLogger,
-    info: (...args: any[]) => {
-      const messages = args.filter(arg => !/\[webpack-dev-server\]/.test(arg));
+    info: (...messages: string[]) => {
       if (messages.length) {
         webpackLogger.info(...messages);
       }
     },
-    warn: (...args: any[]) => {
-      const messages = args.filter(
-        arg =>
-          !/\[webpack.cache.PackFileCacheStrategy/.test(arg) &&
-          !/\[webpack-dev-server\]/.test(arg),
+    warn: (...messages: string[]) => {
+      const filtered = messages.filter(
+        message => !/\[webpack.cache.PackFileCacheStrategy/.test(message),
       );
-      if (messages.length) {
-        webpackLogger.warn(...messages);
+      if (filtered.length) {
+        webpackLogger.warn(...filtered);
       }
     },
   },

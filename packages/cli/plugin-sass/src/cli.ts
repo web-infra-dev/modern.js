@@ -25,7 +25,7 @@ export default (): CliPlugin => ({
       config() {
         return {
           tools: {
-            webpack: (config, { chain }) => {
+            webpackChain: chain => {
               const options = api.useResolvedConfigContext();
 
               const {
@@ -47,6 +47,8 @@ export default (): CliPlugin => ({
                     : SASS_REGEX,
                   exclude: SASS_MODULE_REGEX,
                   use: [
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-expect-error webpack-chain missing minimizers type
                     ...loaders.oneOf('css').toConfig().use,
                     {
                       loader: require.resolve('sass-loader'),
@@ -64,6 +66,8 @@ export default (): CliPlugin => ({
                     : SASS_MODULE_REGEX,
                   exclude: [/node_modules/, GLOBAL_SASS_REGEX],
                   use: [
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-expect-error webpack-chain missing minimizers type
                     ...loaders.oneOf('css-modules').toConfig().use,
                     {
                       loader: require.resolve('sass-loader'),

@@ -1,6 +1,5 @@
 ---
 sidebar_label: tailwindcss
-sidebar_position: 5
 ---
 
 # tools.tailwindcss
