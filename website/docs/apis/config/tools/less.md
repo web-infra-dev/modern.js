@@ -1,6 +1,5 @@
 ---
 sidebar_label: less
-sidebar_position: 7
 ---
 
 # tools.less

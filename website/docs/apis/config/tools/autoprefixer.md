@@ -1,6 +1,5 @@
 ---
 sidebar_label: autoprefixer
-sidebar_position: 2
 ---
 
 # tools.autoprefixer
