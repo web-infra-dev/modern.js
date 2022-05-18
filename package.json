@@ -21,7 +21,7 @@
     "test:e2e": "cd tests && npm run test",
     "fast-lint": "sh -x ./fast-lint.sh",
     "lint:package-json": "cd ./scripts/lint-package-json && pnpm start",
-    "prepare": "pnpm run prepare --filter ./packages",
+    "prepare": "pnpm run prepare --filter ./packages && husky install",
     "preinstall": "only-allow-pnpm",
     "lint": "npm run fast-lint",
     "change": "modern change",
@@ -35,12 +35,6 @@
   },
   "engines": {
     "node": ">=14.17.6"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   },
   "commitlint": {
     "extends": [
@@ -84,6 +78,7 @@
     "enhanced-resolve": "^5.9.2",
     "esbuild": "^0.14.38",
     "esbuild-jest": "0.5.0",
+    "husky": "^8.0.0",
     "jest": "^27.5.1",
     "wireit": "^0.4.0"
   }
