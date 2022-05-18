@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  * modified from https://github.com/facebook/create-react-app/blob/master/packages/react-dev-utils/ModuleScopePlugin.js
  */
-import path from 'path';
+import { dirname, relative, resolve } from 'path';
 import { chalk } from '@modern-js/utils';
 
 export class ModuleScopePlugin {
@@ -18,6 +18,9 @@ export class ModuleScopePlugin {
   allowedPatterns: RegExp[];
 
   relativeAllowedDirs: string[];
+
+  // cache validated paths for performance
+  cache: Map<string, boolean>;
 
   constructor({
     appSrc,
@@ -35,8 +38,9 @@ export class ModuleScopePlugin {
       src => Object.prototype.toString.call(src) === '[object RegExp]',
     ) as RegExp[];
     this.relativeAllowedDirs = this.allowedDirs.map(
-      allowedDir => `${path.relative(path.dirname(allowedDir), allowedDir)}/`,
+      allowedDir => `${relative(dirname(allowedDir), allowedDir)}/`,
     );
+    this.cache = new Map();
   }
 
   apply(resolver: any) {
@@ -45,10 +49,14 @@ export class ModuleScopePlugin {
     resolver.hooks.file.tapAsync(
       'ModuleScopePlugin',
       (request: any, contextResolver: any, callback: any) => {
+        const { issuer } = request.context;
+
         // Unknown issuer, probably webpack internals
-        if (!request.context.issuer) {
+        if (!issuer || this.cache.get(issuer)) {
           return callback();
         }
+
+        this.cache.set(issuer, true);
 
         if (
           // If this resolves to a node_module, we don't care what happens next
@@ -63,16 +71,16 @@ export class ModuleScopePlugin {
         // Maybe an indexOf === 0 would be better?
         if (
           allowedDirs.every(allowedDir => {
-            const relative = path.relative(allowedDir, request.context.issuer);
+            const result = relative(allowedDir, issuer);
             // If it's not in one of our app src or a subdirectory, not our request!
-            return relative.startsWith('../') || relative.startsWith('..\\');
+            return result.startsWith('../') || result.startsWith('..\\');
           })
         ) {
           return callback();
         }
 
-        const requestFullPath = path.resolve(
-          path.dirname(request.context.issuer),
+        const requestFullPath = resolve(
+          dirname(issuer),
           request.__innerRequest_request,
         );
 
@@ -92,7 +100,7 @@ export class ModuleScopePlugin {
         // Error if in a parent directory of all given appSrcs
         if (
           allowedDirs.every(allowedDir => {
-            const requestRelative = path.relative(allowedDir, requestFullPath);
+            const requestRelative = relative(allowedDir, requestFullPath);
             return (
               requestRelative.startsWith('../') ||
               requestRelative.startsWith('..\\')
@@ -119,6 +127,8 @@ export class ModuleScopePlugin {
             writable: false,
             enumerable: false,
           });
+          // remove invalid path from cache
+          this.cache.set(issuer, false);
           return callback(scopeError, request);
         } else {
           return callback();
