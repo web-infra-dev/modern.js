@@ -7,7 +7,7 @@ import type {
   IPackageModeValue,
   JsSyntaxType,
   ITaskMapper,
-  Module,
+  TaskBuildConfig,
 } from '../../types';
 import type { LoggerText } from './logger';
 
@@ -93,7 +93,7 @@ export const getCodeMapper = (
     srcRootDir,
     willCompilerDirOrFile,
   }: ITaskMapper & {
-    config: BuildConfig;
+    config: TaskBuildConfig;
     initMapper: IPackageModeValue[];
     srcRootDir: string;
     willCompilerDirOrFile: string;
@@ -137,7 +137,7 @@ export const getCodeMapper = (
 // 获取执行speedy bundler的参数
 export const getBundlerMapper = (
   api: PluginAPI,
-  config: BuildConfig,
+  config: TaskBuildConfig,
   logger: LoggerText,
 ) => {
   const { appDirectory } = api.useAppContext();
@@ -166,7 +166,7 @@ export const getBundlerMapper = (
 
 export const getDtsBundlerMapper = (
   api: PluginAPI,
-  config: BuildConfig,
+  config: TaskBuildConfig,
   logger: LoggerText,
 ) => {
   const { appDirectory } = api.useAppContext();
@@ -192,7 +192,7 @@ export const getDtsBundlerMapper = (
 
 export const getRollupMapper = (
   api: PluginAPI,
-  config: BuildConfig,
+  config: TaskBuildConfig,
   logger: LoggerText,
 ) => {
   const { appDirectory } = api.useAppContext();
@@ -219,7 +219,7 @@ export const getRollupMapper = (
 // 获取执行生成 d.ts 的参数
 export const getDtsMapper = (
   api: PluginAPI,
-  config: BuildConfig,
+  config: TaskBuildConfig,
   logger: LoggerText,
 ) => {
   const { appDirectory } = api.useAppContext();
@@ -319,13 +319,15 @@ export class TimeCounter {
     return span < 1000 ? `${span}ms` : `${(span / 1000).toFixed(2)}s`;
   }
 }
-export const normalizeModuleConfig = (module?: Module[] | Module) => {
-  const defaultModule: Required<Module> = {
+export const normalizeModuleConfig = (module?: BuildConfig[] | BuildConfig) => {
+  const defaultModule: Required<BuildConfig> = {
     format: ['esm'],
     target: 'es2017',
     bundle: true,
     sourceMap: false,
     entry: 'src/index.ts',
+    speedyOptions: {},
+    rollupDtsOptions: {},
   };
   const moduleArray = Array.isArray(module) ? (module.length === 0 ? [defaultModule] : module) : (module ? [module] : [defaultModule]);
   const normalizedModule = moduleArray.map(config => {
@@ -334,12 +336,14 @@ export const normalizeModuleConfig = (module?: Module[] | Module) => {
     const bundle = config.bundle ?? true;
     const sourceMap = config.sourceMap ?? bundle;
     const entry = config.entry ?? 'src/index.ts';
+    const speedyOptions = config.speedyOptions ?? {};
     return {
       format,
       target,
       bundle,
       sourceMap,
       entry,
+      speedyOptions
     };
   });
   return normalizedModule;
