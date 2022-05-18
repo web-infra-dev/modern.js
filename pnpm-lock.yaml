@@ -18,6 +18,7 @@ importers:
       enhanced-resolve: ^5.9.2
       esbuild: ^0.14.38
       esbuild-jest: 0.5.0
+      husky: ^8.0.0
       jest: ^27.5.1
       wireit: ^0.4.0
     devDependencies:
@@ -35,6 +36,7 @@ importers:
       enhanced-resolve: 5.9.2
       esbuild: 0.14.38
       esbuild-jest: 0.5.0_esbuild@0.14.38
+      husky: 8.0.1
       jest: 27.5.1
       wireit: 0.4.0
 
@@ -23574,6 +23576,12 @@ packages:
       slash: 3.0.0
       which-pm-runs: 1.0.0
     dev: false
+
+  /husky/8.0.1:
+    resolution: {integrity: sha512-xs7/chUH/CKdOCs7Zy0Aev9e/dKOMZf3K1Az1nar3tzlv0jfqnYtu235bstsWTmXOR0EfINrPa97yy4Lz6RiKw==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: true
 
   /iconv-lite/0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
