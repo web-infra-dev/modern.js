@@ -670,6 +670,26 @@ class BaseWebpackConfig {
     }
   }
 
+  applyToolsWebpackChain() {
+    if (!this.options.tools) {
+      return;
+    }
+
+    const { webpackChain } = this.options.tools;
+    if (webpackChain) {
+      const toArray = <T>(item: T | T[]): T[] =>
+        Array.isArray(item) ? item : [item];
+
+      toArray(webpackChain).forEach(item => {
+        item(this.chain, {
+          env: process.env.NODE_ENV!,
+          name: this.chain.get('name'),
+          webpack,
+        });
+      });
+    }
+  }
+
   getChain() {
     this.chain.context(this.appDirectory);
 
@@ -688,6 +708,7 @@ class BaseWebpackConfig {
     this.optimization();
     this.stats();
     this.watchOptions();
+    this.applyToolsWebpackChain();
 
     const config = this.chain.toConfig();
 

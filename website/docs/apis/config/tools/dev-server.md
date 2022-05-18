@@ -1,6 +1,5 @@
 ---
 sidebar_label: devServer
-sidebar_position: 12
 ---
 
 # tools.devServer

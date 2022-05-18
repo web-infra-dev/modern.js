@@ -126,19 +126,17 @@ export default ({
                 'Access-Control-Allow-Origin': '*',
               },
             },
-            webpack: (
-              webpackConfig: any,
-              { chain, webpack, env = process.env.NODE_ENV || 'development' },
+            webpackChain: (
+              chain,
+              { webpack, env = process.env.NODE_ENV || 'development' },
             ) => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const resolveOptions = useResolvedConfigContext();
               if (resolveOptions?.deploy?.microFrontend) {
                 chain.output.libraryTarget('umd');
-                if (resolveOptions?.server?.port) {
+                if (resolveOptions?.server?.port && env === 'development') {
                   chain.output.publicPath(
-                    env === 'development'
-                      ? `//localhost:${resolveOptions.server.port}/`
-                      : webpackConfig.output.publicPath,
+                    `//localhost:${resolveOptions.server.port}/`,
                   );
                 }
                 // add comments avoid sourcemap abnormal

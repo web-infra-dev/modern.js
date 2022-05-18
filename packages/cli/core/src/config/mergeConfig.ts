@@ -14,6 +14,7 @@ export interface NormalizedToolsConfig
   extends Omit<
     ToolsConfig,
     | 'webpack'
+    | 'webpackChain'
     | 'babel'
     | 'postcss'
     | 'autoprefixer'
@@ -25,6 +26,9 @@ export interface NormalizedToolsConfig
     | 'styledComponents'
   > {
   webpack: ToolsConfig['webpack'] | Array<NonNullable<ToolsConfig['webpack']>>;
+  webpackChain:
+    | ToolsConfig['webpackChain']
+    | Array<NonNullable<ToolsConfig['webpackChain']>>;
   babel: ToolsConfig['babel'] | Array<NonNullable<ToolsConfig['babel']>>;
   postcss: ToolsConfig['postcss'] | Array<NonNullable<ToolsConfig['postcss']>>;
   styledComponents:

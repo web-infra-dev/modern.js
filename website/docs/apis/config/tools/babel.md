@@ -1,6 +1,5 @@
 ---
 sidebar_label: babel
-sidebar_position: 1
 ---
 
 # tools.babel

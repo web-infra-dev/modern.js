@@ -36,9 +36,9 @@ export default (): CliPlugin => ({
             },
           },
           tools: {
-            webpack: (config, { chain }) => {
+            webpackChain: (chain, { name }) => {
               const userConfig = api.useResolvedConfigContext();
-              if (isUseSSRBundle(userConfig) && config.name !== 'server') {
+              if (isUseSSRBundle(userConfig) && name !== 'server') {
                 chain
                   .plugin('loadable')
                   .use(LoadableWebpackPlugin, [
