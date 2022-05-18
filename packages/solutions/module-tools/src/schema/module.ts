@@ -31,7 +31,7 @@ const properties = {
 
 export const moduleSchema = [
   {
-    target: 'module',
+    target: 'buildPreset',
     schema: {
       if: {
         type: 'array',

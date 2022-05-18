@@ -60,7 +60,7 @@
   },
   "sideEffects": false,
   "modernConfig": {
-    "module": {
+    "buildPreset": {
       "format": ["esm", "iife", "cjs"]
     }
   },

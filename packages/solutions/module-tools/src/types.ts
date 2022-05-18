@@ -70,6 +70,8 @@ export type BuildConfig = {
   rollupDtsOptions?: RollupDtsOptions;
 };
 
+export type BuildPreset = BuildConfig[] | BuildConfig | 'library' | 'component'
+
 declare module '@modern-js/core' {
   interface OutputConfig {
     assetsPath: string;
@@ -83,6 +85,6 @@ declare module '@modern-js/core' {
   }
 
   interface NormalizedConfig {
-    buildPreset?: BuildConfig[] | BuildConfig | 'library' | 'component';
+    buildPreset?: BuildPreset;
   }
 }

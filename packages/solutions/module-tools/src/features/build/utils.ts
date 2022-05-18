@@ -8,6 +8,7 @@ import type {
   JsSyntaxType,
   ITaskMapper,
   TaskBuildConfig,
+  BuildPreset,
 } from '../../types';
 import type { LoggerText } from './logger';
 
@@ -319,8 +320,8 @@ export class TimeCounter {
     return span < 1000 ? `${span}ms` : `${(span / 1000).toFixed(2)}s`;
   }
 }
-export const normalizeModuleConfig = (module?: BuildConfig[] | BuildConfig) => {
-  const defaultModule: Required<BuildConfig> = {
+export const normalizeModuleConfig = (preset?: BuildPreset) => {
+  const defaultPreset: Required<BuildConfig> = {
     format: ['esm'],
     target: 'es2017',
     bundle: true,
@@ -329,21 +330,27 @@ export const normalizeModuleConfig = (module?: BuildConfig[] | BuildConfig) => {
     speedyOptions: {},
     rollupDtsOptions: {},
   };
-  const moduleArray = Array.isArray(module) ? (module.length === 0 ? [defaultModule] : module) : (module ? [module] : [defaultModule]);
-  const normalizedModule = moduleArray.map(config => {
+  // TODO: 完成这两个官方预设配置
+  if (preset === 'library' || preset === 'component') {
+    return [defaultPreset];
+  }
+  const presetArray = Array.isArray(preset) ? (preset.length === 0 ? [defaultPreset] : preset) : (preset ? [preset] : [defaultPreset]);
+  const normalizedModule = presetArray.map(config => {
     const format = config.format ?? ['esm'];
     const target = config.target ?? 'es2017';
     const bundle = config.bundle ?? true;
     const sourceMap = config.sourceMap ?? bundle;
     const entry = config.entry ?? 'src/index.ts';
     const speedyOptions = config.speedyOptions ?? {};
+    const rollupDtsOptions = config.rollupDtsOptions ?? {};
     return {
       format,
       target,
       bundle,
       sourceMap,
       entry,
-      speedyOptions
+      speedyOptions,
+      rollupDtsOptions
     };
   });
   return normalizedModule;

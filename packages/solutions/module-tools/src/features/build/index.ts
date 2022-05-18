@@ -53,7 +53,7 @@ export const build = async (
   if (clear) {
     fs.removeSync(path.join(appDirectory, outputPath));
   }
-  const normalizedModuleConfig = normalizeModuleConfig(modernConfig.module);
+  const normalizedModuleConfig = normalizeModuleConfig(modernConfig.buildPreset);
   Promise.all(normalizedModuleConfig.map(async moduleConfig => {
     if (moduleConfig.bundle) {
       await buildBundleFeature.buildInBundleMode(api, {
