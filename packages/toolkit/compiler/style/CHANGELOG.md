@@ -1,5 +1,11 @@
 # @modern-js/style-compiler
 
+## 1.2.7
+
+### Patch Changes
+
+- 598aa4324: change less option. rootpath set `.`.
+
 ## 1.2.6
 
 ### Patch Changes

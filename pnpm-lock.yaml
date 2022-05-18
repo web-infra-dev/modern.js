@@ -3659,7 +3659,7 @@ importers:
       '@modern-js/plugin-changeset': workspace:^1.2.7
       '@modern-js/plugin-fast-refresh': workspace:^1.2.6
       '@modern-js/plugin-i18n': workspace:^1.2.6
-      '@modern-js/style-compiler': workspace:^1.2.6
+      '@modern-js/style-compiler': workspace:^1.2.7
       '@modern-js/utils': workspace:^1.7.4
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*

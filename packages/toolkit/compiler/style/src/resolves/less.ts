@@ -5,7 +5,7 @@ import { ResolveItemParams, SingleFileCompilerResult } from '../types';
 import { postcssResolve } from './postcss';
 
 const lessToCss = async (lessCode: string, params: ResolveItemParams) => {
-  const { file, options, stylesDir } = params;
+  const { file, options } = params;
 
   const data = lessCode.replace(/^\uFEFF/, '');
   const sourceMapOptions = {
@@ -14,7 +14,9 @@ const lessToCss = async (lessCode: string, params: ResolveItemParams) => {
   };
   try {
     const lessResult = await less.render(data, {
-      rootpath: stylesDir,
+      // [rootPath] https://lesscss.org/usage/#less-options-rootpath
+      // TODO: support any path and url
+      rootpath: '.',
       // relativeUrls: true,
       filename: path.resolve(file),
       paths: [path.dirname(file)],
