@@ -18,6 +18,7 @@ importers:
       enhanced-resolve: ^5.9.2
       esbuild: ^0.14.38
       esbuild-jest: 0.5.0
+      husky: ^8.0.0
       jest: ^27.5.1
       wireit: ^0.4.0
     devDependencies:
@@ -35,6 +36,7 @@ importers:
       enhanced-resolve: 5.9.2
       esbuild: 0.14.38
       esbuild-jest: 0.5.0_esbuild@0.14.38
+      husky: 8.0.1
       jest: 27.5.1
       wireit: 0.4.0
 
@@ -5952,8 +5954,8 @@ packages:
     dependencies:
       '@babel/helper-annotate-as-pure': 7.16.7
       '@babel/helper-environment-visitor': 7.16.7
-      '@babel/helper-function-name': 7.16.7
-      '@babel/helper-member-expression-to-functions': 7.16.7
+      '@babel/helper-function-name': 7.17.9
+      '@babel/helper-member-expression-to-functions': 7.17.7
       '@babel/helper-optimise-call-expression': 7.16.7
       '@babel/helper-replace-supers': 7.16.7
       '@babel/helper-split-export-declaration': 7.16.7
@@ -6083,6 +6085,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/types': 7.17.10
+    dev: false
 
   /@babel/helper-member-expression-to-functions/7.17.7:
     resolution: {integrity: sha512-thxXgnQ8qQ11W2wVUObIqDL4p148VMxkt5T/qpN5k2fboRyzFGFmKsTGViquyM5QHKUy48OZoca8kw4ajaDPyw==}
@@ -23805,6 +23808,12 @@ packages:
       slash: 3.0.0
       which-pm-runs: 1.0.0
     dev: false
+
+  /husky/8.0.1:
+    resolution: {integrity: sha512-xs7/chUH/CKdOCs7Zy0Aev9e/dKOMZf3K1Az1nar3tzlv0jfqnYtu235bstsWTmXOR0EfINrPa97yy4Lz6RiKw==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: true
 
   /iconv-lite/0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
