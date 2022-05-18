@@ -50,21 +50,21 @@ describe('get client routes', () => {
       {
         path: '/',
         _component: '@_modern_js_src/pages/index.ts',
-        component: '__modern_js_src_pages_index_ts',
+        component: 'Comp_pages_index_ts',
         exact: true,
         parent: undefined,
       },
       {
         path: '/info',
         _component: '@_modern_js_src/pages/info.ts',
-        component: '__modern_js_src_pages_info_ts',
+        component: 'Comp_pages_info_ts',
         exact: true,
         parent: undefined,
       },
       {
         path: '/about',
         _component: '@_modern_js_src/pages/about.ts',
-        component: '__modern_js_src_pages_about_ts',
+        component: 'Comp_pages_about_ts',
         exact: true,
         parent: undefined,
       },
@@ -100,34 +100,39 @@ describe('get client routes', () => {
       {
         path: '/',
         _component: '@_modern_js_src/pages/index.ts',
-        component: '__modern_js_src_pages_index_ts',
+        component: 'Comp_pages_index_ts',
         exact: true,
         parent: undefined,
       },
       {
         path: '/a',
         _component:
-          '@_modern_js_internal/main/internal_components/Comp___modern_js_src_pages_a_index_ts___modern_js_src_pages_a__layout_ts.jsx',
-        component:
-          'Comp___modern_js_src_pages_a_index_ts___modern_js_src_pages_a__layout_ts',
+          '@_modern_js_internal/main/internal_components/L_a_Comp_pages_a_index_ts.jsx',
+        component: 'L_a_Comp_pages_a_index_ts',
         exact: true,
         parent: undefined,
       },
       {
         path: '/a/list',
         _component:
-          '@_modern_js_internal/main/internal_components/Comp___modern_js_src_pages_a_list_index_ts___modern_js_src_pages_a__layout_ts.jsx',
-        component:
-          'Comp___modern_js_src_pages_a_list_index_ts___modern_js_src_pages_a__layout_ts',
+          '@_modern_js_internal/main/internal_components/L_a_Comp_pages_a_list_index_ts.jsx',
+        component: 'L_a_Comp_pages_a_list_index_ts',
         exact: true,
         parent: undefined,
       },
       {
         path: '/a/about',
         _component:
-          '@_modern_js_internal/main/internal_components/Comp___modern_js_src_pages_a_about_index_ts___modern_js_src_pages_a__layout_ts.jsx',
-        component:
-          'Comp___modern_js_src_pages_a_about_index_ts___modern_js_src_pages_a__layout_ts',
+          '@_modern_js_internal/main/internal_components/L_a_Comp_pages_a_about_index_ts.jsx',
+        component: 'L_a_Comp_pages_a_about_index_ts',
+        exact: true,
+        parent: undefined,
+      },
+      {
+        path: '/a/list/:id',
+        _component:
+          '@_modern_js_internal/main/internal_components/L_a_Comp_pages_a_list__id__index_ts.jsx',
+        component: 'L_a_Comp_pages_a_list__id__index_ts',
         exact: true,
         parent: undefined,
       },

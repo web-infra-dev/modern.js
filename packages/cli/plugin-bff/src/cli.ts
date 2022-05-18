@@ -24,7 +24,7 @@ export default (): CliPlugin => ({
     config() {
       return {
         tools: {
-          webpack: (_config, { chain }) => {
+          webpackChain: (chain, { name }) => {
             const { appDirectory, port } = api.useAppContext();
             const modernConfig = api.useResolvedConfigContext() as UserConfig;
             const { bff } = modernConfig || {};
@@ -52,7 +52,7 @@ export default (): CliPlugin => ({
                 apiDir: rootDir,
                 port,
                 fetcher,
-                target: _config.name,
+                target: name,
                 requestCreator: bff?.requestCreator,
               });
           },

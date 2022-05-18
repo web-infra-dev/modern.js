@@ -1,4 +1,6 @@
 import path from 'path';
+import { NormalizedConfig } from '@modern-js/core';
+import type { WebpackChain } from '../src';
 import { BaseWebpackConfig } from '../src/config/base';
 import { JS_REGEX, TS_REGEX } from '../src/utils/constants';
 import { mergeRegex } from '../src/utils/mergeRegex';
@@ -20,6 +22,7 @@ describe('base webpack config', () => {
     internalDirAlias: '@_modern_js_internal',
     internalSrcAlias: '@_modern_js_src',
   };
+
   test(`default webpack config`, () => {
     userConfig.source.include = ['query-string'];
 
@@ -53,5 +56,30 @@ describe('base webpack config', () => {
         ]),
       }),
     );
+  });
+
+  test(`apply tools.webpackChain`, () => {
+    const chainFunction: NormalizedConfig['tools']['webpackChain'] = (
+      chain: WebpackChain,
+      { env, webpack },
+    ) => {
+      chain.name('foo');
+      expect(env).toEqual('test');
+      expect(webpack.DefinePlugin).toBeTruthy();
+    };
+
+    const baseConfig = new BaseWebpackConfig(
+      appContext as any,
+      {
+        ...userConfig,
+        tools: {
+          webpackChain: chainFunction,
+        },
+      } as any,
+    );
+
+    baseConfig.applyToolsWebpackChain();
+
+    expect(baseConfig.config().name).toEqual('foo');
   });
 });

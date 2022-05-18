@@ -4,6 +4,7 @@ import type { MetaOptions } from '@modern-js/utils';
 import type { TransformOptions } from '@babel/core';
 import type webpack from 'webpack';
 import type { Configuration as WebpackConfiguration } from 'webpack';
+import type { WebpackChain } from '@modern-js/webpack';
 import type autoprefixer from 'autoprefixer';
 import type {
   BasePluginOptions,
@@ -216,10 +217,24 @@ export type WebpackConfig =
       // FIXME: utils type
       utils: {
         env: string;
+        name: string;
         webpack: typeof webpack;
+        /**
+         * @deprecated please use `tools.webpackChain` instead.
+         */
+        chain: WebpackChain;
         [key: string]: any;
       },
     ) => WebpackConfiguration | void);
+
+export type WebpackChainConfig = (
+  chain: WebpackChain,
+  utils: {
+    env: string;
+    name: string;
+    webpack: typeof webpack;
+  },
+) => void;
 
 export type BabelConfig =
   | TransformOptions
@@ -236,6 +251,7 @@ export type TerserConfig =
 
 export interface ToolsConfig {
   webpack?: WebpackConfig;
+  webpackChain?: WebpackChainConfig;
   babel?: BabelConfig;
   autoprefixer?: AutoprefixerConfig;
   postcss?: ConfigFunction;
