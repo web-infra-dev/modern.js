@@ -1,5 +1,14 @@
 # @modern-js/plugin-analyze
 
+## 1.4.4
+
+### Patch Changes
+
+- 3680834f2: chore(plugin-analyze): remove @rollup/pluginutils from dependencies
+- Updated dependencies [b8cfc42cd]
+- Updated dependencies [804a5bb8a]
+  - @modern-js/utils@1.7.4
+
 ## 1.4.3
 
 ### Patch Changes
