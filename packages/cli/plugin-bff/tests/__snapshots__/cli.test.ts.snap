@@ -10,7 +10,7 @@ Array [
       ],
     },
     "tools": Object {
-      "webpack": [Function],
+      "webpackChain": [Function],
     },
   },
 ]
