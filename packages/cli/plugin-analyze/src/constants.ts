@@ -1,6 +1,7 @@
 export const JS_EXTENSIONS = ['.js', '.ts', '.jsx', '.tsx'];
 
 export const INDEX_FILE_NAME = 'index';
+const aa = 11;
 
 export const APP_FILE_NAME = 'App';
 
