@@ -1,5 +1,20 @@
 # @modern-js/plugin-bff
 
+## 1.5.0
+
+### Minor Changes
+
+- f66fa0e98: feat: support tools.webpackChain config
+
+### Patch Changes
+
+- 1dfe08fcd: feat(webpack): add CHAIN_ID constants for webpack chain
+- 41dc62010: fix: remove typings from ignore directories
+- Updated dependencies [77917e355]
+- Updated dependencies [33de0f7ec]
+  - @modern-js/server-utils@1.2.9
+  - @modern-js/utils@1.7.5
+
 ## 1.4.5
 
 ### Patch Changes

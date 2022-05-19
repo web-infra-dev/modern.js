@@ -1,5 +1,11 @@
 # @modern-js/babel-chain
 
+## 1.2.4
+
+### Patch Changes
+
+- e33bd91f7: fix: babel-chain preset option not woking
+
 ## 1.2.3
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @modern-js/utils
 
+## 1.7.5
+
+### Patch Changes
+
+- 33de0f7ec: fix type export
+
 ## 1.7.4
 
 ### Patch Changes

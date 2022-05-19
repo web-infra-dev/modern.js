@@ -1,5 +1,19 @@
 # @modern-js/plugin-sass
 
+## 1.3.0
+
+### Minor Changes
+
+- f66fa0e98: feat: support tools.webpackChain config
+
+### Patch Changes
+
+- f1c889e7a: fix(webpack): failed to transform css when disableCssModuleExtension is true
+- 1dfe08fcd: feat(webpack): add CHAIN_ID constants for webpack chain
+- Updated dependencies [33de0f7ec]
+  - @modern-js/utils@1.7.5
+  - @modern-js/css-config@1.2.6
+
 ## 1.2.8
 
 ### Patch Changes
