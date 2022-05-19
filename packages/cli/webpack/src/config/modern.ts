@@ -6,6 +6,7 @@ import {
   removeLeadingSlash,
 } from '@modern-js/utils';
 import { ClientWebpackConfig } from './client';
+import { CHAIN_ID } from './shared';
 
 class ModernWebpackConfig extends ClientWebpackConfig {
   constructor(appContext: IAppContext, options: NormalizedConfig) {
@@ -33,7 +34,7 @@ class ModernWebpackConfig extends ClientWebpackConfig {
     super.plugins();
 
     if (this.options.cliOptions?.analyze) {
-      this.chain.plugin('bundle-analyze').tap(() => [
+      this.chain.plugin(CHAIN_ID.PLUGIN.BUNDLE_ANALYZER).tap(() => [
         {
           analyzerMode: 'static',
           openAnalyzer: false,
@@ -46,11 +47,14 @@ class ModernWebpackConfig extends ClientWebpackConfig {
   loaders() {
     const loaders = super.loaders();
 
-    const babelOptions = loaders.oneOf('js').use('babel').get('options');
+    const babelOptions = loaders
+      .oneOf(CHAIN_ID.ONE_OF.JS)
+      .use(CHAIN_ID.USE.BABEL)
+      .get('options');
 
     loaders
-      .oneOf('js')
-      .use('babel')
+      .oneOf(CHAIN_ID.ONE_OF.JS)
+      .use(CHAIN_ID.USE.BABEL)
       .options({
         ...babelOptions,
         presets: [

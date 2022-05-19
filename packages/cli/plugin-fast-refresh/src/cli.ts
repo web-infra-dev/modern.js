@@ -8,26 +8,28 @@ export default (): CliPlugin => ({
     config() {
       return {
         tools: {
-          webpackChain: (chain, { name }) => {
+          webpackChain: (chain, { name, CHAIN_ID }) => {
             if (name === 'client' && isFastRefresh()) {
               const ReactFastRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-              chain.plugin('react-fast-refresh').use(ReactFastRefreshPlugin, [
-                {
-                  overlay: false,
-                  exclude: [/node_modules/],
-                },
-              ]);
+              chain
+                .plugin(CHAIN_ID.PLUGIN.REACT_FAST_REFRESH)
+                .use(ReactFastRefreshPlugin, [
+                  {
+                    overlay: false,
+                    exclude: [/node_modules/],
+                  },
+                ]);
 
-              const loaders = chain.module.rule('loaders');
+              const loaders = chain.module.rule(CHAIN_ID.RULE.LOADERS);
 
               const babelOptions = loaders
-                .oneOf('js')
-                .use('babel')
+                .oneOf(CHAIN_ID.ONE_OF.JS)
+                .use(CHAIN_ID.USE.BABEL)
                 .get('options');
 
               loaders
-                .oneOf('js')
-                .use('babel')
+                .oneOf(CHAIN_ID.ONE_OF.JS)
+                .use(CHAIN_ID.USE.BABEL)
                 .options({
                   ...babelOptions,
                   plugins: [
