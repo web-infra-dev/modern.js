@@ -128,7 +128,11 @@ export default ({
             },
             webpackChain: (
               chain,
-              { webpack, env = process.env.NODE_ENV || 'development' },
+              {
+                webpack,
+                env = process.env.NODE_ENV || 'development',
+                CHAIN_ID,
+              },
             ) => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const resolveOptions = useResolvedConfigContext();
@@ -139,10 +143,11 @@ export default ({
                     `//localhost:${resolveOptions.server.port}/`,
                   );
                 }
+
                 // add comments avoid sourcemap abnormal
                 if (webpack.BannerPlugin) {
                   chain
-                    .plugin('banner')
+                    .plugin(CHAIN_ID.PLUGIN.BANNER)
                     .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
                 }
 

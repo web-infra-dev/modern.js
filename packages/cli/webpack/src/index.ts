@@ -14,6 +14,8 @@ export type {
   StatsCompilation,
 } from 'webpack';
 export { BaseWebpackConfig } from './config/base';
+export { CHAIN_ID } from './config/shared';
+export type { ChainIdentifier } from './config/shared';
 export * from './compiled';
 
 export enum WebpackConfigTarget {
