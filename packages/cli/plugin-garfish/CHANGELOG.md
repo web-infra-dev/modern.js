@@ -1,5 +1,18 @@
 # @modern-js/plugin-garfish
 
+## 1.5.0
+
+### Minor Changes
+
+- f66fa0e98: feat: support tools.webpackChain config
+
+### Patch Changes
+
+- 1dfe08fcd: feat(webpack): add CHAIN_ID constants for webpack chain
+- Updated dependencies [33de0f7ec]
+  - @modern-js/utils@1.7.5
+  - @modern-js/plugin-router@1.2.14
+
 ## 1.4.13
 
 ### Patch Changes

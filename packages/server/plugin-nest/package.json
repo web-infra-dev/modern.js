@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@modern-js/adapter-helpers": "workspace:^1.2.4",
-    "@modern-js/utils": "workspace:^1.7.4",
+    "@modern-js/utils": "workspace:^1.7.5",
     "@nestjs/platform-express": "^8.0.6",
     "@types/type-is": "^1.6.3",
     "body-parser": "^1.19.0",
