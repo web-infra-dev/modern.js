@@ -1,6 +1,6 @@
 {
   "name": "@modern-js-app/eslint-config",
-  "version": "1.2.10",
+  "version": "1.2.12",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -17,15 +17,29 @@
     "check": "eslint-find-rules --unused index.js",
     "stat": "eslint-index index.js --format table"
   },
-  "peerDependencies": {
-    "@modern-js/plugin-jarvis": "workspace:^1.2.11"
-  },
   "dependencies": {
-    "@modern-js/babel-preset-app": "workspace:^1.3.3"
+    "@babel/core": "^7.17.0",
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/eslint-plugin": "^7.17.0",
+    "@modern-js/babel-preset-app": "workspace:^1.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.17.0",
+    "@typescript-eslint/parser": "^5.17.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-filenames": "^1.3.2",
+    "eslint-plugin-import": "^2.24.1",
+    "eslint-plugin-markdown": "^2.2.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.3.2",
+    "typescript": "^4"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
-    "eslint": "^7.32.0",
     "eslint-find-rules": "^3.4.0",
     "eslint-index": "^1.5.0"
   },
