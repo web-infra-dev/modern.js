@@ -6,7 +6,6 @@ import type {
 } from '@modern-js/core';
 import type { ICompilerResult, PostcssOption } from '@modern-js/style-compiler';
 import { fs, glob, watch, WatchChangeType, Import } from '@modern-js/utils';
-import type { ModuleToolsOutput } from '../types';
 
 const logger: typeof import('../features/build/logger') = Import.lazy(
   '../features/build/logger',
@@ -104,7 +103,7 @@ const taskMain = async ({
     path: outputPath = 'dist',
     jsPath = 'js',
     importStyle,
-  } = modernConfig.output as ModuleToolsOutput;
+  } = modernConfig.output;
   const { appDirectory } = appContext;
 
   const lessOption = await (core.mountHook() as any).moduleLessConfig(

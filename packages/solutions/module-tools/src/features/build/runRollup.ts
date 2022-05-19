@@ -4,26 +4,12 @@ import ts from 'typescript';
 import hashbangPlugin from 'rollup-plugin-hashbang';
 import jsonPlugin from '@rollup/plugin-json';
 import { Import } from '@modern-js/utils';
-import { TsResolveOptions, tsResolvePlugin } from './ts-resolve';
+import { TaskBuildConfig } from '../../types';
 
-const argv: typeof import('process.argv').default = Import.lazy(
-  'process.argv',
-  require,
-);
-const core: typeof import('@modern-js/core') = Import.lazy(
-  '@modern-js/core',
-  require,
-);
 const logger: typeof import('../../features/build/logger') = Import.lazy(
   '../../features/build/logger',
   require,
 );
-interface ITaskConfig {
-  distDir: string;
-  watch: boolean;
-  entry: string;
-  tsconfigPath: string;
-}
 
 // Copied from https://github.com/egoist/tsup/blob/dev/src/rollup.ts
 
@@ -47,33 +33,10 @@ type RollupConfig = {
   outputConfig: OutputOptions;
 };
 
-const getRollupConfig = async (options: ITaskConfig): Promise<RollupConfig> => {
-  const compilerOptions = loadCompilerOptions(options.tsconfigPath);
-  // FIXME: ts-resolve plugin and resolve option
-  const dtsOptions = { entry: options.entry, resolve: false };
-
-  // if (Array.isArray(dtsOptions.entry) && dtsOptions.entry.length > 1) {
-  //   dtsOptions.entry = toObjectEntry(dtsOptions.entry)
-  // }
-
-  let tsResolveOptions: TsResolveOptions | undefined;
-  if (dtsOptions.resolve) {
-    tsResolveOptions = {};
-    // Only resolve specific types when `dts.resolve` is an array
-    if (Array.isArray(dtsOptions.resolve)) {
-      tsResolveOptions.resolveOnly = dtsOptions.resolve;
-    }
-
-    // `paths` should be handled by rollup-plugin-dts
-    if (compilerOptions.paths) {
-      const res = Object.keys(compilerOptions.paths).map(
-        p => new RegExp(`^${p.replace('*', '.+')}$`),
-      );
-      tsResolveOptions.ignore = source => {
-        return res.some(re => re.test(source));
-      };
-    }
-  }
+const getRollupConfig = async (options: TaskBuildConfig): Promise<RollupConfig> => {
+  const distDir = path.join(options.appDirectory, `./dist/types`)
+  const compilerOptions = loadCompilerOptions(options.tsconfig);
+  const dtsOptions = { entry: options.entry };
 
   const ignoreFiles: Plugin = {
     name: 'ignore-files',
@@ -98,7 +61,6 @@ const getRollupConfig = async (options: ITaskConfig): Promise<RollupConfig> => {
         handler(warning);
       },
       plugins: [
-        tsResolveOptions && tsResolvePlugin(tsResolveOptions),
         hashbangPlugin(),
         jsonPlugin(),
         ignoreFiles,
@@ -125,7 +87,7 @@ const getRollupConfig = async (options: ITaskConfig): Promise<RollupConfig> => {
       ].filter(Boolean),
     },
     outputConfig: {
-      dir: options.distDir || 'dist',
+      dir: distDir || 'dist',
       format: 'esm',
       exports: 'named',
     },
@@ -171,29 +133,14 @@ async function watchRollup(options: {
   });
 }
 
-const startRollup = async (options: ITaskConfig) => {
-  const config = await getRollupConfig(options);
-  if (options.watch) {
-    watchRollup(config);
-  } else {
-    await runRollup(config);
+export const startRollup = async (options: TaskBuildConfig) => {
+  if(options.dts) {
+    const config = await getRollupConfig(options);
+    if (options.enableWatchMode) {
+      watchRollup(config);
+    } else {
+      await runRollup(config);
+    }
   }
 };
 
-const taskMain = async () => {
-  // Execution of the script's parameter handling and related required configuration acquisition
-  const processArgv = argv(process.argv.slice(2));
-  const config = processArgv<ITaskConfig>({} as ITaskConfig);
-
-  await startRollup(config);
-};
-
-(async () => {
-  await core.manager.run(async () => {
-    try {
-      await taskMain();
-    } catch (e) {
-      console.error(e);
-    }
-  });
-})();

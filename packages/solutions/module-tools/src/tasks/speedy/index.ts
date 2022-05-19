@@ -2,7 +2,7 @@ import { SpeedyBundler } from '@speedy-js/speedy-core';
 import { CLIConfig, SpeedyPlugin } from '@speedy-js/speedy-types';
 import { Import } from '@modern-js/utils';
 import { Format, Target } from '../../types';
-// import { watchChangePlugin } from './watchPlugin';
+import { watchChangePlugin } from './watchPlugin';
 
 const argv: typeof import('process.argv').default = Import.lazy(
   'process.argv',
@@ -12,10 +12,10 @@ const core: typeof import('@modern-js/core') = Import.lazy(
   '@modern-js/core',
   require,
 );
-// const logger: typeof import('../../features/build/logger') = Import.lazy(
-//   '../../features/build/logger',
-//   require,
-// );
+const logger: typeof import('../../features/build/logger') = Import.lazy(
+  '../../features/build/logger',
+  require,
+);
 interface ITaskConfig {
   distDir: string;
   appDirectory: string;
@@ -24,15 +24,14 @@ interface ITaskConfig {
   entry: string;
   format: Format;
   target: Target;
-  sourceMap: boolean;
 }
 
 export const buildInBundleMode = async (config: ITaskConfig) => {
-  const { watch, entry, distDir, format, target, sourceMap } = config;
+  const { watch, entry, distDir, format, target } = config;
   const plugins: SpeedyPlugin[] = [];
-  // watch && plugins.push(watchChangePlugin(() => {
-  //   console.info(logger.clearFlag);
-  // }));
+  watch && plugins.push(watchChangePlugin(() => {
+    console.info(logger.clearFlag);
+  }));
   const cliConfig: CLIConfig = {
     command: 'build',
     mode: 'production',
@@ -43,14 +42,13 @@ export const buildInBundleMode = async (config: ITaskConfig) => {
       index: entry,
     },
     target,
-    sourceMap,
     output: {
       path: distDir,
       format,
       filename: '[dir]/[name]',
     },
     html: false,
-    // clearScreen: false,
+    clearScreen: false,
     plugins,
   };
   console.info('speedy', 'Build start');

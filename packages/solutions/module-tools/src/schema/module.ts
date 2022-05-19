@@ -18,7 +18,13 @@ const properties = {
       { enum: ['cjs', 'esm', 'iife'] }
     ]
   },
-  'sourceMap': {
+  'watch': {
+    type: 'boolean',
+  },
+  'tsconfig': {
+    type: 'string',
+  },
+  'dts': {
     type: 'boolean',
   },
   'bundle': {
@@ -37,7 +43,8 @@ export const moduleSchema = [
         type: 'array',
         items: [{ type: 'object', properties }]
       },
-      else: { type: 'object', properties }
+      elseIf:  { type: 'object', properties },
+      else: { enum: ['library', 'component'] },
     }
   },
 ];

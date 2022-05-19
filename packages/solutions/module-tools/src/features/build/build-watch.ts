@@ -2,8 +2,8 @@ import * as path from 'path';
 import * as os from 'os';
 import { execa, Import } from '@modern-js/utils';
 
-import type { PluginAPI } from '@modern-js/core';
-import type { BuildConfig, ITaskMapper, ModuleToolsConfig } from '../../types';
+import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
+import type { IBuildConfig, ITaskMapper } from '../../types';
 
 const lg: typeof import('./logger') = Import.lazy('./logger', require);
 const pMap: typeof import('p-map') = Import.lazy('p-map', require);
@@ -13,7 +13,7 @@ const constants: typeof import('./constants') = Import.lazy(
   require,
 );
 
-export const buildInWatchMode = async (api: PluginAPI, config: BuildConfig) => {
+export const buildInWatchMode = async (api: PluginAPI, config: IBuildConfig, _: NormalizedConfig ) => {
   const { appDirectory } = api.useAppContext();
   const { sourceDir, enableTscCompiler } = config;
   const srcRootDir = path.join(appDirectory, sourceDir);

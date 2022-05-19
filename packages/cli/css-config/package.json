@@ -60,9 +60,7 @@
   },
   "sideEffects": false,
   "modernConfig": {
-    "buildPreset": {
-      "format": ["esm", "iife", "cjs"]
-    }
+    "buildPreset": "library"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

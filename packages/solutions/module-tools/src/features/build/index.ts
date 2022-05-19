@@ -53,24 +53,21 @@ export const build = async (
   if (clear) {
     fs.removeSync(path.join(appDirectory, outputPath));
   }
+
+  // should normalize module tool config here, ensure the same config for build
+  //TODO: merge cli and module config
   const normalizedModuleConfig = normalizeModuleConfig(modernConfig.buildPreset);
   Promise.all(normalizedModuleConfig.map(async moduleConfig => {
     if (moduleConfig.bundle) {
-      await buildBundleFeature.buildInBundleMode(api, {
+      await buildBundleFeature.buildInBundleMode({
         ...config,
         ...moduleConfig,
       });
     }
     else if (enableWatchMode) {
-      await buildWatchFeature.buildInWatchMode(api, {
-        ...config,
-        ...moduleConfig,
-      });
+      await buildWatchFeature.buildInWatchMode(api, config, modernConfig);
     } else {
-      await buildFeature.buildSourceCode(api, {
-        ...config,
-        ...moduleConfig,
-      });
+      await buildFeature.buildSourceCode(api, config, modernConfig);
     }
   }));
 };

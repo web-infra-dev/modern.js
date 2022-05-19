@@ -1,13 +1,14 @@
 import * as path from 'path';
 import * as os from 'os';
 import { Import, chalk } from '@modern-js/utils';
-import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
+import type { PluginAPI } from '@modern-js/core';
 import type {
-  BuildConfig,
+  IBuildConfig,
   IPackageModeValue,
   JsSyntaxType,
   ITaskMapper,
   TaskBuildConfig,
+  BuildConfig,
   BuildPreset,
 } from '../../types';
 import type { LoggerText } from './logger';
@@ -34,7 +35,7 @@ const updateMapper = (
   }
 };
 
-export const getCodeInitMapper = (api: PluginAPI, _: BuildConfig) => {
+export const getCodeInitMapper = (api: PluginAPI, _: IBuildConfig) => {
   const {
     output: { packageFields, packageMode },
   } = api.useResolvedConfigContext();
@@ -94,7 +95,7 @@ export const getCodeMapper = (
     srcRootDir,
     willCompilerDirOrFile,
   }: ITaskMapper & {
-    config: TaskBuildConfig;
+    config: IBuildConfig;
     initMapper: IPackageModeValue[];
     srcRootDir: string;
     willCompilerDirOrFile: string;
@@ -146,7 +147,7 @@ export const getBundlerMapper = (
   const {
     output: { path: outputPath = 'dist' },
   } = modernConfig;
-  const { enableWatchMode, target, format, entry, sourceMap } = config;
+  const { enableWatchMode, target, format, entry } = config;
 
   return format.map(val => {
     return {
@@ -159,7 +160,6 @@ export const getBundlerMapper = (
         `--target=${target}`,
         `--format=${val}`,
         `--entry=${entry}`,
-        sourceMap ? `--sourceMap` : '',
       ],
     }
   });
@@ -220,7 +220,7 @@ export const getRollupMapper = (
 // 获取执行生成 d.ts 的参数
 export const getDtsMapper = (
   api: PluginAPI,
-  config: TaskBuildConfig,
+  config: IBuildConfig,
   logger: LoggerText,
 ) => {
   const { appDirectory } = api.useAppContext();
@@ -320,37 +320,32 @@ export class TimeCounter {
     return span < 1000 ? `${span}ms` : `${(span / 1000).toFixed(2)}s`;
   }
 }
-export const normalizeModuleConfig = (preset?: BuildPreset) => {
-  const defaultPreset: Required<BuildConfig> = {
-    format: ['esm'],
-    target: 'es2017',
-    bundle: true,
-    sourceMap: false,
-    entry: 'src/index.ts',
-    speedyOptions: {},
-    rollupDtsOptions: {},
-  };
-  // TODO: 完成这两个官方预设配置
-  if (preset === 'library' || preset === 'component') {
-    return [defaultPreset];
+export const normalizeModuleConfig = (preset?: BuildPreset): Required<BuildConfig>[] => {
+  if (preset === 'library') {
+    return constants.defaultLibraryPreset;
+  } else if (preset === 'component') {
+    return constants.defaultComponentPreset;
   }
-  const presetArray = Array.isArray(preset) ? (preset.length === 0 ? [defaultPreset] : preset) : (preset ? [preset] : [defaultPreset]);
+  //FIXME:throw error when preset is empty array or empty object
+  const presetArray = Array.isArray(preset) ? (preset.length === 0 ? constants.defaultLibraryPreset : preset) : (preset ? [preset] : constants.defaultLibraryPreset);
   const normalizedModule = presetArray.map(config => {
-    const format = config.format ?? ['esm'];
-    const target = config.target ?? 'es2017';
+    const format = config.format ?? ['esm', 'cjs'];
+    const target = config.target ?? 'esnext';
     const bundle = config.bundle ?? true;
-    const sourceMap = config.sourceMap ?? bundle;
     const entry = config.entry ?? 'src/index.ts';
     const speedyOptions = config.speedyOptions ?? {};
-    const rollupDtsOptions = config.rollupDtsOptions ?? {};
+    const watch = config.watch ?? false;
+    const tsconfig = config.tsconfig ?? 'tsconfig.json';
+    const dts = config.dts ?? true;
     return {
       format,
       target,
       bundle,
-      sourceMap,
       entry,
       speedyOptions,
-      rollupDtsOptions
+      watch,
+      tsconfig,
+      dts
     };
   });
   return normalizedModule;

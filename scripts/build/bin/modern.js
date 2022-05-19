@@ -32,7 +32,7 @@ const distLastModifyTime = getLastModifiedRecursive(distDir);
 
 if (
   pkgLastModifyTime > distLastModifyTime ||
-  process.env.DISABLE_IGNORE_BUILD
+  true
 ) {
   require(`${kProjectRoot}/packages/cli/core/src/cli.ts`);
 } else {

@@ -2,7 +2,6 @@ import type { ImportStyleType } from '@modern-js/babel-preset-module';
 import type { LoggerText } from './features/build/logger/logText';
 import type { Platform } from './features/build/build-platform';
 import type { UserConfig } from '@speedy-js/speedy-core';
-import type { Options as RollupDtsOptions } from 'rollup-plugin-dts'
 
 export type { Platform } from './features/build/build-platform';
 export type { ITsconfig } from './utils/tsconfig';
@@ -64,10 +63,11 @@ export type BuildConfig = {
   format?: Format[];
   target?: Target;
   bundle?: boolean;
-  sourceMap?: boolean;
   entry?: string;
   speedyOptions?: UserConfig;
-  rollupDtsOptions?: RollupDtsOptions;
+  tsconfig?: string;
+  watch?: boolean;
+  dts?: boolean;
 };
 
 export type BuildPreset = BuildConfig[] | BuildConfig | 'library' | 'component'
