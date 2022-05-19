@@ -29,6 +29,7 @@ import {
   GLOBAL_CSS_REGEX,
   JS_RESOLVE_EXTENSIONS,
   CACHE_DIRECTORY,
+  NODE_MODULES_CSS_REGEX,
 } from '../utils/constants';
 import { createCSSRule, enableCssExtract } from '../utils/createCSSRule';
 import { mergeRegex } from '../utils/mergeRegex';
@@ -38,8 +39,11 @@ import { ModuleScopePlugin } from '../plugins/module-scope-plugin';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
 import { TsConfigPathsPlugin } from '../plugins/ts-config-paths-plugin';
 import { getWebpackAliases } from '../utils/getWebpackAliases';
+import { CHAIN_ID } from './shared';
 
 export type ResolveAlias = { [index: string]: string };
+
+const { USE, RULE, ONE_OF, PLUGIN, MINIMIZER, RESOLVE_PLUGIN } = CHAIN_ID;
 
 class BaseWebpackConfig {
   chain: WebpackChain;
@@ -221,22 +225,22 @@ class BaseWebpackConfig {
 
   loaders() {
     this.chain.module
-      .rule('mjs')
+      .rule(RULE.MJS)
       .test(/\.m?js/)
       .resolve.set('fullySpecified', false);
 
-    const loaders = this.chain.module.rule('loaders');
+    const loaders = this.chain.module.rule(RULE.LOADERS);
 
     //  js、ts
     const useTsLoader = Boolean(this.options.output?.enableTsLoader);
 
     loaders
-      .oneOf('js')
+      .oneOf(ONE_OF.JS)
       .test(useTsLoader ? JS_REGEX : mergeRegex(JS_REGEX, TS_REGEX))
       .include.add(this.appContext.srcDirectory)
       .add(this.appContext.internalDirectory)
       .end()
-      .use('babel')
+      .use(USE.BABEL)
       .loader(require.resolve('../../compiled/babel-loader'))
       .options(
         getBabelOptions(
@@ -249,12 +253,12 @@ class BaseWebpackConfig {
 
     if (useTsLoader) {
       loaders
-        .oneOf('ts')
+        .oneOf(ONE_OF.TS)
         .test(TS_REGEX)
         .include.add(this.appContext.srcDirectory)
         .add(this.appContext.internalDirectory)
         .end()
-        .use('babel')
+        .use(USE.BABEL)
         .loader(require.resolve('../../compiled/babel-loader'))
         .options({
           presets: [
@@ -272,7 +276,7 @@ class BaseWebpackConfig {
           ],
         })
         .end()
-        .use('ts')
+        .use(USE.TS)
         .loader(require.resolve('ts-loader'))
         .options(
           applyOptionsChain(
@@ -294,12 +298,16 @@ class BaseWebpackConfig {
     if (includes.length > 0) {
       const includeRegex = mergeRegex(...includes);
       const testResource = (resource: string) => includeRegex.test(resource);
-      loaders.oneOf('js').include.add(testResource);
-      loaders.oneOfs.has('ts') && loaders.oneOf('ts').include.add(testResource);
+      loaders.oneOf(ONE_OF.JS).include.add(testResource);
+
+      if (loaders.oneOfs.has(ONE_OF.TS)) {
+        loaders.oneOf(ONE_OF.TS).include.add(testResource);
+      }
     }
 
     const disableCssModuleExtension =
       this.options.output?.disableCssModuleExtension ?? false;
+
     // css
     createCSSRule(
       this.chain,
@@ -308,10 +316,12 @@ class BaseWebpackConfig {
         config: this.options,
       },
       {
-        name: 'css',
+        name: ONE_OF.CSS,
         // when disableCssModuleExtension is true,
-        // only transfer *.global.css in css-loader
-        test: disableCssModuleExtension ? GLOBAL_CSS_REGEX : CSS_REGEX,
+        // only transfer *.global.css and node_modules/**/*.css
+        test: disableCssModuleExtension
+          ? [NODE_MODULES_CSS_REGEX, GLOBAL_CSS_REGEX]
+          : CSS_REGEX,
         exclude: [CSS_MODULE_REGEX],
       },
       {
@@ -329,7 +339,7 @@ class BaseWebpackConfig {
         config: this.options,
       },
       {
-        name: 'css-modules',
+        name: ONE_OF.CSS_MODULES,
         test: disableCssModuleExtension ? CSS_REGEX : CSS_MODULE_REGEX,
         exclude: disableCssModuleExtension
           ? [/node_modules/, GLOBAL_CSS_REGEX]
@@ -351,15 +361,15 @@ class BaseWebpackConfig {
 
     // svg
     loaders
-      .oneOf('svg-inline')
+      .oneOf(ONE_OF.SVG_INLINE)
       .test(SVG_REGEX)
       .type('javascript/auto')
       .resourceQuery(/inline/)
-      .use('svgr')
+      .use(USE.SVGR)
       .loader(require.resolve('@svgr/webpack'))
       .options({ svgo: false })
       .end()
-      .use('url')
+      .use(USE.URL)
       .loader(require.resolve('../../compiled/url-loader'))
       .options({
         limit: Infinity,
@@ -367,15 +377,15 @@ class BaseWebpackConfig {
       });
 
     loaders
-      .oneOf('svg-url')
+      .oneOf(ONE_OF.SVG_URL)
       .test(SVG_REGEX)
       .type('javascript/auto')
       .resourceQuery(/url/)
-      .use('svgr')
+      .use(USE.SVGR)
       .loader(require.resolve('@svgr/webpack'))
       .options({ svgo: false })
       .end()
-      .use('url')
+      .use(USE.URL)
       .loader(require.resolve('../../compiled/url-loader'))
       .options({
         limit: false,
@@ -383,14 +393,14 @@ class BaseWebpackConfig {
       });
 
     loaders
-      .oneOf('svg')
+      .oneOf(ONE_OF.SVG)
       .test(SVG_REGEX)
       .type('javascript/auto')
-      .use('svgr')
+      .use(USE.SVGR)
       .loader(require.resolve('@svgr/webpack'))
       .options({ svgo: false })
       .end()
-      .use('url')
+      .use(USE.URL)
       .loader(require.resolve('../../compiled/url-loader'))
       .options({
         limit: this.options.output?.dataUriLimit,
@@ -399,50 +409,50 @@ class BaseWebpackConfig {
 
     // img, font assets
     loaders
-      .oneOf('assets-inline')
+      .oneOf(ONE_OF.ASSETS_INLINE)
       .test(ASSETS_REGEX)
       .type('asset/inline' as any)
       .resourceQuery(/inline/);
 
     loaders
-      .oneOf('assets-url')
+      .oneOf(ONE_OF.ASSETS_URL)
       .test(ASSETS_REGEX)
       .type('asset/resource' as any)
       .resourceQuery(/url/);
 
     loaders
-      .oneOf('assets')
+      .oneOf(ONE_OF.ASSETS)
       .test(ASSETS_REGEX)
       .type('asset' as any)
       .parser({
         dataUrlCondition: { maxSize: this.options.output?.dataUriLimit },
       });
 
-    // yml,toml, markdown
+    // yml, toml, markdown
     loaders
-      .oneOf('yml')
+      .oneOf(ONE_OF.YAML)
       .test(/\.ya?ml$/)
-      .use('yaml')
+      .use(USE.YAML)
       .loader(require.resolve('../../compiled/yaml-loader'));
 
     loaders
-      .oneOf('toml')
+      .oneOf(ONE_OF.TOML)
       .test(/\.toml$/)
-      .use('toml')
+      .use(USE.TOML)
       .loader(require.resolve('../../compiled/toml-loader'));
 
     loaders
-      .oneOf('markdown')
+      .oneOf(ONE_OF.MARKDOWN)
       .test(/\.md$/)
-      .use('html')
+      .use(USE.HTML)
       .loader(require.resolve('html-loader'))
       .end()
-      .use('markdown')
+      .use(USE.MARKDOWN)
       .loader(require.resolve('../../compiled/markdown-loader'));
 
     //  resource fallback
     loaders
-      .oneOf('fallback')
+      .oneOf(ONE_OF.FALLBACK)
       .exclude.add(/^$/)
       .add(JS_REGEX)
       .add(TS_REGEX)
@@ -450,7 +460,7 @@ class BaseWebpackConfig {
       .add(CSS_MODULE_REGEX)
       .add(/\.(html?|json|wasm|ya?ml|toml|md)$/)
       .end()
-      .use('file')
+      .use(USE.FILE)
       .loader(require.resolve('../../compiled/file-loader'));
 
     return loaders;
@@ -460,10 +470,11 @@ class BaseWebpackConfig {
     // progress bar
     process.stdout.isTTY &&
       this.chain
-        .plugin('progress')
+        .plugin(PLUGIN.PROGRESS)
         .use(WebpackBar, [{ name: this.chain.get('name') }]);
+
     if (enableCssExtract(this.options)) {
-      this.chain.plugin('mini-css-extract').use(MiniCssExtractPlugin, [
+      this.chain.plugin(PLUGIN.MINI_CSS_EXTRACT).use(MiniCssExtractPlugin, [
         {
           filename: this.cssChunkname,
           chunkFilename: this.cssChunkname,
@@ -472,7 +483,7 @@ class BaseWebpackConfig {
       ]);
     }
 
-    this.chain.plugin('ignore').use(IgnorePlugin, [
+    this.chain.plugin(PLUGIN.IGNORE).use(IgnorePlugin, [
       {
         resourceRegExp: /^\.\/locale$/,
         contextRegExp: /moment$/,
@@ -487,7 +498,7 @@ class BaseWebpackConfig {
       !output.enableTsLoader &&
       !output.disableTsChecker
     ) {
-      this.chain.plugin('ts-checker').use(ForkTsCheckerWebpackPlugin, [
+      this.chain.plugin(PLUGIN.TS_CHECKER).use(ForkTsCheckerWebpackPlugin, [
         {
           typescript: {
             // avoid OOM issue
@@ -561,22 +572,24 @@ class BaseWebpackConfig {
     }
 
     // resolve plugin(module scope)
-    this.chain.resolve.plugin('module-scope').use(ModuleScopePlugin, [
-      {
-        appSrc: defaultScopes.map((scope: string | RegExp) => {
-          if (isString(scope)) {
-            return ensureAbsolutePath(this.appDirectory, scope);
-          }
-          return scope;
-        }),
-        allowedFiles: [path.resolve(this.appDirectory, './package.json')],
-      },
-    ]);
+    this.chain.resolve
+      .plugin(RESOLVE_PLUGIN.MODULE_SCOPE)
+      .use(ModuleScopePlugin, [
+        {
+          appSrc: defaultScopes.map((scope: string | RegExp) => {
+            if (isString(scope)) {
+              return ensureAbsolutePath(this.appDirectory, scope);
+            }
+            return scope;
+          }),
+          allowedFiles: [path.resolve(this.appDirectory, './package.json')],
+        },
+      ]);
 
     if (this.isTsProject) {
       // aliases from tsconfig.json
       this.chain.resolve
-        .plugin('ts-config-paths')
+        .plugin(RESOLVE_PLUGIN.TS_CONFIG_PATHS)
         .use(TsConfigPathsPlugin, [this.appDirectory]);
     }
   }
@@ -605,7 +618,7 @@ class BaseWebpackConfig {
       .minimize(isProd() && !this.options.output?.disableMinimize)
       .splitChunks({ chunks: 'all' })
       .runtimeChunk({ name: (entrypoint: any) => `runtime-${entrypoint.name}` })
-      .minimizer('js')
+      .minimizer(MINIMIZER.JS)
       .use(TerserPlugin, [
         // FIXME: any type
         applyOptionsChain<any, any>(
@@ -632,7 +645,7 @@ class BaseWebpackConfig {
         ),
       ])
       .end()
-      .minimizer('css')
+      .minimizer(MINIMIZER.CSS)
       // FIXME: add `<any>` reason: Since the css-minimizer-webpack-plugin has been updated
       .use<any>(CssMinimizerPlugin, [
         applyOptionsChain({}, this.options.tools?.minifyCss),
@@ -670,6 +683,27 @@ class BaseWebpackConfig {
     }
   }
 
+  applyToolsWebpackChain() {
+    if (!this.options.tools) {
+      return;
+    }
+
+    const { webpackChain } = this.options.tools;
+    if (webpackChain) {
+      const toArray = <T>(item: T | T[]): T[] =>
+        Array.isArray(item) ? item : [item];
+
+      toArray(webpackChain).forEach(item => {
+        item(this.chain, {
+          env: process.env.NODE_ENV!,
+          name: this.chain.get('name'),
+          webpack,
+          CHAIN_ID,
+        });
+      });
+    }
+  }
+
   getChain() {
     this.chain.context(this.appDirectory);
 
@@ -688,6 +722,7 @@ class BaseWebpackConfig {
     this.optimization();
     this.stats();
     this.watchOptions();
+    this.applyToolsWebpackChain();
 
     const config = this.chain.toConfig();
 

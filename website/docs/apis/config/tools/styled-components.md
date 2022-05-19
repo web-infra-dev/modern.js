@@ -1,6 +1,5 @@
 ---
 sidebar_label: styledComponents
-sidebar_position: 4
 ---
 
 # tools.styledComponents

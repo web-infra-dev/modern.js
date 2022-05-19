@@ -24,7 +24,7 @@ export default (): CliPlugin => ({
     config() {
       return {
         tools: {
-          webpack: (_config, { chain }) => {
+          webpackChain: (chain, { name, CHAIN_ID }) => {
             const { appDirectory, port } = api.useAppContext();
             const modernConfig = api.useResolvedConfigContext() as UserConfig;
             const { bff } = modernConfig || {};
@@ -41,9 +41,9 @@ export default (): CliPlugin => ({
               ),
             );
             chain.module
-              .rule('loaders')
-              .oneOf('bff-client')
-              .before('fallback')
+              .rule(CHAIN_ID.RULE.LOADERS)
+              .oneOf(CHAIN_ID.ONE_OF.BFF_CLIENT)
+              .before(CHAIN_ID.ONE_OF.FALLBACK)
               .test(apiRegexp)
               .use('custom-loader')
               .loader(require.resolve('./loader').replace(/\\/g, '/'))
@@ -52,7 +52,7 @@ export default (): CliPlugin => ({
                 apiDir: rootDir,
                 port,
                 fetcher,
-                target: _config.name,
+                target: name,
                 requestCreator: bff?.requestCreator,
               });
           },
@@ -107,7 +107,7 @@ export default (): CliPlugin => ({
           distDir,
           sourceDir: sourceAbsDir,
           extensions: FILE_EXTENSIONS,
-          ignore: [`**/__tests__/**`, '**/typings/**', '*.d.ts', '*.test.ts'],
+          ignore: [`**/__tests__/**`, '*.d.ts', '*.test.ts'],
         },
         babelConfig,
       );
@@ -120,7 +120,7 @@ export default (): CliPlugin => ({
       }
 
       if (result.code === 1) {
-        throw new Error(result.message);
+        throw new Error(result?.messageDetails?.[0].content || result.message);
       }
     },
   }),

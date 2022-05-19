@@ -11,10 +11,9 @@ const mlc: typeof import('./module-less-config') = Import.lazy(
 );
 
 const LESS_REGEX = /\.less$/;
-
 const LESS_MODULE_REGEX = /\.module\.less$/;
-
 const GLOBAL_LESS_REGEX = /\.global\.less$/;
+const NODE_MODULES_LESS_REGEX = /node_modules[\\/].+\.less$/;
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-less',
@@ -26,7 +25,8 @@ export default (): CliPlugin => ({
     config() {
       return {
         tools: {
-          webpack: (config, { chain }) => {
+          webpackChain: (chain, { CHAIN_ID }) => {
+            const { RULE, ONE_OF } = CHAIN_ID;
             const options = api.useResolvedConfigContext();
 
             const {
@@ -35,20 +35,24 @@ export default (): CliPlugin => ({
 
             const lessOptions = cssConfig.getLessConfig(options);
 
-            const loaders = chain.module.rule('loaders');
+            const loaders = chain.module.rule(RULE.LOADERS);
 
             loaders
-              .oneOf('less')
-              .before('fallback')
-              .merge({
-                // when disableCssModuleExtension is true,
-                // only transfer *.global.less in less-loader
-                test: disableCssModuleExtension
-                  ? GLOBAL_LESS_REGEX
+              .oneOf(ONE_OF.LESS)
+              .before(ONE_OF.FALLBACK)
+              // when disableCssModuleExtension is true,
+              // only transfer *.global.less and node_modules/**/*.less
+              .test(
+                disableCssModuleExtension
+                  ? [GLOBAL_LESS_REGEX, NODE_MODULES_LESS_REGEX]
                   : LESS_REGEX,
+              )
+              .merge({
                 exclude: LESS_MODULE_REGEX,
                 use: [
-                  ...loaders.oneOf('css').toConfig().use,
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-expect-error webpack-chain missing type
+                  ...loaders.oneOf(ONE_OF.CSS).toConfig().use,
                   {
                     loader: require.resolve('less-loader'),
                     options: lessOptions,
@@ -57,15 +61,17 @@ export default (): CliPlugin => ({
               });
 
             loaders
-              .oneOf('less-modules')
-              .before('fallback')
+              .oneOf(ONE_OF.LESS_MODULES)
+              .before(ONE_OF.FALLBACK)
               .merge({
                 test: disableCssModuleExtension
                   ? LESS_REGEX
                   : LESS_MODULE_REGEX,
                 exclude: [/node_modules/, GLOBAL_LESS_REGEX],
                 use: [
-                  ...loaders.oneOf('css-modules').toConfig().use,
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-expect-error webpack-chain missing type
+                  ...loaders.oneOf(ONE_OF.CSS_MODULES).toConfig().use,
                   {
                     loader: require.resolve('less-loader'),
                     options: lessOptions,
@@ -74,7 +80,7 @@ export default (): CliPlugin => ({
               });
 
             loaders
-              .oneOf('fallback')
+              .oneOf(ONE_OF.FALLBACK)
               .exclude.add(LESS_REGEX)
               .add(LESS_MODULE_REGEX);
           },

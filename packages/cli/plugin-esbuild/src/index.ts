@@ -12,16 +12,19 @@ export default (): CliPlugin => ({
     config() {
       return {
         tools: {
-          webpack: (config, { chain }) => {
+          webpackChain: (chain, { CHAIN_ID }) => {
+            const { MINIMIZER } = CHAIN_ID;
             const resolvedConfig = api.useResolvedConfigContext();
 
             const { esbuild = {} } = resolvedConfig.tools;
 
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error webpack-chain missing minimizers type
             chain.optimization.minimizers
-              .delete('js')
-              .delete('css')
+              .delete(MINIMIZER.JS)
+              .delete(MINIMIZER.CSS)
               .end()
-              .minimizer('js-css')
+              .minimizer(MINIMIZER.ESBUILD)
               .use(ESBuildPlugin, [esbuild]);
           },
         },

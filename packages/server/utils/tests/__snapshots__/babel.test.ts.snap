@@ -110,12 +110,19 @@ Object {
     Array [
       "/babel-plugin-transform-typescript-metadata/lib/plugin.js",
     ],
+    Array [
+      "/@babel/plugin-proposal-class-properties/lib/index.js",
+      Object {
+        "loose": true,
+      },
+    ],
   ],
   "presets": Array [
     Array [
       "/@babel/preset-env/lib/index.js",
       Object {
         "bugfixes": true,
+        "loose": true,
         "modules": "commonjs",
         "shippedProposals": false,
         "targets": Array [

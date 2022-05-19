@@ -1,6 +1,7 @@
 import { fs } from '@modern-js/utils';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { ClientWebpackConfig } from '../src/config/client';
+import { CHAIN_ID } from '../src/config/shared';
 
 describe('@modern-js/webpack#config/client', () => {
   const appContext: IAppContext = {
@@ -95,7 +96,7 @@ describe('@modern-js/webpack#config/client', () => {
 
     client.plugins();
 
-    client.chain.plugin('copy').tap(options => {
+    client.chain.plugin(CHAIN_ID.PLUGIN.COPY).tap(options => {
       expect(options[0].patterns.length).toEqual(2);
       done();
       return options;
@@ -113,7 +114,7 @@ describe('@modern-js/webpack#config/client', () => {
     client.plugins();
 
     expect(() => {
-      client.chain.plugin('copy').tap(options => options);
+      client.chain.plugin(CHAIN_ID.PLUGIN.COPY).tap(options => options);
     }).toThrowError();
 
     fsSpy.mockRestore();
