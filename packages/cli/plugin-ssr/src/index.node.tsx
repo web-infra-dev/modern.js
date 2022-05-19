@@ -35,7 +35,7 @@ const plugin = (): Plugin => ({
           context.ssrContext;
 
         context.ssrContext.request = formatServer(request);
-        next({ context });
+        return next({ context });
       },
       pickContext: ({ context, pickedContext }, next) => {
         const { request }: { request: SSRServerContext['request'] } =
