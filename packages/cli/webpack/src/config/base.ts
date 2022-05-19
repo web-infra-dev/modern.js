@@ -425,7 +425,7 @@ class BaseWebpackConfig {
         dataUrlCondition: { maxSize: this.options.output?.dataUriLimit },
       });
 
-    // yml,toml, markdown
+    // yml, toml, markdown
     loaders
       .oneOf(ONE_OF.YAML)
       .test(/\.ya?ml$/)
