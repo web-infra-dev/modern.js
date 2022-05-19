@@ -24,7 +24,7 @@ export default (): CliPlugin => ({
     config() {
       return {
         tools: {
-          webpackChain: (chain, { name }) => {
+          webpackChain: (chain, { name, CHAIN_ID }) => {
             const { appDirectory, port } = api.useAppContext();
             const modernConfig = api.useResolvedConfigContext() as UserConfig;
             const { bff } = modernConfig || {};
@@ -41,9 +41,9 @@ export default (): CliPlugin => ({
               ),
             );
             chain.module
-              .rule('loaders')
-              .oneOf('bff-client')
-              .before('fallback')
+              .rule(CHAIN_ID.RULE.LOADERS)
+              .oneOf(CHAIN_ID.ONE_OF.BFF_CLIENT)
+              .before(CHAIN_ID.ONE_OF.FALLBACK)
               .test(apiRegexp)
               .use('custom-loader')
               .loader(require.resolve('./loader').replace(/\\/g, '/'))
