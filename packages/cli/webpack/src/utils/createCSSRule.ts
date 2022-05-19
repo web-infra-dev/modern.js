@@ -1,6 +1,7 @@
 import { getPostcssConfig } from '@modern-js/css-config';
 import type { NormalizedConfig } from '@modern-js/core';
 import type { WebpackChain } from '../compiled';
+import { CHAIN_ID } from '../config/shared';
 
 export const enableCssExtract = (config: NormalizedConfig) => {
   return config.output.disableCssExtract !== true;
@@ -37,14 +38,14 @@ export const createCSSRule = (
 ) => {
   const postcssOptions = getPostcssConfig(appDirectory, config);
 
-  const loaders = chain.module.rule('loaders');
+  const loaders = chain.module.rule(CHAIN_ID.RULE.LOADERS);
   const isExtractCSS = enableCssExtract(config);
 
   loaders
     .oneOf(name)
     .test(test)
     .when(isExtractCSS, c => {
-      c.use('mini-css-extract')
+      c.use(CHAIN_ID.USE.MINI_CSS_EXTRACT)
         .loader(require('mini-css-extract-plugin').loader)
         .options(
           chain.output.get('publicPath') === './'
@@ -54,18 +55,18 @@ export const createCSSRule = (
         .end();
     })
     .when(!isExtractCSS, c => {
-      c.use('style-loader').loader(require.resolve('style-loader')).end();
+      c.use(CHAIN_ID.USE.STYLE).loader(require.resolve('style-loader')).end();
     })
     .when(Boolean(genTSD), c => {
-      c.use('css-modules-typescript')
+      c.use(CHAIN_ID.USE.CSS_MODULES_TS)
         .loader(require.resolve('../../compiled/css-modules-typescript-loader'))
         .end();
     })
-    .use('css')
+    .use(CHAIN_ID.USE.CSS)
     .loader(require.resolve('css-loader'))
     .options(options)
     .end()
-    .use('postcss')
+    .use(CHAIN_ID.USE.POSTCSS)
     .loader(require.resolve('../../compiled/postcss-loader'))
     .options(postcssOptions);
 

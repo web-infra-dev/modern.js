@@ -36,11 +36,11 @@ export default (): CliPlugin => ({
             },
           },
           tools: {
-            webpackChain: (chain, { name }) => {
+            webpackChain: (chain, { name, CHAIN_ID }) => {
               const userConfig = api.useResolvedConfigContext();
               if (isUseSSRBundle(userConfig) && name !== 'server') {
                 chain
-                  .plugin('loadable')
+                  .plugin(CHAIN_ID.PLUGIN.LOADABLE)
                   .use(LoadableWebpackPlugin, [
                     { filename: LOADABLE_STATS_FILE },
                   ]);
