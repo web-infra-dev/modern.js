@@ -2,6 +2,7 @@ import path from 'path';
 import { manager, AppContext } from '@modern-js/core';
 import { modifyServerRoutes } from '@modern-js/plugin-analyze';
 import Chain from 'webpack-chain';
+import { CHAIN_ID } from '@modern-js/webpack';
 import plugin from '../src/cli';
 
 const root = path.normalize(path.resolve(__dirname, '../../../../'));
@@ -51,7 +52,7 @@ describe('bff cli plugin', () => {
         port: 3000,
       } as any);
     });
-    manager.run(() => tools.webpackChain(chain, {}));
+    manager.run(() => tools.webpackChain(chain, { CHAIN_ID }));
 
     expect(chain.toConfig()).toMatchObject({
       module: {
