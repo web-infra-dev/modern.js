@@ -107,7 +107,7 @@ export default (): CliPlugin => ({
           distDir,
           sourceDir: sourceAbsDir,
           extensions: FILE_EXTENSIONS,
-          ignore: [`**/__tests__/**`, '**/typings/**', '*.d.ts', '*.test.ts'],
+          ignore: [`**/__tests__/**`, '*.d.ts', '*.test.ts'],
         },
         babelConfig,
       );
@@ -120,7 +120,7 @@ export default (): CliPlugin => ({
       }
 
       if (result.code === 1) {
-        throw new Error(result.message);
+        throw new Error(result?.messageDetails?.[0].content || result.message);
       }
     },
   }),
