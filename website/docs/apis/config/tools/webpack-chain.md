@@ -116,7 +116,7 @@ Modern.js 中预先定义了大量的 plugins 和 loaders，通过常量 `CHAIN_
 
 ### 修改 MiniCssExtractPlugin
 
-通过 `tap` 方法修改 `MiniCssExtractPlugin` 的配置项：
+通过 `CHAIN_ID.PLUGIN.MINI_CSS_EXTRACT` 可以读取到 `MiniCssExtractPlugin`，然后通过 `tap` 方法进行修改：
 
 ```js title="modern.config.js"
 export default defineConfig({
@@ -133,7 +133,7 @@ export default defineConfig({
 
 ### 修改 css-loader
 
-通过 `tap` 方法修改 `css-loader` 的配置项：
+通过 `CHAIN_ID.USE.CSS` 可以读取到 `css-loader`，然后通过 `tap` 方法进行修改：
 
 ```js title="modern.config.js"
 export default defineConfig({
@@ -154,7 +154,7 @@ export default defineConfig({
 
 ### 修改 babel-loader
 
-通过 `tap` 方法修改 `babel-loader` 的配置项：
+通过 `CHAIN_ID.USE.BABEL` 可以读取到 `babel-loader`，然后通过 `tap` 方法进行修改：
 
 ```js title="modern.config.js"
 export default defineConfig({
