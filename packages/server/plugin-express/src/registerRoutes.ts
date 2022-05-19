@@ -15,7 +15,6 @@ import { createDebugger } from '@modern-js/utils';
 const debug = createDebugger('express');
 
 const registerRoutes = (app: Express) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const handlerInfos = useAPIHandlerInfos();
   sortDynamicRoutes(handlerInfos);
   debug('handlerInfos', handlerInfos);
