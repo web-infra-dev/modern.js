@@ -48,7 +48,7 @@ export default (): CliPlugin => ({
                   : LESS_REGEX,
               )
               .merge({
-                // exclude: LESS_MODULE_REGEX,
+                exclude: LESS_MODULE_REGEX,
                 use: [
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-expect-error webpack-chain missing type
