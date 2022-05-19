@@ -97,9 +97,7 @@ describe('CSS RegExp', () => {
     expect(NODE_MODULES_CSS_REGEX.test('node_module/foo/bar.css')).toEqual(
       false,
     );
-    expect(NODE_MODULES_CSS_REGEX.test('node_modules_foo.css')).toEqual(
-      false,
-    );
+    expect(NODE_MODULES_CSS_REGEX.test('node_modules_foo.css')).toEqual(false);
     expect(NODE_MODULES_CSS_REGEX.test('src/foo/bar.css')).toEqual(false);
     expect(NODE_MODULES_CSS_REGEX.test('node_modules/foo/bar.js')).toEqual(
       false,
