@@ -71,6 +71,7 @@
     "@modern-js/plugin-router": "workspace:*",
     "@modern-js/runtime-core": "workspace:*",
     "@modern-js/types": "workspace:*",
+    "@modern-js/webpack": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@testing-library/jest-dom": "^5.16.1",
