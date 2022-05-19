@@ -29,7 +29,8 @@ export { default as browserslist } from '../compiled/browserslist';
 export { default as recursiveReaddir } from '../compiled/recursive-readdir';
 
 export { program, Command } from '../compiled/commander';
-export { Signale, type SignaleOptions } from '../compiled/signale';
+export { Signale } from '../compiled/signale';
+export type { SignaleOptions } from '../compiled/signale';
 export type { IOptions as GlobOptions } from '../compiled/glob';
 export type { GlobbyOptions } from '../compiled/globby';
 export type { FSWatcher, WatchOptions } from '../compiled/chokidar';
