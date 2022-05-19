@@ -122,6 +122,7 @@ Object {
       "/@babel/preset-env/lib/index.js",
       Object {
         "bugfixes": true,
+        "loose": true,
         "modules": "commonjs",
         "shippedProposals": false,
         "targets": Array [
