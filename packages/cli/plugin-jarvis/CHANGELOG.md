@@ -1,5 +1,16 @@
 # @modern-js/plugin-jarvis
 
+## 1.2.11
+
+### Patch Changes
+
+- 40b78af3d: fix(eslint): remove eslint-import-resolver-webpack
+- Updated dependencies [b8cfc42cd]
+- Updated dependencies [804a5bb8a]
+- Updated dependencies [40b78af3d]
+  - @modern-js/utils@1.7.4
+  - @modern-js-app/eslint-config@1.2.10
+
 ## 1.2.10
 
 ### Patch Changes

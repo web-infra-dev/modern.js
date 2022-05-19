@@ -1,6 +1,10 @@
 import path from 'path';
 import { createRuntimeExportsUtils, PLUGIN_SCHEMAS } from '@modern-js/utils';
-import type { CliHookCallbacks, CliPlugin } from '@modern-js/core';
+import type {
+  CliHookCallbacks,
+  CliPlugin,
+  useConfigContext,
+} from '@modern-js/core';
 import { logger } from '../util';
 import {
   getRuntimeConfig,
@@ -9,16 +13,40 @@ import {
   setRuntimeConfig,
 } from './utils';
 
+export type UseConfig = ReturnType<typeof useConfigContext>;
+
 export const externals = { 'react-dom': 'react-dom', react: 'react' };
 
 export type LifeCycle = CliHookCallbacks;
+
+type NonInValidAble<T> = T extends null | undefined | false ? never : T;
+
+export function getDefaultMicroFrontedConfig(
+  microFrontend: NonInValidAble<
+    NonNullable<UseConfig['deploy']>['microFrontend']
+  >,
+) {
+  if (microFrontend === true) {
+    return {
+      enableHtmlEntry: true,
+      externalBasicLibrary: false,
+      moduleApp: '',
+    };
+  }
+
+  return {
+    enableHtmlEntry: true,
+    externalBasicLibrary: false,
+    ...microFrontend,
+  };
+}
 
 export default ({
   runtimePluginName = '@modern-js/runtime/plugins',
   mfPackagePath = path.resolve(__dirname, '../../../../'),
 } = {}): CliPlugin => ({
   name: '@modern-js/plugin-garfish',
-  setup: ({ useAppContext, useResolvedConfigContext }) => {
+  setup: ({ useAppContext, useResolvedConfigContext, useConfigContext }) => {
     let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
     let runtimeExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
     return {
@@ -48,6 +76,7 @@ export default ({
           );
         }
         logger(`resolvedConfig`, {
+          output: nConfig.resolved.output,
           runtime: nConfig.resolved.runtime,
           deploy: nConfig.resolved.deploy,
           server: nConfig.resolved.server,
@@ -55,6 +84,10 @@ export default ({
         return nConfig;
       },
       config() {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const useConfig = useConfigContext();
+        logger('useConfig', useConfig);
+
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const config = useAppContext();
         pluginsExportsUtils = createRuntimeExportsUtils(
@@ -65,7 +98,23 @@ export default ({
           config.internalDirectory,
           'index',
         );
+
+        let disableCssExtract = useConfig.output?.disableCssExtract ?? false;
+
+        // When the micro-frontend application js entry, there is no need to extract css, close cssExtract
+        if (useConfig.deploy?.microFrontend) {
+          const { enableHtmlEntry } = getDefaultMicroFrontedConfig(
+            useConfig.deploy?.microFrontend,
+          );
+          if (!enableHtmlEntry) {
+            disableCssExtract = true;
+          }
+        }
+
         return {
+          output: {
+            disableCssExtract,
+          },
           source: {
             alias: {
               '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
@@ -77,19 +126,17 @@ export default ({
                 'Access-Control-Allow-Origin': '*',
               },
             },
-            webpack: (
-              webpackConfig: any,
-              { chain, webpack, env = process.env.NODE_ENV || 'development' },
+            webpackChain: (
+              chain,
+              { webpack, env = process.env.NODE_ENV || 'development' },
             ) => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const resolveOptions = useResolvedConfigContext();
               if (resolveOptions?.deploy?.microFrontend) {
                 chain.output.libraryTarget('umd');
-                if (resolveOptions?.server?.port) {
+                if (resolveOptions?.server?.port && env === 'development') {
                   chain.output.publicPath(
-                    env === 'development'
-                      ? `//localhost:${resolveOptions.server.port}/`
-                      : webpackConfig.output.publicPath,
+                    `//localhost:${resolveOptions.server.port}/`,
                   );
                 }
                 // add comments avoid sourcemap abnormal
@@ -98,10 +145,11 @@ export default ({
                     .plugin('banner')
                     .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
                 }
-                const { enableHtmlEntry = true, externalBasicLibrary = false } =
-                  typeof resolveOptions?.deploy?.microFrontend === 'object'
-                    ? resolveOptions?.deploy?.microFrontend
-                    : {};
+
+                const { enableHtmlEntry, externalBasicLibrary } =
+                  getDefaultMicroFrontedConfig(
+                    resolveOptions.deploy?.microFrontend,
+                  );
                 // external
                 if (externalBasicLibrary) {
                   chain.externals(externals);
@@ -122,6 +170,7 @@ export default ({
                 externals: resolveWebpackConfig.externals,
                 env,
                 alias: resolveWebpackConfig.resolve?.alias,
+                plugins: resolveWebpackConfig.plugins,
               });
             },
           },

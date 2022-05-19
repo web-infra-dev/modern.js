@@ -1,12 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`plugin-garfish cli cli addRuntimeExports 1`] = `
-Array [
-  "export { default as garfish, default as masterApp } from '@modern-js/test/plugin-garfish'",
-  "export * from '@modern-js/test/plugin-garfish'",
-]
-`;
-
 exports[`plugin-garfish cli cli get runtime config 1`] = `
 Object {
   "masterApp": Object {
@@ -75,5 +68,8 @@ Object {
     "libraryTarget": "umd",
     "publicPath": "//localhost:8080/",
   },
+  "plugins": Array [
+    HTMLWebpackPlugin {},
+  ],
 }
 `;

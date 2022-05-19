@@ -98,8 +98,8 @@
     "@modern-js/runtime-core": "workspace:^1.4.6",
     "@modern-js/testing": "workspace:^1.5.2",
     "@modern-js/testing-plugin-bff": "workspace:^1.4.3",
-    "@modern-js/utils": "workspace:^1.7.3",
-    "@modern-js/webpack": "workspace:^1.7.0",
+    "@modern-js/utils": "workspace:^1.7.4",
+    "@modern-js/webpack": "workspace:^1.7.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/testing-library__jest-dom": "^5.14.3"
@@ -141,7 +141,8 @@
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "tests/**/*"
       ],
       "output": []
     }

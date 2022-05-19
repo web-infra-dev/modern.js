@@ -25,7 +25,7 @@
     "@modern-js/codesmith-api-git": "^1.0.9",
     "@modern-js/plugin-i18n": "workspace:^1.2.6",
     "@modern-js/codesmith": "^1.0.10",
-    "@modern-js/utils": "workspace:^1.7.3",
+    "@modern-js/utils": "workspace:^1.7.4",
     "package-json": "^7.0.0",
     "handlebars": "^4.7.7",
     "vm2": "^3.9.2"
@@ -70,7 +70,8 @@
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "tests/**/*"
       ],
       "output": []
     }

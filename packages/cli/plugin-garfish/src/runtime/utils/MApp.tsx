@@ -78,6 +78,10 @@ export function generateMApp(
           return errorUnmountApp?.(error, ...args);
         },
         ...otherOptions,
+        insulationVariable: [
+          ...(otherOptions.insulationVariable || []),
+          '_SERVER_DATA',
+        ],
       };
 
       logger('MApp componentDidMount', {

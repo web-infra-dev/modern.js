@@ -67,7 +67,7 @@
     "@modern-js/bff-utils": "workspace:^1.2.6",
     "@modern-js/create-request": "workspace:^1.2.8",
     "@modern-js/server-utils": "workspace:^1.2.6",
-    "@modern-js/utils": "workspace:^1.7.3"
+    "@modern-js/utils": "workspace:^1.7.4"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
@@ -110,7 +110,8 @@
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "tests/**/*"
       ],
       "output": []
     }

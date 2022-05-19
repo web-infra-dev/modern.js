@@ -40,8 +40,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.7.3",
-    "@modern-js/webpack": "workspace:^1.7.0",
+    "@modern-js/utils": "workspace:^1.7.4",
+    "@modern-js/webpack": "workspace:^1.7.1",
     "axios": "^0.24.0",
     "axios-retry": "^3.2.4",
     "body-parser": "^1.19.0",
@@ -99,7 +99,8 @@
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "tests/**/*"
       ],
       "output": []
     }

@@ -51,7 +51,7 @@ describe('bff cli plugin', () => {
         port: 3000,
       } as any);
     });
-    manager.run(() => tools.webpack({}, { chain }));
+    manager.run(() => tools.webpackChain(chain, {}));
 
     expect(chain.toConfig()).toMatchObject({
       module: {

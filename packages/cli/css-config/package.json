@@ -36,7 +36,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.7.3",
+    "@modern-js/utils": "workspace:^1.7.4",
     "caniuse-lite": "^1.0.30001332",
     "postcss": "8.4.5"
   },
@@ -74,7 +74,8 @@
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "tests/**/*"
       ],
       "output": []
     }

@@ -8,7 +8,7 @@ export default (): CliPlugin => ({
     config() {
       return {
         tools: {
-          webpack: (config, { chain, name }) => {
+          webpackChain: (chain, { name }) => {
             if (name === 'client' && isFastRefresh()) {
               const ReactFastRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
               chain.plugin('react-fast-refresh').use(ReactFastRefreshPlugin, [
