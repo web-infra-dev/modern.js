@@ -1,5 +1,11 @@
 # @modern-js/plugin-ssr
 
+## 1.4.1
+
+### Patch Changes
+
+- 6f410386f: init hook should return next()
+
 ## 1.4.0
 
 ### Minor Changes
