@@ -4,6 +4,7 @@ import {
   isUseSSRBundle,
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
+import { DefinePlugin } from 'webpack';
 import { BaseWebpackConfig } from './base';
 import { CHAIN_ID, enableBundleAnalyzer } from './shared';
 
@@ -96,8 +97,25 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     return loaders;
   }
 
+  private useDefinePlugin() {
+    const { globalVars } = this.options.source || {};
+    this.chain.plugin('define').use(DefinePlugin, [
+      {
+        ...Object.keys(globalVars || {}).reduce<Record<string, string>>(
+          (memo, name) => {
+            memo[name] = globalVars ? JSON.stringify(globalVars[name]) : '';
+            return memo;
+          },
+          {},
+        ),
+      },
+    ]);
+  }
+
   plugins() {
     super.plugins();
+
+    this.useDefinePlugin();
 
     if (this.options.cliOptions?.analyze) {
       enableBundleAnalyzer(this.chain, 'report-ssr.html');
