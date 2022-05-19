@@ -13,7 +13,7 @@ const mlc: typeof import('./module-less-config') = Import.lazy(
 const LESS_REGEX = /\.less$/;
 const LESS_MODULE_REGEX = /\.module\.less$/;
 const GLOBAL_LESS_REGEX = /\.global\.less$/;
-const NODE_MODULES_LESS_REGEX = /node_modules[\\\/].+\.less$/;
+const NODE_MODULES_LESS_REGEX = /node_modules[\\/].+\.less$/;
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-less',

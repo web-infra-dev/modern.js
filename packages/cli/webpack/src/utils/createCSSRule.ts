@@ -33,7 +33,12 @@ export const createCSSRule = (
     test,
     exclude,
     genTSD,
-  }: { name: string; test: RegExp | RegExp[]; exclude?: RegExp[]; genTSD?: boolean },
+  }: {
+    name: string;
+    test: RegExp | RegExp[];
+    exclude?: RegExp[];
+    genTSD?: boolean;
+  },
   options: CSSLoaderOptions,
 ) => {
   const postcssOptions = getPostcssConfig(appDirectory, config);
