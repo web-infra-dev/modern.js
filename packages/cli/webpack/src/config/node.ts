@@ -5,7 +5,7 @@ import {
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
 import { BaseWebpackConfig } from './base';
-import { enableBundleAnalyzer } from './shared';
+import { CHAIN_ID, enableBundleAnalyzer } from './shared';
 
 class NodeWebpackConfig extends BaseWebpackConfig {
   name() {
@@ -31,20 +31,22 @@ class NodeWebpackConfig extends BaseWebpackConfig {
   }
 
   loaders() {
+    const { USE, ONE_OF } = CHAIN_ID;
     const loaders = super.loaders();
+
     // css & css modules
-    if (loaders.oneOfs.has('css')) {
-      loaders.oneOf('css').uses.delete('mini-css-extract');
-      loaders.oneOf('css').uses.delete('style-loader');
+    if (loaders.oneOfs.has(ONE_OF.CSS)) {
+      loaders.oneOf(ONE_OF.CSS).uses.delete(USE.MINI_CSS_EXTRACT);
+      loaders.oneOf(ONE_OF.CSS).uses.delete(USE.STYLE);
     }
 
     loaders
-      .oneOf('css-modules')
-      .uses.delete('mini-css-extract')
+      .oneOf(ONE_OF.CSS_MODULES)
+      .uses.delete(USE.MINI_CSS_EXTRACT)
       .end()
-      .uses.delete('style-loader')
+      .uses.delete(USE.STYLE)
       .end()
-      .use('css')
+      .use(USE.CSS)
       .options({
         sourceMap: isProd() && !this.options.output?.disableSourceMap,
         importLoaders: 1,
@@ -57,11 +59,11 @@ class NodeWebpackConfig extends BaseWebpackConfig {
         },
       });
 
-    const babelOptions = loaders.oneOf('js').use('babel').get('options');
+    const babelOptions = loaders.oneOf(ONE_OF.JS).use(USE.BABEL).get('options');
 
     loaders
-      .oneOf('js')
-      .use('babel')
+      .oneOf(ONE_OF.JS)
+      .use(USE.BABEL)
       .options({
         ...babelOptions,
         presets: [

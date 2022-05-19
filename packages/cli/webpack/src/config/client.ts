@@ -25,8 +25,9 @@ import { AppIconPlugin } from '../plugins/app-icon-plugin';
 import { BottomTemplatePlugin } from '../plugins/bottom-template-plugin';
 import { ICON_EXTENSIONS } from '../utils/constants';
 import { BaseWebpackConfig } from './base';
-import { enableBundleAnalyzer } from './shared';
+import { CHAIN_ID, enableBundleAnalyzer } from './shared';
 
+const { PLUGIN } = CHAIN_ID;
 const nodeLibsBrowser = require('node-libs-browser');
 
 export class ClientWebpackConfig extends BaseWebpackConfig {
@@ -100,7 +101,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
   private useDefinePlugin() {
     const { envVars, globalVars } = this.options.source || {};
     const publicEnvVars = this.getCustomPublicEnv();
-    this.chain.plugin('define').use(DefinePlugin, [
+    this.chain.plugin(PLUGIN.DEFINE).use(DefinePlugin, [
       {
         ...[
           'NODE_ENV',
@@ -128,7 +129,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     this.useDefinePlugin();
     this.useCopyPlugin();
 
-    isDev() && this.chain.plugin('hmr').use(HotModuleReplacementPlugin);
+    isDev() && this.chain.plugin(PLUGIN.HMR).use(HotModuleReplacementPlugin);
 
     const { packageName } = this.appContext as IAppContext & {
       entrypoints: Entrypoint[];
@@ -225,7 +226,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     }
 
     this.chain
-      .plugin('bottom-template')
+      .plugin(PLUGIN.BOTTOM_TEMPLATE)
       .use(BottomTemplatePlugin, [HtmlWebpackPlugin]);
 
     // add app icon
@@ -241,11 +242,11 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
     if (appIcon) {
       this.chain
-        .plugin('app-icon')
+        .plugin(PLUGIN.APP_ICON)
         .use(AppIconPlugin, [HtmlWebpackPlugin, appIcon]);
     }
 
-    this.chain.plugin('webpack-manifest').use(WebpackManifestPlugin, [
+    this.chain.plugin(PLUGIN.MANIFEST).use(WebpackManifestPlugin, [
       {
         fileName: 'asset-manifest.json',
         publicPath: this.chain.output.get('publicPath'),
@@ -277,7 +278,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
         enableInlineScripts,
       } = this.options.output;
       this.chain
-        .plugin('inline-html')
+        .plugin(PLUGIN.INLINE_HTML)
         .use(InlineChunkHtmlPlugin, [
           HtmlWebpackPlugin,
           [
@@ -290,7 +291,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
     // node polyfill
     if (!this.options.output.disableNodePolyfill) {
-      this.chain.plugin('node-polyfill-provide').use(ProvidePlugin, [
+      this.chain.plugin(PLUGIN.NODE_POLYFILL_PROVIDE).use(ProvidePlugin, [
         {
           Buffer: [nodeLibsBrowser.buffer, 'Buffer'],
           process: [nodeLibsBrowser.process],
@@ -345,7 +346,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
     // options.patterns should be a non-empty array
     if (patterns.length) {
-      this.chain.plugin('copy').use(CopyPlugin, [{ patterns }]);
+      this.chain.plugin(PLUGIN.COPY).use(CopyPlugin, [{ patterns }]);
     }
   }
 }

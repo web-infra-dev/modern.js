@@ -26,7 +26,8 @@ export default (): CliPlugin => ({
     config() {
       return {
         tools: {
-          webpackChain: chain => {
+          webpackChain: (chain, { CHAIN_ID }) => {
+            const { RULE, ONE_OF } = CHAIN_ID;
             const options = api.useResolvedConfigContext();
 
             const {
@@ -35,11 +36,11 @@ export default (): CliPlugin => ({
 
             const lessOptions = cssConfig.getLessConfig(options);
 
-            const loaders = chain.module.rule('loaders');
+            const loaders = chain.module.rule(RULE.LOADERS);
 
             loaders
-              .oneOf('less')
-              .before('fallback')
+              .oneOf(ONE_OF.LESS)
+              .before(ONE_OF.FALLBACK)
               .merge({
                 // when disableCssModuleExtension is true,
                 // only transfer *.global.less in less-loader
@@ -50,7 +51,7 @@ export default (): CliPlugin => ({
                 use: [
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-expect-error webpack-chain missing type
-                  ...loaders.oneOf('css').toConfig().use,
+                  ...loaders.oneOf(ONE_OF.CSS).toConfig().use,
                   {
                     loader: require.resolve('less-loader'),
                     options: lessOptions,
@@ -59,8 +60,8 @@ export default (): CliPlugin => ({
               });
 
             loaders
-              .oneOf('less-modules')
-              .before('fallback')
+              .oneOf(ONE_OF.LESS_MODULES)
+              .before(ONE_OF.FALLBACK)
               .merge({
                 test: disableCssModuleExtension
                   ? LESS_REGEX
@@ -69,7 +70,7 @@ export default (): CliPlugin => ({
                 use: [
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-expect-error webpack-chain missing type
-                  ...loaders.oneOf('css-modules').toConfig().use,
+                  ...loaders.oneOf(ONE_OF.CSS_MODULES).toConfig().use,
                   {
                     loader: require.resolve('less-loader'),
                     options: lessOptions,
@@ -78,7 +79,7 @@ export default (): CliPlugin => ({
               });
 
             loaders
-              .oneOf('fallback')
+              .oneOf(ONE_OF.FALLBACK)
               .exclude.add(LESS_REGEX)
               .add(LESS_MODULE_REGEX);
           },

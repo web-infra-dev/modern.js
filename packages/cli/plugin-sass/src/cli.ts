@@ -25,7 +25,8 @@ export default (): CliPlugin => ({
       config() {
         return {
           tools: {
-            webpackChain: chain => {
+            webpackChain: (chain, { CHAIN_ID }) => {
+              const { RULE, ONE_OF } = CHAIN_ID;
               const options = api.useResolvedConfigContext();
 
               const {
@@ -34,11 +35,11 @@ export default (): CliPlugin => ({
 
               const sassOptions = cssConfig.getSassConfig(options);
 
-              const loaders = chain.module.rule('loaders');
+              const loaders = chain.module.rule(RULE.LOADERS);
 
               loaders
-                .oneOf('sass')
-                .before('fallback')
+                .oneOf(ONE_OF.SASS)
+                .before(ONE_OF.FALLBACK)
                 .merge({
                   // when disableCssModuleExtension is true,
                   // only transfer *.global.sa(c)ss in sass-loader
@@ -49,7 +50,7 @@ export default (): CliPlugin => ({
                   use: [
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-expect-error webpack-chain missing minimizers type
-                    ...loaders.oneOf('css').toConfig().use,
+                    ...loaders.oneOf(ONE_OF.CSS).toConfig().use,
                     {
                       loader: require.resolve('sass-loader'),
                       options: sassOptions,
@@ -58,8 +59,8 @@ export default (): CliPlugin => ({
                 });
 
               loaders
-                .oneOf('sass-modules')
-                .before('fallback')
+                .oneOf(ONE_OF.SASS_MODULES)
+                .before(ONE_OF.FALLBACK)
                 .merge({
                   test: disableCssModuleExtension
                     ? SASS_REGEX
@@ -68,7 +69,7 @@ export default (): CliPlugin => ({
                   use: [
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-expect-error webpack-chain missing minimizers type
-                    ...loaders.oneOf('css-modules').toConfig().use,
+                    ...loaders.oneOf(ONE_OF.CSS_MODULES).toConfig().use,
                     {
                       loader: require.resolve('sass-loader'),
                       options: sassOptions,
@@ -77,7 +78,7 @@ export default (): CliPlugin => ({
                 });
 
               loaders
-                .oneOf('fallback')
+                .oneOf(ONE_OF.FALLBACK)
                 .exclude.add(SASS_REGEX)
                 .add(SASS_MODULE_REGEX);
             },
