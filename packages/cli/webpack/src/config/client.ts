@@ -164,7 +164,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
         ),
       };
 
-      this.chain.plugin(`html-${entryName}`).use(HtmlWebpackPlugin, [
+      this.chain.plugin(`${CHAIN_ID.PLUGIN.HTML}-${entryName}`).use(HtmlWebpackPlugin, [
         {
           __internal__: true, // flag for internal html-webpack-plugin usage
           filename: this.htmlFilename(entryName),
