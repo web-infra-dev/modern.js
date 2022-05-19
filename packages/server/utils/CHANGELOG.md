@@ -1,5 +1,15 @@
 # @modern-js/server-utils
 
+## 1.2.9
+
+### Patch Changes
+
+- 77917e355: feat: support assign field in decorator
+- Updated dependencies [54fa1dbd6]
+- Updated dependencies [33de0f7ec]
+  - @modern-js/plugin@1.3.5
+  - @modern-js/utils@1.7.5
+
 ## 1.2.6
 
 ### Patch Changes

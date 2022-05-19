@@ -35,8 +35,8 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@modern-js/plugin": "workspace:^1.3.4",
-    "@modern-js/utils": "workspace:^1.7.4"
+    "@modern-js/plugin": "workspace:^1.3.5",
+    "@modern-js/utils": "workspace:^1.7.5"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",

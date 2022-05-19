@@ -1,5 +1,25 @@
 # @modern-js/webpack
 
+## 1.8.0
+
+### Minor Changes
+
+- f66fa0e98: feat: support tools.webpackChain config
+
+### Patch Changes
+
+- 119cd4b89: support globalVars in ssr
+- f1c889e7a: fix(webpack): failed to transform css when disableCssModuleExtension is true
+- b6443bff7: chore(webpack): remove unnecessary plugin type
+- 1dfe08fcd: feat(webpack): add CHAIN_ID constants for webpack chain
+- 01e755d1c: feat(webpack): make module-scope-plugin 10x faster
+- Updated dependencies [e33bd91f7]
+- Updated dependencies [33de0f7ec]
+  - @modern-js/babel-chain@1.2.4
+  - @modern-js/utils@1.7.5
+  - @modern-js/babel-preset-app@1.3.3
+  - @modern-js/css-config@1.2.6
+
 ## 1.7.1
 
 ### Patch Changes
