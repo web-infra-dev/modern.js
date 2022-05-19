@@ -4,6 +4,8 @@ export const CSS_MODULE_REGEX = /\.module\.css$/;
 
 export const GLOBAL_CSS_REGEX = /\.global\.css$/;
 
+export const NODE_MODULES_CSS_REGEX = /node_modules[\\\/].+\.css$/;
+
 export const JS_REGEX = /\.(js|mjs|jsx)$/;
 
 export const TS_REGEX = /\.tsx?$/;

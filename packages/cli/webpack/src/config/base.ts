@@ -29,6 +29,7 @@ import {
   GLOBAL_CSS_REGEX,
   JS_RESOLVE_EXTENSIONS,
   CACHE_DIRECTORY,
+  NODE_MODULES_CSS_REGEX,
 } from '../utils/constants';
 import { createCSSRule, enableCssExtract } from '../utils/createCSSRule';
 import { mergeRegex } from '../utils/mergeRegex';
@@ -317,8 +318,10 @@ class BaseWebpackConfig {
       {
         name: ONE_OF.CSS,
         // when disableCssModuleExtension is true,
-        // only transfer *.global.css in css-loader
-        test: disableCssModuleExtension ? GLOBAL_CSS_REGEX : CSS_REGEX,
+        // only transfer *.global.css and node_modules/**/*.css
+        test: disableCssModuleExtension
+          ? [NODE_MODULES_CSS_REGEX, GLOBAL_CSS_REGEX]
+          : CSS_REGEX,
         exclude: [CSS_MODULE_REGEX],
       },
       {

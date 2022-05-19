@@ -17,6 +17,7 @@ export default (): CliPlugin => ({
     const SASS_REGEX = /\.s(a|c)ss$/;
     const SASS_MODULE_REGEX = /\.module\.s(a|c)ss$/;
     const GLOBAL_SASS_REGEX = /\.global\.s(a|c)ss$/;
+    const NODE_MODULES_SASS_REGEX = /node_modules[\\\/].+\.s(a|c)ss$/;
 
     return {
       validateSchema() {
@@ -40,12 +41,14 @@ export default (): CliPlugin => ({
               loaders
                 .oneOf(ONE_OF.SASS)
                 .before(ONE_OF.FALLBACK)
-                .merge({
-                  // when disableCssModuleExtension is true,
-                  // only transfer *.global.sa(c)ss in sass-loader
-                  test: disableCssModuleExtension
-                    ? GLOBAL_SASS_REGEX
+                // when disableCssModuleExtension is true,
+                // only transfer *.global.sa(c)ss and node_modules/**/*.sa(c)ss
+                .test(
+                  disableCssModuleExtension
+                    ? [NODE_MODULES_SASS_REGEX, GLOBAL_SASS_REGEX]
                     : SASS_REGEX,
+                )
+                .merge({
                   exclude: SASS_MODULE_REGEX,
                   use: [
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

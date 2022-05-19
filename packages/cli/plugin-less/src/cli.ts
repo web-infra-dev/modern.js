@@ -11,10 +11,9 @@ const mlc: typeof import('./module-less-config') = Import.lazy(
 );
 
 const LESS_REGEX = /\.less$/;
-
 const LESS_MODULE_REGEX = /\.module\.less$/;
-
 const GLOBAL_LESS_REGEX = /\.global\.less$/;
+const NODE_MODULES_LESS_REGEX = /node_modules[\\\/].+\.less$/;
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-less',
@@ -41,13 +40,15 @@ export default (): CliPlugin => ({
             loaders
               .oneOf(ONE_OF.LESS)
               .before(ONE_OF.FALLBACK)
-              .merge({
-                // when disableCssModuleExtension is true,
-                // only transfer *.global.less in less-loader
-                test: disableCssModuleExtension
-                  ? GLOBAL_LESS_REGEX
+              // when disableCssModuleExtension is true,
+              // only transfer *.global.less and node_modules/**/*.less
+              .test(
+                disableCssModuleExtension
+                  ? [GLOBAL_LESS_REGEX, NODE_MODULES_LESS_REGEX]
                   : LESS_REGEX,
-                exclude: LESS_MODULE_REGEX,
+              )
+              .merge({
+                // exclude: LESS_MODULE_REGEX,
                 use: [
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-expect-error webpack-chain missing type
