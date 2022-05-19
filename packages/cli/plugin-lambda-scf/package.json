@@ -40,7 +40,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.7.4",
+    "@modern-js/utils": "workspace:^1.7.5",
     "@serverless/components": "^3.18.0"
   },
   "devDependencies": {

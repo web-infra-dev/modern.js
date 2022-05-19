@@ -1,5 +1,15 @@
 # @modern-js/plugin-analyze
 
+## 1.4.5
+
+### Patch Changes
+
+- 55aac6aa6: chore: shorten the auto-generated convention route filename
+- Updated dependencies [54fa1dbd6]
+- Updated dependencies [33de0f7ec]
+  - @modern-js/plugin@1.3.5
+  - @modern-js/utils@1.7.5
+
 ## 1.4.4
 
 ### Patch Changes

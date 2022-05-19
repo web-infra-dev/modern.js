@@ -1,5 +1,19 @@
 # @modern-js/core
 
+## 1.11.0
+
+### Minor Changes
+
+- f66fa0e98: feat: support tools.webpackChain config
+
+### Patch Changes
+
+- 1dfe08fcd: feat(webpack): add CHAIN_ID constants for webpack chain
+- Updated dependencies [54fa1dbd6]
+- Updated dependencies [33de0f7ec]
+  - @modern-js/plugin@1.3.5
+  - @modern-js/utils@1.7.5
+
 ## 1.10.3
 
 ### Patch Changes
