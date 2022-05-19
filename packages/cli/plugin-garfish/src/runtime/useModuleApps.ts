@@ -6,6 +6,7 @@ import { GarfishContext } from './utils/Context';
 export type Options = typeof garfish.options;
 export type ModuleInfo = GarfishInterfaces.AppInfo & {
   Component?: React.ComponentType | React.ElementType;
+  path?: string;
   originInfo?: Record<string, unknown>;
 };
 export type ModulesInfo = Array<ModuleInfo>;
