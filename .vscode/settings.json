@@ -13,10 +13,6 @@
     "*.ttml": "xml",
     "*.ttss": "css"
   },
-  "files.exclude": {
-    "**/*/adapters/**/index.ts": true,
-    "**/*/adapters/**/index.js": true
-  },
   "search.useIgnoreFiles": true,
   "search.exclude": {
     "**/dist": true,

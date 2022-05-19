@@ -18,10 +18,6 @@
       "Procfile*": "shellscript",
       "README": "markdown"
     },
-    "files.exclude": {
-      "**/*/adapters/**/index.ts": true,
-      "**/*/adapters/**/index.js": true
-    },
     "search.useIgnoreFiles": true,
     "search.exclude": {
       "**/build": true,
