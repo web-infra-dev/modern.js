@@ -6,7 +6,9 @@ class TestConfigOperator {
 
   private _jestConfig: JestConfig;
 
-  private readonly userJestConfig: any;
+  private readonly userJestConfig?:
+    | JestConfig
+    | ((jestConfig: JestConfig) => JestConfig);
 
   private readonly defaultTestConfig: TestConfig = {
     transformer: 'babel-jest',
@@ -37,7 +39,9 @@ class TestConfigOperator {
 
   public setJestUserConfig() {
     const { userJestConfig } = this;
-    this.setJestConfig(userJestConfig);
+    if (typeof userJestConfig === 'object') {
+      this.setJestConfig(userJestConfig);
+    }
   }
 
   public setJestConfig(sourceConfig: JestConfig, options?: { force: boolean }) {
