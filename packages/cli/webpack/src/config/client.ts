@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import path from 'path';
 import {
   fs,
@@ -8,6 +9,7 @@ import {
   generateMetaTags,
   removeTailSlash,
   findExists,
+  isFastRefresh,
 } from '@modern-js/utils';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
@@ -27,7 +29,7 @@ import { ICON_EXTENSIONS } from '../utils/constants';
 import { BaseWebpackConfig } from './base';
 import { CHAIN_ID, enableBundleAnalyzer } from './shared';
 
-const { PLUGIN } = CHAIN_ID;
+const { USE, RULE, ONE_OF, PLUGIN } = CHAIN_ID;
 const nodeLibsBrowser = require('node-libs-browser');
 
 export class ClientWebpackConfig extends BaseWebpackConfig {
@@ -128,6 +130,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
     this.useDefinePlugin();
     this.useCopyPlugin();
+    this.useFastRefresh();
 
     isDev() && this.chain.plugin(PLUGIN.HMR).use(HotModuleReplacementPlugin);
 
@@ -349,4 +352,30 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
       this.chain.plugin(PLUGIN.COPY).use(CopyPlugin, [{ patterns }]);
     }
   }
+
+  useFastRefresh() {
+    if (isFastRefresh()) {
+      const ReactFastRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
+      this.chain.plugin(PLUGIN.REACT_FAST_REFRESH).use(ReactFastRefreshPlugin, [
+        {
+          overlay: false,
+          exclude: [/node_modules/],
+        },
+      ]);
+
+      this.chain.module
+        .rule(RULE.LOADERS)
+        .oneOf(ONE_OF.JS)
+        .use(USE.BABEL)
+        .tap(options => ({
+          ...options,
+          plugins: [
+            ...(options.plugins || []),
+            require.resolve('react-refresh/babel'),
+          ],
+        }));
+    }
+  }
 }
+/* eslint-enable max-lines */

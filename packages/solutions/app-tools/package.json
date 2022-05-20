@@ -71,7 +71,6 @@
     "@modern-js/node-bundle-require": "workspace:^1.3.3",
     "@modern-js/plugin": "workspace:^1.3.4",
     "@modern-js/plugin-analyze": "workspace:^1.4.3",
-    "@modern-js/plugin-fast-refresh": "workspace:^1.2.6",
     "@modern-js/plugin-i18n": "workspace:^1.2.6",
     "@modern-js/prod-server": "workspace:^1.1.5",
     "@modern-js/server": "workspace:^1.4.14",

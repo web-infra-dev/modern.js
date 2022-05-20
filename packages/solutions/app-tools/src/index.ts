@@ -1,7 +1,6 @@
 import * as path from 'path';
 import { defineConfig, cli, CliPlugin } from '@modern-js/core';
 import AnalyzePlugin from '@modern-js/plugin-analyze';
-import FastRefreshPlugin from '@modern-js/plugin-fast-refresh/cli';
 import { cleanRequireCache } from '@modern-js/utils';
 import { hooks } from './hooks';
 import { i18n, localeKeys } from './locale';
@@ -18,7 +17,6 @@ export default (): CliPlugin => ({
 
   post: [
     '@modern-js/plugin-analyze',
-    '@modern-js/plugin-fast-refresh',
     '@modern-js/plugin-ssr',
     '@modern-js/plugin-state',
     '@modern-js/plugin-router',
@@ -27,7 +25,7 @@ export default (): CliPlugin => ({
 
   registerHook: hooks,
 
-  usePlugins: [AnalyzePlugin(), FastRefreshPlugin()],
+  usePlugins: [AnalyzePlugin()],
 
   setup: api => {
     const locale = getLocaleLanguage();
@@ -114,10 +112,7 @@ export default (): CliPlugin => ({
       },
 
       async beforeRestart() {
-        cleanRequireCache([
-          require.resolve('@modern-js/plugin-analyze/cli'),
-          require.resolve('@modern-js/plugin-fast-refresh/cli'),
-        ]);
+        cleanRequireCache([require.resolve('@modern-js/plugin-analyze/cli')]);
       },
     };
   },

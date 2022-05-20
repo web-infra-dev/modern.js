@@ -233,10 +233,6 @@
       "path": "packages/server/plugin-express"
     },
     {
-      "name": "@modern-js/plugin-fast-refresh",
-      "path": "packages/cli/plugin-fast-refresh"
-    },
-    {
       "name": "@modern-js/plugin-fetch",
       "path": "packages/cli/plugin-fetch"
     },
