@@ -52,11 +52,6 @@ export {
 } from './pluginAPI';
 export type { PluginAPI } from './pluginAPI';
 
-program
-  .name('modern')
-  .usage('<command> [options]')
-  .version(process.env.MODERN_JS_VERSION || '0.1.0');
-
 export type { NormalizedConfig, IAppContext };
 
 const initAppDir = async (cwd?: string): Promise<string> => {
@@ -74,6 +69,7 @@ const initAppDir = async (cwd?: string): Promise<string> => {
 };
 
 export interface CoreOptions {
+  version?: string;
   configFile?: string;
   serverConfigFile?: string;
   packageJsonConfig?: string;
@@ -99,6 +95,10 @@ export const mergeOptions = (options?: CoreOptions) => {
   };
 };
 
+const setProgramVersion = (version = 'unknown') => {
+  program.name('modern').usage('<command> [options]').version(version);
+};
+
 const createCli = () => {
   let hooksRunner: HooksRunner;
   let isRestart = false;
@@ -117,6 +117,7 @@ const createCli = () => {
     const appDirectory = await initAppDir();
 
     initCommandsMap();
+    setProgramVersion(options?.version);
 
     const metaName = mergedOptions?.options?.metaName ?? 'MODERN';
     loadEnv(appDirectory, process.env[`${metaName.toUpperCase()}_ENV`]);

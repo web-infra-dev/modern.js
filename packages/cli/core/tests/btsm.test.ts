@@ -7,14 +7,14 @@ describe('jsnext:source', () => {
   test('process exit status is 0', () => {
     const { status, stdout, stderr } = spawnSync(
       process.execPath,
-      ['--conditions=jsnext:source', '-r', 'btsm', 'src/cli.ts'],
+      ['--conditions=jsnext:source', '-r', 'btsm', 'src/bin.ts'],
       {
         cwd: kPackageDir,
         encoding: 'utf-8',
       },
     );
     expect(stdout).toBe('');
-    expect(stderr.startsWith('Usage: modern <command> [options]')).toBe(true);
-    expect(status).toBe(1);
+    expect(stderr).toBe('');
+    expect(status).toBe(0);
   });
 });
