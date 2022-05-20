@@ -27,8 +27,8 @@
       "default": "./dist/index.js"
     },
     "./bin": {
-      "jsnext:source": "./src/cli.ts",
-      "default": "./bin/modern-js.js"
+      "jsnext:source": "./src/bin.ts",
+      "default": "./dist/bin.js"
     }
   },
   "typesVersions": {
@@ -38,7 +38,7 @@
       ]
     }
   },
-  "bin": "./bin/modern-js.js",
+  "bin": "./dist/bin.js",
   "scripts": {
     "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm",

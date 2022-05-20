@@ -5,7 +5,7 @@ const portfinder = require('portfinder');
 
 const kModernBin = path.join(
   __dirname,
-  '../node_modules/@modern-js/core/bin/modern-js',
+  '../node_modules/@modern-js/core/dist/bin.js',
 );
 
 function runModernCommand(argv, options = {}) {
