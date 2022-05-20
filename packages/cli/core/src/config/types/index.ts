@@ -21,7 +21,8 @@ import type {
   SSGMultiEntryOptions,
   SSGSingleEntryOptions,
 } from './ssg';
-import { ElectronConfig } from './electron';
+import type { ElectronConfig } from './electron';
+import type { PostCSSLoaderOptions } from './postcss';
 
 type AutoprefixerOptions = autoprefixer.Options;
 type TerserOptions = BasePluginOptions & RawTerserOptions;
@@ -210,6 +211,10 @@ export type DevServerConfig = {
   [propsName: string]: any;
 };
 
+export type PostCSSConfig =
+  | PostCSSLoaderOptions
+  | ((options: PostCSSLoaderOptions) => PostCSSLoaderOptions | void);
+
 export type WebpackConfig =
   | WebpackConfiguration
   | ((
@@ -255,7 +260,7 @@ export interface ToolsConfig {
   webpackChain?: WebpackChainConfig;
   babel?: BabelConfig;
   autoprefixer?: AutoprefixerConfig;
-  postcss?: ConfigFunction;
+  postcss?: PostCSSConfig;
   styledComponents?: ConfigFunction;
   lodash?: ConfigFunction;
   devServer?: DevServerConfig;
