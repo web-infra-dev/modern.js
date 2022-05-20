@@ -68,6 +68,8 @@ export const CHAIN_ID = {
     HMR: 'hmr',
     /** CopyWebpackPlugin */
     COPY: 'copy',
+    /** HtmlWebpackPlugin */
+    HTML: 'html',
     /** DefinePlugin */
     DEFINE: 'define',
     /** IgnorePlugin */

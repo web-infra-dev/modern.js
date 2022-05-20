@@ -4,6 +4,7 @@ import WebpackChain from 'webpack-chain';
 import GarfishPlugin, { externals } from '../src/cli';
 import type { UseConfig } from '../src/cli';
 import { getRuntimeConfig, makeRenderFunction, setRuntimeConfig } from '../src/cli/utils';
+import { CHAIN_ID } from '@modern-js/webpack';
 
 describe('plugin-garfish cli', () => {
   test('cli garfish basename', async () => {
@@ -155,7 +156,8 @@ describe('plugin-garfish cli', () => {
 
     config[0].tools.webpackChain(webpackConfig, {
       webpack: jest.fn(),
-      env: 'development'
+      env: 'development',
+      CHAIN_ID,
     });
 
     const generateConfig = webpackConfig.toConfig();
