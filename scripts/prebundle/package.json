@@ -33,6 +33,7 @@
     "@types/signale": "1.4.4",
     "@types/url-join": "4.0.1",
     "@types/webpack-bundle-analyzer": "4.4.1",
+    "@loadable/webpack-plugin": "5.15.2",
     "address": "1.1.2",
     "ajv": "8.11.0",
     "ajv-keywords": "5.1.0",
