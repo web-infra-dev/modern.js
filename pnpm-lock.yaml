@@ -527,10 +527,12 @@ importers:
       '@modern-js/runtime-core': workspace:*
       '@modern-js/utils': workspace:^1.7.5
       '@scripts/build': workspace:*
+      '@types/hoist-non-react-statics': ^3.3.1
       '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
+      hoist-non-react-statics: ^3.3.2
       postcss: ^8.4.6
       react: ^17.0.2
       tailwindcss: ^2.0.4
@@ -538,6 +540,7 @@ importers:
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js/utils': link:../../toolkit/utils
+      hoist-non-react-statics: 3.3.2
       tailwindcss: 2.2.19_postcss@8.4.6
     devDependencies:
       '@modern-js/core': link:../core
@@ -545,6 +548,7 @@ importers:
       '@modern-js/plugin-testing': link:../plugin-testing
       '@modern-js/runtime-core': link:../../runtime
       '@scripts/build': link:../../../scripts/build
+      '@types/hoist-non-react-statics': 3.3.1
       '@types/jest': 27.4.1
       '@types/node': 14.18.4
       '@types/react': 17.0.38
@@ -731,6 +735,7 @@ importers:
       '@modern-js/runtime-core': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.5
+      '@modern-js/webpack': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@testing-library/jest-dom': ^5.16.1
@@ -769,6 +774,7 @@ importers:
       '@modern-js/plugin-router': link:../plugin-router
       '@modern-js/runtime-core': link:../../runtime
       '@modern-js/types': link:../../toolkit/types
+      '@modern-js/webpack': link:../webpack
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@testing-library/jest-dom': 5.16.1
