@@ -35,8 +35,6 @@ tests/
 .idea/
 
 **/*/api/typings/auto-generated
-**/*/adapters/**/index.ts
-**/*/adapters/**/index.js
 src/
 
 modern.config.js
