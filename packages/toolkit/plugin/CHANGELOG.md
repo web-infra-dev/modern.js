@@ -1,5 +1,11 @@
 # @modern-js/plugin
 
+## 1.3.5
+
+### Patch Changes
+
+- 54fa1dbd6: fix(plugin): allow multiple versions to be installed
+
 ## 1.3.4
 
 ### Patch Changes
