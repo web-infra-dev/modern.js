@@ -67,7 +67,6 @@ function emitDts(task: ParsedTask) {
 
 function emitPackageJson(task: ParsedTask) {
   const packageJsonPath = join(task.depPath, 'package.json');
-  console.log('task.depPath', task.depPath);
   const packageJson = fs.readJsonSync(packageJsonPath, 'utf-8');
   const outputPath = join(task.distPath, 'package.json');
 
