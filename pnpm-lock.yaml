@@ -252,6 +252,7 @@ importers:
       electron-builder: 22.7.0
       esbuild: ^0.13.13
       jest: ^27
+      postcss: ^8
       sass: ^1.45.0
       terser-webpack-plugin: ^5.1.4
       typescript: ^4
@@ -274,10 +275,11 @@ importers:
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
-      autoprefixer: 10.4.4
+      autoprefixer: 10.4.4_postcss@8.4.12
       btsm: 2.2.2
       electron-builder: 22.7.0
       jest: 27.4.5
+      postcss: 8.4.12
       sass: 1.45.2
       terser-webpack-plugin: 5.3.1_esbuild@0.13.15+webpack@5.71.0
       typescript: 4.5.4
@@ -706,6 +708,7 @@ importers:
       '@modern-js/runtime-core': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.5
+      '@modern-js/webpack': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@testing-library/jest-dom': ^5.16.1
@@ -744,6 +747,7 @@ importers:
       '@modern-js/plugin-router': link:../plugin-router
       '@modern-js/runtime-core': link:../../runtime
       '@modern-js/types': link:../../toolkit/types
+      '@modern-js/webpack': link:../webpack
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@testing-library/jest-dom': 5.16.1
@@ -1261,12 +1265,12 @@ importers:
       '@loadable/babel-plugin': ^5.13.2
       '@loadable/component': ^5.15.0
       '@loadable/server': ^5.15.1
-      '@loadable/webpack-plugin': ^5.15.1
       '@modern-js/babel-chain': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/runtime-core': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.5
+      '@modern-js/webpack': workspace:^1.8.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
@@ -1290,8 +1294,8 @@ importers:
       '@babel/runtime': 7.16.7
       '@loadable/babel-plugin': 5.13.2_@babel+core@7.17.8
       '@loadable/server': 5.15.2_c6e2d081aed1691d2f3d66152539fe63
-      '@loadable/webpack-plugin': 5.15.2
       '@modern-js/utils': link:../../toolkit/utils
+      '@modern-js/webpack': link:../webpack
       react-dom: 17.0.2_react@17.0.2
       serialize-javascript: 6.0.0
     devDependencies:
@@ -3586,7 +3590,7 @@ importers:
       '@modern-js/server-core': workspace:*
       '@modern-js/types': workspace:^1.5.3
       '@modern-js/utils': workspace:^1.7.3
-      '@modern-js/webpack': workspace:^1.7.0
+      '@modern-js/webpack': workspace:^1.8.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
@@ -4263,6 +4267,7 @@ importers:
   scripts/prebundle:
     specifiers:
       '@babel/core': ^7.17.0
+      '@loadable/webpack-plugin': 5.15.2
       '@modern-js/tsconfig': workspace:*
       '@scripts/build': workspace:*
       '@types/debug': 4.1.7
@@ -4358,6 +4363,7 @@ importers:
       typescript: 4.5.4
       webpack: 5.71.0_esbuild@0.13.15
     devDependencies:
+      '@loadable/webpack-plugin': 5.15.2_webpack@5.71.0
       '@types/debug': 4.1.7
       '@types/fs-extra': 9.0.13
       '@types/glob': 7.2.0
@@ -10123,14 +10129,15 @@ packages:
       react: 17.0.2
     dev: false
 
-  /@loadable/webpack-plugin/5.15.2:
+  /@loadable/webpack-plugin/5.15.2_webpack@5.71.0:
     resolution: {integrity: sha512-+o87jPHn3E8sqW0aBA+qwKuG8JyIfMGdz3zECv0t/JF0KHhxXtzIlTiqzlIYc5ZpFs/vKSQfjzGIR5tPJjoXDw==}
     engines: {node: '>=8'}
     peerDependencies:
       webpack: '>=4.6.0'
     dependencies:
       make-dir: 3.1.0
-    dev: false
+      webpack: 5.71.0_esbuild@0.13.15
+    dev: true
 
   /@manypkg/find-root/1.1.0:
     resolution: {integrity: sha512-mki5uBvhHzO8kYYix/WRy2WX8S3B5wdVSc9D6KcU5lQNglP2yt58/VfLuAK49glRXChosY8ap2oJ1qgma3GUVA==}
@@ -15416,21 +15423,6 @@ packages:
     resolution: {integrity: sha1-S3KPrwoZVVGU1PvQVYL4M/3NE3s=}
     dev: false
 
-  /autoprefixer/10.4.4:
-    resolution: {integrity: sha512-Tm8JxsB286VweiZ5F0anmbyGiNI3v3wGv3mz9W+cxEDYB/6jbnj6GM9H9mK3wIL8ftgl+C07Lcwb8PG5PCCPzA==}
-    engines: {node: ^10 || ^12 || >=14}
-    hasBin: true
-    peerDependencies:
-      postcss: ^8.1.0
-    dependencies:
-      browserslist: 4.20.2
-      caniuse-lite: 1.0.30001319
-      fraction.js: 4.2.0
-      normalize-range: 0.1.2
-      picocolors: 1.0.0
-      postcss-value-parser: 4.2.0
-    dev: true
-
   /autoprefixer/10.4.4_postcss@8.4.12:
     resolution: {integrity: sha512-Tm8JxsB286VweiZ5F0anmbyGiNI3v3wGv3mz9W+cxEDYB/6jbnj6GM9H9mK3wIL8ftgl+C07Lcwb8PG5PCCPzA==}
     engines: {node: ^10 || ^12 || >=14}
@@ -15445,7 +15437,6 @@ packages:
       picocolors: 1.0.0
       postcss: 8.4.12
       postcss-value-parser: 4.2.0
-    dev: false
 
   /autoprefixer/10.4.4_postcss@8.4.6:
     resolution: {integrity: sha512-Tm8JxsB286VweiZ5F0anmbyGiNI3v3wGv3mz9W+cxEDYB/6jbnj6GM9H9mK3wIL8ftgl+C07Lcwb8PG5PCCPzA==}

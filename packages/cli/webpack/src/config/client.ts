@@ -167,65 +167,67 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
         ),
       };
 
-      this.chain.plugin(`html-${entryName}`).use(HtmlWebpackPlugin, [
-        {
-          __internal__: true, // flag for internal html-webpack-plugin usage
-          filename: this.htmlFilename(entryName),
-          chunks: [entryName],
-          template: this.appContext.htmlTemplates[entryName],
-          minify: !isProd()
-            ? false
-            : {
-                collapseWhitespace: true,
-                removeComments: false,
-                removeRedundantAttributes: true,
-                removeScriptTypeAttributes: true,
-                removeStyleLinkTypeAttributes: true,
-                useShortDoctype: true,
-              },
-          favicon:
-            getEntryOptions<string | undefined>(
-              entryName,
-              this.options.output.favicon,
-              this.options.output.faviconByEntries,
-              packageName,
-            ) ||
-            findExists(
-              ICON_EXTENSIONS.map(ext =>
-                path.resolve(
-                  this.appContext.appDirectory,
-                  this.options.source.configDir!,
-                  `favicon.${ext}`,
+      this.chain
+        .plugin(`${CHAIN_ID.PLUGIN.HTML}-${entryName}`)
+        .use(HtmlWebpackPlugin, [
+          {
+            __internal__: true, // flag for internal html-webpack-plugin usage
+            filename: this.htmlFilename(entryName),
+            chunks: [entryName],
+            template: this.appContext.htmlTemplates[entryName],
+            minify: !isProd()
+              ? false
+              : {
+                  collapseWhitespace: true,
+                  removeComments: false,
+                  removeRedundantAttributes: true,
+                  removeScriptTypeAttributes: true,
+                  removeStyleLinkTypeAttributes: true,
+                  useShortDoctype: true,
+                },
+            favicon:
+              getEntryOptions<string | undefined>(
+                entryName,
+                this.options.output.favicon,
+                this.options.output.faviconByEntries,
+                packageName,
+              ) ||
+              findExists(
+                ICON_EXTENSIONS.map(ext =>
+                  path.resolve(
+                    this.appContext.appDirectory,
+                    this.options.source.configDir!,
+                    `favicon.${ext}`,
+                  ),
                 ),
               ),
+            inject: getEntryOptions(
+              entryName,
+              this.options.output.inject,
+              this.options.output.injectByEntries,
+              packageName,
             ),
-          inject: getEntryOptions(
-            entryName,
-            this.options.output.inject,
-            this.options.output.injectByEntries,
-            packageName,
-          ),
-          templateParameters: (
-            compilation: webpack.Compilation,
-            assets,
-            assetTags,
-            pluginOptions,
-          ) => ({
-            webpackConfig: compilation.options,
-            htmlWebpackPlugin: {
-              tags: assetTags,
-              files: assets,
-              options: pluginOptions,
-            },
-            ...baseTemplateParams,
-          }),
-          bottomTemplate:
-            this.appContext.htmlTemplates[`__${entryName}-bottom__`] &&
-            lodashTemplate(
-              this.appContext.htmlTemplates[`__${entryName}-bottom__`],
-            )(baseTemplateParams),
-        },
-      ]);
+            templateParameters: (
+              compilation: webpack.Compilation,
+              assets,
+              assetTags,
+              pluginOptions,
+            ) => ({
+              webpackConfig: compilation.options,
+              htmlWebpackPlugin: {
+                tags: assetTags,
+                files: assets,
+                options: pluginOptions,
+              },
+              ...baseTemplateParams,
+            }),
+            bottomTemplate:
+              this.appContext.htmlTemplates[`__${entryName}-bottom__`] &&
+              lodashTemplate(
+                this.appContext.htmlTemplates[`__${entryName}-bottom__`],
+              )(baseTemplateParams),
+          },
+        ]);
     }
 
     this.chain
