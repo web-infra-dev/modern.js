@@ -162,7 +162,7 @@ export default ({
                 // use html mode
                 if (!enableHtmlEntry) {
                   chain.output.filename('index.js');
-                  chain.plugins.delete('html-main');
+                  chain.plugins.delete(`${CHAIN_ID.PLUGIN.HTML}-main`);
                   chain.optimization.runtimeChunk(false);
                   chain.optimization.splitChunks({
                     chunks: 'async',

@@ -131,6 +131,29 @@ export default defineConfig({
 });
 ```
 
+### 修改 HtmlWebpackPlugin
+
+通过 `CHAIN_ID.PLUGIN.HTML` 可以读取到 `HtmlWebpackPlugin`。
+
+由于 Modern.js 会为每个入口文件注册一个 `HtmlWebpackPlugin`，因此在修改插件时，需要基于 `${CHAIN_ID.PLUGIN.HTML}-${entry}` 来进行定位。
+
+```js title="modern.config.js"
+export default defineConfig({
+  tools: {
+    webpackChain: (chain, { CHAIN_ID }) => {
+      const entries = Object.keys(chain.entryPoints.entries());
+
+      entries.forEach(entry => {
+        chain.plugin(`${CHAIN_ID.PLUGIN.HTML}-${entry}`).tap(options => ({
+          ...options,
+          inject: 'body',
+        }));
+      });
+    },
+  },
+});
+```
+
 ### 修改 css-loader
 
 通过 `CHAIN_ID.USE.CSS` 可以读取到 `css-loader`，然后通过 `tap` 方法进行修改：
@@ -233,24 +256,25 @@ export default defineConfig({
 
 通过 `PLUGIN.XXX` 可以匹配到对应的 plugin。
 
-| ID                             | 描述                                      |
-| ------------------------------ | ----------------------------------------- |
-| `PLUGIN.HMR`                   | 对应 `HotModuleReplacementPlugin`         |
-| `PLUGIN.COPY`                  | 对应 `CopyWebpackPlugin`                  |
-| `PLUGIN.DEFINE`                | 对应 `DefinePlugin`                       |
-| `PLUGIN.IGNORE`                | 对应 `IgnorePlugin`                       |
-| `PLUGIN.BANNER`                | 对应 `BannerPlugin`                       |
-| `PLUGIN.PROGRESS`              | 对应 `Webpackbar`                         |
-| `PLUGIN.APP_ICON`              | 对应 `AppIconPlugin`                      |
-| `PLUGIN.LOADABLE`              | 对应 `LoadableWebpackPlugin`              |
-| `PLUGIN.MANIFEST`              | 对应 `WebpackManifestPlugin`              |
-| `PLUGIN.TS_CHECKER`            | 对应 `ForkTsCheckerWebpackPlugin`         |
-| `PLUGIN.INLINE_HTML`           | 对应 `InlineChunkHtmlPlugin`              |
-| `PLUGIN.BUNDLE_ANALYZER`       | 对应 `WebpackBundleAnalyzer`              |
-| `PLUGIN.BOTTOM_TEMPLATE`       | 对应 `BottomTemplatePlugin`               |
-| `PLUGIN.MINI_CSS_EXTRACT`      | 对应 `MiniCssExtractPlugin`               |
-| `PLUGIN.REACT_FAST_REFRESH`    | 对应 `ReactFastRefreshPlugin`             |
-| `PLUGIN.NODE_POLYFILL_PROVIDE` | 对应处理 node polyfill 的 `ProvidePlugin` |
+| ID                             | 描述                                                                               |
+| ------------------------------ | ---------------------------------------------------------------------------------- |
+| `PLUGIN.HMR`                   | 对应 `HotModuleReplacementPlugin`                                                  |
+| `PLUGIN.COPY`                  | 对应 `CopyWebpackPlugin`                                                           |
+| `PLUGIN.HTML`                  | 对应 `HtmlWebpackPlugin`，使用时需要拼接 entry 名称：`${PLUGIN.HTML}-${entryName}` |
+| `PLUGIN.DEFINE`                | 对应 `DefinePlugin`                                                                |
+| `PLUGIN.IGNORE`                | 对应 `IgnorePlugin`                                                                |
+| `PLUGIN.BANNER`                | 对应 `BannerPlugin`                                                                |
+| `PLUGIN.PROGRESS`              | 对应 `Webpackbar`                                                                  |
+| `PLUGIN.APP_ICON`              | 对应 `AppIconPlugin`                                                               |
+| `PLUGIN.LOADABLE`              | 对应 `LoadableWebpackPlugin`                                                       |
+| `PLUGIN.MANIFEST`              | 对应 `WebpackManifestPlugin`                                                       |
+| `PLUGIN.TS_CHECKER`            | 对应 `ForkTsCheckerWebpackPlugin`                                                  |
+| `PLUGIN.INLINE_HTML`           | 对应 `InlineChunkHtmlPlugin`                                                       |
+| `PLUGIN.BUNDLE_ANALYZER`       | 对应 `WebpackBundleAnalyzer`                                                       |
+| `PLUGIN.BOTTOM_TEMPLATE`       | 对应 `BottomTemplatePlugin`                                                        |
+| `PLUGIN.MINI_CSS_EXTRACT`      | 对应 `MiniCssExtractPlugin`                                                        |
+| `PLUGIN.REACT_FAST_REFRESH`    | 对应 `ReactFastRefreshPlugin`                                                      |
+| `PLUGIN.NODE_POLYFILL_PROVIDE` | 对应处理 node polyfill 的 `ProvidePlugin`                                          |
 
 ### MINIMIZER
 
