@@ -10,6 +10,10 @@ export function findDepPath(name: string) {
     entry = dirname(entry);
   }
 
+  if (name.includes('/')) {
+    return join(dirname(entry), name);
+  }
+
   return entry;
 }
 

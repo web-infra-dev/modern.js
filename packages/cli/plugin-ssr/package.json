@@ -60,7 +60,7 @@
     "@babel/runtime": "^7",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/server": "^5.15.1",
-    "@loadable/webpack-plugin": "^5.15.1",
+    "@modern-js/webpack": "workspace:^1.8.0",
     "@modern-js/utils": "workspace:^1.7.5",
     "react-dom": "^17",
     "serialize-javascript": "^6.0.0"
