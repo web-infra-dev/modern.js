@@ -451,8 +451,6 @@
       "README": "markdown"
     },
     "files.exclude": {
-      "**/*/adapters/**/index.js": true,
-      "**/*/adapters/**/index.ts": true,
       "**/coverage": true,
       "**/dist": true
     },
