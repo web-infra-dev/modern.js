@@ -3,7 +3,14 @@ module.exports = {
   collectCoverageFrom: ['<rootDir>/packages/**/src/**/*.ts'],
   coveragePathIgnorePatterns: ['/node_modules/', '/fixtures/'],
   transform: {
-    '\\.[jt]sx?$': 'esbuild-jest',
+    '\\.[jt]sx?$': [
+      'esbuild-jest',
+      {
+        // enable sourcemap to get correct coverage
+        // https://github.com/aelbore/esbuild-jest/issues/33
+        sourcemap: true,
+      },
+    ],
   },
   moduleNameMapper: {},
   globals: {},

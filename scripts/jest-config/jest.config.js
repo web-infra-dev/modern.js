@@ -9,6 +9,8 @@ module.exports = {
     '\\.[jt]sx?$': [
       require.resolve('esbuild-jest'),
       {
+        // enable sourcemap to get correct coverage
+        // https://github.com/aelbore/esbuild-jest/issues/33
         sourcemap: true,
       },
     ],
