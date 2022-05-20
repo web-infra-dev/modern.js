@@ -1294,12 +1294,12 @@ importers:
       '@loadable/babel-plugin': ^5.13.2
       '@loadable/component': ^5.15.0
       '@loadable/server': ^5.15.1
-      '@loadable/webpack-plugin': ^5.15.1
       '@modern-js/babel-chain': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/runtime-core': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.5
+      '@modern-js/webpack': workspace:^1.8.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
@@ -1323,8 +1323,8 @@ importers:
       '@babel/runtime': 7.16.7
       '@loadable/babel-plugin': 5.13.2_@babel+core@7.17.8
       '@loadable/server': 5.15.2_c6e2d081aed1691d2f3d66152539fe63
-      '@loadable/webpack-plugin': 5.15.2
       '@modern-js/utils': link:../../toolkit/utils
+      '@modern-js/webpack': link:../webpack
       react-dom: 17.0.2_react@17.0.2
       serialize-javascript: 6.0.0
     devDependencies:
@@ -3616,7 +3616,7 @@ importers:
       '@modern-js/server-core': workspace:*
       '@modern-js/types': workspace:^1.5.3
       '@modern-js/utils': workspace:^1.7.3
-      '@modern-js/webpack': workspace:^1.7.0
+      '@modern-js/webpack': workspace:^1.8.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
@@ -4296,6 +4296,7 @@ importers:
   scripts/prebundle:
     specifiers:
       '@babel/core': ^7.17.0
+      '@loadable/webpack-plugin': 5.15.2
       '@modern-js/tsconfig': workspace:*
       '@scripts/build': workspace:*
       '@types/debug': 4.1.7
@@ -4391,6 +4392,7 @@ importers:
       typescript: 4.5.4
       webpack: 5.71.0_esbuild@0.13.15
     devDependencies:
+      '@loadable/webpack-plugin': 5.15.2_webpack@5.71.0
       '@types/debug': 4.1.7
       '@types/fs-extra': 9.0.13
       '@types/glob': 7.2.0
@@ -10156,14 +10158,15 @@ packages:
       react: 17.0.2
     dev: false
 
-  /@loadable/webpack-plugin/5.15.2:
+  /@loadable/webpack-plugin/5.15.2_webpack@5.71.0:
     resolution: {integrity: sha512-+o87jPHn3E8sqW0aBA+qwKuG8JyIfMGdz3zECv0t/JF0KHhxXtzIlTiqzlIYc5ZpFs/vKSQfjzGIR5tPJjoXDw==}
     engines: {node: '>=8'}
     peerDependencies:
       webpack: '>=4.6.0'
     dependencies:
       make-dir: 3.1.0
-    dev: false
+      webpack: 5.71.0_esbuild@0.13.15
+    dev: true
 
   /@manypkg/find-root/1.1.0:
     resolution: {integrity: sha512-mki5uBvhHzO8kYYix/WRy2WX8S3B5wdVSc9D6KcU5lQNglP2yt58/VfLuAK49glRXChosY8ap2oJ1qgma3GUVA==}
