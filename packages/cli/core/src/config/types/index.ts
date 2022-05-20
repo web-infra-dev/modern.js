@@ -184,7 +184,7 @@ export interface MicroFrontend {
 }
 
 export interface DeployConfig {
-  microFrontend?: false | MicroFrontend;
+  microFrontend?: MicroFrontend;
   domain?: string | Array<string>;
   domainByEntries?: Record<string, string | Array<string>>;
 }

@@ -285,7 +285,7 @@ export const PLUGIN_SCHEMAS = {
     },
     {
       target: 'deploy.microFrontend',
-      schema: { type: ['boolean', 'object'] },
+      schema: { type: ['object'] },
     },
   ],
   '@modern-js/plugin-nocode': [],

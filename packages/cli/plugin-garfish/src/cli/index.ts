@@ -26,14 +26,6 @@ export function getDefaultMicroFrontedConfig(
     NonNullable<UseConfig['deploy']>['microFrontend']
   >,
 ) {
-  if (microFrontend === true) {
-    return {
-      enableHtmlEntry: true,
-      externalBasicLibrary: false,
-      moduleApp: '',
-    };
-  }
-
   return {
     enableHtmlEntry: true,
     externalBasicLibrary: false,
