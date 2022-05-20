@@ -172,6 +172,13 @@ export const TASKS: TaskConfig[] = [
     dependencies: [
       'webpack-merge',
       {
+        name: '@loadable/webpack-plugin',
+        ignoreDts: true,
+        externals: {
+          semver: '@modern-js/utils/semver',
+        },
+      },
+      {
         name: 'css-modules-typescript-loader',
         ignoreDts: true,
         externals: {

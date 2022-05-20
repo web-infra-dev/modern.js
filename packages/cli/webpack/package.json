@@ -25,6 +25,14 @@
         "require": "./dist/index.js"
       },
       "default": "./dist/index.js"
+    },
+    "./@loadable/webpack-plugin": "./compiled/@loadable/webpack-plugin/index.js"
+  },
+  "typesVersions": {
+    "*": {
+      "@loadable/webpack-plugin": [
+        "./compiled/@loadable/webpack-plugin/index.d.ts"
+      ]
     }
   },
   "scripts": {
