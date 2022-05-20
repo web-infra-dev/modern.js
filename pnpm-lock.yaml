@@ -252,6 +252,7 @@ importers:
       electron-builder: 22.7.0
       esbuild: ^0.13.13
       jest: ^27
+      postcss: ^8
       sass: ^1.45.0
       terser-webpack-plugin: ^5.1.4
       typescript: ^4
@@ -274,10 +275,11 @@ importers:
       '@types/node': 14.18.4
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
-      autoprefixer: 10.4.4
+      autoprefixer: 10.4.4_postcss@8.4.12
       btsm: 2.2.2
       electron-builder: 22.7.0
       jest: 27.4.5
+      postcss: 8.4.12
       sass: 1.45.2
       terser-webpack-plugin: 5.3.1_esbuild@0.13.15+webpack@5.71.0
       typescript: 4.5.4
@@ -15444,21 +15446,6 @@ packages:
     resolution: {integrity: sha1-S3KPrwoZVVGU1PvQVYL4M/3NE3s=}
     dev: false
 
-  /autoprefixer/10.4.4:
-    resolution: {integrity: sha512-Tm8JxsB286VweiZ5F0anmbyGiNI3v3wGv3mz9W+cxEDYB/6jbnj6GM9H9mK3wIL8ftgl+C07Lcwb8PG5PCCPzA==}
-    engines: {node: ^10 || ^12 || >=14}
-    hasBin: true
-    peerDependencies:
-      postcss: ^8.1.0
-    dependencies:
-      browserslist: 4.20.2
-      caniuse-lite: 1.0.30001319
-      fraction.js: 4.2.0
-      normalize-range: 0.1.2
-      picocolors: 1.0.0
-      postcss-value-parser: 4.2.0
-    dev: true
-
   /autoprefixer/10.4.4_postcss@8.4.12:
     resolution: {integrity: sha512-Tm8JxsB286VweiZ5F0anmbyGiNI3v3wGv3mz9W+cxEDYB/6jbnj6GM9H9mK3wIL8ftgl+C07Lcwb8PG5PCCPzA==}
     engines: {node: ^10 || ^12 || >=14}
@@ -15473,7 +15460,6 @@ packages:
       picocolors: 1.0.0
       postcss: 8.4.12
       postcss-value-parser: 4.2.0
-    dev: false
 
   /autoprefixer/10.4.4_postcss@8.4.6:
     resolution: {integrity: sha512-Tm8JxsB286VweiZ5F0anmbyGiNI3v3wGv3mz9W+cxEDYB/6jbnj6GM9H9mK3wIL8ftgl+C07Lcwb8PG5PCCPzA==}
