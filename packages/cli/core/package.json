@@ -68,6 +68,7 @@
     "autoprefixer": "^10.3.1",
     "btsm": "2.2.2",
     "jest": "^27",
+    "postcss": "^8",
     "sass": "^1.45.0",
     "electron-builder": "22.7.0",
     "terser-webpack-plugin": "^5.1.4",
