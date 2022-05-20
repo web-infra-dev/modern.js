@@ -76,7 +76,6 @@ export function getAppPlugins(
       .filter(name => {
         const config: any = allPlugins[name];
         if (config.forced === true) {
-          // 参考 packages/cli/core/src/cli.ts 文件
           return true;
         }
         return isDepExists(appDirectory, name);

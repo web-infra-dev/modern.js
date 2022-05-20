@@ -126,8 +126,7 @@ export async function runTest(
     onLast: input => input,
   });
 
-  testConfigOperator.getFinalConfig();
-  const finalConfig = testConfigOperator.jestConfig;
+  const finalConfig = testConfigOperator.getFinalConfig();
 
   debug('Jest config:', finalConfig);
 
