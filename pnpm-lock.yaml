@@ -1325,7 +1325,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js-reduck/plugin-auto-actions': ^1.0.2
-      '@modern-js-reduck/plugin-devtools': ^1.0.2
+      '@modern-js-reduck/plugin-devtools': ^1.0.3
       '@modern-js-reduck/plugin-effects': ^1.0.2
       '@modern-js-reduck/plugin-immutable': ^1.0.1
       '@modern-js-reduck/react': ^1.0.1
@@ -1350,7 +1350,7 @@ importers:
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js-reduck/plugin-auto-actions': 1.0.2_@modern-js-reduck+store@1.0.3
-      '@modern-js-reduck/plugin-devtools': 1.0.2_@modern-js-reduck+store@1.0.3
+      '@modern-js-reduck/plugin-devtools': 1.0.3_@modern-js-reduck+store@1.0.3
       '@modern-js-reduck/plugin-effects': 1.0.2_@modern-js-reduck+store@1.0.3
       '@modern-js-reduck/plugin-immutable': 1.0.1_@modern-js-reduck+store@1.0.3
       '@modern-js-reduck/react': 1.0.1_react@17.0.2
@@ -10215,15 +10215,15 @@ packages:
       '@modern-js-reduck/store': 1.0.3
     dev: false
 
-  /@modern-js-reduck/plugin-devtools/1.0.2_@modern-js-reduck+store@1.0.3:
-    resolution: {integrity: sha512-YnBBnW6ZZ7Oib05a0JBojwkVQai50XkJVlyqzvkiHDGRDyUBWPEvMPjfg16/iMP0HfMOUxI9F6GUBthJZ37rYA==}
+  /@modern-js-reduck/plugin-devtools/1.0.3_@modern-js-reduck+store@1.0.3:
+    resolution: {integrity: sha512-P9HhHRYXtr1T5Zf9Xt+8YwMhUvd/AQLivs1AXnQuDlFwGv2Pi1RelRwkODMmPjf6DK4gDQjiIJ3L/kcCTPVgsg==}
     peerDependencies:
-      '@modern-js-reduck/store': ^1.0.1
+      '@modern-js-reduck/store': ^1.0.4
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.9
       '@modern-js-reduck/store': 1.0.3
+      '@redux-devtools/extension': 3.2.2_redux@4.2.0
       redux: 4.2.0
-      redux-devtools-extension: 2.13.9_redux@4.2.0
     dev: false
 
   /@modern-js-reduck/plugin-effects/1.0.2_@modern-js-reduck+store@1.0.3:
@@ -10849,6 +10849,15 @@ packages:
 
   /@protobufjs/utf8/1.1.0:
     resolution: {integrity: sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=}
+    dev: false
+
+  /@redux-devtools/extension/3.2.2_redux@4.2.0:
+    resolution: {integrity: sha512-fKA2TWNzJF7wXSDwBemwcagBFudaejXCzH5hRszN3Z6B7XEJtEmGD77AjV0wliZpIZjA/fs3U7CejFMQ+ipS7A==}
+    peerDependencies:
+      redux: ^3.1.0 || ^4.0.0
+    dependencies:
+      '@babel/runtime': 7.17.9
+      redux: 4.2.0
     dev: false
 
   /@rollup/plugin-alias/3.1.9_rollup@2.62.0:
@@ -32077,14 +32086,6 @@ packages:
     dependencies:
       css-unit-converter: 1.1.2
       postcss-value-parser: 3.3.1
-
-  /redux-devtools-extension/2.13.9_redux@4.2.0:
-    resolution: {integrity: sha512-cNJ8Q/EtjhQaZ71c8I9+BPySIBVEKssbPpskBfsXqb8HJ002A3KRVHfeRzwRo6mGPqsm7XuHTqNSNeS1Khig0A==}
-    peerDependencies:
-      redux: ^3.1.0 || ^4.0.0
-    dependencies:
-      redux: 4.2.0
-    dev: false
 
   /redux-logger/3.0.6:
     resolution: {integrity: sha1-91VZZvMJjzyIYExEnPC69XeCdL8=}
