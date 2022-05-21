@@ -42,12 +42,12 @@
     "@modern-js/hmr-client": "workspace:^1.2.7",
     "@modern-js/prod-server": "workspace:^1.1.5",
     "@modern-js/server-utils": "workspace:^1.2.9",
+    "@modern-js/webpack": "workspace:^1.8.0",
     "@modern-js/utils": "workspace:^1.7.5",
     "devcert": "1.2.0",
     "launch-editor": "^2.2.1",
     "minimatch": "^3.0.4",
     "path-to-regexp": "^6.2.0",
-    "webpack-dev-middleware": "^5.0.0",
     "ws": "^8.2.0"
   },
   "devDependencies": {
@@ -59,7 +59,6 @@
     "@types/jest": "^27",
     "@types/minimatch": "^3.0.5",
     "@types/node": "^14",
-    "@types/webpack-dev-middleware": "^5.0.2",
     "@types/ws": "^7.4.7",
     "jest": "^27",
     "typescript": "^4",
