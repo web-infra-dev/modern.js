@@ -65,9 +65,6 @@
     "webpack": "^5.71.0",
     "websocket": "^1"
   },
-  "peerDependencies": {
-    "webpack": "^5.54.0"
-  },
   "sideEffects": false,
   "modernConfig": {
     "output": {
