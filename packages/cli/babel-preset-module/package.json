@@ -35,6 +35,7 @@
     "test": "wireit"
   },
   "dependencies": {
+    "@babel/core": "^7.17.0",
     "@babel/plugin-proposal-class-static-block": "^7.12.1",
     "@babel/plugin-proposal-do-expressions": "^7.12.1",
     "@babel/plugin-proposal-function-sent": "^7.12.1",
@@ -46,7 +47,6 @@
     "@modern-js/babel-preset-lib": "workspace:^1.2.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.0",
     "@types/babel__core": "^7.1.15",
     "@types/jest": "^27",
     "@types/node": "^14",
