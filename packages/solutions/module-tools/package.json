@@ -78,8 +78,6 @@
     "process.argv": "^0.6.0"
   },
   "devDependencies": {
-    "@babel/preset-typescript": "^7.15.0",
-    "@modern-js/babel-chain": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__core": "^7.1.15",
