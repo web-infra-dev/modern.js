@@ -51,6 +51,11 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
+.markdown {
+  --ifm-h2-vertical-rhythm-top: 2.6;
+  --ifm-h3-vertical-rhythm-top: 1.8;
+}
+
 .markdown h1:first-child {
   --ifm-h1-font-size: 2.6rem;
 }
