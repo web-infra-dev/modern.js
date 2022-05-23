@@ -131,6 +131,10 @@ class BaseWebpackConfig {
     // empty
   }
 
+  target() {
+    // empty
+  }
+
   mode() {
     const mode = isProd() ? 'production' : 'development';
     this.chain.mode(mode);
@@ -711,6 +715,7 @@ class BaseWebpackConfig {
     this.chain.node.set('global', true);
 
     this.name();
+    this.target();
     this.mode();
     this.devtool();
     this.entry();
