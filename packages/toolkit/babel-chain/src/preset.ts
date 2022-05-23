@@ -29,9 +29,9 @@ export const createBabelPresetChain = (): BabelPresetChain => {
   const blacks: string[] = [];
 
   const preset = (name: string) => {
-    const babelExist = presets.find(plugin => plugin.name === name);
-    const isExist = Boolean(babelExist);
-    const preset: Preset = babelExist || { name, options: [] };
+    const presetExist = presets.find(plugin => plugin.name === name);
+    const isExist = Boolean(presetExist);
+    const preset: Preset = presetExist || { name, options: [] };
 
     const tap = (options: any[]) => {
       preset.options = options;
