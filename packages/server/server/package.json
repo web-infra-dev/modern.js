@@ -44,7 +44,6 @@
     "@modern-js/server-utils": "workspace:^1.2.9",
     "@modern-js/utils": "workspace:^1.7.5",
     "devcert": "1.2.0",
-    "launch-editor": "^2.2.1",
     "minimatch": "^3.0.4",
     "path-to-regexp": "^6.2.0",
     "webpack-dev-middleware": "^5.0.0",
