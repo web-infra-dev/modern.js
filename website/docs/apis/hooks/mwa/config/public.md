@@ -19,4 +19,6 @@ sidebar_position: 3
 
 或者是给其他业务方（要求路由不变）的 SDK，也可以是无需入口的 HTML 文件等。
 
-
+:::info
+对于需要在源码中通过 import 引用的静态资源（比如 SVG 图片），建议放到 `src/assets` 目录下进行管理。
+:::
