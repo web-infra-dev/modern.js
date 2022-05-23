@@ -6,11 +6,11 @@ sidebar_position: 9
 
 Modern.js 默认内置了一系列的编译性能优化策略，但是随着业务场景变复杂、仓库的代码量增大，在使用过程中可能会遇到一些编译性能的问题。
 
-本文档提供了一些可选的提速方法，**开发者可以根据实际使用场景启用部分策略，从而进一步提升编译速度**。
+本文档提供了一些可选的提速策略，**开发者可以根据实际场景选取其中的部分策略**，从而进一步提升编译速度。
 
 ## 通用优化策略
 
-以下是一些通用的优化策略，对 `modern dev` 和 `modern build` 均有提速效果，其中部分策略对包体积也有优化效果。
+以下是一些通用的优化策略，对 `modern dev` 和 `modern build` 均有提速效果，其中部分策略对包体积也有优化。
 
 ### 减少重复依赖
 
@@ -82,7 +82,7 @@ export default defineConfig({
 
 详见 [客户端兼容性 - Browserslist 配置](/docs/guides/usages/compatibility#browserslist-配置)。
 
-### 按需引入 polyfill
+### 按需引入 Polyfill
 
 明确第三方依赖不需要 Polyfill 的情况下，可以将 `output.polyfill` 设置为 `usage`，根据代码中使用到的语法，按需注入所需的 Polyfill 代码，从而减少 Polyfill 的代码量。
 
