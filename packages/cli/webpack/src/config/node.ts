@@ -121,6 +121,9 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
     this.useDefinePlugin();
 
+    // Avoid repeated execution of ts checker
+    this.chain.plugins.delete(CHAIN_ID.PLUGIN.TS_CHECKER);
+
     if (this.options.cliOptions?.analyze) {
       enableBundleAnalyzer(this.chain, 'report-ssr.html');
     }
@@ -141,9 +144,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
   config() {
     const config = super.config();
-
-    // disable sourcemap
-    config.devtool = false;
 
     // prod bundle all dependencies
     if (isProd()) {
