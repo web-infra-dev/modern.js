@@ -39,7 +39,7 @@ export const injectAPIHandlerInfos = (apiDir: string, prefix?: string) => {
     method: INTROSPECTION_ROUTE_METHOD,
   });
 
-  if (prefix) {
+  if (prefix && prefix !== '/') {
     apiHandlerInfos = apiHandlerInfos.map(({ name, handler, method }) => ({
       handler,
       method,
