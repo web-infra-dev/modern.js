@@ -15,7 +15,7 @@ MWA。
 
 esbuild 是使用 Go 语言编写的 JavaScript Bundler/Minifier，它的特点是速度极快。在代码压缩方面，相比 webpack 内置的 terser 压缩器，esbuild 在性能上有数十倍的提升。
 
-Modern.js 基于 esbuild 提供了代码压缩的能力，在大型工程中开启 `@modern-js/plugin-esbuild` 插件，**可以大幅度减少编译所需的时间，同时有效避免 OOM (heap out of memory) 问题**。
+Modern.js 基于 esbuild 提供了代码压缩的能力，在大型工程中开启 `@modern-js/plugin-esbuild` 插件，**可以大幅度减少代码压缩所需的时间，同时有效避免 OOM (heap out of memory) 问题**。
 
 使用 esbuild 压缩虽然带来了构建效率上的提升，但 esbuild 的压缩比例是低于 terser 的，因此**构建产物的体积会增大**，请根据业务情况酌情使用（比较适合中后台场景）。
 
