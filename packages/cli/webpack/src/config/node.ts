@@ -13,6 +13,10 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     this.chain.name('server');
   }
 
+  target() {
+    this.chain.target('node');
+  }
+
   devtool() {
     this.chain.devtool(false);
   }
@@ -137,8 +141,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
   config() {
     const config = super.config();
-
-    config.target = 'node';
 
     // disable sourcemap
     config.devtool = false;
