@@ -1325,7 +1325,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js-reduck/plugin-auto-actions': ^1.0.2
-      '@modern-js-reduck/plugin-devtools': ^1.0.2
+      '@modern-js-reduck/plugin-devtools': ^1.0.3
       '@modern-js-reduck/plugin-effects': ^1.0.2
       '@modern-js-reduck/plugin-immutable': ^1.0.1
       '@modern-js-reduck/react': ^1.0.1
@@ -1350,7 +1350,7 @@ importers:
     dependencies:
       '@babel/runtime': 7.16.7
       '@modern-js-reduck/plugin-auto-actions': 1.0.2_@modern-js-reduck+store@1.0.3
-      '@modern-js-reduck/plugin-devtools': 1.0.2_@modern-js-reduck+store@1.0.3
+      '@modern-js-reduck/plugin-devtools': 1.0.3_@modern-js-reduck+store@1.0.3
       '@modern-js-reduck/plugin-effects': 1.0.2_@modern-js-reduck+store@1.0.3
       '@modern-js-reduck/plugin-immutable': 1.0.1_@modern-js-reduck+store@1.0.3
       '@modern-js-reduck/react': 1.0.1_react@17.0.2
@@ -1716,7 +1716,6 @@ importers:
   packages/cli/webpack:
     specifiers:
       '@babel/core': ^7.17.0
-      '@babel/runtime': ^7
       '@modern-js/babel-chain': workspace:^1.2.4
       '@modern-js/babel-preset-app': workspace:^1.3.3
       '@modern-js/core': workspace:*
@@ -1756,7 +1755,6 @@ importers:
       webpack-sources: ^3.2.3
     dependencies:
       '@babel/core': 7.17.8
-      '@babel/runtime': 7.16.7
       '@modern-js/babel-chain': link:../../toolkit/babel-chain
       '@modern-js/babel-preset-app': link:../babel-preset-app
       '@modern-js/css-config': link:../css-config
@@ -3475,12 +3473,12 @@ importers:
       '@modern-js/server-utils': workspace:^1.2.9
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.5
+      '@modern-js/webpack': workspace:^1.8.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
       '@types/minimatch': ^3.0.5
       '@types/node': ^14
-      '@types/webpack-dev-middleware': ^5.0.2
       '@types/ws': ^7.4.7
       devcert: 1.2.0
       esbuild: ^0.13.13
@@ -3489,7 +3487,6 @@ importers:
       path-to-regexp: ^6.2.0
       typescript: ^4
       webpack: ^5.71.0
-      webpack-dev-middleware: ^5.0.0
       websocket: ^1
       ws: ^8.2.0
     dependencies:
@@ -3500,11 +3497,11 @@ importers:
       '@modern-js/prod-server': link:../prod-server
       '@modern-js/server-utils': link:../utils
       '@modern-js/utils': link:../../toolkit/utils
+      '@modern-js/webpack': link:../../cli/webpack
       devcert: 1.2.0
       esbuild: 0.13.15
       minimatch: 3.0.4
       path-to-regexp: 6.2.0
-      webpack-dev-middleware: 5.3.0_webpack@5.71.0
       ws: 8.4.0
     devDependencies:
       '@modern-js/core': link:../../cli/core
@@ -3515,7 +3512,6 @@ importers:
       '@types/jest': 27.4.1
       '@types/minimatch': 3.0.5
       '@types/node': 14.18.4
-      '@types/webpack-dev-middleware': 5.3.0_webpack@5.71.0
       '@types/ws': 7.4.7
       jest: 27.4.5
       typescript: 4.5.4
@@ -4341,6 +4337,7 @@ importers:
       webpack: ^5
       webpack-bundle-analyzer: 4.5.0
       webpack-chain: 6.5.1
+      webpack-dev-middleware: 5.3.3
       webpack-manifest-plugin: 5.0.0
       webpack-merge: 5.8.0
       webpackbar: 5.0.2
@@ -4428,6 +4425,7 @@ importers:
       v8-compile-cache: 2.3.0
       webpack-bundle-analyzer: 4.5.0
       webpack-chain: 6.5.1
+      webpack-dev-middleware: 5.3.3_webpack@5.71.0
       webpack-manifest-plugin: 5.0.0_webpack@5.71.0
       webpack-merge: 5.8.0
       webpackbar: 5.0.2_webpack@5.71.0
@@ -10170,15 +10168,15 @@ packages:
       '@modern-js-reduck/store': 1.0.3
     dev: false
 
-  /@modern-js-reduck/plugin-devtools/1.0.2_@modern-js-reduck+store@1.0.3:
-    resolution: {integrity: sha512-YnBBnW6ZZ7Oib05a0JBojwkVQai50XkJVlyqzvkiHDGRDyUBWPEvMPjfg16/iMP0HfMOUxI9F6GUBthJZ37rYA==}
+  /@modern-js-reduck/plugin-devtools/1.0.3_@modern-js-reduck+store@1.0.3:
+    resolution: {integrity: sha512-P9HhHRYXtr1T5Zf9Xt+8YwMhUvd/AQLivs1AXnQuDlFwGv2Pi1RelRwkODMmPjf6DK4gDQjiIJ3L/kcCTPVgsg==}
     peerDependencies:
-      '@modern-js-reduck/store': ^1.0.1
+      '@modern-js-reduck/store': ^1.0.4
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.9
       '@modern-js-reduck/store': 1.0.3
+      '@redux-devtools/extension': 3.2.2_redux@4.2.0
       redux: 4.2.0
-      redux-devtools-extension: 2.13.9_redux@4.2.0
     dev: false
 
   /@modern-js-reduck/plugin-effects/1.0.2_@modern-js-reduck+store@1.0.3:
@@ -10801,6 +10799,15 @@ packages:
 
   /@protobufjs/utf8/1.1.0:
     resolution: {integrity: sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=}
+    dev: false
+
+  /@redux-devtools/extension/3.2.2_redux@4.2.0:
+    resolution: {integrity: sha512-fKA2TWNzJF7wXSDwBemwcagBFudaejXCzH5hRszN3Z6B7XEJtEmGD77AjV0wliZpIZjA/fs3U7CejFMQ+ipS7A==}
+    peerDependencies:
+      redux: ^3.1.0 || ^4.0.0
+    dependencies:
+      '@babel/runtime': 7.17.9
+      redux: 4.2.0
     dev: false
 
   /@rollup/plugin-alias/3.1.9_rollup@2.62.0:
@@ -27272,6 +27279,13 @@ packages:
     dependencies:
       fs-monkey: 1.0.3
 
+  /memfs/3.4.3:
+    resolution: {integrity: sha512-eivjfi7Ahr6eQTn44nvTnR60e4a1Fs1Via2kCR5lHo/kyNoiMWaXCNJ/GpSd0ilXas2JSOl9B5FTIhflXu0hlg==}
+    engines: {node: '>= 4.0.0'}
+    dependencies:
+      fs-monkey: 1.0.3
+    dev: true
+
   /memoize-one/5.2.1:
     resolution: {integrity: sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==}
     dev: false
@@ -32124,14 +32138,6 @@ packages:
       css-unit-converter: 1.1.2
       postcss-value-parser: 3.3.1
 
-  /redux-devtools-extension/2.13.9_redux@4.2.0:
-    resolution: {integrity: sha512-cNJ8Q/EtjhQaZ71c8I9+BPySIBVEKssbPpskBfsXqb8HJ002A3KRVHfeRzwRo6mGPqsm7XuHTqNSNeS1Khig0A==}
-    peerDependencies:
-      redux: ^3.1.0 || ^4.0.0
-    dependencies:
-      redux: 4.2.0
-    dev: false
-
   /redux-logger/3.0.6:
     resolution: {integrity: sha1-91VZZvMJjzyIYExEnPC69XeCdL8=}
     dependencies:
@@ -36575,6 +36581,21 @@ packages:
       schema-utils: 4.0.0
       webpack: 5.71.0_esbuild@0.13.15
     dev: false
+
+  /webpack-dev-middleware/5.3.3_webpack@5.71.0:
+    resolution: {integrity: sha512-hj5CYrY0bZLB+eTO+x/j67Pkrquiy7kWepMHmUMoPsmcUaeEnQJqFzHJOyxgWlq746/wUuA64p9ta34Kyb01pA==}
+    engines: {node: '>= 12.13.0'}
+    peerDependencies:
+      webpack: ^4.0.0 || ^5.0.0
+    dependencies:
+      colorette: 2.0.16
+      esbuild: 0.13.15
+      memfs: 3.4.3
+      mime-types: 2.1.35
+      range-parser: 1.2.1
+      schema-utils: 4.0.0
+      webpack: 5.71.0_esbuild@0.13.15
+    dev: true
 
   /webpack-dev-server/4.7.2_webpack@5.71.0:
     resolution: {integrity: sha512-s6yEOSfPpB6g1T2+C5ZOUt5cQOMhjI98IVmmvMNb5cdiqHoxSUfACISHqU/wZy+q4ar/A9jW0pbNj7sa50XRVA==}
