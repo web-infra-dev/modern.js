@@ -3483,7 +3483,6 @@ importers:
       devcert: 1.2.0
       esbuild: ^0.13.13
       jest: ^27
-      launch-editor: ^2.2.1
       minimatch: ^3.0.4
       path-to-regexp: ^6.2.0
       typescript: ^4
@@ -3501,7 +3500,6 @@ importers:
       '@modern-js/webpack': link:../../cli/webpack
       devcert: 1.2.0
       esbuild: 0.13.15
-      launch-editor: 2.3.0
       minimatch: 3.0.4
       path-to-regexp: 6.2.0
       ws: 8.4.0

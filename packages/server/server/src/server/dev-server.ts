@@ -24,7 +24,6 @@ import { DEFAULT_DEV_OPTIONS } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import SocketServer from '../dev-tools/socket-server';
 import DevServerPlugin from '../dev-tools/dev-server-plugin';
-import { createLaunchEditorHandler } from '../dev-tools/launch-editor';
 import { enableRegister } from '../dev-tools/babel/register';
 import Watcher from '../dev-tools/watcher';
 import { DevServerOptions, ModernDevServerOptions } from '../types';
@@ -99,9 +98,6 @@ export class ModernDevServer extends ModernServer {
     if (compiler) {
       // init socket server
       this.socketServer = new SocketServer(dev);
-
-      // open file in editor.
-      this.addHandler(createLaunchEditorHandler());
 
       // setup compiler in server, also add dev-middleware to handler static file in memory
       const devMiddlewareHandler = this.setupCompiler(compiler);
