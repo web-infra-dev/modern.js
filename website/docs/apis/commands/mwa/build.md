@@ -18,7 +18,7 @@ Options:
 
 ## 分析构建产物体积
 
-执行 `modern build --analyze` 命令，可以在打包生产环境代码的同时，产出一个分析构建产物体积的 HTML 文件：
+执行 `npx modern build --analyze` 命令，可以在打包生产环境代码的同时，产出一个分析构建产物体积的 HTML 文件：
 
 ```
 Bundle Analyzer saved report to /example/dist/report.html

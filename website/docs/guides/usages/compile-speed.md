@@ -39,7 +39,7 @@ rm -rf ./node_modules pnpm-lock.yaml && pnpm install
 如果不清楚项目中哪些三方依赖的体积较大，可以执行在构建时添加 `--analyze` 参数：
 
 ```bash
-modern build --analyze
+npx modern build --analyze
 ```
 
 该参数会生成一个分析构建产物体积的 HTML 文件，手动在浏览器中打开该文件，可以看到打包产物的瓦片图。区块的面积越大，说明该模块的体积越大。
@@ -136,7 +136,7 @@ export default defineConfig({
 
 ### 禁用生产环境 SourceMap
 
-如果项目在生产环境下不需要 SourceMap，可以关闭生产环境生成 JS、CSS SourceMap 的功能，从而提升 build 构建的速度。
+如果项目在生产环境下不需要 SourceMap，可以通过 `disableSourceMap` 配置项关闭，从而提升 build 构建的速度。
 
 ```js title="modern.config.js"
 export default defineConfig({
