@@ -34,4 +34,12 @@ export const outputSchema = [
       default: 'styles',
     },
   },
+  {
+    target: 'output.buildPreset',
+    schema: { typeof: ['string', 'function'] },
+  },
+  {
+    target: 'output.build',
+    schema: { typeof: [ 'array' ] }
+  }
 ];

@@ -70,6 +70,8 @@ export type BuildConfig = {
   dts?: boolean;
 };
 
+
+
 export type BuildPreset = BuildConfig[] | BuildConfig | 'library' | 'component'
 
 declare module '@modern-js/core' {

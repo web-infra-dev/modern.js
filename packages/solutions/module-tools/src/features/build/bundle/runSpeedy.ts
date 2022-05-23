@@ -1,12 +1,13 @@
 import { SpeedyBundler } from '@speedy-js/speedy-core';
 import { CLIConfig, SpeedyPlugin } from '@speedy-js/speedy-types';
-import { TaskBuildConfig } from '../../types';
+import { BundleBuildConfig } from './type';
 import path from 'path';
+import { PluginAPI } from '@modern-js/core';
 
 
-export const runSpeedy = async (config: TaskBuildConfig) => {
-  const { enableWatchMode, entry, appDirectory, target, speedyOptions } = config;
-  const watch = enableWatchMode;
+export const runSpeedy = async (config: BundleBuildConfig, api: PluginAPI) => {
+  const { appDirectory } = api.useAppContext();
+  const { target, watch, tsconfig, bundleOption } = config;
   const plugins: SpeedyPlugin[] = [];
   Promise.all([...config.format.map(async format => {
     const distDir = path.join(appDirectory, `./dist/${format}`);
@@ -17,7 +18,7 @@ export const runSpeedy = async (config: TaskBuildConfig) => {
       platform: 'node',
       watch,
       input: {
-        index: entry,
+        index: bundleOption.entry ?? 'src/index.ts',
       },
       target,
       output: {
@@ -27,7 +28,7 @@ export const runSpeedy = async (config: TaskBuildConfig) => {
       },
       html: false,
       plugins,
-      ...speedyOptions,
+      ...bundleOption,
     };
     console.info('speedy', 'Build start');
     const startTime = new Date().getTime();

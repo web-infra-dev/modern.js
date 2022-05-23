@@ -9,7 +9,7 @@ const buildWatchFeature: typeof import('./build-watch') = Import.lazy(
   './build-watch',
   require,
 );
-const buildBundleFeature: typeof import('./build-bundle') = Import.lazy(
+const buildBundleFeature: typeof import('./bundle') = Import.lazy(
   './build-bundle',
   require,
 );
@@ -18,6 +18,25 @@ const bp: typeof import('./build-platform') = Import.lazy(
   './build-platform',
   require,
 );
+
+const checkPlatformAndRunBuild = async (platform: IBuildConfig['platform'], options: { api: PluginAPI, isTsProject: boolean }) => {
+  const { api, isTsProject } = options;
+  if (typeof platform === 'boolean' && platform) {
+    if (process.env.RUN_PLATFORM) {
+      await bp.buildPlatform(api, { platform: 'all', isTsProject });
+    }
+    return { exit: true };
+  }
+
+  if (typeof platform === 'string') {
+    if (process.env.RUN_PLATFORM) {
+      await bp.buildPlatform(api, { platform, isTsProject });
+    }
+    return { exit: true };
+  }
+
+  return { exit: false };
+}
 
 export const build = async (
   api: PluginAPI,
@@ -35,18 +54,8 @@ export const build = async (
     output: { path: outputPath = 'dist' },
   } = modernConfig;
 
-  // TODO: maybe need watch mode in build platform
-  if (typeof platform === 'boolean' && platform) {
-    if (process.env.RUN_PLATFORM) {
-      await bp.buildPlatform(api, { platform: 'all', isTsProject });
-    }
-    return;
-  }
-
-  if (typeof platform === 'string') {
-    if (process.env.RUN_PLATFORM) {
-      await bp.buildPlatform(api, { platform, isTsProject });
-    }
+  const platformBuildRet = await checkPlatformAndRunBuild(platform, { api, isTsProject });
+  if (platformBuildRet.exit) {
     return;
   }
 
@@ -62,12 +71,14 @@ export const build = async (
       await buildBundleFeature.buildInBundleMode({
         ...config,
         ...moduleConfig,
-      });
-    }
-    else if (enableWatchMode) {
-      await buildWatchFeature.buildInWatchMode(api, config, modernConfig);
+      }, api);
     } else {
-      await buildFeature.buildSourceCode(api, config, modernConfig);
+
     }
+    // else if (enableWatchMode) {
+    //   await buildWatchFeature.buildInWatchMode(api, config, modernConfig);
+    // } else {
+    //   await buildFeature.buildSourceCode(api, config, modernConfig);
+    // }
   }));
 };

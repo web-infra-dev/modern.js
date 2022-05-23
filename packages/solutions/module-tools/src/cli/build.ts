@@ -12,7 +12,6 @@ const commands: typeof import('../commands') = Import.lazy(
 );
 
 export const buildCli = (program: Command, api: PluginAPI) => {
-  // TODO: 初始化环境变量
   program
     .command('build')
     .usage('[options]')

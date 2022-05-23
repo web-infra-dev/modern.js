@@ -4,10 +4,10 @@ import ts from 'typescript';
 import hashbangPlugin from 'rollup-plugin-hashbang';
 import jsonPlugin from '@rollup/plugin-json';
 import { Import } from '@modern-js/utils';
-import { TaskBuildConfig } from '../../types';
+import { BundleBuildConfig } from './type';
 
-const logger: typeof import('../../features/build/logger') = Import.lazy(
-  '../../features/build/logger',
+const logger: typeof import('../../../features/build/logger') = Import.lazy(
+  '../../../features/build/logger',
   require,
 );
 
@@ -33,7 +33,7 @@ type RollupConfig = {
   outputConfig: OutputOptions;
 };
 
-const getRollupConfig = async (options: TaskBuildConfig): Promise<RollupConfig> => {
+const getRollupConfig = async (options: BundleBuildConfig): Promise<RollupConfig> => {
   const distDir = path.join(options.appDirectory, `./dist/types`)
   const compilerOptions = loadCompilerOptions(options.tsconfig);
   const dtsOptions = { entry: options.entry };

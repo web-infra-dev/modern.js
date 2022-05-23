@@ -58,7 +58,7 @@ export const defaultLibraryPreset: Required<BuildConfig>[] = [{
   target: 'esnext',
   bundle: true,
   entry: 'src/index.ts',
-  speedyOptions: {},
+  // speedyOptions: {},
   tsconfig: 'tsconfig.json',
   watch: false,
   dts: true
@@ -68,7 +68,7 @@ export const defaultComponentPreset: Required<BuildConfig>[] = [{
   target: 'esnext',
   bundle: true,
   entry: 'src/index.ts',
-  speedyOptions: {},
+  // speedyOptions: {},
   tsconfig: 'tsconfig.json',
   watch: false,
   dts: true
