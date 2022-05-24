@@ -11,7 +11,6 @@ export default (): CliPlugin => ({
     const runtimeModulePath = path.resolve(__dirname, '../runtime');
     return {
       config() {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
         const appContext = useAppContext();
         const { appDirectory } = appContext;
         bffExportsUtils = createRuntimeExportsUtils(
@@ -26,16 +25,25 @@ export default (): CliPlugin => ({
           serverRuntimePath,
         );
 
-        return {
-          source: {
-            alias: {
-              '@modern-js/runtime/server': relativeRuntimePath,
+        if (process.env.NODE_ENV === 'production') {
+          return {
+            source: {
+              alias: {
+                '@modern-js/runtime/server': relativeRuntimePath,
+              },
             },
-          },
-        };
+          };
+        } else {
+          return {
+            source: {
+              alias: {
+                '@modern-js/runtime/server': serverRuntimePath,
+              },
+            },
+          };
+        }
       },
       addRuntimeExports(input) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
         const { appDirectory } = useAppContext();
         const runtimePath = require.resolve(`@modern-js/runtime`, {
           paths: [appDirectory],
