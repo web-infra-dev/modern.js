@@ -4,6 +4,7 @@ import {
   fs,
   isDev,
   isProd,
+  CHAIN_ID,
   removeLeadingSlash,
   getEntryOptions,
   generateMetaTags,
@@ -27,7 +28,7 @@ import { AppIconPlugin } from '../plugins/app-icon-plugin';
 import { BottomTemplatePlugin } from '../plugins/bottom-template-plugin';
 import { ICON_EXTENSIONS } from '../utils/constants';
 import { BaseWebpackConfig } from './base';
-import { CHAIN_ID, enableBundleAnalyzer } from './shared';
+import { enableBundleAnalyzer } from './shared';
 
 const { USE, RULE, ONE_OF, PLUGIN } = CHAIN_ID;
 const nodeLibsBrowser = require('node-libs-browser');

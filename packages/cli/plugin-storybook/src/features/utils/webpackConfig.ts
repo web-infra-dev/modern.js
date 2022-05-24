@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import path from 'path';
-import { fs, Import } from '@modern-js/utils';
+import { fs, Import, CHAIN_ID } from '@modern-js/utils';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import type {
   Configuration,
@@ -9,7 +9,7 @@ import type {
   RuleSetConditionAbsolute,
 } from 'webpack';
 import type Chain from 'webpack-chain';
-import { ClientWebpackConfig, CHAIN_ID } from '@modern-js/webpack';
+import { ClientWebpackConfig } from '@modern-js/webpack';
 import { CURRENT_PKG_PATH } from '../constants';
 
 const NodePolyfillPlugin: typeof import('node-polyfill-webpack-plugin') =

@@ -2,7 +2,7 @@ import path from 'path';
 import { manager, AppContext } from '@modern-js/core';
 import { modifyServerRoutes } from '@modern-js/plugin-analyze';
 import Chain from 'webpack-chain';
-import { CHAIN_ID } from '@modern-js/webpack';
+import { CHAIN_ID } from '@modern-js/utils';
 import plugin from '../src/cli';
 
 const root = path.normalize(path.resolve(__dirname, '../../../../'));
