@@ -3,7 +3,7 @@ sidebar_position: 1
 title: 使用 Model
 ---
 
-本文基于 [Model 介绍](./model-introduction) 一节创建的 `countModel` 为例，介绍 Model 的使用。
+本文基于 [Model 介绍](./model-introduction.md) 一节创建的 `countModel` 为例，介绍 Model 的使用。
 
 ## 使用全局状态
 

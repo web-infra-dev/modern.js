@@ -24,7 +24,7 @@ import { createApp } from '@modern-js/runtime';
 
 ### 创建自定义入口
 
-详见 [`bootstrap`](./bootstrap)。
+详见 [`bootstrap`](./bootstrap.md)。
 
 ### 定制插件
 
