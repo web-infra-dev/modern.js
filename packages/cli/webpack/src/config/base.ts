@@ -1,8 +1,10 @@
 /* eslint-disable max-lines */
 import path from 'path';
 import {
+  chalk,
   isProd,
   isDev,
+  signale,
   isProdProfile,
   isTypescript,
   ensureAbsolutePath,
@@ -662,19 +664,68 @@ class BaseWebpackConfig {
   }
 
   config() {
-    const chainConfig = this.getChain().toConfig();
+    const chain = this.getChain();
+    const chainConfig = chain.toConfig();
+
+    let finalConfig = chainConfig;
+
+    if (this.options.tools?.webpack) {
+      let isChainUsed = false;
+
+      const proxiedChain = new Proxy(chain, {
+        get(target, property) {
+          isChainUsed = true;
+          return (target as any)[property];
+        },
+      });
+
+      const mergedConfig = applyOptionsChain(
+        chainConfig,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error utils type incompatible
+        this.options.tools?.webpack,
+        {
+          chain: proxiedChain,
+          env: process.env.NODE_ENV,
+          name: chain.get('name'),
+          webpack,
+        },
+        webpackMerge,
+      );
+
+      // Compatible with the legacy `chain` usage, if `chain` is called in `tools.webpack`,
+      // using the chained config as finalConfig, otherwise using the merged webpack config.
+      if (isChainUsed) {
+        finalConfig = chain.toConfig();
+
+        if (isDev()) {
+          signale.warn(
+            `The ${chalk.cyan('chain')} param of ${chalk.cyan(
+              'tools.webpack',
+            )} is deprecated, please use ${chalk.cyan(
+              'tools.webpackChain',
+            )} instead.`,
+          );
+        }
+      } else {
+        finalConfig = mergedConfig;
+      }
+    }
+
+    // TODO remove webpackFinal
     if ((this.options.tools as any)?.webpackFinal) {
       return applyOptionsChain(
-        chainConfig as any,
+        finalConfig,
         (this.options.tools as any)?.webpackFinal,
         {
-          name: this.chain.get('name'),
+          name: chain.get('name'),
           webpack,
         },
         webpackMerge,
       );
     }
-    return chainConfig;
+
+    return finalConfig;
   }
 
   watchOptions() {
@@ -728,22 +779,6 @@ class BaseWebpackConfig {
     this.stats();
     this.watchOptions();
     this.applyToolsWebpackChain();
-
-    const config = this.chain.toConfig();
-
-    applyOptionsChain(
-      config,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error utils type incompatible
-      this.options.tools?.webpack,
-      {
-        chain: this.chain,
-        env: process.env.NODE_ENV,
-        name: this.chain.get('name'),
-        webpack,
-      },
-      webpackMerge,
-    );
 
     return this.chain;
   }
