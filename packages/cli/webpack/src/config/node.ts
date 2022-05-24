@@ -1,3 +1,4 @@
+import type { ServerConfig } from '@modern-js/core';
 import {
   applyOptionsChain,
   isProd,
@@ -5,8 +6,32 @@ import {
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
 import { DefinePlugin } from 'webpack';
+import type { WebpackChain } from '../compiled';
 import { BaseWebpackConfig } from './base';
 import { CHAIN_ID, enableBundleAnalyzer } from './shared';
+
+export function filterEntriesBySSRConfig(
+  chain: WebpackChain,
+  serverConfig?: ServerConfig,
+) {
+  if (!serverConfig?.ssrByEntries) {
+    return;
+  }
+
+  const { ssr, ssrByEntries } = serverConfig;
+  const entries = chain.entryPoints.entries();
+
+  Object.keys(entries).forEach(name => {
+    if (
+      (ssr && ssrByEntries[name] === false) ||
+      (!ssr && ssrByEntries[name] !== true)
+    ) {
+      if (!ssrByEntries[name] || !ssr) {
+        chain.entryPoints.delete(name);
+      }
+    }
+  });
+}
 
 class NodeWebpackConfig extends BaseWebpackConfig {
   name() {
@@ -19,6 +44,11 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
   devtool() {
     this.chain.devtool(false);
+  }
+
+  entry() {
+    super.entry();
+    filterEntriesBySSRConfig(this.chain, this.options.server);
   }
 
   output() {
