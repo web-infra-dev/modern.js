@@ -1,6 +1,7 @@
 import type { OutputConfig, SourceConfig } from '@modern-js/core/config';
 import type { ImportStyleType } from '@modern-js/babel-preset-module';
 import type { NormalizedConfig } from '@modern-js/core';
+import type { UserConfig } from '@speedy-js/speedy-core';
 import type { LoggerText } from './features/build/logger/logText';
 import type { Platform } from './features/build/build-platform';
 
@@ -38,6 +39,7 @@ export interface IBuildConfig {
   tsconfigName?: string;
   clear?: boolean;
   styleOnly?: boolean;
+  outputPath: string;
 }
 
 export interface IPackageModeValue {
@@ -64,3 +66,54 @@ export type ModuleToolsConfig = NormalizedConfig & {
   output: OutputConfig & ModuleToolsOutput;
   source: NormalizedConfig['source'] & ModuleToolsSource;
 };
+
+export type TaskBuildConfig = IBuildConfig & NormalizedBuildConfig;
+export type Format = 'esm' | 'cjs' | 'iife';
+export type Target =
+  | 'es6'
+  | 'es5'
+  | 'es2015'
+  | 'es2016'
+  | 'es2017'
+  | 'es2018'
+  | 'es2019'
+  | 'es2020'
+  | 'esnext';
+
+export type BundleOption = {
+  entry?: string;
+  speedyOption?: UserConfig;
+};
+
+export type BuildConfig = {
+  format?: Format[];
+  target?: Target;
+  bundle?: boolean;
+  bundleOption?: BundleOption;
+  tsconfig?: string;
+  watch?: boolean;
+  dts?: boolean;
+};
+
+export type NormalizedBuildConfig = Required<BuildConfig> & {
+  bundleOption: Required<BundleOption>;
+};
+
+export type BuildPreset = BuildConfig[] | BuildConfig | 'library' | 'component';
+
+declare module '@modern-js/core' {
+  // interface OutputConfig {
+  //   assetsPath: string;
+  //   enableSourceMap: boolean;
+  //   importStyle: ImportStyleType;
+  //   packageMode: PackageModeType;
+  //   packageFields: IPackageFields;
+  // }
+  // interface SourceConfig {
+  //   jsxTransformRuntime: 'automatic' | 'classic';
+  // }
+
+  interface NormalizedConfig {
+    buildPreset?: BuildPreset;
+  }
+}
