@@ -1,5 +1,5 @@
 import path from 'path';
-import { WebpackChain } from '../src';
+import WebpackChain from '@modern-js/utils/webpack-chain';
 import {
   NodeWebpackConfig,
   filterEntriesBySSRConfig,
