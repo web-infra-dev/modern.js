@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 import path from 'path';
 import {
+  chalk,
   isProd,
   isDev,
   signale,
@@ -695,12 +696,17 @@ class BaseWebpackConfig {
       // Compatible with the legacy `chain` usage, if `chain` is called in `tools.webpack`,
       // using the chained config as finalConfig, otherwise using the merged webpack config.
       if (isChainUsed) {
+        finalConfig = chain.toConfig();
+
         if (isDev()) {
           signale.warn(
-            'The `chain` param of `tools.webpack` is deprecated, please use `tools.webpackChain` instead.',
+            `The ${chalk.cyan('chain')} param of ${chalk.cyan(
+              'tools.webpack',
+            )} is deprecated, please use ${chalk.cyan(
+              'tools.webpackChain',
+            )} instead.`,
           );
         }
-        finalConfig = chain.toConfig();
       } else {
         finalConfig = mergedConfig;
       }
