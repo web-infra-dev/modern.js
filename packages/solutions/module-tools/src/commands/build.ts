@@ -41,6 +41,7 @@ export const build = async (
   const modernConfig = api.useResolvedConfigContext();
   const tsconfigPath = path.join(appDirectory, tsconfigName);
   dotenv.config();
+  const outputPath = modernConfig.output.path ?? 'dist';
   const isTsProject = tsConfigutils.existTsConfigFile(tsconfigPath);
   const enableTscCompiler =
     isTsProject && tsc && !modernConfig.output.disableTsChecker;
@@ -60,6 +61,7 @@ export const build = async (
       enableTscCompiler,
       clear,
       styleOnly,
+      outputPath,
     },
     modernConfig,
   );
