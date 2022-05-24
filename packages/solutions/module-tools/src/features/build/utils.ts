@@ -8,6 +8,8 @@ import type {
   JsSyntaxType,
   ITaskMapper,
   ModuleToolsConfig,
+  BuildPreset,
+  NormalizedBuildConfig,
 } from '../../types';
 import type { LoggerText } from './logger';
 
@@ -237,3 +239,37 @@ export class TimeCounter {
     return span < 1000 ? `${span}ms` : `${(span / 1000).toFixed(2)}s`;
   }
 }
+export const normalizeModuleConfig = (
+  preset?: BuildPreset,
+): NormalizedBuildConfig[] => {
+  if (preset === 'library' || !preset) {
+    return constants.defaultLibraryPreset;
+  } else if (preset === 'component') {
+    return constants.defaultComponentPreset;
+  }
+  // FIXME:throw error when preset is empty array
+  const presetArray = Array.isArray(preset) ? preset : [preset];
+  const normalizedModule = presetArray.map(config => {
+    const format = config.format ?? ['esm', 'cjs'];
+    const target = config.target ?? 'esnext';
+    const bundle = config.bundle ?? false;
+    const { bundleOption } = config;
+    const normalizedBundleOption = {
+      entry: bundleOption?.entry ?? 'src/index.ts',
+      speedyOption: bundleOption?.speedyOption ?? {},
+    };
+    const watch = config.watch ?? false;
+    const tsconfig = config.tsconfig ?? 'tsconfig.json';
+    const dts = config.dts ?? true;
+    return {
+      format,
+      target,
+      bundle,
+      bundleOption: normalizedBundleOption,
+      watch,
+      tsconfig,
+      dts,
+    };
+  });
+  return normalizedModule;
+};
