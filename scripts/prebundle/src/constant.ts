@@ -119,6 +119,12 @@ export const TASKS: TaskConfig[] = [
           });
         },
       },
+      {
+        name: 'webpack-chain',
+        externals: {
+          tapable: 'tapable',
+        },
+      },
     ],
   },
   {
@@ -197,12 +203,6 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
         externals: {
           json5: '@modern-js/utils/json5',
-        },
-      },
-      {
-        name: 'webpack-chain',
-        externals: {
-          tapable: 'tapable',
         },
       },
       {

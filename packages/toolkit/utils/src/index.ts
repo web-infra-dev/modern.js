@@ -31,3 +31,4 @@ export * from './emptyDir';
 export * from './getServerConfig';
 export * from './ssr';
 export * from './analyzeProject';
+export * from './chainId';

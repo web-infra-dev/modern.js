@@ -1,13 +1,13 @@
 import type { IncomingMessage, ServerResponse } from 'http';
 import type { NextFunction, BffProxyOptions } from '@modern-js/types';
-import type { MetaOptions } from '@modern-js/utils';
+import type { MetaOptions, ChainIdentifier } from '@modern-js/utils';
 import type { TransformOptions } from '@babel/core';
 import type webpack from 'webpack';
 import type {
   RuleSetRule,
   Configuration as WebpackConfiguration,
 } from 'webpack';
-import type { ChainIdentifier, WebpackChain } from '@modern-js/webpack';
+import type WebpackChain from '@modern-js/utils/webpack-chain';
 import type autoprefixer from 'autoprefixer';
 import type {
   BasePluginOptions,

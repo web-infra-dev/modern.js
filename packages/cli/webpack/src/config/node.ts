@@ -1,14 +1,15 @@
 import type { ServerConfig } from '@modern-js/core';
 import {
+  CHAIN_ID,
   applyOptionsChain,
   isProd,
   isUseSSRBundle,
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
 import { DefinePlugin } from 'webpack';
-import type { WebpackChain } from '../compiled';
+import type WebpackChain from '@modern-js/utils/webpack-chain';
 import { BaseWebpackConfig } from './base';
-import { CHAIN_ID, enableBundleAnalyzer } from './shared';
+import { enableBundleAnalyzer } from './shared';
 
 export function filterEntriesBySSRConfig(
   chain: WebpackChain,
