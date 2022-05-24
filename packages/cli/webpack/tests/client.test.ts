@@ -1,7 +1,6 @@
-import { fs } from '@modern-js/utils';
+import { fs, CHAIN_ID } from '@modern-js/utils';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { ClientWebpackConfig } from '../src/config/client';
-import { CHAIN_ID } from '../src/config/shared';
 
 describe('@modern-js/webpack#config/client', () => {
   const appContext: IAppContext = {

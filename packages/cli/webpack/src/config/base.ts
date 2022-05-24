@@ -5,6 +5,7 @@ import {
   isProd,
   isDev,
   signale,
+  CHAIN_ID,
   isProdProfile,
   isTypescript,
   ensureAbsolutePath,
@@ -19,7 +20,8 @@ import webpack, { IgnorePlugin } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { createBabelChain, BabelChain } from '@modern-js/babel-chain';
-import { webpackMerge, WebpackChain } from '../compiled';
+import WebpackChain from '@modern-js/utils/webpack-chain';
+import { merge as webpackMerge } from '../../compiled/webpack-merge';
 import WebpackBar from '../../compiled/webpackbar';
 import {
   CSS_REGEX,
@@ -41,7 +43,7 @@ import { ModuleScopePlugin } from '../plugins/module-scope-plugin';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
 import { TsConfigPathsPlugin } from '../plugins/ts-config-paths-plugin';
 import { getWebpackAliases } from '../utils/getWebpackAliases';
-import { CHAIN_ID, getWebpackUtils } from './shared';
+import { getWebpackUtils } from './shared';
 
 export type ResolveAlias = { [index: string]: string };
 

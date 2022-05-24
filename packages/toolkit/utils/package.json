@@ -45,6 +45,7 @@
     "./mime-types": "./compiled/mime-types/index.js",
     "./strip-ansi": "./compiled/strip-ansi/index.js",
     "./browserslist": "./compiled/browserslist/index.js",
+    "./webpack-chain": "./compiled/webpack-chain/index.js",
     "./tsconfig-paths": "./compiled/tsconfig-paths/index.js"
   },
   "publishConfig": {
@@ -66,6 +67,7 @@
       "./mime-types": "./compiled/mime-types/index.js",
       "./strip-ansi": "./compiled/strip-ansi/index.js",
       "./browserslist": "./compiled/browserslist/index.js",
+      "./webpack-chain": "./compiled/webpack-chain/index.js",
       "./tsconfig-paths": "./compiled/tsconfig-paths/index.js"
     }
   },
@@ -109,6 +111,9 @@
       ],
       "browserslist": [
         "./compiled/browserslist/index.d.ts"
+      ],
+      "webpack-chain": [
+        "./compiled/webpack-chain/types/index.d.ts"
       ],
       "tsconfig-paths": [
         "./compiled/tsconfig-paths/lib/index.d.ts"
