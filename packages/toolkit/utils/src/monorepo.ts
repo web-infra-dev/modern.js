@@ -32,9 +32,13 @@ export const isMonorepo = (root: string) =>
   isLerna(root) || isYarnWorkspaces(root) || isPnpmWorkspaces(root);
 
 export const isModernjsMonorepo = (root: string) => {
-  const json = JSON.parse(
-    fs.readFileSync(path.join(root, 'package.json'), 'utf8'),
-  );
+  const pkgJsonPath = path.join(root, 'package.json');
+
+  if (!fs.existsSync(pkgJsonPath)) {
+    return false;
+  }
+
+  const json = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf8'));
 
   const deps = {
     ...(json.dependencies || {}),
