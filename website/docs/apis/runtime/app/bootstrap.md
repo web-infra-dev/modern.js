@@ -12,7 +12,7 @@ import { bootstrap } from '@modern-js/runtime';
 
 :::tip 提示
 - 只有自定义入口，即使用 `index.tsx` 而非 `App.tsx` 时，才需要使用该 API。
-- 需要结合 [`createApp`](./create-app) 使用。
+- 需要结合 [`createApp`](./create-app.md) 使用。
 :::
 
 ## API
@@ -21,7 +21,7 @@ import { bootstrap } from '@modern-js/runtime';
 
 ### 参数
 
-- AppComponent：`React.ComponentType<any>`，应用根组件，通过 [`createApp`](./create-app) 创建。
+- AppComponent：`React.ComponentType<any>`，应用根组件，通过 [`createApp`](./create-app.md) 创建。
 - rootElement：`string`，要挂载的 DOM 根元素 id，如 `"root"`。
 
 ## 示例
