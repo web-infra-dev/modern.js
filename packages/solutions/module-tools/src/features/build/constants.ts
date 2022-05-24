@@ -1,4 +1,4 @@
-import type { IPackageModeValue } from '../../types';
+import type { NormalizedBuildConfig, IPackageModeValue } from '../../types';
 
 // Universal JS 的默认选择，三份构建产物，支持 Node.js，对现代浏览器有优化
 const universalJs: IPackageModeValue[] = [
@@ -50,3 +50,32 @@ export const runTscWatchTitle = 'Run `tsc -w` log';
 export const runTscTitle = 'Run `tsc` log';
 export const runStyleCompilerTitle = 'Run style compiler code log';
 export const clearFlag = '\x1Bc';
+
+export const defaultLibraryPreset: NormalizedBuildConfig[] = [
+  {
+    format: ['esm', 'cjs'],
+    target: 'esnext',
+    bundle: false,
+    bundleOption: {
+      entry: 'src/index.ts',
+      speedyOption: {},
+    },
+    tsconfig: 'tsconfig.json',
+    watch: false,
+    dts: true,
+  },
+];
+export const defaultComponentPreset: NormalizedBuildConfig[] = [
+  {
+    format: ['esm', 'cjs', 'iife'],
+    target: 'esnext',
+    bundle: false,
+    bundleOption: {
+      entry: 'src/index.ts',
+      speedyOption: {},
+    },
+    tsconfig: 'tsconfig.json',
+    watch: false,
+    dts: true,
+  },
+];
