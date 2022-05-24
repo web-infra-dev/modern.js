@@ -41,7 +41,7 @@ import { ModuleScopePlugin } from '../plugins/module-scope-plugin';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
 import { TsConfigPathsPlugin } from '../plugins/ts-config-paths-plugin';
 import { getWebpackAliases } from '../utils/getWebpackAliases';
-import { CHAIN_ID } from './shared';
+import { CHAIN_ID, getWebpackUtils } from './shared';
 
 export type ResolveAlias = { [index: string]: string };
 
@@ -689,6 +689,7 @@ class BaseWebpackConfig {
           env: process.env.NODE_ENV,
           name: chain.get('name'),
           webpack,
+          ...getWebpackUtils(chainConfig),
         },
         webpackMerge,
       );

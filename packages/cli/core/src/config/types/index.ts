@@ -3,7 +3,10 @@ import type { NextFunction, BffProxyOptions } from '@modern-js/types';
 import type { MetaOptions } from '@modern-js/utils';
 import type { TransformOptions } from '@babel/core';
 import type webpack from 'webpack';
-import type { Configuration as WebpackConfiguration } from 'webpack';
+import type {
+  RuleSetRule,
+  Configuration as WebpackConfiguration,
+} from 'webpack';
 import type { ChainIdentifier, WebpackChain } from '@modern-js/webpack';
 import type autoprefixer from 'autoprefixer';
 import type {
@@ -219,16 +222,18 @@ export type WebpackConfig =
   | WebpackConfiguration
   | ((
       config: WebpackConfiguration,
-      // FIXME: utils type
       utils: {
         env: string;
         name: string;
         webpack: typeof webpack;
+        addRules: (rules: RuleSetRule[]) => void;
+        prependPlugins: (plugins: WebpackConfiguration['plugins']) => void;
+        appendPlugins: (plugins: WebpackConfiguration['plugins']) => void;
+        removePlugin: (pluginName: string) => void;
         /**
          * @deprecated please use `tools.webpackChain` instead.
          */
         chain: WebpackChain;
-        [key: string]: any;
       },
     ) => WebpackConfiguration | void);
 
