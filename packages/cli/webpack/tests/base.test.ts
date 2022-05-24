@@ -23,6 +23,17 @@ describe('base webpack config', () => {
     internalSrcAlias: '@_modern_js_src',
   };
 
+  class MyPlugin {
+    name: string;
+
+    constructor() {
+      this.name = 'MyPlugin';
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    apply() {}
+  }
+
   test(`default webpack config`, () => {
     userConfig.source.include = ['query-string'];
 
@@ -129,5 +140,86 @@ describe('base webpack config', () => {
     } as any);
 
     expect(baseConfig.config().name).toEqual('bar');
+  });
+
+  test(`apply tools.webpack and using utils.addRules`, () => {
+    const newRule = {
+      test: /\.foo/,
+      loader: 'foo-loader',
+    };
+    const configFunction: NormalizedConfig['tools']['webpack'] = (
+      config,
+      utils,
+    ) => {
+      utils.addRules([newRule]);
+    };
+
+    const baseConfig = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      tools: {
+        webpack: configFunction,
+      },
+    } as any);
+
+    expect(baseConfig.config().module.rules[0]).toEqual(newRule);
+  });
+
+  test(`apply tools.webpack and using utils.prependPlugins`, () => {
+    const configFunction: NormalizedConfig['tools']['webpack'] = (
+      config,
+      utils,
+    ) => {
+      utils.prependPlugins([new MyPlugin()]);
+    };
+
+    const baseConfig = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      tools: {
+        webpack: configFunction,
+      },
+    } as any);
+
+    expect(baseConfig.config().plugins[0].constructor.name).toEqual('MyPlugin');
+  });
+
+  test(`apply tools.webpack and using utils.appendPlugins`, () => {
+    const configFunction: NormalizedConfig['tools']['webpack'] = (
+      config,
+      utils,
+    ) => {
+      utils.appendPlugins([new MyPlugin()]);
+    };
+
+    const baseConfig = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      tools: {
+        webpack: configFunction,
+      },
+    } as any);
+
+    const { plugins } = baseConfig.config();
+    expect(plugins[plugins.length - 1].constructor.name).toEqual('MyPlugin');
+  });
+
+  test(`apply tools.webpack and using utils.removePlugin`, () => {
+    const configFunction: NormalizedConfig['tools']['webpack'] = (
+      config,
+      utils,
+    ) => {
+      utils.appendPlugins([new MyPlugin()]);
+      utils.removePlugin('MyPlugin');
+    };
+
+    const baseConfig = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      tools: {
+        webpack: configFunction,
+      },
+    } as any);
+
+    const { plugins } = baseConfig.config();
+    expect(
+      plugins[plugins.length - 1].constructor.name === 'MyPlugin',
+    ).toBeFalsy();
   });
 });
