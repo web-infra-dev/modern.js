@@ -8,7 +8,7 @@ sidebar_label: webpack
 MWA。
 :::
 
-- 类型： `Object | (config, { env, name, webpack }) => void`
+- 类型： `Object | (config, utils) => void`
 - 默认值： `undefined`
 
 Modern.js 默认集成了 [webpack](https://webpack.js.org/)，对构建产物进行编译打包等操作，可通过 `tools.webpack` 对其进行配置。
@@ -94,6 +94,79 @@ export default defineConfig({
 建议优先使用该参数来访问 webpack 对象，而不是通过 import 来引入 `webpack`。
 
 如果需要通过 import 引入，则项目里需要单独安装 webpack 依赖，这样可能会导致 webpack 被重复安装，因此不推荐该做法。
+
+### addRules
+
+通常情况下，使用 Modern.js 不需要添加额外的 [webpack rule](https://webpack.js.org/configuration/module/#rule-conditions)。当有额外需求时，可以使用该工具函数添加对应的 rules。
+
+以处理 [cson](https://github.com/groupon/cson-parser) 文件为例：
+
+```typescript title="modern.config.ts"
+export default defineConfig({
+  tools: {
+    webpack: (config, { addRules }) => {
+      addRules([
+        {
+          test: /\.cson/,
+          loader: require.resolve('cson-loader'),
+        },
+      ]);
+    },
+  },
+});
+```
+
+### prependPlugins
+
+在内部 webpack 插件数组头部添加额外的插件：
+
+```typescript title="modern.config.ts"
+export default defineConfig({
+  tools: {
+    webpack: (config, { prependPlugins, webpack }) => {
+      prependPlugins([
+        new webpack.BannerPlugin({
+          banner: 'hello world!',
+        }),
+      ]);
+    },
+  },
+});
+```
+
+### appendPlugins
+
+在内部 webpack 插件数组尾部添加额外的插件：
+
+```typescript title="modern.config.ts"
+export default defineConfig({
+  tools: {
+    webpack: (config, { appendPlugins, webpack }) => {
+      appendPlugins([
+        new webpack.BannerPlugin({
+          banner: 'hello world!',
+        }),
+      ]);
+    },
+  },
+});
+```
+
+### removePlugin
+
+删除内部的 webpack 插件，参数为该插件的 `constructor.name`。
+
+例如，删除内部的 [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin)：
+
+```typescript title="modern.config.ts"
+export default defineConfig({
+  tools: {
+    webpack: (config, { removePlugin }) => {
+      removePlugin('ForkTsCheckerWebpackPlugin');
+    },
+  },
+});
+```
 
 ### chain (废弃)
 
