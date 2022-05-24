@@ -31,8 +31,8 @@ import { createApp } from '@modern-js/runtime/model';
 ### 返回值
 
 - Provider：`React.ComponentType<any>`，React 组件，提供局部 **React Context** 环境。
-- useModel：`function`，获取 **Model** 的 **React Hook** 函数，详见 [**useModel**](../container/use-model)。
-- useStaticModel：`function`，获取 **Model** 的 **React Hook** 函数，详见 [**useStaticModel**](../container/use-static-model)。
+- useModel：`function`，获取 **Model** 的 **React Hook** 函数，详见 [**useModel**](../container/use-model.md)。
+- useStaticModel：`function`，获取 **Model** 的 **React Hook** 函数，详见 [**useStaticModel**](../container/use-static-model.md)。
 
 ## 示例
 
