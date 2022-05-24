@@ -4,7 +4,7 @@ import WebpackChain from 'webpack-chain';
 import GarfishPlugin, { externals } from '../src/cli';
 import type { UseConfig } from '../src/cli';
 import { getRuntimeConfig, makeRenderFunction, setRuntimeConfig } from '../src/cli/utils';
-import { CHAIN_ID } from '@modern-js/webpack';
+import { CHAIN_ID } from '@modern-js/utils';
 
 describe('plugin-garfish cli', () => {
   test('cli garfish basename', async () => {
