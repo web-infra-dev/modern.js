@@ -12,7 +12,7 @@ import { useStaticModel } from '@modern-js/runtime/model';
 :::
 
 ## API
-`useStaticModel` API 形式上与 `useModel` 完全一致。具体使用请参考 [`useModel`](./use-model)。
+`useStaticModel` API 形式上与 `useModel` 完全一致。具体使用请参考 [`useModel`](./use-model.md)。
 
 为了保证总是能获取到最新状态，注意不要对返回的 `state` 结构，`state` 上挂载了 `get` 方法，通过 `state` 才能拿到最新的值。
 
