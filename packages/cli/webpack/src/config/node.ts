@@ -26,9 +26,7 @@ export function filterEntriesBySSRConfig(
       (ssr && ssrByEntries[name] === false) ||
       (!ssr && ssrByEntries[name] !== true)
     ) {
-      if (!ssrByEntries[name] || !ssr) {
-        chain.entryPoints.delete(name);
-      }
+      chain.entryPoints.delete(name);
     }
   });
 }
