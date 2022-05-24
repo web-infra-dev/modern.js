@@ -20,8 +20,8 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@master
         with:
-          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
-          fetch-depth: 0
+        # This makes Actions fetch only one branch to release
+          fetch-depth: 1
 
       - name: Release
         uses: modern-js-dev/actions@main
