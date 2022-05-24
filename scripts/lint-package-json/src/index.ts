@@ -5,6 +5,7 @@ import fs from 'fs-extra';
 import { ROOT } from './utils';
 import { lintExportsField } from './rules/lint-exports-field';
 import { lintWorkspaceProtocol } from './rules/lint-workspace-protocol';
+import { noCyclicWorkspaceDependencies } from './rules/no-cyclic-workspace-dependencies';
 
 export type PackageJSON = {
   path: string;
@@ -35,6 +36,7 @@ async function run() {
   const result = [
     lintExportsField(packageJSONs),
     lintWorkspaceProtocol(packageJSONs),
+    noCyclicWorkspaceDependencies(packageJSONs),
   ];
 
   if (result.some(Boolean)) {
