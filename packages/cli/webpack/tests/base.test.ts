@@ -8,7 +8,7 @@ import { userConfig } from './util';
 
 describe('base webpack config', () => {
   const fixtures = path.resolve(__dirname, './fixtures');
-  const appContext = {
+  const appContext: any = {
     appDirectory: fixtures,
     internalDirectory: '/node_modules/.modern-js',
     srcDirectory: '/src',
@@ -27,7 +27,7 @@ describe('base webpack config', () => {
     userConfig.source.include = ['query-string'];
 
     const config = new BaseWebpackConfig(
-      appContext as any,
+      appContext,
       userConfig as any,
     ).config();
 
@@ -68,18 +68,66 @@ describe('base webpack config', () => {
       expect(webpack.DefinePlugin).toBeTruthy();
     };
 
-    const baseConfig = new BaseWebpackConfig(
-      appContext as any,
-      {
-        ...userConfig,
-        tools: {
-          webpackChain: chainFunction,
-        },
-      } as any,
-    );
+    const baseConfig = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      tools: {
+        webpackChain: chainFunction,
+      },
+    } as any);
 
     baseConfig.applyToolsWebpackChain();
 
     expect(baseConfig.config().name).toEqual('foo');
+  });
+
+  test(`apply tools.webpack with legacy chain usage`, () => {
+    const configFunction: NormalizedConfig['tools']['webpack'] = (
+      config,
+      { chain },
+    ) => {
+      chain.name('foo');
+    };
+
+    const baseConfig = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      tools: {
+        webpack: configFunction,
+      },
+    } as any);
+
+    expect(baseConfig.config().name).toEqual('foo');
+  });
+
+  test(`apply tools.webpack and modify the config object`, () => {
+    const configFunction: NormalizedConfig['tools']['webpack'] = config => {
+      config.name = 'foo';
+    };
+
+    const baseConfig = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      tools: {
+        webpack: configFunction,
+      },
+    } as any);
+
+    expect(baseConfig.config().name).toEqual('foo');
+  });
+
+  test(`apply tools.webpack and return a new config object`, () => {
+    const configFunction: NormalizedConfig['tools']['webpack'] = config => {
+      config.name = 'foo';
+      return {
+        name: 'bar',
+      };
+    };
+
+    const baseConfig = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      tools: {
+        webpack: configFunction,
+      },
+    } as any);
+
+    expect(baseConfig.config().name).toEqual('bar');
   });
 });
