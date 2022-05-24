@@ -1,7 +1,7 @@
 import { getPostcssConfig } from '@modern-js/css-config';
+import { CHAIN_ID } from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
-import type { WebpackChain } from '../compiled';
-import { CHAIN_ID } from '../config/shared';
+import type WebpackChain from '@modern-js/utils/webpack-chain';
 
 export const enableCssExtract = (config: NormalizedConfig) => {
   return config.output.disableCssExtract !== true;

@@ -1,12 +1,12 @@
 import { createBabelChain } from '@modern-js/babel-chain';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import {
+  CHAIN_ID,
   applyOptionsChain,
   isUseSSRBundle,
   removeLeadingSlash,
 } from '@modern-js/utils';
 import { ClientWebpackConfig } from './client';
-import { CHAIN_ID } from './shared';
 
 class ModernWebpackConfig extends ClientWebpackConfig {
   constructor(appContext: IAppContext, options: NormalizedConfig) {
