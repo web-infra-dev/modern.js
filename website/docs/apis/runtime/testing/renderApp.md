@@ -14,7 +14,7 @@ import { renderApp } from '@modern-js/runtime/testing';
 
 ## API
 
-`renderApp` 在 API 层面和 [render](./render) 完全一致。
+`renderApp` 在 API 层面和 [render](./render.md) 完全一致。
 
 ## 示例
 

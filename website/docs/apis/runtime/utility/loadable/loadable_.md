@@ -78,7 +78,7 @@ const LoadableFruit = loadable(() => import('./components'), {
 
 ### LoadableComponent（返回值类型）
 
-[loadableComponent](./loadable-component)。
+[loadableComponent](./loadable-component.md)。
 
 ## loadable.lib
 
@@ -106,5 +106,5 @@ const Moment = loadable.lib(() => import('moment'))
 
 ### LoadableLibrary （返回值类型）
 
-移架 [LoadableLibrary](./loadable-library)。
+移架 [LoadableLibrary](./loadable-library.md)。
 
