@@ -1,5 +1,4 @@
 import Webpack from 'webpack';
-import { DEFAULT_DEV_OPTIONS } from '../constants';
 import { DevServerOptions } from '../types';
 
 const { EntryPlugin } = Webpack;
@@ -11,13 +10,11 @@ export default class DevServerPlugin {
   }
 
   apply(compiler: Webpack.Compiler) {
-    const { options } = this;
+    const { client } = this.options;
 
-    const client = { ...DEFAULT_DEV_OPTIONS.client, ...options.client };
-
-    const host = `&host=${client.host}`;
-    const path = `&path=${client.path}`;
-    const port = `&port=${client.port}`;
+    const host = client.host ? `&host=${client.host}` : '';
+    const path = client.path ? `&path=${client.path}` : '';
+    const port = client.port ? `&port=${client.port}` : '';
 
     const clientEntry = `${require.resolve(
       '@modern-js/hmr-client',
