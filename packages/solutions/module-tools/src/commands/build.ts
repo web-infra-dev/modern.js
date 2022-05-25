@@ -1,6 +1,8 @@
 import * as path from 'path';
 import { fs, Import, dotenv } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
+import onExit from 'signal-exit';
+import { tempTsconfigName } from '../utils/constants';
 import type { Platform } from '../types';
 
 const tsConfigutils: typeof import('../utils/tsconfig') = Import.lazy(
@@ -16,8 +18,25 @@ const buildFeature: typeof import('../features/build') = Import.lazy(
   '../features/build',
   require,
 );
+/**
+ * init work before build task.
+ * @param api
+ */
+export const init = (api: PluginAPI): void => {
+  const { appDirectory } = api.useAppContext();
 
-export interface IBuildOption {
+  dotenv.config();
+
+  onExit(() => {
+    const tempTsconfigFileAbsPath = path.join(
+      appDirectory,
+      `./${tempTsconfigName}`,
+    );
+    fs.removeSync(tempTsconfigFileAbsPath);
+  });
+};
+
+export interface IBuildCommandOption {
   watch: boolean;
   tsconfig: string;
   platform: boolean | Exclude<Platform, 'all'>;
@@ -28,18 +47,21 @@ export interface IBuildOption {
 
 export const build = async (
   api: PluginAPI,
-  {
+  buildCommandOption: IBuildCommandOption,
+) => {
+  const {
     watch = false,
     tsconfig: tsconfigName,
     tsc,
     clear = true,
     platform,
-  }: IBuildOption,
-) => {
+  } = buildCommandOption;
+
+  init(api);
+
   const { appDirectory } = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
   const tsconfigPath = path.join(appDirectory, tsconfigName);
-  dotenv.config();
   const outputPath = modernConfig.output.path ?? 'dist';
   const isTsProject = tsConfigutils.existTsConfigFile(tsconfigPath);
   const enableTscCompiler =
@@ -63,15 +85,4 @@ export const build = async (
     },
     modernConfig,
   );
-
-  process.on('SIGBREAK', () => {
-    console.info('exit');
-    const tempTsconfigFilePath = path.join(
-      appDirectory,
-      './tsconfig.temp.json',
-    );
-    if (fs.existsSync(tempTsconfigFilePath)) {
-      fs.removeSync(tempTsconfigFilePath);
-    }
-  });
 };
