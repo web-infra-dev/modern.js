@@ -3,7 +3,7 @@
 exports[`prettyInstructions The src directory does not exist 1`] = `
 "App running at:
 
-  > Network:  http://127.0.0.1:8080/api
+  > Local:    http://localhost:8080/api
   > Network:  http://11.11.111.11:8080/api
   > Network:  http://10.100.100.100:8080/api
 "
@@ -12,7 +12,7 @@ exports[`prettyInstructions The src directory does not exist 1`] = `
 exports[`prettyInstructions basic usage 1`] = `
 "App running at:
 
-  > Network:  http://127.0.0.1:8080/
+  > Local:    http://localhost:8080/
   > Network:  http://11.11.111.11:8080/
   > Network:  http://10.100.100.100:8080/
 "

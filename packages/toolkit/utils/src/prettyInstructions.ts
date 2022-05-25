@@ -19,22 +19,30 @@ export const isSingleEntry = (entrypoints: EntryPoint[]) =>
 
 const normalizeUrl = (url: string) => url.replace(/([^:]\/)\/+/g, '$1');
 
-const getAddressUrls = (protocol = 'http', port: number) => {
+export const getIpv4Interfaces = () => {
   const interfaces = os.networkInterfaces();
   const ipv4Interfaces: os.NetworkInterfaceInfo[] = [];
+
   Object.keys(interfaces).forEach(key => {
     interfaces[key]!.forEach(detail => {
-      if (detail.family === 'IPv4') {
+      // 'IPv4' is in Node <= 17, from 18 it's a number 4 or 6
+      const familyV4Value = typeof detail.family === 'string' ? 'IPv4' : 4;
+
+      if (detail.family === familyV4Value) {
         ipv4Interfaces.push(detail);
       }
     });
   });
+  return ipv4Interfaces;
+};
 
+const getAddressUrls = (protocol = 'http', port: number) => {
+  const ipv4Interfaces = getIpv4Interfaces();
   return ipv4Interfaces.reduce(
     (memo: { type: string; url: string }[], detail) => {
       let type = 'Network:  ';
       let url = `${protocol}://${detail.address}:${port}`;
-      if (detail.address.includes(`localhost`)) {
+      if (detail.address.includes(`localhost`) || detail.internal) {
         type = 'Local:  ';
         url = `${protocol}://localhost:${port}`;
       }

@@ -20,7 +20,7 @@ import {
   BuildOptions,
 } from '@modern-js/prod-server';
 import { ModernServerContext } from '@modern-js/types';
-import { DEFAULT_DEV_OPTIONS } from '../constants';
+import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import SocketServer from '../dev-tools/socket-server';
 import DevServerPlugin from '../dev-tools/dev-server-plugin';
@@ -54,12 +54,23 @@ export class ModernDevServer extends ModernServer {
     this.compiler = options.compiler!;
 
     // set dev server options, like webpack-dev-server
-    this.dev = {
-      ...DEFAULT_DEV_OPTIONS,
-      ...(typeof options.dev === 'boolean' ? {} : options.dev),
-    };
+    this.dev = this.getDevOptions(options);
 
     enableRegister(this.pwd, this.conf);
+  }
+
+  private getDevOptions(options: ModernDevServerOptions) {
+    const devOptions = typeof options.dev === 'boolean' ? {} : options.dev;
+    const defaultOptions = getDefaultDevOptions();
+
+    return {
+      ...defaultOptions,
+      ...devOptions,
+      client: {
+        ...defaultOptions.client,
+        ...devOptions?.client,
+      },
+    };
   }
 
   // Complete the preparation of services
