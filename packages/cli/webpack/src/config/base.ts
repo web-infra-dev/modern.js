@@ -517,8 +517,11 @@ class BaseWebpackConfig {
             typescriptPath: require.resolve('typescript'),
           },
           issue: {
-            include: [{ file: '**/src/**/*' }],
-            exclude: [{ file: '**/*.(spec|test).ts' }],
+            include: [{ file: '**/src/**/*' }, { file: '**/api/**/*' }],
+            exclude: [
+              { file: '**/*.(spec|test).ts' },
+              { file: '**/node_modules/**/*' },
+            ],
           },
         },
       ]);
