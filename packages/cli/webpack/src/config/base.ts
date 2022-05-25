@@ -518,7 +518,10 @@ class BaseWebpackConfig {
           },
           issue: {
             include: [{ file: '**/src/**/*' }],
-            exclude: [{ file: '**/*.(spec|test).ts' }],
+            exclude: [
+              { file: '**/*.(spec|test).ts' },
+              { file: '**/node_modules/**/*' },
+            ],
           },
         },
       ]);
