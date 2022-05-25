@@ -1,12 +1,5 @@
+import { fs, logger, chalk, isSSR, clearConsole } from '@modern-js/utils';
 import type { Configuration } from '@modern-js/webpack';
-import {
-  fs,
-  logger,
-  HMR_SOCK_PATH,
-  clearConsole,
-  chalk,
-  isSSR,
-} from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 
 import { createCompiler } from '../utils/createCompiler';
@@ -83,10 +76,7 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
       ...{
         client: {
           port: port!.toString(),
-          overlay: false,
           logging: 'none',
-          path: HMR_SOCK_PATH,
-          host: 'localhost',
         },
         devMiddleware: {
           writeToDisk: (file: string) => !file.includes('.hot-update.'),

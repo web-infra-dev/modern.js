@@ -4,11 +4,11 @@ import type Webpack from 'webpack';
 export type DevServerOptions = {
   // hmr client 配置
   client: {
-    port: string;
-    overlay: boolean;
-    logging: string;
-    path: string;
-    host: string;
+    path?: string;
+    port?: string;
+    host?: string;
+    logging?: string;
+    overlay?: boolean;
     progress?: boolean;
   };
   devMiddleware: {
