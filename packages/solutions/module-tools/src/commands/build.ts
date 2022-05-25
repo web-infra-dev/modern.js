@@ -41,7 +41,10 @@ export interface IBuildCommandOption {
   tsconfig: string;
   platform: boolean | Exclude<Platform, 'all'>;
   styleOnly: boolean;
+  // @deprecated
+  // The `tsc` field has been superceded by the `dts` field.
   tsc: boolean;
+  dts: boolean;
   clear: boolean;
 }
 
@@ -53,6 +56,7 @@ export const build = async (
     watch = false,
     tsconfig: tsconfigName,
     tsc,
+    dts,
     clear = true,
     platform,
   } = buildCommandOption;
@@ -64,28 +68,28 @@ export const build = async (
   const tsconfigPath = path.join(appDirectory, tsconfigName);
   const outputPath = modernConfig.output.path ?? 'dist';
   const isTsProject = tsConfigutils.existTsConfigFile(tsconfigPath);
+  // Compatible tsc option, when set --no-dts or --no-tsc, not generator dts files
+  const genDts = dts && tsc;
   // If the project contains a tsconfig configuration file
   // and does not use no-tsc on the cli parameter
   // and `output.disableTsChecker` is not configured, dts generation is performed
-  const enableDtsGen =
-    isTsProject && tsc && !modernConfig.output.disableTsChecker;
+  let enableDtsGen = isTsProject && genDts;
+
+  // when output.disableTsChecker is true, the dts generator close.
+  if (modernConfig.output.disableTsChecker) {
+    enableDtsGen = false;
+  }
 
   valid.valideBeforeTask({ modernConfig, tsconfigPath });
 
-  // TODO: 一些配置只需要从modernConfig中获取
-  await buildFeature.build(
-    api,
-    {
-      appDirectory,
-      enableWatchMode: watch,
-      isTsProject,
-      platform,
-      sourceDir: 'src',
-      tsconfigName,
-      enableDtsGen,
-      clear,
-      outputPath,
-    },
-    modernConfig,
-  );
+  await buildFeature.build(api, {
+    enableWatchMode: watch,
+    isTsProject,
+    platform,
+    sourceDir: 'src',
+    tsconfigName,
+    enableDtsGen,
+    clear,
+    outputPath,
+  });
 };
