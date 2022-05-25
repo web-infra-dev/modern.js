@@ -19,7 +19,7 @@ export const buildInWatchMode = async (
   _: NormalizedConfig,
 ) => {
   const { appDirectory } = api.useAppContext();
-  const { sourceDir, enableTscCompiler } = config;
+  const { sourceDir, enableDtsGen } = config;
   const srcRootDir = path.join(appDirectory, sourceDir);
   const concurrency = os.cpus().length;
   const lm = new lg.LoggerManager();
@@ -41,7 +41,7 @@ export const buildInWatchMode = async (
       initMapper: initCodeMapper,
       srcRootDir,
     }),
-    ...(enableTscCompiler ? utils.getDtsMapper(api, config, dtsLog) : []),
+    ...(enableDtsGen ? utils.getDtsMapper(api, config, dtsLog) : []),
     {
       logger: styleLog,
       taskPath: require.resolve('../../tasks/build-watch-style'),
@@ -54,7 +54,7 @@ export const buildInWatchMode = async (
   ];
   lm.on('data', () => {
     console.info(constants.clearFlag);
-    enableTscCompiler && console.info(dtsLog.value);
+    enableDtsGen && console.info(dtsLog.value);
     console.info(codeLog.value);
     console.info(styleLog.value);
   });

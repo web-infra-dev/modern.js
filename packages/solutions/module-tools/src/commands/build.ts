@@ -64,7 +64,10 @@ export const build = async (
   const tsconfigPath = path.join(appDirectory, tsconfigName);
   const outputPath = modernConfig.output.path ?? 'dist';
   const isTsProject = tsConfigutils.existTsConfigFile(tsconfigPath);
-  const enableTscCompiler =
+  // If the project contains a tsconfig configuration file
+  // and does not use no-tsc on the cli parameter
+  // and `output.disableTsChecker` is not configured, dts generation is performed
+  const enableDtsGen =
     isTsProject && tsc && !modernConfig.output.disableTsChecker;
 
   valid.valideBeforeTask({ modernConfig, tsconfigPath });
@@ -79,7 +82,7 @@ export const build = async (
       platform,
       sourceDir: 'src',
       tsconfigName,
-      enableTscCompiler,
+      enableDtsGen,
       clear,
       outputPath,
     },

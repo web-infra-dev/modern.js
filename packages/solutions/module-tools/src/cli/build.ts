@@ -1,6 +1,6 @@
 import { Import, Command } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
-import type { IBuildOption } from '../commands/build';
+import type { IBuildCommandOption } from '../commands/build';
 
 const local: typeof import('../locale') = Import.lazy(
   '../locale/index',
@@ -33,7 +33,7 @@ export const buildCli = (program: Command, api: PluginAPI) => {
     )
     .option('--no-tsc', local.i18n.t(local.localeKeys.command.build.no_tsc))
     .option('--no-clear', local.i18n.t(local.localeKeys.command.build.no_clear))
-    .action(async (subCommand: IBuildOption) => {
+    .action(async (subCommand: IBuildCommandOption) => {
       await commands.build(api, subCommand);
     });
 };

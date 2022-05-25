@@ -17,7 +17,7 @@ export const buildSourceCode = async (
   config: IBuildConfig,
   _: NormalizedConfig,
 ) => {
-  const { sourceDir, enableTscCompiler } = config;
+  const { sourceDir, enableDtsGen } = config;
   const { appDirectory } = api.useAppContext();
   const concurrency = os.cpus().length;
   const srcRootDir = path.join(appDirectory, sourceDir);
@@ -40,7 +40,7 @@ export const buildSourceCode = async (
       initMapper: initCodeMapper,
       srcRootDir,
     }),
-    ...(enableTscCompiler ? utils.getDtsMapper(api, config, dtsLog) : []),
+    ...(enableDtsGen ? utils.getDtsMapper(api, config, dtsLog) : []),
     {
       logger: styleLog,
       taskPath: require.resolve('../../tasks/build-style'),
@@ -82,7 +82,7 @@ export const buildSourceCode = async (
   );
 
   lm.disappearCompiling();
-  enableTscCompiler && console.info(dtsLog.value);
+  enableDtsGen && console.info(dtsLog.value);
   console.info(codeLog.value);
   if (styleLog.hasMessages()) {
     console.info(styleLog.value);

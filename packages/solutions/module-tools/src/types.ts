@@ -32,7 +32,7 @@ export interface IPackageFields {
 export interface IBuildConfig {
   appDirectory: string;
   platform: boolean | Exclude<Platform, 'all'>;
-  enableTscCompiler: boolean;
+  enableDtsGen: boolean;
   enableWatchMode?: boolean;
   isTsProject: boolean;
   sourceDir: string;
