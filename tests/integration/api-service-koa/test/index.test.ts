@@ -41,6 +41,13 @@ describe('api-service in dev', () => {
     });
   });
 
+  test('support useContext', async () => {
+    const res = await fetch(`${host}:${port}${prefix}/context`);
+    const info = await res.json();
+    expect(res.headers.get('x-id')).toBe('1');
+    expect(info.message).toBe('Hello Modern.js');
+  });
+
   afterAll(async () => {
     await killApp(app);
   });
@@ -81,6 +88,13 @@ describe('api-service in prod', () => {
     expect(data).toEqual({
       message: 'Hello Modern.js',
     });
+  });
+
+  test('support useContext', async () => {
+    const res = await fetch(`${host}:${port}${prefix}/context`);
+    const info = await res.json();
+    expect(res.headers.get('x-id')).toBe('1');
+    expect(info.message).toBe('Hello Modern.js');
   });
 
   afterAll(async () => {

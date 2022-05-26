@@ -157,4 +157,46 @@ describe('configure', () => {
       },
     );
   });
+
+  test('should support params', done => {
+    run({}, async () => {
+      nock(url).get(`${path}/modernjs`).reply(200, response);
+
+      const interceptor = jest.fn(
+        request => (requestPath: any) => request(requestPath),
+      );
+
+      configure({ interceptor: interceptor as any });
+
+      const request = createRequest(`${path}/:id`, method, 8080, undefined);
+      const res = await request('modernjs');
+      const data = await res.json();
+      expect(res instanceof Response).toBe(true);
+      expect(data).toStrictEqual(response);
+      done();
+    });
+  });
+
+  test('should support params with schema', done => {
+    run({}, async () => {
+      nock(url).get(`${path}/modernjs`).reply(200, response);
+
+      const interceptor = jest.fn(
+        request => (requestPath: any) => request(requestPath),
+      );
+
+      configure({ interceptor: interceptor as any });
+
+      const request = createRequest(`${path}/:id`, method, 8080, undefined);
+      const res = await request({
+        params: {
+          id: 'modernjs',
+        },
+      });
+      const data = await res.json();
+      expect(res instanceof Response).toBe(true);
+      expect(data).toStrictEqual(response);
+      done();
+    });
+  });
 });
