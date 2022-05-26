@@ -43,6 +43,13 @@ describe('server config in dev', () => {
     expect(text1).toBe('Hello Modern.js');
   });
 
+  test('support useContext', async () => {
+    const res = await fetch(`${host}:${port}${prefix}/context`);
+    const info = await res.json();
+    expect(res.headers.get('x-id')).toBe('1');
+    expect(info.message).toBe('Hello Modern.js');
+  });
+
   test('support _app.ts', async () => {
     const res = await fetch(`${host}:${port}${prefix}/foo`);
     const text = await res.text();
@@ -88,6 +95,13 @@ describe('server config in prod', () => {
     await page.goto(`${host}:${port}/${SSR_PAGE}`);
     const text1 = await page.$eval('.hello', el => el.textContent);
     expect(text1).toBe('Hello Modern.js');
+  });
+
+  test('support useContext', async () => {
+    const res = await fetch(`${host}:${port}${prefix}/context`);
+    const info = await res.json();
+    expect(res.headers.get('x-id')).toBe('1');
+    expect(info.message).toBe('Hello Modern.js');
   });
 
   test('support _app.ts', async () => {

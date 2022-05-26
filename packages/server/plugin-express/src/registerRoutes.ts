@@ -53,7 +53,6 @@ const registerRoutes = (app: Express) => {
             return await Promise.resolve();
           }
 
-          res.status(200);
           return res.json(body);
         } catch (e) {
           return next(e);
