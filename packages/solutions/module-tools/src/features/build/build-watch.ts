@@ -3,7 +3,7 @@ import * as os from 'os';
 import { execa, Import } from '@modern-js/utils';
 
 import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
-import type { IBuildConfig, ITaskMapper } from '../../types';
+import type { IBuildFeatOption, ITaskMapper } from '../../types';
 
 const lg: typeof import('./logger') = Import.lazy('./logger', require);
 const pMap: typeof import('p-map') = Import.lazy('p-map', require);
@@ -15,7 +15,7 @@ const constants: typeof import('./constants') = Import.lazy(
 
 export const buildInWatchMode = async (
   api: PluginAPI,
-  config: IBuildConfig,
+  config: IBuildFeatOption,
   _: NormalizedConfig,
 ) => {
   const { appDirectory } = api.useAppContext();

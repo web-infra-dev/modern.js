@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as os from 'os';
 import { execa, Import } from '@modern-js/utils';
 import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
-import type { IBuildConfig, ITaskMapper } from '../../types';
+import type { IBuildFeatOption, ITaskMapper } from '../../types';
 
 const pMap: typeof import('p-map') = Import.lazy('p-map', require);
 const utils: typeof import('./utils') = Import.lazy('./utils', require);
@@ -14,7 +14,7 @@ const constants: typeof import('./constants') = Import.lazy(
 
 export const buildSourceCode = async (
   api: PluginAPI,
-  config: IBuildConfig,
+  config: IBuildFeatOption,
   _: NormalizedConfig,
 ) => {
   const { sourceDir, enableDtsGen } = config;

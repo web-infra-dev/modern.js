@@ -5,7 +5,6 @@ import type {
   IAppContext,
   CoreOptions,
 } from '@modern-js/core';
-import type { ModuleToolsOutput } from '../types';
 
 const argv: typeof import('process.argv').default = Import.lazy(
   'process.argv',
@@ -83,7 +82,7 @@ const taskMain = ({
     jsPath = 'js',
     assetsPath = 'styles',
     path: outputPath = 'dist',
-  } = modernConfig.output as ModuleToolsOutput;
+  } = modernConfig.output;
   const srcDir = path.join(appDirectory, SRC_DIRS);
   const outputDirToSrc = path.join(
     appDirectory,

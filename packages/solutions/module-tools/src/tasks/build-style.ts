@@ -6,7 +6,6 @@ import type {
   CoreOptions,
 } from '@modern-js/core';
 import type { ICompilerResult, PostcssOption } from '@modern-js/style-compiler';
-import type { ModuleToolsOutput } from '../types';
 
 const cssConfig: typeof import('@modern-js/css-config') = Import.lazy(
   '@modern-js/css-config',
@@ -94,7 +93,7 @@ const taskMain = async ({
     assetsPath = 'styles',
     path: outputPath = 'dist',
     jsPath = 'js',
-  } = modernConfig.output as ModuleToolsOutput;
+  } = modernConfig.output;
   const { appDirectory } = appContext;
 
   const lessOption = await core
@@ -120,7 +119,7 @@ const taskMain = async ({
     postcssOption.plugins?.push(tailwindPlugin);
   }
 
-  const { importStyle } = modernConfig.output as ModuleToolsOutput;
+  const { importStyle } = modernConfig.output;
   const existStylesDir = checkStylesDirExist({ appDirectory });
   // 编译 styles 目录样式
   if (existStylesDir) {

@@ -1,4 +1,5 @@
-import type { NormalizedBuildConfig, IPackageModeValue } from '../../types';
+import type { IPackageModeValue } from '../../types';
+import { NormalizedBuildConfig } from './types';
 
 // Universal JS 的默认选择，三份构建产物，支持 Node.js，对现代浏览器有优化
 const universalJs: IPackageModeValue[] = [
@@ -63,6 +64,7 @@ export const defaultLibraryPreset: NormalizedBuildConfig[] = [
     tsconfig: 'tsconfig.json',
     watch: false,
     dts: true,
+    outputPath: './',
   },
 ];
 export const defaultComponentPreset: NormalizedBuildConfig[] = [
@@ -77,5 +79,6 @@ export const defaultComponentPreset: NormalizedBuildConfig[] = [
     tsconfig: 'tsconfig.json',
     watch: false,
     dts: true,
+    outputPath: './',
   },
 ];

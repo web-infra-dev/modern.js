@@ -41,9 +41,9 @@ const properties = {
   },
 };
 
-export const moduleSchema = [
+export const buildPresetSchema = [
   {
-    target: 'buildPreset',
+    target: 'output.buildPreset',
     schema: {
       if: {
         type: 'array',

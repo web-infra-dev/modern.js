@@ -3,14 +3,12 @@ import * as os from 'os';
 import { Import, chalk } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type {
-  IBuildConfig,
+  IBuildFeatOption,
   IPackageModeValue,
-  JsSyntaxType,
   ITaskMapper,
-  ModuleToolsConfig,
-  BuildPreset,
-  NormalizedBuildConfig,
 } from '../../types';
+import type { JsSyntaxType, BuildPreset } from '../../schema/types';
+import type { NormalizedBuildConfig } from './types';
 import type { LoggerText } from './logger';
 
 const constants: typeof import('./constants') = Import.lazy(
@@ -35,10 +33,10 @@ const updateMapper = (
   }
 };
 
-export const getCodeInitMapper = (api: PluginAPI, _: IBuildConfig) => {
+export const getCodeInitMapper = (api: PluginAPI, _: IBuildFeatOption) => {
   const {
     output: { packageFields, packageMode },
-  } = api.useResolvedConfigContext() as ModuleToolsConfig;
+  } = api.useResolvedConfigContext();
   let initMapper: IPackageModeValue[] = [];
 
   // 如果不存在packageFields配置或者packageFields为空对象，则使用 packageMode
@@ -95,7 +93,7 @@ export const getCodeMapper = (
     srcRootDir,
     willCompilerDirOrFile,
   }: ITaskMapper & {
-    config: IBuildConfig;
+    config: IBuildFeatOption;
     initMapper: IPackageModeValue[];
     srcRootDir: string;
     willCompilerDirOrFile: string;
@@ -105,7 +103,7 @@ export const getCodeMapper = (
   const modernConfig = api.useResolvedConfigContext();
   const {
     output: { enableSourceMap, jsPath = 'js', path: distDir = 'dist' },
-  } = modernConfig as ModuleToolsConfig;
+  } = modernConfig;
 
   const { tsconfigName = 'tsconfig.json' } = config;
   const tsconfigPath = path.join(appDirectory, tsconfigName);
@@ -139,14 +137,14 @@ export const getCodeMapper = (
 // 获取执行生成 d.ts 的参数
 export const getDtsMapper = (
   api: PluginAPI,
-  config: IBuildConfig,
+  config: IBuildFeatOption,
   logger: LoggerText,
 ) => {
   const { appDirectory } = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
   const {
     output: { disableTsChecker, path: outputPath = 'dist' },
-  } = modernConfig as ModuleToolsConfig;
+  } = modernConfig;
   const { tsconfigName = 'tsconfig.json', enableWatchMode, sourceDir } = config;
   const srcDir = path.join(appDirectory, './src');
   const tsconfigPath = path.join(appDirectory, tsconfigName);
@@ -239,10 +237,21 @@ export class TimeCounter {
     return span < 1000 ? `${span}ms` : `${(span / 1000).toFixed(2)}s`;
   }
 }
+
+export const getNormalizeModuleConfigByPackageModeAndFileds = () => {
+  return [];
+};
+
 export const normalizeModuleConfig = (
   preset?: BuildPreset,
 ): NormalizedBuildConfig[] => {
-  if (preset === 'library' || !preset) {
+  // If the user does not configure output.babelPreset,
+  // the configuration is generated based on packageMode and packageField
+  if (!preset) {
+    return getNormalizeModuleConfigByPackageModeAndFileds();
+  }
+
+  if (preset === 'library') {
     return constants.defaultLibraryPreset;
   } else if (preset === 'component') {
     return constants.defaultComponentPreset;
@@ -271,5 +280,6 @@ export const normalizeModuleConfig = (
       dts,
     };
   });
+
   return normalizedModule;
 };
