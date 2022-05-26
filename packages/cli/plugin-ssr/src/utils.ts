@@ -1,6 +1,9 @@
+import { BaseSSRServerContext } from '@modern-js/types';
 import { SSRServerContext } from './serverRender/type';
 
-export const formatServer = (request: SSRServerContext['request']) => {
+export const formatServer = (
+  request: BaseSSRServerContext['request'],
+): SSRServerContext['request'] => {
   const { cookie, 'user-agent': userAgent, referer } = request.headers || {};
 
   return {
@@ -22,7 +25,9 @@ const getQuery = () =>
       return res;
     }, {});
 
-export const formatClient = (request: SSRServerContext['request']) => {
+export const formatClient = (
+  request: BaseSSRServerContext['request'],
+): SSRServerContext['request'] => {
   return {
     params: request.params || {},
     host: request.host || location.host,

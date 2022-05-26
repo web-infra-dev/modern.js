@@ -52,7 +52,7 @@ export type BaseSSRServerContext = {
     query: Record<string, string>;
     headers: IncomingHttpHeaders;
     host: string;
-    cookie?: string;
+    cookieMap: Record<string, any>;
     [propsName: string]: any;
   };
   redirection: { url?: string; status?: number };
