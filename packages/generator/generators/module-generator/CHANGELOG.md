@@ -1,5 +1,11 @@
 # @modern-js/module-generator
 
+## 2.0.2
+
+### Patch Changes
+
+- a4584574: fix(generators): remove adapters from files.exclude and .gitignore
+
 ## 2.0.1
 
 ### Patch Changes

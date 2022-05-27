@@ -1,5 +1,13 @@
 # @modern-js/utils
 
+## 1.7.6
+
+### Patch Changes
+
+- 6451a098: fix: cyclic dependencies of @modern-js/core and @moden-js/webpack
+- d5a2cfd8: fix(utils): isModernjsMonorepo should return false if there is no package.json
+- 437367c6: fix(server): hmr not working when using proxy
+
 ## 1.7.5
 
 ### Patch Changes

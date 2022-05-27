@@ -1,5 +1,31 @@
 # @modern-js/plugin-ssr
 
+## 1.4.2
+
+### Patch Changes
+
+- 192dbc78: adjust ssr types
+- 7394df61: feat: prebundle @loadable/webpack-plugin and fix peer deps warning
+- Updated dependencies [5f7fccf0]
+- Updated dependencies [02b0a22e]
+- Updated dependencies [da65bf12]
+- Updated dependencies [be7262e2]
+- Updated dependencies [8854c600]
+- Updated dependencies [f7cbc771]
+- Updated dependencies [6451a098]
+- Updated dependencies [f5c48c3f]
+- Updated dependencies [658b4dd5]
+- Updated dependencies [d5a2cfd8]
+- Updated dependencies [45d5643a]
+- Updated dependencies [0d161fa8]
+- Updated dependencies [437367c6]
+- Updated dependencies [280eebf9]
+- Updated dependencies [2ba8d62f]
+- Updated dependencies [7394df61]
+  - @modern-js/webpack@1.9.0
+  - @modern-js/runtime-core@1.4.7
+  - @modern-js/utils@1.7.6
+
 ## 1.4.1
 
 ### Patch Changes
