@@ -37,13 +37,35 @@ function getUseLoaderPath(path: any, calleeName: string) {
     t.isIdentifier(arg1) ||
     t.isCallExpression(arg1)
   ) {
-    return path.get('arguments.0');
+    const loaderPath = path.get('arguments.0');
+    if (isDuplicateInnerLoader(loaderPath)) {
+      return false;
+    } else {
+      return loaderPath;
+    }
   }
 
   console.warn('useLoader 中 loaderId 生成失败，请检查 useLoader');
   throw path.buildCodeFrameError(`
     please check the usage of ${path.node.name}
   `);
+}
+
+// fix: react-refresh 和 export default App 格式的组件写法一起使用时， useLoader 调用会被调用两次，导致生成两个innerLoader
+function isDuplicateInnerLoader(path: any) {
+  const { node } = path;
+  if (t.isFunctionExpression(node.callee)) {
+    if (t.isBlockStatement(node.callee.body)) {
+      if (
+        get(node.callee.body, 'body.0.declarations.0.id.name') ===
+          'innerLoader' &&
+        get(node.callee.body, 'body.2.argument.name') === 'innerLoader'
+      ) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 function getSelfRunLoaderExpression(
@@ -115,7 +137,7 @@ module.exports = function () {
         return false;
       },
       CallExpression(path: any) {
-        let loaderPath = getUseLoaderPath(path, useLoader!);
+        let loaderPath = getUseLoaderPath(path, useLoader);
         if (loaderPath) {
           if (!Array.isArray(loaderPath)) {
             loaderPath = [loaderPath];
