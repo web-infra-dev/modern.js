@@ -21,16 +21,28 @@ export function getWebpackUtils(config: Configuration) {
     addRules(rules: RuleSetRule[]) {
       if (Array.isArray(rules)) {
         config.module?.rules?.unshift(...rules);
+      } else {
+        throw new TypeError(
+          'The argument of `addRules` function should be array type, please check the `tools.webpack` config.',
+        );
       }
     },
     prependPlugins(plugins: Configuration['plugins']) {
       if (Array.isArray(plugins)) {
         config.plugins?.unshift(...plugins);
+      } else {
+        throw new TypeError(
+          'The argument of `prependPlugins` function should be array type, please check the `tools.webpack` config.',
+        );
       }
     },
     appendPlugins(plugins: Configuration['plugins']) {
       if (Array.isArray(plugins)) {
         config.plugins?.push(...plugins);
+      } else {
+        throw new TypeError(
+          'The argument of `appendPlugins` function should be array type, please check the `tools.webpack` config.',
+        );
       }
     },
     removePlugin(pluginName: string) {
