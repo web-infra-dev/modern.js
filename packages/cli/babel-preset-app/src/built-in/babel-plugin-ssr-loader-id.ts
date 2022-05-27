@@ -21,7 +21,7 @@ function getHash(filepath: string) {
   return md5;
 }
 
-function getUseLoaderPath(path: any, calleeName: string) {
+function getUseLoaderPath(path: any, calleeName: string | null) {
   const { node } = path;
 
   if (!calleeName || node.callee.name !== calleeName) {
