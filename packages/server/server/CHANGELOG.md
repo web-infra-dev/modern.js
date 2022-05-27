@@ -1,5 +1,37 @@
 # @modern-js/server
 
+## 1.4.16
+
+### Patch Changes
+
+- f7cbc771: feat: prebundle webpack-dev-middleware
+- cdc2df9c: fix(server): remove launch-editor
+- b39b399e: lock devcert version
+- 430d417e: optimize server side hot reload
+- 437367c6: fix(server): hmr not working when using proxy
+- Updated dependencies [5f7fccf0]
+- Updated dependencies [02b0a22e]
+- Updated dependencies [da65bf12]
+- Updated dependencies [8854c600]
+- Updated dependencies [d57e7622]
+- Updated dependencies [f7cbc771]
+- Updated dependencies [6451a098]
+- Updated dependencies [f5c48c3f]
+- Updated dependencies [430d417e]
+- Updated dependencies [658b4dd5]
+- Updated dependencies [d5a2cfd8]
+- Updated dependencies [45d5643a]
+- Updated dependencies [0d161fa8]
+- Updated dependencies [437367c6]
+- Updated dependencies [280eebf9]
+- Updated dependencies [2ba8d62f]
+- Updated dependencies [7394df61]
+  - @modern-js/webpack@1.9.0
+  - @modern-js/bff-utils@1.2.8
+  - @modern-js/utils@1.7.6
+  - @modern-js/prod-server@1.1.6
+  - @modern-js/server-utils@1.2.9
+
 ## 1.4.15
 
 ### Patch Changes

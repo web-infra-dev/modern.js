@@ -1,5 +1,17 @@
 # @modern-js/testing
 
+## 1.5.3
+
+### Patch Changes
+
+- 4981ce3c: fix(testing): fix setting jest config with function
+- Updated dependencies [6451a098]
+- Updated dependencies [0276ffa2]
+- Updated dependencies [d5a2cfd8]
+- Updated dependencies [437367c6]
+  - @modern-js/utils@1.7.6
+  - @modern-js/babel-preset-app@1.3.4
+
 ## 1.5.2
 
 ### Patch Changes
