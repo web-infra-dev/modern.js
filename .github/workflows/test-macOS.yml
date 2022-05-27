@@ -34,9 +34,7 @@ jobs:
           fetch-depth: 25
 
       - name: Install Pnpm
-        uses: pnpm/action-setup@v2.2.1
-        with:
-          version: 6
+        run: npm install -g pnpm@^6
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
