@@ -1,5 +1,15 @@
 # @modern-js/babel-preset-app
 
+## 1.3.4
+
+### Patch Changes
+
+- 0276ffa2: fix(babel): fix duplicate `useLoader` id by compilation'
+- Updated dependencies [6451a098]
+- Updated dependencies [d5a2cfd8]
+- Updated dependencies [437367c6]
+  - @modern-js/utils@1.7.6
+
 ## 1.3.3
 
 ### Patch Changes

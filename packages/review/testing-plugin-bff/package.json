@@ -37,8 +37,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7",
-    "@modern-js/server": "workspace:^1.4.15",
-    "@modern-js/utils": "workspace:^1.7.5",
+    "@modern-js/server": "workspace:^1.4.16",
+    "@modern-js/utils": "workspace:^1.7.6",
     "jest-environment-node": "^27.2.2",
     "path-to-regexp": "^6.2.0",
     "supertest": "^6.1.6"
@@ -57,8 +57,8 @@
     "typescript": "^4"
   },
   "peerDependencies": {
-    "@modern-js/bff-utils": "workspace:^1.2.6",
-    "@modern-js/testing": "workspace:^1.5.2"
+    "@modern-js/bff-utils": "workspace:^1.2.8",
+    "@modern-js/testing": "workspace:^1.5.3"
   },
   "sideEffects": false,
   "modernConfig": {},

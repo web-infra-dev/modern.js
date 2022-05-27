@@ -1,5 +1,20 @@
 # @modern-js/plugin-bff
 
+## 1.5.1
+
+### Patch Changes
+
+- 6451a098: fix: cyclic dependencies of @modern-js/core and @moden-js/webpack
+- Updated dependencies [d57e7622]
+- Updated dependencies [6451a098]
+- Updated dependencies [bfccb4c8]
+- Updated dependencies [d5a2cfd8]
+- Updated dependencies [437367c6]
+  - @modern-js/bff-utils@1.2.8
+  - @modern-js/utils@1.7.6
+  - @modern-js/create-request@1.2.10
+  - @modern-js/server-utils@1.2.9
+
 ## 1.5.0
 
 ### Minor Changes

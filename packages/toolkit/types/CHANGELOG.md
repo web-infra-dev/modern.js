@@ -1,5 +1,11 @@
 # @modern-js/types
 
+## 1.5.4
+
+### Patch Changes
+
+- 192dbc78: adjust ssr types
+
 ## 1.5.3
 
 ### Patch Changes
