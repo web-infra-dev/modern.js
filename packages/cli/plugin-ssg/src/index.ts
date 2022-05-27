@@ -102,11 +102,11 @@ export default (): CliPlugin => ({
           } else {
             // Unless entryOptions is set to false
             // the default behavior is to add all file-based routes
-            if (entryOptions === false) {
+            if (!entryOptions) {
               return;
             }
 
-            if (!entryOptions || entryOptions === true) {
+            if (entryOptions === true) {
               entryOptions = { preventDefault: [], routes: [], headers: {} };
             }
 
