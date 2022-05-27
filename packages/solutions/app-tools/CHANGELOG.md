@@ -1,5 +1,43 @@
 # @modern-js/app-tools
 
+## 1.6.5
+
+### Patch Changes
+
+- da65bf12: chore: merge plugin-fast-refresh into webpack
+- 437367c6: fix(server): hmr not working when using proxy
+- 7394df61: feat: prebundle @loadable/webpack-plugin and fix peer deps warning
+- Updated dependencies [5f7fccf0]
+- Updated dependencies [02b0a22e]
+- Updated dependencies [f730081c]
+- Updated dependencies [d1ab1f05]
+- Updated dependencies [da65bf12]
+- Updated dependencies [2ec8181a]
+- Updated dependencies [8854c600]
+- Updated dependencies [f7cbc771]
+- Updated dependencies [6451a098]
+- Updated dependencies [cdc2df9c]
+- Updated dependencies [f5c48c3f]
+- Updated dependencies [b39b399e]
+- Updated dependencies [192dbc78]
+- Updated dependencies [430d417e]
+- Updated dependencies [658b4dd5]
+- Updated dependencies [7fcfd6cc]
+- Updated dependencies [d5a2cfd8]
+- Updated dependencies [45d5643a]
+- Updated dependencies [0d161fa8]
+- Updated dependencies [437367c6]
+- Updated dependencies [280eebf9]
+- Updated dependencies [2ba8d62f]
+- Updated dependencies [7394df61]
+  - @modern-js/webpack@1.9.0
+  - @modern-js/core@1.11.1
+  - @modern-js/server@1.4.16
+  - @modern-js/utils@1.7.6
+  - @modern-js/types@1.5.4
+  - @modern-js/prod-server@1.1.6
+  - @modern-js/plugin-analyze@1.4.5
+
 ## 1.6.4
 
 ### Patch Changes

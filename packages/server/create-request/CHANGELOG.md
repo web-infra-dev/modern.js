@@ -1,5 +1,18 @@
 # @modern-js/create-request
 
+## 1.2.10
+
+### Patch Changes
+
+- bfccb4c8: fix: support params for bff schema
+- Updated dependencies [6451a098]
+- Updated dependencies [192dbc78]
+- Updated dependencies [d5a2cfd8]
+- Updated dependencies [437367c6]
+- Updated dependencies [7394df61]
+  - @modern-js/utils@1.7.6
+  - @modern-js/plugin-ssr@1.4.2
+
 ## 1.2.8
 
 ### Patch Changes
