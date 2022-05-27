@@ -2,9 +2,12 @@ import path from 'path';
 import { SpeedyBundler } from '@speedy-js/speedy-core';
 import { CLIConfig, SpeedyPlugin } from '@speedy-js/speedy-types';
 import type { PluginAPI } from '@modern-js/core';
-import { TaskBuildConfig } from '../types';
+import { NormalizedBundleBuildConfig } from '../types';
 
-export const runSpeedy = async (api: PluginAPI, config: TaskBuildConfig) => {
+export const runSpeedy = async (
+  api: PluginAPI,
+  config: NormalizedBundleBuildConfig,
+) => {
   const { appDirectory } = api.useAppContext();
   const {
     output: { path: distPath = 'dist' },

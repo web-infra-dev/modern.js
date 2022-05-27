@@ -1,7 +1,14 @@
 import { BuildConfig, BundleOption } from '../../schema/types';
 
-export type NormalizedBuildConfig = Required<BuildConfig> & {
+export type NormalizedBuildConfig =
+  | NormalizedBundleBuildConfig
+  | NormalizedBundlessBuildConfig;
+
+export type NormalizedBundleBuildConfig = Required<BuildConfig> & {
+  bundle: true;
   bundleOption: Required<BundleOption>;
 };
-
-export type TaskBuildConfig = NormalizedBuildConfig;
+export type NormalizedBundlessBuildConfig = Required<
+  Omit<BuildConfig, 'bundleOption'>
+> &
+  Pick<BuildConfig, 'bundleOption'>;

@@ -53,7 +53,7 @@ export const build = async (
   buildCommandOption: IBuildCommandOption,
 ) => {
   const {
-    watch = false,
+    watch,
     tsconfig: tsconfigName,
     tsc,
     dts,
