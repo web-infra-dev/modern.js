@@ -1,9 +1,10 @@
 import path from 'path';
 import { NormalizedConfig } from '@modern-js/core';
-import type { WebpackChain } from '../src';
+import type WebpackChain from '@modern-js/utils/webpack-chain';
 import { BaseWebpackConfig } from '../src/config/base';
 import { JS_REGEX, TS_REGEX } from '../src/utils/constants';
 import { mergeRegex } from '../src/utils/mergeRegex';
+import { getWebpackUtils } from '../src/config/shared';
 import { userConfig } from './util';
 
 describe('base webpack config', () => {
@@ -221,5 +222,33 @@ describe('base webpack config', () => {
     expect(
       plugins[plugins.length - 1].constructor.name === 'MyPlugin',
     ).toBeFalsy();
+  });
+
+  test('utils.appendPlugins should throw an error with incorrect argument type', () => {
+    const utils = getWebpackUtils({ plugins: [] });
+
+    expect(() => {
+      utils.appendPlugins(new MyPlugin() as any);
+    }).toThrowError();
+  });
+
+  test('utils.prependPlugins should throw an error with incorrect argument type', () => {
+    const utils = getWebpackUtils({ plugins: [] });
+
+    expect(() => {
+      utils.prependPlugins(new MyPlugin() as any);
+    }).toThrowError();
+  });
+
+  test('utils.addRules should throw an error with incorrect argument type', () => {
+    const utils = getWebpackUtils({
+      module: {
+        rules: [],
+      },
+    });
+
+    expect(() => {
+      utils.addRules({} as any);
+    }).toThrowError();
   });
 });
