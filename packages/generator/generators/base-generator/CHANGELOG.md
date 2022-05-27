@@ -1,5 +1,12 @@
 # @modern-js/base-generator
 
+## 1.4.3
+
+### Patch Changes
+
+- a7e8b061: fix: remove some unused settings in vscode settings
+- a4584574: fix(generators): remove adapters from files.exclude and .gitignore
+
 ## 1.4.2
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @modern-js/monorepo-generator
 
+## 2.0.2
+
+### Patch Changes
+
+- a7e8b061: fix: remove some unused settings in vscode settings
+- a4584574: fix(generators): remove adapters from files.exclude and .gitignore
+
 ## 2.0.1
 
 ### Patch Changes

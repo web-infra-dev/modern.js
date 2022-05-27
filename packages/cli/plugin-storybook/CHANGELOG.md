@@ -1,5 +1,33 @@
 # @modern-js/plugin-storybook
 
+## 1.3.10
+
+### Patch Changes
+
+- 6451a098: fix: cyclic dependencies of @modern-js/core and @moden-js/webpack
+- 45d5643a: feat(webpack): support modify html-webpack-plugin
+- Updated dependencies [5f7fccf0]
+- Updated dependencies [02b0a22e]
+- Updated dependencies [f7cbc771]
+- Updated dependencies [da65bf12]
+- Updated dependencies [8854c600]
+- Updated dependencies [f7cbc771]
+- Updated dependencies [6451a098]
+- Updated dependencies [f5c48c3f]
+- Updated dependencies [658b4dd5]
+- Updated dependencies [d5a2cfd8]
+- Updated dependencies [45d5643a]
+- Updated dependencies [0d161fa8]
+- Updated dependencies [437367c6]
+- Updated dependencies [280eebf9]
+- Updated dependencies [2ba8d62f]
+- Updated dependencies [7394df61]
+  - @modern-js/webpack@1.9.0
+  - @modern-js/plugin-state@1.2.8
+  - @modern-js/utils@1.7.6
+  - @modern-js/plugin-router@1.2.14
+  - @modern-js/runtime@1.3.0
+
 ## 1.3.9
 
 ### Patch Changes

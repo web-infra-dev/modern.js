@@ -1,5 +1,17 @@
 # @modern-js/plugin-egg
 
+## 1.5.8
+
+### Patch Changes
+
+- bfccb4c8: fix: bff runtime path not found in development
+- Updated dependencies [d57e7622]
+- Updated dependencies [6451a098]
+- Updated dependencies [d5a2cfd8]
+- Updated dependencies [437367c6]
+  - @modern-js/bff-utils@1.2.8
+  - @modern-js/utils@1.7.6
+
 ## 1.5.7
 
 ### Patch Changes
