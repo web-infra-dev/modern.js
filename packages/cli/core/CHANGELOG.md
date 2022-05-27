@@ -1,5 +1,19 @@
 # @modern-js/core
 
+## 1.11.1
+
+### Patch Changes
+
+- f730081c: feat: modify `RuntimeConfig` type to make it extensible
+- d1ab1f05: fix(core): should not register the `core` command
+- 2ec8181a: fix(core): modern --version get incorrect value
+- 6451a098: fix: cyclic dependencies of @modern-js/core and @moden-js/webpack
+- 7fcfd6cc: fix(core): fix tools.postcss typing
+- Updated dependencies [6451a098]
+- Updated dependencies [d5a2cfd8]
+- Updated dependencies [437367c6]
+  - @modern-js/utils@1.7.6
+
 ## 1.11.0
 
 ### Minor Changes

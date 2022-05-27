@@ -1,5 +1,15 @@
 # @modern-js/babel-preset-lib
 
+## 1.2.7
+
+### Patch Changes
+
+- b02a4c35: fix: fix missing peer deps
+- Updated dependencies [6451a098]
+- Updated dependencies [d5a2cfd8]
+- Updated dependencies [437367c6]
+  - @modern-js/utils@1.7.6
+
 ## 1.2.6
 
 ### Patch Changes

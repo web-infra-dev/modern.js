@@ -1,5 +1,11 @@
 # @modern-js/runtime-core
 
+## 1.4.7
+
+### Patch Changes
+
+- be7262e2: feat(runtime): support to disable `useLoader` cache
+
 ## 1.4.6
 
 ### Patch Changes
