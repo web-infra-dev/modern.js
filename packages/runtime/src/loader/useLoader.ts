@@ -100,6 +100,8 @@ const useLoader = <TData = any, Params = any, E = any>(
       );
 
       loaderRef.current = loaderManager.get(id)!;
+      // unsubscribe old loader onChange event
+      unlistenLoaderChangeRef.current?.();
 
       if (isSSRRender) {
         unlistenLoaderChangeRef.current?.();
@@ -108,7 +110,6 @@ const useLoader = <TData = any, Params = any, E = any>(
 
       // skip this loader, then try to unlisten loader change
       if (options.skip) {
-        unlistenLoaderChangeRef.current?.();
         return undefined;
       }
 
@@ -117,14 +118,11 @@ const useLoader = <TData = any, Params = any, E = any>(
         context._hydration &&
         window?._SSR_DATA?.data?.loadersData[id]?.error === null
       ) {
-        unlistenLoaderChangeRef.current?.();
         return undefined;
       }
 
       const res = loaderRef.current.load();
 
-      // unlisten old loader, and subsribe to new loader
-      unlistenLoaderChangeRef.current?.();
       unlistenLoaderChangeRef.current = loaderRef.current?.onChange(
         (_status, _result) => {
           setResult(_result);
