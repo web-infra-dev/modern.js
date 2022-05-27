@@ -28,6 +28,9 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
     bundle: false,
     watch: false,
     dts: true,
+    bundlessOption: {
+      sourceDir: 'src',
+    },
     tsconfig: './tsconfig.json',
   };
   // When both bundle and bundless products exist, they are distinguished by bundle and bundless directory names by default

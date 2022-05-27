@@ -34,11 +34,16 @@ export type BundleOption = {
   speedyOption?: SpeedyConfig;
 };
 
+export type BundlessOption = {
+  sourceDir?: string;
+};
+
 export type BuildConfig = {
   format?: Format[];
   target?: Target;
   bundle?: boolean;
   bundleOption?: BundleOption;
+  bundlessOption?: BundlessOption;
   tsconfig?: string;
   watch?: boolean;
   dts?: boolean;
