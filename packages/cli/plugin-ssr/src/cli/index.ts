@@ -6,8 +6,9 @@ import {
   isUseSSRBundle,
   createRuntimeExportsUtils,
   PLUGIN_SCHEMAS,
+  isSingleEntry,
 } from '@modern-js/utils';
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, SSGMultiEntryOptions } from '@modern-js/core';
 
 const PLUGIN_IDENTIFIER = 'ssr';
 
@@ -61,23 +62,28 @@ export default (): CliPlugin => ({
       modifyEntryImports({ entrypoint, imports }: any) {
         const { entryName } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
-        const { packageName } = api.useAppContext();
+        const { packageName, entrypoints } = api.useAppContext();
 
         pluginsExportsUtils.addExport(
           `export { default as ssr } from '${ssrModulePath}'`,
         );
 
         // if use ssg then set ssr config to true
-        const ssrConfig =
-          Boolean(userConfig.output.ssg) ||
-          getEntryOptions(
-            entryName,
-            userConfig.server.ssr,
-            userConfig.server.ssrByEntries,
-            packageName,
-          );
-        ssrConfigMap.set(entryName, ssrConfig);
-        if (ssrConfig) {
+        const ssrConfig = getEntryOptions(
+          entryName,
+          userConfig.server.ssr,
+          userConfig.server.ssrByEntries,
+          packageName,
+        );
+
+        const ssgConfig = userConfig.output.ssg;
+        const useSSG = isSingleEntry(entrypoints)
+          ? Boolean(ssgConfig)
+          : ssgConfig === true ||
+            Boolean((ssgConfig as SSGMultiEntryOptions)?.[entryName]);
+
+        ssrConfigMap.set(entryName, ssrConfig || useSSG);
+        if (ssrConfig || useSSG) {
           imports.push({
             value: '@modern-js/runtime/plugins',
             specifiers: [{ imported: PLUGIN_IDENTIFIER }],

@@ -147,10 +147,24 @@ describe('test ssg util function', () => {
     const ssrRoutes = openRouteSSR([
       {
         isSSR: false,
+        entryName: 'a',
       },
     ] as any);
 
-    expect(ssrRoutes[0].isSSR).toBeTruthy();
+    expect(ssrRoutes[0].isSSR).toBeFalsy();
     expect(ssrRoutes[0].bundle).toBeDefined();
+
+    const ssrRoutesByEntries = openRouteSSR(
+      [
+        {
+          isSSR: false,
+          entryName: 'a',
+        },
+      ] as any,
+      ['a'],
+    );
+
+    expect(ssrRoutesByEntries[0].isSSR).toBeTruthy();
+    expect(ssrRoutesByEntries[0].bundle).toBeDefined();
   });
 });
