@@ -1,4 +1,8 @@
-import type { ServerConfig } from '@modern-js/core';
+import type {
+  OutputConfig,
+  ServerConfig,
+  SSGMultiEntryOptions,
+} from '@modern-js/core';
 import {
   CHAIN_ID,
   applyOptionsChain,
@@ -14,18 +18,38 @@ import { enableBundleAnalyzer } from './shared';
 export function filterEntriesBySSRConfig(
   chain: WebpackChain,
   serverConfig?: ServerConfig,
+  outputConfig?: OutputConfig,
 ) {
-  if (!serverConfig?.ssrByEntries) {
+  const entries = chain.entryPoints.entries();
+
+  // if prod and ssg config is true
+  if (isProd() && outputConfig?.ssg === true) {
     return;
   }
 
-  const { ssr, ssrByEntries } = serverConfig;
-  const entries = chain.entryPoints.entries();
+  // if single entry has ssg config
+  const entryNames = Object.keys(entries);
+  if (isProd() && entryNames.length === 1 && outputConfig?.ssg) {
+    return;
+  }
 
-  Object.keys(entries).forEach(name => {
+  // collect all ssg entries
+  const ssgEntries: string[] = [];
+  if (isProd() && outputConfig?.ssg) {
+    const { ssg } = outputConfig;
+    entryNames.forEach(name => {
+      if ((ssg as SSGMultiEntryOptions)[name]) {
+        ssgEntries.push(name);
+      }
+    });
+  }
+
+  const { ssr, ssrByEntries } = serverConfig || {};
+  entryNames.forEach(name => {
     if (
-      (ssr && ssrByEntries[name] === false) ||
-      (!ssr && ssrByEntries[name] !== true)
+      !ssgEntries.includes(name) &&
+      ((ssr && ssrByEntries?.[name] === false) ||
+        (!ssr && ssrByEntries?.[name] !== true))
     ) {
       chain.entryPoints.delete(name);
     }
@@ -47,7 +71,11 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
   entry() {
     super.entry();
-    filterEntriesBySSRConfig(this.chain, this.options.server);
+    filterEntriesBySSRConfig(
+      this.chain,
+      this.options.server,
+      this.options.output,
+    );
   }
 
   output() {

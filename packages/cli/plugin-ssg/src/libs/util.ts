@@ -139,9 +139,9 @@ export const standardOptions = (
   return false;
 };
 
-export const openRouteSSR = (routes: ModernRoute[]) =>
+export const openRouteSSR = (routes: ModernRoute[], entries: string[] = []) =>
   routes.map(ssgRoute => ({
     ...ssgRoute,
-    isSSR: true,
+    isSSR: entries.includes(ssgRoute.entryName!),
     bundle: `${SERVER_BUNDLE_DIRECTORY}/${ssgRoute.entryName as string}.js`,
   }));
