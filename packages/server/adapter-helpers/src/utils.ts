@@ -21,12 +21,12 @@ export const getRelativeRuntimePath = (
   serverRuntimePath: string,
 ) => {
   let relativeRuntimePath = '';
-  // Compatible with babel-plugin-resolver's handling of relative paths on Windows
   if (os.platform() === 'win32') {
-    relativeRuntimePath = path.join(
-      '../../',
-      path.relative(appDirectory, serverRuntimePath),
-    );
+    // isRelative function in babel-plugin-resolver plugin can't handle windows relative path correctly, see babel-plugin-resolver's utils.
+    relativeRuntimePath = `../${path.relative(
+      appDirectory,
+      serverRuntimePath,
+    )}`;
   } else {
     // Look up one level, because the artifacts after build have dist directories
     relativeRuntimePath = path.join(
