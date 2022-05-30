@@ -18,7 +18,8 @@ export const createServer = (
   new Promise((resolve, reject) => {
     // this side of the shallow copy of a route for subsequent render processing, to prevent the modification of the current field
     // manually enable the server-side rendering configuration for all routes that require SSG
-    const backup: ModernRoute[] = openRouteSSR(pageRoutes);
+    const entries = ssgRoutes.map(route => route.entryName!);
+    const backup: ModernRoute[] = openRouteSSR(pageRoutes, entries);
 
     const total = backup.concat(apiRoutes);
 
