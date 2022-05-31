@@ -1,7 +1,7 @@
 import { Server } from 'http';
 import { Socket } from 'net';
 import ws from 'ws';
-import type { Stats } from 'webpack';
+import type { webpack } from '@modern-js/webpack';
 import { logger } from '@modern-js/utils';
 import { DevServerOptions } from '../types';
 
@@ -18,7 +18,7 @@ export default class SocketServer {
 
   private app?: Server;
 
-  private stats?: Stats;
+  private stats?: webpack.Stats;
 
   private timer: NodeJS.Timeout | null = null;
 
