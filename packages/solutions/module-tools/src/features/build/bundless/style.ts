@@ -226,7 +226,7 @@ export const buildStyle = async (
   const { appDirectory } = api.useAppContext();
   const { watch, outputPath, outputStylePath } = config;
   const {
-    output: { path: distPath = 'dist', jsPath = 'js' },
+    output: { path: distPath = 'dist' },
   } = modernConfig;
   const styleDefaultDir = 'styles';
   const lessOption = await core
@@ -308,19 +308,14 @@ export const buildStyle = async (
 
   // compiler src dir
   const srcDir = path.resolve(appDirectory, SRC_STYLE_DIRS);
-  const outputDirToSrc = path.join(
-    appDirectory,
-    distPath,
-    jsPath,
-    styleDefaultDir,
-  );
+  const outputDirToSrc = outputStylePath
+    ? path.join(appDirectory, distPath, outputStylePath)
+    : path.join(appDirectory, distPath, outputPath, 'styles');
   const result = await buildInSrcDir({
     appDirectory,
     srcDir,
     watch,
-    outDir: outputStylePath
-      ? path.join(appDirectory, distPath, outputStylePath)
-      : path.join(appDirectory, distPath, outputPath, 'styles'),
+    outDir: outputDirToSrc,
     lessOption,
     sassOption,
     postcssOption,

@@ -8,6 +8,8 @@ import { isProjectFile } from './utils';
 export interface IImportPathOpts {
   appDirectory: string;
   importStyle?: ImportStyleType;
+  staticDir?: string;
+  styleDir?: string;
 }
 
 const replaceValueHash: Record<string, string> = {};
@@ -19,7 +21,9 @@ const getImportFileDistPath = (
   compilerFile: string,
   srcDir: string,
   importName: string,
+  opts: IImportPathOpts,
 ) => {
+  const { staticDir = 'static', styleDir = 'styles' } = opts;
   const dir = path.dirname(compilerFile);
   const compilerFileRelativeLoc = path.relative(dir, srcDir);
   const importFileRelativeLoc = path.relative(
@@ -30,7 +34,7 @@ const getImportFileDistPath = (
   const importFileDistDir = path.join(
     inSrc ? '..' : '../..',
     compilerFileRelativeLoc,
-    'styles',
+    isStyleFile(importName) ? styleDir : staticDir,
     importFileRelativeLoc,
   );
   const importFileName = path.basename(importName);
@@ -66,8 +70,9 @@ const getReplacePath = (
   importName: string | undefined,
   filename: string | null | undefined,
   srcDir: string,
-  importStyle: string,
+  opts: IImportPathOpts,
 ) => {
+  const { importStyle } = opts;
   if (!filename || !importName) {
     return '';
   }
@@ -80,7 +85,7 @@ const getReplacePath = (
     return '';
   }
 
-  let realFilepath = getImportFileDistPath(filename, srcDir, importName);
+  let realFilepath = getImportFileDistPath(filename, srcDir, importName, opts);
   if (isStyleFile(realFilepath) && importStyle === 'compiled-code') {
     realFilepath = realFilepath.replace(/\.(less|sass|scss)$/, '.css');
   }
@@ -95,8 +100,7 @@ const importPath = () => ({
       nodePath.traverse({
         ImportDeclaration({ node }) {
           const { source } = node;
-          const { appDirectory, importStyle = 'source-code' } =
-            opts as IImportPathOpts;
+          const { appDirectory } = opts as IImportPathOpts;
           const srcDir = path.join(appDirectory, 'src');
           const {
             opts: { filename },
@@ -107,7 +111,7 @@ const importPath = () => ({
             importName,
             filename,
             srcDir,
-            importStyle,
+            opts as IImportPathOpts,
           );
           // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
           const hashKey = filename + (importName || '');
@@ -127,8 +131,7 @@ const importPath = () => ({
         },
         // dynamic import
         CallExpression({ node }) {
-          const { appDirectory, importStyle = 'source-code' } =
-            opts as IImportPathOpts;
+          const { appDirectory } = opts as IImportPathOpts;
           const srcDir = path.join(appDirectory, 'src');
           const { filename } = file.opts;
           const { callee, arguments: args } = node;
@@ -144,7 +147,7 @@ const importPath = () => ({
                 importName,
                 filename,
                 srcDir,
-                importStyle,
+                opts as IImportPathOpts,
               );
 
               // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
