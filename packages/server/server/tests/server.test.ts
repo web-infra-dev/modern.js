@@ -79,7 +79,7 @@ describe('test dev server', () => {
       });
       const modernServer = (server as any).server;
 
-      const len = modernServer.handlers.length;
+      const len: number = modernServer.handlers.length;
 
       const syncHandler = (ctx: ModernServerContext, next: NextFunction) => {
         console.info(ctx.url);
@@ -87,7 +87,7 @@ describe('test dev server', () => {
       };
       modernServer.addHandler(syncHandler);
 
-      const newLen = modernServer.handlers.length;
+      const newLen: number = modernServer.handlers.length;
       expect(len + 1).toBe(newLen);
       expect(modernServer.handlers[newLen - 1]).not.toBe(syncHandler);
 
