@@ -36,6 +36,8 @@ export default defineConfig({
 <script defer src="//${ip}:8080/static/js/main.js"></script>
 ```
 
+设置为 `false` 或不设置，则默认使用 `/` 作为访问前缀。
+
 ### string 类型
 
 当值的类型为 `string` 时，会作为前缀，自动拼接到静态资源访问路径上：
