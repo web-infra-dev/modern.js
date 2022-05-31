@@ -88,22 +88,18 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
   };
 };
 
-interface BootStrap {
-  (App: React.ComponentType, id?: string): Promise<unknown>;
-  (
-    App: React.ComponentType,
-    serverContext: Record<string, unknown>,
-  ): Promise<unknown>;
-}
+type BootStrap<T = unknown> = (
+  App: React.ComponentType,
+  id?: string | Record<string, any>,
+) => Promise<T>;
 
 export const bootstrap: BootStrap = async (
-  BootApp: React.ComponentType,
-
+  BootApp,
   /**
    * When csr, id is root id.
    * When ssr, id is serverContext
    */
-  id: string | any,
+  id,
 ) => {
   let App = BootApp;
   let runner = runnerMap.get(App);
@@ -128,49 +124,57 @@ export const bootstrap: BootStrap = async (
       },
     );
 
-  if (typeof window !== 'undefined') {
-    const ssrData = (window as any)._SSR_DATA;
-    const loadersData = ssrData?.data?.loadersData || {};
+  if (typeof id !== 'object') {
+    if (typeof window !== 'undefined') {
+      const ssrData = (window as any)._SSR_DATA;
+      const loadersData = ssrData?.data?.loadersData || {};
 
-    const initialLoadersState = Object.keys(loadersData).reduce(
-      (res: any, key) => {
-        const loaderData = loadersData[key];
+      const initialLoadersState = Object.keys(loadersData).reduce(
+        (res: any, key) => {
+          const loaderData = loadersData[key];
 
-        if (loaderData.loading !== false) {
+          if (loaderData.loading !== false) {
+            return res;
+          }
+
+          res[key] = loaderData;
           return res;
-        }
+        },
+        {},
+      );
 
-        res[key] = loaderData;
-        return res;
-      },
-      {},
-    );
+      Object.assign(context, {
+        loaderManager: createLoaderManager(initialLoadersState, {
+          skipStatic: true,
+        }),
+        ...(ssrData ? { ssrContext: ssrData?.context } : {}),
+      });
 
-    Object.assign(context, {
-      loaderManager: createLoaderManager(initialLoadersState, {
-        skipStatic: true,
-      }),
-      ...(ssrData ? { ssrContext: ssrData?.context } : {}),
-    });
+      await runInit(context);
 
-    await runInit(context);
+      if (!id) {
+        // don't mount the App, let user in charge of it.
+        return React.createElement(App as React.ComponentType<any>, {
+          context,
+        });
+      }
 
-    if (!id) {
-      return React.createElement(App as React.ComponentType<any>, { context });
+      return runner.client(
+        {
+          App,
+          context,
+          rootElement: document.getElementById(id)!,
+        },
+        {
+          onLast: async ({ App, rootElement }) => {
+            ReactDOM.render(React.createElement(App, { context }), rootElement);
+          },
+        },
+      );
     }
 
-    return runner.client(
-      {
-        App,
-        context,
-        rootElement:
-          typeof id !== 'string' ? id : document.getElementById(id || 'root')!,
-      },
-      {
-        onLast: async ({ App, rootElement }) => {
-          ReactDOM.render(React.createElement(App, { context }), rootElement);
-        },
-      },
+    throw Error(
+      '`bootstrap` should run in browser environment when the second param is not the serverContext',
     );
   }
 
