@@ -1,20 +1,12 @@
+import path from 'path';
 import type { ChildProcess } from 'child_process';
 import { Import, execa, fs, json5, isObject } from '@modern-js/utils';
-import type { NormalizedConfig, CoreOptions } from '@modern-js/core';
-import type { ITsconfig } from '../../types';
+import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
+import type { NormalizedBundlessBuildConfig } from '../../types';
+import type { ITsconfig } from '../../../../types';
 import { getTscBinPath, IGeneratorConfig } from './utils';
 
-const core: typeof import('@modern-js/core') = Import.lazy(
-  '@modern-js/core',
-  require,
-);
-const argv: typeof import('process.argv').default = Import.lazy(
-  'process.argv',
-  require,
-);
 const utils: typeof import('./utils') = Import.lazy('./utils', require);
-
-let removeTsconfigPath = '';
 
 const getProjectTsconfig = (tsconfigPath: string | undefined): ITsconfig => {
   if (!tsconfigPath || !fs.existsSync(tsconfigPath)) {
@@ -54,8 +46,8 @@ const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
   const {
     tsconfigPath,
     distDir,
-    sourceDirName = 'src',
-    projectData: { appDirectory },
+    sourceDir = 'src',
+    appDirectory,
     tsCheck = false,
     watch = false,
   } = config;
@@ -64,9 +56,8 @@ const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
   const willDeleteTsconfigPath = utils.generatorTsConfig(userTsconfig, {
     appDirectory,
     distDir,
-    sourceDir: sourceDirName,
+    sourceDir,
   });
-  removeTsconfigPath = willDeleteTsconfigPath;
   const tscBinFile = getTscBinPath(appDirectory);
 
   const watchParams = watch ? ['-w'] : [];
@@ -98,57 +89,32 @@ const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
   fs.removeSync(willDeleteTsconfigPath);
 };
 
-interface ITaskConfig {
-  srcDir: string;
-  sourceDirName: string;
-  distDir: string;
-  appDirectory: string;
-  tsconfigPath?: string;
-  tsCheck?: boolean;
-  watch?: boolean;
-  debug?: boolean;
-}
-
-const taskMain = async ({
-  modernConfig,
-}: {
-  modernConfig: NormalizedConfig;
-}) => {
-  const processArgv = argv(process.argv.slice(2));
-  const config = processArgv<ITaskConfig>({
-    appDirectory: process.cwd(),
-    srcDir: 'src',
-    distDir: 'dist/types',
-    tsconfigPath: './tsconfig.json',
-    sourceDirName: 'src',
-  });
+export const genDts = async (
+  api: PluginAPI,
+  config: NormalizedBundlessBuildConfig,
+) => {
+  const {
+    outputPath,
+    tsconfig: tsconfigPath,
+    watch,
+    bundlessOption: { sourceDir },
+  } = config;
+  const { appDirectory } = api.useAppContext();
+  const modernConfig = api.useResolvedConfigContext();
+  const {
+    output: { path: distPath = 'dist' },
+  } = modernConfig;
+  const distDir = path.join(appDirectory, distPath, outputPath, 'types');
 
   const option = {
-    srcDir: config.srcDir,
-    distDir: config.distDir,
-    projectData: { appDirectory: config.appDirectory },
-    tsconfigPath: config.tsconfigPath,
-    watch: config.watch,
-    tsCheck: config.tsCheck,
-    sourceDirName: config.sourceDirName,
+    appDirectory,
+    distDir,
+    tsconfigPath,
+    watch,
+    tsCheck: true,
+    sourceDir,
   };
   await generatorDts(modernConfig, option);
-  // // TODO: watch 模式下无法转换
+  // TODO: watch 模式下无法转换
   utils.resolveAlias(modernConfig, option);
 };
-
-(async () => {
-  let options: CoreOptions | undefined;
-  if (process.env.CORE_INIT_OPTION_FILE) {
-    ({ options } = require(process.env.CORE_INIT_OPTION_FILE));
-  }
-  const { resolved } = await core.cli.init([], options);
-  await core.manager.run(async () => {
-    try {
-      await taskMain({ modernConfig: resolved });
-    } catch (e: any) {
-      console.error(e.message);
-      fs.removeSync(removeTsconfigPath);
-    }
-  });
-})();

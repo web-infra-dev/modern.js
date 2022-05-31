@@ -193,6 +193,10 @@ export const normalizeModuleConfig = (
         `src/index.${buildFeatOption.isTsProject ? 'ts' : 'js'}`,
       speedyOption: bundleOption?.speedyOption ?? {},
     };
+    const normalizeBundlessOption = {
+      sourceDir: './src',
+      ...config.bundlessOption,
+    };
     const watch = getFinalWatch(config, buildFeatOption);
     const tsconfig = getFinalTsconfig(config, buildFeatOption);
     const dts = getFinalDts(config, buildFeatOption);
@@ -204,6 +208,7 @@ export const normalizeModuleConfig = (
       target,
       bundle,
       bundleOption: normalizedBundleOption,
+      bundlessOption: normalizeBundlessOption,
       watch,
       tsconfig,
       dts,

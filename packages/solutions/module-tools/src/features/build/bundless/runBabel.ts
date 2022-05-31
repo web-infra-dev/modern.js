@@ -5,6 +5,7 @@ import type {
   BabelOptions,
   IVirtualDist,
   ICompilerResult,
+  BuildWatchEmitter,
 } from '@modern-js/babel-compiler';
 import type { NormalizedBundlessBuildConfig } from '../types';
 import type { ITsconfig } from '../../../types';
@@ -24,6 +25,8 @@ const ts: typeof import('../../../utils/tsconfig') = Import.lazy(
   require,
 );
 
+const logger: typeof import('../logger') = Import.lazy('../logger', require);
+
 export enum Compiler {
   babel,
   esbuild,
@@ -32,12 +35,27 @@ export enum Compiler {
 
 interface IBuildSourceCodeConfig {
   appDirectory: string;
+  watch?: boolean;
   babelConfig: BabelOptions;
   srcRootDir: string;
   willCompilerDirOrFile: string;
   distDir: string;
   tsconfigPath: string;
 }
+
+const getExts = (isTs: boolean, tsconfig: ITsconfig | null) => {
+  // TODO: 是否受控tsconfig.json 里的jsx配置
+  let exts = [];
+  if (isTs) {
+    exts = tsconfig?.compilerOptions?.allowJs
+      ? ['.ts', '.tsx', '.js', '.jsx']
+      : ['.ts', '.tsx'];
+  } else {
+    exts = ['.js', '.jsx'];
+  }
+
+  return exts;
+};
 
 export const getWillCompilerCode = (
   srcDirOrFile: string,
@@ -49,21 +67,7 @@ export const getWillCompilerCode = (
     return [srcDirOrFile];
   }
 
-  const getExts = (isTs: boolean) => {
-    // TODO: 是否受控tsconfig.json 里的jsx配置
-    let exts = [];
-    if (isTs) {
-      exts = tsconfig?.compilerOptions?.allowJs
-        ? ['.ts', '.tsx', '.js', '.jsx']
-        : ['.ts', '.tsx'];
-    } else {
-      exts = ['.js', '.jsx'];
-    }
-
-    return exts;
-  };
-
-  const exts = getExts(isTsProject);
+  const exts = getExts(isTsProject, tsconfig);
   const globPattern = `${srcDirOrFile}/**/*{${exts.join(',')}}`;
   const files = glob.sync(globPattern, {
     ignore: [`${srcDirOrFile}/**/*.d.ts`],
@@ -80,24 +84,43 @@ export const buildSourceCode = async (config: IBuildSourceCodeConfig) => {
     babelConfig,
     srcRootDir,
     distDir,
+    watch,
   } = config;
   const tsconfig = ts.readTsConfig(tsconfigPath);
   const willCompilerFiles = getWillCompilerCode(willCompilerDirOrFile, {
     tsconfig,
     isTsProject: Boolean(tsconfig),
   });
-
-  return babelCompiler.compiler(
-    {
-      quiet: true,
-      enableVirtualDist: true,
-      rootDir: srcRootDir,
-      filenames: willCompilerFiles,
-      distDir,
-      ignore: ['*.d.ts'],
-    },
-    babelConfig,
-  );
+  if (watch) {
+    const emitter = await babelCompiler.compiler(
+      {
+        quiet: true,
+        enableVirtualDist: true,
+        enableWatch: true,
+        rootDir: srcRootDir,
+        filenames: willCompilerFiles,
+        distDir,
+        watchDir: srcRootDir,
+        extensions: getExts(Boolean(tsconfig), tsconfig),
+        ignore: ['*.d.ts'],
+      },
+      babelConfig,
+    );
+    return emitter;
+  } else {
+    return babelCompiler.compiler(
+      {
+        quiet: true,
+        enableVirtualDist: true,
+        rootDir: srcRootDir,
+        filenames: willCompilerFiles,
+        distDir,
+        // enableWatch: watch,
+        ignore: ['*.d.ts'],
+      },
+      babelConfig,
+    );
+  }
 };
 
 const generatorRealFiles = (virtualDists: IVirtualDist[]) => {
@@ -136,6 +159,7 @@ export const runBabelBuild = async (
     target,
     format,
     outputPath,
+    watch,
   } = config;
   const { appDirectory } = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
@@ -177,7 +201,53 @@ export const runBabelBuild = async (
       willCompilerDirOrFile: sourceAbsDir,
       tsconfigPath,
       babelConfig: bc.babelConfig,
+      watch,
     });
-    outputDist(result);
+    if (watch) {
+      const emitter = result as BuildWatchEmitter;
+      console.info(emitter);
+      emitter.on(babelCompiler.BuildWatchEvent.compiling, () => {
+        console.info(logger.clearFlag, `Compiling...`);
+      });
+      emitter.on(
+        babelCompiler.BuildWatchEvent.firstCompiler,
+        (result: ICompilerResult) => {
+          if (result.code === 1) {
+            console.error(logger.clearFlag);
+            console.error(result.message);
+            for (const detail of result.messageDetails || []) {
+              console.error(detail.content);
+            }
+          } else {
+            generatorRealFiles(result.virtualDists!);
+            console.info(logger.clearFlag, '[Babel Compiler]: Successfully');
+          }
+        },
+      );
+      emitter.on(
+        babelCompiler.BuildWatchEvent.watchingCompiler,
+        (result: ICompilerResult) => {
+          if (result.code === 1) {
+            console.error(logger.clearFlag);
+            console.error(result.message);
+            for (const detail of result.messageDetails || []) {
+              console.error(detail.content);
+            }
+            if (
+              Array.isArray(result.virtualDists) &&
+              result.virtualDists?.length > 0
+            ) {
+              generatorRealFiles(result.virtualDists);
+            }
+          } else {
+            generatorRealFiles(result.virtualDists!);
+            console.info(result.message);
+          }
+        },
+      );
+      await emitter.watch();
+    } else {
+      outputDist(result as ICompilerResult);
+    }
   });
 };

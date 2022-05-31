@@ -2,11 +2,18 @@ import path from 'path';
 import { Import, fs } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type { IBuildFeatOption } from '../../types';
+import type {
+  NormalizedBundleBuildConfig,
+  NormalizedBundlessBuildConfig,
+} from './types';
 import { normalizeModuleConfig } from './normalize';
 
 const bundle: typeof import('./bundle') = Import.lazy('./bundle', require);
 
-const bundless: typeof import('./bundle') = Import.lazy('./bundless', require);
+const bundless: typeof import('./bundless') = Import.lazy(
+  './bundless',
+  require,
+);
 
 const bp: typeof import('./build-platform') = Import.lazy(
   './build-platform',
@@ -61,18 +68,19 @@ export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
     { buildFeatOption: config, api },
     buildPreset,
   );
+
   Promise.all(
     normalizedModuleConfig.map(moduleConfig => {
       if (moduleConfig.bundle) {
         return bundle.build(api, {
           ...config,
           ...moduleConfig,
-        });
+        } as NormalizedBundleBuildConfig);
       } else {
         return bundless.build(api, {
           ...config,
           ...moduleConfig,
-        });
+        } as NormalizedBundlessBuildConfig);
       }
     }),
   );
