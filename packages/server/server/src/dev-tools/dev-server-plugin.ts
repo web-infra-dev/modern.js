@@ -1,7 +1,7 @@
-import Webpack from 'webpack';
+import { webpack } from '@modern-js/webpack';
 import { DevServerOptions } from '../types';
 
-const { EntryPlugin } = Webpack;
+const { EntryPlugin } = webpack;
 export default class DevServerPlugin {
   private readonly options: DevServerOptions;
 
@@ -9,7 +9,7 @@ export default class DevServerPlugin {
     this.options = options;
   }
 
-  apply(compiler: Webpack.Compiler) {
+  apply(compiler: webpack.Compiler) {
     const { client } = this.options;
 
     const host = client.host ? `&host=${client.host}` : '';
@@ -34,11 +34,11 @@ export default class DevServerPlugin {
 
     if (
       !compilerOptions.plugins.find(
-        p => p.constructor === Webpack.HotModuleReplacementPlugin,
+        p => p.constructor === webpack.HotModuleReplacementPlugin,
       )
     ) {
       // apply the HMR plugin, if it didn't exist before.
-      const plugin = new Webpack.HotModuleReplacementPlugin();
+      const plugin = new webpack.HotModuleReplacementPlugin();
 
       plugin.apply(compiler);
     }
