@@ -155,6 +155,10 @@ export const bootstrap: BootStrap = async (
 
     await runInit(context);
 
+    if (!id) {
+      return React.createElement(App as React.ComponentType<any>, { context });
+    }
+
     return runner.client(
       {
         App,
