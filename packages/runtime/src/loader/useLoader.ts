@@ -49,7 +49,7 @@ export interface LoaderOptions<
   skip?: boolean;
 
   /**
-   * User params, it will bypass to loader's second parameter.
+   * User params, it will pass to loader's second parameter.
    */
   params?: Params;
 
@@ -72,6 +72,11 @@ const useLoader = <TData = any, Params = any, E = any>(
   const { loaderManager } = context;
   const loaderRef = useRef<Loader>();
   const unlistenLoaderChangeRef = useRef<(() => void) | null>(null);
+
+  // SSR render should ignore `_cache` prop
+  if (isSSRRender && Object.prototype.hasOwnProperty.call(options, '_cache')) {
+    delete (options as any)._cache;
+  }
 
   const load = useCallback(
     (params?: Params) => {
@@ -104,7 +109,6 @@ const useLoader = <TData = any, Params = any, E = any>(
       unlistenLoaderChangeRef.current?.();
 
       if (isSSRRender) {
-        unlistenLoaderChangeRef.current?.();
         return undefined;
       }
 
