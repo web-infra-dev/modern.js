@@ -1,5 +1,5 @@
 import { ModernServerOptions } from '@modern-js/prod-server';
-import type Webpack from 'webpack';
+import type { webpack } from '@modern-js/webpack';
 
 export type DevServerOptions = {
   // hmr client 配置
@@ -27,7 +27,7 @@ export type DevServerOptions = {
 
 export type ExtraOptions = {
   dev?: boolean | Partial<DevServerOptions>;
-  compiler?: Webpack.MultiCompiler | Webpack.Compiler | null;
+  compiler?: webpack.MultiCompiler | webpack.Compiler | null;
 };
 
 export type ModernDevServerOptions = ModernServerOptions & ExtraOptions;
