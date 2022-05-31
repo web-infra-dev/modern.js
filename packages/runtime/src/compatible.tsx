@@ -124,58 +124,58 @@ export const bootstrap: BootStrap = async (
       },
     );
 
-  if (typeof id !== 'object') {
-    if (typeof window !== 'undefined') {
-      const ssrData = (window as any)._SSR_DATA;
-      const loadersData = ssrData?.data?.loadersData || {};
-
-      const initialLoadersState = Object.keys(loadersData).reduce(
-        (res: any, key) => {
-          const loaderData = loadersData[key];
-
-          if (loaderData.loading !== false) {
-            return res;
-          }
-
-          res[key] = loaderData;
-          return res;
-        },
-        {},
-      );
-
-      Object.assign(context, {
-        loaderManager: createLoaderManager(initialLoadersState, {
-          skipStatic: true,
-        }),
-        ...(ssrData ? { ssrContext: ssrData?.context } : {}),
-      });
-
-      await runInit(context);
-
-      if (!id) {
-        // don't mount the App, let user in charge of it.
-        return React.createElement(App as React.ComponentType<any>, {
-          context,
-        });
-      }
-
-      return runner.client(
-        {
-          App,
-          context,
-          rootElement: document.getElementById(id)!,
-        },
-        {
-          onLast: async ({ App, rootElement }) => {
-            ReactDOM.render(React.createElement(App, { context }), rootElement);
-          },
-        },
+  if (typeof id === 'string') {
+    if (typeof window === 'undefined') {
+      throw Error(
+        '`bootstrap` should run in browser environment when the second param is not the serverContext',
       );
     }
 
-    throw Error(
-      '`bootstrap` should run in browser environment when the second param is not the serverContext',
+    const ssrData = (window as any)._SSR_DATA;
+    const loadersData = ssrData?.data?.loadersData || {};
+
+    const initialLoadersState = Object.keys(loadersData).reduce(
+      (res: any, key) => {
+        const loaderData = loadersData[key];
+
+        if (loaderData.loading !== false) {
+          return res;
+        }
+
+        res[key] = loaderData;
+        return res;
+      },
+      {},
     );
+
+    Object.assign(context, {
+      loaderManager: createLoaderManager(initialLoadersState, {
+        skipStatic: true,
+      }),
+      ...(ssrData ? { ssrContext: ssrData?.context } : {}),
+    });
+
+    await runInit(context);
+
+    return runner.client(
+      {
+        App,
+        context,
+        rootElement: document.getElementById(id)!,
+      },
+      {
+        onLast: async ({ App, rootElement }) => {
+          ReactDOM.render(React.createElement(App, { context }), rootElement);
+        },
+      },
+    );
+  }
+
+  if (!id) {
+    // don't mount the App, let user in charge of it.
+    return React.createElement(App as React.ComponentType<any>, {
+      context,
+    });
   }
 
   Object.assign(context, {
