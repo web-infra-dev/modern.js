@@ -4,7 +4,8 @@ import ts from 'typescript';
 import hashbangPlugin from 'rollup-plugin-hashbang';
 import jsonPlugin from '@rollup/plugin-json';
 import { Import } from '@modern-js/utils';
-import { TaskBuildConfig } from '../../../types';
+import type { PluginAPI } from '@modern-js/core';
+import type { NormalizedBundleBuildConfig } from '../types';
 
 const logger: typeof import('../../../features/build/logger') = Import.lazy(
   '../../../features/build/logger',
@@ -34,10 +35,16 @@ type RollupConfig = {
 };
 
 const getRollupConfig = async (
-  options: TaskBuildConfig,
+  api: PluginAPI,
+  options: NormalizedBundleBuildConfig,
 ): Promise<RollupConfig> => {
-  const { appDirectory, outputPath, bundleOption, tsconfig } = options;
-  const distDir = path.join(appDirectory, `./${outputPath}/types`);
+  const { appDirectory } = api.useAppContext();
+  const {
+    output: { path: distPath = 'dist' },
+  } = api.useResolvedConfigContext();
+
+  const { outputPath, bundleOption, tsconfig } = options;
+  const distDir = path.join(appDirectory, distPath, outputPath, `./types`);
   const compilerOptions = loadCompilerOptions(tsconfig);
   const dtsOptions = { entry: bundleOption.entry };
 
@@ -137,10 +144,13 @@ async function watchRollup(options: {
   });
 }
 
-export const startRollup = async (options: TaskBuildConfig) => {
+export const startRollup = async (
+  api: PluginAPI,
+  options: NormalizedBundleBuildConfig,
+) => {
   if (options.dts) {
-    const config = await getRollupConfig(options);
-    if (options.enableWatchMode) {
+    const config = await getRollupConfig(api, options);
+    if (options.watch) {
       watchRollup(config);
     } else {
       await runRollup(config);

@@ -1,16 +1,17 @@
 import path from 'path';
 import { Import, fs } from '@modern-js/utils';
-import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
-import type { IBuildConfig } from '../../types';
-import { normalizeModuleConfig } from './utils';
+import type { PluginAPI } from '@modern-js/core';
+import type { IBuildFeatOption } from '../../types';
+import type {
+  NormalizedBundleBuildConfig,
+  NormalizedBundlessBuildConfig,
+} from './types';
+import { normalizeModuleConfig } from './normalize';
 
-const buildFeature: typeof import('./build') = Import.lazy('./build', require);
-const buildWatchFeature: typeof import('./build-watch') = Import.lazy(
-  './build-watch',
-  require,
-);
-const buildBundleFeature: typeof import('./bundle') = Import.lazy(
-  './bundle',
+const bundle: typeof import('./bundle') = Import.lazy('./bundle', require);
+
+const bundless: typeof import('./bundless') = Import.lazy(
+  './bundless',
   require,
 );
 
@@ -20,7 +21,7 @@ const bp: typeof import('./build-platform') = Import.lazy(
 );
 
 const checkPlatformAndRunBuild = async (
-  platform: IBuildConfig['platform'],
+  platform: IBuildFeatOption['platform'],
   options: { api: PluginAPI; isTsProject: boolean },
 ) => {
   const { api, isTsProject } = options;
@@ -41,20 +42,12 @@ const checkPlatformAndRunBuild = async (
   return { exit: false };
 };
 
-export const build = async (
-  api: PluginAPI,
-  config: IBuildConfig,
-  modernConfig: NormalizedConfig,
-) => {
+export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
+  const { platform, clear = true, isTsProject } = config;
+  const { appDirectory } = api.useAppContext();
+  const modernConfig = api.useResolvedConfigContext();
   const {
-    appDirectory,
-    enableWatchMode,
-    platform,
-    clear = true,
-    isTsProject,
-  } = config;
-  const {
-    output: { path: outputPath = 'dist' },
+    output: { path: outputPath = 'dist', buildPreset },
   } = modernConfig;
 
   const platformBuildRet = await checkPlatformAndRunBuild(platform, {
@@ -72,19 +65,22 @@ export const build = async (
   // should normalize module tool config here, ensure the same config for build
   // TODO: merge cli and module config
   const normalizedModuleConfig = normalizeModuleConfig(
-    modernConfig.buildPreset,
+    { buildFeatOption: config, api },
+    buildPreset,
   );
+
   Promise.all(
     normalizedModuleConfig.map(moduleConfig => {
       if (moduleConfig.bundle) {
-        return buildBundleFeature.buildInBundleMode({
+        return bundle.build(api, {
           ...config,
           ...moduleConfig,
-        });
-      } else if (enableWatchMode) {
-        return buildWatchFeature.buildInWatchMode(api, config, modernConfig);
+        } as NormalizedBundleBuildConfig);
       } else {
-        return buildFeature.buildSourceCode(api, config, modernConfig);
+        return bundless.build(api, {
+          ...config,
+          ...moduleConfig,
+        } as NormalizedBundlessBuildConfig);
       }
     }),
   );
