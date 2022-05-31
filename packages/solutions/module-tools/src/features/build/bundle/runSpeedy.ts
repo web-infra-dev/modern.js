@@ -1,14 +1,27 @@
 import path from 'path';
 import { SpeedyBundler } from '@speedy-js/speedy-core';
 import { CLIConfig, SpeedyPlugin } from '@speedy-js/speedy-types';
-import { TaskBuildConfig } from '../../../types';
+import type { PluginAPI } from '@modern-js/core';
+import { NormalizedBundleBuildConfig } from '../types';
 
-export const runSpeedy = async (config: TaskBuildConfig) => {
-  const { target, watch, bundleOption, appDirectory, outputPath } = config;
+export const runSpeedy = async (
+  api: PluginAPI,
+  config: NormalizedBundleBuildConfig,
+) => {
+  const { appDirectory } = api.useAppContext();
+  const {
+    output: { path: distPath = 'dist' },
+  } = api.useResolvedConfigContext();
+  const { target, watch, bundleOption, outputPath } = config;
   const plugins: SpeedyPlugin[] = [];
   Promise.all([
     ...config.format.map(async format => {
-      const distDir = path.join(appDirectory, `./${outputPath}/${format}`);
+      const distDir = path.join(
+        appDirectory,
+        distPath,
+        outputPath,
+        `./${format}`,
+      );
       const cliConfig: CLIConfig = {
         command: 'build',
         mode: 'production',

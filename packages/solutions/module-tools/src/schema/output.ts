@@ -1,3 +1,5 @@
+import { buildPresetSchema } from './build-preset';
+
 const PACKAGE_MODE_LIST = [
   'universal-js',
   'universal-js-lite',
@@ -34,4 +36,5 @@ export const outputSchema = [
       default: 'styles',
     },
   },
+  ...buildPresetSchema,
 ];

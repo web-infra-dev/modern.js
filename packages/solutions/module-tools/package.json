@@ -82,7 +82,8 @@
     "@speedy-js/speedy-types": "^0.12.1-alpha.4",
     "rollup": "^2.70.2",
     "rollup-plugin-dts": "^4.2.1",
-    "rollup-plugin-hashbang": "^3.0.0"
+    "rollup-plugin-hashbang": "^3.0.0",
+    "signal-exit": "^3.0.7"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
@@ -96,6 +97,7 @@
     "@types/normalize-path": "^3.0.0",
     "@types/react": "^17",
     "@types/react-dom": "^17",
+    "@types/signal-exit": "^3.0.1",
     "jest": "^27",
     "typescript": "^4"
   },

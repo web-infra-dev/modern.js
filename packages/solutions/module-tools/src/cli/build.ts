@@ -1,6 +1,6 @@
 import { Import, Command } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
-import type { IBuildOption } from '../commands/build';
+import type { IBuildCommandOption } from '../commands/build';
 
 const local: typeof import('../locale') = Import.lazy(
   '../locale/index',
@@ -12,7 +12,6 @@ const commands: typeof import('../commands') = Import.lazy(
 );
 
 export const buildCli = (program: Command, api: PluginAPI) => {
-  // TODO: 初始化环境变量
   program
     .command('build')
     .usage('[options]')
@@ -31,9 +30,12 @@ export const buildCli = (program: Command, api: PluginAPI) => {
       '-p, --platform [platform]',
       local.i18n.t(local.localeKeys.command.build.platform),
     )
+    // @deprecated
+    // The `--no-tsc` option has been superceded by the `--no-dts` option.
     .option('--no-tsc', local.i18n.t(local.localeKeys.command.build.no_tsc))
+    .option('--no-dts', local.i18n.t(local.localeKeys.command.build.no_tsc))
     .option('--no-clear', local.i18n.t(local.localeKeys.command.build.no_clear))
-    .action(async (subCommand: IBuildOption) => {
+    .action(async (subCommand: IBuildCommandOption) => {
       await commands.build(api, subCommand);
     });
 };

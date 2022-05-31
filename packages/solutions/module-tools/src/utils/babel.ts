@@ -4,7 +4,7 @@ import {
 } from '@modern-js/babel-preset-module';
 import { applyOptionsChain, getAlias, isUseSSRBundle } from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
-import { IPackageModeValue, ModuleToolsConfig } from '../types';
+import { IPackageModeValue } from '../types';
 
 export const getFinalAlias: any = (
   modernConfig: NormalizedConfig,
@@ -37,9 +37,9 @@ export const resolveBabelConfig = (
 ) => {
   const {
     source: { envVars, globalVars, jsxTransformRuntime = 'automatic' },
-    output: { importStyle },
+    output: { importStyle, enableSourceMap },
     tools: { lodash: userLodashOption, styledComponents },
-  } = modernConfig as ModuleToolsConfig;
+  } = modernConfig;
 
   // alias config
   const aliasConfig = getFinalAlias(modernConfig, {
@@ -83,6 +83,7 @@ export const resolveBabelConfig = (
 
   // Preventing warning when files are too large
   internalBabelConfig.compact = false;
+  internalBabelConfig.sourceMaps = enableSourceMap || undefined;
 
   const userBabelConfig = modernConfig.tools.babel;
   return applyUserBabelConfig(internalBabelConfig, userBabelConfig);
