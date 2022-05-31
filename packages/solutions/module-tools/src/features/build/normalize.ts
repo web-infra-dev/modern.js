@@ -32,6 +32,9 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
       sourceDir: 'src',
     },
     tsconfig: './tsconfig.json',
+    // Compatible field, to be removed in the next release, not visible to users
+    ignoreSingleFormatDir: true,
+    outputStylePath: 'js/styles',
   };
   // When both bundle and bundless products exist, they are distinguished by bundle and bundless directory names by default
   if (
