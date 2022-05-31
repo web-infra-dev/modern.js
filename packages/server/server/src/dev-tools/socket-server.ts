@@ -70,7 +70,7 @@ export default class SocketServer {
     });
   }
 
-  public updateStats(stats: Stats) {
+  public updateStats(stats: webpack.Stats) {
     this.stats = stats;
     this.sendStats();
   }
