@@ -1,21 +1,10 @@
 import * as path from 'path';
 import { fs, watch, glob, WatchChangeType, Import } from '@modern-js/utils';
-import type {
-  NormalizedConfig,
-  IAppContext,
-  CoreOptions,
-} from '@modern-js/core';
+import type { PluginAPI } from '@modern-js/core';
+import { NormalizedBundlessBuildConfig } from '../types';
 
-const argv: typeof import('process.argv').default = Import.lazy(
-  'process.argv',
-  require,
-);
-const core: typeof import('@modern-js/core') = Import.lazy(
-  '@modern-js/core',
-  require,
-);
-const copyUtils: typeof import('../utils/copy') = Import.lazy(
-  '../utils/copy',
+const copyUtils: typeof import('../../../utils/copy') = Import.lazy(
+  '../../../utils/copy',
   require,
 );
 
@@ -68,27 +57,22 @@ const watchAssets = ({
   );
 };
 
-const taskMain = ({
-  modernConfig,
-  appContext,
-}: {
-  modernConfig: NormalizedConfig;
-  appContext: IAppContext;
-}) => {
-  const processArgv = argv(process.argv.slice(2));
-  const config = processArgv<{ watch?: boolean }>({});
+export const copyStaticAssets = (
+  api: PluginAPI,
+  config: NormalizedBundlessBuildConfig,
+) => {
+  const appContext = api.useAppContext();
+  const modernConfig = api.useResolvedConfigContext();
   const { appDirectory } = appContext;
-  const {
-    jsPath = 'js',
-    assetsPath = 'styles',
-    path: outputPath = 'dist',
-  } = modernConfig.output;
+  const { assetsPath = 'styles', path: distPath = 'dist' } =
+    modernConfig.output;
+  const { outputPath } = config;
   const srcDir = path.join(appDirectory, SRC_DIRS);
   const outputDirToSrc = path.join(
     appDirectory,
+    distPath,
     outputPath,
-    jsPath,
-    assetsPath,
+    'static',
   );
 
   const styleDir = path.join(appDirectory, STYLE_DIRS);
@@ -101,21 +85,3 @@ const taskMain = ({
     watchAssets({ targetDir: styleDir, outputDir: outputDirToStyle });
   }
 };
-
-(async () => {
-  let options: CoreOptions | undefined;
-  if (process.env.CORE_INIT_OPTION_FILE) {
-    ({ options } = require(process.env.CORE_INIT_OPTION_FILE));
-  }
-  const { resolved: modernConfig, appContext } = await core.cli.init(
-    [],
-    options,
-  );
-  core.manager.run(() => {
-    try {
-      taskMain({ modernConfig, appContext });
-    } catch (e: any) {
-      console.error(e.message);
-    }
-  });
-})();

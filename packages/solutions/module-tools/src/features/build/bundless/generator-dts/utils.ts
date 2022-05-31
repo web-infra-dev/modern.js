@@ -2,28 +2,25 @@ import * as path from 'path';
 import { Import, glob, fs } from '@modern-js/utils';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import type { NormalizedConfig } from '@modern-js/core';
-import type { ITsconfig } from '../../types';
+import type { ITsconfig } from '../../../../types';
 
-const babel: typeof import('../../utils/babel') = Import.lazy(
-  '../../utils/babel',
+const babel: typeof import('../../../../utils/babel') = Import.lazy(
+  '../../../../utils/babel',
   require,
 );
 
-const tsPathsTransform: typeof import('../../utils/tspaths-transform') =
-  Import.lazy('../../utils/tspaths-transform', require);
+const tsPathsTransform: typeof import('../../../../utils/tspaths-transform') =
+  Import.lazy('../../../../utils/tspaths-transform', require);
 
-const constants: typeof import('../constants') = Import.lazy(
-  '../constants',
+const constants: typeof import('../../../../utils/constants') = Import.lazy(
+  '../../../../utils/constants',
   require,
 );
 
 export interface IGeneratorConfig {
-  sourceDirName?: string;
-  srcDir: string;
+  appDirectory: string;
+  sourceDir?: string;
   distDir: string;
-  projectData: {
-    appDirectory: string;
-  };
   tsconfigPath?: string;
   tsCheck?: boolean;
   watch?: boolean;
@@ -102,10 +99,9 @@ export const resolveAlias = (
       ? watchFilenames
       : glob.sync(dtsDistPath, { absolute: true });
   const alias = babel.getFinalAlias(modernConfig, {
-    appDirectory: config.projectData.appDirectory,
+    appDirectory: config.appDirectory,
     tsconfigPath:
-      config.tsconfigPath ||
-      path.join(config.projectData.appDirectory, './tsconfig.json'),
+      config.tsconfigPath || path.join(config.appDirectory, './tsconfig.json'),
     sourceAbsDir: config.distDir,
   });
   const mergedPaths = alias.isTsPath
@@ -113,7 +109,7 @@ export const resolveAlias = (
     : { ...defaultPaths, ...(alias.paths || {}) };
   const result = tsPathsTransform.transformDtsAlias({
     filenames: dtsFilenames,
-    baseUrl: path.join(config.projectData.appDirectory, output.path || 'dist'),
+    baseUrl: path.join(config.appDirectory, output.path || 'dist'),
     paths: mergedPaths,
   });
   for (const r of result) {

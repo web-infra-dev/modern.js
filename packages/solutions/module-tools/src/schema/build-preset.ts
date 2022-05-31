@@ -39,18 +39,31 @@ const properties = {
       },
     },
   },
+  bundlessOption: {
+    type: 'object',
+    properties: {
+      sourceDir: {
+        type: 'string',
+      },
+    },
+  },
+  outputPath: { type: 'string' },
 };
 
-export const moduleSchema = [
+export const buildPresetSchema = [
   {
-    target: 'buildPreset',
+    target: 'output.buildPreset',
     schema: {
       if: {
         type: 'array',
-        items: [{ type: 'object', properties }],
       },
-      elseIf: { type: 'object', properties },
-      else: { enum: ['library', 'component'] },
+      then: { items: [{ type: 'object', properties }] },
+      else: {
+        oneOf: [
+          { type: 'object', properties },
+          { enum: ['library', 'component'] },
+        ],
+      },
     },
   },
 ];
