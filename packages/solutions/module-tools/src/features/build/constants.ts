@@ -1,38 +1,48 @@
-import type { NormalizedBuildConfig, IPackageModeValue } from '../../types';
+import { NormalizedBuildConfig, NormalizedBundlessBuildConfig } from './types';
 
 // Universal JS 的默认选择，三份构建产物，支持 Node.js，对现代浏览器有优化
-const universalJs: IPackageModeValue[] = [
-  { type: 'module', syntax: 'es5', outDir: 'treeshaking' },
-  { type: 'commonjs', syntax: 'es6+', outDir: 'node' },
-  { type: 'module', syntax: 'es6+', outDir: 'modern' },
+const universalJs: Pick<
+  NormalizedBundlessBuildConfig,
+  'format' | 'target' | 'outputPath'
+>[] = [
+  { format: ['esm'], target: 'es5', outputPath: './js/treeshaking' },
+  { format: ['cjs'], target: 'es6', outputPath: './js/node' },
+  { format: ['esm'], target: 'es6', outputPath: './js/modern' },
 ];
 
 // Universal JS 的优化选择，两份构建产物，对现代浏览器无优化
-const universalJsLite: IPackageModeValue[] = [
-  { type: 'module', syntax: 'es5', outDir: 'treeshaking' },
-  { type: 'commonjs', syntax: 'es6+', outDir: 'node', copyDirs: ['modern'] },
+const universalJsLite: Pick<
+  NormalizedBundlessBuildConfig,
+  'format' | 'target' | 'outputPath'
+>[] = [
+  { format: ['esm'], target: 'es5', outputPath: './js/treeshaking' },
+  { format: ['cjs'], target: 'es6', outputPath: './js/node' },
+  { format: ['cjs'], target: 'es6', outputPath: './js/modern' },
 ];
 
 // 纯前端代码的默认选择，两份构建产物
-const browserJs: IPackageModeValue[] = [
-  { type: 'module', syntax: 'es5', outDir: 'treeshaking', copyDirs: ['node'] },
-  { type: 'module', syntax: 'es6+', outDir: 'modern' },
+const browserJs: Pick<
+  NormalizedBundlessBuildConfig,
+  'format' | 'target' | 'outputPath'
+>[] = [
+  { format: ['esm'], target: 'es5', outputPath: './js/treeshaking' },
+  { format: ['esm'], target: 'es5', outputPath: './js/node' },
+  { format: ['esm'], target: 'es6', outputPath: './js/modern' },
 ];
 
 // 纯前端代码的优化选择，单份构建产物，对现代浏览器无优化
-const browserJsLite: IPackageModeValue[] = [
-  {
-    type: 'module',
-    syntax: 'es5',
-    outDir: 'treeshaking',
-    copyDirs: ['modern', 'node'],
-  },
-];
+const browserJsLite: Pick<
+  NormalizedBundlessBuildConfig,
+  'format' | 'target' | 'outputPath'
+>[] = [{ format: ['esm'], target: 'es5', outputPath: './js/treeshaking' }];
 
 // 纯 Node.js 代码的默认选择，两份构建产物
-const nodeJs: IPackageModeValue[] = [
-  { type: 'commonjs', syntax: 'es6+', outDir: 'node' },
-  { type: 'module', syntax: 'es6+', outDir: 'modern' },
+const nodeJs: Pick<
+  NormalizedBundlessBuildConfig,
+  'format' | 'target' | 'outputPath'
+>[] = [
+  { format: ['cjs'], target: 'es6', outputPath: './js/node' },
+  { format: ['esm'], target: 'es6', outputPath: './js/modern' },
 ];
 
 export const DEFAULT_PACKAGE_MODE = 'universal-js';
@@ -55,7 +65,7 @@ export const defaultLibraryPreset: NormalizedBuildConfig[] = [
   {
     format: ['esm', 'cjs'],
     target: 'esnext',
-    bundle: false,
+    bundle: true,
     bundleOption: {
       entry: 'src/index.ts',
       speedyOption: {},
@@ -63,13 +73,14 @@ export const defaultLibraryPreset: NormalizedBuildConfig[] = [
     tsconfig: 'tsconfig.json',
     watch: false,
     dts: true,
+    outputPath: './',
   },
 ];
 export const defaultComponentPreset: NormalizedBuildConfig[] = [
   {
     format: ['esm', 'cjs', 'iife'],
     target: 'esnext',
-    bundle: false,
+    bundle: true,
     bundleOption: {
       entry: 'src/index.ts',
       speedyOption: {},
@@ -77,5 +88,9 @@ export const defaultComponentPreset: NormalizedBuildConfig[] = [
     tsconfig: 'tsconfig.json',
     watch: false,
     dts: true,
+    outputPath: './',
   },
 ];
+
+export const defaultBundleDirname = 'bundle';
+export const defaultBundlessDirname = 'bundless';
