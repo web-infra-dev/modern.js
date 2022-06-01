@@ -137,13 +137,6 @@ export class ModernServer implements ModernServerInterface {
 
     const { distDir, staticGenerate, conf } = this;
 
-    // Todo: why add this middleware
-    this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
-      ctx.res.setHeader('Access-Control-Allow-Origin', '*');
-      ctx.res.setHeader('Access-Control-Allow-Credentials', 'false');
-      next();
-    });
-
     debug('final server conf', this.conf);
     // proxy handler, each proxy has own handler
     this.proxyHandler = createProxyHandler(conf.bff?.proxy as BffProxyOptions);
