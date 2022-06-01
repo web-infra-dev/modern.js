@@ -17,6 +17,8 @@ MWA。
 
 `.sass`、`.scss` 和 `.less` 文件的处理规则与 `.css` 文件一致，也会受到 `disableCssModuleExtension` 的影响。
 
+开启 `disableCssModuleExtension` 后，CSS Modules 和普通 CSS 文件无法得到明确的区分，因此不推荐开启该配置项。
+
 ## 示例
 
 ```js title="modern.config.js"
