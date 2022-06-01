@@ -2,6 +2,11 @@ import { CHAIN_ID } from '@modern-js/utils';
 import type { Configuration, RuleSetRule } from 'webpack';
 import type WebpackChain from '@modern-js/utils/webpack-chain';
 import { BundleAnalyzerPlugin } from '../../compiled/webpack-bundle-analyzer';
+import {
+  CSS_REGEX,
+  CSS_MODULE_REGEX,
+  NODE_MODULES_REGEX,
+} from '../utils/constants';
 
 export function enableBundleAnalyzer(
   config: WebpackChain,
@@ -52,3 +57,8 @@ export function getWebpackUtils(config: Configuration) {
     },
   };
 }
+
+export const isNodeModulesCss = (path: string) =>
+  NODE_MODULES_REGEX.test(path) &&
+  CSS_REGEX.test(path) &&
+  !CSS_MODULE_REGEX.test(path);
