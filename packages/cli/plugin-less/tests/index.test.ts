@@ -1,6 +1,6 @@
 import path from 'path';
 import { manager } from '@modern-js/core';
-import plugin from '../src/cli';
+import plugin, { isNodeModulesLess } from '../src/cli';
 
 const root = path.normalize(path.resolve(__dirname, '../../../../'));
 expect.addSnapshotSerializer({
@@ -35,5 +35,20 @@ describe('plugin less test', () => {
     const runner = await main.init();
     const result = await runner.config();
     expect(result).toMatchSnapshot();
+  });
+});
+
+describe('css rule utils', () => {
+  it('should test `.less` file in node_modules correctly', () => {
+    expect(isNodeModulesLess('node_modules/foo/bar.less')).toEqual(true);
+    expect(isNodeModulesLess('node_modules/foo/bar.module.less')).toEqual(
+      false,
+    );
+    expect(isNodeModulesLess('node_module/foo/bar.less')).toEqual(false);
+    expect(isNodeModulesLess('src/foo/bar.less')).toEqual(false);
+    expect(isNodeModulesLess('src/foo/bar.module.less')).toEqual(false);
+    expect(isNodeModulesLess('node_modules/foo/bar.js')).toEqual(false);
+    expect(isNodeModulesLess('node_modules/foo/bar.css')).toEqual(false);
+    expect(isNodeModulesLess('node_modules/foo/bar.scss')).toEqual(false);
   });
 });

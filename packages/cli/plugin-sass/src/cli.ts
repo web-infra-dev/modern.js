@@ -1,6 +1,16 @@
 import { Import, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 
+const SASS_REGEX = /\.s(a|c)ss$/;
+const SASS_MODULE_REGEX = /\.module\.s(a|c)ss$/;
+const GLOBAL_SASS_REGEX = /\.global\.s(a|c)ss$/;
+const NODE_MODULES_REGEX = /node_modules/;
+
+export const isNodeModulesSass = (path: string) =>
+  NODE_MODULES_REGEX.test(path) &&
+  SASS_REGEX.test(path) &&
+  !SASS_MODULE_REGEX.test(path);
+
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-sass',
 
@@ -13,11 +23,6 @@ export default (): CliPlugin => ({
       './module-sass-config',
       require,
     );
-
-    const SASS_REGEX = /\.s(a|c)ss$/;
-    const SASS_MODULE_REGEX = /\.module\.s(a|c)ss$/;
-    const GLOBAL_SASS_REGEX = /\.global\.s(a|c)ss$/;
-    const NODE_MODULES_SASS_REGEX = /node_modules[\\/].+\.s(a|c)ss$/;
 
     return {
       validateSchema() {
@@ -38,37 +43,19 @@ export default (): CliPlugin => ({
 
               const loaders = chain.module.rule(RULE.LOADERS);
 
-              loaders
-                .oneOf(ONE_OF.SASS)
-                .before(ONE_OF.FALLBACK)
-                // when disableCssModuleExtension is true,
-                // only transfer *.global.sa(c)ss and node_modules/**/*.sa(c)ss
-                .test(
-                  disableCssModuleExtension
-                    ? [NODE_MODULES_SASS_REGEX, GLOBAL_SASS_REGEX]
-                    : SASS_REGEX,
-                )
-                .merge({
-                  exclude: SASS_MODULE_REGEX,
-                  use: [
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-expect-error webpack-chain missing minimizers type
-                    ...loaders.oneOf(ONE_OF.CSS).toConfig().use,
-                    {
-                      loader: require.resolve('sass-loader'),
-                      options: sassOptions,
-                    },
-                  ],
-                });
-
+              // Rule test order:
+              // SASS_MODULES -> SASS -> FALLBACK
               loaders
                 .oneOf(ONE_OF.SASS_MODULES)
+                .before(ONE_OF.SASS)
                 .before(ONE_OF.FALLBACK)
+                .test(
+                  disableCssModuleExtension ? SASS_REGEX : SASS_MODULE_REGEX,
+                )
                 .merge({
-                  test: disableCssModuleExtension
-                    ? SASS_REGEX
-                    : SASS_MODULE_REGEX,
-                  exclude: [/node_modules/, GLOBAL_SASS_REGEX],
+                  exclude: disableCssModuleExtension
+                    ? [isNodeModulesSass, GLOBAL_SASS_REGEX]
+                    : [],
                   use: [
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-expect-error webpack-chain missing minimizers type
@@ -81,9 +68,20 @@ export default (): CliPlugin => ({
                 });
 
               loaders
-                .oneOf(ONE_OF.FALLBACK)
-                .exclude.add(SASS_REGEX)
-                .add(SASS_MODULE_REGEX);
+                .oneOf(ONE_OF.SASS)
+                .before(ONE_OF.FALLBACK)
+                .test(SASS_MODULE_REGEX)
+                .merge({
+                  use: [
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-expect-error webpack-chain missing minimizers type
+                    ...loaders.oneOf(ONE_OF.CSS).toConfig().use,
+                    {
+                      loader: require.resolve('sass-loader'),
+                      options: sassOptions,
+                    },
+                  ],
+                });
             },
           },
         };
