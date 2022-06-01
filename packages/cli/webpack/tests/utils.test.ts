@@ -2,7 +2,7 @@ import { memoize } from '../src/utils/memoize';
 import { mergeRegex } from '../src/utils/mergeRegex';
 import { getBabelOptions } from '../src/utils/getBabelOptions';
 import { verifyTsConfigPaths } from '../src/utils/getWebpackAliases';
-import { NODE_MODULES_CSS_REGEX } from '../src/utils/constants';
+import { isNodeModulesCss } from '../src/config/shared';
 
 jest.mock('@modern-js/utils', () => {
   const originalModule = jest.requireActual('@modern-js/utils');
@@ -88,25 +88,15 @@ describe('memoize', () => {
   });
 });
 
-describe('CSS RegExp', () => {
+describe('css rule utils', () => {
   it('should test `.css` file in node_modules correctly', () => {
-    expect(NODE_MODULES_CSS_REGEX.test('node_modules/foo/bar.css')).toEqual(
-      true,
-    );
-
-    expect(NODE_MODULES_CSS_REGEX.test('node_module/foo/bar.css')).toEqual(
-      false,
-    );
-    expect(NODE_MODULES_CSS_REGEX.test('node_modules_foo.css')).toEqual(false);
-    expect(NODE_MODULES_CSS_REGEX.test('src/foo/bar.css')).toEqual(false);
-    expect(NODE_MODULES_CSS_REGEX.test('node_modules/foo/bar.js')).toEqual(
-      false,
-    );
-    expect(NODE_MODULES_CSS_REGEX.test('node_modules/foo/bar.less')).toEqual(
-      false,
-    );
-    expect(NODE_MODULES_CSS_REGEX.test('node_modules/foo/bar.scss')).toEqual(
-      false,
-    );
+    expect(isNodeModulesCss('node_modules/foo/bar.css')).toEqual(true);
+    expect(isNodeModulesCss('node_modules/foo/bar.module.css')).toEqual(false);
+    expect(isNodeModulesCss('node_module/foo/bar.css')).toEqual(false);
+    expect(isNodeModulesCss('src/foo/bar.css')).toEqual(false);
+    expect(isNodeModulesCss('src/foo/bar.module.css')).toEqual(false);
+    expect(isNodeModulesCss('node_modules/foo/bar.js')).toEqual(false);
+    expect(isNodeModulesCss('node_modules/foo/bar.less')).toEqual(false);
+    expect(isNodeModulesCss('node_modules/foo/bar.scss')).toEqual(false);
   });
 });

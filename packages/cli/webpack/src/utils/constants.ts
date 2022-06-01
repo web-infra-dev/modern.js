@@ -4,14 +4,14 @@ export const CSS_MODULE_REGEX = /\.module\.css$/;
 
 export const GLOBAL_CSS_REGEX = /\.global\.css$/;
 
-export const NODE_MODULES_CSS_REGEX = /node_modules[\\/].+\.css$/;
-
 export const JS_REGEX = /\.(js|mjs|jsx)$/;
 
 export const TS_REGEX = /\.tsx?$/;
 
 export const ASSETS_REGEX =
   /\.(woff|woff2|eot|ttf|otf|ttc|gif|png|jpe?g|webp|bmp|ico)$/i;
+
+export const NODE_MODULES_REGEX = /node_modules/;
 
 export const ICON_EXTENSIONS = ['png', 'jpg', 'jpeg', 'svg', 'ico'];
 
