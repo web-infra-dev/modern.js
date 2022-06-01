@@ -7,6 +7,15 @@ import { mergeRegex } from '../src/utils/mergeRegex';
 import { getWebpackUtils } from '../src/config/shared';
 import { userConfig } from './util';
 
+const mockNodeEnv = (value: string) => {
+  const { NODE_ENV } = process.env;
+  process.env.NODE_ENV = value;
+
+  return function restore() {
+    process.env.NODE_ENV = NODE_ENV;
+  };
+};
+
 describe('base webpack config', () => {
   const fixtures = path.resolve(__dirname, './fixtures');
   const appContext: any = {
@@ -250,5 +259,47 @@ describe('base webpack config', () => {
     expect(() => {
       utils.addRules({} as any);
     }).toThrowError();
+  });
+
+  test(`should using output.assetPrefix as publicPath in dev`, () => {
+    const restore = mockNodeEnv('development');
+
+    const baseConfig = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      dev: {
+        ...userConfig.dev,
+        assetPrefix: 'https://dev/',
+      },
+      output: {
+        ...userConfig.output,
+        assetPrefix: 'https://prod/',
+      },
+    } as any);
+
+    const { output } = baseConfig.config();
+    expect(output.publicPath).toEqual('https://dev/');
+
+    restore();
+  });
+
+  test(`should using dev.assetPrefix as publicPath in prod`, () => {
+    const restore = mockNodeEnv('production');
+
+    const baseConfig = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      dev: {
+        ...userConfig.dev,
+        assetPrefix: 'https://dev/',
+      },
+      output: {
+        ...userConfig.output,
+        assetPrefix: 'https://prod/',
+      },
+    } as any);
+
+    const { output } = baseConfig.config();
+    expect(output.publicPath).toEqual('https://prod/');
+
+    restore();
   });
 });
