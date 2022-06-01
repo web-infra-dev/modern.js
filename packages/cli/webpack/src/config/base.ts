@@ -209,20 +209,21 @@ class BaseWebpackConfig {
   }
 
   publicPath() {
-    let publicPath =
-      /* eslint-disable no-nested-ternary */
-      isProd()
-        ? this.options.output
-          ? this.options.output.assetPrefix!
-          : ''
-        : isString(this.options.dev?.assetPrefix)
-        ? this.options.dev.assetPrefix
-        : (this.options.dev ? this.options.dev.assetPrefix : '')
-        ? `//${this.appContext.ip || 'localhost'}:${
-            this.appContext.port || '8080'
-          }/`
-        : '/';
-    /* eslint-enable no-nested-ternary */
+    const { dev, output } = this.options;
+
+    let publicPath = '/';
+
+    if (isProd()) {
+      if (output?.assetPrefix) {
+        publicPath = output.assetPrefix;
+      }
+    } else if (isString(dev?.assetPrefix)) {
+      publicPath = dev.assetPrefix;
+    } else if (dev?.assetPrefix === true) {
+      const ip = this.appContext.ip || 'localhost';
+      const port = this.appContext.port || '8080';
+      publicPath = `//${ip}:${port}/`;
+    }
 
     if (!publicPath.endsWith('/')) {
       publicPath += '/';
