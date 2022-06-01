@@ -6,11 +6,12 @@ jest.mock('react-dom', () => ({
 }));
 
 describe('bootstrap', () => {
-  it('Component not created by `createApp`', async () => {
+  it('Only return App Comoonent by `createApp`', async () => {
     function App() {
       return <div>App</div>;
     }
 
-    await expect(bootstrap(App)).resolves.not.toBeDefined();
+    const result = await bootstrap(App);
+    expect(React.isValidElement(result as any)).toBe(true);
   });
 });
