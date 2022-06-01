@@ -5,15 +5,19 @@ sidebar_label: disableCssModuleExtension
 # output.disableCssModuleExtension
 
 :::info 适用的工程方案
-* MWA
+MWA。
 :::
 
-* 类型： `boolean`
-* 默认值： `false`
+- 类型： `boolean`
+- 默认值： `false`
 
-默认情况下只有 `*.module.(css|scss|sass|less)` 结尾的文件才被视作 CSS Modules 模块。
+默认情况下只有 `*.module.css` 结尾的文件才被视为 CSS Modules 模块。
 
-开启该功能之后，会将 `*.(css|scss|sass|less)` 样式文件也当做 CSS Modules 模块，具体配置如下:
+开启该功能之后，会将 `*.css` 样式文件也当做 CSS Modules 模块，
+
+`.sass`、`.scss` 和 `.less` 文件的处理规则与 `.css` 文件一致，也会受到 `disableCssModuleExtension` 的影响。
+
+## 示例
 
 ```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
@@ -24,3 +28,30 @@ export default defineConfig({
   },
 });
 ```
+
+## 详细规则
+
+以下是对 CSS Modules 判断规则的详细解释：
+
+### 未开启 disableCssModuleExtension（默认）
+
+以下文件会视为 CSS Modules：
+
+- 所有 `*.module.css` 文件
+
+以下文件会视为普通 CSS：
+
+- 所有 `*.css` 文件（不含 `.module`）
+- 所有 `*.global.css` 文件
+
+### 开启 disableCssModuleExtension
+
+以下文件会视为 CSS Modules：
+
+- 源码目录下的 `*.css` 和 `*.module.css` 文件
+- node_modules 下的 `*.module.css` 文件
+
+以下文件会视为普通 CSS：
+
+- 所有 `*.global.css` 文件
+- node_modules 下的 `*.css` 文件（不含 `.module`）
