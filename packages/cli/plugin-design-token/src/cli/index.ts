@@ -90,10 +90,6 @@ export default (): CliPlugin => ({
                 imported: PLUGIN_IDENTIFIER,
               },
             ],
-          });
-          imports.push({
-            value: '@modern-js/runtime/theme',
-            specifiers: [{ imported: 'theme' }],
             initialize: `
   const designTokens = ${JSON.stringify(designTokens)};
             `,
