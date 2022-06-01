@@ -33,7 +33,6 @@ import {
   GLOBAL_CSS_REGEX,
   JS_RESOLVE_EXTENSIONS,
   CACHE_DIRECTORY,
-  NODE_MODULES_CSS_REGEX,
 } from '../utils/constants';
 import { createCSSRule, enableCssExtract } from '../utils/createCSSRule';
 import { mergeRegex } from '../utils/mergeRegex';
@@ -43,7 +42,7 @@ import { ModuleScopePlugin } from '../plugins/module-scope-plugin';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
 import { TsConfigPathsPlugin } from '../plugins/ts-config-paths-plugin';
 import { getWebpackAliases } from '../utils/getWebpackAliases';
-import { getWebpackUtils } from './shared';
+import { getWebpackUtils, isNodeModulesCss } from './shared';
 
 export type ResolveAlias = { [index: string]: string };
 
@@ -317,30 +316,7 @@ class BaseWebpackConfig {
     const disableCssModuleExtension =
       this.options.output?.disableCssModuleExtension ?? false;
 
-    // css
-    createCSSRule(
-      this.chain,
-      {
-        appDirectory: this.appDirectory,
-        config: this.options,
-      },
-      {
-        name: ONE_OF.CSS,
-        // when disableCssModuleExtension is true,
-        // only transfer *.global.css and node_modules/**/*.css
-        test: disableCssModuleExtension
-          ? [NODE_MODULES_CSS_REGEX, GLOBAL_CSS_REGEX]
-          : CSS_REGEX,
-        exclude: [CSS_MODULE_REGEX],
-      },
-      {
-        importLoaders: 1,
-        esModule: false,
-        sourceMap: isProd() && !this.options.output?.disableSourceMap,
-      },
-    );
-
-    // css modules
+    // CSS modules
     createCSSRule(
       this.chain,
       {
@@ -351,7 +327,7 @@ class BaseWebpackConfig {
         name: ONE_OF.CSS_MODULES,
         test: disableCssModuleExtension ? CSS_REGEX : CSS_MODULE_REGEX,
         exclude: disableCssModuleExtension
-          ? [/node_modules/, GLOBAL_CSS_REGEX]
+          ? [isNodeModulesCss, GLOBAL_CSS_REGEX]
           : [],
         genTSD: this.options.output?.enableCssModuleTSDeclaration,
       },
@@ -364,6 +340,24 @@ class BaseWebpackConfig {
             : '',
           exportLocalsConvention: 'camelCase',
         },
+        sourceMap: isProd() && !this.options.output?.disableSourceMap,
+      },
+    );
+
+    // CSS (not modules)
+    createCSSRule(
+      this.chain,
+      {
+        appDirectory: this.appDirectory,
+        config: this.options,
+      },
+      {
+        name: ONE_OF.CSS,
+        test: CSS_REGEX,
+      },
+      {
+        importLoaders: 1,
+        esModule: false,
         sourceMap: isProd() && !this.options.output?.disableSourceMap,
       },
     );
@@ -466,7 +460,6 @@ class BaseWebpackConfig {
       .add(JS_REGEX)
       .add(TS_REGEX)
       .add(CSS_REGEX)
-      .add(CSS_MODULE_REGEX)
       .add(/\.(html?|json|wasm|ya?ml|toml|md)$/)
       .end()
       .use(USE.FILE)

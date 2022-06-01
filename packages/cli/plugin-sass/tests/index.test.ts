@@ -1,6 +1,6 @@
 import path from 'path';
 import { manager } from '@modern-js/core';
-import plugin from '../src/cli';
+import plugin, { isNodeModulesSass } from '../src/cli';
 
 const root = path.normalize(path.resolve(__dirname, '../../../../'));
 expect.addSnapshotSerializer({
@@ -35,5 +35,21 @@ describe('plugin sass test', () => {
     const runner = await main.init();
     const result = await runner.config();
     expect(result).toMatchSnapshot();
+  });
+});
+
+describe('css rule utils', () => {
+  it('should test `.scss` and `.sass` file in node_modules correctly', () => {
+    expect(isNodeModulesSass('node_modules/foo/bar.scss')).toEqual(true);
+    expect(isNodeModulesSass('node_modules/foo/bar.sass')).toEqual(true);
+    expect(isNodeModulesSass('node_modules/foo/bar.module.scss')).toEqual(
+      false,
+    );
+    expect(isNodeModulesSass('node_module/foo/bar.scss')).toEqual(false);
+    expect(isNodeModulesSass('src/foo/bar.scss')).toEqual(false);
+    expect(isNodeModulesSass('src/foo/bar.module.scss')).toEqual(false);
+    expect(isNodeModulesSass('node_modules/foo/bar.js')).toEqual(false);
+    expect(isNodeModulesSass('node_modules/foo/bar.css')).toEqual(false);
+    expect(isNodeModulesSass('node_modules/foo/bar.less')).toEqual(false);
   });
 });
