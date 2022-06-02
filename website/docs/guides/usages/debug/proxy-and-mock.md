@@ -130,15 +130,10 @@ Modern.js 提供了开箱即用的全局代理插件 `@modern-js/plugin-proxy`�
 安装代理插件并配置代理规则后， 执行 `pnpm run dev` 命令：
 
 ```bash
-Compiled successfully in 3178ms
-
   App running at:
 
   Local:    http://localhost:8080/
   Network:  http://192.168.0.1:8080/
-
-Note that the development build is not optimized.
-To create a production build, execute build command.
 
 ℹ  info      Starting the proxy server.....
 ✔  success   Proxy Server start on localhost:8899
