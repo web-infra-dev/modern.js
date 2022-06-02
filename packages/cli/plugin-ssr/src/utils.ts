@@ -4,7 +4,11 @@ import { SSRServerContext } from './serverRender/type';
 export const formatServer = (
   request: BaseSSRServerContext['request'],
 ): SSRServerContext['request'] => {
-  const { cookie, 'user-agent': userAgent, referer } = request.headers || {};
+  const {
+    cookie = '',
+    'user-agent': userAgent = '',
+    referer,
+  } = request.headers || {};
 
   return {
     cookie,

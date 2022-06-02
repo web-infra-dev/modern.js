@@ -1,5 +1,11 @@
 # @modern-js/plugin-design-token
 
+## 1.0.9
+
+### Patch Changes
+
+- 835e5d072: remove theme imports
+
 ## 1.0.8
 
 ### Patch Changes

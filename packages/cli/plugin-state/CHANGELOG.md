@@ -1,5 +1,11 @@
 # @modern-js/plugin-state
 
+## 1.2.9
+
+### Patch Changes
+
+- 37250cb8f: feat: supply `AppConfig` types
+
 ## 1.2.8
 
 ### Patch Changes

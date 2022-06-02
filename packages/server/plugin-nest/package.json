@@ -44,7 +44,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@modern-js/adapter-helpers": "workspace:^1.2.4",
+    "@modern-js/adapter-helpers": "workspace:^1.2.5",
     "@modern-js/utils": "workspace:^1.7.6",
     "@nestjs/platform-express": "^8.0.6",
     "@types/type-is": "^1.6.3",

@@ -1,5 +1,12 @@
 # @modern-js/plugin-sass
 
+## 1.3.1
+
+### Patch Changes
+
+- ed90859ba: fix: failed to compile css modules in node_modules
+- 9b8b60846: fix(sass): incorrect regexp for normal sass file
+
 ## 1.3.0
 
 ### Minor Changes
