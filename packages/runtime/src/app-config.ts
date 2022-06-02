@@ -1,7 +1,8 @@
 import type React from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AppConfig {}
+export interface AppConfig {
+  [key: string]: any;
+}
 
 const APP_CONFIG_SYMBOL = 'config';
 export const getConfig = (

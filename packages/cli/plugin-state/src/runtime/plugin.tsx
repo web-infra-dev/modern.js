@@ -19,9 +19,9 @@ declare module '@modern-js/runtime-core' {
   }
 }
 
-type PluginProps = Parameters<typeof createStore>[0];
+export type StateConfig = Parameters<typeof createStore>[0];
 
-const state = (config: PluginProps): Plugin => ({
+const state = (config: StateConfig): Plugin => ({
   name: '@modern-js/plugin-state',
   setup: () => {
     return {
