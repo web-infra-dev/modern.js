@@ -1,5 +1,18 @@
 # @modern-js/server
 
+## 1.4.17
+
+### Patch Changes
+
+- d4afeba71: fix: remove cors for prod-server
+- f8e713253: fix(server): using correct webpack instance
+- Updated dependencies [6c8ab42dd]
+- Updated dependencies [ed90859ba]
+- Updated dependencies [0ef2431cb]
+- Updated dependencies [d4afeba71]
+  - @modern-js/webpack@1.9.1
+  - @modern-js/prod-server@1.1.7
+
 ## 1.4.16
 
 ### Patch Changes

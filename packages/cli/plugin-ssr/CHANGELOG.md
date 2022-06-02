@@ -1,5 +1,20 @@
 # @modern-js/plugin-ssr
 
+## 1.4.4
+
+### Patch Changes
+
+- 6c8ab42dd: optimize whether to do SSR bundle
+- fc43fef39: fix ssr types
+- Updated dependencies [6c8ab42dd]
+- Updated dependencies [808baede3]
+- Updated dependencies [ed90859ba]
+- Updated dependencies [0ef2431cb]
+- Updated dependencies [37250cb8f]
+- Updated dependencies [a204922e8]
+  - @modern-js/webpack@1.9.1
+  - @modern-js/runtime-core@1.4.8
+
 ## 1.4.2
 
 ### Patch Changes
