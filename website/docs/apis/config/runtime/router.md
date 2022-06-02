@@ -53,4 +53,4 @@ export type RouterConfig =  {
 * 类型： `BrowserHistoryBuildOptions | HashHistoryBuildOptions`
 * 默认值： 默认会根据当前入口路由设置 basename。
 
-historyOptions 具体配置可以参考: `[history](https://github.com/remix-run/history/blob/v4/docs/Misc.md)`
+historyOptions 具体配置可以参考: [history](https://github.com/remix-run/history/blob/v4/docs/Misc.md)
