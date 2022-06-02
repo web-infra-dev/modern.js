@@ -92,7 +92,7 @@
   },
   "peerDependencies": {
     "@modern-js/plugin-router": "workspace:^1.2.14",
-    "@modern-js/runtime-core": "workspace:^1.4.7",
+    "@modern-js/runtime-core": "workspace:^1.4.8",
     "react": "^17"
   },
   "sideEffects": false,

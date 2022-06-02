@@ -1,5 +1,11 @@
 # @modern-js/prod-server
 
+## 1.1.7
+
+### Patch Changes
+
+- d4afeba71: fix: remove cors for prod-server
+
 ## 1.1.6
 
 ### Patch Changes
