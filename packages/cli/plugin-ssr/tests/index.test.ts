@@ -44,7 +44,7 @@ describe('plugin-ssr', () => {
       ...request,
       referer: undefined,
       cookie: 'header-cookie',
-      userAgent: undefined,
+      userAgent: '',
     });
   });
 });
