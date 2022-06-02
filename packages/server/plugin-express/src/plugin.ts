@@ -15,8 +15,6 @@ interface FrameConfig {
   middleware: (RequestHandler | string)[];
 }
 
-export type Mode = 'function' | 'framework';
-
 const findAppModule = async (apiDir: string) => {
   const exts = ['.ts', '.js'];
   const paths = exts.map(ext => path.resolve(apiDir, `app${ext}`));

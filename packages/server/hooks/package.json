@@ -32,6 +32,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.15.4",
+    "@modern-js/bff-runtime": "workspace:^1.2.3",
+    "@modern-js/bff-utils": "workspace:^1.2.8",
+    "@modern-js/utils": "workspace:^1.7.6",
     "http-errors": "^2.0.0",
     "koa-compose": "^4.1.0",
     "reflect-metadata": "^0.1.13"

@@ -47,4 +47,5 @@ export const validateFunction = (maybeFunc: unknown, name: string) => {
   if (typeof maybeFunc !== 'function') {
     throw new ERR_INVALID_ARG_TYPE(name, 'function', maybeFunc);
   }
+  return true;
 };

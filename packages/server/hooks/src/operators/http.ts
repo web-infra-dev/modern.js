@@ -1,5 +1,11 @@
 import { z } from 'zod';
-import { HttpMetadata, Operator } from '../types';
+import {
+  HttpMetadata,
+  Operator,
+  OperatorType,
+  HttpMethod,
+  TriggerType,
+} from '../types';
 import { ValidationError } from '../errors';
 
 const validateInput = async <T>(schema: z.ZodType<T>, input: unknown) => {
@@ -13,14 +19,30 @@ const validateInput = async <T>(schema: z.ZodType<T>, input: unknown) => {
   }
 };
 
-// export const Get = (urlPath: string) => {
-//   return {
-//     name: 'get',
-//     metadata({ setMetadata }){
-//       setMetadata(HttpMetadata.Get, schema);
-//     }
-//   }
-// }
+export const createHttpOperator = (method: HttpMethod) => {
+  return (urlPath: string): Operator<void> => {
+    return {
+      name: method,
+      metadata({ setMetadata }) {
+        setMetadata(OperatorType.Trigger, {
+          type: TriggerType.Http,
+          path: urlPath,
+          method,
+        });
+      },
+    };
+  };
+};
+
+export const Get = createHttpOperator(HttpMethod.Get);
+export const Post = createHttpOperator(HttpMethod.Post);
+export const Put = createHttpOperator(HttpMethod.Put);
+export const Delete = createHttpOperator(HttpMethod.Delete);
+export const Connect = createHttpOperator(HttpMethod.Connect);
+export const Trace = createHttpOperator(HttpMethod.Trace);
+export const Patch = createHttpOperator(HttpMethod.Patch);
+export const Option = createHttpOperator(HttpMethod.Option);
+export const Head = createHttpOperator(HttpMethod.Head);
 
 export const Data = <T>(
   schema: z.ZodType<T>,
@@ -47,9 +69,9 @@ export const Query = <T>(
   query: T;
 }> => {
   return {
-    name: HttpMetadata.QUERY,
+    name: HttpMetadata.Query,
     metadata({ setMetadata }) {
-      setMetadata(HttpMetadata.QUERY, schema);
+      setMetadata(HttpMetadata.Query, schema);
     },
     async validate(helper, next) {
       const { inputs } = helper;
@@ -66,9 +88,9 @@ export const Params = <T>(
   params: T;
 }> => {
   return {
-    name: HttpMetadata.PARAMS,
+    name: HttpMetadata.Params,
     metadata({ setMetadata }) {
-      setMetadata(HttpMetadata.PARAMS, schema);
+      setMetadata(HttpMetadata.Params, schema);
     },
     async validate(helper, next) {
       const { inputs } = helper;

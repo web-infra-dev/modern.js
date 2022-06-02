@@ -1,2 +1,2 @@
 export { Api } from './api';
-export { Data } from './operators/http';
+export * from './operators/http';

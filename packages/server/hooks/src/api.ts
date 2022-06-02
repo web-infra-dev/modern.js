@@ -45,7 +45,7 @@ export function Api<
 
   const validateHandlers = operators
     .filter(operator => operator.validate)
-    .map(operator => operator.validate);
+    .map(operator => operator.validate!);
 
   async function runner(inputs: any) {
     // 错误组合传给用户哪些信息？
@@ -58,7 +58,7 @@ export function Api<
     // middleware 多框架实现要支持在路由上配，但这样 middleware 就要在校验之前先执行了
 
     // 简易模式适配怎么处理?
-    // 不同框架适配，响应怎么处理？
+    // 不同框架适配，响应怎么处理？都传入 context 给这个函数？
     // 如何不依赖 zod 库？支持用户自定义 schema 库？ Query，Data 实现可以统一代码，类型好像无解，除非这些函数是创建出来的，保证只有 http 中依赖 zod 吧
 
     const executeHelper: ExecuteHelper = {

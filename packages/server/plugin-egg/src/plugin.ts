@@ -16,8 +16,6 @@ type StartOptions = Partial<{
   framework: string;
 }>;
 
-export type Mode = 'function' | 'framework';
-
 const API_DIR = './api';
 const SERVER_DIR = './server';
 

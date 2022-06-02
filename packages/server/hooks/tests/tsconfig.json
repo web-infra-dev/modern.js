@@ -5,6 +5,6 @@
     "emitDecoratorMetadata": true,
     "declaration": false,
     "isolatedModules": true,
-    "strict": false,
+    "strict": true,
   }
 }

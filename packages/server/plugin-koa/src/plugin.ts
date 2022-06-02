@@ -39,8 +39,6 @@ const initMiddlewares = (
   });
 };
 
-export type Mode = 'function' | 'framework';
-
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-koa',
   pre: ['@modern-js/plugin-bff'],

@@ -1,20 +1,40 @@
 import { Merge } from 'type-fest';
 
+export enum OperatorType {
+  Trigger,
+}
+
+export enum TriggerType {
+  Http,
+}
+
 export enum HttpMetadata {
-  METHOD = 'Http_Method',
-  Data = 'Http_Data',
-  QUERY = 'Http_Query',
-  PARAMS = 'Http_Params',
-  HEADERS = 'Http_Headers',
-  RESPONSE = 'Http_Response',
+  Method = 'METHOD',
+  Data = 'DATA',
+  Query = 'QUERY',
+  Params = 'PARAMS',
+  Headers = 'HEADERS',
+  Response = 'RESPONSE',
+}
+
+export enum HttpMethod {
+  Get = 'GET',
+  Post = 'POST',
+  Put = 'PUT',
+  Delete = 'DELETE',
+  Connect = 'CONNECT',
+  Trace = 'TRACE',
+  Patch = 'PATCH',
+  Option = 'OPTION',
+  Head = 'HEAD',
 }
 
 export type InputSchemaMeata = Extract<
   HttpMetadata,
   | HttpMetadata.Data
-  | HttpMetadata.QUERY
-  | HttpMetadata.HEADERS
-  | HttpMetadata.PARAMS
+  | HttpMetadata.Query
+  | HttpMetadata.Headers
+  | HttpMetadata.Params
 >;
 
 export type ValidateFunc = (
@@ -36,7 +56,7 @@ export type Operator<Input> = {
   name: string;
   inputType?: Input;
   metadata?: (helper: MetadataHelper) => void;
-  validate: ValidateFunc;
+  validate?: ValidateFunc;
 };
 
 export type ApiRunner<

@@ -9,7 +9,6 @@ import { run } from '../context';
 const debug = createDebugger('plugin-egg');
 
 const registerRoutes = (router: Router, prefix?: string) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const handlerInfos = useAPIHandlerInfos();
   sortDynamicRoutes(handlerInfos);
   if (prefix) {

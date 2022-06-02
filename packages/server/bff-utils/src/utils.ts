@@ -35,6 +35,8 @@ const API_FILE_RULES = [
   '!node_modules/**',
   '!bootstrap.js',
 ];
+
+/* deprecated */
 export const getAllAPIFiles = (lambdaDir: string): string[] =>
   getAllFiles(lambdaDir, API_FILE_RULES);
 
@@ -49,6 +51,7 @@ export const getAllFiles = (
     } as any)
     .map(file => path.resolve(lambdaDir, file as any));
 
+/* deprecated */
 export const getLambdaDir = (apiDir: string): string => {
   const mode = getAPIMode(apiDir);
 
