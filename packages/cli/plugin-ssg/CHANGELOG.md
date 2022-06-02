@@ -1,5 +1,11 @@
 # @modern-js/plugin-ssg
 
+## 1.2.13
+
+### Patch Changes
+
+- 6c8ab42dd: optimize whether to do SSR bundle
+
 ## 1.2.12
 
 ### Patch Changes
