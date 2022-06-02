@@ -1,5 +1,13 @@
 # @modern-js/webpack
 
+## 1.9.1
+
+### Patch Changes
+
+- 6c8ab42dd: optimize whether to do SSR bundle
+- ed90859ba: fix: failed to compile css modules in node_modules
+- 0ef2431cb: chore(webpack): refactor publicPath setter
+
 ## 1.9.0
 
 ### Minor Changes

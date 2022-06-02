@@ -1,5 +1,11 @@
 # @modern-js/adapter-helpers
 
+## 1.2.5
+
+### Patch Changes
+
+- 51c4e2566: fix: isRelative function in babel-plugin-resolver plugin can't handle windows relative path correctly
+
 ## 1.2.4
 
 ### Patch Changes
