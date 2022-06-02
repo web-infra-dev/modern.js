@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { generatorTsConfig } from '../src/tasks/generator-dts/utils';
+import { generatorTsConfig } from '../src/features/build/bundless/generator-dts/utils';
 
 describe('test generator dts utils', () => {
   it('test generatorTsConfig', () => {
