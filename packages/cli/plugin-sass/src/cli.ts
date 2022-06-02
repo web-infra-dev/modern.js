@@ -70,7 +70,7 @@ export default (): CliPlugin => ({
               loaders
                 .oneOf(ONE_OF.SASS)
                 .before(ONE_OF.FALLBACK)
-                .test(SASS_MODULE_REGEX)
+                .test(SASS_REGEX)
                 .merge({
                   use: [
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
