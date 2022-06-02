@@ -1,5 +1,20 @@
 # @modern-js/runtime
 
+## 1.3.1
+
+### Patch Changes
+
+- 37250cb8f: feat: supply `AppConfig` types
+- Updated dependencies [6c8ab42dd]
+- Updated dependencies [808baede3]
+- Updated dependencies [37250cb8f]
+- Updated dependencies [fc43fef39]
+- Updated dependencies [a204922e8]
+  - @modern-js/plugin-ssr@1.4.4
+  - @modern-js/runtime-core@1.4.8
+  - @modern-js/plugin-state@1.2.9
+  - @modern-js/plugin-router@1.2.14
+
 ## 1.3.0
 
 ### Minor Changes
