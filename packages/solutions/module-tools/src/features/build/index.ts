@@ -63,7 +63,6 @@ export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
   }
 
   // should normalize module tool config here, ensure the same config for build
-  // TODO: merge cli and module config
   const normalizedModuleConfig = normalizeModuleConfig(
     { buildFeatOption: config, api },
     buildPreset,
