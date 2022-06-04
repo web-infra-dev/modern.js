@@ -121,13 +121,13 @@ describe('get file dependencies', () => {
 describe('get config path', () => {
   test('should support relative filepath', () => {
     expect(getConfigFilePath('/root', './config.js')).toEqual(
-      '/root/config.js',
+      path.resolve('/root', './config.js'),
     );
   });
 
   test('should support absolute filepath', () => {
     expect(getConfigFilePath('/root', '/foo/config.js')).toEqual(
-      '/foo/config.js',
+      path.resolve('/foo/config.js'),
     );
   });
 });
