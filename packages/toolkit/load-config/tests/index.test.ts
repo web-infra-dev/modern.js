@@ -127,7 +127,7 @@ describe('get config path', () => {
 
   test('should support absolute filepath', () => {
     expect(getConfigFilePath('/root', '/foo/config.js')).toEqual(
-      path.resolve('/foo/config.js'),
+      '/foo/config.js',
     );
   });
 });
