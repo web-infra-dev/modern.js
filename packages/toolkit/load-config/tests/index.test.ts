@@ -1,5 +1,5 @@
 import path from 'path';
-import { loadConfig, getDependencies } from '../src';
+import { loadConfig, getDependencies, getConfigFilePath } from '../src';
 
 describe('load user config file', () => {
   jest.disableAutomock();
@@ -115,5 +115,19 @@ describe('get file dependencies', () => {
     const deps = getDependencies(file);
 
     expect(deps).toEqual([]);
+  });
+});
+
+describe('get config path', () => {
+  test('should support relative filepath', () => {
+    expect(getConfigFilePath('/root', './config.js')).toEqual(
+      '/root/config.js',
+    );
+  });
+
+  test('should support absolute filepath', () => {
+    expect(getConfigFilePath('/root', '/foo/config.js')).toEqual(
+      '/foo/config.js',
+    );
   });
 });

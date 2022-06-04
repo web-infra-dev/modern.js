@@ -10,7 +10,7 @@ Usage: modern dev [options]
 本地开发命令
 
 Options:
-  -c --config <config>  指定配置文件路径
+  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
   -h, --help            display help for command
   --api-only            start api server only
 ```
