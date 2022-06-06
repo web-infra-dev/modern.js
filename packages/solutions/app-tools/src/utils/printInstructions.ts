@@ -1,4 +1,4 @@
-import { prettyInstructions, logger, isDev, chalk } from '@modern-js/utils';
+import { prettyInstructions, logger } from '@modern-js/utils';
 import type {
   IAppContext,
   NormalizedConfig,
@@ -11,17 +11,7 @@ export const printInstructions = async (
   appContext: IAppContext,
   config: NormalizedConfig,
 ) => {
-  let message = prettyInstructions(appContext, config);
-  const { apiOnly } = appContext;
-
-  if (isDev() && !apiOnly) {
-    message += `\n${chalk.cyanBright(
-      [
-        `Note that the development build is not optimized.`,
-        `To create a production build, execute build command.`,
-      ].join('\n'),
-    )}`;
-  }
+  const message = prettyInstructions(appContext, config);
 
   // call beforePrintInstructions hook.
   const { instructions } = await hookRunners.beforePrintInstructions({

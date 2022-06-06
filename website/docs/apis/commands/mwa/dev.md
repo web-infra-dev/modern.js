@@ -18,16 +18,10 @@ Options:
 `modern dev` 命令启动一个开发服务器，同时监听源文件变化，默认支持 React Fast Refresh：
 
 ```bash
-Compiled successfully in 2033 ms.
-
 App running at:
 
   > Local:    http://localhost:8080/
   > Network:  http://10.79.136.172:8080/
-
-Note that the development build is not optimized.
-To create a production build, execute build command.
-
 ```
 
 import CommandTip from '@site/docs/components/command-tip.md'
