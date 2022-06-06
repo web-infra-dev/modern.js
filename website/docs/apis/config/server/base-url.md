@@ -31,8 +31,6 @@ export default defineConfig({
 `dev` 之后可以看到路由访问会加上对应前缀:
 
 ```bash
-Compiled successfully in 6415 ms.
-
 App running at:
 
   > Local:    http://localhost:8080/base/
