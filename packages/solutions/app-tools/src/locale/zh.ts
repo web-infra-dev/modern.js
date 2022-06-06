@@ -2,9 +2,10 @@ export const ZH_LOCALE = {
   command: {
     dev: {
       describe: '本地开发命令',
-      config: '制定配置文件路径',
-      entry: '按入口编译',
+      config: '指定配置文件路径',
+      entry: '指定入口，编译特定的页面',
       apiOnly: '仅启动 API 接口服务',
+      analyze: '分析构建产物体积，查看各个模块打包后的大小',
     },
     build: {
       describe: '构建应用命令',
