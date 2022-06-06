@@ -37,7 +37,7 @@ export const resolveBabelConfig = (
 ) => {
   const {
     source: { envVars, globalVars, jsxTransformRuntime = 'automatic' },
-    output: { importStyle, enableSourceMap },
+    output: { importStyle, enableSourceMap, buildPreset },
     tools: { lodash: userLodashOption, styledComponents },
   } = modernConfig;
 
@@ -65,6 +65,7 @@ export const resolveBabelConfig = (
       lodashOptions,
       jsxTransformRuntime,
       importStyle,
+      staticDir: buildPreset ? 'static' : 'styles',
       styledComponentsOptions: applyOptionsChain(
         {
           pure: true,

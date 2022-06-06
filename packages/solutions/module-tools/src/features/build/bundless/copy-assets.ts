@@ -57,31 +57,37 @@ const watchAssets = ({
   );
 };
 
-export const copyStaticAssets = (
+export const copyStaticAssets = async (
   api: PluginAPI,
   config: NormalizedBundlessBuildConfig,
 ) => {
   const appContext = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
   const { appDirectory } = appContext;
-  const { assetsPath = 'styles', path: distPath = 'dist' } =
+  const { path: distPath = 'dist', assetsPath = 'styles' } =
     modernConfig.output;
-  const { outputPath } = config;
+  const { outputPath, outputStylePath } = config;
   const srcDir = path.join(appDirectory, SRC_DIRS);
-  const outputDirToSrc = path.join(
-    appDirectory,
-    distPath,
-    outputPath,
-    'static',
-  );
-
-  const styleDir = path.join(appDirectory, STYLE_DIRS);
-  const outputDirToStyle = path.join(appDirectory, outputPath, assetsPath);
+  const outputDirToSrc = outputStylePath
+    ? path.join(appDirectory, distPath, outputStylePath)
+    : path.join(appDirectory, distPath, outputPath, 'static');
   copyAssets({ targetDir: srcDir, outputDir: outputDirToSrc });
-  copyAssets({ targetDir: styleDir, outputDir: outputDirToStyle });
-  copyUtils.copyTask({ modernConfig, appContext });
+
   if (config.watch) {
     watchAssets({ targetDir: srcDir, outputDir: outputDirToSrc });
-    watchAssets({ targetDir: styleDir, outputDir: outputDirToStyle });
   }
+
+  if (outputStylePath) {
+    const styleDir = path.join(appDirectory, STYLE_DIRS);
+    const outputDirToStyle = path.join(appDirectory, distPath, assetsPath);
+    copyAssets({
+      targetDir: styleDir,
+      outputDir: outputDirToStyle,
+    });
+
+    if (config.watch) {
+      watchAssets({ targetDir: styleDir, outputDir: outputDirToStyle });
+    }
+  }
+  await copyUtils.copyTask({ modernConfig, appContext });
 };
