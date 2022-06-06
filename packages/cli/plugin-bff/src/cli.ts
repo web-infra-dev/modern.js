@@ -5,15 +5,67 @@ import {
   API_DIR,
   PLUGIN_SCHEMAS,
   normalizeOutputPath,
+  SHARED_DIR,
 } from '@modern-js/utils';
 import { resolveBabelConfig } from '@modern-js/server-utils';
 
 import type { ServerRoute } from '@modern-js/types';
-import type { CliPlugin, UserConfig } from '@modern-js/core';
+import type { CliPlugin, NormalizedConfig, UserConfig } from '@modern-js/core';
+
+interface Pattern {
+  from: string;
+  to: string;
+  tsconfigPath?: string;
+}
+
+interface CompileOptions {
+  patterns: Pattern[];
+}
 
 const DEFAULT_API_PREFIX = '/api';
 const TS_CONFIG_FILENAME = 'tsconfig.json';
 const FILE_EXTENSIONS = ['.js', '.ts', '.mjs', '.ejs'];
+
+// TODO: 封装服务端编译函数
+const compile = async (
+  appDirectory: string,
+  modernConfig: NormalizedConfig,
+  compileOptions: CompileOptions,
+) => {
+  const { patterns } = compileOptions;
+  const results = await Promise.all(
+    patterns.map(async pattern => {
+      const { from, to, tsconfigPath } = pattern;
+      const babelConfig = resolveBabelConfig(appDirectory, modernConfig, {
+        tsconfigPath: tsconfigPath ? tsconfigPath : '',
+        syntax: 'es6+',
+        type: 'commonjs',
+      });
+      if (await fs.pathExists(from)) {
+        const basename = path.basename(from);
+        const targetDir = path.join(to, basename);
+        await fs.copy(from, targetDir, {
+          filter: src =>
+            !['.ts', '.js'].includes(path.extname(src)) && src !== tsconfigPath,
+        });
+      }
+      return compiler(
+        {
+          rootDir: appDirectory,
+          distDir: to,
+          sourceDir: from,
+          extensions: FILE_EXTENSIONS,
+        },
+        babelConfig,
+      );
+    }),
+  );
+  results.forEach(result => {
+    if (result.code === 1) {
+      throw new Error(result.message);
+    }
+  });
+};
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-bff',
@@ -90,37 +142,30 @@ export default (): CliPlugin => ({
       const { appDirectory, distDirectory } = api.useAppContext();
       const modernConfig = api.useResolvedConfigContext();
 
-      const rootDir = path.resolve(appDirectory, API_DIR);
-      const distDir = path.resolve(distDirectory, API_DIR);
-
-      const sourceAbsDir = path.resolve(appDirectory, API_DIR);
+      const distDir = path.resolve(distDirectory);
+      const apiDir = path.resolve(appDirectory, API_DIR);
+      const sharedDir = path.resolve(appDirectory, SHARED_DIR);
       const tsconfigPath = path.resolve(appDirectory, TS_CONFIG_FILENAME);
-      const babelConfig = resolveBabelConfig(appDirectory, modernConfig, {
-        tsconfigPath,
-        syntax: 'es6+',
-        type: 'commonjs',
-      });
 
-      const result = await compiler(
-        {
-          rootDir,
-          distDir,
-          sourceDir: sourceAbsDir,
-          extensions: FILE_EXTENSIONS,
-          ignore: [`**/__tests__/**`, '*.d.ts', '*.test.ts'],
-        },
-        babelConfig,
-      );
-
-      if (await fs.pathExists(rootDir)) {
-        await fs.copy(rootDir, distDir, {
-          filter: src =>
-            !['.ts', '.js'].includes(path.extname(src)) && src !== tsconfigPath,
+      const patterns = [];
+      if (fs.existsSync(apiDir)) {
+        patterns.push({
+          from: apiDir,
+          to: distDir,
+          tsconfigPath,
         });
       }
 
-      if (result.code === 1) {
-        throw new Error(result?.messageDetails?.[0].content || result.message);
+      if (fs.existsSync(sharedDir)) {
+        patterns.push({
+          from: sharedDir,
+          to: distDir,
+          tsconfigPath,
+        });
+      }
+
+      if (patterns.length > 0) {
+        await compile(appDirectory, modernConfig, { patterns });
       }
     },
   }),
