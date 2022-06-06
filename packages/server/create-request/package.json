@@ -69,7 +69,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/runtime": "^7",
+    "@babel/runtime": "^7.18.0",
     "@modern-js/plugin-ssr": "workspace:^1.4.2",
     "@modern-js/utils": "workspace:^1.7.6",
     "node-fetch": "^2.6.1",
