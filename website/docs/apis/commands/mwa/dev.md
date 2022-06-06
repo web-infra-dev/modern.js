@@ -10,24 +10,20 @@ Usage: modern dev [options]
 本地开发命令
 
 Options:
+  -e --entry <entry>    指定入口，编译特定的页面
   -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
-  -h, --help            display help for command
-  --api-only            start api server only
+  -h, --help            显示命令帮助
+  --analyze             分析构建产物体积，查看各个模块打包后的大小
+  --api-only            仅启动 API 接口服务
 ```
 
 `modern dev` 命令启动一个开发服务器，同时监听源文件变化，默认支持 React Fast Refresh：
 
 ```bash
-Compiled successfully in 2033 ms.
-
 App running at:
 
   > Local:    http://localhost:8080/
   > Network:  http://10.79.136.172:8080/
-
-Note that the development build is not optimized.
-To create a production build, execute build command.
-
 ```
 
 import CommandTip from '@site/docs/components/command-tip.md'

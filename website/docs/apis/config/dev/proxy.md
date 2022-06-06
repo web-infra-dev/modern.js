@@ -62,15 +62,10 @@ Modern.js 全局代理实现底层基于 [whistle](https://wproxy.org/whistle/),
 执行 `dev`, 提示如下时，即代理服务器启动成功：
 
 ```bash
-Compiled successfully in 3178ms
-
   App running at:
 
   Local:    http://localhost:8080/
   Network:  http://192.168.0.1:8080/
-
-Note that the development build is not optimized.
-To create a production build, execute build command.
 
 ℹ  info      Starting the proxy server.....
 ✔  success   Proxy Server start on localhost:8899
