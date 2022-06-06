@@ -728,16 +728,6 @@ class BaseWebpackConfig {
     return finalConfig;
   }
 
-  watchOptions() {
-    if (isDev()) {
-      this.chain.watchOptions({
-        // fix webpack watch mode rebuild twice on file change
-        // https://github.com/webpack/webpack/issues/15431
-        aggregateTimeout: 100,
-      });
-    }
-  }
-
   applyToolsWebpackChain() {
     if (!this.options.tools) {
       return;
@@ -777,7 +767,6 @@ class BaseWebpackConfig {
     this.cache();
     this.optimization();
     this.stats();
-    this.watchOptions();
     this.applyToolsWebpackChain();
 
     return this.chain;
