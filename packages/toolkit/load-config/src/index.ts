@@ -69,6 +69,20 @@ const bundleRequireWithCatch = async (configFile: string): Promise<any> => {
   }
 };
 
+export const getConfigFilePath = (appDirectory: string, filePath?: string) => {
+  if (filePath) {
+    if (path.isAbsolute(filePath)) {
+      return filePath;
+    }
+    return path.resolve(appDirectory, filePath);
+  }
+  return findExists(
+    CONFIG_FILE_EXTENSIONS.map(extension =>
+      path.resolve(appDirectory, `${CONFIG_FILE_NAME}${extension}`),
+    ),
+  );
+};
+
 /**
  * Parse and load user config file, support extensions like .ts, mjs, js, ejs.
  * @param appDirectory - App root directory, from which start search user config file.
@@ -85,14 +99,7 @@ export const loadConfig = async <T>(
   dependencies?: string[];
   pkgConfig?: T;
 }> => {
-  const configFile = filePath
-    ? filePath
-    : findExists(
-        CONFIG_FILE_EXTENSIONS.map(extension =>
-          path.resolve(appDirectory, `${CONFIG_FILE_NAME}${extension}`),
-        ),
-      );
-
+  const configFile = getConfigFilePath(appDirectory, filePath);
   const pkgConfig = getPackageConfig<T>(appDirectory, packageJsonConfig);
 
   let config: T | undefined;
