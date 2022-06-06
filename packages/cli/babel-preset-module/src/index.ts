@@ -47,6 +47,8 @@ export const getModuleBabelChain = (
   const buildInPlugins = getBuildInPlugins({
     appDirectory,
     importStyle: modulePresetOption.importStyle,
+    staticDir: modulePresetOption.staticDir,
+    styleDir: modulePresetOption.styleDir,
   });
   chain.merge(buildInPlugins);
 

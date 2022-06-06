@@ -160,6 +160,7 @@ export const runBabelBuild = async (
     format,
     outputPath,
     watch,
+    ignoreSingleFormatDir = false,
   } = config;
   const { appDirectory } = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
@@ -170,14 +171,14 @@ export const runBabelBuild = async (
   const tsconfigPath = path.join(appDirectory, tsconfig);
   // When there is only one format, the output directory of the build product is '[distDir]/[outputPath]/'
   // In other cases, follow [dist]/[outputPath]/[format]
-  const singleFormat = format.length === 1;
+  const singleFormat = ignoreSingleFormatDir ? format.length === 1 : false;
   const buildConfigs = format.map(fmt => {
     // TODO: Refactoring based on format and target
     const syntax = target === 'es5' ? 'es5' : 'es6+';
     const type = fmt === 'cjs' ? 'commonjs' : 'module';
     return {
-      type,
-      syntax,
+      format: fmt,
+      target,
       babelConfig: bc.resolveBabelConfig(appDirectory, modernConfig, {
         sourceAbsDir,
         tsconfigPath,
@@ -192,7 +193,7 @@ export const runBabelBuild = async (
       appDirectory,
       distPath,
       outputPath,
-      singleFormat ? './' : `./${bc.type}`,
+      singleFormat ? './' : `./${bc.format}`,
     );
     const result = await buildSourceCode({
       appDirectory,
