@@ -5,8 +5,9 @@ export const EN_LOCALE = {
       config: 'specify config file',
       entry: 'compiler by entry',
       apiOnly: 'start api server only',
+      analyze: 'analyze bundle size',
     },
-    build: { describe: 'build application', analyze: 'analyze bundle' },
+    build: { describe: 'build application', analyze: 'analyze bundle size' },
     start: { describe: 'start server' },
     deploy: { describe: 'deploy application' },
     new: {

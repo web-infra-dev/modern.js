@@ -31,7 +31,6 @@ import { BaseWebpackConfig } from './base';
 import { enableBundleAnalyzer } from './shared';
 
 const { USE, RULE, ONE_OF, PLUGIN } = CHAIN_ID;
-const nodeLibsBrowser = require('node-libs-browser');
 
 export class ClientWebpackConfig extends BaseWebpackConfig {
   htmlFilename: (name: string) => string;
@@ -65,10 +64,6 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
   resolve() {
     super.resolve();
 
-    // FIXME: local node_modules (WTF?)
-    const wtfPath = path.resolve(__dirname, '../../../../node_modules');
-    this.chain.resolve.modules.add(wtfPath);
-
     // node polyfill
     if (!this.options.output.disableNodePolyfill) {
       this.chain.resolve.merge({
@@ -78,6 +73,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
   }
 
   private getNodePolyfill(): Record<string, string | false> {
+    const nodeLibsBrowser = require('node-libs-browser');
     return Object.keys(nodeLibsBrowser).reduce<Record<string, string | false>>(
       (previous, name) => {
         if (nodeLibsBrowser[name]) {
@@ -294,6 +290,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
     // node polyfill
     if (!this.options.output.disableNodePolyfill) {
+      const nodeLibsBrowser = require('node-libs-browser');
       this.chain.plugin(PLUGIN.NODE_POLYFILL_PROVIDE).use(ProvidePlugin, [
         {
           Buffer: [nodeLibsBrowser.buffer, 'Buffer'],
