@@ -190,7 +190,6 @@ export const buildInSrcDir = async (option: {
     });
     return srcStyleEmitter;
   } else {
-    console.info(lessOption);
     const srcStyleResult = await compiler.styleCompiler({
       projectDir: appDirectory,
       stylesDir: srcDir,
@@ -225,18 +224,18 @@ export const buildStyle = async (
 ) => {
   const modernConfig = api.useResolvedConfigContext();
   const { appDirectory } = api.useAppContext();
-  const { watch, outputPath } = config;
+  const { watch, outputPath, outputStylePath } = config;
   const {
-    output: { assetsPath = 'styles', path: distPath = 'dist', jsPath = 'js' },
+    output: { path: distPath = 'dist' },
   } = modernConfig;
-
+  const styleDefaultDir = 'styles';
   const lessOption = await core
     .mountHook()
     .moduleLessConfig(
       { modernConfig },
       { onLast: async (_: any) => undefined },
     );
-  console.info(lessOption);
+
   const sassOption = await core
     .mountHook()
     .moduleSassConfig(
@@ -261,12 +260,12 @@ export const buildStyle = async (
     styles: '',
   };
   let startFun = buildStart.bind(null);
-  // compiler style dir
-  if (existStylesDir) {
+  // compiler style dir. In the new mode, the following logic will not be run
+  if (existStylesDir && outputStylePath) {
     const result = await buildInStyleDir({
       appDirectory,
       watch,
-      outDir: path.join(appDirectory, distPath, outputPath, assetsPath),
+      outDir: path.join(appDirectory, distPath, 'styles'),
       lessOption,
       sassOption,
       postcssOption,
@@ -284,7 +283,7 @@ export const buildStyle = async (
         },
       );
       styleEmitter.on(compiler.BuildWatchEvent.compilering, () => {
-        compilerMessage.styles = `[${assetsPath}] Compiling...`;
+        compilerMessage.styles = `[${styleDefaultDir}] Compiling...`;
         logCompilerMessage(compilerMessage);
       });
       styleEmitter.on(
@@ -309,12 +308,14 @@ export const buildStyle = async (
 
   // compiler src dir
   const srcDir = path.resolve(appDirectory, SRC_STYLE_DIRS);
-  const outputDirToSrc = path.join(appDirectory, distPath, jsPath, assetsPath);
+  const outputDirToSrc = outputStylePath
+    ? path.join(appDirectory, distPath, outputStylePath)
+    : path.join(appDirectory, distPath, outputPath, 'styles');
   const result = await buildInSrcDir({
     appDirectory,
     srcDir,
     watch,
-    outDir: path.join(appDirectory, distPath, outputPath, assetsPath),
+    outDir: outputDirToSrc,
     lessOption,
     sassOption,
     postcssOption,

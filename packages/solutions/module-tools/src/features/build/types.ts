@@ -14,4 +14,7 @@ export type NormalizedBundlessBuildConfig = Required<
 > &
   Pick<BuildConfig, 'bundleOption'> & {
     bundlessOption: Required<BundlessOption>;
+    // Compatible field, to be removed in the next release, not visible to users
+    ignoreSingleFormatDir?: boolean;
+    outputStylePath?: string;
   };

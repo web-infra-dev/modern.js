@@ -19,6 +19,7 @@ const constants: typeof import('./constants') = Import.lazy(
 
 export const getNormalizeModuleConfigByPackageModeAndFileds = (
   api: PluginAPI,
+  buildFeatOption: IBuildFeatOption,
 ): NormalizedBuildConfig[] => {
   const {
     output: { packageMode, packageFields },
@@ -32,7 +33,15 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
       sourceDir: 'src',
     },
     tsconfig: './tsconfig.json',
+    // Compatible field, to be removed in the next release, not visible to users
+    ignoreSingleFormatDir: true,
+    outputStylePath: 'js/styles',
   };
+
+  commonConfig.watch = getFinalWatch(commonConfig, buildFeatOption);
+  commonConfig.tsconfig = getFinalTsconfig(commonConfig, buildFeatOption);
+  commonConfig.dts = getFinalDts(commonConfig, buildFeatOption);
+
   // When both bundle and bundless products exist, they are distinguished by bundle and bundless directory names by default
   if (
     !packageFields ||
@@ -129,7 +138,7 @@ export const checkMixedMode = (buildConfigs: BuildConfig[]) => {
 };
 
 export const getFinalWatch = (
-  config: BuildConfig,
+  config: { watch?: boolean },
   buildFeatOption: IBuildFeatOption,
 ) => {
   // cli watch option > buildPreset watch option
@@ -140,7 +149,7 @@ export const getFinalWatch = (
   return config.watch ?? false;
 };
 export const getFinalTsconfig = (
-  config: BuildConfig,
+  config: { tsconfig?: string },
   buildFeatOption: IBuildFeatOption,
 ) => {
   // cli tsconfig option > buildPreset tsconfig option
@@ -153,7 +162,7 @@ export const getFinalTsconfig = (
   return config.tsconfig ?? 'tsconfig.json';
 };
 export const getFinalDts = (
-  config: BuildConfig,
+  config: { dts?: boolean },
   buildFeatOption: IBuildFeatOption,
 ) => {
   if (!buildFeatOption.enableDtsGen) {
@@ -171,7 +180,7 @@ export const normalizeModuleConfig = (
   // If the user does not configure output.babelPreset,
   // the configuration is generated based on packageMode and packageField
   if (!preset) {
-    return getNormalizeModuleConfigByPackageModeAndFileds(api);
+    return getNormalizeModuleConfigByPackageModeAndFileds(api, buildFeatOption);
   }
 
   if (preset === 'library') {
