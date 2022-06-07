@@ -53,11 +53,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     super.entry();
 
     if (this.options.output.polyfill === 'entry') {
-      const entryPoints = Object.keys(this.chain.entryPoints.entries() || {});
-
-      for (const name of entryPoints) {
-        this.chain.entry(name).prepend(require.resolve('core-js'));
-      }
+      this.useCoreJsEntry();
     }
   }
 
@@ -373,6 +369,21 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
           ],
         }));
     }
+  }
+
+  useCoreJsEntry() {
+    const entryPoints = Object.keys(this.chain.entryPoints.entries() || {});
+    const coreJsEntry = path.resolve(__dirname, '../runtime/core-js-entry.js');
+
+    for (const name of entryPoints) {
+      this.chain.entry(name).prepend(coreJsEntry);
+    }
+
+    // let babel to transform core-js-entry, make `useBuiltins: 'entry'` working
+    this.chain.module
+      .rule(RULE.LOADERS)
+      .oneOf(ONE_OF.JS)
+      .include.add(coreJsEntry);
   }
 }
 /* eslint-enable max-lines */
