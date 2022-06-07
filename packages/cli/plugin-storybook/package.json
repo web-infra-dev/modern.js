@@ -44,7 +44,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/runtime": "^7",
+    "@babel/runtime": "^7.18.0",
     "@modern-js/esbuild-compiler": "workspace:^0.2.4",
     "@modern-js/plugin-router": "workspace:^1.2.14",
     "@modern-js/plugin-state": "workspace:^1.2.9",

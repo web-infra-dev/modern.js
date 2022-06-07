@@ -5,9 +5,6 @@ const REWRITE_TARGETS = {
   '@babel/runtime': nodePath.dirname(
     require.resolve('@babel/runtime/package.json'),
   ),
-  'regenerator-runtime': nodePath.dirname(
-    require.resolve('regenerator-runtime'),
-  ),
   'core-js': nodePath.dirname(require.resolve('core-js/package.json')),
 };
 

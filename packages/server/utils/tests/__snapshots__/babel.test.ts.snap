@@ -64,9 +64,6 @@ Object {
       "/@babel/plugin-proposal-export-default-from/lib/index.js",
     ],
     Array [
-      "/@babel/plugin-proposal-export-namespace-from/lib/index.js",
-    ],
-    Array [
       "/@babel/plugin-proposal-pipeline-operator/lib/index.js",
       Object {
         "proposal": "minimal",

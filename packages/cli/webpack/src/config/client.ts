@@ -56,10 +56,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
       const entryPoints = Object.keys(this.chain.entryPoints.entries() || {});
 
       for (const name of entryPoints) {
-        this.chain
-          .entry(name)
-          .prepend(require.resolve('regenerator-runtime/runtime'))
-          .prepend(require.resolve('core-js'));
+        this.chain.entry(name).prepend(require.resolve('core-js'));
       }
     }
   }

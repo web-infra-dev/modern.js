@@ -35,13 +35,12 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/core": "^7.17.0",
-    "@babel/plugin-proposal-class-static-block": "^7.12.1",
-    "@babel/plugin-proposal-do-expressions": "^7.12.1",
-    "@babel/plugin-proposal-function-sent": "^7.12.1",
-    "@babel/plugin-proposal-logical-assignment-operators": "^7.12.1",
-    "@babel/plugin-proposal-throw-expressions": "^7.12.1",
-    "@babel/runtime": "^7",
+    "@babel/core": "^7.18.0",
+    "@babel/plugin-proposal-class-static-block": "^7.18.0",
+    "@babel/plugin-proposal-do-expressions": "^7.16.7",
+    "@babel/plugin-proposal-function-sent": "^7.18.0",
+    "@babel/plugin-proposal-throw-expressions": "^7.16.7",
+    "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:^1.7.6",
     "@modern-js/babel-chain": "workspace:^1.2.3",
     "@modern-js/babel-preset-lib": "workspace:^1.2.7"

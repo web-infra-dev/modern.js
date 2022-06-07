@@ -35,7 +35,7 @@
     "vm2": "^3.9.2"
   },
   "devDependencies": {
-    "@babel/runtime": "^7",
+    "@babel/runtime": "^7.18.0",
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/generator-plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
