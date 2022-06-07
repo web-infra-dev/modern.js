@@ -1,9 +1,11 @@
 import path from 'path';
 import { Api } from '../src';
 import { Put } from '../src/operators/http';
-import { ApiRouter } from '../src/router';
+import { APIHandlerInfo, ApiRouter } from '../src/router';
 import { HttpMethod } from '../src/types';
 import { getPathFromFilename } from '../src/router/utils';
+
+const PWD = path.resolve(__dirname, '../fixtures/function');
 
 describe('test getPathFromFilename', () => {
   test('normal path', () => {
@@ -45,17 +47,21 @@ describe('test api router', () => {
       mockFileName,
       mockFuncName,
       del as any,
-    );
+    ) as APIHandlerInfo;
 
     expect(handlerInfo.routePath).toBe('/repo');
     expect(handlerInfo.httpMethod).toBe(HttpMethod.Delete);
   });
 
   test('get http method from function name correctly', () => {
+    expect(apiRouter.getHttpMethod('default')).toBe(HttpMethod.Get);
     expect(apiRouter.getHttpMethod('get')).toBe(HttpMethod.Get);
+    expect(apiRouter.getHttpMethod('Get')).toBe(HttpMethod.Get);
     expect(apiRouter.getHttpMethod('post')).toBe(HttpMethod.Post);
     expect(apiRouter.getHttpMethod('put')).toBe(HttpMethod.Put);
     expect(apiRouter.getHttpMethod('delete')).toBe(HttpMethod.Delete);
+    expect(apiRouter.getHttpMethod('del')).toBe(HttpMethod.Delete);
+    expect(apiRouter.getHttpMethod('DELETE')).toBe(HttpMethod.Delete);
     expect(apiRouter.getHttpMethod('connect')).toBe(HttpMethod.Connect);
     expect(apiRouter.getHttpMethod('trace')).toBe(HttpMethod.Trace);
     expect(apiRouter.getHttpMethod('patch')).toBe(HttpMethod.Patch);
@@ -74,7 +80,7 @@ describe('test api router', () => {
       mockFileName,
       mockFuncName,
       putRepo as any,
-    );
+    ) as APIHandlerInfo;
 
     expect(handlerInfo.httpMethod).toBe(HttpMethod.Put);
     expect(handlerInfo.routePath).toBe(mockRoute);
@@ -95,6 +101,31 @@ describe('test api router', () => {
       apiDir,
     });
     const handlerInfos = apiRouter.getApiHandlers();
-    expect(handlerInfos.length).toBe(26);
+    expect(handlerInfos.length).toBe(27);
+  });
+
+  test('getSafeRoutePath should throw error when file is not a api file', () => {
+    const apiRouter = new ApiRouter({
+      apiDir: PWD,
+      lambdaDir: PWD,
+    });
+    const resourcePath = path.resolve(
+      __dirname,
+      './fixtures/function/_fail.ts',
+    );
+    expect(() => apiRouter.getSafeRoutePath(resourcePath)).toThrow(
+      new Error(`The ${resourcePath} is not a valid api file.`),
+    );
+  });
+
+  test('getSafeRoutePath should throw error when filename is not a absolute path', () => {
+    const resourcePath = './fixtures/function/_fail.ts';
+    const apiRouter = new ApiRouter({
+      apiDir: PWD,
+      lambdaDir: PWD,
+    });
+    expect(() => apiRouter.getSafeRoutePath(resourcePath)).toThrow(
+      new Error(`The ${resourcePath} is not a valid api file.`),
+    );
   });
 });

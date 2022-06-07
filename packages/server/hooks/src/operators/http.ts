@@ -6,7 +6,7 @@ import {
   HttpMethod,
   TriggerType,
 } from '../types';
-import { ValidationError } from '../errors';
+import { ValidationError } from '../errors/http';
 
 const validateInput = async <T>(schema: z.ZodType<T>, input: unknown) => {
   try {

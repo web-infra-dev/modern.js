@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { Api, Data } from '../src';
-import { ValidationError } from '../src/errors';
-import { Query } from '../src/operators/http';
+import { ValidationError } from '../src/errors/http';
+import { Get, Query } from '../src/operators/http';
 
 describe('test api function', () => {
   test('should works correctly', async () => {
@@ -13,6 +13,7 @@ describe('test api function', () => {
       name: z.string().min(3).max(10),
     });
     const handler = Api(
+      Get('/api'),
       Query(QuerySchema),
       Data(DataSchema),
       async ({ query, data }) => {
@@ -22,6 +23,7 @@ describe('test api function', () => {
         };
       },
     );
+
     expect(typeof handler).toBe('function');
 
     const expectedQuery = {
@@ -52,6 +54,7 @@ describe('test api function', () => {
         data,
       };
     });
+
     await expect(
       handler({
         data: {

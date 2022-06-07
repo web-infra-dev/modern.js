@@ -1,7 +1,7 @@
 import path from 'path';
 import { globby } from '@modern-js/utils';
 import { MaybeAsync } from '@modern-js/bff-runtime';
-import { INDEX_SUFFIX } from './constant';
+import { INDEX_SUFFIX } from './constants';
 
 export type NormalHandler = (...args: any[]) => any;
 export type Handler<I, O> = (input: I) => MaybeAsync<O>;

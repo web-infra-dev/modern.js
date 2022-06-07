@@ -1,9 +1,13 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
+import { fs, logger } from '@modern-js/utils';
 import { Handler, SchemaHandler } from '@modern-js/bff-runtime';
 import 'reflect-metadata';
-import { HttpMethod, OperatorType, TriggerType } from '../types';
-import { APIMode, FRAMEWORK_MODE_LAMBDA_DIR, API_FILE_RULES } from './constant';
+import { HttpMethod, httpMethods, OperatorType, TriggerType } from '../types';
+import {
+  APIMode,
+  FRAMEWORK_MODE_LAMBDA_DIR,
+  API_FILE_RULES,
+} from './constants';
 import { getFiles, getPathFromFilename, requireHandlerModule } from './utils';
 
 export type ModuleInfo = {
@@ -17,18 +21,33 @@ export type HandlerModule = Record<string, ApiHandler>;
 
 export type APIHandlerInfo = {
   handler: ApiHandler;
+  name: string;
   httpMethod: string;
   routePath: string;
 };
-
 export class ApiRouter {
   private apiDir: string;
 
   private lambdaDir: string;
 
-  constructor({ apiDir }: { apiDir: string }) {
+  private apiFiles: string[];
+
+  constructor({ apiDir, lambdaDir }: { apiDir: string; lambdaDir?: string }) {
+    this.apiFiles = [];
+    if (apiDir) {
+      this.validateAbsolute(apiDir, 'apiDir');
+    }
+    if (lambdaDir) {
+      this.validateAbsolute(lambdaDir, 'lambdaDir');
+    }
     this.apiDir = apiDir;
-    this.lambdaDir = this.getLambdaDir(this.apiDir);
+    this.lambdaDir = lambdaDir || this.getLambdaDir(this.apiDir);
+  }
+
+  private validateAbsolute(filename: string, paramsName: string) {
+    if (!path.isAbsolute(filename)) {
+      throw new Error(`The ${paramsName} ${filename} is not a abolute path`);
+    }
   }
 
   private getAPIMode = (apiDir: string): APIMode => {
@@ -86,13 +105,15 @@ export class ApiRouter {
 
     moduleInfos.forEach(moduleInfo => {
       const handlerInfos = this.getModuleHandlerInfos(moduleInfo);
-      apiHandlers = apiHandlers.concat(handlerInfos);
+      if (handlerInfos) {
+        apiHandlers = apiHandlers.concat(handlerInfos);
+      }
     });
 
     return apiHandlers;
   }
 
-  private getModuleHandlerInfos(moduleInfo: ModuleInfo) {
+  private getModuleHandlerInfos(moduleInfo: ModuleInfo): APIHandlerInfo[] {
     const { module, filename } = moduleInfo;
     return Object.entries(module)
       .filter(([, handler]) => typeof handler === 'function')
@@ -100,49 +121,80 @@ export class ApiRouter {
         const handler = module[key];
         const handlerInfo = this.getHandlerInfo(filename, key, handler);
         return handlerInfo;
-      });
+      })
+      .filter(handlerInfo => Boolean(handlerInfo)) as APIHandlerInfo[];
+  }
+
+  private validateValidApifile(filename: string) {
+    if (!this.apiFiles.includes(filename)) {
+      throw new Error(`The ${filename} is not a valid api file.`);
+    }
+  }
+
+  isApiFile(filename: string) {
+    if (!this.apiFiles.includes(filename)) {
+      return false;
+    }
+    return true;
+  }
+
+  getSingleModuleHandlers(filename: string) {
+    const moduleInfo = this.getModuleInfo(filename);
+    if (moduleInfo) {
+      return this.getModuleHandlerInfos(moduleInfo);
+    }
+    return null;
   }
 
   getHandlerInfo(
     filename: string,
     originFuncName: string,
     handler: ApiHandler,
-  ) {
+  ): APIHandlerInfo | null {
     const httpMethod = this.getHttpMethod(originFuncName, handler);
-    if (!httpMethod) {
-      throw new Error(`Unknown HTTP Method: ${originFuncName}`);
+    const routePath = this.getRoutePath(filename, handler);
+    if (httpMethod && routePath) {
+      return {
+        handler,
+        name: originFuncName,
+        httpMethod,
+        routePath,
+      };
     }
-    const routePath = this.getRoutePath(this.lambdaDir, filename, handler);
-    return {
-      handler,
-      httpMethod,
-      routePath,
-    };
+    return null;
   }
 
-  getRoutePath(
-    lambdaDir: string,
-    filename: string,
-    handler: ApiHandler,
-  ): string {
-    const trigger = Reflect.getMetadata(OperatorType.Trigger, handler);
-    if (trigger && trigger.type === TriggerType.Http) {
-      if (!trigger.path) {
-        throw new Error(
-          `The http trigger ${trigger.name} needs to specify a path`,
-        );
+  // TODO: 性能提升，开发环境，判断下 lambda 目录修改时间
+  getSafeRoutePath(filename: string, handler?: ApiHandler): string {
+    this.loadApiFiles();
+    this.validateValidApifile(filename);
+    return this.getRoutePath(filename, handler);
+  }
+
+  getRoutePath(filename: string, handler?: ApiHandler): string {
+    if (handler) {
+      const trigger = Reflect.getMetadata(OperatorType.Trigger, handler);
+      if (trigger && trigger.type === TriggerType.Http) {
+        if (!trigger.path) {
+          throw new Error(
+            `The http trigger ${trigger.name} needs to specify a path`,
+          );
+        }
+        return trigger.path;
       }
-      return trigger.path;
     }
-    const routePath = getPathFromFilename(lambdaDir, filename);
+    const routePath = getPathFromFilename(this.lambdaDir, filename);
     return routePath;
   }
 
-  getHttpMethod(originHandlerName: string, handler?: ApiHandler): string {
+  getHttpMethod(
+    originHandlerName: string,
+    handler?: ApiHandler,
+  ): HttpMethod | null {
     if (handler) {
       const trigger = Reflect.getMetadata(OperatorType.Trigger, handler);
-      if (trigger) {
-        return trigger.method as string;
+      if (trigger && httpMethods.includes(trigger.method)) {
+        return trigger.method;
       }
     }
     const upperName = originHandlerName.toUpperCase();
@@ -169,12 +221,24 @@ export class ApiRouter {
         return HttpMethod.Get;
       }
       default:
-        return upperName;
+        logger.warn(
+          `Only api handlers are allowd to be exported, please remove the function ${originHandlerName}`,
+        );
+        return null;
     }
   }
 
+  loadApiFiles() {
+    // eslint-disable-next-line no-multi-assign
+    const apiFiles = (this.apiFiles = getFiles(this.lambdaDir, API_FILE_RULES));
+    return apiFiles;
+  }
+
   getApiFiles() {
-    return getFiles(this.lambdaDir, API_FILE_RULES);
+    if (this.apiFiles.length > 0) {
+      return this.apiFiles;
+    }
+    return this.loadApiFiles();
   }
 
   getApiHandlers() {

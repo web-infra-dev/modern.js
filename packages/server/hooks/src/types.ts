@@ -59,17 +59,22 @@ export type Operator<Input> = {
   validate?: ValidateFunc;
 };
 
+export type MaybeAsync<T> = Promise<T> | T;
+
 export type ApiRunner<
   Input extends object | void | unknown,
-  Res extends Promise<any>,
-> = (
-  ...args: Input extends void ? Record<string, unknown> : [input: Input]
-) => Res;
+  Output extends MaybeAsync<any>,
+> = (...args: Input extends void ? never : [input: Input]) => Output;
+
+export type NonNullable<T> = Exclude<T, null | undefined>;
 
 export type ExtractInputType<T> = {
-  [key in keyof T]: T[key] extends Operator<any> ? T[key]['inputType'] : void;
+  [key in keyof T]: T[key] extends Operator<any>
+    ? NonNullable<T[key]['inputType']>
+    : void;
 };
 
+// fork from https://github.com/midwayjs/hooks/blob/main/packages/hooks-core/src/api/type.ts
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type ArrayToObject<T, R = {}> = T extends [infer First, ...infer Rest]
   ? First extends PromiseLike<infer PromiseValue>
@@ -80,3 +85,5 @@ export type ArrayToObject<T, R = {}> = T extends [infer First, ...infer Rest]
   : R;
 
 export type AsyncFunction = (...args: any[]) => Promise<any>;
+
+export const httpMethods = Object.values(HttpMethod);
