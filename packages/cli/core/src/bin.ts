@@ -26,7 +26,7 @@ const runOptions: CoreOptions = {
   version,
 };
 
-if (command === 'dev' && cliParams.config) {
+if (['dev', 'build', 'deploy'].includes(command) && cliParams.config) {
   runOptions.configFile = cliParams.config;
 }
 
