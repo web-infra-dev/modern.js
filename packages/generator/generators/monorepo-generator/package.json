@@ -27,7 +27,7 @@
     "test": "wireit"
   },
   "devDependencies": {
-    "@babel/runtime": "^7",
+    "@babel/runtime": "^7.18.0",
     "@modern-js/base-generator": "workspace:*",
     "@modern-js/changeset-generator": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",

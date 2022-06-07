@@ -15,7 +15,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/runtime": "^7",
+    "@babel/runtime": "^7.18.0",
     "@modern-js/easy-form-core": "^1.0.0",
     "@modern-js/generator-utils": "workspace:^1.2.5",
     "@modern-js/generator-common": "workspace:^1.4.11",
