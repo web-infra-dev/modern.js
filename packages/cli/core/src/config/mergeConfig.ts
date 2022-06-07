@@ -67,7 +67,12 @@ export const mergeConfig = (
 ): NormalizedConfig =>
   mergeWith({}, ...configs, (target: any, source: any, key: string) => {
     // Do not use the following merge logic for source.designSystem and tools.tailwind(css)
-    if (key === 'designSystem' || key === 'tailwind' || key === 'tailwindcss') {
+    if (
+      key === 'designSystem' ||
+      key === 'tailwind' ||
+      key === 'tailwindcss' ||
+      key === 'devServer'
+    ) {
       return mergeWith({}, target ?? {}, source ?? {});
     }
 
