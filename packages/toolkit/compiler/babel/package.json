@@ -35,13 +35,13 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/core": "^7.17.0",
-    "@babel/runtime": "^7",
+    "@babel/core": "^7.18.0",
+    "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:^1.7.3"
   },
   "devDependencies": {
-    "@babel/plugin-transform-classes": "^7.14.9",
-    "@babel/preset-typescript": "^7",
+    "@babel/plugin-transform-classes": "^7.18.0",
+    "@babel/preset-typescript": "^7.17.12",
     "@types/babel__core": "^7.1.15",
     "@types/glob": "^7.1.4",
     "@types/jest": "^27",

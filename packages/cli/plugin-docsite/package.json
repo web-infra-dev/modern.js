@@ -40,8 +40,8 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/parser": "^7.15.2",
-    "@babel/runtime": "^7",
+    "@babel/parser": "^7.18.0",
+    "@babel/runtime": "^7.18.0",
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
     "@modern-js/utils": "workspace:^1.7.6",

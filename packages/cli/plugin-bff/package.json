@@ -61,8 +61,8 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/core": "^7.17.0",
-    "@babel/runtime": "^7",
+    "@babel/core": "^7.18.0",
+    "@babel/runtime": "^7.18.0",
     "@modern-js/babel-compiler": "workspace:^1.2.5",
     "@modern-js/bff-utils": "workspace:^1.2.8",
     "@modern-js/create-request": "workspace:^1.2.10",

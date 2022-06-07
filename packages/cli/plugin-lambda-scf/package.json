@@ -44,7 +44,7 @@
     "@serverless/components": "^3.18.0"
   },
   "devDependencies": {
-    "@babel/runtime": "^7",
+    "@babel/runtime": "^7.18.0",
     "@scripts/build": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/plugin-jarvis": "workspace:*",
