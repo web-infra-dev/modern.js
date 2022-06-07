@@ -121,11 +121,6 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
     .plugin('@babel/plugin-proposal-export-default-from')
     .use(require.resolve('@babel/plugin-proposal-export-default-from'));
 
-  // https://github.com/tc39/proposal-export-ns-from
-  chain
-    .plugin('@babel/plugin-proposal-export-namespace-from')
-    .use(require.resolve('@babel/plugin-proposal-export-namespace-from'));
-
   // ======= Stage1 =====
   // link: https://github.com/tc39/proposal-pipeline-operator
   chain

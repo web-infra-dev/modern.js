@@ -44,14 +44,6 @@ export const getModuleBabelChain = (
     .plugin('@babel/plugin-proposal-function-sent')
     .use(require.resolve('@babel/plugin-proposal-function-sent'));
 
-  // link:
-  // https://github.com/tc39/proposal-logical-assignment
-  chain
-    .plugin('@babel/plugin-proposal-logical-assignment-operators')
-    .use(
-      require.resolve('@babel/plugin-proposal-logical-assignment-operators'),
-    );
-
   const buildInPlugins = getBuildInPlugins({
     appDirectory,
     importStyle: modulePresetOption.importStyle,

@@ -36,8 +36,8 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/core": "^7.17.0",
-    "@babel/register": "^7.15.3",
+    "@babel/core": "^7.18.0",
+    "@babel/register": "^7.17.7",
     "@modern-js/bff-utils": "workspace:^1.2.8",
     "@modern-js/hmr-client": "workspace:^1.2.7",
     "@modern-js/prod-server": "workspace:^1.1.7",

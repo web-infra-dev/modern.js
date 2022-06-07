@@ -111,12 +111,5 @@ export const genCommon = (options: Options): BabelChain => {
     .plugin('./built-in/babel-plugin-ssr-loader-id')
     .use(require.resolve('./built-in/babel-plugin-ssr-loader-id'));
 
-  // 该插件 base config里没有，保持不变
-  // NOTE: This plugin is included in @babel/preset-env, in ES2020
-  // https://babeljs.io/docs/en/babel-plugin-syntax-dynamic-import#docsNav
-  chain
-    .plugin('@babel/plugin-syntax-dynamic-import')
-    .use(require.resolve('@babel/plugin-syntax-dynamic-import'));
-
   return chain.merge(baseConfigChain);
 };

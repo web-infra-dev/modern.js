@@ -56,8 +56,8 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/core": "^7.17.0",
-    "@babel/runtime": "^7",
+    "@babel/core": "^7.18.0",
+    "@babel/runtime": "^7.18.0",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/server": "^5.15.1",
     "@modern-js/webpack": "workspace:^1.9.1",
