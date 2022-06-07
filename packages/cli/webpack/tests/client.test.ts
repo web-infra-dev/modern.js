@@ -8,6 +8,11 @@ describe('@modern-js/webpack#config/client', () => {
     appDirectory: __dirname,
     distDirectory: `${__dirname}/dist`,
     srcDirectory: `${__dirname}/src`,
+    sharedDirectory: `${__dirname}/src/shared`,
+    internalSrcAlias: '@_modern_js_src',
+    internalDirAlias: '@_modern_js_internal',
+    internalDirectory: `${__dirname}/node_modules/.modern-js`,
+    htmlTemplates: {},
     entrypoints: [
       {
         entryName: 'main',
@@ -117,5 +122,46 @@ describe('@modern-js/webpack#config/client', () => {
     }).toThrowError();
 
     fsSpy.mockRestore();
+  });
+
+  const hasCoreJsEntry = (config: any) =>
+    Object.values(config.entry).some((entry: any) =>
+      entry.some((file: string) => file.includes('core-js-entry')),
+    );
+
+  it('should include core-js-entry when output.polyfill is entry', () => {
+    const client = new ClientWebpackConfig(appContext, {
+      ...options,
+      output: {
+        ...options.output,
+        polyfill: 'entry',
+      },
+    });
+
+    expect(hasCoreJsEntry(client.config())).toBeTruthy();
+  });
+
+  it('should not include core-js-entry when output.polyfill is usage', () => {
+    const client = new ClientWebpackConfig(appContext, {
+      ...options,
+      output: {
+        ...options.output,
+        polyfill: 'usage',
+      },
+    });
+
+    expect(hasCoreJsEntry(client.config())).toBeFalsy();
+  });
+
+  it('should not include core-js-entry when output.polyfill is ua', () => {
+    const client = new ClientWebpackConfig(appContext, {
+      ...options,
+      output: {
+        ...options.output,
+        polyfill: 'ua',
+      },
+    });
+
+    expect(hasCoreJsEntry(client.config())).toBeFalsy();
   });
 });
