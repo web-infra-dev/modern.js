@@ -37,6 +37,7 @@ export interface IBuildConfig {
   sourceDir: string;
   tsconfigName?: string;
   clear?: boolean;
+  styleOnly?: boolean;
 }
 
 export interface IPackageModeValue {
