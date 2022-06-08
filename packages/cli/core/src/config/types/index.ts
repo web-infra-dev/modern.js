@@ -207,6 +207,8 @@ export type RequestHandler = (
 ) => void;
 
 export type DevServerConfig = {
+  hot?: boolean;
+  liveReload?: boolean;
   proxy?: BffProxyOptions;
   headers?: Record<string, string>;
   before?: RequestHandler[];

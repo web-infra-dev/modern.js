@@ -5,16 +5,7 @@ import { BaseWebpackConfig } from '../src/config/base';
 import { JS_REGEX, TS_REGEX } from '../src/utils/constants';
 import { mergeRegex } from '../src/utils/mergeRegex';
 import { getWebpackUtils } from '../src/config/shared';
-import { userConfig } from './util';
-
-const mockNodeEnv = (value: string) => {
-  const { NODE_ENV } = process.env;
-  process.env.NODE_ENV = value;
-
-  return function restore() {
-    process.env.NODE_ENV = NODE_ENV;
-  };
-};
+import { userConfig, mockNodeEnv } from './util';
 
 describe('base webpack config', () => {
   const fixtures = path.resolve(__dirname, './fixtures');
