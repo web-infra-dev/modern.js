@@ -1,6 +1,7 @@
 import { fs, CHAIN_ID } from '@modern-js/utils';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { ClientWebpackConfig } from '../src/config/client';
+import { isPluginRegistered, mockNodeEnv } from './util';
 
 describe('@modern-js/webpack#config/client', () => {
   const appContext: IAppContext = {
@@ -117,10 +118,7 @@ describe('@modern-js/webpack#config/client', () => {
 
     client.plugins();
 
-    expect(() => {
-      client.chain.plugin(CHAIN_ID.PLUGIN.COPY).tap(options => options);
-    }).toThrowError();
-
+    expect(isPluginRegistered(client.chain, CHAIN_ID.PLUGIN.COPY)).toBeFalsy();
     fsSpy.mockRestore();
   });
 
@@ -163,5 +161,57 @@ describe('@modern-js/webpack#config/client', () => {
     });
 
     expect(hasCoreJsEntry(client.config())).toBeFalsy();
+  });
+
+  it('should register HMR related plugins in development', () => {
+    const restore = mockNodeEnv('development');
+    const client = new ClientWebpackConfig(appContext, options);
+
+    client.loaders();
+    client.plugins();
+
+    expect(isPluginRegistered(client.chain, CHAIN_ID.PLUGIN.HMR)).toBeTruthy();
+    expect(
+      isPluginRegistered(client.chain, CHAIN_ID.PLUGIN.REACT_FAST_REFRESH),
+    ).toBeTruthy();
+
+    restore();
+  });
+
+  it('should not register HMR related plugins in production', () => {
+    const restore = mockNodeEnv('production');
+    const client = new ClientWebpackConfig(appContext, options);
+
+    client.loaders();
+    client.plugins();
+
+    expect(isPluginRegistered(client.chain, CHAIN_ID.PLUGIN.HMR)).toBeFalsy();
+    expect(
+      isPluginRegistered(client.chain, CHAIN_ID.PLUGIN.REACT_FAST_REFRESH),
+    ).toBeFalsy();
+
+    restore();
+  });
+
+  it('should not register HMR related plugins when devServer.hot is false', () => {
+    const restore = mockNodeEnv('development');
+    const client = new ClientWebpackConfig(appContext, {
+      ...options,
+      tools: {
+        devServer: {
+          hot: false,
+        },
+      } as any,
+    });
+
+    client.loaders();
+    client.plugins();
+
+    expect(isPluginRegistered(client.chain, CHAIN_ID.PLUGIN.HMR)).toBeFalsy();
+    expect(
+      isPluginRegistered(client.chain, CHAIN_ID.PLUGIN.REACT_FAST_REFRESH),
+    ).toBeFalsy();
+
+    restore();
   });
 });
