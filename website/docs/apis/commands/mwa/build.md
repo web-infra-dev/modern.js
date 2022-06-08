@@ -8,8 +8,9 @@ Usage: modern build [options]
 build application
 
 Options:
+  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
+  -h, --help  显示命令帮助
   --analyze   分析构建产物体积，查看各个模块打包后的大小
-  -h, --help  display help for command
 ```
 
 `modern build` 命令默认会在 `/dist` 目录下构建出可用于生产环境的产物。

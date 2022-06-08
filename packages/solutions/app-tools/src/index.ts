@@ -8,7 +8,7 @@ import { getLocaleLanguage } from './utils/language';
 import { start } from './commands/start';
 import { dev } from './commands/dev';
 import { closeServer } from './utils/createServer';
-import type { DevOptions, BuildOptions } from './utils/types';
+import type { DevOptions, BuildOptions, DeployOptions } from './utils/types';
 
 export { defineConfig };
 
@@ -37,9 +37,12 @@ export default (): CliPlugin => ({
           .command('dev')
           .usage('[options]')
           .description(i18n.t(localeKeys.command.dev.describe))
-          .option('-c --config <config>', i18n.t(localeKeys.command.dev.config))
+          .option(
+            '-c --config <config>',
+            i18n.t(localeKeys.command.shared.config),
+          )
           .option('-e --entry [entry...]', i18n.t(localeKeys.command.dev.entry))
-          .option('--analyze', i18n.t(localeKeys.command.dev.analyze))
+          .option('--analyze', i18n.t(localeKeys.command.shared.analyze))
           .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
           .action(async (options: DevOptions) => {
             await dev(api, options);
@@ -49,7 +52,11 @@ export default (): CliPlugin => ({
           .command('build')
           .usage('[options]')
           .description(i18n.t(localeKeys.command.build.describe))
-          .option('--analyze', i18n.t(localeKeys.command.build.analyze))
+          .option(
+            '-c --config <config>',
+            i18n.t(localeKeys.command.shared.config),
+          )
+          .option('--analyze', i18n.t(localeKeys.command.shared.analyze))
           .action(async (options: BuildOptions) => {
             const { build } = await import('./commands/build');
             await build(api, options);
@@ -70,8 +77,12 @@ export default (): CliPlugin => ({
         program
           .command('deploy')
           .usage('[options]')
+          .option(
+            '-c --config <config>',
+            i18n.t(localeKeys.command.shared.config),
+          )
           .description(i18n.t(localeKeys.command.deploy.describe))
-          .action(async (options: any) => {
+          .action(async (options: DeployOptions) => {
             const { build } = await import('./commands/build');
             await build(api);
             const { deploy } = await import('./commands/deploy');
