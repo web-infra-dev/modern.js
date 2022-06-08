@@ -90,7 +90,7 @@ const handleTemplateFile = async (
     'scripts.build:electron': 'modern build electron',
     'devDependencies.@modern-js/plugin-electron': '^1.0.0',
     'devDependencies.electron': '^13',
-    'devDependencies.electron-builder': '^22.11.7',
+    'devDependencies.electron-builder': '^23.1.0',
     'devDependencies.@babel/runtime': '^7.15.4',
     'devDependencies.@babel/register': '^7.15.3',
   };
