@@ -98,13 +98,17 @@ export const genDts = async (
     tsconfig: tsconfigPath,
     watch,
     bundlessOption: { sourceDir },
+    outputStylePath,
   } = config;
   const { appDirectory } = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
   const {
     output: { path: distPath = 'dist' },
   } = modernConfig;
-  const distDir = path.join(appDirectory, distPath, outputPath, 'types');
+  // Compatible Logic
+  const distDir = outputStylePath
+    ? path.join(appDirectory, distPath, 'types')
+    : path.join(appDirectory, distPath, outputPath, 'types');
 
   const option = {
     appDirectory,
