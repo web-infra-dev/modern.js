@@ -4,4 +4,4 @@
 '@modern-js/server': patch
 ---
 
-feat(server): support disable hmr or live reload
+feat(devServer): support disable hmr or live reload
