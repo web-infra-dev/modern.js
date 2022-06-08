@@ -1,15 +1,16 @@
 export const ZH_LOCALE = {
   command: {
+    shared: {
+      analyze: '分析构建产物体积，查看各个模块打包后的大小',
+      config: '指定配置文件路径，可以为相对路径或绝对路径',
+    },
     dev: {
       describe: '本地开发命令',
-      config: '指定配置文件路径',
       entry: '指定入口，编译特定的页面',
       apiOnly: '仅启动 API 接口服务',
-      analyze: '分析构建产物体积，查看各个模块打包后的大小',
     },
     build: {
       describe: '构建应用命令',
-      analyze: '分析构建产物体积，查看各个模块打包后的大小',
     },
     start: { describe: '应用启动命令' },
     deploy: { describe: '部署应用命令' },
