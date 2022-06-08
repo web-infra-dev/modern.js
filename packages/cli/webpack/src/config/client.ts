@@ -115,6 +115,10 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     ]);
   }
 
+  private isUsingHMR() {
+    return isDev() && this.options.tools?.devServer?.hot !== false;
+  }
+
   loaders() {
     const loaders = super.loaders();
     this.includeCoreJsEntry();
@@ -128,7 +132,9 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     this.useCopyPlugin();
     this.useFastRefresh();
 
-    isDev() && this.chain.plugin(PLUGIN.HMR).use(HotModuleReplacementPlugin);
+    if (this.isUsingHMR()) {
+      this.chain.plugin(PLUGIN.HMR).use(HotModuleReplacementPlugin);
+    }
 
     const { packageName } = this.appContext as IAppContext & {
       entrypoints: Entrypoint[];
@@ -353,7 +359,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
   }
 
   useFastRefresh() {
-    if (isFastRefresh()) {
+    if (isFastRefresh() && this.isUsingHMR()) {
       const ReactFastRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
       this.chain.plugin(PLUGIN.REACT_FAST_REFRESH).use(ReactFastRefreshPlugin, [
