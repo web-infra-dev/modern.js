@@ -45,6 +45,6 @@ declare module '@modern-js/core' {
     packageFields?: PackageFields;
   }
   interface SourceConfig {
-    jsxTransformRuntime: 'automatic' | 'classic';
+    jsxTransformRuntime?: 'automatic' | 'classic';
   }
 }
