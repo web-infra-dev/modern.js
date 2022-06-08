@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "@integration-test/style-only-test",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@modern-js/module-tools": "workspace:*",
+    "@modern-js/plugin-less": "workspace:*"
+  },
+  "browserslist": {}
+}
