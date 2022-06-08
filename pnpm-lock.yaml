@@ -684,7 +684,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7
       '@modern-js/core': workspace:*
-      '@modern-js/plugin-router': workspace:^1.2.14
+      '@modern-js/plugin-router': workspace:*
       '@modern-js/runtime-core': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.5
@@ -714,7 +714,6 @@ importers:
       webpack-chain: ^6.5.1
     dependencies:
       '@babel/runtime': 7.18.3
-      '@modern-js/plugin-router': link:../plugin-router
       '@modern-js/utils': link:../../toolkit/utils
       '@types/debug': 4.1.7
       '@types/react-loadable': 5.5.6
@@ -724,6 +723,7 @@ importers:
       react-loadable: 5.5.0_react@17.0.2
     devDependencies:
       '@modern-js/core': link:../core
+      '@modern-js/plugin-router': link:../plugin-router
       '@modern-js/runtime-core': link:../../runtime
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
