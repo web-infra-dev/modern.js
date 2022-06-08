@@ -1,5 +1,22 @@
 # @modern-js/prod-server
 
+## 1.1.7
+
+### Patch Changes
+
+- d4afeba71: fix: remove cors for prod-server
+
+## 1.1.6
+
+### Patch Changes
+
+- 430d417e: optimize server side hot reload
+- Updated dependencies [6451a098]
+- Updated dependencies [d5a2cfd8]
+- Updated dependencies [437367c6]
+  - @modern-js/utils@1.7.6
+  - @modern-js/server-core@1.3.5
+
 ## 1.1.5
 
 ### Patch Changes

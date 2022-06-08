@@ -12,7 +12,7 @@ sidebar_label: injectByEntries
 * 默认值： `undefined`
 
 
-按入口设置 script 标签插入位置，对象的 `key` 为入口名，对应的值设置参考 [`output.inject`](./inject)。
+按入口设置 script 标签插入位置，对象的 `key` 为入口名，对应的值设置参考 [`output.inject`](./inject.md)。
 
 
 :::info 注

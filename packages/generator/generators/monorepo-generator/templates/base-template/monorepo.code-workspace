@@ -18,17 +18,9 @@
       "Procfile*": "shellscript",
       "README": "markdown"
     },
-    "files.exclude": {
-      "**/*/adapters/**/index.ts": true,
-      "**/*/adapters/**/index.js": true
-    },
     "search.useIgnoreFiles": true,
     "search.exclude": {
-      "**/build": true,
-      "**/output": true,
       "**/dist": true,
-      "**/yarn.lock": true,
-      "**/package-lock.json": true,
       "**/*.log": true,
       "**/*.pid": true,
       "**/.git": true,
@@ -93,10 +85,6 @@
     "eslint.lintTask.enable": true,
     "javascript.validate.enable": false,
     "typescript.validate.enable": true,
-    "flow.enabled": false,
-    //
-    "htmlhint.enable": true,
-    //
     "stylelint.enable": false,
     "css.validate": false,
     "scss.validate": false,
@@ -129,7 +117,6 @@
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     },
-    "editor.codeActionsOnSaveTimeout": 5000,
     "javascript.format.enable": false,
     "typescript.format.enable": false,
     //
@@ -149,7 +136,6 @@
       "editor.formatOnSave": true
     },
     "emmet.triggerExpansionOnTab": true,
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "deno.enable": false
+    "typescript.tsdk": "node_modules/typescript/lib"
   }
 }

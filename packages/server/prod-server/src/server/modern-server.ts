@@ -137,13 +137,6 @@ export class ModernServer implements ModernServerInterface {
 
     const { distDir, staticGenerate, conf } = this;
 
-    // Todo: why add this middleware
-    this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
-      ctx.res.setHeader('Access-Control-Allow-Origin', '*');
-      ctx.res.setHeader('Access-Control-Allow-Credentials', 'false');
-      next();
-    });
-
     debug('final server conf', this.conf);
     // proxy handler, each proxy has own handler
     this.proxyHandler = createProxyHandler(conf.bff?.proxy as BffProxyOptions);
@@ -204,8 +197,16 @@ export class ModernServer implements ModernServerInterface {
     // empty
   }
 
-  protected onServerChange(_: Record<string, any>) {
-    this.prepareFrameHandler();
+  protected onServerChange({ filepath }: { filepath: string }) {
+    const { pwd } = this;
+    const { api, server } = AGGRED_DIR;
+    const apiPath = path.normalize(path.join(pwd, api));
+    const serverPath = path.normalize(path.join(pwd, server));
+
+    const onlyApi = filepath.startsWith(apiPath);
+    const onlyWeb = filepath.startsWith(serverPath);
+
+    this.prepareFrameHandler({ onlyWeb, onlyApi });
   }
 
   // exposed requestHandler
@@ -258,8 +259,12 @@ export class ModernServer implements ModernServerInterface {
   }
 
   // gather frame extension and get framework handler
-  protected async prepareFrameHandler() {
+  protected async prepareFrameHandler(options?: {
+    onlyApi: boolean;
+    onlyWeb: boolean;
+  }) {
     const { workDir, runner } = this;
+    const { onlyApi, onlyWeb } = options || {};
 
     // server hook, gather plugin inject
     const { getMiddlewares, ...collector } = createMiddlewareCollecter();
@@ -271,12 +276,12 @@ export class ModernServer implements ModernServerInterface {
     const serverDir = path.join(workDir, SERVER_DIR);
 
     // get api or web server handler from server-framework plugin
-    if (await fs.pathExists(path.join(serverDir))) {
+    if ((await fs.pathExists(path.join(serverDir))) && !onlyApi) {
       const webExtension = mergeExtension(pluginWebExt);
       this.frameWebHandler = await this.prepareWebHandler(webExtension);
     }
 
-    if (fs.existsSync(apiDir)) {
+    if (fs.existsSync(apiDir) && !onlyWeb) {
       const mode = fs.existsSync(path.join(apiDir, AGGRED_DIR.lambda))
         ? ApiServerMode.frame
         : ApiServerMode.func;

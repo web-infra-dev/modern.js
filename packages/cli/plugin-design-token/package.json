@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.0.7",
+  "version": "1.0.9",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -50,8 +50,8 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.7.5",
+    "@babel/runtime": "^7.18.0",
+    "@modern-js/utils": "workspace:^1.7.6",
     "tailwindcss": "^2.0.4",
     "hoist-non-react-statics": "^3.3.2"
   },

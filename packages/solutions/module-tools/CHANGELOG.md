@@ -1,5 +1,26 @@
 # @modern-js/module-tools
 
+## 1.5.4
+
+### Patch Changes
+
+- da65bf12: chore: merge plugin-fast-refresh into webpack
+- b02a4c35: fix: fix missing peer deps
+- Updated dependencies [f730081c]
+- Updated dependencies [d1ab1f05]
+- Updated dependencies [2ec8181a]
+- Updated dependencies [6451a098]
+- Updated dependencies [b02a4c35]
+- Updated dependencies [7fcfd6cc]
+- Updated dependencies [d5a2cfd8]
+- Updated dependencies [437367c6]
+  - @modern-js/core@1.11.1
+  - @modern-js/utils@1.7.6
+  - @modern-js/babel-preset-module@1.3.6
+  - @modern-js/css-config@1.2.6
+  - @modern-js/plugin-analyze@1.4.5
+  - @modern-js/plugin-changeset@1.2.7
+
 ## 1.5.3
 
 ### Patch Changes

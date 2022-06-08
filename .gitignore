@@ -40,8 +40,6 @@ local-test-project/*
 .idea/
 
 **/*/typings/auto-generated
-**/*/adapters/**/index.ts
-**/*/adapters/**/index.js
 .pnpm-store/
 
 .storybook/

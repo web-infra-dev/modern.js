@@ -35,12 +35,12 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/runtime": "^7",
+    "@babel/runtime": "^7.18.0",
     "@modern-js/plugin-i18n": "workspace:^1.2.6",
     "@modern-js/utils": "workspace:^1.7.3"
   },
   "devDependencies": {
-    "@modern-js/codesmith": "^1.0.10",
+    "@modern-js/codesmith": "^1.2.2",
     "@types/jest": "^27",
     "@types/node": "^14",
     "typescript": "^4",

@@ -1,5 +1,5 @@
 import http from 'http';
-import { webpack, HotModuleReplacementPlugin } from 'webpack';
+import { webpack } from '@modern-js/webpack';
 import SocketServer from '../src/dev-tools/socket-server';
 import DevServerPlugin from '../src/dev-tools/dev-server-plugin';
 
@@ -70,7 +70,7 @@ describe('test dev tools', () => {
 
   test('should dev server plugin work correctly with hot plugin', () => {
     const compiler = webpack({
-      plugins: [new HotModuleReplacementPlugin()],
+      plugins: [new webpack.HotModuleReplacementPlugin()],
     });
     new DevServerPlugin({
       client: {

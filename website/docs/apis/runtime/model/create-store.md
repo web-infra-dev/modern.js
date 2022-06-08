@@ -34,10 +34,10 @@ import { createStore } from '@modern-js/runtime/model';
 
 `createStore` 函数返回 `store`，`store` 是继承 [Redux Store](https://redux.js.org/tutorials/fundamentals/part-4-store#redux-store)，并在其上添加了 `use` 函数。
 
-- use：`function`，获取 **Model** 的 **React Hook** 函数，用法与 [**useStaticModel**](../container/use-static-model) 相同，但可以在 **React** 组件外使用。
+- use：`function`，获取 **Model** 的 **React Hook** 函数，用法与 [**useStaticModel**](../container/use-static-model.md) 相同，但可以在 **React** 组件外使用。
 - ReduxStore：`ReduxStore`，详见 [**Redux Store**](https://redux.js.org/tutorials/fundamentals/part-4-store#redux-store)。
 <!-- TODO: 没有 useStaticModel? -->
-<!-- - `useStaticModel`：获取 **Model** 的 **React Hook** 函数，详见 [**useStaticModel**](../container/use-static-model)。 -->
+<!-- - `useStaticModel`：获取 **Model** 的 **React Hook** 函数，详见 [**useStaticModel**](../container/use-static-model.md)。 -->
 
 ## 示例
 ```tsx

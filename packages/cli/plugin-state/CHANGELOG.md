@@ -1,5 +1,17 @@
 # @modern-js/plugin-state
 
+## 1.2.9
+
+### Patch Changes
+
+- 37250cb8f: feat: supply `AppConfig` types
+
+## 1.2.8
+
+### Patch Changes
+
+- f7cbc771: chore(plugin-state): bump @modern-js-reduck/plugin-devtools 1.0.3 to fix the deprecatetion warning
+
 ## 1.2.7
 
 ### Patch Changes

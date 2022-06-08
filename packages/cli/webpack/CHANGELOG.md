@@ -1,5 +1,41 @@
 # @modern-js/webpack
 
+## 1.9.1
+
+### Patch Changes
+
+- 6c8ab42dd: optimize whether to do SSR bundle
+- ed90859ba: fix: failed to compile css modules in node_modules
+- 0ef2431cb: chore(webpack): refactor publicPath setter
+
+## 1.9.0
+
+### Minor Changes
+
+- 0d161fa8: feat(webpack): add more utils for tools.webpack
+- 280eebf9: feat(webpack): tools.webpack support modify or return config object
+
+### Patch Changes
+
+- 5f7fccf0: feat(webpack): check argument type in webpack utils
+- 02b0a22e: fix(webpack): ts checker skip api folder
+- da65bf12: chore: merge plugin-fast-refresh into webpack
+- 8854c600: use webpack chain to add target
+- f7cbc771: feat: prebundle webpack-dev-middleware
+- 6451a098: fix: cyclic dependencies of @modern-js/core and @moden-js/webpack
+- f5c48c3f: fix(webpack): ts checker should ignore node_modules
+- 658b4dd5: fix(webpack): ts checker runs twice when ssr is enabled
+- 45d5643a: feat(webpack): support modify html-webpack-plugin
+- 2ba8d62f: feat: filter ssr bundles by server.ssrByEntries
+- 7394df61: feat: prebundle @loadable/webpack-plugin and fix peer deps warning
+- Updated dependencies [6451a098]
+- Updated dependencies [0276ffa2]
+- Updated dependencies [d5a2cfd8]
+- Updated dependencies [437367c6]
+  - @modern-js/utils@1.7.6
+  - @modern-js/babel-preset-app@1.3.4
+  - @modern-js/css-config@1.2.6
+
 ## 1.8.0
 
 ### Minor Changes

@@ -1,20 +1,81 @@
+import type {
+  OutputConfig,
+  ServerConfig,
+  SSGMultiEntryOptions,
+} from '@modern-js/core';
 import {
+  CHAIN_ID,
   applyOptionsChain,
   isProd,
   isUseSSRBundle,
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
 import { DefinePlugin } from 'webpack';
+import type WebpackChain from '@modern-js/utils/webpack-chain';
 import { BaseWebpackConfig } from './base';
-import { CHAIN_ID, enableBundleAnalyzer } from './shared';
+import { enableBundleAnalyzer } from './shared';
+
+export function filterEntriesBySSRConfig(
+  chain: WebpackChain,
+  serverConfig?: ServerConfig,
+  outputConfig?: OutputConfig,
+) {
+  const entries = chain.entryPoints.entries();
+
+  // if prod and ssg config is true
+  if (isProd() && outputConfig?.ssg === true) {
+    return;
+  }
+
+  // if single entry has ssg config
+  const entryNames = Object.keys(entries);
+  if (isProd() && entryNames.length === 1 && outputConfig?.ssg) {
+    return;
+  }
+
+  // collect all ssg entries
+  const ssgEntries: string[] = [];
+  if (isProd() && outputConfig?.ssg) {
+    const { ssg } = outputConfig;
+    entryNames.forEach(name => {
+      if ((ssg as SSGMultiEntryOptions)[name]) {
+        ssgEntries.push(name);
+      }
+    });
+  }
+
+  const { ssr, ssrByEntries } = serverConfig || {};
+  entryNames.forEach(name => {
+    if (
+      !ssgEntries.includes(name) &&
+      ((ssr && ssrByEntries?.[name] === false) ||
+        (!ssr && ssrByEntries?.[name] !== true))
+    ) {
+      chain.entryPoints.delete(name);
+    }
+  });
+}
 
 class NodeWebpackConfig extends BaseWebpackConfig {
   name() {
     this.chain.name('server');
   }
 
+  target() {
+    this.chain.target('node');
+  }
+
   devtool() {
     this.chain.devtool(false);
+  }
+
+  entry() {
+    super.entry();
+    filterEntriesBySSRConfig(
+      this.chain,
+      this.options.server,
+      this.options.output,
+    );
   }
 
   output() {
@@ -117,6 +178,9 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
     this.useDefinePlugin();
 
+    // Avoid repeated execution of ts checker
+    this.chain.plugins.delete(CHAIN_ID.PLUGIN.TS_CHECKER);
+
     if (this.options.cliOptions?.analyze) {
       enableBundleAnalyzer(this.chain, 'report-ssr.html');
     }
@@ -137,11 +201,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
   config() {
     const config = super.config();
-
-    config.target = 'node';
-
-    // disable sourcemap
-    config.devtool = false;
 
     // prod bundle all dependencies
     if (isProd()) {

@@ -31,7 +31,9 @@ describe('babel-preset-app', () => {
     const toolsBabelConfig = (config: any) => {
       config.plugins = config.plugins.filter((item: any) => {
         const name = typeof item === 'string' ? item : item[0];
-        return !name.includes(`@babel${path.sep}plugin-syntax-dynamic-import`);
+        return !name.includes(
+          `@babel${path.sep}plugin-transform-destructuring`,
+        );
       });
     };
 
@@ -43,7 +45,7 @@ describe('babel-preset-app', () => {
 
     expect(babelOptions.plugins).toEqual(
       expect.not.arrayContaining([
-        [require.resolve('@babel/plugin-syntax-dynamic-import')],
+        [require.resolve('@babel/plugin-transform-destructuring')],
       ]),
     );
   });

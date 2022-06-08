@@ -1,5 +1,19 @@
 # @modern-js/plugin-garfish
 
+## 1.5.1
+
+### Patch Changes
+
+- 6451a098: fix: cyclic dependencies of @modern-js/core and @moden-js/webpack
+- 45d5643a: feat(webpack): support modify html-webpack-plugin
+- Updated dependencies [be7262e2]
+- Updated dependencies [6451a098]
+- Updated dependencies [d5a2cfd8]
+- Updated dependencies [437367c6]
+  - @modern-js/runtime-core@1.4.7
+  - @modern-js/utils@1.7.6
+  - @modern-js/plugin-router@1.2.14
+
 ## 1.5.0
 
 ### Minor Changes

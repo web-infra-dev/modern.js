@@ -35,8 +35,8 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.7.3",
+    "@babel/runtime": "^7.18.0",
+    "@modern-js/utils": "workspace:^1.7.6",
     "isomorphic-fetch": "^3.0.0"
   },
   "devDependencies": {
@@ -54,7 +54,7 @@
     "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/runtime-core": "workspace:^1.4.6"
+    "@modern-js/runtime-core": "workspace:^1.4.8"
   },
   "sideEffects": false,
   "publishConfig": {

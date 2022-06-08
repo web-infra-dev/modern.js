@@ -49,7 +49,7 @@ export interface LoaderOptions<
   skip?: boolean;
 
   /**
-   * User params, it will bypass to loader's second parameter.
+   * User params, it will pass to loader's second parameter.
    */
   params?: Params;
 
@@ -72,6 +72,11 @@ const useLoader = <TData = any, Params = any, E = any>(
   const { loaderManager } = context;
   const loaderRef = useRef<Loader>();
   const unlistenLoaderChangeRef = useRef<(() => void) | null>(null);
+
+  // SSR render should ignore `_cache` prop
+  if (isSSRRender && Object.prototype.hasOwnProperty.call(options, '_cache')) {
+    delete (options as any)._cache;
+  }
 
   const load = useCallback(
     (params?: Params) => {
@@ -100,15 +105,15 @@ const useLoader = <TData = any, Params = any, E = any>(
       );
 
       loaderRef.current = loaderManager.get(id)!;
+      // unsubscribe old loader onChange event
+      unlistenLoaderChangeRef.current?.();
 
       if (isSSRRender) {
-        unlistenLoaderChangeRef.current?.();
         return undefined;
       }
 
       // skip this loader, then try to unlisten loader change
       if (options.skip) {
-        unlistenLoaderChangeRef.current?.();
         return undefined;
       }
 
@@ -117,14 +122,11 @@ const useLoader = <TData = any, Params = any, E = any>(
         context._hydration &&
         window?._SSR_DATA?.data?.loadersData[id]?.error === null
       ) {
-        unlistenLoaderChangeRef.current?.();
         return undefined;
       }
 
       const res = loaderRef.current.load();
 
-      // unlisten old loader, and subsribe to new loader
-      unlistenLoaderChangeRef.current?.();
       unlistenLoaderChangeRef.current = loaderRef.current?.onChange(
         (_status, _result) => {
           setResult(_result);

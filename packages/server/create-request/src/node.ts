@@ -45,9 +45,19 @@ export const createRequest: RequestCreator = (
     const payload: BFFRequestPayload =
       typeof args[args.length - 1] === 'object' ? args[args.length - 1] : {};
     payload.params = payload.params || {};
-    keys.forEach((key, index) => {
-      payload.params![key.name] = args[index];
-    });
+
+    const requestParams = args[0];
+    // 这种场景下是使用 schema，所以 params 要从 args[0] 中获取
+    if (typeof requestParams === 'object' && requestParams.params) {
+      const { params } = requestParams;
+      keys.forEach(key => {
+        payload.params![key.name] = params[key.name];
+      });
+    } else {
+      keys.forEach((key, index) => {
+        payload.params![key.name] = args[index];
+      });
+    }
 
     const plainPath = getFinalPath(payload.params);
     const finalPath = payload.query

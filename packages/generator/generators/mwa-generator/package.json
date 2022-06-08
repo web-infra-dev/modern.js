@@ -27,12 +27,12 @@
     "test": "wireit"
   },
   "devDependencies": {
-    "@babel/runtime": "^7",
+    "@babel/runtime": "^7.18.0",
     "@modern-js/base-generator": "workspace:*",
-    "@modern-js/codesmith": "^1.0.10",
-    "@modern-js/codesmith-api-app": "^1.0.10",
-    "@modern-js/codesmith-api-json": "^1.0.7",
-    "@modern-js/codesmith-tools": "^1.1.2",
+    "@modern-js/codesmith": "^1.2.2",
+    "@modern-js/codesmith-api-app": "^1.2.4",
+    "@modern-js/codesmith-api-json": "^1.2.1",
+    "@modern-js/codesmith-tools": "^1.2.1",
     "@modern-js/entry-generator": "workspace:*",
     "@modern-js/electron-generator": "workspace:*",
     "@modern-js/dependence-generator": "workspace:*",

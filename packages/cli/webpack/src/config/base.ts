@@ -1,8 +1,11 @@
 /* eslint-disable max-lines */
 import path from 'path';
 import {
+  chalk,
   isProd,
   isDev,
+  signale,
+  CHAIN_ID,
   isProdProfile,
   isTypescript,
   ensureAbsolutePath,
@@ -17,7 +20,8 @@ import webpack, { IgnorePlugin } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { createBabelChain, BabelChain } from '@modern-js/babel-chain';
-import { webpackMerge, WebpackChain } from '../compiled';
+import WebpackChain from '@modern-js/utils/webpack-chain';
+import { merge as webpackMerge } from '../../compiled/webpack-merge';
 import WebpackBar from '../../compiled/webpackbar';
 import {
   CSS_REGEX,
@@ -29,7 +33,6 @@ import {
   GLOBAL_CSS_REGEX,
   JS_RESOLVE_EXTENSIONS,
   CACHE_DIRECTORY,
-  NODE_MODULES_CSS_REGEX,
 } from '../utils/constants';
 import { createCSSRule, enableCssExtract } from '../utils/createCSSRule';
 import { mergeRegex } from '../utils/mergeRegex';
@@ -39,7 +42,7 @@ import { ModuleScopePlugin } from '../plugins/module-scope-plugin';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
 import { TsConfigPathsPlugin } from '../plugins/ts-config-paths-plugin';
 import { getWebpackAliases } from '../utils/getWebpackAliases';
-import { CHAIN_ID } from './shared';
+import { getWebpackUtils, isNodeModulesCss } from './shared';
 
 export type ResolveAlias = { [index: string]: string };
 
@@ -131,6 +134,10 @@ class BaseWebpackConfig {
     // empty
   }
 
+  target() {
+    // empty
+  }
+
   mode() {
     const mode = isProd() ? 'production' : 'development';
     this.chain.mode(mode);
@@ -201,20 +208,21 @@ class BaseWebpackConfig {
   }
 
   publicPath() {
-    let publicPath =
-      /* eslint-disable no-nested-ternary */
-      isProd()
-        ? this.options.output
-          ? this.options.output.assetPrefix!
-          : ''
-        : isString(this.options.dev?.assetPrefix)
-        ? this.options.dev.assetPrefix
-        : (this.options.dev ? this.options.dev.assetPrefix : '')
-        ? `//${this.appContext.ip || 'localhost'}:${
-            this.appContext.port || '8080'
-          }/`
-        : '/';
-    /* eslint-enable no-nested-ternary */
+    const { dev, output } = this.options;
+
+    let publicPath = '/';
+
+    if (isProd()) {
+      if (output?.assetPrefix) {
+        publicPath = output.assetPrefix;
+      }
+    } else if (isString(dev?.assetPrefix)) {
+      publicPath = dev.assetPrefix;
+    } else if (dev?.assetPrefix === true) {
+      const ip = this.appContext.ip || 'localhost';
+      const port = this.appContext.port || '8080';
+      publicPath = `//${ip}:${port}/`;
+    }
 
     if (!publicPath.endsWith('/')) {
       publicPath += '/';
@@ -308,30 +316,7 @@ class BaseWebpackConfig {
     const disableCssModuleExtension =
       this.options.output?.disableCssModuleExtension ?? false;
 
-    // css
-    createCSSRule(
-      this.chain,
-      {
-        appDirectory: this.appDirectory,
-        config: this.options,
-      },
-      {
-        name: ONE_OF.CSS,
-        // when disableCssModuleExtension is true,
-        // only transfer *.global.css and node_modules/**/*.css
-        test: disableCssModuleExtension
-          ? [NODE_MODULES_CSS_REGEX, GLOBAL_CSS_REGEX]
-          : CSS_REGEX,
-        exclude: [CSS_MODULE_REGEX],
-      },
-      {
-        importLoaders: 1,
-        esModule: false,
-        sourceMap: isProd() && !this.options.output?.disableSourceMap,
-      },
-    );
-
-    // css modules
+    // CSS modules
     createCSSRule(
       this.chain,
       {
@@ -342,7 +327,7 @@ class BaseWebpackConfig {
         name: ONE_OF.CSS_MODULES,
         test: disableCssModuleExtension ? CSS_REGEX : CSS_MODULE_REGEX,
         exclude: disableCssModuleExtension
-          ? [/node_modules/, GLOBAL_CSS_REGEX]
+          ? [isNodeModulesCss, GLOBAL_CSS_REGEX]
           : [],
         genTSD: this.options.output?.enableCssModuleTSDeclaration,
       },
@@ -355,6 +340,24 @@ class BaseWebpackConfig {
             : '',
           exportLocalsConvention: 'camelCase',
         },
+        sourceMap: isProd() && !this.options.output?.disableSourceMap,
+      },
+    );
+
+    // CSS (not modules)
+    createCSSRule(
+      this.chain,
+      {
+        appDirectory: this.appDirectory,
+        config: this.options,
+      },
+      {
+        name: ONE_OF.CSS,
+        test: CSS_REGEX,
+      },
+      {
+        importLoaders: 1,
+        esModule: false,
         sourceMap: isProd() && !this.options.output?.disableSourceMap,
       },
     );
@@ -457,7 +460,6 @@ class BaseWebpackConfig {
       .add(JS_REGEX)
       .add(TS_REGEX)
       .add(CSS_REGEX)
-      .add(CSS_MODULE_REGEX)
       .add(/\.(html?|json|wasm|ya?ml|toml|md)$/)
       .end()
       .use(USE.FILE)
@@ -510,7 +512,10 @@ class BaseWebpackConfig {
           },
           issue: {
             include: [{ file: '**/src/**/*' }],
-            exclude: [{ file: '**/*.(spec|test).ts' }],
+            exclude: [
+              { file: '**/*.(spec|test).ts' },
+              { file: '**/node_modules/**/*' },
+            ],
           },
         },
       ]);
@@ -658,29 +663,69 @@ class BaseWebpackConfig {
   }
 
   config() {
-    const chainConfig = this.getChain().toConfig();
+    const chain = this.getChain();
+    const chainConfig = chain.toConfig();
+
+    let finalConfig = chainConfig;
+
+    if (this.options.tools?.webpack) {
+      let isChainUsed = false;
+
+      const proxiedChain = new Proxy(chain, {
+        get(target, property) {
+          isChainUsed = true;
+          return (target as any)[property];
+        },
+      });
+
+      const mergedConfig = applyOptionsChain(
+        chainConfig,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error utils type incompatible
+        this.options.tools?.webpack,
+        {
+          chain: proxiedChain,
+          env: process.env.NODE_ENV,
+          name: chain.get('name'),
+          webpack,
+          ...getWebpackUtils(chainConfig),
+        },
+        webpackMerge,
+      );
+
+      // Compatible with the legacy `chain` usage, if `chain` is called in `tools.webpack`,
+      // using the chained config as finalConfig, otherwise using the merged webpack config.
+      if (isChainUsed) {
+        finalConfig = chain.toConfig();
+
+        if (isDev()) {
+          signale.warn(
+            `The ${chalk.cyan('chain')} param of ${chalk.cyan(
+              'tools.webpack',
+            )} is deprecated, please use ${chalk.cyan(
+              'tools.webpackChain',
+            )} instead.`,
+          );
+        }
+      } else {
+        finalConfig = mergedConfig;
+      }
+    }
+
+    // TODO remove webpackFinal
     if ((this.options.tools as any)?.webpackFinal) {
       return applyOptionsChain(
-        chainConfig as any,
+        finalConfig,
         (this.options.tools as any)?.webpackFinal,
         {
-          name: this.chain.get('name'),
+          name: chain.get('name'),
           webpack,
         },
         webpackMerge,
       );
     }
-    return chainConfig;
-  }
 
-  watchOptions() {
-    if (isDev()) {
-      this.chain.watchOptions({
-        // fix webpack watch mode rebuild twice on file change
-        // https://github.com/webpack/webpack/issues/15431
-        aggregateTimeout: 100,
-      });
-    }
+    return finalConfig;
   }
 
   applyToolsWebpackChain() {
@@ -711,6 +756,7 @@ class BaseWebpackConfig {
     this.chain.node.set('global', true);
 
     this.name();
+    this.target();
     this.mode();
     this.devtool();
     this.entry();
@@ -721,24 +767,7 @@ class BaseWebpackConfig {
     this.cache();
     this.optimization();
     this.stats();
-    this.watchOptions();
     this.applyToolsWebpackChain();
-
-    const config = this.chain.toConfig();
-
-    applyOptionsChain(
-      config,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error utils type incompatible
-      this.options.tools?.webpack,
-      {
-        chain: this.chain,
-        env: process.env.NODE_ENV,
-        name: this.chain.get('name'),
-        webpack,
-      },
-      webpackMerge,
-    );
 
     return this.chain;
   }

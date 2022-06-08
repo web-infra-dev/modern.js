@@ -32,7 +32,10 @@ function fixTypeExternalPath(
   replaceFileContent(filepath, content => {
     let newContent = content;
     Object.keys(externals).forEach(name => {
-      newContent = newContent.replace(`../../${name}`, externals[name]);
+      newContent = newContent.replace(
+        new RegExp(`../../${name}`, 'g'),
+        externals[name],
+      );
     });
     return newContent;
   });

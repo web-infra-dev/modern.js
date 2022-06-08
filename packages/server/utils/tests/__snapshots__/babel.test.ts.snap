@@ -48,7 +48,7 @@ Object {
         "helpers": false,
         "regenerator": true,
         "useESModules": false,
-        "version": "7.16.7",
+        "version": "7.18.3",
       },
     ],
     Array [
@@ -62,9 +62,6 @@ Object {
     ],
     Array [
       "/@babel/plugin-proposal-export-default-from/lib/index.js",
-    ],
-    Array [
-      "/@babel/plugin-proposal-export-namespace-from/lib/index.js",
     ],
     Array [
       "/@babel/plugin-proposal-pipeline-operator/lib/index.js",

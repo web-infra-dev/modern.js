@@ -39,9 +39,9 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/runtime": "^7",
-    "@modern-js/utils": "workspace:^1.7.5",
-    "@modern-js/webpack": "workspace:^1.8.0",
+    "@babel/runtime": "^7.18.0",
+    "@modern-js/utils": "workspace:^1.7.6",
+    "@modern-js/webpack": "workspace:^1.9.0",
     "axios": "^0.24.0",
     "axios-retry": "^3.2.4",
     "body-parser": "^1.19.0",

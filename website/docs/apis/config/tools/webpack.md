@@ -5,61 +5,63 @@ sidebar_label: webpack
 # tools.webpack
 
 :::info 适用的工程方案
-- MWA
+MWA。
 :::
 
-- 类型： `(config, { env, chain, webpack }) => void`
+- 类型： `Object | (config, utils) => void`
 - 默认值： `undefined`
 
-对应 [webpack](https://webpack.js.org/) 的配置，值为 `Function` 类型。
+Modern.js 默认集成了 [webpack](https://webpack.js.org/)，对构建产物进行编译打包等操作，可通过 `tools.webpack` 对其进行配置。
 
-- 函数的第一个参数为内部的默认配置（只读）。
-- 函数的第二个参数为修改 webpack 配置的工具集合，包括 `env`、`chain`、`webpack` 等。
+:::info
+[tools.webpackChain](/docs/apis/config/tools/webpack-chain) 同样可以修改 webpack 配置，并且功能更加强大，建议优先使用 `tools.webpackChain`。
+:::
 
-### chain
+## 类型
 
-函数第二个参数中的 `chain` 对象是一个 [webpack-chain](https://github.com/neutrinojs/webpack-chain) 实例，通过 `chain` 可以对 webpack 配置进行变更:
+### Object 类型
 
-```js title="modern.config.js"
+当值为 `Object` 类型时，Modern.js 会通过 [webpack-merge](https://github.com/survivejs/webpack-merge) 将 `tools.webpack` 参数值和框架的默认 `webpack` 配置合并，得到最终的 `webpack` 配置。
+
+例如，修改 `mode` 配置为 `development`：
+
+```typescript title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
 export default defineConfig({
   tools: {
-    webpack: (config, { chain }) => {
-      chain.resolve.alias.set('@example', `${appDirectory}/src/example`);
+    webpack: {
+      mode: 'development',
     },
   },
 });
 ```
 
-以下是 `chain` 常见用法的示例：
+### Function 类型
 
-```js title="modern.config.js"
+当值为 `Function` 类型时，内部默认配置作为第一参数传入，可以直接修改配置对象不做返回，也可以返回一个对象作为最终结果；第二个参数为修改 webpack 配置的工具集合。
+
+例如，用函数的方式修改 `mode` 为 `development`：
+
+```typescript title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
 export default defineConfig({
   tools: {
-    webpack: (config, { chain }) => {
-      // 自定义 loader
-      chain.module
-        .rule('compile-svg')
-        .test(/\.svg$/)
-        .use('svg-inline')
-        .loader('svg-inline-loader');
-
-      // 自定义 plugin
-      chain
-        .plugin('clean')
-        .use(CleanPlugin, [['dist'], { root: '/dir' }]);
-
-      // 修改 SourceMap 格式
-      chain.devtool('source-map');
+    webpack: config => {
+      config.mode = 'development';
     },
   },
 });
 ```
 
-完整 API 请参考 [webpack-chain 文档](https://github.com/neutrinojs/webpack-chain)。
+## 工具函数
+
+`tools.webpack` 值为 `Function` 时，第二个参数对象可用的属性如下。
 
 ### env
 
-获取当前环境值为 `development` 还是 `production`：
+通过 `env` 参数可以判断当前环境为 `development` 还是 `production`：
 
 ```js title="modern.config.js"
 export default defineConfig({
@@ -73,7 +75,7 @@ export default defineConfig({
 
 ### webpack
 
-获取 Modern.js 内部使用的 webpack 对象：
+通过 `webpack` 参数可以获取 Modern.js 内部使用的 webpack 对象。
 
 ```js title="modern.config.js"
 export default defineConfig({
@@ -82,9 +84,92 @@ export default defineConfig({
       console.log(
         new webpack.BannerPlugin({
           banner: 'hello world!',
-        })
+        }),
       );
     },
   },
 });
 ```
+
+建议优先使用该参数来访问 webpack 对象，而不是通过 import 来引入 `webpack`。
+
+如果需要通过 import 引入，则项目里需要单独安装 webpack 依赖，这样可能会导致 webpack 被重复安装，因此不推荐该做法。
+
+### addRules
+
+通常情况下，使用 Modern.js 不需要添加额外的 [webpack rule](https://webpack.js.org/configuration/module/#rule-conditions)。当有额外需求时，可以使用该工具函数添加对应的 rules。
+
+以处理 [cson](https://github.com/groupon/cson-parser) 文件为例：
+
+```typescript title="modern.config.ts"
+export default defineConfig({
+  tools: {
+    webpack: (config, { addRules }) => {
+      addRules([
+        {
+          test: /\.cson/,
+          loader: require.resolve('cson-loader'),
+        },
+      ]);
+    },
+  },
+});
+```
+
+### prependPlugins
+
+在内部 webpack 插件数组头部添加额外的插件：
+
+```typescript title="modern.config.ts"
+export default defineConfig({
+  tools: {
+    webpack: (config, { prependPlugins, webpack }) => {
+      prependPlugins([
+        new webpack.BannerPlugin({
+          banner: 'hello world!',
+        }),
+      ]);
+    },
+  },
+});
+```
+
+### appendPlugins
+
+在内部 webpack 插件数组尾部添加额外的插件：
+
+```typescript title="modern.config.ts"
+export default defineConfig({
+  tools: {
+    webpack: (config, { appendPlugins, webpack }) => {
+      appendPlugins([
+        new webpack.BannerPlugin({
+          banner: 'hello world!',
+        }),
+      ]);
+    },
+  },
+});
+```
+
+### removePlugin
+
+删除内部的 webpack 插件，参数为该插件的 `constructor.name`。
+
+例如，删除内部的 [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin)：
+
+```typescript title="modern.config.ts"
+export default defineConfig({
+  tools: {
+    webpack: (config, { removePlugin }) => {
+      removePlugin('ForkTsCheckerWebpackPlugin');
+    },
+  },
+});
+```
+
+### chain (废弃)
+
+此参数已废弃，请使用 [tools.webpackChain](/docs/apis/config/tools/webpack-chain)。
+
+当使用 `chain` 参数时，修改 config 对象或返回 config 对象都不会产生任何效果。

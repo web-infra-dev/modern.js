@@ -1,6 +1,7 @@
 export type DevOptions = {
   entry?: string[] | boolean;
   apiOnly?: boolean;
+  analyze?: boolean;
 };
 
 export type BuildOptions = {

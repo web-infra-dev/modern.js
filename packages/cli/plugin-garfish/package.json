@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.5.0",
+  "version": "1.5.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "typesVersions": {
@@ -72,7 +72,6 @@
     "@modern-js/plugin-router": "workspace:*",
     "@modern-js/runtime-core": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@modern-js/webpack": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@testing-library/jest-dom": "^5.16.1",

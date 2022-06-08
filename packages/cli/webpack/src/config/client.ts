@@ -4,6 +4,7 @@ import {
   fs,
   isDev,
   isProd,
+  CHAIN_ID,
   removeLeadingSlash,
   getEntryOptions,
   generateMetaTags,
@@ -27,13 +28,14 @@ import { AppIconPlugin } from '../plugins/app-icon-plugin';
 import { BottomTemplatePlugin } from '../plugins/bottom-template-plugin';
 import { ICON_EXTENSIONS } from '../utils/constants';
 import { BaseWebpackConfig } from './base';
-import { CHAIN_ID, enableBundleAnalyzer } from './shared';
+import { enableBundleAnalyzer } from './shared';
 
 const { USE, RULE, ONE_OF, PLUGIN } = CHAIN_ID;
-const nodeLibsBrowser = require('node-libs-browser');
 
 export class ClientWebpackConfig extends BaseWebpackConfig {
   htmlFilename: (name: string) => string;
+
+  coreJsEntry: string;
 
   constructor(appContext: IAppContext, options: NormalizedConfig) {
     super(appContext, options);
@@ -43,6 +45,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
           this.options.output.disableHtmlFolder ? name : `${name}/index`
         }.html`,
       );
+    this.coreJsEntry = path.resolve(__dirname, '../runtime/core-js-entry.js');
   }
 
   name() {
@@ -51,25 +54,11 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
   entry() {
     super.entry();
-
-    if (this.options.output.polyfill === 'entry') {
-      const entryPoints = Object.keys(this.chain.entryPoints.entries() || {});
-
-      for (const name of entryPoints) {
-        this.chain
-          .entry(name)
-          .prepend(require.resolve('regenerator-runtime/runtime'))
-          .prepend(require.resolve('core-js'));
-      }
-    }
+    this.addCoreJsEntry();
   }
 
   resolve() {
     super.resolve();
-
-    // FIXME: local node_modules (WTF?)
-    const wtfPath = path.resolve(__dirname, '../../../../node_modules');
-    this.chain.resolve.modules.add(wtfPath);
 
     // node polyfill
     if (!this.options.output.disableNodePolyfill) {
@@ -80,6 +69,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
   }
 
   private getNodePolyfill(): Record<string, string | false> {
+    const nodeLibsBrowser = require('node-libs-browser');
     return Object.keys(nodeLibsBrowser).reduce<Record<string, string | false>>(
       (previous, name) => {
         if (nodeLibsBrowser[name]) {
@@ -123,6 +113,12 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
         ),
       },
     ]);
+  }
+
+  loaders() {
+    const loaders = super.loaders();
+    this.includeCoreJsEntry();
+    return loaders;
   }
 
   plugins() {
@@ -296,6 +292,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
     // node polyfill
     if (!this.options.output.disableNodePolyfill) {
+      const nodeLibsBrowser = require('node-libs-browser');
       this.chain.plugin(PLUGIN.NODE_POLYFILL_PROVIDE).use(ProvidePlugin, [
         {
           Buffer: [nodeLibsBrowser.buffer, 'Buffer'],
@@ -377,6 +374,27 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
             require.resolve('react-refresh/babel'),
           ],
         }));
+    }
+  }
+
+  // add core-js-entry to every entries
+  addCoreJsEntry() {
+    if (this.options.output.polyfill === 'entry') {
+      const entryPoints = Object.keys(this.chain.entryPoints.entries() || {});
+
+      for (const name of entryPoints) {
+        this.chain.entry(name).prepend(this.coreJsEntry);
+      }
+    }
+  }
+
+  // let babel to transform core-js-entry, make `useBuiltins: 'entry'` working
+  includeCoreJsEntry() {
+    if (this.options.output.polyfill === 'entry') {
+      this.chain.module
+        .rule(RULE.LOADERS)
+        .oneOf(ONE_OF.JS)
+        .include.add(this.coreJsEntry);
     }
   }
 }

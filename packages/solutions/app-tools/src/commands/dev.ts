@@ -1,13 +1,6 @@
+import { fs, logger, chalk, isSSR, clearConsole } from '@modern-js/utils';
+import { manager, PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import type { Configuration } from '@modern-js/webpack';
-import {
-  fs,
-  logger,
-  HMR_SOCK_PATH,
-  clearConsole,
-  chalk,
-  isSSR,
-} from '@modern-js/utils';
-import type { PluginAPI } from '@modern-js/core';
 
 import { createCompiler } from '../utils/createCompiler';
 import { createServer } from '../utils/createServer';
@@ -18,9 +11,14 @@ import { getSpecifiedEntries } from '../utils/getSpecifiedEntries';
 import { buildServerConfig } from '../utils/config';
 
 export const dev = async (api: PluginAPI, options: DevOptions) => {
+  let userConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
-  const userConfig = api.useResolvedConfigContext();
   const hookRunners = api.useHookRunners();
+
+  manager.run(() => {
+    userConfig = { ...userConfig, cliOptions: options };
+    ResolvedConfigContext.set(userConfig);
+  });
 
   const {
     appDirectory,
@@ -83,10 +81,7 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
       ...{
         client: {
           port: port!.toString(),
-          overlay: false,
           logging: 'none',
-          path: HMR_SOCK_PATH,
-          host: 'localhost',
         },
         devMiddleware: {
           writeToDisk: (file: string) => !file.includes('.hot-update.'),

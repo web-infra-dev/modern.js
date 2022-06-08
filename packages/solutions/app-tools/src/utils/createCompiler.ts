@@ -1,4 +1,4 @@
-import { webpack, Configuration, StatsCompilation } from '@modern-js/webpack';
+import { webpack, Configuration } from '@modern-js/webpack';
 import type { IAppContext, NormalizedConfig, PluginAPI } from '@modern-js/core';
 import {
   chalk,
@@ -7,9 +7,6 @@ import {
   clearConsole,
 } from '@modern-js/utils';
 import { printInstructions } from './printInstructions';
-
-const prettyTime = (stats: StatsCompilation) =>
-  Math.max(...(stats.children?.map(child => child.time || 0) || []));
 
 export const createCompiler = async ({
   api,
@@ -38,8 +35,6 @@ export const createCompiler = async ({
     });
 
     compiler.hooks.done.tap('done', async (stats: any) => {
-      clearConsole();
-
       const statsData = stats.toJson({
         all: false,
         warnings: true,
@@ -59,12 +54,6 @@ export const createCompiler = async ({
           logger.log(chalk.yellow(`Compiled with warnings.\n`));
           logger.log(warnings.join('\n\n'));
           logger.log();
-        } else {
-          logger.log(
-            chalk.green(
-              `Compiled successfully in ${prettyTime(statsData)} ms.\n`,
-            ),
-          );
         }
         await printInstructions(hookRunners, appContext, userConfig);
       }

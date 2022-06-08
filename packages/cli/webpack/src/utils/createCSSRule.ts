@@ -1,7 +1,7 @@
 import { getPostcssConfig } from '@modern-js/css-config';
+import { CHAIN_ID } from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
-import type { WebpackChain } from '../compiled';
-import { CHAIN_ID } from '../config/shared';
+import type WebpackChain from '@modern-js/utils/webpack-chain';
 
 export const enableCssExtract = (config: NormalizedConfig) => {
   return config.output.disableCssExtract !== true;
@@ -36,18 +36,17 @@ export const createCSSRule = (
   }: {
     name: string;
     test: RegExp | RegExp[];
-    exclude?: RegExp[];
+    exclude?: Array<RegExp | ((path: string) => boolean)>;
     genTSD?: boolean;
   },
   options: CSSLoaderOptions,
 ) => {
   const postcssOptions = getPostcssConfig(appDirectory, config);
-
   const loaders = chain.module.rule(CHAIN_ID.RULE.LOADERS);
   const isExtractCSS = enableCssExtract(config);
+  const rule = loaders.oneOf(name);
 
-  loaders
-    .oneOf(name)
+  rule
     .test(test)
     .when(isExtractCSS, c => {
       c.use(CHAIN_ID.USE.MINI_CSS_EXTRACT)
@@ -75,9 +74,11 @@ export const createCSSRule = (
     .loader(require.resolve('../../compiled/postcss-loader'))
     .options(postcssOptions);
 
-  loaders.oneOf(name).merge({ sideEffects: true });
+  rule.merge({ sideEffects: true });
 
   if (exclude) {
-    loaders.oneOf(name).exclude.add(exclude);
+    exclude.forEach(item => {
+      rule.exclude.add(item);
+    });
   }
 };

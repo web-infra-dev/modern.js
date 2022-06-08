@@ -35,7 +35,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/runtime": "^7",
+    "@babel/runtime": "^7.18.0",
     "esbuild": "^0.14.38"
   },
   "devDependencies": {

@@ -7,8 +7,10 @@ import http, {
 import path from 'path';
 import { createServer as createHttpsServer } from 'https';
 import { API_DIR, SERVER_DIR, SHARED_DIR } from '@modern-js/utils';
-import type { MultiCompiler, Compiler } from 'webpack';
-import webpackDevMiddleware, { Headers } from 'webpack-dev-middleware';
+import type { MultiCompiler, Compiler } from '@modern-js/webpack';
+import webpackDevMiddleware, {
+  Headers,
+} from '@modern-js/webpack/webpack-dev-middleware';
 import {
   createProxyHandler,
   NextFunction,
@@ -18,11 +20,10 @@ import {
   BuildOptions,
 } from '@modern-js/prod-server';
 import { ModernServerContext } from '@modern-js/types';
-import { DEFAULT_DEV_OPTIONS } from '../constants';
+import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import SocketServer from '../dev-tools/socket-server';
 import DevServerPlugin from '../dev-tools/dev-server-plugin';
-import { createLaunchEditorHandler } from '../dev-tools/launch-editor';
 import { enableRegister } from '../dev-tools/babel/register';
 import Watcher from '../dev-tools/watcher';
 import { DevServerOptions, ModernDevServerOptions } from '../types';
@@ -53,12 +54,23 @@ export class ModernDevServer extends ModernServer {
     this.compiler = options.compiler!;
 
     // set dev server options, like webpack-dev-server
-    this.dev = {
-      ...DEFAULT_DEV_OPTIONS,
-      ...(typeof options.dev === 'boolean' ? {} : options.dev),
-    };
+    this.dev = this.getDevOptions(options);
 
     enableRegister(this.pwd, this.conf);
+  }
+
+  private getDevOptions(options: ModernDevServerOptions) {
+    const devOptions = typeof options.dev === 'boolean' ? {} : options.dev;
+    const defaultOptions = getDefaultDevOptions();
+
+    return {
+      ...defaultOptions,
+      ...devOptions,
+      client: {
+        ...defaultOptions.client,
+        ...devOptions?.client,
+      },
+    };
   }
 
   // Complete the preparation of services
@@ -73,6 +85,15 @@ export class ModernDevServer extends ModernServer {
         const { req, res } = ctx;
         return handler(req, res, next);
       });
+    });
+
+    this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
+      // allow hmr request cross-domain, because the user may use global proxy
+      if (ctx.path.includes('hot-update')) {
+        ctx.res.setHeader('Access-Control-Allow-Origin', '*');
+        ctx.res.setHeader('Access-Control-Allow-Credentials', 'false');
+      }
+      next();
     });
 
     // mock handler
@@ -97,9 +118,6 @@ export class ModernDevServer extends ModernServer {
     if (compiler) {
       // init socket server
       this.socketServer = new SocketServer(dev);
-
-      // open file in editor.
-      this.addHandler(createLaunchEditorHandler());
 
       // setup compiler in server, also add dev-middleware to handler static file in memory
       const devMiddlewareHandler = this.setupCompiler(compiler);
@@ -149,9 +167,6 @@ export class ModernDevServer extends ModernServer {
 
     // reset static file
     this.reader.updateFile();
-
-    // emit reset hook
-    this.runner.reset();
 
     super.onRepack(options);
   }

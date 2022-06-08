@@ -40,12 +40,12 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.7.5",
+    "@modern-js/utils": "workspace:^1.7.6",
     "ali-oss": "^6",
     "walk": "^2.3.15"
   },
   "devDependencies": {
-    "@babel/runtime": "^7",
+    "@babel/runtime": "^7.18.0",
     "@scripts/build": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/plugin-jarvis": "workspace:*",

@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.7",
+  "version": "1.2.9",
   "jsnext:source": "./src/runtime/index.tsx",
   "types": "./src/runtime/index.tsx",
   "main": "./dist/js/node/runtime/index.js",
@@ -63,9 +63,9 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/runtime": "^7",
+    "@babel/runtime": "^7.18.0",
     "@modern-js-reduck/plugin-auto-actions": "^1.0.2",
-    "@modern-js-reduck/plugin-devtools": "^1.0.2",
+    "@modern-js-reduck/plugin-devtools": "^1.0.3",
     "@modern-js-reduck/plugin-effects": "^1.0.2",
     "@modern-js-reduck/plugin-immutable": "^1.0.1",
     "@modern-js-reduck/react": "^1.0.1",

@@ -1,8 +1,7 @@
-import Webpack from 'webpack';
-import { DEFAULT_DEV_OPTIONS } from '../constants';
+import { webpack } from '@modern-js/webpack';
 import { DevServerOptions } from '../types';
 
-const { EntryPlugin } = Webpack;
+const { EntryPlugin } = webpack;
 export default class DevServerPlugin {
   private readonly options: DevServerOptions;
 
@@ -10,14 +9,12 @@ export default class DevServerPlugin {
     this.options = options;
   }
 
-  apply(compiler: Webpack.Compiler) {
-    const { options } = this;
+  apply(compiler: webpack.Compiler) {
+    const { client } = this.options;
 
-    const client = { ...DEFAULT_DEV_OPTIONS.client, ...options.client };
-
-    const host = `&host=${client.host}`;
-    const path = `&path=${client.path}`;
-    const port = `&port=${client.port}`;
+    const host = client.host ? `&host=${client.host}` : '';
+    const path = client.path ? `&path=${client.path}` : '';
+    const port = client.port ? `&port=${client.port}` : '';
 
     const clientEntry = `${require.resolve(
       '@modern-js/hmr-client',
@@ -37,11 +34,11 @@ export default class DevServerPlugin {
 
     if (
       !compilerOptions.plugins.find(
-        p => p.constructor === Webpack.HotModuleReplacementPlugin,
+        p => p.constructor === webpack.HotModuleReplacementPlugin,
       )
     ) {
       // apply the HMR plugin, if it didn't exist before.
-      const plugin = new Webpack.HotModuleReplacementPlugin();
+      const plugin = new webpack.HotModuleReplacementPlugin();
 
       plugin.apply(compiler);
     }

@@ -1,5 +1,19 @@
 # @modern-js/runtime-core
 
+## 1.4.8
+
+### Patch Changes
+
+- 808baede3: feat: bootstrap support return component
+- 37250cb8f: feat: supply `AppConfig` types
+- a204922e8: fix: fix `useLoader` returning undefined when setting \_cache prop
+
+## 1.4.7
+
+### Patch Changes
+
+- be7262e2: feat(runtime): support to disable `useLoader` cache
+
 ## 1.4.6
 
 ### Patch Changes

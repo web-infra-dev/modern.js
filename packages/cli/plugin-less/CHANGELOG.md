@@ -1,5 +1,11 @@
 # @modern-js/plugin-less
 
+## 1.3.1
+
+### Patch Changes
+
+- ed90859ba: fix: failed to compile css modules in node_modules
+
 ## 1.3.0
 
 ### Minor Changes
