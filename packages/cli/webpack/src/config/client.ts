@@ -35,6 +35,8 @@ const { USE, RULE, ONE_OF, PLUGIN } = CHAIN_ID;
 export class ClientWebpackConfig extends BaseWebpackConfig {
   htmlFilename: (name: string) => string;
 
+  coreJsEntry: string;
+
   constructor(appContext: IAppContext, options: NormalizedConfig) {
     super(appContext, options);
     this.htmlFilename = (name: string) =>
@@ -43,6 +45,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
           this.options.output.disableHtmlFolder ? name : `${name}/index`
         }.html`,
       );
+    this.coreJsEntry = path.resolve(__dirname, '../runtime/core-js-entry.js');
   }
 
   name() {
@@ -51,10 +54,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
   entry() {
     super.entry();
-
-    if (this.options.output.polyfill === 'entry') {
-      this.useCoreJsEntry();
-    }
+    this.addCoreJsEntry();
   }
 
   resolve() {
@@ -113,6 +113,12 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
         ),
       },
     ]);
+  }
+
+  loaders() {
+    const loaders = super.loaders();
+    this.includeCoreJsEntry();
+    return loaders;
   }
 
   plugins() {
@@ -371,19 +377,25 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     }
   }
 
-  useCoreJsEntry() {
-    const entryPoints = Object.keys(this.chain.entryPoints.entries() || {});
-    const coreJsEntry = path.resolve(__dirname, '../runtime/core-js-entry.js');
+  // add core-js-entry to every entries
+  addCoreJsEntry() {
+    if (this.options.output.polyfill === 'entry') {
+      const entryPoints = Object.keys(this.chain.entryPoints.entries() || {});
 
-    for (const name of entryPoints) {
-      this.chain.entry(name).prepend(coreJsEntry);
+      for (const name of entryPoints) {
+        this.chain.entry(name).prepend(this.coreJsEntry);
+      }
     }
+  }
 
-    // let babel to transform core-js-entry, make `useBuiltins: 'entry'` working
-    this.chain.module
-      .rule(RULE.LOADERS)
-      .oneOf(ONE_OF.JS)
-      .include.add(coreJsEntry);
+  // let babel to transform core-js-entry, make `useBuiltins: 'entry'` working
+  includeCoreJsEntry() {
+    if (this.options.output.polyfill === 'entry') {
+      this.chain.module
+        .rule(RULE.LOADERS)
+        .oneOf(ONE_OF.JS)
+        .include.add(this.coreJsEntry);
+    }
   }
 }
 /* eslint-enable max-lines */
