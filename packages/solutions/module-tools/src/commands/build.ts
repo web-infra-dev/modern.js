@@ -34,6 +34,7 @@ export const build = async (
     tsc,
     clear = true,
     platform,
+    styleOnly,
   }: IBuildOption,
 ) => {
   const { appDirectory } = api.useAppContext();
@@ -58,6 +59,7 @@ export const build = async (
       tsconfigName,
       enableTscCompiler,
       clear,
+      styleOnly,
     },
     modernConfig,
   );
