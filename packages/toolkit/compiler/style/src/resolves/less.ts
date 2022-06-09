@@ -16,8 +16,8 @@ const lessToCss = async (lessCode: string, params: ResolveItemParams) => {
     const lessResult = await less.render(data, {
       // [rootPath] https://lesscss.org/usage/#less-options-rootpath
       // TODO: support any path and url
-      rootpath: '.',
-      // relativeUrls: true,
+      rootpath: './',
+      relativeUrls: true,
       filename: path.resolve(file),
       paths: [path.dirname(file)],
       sourceMap: options.less?.enableSourceMap ? sourceMapOptions : false,

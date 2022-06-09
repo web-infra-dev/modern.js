@@ -1,5 +1,11 @@
 # @modern-js/style-compiler
 
+## 1.2.8
+
+### Patch Changes
+
+- eedece8b8: relativeUrls set true
+
 ## 1.2.7
 
 ### Patch Changes
