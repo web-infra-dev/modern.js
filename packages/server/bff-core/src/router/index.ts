@@ -1,6 +1,7 @@
 import path from 'path';
 import { fs, logger } from '@modern-js/utils';
 import 'reflect-metadata';
+import 'esbuild-register';
 import { HttpMethod, httpMethods, OperatorType, TriggerType } from '../types';
 import {
   APIMode,
@@ -38,6 +39,7 @@ export class ApiRouter {
     if (lambdaDir) {
       this.validateAbsolute(lambdaDir, 'lambdaDir');
     }
+
     this.prefix = this.initPrefix(prefix);
     this.apiDir = apiDir;
     this.lambdaDir = lambdaDir || this.getLambdaDir(this.apiDir);

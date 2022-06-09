@@ -2891,6 +2891,8 @@ importers:
       '@types/jest': ^27
       '@types/koa-compose': ^3.2.5
       '@types/node': ^14
+      esbuild: ^0.14.38
+      esbuild-register: ^3.3.3
       http-errors: ^2.0.0
       jest: ^27
       koa-compose: ^4.1.0
@@ -2902,6 +2904,8 @@ importers:
       '@babel/runtime': 7.17.9
       '@modern-js/bff-runtime': link:../bff-runtime
       '@modern-js/utils': link:../../toolkit/utils
+      esbuild: 0.14.38
+      esbuild-register: 3.3.3_esbuild@0.14.38
       http-errors: 2.0.0
       koa-compose: 4.1.0
       reflect-metadata: 0.1.13
@@ -22695,6 +22699,14 @@ packages:
     os: [openbsd]
     requiresBuild: true
     optional: true
+
+  /esbuild-register/3.3.3_esbuild@0.14.38:
+    resolution: {integrity: sha512-eFHOkutgIMJY5gc8LUp/7c+LLlDqzNi9T6AwCZ2WKKl3HmT+5ef3ZRyPPxDOynInML0fgaC50yszPKfPnjC0NQ==}
+    peerDependencies:
+      esbuild: '>=0.12 <1'
+    dependencies:
+      esbuild: 0.14.38
+    dev: false
 
   /esbuild-sunos-64/0.13.15:
     resolution: {integrity: sha512-lbivT9Bx3t1iWWrSnGyBP9ODriEvWDRiweAs69vI+miJoeKwHWOComSRukttbuzjZ8r1q0mQJ8Z7yUsDJ3hKdw==}
