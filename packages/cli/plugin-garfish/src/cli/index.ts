@@ -182,7 +182,7 @@ export default ({
         };
       },
       addRuntimeExports() {
-        const addExportStatement = `export { default as garfish, default as masterApp } from '${mfPackagePath}'`;
+        const addExportStatement = `export { default as garfish, default as masterApp, hoistNonReactStatics } from '${mfPackagePath}'`;
         logger('exportStatement', addExportStatement);
         pluginsExportsUtils.addExport(addExportStatement);
         runtimeExportsUtils.addExport(`export * from '${mfPackagePath}'`);
@@ -209,6 +209,15 @@ export default ({
             ],
           });
         }
+        imports.push({
+          value: runtimePluginName,
+          specifiers: [
+            {
+              imported: 'hoistNonReactStatics',
+            },
+          ],
+        });
+
         imports.push({
           value: 'react-dom',
           specifiers: [

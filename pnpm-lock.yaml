@@ -682,12 +682,12 @@ importers:
 
   packages/cli/plugin-garfish:
     specifiers:
-      '@babel/runtime': ^7.18.0
+      '@babel/runtime': ^7
       '@modern-js/core': workspace:*
       '@modern-js/plugin-router': workspace:*
       '@modern-js/runtime-core': workspace:*
       '@modern-js/types': workspace:*
-      '@modern-js/utils': workspace:^1.7.6
+      '@modern-js/utils': workspace:^1.7.5
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@testing-library/jest-dom': ^5.16.1
