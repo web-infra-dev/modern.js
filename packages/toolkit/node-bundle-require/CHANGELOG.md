@@ -1,5 +1,11 @@
 # @modern-js/node-bundle-require
 
+## 1.3.5
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+
 ## 1.3.4
 
 ### Patch Changes

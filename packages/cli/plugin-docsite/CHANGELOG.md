@@ -1,5 +1,18 @@
 # @modern-js/plugin-docsite
 
+## 1.2.11
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- Updated dependencies [8d508c6ed]
+- Updated dependencies [a1198d509]
+- Updated dependencies [29728812e]
+- Updated dependencies [147e090f7]
+- Updated dependencies [18892c65c]
+- Updated dependencies [a1198d509]
+  - @modern-js/webpack@1.10.0
+
 ## 1.2.10
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @modern-js/plugin-ssg
 
+## 1.2.14
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+
 ## 1.2.13
 
 ### Patch Changes
