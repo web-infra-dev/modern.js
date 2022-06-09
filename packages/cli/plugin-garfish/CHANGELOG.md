@@ -1,5 +1,14 @@
 # @modern-js/plugin-garfish
 
+## 1.5.2
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- df0694aba: fix(garfish-plugin): app static properties missing
+- Updated dependencies [a1198d509]
+  - @modern-js/plugin-router@1.2.15
+
 ## 1.5.1
 
 ### Patch Changes

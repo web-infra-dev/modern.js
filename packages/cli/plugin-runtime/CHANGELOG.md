@@ -1,5 +1,18 @@
 # @modern-js/runtime
 
+## 1.3.2
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- Updated dependencies [a1198d509]
+  - @modern-js/plugin-router@1.2.15
+  - @modern-js/plugin-ssr@1.4.5
+  - @modern-js/plugin-state@1.2.10
+  - @modern-js/runtime-core@1.4.9
+  - @modern-js/bff-runtime@1.2.4
+  - @modern-js/create-request@1.2.11
+
 ## 1.3.1
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @modern-js/testing-plugin-bff
 
+## 1.4.4
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- Updated dependencies [8d508c6ed]
+- Updated dependencies [a1198d509]
+  - @modern-js/server@1.4.18
+  - @modern-js/testing@1.5.4
+  - @modern-js/bff-utils@1.2.9
+
 ## 1.4.3
 
 ### Patch Changes

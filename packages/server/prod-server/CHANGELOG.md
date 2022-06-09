@@ -1,5 +1,12 @@
 # @modern-js/prod-server
 
+## 1.1.8
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+  - @modern-js/server-core@1.3.5
+
 ## 1.1.7
 
 ### Patch Changes
