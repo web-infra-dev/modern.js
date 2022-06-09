@@ -1,4 +1,4 @@
-import { HttpMethod, useAPIHandlerInfos } from '@modern-js/bff-utils';
+import { HttpMethod, httpMethods, APIHandlerInfo } from '@modern-js/bff-core';
 import { isSchemaHandler, InputType } from '@modern-js/bff-runtime';
 import type { Context, Router } from 'egg';
 import typeIs from 'type-is';
@@ -8,13 +8,9 @@ import { run } from '../context';
 
 const debug = createDebugger('plugin-egg');
 
-const registerRoutes = (router: Router, prefix?: string) => {
-  const handlerInfos = useAPIHandlerInfos();
+const registerRoutes = (router: Router, handlerInfos: APIHandlerInfo[]) => {
   sortDynamicRoutes(handlerInfos);
-  if (prefix) {
-    router.prefix(prefix);
-  }
-  handlerInfos.forEach(({ handler, method, name }: any) => {
+  handlerInfos.forEach(({ routePath, handler, httpMethod }) => {
     const wrappedHandler = async (ctx: Context) => {
       const input = await getInputFromRequest(ctx);
 
@@ -32,6 +28,8 @@ const registerRoutes = (router: Router, prefix?: string) => {
         }
       } else {
         const args = Object.values(input.params as any).concat(input);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         ctx.body = await run(ctx, () => handler(...args));
       }
     };
@@ -41,18 +39,18 @@ const registerRoutes = (router: Router, prefix?: string) => {
       Object.getOwnPropertyDescriptors(handler),
     );
 
-    if (isNormalMethod(method)) {
-      const routeName = method.toLowerCase();
-      debug('route', routeName, name);
-      (router as any)[routeName](name, wrappedHandler);
+    if (isNormalMethod(httpMethod)) {
+      const method = httpMethod.toLowerCase();
+      debug('route', method, routePath);
+      (router as any)[method](routePath, wrappedHandler);
     } else {
-      throw new Error(`Unknown HTTP Method: ${method}`);
+      throw new Error(`Unknown HTTP Method: ${httpMethod}`);
     }
   });
 };
 
-const isNormalMethod = (method: string): method is HttpMethod =>
-  Object.keys(HttpMethod).includes(method);
+const isNormalMethod = (httpMethod: HttpMethod): httpMethod is HttpMethod =>
+  httpMethods.includes(httpMethod);
 
 export default registerRoutes;
 

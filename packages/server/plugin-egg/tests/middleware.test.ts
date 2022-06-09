@@ -35,6 +35,7 @@ describe('register middleware', () => {
     const apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'function',
+      prefix: '/',
       config: { middleware: [middleware1, middleware2, middleware2] },
     });
 
@@ -78,6 +79,7 @@ describe('register middleware', () => {
     const apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'function',
+      prefix: '/',
       config: {
         middleware: [
           require.resolve('./fixtures/middlewares/middleware1'),
@@ -133,6 +135,7 @@ describe('register middleware', () => {
     const apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'function',
+      prefix: '/',
       config: {
         middleware: [
           [require.resolve('./fixtures/middlewares/middleware1'), options1],

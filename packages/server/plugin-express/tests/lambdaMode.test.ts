@@ -2,7 +2,6 @@ import path from 'path';
 import express from 'express';
 import request from 'supertest';
 import { serverManager } from '@modern-js/server-core';
-import { INTROSPECTION_ROUTE_PATH } from '@modern-js/bff-utils';
 import plugin from '../src/plugin';
 import { APIPlugin } from './helpers';
 import './common';
@@ -48,6 +47,12 @@ describe('lambda-mode', () => {
     expect(res.body.data).toEqual(foo);
   });
 
+  // test('should works with body', async () => {
+  //   const res = await request(apiHandler).post(`${prefix}/hello`).send(foo);
+  //   console.log('bbbbbbbbbbbb', res.body);
+  //   expect(res.status).toBe(200);
+  // });
+
   test('should works with dynamic route ', async () => {
     const res = await request(apiHandler).post(`${prefix}/nest/${id}`);
     expect(res.status).toBe(200);
@@ -90,14 +95,6 @@ describe('lambda-mode', () => {
       name: 'xxx',
     });
     expect(res3.status).toBe(500);
-  });
-
-  test('introspection', async () => {
-    const res = await request(apiHandler).get(
-      `/api${INTROSPECTION_ROUTE_PATH}`,
-    );
-    expect(res.status).toBe(200);
-    expect(res.body.protocol).toBe('Farrow-API');
   });
 
   test('should support upload file', done => {
@@ -234,6 +231,7 @@ describe('support app.ts in lambda mode', () => {
     const apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'framework',
+      prefix: '/',
     });
 
     const res = await request(apiHandler).get(`/nest/user?name=${name}`);
@@ -256,6 +254,7 @@ describe('support app.ts in lambda mode', () => {
     const apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'framework',
+      prefix: '/',
     });
 
     const res = await request(apiHandler).get(`/nest/user?name=${name}`);
@@ -282,6 +281,7 @@ describe('support app.ts in lambda mode', () => {
     const apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'framework',
+      prefix: '/',
     });
 
     const res = await request(apiHandler).get(`/nest/user`);
@@ -309,6 +309,7 @@ describe('support app.ts in lambda mode', () => {
     const apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'framework',
+      prefix: '/',
     });
 
     const res1 = await request(apiHandler).get(`/hello`);

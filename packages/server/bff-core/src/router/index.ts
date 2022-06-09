@@ -1,6 +1,5 @@
 import path from 'path';
 import { fs, logger } from '@modern-js/utils';
-import { Handler, SchemaHandler } from '@modern-js/bff-runtime';
 import 'reflect-metadata';
 import { HttpMethod, httpMethods, OperatorType, TriggerType } from '../types';
 import {
@@ -9,30 +8,29 @@ import {
   API_FILE_RULES,
 } from './constants';
 import { getFiles, getPathFromFilename, requireHandlerModule } from './utils';
+import { ModuleInfo, ApiHandler, APIHandlerInfo } from './types';
 
-export type ModuleInfo = {
-  filename: string;
-  module: HandlerModule;
-};
+export * from './types';
+export * from './constants';
 
-export type ApiHandler = Handler<any, any> | SchemaHandler<any, any>;
-
-export type HandlerModule = Record<string, ApiHandler>;
-
-export type APIHandlerInfo = {
-  handler: ApiHandler;
-  name: string;
-  httpMethod: string;
-  routePath: string;
-};
 export class ApiRouter {
   private apiDir: string;
 
   private lambdaDir: string;
 
+  private prefix: string;
+
   private apiFiles: string[];
 
-  constructor({ apiDir, lambdaDir }: { apiDir: string; lambdaDir?: string }) {
+  constructor({
+    apiDir,
+    lambdaDir,
+    prefix,
+  }: {
+    apiDir: string;
+    lambdaDir?: string;
+    prefix?: string;
+  }) {
     this.apiFiles = [];
     if (apiDir) {
       this.validateAbsolute(apiDir, 'apiDir');
@@ -40,8 +38,20 @@ export class ApiRouter {
     if (lambdaDir) {
       this.validateAbsolute(lambdaDir, 'lambdaDir');
     }
+    this.prefix = this.initPrefix(prefix);
     this.apiDir = apiDir;
     this.lambdaDir = lambdaDir || this.getLambdaDir(this.apiDir);
+  }
+
+  /**
+   * 如果用户未传入或传入空串，默认为 /api
+   * 如果传入 /，则 prefix 为 /
+   */
+  private initPrefix(prefix?: string) {
+    if (prefix === '/') {
+      return '';
+    }
+    return prefix || '/api';
   }
 
   private validateAbsolute(filename: string, paramsName: string) {
@@ -152,13 +162,14 @@ export class ApiRouter {
     handler: ApiHandler,
   ): APIHandlerInfo | null {
     const httpMethod = this.getHttpMethod(originFuncName, handler);
-    const routePath = this.getRoutePath(filename, handler);
-    if (httpMethod && routePath) {
+    const routeName = this.getRoutePath(filename, handler);
+    if (httpMethod && routeName) {
       return {
         handler,
         name: originFuncName,
         httpMethod,
-        routePath,
+        routeName,
+        routePath: `${this.prefix}${routeName}`,
       };
     }
     return null;

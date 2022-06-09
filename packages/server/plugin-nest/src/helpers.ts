@@ -13,7 +13,7 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
-import { APIHandlerInfo, HttpMethod } from '@modern-js/bff-utils';
+import { APIHandlerInfo, HttpMethod } from '@modern-js/bff-core';
 import { isSchemaHandler, InputType } from '@modern-js/bff-runtime';
 import type { Request, Response } from 'express';
 import typeIs from 'type-is';
@@ -81,34 +81,34 @@ export const getMiddleware =
     response.end();
   };
 
-const createController = ({ name, method, handler }: APIHandlerInfo) => {
+const createController = ({ name, httpMethod, handler }: APIHandlerInfo) => {
   let methodDecorator = Get;
-  switch (method) {
-    case HttpMethod.GET: {
+  switch (httpMethod) {
+    case HttpMethod.Get: {
       methodDecorator = Get;
       break;
     }
-    case HttpMethod.POST: {
+    case HttpMethod.Post: {
       methodDecorator = Post;
       break;
     }
-    case HttpMethod.DELETE: {
+    case HttpMethod.Delete: {
       methodDecorator = Delete;
       break;
     }
-    case HttpMethod.OPTION: {
+    case HttpMethod.Option: {
       methodDecorator = Options;
       break;
     }
-    case HttpMethod.PUT: {
+    case HttpMethod.Put: {
       methodDecorator = Put;
       break;
     }
-    case HttpMethod.PATCH: {
+    case HttpMethod.Patch: {
       methodDecorator = Patch;
       break;
     }
-    case HttpMethod.HEAD: {
+    case HttpMethod.Head: {
       methodDecorator = Head;
       break;
     }

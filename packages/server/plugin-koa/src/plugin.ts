@@ -3,8 +3,8 @@ import Koa, { Middleware } from 'koa';
 import type Application from 'koa';
 import Router from 'koa-router';
 import koaBody from 'koa-body';
-import { requireModule } from '@modern-js/bff-utils';
-import { fs } from '@modern-js/utils';
+import { APIHandlerInfo } from '@modern-js/bff-core';
+import { fs, compatRequire } from '@modern-js/utils';
 import type { ServerPlugin } from '@modern-js/server-core';
 import { run } from './context';
 import registerRoutes from './registerRoutes';
@@ -19,7 +19,7 @@ const findAppModule = async (apiDir: string) => {
 
   for (const filename of paths) {
     if (await fs.pathExists(filename)) {
-      return requireModule(filename);
+      return compatRequire(filename);
     }
   }
 
@@ -33,7 +33,7 @@ const initMiddlewares = (
   middleware.forEach(middlewareItem => {
     const middlewareFunc =
       typeof middlewareItem === 'string'
-        ? requireModule(middlewareItem)
+        ? compatRequire(middlewareItem)
         : middlewareItem;
     app.use(middlewareFunc);
   });
@@ -42,11 +42,13 @@ const initMiddlewares = (
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-koa',
   pre: ['@modern-js/plugin-bff'],
-  setup: () => ({
-    async prepareApiServer({ pwd, mode, config, prefix }) {
+  setup: api => ({
+    async prepareApiServer({ pwd, mode, config }) {
       let app: Application;
       const router = new Router();
       const apiDir = path.join(pwd, './api');
+      const appContext = api.useAppContext();
+      const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
 
       if (mode === 'framework') {
         app = await findAppModule(apiDir);
@@ -65,7 +67,7 @@ export default (): ServerPlugin => ({
         }
 
         app.use(run);
-        registerRoutes(router, prefix as string);
+        registerRoutes(router, apiHandlerInfos);
       } else if (mode === 'function') {
         app = new Koa();
         app.use(
@@ -79,7 +81,7 @@ export default (): ServerPlugin => ({
         }
 
         app.use(run);
-        registerRoutes(router, prefix as string);
+        registerRoutes(router, apiHandlerInfos);
       } else {
         throw new Error(`mode must be function or framework`);
       }

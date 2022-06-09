@@ -60,10 +60,14 @@ const clearRouteName = (routeName: string): string => {
 export const isHandler = (input: any): input is Handler<any, any> =>
   input && typeof input === 'function';
 
+const isFunction = (input: any): input is (...args: any) => any =>
+  input && {}.toString.call(input) === '[object Function]';
+
 export const requireHandlerModule = (modulePath: string) => {
-  const requiredModule = require(modulePath);
-  if (requiredModule.__esModule && requiredModule.default) {
-    return requiredModule.default;
+  const module = require(modulePath);
+  if (isFunction(module)) {
+    return { default: module };
   }
-  return requiredModule;
+
+  return module;
 };

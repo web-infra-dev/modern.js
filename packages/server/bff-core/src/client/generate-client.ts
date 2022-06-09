@@ -7,7 +7,7 @@ export type GenClientResult = Result<string>;
 export type GenClientOptions = {
   resourcePath: string;
   source: string;
-  lambdaDir: string;
+  apiDir: string;
   prefix: string;
   port: number;
   requestCreator?: string;
@@ -20,7 +20,7 @@ export const DEFAULT_CLIENT_REQUEST_CREATOR = '@modern-js/create-request';
 
 export const generateClient = async ({
   resourcePath,
-  lambdaDir,
+  apiDir,
   prefix,
   port,
   target,
@@ -47,8 +47,9 @@ export const generateClient = async ({
   }
 
   const apiRouter = new ApiRouter({
-    apiDir: lambdaDir,
-    lambdaDir,
+    apiDir,
+    prefix,
+    lambdaDir: apiDir,
   });
 
   const handlerInfos = apiRouter.getSingleModuleHandlers(resourcePath);
@@ -59,10 +60,13 @@ export const generateClient = async ({
   let handlersCode = '';
   for (const handlerInfo of handlerInfos) {
     const { name, httpMethod, routePath } = handlerInfo;
-    const exportStatement = `const ${name} =`;
+    let exportStatement = `const ${name} =`;
+    if (name.toLowerCase() === 'default') {
+      exportStatement = 'default';
+    }
     const upperHttpMethod = httpMethod.toUpperCase();
 
-    const routeName = prefix + routePath;
+    const routeName = routePath;
     handlersCode += `export ${exportStatement} createRequest('${routeName}', '${upperHttpMethod}', process.env.PORT || ${String(
       port,
     )}${fetcher ? `, fetch` : ''});

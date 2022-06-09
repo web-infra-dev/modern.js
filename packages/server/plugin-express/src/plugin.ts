@@ -2,8 +2,8 @@ import * as path from 'path';
 import express, { RequestHandler, Express } from 'express';
 import type { Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
-import { requireModule } from '@modern-js/bff-utils';
-import { fs, createDebugger } from '@modern-js/utils';
+import { APIHandlerInfo } from '@modern-js/bff-core';
+import { fs, createDebugger, compatRequire } from '@modern-js/utils';
 import finalhandler from 'finalhandler';
 import type { ServerPlugin } from '@modern-js/server-core';
 import { run } from './context';
@@ -21,7 +21,7 @@ const findAppModule = async (apiDir: string) => {
 
   for (const filename of paths) {
     if (await fs.pathExists(filename)) {
-      return requireModule(filename);
+      return compatRequire(filename);
     }
   }
 
@@ -35,7 +35,7 @@ const initMiddlewares = (
   middleware.forEach(middlewareItem => {
     const middlewareFunc =
       typeof middlewareItem === 'string'
-        ? requireModule(middlewareItem)
+        ? compatRequire(middlewareItem)
         : middlewareItem;
     app.use(middlewareFunc);
   });
@@ -58,10 +58,12 @@ const initApp = (app: express.Express) => {
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-express',
   pre: ['@modern-js/plugin-bff'],
-  setup: () => ({
+  setup: api => ({
     async prepareApiServer({ pwd, mode, config }) {
       let app: Express;
       const apiDir = path.join(pwd, './api');
+      const appContext = api.useAppContext();
+      const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
       if (mode === 'framework') {
         app = await findAppModule(apiDir);
 
@@ -77,7 +79,7 @@ export default (): ServerPlugin => ({
         }
         useRun(app);
 
-        registerRoutes(app);
+        registerRoutes(app, apiHandlerInfos);
       } else if (mode === 'function') {
         app = express();
         initApp(app);
@@ -89,7 +91,7 @@ export default (): ServerPlugin => ({
 
         useRun(app);
 
-        registerRoutes(app);
+        registerRoutes(app, apiHandlerInfos);
       } else {
         throw new Error(`mode must be function or framework`);
       }

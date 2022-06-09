@@ -1,6 +1,8 @@
 import { Api, Put } from '../../../../../src';
 
-export const get = ({ query: { id } }: { query: { id: string } }) => ({ id });
+const getOrigin = ({ query: { id } }: { query: { id: string } }) => ({ id });
+
+export default getOrigin;
 
 export const DELETE = ({ data: { id } }: { data: { id: string } }) => ({ id });
 

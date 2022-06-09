@@ -1,4 +1,4 @@
-import { HttpMethod, useAPIHandlerInfos } from '@modern-js/bff-utils';
+import { HttpMethod, httpMethods, APIHandlerInfo } from '@modern-js/bff-core';
 import { isSchemaHandler, InputType } from '@modern-js/bff-runtime';
 import {
   Express,
@@ -14,12 +14,12 @@ import { createDebugger } from '@modern-js/utils';
 
 const debug = createDebugger('express');
 
-const registerRoutes = (app: Express) => {
-  const handlerInfos = useAPIHandlerInfos();
+const registerRoutes = (app: Express, apiHandlerInfos: APIHandlerInfo[]) => {
+  const handlerInfos = apiHandlerInfos;
   sortDynamicRoutes(handlerInfos);
   debug('handlerInfos', handlerInfos);
 
-  handlerInfos.forEach(({ path, handler, method, name }) => {
+  handlerInfos.forEach(({ routePath, handler, httpMethod }) => {
     const wrappedHandler: RequestHandler = async (
       req: Request,
       res: Response,
@@ -65,17 +65,17 @@ const registerRoutes = (app: Express) => {
       Object.getOwnPropertyDescriptors(handler),
     );
 
-    if (isNormalMethod(method)) {
-      const routeName = method.toLowerCase();
-      (app as any)[routeName](path || name, wrappedHandler);
+    if (isNormalMethod(httpMethod)) {
+      const method = httpMethod.toLowerCase();
+      (app as any)[method](routePath, wrappedHandler);
     } else {
-      throw new Error(`Unknown HTTP Method: ${method}`);
+      throw new Error(`Unknown HTTP Method: ${httpMethod}`);
     }
   });
 };
 
-const isNormalMethod = (method: string): method is HttpMethod =>
-  Object.keys(HttpMethod).includes(method);
+const isNormalMethod = (httpMethod: HttpMethod): httpMethod is HttpMethod =>
+  httpMethods.includes(httpMethod);
 
 export default registerRoutes;
 

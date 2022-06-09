@@ -86,6 +86,18 @@ describe('test api router', () => {
     expect(handlerInfo.routePath).toBe(mockRoute);
   });
 
+  test('getSingleModuleHandlers', () => {
+    const apiDir = path.join(__dirname, 'fixtures', 'function');
+    const apiFile = path.join(apiDir, 'normal/origin/index');
+    const apiRouter = new ApiRouter({
+      apiDir,
+    });
+    const handlerInfos = apiRouter.getSingleModuleHandlers(apiFile);
+    const methods = handlerInfos?.map(handlerInfo => handlerInfo.httpMethod);
+    expect(methods?.length).toBe(3);
+    expect(methods).toEqual(['DELETE', 'GET', 'PUT']);
+  });
+
   test('getAllAPIFiles', () => {
     const apiDir = path.join(__dirname, 'fixtures', 'function');
     const apiRouter = new ApiRouter({

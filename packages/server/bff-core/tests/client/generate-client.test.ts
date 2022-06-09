@@ -31,7 +31,7 @@ describe('client', () => {
       port,
       resourcePath,
       source,
-      lambdaDir: PWD,
+      apiDir: PWD,
       requireResolve: ((input: any) => input) as any,
     });
     expect(result.isOk).toBeTruthy();
@@ -57,7 +57,7 @@ export const post = createRequest('/api/:id/origin/foo', 'POST', process.env.POR
       port,
       resourcePath,
       source,
-      lambdaDir: PWD,
+      apiDir: PWD,
       requireResolve: ((input: any) => input) as any,
     });
     expect(result.isOk).toBeTruthy();
@@ -65,7 +65,7 @@ export const post = createRequest('/api/:id/origin/foo', 'POST', process.env.POR
       .toMatch(`import { createRequest } from '@modern-js/create-request';
 
 export const DELETE = createRequest('/normal/origin', 'DELETE', process.env.PORT || 3000);
-export const get = createRequest('/normal/origin', 'GET', process.env.PORT || 3000);
+export default createRequest('/normal/origin', 'GET', process.env.PORT || 3000);
 export const putRepo = createRequest('/put-repo', 'PUT', process.env.PORT || 3000);
 `);
   });

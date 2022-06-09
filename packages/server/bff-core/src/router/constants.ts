@@ -18,11 +18,7 @@ export const FRAMEWORK_MODE_LAMBDA_DIR = 'lambda';
 
 export const INDEX_SUFFIX = 'index';
 
-export const INTROSPECTION_ROUTE_PATH = '/__introspection__';
-
 export const API_DIR = 'api';
-
-export const INTROSPECTION_ROUTE_METHOD = 'GET';
 
 export const API_FILE_RULES = [
   '**/*.[tj]s',

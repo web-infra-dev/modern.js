@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import bodyParser from 'body-parser';
 import finalhandler from 'finalhandler';
-import { useAPIHandlerInfos } from '@modern-js/bff-utils';
+import { APIHandlerInfo } from '@modern-js/bff-core';
 import {
   getCustomApp,
   NEST_APP_ENTRY_NAME,
@@ -23,14 +23,17 @@ import {
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-nest',
   pre: ['@modern-js/plugin-bff'],
-  setup: () => ({
-    prepareApiServer: async ({ prefix, config, pwd, mode }) => {
+  setup: api => ({
+    prepareApiServer: async ({ config, pwd, mode }) => {
       let app: INestApplication;
       const middlewareInputs = initMiddlewares(config?.middleware || []);
       const modules = middlewareInputs.filter(isModule);
       const middlewares = middlewareInputs.filter(
         middleware => !isModule(middleware),
       );
+
+      const appContext = api.useAppContext();
+      const handlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
 
       if (mode === 'framework') {
         const custom = await getCustomApp(pwd);
@@ -51,10 +54,6 @@ export default (): ServerPlugin => ({
         app = await NestFactory.create(AppModule);
       }
 
-      if (prefix) {
-        app.setGlobalPrefix(prefix);
-      }
-
       middlewares.forEach(middleware => {
         app.use(middleware);
       });
@@ -70,11 +69,10 @@ export default (): ServerPlugin => ({
       // parse application/json
       server.use(bodyParser.json());
 
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const handlerInfos = useAPIHandlerInfos();
-      handlerInfos.forEach(({ path, name, handler, method }) => {
-        const setter = method.toLowerCase();
-        server[setter](path || name, getMiddleware({ name, handler, method }));
+      handlerInfos.forEach(handler => {
+        const { routePath, httpMethod } = handler;
+        const setter = httpMethod.toLowerCase();
+        server[setter](routePath, getMiddleware(handler));
       });
 
       await app.init();

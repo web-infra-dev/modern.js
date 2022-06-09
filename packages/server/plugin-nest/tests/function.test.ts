@@ -23,6 +23,7 @@ describe('function-mode', () => {
       pwd,
       mode: 'function',
       config: { middleware: [AppModule] },
+      prefix: '/',
     });
   });
 

@@ -1,4 +1,4 @@
-import { generateClient, GenClientOptions } from '@modern-js/bff-utils';
+import { generateClient, GenClientOptions } from '@modern-js/bff-core';
 import type { LoaderContext } from 'webpack';
 
 export type APILoaderOptions = {
@@ -10,9 +10,6 @@ export type APILoaderOptions = {
   target: string;
 };
 
-// require module
-// 获取模块所有的 handler
-// 获取每个 handler 的信息，生成代码
 async function loader(this: LoaderContext<APILoaderOptions>, source: string) {
   // eslint-disable-next-line @babel/no-invalid-this
   this.cacheable();
