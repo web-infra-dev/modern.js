@@ -1,5 +1,13 @@
 # @modern-js/runtime-core
 
+## 1.4.9
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- Updated dependencies [a1198d509]
+  - @modern-js/plugin@1.3.6
+
 ## 1.4.8
 
 ### Patch Changes

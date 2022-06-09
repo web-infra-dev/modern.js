@@ -1,5 +1,11 @@
 # @modern-js/plugin-lambda-fc
 
+## 1.1.9
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+
 ## 1.1.8
 
 ### Patch Changes

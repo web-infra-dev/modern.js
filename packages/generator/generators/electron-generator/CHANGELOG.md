@@ -1,5 +1,13 @@
 # @modern-js/electron-generator
 
+## 1.3.3
+
+### Patch Changes
+
+- 52008db8f: update electron-builder version to fix MacOS 12.3 python path
+- a1198d509: feat: bump babel 7.18.0
+- c7e38b4e6: feat: upgrade codesmith pkg version
+
 ## 1.3.2
 
 ### Patch Changes

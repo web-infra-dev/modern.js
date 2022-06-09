@@ -1,5 +1,13 @@
 # @modern-js/plugin-tailwindcss
 
+## 1.2.11
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- Updated dependencies [a1198d509]
+  - @modern-js/plugin-design-token@1.0.10
+
 ## 1.2.10
 
 ### Patch Changes
