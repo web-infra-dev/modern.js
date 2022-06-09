@@ -9,7 +9,7 @@ export const provider = function ({basename, dom}) {
       const App = function () {
         return React.createElement(SubApp, props)
       };
-      bootstrap(App, node);
+      bootstrap(hoistNonReactStatics(App,SubApp), node);
     },
     destroy({ dom }) {
       const node = dom.querySelector('#' + MOUNT_ID) || dom;
