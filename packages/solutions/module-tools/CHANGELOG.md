@@ -1,5 +1,11 @@
 # @modern-js/module-tools
 
+## 1.5.5
+
+### Patch Changes
+
+- d6e1e8917: support --style-only param
+
 ## 1.5.4
 
 ### Patch Changes
