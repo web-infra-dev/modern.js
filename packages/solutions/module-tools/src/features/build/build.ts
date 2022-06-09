@@ -17,7 +17,7 @@ export const buildSourceCode = async (
   config: IBuildConfig,
   _: NormalizedConfig,
 ) => {
-  const { sourceDir, enableTscCompiler } = config;
+  const { sourceDir, enableTscCompiler, styleOnly } = config;
   const { appDirectory } = api.useAppContext();
   const concurrency = os.cpus().length;
   const srcRootDir = path.join(appDirectory, sourceDir);
@@ -31,25 +31,40 @@ export const buildSourceCode = async (
   });
   const copyLog = lm.createLoggerText({ title: 'Copy Log:' });
   const initCodeMapper = utils.getCodeInitMapper(api, config);
-  const taskMapper: ITaskMapper[] = [
-    ...utils.getCodeMapper(api, {
-      logger: codeLog,
-      taskPath: require.resolve('../../tasks/build-source-code'),
-      config,
-      willCompilerDirOrFile: sourceDir,
-      initMapper: initCodeMapper,
-      srcRootDir,
-    }),
-    ...(enableTscCompiler ? utils.getDtsMapper(api, config, dtsLog) : []),
-    {
-      logger: styleLog,
-      taskPath: require.resolve('../../tasks/build-style'),
-    },
-    {
-      logger: copyLog,
-      taskPath: require.resolve('../../tasks/copy-assets'),
-    },
-  ];
+  let taskMapper: ITaskMapper[] = [];
+
+  if (styleOnly) {
+    taskMapper = [
+      {
+        logger: styleLog,
+        taskPath: require.resolve('../../tasks/build-style'),
+      },
+      {
+        logger: copyLog,
+        taskPath: require.resolve('../../tasks/copy-assets'),
+      },
+    ];
+  } else {
+    taskMapper = [
+      ...utils.getCodeMapper(api, {
+        logger: codeLog,
+        taskPath: require.resolve('../../tasks/build-source-code'),
+        config,
+        willCompilerDirOrFile: sourceDir,
+        initMapper: initCodeMapper,
+        srcRootDir,
+      }),
+      ...(enableTscCompiler ? utils.getDtsMapper(api, config, dtsLog) : []),
+      {
+        logger: styleLog,
+        taskPath: require.resolve('../../tasks/build-style'),
+      },
+      {
+        logger: copyLog,
+        taskPath: require.resolve('../../tasks/copy-assets'),
+      },
+    ];
+  }
 
   lm.showCompiling();
   await pMap(
@@ -82,8 +97,12 @@ export const buildSourceCode = async (
   );
 
   lm.disappearCompiling();
-  enableTscCompiler && console.info(dtsLog.value);
-  console.info(codeLog.value);
+
+  if (!styleOnly) {
+    enableTscCompiler && console.info(dtsLog.value);
+    console.info(codeLog.value);
+  }
+
   if (styleLog.hasMessages()) {
     console.info(styleLog.value);
   }

@@ -5047,6 +5047,14 @@ importers:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
       '@modern-js/plugin-jarvis': link:../../../packages/cli/plugin-jarvis
 
+  tests/integration/style-only-test:
+    specifiers:
+      '@modern-js/module-tools': workspace:*
+      '@modern-js/plugin-less': workspace:*
+    devDependencies:
+      '@modern-js/module-tools': link:../../../packages/solutions/module-tools
+      '@modern-js/plugin-less': link:../../../packages/cli/plugin-less
+
   tests/integration/testing-app:
     specifiers:
       '@babel/runtime': ^7
