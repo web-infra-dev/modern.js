@@ -15,6 +15,7 @@ export type APIHandlerInfo = {
   // handler name
   name: string;
   httpMethod: HttpMethod;
+  filename: string;
   routeName: string;
   // prefix+ routeName
   routePath: string;

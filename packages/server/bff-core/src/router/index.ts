@@ -171,6 +171,8 @@ export class ApiRouter {
         name: originFuncName,
         httpMethod,
         routeName,
+        filename,
+        // routePath: `${this.prefix}${routeName !== '/' ? routeName : ''}`,
         routePath: `${this.prefix}${routeName}`,
       };
     }

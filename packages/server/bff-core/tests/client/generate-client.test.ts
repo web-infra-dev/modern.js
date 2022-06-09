@@ -44,7 +44,7 @@ export const post = createRequest('/api/:id/origin/foo', 'POST', process.env.POR
   });
 
   test('generate-client should support operator', async () => {
-    const prefix = '';
+    const prefix = '/';
     const port = 3000;
     const resourcePath = path.resolve(
       __dirname,

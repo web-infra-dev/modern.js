@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import * as ptr from 'path-to-regexp';
 // import type { Test } from 'supertest';
+import { APIHandlerInfo } from '@modern-js/bff-core';
 import * as mock_appModule from './app';
 // import { getAllAPIInfos } from './utils';
 
@@ -49,7 +50,7 @@ const mock_getParamsAndPayload = (
 
 export default (
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  mock_apiInfosByFile: Record<string, any[]>,
+  mock_apiInfosByFile: Record<string, APIHandlerInfo[]>,
   mock_app: any,
 ) => {
   const files = Object.keys(mock_apiInfosByFile);
@@ -73,7 +74,8 @@ export default (
                 params,
                 payload.params,
               );
-              let test = supertest(mock_app)[info.method.toLowerCase()](url);
+              let test =
+                supertest(mock_app)[info.httpMethod.toLowerCase()](url);
 
               if (payload.query) {
                 test = test.query(payload.query);

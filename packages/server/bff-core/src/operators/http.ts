@@ -5,6 +5,7 @@ import {
   OperatorType,
   HttpMethod,
   TriggerType,
+  ApiMiddleware,
 } from '../types';
 import { ValidationError } from '../errors/http';
 
@@ -97,6 +98,61 @@ export const Params = <T>(
       const { params } = inputs;
       await validateInput(schema, params);
       return next();
+    },
+  };
+};
+
+export const Headers = <T>(
+  schema: z.ZodType<T>,
+): Operator<{
+  headers: T;
+}> => {
+  return {
+    name: HttpMetadata.Headers,
+    metadata({ setMetadata }) {
+      setMetadata(HttpMetadata.Headers, schema);
+    },
+    async validate(helper, next) {
+      const { inputs } = helper;
+      const { headers } = inputs;
+      await validateInput(schema, headers);
+      return next();
+    },
+  };
+};
+
+export const HttpCode = (statusCode: number): Operator<void> => {
+  return {
+    name: 'HttpCode',
+    metadata({ setMetadata }) {
+      setMetadata(HttpMetadata.StatusCode, statusCode);
+    },
+  };
+};
+
+export const SetHeaders = (headers: Record<string, string>): Operator<void> => {
+  return {
+    name: 'SetHeaders',
+    metadata({ setMetadata }) {
+      setMetadata(HttpMetadata.Headers, headers);
+    },
+  };
+};
+
+export const Redirect = (url: string): Operator<void> => {
+  return {
+    name: 'Redirect',
+    metadata({ setMetadata }) {
+      setMetadata(HttpMetadata.Redirect, url);
+    },
+  };
+};
+
+export const Middleware = (middleware: ApiMiddleware): Operator<void> => {
+  return {
+    name: 'Middleware',
+    metadata({ setMetadata }) {
+      setMetadata(OperatorType.Middleware, middleware);
     },
   };
 };

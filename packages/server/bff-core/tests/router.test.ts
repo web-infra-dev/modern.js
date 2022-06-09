@@ -8,6 +8,10 @@ import { getPathFromFilename } from '../src/router/utils';
 const PWD = path.resolve(__dirname, '../fixtures/function');
 
 describe('test getPathFromFilename', () => {
+  test('index path', () => {
+    expect(getPathFromFilename('', path.normalize('/index.ts'))).toBe('/');
+  });
+
   test('normal path', () => {
     expect(getPathFromFilename('', path.normalize('/foo.ts'))).toBe('/foo');
     expect(getPathFromFilename('', path.normalize('/foo/test.ts'))).toBe(
@@ -34,6 +38,7 @@ describe('test api router', () => {
   beforeAll(() => {
     apiRouter = new ApiRouter({
       apiDir: mockApiDir,
+      prefix: '/',
     });
   });
 
@@ -91,6 +96,7 @@ describe('test api router', () => {
     const apiFile = path.join(apiDir, 'normal/origin/index');
     const apiRouter = new ApiRouter({
       apiDir,
+      prefix: '/',
     });
     const handlerInfos = apiRouter.getSingleModuleHandlers(apiFile);
     const methods = handlerInfos?.map(handlerInfo => handlerInfo.httpMethod);
@@ -102,6 +108,7 @@ describe('test api router', () => {
     const apiDir = path.join(__dirname, 'fixtures', 'function');
     const apiRouter = new ApiRouter({
       apiDir,
+      prefix: '/',
     });
     const filenames = apiRouter.getApiFiles();
     expect(filenames.length).toBe(13);
@@ -111,8 +118,11 @@ describe('test api router', () => {
     const apiDir = path.join(__dirname, 'fixtures', 'function');
     const apiRouter = new ApiRouter({
       apiDir,
+      prefix: '/',
     });
     const handlerInfos = apiRouter.getApiHandlers();
+    const routePaths = handlerInfos.map(handlerInfo => handlerInfo.routePath);
+    expect(routePaths).toMatchSnapshot();
     expect(handlerInfos.length).toBe(27);
   });
 
@@ -120,6 +130,7 @@ describe('test api router', () => {
     const apiRouter = new ApiRouter({
       apiDir: PWD,
       lambdaDir: PWD,
+      prefix: '/',
     });
     const resourcePath = path.resolve(
       __dirname,
@@ -135,6 +146,7 @@ describe('test api router', () => {
     const apiRouter = new ApiRouter({
       apiDir: PWD,
       lambdaDir: PWD,
+      prefix: '/',
     });
     expect(() => apiRouter.getSafeRoutePath(resourcePath)).toThrow(
       new Error(`The ${resourcePath} is not a valid api file.`),

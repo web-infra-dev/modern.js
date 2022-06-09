@@ -2,6 +2,7 @@ import { Merge } from 'type-fest';
 
 export enum OperatorType {
   Trigger,
+  Middleware,
 }
 
 export enum TriggerType {
@@ -15,6 +16,8 @@ export enum HttpMetadata {
   Params = 'PARAMS',
   Headers = 'HEADERS',
   Response = 'RESPONSE',
+  StatusCode = 'STATUS_CODE',
+  Redirect = 'Redirect',
 }
 
 export enum HttpMethod {
@@ -87,3 +90,5 @@ export type ArrayToObject<T, R = {}> = T extends [infer First, ...infer Rest]
 export type AsyncFunction = (...args: any[]) => Promise<any>;
 
 export const httpMethods = Object.values(HttpMethod);
+
+export type ApiMiddleware = (next: () => any | Promise<any>) => any;

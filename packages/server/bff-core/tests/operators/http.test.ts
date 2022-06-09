@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { Api, Data } from '../src';
-import { ValidationError } from '../src/errors/http';
-import { Get, Query } from '../src/operators/http';
+import { Api, Data } from '../../src';
+import { ValidationError } from '../../src/errors/http';
+import { Get, Query } from '../../src/operators/http';
 
 describe('test api function', () => {
   test('should works correctly', async () => {

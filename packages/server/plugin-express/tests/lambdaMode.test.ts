@@ -47,12 +47,6 @@ describe('lambda-mode', () => {
     expect(res.body.data).toEqual(foo);
   });
 
-  // test('should works with body', async () => {
-  //   const res = await request(apiHandler).post(`${prefix}/hello`).send(foo);
-  //   console.log('bbbbbbbbbbbb', res.body);
-  //   expect(res.status).toBe(200);
-  // });
-
   test('should works with dynamic route ', async () => {
     const res = await request(apiHandler).post(`${prefix}/nest/${id}`);
     expect(res.status).toBe(200);

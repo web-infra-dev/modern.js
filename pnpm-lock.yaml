@@ -2768,7 +2768,12 @@ importers:
 
   packages/review/testing-plugin-bff:
     specifiers:
+<<<<<<< HEAD
       '@babel/runtime': ^7.18.0
+=======
+      '@babel/runtime': ^7
+      '@modern-js/bff-core': workspace:^1.0.0
+>>>>>>> feat: support bff test
       '@modern-js/bff-utils': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/server': workspace:^1.4.20
@@ -2786,7 +2791,12 @@ importers:
       supertest: ^6.1.6
       typescript: ^4
     dependencies:
+<<<<<<< HEAD
       '@babel/runtime': 7.18.3
+=======
+      '@babel/runtime': 7.16.7
+      '@modern-js/bff-core': link:../../server/bff-core
+>>>>>>> feat: support bff test
       '@modern-js/server': link:../../server/server
       '@modern-js/utils': link:../../toolkit/utils
       jest-environment-node: 27.4.4
