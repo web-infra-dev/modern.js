@@ -46,8 +46,8 @@ importers:
       '@babel/plugin-transform-destructuring': ^7.18.0
       '@babel/runtime': ^7.18.0
       '@babel/types': ^7.18.0
-      '@modern-js/babel-chain': workspace:^1.2.4
-      '@modern-js/babel-preset-base': workspace:^1.3.2
+      '@modern-js/babel-chain': workspace:^1.2.5
+      '@modern-js/babel-preset-base': workspace:^1.4.0
       '@modern-js/core': workspace:*
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
@@ -90,7 +90,7 @@ importers:
       '@babel/preset-react': ^7.17.12
       '@babel/preset-typescript': ^7.17.12
       '@babel/runtime': ^7.18.0
-      '@modern-js/babel-chain': workspace:^1.2.3
+      '@modern-js/babel-chain': workspace:^1.2.5
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -144,8 +144,8 @@ importers:
     specifiers:
       '@babel/core': ^7.18.0
       '@babel/runtime': ^7.18.0
-      '@modern-js/babel-chain': workspace:^1.2.3
-      '@modern-js/babel-preset-base': workspace:^1.3.2
+      '@modern-js/babel-chain': workspace:^1.2.5
+      '@modern-js/babel-preset-base': workspace:^1.4.0
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -187,8 +187,8 @@ importers:
       '@babel/plugin-proposal-function-sent': ^7.18.0
       '@babel/plugin-proposal-throw-expressions': ^7.16.7
       '@babel/runtime': ^7.18.0
-      '@modern-js/babel-chain': workspace:^1.2.3
-      '@modern-js/babel-preset-lib': workspace:^1.2.7
+      '@modern-js/babel-chain': workspace:^1.2.5
+      '@modern-js/babel-preset-lib': workspace:^1.3.0
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -223,8 +223,8 @@ importers:
   packages/cli/core:
     specifiers:
       '@jest/types': ^27.0.6
-      '@modern-js/load-config': workspace:^1.3.3
-      '@modern-js/plugin': workspace:^1.3.5
+      '@modern-js/load-config': workspace:^1.3.4
+      '@modern-js/plugin': workspace:^1.3.6
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
@@ -326,7 +326,7 @@ importers:
       '@babel/traverse': ^7.18.0
       '@babel/types': ^7.18.0
       '@modern-js/core': workspace:*
-      '@modern-js/plugin': workspace:^1.3.5
+      '@modern-js/plugin': workspace:^1.3.6
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
@@ -358,14 +358,14 @@ importers:
     specifiers:
       '@babel/core': ^7.18.0
       '@babel/runtime': ^7.18.0
-      '@modern-js/babel-compiler': workspace:^1.2.5
-      '@modern-js/bff-utils': workspace:^1.2.8
+      '@modern-js/babel-compiler': workspace:^1.2.6
+      '@modern-js/bff-utils': workspace:^1.2.9
       '@modern-js/core': workspace:*
-      '@modern-js/create-request': workspace:^1.2.10
+      '@modern-js/create-request': workspace:^1.2.11
       '@modern-js/plugin-analyze': workspace:*
       '@modern-js/runtime': workspace:*
       '@modern-js/server-core': workspace:*
-      '@modern-js/server-utils': workspace:^1.2.9
+      '@modern-js/server-utils': workspace:^1.2.10
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
@@ -475,8 +475,8 @@ importers:
       '@changesets/cli': 2.16.0
       '@changesets/git': ^1.1.2
       '@modern-js/core': workspace:*
-      '@modern-js/i18n-cli-language-detector': workspace:^1.2.3
-      '@modern-js/plugin-i18n': workspace:^1.2.6
+      '@modern-js/i18n-cli-language-detector': workspace:^1.2.4
+      '@modern-js/plugin-i18n': workspace:^1.2.7
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -549,7 +549,7 @@ importers:
       '@mdx-js/react': ^1.6.22
       '@modern-js/core': workspace:*
       '@modern-js/utils': workspace:^1.7.6
-      '@modern-js/webpack': workspace:^1.9.0
+      '@modern-js/webpack': workspace:^1.10.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/core-js': ^2.5.5
@@ -769,7 +769,7 @@ importers:
   packages/cli/plugin-jarvis:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js-app/eslint-config': workspace:^1.2.12
+      '@modern-js-app/eslint-config': workspace:^1.2.13
       '@modern-js/core': workspace:*
       '@modern-js/eslint-config': workspace:^1.2.6
       '@modern-js/tsconfig': workspace:^1.2.0
@@ -930,7 +930,7 @@ importers:
       '@babel/runtime': ^7.18.0
       '@modern-js/core': workspace:*
       '@modern-js/utils': workspace:^1.7.6
-      '@modern-js/webpack': workspace:^1.9.0
+      '@modern-js/webpack': workspace:^1.10.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/body-parser': ^1.19.1
@@ -1072,13 +1072,13 @@ importers:
     specifiers:
       '@babel/runtime': ^7.18.0
       '@loadable/component': ^5.15.0
-      '@modern-js/bff-runtime': workspace:^1.2.3
+      '@modern-js/bff-runtime': workspace:^1.2.4
       '@modern-js/core': workspace:*
-      '@modern-js/create-request': workspace:^1.2.10
-      '@modern-js/plugin-router': workspace:^1.2.14
-      '@modern-js/plugin-ssr': workspace:^1.4.4
-      '@modern-js/plugin-state': workspace:^1.2.9
-      '@modern-js/runtime-core': workspace:^1.4.8
+      '@modern-js/create-request': workspace:^1.2.11
+      '@modern-js/plugin-router': workspace:^1.2.15
+      '@modern-js/plugin-ssr': workspace:^1.4.5
+      '@modern-js/plugin-state': workspace:^1.2.10
+      '@modern-js/runtime-core': workspace:^1.4.9
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -1157,10 +1157,10 @@ importers:
   packages/cli/plugin-server-build:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/babel-compiler': workspace:^1.2.5
+      '@modern-js/babel-compiler': workspace:^1.2.6
       '@modern-js/core': workspace:*
       '@modern-js/plugin-analyze': workspace:*
-      '@modern-js/server-utils': workspace:^1.2.9
+      '@modern-js/server-utils': workspace:^1.2.10
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -1242,7 +1242,7 @@ importers:
       '@modern-js/runtime-core': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.6
-      '@modern-js/webpack': workspace:^1.9.1
+      '@modern-js/webpack': workspace:^1.10.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
@@ -1350,13 +1350,13 @@ importers:
     specifiers:
       '@babel/runtime': ^7.18.0
       '@modern-js/core': workspace:*
-      '@modern-js/esbuild-compiler': workspace:^0.2.4
-      '@modern-js/plugin-router': workspace:^1.2.14
-      '@modern-js/plugin-state': workspace:^1.2.9
+      '@modern-js/esbuild-compiler': workspace:^0.2.5
+      '@modern-js/plugin-router': workspace:^1.2.15
+      '@modern-js/plugin-state': workspace:^1.2.10
       '@modern-js/runtime': workspace:*
       '@modern-js/runtime-core': workspace:*
       '@modern-js/utils': workspace:^1.7.6
-      '@modern-js/webpack': workspace:^1.9.1
+      '@modern-js/webpack': workspace:^1.10.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@storybook/addon-actions': ^6.3.8
@@ -1427,7 +1427,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7.18.0
       '@modern-js/core': workspace:*
-      '@modern-js/plugin-design-token': workspace:^1.0.8
+      '@modern-js/plugin-design-token': workspace:^1.0.10
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -1461,14 +1461,14 @@ importers:
       '@modern-js-reduck/plugin-effects': ^1.0.2
       '@modern-js-reduck/plugin-immutable': ^1.0.1
       '@modern-js-reduck/store': ^1.0.3
-      '@modern-js/babel-compiler': workspace:^1.2.5
-      '@modern-js/bff-utils': workspace:^1.2.8
+      '@modern-js/babel-compiler': workspace:^1.2.6
+      '@modern-js/bff-utils': workspace:^1.2.9
       '@modern-js/core': workspace:*
-      '@modern-js/runtime-core': workspace:^1.4.7
-      '@modern-js/testing': workspace:^1.5.3
-      '@modern-js/testing-plugin-bff': workspace:^1.4.3
+      '@modern-js/runtime-core': workspace:^1.4.9
+      '@modern-js/testing': workspace:^1.5.4
+      '@modern-js/testing-plugin-bff': workspace:^1.4.4
       '@modern-js/utils': workspace:^1.7.6
-      '@modern-js/webpack': workspace:^1.9.0
+      '@modern-js/webpack': workspace:^1.10.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@testing-library/jest-dom': ^5.14.1
@@ -1525,11 +1525,11 @@ importers:
       '@koa/cors': ^3.1.0
       '@modern-js/bff-utils': workspace:*
       '@modern-js/core': workspace:*
-      '@modern-js/create-request': workspace:^1.2.10
+      '@modern-js/create-request': workspace:^1.2.11
       '@modern-js/css-config': workspace:^1.2.6
-      '@modern-js/esmpack': workspace:^1.3.1
-      '@modern-js/plugin': workspace:^1.3.5
-      '@modern-js/server': workspace:^1.4.16
+      '@modern-js/esmpack': workspace:^1.3.2
+      '@modern-js/plugin': workspace:^1.3.6
+      '@modern-js/server': workspace:^1.4.18
       '@modern-js/tsconfig': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.6
@@ -1686,8 +1686,8 @@ importers:
   packages/cli/webpack:
     specifiers:
       '@babel/core': ^7.18.0
-      '@modern-js/babel-chain': workspace:^1.2.4
-      '@modern-js/babel-preset-app': workspace:^1.3.4
+      '@modern-js/babel-chain': workspace:^1.2.5
+      '@modern-js/babel-preset-app': workspace:^1.4.0
       '@modern-js/core': workspace:*
       '@modern-js/css-config': workspace:^1.2.6
       '@modern-js/types': workspace:*
@@ -1763,7 +1763,7 @@ importers:
   packages/generator/generator-cases:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/generator-common': workspace:^1.4.11
+      '@modern-js/generator-common': workspace:^1.4.12
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
@@ -1789,7 +1789,7 @@ importers:
       '@modern-js/codesmith': ^1.2.2
       '@modern-js/codesmith-api-app': ^1.2.4
       '@modern-js/easy-form-core': ^1.0.0
-      '@modern-js/plugin-i18n': workspace:^1.2.6
+      '@modern-js/plugin-i18n': workspace:^1.2.7
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -1820,10 +1820,10 @@ importers:
       '@modern-js/codesmith-api-json': ^1.2.1
       '@modern-js/codesmith-api-npm': ^1.2.1
       '@modern-js/easy-form-core': ^1.0.0
-      '@modern-js/generator-common': workspace:^1.4.11
-      '@modern-js/generator-utils': workspace:^1.2.5
-      '@modern-js/new-action': workspace:^1.3.9
-      '@modern-js/plugin-i18n': workspace:^1.2.6
+      '@modern-js/generator-common': workspace:^1.4.12
+      '@modern-js/generator-utils': workspace:^1.2.6
+      '@modern-js/new-action': workspace:^1.3.10
+      '@modern-js/plugin-i18n': workspace:^1.2.7
       '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/utils': workspace:^1.7.4
       '@scripts/build': workspace:*
@@ -1869,7 +1869,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7.18.0
       '@modern-js/codesmith': ^1.2.2
-      '@modern-js/plugin-i18n': workspace:^1.2.6
+      '@modern-js/plugin-i18n': workspace:^1.2.7
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2610,8 +2610,8 @@ importers:
       '@babel/runtime': ^7.18.0
       '@modern-js/codesmith': ^1.2.2
       '@modern-js/codesmith-api-app': ^1.2.4
-      '@modern-js/generator-common': workspace:^1.4.11
-      '@modern-js/generator-utils': workspace:^1.2.5
+      '@modern-js/generator-common': workspace:^1.4.12
+      '@modern-js/generator-utils': workspace:^1.2.6
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2683,7 +2683,7 @@ importers:
       '@babel/core': ^7.18.0
       '@babel/eslint-parser': ^7.18.0
       '@babel/eslint-plugin': ^7.17.7
-      '@modern-js/babel-preset-app': workspace:^1.3.3
+      '@modern-js/babel-preset-app': workspace:^1.4.0
       '@scripts/build': workspace:*
       '@typescript-eslint/eslint-plugin': ^5.17.0
       '@typescript-eslint/parser': ^5.17.0
@@ -2732,9 +2732,9 @@ importers:
       '@babel/core': ^7.18.0
       '@babel/runtime': ^7.18.0
       '@jest/types': ^27.0.6
-      '@modern-js/babel-preset-app': workspace:^1.3.4
+      '@modern-js/babel-preset-app': workspace:^1.4.0
       '@modern-js/core': workspace:*
-      '@modern-js/plugin': workspace:^1.3.5
+      '@modern-js/plugin': workspace:^1.3.6
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2779,7 +2779,7 @@ importers:
       '@babel/runtime': ^7.18.0
       '@modern-js/bff-utils': workspace:*
       '@modern-js/core': workspace:*
-      '@modern-js/server': workspace:^1.4.16
+      '@modern-js/server': workspace:^1.4.18
       '@modern-js/testing': workspace:*
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
@@ -2822,7 +2822,7 @@ importers:
   packages/runtime:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/plugin': workspace:^1.3.4
+      '@modern-js/plugin': workspace:^1.3.6
       '@modern-js/types': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2892,7 +2892,7 @@ importers:
   packages/server/bff-runtime:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/server-utils': workspace:^1.2.6
+      '@modern-js/server-utils': workspace:^1.2.10
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
@@ -2927,8 +2927,8 @@ importers:
   packages/server/bff-utils:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/bff-runtime': workspace:^1.2.3
-      '@modern-js/plugin': workspace:^1.3.4
+      '@modern-js/bff-runtime': workspace:^1.2.4
+      '@modern-js/plugin': workspace:^1.3.6
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2962,7 +2962,7 @@ importers:
   packages/server/core:
     specifiers:
       '@modern-js/core': workspace:*
-      '@modern-js/plugin': workspace:^1.3.5
+      '@modern-js/plugin': workspace:^1.3.6
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
@@ -2995,7 +2995,7 @@ importers:
   packages/server/create-request:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/plugin-ssr': workspace:^1.4.2
+      '@modern-js/plugin-ssr': workspace:^1.4.5
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -3057,9 +3057,9 @@ importers:
   packages/server/plugin-egg:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/adapter-helpers': workspace:^1.2.4
-      '@modern-js/bff-runtime': workspace:^1.2.3
-      '@modern-js/bff-utils': workspace:^1.2.8
+      '@modern-js/adapter-helpers': workspace:^1.2.6
+      '@modern-js/bff-runtime': workspace:^1.2.4
+      '@modern-js/bff-utils': workspace:^1.2.9
       '@modern-js/core': workspace:*
       '@modern-js/server-core': workspace:*
       '@modern-js/utils': workspace:^1.7.6
@@ -3108,9 +3108,9 @@ importers:
   packages/server/plugin-express:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/adapter-helpers': workspace:^1.2.4
-      '@modern-js/bff-runtime': workspace:^1.2.3
-      '@modern-js/bff-utils': workspace:^1.2.8
+      '@modern-js/adapter-helpers': workspace:^1.2.6
+      '@modern-js/bff-runtime': workspace:^1.2.4
+      '@modern-js/bff-utils': workspace:^1.2.9
       '@modern-js/core': workspace:*
       '@modern-js/server-core': workspace:*
       '@modern-js/server-utils': workspace:*
@@ -3167,9 +3167,9 @@ importers:
   packages/server/plugin-koa:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/adapter-helpers': workspace:^1.2.4
-      '@modern-js/bff-runtime': workspace:^1.2.3
-      '@modern-js/bff-utils': workspace:^1.2.8
+      '@modern-js/adapter-helpers': workspace:^1.2.6
+      '@modern-js/bff-runtime': workspace:^1.2.4
+      '@modern-js/bff-utils': workspace:^1.2.9
       '@modern-js/core': workspace:*
       '@modern-js/server-core': workspace:*
       '@modern-js/utils': workspace:^1.7.6
@@ -3215,9 +3215,9 @@ importers:
 
   packages/server/plugin-nest:
     specifiers:
-      '@modern-js/adapter-helpers': workspace:^1.2.5
-      '@modern-js/bff-runtime': workspace:^1.2.3
-      '@modern-js/bff-utils': workspace:^1.2.8
+      '@modern-js/adapter-helpers': workspace:^1.2.6
+      '@modern-js/bff-runtime': workspace:^1.2.4
+      '@modern-js/bff-utils': workspace:^1.2.9
       '@modern-js/core': workspace:*
       '@modern-js/runtime': workspace:*
       '@modern-js/server-core': workspace:*
@@ -3336,10 +3336,10 @@ importers:
   packages/server/plugin-server:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/babel-compiler': workspace:^1.2.5
+      '@modern-js/babel-compiler': workspace:^1.2.6
       '@modern-js/core': workspace:*
       '@modern-js/server-core': workspace:*
-      '@modern-js/server-utils': workspace:^1.2.9
+      '@modern-js/server-utils': workspace:^1.2.10
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
@@ -3429,15 +3429,15 @@ importers:
     specifiers:
       '@babel/core': ^7.18.0
       '@babel/register': ^7.17.7
-      '@modern-js/bff-utils': workspace:^1.2.8
+      '@modern-js/bff-utils': workspace:^1.2.9
       '@modern-js/core': workspace:*
-      '@modern-js/hmr-client': workspace:^1.2.7
-      '@modern-js/prod-server': workspace:^1.1.7
+      '@modern-js/hmr-client': workspace:^1.2.8
+      '@modern-js/prod-server': workspace:^1.1.8
       '@modern-js/server-core': workspace:*
-      '@modern-js/server-utils': workspace:^1.2.9
+      '@modern-js/server-utils': workspace:^1.2.10
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.6
-      '@modern-js/webpack': workspace:^1.9.1
+      '@modern-js/webpack': workspace:^1.10.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
@@ -3487,9 +3487,9 @@ importers:
       '@babel/preset-env': ^7.18.0
       '@babel/preset-typescript': ^7.17.12
       '@babel/runtime': ^7.18.0
-      '@modern-js/babel-preset-lib': workspace:^1.2.7
+      '@modern-js/babel-preset-lib': workspace:^1.3.0
       '@modern-js/core': workspace:*
-      '@modern-js/plugin': workspace:^1.3.5
+      '@modern-js/plugin': workspace:^1.3.6
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -3532,19 +3532,19 @@ importers:
   packages/solutions/app-tools:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/core': workspace:^1.11.1
-      '@modern-js/i18n-cli-language-detector': workspace:^1.2.3
-      '@modern-js/new-action': workspace:^1.3.9
-      '@modern-js/node-bundle-require': workspace:^1.3.3
-      '@modern-js/plugin': workspace:^1.3.4
-      '@modern-js/plugin-analyze': workspace:^1.4.5
-      '@modern-js/plugin-i18n': workspace:^1.2.6
-      '@modern-js/prod-server': workspace:^1.1.6
-      '@modern-js/server': workspace:^1.4.16
+      '@modern-js/core': workspace:^1.11.2
+      '@modern-js/i18n-cli-language-detector': workspace:^1.2.4
+      '@modern-js/new-action': workspace:^1.3.10
+      '@modern-js/node-bundle-require': workspace:^1.3.5
+      '@modern-js/plugin': workspace:^1.3.6
+      '@modern-js/plugin-analyze': workspace:^1.4.6
+      '@modern-js/plugin-i18n': workspace:^1.2.7
+      '@modern-js/prod-server': workspace:^1.1.8
+      '@modern-js/server': workspace:^1.4.18
       '@modern-js/server-core': workspace:*
       '@modern-js/types': workspace:^1.5.4
       '@modern-js/utils': workspace:^1.7.6
-      '@modern-js/webpack': workspace:^1.9.0
+      '@modern-js/webpack': workspace:^1.10.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
@@ -3585,17 +3585,17 @@ importers:
       '@babel/runtime': ^7.18.0
       '@babel/traverse': ^7.18.0
       '@babel/types': ^7.18.0
-      '@modern-js/babel-compiler': workspace:^1.2.5
-      '@modern-js/babel-preset-module': workspace:^1.3.6
-      '@modern-js/core': workspace:^1.11.1
+      '@modern-js/babel-compiler': workspace:^1.2.6
+      '@modern-js/babel-preset-module': workspace:^1.3.7
+      '@modern-js/core': workspace:^1.11.2
       '@modern-js/css-config': workspace:^1.2.6
-      '@modern-js/i18n-cli-language-detector': workspace:^1.2.3
-      '@modern-js/new-action': workspace:^1.3.9
-      '@modern-js/plugin': workspace:^1.3.5
-      '@modern-js/plugin-analyze': workspace:^1.4.5
-      '@modern-js/plugin-changeset': workspace:^1.2.7
-      '@modern-js/plugin-i18n': workspace:^1.2.6
-      '@modern-js/style-compiler': workspace:^1.2.7
+      '@modern-js/i18n-cli-language-detector': workspace:^1.2.4
+      '@modern-js/new-action': workspace:^1.3.10
+      '@modern-js/plugin': workspace:^1.3.6
+      '@modern-js/plugin-analyze': workspace:^1.4.6
+      '@modern-js/plugin-changeset': workspace:^1.2.8
+      '@modern-js/plugin-i18n': workspace:^1.2.7
+      '@modern-js/style-compiler': workspace:^1.2.9
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -3652,12 +3652,12 @@ importers:
   packages/solutions/monorepo-tools:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/core': workspace:^1.10.2
-      '@modern-js/i18n-cli-language-detector': workspace:^1.2.3
-      '@modern-js/new-action': workspace:^1.3.9
-      '@modern-js/plugin': workspace:^1.3.4
-      '@modern-js/plugin-changeset': workspace:^1.2.7
-      '@modern-js/plugin-i18n': workspace:^1.2.6
+      '@modern-js/core': workspace:^1.11.2
+      '@modern-js/i18n-cli-language-detector': workspace:^1.2.4
+      '@modern-js/new-action': workspace:^1.3.10
+      '@modern-js/plugin': workspace:^1.3.6
+      '@modern-js/plugin-changeset': workspace:^1.2.8
+      '@modern-js/plugin-i18n': workspace:^1.2.7
       '@modern-js/utils': workspace:^1.7.3
       '@rushstack/node-core-library': ^3.39.1
       '@rushstack/package-deps-hash': ^3.0.54
@@ -4016,7 +4016,7 @@ importers:
   packages/toolkit/load-config:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/node-bundle-require': workspace:^1.3.3
+      '@modern-js/node-bundle-require': workspace:^1.3.5
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*

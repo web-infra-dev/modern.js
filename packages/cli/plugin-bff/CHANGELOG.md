@@ -1,5 +1,17 @@
 # @modern-js/plugin-bff
 
+## 1.5.2
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- c1a4ead09: fix: plugin-bff should compile shared directory
+- Updated dependencies [a1198d509]
+  - @modern-js/bff-utils@1.2.9
+  - @modern-js/create-request@1.2.11
+  - @modern-js/server-utils@1.2.10
+  - @modern-js/babel-compiler@1.2.6
+
 ## 1.5.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @modern-js/babel-chain
 
+## 1.2.5
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+
 ## 1.2.4
 
 ### Patch Changes

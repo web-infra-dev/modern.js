@@ -1,5 +1,19 @@
 # @modern-js/babel-preset-app
 
+## 1.4.0
+
+### Minor Changes
+
+- a1198d509: fix: regenerator-runtime is bundled twice
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- Updated dependencies [a1198d509]
+- Updated dependencies [a1198d509]
+  - @modern-js/babel-preset-base@1.4.0
+  - @modern-js/babel-chain@1.2.5
+
 ## 1.3.4
 
 ### Patch Changes

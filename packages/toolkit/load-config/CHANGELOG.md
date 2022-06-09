@@ -1,5 +1,14 @@
 # @modern-js/load-config
 
+## 1.3.4
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- a18926bbd: fix(app-tools): dev --config not working
+- Updated dependencies [a1198d509]
+  - @modern-js/node-bundle-require@1.3.5
+
 ## 1.3.3
 
 ### Patch Changes

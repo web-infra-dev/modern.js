@@ -1,5 +1,11 @@
 # @modern-js/hmr-client
 
+## 1.2.8
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+
 ## 1.2.7
 
 ### Patch Changes
