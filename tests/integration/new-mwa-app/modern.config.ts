@@ -8,4 +8,9 @@ export default defineConfig({
     router: true,
     state: true,
   },
+  tools: {
+    postcss(config, { addPlugins }) {
+      addPlugins({ postcssPlugin: 'foo' });
+    },
+  },
 });
