@@ -1,5 +1,12 @@
 # @modern-js/create
 
+## 1.4.4
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- c7e38b4e6: feat: upgrade codesmith pkg version
+
 ## 1.4.3
 
 ### Patch Changes

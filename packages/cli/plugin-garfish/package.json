@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.5.1",
+  "version": "1.5.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "typesVersions": {
@@ -67,7 +67,7 @@
     "react-loadable": "^5.5.0"
   },
   "peerDependencies": {
-    "@modern-js/plugin-router": "workspace:^1.2.14"
+    "@modern-js/plugin-router": "workspace:^1.2.15"
   },
   "peerDependenciesMeta": {
     "@modern-js/plugin-router": {

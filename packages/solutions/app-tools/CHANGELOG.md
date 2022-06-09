@@ -1,5 +1,35 @@
 # @modern-js/app-tools
 
+## 1.6.6
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- d12686040: feat(app-tools): support dev --analyze
+- 8ee2b1b29: fix: remove some unnecessary logs during dev
+- 8f7c0f898: feat(app-tools): support specify config file in build and deploy command
+- Updated dependencies [8d508c6ed]
+- Updated dependencies [0eff2473c]
+- Updated dependencies [a1198d509]
+- Updated dependencies [29728812e]
+- Updated dependencies [f25d6a62e]
+- Updated dependencies [a18926bbd]
+- Updated dependencies [c7e38b4e6]
+- Updated dependencies [147e090f7]
+- Updated dependencies [18892c65c]
+- Updated dependencies [a1198d509]
+- Updated dependencies [8f7c0f898]
+  - @modern-js/core@1.11.2
+  - @modern-js/webpack@1.10.0
+  - @modern-js/server@1.4.18
+  - @modern-js/i18n-cli-language-detector@1.2.4
+  - @modern-js/plugin-analyze@1.4.6
+  - @modern-js/plugin-i18n@1.2.7
+  - @modern-js/new-action@1.3.10
+  - @modern-js/prod-server@1.1.8
+  - @modern-js/node-bundle-require@1.3.5
+  - @modern-js/plugin@1.3.6
+
 ## 1.6.5
 
 ### Patch Changes

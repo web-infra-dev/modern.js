@@ -1,5 +1,24 @@
 # @modern-js/webpack
 
+## 1.10.0
+
+### Minor Changes
+
+- a1198d509: fix: regenerator-runtime is bundled twice
+
+### Patch Changes
+
+- 8d508c6ed: feat(devServer): support disable hmr or live reload
+- a1198d509: feat: bump babel 7.18.0
+- 29728812e: fix(webpack): fix useBuiltIns entry not work, reduce bundle size
+- 147e090f7: fix(webpack): fix loaders order
+- 18892c65c: feat(webpack): optimize webpack config
+- Updated dependencies [a1198d509]
+- Updated dependencies [a1198d509]
+  - @modern-js/babel-preset-app@1.4.0
+  - @modern-js/babel-chain@1.2.5
+  - @modern-js/css-config@1.2.6
+
 ## 1.9.1
 
 ### Patch Changes

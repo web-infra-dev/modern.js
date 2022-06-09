@@ -1,5 +1,11 @@
 # @modern-js/plugin-i18n
 
+## 1.2.7
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+
 ## 1.2.6
 
 ### Patch Changes

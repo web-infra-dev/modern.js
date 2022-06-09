@@ -1,5 +1,11 @@
 # @modern-js/plugin-lambda-scf
 
+## 1.1.10
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+
 ## 1.1.9
 
 ### Patch Changes

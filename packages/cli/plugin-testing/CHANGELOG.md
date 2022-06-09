@@ -1,5 +1,23 @@
 # @modern-js/plugin-testing
 
+## 1.5.6
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- Updated dependencies [8d508c6ed]
+- Updated dependencies [a1198d509]
+- Updated dependencies [29728812e]
+- Updated dependencies [147e090f7]
+- Updated dependencies [18892c65c]
+- Updated dependencies [a1198d509]
+  - @modern-js/webpack@1.10.0
+  - @modern-js/testing@1.5.4
+  - @modern-js/testing-plugin-bff@1.4.4
+  - @modern-js/runtime-core@1.4.9
+  - @modern-js/bff-utils@1.2.9
+  - @modern-js/babel-compiler@1.2.6
+
 ## 1.5.5
 
 ### Patch Changes
