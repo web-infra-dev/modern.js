@@ -44,7 +44,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@modern-js/adapter-helpers": "workspace:^1.2.5",
+    "@modern-js/adapter-helpers": "workspace:^1.2.6",
     "@modern-js/utils": "workspace:^1.7.6",
     "@nestjs/platform-express": "^8.0.6",
     "@types/type-is": "^1.6.3",
@@ -54,8 +54,8 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.3.0",
     "type-is": "^1.6.18",
-    "@modern-js/bff-utils": "workspace:^1.2.8",
-    "@modern-js/bff-runtime": "workspace:^1.2.3"
+    "@modern-js/bff-utils": "workspace:^1.2.9",
+    "@modern-js/bff-runtime": "workspace:^1.2.4"
   },
   "devDependencies": {
     "@modern-js/runtime": "workspace:*",

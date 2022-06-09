@@ -1,5 +1,11 @@
 # @modern-js/esmpack
 
+## 1.3.2
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+
 ## 1.3.1
 
 ### Patch Changes

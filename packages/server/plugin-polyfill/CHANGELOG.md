@@ -1,5 +1,11 @@
 # @modern-js/plugin-polyfill
 
+## 1.2.10
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+
 ## 1.2.9
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @modern-js/plugin-unbundle
 
+## 1.4.3
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- Updated dependencies [8d508c6ed]
+- Updated dependencies [a1198d509]
+  - @modern-js/server@1.4.18
+  - @modern-js/bff-utils@1.2.9
+  - @modern-js/create-request@1.2.11
+  - @modern-js/esmpack@1.3.2
+  - @modern-js/plugin@1.3.6
+  - @modern-js/css-config@1.2.6
+
 ## 1.4.2
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @modern-js/core
 
+## 1.11.2
+
+### Patch Changes
+
+- 8d508c6ed: feat(devServer): support disable hmr or live reload
+- 0eff2473c: ignore devServer config fn merge
+- f25d6a62e: fix: change bffConfig type define to interface
+- a18926bbd: fix(app-tools): dev --config not working
+- 8f7c0f898: feat(app-tools): support specify config file in build and deploy command
+- Updated dependencies [a1198d509]
+- Updated dependencies [a18926bbd]
+  - @modern-js/load-config@1.3.4
+  - @modern-js/plugin@1.3.6
+
 ## 1.11.1
 
 ### Patch Changes
