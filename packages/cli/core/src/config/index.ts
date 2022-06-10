@@ -24,7 +24,7 @@ import type { UserConfig, ConfigParam, LoadedConfig } from './types';
 const debug = createDebugger('resolve-config');
 
 export { defaults as defaultsConfig };
-export { mergeConfig };
+export * from './mergeConfig';
 export * from './types';
 
 export const addServerConfigToDeps = async (

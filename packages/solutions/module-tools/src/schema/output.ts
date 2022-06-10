@@ -1,4 +1,4 @@
-import { buildPresetSchema } from './build-preset';
+import { buildConfigSchema } from './build-config';
 
 const PACKAGE_MODE_LIST = [
   'universal-js',
@@ -36,5 +36,5 @@ export const outputSchema = [
       default: 'styles',
     },
   },
-  ...buildPresetSchema,
+  ...buildConfigSchema,
 ];

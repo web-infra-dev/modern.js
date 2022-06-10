@@ -30,8 +30,11 @@ export type Target =
   | 'esnext';
 
 export type BundleOption = {
-  entry?: string;
-  speedyOption?: SpeedyConfig;
+  entry?: Record<string, string>;
+  platform?: SpeedyConfig['platform'];
+  splitting?: boolean;
+  minify?: SpeedyConfig['minify'];
+  external?: SpeedyConfig['external'];
 };
 
 export type BundlessOption = {
@@ -39,15 +42,14 @@ export type BundlessOption = {
 };
 
 export type BuildConfig = {
-  format?: Format[];
+  format?: Format;
   target?: Target;
   bundle?: boolean;
   bundleOption?: BundleOption;
   bundlessOption?: BundlessOption;
   tsconfig?: string;
-  watch?: boolean;
   dts?: boolean;
   outputPath: string;
 };
 // UserConfig
-export type BuildPreset = BuildConfig[] | BuildConfig | BuildPresetString;
+export type BuildPreset = BuildPresetString;
