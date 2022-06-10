@@ -1,5 +1,5 @@
 import type { NormalizedConfig } from '@modern-js/core';
-import { getLessConfig, LessOptions } from '@modern-js/css-config';
+import { getLessLoaderOptions } from '@modern-js/css-config';
 import NpmImportPlugin from 'less-plugin-npm-import';
 import { LessOption as ResolvedLessOption } from '@modern-js/style-compiler';
 
@@ -10,15 +10,15 @@ export const moduleLessConfig = ({
   modernConfig: NormalizedConfig;
   npmImportPrefix?: string;
 }): ResolvedLessOption => {
-  const lessConfig = getLessConfig(modernConfig) as LessOptions;
+  const { options } = getLessLoaderOptions(modernConfig);
 
   return {
-    enableSourceMap: lessConfig.sourceMap || false,
+    enableSourceMap: options.sourceMap || false,
     lessOption: {
-      ...lessConfig.lessOptions,
+      ...options.lessOptions,
       plugins: [
         new NpmImportPlugin({ prefix: npmImportPrefix }),
-        ...((lessConfig.lessOptions?.plugins as Less.Options['plugins']) || []),
+        ...(options.lessOptions?.plugins || []),
       ],
     },
   };

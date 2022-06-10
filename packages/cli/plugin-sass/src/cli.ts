@@ -33,13 +33,14 @@ export default (): CliPlugin => ({
           tools: {
             webpackChain: (chain, { CHAIN_ID }) => {
               const { RULE, ONE_OF } = CHAIN_ID;
-              const options = api.useResolvedConfigContext();
+              const resolvedConfig = api.useResolvedConfigContext();
 
               const {
                 output: { disableCssModuleExtension },
-              } = options;
+              } = resolvedConfig;
 
-              const sassOptions = cssConfig.getSassConfig(options);
+              const { options, excludes } =
+                cssConfig.getSassLoaderOptions(resolvedConfig);
 
               const loaders = chain.module.rule(RULE.LOADERS);
 
@@ -54,15 +55,15 @@ export default (): CliPlugin => ({
                 )
                 .merge({
                   exclude: disableCssModuleExtension
-                    ? [isNodeModulesSass, GLOBAL_SASS_REGEX]
-                    : [],
+                    ? [isNodeModulesSass, GLOBAL_SASS_REGEX, ...excludes]
+                    : excludes,
                   use: [
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-expect-error webpack-chain missing minimizers type
                     ...loaders.oneOf(ONE_OF.CSS_MODULES).toConfig().use,
                     {
                       loader: require.resolve('sass-loader'),
-                      options: sassOptions,
+                      options,
                     },
                   ],
                 });
@@ -72,13 +73,14 @@ export default (): CliPlugin => ({
                 .before(ONE_OF.FALLBACK)
                 .test(SASS_REGEX)
                 .merge({
+                  exclude: excludes,
                   use: [
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-expect-error webpack-chain missing minimizers type
                     ...loaders.oneOf(ONE_OF.CSS).toConfig().use,
                     {
                       loader: require.resolve('sass-loader'),
-                      options: sassOptions,
+                      options,
                     },
                   ],
                 });

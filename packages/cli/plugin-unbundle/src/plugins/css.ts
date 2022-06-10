@@ -7,11 +7,16 @@ import postcss, { AcceptedPlugin, ProcessOptions } from 'postcss';
 import { codeFrameColumns } from '@babel/code-frame';
 import type { LegacyImporterResult } from 'sass';
 import less from 'less';
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type {
+  IAppContext,
+  LessLoaderOptions,
+  NormalizedConfig,
+  SassLoaderOptions,
+} from '@modern-js/core';
 import {
-  getLessConfig,
+  getLessLoaderOptions,
   getPostcssConfig,
-  getSassConfig,
+  getSassLoaderOptions,
 } from '@modern-js/css-config';
 import { isCSSRequest, replaceAsync, addQuery, hasDependency } from '../utils';
 import {
@@ -23,12 +28,6 @@ import { HMRError } from '../websocket-server';
 import { createAssetModule, fileToModules } from '../AssetModule';
 import { normalizeAlias } from './alias';
 
-export interface PreProcessOptions {
-  lessOptions?: Record<string, any>;
-  sassOptions?: Record<string, any>;
-  additionalData?: string | ((content: string, filename: string) => string);
-}
-
 export interface TransformRes {
   css?: string;
   errors?: HMRError[];
@@ -37,8 +36,8 @@ export interface TransformRes {
 }
 
 let processorOptions: {
-  less: PreProcessOptions;
-  sass: PreProcessOptions;
+  less: LessLoaderOptions;
+  sass: SassLoaderOptions;
 };
 
 let nodeModulesPaths: Array<string> = [];
@@ -59,8 +58,8 @@ const initProcessorOptions = (config: NormalizedConfig) => {
     return;
   }
 
-  const lessOptions = getLessConfig(config);
-  const sassOptions = getSassConfig(config);
+  const { options: lessOptions } = getLessLoaderOptions(config);
+  const { options: sassOptions } = getSassLoaderOptions(config);
 
   processorOptions = {
     less: lessOptions,
@@ -206,13 +205,13 @@ export class CustomLessFileManager extends less.FileManager {
 const compileLess = async (
   code: string,
   filename: string,
-  options: PreProcessOptions,
+  options: LessLoaderOptions,
 ): Promise<TransformRes> => {
   const less = require('less');
 
   try {
     const res = await less.render(
-      getSource(code, filename, options.additionalData),
+      getSource(code, filename, options.additionalData as string),
       {
         filename,
         sourceMap: true,
@@ -251,7 +250,7 @@ const compileLess = async (
 const compileSass = async (
   code: string,
   filename: string,
-  options: PreProcessOptions,
+  options: SassLoaderOptions,
 ): Promise<TransformRes> => {
   const sass = require('sass');
 
