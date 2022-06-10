@@ -39,6 +39,7 @@
     "ajv-keywords": "5.1.0",
     "autoprefixer": "10.4.7",
     "babel-loader": "8.2.5",
+    "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "better-ajv-errors": "1.2.0",
     "browserslist": "4.20.2",
     "chalk": "4.1.2",

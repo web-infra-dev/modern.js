@@ -100,16 +100,19 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
     typeof transformReactRemovePropTypes === 'boolean' &&
     !transformReactRemovePropTypes;
   if (!disableTransformReactRemovePropTypes) {
-    chain.plugin('babel-plugin-transform-react-remove-prop-types').use(
-      require.resolve('babel-plugin-transform-react-remove-prop-types'),
-
-      [
-        {
-          removeImport: true,
-          ...(transformReactRemovePropTypes || {}),
-        },
-      ],
-    );
+    chain
+      .plugin('babel-plugin-transform-react-remove-prop-types')
+      .use(
+        require.resolve(
+          '../compiled/babel-plugin-transform-react-remove-prop-types',
+        ),
+        [
+          {
+            removeImport: true,
+            ...(transformReactRemovePropTypes || {}),
+          },
+        ],
+      );
   }
 
   chain
