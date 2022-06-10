@@ -20,6 +20,13 @@ import {
   createParallelWorkflow,
 } from '../workflow';
 import { RunnerContext, useRunner } from './runner';
+import {
+  checkPlugins,
+  hasOwnProperty,
+  includePlugin,
+  isObject,
+  sortPlugins,
+} from './shared';
 import type {
   Hook,
   CommonAPI,
@@ -163,7 +170,7 @@ export const createManager = <
     };
 
     const usePlugin: Manager<Hooks, API>['usePlugin'] = (...input) => {
-      for (const plugin of input) {
+      input.forEach(plugin => {
         // already created by createPlugin
         if (isPlugin(plugin)) {
           addPlugin(plugin);
@@ -181,7 +188,7 @@ export const createManager = <
         else {
           console.warn(`Unknown plugin: ${JSON.stringify(plugin)}`);
         }
-      }
+      });
 
       return manager;
     };
@@ -332,85 +339,3 @@ export const closeHooksMap = <Hooks>(record: Hooks): Hooks => {
 
   return result;
 };
-
-const includePlugin = <Hooks, API>(
-  plugins: Plugin<Hooks, API>[],
-  input: Plugin<Hooks, API>,
-): boolean => {
-  for (const plugin of plugins) {
-    if (plugin.name === input.name) {
-      return true;
-    }
-  }
-
-  return false;
-};
-
-const sortPlugins = <Hooks, API>(
-  input: Plugin<Hooks, API>[],
-): Plugin<Hooks, API>[] => {
-  let plugins = input.slice();
-
-  for (let i = 0; i < plugins.length; i++) {
-    const plugin = plugins[i];
-
-    for (const pre of plugin.pre) {
-      for (let j = i + 1; j < plugins.length; j++) {
-        if (plugins[j].name === pre) {
-          plugins = [
-            ...plugins.slice(0, i),
-            plugins[j],
-            ...plugins.slice(i, j),
-            ...plugins.slice(j + 1, plugins.length),
-          ];
-        }
-      }
-    }
-
-    for (const post of plugin.post) {
-      for (let j = 0; j < i; j++) {
-        if (plugins[j].name === post) {
-          plugins = [
-            ...plugins.slice(0, j),
-            ...plugins.slice(j + 1, i + 1),
-            plugins[j],
-            ...plugins.slice(i + 1, plugins.length),
-          ];
-        }
-      }
-    }
-  }
-
-  return plugins;
-};
-
-const checkPlugins = <Hooks, API>(plugins: Plugin<Hooks, API>[]) => {
-  for (const origin of plugins) {
-    for (const rival of origin.rivals) {
-      for (const plugin of plugins) {
-        if (rival === plugin.name) {
-          throw new Error(`${origin.name} has rival ${plugin.name}`);
-        }
-      }
-    }
-
-    for (const required of origin.required) {
-      if (!plugins.some(plugin => plugin.name === required)) {
-        throw new Error(
-          `The plugin: ${required} is required when plugin: ${origin.name} is exist.`,
-        );
-      }
-    }
-  }
-};
-
-export const isObject = (obj: unknown): obj is Record<string, any> =>
-  obj !== null && typeof obj === 'object';
-
-export const hasOwnProperty = <
-  X extends Record<string, unknown>,
-  Y extends PropertyKey,
->(
-  obj: X,
-  prop: Y,
-): obj is X & Record<Y, unknown> => obj.hasOwnProperty(prop);
