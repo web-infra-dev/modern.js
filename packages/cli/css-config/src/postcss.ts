@@ -12,12 +12,20 @@ export const getPostcssConfig = (
   appDirectory: string,
   config: NormalizedConfig,
   autoprefixer = true,
-): ProcessOptions & {
-  postcssOptions: {
-    plugins?: AcceptedPlugin[];
+) => {
+  const extraPlugins: AcceptedPlugin[] = [];
+
+  const utils = {
+    addPlugins(plugins: AcceptedPlugin | AcceptedPlugin[]) {
+      if (Array.isArray(plugins)) {
+        extraPlugins.push(...plugins);
+      } else {
+        extraPlugins.push(plugins);
+      }
+    },
   };
-} =>
-  applyOptionsChain(
+
+  const mergedConfig = applyOptionsChain(
     {
       postcssOptions: {
         plugins: [
@@ -43,5 +51,17 @@ export const getPostcssConfig = (
       },
       sourceMap: shouldUseSourceMap(config),
     },
-    config.tools?.postcss,
-  ) as any;
+    config.tools?.postcss || {},
+    utils,
+  );
+
+  if (extraPlugins.length) {
+    mergedConfig.postcssOptions!.plugins!.push(...extraPlugins);
+  }
+
+  return mergedConfig as ProcessOptions & {
+    postcssOptions: {
+      plugins?: AcceptedPlugin[];
+    };
+  };
+};
