@@ -13,6 +13,7 @@ import type {
   BasePluginOptions,
   TerserOptions as RawTerserOptions,
 } from 'terser-webpack-plugin';
+import type { AcceptedPlugin as PostCSSPlugin } from 'postcss';
 import type { PluginConfig } from '../../loadPlugins';
 import type { TestConfig, JestConfig } from './test';
 import type { SassConfig, SassLoaderOptions } from './sass';
@@ -218,7 +219,10 @@ export type DevServerConfig = {
 
 export type PostCSSConfig =
   | PostCSSLoaderOptions
-  | ((options: PostCSSLoaderOptions) => PostCSSLoaderOptions | void);
+  | ((
+      options: PostCSSLoaderOptions,
+      utils: { addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void },
+    ) => PostCSSLoaderOptions | void);
 
 export type WebpackConfig =
   | WebpackConfiguration

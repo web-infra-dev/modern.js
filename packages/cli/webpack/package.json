@@ -63,7 +63,7 @@
     "html-webpack-plugin": "^5.3.2",
     "mini-css-extract-plugin": "~2.4.5",
     "node-libs-browser": "^2.2.1",
-    "postcss": "8.4.5",
+    "postcss": "^8.4.14",
     "react-refresh": "0.12.0",
     "schema-utils": "^3.1.1",
     "style-loader": "^3.3.1",
