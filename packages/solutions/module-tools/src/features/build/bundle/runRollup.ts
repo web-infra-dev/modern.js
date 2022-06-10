@@ -44,7 +44,7 @@ const getRollupConfig = async (
   } = api.useResolvedConfigContext();
 
   const { outputPath, bundleOption, tsconfig } = options;
-  const distDir = path.join(appDirectory, distPath, outputPath, `./types`);
+  const distDir = path.join(appDirectory, distPath, outputPath);
   const compilerOptions = loadCompilerOptions(tsconfig);
   const dtsOptions = { entry: bundleOption.entry };
 
@@ -98,7 +98,7 @@ const getRollupConfig = async (
       ].filter(Boolean),
     },
     outputConfig: {
-      dir: distDir || 'dist',
+      dir: distDir,
       format: 'esm',
       exports: 'named',
     },

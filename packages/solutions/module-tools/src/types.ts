@@ -3,9 +3,11 @@ import type { LoggerText } from './features/build/logger/logText';
 import type { Platform } from './features/build/build-platform';
 import type {
   BuildPreset,
+  BuildConfig,
   PackageModeType,
   PackageFields,
 } from './schema/types';
+import type { CLIConfig as SpeedyConfig } from '@speedy-js/speedy-core';
 
 export type { Platform } from './features/build/build-platform';
 export type { ITsconfig } from './utils/tsconfig';
@@ -39,10 +41,18 @@ declare module '@modern-js/core' {
   interface OutputConfig {
     assetsPath?: string;
     buildPreset?: BuildPreset;
+    buildConfig?: BuildConfig[] | BuildConfig;
     enableSourceMap?: boolean;
     importStyle?: ImportStyleType;
     packageMode?: PackageModeType;
     packageFields?: PackageFields;
+  }
+  interface ToolsConfig {
+    speedy?: SpeedyConfig | ((config: SpeedyConfig) => SpeedyConfig);
+  }
+
+  interface NormalizedToolsConfig {
+    speedy: ToolsConfig['speedy'] | Array<NonNullable<ToolsConfig['speedy']>>;
   }
   interface SourceConfig {
     jsxTransformRuntime?: 'automatic' | 'classic';
