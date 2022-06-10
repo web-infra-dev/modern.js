@@ -5,9 +5,9 @@ const universalJs: Pick<
   NormalizedBundlessBuildConfig,
   'format' | 'target' | 'outputPath'
 >[] = [
-  { format: ['esm'], target: 'es5', outputPath: './js/treeshaking' },
-  { format: ['cjs'], target: 'es6', outputPath: './js/node' },
-  { format: ['esm'], target: 'es6', outputPath: './js/modern' },
+  { format: 'esm', target: 'es5', outputPath: './js/treeshaking' },
+  { format: 'cjs', target: 'es6', outputPath: './js/node' },
+  { format: 'esm', target: 'es6', outputPath: './js/modern' },
 ];
 
 // Universal JS 的优化选择，两份构建产物，对现代浏览器无优化
@@ -15,9 +15,9 @@ const universalJsLite: Pick<
   NormalizedBundlessBuildConfig,
   'format' | 'target' | 'outputPath'
 >[] = [
-  { format: ['esm'], target: 'es5', outputPath: './js/treeshaking' },
-  { format: ['cjs'], target: 'es6', outputPath: './js/node' },
-  { format: ['cjs'], target: 'es6', outputPath: './js/modern' },
+  { format: 'esm', target: 'es5', outputPath: './js/treeshaking' },
+  { format: 'cjs', target: 'es6', outputPath: './js/node' },
+  { format: 'cjs', target: 'es6', outputPath: './js/modern' },
 ];
 
 // 纯前端代码的默认选择，两份构建产物
@@ -25,24 +25,24 @@ const browserJs: Pick<
   NormalizedBundlessBuildConfig,
   'format' | 'target' | 'outputPath'
 >[] = [
-  { format: ['esm'], target: 'es5', outputPath: './js/treeshaking' },
-  { format: ['esm'], target: 'es5', outputPath: './js/node' },
-  { format: ['esm'], target: 'es6', outputPath: './js/modern' },
+  { format: 'esm', target: 'es5', outputPath: './js/treeshaking' },
+  { format: 'esm', target: 'es5', outputPath: './js/node' },
+  { format: 'esm', target: 'es6', outputPath: './js/modern' },
 ];
 
 // 纯前端代码的优化选择，单份构建产物，对现代浏览器无优化
 const browserJsLite: Pick<
   NormalizedBundlessBuildConfig,
   'format' | 'target' | 'outputPath'
->[] = [{ format: ['esm'], target: 'es5', outputPath: './js/treeshaking' }];
+>[] = [{ format: 'esm', target: 'es5', outputPath: './js/treeshaking' }];
 
 // 纯 Node.js 代码的默认选择，两份构建产物
 const nodeJs: Pick<
   NormalizedBundlessBuildConfig,
   'format' | 'target' | 'outputPath'
 >[] = [
-  { format: ['cjs'], target: 'es6', outputPath: './js/node' },
-  { format: ['esm'], target: 'es6', outputPath: './js/modern' },
+  { format: 'cjs', target: 'es6', outputPath: './js/node' },
+  { format: 'esm', target: 'es6', outputPath: './js/modern' },
 ];
 
 export const DEFAULT_PACKAGE_MODE = 'universal-js';
@@ -63,32 +63,50 @@ export const clearFlag = '\x1Bc';
 
 export const defaultLibraryPreset: NormalizedBuildConfig[] = [
   {
-    format: ['esm', 'cjs'],
+    format: 'cjs',
     target: 'esnext',
     bundle: true,
     bundleOption: {
-      entry: 'src/index.ts',
-      speedyOption: {},
+      entry: { index: './src/index.ts'},
     },
     tsconfig: 'tsconfig.json',
-    watch: false,
     dts: true,
     outputPath: './',
   },
 ];
 export const defaultComponentPreset: NormalizedBuildConfig[] = [
   {
-    format: ['esm', 'cjs', 'iife'],
+    format: 'iife',
     target: 'esnext',
     bundle: true,
     bundleOption: {
-      entry: 'src/index.ts',
-      speedyOption: {},
+      entry: { index: './src/index.ts'},
     },
     tsconfig: 'tsconfig.json',
-    watch: false,
     dts: true,
     outputPath: './',
+  },
+  {
+    format: 'esm',
+    target: 'esnext',
+    bundle: false,
+    bundleOption: {
+      entry: { index: './src/index.ts'},
+    },
+    tsconfig: 'tsconfig.json',
+    dts: true,
+    outputPath: './es',
+  },
+  {
+    format: 'cjs',
+    target: 'esnext',
+    bundle: false,
+    bundleOption: {
+      entry: { index: './src/index.ts'},
+    },
+    tsconfig: 'tsconfig.json',
+    dts: true,
+    outputPath: './lib',
   },
 ];
 

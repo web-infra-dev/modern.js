@@ -16,9 +16,6 @@ const properties = {
     type: 'array',
     items: [{ enum: ['cjs', 'esm', 'iife'] }],
   },
-  watch: {
-    type: 'boolean',
-  },
   tsconfig: {
     type: 'string',
   },
@@ -32,10 +29,20 @@ const properties = {
     type: 'object',
     properties: {
       entry: {
-        type: 'string',
-      },
-      speedyOption: {
         type: 'object',
+      },
+      splitting: {
+        type: 'boolean',
+      },
+      external: {
+        type: 'array',
+        items: [{ type: 'string' }],
+      },
+      platform: {
+        enum: ['node', 'browser'],
+      },
+      minify: {
+        enum: ['esbuild', 'terser', false],
       },
     },
   },
@@ -50,9 +57,9 @@ const properties = {
   outputPath: { type: 'string' },
 };
 
-export const buildPresetSchema = [
+export const buildConfigSchema = [
   {
-    target: 'output.buildPreset',
+    target: 'output.buildConfig',
     schema: {
       if: {
         type: 'array',
@@ -61,7 +68,6 @@ export const buildPresetSchema = [
       else: {
         oneOf: [
           { type: 'object', properties },
-          { enum: ['library', 'component'] },
         ],
       },
     },

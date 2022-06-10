@@ -47,7 +47,7 @@ export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
   const { appDirectory } = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
   const {
-    output: { path: outputPath = 'dist', buildPreset },
+    output: { path: outputPath = 'dist', buildPreset, buildConfig },
   } = modernConfig;
 
   const platformBuildRet = await checkPlatformAndRunBuild(platform, {
@@ -66,6 +66,7 @@ export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
   const normalizedModuleConfig = normalizeModuleConfig(
     { buildFeatOption: config, api },
     buildPreset,
+    buildConfig,
   );
 
   Promise.all(

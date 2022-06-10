@@ -38,7 +38,7 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
     outputStylePath: 'js/styles',
   };
 
-  commonConfig.watch = getFinalWatch(commonConfig, buildFeatOption);
+  commonConfig.watch = buildFeatOption.enableWatchMode || false;
   commonConfig.tsconfig = getFinalTsconfig(commonConfig, buildFeatOption);
   commonConfig.dts = getFinalDts(commonConfig, buildFeatOption);
 
@@ -61,14 +61,14 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
     ): NormalizedBuildConfig => {
       if (js === 'CJS+ES6') {
         return {
-          format: ['cjs'],
+          format: 'cjs',
           target: 'es6',
           outputPath,
           ...commonConfig,
         };
       } else if (js === 'ESM+ES5') {
         return {
-          format: ['esm'],
+          format: 'esm',
           target: 'es5',
           outputPath,
           ...commonConfig,
@@ -76,7 +76,7 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
       }
 
       return {
-        format: ['esm'],
+        format: 'esm',
         target: 'es6',
         outputPath,
         ...commonConfig,
@@ -137,17 +137,6 @@ export const checkMixedMode = (buildConfigs: BuildConfig[]) => {
   });
 };
 
-export const getFinalWatch = (
-  config: { watch?: boolean },
-  buildFeatOption: IBuildFeatOption,
-) => {
-  // cli watch option > buildPreset watch option
-  if (buildFeatOption.enableWatchMode) {
-    return buildFeatOption.enableWatchMode;
-  }
-
-  return config.watch ?? false;
-};
 export const getFinalTsconfig = (
   config: { tsconfig?: string },
   buildFeatOption: IBuildFeatOption,
@@ -175,38 +164,40 @@ export const getFinalDts = (
 export const normalizeModuleConfig = (
   context: { buildFeatOption: IBuildFeatOption; api: PluginAPI },
   preset?: BuildPreset,
+  config?: BuildConfig | BuildConfig[],
 ): NormalizedBuildConfig[] => {
-  const { buildFeatOption, api } = context;
-  // If the user does not configure output.babelPreset,
-  // the configuration is generated based on packageMode and packageField
-  if (!preset) {
-    return getNormalizeModuleConfigByPackageModeAndFileds(api, buildFeatOption);
-  }
-
   if (preset === 'library') {
     return constants.defaultLibraryPreset;
   } else if (preset === 'component') {
     return constants.defaultComponentPreset;
   }
+
+  const { buildFeatOption, api } = context;
+  // If the user does not configure output.babelPreset,
+  // the configuration is generated based on packageMode and packageField
+  if (!config) {
+    return getNormalizeModuleConfigByPackageModeAndFileds(api, buildFeatOption);
+  }
+
   // FIXME:throw error when preset is empty array
-  const presetArray = Array.isArray(preset) ? preset : [preset];
-  const mixedMode = checkMixedMode(presetArray);
-  const normalizedModule = presetArray.map(config => {
-    const format = config.format ?? ['esm', 'cjs'];
+  const configArray = Array.isArray(config) ? config : [config];
+  const mixedMode = checkMixedMode(configArray);
+  const normalizedModule = configArray.map(config => {
+    const format = config.format ?? 'cjs';
     const target = config.target ?? 'esnext';
     const bundle = config.bundle ?? false;
     const { bundleOption } = config;
     const normalizedBundleOption = {
+      ...bundleOption,
       entry:
-        bundleOption?.entry ??
-        `src/index.${buildFeatOption.isTsProject ? 'ts' : 'js'}`,
-      speedyOption: bundleOption?.speedyOption ?? {},
+        bundleOption?.entry || { 'index': `src/index.${buildFeatOption.isTsProject ? 'ts' : 'js'}`},
+      platform: bundleOption?.platform || 'node',
     };
     const normalizeBundlessOption = {
       sourceDir: './src',
       ...config.bundlessOption,
     };
-    const watch = getFinalWatch(config, buildFeatOption);
+    const watch = buildFeatOption.enableWatchMode || false;
     const tsconfig = getFinalTsconfig(config, buildFeatOption);
     const dts = getFinalDts(config, buildFeatOption);
     const outputPath =
