@@ -69,7 +69,7 @@ export default defineConfig({
 
 用来指定 less-loader 不编译哪些文件，例如：
 
-```ts title="jupiter.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   tools: {
     less: (config, { addExcludes }) => {
