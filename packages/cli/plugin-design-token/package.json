@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.0.9",
+  "version": "1.0.10",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -68,7 +68,7 @@
     "@types/react-dom": "^17",
     "react": "^17.0.2",
     "typescript": "^4",
-    "postcss": "^8.4.6"
+    "postcss": "^8.4.14"
   },
   "sideEffects": false,
   "peerDependencies": {

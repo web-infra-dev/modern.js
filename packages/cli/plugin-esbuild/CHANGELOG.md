@@ -1,5 +1,11 @@
 # @modern-js/plugin-esbuild
 
+## 1.4.1
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+
 ## 1.4.0
 
 ### Minor Changes

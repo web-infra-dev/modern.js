@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`inject env should inject globalVars correctly 1`] = `
+"<script>
+window.process={env: { NODE_ENV: 'development'}};;
+window.module={};
+window.process.env.foo=\\"foo\\"
+
+</script>
+"
+`;

@@ -1,5 +1,16 @@
 # @modern-js/new-action
 
+## 1.3.10
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- c7e38b4e6: feat: upgrade codesmith pkg version
+- Updated dependencies [a1198d509]
+- Updated dependencies [c7e38b4e6]
+  - @modern-js/generator-common@1.4.12
+  - @modern-js/generator-utils@1.2.6
+
 ## 1.3.9
 
 ### Patch Changes

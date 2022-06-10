@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Release Version(canary, pre, latest)'
+        description: 'Release Version(canary, alpha, pre, latest)'
         required: true
         default: 'canary'
       branch:

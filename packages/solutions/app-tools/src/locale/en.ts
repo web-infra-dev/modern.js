@@ -1,13 +1,17 @@
 export const EN_LOCALE = {
   command: {
+    shared: {
+      analyze: 'analyze bundle size',
+      config: 'specify config file',
+    },
     dev: {
       describe: 'start dev server',
-      config: 'specify config file',
       entry: 'compiler by entry',
       apiOnly: 'start api server only',
-      analyze: 'analyze bundle size',
     },
-    build: { describe: 'build application', analyze: 'analyze bundle size' },
+    build: {
+      describe: 'build application',
+    },
     start: { describe: 'start server' },
     deploy: { describe: 'deploy application' },
     new: {

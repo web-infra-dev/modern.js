@@ -1,5 +1,23 @@
 # @modern-js/server
 
+## 1.4.18
+
+### Patch Changes
+
+- 8d508c6ed: feat(devServer): support disable hmr or live reload
+- a1198d509: feat: bump babel 7.18.0
+- Updated dependencies [8d508c6ed]
+- Updated dependencies [a1198d509]
+- Updated dependencies [29728812e]
+- Updated dependencies [147e090f7]
+- Updated dependencies [18892c65c]
+- Updated dependencies [a1198d509]
+  - @modern-js/webpack@1.10.0
+  - @modern-js/bff-utils@1.2.9
+  - @modern-js/hmr-client@1.2.8
+  - @modern-js/prod-server@1.1.8
+  - @modern-js/server-utils@1.2.10
+
 ## 1.4.17
 
 ### Patch Changes

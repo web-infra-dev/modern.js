@@ -2,4 +2,4 @@
 '@modern-js/webpack': patch
 ---
 
-fix(webpack): fix loaders order
+chore: fix tools.webpack type issue

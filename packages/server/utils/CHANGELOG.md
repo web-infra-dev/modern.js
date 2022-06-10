@@ -1,5 +1,15 @@
 # @modern-js/server-utils
 
+## 1.2.10
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- Updated dependencies [a1198d509]
+- Updated dependencies [a1198d509]
+  - @modern-js/babel-preset-lib@1.3.0
+  - @modern-js/plugin@1.3.6
+
 ## 1.2.9
 
 ### Patch Changes

@@ -83,7 +83,7 @@ const injectScripts = (
 
 // provide process/module global variable
 // TODO: should take better strategy
-const injectEnv = (userConfig: NormalizedConfig): string => {
+export const injectEnv = (userConfig: NormalizedConfig): string => {
   // inject globalVars
   let {
     source: { globalVars },
@@ -99,7 +99,15 @@ const injectEnv = (userConfig: NormalizedConfig): string => {
     globalVarStr += `window.${key}=${JSON.stringify(globalVars![key])}\n`;
   });
 
-  return `<script>${globalVarStr}\nwindow.process={env: { NODE_ENV: 'development'}};\nwindow.module={};\n</script>\n`;
+  const processStr = `window.process={env: { NODE_ENV: 'development'}};;`;
+  const moduleStr = `window.module={};`;
+
+  return `<script>
+${processStr}
+${moduleStr}
+${globalVarStr}
+</script>
+`;
 };
 
 // inject const enum value to global object

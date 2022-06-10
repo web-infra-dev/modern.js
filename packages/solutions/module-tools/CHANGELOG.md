@@ -1,5 +1,35 @@
 # @modern-js/module-tools
 
+## 1.5.6
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- Updated dependencies [8d508c6ed]
+- Updated dependencies [0eff2473c]
+- Updated dependencies [a1198d509]
+- Updated dependencies [f25d6a62e]
+- Updated dependencies [a18926bbd]
+- Updated dependencies [c7e38b4e6]
+- Updated dependencies [8f7c0f898]
+  - @modern-js/core@1.11.2
+  - @modern-js/babel-preset-module@1.3.7
+  - @modern-js/i18n-cli-language-detector@1.2.4
+  - @modern-js/plugin-analyze@1.4.6
+  - @modern-js/plugin-changeset@1.2.8
+  - @modern-js/plugin-i18n@1.2.7
+  - @modern-js/new-action@1.3.10
+  - @modern-js/babel-compiler@1.2.6
+  - @modern-js/style-compiler@1.2.9
+  - @modern-js/plugin@1.3.6
+  - @modern-js/css-config@1.2.6
+
+## 1.5.5
+
+### Patch Changes
+
+- d6e1e8917: support --style-only param
+
 ## 1.5.4
 
 ### Patch Changes

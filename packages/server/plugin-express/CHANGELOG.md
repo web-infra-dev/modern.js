@@ -1,5 +1,15 @@
 # @modern-js/plugin-express
 
+## 1.5.6
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- Updated dependencies [a1198d509]
+  - @modern-js/adapter-helpers@1.2.6
+  - @modern-js/bff-runtime@1.2.4
+  - @modern-js/bff-utils@1.2.9
+
 ## 1.5.5
 
 ### Patch Changes

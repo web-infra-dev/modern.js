@@ -9,9 +9,8 @@ export default class DevServerPlugin {
     this.options = options;
   }
 
-  apply(compiler: webpack.Compiler) {
+  injectHMRClient(compiler: webpack.Compiler) {
     const { client } = this.options;
-
     const host = client.host ? `&host=${client.host}` : '';
     const path = client.path ? `&path=${client.path}` : '';
     const port = client.port ? `&port=${client.port}` : '';
@@ -19,13 +18,16 @@ export default class DevServerPlugin {
     const clientEntry = `${require.resolve(
       '@modern-js/hmr-client',
     )}?${host}${path}${port}`;
-    const additionalEntries = [clientEntry];
 
     // use a hook to add entries if available
-    for (const additionalEntry of additionalEntries) {
-      new EntryPlugin(compiler.context, additionalEntry, {
-        name: undefined,
-      }).apply(compiler);
+    new EntryPlugin(compiler.context, clientEntry, {
+      name: undefined,
+    }).apply(compiler);
+  }
+
+  apply(compiler: webpack.Compiler) {
+    if (this.options.hot || this.options.liveReload) {
+      this.injectHMRClient(compiler);
     }
 
     // Todo remove, client must inject.

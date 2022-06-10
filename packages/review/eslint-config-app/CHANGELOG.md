@@ -1,5 +1,14 @@
 # @modern-js-app/eslint-config
 
+## 1.2.13
+
+### Patch Changes
+
+- a1198d509: feat: bump babel 7.18.0
+- Updated dependencies [a1198d509]
+- Updated dependencies [a1198d509]
+  - @modern-js/babel-preset-app@1.4.0
+
 ## 1.2.10
 
 ### Patch Changes
