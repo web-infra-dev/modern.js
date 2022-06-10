@@ -1,11 +1,13 @@
 import { runWithContainer, createContainer } from '../farrow-pipeline';
-import {
-  isObject,
-  generateRunner,
-  hasOwnProperty,
-  DEFAULT_OPTIONS,
-} from './sync';
+import { generateRunner, DEFAULT_OPTIONS } from './sync';
 import { useRunner } from './runner';
+import {
+  checkPlugins,
+  isObject,
+  hasOwnProperty,
+  sortPlugins,
+  includePlugin,
+} from './shared';
 import type {
   ToRunners,
   ToThreads,
@@ -135,7 +137,7 @@ export const createAsyncManager = <
     let plugins: AsyncPlugin<Hooks, API>[] = [];
 
     const addPlugin = (plugin: AsyncPlugin<Hooks, API>) => {
-      if (!includeAsyncPlugin(plugins, plugin)) {
+      if (!includePlugin(plugins, plugin)) {
         plugins.push({ ...plugin });
       }
     };
@@ -196,13 +198,13 @@ export const createAsyncManager = <
 
     const init: AsyncManager<Hooks, API>['init'] = async options => {
       const container = options?.container || currentContainer;
-      const sortedPlugins = sortAsyncPlugins(plugins);
+      const sortedPlugins = sortPlugins(plugins);
       const mergedPluginAPI = {
         ...pluginAPI,
         ...overrideAPI,
       };
 
-      checkAsyncPlugins(sortedPlugins);
+      checkPlugins(sortedPlugins);
 
       const hooksList = await Promise.all(
         sortedPlugins.map(plugin =>
@@ -235,75 +237,4 @@ export const createAsyncManager = <
   };
 
   return clone();
-};
-
-const includeAsyncPlugin = <Hooks, API>(
-  plugins: AsyncPlugin<Hooks, API>[],
-  input: AsyncPlugin<Hooks, API>,
-): boolean => {
-  for (const plugin of plugins) {
-    if (plugin.name === input.name) {
-      return true;
-    }
-  }
-
-  return false;
-};
-
-const sortAsyncPlugins = <Hooks, API>(
-  input: AsyncPlugin<Hooks, API>[],
-): AsyncPlugin<Hooks, API>[] => {
-  let plugins = input.slice();
-
-  for (let i = 0; i < plugins.length; i++) {
-    const plugin = plugins[i];
-
-    for (const pre of plugin.pre) {
-      for (let j = i + 1; j < plugins.length; j++) {
-        if (plugins[j].name === pre) {
-          plugins = [
-            ...plugins.slice(0, i),
-            plugins[j],
-            ...plugins.slice(i, j),
-            ...plugins.slice(j + 1, plugins.length),
-          ];
-        }
-      }
-    }
-
-    for (const post of plugin.post) {
-      for (let j = 0; j < i; j++) {
-        if (plugins[j].name === post) {
-          plugins = [
-            ...plugins.slice(0, j),
-            ...plugins.slice(j + 1, i + 1),
-            plugins[j],
-            ...plugins.slice(i + 1, plugins.length),
-          ];
-        }
-      }
-    }
-  }
-
-  return plugins;
-};
-
-const checkAsyncPlugins = <Hooks, API>(plugins: AsyncPlugin<Hooks, API>[]) => {
-  for (const origin of plugins) {
-    for (const rival of origin.rivals) {
-      for (const plugin of plugins) {
-        if (rival === plugin.name) {
-          throw new Error(`${origin.name} has rival ${plugin.name}`);
-        }
-      }
-    }
-
-    for (const required of origin.required) {
-      if (!plugins.some(plugin => plugin.name === required)) {
-        throw new Error(
-          `The plugin: ${required} is required when plugin: ${origin.name} is exist.`,
-        );
-      }
-    }
-  }
 };

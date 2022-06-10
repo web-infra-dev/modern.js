@@ -51,7 +51,7 @@ export const createWorkflow = <I = void, O = unknown>(): Workflow<I, O> => {
     return workflow;
   };
 
-  const run: Workflow<I, O>['run'] = async (input, options) => {
+  const run: Workflow<I, O>['run'] = (input, options) => {
     const result = pipeline.run(input, { ...options, onLast: () => [] });
     return result.filter(Boolean);
   };
