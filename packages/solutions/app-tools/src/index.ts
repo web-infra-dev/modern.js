@@ -106,6 +106,26 @@ export default (): CliPlugin => ({
             const { MWANewAction } = await import('@modern-js/new-action');
             await MWANewAction({ ...options, locale });
           });
+
+        program
+          .command('inspect')
+          .description('inspect internal webpack config')
+          .option(
+            `--env <env>`,
+            i18n.t(localeKeys.command.inspect.env),
+            'development',
+          )
+          .option(
+            '--output <output>',
+            i18n.t(localeKeys.command.inspect.output),
+            '/',
+          )
+          .option('--no-console', i18n.t(localeKeys.command.inspect.noConsole))
+          .option('--verbose', i18n.t(localeKeys.command.inspect.verbose))
+          .action(async options => {
+            const { inspect } = await import('./commands/inspect');
+            inspect(api, options);
+          });
       },
 
       // 这里会被 core/initWatcher 监听的文件变动触发，如果是 src 目录下的文件变动，则不做 restart

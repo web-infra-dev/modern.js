@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`inspect command should format webpack config correctly 1`] = `
+"module.exports = {
+  mode: 'development',
+  plugins: [
+    {
+      definitions: {
+        foo: 'bar'
+      }
+    }
+  ]
+};"
+`;
