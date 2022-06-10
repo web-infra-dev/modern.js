@@ -17,3 +17,10 @@ export type DeployOptions = {
 export type StartOptions = {
   apiOnly?: boolean;
 };
+
+export type InspectOptions = {
+  env?: string;
+  output?: string;
+  console?: boolean;
+  verbose?: boolean;
+};
