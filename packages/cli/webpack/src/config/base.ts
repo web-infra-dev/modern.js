@@ -680,12 +680,10 @@ class BaseWebpackConfig {
 
       const mergedConfig = applyOptionsChain(
         chainConfig,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error utils type incompatible
         this.options.tools?.webpack,
         {
           chain: proxiedChain,
-          env: process.env.NODE_ENV,
+          env: process.env.NODE_ENV!,
           name: chain.get('name'),
           webpack,
           ...getWebpackUtils(chainConfig),
