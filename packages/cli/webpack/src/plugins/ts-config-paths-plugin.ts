@@ -64,12 +64,7 @@ export class TsConfigPathsPlugin {
       .tapAsync('TsConfigPathsPlugin', (request, resolveContext, callback) => {
         const requestName = request.request;
 
-        if (
-          // If this resolves to a node_module, we don't care what happens next
-          request.descriptionFileRoot?.includes('/node_modules/') ||
-          request.descriptionFileRoot?.includes('\\node_modules\\') ||
-          !requestName
-        ) {
+        if (!requestName) {
           return callback();
         }
 
