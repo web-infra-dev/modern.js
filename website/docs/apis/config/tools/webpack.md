@@ -21,11 +21,11 @@ Modern.js 默认集成了 [webpack](https://webpack.js.org/)，对构建产物�
 
 ### Object 类型
 
-当值为 `Object` 类型时，Modern.js 会通过 [webpack-merge](https://github.com/survivejs/webpack-merge) 将 `tools.webpack` 参数值和框架的默认 `webpack` 配置合并，得到最终的 `webpack` 配置。
+配置项的值为 `Object` 类型时，Modern.js 会通过 [webpack-merge](https://github.com/survivejs/webpack-merge) 将 `tools.webpack` 参数值和框架的默认 `webpack` 配置合并，得到最终的 `webpack` 配置。
 
 例如，修改 `mode` 配置为 `development`：
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
@@ -39,11 +39,11 @@ export default defineConfig({
 
 ### Function 类型
 
-当值为 `Function` 类型时，内部默认配置作为第一参数传入，可以直接修改配置对象不做返回，也可以返回一个对象作为最终结果；第二个参数为修改 webpack 配置的工具集合。
+配置项的值为 `Function` 类型时，内部默认配置作为第一参数传入，可以直接修改配置对象不做返回，也可以返回一个对象作为最终结果；第二个参数为修改 webpack 配置的工具集合。
 
 例如，用函数的方式修改 `mode` 为 `development`：
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
@@ -101,7 +101,7 @@ export default defineConfig({
 
 以处理 [cson](https://github.com/groupon/cson-parser) 文件为例：
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   tools: {
     webpack: (config, { addRules }) => {
@@ -120,7 +120,7 @@ export default defineConfig({
 
 在内部 webpack 插件数组头部添加额外的插件：
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   tools: {
     webpack: (config, { prependPlugins, webpack }) => {
@@ -138,7 +138,7 @@ export default defineConfig({
 
 在内部 webpack 插件数组尾部添加额外的插件：
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   tools: {
     webpack: (config, { appendPlugins, webpack }) => {
@@ -158,7 +158,7 @@ export default defineConfig({
 
 例如，删除内部的 [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin)：
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   tools: {
     webpack: (config, { removePlugin }) => {

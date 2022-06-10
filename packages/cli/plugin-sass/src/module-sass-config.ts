@@ -1,4 +1,4 @@
-import { getSassConfig } from '@modern-js/css-config';
+import { getSassLoaderOptions } from '@modern-js/css-config';
 import type { NormalizedConfig } from '@modern-js/core';
 import { SassOptions as ResolvedSassOption } from '@modern-js/style-compiler';
 
@@ -7,9 +7,9 @@ export const moduleSassConfig = ({
 }: {
   modernConfig: NormalizedConfig;
 }): ResolvedSassOption<'sync'> => {
-  const sassConfig = getSassConfig(modernConfig);
+  const { options } = getSassLoaderOptions(modernConfig);
   return {
-    ...(sassConfig.sassOptions || { file: '' }),
-    sourceMap: sassConfig.sourceMap,
+    ...(options.sassOptions || { file: '' }),
+    sourceMap: options.sourceMap,
   };
 };
