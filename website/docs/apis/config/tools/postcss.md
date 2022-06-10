@@ -61,7 +61,7 @@ export default defineConfig({
 
 ### Function 类型
 
-值为 `Function` 类型时，内部默认配置作为第一参数传入，可以直接修改配置对象不做返回，也可以返回一个对象作为最终结果。
+值为 `Function` 类型时，内部默认配置作为第一参数传入，可以直接修改配置对象不做返回，也可以返回一个对象作为最终结果；第二个参数为修改 `postcss-loader` 配置的工具函数集合。
 
 例如，需要在原有插件的基础上新增一个 PostCSS 插件，在 `postcssOptions.plugins` 数组中 push 一个新的插件即可：
 
@@ -101,6 +101,26 @@ export default defineConfig({
           plugins: [require('postcss-px-to-viewport')],
         },
       };
+    },
+  },
+});
+```
+
+## 工具函数
+
+### addPlugins
+
+用于添加额外的 PostCSS 插件。
+
+```typescript title="modern.config.ts"
+export default defineConfig({
+  tools: {
+    postcss: (config, { addPlugins }) => {
+      // 添加一个插件
+      addPlugins(require('postcss-preset-env'));
+
+      // 批量添加插件
+      addPlugins([require('postcss-preset-env'), require('postcss-import')]);
     },
   },
 });

@@ -47,4 +47,26 @@ describe('base postcss config', () => {
 
     expect(plugins?.length).toBe(7);
   });
+
+  test('should allow to using addPlugins to add plugins', () => {
+    const {
+      postcssOptions: { plugins },
+    } = getPostcssConfig(
+      fixture,
+      {
+        tools: {
+          postcss(
+            _: unknown,
+            { addPlugins }: { addPlugins: (plugins: unknown) => void },
+          ) {
+            addPlugins({});
+            addPlugins([{}, {}]);
+          },
+        },
+      } as any,
+      false,
+    );
+
+    expect(plugins?.length).toBe(10);
+  });
 });
