@@ -16,5 +16,7 @@ export type LessLoaderOptions = {
 
 export type LessConfig =
   | LessLoaderOptions
-  // FIXME: utils type
-  | ((options: LessLoaderOptions, utils?: any) => LessLoaderOptions | void);
+  | ((
+      options: LessLoaderOptions,
+      utils: { addExcludes: (excludes: RegExp | RegExp[]) => void },
+    ) => LessLoaderOptions | void);

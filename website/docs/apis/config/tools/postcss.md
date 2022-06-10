@@ -112,7 +112,7 @@ export default defineConfig({
 
 用于添加额外的 PostCSS 插件。
 
-```typescript title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   tools: {
     postcss: (config, { addPlugins }) => {
