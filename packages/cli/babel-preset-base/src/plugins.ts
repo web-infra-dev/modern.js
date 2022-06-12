@@ -141,7 +141,7 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
 
   chain
     .plugin('babel-plugin-styled-components')
-    .use(require.resolve('babel-plugin-styled-components'), [
+    .use(require.resolve('../compiled/babel-plugin-styled-components'), [
       styledComponentsOptions || {},
       'styled-components',
     ]);
