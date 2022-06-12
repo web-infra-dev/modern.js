@@ -26,7 +26,7 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
   if (runEnvironments === 'node') {
     chain
       .plugin('babel-plugin-dynamic-import-node')
-      .use(require.resolve('babel-plugin-dynamic-import-node'));
+      .use(require.resolve('../compiled/babel-plugin-dynamic-import-node'));
   }
 
   const { antd } = babelPluginImport || { antd: { libraryDirectory: 'es' } };
