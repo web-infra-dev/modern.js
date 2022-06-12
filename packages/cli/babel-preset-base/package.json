@@ -52,7 +52,6 @@
     "@modern-js/babel-chain": "workspace:^1.2.5",
     "@modern-js/utils": "workspace:^1.7.3",
     "babel-plugin-dynamic-import-node": "^2.3.3",
-    "babel-plugin-import": "1.13.0",
     "babel-plugin-macros": "^2.8.0",
     "babel-plugin-styled-components": "^1.10.7",
     "lodash": "^4.17.21",

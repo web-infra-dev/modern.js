@@ -32,7 +32,7 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
   const { antd } = babelPluginImport || { antd: { libraryDirectory: 'es' } };
   chain
     .plugin('babel-plugin-import')
-    .use(require.resolve('babel-plugin-import'), [
+    .use(require.resolve('../compiled/babel-plugin-import'), [
       {
         libraryName: 'antd',
         libraryDirectory: antd?.libraryDirectory || 'es',
