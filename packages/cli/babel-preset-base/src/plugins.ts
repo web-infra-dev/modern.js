@@ -130,9 +130,10 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
   // link: https://github.com/tc39/proposal-pipeline-operator
   chain
     .plugin('@babel/plugin-proposal-pipeline-operator')
-    .use(require.resolve('@babel/plugin-proposal-pipeline-operator'), [
-      { proposal: 'minimal' },
-    ]);
+    .use(
+      require.resolve('../compiled/@babel/plugin-proposal-pipeline-operator'),
+      [{ proposal: 'minimal' }],
+    );
 
   // link: https://github.com/tc39/proposal-partial-application
   chain
