@@ -20,6 +20,9 @@
     "postcss": "^8.4.14"
   },
   "devDependencies": {
+    "@babel/types": "7.18.4",
+    "@babel/helper-validator-identifier": "7.16.7",
+    "@babel/helper-module-imports": "7.16.7",
     "@types/debug": "4.1.7",
     "@types/fs-extra": "9.0.13",
     "@types/glob": "7.2.0",
@@ -39,6 +42,7 @@
     "ajv-keywords": "5.1.0",
     "autoprefixer": "10.4.7",
     "babel-loader": "8.2.5",
+    "babel-plugin-lodash": "3.3.4",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "better-ajv-errors": "1.2.0",
     "browserslist": "4.20.2",
