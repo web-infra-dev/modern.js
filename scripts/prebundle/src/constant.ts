@@ -11,17 +11,21 @@ export const DIST_DIR = 'compiled';
 export const DEFAULT_EXTERNALS = {
   // External caniuse-lite data, so users can update it manually.
   'caniuse-lite': 'caniuse-lite',
-  '/caniuse-lite(/.*)/': 'caniuse-lite$1',
+  '/^caniuse-lite(/.*)/': 'caniuse-lite$1',
   // External webpack, it's hard to bundle.
   webpack: 'webpack',
-  '/webpack(/.*)/': 'webpack$1',
+  '/^webpack(/.*)/': 'webpack$1',
   // External lodash because lots of packages will depend on it.
   lodash: '@modern-js/utils/lodash',
+  '/^lodash(/.*)/': 'lodash$1',
   esbuild: 'esbuild',
   // ncc bundled wrong package.json, using external to avoid this problem
   './package.json': './package.json',
   '../package.json': './package.json',
   postcss: 'postcss',
+  '@babel/core': '@babel/core',
+  '@babel/runtime': '@babel/runtime',
+  '/^@babel/runtime(/.*)/': '@babel/runtime$1',
 };
 
 export const TASKS: TaskConfig[] = [
@@ -354,6 +358,81 @@ export const TASKS: TaskConfig[] = [
         externals: {
           browserslist: '@modern-js/utils/browserslist',
           'postcss-value-parser': '../postcss-value-parser',
+        },
+      },
+    ],
+  },
+  {
+    packageDir: 'cli/babel-preset-base',
+    packageName: '@modern-js/babel-preset-base',
+    dependencies: [
+      {
+        name: '@babel/helper-plugin-utils',
+        ignoreDts: true,
+      },
+      {
+        name: '@babel/helper-validator-identifier',
+        ignoreDts: true,
+      },
+      {
+        name: '@babel/types',
+        externals: {
+          '@babel/helper-validator-identifier':
+            '../helper-validator-identifier',
+        },
+      },
+      {
+        name: '@babel/helper-annotate-as-pure',
+        ignoreDts: true,
+        externals: {
+          '@babel/types': '../types',
+        },
+      },
+      {
+        name: '@babel/helper-module-imports',
+        ignoreDts: true,
+        externals: {
+          '@babel/types': '../types',
+        },
+      },
+      {
+        name: 'babel-plugin-transform-react-remove-prop-types',
+        ignoreDts: true,
+      },
+      {
+        name: 'babel-plugin-dynamic-import-node',
+        ignoreDts: true,
+      },
+      {
+        name: 'babel-plugin-import',
+        ignoreDts: true,
+        externals: {
+          '@babel/helper-module-imports': '../@babel/helper-module-imports',
+        },
+      },
+      {
+        name: 'babel-plugin-lodash',
+        ignoreDts: true,
+        externals: {
+          glob: '@modern-js/utils/glob',
+          '@babel/types': '../@babel/types',
+          '@babel/helper-module-imports': '../@babel/helper-module-imports',
+        },
+      },
+      {
+        name: 'babel-plugin-styled-components',
+        ignoreDts: true,
+        externals: {
+          '@babel/helper-module-imports': '../@babel/helper-module-imports',
+          '@babel/helper-annotate-as-pure': '../@babel/helper-annotate-as-pure',
+        },
+      },
+      {
+        name: 'babel-plugin-macros',
+        ignoreDts: true,
+        externals: {
+          resolve: 'resolve',
+          cosmiconfig: 'cosmiconfig',
         },
       },
     ],

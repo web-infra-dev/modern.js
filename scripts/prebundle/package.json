@@ -22,6 +22,7 @@
   "devDependencies": {
     "@babel/types": "7.18.4",
     "@babel/helper-validator-identifier": "7.16.7",
+    "@babel/helper-plugin-utils": "7.17.12",
     "@babel/helper-annotate-as-pure": "7.16.7",
     "@babel/helper-module-imports": "7.16.7",
     "@types/debug": "4.1.7",
