@@ -67,15 +67,6 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
           },
     ]);
 
-  // babel-preset-env have, but option should change
-  // https://2ality.com/2016/10/rest-spread-properties.html
-  // https://exploringjs.com/es6/ch_oop-besides-classes.html
-  chain
-    .plugin('@babel/plugin-proposal-object-rest-spread')
-    .use(require.resolve('@babel/plugin-proposal-object-rest-spread'), [
-      { useBuiltIns: true },
-    ]);
-
   chain
     .plugin('@babel/plugin-transform-runtime')
     .use(require.resolve('@babel/plugin-transform-runtime'), [
