@@ -29,7 +29,7 @@ export type Target =
   | 'es2020'
   | 'esnext';
 
-export type BundleOption = {
+export type BundleOptions = {
   entry?: Record<string, string>;
   platform?: SpeedyConfig['platform'];
   splitting?: boolean;
@@ -37,7 +37,7 @@ export type BundleOption = {
   external?: SpeedyConfig['external'];
 };
 
-export type BundlessOption = {
+export type BundlelessOptions = {
   sourceDir?: string;
 };
 
@@ -45,8 +45,8 @@ export type BuildConfig = {
   format?: Format;
   target?: Target;
   bundle?: boolean;
-  bundleOption?: BundleOption;
-  bundlessOption?: BundlessOption;
+  bundleOptions?: BundleOptions;
+  bundlelessOptions?: BundlelessOptions;
   tsconfig?: string;
   dts?: boolean;
   outputPath: string;

@@ -9,7 +9,7 @@ import type { IBuildFeatOption } from '../../types';
 import { cliTsConfigDefaultValue } from '../../utils/constants';
 import type {
   NormalizedBuildConfig,
-  NormalizedBundlessBuildConfig,
+  NormalizedBundlelessBuildConfig,
 } from './types';
 
 const constants: typeof import('./constants') = Import.lazy(
@@ -29,7 +29,7 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
     bundle: false,
     watch: false,
     dts: true,
-    bundlessOption: {
+    bundlelessOptions: {
       sourceDir: 'src',
     },
     tsconfig: './tsconfig.json',
@@ -50,7 +50,7 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
   ) {
     const buildConfigs =
       constants.PACKAGE_MODES[packageMode || constants.DEFAULT_PACKAGE_MODE];
-    configs = buildConfigs.map<NormalizedBundlessBuildConfig>(config => ({
+    configs = buildConfigs.map<NormalizedBundlelessBuildConfig>(config => ({
       ...config,
       ...commonConfig,
     }));
@@ -186,16 +186,17 @@ export const normalizeModuleConfig = (
     const format = config.format ?? 'cjs';
     const target = config.target ?? 'esnext';
     const bundle = config.bundle ?? false;
-    const { bundleOption } = config;
+    const { bundleOptions } = config;
     const normalizedBundleOption = {
-      ...bundleOption,
-      entry:
-        bundleOption?.entry || { 'index': `src/index.${buildFeatOption.isTsProject ? 'ts' : 'js'}`},
-      platform: bundleOption?.platform || 'node',
+      ...bundleOptions,
+      entry: bundleOptions?.entry || {
+        index: `src/index.${buildFeatOption.isTsProject ? 'ts' : 'js'}`,
+      },
+      platform: bundleOptions?.platform || 'node',
     };
-    const normalizeBundlessOption = {
+    const normalizeBundlelessOptions = {
       sourceDir: './src',
-      ...config.bundlessOption,
+      ...config.bundlelessOptions,
     };
     const watch = buildFeatOption.enableWatchMode || false;
     const tsconfig = getFinalTsconfig(config, buildFeatOption);
@@ -207,8 +208,8 @@ export const normalizeModuleConfig = (
       format,
       target,
       bundle,
-      bundleOption: normalizedBundleOption,
-      bundlessOption: normalizeBundlessOption,
+      bundleOptions: normalizedBundleOption,
+      bundlelessOptions: normalizeBundlelessOptions,
       watch,
       tsconfig,
       dts,

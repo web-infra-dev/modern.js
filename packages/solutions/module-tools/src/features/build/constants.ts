@@ -1,6 +1,5 @@
-import { BuildConfig } from '../../schema/types';
 import {
-  NormalizedBuildConfig,
+  NormalizedBundleBuildConfig,
   NormalizedBundlelessBuildConfig,
 } from './types';
 
@@ -65,52 +64,56 @@ export const runTscTitle = 'Run `tsc` log';
 export const runStyleCompilerTitle = 'Run style compiler code log';
 export const clearFlag = '\x1Bc';
 
-export const defaultLibraryPreset: BuildConfig[] = [
+export const defaultLibraryPreset: NormalizedBundleBuildConfig[] = [
   {
     format: 'cjs',
     target: 'esnext',
     bundle: true,
-    bundleOption: {
+    bundleOptions: {
       entry: { index: './src/index.ts' },
     },
     tsconfig: 'tsconfig.json',
     dts: true,
     outputPath: './',
+    watch: false,
   },
 ];
-export const defaultComponentPreset: BuildConfig[] = [
+export const defaultComponentPreset: NormalizedBundleBuildConfig[] = [
   {
     format: 'iife',
     target: 'esnext',
     bundle: true,
-    bundleOption: {
+    bundleOptions: {
       entry: { index: './src/index.ts' },
     },
     tsconfig: 'tsconfig.json',
     dts: true,
     outputPath: './',
+    watch: false,
   },
   {
     format: 'esm',
     target: 'esnext',
     bundle: false,
-    bundleOption: {
+    bundleOptions: {
       entry: { index: './src/index.ts' },
     },
     tsconfig: 'tsconfig.json',
     dts: true,
     outputPath: './es',
+    watch: false,
   },
   {
     format: 'cjs',
     target: 'esnext',
     bundle: false,
-    bundleOption: {
+    bundleOptions: {
       entry: { index: './src/index.ts' },
     },
     tsconfig: 'tsconfig.json',
     dts: true,
     outputPath: './lib',
+    watch: false,
   },
 ];
 
