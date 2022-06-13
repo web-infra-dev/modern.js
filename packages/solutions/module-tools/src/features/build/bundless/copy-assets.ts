@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { fs, watch, glob, WatchChangeType, Import } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
-import { NormalizedBundlessBuildConfig } from '../types';
+import { NormalizedBundlelessBuildConfig } from '../types';
 
 const copyUtils: typeof import('../../../utils/copy') = Import.lazy(
   '../../../utils/copy',
@@ -59,7 +59,7 @@ const watchAssets = ({
 
 export const copyStaticAssets = async (
   api: PluginAPI,
-  config: NormalizedBundlessBuildConfig,
+  config: NormalizedBundlelessBuildConfig,
 ) => {
   const appContext = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();

@@ -15,7 +15,7 @@ import type {
   PostcssOption,
   SassOptions,
 } from '@modern-js/style-compiler';
-import type { NormalizedBundlessBuildConfig } from '../types';
+import type { NormalizedBundlelessBuildConfig } from '../types';
 
 const cssConfig: typeof import('@modern-js/css-config') = Import.lazy(
   '@modern-js/css-config',
@@ -220,7 +220,7 @@ export const buildStart = async (
 
 export const buildStyle = async (
   api: PluginAPI,
-  config: NormalizedBundlessBuildConfig,
+  config: NormalizedBundlelessBuildConfig,
 ) => {
   const modernConfig = api.useResolvedConfigContext();
   const { appDirectory } = api.useAppContext();

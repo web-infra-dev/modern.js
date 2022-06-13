@@ -2,12 +2,12 @@ import { BuildConfig, BundlessOption } from '../../schema/types';
 
 export type NormalizedBuildConfig =
   | NormalizedBundleBuildConfig
-  | NormalizedBundlessBuildConfig;
+  | NormalizedBundlelessBuildConfig;
 
 export type NormalizedBundleBuildConfig = Required<BuildConfig> & {
   watch: boolean;
 }
-export type NormalizedBundlessBuildConfig = Required<
+export type NormalizedBundlelessBuildConfig = Required<
   Omit<BuildConfig, 'bundleOption'>
 > &
   Pick<BuildConfig, 'bundleOption'> & {

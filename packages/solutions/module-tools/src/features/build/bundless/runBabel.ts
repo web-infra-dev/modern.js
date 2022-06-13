@@ -7,14 +7,13 @@ import type {
   ICompilerResult,
   BuildWatchEmitter,
 } from '@modern-js/babel-compiler';
-import type { NormalizedBundlessBuildConfig } from '../types';
+import type { NormalizedBundlelessBuildConfig } from '../types';
 import type { ITsconfig } from '../../../types';
 
 const babelCompiler: typeof import('@modern-js/babel-compiler') = Import.lazy(
   '@modern-js/babel-compiler',
   require,
 );
-const pMap: typeof import('p-map') = Import.lazy('p-map', require);
 
 const bc: typeof import('../../../utils/babel') = Import.lazy(
   '../../../utils/babel',
@@ -151,7 +150,7 @@ const outputDist = (outputResults: ICompilerResult) => {
 
 export const runBabelBuild = async (
   api: PluginAPI,
-  config: NormalizedBundlessBuildConfig,
+  config: NormalizedBundlelessBuildConfig,
 ) => {
   const {
     bundlessOption: { sourceDir },
@@ -160,7 +159,6 @@ export const runBabelBuild = async (
     format,
     outputPath,
     watch,
-    ignoreSingleFormatDir = false,
   } = config;
   const { appDirectory } = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
@@ -169,13 +167,11 @@ export const runBabelBuild = async (
   } = modernConfig;
   const sourceAbsDir = path.join(appDirectory, sourceDir);
   const tsconfigPath = path.join(appDirectory, tsconfig);
-  // When there is only one format, the output directory of the build product is '[distDir]/[outputPath]/'
-  // In other cases, follow [dist]/[outputPath]/[format]
-  const singleFormat = ignoreSingleFormatDir ? format.length === 1 : false;
+
   // TODO: Refactoring based on format and target
   const syntax = target === 'es5' ? 'es5' : 'es6+';
   const type = format === 'cjs' ? 'commonjs' : 'module';
-  const buildConfigs = [{
+  const buildConfig = {
     format,
     target,
     babelConfig: bc.resolveBabelConfig(appDirectory, modernConfig, {
@@ -184,70 +180,66 @@ export const runBabelBuild = async (
       syntax,
       type,
     }),
-  }];
+  };
 
-
-  await pMap(buildConfigs, async bc => {
-    const distDir = path.join(
-      appDirectory,
-      distPath,
-      outputPath,
-      singleFormat ? './' : `./${bc.format}`,
-    );
-    const result = await buildSourceCode({
-      appDirectory,
-      distDir,
-      srcRootDir: sourceAbsDir,
-      willCompilerDirOrFile: sourceAbsDir,
-      tsconfigPath,
-      babelConfig: bc.babelConfig,
-      watch,
-    });
-    if (watch) {
-      const emitter = result as BuildWatchEmitter;
-      console.info(emitter);
-      emitter.on(babelCompiler.BuildWatchEvent.compiling, () => {
-        console.info(logger.clearFlag, `Compiling...`);
-      });
-      emitter.on(
-        babelCompiler.BuildWatchEvent.firstCompiler,
-        (result: ICompilerResult) => {
-          if (result.code === 1) {
-            console.error(logger.clearFlag);
-            console.error(result.message);
-            for (const detail of result.messageDetails || []) {
-              console.error(detail.content);
-            }
-          } else {
-            generatorRealFiles(result.virtualDists!);
-            console.info(logger.clearFlag, '[Babel Compiler]: Successfully');
-          }
-        },
-      );
-      emitter.on(
-        babelCompiler.BuildWatchEvent.watchingCompiler,
-        (result: ICompilerResult) => {
-          if (result.code === 1) {
-            console.error(logger.clearFlag);
-            console.error(result.message);
-            for (const detail of result.messageDetails || []) {
-              console.error(detail.content);
-            }
-            if (
-              Array.isArray(result.virtualDists) &&
-              result.virtualDists?.length > 0
-            ) {
-              generatorRealFiles(result.virtualDists);
-            }
-          } else {
-            generatorRealFiles(result.virtualDists!);
-            console.info(result.message);
-          }
-        },
-      );
-      await emitter.watch();
-    } else {
-      outputDist(result as ICompilerResult);
-    }
+  const distDir = path.join(
+    appDirectory,
+    distPath,
+    outputPath,
+  );
+  const result = await buildSourceCode({
+    appDirectory,
+    distDir,
+    srcRootDir: sourceAbsDir,
+    willCompilerDirOrFile: sourceAbsDir,
+    tsconfigPath,
+    babelConfig: buildConfig.babelConfig,
+    watch,
   });
+  if (watch) {
+    const emitter = result as BuildWatchEmitter;
+    console.info(emitter);
+    emitter.on(babelCompiler.BuildWatchEvent.compiling, () => {
+      console.info(logger.clearFlag, `Compiling...`);
+    });
+    emitter.on(
+      babelCompiler.BuildWatchEvent.firstCompiler,
+      (result: ICompilerResult) => {
+        if (result.code === 1) {
+          console.error(logger.clearFlag);
+          console.error(result.message);
+          for (const detail of result.messageDetails || []) {
+            console.error(detail.content);
+          }
+        } else {
+          generatorRealFiles(result.virtualDists!);
+          console.info(logger.clearFlag, '[Babel Compiler]: Successfully');
+        }
+      },
+    );
+    emitter.on(
+      babelCompiler.BuildWatchEvent.watchingCompiler,
+      (result: ICompilerResult) => {
+        if (result.code === 1) {
+          console.error(logger.clearFlag);
+          console.error(result.message);
+          for (const detail of result.messageDetails || []) {
+            console.error(detail.content);
+          }
+          if (
+            Array.isArray(result.virtualDists) &&
+            result.virtualDists?.length > 0
+          ) {
+            generatorRealFiles(result.virtualDists);
+          }
+        } else {
+          generatorRealFiles(result.virtualDists!);
+          console.info(result.message);
+        }
+      },
+    );
+    await emitter.watch();
+  } else {
+    outputDist(result as ICompilerResult);
+  }
 };
