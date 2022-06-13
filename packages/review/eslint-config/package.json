@@ -13,8 +13,7 @@
     "modern.js"
   ],
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm",
-    "check": "npx eslint-find-rules --unused index.js"
+    "prepublishOnly": "only-allow-pnpm"
   },
   "dependencies": {
     "@modern-js-app/eslint-config": "workspace:^1.2.12"

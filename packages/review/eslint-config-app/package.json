@@ -13,8 +13,7 @@
     "modern.js"
   ],
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm",
-    "check": "npx eslint-find-rules --unused index.js"
+    "prepublishOnly": "only-allow-pnpm"
   },
   "dependencies": {
     "@babel/core": "^7.18.0",
