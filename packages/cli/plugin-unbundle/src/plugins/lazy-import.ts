@@ -35,14 +35,9 @@ const camelToKebab = (s: string) =>
 // examples:
 // import 'antd/es/button/style/index.js'
 // import '@arco-design/web-react/es/Button/style/index.js'
-// import '@arco-design/web-react/icon/react-icon/IconArrowRight/index.js'
 export const assembleCSSImportPath = (source: string, importedName: string) => {
-  let libName = 'es';
-  let subFolder = 'style/';
-  if (source === '@arco-design/web-react/icon') {
-    libName = 'react-icon';
-    subFolder = '';
-  }
+  const libName = 'es';
+  const subFolder = 'style/';
   return `import '${source}/${libName}/${importedName}/${subFolder}index.js'`;
 };
 
