@@ -140,7 +140,9 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
   // link: https://github.com/tc39/proposal-partial-application
   chain
     .plugin('@babel/plugin-proposal-partial-application')
-    .use(require.resolve('@babel/plugin-proposal-partial-application'));
+    .use(
+      require.resolve('../compiled/@babel/plugin-proposal-partial-application'),
+    );
 
   chain
     .plugin('babel-plugin-styled-components')
