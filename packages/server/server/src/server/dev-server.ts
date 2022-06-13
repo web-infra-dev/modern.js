@@ -93,6 +93,14 @@ export class ModernDevServer extends ModernServer {
         ctx.res.setHeader('Access-Control-Allow-Origin', '*');
         ctx.res.setHeader('Access-Control-Allow-Credentials', 'false');
       }
+
+      // 用户在 devServer 上配置的 headers 不会对 html 的请求生效，加入下面代码，使配置的 headers 对所有请求生效
+      const confHeaders = this.conf.tools.devServer?.headers;
+      if (confHeaders) {
+        for (const [key, value] of Object.entries(confHeaders)) {
+          ctx.res.setHeader(key, value);
+        }
+      }
       next();
     });
 

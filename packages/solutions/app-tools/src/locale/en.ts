@@ -21,5 +21,11 @@ export const EN_LOCALE = {
       distTag: `use specified tag version for it's generator`,
       registry: 'set npm registry url to run npm command',
     },
+    inspect: {
+      env: 'specify env mode',
+      output: 'specify inspect content output path',
+      noConsole: 'do not log the result in terminal',
+      verbose: 'show full function definitions in output',
+    },
   },
 };

@@ -21,5 +21,11 @@ export const ZH_LOCALE = {
       distTag: '生成器使用特殊的 npm Tag 版本',
       registry: '生成器运行过程中定制 npm Registry',
     },
+    inspect: {
+      env: '查看指定环境下的配置',
+      output: '指定在 dist 目录下输出的路径',
+      noConsole: '不在终端中输出完整结果',
+      verbose: '在结果中展示函数的完整内容',
+    },
   },
 };
