@@ -124,7 +124,9 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
   // link: https://github.com/tc39/proposal-export-default-from
   chain
     .plugin('@babel/plugin-proposal-export-default-from')
-    .use(require.resolve('@babel/plugin-proposal-export-default-from'));
+    .use(
+      require.resolve('../compiled/@babel/plugin-proposal-export-default-from'),
+    );
 
   // ======= Stage1 =====
   // link: https://github.com/tc39/proposal-pipeline-operator

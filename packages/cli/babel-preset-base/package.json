@@ -38,7 +38,6 @@
   "dependencies": {
     "@babel/core": "^7.18.0",
     "@babel/plugin-proposal-decorators": "^7.18.0",
-    "@babel/plugin-proposal-export-default-from": "^7.17.12",
     "@babel/plugin-proposal-function-bind": "^7.16.7",
     "@babel/plugin-proposal-object-rest-spread": "^7.18.0",
     "@babel/plugin-proposal-partial-application": "^7.17.12",
