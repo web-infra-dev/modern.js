@@ -54,7 +54,7 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
   // link: https://github.com/tc39/proposal-decorators
   chain
     .plugin('@babel/plugin-proposal-decorators')
-    .use(require.resolve('@babel/plugin-proposal-decorators'), [
+    .use(require.resolve('../compiled/@babel/plugin-proposal-decorators'), [
       useLegacyDecorators
         ? {
             // https://github.com/nicolo-ribaudo/legacy-decorators-migration-utility
