@@ -22,6 +22,8 @@
   "devDependencies": {
     "@babel/types": "7.18.4",
     "@babel/parser": "7.18.4",
+    "@babel/generator": "7.18.2",
+    "@babel/traverse": "7.18.2",
     "@babel/template": "7.16.7",
     "@babel/highlight": "7.17.12",
     "@babel/code-frame": "7.16.7",

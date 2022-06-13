@@ -367,6 +367,10 @@ export const TASKS: TaskConfig[] = [
     packageName: '@modern-js/babel-preset-base',
     dependencies: [
       {
+        name: '@babel/parser',
+        ignoreDts: true,
+      },
+      {
         name: '@babel/helper-plugin-utils',
         ignoreDts: true,
       },
@@ -379,6 +383,47 @@ export const TASKS: TaskConfig[] = [
         externals: {
           '@babel/helper-validator-identifier':
             '../helper-validator-identifier',
+        },
+      },
+      {
+        name: '@babel/generator',
+        ignoreDts: true,
+        externals: {
+          '@babel/types': '../types',
+        },
+      },
+      {
+        name: '@babel/highlight',
+        ignoreDts: true,
+        externals: {
+          chalk: '@modern-js/utils/chalk',
+        },
+      },
+      {
+        name: '@babel/code-frame',
+        ignoreDts: true,
+        externals: {
+          '@babel/highlight': '../highlight',
+        },
+      },
+      {
+        name: '@babel/template',
+        ignoreDts: true,
+        externals: {
+          '@babel/types': '../types',
+          '@babel/parser': '../parser',
+          '@babel/code-frame': '../code-frame',
+        },
+      },
+      {
+        name: '@babel/traverse',
+        ignoreDts: true,
+        externals: {
+          '@babel/types': '../types',
+          '@babel/parser': '../parser',
+          '@babel/generator': '../generator',
+          '@babel/template': '../template',
+          '@babel/code-frame': '../code-frame',
         },
       },
       {
@@ -433,6 +478,54 @@ export const TASKS: TaskConfig[] = [
         externals: {
           resolve: 'resolve',
           cosmiconfig: 'cosmiconfig',
+        },
+      },
+      {
+        name: '@babel/plugin-proposal-pipeline-operator',
+        ignoreDts: true,
+        externals: {
+          '@babel/helper-plugin-utils': '../helper-plugin-utils',
+        },
+      },
+      {
+        name: '@babel/plugin-proposal-export-default-from',
+        ignoreDts: true,
+        externals: {
+          '@babel/helper-plugin-utils': '../helper-plugin-utils',
+        },
+      },
+      {
+        name: '@babel/plugin-proposal-partial-application',
+        ignoreDts: true,
+        externals: {
+          '@babel/helper-plugin-utils': '../helper-plugin-utils',
+        },
+      },
+      {
+        name: '@babel/plugin-proposal-function-bind',
+        ignoreDts: true,
+        externals: {
+          '@babel/helper-plugin-utils': '../helper-plugin-utils',
+        },
+      },
+      {
+        name: '@babel/helper-create-class-features-plugin',
+        ignoreDts: true,
+        externals: {
+          '@babel/types': '../types',
+          '@babel/traverse': '../traverse',
+          '@babel/template': '../template',
+        },
+      },
+      {
+        name: '@babel/plugin-proposal-decorators',
+        ignoreDts: true,
+        externals: {
+          '@babel/types': '../types',
+          '@babel/traverse': '../traverse',
+          '@babel/helper-plugin-utils': '../helper-plugin-utils',
+          '@babel/helper-create-class-features-plugin':
+            '../helper-create-class-features-plugin',
         },
       },
     ],
