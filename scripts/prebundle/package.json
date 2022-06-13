@@ -28,6 +28,7 @@
     "@babel/plugin-proposal-pipeline-operator": "7.18.2",
     "@babel/plugin-proposal-export-default-from": "7.17.12",
     "@babel/plugin-proposal-partial-application": "7.17.12",
+    "@babel/plugin-proposal-function-bind": "7.16.7",
     "@types/debug": "4.1.7",
     "@types/fs-extra": "9.0.13",
     "@types/glob": "7.2.0",

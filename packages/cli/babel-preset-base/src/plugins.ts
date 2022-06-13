@@ -119,7 +119,7 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
 
   chain
     .plugin('@babel/plugin-proposal-function-bind')
-    .use(require.resolve('@babel/plugin-proposal-function-bind'));
+    .use(require.resolve('../compiled/@babel/plugin-proposal-function-bind'));
 
   // link: https://github.com/tc39/proposal-export-default-from
   chain
