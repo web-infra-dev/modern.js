@@ -2,7 +2,7 @@ import path from 'path';
 import type { ChildProcess } from 'child_process';
 import { Import, execa, fs, json5, isObject } from '@modern-js/utils';
 import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
-import type { NormalizedBundlessBuildConfig } from '../../types';
+import type { NormalizedBundlelessBuildConfig } from '../../types';
 import type { ITsconfig } from '../../../../types';
 import { getTscBinPath, IGeneratorConfig } from './utils';
 
@@ -91,7 +91,7 @@ const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
 
 export const genDts = async (
   api: PluginAPI,
-  config: NormalizedBundlessBuildConfig,
+  config: NormalizedBundlelessBuildConfig,
 ) => {
   const {
     outputPath,
