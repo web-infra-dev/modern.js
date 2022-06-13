@@ -4,7 +4,7 @@ import type { PluginAPI } from '@modern-js/core';
 import type { IBuildFeatOption } from '../../types';
 import type {
   NormalizedBundleBuildConfig,
-  NormalizedBundlessBuildConfig,
+  NormalizedBundlelessBuildConfig,
 } from './types';
 import { normalizeModuleConfig } from './normalize';
 
@@ -80,7 +80,7 @@ export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
         return bundless.build(api, {
           ...config,
           ...moduleConfig,
-        } as NormalizedBundlessBuildConfig);
+        } as NormalizedBundlelessBuildConfig);
       }
     }),
   );

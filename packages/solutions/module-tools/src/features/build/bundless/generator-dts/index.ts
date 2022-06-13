@@ -97,7 +97,7 @@ export const genDts = async (
     outputPath,
     tsconfig: tsconfigPath,
     watch,
-    bundlessOption: { sourceDir },
+    bundlelessOptions: { sourceDir },
     outputStylePath,
   } = config;
   const { appDirectory } = api.useAppContext();

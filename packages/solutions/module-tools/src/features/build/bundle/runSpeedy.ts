@@ -14,8 +14,8 @@ export const runSpeedy = async (
     output: { path: distPath = 'dist', enableSourceMap: sourceMap },
     tools: { speedy: userSpeedyConfig },
   } = api.useResolvedConfigContext();
-  const { target, watch, bundleOption, outputPath, format } = config;
-  const { entry, platform, splitting, minify, external } = bundleOption;
+  const { target, watch, bundleOptions, outputPath, format } = config;
+  const { entry, platform, splitting, minify, external } = bundleOptions;
 
   const distDir = path.join(appDirectory, distPath, outputPath);
   const internalSpeedyConfig: CLIConfig = {
