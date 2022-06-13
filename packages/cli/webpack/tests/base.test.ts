@@ -1,6 +1,7 @@
 import path from 'path';
 import { NormalizedConfig } from '@modern-js/core';
 import type WebpackChain from '@modern-js/utils/webpack-chain';
+import { CHAIN_ID } from '@modern-js/utils';
 import { BaseWebpackConfig } from '../src/config/base';
 import { JS_REGEX, TS_REGEX } from '../src/utils/constants';
 import { mergeRegex } from '../src/utils/mergeRegex';
@@ -292,5 +293,46 @@ describe('base webpack config', () => {
     expect(output.publicPath).toEqual('https://prod/');
 
     restore();
+  });
+
+  test(`apply tools.tsLoader and using utils.addIncludes/addExcludes`, () => {
+    const configFunction: NormalizedConfig['tools']['tsLoader'] = (
+      config,
+      utils,
+    ) => {
+      utils.addIncludes(/include-1/);
+      utils.addIncludes([/include-2/, /include-3/]);
+      utils.addExcludes(/exclude-1/);
+      utils.addExcludes([/exclude-2/, /exclude-3/]);
+    };
+
+    const baseConfig = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      output: {
+        enableTsLoader: true,
+        path: `${__dirname}/dist`,
+        jsPath: 'js',
+        cssPath: 'css',
+      },
+      tools: {
+        tsLoader: configFunction,
+      },
+    } as any);
+
+    const rule = baseConfig
+      .getChain()
+      .module.rule(CHAIN_ID.RULE.LOADERS)
+      .oneOf(CHAIN_ID.ONE_OF.TS);
+
+    expect(rule.include.values().slice(2, 5)).toEqual([
+      /include-1/,
+      /include-2/,
+      /include-3/,
+    ]);
+    expect(rule.exclude.values()).toEqual([
+      /exclude-1/,
+      /exclude-2/,
+      /exclude-3/,
+    ]);
   });
 });
