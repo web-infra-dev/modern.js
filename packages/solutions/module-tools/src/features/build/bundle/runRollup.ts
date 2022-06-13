@@ -43,10 +43,10 @@ const getRollupConfig = async (
     output: { path: distPath = 'dist' },
   } = api.useResolvedConfigContext();
 
-  const { outputPath, bundleOption, tsconfig } = options;
+  const { outputPath, bundleOptions, tsconfig } = options;
   const distDir = path.join(appDirectory, distPath, outputPath);
   const compilerOptions = loadCompilerOptions(tsconfig);
-  const dtsOptions = { entry: bundleOption.entry };
+  const dtsOptions = { entry: bundleOptions.entry };
 
   const ignoreFiles: Plugin = {
     name: 'ignore-files',

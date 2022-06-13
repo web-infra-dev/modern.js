@@ -153,7 +153,7 @@ export const runBabelBuild = async (
   config: NormalizedBundlelessBuildConfig,
 ) => {
   const {
-    bundlessOption: { sourceDir },
+    bundlelessOptions: { sourceDir },
     tsconfig,
     target,
     format,
