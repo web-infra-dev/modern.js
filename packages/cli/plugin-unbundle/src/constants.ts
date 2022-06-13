@@ -98,7 +98,6 @@ export const IGNORE_OPTIMIZE_DEPS = ['domino'];
 export const DEFAULT_LAZY_IMPORT_UI_COMPONENTS = [
   'antd',
   '@arco-design/web-react',
-  '@arco-design/web-react/icon',
 ];
 
 export const ESBUILD_RESOLVE_PLUGIN_NAME = 'esm-resolve-plugin';
