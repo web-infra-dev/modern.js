@@ -93,10 +93,6 @@
       "path": "packages/generator/generators/docsite-generator"
     },
     {
-      "name": "@modern-js/doctor",
-      "path": "packages/toolkit/doctor"
-    },
-    {
       "name": "@modern-js/electron-generator",
       "path": "packages/generator/generators/electron-generator"
     },
@@ -403,10 +399,6 @@
     {
       "name": "@modern-js/unbundle-generator",
       "path": "packages/generator/generators/unbundle-generator"
-    },
-    {
-      "name": "@modern-js/update",
-      "path": "packages/toolkit/update"
     },
     {
       "name": "@modern-js/utils",

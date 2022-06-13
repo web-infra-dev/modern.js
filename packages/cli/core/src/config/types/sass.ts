@@ -9,5 +9,7 @@ export interface SassLoaderOptions {
 
 export type SassConfig =
   | SassLoaderOptions
-  // FIXME: utils type
-  | ((options: SassLoaderOptions, utils?: any) => SassLoaderOptions | void);
+  | ((
+      options: SassLoaderOptions,
+      utils: { addExcludes: (excludes: RegExp | RegExp[]) => void },
+    ) => SassLoaderOptions | void);
