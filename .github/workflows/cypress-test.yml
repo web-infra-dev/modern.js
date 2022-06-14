@@ -27,7 +27,7 @@ jobs:
       id: pnpm-install
       with:
         version: 6.32.17
-        run_install: false
+        run_install: true
     - name: wireit cache
       uses: google/wireit@setup-github-actions-caching/v1
     - name: install dependency
