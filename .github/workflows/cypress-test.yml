@@ -34,13 +34,11 @@ jobs:
       run: pnpm install --ignore-scripts
     - name: Prepare
       run: pnpm run prepare --filter ./packages
-    - name: dev cypress project
-      run: pnpm run dev --filter "@cypress-test/*"
     - name: Run cypress test
       uses: cypress-io/github-action@v2
       with:
         install: false
-        start: node scripts/devCypress.js
+        start: pnpm run dev --filter "@cypress-test/*"
         wait-on: 'http://localhost:3001,http://localhost:3002,http://localhost:3003'
         wait-on-timeout: 600
         parallel: true
