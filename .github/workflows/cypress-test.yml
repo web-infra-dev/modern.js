@@ -30,8 +30,6 @@ jobs:
       with:
         version: 6.32.17
         run_install: true
-    - name: in test folder
-      run: cd tests
     - name: Run cypress test
       uses: cypress-io/github-action@v4
       with:
@@ -42,9 +40,9 @@ jobs:
         parallel: true
         record: false
         spec: |
-            cypress/e2e/1-garfish/dashboard.cy.js
-            cypress/e2e/1-garfish/whole-process.cy.js
-        config-file: cypress.config.js
+            tests/cypress/e2e/1-garfish/dashboard.cy.js
+            tests/cypress/e2e/1-garfish/whole-process.cy.js
+        config-file: tests/cypress.config.js
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         # Recommended: pass the GitHub token lets this action correctly
