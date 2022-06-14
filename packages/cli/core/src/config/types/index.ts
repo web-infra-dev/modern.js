@@ -27,6 +27,7 @@ import type {
 } from './ssg';
 import type { ElectronConfig } from './electron';
 import type { PostCSSLoaderOptions } from './postcss';
+import type { TsLoaderOptions } from './ts-loader';
 
 type AutoprefixerOptions = autoprefixer.Options;
 type TerserOptions = BasePluginOptions & RawTerserOptions;
@@ -253,6 +254,16 @@ export type WebpackChainConfig = (
   },
 ) => void;
 
+export type TsLoaderConfig =
+  | TsLoaderOptions
+  | ((
+      config: TsLoaderOptions,
+      utils: {
+        addIncludes: (includes: string | RegExp | (string | RegExp)[]) => void;
+        addExcludes: (includes: string | RegExp | (string | RegExp)[]) => void;
+      },
+    ) => TsLoaderOptions | void);
+
 export type BabelConfig =
   | TransformOptions
   // FIXME: utils type
@@ -275,7 +286,7 @@ export interface ToolsConfig {
   styledComponents?: ConfigFunction;
   lodash?: ConfigFunction;
   devServer?: DevServerConfig;
-  tsLoader?: ConfigFunction;
+  tsLoader?: TsLoaderConfig;
   terser?: TerserConfig;
   minifyCss?: ConfigFunction;
   esbuild?: Record<string, unknown>;

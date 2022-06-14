@@ -4,7 +4,7 @@ exports[`babel resolveBabelConfig 1`] = `
 Object {
   "plugins": Array [
     Array [
-      "/babel-plugin-macros/dist/index.js",
+      "/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
       Object {
         "twin": Object {
           "preset": "styled-components",
@@ -12,7 +12,7 @@ Object {
       },
     ],
     Array [
-      "/babel-plugin-import/lib/index.js",
+      "/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
       Object {
         "libraryDirectory": "es",
         "libraryName": "antd",
@@ -21,7 +21,7 @@ Object {
       "import-antd",
     ],
     Array [
-      "/babel-plugin-lodash/lib/index.js",
+      "/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
       Object {
         "id": Array [
           "lodash",
@@ -36,12 +36,6 @@ Object {
       },
     ],
     Array [
-      "/@babel/plugin-proposal-object-rest-spread/lib/index.js",
-      Object {
-        "useBuiltIns": true,
-      },
-    ],
-    Array [
       "/@babel/plugin-transform-runtime/lib/index.js",
       Object {
         "corejs": false,
@@ -52,28 +46,28 @@ Object {
       },
     ],
     Array [
-      "/babel-plugin-transform-react-remove-prop-types/lib/index.js",
+      "/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
       Object {
         "removeImport": true,
       },
     ],
     Array [
-      "/@babel/plugin-proposal-function-bind/lib/index.js",
+      "/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-function-bind/index.js",
     ],
     Array [
-      "/@babel/plugin-proposal-export-default-from/lib/index.js",
+      "/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
     ],
     Array [
-      "/@babel/plugin-proposal-pipeline-operator/lib/index.js",
+      "/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
       Object {
         "proposal": "minimal",
       },
     ],
     Array [
-      "/@babel/plugin-proposal-partial-application/lib/index.js",
+      "/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
     ],
     Array [
-      "/babel-plugin-styled-components/lib/index.js",
+      "/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
       Object {},
       "styled-components",
     ],
