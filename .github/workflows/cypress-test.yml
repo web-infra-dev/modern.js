@@ -39,7 +39,9 @@ jobs:
         wait-on-timeout: 600
         parallel: true
         record: false
-        spec: tests/cypress/e2e/**/*.cy.js
+        spec: |
+            tests/cypress/e2e/1-garfish/dashboard.cy.js
+            tests/cypress/e2e/1-garfish/whole-process.cy.js
         config-file: tests/cypress.config.js
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
