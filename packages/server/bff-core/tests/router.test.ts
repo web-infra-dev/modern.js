@@ -126,6 +126,54 @@ describe('test api router', () => {
     expect(handlerInfos.length).toBe(27);
   });
 
+  test('getHandlerInfo', () => {
+    const apiDir = path.join(__dirname, 'fixtures', 'function');
+    const get = () => 'Hello Modernjs';
+    const apiRouter1 = new ApiRouter({
+      apiDir,
+      prefix: '',
+    });
+    const handlerInfo1 = apiRouter1.getHandlerInfo(
+      path.join(apiDir, 'normal/origin/index.ts'),
+      'get',
+      get,
+    );
+    expect(handlerInfo1?.routePath).toEqual('/api/normal/origin');
+
+    const apiRouter2 = new ApiRouter({
+      apiDir,
+      prefix: '/',
+    });
+    const handlerInfo2 = apiRouter2.getHandlerInfo(
+      path.join(apiDir, 'normal/origin/index.ts'),
+      'get',
+      get,
+    );
+    expect(handlerInfo2?.routePath).toEqual('/normal/origin');
+
+    const apiRouter3 = new ApiRouter({
+      apiDir,
+      prefix: '',
+    });
+    const handlerInfo3 = apiRouter3.getHandlerInfo(
+      path.join(apiDir, 'index.ts'),
+      'get',
+      get,
+    );
+    expect(handlerInfo3?.routePath).toEqual('/api');
+
+    const apiRouter4 = new ApiRouter({
+      apiDir,
+      prefix: '/',
+    });
+    const handlerInfo4 = apiRouter4.getHandlerInfo(
+      path.join(apiDir, 'index.ts'),
+      'get',
+      get,
+    );
+    expect(handlerInfo4?.routePath).toEqual('/');
+  });
+
   test('getSafeRoutePath should throw error when file is not a api file', () => {
     const apiRouter = new ApiRouter({
       apiDir: PWD,

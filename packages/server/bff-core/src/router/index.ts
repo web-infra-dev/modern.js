@@ -143,6 +143,14 @@ export class ApiRouter {
     }
   }
 
+  private getRoutePath(prefix: string, routeName: string) {
+    const finalRouteName = routeName === '/' ? '' : routeName;
+    if (prefix === '' && finalRouteName === '') {
+      return '/';
+    }
+    return `${prefix}${finalRouteName}`;
+  }
+
   isApiFile(filename: string) {
     if (!this.apiFiles.includes(filename)) {
       return false;
@@ -164,7 +172,7 @@ export class ApiRouter {
     handler: ApiHandler,
   ): APIHandlerInfo | null {
     const httpMethod = this.getHttpMethod(originFuncName, handler);
-    const routeName = this.getRoutePath(filename, handler);
+    const routeName = this.getRouteName(filename, handler);
     if (httpMethod && routeName) {
       return {
         handler,
@@ -172,7 +180,7 @@ export class ApiRouter {
         httpMethod,
         routeName,
         filename,
-        routePath: `${this.prefix}${routeName}`,
+        routePath: this.getRoutePath(this.prefix, routeName),
       };
     }
     return null;
@@ -182,10 +190,10 @@ export class ApiRouter {
   getSafeRoutePath(filename: string, handler?: ApiHandler): string {
     this.loadApiFiles();
     this.validateValidApifile(filename);
-    return this.getRoutePath(filename, handler);
+    return this.getRouteName(filename, handler);
   }
 
-  getRoutePath(filename: string, handler?: ApiHandler): string {
+  getRouteName(filename: string, handler?: ApiHandler): string {
     if (handler) {
       const trigger = Reflect.getMetadata(OperatorType.Trigger, handler);
       if (trigger && trigger.type === TriggerType.Http) {
