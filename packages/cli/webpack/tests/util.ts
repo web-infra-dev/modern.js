@@ -25,6 +25,11 @@ export const mockNodeEnv = (value: string) => {
 
 export const setBabelConfigSerializer = () => {
   expect.addSnapshotSerializer({
+    test: val => typeof val === 'string' && val.includes('\\'),
+    print: val => (val as string).replace(/\\/g, '/'),
+  });
+
+  expect.addSnapshotSerializer({
     test: val => typeof val === 'string' && val.includes('node_modules'),
     print: val => (val as string).split('node_modules').pop()!,
   });
