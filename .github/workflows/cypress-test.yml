@@ -1,4 +1,4 @@
-name: 'cypress-test'
+name: Cypress Test
 
 concurrency:
   group: macos-integration-test-${{ github.head_ref }}
