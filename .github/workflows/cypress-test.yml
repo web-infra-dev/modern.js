@@ -1,4 +1,5 @@
 name: 'cypress-test'
+
 concurrency:
   group: macos-integration-test-${{ github.head_ref }}
   cancel-in-progress: true
