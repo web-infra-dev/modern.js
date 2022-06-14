@@ -24,18 +24,15 @@ export const mockNodeEnv = (value: string) => {
 };
 
 export const setBabelConfigSerializer = () => {
-  expect.addSnapshotSerializer({
-    test: val => typeof val === 'string' && val.includes('\\'),
-    print: val => (val as string).replace(/\\/g, '/'),
-  });
+  const formatPath = (val: string) => val.replace(/\\/g, '/');
 
   expect.addSnapshotSerializer({
     test: val => typeof val === 'string' && val.includes('node_modules'),
-    print: val => (val as string).split('node_modules').pop()!,
+    print: val => formatPath((val as string).split('node_modules').pop()!),
   });
 
   expect.addSnapshotSerializer({
     test: val => typeof val === 'string' && val.includes('packages'),
-    print: val => (val as string).split('packages').pop()!,
+    print: val => formatPath((val as string).split('packages').pop()!),
   });
 };
