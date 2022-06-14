@@ -40,6 +40,7 @@ jobs:
         parallel: true
         record: false
         spec: tests/cypress/e2e/**/*
+        config-file: tests/cypress.config.js
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         # Recommended: pass the GitHub token lets this action correctly
