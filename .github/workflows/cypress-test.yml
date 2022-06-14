@@ -35,7 +35,7 @@ jobs:
     - name: wireit cache
       uses: google/wireit@setup-github-actions-caching/v1
     - name: install dependency
-        run: pnpm install --ignore-scripts
+      run: pnpm install --ignore-scripts
     - name: Prepare
       run: pnpm run prepare --filter ./packages
     - name: Run cypress test
