@@ -22,18 +22,14 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
+    - name: wireit cache
+      uses: google/wireit@setup-github-actions-caching/v1
     - uses: pnpm/action-setup@v2.0.1
       name: Install pnpm
       id: pnpm-install
       with:
         version: 6.32.17
         run_install: true
-    - name: wireit cache
-      uses: google/wireit@setup-github-actions-caching/v1
-    - name: install dependency
-      run: pnpm install --ignore-scripts
-    - name: Prepare
-      run: pnpm run prepare --filter ./packages
     - name: Run cypress test
       uses: cypress-io/github-action@v2
       with:
