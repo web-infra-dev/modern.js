@@ -16,17 +16,6 @@ Object {
 }
 `;
 
-exports[`plugin-garfish cli cli makeRender function 1`] = `
-Object {
-  "renderByProvider": true,
-  "routerConfig": Object {
-    "basename": "/test",
-    "historyOptions": Object {
-      "basename": "/test",
-    },
-  },
-}
-`;
 
 exports[`plugin-garfish cli cli set runtime config 1`] = `
 Object {

@@ -98,7 +98,6 @@ describe('plugin-garfish cli', () => {
     expect(runtimeConfig.runtime).toMatchSnapshot();
   });
 
-
   test('webpack config close external and use js entry', async ()=>{
     const resolveConfig: any = {
       deploy: {
