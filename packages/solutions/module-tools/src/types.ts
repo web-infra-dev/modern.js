@@ -37,6 +37,10 @@ export interface IPackageModeValue {
   copyDirs?: ('node' | 'treeshaking' | 'modern')[];
 }
 
+interface ToolsConfig {
+  speedy?: SpeedyConfig | ((config: SpeedyConfig) => SpeedyConfig);
+}
+
 declare module '@modern-js/core' {
   interface OutputConfig {
     assetsPath?: string;
@@ -46,9 +50,6 @@ declare module '@modern-js/core' {
     importStyle?: ImportStyleType;
     packageMode?: PackageModeType;
     packageFields?: PackageFields;
-  }
-  interface ToolsConfig {
-    speedy?: SpeedyConfig | ((config: SpeedyConfig) => SpeedyConfig);
   }
 
   interface NormalizedToolsConfig {
