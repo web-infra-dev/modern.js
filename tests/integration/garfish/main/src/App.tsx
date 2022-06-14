@@ -1,5 +1,5 @@
 import { createApp } from '@modern-js/runtime';
-import { useModuleApps } from '@modern-js/runtime/garfish';
+import { useModuleApps, Garfish } from '@modern-js/runtime/garfish';
 import { Switch, Route, Link } from '@modern-js/runtime/router';
 import { getAppInfo } from '../../../../utils/testCase';
 import { name } from '../package.json';
