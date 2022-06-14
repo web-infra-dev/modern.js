@@ -38,7 +38,7 @@ jobs:
       uses: cypress-io/github-action@v2
       with:
         install: false
-        start: zx scripts/dev-project.js
+        start: node scripts/dev-project.js
         wait-on: 'http://localhost:3001,http://localhost:3002,http://localhost:3003'
         wait-on-timeout: 600
         parallel: true
