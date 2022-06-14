@@ -32,13 +32,14 @@ export default (): CliPlugin => ({
         tools: {
           webpackChain: (chain, { CHAIN_ID }) => {
             const { RULE, ONE_OF } = CHAIN_ID;
-            const options = api.useResolvedConfigContext();
+            const resolvedConfig = api.useResolvedConfigContext();
 
             const {
               output: { disableCssModuleExtension },
-            } = options;
+            } = resolvedConfig;
 
-            const lessOptions = cssConfig.getLessConfig(options);
+            const { options, excludes } =
+              cssConfig.getLessLoaderOptions(resolvedConfig);
 
             const loaders = chain.module.rule(RULE.LOADERS);
 
@@ -51,15 +52,15 @@ export default (): CliPlugin => ({
               .test(disableCssModuleExtension ? LESS_REGEX : LESS_MODULE_REGEX)
               .merge({
                 exclude: disableCssModuleExtension
-                  ? [isNodeModulesLess, GLOBAL_LESS_REGEX]
-                  : [],
+                  ? [isNodeModulesLess, GLOBAL_LESS_REGEX, ...excludes]
+                  : excludes,
                 use: [
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-expect-error webpack-chain missing type
                   ...loaders.oneOf(ONE_OF.CSS_MODULES).toConfig().use,
                   {
                     loader: require.resolve('less-loader'),
-                    options: lessOptions,
+                    options,
                   },
                 ],
               });
@@ -69,13 +70,14 @@ export default (): CliPlugin => ({
               .before(ONE_OF.FALLBACK)
               .test(LESS_REGEX)
               .merge({
+                exclude: excludes,
                 use: [
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-expect-error webpack-chain missing type
                   ...loaders.oneOf(ONE_OF.CSS).toConfig().use,
                   {
                     loader: require.resolve('less-loader'),
-                    options: lessOptions,
+                    options,
                   },
                 ],
               });

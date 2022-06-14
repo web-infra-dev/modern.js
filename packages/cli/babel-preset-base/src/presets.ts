@@ -33,7 +33,7 @@ export const getPresetChain = (option: IBaseBabelConfigOption) => {
     const browsersTargets =
       syntax === 'es5' ? getBrowserslist(appDirectory) : es6BrowserList;
     const targets =
-      runEnvironments === 'node' ? { node: 'current' } : browsersTargets;
+      runEnvironments === 'node' ? { node: '12' } : browsersTargets;
     const presetEnvOptions = {
       targets,
       modules: type === 'commonjs' ? 'commonjs' : false,
