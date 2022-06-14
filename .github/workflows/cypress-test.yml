@@ -1,5 +1,9 @@
 name: Cypress Test
 
+concurrency:
+  group: macos-cypress-test-${{ github.head_ref }}
+  cancel-in-progress: true
+
 # Controls when the action will run.
 on:
   # Triggers unit test on push events for the main branch to collect unit test coverage
