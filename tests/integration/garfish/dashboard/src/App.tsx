@@ -2,17 +2,20 @@ import { Switch, Route, Link } from '@modern-js/runtime/router';
 import './App.css';
 // console.log(window.a.a.a)
 
-
-const App = (props: { msg?: string, getHelloContext: any }) => {
+const App = (props: { msg?: string; getHelloContext: any }) => {
   // console.log(props.getHelloContext());
 
   return (
     <div>
       <br />
       <div style={{ textAlign: 'center' }}>
-        <Link to="/">home | {' '}</Link>
-        <Link data-test='sub-link-dashboard' to="/detail">detail | {' '}</Link>
-        <Link data-test='sub-link-dashboard-throw-error' to="/throw-error">throw-error</Link>
+        <Link to="/">home | </Link>
+        <Link data-test="sub-link-dashboard" to="/detail">
+          detail |{' '}
+        </Link>
+        <Link data-test="sub-link-dashboard-throw-error" to="/throw-error">
+          throw-error
+        </Link>
       </div>
       <Switch>
         <Route exact={true} path="/">
@@ -36,10 +39,12 @@ const App = (props: { msg?: string, getHelloContext: any }) => {
         <Route exact={true} path="/detail">
           <div style={{ textAlign: 'center' }}>Dashboard detail page</div>
         </Route>
-        <Route exact={true} path="/throw-error" component={()=>{
-          return <div>throw Error</div>;
-        }}>
-        </Route>
+        <Route
+          exact={true}
+          path="/throw-error"
+          component={() => {
+            return <div>throw Error</div>;
+          }}></Route>
         <Route path="*">
           <div>404</div>
         </Route>

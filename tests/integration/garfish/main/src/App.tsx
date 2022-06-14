@@ -1,26 +1,37 @@
-import { createApp } from '@modern-js/runtime';
-import { useModuleApps, Garfish } from '@modern-js/runtime/garfish';
+import { useModuleApps } from '@modern-js/runtime/garfish';
 import { Switch, Route, Link } from '@modern-js/runtime/router';
 import { getAppInfo } from '../../../../utils/testCase';
 import { name } from '../package.json';
 import './App.css';
 
-
-function Home () {
-  return <div style={{ textAlign: 'center', padding: '30px' }}>
-    {getAppInfo(name).homeTitle}
-  </div>
+function Home() {
+  return (
+    <div style={{ textAlign: 'center', padding: '30px' }}>
+      {getAppInfo(name).homeTitle}
+    </div>
+  );
 }
 
 const App: React.FC = () => {
-  const { MApp, apps, Dashboard, TableList } = useModuleApps();
+  const { MApp, Dashboard } = useModuleApps();
   return (
     <div>
       <div style={{ textAlign: 'center' }}>
-        <Link data-test="link-home" to="/">Home |{' '}</Link> &nbsp;
-        <Link data-test="link-dashboard" to="/dashboard">Dashboard |{' '}</Link> &nbsp;
-        <Link data-test="link-dashboard-detail" to="/dashboard/detail">Dashboard detail |{' '}</Link>
-        <Link data-test="link-tablelist" to="/tablelist">Table</Link> &nbsp;
+        <Link data-test="link-home" to="/">
+          Home |{' '}
+        </Link>{' '}
+        &nbsp;
+        <Link data-test="link-dashboard" to="/dashboard">
+          Dashboard |{' '}
+        </Link>{' '}
+        &nbsp;
+        <Link data-test="link-dashboard-detail" to="/dashboard/detail">
+          Dashboard detail |{' '}
+        </Link>
+        <Link data-test="link-tablelist" to="/tablelist">
+          Table
+        </Link>{' '}
+        &nbsp;
       </div>
       <Switch>
         <Route path="/" exact={true}>
@@ -30,7 +41,7 @@ const App: React.FC = () => {
           <Dashboard
             msg={'hello world from main app'}
             loadable={{
-              loading: ({ pastDelay, error }: any) => {
+              loading: ({ _pastDelay, error }: any) => {
                 if (error) {
                   return <div>error: {error?.message}</div>;
                 } else {
