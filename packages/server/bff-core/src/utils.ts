@@ -1,13 +1,15 @@
 import util from 'util';
 
-export const pick = <T extends Record<string, unknown>, K extends keyof T>(
-  obj: T,
-  keys: readonly K[],
-) => {
-  Object.entries(obj).filter(([key]) => {
-    return (keys as readonly string[]).includes(key);
-  });
-};
+export const HANDLER_WITH_META = 'HANDLER_WITH_SCHEMA';
+
+// export const pick = <T extends Record<string, unknown>, K extends keyof T>(
+//   obj: T,
+//   keys: readonly K[],
+// ) => {
+//   Object.entries(obj).filter(([key]) => {
+//     return (keys as readonly string[]).includes(key);
+//   });
+// };
 
 // fork from https://github.com/nodejs/node/blob/master/lib/internal/errors.js
 export const getTypeErrorMessage = (actual: unknown) => {
@@ -48,4 +50,8 @@ export const validateFunction = (maybeFunc: unknown, name: string) => {
     throw new ERR_INVALID_ARG_TYPE(name, 'function', maybeFunc);
   }
   return true;
+};
+
+export const isWithMetaHandler = (handler: any) => {
+  return typeof handler === 'function' && handler[HANDLER_WITH_META];
 };

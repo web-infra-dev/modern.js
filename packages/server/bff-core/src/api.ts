@@ -9,7 +9,12 @@ import type {
   Operator,
   MaybeAsync,
 } from './types';
-import { validateFunction } from './utils';
+import { validateFunction, HANDLER_WITH_META } from './utils';
+
+interface Runner {
+  (inputs: any): Promise<any>;
+  [HANDLER_WITH_META]: boolean;
+}
 
 export function Api<
   Operators extends Operator<any>[],
@@ -81,6 +86,8 @@ export function Api<
 
     return executeHelper.result;
   }
+
+  (runner as Runner)[HANDLER_WITH_META] = true;
 
   return runner as any;
 }

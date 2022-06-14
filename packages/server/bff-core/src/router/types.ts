@@ -1,4 +1,4 @@
-import { Handler, SchemaHandler } from '@modern-js/bff-runtime';
+// import type { SchemaHandler } from '@modern-js/bff-runtime';
 import { HttpMethod } from '../types';
 
 export type ModuleInfo = {
@@ -6,7 +6,9 @@ export type ModuleInfo = {
   module: HandlerModule;
 };
 
-export type ApiHandler = Handler<any, any> | SchemaHandler<any, any>;
+type Handler = (...args: any) => any | Promise<any>;
+
+export type ApiHandler = Handler;
 
 export type HandlerModule = Record<string, ApiHandler>;
 

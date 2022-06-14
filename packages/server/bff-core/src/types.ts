@@ -17,7 +17,8 @@ export enum HttpMetadata {
   Headers = 'HEADERS',
   Response = 'RESPONSE',
   StatusCode = 'STATUS_CODE',
-  Redirect = 'Redirect',
+  Redirect = 'REDIRECT',
+  ResponseHeaders = 'RESPONSE_HEADERS',
 }
 
 export enum HttpMethod {

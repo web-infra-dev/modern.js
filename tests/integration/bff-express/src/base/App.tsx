@@ -2,6 +2,23 @@ import { useEffect, useState } from 'react';
 import { NoSSR } from '@modern-js/runtime/ssr';
 import hello from '@api/index';
 
+// postHello({
+//   query: {
+//     user: 'modernjs',
+//   },
+//   params: {
+//     id: 'id',
+//   },
+//   data: {
+//     message: 'modernjs',
+//   },
+//   headers: {
+//     'x-header': 'modernjs-header',
+//   },
+// }).then(data => {
+//   console.log('postHello', JSON.parse((data as any).message));
+// });
+
 const App = () => {
   const [message, setMessage] = useState('bff-express');
   useEffect(() => {

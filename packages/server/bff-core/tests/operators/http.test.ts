@@ -1,7 +1,15 @@
 import { z } from 'zod';
-import { Api, Data } from '../../src';
-import { ValidationError } from '../../src/errors/http';
-import { Get, Query } from '../../src/operators/http';
+import {
+  Api,
+  Data,
+  Get,
+  Query,
+  HttpCode,
+  ValidationError,
+  HttpMetadata,
+  SetHeaders,
+  Redirect,
+} from '../../src';
 
 describe('test api function', () => {
   test('should works correctly', async () => {
@@ -63,5 +71,29 @@ describe('test api function', () => {
         },
       }),
     ).rejects.toThrow(ValidationError);
+  });
+
+  test('should set response metadata correctly', async () => {
+    const expectedStatusCode = 204;
+    const expectedUrl = 'https://github.com/modern-js-dev/modern.js';
+    const expectedHeaders = {
+      'x-header': 'x-header',
+    };
+    const handler = Api(
+      HttpCode(expectedStatusCode),
+      SetHeaders(expectedHeaders),
+      Redirect(expectedUrl),
+      () => {
+        return 'Hello Modern.js';
+      },
+    );
+
+    const httpCode = Reflect.getMetadata(HttpMetadata.StatusCode, handler);
+    const headers = Reflect.getMetadata(HttpMetadata.ResponseHeaders, handler);
+    const url = Reflect.getMetadata(HttpMetadata.Redirect, handler);
+
+    expect(httpCode).toBe(expectedStatusCode);
+    expect(headers).toEqual(expectedHeaders);
+    expect(url).toBe(expectedUrl);
   });
 });

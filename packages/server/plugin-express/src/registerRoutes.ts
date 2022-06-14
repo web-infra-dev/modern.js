@@ -1,4 +1,11 @@
-import { HttpMethod, httpMethods, APIHandlerInfo } from '@modern-js/bff-core';
+import 'reflect-metadata';
+import {
+  HttpMethod,
+  httpMethods,
+  APIHandlerInfo,
+  isWithMetaHandler,
+  HttpMetadata,
+} from '@modern-js/bff-core';
 import { isSchemaHandler, InputType } from '@modern-js/bff-runtime';
 import {
   Express,
@@ -24,10 +31,35 @@ const registerRoutes = (app: Express, apiHandlerInfos: APIHandlerInfo[]) => {
       req: Request,
       res: Response,
       next: NextFunction,
+      // eslint-disable-next-line consistent-return
     ) => {
       const input = await getInputFromRequest(req);
-
-      if (isSchemaHandler(handler)) {
+      if (isWithMetaHandler(handler)) {
+        try {
+          const headers = Reflect.getMetadata(
+            HttpMetadata.ResponseHeaders,
+            handler,
+          );
+          if (headers) {
+            for (const [key, value] of Object.entries(headers)) {
+              res.append(key, value as string);
+            }
+          }
+          const result = await handler(input);
+          return res.json(result);
+        } catch (error) {
+          if (error instanceof Error) {
+            if ((error as any).status) {
+              res.status((error as any).status);
+            } else {
+              res.status(500);
+            }
+            return res.json({
+              message: error.message,
+            });
+          }
+        }
+      } else if (isSchemaHandler(handler)) {
         const result = await handler(input);
         if (result.type !== 'HandleSuccess') {
           if (result.type === 'InputValidationError') {

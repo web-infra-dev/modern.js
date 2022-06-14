@@ -4,7 +4,8 @@
     "declaration": false,
     "jsx": "preserve",
     "baseUrl": "./",
-    "isolatedModules": true
+    "isolatedModules": true,
+    "emitDecoratorMetadata": true
   },
   "include": ["src"]
 }

@@ -134,7 +134,7 @@ export const SetHeaders = (headers: Record<string, string>): Operator<void> => {
   return {
     name: 'SetHeaders',
     metadata({ setMetadata }) {
-      setMetadata(HttpMetadata.Headers, headers);
+      setMetadata(HttpMetadata.ResponseHeaders, headers);
     },
   };
 };

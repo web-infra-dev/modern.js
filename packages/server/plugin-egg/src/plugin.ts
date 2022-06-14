@@ -188,11 +188,6 @@ export default (): ServerPlugin => ({
       app.use(router.routes());
 
       return (req, res) => {
-        app.on('error', err => {
-          if (err) {
-            throw err;
-          }
-        });
         return Promise.resolve(app.callback()(req, res));
       };
     },

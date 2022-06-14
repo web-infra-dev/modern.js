@@ -172,7 +172,6 @@ export class ApiRouter {
         httpMethod,
         routeName,
         filename,
-        // routePath: `${this.prefix}${routeName !== '/' ? routeName : ''}`,
         routePath: `${this.prefix}${routeName}`,
       };
     }
@@ -237,7 +236,7 @@ export class ApiRouter {
       }
       default:
         logger.warn(
-          `Only api handlers are allowd to be exported, please remove the function ${originHandlerName}`,
+          `Only api handlers are allowd to be exported, please remove the function ${originHandlerName} from exports`,
         );
         return null;
     }

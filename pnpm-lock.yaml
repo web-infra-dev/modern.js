@@ -2768,17 +2768,13 @@ importers:
 
   packages/review/testing-plugin-bff:
     specifiers:
-<<<<<<< HEAD
-      '@babel/runtime': ^7.18.0
-=======
       '@babel/runtime': ^7
       '@modern-js/bff-core': workspace:^1.0.0
->>>>>>> feat: support bff test
       '@modern-js/bff-utils': workspace:*
       '@modern-js/core': workspace:*
-      '@modern-js/server': workspace:^1.4.20
+      '@modern-js/server': workspace:^1.4.16
       '@modern-js/testing': workspace:*
-      '@modern-js/utils': workspace:^1.7.7
+      '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
@@ -2791,12 +2787,8 @@ importers:
       supertest: ^6.1.6
       typescript: ^4
     dependencies:
-<<<<<<< HEAD
       '@babel/runtime': 7.18.3
-=======
-      '@babel/runtime': 7.16.7
       '@modern-js/bff-core': link:../../server/bff-core
->>>>>>> feat: support bff test
       '@modern-js/server': link:../../server/server
       '@modern-js/utils': link:../../toolkit/utils
       jest-environment-node: 27.4.4
@@ -2932,8 +2924,9 @@ importers:
 
   packages/server/bff-runtime:
     specifiers:
-      '@babel/runtime': ^7.18.0
-      '@modern-js/server-utils': workspace:^1.2.10
+      '@babel/runtime': ^7
+      '@modern-js/bff-core': workspace:^1.0.0
+      '@modern-js/server-utils': workspace:^1.2.6
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
@@ -2948,6 +2941,7 @@ importers:
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.18.3
+      '@modern-js/bff-core': link:../bff-core
       '@modern-js/server-utils': link:../utils
       farrow-api: 1.11.0
       farrow-pipeline: 1.11.3
@@ -3170,6 +3164,7 @@ importers:
       finalhandler: ^1.1.2
       formidable: ^1.2.2
       jest: ^27
+      reflect-metadata: ^0.1.13
       supertest: ^6.1.6
       type-is: ^1.6.18
       typescript: ^4
@@ -3183,6 +3178,7 @@ importers:
       cookie-parser: 1.4.6
       finalhandler: 1.1.2
       formidable: 1.2.6
+      reflect-metadata: 0.1.13
       type-is: 1.6.18
     devDependencies:
       '@modern-js/core': link:../../cli/core
@@ -4532,6 +4528,7 @@ importers:
       react: ^17.0.1
       react-dom: ^17.0.1
       typescript: ^4
+      zod: ^3.17.3
     dependencies:
       '@babel/runtime': 7.17.9
       '@modern-js/plugin-bff': link:../../../packages/cli/plugin-bff
@@ -4540,6 +4537,7 @@ importers:
       express: 4.17.2
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+      zod: 3.17.3
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
       '@modern-js/plugin-jarvis': link:../../../packages/cli/plugin-jarvis
@@ -39400,7 +39398,6 @@ packages:
 
   /zod/3.17.3:
     resolution: {integrity: sha512-4oKP5zvG6GGbMlqBkI5FESOAweldEhSOZ6LI6cG+JzUT7ofj1ZOC0PJudpQOpT1iqOFpYYtX5Pw0+o403y4bcg==}
-    dev: true
 
   /zwitch/1.0.5:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
