@@ -9,7 +9,7 @@ import { Manifest, MicroComponentProps, ModulesInfo } from '../useModuleApps';
 import { logger, generateSubAppContainerKey } from '../../util';
 import { Loadable, MicroProps } from '../loadable';
 
-interface Provider extends interfaces.Provider {
+export interface Provider extends interfaces.Provider {
   SubModuleComponent?: React.ComponentType<any>;
   jupiter_submodule_app_key?: React.ComponentType<any>;
 }
@@ -61,12 +61,12 @@ function getAppInstance(
             SubModuleComponent,
             jupiter_submodule_app_key,
           } = provider;
+          const componetRenderMode =
+            manifest?.componentRender &&
+            (SubModuleComponent || jupiter_submodule_app_key);
           return {
             mount: (...props) => {
-              if (
-                manifest?.componentRender &&
-                (SubModuleComponent || jupiter_submodule_app_key)
-              ) {
+              if (componetRenderMode) {
                 this.setState({
                   SubModuleComponent:
                     SubModuleComponent ?? jupiter_submodule_app_key,
@@ -78,6 +78,9 @@ function getAppInstance(
               }
             },
             unmount(...props) {
+              if (componetRenderMode) {
+                return undefined;
+              }
               logger('MicroApp customer destroy', props);
               return destroy?.apply(provider, props);
             },

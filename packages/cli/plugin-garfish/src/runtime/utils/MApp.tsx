@@ -4,6 +4,7 @@ import Garfish from 'garfish';
 import { Manifest, ModulesInfo } from '../useModuleApps';
 import { logger, generateSubAppContainerKey } from '../../util';
 import { Loadable, MicroProps } from '../loadable';
+import { Provider } from './apps';
 
 declare global {
   interface Window {
@@ -20,6 +21,7 @@ export function generateMApp(
   class MApp extends React.Component<MicroProps, any> {
     state: {
       domId: string;
+      SubModuleComponent?: React.ComponentType<any>;
     } = {
       domId: generateSubAppContainerKey(),
     };
@@ -92,6 +94,38 @@ export function generateMApp(
           ...(otherOptions.insulationVariable || []),
           '_SERVER_DATA',
         ],
+        customLoader: (provider: Provider) => {
+          const {
+            render,
+            destroy,
+            SubModuleComponent,
+            jupiter_submodule_app_key,
+          } = provider;
+          const componetRenderMode =
+            manifest?.componentRender &&
+            (SubModuleComponent || jupiter_submodule_app_key);
+          return {
+            mount: (...props) => {
+              if (componetRenderMode) {
+                this.setState({
+                  SubModuleComponent:
+                    SubModuleComponent ?? jupiter_submodule_app_key,
+                });
+                return undefined;
+              } else {
+                logger('MicroApp customer render', props);
+                return render?.apply(provider, props);
+              }
+            },
+            unmount(...props) {
+              if (componetRenderMode) {
+                return undefined;
+              }
+              logger('MicroApp customer destroy', props);
+              return destroy?.apply(provider, props);
+            },
+          };
+        },
       };
 
       logger('MApp componentDidMount', {
@@ -111,7 +145,12 @@ export function generateMApp(
     }
 
     render() {
-      return <div id={generateSubAppContainerKey()}></div>;
+      const { SubModuleComponent } = this.state;
+      return (
+        <div id={generateSubAppContainerKey()}>
+          {SubModuleComponent && <SubModuleComponent />}
+        </div>
+      );
     }
   }
 
