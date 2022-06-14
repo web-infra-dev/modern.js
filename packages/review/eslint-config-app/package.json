@@ -13,7 +13,8 @@
     "modern.js"
   ],
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm"
+    "prepublishOnly": "only-allow-pnpm",
+    "check": "eslint-find-rules --unused index.js"
   },
   "dependencies": {
     "@babel/core": "^7.18.0",
@@ -37,7 +38,8 @@
     "typescript": "^4"
   },
   "devDependencies": {
-    "@scripts/build": "workspace:*"
+    "@scripts/build": "workspace:*",
+    "eslint-find-rules": "^3.4.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

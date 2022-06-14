@@ -13,14 +13,16 @@
     "modern.js"
   ],
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm"
+    "prepublishOnly": "only-allow-pnpm",
+    "check": "eslint-find-rules --unused index.js"
   },
   "dependencies": {
     "@modern-js-app/eslint-config": "workspace:^1.2.12"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
-    "eslint": "^7.32.0"
+    "eslint": "^7.32.0",
+    "eslint-find-rules": "^3.4.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
