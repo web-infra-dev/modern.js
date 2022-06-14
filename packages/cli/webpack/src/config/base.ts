@@ -260,45 +260,7 @@ class BaseWebpackConfig {
       );
 
     if (useTsLoader) {
-      loaders
-        .oneOf(ONE_OF.TS)
-        .test(TS_REGEX)
-        .include.add(this.appContext.srcDirectory)
-        .add(this.appContext.internalDirectory)
-        .end()
-        .use(USE.BABEL)
-        .loader(require.resolve('../../compiled/babel-loader'))
-        .options({
-          presets: [
-            [
-              require.resolve('@modern-js/babel-preset-app'),
-              {
-                metaName: this.metaName,
-                appDirectory: this.appDirectory,
-                target: 'client',
-                useTsLoader: true,
-                useBuiltIns: getUseBuiltIns(this.options),
-                userBabelConfig: this.options.tools.babel,
-              },
-            ],
-          ],
-        })
-        .end()
-        .use(USE.TS)
-        .loader(require.resolve('ts-loader'))
-        .options(
-          applyOptionsChain(
-            {
-              compilerOptions: {
-                target: 'es5',
-                module: 'ESNext',
-              },
-              transpileOnly: false,
-              allowTsInNodeModules: true,
-            },
-            this.options.tools?.tsLoader,
-          ),
-        );
+      this.applyTsLoader(loaders);
     }
 
     const includes = getSourceIncludes(this.appDirectory, this.options);
@@ -745,6 +707,78 @@ class BaseWebpackConfig {
         });
       });
     }
+  }
+
+  applyTsLoader(loaders: WebpackChain.Rule<WebpackChain.Module>) {
+    const babelLoaderOptions = {
+      presets: [
+        [
+          require.resolve('@modern-js/babel-preset-app'),
+          {
+            metaName: this.metaName,
+            appDirectory: this.appDirectory,
+            target: 'client',
+            useTsLoader: true,
+            useBuiltIns: getUseBuiltIns(this.options),
+            userBabelConfig: this.options.tools.babel,
+          },
+        ],
+      ],
+    };
+
+    const includes: Array<string | RegExp> = [
+      this.appContext.srcDirectory,
+      this.appContext.internalDirectory,
+    ];
+    const excludes: Array<string | RegExp> = [];
+
+    const tsLoaderUtils = {
+      addIncludes(items: string | RegExp | (string | RegExp)[]) {
+        if (Array.isArray(items)) {
+          includes.push(...items);
+        } else {
+          includes.push(items);
+        }
+      },
+      addExcludes(items: string | RegExp | (string | RegExp)[]) {
+        if (Array.isArray(items)) {
+          excludes.push(...items);
+        } else {
+          excludes.push(items);
+        }
+      },
+    };
+
+    const tsLoaderOptions = applyOptionsChain(
+      {
+        compilerOptions: {
+          target: 'es5',
+          module: 'ESNext',
+        },
+        transpileOnly: false,
+        allowTsInNodeModules: true,
+      },
+      this.options.tools?.tsLoader || {},
+      tsLoaderUtils,
+    );
+
+    const rule = loaders.oneOf(ONE_OF.TS).test(TS_REGEX);
+
+    includes.forEach(include => {
+      rule.include.add(include);
+    });
+    excludes.forEach(exclude => {
+      rule.exclude.add(exclude);
+    });
+
+    rule
+      .use(USE.BABEL)
+      .loader(require.resolve('../../compiled/babel-loader'))
+      .options(babelLoaderOptions)
+      .end()
+      .use(USE.TS)
+      .loader(require.resolve('ts-loader'))
+      .options(tsLoaderOptions);
   }
 
   getChain() {
