@@ -54,19 +54,6 @@ function getAppInstance(
           ...appInfo.props,
           ...userProps,
         },
-        customLoader: provider => {
-          const { render, destroy } = provider;
-          return {
-            mount(...props) {
-              logger('MicroApp customer render', props);
-              return render?.apply(provider, props);
-            },
-            unmount(...props) {
-              logger('MicroApp customer destroy', props);
-              return destroy?.apply(provider, props);
-            },
-          };
-        },
       };
 
       setLoadingState({
@@ -149,7 +136,9 @@ function getAppInstance(
     }
   }
 
-  return Loadable(withRouter(MicroApp as any))(manifest?.loadable);
+  return Loadable(withRouter<MicroProps, typeof MicroApp>(MicroApp))(
+    manifest?.loadable,
+  );
 }
 
 export function generateApps(

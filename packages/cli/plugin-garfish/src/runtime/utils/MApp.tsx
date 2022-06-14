@@ -41,41 +41,51 @@ export function generateMApp(
 
       const garfishOptions: typeof Garfish.options = {
         domGetter: `#${domId}`,
-        beforeLoad(...args) {
-          logger('MApp beforeLoad', args);
-          setLoadingState({
-            isLoading: true,
-            error: null,
-          });
-          return beforeLoad?.(...args);
+        beforeLoad(appInfo, ...args) {
+          logger('MApp beforeLoad', [appInfo]);
+          if (appInfo.activeWhen) {
+            setLoadingState({
+              isLoading: true,
+              error: null,
+            });
+          }
+          return beforeLoad?.(appInfo, ...args);
         },
-        beforeMount(...args) {
+        beforeMount(appInfo, ...args) {
           logger('MApp beforeMount', args);
-          setLoadingState({
-            isLoading: false,
-          });
-          return beforeMount?.(...args);
+          if (appInfo.activeWhen) {
+            setLoadingState({
+              isLoading: false,
+            });
+          }
+          return beforeMount?.(appInfo, ...args);
         },
-        errorLoadApp(error, ...args) {
+        errorLoadApp(error, appInfo, ...args) {
           logger('MApp errorLoadApp', error, args);
-          setLoadingState({
-            error,
-          });
-          return errorLoadApp?.(error, ...args);
+          if (appInfo.activeWhen) {
+            setLoadingState({
+              error,
+            });
+          }
+          return errorLoadApp?.(error, appInfo, ...args);
         },
-        errorMountApp(error, ...args) {
+        errorMountApp(error, appInfo, ...args) {
           logger('MApp errorMountApp', error, args);
-          setLoadingState({
-            error,
-          });
-          return errorMountApp?.(error, ...args);
+          if (appInfo.activeWhen) {
+            setLoadingState({
+              error,
+            });
+          }
+          return errorMountApp?.(error, appInfo, ...args);
         },
-        errorUnmountApp(error, ...args) {
+        errorUnmountApp(error, appInfo, ...args) {
           logger('MApp errorUnmountApp', error, args);
-          setLoadingState({
-            error,
-          });
-          return errorUnmountApp?.(error, ...args);
+          if (appInfo.activeWhen) {
+            setLoadingState({
+              error,
+            });
+          }
+          return errorUnmountApp?.(error, appInfo, ...args);
         },
         ...otherOptions,
         insulationVariable: [

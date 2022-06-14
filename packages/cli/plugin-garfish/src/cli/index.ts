@@ -118,6 +118,7 @@ export default ({
           source: {
             alias: {
               '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
+              '@modern-js/runtime/garfish': mfPackagePath,
             },
           },
           tools: {

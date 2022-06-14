@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "pnpm test --filter api-service-koa & jest -w 1",
+    "cypress:test": "pnpm run dev --filter '@cypress-test/*' & cypress open",
     "prepare": "node node_modules/puppeteer/install.js"
   },
   "author": "",
@@ -26,7 +27,8 @@
     "fs-extra": "^10.0.0",
     "portfinder": "^1.0.28",
     "rimraf": "^3.0.2",
-    "tree-kill": "^1.2.2"
+    "tree-kill": "^1.2.2",
+    "cypress": "^10.1.0"
   },
   "modernConfig": {
     "tools": {
