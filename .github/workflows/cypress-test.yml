@@ -31,7 +31,7 @@ jobs:
         version: 6.32.17
         run_install: true
     - name: Run cypress test
-      uses: cypress-io/github-action@v2
+      uses: cypress-io/github-action@v4
       with:
         install: false
         start: node scripts/dev-project.js
@@ -39,7 +39,7 @@ jobs:
         wait-on-timeout: 600
         parallel: true
         record: false
-        spec: tests/cypress/e2e/**/*
+        spec: tests/cypress/e2e/**/*.cy.js
         config-file: tests/cypress.config.js
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
