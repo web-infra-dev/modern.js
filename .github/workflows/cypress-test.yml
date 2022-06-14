@@ -38,6 +38,8 @@ jobs:
       run: pnpm install --ignore-scripts
     - name: Prepare
       run: pnpm run prepare --filter ./packages
+    - name: dev cypress project
+      run: pnpm run dev --filter "@cypress-test/*"
     - name: Run cypress test
       uses: cypress-io/github-action@v2
       with:
