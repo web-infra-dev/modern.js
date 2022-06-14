@@ -9,12 +9,10 @@ import { Manifest, MicroComponentProps, ModulesInfo } from '../useModuleApps';
 import { logger, generateSubAppContainerKey } from '../../util';
 import { Loadable, MicroProps } from '../loadable';
 
-// type Provider = {
-//   render: () => void;
-//   destroy: () => void;
-//   [SUBMODULE_APP_COMPONENT_KEY]?: React.ComponentType<any>;
-// };
-
+interface Provider extends interfaces.Provider {
+  SubModuleComponent?: React.ComponentType<any>;
+  jupiter_submodule_app_key?: React.ComponentType<any>;
+}
 export interface AppMap {
   [key: string]: React.FC<MicroComponentProps>;
 }
@@ -29,9 +27,11 @@ function getAppInstance(
     state: {
       appInstance: any;
       domId: string;
+      SubModuleComponent?: React.ComponentType<any>;
     } = {
       appInstance: null,
       domId: generateSubAppContainerKey(appInfo),
+      SubModuleComponent: undefined,
     };
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -53,6 +53,35 @@ function getAppInstance(
         props: {
           ...appInfo.props,
           ...userProps,
+        },
+        customLoader: (provider: Provider) => {
+          const {
+            render,
+            destroy,
+            SubModuleComponent,
+            jupiter_submodule_app_key,
+          } = provider;
+          return {
+            mount: (...props) => {
+              if (
+                manifest?.componentRender &&
+                (SubModuleComponent || jupiter_submodule_app_key)
+              ) {
+                this.setState({
+                  SubModuleComponent:
+                    SubModuleComponent ?? jupiter_submodule_app_key,
+                });
+                return undefined;
+              } else {
+                logger('MicroApp customer render', props);
+                return render?.apply(provider, props);
+              }
+            },
+            unmount(...props) {
+              logger('MicroApp customer destroy', props);
+              return destroy?.apply(provider, props);
+            },
+          };
         },
       };
 
@@ -127,10 +156,10 @@ function getAppInstance(
     }
 
     render() {
-      const { domId } = this.state;
+      const { domId, SubModuleComponent } = this.state;
       return (
         <>
-          <div id={domId}></div>
+          <div id={domId}>{SubModuleComponent && <SubModuleComponent />}</div>
         </>
       );
     }

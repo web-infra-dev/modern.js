@@ -9,7 +9,7 @@ module.exports = defineConfig({
   deploy: {
     microFrontend: {
       enableHtmlEntry: true,
-      // externalBasicLibrary: true,
+      externalBasicLibrary: true,
     },
   },
   server: {
