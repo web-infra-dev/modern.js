@@ -1,3 +1,5 @@
+/* eslint-disable-next-line eslint-comments/disable-enable-pair */
+/* eslint-disable max-lines */
 import path from 'path';
 import { NormalizedConfig } from '@modern-js/core';
 import type WebpackChain from '@modern-js/utils/webpack-chain';
@@ -323,6 +325,46 @@ describe('base webpack config', () => {
       .getChain()
       .module.rule(CHAIN_ID.RULE.LOADERS)
       .oneOf(CHAIN_ID.ONE_OF.TS);
+
+    expect(rule.include.values().slice(2, 5)).toEqual([
+      /include-1/,
+      /include-2/,
+      /include-3/,
+    ]);
+    expect(rule.exclude.values()).toEqual([
+      /exclude-1/,
+      /exclude-2/,
+      /exclude-3/,
+    ]);
+  });
+
+  test(`apply tools.babel and using utils.addIncludes/addExcludes`, () => {
+    const configFunction: NormalizedConfig['tools']['babel'] = (
+      config,
+      utils,
+    ) => {
+      utils.addIncludes(/include-1/);
+      utils.addIncludes([/include-2/, /include-3/]);
+      utils.addExcludes(/exclude-1/);
+      utils.addExcludes([/exclude-2/, /exclude-3/]);
+    };
+
+    const baseConfig = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      output: {
+        path: `${__dirname}/dist`,
+        jsPath: 'js',
+        cssPath: 'css',
+      },
+      tools: {
+        babel: configFunction,
+      },
+    } as any);
+
+    const rule = baseConfig
+      .getChain()
+      .module.rule(CHAIN_ID.RULE.LOADERS)
+      .oneOf(CHAIN_ID.ONE_OF.JS);
 
     expect(rule.include.values().slice(2, 5)).toEqual([
       /include-1/,

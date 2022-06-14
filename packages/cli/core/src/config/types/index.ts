@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'http';
 import type { NextFunction, BffProxyOptions } from '@modern-js/types';
 import type { MetaOptions, ChainIdentifier } from '@modern-js/utils';
-import type { TransformOptions } from '@babel/core';
+import type { TransformOptions, PluginItem as BabelPlugin } from '@babel/core';
 import type webpack from 'webpack';
 import type {
   RuleSetRule,
@@ -218,56 +218,77 @@ export type DevServerConfig = {
   [propsName: string]: any;
 };
 
+export type PostCSSConfigUtils = {
+  addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void;
+};
+
 export type PostCSSConfig =
   | PostCSSLoaderOptions
   | ((
       options: PostCSSLoaderOptions,
-      utils: { addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void },
+      utils: PostCSSConfigUtils,
     ) => PostCSSLoaderOptions | void);
+
+export type WebpackConfigUtils = {
+  env: string;
+  name: string;
+  webpack: typeof webpack;
+  addRules: (rules: RuleSetRule[]) => void;
+  prependPlugins: (plugins: WebpackConfiguration['plugins']) => void;
+  appendPlugins: (plugins: WebpackConfiguration['plugins']) => void;
+  removePlugin: (pluginName: string) => void;
+  /**
+   * @deprecated please use `tools.webpackChain` instead.
+   */
+  chain: WebpackChain;
+};
 
 export type WebpackConfig =
   | WebpackConfiguration
   | ((
       config: WebpackConfiguration,
-      utils: {
-        env: string;
-        name: string;
-        webpack: typeof webpack;
-        addRules: (rules: RuleSetRule[]) => void;
-        prependPlugins: (plugins: WebpackConfiguration['plugins']) => void;
-        appendPlugins: (plugins: WebpackConfiguration['plugins']) => void;
-        removePlugin: (pluginName: string) => void;
-        /**
-         * @deprecated please use `tools.webpackChain` instead.
-         */
-        chain: WebpackChain;
-      },
+      utils: WebpackConfigUtils,
     ) => WebpackConfiguration | void);
+
+export type WebpackChainConfigUtils = {
+  env: string;
+  name: string;
+  webpack: typeof webpack;
+  CHAIN_ID: ChainIdentifier;
+};
 
 export type WebpackChainConfig = (
   chain: WebpackChain,
-  utils: {
-    env: string;
-    name: string;
-    webpack: typeof webpack;
-    CHAIN_ID: ChainIdentifier;
-  },
+  utils: WebpackChainConfigUtils,
 ) => void;
+
+export type TsLoaderConfigUtils = {
+  addIncludes: (includes: string | RegExp | (string | RegExp)[]) => void;
+  addExcludes: (excludes: string | RegExp | (string | RegExp)[]) => void;
+};
 
 export type TsLoaderConfig =
   | TsLoaderOptions
   | ((
       config: TsLoaderOptions,
-      utils: {
-        addIncludes: (includes: string | RegExp | (string | RegExp)[]) => void;
-        addExcludes: (includes: string | RegExp | (string | RegExp)[]) => void;
-      },
+      utils: TsLoaderConfigUtils,
     ) => TsLoaderOptions | void);
+
+export type BabelConfigUtils = {
+  addPlugins: (plugins: BabelPlugin[]) => void;
+  addPresets: (presets: BabelPlugin[]) => void;
+  addIncludes: (includes: string | RegExp | (string | RegExp)[]) => void;
+  addExcludes: (excludes: string | RegExp | (string | RegExp)[]) => void;
+  removePlugins: (plugins: string | string[]) => void;
+  removePresets: (presets: string | string[]) => void;
+};
 
 export type BabelConfig =
   | TransformOptions
-  // FIXME: utils type
-  | ((config: TransformOptions, utils?: any) => TransformOptions | void);
+  | ((
+      config: TransformOptions,
+      utils: BabelConfigUtils,
+    ) => TransformOptions | void);
 
 export type AutoprefixerConfig =
   | AutoprefixerOptions

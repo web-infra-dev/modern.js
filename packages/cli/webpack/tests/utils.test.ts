@@ -1,8 +1,10 @@
+import { createBabelChain } from '@modern-js/babel-chain';
 import { memoize } from '../src/utils/memoize';
 import { mergeRegex } from '../src/utils/mergeRegex';
 import { getBabelOptions } from '../src/utils/getBabelOptions';
 import { verifyTsConfigPaths } from '../src/utils/getWebpackAliases';
 import { isNodeModulesCss } from '../src/config/shared';
+import { setBabelConfigSerializer } from './util';
 
 jest.mock('@modern-js/utils', () => {
   const originalModule = jest.requireActual('@modern-js/utils');
@@ -33,42 +35,15 @@ describe('mergeRegex', () => {
 
 describe('getBabelOptions', () => {
   it('should return babel options as expected', () => {
-    const babelOptions = getBabelOptions(
+    const { options: babelOptions } = getBabelOptions(
       'metaName',
       '/root',
       {} as any,
-      {} as any,
+      createBabelChain(),
     );
 
-    // mock dynamic preset name
-    babelOptions.presets[0][0] = 'preset-name';
-
-    expect(babelOptions).toEqual({
-      babelrc: false,
-      compact: false,
-      configFile: false,
-      presets: [
-        [
-          'preset-name',
-          {
-            appDirectory: '/root',
-            chain: {},
-            lodash: { id: ['lodash', 'ramda'] },
-            metaName: 'metaName',
-            styledComponents: {
-              displayName: true,
-              pure: true,
-              ssr: false,
-              transpileTemplateLiterals: true,
-            },
-            target: 'client',
-            useBuiltIns: undefined,
-            useLegacyDecorators: true,
-            userBabelConfig: undefined,
-          },
-        ],
-      ],
-    });
+    setBabelConfigSerializer();
+    expect(babelOptions).toMatchSnapshot();
   });
 });
 

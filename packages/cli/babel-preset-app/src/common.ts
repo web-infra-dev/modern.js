@@ -2,7 +2,6 @@ import { createBabelChain, BabelChain } from '@modern-js/babel-chain';
 import { getBaseBabelChain } from '@modern-js/babel-preset-base';
 import { isTest, isDev, isProd } from '@modern-js/utils';
 import { isBeyondReact17 } from './utils';
-// import { isPnpm } from './utils';
 import type { Options, EnvOptions } from './type';
 
 const prepareEnvOptions = (options: Options): EnvOptions => {
@@ -101,11 +100,6 @@ export const genCommon = (options: Options): BabelChain => {
     .use(require.resolve('./built-in/babel-plugin-lock-corejs-version'), [
       { metaName },
     ]);
-
-  // TODO depend on pnpm @modern-cli/dev-utils/monorepo
-  // if (isPnpm(appDirectory)) {
-  //   chain.plugin(require.resolve('./built-in/babel-plugin-pnpm-adapter'));
-  // }
 
   chain
     .plugin('./built-in/babel-plugin-ssr-loader-id')
