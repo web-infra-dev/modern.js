@@ -37,7 +37,7 @@ jobs:
     - name: Run cypress test
       uses: cypress-io/github-action@v2
       with:
-        install: true
+        install: false
         start: pnpm --parallel --filter "@cypress-test/*" run dev
         wait-on: 'http://localhost:3001,http://localhost:3002,http://localhost:3003'
         wait-on-timeout: 600
