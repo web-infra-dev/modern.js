@@ -14,8 +14,7 @@
   ],
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "check": "eslint-find-rules --unused index.js",
-    "stat": "eslint-index index.js --format table"
+    "check": "eslint-find-rules --unused index.js"
   },
   "dependencies": {
     "@babel/core": "^7.18.0",
@@ -40,8 +39,7 @@
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
-    "eslint-find-rules": "^3.4.0",
-    "eslint-index": "^1.5.0"
+    "eslint-find-rules": "^3.4.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
