@@ -38,7 +38,7 @@ jobs:
         wait-on: 'http://localhost:3001,http://localhost:3002,http://localhost:3003/index.js'
         wait-on-timeout: 600
         parallel: true
-        record: true
+        record: false
         spec: tests/cypress/e2e/**/*
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
