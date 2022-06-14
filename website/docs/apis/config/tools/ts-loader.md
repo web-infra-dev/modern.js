@@ -68,7 +68,7 @@ export default defineConfig({
 
 - 类型： `(includes: string | RegExp | Array<string | RegExp>) => void`
 
-默认情况下，Modern.js 只会编译 src 目录下的业务代码，使用 addIncludes 可以指定 `ts-loader` 编译 node_modules 下的一些文件。
+默认情况下，Modern.js 只会编译 src 目录下的业务代码，使用 `addIncludes` 可以指定 `ts-loader` 编译 `node_modules`` 下的一些文件。
 
 ```typescript title="modern.js.config.ts"
 import { defineConfig } from '@modern.js/app-tools';
