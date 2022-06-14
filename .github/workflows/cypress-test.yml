@@ -37,8 +37,6 @@ jobs:
         start: node scripts/dev-project.js
         wait-on: 'http://localhost:3001,http://localhost:3002,http://localhost:3003/index.js'
         wait-on-timeout: 600
-        parallel: true
-        record: false
         working-directory: tests
         spec: cypress/e2e/**/*.cy.js
       env:
