@@ -1,3 +1,4 @@
+import { sep, isAbsolute } from 'path';
 import type { TransformOptions, PluginItem } from '@babel/core';
 
 const ensureArray = <T>(params: T | T[]): T[] => {
@@ -7,12 +8,20 @@ const ensureArray = <T>(params: T | T[]): T[] => {
   return [params];
 };
 
+// compatible with windows path
+const formatPath = (originPath: string) => {
+  if (isAbsolute(originPath)) {
+    return originPath.split(sep).join('/');
+  }
+  return originPath;
+};
+
 const getPluginItemName = (item: PluginItem) => {
   if (typeof item === 'string') {
-    return item;
+    return formatPath(item);
   }
   if (Array.isArray(item) && typeof item[0] === 'string') {
-    return item[0];
+    return formatPath(item[0]);
   }
   return null;
 };

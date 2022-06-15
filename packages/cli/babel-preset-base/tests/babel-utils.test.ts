@@ -1,3 +1,4 @@
+import { resolve } from 'path';
 import { applyUserBabelConfig } from '../src';
 
 describe('applyUserBabelConfig', () => {
@@ -20,7 +21,10 @@ describe('applyUserBabelConfig', () => {
   test('should remove plugins correctly', () => {
     const config = applyUserBabelConfig(
       {
-        plugins: ['/node_modules/foo', ['/node_modules/bar', {}]],
+        plugins: [
+          resolve('/node_modules/foo'),
+          [resolve('/node_modules/bar'), {}],
+        ],
       },
       (config, utils) => {
         utils.removePlugins('foo');
@@ -34,7 +38,10 @@ describe('applyUserBabelConfig', () => {
   test('should remove presets correctly', () => {
     const config = applyUserBabelConfig(
       {
-        presets: ['/node_modules/foo', ['/node_modules/bar', {}]],
+        presets: [
+          resolve('/node_modules/foo'),
+          [resolve('/node_modules/bar'), {}],
+        ],
       },
       (config, utils) => {
         utils.removePresets('foo');
