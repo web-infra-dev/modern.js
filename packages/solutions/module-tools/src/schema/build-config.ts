@@ -49,7 +49,9 @@ const properties = {
       style: {
         type: 'object',
         properties: {
-          compileMode: { enum: ['all', 'only-compiled-code', false] },
+          compileMode: {
+            enum: ['all', 'only-compiled-code', 'only-source-code', false],
+          },
           path: { type: 'string' },
         },
       },

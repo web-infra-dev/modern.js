@@ -148,7 +148,7 @@ export const startRollup = async (
   api: PluginAPI,
   options: NormalizedBundleBuildConfig,
 ) => {
-  if (options.dts) {
+  if (options.enableDts) {
     const config = await getRollupConfig(api, options);
     if (options.watch) {
       watchRollup(config);

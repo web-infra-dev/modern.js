@@ -1,6 +1,6 @@
 import type { UserConfig as SpeedyConfig } from '@speedy-js/speedy-core';
 
-export type Format = 'esm' | 'cjs' | 'iife' | 'umd';
+export type Format = 'esm' | 'cjs' | 'iife';
 export type Target =
   | 'es5'
   | 'es6'
@@ -24,7 +24,11 @@ export type BundleOptions = {
 export type BundlelessOptions = {
   sourceDir?: string;
   style?: {
-    compileMode?: 'all' | 'only-compied-code' | false;
+    compileMode?:
+      | 'all'
+      | 'only-compied-code'
+      | /* may be will be deprecated */ 'only-source-code'
+      | false;
     path?: string;
   };
   static?: {
@@ -32,7 +36,7 @@ export type BundlelessOptions = {
   };
 };
 
-export type UnBuildConfig = {
+export type BaseBuildConfig = {
   format?: Format;
   target?: Target;
   buildType?: BuildType;
@@ -44,7 +48,7 @@ export type UnBuildConfig = {
   outputPath?: string;
 };
 
-export type BuildConfig = UnBuildConfig | UnBuildConfig[];
+export type BuildConfig = BaseBuildConfig | BaseBuildConfig[];
 export type BuildPreset =
   | 'npm-library'
   | 'npm-library-with-umd'

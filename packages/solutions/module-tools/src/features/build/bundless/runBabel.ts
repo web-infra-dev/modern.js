@@ -153,7 +153,7 @@ export const runBabelBuild = async (
   config: NormalizedBundlelessBuildConfig,
 ) => {
   const {
-    bundlelessOptions: { sourceDir },
+    bundlelessOptions: { sourceDir = './src' },
     tsconfig,
     target,
     format,
@@ -182,11 +182,7 @@ export const runBabelBuild = async (
     }),
   };
 
-  const distDir = path.join(
-    appDirectory,
-    distPath,
-    outputPath,
-  );
+  const distDir = path.join(appDirectory, distPath, outputPath);
   const result = await buildSourceCode({
     appDirectory,
     distDir,

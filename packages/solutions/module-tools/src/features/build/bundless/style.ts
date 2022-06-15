@@ -33,20 +33,10 @@ const compiler: typeof import('@modern-js/style-compiler') = Import.lazy(
 const logger: typeof import('../logger') = Import.lazy('../logger', require);
 
 const STYLE_DIRS = 'styles';
-const SRC_STYLE_DIRS = 'src';
 
-const logCompilerMessage = (compilerMessage: {
-  src: string;
-  styles: string;
-}) => {
+const logCompilerMessage = (compilerMessage: { src: string }) => {
   console.info(logger.clearFlag);
   console.info(compilerMessage.src);
-  console.info(compilerMessage.styles);
-};
-
-const checkStylesDirExist = (option: { appDirectory: string }) => {
-  const { appDirectory } = option;
-  return fs.existsSync(path.join(appDirectory, STYLE_DIRS));
 };
 
 const generatorFileOrLogError = (
@@ -205,14 +195,7 @@ export const buildInSrcDir = async (option: {
   }
 };
 
-export const buildStart = async (
-  styleEmitter?: BuildWatchEmitter,
-  srcEmitter?: BuildWatchEmitter,
-) => {
-  if (styleEmitter) {
-    await styleEmitter.watch();
-  }
-
+export const buildStart = async (srcEmitter?: BuildWatchEmitter) => {
   if (srcEmitter) {
     await srcEmitter.watch();
   }
@@ -224,17 +207,25 @@ export const buildStyle = async (
 ) => {
   const modernConfig = api.useResolvedConfigContext();
   const { appDirectory } = api.useAppContext();
-  const { watch, outputPath, outputStylePath } = config;
+  const { watch = false, outputPath, bundlelessOptions = {} } = config;
+  const { style = { path: './', compileMode: 'all' }, sourceDir = './' } =
+    bundlelessOptions;
   const {
     output: { path: distPath = 'dist' },
   } = modernConfig;
-  const styleDefaultDir = 'styles';
+
+  if (style.compileMode === false) {
+    return;
+  }
+
   const lessOption = await core
     .mountHook()
     .moduleLessConfig(
       { modernConfig },
       { onLast: async (_: any) => undefined },
     );
+
+  console.info(bundlelessOptions);
 
   const sassOption = await core
     .mountHook()
@@ -253,111 +244,75 @@ export const buildStyle = async (
     postcssOption.plugins?.push(tailwindPlugin);
   }
 
-  const { importStyle } = modernConfig.output;
-  const existStylesDir = checkStylesDirExist({ appDirectory });
   const compilerMessage = {
     src: '',
-    styles: '',
   };
-  let startFun = buildStart.bind(null);
-  // compiler style dir. In the new mode, the following logic will not be run
-  if (existStylesDir && outputStylePath) {
-    const result = await buildInStyleDir({
+
+  const srcDir = path.resolve(appDirectory, sourceDir);
+  const outputDirToSrc = path.join(
+    appDirectory,
+    distPath,
+    outputPath,
+    style.path ?? './',
+  );
+  if (
+    style.compileMode === 'all' ||
+    style.compileMode === 'only-compied-code'
+  ) {
+    const result = await buildInSrcDir({
       appDirectory,
+      srcDir,
       watch,
-      outDir: path.join(appDirectory, distPath, 'styles'),
+      outDir: outputDirToSrc,
       lessOption,
       sassOption,
       postcssOption,
     });
     if (watch) {
-      const styleEmitter = result as BuildWatchEmitter;
-      styleEmitter.on(
+      const emitter = result as BuildWatchEmitter;
+      emitter.on(
         compiler.BuildWatchEvent.firstCompiler,
-        (styleResult: ICompilerResult) => {
-          compilerMessage.styles = generatorFileAndReturnLog(
-            styleResult,
-            `[Style Compiler] Successfully for 'styles' dir`,
+        (srcStyleResult: ICompilerResult) => {
+          compilerMessage.src = generatorFileAndReturnLog(
+            srcStyleResult,
+            `[Style Compiler] Successfully for '${sourceDir}' dir`,
           );
           logCompilerMessage(compilerMessage);
         },
       );
-      styleEmitter.on(compiler.BuildWatchEvent.compilering, () => {
-        compilerMessage.styles = `[${styleDefaultDir}] Compiling...`;
+      emitter.on(compiler.BuildWatchEvent.compilering, () => {
+        compilerMessage.src = `[${sourceDir}] Compiling`;
         logCompilerMessage(compilerMessage);
       });
-      styleEmitter.on(
+      emitter.on(
         compiler.BuildWatchEvent.watchingCompiler,
-        (styleResult: ICompilerResult) => {
-          compilerMessage.styles = generatorFileAndReturnLog(
-            styleResult,
-            `[Style Compiler] Successfully for 'styles' dir`,
+        (srcStyleResult: ICompilerResult) => {
+          compilerMessage.src = generatorFileAndReturnLog(
+            srcStyleResult,
+            `[Style Compiler] Successfully for '${sourceDir}' dir`,
           );
           logCompilerMessage(compilerMessage);
         },
       );
-      startFun = startFun.bind(null, styleEmitter);
+      await emitter.watch();
     } else {
-      const styleResult = result as ICompilerResult | undefined;
+      const srcStyleResult = result as ICompilerResult | undefined;
       generatorFileOrLogError(
-        styleResult!,
-        `[Style Compiler] Successfully for 'styles' dir`,
+        srcStyleResult!,
+        `[Style Compiler] Successfully for '${sourceDir}' dir`,
       );
     }
   }
 
-  // compiler src dir
-  const srcDir = path.resolve(appDirectory, SRC_STYLE_DIRS);
-  const outputDirToSrc = outputStylePath
-    ? path.join(appDirectory, distPath, outputStylePath)
-    : path.join(appDirectory, distPath, outputPath, 'styles');
-  const result = await buildInSrcDir({
-    appDirectory,
-    srcDir,
-    watch,
-    outDir: outputDirToSrc,
-    lessOption,
-    sassOption,
-    postcssOption,
-  });
-  if (watch) {
-    const srcStyleEmitter = result as BuildWatchEmitter;
-    if (importStyle === 'compiled-code') {
-      srcStyleEmitter.on(
-        compiler.BuildWatchEvent.firstCompiler,
-        (srcStyleResult: ICompilerResult) => {
-          compilerMessage.src = generatorFileAndReturnLog(
-            srcStyleResult,
-            `[Style Compiler] Successfully for 'src' dir`,
-          );
-          logCompilerMessage(compilerMessage);
-        },
-      );
-      srcStyleEmitter.on(compiler.BuildWatchEvent.compilering, () => {
-        compilerMessage.src = `[src] Compiling`;
-        logCompilerMessage(compilerMessage);
-      });
-      srcStyleEmitter.on(
-        compiler.BuildWatchEvent.watchingCompiler,
-        (srcStyleResult: ICompilerResult) => {
-          compilerMessage.src = generatorFileAndReturnLog(
-            srcStyleResult,
-            `[Style Compiler] Successfully for 'src' dir`,
-          );
-          logCompilerMessage(compilerMessage);
-        },
-      );
-      startFun = startFun.bind(null, srcStyleEmitter);
-    } else {
-      compilerMessage.src = `['src' dir] Copying in progress`;
-      logCompilerMessage(compilerMessage);
+  if (style.compileMode === 'all' || style.compileMode === 'only-source-code') {
+    if (watch) {
       copyOriginStyleFiles({ targetDir: srcDir, outputDir: outputDirToSrc });
-      compilerMessage.src = `[Style Compiler] Successfully for 'src' dir`;
+      compilerMessage.src = `[Style Compiler] Successfully for '${sourceDir}' dir`;
       logCompilerMessage(compilerMessage);
       watcher(
         `${srcDir}/**/*.{css,less,sass,scss}`,
         ({ changeType, changedFilePath }) => {
-          compilerMessage.src = `['src' dir] Copying in progress`;
+          compilerMessage.src = `['${sourceDir}' dir] Copying in progress`;
           logCompilerMessage(compilerMessage);
           if (changeType === WatchChangeType.UNLINK) {
             const removeFile = path.normalize(
@@ -370,18 +325,9 @@ export const buildStyle = async (
               outputDir: outputDirToSrc,
             });
           }
-          compilerMessage.src = `[Style Compiler] Successfully for 'src' dir`;
+          compilerMessage.src = `[Style Compiler] Successfully for '${sourceDir}' dir`;
           logCompilerMessage(compilerMessage);
         },
-      );
-    }
-    await startFun();
-  } else {
-    const srcStyleResult = result as ICompilerResult | undefined;
-    if (importStyle === 'compiled-code') {
-      generatorFileOrLogError(
-        srcStyleResult!,
-        `[Style Compiler] Successfully for 'src' dir`,
       );
     } else {
       copyOriginStyleFiles({ targetDir: srcDir, outputDir: outputDirToSrc });

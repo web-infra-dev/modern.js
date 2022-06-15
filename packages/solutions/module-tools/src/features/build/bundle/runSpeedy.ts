@@ -15,7 +15,7 @@ export const runSpeedy = async (
     tools: { speedy: userSpeedyConfig },
   } = api.useResolvedConfigContext();
   const { target, watch, bundleOptions, outputPath, format } = config;
-  const { entry, platform, splitting, minify, external } = bundleOptions;
+  const { entry, platform, splitting, minify, externals } = bundleOptions;
 
   const distDir = path.join(appDirectory, distPath, outputPath);
   const internalSpeedyConfig: CLIConfig = {
@@ -35,7 +35,7 @@ export const runSpeedy = async (
     },
     sourceMap,
     minify,
-    external,
+    external: externals,
   };
   const speedyConfig = applyOptionsChain(
     internalSpeedyConfig,
