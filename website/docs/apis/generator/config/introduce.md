@@ -60,6 +60,7 @@ scenes 配置只能在 config 参数中使用，不能在生成器插件中通�
 :::
 
 ## 其他配置
+
 ### noNeedInstall
 
 是否跳过依赖安装。
@@ -67,6 +68,19 @@ scenes 配置只能在 config 参数中使用，不能在生成器插件中通�
 type: Boolean
 
 default: false
+
+### noNeedGit
+
+是否跳过 git 初始化和提交初始 commit。
+
+type: Boolean
+
+default: false
+
+### successInfo
+
+自定义创建项目成功的提示信息。
+
 ### isMonorepoSubProject
 
 是否为 Monorepo 子项目。
