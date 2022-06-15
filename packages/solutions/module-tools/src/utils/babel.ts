@@ -1,4 +1,7 @@
-import { getBabelConfig } from '@modern-js/babel-preset-module';
+import {
+  getBabelConfig,
+  applyUserBabelConfig,
+} from '@modern-js/babel-preset-module';
 import { applyOptionsChain, getAlias, isUseSSRBundle } from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
 import { IPackageModeValue, ModuleToolsConfig } from '../types';
@@ -82,5 +85,5 @@ export const resolveBabelConfig = (
   internalBabelConfig.compact = false;
 
   const userBabelConfig = modernConfig.tools.babel;
-  return applyOptionsChain(internalBabelConfig, userBabelConfig);
+  return applyUserBabelConfig(internalBabelConfig, userBabelConfig);
 };
