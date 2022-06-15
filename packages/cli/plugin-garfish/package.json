@@ -52,7 +52,7 @@
     "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern new",
-    "build": "modern build",
+    "build": "wireit",
     "build:watch": "rm -rf ./dist && modern build --watch",
     "test": "wireit"
   },
