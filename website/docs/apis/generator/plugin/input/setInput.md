@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# SetInput
+# setInput
 
 设置问题属性。
 

@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# AddInputBefore
+# addInputBefore
 
 在默认输入前添加输入问题。
 

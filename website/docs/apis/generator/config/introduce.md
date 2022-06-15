@@ -28,6 +28,14 @@ Modern.js 提供了应用、模块、Monorepo 三种工程方案类型，并支�
 solution 配置只能在 config 参数中使用，不能在生成器插件中通过设置输入默认值的方式使用。
 :::
 
+### Scenes
+
+项目场景(scenes)，当使用创建工程方案场景类型的生成器插件时，该值为对应生成器插件的 key 值。
+
+:::info
+scenes 配置只能在 config 参数中使用，不能在生成器插件中通过设置输入默认值的方式使用。
+:::
+
 ## 通用配置
 
 ### Language
@@ -50,3 +58,38 @@ solution 配置只能在 config 参数中使用，不能在生成器插件中通
 :::info
 在生成器插件创建工程方案场景的自定义类型中，默认只提供了 `packageManager` 配置。
 :::
+
+## 其他配置
+### noNeedInstall
+
+是否跳过依赖安装。
+
+type: Boolean
+
+default: false
+### isMonorepoSubProject
+
+是否为 Monorepo 子项目。
+
+type: Boolean
+
+default: false
+### isTest
+
+作用于 `应用(MWA)` 项目，标识是否为测试项目。
+
+type: Boolean
+- true: 创建到路径 `examples/`
+- false: 创建到路径 `apps/`
+
+default: false
+
+### isPublic
+
+作用于 `模块(Module)` 项目，标识是否需要对外发布。
+
+type: Boolean
+- true: 创建到路径 `packages/`
+- false: 创建到路径 `features/`
+
+default: false
