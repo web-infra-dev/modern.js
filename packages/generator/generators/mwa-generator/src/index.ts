@@ -240,7 +240,7 @@ export const handleTemplateFile = async (
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const appApi = new AppAPI(context, generator);
 
-  const { locale, packageManager, successInfo } = context.config;
+  const { locale, successInfo } = context.config;
   commonI18n.changeLanguage({ locale });
   utilsI18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
@@ -285,6 +285,8 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
+
+  const { packageManager } = context.config;
 
   if (successInfo) {
     appApi.showSuccessInfo(successInfo);

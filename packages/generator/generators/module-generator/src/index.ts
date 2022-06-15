@@ -221,8 +221,7 @@ export const handleTemplateFile = async (
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const appApi = new AppAPI(context, generator);
 
-  const { locale, isSubGenerator, packageManager, successInfo } =
-    context.config;
+  const { locale, isSubGenerator, successInfo } = context.config;
   i18n.changeLanguage({ locale });
   commonI18n.changeLanguage({ locale });
   utilsI18n.changeLanguage({ locale });
@@ -269,7 +268,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   appApi.showSuccessInfo(
     successInfo ||
       i18n.t(localeKeys.success, {
-        packageManager: getPackageManagerText(packageManager),
+        packageManager: getPackageManagerText(context.config.packageManager),
       }),
   );
 
