@@ -34,17 +34,21 @@ export const provider = function ({basename, dom}) {
 if (typeof __GARFISH_EXPORTS__ !== 'undefined') {
   __GARFISH_EXPORTS__.provider = provider;
 }
+
+function renderInGarfish () {
+  if (IS_BROWSER && window.Garfish && window.Garfish.activeApps && window.Garfish.activeApps.length !== 0) return true;
+  if (IS_BROWSER && window.Garfish && window.Garfish.apps && Object.keys(window.Garfish.apps).length !== 0) return true;
+  if (typeof __GARFISH_EXPORTS__ !== 'undefined') return true;
+  return false;
+}
 `;
 
 export const makeRenderFunction = (code: string) => {
   const inGarfishToRender = `
   const { basename, props } = arguments[0] || {};
-  let renderByGarfish = false;
+  let renderByGarfish = renderInGarfish();
   const renderByProvider = !!basename;
 
-  if (IS_BROWSER && window.Garfish && window.Garfish.activeApps && window.Garfish.activeApps.length !== 0) renderByGarfish = true;
-  if (IS_BROWSER && window.Garfish && window.Garfish.apps && Object.keys(window.Garfish.apps).length !== 0) renderByGarfish = true;
-  if (typeof __GARFISH_EXPORTS__ !== 'undefined') renderByGarfish = true;
   if (renderByGarfish && !renderByProvider) return null;
 
   function RouterPlugin (routerConfig) {
