@@ -81,6 +81,10 @@ default: false
 
 自定义创建项目成功的提示信息。
 
+type: String
+
+default: 不同工程方案的命令操作提示
+
 ### isMonorepoSubProject
 
 是否为 Monorepo 子项目。
