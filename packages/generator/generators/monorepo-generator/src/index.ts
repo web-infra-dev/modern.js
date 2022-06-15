@@ -15,6 +15,7 @@ import {
   PackageManager,
   ChangesetGenerator,
 } from '@modern-js/generator-common';
+import { getPackageManagerText } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
@@ -115,7 +116,7 @@ export const handleTemplateFile = async (
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const appApi = new AppAPI(context, generator);
 
-  const { locale, successInfo } = context.config;
+  const { locale, packageManager, successInfo } = context.config;
   commonI18n.changeLanguage({ locale });
   i18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
@@ -154,7 +155,12 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  appApi.showSuccessInfo(successInfo);
+  appApi.showSuccessInfo(
+    successInfo ||
+      i18n.t(localeKeys.success, {
+        packageManager: getPackageManagerText(packageManager),
+      }),
+  );
 
   generator.logger.debug(`forge @modern-js/monorepo-generator succeed `);
 };
