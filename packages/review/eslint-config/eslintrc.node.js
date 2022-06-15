@@ -7,6 +7,7 @@ module.exports = {
     node: true,
   },
   settings: { 'import/resolver': 'node' },
+  ignorePatterns: ['tests/cypress/**/*'],
   rules: {
     'node/no-unsupported-features/es-builtins': 2,
     // disable the rule for out of date reason, refer to: https://github.com/mysticatea/eslint-plugin-node/issues/216

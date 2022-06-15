@@ -1,0 +1,53 @@
+{
+  "name": "@cypress-test/garfish-dashboard",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "DEBUG=modern-js:plugin-garfish modern dev",
+    "build": "DEBUG=modern-js:plugin-garfish modern build",
+    "start": "modern start",
+    "new": "modern new",
+    "lint": "modern lint"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@modern-js"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
+      "git add"
+    ],
+    "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
+      "git add"
+    ]
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ],
+  "dependencies": {
+    "@modern-js/plugin-garfish": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-jarvis": "workspace:*",
+    "@types/node": "^14",
+    "@types/react": "^17",
+    "@types/react-dom": "^17",
+    "typescript": "^4"
+  }
+}
