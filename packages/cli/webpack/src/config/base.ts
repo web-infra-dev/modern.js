@@ -242,22 +242,7 @@ class BaseWebpackConfig {
     //  js、ts
     const useTsLoader = Boolean(this.options.output?.enableTsLoader);
 
-    loaders
-      .oneOf(ONE_OF.JS)
-      .test(useTsLoader ? JS_REGEX : mergeRegex(JS_REGEX, TS_REGEX))
-      .include.add(this.appContext.srcDirectory)
-      .add(this.appContext.internalDirectory)
-      .end()
-      .use(USE.BABEL)
-      .loader(require.resolve('../../compiled/babel-loader'))
-      .options(
-        getBabelOptions(
-          this.metaName,
-          this.appDirectory,
-          this.options,
-          this.babelChain,
-        ),
-      );
+    this.applyBabelLoader(loaders, useTsLoader);
 
     if (useTsLoader) {
       this.applyTsLoader(loaders);
@@ -707,6 +692,38 @@ class BaseWebpackConfig {
         });
       });
     }
+  }
+
+  applyBabelLoader(
+    loaders: WebpackChain.Rule<WebpackChain.Module>,
+    useTsLoader: boolean,
+  ) {
+    const { options, includes, excludes } = getBabelOptions(
+      this.metaName,
+      this.appDirectory,
+      this.options,
+      this.babelChain,
+    );
+
+    const rule = loaders
+      .oneOf(ONE_OF.JS)
+      .test(useTsLoader ? JS_REGEX : mergeRegex(JS_REGEX, TS_REGEX));
+
+    rule.include
+      .add(this.appContext.srcDirectory)
+      .add(this.appContext.internalDirectory);
+
+    includes.forEach(include => {
+      rule.include.add(include);
+    });
+    excludes.forEach(exclude => {
+      rule.exclude.add(exclude);
+    });
+
+    rule
+      .use(USE.BABEL)
+      .loader(require.resolve('../../compiled/babel-loader'))
+      .options(options);
   }
 
   applyTsLoader(loaders: WebpackChain.Rule<WebpackChain.Module>) {

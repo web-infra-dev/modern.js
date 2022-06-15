@@ -8,4 +8,9 @@ export default defineConfig({
     router: true,
     state: true,
   },
+  tools: {
+    babel(config, utils) {
+      utils.removePresets(['@babel/preset-typescript']);
+    },
+  },
 });

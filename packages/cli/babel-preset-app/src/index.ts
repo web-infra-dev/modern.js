@@ -1,11 +1,11 @@
 import { createBabelChain } from '@modern-js/babel-chain';
-import { applyOptionsChain } from '@modern-js/utils';
+import { applyUserBabelConfig } from '@modern-js/babel-preset-base';
 import { generate } from './generate';
 import type { Options } from './type';
 
 export type { Options };
 
-const defaultOptions = {
+const defaultOptions: Options = {
   appDirectory: process.cwd(),
   metaName: 'modern-js',
   target: 'client',
@@ -18,18 +18,22 @@ const defaultOptions = {
   styledComponents: {},
 };
 
-/* eslint-disable  no-param-reassign */
+export const getBabelConfig = (options?: Options) => {
+  const mergedOptions = { ...defaultOptions, ...options };
+
+  const babelChain = generate(
+    mergedOptions,
+    mergedOptions.chain || createBabelChain(),
+  );
+
+  return applyUserBabelConfig(
+    babelChain.toJSON(),
+    mergedOptions.userBabelConfig,
+    mergedOptions.userBabelConfigUtils,
+  );
+};
+
 export default function (api: any, options?: Options) {
   api.cache(true);
-
-  options = { ...(defaultOptions as Options), ...(options ?? {}) };
-
-  const babelChain = generate(options, options.chain || createBabelChain());
-
-  if (options.userBabelConfig) {
-    return applyOptionsChain(babelChain.toJSON(), options.userBabelConfig);
-  }
-
-  return babelChain.toJSON();
+  return getBabelConfig(options);
 }
-/* eslint-enable  no-param-reassign */

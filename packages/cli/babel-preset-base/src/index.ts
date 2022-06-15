@@ -1,7 +1,11 @@
 import { createBabelChain } from '@modern-js/babel-chain';
+import type { TransformOptions } from '@babel/core';
+import type { BabelConfig, BabelConfigUtils } from '@modern-js/core';
+import { applyOptionsChain } from '@modern-js/utils';
 import { getPresetChain } from './presets';
 import { getPluginsChain } from './plugins';
 import { IStyledComponentOptions } from './type';
+import { getBabelUtils } from './babel-utils';
 
 export interface IBaseBabelConfigOption {
   appDirectory: string;
@@ -39,5 +43,22 @@ export const getBaseBabelChain = (option: IBaseBabelConfigOption) => {
 
 export const getBaseBabelConfig: any = (option: IBaseBabelConfigOption) =>
   getBaseBabelChain(option).toJSON();
+
+export const applyUserBabelConfig = (
+  defaultOptions: TransformOptions,
+  userBabelConfig?: BabelConfig | BabelConfig[],
+  extraBabelUtils?: Partial<BabelConfigUtils>,
+) => {
+  if (userBabelConfig) {
+    const babelUtils = {
+      ...getBabelUtils(defaultOptions),
+      ...extraBabelUtils,
+    } as BabelConfigUtils;
+
+    return applyOptionsChain(defaultOptions, userBabelConfig || {}, babelUtils);
+  }
+
+  return defaultOptions;
+};
 
 export * from './type';
