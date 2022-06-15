@@ -14,6 +14,7 @@ export type ModulesInfo = Array<ModuleInfo>;
 export type Manifest = {
   modules?: ModulesInfo;
   loadable?: LoadableConfig;
+  componentRender?: boolean;
   getAppList?: (info: any) => Promise<Array<GarfishInterfaces.AppInfo>>;
 };
 
