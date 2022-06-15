@@ -33,7 +33,16 @@ jobs:
       id: pnpm-install
       with:
         version: 6.32.17
-        run_install: true
+        run_install: false
+
+    - name: Install Dependencies
+      if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+      run: pnpm install --ignore-scripts --frozen-lockfile
+
+    - name: Prepare
+      if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+      run: pnpm run prepare --filter ./packages
+
     - name: Run cypress test
       uses: cypress-io/github-action@v4
       with:
