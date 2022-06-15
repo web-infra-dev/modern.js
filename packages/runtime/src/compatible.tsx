@@ -90,7 +90,7 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
 
 type BootStrap<T = unknown> = (
   App: React.ComponentType,
-  id?: string | Record<string, any>,
+  id?: string | Record<string, any> | HTMLElement,
 ) => Promise<T>;
 
 export const bootstrap: BootStrap = async (
@@ -124,7 +124,14 @@ export const bootstrap: BootStrap = async (
       },
     );
 
-  if (typeof id === 'string') {
+  // don't mount the App, let user in charge of it.
+  if (!id) {
+    return React.createElement(App as React.ComponentType<any>, {
+      context,
+    });
+  }
+
+  if (typeof id === 'string' || id instanceof HTMLElement) {
     if (typeof window === 'undefined') {
       throw Error(
         '`bootstrap` should run in browser environment when the second param is not the serverContext',
@@ -161,7 +168,8 @@ export const bootstrap: BootStrap = async (
       {
         App,
         context,
-        rootElement: document.getElementById(id)!,
+        rootElement:
+          typeof id !== 'string' ? id : document.getElementById(id || 'root')!,
       },
       {
         onLast: async ({ App, rootElement }) => {
@@ -169,13 +177,6 @@ export const bootstrap: BootStrap = async (
         },
       },
     );
-  }
-
-  if (!id) {
-    // don't mount the App, let user in charge of it.
-    return React.createElement(App as React.ComponentType<any>, {
-      context,
-    });
   }
 
   Object.assign(context, {

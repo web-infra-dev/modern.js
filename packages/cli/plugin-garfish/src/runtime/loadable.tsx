@@ -1,5 +1,6 @@
 // logical reference to https://github.com/jamiebuilds/react-loadable/blob/6201c5837b212d6244c57f3748f2b1375096beeb/src/index.js
 import React from 'react';
+import { RouteComponentProps } from '@modern-js/plugin-router';
 import { logger } from '../util';
 import { LoadableConfig, MicroComponentProps } from './useModuleApps';
 
@@ -8,7 +9,7 @@ interface SetLoadingState {
   error?: unknown;
 }
 
-export interface MicroProps {
+export interface MicroProps extends RouteComponentProps {
   setLoadingState: (state: { isLoading?: boolean; error?: unknown }) => void;
   [key: string]: any;
 }
@@ -126,9 +127,13 @@ export function Loadable(WrapComponent: any) {
             )}
             <WrapComponent
               style={{ display: showLoading ? 'none' : 'block' }}
-              setLoadingState={(props: SetLoadingState) =>
-                this.setStateWithMountCheck(props)
-              }
+              setLoadingState={(props: SetLoadingState) => {
+                // loading is not provided and there is a rendering exception
+                if (props.error && !LoadingComponent) {
+                  throw props.error;
+                }
+                this.setStateWithMountCheck(props);
+              }}
               {...otherProps}
             />
           </>
