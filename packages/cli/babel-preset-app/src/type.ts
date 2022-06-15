@@ -1,5 +1,5 @@
 import { BabelChain } from '@modern-js/babel-chain';
-import type { BabelConfig } from '@modern-js/core';
+import type { BabelConfig, BabelConfigUtils } from '@modern-js/core';
 import { IStyledComponentOptions } from '@modern-js/babel-preset-base';
 
 export type {
@@ -19,5 +19,6 @@ export type Options = {
   appDirectory: string;
   chain?: BabelChain;
   metaName?: string;
-  userBabelConfig?: BabelConfig;
+  userBabelConfig?: BabelConfig | BabelConfig[];
+  userBabelConfigUtils?: Partial<BabelConfigUtils>;
 };

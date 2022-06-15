@@ -50,4 +50,4 @@ export const getBabelChain = (
 };
 
 export * from './types';
-export * from './babel-utils';
+export { applyUserBabelConfig } from '@modern-js/babel-preset-base';

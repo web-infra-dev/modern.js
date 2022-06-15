@@ -1,4 +1,4 @@
-import { fs, logger, chalk, isSSR, clearConsole } from '@modern-js/utils';
+import { fs, logger, chalk, isSSR } from '@modern-js/utils';
 import { manager, PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import type { Configuration } from '@modern-js/webpack';
 
@@ -111,7 +111,6 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
       return printInstructions(hookRunners, appContext, userConfig);
     }
 
-    clearConsole();
     return logger.log(chalk.cyan(`Starting the development server...`));
   });
 };
