@@ -115,7 +115,7 @@ export const handleTemplateFile = async (
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const appApi = new AppAPI(context, generator);
 
-  const { locale } = context.config;
+  const { locale, successInfo } = context.config;
   commonI18n.changeLanguage({ locale });
   i18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
@@ -154,7 +154,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  appApi.showSuccessInfo();
+  appApi.showSuccessInfo(successInfo);
 
   generator.logger.debug(`forge @modern-js/monorepo-generator succeed `);
 };

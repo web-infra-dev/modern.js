@@ -240,7 +240,7 @@ export const handleTemplateFile = async (
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const appApi = new AppAPI(context, generator);
 
-  const { locale } = context.config;
+  const { locale, packageManager, successInfo } = context.config;
   commonI18n.changeLanguage({ locale });
   utilsI18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
@@ -286,19 +286,21 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  if (isElectron) {
+  if (successInfo) {
+    appApi.showSuccessInfo(successInfo);
+  } else if (isElectron) {
     appApi.showSuccessInfo(
       `${i18n.t(localeKeys.success, {
-        packageManager: getPackageManagerText(context.config.packageManager),
+        packageManager: getPackageManagerText(packageManager),
       })}
       ${i18n.t(localeKeys.electron.success, {
-        packageManager: getPackageManagerText(context.config.packageManager),
+        packageManager: getPackageManagerText(packageManager),
       })}`,
     );
   } else {
     appApi.showSuccessInfo(
       i18n.t(localeKeys.success, {
-        packageManager: getPackageManagerText(context.config.packageManager),
+        packageManager: getPackageManagerText(packageManager),
       }),
     );
   }
