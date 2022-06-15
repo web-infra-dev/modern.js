@@ -185,10 +185,9 @@ export const bootstrap: BootStrap = async (
       );
     } else {
       throw Error(
-        '`bootstrap` should run in browser environment when the second param is not the serverContext',
+        '`bootstrap` needs id in browser environment, it needs to be string or element',
       );
     }
-    // } else if (typeof id === 'object' && !(id instanceof HTMLElement)) {
   } else if (!isClientArgs(id)) {
     Object.assign(context, {
       ssrContext: id,
