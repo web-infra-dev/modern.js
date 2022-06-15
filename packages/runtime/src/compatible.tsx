@@ -14,6 +14,15 @@ export type CreateAppOptions = {
   plugins: Plugin[];
 };
 
+function isClientArgs(
+  id: Parameters<BootStrap>[1],
+): id is HTMLElement | string {
+  return (
+    typeof id === 'string' ||
+    (typeof HTMLElement !== 'undefined' && id instanceof HTMLElement)
+  );
+}
+
 const runnerMap = new WeakMap<
   React.ComponentType<any>,
   ReturnType<typeof runtime.init>
@@ -131,73 +140,80 @@ export const bootstrap: BootStrap = async (
     });
   }
 
-  if (typeof id === 'string' || id instanceof HTMLElement) {
-    if (typeof window === 'undefined') {
+  if (typeof window !== 'undefined') {
+    if (isClientArgs(id)) {
+      const ssrData = (window as any)._SSR_DATA;
+      const loadersData = ssrData?.data?.loadersData || {};
+
+      const initialLoadersState = Object.keys(loadersData).reduce(
+        (res: any, key) => {
+          const loaderData = loadersData[key];
+
+          if (loaderData.loading !== false) {
+            return res;
+          }
+
+          res[key] = loaderData;
+          return res;
+        },
+        {},
+      );
+
+      Object.assign(context, {
+        loaderManager: createLoaderManager(initialLoadersState, {
+          skipStatic: true,
+        }),
+        ...(ssrData ? { ssrContext: ssrData?.context } : {}),
+      });
+
+      await runInit(context);
+
+      return runner.client(
+        {
+          App,
+          context,
+          rootElement:
+            typeof id !== 'string'
+              ? id
+              : document.getElementById(id || 'root')!,
+        },
+        {
+          onLast: async ({ App, rootElement }) => {
+            ReactDOM.render(React.createElement(App, { context }), rootElement);
+          },
+        },
+      );
+    } else {
       throw Error(
-        '`bootstrap` should run in browser environment when the second param is not the serverContext',
+        '`bootstrap` needs id in browser environment, it needs to be string or element',
       );
     }
-
-    const ssrData = (window as any)._SSR_DATA;
-    const loadersData = ssrData?.data?.loadersData || {};
-
-    const initialLoadersState = Object.keys(loadersData).reduce(
-      (res: any, key) => {
-        const loaderData = loadersData[key];
-
-        if (loaderData.loading !== false) {
-          return res;
-        }
-
-        res[key] = loaderData;
-        return res;
-      },
-      {},
-    );
-
+  } else if (!isClientArgs(id)) {
     Object.assign(context, {
-      loaderManager: createLoaderManager(initialLoadersState, {
-        skipStatic: true,
-      }),
-      ...(ssrData ? { ssrContext: ssrData?.context } : {}),
+      ssrContext: id,
+      isBrowser: false,
+      loaderManager: createLoaderManager(
+        {},
+        {
+          skipNonStatic: id.staticGenerate,
+          // if not static generate, only non-static loader can exec on prod env
+          skipStatic:
+            process.env.NODE_ENV === 'production' && !id.staticGenerate,
+        },
+      ),
     });
 
     await runInit(context);
 
-    return runner.client(
-      {
-        App,
-        context,
-        rootElement:
-          typeof id !== 'string' ? id : document.getElementById(id || 'root')!,
-      },
-      {
-        onLast: async ({ App, rootElement }) => {
-          ReactDOM.render(React.createElement(App, { context }), rootElement);
-        },
-      },
+    return runner.server({
+      App,
+      context,
+    });
+  } else {
+    throw Error(
+      '`bootstrap` should run in browser environment when the second param is not the serverContext',
     );
   }
-
-  Object.assign(context, {
-    ssrContext: id,
-    isBrowser: false,
-    loaderManager: createLoaderManager(
-      {},
-      {
-        skipNonStatic: id.staticGenerate,
-        // if not static generate, only non-static loader can exec on prod env
-        skipStatic: process.env.NODE_ENV === 'production' && !id.staticGenerate,
-      },
-    ),
-  });
-
-  await runInit(context);
-
-  return runner.server({
-    App,
-    context,
-  });
 };
 
 export const useRuntimeContext = () => {
