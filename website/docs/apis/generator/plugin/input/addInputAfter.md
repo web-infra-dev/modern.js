@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# AddInputAfter
+# addInputAfter
 
 在默认输入后添加输入问题。
 
