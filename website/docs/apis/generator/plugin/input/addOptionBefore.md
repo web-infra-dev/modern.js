@@ -2,7 +2,7 @@
 sidebar_position: 5
 ---
 
-# AddOptionBefore
+# addOptionBefore
 
 在特定问题的默认选项前 Options 选项。
 
@@ -34,7 +34,7 @@ Modern.js 工程方案的配置的问题选项关键字，具体配置可查看[
 ## 示例
 
 ```ts
-context.AddOptionBefore('packageManager', 'pnpm', {
+context.addOptionBefore('packageManager', 'pnpm', {
     key: "npm",
     name: "NPM"
 });
