@@ -59,4 +59,4 @@ export const getFinalBabelConfig = (chain: BabelChain): TransformOptions => ({
 });
 
 export * from './types';
-export { getBabelUtils } from '@modern-js/babel-preset-lib';
+export { applyUserBabelConfig } from '@modern-js/babel-preset-lib';

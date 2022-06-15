@@ -2,6 +2,7 @@ import {
   getBabelChain,
   ILibPresetOption,
   ISyntaxOption,
+  applyUserBabelConfig,
 } from '@modern-js/babel-preset-lib';
 import { TransformOptions } from '@babel/core';
 import { fs, json5, getAlias, applyOptionsChain } from '@modern-js/utils';
@@ -142,12 +143,6 @@ export const resolveBabelConfig = (
   const internalBabelConfig = { ...babelChain.toJSON() };
 
   const userBabelConfig = modernConfig.tools.babel;
-  applyOptionsChain(
-    internalBabelConfig,
-    // TODO: 感觉 userBabelConfig 的类型应该是TransformOptions
-    userBabelConfig as any,
-    { chain: babelChain },
-  );
 
-  return internalBabelConfig;
+  return applyUserBabelConfig(internalBabelConfig, userBabelConfig);
 };
