@@ -1,5 +1,12 @@
 # @modern-js/utils
 
+## 1.7.7
+
+### Patch Changes
+
+- 9377d2d9d: feat: support addPlugins util in tools.postcss
+- 8c9ad1749: feat(babel-preset-base): prebundle babel plugins
+
 ## 1.7.6
 
 ### Patch Changes

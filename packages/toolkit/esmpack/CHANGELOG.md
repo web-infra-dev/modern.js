@@ -1,5 +1,14 @@
 # @modern-js/esmpack
 
+## 1.3.3
+
+### Patch Changes
+
+- 9377d2d9d: feat: support addPlugins util in tools.postcss
+- Updated dependencies [9377d2d9d]
+- Updated dependencies [8c9ad1749]
+  - @modern-js/utils@1.7.7
+
 ## 1.3.2
 
 ### Patch Changes
