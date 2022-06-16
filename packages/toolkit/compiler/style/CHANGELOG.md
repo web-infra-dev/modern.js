@@ -1,5 +1,14 @@
 # @modern-js/style-compiler
 
+## 1.2.10
+
+### Patch Changes
+
+- 9377d2d9d: feat: support addPlugins util in tools.postcss
+- Updated dependencies [9377d2d9d]
+- Updated dependencies [8c9ad1749]
+  - @modern-js/utils@1.7.7
+
 ## 1.2.9
 
 ### Patch Changes

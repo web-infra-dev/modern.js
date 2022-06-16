@@ -1,5 +1,23 @@
 # @modern-js/server
 
+## 1.4.20
+
+### Patch Changes
+
+- 209d0a927: release: hot fix garfish error
+- 002dab527: fix: support configure headers by devServer headers
+- Updated dependencies [ded45811c]
+- Updated dependencies [9d649884b]
+- Updated dependencies [9377d2d9d]
+- Updated dependencies [8e1cedd8a]
+- Updated dependencies [8c9ad1749]
+- Updated dependencies [6b2523f44]
+- Updated dependencies [b7a1cea52]
+  - @modern-js/webpack@1.11.0
+  - @modern-js/utils@1.7.7
+  - @modern-js/server-utils@1.2.11
+  - @modern-js/prod-server@1.1.8
+
 ## 1.4.18
 
 ### Patch Changes

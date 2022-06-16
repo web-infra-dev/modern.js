@@ -1,5 +1,25 @@
 # @modern-js/module-tools
 
+## 1.5.7
+
+### Patch Changes
+
+- b7a1cea52: feat: support utils in tools.babel
+- Updated dependencies [9377d2d9d]
+- Updated dependencies [8e1cedd8a]
+- Updated dependencies [8c9ad1749]
+- Updated dependencies [b7a1cea52]
+- Updated dependencies [1ac68424f]
+- Updated dependencies [3dfee700c]
+  - @modern-js/core@1.12.0
+  - @modern-js/css-config@1.2.7
+  - @modern-js/style-compiler@1.2.10
+  - @modern-js/utils@1.7.7
+  - @modern-js/babel-preset-module@1.3.8
+  - @modern-js/plugin@1.3.7
+  - @modern-js/plugin-analyze@1.4.6
+  - @modern-js/plugin-changeset@1.2.8
+
 ## 1.5.6
 
 ### Patch Changes
