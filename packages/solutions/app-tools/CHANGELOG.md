@@ -1,5 +1,30 @@
 # @modern-js/app-tools
 
+## 1.6.7
+
+### Patch Changes
+
+- 64cf62697: feat(app-tools): support modern inspect command
+- b7a1cea52: feat: support utils in tools.babel
+- Updated dependencies [ded45811c]
+- Updated dependencies [209d0a927]
+- Updated dependencies [9d649884b]
+- Updated dependencies [9377d2d9d]
+- Updated dependencies [8e1cedd8a]
+- Updated dependencies [8c9ad1749]
+- Updated dependencies [6b2523f44]
+- Updated dependencies [b7a1cea52]
+- Updated dependencies [002dab527]
+- Updated dependencies [1ac68424f]
+- Updated dependencies [3dfee700c]
+  - @modern-js/webpack@1.11.0
+  - @modern-js/server@1.4.20
+  - @modern-js/core@1.12.0
+  - @modern-js/utils@1.7.7
+  - @modern-js/plugin@1.3.7
+  - @modern-js/plugin-analyze@1.4.6
+  - @modern-js/prod-server@1.1.8
+
 ## 1.6.6
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @modern-js/mwa-generator
 
+## 2.0.3
+
+### Patch Changes
+
+- bcd95a00b: feat: support custom solution generator success info
+
 ## 2.0.2
 
 ### Patch Changes

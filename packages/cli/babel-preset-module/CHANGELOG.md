@@ -1,5 +1,16 @@
 # @modern-js/babel-preset-module
 
+## 1.3.8
+
+### Patch Changes
+
+- b7a1cea52: feat: support utils in tools.babel
+- Updated dependencies [9377d2d9d]
+- Updated dependencies [8c9ad1749]
+- Updated dependencies [b7a1cea52]
+  - @modern-js/utils@1.7.7
+  - @modern-js/babel-preset-lib@1.3.1
+
 ## 1.3.7
 
 ### Patch Changes

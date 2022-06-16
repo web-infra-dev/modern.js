@@ -1,5 +1,12 @@
 # @modern-js/monorepo-generator
 
+## 2.0.4
+
+### Patch Changes
+
+- bcd95a00b: feat: support custom solution generator success info
+- bcd95a00b: fix: optimize solution generator success info
+
 ## 2.0.3
 
 ### Patch Changes

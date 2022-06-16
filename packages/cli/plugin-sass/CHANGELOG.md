@@ -1,5 +1,16 @@
 # @modern-js/plugin-sass
 
+## 1.3.3
+
+### Patch Changes
+
+- 3dfee700c: feat: support addExcludes in tools.less and tools.sass
+- Updated dependencies [9377d2d9d]
+- Updated dependencies [8c9ad1749]
+- Updated dependencies [3dfee700c]
+  - @modern-js/css-config@1.2.7
+  - @modern-js/utils@1.7.7
+
 ## 1.3.2
 
 ### Patch Changes

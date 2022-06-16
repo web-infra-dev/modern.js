@@ -1,5 +1,11 @@
 # @modern-js/plugin
 
+## 1.3.7
+
+### Patch Changes
+
+- 1ac68424f: chore(plugin): extract same utils to shared
+
 ## 1.3.6
 
 ### Patch Changes

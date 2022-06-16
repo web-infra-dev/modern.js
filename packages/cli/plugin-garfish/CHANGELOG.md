@@ -1,5 +1,22 @@
 # @modern-js/plugin-garfish
 
+## 1.6.0
+
+### Minor Changes
+
+- 43bf23361: fix: 修复 bootstrap 函数第二个参数不支持传入 dom 节点
+  feat: '@modern-js/plugin-garfish' 支持 '@modern-js/runtime/garfish' scope 导出 garfish plugin 内置函数
+
+### Patch Changes
+
+- 209d0a927: release: hot fix garfish error
+- 996b91d9d: fix: optimize garfish plugin render function
+- 43bf23361: fix(garfish-plugin): app static properties missing
+- Updated dependencies [9377d2d9d]
+- Updated dependencies [8c9ad1749]
+  - @modern-js/utils@1.7.7
+  - @modern-js/plugin-router@1.2.15
+
 ## 1.5.2
 
 ### Patch Changes

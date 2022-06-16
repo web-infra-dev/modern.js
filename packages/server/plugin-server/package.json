@@ -57,8 +57,8 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/babel-compiler": "workspace:^1.2.6",
-    "@modern-js/server-utils": "workspace:^1.2.10",
-    "@modern-js/utils": "workspace:^1.7.6"
+    "@modern-js/server-utils": "workspace:^1.2.11",
+    "@modern-js/utils": "workspace:^1.7.7"
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",
