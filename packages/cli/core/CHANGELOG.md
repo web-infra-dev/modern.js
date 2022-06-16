@@ -1,5 +1,22 @@
 # @modern-js/core
 
+## 1.12.0
+
+### Minor Changes
+
+- 8e1cedd8a: feat(webpack): support addIncludes and addExcludes in tools.tsLoader
+
+### Patch Changes
+
+- 9377d2d9d: feat: support addPlugins util in tools.postcss
+- b7a1cea52: feat: support utils in tools.babel
+- 3dfee700c: feat: support addExcludes in tools.less and tools.sass
+- Updated dependencies [9377d2d9d]
+- Updated dependencies [8c9ad1749]
+- Updated dependencies [1ac68424f]
+  - @modern-js/utils@1.7.7
+  - @modern-js/plugin@1.3.7
+
 ## 1.11.2
 
 ### Patch Changes

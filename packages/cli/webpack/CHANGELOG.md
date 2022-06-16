@@ -1,5 +1,26 @@
 # @modern-js/webpack
 
+## 1.11.0
+
+### Minor Changes
+
+- 8e1cedd8a: feat(webpack): support addIncludes and addExcludes in tools.tsLoader
+
+### Patch Changes
+
+- ded45811c: chore: fix tools.webpack type issue
+- 9d649884b: fix(webpack): tsconfig paths should work with files in node_modules
+- 9377d2d9d: feat: support addPlugins util in tools.postcss
+- 6b2523f44: fix(webpack): incorrect babel loader options for node target
+- b7a1cea52: feat: support utils in tools.babel
+- Updated dependencies [9377d2d9d]
+- Updated dependencies [8c9ad1749]
+- Updated dependencies [b7a1cea52]
+- Updated dependencies [3dfee700c]
+  - @modern-js/css-config@1.2.7
+  - @modern-js/utils@1.7.7
+  - @modern-js/babel-preset-app@1.4.1
+
 ## 1.10.0
 
 ### Minor Changes

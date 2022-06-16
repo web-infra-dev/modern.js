@@ -1,5 +1,16 @@
 # @modern-js/babel-preset-base
 
+## 1.4.1
+
+### Patch Changes
+
+- 8c9ad1749: feat(babel-preset-base): prebundle babel plugins
+- b7a1cea52: feat: support utils in tools.babel
+- fde14696e: node browserlist use v12
+- Updated dependencies [9377d2d9d]
+- Updated dependencies [8c9ad1749]
+  - @modern-js/utils@1.7.7
+
 ## 1.4.0
 
 ### Minor Changes
