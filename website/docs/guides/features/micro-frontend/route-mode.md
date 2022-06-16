@@ -38,7 +38,7 @@ export default defineConfig({
 编辑主应用 `App.tsx` 文件如下：
 
 ```tsx title=主应用：App.tsx
-import { useModuleApps } from '@modern-js/runtime';
+import { useModuleApps } from '@modern-js/plugin-garfish';
 import { Route, Switch } from '@modern-js/runtime/router';
 
 function App() {
