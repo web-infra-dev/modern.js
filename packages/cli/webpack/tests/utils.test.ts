@@ -40,6 +40,9 @@ describe('getBabelOptions', () => {
       '/root',
       {} as any,
       createBabelChain(),
+      {
+        target: 'client',
+      },
     );
 
     setBabelConfigSerializer();
