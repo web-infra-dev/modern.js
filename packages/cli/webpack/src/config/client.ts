@@ -328,7 +328,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     const minifiedJsRexExp = /\.min\.js/;
     const info = (file: { sourceFilename: string }) => ({
       // If file name ends with `.min.js`, we assume it's an compressed file.
-      // And we don't want copy-webpack-plugin to minify it.
+      // So we don't want copy-webpack-plugin to minify it.
       // ref: https://github.com/webpack-contrib/copy-webpack-plugin#info
       minimized: minifiedJsRexExp.test(file.sourceFilename),
     });
