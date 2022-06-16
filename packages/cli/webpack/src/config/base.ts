@@ -507,39 +507,7 @@ class BaseWebpackConfig {
       .add('node_modules')
       .add(this.appContext.nodeModulesDirectory);
 
-    let defaultScopes: any[] = ['./src', /node_modules/, './shared'];
-
-    const scopeOptions = this.options.source?.moduleScopes;
-
-    if (Array.isArray(scopeOptions)) {
-      if (scopeOptions.some(s => typeof s === 'function')) {
-        for (const scope of scopeOptions) {
-          if (typeof scope === 'function') {
-            const ret = scope(defaultScopes);
-            defaultScopes = ret ? ret : defaultScopes;
-          } else {
-            defaultScopes.push(scope);
-          }
-        }
-      } else {
-        defaultScopes.push(...scopeOptions);
-      }
-    }
-
-    // resolve plugin(module scope)
-    this.chain.resolve
-      .plugin(RESOLVE_PLUGIN.MODULE_SCOPE)
-      .use(ModuleScopePlugin, [
-        {
-          appSrc: defaultScopes.map((scope: string | RegExp) => {
-            if (isString(scope)) {
-              return ensureAbsolutePath(this.appDirectory, scope);
-            }
-            return scope;
-          }),
-          allowedFiles: [path.resolve(this.appDirectory, './package.json')],
-        },
-      ]);
+    this.applyModuleScopePlugin();
 
     if (this.isTsProject) {
       // aliases from tsconfig.json
@@ -674,6 +642,52 @@ class BaseWebpackConfig {
     }
 
     return finalConfig;
+  }
+
+  applyModuleScopePlugin() {
+    const userConfig = this.options._raw;
+
+    // only apply module scope plugin when user config contains moduleScopes
+    if (!userConfig?.source?.moduleScopes) {
+      return;
+    }
+
+    let defaultScopes: Array<string | RegExp> = [
+      './src',
+      './shared',
+      /node_modules/,
+    ];
+
+    const scopeOptions = this.options.source?.moduleScopes;
+
+    if (Array.isArray(scopeOptions)) {
+      if (scopeOptions.some(s => typeof s === 'function')) {
+        for (const scope of scopeOptions) {
+          if (typeof scope === 'function') {
+            const ret = scope(defaultScopes);
+            defaultScopes = ret ? ret : defaultScopes;
+          } else {
+            defaultScopes.push(scope as string | RegExp);
+          }
+        }
+      } else {
+        defaultScopes.push(...(scopeOptions as Array<string | RegExp>));
+      }
+    }
+
+    this.chain.resolve
+      .plugin(RESOLVE_PLUGIN.MODULE_SCOPE)
+      .use(ModuleScopePlugin, [
+        {
+          appSrc: defaultScopes.map((scope: string | RegExp) => {
+            if (isString(scope)) {
+              return ensureAbsolutePath(this.appDirectory, scope);
+            }
+            return scope;
+          }),
+          allowedFiles: [path.resolve(this.appDirectory, './package.json')],
+        },
+      ]);
   }
 
   applyToolsWebpackChain() {

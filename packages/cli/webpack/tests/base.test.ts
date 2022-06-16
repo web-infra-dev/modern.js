@@ -311,10 +311,9 @@ describe('base webpack config', () => {
     const baseConfig = new BaseWebpackConfig(appContext, {
       ...userConfig,
       output: {
+        ...userConfig.output,
         enableTsLoader: true,
         path: `${__dirname}/dist`,
-        jsPath: 'js',
-        cssPath: 'css',
       },
       tools: {
         tsLoader: configFunction,
@@ -352,9 +351,8 @@ describe('base webpack config', () => {
     const baseConfig = new BaseWebpackConfig(appContext, {
       ...userConfig,
       output: {
+        ...userConfig.output,
         path: `${__dirname}/dist`,
-        jsPath: 'js',
-        cssPath: 'css',
       },
       tools: {
         babel: configFunction,
@@ -376,5 +374,42 @@ describe('base webpack config', () => {
       /exclude-2/,
       /exclude-3/,
     ]);
+  });
+
+  test(`should apply module scope plugin when user config contains moduleScopes`, () => {
+    const baseConfig = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      output: {
+        ...userConfig.output,
+        path: `${__dirname}/dist`,
+      },
+      _raw: {
+        source: {
+          moduleScopes: ['./foo'],
+        },
+      },
+    } as any);
+
+    const moduleScopePlugin = baseConfig
+      .getChain()
+      .resolve.plugins.get(CHAIN_ID.RESOLVE_PLUGIN.MODULE_SCOPE);
+
+    expect(moduleScopePlugin).toBeTruthy();
+  });
+
+  test(`should not apply module scope plugin when user config not contains moduleScopes`, () => {
+    const baseConfig = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      output: {
+        ...userConfig.output,
+        path: `${__dirname}/dist`,
+      },
+    } as any);
+
+    const moduleScopePlugin = baseConfig
+      .getChain()
+      .resolve.plugins.get(CHAIN_ID.RESOLVE_PLUGIN.MODULE_SCOPE);
+
+    expect(moduleScopePlugin).toBeFalsy();
   });
 });
