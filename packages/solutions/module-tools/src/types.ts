@@ -47,7 +47,6 @@ declare module '@modern-js/core' {
     assetsPath?: string;
     buildPreset?: BuildPreset;
     buildConfig?: BuildConfig;
-    enableSourceMap?: boolean;
     importStyle?: ImportStyleType;
     packageMode?: PackageModeType;
     packageFields?: PackageFields;

@@ -9,10 +9,7 @@ export type NormalizedBuildConfig =
   | NormalizedBundlelessBuildConfig;
 
 export type CommonNormalizedBuildConfig = Required<
-  Pick<
-    BaseBuildConfig,
-    'tsconfig' | 'outputPath' | 'format' | 'target' | 'enableDts' | 'dtsOnly'
-  >
+  Omit<BaseBuildConfig, 'bundleOptions' | 'bundlelessOptions'>
 > & {
   watch?: boolean;
 };

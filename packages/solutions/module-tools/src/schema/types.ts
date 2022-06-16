@@ -12,6 +12,7 @@ export type Target =
   | 'es2020'
   | 'esnext';
 export type BuildType = 'bundle' | 'bundleless';
+export type SourceMap = boolean | 'inline' | 'external';
 
 export type BundleOptions = {
   entry?: Record<string, string>;
@@ -39,6 +40,7 @@ export type BundlelessOptions = {
 export type BaseBuildConfig = {
   format?: Format;
   target?: Target;
+  sourceMap?: SourceMap;
   buildType?: BuildType;
   bundleOptions?: BundleOptions;
   bundlelessOptions?: BundlelessOptions;

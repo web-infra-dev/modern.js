@@ -15,7 +15,9 @@ const properties = {
   format: {
     enum: ['cjs', 'esm', 'iife', 'umd'],
   },
-
+  sourceMap: {
+    enum: [true, false, 'inline', 'external'],
+  },
   buildType: {
     enum: ['bundle', 'bundleless'],
   },

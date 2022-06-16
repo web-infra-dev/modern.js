@@ -4,6 +4,7 @@ import type {
   BuildConfig,
   JsSyntaxType,
   BaseBuildConfig,
+  SourceMap,
 } from '../../schema/types';
 import type { IBuildFeatOption } from '../../types';
 import { cliTsConfigDefaultValue } from '../../utils/constants';
@@ -113,7 +114,6 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
 
   if (configs.length > 0) {
     const firstConfig = configs[0] as NormalizedBundlelessBuildConfig;
-    console.info(importStyle);
     firstConfig.bundlelessOptions = lodash.mergeWith(
       {},
       firstConfig.bundlelessOptions,
@@ -171,6 +171,16 @@ export const getFinalDts = (
   }
 
   return config.enableDts ?? false;
+};
+export const getSourceMap = (
+  config: Pick<BaseBuildConfig, 'sourceMap'>,
+  buildType: BaseBuildConfig['buildType'],
+): SourceMap => {
+  if (config.sourceMap !== undefined) {
+    return config.sourceMap;
+  }
+
+  return buildType === 'bundle';
 };
 
 export const normalizeModuleConfig = (context: {
@@ -237,6 +247,7 @@ export const normalizeBuildConfig = (
     const tsconfig = getFinalTsconfig(config, buildFeatOption);
     const enableDts = getFinalDts(config, buildFeatOption);
     const outputPath = config.outputPath ?? './';
+    const sourceMap = getSourceMap(config, config.buildType);
     const commmonConfig = {
       format,
       target,
@@ -245,6 +256,7 @@ export const normalizeBuildConfig = (
       enableDts,
       outputPath,
       dtsOnly: config.dtsOnly ?? false,
+      sourceMap,
     };
     if (config.buildType === 'bundle') {
       return {
