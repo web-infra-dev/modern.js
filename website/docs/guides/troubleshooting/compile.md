@@ -12,6 +12,35 @@ sidebar_position: 1
 
 请参考 [提升编译速度](/docs/guides/usages/compile-speed)。
 
+### 如何查看最终生效的 webpack 配置？
+
+可以通过 [modern inspect](/docs/apis/commands/mwa/inspect) 命令来查看最终生效的 webpack 配置。
+
+### 如何配置组件库按需引入？
+
+默认情况下，Modern.js 内置了 antd 组件库的按需引入配置。
+
+如果需要配置其他组件库的按需引入，可以通过 [tools.babel](/docs/apis/config/tools/babel) 配置 [babel-plugin-import](https://github.com/umijs/babel-plugin-import) 插件。
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  tools: {
+    babel: (config, { addPlugins }) => {
+      addPlugins([
+        [
+          'babel-plugin-import',
+          {
+            libraryName: 'xxx-components',
+            libraryDirectory: 'es',
+            style: true,
+          },
+        ],
+      ]);
+    },
+  },
+});
+```
+
 ### 打包时出现 JavaScript heap out of memory?
 
 该报错表示打包过程中出现了内存溢出问题，大多数情况下是由于打包的内容较多，超出了 Node.js 默认的内存上限。
@@ -54,3 +83,27 @@ webpack 版本问题有以下几种情况：
 :::info
 删除 lock 文件会使项目中的依赖版本自动升级到指定范围下的最新版，请进行充分的测试。
 :::
+
+### Less 文件中的除法不生效？
+
+Less v4 版本与 v3 版本相比，除法的写法有一些区别：
+
+```less
+// Less v3
+.math {
+  width: 2px / 2; // 1px
+  width: 2px ./ 2; // 1px
+  width: (2px / 2); // 1px
+}
+
+// Less v4
+.math {
+  width: 2px / 2; // 2px / 2
+  width: 2px ./ 2; // 1px
+  width: (2px / 2); // 1px
+}
+```
+
+Modern.js 内置的 Less 版本为 v4，低版本的写法不会生效，请注意区分。
+
+Less 中除法的写法也可以通过配置项来修改，详见 [Less - Math](https://lesscss.org/usage/#less-options-math)。
