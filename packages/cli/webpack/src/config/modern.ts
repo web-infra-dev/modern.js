@@ -1,11 +1,6 @@
 import { createBabelChain } from '@modern-js/babel-chain';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import {
-  CHAIN_ID,
-  applyOptionsChain,
-  isUseSSRBundle,
-  removeLeadingSlash,
-} from '@modern-js/utils';
+import { CHAIN_ID, removeLeadingSlash } from '@modern-js/utils';
 import { ClientWebpackConfig } from './client';
 
 class ModernWebpackConfig extends ClientWebpackConfig {
@@ -24,6 +19,12 @@ class ModernWebpackConfig extends ClientWebpackConfig {
     this.jsFilename = this.jsFilename.replace(/\.js$/, '-es6.js');
 
     this.babelChain = createBabelChain();
+
+    this.babelPresetAppOptions = {
+      target: 'client',
+      useBuiltIns: false,
+      useModern: true,
+    };
   }
 
   name() {
@@ -42,48 +43,6 @@ class ModernWebpackConfig extends ClientWebpackConfig {
         },
       ]);
     }
-  }
-
-  loaders() {
-    const loaders = super.loaders();
-
-    const babelOptions = loaders
-      .oneOf(CHAIN_ID.ONE_OF.JS)
-      .use(CHAIN_ID.USE.BABEL)
-      .get('options');
-
-    loaders
-      .oneOf(CHAIN_ID.ONE_OF.JS)
-      .use(CHAIN_ID.USE.BABEL)
-      .options({
-        ...babelOptions,
-        presets: [
-          [
-            require.resolve('@modern-js/babel-preset-app'),
-            {
-              metaName: this.appContext.metaName,
-              appDirectory: this.appDirectory,
-              target: 'client',
-              useLegacyDecorators: !this.options.output?.enableLatestDecorators,
-              useBuiltIns: false,
-              useModern: true,
-              chain: this.babelChain,
-              styledComponents: applyOptionsChain(
-                {
-                  pure: true,
-                  displayName: true,
-                  ssr: isUseSSRBundle(this.options),
-                  transpileTemplateLiterals: true,
-                },
-                this.options.tools?.styledComponents,
-              ),
-              userBabelConfig: this.options.tools.babel,
-            },
-          ],
-        ],
-      });
-
-    return loaders;
   }
 }
 
