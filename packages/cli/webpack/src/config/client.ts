@@ -325,10 +325,19 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     const uploadDir = path.posix.join(configDir.replace(/\\/g, '/'), 'upload');
     const publicDir = path.posix.join(configDir.replace(/\\/g, '/'), 'public');
 
+    const minifiedJsRexExp = /\.min\.js/;
+    const info = (file: { sourceFilename: string }) => ({
+      // If file name ends with `.min.js`, we assume it's an compressed file.
+      // And we don't want copy-webpack-plugin to minify it.
+      // ref: https://github.com/webpack-contrib/copy-webpack-plugin#info
+      minimized: minifiedJsRexExp.test(file.sourceFilename),
+    });
+
     // add the pattern only if the corresponding directory exists,
     // otherwise it will cause the webpack recompile.
     if (fs.existsSync(uploadDir)) {
       patterns.push({
+        info,
         from: '**/*',
         to: 'upload',
         context: uploadDir,
@@ -338,6 +347,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
     if (fs.existsSync(publicDir)) {
       patterns.push({
+        info,
         from: '**/*',
         to: 'public',
         context: publicDir,

@@ -25,6 +25,12 @@ sidebar_position: 4
 
 如果并非必要，Modern.js 推荐将 JS / CSS 这类文件通过 `upload/` 上传到 CDN，而不使用 `public/`。
 
+## 代码压缩
+
+如果目录下的文件是一个 `.js` 文件，在生产环境构建时，会自动对其进行代码压缩。
+
+如果该文件以 `.min.js` 结尾，则不会经过代码压缩处理。
+
 ## 更多用法
 
 不论是在[自定义 HTML](/docs/guides/usages/html) 中，或是在 [`config/public/`](/docs/apis/hooks/mwa/config/public) 下的任意 HTML 文件中，都可以直接使用 HTML 标签引用 `config/upload/` 目录下的资源：
@@ -40,9 +46,7 @@ sidebar_position: 4
 ```
 
 :::info 注
-
 Modern.js 没有支持在 `config/public/*.css`（例如 background-image）中通过 URL 使用 `config/upload/` 下的文件。
 
 因为 Modern.js 不推荐在 `public/` 中放 JS、CSS 这类资源文件，可以将它们直接放置在 `upload/` 目录下。
-
 :::
