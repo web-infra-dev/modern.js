@@ -69,29 +69,20 @@ export const build = async (
   const tsconfigPath = path.join(appDirectory, tsconfigName);
   const outputPath = modernConfig.output.path ?? 'dist';
   const isTsProject = tsConfigutils.existTsConfigFile(tsconfigPath);
-  // Compatible tsc option, when set --no-dts or --no-tsc, not generator dts files
-  const genDts = dts && tsc;
-  // If the project contains a tsconfig configuration file
-  // and does not use no-tsc on the cli parameter
-  // and `output.disableTsChecker` is not configured, dts generation is performed
-  let enableDtsGen = isTsProject && genDts;
-
-  // when output.disableTsChecker is true, the dts generator close.
-  if (modernConfig.output.disableTsChecker) {
-    enableDtsGen = false;
-  }
+  const enableDtsGen = isTsProject && dts;
 
   valid.valideBeforeTask({ modernConfig, tsconfigPath });
 
   await buildFeature.build(api, {
-    enableWatchMode: watch,
-    isTsProject,
-    platform,
     sourceDir: 'src',
-    tsconfigName,
+    enableWatchMode: watch,
     enableDtsGen,
-    clear,
+    isTsProject,
+    tsconfigName,
     outputPath,
     styleOnly,
+    platform,
+    clear,
+    legacyTsc: tsc,
   });
 };

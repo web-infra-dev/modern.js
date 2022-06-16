@@ -2,10 +2,6 @@ import path from 'path';
 import { Import, fs } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type { IBuildFeatOption } from '../../types';
-import type {
-  NormalizedBundleBuildConfig,
-  NormalizedBundlelessBuildConfig,
-} from './types';
 import { normalizeModuleConfig } from './normalize';
 
 const bundle: typeof import('./bundle') = Import.lazy('./bundle', require);
@@ -47,7 +43,7 @@ export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
   const { appDirectory } = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
   const {
-    output: { path: outputPath = 'dist', buildPreset, buildConfig },
+    output: { path: outputPath = 'dist' },
   } = modernConfig;
 
   const platformBuildRet = await checkPlatformAndRunBuild(platform, {
@@ -63,24 +59,23 @@ export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
   }
 
   // should normalize module tool config here, ensure the same config for build
-  const normalizedModuleConfig = normalizeModuleConfig(
-    { buildFeatOption: config, api },
-    buildPreset,
-    buildConfig,
-  );
+  const normalizedModuleConfig = normalizeModuleConfig({
+    buildFeatOption: config,
+    api,
+  });
 
-  Promise.all(
+  await Promise.all(
     normalizedModuleConfig.map(moduleConfig => {
-      if (moduleConfig.bundle) {
+      if (moduleConfig.buildType === 'bundle') {
         return bundle.build(api, {
-          ...config,
+          // ...config,
           ...moduleConfig,
-        } as NormalizedBundleBuildConfig);
+        });
       } else {
         return bundless.build(api, {
-          ...config,
+          // ...config,
           ...moduleConfig,
-        } as NormalizedBundlelessBuildConfig);
+        });
       }
     }),
   );

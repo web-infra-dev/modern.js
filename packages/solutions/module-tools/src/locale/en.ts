@@ -7,7 +7,7 @@ export const EN_LOCALE = {
       style_only: 'only build style',
       platform: 'building for other platforms',
       no_tsc: 'close tsc compiler to emit d.ts (Deprecated)',
-      no_dts: 'Turn off dts generation and type checking',
+      dts: 'Turn on dts generation and type checking',
       no_clear: 'disable auto clear dist dir',
     },
     dev: { describe: 'start dev server' },
