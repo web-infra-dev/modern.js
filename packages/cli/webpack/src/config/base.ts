@@ -21,6 +21,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { createBabelChain, BabelChain } from '@modern-js/babel-chain';
 import WebpackChain from '@modern-js/utils/webpack-chain';
+import type { Options as BabelPrestAppOptions } from '@modern-js/babel-preset-app';
 import { merge as webpackMerge } from '../../compiled/webpack-merge';
 import WebpackBar from '../../compiled/webpackbar';
 import {
@@ -72,6 +73,8 @@ class BaseWebpackConfig {
   babelChain: BabelChain;
 
   isTsProject: boolean;
+
+  babelPresetAppOptions?: Partial<BabelPrestAppOptions>;
 
   constructor(appContext: IAppContext, options: NormalizedConfig) {
     this.appContext = appContext;
@@ -717,6 +720,7 @@ class BaseWebpackConfig {
       this.appDirectory,
       this.options,
       this.babelChain,
+      this.babelPresetAppOptions,
     );
 
     const rule = loaders

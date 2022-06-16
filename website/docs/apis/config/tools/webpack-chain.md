@@ -285,3 +285,9 @@ export default defineConfig({
 | `MINIMIZER.JS`      | 对应 `TerserWebpackPlugin`       |
 | `MINIMIZER.CSS`     | 对应 `CssMinimizerWebpackPlugin` |
 | `MINIMIZER.ESBUILD` | 对应 `ESBuildPlugin`             |
+
+## 常见问题
+
+### 如何查看最终生效的 webpack 配置？
+
+可以通过 [modern inspect](/docs/apis/commands/mwa/inspect) 命令来查看最终生效的 webpack 配置，从而确定 `tools.webpackChain` 的改动是否正确应用到 webpack 配置上。

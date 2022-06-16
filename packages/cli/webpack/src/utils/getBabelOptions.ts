@@ -1,5 +1,8 @@
 import { isProd, applyOptionsChain, isUseSSRBundle } from '@modern-js/utils';
-import { getBabelConfig } from '@modern-js/babel-preset-app';
+import {
+  getBabelConfig,
+  Options as BabelPresetAppOptions,
+} from '@modern-js/babel-preset-app';
 import type { BabelChain } from '@modern-js/babel-chain';
 import type { NormalizedConfig, TransformOptions } from '@modern-js/core';
 
@@ -16,6 +19,7 @@ export const getBabelOptions = (
   appDirectory: string,
   config: NormalizedConfig,
   chain: BabelChain,
+  babelPresetAppOptions?: Partial<BabelPresetAppOptions>,
 ) => {
   const lodashOptions = applyOptionsChain(
     { id: ['lodash', 'ramda'] },
@@ -59,7 +63,6 @@ export const getBabelOptions = (
     ...getBabelConfig({
       metaName,
       appDirectory,
-      target: 'client',
       lodash: lodashOptions,
       useLegacyDecorators: !config.output?.enableLatestDecorators,
       useBuiltIns: getUseBuiltIns(config),
@@ -67,6 +70,7 @@ export const getBabelOptions = (
       styledComponents: styledComponentsOptions,
       userBabelConfig: config.tools?.babel,
       userBabelConfigUtils: babelUtils,
+      ...babelPresetAppOptions,
     }),
   };
 

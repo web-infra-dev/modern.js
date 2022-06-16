@@ -1,15 +1,11 @@
 import type {
+  IAppContext,
   OutputConfig,
   ServerConfig,
+  NormalizedConfig,
   SSGMultiEntryOptions,
 } from '@modern-js/core';
-import {
-  CHAIN_ID,
-  applyOptionsChain,
-  isProd,
-  isUseSSRBundle,
-  SERVER_BUNDLE_DIRECTORY,
-} from '@modern-js/utils';
+import { CHAIN_ID, isProd, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
 import { DefinePlugin } from 'webpack';
 import type WebpackChain from '@modern-js/utils/webpack-chain';
 import { BaseWebpackConfig } from './base';
@@ -57,6 +53,14 @@ export function filterEntriesBySSRConfig(
 }
 
 class NodeWebpackConfig extends BaseWebpackConfig {
+  constructor(appContext: IAppContext, options: NormalizedConfig) {
+    super(appContext, options);
+    this.babelPresetAppOptions = {
+      target: 'server',
+      useBuiltIns: false,
+    };
+  }
+
   name() {
     this.chain.name('server');
   }
@@ -120,40 +124,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
           exportOnlyLocals: true,
         },
       });
-
-    const babelOptions = loaders.oneOf(ONE_OF.JS).use(USE.BABEL).get('options');
-
-    loaders
-      .oneOf(ONE_OF.JS)
-      .use(USE.BABEL)
-      .options({
-        ...babelOptions,
-        presets: [
-          [
-            require.resolve('@modern-js/babel-preset-app'),
-            {
-              metaName: this.appContext.metaName,
-              appDirectory: this.appDirectory,
-              target: 'server',
-              useLegacyDecorators: !this.options.output?.enableLatestDecorators,
-              useBuiltIns: false,
-              chain: this.babelChain,
-              styledComponents: applyOptionsChain(
-                {
-                  pure: true,
-                  displayName: true,
-                  ssr: isUseSSRBundle(this.options),
-                  transpileTemplateLiterals: true,
-                },
-                this.options.tools?.styledComponents,
-              ),
-              userBabelConfig: this.options.tools.babel,
-            },
-          ],
-        ],
-      });
-
-    // TODO: ts-loader
 
     return loaders;
   }

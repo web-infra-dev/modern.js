@@ -173,3 +173,9 @@ export default defineConfig({
 此参数已废弃，请使用 [tools.webpackChain](/docs/apis/config/tools/webpack-chain)。
 
 当使用 `chain` 参数时，修改 config 对象或返回 config 对象都不会产生任何效果。
+
+## 常见问题
+
+### 如何查看最终生效的 webpack 配置？
+
+可以通过 [modern inspect](/docs/apis/commands/mwa/inspect) 命令来查看最终生效的 webpack 配置，从而确定 `tools.webpack` 的改动是否正确应用到 webpack 配置上。
