@@ -46,6 +46,9 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
         }.html`,
       );
     this.coreJsEntry = path.resolve(__dirname, '../runtime/core-js-entry.js');
+    this.babelPresetAppOptions = {
+      target: 'client',
+    };
   }
 
   name() {
