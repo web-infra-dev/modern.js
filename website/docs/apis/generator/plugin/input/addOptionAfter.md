@@ -2,7 +2,7 @@
 sidebar_position: 6
 ---
 
-# AddOptionAfter
+# addOptionAfter
 
 在特定问题的默认选项后 Options 选项。
 
@@ -34,7 +34,7 @@ Modern.js 工程方案的配置的问题选项关键字，具体配置可查看[
 ## 示例
 
 ```ts
-context.AddOptionAfter('packageManager', 'pnpm', {
+context.addOptionAfter('packageManager', 'pnpm', {
     key: "npm",
     name: "NPM"
 });
