@@ -20,9 +20,11 @@
     "@docusaurus/plugin-client-redirects": "2.0.0-beta.16",
     "@docusaurus/preset-classic": "2.0.0-beta.16",
     "@docusaurus/theme-common": "2.0.0-beta.16",
+    "@algolia/client-search": "^4.13.1",
     "@easyops-cn/docusaurus-search-local": "^0.23.0",
     "@mdx-js/react": "^1.6.21",
     "@svgr/webpack": "^6.2.1",
+    "@types/react": "^17",
     "classnames": "^2.3.1",
     "clsx": "^1.1.1",
     "react": "^17.0.1",
@@ -30,7 +32,8 @@
     "react-masonry-component": "^6.3.0",
     "react-player": "^2.9.0",
     "swiper": "^7.0.9",
-    "url-loader": "^4.1.1"
+    "url-loader": "^4.1.1",
+    "webpack": "^5"
   },
   "browserslist": {
     "production": [

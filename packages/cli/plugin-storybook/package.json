@@ -64,6 +64,7 @@
     "process.argv": "^0.6.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.18.0",
     "@modern-js/core": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/runtime-core": "workspace:*",
@@ -79,6 +80,7 @@
     "@types/react-dom": "^17",
     "jest": "^27",
     "react": "^17",
+    "react-dom": "^17",
     "typescript": "^4",
     "webpack": "^5.71.0",
     "webpack-chain": "^6.5.1"
