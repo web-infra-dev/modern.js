@@ -1,5 +1,16 @@
 # @modern-js/css-config
 
+## 1.2.7
+
+### Patch Changes
+
+- 9377d2d9d: feat: support addPlugins util in tools.postcss
+- 8c9ad1749: feat(babel-preset-base): prebundle babel plugins
+- 3dfee700c: feat: support addExcludes in tools.less and tools.sass
+- Updated dependencies [9377d2d9d]
+- Updated dependencies [8c9ad1749]
+  - @modern-js/utils@1.7.7
+
 ## 1.2.6
 
 ### Patch Changes

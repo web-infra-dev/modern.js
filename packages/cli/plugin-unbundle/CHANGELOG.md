@@ -1,5 +1,25 @@
 # @modern-js/plugin-unbundle
 
+## 1.4.4
+
+### Patch Changes
+
+- fc08d77df: fix(unbundle): fix error when using globalVars
+- 9377d2d9d: feat: support addPlugins util in tools.postcss
+- c29a1106f: fix(unbundle): failed to use arco-design icons
+- 3dfee700c: feat: support addExcludes in tools.less and tools.sass
+- Updated dependencies [209d0a927]
+- Updated dependencies [9377d2d9d]
+- Updated dependencies [8c9ad1749]
+- Updated dependencies [002dab527]
+- Updated dependencies [1ac68424f]
+- Updated dependencies [3dfee700c]
+  - @modern-js/server@1.4.20
+  - @modern-js/css-config@1.2.7
+  - @modern-js/esmpack@1.3.3
+  - @modern-js/utils@1.7.7
+  - @modern-js/plugin@1.3.7
+
 ## 1.4.3
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @modern-js/runtime-core
 
+## 1.5.0
+
+### Minor Changes
+
+- 43bf23361: fix: 修复 bootstrap 函数第二个参数不支持传入 dom 节点
+  feat: '@modern-js/plugin-garfish' 支持 '@modern-js/runtime/garfish' scope 导出 garfish plugin 内置函数
+
+### Patch Changes
+
+- d5f7060ba: fix: bootstrap arguments
+- 209d0a927: release: hot fix garfish error
+- Updated dependencies [1ac68424f]
+  - @modern-js/plugin@1.3.7
+
 ## 1.4.9
 
 ### Patch Changes
