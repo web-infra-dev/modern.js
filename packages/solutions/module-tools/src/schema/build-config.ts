@@ -1,8 +1,8 @@
 const properties = {
   target: {
     enum: [
-      'es6',
       'es5',
+      'es6',
       'es2015',
       'es2016',
       'es2017',
@@ -13,19 +13,15 @@ const properties = {
     ],
   },
   format: {
-    type: 'array',
-    items: [{ enum: ['cjs', 'esm', 'iife'] }],
+    enum: ['cjs', 'esm', 'iife', 'umd'],
   },
-  tsconfig: {
-    type: 'string',
+  sourceMap: {
+    enum: [true, false, 'inline', 'external'],
   },
-  dts: {
-    type: 'boolean',
+  buildType: {
+    enum: ['bundle', 'bundleless'],
   },
-  bundle: {
-    type: 'boolean',
-  },
-  bundleOption: {
+  bundleOptions: {
     type: 'object',
     properties: {
       entry: {
@@ -34,7 +30,7 @@ const properties = {
       splitting: {
         type: 'boolean',
       },
-      external: {
+      externals: {
         type: 'array',
         items: [{ type: 'string' }],
       },
@@ -46,18 +42,44 @@ const properties = {
       },
     },
   },
-  bundlessOption: {
+  bundlelessOptions: {
     type: 'object',
     properties: {
       sourceDir: {
         type: 'string',
       },
+      style: {
+        type: 'object',
+        properties: {
+          compileMode: {
+            enum: ['all', 'only-compiled-code', 'only-source-code', false],
+          },
+          path: { type: 'string' },
+        },
+      },
+      static: {
+        type: 'object',
+        properties: {
+          path: { type: 'string' },
+        },
+      },
     },
   },
+
+  tsconfig: {
+    type: 'string',
+  },
+  enableDts: {
+    type: 'boolean',
+  },
+  dtsOnly: {
+    type: 'boolean',
+  },
+
   outputPath: { type: 'string' },
 };
 
-export const buildConfigSchema = [
+export const buildSchema = [
   {
     target: 'output.buildConfig',
     schema: {
@@ -65,11 +87,18 @@ export const buildConfigSchema = [
         type: 'array',
       },
       then: { items: [{ type: 'object', properties }] },
-      else: {
-        oneOf: [
-          { type: 'object', properties },
-        ],
-      },
+      else: { type: 'object', properties },
+    },
+  },
+  {
+    target: 'output.buildPreset',
+    schema: {
+      enum: [
+        'npm-library',
+        'npm-library-with-umd',
+        'npm-component',
+        'npm-component-with-umd',
+      ],
     },
   },
 ];

@@ -7,7 +7,7 @@ export const ZH_LOCALE = {
       style_only: '只构建样式文件',
       platform: '构建其他平台产物',
       no_tsc: '关闭 tsc 编译（废弃）',
-      no_dts: '关闭 dts 文件的生成以及类型检查',
+      dts: '开启 dts 文件的生成以及类型检查',
       no_clear: '不清理产物目录',
     },
     dev: { describe: '本地开发命令' },

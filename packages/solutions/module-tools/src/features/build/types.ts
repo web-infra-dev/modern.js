@@ -1,19 +1,28 @@
-import { BuildConfig, BundlelessOptions } from '../../schema/types';
+import type {
+  BaseBuildConfig,
+  BundlelessOptions,
+  BundleOptions,
+} from '../../schema/types';
 
 export type NormalizedBuildConfig =
   | NormalizedBundleBuildConfig
   | NormalizedBundlelessBuildConfig;
 
-export type NormalizedBundleBuildConfig = Required<Omit<BuildConfig, 'bundlelessOptions'>> & {
-  watch: boolean;
-}
-export type NormalizedBundlelessBuildConfig = Required<
-  Omit<BuildConfig, 'bundleOptions'>
-> &
-  Pick<BuildConfig, 'bundleOptions'> & {
-    bundlelessOptions: Required<BundlelessOptions>;
+export type CommonNormalizedBuildConfig = Required<
+  Omit<BaseBuildConfig, 'bundleOptions' | 'bundlelessOptions'>
+> & {
+  watch?: boolean;
+};
+
+export type NormalizedBundleBuildConfig = {
+  buildType: 'bundle';
+} & CommonNormalizedBuildConfig & {
+    bundleOptions: BundleOptions;
+  };
+export type NormalizedBundlelessBuildConfig = {
+  buildType: 'bundleless';
+} & CommonNormalizedBuildConfig & {
+    bundlelessOptions: BundlelessOptions;
     // Compatible field, to be removed in the next release, not visible to users
-    ignoreSingleFormatDir?: boolean;
     outputStylePath?: string;
-    watch: boolean;
   };

@@ -33,7 +33,7 @@ export const buildCli = (program: Command, api: PluginAPI) => {
     // @deprecated
     // The `--no-tsc` option has been superceded by the `--no-dts` option.
     .option('--no-tsc', local.i18n.t(local.localeKeys.command.build.no_tsc))
-    .option('--no-dts', local.i18n.t(local.localeKeys.command.build.no_tsc))
+    .option('--dts', local.i18n.t(local.localeKeys.command.build.dts))
     .option('--no-clear', local.i18n.t(local.localeKeys.command.build.no_clear))
     .action(async (subCommand: IBuildCommandOption) => {
       await commands.build(api, subCommand);

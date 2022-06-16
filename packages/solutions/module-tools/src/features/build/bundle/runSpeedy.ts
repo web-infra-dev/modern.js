@@ -11,12 +11,12 @@ export const runSpeedy = async (
 ) => {
   const { appDirectory } = api.useAppContext();
   const {
-    output: { path: distPath = 'dist', enableSourceMap: sourceMap },
+    output: { path: distPath = 'dist' },
     tools: { speedy: userSpeedyConfig },
   } = api.useResolvedConfigContext();
-  const { target, watch, bundleOptions, outputPath, format } = config;
-  const { entry, platform, splitting, minify, external } = bundleOptions;
-
+  const { target, watch, bundleOptions, outputPath, format, sourceMap } =
+    config;
+  const { entry, platform, splitting, minify, externals } = bundleOptions;
   const distDir = path.join(appDirectory, distPath, outputPath);
   const internalSpeedyConfig: CLIConfig = {
     command: 'build',
@@ -35,13 +35,12 @@ export const runSpeedy = async (
     },
     sourceMap,
     minify,
-    external,
+    external: externals,
   };
   const speedyConfig = applyOptionsChain(
     internalSpeedyConfig,
     userSpeedyConfig,
   );
-  console.info(speedyConfig);
   console.info('speedy', 'Build start');
   const startTime = new Date().getTime();
   const compiler = await SpeedyBundler.create(speedyConfig);

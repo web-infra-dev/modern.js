@@ -1,4 +1,5 @@
 import type { ImportStyleType } from '@modern-js/babel-preset-module';
+import type { CLIConfig as SpeedyConfig } from '@speedy-js/speedy-core';
 import type { LoggerText } from './features/build/logger/logText';
 import type { Platform } from './features/build/build-platform';
 import type {
@@ -7,7 +8,6 @@ import type {
   PackageModeType,
   PackageFields,
 } from './schema/types';
-import type { CLIConfig as SpeedyConfig } from '@speedy-js/speedy-core';
 
 export type { Platform } from './features/build/build-platform';
 export type { ITsconfig } from './utils/tsconfig';
@@ -28,6 +28,7 @@ export interface IBuildFeatOption {
   clear?: boolean;
   styleOnly?: boolean;
   outputPath: string;
+  legacyTsc: boolean;
 }
 
 export interface IPackageModeValue {
@@ -45,8 +46,7 @@ declare module '@modern-js/core' {
   interface OutputConfig {
     assetsPath?: string;
     buildPreset?: BuildPreset;
-    buildConfig?: BuildConfig[] | BuildConfig;
-    enableSourceMap?: boolean;
+    buildConfig?: BuildConfig;
     importStyle?: ImportStyleType;
     packageMode?: PackageModeType;
     packageFields?: PackageFields;

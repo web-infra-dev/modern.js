@@ -1,9 +1,10 @@
-import { Import } from '@modern-js/utils';
+import { Import, lodash } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type {
-  BuildPreset,
   BuildConfig,
   JsSyntaxType,
+  BaseBuildConfig,
+  SourceMap,
 } from '../../schema/types';
 import type { IBuildFeatOption } from '../../types';
 import { cliTsConfigDefaultValue } from '../../utils/constants';
@@ -17,70 +18,75 @@ const constants: typeof import('./constants') = Import.lazy(
   require,
 );
 
+const legacyConstants: typeof import('./legacy-constants') = Import.lazy(
+  './legacy-constants',
+  require,
+);
+
 export const getNormalizeModuleConfigByPackageModeAndFileds = (
   api: PluginAPI,
   buildFeatOption: IBuildFeatOption,
-): NormalizedBuildConfig[] => {
+): BuildConfig => {
   const {
-    output: { packageMode, packageFields },
+    output: { packageMode, packageFields, disableTsChecker, importStyle },
   } = api.useResolvedConfigContext();
-  let configs: NormalizedBuildConfig[] = [];
-  const commonConfig = {
-    bundle: false,
-    watch: false,
-    dts: true,
+  let configs: BuildConfig = [];
+  const commonConfig: BaseBuildConfig & { outputStylePath?: string } = {
+    buildType: 'bundleless',
     bundlelessOptions: {
       sourceDir: 'src',
+      style: {
+        path: '../styles',
+        compileMode: false,
+      },
+      static: {
+        path: '../styles',
+      },
     },
-    tsconfig: './tsconfig.json',
+    outputPath: './',
     // Compatible field, to be removed in the next release, not visible to users
-    ignoreSingleFormatDir: true,
     outputStylePath: 'js/styles',
   };
 
-  commonConfig.watch = buildFeatOption.enableWatchMode || false;
   commonConfig.tsconfig = getFinalTsconfig(commonConfig, buildFeatOption);
-  commonConfig.dts = getFinalDts(commonConfig, buildFeatOption);
 
-  // When both bundle and bundless products exist, they are distinguished by bundle and bundless directory names by default
+  // When both bundle and bundleless products exist, they are distinguished by bundle and bundleless directory names by default
   if (
     !packageFields ||
     (typeof packageFields === 'object' &&
       Object.keys(packageFields).length === 0)
   ) {
     const buildConfigs =
-      constants.PACKAGE_MODES[packageMode || constants.DEFAULT_PACKAGE_MODE];
-    configs = buildConfigs.map<NormalizedBundlelessBuildConfig>(config => ({
-      ...config,
-      ...commonConfig,
-    }));
+      legacyConstants.PACKAGE_MODES[
+        packageMode || legacyConstants.DEFAULT_PACKAGE_MODE
+      ];
+    configs = buildConfigs.map<NormalizedBundlelessBuildConfig>(config =>
+      lodash.mergeWith({}, commonConfig, config),
+    );
   } else {
     const getConfigsByJsSyntaxType = (
       js: JsSyntaxType,
       outputPath: string,
     ): NormalizedBuildConfig => {
       if (js === 'CJS+ES6') {
-        return {
+        return lodash.mergeWith({}, commonConfig, {
           format: 'cjs',
           target: 'es6',
           outputPath,
-          ...commonConfig,
-        };
+        });
       } else if (js === 'ESM+ES5') {
-        return {
+        return lodash.mergeWith({}, commonConfig, {
           format: 'esm',
           target: 'es5',
           outputPath,
-          ...commonConfig,
-        };
+        });
       }
 
-      return {
+      return lodash.mergeWith({}, commonConfig, {
         format: 'esm',
         target: 'es6',
         outputPath,
-        ...commonConfig,
-      };
+      });
     };
     if (!packageFields.modern && !packageFields.main && !packageFields.module) {
       throw new Error(
@@ -106,35 +112,40 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
     }
   }
 
-  return configs;
-};
-
-export const getOutputPath = (option: {
-  mixedMode: boolean;
-  bundle: boolean;
-}) => {
-  // When both bundle and bundless products exist,
-  // they are distinguished by bundle and bundless directory names by default
-  if (option.mixedMode) {
-    return option.bundle
-      ? constants.defaultBundleDirname
-      : constants.defaultBundlessDirname;
+  if (configs.length > 0) {
+    const firstConfig = configs[0] as NormalizedBundlelessBuildConfig;
+    firstConfig.bundlelessOptions = lodash.mergeWith(
+      {},
+      firstConfig.bundlelessOptions,
+      {
+        style: {
+          compileMode:
+            importStyle === 'source-code' ? 'only-source-code' : 'all',
+        },
+      },
+    );
   }
 
-  return './';
-};
+  // [compatibe mode]: dts gen
+  if (buildFeatOption.legacyTsc && !disableTsChecker) {
+    configs.push({
+      buildType: 'bundleless',
+      outputPath: './types',
+      enableDts: true,
+      dtsOnly: true,
+    });
+  }
 
-export const checkMixedMode = (buildConfigs: BuildConfig[]) => {
-  let bundle = false;
-  let bundless = false;
-  return buildConfigs.some(buildConfig => {
-    if (buildConfig.bundle) {
-      bundle = true;
-    } else {
-      bundless = true;
-    }
-    return bundle && bundless;
+  configs.push({
+    buildType: 'bundleless',
+    outputPath: './styles',
+    bundlelessOptions: {
+      sourceDir: './styles',
+      style: { compileMode: 'only-compied-code' },
+    },
   });
+
+  return configs;
 };
 
 export const getFinalTsconfig = (
@@ -151,41 +162,75 @@ export const getFinalTsconfig = (
   return config.tsconfig ?? 'tsconfig.json';
 };
 export const getFinalDts = (
-  config: { dts?: boolean },
+  config: Pick<BaseBuildConfig, 'enableDts'>,
   buildFeatOption: IBuildFeatOption,
 ) => {
-  if (!buildFeatOption.enableDtsGen) {
-    return false;
+  // when `build --dts`, then all build tasks`s enableDts is true
+  if (buildFeatOption.enableDtsGen) {
+    return true;
   }
 
-  return config.dts ?? true;
+  return config.enableDts ?? false;
+};
+export const getSourceMap = (
+  config: Pick<BaseBuildConfig, 'sourceMap'>,
+  buildType: BaseBuildConfig['buildType'],
+): SourceMap => {
+  if (config.sourceMap !== undefined) {
+    return config.sourceMap;
+  }
+
+  return buildType === 'bundle';
 };
 
-export const normalizeModuleConfig = (
-  context: { buildFeatOption: IBuildFeatOption; api: PluginAPI },
-  preset?: BuildPreset,
-  config?: BuildConfig | BuildConfig[],
-): NormalizedBuildConfig[] => {
-  if (preset === 'library') {
-    return constants.defaultLibraryPreset;
-  } else if (preset === 'component') {
-    return constants.defaultComponentPreset;
+export const normalizeModuleConfig = (context: {
+  buildFeatOption: IBuildFeatOption;
+  api: PluginAPI;
+}): NormalizedBuildConfig[] => {
+  const { buildFeatOption, api } = context;
+  const {
+    output: { buildConfig, buildPreset },
+  } = api.useResolvedConfigContext();
+
+  if (buildConfig) {
+    return normalizeBuildConfig(context, buildConfig);
   }
 
-  const { buildFeatOption, api } = context;
+  if (buildPreset) {
+    const { unPresetConfigs, unPresetWithTargetConfigs } = constants;
+    if (unPresetConfigs[buildPreset]) {
+      return normalizeBuildConfig(context, unPresetConfigs[buildPreset]);
+    } else if (unPresetWithTargetConfigs[buildPreset]) {
+      return normalizeBuildConfig(
+        context,
+        unPresetWithTargetConfigs[buildPreset],
+      );
+    }
+
+    // If the buildPreset is not found, then it is used 'npm-library'
+    return normalizeBuildConfig(context, unPresetConfigs['npm-library']);
+  }
+
   // If the user does not configure output.babelPreset,
   // the configuration is generated based on packageMode and packageField
-  if (!config) {
-    return getNormalizeModuleConfigByPackageModeAndFileds(api, buildFeatOption);
-  }
+  const legacyBuildConfig = getNormalizeModuleConfigByPackageModeAndFileds(
+    api,
+    buildFeatOption,
+  );
+  return normalizeBuildConfig(context, legacyBuildConfig);
+};
+
+export const normalizeBuildConfig = (
+  context: { buildFeatOption: IBuildFeatOption; api: PluginAPI },
+  buildConfig: BuildConfig,
+): NormalizedBuildConfig[] => {
+  const { buildFeatOption } = context;
 
   // FIXME:throw error when preset is empty array
-  const configArray = Array.isArray(config) ? config : [config];
-  const mixedMode = checkMixedMode(configArray);
-  const normalizedModule = configArray.map(config => {
+  const configArray = Array.isArray(buildConfig) ? buildConfig : [buildConfig];
+  const normalizedModule: NormalizedBuildConfig[] = configArray.map(config => {
     const format = config.format ?? 'cjs';
     const target = config.target ?? 'esnext';
-    const bundle = config.bundle ?? false;
     const { bundleOptions } = config;
     const normalizedBundleOption = {
       ...bundleOptions,
@@ -200,21 +245,32 @@ export const normalizeModuleConfig = (
     };
     const watch = buildFeatOption.enableWatchMode || false;
     const tsconfig = getFinalTsconfig(config, buildFeatOption);
-    const dts = getFinalDts(config, buildFeatOption);
-    const outputPath =
-      config.outputPath ?? getOutputPath({ mixedMode, bundle });
-
-    return {
+    const enableDts = getFinalDts(config, buildFeatOption);
+    const outputPath = config.outputPath ?? './';
+    const sourceMap = getSourceMap(config, config.buildType);
+    const commmonConfig = {
       format,
       target,
-      bundle,
-      bundleOptions: normalizedBundleOption,
-      bundlelessOptions: normalizeBundlelessOptions,
       watch,
       tsconfig,
-      dts,
+      enableDts,
       outputPath,
+      dtsOnly: config.dtsOnly ?? false,
+      sourceMap,
     };
+    if (config.buildType === 'bundle') {
+      return {
+        ...commmonConfig,
+        buildType: 'bundle',
+        bundleOptions: normalizedBundleOption,
+      };
+    } else {
+      return {
+        ...commmonConfig,
+        buildType: 'bundleless',
+        bundlelessOptions: normalizeBundlelessOptions,
+      };
+    }
   });
 
   return normalizedModule;

@@ -7,5 +7,8 @@ export const build = async (
   api: PluginAPI,
   config: NormalizedBundleBuildConfig,
 ) => {
-  Promise.all([startRollup(api, config), runSpeedy(api, config)]);
+  const tasks = config.dtsOnly
+    ? [startRollup(api, config)]
+    : [runSpeedy(api, config), startRollup(api, config)];
+  await Promise.all(tasks);
 };

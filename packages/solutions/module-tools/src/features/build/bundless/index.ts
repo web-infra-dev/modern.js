@@ -9,10 +9,13 @@ export const build = async (
   api: PluginAPI,
   config: NormalizedBundlelessBuildConfig,
 ) => {
-  await Promise.all([
-    runBabelBuild(api, config),
-    genDts(api, config),
-    buildStyle(api, config),
-    copyStaticAssets(api, config),
-  ]);
+  const tasks = config.dtsOnly
+    ? [genDts(api, config)]
+    : [
+        runBabelBuild(api, config),
+        genDts(api, config),
+        buildStyle(api, config),
+        copyStaticAssets(api, config),
+      ];
+  await Promise.all(tasks);
 };
