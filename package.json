@@ -29,6 +29,7 @@
     "deploy": "modern deploy",
     "bump": "modern bump",
     "pre": "modern pre",
+    "change-status": "modern change-status",
     "release": "modern release --ignore-scripts",
     "fix:lockfile": "pnpm install --fix-lockfile",
     "update:lockfile": "pnpm install --lockfile-only"
