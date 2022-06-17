@@ -97,6 +97,8 @@ export default defineConfig({
 
 ### addRules
 
+- 类型： `(rules: RuleSetRule | RuleSetRule[]) => void`
+
 通常情况下，使用 Modern.js 不需要添加额外的 [webpack rule](https://webpack.js.org/configuration/module/#rule-conditions)。当有额外需求时，可以使用该工具函数添加对应的 rules。
 
 以处理 [cson](https://github.com/groupon/cson-parser) 文件为例：
@@ -105,10 +107,21 @@ export default defineConfig({
 export default defineConfig({
   tools: {
     webpack: (config, { addRules }) => {
+      // 添加单条规则
+      addRules({
+        test: /\.cson/,
+        loader: require.resolve('cson-loader'),
+      });
+
+      // 以数组形式添加多条规则
       addRules([
         {
-          test: /\.cson/,
-          loader: require.resolve('cson-loader'),
+          test: /\.foo/,
+          loader: require.resolve('foo-loader'),
+        },
+        {
+          test: /\.bar/,
+          loader: require.resolve('bar-loader'),
         },
       ]);
     },
@@ -118,17 +131,23 @@ export default defineConfig({
 
 ### prependPlugins
 
-在内部 webpack 插件数组头部添加额外的插件：
+- 类型： `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
+
+在内部 webpack 插件数组头部添加额外的插件（数组头部的插件会优先执行）。
 
 ```ts title="modern.config.ts"
 export default defineConfig({
   tools: {
     webpack: (config, { prependPlugins, webpack }) => {
-      prependPlugins([
+      // 添加单个插件
+      prependPlugins(
         new webpack.BannerPlugin({
           banner: 'hello world!',
         }),
-      ]);
+      );
+
+      // 以数组形式添加多个插件
+      prependPlugins([new PluginA(), new PluginB()]);
     },
   },
 });
@@ -136,23 +155,31 @@ export default defineConfig({
 
 ### appendPlugins
 
-在内部 webpack 插件数组尾部添加额外的插件：
+- 类型： `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
+
+在内部 webpack 插件数组尾部添加额外的插件（数组尾部的插件会在最后执行）。
 
 ```ts title="modern.config.ts"
 export default defineConfig({
   tools: {
     webpack: (config, { appendPlugins, webpack }) => {
+      // 添加单个插件
       appendPlugins([
         new webpack.BannerPlugin({
           banner: 'hello world!',
         }),
       ]);
+
+      // 以数组形式添加多个插件
+      appendPlugins([new PluginA(), new PluginB()]);
     },
   },
 });
 ```
 
 ### removePlugin
+
+- 类型： `(name: string) => void`
 
 删除内部的 webpack 插件，参数为该插件的 `constructor.name`。
 

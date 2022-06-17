@@ -1,5 +1,9 @@
-import { CHAIN_ID } from '@modern-js/utils';
-import type { Configuration, RuleSetRule } from 'webpack';
+import { CHAIN_ID, ensureArray } from '@modern-js/utils';
+import type {
+  Configuration,
+  RuleSetRule,
+  WebpackPluginInstance,
+} from 'webpack';
 import type WebpackChain from '@modern-js/utils/webpack-chain';
 import { BundleAnalyzerPlugin } from '../../compiled/webpack-bundle-analyzer';
 import {
@@ -23,32 +27,17 @@ export function enableBundleAnalyzer(
 
 export function getWebpackUtils(config: Configuration) {
   return {
-    addRules(rules: RuleSetRule[]) {
-      if (Array.isArray(rules)) {
-        config.module?.rules?.unshift(...rules);
-      } else {
-        throw new TypeError(
-          'The argument of `addRules` function should be array type, please check the `tools.webpack` config.',
-        );
-      }
+    addRules(rules: RuleSetRule | RuleSetRule[]) {
+      const ruleArr = ensureArray(rules);
+      config.module?.rules?.unshift(...ruleArr);
     },
-    prependPlugins(plugins: Configuration['plugins']) {
-      if (Array.isArray(plugins)) {
-        config.plugins?.unshift(...plugins);
-      } else {
-        throw new TypeError(
-          'The argument of `prependPlugins` function should be array type, please check the `tools.webpack` config.',
-        );
-      }
+    prependPlugins(plugins: WebpackPluginInstance | WebpackPluginInstance[]) {
+      const pluginArr = ensureArray(plugins);
+      config.plugins?.unshift(...pluginArr);
     },
-    appendPlugins(plugins: Configuration['plugins']) {
-      if (Array.isArray(plugins)) {
-        config.plugins?.push(...plugins);
-      } else {
-        throw new TypeError(
-          'The argument of `appendPlugins` function should be array type, please check the `tools.webpack` config.',
-        );
-      }
+    appendPlugins(plugins: WebpackPluginInstance | WebpackPluginInstance[]) {
+      const pluginArr = ensureArray(plugins);
+      config.plugins?.push(...pluginArr);
     },
     removePlugin(pluginName: string) {
       config.plugins = config.plugins?.filter(
