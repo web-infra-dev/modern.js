@@ -1,11 +1,10 @@
-import { RouterSchemaDescriptor } from 'farrow-http/dist/router';
-import { MarkReadOnlyDeep } from 'farrow-http/dist/types';
 import {
   TypeOfFieldDescriptor,
   TypeOfFieldDescriptors,
   FieldDescriptor,
   FieldDescriptors,
 } from 'farrow-schema';
+import { MarkReadOnlyDeep, RouterSchemaDescriptor } from './types';
 
 export type RequestBaseSchema = {
   params?: RouterSchemaDescriptor;
