@@ -1,4 +1,3 @@
-import { TypeOfRouterRequestField } from 'farrow-http/dist/router';
 import {
   FieldDescriptors,
   SchemaCtorInput,
@@ -12,6 +11,7 @@ import {
   Validator,
   ValidationError,
 } from 'farrow-schema/validator';
+import type { TypeOfRouterRequestField } from './types';
 
 import {
   RequestSchema,
