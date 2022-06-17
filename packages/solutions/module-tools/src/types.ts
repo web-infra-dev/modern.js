@@ -44,7 +44,10 @@ interface ToolsConfig {
 
 declare module '@modern-js/core' {
   interface OutputConfig {
+    /** @deprecated Use the `buildConfig.bundlelessOptions.static.path` instead . */
     assetsPath?: string;
+    /** @deprecated Use the `buildConfig.sourceMap` instead */
+    disableSourceMap?: boolean;
     buildPreset?: BuildPreset;
     buildConfig?: BuildConfig;
     importStyle?: ImportStyleType;

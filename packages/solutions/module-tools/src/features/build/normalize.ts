@@ -31,7 +31,31 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
     output: { packageMode, packageFields, disableTsChecker, importStyle },
   } = api.useResolvedConfigContext();
   let configs: BuildConfig = [];
-  const commonConfig: BaseBuildConfig & { outputStylePath?: string } = {
+
+  if (buildFeatOption.styleOnly) {
+    configs.push({
+      buildType: 'bundleless',
+      outputPath: './js/styles',
+      bundlelessOptions: {
+        sourceDir: './src',
+        style: {
+          compileMode:
+            importStyle === 'source-code' ? 'only-source-code' : 'all',
+        },
+      },
+    });
+    configs.push({
+      buildType: 'bundleless',
+      outputPath: './styles',
+      bundlelessOptions: {
+        sourceDir: './styles',
+        style: { compileMode: 'only-compied-code' },
+      },
+    });
+    return configs;
+  }
+
+  const commonConfig: BaseBuildConfig = {
     buildType: 'bundleless',
     bundlelessOptions: {
       sourceDir: 'src',
@@ -44,8 +68,6 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
       },
     },
     outputPath: './',
-    // Compatible field, to be removed in the next release, not visible to users
-    outputStylePath: 'js/styles',
   };
 
   commonConfig.tsconfig = getFinalTsconfig(commonConfig, buildFeatOption);

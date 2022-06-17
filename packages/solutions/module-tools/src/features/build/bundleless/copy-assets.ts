@@ -7,8 +7,6 @@ const copyUtils: typeof import('../../../utils/copy') = Import.lazy(
   '../../../utils/copy',
   require,
 );
-
-// const STYLE_DIRS = 'styles';
 const SRC_DIRS = 'src';
 
 const copyAssets = ({
@@ -33,16 +31,21 @@ const copyAssets = ({
   }
 };
 
-const watchAssets = ({
-  targetDir,
-  outputDir,
-}: {
-  targetDir: string;
-  outputDir: string;
-}) => {
+const watchAssets = (
+  api: PluginAPI,
+  {
+    targetDir,
+    outputDir,
+  }: {
+    targetDir: string;
+    outputDir: string;
+  },
+) => {
+  const appContext = api.useAppContext();
+  const modernConfig = api.useResolvedConfigContext();
   watch(
     `${targetDir}/**/*.*`,
-    ({ changeType, changedFilePath }) => {
+    async ({ changeType, changedFilePath }) => {
       if (changeType === WatchChangeType.UNLINK) {
         const removeFile = path.normalize(
           `${outputDir}/${path.relative(targetDir, changedFilePath)}`,
@@ -52,6 +55,7 @@ const watchAssets = ({
       }
       const file = path.relative(targetDir, changedFilePath);
       fs.copyFileSync(changedFilePath, path.resolve(outputDir, file));
+      await copyUtils.copyTask({ modernConfig, appContext });
     },
     ['**/*.{js,jsx,ts,tsx,d.ts,scss,less,css,sass}'],
   );
@@ -68,10 +72,10 @@ export const copyStaticAssets = async (
   const { outputPath, bundlelessOptions = {} } = config;
   const { static: { path: staticPath = './' } = { path: './' } } =
     bundlelessOptions;
-  const srcDir = path.join(appDirectory, SRC_DIRS);
-  // const outputDirToSrc = outputStylePath
-  //   ? path.join(appDirectory, distPath, outputStylePath)
-  //   : path.join(appDirectory, distPath, outputPath, staticPath);
+  const srcDir = path.join(
+    appDirectory,
+    bundlelessOptions.sourceDir ?? SRC_DIRS,
+  );
   const outputDirToSrc = path.join(
     appDirectory,
     distPath,
@@ -79,9 +83,9 @@ export const copyStaticAssets = async (
     staticPath,
   );
   copyAssets({ targetDir: srcDir, outputDir: outputDirToSrc });
+  await copyUtils.copyTask({ modernConfig, appContext });
 
   if (config.watch) {
-    watchAssets({ targetDir: srcDir, outputDir: outputDirToSrc });
+    watchAssets(api, { targetDir: srcDir, outputDir: outputDirToSrc });
   }
-  await copyUtils.copyTask({ modernConfig, appContext });
 };

@@ -23,6 +23,4 @@ export type NormalizedBundlelessBuildConfig = {
   buildType: 'bundleless';
 } & CommonNormalizedBuildConfig & {
     bundlelessOptions: BundlelessOptions;
-    // Compatible field, to be removed in the next release, not visible to users
-    outputStylePath?: string;
   };

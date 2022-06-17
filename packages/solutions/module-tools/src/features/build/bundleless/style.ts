@@ -49,7 +49,7 @@ const generatorFileOrLogError = (
       fs.writeFileSync(file.filename, file.content);
     }
     if (successMessage) {
-      console.info(successMessage);
+      // console.info(successMessage);
     }
   } else {
     for (const file of result.errors) {
@@ -224,8 +224,6 @@ export const buildStyle = async (
       { modernConfig },
       { onLast: async (_: any) => undefined },
     );
-
-  console.info(bundlelessOptions);
 
   const sassOption = await core
     .mountHook()
