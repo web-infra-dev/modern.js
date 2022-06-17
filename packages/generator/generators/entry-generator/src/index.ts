@@ -63,7 +63,7 @@ const refactorSingleEntry = async (
         return files.length;
       }
       return (
-        filePath !== '.eslintrc.json' && filePath !== 'modern-app-env.d.ts'
+        filePath !== '.eslintrc.json' && filePath !== '.eslintrc.js' && filePath !== 'modern-app-env.d.ts'
       );
     })
     .map(file =>
