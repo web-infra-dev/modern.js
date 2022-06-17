@@ -153,7 +153,7 @@ export default (): ServerPlugin => ({
   name: '@modern-js/plugin-egg',
   pre: ['@modern-js/plugin-bff'],
   setup: api => ({
-    async prepareApiServer({ pwd, mode, config }) {
+    async prepareApiServer({ pwd, mode, config, prefix }) {
       const apiDir = path.join(pwd, API_DIR);
       const appContext = api.useAppContext();
       const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
@@ -166,6 +166,9 @@ export default (): ServerPlugin => ({
       });
 
       const { router } = app;
+      if (prefix) {
+        router.prefix(prefix);
+      }
 
       // remove routes first
       app.middleware.splice(app.middleware.length - 1, 1);

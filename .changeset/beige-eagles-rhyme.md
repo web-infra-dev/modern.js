@@ -1,16 +1,16 @@
 ---
-'@modern-js/plugin-bff': patch
-'@modern-js/testing-plugin-bff': patch
-'@modern-js/adapter-helpers': patch
-'@modern-js/bff-core': patch
-'@modern-js/bff-runtime': patch
-'@modern-js/bff-utils': patch
-'@modern-js/server-core': patch
-'@modern-js/plugin-egg': patch
-'@modern-js/plugin-express': patch
-'@modern-js/plugin-koa': patch
-'@modern-js/plugin-nest': patch
-'@modern-js/server': patch
+'@modern-js/plugin-bff': minor
+'@modern-js/testing-plugin-bff': minor
+'@modern-js/adapter-helpers': minor
+'@modern-js/bff-core': minor
+'@modern-js/bff-runtime': minor
+'@modern-js/bff-utils': minor
+'@modern-js/server-core': minor
+'@modern-js/plugin-egg': minor
+'@modern-js/plugin-express': minor
+'@modern-js/plugin-koa': minor
+'@modern-js/plugin-nest': minor
+'@modern-js/server': minor
 ---
 
-fix: fit framework
+feat: support bff operators

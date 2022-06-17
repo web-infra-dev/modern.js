@@ -6,8 +6,15 @@ import {
   HttpMethod,
   TriggerType,
   ApiMiddleware,
+  ResponseMetaType,
+  MetadataHelper,
 } from '../types';
 import { ValidationError } from '../errors/http';
+
+export interface ResponseMeta {
+  type: ResponseMetaType;
+  value: unknown;
+}
 
 const validateInput = async <T>(schema: z.ZodType<T>, input: unknown) => {
   try {
@@ -121,11 +128,28 @@ export const Headers = <T>(
   };
 };
 
+const setResponseMeta = (
+  helper: MetadataHelper,
+  type: ResponseMetaType,
+  value: ResponseMeta['value'],
+) => {
+  const responseMetaData =
+    helper.getMetadata<ResponseMeta[]>(HttpMetadata.Response) || [];
+
+  helper.setMetadata(HttpMetadata.Response, [
+    ...responseMetaData,
+    {
+      type,
+      value,
+    },
+  ]);
+};
+
 export const HttpCode = (statusCode: number): Operator<void> => {
   return {
     name: 'HttpCode',
-    metadata({ setMetadata }) {
-      setMetadata(HttpMetadata.StatusCode, statusCode);
+    metadata(helper) {
+      setResponseMeta(helper, ResponseMetaType.StatusCode, statusCode);
     },
   };
 };
@@ -133,8 +157,8 @@ export const HttpCode = (statusCode: number): Operator<void> => {
 export const SetHeaders = (headers: Record<string, string>): Operator<void> => {
   return {
     name: 'SetHeaders',
-    metadata({ setMetadata }) {
-      setMetadata(HttpMetadata.ResponseHeaders, headers);
+    metadata(helper) {
+      setResponseMeta(helper, ResponseMetaType.Headers, headers);
     },
   };
 };
@@ -142,8 +166,8 @@ export const SetHeaders = (headers: Record<string, string>): Operator<void> => {
 export const Redirect = (url: string): Operator<void> => {
   return {
     name: 'Redirect',
-    metadata({ setMetadata }) {
-      setMetadata(HttpMetadata.Redirect, url);
+    metadata(helper) {
+      setResponseMeta(helper, ResponseMetaType.Redirect, url);
     },
   };
 };

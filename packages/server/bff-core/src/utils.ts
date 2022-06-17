@@ -1,6 +1,9 @@
 import util from 'util';
+import { createDebugger } from '@modern-js/utils';
 
-export const HANDLER_WITH_META = 'HANDLER_WITH_SCHEMA';
+export const HANDLER_WITH_META = 'HANDLER_WITH_META';
+
+export const debug = createDebugger('bff');
 
 // export const pick = <T extends Record<string, unknown>, K extends keyof T>(
 //   obj: T,

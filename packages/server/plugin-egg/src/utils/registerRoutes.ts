@@ -10,7 +10,7 @@ const debug = createDebugger('plugin-egg');
 
 const registerRoutes = (router: Router, handlerInfos: APIHandlerInfo[]) => {
   sortDynamicRoutes(handlerInfos);
-  handlerInfos.forEach(({ routePath, handler, httpMethod }) => {
+  handlerInfos.forEach(({ routePath, routeName, handler, httpMethod }) => {
     const wrappedHandler = async (ctx: Context) => {
       const input = await getInputFromRequest(ctx);
 
@@ -42,7 +42,7 @@ const registerRoutes = (router: Router, handlerInfos: APIHandlerInfo[]) => {
     if (isNormalMethod(httpMethod)) {
       const method = httpMethod.toLowerCase();
       debug('route', method, routePath);
-      (router as any)[method](routePath, wrappedHandler);
+      (router as any)[method](routeName, wrappedHandler);
     } else {
       throw new Error(`Unknown HTTP Method: ${httpMethod}`);
     }

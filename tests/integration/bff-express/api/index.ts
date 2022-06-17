@@ -5,6 +5,7 @@ import {
   Post,
   Query,
   Headers,
+  useContext,
 } from '@modern-js/runtime/server';
 import { z } from 'zod';
 
@@ -39,6 +40,8 @@ export const postHello = Api(
   Data(DataSchema),
   Headers(HeadersSchema),
   async ({ query, data, params, headers }) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const ctx = useContext();
     return {
       params,
       query,

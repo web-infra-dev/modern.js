@@ -1,10 +1,7 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-var-requires */
 import * as ptr from 'path-to-regexp';
-// import type { Test } from 'supertest';
-import { APIHandlerInfo } from '@modern-js/bff-core';
 import * as mock_appModule from './app';
-// import { getAllAPIInfos } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const mock_replaceUrlWithParams = (
@@ -49,8 +46,9 @@ const mock_getParamsAndPayload = (
 };
 
 export default (
+  // can't use APIHandlerInfo, https://github.com/aelbore/esbuild-jest/issues/57
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  mock_apiInfosByFile: Record<string, APIHandlerInfo[]>,
+  mock_apiInfosByFile: Record<string, any[]>,
   mock_app: any,
 ) => {
   const files = Object.keys(mock_apiInfosByFile);

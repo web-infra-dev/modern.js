@@ -49,12 +49,11 @@ export const generateClient = async ({
   const apiRouter = new ApiRouter({
     apiDir,
     prefix,
-    lambdaDir: apiDir,
   });
 
   const handlerInfos = apiRouter.getSingleModuleHandlers(resourcePath);
   if (!handlerInfos) {
-    return Err(`Cannot require module ${resourcePath}`);
+    return Err(`generate client error: Cannot require module ${resourcePath}`);
   }
 
   let handlersCode = '';

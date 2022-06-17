@@ -14,5 +14,3 @@ export type {
 } from './response';
 
 export type { RequestOption } from './compatible';
-
-export * from '@modern-js/bff-core';

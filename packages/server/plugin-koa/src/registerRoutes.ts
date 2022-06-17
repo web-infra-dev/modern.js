@@ -1,79 +1,14 @@
-import { HttpMethod, httpMethods, APIHandlerInfo } from '@modern-js/bff-core';
-import { isSchemaHandler, InputType } from '@modern-js/bff-runtime';
+import { APIHandlerInfo } from '@modern-js/bff-core';
 import Router from 'koa-router';
-import { Context } from 'koa';
-import typeIs from 'type-is';
-import { sortDynamicRoutes } from '@modern-js/adapter-helpers';
-import { createDebugger } from '@modern-js/utils';
-
-const debug = createDebugger('koa');
+import { createRouteHandler } from './utils';
 
 const registerRoutes = (router: Router, handlerInfos: APIHandlerInfo[]) => {
-  sortDynamicRoutes(handlerInfos);
-  debug('handlerInfos', handlerInfos);
-
   handlerInfos.forEach(({ routePath, handler, httpMethod }) => {
-    const wrappedHandler = async (ctx: Context) => {
-      const input = await getInputFromRequest(ctx);
+    const routeHandler = createRouteHandler(handler);
 
-      if (isSchemaHandler(handler)) {
-        const result = await handler(input);
-        if (result.type !== 'HandleSuccess') {
-          if (result.type === 'InputValidationError') {
-            ctx.status = 400;
-          } else {
-            ctx.status = 500;
-          }
-          ctx.body = result.message;
-        } else {
-          ctx.body = result.value;
-        }
-      } else {
-        const args = Object.values(input.params as any).concat(input);
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        ctx.body = await handler(...args);
-      }
-    };
-
-    Object.defineProperties(
-      wrappedHandler,
-      Object.getOwnPropertyDescriptors(handler),
-    );
-
-    if (isNormalMethod(httpMethod)) {
-      const method = httpMethod.toLowerCase();
-      (router as any)[method](routePath, wrappedHandler);
-    } else {
-      throw new Error(`Unknown HTTP Method: ${httpMethod}`);
-    }
+    const method = httpMethod.toLowerCase();
+    (router as any)[method](routePath, routeHandler);
   });
 };
 
-const isNormalMethod = (httpMethod: HttpMethod): httpMethod is HttpMethod =>
-  httpMethods.includes(httpMethod);
-
 export default registerRoutes;
-
-const getInputFromRequest = async (ctx: Context): Promise<InputType> => {
-  const draft: Record<string, any> = {
-    params: ctx.params,
-    query: ctx.query,
-    headers: ctx.headers,
-    cookies: ctx.headers.cookie,
-  };
-
-  if (typeIs.is(ctx.request.type, ['application/json'])) {
-    draft.data = ctx.request.body;
-  } else if (typeIs.is(ctx.request.type, ['multipart/form-data'])) {
-    draft.formData = ctx.request.files;
-  } else if (
-    typeIs.is(ctx.request.type, ['application/x-www-form-urlencoded'])
-  ) {
-    draft.formUrlencoded = ctx.request.body;
-  } else {
-    draft.body = ctx.request.body;
-  }
-
-  return draft as any;
-};

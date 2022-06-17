@@ -63,7 +63,8 @@
     "jest": "^27",
     "koa": "^2.13.3",
     "supertest": "^6.1.6",
-    "typescript": "^4"
+    "typescript": "^4",
+    "zod": "^3.17.3"
   },
   "modernConfig": {
     "output": {

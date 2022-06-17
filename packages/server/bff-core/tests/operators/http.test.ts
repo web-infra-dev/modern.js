@@ -6,9 +6,10 @@ import {
   Query,
   HttpCode,
   ValidationError,
-  HttpMetadata,
   SetHeaders,
   Redirect,
+  ResponseMetaType,
+  HttpMetadata,
 } from '../../src';
 
 describe('test api function', () => {
@@ -88,12 +89,17 @@ describe('test api function', () => {
       },
     );
 
-    const httpCode = Reflect.getMetadata(HttpMetadata.StatusCode, handler);
-    const headers = Reflect.getMetadata(HttpMetadata.ResponseHeaders, handler);
-    const url = Reflect.getMetadata(HttpMetadata.Redirect, handler);
+    const responseMeta = Reflect.getMetadata(HttpMetadata.Response, handler);
+    expect(responseMeta).toHaveLength(3);
 
-    expect(httpCode).toBe(expectedStatusCode);
-    expect(headers).toEqual(expectedHeaders);
-    expect(url).toBe(expectedUrl);
+    const responseMetaTypes = responseMeta.map(
+      (meta: { type: ResponseMetaType; value: unknown }) => meta.type,
+    );
+
+    expect(responseMetaTypes).toEqual([
+      ResponseMetaType.StatusCode,
+      ResponseMetaType.Headers,
+      ResponseMetaType.Redirect,
+    ]);
   });
 });

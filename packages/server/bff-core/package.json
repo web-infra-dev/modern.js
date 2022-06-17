@@ -54,6 +54,11 @@
   "peerDependencies": {
     "zod": "^3.17.3"
   },
+  "peerDependenciesMeta": {
+    "zod": {
+      "optional": true
+    }
+  },
   "modernConfig": {
     "output": {
       "packageMode": "node-js"

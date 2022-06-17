@@ -1,14 +1,19 @@
 import path from 'path';
 import { fs, logger } from '@modern-js/utils';
 import 'reflect-metadata';
-import 'esbuild-register';
 import { HttpMethod, httpMethods, OperatorType, TriggerType } from '../types';
+import { debug } from '../utils';
 import {
   APIMode,
   FRAMEWORK_MODE_LAMBDA_DIR,
   API_FILE_RULES,
 } from './constants';
-import { getFiles, getPathFromFilename, requireHandlerModule } from './utils';
+import {
+  getFiles,
+  getPathFromFilename,
+  requireHandlerModule,
+  sortRoutes,
+} from './utils';
 import { ModuleInfo, ApiHandler, APIHandlerInfo } from './types';
 
 export * from './types';
@@ -43,6 +48,126 @@ export class ApiRouter {
     this.prefix = this.initPrefix(prefix);
     this.apiDir = apiDir;
     this.lambdaDir = lambdaDir || this.getLambdaDir(this.apiDir);
+  }
+
+  public isApiFile(filename: string) {
+    if (!this.apiFiles.includes(filename)) {
+      return false;
+    }
+    return true;
+  }
+
+  public getSingleModuleHandlers(filename: string) {
+    const moduleInfo = this.getModuleInfo(filename);
+    if (moduleInfo) {
+      return this.getModuleHandlerInfos(moduleInfo);
+    }
+    return null;
+  }
+
+  public getHandlerInfo(
+    filename: string,
+    originFuncName: string,
+    handler: ApiHandler,
+  ): APIHandlerInfo | null {
+    const httpMethod = this.getHttpMethod(originFuncName, handler);
+    const routeName = this.getRouteName(filename, handler);
+    if (httpMethod && routeName) {
+      return {
+        handler,
+        name: originFuncName,
+        httpMethod,
+        routeName,
+        filename,
+        routePath: this.getRoutePath(this.prefix, routeName),
+      };
+    }
+    return null;
+  }
+
+  // TODO: 性能提升，开发环境，判断下 lambda 目录修改时间
+  public getSafeRoutePath(filename: string, handler?: ApiHandler): string {
+    this.loadApiFiles();
+    this.validateValidApifile(filename);
+    return this.getRouteName(filename, handler);
+  }
+
+  public getRouteName(filename: string, handler?: ApiHandler): string {
+    if (handler) {
+      const trigger = Reflect.getMetadata(OperatorType.Trigger, handler);
+      if (trigger && trigger.type === TriggerType.Http) {
+        if (!trigger.path) {
+          throw new Error(
+            `The http trigger ${trigger.name} needs to specify a path`,
+          );
+        }
+        return trigger.path;
+      }
+    }
+    const routePath = getPathFromFilename(this.lambdaDir, filename);
+    return routePath;
+  }
+
+  public getHttpMethod(
+    originHandlerName: string,
+    handler?: ApiHandler,
+  ): HttpMethod | null {
+    if (handler) {
+      const trigger = Reflect.getMetadata(OperatorType.Trigger, handler);
+      if (trigger && httpMethods.includes(trigger.method)) {
+        return trigger.method;
+      }
+    }
+    const upperName = originHandlerName.toUpperCase();
+
+    switch (upperName) {
+      case 'GET':
+        return HttpMethod.Get;
+      case 'POST':
+        return HttpMethod.Post;
+      case 'PUT':
+        return HttpMethod.Put;
+      case 'DELETE':
+      case 'DEL':
+        return HttpMethod.Delete;
+      case 'CONNECT':
+        return HttpMethod.Connect;
+      case 'TRACE':
+        return HttpMethod.Trace;
+      case 'PATCH':
+        return HttpMethod.Patch;
+      case 'OPTION':
+        return HttpMethod.Option;
+      case 'DEFAULT': {
+        return HttpMethod.Get;
+      }
+      default:
+        logger.warn(
+          `Only api handlers are allowd to be exported, please remove the function ${originHandlerName} from exports`,
+        );
+        return null;
+    }
+  }
+
+  public loadApiFiles() {
+    // eslint-disable-next-line no-multi-assign
+    const apiFiles = (this.apiFiles = getFiles(this.lambdaDir, API_FILE_RULES));
+    return apiFiles;
+  }
+
+  public getApiFiles() {
+    if (this.apiFiles.length > 0) {
+      return this.apiFiles;
+    }
+    return this.loadApiFiles();
+  }
+
+  public getApiHandlers() {
+    const filenames = this.getApiFiles();
+    const moduleInfos = this.getModuleInfos(filenames);
+    const apiHandlers = this.getHandlerInfos(moduleInfos);
+    debug('apiHandlers', apiHandlers);
+    return apiHandlers;
   }
 
   /**
@@ -121,8 +246,8 @@ export class ApiRouter {
         apiHandlers = apiHandlers.concat(handlerInfos);
       }
     });
-
-    return apiHandlers;
+    const sortedHandlers = sortRoutes(apiHandlers);
+    return sortedHandlers;
   }
 
   private getModuleHandlerInfos(moduleInfo: ModuleInfo): APIHandlerInfo[] {
@@ -149,123 +274,5 @@ export class ApiRouter {
       return '/';
     }
     return `${prefix}${finalRouteName}`;
-  }
-
-  isApiFile(filename: string) {
-    if (!this.apiFiles.includes(filename)) {
-      return false;
-    }
-    return true;
-  }
-
-  getSingleModuleHandlers(filename: string) {
-    const moduleInfo = this.getModuleInfo(filename);
-    if (moduleInfo) {
-      return this.getModuleHandlerInfos(moduleInfo);
-    }
-    return null;
-  }
-
-  getHandlerInfo(
-    filename: string,
-    originFuncName: string,
-    handler: ApiHandler,
-  ): APIHandlerInfo | null {
-    const httpMethod = this.getHttpMethod(originFuncName, handler);
-    const routeName = this.getRouteName(filename, handler);
-    if (httpMethod && routeName) {
-      return {
-        handler,
-        name: originFuncName,
-        httpMethod,
-        routeName,
-        filename,
-        routePath: this.getRoutePath(this.prefix, routeName),
-      };
-    }
-    return null;
-  }
-
-  // TODO: 性能提升，开发环境，判断下 lambda 目录修改时间
-  getSafeRoutePath(filename: string, handler?: ApiHandler): string {
-    this.loadApiFiles();
-    this.validateValidApifile(filename);
-    return this.getRouteName(filename, handler);
-  }
-
-  getRouteName(filename: string, handler?: ApiHandler): string {
-    if (handler) {
-      const trigger = Reflect.getMetadata(OperatorType.Trigger, handler);
-      if (trigger && trigger.type === TriggerType.Http) {
-        if (!trigger.path) {
-          throw new Error(
-            `The http trigger ${trigger.name} needs to specify a path`,
-          );
-        }
-        return trigger.path;
-      }
-    }
-    const routePath = getPathFromFilename(this.lambdaDir, filename);
-    return routePath;
-  }
-
-  getHttpMethod(
-    originHandlerName: string,
-    handler?: ApiHandler,
-  ): HttpMethod | null {
-    if (handler) {
-      const trigger = Reflect.getMetadata(OperatorType.Trigger, handler);
-      if (trigger && httpMethods.includes(trigger.method)) {
-        return trigger.method;
-      }
-    }
-    const upperName = originHandlerName.toUpperCase();
-
-    switch (upperName) {
-      case 'GET':
-        return HttpMethod.Get;
-      case 'POST':
-        return HttpMethod.Post;
-      case 'PUT':
-        return HttpMethod.Put;
-      case 'DELETE':
-      case 'DEL':
-        return HttpMethod.Delete;
-      case 'CONNECT':
-        return HttpMethod.Connect;
-      case 'TRACE':
-        return HttpMethod.Trace;
-      case 'PATCH':
-        return HttpMethod.Patch;
-      case 'OPTION':
-        return HttpMethod.Option;
-      case 'DEFAULT': {
-        return HttpMethod.Get;
-      }
-      default:
-        logger.warn(
-          `Only api handlers are allowd to be exported, please remove the function ${originHandlerName} from exports`,
-        );
-        return null;
-    }
-  }
-
-  loadApiFiles() {
-    // eslint-disable-next-line no-multi-assign
-    const apiFiles = (this.apiFiles = getFiles(this.lambdaDir, API_FILE_RULES));
-    return apiFiles;
-  }
-
-  getApiFiles() {
-    if (this.apiFiles.length > 0) {
-      return this.apiFiles;
-    }
-    return this.loadApiFiles();
-  }
-
-  getApiHandlers() {
-    const filenames = this.getApiFiles();
-    const moduleInfos = this.getModuleInfos(filenames);
-    return this.getHandlerInfos(moduleInfos);
   }
 }

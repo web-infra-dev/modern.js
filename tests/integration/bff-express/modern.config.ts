@@ -1,6 +1,6 @@
 export default {
   server: {
-    ssr: false,
+    ssr: true,
   },
   bff: {
     prefix: '/bff-api',

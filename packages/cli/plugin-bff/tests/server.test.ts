@@ -1,6 +1,7 @@
 import path from 'path';
 import { serverManager, createPlugin } from '@modern-js/server-core';
 import plugin from '../src/server';
+import './helper';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};

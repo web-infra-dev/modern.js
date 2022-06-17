@@ -1,8 +1,9 @@
 import path from 'path';
 import { globby } from '@modern-js/utils';
-import { MaybeAsync } from '@modern-js/bff-runtime';
 import { INDEX_SUFFIX } from './constants';
+import { APIHandlerInfo } from './types';
 
+type MaybeAsync<I> = I | Promise<I>;
 export type NormalHandler = (...args: any[]) => any;
 export type Handler<I, O> = (input: I) => MaybeAsync<O>;
 
@@ -64,10 +65,25 @@ const isFunction = (input: any): input is (...args: any) => any =>
   input && {}.toString.call(input) === '[object Function]';
 
 export const requireHandlerModule = (modulePath: string) => {
+  const { register } = require('esbuild-register/dist/node');
+  const { unregister } = register({});
   const module = require(modulePath);
   if (isFunction(module)) {
     return { default: module };
   }
-
+  unregister();
   return module;
+};
+
+const routeValue = (routePath: string) => {
+  if (routePath.includes(':')) {
+    return 11;
+  }
+  return 1;
+};
+
+export const sortRoutes = (apiHandlers: APIHandlerInfo[]) => {
+  return apiHandlers.sort((handlerA, handlerB) => {
+    return routeValue(handlerA.routeName) - routeValue(handlerB.routeName);
+  });
 };

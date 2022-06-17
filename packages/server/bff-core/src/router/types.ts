@@ -1,4 +1,3 @@
-// import type { SchemaHandler } from '@modern-js/bff-runtime';
 import { HttpMethod } from '../types';
 
 export type ModuleInfo = {

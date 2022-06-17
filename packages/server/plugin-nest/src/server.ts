@@ -24,7 +24,7 @@ export default (): ServerPlugin => ({
   name: '@modern-js/plugin-nest',
   pre: ['@modern-js/plugin-bff'],
   setup: api => ({
-    prepareApiServer: async ({ config, pwd, mode }) => {
+    prepareApiServer: async ({ config, pwd, mode, prefix }) => {
       let app: INestApplication;
       const middlewareInputs = initMiddlewares(config?.middleware || []);
       const modules = middlewareInputs.filter(isModule);
@@ -54,6 +54,10 @@ export default (): ServerPlugin => ({
         app = await NestFactory.create(AppModule);
       }
 
+      if (prefix) {
+        app.setGlobalPrefix(prefix);
+      }
+
       middlewares.forEach(middleware => {
         app.use(middleware);
       });
@@ -70,9 +74,9 @@ export default (): ServerPlugin => ({
       server.use(bodyParser.json());
 
       handlerInfos.forEach(handler => {
-        const { routePath, httpMethod } = handler;
+        const { routeName, httpMethod } = handler;
         const setter = httpMethod.toLowerCase();
-        server[setter](routePath, getMiddleware(handler));
+        server[setter](routeName, getMiddleware(handler));
       });
 
       await app.init();
