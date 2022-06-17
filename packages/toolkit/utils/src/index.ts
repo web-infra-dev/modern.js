@@ -8,6 +8,7 @@ export * from './is';
 export * from './compatRequire';
 export * from './logger';
 export * from './constants';
+export * from './ensureArray';
 export * from './ensureAbsolutePath';
 export * from './clearConsole';
 export * from './applyOptionsChain';
