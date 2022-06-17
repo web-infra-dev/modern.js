@@ -72,15 +72,10 @@ const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
   resolveLog(childProgress, { tsCheck, watch });
   try {
     await childProgress;
-    console.info('[TSC Compiler]: Successfully');
+    // console.info('[TSC Compiler]: Successfully');
   } catch (e) {
-    if (!tsCheck) {
-      console.info(
-        `There are some type warnings, which can be checked by configuring 'output.disableTsChecker = false'`,
-      );
-    }
     // 通过使用 execa，可以将 tsc 的 data 类型的报错信息变为异常错误信息
-    else if (isObject(e) && e.stdout) {
+    if (isObject(e) && e.stdout) {
       console.error(e.stdout);
     } else {
       console.error(e);

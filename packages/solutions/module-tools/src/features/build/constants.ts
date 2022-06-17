@@ -1,3 +1,4 @@
+import { chalk } from '@modern-js/utils';
 import { BaseBuildConfig, Target } from '../../schema/types';
 
 export const runBabelCompilerTitle = 'Run babel compiler code log';
@@ -5,6 +6,9 @@ export const runTscWatchTitle = 'Run `tsc -w` log';
 export const runTscTitle = 'Run `tsc` log';
 export const runStyleCompilerTitle = 'Run style compiler code log';
 export const clearFlag = '\x1Bc';
+export const buildingText = chalk.blue('Building...');
+export const buildSuccessText = chalk.green('Build succeed');
+export const buildFailText = chalk.red('Build Failed:');
 
 export const targets: Target[] = [
   'es5',

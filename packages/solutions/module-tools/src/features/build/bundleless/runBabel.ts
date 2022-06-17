@@ -139,7 +139,7 @@ const outputDist = (outputResults: ICompilerResult) => {
   if (code === 0) {
     generatorRealFiles(virtualDists);
     // 执行成功log使用 console.info
-    console.info('[Babel Compiler]: Successfully');
+    // console.info('[Babel Compiler]: Successfully');
   } else if (messageDetails && messageDetails.length > 0) {
     console.error(message);
     for (const detail of messageDetails || []) {
@@ -194,7 +194,7 @@ export const runBabelBuild = async (
   });
   if (watch) {
     const emitter = result as BuildWatchEmitter;
-    console.info(emitter);
+    // console.info(emitter);
     emitter.on(babelCompiler.BuildWatchEvent.compiling, () => {
       console.info(logger.clearFlag, `Compiling...`);
     });

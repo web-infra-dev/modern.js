@@ -1,13 +1,15 @@
 import path from 'path';
-import { Import, fs } from '@modern-js/utils';
+import { Import, fs, logger } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type { IBuildFeatOption } from '../../types';
+import { ReadlineUtils } from '../../utils/readline';
 import { normalizeModuleConfig } from './normalize';
+import { buildingText, buildSuccessText, buildFailText } from './constants';
+import { ModuleBuildError, showModuleBuildError } from './error';
 
 const bundle: typeof import('./bundle') = Import.lazy('./bundle', require);
-
-const bundless: typeof import('./bundless') = Import.lazy(
-  './bundless',
+const bundleless: typeof import('./bundleless') = Import.lazy(
+  './bundleless',
   require,
 );
 
@@ -63,20 +65,32 @@ export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
     buildFeatOption: config,
     api,
   });
+  const buildTasks = normalizedModuleConfig.map(moduleConfig => {
+    if (moduleConfig.buildType === 'bundle') {
+      return bundle.build(api, moduleConfig);
+    } else {
+      return bundleless.build(api, moduleConfig, config);
+    }
+  });
 
-  await Promise.all(
-    normalizedModuleConfig.map(moduleConfig => {
-      if (moduleConfig.buildType === 'bundle') {
-        return bundle.build(api, {
-          // ...config,
-          ...moduleConfig,
-        });
-      } else {
-        return bundless.build(api, {
-          // ...config,
-          ...moduleConfig,
-        });
-      }
-    }),
-  );
+  logger.info(buildingText);
+
+  try {
+    // eslint-disable-next-line no-console
+    console.time(buildSuccessText);
+    await Promise.all([...buildTasks]);
+    // ReadlineUtils.clearPrevLine(process.stdout);
+    // eslint-disable-next-line no-console
+    console.timeEnd(buildSuccessText);
+  } catch (e) {
+    // ReadlineUtils.clearPrevLine(process.stdout);
+    if (e instanceof ModuleBuildError) {
+      console.info(buildFailText);
+      // console.error(e);
+      showModuleBuildError(e);
+    } else {
+      console.info('意外');
+      console.error(e);
+    }
+  }
 };

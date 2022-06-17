@@ -3,12 +3,13 @@ import { InputOptions, OutputOptions, Plugin } from 'rollup';
 import ts from 'typescript';
 import hashbangPlugin from 'rollup-plugin-hashbang';
 import jsonPlugin from '@rollup/plugin-json';
-import { Import } from '@modern-js/utils';
+import { Import, logger } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type { NormalizedBundleBuildConfig } from '../types';
+import { ModuleBuildError } from '../error';
 
-const logger: typeof import('../../../features/build/logger') = Import.lazy(
-  '../../../features/build/logger',
+const constants: typeof import('../constants') = Import.lazy(
+  '../constants',
   require,
 );
 
@@ -107,18 +108,11 @@ const getRollupConfig = async (
 
 async function runRollup(options: RollupConfig) {
   const { rollup } = await import('rollup');
+  const bundle = await rollup(options.inputConfig);
   try {
-    const start = Date.now();
-    const getDuration = () => {
-      return `${Math.floor(Date.now() - start)}ms`;
-    };
-    console.info('dts', 'Build start');
-    const bundle = await rollup(options.inputConfig);
     await bundle.write(options.outputConfig);
-    console.info('dts', `Build success in ${getDuration()}`);
-  } catch (error) {
-    console.error('dts', 'Build error');
-    console.error(error);
+  } catch (e) {
+    throw new ModuleBuildError(e);
   }
 }
 
@@ -133,12 +127,12 @@ async function watchRollup(options: {
     output: options.outputConfig,
   }).on('event', event => {
     if (event.code === 'START') {
-      console.info(logger.clearFlag);
-      console.info('dts', 'Build start');
+      console.info(constants.clearFlag);
+      logger.info('[Bunlde:DTS] Build start');
     } else if (event.code === 'BUNDLE_END') {
-      console.info('dts', `Build success in ${event.duration}ms`);
+      console.info(`[Bunlde:DTS]: Build success`);
     } else if (event.code === 'ERROR') {
-      console.error(logger.clearFlag, 'dts', 'Build failed');
+      console.error(constants.clearFlag, '[Bunlde:DTS]: Build failed');
       console.error(event.error);
     }
   });
