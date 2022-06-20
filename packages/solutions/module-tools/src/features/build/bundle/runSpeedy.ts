@@ -1,5 +1,6 @@
 import path from 'path';
 import { SpeedyBundler } from '@speedy-js/speedy-core';
+import { es5InputPlugin } from '@speedy-js/speedy-plugin-es5';
 import type { CLIConfig } from '@speedy-js/speedy-types';
 import type { PluginAPI } from '@modern-js/core';
 import { applyOptionsChain, ensureAbsolutePath } from '@modern-js/utils';
@@ -56,7 +57,7 @@ export const runSpeedy = async (
 ) => {
   const { appDirectory } = api.useAppContext();
   const {
-    output: { path: distPath = 'dist', disableSourceMap },
+    output: { path: distPath = 'dist' },
     tools: { speedy: userSpeedyConfig },
   } = api.useResolvedConfigContext();
   const { target, watch, bundleOptions, outputPath, format, sourceMap } =
@@ -65,6 +66,7 @@ export const runSpeedy = async (
   const distDir = path.join(appDirectory, distPath, outputPath);
   const alias = getAlias(api);
   const define = getDefine(api);
+  const plugins = target === 'es5' ? [es5InputPlugin] : [];
   const internalSpeedyConfig: CLIConfig = {
     command: 'build',
     mode: 'production',
@@ -82,10 +84,10 @@ export const runSpeedy = async (
     },
     resolve: { alias },
     define,
-    // TODO: disableSourceMap will remove at next version
-    sourceMap: disableSourceMap ? false : sourceMap,
+    sourceMap,
     minify,
     external: externals,
+    plugins,
   };
   const speedyConfig = applyOptionsChain(
     internalSpeedyConfig,

@@ -159,6 +159,7 @@ export const runBabelBuild = async (
     format,
     outputPath,
     watch,
+    sourceMap,
   } = config;
   const { appDirectory } = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
@@ -174,7 +175,7 @@ export const runBabelBuild = async (
   const buildConfig = {
     format,
     target,
-    babelConfig: bc.resolveBabelConfig(appDirectory, modernConfig, {
+    babelConfig: bc.resolveBabelConfig(appDirectory, modernConfig, sourceMap, {
       sourceAbsDir,
       tsconfigPath,
       syntax,

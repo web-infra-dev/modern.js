@@ -4,7 +4,8 @@ import {
 } from '@modern-js/babel-preset-module';
 import { applyOptionsChain, getAlias, isUseSSRBundle } from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
-import { IPackageModeValue } from '../types';
+import type { IPackageModeValue } from '../types';
+import type { SourceMap } from '../schema/types';
 
 export const getFinalAlias: any = (
   modernConfig: NormalizedConfig,
@@ -30,6 +31,7 @@ export const getFinalAlias: any = (
 export const resolveBabelConfig = (
   appDirectory: string,
   modernConfig: NormalizedConfig,
+  sourceMap: SourceMap,
   option: Pick<IPackageModeValue, 'syntax' | 'type'> & {
     sourceAbsDir: string;
     tsconfigPath: string;
@@ -37,7 +39,7 @@ export const resolveBabelConfig = (
 ) => {
   const {
     source: { envVars, globalVars, jsxTransformRuntime = 'automatic' },
-    output: { importStyle, enableSourceMap, buildPreset },
+    output: { importStyle, buildPreset },
     tools: { lodash: userLodashOption, styledComponents },
   } = modernConfig;
 
@@ -84,7 +86,7 @@ export const resolveBabelConfig = (
 
   // Preventing warning when files are too large
   internalBabelConfig.compact = false;
-  internalBabelConfig.sourceMaps = enableSourceMap || undefined;
+  internalBabelConfig.sourceMaps = sourceMap === 'external' ? true : sourceMap;
 
   const userBabelConfig = modernConfig.tools.babel;
   return applyUserBabelConfig(internalBabelConfig, userBabelConfig);

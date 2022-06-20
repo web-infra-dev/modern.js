@@ -63,90 +63,119 @@ Array [
     Object {
       "schema": Object {
         "else": Object {
-          "oneOf": Array [
-            Object {
+          "properties": Object {
+            "buildType": Object {
+              "enum": Array [
+                "bundle",
+                "bundleless",
+              ],
+            },
+            "bundleOptions": Object {
               "properties": Object {
-                "bundle": Object {
-                  "type": "boolean",
-                },
-                "bundleOption": Object {
-                  "properties": Object {
-                    "entry": Object {
-                      "type": "object",
-                    },
-                    "external": Object {
-                      "items": Array [
-                        Object {
-                          "type": "string",
-                        },
-                      ],
-                      "type": "array",
-                    },
-                    "minify": Object {
-                      "enum": Array [
-                        "esbuild",
-                        "terser",
-                        false,
-                      ],
-                    },
-                    "platform": Object {
-                      "enum": Array [
-                        "node",
-                        "browser",
-                      ],
-                    },
-                    "splitting": Object {
-                      "type": "boolean",
-                    },
-                  },
+                "entry": Object {
                   "type": "object",
                 },
-                "bundlessOption": Object {
+                "externals": Object {
+                  "items": Array [
+                    Object {
+                      "type": "string",
+                    },
+                  ],
+                  "type": "array",
+                },
+                "minify": Object {
+                  "enum": Array [
+                    "esbuild",
+                    "terser",
+                    false,
+                  ],
+                },
+                "platform": Object {
+                  "enum": Array [
+                    "node",
+                    "browser",
+                  ],
+                },
+                "splitting": Object {
+                  "type": "boolean",
+                },
+              },
+              "type": "object",
+            },
+            "bundlelessOptions": Object {
+              "properties": Object {
+                "sourceDir": Object {
+                  "type": "string",
+                },
+                "static": Object {
                   "properties": Object {
-                    "sourceDir": Object {
+                    "path": Object {
                       "type": "string",
                     },
                   },
                   "type": "object",
                 },
-                "dts": Object {
-                  "type": "boolean",
-                },
-                "format": Object {
-                  "items": Array [
-                    Object {
+                "style": Object {
+                  "properties": Object {
+                    "compileMode": Object {
                       "enum": Array [
-                        "cjs",
-                        "esm",
-                        "iife",
+                        "all",
+                        "only-compiled-code",
+                        "only-source-code",
+                        false,
                       ],
                     },
-                  ],
-                  "type": "array",
-                },
-                "outputPath": Object {
-                  "type": "string",
-                },
-                "target": Object {
-                  "enum": Array [
-                    "es6",
-                    "es5",
-                    "es2015",
-                    "es2016",
-                    "es2017",
-                    "es2018",
-                    "es2019",
-                    "es2020",
-                    "esnext",
-                  ],
-                },
-                "tsconfig": Object {
-                  "type": "string",
+                    "path": Object {
+                      "type": "string",
+                    },
+                  },
+                  "type": "object",
                 },
               },
               "type": "object",
             },
-          ],
+            "dtsOnly": Object {
+              "type": "boolean",
+            },
+            "enableDts": Object {
+              "type": "boolean",
+            },
+            "format": Object {
+              "enum": Array [
+                "cjs",
+                "esm",
+                "umd",
+              ],
+            },
+            "outputPath": Object {
+              "type": "string",
+            },
+            "sourceMap": Object {
+              "enum": Array [
+                true,
+                false,
+                "inline",
+                "external",
+              ],
+            },
+            "target": Object {
+              "enum": Array [
+                "es5",
+                "es6",
+                "es2015",
+                "es2016",
+                "es2017",
+                "es2018",
+                "es2019",
+                "es2020",
+                "esnext",
+              ],
+            },
+            "tsconfig": Object {
+              "type": "string",
+            },
+          },
+          "type": "object",
         },
         "if": Object {
           "type": "array",
@@ -155,15 +184,18 @@ Array [
           "items": Array [
             Object {
               "properties": Object {
-                "bundle": Object {
-                  "type": "boolean",
+                "buildType": Object {
+                  "enum": Array [
+                    "bundle",
+                    "bundleless",
+                  ],
                 },
-                "bundleOption": Object {
+                "bundleOptions": Object {
                   "properties": Object {
                     "entry": Object {
                       "type": "object",
                     },
-                    "external": Object {
+                    "externals": Object {
                       "items": Array [
                         Object {
                           "type": "string",
@@ -190,36 +222,66 @@ Array [
                   },
                   "type": "object",
                 },
-                "bundlessOption": Object {
+                "bundlelessOptions": Object {
                   "properties": Object {
                     "sourceDir": Object {
                       "type": "string",
                     },
+                    "static": Object {
+                      "properties": Object {
+                        "path": Object {
+                          "type": "string",
+                        },
+                      },
+                      "type": "object",
+                    },
+                    "style": Object {
+                      "properties": Object {
+                        "compileMode": Object {
+                          "enum": Array [
+                            "all",
+                            "only-compiled-code",
+                            "only-source-code",
+                            false,
+                          ],
+                        },
+                        "path": Object {
+                          "type": "string",
+                        },
+                      },
+                      "type": "object",
+                    },
                   },
                   "type": "object",
                 },
-                "dts": Object {
+                "dtsOnly": Object {
+                  "type": "boolean",
+                },
+                "enableDts": Object {
                   "type": "boolean",
                 },
                 "format": Object {
-                  "items": Array [
-                    Object {
-                      "enum": Array [
-                        "cjs",
-                        "esm",
-                        "iife",
-                      ],
-                    },
+                  "enum": Array [
+                    "cjs",
+                    "esm",
+                    "umd",
                   ],
-                  "type": "array",
                 },
                 "outputPath": Object {
                   "type": "string",
                 },
+                "sourceMap": Object {
+                  "enum": Array [
+                    true,
+                    false,
+                    "inline",
+                    "external",
+                  ],
+                },
                 "target": Object {
                   "enum": Array [
-                    "es6",
                     "es5",
+                    "es6",
                     "es2015",
                     "es2016",
                     "es2017",
@@ -242,12 +304,21 @@ Array [
     },
     Object {
       "schema": Object {
-        "else": Object {
-          "type": "object",
-        },
-        "if": Object {
-          "instanceof": "Function",
-        },
+        "enum": Array [
+          "npm-library",
+          "npm-library-with-umd",
+          "npm-component",
+          "npm-component-with-umd",
+        ],
+      },
+      "target": "output.buildPreset",
+    },
+    Object {
+      "schema": Object {
+        "typeof": Array [
+          "object",
+          "function",
+        ],
       },
       "target": "tools.speedy",
     },
@@ -258,45 +329,97 @@ Array [
 exports[`config in module tools without build-preset and build-config 1`] = `
 Array [
   Object {
-    "bundle": false,
+    "buildType": "bundleless",
     "bundlelessOptions": Object {
       "sourceDir": "src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": "all",
+        "path": "../styles",
+      },
     },
-    "dts": true,
+    "dtsOnly": false,
+    "enableDts": false,
     "format": "esm",
-    "ignoreSingleFormatDir": true,
     "outputPath": "./js/treeshaking",
-    "outputStylePath": "js/styles",
+    "sourceMap": false,
     "target": "es5",
-    "tsconfig": "./tsconfig.json",
+    "tsconfig": "tsconfig.json",
     "watch": false,
   },
   Object {
-    "bundle": false,
+    "buildType": "bundleless",
     "bundlelessOptions": Object {
       "sourceDir": "src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
     },
-    "dts": true,
+    "dtsOnly": false,
+    "enableDts": false,
     "format": "cjs",
-    "ignoreSingleFormatDir": true,
     "outputPath": "./js/node",
-    "outputStylePath": "js/styles",
+    "sourceMap": false,
     "target": "es6",
-    "tsconfig": "./tsconfig.json",
+    "tsconfig": "tsconfig.json",
     "watch": false,
   },
   Object {
-    "bundle": false,
+    "buildType": "bundleless",
     "bundlelessOptions": Object {
       "sourceDir": "src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
     },
-    "dts": true,
+    "dtsOnly": false,
+    "enableDts": false,
     "format": "esm",
-    "ignoreSingleFormatDir": true,
     "outputPath": "./js/modern",
-    "outputStylePath": "js/styles",
+    "sourceMap": false,
     "target": "es6",
-    "tsconfig": "./tsconfig.json",
+    "tsconfig": "tsconfig.json",
+    "watch": false,
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+    },
+    "dtsOnly": true,
+    "enableDts": true,
+    "format": "cjs",
+    "outputPath": "./types",
+    "sourceMap": false,
+    "target": "esnext",
+    "tsconfig": "tsconfig.json",
+    "watch": false,
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./styles",
+      "style": Object {
+        "compileMode": "only-compiled-code",
+      },
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "cjs",
+    "outputPath": "./styles",
+    "sourceMap": false,
+    "target": "esnext",
+    "tsconfig": "tsconfig.json",
     "watch": false,
   },
 ]

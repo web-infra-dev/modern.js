@@ -3640,8 +3640,9 @@ importers:
       '@rollup/plugin-json': ~4.1.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@speedy-js/speedy-core': ^0.12.1-alpha.4
-      '@speedy-js/speedy-types': ^0.12.1-alpha.4
+      '@speedy-js/speedy-core': 0.13.1
+      '@speedy-js/speedy-plugin-es5': 0.13.1
+      '@speedy-js/speedy-types': 0.13.1
       '@types/babel__core': ^7.1.15
       '@types/babel__generator': ^7.6.3
       '@types/babel__traverse': ^7.14.2
@@ -3681,8 +3682,8 @@ importers:
       '@modern-js/style-compiler': link:../../toolkit/compiler/style
       '@modern-js/utils': link:../../toolkit/utils
       '@rollup/plugin-json': 4.1.0_rollup@2.75.5
-      '@speedy-js/speedy-core': 0.12.1-alpha.5
-      '@speedy-js/speedy-types': 0.12.1-alpha.5
+      '@speedy-js/speedy-core': 0.13.1
+      '@speedy-js/speedy-plugin-es5': 0.13.1
       normalize-path: 3.0.0
       p-map: 4.0.0
       process.argv: 0.6.0
