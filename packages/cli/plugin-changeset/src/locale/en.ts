@@ -37,8 +37,7 @@ export const EN_LOCALE = {
         'only display information about changesets since a specific branch or git tag',
     },
     gen_release_note: {
-      describe: 'generator release note info from commit history',
-      since: 'generator release note since a specific branch or git tag',
+      describe: 'generator release note info from changesets',
       repo: 'github reponame to generator pull request link',
     },
   },

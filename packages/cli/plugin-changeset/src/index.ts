@@ -72,10 +72,6 @@ export default (): CliPlugin => ({
           .command('gen-release-note')
           .description(i18n.t(localeKeys.command.gen_release_note.describe))
           .option(
-            '--since <ref>',
-            i18n.t(localeKeys.command.gen_release_note.since),
-          )
-          .option(
             '--repo <repo>',
             i18n.t(localeKeys.command.gen_release_note.repo),
           )
