@@ -1,5 +1,5 @@
 import type { CliPlugin } from '@modern-js/core';
-import { change, bump, pre, release } from './commands';
+import { change, bump, pre, release, status } from './commands';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils';
 
@@ -47,6 +47,7 @@ export default (): CliPlugin => ({
           .command('release')
           .description(i18n.t(localeKeys.command.release.describe))
           .option('--tag <tag>', i18n.t(localeKeys.command.release.tag), '')
+          .option('--otp <token>', i18n.t(localeKeys.command.release.otp), '')
           .option(
             '--ignore-scripts',
             i18n.t(localeKeys.command.release.ignore_scripts),
@@ -58,6 +59,14 @@ export default (): CliPlugin => ({
             '',
           )
           .action((options: any) => release(options));
+
+        program
+          .command('change-status')
+          .description(i18n.t(localeKeys.command.status.describe))
+          .option('--verbose', i18n.t(localeKeys.command.status.verbose))
+          .option('--output <file>', i18n.t(localeKeys.command.status.output))
+          .option('--since <ref>', i18n.t(localeKeys.command.status.since))
+          .action((options: any) => status(options));
       },
     };
   },

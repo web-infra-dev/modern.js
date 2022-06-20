@@ -20,10 +20,17 @@ export const ZH_LOCALE = {
     release: {
       describe: '发布 npm 包',
       tag: '发布 npm 包使用特定的 tag',
+      otp: '发布 npm 包的一次性 token，该 token 需要写权限',
       ignore_scripts:
         '发布时忽略 package.json 中的 scripts 命令，仅支持在 pnpm monorepo 中使用',
       no_git_checks:
         '发布命令忽略检查当前分支是否是发布分支，干净且最新，仅支持在 pnpm monorepo 中使用',
+    },
+    status: {
+      describe: '展示当前存在的变更集的状态信息',
+      verbose: '使用表格展示当前存在的变更集状态信息，包含变更集文件名称',
+      output: '将当前存在的变更集状态信息导出为 JSON 文件',
+      since: '展示基于指定分支或者 tag 的变更集状态信息',
     },
   },
 };
