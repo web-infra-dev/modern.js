@@ -20,10 +20,21 @@ export const EN_LOCALE = {
     release: {
       describe: 'publish changes to npm',
       tag: 'publish use special tag',
+      otp: 'publish package use one-time password, if you have auth and writes enabled on npm ',
       ignore_scripts:
         'publish command ignore npm scripts, only can use in pnpm monorepo',
       no_git_checks:
         'publish command ignore checking if current branch is your publish branch, clean, and up-to-date, only can use in pnpm monorepo',
+    },
+    status: {
+      describe:
+        'provides information about the changesets that currently exist',
+      verbose:
+        'provides detail information about the changesets that currently exist with table',
+      output:
+        'write the information about the changesets that currently exist to json file',
+      since:
+        'only display information about changesets since a specific branch or git tag',
     },
   },
 };
