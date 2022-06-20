@@ -21,7 +21,7 @@ function renderCommitInfo(commit: Commit) {
       `[[#${pullRequestId}](https://github.com/${repository}/pull/${pullRequestId})] ${message} -- ${author}\n`,
     );
   } else if (pullRequestId) {
-    console.info(`[#${pullRequestId} ${message} -- ${author}\n`);
+    console.info(`[#${pullRequestId}] ${message} -- ${author}\n`);
   } else {
     console.info(`${message} -- ${author}\n`);
   }
@@ -29,21 +29,20 @@ function renderCommitInfo(commit: Commit) {
 
 export async function genReleaseNote(options: ReleaseNoteOptions) {
   const cwd = process.cwd();
-  // eslint-disable-next-line prefer-const
-  let { repo } = options;
+
+  const { repo } = options;
 
   let repository: string | undefined = repo;
 
   if (!repo) {
     const pkg = await fs.readJSON(path.join(cwd, 'package.json'));
-    // eslint-disable-next-line prefer-destructuring
-    repository = pkg.repository;
+    ({ repository } = pkg);
   }
 
   const changesets = await readChangesets(cwd);
 
   if (changesets.length === 0) {
-    console.warn('No unreleased changesets found, exiting.');
+    console.warn('No unreleased changesets found.');
     // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
