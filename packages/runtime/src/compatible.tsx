@@ -63,24 +63,9 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
       {
         container,
         onLast: ({ App }: any) => {
-          const WrapComponent = ({ context, ...props }: any) => {
-            let contextValue = context;
-
-            if (!contextValue) {
-              contextValue = {
-                loaderManager: createLoaderManager({}),
-                runner,
-              };
-
-              runner.init(
-                { context: contextValue },
-                {
-                  onLast: ({ context: context1 }) => App?.init?.(context1),
-                },
-              );
-            }
+          const WrapComponent = ({ context = {}, ...props }: any) => {
             return (
-              <RuntimeReactContext.Provider value={contextValue}>
+              <RuntimeReactContext.Provider value={context}>
                 <App {...props} />
               </RuntimeReactContext.Provider>
             );
@@ -178,7 +163,7 @@ export const bootstrap: BootStrap = async (
               : document.getElementById(id || 'root')!,
         },
         {
-          onLast: async ({ App, rootElement }) => {
+          onLast: ({ App, rootElement }) => {
             ReactDOM.render(React.createElement(App, { context }), rootElement);
           },
         },
