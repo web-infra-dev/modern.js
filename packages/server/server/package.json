@@ -44,7 +44,7 @@
     "@modern-js/server-utils": "workspace:^1.2.11",
     "@modern-js/webpack": "workspace:^1.11.0",
     "@modern-js/utils": "workspace:^1.7.7",
-    "devcert": "1.2.0",
+    "devcert": "^1.2.2",
     "minimatch": "^3.0.4",
     "path-to-regexp": "^6.2.0",
     "ws": "^8.2.0"
