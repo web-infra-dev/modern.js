@@ -11,6 +11,9 @@ sidebar_label: assetsPath
 * 类型： `string`
 * 默认值： `styles`
 
+:::warning 警告
+将在下一个版本被废弃,使用[output.buildConfig.bundlelessOptions.static.path](/docs/apis/config/output/build-config/bundleless-options#path-1)代替
+:::
 
 指定资源产物目录路径。
 

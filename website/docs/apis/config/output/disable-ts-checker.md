@@ -12,6 +12,10 @@ MWA，模块。
 - 类型： `boolean`
 - 默认值： `false`
 
+:::warning 警告
+模块工程方案的下一个版本将废弃此配置，使用[output.buildConfig.enableDts](/docs/apis/config/output/build-config/enable-dts)代替
+:::
+
 默认情况下，Modern.js 集成了 [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) 插件，进行 TypeScript 语法检查。
 
 开启此配置项可以关闭该插件。
