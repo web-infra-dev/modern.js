@@ -38,7 +38,8 @@ export const EN_LOCALE = {
     },
     gen_release_note: {
       describe: 'generator release note info from changesets',
-      repo: 'github reponame to generator pull request link',
+      repo: 'reponame to generator pull request link, like modern-js-dev/modern.js',
+      custom: 'custom release note render rules',
     },
   },
 };

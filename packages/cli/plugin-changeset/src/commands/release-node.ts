@@ -2,41 +2,62 @@ import path from 'path';
 import { fs, execa } from '@modern-js/utils';
 import readChangesets from '@changesets/read';
 
-interface Commit {
+export interface Commit {
   id: string;
   repository?: string;
   pullRequestId?: string;
   author: string;
-  message: string;
+  message: string; // commit message
+  summary: string; // changeset summary
 }
 
 interface ReleaseNoteOptions {
   repo?: string;
+  custom?: string;
 }
 
-function renderCommitInfo(commit: Commit) {
-  const { repository, pullRequestId, message, author } = commit;
+type CustomReleaseNoteFunction =
+  | {
+      getReleaseNoteLine: (commit: Commit) => string;
+    }
+  | undefined;
+
+function renderCommitInfo(
+  commit: Commit,
+  customReleaseNoteFunction: CustomReleaseNoteFunction,
+) {
+  if (customReleaseNoteFunction?.getReleaseNoteLine) {
+    const info = customReleaseNoteFunction.getReleaseNoteLine(commit);
+    console.info(info);
+    return;
+  }
+  const { repository, pullRequestId, summary, author } = commit;
   if (pullRequestId && repository) {
     console.info(
-      `[[#${pullRequestId}](https://github.com/${repository}/pull/${pullRequestId})] ${message} -- ${author}\n`,
+      `[[#${pullRequestId}](https://github.com/${repository}/pull/${pullRequestId})] ${summary} -- ${author}\n`,
     );
   } else if (pullRequestId) {
-    console.info(`[#${pullRequestId}] ${message} -- ${author}\n`);
+    console.info(`[#${pullRequestId}] ${summary} -- ${author}\n`);
   } else {
-    console.info(`${message} -- ${author}\n`);
+    console.info(`${summary} -- ${author}\n`);
   }
 }
 
 export async function genReleaseNote(options: ReleaseNoteOptions) {
   const cwd = process.cwd();
 
-  const { repo } = options;
+  const { repo, custom } = options;
 
   let repository: string | undefined = repo;
+  let customReleaseNoteFunction: CustomReleaseNoteFunction;
 
   if (!repo) {
     const pkg = await fs.readJSON(path.join(cwd, 'package.json'));
     ({ repository } = pkg);
+  }
+
+  if (custom) {
+    customReleaseNoteFunction = require(custom);
   }
 
   const changesets = await readChangesets(cwd);
@@ -59,14 +80,19 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
     ]);
 
     const [id, message, author] = stdout.split('--');
-    const [, messageShort, pullRequestId] = message.match(commitRegex)!;
-    const commitObj = {
+    const commitObj: Commit = {
       id,
       repository,
-      pullRequestId,
-      message: changeset.summary || messageShort.trim(),
+      message: message.trim(),
+      summary: changeset.summary,
       author,
     };
+
+    if (message.match(commitRegex)) {
+      const [, messageShort, pullRequestId] = message.match(commitRegex)!;
+      commitObj.pullRequestId = pullRequestId;
+      commitObj.message = messageShort.trim();
+    }
 
     if (message.startsWith('fix')) {
       bugFix.push(commitObj);
@@ -83,12 +109,16 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
 
   if (features.length) {
     console.info('Features:\n');
-    features.forEach(renderCommitInfo);
+    features.forEach(commit =>
+      renderCommitInfo(commit, customReleaseNoteFunction),
+    );
   }
 
   if (bugFix.length) {
     console.info('Bug Fix:\n');
 
-    bugFix.forEach(renderCommitInfo);
+    bugFix.forEach(commit =>
+      renderCommitInfo(commit, customReleaseNoteFunction),
+    );
   }
 }

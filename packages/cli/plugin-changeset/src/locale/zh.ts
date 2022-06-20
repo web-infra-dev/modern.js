@@ -34,7 +34,8 @@ export const ZH_LOCALE = {
     },
     gen_release_note: {
       describe: '根据当前仓库 changeset 文件生成 Release Note',
-      repo: 'Github 仓库名称，用于生成 Pull Request 链接',
+      repo: '仓库名称，用于生成 Pull Request 链接， 例如： modern-js-dev/modern.js',
+      custom: '自定义 Release Note 生成函数',
     },
   },
 };

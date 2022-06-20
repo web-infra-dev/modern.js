@@ -3,6 +3,8 @@ import { change, bump, pre, release, status, genReleaseNote } from './commands';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils';
 
+export * from './commands';
+
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-changeset',
 
@@ -74,6 +76,10 @@ export default (): CliPlugin => ({
           .option(
             '--repo <repo>',
             i18n.t(localeKeys.command.gen_release_note.repo),
+          )
+          .option(
+            '--custom <cumtom>',
+            i18n.t(localeKeys.command.gen_release_note.custom),
           )
           .action((options: any) => genReleaseNote(options));
       },
