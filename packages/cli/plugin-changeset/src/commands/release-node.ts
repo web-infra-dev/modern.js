@@ -1,35 +1,38 @@
 import path from 'path';
 import { fs, execa } from '@modern-js/utils';
+import readChangesets from '@changesets/read';
 
 interface Commit {
   id: string;
-  pullRequestId: string;
+  repository?: string;
+  pullRequestId?: string;
   author: string;
   message: string;
 }
 
 interface ReleaseNoteOptions {
-  since: string;
-  repo: string;
+  repo?: string;
+}
+
+function renderCommitInfo(commit: Commit) {
+  const { repository, pullRequestId, message, author } = commit;
+  if (pullRequestId && repository) {
+    console.info(
+      `[[#${pullRequestId}](https://github.com/${repository}/pull/${pullRequestId})] ${message} -- ${author}\n`,
+    );
+  } else if (pullRequestId) {
+    console.info(`[#${pullRequestId} ${message} -- ${author}\n`);
+  } else {
+    console.info(`${message} -- ${author}\n`);
+  }
 }
 
 export async function genReleaseNote(options: ReleaseNoteOptions) {
   const cwd = process.cwd();
   // eslint-disable-next-line prefer-const
-  let { since, repo } = options;
+  let { repo } = options;
 
-  let config;
-  try {
-    config = await fs.readJSON(path.join(cwd, '.changeset', 'config.json'));
-  } catch (e) {
-    console.warn('not exit changeset config.json file');
-  }
-
-  if (!since) {
-    since = config.baseBranch || 'main';
-  }
-
-  let repository: string = repo;
+  let repository: string | undefined = repo;
 
   if (!repo) {
     const pkg = await fs.readJSON(path.join(cwd, 'package.json'));
@@ -37,37 +40,32 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
     repository = pkg.repository;
   }
 
-  if (!repository) {
-    console.error(
-      'not exit repository info, please use --repo option in command or add repository key in package.json',
-    );
+  const changesets = await readChangesets(cwd);
+
+  if (changesets.length === 0) {
+    console.warn('No unreleased changesets found, exiting.');
     // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
-  const { stdout } = await execa('git', [
-    'log',
-    '--pretty=format:%h--%s--%an',
-    `${since}..HEAD`,
-    '.',
-  ]);
-
-  const commitRegex = /(.*)\(#(\d*)\)/;
-
-  let commits = stdout.split('\n');
-
   const features: Commit[] = [];
   const bugFix: Commit[] = [];
+  const commitRegex = /(.*)\(#(\d*)\)/;
 
-  // filter not container pull request id commit
-  commits = commits.filter(commit => commit.match(commitRegex));
-  commits.forEach(commit => {
-    const [id, message, author] = commit.split('--');
+  for (const changeset of changesets) {
+    const { stdout } = await execa('git', [
+      'log',
+      '--pretty=format:%h--%s--%an',
+      `.changeset/${changeset.id}.md`,
+    ]);
+
+    const [id, message, author] = stdout.split('--');
     const [, messageShort, pullRequestId] = message.match(commitRegex)!;
     const commitObj = {
       id,
+      repository,
       pullRequestId,
-      message: messageShort.trim(),
+      message: changeset.summary || messageShort.trim(),
       author,
     };
 
@@ -76,7 +74,7 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
     } else {
       features.push(commitObj);
     }
-  });
+  }
 
   if (!features.length && !bugFix.length) {
     console.warn(
@@ -86,20 +84,12 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
 
   if (features.length) {
     console.info('Features:\n');
-    features.forEach(feature => {
-      console.info(
-        `[[#${feature.pullRequestId}](https://github.com/${repository}/pull/${feature.pullRequestId})] ${feature.message} -- ${feature.author}\n`,
-      );
-    });
+    features.forEach(renderCommitInfo);
   }
 
   if (bugFix.length) {
     console.info('Bug Fix:\n');
 
-    bugFix.forEach(bug => {
-      console.info(
-        `[[#${bug.pullRequestId}](https://github.com/${repository}/pull/${bug.pullRequestId})] ${bug.message} -- ${bug.author}\n`,
-      );
-    });
+    bugFix.forEach(renderCommitInfo);
   }
 }
