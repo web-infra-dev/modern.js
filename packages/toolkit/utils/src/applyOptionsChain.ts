@@ -19,8 +19,8 @@ export function applyOptionsChain<T, U>(
   utils: U,
   mergeFn?: typeof Object.assign,
 ): T;
-export function applyOptionsChain(
-  defaults: unknown,
+export function applyOptionsChain<T>(
+  defaults: T,
   options?: unknown,
   utils?: unknown,
   mergeFn = Object.assign,
