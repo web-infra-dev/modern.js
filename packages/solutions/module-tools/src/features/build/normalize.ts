@@ -49,7 +49,7 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
       outputPath: './styles',
       bundlelessOptions: {
         sourceDir: './styles',
-        style: { compileMode: 'only-compied-code' },
+        style: { compileMode: 'only-compiled-code' },
       },
     });
     return configs;
@@ -163,7 +163,7 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
     outputPath: './styles',
     bundlelessOptions: {
       sourceDir: './styles',
-      style: { compileMode: 'only-compied-code' },
+      style: { compileMode: 'only-compiled-code' },
     },
   });
 
@@ -197,7 +197,16 @@ export const getFinalDts = (
 export const getSourceMap = (
   config: Pick<BaseBuildConfig, 'sourceMap'>,
   buildType: BaseBuildConfig['buildType'],
+  api: PluginAPI,
 ): SourceMap => {
+  // TODO: remove
+  const {
+    output: { disableSourceMap },
+  } = api.useResolvedConfigContext();
+  if (disableSourceMap) {
+    return false;
+  }
+
   if (config.sourceMap !== undefined) {
     return config.sourceMap;
   }
@@ -246,7 +255,7 @@ export const normalizeBuildConfig = (
   context: { buildFeatOption: IBuildFeatOption; api: PluginAPI },
   buildConfig: BuildConfig,
 ): NormalizedBuildConfig[] => {
-  const { buildFeatOption } = context;
+  const { buildFeatOption, api } = context;
 
   // FIXME:throw error when preset is empty array
   const configArray = Array.isArray(buildConfig) ? buildConfig : [buildConfig];
@@ -260,6 +269,7 @@ export const normalizeBuildConfig = (
         index: `src/index.${buildFeatOption.isTsProject ? 'ts' : 'js'}`,
       },
       platform: bundleOptions?.platform || 'node',
+      minify: bundleOptions?.minify ?? false,
     };
     const normalizeBundlelessOptions = {
       sourceDir: './src',
@@ -269,7 +279,7 @@ export const normalizeBuildConfig = (
     const tsconfig = getFinalTsconfig(config, buildFeatOption);
     const enableDts = getFinalDts(config, buildFeatOption);
     const outputPath = config.outputPath ?? './';
-    const sourceMap = getSourceMap(config, config.buildType);
+    const sourceMap = getSourceMap(config, config.buildType, api);
     const commmonConfig = {
       format,
       target,

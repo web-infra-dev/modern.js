@@ -13,7 +13,7 @@ const properties = {
     ],
   },
   format: {
-    enum: ['cjs', 'esm', 'iife', 'umd'],
+    enum: ['cjs', 'esm', 'umd'],
   },
   sourceMap: {
     enum: [true, false, 'inline', 'external'],

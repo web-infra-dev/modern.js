@@ -56,8 +56,7 @@ export const npmLibraryWithUmdPresetConfig: BaseBuildConfig[] = [
     outputPath: './es',
   },
   {
-    // format: 'umd',
-    format: 'iife',
+    format: 'umd',
     target: 'es6',
     buildType: 'bundle',
     outputPath: './umd',
@@ -103,8 +102,7 @@ export const npmComponentWithUmdPresetConfig: BaseBuildConfig[] = [
     outputPath: './es',
   },
   {
-    // format: 'umd',
-    format: 'iife',
+    format: 'umd',
     target: 'es6',
     buildType: 'bundle',
     outputPath: './umd',

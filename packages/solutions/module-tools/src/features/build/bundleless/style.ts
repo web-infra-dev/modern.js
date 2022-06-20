@@ -255,7 +255,7 @@ export const buildStyle = async (
   );
   if (
     style.compileMode === 'all' ||
-    style.compileMode === 'only-compied-code'
+    style.compileMode === 'only-compiled-code'
   ) {
     const result = await buildInSrcDir({
       appDirectory,

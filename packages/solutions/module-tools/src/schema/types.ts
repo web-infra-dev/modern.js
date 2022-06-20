@@ -1,6 +1,6 @@
 import type { UserConfig as SpeedyConfig } from '@speedy-js/speedy-core';
 
-export type Format = 'esm' | 'cjs' | 'iife';
+export type Format = 'esm' | 'cjs' | 'umd';
 export type Target =
   | 'es5'
   | 'es6'
@@ -27,7 +27,7 @@ export type BundlelessOptions = {
   style?: {
     compileMode?:
       | 'all'
-      | 'only-compied-code'
+      | 'only-compiled-code'
       | /* may be will be deprecated */ 'only-source-code'
       | false;
     path?: string;
