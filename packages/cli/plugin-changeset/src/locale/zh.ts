@@ -32,5 +32,10 @@ export const ZH_LOCALE = {
       output: '将当前存在的变更集状态信息导出为 JSON 文件',
       since: '展示基于指定分支或者 tag 的变更集状态信息',
     },
+    gen_release_note: {
+      describe: '根据提交的 Git 信息生成 Release Note',
+      since: '基于指定分支或者 tag 生成 Release Note',
+      repo: 'Github 仓库名称，用于生成 Pull Request 链接',
+    },
   },
 };
