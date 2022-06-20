@@ -23,10 +23,15 @@ function isClientArgs(
   );
 }
 
-const runnerMap = new WeakMap<
-  React.ComponentType<any>,
-  ReturnType<typeof runtime.init>
->();
+type PluginRunner = ReturnType<typeof runtime.init>;
+
+const runnerMap = new WeakMap<React.ComponentType<any>, PluginRunner>();
+
+const getInitialContext = (runner: PluginRunner) => ({
+  loaderManager: createLoaderManager({}),
+  runner,
+  isBrowser: true,
+});
 
 export const createApp = ({ plugins }: CreateAppOptions) => {
   const appRuntime = runtime.clone();
@@ -66,11 +71,9 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
           const WrapComponent = ({ context, ...props }: any) => {
             let contextValue = context;
 
-            if (!contextValue) {
-              contextValue = {
-                loaderManager: createLoaderManager({}),
-                runner,
-              };
+            // We should construct the context, when root component is not passed into `bootstrap`.
+            if (!contextValue?.runner) {
+              contextValue = getInitialContext(runner);
 
               runner.init(
                 { context: contextValue },
@@ -119,11 +122,7 @@ export const bootstrap: BootStrap = async (
     runner = runnerMap.get(App)!;
   }
 
-  const context: any = {
-    loaderManager: createLoaderManager({}),
-    runner,
-    isBrowser: true,
-  };
+  const context: any = getInitialContext(runner);
 
   const runInit = (_context: RuntimeContext) =>
     runner!.init(
@@ -178,7 +177,7 @@ export const bootstrap: BootStrap = async (
               : document.getElementById(id || 'root')!,
         },
         {
-          onLast: async ({ App, rootElement }) => {
+          onLast: ({ App, rootElement }) => {
             ReactDOM.render(React.createElement(App, { context }), rootElement);
           },
         },
