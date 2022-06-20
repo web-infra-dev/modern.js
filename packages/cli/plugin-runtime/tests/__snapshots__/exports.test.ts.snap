@@ -1,0 +1,298 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`imported packages in plugin runtime @loadable/component 1`] = `[Function]`;
+
+exports[`imported packages in plugin runtime Helmet 1`] = `[Function]`;
+
+exports[`imported packages in plugin runtime model 1`] = `
+Object {
+  "Provider": [Function],
+  "autoActions": [Function],
+  "createApp": [Function],
+  "createStore": [Function],
+  "devtools": [Function],
+  "effects": [Function],
+  "immer": [Function],
+  "model": [Function],
+  "useLocalModel": [Function],
+  "useModel": [Function],
+  "useStaticModel": [Function],
+}
+`;
+
+exports[`imported packages in plugin runtime plugin-runtime 1`] = `
+Object {
+  "RuntimeReactContext": Object {
+    "$$typeof": Symbol(react.context),
+    "Consumer": Object {
+      "$$typeof": Symbol(react.context),
+      "_calculateChangedBits": null,
+      "_context": [Circular],
+    },
+    "Provider": Object {
+      "$$typeof": Symbol(react.provider),
+      "_context": [Circular],
+    },
+    "_calculateChangedBits": null,
+    "_currentRenderer": null,
+    "_currentRenderer2": null,
+    "_currentValue": Object {},
+    "_currentValue2": Object {},
+    "_threadCount": 0,
+  },
+  "bootstrap": [Function],
+  "createApp": [Function],
+  "createPlugin": [Function],
+  "defineConfig": [Function],
+  "registerInit": [Function],
+  "registerPrefetch": [Function],
+  "useLoader": [Function],
+  "useRuntimeContext": [Function],
+}
+`;
+
+exports[`imported packages in plugin runtime request 1`] = `
+Object {
+  "configure": [Function],
+}
+`;
+
+exports[`imported packages in plugin runtime router 1`] = `
+Object {
+  "BrowserRouter": [Function],
+  "HashRouter": [Function],
+  "Link": Object {
+    "$$typeof": Symbol(react.forward_ref),
+    "propTypes": Object {
+      "innerRef": [Function],
+      "onClick": [Function],
+      "replace": [Function],
+      "target": [Function],
+      "to": [Function],
+    },
+    "render": [Function],
+  },
+  "MemoryRouter": [Function],
+  "NavLink": Object {
+    "$$typeof": Symbol(react.forward_ref),
+    "propTypes": Object {
+      "activeClassName": [Function],
+      "activeStyle": [Function],
+      "aria-current": [Function],
+      "className": [Function],
+      "exact": [Function],
+      "innerRef": [Function],
+      "isActive": [Function],
+      "location": [Function],
+      "onClick": [Function],
+      "replace": [Function],
+      "sensitive": [Function],
+      "strict": [Function],
+      "style": [Function],
+      "target": [Function],
+      "to": [Function],
+    },
+    "render": [Function],
+  },
+  "Prompt": [Function],
+  "Redirect": [Function],
+  "Route": [Function],
+  "Router": [Function],
+  "StaticRouter": [Function],
+  "Switch": [Function],
+  "createBrowserHistory": [Function],
+  "createHashHistory": [Function],
+  "createLocation": [Function],
+  "createMemoryHistory": [Function],
+  "createPath": [Function],
+  "generatePath": [Function],
+  "locationsAreEqual": [Function],
+  "matchPath": [Function],
+  "parsePath": [Function],
+  "useHistory": [Function],
+  "useLocation": [Function],
+  "useParams": [Function],
+  "useRouteMatch": [Function],
+  "withRouter": [Function],
+}
+`;
+
+exports[`imported packages in plugin runtime server 1`] = `
+Object {
+  "Any": [Function],
+  "Boolean": [Function],
+  "Date": [Function],
+  "Err": [Function],
+  "Float": [Function],
+  "ID": [Function],
+  "Int": [Function],
+  "Intersect": [Function],
+  "IntersectType": [Function],
+  "Json": [Function],
+  "List": [Function],
+  "ListType": [Function],
+  "Literal": [Function],
+  "LiteralType": [Function],
+  "NonStrict": [Function],
+  "NonStrictType": [Function],
+  "Null": [Function],
+  "Nullable": [Function],
+  "NullableType": [Function],
+  "Number": [Function],
+  "ObjectType": [Function],
+  "Ok": [Function],
+  "PartialType": [Function],
+  "ReadOnly": [Function],
+  "ReadOnlyDeep": [Function],
+  "ReadOnlyDeepType": [Function],
+  "ReadOnlyType": [Function],
+  "Record": [Function],
+  "RecordType": [Function],
+  "Schema": [Function],
+  "Strict": [Function],
+  "StrictType": [Function],
+  "String": [Function],
+  "Struct": [Function],
+  "StructType": [Function],
+  "Tuple": [Function],
+  "TupleType": [Function],
+  "Type": "__type",
+  "Undefined": [Function],
+  "Union": [Function],
+  "UnionType": [Function],
+  "Unknown": [Function],
+  "field": [Function],
+  "getInstance": [Function],
+  "getSchemaCtor": [Function],
+  "getSchemaCtorFields": [Function],
+  "hook": [Function],
+  "isFieldDescriptor": [Function],
+  "isFieldDescriptors": [Function],
+  "isHandler": [Function],
+  "isNullableType": [Function],
+  "isSchemaCtor": [Function],
+  "isSchemaHandler": [Function],
+  "keyof": [Function],
+  "keyofObject": [Function],
+  "keyofStruct": [Function],
+  "match": [Function],
+  "omit": [Function],
+  "omitObject": [Function],
+  "omitStruct": [Function],
+  "partial": [Function],
+  "partialObject": [Function],
+  "partialStruct": [Function],
+  "pick": [Function],
+  "pickObject": [Function],
+  "pickStruct": [Function],
+  "toSchemaCtor": [Function],
+  "toSchemaCtors": [Function],
+}
+`;
+
+exports[`imported packages in plugin runtime ssr 1`] = `
+Object {
+  "NoSSR": [Function],
+  "PreRender": [Function],
+}
+`;
+
+exports[`imported packages in plugin runtime styled 1`] = `
+Object {
+  "ServerStyleSheet": [Function],
+  "StyleSheetConsumer": Object {
+    "$$typeof": Symbol(react.context),
+    "_calculateChangedBits": null,
+    "_context": Object {
+      "$$typeof": Symbol(react.context),
+      "Consumer": [Circular],
+      "Provider": Object {
+        "$$typeof": Symbol(react.provider),
+        "_context": [Circular],
+      },
+      "_calculateChangedBits": null,
+      "_currentRenderer": null,
+      "_currentRenderer2": null,
+      "_currentValue": undefined,
+      "_currentValue2": undefined,
+      "_threadCount": 0,
+    },
+  },
+  "StyleSheetContext": Object {
+    "$$typeof": Symbol(react.context),
+    "Consumer": Object {
+      "$$typeof": Symbol(react.context),
+      "_calculateChangedBits": null,
+      "_context": [Circular],
+    },
+    "Provider": Object {
+      "$$typeof": Symbol(react.provider),
+      "_context": [Circular],
+    },
+    "_calculateChangedBits": null,
+    "_currentRenderer": null,
+    "_currentRenderer2": null,
+    "_currentValue": undefined,
+    "_currentValue2": undefined,
+    "_threadCount": 0,
+  },
+  "StyleSheetManager": [Function],
+  "ThemeConsumer": Object {
+    "$$typeof": Symbol(react.context),
+    "_calculateChangedBits": null,
+    "_context": Object {
+      "$$typeof": Symbol(react.context),
+      "Consumer": [Circular],
+      "Provider": Object {
+        "$$typeof": Symbol(react.provider),
+        "_context": [Circular],
+      },
+      "_calculateChangedBits": null,
+      "_currentRenderer": null,
+      "_currentRenderer2": null,
+      "_currentValue": undefined,
+      "_currentValue2": undefined,
+      "_threadCount": 0,
+    },
+  },
+  "ThemeContext": Object {
+    "$$typeof": Symbol(react.context),
+    "Consumer": Object {
+      "$$typeof": Symbol(react.context),
+      "_calculateChangedBits": null,
+      "_context": [Circular],
+    },
+    "Provider": Object {
+      "$$typeof": Symbol(react.provider),
+      "_context": [Circular],
+    },
+    "_calculateChangedBits": null,
+    "_currentRenderer": null,
+    "_currentRenderer2": null,
+    "_currentValue": undefined,
+    "_currentValue2": undefined,
+    "_threadCount": 0,
+  },
+  "ThemeProvider": [Function],
+  "__PRIVATE__": Object {
+    "StyleSheet": [Function],
+    "masterSheet": e {
+      "gs": Object {},
+      "names": Map {},
+      "options": Object {
+        "isServer": false,
+        "useCSSOMInjection": false,
+      },
+      "server": false,
+    },
+  },
+  "createGlobalStyle": [Function],
+  "css": [Function],
+  "default": [Function],
+  "isStyledComponent": [Function],
+  "keyframes": [Function],
+  "useTheme": [Function],
+  "version": "5.3.3",
+  "withTheme": [Function],
+}
+`;

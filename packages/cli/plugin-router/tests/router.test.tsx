@@ -4,6 +4,7 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import { createBrowserHistory } from 'history';
 import createRouterPlugin from '../src/runtime';
 import { useHistory } from '../src';
+import { DefaultNotFound } from '../src/runtime/DefaultNotFound';
 
 describe('@modern-js/plugin-router', () => {
   it('base usage', () => {
@@ -130,5 +131,31 @@ describe('@modern-js/plugin-router', () => {
     expect(container.firstChild?.textContent).toContain('App:1');
     fireEvent.click(screen.getByTestId('nav'));
     expect(customHistory.push).toHaveBeenCalledTimes(1);
+  });
+
+  it('hash router could work', () => {
+    function App({ test }: any) {
+      return <div>App:{test}</div>;
+    }
+
+    const AppWrapper = createApp({
+      plugins: [
+        createPlugin(() => ({
+          hoc: ({ App: App1 }, next) => next({ App: App1 }),
+        })),
+        createRouterPlugin({
+          routesConfig: { routes: [{ path: '/', component: App as any }] },
+          supportHtml5History: false, // use hash router
+        }),
+      ],
+    })(App);
+
+    const { container } = render(<AppWrapper test={1} />);
+    expect(container.firstChild?.textContent).toBe('App:1');
+    expect(container.innerHTML).toBe('<div>App:1</div>');
+  });
+  it('DefaultNotFound', () => {
+    const { container } = render(<DefaultNotFound />);
+    expect(container.firstChild?.textContent).toEqual('404');
   });
 });

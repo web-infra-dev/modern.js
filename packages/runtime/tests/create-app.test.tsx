@@ -6,6 +6,7 @@ import {
   createRuntime,
   createApp,
   createPlugin,
+  useRuntimeContext,
 } from '../src';
 
 declare module '..' {
@@ -103,10 +104,10 @@ describe('create-app', () => {
     interface Props {
       test: number;
     }
+
     function App({ test }: Props) {
       return <div>App:{test}</div>;
     }
-
     const AppWrapper = wrap(App, {});
 
     const { container } = render(<AppWrapper test={1} />);
@@ -138,6 +139,11 @@ describe('create-app', () => {
     const { container } = render(<AppWrapper test={1} />);
     expect(container.firstChild?.textContent).toEqual('App:1');
     expect(container.innerHTML).toBe('<div><div>App:1</div></div>');
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    const NullWrapper = wrap(null);
+    expect(React.isValidElement(<NullWrapper />)).toBe(true);
   });
 
   it('createApp with plugin options', () => {
@@ -166,5 +172,18 @@ describe('create-app', () => {
     const { container } = render(<AppWrapper test={1} />);
     expect(container.firstChild?.textContent).toEqual('App:1');
     expect(container.innerHTML).toBe('<div><div>App:1</div></div>');
+  });
+
+  it('useRuntimeContext', () => {
+    function App() {
+      const runtimeContext = useRuntimeContext();
+      return <div>runtimeContext: {typeof runtimeContext}</div>;
+    }
+    const AppWrapper = createApp({
+      plugins: [],
+    })(App);
+
+    const { container } = render(<AppWrapper />);
+    expect(container.innerHTML).toBe(`<div>runtimeContext: object</div>`);
   });
 });
