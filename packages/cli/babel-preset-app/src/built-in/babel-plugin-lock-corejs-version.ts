@@ -1,7 +1,7 @@
 import nodePath from 'path';
 import * as t from '@babel/types';
 
-const REWRITE_TARGETS = {
+const REWRITE_TARGETS: Record<string, string> = {
   '@babel/runtime': nodePath.dirname(
     require.resolve('@babel/runtime/package.json'),
   ),
@@ -11,49 +11,46 @@ const REWRITE_TARGETS = {
 const matchedKey = (value: string) =>
   Object.keys(REWRITE_TARGETS).find(name => value.startsWith(`${name}/`));
 
-export default (_: any, options: { metaName: string }) => ({
-  post({ path, ...stats }: any) {
-    const { sourceFileName } = stats.opts;
-    const { metaName } = options;
+export default (_: any, options: { metaName: string }) => {
+  const { metaName } = options;
+  const regExp = new RegExp(`node_modules(?!\\/\\.${metaName}\\/)`);
 
-    const regExp = new RegExp(`node_modules(?!\\/\\.${metaName}\\/)`);
-    if (regExp.test(sourceFileName)) {
-      return;
-    }
-
-    path.node.body.forEach((node: t.Node) => {
-      // import
-      if (t.isImportDeclaration(node)) {
-        const key = matchedKey(node.source.value);
-        if (key) {
-          node.source.value = node.source.value.replace(
-            new RegExp(`^${key}\\/`),
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            `${REWRITE_TARGETS[key]}/`,
-          );
-        }
+  return {
+    post({ path, ...stats }: any) {
+      const { sourceFileName } = stats.opts;
+      if (regExp.test(sourceFileName)) {
+        return;
       }
 
-      // require
-      if (
-        t.isExpressionStatement(node) &&
-        t.isCallExpression(node.expression)
-      ) {
-        const { callee } = node.expression;
-        const source = node.expression.arguments[0];
-        if (t.isIdentifier(callee) && callee.name === 'require') {
-          const key = matchedKey((source as any).value);
+      path.node.body.forEach((node: t.Node) => {
+        // import
+        if (t.isImportDeclaration(node)) {
+          const key = matchedKey(node.source.value);
           if (key) {
-            (source as any).value = (source as any).value.replace(
+            node.source.value = node.source.value.replace(
               new RegExp(`^${key}\\/`),
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-expect-error
               `${REWRITE_TARGETS[key]}/`,
             );
           }
         }
-      }
-    });
-  },
-});
+        // require
+        else if (
+          t.isExpressionStatement(node) &&
+          t.isCallExpression(node.expression)
+        ) {
+          const { callee } = node.expression;
+          const source = node.expression.arguments[0];
+          if (t.isIdentifier(callee) && callee.name === 'require') {
+            const key = matchedKey((source as any).value);
+            if (key) {
+              (source as any).value = (source as any).value.replace(
+                new RegExp(`^${key}\\/`),
+                `${REWRITE_TARGETS[key]}/`,
+              );
+            }
+          }
+        }
+      });
+    },
+  };
+};
