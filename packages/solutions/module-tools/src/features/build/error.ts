@@ -1,4 +1,4 @@
-import { SpeedyError } from '@speedy-js/speedy-core';
+import { SpeedyError, formatError } from '@speedy-js/speedy-core';
 // import { RollupError } from 'rollup';
 export type BuildErrorType = unknown;
 // export class BundleDtsError extends Error {
@@ -17,7 +17,7 @@ export class ModuleBuildError extends Error {
 
   fuck() {
     if (this.buildError instanceof SpeedyError) {
-      return this.buildError;
+      return formatError(this.buildError);
     } else if (this.buildError instanceof Error) {
       return this.buildError;
     }

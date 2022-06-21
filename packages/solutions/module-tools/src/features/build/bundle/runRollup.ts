@@ -62,6 +62,7 @@ const getRollupConfig = async (
   return {
     inputConfig: {
       input: dtsOptions.entry,
+      external: bundleOptions.externals,
       onwarn(warning, handler) {
         if (
           warning.code === 'UNRESOLVED_IMPORT' ||
@@ -77,6 +78,8 @@ const getRollupConfig = async (
         jsonPlugin(),
         ignoreFiles,
         dtsPlugin.default({
+          // use external to prevent them which come from node_modules from be bundled.
+          respectExternal: true,
           compilerOptions: {
             ...compilerOptions,
             baseUrl: path.resolve(compilerOptions.baseUrl || '.'),
@@ -89,9 +92,7 @@ const getRollupConfig = async (
             noEmitOnError: true,
             // Avoid extra work
             checkJs: false,
-            declarationMap: false,
             skipLibCheck: true,
-            preserveSymlinks: false,
             // Ensure we can parse the latest code
             target: ts.ScriptTarget.ESNext,
           },
@@ -107,11 +108,12 @@ const getRollupConfig = async (
 };
 
 async function runRollup(options: RollupConfig) {
-  const { rollup } = await import('rollup');
-  const bundle = await rollup(options.inputConfig);
   try {
+    const { rollup } = await import('rollup');
+    const bundle = await rollup(options.inputConfig);
     await bundle.write(options.outputConfig);
   } catch (e) {
+    console.error('bundle failed:dts')
     throw new ModuleBuildError(e);
   }
 }
@@ -128,11 +130,11 @@ async function watchRollup(options: {
   }).on('event', event => {
     if (event.code === 'START') {
       console.info(constants.clearFlag);
-      logger.info('[Bunlde:DTS] Build start');
+      logger.info('[Bundle:DTS] Build start');
     } else if (event.code === 'BUNDLE_END') {
-      console.info(`[Bunlde:DTS]: Build success`);
+      console.info(`[Bundle:DTS]: Build success`);
     } else if (event.code === 'ERROR') {
-      console.error(constants.clearFlag, '[Bunlde:DTS]: Build failed');
+      console.error(constants.clearFlag, '[Bundle:DTS]: Build failed');
       console.error(event.error);
     }
   });
