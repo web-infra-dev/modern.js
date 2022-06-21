@@ -1,5 +1,7 @@
 import { createContext } from '../farrow-pipeline';
 
+export type { Context } from '../farrow-pipeline/context';
+
 export const RunnerContext = createContext<any>(null);
 
 export const useRunner = () => {
