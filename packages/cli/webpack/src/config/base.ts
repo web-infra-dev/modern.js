@@ -420,10 +420,9 @@ class BaseWebpackConfig {
 
   plugins() {
     // progress bar
-    process.stdout.isTTY &&
-      this.chain
-        .plugin(PLUGIN.PROGRESS)
-        .use(WebpackBar, [{ name: this.chain.get('name') }]);
+    this.chain
+      .plugin(PLUGIN.PROGRESS)
+      .use(WebpackBar, [{ name: this.chain.get('name') }]);
 
     if (enableCssExtract(this.options)) {
       this.chain.plugin(PLUGIN.MINI_CSS_EXTRACT).use(MiniCssExtractPlugin, [

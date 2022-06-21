@@ -1,12 +1,6 @@
 import { sep, isAbsolute } from 'path';
+import { ensureArray } from '@modern-js/utils';
 import type { TransformOptions, PluginItem } from '@babel/core';
-
-const ensureArray = <T>(params: T | T[]): T[] => {
-  if (Array.isArray(params)) {
-    return params;
-  }
-  return [params];
-};
 
 // compatible with windows path
 const formatPath = (originPath: string) => {

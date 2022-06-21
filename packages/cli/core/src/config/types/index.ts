@@ -6,6 +6,7 @@ import type webpack from 'webpack';
 import type {
   RuleSetRule,
   Configuration as WebpackConfiguration,
+  WebpackPluginInstance,
 } from 'webpack';
 import type WebpackChain from '@modern-js/utils/webpack-chain';
 import type autoprefixer from 'autoprefixer';
@@ -233,9 +234,13 @@ export type WebpackConfigUtils = {
   env: string;
   name: string;
   webpack: typeof webpack;
-  addRules: (rules: RuleSetRule[]) => void;
-  prependPlugins: (plugins: WebpackConfiguration['plugins']) => void;
-  appendPlugins: (plugins: WebpackConfiguration['plugins']) => void;
+  addRules: (rules: RuleSetRule | RuleSetRule[]) => void;
+  prependPlugins: (
+    plugins: WebpackPluginInstance | WebpackPluginInstance[],
+  ) => void;
+  appendPlugins: (
+    plugins: WebpackPluginInstance | WebpackPluginInstance[],
+  ) => void;
   removePlugin: (pluginName: string) => void;
   /**
    * @deprecated please use `tools.webpackChain` instead.
