@@ -1,4 +1,5 @@
 import path from 'path';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { fs } from '@modern-js/utils';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import webpack, { Configuration, WebpackPluginInstance } from 'webpack';
@@ -10,15 +11,17 @@ interface Alias {
 }
 
 export function generatorWebpackConfig(
-  appDirectory: string,
+  appContext: IAppContext,
+  modernConfig: NormalizedConfig,
   tmpDir: string,
   isDev: boolean,
 ): Configuration {
+  const { appDirectory } = appContext;
   // FIXME: 这个包现在没有使用，待使用时再重构 webpack 配置的获取
   const originConfig: any = getWebpackConfig(
     WebpackConfigTarget.CLIENT,
-    {} as any,
-    {} as any,
+    appContext,
+    modernConfig,
   );
   const plugins = (
     (originConfig.plugins || []) as WebpackPluginInstance[]
@@ -40,16 +43,17 @@ export function generatorWebpackConfig(
       }),
     ],
   };
+  const pluginDocsiteDir = path.dirname(
+    require.resolve('@modern-js/plugin-docsite/package.json'),
+  );
   const docsiteNodeModules = [
     // for yarn
-    path.dirname(require.resolve('@modern-js/plugin-docsite/package.json')),
+    pluginDocsiteDir,
     // for pnpm
-    path.resolve(
-      path.dirname(require.resolve('@modern-js/plugin-docsite/package.json')),
-      '../..',
-    ),
+    path.resolve(pluginDocsiteDir, '../..'),
+    // for modern.js repo
+    path.join(pluginDocsiteDir, './node_modules/'),
   ];
-
   // maybe check if outside appDir or monorepoDir
   config.resolve!.modules = [
     ...(config.resolve!.modules || []),
