@@ -15,5 +15,7 @@ declare module '@modern-js/runtime/server' {
 
   export function hook(attacher: ExpressAttacher): ExpressAttacher;
 
+  export * from '@modern-js/bff-core';
+
   export * from '@modern-js/bff-runtime';
 }

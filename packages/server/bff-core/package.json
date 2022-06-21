@@ -36,7 +36,6 @@
     "@modern-js/utils": "workspace:^1.7.6",
     "esbuild": "^0.14.38",
     "esbuild-register": "^3.3.3",
-    "http-errors": "^2.0.0",
     "koa-compose": "^4.1.0",
     "reflect-metadata": "^0.1.13"
   },

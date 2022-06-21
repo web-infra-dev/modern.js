@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import type { z } from 'zod';
 import {
   HttpMetadata,
   Operator,
@@ -20,7 +20,8 @@ const validateInput = async <T>(schema: z.ZodType<T>, input: unknown) => {
   try {
     await schema.parseAsync(input);
   } catch (error) {
-    if (error instanceof z.ZodError) {
+    const { z: zod } = require('zod');
+    if (error instanceof (zod as typeof z).ZodError) {
       throw new ValidationError(400, error.message);
     }
     throw error;

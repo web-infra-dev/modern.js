@@ -16,6 +16,8 @@ interface Runner {
   [HANDLER_WITH_META]: boolean;
 }
 
+type NextFunction = () => void;
+
 export function Api<
   Operators extends Operator<any>[],
   Res extends MaybeAsync<any>,
@@ -63,7 +65,7 @@ export function Api<
 
     const stack = [...validateHandlers];
 
-    stack.push(async (helper: ExecuteHelper, next: any) => {
+    stack.push(async (helper: ExecuteHelper, next: NextFunction) => {
       const res = await handler(inputs);
       helper.result = res;
       return next();
