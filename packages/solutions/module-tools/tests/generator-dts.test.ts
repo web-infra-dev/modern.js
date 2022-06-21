@@ -9,7 +9,7 @@ jest.mock('@modern-js/core', () => ({
   },
 }));
 jest.mock('process.argv', () => () => (o: any) => ({ ...o, tsCheck: false }));
-jest.mock('../src/features/build/bundless/generator-dts/utils');
+jest.mock('../src/features/build/bundleless/generator-dts/utils');
 jest.mock('@modern-js/utils', () => {
   const originalModule = jest.requireActual('@modern-js/utils');
   return {
@@ -30,7 +30,7 @@ describe('generator dts test', () => {
         "There are some type warnings, which can be checked by configuring 'output.disableTsChecker = false'",
       );
     });
-    require('../src/features/build/bundless/generator-dts');
+    require('../src/features/build/bundleless/generator-dts');
   });
 });
 
