@@ -10,13 +10,14 @@ export default (): CliPlugin => ({
   name: '@modern-js/plugin-docsite',
   setup: api => ({
     commands({ program }) {
-      const { appDirectory, internalDirectory } = api.useAppContext();
+      const appContext = api.useAppContext();
+      const modernConfig = api.useResolvedConfigContext();
       const devCommand = program.commandsMap.get('dev');
       if (devCommand) {
         devCommand.command('docs').action(async () => {
           await features.buildDocs({
-            appDirectory,
-            internalDirectory,
+            appContext,
+            modernConfig,
             isDev: true,
           });
         });
@@ -24,14 +25,16 @@ export default (): CliPlugin => ({
     },
     // module-tools menu mode
     moduleToolsMenu() {
-      const { appDirectory, internalDirectory, port } = api.useAppContext();
+      const appContext = api.useAppContext();
+      const modernConfig = api.useResolvedConfigContext();
+      const { port } = appContext;
       return {
         name: 'Docsite 调试',
         value: 'docsite',
         runTask: async () =>
           features.buildDocs({
-            appDirectory,
-            internalDirectory,
+            appContext,
+            modernConfig,
             isDev: true,
             port,
           }),
