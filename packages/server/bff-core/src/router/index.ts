@@ -38,9 +38,11 @@ export class ApiRouter {
     prefix?: string;
   }) {
     this.apiFiles = [];
+
     if (apiDir) {
       this.validateAbsolute(apiDir, 'apiDir');
     }
+
     if (lambdaDir) {
       this.validateAbsolute(lambdaDir, 'lambdaDir');
     }
@@ -104,6 +106,7 @@ export class ApiRouter {
         return trigger.path;
       }
     }
+
     const routePath = getPathFromFilename(this.lambdaDir, filename);
     return routePath;
   }
@@ -118,8 +121,8 @@ export class ApiRouter {
         return trigger.method;
       }
     }
-    const upperName = originHandlerName.toUpperCase();
 
+    const upperName = originHandlerName.toUpperCase();
     switch (upperName) {
       case 'GET':
         return HttpMethod.Get;

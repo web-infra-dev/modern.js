@@ -67,6 +67,7 @@ export const createRouteHandler = (handler: Handler) => {
             ctx.status = 500;
           }
           return (ctx.body = {
+            code: (error as any).code,
             message: error.message,
           });
         }

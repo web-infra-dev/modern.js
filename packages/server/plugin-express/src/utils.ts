@@ -65,6 +65,7 @@ export const createRouteHandler = (handler: Handler) => {
             res.status(500);
           }
           return res.json({
+            code: (error as any).code,
             message: error.message,
           });
         }
