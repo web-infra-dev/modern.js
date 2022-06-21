@@ -74,6 +74,7 @@ const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
     await childProgress;
     // console.info('[TSC Compiler]: Successfully');
   } catch (e) {
+    console.error('bundleless failed:dts')
     // 通过使用 execa，可以将 tsc 的 data 类型的报错信息变为异常错误信息
     if (isObject(e) && e.stdout) {
       console.error(e.stdout);

@@ -97,6 +97,7 @@ export const runSpeedy = async (
   try {
     await compiler.build();
   } catch (e) {
+    console.error(`bundle failed: ${format}+${target}`);
     throw new ModuleBuildError(e);
   }
 };
