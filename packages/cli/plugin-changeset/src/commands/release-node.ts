@@ -31,8 +31,10 @@ export function getReleaseInfo(commit: string, commitObj: Commit) {
 
   commitObj.author = author;
 
-  if (message.match(commitRegex)) {
-    const [, messageShort, pullRequestId] = message.match(commitRegex)!;
+  if ((message || commitObj.summary).match(commitRegex)) {
+    const [, messageShort, pullRequestId] = (
+      message || commitObj.summary
+    ).match(commitRegex)!;
     commitObj.pullRequestId = pullRequestId;
     commitObj.message = messageShort.trim();
   }
@@ -96,9 +98,11 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
     const [id, message] = stdout.split('--');
     let commitObj: Commit = {
       id,
-      type: message.startsWith('fix') ? 'fix' : 'feature',
+      type: (message || changeset.summary).startsWith('fix')
+        ? 'fix'
+        : 'feature',
       repository,
-      message: message.trim(),
+      message: (message || changeset.summary).trim(),
       summary: changeset.summary,
     };
 
