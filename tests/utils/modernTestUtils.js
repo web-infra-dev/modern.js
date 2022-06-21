@@ -39,14 +39,15 @@ function runModernCommand(argv, options = {}) {
     let stdoutOutput = '';
     // if (options.stdout) {
     instance.stdout.on('data', async chunk => {
-      let marker = options.marker || /compiled successfully/i;
+      let { marker } = options;
       if (cmd === 'deploy') {
         marker = /end deploy!/i;
       }
       stdoutOutput += chunk;
       const message = chunk.toString();
-      if (marker.test(message)) {
+      if (marker && marker.test(message)) {
         resolve({
+          code: 0,
           stdout: stdoutOutput,
         });
         await killApp(instance);
