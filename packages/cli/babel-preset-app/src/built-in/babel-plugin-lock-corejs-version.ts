@@ -1,7 +1,7 @@
 import nodePath from 'path';
 import * as t from '@babel/types';
 
-const REWRITE_TARGETS = {
+const REWRITE_TARGETS: Record<string, string> = {
   '@babel/runtime': nodePath.dirname(
     require.resolve('@babel/runtime/package.json'),
   ),
@@ -28,15 +28,12 @@ export default (_: any, options: { metaName: string }) => ({
         if (key) {
           node.source.value = node.source.value.replace(
             new RegExp(`^${key}\\/`),
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             `${REWRITE_TARGETS[key]}/`,
           );
         }
       }
-
       // require
-      if (
+      else if (
         t.isExpressionStatement(node) &&
         t.isCallExpression(node.expression)
       ) {
@@ -47,8 +44,6 @@ export default (_: any, options: { metaName: string }) => ({
           if (key) {
             (source as any).value = (source as any).value.replace(
               new RegExp(`^${key}\\/`),
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-expect-error
               `${REWRITE_TARGETS[key]}/`,
             );
           }
