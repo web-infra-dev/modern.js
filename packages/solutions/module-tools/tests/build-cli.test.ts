@@ -16,16 +16,18 @@ describe('build cli in module tools', () => {
   beforeEach(() => {
     jest.resetAllMocks();
     jest.mock('../src/features/build/normalize', () => {
-      const originalModule = jest.requireActual('../src/features/build/normalize');
+      const originalModule = jest.requireActual(
+        '../src/features/build/normalize',
+      );
 
       return {
         __esModule: true,
         ...originalModule,
         normalizeModuleConfig: (...args: any[]) => {
-          const ret = originalModule.normalizeModuleConfig(...args)
+          const ret = originalModule.normalizeModuleConfig(...args);
           expect(ret[0].dts).toEqual(false);
           return ret;
-        }
+        },
       };
     });
   });
@@ -34,10 +36,9 @@ describe('build cli in module tools', () => {
     cloned.usePlugin({
       async setup(api) {
         buildCli(program, api);
-        program.parse(['', '', 'build', '--no-dts']);
+        program.parse(['', '', 'build', '--dts']);
       },
     });
     await cloned.init();
   });
-
 });
