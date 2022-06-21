@@ -4,9 +4,10 @@ import readChangesets from '@changesets/read';
 
 export interface Commit {
   id: string;
+  type: 'feature' | 'fix';
   repository?: string;
   pullRequestId?: string;
-  author: string;
+  author?: string;
   message: string; // commit message
   summary: string; // changeset summary
 }
@@ -16,30 +17,45 @@ interface ReleaseNoteOptions {
   custom?: string;
 }
 
-type CustomReleaseNoteFunction =
+export type CustomReleaseNoteFunction =
   | {
-      getReleaseNoteLine: (commit: Commit) => string;
+      getReleaseInfo?: (commit: string, commitObj: Commit) => Commit;
+      getReleaseNoteLine?: (commit: Commit) => string;
     }
   | undefined;
 
-function renderCommitInfo(
+export function getReleaseInfo(commit: string, commitObj: Commit) {
+  const commitRegex = /(.*)\(#(\d*)\)/;
+
+  const [, message, author] = commit.split('--');
+
+  commitObj.author = author;
+
+  if (message.match(commitRegex)) {
+    const [, messageShort, pullRequestId] = message.match(commitRegex)!;
+    commitObj.pullRequestId = pullRequestId;
+    commitObj.message = messageShort.trim();
+  }
+
+  return commitObj;
+}
+
+export function getReleaseNoteLine(
   commit: Commit,
-  customReleaseNoteFunction: CustomReleaseNoteFunction,
+  customReleaseNoteFunction?: CustomReleaseNoteFunction,
 ) {
   if (customReleaseNoteFunction?.getReleaseNoteLine) {
-    const info = customReleaseNoteFunction.getReleaseNoteLine(commit);
-    console.info(info);
-    return;
+    return customReleaseNoteFunction.getReleaseNoteLine(commit);
   }
   const { repository, pullRequestId, summary, author } = commit;
   if (pullRequestId && repository) {
-    console.info(
-      `[[#${pullRequestId}](https://github.com/${repository}/pull/${pullRequestId})] ${summary} -- ${author}\n`,
-    );
+    return `[[#${pullRequestId}](https://github.com/${repository}/pull/${pullRequestId})] ${summary}${
+      author ? ` -- ${author}` : ''
+    }\n`;
   } else if (pullRequestId) {
-    console.info(`[#${pullRequestId}] ${summary} -- ${author}\n`);
+    return `[#${pullRequestId}] ${summary}${author ? ` -- ${author}` : ''}\n`;
   } else {
-    console.info(`${summary} -- ${author}\n`);
+    return `${summary}${author ? ` -- ${author}` : ''}\n`;
   }
 }
 
@@ -70,7 +86,6 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
 
   const features: Commit[] = [];
   const bugFix: Commit[] = [];
-  const commitRegex = /(.*)\(#(\d*)\)/;
 
   for (const changeset of changesets) {
     const { stdout } = await execa('git', [
@@ -78,23 +93,22 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
       '--pretty=format:%h--%s--%an',
       `.changeset/${changeset.id}.md`,
     ]);
-
-    const [id, message, author] = stdout.split('--');
-    const commitObj: Commit = {
+    const [id, message] = stdout.split('--');
+    let commitObj: Commit = {
       id,
+      type: message.startsWith('fix') ? 'fix' : 'feature',
       repository,
       message: message.trim(),
       summary: changeset.summary,
-      author,
     };
 
-    if (message.match(commitRegex)) {
-      const [, messageShort, pullRequestId] = message.match(commitRegex)!;
-      commitObj.pullRequestId = pullRequestId;
-      commitObj.message = messageShort.trim();
+    if (customReleaseNoteFunction?.getReleaseInfo) {
+      commitObj = customReleaseNoteFunction.getReleaseInfo(stdout, commitObj);
+    } else {
+      commitObj = getReleaseInfo(stdout, commitObj);
     }
 
-    if (message.startsWith('fix')) {
+    if (commitObj.type === 'fix') {
       bugFix.push(commitObj);
     } else {
       features.push(commitObj);
@@ -110,7 +124,7 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
   if (features.length) {
     console.info('Features:\n');
     features.forEach(commit =>
-      renderCommitInfo(commit, customReleaseNoteFunction),
+      console.info(getReleaseNoteLine(commit, customReleaseNoteFunction)),
     );
   }
 
@@ -118,7 +132,7 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
     console.info('Bug Fix:\n');
 
     bugFix.forEach(commit =>
-      renderCommitInfo(commit, customReleaseNoteFunction),
+      console.info(getReleaseNoteLine(commit, customReleaseNoteFunction)),
     );
   }
 }
