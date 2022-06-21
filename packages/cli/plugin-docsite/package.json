@@ -37,7 +37,8 @@
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "build": "wireit",
-    "test": "wireit"
+    "test": "wireit",
+    "dev": "modern build --watch"
   },
   "dependencies": {
     "@babel/parser": "^7.18.0",
@@ -62,7 +63,8 @@
     "unist-builder": "^2.0.3",
     "unist-util-visit": "^2.0.3",
     "webpack": "^5.71.0",
-    "webpack-dev-server": "^4.1.1"
+    "webpack-dev-server": "^4.1.1",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
