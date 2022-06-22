@@ -1,4 +1,5 @@
 import nodePath from 'path';
+import { normalizeToPosixPath } from '@modern-js/utils';
 import * as t from '@babel/types';
 
 const REWRITE_TARGETS: Record<string, string> = {
@@ -18,7 +19,7 @@ export default (_: any, options: { metaName: string }) => {
   return {
     post({ path, ...stats }: any) {
       const { sourceFileName } = stats.opts;
-      if (regExp.test(sourceFileName)) {
+      if (regExp.test(normalizeToPosixPath(sourceFileName))) {
         return;
       }
 

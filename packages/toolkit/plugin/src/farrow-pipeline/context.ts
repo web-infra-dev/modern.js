@@ -105,6 +105,7 @@ export const createContainer = (
 export type Hooks = {
   useContainer: () => Container;
 };
+export type { AnyFn } from './asyncHooksInterface';
 
 const { run, hooks } = createHooks<Hooks>({
   useContainer: () => {

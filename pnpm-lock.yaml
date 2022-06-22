@@ -5020,7 +5020,6 @@ importers:
 
   tests/integration/mwa-app:
     specifiers:
-      '@babel/runtime': ^7
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/runtime': workspace:*
@@ -5031,7 +5030,6 @@ importers:
       react-dom: ^17.0.1
       typescript: ^4
     dependencies:
-      '@babel/runtime': 7.18.3
       '@modern-js/runtime': link:../../../packages/cli/plugin-runtime
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -24044,7 +24042,7 @@ packages:
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
-      nan: 2.15.0
+      nan: 2.16.0
     dev: false
     optional: true
 
