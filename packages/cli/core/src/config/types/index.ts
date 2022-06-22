@@ -31,7 +31,10 @@ import type { PostCSSLoaderOptions } from './postcss';
 import type { TsLoaderOptions } from './ts-loader';
 
 type AutoprefixerOptions = autoprefixer.Options;
-type TerserOptions = BasePluginOptions & RawTerserOptions;
+
+type TerserOptions = BasePluginOptions & {
+  terserOptions?: Partial<RawTerserOptions>;
+};
 
 export type {
   TestConfig,
