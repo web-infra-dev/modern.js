@@ -715,6 +715,7 @@ class BaseWebpackConfig {
    *
    * Will not compile:
    * - All dependencies in `node_modules/`
+   * - BFF API folder: `<appDirectory>/api`
    * - Folders outside the app directory, such as `../../packages/foo/`
    * - User configured paths in `addExcludes` of `tools.babel` and `tools.tsLoader`
    */
@@ -741,6 +742,9 @@ class BaseWebpackConfig {
     sourceIncludes.forEach(condition => {
       rule.include.add(condition);
     });
+
+    const apiDirectory = path.resolve(this.appContext.appDirectory, 'api');
+    rule.exclude.add(apiDirectory);
 
     includes.forEach(condition => {
       rule.include.add(condition);
