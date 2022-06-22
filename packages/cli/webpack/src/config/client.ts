@@ -35,8 +35,6 @@ const { USE, RULE, ONE_OF, PLUGIN } = CHAIN_ID;
 export class ClientWebpackConfig extends BaseWebpackConfig {
   htmlFilename: (name: string) => string;
 
-  coreJsEntry: string;
-
   constructor(appContext: IAppContext, options: NormalizedConfig) {
     super(appContext, options);
     this.htmlFilename = (name: string) =>
@@ -45,7 +43,6 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
           this.options.output.disableHtmlFolder ? name : `${name}/index`
         }.html`,
       );
-    this.coreJsEntry = path.resolve(__dirname, '../runtime/core-js-entry.js');
     this.babelPresetAppOptions = {
       target: 'client',
     };
@@ -120,12 +117,6 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
   private isUsingHMR() {
     return isDev() && this.options.tools?.devServer?.hot !== false;
-  }
-
-  loaders() {
-    const loaders = super.loaders();
-    this.includeCoreJsEntry();
-    return loaders;
   }
 
   plugins() {
@@ -404,16 +395,6 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
       for (const name of entryPoints) {
         this.chain.entry(name).prepend(this.coreJsEntry);
       }
-    }
-  }
-
-  // let babel to transform core-js-entry, make `useBuiltins: 'entry'` working
-  includeCoreJsEntry() {
-    if (this.options.output.polyfill === 'entry') {
-      this.chain.module
-        .rule(RULE.LOADERS)
-        .oneOf(ONE_OF.JS)
-        .include.add(this.coreJsEntry);
     }
   }
 }

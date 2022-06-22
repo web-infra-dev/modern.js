@@ -7,10 +7,11 @@ import { CHAIN_ID } from '@modern-js/utils';
 import { BaseWebpackConfig } from '../src/config/base';
 import { JS_REGEX, TS_REGEX } from '../src/utils/constants';
 import { mergeRegex } from '../src/utils/mergeRegex';
-import { userConfig, mockNodeEnv } from './util';
+import { userConfig, mockNodeEnv, setPathSerializer } from './util';
 
 describe('base webpack config', () => {
   const fixtures = path.resolve(__dirname, './fixtures');
+
   const appContext: any = {
     appDirectory: fixtures,
     internalDirectory: '/node_modules/.modern-js',
@@ -38,12 +39,13 @@ describe('base webpack config', () => {
   }
 
   test(`default webpack config`, () => {
-    userConfig.source.include = ['query-string'];
-
-    const config = new BaseWebpackConfig(
-      appContext,
-      userConfig as any,
-    ).config();
+    const config = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      source: {
+        ...userConfig.source,
+        include: ['query-string'],
+      },
+    } as any).config();
 
     // todo fix
     // expect(config.output).toEqual(
@@ -64,7 +66,6 @@ describe('base webpack config', () => {
       expect.objectContaining({
         oneOf: expect.arrayContaining([
           expect.objectContaining({
-            include: expect.arrayContaining([expect.any(Function)]),
             test: mergeRegex(JS_REGEX, TS_REGEX),
           }),
         ]),
@@ -302,16 +303,9 @@ describe('base webpack config', () => {
       .module.rule(CHAIN_ID.RULE.LOADERS)
       .oneOf(CHAIN_ID.ONE_OF.TS);
 
-    expect(rule.include.values().slice(2, 5)).toEqual([
-      /include-1/,
-      /include-2/,
-      /include-3/,
-    ]);
-    expect(rule.exclude.values()).toEqual([
-      /exclude-1/,
-      /exclude-2/,
-      /exclude-3/,
-    ]);
+    setPathSerializer();
+    expect(rule.include.values()).toMatchSnapshot();
+    expect(rule.exclude.values()).toMatchSnapshot();
   });
 
   test(`apply tools.babel and using utils.addIncludes/addExcludes`, () => {
@@ -341,16 +335,9 @@ describe('base webpack config', () => {
       .module.rule(CHAIN_ID.RULE.LOADERS)
       .oneOf(CHAIN_ID.ONE_OF.JS);
 
-    expect(rule.include.values().slice(2, 5)).toEqual([
-      /include-1/,
-      /include-2/,
-      /include-3/,
-    ]);
-    expect(rule.exclude.values()).toEqual([
-      /exclude-1/,
-      /exclude-2/,
-      /exclude-3/,
-    ]);
+    setPathSerializer();
+    expect(rule.include.values()).toMatchSnapshot();
+    expect(rule.exclude.values()).toMatchSnapshot();
   });
 
   test(`should apply module scope plugin when user config contains moduleScopes`, () => {
