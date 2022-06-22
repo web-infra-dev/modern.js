@@ -29,6 +29,15 @@ export default (): CliPlugin => ({
           .description(i18n.t(localeKeys.command.bump.describe))
           .option('--canary', i18n.t(localeKeys.command.bump.canary), false)
           .option(
+            '--ignore <package>',
+            i18n.t(localeKeys.command.bump.ignore),
+            (val: string, memo: string[]) => {
+              memo.push(val);
+              return memo;
+            },
+            [],
+          )
+          .option(
             '--preid <tag>',
             i18n.t(localeKeys.command.bump.preid),
             'next',
