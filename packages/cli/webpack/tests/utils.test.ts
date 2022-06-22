@@ -4,7 +4,7 @@ import { mergeRegex } from '../src/utils/mergeRegex';
 import { getBabelOptions } from '../src/utils/getBabelOptions';
 import { verifyTsConfigPaths } from '../src/utils/getWebpackAliases';
 import { isNodeModulesCss } from '../src/config/shared';
-import { setBabelConfigSerializer } from './util';
+import { setPathSerializer } from './util';
 
 jest.mock('@modern-js/utils', () => {
   const originalModule = jest.requireActual('@modern-js/utils');
@@ -45,7 +45,7 @@ describe('getBabelOptions', () => {
       },
     );
 
-    setBabelConfigSerializer();
+    setPathSerializer();
     expect(babelOptions).toMatchSnapshot();
   });
 });
