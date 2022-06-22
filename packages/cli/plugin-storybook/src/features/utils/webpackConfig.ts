@@ -26,6 +26,7 @@ const resolveStorybookWebPackConfig = (
   clientWebpackConfig: Configuration,
   { appDirectory }: { appDirectory: string },
 ) => {
+  sbWebpackConfig.output = clientWebpackConfig.output;
   if (sbWebpackConfig.module) {
     const blackRuleList = [
       /\.css$/.toString(),
@@ -144,6 +145,10 @@ export const getCustomWebpackConfigHandle: any = ({
 }) => {
   const { RULE, PLUGIN, ONE_OF } = CHAIN_ID;
   const { appDirectory } = appContext;
+
+  // Manual configuration `output.path = 'storybook-static'`;
+  modernConfig.output.path = './dist/storybook-static';
+
   const webpackConfig = new ClientNoEntryWebpackConfig(
     appContext,
     modernConfig,
