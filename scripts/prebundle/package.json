@@ -69,6 +69,7 @@
     "commander": "8.3.0",
     "copy-webpack-plugin": "9.1.0",
     "css-modules-typescript-loader": "4.0.1",
+    "css-loader": "6.7.1",
     "debug": "4.3.4",
     "dotenv": "10.0.0",
     "dotenv-expand": "5.1.0",
