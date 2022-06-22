@@ -107,3 +107,35 @@ Less v4 版本与 v3 版本相比，除法的写法有一些区别：
 Modern.js 内置的 Less 版本为 v4，低版本的写法不会生效，请注意区分。
 
 Less 中除法的写法也可以通过配置项来修改，详见 [Less - Math](https://lesscss.org/usage/#less-options-math)。
+
+### 如何移除代码中的 console？
+
+在生产环境构建时，我们可以移除代码中的 `console`，从而避免开发环境的日志被输出到生产环境。
+
+由于 Modern.js 默认在生产环境使用 [terser](https://github.com/terser/terser) 进行代码压缩，因此我们可以通过 [tools.terser](/docs/apis/config/tools/terser) 配置项来移除 `console`：
+
+```js title="modern.config.ts"
+export default defineConfig({
+  tools: {
+    terser: opt => {
+      if (typeof opt.terserOptions?.compress === 'object') {
+        opt.terserOptions.compress.drop_console = true;
+      }
+    },
+  },
+});
+```
+
+如果只希望移除 `console.log` 和 `console.warn`，保留 `console.error`，可以配置为：
+
+```js title="modern.config.ts"
+export default defineConfig({
+  tools: {
+    terser: opt => {
+      if (typeof opt.terserOptions?.compress === 'object') {
+        opt.terserOptions.compress.pure_funcs = ['console.log', 'console.warn'];
+      }
+    },
+  },
+});
+```
