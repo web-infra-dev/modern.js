@@ -74,6 +74,8 @@ class BaseWebpackConfig {
 
   isTsProject: boolean;
 
+  coreJsEntry: string;
+
   babelPresetAppOptions?: Partial<BabelPrestAppOptions>;
 
   constructor(appContext: IAppContext, options: NormalizedConfig) {
@@ -86,6 +88,8 @@ class BaseWebpackConfig {
     this.options = options;
 
     this.chain = new WebpackChain();
+
+    this.coreJsEntry = path.resolve(__dirname, '../runtime/core-js-entry.js');
 
     this.dist = ensureAbsolutePath(
       this.appDirectory,
@@ -249,18 +253,6 @@ class BaseWebpackConfig {
 
     if (useTsLoader) {
       this.applyTsLoader(loaders);
-    }
-
-    const includes = getSourceIncludes(this.appDirectory, this.options);
-
-    if (includes.length > 0) {
-      const includeRegex = mergeRegex(...includes);
-      const testResource = (resource: string) => includeRegex.test(resource);
-      loaders.oneOf(ONE_OF.JS).include.add(testResource);
-
-      if (loaders.oneOfs.has(ONE_OF.TS)) {
-        loaders.oneOf(ONE_OF.TS).include.add(testResource);
-      }
     }
 
     const disableCssModuleExtension =
@@ -710,6 +702,54 @@ class BaseWebpackConfig {
     }
   }
 
+  /**
+   * Condition of babel-loader and ts-loader.
+   *
+   * Will compile:
+   * - All folders in app directory, such as `src/`, `shared/`...
+   * - Internal folder `node_modules/.modern.js`
+   * - User configured paths in `source.include`
+   * - User configured paths in `addIncludes` of `tools.babel` and `tools.tsLoader`
+   * - Entry file of core-js when `output.polyfill` is `entry`
+   * - Internal sub-projects in modern.js monorepo: `/<MonorepoRoot>/features/*`
+   *
+   * Will not compile:
+   * - All dependencies in `node_modules/`
+   * - Folders outside the app directory, such as `../../packages/foo/`
+   * - User configured paths in `addExcludes` of `tools.babel` and `tools.tsLoader`
+   */
+  applyScriptCondition(
+    rule: WebpackChain.Rule<WebpackChain.Rule<WebpackChain.Module>>,
+    includes: (string | RegExp)[],
+    excludes: (string | RegExp)[],
+  ) {
+    // compile all folders in app directory, exclude node_modules
+    rule.include.add({
+      and: [this.appContext.appDirectory, { not: /node_modules/ }],
+    });
+
+    // internalDirectory should by compiled by default
+    rule.include.add(this.appContext.internalDirectory);
+
+    // let babel to transform core-js-entry, make `useBuiltins: 'entry'` working
+    if (this.options.output.polyfill === 'entry') {
+      rule.include.add(this.coreJsEntry);
+    }
+
+    // source.includes from modern.config.js
+    const sourceIncludes = getSourceIncludes(this.appDirectory, this.options);
+    sourceIncludes.forEach(condition => {
+      rule.include.add(condition);
+    });
+
+    includes.forEach(condition => {
+      rule.include.add(condition);
+    });
+    excludes.forEach(condition => {
+      rule.exclude.add(condition);
+    });
+  }
+
   applyBabelLoader(
     loaders: WebpackChain.Rule<WebpackChain.Module>,
     useTsLoader: boolean,
@@ -726,16 +766,7 @@ class BaseWebpackConfig {
       .oneOf(ONE_OF.JS)
       .test(useTsLoader ? JS_REGEX : mergeRegex(JS_REGEX, TS_REGEX));
 
-    rule.include
-      .add(this.appContext.srcDirectory)
-      .add(this.appContext.internalDirectory);
-
-    includes.forEach(include => {
-      rule.include.add(include);
-    });
-    excludes.forEach(exclude => {
-      rule.exclude.add(exclude);
-    });
+    this.applyScriptCondition(rule, includes, excludes);
 
     rule
       .use(USE.BABEL)
@@ -760,10 +791,7 @@ class BaseWebpackConfig {
       ],
     };
 
-    const includes: Array<string | RegExp> = [
-      this.appContext.srcDirectory,
-      this.appContext.internalDirectory,
-    ];
+    const includes: Array<string | RegExp> = [];
     const excludes: Array<string | RegExp> = [];
 
     const tsLoaderUtils = {
@@ -798,12 +826,7 @@ class BaseWebpackConfig {
 
     const rule = loaders.oneOf(ONE_OF.TS).test(TS_REGEX);
 
-    includes.forEach(include => {
-      rule.include.add(include);
-    });
-    excludes.forEach(exclude => {
-      rule.exclude.add(exclude);
-    });
+    this.applyScriptCondition(rule, includes, excludes);
 
     rule
       .use(USE.BABEL)
