@@ -716,10 +716,6 @@ class BaseWebpackConfig {
    * - All dependencies in `node_modules/`
    * - Folders outside the app directory, such as `../../packages/foo/`
    * - User configured paths in `addExcludes` of `tools.babel` and `tools.tsLoader`
-   *
-   * @param rule
-   * @param includes
-   * @param excludes
    */
   applyScriptCondition(
     rule: WebpackChain.Rule<WebpackChain.Rule<WebpackChain.Module>>,
