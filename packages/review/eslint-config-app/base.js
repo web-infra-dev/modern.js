@@ -828,11 +828,6 @@ module.exports = {
     // https://eslint.org/docs/rules/wrap-regex
     'wrap-regex': 'off',
 
-    /*
-     * ECMAScript 6
-     * https://eslint.org/docs/rules/arrow-body-style
-     */
-    'arrow-body-style': ['error', 'as-needed'],
     // https://eslint.org/docs/rules/arrow-parens
     'arrow-parens': ['error', 'as-needed', { requireForBlockBody: true }],
     // https://eslint.org/docs/rules/arrow-spacing
@@ -893,8 +888,6 @@ module.exports = {
     'no-var': 'error',
     // https://eslint.org/docs/rules/object-shorthand
     'object-shorthand': ['error', 'always'],
-    // https://eslint.org/docs/rules/prefer-arrow-callback
-    'prefer-arrow-callback': ['error', { allowNamedFunctions: true }],
     // https://eslint.org/docs/rules/prefer-const
     'prefer-const': [
       'error',
@@ -942,22 +935,11 @@ module.exports = {
     /*
      * prettier
      * https://github.com/prettier/prettier#options
+     * https://github.com/prettier/eslint-plugin-prettier#recommended-configuration
      */
-    'prettier/prettier': [
-      'error',
-      {
-        printWidth: 80,
-        tabWidth: 2,
-        useTabs: false,
-        semi: true,
-        singleQuote: true,
-        trailingComma: 'all',
-        bracketSpacing: true,
-        bracketSameLine: true,
-        arrowParens: 'avoid',
-        endOfLine: 'auto',
-      },
-    ],
+    'prettier/prettier': 'error',
+    'arrow-body-style': 'off',
+    'prefer-arrow-callback': 'off',
 
     /*
      * import
