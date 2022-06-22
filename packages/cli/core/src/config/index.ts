@@ -44,19 +44,18 @@ export const defineConfig = (config: ConfigParam): ConfigParam => config;
  * Assign the pkg config into the user config.
  */
 export const assignPkgConfig = (
-  config: UserConfig = {},
+  userConfig: UserConfig = {},
   pkgConfig: ConfigParam = {},
-) => {
-  return mergeWith({}, config, pkgConfig, (objValue, srcValue) => {
+) =>
+  mergeWith({}, userConfig, pkgConfig, (objValue, srcValue) => {
     // mergeWith can not merge object with symbol, but plugins object contains symbol,
     // so we need to handle it manually.
     if (objValue === undefined && isPlainObject(srcValue)) {
-      return Array.isArray(srcValue) ? [...srcValue] : { ...srcValue };
+      return { ...srcValue };
     }
     // return undefined to use the default behavior of mergeWith
     return undefined;
   });
-};
 
 export const loadUserConfig = async (
   appDirectory: string,
