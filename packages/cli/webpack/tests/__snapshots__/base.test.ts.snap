@@ -21,7 +21,6 @@ Array [
 
 exports[`base webpack config apply tools.babel and using utils.addIncludes/addExcludes 2`] = `
 Array [
-  /cli/webpack/tests/fixtures/api,
   /exclude-1/,
   /exclude-2/,
   /exclude-3/,
@@ -49,9 +48,14 @@ Array [
 
 exports[`base webpack config apply tools.tsLoader and using utils.addIncludes/addExcludes 2`] = `
 Array [
-  /cli/webpack/tests/fixtures/api,
   /exclude-1/,
   /exclude-2/,
   /exclude-3/,
+]
+`;
+
+exports[`base webpack config should exclude api dir from babel-loader when api dir exists 1`] = `
+Array [
+  /cli/webpack/tests/fixtures/api,
 ]
 `;

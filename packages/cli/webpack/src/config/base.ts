@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 import path from 'path';
 import {
+  fs,
   chalk,
   isProd,
   isDev,
@@ -744,8 +745,11 @@ class BaseWebpackConfig {
       rule.include.add(condition);
     });
 
+    // exclude the api folder if exists
     const apiDir = path.resolve(this.appContext.appDirectory, API_DIR);
-    rule.exclude.add(apiDir);
+    if (fs.existsSync(apiDir)) {
+      rule.exclude.add(apiDir);
+    }
 
     includes.forEach(condition => {
       rule.include.add(condition);
