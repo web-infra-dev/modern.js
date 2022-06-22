@@ -30,6 +30,7 @@
     "bump": "modern bump",
     "pre": "modern pre",
     "change-status": "modern change-status",
+    "gen-release-note": "modern gen-release-note",
     "release": "modern release --ignore-scripts",
     "fix:lockfile": "pnpm install --fix-lockfile",
     "update:lockfile": "pnpm install --lockfile-only"
