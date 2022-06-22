@@ -46,7 +46,6 @@ npx modern build --analyze
 
 <img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/mwa-build-analyze-8784f762c1ab0cb20935829d5f912c4c.png" />
 
-
 ### 避免使用 ts-loader
 
 默认情况下，Modern.js 使用 Babel 编译 TS 文件，开启 `output.enableTsLoader` 选项后，会使用 `ts-loader` 编译 TS 文件。
@@ -129,6 +128,27 @@ export default defineConfig({
   },
 });
 ```
+
+### 调整开发环境的 Browserslist 范围
+
+这项优化的原理与「提升 Browserslist 范围」类似，区别在于，我们可以为开发环境和生产环境设置不同的 browserslist，使开发环境下不需要引入额外的 Polyfill 编译逻辑。
+
+比如在 `package.json` 中添加以下配置，在开发环境下只兼容最新的浏览器，在生产环境下兼容实际需要的浏览器：
+
+```json
+{
+  "browserslist": {
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
+```
+
+注意，这项优化策略会导致 `dev` 构建的产物与 `build` 构建的产物存在一定差异。
 
 ## build 优化策略
 
