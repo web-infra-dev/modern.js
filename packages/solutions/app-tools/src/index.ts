@@ -1,13 +1,10 @@
-import * as path from 'path';
+import path from 'path';
 import { defineConfig, cli, CliPlugin } from '@modern-js/core';
 import AnalyzePlugin from '@modern-js/plugin-analyze';
 import { cleanRequireCache } from '@modern-js/utils';
 import { hooks } from './hooks';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils/language';
-import { start } from './commands/start';
-import { dev } from './commands/dev';
-import { closeServer } from './utils/createServer';
 import type { DevOptions, BuildOptions, DeployOptions } from './utils/types';
 
 export { defineConfig };
@@ -45,6 +42,7 @@ export default (): CliPlugin => ({
           .option('--analyze', i18n.t(localeKeys.command.shared.analyze))
           .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
           .action(async (options: DevOptions) => {
+            const { dev } = await import('./commands/dev');
             await dev(api, options);
           });
 
@@ -71,6 +69,7 @@ export default (): CliPlugin => ({
           .description(i18n.t(localeKeys.command.start.describe))
           .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
           .action(async () => {
+            const { start } = await import('./commands/start');
             await start(api);
           });
 
@@ -138,6 +137,7 @@ export default (): CliPlugin => ({
           !absolutePath.includes(srcDirectory) &&
           (eventType === 'change' || eventType === 'unlink')
         ) {
+          const { closeServer } = await import('./utils/createServer');
           await closeServer();
           await cli.restart();
         }
