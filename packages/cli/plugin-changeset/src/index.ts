@@ -1,7 +1,9 @@
 import type { CliPlugin } from '@modern-js/core';
-import { change, bump, pre, release, status } from './commands';
+import { change, bump, pre, release, status, genReleaseNote } from './commands';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils';
+
+export * from './commands';
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-changeset',
@@ -67,6 +69,19 @@ export default (): CliPlugin => ({
           .option('--output <file>', i18n.t(localeKeys.command.status.output))
           .option('--since <ref>', i18n.t(localeKeys.command.status.since))
           .action((options: any) => status(options));
+
+        program
+          .command('gen-release-note')
+          .description(i18n.t(localeKeys.command.gen_release_note.describe))
+          .option(
+            '--repo <repo>',
+            i18n.t(localeKeys.command.gen_release_note.repo),
+          )
+          .option(
+            '--custom <cumtom>',
+            i18n.t(localeKeys.command.gen_release_note.custom),
+          )
+          .action((options: any) => genReleaseNote(options));
       },
     };
   },

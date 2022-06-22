@@ -36,5 +36,10 @@ export const EN_LOCALE = {
       since:
         'only display information about changesets since a specific branch or git tag',
     },
+    gen_release_note: {
+      describe: 'generator release note info from changesets',
+      repo: 'reponame to generator pull request link, like modern-js-dev/modern.js',
+      custom: 'custom release note render rules',
+    },
   },
 };
