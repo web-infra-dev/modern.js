@@ -6,10 +6,11 @@ import {
   isDev,
   PLUGIN_SCHEMAS,
   chalk,
+  isPlainObject,
   getServerConfig,
   getPackageManager,
 } from '@modern-js/utils';
-import { isPlainObject, mergeWith } from '@modern-js/utils/lodash';
+import { mergeWith } from '@modern-js/utils/lodash';
 
 import Ajv, { ErrorObject } from '../../compiled/ajv';
 import ajvKeywords from '../../compiled/ajv-keywords';
