@@ -11,6 +11,8 @@ import { userConfig, mockNodeEnv } from './util';
 
 describe('base webpack config', () => {
   const fixtures = path.resolve(__dirname, './fixtures');
+  const packageDir = path.join(__dirname, '..');
+
   const appContext: any = {
     appDirectory: fixtures,
     internalDirectory: '/node_modules/.modern-js',
@@ -38,12 +40,13 @@ describe('base webpack config', () => {
   }
 
   test(`default webpack config`, () => {
-    userConfig.source.include = ['query-string'];
-
-    const config = new BaseWebpackConfig(
-      appContext,
-      userConfig as any,
-    ).config();
+    const config = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      source: {
+        ...userConfig.source,
+        include: ['query-string'],
+      },
+    } as any).config();
 
     // todo fix
     // expect(config.output).toEqual(
@@ -64,7 +67,6 @@ describe('base webpack config', () => {
       expect.objectContaining({
         oneOf: expect.arrayContaining([
           expect.objectContaining({
-            include: expect.arrayContaining([expect.any(Function)]),
             test: mergeRegex(JS_REGEX, TS_REGEX),
           }),
         ]),
@@ -302,7 +304,13 @@ describe('base webpack config', () => {
       .module.rule(CHAIN_ID.RULE.LOADERS)
       .oneOf(CHAIN_ID.ONE_OF.TS);
 
-    expect(rule.include.values().slice(2, 5)).toEqual([
+    expect(rule.include.values()).toEqual([
+      {
+        and: [`${packageDir}/tests/fixtures`, { not: /node_modules/ }],
+      },
+      '/node_modules/.modern-js',
+      `${packageDir}/src/runtime/core-js-entry.js`,
+      'query-string',
       /include-1/,
       /include-2/,
       /include-3/,
@@ -341,7 +349,13 @@ describe('base webpack config', () => {
       .module.rule(CHAIN_ID.RULE.LOADERS)
       .oneOf(CHAIN_ID.ONE_OF.JS);
 
-    expect(rule.include.values().slice(2, 5)).toEqual([
+    expect(rule.include.values()).toEqual([
+      {
+        and: [`${packageDir}/tests/fixtures`, { not: /node_modules/ }],
+      },
+      '/node_modules/.modern-js',
+      `${packageDir}/src/runtime/core-js-entry.js`,
+      'query-string',
       /include-1/,
       /include-2/,
       /include-3/,
