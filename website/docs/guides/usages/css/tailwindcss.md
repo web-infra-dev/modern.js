@@ -59,9 +59,9 @@ export default defineConfig({
 });
 ```
 
-## 使用 [`Twin`]((https://github.com/ben-rogerson/twin.macro)) 库
+## 使用 [`Twin`](https://github.com/ben-rogerson/twin.macro) 库
 
-在上一章中介绍了什么是 CSS-in-JS 以及社区常用的 CSS-in-JS 库 [styled-components](https://styled-components.com/)。这一部分将要介绍如何通过 [`Twin`](https://github.com/ben-rogerson/twin.macro) 在 CSS-in-JS 中使用 [Tailwind CSS](https://tailwindcss.com/)。使用 [`Twin`](https://github.com/ben-rogerson/twin.macro) 可以更容易在 Css-in-JS 的代码中使用 Tailwind CSS。[`Twin`](https://github.com/ben-rogerson/twin.macro) 对于自己的描述是：
+在上一章中介绍了什么是 CSS-in-JS 以及社区常用的 CSS-in-JS 库 [styled-components](https://styled-components.com/)。这一部分将要介绍如何通过 [`Twin`](https://github.com/ben-rogerson/twin.macro) 在 CSS-in-JS 中使用 [Tailwind CSS](https://tailwindcss.com/)。使用 [`Twin`](https://github.com/ben-rogerson/twin.macro) 可以更容易在 CSS-in-JS 的代码中使用 Tailwind CSS。[`Twin`](https://github.com/ben-rogerson/twin.macro) 对于自己的描述是：
 
 > *Twin blends the magic of Tailwind with the flexibility of css-in-js*
 
@@ -89,7 +89,7 @@ const Input = tw.input`border hover:border-black`
 
 更多的使用方式可以参考 `twin.macro` 的 [文档](https://github.com/ben-rogerson/twin.macro/blob/master/docs/index.md)。
 
-`twin.macro` 默认会读取项目目录下的 `tailwindcss.config.js` 文件，或者通过 `babel-plugin-macro` 上的 [`twin.config`](https://github.com/ben-rogerson/twin.macro/blob/master/docs/options.md#options) 指定的文件路径读取 Tailwind CSS 配置。不过在 Modern.js 不需要进行这些额外配置。
+`twin.macro` 默认会读取项目目录下的 `tailwindcss.config.js` 文件，或者通过 `babel-plugin-macro` 上的 [`twin.config`](https://github.com/ben-rogerson/twin.macro/blob/master/docs/options.md#options) 指定的文件路径读取 Tailwind CSS 配置。不过在 Modern.js 中不需要进行这些额外配置。
 
 当在 `modern.config.ts` 文件中通过 [`source.designSystem`](/docs/apis/config/source/design-system) 和  [`tools.tailwindcss`](/docs/apis/config/tools/tailwindcss) 对 Tailwind CSS 进行配置的时候，这些配置也会对 `twin.macro` 生效。
 > 当为项目配置 Tailwind CSS 的时候，[`source.designSystem`](/docs/apis/config/source/design-system) 和  [`tools.tailwindcss`](/docs/apis/config/tools/tailwindcss) 这两个配置的组合等价于单独配置了一个 `tailwindcss.config.js` 文件。
