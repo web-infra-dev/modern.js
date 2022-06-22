@@ -710,6 +710,7 @@ class BaseWebpackConfig {
    * - Internal folder `node_modules/.modern.js`
    * - User configured paths in `source.include`
    * - User configured paths in `addIncludes` of `tools.babel` and `tools.tsLoader`
+   * - Entry file of core-js when `output.polyfill` is `entry`
    *
    * Will not compile:
    * - All dependencies in `node_modules/`
