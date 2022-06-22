@@ -19,7 +19,8 @@ export default (_: any, options: { metaName: string }) => {
   return {
     post({ path, ...stats }: any) {
       const { sourceFileName } = stats.opts;
-      if (regExp.test(normalizeToPosixPath(sourceFileName))) {
+      const trySearchFileName = normalizeToPosixPath(sourceFileName || '');
+      if (regExp.test(trySearchFileName)) {
         return;
       }
 
