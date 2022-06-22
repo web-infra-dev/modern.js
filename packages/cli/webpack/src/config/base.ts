@@ -5,6 +5,7 @@ import {
   isProd,
   isDev,
   signale,
+  API_DIR,
   CHAIN_ID,
   isProdProfile,
   isTypescript,
@@ -743,8 +744,8 @@ class BaseWebpackConfig {
       rule.include.add(condition);
     });
 
-    const apiDirectory = path.resolve(this.appContext.appDirectory, 'api');
-    rule.exclude.add(apiDirectory);
+    const apiDir = path.resolve(this.appContext.appDirectory, API_DIR);
+    rule.exclude.add(apiDir);
 
     includes.forEach(condition => {
       rule.include.add(condition);
