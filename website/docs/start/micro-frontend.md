@@ -152,7 +152,7 @@ export default defineConfig({
 
 ```tsx
 import { Switch, Route, Link } from '@modern-js/runtime/router';
-import { useModuleApps } from '@modern-js/runtime';
+import { useModuleApps } from '@modern-js/plugin-garfish';
 
 import './App.css';
 

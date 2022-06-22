@@ -6,7 +6,7 @@ sidebar_position: 7
 :::info 补充信息
 返回所有微前端子应用的 React 组件，用于可自由控制路由。
 ```ts
-import { useModuleApps } from '@modern-js/runtime';
+import { useModuleApps } from '@modern-js/plugin-garfish';
 ```
 :::
 

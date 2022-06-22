@@ -41,7 +41,7 @@ export default defineConfig({
 使用 [useModuleApps](/docs/apis/runtime/app/use-module-apps) API 获取子应用组件，并加载子应用。
 
 ```tsx title=App.tsx
-import { useModuleApps } from '@modern-js/runtime';
+import { useModuleApps } from '@modern-js/plugin-garfish';
 
 function App() {
   const { Dashboard } = useModuleApps();
