@@ -44,8 +44,6 @@ module.exports = {
     'promise',
     // https://www.npmjs.com/package/eslint-plugin-node
     'node',
-    // https://github.com/gajus/eslint-plugin-jsdoc
-    // 'jsdoc',
     // https: //github.com/eslint/eslint-plugin-markdown
     'markdown',
   ],
