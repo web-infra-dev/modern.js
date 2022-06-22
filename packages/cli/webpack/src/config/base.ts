@@ -711,6 +711,7 @@ class BaseWebpackConfig {
    * - User configured paths in `source.include`
    * - User configured paths in `addIncludes` of `tools.babel` and `tools.tsLoader`
    * - Entry file of core-js when `output.polyfill` is `entry`
+   * - Internal sub-projects in modern.js monorepo: `/<MonorepoRoot>/features/*`
    *
    * Will not compile:
    * - All dependencies in `node_modules/`
