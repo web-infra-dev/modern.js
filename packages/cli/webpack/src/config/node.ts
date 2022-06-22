@@ -45,7 +45,7 @@ export function filterEntriesBySSRConfig(
     if (
       !ssgEntries.includes(name) &&
       ((ssr && ssrByEntries?.[name] === false) ||
-        (!ssr && ssrByEntries?.[name] !== true))
+        (!ssr && !ssrByEntries?.[name]))
     ) {
       chain.entryPoints.delete(name);
     }
