@@ -92,15 +92,6 @@ export default (): CliPlugin => ({
                 `${appDirectory}${path.sep}api${path.sep}.*(.[tj]s)$`,
               ),
             );
-
-            const loaders = chain.module.rule(CHAIN_ID.RULE.LOADERS);
-
-            loaders.oneOf(CHAIN_ID.ONE_OF.JS).exclude.add(apiRegexp);
-
-            if (modernConfig.output?.enableTsLoader) {
-              loaders.oneOf(CHAIN_ID.ONE_OF.TS).exclude.add(apiRegexp);
-            }
-
             chain.module
               .rule(CHAIN_ID.RULE.LOADERS)
               .oneOf(CHAIN_ID.ONE_OF.BFF_CLIENT)
