@@ -17,6 +17,8 @@ export const pluginAPI = {
   useResolvedConfigContext,
 };
 
+export type { IAppContext } from '@modern-js/types';
+
 /** all apis for cli plugin */
 export type PluginAPI = typeof pluginAPI & CommonAPI<CliHooks>;
 

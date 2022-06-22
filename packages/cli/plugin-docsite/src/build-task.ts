@@ -1,4 +1,8 @@
-import type { IAppContext, CoreOptions } from '@modern-js/core';
+import type {
+  IAppContext,
+  CoreOptions,
+  NormalizedConfig,
+} from '@modern-js/core';
 import { Import } from '@modern-js/utils';
 
 const core: typeof import('@modern-js/core') = Import.lazy(
@@ -10,13 +14,11 @@ const features: typeof import('./features') = Import.lazy(
   require,
 );
 
-interface IBuildTaskOption {
-  appContext: IAppContext;
-}
-
-const taskMain = async ({ appContext }: IBuildTaskOption) => {
-  const { appDirectory, internalDirectory } = appContext;
-  await features.buildDocs({ appDirectory, internalDirectory });
+const taskMain = async (
+  appContext: IAppContext,
+  modernConfig: NormalizedConfig,
+) => {
+  await features.buildDocs({ appContext, modernConfig });
 };
 
 (async () => {
@@ -24,10 +26,10 @@ const taskMain = async ({ appContext }: IBuildTaskOption) => {
   if (process.env.CORE_INIT_OPTION_FILE) {
     ({ options } = require(process.env.CORE_INIT_OPTION_FILE));
   }
-  const { appContext } = await core.cli.init([], options);
+  const { appContext, resolved } = await core.cli.init([], options);
   await core.manager.run(async () => {
     try {
-      await taskMain({ appContext });
+      await taskMain(appContext, resolved);
     } catch (e: any) {
       console.error(e.message);
     }
