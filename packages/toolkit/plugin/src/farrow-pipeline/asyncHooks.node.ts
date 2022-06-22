@@ -60,14 +60,21 @@ const createAsyncHooks = <T>() => {
   };
 };
 
+let enabled = false;
+
 export const enable = () => {
+  if (enabled) {
+    return;
+  }
+
+  enabled = true;
   const hooks = createAsyncHooks<asyncHooksInterface.Hooks>();
-  disable();
   asyncHooksInterface.impl(hooks);
   hooks.enable();
 };
 
 export const disable = () => {
+  enabled = false;
   asyncHooksInterface.asyncHooks?.disable();
   asyncHooksInterface.reset();
 };
