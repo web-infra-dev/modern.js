@@ -1,5 +1,14 @@
 # @modern-js/runtime-core
 
+## 1.5.1
+
+### Patch Changes
+
+- 30b1bf701: fix(runtime-core): make sure the component returned by `createApp` could be mounted directly
+- Updated dependencies [b7302f781]
+- Updated dependencies [e0e708f83]
+  - @modern-js/plugin@1.3.8
+
 ## 1.5.0
 
 ### Minor Changes

@@ -1,5 +1,15 @@
 # @modern-js/babel-preset-base
 
+## 1.4.2
+
+### Patch Changes
+
+- 073e9ad78: feat(webpack): improve utils of tools.webpack
+- Updated dependencies [63c354ad5]
+- Updated dependencies [073e9ad78]
+- Updated dependencies [f4a7d49e1]
+  - @modern-js/utils@1.7.8
+
 ## 1.4.1
 
 ### Patch Changes

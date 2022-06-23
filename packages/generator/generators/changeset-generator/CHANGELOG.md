@@ -1,5 +1,11 @@
 # @modern-js/changeset-generator
 
+## 1.4.0
+
+### Minor Changes
+
+- 4599e6914: feat: upgrade changeset config version
+
 ## 1.3.3
 
 ### Patch Changes

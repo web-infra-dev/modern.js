@@ -1,5 +1,20 @@
 # @modern-js/core
 
+## 1.12.1
+
+### Patch Changes
+
+- b255072f2: fix(core): failed to load user plugins in modern.config.js
+- 7975bfa68: fix(core): incorrect type of tools.terser
+- b7302f781: Export some required types
+- Updated dependencies [63c354ad5]
+- Updated dependencies [073e9ad78]
+- Updated dependencies [b7302f781]
+- Updated dependencies [f4a7d49e1]
+- Updated dependencies [e0e708f83]
+  - @modern-js/utils@1.7.8
+  - @modern-js/plugin@1.3.8
+
 ## 1.12.0
 
 ### Minor Changes

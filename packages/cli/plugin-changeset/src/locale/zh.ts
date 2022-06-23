@@ -11,7 +11,7 @@ export const ZH_LOCALE = {
       describe: '使用变更集自动更新发布版本和变更日志',
       canary: '创建一个预发布版本进行测试',
       preid: '在对预发布版本进行版本控制时指定标识符',
-      snapshot: '创建一个特殊版本进行测试',
+      snapshot: '创建一个快照版本进行测试',
       ignore: '跳过部分包发布版本',
     },
     pre: {
