@@ -1,4 +1,3 @@
-import { runWithContainer, createContainer } from '../farrow-pipeline';
 import { generateRunner, DEFAULT_OPTIONS } from './sync';
 import { useRunner } from './runner';
 import {
@@ -8,13 +7,7 @@ import {
   sortPlugins,
   includePlugin,
 } from './shared';
-import type {
-  ToRunners,
-  ToThreads,
-  CommonAPI,
-  InitOptions,
-  PluginOptions,
-} from './types';
+import type { ToRunners, ToThreads, CommonAPI, PluginOptions } from './types';
 
 /** Setup function of async plugin. */
 export type AsyncSetup<Hooks, API = Record<string, never>> = (
@@ -66,16 +59,14 @@ export type AsyncManager<Hooks, API> = {
 
   /**
    * Init manager, it will call the setup function of all registered plugins.
-   * @param options passing a custom container.
    */
-  init: (options?: InitOptions) => Promise<ToRunners<Hooks>>;
+  init: () => Promise<ToRunners<Hooks>>;
 
   /**
-   * Run callback function with current container.
+   * Run callback function.
    * @param callback
-   * @param options passing a custom container.
    */
-  run: <O>(cb: () => O, options?: InitOptions) => O;
+  run: <O>(cb: () => O) => O;
 
   /**
    * Register new hooks.
@@ -194,10 +185,7 @@ export const createAsyncManager = <
       plugins = [];
     };
 
-    const currentContainer = createContainer();
-
-    const init: AsyncManager<Hooks, API>['init'] = async options => {
-      const container = options?.container || currentContainer;
+    const init: AsyncManager<Hooks, API>['init'] = async () => {
       const sortedPlugins = sortPlugins(plugins);
       const mergedPluginAPI = {
         ...pluginAPI,
@@ -207,19 +195,13 @@ export const createAsyncManager = <
       checkPlugins(sortedPlugins);
 
       const hooksList = await Promise.all(
-        sortedPlugins.map(plugin =>
-          runWithContainer(() => plugin.setup(mergedPluginAPI), container),
-        ),
+        sortedPlugins.map(plugin => plugin.setup(mergedPluginAPI)),
       );
 
-      return generateRunner<Hooks>(hooksList, container, currentHooks);
+      return generateRunner<Hooks>(hooksList, currentHooks);
     };
 
-    const run: AsyncManager<Hooks, API>['run'] = (cb, options) => {
-      const container = options?.container || currentContainer;
-
-      return runWithContainer(cb, container);
-    };
+    const run: AsyncManager<Hooks, API>['run'] = cb => cb();
 
     const manager = {
       createPlugin,

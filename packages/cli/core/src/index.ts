@@ -7,7 +7,6 @@ import {
   INTERNAL_PLUGINS,
   DEFAULT_SERVER_CONFIG,
 } from '@modern-js/utils';
-import { enable } from '@modern-js/plugin/node';
 import type { Hooks } from '@modern-js/types';
 import type { ErrorObject } from '../compiled/ajv';
 import { initCommandsMap } from './utils/commander';
@@ -29,7 +28,6 @@ import { manager, HooksRunner } from './manager';
 export type { Hooks };
 export * from './config';
 export * from '@modern-js/plugin';
-export * from '@modern-js/plugin/node';
 
 // TODO: remove export after refactor all plugins
 export {
@@ -106,8 +104,6 @@ const createCli = () => {
   let restartOptions: CoreOptions | undefined;
 
   const init = async (argv: string[] = [], options?: CoreOptions) => {
-    enable();
-
     manager.clear();
 
     const mergedOptions = mergeOptions(options);

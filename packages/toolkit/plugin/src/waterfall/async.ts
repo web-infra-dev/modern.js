@@ -2,8 +2,6 @@ import {
   createAsyncPipeline,
   Middleware,
   MaybeAsync,
-  Container,
-  useContainer,
 } from '../farrow-pipeline';
 
 const ASYNC_WATERFALL_SYMBOL = Symbol.for('MODERN_ASYNC_WATERFALL');
@@ -25,7 +23,6 @@ export const getAsyncBrook = <I>(input: AsyncBrookInput<I>) => {
 };
 
 export type RunAsyncWaterfallOptions<I = unknown> = {
-  container?: Container;
   onLast?: AsyncBrook<I>;
 };
 
@@ -74,8 +71,7 @@ export const createAsyncWaterfall = <I = void>(): AsyncWaterfall<I> => {
     pipeline.run(input, { ...options, onLast: input => input });
 
   const middleware: AsyncWaterfall<I>['middleware'] = input => {
-    const container = useContainer();
-    return pipeline.run(input, { container, onLast: input => input });
+    return pipeline.run(input, { onLast: input => input });
   };
 
   const waterfall: AsyncWaterfall<I> = {

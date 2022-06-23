@@ -12,7 +12,6 @@ import {
   createParallelWorkflow,
   createWaterfall,
 } from '@modern-js/plugin';
-import { enable } from '@modern-js/plugin/node';
 import type {
   ModernServerContext,
   BaseSSRServerContext,
@@ -22,8 +21,6 @@ import type {
 import type { NormalizedConfig, UserConfig } from '@modern-js/core';
 import type { ISAppContext } from '@modern-js/types';
 import type { Options } from 'http-proxy-middleware';
-
-enable();
 
 // collect all middleware register in server plugins
 const gather = createParallelWorkflow<{

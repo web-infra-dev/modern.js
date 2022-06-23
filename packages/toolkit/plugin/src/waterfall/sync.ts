@@ -1,9 +1,4 @@
-import {
-  Container,
-  useContainer,
-  createPipeline,
-  Middleware,
-} from '../farrow-pipeline';
+import { createPipeline, Middleware } from '../farrow-pipeline';
 
 const WATERFALL_SYMBOL = Symbol.for('MODERN_WATERFALL');
 
@@ -22,7 +17,6 @@ export const getBrook = <I>(input: BrookInput<I>) => {
 };
 
 export type RunWaterfallOptions<I = unknown> = {
-  container?: Container;
   onLast?: Brook<I>;
 };
 
@@ -75,8 +69,7 @@ export const createWaterfall = <I = void>(): Waterfall<I> => {
     pipeline.run(input, { ...options, onLast: input => input });
 
   const middleware: Waterfall<I>['middleware'] = input => {
-    const container = useContainer();
-    return pipeline.run(input, { container, onLast: input => input });
+    return pipeline.run(input, { onLast: input => input });
   };
 
   const waterfall: Waterfall<I> = {

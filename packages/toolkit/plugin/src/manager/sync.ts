@@ -1,10 +1,4 @@
-import {
-  Container,
-  isPipeline,
-  createPipeline,
-  runWithContainer,
-  createContainer,
-} from '../farrow-pipeline';
+import { isPipeline, createPipeline } from '../farrow-pipeline';
 import {
   isWaterfall,
   createWaterfall,
@@ -32,7 +26,6 @@ import type {
   CommonAPI,
   ToRunners,
   ToThreads,
-  InitOptions,
   PluginOptions,
 } from './types';
 
@@ -85,16 +78,14 @@ export type Manager<Hooks, API> = {
 
   /**
    * Init manager, it will call the setup function of all registered plugins.
-   * @param options passing a custom container.
    */
-  init: (options?: InitOptions) => ToRunners<Hooks>;
+  init: () => ToRunners<Hooks>;
 
   /**
-   * Run callback function with current container.
+   * Run callback function.
    * @param callback
-   * @param options passing a custom container.
    */
-  run: <O>(cb: () => O, options?: InitOptions) => O;
+  run: <O>(cb: () => O) => O;
 
   /**
    * Register new hooks.
@@ -221,10 +212,7 @@ export const createManager = <
       plugins = [];
     };
 
-    const currentContainer = createContainer();
-
-    const init: Manager<Hooks, API>['init'] = options => {
-      const container = options?.container || currentContainer;
+    const init: Manager<Hooks, API>['init'] = () => {
       const sortedPlugins = sortPlugins(plugins);
       const mergedPluginAPI = {
         ...pluginAPI,
@@ -234,17 +222,13 @@ export const createManager = <
       checkPlugins(sortedPlugins);
 
       const hooksList = sortedPlugins.map(plugin =>
-        runWithContainer(() => plugin.setup(mergedPluginAPI), container),
+        plugin.setup(mergedPluginAPI),
       );
 
-      return generateRunner<Hooks>(hooksList, container, currentHooks);
+      return generateRunner<Hooks>(hooksList, currentHooks);
     };
 
-    const run: Manager<Hooks, API>['run'] = (cb, options) => {
-      const container = options?.container || currentContainer;
-
-      return runWithContainer(cb, container);
-    };
+    const run: Manager<Hooks, API>['run'] = cb => cb();
 
     const manager = {
       createPlugin,
@@ -266,7 +250,6 @@ export const createManager = <
 
 export const generateRunner = <Hooks extends Record<string, any>>(
   hooksList: (void | Partial<ToThreads<Hooks>>)[],
-  container: Container,
   hooksMap?: Hooks,
 ): ToRunners<Hooks> => {
   const runner = {};
@@ -286,13 +269,12 @@ export const generateRunner = <Hooks extends Record<string, any>>(
       // @ts-expect-error
       runner[key] = (input: any, options: any) =>
         (cloneShape[key] as any).run(input, {
-          container,
           ...options,
         });
     }
   }
 
-  container.write(RunnerContext, runner);
+  RunnerContext.set(runner);
   return runner as any;
 };
 

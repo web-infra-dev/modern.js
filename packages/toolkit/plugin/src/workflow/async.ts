@@ -3,7 +3,6 @@ import {
   Middleware,
   createAsyncPipeline,
 } from '../farrow-pipeline';
-import type { RunWorkflowOptions } from './sync';
 
 const ASYNC_WORKFLOW_SYMBOL = Symbol.for('MODERN_ASYNC_WORKFLOW');
 
@@ -11,7 +10,7 @@ export type AsyncWorker<I, O> = (I: I) => MaybeAsync<O>;
 export type AsyncWorkers<I, O> = AsyncWorker<I, O>[];
 
 export type AsyncWorkflow<I, O> = {
-  run: (input: I, options?: RunWorkflowOptions) => MaybeAsync<O[]>;
+  run: (input: I) => MaybeAsync<O[]>;
   use: (...I: AsyncWorkers<I, O>) => AsyncWorkflow<I, O>;
   [ASYNC_WORKFLOW_SYMBOL]: true;
 };
@@ -57,8 +56,8 @@ export const createAsyncWorkflow = <I = void, O = unknown>(): AsyncWorkflow<
     return workflow;
   };
 
-  const run: AsyncWorkflow<I, O>['run'] = async (input, options) => {
-    const result = pipeline.run(input, { ...options, onLast: () => [] });
+  const run: AsyncWorkflow<I, O>['run'] = async input => {
+    const result = pipeline.run(input, { onLast: () => [] });
     if (isPromise(result)) {
       return result.then(result => result.filter(Boolean));
     } else {
