@@ -1349,7 +1349,7 @@ importers:
       '@modern-js/runtime': workspace:*
       '@modern-js/runtime-core': workspace:*
       '@modern-js/utils': workspace:^1.7.8
-      '@modern-js/webpack': workspace:^1.11.1
+      '@modern-js/webpack': workspace:^1.11.2
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@storybook/addon-actions': ^6.3.8
@@ -3985,7 +3985,7 @@ importers:
   packages/toolkit/load-config:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/node-bundle-require': workspace:^1.3.5
+      '@modern-js/node-bundle-require': workspace:^1.3.6
       '@modern-js/utils': workspace:^1.7.3
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
