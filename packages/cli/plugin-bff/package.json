@@ -67,7 +67,7 @@
     "@modern-js/bff-core": "workspace:^1.0.0",
     "@modern-js/create-request": "workspace:^1.2.11",
     "@modern-js/server-utils": "workspace:^1.2.11",
-    "@modern-js/utils": "workspace:^1.7.7"
+    "@modern-js/utils": "workspace:^1.7.8"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",

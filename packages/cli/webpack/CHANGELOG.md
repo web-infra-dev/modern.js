@@ -1,5 +1,25 @@
 # @modern-js/webpack
 
+## 1.11.1
+
+### Patch Changes
+
+- 06b411dc3: fix(webpack): only apply module scope plugin when user config contains moduleScope
+- 5d4806f86: fix(webpack): failed to display compile time in CI environment
+- 4165e50c7: feat(webpack): copy plugin skip minification of .min.js file
+- 073e9ad78: feat(webpack): improve utils of tools.webpack
+- cda99c441: fix(webpack): should exclude api folder from babel-loader
+- b96dcf364: fix ssr entry filter logic
+- 9e36d3a01: fix: condition of babel-loader and ts-loader.
+- Updated dependencies [63c354ad5]
+- Updated dependencies [12fc5ac88]
+- Updated dependencies [073e9ad78]
+- Updated dependencies [f4a7d49e1]
+- Updated dependencies [97bb6adb9]
+  - @modern-js/babel-preset-app@1.4.2
+  - @modern-js/utils@1.7.8
+  - @modern-js/css-config@1.2.7
+
 ## 1.11.0
 
 ### Minor Changes
