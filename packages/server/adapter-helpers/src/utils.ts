@@ -3,13 +3,15 @@ import * as os from 'os';
 
 type HandlerInfo = {
   handler: (...args: any[]) => any;
-  method: string;
   name: string;
+  httpMethod: string;
+  routeName: string;
+  routePath: string;
 };
 
 export const sortDynamicRoutes = (apiHandlers: HandlerInfo[]) => {
   apiHandlers.forEach((apiHandler, handlerIndex) => {
-    if (apiHandler.name.includes(':')) {
+    if (apiHandler.routeName.includes(':')) {
       apiHandlers.splice(handlerIndex, 1);
       apiHandlers.push(apiHandler);
     }

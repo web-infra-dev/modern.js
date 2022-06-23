@@ -12,5 +12,3 @@ export const flattenFuncArgs =
   <T1, T2>(handler: Handler<T1, T2>) =>
   (req: T1, res: T2) =>
     handler({ req, res });
-
-export const INTROSPECTION_ROUTE_PATH = '/__introspection__';

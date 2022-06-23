@@ -88,4 +88,5 @@ export interface ISAppContext {
     server?: any;
     serverPkg?: any;
   }[];
+  [key: string]: unknown;
 }

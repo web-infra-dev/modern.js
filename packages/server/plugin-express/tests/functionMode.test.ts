@@ -1,7 +1,6 @@
 import * as path from 'path';
 import request from 'supertest';
 import { serverManager } from '@modern-js/server-core';
-import { INTROSPECTION_ROUTE_PATH } from '@modern-js/bff-utils';
 import plugin from '../src/plugin';
 import { APIPlugin } from './helpers';
 import './common';
@@ -22,6 +21,7 @@ describe('function-mode', () => {
     apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'function',
+      prefix: '/',
     });
   });
 
@@ -83,12 +83,6 @@ describe('function-mode', () => {
       name: 'xxx',
     });
     expect(res3.status).toBe(500);
-  });
-
-  test('introspection', async () => {
-    const res = await request(apiHandler).get(INTROSPECTION_ROUTE_PATH);
-    expect(res.status).toBe(200);
-    expect(res.body.protocol).toBe('Farrow-API');
   });
 
   test('should support upload file', done => {

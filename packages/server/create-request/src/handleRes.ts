@@ -1,7 +1,14 @@
 import { Response as NodeResponse } from 'node-fetch';
 
-const handleRes = (res: Response | NodeResponse) => {
+const handleRes = async (res: Response | NodeResponse) => {
   const contentType = res.headers.get('content-type');
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Response/ok
+  if (!res.ok) {
+    const data = await res.json();
+    (res as any).data = data;
+    throw res;
+  }
 
   if (
     contentType?.includes('application/json') ||

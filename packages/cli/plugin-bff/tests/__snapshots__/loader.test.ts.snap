@@ -16,8 +16,6 @@ export const patch = createRequest('/hello', 'PATCH', process.env.PORT || 3000);
 "
 `;
 
-exports[`bff loader should work well with fetcher 1`] = `undefined`;
-
 exports[`bff loader should work well with port 1`] = `
 "import { createRequest } from '/packages/server/create-request/src/node.ts';
 

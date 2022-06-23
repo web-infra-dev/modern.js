@@ -38,7 +38,6 @@
   "dependencies": {
     "@babel/core": "^7.18.0",
     "@babel/register": "^7.17.7",
-    "@modern-js/bff-utils": "workspace:^1.2.9",
     "@modern-js/hmr-client": "workspace:^1.2.8",
     "@modern-js/prod-server": "workspace:^1.1.8",
     "@modern-js/server-utils": "workspace:^1.2.11",
