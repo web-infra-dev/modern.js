@@ -69,10 +69,10 @@ export default defineConfig({
 
 ``` bash
 # package manager is `pnpm`
-pnpm install twin.macro -D
+pnpm add twin.macro -D
 
 # package manager is `yarn`
-yarn install twin.macro -D
+yarn add twin.macro -D
 ```
 
 当项目安装 `twin.macro` 依赖后，Modern.js 会检测到该依赖并对内置的 `babel-plugin-macro` 增加 `twin.macro` 相关的配置。因此在安装完依赖后，无需手动配置。下面是一个简单使用 `twin.macro` 的示例：

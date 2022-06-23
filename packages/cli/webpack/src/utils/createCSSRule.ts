@@ -67,7 +67,7 @@ export const createCSSRule = (
         .end();
     })
     .use(CHAIN_ID.USE.CSS)
-    .loader(require.resolve('css-loader'))
+    .loader(require.resolve('../../compiled/css-loader'))
     .options(options)
     .end()
     .use(CHAIN_ID.USE.POSTCSS)
