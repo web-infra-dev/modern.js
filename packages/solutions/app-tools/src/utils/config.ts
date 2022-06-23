@@ -26,7 +26,7 @@ export const buildServerConfig = async ({
 }) => {
   const configFilePath = await getServerConfig(appDirectory, configFile);
 
-  const getOutputFile = (filepath: string) =>
+  const getOutputFile = async (filepath: string) =>
     path.resolve(
       distDirectory,
       `${filepath.replace(
