@@ -1,5 +1,11 @@
 # @modern-js/plugin-tailwindcss
 
+## 1.3.0
+
+### Minor Changes
+
+- 8d0eb81f5: support twin.macro
+
 ## 1.2.11
 
 ### Patch Changes

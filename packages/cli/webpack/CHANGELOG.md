@@ -1,5 +1,11 @@
 # @modern-js/webpack
 
+## 1.11.2
+
+### Patch Changes
+
+- 8d0eb81f5: fix resolve alias real path
+
 ## 1.11.1
 
 ### Patch Changes
