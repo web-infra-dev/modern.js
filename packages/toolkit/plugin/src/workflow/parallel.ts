@@ -9,46 +9,6 @@ export type ParallelWorkflow<I, O = any> = {
   [PARALLEL_WORKFLOW_SYMBOL]: true;
 };
 
-export type ParallelWorkflow2Worker<W extends ParallelWorkflow<any>> =
-  W extends ParallelWorkflow<infer CS, infer O> ? AsyncWorker<CS, O> : never;
-
-export type ParallelWorkflowRecord = Record<string, ParallelWorkflow<any>>;
-
-export type ParallelWorkflows2Workers<
-  PS extends ParallelWorkflowRecord | void,
-> = {
-  [K in keyof PS]: PS[K] extends ParallelWorkflow<any>
-    ? ParallelWorkflow2Worker<PS[K]>
-    : PS[K] extends void
-    ? void
-    : never;
-};
-
-export type ParallelWorkflows2AsyncWorkers<
-  PS extends ParallelWorkflowRecord | void,
-> = {
-  [K in keyof PS]: PS[K] extends ParallelWorkflow<any>
-    ? ParallelWorkflow2Worker<PS[K]>
-    : PS[K] extends void
-    ? void
-    : never;
-};
-
-export type RunnerFromParallelWorkflow<W extends ParallelWorkflow<any>> =
-  W extends ParallelWorkflow<infer CS, infer O>
-    ? ParallelWorkflow<CS, O>['run']
-    : never;
-
-export type ParallelWorkflows2Runners<
-  PS extends ParallelWorkflowRecord | void,
-> = {
-  [K in keyof PS]: PS[K] extends ParallelWorkflow<any>
-    ? RunnerFromParallelWorkflow<PS[K]>
-    : PS[K] extends void
-    ? void
-    : never;
-};
-
 export const isParallelWorkflow = (
   input: any,
 ): input is ParallelWorkflow<any> => Boolean(input?.[PARALLEL_WORKFLOW_SYMBOL]);

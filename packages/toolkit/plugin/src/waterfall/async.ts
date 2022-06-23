@@ -33,30 +33,6 @@ export type AsyncWaterfall<I> = {
   [ASYNC_WATERFALL_SYMBOL]: true;
 };
 
-export type AsyncWaterfall2AsyncBrook<P extends AsyncWaterfall<any>> =
-  P extends AsyncWaterfall<infer I> ? AsyncBrook<I> : never;
-
-export type AsyncWaterfallRecord = Record<string, AsyncWaterfall<any>>;
-
-export type AsyncWaterfalls2Brooks<PS extends AsyncWaterfallRecord | void> = {
-  [K in keyof PS]: PS[K] extends AsyncWaterfall<any>
-    ? AsyncWaterfall2AsyncBrook<PS[K]>
-    : PS[K] extends void
-    ? void
-    : never;
-};
-
-export type RunnerFromAsyncWaterfall<M extends AsyncWaterfall<any>> =
-  M extends AsyncWaterfall<infer VS> ? AsyncWaterfall<VS>['run'] : never;
-
-export type AsyncWaterfalls2Runners<PS extends AsyncWaterfallRecord | void> = {
-  [K in keyof PS]: PS[K] extends AsyncWaterfall<any>
-    ? RunnerFromAsyncWaterfall<PS[K]>
-    : PS[K] extends void
-    ? void
-    : never;
-};
-
 export const createAsyncWaterfall = <I = void>(): AsyncWaterfall<I> => {
   const pipeline = createAsyncPipeline<I, I>();
 

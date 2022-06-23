@@ -23,11 +23,6 @@ export type AsyncPlugin<Hooks, API> = {
   ASYNC_PLUGIN_SYMBOL: typeof ASYNC_PLUGIN_SYMBOL;
 } & Required<PluginOptions<Hooks, AsyncSetup<Hooks, API>>>;
 
-export type PluginFromAsyncManager<M extends AsyncManager<any, any>> =
-  M extends AsyncManager<infer Hooks, infer API>
-    ? AsyncPlugin<Hooks, API>
-    : never;
-
 export type AsyncManager<Hooks, API> = {
   /**
    * Create a sync plugin.

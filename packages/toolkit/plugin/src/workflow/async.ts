@@ -15,33 +15,6 @@ export type AsyncWorkflow<I, O> = {
   [ASYNC_WORKFLOW_SYMBOL]: true;
 };
 
-export type AsyncWorkflow2AsyncWorker<W extends AsyncWorkflow<any, any>> =
-  W extends AsyncWorkflow<infer I, infer O> ? AsyncWorker<I, O> : never;
-
-export type AsyncWorkflowRecord = Record<string, AsyncWorkflow<any, any>>;
-
-export type AsyncWorkflows2AsyncWorkers<PS extends AsyncWorkflowRecord | void> =
-  {
-    [K in keyof PS]: PS[K] extends AsyncWorkflow<any, any>
-      ? AsyncWorkflow2AsyncWorker<PS[K]>
-      : PS[K] extends void
-      ? void
-      : never;
-  };
-
-export type RunnerFromAsyncWorkflow<W extends AsyncWorkflow<any, any>> =
-  W extends AsyncWorkflow<infer I, infer O>
-    ? AsyncWorkflow<I, O>['run']
-    : never;
-
-export type AsyncWorkflows2Runners<PS extends AsyncWorkflowRecord | void> = {
-  [K in keyof PS]: PS[K] extends AsyncWorkflow<any, any>
-    ? RunnerFromAsyncWorkflow<PS[K]>
-    : PS[K] extends void
-    ? void
-    : never;
-};
-
 export const isAsyncWorkflow = (input: any): input is AsyncWorkflow<any, any> =>
   Boolean(input?.[ASYNC_WORKFLOW_SYMBOL]);
 

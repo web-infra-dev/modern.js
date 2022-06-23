@@ -40,13 +40,6 @@ export type Plugin<Hooks, API> = {
   SYNC_PLUGIN_SYMBOL: typeof SYNC_PLUGIN_SYMBOL;
 } & Required<PluginOptions<Hooks, Setup<Hooks, API>>>;
 
-export type PluginFromManager<M extends Manager<any, any>> = M extends Manager<
-  infer Hooks,
-  infer API
->
-  ? Plugin<Hooks, API>
-  : never;
-
 export type Manager<Hooks, API> = {
   /**
    * Create a sync plugin.

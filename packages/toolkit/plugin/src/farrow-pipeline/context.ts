@@ -44,9 +44,3 @@ export const createContext = <T>(value: T) => {
 
   return create(value);
 };
-
-export type Container = unknown;
-
-// preserve a empty function for compatibility
-// TODO remove this
-export const createContainer = (_?: unknown) => ({});
