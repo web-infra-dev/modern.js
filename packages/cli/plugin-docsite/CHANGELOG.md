@@ -1,5 +1,22 @@
 # @modern-js/plugin-docsite
 
+## 1.2.12
+
+### Patch Changes
+
+- df5e115ad: fix run docsite fail
+- Updated dependencies [06b411dc3]
+- Updated dependencies [5d4806f86]
+- Updated dependencies [63c354ad5]
+- Updated dependencies [4165e50c7]
+- Updated dependencies [073e9ad78]
+- Updated dependencies [cda99c441]
+- Updated dependencies [b96dcf364]
+- Updated dependencies [f4a7d49e1]
+- Updated dependencies [9e36d3a01]
+  - @modern-js/webpack@1.11.1
+  - @modern-js/utils@1.7.8
+
 ## 1.2.11
 
 ### Patch Changes
