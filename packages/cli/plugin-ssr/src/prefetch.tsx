@@ -27,6 +27,7 @@ const prefetch = async (
 
     if (!context.loaderManager.hasPendingLoaders()) {
       return {
+        initialData: context.initialData,
         i18nData: context.__i18nData__,
       };
     }
@@ -43,6 +44,7 @@ const prefetch = async (
 
     return {
       loadersData,
+      initialData: context.initialData,
       i18nData: context.__i18nData__,
       // todo: move to plugin state
       storeState: context?.store?.getState(),

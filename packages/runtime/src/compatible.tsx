@@ -160,7 +160,8 @@ export const bootstrap: BootStrap = async (
         ...(ssrData ? { ssrContext: ssrData?.context } : {}),
       });
 
-      await runInit(context);
+      const initialData = await runInit(context);
+      context.initialData = ssrData?.data?.initialData || initialData;
 
       return runner.client(
         {
@@ -197,7 +198,8 @@ export const bootstrap: BootStrap = async (
       ),
     });
 
-    await runInit(context);
+    const initialData = await runInit(context);
+    context.initialData = initialData;
 
     return runner.server({
       App,
