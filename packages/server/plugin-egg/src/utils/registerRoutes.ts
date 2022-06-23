@@ -28,8 +28,6 @@ const registerRoutes = (router: Router, handlerInfos: APIHandlerInfo[]) => {
         }
       } else {
         const args = Object.values(input.params as any).concat(input);
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
         ctx.body = await run(ctx, () => handler(...args));
       }
     };
