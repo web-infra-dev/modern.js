@@ -35,11 +35,6 @@ Object {
     ],
     Array [
       /cli/babel-preset-base/compiled/babel-plugin-macros/index.js,
-      Object {
-        "twin": Object {
-          "preset": "styled-components",
-        },
-      },
     ],
     Array [
       /cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js,

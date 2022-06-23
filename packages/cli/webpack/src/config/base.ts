@@ -491,7 +491,15 @@ class BaseWebpackConfig {
         name,
         (
           (Array.isArray(alias[name]) ? alias[name] : [alias[name]]) as string[]
-        ).map(a => ensureAbsolutePath(this.appDirectory, a)) as any,
+        ).map(a =>
+          /**
+           * - Relative paths need to be turned into absolute paths
+           * - Absolute paths or a package name are not processed
+           */
+          a.startsWith('.')
+            ? (ensureAbsolutePath(this.appDirectory, a) as any)
+            : a,
+        ) as any,
       );
     }
 
