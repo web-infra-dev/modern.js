@@ -2,14 +2,14 @@ import 'reflect-metadata';
 import {
   HttpMethod,
   httpMethods,
-  APIHandlerInfo,
   isWithMetaHandler,
   ResponseMeta,
   HttpMetadata,
   ResponseMetaType,
 } from '@modern-js/bff-core';
+import type { APIHandlerInfo } from '@modern-js/bff-core';
 import { isSchemaHandler, InputType } from '@modern-js/bff-runtime';
-import { Request, Response, RequestHandler, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import typeIs from 'type-is';
 import formidable from 'formidable';
 
@@ -45,7 +45,7 @@ const handleResponseMeta = (res: Response, handler: Handler) => {
 };
 
 export const createRouteHandler = (handler: Handler) => {
-  const apiHandler: RequestHandler = async (
+  const apiHandler = async (
     req: Request,
     res: Response,
     next: NextFunction,
