@@ -3,17 +3,6 @@ import { program } from '@modern-js/utils';
 import { buildCli } from '../src/cli/build';
 import plugin from '../src';
 
-
-const mockAPI = {
-  useAppContext: jest.fn((): any => ({
-    appDirectory: '',
-  })),
-  useResolvedConfigContext: jest.fn((): any => ({
-    source: {},
-    output: {},
-    tools: {},
-  })),
-};
 jest.mock('../src/features/build/normalize', () => {
   const originalModule = jest.requireActual('../src/features/build/normalize');
 

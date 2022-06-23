@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "pnpm test --filter api-service-koa & jest -w 1",
+    "test": "jest -w 1",
     "cypress:test": "pnpm run dev --parallel --filter '@cypress-test/*' & cypress open",
     "prepare": "node node_modules/puppeteer/install.js"
   },

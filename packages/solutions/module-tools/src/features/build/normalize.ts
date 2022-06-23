@@ -280,6 +280,7 @@ export const normalizeBuildConfig = (
     const enableDts = getFinalDts(config, buildFeatOption);
     const outputPath = config.outputPath ?? './';
     const sourceMap = getSourceMap(config, config.buildType, api);
+    const dtsOnly = config.dtsOnly ?? false;
     const commmonConfig = {
       format,
       target,
@@ -287,9 +288,12 @@ export const normalizeBuildConfig = (
       tsconfig,
       enableDts,
       outputPath,
-      dtsOnly: config.dtsOnly ?? false,
+      dtsOnly,
       sourceMap,
     };
+    if (dtsOnly && !enableDts) {
+      console.warn('[WARN] dtsOnly is true, but enableDts is false');
+    }
     if (config.buildType === 'bundle') {
       return {
         ...commmonConfig,

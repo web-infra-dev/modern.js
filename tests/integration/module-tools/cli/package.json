@@ -1,13 +1,12 @@
 {
   "private": true,
-  "name": "@integration-test/style-only-test",
+  "name": "@integration/module-tools-cli",
   "version": "1.0.0",
   "scripts": {
-    "dev": "modern dev",
-    "build": "modern build"
+    "build": "modern build --config modern.config.dts.ts"
   },
-  "dependencies": {},
   "devDependencies": {
+    "@modern-js/core": "workspace:*",
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/plugin-less": "workspace:*"
   },
