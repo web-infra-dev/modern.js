@@ -1,10 +1,12 @@
 import path from 'path';
+import type { Stats } from 'fs';
 import {
   findExists,
   fs,
   createDebugger,
   CONFIG_FILE_EXTENSIONS,
   CONFIG_CACHE_DIR,
+  globby,
 } from '@modern-js/utils';
 import {
   bundleRequire,
@@ -58,6 +60,27 @@ export const getDependencies = (filePath: string): string[] => {
   return deps;
 };
 
+/**
+ *
+ * @param targetDir target dir
+ * @param overtime Unit of second
+ */
+export const clearFilesOverTime = (targetDir: string, overtime: number) => {
+  // when stats is true, globby return Stats[]
+  const files = globby.sync(`${targetDir}/**/*`, {
+    stats: true,
+    absolute: true,
+  }) as unknown as { stats: Stats; path: string }[];
+  const currentTime = Date.now();
+  if (files.length > 0) {
+    for (const file of files) {
+      if (currentTime - file.stats.birthtimeMs >= overtime * 1000) {
+        fs.unlinkSync(file.path);
+      }
+    }
+  }
+};
+
 const bundleRequireWithCatch = async (
   configFile: string,
   { appDirectory }: { appDirectory: string },
@@ -70,7 +93,9 @@ const bundleRequireWithCatch = async (
           defaultGetOutputFile(filePath),
         );
         const outputPath = path.join(appDirectory, CONFIG_CACHE_DIR);
-        fs.removeSync(outputPath);
+        // 10 min
+        const timeLimit = 10 * 60;
+        clearFilesOverTime(outputPath, timeLimit);
         return path.join(outputPath, defaultOutputFileName);
       },
     });
