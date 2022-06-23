@@ -49,7 +49,7 @@
     "@modern-js/plugin-router": "workspace:^1.2.15",
     "@modern-js/plugin-state": "workspace:^1.2.10",
     "@modern-js/utils": "workspace:^1.7.8",
-    "@modern-js/webpack": "workspace:^1.11.1",
+    "@modern-js/webpack": "workspace:^1.11.2",
     "@storybook/addon-actions": "^6.3.8",
     "@storybook/addon-essentials": "^6.3.8",
     "@storybook/addon-links": "^6.3.8",
@@ -86,7 +86,7 @@
     "webpack-chain": "^6.5.1"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^1.3.2",
+    "@modern-js/runtime": "workspace:^1.3.3",
     "react": "^17"
   },
   "sideEffects": false,
