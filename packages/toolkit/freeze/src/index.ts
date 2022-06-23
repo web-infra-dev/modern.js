@@ -1,3 +1,7 @@
+/**
+ * forked from https://github.com/Lucifier129/bistate
+ * license at https://github.com/Lucifier129/bistate/blob/master/LICENSE
+ */
 export const createBistate = <State extends Record<string, any>>(
   initialState: State,
   previousProxy: State | null = null,
