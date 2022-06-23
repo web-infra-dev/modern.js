@@ -31,11 +31,9 @@ describe('sync manager', () => {
       }),
     );
 
-    manager.run(() => {
-      countContext.set(1);
-    });
+    countContext.set(1);
 
-    expect(manager.run(() => countContext.get())).toBe(1);
+    expect(countContext.get()).toBe(1);
   });
 
   it('with sub waterfall', () => {
@@ -448,10 +446,10 @@ describe('sync manager', () => {
     manager.usePlugin(plugin);
 
     manager.init();
-    expect(manager.run(Count.get)).toBe(1);
+    expect(Count.get()).toBe(1);
 
     manager.init();
-    expect(manager.run(Count.get)).toBe(1);
+    expect(Count.get()).toBe(1);
   });
 
   it('should support all progress', async () => {

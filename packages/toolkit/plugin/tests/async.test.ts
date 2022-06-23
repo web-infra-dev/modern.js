@@ -51,13 +51,11 @@ describe('async manager', () => {
     });
     manager.usePlugin(plugin);
 
-    manager.run(() => {
-      countContext.set(1);
-    });
+    countContext.set(1);
 
     await manager.init();
 
-    const result0 = manager.run(() => countContext.get());
+    const result0 = countContext.get();
 
     expect(result0).toBe(1);
   });
@@ -449,10 +447,10 @@ describe('async manager', () => {
     manager.usePlugin(plugin);
 
     await manager.init();
-    expect(manager.run(Count.get)).toBe(1);
+    expect(Count.get()).toBe(1);
 
     await manager.init();
-    expect(manager.run(Count.get)).toBe(1);
+    expect(Count.get()).toBe(1);
   });
 
   it('should support all progress', async () => {

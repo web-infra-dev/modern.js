@@ -146,10 +146,8 @@ const createCli = () => {
       mergedOptions.serverConfigFile,
     );
 
-    manager.run(() => {
-      ConfigContext.set(loaded.config);
-      AppContext.set(appContext);
-    });
+    ConfigContext.set(loaded.config);
+    AppContext.set(appContext);
 
     hooksRunner = await manager.init();
 
@@ -186,14 +184,12 @@ const createCli = () => {
     });
 
     // update context value
-    manager.run(() => {
-      ConfigContext.set(loaded.config);
-      ResolvedConfigContext.set(resolved);
-      AppContext.set({
-        ...appContext,
-        port: resolved.server.port!,
-        distDirectory: ensureAbsolutePath(appDirectory, resolved.output.path!),
-      });
+    ConfigContext.set(loaded.config);
+    ResolvedConfigContext.set(resolved);
+    AppContext.set({
+      ...appContext,
+      port: resolved.server.port!,
+      distDirectory: ensureAbsolutePath(appDirectory, resolved.output.path!),
     });
 
     await hooksRunner.prepare();
@@ -218,7 +214,7 @@ const createCli = () => {
       hooksRunner,
       argv,
     );
-    manager.run(() => program.parse(process.argv));
+    program.parse(process.argv);
   }
 
   async function restart() {
@@ -239,7 +235,7 @@ const createCli = () => {
       hasGetError = true;
     } finally {
       if (!hasGetError) {
-        manager.run(() => program.parse(process.argv));
+        program.parse(process.argv);
       }
     }
   }

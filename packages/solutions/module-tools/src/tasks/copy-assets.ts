@@ -112,11 +112,11 @@ const taskMain = ({
     [],
     options,
   );
-  core.manager.run(() => {
+  (() => {
     try {
       taskMain({ modernConfig, appContext });
     } catch (e: any) {
       console.error(e.message);
     }
-  });
+  })();
 })();

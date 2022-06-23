@@ -12,7 +12,7 @@ const build: typeof import('./compiler') = Import.lazy('./compiler', require);
 
 (async () => {
   const { appContext, resolved } = await core.cli.init();
-  await core.manager.run(async () => {
+  (async () => {
     try {
       const { appDirectory, internalDirectory } = appContext;
       const webpackConfig = getWebpackConfig(
@@ -28,5 +28,5 @@ const build: typeof import('./compiler') = Import.lazy('./compiler', require);
     } catch (e: any) {
       console.error(e.message);
     }
-  });
+  })();
 })();

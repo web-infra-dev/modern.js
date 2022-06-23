@@ -46,11 +46,11 @@ const taskMain = async ({ modernConfig, appContext }: IBuildTaskOption) => {
     [],
     options,
   );
-  await core.manager.run(async () => {
+  (async () => {
     try {
       await taskMain({ modernConfig, appContext });
     } catch (e: any) {
       console.error(e);
     }
-  });
+  })();
 })();

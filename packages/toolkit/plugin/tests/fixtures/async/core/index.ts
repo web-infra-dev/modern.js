@@ -120,9 +120,7 @@ export const createNewManager = main.clone;
 export const develop = async (context: CTX) => {
   const runner = await main.init();
 
-  main.run(() => {
-    CTXContext.set(context);
-  });
+  CTXContext.set(context);
   runner.prepare();
 
   const { config, webpackConfig, babelConfig } = runner.config({
@@ -131,11 +129,9 @@ export const develop = async (context: CTX) => {
     babelConfig: defaultBabelConfig,
   });
 
-  main.run(() => {
-    ConfigContext.set(config);
-    WebpackConfigContext.set(webpackConfig);
-    BabelConfigContext.set(babelConfig);
-  });
+  ConfigContext.set(config);
+  WebpackConfigContext.set(webpackConfig);
+  BabelConfigContext.set(babelConfig);
   runner.preDev();
   runner.postDev();
 };
@@ -143,9 +139,7 @@ export const develop = async (context: CTX) => {
 export const build = async (context: CTX) => {
   const runner = await main.init();
 
-  main.run(() => {
-    CTXContext.set(context);
-  });
+  CTXContext.set(context);
   runner.prepare();
 
   const { config, webpackConfig, babelConfig } = runner.config({
@@ -154,11 +148,9 @@ export const build = async (context: CTX) => {
     babelConfig: defaultBabelConfig,
   });
 
-  main.run(() => {
-    ConfigContext.set(config);
-    WebpackConfigContext.set(webpackConfig);
-    BabelConfigContext.set(babelConfig);
-  });
+  ConfigContext.set(config);
+  WebpackConfigContext.set(webpackConfig);
+  BabelConfigContext.set(babelConfig);
   runner.preDev();
   runner.postDev();
 };

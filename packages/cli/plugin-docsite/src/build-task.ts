@@ -27,11 +27,11 @@ const taskMain = async (
     ({ options } = require(process.env.CORE_INIT_OPTION_FILE));
   }
   const { appContext, resolved } = await core.cli.init([], options);
-  await core.manager.run(async () => {
+  (async () => {
     try {
       await taskMain(appContext, resolved);
     } catch (e: any) {
       console.error(e.message);
     }
-  });
+  })();
 })();
