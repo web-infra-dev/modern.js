@@ -1,5 +1,20 @@
 # @modern-js/plugin-changeset
 
+## 1.3.0
+
+### Minor Changes
+
+- 50eea41ee: feat: add change status command
+- 4599e6914: feat: add gen-release-note command
+
+### Patch Changes
+
+- 0c17860e9: fix: changeset bump support ignore option
+- Updated dependencies [63c354ad5]
+- Updated dependencies [073e9ad78]
+- Updated dependencies [f4a7d49e1]
+  - @modern-js/utils@1.7.8
+
 ## 1.2.8
 
 ### Patch Changes

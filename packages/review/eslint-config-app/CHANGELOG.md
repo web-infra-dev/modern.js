@@ -1,5 +1,15 @@
 # @modern-js-app/eslint-config
 
+## 1.2.14
+
+### Patch Changes
+
+- 811d83f94: fix(eslint-config): inconsistent experience between format and auto fix
+- Updated dependencies [63c354ad5]
+- Updated dependencies [12fc5ac88]
+- Updated dependencies [97bb6adb9]
+  - @modern-js/babel-preset-app@1.4.2
+
 ## 1.2.13
 
 ### Patch Changes
