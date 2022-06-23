@@ -19,9 +19,7 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
 
   chain
     .plugin('babel-plugin-macros')
-    .use(require.resolve('../compiled/babel-plugin-macros'), [
-      { twin: { preset: 'styled-components' } },
-    ]);
+    .use(require.resolve('../compiled/babel-plugin-macros'));
 
   if (runEnvironments === 'node') {
     chain

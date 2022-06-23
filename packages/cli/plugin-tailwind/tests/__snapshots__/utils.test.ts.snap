@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`template utils function generate tailwindcss.config.js template 1`] = `
+"
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+const modernConfig = _interopRequireDefault(require('./node_modules/.cache/node-bundle-require/modern.config.js')).default;
+
+const theme =
+    modernConfig && modernConfig.source && modernConfig.source.designSystem
+      ? modernConfig.source.designSystem
+      : {};
+const tailwindcss =
+    modernConfig && modernConfig.tools && modernConfig.tools.tailwindcss
+      ? modernConfig.tools.tailwindcss
+      : {};
+
+module.exports = {
+    theme,
+    ...tailwindcss,
+};
+"
+`;

@@ -38,9 +38,14 @@ export interface Options {
    * By default we simply replace the extension with `.bundled.cjs`
    */
   getOutputFile?: (filepath: string) => string;
+
+  /**
+   * auto clear bundle file
+   */
+  autoClear?: boolean;
 }
 
-const defaultGetOutputFile = (filepath: string) =>
+export const defaultGetOutputFile = (filepath: string) =>
   path.resolve(
     CONFIG_CACHE_DIR,
     `${filepath}-${Date.now()}.${nanoid()}.bundled.cjs`,
