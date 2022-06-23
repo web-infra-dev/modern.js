@@ -35,7 +35,7 @@ export default (): CliPlugin => ({
               /**
                * twin.macro inserts styled-components into the code during the compilation process
                * But it will not be installed under the user project.
-               * So need to add aliase
+               * So need to add alias
                */
               'styled-components': require.resolve('styled-components', {
                 paths: [require.resolve('@modern-js/runtime-core')],
