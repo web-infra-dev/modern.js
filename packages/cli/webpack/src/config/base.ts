@@ -1,10 +1,12 @@
 /* eslint-disable max-lines */
 import path from 'path';
 import {
+  fs,
   chalk,
   isProd,
   isDev,
   signale,
+  API_DIR,
   CHAIN_ID,
   isProdProfile,
   isTypescript,
@@ -715,6 +717,7 @@ class BaseWebpackConfig {
    *
    * Will not compile:
    * - All dependencies in `node_modules/`
+   * - BFF API folder: `<appDirectory>/api`
    * - Folders outside the app directory, such as `../../packages/foo/`
    * - User configured paths in `addExcludes` of `tools.babel` and `tools.tsLoader`
    */
@@ -741,6 +744,12 @@ class BaseWebpackConfig {
     sourceIncludes.forEach(condition => {
       rule.include.add(condition);
     });
+
+    // exclude the api folder if exists
+    const apiDir = path.resolve(this.appContext.appDirectory, API_DIR);
+    if (fs.existsSync(apiDir)) {
+      rule.exclude.add(apiDir);
+    }
 
     includes.forEach(condition => {
       rule.include.add(condition);
