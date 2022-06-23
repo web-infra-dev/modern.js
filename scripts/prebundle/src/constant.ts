@@ -303,6 +303,13 @@ export const TASKS: TaskConfig[] = [
         },
       },
       {
+        name: 'css-loader',
+        ignoreDts: true,
+        externals: {
+          semver: '@modern-js/utils/semver',
+        },
+      },
+      {
         name: 'webpack-dev-middleware',
         externals: {
           'schema-utils': 'schema-utils',

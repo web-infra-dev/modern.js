@@ -34,5 +34,5 @@ export default defineConfig({
 App running at:
 
   > Local:    http://localhost:8080/base/
-  > Network:  http://10.79.136.172:8080/base/
+  > Network:  http://192.168.0.1:8080/base/
 ```
