@@ -6,6 +6,7 @@ import {
   isDev,
   PLUGIN_SCHEMAS,
   chalk,
+  isPlainObject,
   getServerConfig,
   getPackageManager,
 } from '@modern-js/utils';
@@ -39,6 +40,23 @@ export const addServerConfigToDeps = async (
 
 export const defineConfig = (config: ConfigParam): ConfigParam => config;
 
+/**
+ * Assign the pkg config into the user config.
+ */
+export const assignPkgConfig = (
+  userConfig: UserConfig = {},
+  pkgConfig: ConfigParam = {},
+) =>
+  mergeWith({}, userConfig, pkgConfig, (objValue, srcValue) => {
+    // mergeWith can not merge object with symbol, but plugins object contains symbol,
+    // so we need to handle it manually.
+    if (objValue === undefined && isPlainObject(srcValue)) {
+      return { ...srcValue };
+    }
+    // return undefined to use the default behavior of mergeWith
+    return undefined;
+  });
+
 export const loadUserConfig = async (
   appDirectory: string,
   filePath?: string,
@@ -57,7 +75,7 @@ export const loadUserConfig = async (
         : loaded.config);
 
   return {
-    config: mergeWith({}, config || {}, loaded?.pkgConfig || {}),
+    config: assignPkgConfig(config, loaded?.pkgConfig),
     jsConfig: config || {},
     pkgConfig: (loaded?.pkgConfig || {}) as UserConfig,
     filePath: loaded?.path,
