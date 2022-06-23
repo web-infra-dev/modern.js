@@ -1,11 +1,15 @@
-import fs from 'fs';
 import path from 'path';
 import {
   findExists,
+  fs,
   createDebugger,
   CONFIG_FILE_EXTENSIONS,
+  CONFIG_CACHE_DIR,
 } from '@modern-js/utils';
-import { bundleRequire } from '@modern-js/node-bundle-require';
+import {
+  bundleRequire,
+  defaultGetOutputFile,
+} from '@modern-js/node-bundle-require';
 
 const debug = createDebugger('load-config');
 
@@ -54,9 +58,22 @@ export const getDependencies = (filePath: string): string[] => {
   return deps;
 };
 
-const bundleRequireWithCatch = async (configFile: string): Promise<any> => {
+const bundleRequireWithCatch = async (
+  configFile: string,
+  { appDirectory }: { appDirectory: string },
+): Promise<any> => {
   try {
-    const mod = await bundleRequire(configFile);
+    const mod = await bundleRequire(configFile, {
+      autoClear: false,
+      getOutputFile: (filePath: string) => {
+        const defaultOutputFileName = path.basename(
+          defaultGetOutputFile(filePath),
+        );
+        const outputPath = path.join(appDirectory, CONFIG_CACHE_DIR);
+        fs.removeSync(outputPath);
+        return path.join(outputPath, defaultOutputFileName);
+      },
+    });
 
     return mod;
   } catch (e) {
@@ -111,7 +128,7 @@ export const loadConfig = async <T>(
   if (configFile) {
     delete require.cache[configFile];
 
-    const mod = await bundleRequireWithCatch(configFile);
+    const mod = await bundleRequireWithCatch(configFile, { appDirectory });
 
     config = mod.default || mod;
 
