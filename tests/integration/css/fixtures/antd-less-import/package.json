@@ -1,6 +1,6 @@
 {
   "name": "antd-less",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/plugin-less": "workspace:*",

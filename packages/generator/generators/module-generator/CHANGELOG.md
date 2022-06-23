@@ -1,5 +1,11 @@
 # @modern-js/module-generator
 
+## 2.1.0
+
+### Minor Changes
+
+- 50eea41ee: feat: add change status command
+
 ## 2.0.4
 
 ### Patch Changes

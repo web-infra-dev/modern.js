@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@modern-js/adapter-helpers": "workspace:^1.2.6",
-    "@modern-js/utils": "workspace:^1.7.7",
+    "@modern-js/utils": "workspace:^1.7.8",
     "@nestjs/platform-express": "^8.0.6",
     "@types/type-is": "^1.6.3",
     "body-parser": "^1.19.0",
@@ -55,7 +55,7 @@
     "rxjs": "^7.3.0",
     "type-is": "^1.6.18",
     "@modern-js/bff-utils": "workspace:^1.2.9",
-    "@modern-js/bff-runtime": "workspace:^1.2.4"
+    "@modern-js/bff-runtime": "workspace:^1.2.5"
   },
   "devDependencies": {
     "@modern-js/runtime": "workspace:*",

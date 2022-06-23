@@ -42,9 +42,9 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/adapter-helpers": "workspace:^1.2.6",
-    "@modern-js/bff-runtime": "workspace:^1.2.4",
+    "@modern-js/bff-runtime": "workspace:^1.2.5",
     "@modern-js/bff-utils": "workspace:^1.2.9",
-    "@modern-js/utils": "workspace:^1.7.7",
+    "@modern-js/utils": "workspace:^1.7.8",
     "egg-ts-helper": "^1.29.1",
     "type-is": "^1.6.18"
   },

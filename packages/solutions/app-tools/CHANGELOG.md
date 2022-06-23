@@ -1,5 +1,32 @@
 # @modern-js/app-tools
 
+## 1.6.8
+
+### Patch Changes
+
+- e0e708f83: perf(app-tools): speed up modern start command
+- Updated dependencies [06b411dc3]
+- Updated dependencies [5d4806f86]
+- Updated dependencies [b255072f2]
+- Updated dependencies [63c354ad5]
+- Updated dependencies [4165e50c7]
+- Updated dependencies [073e9ad78]
+- Updated dependencies [cda99c441]
+- Updated dependencies [7975bfa68]
+- Updated dependencies [b7302f781]
+- Updated dependencies [b96dcf364]
+- Updated dependencies [f4a7d49e1]
+- Updated dependencies [9e36d3a01]
+- Updated dependencies [3172e1ee1]
+- Updated dependencies [e0e708f83]
+  - @modern-js/webpack@1.11.1
+  - @modern-js/core@1.12.1
+  - @modern-js/utils@1.7.8
+  - @modern-js/plugin@1.3.8
+  - @modern-js/server@1.4.21
+  - @modern-js/plugin-analyze@1.4.6
+  - @modern-js/prod-server@1.1.8
+
 ## 1.6.7
 
 ### Patch Changes
