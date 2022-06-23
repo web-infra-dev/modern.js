@@ -11,5 +11,5 @@
     },
     "types": ["jest"]
   },
-  "include": ["src", "shared", "config", "api"]
+  "include": ["src", "shared", "config", "api", "modern.config.ts"]
 }

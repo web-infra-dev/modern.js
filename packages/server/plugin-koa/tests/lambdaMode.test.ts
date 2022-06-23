@@ -6,7 +6,6 @@ import Router from 'koa-router';
 import koaBody from 'koa-body';
 import plugin from '../src/plugin';
 import { APIPlugin } from './helpers';
-import { INTROSPECTION_ROUTE_PATH } from './common';
 
 const pwd = path.join(__dirname, './fixtures/lambda-mode');
 const API_DIR = './api';
@@ -94,14 +93,6 @@ describe('lambda-mode', () => {
     expect(res3.status).toBe(500);
   });
 
-  test('introspection', async () => {
-    const res = await request(apiHandler).get(
-      `${prefix}${INTROSPECTION_ROUTE_PATH}`,
-    );
-    expect(res.status).toBe(200);
-    expect(res.body.protocol).toBe('Farrow-API');
-  });
-
   test('should support upload file', done => {
     request(apiHandler)
       .post(`${prefix}/upload`)
@@ -151,6 +142,7 @@ describe('add middlewares', () => {
           mock_fakeMiddleware2,
         ],
       },
+      prefix: '/',
     });
 
     const res = await request(apiHandler).get('/user');
@@ -197,6 +189,7 @@ describe('support use koaBody in app.ts', () => {
     const apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'framework',
+      prefix: '/',
     });
     const res = await request(apiHandler).post('/nest/user').send(foo);
     expect(res.status).toBe(200);
@@ -234,6 +227,7 @@ describe('support app.ts in lambda mode', () => {
     const apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'framework',
+      prefix: '/',
     });
 
     const res = await request(apiHandler).get(`/nest/user?name=${name}`);
@@ -254,6 +248,7 @@ describe('support app.ts in lambda mode', () => {
     const apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'framework',
+      prefix: '/',
     });
 
     const res = await request(apiHandler).get(`/nest/user?name=${name}`);
@@ -279,6 +274,7 @@ describe('support app.ts in lambda mode', () => {
     const apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'framework',
+      prefix: '/',
     });
 
     const res = await request(apiHandler).get(`/nest/user`);
@@ -305,6 +301,7 @@ describe('support app.ts in lambda mode', () => {
     const apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'framework',
+      prefix: '/',
     });
 
     const res1 = await request(apiHandler).get(`/hello`);

@@ -40,16 +40,18 @@
     }
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.0",
-    "@modern-js/adapter-helpers": "workspace:^1.2.6",
-    "@modern-js/bff-runtime": "workspace:^1.2.4",
-    "@modern-js/bff-utils": "workspace:^1.2.9",
-    "@modern-js/utils": "workspace:^1.7.7",
+    "@babel/runtime": "^7.15.3",
+    "@modern-js/adapter-helpers": "workspace:^1.2.4",
+    "@modern-js/bff-core": "workspace:^1.0.0",
+    "@modern-js/bff-runtime": "workspace:^1.2.3",
+    "@modern-js/utils": "workspace:^1.7.6",
     "koa-body": "^4.2.0",
     "koa-router": "^10.0.0",
     "type-is": "^1.6.18"
   },
   "devDependencies": {
+    "@modern-js/core": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",
@@ -59,11 +61,10 @@
     "@types/supertest": "^2.0.11",
     "@types/type-is": "^1.6.3",
     "jest": "^27",
-    "@modern-js/server-core": "workspace:*",
-    "@modern-js/core": "workspace:*",
-    "supertest": "^6.1.6",
     "koa": "^2.13.3",
-    "typescript": "^4"
+    "supertest": "^6.1.6",
+    "typescript": "^4",
+    "zod": "^3.17.3"
   },
   "modernConfig": {
     "output": {

@@ -5,6 +5,9 @@ module.exports = {
     // the base path used to search for `tsconfig.json`
     tsconfigRootDir: __dirname,
     // the relative path to sub-package's `tsconfig.json`
-    project: ['./tsconfig.json'],
+    project: [
+      require.resolve('./tsconfig.json'),
+      require.resolve('./tests/tsconfig.json'),
+    ],
   },
 };

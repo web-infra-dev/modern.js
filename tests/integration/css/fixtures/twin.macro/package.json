@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "twin-macro",
+  "version": "1.0.0",
+  "dependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-tailwindcss": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "twin.macro": "^2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
+}

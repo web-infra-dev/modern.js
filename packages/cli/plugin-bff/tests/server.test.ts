@@ -1,7 +1,7 @@
 import path from 'path';
-import { serverManager } from '@modern-js/server-core';
-import { useAPIHandlerInfos } from '@modern-js/bff-utils';
+import { serverManager, createPlugin } from '@modern-js/server-core';
 import plugin from '../src/server';
+import './helper';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
@@ -11,20 +11,37 @@ const pwd = path.resolve(__dirname, './fixtures/function');
 describe('bff server plugin', () => {
   describe('prepareApiServer', () => {
     it('should work well', async () => {
-      const main = serverManager.clone().usePlugin(plugin);
+      let apiHandlerInfos = null;
+      const mockApiPlugin = createPlugin(api => ({
+        prepareApiServer(props, next) {
+          const appContext = api.useAppContext();
+          // eslint-disable-next-line prefer-destructuring
+          apiHandlerInfos = appContext.apiHandlerInfos;
+          return next(props);
+        },
+      }));
+      const main = serverManager.clone().usePlugin(plugin, mockApiPlugin);
       const runner = await main.init();
 
       await runner.prepareApiServer(
-        { pwd, mode: 'function' },
+        { pwd, mode: 'function', prefix: '/' },
         { onLast: () => noop },
       );
 
-      const apiHandlerInfos = main.run(useAPIHandlerInfos);
       expect(apiHandlerInfos).toMatchSnapshot();
     });
 
     it('should work well with prefix', async () => {
-      const main = serverManager.clone().usePlugin(plugin);
+      let apiHandlerInfos = null;
+      const mockApiPlugin = createPlugin(api => ({
+        prepareApiServer(props, next) {
+          const appContext = api.useAppContext();
+          // eslint-disable-next-line prefer-destructuring
+          apiHandlerInfos = appContext.apiHandlerInfos;
+          return next(props);
+        },
+      }));
+      const main = serverManager.clone().usePlugin(plugin, mockApiPlugin);
       const runner = await main.init();
 
       await runner.prepareApiServer(
@@ -32,7 +49,6 @@ describe('bff server plugin', () => {
         { onLast: () => noop },
       );
 
-      const apiHandlerInfos = main.run(useAPIHandlerInfos);
       expect(apiHandlerInfos).toMatchSnapshot();
     });
   });

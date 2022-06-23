@@ -5,11 +5,6 @@ Object {
   "plugins": Array [
     Array [
       "/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
-      Object {
-        "twin": Object {
-          "preset": "styled-components",
-        },
-      },
     ],
     Array [
       "/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",

@@ -53,3 +53,9 @@ Array [
   /exclude-3/,
 ]
 `;
+
+exports[`base webpack config should exclude api dir from babel-loader when api dir exists 1`] = `
+Array [
+  /cli/webpack/tests/fixtures/api,
+]
+`;

@@ -1,4 +1,4 @@
-import { generateClient, GenClientOptions } from '@modern-js/bff-utils';
+import { generateClient, GenClientOptions } from '@modern-js/bff-core';
 import type { LoaderContext } from 'webpack';
 
 export type APILoaderOptions = {
