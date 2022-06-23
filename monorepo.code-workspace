@@ -61,6 +61,10 @@
       "path": "packages/server/bff-utils"
     },
     {
+      "name": "@modern-js/bff-core",
+      "path": "packages/server/bff-core"
+    },
+    {
       "name": "@modern-js/changeset-generator",
       "path": "packages/generator/generators/changeset-generator"
     },

@@ -6,7 +6,6 @@ export const get = ({ query }: { query: Record<string, unknown> }) => ({
 });
 
 export const post = ({ data }: { data: Record<string, unknown> }) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const ctx = useContext();
   const { cookies } = ctx;
   return {

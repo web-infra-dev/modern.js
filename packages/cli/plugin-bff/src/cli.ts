@@ -138,6 +138,7 @@ export default (): CliPlugin => ({
 
       return { routes: routes.concat(apiServerRoutes) };
     },
+
     async afterBuild() {
       const { appDirectory, distDirectory } = api.useAppContext();
       const modernConfig = api.useResolvedConfigContext();

@@ -1,0 +1,10 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declaration": false,
+    "isolatedModules": true,
+    "strict": true,
+  }
+}

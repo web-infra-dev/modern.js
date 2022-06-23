@@ -151,6 +151,8 @@ const reset = createParallelWorkflow();
 
 export const AppContext = createContext<ISAppContext>({} as ISAppContext);
 
+export const setAppContext = (value: ISAppContext) => AppContext.set(value);
+
 export const ConfigContext = createContext<UserConfig>({} as UserConfig);
 
 /**
@@ -166,6 +168,7 @@ export const useAppContext = () => AppContext.use().value;
 const pluginAPI = {
   useAppContext,
   useConfigContext,
+  setAppContext,
 };
 
 const serverHooks = {

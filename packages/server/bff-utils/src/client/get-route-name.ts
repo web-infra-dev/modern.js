@@ -18,6 +18,7 @@ export const getRouteName = (
   }
 
   const lambdaDir = getLambdaDir(apiDir);
+  // TODO: 这里应该加缓存
   const allApis = getAllAPIFiles(lambdaDir);
 
   if (resourcePath.startsWith(lambdaDir)) {

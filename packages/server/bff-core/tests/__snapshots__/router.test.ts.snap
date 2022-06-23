@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test api router getAllApiHandlers 1`] = `
+Array [
+  "/normal/origin/bar",
+  "/normal/origin/bar",
+  "/normal/origin/baz",
+  "/normal/origin/baz",
+  "/normal/origin/foo",
+  "/normal/origin/foo",
+  "/normal/origin",
+  "/normal/origin",
+  "/put-repo",
+  "/normal/schema/bar",
+  "/normal/schema/bar",
+  "/normal/schema/baz",
+  "/normal/schema/baz",
+  "/normal/schema/foo",
+  "/normal/schema/foo",
+  "/:id/origin/bar",
+  "/:id/origin/bar",
+  "/:id/origin/baz",
+  "/:id/origin/baz",
+  "/:id/origin/foo",
+  "/:id/origin/foo",
+  "/:id/schema/bar",
+  "/:id/schema/bar",
+  "/:id/schema/baz",
+  "/:id/schema/baz",
+  "/:id/schema/foo",
+  "/:id/schema/foo",
+]
+`;

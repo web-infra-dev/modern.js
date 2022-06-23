@@ -4,6 +4,7 @@ import cp from 'child_process';
 import { Application } from 'egg';
 import { createTsHelperInstance } from 'egg-ts-helper';
 import type { ServerPlugin } from '@modern-js/server-core';
+import { APIHandlerInfo, API_DIR } from '@modern-js/bff-core';
 import { registerMiddleware, registerRoutes } from './utils';
 
 interface FrameConfig {
@@ -16,9 +17,6 @@ type StartOptions = Partial<{
   framework: string;
 }>;
 
-export type Mode = 'function' | 'framework';
-
-const API_DIR = './api';
 const SERVER_DIR = './server';
 
 let agent: any;
@@ -154,9 +152,11 @@ const initEggConfig = (app: Application) => {
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-egg',
   pre: ['@modern-js/plugin-bff'],
-  setup: () => ({
+  setup: api => ({
     async prepareApiServer({ pwd, mode, config, prefix }) {
       const apiDir = path.join(pwd, API_DIR);
+      const appContext = api.useAppContext();
+      const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
 
       const isGenerateType = process.env.NODE_ENV === 'development';
       enableTs(pwd, isGenerateType);
@@ -166,12 +166,15 @@ export default (): ServerPlugin => ({
       });
 
       const { router } = app;
+      if (prefix) {
+        router.prefix(prefix);
+      }
 
       // remove routes first
       app.middleware.splice(app.middleware.length - 1, 1);
 
       if (mode === 'framework') {
-        registerRoutes(router, prefix);
+        registerRoutes(router, apiHandlerInfos);
       } else if (mode === 'function') {
         if (config) {
           const { middleware } = config as FrameConfig;
@@ -181,18 +184,13 @@ export default (): ServerPlugin => ({
         }
 
         initEggConfig(app);
-        registerRoutes(router, prefix as string);
+        registerRoutes(router, apiHandlerInfos);
       } else {
         throw new Error(`mode must be function or framework`);
       }
       app.use(router.routes());
 
       return (req, res) => {
-        app.on('error', err => {
-          if (err) {
-            throw err;
-          }
-        });
         return Promise.resolve(app.callback()(req, res));
       };
     },

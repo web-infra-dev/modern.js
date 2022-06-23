@@ -40,15 +40,16 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.0",
-    "@modern-js/adapter-helpers": "workspace:^1.2.6",
-    "@modern-js/bff-runtime": "workspace:^1.2.4",
-    "@modern-js/bff-utils": "workspace:^1.2.9",
+    "@babel/runtime": "^7.15.3",
+    "@modern-js/adapter-helpers": "workspace:^1.2.4",
+    "@modern-js/bff-core": "workspace:^1.0.0",
+    "@modern-js/bff-runtime": "workspace:^1.2.3",
     "@modern-js/types": "workspace:^1.5.4",
     "@modern-js/utils": "workspace:^1.7.7",
     "cookie-parser": "^1.4.5",
     "finalhandler": "^1.1.2",
     "formidable": "^1.2.2",
+    "reflect-metadata": "^0.1.13",
     "type-is": "^1.6.18"
   },
   "devDependencies": {
@@ -68,7 +69,8 @@
     "express": "^4.17.1",
     "jest": "^27",
     "supertest": "^6.1.6",
-    "typescript": "^4"
+    "typescript": "^4",
+    "zod": "^3.17.3"
   },
   "modernConfig": {
     "output": {
