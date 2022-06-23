@@ -44,10 +44,10 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@modern-js/adapter-helpers": "workspace:^1.2.4",
+    "@modern-js/adapter-helpers": "workspace:^1.2.6",
     "@modern-js/bff-core": "workspace:^1.0.0",
-    "@modern-js/bff-runtime": "workspace:^1.2.3",
-    "@modern-js/utils": "workspace:^1.7.6",
+    "@modern-js/bff-runtime": "workspace:^1.2.5",
+    "@modern-js/utils": "workspace:^1.7.8",
     "@nestjs/platform-express": "^8.0.6",
     "@types/type-is": "^1.6.3",
     "body-parser": "^1.19.0",
