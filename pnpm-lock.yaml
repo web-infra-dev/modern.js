@@ -5107,6 +5107,16 @@ importers:
       '@types/react-dom': 17.0.17
       typescript: 4.7.4
 
+  tests/integration/module-tools/cli:
+    specifiers:
+      '@modern-js/core': workspace:*
+      '@modern-js/module-tools': workspace:*
+      '@modern-js/plugin-less': workspace:*
+    devDependencies:
+      '@modern-js/core': link:../../../../packages/cli/core
+      '@modern-js/module-tools': link:../../../../packages/solutions/module-tools
+      '@modern-js/plugin-less': link:../../../../packages/cli/plugin-less
+
   tests/integration/mwa-app:
     specifiers:
       '@modern-js/app-tools': workspace:*
@@ -18208,8 +18218,6 @@ packages:
       sudo-prompt: 8.2.5
       tmp: 0.0.33
       tslib: 1.14.1
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /devtools-protocol/0.0.901419:

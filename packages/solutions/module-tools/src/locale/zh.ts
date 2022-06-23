@@ -9,6 +9,7 @@ export const ZH_LOCALE = {
       no_tsc: '关闭 tsc 编译（废弃）',
       dts: '开启 dts 文件的生成以及类型检查',
       no_clear: '不清理产物目录',
+      config: '指定配置文件路径，可以为相对路径或绝对路径',
     },
     dev: { describe: '本地开发命令' },
     new: {

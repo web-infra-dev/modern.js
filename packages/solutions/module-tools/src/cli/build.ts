@@ -35,6 +35,10 @@ export const buildCli = (program: Command, api: PluginAPI) => {
     .option('--no-tsc', local.i18n.t(local.localeKeys.command.build.no_tsc))
     .option('--dts', local.i18n.t(local.localeKeys.command.build.dts))
     .option('--no-clear', local.i18n.t(local.localeKeys.command.build.no_clear))
+    .option(
+      '-c --config <config>',
+      local.i18n.t(local.localeKeys.command.build.config),
+    )
     .action(async (subCommand: IBuildCommandOption) => {
       await commands.build(api, subCommand);
     });

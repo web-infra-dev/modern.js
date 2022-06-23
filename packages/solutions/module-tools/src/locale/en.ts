@@ -9,6 +9,7 @@ export const EN_LOCALE = {
       no_tsc: 'close tsc compiler to emit d.ts (Deprecated)',
       dts: 'Turn on dts generation and type checking',
       no_clear: 'disable auto clear dist dir',
+      config: 'specify config file',
     },
     dev: { describe: 'start dev server' },
     new: {
