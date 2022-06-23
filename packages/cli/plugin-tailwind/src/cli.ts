@@ -38,7 +38,11 @@ export default (): CliPlugin => ({
           absolute: true,
         });
         if (files.length > 0) {
-          fs.writeFileSync(internalTwConfigPath, template(files[0]), 'utf-8');
+          fs.writeFileSync(
+            internalTwConfigPath,
+            template(files[files.length - 1]),
+            'utf-8',
+          );
         }
       },
 
