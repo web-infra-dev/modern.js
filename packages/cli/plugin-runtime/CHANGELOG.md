@@ -1,5 +1,11 @@
 # @modern-js/runtime
 
+## 1.3.3
+
+### Patch Changes
+
+- 8d0eb81f5: add styled-components alias
+
 ## 1.3.2
 
 ### Patch Changes
