@@ -9,5 +9,6 @@
     "isolatedModules": true,
     "paths": {},
     "types": ["node", "jest"]
-  }
+  },
+  "include": ["./"]
 }
