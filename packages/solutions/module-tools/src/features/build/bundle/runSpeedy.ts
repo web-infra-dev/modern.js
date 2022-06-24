@@ -1,11 +1,12 @@
 import path from 'path';
 import { SpeedyBundler } from '@speedy-js/speedy-core';
 import { es5InputPlugin } from '@speedy-js/speedy-plugin-es5';
-import type { CLIConfig } from '@speedy-js/speedy-types';
+import type { CLIConfig, SpeedyPlugin } from '@speedy-js/speedy-types';
 import type { PluginAPI } from '@modern-js/core';
 import { applyOptionsChain, ensureAbsolutePath } from '@modern-js/utils';
 import { NormalizedBundleBuildConfig } from '../types';
-import { ModuleBuildError } from '../error';
+import { InternalBuildError } from '../error';
+import { SectionTitleStatus, watchSectionTitle } from '../utils';
 
 export type ResolveAlias = { [index: string]: string };
 export const getAlias = (api: PluginAPI) => {
@@ -64,9 +65,21 @@ export const runSpeedy = async (
     config;
   const { entry, platform, splitting, minify, externals } = bundleOptions;
   const distDir = path.join(appDirectory, distPath, outputPath);
+  const titleText = `[Bundle:Speedy:${format}_${target}]`;
   const alias = getAlias(api);
   const define = getDefine(api);
-  const plugins = target === 'es5' ? [es5InputPlugin] : [];
+  const watchPlugin = (): SpeedyPlugin => {
+    return {
+      name: 'watch-plugin',
+      apply(compiler) {
+        compiler.hooks.watchChange.tap('watch-plugin', async () => {
+          console.info(watchSectionTitle(titleText, SectionTitleStatus.Log));
+        });
+      },
+    };
+  };
+  const plugins = target === 'es5' ? [es5InputPlugin()] : [];
+  plugins.push(watchPlugin());
   const internalSpeedyConfig: CLIConfig = {
     command: 'build',
     mode: 'production',
@@ -76,6 +89,7 @@ export const runSpeedy = async (
     watch,
     input: entry,
     target,
+    clearScreen: false,
     output: {
       path: distDir,
       format,
@@ -95,9 +109,21 @@ export const runSpeedy = async (
   );
   const compiler = await SpeedyBundler.create(speedyConfig);
   try {
+    if (watch) {
+      console.info(watchSectionTitle(titleText, SectionTitleStatus.Log));
+    }
     await compiler.build();
   } catch (e) {
-    console.error(`bundle failed: ${format}+${target}`);
-    throw new ModuleBuildError(e);
+    /**
+     * in watch mode
+     * use speedy watch log
+     */
+    if (e instanceof Error) {
+      throw new InternalBuildError(e, {
+        target,
+        format,
+        buildType: 'bundle',
+      });
+    }
   }
 };

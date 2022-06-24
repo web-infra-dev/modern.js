@@ -1,5 +1,5 @@
 import * as os from 'os';
-import { Import } from '@modern-js/utils';
+import { chalk, Import } from '@modern-js/utils';
 
 const constants: typeof import('./constants') = Import.lazy(
   './constants',
@@ -63,4 +63,22 @@ ${contentColor(messageFragments.join(os.EOL))}${
     noBottomBorder ? '' : `\n${bottomBorderText}`
   }`;
   return template;
+};
+export enum SectionTitleStatus {
+  Success,
+  Fail,
+  Log,
+}
+export const watchSectionTitle = (str: string, status: SectionTitleStatus) => {
+  if (status === SectionTitleStatus.Success) {
+    return `${chalk.bgWhite.gray.underline(str)} ${chalk.green.underline(
+      'Successful',
+    )}`;
+  } else if (status === SectionTitleStatus.Fail) {
+    return `${chalk.bgWhite.gray.underline(str)} ${chalk.red.underline(
+      'Build Failed',
+    )}`;
+  }
+
+  return `${chalk.bgWhite.gray.underline(str)} ${chalk.blue.underline('Log')}`;
 };

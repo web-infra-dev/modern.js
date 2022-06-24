@@ -53,7 +53,8 @@
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "build": "wireit",
-    "test": "wireit"
+    "test": "wireit",
+    "dev": "modern build --watch"
   },
   "dependencies": {
     "@babel/generator": "^7.18.0",
