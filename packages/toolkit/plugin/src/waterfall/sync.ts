@@ -1,9 +1,4 @@
-import {
-  Container,
-  useContainer,
-  createPipeline,
-  Middleware,
-} from '../farrow-pipeline';
+import { createPipeline, Middleware } from '../farrow-pipeline';
 
 const WATERFALL_SYMBOL = Symbol.for('MODERN_WATERFALL');
 
@@ -22,7 +17,6 @@ export const getBrook = <I>(input: BrookInput<I>) => {
 };
 
 export type RunWaterfallOptions<I = unknown> = {
-  container?: Container;
   onLast?: Brook<I>;
 };
 
@@ -31,36 +25,6 @@ export type Waterfall<I = void> = {
   use: (...I: BrookInputs<I>) => Waterfall<I>;
   middleware: Brook<I>;
   [WATERFALL_SYMBOL]: true;
-};
-
-export type Waterfall2Brook<P extends Waterfall<any>> = P extends Waterfall<
-  infer I
->
-  ? Brook<I>
-  : never;
-
-export type WaterfallRecord = Record<string, Waterfall<any>>;
-
-export type Waterfalls2Brooks<PS extends WaterfallRecord | void> = {
-  [K in keyof PS]: PS[K] extends Waterfall<any>
-    ? Waterfall2Brook<PS[K]>
-    : PS[K] extends void
-    ? void
-    : never;
-};
-
-export type RunnerFromWaterfall<M extends Waterfall<any>> = M extends Waterfall<
-  infer VS
->
-  ? Waterfall<VS>['run']
-  : never;
-
-export type Waterfalls2Runners<PS extends WaterfallRecord | void> = {
-  [K in keyof PS]: PS[K] extends Waterfall<any>
-    ? RunnerFromWaterfall<PS[K]>
-    : PS[K] extends void
-    ? void
-    : never;
 };
 
 export const createWaterfall = <I = void>(): Waterfall<I> => {
@@ -75,8 +39,7 @@ export const createWaterfall = <I = void>(): Waterfall<I> => {
     pipeline.run(input, { ...options, onLast: input => input });
 
   const middleware: Waterfall<I>['middleware'] = input => {
-    const container = useContainer();
-    return pipeline.run(input, { container, onLast: input => input });
+    return pipeline.run(input, { onLast: input => input });
   };
 
   const waterfall: Waterfall<I> = {

@@ -1,12 +1,9 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable max-lines */
-import * as asyncHooksImpl from '../src/farrow-pipeline/asyncHooks.node';
 import {
   createContext,
-  createContainer,
   createPipeline,
   createAsyncPipeline,
-  useContainer,
   isPipeline,
 } from '../src';
 import { sleep } from './helpers';
@@ -143,32 +140,6 @@ describe('createPipeline', () => {
     expect(list).toEqual([0, 1, 3, 4, 7]);
   });
 
-  it('can inject context', async () => {
-    const TestContext = createContext(10);
-
-    const pipeline = createPipeline<number, PromiseLike<number> | number>({
-      contexts: { count: TestContext.create(100) },
-    });
-
-    pipeline.use(input => {
-      const Context = TestContext.use();
-      Context.value += input;
-      return Context.value;
-    });
-
-    const result0 = await pipeline.run(20);
-
-    expect(result0).toEqual(120);
-
-    const container = createContainer({ count: TestContext.create(10) });
-
-    const result1 = await pipeline.run(30, { container });
-
-    expect(result1).toEqual(40);
-
-    expect(container.read(TestContext)).toEqual(40);
-  });
-
   it('should throw error if there are no middlewares in pipeline', async () => {
     const pipeline = createPipeline<number, PromiseLike<number> | number>();
 
@@ -234,36 +205,6 @@ describe('createPipeline', () => {
 
     expect(result).toEqual(5);
     expect(list).toEqual([1, 2, 3, 4]);
-  });
-
-  it('can access current context in pipeline', () => {
-    const Context0 = createContext(0);
-    const Context1 = createContext(1);
-
-    const pipeline = createPipeline<number, number>({
-      contexts: {
-        count0: Context0.create(10),
-        count1: Context1.create(20),
-      },
-    });
-
-    const list: boolean[] = [];
-
-    pipeline.use(input => {
-      const container = useContainer();
-      const count0 = Context0.use().value;
-      const count1 = Context1.use().value;
-
-      list.push(container.read(Context0) === count0);
-      list.push(container.read(Context1) === count1);
-
-      return input;
-    });
-
-    const result = pipeline.run(0);
-
-    expect(result).toEqual(0);
-    expect(list).toEqual([true, true]);
   });
 
   it('should support multiple middlewares in pipeline.use', () => {
@@ -487,10 +428,8 @@ describe('createPipeline', () => {
         return input + step.value;
       });
 
-      asyncHooksImpl.enable();
       const result0 = await pipeline1.run(0);
       const result1 = await pipeline0.run(0);
-      asyncHooksImpl.disable();
 
       expect(result0).toEqual(1);
       expect(result1).toEqual(3);
@@ -534,13 +473,7 @@ describe('createPipeline', () => {
         return input + Count.get().count;
       });
 
-      const container = createContainer({ count: Count });
-
-      asyncHooksImpl.enable();
-
-      const result0 = await pipeline.run(10, { container });
-
-      asyncHooksImpl.disable();
+      const result0 = await pipeline.run(10);
 
       expect(result0).toEqual(21);
       expect(list).toEqual([{ count: 10 }, { count: 12 }]);

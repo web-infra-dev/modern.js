@@ -5,7 +5,6 @@ import {
   CommonAPI,
   PluginOptions,
   createManager,
-  createContext,
   createPipeline,
   createAsyncPipeline,
 } from '@modern-js/plugin';
@@ -30,29 +29,6 @@ const provide = createPipeline<
   },
   JSX.Element
 >();
-
-export const AppComponentContext =
-  createContext<React.ComponentType<any> | null>(null);
-
-export const useAppComponent = () => {
-  const AppComponent = AppComponentContext.use().value;
-
-  if (!AppComponent) {
-    throw new Error(`Expect React.ComponentType, accept: null`);
-  }
-
-  return AppComponent;
-};
-
-export const useRootElement = () => {
-  const rootElement = AppComponentContext.use().value;
-
-  if (!rootElement) {
-    throw new Error(`Expect HTMLElement, accept: null`);
-  }
-
-  return rootElement;
-};
 
 const client = createAsyncPipeline<
   {

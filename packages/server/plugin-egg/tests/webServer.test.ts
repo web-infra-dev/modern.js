@@ -16,7 +16,7 @@ describe('webServer', () => {
 
   beforeAll(async () => {
     serverManager.usePlugin(plugin);
-    runner = await serverManager.init({});
+    runner = await serverManager.init();
   });
 
   test('support json', async () => {

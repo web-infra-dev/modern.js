@@ -14,7 +14,7 @@ describe('lambda-mode', () => {
 
   beforeAll(async () => {
     serverManager.usePlugin(APIPlugin).usePlugin(plugin);
-    const runner = await serverManager.init({});
+    const runner = await serverManager.init();
     apiHandler = await runner.prepareApiServer({
       pwd,
       mode: 'framework',

@@ -1,14 +1,12 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable max-lines */
-import { enable, disable } from '../src/farrow-pipeline/asyncHooks.node';
 import {
   createPipeline,
   createAsyncPipeline,
   createContext,
-  createContainer,
 } from '../src/farrow-pipeline';
 import type { PluginOptions, AsyncSetup } from '../src';
-import { createManager, createAsyncManager, useRunner } from '../src/manager';
+import { createManager, createAsyncManager } from '../src/manager';
 import { createWaterfall, createAsyncWaterfall } from '../src/waterfall';
 import {
   createWorkflow,
@@ -28,7 +26,7 @@ describe('async manager', () => {
 
     expect(getBar()).toBe(0);
 
-    const runner = await manager.init({});
+    const runner = await manager.init();
 
     expect(getBar()).toBe(1);
 
@@ -53,15 +51,11 @@ describe('async manager', () => {
     });
     manager.usePlugin(plugin);
 
-    manager.run(() => {
-      countContext.set(1);
-    });
+    countContext.set(1);
 
-    enable();
     await manager.init();
-    disable();
 
-    const result0 = manager.run(() => countContext.get());
+    const result0 = countContext.get();
 
     expect(result0).toBe(1);
   });
@@ -259,7 +253,7 @@ describe('async manager', () => {
       manager.usePlugin(plugin3);
       manager.usePlugin(plugin4);
 
-      await manager.init({});
+      await manager.init();
 
       expect(status).toBe(1);
     });
@@ -453,12 +447,10 @@ describe('async manager', () => {
     manager.usePlugin(plugin);
 
     await manager.init();
-    expect(manager.run(Count.get)).toBe(1);
+    expect(Count.get()).toBe(1);
 
-    const container = createContainer();
-
-    await manager.init({ container });
-    expect(manager.run(Count.get, { container })).toBe(1);
+    await manager.init();
+    expect(Count.get()).toBe(1);
   });
 
   it('should support all progress', async () => {
@@ -542,50 +534,9 @@ describe('async manager', () => {
 
       const runner = await manager.init();
 
-      enable();
       await runner.foo({});
-      disable();
 
       expect(count).toBe(1);
-    });
-
-    it('should throw error useRunner out plugin hook', async () => {
-      const foo = createAsyncPipeline();
-      const bar = createAsyncPipeline();
-      const manager = createAsyncManager({ foo, bar });
-
-      let count = 0;
-
-      const plugin = manager.createPlugin(() => {
-        const runner = manager.useRunner();
-
-        return {
-          foo: async () => {
-            await sleep(0);
-            runner.bar({});
-          },
-          bar: () => {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            count = 1;
-          },
-        };
-      });
-
-      manager.usePlugin(plugin);
-
-      await expect(manager.init).rejects.toThrowError(
-        new Error(
-          `Can't call useRunner out of scope, it should be placed in hooks of plugin`,
-        ),
-      );
-    });
-
-    it('should throw error useRunner out plugin', () => {
-      expect(useRunner).toThrowError(
-        new Error(
-          `Can't call useContainer out of scope, it should be placed on top of the function`,
-        ),
-      );
     });
   });
 

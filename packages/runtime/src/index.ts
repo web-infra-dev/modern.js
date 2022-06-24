@@ -3,8 +3,6 @@ export * from './render';
 export * from './initial';
 
 export {
-  useAppComponent,
-  useRootElement,
   createPlugin,
   createRuntime,
   runtime,

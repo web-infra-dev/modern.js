@@ -194,7 +194,7 @@ export class Server {
     });
 
     // create runner
-    const hooksRunner = await serverManager.init({});
+    const hooksRunner = await serverManager.init();
 
     return hooksRunner;
   }
@@ -206,12 +206,10 @@ export class Server {
     const appContext = this.initAppContext();
     const { config, pwd } = options;
 
-    serverManager.run(() => {
-      ConfigContext.set(config as UserConfig);
-      AppContext.set({
-        ...appContext,
-        distDirectory: path.join(pwd, config.output?.path || 'dist'),
-      });
+    ConfigContext.set(config as UserConfig);
+    AppContext.set({
+      ...appContext,
+      distDirectory: path.join(pwd, config.output?.path || 'dist'),
     });
   }
 

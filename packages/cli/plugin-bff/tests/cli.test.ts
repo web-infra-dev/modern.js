@@ -28,13 +28,11 @@ describe('bff cli plugin', () => {
     const runner = await main.init();
     const [{ tools }]: any = await runner.config();
     const chain = new Chain();
-    manager.run(() => {
-      AppContext.set({
-        appDirectory: './fixtures/function',
-        port: 3000,
-      } as any);
-    });
-    manager.run(() => tools.webpackChain(chain, { CHAIN_ID }));
+    AppContext.set({
+      appDirectory: './fixtures/function',
+      port: 3000,
+    } as any);
+    tools.webpackChain(chain, { CHAIN_ID });
 
     expect(chain.toConfig()).toMatchObject({
       module: {

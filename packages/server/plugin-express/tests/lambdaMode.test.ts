@@ -112,7 +112,7 @@ describe('add middlewares', () => {
 
   beforeAll(async () => {
     serverManager.usePlugin(plugin);
-    runner = await serverManager.init({});
+    runner = await serverManager.init();
   });
 
   test('should support add by function', async () => {
@@ -200,7 +200,7 @@ describe('support app.ts in lambda mode', () => {
   let runner: any;
 
   beforeAll(async () => {
-    runner = await serverManager.init({});
+    runner = await serverManager.init();
   });
 
   beforeEach(() => {
@@ -321,7 +321,7 @@ describe('support as async handler', () => {
 
   beforeAll(async () => {
     serverManager.usePlugin(plugin);
-    runner = await serverManager.init({});
+    runner = await serverManager.init();
   });
 
   test('API handler should works', async () => {
