@@ -1,6 +1,7 @@
 import { Import } from '@modern-js/utils';
 import ChangesetPlugin from '@modern-js/plugin-changeset';
 import AnalyzePlugin from '@modern-js/plugin-analyze';
+import LintPlugin from '@modern-js/plugin-jarvis';
 import type { CliPlugin } from '@modern-js/core';
 import { hooks } from './hooks';
 
@@ -21,7 +22,7 @@ export default (): CliPlugin => ({
 
   registerHook: hooks,
 
-  usePlugins: [ChangesetPlugin(), AnalyzePlugin()],
+  usePlugins: [ChangesetPlugin(), AnalyzePlugin(), LintPlugin()],
 
   setup: api => {
     const locale = lang.getLocaleLanguage();
