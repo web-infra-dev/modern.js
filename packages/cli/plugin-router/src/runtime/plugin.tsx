@@ -116,7 +116,8 @@ export const routerPlugin = ({
                 <StaticRouter
                   basename={basename === '/' ? '' : basename}
                   location={location}
-                  context={routerContext}>
+                  context={routerContext}
+                >
                   <App {...props}>
                     {routesConfig ? renderRoutes(routesConfig, props) : null}
                   </App>
@@ -124,8 +125,20 @@ export const routerPlugin = ({
               );
             };
           };
+          let RouteApp = getRouteApp();
+
+          if (App) {
+            RouteApp = hoistNonReactStatics(RouteApp, App);
+          }
+
+          if (routesConfig?.globalApp) {
+            return next({
+              App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
+            });
+          }
+
           return next({
-            App: App ? hoistNonReactStatics(getRouteApp(), App) : getRouteApp(),
+            App: RouteApp,
           });
         },
       };
