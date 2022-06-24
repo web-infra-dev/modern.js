@@ -8,7 +8,6 @@ const {
   modernStart,
   // launchApp,
   killApp,
-  installDeps,
   clearBuildDist,
 } = require('../../../utils/modernTestUtils');
 
@@ -18,7 +17,6 @@ const fixturesDir = join(__dirname, '../fixtures');
 
 let appPort;
 beforeAll(async () => {
-  installDeps(fixturesDir);
   appPort = await getPort();
 });
 

@@ -1,6 +1,7 @@
 import path from 'path';
 import { defineConfig, cli, CliPlugin } from '@modern-js/core';
 import AnalyzePlugin from '@modern-js/plugin-analyze';
+import LintPlugin from '@modern-js/plugin-jarvis';
 import { cleanRequireCache } from '@modern-js/utils';
 import { hooks } from './hooks';
 import { i18n, localeKeys } from './locale';
@@ -22,7 +23,7 @@ export default (): CliPlugin => ({
 
   registerHook: hooks,
 
-  usePlugins: [AnalyzePlugin()],
+  usePlugins: [AnalyzePlugin(), LintPlugin()],
 
   setup: api => {
     const locale = getLocaleLanguage();

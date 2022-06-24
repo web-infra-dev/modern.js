@@ -2,7 +2,6 @@
 const path = require('path');
 const { resolve } = require('path');
 const {
-  installDeps,
   clearBuildDist,
   getPort,
   launchApp,
@@ -10,10 +9,6 @@ const {
 } = require('../../../utils/modernTestUtils');
 
 const fixtures = path.resolve(__dirname, '../fixtures');
-
-beforeAll(async () => {
-  await installDeps(fixtures);
-});
 
 afterAll(() => {
   clearBuildDist(fixtures);
