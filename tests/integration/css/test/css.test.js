@@ -4,7 +4,6 @@ const { resolve } = require('path');
 const { fs } = require('@modern-js/utils');
 const {
   modernBuild,
-  installDeps,
   clearBuildDist,
   getPort,
   launchApp,
@@ -16,10 +15,6 @@ const { getCssFiles, readCssFile, copyModules } = require('./utils');
 const { readdirSync, readFileSync } = fs;
 
 const fixtures = path.resolve(__dirname, '../fixtures');
-
-beforeAll(async () => {
-  await installDeps(fixtures);
-});
 
 afterAll(() => {
   clearBuildDist(fixtures);

@@ -71,6 +71,7 @@
     "@modern-js/plugin-analyze": "workspace:^1.4.6",
     "@modern-js/plugin-changeset": "workspace:^1.2.8",
     "@modern-js/plugin-i18n": "workspace:^1.2.7",
+    "@modern-js/plugin-jarvis": "workspace:^1.2.13",
     "@modern-js/style-compiler": "workspace:^1.2.10",
     "@modern-js/utils": "workspace:^1.7.7",
     "normalize-path": "^3.0.0",

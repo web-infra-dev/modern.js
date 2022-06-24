@@ -3,7 +3,6 @@ const fs = require('fs');
 const axios = require('axios');
 const {
   modernBuild,
-  installDeps,
   clearBuildDist,
   modernStart,
   getPort,
@@ -15,7 +14,6 @@ const successStatus = 200;
 let app, appPort;
 
 beforeAll(async () => {
-  await installDeps(appPath);
   await modernBuild(appPath);
   appPort = await getPort();
 });
