@@ -6,11 +6,13 @@ import {
   PLUGIN_SCHEMAS,
   normalizeOutputPath,
   SHARED_DIR,
+  isProd,
 } from '@modern-js/utils';
 import { resolveBabelConfig } from '@modern-js/server-utils';
 
 import type { ServerRoute } from '@modern-js/types';
 import type { CliPlugin, NormalizedConfig, UserConfig } from '@modern-js/core';
+import { registerModernRuntimePath } from './helper';
 
 interface Pattern {
   from: string;
@@ -69,105 +71,120 @@ const compile = async (
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-bff',
-  setup: api => ({
-    validateSchema() {
-      return PLUGIN_SCHEMAS['@modern-js/plugin-bff'];
-    },
-    config() {
-      return {
-        tools: {
-          webpackChain: (chain, { name, CHAIN_ID }) => {
-            const { appDirectory, port } = api.useAppContext();
-            const modernConfig = api.useResolvedConfigContext() as UserConfig;
-            const { bff } = modernConfig || {};
-            const { fetcher } = bff || {};
-            const prefix = bff?.prefix || DEFAULT_API_PREFIX;
+  setup: api => {
+    let unRegisterResolveRuntimePath: (() => void) | null = null;
+    return {
+      validateSchema() {
+        return PLUGIN_SCHEMAS['@modern-js/plugin-bff'];
+      },
+      config() {
+        return {
+          tools: {
+            webpackChain: (chain, { name, CHAIN_ID }) => {
+              const { appDirectory, port } = api.useAppContext();
+              const modernConfig = api.useResolvedConfigContext() as UserConfig;
+              const { bff } = modernConfig || {};
+              const { fetcher } = bff || {};
+              const prefix = bff?.prefix || DEFAULT_API_PREFIX;
 
-            const rootDir = path.resolve(appDirectory, API_DIR);
+              const rootDir = path.resolve(appDirectory, API_DIR);
 
-            chain.resolve.alias.set('@api', rootDir);
+              chain.resolve.alias.set('@api', rootDir);
 
-            const apiRegexp = new RegExp(
-              normalizeOutputPath(
-                `${appDirectory}${path.sep}api${path.sep}.*(.[tj]s)$`,
-              ),
-            );
-            chain.module
-              .rule(CHAIN_ID.RULE.LOADERS)
-              .oneOf(CHAIN_ID.ONE_OF.BFF_CLIENT)
-              .before(CHAIN_ID.ONE_OF.FALLBACK)
-              .test(apiRegexp)
-              .use('custom-loader')
-              .loader(require.resolve('./loader').replace(/\\/g, '/'))
-              .options({
-                prefix,
-                apiDir: rootDir,
-                port,
-                fetcher,
-                target: name,
-                requestCreator: bff?.requestCreator,
-              });
+              const apiRegexp = new RegExp(
+                normalizeOutputPath(
+                  `${appDirectory}${path.sep}api${path.sep}.*(.[tj]s)$`,
+                ),
+              );
+              chain.module
+                .rule(CHAIN_ID.RULE.LOADERS)
+                .oneOf(CHAIN_ID.ONE_OF.BFF_CLIENT)
+                .before(CHAIN_ID.ONE_OF.FALLBACK)
+                .test(apiRegexp)
+                .use('custom-loader')
+                .loader(require.resolve('./loader').replace(/\\/g, '/'))
+                .options({
+                  prefix,
+                  apiDir: rootDir,
+                  port,
+                  fetcher,
+                  target: name,
+                  requestCreator: bff?.requestCreator,
+                });
+            },
           },
-        },
-        source: {
-          moduleScopes: [`./${API_DIR}`, /create-request/],
-        },
-      };
-    },
-    modifyServerRoutes({ routes }: { routes: ServerRoute[] }) {
-      const modernConfig = api.useResolvedConfigContext();
+          source: {
+            moduleScopes: [`./${API_DIR}`, /create-request/],
+          },
+        };
+      },
+      modifyServerRoutes({ routes }: { routes: ServerRoute[] }) {
+        const modernConfig = api.useResolvedConfigContext();
 
-      const { bff } = modernConfig || {};
-      const prefix = bff?.prefix || '/api';
+        const { bff } = modernConfig || {};
+        const prefix = bff?.prefix || '/api';
 
-      const prefixList: string[] = [];
+        const prefixList: string[] = [];
 
-      if (Array.isArray(prefix)) {
-        prefixList.push(...prefix);
-      } else {
-        prefixList.push(prefix);
-      }
-      const apiServerRoutes = prefixList.map(pre => ({
-        urlPath: pre,
-        isApi: true,
-        entryPath: '',
-        isSPA: false,
-        isSSR: false,
-        // FIXME: })) as IAppContext[`serverRoutes`];
-      })) as ServerRoute[];
+        if (Array.isArray(prefix)) {
+          prefixList.push(...prefix);
+        } else {
+          prefixList.push(prefix);
+        }
+        const apiServerRoutes = prefixList.map(pre => ({
+          urlPath: pre,
+          isApi: true,
+          entryPath: '',
+          isSPA: false,
+          isSSR: false,
+          // FIXME: })) as IAppContext[`serverRoutes`];
+        })) as ServerRoute[];
 
-      return { routes: routes.concat(apiServerRoutes) };
-    },
+        return { routes: routes.concat(apiServerRoutes) };
+      },
 
-    async afterBuild() {
-      const { appDirectory, distDirectory } = api.useAppContext();
-      const modernConfig = api.useResolvedConfigContext();
+      async beforeBuild() {
+        // help esbuild-register resolve @modern-js/server/runtime
+        if (isProd()) {
+          const { internalDirectory } = api.useAppContext();
+          unRegisterResolveRuntimePath =
+            registerModernRuntimePath(internalDirectory);
+        }
+      },
 
-      const distDir = path.resolve(distDirectory);
-      const apiDir = path.resolve(appDirectory, API_DIR);
-      const sharedDir = path.resolve(appDirectory, SHARED_DIR);
-      const tsconfigPath = path.resolve(appDirectory, TS_CONFIG_FILENAME);
+      async afterBuild() {
+        if (unRegisterResolveRuntimePath) {
+          unRegisterResolveRuntimePath();
+        }
+        const { appDirectory, distDirectory } = api.useAppContext();
+        const modernConfig = api.useResolvedConfigContext();
 
-      const patterns = [];
-      if (fs.existsSync(apiDir)) {
-        patterns.push({
-          from: apiDir,
-          to: distDir,
-          tsconfigPath,
-        });
-      }
+        const distDir = path.resolve(distDirectory);
+        const apiDir = path.resolve(appDirectory, API_DIR);
+        const sharedDir = path.resolve(appDirectory, SHARED_DIR);
+        const tsconfigPath = path.resolve(appDirectory, TS_CONFIG_FILENAME);
 
-      if (fs.existsSync(sharedDir)) {
-        patterns.push({
-          from: sharedDir,
-          to: distDir,
-          tsconfigPath,
-        });
-      }
+        const patterns = [];
+        if (fs.existsSync(apiDir)) {
+          patterns.push({
+            from: apiDir,
+            to: distDir,
+            tsconfigPath,
+          });
+        }
 
-      if (patterns.length > 0) {
-        await compile(appDirectory, modernConfig, { patterns });
-      }
-    },
-  }),
+        if (fs.existsSync(sharedDir)) {
+          patterns.push({
+            from: sharedDir,
+            to: distDir,
+            tsconfigPath,
+          });
+        }
+
+        if (patterns.length > 0) {
+          await compile(appDirectory, modernConfig, { patterns });
+        }
+      },
+    };
+  },
 });
