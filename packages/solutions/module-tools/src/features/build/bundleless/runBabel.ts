@@ -1,14 +1,56 @@
 import path from 'path';
-import { Import, glob, fs } from '@modern-js/utils';
+import { Import, glob, fs, chalk } from '@modern-js/utils';
 import { PluginAPI } from '@modern-js/core';
 import type {
   BabelOptions,
   IVirtualDist,
   ICompilerResult,
   BuildWatchEmitter,
+  ICompilerMessageDetail,
 } from '@modern-js/babel-compiler';
+import { Format, Target } from '../../../schema/types';
+import { InternalBuildError } from '../error';
 import type { NormalizedBundlelessBuildConfig } from '../types';
 import type { ITsconfig } from '../../../types';
+import { SectionTitleStatus, watchSectionTitle } from '../utils';
+
+export class BabelBuildError extends Error {
+  public readonly summary?: string;
+
+  public readonly details?: ICompilerMessageDetail[];
+
+  constructor(
+    message: string,
+    opts?: {
+      summary?: string;
+      details?: ICompilerMessageDetail[];
+    },
+  ) {
+    super(message);
+
+    Error.captureStackTrace(this, this.constructor);
+
+    this.summary = opts?.summary;
+    this.details = opts?.details;
+  }
+
+  toString() {
+    return this.formatError().join('\n');
+  }
+
+  formatError() {
+    const msgs: string[] = [];
+    const { summary, details = [] } = this;
+    msgs.push(chalk.red.bold(summary));
+
+    for (const detail of details) {
+      msgs.push(detail.content);
+      msgs.push('\n');
+    }
+
+    return msgs;
+  }
+}
 
 const babelCompiler: typeof import('@modern-js/babel-compiler') = Import.lazy(
   '@modern-js/babel-compiler',
@@ -24,13 +66,7 @@ const ts: typeof import('../../../utils/tsconfig') = Import.lazy(
   require,
 );
 
-const logger: typeof import('../logger') = Import.lazy('../logger', require);
-
-export enum Compiler {
-  babel,
-  esbuild,
-  swc,
-}
+// const logger: typeof import('../logger') = Import.lazy('../logger', require);
 
 interface IBuildSourceCodeConfig {
   appDirectory: string;
@@ -133,18 +169,28 @@ const generatorRealFiles = (virtualDists: IVirtualDist[]) => {
     }
   }
 };
-
-const outputDist = (outputResults: ICompilerResult) => {
+/**
+ * when modern build, only throw Error or silent
+ * @param outputResults
+ * @param context
+ */
+const outputDist = (
+  outputResults: ICompilerResult,
+  context: { format: Format; target: Target },
+) => {
   const { code, message, messageDetails, virtualDists = [] } = outputResults;
   if (code === 0) {
     generatorRealFiles(virtualDists);
-    // 执行成功log使用 console.info
-    // console.info('[Babel Compiler]: Successfully');
   } else if (messageDetails && messageDetails.length > 0) {
-    console.error(message);
-    for (const detail of messageDetails || []) {
-      console.error(detail.content);
-    }
+    const babelError = new BabelBuildError('bundleless failed', {
+      summary: message,
+      details: messageDetails,
+    });
+
+    throw new InternalBuildError(babelError, {
+      ...context,
+      buildType: 'bundleless',
+    });
   }
 };
 
@@ -172,6 +218,7 @@ export const runBabelBuild = async (
   // TODO: Refactoring based on format and target
   const syntax = target === 'es5' ? 'es5' : 'es6+';
   const type = format === 'cjs' ? 'commonjs' : 'module';
+  const titleText = `[Bundleless:Babel: ${format}_${target}]`;
   const buildConfig = {
     format,
     target,
@@ -193,24 +240,23 @@ export const runBabelBuild = async (
     babelConfig: buildConfig.babelConfig,
     watch,
   });
+
   if (watch) {
     const emitter = result as BuildWatchEmitter;
-    // console.info(emitter);
-    emitter.on(babelCompiler.BuildWatchEvent.compiling, () => {
-      console.info(logger.clearFlag, `Compiling...`);
-    });
     emitter.on(
       babelCompiler.BuildWatchEvent.firstCompiler,
       (result: ICompilerResult) => {
         if (result.code === 1) {
-          console.error(logger.clearFlag);
+          console.info(watchSectionTitle(titleText, SectionTitleStatus.Fail));
           console.error(result.message);
           for (const detail of result.messageDetails || []) {
             console.error(detail.content);
           }
         } else {
           generatorRealFiles(result.virtualDists!);
-          console.info(logger.clearFlag, '[Babel Compiler]: Successfully');
+          console.info(
+            watchSectionTitle(titleText, SectionTitleStatus.Success),
+          );
         }
       },
     );
@@ -218,7 +264,8 @@ export const runBabelBuild = async (
       babelCompiler.BuildWatchEvent.watchingCompiler,
       (result: ICompilerResult) => {
         if (result.code === 1) {
-          console.error(logger.clearFlag);
+          // console.error(logger.clearFlag);
+          console.info(watchSectionTitle(titleText, SectionTitleStatus.Fail));
           console.error(result.message);
           for (const detail of result.messageDetails || []) {
             console.error(detail.content);
@@ -231,12 +278,14 @@ export const runBabelBuild = async (
           }
         } else {
           generatorRealFiles(result.virtualDists!);
-          console.info(result.message);
+          console.info(
+            watchSectionTitle(titleText, SectionTitleStatus.Success),
+          );
         }
       },
     );
     await emitter.watch();
   } else {
-    outputDist(result as ICompilerResult);
+    outputDist(result as ICompilerResult, { target, format });
   }
 };

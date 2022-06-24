@@ -3,15 +3,11 @@ import { InputOptions, OutputOptions, Plugin } from 'rollup';
 import ts from 'typescript';
 import hashbangPlugin from 'rollup-plugin-hashbang';
 import jsonPlugin from '@rollup/plugin-json';
-import { Import, logger } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
+import { Format, Target } from 'src/schema/types';
 import type { NormalizedBundleBuildConfig } from '../types';
-import { ModuleBuildError } from '../error';
-
-const constants: typeof import('../constants') = Import.lazy(
-  '../constants',
-  require,
-);
+import { InternalDTSError } from '../error';
+import { SectionTitleStatus, watchSectionTitle } from '../utils';
 
 // Copied from https://github.com/egoist/tsup/blob/dev/src/rollup.ts
 
@@ -109,14 +105,21 @@ const getRollupConfig = async (
   };
 };
 
-async function runRollup(options: RollupConfig) {
+async function runRollup(
+  options: RollupConfig,
+  context: { target: Target; format: Format },
+) {
   try {
     const { rollup } = await import('rollup');
     const bundle = await rollup(options.inputConfig);
     await bundle.write(options.outputConfig);
   } catch (e) {
-    console.error('bundle failed:dts')
-    throw new ModuleBuildError(e);
+    if (e instanceof Error) {
+      throw new InternalDTSError(e, {
+        buildType: 'bundle',
+        ...context,
+      });
+    }
   }
 }
 
@@ -125,19 +128,18 @@ async function watchRollup(options: {
   outputConfig: OutputOptions;
 }) {
   const { watch } = await import('rollup');
+  const titleText = '[Bundle:DTS]';
   watch({
     ...options.inputConfig,
     plugins: options.inputConfig.plugins,
     output: options.outputConfig,
   }).on('event', event => {
     if (event.code === 'START') {
-      console.info(constants.clearFlag);
-      logger.info('[Bundle:DTS] Build start');
+      console.info(watchSectionTitle(titleText, SectionTitleStatus.Log));
     } else if (event.code === 'BUNDLE_END') {
-      console.info(`[Bundle:DTS]: Build success`);
+      console.info(watchSectionTitle(titleText, SectionTitleStatus.Success));
     } else if (event.code === 'ERROR') {
-      console.error(constants.clearFlag, '[Bundle:DTS]: Build failed');
-      console.error(event.error);
+      // this is dts rollup plugin bug, error not complete message
     }
   });
 }
@@ -151,7 +153,10 @@ export const startRollup = async (
     if (options.watch) {
       watchRollup(config);
     } else {
-      await runRollup(config);
+      await runRollup(config, {
+        target: options.target,
+        format: options.format,
+      });
     }
   }
 };

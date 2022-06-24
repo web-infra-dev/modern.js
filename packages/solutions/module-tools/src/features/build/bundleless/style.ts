@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import * as path from 'path';
 import {
   fs,
@@ -6,23 +5,25 @@ import {
   Import,
   watch as watcher,
   WatchChangeType,
+  chalk,
+  globby,
 } from '@modern-js/utils';
 import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
 import type {
   BuildWatchEmitter,
   ICompilerResult,
+  SingleFileCompilerResult,
   LessOption,
   PostcssOption,
   SassOptions,
 } from '@modern-js/style-compiler';
+import type { Format, Target } from 'src/schema/types';
+import { InternalBuildError } from '../error';
+import { watchSectionTitle, SectionTitleStatus } from '../utils';
 import type { NormalizedBundlelessBuildConfig } from '../types';
 
 const cssConfig: typeof import('@modern-js/css-config') = Import.lazy(
   '@modern-js/css-config',
-  require,
-);
-const core: typeof import('@modern-js/core') = Import.lazy(
-  '@modern-js/core',
   require,
 );
 const compiler: typeof import('@modern-js/style-compiler') = Import.lazy(
@@ -30,46 +31,87 @@ const compiler: typeof import('@modern-js/style-compiler') = Import.lazy(
   require,
 );
 
-const logger: typeof import('../logger') = Import.lazy('../logger', require);
+export class StyleBuildError extends Error {
+  public readonly summary?: string;
 
-const STYLE_DIRS = 'styles';
+  public readonly details?: SingleFileCompilerResult[];
 
-const logCompilerMessage = (compilerMessage: { src: string }) => {
-  console.info(logger.clearFlag);
-  console.info(compilerMessage.src);
-};
+  constructor(
+    message: string,
+    opts?: {
+      summary?: string;
+      details?: SingleFileCompilerResult[];
+    },
+  ) {
+    super(message);
 
+    Error.captureStackTrace(this, this.constructor);
+
+    this.summary = opts?.summary;
+    this.details = opts?.details;
+  }
+
+  toString() {
+    return this.formatError().join('\n');
+  }
+
+  formatError() {
+    const msgs: string[] = [];
+    const { summary, details = [] } = this;
+    msgs.push(chalk.red.bold(summary));
+
+    for (const detail of details) {
+      if (detail.error) {
+        msgs.push(detail.error);
+        msgs.push('\n');
+      }
+    }
+
+    return msgs;
+  }
+}
+
+/**
+ * when modern build, only throw Error or silent
+ * @param result
+ * @param context
+ */
 const generatorFileOrLogError = (
   result: ICompilerResult,
-  successMessage = '',
-) => {
-  if (result.code === 0 && result.dists.length > 0) {
-    for (const file of result.dists) {
-      fs.ensureFileSync(file.filename);
-      fs.writeFileSync(file.filename, file.content);
-    }
-    if (successMessage) {
-      // console.info(successMessage);
-    }
-  } else {
-    for (const file of result.errors) {
-      console.error(file.error);
-    }
-  }
-};
-
-const generatorFileAndReturnLog = (
-  result: ICompilerResult,
-  successMessage = '',
+  context: { format: Format; target: Target },
 ) => {
   if (result.code === 0) {
     for (const file of result.dists) {
       fs.ensureFileSync(file.filename);
       fs.writeFileSync(file.filename, file.content);
     }
-    return successMessage;
   } else {
-    return result.errors.join('\n');
+    // for (const file of result.errors) {
+    //   console.error(file.error);
+    // }
+    const styleError = new StyleBuildError('bundleless failed', {
+      summary: 'Style Compiler Failed',
+      details: result.errors,
+    });
+    throw new InternalBuildError(styleError, {
+      buildType: 'bundleless',
+      ...context,
+    });
+  }
+};
+
+const generatorFileAndLog = (result: ICompilerResult, titleText: string) => {
+  if (result.code === 0) {
+    for (const file of result.dists) {
+      fs.ensureFileSync(file.filename);
+      fs.writeFileSync(file.filename, file.content);
+    }
+    console.info(watchSectionTitle(titleText, SectionTitleStatus.Success));
+  } else {
+    console.info(watchSectionTitle(titleText, SectionTitleStatus.Fail));
+    for (const file of result.errors) {
+      console.error(file.error);
+    }
   }
 };
 
@@ -107,47 +149,7 @@ const copyOriginStyleFiles = ({
   }
 };
 
-export const buildInStyleDir = async (option: {
-  appDirectory: string;
-  outDir: string;
-  watch: boolean;
-  lessOption: LessOption | undefined;
-  sassOption: SassOptions<'sync'> | undefined;
-  postcssOption: PostcssOption;
-}) => {
-  const { watch, appDirectory, outDir, lessOption, sassOption, postcssOption } =
-    option;
-  if (watch) {
-    const styleEmitter = compiler.styleCompiler({
-      projectDir: appDirectory,
-      watch: true,
-      stylesDir: path.resolve(appDirectory, STYLE_DIRS),
-      outDir,
-      enableVirtualDist: true,
-      compilerOption: {
-        less: lessOption,
-        sass: sassOption,
-        postcss: postcssOption,
-      },
-    });
-    return styleEmitter;
-  } else {
-    const styleResult = await compiler.styleCompiler({
-      projectDir: appDirectory,
-      stylesDir: path.resolve(appDirectory, STYLE_DIRS),
-      outDir,
-      enableVirtualDist: true,
-      compilerOption: {
-        less: lessOption,
-        sass: sassOption,
-        postcss: postcssOption,
-      },
-    });
-    return styleResult;
-  }
-};
-
-export const buildInSrcDir = async (option: {
+export const runBuild = async (option: {
   appDirectory: string;
   srcDir: string;
   outDir: string;
@@ -194,11 +196,12 @@ export const buildInSrcDir = async (option: {
     return srcStyleResult;
   }
 };
-
-export const buildStart = async (srcEmitter?: BuildWatchEmitter) => {
-  if (srcEmitter) {
-    await srcEmitter.watch();
-  }
+export const styleFileSuffix = ['css', 'less', 'sass', 'scss'];
+export const haveNotAnyStyles = async (sourceDir: string) => {
+  const files = await globby(
+    `${sourceDir}/**/*.{${styleFileSuffix.join(',')}}`,
+  );
+  return files.length === 0;
 };
 
 export const buildStyle = async (
@@ -213,38 +216,29 @@ export const buildStyle = async (
   const {
     output: { path: distPath = 'dist' },
   } = modernConfig;
+  const titleText = `[Bundleless:Style:${sourceDir}]`;
 
-  if (style.compileMode === false) {
+  if ((await haveNotAnyStyles(sourceDir)) || style.compileMode === false) {
     return;
   }
+  const runner = api.useHookRunners();
 
-  const lessOption = await core
-    .mountHook()
-    .moduleLessConfig(
-      { modernConfig },
-      { onLast: async (_: any) => undefined },
-    );
-
-  const sassOption = await core
-    .mountHook()
-    .moduleSassConfig(
-      { modernConfig },
-      { onLast: async (_: any) => undefined },
-    );
-  const tailwindPlugin = await core
-    .mountHook()
-    .moduleTailwindConfig(
-      { modernConfig },
-      { onLast: async (_: any) => undefined },
-    );
+  const lessOption = await runner.moduleLessConfig(
+    { modernConfig },
+    { onLast: async (_: any) => undefined },
+  );
+  const sassOption = await runner.moduleSassConfig(
+    { modernConfig },
+    { onLast: async (_: any) => undefined },
+  );
+  const tailwindPlugin = await runner.moduleTailwindConfig(
+    { modernConfig },
+    { onLast: async (_: any) => undefined },
+  );
   const postcssOption = getPostcssOption(appDirectory, modernConfig);
   if (tailwindPlugin) {
     postcssOption.plugins?.push(tailwindPlugin);
   }
-
-  const compilerMessage = {
-    src: '',
-  };
 
   const srcDir = path.resolve(appDirectory, sourceDir);
   const outputDirToSrc = path.join(
@@ -253,11 +247,12 @@ export const buildStyle = async (
     outputPath,
     style.path ?? './',
   );
+
   if (
     style.compileMode === 'all' ||
     style.compileMode === 'only-compiled-code'
   ) {
-    const result = await buildInSrcDir({
+    const result = await runBuild({
       appDirectory,
       srcDir,
       watch,
@@ -270,48 +265,33 @@ export const buildStyle = async (
       const emitter = result as BuildWatchEmitter;
       emitter.on(
         compiler.BuildWatchEvent.firstCompiler,
-        (srcStyleResult: ICompilerResult) => {
-          compilerMessage.src = generatorFileAndReturnLog(
-            srcStyleResult,
-            `[Style Compiler] Successfully for '${sourceDir}' dir`,
-          );
-          logCompilerMessage(compilerMessage);
+        (result: ICompilerResult) => {
+          generatorFileAndLog(result, titleText);
         },
       );
-      emitter.on(compiler.BuildWatchEvent.compilering, () => {
-        compilerMessage.src = `[${sourceDir}] Compiling`;
-        logCompilerMessage(compilerMessage);
-      });
       emitter.on(
         compiler.BuildWatchEvent.watchingCompiler,
         (srcStyleResult: ICompilerResult) => {
-          compilerMessage.src = generatorFileAndReturnLog(
-            srcStyleResult,
-            `[Style Compiler] Successfully for '${sourceDir}' dir`,
-          );
-          logCompilerMessage(compilerMessage);
+          generatorFileAndLog(srcStyleResult, titleText);
         },
       );
       await emitter.watch();
     } else {
       const srcStyleResult = result as ICompilerResult | undefined;
-      generatorFileOrLogError(
-        srcStyleResult!,
-        `[Style Compiler] Successfully for '${sourceDir}' dir`,
-      );
+      generatorFileOrLogError(srcStyleResult!, {
+        target: config.target,
+        format: config.format,
+      });
     }
   }
 
   if (style.compileMode === 'all' || style.compileMode === 'only-source-code') {
     if (watch) {
       copyOriginStyleFiles({ targetDir: srcDir, outputDir: outputDirToSrc });
-      compilerMessage.src = `[Style Compiler] Successfully for '${sourceDir}' dir`;
-      logCompilerMessage(compilerMessage);
+      console.info(watchSectionTitle(titleText, SectionTitleStatus.Success));
       watcher(
         `${srcDir}/**/*.{css,less,sass,scss}`,
         ({ changeType, changedFilePath }) => {
-          compilerMessage.src = `['${sourceDir}' dir] Copying in progress`;
-          logCompilerMessage(compilerMessage);
           if (changeType === WatchChangeType.UNLINK) {
             const removeFile = path.normalize(
               `${outputDirToSrc}/${path.relative(srcDir, changedFilePath)}`,
@@ -323,8 +303,9 @@ export const buildStyle = async (
               outputDir: outputDirToSrc,
             });
           }
-          compilerMessage.src = `[Style Compiler] Successfully for '${sourceDir}' dir`;
-          logCompilerMessage(compilerMessage);
+          console.info(
+            watchSectionTitle(titleText, SectionTitleStatus.Success),
+          );
         },
       );
     } else {
@@ -332,4 +313,3 @@ export const buildStyle = async (
     }
   }
 };
-/* eslint-enable max-lines */

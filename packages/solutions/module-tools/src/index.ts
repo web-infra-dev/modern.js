@@ -15,6 +15,8 @@ const lang: typeof import('./utils/language') = Import.lazy(
 
 export { defineConfig } from '@modern-js/core';
 
+const isBuildMode = process.argv.slice(2).includes('build');
+
 export default (): CliPlugin => ({
   name: '@modern-js/module-tools',
 
@@ -22,7 +24,11 @@ export default (): CliPlugin => ({
 
   registerHook: hooks,
 
-  usePlugins: [ChangesetPlugin(), AnalyzePlugin(), LintPlugin()],
+  usePlugins: [
+    ChangesetPlugin(),
+    ...(isBuildMode ? [] : [AnalyzePlugin()]),
+    LintPlugin(),
+  ],
 
   setup: api => {
     const locale = lang.getLocaleLanguage();

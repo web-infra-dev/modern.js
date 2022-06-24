@@ -58,7 +58,7 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
   const commonConfig: BaseBuildConfig = {
     buildType: 'bundleless',
     bundlelessOptions: {
-      sourceDir: 'src',
+      sourceDir: './src',
       style: {
         path: '../styles',
         compileMode: false,

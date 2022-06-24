@@ -1,9 +1,11 @@
 import path from 'path';
 import type { ChildProcess } from 'child_process';
-import { Import, execa, fs, json5, isObject } from '@modern-js/utils';
+import { Import, execa, fs, json5 } from '@modern-js/utils';
 import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
 import type { NormalizedBundlelessBuildConfig } from '../../types';
 import type { ITsconfig } from '../../../../types';
+import { InternalDTSError } from '../../error';
+import { SectionTitleStatus, watchSectionTitle } from '../../utils';
 import { getTscBinPath, IGeneratorConfig } from './utils';
 
 const utils: typeof import('./utils') = Import.lazy('./utils', require);
@@ -16,20 +18,17 @@ const getProjectTsconfig = (tsconfigPath: string | undefined): ITsconfig => {
   return json5.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
 };
 
-const resolveLog = (
-  childProgress: ChildProcess,
-  { tsCheck = false, watch = false } = {},
-) => {
+const resolveLog = (childProgress: ChildProcess, { watch = false } = {}) => {
   /**
    * tsc 所有的log信息都是从stdout data 事件中获取
    * 正常模式下，如果有报错信息，交给 resolveLog 后面的逻辑来处理
    * watch 模式下，则使用这里的信息
    */
   childProgress.stdout?.on('data', data => {
-    if (!tsCheck) {
-      return;
-    }
     if (watch) {
+      console.info(
+        watchSectionTitle('[Bundleless:DTS]', SectionTitleStatus.Log),
+      );
       console.info(data.toString());
     }
   });
@@ -48,7 +47,6 @@ const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
     distDir,
     sourceDir = 'src',
     appDirectory,
-    tsCheck = false,
     watch = false,
   } = config;
 
@@ -63,23 +61,28 @@ const generatorDts = async (_: NormalizedConfig, config: IGeneratorConfig) => {
   const watchParams = watch ? ['-w'] : [];
   const childProgress = execa(
     tscBinFile,
-    ['-p', willDeleteTsconfigPath, ...watchParams],
+    [
+      '-p',
+      willDeleteTsconfigPath,
+      /* Required parameter, use it stdout have color */
+      '--pretty',
+      // https://github.com/microsoft/TypeScript/issues/21824
+      '--preserveWatchOutput',
+      ...watchParams,
+    ],
     {
       stdio: 'pipe',
       cwd: appDirectory,
     },
   );
-  resolveLog(childProgress, { tsCheck, watch });
+  resolveLog(childProgress, { watch });
   try {
     await childProgress;
-    // console.info('[TSC Compiler]: Successfully');
   } catch (e) {
-    console.error('bundleless failed:dts')
-    // 通过使用 execa，可以将 tsc 的 data 类型的报错信息变为异常错误信息
-    if (isObject(e) && e.stdout) {
-      console.error(e.stdout);
-    } else {
-      console.error(e);
+    if (e instanceof Error) {
+      throw new InternalDTSError(e, {
+        buildType: 'bundleless',
+      });
     }
   }
   fs.removeSync(willDeleteTsconfigPath);
@@ -111,7 +114,6 @@ export const genDts = async (
     distDir,
     tsconfigPath,
     watch,
-    tsCheck: true,
     sourceDir,
   };
   await generatorDts(modernConfig, option);

@@ -1,11 +1,11 @@
 import path from 'path';
-import { Import, fs, logger } from '@modern-js/utils';
+import { Import, fs, chalk } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type { IBuildFeatOption } from '../../types';
 import { ReadlineUtils } from '../../utils/readline';
 import { normalizeModuleConfig } from './normalize';
-import { buildingText, buildSuccessText, buildFailText } from './constants';
-import { ModuleBuildError, showModuleBuildError } from './error';
+import { buildingText, buildSuccessText } from './constants';
+import { ModuleBuildError, isInternalError } from './error';
 
 const bundle: typeof import('./bundle') = Import.lazy('./bundle', require);
 const bundleless: typeof import('./bundleless') = Import.lazy(
@@ -40,6 +40,25 @@ const checkPlatformAndRunBuild = async (
   return { exit: false };
 };
 
+export const buildInNormalMode = async (buildTasks: Promise<void>[]) => {
+  console.info(chalk.blue.bold(buildingText));
+  try {
+    // eslint-disable-next-line no-console
+    console.time(buildSuccessText);
+    await Promise.all([...buildTasks]);
+    ReadlineUtils.clearPrevLine(process.stdout);
+    // eslint-disable-next-line no-console
+    console.timeEnd(buildSuccessText);
+  } catch (e) {
+    ReadlineUtils.clearPrevLine(process.stdout);
+    if (isInternalError(e)) {
+      throw new ModuleBuildError(e);
+    } else {
+      throw e;
+    }
+  }
+};
+
 export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
   const { platform, clear = true, isTsProject } = config;
   const { appDirectory } = api.useAppContext();
@@ -72,25 +91,10 @@ export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
       return bundleless.build(api, moduleConfig, config);
     }
   });
-
-  logger.info(buildingText);
-
-  try {
-    // eslint-disable-next-line no-console
-    console.time(buildSuccessText);
+  if (config.enableWatchMode) {
+    console.info(chalk.blue.underline('start build in watch mode...\n'));
     await Promise.all([...buildTasks]);
-    // ReadlineUtils.clearPrevLine(process.stdout);
-    // eslint-disable-next-line no-console
-    console.timeEnd(buildSuccessText);
-  } catch (e) {
-    // ReadlineUtils.clearPrevLine(process.stdout);
-    if (e instanceof ModuleBuildError) {
-      console.info(buildFailText);
-      // console.error(e);
-      showModuleBuildError(e);
-    } else {
-      console.info('意外');
-      console.error(e);
-    }
+  } else {
+    buildInNormalMode(buildTasks);
   }
 };

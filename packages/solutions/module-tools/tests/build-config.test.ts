@@ -10,10 +10,10 @@ jest.mock('../src/features/build/normalize', () => {
     __esModule: true,
     ...originalModule,
     normalizeModuleConfig: (...args: any[]) => {
-      const ret = originalModule.normalizeModuleConfig(...args)
+      const ret = originalModule.normalizeModuleConfig(...args);
       expect(ret).toMatchSnapshot();
       return ret;
-    }
+    },
   };
 });
 
@@ -46,5 +46,5 @@ describe('config in module tools', () => {
       },
     });
     await cloned.init();
-  })
+  });
 });
