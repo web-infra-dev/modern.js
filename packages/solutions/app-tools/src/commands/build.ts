@@ -4,7 +4,7 @@ import {
   getWebpackConfig,
   WebpackConfigTarget,
 } from '@modern-js/webpack';
-import { manager, PluginAPI, ResolvedConfigContext } from '@modern-js/core';
+import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import {
   formatWebpackMessages,
   measureFileSizesBeforeBuild,
@@ -101,10 +101,8 @@ export const build = async (api: PluginAPI, options?: BuildOptions) => {
     });
   };
 
-  manager.run(() => {
-    resolvedConfig = { ...resolvedConfig, cliOptions: options };
-    ResolvedConfigContext.set(resolvedConfig);
-  });
+  resolvedConfig = { ...resolvedConfig, cliOptions: options };
+  ResolvedConfigContext.set(resolvedConfig);
 
   const { distDirectory, appDirectory, serverConfigFile } = appContext;
   const previousFileSizes = await measureFileSizesBeforeBuild(distDirectory);

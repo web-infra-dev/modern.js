@@ -3,7 +3,6 @@ import {
   Middleware,
   createAsyncPipeline,
 } from '../farrow-pipeline';
-import type { RunWorkflowOptions } from './sync';
 
 const ASYNC_WORKFLOW_SYMBOL = Symbol.for('MODERN_ASYNC_WORKFLOW');
 
@@ -11,36 +10,9 @@ export type AsyncWorker<I, O> = (I: I) => MaybeAsync<O>;
 export type AsyncWorkers<I, O> = AsyncWorker<I, O>[];
 
 export type AsyncWorkflow<I, O> = {
-  run: (input: I, options?: RunWorkflowOptions) => MaybeAsync<O[]>;
+  run: (input: I) => MaybeAsync<O[]>;
   use: (...I: AsyncWorkers<I, O>) => AsyncWorkflow<I, O>;
   [ASYNC_WORKFLOW_SYMBOL]: true;
-};
-
-export type AsyncWorkflow2AsyncWorker<W extends AsyncWorkflow<any, any>> =
-  W extends AsyncWorkflow<infer I, infer O> ? AsyncWorker<I, O> : never;
-
-export type AsyncWorkflowRecord = Record<string, AsyncWorkflow<any, any>>;
-
-export type AsyncWorkflows2AsyncWorkers<PS extends AsyncWorkflowRecord | void> =
-  {
-    [K in keyof PS]: PS[K] extends AsyncWorkflow<any, any>
-      ? AsyncWorkflow2AsyncWorker<PS[K]>
-      : PS[K] extends void
-      ? void
-      : never;
-  };
-
-export type RunnerFromAsyncWorkflow<W extends AsyncWorkflow<any, any>> =
-  W extends AsyncWorkflow<infer I, infer O>
-    ? AsyncWorkflow<I, O>['run']
-    : never;
-
-export type AsyncWorkflows2Runners<PS extends AsyncWorkflowRecord | void> = {
-  [K in keyof PS]: PS[K] extends AsyncWorkflow<any, any>
-    ? RunnerFromAsyncWorkflow<PS[K]>
-    : PS[K] extends void
-    ? void
-    : never;
 };
 
 export const isAsyncWorkflow = (input: any): input is AsyncWorkflow<any, any> =>
@@ -57,8 +29,8 @@ export const createAsyncWorkflow = <I = void, O = unknown>(): AsyncWorkflow<
     return workflow;
   };
 
-  const run: AsyncWorkflow<I, O>['run'] = async (input, options) => {
-    const result = pipeline.run(input, { ...options, onLast: () => [] });
+  const run: AsyncWorkflow<I, O>['run'] = async input => {
+    const result = pipeline.run(input, { onLast: () => [] });
     if (isPromise(result)) {
       return result.then(result => result.filter(Boolean));
     } else {

@@ -17,7 +17,7 @@ describe('webServer', () => {
 
   beforeAll(async () => {
     serverManager.usePlugin(plugin);
-    runner = await serverManager.init({});
+    runner = await serverManager.init();
   });
 
   test('support buffer', async () => {
@@ -73,7 +73,7 @@ describe('support as async handler', () => {
 
   beforeAll(async () => {
     serverManager.usePlugin(plugin);
-    runner = await serverManager.init({});
+    runner = await serverManager.init();
   });
 
   test('support res end by outer', async () => {

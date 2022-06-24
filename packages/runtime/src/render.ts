@@ -21,7 +21,7 @@ export const clientRender = (
   rootElement: HTMLElement,
   manager = runtime,
 ) => {
-  const runner = manager.init({});
+  const runner = manager.init();
 
   return runner.client(
     { App, rootElement },
@@ -34,7 +34,7 @@ export const clientRender = (
 };
 
 export const serverRender = ({ App }: RenderProps, manager = runtime) => {
-  const runner = manager.init({});
+  const runner = manager.init();
 
   return runner.server({ App });
 };

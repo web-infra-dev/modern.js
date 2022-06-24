@@ -4,7 +4,6 @@ import {
   createPipeline,
   createAsyncPipeline,
   createContext,
-  createContainer,
 } from '../src/farrow-pipeline';
 import type { PluginOptions, Setup } from '../src';
 import { createManager, createAsyncManager, useRunner } from '../src/manager';
@@ -32,11 +31,9 @@ describe('sync manager', () => {
       }),
     );
 
-    manager.run(() => {
-      countContext.set(1);
-    });
+    countContext.set(1);
 
-    expect(manager.run(() => countContext.get())).toBe(1);
+    expect(countContext.get()).toBe(1);
   });
 
   it('with sub waterfall', () => {
@@ -252,7 +249,7 @@ describe('sync manager', () => {
       manager.usePlugin(plugin3);
       manager.usePlugin(plugin4);
 
-      manager.init({});
+      manager.init();
 
       expect(status).toBe(1);
     });
@@ -271,7 +268,7 @@ describe('sync manager', () => {
       manager.usePlugin(plugin1);
       manager.usePlugin(plugin2);
 
-      expect(() => manager.init({})).toThrowError();
+      expect(() => manager.init()).toThrowError();
     });
 
     it('should not throw error without attaching rival plugin', () => {
@@ -449,12 +446,10 @@ describe('sync manager', () => {
     manager.usePlugin(plugin);
 
     manager.init();
-    expect(manager.run(Count.get)).toBe(1);
+    expect(Count.get()).toBe(1);
 
-    const container = createContainer();
-
-    manager.init({ container });
-    expect(manager.run(Count.get, { container })).toBe(1);
+    manager.init();
+    expect(Count.get()).toBe(1);
   });
 
   it('should support all progress', async () => {
@@ -549,14 +544,6 @@ describe('sync manager', () => {
       runner.foo({});
 
       expect(count).toBe(1);
-    });
-
-    it('can not use useRunner out plugin hook', () => {
-      expect(useRunner).toThrowError(
-        new Error(
-          `Can't call useContainer out of scope, it should be placed on top of the function`,
-        ),
-      );
     });
   });
 

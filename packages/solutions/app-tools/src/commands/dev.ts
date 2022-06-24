@@ -1,5 +1,5 @@
 import { fs, logger, chalk, isSSR } from '@modern-js/utils';
-import { manager, PluginAPI, ResolvedConfigContext } from '@modern-js/core';
+import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import type { Configuration } from '@modern-js/webpack';
 
 import { createCompiler } from '../utils/createCompiler';
@@ -15,10 +15,8 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
   const appContext = api.useAppContext();
   const hookRunners = api.useHookRunners();
 
-  manager.run(() => {
-    userConfig = { ...userConfig, cliOptions: options };
-    ResolvedConfigContext.set(userConfig);
-  });
+  userConfig = { ...userConfig, cliOptions: options };
+  ResolvedConfigContext.set(userConfig);
 
   const {
     appDirectory,

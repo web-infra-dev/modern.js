@@ -177,11 +177,11 @@ const taskMain = async ({
     ({ options } = require(process.env.CORE_INIT_OPTION_FILE));
   }
   const { resolved } = await core.cli.init([], options);
-  await core.manager.run(async () => {
+  (async () => {
     try {
       await taskMain({ modernConfig: resolved });
     } catch (e) {
       console.error(e);
     }
-  });
+  })();
 })();

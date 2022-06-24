@@ -1,46 +1,14 @@
-import { Container, createPipeline, Middleware } from '../farrow-pipeline';
+import { createPipeline, Middleware } from '../farrow-pipeline';
 
 const WORKFLOW_SYMBOL = Symbol.for('MODERN_WORKFLOW');
 
 export type Worker<I, O> = (I: I) => O;
 export type Workers<I, O> = Worker<I, O>[];
 
-export type RunWorkflowOptions = {
-  container?: Container;
-};
-
 export type Workflow<I, O> = {
-  run: (input: I, options?: RunWorkflowOptions) => void;
+  run: (input: I) => void;
   use: (...I: Workers<I, O>) => Workflow<I, O>;
   [WORKFLOW_SYMBOL]: true;
-};
-
-export type Workflow2Worker<W extends Workflow<any, any>> = W extends Workflow<
-  infer I,
-  infer O
->
-  ? Worker<I, O>
-  : never;
-
-export type WorkflowRecord = Record<string, Workflow<any, any>>;
-
-export type Workflows2Workers<PS extends WorkflowRecord | void> = {
-  [K in keyof PS]: PS[K] extends Workflow<any, any>
-    ? Workflow2Worker<PS[K]>
-    : PS[K] extends void
-    ? void
-    : never;
-};
-
-export type RunnerFromWorkflow<W extends Workflow<any, any>> =
-  W extends Workflow<infer I, infer O> ? Workflow<I, O>['run'] : never;
-
-export type Workflows2Runners<PS extends WorkflowRecord | void> = {
-  [K in keyof PS]: PS[K] extends Workflow<any, any>
-    ? RunnerFromWorkflow<PS[K]>
-    : PS[K] extends void
-    ? void
-    : never;
 };
 
 export const createWorkflow = <I = void, O = unknown>(): Workflow<I, O> => {
@@ -51,8 +19,8 @@ export const createWorkflow = <I = void, O = unknown>(): Workflow<I, O> => {
     return workflow;
   };
 
-  const run: Workflow<I, O>['run'] = (input, options) => {
-    const result = pipeline.run(input, { ...options, onLast: () => [] });
+  const run: Workflow<I, O>['run'] = input => {
+    const result = pipeline.run(input, { onLast: () => [] });
     return result.filter(Boolean);
   };
 

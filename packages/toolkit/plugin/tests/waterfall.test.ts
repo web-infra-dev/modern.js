@@ -1,9 +1,7 @@
-import { enable, disable } from '../src/farrow-pipeline/asyncHooks.node';
 import {
   createWaterfall,
   createAsyncWaterfall,
   createContext,
-  createContainer,
   isWaterfall,
   isAsyncWaterfall,
 } from '../src';
@@ -64,11 +62,7 @@ describe('waterfall', () => {
       return count + Count.get().count;
     });
 
-    const container = createContainer({ count: Count });
-
-    enable();
-    const result = await waterfall.run(10, { container });
-    disable();
+    const result = await waterfall.run(10);
 
     expect(result).toBe(33);
     expect(list).toStrictEqual([{ count: 10 }, { count: 11 }]);
@@ -145,10 +139,8 @@ describe('waterfall', () => {
         return input + step.value;
       });
 
-      enable();
       const result0 = await waterfall1.run(0);
       const result1 = await waterfall0.run(0);
-      disable();
 
       expect(result0).toEqual(1);
       expect(result1).toEqual(3);

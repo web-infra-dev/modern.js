@@ -1,6 +1,5 @@
 import type {
   Pipeline,
-  Container,
   MaybeAsync,
   Middleware,
   AsyncPipeline,
@@ -93,11 +92,6 @@ export type PluginOptions<Hooks, Setup = undefined> = {
   required?: string[];
   usePlugins?: PluginOptions<Hooks, Setup>[];
   registerHook?: Partial<Hooks>;
-};
-
-/** Options of manager.init method. */
-export type InitOptions = {
-  container?: Container;
 };
 
 /** Common api of setup function. */

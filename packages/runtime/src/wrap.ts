@@ -1,6 +1,5 @@
 import React from 'react';
-import { createContainer } from '@modern-js/plugin';
-import { runtime, Plugin, AppComponentContext } from './plugin';
+import { runtime, Plugin } from './plugin';
 import { RuntimeReactContext } from './runtime-context';
 
 export type WrapOptions = Record<string, unknown>;
@@ -20,9 +19,7 @@ export const wrap = <P = Record<string, unknown>>(
   {}: WrapOptions,
   manager = runtime,
 ) => {
-  const runner = manager.init({});
-
-  const container = createContainer({ App: AppComponentContext.create(App) });
+  const runner = manager.init();
 
   const WrapperComponent: React.ComponentType<P> = props => {
     const element = React.createElement(App, { ...props }, props.children);
@@ -30,7 +27,6 @@ export const wrap = <P = Record<string, unknown>>(
     return runner.provide(
       { element, props: { ...props }, context: {} as any },
       {
-        container,
         onLast: ({ element }) => element,
       },
     );
@@ -39,7 +35,6 @@ export const wrap = <P = Record<string, unknown>>(
   return runner.hoc(
     { App: WrapperComponent },
     {
-      container,
       onLast: ({ App }) => {
         const WrapComponent = ({ context, ...props }: any) =>
           React.createElement(

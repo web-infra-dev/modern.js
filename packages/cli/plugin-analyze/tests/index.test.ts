@@ -34,10 +34,8 @@ describe('analyze', () => {
     const runner = await main.init();
     await runner.prepare();
     await new Promise<void>(resolve => {
-      manager.run(() => {
-        expect(mockContext.get().apiOnly).toBe(true);
-        resolve();
-      });
+      expect(mockContext.get().apiOnly).toBe(true);
+      resolve();
     });
   });
 });

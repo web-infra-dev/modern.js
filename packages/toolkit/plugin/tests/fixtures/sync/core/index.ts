@@ -115,9 +115,7 @@ export const { useRunner } = main;
 export const develop = (context: CTX) => {
   const runner = main.init();
 
-  main.run(() => {
-    CTXContext.set(context);
-  });
+  CTXContext.set(context);
   runner.prepare();
 
   const { config, webpackConfig, babelConfig } = runner.config({
@@ -126,11 +124,9 @@ export const develop = (context: CTX) => {
     babelConfig: defaultBabelConfig,
   });
 
-  main.run(() => {
-    ConfigContext.set(config);
-    WebpackConfigContext.set(webpackConfig);
-    BabelConfigContext.set(babelConfig);
-  });
+  ConfigContext.set(config);
+  WebpackConfigContext.set(webpackConfig);
+  BabelConfigContext.set(babelConfig);
   runner.preDev();
   runner.postDev();
 };
@@ -138,9 +134,7 @@ export const develop = (context: CTX) => {
 export const build = (context: CTX) => {
   const runner = main.init();
 
-  main.run(() => {
-    CTXContext.set(context);
-  });
+  CTXContext.set(context);
   runner.prepare();
 
   const { config, webpackConfig, babelConfig } = runner.config({
@@ -149,11 +143,9 @@ export const build = (context: CTX) => {
     babelConfig: defaultBabelConfig,
   });
 
-  main.run(() => {
-    ConfigContext.set(config);
-    WebpackConfigContext.set(webpackConfig);
-    BabelConfigContext.set(babelConfig);
-  });
+  ConfigContext.set(config);
+  WebpackConfigContext.set(webpackConfig);
+  BabelConfigContext.set(babelConfig);
 
   runner.preBuild();
 

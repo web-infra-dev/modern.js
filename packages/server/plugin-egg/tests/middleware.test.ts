@@ -13,7 +13,7 @@ describe('register middleware', () => {
 
   beforeAll(async () => {
     serverManager.usePlugin(APIPlugin, plugin);
-    runner = await serverManager.init({});
+    runner = await serverManager.init();
   });
 
   beforeEach(() => {

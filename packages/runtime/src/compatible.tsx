@@ -1,8 +1,7 @@
 import React, { useContext, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { createContainer } from '@modern-js/plugin';
-import { Plugin, runtime, AppComponentContext } from './plugin';
+import { Plugin, runtime } from './plugin';
 import {
   RuntimeReactContext,
   RuntimeContext,
@@ -38,9 +37,7 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
   appRuntime.usePlugin(...plugins);
 
   return (App: React.ComponentType<any>) => {
-    const runner = appRuntime.init({});
-
-    const container = createContainer({ App: AppComponentContext.create(App) });
+    const runner = appRuntime.init();
 
     const WrapperComponent: React.ComponentType<any> = props => {
       const element = React.createElement(
@@ -53,7 +50,6 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
       return runner.provide(
         { element, props: { ...props }, context },
         {
-          container,
           onLast: ({ element }) => element,
         },
       );
@@ -66,7 +62,6 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
     const HOCApp = runner.hoc(
       { App: WrapperComponent },
       {
-        container,
         onLast: ({ App }: any) => {
           const WrapComponent = ({ context, ...props }: any) => {
             let contextValue = context;

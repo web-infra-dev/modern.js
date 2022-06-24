@@ -22,12 +22,10 @@ describe('plugin-multiprocess', () => {
       afterBuild,
     });
     manager.usePlugin(plugin);
-    manager.run(() => {
-      AppContext.set({
-        distDirectory,
-        plugins: [],
-      } as any);
-    });
+    AppContext.set({
+      distDirectory,
+      plugins: [],
+    } as any);
     const runner = await manager.init();
     runner.afterBuild();
   });
