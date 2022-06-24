@@ -1,3 +1,5 @@
+/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+// @ts-expect-error lint-staged is not typed
 import lintStaged from 'lint-staged';
 import { logger, chalk } from '@modern-js/utils';
 
