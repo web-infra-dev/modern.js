@@ -1,5 +1,11 @@
 # @modern-js/babel-preset-base
 
+## 1.4.3
+
+### Patch Changes
+
+- 8d0eb81f5: change babel-plugin-macro babel config
+
 ## 1.4.2
 
 ### Patch Changes

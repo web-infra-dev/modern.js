@@ -1,5 +1,11 @@
 # @modern-js/app-tools
 
+## 1.6.9
+
+### Patch Changes
+
+- change getOutputFile from sync function to async function
+
 ## 1.6.8
 
 ### Patch Changes
