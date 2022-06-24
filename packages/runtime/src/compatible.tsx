@@ -36,7 +36,7 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
   const appRuntime = runtime.clone();
   appRuntime.usePlugin(...plugins);
 
-  return (App: React.ComponentType<any>) => {
+  return (App?: React.ComponentType<any>) => {
     const runner = appRuntime.init();
 
     const WrapperComponent: React.ComponentType<any> = props => {

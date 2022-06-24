@@ -52,6 +52,41 @@ describe('@modern-js/plugin-router', () => {
     expect(container.innerHTML).toBe('<div>App:1</div>');
   });
 
+  it('pages with App.init', () => {
+    const App = (props: { Component: React.FC }) => {
+      const { Component, ...pageProps } = props;
+      return (
+        <div>
+          <Component {...pageProps} />
+        </div>
+      );
+    };
+
+    function RouterApp() {
+      return <div>Router App</div>;
+    }
+
+    const mockCallback = jest.fn();
+    App.init = mockCallback;
+
+    const AppWrapper = createApp({
+      plugins: [
+        createPlugin(() => ({
+          hoc: ({ App: App1 }, next) => next({ App: App1 }),
+        })),
+        createRouterPlugin({
+          routesConfig: {
+            routes: [{ path: '/', component: RouterApp as any }],
+            globalApp: App,
+          },
+        }),
+      ],
+    })();
+
+    render(<AppWrapper />);
+    expect(mockCallback).toHaveBeenCalledTimes(1);
+  });
+
   it('custom history', () => {
     const history = createBrowserHistory();
     const customHistory = {
@@ -83,7 +118,8 @@ describe('@modern-js/plugin-router', () => {
             onClick={() => {
               _history.push('/');
             }}
-            data-testid="nav">
+            data-testid="nav"
+          >
             Go
           </button>
         </div>
