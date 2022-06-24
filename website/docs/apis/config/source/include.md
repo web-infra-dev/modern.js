@@ -12,7 +12,7 @@ MWA。
 - 类型： `Array<string | RegExp>`
 - 默认值： `[]`
 
-默认情况下，Modern.js 不会通过 `babel-loader` 或 `ts-loader` 来编译 `node_modules` 下的文件。
+默认情况下，Modern.js 不会通过 `babel-loader` 或 `ts-loader` 来编译 `node_modules` 下的文件，也不会编译当前工程目录外部的文件。
 
 通过 `source.include` 配置项，可以指定需要额外进行编译的目录或模块。
 
@@ -59,7 +59,7 @@ export default defineConfig({
 
 ## Monorepo 场景
 
-使用 Monorepo 时，对于 Monorepo 内部的组件库，也可以直接在应用编译的过程中处理这些库的源代码，只需要在这个选项中设置对应的包名即可:
+使用 Monorepo 时，如果需要引用 Monorepo 中其他库的源代码，也可以直接在应用编译的过程中进行处理，只需要在这个选项中设置对应的包名或代码路径即可:
 
 ```js title="modern.config.js"
 export default defineConfig({
