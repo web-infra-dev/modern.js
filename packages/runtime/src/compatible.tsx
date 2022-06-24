@@ -160,8 +160,11 @@ export const bootstrap: BootStrap = async (
         ...(ssrData ? { ssrContext: ssrData?.context } : {}),
       });
 
+      context.initialData = ssrData?.data?.initialData;
       const initialData = await runInit(context);
-      context.initialData = ssrData?.data?.initialData || initialData;
+      if (!context.initialData) {
+        context.initialData = initialData;
+      }
 
       return runner.client(
         {
