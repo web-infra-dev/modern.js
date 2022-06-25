@@ -65,7 +65,7 @@ export default defineConfig({
 
 > *Twin blends the magic of Tailwind with the flexibility of css-in-js*
 
-在开启「Tailwind CSS 支持」的功能后，首先需要安装 [`Twin`]((https://github.com/ben-rogerson/twin.macro)) 依赖:
+在开启「Tailwind CSS 支持」的功能后，首先需要安装 [`Twin`](https://github.com/ben-rogerson/twin.macro) 依赖:
 
 ``` bash
 # package manager is `pnpm`
