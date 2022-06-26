@@ -102,7 +102,9 @@
     "@types/react-dom": "^17",
     "@types/signal-exit": "^3.0.1",
     "jest": "^27",
-    "typescript": "^4"
+    "typescript": "^4",
+    "ajv": "^8",
+    "ajv-keywords": "^5"
   },
   "sideEffects": false,
   "modernConfig": {
