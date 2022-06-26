@@ -25,6 +25,7 @@ export type BundleOptions = {
 export type BundlelessOptions = {
   sourceDir?: string;
   style?: {
+    // TODO: compileMode not be undefined
     compileMode?:
       | 'all'
       | 'only-compiled-code'

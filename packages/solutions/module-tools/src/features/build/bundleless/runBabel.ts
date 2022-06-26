@@ -199,7 +199,7 @@ export const runBabelBuild = async (
   config: NormalizedBundlelessBuildConfig,
 ) => {
   const {
-    bundlelessOptions: { sourceDir = './src' },
+    bundlelessOptions,
     tsconfig,
     target,
     format,
@@ -212,6 +212,7 @@ export const runBabelBuild = async (
   const {
     output: { path: distPath = 'dist' },
   } = modernConfig;
+  const { sourceDir = './src' } = bundlelessOptions;
   const sourceAbsDir = path.join(appDirectory, sourceDir);
   const tsconfigPath = path.join(appDirectory, tsconfig);
 
@@ -222,12 +223,18 @@ export const runBabelBuild = async (
   const buildConfig = {
     format,
     target,
-    babelConfig: bc.resolveBabelConfig(appDirectory, modernConfig, sourceMap, {
-      sourceAbsDir,
-      tsconfigPath,
-      syntax,
-      type,
-    }),
+    babelConfig: bc.resolveBabelConfig(
+      appDirectory,
+      modernConfig,
+      sourceMap,
+      bundlelessOptions,
+      {
+        sourceAbsDir,
+        tsconfigPath,
+        syntax,
+        type,
+      },
+    ),
   };
 
   const distDir = path.join(appDirectory, distPath, outputPath);
