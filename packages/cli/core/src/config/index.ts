@@ -26,6 +26,7 @@ const debug = createDebugger('resolve-config');
 export { defaults as defaultsConfig };
 export * from './mergeConfig';
 export * from './types';
+export * from './schema';
 
 export const addServerConfigToDeps = async (
   dependencies: string[],

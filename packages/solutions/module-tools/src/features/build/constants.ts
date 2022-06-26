@@ -19,6 +19,8 @@ export const targets: Target[] = [
   'es2018',
   'es2019',
   'es2020',
+  'es2021',
+  'es2022',
   'esnext',
 ];
 
