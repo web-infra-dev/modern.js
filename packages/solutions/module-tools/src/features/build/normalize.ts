@@ -1,10 +1,12 @@
 import { Import, lodash } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
+import { mergeWith } from '@modern-js/utils/lodash';
 import type {
   BuildConfig,
   JsSyntaxType,
   BaseBuildConfig,
   SourceMap,
+  BundlelessOptions,
 } from '../../schema/types';
 import type { IBuildFeatOption } from '../../types';
 import { cliTsConfigDefaultValue } from '../../utils/constants';
@@ -271,10 +273,18 @@ export const normalizeBuildConfig = (
       platform: bundleOptions?.platform || 'node',
       minify: bundleOptions?.minify ?? false,
     };
-    const normalizeBundlelessOptions = {
-      sourceDir: './src',
-      ...config.bundlelessOptions,
-    };
+    const normalizedBundlelessOptions: Required<BundlelessOptions> = mergeWith(
+      {},
+      {
+        sourceDir: './src',
+        style: {
+          compileMode: 'all',
+          path: './',
+        },
+        static: { path: './' },
+      },
+      config.bundlelessOptions,
+    );
     const watch = buildFeatOption.enableWatchMode || false;
     const tsconfig = getFinalTsconfig(config, buildFeatOption);
     const enableDts = getFinalDts(config, buildFeatOption);
@@ -304,7 +314,7 @@ export const normalizeBuildConfig = (
       return {
         ...commmonConfig,
         buildType: 'bundleless',
-        bundlelessOptions: normalizeBundlelessOptions,
+        bundlelessOptions: normalizedBundlelessOptions,
       };
     }
   });

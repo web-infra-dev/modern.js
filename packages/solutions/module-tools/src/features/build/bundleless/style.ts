@@ -210,13 +210,13 @@ export const buildStyle = async (
 ) => {
   const modernConfig = api.useResolvedConfigContext();
   const { appDirectory } = api.useAppContext();
-  const { watch = false, outputPath, bundlelessOptions = {} } = config;
-  const { style = { path: './', compileMode: 'all' }, sourceDir = './' } =
-    bundlelessOptions;
+  const { watch = false, outputPath, bundlelessOptions } = config;
+  const { style, sourceDir } = bundlelessOptions;
   const {
     output: { path: distPath = 'dist' },
   } = modernConfig;
   const titleText = `[Bundleless:Style:${sourceDir}]`;
+  console.info(style.compileMode);
 
   if ((await haveNotAnyStyles(sourceDir)) || style.compileMode === false) {
     return;

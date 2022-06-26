@@ -5,7 +5,7 @@ import {
 import { applyOptionsChain, getAlias, isUseSSRBundle } from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
 import type { IPackageModeValue } from '../types';
-import type { SourceMap } from '../schema/types';
+import type { BundlelessOptions, SourceMap } from '../schema/types';
 
 export const getFinalAlias: any = (
   modernConfig: NormalizedConfig,
@@ -32,6 +32,7 @@ export const resolveBabelConfig = (
   appDirectory: string,
   modernConfig: NormalizedConfig,
   sourceMap: SourceMap,
+  bundlelessOptions: Required<BundlelessOptions>,
   option: Pick<IPackageModeValue, 'syntax' | 'type'> & {
     sourceAbsDir: string;
     tsconfigPath: string;
@@ -39,7 +40,7 @@ export const resolveBabelConfig = (
 ) => {
   const {
     source: { envVars, globalVars, jsxTransformRuntime = 'automatic' },
-    output: { importStyle, buildPreset },
+    output: { importStyle },
     tools: { lodash: userLodashOption, styledComponents },
   } = modernConfig;
 
@@ -67,7 +68,8 @@ export const resolveBabelConfig = (
       lodashOptions,
       jsxTransformRuntime,
       importStyle,
-      staticDir: buildPreset ? 'static' : 'styles',
+      styleDir: bundlelessOptions.style.path,
+      staticDir: bundlelessOptions.static.path,
       styledComponentsOptions: applyOptionsChain(
         {
           pure: true,

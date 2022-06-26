@@ -22,5 +22,5 @@ export type NormalizedBundleBuildConfig = {
 export type NormalizedBundlelessBuildConfig = {
   buildType: 'bundleless';
 } & CommonNormalizedBuildConfig & {
-    bundlelessOptions: BundlelessOptions;
+    bundlelessOptions: Required<BundlelessOptions>;
   };
