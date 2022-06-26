@@ -30,6 +30,7 @@ export const init = (api: PluginAPI): void => {
   onExit(() => {
     const tempTsconfigFileAbsPath = path.join(
       appDirectory,
+      './node_modules',
       `./${tempTsconfigName}`,
     );
     fs.removeSync(tempTsconfigFileAbsPath);
@@ -37,14 +38,14 @@ export const init = (api: PluginAPI): void => {
 };
 
 export interface IBuildCommandOption {
-  watch: boolean;
+  watch?: boolean;
   tsconfig: string;
-  platform: boolean | Exclude<Platform, 'all'>;
-  styleOnly: boolean;
+  platform?: boolean | Exclude<Platform, 'all'>;
+  styleOnly?: boolean;
   // @deprecated
   // The `tsc` field has been superceded by the `dts` field.
   tsc: boolean;
-  dts: boolean;
+  dts?: boolean;
   clear: boolean;
 }
 
@@ -53,13 +54,13 @@ export const build = async (
   buildCommandOption: IBuildCommandOption,
 ) => {
   const {
-    watch,
+    watch = false,
     tsconfig: tsconfigName,
     tsc,
-    dts,
-    clear = true,
-    platform,
-    styleOnly,
+    dts = false,
+    clear,
+    platform = false,
+    styleOnly = false,
   } = buildCommandOption;
 
   init(api);

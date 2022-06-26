@@ -5,7 +5,8 @@ export const EN_LOCALE = {
       watch: 'building module in watch mode',
       tsconfig: 'Specify a path to the tsconfig.json file',
       style_only: 'only build style',
-      platform: 'building for other platforms',
+      platform:
+        'build the specified task or all tasks, If exist. (tasks: "storybook", "docs")',
       no_tsc: 'close tsc compiler to emit d.ts (Deprecated)',
       dts: 'Turn on dts generation and type checking',
       no_clear: 'disable auto clear dist dir',
