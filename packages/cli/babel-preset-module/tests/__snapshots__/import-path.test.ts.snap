@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`importPath babel plugin import/require static file, options is { staticDir: './static-dir'} 1`] = `
+"import \\"./staitc-dir/static/a.json\\";
+import \\"./staitc-dir/static/b.json\\";"
+`;
+
+exports[`importPath babel plugin import/require static file, options is { staticDir: './static-dir'} 2`] = `
+"import \\"./staitc-dir/static/a.json\\";
+import \\"./staitc-dir/static/b.json\\";
+
+require(\\"./staitc-dir/static/a.json\\");
+
+require(\\"./staitc-dir/static/b.json\\");"
+`;
+
+exports[`importPath babel plugin import/require style file, options is { styleDir: './style-dir' } 1`] = `
+"import \\"./style-dir/a.less\\";
+import \\"./style-dir/b.scss\\";
+import \\"./style-dir/c.css\\";
+import \\"./style-dir/d.sass\\";"
+`;
+
+exports[`importPath babel plugin import/require style file, options is { styleDir: './style-dir' } 2`] = `
+"import \\"./style-dir/a.less\\";
+import \\"./style-dir/b.scss\\";
+import \\"./style-dir/c.css\\";
+import \\"./style-dir/d.sass\\";
+
+require(\\"./style-dir/a.less\\");
+
+require(\\"./style-dir/b.scss\\");
+
+require(\\"./style-dir/c.css\\");
+
+require(\\"./style-dir/d.sass\\");"
+`;
+
+exports[`importPath babel plugin import/require style file, options is { styleDir: './style-dir', importStyle: 'compiled-code' } 1`] = `
+"import \\"./style-dir/a.css\\";
+import \\"./style-dir/b.css\\";
+import \\"./style-dir/c.css\\";
+import \\"./style-dir/d.css\\";"
+`;
+
+exports[`importPath babel plugin import/require style file, options is { styleDir: './style-dir', importStyle: 'compiled-code' } 2`] = `
+"import \\"./style-dir/a.css\\";
+import \\"./style-dir/b.css\\";
+import \\"./style-dir/c.css\\";
+import \\"./style-dir/d.css\\";
+
+require(\\"./style-dir/a.css\\");
+
+require(\\"./style-dir/b.css\\");
+
+require(\\"./style-dir/c.css\\");
+
+require(\\"./style-dir/d.css\\");"
+`;
