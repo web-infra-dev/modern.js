@@ -31,5 +31,6 @@ export * from './wait';
 export * from './emptyDir';
 export * from './getServerConfig';
 export * from './ssr';
+export * from './tryResolve';
 export * from './analyzeProject';
 export * from './chainId';

@@ -27,7 +27,7 @@ describe('test load plugin', () => {
     try {
       loadPlugins(['test-b'], modulePath);
     } catch (e: any) {
-      expect(e.message).toMatch('Can not find plugin test-b.');
+      expect(e.message).toMatch('Can not find module test-b.');
     }
   });
 });
