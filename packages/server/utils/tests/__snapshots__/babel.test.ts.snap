@@ -7,15 +7,6 @@ Object {
       "/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
     ],
     Array [
-      "/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-      Object {
-        "libraryDirectory": "es",
-        "libraryName": "antd",
-        "style": true,
-      },
-      "import-antd",
-    ],
-    Array [
       "/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
       Object {
         "id": Array [

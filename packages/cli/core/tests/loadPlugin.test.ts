@@ -83,7 +83,7 @@ describe('load plugins', () => {
       loadPlugins(fixture, {
         plugins: [{ cli: './test-plugin-a' }, { cli: './plugin-b' }],
       });
-    }).toThrowError(/^Can not find plugin /);
+    }).toThrowError(/^Can not find module /);
   });
 
   test(`should load new plugin array correctly`, () => {
