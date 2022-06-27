@@ -38,8 +38,7 @@ const plugin = (): Plugin => ({
         return next({ context });
       },
       pickContext: ({ context, pickedContext }, next) => {
-        const { request }: { request: SSRServerContext['request'] } =
-          context?.ssrContext;
+        const { request, response } = context?.ssrContext;
         const { initialData } = context;
 
         return next({
@@ -48,6 +47,7 @@ const plugin = (): Plugin => ({
             ...pickedContext,
             initialData,
             request,
+            response,
           },
         });
       },

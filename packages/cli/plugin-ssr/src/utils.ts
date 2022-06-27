@@ -45,3 +45,14 @@ export const formatClient = (
     url: location.href,
   };
 };
+
+export const mockResponse = () => {
+  return {
+    setHeader() {
+      console.info('setHeader can only be used in the server side');
+    },
+    status() {
+      console.info('status can only be used in the server side');
+    },
+  };
+};
