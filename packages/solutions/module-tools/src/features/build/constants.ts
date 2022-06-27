@@ -19,8 +19,6 @@ export const targets: Target[] = [
   'es2018',
   'es2019',
   'es2020',
-  // 'es2021',
-  // 'es2022',
   'esnext',
 ];
 
@@ -143,6 +141,3 @@ export const unPresetWithTargetConfigs = unPresets.reduce<
     ...Object.fromEntries(rets),
   };
 }, {});
-
-export const defaultBundleDirname = 'bundle';
-export const defaultBundlessDirname = 'bundleless';

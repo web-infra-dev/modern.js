@@ -27,7 +27,15 @@ describe('config in module tools', () => {
     const result = await runner.validateSchema();
     expect(result).toMatchSnapshot();
   });
-  it('without build-preset and build-config', async () => {
+  it('default user config', async () => {
+    const main = manager.clone().usePlugin(plugin);
+    const runner = await main.init();
+    const result = await runner.config();
+
+    expect(result).toMatchSnapshot();
+  });
+
+  it('normalized config in default', async () => {
     const mockAPI = {
       useAppContext: jest.fn((): any => ({
         appDirectory: '',

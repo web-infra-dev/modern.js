@@ -61,12 +61,6 @@ describe('test output.buildConfig', () => {
     expect(validate({ output: { buildConfig: { target: 'es2020' } } })).toBe(
       true,
     );
-    // expect(validate({ output: { buildConfig: { target: 'es2021' } } })).toBe(
-    //   true,
-    // );
-    // expect(validate({ output: { buildConfig: { target: 'es2022' } } })).toBe(
-    //   true,
-    // );
     expect(validate({ output: { buildConfig: { target: 'esnext' } } })).toBe(
       true,
     );
@@ -95,12 +89,6 @@ describe('test output.buildConfig', () => {
     expect(validate({ output: { buildConfig: [{ target: 'es2020' }] } })).toBe(
       true,
     );
-    // expect(validate({ output: { buildConfig: [{ target: 'es2021' }] } })).toBe(
-    //   true,
-    // );
-    // expect(validate({ output: { buildConfig: [{ target: 'es2022' }] } })).toBe(
-    //   true,
-    // );
     expect(validate({ output: { buildConfig: [{ target: 'esnext' }] } })).toBe(
       true,
     );

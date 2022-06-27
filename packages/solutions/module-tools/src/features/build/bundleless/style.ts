@@ -8,7 +8,7 @@ import {
   chalk,
   globby,
 } from '@modern-js/utils';
-import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
+import type { PluginAPI } from '@modern-js/core';
 import type {
   BuildWatchEmitter,
   ICompilerResult,
@@ -19,13 +19,9 @@ import type {
 } from '@modern-js/style-compiler';
 import type { Format, Target } from 'src/schema/types';
 import { InternalBuildError } from '../error';
-import { watchSectionTitle, SectionTitleStatus } from '../utils';
+import { watchSectionTitle, SectionTitleStatus, getPostcssOption } from '../utils';
 import type { NormalizedBundlelessBuildConfig } from '../types';
 
-const cssConfig: typeof import('@modern-js/css-config') = Import.lazy(
-  '@modern-js/css-config',
-  require,
-);
 const compiler: typeof import('@modern-js/style-compiler') = Import.lazy(
   '@modern-js/style-compiler',
   require,
@@ -113,22 +109,6 @@ const generatorFileAndLog = (result: ICompilerResult, titleText: string) => {
       console.error(file.error);
     }
   }
-};
-
-const getPostcssOption = (
-  appDirectory: string,
-  modernConfig: NormalizedConfig,
-): PostcssOption => {
-  const postcssOption = cssConfig.getPostcssConfig(
-    appDirectory,
-    modernConfig,
-    false,
-  );
-  return {
-    plugins: postcssOption?.postcssOptions?.plugins || [],
-    enableSourceMap: (postcssOption as any)?.sourceMap || false,
-    options: {},
-  } as any;
 };
 
 const copyOriginStyleFiles = ({
