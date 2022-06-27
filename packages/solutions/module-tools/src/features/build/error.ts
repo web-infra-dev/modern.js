@@ -32,8 +32,6 @@ export const padSpaceWith = (
   return str;
 };
 
-export type BuildTask = 'javascript' | 'style' | 'static-file';
-
 export class InternalBuildError extends Error {
   public buildType: BuildType;
 
@@ -53,7 +51,7 @@ export class InternalBuildError extends Error {
   ) {
     super(e.message);
 
-    // Error.captureStackTrace(this, this.constructor);
+    Error.captureStackTrace(this, this.constructor);
 
     this.e = e;
     this.buildType = opts.buildType;
