@@ -23,7 +23,6 @@ export interface IBuildFeatOption {
   enableDtsGen: boolean;
   enableWatchMode?: boolean;
   isTsProject: boolean;
-  sourceDir: string;
   tsconfigName: string;
   clear?: boolean;
   styleOnly?: boolean;
