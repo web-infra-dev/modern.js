@@ -672,7 +672,7 @@ importers:
 
   packages/cli/plugin-garfish:
     specifiers:
-      '@babel/runtime': ^7
+      '@babel/runtime': ^7.18.0
       '@modern-js/core': workspace:*
       '@modern-js/plugin-router': workspace:*
       '@modern-js/runtime-core': workspace:*
@@ -2887,7 +2887,7 @@ importers:
 
   packages/server/bff-core:
     specifiers:
-      '@babel/runtime': ^7.15.4
+      '@babel/runtime': ^7.18.0
       '@modern-js/bff-runtime': workspace:^1.2.3
       '@modern-js/utils': workspace:^1.7.6
       '@scripts/build': workspace:*
