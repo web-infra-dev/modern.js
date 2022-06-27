@@ -12,6 +12,7 @@ import { Loader, LoaderStatus, LoaderResult } from './loaderManager';
 
 export interface SSRData {
   loadersData: Record<string, LoaderResult | undefined>;
+  initialData?: Record<string, unknown>;
 }
 export interface SSRContainer {
   data?: SSRData;

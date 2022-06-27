@@ -50,6 +50,7 @@
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "build": "wireit",
+    "dev": "modern build --watch",
     "test": "wireit"
   },
   "dependencies": {
