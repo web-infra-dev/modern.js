@@ -1,3 +1,5 @@
+import { ensureArray } from './ensureArray';
+
 /**
  * Try to resolve npm package entry file path.
  * @param name - Package name.
@@ -21,9 +23,12 @@ export const tryResolve = (name: string, resolvePath: string) => {
 /**
  * Try to resolve npm package, return true if package is installed.
  */
-export const isPackageInstalled = (name: string, resolvePath: string) => {
+export const isPackageInstalled = (
+  name: string,
+  resolvePaths: string | string[],
+) => {
   try {
-    require.resolve(name, { paths: [resolvePath] });
+    require.resolve(name, { paths: ensureArray(resolvePaths) });
     return true;
   } catch (err) {
     return false;
