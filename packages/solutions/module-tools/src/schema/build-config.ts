@@ -1,19 +1,36 @@
+export const targets = [
+  'es5',
+  'es6',
+  'es2015',
+  'es2016',
+  'es2017',
+  'es2018',
+  'es2019',
+  'es2020',
+  // 'es2021',
+  // 'es2022',
+  // The default target is esnext which means that by default, assume all of the latest JavaScript and CSS features are supported.
+  'esnext',
+];
+
+export const presets = [
+  'npm-library',
+  'npm-library-with-umd',
+  'npm-component',
+  'npm-component-with-umd',
+  ...[
+    'npm-library',
+    'npm-library-with-umd',
+    'npm-component',
+    'npm-component-with-umd',
+  ].reduce<string[]>((ret, crt) => {
+    return [...ret, ...targets.map(t => `${crt}-${t}`)];
+  }, []),
+];
+
 const properties = {
   target: {
-    enum: [
-      'es5',
-      'es6',
-      'es2015',
-      'es2016',
-      'es2017',
-      'es2018',
-      'es2019',
-      'es2020',
-      'es2021',
-      'es2022',
-      // The default target is esnext which means that by default, esbuild will assume all of the latest JavaScript and CSS features are supported.
-      'esnext',
-    ],
+    enum: targets,
   },
   format: {
     enum: ['cjs', 'esm', 'umd'],
@@ -96,12 +113,7 @@ export const buildSchema = [
   {
     target: 'output.buildPreset',
     schema: {
-      enum: [
-        'npm-library',
-        'npm-library-with-umd',
-        'npm-component',
-        'npm-component-with-umd',
-      ],
+      enum: presets,
     },
   },
 ];
