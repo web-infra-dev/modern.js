@@ -22,7 +22,7 @@ App.init = context => {
     };
   }
 
-  return {};
+  return null;
 };
 
 export default App;
