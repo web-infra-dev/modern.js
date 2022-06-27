@@ -31,7 +31,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/runtime": "^7.15.4",
+    "@babel/runtime": "^7.18.0",
     "@modern-js/bff-runtime": "workspace:^1.2.3",
     "@modern-js/utils": "workspace:^1.7.6",
     "esbuild": "^0.14.38",

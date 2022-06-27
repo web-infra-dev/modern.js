@@ -57,7 +57,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@babel/runtime": "^7",
+    "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:^1.7.8",
     "@types/debug": "^4.1.7",
     "@types/react-loadable": "^5.5.6",
