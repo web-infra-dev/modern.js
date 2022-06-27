@@ -1,4 +1,5 @@
 import {
+  tryResolve,
   isDepExists,
   createDebugger,
   compatRequire,
@@ -44,26 +45,6 @@ type NewPluginConfig =
     };
 
 export type PluginConfig = OldPluginConfig | NewPluginConfig;
-
-/**
- * Try to resolve plugin entry file path.
- * @param name - Plugin name.
- * @param appDirectory - Application root directory.
- * @returns Resolved file path.
- */
-const tryResolve = (name: string, appDirectory: string) => {
-  let filePath = '';
-  try {
-    filePath = require.resolve(name, { paths: [appDirectory] });
-    delete require.cache[filePath];
-  } catch (err) {
-    if ((err as any).code === 'MODULE_NOT_FOUND') {
-      throw new Error(`Can not find plugin ${name}.`);
-    }
-    throw err;
-  }
-  return filePath;
-};
 
 export function getAppPlugins(
   appDirectory: string,
