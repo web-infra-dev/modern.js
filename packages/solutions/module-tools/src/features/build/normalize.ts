@@ -111,7 +111,11 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
         outputPath,
       });
     };
-    if (!packageFields.modern && !packageFields.main && !packageFields.module) {
+    if (
+      !packageFields['jsnext:modern'] &&
+      !packageFields.main &&
+      !packageFields.module
+    ) {
       throw new Error(
         `Unrecognized ${JSON.stringify(
           packageFields,
@@ -120,8 +124,10 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
     }
     // The fields configured in packageFields correspond to the main, module, and jsnext:modern fields on package.json,
     // and can also be used on package.json exports field.
-    if (packageFields.modern) {
-      configs.push(getConfigsByJsSyntaxType(packageFields.modern, 'modern'));
+    if (packageFields['jsnext:modern']) {
+      configs.push(
+        getConfigsByJsSyntaxType(packageFields['jsnext:modern'], 'modern'),
+      );
     }
 
     if (packageFields.main) {
@@ -182,12 +188,16 @@ export const getFinalTsconfig = (
   if (buildFeatOption.tsconfigName !== cliTsConfigDefaultValue) {
     return buildFeatOption.tsconfigName;
   }
-  return config.tsconfig ?? 'tsconfig.json';
+  return config.tsconfig ?? './tsconfig.json';
 };
 export const getFinalDts = (
   config: Pick<BaseBuildConfig, 'enableDts'>,
   buildFeatOption: IBuildFeatOption,
 ) => {
+  // is js project, should return false
+  if (!buildFeatOption.isTsProject) {
+    return false;
+  }
   // when `build --dts`, then all build tasks`s enableDts is true
   if (buildFeatOption.enableDtsGen) {
     return true;
@@ -215,54 +225,12 @@ export const getSourceMap = (
   return buildType === 'bundle';
 };
 
-export const normalizeModuleConfig = (context: {
-  buildFeatOption: IBuildFeatOption;
-  api: PluginAPI;
-}): NormalizedBuildConfig[] => {
-  const { buildFeatOption, api } = context;
-  const {
-    output: { buildConfig, buildPreset },
-  } = api.useResolvedConfigContext();
-
-  // buildConfig is the most important.
-  if (buildConfig) {
-    return normalizeBuildConfig(context, buildConfig);
-  }
-
-  // buildPreset is the second important. It can be used when buildConfig is not defined.
-  // buildPreset -> buildConfig
-  if (buildPreset) {
-    const { unPresetConfigs, unPresetWithTargetConfigs } = constants;
-    if (unPresetConfigs[buildPreset]) {
-      return normalizeBuildConfig(context, unPresetConfigs[buildPreset]);
-    } else if (unPresetWithTargetConfigs[buildPreset]) {
-      return normalizeBuildConfig(
-        context,
-        unPresetWithTargetConfigs[buildPreset],
-      );
-    }
-
-    // If the buildPreset is not found, then it is used 'npm-library'
-    // TODO: Warning: The buildPreset 'npm-library' is not supported.
-    return normalizeBuildConfig(context, unPresetConfigs['npm-library']);
-  }
-
-  // If the user does not configure buildConfig and buildPreset,
-  // the configuration is generated based on packageMode and packageField
-  const legacyBuildConfig = getNormalizeModuleConfigByPackageModeAndFileds(
-    api,
-    buildFeatOption,
-  );
-  return normalizeBuildConfig(context, legacyBuildConfig);
-};
-
 export const normalizeBuildConfig = (
   context: { buildFeatOption: IBuildFeatOption; api: PluginAPI },
   buildConfig: BuildConfig,
 ): NormalizedBuildConfig[] => {
   const { buildFeatOption, api } = context;
 
-  // FIXME:throw error when preset is empty array
   const configArray = Array.isArray(buildConfig) ? buildConfig : [buildConfig];
   const normalizedModule: NormalizedBuildConfig[] = configArray.map(config => {
     const format = config.format ?? 'cjs';
@@ -304,9 +272,15 @@ export const normalizeBuildConfig = (
       dtsOnly,
       sourceMap,
     };
-    if (dtsOnly && !enableDts) {
-      console.warn('[WARN] dtsOnly is true, but enableDts is false');
+
+    if (!buildFeatOption.isTsProject && (dtsOnly || enableDts)) {
+      console.warn('[WARN] dtsOnly、enableDts 配置仅在 Ts 项目下生效');
+    } else if (buildFeatOption.isTsProject && dtsOnly && !enableDts) {
+      console.warn(
+        '[WARN] dtsOnly 配置仅在 enableDts 为 true 的时候生效. 请检查当前的 dtsOnly、enableDts 是否配置正确',
+      );
     }
+
     if (config.buildType === 'bundle') {
       return {
         ...commmonConfig,
@@ -323,4 +297,45 @@ export const normalizeBuildConfig = (
   });
 
   return normalizedModule;
+};
+
+export const normalizeModuleConfig = (context: {
+  buildFeatOption: IBuildFeatOption;
+  api: PluginAPI;
+}): NormalizedBuildConfig[] => {
+  const { buildFeatOption, api } = context;
+  const {
+    output: { buildConfig, buildPreset },
+  } = api.useResolvedConfigContext();
+
+  // buildConfig is the most important.
+  if (buildConfig) {
+    return normalizeBuildConfig(context, buildConfig);
+  }
+
+  // buildPreset is the second important. It can be used when buildConfig is not defined.
+  // buildPreset -> buildConfig
+  if (buildPreset) {
+    const { unPresetConfigs, unPresetWithTargetConfigs } = constants;
+    if (unPresetConfigs[buildPreset]) {
+      return normalizeBuildConfig(context, unPresetConfigs[buildPreset]);
+    } else if (unPresetWithTargetConfigs[buildPreset]) {
+      return normalizeBuildConfig(
+        context,
+        unPresetWithTargetConfigs[buildPreset],
+      );
+    }
+
+    // If the buildPreset is not found, then it is used 'npm-library'
+    // TODO: Warning: The buildPreset 'npm-library' is not supported.
+    return normalizeBuildConfig(context, unPresetConfigs['npm-library']);
+  }
+
+  // If the user does not configure buildConfig and buildPreset,
+  // the configuration is generated based on packageMode and packageField
+  const legacyBuildConfig = getNormalizeModuleConfigByPackageModeAndFileds(
+    api,
+    buildFeatOption,
+  );
+  return normalizeBuildConfig(context, legacyBuildConfig);
 };

@@ -19,7 +19,11 @@ import type {
 } from '@modern-js/style-compiler';
 import type { Format, Target } from 'src/schema/types';
 import { InternalBuildError } from '../error';
-import { watchSectionTitle, SectionTitleStatus, getPostcssOption } from '../utils';
+import {
+  watchSectionTitle,
+  SectionTitleStatus,
+  getPostcssOption,
+} from '../utils';
 import type { NormalizedBundlelessBuildConfig } from '../types';
 
 const compiler: typeof import('@modern-js/style-compiler') = Import.lazy(
@@ -196,7 +200,6 @@ export const buildStyle = async (
     output: { path: distPath = 'dist' },
   } = modernConfig;
   const titleText = `[Bundleless:Style:${sourceDir}]`;
-  console.info(style.compileMode);
 
   if ((await haveNotAnyStyles(sourceDir)) || style.compileMode === false) {
     return;
