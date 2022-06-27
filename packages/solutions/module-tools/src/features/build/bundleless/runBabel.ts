@@ -1,5 +1,5 @@
 import path from 'path';
-import { Import, glob, fs, chalk } from '@modern-js/utils';
+import { Import, glob, fs, chalk, globby } from '@modern-js/utils';
 import { PluginAPI } from '@modern-js/core';
 import type {
   BabelOptions,
@@ -194,6 +194,12 @@ const outputDist = (
   }
 };
 
+export const jsFileSuffix = ['js', 'jsx', 'ts', 'tsx'];
+export const haveNotAnyJsFile = async (sourceDir: string) => {
+  const files = await globby(`${sourceDir}/**/*.{${jsFileSuffix.join(',')}}`);
+  return files.length === 0;
+};
+
 export const runBabelBuild = async (
   api: PluginAPI,
   config: NormalizedBundlelessBuildConfig,
@@ -215,6 +221,10 @@ export const runBabelBuild = async (
   const { sourceDir = './src' } = bundlelessOptions;
   const sourceAbsDir = path.join(appDirectory, sourceDir);
   const tsconfigPath = path.join(appDirectory, tsconfig);
+
+  if (await haveNotAnyJsFile(sourceAbsDir)) {
+    return;
+  }
 
   // TODO: Refactoring based on format and target
   const syntax = target === 'es5' ? 'es5' : 'es6+';
