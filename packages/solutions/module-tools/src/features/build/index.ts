@@ -67,6 +67,7 @@ export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
     output: { path: outputPath = 'dist' },
   } = modernConfig;
 
+  // build platform
   const platformBuildRet = await checkPlatformAndRunBuild(platform, {
     api,
     isTsProject,

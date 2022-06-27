@@ -224,10 +224,13 @@ export const normalizeModuleConfig = (context: {
     output: { buildConfig, buildPreset },
   } = api.useResolvedConfigContext();
 
+  // buildConfig is the most important.
   if (buildConfig) {
     return normalizeBuildConfig(context, buildConfig);
   }
 
+  // buildPreset is the second important. It can be used when buildConfig is not defined.
+  // buildPreset -> buildConfig
   if (buildPreset) {
     const { unPresetConfigs, unPresetWithTargetConfigs } = constants;
     if (unPresetConfigs[buildPreset]) {
@@ -240,10 +243,11 @@ export const normalizeModuleConfig = (context: {
     }
 
     // If the buildPreset is not found, then it is used 'npm-library'
+    // TODO: Warning: The buildPreset 'npm-library' is not supported.
     return normalizeBuildConfig(context, unPresetConfigs['npm-library']);
   }
 
-  // If the user does not configure output.babelPreset,
+  // If the user does not configure buildConfig and buildPreset,
   // the configuration is generated based on packageMode and packageField
   const legacyBuildConfig = getNormalizeModuleConfigByPackageModeAndFileds(
     api,

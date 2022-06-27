@@ -6,7 +6,7 @@ import type { PluginAPI } from '@modern-js/core';
 import { applyOptionsChain, ensureAbsolutePath } from '@modern-js/utils';
 import { NormalizedBundleBuildConfig } from '../types';
 import { InternalBuildError } from '../error';
-import { SectionTitleStatus, watchSectionTitle } from '../utils';
+import { getPostcssOption, SectionTitleStatus, watchSectionTitle } from '../utils';
 
 export type ResolveAlias = { [index: string]: string };
 export const getAlias = (api: PluginAPI) => {
@@ -52,6 +52,37 @@ export const getDefine = (api: PluginAPI) => {
   };
 };
 
+
+export const getStyleOptionFromModern = async (api: PluginAPI) => {
+  const runner = api.useHookRunners();
+  const { appDirectory } = api.useAppContext();
+  const modernConfig = api.useResolvedConfigContext();
+  const lessOption = await runner.moduleLessConfig(
+    { modernConfig },
+    { onLast: async (_: any) => undefined },
+  );
+  const sassOption = await runner.moduleSassConfig(
+    { modernConfig },
+    { onLast: async (_: any) => undefined },
+  );
+  const tailwindPlugin = await runner.moduleTailwindConfig(
+    { modernConfig },
+    { onLast: async (_: any) => undefined },
+  );
+  const postcssOption = getPostcssOption(appDirectory, modernConfig);
+  if (tailwindPlugin) {
+    postcssOption.plugins?.push(tailwindPlugin);
+  }
+  return {
+    less: lessOption?.lessOption,
+    // sass: sassOption,
+    postcss: {
+      ...postcssOption.options,
+      plugins: postcssOption.plugins,
+    },
+  }
+}
+
 export const runSpeedy = async (
   api: PluginAPI,
   config: NormalizedBundleBuildConfig,
@@ -66,6 +97,7 @@ export const runSpeedy = async (
   const { entry, platform, splitting, minify, externals } = bundleOptions;
   const distDir = path.join(appDirectory, distPath, outputPath);
   const titleText = `[Bundle:Speedy:${format}_${target}]`;
+  const style = await getStyleOptionFromModern(api);
   const alias = getAlias(api);
   const define = getDefine(api);
   const watchPlugin = (): SpeedyPlugin => {
@@ -96,6 +128,7 @@ export const runSpeedy = async (
       splitting,
       filename: '[name]',
     },
+    style,
     resolve: { alias },
     define,
     sourceMap,

@@ -10,8 +10,6 @@ export type Target =
   | 'es2018'
   | 'es2019'
   | 'es2020'
-  // | 'es2021'
-  // | 'es2022'
   // The default target is esnext which means that by default, assume all of the latest JavaScript and CSS features are supported.
   | 'esnext';
 export type BuildType = 'bundle' | 'bundleless';

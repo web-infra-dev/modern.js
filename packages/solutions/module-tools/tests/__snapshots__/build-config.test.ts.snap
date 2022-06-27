@@ -1,17 +1,131 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`config in module tools default user config 1`] = `
+Array [
+  Object {
+    "output": Object {
+      "enableSourceMap": false,
+      "jsPath": "js",
+    },
+  },
+]
+`;
+
+exports[`config in module tools normalized config in default 1`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": "all",
+        "path": "../styles",
+      },
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "esm",
+    "outputPath": "./js/treeshaking",
+    "sourceMap": false,
+    "target": "es5",
+    "tsconfig": "tsconfig.json",
+    "watch": false,
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "cjs",
+    "outputPath": "./js/node",
+    "sourceMap": false,
+    "target": "es6",
+    "tsconfig": "tsconfig.json",
+    "watch": false,
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "esm",
+    "outputPath": "./js/modern",
+    "sourceMap": false,
+    "target": "es6",
+    "tsconfig": "tsconfig.json",
+    "watch": false,
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "./",
+      },
+      "style": Object {
+        "compileMode": "all",
+        "path": "./",
+      },
+    },
+    "dtsOnly": true,
+    "enableDts": true,
+    "format": "cjs",
+    "outputPath": "./types",
+    "sourceMap": false,
+    "target": "esnext",
+    "tsconfig": "tsconfig.json",
+    "watch": false,
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./styles",
+      "static": Object {
+        "path": "./",
+      },
+      "style": Object {
+        "compileMode": "only-compiled-code",
+        "path": "./",
+      },
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "cjs",
+    "outputPath": "./styles",
+    "sourceMap": false,
+    "target": "esnext",
+    "tsconfig": "tsconfig.json",
+    "watch": false,
+  },
+]
+`;
+
 exports[`config in module tools schema 1`] = `
 Array [
   Array [
     Object {
       "schema": Object {
-        "type": "boolean",
-      },
-      "target": "source.enableBlockRuntime",
-    },
-    Object {
-      "schema": Object {
-        "default": "automatic",
         "enum": Array [
           "classic",
           "automatic",
@@ -45,7 +159,6 @@ Array [
     },
     Object {
       "schema": Object {
-        "default": "source-code",
         "enum": Array [
           "compiled-code",
           "source-code",
@@ -309,6 +422,42 @@ Array [
           "npm-library-with-umd",
           "npm-component",
           "npm-component-with-umd",
+          "npm-library-es5",
+          "npm-library-es6",
+          "npm-library-es2015",
+          "npm-library-es2016",
+          "npm-library-es2017",
+          "npm-library-es2018",
+          "npm-library-es2019",
+          "npm-library-es2020",
+          "npm-library-esnext",
+          "npm-library-with-umd-es5",
+          "npm-library-with-umd-es6",
+          "npm-library-with-umd-es2015",
+          "npm-library-with-umd-es2016",
+          "npm-library-with-umd-es2017",
+          "npm-library-with-umd-es2018",
+          "npm-library-with-umd-es2019",
+          "npm-library-with-umd-es2020",
+          "npm-library-with-umd-esnext",
+          "npm-component-es5",
+          "npm-component-es6",
+          "npm-component-es2015",
+          "npm-component-es2016",
+          "npm-component-es2017",
+          "npm-component-es2018",
+          "npm-component-es2019",
+          "npm-component-es2020",
+          "npm-component-esnext",
+          "npm-component-with-umd-es5",
+          "npm-component-with-umd-es6",
+          "npm-component-with-umd-es2015",
+          "npm-component-with-umd-es2016",
+          "npm-component-with-umd-es2017",
+          "npm-component-with-umd-es2018",
+          "npm-component-with-umd-es2019",
+          "npm-component-with-umd-es2020",
+          "npm-component-with-umd-esnext",
         ],
       },
       "target": "output.buildPreset",
@@ -323,104 +472,5 @@ Array [
       "target": "tools.speedy",
     },
   ],
-]
-`;
-
-exports[`config in module tools without build-preset and build-config 1`] = `
-Array [
-  Object {
-    "buildType": "bundleless",
-    "bundlelessOptions": Object {
-      "sourceDir": "src",
-      "static": Object {
-        "path": "../styles",
-      },
-      "style": Object {
-        "compileMode": "all",
-        "path": "../styles",
-      },
-    },
-    "dtsOnly": false,
-    "enableDts": false,
-    "format": "esm",
-    "outputPath": "./js/treeshaking",
-    "sourceMap": false,
-    "target": "es5",
-    "tsconfig": "tsconfig.json",
-    "watch": false,
-  },
-  Object {
-    "buildType": "bundleless",
-    "bundlelessOptions": Object {
-      "sourceDir": "src",
-      "static": Object {
-        "path": "../styles",
-      },
-      "style": Object {
-        "compileMode": false,
-        "path": "../styles",
-      },
-    },
-    "dtsOnly": false,
-    "enableDts": false,
-    "format": "cjs",
-    "outputPath": "./js/node",
-    "sourceMap": false,
-    "target": "es6",
-    "tsconfig": "tsconfig.json",
-    "watch": false,
-  },
-  Object {
-    "buildType": "bundleless",
-    "bundlelessOptions": Object {
-      "sourceDir": "src",
-      "static": Object {
-        "path": "../styles",
-      },
-      "style": Object {
-        "compileMode": false,
-        "path": "../styles",
-      },
-    },
-    "dtsOnly": false,
-    "enableDts": false,
-    "format": "esm",
-    "outputPath": "./js/modern",
-    "sourceMap": false,
-    "target": "es6",
-    "tsconfig": "tsconfig.json",
-    "watch": false,
-  },
-  Object {
-    "buildType": "bundleless",
-    "bundlelessOptions": Object {
-      "sourceDir": "./src",
-    },
-    "dtsOnly": true,
-    "enableDts": true,
-    "format": "cjs",
-    "outputPath": "./types",
-    "sourceMap": false,
-    "target": "esnext",
-    "tsconfig": "tsconfig.json",
-    "watch": false,
-  },
-  Object {
-    "buildType": "bundleless",
-    "bundlelessOptions": Object {
-      "sourceDir": "./styles",
-      "style": Object {
-        "compileMode": "only-compiled-code",
-      },
-    },
-    "dtsOnly": false,
-    "enableDts": false,
-    "format": "cjs",
-    "outputPath": "./styles",
-    "sourceMap": false,
-    "target": "esnext",
-    "tsconfig": "tsconfig.json",
-    "watch": false,
-  },
 ]
 `;
