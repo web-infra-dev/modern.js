@@ -40,15 +40,6 @@ Object {
       /cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js,
     ],
     Array [
-      /cli/babel-preset-base/compiled/babel-plugin-import/index.js,
-      Object {
-        "libraryDirectory": "es",
-        "libraryName": "antd",
-        "style": true,
-      },
-      "import-antd",
-    ],
-    Array [
       /cli/babel-preset-base/compiled/babel-plugin-lodash/index.js,
       Object {
         "id": Array [
