@@ -55,6 +55,10 @@ export type BaseSSRServerContext = {
     cookieMap: Record<string, any>;
     [propsName: string]: any;
   };
+  response: {
+    setHeader: (key: string, value: any) => void;
+    status: (code: number) => void;
+  };
   redirection: { url?: string; status?: number };
   distDir: string;
   template: string;
