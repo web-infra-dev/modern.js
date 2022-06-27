@@ -59,15 +59,23 @@ const ssr = (): Plugin => ({
       pickContext: ({ context, pickedContext }, next) => {
         const request: SSRServerContext['request'] | undefined =
           window?._SSR_DATA?.context?.request;
+        const { initialData } = context;
 
         if (!request) {
-          return next({ context, pickedContext });
+          return next({
+            context,
+            pickedContext: {
+              ...pickedContext,
+              initialData,
+            },
+          });
         }
 
         return next({
           context,
           pickedContext: {
             ...pickedContext,
+            initialData,
             request,
           },
         });
