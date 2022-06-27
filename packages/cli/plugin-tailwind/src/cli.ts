@@ -1,9 +1,11 @@
+import path from 'path';
 import {
   PLUGIN_SCHEMAS,
   fs,
   CONFIG_CACHE_DIR,
   globby,
   nanoid,
+  slash,
 } from '@modern-js/utils';
 import DesignTokenPlugin from '@modern-js/plugin-design-token/cli';
 import type { CliPlugin } from '@modern-js/core';
@@ -13,7 +15,12 @@ import { template, checkTwinMacroNotExist } from './utils';
 const supportCssInJsLibrary = 'styled-components';
 
 export const getRandomTwConfigFileName = (internalDirectory: string) => {
-  return `${internalDirectory}/tailwind.config.${Date.now()}.${nanoid()}.js`;
+  return slash(
+    path.join(
+      internalDirectory,
+      `tailwind.config.${Date.now()}.${nanoid()}.js`,
+    ),
+  );
 };
 
 export default (): CliPlugin => ({
@@ -34,7 +41,10 @@ export default (): CliPlugin => ({
           return;
         }
         internalTwConfigPath = getRandomTwConfigFileName(internalDirectory);
-        const files = globby.sync(`${appDirectory}/${CONFIG_CACHE_DIR}/*.cjs`, {
+        const globPattern = slash(
+          path.join(appDirectory, CONFIG_CACHE_DIR, '*.cjs'),
+        );
+        const files = globby.sync(globPattern, {
           absolute: true,
         });
         if (files.length > 0) {
@@ -102,7 +112,8 @@ export default (): CliPlugin => ({
                   let pluginOptions = plugin[1];
                   if (
                     typeof pluginTarget === 'string' &&
-                    pluginTarget.includes('compiled/babel-plugin-macros')
+                    // TODO: use babel chain
+                    slash(pluginTarget).includes('compiled/babel-plugin-macros')
                   ) {
                     if (pluginOptions) {
                       pluginOptions = {
