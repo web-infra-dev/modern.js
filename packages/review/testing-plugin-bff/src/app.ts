@@ -4,6 +4,7 @@ import { Server } from '@modern-js/server';
 const store = new AsyncLocalStorage();
 
 export const isInHandler = () => Boolean(store.getStore());
+let server: Server | null = null;
 
 const createApp = async (
   pwd: string,
@@ -11,21 +12,38 @@ const createApp = async (
   plugins: any[],
   routes: any[],
 ) => {
-  config.output.path = './';
-  const server = new Server({
-    apiOnly: true,
-    dev: {
-      watch: false,
-    },
-    pwd,
-    config,
-    plugins,
-    routes,
-  });
+  if (!server) {
+    config.output.path = './';
+    server = new Server({
+      apiOnly: true,
+      dev: {
+        watch: false,
+      },
+      pwd,
+      config,
+      plugins,
+      routes,
+    });
 
-  await server.init();
+    await server.init();
+  }
 
+  const app = server.getRequestHandler();
+  return app;
+};
+
+const getApp = () => {
+  if (!server) {
+    throw new Error('please createApp first');
+  }
   return server.getRequestHandler();
 };
 
-export { createApp };
+const closeServer = async () => {
+  if (!server) {
+    throw new Error('please createApp first');
+  }
+  await server.close();
+};
+
+export { createApp, getApp, closeServer };

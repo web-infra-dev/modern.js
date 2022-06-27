@@ -69,7 +69,7 @@ export default (): CliPlugin => ({
 
         bffExportsUtils.addExport(`const bffRuntime = require('${relativeBffPath}');
            const pluginRuntime = require('${relativeRuntimeModulePath}');
-           const Koa = require('${relativeFramePath}')
+           const Koa = require('${relativeFramePath}');
            module.exports = {
             Koa: Koa,
              ...bffRuntime,

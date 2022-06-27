@@ -37,7 +37,7 @@ export class ModernDevServer extends ModernServer {
 
   private socketServer!: SocketServer;
 
-  private watcher!: Watcher;
+  private watcher?: Watcher;
 
   private devMiddleware!: webpackDevMiddleware.API<
     http.IncomingMessage,
@@ -151,7 +151,7 @@ export class ModernDevServer extends ModernServer {
 
   public async onClose() {
     await super.onClose();
-    await this.watcher.close();
+    await this.watcher?.close();
     await new Promise<void>(resolve => {
       if (this.devMiddleware) {
         this.devMiddleware.close(() => {

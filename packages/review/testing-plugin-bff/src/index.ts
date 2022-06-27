@@ -25,7 +25,7 @@ export const setJestConfigForBFF = async ({
   const bffConfig = {
     rootDir: path.join(pwd, './api'),
     setupFilesAfterEnv: [require.resolve('./setup')],
-    testEnvironment: require.resolve('./env'),
+    testEnvironment: 'node',
     testMatch: [`**/api/**/*.test.[jt]s`],
     globals: {
       [bff_info_key]: {
