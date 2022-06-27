@@ -12,4 +12,5 @@ export const RuntimeReactContext = createContext<RuntimeContext>({} as any);
 
 export interface TRuntimeContext {
   initialData?: Record<string, unknown>;
+  [key: string]: any;
 }

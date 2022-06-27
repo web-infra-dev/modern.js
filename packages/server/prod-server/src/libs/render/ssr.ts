@@ -34,6 +34,14 @@ export const render = async (
       cookieMap: cookie.parse(ctx.headers.cookie || ''),
       headers: ctx.headers,
     },
+    response: {
+      setHeader: (key, value) => {
+        return ctx.res.setHeader(key, value);
+      },
+      status: code => {
+        ctx.res.statusCode = code;
+      },
+    },
     redirection: {},
     template,
     entryName,
