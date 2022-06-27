@@ -75,7 +75,6 @@ export const build = async (
   valid.valideBeforeTask({ modernConfig, tsconfigPath });
 
   await buildFeature.build(api, {
-    sourceDir: 'src',
     enableWatchMode: watch,
     enableDtsGen,
     isTsProject,

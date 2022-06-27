@@ -69,7 +69,7 @@ export const copyStaticAssets = async (
   const modernConfig = api.useResolvedConfigContext();
   const { appDirectory } = appContext;
   const { path: distPath = 'dist' } = modernConfig.output;
-  const { outputPath, bundlelessOptions = {} } = config;
+  const { outputPath, bundlelessOptions } = config;
   const { static: { path: staticPath = './' } = { path: './' } } =
     bundlelessOptions;
   const srcDir = path.join(

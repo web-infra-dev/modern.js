@@ -74,7 +74,6 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
 
   commonConfig.tsconfig = getFinalTsconfig(commonConfig, buildFeatOption);
 
-  // When both bundle and bundleless products exist, they are distinguished by bundle and bundleless directory names by default
   if (
     !packageFields ||
     (typeof packageFields === 'object' &&
