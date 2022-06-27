@@ -21,6 +21,8 @@ App.init = context => {
       name: 'server',
     };
   }
+
+  return {};
 };
 
 export default App;

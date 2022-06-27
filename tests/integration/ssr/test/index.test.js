@@ -5,7 +5,6 @@ const {
   launchApp,
   getPort,
   killApp,
-  sleep,
 } = require('../../../utils/modernTestUtils');
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
