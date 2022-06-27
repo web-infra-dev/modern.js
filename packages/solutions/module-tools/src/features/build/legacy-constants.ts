@@ -21,7 +21,7 @@ const universalJsLite: BuildConfig = [
     bundlelessOptions: { style: { compileMode: 'only-source-code' } },
   },
   { format: 'cjs', target: 'es6', outputPath: './js/node' },
-  { format: 'cjs', target: 'es6', outputPath: './js/modern' },
+  { format: 'esm', target: 'es5', outputPath: './js/modern' },
 ];
 
 // 纯前端代码的默认选择，两份构建产物
@@ -32,7 +32,7 @@ const browserJs: BuildConfig = [
     outputPath: './js/treeshaking',
     bundlelessOptions: { style: { compileMode: 'only-source-code' } },
   },
-  { format: 'esm', target: 'es5', outputPath: './js/node' },
+  { format: 'esm', target: 'es6', outputPath: './js/node' },
   { format: 'esm', target: 'es6', outputPath: './js/modern' },
 ];
 
@@ -43,6 +43,16 @@ const browserJsLite: BuildConfig = [
     target: 'es5',
     outputPath: './js/treeshaking',
     bundlelessOptions: { style: { compileMode: 'only-source-code' } },
+  },
+  {
+    format: 'esm',
+    target: 'es5',
+    outputPath: './js/node',
+  },
+  {
+    format: 'esm',
+    target: 'es5',
+    outputPath: './js/modern',
   },
 ];
 

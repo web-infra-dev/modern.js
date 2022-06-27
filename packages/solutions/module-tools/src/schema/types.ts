@@ -62,7 +62,7 @@ export type BuildPreset =
 export type JsSyntaxType = 'CJS+ES6' | 'ESM+ES5' | 'ESM+ES6';
 export interface PackageFields {
   main?: JsSyntaxType;
-  modern?: JsSyntaxType;
+  'jsnext:modern'?: JsSyntaxType;
   module?: JsSyntaxType;
 }
 
