@@ -2,6 +2,7 @@ import Ajv from 'ajv';
 import ajvKeywords from 'ajv-keywords';
 import { patchSchema } from '@modern-js/core';
 import { addSchema } from '../src/schema';
+import { presets } from '../src/schema/build-config';
 
 const schema = patchSchema(addSchema() as any);
 const ajv = new Ajv({ $data: true, strict: false });
@@ -60,12 +61,12 @@ describe('test output.buildConfig', () => {
     expect(validate({ output: { buildConfig: { target: 'es2020' } } })).toBe(
       true,
     );
-    expect(validate({ output: { buildConfig: { target: 'es2021' } } })).toBe(
-      true,
-    );
-    expect(validate({ output: { buildConfig: { target: 'es2022' } } })).toBe(
-      true,
-    );
+    // expect(validate({ output: { buildConfig: { target: 'es2021' } } })).toBe(
+    //   true,
+    // );
+    // expect(validate({ output: { buildConfig: { target: 'es2022' } } })).toBe(
+    //   true,
+    // );
     expect(validate({ output: { buildConfig: { target: 'esnext' } } })).toBe(
       true,
     );
@@ -94,12 +95,12 @@ describe('test output.buildConfig', () => {
     expect(validate({ output: { buildConfig: [{ target: 'es2020' }] } })).toBe(
       true,
     );
-    expect(validate({ output: { buildConfig: [{ target: 'es2021' }] } })).toBe(
-      true,
-    );
-    expect(validate({ output: { buildConfig: [{ target: 'es2022' }] } })).toBe(
-      true,
-    );
+    // expect(validate({ output: { buildConfig: [{ target: 'es2021' }] } })).toBe(
+    //   true,
+    // );
+    // expect(validate({ output: { buildConfig: [{ target: 'es2022' }] } })).toBe(
+    //   true,
+    // );
     expect(validate({ output: { buildConfig: [{ target: 'esnext' }] } })).toBe(
       true,
     );
@@ -130,12 +131,14 @@ describe('test output.buildConfig', () => {
     ).toBe(true);
   });
 
-  // test('error schema', () => {
-  //   const ajv = new Ajv({ $data: true, strict: false });
-  //   ajvKeywords(ajv);
+  test('should right, when buildPreset is preset string', () => {
+    for (const preset of presets) {
+      expect(validate({ output: { buildPreset: preset } })).toBe(true);
+      expect(preset).toMatchSnapshot();
+    }
+  });
 
-  //   const validate = ajv.compile(schema);
-  //   expect(validate({ output: { buildPreset: 'npm-library' } })).toBe(true);
-  //   expect(Boolean(validate.errors?.length)).toBe(false);
-  // });
+  test('should error, when buildPreset is not preset string', () => {
+    expect(validate({ output: { buildPreset: 'custom-preset' } })).toBe(false);
+  });
 });
