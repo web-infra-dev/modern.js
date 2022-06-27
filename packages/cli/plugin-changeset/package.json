@@ -47,7 +47,8 @@
     "@modern-js/i18n-cli-language-detector": "workspace:^1.2.4",
     "@modern-js/plugin-i18n": "workspace:^1.2.7",
     "@modern-js/utils": "workspace:^1.7.8",
-    "execa": "^5.1.1"
+    "execa": "^5.1.1",
+    "resolve-from": "^5.0.0"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
