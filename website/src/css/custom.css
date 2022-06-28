@@ -72,10 +72,6 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
   font-size: 15px;
 }
 
-.navbar .navbar__item.navbar__link {
-  font-size: 15px;
-}
-
 .navbar-sidebar .menu__link {
   color: rgba(255, 255, 255, 0.8);
 }
