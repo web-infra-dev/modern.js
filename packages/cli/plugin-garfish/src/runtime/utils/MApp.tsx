@@ -91,8 +91,8 @@ export function generateMApp(
         },
         ...otherOptions,
         props: {
-          ...(otherOptions.props || {}),
-          ...userProps,
+          ...(otherOptions.props ?? {}),
+          ...(userProps ?? {}),
         },
         insulationVariable: [
           ...(otherOptions.insulationVariable || []),
