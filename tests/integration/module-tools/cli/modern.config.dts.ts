@@ -1,4 +1,4 @@
-import { defineConfig } from "@modern-js/module-tools";
+import { defineConfig } from '@modern-js/module-tools';
 
 export = defineConfig({
   output: {
@@ -8,9 +8,9 @@ export = defineConfig({
       bundleOptions: {
         entry: {
           index: './dts/index.ts',
-        }
+        },
       },
       outputPath: './dts',
-    }
+    },
   },
 });
