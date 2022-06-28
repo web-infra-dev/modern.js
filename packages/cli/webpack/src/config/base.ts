@@ -15,17 +15,12 @@ import {
   applyOptionsChain,
   removeLeadingSlash,
 } from '@modern-js/utils';
-import TerserPlugin from 'terser-webpack-plugin';
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import webpack, { IgnorePlugin } from 'webpack';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { createBabelChain, BabelChain } from '@modern-js/babel-chain';
 import WebpackChain from '@modern-js/utils/webpack-chain';
 import type { Options as BabelPrestAppOptions } from '@modern-js/babel-preset-app';
 import { merge as webpackMerge } from '../../compiled/webpack-merge';
-import WebpackBar from '../../compiled/webpackbar';
 import {
   CSS_REGEX,
   JS_REGEX,
@@ -41,9 +36,7 @@ import { createCSSRule, enableCssExtract } from '../utils/createCSSRule';
 import { mergeRegex } from '../utils/mergeRegex';
 import { getWebpackLogging } from '../utils/getWebpackLogging';
 import { getBabelOptions, getUseBuiltIns } from '../utils/getBabelOptions';
-import { ModuleScopePlugin } from '../plugins/module-scope-plugin';
 import { getSourceIncludes } from '../utils/getSourceIncludes';
-import { TsConfigPathsPlugin } from '../plugins/ts-config-paths-plugin';
 import { getWebpackAliases } from '../utils/getWebpackAliases';
 import { getWebpackUtils, isNodeModulesCss } from './shared';
 
@@ -413,12 +406,14 @@ class BaseWebpackConfig {
   }
 
   plugins() {
+    const WebpackBar = require('../../compiled/webpackbar');
     // progress bar
     this.chain
       .plugin(PLUGIN.PROGRESS)
       .use(WebpackBar, [{ name: this.chain.get('name') }]);
 
     if (enableCssExtract(this.options)) {
+      const MiniCssExtractPlugin = require('mini-css-extract-plugin');
       this.chain.plugin(PLUGIN.MINI_CSS_EXTRACT).use(MiniCssExtractPlugin, [
         {
           filename: this.cssChunkname,
@@ -443,6 +438,7 @@ class BaseWebpackConfig {
       !output.enableTsLoader &&
       !output.disableTsChecker
     ) {
+      const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
       this.chain.plugin(PLUGIN.TS_CHECKER).use(ForkTsCheckerWebpackPlugin, [
         {
           typescript: {
@@ -511,6 +507,9 @@ class BaseWebpackConfig {
     this.applyModuleScopePlugin();
 
     if (this.isTsProject) {
+      const {
+        TsConfigPathsPlugin,
+      } = require('../plugins/ts-config-paths-plugin');
       // aliases from tsconfig.json
       this.chain.resolve
         .plugin(RESOLVE_PLUGIN.TS_CONFIG_PATHS)
@@ -538,42 +537,52 @@ class BaseWebpackConfig {
   }
 
   optimization() {
+    const minimize = isProd() && !this.options.output?.disableMinimize;
+
     this.chain.optimization
-      .minimize(isProd() && !this.options.output?.disableMinimize)
+      .minimize(minimize)
       .splitChunks({ chunks: 'all' })
-      .runtimeChunk({ name: (entrypoint: any) => `runtime-${entrypoint.name}` })
-      .minimizer(MINIMIZER.JS)
-      .use(TerserPlugin, [
-        // FIXME: any type
-        applyOptionsChain<any, any>(
-          {
-            terserOptions: {
-              parse: { ecma: 8 },
-              compress: {
-                ecma: 5,
-                warnings: false,
-                comparisons: false,
-                inline: 2,
-              },
-              mangle: { safari10: true },
-              // Added for profiling in devtools
-              keep_classnames: isProdProfile(),
-              keep_fnames: isProdProfile(),
-              output: {
-                ecma: 5,
-                ascii_only: true,
+      .runtimeChunk({
+        name: (entrypoint: any) => `runtime-${entrypoint.name}`,
+      });
+
+    if (minimize) {
+      const TerserPlugin = require('terser-webpack-plugin');
+      const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+      this.chain.optimization
+        .minimizer(MINIMIZER.JS)
+        .use(TerserPlugin, [
+          // FIXME: any type
+          applyOptionsChain<any, any>(
+            {
+              terserOptions: {
+                parse: { ecma: 8 },
+                compress: {
+                  ecma: 5,
+                  warnings: false,
+                  comparisons: false,
+                  inline: 2,
+                },
+                mangle: { safari10: true },
+                // Added for profiling in devtools
+                keep_classnames: isProdProfile(),
+                keep_fnames: isProdProfile(),
+                output: {
+                  ecma: 5,
+                  ascii_only: true,
+                },
               },
             },
-          },
-          this.options.tools?.terser,
-        ),
-      ])
-      .end()
-      .minimizer(MINIMIZER.CSS)
-      // FIXME: add `<any>` reason: Since the css-minimizer-webpack-plugin has been updated
-      .use<any>(CssMinimizerPlugin, [
-        applyOptionsChain({}, this.options.tools?.minifyCss),
-      ]);
+            this.options.tools?.terser,
+          ),
+        ])
+        .end()
+        .minimizer(MINIMIZER.CSS)
+        // FIXME: add `<any>` reason: Since the css-minimizer-webpack-plugin has been updated
+        .use<any>(CssMinimizerPlugin, [
+          applyOptionsChain({}, this.options.tools?.minifyCss),
+        ]);
+    }
   }
 
   stats() {
@@ -676,6 +685,7 @@ class BaseWebpackConfig {
       }
     }
 
+    const { ModuleScopePlugin } = require('../plugins/module-scope-plugin');
     this.chain.resolve
       .plugin(RESOLVE_PLUGIN.MODULE_SCOPE)
       .use(ModuleScopePlugin, [

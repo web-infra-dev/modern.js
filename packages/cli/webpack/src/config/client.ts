@@ -12,7 +12,6 @@ import {
   findExists,
   isFastRefresh,
 } from '@modern-js/utils';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import webpack, {
   DefinePlugin,
@@ -21,7 +20,6 @@ import webpack, {
 } from 'webpack';
 import { Entrypoint } from '@modern-js/types';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
-import CopyPlugin from '../../compiled/copy-webpack-plugin';
 import { WebpackManifestPlugin } from '../../compiled/webpack-manifest-plugin';
 import { InlineChunkHtmlPlugin } from '../plugins/inline-html-chunk-plugin';
 import { AppIconPlugin } from '../plugins/app-icon-plugin';
@@ -133,6 +131,8 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
     const { packageName } = this.appContext as IAppContext & {
       entrypoints: Entrypoint[];
     };
+
+    const HtmlWebpackPlugin: typeof import('html-webpack-plugin') = require('html-webpack-plugin');
 
     // output html files
     const entrypoints = Object.keys(this.chain.entryPoints.entries() || {});
@@ -358,6 +358,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
     // options.patterns should be a non-empty array
     if (patterns.length) {
+      const CopyPlugin = require('../../compiled/copy-webpack-plugin');
       this.chain.plugin(PLUGIN.COPY).use(CopyPlugin, [{ patterns }]);
     }
   }
