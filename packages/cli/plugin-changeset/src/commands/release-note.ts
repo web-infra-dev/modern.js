@@ -1,4 +1,5 @@
 import path from 'path';
+import resolveFrom from 'resolve-from';
 import { fs, execa } from '@modern-js/utils';
 import readChangesets from '@changesets/read';
 
@@ -10,6 +11,7 @@ export interface Commit {
   author?: string;
   message: string; // commit message
   summary: string; // changeset summary
+  [key: string]: string | undefined;
 }
 
 interface ReleaseNoteOptions {
@@ -19,8 +21,11 @@ interface ReleaseNoteOptions {
 
 export type CustomReleaseNoteFunction =
   | {
-      getReleaseInfo?: (commit: string, commitObj: Commit) => Commit;
-      getReleaseNoteLine?: (commit: Commit) => string;
+      getReleaseInfo?: (
+        commit: string,
+        commitObj: Commit,
+      ) => Commit | Promise<Commit>;
+      getReleaseNoteLine?: (commit: Commit) => string | Promise<string>;
     }
   | undefined;
 
@@ -75,7 +80,20 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
   }
 
   if (custom) {
-    customReleaseNoteFunction = require(custom);
+    let possibleReleaseNoteFunc;
+    const releasenotePath = resolveFrom(cwd, custom);
+    possibleReleaseNoteFunc = require(releasenotePath);
+    if (possibleReleaseNoteFunc.default) {
+      possibleReleaseNoteFunc = possibleReleaseNoteFunc.default;
+    }
+    if (
+      typeof possibleReleaseNoteFunc.getReleaseInfo === 'function' &&
+      typeof possibleReleaseNoteFunc.getReleaseNoteLine === 'function'
+    ) {
+      customReleaseNoteFunction = possibleReleaseNoteFunc;
+    } else {
+      throw new Error('Could not resolve relesae note generation functions');
+    }
   }
 
   const changesets = await readChangesets(cwd);
@@ -107,7 +125,10 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
     };
 
     if (customReleaseNoteFunction?.getReleaseInfo) {
-      commitObj = customReleaseNoteFunction.getReleaseInfo(stdout, commitObj);
+      commitObj = await customReleaseNoteFunction.getReleaseInfo(
+        stdout,
+        commitObj,
+      );
     } else {
       commitObj = getReleaseInfo(stdout, commitObj);
     }
@@ -127,16 +148,24 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
 
   if (features.length) {
     console.info('Features:\n');
-    features.forEach(commit =>
-      console.info(getReleaseNoteLine(commit, customReleaseNoteFunction)),
-    );
+    features.forEach(async commit => {
+      const releaseNote = await getReleaseNoteLine(
+        commit,
+        customReleaseNoteFunction,
+      );
+      console.info(releaseNote);
+    });
   }
 
   if (bugFix.length) {
     console.info('Bug Fix:\n');
 
-    bugFix.forEach(commit =>
-      console.info(getReleaseNoteLine(commit, customReleaseNoteFunction)),
-    );
+    bugFix.forEach(async commit => {
+      const relesaeNote = await getReleaseNoteLine(
+        commit,
+        customReleaseNoteFunction,
+      );
+      console.info(relesaeNote);
+    });
   }
 }
