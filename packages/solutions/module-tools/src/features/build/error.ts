@@ -123,7 +123,7 @@ export class InternalDTSError extends Error {
     if (isExecaError(e)) {
       /**
        * `shortMeessage` content like:
-       * 'Command failed with exit code 2: /Users/bytedance/github/modern.js/playground/module/node_modules/.bin/tsc -p /Users/bytedance/github/modern.js/playground/module/node_modules/tsconfig.temp.json --pretty'
+       * 'Command failed with exit code 2: /Users/github/modern.js/playground/module/node_modules/.bin/tsc -p /Users/github/modern.js/playground/module/node_modules/tsconfig.temp.json --pretty'
        * Don`t need it.
        */
       if (e.stack) {
