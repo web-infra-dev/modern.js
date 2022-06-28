@@ -442,6 +442,14 @@ class BaseWebpackConfig {
             // use typescript of user project
             typescriptPath: require.resolve('typescript'),
           },
+          // only display error messages
+          logger: {
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            log() {},
+            error(message: string) {
+              console.error(chalk.red.bold('TYPE'), message);
+            },
+          },
           issue: {
             include: [{ file: '**/src/**/*' }],
             exclude: [
