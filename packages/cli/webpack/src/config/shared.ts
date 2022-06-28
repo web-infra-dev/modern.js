@@ -5,7 +5,6 @@ import type {
   WebpackPluginInstance,
 } from 'webpack';
 import type WebpackChain from '@modern-js/utils/webpack-chain';
-import { BundleAnalyzerPlugin } from '../../compiled/webpack-bundle-analyzer';
 import {
   CSS_REGEX,
   CSS_MODULE_REGEX,
@@ -16,6 +15,7 @@ export function enableBundleAnalyzer(
   config: WebpackChain,
   reportFilename: string,
 ) {
+  const BundleAnalyzerPlugin = require('../../compiled/webpack-bundle-analyzer');
   config.plugin(CHAIN_ID.PLUGIN.BUNDLE_ANALYZER).use(BundleAnalyzerPlugin, [
     {
       analyzerMode: 'static',
