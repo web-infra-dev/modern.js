@@ -147,25 +147,24 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
   }
 
   if (features.length) {
-    console.info('Features:\n');
-    features.forEach(async commit => {
+    console.info('## Features:\n');
+    for (const commit of features) {
       const releaseNote = await getReleaseNoteLine(
         commit,
         customReleaseNoteFunction,
       );
       console.info(releaseNote);
-    });
+    }
   }
 
   if (bugFix.length) {
-    console.info('Bug Fix:\n');
-
-    bugFix.forEach(async commit => {
+    console.info('## Bug Fix:\n');
+    for (const commit of bugFix) {
       const relesaeNote = await getReleaseNoteLine(
         commit,
         customReleaseNoteFunction,
       );
       console.info(relesaeNote);
-    });
+    }
   }
 }
