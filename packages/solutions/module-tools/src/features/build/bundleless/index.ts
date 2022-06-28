@@ -1,6 +1,6 @@
-import { PluginAPI } from '@modern-js/core';
+import type { PluginAPI } from '@modern-js/core';
 import type { NormalizedBundlelessBuildConfig } from '../types';
-import { IBuildFeatOption } from '../../../types';
+import type { IBuildFeatOption } from '../../../types';
 import { runBabelBuild } from './runBabel';
 import { buildStyle } from './style';
 import { genDts } from './generator-dts';

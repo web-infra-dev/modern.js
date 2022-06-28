@@ -1,4 +1,4 @@
-import { PluginAPI } from '@modern-js/core';
+import type { PluginAPI } from '@modern-js/core';
 import type { NormalizedBundleBuildConfig } from '../types';
 import { runSpeedy } from './runSpeedy';
 import { startRollup } from './runRollup';
