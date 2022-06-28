@@ -32,7 +32,7 @@ Detailed Information: ",
 exports[`InternalBuildError buildType is bundleless 1`] = `
 Array [
   "╭───────────────────────╮",
-  "│ bundle failed:        │",
+  "│ bundleless failed:    │",
   "│  - format is \\"cjs\\"    │",
   "│  - target is \\"es2015\\" │",
   "╰───────────────────────╯",

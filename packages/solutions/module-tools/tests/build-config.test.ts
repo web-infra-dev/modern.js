@@ -1,6 +1,4 @@
 import { manager } from '@modern-js/core';
-import { program } from '@modern-js/utils';
-import { buildCli } from '../src/cli/build';
 import plugin from '../src';
 
 jest.mock('../src/features/build/normalize', () => {
@@ -33,26 +31,5 @@ describe('config in module tools', () => {
     const result = await runner.config();
 
     expect(result).toMatchSnapshot();
-  });
-
-  it('normalized config in default', async () => {
-    const mockAPI = {
-      useAppContext: jest.fn((): any => ({
-        appDirectory: '',
-      })),
-      useResolvedConfigContext: jest.fn((): any => ({
-        source: {},
-        output: {},
-        tools: {},
-      })),
-    };
-    const cloned = manager.clone(mockAPI);
-    cloned.usePlugin({
-      async setup(api) {
-        buildCli(program, api);
-        program.parse(['', '', 'build']);
-      },
-    });
-    await cloned.init();
   });
 });
