@@ -53,7 +53,7 @@ export const getDefine = (api: PluginAPI) => {
 };
 
 
-export const getStyleOptionFromModern = async (api: PluginAPI) => {
+const getStyleOptionFromModern = async (api: PluginAPI) => {
   const runner = api.useHookRunners();
   const { appDirectory } = api.useAppContext();
   const modernConfig = api.useResolvedConfigContext();
@@ -75,7 +75,7 @@ export const getStyleOptionFromModern = async (api: PluginAPI) => {
   }
   return {
     less: lessOption?.lessOption,
-    // sass: sassOption,
+    sass: sassOption as any,
     postcss: {
       ...postcssOption.options,
       plugins: postcssOption.plugins,
@@ -128,7 +128,7 @@ export const runSpeedy = async (
       splitting,
       filename: '[name]',
     },
-    style,
+    // style,
     resolve: { alias },
     define,
     sourceMap,
