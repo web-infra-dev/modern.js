@@ -7,7 +7,7 @@ import loadable from '../src/exports/loadable';
 import * as model from '../src/exports/model';
 import * as request from '../src/exports/request';
 import * as router from '../src/exports/router';
-import * as server from '../src/exports/server';
+import * as bff from '../src/exports/server';
 import * as ssr from '../src/exports/ssr';
 import * as styled from '../src/exports/styled';
 
@@ -37,7 +37,7 @@ describe('imported packages in plugin runtime', () => {
   });
 
   it('server', () => {
-    expect(server).toMatchSnapshot();
+    expect(bff).toBeDefined();
   });
 
   it('ssr', () => {
@@ -45,6 +45,8 @@ describe('imported packages in plugin runtime', () => {
   });
 
   it('styled', () => {
-    expect(styled).toMatchSnapshot();
+    expect(styled).toMatchSnapshot({
+      version: expect.any(String),
+    });
   });
 });
