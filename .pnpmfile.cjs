@@ -5,6 +5,20 @@ function readPackage(pkg, _context) {
     pkg.dependencies.resolve = '1.20.0';
   }
 
+  // bump cssnano version to fix integration test
+  // see: https://github.com/modern-js-dev/modern.js/pull/1140
+  if (pkg.dependencies['cssnano']) {
+    pkg.dependencies['cssnano'] = '^5.1.12';
+  }
+
+  // fix react 18 type conflicts
+  if ((pkg.dependencies['@types/react'] = '*')) {
+    pkg.dependencies['@types/react'] = '^17';
+  }
+  if ((pkg.dependencies['@types/react-dom'] = '*')) {
+    pkg.dependencies['@types/react-dom'] = '^17';
+  }
+
   return pkg;
 }
 
