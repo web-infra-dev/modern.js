@@ -60,7 +60,7 @@ Object {
         "helpers": false,
         "regenerator": true,
         "useESModules": true,
-        "version": "7.18.3",
+        "version": "7.18.6",
       },
     ],
     Array [

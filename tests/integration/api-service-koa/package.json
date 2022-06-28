@@ -35,7 +35,7 @@
     "dist/"
   ],
   "dependencies": {
-    "@babel/runtime": "^7",
+    "@babel/runtime": "^7.18.0",
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/plugin-koa": "workspace:*",
     "@modern-js/runtime": "workspace:*",
