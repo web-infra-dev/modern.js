@@ -59,11 +59,11 @@ class BaseWebpackConfig {
 
   jsFilename: string;
 
-  jsChunkname: string;
+  jsChunkName: string;
 
-  cssChunkname: string;
+  cssChunkName: string;
 
-  mediaChunkname: string;
+  mediaChunkName: string;
 
   babelChain: BabelChain;
 
@@ -86,45 +86,34 @@ class BaseWebpackConfig {
 
     this.coreJsEntry = path.resolve(__dirname, '../runtime/core-js-entry.js');
 
-    this.dist = ensureAbsolutePath(
-      this.appDirectory,
-      this.options.output ? this.options.output.path! : '',
-    );
+    const { output = {} } = this.options;
+    const { disableAssetsCache } = output;
+    const jsPath = (output.jsPath || '').trim();
+    const cssPath = (output.cssPath || '').trim();
+    const mediaPath = (output.mediaPath || '').trim();
+
+    this.dist = ensureAbsolutePath(this.appDirectory, output.path || '');
 
     this.jsFilename = removeLeadingSlash(
-      `${(this.options.output
-        ? this.options.output.jsPath!
-        : ''
-      ).trim()}/[name]${
-        isProd() && !this.options.output?.disableAssetsCache
-          ? '.[contenthash:8]'
-          : ''
+      `${jsPath}/[name]${
+        isProd() && !disableAssetsCache ? '.[contenthash:8]' : ''
       }.js`,
     );
 
-    this.jsChunkname = removeLeadingSlash(
-      `${(this.options.output ? this.options.output.jsPath! : '').trim()}/[id]${
-        isProd() && !this.options.output.disableAssetsCache
-          ? '.[contenthash:8]'
-          : ''
+    this.jsChunkName = removeLeadingSlash(
+      `${jsPath}/[name]${
+        isProd() && !disableAssetsCache ? '.[contenthash:8]' : ''
       }.js`,
     );
 
-    this.cssChunkname = removeLeadingSlash(
-      `${(this.options.output
-        ? this.options.output.cssPath!
-        : ''
-      ).trim()}/[name]${
-        isProd() && !this.options.output?.disableAssetsCache
-          ? '.[contenthash:8]'
-          : ''
+    this.cssChunkName = removeLeadingSlash(
+      `${cssPath.trim()}/[name]${
+        isProd() && !disableAssetsCache ? '.[contenthash:8]' : ''
       }.css`,
     );
 
-    this.mediaChunkname = removeLeadingSlash(
-      `${this.options.output ? this.options.output.mediaPath! : ''}/[name]${
-        this.options.output?.disableAssetsCache ? '' : '.[hash:8]'
-      }[ext]`,
+    this.mediaChunkName = removeLeadingSlash(
+      `${mediaPath}/[name]${disableAssetsCache ? '' : '.[hash:8]'}[ext]`,
     );
 
     this.babelChain = createBabelChain();
@@ -174,7 +163,7 @@ class BaseWebpackConfig {
     this.chain.output
       .hashFunction('xxhash64')
       .filename(this.jsFilename)
-      .chunkFilename(this.jsChunkname)
+      .chunkFilename(this.jsChunkName)
       .globalObject('window')
       .path(this.dist)
       .pathinfo(!isProd())
@@ -196,7 +185,7 @@ class BaseWebpackConfig {
       .publicPath(this.publicPath());
 
     this.chain.output.merge({
-      assetModuleFilename: this.mediaChunkname,
+      assetModuleFilename: this.mediaChunkName,
       environment: {
         arrowFunction: false,
         bigIntLiteral: false,
@@ -313,7 +302,7 @@ class BaseWebpackConfig {
       .loader(require.resolve('../../compiled/url-loader'))
       .options({
         limit: Infinity,
-        name: this.mediaChunkname.replace(/\[ext\]$/, '.[ext]'),
+        name: this.mediaChunkName.replace(/\[ext\]$/, '.[ext]'),
       });
 
     loaders
@@ -329,7 +318,7 @@ class BaseWebpackConfig {
       .loader(require.resolve('../../compiled/url-loader'))
       .options({
         limit: false,
-        name: this.mediaChunkname.replace(/\[ext\]$/, '.[ext]'),
+        name: this.mediaChunkName.replace(/\[ext\]$/, '.[ext]'),
       });
 
     loaders
@@ -344,7 +333,7 @@ class BaseWebpackConfig {
       .loader(require.resolve('../../compiled/url-loader'))
       .options({
         limit: this.options.output?.dataUriLimit,
-        name: this.mediaChunkname.replace(/\[ext\]$/, '.[ext]'),
+        name: this.mediaChunkName.replace(/\[ext\]$/, '.[ext]'),
       });
 
     // img, font assets
@@ -416,8 +405,8 @@ class BaseWebpackConfig {
       const MiniCssExtractPlugin = require('mini-css-extract-plugin');
       this.chain.plugin(PLUGIN.MINI_CSS_EXTRACT).use(MiniCssExtractPlugin, [
         {
-          filename: this.cssChunkname,
-          chunkFilename: this.cssChunkname,
+          filename: this.cssChunkName,
+          chunkFilename: this.cssChunkName,
           ignoreOrder: true,
         },
       ]);
@@ -448,6 +437,14 @@ class BaseWebpackConfig {
             configFile: path.resolve(this.appDirectory, './tsconfig.json'),
             // use typescript of user project
             typescriptPath: require.resolve('typescript'),
+          },
+          // only display error messages
+          logger: {
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            log() {},
+            error(message: string) {
+              console.error(chalk.red.bold('TYPE'), message);
+            },
           },
           issue: {
             include: [{ file: '**/src/**/*' }],
