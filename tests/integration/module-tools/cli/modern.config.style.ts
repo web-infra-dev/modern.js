@@ -1,4 +1,4 @@
-import { defineConfig } from "@modern-js/module-tools";
+import { defineConfig } from '@modern-js/module-tools';
 
 export = defineConfig({
   output: {
@@ -9,6 +9,6 @@ export = defineConfig({
           compileMode: 'only-compiled-code',
         },
       },
-    }
+    },
   },
 });

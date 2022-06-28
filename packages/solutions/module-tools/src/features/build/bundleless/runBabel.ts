@@ -1,6 +1,6 @@
 import path from 'path';
 import { Import, glob, fs, chalk, globby } from '@modern-js/utils';
-import { PluginAPI } from '@modern-js/core';
+import type { PluginAPI } from '@modern-js/core';
 import type {
   BabelOptions,
   IVirtualDist,
