@@ -42,7 +42,11 @@ export const setJestConfigForBFF = async ({
 
   const aliasMapper = getModuleNameMapper(alias);
 
-  const { transform, moduleNameMapper } = jestConfig;
+  const { moduleNameMapper } = jestConfig;
+  // 服务端统一使用 ts-jest
+  const transform = {
+    '\\.[jt]sx?$': require.resolve('ts-jest'),
+  };
 
   const apiOnly = await isApiOnly(pwd);
 

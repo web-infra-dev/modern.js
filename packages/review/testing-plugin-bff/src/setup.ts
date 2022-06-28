@@ -7,6 +7,8 @@ import { createApp, closeServer } from './app';
 
 let uped = false;
 
+const BEFORE_ALL_TIMEOUT = 30000;
+
 const setup = () => {
   if (uped) {
     return;
@@ -50,7 +52,7 @@ const setup = () => {
         bff_info.routes,
       );
     }
-  });
+  }, BEFORE_ALL_TIMEOUT);
 
   afterAll(async () => {
     await closeServer();

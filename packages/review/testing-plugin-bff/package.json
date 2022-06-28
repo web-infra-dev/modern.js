@@ -39,15 +39,16 @@
     "@babel/runtime": "^7.18.0",
     "@modern-js/bff-core": "workspace:^1.0.0",
     "@modern-js/server": "workspace:^1.4.21",
+    "@modern-js/testing": "workspace:^1.5.4",
     "@modern-js/utils": "workspace:^1.7.8",
     "jest-environment-node": "^27.2.2",
     "path-to-regexp": "^6.2.0",
-    "supertest": "^6.1.6"
+    "supertest": "^6.1.6",
+    "ts-jest": "^28.0.5"
   },
   "devDependencies": {
     "@modern-js/bff-utils": "workspace:*",
     "@modern-js/core": "workspace:*",
-    "@modern-js/testing": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",
@@ -55,6 +56,7 @@
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "@types/supertest": "^2.0.11",
+    "babel-jest": "^27.0.6",
     "jest": "^28.1.1",
     "typescript": "^4"
   },
