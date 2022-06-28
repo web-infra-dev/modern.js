@@ -45,7 +45,7 @@ export const buildInNormalMode = async (buildTasks: Promise<void>[]) => {
   try {
     // eslint-disable-next-line no-console
     console.time(buildSuccessText);
-    await Promise.all([...buildTasks]);
+    await Promise.all(buildTasks);
     ReadlineUtils.clearPrevLine(process.stdout);
     // eslint-disable-next-line no-console
     console.timeEnd(buildSuccessText);
@@ -94,8 +94,8 @@ export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
   });
   if (config.enableWatchMode) {
     console.info(chalk.blue.underline('start build in watch mode...\n'));
-    await Promise.all([...buildTasks]);
+    await Promise.all(buildTasks);
   } else {
-    buildInNormalMode(buildTasks);
+    await buildInNormalMode(buildTasks);
   }
 };

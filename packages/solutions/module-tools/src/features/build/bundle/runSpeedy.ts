@@ -6,7 +6,11 @@ import type { PluginAPI } from '@modern-js/core';
 import { applyOptionsChain, ensureAbsolutePath } from '@modern-js/utils';
 import { NormalizedBundleBuildConfig } from '../types';
 import { InternalBuildError } from '../error';
-import { getPostcssOption, SectionTitleStatus, watchSectionTitle } from '../utils';
+import {
+  getPostcssOption,
+  SectionTitleStatus,
+  watchSectionTitle,
+} from '../utils';
 
 export type ResolveAlias = { [index: string]: string };
 export const getAlias = (api: PluginAPI) => {
@@ -52,7 +56,6 @@ export const getDefine = (api: PluginAPI) => {
   };
 };
 
-
 const getStyleOptionFromModern = async (api: PluginAPI) => {
   const runner = api.useHookRunners();
   const { appDirectory } = api.useAppContext();
@@ -80,8 +83,8 @@ const getStyleOptionFromModern = async (api: PluginAPI) => {
       ...postcssOption.options,
       plugins: postcssOption.plugins,
     },
-  }
-}
+  };
+};
 
 export const runSpeedy = async (
   api: PluginAPI,
@@ -97,7 +100,7 @@ export const runSpeedy = async (
   const { entry, platform, splitting, minify, externals } = bundleOptions;
   const distDir = path.join(appDirectory, distPath, outputPath);
   const titleText = `[Bundle:Speedy:${format}_${target}]`;
-  const style = await getStyleOptionFromModern(api);
+  await getStyleOptionFromModern(api);
   const alias = getAlias(api);
   const define = getDefine(api);
   const watchPlugin = (): SpeedyPlugin => {
