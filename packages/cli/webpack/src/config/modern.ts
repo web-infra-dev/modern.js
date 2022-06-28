@@ -14,7 +14,7 @@ class ModernWebpackConfig extends ClientWebpackConfig {
             : `${name}/index-es6`
         }.html`,
       );
-    this.jsChunkname = this.jsChunkname.replace(/\.js$/, '-es6.js');
+    this.jsChunkName = this.jsChunkName.replace(/\.js$/, '-es6.js');
 
     this.jsFilename = this.jsFilename.replace(/\.js$/, '-es6.js');
 
