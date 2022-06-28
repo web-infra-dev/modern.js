@@ -10,22 +10,7 @@ Array [
   "
 Detailed Information: ",
   "Error: this is error",
-  "Error: this is error
-    at Object.<anonymous> (/Users/bytedance/github/modern.js/packages/solutions/module-tools/tests/build-feat/error.test.ts:32:38)
-    at Promise.then.completed (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/utils.js:391:28)
-    at new Promise (<anonymous>)
-    at callAsyncCircusFn (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/utils.js:316:10)
-    at _callCircusTest (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:218:40)
-    at processTicksAndRejections (internal/process/task_queues.js:95:5)
-    at _runTest (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:155:3)
-    at _runTestsForDescribeBlock (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:66:9)
-    at _runTestsForDescribeBlock (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:60:9)
-    at run (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:25:3)
-    at runAndTransformResultsToJestFormat (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
-    at jestAdapter (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
-    at runTestInternal (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/runTest.js:389:16)
-    at runTest (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/runTest.js:475:34)
-    at Object.worker (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/testWorker.js:133:12)",
+  "",
 ]
 `;
 
@@ -39,21 +24,6 @@ Array [
   "
 Detailed Information: ",
   "Error: this is error",
-  "Error: this is error
-    at Object.<anonymous> (/Users/bytedance/github/modern.js/packages/solutions/module-tools/tests/build-feat/error.test.ts:41:38)
-    at Promise.then.completed (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/utils.js:391:28)
-    at new Promise (<anonymous>)
-    at callAsyncCircusFn (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/utils.js:316:10)
-    at _callCircusTest (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:218:40)
-    at processTicksAndRejections (internal/process/task_queues.js:95:5)
-    at _runTest (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:155:3)
-    at _runTestsForDescribeBlock (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:66:9)
-    at _runTestsForDescribeBlock (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:60:9)
-    at run (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/run.js:25:3)
-    at runAndTransformResultsToJestFormat (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
-    at jestAdapter (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-circus@27.5.1/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
-    at runTestInternal (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/runTest.js:389:16)
-    at runTest (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/runTest.js:475:34)
-    at Object.worker (/Users/bytedance/github/modern.js/node_modules/.pnpm/jest-runner@27.5.1/node_modules/jest-runner/build/testWorker.js:133:12)",
+  "",
 ]
 `;

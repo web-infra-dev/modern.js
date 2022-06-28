@@ -29,20 +29,24 @@ describe('padSpaceWith', () => {
 
 describe('InternalBuildError', () => {
   test('buildType is bundle', () => {
-    const e = new InternalBuildError(new Error('this is error'), {
+    const e = new Error('this is error');
+    e.stack = '';
+    const ie = new InternalBuildError(e, {
       buildType: 'bundle',
       format: 'cjs',
       target: 'es2015',
     });
-    expect(e.formatError()).toMatchSnapshot();
+    expect(ie.formatError()).toMatchSnapshot();
   });
 
   test('buildType is bundleless', () => {
-    const e = new InternalBuildError(new Error('this is error'), {
+    const e = new Error('this is error');
+    e.stack = '';
+    const ie = new InternalBuildError(e, {
       buildType: 'bundleless',
       format: 'cjs',
       target: 'es2015',
     });
-    expect(e.formatError()).toMatchSnapshot();
+    expect(ie.formatError()).toMatchSnapshot();
   });
 });
