@@ -10,14 +10,22 @@ function existsSync(filePath) {
 
 describe('module tools build cli', () => {
   it(`style only`, async () => {
-    const buildRes = await modernBuild(appDir, ['--style-only', '--config', 'modern.config.style.js']);
+    const buildRes = await modernBuild(appDir, [
+      '--style-only',
+      '--config',
+      'modern.config.style.js',
+    ]);
     expect(buildRes.code === 0).toBe(true);
     expect(existsSync('index.css')).toBe(true);
     expect(existsSync('index.js')).not.toBe(true);
   });
 
   it(`enable dts`, async () => {
-    const buildRes = await modernBuild(appDir, ['--dts', '--config', 'modern.config.dts.js']);
+    const buildRes = await modernBuild(appDir, [
+      '--dts',
+      '--config',
+      'modern.config.dts.js',
+    ]);
     expect(buildRes.code === 0).toBe(true);
     expect(existsSync('dts/index.d.ts')).toBe(true);
     expect(existsSync('dts/index.js')).toBe(true);
@@ -25,7 +33,7 @@ describe('module tools build cli', () => {
 
   it(`build platform`, async () => {
     const buildRes = await modernBuild(appDir, ['-p']);
-    console.log(buildRes);
+    console.info(buildRes);
     expect(buildRes.code === 0).toBe(true);
   });
 });
