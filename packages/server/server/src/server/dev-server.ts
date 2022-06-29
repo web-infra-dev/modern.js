@@ -25,7 +25,7 @@ import { createMockHandler } from '../dev-tools/mock';
 import SocketServer from '../dev-tools/socket-server';
 import DevServerPlugin from '../dev-tools/dev-server-plugin';
 import { enableRegister } from '../dev-tools/babel/register';
-import Watcher from '../dev-tools/watcher';
+import Watcher, { mergeWatchOptions } from '../dev-tools/watcher';
 import { DevServerOptions, ModernDevServerOptions } from '../types';
 
 export class ModernDevServer extends ModernServer {
@@ -335,6 +335,8 @@ export class ModernDevServer extends ModernServer {
       `${SHARED_DIR}/**/*`,
     ];
 
+    const watchOptions = mergeWatchOptions(this.conf.server.watchOptions);
+
     const defaultWatchedPaths = defaultWatched.map(p =>
       path.normalize(path.join(pwd, p)),
     );
@@ -343,22 +345,14 @@ export class ModernDevServer extends ModernServer {
     watcher.createDepTree();
 
     // 监听文件变动，如果有变动则给 client，也就是 start 启动的插件发消息
-    watcher.listen(
-      defaultWatchedPaths,
-      {
-        // 初始化的时候不触发 add、addDir 事件
-        ignoreInitial: true,
-        ignored: /api\/typings\/.*/,
-      },
-      (filepath: string) => {
-        watcher.updateDepTree();
-        watcher.cleanDepCache(filepath);
+    watcher.listen(defaultWatchedPaths, watchOptions, (filepath: string) => {
+      watcher.updateDepTree();
+      watcher.cleanDepCache(filepath);
 
-        this.onServerChange({
-          filepath,
-        });
-      },
-    );
+      this.onServerChange({
+        filepath,
+      });
+    });
 
     this.watcher = watcher;
   }
