@@ -1,8 +1,7 @@
 import path from 'path';
-import type Module from 'module';
 import { globby } from '@modern-js/utils';
 import { INDEX_SUFFIX } from './constants';
-import { APIHandlerInfo } from './types';
+import { APIHandlerInfo, HandlerModule } from './types';
 
 type MaybeAsync<I> = I | Promise<I>;
 export type NormalHandler = (...args: any[]) => any;
@@ -62,7 +61,7 @@ const clearRouteName = (routeName: string): string => {
 export const isHandler = (input: any): input is Handler<any, any> =>
   input && typeof input === 'function';
 
-const enableRegister = (requireFn: (modulePath: string) => Module) => {
+const enableRegister = (requireFn: (modulePath: string) => HandlerModule) => {
   return (modulePath: string) => {
     // eslint-disable-next-line node/no-deprecated-api
     if (!require.extensions['.ts']) {
