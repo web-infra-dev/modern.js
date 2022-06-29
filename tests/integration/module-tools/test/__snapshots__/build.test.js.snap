@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`legacy config packageMode is browser-js 1`] = `
+Array [
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/types",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js/modern",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js/node",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js/treeshaking",
+]
+`;
+
+exports[`legacy config packageMode is browser-js-lite 1`] = `
+Array [
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/types",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js/modern",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js/node",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js/treeshaking",
+]
+`;
+
+exports[`legacy config packageMode is node-js 1`] = `
+Array [
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/types",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js/modern",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js/node",
+]
+`;
+
+exports[`legacy config packageMode is universal-js 1`] = `
+Array [
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/types",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js/modern",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js/node",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js/treeshaking",
+]
+`;
+
+exports[`legacy config packageMode is universal-js-lite 1`] = `
+Array [
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/types",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js/modern",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js/node",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-legacy/dist/js/treeshaking",
+]
+`;
+
+exports[`output.buildConfig when buildConfig is {} 1`] = `
+Array [
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-config/dist/index.js",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-config/dist/components/index.js",
+  "/Users/bytedance/github/modern.js/tests/integration/module-tools/fixtures/build-config/dist/utils/index.js",
+]
+`;
