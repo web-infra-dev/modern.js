@@ -20,7 +20,7 @@ export async function getPackageMeta(
   options?: Options,
 ): Promise<{ meta: Record<string, unknown> }> {
   const { registryUrl } = options || {};
-  const params = ['view', packageName, 'meta'];
+  const params = ['view', `${packageName}@${packageVersion}`, 'meta', '--json'];
 
   if (registryUrl) {
     params.push('--registry');
