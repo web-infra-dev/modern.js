@@ -6,6 +6,7 @@ import { ReadlineUtils } from '../../utils/readline';
 import { normalizeModuleConfig } from './normalize';
 import { buildingText, buildSuccessText } from './constants';
 import { ModuleBuildError, isInternalError } from './error';
+import { getAllDeps } from './utils';
 
 const bundle: typeof import('./bundle') = Import.lazy('./bundle', require);
 const bundleless: typeof import('./bundleless') = Import.lazy(
@@ -80,11 +81,15 @@ export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
     fs.removeSync(path.join(appDirectory, outputPath));
   }
 
+  const deps = getAllDeps(appDirectory);
+
   // should normalize module tool config here, ensure the same config for build
   const normalizedModuleConfig = normalizeModuleConfig({
     buildFeatOption: config,
     api,
+    deps,
   });
+
   const buildTasks = normalizedModuleConfig.map(moduleConfig => {
     if (moduleConfig.buildType === 'bundle') {
       return bundle.build(api, moduleConfig);

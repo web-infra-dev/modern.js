@@ -50,13 +50,25 @@ const properties = {
       },
       externals: {
         type: 'array',
-        items: [{ type: 'string' }],
+        items: {
+          anyOf: [
+            {
+              instanceof: 'RegExp',
+            },
+            {
+              typeof: 'string',
+            },
+          ],
+        },
       },
       platform: {
         enum: ['node', 'browser'],
       },
       minify: {
         enum: ['esbuild', 'terser', false],
+      },
+      skipDeps: {
+        type: 'boolean',
       },
     },
   },

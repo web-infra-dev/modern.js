@@ -78,7 +78,7 @@ const getStyleOptionFromModern = async (api: PluginAPI) => {
   }
   return {
     less: lessOption?.lessOption,
-    sass: sassOption as any,
+    sass: sassOption,
     postcss: {
       ...postcssOption.options,
       plugins: postcssOption.plugins,
@@ -100,7 +100,7 @@ export const runSpeedy = async (
   const { entry, platform, splitting, minify, externals } = bundleOptions;
   const distDir = path.join(appDirectory, distPath, outputPath);
   const titleText = `[Bundle:Speedy:${format}_${target}]`;
-  await getStyleOptionFromModern(api);
+  const style = await getStyleOptionFromModern(api);
   const alias = getAlias(api);
   const define = getDefine(api);
   const watchPlugin = (): SpeedyPlugin => {
@@ -131,7 +131,7 @@ export const runSpeedy = async (
       splitting,
       filename: '[name]',
     },
-    // style,
+    style,
     resolve: { alias },
     define,
     sourceMap,

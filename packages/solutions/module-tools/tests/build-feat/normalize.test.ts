@@ -458,5 +458,19 @@ describe('normalizeBuildConfig', () => {
       '[WARN] dtsOnly、enableDts 配置仅在 Ts 项目下生效',
     );
   });
+
+  test('skipDeps', () => {
+    const ret = normalizeBuildConfig(
+      {
+        buildFeatOption: defaultOption,
+        api: mockAPI,
+      },
+      {
+        buildType: 'bundle'
+      },
+['sass']
+    );
+    expect(ret).toMatchSnapshot();
+  })
 });
 /* eslint-enable max-lines */

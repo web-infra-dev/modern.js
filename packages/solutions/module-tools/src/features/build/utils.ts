@@ -1,7 +1,8 @@
 import * as os from 'os';
+import path from 'path';
 import type { NormalizedConfig } from '@modern-js/core';
 import type { PostcssOption } from '@modern-js/style-compiler';
-import { chalk, Import } from '@modern-js/utils';
+import { chalk, Import, fs } from '@modern-js/utils';
 
 const constants: typeof import('./constants') = Import.lazy(
   './constants',
@@ -104,4 +105,23 @@ export const getPostcssOption = (
     enableSourceMap: (postcssOption as any)?.sourceMap || false,
     options: {},
   };
+};
+
+export const getAllDeps = <T>(
+  appDirectory: string,
+) => {
+  try {
+    const json = JSON.parse(
+      fs.readFileSync(path.resolve(appDirectory, './package.json'), 'utf8'),
+    );
+
+    // return json[packageJsonConfig ?? PACKAGE_JSON_CONFIG_NAME] as T | undefined;
+    return [
+      ...Object.keys(json.dependencies as T | undefined || {}),
+      ...Object.keys(json.devDependencies as T | undefined || {}),
+      ...Object.keys(json.peerDependencies as T | undefined || {}),
+    ];
+  } catch (e) {
+    console.warn('[WARN] cannot find package.json');
+  }
 };

@@ -1,7 +1,9 @@
 import {
   SectionTitleStatus,
   watchSectionTitle,
+  getAllDeps,
 } from '../../src/features/build/utils';
+import path from 'path';
 
 describe('watchSectionTitle', () => {
   test('SectionTitleStatus is success', () => {
@@ -22,3 +24,12 @@ describe('watchSectionTitle', () => {
     expect(ret.includes('test')).toBeTruthy();
   });
 });
+
+describe('getAllDeps', () => {
+  test('getAllDeps is success', () => {
+    const ret = getAllDeps(path.join(__dirname, '../fixtures/ts-app'));
+    console.log(ret);
+    expect(ret?.includes('sass')).toBeTruthy();
+    expect(ret?.includes('less')).toBeFalsy();
+  });
+})

@@ -578,8 +578,11 @@ Array [
       "entry": Object {
         "app": "src/index.ts",
       },
+      "externals": Array [],
       "minify": "esbuild",
       "platform": "browser",
+      "skipDeps": true,
+      "splitting": false,
     },
     "dtsOnly": false,
     "enableDts": false,
@@ -820,8 +823,11 @@ Array [
       "entry": Object {
         "index": "src/index.ts",
       },
+      "externals": Array [],
       "minify": false,
       "platform": "node",
+      "skipDeps": true,
+      "splitting": false,
     },
     "dtsOnly": false,
     "enableDts": false,
@@ -843,8 +849,11 @@ Array [
       "entry": Object {
         "index": "src/index.js",
       },
+      "externals": Array [],
       "minify": false,
       "platform": "node",
+      "skipDeps": true,
+      "splitting": false,
     },
     "dtsOnly": false,
     "enableDts": false,
@@ -889,6 +898,34 @@ Array [
     "target": "esnext",
     "tsconfig": "./tsconfig.build.json",
     "watch": true,
+  },
+]
+`;
+
+exports[`normalizeBuildConfig skipDeps 1`] = `
+Array [
+  Object {
+    "buildType": "bundle",
+    "bundleOptions": Object {
+      "entry": Object {
+        "index": "src/index.ts",
+      },
+      "externals": Array [
+        /\\^sass\\(\\$\\|\\\\/\\|\\\\\\\\\\)/,
+      ],
+      "minify": false,
+      "platform": "node",
+      "skipDeps": true,
+      "splitting": false,
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "cjs",
+    "outputPath": "./",
+    "sourceMap": true,
+    "target": "esnext",
+    "tsconfig": "./tsconfig.json",
+    "watch": false,
   },
 ]
 `;

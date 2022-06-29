@@ -7,6 +7,7 @@ import type {
   BaseBuildConfig,
   SourceMap,
   BundlelessOptions,
+  BundleOptions,
 } from '../../schema/types';
 import type { IBuildFeatOption } from '../../types';
 import { cliTsConfigDefaultValue } from '../../utils/constants';
@@ -228,21 +229,29 @@ export const getSourceMap = (
 export const normalizeBuildConfig = (
   context: { buildFeatOption: IBuildFeatOption; api: PluginAPI },
   buildConfig: BuildConfig,
+  deps: string[] = [],
 ): NormalizedBuildConfig[] => {
   const { buildFeatOption, api } = context;
-
   const configArray = Array.isArray(buildConfig) ? buildConfig : [buildConfig];
   const normalizedModule: NormalizedBuildConfig[] = configArray.map(config => {
     const format = config.format ?? 'cjs';
     const target = config.target ?? 'esnext';
     const { bundleOptions } = config;
-    const normalizedBundleOption = {
+    const skipDeps = bundleOptions?.skipDeps ?? true;
+    const externals = skipDeps === false ? (bundleOptions?.externals || []) : [
+      ...deps.map((dep) => new RegExp(`^${dep}($|\\/|\\\\)`)),
+      ...(bundleOptions?.externals || []),
+    ];
+    const normalizedBundleOption: Required<BundleOptions> = {
       ...bundleOptions,
       entry: bundleOptions?.entry || {
         index: `src/index.${buildFeatOption.isTsProject ? 'ts' : 'js'}`,
       },
       platform: bundleOptions?.platform || 'node',
       minify: bundleOptions?.minify ?? false,
+      externals,
+      splitting: bundleOptions?.splitting ?? false,
+      skipDeps,
     };
     const normalizedBundlelessOptions: Required<BundlelessOptions> = mergeWith(
       {},
@@ -302,15 +311,16 @@ export const normalizeBuildConfig = (
 export const normalizeModuleConfig = (context: {
   buildFeatOption: IBuildFeatOption;
   api: PluginAPI;
+  deps?: string[];
 }): NormalizedBuildConfig[] => {
-  const { buildFeatOption, api } = context;
+  const { buildFeatOption, api, deps } = context;
   const {
     output: { buildConfig, buildPreset },
   } = api.useResolvedConfigContext();
 
   // buildConfig is the most important.
   if (buildConfig) {
-    return normalizeBuildConfig(context, buildConfig);
+    return normalizeBuildConfig(context, buildConfig, deps);
   }
 
   // buildPreset is the second important. It can be used when buildConfig is not defined.
@@ -318,17 +328,18 @@ export const normalizeModuleConfig = (context: {
   if (buildPreset) {
     const { unPresetConfigs, unPresetWithTargetConfigs } = constants;
     if (unPresetConfigs[buildPreset]) {
-      return normalizeBuildConfig(context, unPresetConfigs[buildPreset]);
+      return normalizeBuildConfig(context, unPresetConfigs[buildPreset], deps);
     } else if (unPresetWithTargetConfigs[buildPreset]) {
       return normalizeBuildConfig(
         context,
         unPresetWithTargetConfigs[buildPreset],
+        deps
       );
     }
 
     // If the buildPreset is not found, then it is used 'npm-library'
     // TODO: Warning: The buildPreset 'npm-library' is not supported.
-    return normalizeBuildConfig(context, unPresetConfigs['npm-library']);
+    return normalizeBuildConfig(context, unPresetConfigs['npm-library'], deps);
   }
 
   // If the user does not configure buildConfig and buildPreset,
@@ -337,5 +348,5 @@ export const normalizeModuleConfig = (context: {
     api,
     buildFeatOption,
   );
-  return normalizeBuildConfig(context, legacyBuildConfig);
+  return normalizeBuildConfig(context, legacyBuildConfig, deps);
 };

@@ -79,11 +79,16 @@ Array [
                   "type": "object",
                 },
                 "externals": Object {
-                  "items": Array [
-                    Object {
-                      "type": "string",
-                    },
-                  ],
+                  "items": Object {
+                    "anyOf": Array [
+                      Object {
+                        "instanceof": "RegExp",
+                      },
+                      Object {
+                        "typeof": "string",
+                      },
+                    ],
+                  },
                   "type": "array",
                 },
                 "minify": Object {
@@ -98,6 +103,9 @@ Array [
                     "node",
                     "browser",
                   ],
+                },
+                "skipDeps": Object {
+                  "type": "boolean",
                 },
                 "splitting": Object {
                   "type": "boolean",
@@ -199,11 +207,16 @@ Array [
                       "type": "object",
                     },
                     "externals": Object {
-                      "items": Array [
-                        Object {
-                          "type": "string",
-                        },
-                      ],
+                      "items": Object {
+                        "anyOf": Array [
+                          Object {
+                            "instanceof": "RegExp",
+                          },
+                          Object {
+                            "typeof": "string",
+                          },
+                        ],
+                      },
                       "type": "array",
                     },
                     "minify": Object {
@@ -218,6 +231,9 @@ Array [
                         "node",
                         "browser",
                       ],
+                    },
+                    "skipDeps": Object {
+                      "type": "boolean",
                     },
                     "splitting": Object {
                       "type": "boolean",

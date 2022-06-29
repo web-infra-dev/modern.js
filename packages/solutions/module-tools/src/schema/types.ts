@@ -21,6 +21,7 @@ export type BundleOptions = {
   splitting?: boolean;
   minify?: SpeedyConfig['minify'];
   externals?: SpeedyConfig['external'];
+  skipDeps?: boolean;
 };
 
 export type BundlelessOptions = {

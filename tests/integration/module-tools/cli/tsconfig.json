@@ -1,9 +1,0 @@
-{
-  "include": [
-    "./modern.config.dts.ts",
-    "./dts",
-    "src",
-    "style-only",
-    "modern.config.style.ts"
-  ]
-}
