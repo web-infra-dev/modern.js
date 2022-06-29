@@ -45,7 +45,8 @@ export const generatorTsConfig = (
     ? path.join(appDirectory, projectTsconfig.compilerOptions?.baseUrl)
     : appDirectory;
   // if include = ['src'], final include should be ['../src']
-  const include = projectTsconfig.include?.map(includePath =>
+  // const include = projectTsconfig.include?.map(includePath =>
+  const include = [sourceDir]?.map(includePath =>
     path.join(resolvePath, includePath),
   );
   const exclude = projectTsconfig.exclude?.map(excludePath =>
@@ -74,6 +75,14 @@ export const generatorTsConfig = (
 
   const tempTsconfigPath = path.join(tempPath, constants.tempTsconfigName);
   fs.ensureFileSync(tempTsconfigPath);
+  console.info(
+    deepMerge(
+      recommendOption,
+      projectTsconfig,
+      // 此处是必须要覆盖用户默认配置
+      resetConfig,
+    ),
+  );
   fs.writeJSONSync(
     tempTsconfigPath,
     deepMerge(

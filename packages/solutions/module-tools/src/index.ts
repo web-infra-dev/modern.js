@@ -5,6 +5,8 @@ import LintPlugin from '@modern-js/plugin-jarvis';
 import type { CliPlugin } from '@modern-js/core';
 import { hooks } from './hooks';
 
+export * from './types';
+
 const cli: typeof import('./cli') = Import.lazy('./cli', require);
 const local: typeof import('./locale') = Import.lazy('./locale', require);
 const schema: typeof import('./schema') = Import.lazy('./schema', require);
