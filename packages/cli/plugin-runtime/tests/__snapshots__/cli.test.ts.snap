@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plugin runtime cli plugin-runtime cli config snapshot 1`] = `
+Object {
+  "runtime": Object {},
+  "runtimeByEntries": Object {},
+  "source": Object {
+    "alias": Any<Object>,
+  },
+}
+`;
+
+exports[`plugin runtime cli plugin-runtime cli schema snapshot 1`] = `
+Array [
+  Array [
+    Object {
+      "schema": Object {
+        "additionalProperties": false,
+        "type": "object",
+      },
+      "target": "runtime",
+    },
+    Object {
+      "schema": Object {
+        "additionalProperties": false,
+        "patternProperties": Object {
+          "^[a-zA-Z0-9_-]+$": Object {
+            "type": "object",
+          },
+        },
+        "type": "object",
+      },
+      "target": "runtimeByEntries",
+    },
+  ],
+  Array [
+    Object {
+      "schema": Object {
+        "type": Array [
+          "boolean",
+          "object",
+        ],
+      },
+      "target": "runtime.router",
+    },
+  ],
+  Array [
+    Object {
+      "schema": Object {
+        "type": Array [
+          "boolean",
+          "object",
+        ],
+      },
+      "target": "runtime.ssr",
+    },
+  ],
+  Array [
+    Object {
+      "schema": Object {
+        "type": Array [
+          "boolean",
+          "object",
+        ],
+      },
+      "target": "runtime.state",
+    },
+  ],
+]
+`;

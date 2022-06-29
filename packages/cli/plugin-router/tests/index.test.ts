@@ -23,13 +23,17 @@ describe('cli-router', () => {
     expect(cliPlugin).toBeDefined();
   });
 
-  it('cli config', async () => {
+  it('plugin-router cli config snapshot', async () => {
     const config = await runner.config();
-    expect(config).not.toBe(null);
+    expect(config[0]).toMatchSnapshot({
+      source: {
+        alias: expect.any(Object),
+      },
+    });
   });
 
-  it('cli schema', async () => {
+  it('plugin-router cli schema snapshot', async () => {
     const schema = await runner.validateSchema();
-    expect(schema).not.toBe(null);
+    expect(schema).toMatchSnapshot();
   });
 });

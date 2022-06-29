@@ -175,15 +175,34 @@ describe('create-app', () => {
   });
 
   it('useRuntimeContext', () => {
+    const TEST_STRING = 'this is a test context';
+
     function App() {
-      const runtimeContext = useRuntimeContext();
-      return <div>runtimeContext: {typeof runtimeContext}</div>;
+      const { test } = useRuntimeContext();
+      return <div>{test}</div>;
     }
-    const AppWrapper = createApp({
-      plugins: [],
-    })(App);
+
+    // a custom plugin just for inject context
+    const plugin = (): Plugin => ({
+      setup: () => ({
+        pickContext: ({ context, pickedContext }, next) =>
+          next({
+            context,
+            pickedContext: {
+              ...pickedContext,
+              test: TEST_STRING, // check this
+            },
+          }),
+      }),
+    });
+
+    const wrap = createApp({
+      plugins: [plugin()],
+    });
+
+    const AppWrapper = wrap(App);
 
     const { container } = render(<AppWrapper />);
-    expect(container.innerHTML).toBe(`<div>runtimeContext: object</div>`);
+    expect(container.textContent).toBe(TEST_STRING);
   });
 });

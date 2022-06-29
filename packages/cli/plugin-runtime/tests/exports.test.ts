@@ -13,27 +13,27 @@ import * as styled from '../src/exports/styled';
 
 describe('imported packages in plugin runtime', () => {
   it('plugin-runtime', () => {
-    expect(PluginRuntime).toMatchSnapshot();
+    expect(PluginRuntime).toBeDefined();
   });
 
   it('Helmet', () => {
-    expect(head).toMatchSnapshot();
+    expect(head).toBeDefined();
   });
 
   it('@loadable/component', () => {
-    expect(loadable).toMatchSnapshot();
+    expect(loadable).toBeDefined();
   });
 
   it('model', () => {
-    expect(model).toMatchSnapshot();
+    expect(model).toBeDefined();
   });
 
   it('request', () => {
-    expect(request).toMatchSnapshot();
+    expect(request).toBeDefined();
   });
 
   it('router', () => {
-    expect(router).toMatchSnapshot();
+    expect(router).toBeDefined();
   });
 
   it('server', () => {
@@ -41,12 +41,10 @@ describe('imported packages in plugin runtime', () => {
   });
 
   it('ssr', () => {
-    expect(ssr).toMatchSnapshot();
+    expect(ssr).toBeDefined();
   });
 
   it('styled', () => {
-    expect(styled).toMatchSnapshot({
-      version: expect.any(String),
-    });
+    expect(styled).toBeDefined();
   });
 });
