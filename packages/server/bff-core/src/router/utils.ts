@@ -1,4 +1,5 @@
 import path from 'path';
+import type Module from 'module';
 import { globby } from '@modern-js/utils';
 import { INDEX_SUFFIX } from './constants';
 import { APIHandlerInfo } from './types';
@@ -61,19 +62,31 @@ const clearRouteName = (routeName: string): string => {
 export const isHandler = (input: any): input is Handler<any, any> =>
   input && typeof input === 'function';
 
+const enableRegister = (requireFn: (modulePath: string) => Module) => {
+  return (modulePath: string) => {
+    // eslint-disable-next-line node/no-deprecated-api
+    if (!require.extensions['.ts']) {
+      const { register } = require('esbuild-register/dist/node');
+      const { unregister } = register({});
+      const requiredModule = requireFn(modulePath);
+      unregister();
+      return requiredModule;
+    }
+    const requiredModule = requireFn(modulePath);
+    return requiredModule;
+  };
+};
+
 const isFunction = (input: any): input is (...args: any) => any =>
   input && {}.toString.call(input) === '[object Function]';
 
-export const requireHandlerModule = (modulePath: string) => {
-  const { register } = require('esbuild-register/dist/node');
-  const { unregister } = register({});
+export const requireHandlerModule = enableRegister((modulePath: string) => {
   const module = require(modulePath);
   if (isFunction(module)) {
     return { default: module };
   }
-  unregister();
   return module;
-};
+});
 
 const routeValue = (routePath: string) => {
   if (routePath.includes(':')) {
