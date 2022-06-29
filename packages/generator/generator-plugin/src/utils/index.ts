@@ -2,6 +2,8 @@ import path from 'path';
 import { downloadPackage, getPackageInfo } from '@modern-js/codesmith';
 import { requireModuleWithVm } from './vm';
 
+export { getPackageMeta } from './getPackageMeta';
+
 export async function installPlugins(plugins: string[], registryUrl?: string) {
   return Promise.all(
     plugins.map(async plugin => {

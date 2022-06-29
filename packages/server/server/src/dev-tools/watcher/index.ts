@@ -3,6 +3,12 @@ import { fs, chokidar, FSWatcher, WatchOptions } from '@modern-js/utils';
 import { DependencyTree } from './dependency-tree';
 import { StatsCache } from './stats-cache';
 
+export const defaultWatchOptions = {
+  // 初始化的时候不触发 add、addDir 事件
+  ignoreInitial: true,
+  ignored: /api\/typings\/.*/,
+};
+
 export const getWatchedFiles = (watcher: FSWatcher) => {
   const watched = watcher.getWatched();
   const files: string[] = [];
@@ -12,6 +18,32 @@ export const getWatchedFiles = (watcher: FSWatcher) => {
     });
   });
   return files;
+};
+
+export const mergeWatchOptions = (options?: WatchOptions) => {
+  const watchOptions = {
+    ...options,
+  };
+  if (watchOptions) {
+    const { ignored } = watchOptions;
+    const finalIgnored = ignored
+      ? [
+          defaultWatchOptions.ignored,
+          ...(Array.isArray(ignored) ? ignored : [ignored]),
+        ]
+      : ignored;
+
+    if (finalIgnored) {
+      watchOptions.ignored = finalIgnored;
+    }
+  }
+
+  const finalWatchOptions = {
+    ...defaultWatchOptions,
+    ...watchOptions,
+  };
+
+  return finalWatchOptions;
 };
 
 export default class Watcher {
