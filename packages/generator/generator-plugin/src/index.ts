@@ -1,6 +1,5 @@
 import path from 'path';
 import EventEmitter from 'events';
-import packageJson from 'package-json';
 import { GeneratorCore, ILogger, getPackageInfo } from '@modern-js/codesmith';
 import { fs, i18n as utilsI18n } from '@modern-js/generator-utils';
 import {
@@ -17,7 +16,7 @@ import {
   PluginForgedFunc,
 } from './context';
 import { ICustomInfo } from './common';
-import { installPlugins } from './utils';
+import { getPackageMeta, installPlugins } from './utils';
 import { i18n, localeKeys } from './locale';
 
 export * from './context';
@@ -60,15 +59,9 @@ export class GeneratorPlugin {
           pkgJSON = await fs.readJSON(path.join(plugin, 'package.json'));
         } else {
           const { name, version: pkgVersion } = getPackageInfo(plugin);
-          pkgJSON = await packageJson(name.toLowerCase(), {
+          pkgJSON = await getPackageMeta(name, pkgVersion, {
             registryUrl: registry,
-            fullMetadata: true,
-            version: pkgVersion,
           });
-          const version = pkgJSON['dist-tags']
-            ? pkgJSON['dist-tags'][pkgVersion || 'latest']
-            : '';
-          pkgJSON = version ? pkgJSON.versions[version] : pkgJSON;
         }
         const { meta } = pkgJSON;
         if (!meta) {
