@@ -34,6 +34,10 @@ export async function getPackageMeta(
     `Get npm version of '${packageName}'`,
   );
 
+  if (!stdout) {
+    return { meta: {} };
+  }
+
   try {
     const pkgMetaInfo = JSON.parse(stdout);
     return { meta: pkgMetaInfo };
