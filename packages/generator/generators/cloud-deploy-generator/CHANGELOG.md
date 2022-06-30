@@ -1,5 +1,11 @@
 # @modern-js/cloud-deploy-generator
 
+## 1.2.4
+
+### Patch Changes
+
+- 341bb42: feat: bump codesmith package version
+
 ## 1.2.3
 
 ### Patch Changes

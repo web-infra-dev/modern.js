@@ -1,8 +1,7 @@
 import path from 'path';
-import type Module from 'module';
 import { globby } from '@modern-js/utils';
 import { INDEX_SUFFIX } from './constants';
-import { APIHandlerInfo } from './types';
+import { APIHandlerInfo, HandlerModule } from './types';
 
 type MaybeAsync<I> = I | Promise<I>;
 export type NormalHandler = (...args: any[]) => any;
@@ -62,10 +61,18 @@ const clearRouteName = (routeName: string): string => {
 export const isHandler = (input: any): input is Handler<any, any> =>
   input && typeof input === 'function';
 
-const enableRegister = (requireFn: (modulePath: string) => Module) => {
+const enableRegister = (requireFn: (modulePath: string) => HandlerModule) => {
+  // esbuild-register 做 unRegister 时，不会删除 register 添加的 require.extensions，导致第二次调用时 require.extensions['.ts'] 是 nodejs 默认 loader
+  // 所以这里根据第一次调用时，require.extensions 有没有，来判断是否需要使用 esbuild-register
+  let existTsLoader = false;
+  let firstCall = true;
   return (modulePath: string) => {
-    // eslint-disable-next-line node/no-deprecated-api
-    if (!require.extensions['.ts']) {
+    if (firstCall) {
+      // eslint-disable-next-line node/no-deprecated-api
+      existTsLoader = Boolean(require.extensions['.ts']);
+      firstCall = false;
+    }
+    if (!existTsLoader) {
       const { register } = require('esbuild-register/dist/node');
       const { unregister } = register({});
       const requiredModule = requireFn(modulePath);

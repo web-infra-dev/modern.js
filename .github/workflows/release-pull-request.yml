@@ -17,6 +17,7 @@ jobs:
         with:
         # This makes Actions fetch only one branch to release
           fetch-depth: 100
+          token: ${{ secrets.REPO_SCOPED_TOKEN }}
 
       - name: Create Release Pull Request
         uses: modern-js-dev/actions@main
@@ -25,7 +26,7 @@ jobs:
           versionNumber: ${{ github.event.inputs.version }}
           type: 'pull request'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.REPO_SCOPED_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           REPOSITORY: ${{ github.repository }}
           REF: ${{ github.ref }}

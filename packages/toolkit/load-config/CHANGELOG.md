@@ -1,5 +1,15 @@
 # @modern-js/load-config
 
+## 1.3.6
+
+### Patch Changes
+
+- 3050acc: change load config logic
+- Updated dependencies [3050acc]
+- Updated dependencies [a90bc96]
+  - @modern-js/node-bundle-require@1.3.7
+  - @modern-js/utils@1.7.9
+
 ## 1.3.5
 
 ### Patch Changes

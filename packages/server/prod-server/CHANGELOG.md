@@ -1,5 +1,17 @@
 # @modern-js/prod-server
 
+## 1.1.9
+
+### Patch Changes
+
+- f29e9ba: feat: simplify context usage, no longer depend on containers
+- 2dacc89: support set header & status in render
+- Updated dependencies [77a8e9e]
+- Updated dependencies [f29e9ba]
+- Updated dependencies [a90bc96]
+  - @modern-js/server-core@1.4.0
+  - @modern-js/utils@1.7.9
+
 ## 1.1.8
 
 ### Patch Changes

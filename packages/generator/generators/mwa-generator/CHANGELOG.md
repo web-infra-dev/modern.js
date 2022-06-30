@@ -1,5 +1,12 @@
 # @modern-js/mwa-generator
 
+## 2.0.4
+
+### Patch Changes
+
+- eeedc80: feat: add plugin-jarvis to dependencies of solutions
+- 341bb42: feat: bump codesmith package version
+
 ## 2.0.3
 
 ### Patch Changes

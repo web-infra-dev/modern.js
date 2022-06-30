@@ -1,5 +1,13 @@
 # @modern-js/plugin-jarvis
 
+## 1.2.14
+
+### Patch Changes
+
+- 1a57595: chore(plugin-jarvis): fix lint-staged type breaks other packages
+- Updated dependencies [a90bc96]
+  - @modern-js/utils@1.7.9
+
 ## 1.2.13
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @modern-js/plugin-analyze
 
+## 1.4.7
+
+### Patch Changes
+
+- f29e9ba: feat: simplify context usage, no longer depend on containers
+- Updated dependencies [f29e9ba]
+- Updated dependencies [a90bc96]
+  - @modern-js/plugin@1.4.0
+  - @modern-js/utils@1.7.9
+
 ## 1.4.6
 
 ### Patch Changes
