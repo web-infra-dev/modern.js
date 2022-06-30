@@ -73,6 +73,26 @@ export default defineConfig({
 });
 ```
 
+### name
+
+通过 `name` 参数可以判断当前构建产物的运行环境：
+
+- `client`: 默认值，构建产物为运行在浏览器端的代码。
+- `server`: 开启 [server.ssr](/docs/apis/config/server/ssr) SSR 后，构建产物为针对 SSR 场景的代码。
+- `modern`: 开启 [output.enableModernMode](docs/apis/config/output/enable-modern-mode) 后，构建产物为运行在现代浏览器上的代码。
+
+```js title="modern.config.js"
+export default defineConfig({
+  tools: {
+    webpack: (config, { name }) => {
+      if (name === 'server') {
+        // 针对 SSR 场景添加配置
+      }
+    },
+  },
+});
+```
+
 ### webpack
 
 通过 `webpack` 参数可以获取 Modern.js 内部使用的 webpack 对象。

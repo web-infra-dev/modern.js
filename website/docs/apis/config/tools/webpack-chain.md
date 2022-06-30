@@ -56,7 +56,7 @@ export default defineConfig({
 });
 ```
 
-### 获取环境
+### 判断环境
 
 通过 `env` 参数可以判断当前环境为 `development` 还是 `production`：
 
@@ -65,6 +65,26 @@ export default defineConfig({
   tools: {
     webpackChain: (chain, { env }) => {
       console.log(env); // => development
+    },
+  },
+});
+```
+
+### 判断构建产物的运行环境
+
+通过 `name` 参数可以判断当前构建产物的运行环境：
+
+- `client`: 默认值，构建产物为运行在浏览器端的代码。
+- `server`: 开启 [server.ssr](/docs/apis/config/server/ssr) SSR 后，构建产物为针对 SSR 场景的代码。
+- `modern`: 开启 [output.enableModernMode](docs/apis/config/output/enable-modern-mode) 后，构建产物为运行在现代浏览器上的代码。
+
+```js title="modern.config.js"
+export default defineConfig({
+  tools: {
+    webpackChain: (config, { name }) => {
+      if (name === 'server') {
+        // 针对 SSR 场景添加配置
+      }
     },
   },
 });
