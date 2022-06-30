@@ -53,7 +53,8 @@
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "build": "wireit",
-    "test": "wireit"
+    "test": "wireit",
+    "dev": "modern build --watch"
   },
   "dependencies": {
     "@babel/generator": "^7.18.0",
@@ -74,13 +75,22 @@
     "@modern-js/plugin-jarvis": "workspace:^1.2.14",
     "@modern-js/style-compiler": "workspace:^1.2.10",
     "@modern-js/utils": "workspace:^1.7.9",
+    "@rollup/plugin-json": "~4.1.0",
+    "@speedy-js/speedy-types": "0.13.2-alpha.3",
+    "@speedy-js/speedy-core": "0.13.2-alpha.3",
+    "@speedy-js/speedy-plugin-es5": "0.13.2-alpha.3",
     "normalize-path": "^3.0.0",
     "p-map": "^4",
-    "process.argv": "^0.6.0"
+    "process.argv": "^0.6.0",
+    "rollup": "^2.70.2",
+    "rollup-plugin-dts": "^4.2.1",
+    "rollup-plugin-hashbang": "^3.0.0",
+    "signal-exit": "^3.0.7"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
+    "@speedy-js/speedy-types": "0.13.2-alpha.3",
     "@types/babel__core": "^7.1.15",
     "@types/babel__generator": "^7.6.3",
     "@types/babel__traverse": "^7.14.2",
@@ -90,8 +100,11 @@
     "@types/normalize-path": "^3.0.0",
     "@types/react": "^17",
     "@types/react-dom": "^17",
+    "@types/signal-exit": "^3.0.1",
     "jest": "^27",
-    "typescript": "^4"
+    "typescript": "^4",
+    "ajv": "^8",
+    "ajv-keywords": "^5"
   },
   "sideEffects": false,
   "modernConfig": {
@@ -110,7 +123,8 @@
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "./modern.config.js"
       ],
       "output": [
         "dist/**/*"

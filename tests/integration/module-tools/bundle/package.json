@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "name": "@integration/module-tools-cli",
+  "version": "1.0.0",
+  "scripts": {
+    "build-style": "modern build --config modern.config.style.ts",
+    "build-dts": "modern build --config modern.config.dts.ts"
+  },
+  "devDependencies": {
+    "@modern-js/core": "workspace:*",
+    "@modern-js/module-tools": "workspace:*",
+    "@modern-js/plugin-less": "workspace:*",
+    "@modern-js/plugin-sass": "workspace:*",
+    "less": "^4.1.3",
+    "sass": "^1.53.0"
+  },
+  "browserslist": {}
+}

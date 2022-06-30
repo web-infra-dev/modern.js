@@ -4,7 +4,8 @@ import {
 } from '@modern-js/babel-preset-module';
 import { applyOptionsChain, getAlias, isUseSSRBundle } from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
-import { IPackageModeValue, ModuleToolsConfig } from '../types';
+import type { IPackageModeValue } from '../types';
+import type { BundlelessOptions, SourceMap } from '../schema/types';
 
 export const getFinalAlias: any = (
   modernConfig: NormalizedConfig,
@@ -30,6 +31,8 @@ export const getFinalAlias: any = (
 export const resolveBabelConfig = (
   appDirectory: string,
   modernConfig: NormalizedConfig,
+  sourceMap: SourceMap,
+  bundlelessOptions: Required<BundlelessOptions>,
   option: Pick<IPackageModeValue, 'syntax' | 'type'> & {
     sourceAbsDir: string;
     tsconfigPath: string;
@@ -39,7 +42,7 @@ export const resolveBabelConfig = (
     source: { envVars, globalVars, jsxTransformRuntime = 'automatic' },
     output: { importStyle },
     tools: { lodash: userLodashOption, styledComponents },
-  } = modernConfig as ModuleToolsConfig;
+  } = modernConfig;
 
   // alias config
   const aliasConfig = getFinalAlias(modernConfig, {
@@ -65,6 +68,8 @@ export const resolveBabelConfig = (
       lodashOptions,
       jsxTransformRuntime,
       importStyle,
+      styleDir: bundlelessOptions.style.path,
+      staticDir: bundlelessOptions.static.path,
       styledComponentsOptions: applyOptionsChain(
         {
           pure: true,
@@ -83,6 +88,7 @@ export const resolveBabelConfig = (
 
   // Preventing warning when files are too large
   internalBabelConfig.compact = false;
+  internalBabelConfig.sourceMaps = sourceMap === 'external' ? true : sourceMap;
 
   const userBabelConfig = modernConfig.tools.babel;
   return applyUserBabelConfig(internalBabelConfig, userBabelConfig);

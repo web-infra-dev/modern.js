@@ -1,0 +1,931 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getNormalizeModuleConfigByPackageModeAndFileds importStyle is compiled-code 1`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": "all",
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "./js/treeshaking",
+    "target": "es5",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "format": "cjs",
+    "outputPath": "./js/node",
+    "target": "es6",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "./js/modern",
+    "target": "es6",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "dtsOnly": true,
+    "enableDts": true,
+    "outputPath": "./types",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./styles",
+      "style": Object {
+        "compileMode": "only-compiled-code",
+      },
+    },
+    "outputPath": "./styles",
+  },
+]
+`;
+
+exports[`getNormalizeModuleConfigByPackageModeAndFileds packageFields is {} 1`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": "only-source-code",
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "./js/treeshaking",
+    "target": "es5",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "format": "cjs",
+    "outputPath": "./js/node",
+    "target": "es6",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "./js/modern",
+    "target": "es6",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "dtsOnly": true,
+    "enableDts": true,
+    "outputPath": "./types",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./styles",
+      "style": Object {
+        "compileMode": "only-compiled-code",
+      },
+    },
+    "outputPath": "./styles",
+  },
+]
+`;
+
+exports[`getNormalizeModuleConfigByPackageModeAndFileds packageFields is {module: "ESM+ES5", main: "CJS+ES6","jsnext:modern": "ESM+ES6"} 1`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": "only-source-code",
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "js/modern",
+    "target": "es6",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "format": "cjs",
+    "outputPath": "js/node",
+    "target": "es6",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "js/treeshaking",
+    "target": "es5",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "dtsOnly": true,
+    "enableDts": true,
+    "outputPath": "./types",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./styles",
+      "style": Object {
+        "compileMode": "only-compiled-code",
+      },
+    },
+    "outputPath": "./styles",
+  },
+]
+`;
+
+exports[`getNormalizeModuleConfigByPackageModeAndFileds packageMode is 'browser-js'  1`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": "only-source-code",
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "./js/treeshaking",
+    "target": "es5",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "./js/node",
+    "target": "es6",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "./js/modern",
+    "target": "es6",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "dtsOnly": true,
+    "enableDts": true,
+    "outputPath": "./types",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./styles",
+      "style": Object {
+        "compileMode": "only-compiled-code",
+      },
+    },
+    "outputPath": "./styles",
+  },
+]
+`;
+
+exports[`getNormalizeModuleConfigByPackageModeAndFileds packageMode is 'browser-js-lite'  1`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": "only-source-code",
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "./js/treeshaking",
+    "target": "es5",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "./js/node",
+    "target": "es5",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "./js/modern",
+    "target": "es5",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "dtsOnly": true,
+    "enableDts": true,
+    "outputPath": "./types",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./styles",
+      "style": Object {
+        "compileMode": "only-compiled-code",
+      },
+    },
+    "outputPath": "./styles",
+  },
+]
+`;
+
+exports[`getNormalizeModuleConfigByPackageModeAndFileds packageMode is 'node-js'  1`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": "only-source-code",
+        "path": "../styles",
+      },
+    },
+    "format": "cjs",
+    "outputPath": "./js/node",
+    "target": "es6",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "./js/modern",
+    "target": "es6",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "dtsOnly": true,
+    "enableDts": true,
+    "outputPath": "./types",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./styles",
+      "style": Object {
+        "compileMode": "only-compiled-code",
+      },
+    },
+    "outputPath": "./styles",
+  },
+]
+`;
+
+exports[`getNormalizeModuleConfigByPackageModeAndFileds packageMode is 'universal-js-lite'  1`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": "only-source-code",
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "./js/treeshaking",
+    "target": "es5",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "format": "cjs",
+    "outputPath": "./js/node",
+    "target": "es6",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "./js/modern",
+    "target": "es5",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "dtsOnly": true,
+    "enableDts": true,
+    "outputPath": "./types",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./styles",
+      "style": Object {
+        "compileMode": "only-compiled-code",
+      },
+    },
+    "outputPath": "./styles",
+  },
+]
+`;
+
+exports[`getNormalizeModuleConfigByPackageModeAndFileds packageMode is universal-js 1`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": "only-source-code",
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "./js/treeshaking",
+    "target": "es5",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "format": "cjs",
+    "outputPath": "./js/node",
+    "target": "es6",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "../styles",
+      },
+      "style": Object {
+        "compileMode": false,
+        "path": "../styles",
+      },
+    },
+    "format": "esm",
+    "outputPath": "./js/modern",
+    "target": "es6",
+    "tsconfig": "./tsconfig.json",
+  },
+  Object {
+    "buildType": "bundleless",
+    "dtsOnly": true,
+    "enableDts": true,
+    "outputPath": "./types",
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./styles",
+      "style": Object {
+        "compileMode": "only-compiled-code",
+      },
+    },
+    "outputPath": "./styles",
+  },
+]
+`;
+
+exports[`normalizeBuildConfig build Config is
+    {
+      buildType: 'bundle',
+      outputPath: './lib',
+      bundlelessOptions: {
+        sourceDir: 'lib',
+      },
+      bundleOptions:{
+        entry: { 'app': 'src/index.ts' },
+        platform: 'browser',
+      }
+    } 1`] = `
+Array [
+  Object {
+    "buildType": "bundle",
+    "bundleOptions": Object {
+      "entry": Object {
+        "app": "src/index.ts",
+      },
+      "externals": Array [],
+      "minify": "esbuild",
+      "platform": "browser",
+      "skipDeps": true,
+      "splitting": false,
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "cjs",
+    "outputPath": "./lib",
+    "sourceMap": true,
+    "target": "esnext",
+    "tsconfig": "./tsconfig.json",
+    "watch": false,
+  },
+]
+`;
+
+exports[`normalizeBuildConfig build Config is
+    {
+      buildType: 'bundleless',
+      outputPath: './esm',
+      bundlelessOptions: {
+        sourceDir: 'lib',
+        style: {
+          compileMode: '',
+          path: './style',
+        },
+        static: { path: './static' },
+      },
+      bundleOptions:{
+        entry: { 'app': 'src/index.ts' },
+        platform: 'browser',
+      }
+    } 1`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "lib",
+      "static": Object {
+        "path": "./static",
+      },
+      "style": Object {
+        "compileMode": "only-compiled-code",
+        "path": "./style",
+      },
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "cjs",
+    "outputPath": "./esm",
+    "sourceMap": false,
+    "target": "esnext",
+    "tsconfig": "./tsconfig.json",
+    "watch": false,
+  },
+]
+`;
+
+exports[`normalizeBuildConfig build Config is [{}, {}] 1`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "./",
+      },
+      "style": Object {
+        "compileMode": "all",
+        "path": "./",
+      },
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "cjs",
+    "outputPath": "./",
+    "sourceMap": false,
+    "target": "esnext",
+    "tsconfig": "./tsconfig.json",
+    "watch": false,
+  },
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "./",
+      },
+      "style": Object {
+        "compileMode": "all",
+        "path": "./",
+      },
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "cjs",
+    "outputPath": "./",
+    "sourceMap": false,
+    "target": "esnext",
+    "tsconfig": "./tsconfig.json",
+    "watch": false,
+  },
+]
+`;
+
+exports[`normalizeBuildConfig build Config is [{}] 1`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "./",
+      },
+      "style": Object {
+        "compileMode": "all",
+        "path": "./",
+      },
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "cjs",
+    "outputPath": "./",
+    "sourceMap": false,
+    "target": "esnext",
+    "tsconfig": "./tsconfig.json",
+    "watch": false,
+  },
+]
+`;
+
+exports[`normalizeBuildConfig build Config is { format: 'some-value', target: some-value } 1`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "./",
+      },
+      "style": Object {
+        "compileMode": "all",
+        "path": "./",
+      },
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "umd",
+    "outputPath": "./",
+    "sourceMap": false,
+    "target": "es5",
+    "tsconfig": "./tsconfig.json",
+    "watch": false,
+  },
+]
+`;
+
+exports[`normalizeBuildConfig build Config is { format: 'some-value', target: some-value } 2`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "./",
+      },
+      "style": Object {
+        "compileMode": "all",
+        "path": "./",
+      },
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "esm",
+    "outputPath": "./",
+    "sourceMap": false,
+    "target": "es5",
+    "tsconfig": "./tsconfig.json",
+    "watch": false,
+  },
+]
+`;
+
+exports[`normalizeBuildConfig build Config is { format: 'some-value', target: some-value } 3`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "./",
+      },
+      "style": Object {
+        "compileMode": "all",
+        "path": "./",
+      },
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "esm",
+    "outputPath": "./",
+    "sourceMap": false,
+    "target": "es2020",
+    "tsconfig": "./tsconfig.json",
+    "watch": false,
+  },
+]
+`;
+
+exports[`normalizeBuildConfig build Config is {} 1`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "./",
+      },
+      "style": Object {
+        "compileMode": "all",
+        "path": "./",
+      },
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "cjs",
+    "outputPath": "./",
+    "sourceMap": false,
+    "target": "esnext",
+    "tsconfig": "./tsconfig.json",
+    "watch": false,
+  },
+]
+`;
+
+exports[`normalizeBuildConfig build Config is {buildType: 'bundle'} 1`] = `
+Array [
+  Object {
+    "buildType": "bundle",
+    "bundleOptions": Object {
+      "entry": Object {
+        "index": "src/index.ts",
+      },
+      "externals": Array [],
+      "minify": false,
+      "platform": "node",
+      "skipDeps": true,
+      "splitting": false,
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "cjs",
+    "outputPath": "./",
+    "sourceMap": true,
+    "target": "esnext",
+    "tsconfig": "./tsconfig.json",
+    "watch": false,
+  },
+]
+`;
+
+exports[`normalizeBuildConfig build Config is {buildType: 'bundle'} in js project 1`] = `
+Array [
+  Object {
+    "buildType": "bundle",
+    "bundleOptions": Object {
+      "entry": Object {
+        "index": "src/index.js",
+      },
+      "externals": Array [],
+      "minify": false,
+      "platform": "node",
+      "skipDeps": true,
+      "splitting": false,
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "cjs",
+    "outputPath": "./",
+    "sourceMap": true,
+    "target": "esnext",
+    "tsconfig": "./tsconfig.json",
+    "watch": false,
+  },
+]
+`;
+
+exports[`normalizeBuildConfig buildFeatOption is
+    {
+      tsconfigName: './tsconfig.build.json',
+      enableDtsGen: true,
+      enableWatchMode: true,
+      isTsProject: false,
+      styleOnly: true,
+      legacyTsc: false,
+    }
+   1`] = `
+Array [
+  Object {
+    "buildType": "bundleless",
+    "bundlelessOptions": Object {
+      "sourceDir": "./src",
+      "static": Object {
+        "path": "./",
+      },
+      "style": Object {
+        "compileMode": "all",
+        "path": "./",
+      },
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "cjs",
+    "outputPath": "./",
+    "sourceMap": false,
+    "target": "esnext",
+    "tsconfig": "./tsconfig.build.json",
+    "watch": true,
+  },
+]
+`;
+
+exports[`normalizeBuildConfig skipDeps 1`] = `
+Array [
+  Object {
+    "buildType": "bundle",
+    "bundleOptions": Object {
+      "entry": Object {
+        "index": "src/index.ts",
+      },
+      "externals": Array [
+        /\\^sass\\(\\$\\|\\\\/\\|\\\\\\\\\\)/,
+      ],
+      "minify": false,
+      "platform": "node",
+      "skipDeps": true,
+      "splitting": false,
+    },
+    "dtsOnly": false,
+    "enableDts": false,
+    "format": "cjs",
+    "outputPath": "./",
+    "sourceMap": true,
+    "target": "esnext",
+    "tsconfig": "./tsconfig.json",
+    "watch": false,
+  },
+]
+`;
