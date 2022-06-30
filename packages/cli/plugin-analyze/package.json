@@ -45,7 +45,7 @@
     "@babel/traverse": "^7.18.0",
     "@babel/types": "^7.18.0",
     "@modern-js/plugin": "workspace:^1.4.0",
-    "@modern-js/utils": "workspace:^1.7.10"
+    "@modern-js/utils": "workspace:^1.7.11"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",

@@ -1,5 +1,11 @@
 # @modern-js/utils
 
+## 1.7.11
+
+### Patch Changes
+
+- nothing happen, only bump
+
 ## 1.7.10
 
 ### Patch Changes

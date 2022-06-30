@@ -52,7 +52,7 @@
     "@modern-js/babel-chain": "workspace:^1.2.5",
     "@modern-js/babel-preset-app": "workspace:^1.4.2",
     "@modern-js/css-config": "workspace:^1.2.7",
-    "@modern-js/utils": "workspace:^1.7.10",
+    "@modern-js/utils": "workspace:^1.7.11",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "@svgr/webpack": "^6.2.1",
     "core-js": "^3",
