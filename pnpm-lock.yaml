@@ -496,7 +496,6 @@ importers:
     specifiers:
       '@babel/runtime': ^7.18.0
       '@modern-js/core': workspace:*
-      '@modern-js/module-tools': workspace:*
       '@modern-js/plugin-testing': workspace:*
       '@modern-js/runtime-core': workspace:*
       '@modern-js/utils': workspace:^1.7.10
@@ -518,7 +517,6 @@ importers:
       tailwindcss: 2.2.19_postcss@8.4.14
     devDependencies:
       '@modern-js/core': link:../core
-      '@modern-js/module-tools': link:../../solutions/module-tools
       '@modern-js/plugin-testing': link:../plugin-testing
       '@modern-js/runtime-core': link:../../runtime
       '@scripts/build': link:../../../scripts/build
