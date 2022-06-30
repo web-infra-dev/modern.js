@@ -1,5 +1,5 @@
 import path from 'path';
-import { Import, glob, fs, chalk, globby } from '@modern-js/utils';
+import { Import, glob, fs, chalk, globby, slash } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type {
   BabelOptions,
@@ -196,7 +196,9 @@ const outputDist = (
 
 export const jsFileSuffix = ['js', 'jsx', 'ts', 'tsx'];
 export const haveNotAnyJsFile = async (sourceDir: string) => {
-  const files = await globby(`${sourceDir}/**/*.{${jsFileSuffix.join(',')}}`);
+  const files = await globby(
+    slash(`${sourceDir}/**/*.{${jsFileSuffix.join(',')}}`),
+  );
   return files.length === 0;
 };
 

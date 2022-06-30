@@ -7,6 +7,7 @@ import {
   WatchChangeType,
   chalk,
   globby,
+  slash,
 } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type {
@@ -183,7 +184,7 @@ export const runBuild = async (option: {
 export const styleFileSuffix = ['css', 'less', 'sass', 'scss'];
 export const haveNotAnyStyles = async (sourceDir: string) => {
   const files = await globby(
-    `${sourceDir}/**/*.{${styleFileSuffix.join(',')}}`,
+    slash(`${sourceDir}/**/*.{${styleFileSuffix.join(',')}}`),
   );
   return files.length === 0;
 };

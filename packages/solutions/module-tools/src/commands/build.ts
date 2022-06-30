@@ -1,6 +1,6 @@
 import * as path from 'path';
 import type { Stats } from 'fs';
-import { fs, Import, dotenv, globby } from '@modern-js/utils';
+import { fs, Import, dotenv, globby, slash } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import onExit from 'signal-exit';
 import type { Platform } from '../types';
@@ -36,7 +36,7 @@ export const init = (api: PluginAPI): void => {
       './node_modules',
       `./tsconfig.**.**.json`,
     );
-    const files = globby(tempTsconfigPathPattern, {
+    const files = globby(slash(tempTsconfigPathPattern), {
       stats: true,
       absolute: true,
     }) as unknown as { stats: Stats; path: string }[];

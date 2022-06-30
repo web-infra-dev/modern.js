@@ -12,7 +12,7 @@ describe('module tools build cli', () => {
   it(`less and sass support`, async () => {
     const buildRes = await modernBuild(appDir, [
       '--config',
-      'modern.config.style.js',
+      'modern.config.style.ts',
     ]);
     expect(buildRes.code === 0).toBe(true);
     expect(existsSync('style/index.css')).toBe(true);
@@ -22,7 +22,7 @@ describe('module tools build cli', () => {
     const buildRes = await modernBuild(appDir, [
       '--dts',
       '--config',
-      'modern.config.dts.js',
+      'modern.config.dts.ts',
     ]);
     expect(buildRes.code === 0).toBe(true);
     expect(existsSync('dts/index.d.ts')).toBe(true);

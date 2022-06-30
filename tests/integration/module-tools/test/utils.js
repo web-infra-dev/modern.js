@@ -1,7 +1,7 @@
 const { globby, slash } = require('@modern-js/utils');
 
 const getFolderList = async (target, globbyOpts = {}) => {
-  const ret = await globby(target, {
+  const ret = await globby(slash(target), {
     cwd: target,
     onlyDirectories: true,
     ...globbyOpts,
@@ -10,7 +10,7 @@ const getFolderList = async (target, globbyOpts = {}) => {
 };
 
 const getFilesList = async (target, globbyOpts = {}) => {
-  const ret = await globby(target, {
+  const ret = await globby(slash(target), {
     cwd: target,
     ...globbyOpts,
   });
@@ -18,7 +18,7 @@ const getFilesList = async (target, globbyOpts = {}) => {
 };
 
 const formatFolder = (folders = [], projectDir) => {
-  return folders.map(f => f.replace(projectDir, ''));
+  return folders.map(f => slash(f).replace(slash(projectDir), ''));
 };
 
 module.exports = {
