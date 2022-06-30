@@ -1,5 +1,12 @@
 # @modern-js/monorepo-generator
 
+## 2.1.1
+
+### Patch Changes
+
+- eeedc80: feat: add plugin-jarvis to dependencies of solutions
+- 341bb42: feat: bump codesmith package version
+
 ## 2.1.0
 
 ### Minor Changes

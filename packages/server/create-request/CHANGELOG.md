@@ -1,5 +1,19 @@
 # @modern-js/create-request
 
+## 1.3.0
+
+### Minor Changes
+
+- 77a8e9e: feat: throw error when response is not ok
+
+### Patch Changes
+
+- Updated dependencies [43b2224]
+- Updated dependencies [2dacc89]
+- Updated dependencies [a90bc96]
+  - @modern-js/plugin-ssr@1.4.6
+  - @modern-js/utils@1.7.9
+
 ## 1.2.11
 
 ### Patch Changes

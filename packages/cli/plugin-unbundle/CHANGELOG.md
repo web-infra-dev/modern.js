@@ -1,5 +1,22 @@
 # @modern-js/plugin-unbundle
 
+## 1.4.5
+
+### Patch Changes
+
+- 550e2bd: fix(unbundle): bump devcert to v1.2.2 to fix security alerts
+- Updated dependencies [77a8e9e]
+- Updated dependencies [77a8e9e]
+- Updated dependencies [d9564f2]
+- Updated dependencies [f29e9ba]
+- Updated dependencies [a90bc96]
+  - @modern-js/bff-utils@1.3.0
+  - @modern-js/server@1.5.0
+  - @modern-js/create-request@1.3.0
+  - @modern-js/plugin@1.4.0
+  - @modern-js/utils@1.7.9
+  - @modern-js/css-config@1.2.7
+
 ## 1.4.4
 
 ### Patch Changes

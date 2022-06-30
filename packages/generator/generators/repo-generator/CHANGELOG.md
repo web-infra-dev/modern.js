@@ -1,5 +1,11 @@
 # @modern-js/repo-generator
 
+## 1.4.4
+
+### Patch Changes
+
+- 341bb42: feat: bump codesmith package version
+
 ## 1.4.3
 
 ### Patch Changes

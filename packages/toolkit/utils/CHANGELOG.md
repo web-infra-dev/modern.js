@@ -1,5 +1,11 @@
 # @modern-js/utils
 
+## 1.7.9
+
+### Patch Changes
+
+- a90bc96: perf(babel): skip babel-plugin-import if package not installed
+
 ## 1.7.8
 
 ### Patch Changes
