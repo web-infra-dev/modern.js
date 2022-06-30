@@ -1,5 +1,11 @@
 # @modern-js/utils
 
+## 1.7.10
+
+### Patch Changes
+
+- b82869d: export ExecaError type
+
 ## 1.7.9
 
 ### Patch Changes

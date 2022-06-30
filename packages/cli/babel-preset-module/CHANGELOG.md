@@ -1,5 +1,13 @@
 # @modern-js/babel-preset-module
 
+## 1.3.9
+
+### Patch Changes
+
+- b82869d: remove path check and support staticDir and styleDir
+- Updated dependencies [b82869d]
+  - @modern-js/utils@1.7.10
+
 ## 1.3.8
 
 ### Patch Changes

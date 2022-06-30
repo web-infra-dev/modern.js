@@ -1,5 +1,13 @@
 # @modern-js/core
 
+## 1.12.3
+
+### Patch Changes
+
+- b82869d: Export types from mergeConfig.ts
+- Updated dependencies [b82869d]
+  - @modern-js/utils@1.7.10
+
 ## 1.12.2
 
 ### Patch Changes
