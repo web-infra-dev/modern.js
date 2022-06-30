@@ -131,7 +131,7 @@
       ]
     },
     "test": {
-      "command": "jest --passWithNoTests -u",
+      "command": "jest --passWithNoTests",
       "files": [
         "src/**/*",
         "tsconfig.json",

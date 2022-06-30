@@ -1,8 +1,8 @@
 import * as path from 'path';
-import { fs, Import, dotenv } from '@modern-js/utils';
+import type { Stats } from 'fs';
+import { fs, Import, dotenv, globby } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import onExit from 'signal-exit';
-import { tempTsconfigName } from '../utils/constants';
 import type { Platform } from '../types';
 
 const tsConfigutils: typeof import('../utils/tsconfig') = Import.lazy(
@@ -27,13 +27,26 @@ export const init = (api: PluginAPI): void => {
 
   dotenv.config();
 
-  onExit(() => {
-    const tempTsconfigFileAbsPath = path.join(
+  onExit(async code => {
+    if (code === 0) {
+      return;
+    }
+    const tempTsconfigPathPattern = path.join(
       appDirectory,
       './node_modules',
-      `./${tempTsconfigName}`,
+      `./tsconfig.**.**.json`,
     );
-    fs.removeSync(tempTsconfigFileAbsPath);
+    const files = globby(tempTsconfigPathPattern, {
+      stats: true,
+      absolute: true,
+    }) as unknown as { stats: Stats; path: string }[];
+    const currentTime = Date.now();
+    for (const file of files) {
+      // over 30s, will delete it
+      if (currentTime - file.stats.birthtimeMs >= 30 * 1000) {
+        fs.unlinkSync(file.path);
+      }
+    }
   });
 };
 

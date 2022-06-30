@@ -4,7 +4,7 @@ import { es5InputPlugin } from '@speedy-js/speedy-plugin-es5';
 import type { CLIConfig, SpeedyPlugin } from '@speedy-js/speedy-types';
 import type { PluginAPI } from '@modern-js/core';
 import { applyOptionsChain, ensureAbsolutePath } from '@modern-js/utils';
-import { NormalizedBundleBuildConfig } from '../types';
+import type { NormalizedBundleBuildConfig } from '../types';
 import { InternalBuildError } from '../error';
 import {
   getPostcssOption,
@@ -37,12 +37,13 @@ export const getDefine = (api: PluginAPI) => {
   const {
     source: { envVars, globalVars },
   } = api.useResolvedConfigContext();
-  const envVarsDefine = ['NODE_ENV', ...(envVars || [])].reduce<
-    Record<string, string>
-  >((memo, name) => {
-    memo[`process.env.${name}`] = JSON.stringify(process.env[name]);
-    return memo;
-  }, {});
+  const envVarsDefine = [...(envVars || [])].reduce<Record<string, string>>(
+    (memo, name) => {
+      memo[`process.env.${name}`] = JSON.stringify(process.env[name]);
+      return memo;
+    },
+    {},
+  );
   const globalVarsDefine = Object.keys(globalVars || {}).reduce<
     Record<string, string>
   >((memo, name) => {
