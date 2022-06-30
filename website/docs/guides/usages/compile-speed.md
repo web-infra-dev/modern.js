@@ -36,7 +36,7 @@ rm -rf ./node_modules pnpm-lock.yaml && pnpm install
 
 建议将项目中体积较大的第三方依赖替换为更轻量的库，比如将 [moment](https://momentjs.com/) 替换为 [day.js](https://day.js.org/)。
 
-如果不清楚项目中哪些三方依赖的体积较大，可以执行在构建时添加 `--analyze` 参数：
+如果不清楚项目中哪些三方依赖的体积较大，可以在执行构建时添加 `--analyze` 参数：
 
 ```bash
 npx modern build --analyze
@@ -101,9 +101,9 @@ export default defineConfig({
 
 ### 调整开发环境 SourceMap 格式
 
-为了提供良好的调试体验，Modern.js 在开发环境下默认使用 webpack 提供的 `cheap-module-source-map` SourceMap。
+为了提供良好的调试体验，Modern.js 在开发环境下默认使用 webpack 提供的 `cheap-module-source-map` 格式 SourceMap。
 
-通过调整开发环境 SourceMap 格式，可以提升编译速度。
+由于生成高质量的 SourceMap 需要额外的性能开销，通过调整开发环境的 SourceMap 格式，可以提升 dev 编译速度。
 
 比如禁用 SourceMap：
 
@@ -128,6 +128,8 @@ export default defineConfig({
   },
 });
 ```
+
+> 关于不同 SourceMap 格式之间的详细差异，请查看 [webpack - devtool](https://webpack.js.org/configuration/devtool/)。
 
 ### 调整开发环境的 Browserslist 范围
 
