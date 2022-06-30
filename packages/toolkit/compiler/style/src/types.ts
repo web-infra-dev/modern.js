@@ -3,6 +3,8 @@ import type { AcceptedPlugin, ProcessOptions } from 'postcss';
 
 export type { LegacyFileOptions as SassOptions } from 'sass';
 
+export type { BuildWatchEmitter } from './build-watch';
+
 export type LessOption = {
   enableSourceMap?: boolean;
   lessOption?: Less.Options;

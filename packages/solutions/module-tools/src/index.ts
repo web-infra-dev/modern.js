@@ -5,6 +5,8 @@ import LintPlugin from '@modern-js/plugin-jarvis';
 import type { CliPlugin } from '@modern-js/core';
 import { hooks } from './hooks';
 
+export * from './types';
+
 const cli: typeof import('./cli') = Import.lazy('./cli', require);
 const local: typeof import('./locale') = Import.lazy('./locale', require);
 const schema: typeof import('./schema') = Import.lazy('./schema', require);
@@ -15,6 +17,8 @@ const lang: typeof import('./utils/language') = Import.lazy(
 
 export { defineConfig } from '@modern-js/core';
 
+const isBuildMode = process.argv.slice(2)[0] === 'build';
+
 export default (): CliPlugin => ({
   name: '@modern-js/module-tools',
 
@@ -22,7 +26,11 @@ export default (): CliPlugin => ({
 
   registerHook: hooks,
 
-  usePlugins: [ChangesetPlugin(), AnalyzePlugin(), LintPlugin()],
+  usePlugins: [
+    ChangesetPlugin(),
+    ...(isBuildMode ? [] : [AnalyzePlugin()]),
+    LintPlugin(),
+  ],
 
   setup: api => {
     const locale = lang.getLocaleLanguage();
