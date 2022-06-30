@@ -466,11 +466,11 @@ describe('normalizeBuildConfig', () => {
         api: mockAPI,
       },
       {
-        buildType: 'bundle'
+        buildType: 'bundle',
       },
-['sass']
+      ['sass'],
     );
     expect(ret).toMatchSnapshot();
-  })
+  });
 });
 /* eslint-enable max-lines */

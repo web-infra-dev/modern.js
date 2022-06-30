@@ -107,9 +107,7 @@ export const getPostcssOption = (
   };
 };
 
-export const getAllDeps = <T>(
-  appDirectory: string,
-) => {
+export const getAllDeps = <T>(appDirectory: string) => {
   try {
     const json = JSON.parse(
       fs.readFileSync(path.resolve(appDirectory, './package.json'), 'utf8'),
@@ -117,11 +115,12 @@ export const getAllDeps = <T>(
 
     // return json[packageJsonConfig ?? PACKAGE_JSON_CONFIG_NAME] as T | undefined;
     return [
-      ...Object.keys(json.dependencies as T | undefined || {}),
-      ...Object.keys(json.devDependencies as T | undefined || {}),
-      ...Object.keys(json.peerDependencies as T | undefined || {}),
+      ...Object.keys((json.dependencies as T | undefined) || {}),
+      ...Object.keys((json.devDependencies as T | undefined) || {}),
+      ...Object.keys((json.peerDependencies as T | undefined) || {}),
     ];
   } catch (e) {
-    console.warn('[WARN] cannot find package.json');
+    console.warn('[WARN] package.json is broken');
+    return [];
   }
 };

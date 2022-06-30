@@ -1,6 +1,6 @@
-import { defineConfig } from "@modern-js/module-tools";
+import { defineConfig } from '@modern-js/module-tools';
 
-export = defineConfig({
+export default defineConfig({
   output: {
     buildConfig: {
       buildType: 'bundle',
@@ -10,6 +10,6 @@ export = defineConfig({
         },
       },
       outputPath: './dts',
-    }
+    },
   },
 });

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Import, lodash } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import { mergeWith } from '@modern-js/utils/lodash';
@@ -238,10 +239,13 @@ export const normalizeBuildConfig = (
     const target = config.target ?? 'esnext';
     const { bundleOptions } = config;
     const skipDeps = bundleOptions?.skipDeps ?? true;
-    const externals = skipDeps === false ? (bundleOptions?.externals || []) : [
-      ...deps.map((dep) => new RegExp(`^${dep}($|\\/|\\\\)`)),
-      ...(bundleOptions?.externals || []),
-    ];
+    const externals =
+      skipDeps === false
+        ? bundleOptions?.externals || []
+        : [
+            ...deps.map(dep => new RegExp(`^${dep}($|\\/|\\\\)`)),
+            ...(bundleOptions?.externals || []),
+          ];
     const normalizedBundleOption: Required<BundleOptions> = {
       ...bundleOptions,
       entry: bundleOptions?.entry || {
@@ -333,7 +337,7 @@ export const normalizeModuleConfig = (context: {
       return normalizeBuildConfig(
         context,
         unPresetWithTargetConfigs[buildPreset],
-        deps
+        deps,
       );
     }
 
@@ -350,3 +354,4 @@ export const normalizeModuleConfig = (context: {
   );
   return normalizeBuildConfig(context, legacyBuildConfig, deps);
 };
+/* eslint-enable max-lines */
