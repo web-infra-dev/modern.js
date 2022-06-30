@@ -98,7 +98,7 @@
     "@modern-js/runtime-core": "workspace:^1.5.2",
     "@modern-js/testing": "workspace:^1.5.4",
     "@modern-js/testing-plugin-bff": "workspace:^1.5.0",
-    "@modern-js/utils": "workspace:^1.7.9",
+    "@modern-js/utils": "workspace:^1.7.10",
     "@modern-js/webpack": "workspace:^1.11.3",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",

@@ -1,5 +1,31 @@
 # @modern-js/module-tools
 
+## 1.6.0
+
+### Minor Changes
+
+- b82869d: - use speedy as a bundler to support bundle, and support dts and css bundle.
+  - design `buildConfig` to support build for different scene, and design `buildPreset` to cover most of scenes.
+  - add `tools.speedy` to receive custom speedy config.
+  - remove child process to solving problems with serialisation parameters.
+  - add more test cases, improve quality construction.
+  - design a new log about build process
+
+### Patch Changes
+
+- Updated dependencies [b82869d]
+- Updated dependencies [b82869d]
+- Updated dependencies [b82869d]
+- Updated dependencies [b82869d]
+  - @modern-js/utils@1.7.10
+  - @modern-js/babel-preset-module@1.3.9
+  - @modern-js/core@1.12.3
+  - @modern-js/style-compiler@1.2.11
+  - @modern-js/css-config@1.2.7
+  - @modern-js/plugin-analyze@1.4.7
+  - @modern-js/plugin-changeset@1.3.1
+  - @modern-js/plugin-jarvis@1.2.14
+
 ## 1.5.8
 
 ### Patch Changes
