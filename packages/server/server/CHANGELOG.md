@@ -1,5 +1,27 @@
 # @modern-js/server
 
+## 1.5.0
+
+### Minor Changes
+
+- 77a8e9e: feat: support bff operators
+
+### Patch Changes
+
+- d9564f2: feat: add watchOptions for server watcher
+- Updated dependencies [550e2bd]
+- Updated dependencies [87eb9f8]
+- Updated dependencies [2b06fe3]
+- Updated dependencies [3050acc]
+- Updated dependencies [f29e9ba]
+- Updated dependencies [2dacc89]
+- Updated dependencies [338496c]
+- Updated dependencies [a90bc96]
+  - @modern-js/webpack@1.11.3
+  - @modern-js/prod-server@1.1.9
+  - @modern-js/utils@1.7.9
+  - @modern-js/server-utils@1.2.11
+
 ## 1.4.21
 
 ### Patch Changes

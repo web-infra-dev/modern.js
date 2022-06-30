@@ -40,8 +40,8 @@
     "@babel/runtime": "^7.18.0",
     "@babel/types": "^7.18.0",
     "@modern-js/babel-chain": "workspace:^1.2.5",
-    "@modern-js/babel-preset-base": "workspace:^1.4.2",
-    "@modern-js/utils": "workspace:^1.7.8",
+    "@modern-js/babel-preset-base": "workspace:^1.4.4",
+    "@modern-js/utils": "workspace:^1.7.9",
     "core-js": "^3.6.4"
   },
   "devDependencies": {

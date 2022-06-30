@@ -1,5 +1,19 @@
 # @modern-js/webpack
 
+## 1.11.3
+
+### Patch Changes
+
+- 550e2bd: feat(webpack): prebundle css-loader
+- 87eb9f8: perf(webpack): lazy require plugins to improve boot time
+- 2b06fe3: feat(webpack): only display error messages of type checker
+- 3050acc: fix resolve alias real path
+- 338496c: fix(webpack): webpackChunkName magic comments not work
+- Updated dependencies [a90bc96]
+  - @modern-js/utils@1.7.9
+  - @modern-js/babel-preset-app@1.4.2
+  - @modern-js/css-config@1.2.7
+
 ## 1.11.2
 
 ### Patch Changes
