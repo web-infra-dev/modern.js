@@ -1,5 +1,24 @@
 # @modern-js/monorepo-tools
 
+## 1.4.8
+
+### Patch Changes
+
+- eeedc80: feat: add plugin-jarvis to dependencies of solutions
+- Updated dependencies [f29e9ba]
+- Updated dependencies [d9564f2]
+- Updated dependencies [1a57595]
+- Updated dependencies [42741db]
+- Updated dependencies [341bb42]
+- Updated dependencies [f29e9ba]
+- Updated dependencies [a90bc96]
+  - @modern-js/core@1.12.2
+  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/plugin-changeset@1.3.1
+  - @modern-js/new-action@1.3.11
+  - @modern-js/plugin@1.4.0
+  - @modern-js/utils@1.7.9
+
 ## 1.4.7
 
 ### Patch Changes

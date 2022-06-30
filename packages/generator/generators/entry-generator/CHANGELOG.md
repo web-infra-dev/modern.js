@@ -1,5 +1,12 @@
 # @modern-js/entry-generator
 
+## 1.4.6
+
+### Patch Changes
+
+- 8e38b78: Encoding error introduced in Chinese
+- 341bb42: feat: bump codesmith package version
+
 ## 1.4.5
 
 ### Patch Changes

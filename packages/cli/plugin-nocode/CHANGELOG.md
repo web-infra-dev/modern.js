@@ -1,5 +1,19 @@
 # @modern-js/plugin-nocode
 
+## 1.2.4
+
+### Patch Changes
+
+- f29e9ba: feat: simplify context usage, no longer depend on containers
+- Updated dependencies [550e2bd]
+- Updated dependencies [87eb9f8]
+- Updated dependencies [2b06fe3]
+- Updated dependencies [3050acc]
+- Updated dependencies [338496c]
+- Updated dependencies [a90bc96]
+  - @modern-js/webpack@1.11.3
+  - @modern-js/utils@1.7.9
+
 ## 1.2.3
 
 ### Patch Changes

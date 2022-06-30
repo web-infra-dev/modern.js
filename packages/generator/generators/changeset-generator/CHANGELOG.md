@@ -1,5 +1,11 @@
 # @modern-js/changeset-generator
 
+## 1.4.1
+
+### Patch Changes
+
+- 341bb42: feat: bump codesmith package version
+
 ## 1.4.0
 
 ### Minor Changes

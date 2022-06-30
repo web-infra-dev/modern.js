@@ -1,5 +1,20 @@
 # @modern-js/bff-utils
 
+## 1.3.0
+
+### Minor Changes
+
+- 77a8e9e: feat: support bff operators
+
+### Patch Changes
+
+- Updated dependencies [77a8e9e]
+- Updated dependencies [f29e9ba]
+- Updated dependencies [a90bc96]
+  - @modern-js/bff-runtime@1.3.0
+  - @modern-js/plugin@1.4.0
+  - @modern-js/utils@1.7.9
+
 ## 1.2.9
 
 ### Patch Changes

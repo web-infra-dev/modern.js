@@ -1,5 +1,24 @@
 # @modern-js/plugin-ssr
 
+## 1.4.6
+
+### Patch Changes
+
+- 43b2224: support init return value inject to SSR DATA
+- 2dacc89: support set header & status in render
+- Updated dependencies [550e2bd]
+- Updated dependencies [87eb9f8]
+- Updated dependencies [43b2224]
+- Updated dependencies [2b06fe3]
+- Updated dependencies [3050acc]
+- Updated dependencies [f29e9ba]
+- Updated dependencies [2dacc89]
+- Updated dependencies [338496c]
+- Updated dependencies [a90bc96]
+  - @modern-js/webpack@1.11.3
+  - @modern-js/runtime-core@1.5.2
+  - @modern-js/utils@1.7.9
+
 ## 1.4.5
 
 ### Patch Changes
