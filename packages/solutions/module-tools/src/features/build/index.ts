@@ -1,12 +1,14 @@
 import path from 'path';
 import { Import, fs, chalk } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
+import pMap from 'p-map';
 import type { IBuildFeatOption } from '../../types';
 import { ReadlineUtils } from '../../utils/readline';
 import { normalizeModuleConfig } from './normalize';
 import { buildingText, buildSuccessText } from './constants';
 import { ModuleBuildError, isInternalError } from './error';
 import { getAllDeps } from './utils';
+import type { NormalizedBuildConfig } from './types';
 
 const bundle: typeof import('./bundle') = Import.lazy('./bundle', require);
 const bundleless: typeof import('./bundleless') = Import.lazy(
@@ -19,7 +21,7 @@ const bp: typeof import('./build-platform') = Import.lazy(
   require,
 );
 
-const checkPlatformAndRunBuild = async (
+export const checkPlatformAndRunBuild = async (
   platform: IBuildFeatOption['platform'],
   options: { api: PluginAPI; isTsProject: boolean },
 ) => {
@@ -41,12 +43,32 @@ const checkPlatformAndRunBuild = async (
   return { exit: false };
 };
 
-export const buildInNormalMode = async (buildTasks: Promise<void>[]) => {
+export const runBuild = async (
+  api: PluginAPI,
+  normalizedModuleConfig: NormalizedBuildConfig[],
+  config: IBuildFeatOption,
+) => {
+  await pMap(normalizedModuleConfig, async moduleConfig => {
+    if (moduleConfig.buildType === 'bundle') {
+      await bundle.build(api, moduleConfig);
+    } else {
+      await bundleless.build(api, moduleConfig, config);
+    }
+  });
+};
+
+export const buildInNormalMode = async (
+  api: PluginAPI,
+  normalizedModuleConfig: NormalizedBuildConfig[],
+  config: IBuildFeatOption,
+) => {
   console.info(chalk.blue.bold(buildingText));
   try {
     // eslint-disable-next-line no-console
     console.time(buildSuccessText);
-    await Promise.all(buildTasks);
+
+    await runBuild(api, normalizedModuleConfig, config);
+
     ReadlineUtils.clearPrevLine(process.stdout);
     // eslint-disable-next-line no-console
     console.timeEnd(buildSuccessText);
@@ -90,17 +112,10 @@ export const build = async (api: PluginAPI, config: IBuildFeatOption) => {
     deps,
   });
 
-  const buildTasks = normalizedModuleConfig.map(moduleConfig => {
-    if (moduleConfig.buildType === 'bundle') {
-      return bundle.build(api, moduleConfig);
-    } else {
-      return bundleless.build(api, moduleConfig, config);
-    }
-  });
   if (config.enableWatchMode) {
     console.info(chalk.blue.underline('start build in watch mode...\n'));
-    await Promise.all(buildTasks);
+    await runBuild(api, normalizedModuleConfig, config);
   } else {
-    await buildInNormalMode(buildTasks);
+    await buildInNormalMode(api, normalizedModuleConfig, config);
   }
 };

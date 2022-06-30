@@ -1,5 +1,6 @@
 import type { PluginAPI } from '@modern-js/core';
 import { chalk } from '@modern-js/utils';
+import pMap from 'p-map';
 import type { NormalizedBundlelessBuildConfig } from '../types';
 import type { IBuildFeatOption } from '../../../types';
 import { runBabelBuild } from './runBabel';
@@ -23,12 +24,9 @@ export const build = async (
     return;
   }
   const tasks = config.dtsOnly
-    ? [genDts(api, config)]
-    : [
-        runBabelBuild(api, config),
-        genDts(api, config),
-        buildStyle(api, config),
-        copyStaticAssets(api, config),
-      ];
-  await Promise.all(tasks);
+    ? [genDts]
+    : [runBabelBuild, genDts, buildStyle, copyStaticAssets];
+  await pMap(tasks, async task => {
+    await task(api, config);
+  });
 };

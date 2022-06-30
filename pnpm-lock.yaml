@@ -3635,6 +3635,7 @@ importers:
       '@modern-js/plugin-jarvis': workspace:^1.2.14
       '@modern-js/style-compiler': workspace:^1.2.10
       '@modern-js/utils': workspace:^1.7.9
+      '@rollup/plugin-json': ~4.1.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@speedy-js/speedy-core': 0.13.2-alpha.3
@@ -3683,6 +3684,7 @@ importers:
       '@rollup/plugin-json': 4.1.0_rollup@2.75.7
       '@speedy-js/speedy-core': 0.13.2-alpha.3_esbuild@0.14.47
       '@speedy-js/speedy-plugin-es5': 0.13.2-alpha.3
+      '@speedy-js/speedy-types': 0.13.2-alpha.3
       normalize-path: 3.0.0
       p-map: 4.0.0
       process.argv: 0.6.0
@@ -3693,7 +3695,6 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@speedy-js/speedy-types': 0.13.2-alpha.3
       '@types/babel__core': 7.1.19
       '@types/babel__generator': 7.6.4
       '@types/babel__traverse': 7.17.1
@@ -5158,6 +5159,30 @@ importers:
     devDependencies:
       '@modern-js/core': link:../../../../../packages/cli/core
       '@modern-js/module-tools': link:../../../../../packages/solutions/module-tools
+      '@types/lodash': 4.14.182
+      '@types/react': 17.0.47
+      '@types/react-dom': 17.0.17
+      lodash: 4.17.21
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      typescript: 4.7.4
+
+  tests/integration/module-tools/fixtures/build-config-bundleless:
+    specifiers:
+      '@modern-js/core': workspace:*
+      '@modern-js/module-tools': workspace:*
+      '@modern-js/plugin-less': workspace:*
+      '@types/lodash': ^4
+      '@types/react': ^17
+      '@types/react-dom': ^17
+      lodash: 4.17.21
+      react: ^17
+      react-dom: ^17
+      typescript: ^4
+    devDependencies:
+      '@modern-js/core': link:../../../../../packages/cli/core
+      '@modern-js/module-tools': link:../../../../../packages/solutions/module-tools
+      '@modern-js/plugin-less': link:../../../../../packages/cli/plugin-less
       '@types/lodash': 4.14.182
       '@types/react': 17.0.47
       '@types/react-dom': 17.0.17
@@ -11051,7 +11076,7 @@ packages:
 
   /@speedy-js/speedy-types/0.13.2-alpha.3:
     resolution: {integrity: sha512-Ib0INX3WSvazSCWaOX+NiuMc1V8gCb+eJuyrxn6bhqc8Csa7uuCvufCFb4LhFp42XdPn56y1l3cOgmg7X5w7Ow==}
-    dev: true
+    dev: false
 
   /@speedy-js/speedy-utils/0.13.2-alpha.3:
     resolution: {integrity: sha512-5dk6lChrOOvWUidW60ZemGo/rzgGCp3SULw4zepbTvjmCwbV+Ih/ohXz/K2aDbHVWlgPU7ZPnnjmot1e5RtVHQ==}
@@ -35103,6 +35128,46 @@ packages:
       webpack-sources: 1.4.3
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /webpack/5.64.0_esbuild@0.14.47:
+    resolution: {integrity: sha512-UclnN24m054HaPC45nmDEosX6yXWD+UGC12YtUs5i356DleAUGMDC9LBAw37xRRfgPKYIdCYjGA7RZ1AA+ZnGg==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    peerDependencies:
+      webpack-cli: '*'
+    peerDependenciesMeta:
+      webpack-cli:
+        optional: true
+    dependencies:
+      '@types/eslint-scope': 3.7.3
+      '@types/estree': 0.0.50
+      '@webassemblyjs/ast': 1.11.1
+      '@webassemblyjs/wasm-edit': 1.11.1
+      '@webassemblyjs/wasm-parser': 1.11.1
+      acorn: 8.7.1
+      acorn-import-assertions: 1.8.0_acorn@8.7.1
+      browserslist: 4.21.0
+      chrome-trace-event: 1.0.3
+      enhanced-resolve: 5.9.3
+      es-module-lexer: 0.9.3
+      eslint-scope: 5.1.1
+      events: 3.3.0
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.10
+      json-parse-better-errors: 1.0.2
+      loader-runner: 4.3.0
+      mime-types: 2.1.35
+      neo-async: 2.6.2
+      schema-utils: 3.1.1
+      tapable: 2.2.1
+      terser-webpack-plugin: 5.3.3_esbuild@0.14.47+webpack@5.64.0
+      watchpack: 2.4.0
+      webpack-sources: 3.2.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
     dev: false
 
   /webpack/5.73.0_esbuild@0.14.47:

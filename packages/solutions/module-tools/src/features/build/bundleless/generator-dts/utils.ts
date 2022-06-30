@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { Import, glob, fs } from '@modern-js/utils';
+import { Import, glob, fs, nanoid } from '@modern-js/utils';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import type { NormalizedConfig } from '@modern-js/core';
 import type { ITsconfig } from '../../../../types';
@@ -11,11 +11,6 @@ const babel: typeof import('../../../../utils/babel') = Import.lazy(
 
 const tsPathsTransform: typeof import('../../../../utils/tspaths-transform') =
   Import.lazy('../../../../utils/tspaths-transform', require);
-
-const constants: typeof import('../../../../utils/constants') = Import.lazy(
-  '../../../../utils/constants',
-  require,
-);
 
 export interface IGeneratorConfig {
   appDirectory: string;
@@ -73,16 +68,12 @@ export const generatorTsConfig = (
     },
   };
 
-  const tempTsconfigPath = path.join(tempPath, constants.tempTsconfigName);
-  fs.ensureFileSync(tempTsconfigPath);
-  console.info(
-    deepMerge(
-      recommendOption,
-      projectTsconfig,
-      // 此处是必须要覆盖用户默认配置
-      resetConfig,
-    ),
+  const tempTsconfigPath = path.join(
+    tempPath,
+    `tsconfig.${Date.now()}.${nanoid()}.json`,
   );
+  fs.ensureFileSync(tempTsconfigPath);
+
   fs.writeJSONSync(
     tempTsconfigPath,
     deepMerge(

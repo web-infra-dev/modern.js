@@ -25,18 +25,18 @@ export default defineConfig({
         dtsOnly: true,
         outputPath: 'bundleless-dtsonly-enable-dts',
       },
-      // {
-      //   buildType: 'bundle',
-      //   enableDts: false,
-      //   dtsOnly: true,
-      //   outputPath: 'bundle-dtsonly',
-      // },
-      // {
-      //   buildType: 'bundleless',
-      //   enableDts: false,
-      //   dtsOnly: true,
-      //   outputPath: 'bundleless-dtsonly',
-      // },
+      {
+        buildType: 'bundle',
+        enableDts: false,
+        dtsOnly: true,
+        outputPath: 'bundle-dtsonly',
+      },
+      {
+        buildType: 'bundleless',
+        enableDts: false,
+        dtsOnly: true,
+        outputPath: 'bundleless-dtsonly',
+      },
     ],
   },
 });

@@ -318,9 +318,9 @@ describe('output.buildConfig', () => {
       './configs/config9.js',
     ]);
     expect(ret.code).toBe(0);
-    console.info(ret);
+
     const folders = await getFolderList(`${projectDistPath}`, { deep: 1 });
-    // expect(folders.length).toBe(4);
+    expect(folders.length).toBe(4);
     for (const f of folders) {
       const distIndexPath = path.join(f, 'index.js');
       const distIndexDtsPath = path.join(f, 'index.d.ts');
@@ -329,6 +329,12 @@ describe('output.buildConfig', () => {
         expect(await fs.pathExists(distIndexDtsPath)).toBeTruthy();
       } else if (f.includes('bundleless-enable-dts')) {
         expect(await fs.pathExists(distIndexPath)).toBeTruthy();
+        expect(await fs.pathExists(distIndexDtsPath)).toBeTruthy();
+      } else if (f.includes('bundle-dtsonly-enable-dts')) {
+        expect(await fs.pathExists(distIndexPath)).toBeFalsy();
+        expect(await fs.pathExists(distIndexDtsPath)).toBeTruthy();
+      } else if (f.includes('bundleless-dtsonly-enable-dts')) {
+        expect(await fs.pathExists(distIndexPath)).toBeFalsy();
         expect(await fs.pathExists(distIndexDtsPath)).toBeTruthy();
       }
     }
