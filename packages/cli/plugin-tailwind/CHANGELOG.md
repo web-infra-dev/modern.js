@@ -1,5 +1,14 @@
 # @modern-js/plugin-tailwindcss
 
+## 1.4.1
+
+### Patch Changes
+
+- b82869d: change package.json exports
+- Updated dependencies [b82869d]
+  - @modern-js/utils@1.7.10
+  - @modern-js/plugin-design-token@1.0.11
+
 ## 1.4.0
 
 ### Minor Changes
