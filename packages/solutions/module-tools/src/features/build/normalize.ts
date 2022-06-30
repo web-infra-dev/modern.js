@@ -128,17 +128,17 @@ export const getNormalizeModuleConfigByPackageModeAndFileds = (
     // and can also be used on package.json exports field.
     if (packageFields['jsnext:modern']) {
       configs.push(
-        getConfigsByJsSyntaxType(packageFields['jsnext:modern'], 'modern'),
+        getConfigsByJsSyntaxType(packageFields['jsnext:modern'], 'js/modern'),
       );
     }
 
     if (packageFields.main) {
-      configs.push(getConfigsByJsSyntaxType(packageFields.main, 'node'));
+      configs.push(getConfigsByJsSyntaxType(packageFields.main, 'js/node'));
     }
 
     if (packageFields.module) {
       configs.push(
-        getConfigsByJsSyntaxType(packageFields.module, 'treeshaking'),
+        getConfigsByJsSyntaxType(packageFields.module, 'js/treeshaking'),
       );
     }
   }

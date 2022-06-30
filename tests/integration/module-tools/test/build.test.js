@@ -5,7 +5,7 @@ const {
   clearBuildDist,
   modernBuild,
 } = require('../../../utils/modernTestUtils');
-const { getFolderList, getFilesList } = require('./utils');
+const { getFolderList, getFilesList, formatFolder } = require('./utils');
 
 describe('nothing config', () => {
   const projectPath = path.resolve(__dirname, '../fixtures/build');
@@ -32,7 +32,7 @@ describe('legacy config', () => {
     ]);
     expect(ret.code).toBe(0);
     const folders = await getFolderList(`${projectDistPath}`, { deep: 2 });
-    expect(folders).toMatchSnapshot();
+    expect(formatFolder(folders, projectPath)).toMatchSnapshot();
   });
 
   it(`packageMode is universal-js-lite`, async () => {
@@ -42,7 +42,7 @@ describe('legacy config', () => {
     ]);
     expect(ret.code).toBe(0);
     const folders = await getFolderList(`${projectDistPath}`, { deep: 2 });
-    expect(folders).toMatchSnapshot();
+    expect(formatFolder(folders, projectPath)).toMatchSnapshot();
   });
 
   it(`packageMode is browser-js`, async () => {
@@ -52,7 +52,7 @@ describe('legacy config', () => {
     ]);
     expect(ret.code).toBe(0);
     const folders = await getFolderList(`${projectDistPath}`, { deep: 2 });
-    expect(folders).toMatchSnapshot();
+    expect(formatFolder(folders, projectPath)).toMatchSnapshot();
   });
 
   it(`packageMode is browser-js-lite`, async () => {
@@ -62,7 +62,7 @@ describe('legacy config', () => {
     ]);
     expect(ret.code).toBe(0);
     const folders = await getFolderList(`${projectDistPath}`, { deep: 2 });
-    expect(folders).toMatchSnapshot();
+    expect(formatFolder(folders, projectPath)).toMatchSnapshot();
   });
 
   it(`packageMode is node-js`, async () => {
@@ -72,7 +72,21 @@ describe('legacy config', () => {
     ]);
     expect(ret.code).toBe(0);
     const folders = await getFolderList(`${projectDistPath}`, { deep: 2 });
-    expect(folders).toMatchSnapshot();
+    expect(formatFolder(folders, projectPath)).toMatchSnapshot();
+  });
+
+  it(`packageField is {
+    "main": "CJS+ES6",
+    "module": "ESM+ES5",
+    "jsnext:modern": "ESM+ES6"
+}`, async () => {
+    const ret = await modernBuild(projectPath, [
+      '--config',
+      './configs/config6.js',
+    ]);
+    expect(ret.code).toBe(0);
+    const folders = await getFolderList(`${projectDistPath}`, { deep: 2 });
+    expect(formatFolder(folders, projectPath)).toMatchSnapshot();
   });
 });
 
@@ -166,7 +180,7 @@ describe('output.buildConfig', () => {
     ]);
     expect(ret.code).toBe(0);
     const files = await getFilesList(`${projectDistPath}`, {});
-    expect(files).toMatchSnapshot();
+    expect(formatFolder(files, projectPath)).toMatchSnapshot();
   });
 
   test(`when buildConfig is { buildType: 'bundle' }`, async () => {

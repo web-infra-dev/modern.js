@@ -17,7 +17,12 @@ const getFilesList = async (target, globbyOpts = {}) => {
   return ret.map(s => slash(s));
 };
 
+const formatFolder = (folders = [], projectDir) => {
+  return folders.map(f => f.replace(projectDir, ''));
+};
+
 module.exports = {
   getFolderList,
   getFilesList,
+  formatFolder,
 };
