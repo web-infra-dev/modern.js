@@ -1,5 +1,14 @@
 # @modern-js/plugin-tailwindcss
 
+## 1.4.2
+
+### Patch Changes
+
+- nothing happen, only bump
+- Updated dependencies
+  - @modern-js/utils@1.7.11
+  - @modern-js/plugin-design-token@1.0.11
+
 ## 1.4.1
 
 ### Patch Changes
