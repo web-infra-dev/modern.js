@@ -6,7 +6,7 @@ import {
   createContext,
 } from '../src/farrow-pipeline';
 import type { PluginOptions, Setup } from '../src';
-import { createManager, createAsyncManager, useRunner } from '../src/manager';
+import { createManager, createAsyncManager } from '../src/manager';
 import { createWaterfall, createAsyncWaterfall } from '../src/waterfall';
 import {
   createWorkflow,
@@ -531,8 +531,8 @@ describe('sync manager', () => {
 
       const plugin = manager.createPlugin(() => ({
         foo: () => {
-          const runner = useRunner();
-          runner.bar();
+          const runner = manager.useRunner();
+          (runner as any).bar();
         },
         bar: () => {
           count = 1;

@@ -41,7 +41,7 @@
     "@modern-js/hmr-client": "workspace:^1.2.8",
     "@modern-js/prod-server": "workspace:^1.1.9",
     "@modern-js/server-utils": "workspace:^1.2.11",
-    "@modern-js/webpack": "workspace:^1.11.3",
+    "@modern-js/webpack": "workspace:^1.11.4",
     "@modern-js/utils": "workspace:^1.7.11",
     "devcert": "^1.2.2",
     "minimatch": "^3.0.4",
