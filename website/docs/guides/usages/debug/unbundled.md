@@ -11,13 +11,10 @@ Modern.js 提供 **Unbundled 开发模式**。当项目以 **Unbundled 开发模
 ES modules（ESM）是 JavaScript 官方的标准化模块系统。
 :::
 
-:::info 注
-Unbundled 模式暂不支持在 Windows 平台使用，支持即将上线。
-:::
-
 :::caution 注意
 1. 由于浏览器兼容性等问题，**Unbundled 开发模式**仅适用于开发阶段。在生产环境部署的项目，仍然需要先经过编译打包处理。
 2. **Unbundled 开发模式** 暂不支持 SSR。
+3. **Unbundled 开发模式** 暂不支持在 Windows 平台使用
 :::
 
 ## 开始使用
