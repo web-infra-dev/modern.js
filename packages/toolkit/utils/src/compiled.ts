@@ -34,6 +34,7 @@ export type { SignaleOptions } from '../compiled/signale';
 export type { IOptions as GlobOptions } from '../compiled/glob';
 export type { GlobbyOptions } from '../compiled/globby';
 export type { FSWatcher, WatchOptions } from '../compiled/chokidar';
+export type { ExecaError } from '../compiled/execa';
 
 /**
  * Lazy import some expensive modules that will slow down startup speed.

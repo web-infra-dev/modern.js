@@ -1,5 +1,13 @@
 # @modern-js/types
 
+## 1.5.5
+
+### Patch Changes
+
+- 2dacc89: support set header & status in render
+- Updated dependencies [f29e9ba]
+  - @modern-js/plugin@1.4.0
+
 ## 1.5.4
 
 ### Patch Changes

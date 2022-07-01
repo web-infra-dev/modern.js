@@ -1,5 +1,68 @@
 # @modern-js/module-tools
 
+## 1.6.1
+
+### Patch Changes
+
+- nothing happen, only bump
+- Updated dependencies
+  - @modern-js/babel-preset-module@1.3.10
+  - @modern-js/core@1.12.4
+  - @modern-js/style-compiler@1.2.12
+  - @modern-js/utils@1.7.11
+  - @modern-js/css-config@1.2.7
+  - @modern-js/plugin-analyze@1.4.7
+  - @modern-js/plugin-changeset@1.3.1
+  - @modern-js/plugin-jarvis@1.2.14
+
+## 1.6.0
+
+### Minor Changes
+
+- b82869d: - use speedy as a bundler to support bundle, and support dts and css bundle.
+  - design `buildConfig` to support build for different scene, and design `buildPreset` to cover most of scenes.
+  - add `tools.speedy` to receive custom speedy config.
+  - remove child process to solving problems with serialisation parameters.
+  - add more test cases, improve quality construction.
+  - design a new log about build process
+
+### Patch Changes
+
+- Updated dependencies [b82869d]
+- Updated dependencies [b82869d]
+- Updated dependencies [b82869d]
+- Updated dependencies [b82869d]
+  - @modern-js/utils@1.7.10
+  - @modern-js/babel-preset-module@1.3.9
+  - @modern-js/core@1.12.3
+  - @modern-js/style-compiler@1.2.11
+  - @modern-js/css-config@1.2.7
+  - @modern-js/plugin-analyze@1.4.7
+  - @modern-js/plugin-changeset@1.3.1
+  - @modern-js/plugin-jarvis@1.2.14
+
+## 1.5.8
+
+### Patch Changes
+
+- eeedc80: feat: add plugin-jarvis to dependencies of solutions
+- f29e9ba: feat: simplify context usage, no longer depend on containers
+- Updated dependencies [f29e9ba]
+- Updated dependencies [d9564f2]
+- Updated dependencies [1a57595]
+- Updated dependencies [42741db]
+- Updated dependencies [341bb42]
+- Updated dependencies [f29e9ba]
+- Updated dependencies [a90bc96]
+  - @modern-js/core@1.12.2
+  - @modern-js/plugin-analyze@1.4.7
+  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/plugin-changeset@1.3.1
+  - @modern-js/new-action@1.3.11
+  - @modern-js/plugin@1.4.0
+  - @modern-js/utils@1.7.9
+  - @modern-js/css-config@1.2.7
+
 ## 1.5.7
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @modern-js/generator-common
 
+## 1.4.13
+
+### Patch Changes
+
+- 341bb42: feat: bump codesmith package version
+- Updated dependencies [a90bc96]
+  - @modern-js/utils@1.7.9
+
 ## 1.4.12
 
 ### Patch Changes

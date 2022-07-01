@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 1`] = `"npm-library"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 2`] = `"npm-library-with-umd"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 3`] = `"npm-component"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 4`] = `"npm-component-with-umd"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 5`] = `"npm-library-es5"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 6`] = `"npm-library-es6"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 7`] = `"npm-library-es2015"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 8`] = `"npm-library-es2016"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 9`] = `"npm-library-es2017"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 10`] = `"npm-library-es2018"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 11`] = `"npm-library-es2019"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 12`] = `"npm-library-es2020"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 13`] = `"npm-library-esnext"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 14`] = `"npm-library-with-umd-es5"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 15`] = `"npm-library-with-umd-es6"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 16`] = `"npm-library-with-umd-es2015"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 17`] = `"npm-library-with-umd-es2016"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 18`] = `"npm-library-with-umd-es2017"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 19`] = `"npm-library-with-umd-es2018"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 20`] = `"npm-library-with-umd-es2019"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 21`] = `"npm-library-with-umd-es2020"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 22`] = `"npm-library-with-umd-esnext"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 23`] = `"npm-component-es5"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 24`] = `"npm-component-es6"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 25`] = `"npm-component-es2015"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 26`] = `"npm-component-es2016"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 27`] = `"npm-component-es2017"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 28`] = `"npm-component-es2018"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 29`] = `"npm-component-es2019"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 30`] = `"npm-component-es2020"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 31`] = `"npm-component-esnext"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 32`] = `"npm-component-with-umd-es5"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 33`] = `"npm-component-with-umd-es6"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 34`] = `"npm-component-with-umd-es2015"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 35`] = `"npm-component-with-umd-es2016"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 36`] = `"npm-component-with-umd-es2017"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 37`] = `"npm-component-with-umd-es2018"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 38`] = `"npm-component-with-umd-es2019"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 39`] = `"npm-component-with-umd-es2020"`;
+
+exports[`test output.buildConfig should right, when buildPreset is preset string 40`] = `"npm-component-with-umd-esnext"`;

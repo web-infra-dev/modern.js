@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.5.7",
+  "version": "1.6.1",
   "bin": {
     "modern": "./bin/modern.js"
   },
@@ -53,7 +53,8 @@
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "build": "wireit",
-    "test": "wireit"
+    "test": "wireit",
+    "dev": "modern build --watch"
   },
   "dependencies": {
     "@babel/generator": "^7.18.0",
@@ -62,25 +63,34 @@
     "@babel/traverse": "^7.18.0",
     "@babel/types": "^7.18.0",
     "@modern-js/babel-compiler": "workspace:^1.2.6",
-    "@modern-js/babel-preset-module": "workspace:^1.3.8",
-    "@modern-js/core": "workspace:^1.12.0",
+    "@modern-js/babel-preset-module": "workspace:^1.3.10",
+    "@modern-js/core": "workspace:^1.12.4",
     "@modern-js/css-config": "workspace:^1.2.7",
     "@modern-js/i18n-cli-language-detector": "workspace:^1.2.4",
-    "@modern-js/new-action": "workspace:^1.3.10",
-    "@modern-js/plugin": "workspace:^1.3.7",
-    "@modern-js/plugin-analyze": "workspace:^1.4.6",
-    "@modern-js/plugin-changeset": "workspace:^1.2.8",
+    "@modern-js/new-action": "workspace:^1.3.11",
+    "@modern-js/plugin": "workspace:^1.4.0",
+    "@modern-js/plugin-analyze": "workspace:^1.4.7",
+    "@modern-js/plugin-changeset": "workspace:^1.3.1",
     "@modern-js/plugin-i18n": "workspace:^1.2.7",
-    "@modern-js/plugin-jarvis": "workspace:^1.2.13",
-    "@modern-js/style-compiler": "workspace:^1.2.10",
-    "@modern-js/utils": "workspace:^1.7.7",
+    "@modern-js/plugin-jarvis": "workspace:^1.2.14",
+    "@modern-js/style-compiler": "workspace:^1.2.12",
+    "@modern-js/utils": "workspace:^1.7.11",
+    "@rollup/plugin-json": "~4.1.0",
+    "@speedy-js/speedy-types": "0.13.2-alpha.3",
+    "@speedy-js/speedy-core": "0.13.2-alpha.3",
+    "@speedy-js/speedy-plugin-es5": "0.13.2-alpha.3",
     "normalize-path": "^3.0.0",
     "p-map": "^4",
-    "process.argv": "^0.6.0"
+    "process.argv": "^0.6.0",
+    "rollup": "^2.70.2",
+    "rollup-plugin-dts": "^4.2.1",
+    "rollup-plugin-hashbang": "^3.0.0",
+    "signal-exit": "^3.0.7"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
+    "@speedy-js/speedy-types": "0.13.2-alpha.3",
     "@types/babel__core": "^7.1.15",
     "@types/babel__generator": "^7.6.3",
     "@types/babel__traverse": "^7.14.2",
@@ -90,8 +100,11 @@
     "@types/normalize-path": "^3.0.0",
     "@types/react": "^17",
     "@types/react-dom": "^17",
+    "@types/signal-exit": "^3.0.1",
     "jest": "^27",
-    "typescript": "^4"
+    "typescript": "^4",
+    "ajv": "^8",
+    "ajv-keywords": "^5"
   },
   "sideEffects": false,
   "modernConfig": {
@@ -110,7 +123,8 @@
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "./modern.config.js"
       ],
       "output": [
         "dist/**/*"

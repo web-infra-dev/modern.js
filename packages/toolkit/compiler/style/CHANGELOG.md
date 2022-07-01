@@ -1,5 +1,21 @@
 # @modern-js/style-compiler
 
+## 1.2.12
+
+### Patch Changes
+
+- nothing happen, only bump
+- Updated dependencies
+  - @modern-js/utils@1.7.11
+
+## 1.2.11
+
+### Patch Changes
+
+- b82869d: expor BuildWatchEmitter type
+- Updated dependencies [b82869d]
+  - @modern-js/utils@1.7.10
+
 ## 1.2.10
 
 ### Patch Changes

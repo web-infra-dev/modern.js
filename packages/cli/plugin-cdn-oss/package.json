@@ -40,7 +40,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.7.8",
+    "@modern-js/utils": "workspace:^1.7.11",
     "ali-oss": "^6",
     "walk": "^2.3.15"
   },

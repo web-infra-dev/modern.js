@@ -1,52 +1,139 @@
-import type { IPackageModeValue } from '../../types';
+import { chalk } from '@modern-js/utils';
+import type { BaseBuildConfig, Target } from '../../schema/types';
 
-// Universal JS 的默认选择，三份构建产物，支持 Node.js，对现代浏览器有优化
-const universalJs: IPackageModeValue[] = [
-  { type: 'module', syntax: 'es5', outDir: 'treeshaking' },
-  { type: 'commonjs', syntax: 'es6+', outDir: 'node' },
-  { type: 'module', syntax: 'es6+', outDir: 'modern' },
+export const clearFlag = '\x1Bc';
+export const buildingText = chalk.blue('Building...');
+export const buildSuccessText = chalk.green('Build succeed');
+export const buildFailText = chalk.red('Build Failed:');
+
+export const targets: Target[] = [
+  'es5',
+  'es6',
+  'es2015',
+  'es2016',
+  'es2017',
+  'es2018',
+  'es2019',
+  'es2020',
+  'esnext',
 ];
 
-// Universal JS 的优化选择，两份构建产物，对现代浏览器无优化
-const universalJsLite: IPackageModeValue[] = [
-  { type: 'module', syntax: 'es5', outDir: 'treeshaking' },
-  { type: 'commonjs', syntax: 'es6+', outDir: 'node', copyDirs: ['modern'] },
-];
-
-// 纯前端代码的默认选择，两份构建产物
-const browserJs: IPackageModeValue[] = [
-  { type: 'module', syntax: 'es5', outDir: 'treeshaking', copyDirs: ['node'] },
-  { type: 'module', syntax: 'es6+', outDir: 'modern' },
-];
-
-// 纯前端代码的优化选择，单份构建产物，对现代浏览器无优化
-const browserJsLite: IPackageModeValue[] = [
+export const npmLibraryPresetConfig: BaseBuildConfig[] = [
   {
-    type: 'module',
-    syntax: 'es5',
-    outDir: 'treeshaking',
-    copyDirs: ['modern', 'node'],
+    format: 'cjs',
+    target: 'es6',
+    buildType: 'bundle',
+    outputPath: './lib',
+  },
+  {
+    format: 'esm',
+    target: 'es6',
+    buildType: 'bundle',
+    outputPath: './es',
+  },
+  {
+    buildType: 'bundle',
+    outputPath: './types',
+    enableDts: true,
+    dtsOnly: true,
+  },
+];
+export const npmLibraryWithUmdPresetConfig: BaseBuildConfig[] = [
+  {
+    format: 'cjs',
+    target: 'es6',
+    buildType: 'bundle',
+    outputPath: './lib',
+  },
+  {
+    format: 'esm',
+    target: 'es6',
+    buildType: 'bundle',
+    outputPath: './es',
+  },
+  {
+    format: 'umd',
+    target: 'es6',
+    buildType: 'bundle',
+    outputPath: './umd',
+  },
+  {
+    buildType: 'bundle',
+    outputPath: './types',
+    enableDts: true,
+    dtsOnly: true,
+  },
+];
+export const npmComponentPresetConfig: BaseBuildConfig[] = [
+  {
+    format: 'cjs',
+    target: 'es6',
+    buildType: 'bundleless',
+    outputPath: './lib',
+  },
+  {
+    format: 'esm',
+    target: 'es6',
+    buildType: 'bundleless',
+    outputPath: './es',
+  },
+  {
+    buildType: 'bundleless',
+    outputPath: './types',
+    enableDts: true,
+    dtsOnly: true,
+  },
+];
+export const npmComponentWithUmdPresetConfig: BaseBuildConfig[] = [
+  {
+    format: 'cjs',
+    target: 'es6',
+    buildType: 'bundleless',
+    outputPath: './lib',
+  },
+  {
+    format: 'esm',
+    target: 'es6',
+    buildType: 'bundleless',
+    outputPath: './es',
+  },
+  {
+    format: 'umd',
+    target: 'es6',
+    buildType: 'bundle',
+    outputPath: './umd',
+  },
+  {
+    buildType: 'bundleless',
+    outputPath: './types',
+    enableDts: true,
+    dtsOnly: true,
   },
 ];
 
-// 纯 Node.js 代码的默认选择，两份构建产物
-const nodeJs: IPackageModeValue[] = [
-  { type: 'commonjs', syntax: 'es6+', outDir: 'node' },
-  { type: 'module', syntax: 'es6+', outDir: 'modern' },
-];
-
-export const DEFAULT_PACKAGE_MODE = 'universal-js';
-
-export const PACKAGE_MODES = {
-  'universal-js': universalJs,
-  'universal-js-lite': universalJsLite,
-  'browser-js': browserJs,
-  'browser-js-lite': browserJsLite,
-  'node-js': nodeJs,
+export const unPresetConfigs = {
+  'npm-library': npmLibraryPresetConfig,
+  'npm-library-with-umd': npmLibraryWithUmdPresetConfig,
+  'npm-component': npmComponentPresetConfig,
+  'npm-component-with-umd': npmComponentWithUmdPresetConfig,
 };
 
-export const runBabelCompilerTitle = 'Run babel compiler code log';
-export const runTscWatchTitle = 'Run `tsc -w` log';
-export const runTscTitle = 'Run `tsc` log';
-export const runStyleCompilerTitle = 'Run style compiler code log';
-export const clearFlag = '\x1Bc';
+export const unPresets = Object.keys(
+  unPresetConfigs,
+) as (keyof typeof unPresetConfigs)[];
+export const unPresetWithTargetConfigs = unPresets.reduce<
+  Record<string, BaseBuildConfig[]>
+>((o, presetStr) => {
+  const rets = targets.map(target => [
+    `${presetStr}-${target}`.toLowerCase(),
+    unPresetConfigs[presetStr].map(config => {
+      return { ...config, target };
+    }),
+  ]);
+
+  return {
+    ...o,
+    // eslint-disable-next-line node/no-unsupported-features/es-builtins
+    ...Object.fromEntries(rets),
+  };
+}, {});

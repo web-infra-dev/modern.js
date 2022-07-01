@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { fs, Import, globby, fastGlob } from '@modern-js/utils';
+import { fs, Import, globby, fastGlob, slash } from '@modern-js/utils';
 import type { NormalizedConfig, IAppContext } from '@modern-js/core';
 
 const normalizePath: typeof import('normalize-path') = Import.lazy(
@@ -48,7 +48,7 @@ export const copyTask = async (option: {
             fromOrigin,
           );
       // 计算 glob，获取目标文件
-      const paths = await globby(glob, options);
+      const paths = await globby(slash(glob), options);
       if (!paths.length) {
         return;
       }

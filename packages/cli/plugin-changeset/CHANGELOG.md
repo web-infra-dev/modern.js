@@ -1,5 +1,13 @@
 # @modern-js/plugin-changeset
 
+## 1.3.1
+
+### Patch Changes
+
+- 42741db: perf(plugin-changeset): optimize custom generator release note
+- Updated dependencies [a90bc96]
+  - @modern-js/utils@1.7.9
+
 ## 1.3.0
 
 ### Minor Changes

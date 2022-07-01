@@ -1,5 +1,14 @@
 # @modern-js/babel-preset-base
 
+## 1.4.4
+
+### Patch Changes
+
+- 3050acc: change babel-plugin-macro babel config
+- a90bc96: perf(babel): skip babel-plugin-import if package not installed
+- Updated dependencies [a90bc96]
+  - @modern-js/utils@1.7.9
+
 ## 1.4.3
 
 ### Patch Changes

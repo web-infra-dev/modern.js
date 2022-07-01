@@ -1,5 +1,25 @@
 # @modern-js/runtime
 
+## 1.3.4
+
+### Patch Changes
+
+- 3050acc: add styled-components alias
+- Updated dependencies [77a8e9e]
+- Updated dependencies [43b2224]
+- Updated dependencies [dc37349]
+- Updated dependencies [77a8e9e]
+- Updated dependencies [f29e9ba]
+- Updated dependencies [2dacc89]
+- Updated dependencies [a90bc96]
+  - @modern-js/bff-runtime@1.3.0
+  - @modern-js/plugin-ssr@1.4.6
+  - @modern-js/runtime-core@1.5.2
+  - @modern-js/plugin-router@1.2.16
+  - @modern-js/create-request@1.3.0
+  - @modern-js/utils@1.7.9
+  - @modern-js/plugin-state@1.2.10
+
 ## 1.3.3
 
 ### Patch Changes

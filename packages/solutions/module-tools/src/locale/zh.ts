@@ -5,9 +5,12 @@ export const ZH_LOCALE = {
       watch: '使用 Watch 模式构建模块',
       tsconfig: '指定 tsconfig.json 文件的路径',
       style_only: '只构建样式文件',
-      platform: '构建其他平台产物',
-      no_tsc: '关闭 tsc 编译',
+      platform:
+        '如果存在的话，执行指定的构建任务或者全部构建任务. (构建任务包括: "storybook", "文档")',
+      no_tsc: '关闭 tsc 编译（废弃）',
+      dts: '开启 dts 文件的生成以及类型检查',
       no_clear: '不清理产物目录',
+      config: '指定配置文件路径，可以为相对路径或绝对路径',
     },
     dev: { describe: '本地开发命令' },
     new: {
