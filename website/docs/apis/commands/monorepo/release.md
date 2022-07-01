@@ -13,6 +13,8 @@ Options:
   -h, --help   display help for command
 ```
 
+发布当前仓库的 Packages 至 NPM。
+
 import CommandTip from '@site/docs/components/command-tip.md'
 
 <CommandTip />
