@@ -9,7 +9,7 @@ sidebar_label: target
 :::
 
 * 类型： `'es5' | 'es6' | 'es2015' | 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'esnext'`
-* 默认值： `'es2018'`
+* 默认值： `'esnext'`
 
 用于对于 es syntax 的校验，如果使用了高版本语法，会进行报错。
 

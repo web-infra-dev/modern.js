@@ -9,7 +9,7 @@ sidebar_label: enableDts
 :::
 
 * 类型： `boolean`
-* 默认值： `true`
+* 默认值： `false`
 
 设置是否生成d.ts文件
 
