@@ -41,7 +41,7 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:^1.7.11",
-    "@modern-js/webpack": "workspace:^1.11.3",
+    "@modern-js/webpack": "workspace:^1.11.4",
     "axios": "^0.24.0",
     "axios-retry": "^3.2.4",
     "body-parser": "^1.19.0",
