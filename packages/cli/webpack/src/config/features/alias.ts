@@ -1,6 +1,10 @@
-import { applyOptionsChain, ensureAbsolutePath } from '@modern-js/utils';
+import {
+  applyOptionsChain,
+  CHAIN_ID,
+  ensureAbsolutePath,
+} from '@modern-js/utils';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import type WebpackChain from '@modern-js/utils/webpack-chain';
+import type { WebpackChain } from '@modern-js/utils';
 import { getWebpackAliases } from '../../utils/getWebpackAliases';
 import type { ResolveAlias } from '../base';
 
@@ -37,4 +41,21 @@ export function applyAlias({
       ) as any,
     );
   }
+}
+
+// aliases from tsconfig.json
+export function applyTsConfigPathsPlugins({
+  chain,
+  appDirectory,
+}: {
+  chain: WebpackChain;
+  appDirectory: string;
+}) {
+  const {
+    TsConfigPathsPlugin,
+  } = require('../../plugins/ts-config-paths-plugin');
+
+  chain.resolve
+    .plugin(CHAIN_ID.RESOLVE_PLUGIN.TS_CONFIG_PATHS)
+    .use(TsConfigPathsPlugin, [appDirectory]);
 }

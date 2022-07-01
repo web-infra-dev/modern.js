@@ -1,5 +1,5 @@
 import { CHAIN_ID } from '@modern-js/utils';
-import type WebpackChain from '@modern-js/utils/webpack-chain';
+import type { WebpackChain } from '@modern-js/utils';
 import { NormalizedConfig } from '@modern-js/core';
 import { ASSETS_REGEX } from '../../utils/constants';
 

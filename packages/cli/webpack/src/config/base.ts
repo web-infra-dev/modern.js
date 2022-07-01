@@ -29,18 +29,17 @@ import {
 import { createCSSRule, enableCssExtract } from '../utils/createCSSRule';
 import { getWebpackLogging } from '../utils/getWebpackLogging';
 import { getWebpackUtils, isNodeModulesCss } from './shared';
-import { applyTsCheckerPlugin } from './features/ts-checker';
-import { applyTsLoader } from './features/ts-loader';
-import { applyBabelLoader } from './features/babel-loader';
+import { applyTsLoader, applyTsCheckerPlugin } from './features/ts';
+import { applyBabelLoader } from './features/babel';
 import { applyModuleScopePlugin } from './features/module-scope';
 import { applyMinimizer } from './features/minimizer';
-import { applySvgrLoader } from './features/svgr-loader';
-import { applyAlias } from './features/alias';
-import { applyAssetsLoader } from './features/assets-loader';
+import { applySvgrLoader } from './features/svgr';
+import { applyAlias, applyTsConfigPathsPlugins } from './features/alias';
+import { applyAssetsLoader } from './features/assets';
 
 export type ResolveAlias = { [index: string]: string };
 
-const { USE, RULE, ONE_OF, PLUGIN, RESOLVE_PLUGIN } = CHAIN_ID;
+const { USE, RULE, ONE_OF, PLUGIN } = CHAIN_ID;
 
 class BaseWebpackConfig {
   chain: WebpackChain;
@@ -409,13 +408,10 @@ class BaseWebpackConfig {
     }
 
     if (this.isTsProject) {
-      const {
-        TsConfigPathsPlugin,
-      } = require('../plugins/ts-config-paths-plugin');
-      // aliases from tsconfig.json
-      this.chain.resolve
-        .plugin(RESOLVE_PLUGIN.TS_CONFIG_PATHS)
-        .use(TsConfigPathsPlugin, [this.appDirectory]);
+      applyTsConfigPathsPlugins({
+        chain: this.chain,
+        appDirectory: this.appDirectory,
+      });
     }
   }
 

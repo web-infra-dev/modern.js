@@ -1,6 +1,6 @@
 import path from 'path';
 import { API_DIR, CHAIN_ID, fs } from '@modern-js/utils';
-import type WebpackChain from '@modern-js/utils/webpack-chain';
+import type { WebpackChain } from '@modern-js/utils';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import type { Options as BabelPresetAppOptions } from '@modern-js/babel-preset-app';
 import { createBabelChain } from '@modern-js/babel-chain';
@@ -116,4 +116,21 @@ export function applyBabelLoader({
     .use(CHAIN_ID.USE.BABEL)
     .loader(require.resolve('../../../compiled/babel-loader'))
     .options(options);
+}
+
+// add core-js-entry to every entries
+export function addCoreJsEntry({
+  chain,
+  config,
+}: {
+  chain: WebpackChain;
+  config: NormalizedConfig;
+}) {
+  if (config.output.polyfill === 'entry') {
+    const entryPoints = Object.keys(chain.entryPoints.entries() || {});
+
+    for (const name of entryPoints) {
+      chain.entry(name).prepend(CORE_JS_ENTRY);
+    }
+  }
 }

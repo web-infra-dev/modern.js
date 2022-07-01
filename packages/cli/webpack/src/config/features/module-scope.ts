@@ -1,7 +1,7 @@
 import path from 'path';
 import { CHAIN_ID, ensureAbsolutePath, isString } from '@modern-js/utils';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import type WebpackChain from '@modern-js/utils/webpack-chain';
+import type { WebpackChain } from '@modern-js/utils';
 
 export function applyModuleScopePlugin({
   chain,

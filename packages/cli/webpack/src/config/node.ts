@@ -9,7 +9,7 @@ import { CHAIN_ID, isProd, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
 import { DefinePlugin } from 'webpack';
 import type WebpackChain from '@modern-js/utils/webpack-chain';
 import { BaseWebpackConfig } from './base';
-import { enableBundleAnalyzer } from './shared';
+import { applyBundleAnalyzerPlugin } from './features/bundle-analyzer';
 
 export function filterEntriesBySSRConfig(
   chain: WebpackChain,
@@ -152,7 +152,10 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     this.chain.plugins.delete(CHAIN_ID.PLUGIN.TS_CHECKER);
 
     if (this.options.cliOptions?.analyze) {
-      enableBundleAnalyzer(this.chain, 'report-ssr.html');
+      applyBundleAnalyzerPlugin({
+        chain: this.chain,
+        reportFilename: 'report-ssr.html',
+      });
     }
   }
 

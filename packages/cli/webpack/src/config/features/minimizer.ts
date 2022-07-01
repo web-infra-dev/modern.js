@@ -1,6 +1,6 @@
 import { NormalizedConfig } from '@modern-js/core';
 import { applyOptionsChain, CHAIN_ID, isProdProfile } from '@modern-js/utils';
-import type WebpackChain from '@modern-js/utils/webpack-chain';
+import type { WebpackChain } from '@modern-js/utils';
 
 export function applyMinimizer({
   chain,
