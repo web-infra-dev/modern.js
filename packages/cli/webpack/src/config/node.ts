@@ -172,11 +172,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
   config() {
     const config = super.config();
     config.externals = config.externals || [];
-
-    if (!Array.isArray(config.externals)) {
-      config.externals = [config.externals].filter(Boolean);
-    }
-
     return config;
   }
 }
