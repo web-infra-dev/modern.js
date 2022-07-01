@@ -7,6 +7,7 @@ import {
 import type { CliPlugin } from '@modern-js/core';
 import PluginState from '@modern-js/plugin-state/cli';
 import PluginRouter from '@modern-js/plugin-router/cli';
+import PluginSSR from '@modern-js/plugin-ssr/cli';
 
 export default (): CliPlugin => ({
   name: '@modern-js/runtime',
@@ -16,7 +17,7 @@ export default (): CliPlugin => ({
     '@modern-js/plugin-state',
     '@modern-js/plugin-design-token',
   ],
-  usePlugins: [PluginState(), PluginRouter()],
+  usePlugins: [PluginState(), PluginRouter(), PluginSSR()],
   setup: api => {
     let runtimeExportsUtils: ReturnType<typeof createRuntimeExportsUtils> =
       {} as any;
@@ -54,6 +55,7 @@ export default (): CliPlugin => ({
         cleanRequireCache([
           require.resolve('@modern-js/plugin-state/cli'),
           require.resolve('@modern-js/plugin-router/cli'),
+          require.resolve('@modern-js/plugin-ssr/cli'),
         ]);
       },
     };
