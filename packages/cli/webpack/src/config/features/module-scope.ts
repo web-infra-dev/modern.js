@@ -35,7 +35,7 @@ export function applyModuleScopePlugin({
     }
   }
 
-  const { ModuleScopePlugin } = require('../plugins/module-scope-plugin');
+  const { ModuleScopePlugin } = require('../../plugins/module-scope-plugin');
 
   chain.resolve
     .plugin(CHAIN_ID.RESOLVE_PLUGIN.MODULE_SCOPE)
