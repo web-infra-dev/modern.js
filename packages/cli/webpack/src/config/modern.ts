@@ -1,4 +1,3 @@
-import { createBabelChain } from '@modern-js/babel-chain';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { CHAIN_ID, removeLeadingSlash } from '@modern-js/utils';
 import { ClientWebpackConfig } from './client';
@@ -6,6 +5,7 @@ import { ClientWebpackConfig } from './client';
 class ModernWebpackConfig extends ClientWebpackConfig {
   constructor(appContext: IAppContext, options: NormalizedConfig) {
     super(appContext, options);
+
     this.htmlFilename = (name: string) =>
       removeLeadingSlash(
         `${this.options.output.htmlPath!}/${
@@ -14,11 +14,10 @@ class ModernWebpackConfig extends ClientWebpackConfig {
             : `${name}/index-es6`
         }.html`,
       );
+
     this.jsChunkName = this.jsChunkName.replace(/\.js$/, '-es6.js');
 
     this.jsFilename = this.jsFilename.replace(/\.js$/, '-es6.js');
-
-    this.babelChain = createBabelChain();
 
     this.babelPresetAppOptions = {
       target: 'client',

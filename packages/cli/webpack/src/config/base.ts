@@ -1,23 +1,19 @@
 /* eslint-disable max-lines */
 import path from 'path';
 import {
-  fs,
   chalk,
   isProd,
   isDev,
   signale,
-  API_DIR,
   CHAIN_ID,
-  isProdProfile,
+  isString,
   isTypescript,
   ensureAbsolutePath,
-  isString,
   applyOptionsChain,
   removeLeadingSlash,
 } from '@modern-js/utils';
 import webpack, { IgnorePlugin } from 'webpack';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import { createBabelChain, BabelChain } from '@modern-js/babel-chain';
 import WebpackChain from '@modern-js/utils/webpack-chain';
 import type { Options as BabelPrestAppOptions } from '@modern-js/babel-preset-app';
 import { merge as webpackMerge } from '../../compiled/webpack-merge';
@@ -25,24 +21,26 @@ import {
   CSS_REGEX,
   JS_REGEX,
   TS_REGEX,
-  SVG_REGEX,
-  ASSETS_REGEX,
   CSS_MODULE_REGEX,
   GLOBAL_CSS_REGEX,
   JS_RESOLVE_EXTENSIONS,
   CACHE_DIRECTORY,
 } from '../utils/constants';
 import { createCSSRule, enableCssExtract } from '../utils/createCSSRule';
-import { mergeRegex } from '../utils/mergeRegex';
 import { getWebpackLogging } from '../utils/getWebpackLogging';
-import { getBabelOptions, getUseBuiltIns } from '../utils/getBabelOptions';
-import { getSourceIncludes } from '../utils/getSourceIncludes';
-import { getWebpackAliases } from '../utils/getWebpackAliases';
 import { getWebpackUtils, isNodeModulesCss } from './shared';
+import { applyTsCheckerPlugin } from './features/ts-checker';
+import { applyTsLoader } from './features/ts-loader';
+import { applyBabelLoader } from './features/babel-loader';
+import { applyModuleScopePlugin } from './features/module-scope';
+import { applyMinimizer } from './features/minimizer';
+import { applySvgrLoader } from './features/svgr-loader';
+import { applyAlias } from './features/alias';
+import { applyAssetsLoader } from './features/assets-loader';
 
 export type ResolveAlias = { [index: string]: string };
 
-const { USE, RULE, ONE_OF, PLUGIN, MINIMIZER, RESOLVE_PLUGIN } = CHAIN_ID;
+const { USE, RULE, ONE_OF, PLUGIN, RESOLVE_PLUGIN } = CHAIN_ID;
 
 class BaseWebpackConfig {
   chain: WebpackChain;
@@ -65,11 +63,7 @@ class BaseWebpackConfig {
 
   mediaChunkName: string;
 
-  babelChain: BabelChain;
-
   isTsProject: boolean;
-
-  coreJsEntry: string;
 
   babelPresetAppOptions?: Partial<BabelPrestAppOptions>;
 
@@ -83,8 +77,6 @@ class BaseWebpackConfig {
     this.options = options;
 
     this.chain = new WebpackChain();
-
-    this.coreJsEntry = path.resolve(__dirname, '../runtime/core-js-entry.js');
 
     const { output = {} } = this.options;
     const { disableAssetsCache } = output;
@@ -115,8 +107,6 @@ class BaseWebpackConfig {
     this.mediaChunkName = removeLeadingSlash(
       `${mediaPath}/[name]${disableAssetsCache ? '' : '.[hash:8]'}[ext]`,
     );
-
-    this.babelChain = createBabelChain();
 
     this.isTsProject = isTypescript(this.appDirectory);
   }
@@ -233,10 +223,22 @@ class BaseWebpackConfig {
     //  js、ts
     const useTsLoader = Boolean(this.options.output?.enableTsLoader);
 
-    this.applyBabelLoader(loaders, useTsLoader);
+    applyBabelLoader({
+      config: this.options,
+      loaders,
+      metaName: this.metaName,
+      useTsLoader,
+      appContext: this.appContext,
+      babelPresetAppOptions: this.babelPresetAppOptions,
+    });
 
     if (useTsLoader) {
-      this.applyTsLoader(loaders);
+      applyTsLoader({
+        config: this.options,
+        loaders,
+        metaName: this.metaName,
+        appContext: this.appContext,
+      });
     }
 
     const disableCssModuleExtension =
@@ -288,74 +290,16 @@ class BaseWebpackConfig {
       },
     );
 
-    // svg
-    loaders
-      .oneOf(ONE_OF.SVG_INLINE)
-      .test(SVG_REGEX)
-      .type('javascript/auto')
-      .resourceQuery(/inline/)
-      .use(USE.SVGR)
-      .loader(require.resolve('@svgr/webpack'))
-      .options({ svgo: false })
-      .end()
-      .use(USE.URL)
-      .loader(require.resolve('../../compiled/url-loader'))
-      .options({
-        limit: Infinity,
-        name: this.mediaChunkName.replace(/\[ext\]$/, '.[ext]'),
-      });
+    applySvgrLoader({
+      config: this.options,
+      loaders,
+      mediaChunkName: this.mediaChunkName,
+    });
 
-    loaders
-      .oneOf(ONE_OF.SVG_URL)
-      .test(SVG_REGEX)
-      .type('javascript/auto')
-      .resourceQuery(/url/)
-      .use(USE.SVGR)
-      .loader(require.resolve('@svgr/webpack'))
-      .options({ svgo: false })
-      .end()
-      .use(USE.URL)
-      .loader(require.resolve('../../compiled/url-loader'))
-      .options({
-        limit: false,
-        name: this.mediaChunkName.replace(/\[ext\]$/, '.[ext]'),
-      });
-
-    loaders
-      .oneOf(ONE_OF.SVG)
-      .test(SVG_REGEX)
-      .type('javascript/auto')
-      .use(USE.SVGR)
-      .loader(require.resolve('@svgr/webpack'))
-      .options({ svgo: false })
-      .end()
-      .use(USE.URL)
-      .loader(require.resolve('../../compiled/url-loader'))
-      .options({
-        limit: this.options.output?.dataUriLimit,
-        name: this.mediaChunkName.replace(/\[ext\]$/, '.[ext]'),
-      });
-
-    // img, font assets
-    loaders
-      .oneOf(ONE_OF.ASSETS_INLINE)
-      .test(ASSETS_REGEX)
-      .type('asset/inline' as any)
-      .resourceQuery(/inline/);
-
-    loaders
-      .oneOf(ONE_OF.ASSETS_URL)
-      .test(ASSETS_REGEX)
-      .type('asset/resource' as any)
-      .resourceQuery(/url/);
-
-    loaders
-      .oneOf(ONE_OF.ASSETS)
-      .test(ASSETS_REGEX)
-      .type('asset' as any)
-      .parser({
-        dataUrlCondition: { maxSize: this.options.output?.dataUriLimit },
-      });
+    applyAssetsLoader({
+      config: this.options,
+      loaders,
+    });
 
     // yml, toml, markdown
     loaders
@@ -420,41 +364,17 @@ class BaseWebpackConfig {
     ]);
 
     const { output } = this.options;
+    // only enable ts-checker plugin in ts project
+    // no need to use ts-checker plugin when using ts-loader
     if (
-      // only enable ts-checker plugin in ts project
       this.isTsProject &&
-      // no need to use ts-checker plugin when using ts-loader
       !output.enableTsLoader &&
       !output.disableTsChecker
     ) {
-      const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-      this.chain.plugin(PLUGIN.TS_CHECKER).use(ForkTsCheckerWebpackPlugin, [
-        {
-          typescript: {
-            // avoid OOM issue
-            memoryLimit: 8192,
-            // use tsconfig of user project
-            configFile: path.resolve(this.appDirectory, './tsconfig.json'),
-            // use typescript of user project
-            typescriptPath: require.resolve('typescript'),
-          },
-          // only display error messages
-          logger: {
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            log() {},
-            error(message: string) {
-              console.error(chalk.red.bold('TYPE'), message);
-            },
-          },
-          issue: {
-            include: [{ file: '**/src/**/*' }],
-            exclude: [
-              { file: '**/*.(spec|test).ts' },
-              { file: '**/node_modules/**/*' },
-            ],
-          },
-        },
-      ]);
+      applyTsCheckerPlugin({
+        chain: this.chain,
+        appDirectory: this.appDirectory,
+      });
     }
   }
 
@@ -468,40 +388,25 @@ class BaseWebpackConfig {
       this.chain.resolve.extensions.add(ext);
     }
 
-    //  resolve alias
-    const defaultAlias: ResolveAlias = getWebpackAliases(
-      this.appContext,
-      this.options._raw,
-    );
-
-    const alias = applyOptionsChain<ResolveAlias, undefined>(
-      defaultAlias,
-      this.options.source?.alias as ResolveAlias,
-    );
-
-    for (const name of Object.keys(alias)) {
-      this.chain.resolve.alias.set(
-        name,
-        (
-          (Array.isArray(alias[name]) ? alias[name] : [alias[name]]) as string[]
-        ).map(a =>
-          /**
-           * - Relative paths need to be turned into absolute paths
-           * - Absolute paths or a package name are not processed
-           */
-          a.startsWith('.')
-            ? (ensureAbsolutePath(this.appDirectory, a) as any)
-            : a,
-        ) as any,
-      );
-    }
+    applyAlias({
+      chain: this.chain,
+      config: this.options,
+      appContext: this.appContext,
+    });
 
     //  resolve modules
     this.chain.resolve.modules
       .add('node_modules')
       .add(this.appContext.nodeModulesDirectory);
 
-    this.applyModuleScopePlugin();
+    // only apply module scope plugin when user config contains moduleScopes
+    if (this.options._raw?.source?.moduleScopes) {
+      applyModuleScopePlugin({
+        chain: this.chain,
+        config: this.options,
+        appContext: this.appContext,
+      });
+    }
 
     if (this.isTsProject) {
       const {
@@ -544,41 +449,10 @@ class BaseWebpackConfig {
       });
 
     if (minimize) {
-      const TerserPlugin = require('terser-webpack-plugin');
-      const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-      this.chain.optimization
-        .minimizer(MINIMIZER.JS)
-        .use(TerserPlugin, [
-          // FIXME: any type
-          applyOptionsChain<any, any>(
-            {
-              terserOptions: {
-                parse: { ecma: 8 },
-                compress: {
-                  ecma: 5,
-                  warnings: false,
-                  comparisons: false,
-                  inline: 2,
-                },
-                mangle: { safari10: true },
-                // Added for profiling in devtools
-                keep_classnames: isProdProfile(),
-                keep_fnames: isProdProfile(),
-                output: {
-                  ecma: 5,
-                  ascii_only: true,
-                },
-              },
-            },
-            this.options.tools?.terser,
-          ),
-        ])
-        .end()
-        .minimizer(MINIMIZER.CSS)
-        // FIXME: add `<any>` reason: Since the css-minimizer-webpack-plugin has been updated
-        .use<any>(CssMinimizerPlugin, [
-          applyOptionsChain({}, this.options.tools?.minifyCss),
-        ]);
+      applyMinimizer({
+        chain: this.chain,
+        config: this.options,
+      });
     }
   }
 
@@ -651,53 +525,6 @@ class BaseWebpackConfig {
     return finalConfig;
   }
 
-  applyModuleScopePlugin() {
-    const userConfig = this.options._raw;
-
-    // only apply module scope plugin when user config contains moduleScopes
-    if (!userConfig?.source?.moduleScopes) {
-      return;
-    }
-
-    let defaultScopes: Array<string | RegExp> = [
-      './src',
-      './shared',
-      /node_modules/,
-    ];
-
-    const scopeOptions = this.options.source?.moduleScopes;
-
-    if (Array.isArray(scopeOptions)) {
-      if (scopeOptions.some(s => typeof s === 'function')) {
-        for (const scope of scopeOptions) {
-          if (typeof scope === 'function') {
-            const ret = scope(defaultScopes);
-            defaultScopes = ret ? ret : defaultScopes;
-          } else {
-            defaultScopes.push(scope as string | RegExp);
-          }
-        }
-      } else {
-        defaultScopes.push(...(scopeOptions as Array<string | RegExp>));
-      }
-    }
-
-    const { ModuleScopePlugin } = require('../plugins/module-scope-plugin');
-    this.chain.resolve
-      .plugin(RESOLVE_PLUGIN.MODULE_SCOPE)
-      .use(ModuleScopePlugin, [
-        {
-          appSrc: defaultScopes.map((scope: string | RegExp) => {
-            if (isString(scope)) {
-              return ensureAbsolutePath(this.appDirectory, scope);
-            }
-            return scope;
-          }),
-          allowedFiles: [path.resolve(this.appDirectory, './package.json')],
-        },
-      ]);
-  }
-
   applyToolsWebpackChain() {
     if (!this.options.tools) {
       return;
@@ -717,149 +544,6 @@ class BaseWebpackConfig {
         });
       });
     }
-  }
-
-  /**
-   * Condition of babel-loader and ts-loader.
-   *
-   * Will compile:
-   * - All folders in app directory, such as `src/`, `shared/`...
-   * - Internal folder `node_modules/.modern.js`
-   * - User configured paths in `source.include`
-   * - User configured paths in `addIncludes` of `tools.babel` and `tools.tsLoader`
-   * - Entry file of core-js when `output.polyfill` is `entry`
-   * - Internal sub-projects in modern.js monorepo: `/<MonorepoRoot>/features/*`
-   *
-   * Will not compile:
-   * - All dependencies in `node_modules/`
-   * - BFF API folder: `<appDirectory>/api`
-   * - Folders outside the app directory, such as `../../packages/foo/`
-   * - User configured paths in `addExcludes` of `tools.babel` and `tools.tsLoader`
-   */
-  applyScriptCondition(
-    rule: WebpackChain.Rule<WebpackChain.Rule<WebpackChain.Module>>,
-    includes: (string | RegExp)[],
-    excludes: (string | RegExp)[],
-  ) {
-    // compile all folders in app directory, exclude node_modules
-    rule.include.add({
-      and: [this.appContext.appDirectory, { not: /node_modules/ }],
-    });
-
-    // internalDirectory should by compiled by default
-    rule.include.add(this.appContext.internalDirectory);
-
-    // let babel to transform core-js-entry, make `useBuiltins: 'entry'` working
-    if (this.options.output.polyfill === 'entry') {
-      rule.include.add(this.coreJsEntry);
-    }
-
-    // source.includes from modern.config.js
-    const sourceIncludes = getSourceIncludes(this.appDirectory, this.options);
-    sourceIncludes.forEach(condition => {
-      rule.include.add(condition);
-    });
-
-    // exclude the api folder if exists
-    const apiDir = path.resolve(this.appContext.appDirectory, API_DIR);
-    if (fs.existsSync(apiDir)) {
-      rule.exclude.add(apiDir);
-    }
-
-    includes.forEach(condition => {
-      rule.include.add(condition);
-    });
-    excludes.forEach(condition => {
-      rule.exclude.add(condition);
-    });
-  }
-
-  applyBabelLoader(
-    loaders: WebpackChain.Rule<WebpackChain.Module>,
-    useTsLoader: boolean,
-  ) {
-    const { options, includes, excludes } = getBabelOptions(
-      this.metaName,
-      this.appDirectory,
-      this.options,
-      this.babelChain,
-      this.babelPresetAppOptions,
-    );
-
-    const rule = loaders
-      .oneOf(ONE_OF.JS)
-      .test(useTsLoader ? JS_REGEX : mergeRegex(JS_REGEX, TS_REGEX));
-
-    this.applyScriptCondition(rule, includes, excludes);
-
-    rule
-      .use(USE.BABEL)
-      .loader(require.resolve('../../compiled/babel-loader'))
-      .options(options);
-  }
-
-  applyTsLoader(loaders: WebpackChain.Rule<WebpackChain.Module>) {
-    const babelLoaderOptions = {
-      presets: [
-        [
-          require.resolve('@modern-js/babel-preset-app'),
-          {
-            metaName: this.metaName,
-            appDirectory: this.appDirectory,
-            target: 'client',
-            useTsLoader: true,
-            useBuiltIns: getUseBuiltIns(this.options),
-            userBabelConfig: this.options.tools.babel,
-          },
-        ],
-      ],
-    };
-
-    const includes: Array<string | RegExp> = [];
-    const excludes: Array<string | RegExp> = [];
-
-    const tsLoaderUtils = {
-      addIncludes(items: string | RegExp | (string | RegExp)[]) {
-        if (Array.isArray(items)) {
-          includes.push(...items);
-        } else {
-          includes.push(items);
-        }
-      },
-      addExcludes(items: string | RegExp | (string | RegExp)[]) {
-        if (Array.isArray(items)) {
-          excludes.push(...items);
-        } else {
-          excludes.push(items);
-        }
-      },
-    };
-
-    const tsLoaderOptions = applyOptionsChain(
-      {
-        compilerOptions: {
-          target: 'es5',
-          module: 'ESNext',
-        },
-        transpileOnly: false,
-        allowTsInNodeModules: true,
-      },
-      this.options.tools?.tsLoader || {},
-      tsLoaderUtils,
-    );
-
-    const rule = loaders.oneOf(ONE_OF.TS).test(TS_REGEX);
-
-    this.applyScriptCondition(rule, includes, excludes);
-
-    rule
-      .use(USE.BABEL)
-      .loader(require.resolve('../../compiled/babel-loader'))
-      .options(babelLoaderOptions)
-      .end()
-      .use(USE.TS)
-      .loader(require.resolve('ts-loader'))
-      .options(tsLoaderOptions);
   }
 
   getChain() {

@@ -27,6 +27,7 @@ import { BottomTemplatePlugin } from '../plugins/bottom-template-plugin';
 import { ICON_EXTENSIONS } from '../utils/constants';
 import { BaseWebpackConfig } from './base';
 import { enableBundleAnalyzer } from './shared';
+import { CORE_JS_ENTRY } from './features/babel-loader';
 
 const { USE, RULE, ONE_OF, PLUGIN } = CHAIN_ID;
 
@@ -394,7 +395,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
       const entryPoints = Object.keys(this.chain.entryPoints.entries() || {});
 
       for (const name of entryPoints) {
-        this.chain.entry(name).prepend(this.coreJsEntry);
+        this.chain.entry(name).prepend(CORE_JS_ENTRY);
       }
     }
   }
