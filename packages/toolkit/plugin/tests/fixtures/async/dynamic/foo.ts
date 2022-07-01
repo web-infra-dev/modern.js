@@ -18,7 +18,6 @@ const foo = createPlugin(() => {
   return {
     preDev: () => {
       // run new lifecycle
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       useRunner().fooWaterfall();
     },
   };

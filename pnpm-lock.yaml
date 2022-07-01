@@ -210,7 +210,7 @@ importers:
     specifiers:
       '@jest/types': ^27.0.6
       '@modern-js/load-config': workspace:^1.3.6
-      '@modern-js/plugin': workspace:^1.4.0
+      '@modern-js/plugin': workspace:^1.4.1
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.11
       '@scripts/build': workspace:*
@@ -312,7 +312,7 @@ importers:
       '@babel/traverse': ^7.18.0
       '@babel/types': ^7.18.0
       '@modern-js/core': workspace:*
-      '@modern-js/plugin': workspace:^1.4.0
+      '@modern-js/plugin': workspace:^1.4.1
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.11
       '@scripts/build': workspace:*
@@ -1526,7 +1526,7 @@ importers:
       '@modern-js/create-request': workspace:^1.3.0
       '@modern-js/css-config': workspace:^1.2.7
       '@modern-js/esmpack': workspace:^1.3.3
-      '@modern-js/plugin': workspace:^1.4.0
+      '@modern-js/plugin': workspace:^1.4.1
       '@modern-js/server': workspace:^1.5.0
       '@modern-js/tsconfig': workspace:*
       '@modern-js/types': workspace:*
@@ -2724,7 +2724,7 @@ importers:
       '@jest/types': ^27.0.6
       '@modern-js/babel-preset-app': workspace:^1.4.2
       '@modern-js/core': workspace:*
-      '@modern-js/plugin': workspace:^1.4.0
+      '@modern-js/plugin': workspace:^1.4.1
       '@modern-js/utils': workspace:^1.7.11
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2816,7 +2816,7 @@ importers:
   packages/runtime:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/plugin': workspace:^1.4.0
+      '@modern-js/plugin': workspace:^1.4.1
       '@modern-js/types': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2957,7 +2957,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7.18.0
       '@modern-js/bff-runtime': workspace:^1.3.0
-      '@modern-js/plugin': workspace:^1.4.0
+      '@modern-js/plugin': workspace:^1.4.1
       '@modern-js/utils': workspace:^1.7.9
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2991,7 +2991,7 @@ importers:
   packages/server/core:
     specifiers:
       '@modern-js/core': workspace:*
-      '@modern-js/plugin': workspace:^1.4.0
+      '@modern-js/plugin': workspace:^1.4.1
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:^1.7.11
       '@scripts/build': workspace:*
@@ -3522,7 +3522,7 @@ importers:
       '@babel/runtime': ^7.18.0
       '@modern-js/babel-preset-lib': workspace:^1.3.1
       '@modern-js/core': workspace:*
-      '@modern-js/plugin': workspace:^1.4.0
+      '@modern-js/plugin': workspace:^1.4.1
       '@modern-js/utils': workspace:^1.7.11
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -3569,7 +3569,7 @@ importers:
       '@modern-js/i18n-cli-language-detector': workspace:^1.2.4
       '@modern-js/new-action': workspace:^1.3.11
       '@modern-js/node-bundle-require': workspace:^1.3.7
-      '@modern-js/plugin': workspace:^1.4.0
+      '@modern-js/plugin': workspace:^1.4.1
       '@modern-js/plugin-analyze': workspace:^1.4.7
       '@modern-js/plugin-i18n': workspace:^1.2.7
       '@modern-js/plugin-jarvis': workspace:^1.2.14
@@ -3626,12 +3626,12 @@ importers:
       '@modern-js/css-config': workspace:^1.2.7
       '@modern-js/i18n-cli-language-detector': workspace:^1.2.4
       '@modern-js/new-action': workspace:^1.3.11
-      '@modern-js/plugin': workspace:^1.4.0
+      '@modern-js/plugin': workspace:^1.4.1
       '@modern-js/plugin-analyze': workspace:^1.4.7
       '@modern-js/plugin-changeset': workspace:^1.3.1
       '@modern-js/plugin-i18n': workspace:^1.2.7
       '@modern-js/plugin-jarvis': workspace:^1.2.14
-      '@modern-js/style-compiler': workspace:^1.2.12
+      '@modern-js/style-compiler': workspace:^1.2.13
       '@modern-js/utils': workspace:^1.7.11
       '@rollup/plugin-json': ~4.1.0
       '@scripts/build': workspace:*
@@ -3714,7 +3714,7 @@ importers:
       '@modern-js/core': workspace:^1.12.2
       '@modern-js/i18n-cli-language-detector': workspace:^1.2.4
       '@modern-js/new-action': workspace:^1.3.11
-      '@modern-js/plugin': workspace:^1.4.0
+      '@modern-js/plugin': workspace:^1.4.1
       '@modern-js/plugin-changeset': workspace:^1.3.1
       '@modern-js/plugin-i18n': workspace:^1.2.7
       '@modern-js/plugin-jarvis': workspace:^1.2.14
@@ -4118,7 +4118,7 @@ importers:
 
   packages/toolkit/types:
     specifiers:
-      '@modern-js/plugin': workspace:^1.4.0
+      '@modern-js/plugin': workspace:^1.4.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27

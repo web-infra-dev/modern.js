@@ -21,7 +21,6 @@ import {
   ResolvedConfigContext,
 } from './context';
 import { initWatcher } from './initWatcher';
-import type { NormalizedConfig } from './config/mergeConfig';
 import { loadEnv } from './loadEnv';
 import { manager, HooksRunner } from './manager';
 
@@ -50,7 +49,7 @@ export {
 } from './pluginAPI';
 export type { PluginAPI } from './pluginAPI';
 
-export type { NormalizedConfig, IAppContext };
+export type { IAppContext };
 
 const initAppDir = async (cwd?: string): Promise<string> => {
   if (!cwd) {
