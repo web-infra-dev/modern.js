@@ -13,17 +13,18 @@ describe('plugin runtime cli', () => {
     expect(plugin).toBeDefined();
   });
 
-  it('plugin-runtime cli config snapshot', async () => {
+  it('plugin-runtime cli config is defined', async () => {
     const config = await runner.config();
-    expect(config[0]).toMatchSnapshot({
-      source: {
-        alias: expect.any(Object),
-      },
-    });
+    expect(config.find((item: any) => item.runtime)).toBeTruthy();
+    expect(config.find((item: any) => item.runtimeByEntries)).toBeTruthy();
   });
 
-  it('plugin-runtime cli schema snapshot', async () => {
-    const schema = await runner.validateSchema();
-    expect(schema).toMatchSnapshot();
+  it('plugin-runtime cli schema is defined', async () => {
+    const result = await runner.validateSchema();
+    expect(
+      result.find((item: any) =>
+        item.find(({ target }: any) => target === 'runtime'),
+      ),
+    ).toBeTruthy();
   });
 });

@@ -12,7 +12,7 @@ describe('plugin-router', () => {
 });
 
 describe('cli-router', () => {
-  const main = manager.clone().usePlugin(RuntimePlugin).usePlugin(cliPlugin);
+  const main = manager.clone().usePlugin(RuntimePlugin, cliPlugin);
   let runner: any;
 
   beforeAll(async () => {
@@ -23,17 +23,21 @@ describe('cli-router', () => {
     expect(cliPlugin).toBeDefined();
   });
 
-  it('plugin-router cli config snapshot', async () => {
+  it('plugin-router cli config is defined', async () => {
     const config = await runner.config();
-    expect(config[0]).toMatchSnapshot({
-      source: {
-        alias: expect.any(Object),
-      },
-    });
+    expect(
+      config.find(
+        (item: any) => item.source.alias['@modern-js/runtime/plugins'],
+      ),
+    ).toBeTruthy();
   });
 
-  it('plugin-router cli schema snapshot', async () => {
-    const schema = await runner.validateSchema();
-    expect(schema).toMatchSnapshot();
+  it('plugin-router cli schema is defined', async () => {
+    const result = await runner.validateSchema();
+    expect(
+      result.find((item: any) =>
+        item.find(({ target }: any) => target === 'runtime.router'),
+      ),
+    ).toBeTruthy();
   });
 });

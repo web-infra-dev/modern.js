@@ -34979,7 +34979,7 @@ packages:
       acorn-import-assertions: 1.8.0_acorn@8.7.1
       browserslist: 4.21.0
       chrome-trace-event: 1.0.3
-      enhanced-resolve: 5.9.3
+      enhanced-resolve: 5.10.0
       es-module-lexer: 0.9.3
       eslint-scope: 5.1.1
       events: 3.3.0
