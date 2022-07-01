@@ -246,7 +246,7 @@ export const generateRunner = <Hooks extends Record<string, any>>(
   hooksMap?: Hooks,
 ): ToRunners<Hooks> => {
   const runner = {};
-  const cloneShape = closeHooksMap(hooksMap);
+  const cloneShape = cloneHooksMap(hooksMap);
 
   if (hooksMap) {
     for (const key in cloneShape) {
@@ -299,7 +299,7 @@ export const cloneHook = (hook: Hook): Hook => {
   throw new Error(`Unknown hook: ${hook}`);
 };
 
-export const closeHooksMap = <Hooks>(record: Hooks): Hooks => {
+export const cloneHooksMap = <Hooks>(record: Hooks): Hooks => {
   if (!record) {
     return record;
   }
