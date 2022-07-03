@@ -8,7 +8,7 @@ sidebar_position: 5
 
 该方法可用于任何文件类型，对于二进制以外的文件类型，添加文件时会进行 Handlebars 渲染。
 
-该方法可在 onForged 生命周期的 api 参数上获取。
+该方法可在 `onForged` 生命周期的 `api` 参数上获取。
 
 其类型定义为：
 
@@ -38,13 +38,13 @@ export type ForgedAPI = {
 ## templateFiles
 
 模板文件列表。
-该参数支持函数参数，也支持[globby 正则](https://www.npmjs.com/package/globby)。
+该参数支持函数参数，也支持 [globby 正则](https://www.npmjs.com/package/globby)。
 
 ## templateBase
 
 模板基础路径。
 模板路径通常为同一个目录下的模板文件，如果渲染结果需要去除掉模板文件前缀目录，可使用该字段。
-模板渲染文件内容将等于 templateFiles - templateBase
+模板渲染文件内容将等于 `templateFiles - templateBase`
 
 ## fileNameFunc
 
