@@ -24,4 +24,15 @@ describe('render', () => {
 
     expect(result).toStrictEqual({ markup: '<div>App</div>' });
   });
+
+  it('client', async () => {
+    const root = document.createElement('div');
+    const runtime = createRuntime();
+    const render = initialRender([], runtime);
+    function App() {
+      return <div>App</div>;
+    }
+    await render.clientRender({ App }, root);
+    expect(root.innerHTML).toEqual('<div>App</div>');
+  });
 });

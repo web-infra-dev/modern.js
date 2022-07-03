@@ -5,7 +5,6 @@ import {
   LOADABLE_STATS_FILE,
   isUseSSRBundle,
   createRuntimeExportsUtils,
-  PLUGIN_SCHEMAS,
   isSingleEntry,
 } from '@modern-js/utils';
 import type { CliPlugin, SSGMultiEntryOptions } from '@modern-js/core';
@@ -55,9 +54,6 @@ export default (): CliPlugin => ({
             },
           },
         };
-      },
-      validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-ssr'];
       },
       modifyEntryImports({ entrypoint, imports }: any) {
         const { entryName } = entrypoint;

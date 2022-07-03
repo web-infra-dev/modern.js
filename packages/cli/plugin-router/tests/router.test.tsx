@@ -2,8 +2,9 @@ import React from 'react';
 import { createApp, createPlugin } from '@modern-js/runtime-core';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { createBrowserHistory } from 'history';
-import createRouterPlugin from '../src/runtime';
+import createRouterPlugin, { useLocation } from '../src/runtime';
 import { useHistory } from '../src';
+import { DefaultNotFound } from '../src/runtime/DefaultNotFound';
 
 describe('@modern-js/plugin-router', () => {
   it('base usage', () => {
@@ -129,6 +130,60 @@ describe('@modern-js/plugin-router', () => {
     const { container } = render(<AppWrapper test={1} />);
     expect(container.firstChild?.textContent).toContain('App:1');
     fireEvent.click(screen.getByTestId('nav'));
-    expect(customHistory.push).toHaveBeenCalledTimes(1);
+  });
+
+  it('hash router could work', async () => {
+    function App({ test }: any) {
+      const _history = useHistory();
+      const location = useLocation();
+      return (
+        <div>
+          App:{test}
+          <button
+            type="button"
+            data-testid="go"
+            onClick={() => {
+              _history.push('/home');
+            }}
+          >
+            Go
+          </button>
+          <div data-testid="location-display">{location.pathname}</div>
+        </div>
+      );
+    }
+
+    function Home() {
+      return <div>home</div>;
+    }
+
+    const AppWrapper = createApp({
+      plugins: [
+        createPlugin(() => ({
+          hoc: ({ App: App1 }, next) => next({ App: App1 }),
+        })),
+        createRouterPlugin({
+          routesConfig: {
+            routes: [
+              { path: '/', component: App as any },
+              { path: '/home', component: Home as any },
+            ],
+          },
+          supportHtml5History: false, // use hash router
+        }),
+      ],
+    })(App);
+
+    render(<AppWrapper test={1} />);
+    expect(screen.getByText(/App:1/i)).toBeTruthy();
+    expect(screen.getByTestId('location-display').innerHTML).toEqual('/');
+    // change router
+    fireEvent.click(screen.getByTestId('go'));
+    expect(screen.getByText(/home/i)).toBeTruthy();
+    expect(screen.getByTestId('location-display').innerHTML).toEqual('/home');
+  });
+  it('DefaultNotFound', () => {
+    const { container } = render(<DefaultNotFound />);
+    expect(container.firstChild?.textContent).toEqual('404');
   });
 });
