@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const DefaultNotFound = () => (
   <div
     style={{
@@ -6,7 +8,8 @@ export const DefaultNotFound = () => (
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-    }}>
+    }}
+  >
     404
   </div>
 );
