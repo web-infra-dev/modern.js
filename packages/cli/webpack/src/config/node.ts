@@ -6,7 +6,6 @@ import type {
   SSGMultiEntryOptions,
 } from '@modern-js/core';
 import { CHAIN_ID, isProd, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
-import { DefinePlugin } from 'webpack';
 import type WebpackChain from '@modern-js/utils/webpack-chain';
 import { BaseWebpackConfig } from './base';
 import { applyBundleAnalyzerPlugin } from './features/bundle-analyzer';
@@ -128,25 +127,8 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     return loaders;
   }
 
-  private useDefinePlugin() {
-    const { globalVars } = this.options.source || {};
-    this.chain.plugin('define').use(DefinePlugin, [
-      {
-        ...Object.keys(globalVars || {}).reduce<Record<string, string>>(
-          (memo, name) => {
-            memo[name] = globalVars ? JSON.stringify(globalVars[name]) : '';
-            return memo;
-          },
-          {},
-        ),
-      },
-    ]);
-  }
-
   plugins() {
     super.plugins();
-
-    this.useDefinePlugin();
 
     // Avoid repeated execution of ts checker
     this.chain.plugins.delete(CHAIN_ID.PLUGIN.TS_CHECKER);

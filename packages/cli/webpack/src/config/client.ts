@@ -21,7 +21,7 @@ import {
   applyNodePolyfillResolve,
   applyNodePolyfillProvidePlugin,
 } from './features/node-polyfill';
-import { applyDefinePlugin } from './features/define';
+import { applyEnvVarsDefinePlugin } from './features/define';
 import { applyInlineChunkPlugin } from './features/inline-chunk';
 import { applyHTMLPlugin } from './features/html';
 
@@ -63,7 +63,7 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
   plugins() {
     super.plugins();
 
-    applyDefinePlugin(this.chainUtils);
+    applyEnvVarsDefinePlugin(this.chainUtils);
 
     const isUsingHMR = isDev() && this.options.tools?.devServer?.hot !== false;
     if (isUsingHMR) {

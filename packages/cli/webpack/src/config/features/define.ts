@@ -10,28 +10,43 @@ function getCustomPublicEnv(appContext: IAppContext) {
   return Object.keys(process.env).filter(key => envReg.test(key));
 }
 
-export function applyDefinePlugin({ chain, config, appContext }: ChainUtils) {
-  const { envVars, globalVars } = config.source || {};
-  const publicEnvVars = getCustomPublicEnv(appContext);
+export function applyDefinePlugin({ chain, config }: ChainUtils) {
+  const { globalVars } = config.source || {};
 
   chain.plugin(CHAIN_ID.PLUGIN.DEFINE).use(DefinePlugin, [
-    {
-      ...[
-        'NODE_ENV',
-        'BUILD_MODE',
-        ...publicEnvVars,
-        ...(envVars || []),
-      ].reduce<Record<string, string>>((memo, name) => {
-        memo[`process.env.${name}`] = JSON.stringify(process.env[name]);
+    Object.keys(globalVars || {}).reduce<Record<string, string>>(
+      (memo, name) => {
+        memo[name] = globalVars ? JSON.stringify(globalVars[name]) : '';
         return memo;
-      }, {}),
-      ...Object.keys(globalVars || {}).reduce<Record<string, string>>(
-        (memo, name) => {
-          memo[name] = globalVars ? JSON.stringify(globalVars[name]) : '';
-          return memo;
-        },
-        {},
-      ),
-    },
+      },
+      {},
+    ),
   ]);
+}
+
+export function applyEnvVarsDefinePlugin({
+  chain,
+  config,
+  appContext,
+}: ChainUtils) {
+  const { envVars } = config.source || {};
+  const publicEnvVars = getCustomPublicEnv(appContext);
+
+  chain.plugin(CHAIN_ID.PLUGIN.DEFINE).tap(options => {
+    const envVarsConfig = [
+      'NODE_ENV',
+      'BUILD_MODE',
+      ...publicEnvVars,
+      ...(envVars || []),
+    ].reduce<Record<string, string>>((memo, name) => {
+      memo[`process.env.${name}`] = JSON.stringify(process.env[name]);
+      return memo;
+    }, {});
+
+    options[0] = {
+      ...envVarsConfig,
+      ...options[0],
+    };
+    return options;
+  });
 }

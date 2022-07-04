@@ -36,6 +36,7 @@ import { applyFallbackLoader } from './features/fallback';
 import { applyProgressPlugin } from './features/progress';
 import { applyIgnorePlugin } from './features/ignore';
 import { applyFileSystemCache } from './features/cache';
+import { applyDefinePlugin } from './features/define';
 
 export type ResolveAlias = { [index: string]: string };
 
@@ -246,6 +247,8 @@ class BaseWebpackConfig {
 
   plugins() {
     applyProgressPlugin(this.chainUtils);
+    applyDefinePlugin(this.chainUtils);
+    applyIgnorePlugin(this.chainUtils);
 
     if (enableCssExtract(this.options)) {
       applyCSSExtractPlugin({
@@ -253,8 +256,6 @@ class BaseWebpackConfig {
         cssChunkName: this.cssChunkName,
       });
     }
-
-    applyIgnorePlugin(this.chainUtils);
 
     const { output } = this.options;
     // only enable ts-checker plugin in ts project
