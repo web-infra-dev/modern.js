@@ -44,8 +44,7 @@ describe('@modern-js/webpack#config/client', () => {
     },
   } as any;
 
-  it('ClientWebpackConfig', () => {
-    const client: any = new ClientWebpackConfig(appContext, options);
+  it('should get correct node polyfills', () => {
     const z = getNodePolyfill();
     expect(z.readline).toBeFalsy();
     expect(Object.keys(z)).toEqual([
@@ -88,10 +87,6 @@ describe('@modern-js/webpack#config/client', () => {
       'vm',
       'zlib',
     ]);
-
-    const getCustomPublicEnv = jest.spyOn(client, 'getCustomPublicEnv');
-    client.useDefinePlugin();
-    expect(getCustomPublicEnv).toBeCalled();
   });
 
   it('should register CopyPlugin when upload/public dir is existed', done => {

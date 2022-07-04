@@ -1,5 +1,5 @@
 import { CHAIN_ID } from '@modern-js/utils';
-import { CSS_REGEX, JS_REGEX, TS_REGEX } from 'src/utils/constants';
+import { CSS_REGEX, JS_REGEX, TS_REGEX } from '../../utils/constants';
 import type { ChainUtils } from '../shared';
 
 export function applyFallbackLoader({ loaders }: ChainUtils) {
