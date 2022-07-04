@@ -66,13 +66,13 @@ describe('convention router', () => {
     const initDisplay = await page.$eval('.display', el => el.textContent);
 
     await page.click('#kobe');
-    const display = await page.$('.display');
-    const firstDisplay = await page.evaluate(el => el.textContent, display);
+    await page.waitForSelector('.display');
+    const firstDisplay = await page.$eval('.display', el => el.textContent);
     const firstUrl = page.url();
 
     await page.click('#lebron');
-    const display1 = await page.$('.display');
-    const secondDisplay = await page.evaluate(el => el.textContent, display1);
+    await page.waitForSelector('.display');
+    const secondDisplay = await page.$eval('.display', el => el.textContent);
     const secondUrl = page.url();
 
     expect(title).toEqual('_app');
