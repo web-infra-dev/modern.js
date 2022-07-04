@@ -1,7 +1,7 @@
 import { CHAIN_ID } from '@modern-js/utils';
-import type { WebpackChain } from '@modern-js/utils';
+import type { ChainUtils } from '../shared';
 
-export function applyManifestPlugin({ chain }: { chain: WebpackChain }) {
+export function applyManifestPlugin({ chain }: ChainUtils) {
   const {
     WebpackManifestPlugin,
   }: typeof import('../../../compiled/webpack-manifest-plugin') = require('../../../compiled/webpack-manifest-plugin');

@@ -3,27 +3,23 @@ import {
   isProd,
   CHAIN_ID,
   findExists,
-  WebpackChain,
   getEntryOptions,
   removeTailSlash,
   generateMetaTags,
 } from '@modern-js/utils';
 import webpack from 'webpack';
-import type { NormalizedConfig } from '@modern-js/core';
 import type { Entrypoint, IAppContext } from '@modern-js/types';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import { BottomTemplatePlugin } from '../../plugins/bottom-template-plugin';
 import { ICON_EXTENSIONS } from '../../utils/constants';
+import type { ChainUtils } from '../shared';
 
 export function applyHTMLPlugin({
   chain,
   config,
   appContext,
   htmlFilename,
-}: {
-  chain: WebpackChain;
-  config: NormalizedConfig;
-  appContext: IAppContext;
+}: ChainUtils & {
   htmlFilename: (name: string) => string;
 }) {
   const { packageName } = appContext as IAppContext & {

@@ -1,5 +1,6 @@
 import { ProvidePlugin } from 'webpack';
-import { CHAIN_ID, WebpackChain } from '@modern-js/utils';
+import { CHAIN_ID } from '@modern-js/utils';
+import type { ChainUtils } from '../shared';
 
 export function getNodePolyfill() {
   const nodeLibsBrowser = require('node-libs-browser');
@@ -16,13 +17,13 @@ export function getNodePolyfill() {
   );
 }
 
-export function applyNodePolyfillResolve(chain: WebpackChain) {
+export function applyNodePolyfillResolve({ chain }: ChainUtils) {
   chain.resolve.merge({
     fallback: getNodePolyfill(),
   });
 }
 
-export function applyNodePolyfillProvidePlugin(chain: WebpackChain) {
+export function applyNodePolyfillProvidePlugin({ chain }: ChainUtils) {
   const nodeLibsBrowser = require('node-libs-browser');
   chain.plugin(CHAIN_ID.PLUGIN.NODE_POLYFILL_PROVIDE).use(ProvidePlugin, [
     {

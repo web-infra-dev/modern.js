@@ -1,6 +1,7 @@
 import { DefinePlugin } from 'webpack';
-import { CHAIN_ID, WebpackChain } from '@modern-js/utils';
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import { CHAIN_ID } from '@modern-js/utils';
+import type { IAppContext } from '@modern-js/core';
+import type { ChainUtils } from '../shared';
 
 function getCustomPublicEnv(appContext: IAppContext) {
   const { metaName } = appContext;
@@ -9,15 +10,7 @@ function getCustomPublicEnv(appContext: IAppContext) {
   return Object.keys(process.env).filter(key => envReg.test(key));
 }
 
-export function applyDefinePlugin({
-  chain,
-  config,
-  appContext,
-}: {
-  chain: WebpackChain;
-  config: NormalizedConfig;
-  appContext: IAppContext;
-}) {
+export function applyDefinePlugin({ chain, config, appContext }: ChainUtils) {
   const { envVars, globalVars } = config.source || {};
   const publicEnvVars = getCustomPublicEnv(appContext);
 

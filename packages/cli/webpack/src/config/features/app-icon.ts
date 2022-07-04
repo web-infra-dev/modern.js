@@ -1,18 +1,9 @@
 import path from 'path';
 import { CHAIN_ID, findExists } from '@modern-js/utils';
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import type { WebpackChain } from '@modern-js/utils';
 import { ICON_EXTENSIONS } from '../../utils/constants';
+import type { ChainUtils } from '../shared';
 
-export function applyAppIconPlugin({
-  chain,
-  config,
-  appContext,
-}: {
-  chain: WebpackChain;
-  config: NormalizedConfig;
-  appContext: IAppContext;
-}) {
+export function applyAppIconPlugin({ chain, config, appContext }: ChainUtils) {
   const { AppIconPlugin } = require('../../plugins/app-icon-plugin');
   const HtmlWebpackPlugin: typeof import('html-webpack-plugin') = require('html-webpack-plugin');
 

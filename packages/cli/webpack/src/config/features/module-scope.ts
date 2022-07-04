@@ -1,17 +1,12 @@
 import path from 'path';
 import { CHAIN_ID, ensureAbsolutePath, isString } from '@modern-js/utils';
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import type { WebpackChain } from '@modern-js/utils';
+import type { ChainUtils } from '../shared';
 
 export function applyModuleScopePlugin({
   chain,
   config,
   appContext,
-}: {
-  chain: WebpackChain;
-  config: NormalizedConfig;
-  appContext: IAppContext;
-}) {
+}: ChainUtils) {
   let defaultScopes: Array<string | RegExp> = [
     './src',
     './shared',

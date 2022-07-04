@@ -49,75 +49,52 @@ export class ClientWebpackConfig extends BaseWebpackConfig {
 
   entry() {
     super.entry();
-    addCoreJsEntry({
-      chain: this.chain,
-      config: this.options,
-    });
+    addCoreJsEntry(this.chainUtils);
   }
 
   resolve() {
     super.resolve();
 
     if (!this.options.output.disableNodePolyfill) {
-      applyNodePolyfillResolve(this.chain);
+      applyNodePolyfillResolve(this.chainUtils);
     }
   }
 
   plugins() {
     super.plugins();
 
-    applyDefinePlugin({
-      chain: this.chain,
-      config: this.options,
-      appContext: this.appContext,
-    });
+    applyDefinePlugin(this.chainUtils);
 
     const isUsingHMR = isDev() && this.options.tools?.devServer?.hot !== false;
     if (isUsingHMR) {
       this.chain.plugin(CHAIN_ID.PLUGIN.HMR).use(HotModuleReplacementPlugin);
 
       if (isFastRefresh()) {
-        applyReactRefreshPlugin(this.chain);
-        applyReactRefreshBabelPlugin(this.chain);
+        applyReactRefreshPlugin(this.chainUtils);
+        applyReactRefreshBabelPlugin(this.chainUtils);
       }
     }
 
-    applyCopyPlugin({
-      chain: this.chain,
-      config: this.options,
-      appDirectory: this.appDirectory,
-    });
-
+    applyCopyPlugin(this.chainUtils);
     applyHTMLPlugin({
-      chain: this.chain,
-      config: this.options,
-      appContext: this.appContext,
+      ...this.chainUtils,
       htmlFilename: this.htmlFilename,
     });
-
-    applyAppIconPlugin({
-      chain: this.chain,
-      config: this.options,
-      appContext: this.appContext,
-    });
-
-    applyManifestPlugin({ chain: this.chain });
+    applyAppIconPlugin(this.chainUtils);
+    applyManifestPlugin(this.chainUtils);
 
     if (isProd()) {
-      applyInlineChunkPlugin({
-        chain: this.chain,
-        config: this.options,
-      });
+      applyInlineChunkPlugin(this.chainUtils);
     }
 
     // node polyfill
     if (!this.options.output.disableNodePolyfill) {
-      applyNodePolyfillProvidePlugin(this.chain);
+      applyNodePolyfillProvidePlugin(this.chainUtils);
     }
 
     if (this.options.cliOptions?.analyze) {
       applyBundleAnalyzerPlugin({
-        chain: this.chain,
+        ...this.chainUtils,
         reportFilename: 'report.html',
       });
     }

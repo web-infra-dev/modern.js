@@ -1,22 +1,13 @@
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import { CHAIN_ID, isProd, WebpackChain } from '@modern-js/utils';
+import { CHAIN_ID, isProd } from '@modern-js/utils';
 import {
   CSS_REGEX,
   GLOBAL_CSS_REGEX,
   CSS_MODULE_REGEX,
 } from '../../utils/constants';
 import { createCSSRule } from '../../utils/createCSSRule';
-import { isNodeModulesCss } from '../shared';
+import { ChainUtils, isNodeModulesCss } from '../shared';
 
-export function applyCSSLoaders({
-  chain,
-  config,
-  appContext,
-}: {
-  chain: WebpackChain;
-  config: NormalizedConfig;
-  appContext: IAppContext;
-}) {
+export function applyCSSLoaders({ chain, config, appContext }: ChainUtils) {
   const disableCssModuleExtension =
     config.output?.disableCssModuleExtension ?? false;
 
@@ -65,4 +56,21 @@ export function applyCSSLoaders({
       sourceMap: isProd() && !config.output?.disableSourceMap,
     },
   );
+}
+
+export function applyCSSExtractPlugin({
+  chain,
+  cssChunkName,
+}: ChainUtils & {
+  cssChunkName: string;
+}) {
+  const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+  chain.plugin(CHAIN_ID.PLUGIN.MINI_CSS_EXTRACT).use(MiniCssExtractPlugin, [
+    {
+      filename: cssChunkName,
+      chunkFilename: cssChunkName,
+      ignoreOrder: true,
+    },
+  ]);
 }

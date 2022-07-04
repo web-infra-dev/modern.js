@@ -1,14 +1,7 @@
-import { NormalizedConfig } from '@modern-js/core';
 import { applyOptionsChain, CHAIN_ID, isProdProfile } from '@modern-js/utils';
-import type { WebpackChain } from '@modern-js/utils';
+import type { ChainUtils } from '../shared';
 
-export function applyMinimizer({
-  chain,
-  config,
-}: {
-  chain: WebpackChain;
-  config: NormalizedConfig;
-}) {
+export function applyMinimizer({ chain, config }: ChainUtils) {
   const TerserPlugin = require('terser-webpack-plugin');
   const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 

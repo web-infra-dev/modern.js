@@ -1,13 +1,7 @@
-import type { NormalizedConfig } from '@modern-js/core';
-import { CHAIN_ID, WebpackChain } from '@modern-js/utils';
+import { CHAIN_ID } from '@modern-js/utils';
+import type { ChainUtils } from '../shared';
 
-export function applyInlineChunkPlugin({
-  chain,
-  config,
-}: {
-  chain: WebpackChain;
-  config: NormalizedConfig;
-}) {
+export function applyInlineChunkPlugin({ chain, config }: ChainUtils) {
   const HtmlWebpackPlugin: typeof import('html-webpack-plugin') = require('html-webpack-plugin');
   const InlineChunkHtmlPlugin: typeof import('../../plugins/inline-html-chunk-plugin') = require('../../plugins/inline-html-chunk-plugin');
 

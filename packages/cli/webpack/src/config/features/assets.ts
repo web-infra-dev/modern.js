@@ -1,15 +1,8 @@
 import { CHAIN_ID } from '@modern-js/utils';
-import type { WebpackChain } from '@modern-js/utils';
-import { NormalizedConfig } from '@modern-js/core';
 import { ASSETS_REGEX } from '../../utils/constants';
+import type { ChainUtils } from '../shared';
 
-export function applyAssetsLoader({
-  config,
-  loaders,
-}: {
-  config: NormalizedConfig;
-  loaders: WebpackChain.Rule<WebpackChain.Module>;
-}) {
+export function applyAssetsLoader({ config, loaders }: ChainUtils) {
   // img, font assets
   loaders
     .oneOf(CHAIN_ID.ONE_OF.ASSETS_INLINE)

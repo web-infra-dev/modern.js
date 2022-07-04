@@ -1,4 +1,5 @@
-import { ensureArray } from '@modern-js/utils';
+import { ensureArray, WebpackChain } from '@modern-js/utils';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import type {
   Configuration,
   RuleSetRule,
@@ -9,6 +10,13 @@ import {
   CSS_MODULE_REGEX,
   NODE_MODULES_REGEX,
 } from '../utils/constants';
+
+export type ChainUtils = {
+  chain: WebpackChain;
+  config: NormalizedConfig;
+  loaders: WebpackChain.Rule<WebpackChain.Module>;
+  appContext: IAppContext;
+};
 
 export function getWebpackUtils(config: Configuration) {
   return {

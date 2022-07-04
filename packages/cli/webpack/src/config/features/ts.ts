@@ -1,28 +1,17 @@
 import { resolve } from 'path';
 import { chalk, applyOptionsChain, CHAIN_ID } from '@modern-js/utils';
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import type { WebpackChain } from '@modern-js/utils';
 import { TS_REGEX } from '../../utils/constants';
 import { getUseBuiltIns } from '../../utils/getBabelOptions';
+import type { ChainUtils } from '../shared';
 import { applyScriptCondition } from './babel';
 
-export function applyTsLoader({
-  config,
-  loaders,
-  metaName,
-  appContext,
-}: {
-  config: NormalizedConfig;
-  loaders: WebpackChain.Rule<WebpackChain.Module>;
-  metaName: string;
-  appContext: IAppContext;
-}) {
+export function applyTsLoader({ config, loaders, appContext }: ChainUtils) {
   const babelLoaderOptions = {
     presets: [
       [
         require.resolve('@modern-js/babel-preset-app'),
         {
-          metaName,
+          metaName: appContext.metaName,
           appDirectory: appContext.appDirectory,
           target: 'client',
           useTsLoader: true,
@@ -86,13 +75,7 @@ export function applyTsLoader({
     .options(tsLoaderOptions);
 }
 
-export function applyTsCheckerPlugin({
-  chain,
-  appDirectory,
-}: {
-  chain: WebpackChain;
-  appDirectory: string;
-}) {
+export function applyTsCheckerPlugin({ chain, appContext }: ChainUtils) {
   const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
   chain.plugin(CHAIN_ID.PLUGIN.TS_CHECKER).use(ForkTsCheckerWebpackPlugin, [
@@ -101,7 +84,7 @@ export function applyTsCheckerPlugin({
         // avoid OOM issue
         memoryLimit: 8192,
         // use tsconfig of user project
-        configFile: resolve(appDirectory, './tsconfig.json'),
+        configFile: resolve(appContext.appDirectory, './tsconfig.json'),
         // use typescript of user project
         typescriptPath: require.resolve('typescript'),
       },

@@ -1,15 +1,12 @@
-import { NormalizedConfig } from '@modern-js/core';
 import { CHAIN_ID } from '@modern-js/utils';
-import type { WebpackChain } from '@modern-js/utils';
 import { SVG_REGEX } from '../../utils/constants';
+import type { ChainUtils } from '../shared';
 
 export function applySvgrLoader({
   config,
   loaders,
   mediaChunkName,
-}: {
-  config: NormalizedConfig;
-  loaders: WebpackChain.Rule<WebpackChain.Module>;
+}: ChainUtils & {
   mediaChunkName: string;
 }) {
   // svg

@@ -8,6 +8,7 @@ import { getBabelOptions } from '../../utils/getBabelOptions';
 import { JS_REGEX, TS_REGEX } from '../../utils/constants';
 import { mergeRegex } from '../../utils/mergeRegex';
 import { getSourceIncludes } from '../../utils/getSourceIncludes';
+import type { ChainUtils } from '../shared';
 
 export const CORE_JS_ENTRY = path.resolve(
   __dirname,
@@ -80,20 +81,15 @@ export function applyScriptCondition({
 export function applyBabelLoader({
   config,
   loaders,
-  metaName,
   appContext,
   useTsLoader,
   babelPresetAppOptions,
-}: {
-  config: NormalizedConfig;
-  loaders: WebpackChain.Rule<WebpackChain.Module>;
-  metaName: string;
-  appContext: IAppContext;
+}: ChainUtils & {
   useTsLoader: boolean;
   babelPresetAppOptions?: Partial<BabelPresetAppOptions>;
 }) {
   const { options, includes, excludes } = getBabelOptions(
-    metaName,
+    appContext.metaName,
     appContext.appDirectory,
     config,
     createBabelChain(),
@@ -106,10 +102,10 @@ export function applyBabelLoader({
 
   applyScriptCondition({
     rule,
+    config,
     includes,
     excludes,
     appContext,
-    config,
   });
 
   rule
@@ -119,13 +115,7 @@ export function applyBabelLoader({
 }
 
 // add core-js-entry to every entries
-export function addCoreJsEntry({
-  chain,
-  config,
-}: {
-  chain: WebpackChain;
-  config: NormalizedConfig;
-}) {
+export function addCoreJsEntry({ chain, config }: ChainUtils) {
   if (config.output.polyfill === 'entry') {
     const entryPoints = Object.keys(chain.entryPoints.entries() || {});
 

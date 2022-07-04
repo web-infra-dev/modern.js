@@ -153,7 +153,7 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
     if (this.options.cliOptions?.analyze) {
       applyBundleAnalyzerPlugin({
-        chain: this.chain,
+        ...this.chainUtils,
         reportFilename: 'report-ssr.html',
       });
     }

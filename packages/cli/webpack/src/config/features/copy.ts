@@ -1,19 +1,13 @@
 import path from 'path';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import { CHAIN_ID, fs, removeTailSlash } from '@modern-js/utils';
-import { NormalizedConfig } from '@modern-js/core';
-import type { WebpackChain } from '@modern-js/utils';
+import type { ChainUtils } from '../shared';
 
-export function applyCopyPlugin({
-  chain,
-  config,
-  appDirectory,
-}: {
-  chain: WebpackChain;
-  config: NormalizedConfig;
-  appDirectory: string;
-}) {
-  const configDir = path.resolve(appDirectory, config.source.configDir!);
+export function applyCopyPlugin({ chain, config, appContext }: ChainUtils) {
+  const configDir = path.resolve(
+    appContext.appDirectory,
+    config.source.configDir!,
+  );
 
   const patterns = [...(config.output.copy || [])];
   const uploadDir = path.posix.join(configDir.replace(/\\/g, '/'), 'upload');

@@ -1,6 +1,7 @@
-import { CHAIN_ID, WebpackChain } from '@modern-js/utils';
+import { CHAIN_ID } from '@modern-js/utils';
+import type { ChainUtils } from '../shared';
 
-export function applyReactRefreshPlugin(chain: WebpackChain) {
+export function applyReactRefreshPlugin({ chain }: ChainUtils) {
   const ReactFastRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
   chain.plugin(CHAIN_ID.PLUGIN.REACT_FAST_REFRESH).use(ReactFastRefreshPlugin, [
@@ -11,7 +12,7 @@ export function applyReactRefreshPlugin(chain: WebpackChain) {
   ]);
 }
 
-export function applyReactRefreshBabelPlugin(chain: WebpackChain) {
+export function applyReactRefreshBabelPlugin({ chain }: ChainUtils) {
   chain.module
     .rule(CHAIN_ID.RULE.LOADERS)
     .oneOf(CHAIN_ID.ONE_OF.JS)

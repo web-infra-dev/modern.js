@@ -17,16 +17,10 @@ import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import WebpackChain from '@modern-js/utils/webpack-chain';
 import type { Options as BabelPrestAppOptions } from '@modern-js/babel-preset-app';
 import { merge as webpackMerge } from '../../compiled/webpack-merge';
-import {
-  CSS_REGEX,
-  JS_REGEX,
-  TS_REGEX,
-  JS_RESOLVE_EXTENSIONS,
-  CACHE_DIRECTORY,
-} from '../utils/constants';
+import { JS_RESOLVE_EXTENSIONS, CACHE_DIRECTORY } from '../utils/constants';
 import { enableCssExtract } from '../utils/createCSSRule';
 import { getWebpackLogging } from '../utils/getWebpackLogging';
-import { getWebpackUtils } from './shared';
+import { ChainUtils, getWebpackUtils } from './shared';
 import { applyTsLoader, applyTsCheckerPlugin } from './features/ts';
 import { applyBabelLoader } from './features/babel';
 import { applyModuleScopePlugin } from './features/module-scope';
@@ -34,18 +28,21 @@ import { applyMinimizer } from './features/minimizer';
 import { applySvgrLoader } from './features/svgr';
 import { applyAlias, applyTsConfigPathsPlugins } from './features/alias';
 import { applyAssetsLoader } from './features/assets';
-import { applyCSSLoaders } from './features/css';
+import { applyCSSExtractPlugin, applyCSSLoaders } from './features/css';
+import { applyYamlLoader } from './features/yaml';
+import { applyTomlLoader } from './features/toml';
+import { applyMarkdownLoader } from './features/markdown';
+import { applyFallbackLoader } from './features/fallback';
+import { applyProgressPlugin } from './features/progress';
 
 export type ResolveAlias = { [index: string]: string };
 
-const { USE, RULE, ONE_OF, PLUGIN } = CHAIN_ID;
+const { RULE, PLUGIN } = CHAIN_ID;
 
 class BaseWebpackConfig {
   chain: WebpackChain;
 
   appContext: IAppContext;
-
-  metaName: string;
 
   options: NormalizedConfig;
 
@@ -63,17 +60,14 @@ class BaseWebpackConfig {
 
   isTsProject: boolean;
 
+  chainUtils: ChainUtils;
+
   babelPresetAppOptions?: Partial<BabelPrestAppOptions>;
 
   constructor(appContext: IAppContext, options: NormalizedConfig) {
-    this.appContext = appContext;
-
-    this.appDirectory = this.appContext.appDirectory;
-
-    this.metaName = this.appContext.metaName;
-
     this.options = options;
-
+    this.appContext = appContext;
+    this.appDirectory = this.appContext.appDirectory;
     this.chain = new WebpackChain();
 
     const { output = {} } = this.options;
@@ -107,6 +101,13 @@ class BaseWebpackConfig {
     );
 
     this.isTsProject = isTypescript(this.appDirectory);
+
+    this.chainUtils = {
+      chain: this.chain,
+      config: this.options,
+      loaders: this.chain.module.rule(CHAIN_ID.RULE.LOADERS),
+      appContext: this.appContext,
+    };
   }
 
   name() {
@@ -217,98 +218,40 @@ class BaseWebpackConfig {
       .resolve.set('fullySpecified', false);
 
     const loaders = this.chain.module.rule(RULE.LOADERS);
-
-    //  js、ts
     const useTsLoader = Boolean(this.options.output?.enableTsLoader);
 
     applyBabelLoader({
-      config: this.options,
-      loaders,
-      metaName: this.metaName,
+      ...this.chainUtils,
       useTsLoader,
-      appContext: this.appContext,
       babelPresetAppOptions: this.babelPresetAppOptions,
     });
 
     if (useTsLoader) {
-      applyTsLoader({
-        config: this.options,
-        loaders,
-        metaName: this.metaName,
-        appContext: this.appContext,
-      });
+      applyTsLoader(this.chainUtils);
     }
 
-    applyCSSLoaders({
-      chain: this.chain,
-      config: this.options,
-      appContext: this.appContext,
-    });
-
+    applyCSSLoaders(this.chainUtils);
     applySvgrLoader({
-      config: this.options,
-      loaders,
+      ...this.chainUtils,
       mediaChunkName: this.mediaChunkName,
     });
-
-    applyAssetsLoader({
-      config: this.options,
-      loaders,
-    });
-
-    // yml, toml, markdown
-    loaders
-      .oneOf(ONE_OF.YAML)
-      .test(/\.ya?ml$/)
-      .use(USE.YAML)
-      .loader(require.resolve('../../compiled/yaml-loader'));
-
-    loaders
-      .oneOf(ONE_OF.TOML)
-      .test(/\.toml$/)
-      .use(USE.TOML)
-      .loader(require.resolve('../../compiled/toml-loader'));
-
-    loaders
-      .oneOf(ONE_OF.MARKDOWN)
-      .test(/\.md$/)
-      .use(USE.HTML)
-      .loader(require.resolve('html-loader'))
-      .end()
-      .use(USE.MARKDOWN)
-      .loader(require.resolve('../../compiled/markdown-loader'));
-
-    //  resource fallback
-    loaders
-      .oneOf(ONE_OF.FALLBACK)
-      .exclude.add(/^$/)
-      .add(JS_REGEX)
-      .add(TS_REGEX)
-      .add(CSS_REGEX)
-      .add(/\.(html?|json|wasm|ya?ml|toml|md)$/)
-      .end()
-      .use(USE.FILE)
-      .loader(require.resolve('../../compiled/file-loader'));
+    applyAssetsLoader(this.chainUtils);
+    applyYamlLoader(this.chainUtils);
+    applyTomlLoader(this.chainUtils);
+    applyMarkdownLoader(this.chainUtils);
+    applyFallbackLoader(this.chainUtils);
 
     return loaders;
   }
 
   plugins() {
-    const WebpackBar = require('../../compiled/webpackbar');
-    // progress bar
-    this.chain
-      .plugin(PLUGIN.PROGRESS)
-      .use(WebpackBar, [{ name: this.chain.get('name') }]);
+    applyProgressPlugin(this.chainUtils);
 
     if (enableCssExtract(this.options)) {
-      const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-      this.chain.plugin(PLUGIN.MINI_CSS_EXTRACT).use(MiniCssExtractPlugin, [
-        {
-          filename: this.cssChunkName,
-          chunkFilename: this.cssChunkName,
-          ignoreOrder: true,
-        },
-      ]);
+      applyCSSExtractPlugin({
+        ...this.chainUtils,
+        cssChunkName: this.cssChunkName,
+      });
     }
 
     this.chain.plugin(PLUGIN.IGNORE).use(IgnorePlugin, [
@@ -326,10 +269,7 @@ class BaseWebpackConfig {
       !output.enableTsLoader &&
       !output.disableTsChecker
     ) {
-      applyTsCheckerPlugin({
-        chain: this.chain,
-        appDirectory: this.appDirectory,
-      });
+      applyTsCheckerPlugin(this.chainUtils);
     }
   }
 
@@ -343,11 +283,7 @@ class BaseWebpackConfig {
       this.chain.resolve.extensions.add(ext);
     }
 
-    applyAlias({
-      chain: this.chain,
-      config: this.options,
-      appContext: this.appContext,
-    });
+    applyAlias(this.chainUtils);
 
     //  resolve modules
     this.chain.resolve.modules
@@ -356,18 +292,11 @@ class BaseWebpackConfig {
 
     // only apply module scope plugin when user config contains moduleScopes
     if (this.options._raw?.source?.moduleScopes) {
-      applyModuleScopePlugin({
-        chain: this.chain,
-        config: this.options,
-        appContext: this.appContext,
-      });
+      applyModuleScopePlugin(this.chainUtils);
     }
 
     if (this.isTsProject) {
-      applyTsConfigPathsPlugins({
-        chain: this.chain,
-        appDirectory: this.appDirectory,
-      });
+      applyTsConfigPathsPlugins(this.chainUtils);
     }
   }
 
@@ -401,10 +330,7 @@ class BaseWebpackConfig {
       });
 
     if (minimize) {
-      applyMinimizer({
-        chain: this.chain,
-        config: this.options,
-      });
+      applyMinimizer(this.chainUtils);
     }
   }
 

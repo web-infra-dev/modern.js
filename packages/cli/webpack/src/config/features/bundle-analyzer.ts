@@ -1,11 +1,10 @@
 import { CHAIN_ID } from '@modern-js/utils';
-import type { WebpackChain } from '@modern-js/utils';
+import type { ChainUtils } from '../shared';
 
 export function applyBundleAnalyzerPlugin({
   chain,
   reportFilename,
-}: {
-  chain: WebpackChain;
+}: ChainUtils & {
   reportFilename: string;
 }) {
   const BundleAnalyzerPlugin = require('../../../compiled/webpack-bundle-analyzer');
