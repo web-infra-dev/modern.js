@@ -12,8 +12,8 @@ MWA，模块。
 - 类型： `boolean`
 - 默认值： `false`
 
-:::warning 警告
-模块工程方案的下一个版本将废弃此配置，使用[output.buildConfig.enableDts](/docs/apis/config/output/build-config/enable-dts)代替
+:::caution 注意
+模块工程方案的下一个大版本将废弃此配置，推荐使用 [output.buildConfig.enableDts](/docs/apis/config/output/build-config/enable-dts) 代替。更多内容请阅读 【[如何构建模块](/docs/guides/features/modules/build)】。
 :::
 
 默认情况下，Modern.js 集成了 [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) 插件，进行 TypeScript 语法检查。

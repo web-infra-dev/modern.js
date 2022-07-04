@@ -1,4 +1,8 @@
 {
-  "label": "buildConfig(模块构建)",
-  "position": 3
+  "label": "buildConfig(构建配置)",
+  "position": 3,
+  "link": {
+    "type": "doc",
+    "id": "apis/config/output/build-config/index"
+  }
 }

@@ -188,6 +188,7 @@ export const getFinalTsconfig = (
   // Since tsconfig configuration has default values,
   // compare the two to see if the user is configured with cli tsconfig
   if (buildFeatOption.tsconfigName !== cliTsConfigDefaultValue) {
+    // TODO: transform tsconfig to absPath
     return buildFeatOption.tsconfigName;
   }
   return config.tsconfig ?? './tsconfig.json';

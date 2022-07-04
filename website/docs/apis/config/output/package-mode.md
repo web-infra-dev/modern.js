@@ -13,7 +13,7 @@ sidebar_label: packageMode
 * 默认值： `'universal-js'`
 
 :::warning 警告
-将在下一个版本被废弃，使用`output.buildConfig`(/docs/apis/config/output/build-config/format)来自定义你的构建配置
+将在下一个大版本被废弃，推荐使用 [`output.buildPreset`](/docs/apis/config/output/build-preset) 。
 :::
 
 通过该配置可以决定构建产物支持的语法以及模块化规范。

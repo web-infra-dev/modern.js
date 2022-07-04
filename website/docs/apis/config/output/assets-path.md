@@ -1,5 +1,6 @@
 ---
 sidebar_label: assetsPath
+sidebar_position: 2
 ---
 
 # output.assetsPath
@@ -11,8 +12,11 @@ sidebar_label: assetsPath
 * 类型： `string`
 * 默认值： `styles`
 
-:::warning 警告
-将在下一个版本被废弃,使用[output.buildConfig.bundlelessOptions.static.path](/docs/apis/config/output/build-config/bundleless-options#path-1)代替
+:::caution 注意
+该配置即将在在下一个大版本被废弃。
+
+当要对 Bundleless 构建过程中的静态文件路径进行配置的时候，推荐使用下面的配置：
+* [`output.buildConfig.bundlelessOptions.static.path`](/docs/apis/config/output/build-config/bundleless-options#path-1)。
 :::
 
 指定资源产物目录路径。

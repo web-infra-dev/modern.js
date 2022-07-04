@@ -13,11 +13,15 @@ Options:
                          "./tsconfig.json")
   --style-only           只构建样式文件
   --platform [platform]  构建其他平台产物
-  --no-tsc               关闭 tsc 编译(下个版本废弃)
-  --dts                  生成d.ts文件
+  --no-tsc               关闭 tsc 编译(下个大版本废弃)
+  --dts                  生成 d.ts 文件
   --no-clear             不清理产物目录
   -h, --help             display help for command
 ```
+
+:::caution 注意
+- `--no-tsc` 参数在下个大版本废弃，推荐使用 `--dts`。
+:::
 
 import CommandTip from '@site/docs/components/command-tip.md'
 

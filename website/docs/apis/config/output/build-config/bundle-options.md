@@ -7,8 +7,9 @@ sidebar_label: bundleOptions
 :::info 适用的工程方案
 * 模块
 :::
+`bundleOptions` 用来定制 Bundle 构建相关的配置，当 `{ buildType: 'bundle' }` 的时候，该配置才会生效。
 
-bundleOptions用来定制一些当buildType为**bundle**时使用到的特定参数
+下面是一个配置示例：
 
 ```js title="modern.config.js"
 import { defineConfig } from '@modern-js/module-tools';
@@ -16,15 +17,23 @@ import { defineConfig } from '@modern-js/module-tools';
 export default defineConfig({
   output: {
     buildConfig: {
+      // 必须要加上
       buildType: 'bundle',
       bundleOptions: {
+        // entry 设置编译入口和输出文件的名称
         entry: {
           'index.min': './src/index.ts',
         },
+        // splitting 设置是否进行代码分割
         splitting: true,
+        // platform 设置构建环境
         platform: 'node',
+        // minify 设置压缩代码使用的工具
         minify: 'terser',
-        externals: ['react']
+        // externals 设置不打包的第三方依赖
+        externals: ['react'],
+        // skipDeps 设置是否跳过 package.json 里定义的依赖
+        skipDeps: false,
       }
     },
   },
@@ -34,43 +43,48 @@ export default defineConfig({
 ## entry
 
 * 类型： `Record<string, string>`
-* 默认值： `'{ index: './src/index.ts' }'`
+* 默认值： `'{ index: './src/index.(t|j)s' }'`
 
-设置打包模块的入口，key为产物名称，value为入口地址。
+设置打包模块的入口。`key` 为产物名称，`value` 为入口地址。
 
 ## splitting
 
 * 类型： `boolean`
 * 默认值： `false`
 
-设置是否开启代码分割，这允许你将打包产物分割成独立的chunk。
+设置是否开启代码分割。这允许你将打包产物分割成独立的 `chunk`。
 
 ## platform
 
 * 类型：`'node' | 'browser'`
 * 默认值： `'node'`
 
-设置构建环境，值为**node**时构建器会自动将Nodejs的内置模块进行external，而**browser**则会bundle这些模块，为保证打包后的程序可以正常运行，你需要自己为这些内置模块提供polyfill版本。
+用于设置构建环境。当值为 `node` 时构建工具会自动将 [Node](https://nodejs.org/en/) 的内置模块进行 external，而值为 `browser` 时则会打包这些模块。**为保证打包后的程序可以正常运行，你需要为内置模块提供 Polyfill 版本。**
 
 ## minify
 
 * 类型：`false | 'terser' | 'esbuild'`
 * 默认值： `false`
 
-设置代码压缩方式，支持[terser](https://github.com/terser/terser)和[esbuild minify](https://esbuild.github.io/api/#minify)两种压缩方式。
+设置代码的压缩方式。支持 [terser](https://github.com/terser/terser) 和 [esbuild minify](https://esbuild.github.io/api/#minify) 两种压缩方式。当值为 `false` 的时候，关闭代码压缩。
 
 ## externals
 
 * 类型： `(string | RegExp)[]`
 * 默认值： `[]`
 
-设置外置依赖，打包器将会跳过外置依赖的打包。
+设置外置依赖。打包器将会跳过外置依赖的打包。
 
 ## skipDeps
 
 * 类型： `boolean`
 * 默认值： `true`
 
-设置是否跳过对三方依赖的打包，默认开启，即跳过所有package.json里定义的dependencies,devDependencies,peerDependencies的打包，
-将其加入到externals数组中。
+设置是否跳过第三方依赖的打包。默认开启，即**仅打包源代码**。当希望打包源代码及所有第三方依赖的时候，可以设置为 `false`。
+
+:::tip 提示
+当 `skipDeps: true` 的时候，其底层原理是：*将 `package.json` 里定义的 `dependencies`、`devDependencies`、`peerDependencies` 涉及到所有的依赖加到 [`externals`](#externals) 配置中。*
+
+因此要确保**代码中不要存在未定义在 `package.json` 里的依赖**。
+:::
 

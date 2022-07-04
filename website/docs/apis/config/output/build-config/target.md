@@ -11,10 +11,10 @@ sidebar_label: target
 * 类型： `'es5' | 'es6' | 'es2015' | 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'esnext'`
 * 默认值： `'esnext'`
 
-用于对于 es syntax 的校验，如果使用了高版本语法，会进行报错。
+设置构建产物支持的最高 ECMAScript 版本。如果使用了更高的版本语法，会进行编译转换。
 
-:::info
-当前 bundle 支持 es5 到 esnext的语法。bundleless 目前暂时支持 es5 和 es6，所有 es6+ 的语法，暂时会转换为 es6。
+:::caution
+当前 Bundle 构建支持 `es5` 到 `esnext` 的语法。Bundleless 目前暂时仅支持 `es5` 和 `es6`，所有 `es6+` 的语法，都会转换为 `es6`。
 :::
 
 

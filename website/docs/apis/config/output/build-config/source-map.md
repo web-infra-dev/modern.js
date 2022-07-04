@@ -9,10 +9,14 @@ sidebar_label: sourceMap
 :::
 
 * 类型： `boolean | 'inline' | 'external'`
-* 默认值： bundle时为`true`,等同于`'external'`,bundleless时为`false`
+* 默认值：
+  + 当 [`buildType`](/docs/apis/config/output/build-config/build-type) 为 `bundle`的时候，默认值为 `true`。
+  + 当 [`buildType`](/docs/apis/config/output/build-config/build-type) 为 `bundleless` 的时候，默认值为 `false`。
+
+> 值为 `true` 等价于值为 `'external'`。
 
 
-设置生成source map的形式
+设置生成 Sourcemap 的形式。
 
 ```js title="modern.config.js"
 import { defineConfig } from '@modern-js/module-tools';

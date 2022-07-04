@@ -11,10 +11,10 @@ sidebar_label: enableDts
 * 类型： `boolean`
 * 默认值： `false`
 
-设置是否生成d.ts文件
+设置是否生成 `d.ts` 文件。默认不生成。
 
-:::info 提示
-此配置和type check（类型检查）所绑定，不生成d.ts文件则不会做类型检查
+:::tip 提示
+此配置和 *Type Checking（类型检查）*所绑定。当 `enableDts` 的值为 `true` 的时候会同时进行类型检查，反之则关闭类型检查。**无法在不进行类型检查的情况下生成 `d.ts` 文件**。
 :::
 
 ```js title="modern.config.js"
