@@ -12,12 +12,12 @@ import {
   applyOptionsChain,
   removeLeadingSlash,
 } from '@modern-js/utils';
-import webpack, { IgnorePlugin } from 'webpack';
+import webpack from 'webpack';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import WebpackChain from '@modern-js/utils/webpack-chain';
 import type { Options as BabelPrestAppOptions } from '@modern-js/babel-preset-app';
 import { merge as webpackMerge } from '../../compiled/webpack-merge';
-import { JS_RESOLVE_EXTENSIONS, CACHE_DIRECTORY } from '../utils/constants';
+import { JS_RESOLVE_EXTENSIONS } from '../utils/constants';
 import { enableCssExtract } from '../utils/createCSSRule';
 import { getWebpackLogging } from '../utils/getWebpackLogging';
 import { ChainUtils, getWebpackUtils } from './shared';
@@ -34,10 +34,10 @@ import { applyTomlLoader } from './features/toml';
 import { applyMarkdownLoader } from './features/markdown';
 import { applyFallbackLoader } from './features/fallback';
 import { applyProgressPlugin } from './features/progress';
+import { applyIgnorePlugin } from './features/ignore';
+import { applyFileSystemCache } from './features/cache';
 
 export type ResolveAlias = { [index: string]: string };
-
-const { RULE, PLUGIN } = CHAIN_ID;
 
 class BaseWebpackConfig {
   chain: WebpackChain;
@@ -213,11 +213,11 @@ class BaseWebpackConfig {
 
   loaders() {
     this.chain.module
-      .rule(RULE.MJS)
+      .rule(CHAIN_ID.RULE.MJS)
       .test(/\.m?js/)
       .resolve.set('fullySpecified', false);
 
-    const loaders = this.chain.module.rule(RULE.LOADERS);
+    const loaders = this.chain.module.rule(CHAIN_ID.RULE.LOADERS);
     const useTsLoader = Boolean(this.options.output?.enableTsLoader);
 
     applyBabelLoader({
@@ -254,12 +254,7 @@ class BaseWebpackConfig {
       });
     }
 
-    this.chain.plugin(PLUGIN.IGNORE).use(IgnorePlugin, [
-      {
-        resourceRegExp: /^\.\/locale$/,
-        contextRegExp: /moment$/,
-      },
-    ]);
+    applyIgnorePlugin(this.chainUtils);
 
     const { output } = this.options;
     // only enable ts-checker plugin in ts project
@@ -301,21 +296,9 @@ class BaseWebpackConfig {
   }
 
   cache() {
-    this.chain.cache({
-      type: 'filesystem',
-      cacheDirectory: path.resolve(
-        this.appDirectory,
-        CACHE_DIRECTORY,
-        'webpack',
-      ),
-      buildDependencies: {
-        defaultWebpack: [require.resolve('webpack/lib')],
-        config: [__filename, this.appContext.configFile].filter(Boolean),
-        tsconfig: [
-          this.isTsProject &&
-            path.resolve(this.appDirectory, './tsconfig.json'),
-        ].filter(Boolean),
-      },
+    applyFileSystemCache({
+      ...this.chainUtils,
+      isTsProject: this.isTsProject,
     });
   }
 
