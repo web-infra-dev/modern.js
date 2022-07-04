@@ -37,7 +37,7 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/bff-runtime": "workspace:^1.3.0",
-    "@modern-js/plugin": "workspace:^1.4.0",
+    "@modern-js/plugin": "workspace:^1.4.1",
     "@modern-js/utils": "workspace:^1.7.9",
     "es-module-lexer": "^0.4.1",
     "farrow-api": "^1.10.9"

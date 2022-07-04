@@ -72,16 +72,6 @@ pnpm run dev
 
 修改 `src/pages/index.tsx` 会触发重新编译和热更新，浏览器中页面会自动展示对应变化。
 
-### Unbundled 开发模式
-
-import DevUnbundle from '@site/docs/components/dev-unbundle.md'
-
-<DevUnbundle/>
-
-:::info 注
-Unbundled 模式暂不支持在 Windows 平台使用，支持即将上线。
-:::
-
 ### IDE 支持
 
 import DevIDE from '@site/docs/components/dev-ide.md'

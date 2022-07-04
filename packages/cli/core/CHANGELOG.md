@@ -1,5 +1,13 @@
 # @modern-js/core
 
+## 1.12.4
+
+### Patch Changes
+
+- nothing happen, only bump
+- Updated dependencies
+  - @modern-js/utils@1.7.11
+
 ## 1.12.3
 
 ### Patch Changes

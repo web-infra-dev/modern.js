@@ -1,5 +1,13 @@
 # @modern-js/babel-preset-module
 
+## 1.3.10
+
+### Patch Changes
+
+- nothing happen, only bump
+- Updated dependencies
+  - @modern-js/utils@1.7.11
+
 ## 1.3.9
 
 ### Patch Changes

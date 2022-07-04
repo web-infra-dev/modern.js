@@ -1,5 +1,20 @@
 # @modern-js/module-tools
 
+## 1.6.1
+
+### Patch Changes
+
+- nothing happen, only bump
+- Updated dependencies
+  - @modern-js/babel-preset-module@1.3.10
+  - @modern-js/core@1.12.4
+  - @modern-js/style-compiler@1.2.12
+  - @modern-js/utils@1.7.11
+  - @modern-js/css-config@1.2.7
+  - @modern-js/plugin-analyze@1.4.7
+  - @modern-js/plugin-changeset@1.3.1
+  - @modern-js/plugin-jarvis@1.2.14
+
 ## 1.6.0
 
 ### Minor Changes
