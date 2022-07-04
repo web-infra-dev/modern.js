@@ -5,7 +5,6 @@ const {
   launchApp,
   getPort,
   killApp,
-  sleep,
 } = require('../../../utils/modernTestUtils');
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
@@ -67,13 +66,13 @@ describe('convention router', () => {
     const initDisplay = await page.$eval('.display', el => el.textContent);
 
     await page.click('#kobe');
-    await sleep(0);
-    const firstDisplay = await page.$eval('.display', el => el.textContent);
+    const display = await page.$('.display');
+    const firstDisplay = await page.evaluate(el => el.textContent, display);
     const firstUrl = page.url();
 
     await page.click('#lebron');
-    await sleep(0);
-    const secondDisplay = await page.$eval('.display', el => el.textContent);
+    const display1 = await page.$('.display');
+    const secondDisplay = await page.evaluate(el => el.textContent, display1);
     const secondUrl = page.url();
 
     expect(title).toEqual('_app');
