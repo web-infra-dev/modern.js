@@ -1,6 +1,7 @@
 import { fs, CHAIN_ID } from '@modern-js/utils';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
 import { ClientWebpackConfig } from '../src/config/client';
+import { getNodePolyfill } from '../src/config/features/node-polyfill';
 import { isPluginRegistered, mockNodeEnv } from './util';
 
 describe('@modern-js/webpack#config/client', () => {
@@ -45,7 +46,7 @@ describe('@modern-js/webpack#config/client', () => {
 
   it('ClientWebpackConfig', () => {
     const client: any = new ClientWebpackConfig(appContext, options);
-    const z = client.getNodePolyfill();
+    const z = getNodePolyfill();
     expect(z.readline).toBeFalsy();
     expect(Object.keys(z)).toEqual([
       'assert',

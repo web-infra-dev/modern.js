@@ -1,7 +1,7 @@
 import { ProvidePlugin } from 'webpack';
 import { CHAIN_ID, WebpackChain } from '@modern-js/utils';
 
-function getNodePolyfill() {
+export function getNodePolyfill() {
   const nodeLibsBrowser = require('node-libs-browser');
   return Object.keys(nodeLibsBrowser).reduce<Record<string, string | false>>(
     (previous, name) => {

@@ -21,14 +21,12 @@ import {
   CSS_REGEX,
   JS_REGEX,
   TS_REGEX,
-  CSS_MODULE_REGEX,
-  GLOBAL_CSS_REGEX,
   JS_RESOLVE_EXTENSIONS,
   CACHE_DIRECTORY,
 } from '../utils/constants';
-import { createCSSRule, enableCssExtract } from '../utils/createCSSRule';
+import { enableCssExtract } from '../utils/createCSSRule';
 import { getWebpackLogging } from '../utils/getWebpackLogging';
-import { getWebpackUtils, isNodeModulesCss } from './shared';
+import { getWebpackUtils } from './shared';
 import { applyTsLoader, applyTsCheckerPlugin } from './features/ts';
 import { applyBabelLoader } from './features/babel';
 import { applyModuleScopePlugin } from './features/module-scope';
@@ -36,6 +34,7 @@ import { applyMinimizer } from './features/minimizer';
 import { applySvgrLoader } from './features/svgr';
 import { applyAlias, applyTsConfigPathsPlugins } from './features/alias';
 import { applyAssetsLoader } from './features/assets';
+import { applyCSSLoaders } from './features/css';
 
 export type ResolveAlias = { [index: string]: string };
 
@@ -240,54 +239,11 @@ class BaseWebpackConfig {
       });
     }
 
-    const disableCssModuleExtension =
-      this.options.output?.disableCssModuleExtension ?? false;
-
-    // CSS modules
-    createCSSRule(
-      this.chain,
-      {
-        appDirectory: this.appDirectory,
-        config: this.options,
-      },
-      {
-        name: ONE_OF.CSS_MODULES,
-        test: disableCssModuleExtension ? CSS_REGEX : CSS_MODULE_REGEX,
-        exclude: disableCssModuleExtension
-          ? [isNodeModulesCss, GLOBAL_CSS_REGEX]
-          : [],
-        genTSD: this.options.output?.enableCssModuleTSDeclaration,
-      },
-      {
-        importLoaders: 1,
-        esModule: false,
-        modules: {
-          localIdentName: this.options.output
-            ? this.options.output.cssModuleLocalIdentName!
-            : '',
-          exportLocalsConvention: 'camelCase',
-        },
-        sourceMap: isProd() && !this.options.output?.disableSourceMap,
-      },
-    );
-
-    // CSS (not modules)
-    createCSSRule(
-      this.chain,
-      {
-        appDirectory: this.appDirectory,
-        config: this.options,
-      },
-      {
-        name: ONE_OF.CSS,
-        test: CSS_REGEX,
-      },
-      {
-        importLoaders: 1,
-        esModule: false,
-        sourceMap: isProd() && !this.options.output?.disableSourceMap,
-      },
-    );
+    applyCSSLoaders({
+      chain: this.chain,
+      config: this.options,
+      appContext: this.appContext,
+    });
 
     applySvgrLoader({
       config: this.options,
