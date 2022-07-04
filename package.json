@@ -33,7 +33,8 @@
     "gen-release-note": "modern gen-release-note",
     "release": "modern release --ignore-scripts",
     "fix:lockfile": "pnpm install --fix-lockfile",
-    "update:lockfile": "pnpm install --lockfile-only"
+    "update:lockfile": "pnpm install --lockfile-only",
+    "check-changeset": "cd ./scripts/check-changeset && pnpm start"
   },
   "engines": {
     "node": ">=14.17.6"

@@ -1,5 +1,5 @@
 {
-  "name": "@scripts/lint-package-json",
+  "name": "@scripts/check-changeset",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -8,13 +8,10 @@
     "start": "tsx ./src/index.ts"
   },
   "dependencies": {
-    "@types/fs-extra": "^9.0.13",
-    "chalk": "4.1.2",
-    "consola": "^2.15.3",
-    "fs-extra": "^10.1.0",
-    "fast-glob": "^3.2.11"
+    "@changesets/read": "^0.5.5"
   },
   "devDependencies": {
-    "tsx": "^3.7.1"
+    "tsx": "^3.7.1",
+    "@types/node": "^18.0.1"
   }
 }
