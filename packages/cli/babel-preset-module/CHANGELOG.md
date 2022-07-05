@@ -1,5 +1,13 @@
 # @modern-js/babel-preset-module
 
+## 1.3.11
+
+### Patch Changes
+
+- ff3ba0220: fix(babel-preset-module): babel transform import path of the style file or the static file
+
+  fix(babel-preset-module): 修复 Babel 在转换导入样式文件或者静态文件的路径出现的问题
+
 ## 1.3.10
 
 ### Patch Changes
