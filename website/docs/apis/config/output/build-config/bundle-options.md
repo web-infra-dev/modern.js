@@ -45,14 +45,14 @@ export default defineConfig({
 * 类型： `Record<string, string>`
 * 默认值： `'{ index: './src/index.(t|j)s' }'`
 
-设置打包模块的入口。`key` 为产物名称，`value` 为入口地址。
+设置打包模块的入口。`key` 为产物名称(对于产物格式为 `umd` 的场景，还会作为全局变量名)，`value` 为入口地址。
 
 ## splitting
 
 * 类型： `boolean`
 * 默认值： `false`
 
-设置是否开启代码分割。这允许你将打包产物分割成独立的 `chunk`。
+设置是否开启代码分割。这允许你将打包产物分割成独立的 `chunk`， `chunk` 的名称为上述 `entry` 的 `key`。
 
 ## platform
 
