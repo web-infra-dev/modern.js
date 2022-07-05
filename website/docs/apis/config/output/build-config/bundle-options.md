@@ -45,7 +45,33 @@ export default defineConfig({
 * 类型： `Record<string, string>`
 * 默认值： `'{ index: './src/index.(t|j)s' }'`
 
-设置打包模块的入口。`key` 为产物名称(对于产物格式为 `umd` 的场景，还会作为全局变量名)，`value` 为入口地址。
+设置打包模块的入口。对象的键会作为构建产物的文件名称，对象的值会作为入口（文件）的地址。
+
+:::tip
+对于[产物格式](/docs/apis/config/output/build-config/format)为 `umd` 的场景，对象的键还会作为全局变量名。例如下面的配置：
+
+```js title="modern.config.js"
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  output: {
+    buildConfig: {
+      format: 'umd',
+      buildType: 'bundle',
+      bundleOptions: {
+        entry: {
+          'index': './src/index.ts',
+        },
+      }
+    },
+  },
+});
+```
+
+此时输出的 `umd` 产物所有的导出，可以在浏览器中通过 `window.index` 的方式访问到。
+
+当对象的键所对应的字符串中包含 `.`、`-` 字符的时候，其对应的全局变量名的命名会使用驼峰式命名法（Camel-Case）。例如上面例子中，当 `entry` 的键为 `'index.min'` 的时候，则全局变量名被转换为 `indexMin`。
+:::
 
 ## splitting
 

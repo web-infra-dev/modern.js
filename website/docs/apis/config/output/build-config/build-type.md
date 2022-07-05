@@ -28,5 +28,5 @@ export default defineConfig({
 :::tip 提示
 Bundleless 构建是指对所有的源代码文件进行单独编译，不进行打包，最终输出的产物目录结构与源文件目录结构是一一对应的。
 
-而 Bundle 构建是指打包构建，以 index.(j|t)s 为入口打包生成单个 Bundle 文件。生成的产物类似于 [webpack](https://webpack.js.org/) 打包出来的产物。
+而 Bundle 构建是指打包构建，以 `index.(j|t)s` 为入口打包生成单个 Bundle 文件。生成的产物类似于 [webpack](https://webpack.js.org/) 打包出来的产物。
 :::
