@@ -1,55 +1,49 @@
 /* eslint-disable max-lines */
 import path from 'path';
 import {
-  fs,
   chalk,
   isProd,
   isDev,
   signale,
-  API_DIR,
   CHAIN_ID,
-  isProdProfile,
+  isString,
   isTypescript,
   ensureAbsolutePath,
-  isString,
   applyOptionsChain,
   removeLeadingSlash,
 } from '@modern-js/utils';
-import webpack, { IgnorePlugin } from 'webpack';
+import webpack from 'webpack';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import { createBabelChain, BabelChain } from '@modern-js/babel-chain';
 import WebpackChain from '@modern-js/utils/webpack-chain';
 import type { Options as BabelPrestAppOptions } from '@modern-js/babel-preset-app';
 import { merge as webpackMerge } from '../../compiled/webpack-merge';
-import {
-  CSS_REGEX,
-  JS_REGEX,
-  TS_REGEX,
-  SVG_REGEX,
-  ASSETS_REGEX,
-  CSS_MODULE_REGEX,
-  GLOBAL_CSS_REGEX,
-  JS_RESOLVE_EXTENSIONS,
-  CACHE_DIRECTORY,
-} from '../utils/constants';
-import { createCSSRule, enableCssExtract } from '../utils/createCSSRule';
-import { mergeRegex } from '../utils/mergeRegex';
+import { JS_RESOLVE_EXTENSIONS } from '../utils/constants';
+import { enableCssExtract } from '../utils/createCSSRule';
 import { getWebpackLogging } from '../utils/getWebpackLogging';
-import { getBabelOptions, getUseBuiltIns } from '../utils/getBabelOptions';
-import { getSourceIncludes } from '../utils/getSourceIncludes';
-import { getWebpackAliases } from '../utils/getWebpackAliases';
-import { getWebpackUtils, isNodeModulesCss } from './shared';
+import { ChainUtils, getWebpackUtils } from './shared';
+import { applyTsLoader, applyTsCheckerPlugin } from './features/ts';
+import { applyBabelLoader } from './features/babel';
+import { applyModuleScopePlugin } from './features/module-scope';
+import { applyMinimizer } from './features/minimizer';
+import { applySvgrLoader } from './features/svgr';
+import { applyAlias, applyTsConfigPathsPlugins } from './features/alias';
+import { applyAssetsLoader } from './features/assets';
+import { applyCSSExtractPlugin, applyCSSLoaders } from './features/css';
+import { applyYamlLoader } from './features/yaml';
+import { applyTomlLoader } from './features/toml';
+import { applyMarkdownLoader } from './features/markdown';
+import { applyFallbackLoader } from './features/fallback';
+import { applyProgressPlugin } from './features/progress';
+import { applyIgnorePlugin } from './features/ignore';
+import { applyFileSystemCache } from './features/cache';
+import { applyDefinePlugin } from './features/define';
 
 export type ResolveAlias = { [index: string]: string };
-
-const { USE, RULE, ONE_OF, PLUGIN, MINIMIZER, RESOLVE_PLUGIN } = CHAIN_ID;
 
 class BaseWebpackConfig {
   chain: WebpackChain;
 
   appContext: IAppContext;
-
-  metaName: string;
 
   options: NormalizedConfig;
 
@@ -65,26 +59,17 @@ class BaseWebpackConfig {
 
   mediaChunkName: string;
 
-  babelChain: BabelChain;
-
   isTsProject: boolean;
 
-  coreJsEntry: string;
+  chainUtils: ChainUtils;
 
   babelPresetAppOptions?: Partial<BabelPrestAppOptions>;
 
   constructor(appContext: IAppContext, options: NormalizedConfig) {
-    this.appContext = appContext;
-
-    this.appDirectory = this.appContext.appDirectory;
-
-    this.metaName = this.appContext.metaName;
-
     this.options = options;
-
+    this.appContext = appContext;
+    this.appDirectory = this.appContext.appDirectory;
     this.chain = new WebpackChain();
-
-    this.coreJsEntry = path.resolve(__dirname, '../runtime/core-js-entry.js');
 
     const { output = {} } = this.options;
     const { disableAssetsCache } = output;
@@ -116,9 +101,14 @@ class BaseWebpackConfig {
       `${mediaPath}/[name]${disableAssetsCache ? '' : '.[hash:8]'}[ext]`,
     );
 
-    this.babelChain = createBabelChain();
-
     this.isTsProject = isTypescript(this.appDirectory);
+
+    this.chainUtils = {
+      chain: this.chain,
+      config: this.options,
+      loaders: this.chain.module.rule(CHAIN_ID.RULE.LOADERS),
+      appContext: this.appContext,
+    };
   }
 
   name() {
@@ -224,237 +214,58 @@ class BaseWebpackConfig {
 
   loaders() {
     this.chain.module
-      .rule(RULE.MJS)
+      .rule(CHAIN_ID.RULE.MJS)
       .test(/\.m?js/)
       .resolve.set('fullySpecified', false);
 
-    const loaders = this.chain.module.rule(RULE.LOADERS);
-
-    //  js、ts
+    const loaders = this.chain.module.rule(CHAIN_ID.RULE.LOADERS);
     const useTsLoader = Boolean(this.options.output?.enableTsLoader);
 
-    this.applyBabelLoader(loaders, useTsLoader);
+    applyBabelLoader({
+      ...this.chainUtils,
+      useTsLoader,
+      babelPresetAppOptions: this.babelPresetAppOptions,
+    });
 
     if (useTsLoader) {
-      this.applyTsLoader(loaders);
+      applyTsLoader(this.chainUtils);
     }
 
-    const disableCssModuleExtension =
-      this.options.output?.disableCssModuleExtension ?? false;
-
-    // CSS modules
-    createCSSRule(
-      this.chain,
-      {
-        appDirectory: this.appDirectory,
-        config: this.options,
-      },
-      {
-        name: ONE_OF.CSS_MODULES,
-        test: disableCssModuleExtension ? CSS_REGEX : CSS_MODULE_REGEX,
-        exclude: disableCssModuleExtension
-          ? [isNodeModulesCss, GLOBAL_CSS_REGEX]
-          : [],
-        genTSD: this.options.output?.enableCssModuleTSDeclaration,
-      },
-      {
-        importLoaders: 1,
-        esModule: false,
-        modules: {
-          localIdentName: this.options.output
-            ? this.options.output.cssModuleLocalIdentName!
-            : '',
-          exportLocalsConvention: 'camelCase',
-        },
-        sourceMap: isProd() && !this.options.output?.disableSourceMap,
-      },
-    );
-
-    // CSS (not modules)
-    createCSSRule(
-      this.chain,
-      {
-        appDirectory: this.appDirectory,
-        config: this.options,
-      },
-      {
-        name: ONE_OF.CSS,
-        test: CSS_REGEX,
-      },
-      {
-        importLoaders: 1,
-        esModule: false,
-        sourceMap: isProd() && !this.options.output?.disableSourceMap,
-      },
-    );
-
-    // svg
-    loaders
-      .oneOf(ONE_OF.SVG_INLINE)
-      .test(SVG_REGEX)
-      .type('javascript/auto')
-      .resourceQuery(/inline/)
-      .use(USE.SVGR)
-      .loader(require.resolve('@svgr/webpack'))
-      .options({ svgo: false })
-      .end()
-      .use(USE.URL)
-      .loader(require.resolve('../../compiled/url-loader'))
-      .options({
-        limit: Infinity,
-        name: this.mediaChunkName.replace(/\[ext\]$/, '.[ext]'),
-      });
-
-    loaders
-      .oneOf(ONE_OF.SVG_URL)
-      .test(SVG_REGEX)
-      .type('javascript/auto')
-      .resourceQuery(/url/)
-      .use(USE.SVGR)
-      .loader(require.resolve('@svgr/webpack'))
-      .options({ svgo: false })
-      .end()
-      .use(USE.URL)
-      .loader(require.resolve('../../compiled/url-loader'))
-      .options({
-        limit: false,
-        name: this.mediaChunkName.replace(/\[ext\]$/, '.[ext]'),
-      });
-
-    loaders
-      .oneOf(ONE_OF.SVG)
-      .test(SVG_REGEX)
-      .type('javascript/auto')
-      .use(USE.SVGR)
-      .loader(require.resolve('@svgr/webpack'))
-      .options({ svgo: false })
-      .end()
-      .use(USE.URL)
-      .loader(require.resolve('../../compiled/url-loader'))
-      .options({
-        limit: this.options.output?.dataUriLimit,
-        name: this.mediaChunkName.replace(/\[ext\]$/, '.[ext]'),
-      });
-
-    // img, font assets
-    loaders
-      .oneOf(ONE_OF.ASSETS_INLINE)
-      .test(ASSETS_REGEX)
-      .type('asset/inline' as any)
-      .resourceQuery(/inline/);
-
-    loaders
-      .oneOf(ONE_OF.ASSETS_URL)
-      .test(ASSETS_REGEX)
-      .type('asset/resource' as any)
-      .resourceQuery(/url/);
-
-    loaders
-      .oneOf(ONE_OF.ASSETS)
-      .test(ASSETS_REGEX)
-      .type('asset' as any)
-      .parser({
-        dataUrlCondition: { maxSize: this.options.output?.dataUriLimit },
-      });
-
-    // yml, toml, markdown
-    loaders
-      .oneOf(ONE_OF.YAML)
-      .test(/\.ya?ml$/)
-      .use(USE.YAML)
-      .loader(require.resolve('../../compiled/yaml-loader'));
-
-    loaders
-      .oneOf(ONE_OF.TOML)
-      .test(/\.toml$/)
-      .use(USE.TOML)
-      .loader(require.resolve('../../compiled/toml-loader'));
-
-    loaders
-      .oneOf(ONE_OF.MARKDOWN)
-      .test(/\.md$/)
-      .use(USE.HTML)
-      .loader(require.resolve('html-loader'))
-      .end()
-      .use(USE.MARKDOWN)
-      .loader(require.resolve('../../compiled/markdown-loader'));
-
-    //  resource fallback
-    loaders
-      .oneOf(ONE_OF.FALLBACK)
-      .exclude.add(/^$/)
-      .add(JS_REGEX)
-      .add(TS_REGEX)
-      .add(CSS_REGEX)
-      .add(/\.(html?|json|wasm|ya?ml|toml|md)$/)
-      .end()
-      .use(USE.FILE)
-      .loader(require.resolve('../../compiled/file-loader'));
+    applyCSSLoaders(this.chainUtils);
+    applySvgrLoader({
+      ...this.chainUtils,
+      mediaChunkName: this.mediaChunkName,
+    });
+    applyAssetsLoader(this.chainUtils);
+    applyYamlLoader(this.chainUtils);
+    applyTomlLoader(this.chainUtils);
+    applyMarkdownLoader(this.chainUtils);
+    applyFallbackLoader(this.chainUtils);
 
     return loaders;
   }
 
   plugins() {
-    const WebpackBar = require('../../compiled/webpackbar');
-    // progress bar
-    this.chain
-      .plugin(PLUGIN.PROGRESS)
-      .use(WebpackBar, [{ name: this.chain.get('name') }]);
+    applyProgressPlugin(this.chainUtils);
+    applyDefinePlugin(this.chainUtils);
+    applyIgnorePlugin(this.chainUtils);
 
     if (enableCssExtract(this.options)) {
-      const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-      this.chain.plugin(PLUGIN.MINI_CSS_EXTRACT).use(MiniCssExtractPlugin, [
-        {
-          filename: this.cssChunkName,
-          chunkFilename: this.cssChunkName,
-          ignoreOrder: true,
-        },
-      ]);
+      applyCSSExtractPlugin({
+        ...this.chainUtils,
+        cssChunkName: this.cssChunkName,
+      });
     }
 
-    this.chain.plugin(PLUGIN.IGNORE).use(IgnorePlugin, [
-      {
-        resourceRegExp: /^\.\/locale$/,
-        contextRegExp: /moment$/,
-      },
-    ]);
-
     const { output } = this.options;
+    // only enable ts-checker plugin in ts project
+    // no need to use ts-checker plugin when using ts-loader
     if (
-      // only enable ts-checker plugin in ts project
       this.isTsProject &&
-      // no need to use ts-checker plugin when using ts-loader
       !output.enableTsLoader &&
       !output.disableTsChecker
     ) {
-      const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-      this.chain.plugin(PLUGIN.TS_CHECKER).use(ForkTsCheckerWebpackPlugin, [
-        {
-          typescript: {
-            // avoid OOM issue
-            memoryLimit: 8192,
-            // use tsconfig of user project
-            configFile: path.resolve(this.appDirectory, './tsconfig.json'),
-            // use typescript of user project
-            typescriptPath: require.resolve('typescript'),
-          },
-          // only display error messages
-          logger: {
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            log() {},
-            error(message: string) {
-              console.error(chalk.red.bold('TYPE'), message);
-            },
-          },
-          issue: {
-            include: [{ file: '**/src/**/*' }],
-            exclude: [
-              { file: '**/*.(spec|test).ts' },
-              { file: '**/node_modules/**/*' },
-            ],
-          },
-        },
-      ]);
+      applyTsCheckerPlugin(this.chainUtils);
     }
   }
 
@@ -468,68 +279,27 @@ class BaseWebpackConfig {
       this.chain.resolve.extensions.add(ext);
     }
 
-    //  resolve alias
-    const defaultAlias: ResolveAlias = getWebpackAliases(
-      this.appContext,
-      this.options._raw,
-    );
-
-    const alias = applyOptionsChain<ResolveAlias, undefined>(
-      defaultAlias,
-      this.options.source?.alias as ResolveAlias,
-    );
-
-    for (const name of Object.keys(alias)) {
-      this.chain.resolve.alias.set(
-        name,
-        (
-          (Array.isArray(alias[name]) ? alias[name] : [alias[name]]) as string[]
-        ).map(a =>
-          /**
-           * - Relative paths need to be turned into absolute paths
-           * - Absolute paths or a package name are not processed
-           */
-          a.startsWith('.')
-            ? (ensureAbsolutePath(this.appDirectory, a) as any)
-            : a,
-        ) as any,
-      );
-    }
+    applyAlias(this.chainUtils);
 
     //  resolve modules
     this.chain.resolve.modules
       .add('node_modules')
       .add(this.appContext.nodeModulesDirectory);
 
-    this.applyModuleScopePlugin();
+    // only apply module scope plugin when user config contains moduleScopes
+    if (this.options._raw?.source?.moduleScopes) {
+      applyModuleScopePlugin(this.chainUtils);
+    }
 
     if (this.isTsProject) {
-      const {
-        TsConfigPathsPlugin,
-      } = require('../plugins/ts-config-paths-plugin');
-      // aliases from tsconfig.json
-      this.chain.resolve
-        .plugin(RESOLVE_PLUGIN.TS_CONFIG_PATHS)
-        .use(TsConfigPathsPlugin, [this.appDirectory]);
+      applyTsConfigPathsPlugins(this.chainUtils);
     }
   }
 
   cache() {
-    this.chain.cache({
-      type: 'filesystem',
-      cacheDirectory: path.resolve(
-        this.appDirectory,
-        CACHE_DIRECTORY,
-        'webpack',
-      ),
-      buildDependencies: {
-        defaultWebpack: [require.resolve('webpack/lib')],
-        config: [__filename, this.appContext.configFile].filter(Boolean),
-        tsconfig: [
-          this.isTsProject &&
-            path.resolve(this.appDirectory, './tsconfig.json'),
-        ].filter(Boolean),
-      },
+    applyFileSystemCache({
+      ...this.chainUtils,
+      isTsProject: this.isTsProject,
     });
   }
 
@@ -544,41 +314,7 @@ class BaseWebpackConfig {
       });
 
     if (minimize) {
-      const TerserPlugin = require('terser-webpack-plugin');
-      const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-      this.chain.optimization
-        .minimizer(MINIMIZER.JS)
-        .use(TerserPlugin, [
-          // FIXME: any type
-          applyOptionsChain<any, any>(
-            {
-              terserOptions: {
-                parse: { ecma: 8 },
-                compress: {
-                  ecma: 5,
-                  warnings: false,
-                  comparisons: false,
-                  inline: 2,
-                },
-                mangle: { safari10: true },
-                // Added for profiling in devtools
-                keep_classnames: isProdProfile(),
-                keep_fnames: isProdProfile(),
-                output: {
-                  ecma: 5,
-                  ascii_only: true,
-                },
-              },
-            },
-            this.options.tools?.terser,
-          ),
-        ])
-        .end()
-        .minimizer(MINIMIZER.CSS)
-        // FIXME: add `<any>` reason: Since the css-minimizer-webpack-plugin has been updated
-        .use<any>(CssMinimizerPlugin, [
-          applyOptionsChain({}, this.options.tools?.minifyCss),
-        ]);
+      applyMinimizer(this.chainUtils);
     }
   }
 
@@ -651,53 +387,6 @@ class BaseWebpackConfig {
     return finalConfig;
   }
 
-  applyModuleScopePlugin() {
-    const userConfig = this.options._raw;
-
-    // only apply module scope plugin when user config contains moduleScopes
-    if (!userConfig?.source?.moduleScopes) {
-      return;
-    }
-
-    let defaultScopes: Array<string | RegExp> = [
-      './src',
-      './shared',
-      /node_modules/,
-    ];
-
-    const scopeOptions = this.options.source?.moduleScopes;
-
-    if (Array.isArray(scopeOptions)) {
-      if (scopeOptions.some(s => typeof s === 'function')) {
-        for (const scope of scopeOptions) {
-          if (typeof scope === 'function') {
-            const ret = scope(defaultScopes);
-            defaultScopes = ret ? ret : defaultScopes;
-          } else {
-            defaultScopes.push(scope as string | RegExp);
-          }
-        }
-      } else {
-        defaultScopes.push(...(scopeOptions as Array<string | RegExp>));
-      }
-    }
-
-    const { ModuleScopePlugin } = require('../plugins/module-scope-plugin');
-    this.chain.resolve
-      .plugin(RESOLVE_PLUGIN.MODULE_SCOPE)
-      .use(ModuleScopePlugin, [
-        {
-          appSrc: defaultScopes.map((scope: string | RegExp) => {
-            if (isString(scope)) {
-              return ensureAbsolutePath(this.appDirectory, scope);
-            }
-            return scope;
-          }),
-          allowedFiles: [path.resolve(this.appDirectory, './package.json')],
-        },
-      ]);
-  }
-
   applyToolsWebpackChain() {
     if (!this.options.tools) {
       return;
@@ -717,149 +406,6 @@ class BaseWebpackConfig {
         });
       });
     }
-  }
-
-  /**
-   * Condition of babel-loader and ts-loader.
-   *
-   * Will compile:
-   * - All folders in app directory, such as `src/`, `shared/`...
-   * - Internal folder `node_modules/.modern.js`
-   * - User configured paths in `source.include`
-   * - User configured paths in `addIncludes` of `tools.babel` and `tools.tsLoader`
-   * - Entry file of core-js when `output.polyfill` is `entry`
-   * - Internal sub-projects in modern.js monorepo: `/<MonorepoRoot>/features/*`
-   *
-   * Will not compile:
-   * - All dependencies in `node_modules/`
-   * - BFF API folder: `<appDirectory>/api`
-   * - Folders outside the app directory, such as `../../packages/foo/`
-   * - User configured paths in `addExcludes` of `tools.babel` and `tools.tsLoader`
-   */
-  applyScriptCondition(
-    rule: WebpackChain.Rule<WebpackChain.Rule<WebpackChain.Module>>,
-    includes: (string | RegExp)[],
-    excludes: (string | RegExp)[],
-  ) {
-    // compile all folders in app directory, exclude node_modules
-    rule.include.add({
-      and: [this.appContext.appDirectory, { not: /node_modules/ }],
-    });
-
-    // internalDirectory should by compiled by default
-    rule.include.add(this.appContext.internalDirectory);
-
-    // let babel to transform core-js-entry, make `useBuiltins: 'entry'` working
-    if (this.options.output.polyfill === 'entry') {
-      rule.include.add(this.coreJsEntry);
-    }
-
-    // source.includes from modern.config.js
-    const sourceIncludes = getSourceIncludes(this.appDirectory, this.options);
-    sourceIncludes.forEach(condition => {
-      rule.include.add(condition);
-    });
-
-    // exclude the api folder if exists
-    const apiDir = path.resolve(this.appContext.appDirectory, API_DIR);
-    if (fs.existsSync(apiDir)) {
-      rule.exclude.add(apiDir);
-    }
-
-    includes.forEach(condition => {
-      rule.include.add(condition);
-    });
-    excludes.forEach(condition => {
-      rule.exclude.add(condition);
-    });
-  }
-
-  applyBabelLoader(
-    loaders: WebpackChain.Rule<WebpackChain.Module>,
-    useTsLoader: boolean,
-  ) {
-    const { options, includes, excludes } = getBabelOptions(
-      this.metaName,
-      this.appDirectory,
-      this.options,
-      this.babelChain,
-      this.babelPresetAppOptions,
-    );
-
-    const rule = loaders
-      .oneOf(ONE_OF.JS)
-      .test(useTsLoader ? JS_REGEX : mergeRegex(JS_REGEX, TS_REGEX));
-
-    this.applyScriptCondition(rule, includes, excludes);
-
-    rule
-      .use(USE.BABEL)
-      .loader(require.resolve('../../compiled/babel-loader'))
-      .options(options);
-  }
-
-  applyTsLoader(loaders: WebpackChain.Rule<WebpackChain.Module>) {
-    const babelLoaderOptions = {
-      presets: [
-        [
-          require.resolve('@modern-js/babel-preset-app'),
-          {
-            metaName: this.metaName,
-            appDirectory: this.appDirectory,
-            target: 'client',
-            useTsLoader: true,
-            useBuiltIns: getUseBuiltIns(this.options),
-            userBabelConfig: this.options.tools.babel,
-          },
-        ],
-      ],
-    };
-
-    const includes: Array<string | RegExp> = [];
-    const excludes: Array<string | RegExp> = [];
-
-    const tsLoaderUtils = {
-      addIncludes(items: string | RegExp | (string | RegExp)[]) {
-        if (Array.isArray(items)) {
-          includes.push(...items);
-        } else {
-          includes.push(items);
-        }
-      },
-      addExcludes(items: string | RegExp | (string | RegExp)[]) {
-        if (Array.isArray(items)) {
-          excludes.push(...items);
-        } else {
-          excludes.push(items);
-        }
-      },
-    };
-
-    const tsLoaderOptions = applyOptionsChain(
-      {
-        compilerOptions: {
-          target: 'es5',
-          module: 'ESNext',
-        },
-        transpileOnly: false,
-        allowTsInNodeModules: true,
-      },
-      this.options.tools?.tsLoader || {},
-      tsLoaderUtils,
-    );
-
-    const rule = loaders.oneOf(ONE_OF.TS).test(TS_REGEX);
-
-    this.applyScriptCondition(rule, includes, excludes);
-
-    rule
-      .use(USE.BABEL)
-      .loader(require.resolve('../../compiled/babel-loader'))
-      .options(babelLoaderOptions)
-      .end()
-      .use(USE.TS)
-      .loader(require.resolve('ts-loader'))
-      .options(tsLoaderOptions);
   }
 
   getChain() {
