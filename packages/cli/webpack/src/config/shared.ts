@@ -1,29 +1,22 @@
-import { CHAIN_ID, ensureArray } from '@modern-js/utils';
+import { ensureArray, WebpackChain } from '@modern-js/utils';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
 import type {
   Configuration,
   RuleSetRule,
   WebpackPluginInstance,
 } from 'webpack';
-import type WebpackChain from '@modern-js/utils/webpack-chain';
 import {
   CSS_REGEX,
   CSS_MODULE_REGEX,
   NODE_MODULES_REGEX,
 } from '../utils/constants';
 
-export function enableBundleAnalyzer(
-  config: WebpackChain,
-  reportFilename: string,
-) {
-  const BundleAnalyzerPlugin = require('../../compiled/webpack-bundle-analyzer');
-  config.plugin(CHAIN_ID.PLUGIN.BUNDLE_ANALYZER).use(BundleAnalyzerPlugin, [
-    {
-      analyzerMode: 'static',
-      openAnalyzer: false,
-      reportFilename,
-    },
-  ]);
-}
+export type ChainUtils = {
+  chain: WebpackChain;
+  config: NormalizedConfig;
+  loaders: WebpackChain.Rule<WebpackChain.Module>;
+  appContext: IAppContext;
+};
 
 export function getWebpackUtils(config: Configuration) {
   return {

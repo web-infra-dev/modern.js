@@ -30,24 +30,6 @@ import CommandTip from '@site/docs/components/command-tip.md'
 
 <CommandTip />
 
-## Unbundled 开发模式
-
-:::info 注
-Unbundled 模式暂不支持在 Windows 平台使用，支持即将上线。
-:::
-
-Modern.js 提供了基于原生 ESM 模块的开发服务器，和传统打包工具(webpack、parcel、rollup 等)相比只有在浏览器真正请求具体文件时才会执行编译处理的逻辑，拥有秒级的启动速度和热更新速度。
-
-在项目目录下执行 [`new`](/docs/apis/commands/mwa/new) 命令启用 「Unbundled 开发模式」:
-
-```bash
-$ npx modern new
-? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「Unbundled 开发」模式
-```
-
-之后执行 `dev:esm` 即可启动 Unbundled 开发服务器：
-
 ## Electron 应用开发
 
 Modern.js 提供了基于 Electron 的桌面应用开发模式。

@@ -10,7 +10,6 @@ import {
   manager,
   createPlugin,
   registerHook,
-  useRunner,
 } from '../src';
 import { defaults } from '../src/config/defaults';
 
@@ -82,7 +81,6 @@ describe('config', () => {
     expect(manager).toBeDefined();
     expect(createPlugin).toBeDefined();
     expect(registerHook).toBeDefined();
-    expect(useRunner).toBeDefined();
   });
 
   it('initAppDir', async () => {
