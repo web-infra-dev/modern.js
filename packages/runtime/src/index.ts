@@ -12,8 +12,14 @@ export {
 
 export type { Plugin } from './plugin';
 
-export { defineConfig, getConfig } from './app-config';
-export type { AppConfig } from './app-config';
+export {
+  defineConfig,
+  getConfig,
+  // rename for distinguish with cli config
+  getConfig as getAppConfig,
+  defineConfig as defineAppConfig,
+} from './app-config';
+export type { RuntimeConfig as AppConfig } from '@modern-js/core';
 
 // compatible
 export * from './compatible';

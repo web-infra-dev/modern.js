@@ -56,6 +56,7 @@ export type {
   TransformOptions,
   AutoprefixerOptions,
   TerserOptions,
+  RuntimeConfig,
 };
 
 export interface SourceConfig {
