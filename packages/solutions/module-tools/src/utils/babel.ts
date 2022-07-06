@@ -1,3 +1,4 @@
+import path from 'path';
 import {
   getBabelConfig,
   applyUserBabelConfig,
@@ -68,6 +69,7 @@ export const resolveBabelConfig = (
       lodashOptions,
       jsxTransformRuntime,
       importStyle,
+      sourceDir: path.join(appDirectory, bundlelessOptions.sourceDir),
       styleDir: bundlelessOptions.style.path,
       staticDir: bundlelessOptions.static.path,
       styledComponentsOptions: applyOptionsChain(

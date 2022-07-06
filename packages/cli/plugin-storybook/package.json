@@ -41,7 +41,8 @@
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern new",
     "build": "wireit",
-    "test": "wireit"
+    "test": "wireit",
+    "dev": "modern build --watch"
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
@@ -49,7 +50,7 @@
     "@modern-js/plugin-router": "workspace:^1.2.16",
     "@modern-js/plugin-state": "workspace:^1.2.10",
     "@modern-js/utils": "workspace:^1.7.11",
-    "@modern-js/webpack": "workspace:^1.11.3",
+    "@modern-js/webpack": "workspace:^1.11.4",
     "@storybook/addon-actions": "^6.3.8",
     "@storybook/addon-essentials": "^6.3.8",
     "@storybook/addon-links": "^6.3.8",

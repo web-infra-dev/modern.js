@@ -109,7 +109,7 @@ describe('test output.buildConfig', () => {
     );
   });
 
-  it(`should error, when bundleOptions is {externals: ['node_modules']}`, () => {
+  it(`should true, when bundleOptions is {externals: ['node_modules']}`, () => {
     expect(
       validate({
         output: {
@@ -117,6 +117,16 @@ describe('test output.buildConfig', () => {
         },
       }),
     ).toBe(true);
+  });
+
+  it(`should error, when bundleOption`, () => {
+    expect(
+      validate({
+        output: {
+          buildConfig: { bundleOption: { externals: ['node_modules'] } },
+        },
+      }),
+    ).toBe(false);
   });
 
   test('should right, when buildPreset is preset string', () => {

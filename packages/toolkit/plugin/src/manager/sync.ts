@@ -13,7 +13,6 @@ import {
   isParallelWorkflow,
   createParallelWorkflow,
 } from '../workflow';
-import { RunnerContext, useRunner } from './runner';
 import {
   checkPlugins,
   hasOwnProperty,
@@ -121,7 +120,10 @@ export const createManager = <
   api?: API,
 ): Manager<Hooks, API> => {
   let index = 0;
+  let runners: ToRunners<Hooks>;
   let currentHooks = { ...hooks } as Hooks;
+
+  const useRunner = () => runners;
 
   const registerHook: Manager<Hooks, API>['registerHook'] = extraHooks => {
     currentHooks = {
@@ -218,7 +220,8 @@ export const createManager = <
         plugin.setup(mergedPluginAPI),
       );
 
-      return generateRunner<Hooks>(hooksList, currentHooks);
+      runners = generateRunner<Hooks>(hooksList, currentHooks);
+      return runners;
     };
 
     const run: Manager<Hooks, API>['run'] = cb => cb();
@@ -246,7 +249,7 @@ export const generateRunner = <Hooks extends Record<string, any>>(
   hooksMap?: Hooks,
 ): ToRunners<Hooks> => {
   const runner = {};
-  const cloneShape = closeHooksMap(hooksMap);
+  const cloneShape = cloneHooksMap(hooksMap);
 
   if (hooksMap) {
     for (const key in cloneShape) {
@@ -267,8 +270,7 @@ export const generateRunner = <Hooks extends Record<string, any>>(
     }
   }
 
-  RunnerContext.set(runner);
-  return runner as any;
+  return runner as ToRunners<Hooks>;
 };
 
 export const cloneHook = (hook: Hook): Hook => {
@@ -299,7 +301,7 @@ export const cloneHook = (hook: Hook): Hook => {
   throw new Error(`Unknown hook: ${hook}`);
 };
 
-export const closeHooksMap = <Hooks>(record: Hooks): Hooks => {
+export const cloneHooksMap = <Hooks>(record: Hooks): Hooks => {
   if (!record) {
     return record;
   }

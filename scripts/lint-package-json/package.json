@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc",
-    "start": "esno ./src/index.ts"
+    "start": "tsx ./src/index.ts"
   },
   "dependencies": {
     "@types/fs-extra": "^9.0.13",
@@ -15,6 +15,6 @@
     "fast-glob": "^3.2.11"
   },
   "devDependencies": {
-    "esno": "^0.15.0"
+    "tsx": "^3.7.1"
   }
 }

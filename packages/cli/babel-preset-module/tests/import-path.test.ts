@@ -9,51 +9,67 @@ import importPath, {
 } from '../src/built-in/import-path';
 
 describe('getImportFileDistPath', () => {
+  const currentFileName = path.join(
+    __dirname,
+    './fixtures/import-path/source/index.ts',
+  );
   test(`import style file with default options`, () => {
     const importName = './index.css';
-    const ret = getImportFileDistPath(importName, {});
+    const ret = getImportFileDistPath(importName, currentFileName, {});
     expect(ret).toBe('./index.css');
   });
 
   test(`import style file with styleDir = './style'`, () => {
     const importName = './index.css';
-    const ret = getImportFileDistPath(importName, { styleDir: './style' });
+    const ret = getImportFileDistPath(importName, currentFileName, {
+      styleDir: './style',
+    });
     expect(ret).toBe('./style/index.css');
   });
 
   test(`import style file with styleDir = 'style'`, () => {
     const importName = './index.css';
-    const ret = getImportFileDistPath(importName, { styleDir: 'style' });
+    const ret = getImportFileDistPath(importName, currentFileName, {
+      styleDir: 'style',
+    });
     expect(ret).toBe('./style/index.css');
   });
 
   test(`import style file with styleDir = '../style'`, () => {
     const importName = './index.css';
-    const ret = getImportFileDistPath(importName, { styleDir: '../style' });
+    const ret = getImportFileDistPath(importName, currentFileName, {
+      styleDir: '../style',
+    });
     expect(ret).toBe('../style/index.css');
   });
 
   test(`import static file with default options`, () => {
     const importName = './bar.json';
-    const ret = getImportFileDistPath(importName, {});
+    const ret = getImportFileDistPath(importName, currentFileName, {});
     expect(ret).toBe('./bar.json');
   });
 
   test(`import static file with staticDir = './static'`, () => {
     const importName = './bar.json';
-    const ret = getImportFileDistPath(importName, { staticDir: './static' });
+    const ret = getImportFileDistPath(importName, currentFileName, {
+      staticDir: './static',
+    });
     expect(ret).toBe('./static/bar.json');
   });
 
   test(`import static file with staticDir = 'static'`, () => {
     const importName = './bar.json';
-    const ret = getImportFileDistPath(importName, { staticDir: 'static' });
+    const ret = getImportFileDistPath(importName, currentFileName, {
+      staticDir: 'static',
+    });
     expect(ret).toBe('./static/bar.json');
   });
 
   test(`import static file with staticDir = '../static'`, () => {
     const importName = './bar.json';
-    const ret = getImportFileDistPath(importName, { staticDir: '../static' });
+    const ret = getImportFileDistPath(importName, currentFileName, {
+      staticDir: '../static',
+    });
     expect(ret).toBe('../static/bar.json');
   });
 });

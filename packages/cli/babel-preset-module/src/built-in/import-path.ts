@@ -7,14 +7,28 @@ import type { BuiltInOptsType } from '../types';
 let replaceValueHash: Record<string, string> = {};
 
 export const getImportFileDistPath = (
+  // importName is index.less or demo.png
   importName: string,
-  opts: Pick<BuiltInOptsType, 'staticDir' | 'styleDir'>,
+  currentFilename: string,
+  opts: Pick<BuiltInOptsType, 'staticDir' | 'styleDir' | 'sourceDir'>,
 ) => {
   const { staticDir = '.', styleDir = '.' } = opts;
-  const ret = path.join(
-    isStyleFile(importName) ? styleDir : staticDir,
-    importName,
+  const currentFileDir = path.dirname(currentFilename);
+  // NB: REL means 'relative'
+  // NB: opts.sourceDir is a absolute path
+  const crtFileRELSrcPath = path.relative(
+    currentFileDir,
+    opts.sourceDir ?? currentFileDir,
   );
+  const importFileRELSrcPath = path.relative(
+    opts.sourceDir ?? currentFileDir,
+    path.join(currentFileDir, importName),
+  );
+  const resourceDir = isStyleFile(importName) ? styleDir : staticDir;
+  // crtFileRELSrcPath: Relative path of the current file to the source directory
+  // resourceDir: styleDir or staticDir
+  // importFileRELPath: Relative path of the import file (eg: index.less or demo.png) to the source directory
+  const ret = path.join(crtFileRELSrcPath, resourceDir, importFileRELSrcPath);
   return ret.startsWith('.') ? slash(ret) : slash(`./${ret}`);
 };
 /**
@@ -85,7 +99,7 @@ export const getReplacePath = (
     return '';
   }
 
-  let realFilepath = getImportFileDistPath(importName, opts);
+  let realFilepath = getImportFileDistPath(importName, currentFilename, opts);
   if (isStyleFile(realFilepath) && importStyle === 'compiled-code') {
     realFilepath = realFilepath.replace(/\.(less|sass|scss)$/, '.css');
   }
