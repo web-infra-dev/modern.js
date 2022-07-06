@@ -116,8 +116,10 @@ export const buildSchema = [
       if: {
         type: 'array',
       },
-      then: { items: [{ type: 'object', properties }] },
-      else: { type: 'object', properties },
+      then: {
+        items: [{ type: 'object', properties, additionalProperties: false }],
+      },
+      else: { type: 'object', properties, additionalProperties: false },
     },
   },
   {
