@@ -217,6 +217,7 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/babel__code-frame': ^7.0.3
       '@types/babel__core': ^7.1.16
+      '@types/history': ^4.7.9
       '@types/jest': ^27
       '@types/less': ^3.0.3
       '@types/node': ^14
@@ -242,6 +243,7 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__code-frame': 7.0.3
       '@types/babel__core': 7.1.19
+      '@types/history': 4.7.11
       '@types/jest': 27.5.2
       '@types/less': 3.0.3
       '@types/node': 14.18.21
