@@ -25,7 +25,7 @@ export const getPostcssConfig = (
     },
   };
 
-  const enableCssMinify = config.output.disableCssExtract && isProd();
+  const enableCssMinify = config.output?.disableCssExtract && isProd();
 
   const mergedConfig = applyOptionsChain(
     {
