@@ -8,4 +8,5 @@ export type BuiltInOptsType = {
   importStyle?: ImportStyleType;
   staticDir?: string;
   styleDir?: string;
+  sourceDir?: string;
 };
