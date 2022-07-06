@@ -4,12 +4,15 @@ import {
   GLOBAL_CSS_REGEX,
   CSS_MODULE_REGEX,
 } from '../../utils/constants';
-import { createCSSRule } from '../../utils/createCSSRule';
+import { createCSSRule, enableCssExtract } from '../../utils/createCSSRule';
 import { ChainUtils, isNodeModulesCss } from '../shared';
 
 export function applyCSSLoaders({ chain, config, appContext }: ChainUtils) {
   const disableCssModuleExtension =
     config.output?.disableCssModuleExtension ?? false;
+  const isExtractCSS = enableCssExtract(config);
+  const enableSourceMap =
+    isProd() && isExtractCSS && !config.output?.disableSourceMap;
 
   // CSS modules
   createCSSRule(
@@ -35,7 +38,7 @@ export function applyCSSLoaders({ chain, config, appContext }: ChainUtils) {
           : '',
         exportLocalsConvention: 'camelCase',
       },
-      sourceMap: isProd() && !config.output?.disableSourceMap,
+      sourceMap: enableSourceMap,
     },
   );
 
@@ -53,7 +56,7 @@ export function applyCSSLoaders({ chain, config, appContext }: ChainUtils) {
     {
       importLoaders: 1,
       esModule: false,
-      sourceMap: isProd() && !config.output?.disableSourceMap,
+      sourceMap: enableSourceMap,
     },
   );
 }
