@@ -12,6 +12,9 @@ sidebar_label: packageMode
 * 类型： `'universal-js' | 'universal-js-lite' | 'browser-js' | 'browser-js-lite' | 'node-js'`
 * 默认值： `'universal-js'`
 
+:::warning 警告
+将在下一个大版本被废弃，推荐使用 [`output.buildPreset`](/docs/apis/config/output/build-preset) 。
+:::
 
 通过该配置可以决定构建产物支持的语法以及模块化规范。
 

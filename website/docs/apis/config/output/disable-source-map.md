@@ -11,6 +11,10 @@ sidebar_label: disableSourceMap
 * 类型： `boolean`
 * 默认值： `false`
 
+:::caution 注意
+模块工程方案的下一个大版本将废弃此配置，推荐使用 [`output.buildConfig.sourceMap`](/docs/apis/config/output/build-config/source-map) 代替。更多内容请阅读 【[如何构建模块](/docs/guides/features/modules/build)】。
+:::
+
 
 默认情况下，Modern.js 在生产环境下会生成 JS 和 CSS 资源的 SourceMap，用于调试和排查线上问题。
 

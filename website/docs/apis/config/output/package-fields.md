@@ -11,6 +11,10 @@ sidebar_label: packageFields
 * 类型：`Object`
 * 默认值：`undefined`
 
+:::warning 警告
+将在下一个大版本被废弃，推荐使用 [`output.buildConfig`](/docs/apis/config/output/build-config) 。
+:::
+
 当 `packageMode` 无法满足需求，或者只是想单独构建其中一种类型产物的时候，可以通过该配置自定义构建产物的内容。
 
 配置是一个 *key-value* 的对象。
