@@ -12,12 +12,8 @@ export function applyMinimizer({ chain, config }: ChainUtils) {
       applyOptionsChain<any, any>(
         {
           terserOptions: {
-            parse: { ecma: 8 },
             compress: {
               ecma: 5,
-              warnings: false,
-              comparisons: false,
-              inline: 2,
             },
             mangle: { safari10: true },
             // Added for profiling in devtools

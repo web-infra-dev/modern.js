@@ -27,6 +27,19 @@ const resolveStorybookWebPackConfig = (
   { appDirectory }: { appDirectory: string },
 ) => {
   sbWebpackConfig.output = clientWebpackConfig.output;
+  if (typeof clientWebpackConfig.output === 'object') {
+    sbWebpackConfig.output = {
+      ...clientWebpackConfig.output,
+      publicPath:
+        clientWebpackConfig.output?.publicPath === '/'
+          ? '' // Keep it consistent with the storybook
+          : clientWebpackConfig.output?.publicPath,
+    };
+  } else {
+    sbWebpackConfig.output = {
+      publicPath: '',
+    };
+  }
   if (sbWebpackConfig.module) {
     const blackRuleList = [
       /\.css$/.toString(),

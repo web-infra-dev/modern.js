@@ -116,6 +116,7 @@ export const runSpeedy = async (
   };
   const plugins = target === 'es5' ? [es5InputPlugin()] : [];
   plugins.push(watchPlugin());
+  // TODO: add speedy plugin about react
   const internalSpeedyConfig: CLIConfig = {
     command: 'build',
     mode: 'production',

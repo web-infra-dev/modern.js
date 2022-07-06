@@ -66,6 +66,7 @@ Array [
     Object {
       "schema": Object {
         "else": Object {
+          "additionalProperties": false,
           "properties": Object {
             "buildType": Object {
               "enum": Array [
@@ -194,6 +195,7 @@ Array [
         "then": Object {
           "items": Array [
             Object {
+              "additionalProperties": false,
               "properties": Object {
                 "buildType": Object {
                   "enum": Array [
