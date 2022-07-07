@@ -38,7 +38,8 @@
   "dependencies": {
     "@modern-js/utils": "workspace:^1.7.11",
     "caniuse-lite": "^1.0.30001332",
-    "postcss": "^8.4.14"
+    "postcss": "^8.4.14",
+    "cssnano": "^5.1.12"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
