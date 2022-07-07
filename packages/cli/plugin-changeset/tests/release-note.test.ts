@@ -25,9 +25,7 @@ describe('release note function test', () => {
       author: 'zhangsan',
     };
     const line = getReleaseNoteLine(commitObj);
-    expect(line).toEqual(
-      '[#1222] chore: update devcert version to 1.2.2 -- zhangsan\n',
-    );
+    expect(line).toEqual('#1222 chore: update devcert version to 1.2.2\n');
   });
   test('getReleaseNoteLine with repository', () => {
     const commitObj: Commit = {
@@ -41,7 +39,7 @@ describe('release note function test', () => {
     };
     const line = getReleaseNoteLine(commitObj);
     expect(line).toEqual(
-      '[[#1222](https://github.com/modern-js-dev/modern.js/pull/1222)] chore: update devcert version to 1.2.2 -- zhangsan\n',
+      '- [#1222](https://github.com/modern-js-dev/modern.js/pull/1222) chore: update devcert version to 1.2.2\n',
     );
   });
   test('getReleaseNoteLine without author', () => {
@@ -55,7 +53,7 @@ describe('release note function test', () => {
     };
     const line = getReleaseNoteLine(commitObj);
     expect(line).toEqual(
-      '[[#1222](https://github.com/modern-js-dev/modern.js/pull/1222)] chore: update devcert version to 1.2.2\n',
+      '- [#1222](https://github.com/modern-js-dev/modern.js/pull/1222) chore: update devcert version to 1.2.2\n',
     );
   });
   test('getReleaseNoteLine without pullRequestId', () => {
@@ -67,5 +65,20 @@ describe('release note function test', () => {
     };
     const line = getReleaseNoteLine(commitObj);
     expect(line).toEqual('chore: update devcert version to 1.2.2\n');
+  });
+  test('getReleaseNoteLine multi line', () => {
+    const commitObj: Commit = {
+      id: '552d98d',
+      type: 'feature',
+      pullRequestId: '1222',
+      repository: 'modern-js-dev/modern.js',
+      message: 'chore: update devcert version to 1.2.2 (#1222)',
+      summary:
+        'chore: update devcert version to 1.2.2\n\nchore: 更新 devcert 版本到 1.2.2',
+    };
+    const line = getReleaseNoteLine(commitObj);
+    expect(line).toEqual(
+      '- [#1222](https://github.com/modern-js-dev/modern.js/pull/1222) \n\n  chore: update devcert version to 1.2.2\n\n  chore: 更新 devcert 版本到 1.2.2\n',
+    );
   });
 });
