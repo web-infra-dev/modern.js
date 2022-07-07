@@ -109,10 +109,6 @@
       "path": "packages/generator/generators/entry-generator"
     },
     {
-      "name": "@modern-js/esbuild-compiler",
-      "path": "packages/toolkit/compiler/esbuild"
-    },
-    {
       "name": "@modern-js/eslint-config",
       "path": "packages/review/eslint-config"
     },
