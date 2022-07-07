@@ -1,5 +1,11 @@
 # @modern-js/style-compiler
 
+## 1.2.14
+
+### Patch Changes
+
+- only bump version
+
 ## 1.2.13
 
 - nothing happen, only bump
