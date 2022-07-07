@@ -43,7 +43,10 @@ process.on('message', async (chunk: string) => {
     plugins: string[];
   } = context;
 
-  const instances = plugins.map(plugin => safetyRequire(plugin, appDirectory));
+  const instances = plugins.map(plugin => {
+    const mod = safetyRequire(plugin, appDirectory);
+    return mod();
+  });
 
   let modernServer: ModernServer | null = null;
   try {
