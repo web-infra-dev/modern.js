@@ -1,5 +1,15 @@
 # @modern-js/plugin-bff
 
+## 1.6.1
+
+### Patch Changes
+
+- d86f009: feat: optimize implentation of registerModernRuntimePath
+- Updated dependencies [dc4676b]
+- Updated dependencies [d86f009]
+  - @modern-js/utils@1.7.12
+  - @modern-js/bff-core@1.1.1
+
 ## 1.6.0
 
 ### Minor Changes
