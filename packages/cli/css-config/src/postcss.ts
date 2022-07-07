@@ -1,5 +1,5 @@
 import type { NormalizedConfig } from '@modern-js/core';
-import { applyOptionsChain, getBrowserslist } from '@modern-js/utils';
+import { applyOptionsChain, getBrowserslist, isProd } from '@modern-js/utils';
 import type { ProcessOptions, AcceptedPlugin } from 'postcss';
 import { shouldUseSourceMap } from './util';
 
@@ -25,6 +25,8 @@ export const getPostcssConfig = (
     },
   };
 
+  const enableCssMinify = config.output?.disableCssExtract && isProd();
+
   const mergedConfig = applyOptionsChain(
     {
       postcssOptions: {
@@ -47,6 +49,7 @@ export const getPostcssConfig = (
                 ),
               )
             : false,
+          enableCssMinify ? require('cssnano')({ preset: 'default' }) : false,
         ].filter(Boolean),
       },
       sourceMap: shouldUseSourceMap(config),
