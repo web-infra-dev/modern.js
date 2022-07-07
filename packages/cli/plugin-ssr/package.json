@@ -60,8 +60,8 @@
     "@babel/runtime": "^7.18.0",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/server": "^5.15.1",
-    "@modern-js/webpack": "workspace:^1.11.4",
-    "@modern-js/utils": "workspace:^1.7.11",
+    "@modern-js/webpack": "workspace:^1.11.5",
+    "@modern-js/utils": "workspace:^1.7.12",
     "react-dom": "^17",
     "serialize-javascript": "^6.0.0"
   },
@@ -92,7 +92,7 @@
     "react": "^17",
     "react-helmet": "^6.1.0",
     "@loadable/component": "^5.15.0",
-    "@modern-js/runtime-core": "workspace:^1.5.2"
+    "@modern-js/runtime-core": "workspace:^1.5.3"
   },
   "sideEffects": false,
   "publishConfig": {

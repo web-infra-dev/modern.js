@@ -1,5 +1,22 @@
 # @modern-js/module-tools
 
+## 1.6.3
+
+### Patch Changes
+
+- eeb9273: Add `additionalProperties: false` to the schema of 'output.buildConfig'
+
+  为 'output.buildConfig' 的 schema 增加 `additionalProperties: false` 配置
+
+- Updated dependencies [dc4676b]
+- Updated dependencies [5b7a5a7]
+- Updated dependencies [4a7f2a2]
+  - @modern-js/utils@1.7.12
+  - @modern-js/plugin@1.4.2
+  - @modern-js/css-config@1.2.8
+  - @modern-js/core@1.12.4
+  - @modern-js/plugin-analyze@1.4.7
+
 ## 1.6.2
 
 ### Patch Changes

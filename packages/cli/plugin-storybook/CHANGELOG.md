@@ -1,5 +1,22 @@
 # @modern-js/plugin-storybook
 
+## 1.3.14
+
+### Patch Changes
+
+- 69db11b: feat: change webpack output.publicPath for plugin-storybook
+
+  feat: 修改 plugin-storybook 的 webpack output.publicPath 配置
+
+- Updated dependencies [dc4676b]
+- Updated dependencies [80b47bc]
+- Updated dependencies [572d63b]
+- Updated dependencies [7124323]
+  - @modern-js/webpack@1.11.5
+  - @modern-js/utils@1.7.12
+  - @modern-js/plugin-state@1.2.10
+  - @modern-js/plugin-router@1.2.16
+
 ## 1.3.13
 
 ### Patch Changes
