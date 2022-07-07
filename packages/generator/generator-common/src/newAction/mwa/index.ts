@@ -16,7 +16,6 @@ export const MWAActionTypes = [
 ];
 
 export const MWAActionFunctions = [
-  ActionFunction.UnBundle,
   ActionFunction.TailwindCSS,
   ActionFunction.Less,
   ActionFunction.Sass,
@@ -78,7 +77,6 @@ export const MWANewActionSchema: Schema = {
 export const MWAActionFunctionsDevDependencies: Partial<
   Record<ActionFunction, string>
 > = {
-  [ActionFunction.UnBundle]: '@modern-js/plugin-unbundle',
   [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
   [ActionFunction.Test]: '@modern-js/plugin-testing',
   [ActionFunction.E2ETest]: '@modern-js/plugin-e2e',
@@ -116,7 +114,6 @@ export const MWANewActionGenerators: Record<
     [ActionElement.Server]: '@modern-js/server-generator',
   },
   [ActionType.Function]: {
-    [ActionFunction.UnBundle]: '@modern-js/unbundle-generator',
     [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
     [ActionFunction.Less]: '@modern-js/dependence-generator',
     [ActionFunction.Sass]: '@modern-js/dependence-generator',

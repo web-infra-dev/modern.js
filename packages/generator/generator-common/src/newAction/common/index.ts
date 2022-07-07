@@ -12,7 +12,6 @@ export enum ActionElement {
 }
 
 export enum ActionFunction {
-  UnBundle = 'unbundle',
   TailwindCSS = 'tailwindcss',
   Less = 'less',
   Sass = 'sass',
@@ -47,7 +46,6 @@ export const ActionElementText: Record<ActionElement, () => string> = {
 };
 
 export const ActionFunctionText: Record<ActionFunction, () => string> = {
-  [ActionFunction.UnBundle]: () => i18n.t(localeKeys.action.function.unbundle),
   [ActionFunction.TailwindCSS]: () =>
     i18n.t(localeKeys.action.function.tailwindcss),
   [ActionFunction.Less]: () => i18n.t(localeKeys.action.function.less),
