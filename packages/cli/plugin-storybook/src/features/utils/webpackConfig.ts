@@ -108,9 +108,10 @@ const resolveStorybookWebPackConfig = (
         return true;
       },
     );
-    sbWebpackConfig.module.rules.push(
-      (clientWebpackConfig as any).module.rules[1],
-    );
+    const clientOneOfRule = (clientWebpackConfig as any).module.rules.filter(
+      (rule: any) => Boolean(rule.oneOf),
+    )[0];
+    sbWebpackConfig.module.rules.push(clientOneOfRule);
   }
   // 处理 resolve
   // 将已经合并的 storybook 和 Client 的resolve 配置到 Storybook resolve上
