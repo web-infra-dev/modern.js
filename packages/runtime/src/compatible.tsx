@@ -162,7 +162,7 @@ export const bootstrap: BootStrap = async (
 
       context.initialData = ssrData?.data?.initialData;
       const initialData = await runInit(context);
-      if (!context.initialData) {
+      if (initialData) {
         context.initialData = initialData;
       }
 
