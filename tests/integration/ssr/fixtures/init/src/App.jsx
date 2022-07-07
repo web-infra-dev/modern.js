@@ -12,7 +12,7 @@ const App = () => {
 App.init = context => {
   const { request } = context.ssrContext;
 
-  if (context.isBrowser) {
+  if (context.isBrowser && !context.initialData.name) {
     return {
       name: 'client',
     };
@@ -22,7 +22,7 @@ App.init = context => {
     };
   }
 
-  return null;
+  return {};
 };
 
 export default App;

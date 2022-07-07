@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "use-loader",
+  "name": "init",
   "version": "1.0.1",
   "dependencies": {
     "react": "^17.0.1",
