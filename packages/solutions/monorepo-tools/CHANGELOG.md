@@ -1,5 +1,12 @@
 # @modern-js/monorepo-tools
 
+## 1.4.9-alpha.0
+
+### Patch Changes
+
+- Updated dependencies [2e8ea92]
+  - @modern-js/plugin-changeset@1.3.2-alpha.0
+
 ## 1.4.8
 
 ### Patch Changes

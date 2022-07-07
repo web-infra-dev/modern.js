@@ -1,5 +1,13 @@
 # @modern-js/plugin-changeset
 
+## 1.3.2-alpha.0
+
+### Patch Changes
+
+- 2e8ea92: feat: optimize release note
+
+  feat: 优化 Release Note 格式
+
 ## 1.3.1
 
 ### Patch Changes

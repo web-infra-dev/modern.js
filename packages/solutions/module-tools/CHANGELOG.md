@@ -1,5 +1,14 @@
 # @modern-js/module-tools
 
+## 1.6.4-alpha.0
+
+### Patch Changes
+
+- 307ce36: ignore cjs and mjs in dts bundle
+  在对 dts 做 bundle 时忽略 cjs 和 mjs 资源
+- Updated dependencies [2e8ea92]
+  - @modern-js/plugin-changeset@1.3.2-alpha.0
+
 ## 1.6.3
 
 ### Patch Changes
