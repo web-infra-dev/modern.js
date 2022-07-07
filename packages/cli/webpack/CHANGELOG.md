@@ -1,5 +1,27 @@
 # @modern-js/webpack
 
+## 1.11.5
+
+### Patch Changes
+
+- dc4676b: chore(webpack): refactor webpack config, split modules
+- 80b47bc: perf(webpack): optimize terser default options
+
+  perf(webpack): 优化 Terser 默认压缩配置，提升压缩率
+
+- 572d63b: fix(webpack): should not inject CSS sourcemap in js bundles
+
+  fix(webpack): 修复使用 style-loader 时会将 CSS 的 SourceMap 打包到 JS 中的问题
+
+- 7124323: fix(webpack): failed to import SVG from a CSS file in some cases
+
+  fix(webpack): 修复从 CSS 文件中引用 SVG 图片时，可能会出现编译报错的问题
+
+- Updated dependencies [dc4676b]
+- Updated dependencies [4a7f2a2]
+  - @modern-js/utils@1.7.12
+  - @modern-js/css-config@1.2.8
+
 ## 1.11.3
 
 ### Patch Changes

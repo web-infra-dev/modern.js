@@ -1,5 +1,13 @@
 # @modern-js/types
 
+## 1.5.6
+
+### Patch Changes
+
+- efab847: use client init data first if exist
+- Updated dependencies [5b7a5a7]
+  - @modern-js/plugin@1.4.2
+
 ## 1.5.5
 
 ### Patch Changes

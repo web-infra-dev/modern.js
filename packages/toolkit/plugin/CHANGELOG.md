@@ -1,5 +1,11 @@
 # @modern-js/plugin
 
+## 1.4.2
+
+### Patch Changes
+
+- 5b7a5a7: fix typo closeHooksMap => cloneHooksMap
+
 ## 1.4.0
 
 ### Minor Changes

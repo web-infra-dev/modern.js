@@ -1,5 +1,11 @@
 # @modern-js/module-generator
 
+## 2.1.2
+
+### Patch Changes
+
+- f148a23: feat: add gen-release-note command to generator template
+
 ## 2.1.1
 
 ### Patch Changes
