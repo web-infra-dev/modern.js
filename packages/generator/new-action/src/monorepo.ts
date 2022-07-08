@@ -10,7 +10,7 @@ interface IMonorepoNewActionOption {
   debug?: boolean;
   registry?: string;
   config?: string;
-  plugins?: string[];
+  plugin?: string[];
   cwd?: string;
 }
 
@@ -23,7 +23,7 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
     debug = false,
     registry = '',
     config = '{}',
-    plugins = [],
+    plugin = [],
     cwd = process.cwd(),
   } = options;
 
@@ -51,7 +51,7 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
     packageManager: UserConfig.packageManager || (await getPackageManager(cwd)),
     isMonorepo: true,
     distTag,
-    plugins,
+    plugins: plugin,
   });
 
   let generator = REPO_GENERATOR;
