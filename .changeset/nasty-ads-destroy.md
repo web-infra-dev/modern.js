@@ -18,3 +18,5 @@
 ---
 
 feat: update codesmith json api version
+
+feat: 升级 `@modern-js/codesmith-api-json` 版本
