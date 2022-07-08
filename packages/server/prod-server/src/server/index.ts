@@ -1,5 +1,14 @@
 import { IncomingMessage, ServerResponse, Server as httpServer } from 'http';
 import path from 'path';
+import fs from 'fs';
+import {
+  Logger,
+  SHARED_DIR,
+  OUTPUT_CONFIG_FILE,
+  LoggerInterface,
+  dotenv,
+  dotenvExpand,
+} from '@modern-js/utils';
 import {
   serverManager,
   AppContext,
@@ -7,12 +16,6 @@ import {
   loadPlugins,
   ServerConfig,
 } from '@modern-js/server-core';
-import {
-  Logger,
-  SHARED_DIR,
-  OUTPUT_CONFIG_FILE,
-  LoggerInterface,
-} from '@modern-js/utils';
 import type { UserConfig } from '@modern-js/core';
 import { ISAppContext } from '@modern-js/types';
 import {
@@ -58,6 +61,7 @@ export class Server {
   /**
    * 初始化顺序
    * - 获取 server runtime config
+   * - 加载 .env.{options.serverEnv} 环境变量
    * - 设置 context
    * - 创建 hooksRunner
    * - 合并插件，内置插件和 serverConfig 中配置的插件
@@ -72,6 +76,8 @@ export class Server {
     const { options } = this;
 
     this.initServerConfig(options);
+
+    this.loadServerEnv(options);
 
     await this.injectContext(this.runner, options);
 
@@ -226,5 +232,20 @@ export class Server {
       sharedDirectory: path.resolve(appDirectory, SHARED_DIR),
       plugins: serverPlugins,
     };
+  }
+
+  private loadServerEnv(options: ModernServerOptions) {
+    const { pwd: appDirectory, serverEnv = '' } = options;
+    const serverEnvFilePath = path.resolve(
+      appDirectory,
+      `../.env.${serverEnv}`,
+    );
+    if (
+      fs.existsSync(serverEnvFilePath) &&
+      !fs.statSync(serverEnvFilePath).isDirectory()
+    ) {
+      const envConfig = dotenv.config({ path: serverEnvFilePath });
+      dotenvExpand(envConfig);
+    }
   }
 }
