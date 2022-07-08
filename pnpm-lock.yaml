@@ -22,7 +22,7 @@ importers:
       esbuild-jest: 0.5.0
       husky: ^8.0.0
       jest: ^27.5.1
-      wireit: ^0.4.0
+      wireit: ^0.7.1
       zx: 4.2.0
     devDependencies:
       '@babel/core': 7.18.6
@@ -43,7 +43,7 @@ importers:
       esbuild-jest: 0.5.0_esbuild@0.14.47
       husky: 8.0.1
       jest: 27.5.1
-      wireit: 0.4.3
+      wireit: 0.7.1
       zx: 4.2.0
 
   packages/cli/babel-preset-app:
@@ -35311,8 +35311,8 @@ packages:
       winston-transport: 4.5.0
     dev: false
 
-  /wireit/0.4.3:
-    resolution: {integrity: sha512-10clLgeQZn1gby+HIJVYnUumJir7vl1X5T4Nt79x3CTTHMK8h07ByDCZ9jEAzEIXDD3aTdpNIOD6UwTcknXpSQ==}
+  /wireit/0.7.1:
+    resolution: {integrity: sha512-TwuKae0aHk06DZ2omLW6YF4Y74YxCyuRCcsjZMm+cUPRXhvxAU2JhYyuCvD9wIALWK+cQUpB9GjeRFPRAbKsdw==}
     engines: {node: '>=14.14.0'}
     hasBin: true
     dependencies:
