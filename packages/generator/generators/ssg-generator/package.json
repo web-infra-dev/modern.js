@@ -34,7 +34,7 @@
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/generator-utils": "workspace:*",
     "@modern-js/dependence-generator": "workspace:*",
-    "@modern-js/codesmith-api-json": "^1.2.1",
+    "@modern-js/codesmith-api-json": "^1.2.2",
     "@types/jest": "^27",
     "@types/node": "^14",
     "typescript": "^4",
