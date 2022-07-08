@@ -1,3 +1,4 @@
+import path from 'path';
 import { merge } from '@modern-js/utils/lodash';
 import { CodeSmith } from '@modern-js/codesmith';
 import { i18n } from '@modern-js/generator-common';
@@ -10,7 +11,7 @@ interface IMonorepoNewActionOption {
   debug?: boolean;
   registry?: string;
   config?: string;
-  plugins?: string[];
+  plugin?: string[];
   cwd?: string;
 }
 
@@ -23,7 +24,7 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
     debug = false,
     registry = '',
     config = '{}',
-    plugins = [],
+    plugin = [],
     cwd = process.cwd(),
   } = options;
 
@@ -45,6 +46,15 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
   if (!alreadyRepo(cwd)) {
     smith.logger.warn('not valid modern.js repo');
   }
+
+  // Determine if the plugin is a Monorepo dependency
+  const plugins = plugin.map(plugin => {
+    try {
+      return path.join(require.resolve(plugin), '../../../../');
+    } catch (e) {
+      return plugin;
+    }
+  });
 
   const finalConfig = merge(UserConfig, {
     locale: (UserConfig.locale as string) || locale,

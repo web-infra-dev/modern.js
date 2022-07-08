@@ -102,7 +102,7 @@ export async function addManyFiles(
   renderString: (content?: string, data?: Record<string, string>) => string,
 ) {
   const dest = config.destination;
-  if (typeof dest !== 'string' || dest.length === 0) {
+  if (typeof dest !== 'string') {
     throw Error(`Invalid destination "${dest}"`);
   }
   if (typeof config.templateFiles === 'function') {
