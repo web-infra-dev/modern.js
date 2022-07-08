@@ -33,6 +33,7 @@ import type {
 import type { ElectronConfig } from './electron';
 import type { PostCSSLoaderOptions } from './postcss';
 import type { TsLoaderOptions } from './ts-loader';
+import type { RuntimeConfig } from './runtime';
 
 type AutoprefixerOptions = autoprefixer.Options;
 
@@ -55,6 +56,7 @@ export type {
   TransformOptions,
   AutoprefixerOptions,
   TerserOptions,
+  RuntimeConfig,
 };
 
 export interface SourceConfig {
@@ -354,10 +356,6 @@ export interface ToolsConfig {
    * @requires `less` plugin
    */
   less?: LessConfig;
-}
-
-export interface RuntimeConfig {
-  [name: string]: any;
 }
 
 export interface RuntimeByEntriesConfig {
