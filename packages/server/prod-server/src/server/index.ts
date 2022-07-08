@@ -61,7 +61,7 @@ export class Server {
   /**
    * 初始化顺序
    * - 获取 server runtime config
-   * - 加载 .env.{options.serverEnv} 环境变量
+   * - 从{options.serverEnvPath}读取文件，加载环境变量
    * - 设置 context
    * - 创建 hooksRunner
    * - 合并插件，内置插件和 serverConfig 中配置的插件
@@ -235,13 +235,13 @@ export class Server {
   }
 
   private loadServerEnv(options: ModernServerOptions) {
-    const { serverEnvFilePath } = options;
+    const { serverEnvPath } = options;
     if (
-      serverEnvFilePath &&
-      fs.existsSync(serverEnvFilePath) &&
-      !fs.statSync(serverEnvFilePath).isDirectory()
+      serverEnvPath &&
+      fs.existsSync(serverEnvPath) &&
+      !fs.statSync(serverEnvPath).isDirectory()
     ) {
-      const envConfig = dotenv.config({ path: serverEnvFilePath });
+      const envConfig = dotenv.config({ path: serverEnvPath });
       dotenvExpand(envConfig);
     }
   }
