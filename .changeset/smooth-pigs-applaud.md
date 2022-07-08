@@ -1,5 +1,6 @@
 ---
 '@modern-js/new-action': patch
+'@modern-js/monorepo-tools': patch
 ---
 
 fix: monorepo-tools new command plugin params not work
