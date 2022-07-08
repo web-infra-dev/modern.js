@@ -381,10 +381,6 @@
       "path": "packages/toolkit/types"
     },
     {
-      "name": "@modern-js/unbundle-generator",
-      "path": "packages/generator/generators/unbundle-generator"
-    },
-    {
       "name": "@modern-js/utils",
       "path": "packages/toolkit/utils"
     },
