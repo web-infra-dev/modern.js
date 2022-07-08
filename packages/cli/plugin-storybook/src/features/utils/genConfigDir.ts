@@ -1,7 +1,7 @@
 import path from 'path';
 import type { NormalizedConfig } from '@modern-js/core';
 import { Import, fs, glob, logger } from '@modern-js/utils';
-import { transformSync } from '@modern-js/esbuild-compiler';
+import { transformSync } from 'esbuild';
 
 const constants: typeof import('../constants') = Import.lazy(
   '../constants',
