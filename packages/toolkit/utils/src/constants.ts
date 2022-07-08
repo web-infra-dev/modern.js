@@ -104,7 +104,6 @@ export const INTERNAL_PLUGINS: {
     server: '@modern-js/plugin-nest/server',
   },
   '@modern-js/plugin-unbundle': { cli: '@modern-js/plugin-unbundle' },
-  '@modern-js/plugin-server-build': { cli: '@modern-js/plugin-server-build' },
   '@modern-js/plugin-server': {
     cli: '@modern-js/plugin-server/cli',
     server: '@modern-js/plugin-server/server',

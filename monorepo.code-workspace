@@ -293,10 +293,6 @@
       "path": "packages/server/plugin-server"
     },
     {
-      "name": "@modern-js/plugin-server-build",
-      "path": "packages/cli/plugin-server-build"
-    },
-    {
       "name": "@modern-js/plugin-ssg",
       "path": "packages/cli/plugin-ssg"
     },
