@@ -49,10 +49,6 @@
       "path": "packages/generator/generators/bff-generator"
     },
     {
-      "name": "@modern-js/bff-refactor-generator",
-      "path": "packages/generator/generators/bff-refactor-generator"
-    },
-    {
       "name": "@modern-js/bff-runtime",
       "path": "packages/server/bff-runtime"
     },
@@ -93,10 +89,6 @@
       "path": "packages/generator/generators/dependence-generator"
     },
     {
-      "name": "@modern-js/docsite-generator",
-      "path": "packages/generator/generators/docsite-generator"
-    },
-    {
       "name": "@modern-js/electron-generator",
       "path": "packages/generator/generators/electron-generator"
     },
@@ -119,10 +111,6 @@
     {
       "name": "@modern-js/esmpack",
       "path": "packages/toolkit/esmpack"
-    },
-    {
-      "name": "@modern-js/freeze",
-      "path": "packages/toolkit/freeze"
     },
     {
       "name": "@modern-js/generator-cases",
