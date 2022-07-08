@@ -235,12 +235,9 @@ export class Server {
   }
 
   private loadServerEnv(options: ModernServerOptions) {
-    const { pwd: appDirectory, serverEnv = '' } = options;
-    const serverEnvFilePath = path.resolve(
-      appDirectory,
-      `../.env.${serverEnv}`,
-    );
+    const { serverEnvFilePath } = options;
     if (
+      serverEnvFilePath &&
       fs.existsSync(serverEnvFilePath) &&
       !fs.statSync(serverEnvFilePath).isDirectory()
     ) {
