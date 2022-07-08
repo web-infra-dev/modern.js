@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/utils": "workspace:^1.7.9",
+    "@modern-js/utils": "workspace:^1.7.12",
     "isomorphic-fetch": "^3.0.0"
   },
   "devDependencies": {
@@ -54,7 +54,7 @@
     "@scripts/jest-config": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/runtime-core": "workspace:^1.5.2"
+    "@modern-js/runtime-core": "workspace:^1.5.3"
   },
   "sideEffects": false,
   "publishConfig": {

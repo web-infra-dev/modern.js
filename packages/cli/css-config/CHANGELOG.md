@@ -1,5 +1,16 @@
 # @modern-js/css-config
 
+## 1.2.8
+
+### Patch Changes
+
+- 4a7f2a2: fix(css-config): css minify not work when using style-loader
+
+  fix(css-config): 修复使用 style-loader 时，CSS 代码未被压缩的问题
+
+- Updated dependencies [dc4676b]
+  - @modern-js/utils@1.7.12
+
 ## 1.2.7
 
 ### Patch Changes

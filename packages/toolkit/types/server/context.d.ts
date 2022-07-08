@@ -56,7 +56,7 @@ export type BaseSSRServerContext = {
     [propsName: string]: any;
   };
   response: {
-    setHeader: (key: string, value: any) => void;
+    setHeader: (key: string, value: string) => void;
     status: (code: number) => void;
   };
   redirection: { url?: string; status?: number };

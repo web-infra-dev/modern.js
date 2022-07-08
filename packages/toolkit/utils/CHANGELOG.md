@@ -1,5 +1,11 @@
 # @modern-js/utils
 
+## 1.7.12
+
+### Patch Changes
+
+- dc4676b: chore(webpack): refactor webpack config, split modules
+
 ## 1.7.11
 
 ### Patch Changes

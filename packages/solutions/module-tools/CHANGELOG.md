@@ -1,5 +1,33 @@
 # @modern-js/module-tools
 
+## 1.6.3
+
+### Patch Changes
+
+- eeb9273: Add `additionalProperties: false` to the schema of 'output.buildConfig'
+
+  为 'output.buildConfig' 的 schema 增加 `additionalProperties: false` 配置
+
+- Updated dependencies [dc4676b]
+- Updated dependencies [5b7a5a7]
+- Updated dependencies [4a7f2a2]
+  - @modern-js/utils@1.7.12
+  - @modern-js/plugin@1.4.2
+  - @modern-js/css-config@1.2.8
+  - @modern-js/core@1.12.4
+  - @modern-js/plugin-analyze@1.4.7
+
+## 1.6.2
+
+### Patch Changes
+
+- ff3ba0220: fix(babel-preset-module): babel transform import path of the style file or the static file
+
+  fix(babel-preset-module): 修复 Babel 在转换导入样式文件或者静态文件的路径出现的问题
+
+- Updated dependencies [ff3ba0220]
+  - @modern-js/babel-preset-module@1.3.11
+
 ## 1.6.1
 
 ### Patch Changes

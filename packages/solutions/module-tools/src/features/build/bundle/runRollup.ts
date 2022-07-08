@@ -48,7 +48,7 @@ const getRollupConfig = async (
   const ignoreFiles: Plugin = {
     name: 'ignore-files',
     load(id) {
-      if (!/\.(js|cjs|mjs|jsx|ts|tsx|mts|json)$/.test(id)) {
+      if (!/\.(js|jsx|ts|tsx|json)$/.test(id)) {
         return '';
       }
       return null;
