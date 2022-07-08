@@ -1,3 +1,4 @@
+import path from 'path';
 import { merge } from '@modern-js/utils/lodash';
 import { CodeSmith } from '@modern-js/codesmith';
 import { i18n } from '@modern-js/generator-common';
@@ -46,12 +47,21 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
     smith.logger.warn('not valid modern.js repo');
   }
 
+  // Determine if the plugin is a Monorepo dependency
+  const plugins = plugin.map(plugin => {
+    try {
+      return path.join(require.resolve(plugin), '../../../../');
+    } catch (e) {
+      return plugin;
+    }
+  });
+
   const finalConfig = merge(UserConfig, {
     locale: (UserConfig.locale as string) || locale,
     packageManager: UserConfig.packageManager || (await getPackageManager(cwd)),
     isMonorepo: true,
     distTag,
-    plugins: plugin,
+    plugins,
   });
 
   let generator = REPO_GENERATOR;
