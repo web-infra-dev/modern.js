@@ -169,7 +169,7 @@ export class ApiRouter {
     const filenames = this.getApiFiles();
     const moduleInfos = this.getModuleInfos(filenames);
     const apiHandlers = this.getHandlerInfos(moduleInfos);
-    debug('apiHandlers', apiHandlers);
+    debug('apiHandlers', apiHandlers.length, apiHandlers);
     return apiHandlers;
   }
 
