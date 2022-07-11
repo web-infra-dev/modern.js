@@ -1,5 +1,9 @@
 import path from 'path';
-import { loadConfig, getDependencies, getConfigFilePath } from '../src';
+import {
+  loadConfig,
+  getDependencies,
+  getConfigFilePath,
+} from '../src/load-configs';
 
 // globby needs setImmediate
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

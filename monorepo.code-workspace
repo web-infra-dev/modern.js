@@ -145,10 +145,6 @@
       "path": "packages/cli/i18n-cli-language-detector"
     },
     {
-      "name": "@modern-js/load-config",
-      "path": "packages/toolkit/load-config"
-    },
-    {
       "name": "@modern-js/module-generator",
       "path": "packages/generator/generators/module-generator"
     },
