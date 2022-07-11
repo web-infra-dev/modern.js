@@ -20,7 +20,7 @@
     "@modern-js/generator-utils": "workspace:^1.2.7",
     "@modern-js/generator-common": "workspace:^1.4.13",
     "@modern-js/new-action": "workspace:^1.3.11",
-    "@modern-js/codesmith-api-json": "^1.2.1",
+    "@modern-js/codesmith-api-json": "^1.2.2",
     "@modern-js/codesmith-api-npm": "^1.2.1",
     "@modern-js/codesmith-api-git": "^1.2.1",
     "@modern-js/plugin-i18n": "workspace:^1.2.7",
