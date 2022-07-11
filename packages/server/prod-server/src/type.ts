@@ -32,7 +32,7 @@ export type ModernServerOptions = {
     api?: string;
   };
   runMode?: string;
-  serverEnvPath?: string;
+  serverEnv?: string;
   [propName: string]: any;
 };
 
