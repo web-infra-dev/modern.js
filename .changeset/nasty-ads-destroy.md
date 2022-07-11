@@ -14,7 +14,6 @@
 '@modern-js/ssg-generator': patch
 '@modern-js/storybook-generator': patch
 '@modern-js/test-generator': patch
-'@modern-js/unbundle-generator': patch
 ---
 
 feat: update codesmith json api version
