@@ -141,10 +141,6 @@
       "path": "packages/server/hmr-client"
     },
     {
-      "name": "@modern-js/i18n-cli-language-detector",
-      "path": "packages/cli/i18n-cli-language-detector"
-    },
-    {
       "name": "@modern-js/module-generator",
       "path": "packages/generator/generators/module-generator"
     },

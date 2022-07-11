@@ -17,6 +17,13 @@
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
+    "typesVersions": {
+    "*": {
+      "language-detector": [
+        "./dist/types/language-detector.d.ts"
+      ]
+    }
+  },
   "exports": {
     ".": {
       "node": {
@@ -25,6 +32,14 @@
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
+    },
+    "./language-detector": {
+      "node": {
+        "jsnext:source": "./src/language-detector.ts",
+        "import": "./dist/js/modern/language-detector.js",
+        "require": "./dist/js/node/language-detector.js"
+      },
+      "default": "./dist/js/treeshaking/language-detector.js"
     }
   },
   "scripts": {

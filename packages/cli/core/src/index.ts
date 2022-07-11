@@ -24,7 +24,12 @@ import { loadEnv } from './loadEnv';
 import { manager, HooksRunner } from './manager';
 
 export * from './config';
-export * from './types';
+export type {
+  Hooks,
+  ImportSpecifier,
+  ImportStatement,
+  RuntimePlugin,
+} from './types';
 export * from '@modern-js/plugin';
 
 // TODO: remove export after refactor all plugins
