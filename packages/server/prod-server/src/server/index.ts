@@ -60,8 +60,8 @@ export class Server {
 
   /**
    * 初始化顺序
+   * - 读取 .env.{process.env.MODERN_ENV} 文件，加载环境变量
    * - 获取 server runtime config
-   * - 从{options.serverEnvPath}读取文件，加载环境变量
    * - 设置 context
    * - 创建 hooksRunner
    * - 合并插件，内置插件和 serverConfig 中配置的插件
@@ -75,9 +75,9 @@ export class Server {
   public async init() {
     const { options } = this;
 
-    this.initServerConfig(options);
-
     this.loadServerEnv(options);
+
+    this.initServerConfig(options);
 
     await this.injectContext(this.runner, options);
 
@@ -235,7 +235,8 @@ export class Server {
   }
 
   private loadServerEnv(options: ModernServerOptions) {
-    const { pwd: appDirectory, serverEnv } = options;
+    const { pwd: appDirectory } = options;
+    const serverEnv = process.env.MODERN_ENV;
     const serverEnvPath = path.resolve(appDirectory, `.env.${serverEnv}`);
     if (
       serverEnv &&
