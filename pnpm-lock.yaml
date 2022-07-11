@@ -3932,20 +3932,13 @@ importers:
 
   packages/toolkit/types:
     specifiers:
-      '@modern-js/plugin': workspace:^1.4.2
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
-      http-proxy-middleware: ^2.0.4
       jest: ^27
-      webpack: ^5.54.0
-    dependencies:
-      '@modern-js/plugin': link:../plugin
-      http-proxy-middleware: 2.0.6
-      webpack: 5.73.0_esbuild@0.14.47
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
