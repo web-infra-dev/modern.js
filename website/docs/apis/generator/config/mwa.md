@@ -110,8 +110,6 @@ New 命令的操作类型(actionType)，类型支持两种：
 
 可选功能名称(function)，支持 11 个选项:
 
-- Unbundled(unbundle)
-
 - Tailwind CSS(tailwindcss)
 
 - Less(less)

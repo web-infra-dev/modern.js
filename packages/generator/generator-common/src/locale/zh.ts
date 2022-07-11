@@ -21,7 +21,6 @@ export const ZH_LOCALE = {
     self: '请选择你想要的操作',
     function: {
       self: '启用可选功能',
-      unbundle: '启用「Unbundled 开发」模式',
       tailwindcss: '启用 Tailwind CSS 支持',
       less: '启用 Less 支持',
       sass: '启用 Sass 支持',

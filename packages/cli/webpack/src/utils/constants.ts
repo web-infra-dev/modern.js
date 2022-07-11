@@ -4,9 +4,9 @@ export const CSS_MODULE_REGEX = /\.module\.css$/;
 
 export const GLOBAL_CSS_REGEX = /\.global\.css$/;
 
-export const JS_REGEX = /\.(js|mjs|jsx)$/;
+export const JS_REGEX = /\.(js|mjs|cjs|jsx)$/;
 
-export const TS_REGEX = /\.tsx?$/;
+export const TS_REGEX = /\.(ts|mts|cts|tsx)$/;
 
 export const ASSETS_REGEX =
   /\.(woff|woff2|eot|ttf|otf|ttc|gif|png|jpe?g|webp|bmp|ico|svg)$/i;
@@ -26,9 +26,9 @@ export const JS_RESOLVE_EXTENSIONS = [
   'ts',
   'web.tsx',
   'tsx',
-  'json',
   'web.jsx',
   'jsx',
+  'json',
 ].map(t => `.${t}`);
 
 export const CACHE_DIRECTORY = './node_modules/.cache';
