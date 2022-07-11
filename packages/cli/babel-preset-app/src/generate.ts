@@ -1,4 +1,4 @@
-import { BabelChain } from '@modern-js/babel-chain';
+import type { BabelChain } from '@modern-js/babel-preset-base';
 import { genCommon } from './common';
 import type { Options } from './type';
 

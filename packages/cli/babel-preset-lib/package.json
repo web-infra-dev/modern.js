@@ -37,7 +37,6 @@
   "dependencies": {
     "@babel/core": "^7.18.0",
     "@babel/runtime": "^7.18.0",
-    "@modern-js/babel-chain": "workspace:^1.2.5",
     "@modern-js/babel-preset-base": "workspace:^1.4.1",
     "@modern-js/utils": "workspace:^1.7.7",
     "babel-plugin-transform-define": "^2",

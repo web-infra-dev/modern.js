@@ -17,10 +17,6 @@
       "path": "packages/solutions/app-tools"
     },
     {
-      "name": "@modern-js/babel-chain",
-      "path": "packages/toolkit/babel-chain"
-    },
-    {
       "name": "@modern-js/babel-compiler",
       "path": "packages/toolkit/compiler/babel"
     },

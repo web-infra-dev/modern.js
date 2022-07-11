@@ -49,7 +49,6 @@
   },
   "dependencies": {
     "@babel/core": "^7.18.0",
-    "@modern-js/babel-chain": "workspace:^1.2.5",
     "@modern-js/babel-preset-app": "workspace:^1.4.2",
     "@modern-js/css-config": "workspace:^1.2.8",
     "@modern-js/utils": "workspace:^1.7.12",
