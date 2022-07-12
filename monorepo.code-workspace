@@ -337,10 +337,6 @@
       "path": "packages/generator/generators/storybook-generator"
     },
     {
-      "name": "@modern-js/style-compiler",
-      "path": "packages/toolkit/compiler/style"
-    },
-    {
       "name": "@modern-js/tailwindcss-generator",
       "path": "packages/generator/generators/tailwindcss-generator"
     },

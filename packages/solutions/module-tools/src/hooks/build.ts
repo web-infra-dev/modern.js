@@ -1,6 +1,10 @@
 import { createParallelWorkflow, createAsyncPipeline } from '@modern-js/plugin';
-import { registerHook, NormalizedConfig } from '@modern-js/core';
-import { LessOption, SassOptions } from '@modern-js/style-compiler';
+import {
+  registerHook,
+  NormalizedConfig,
+  LessOption,
+  SassOption,
+} from '@modern-js/core';
 
 export interface PlatformBuildOption {
   isTsProject: boolean;
@@ -23,7 +27,7 @@ export const moduleLessConfig = createAsyncPipeline<
 
 export const moduleSassConfig = createAsyncPipeline<
   { modernConfig: NormalizedConfig },
-  SassOptions<'sync'> | undefined
+  SassOption | undefined
 >();
 
 export const moduleTailwindConfig = createAsyncPipeline<

@@ -2,23 +2,25 @@ import * as path from 'path';
 import {
   fs,
   glob,
-  Import,
   watch as watcher,
   WatchChangeType,
   chalk,
   globby,
   slash,
 } from '@modern-js/utils';
-import type { PluginAPI } from '@modern-js/core';
+import type {
+  LessOption,
+  PluginAPI,
+  PostcssOption,
+  SassOption,
+} from '@modern-js/core';
+import type { Format, Target } from 'src/schema/types';
 import type {
   BuildWatchEmitter,
   ICompilerResult,
   SingleFileCompilerResult,
-  LessOption,
-  PostcssOption,
-  SassOptions,
-} from '@modern-js/style-compiler';
-import type { Format, Target } from 'src/schema/types';
+} from '../../../style-compiler';
+import { styleCompiler, BuildWatchEvent } from '../../../style-compiler';
 import { InternalBuildError } from '../error';
 import {
   watchSectionTitle,
@@ -26,11 +28,6 @@ import {
   getPostcssOption,
 } from '../utils';
 import type { NormalizedBundlelessBuildConfig } from '../types';
-
-const compiler: typeof import('@modern-js/style-compiler') = Import.lazy(
-  '@modern-js/style-compiler',
-  require,
-);
 
 export class StyleBuildError extends Error {
   public readonly summary?: string;
@@ -140,7 +137,7 @@ export const runBuild = async (option: {
   outDir: string;
   watch: boolean;
   lessOption: LessOption | undefined;
-  sassOption: SassOptions<'sync'> | undefined;
+  sassOption: SassOption | undefined;
   postcssOption: PostcssOption;
 }) => {
   const {
@@ -153,7 +150,7 @@ export const runBuild = async (option: {
     postcssOption,
   } = option;
   if (watch) {
-    const srcStyleEmitter = compiler.styleCompiler({
+    const srcStyleEmitter = styleCompiler({
       watch: true,
       projectDir: appDirectory,
       stylesDir: srcDir,
@@ -167,7 +164,7 @@ export const runBuild = async (option: {
     });
     return srcStyleEmitter;
   } else {
-    const srcStyleResult = await compiler.styleCompiler({
+    const srcStyleResult = await styleCompiler({
       projectDir: appDirectory,
       stylesDir: srcDir,
       outDir,
@@ -247,14 +244,11 @@ export const buildStyle = async (
     });
     if (watch) {
       const emitter = result as BuildWatchEmitter;
+      emitter.on(BuildWatchEvent.firstCompiler, (result: ICompilerResult) => {
+        generatorFileAndLog(result, titleText);
+      });
       emitter.on(
-        compiler.BuildWatchEvent.firstCompiler,
-        (result: ICompilerResult) => {
-          generatorFileAndLog(result, titleText);
-        },
-      );
-      emitter.on(
-        compiler.BuildWatchEvent.watchingCompiler,
+        BuildWatchEvent.watchingCompiler,
         (srcStyleResult: ICompilerResult) => {
           generatorFileAndLog(srcStyleResult, titleText);
         },
