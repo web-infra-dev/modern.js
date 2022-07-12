@@ -1,11 +1,13 @@
-import { createBabelChain } from '@modern-js/babel-chain';
 import type { TransformOptions } from '@babel/core';
 import type { BabelConfig, BabelConfigUtils } from '@modern-js/core';
 import { applyOptionsChain } from '@modern-js/utils';
+import { createBabelChain } from './babel-chain';
 import { getPresetChain } from './presets';
 import { getPluginsChain } from './plugins';
 import { IStyledComponentOptions } from './type';
 import { getBabelUtils } from './babel-utils';
+
+export * from './babel-chain';
 
 export interface IBaseBabelConfigOption {
   appDirectory: string;

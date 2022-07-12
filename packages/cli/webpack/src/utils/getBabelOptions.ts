@@ -1,9 +1,9 @@
 import { isProd, applyOptionsChain, isUseSSRBundle } from '@modern-js/utils';
 import {
   getBabelConfig,
+  BabelChain,
   Options as BabelPresetAppOptions,
 } from '@modern-js/babel-preset-app';
-import type { BabelChain } from '@modern-js/babel-chain';
 import type { NormalizedConfig, TransformOptions } from '@modern-js/core';
 
 export const getUseBuiltIns = (config: NormalizedConfig) => {
