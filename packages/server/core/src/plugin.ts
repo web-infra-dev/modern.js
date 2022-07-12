@@ -65,7 +65,15 @@ export type APIServerStartInput = {
     middleware?: Array<any>;
   };
 };
+
+type Change = {
+  filename: string;
+  event: 'add' | 'change' | 'unlink';
+};
+
 const prepareApiServer = createAsyncPipeline<APIServerStartInput, Adapter>();
+
+const onApiChange = createWaterfall<Change[]>();
 
 const beforeDevServer = createParallelWorkflow<NormalizedConfig, any>();
 
@@ -176,6 +184,7 @@ const serverHooks = {
   create,
   prepareWebServer,
   prepareApiServer,
+  onApiChange,
   beforeDevServer,
   setupCompiler,
   afterDevServer,
