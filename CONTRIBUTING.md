@@ -19,7 +19,8 @@ npm install -g pnpm@6
 ### Set up local Modern.js repository
 
 ```zsh
-pnpm install
+pnpm install --ignore-scripts
+pnpm prepare
 ```
 
 <details>
