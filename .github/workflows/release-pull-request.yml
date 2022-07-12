@@ -4,6 +4,16 @@ on:
   workflow_dispatch:
     inputs:
       version:
+        type: choice
+        description: 'Release Type(canary, alpha, pre, latest)'
+        required: true
+        default: 'latest'
+        options:
+        - canary
+        - alpha
+        - pre
+        - latest
+      versionNumber:
         description: 'Release Version(v1.0.0)'
         required: true
 
@@ -17,16 +27,16 @@ jobs:
         with:
         # This makes Actions fetch only one branch to release
           fetch-depth: 100
-          token: ${{ secrets.REPO_SCOPED_TOKEN }}
 
       - name: Create Release Pull Request
         uses: modern-js-dev/actions@main
         with:
           # this expects you to have a script called release which does a build for your packages and calls changeset publish
-          versionNumber: ${{ github.event.inputs.version }}
+          version: ${{ github.event.inputs.version }}
+          versionNumber: ${{ github.event.inputs.versionNumber }}
           type: 'pull request'
         env:
-          GITHUB_TOKEN: ${{ secrets.REPO_SCOPED_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           REPOSITORY: ${{ github.repository }}
           REF: ${{ github.ref }}

@@ -1,4 +1,4 @@
-import { createBabelChain } from '@modern-js/babel-chain';
+import { createBabelChain } from '@modern-js/babel-preset-app';
 import { mergeRegex } from '../src/utils/mergeRegex';
 import { getBabelOptions } from '../src/utils/getBabelOptions';
 import { verifyTsConfigPaths } from '../src/utils/getWebpackAliases';
