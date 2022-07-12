@@ -14,7 +14,7 @@ export default (
     useDesignTokenContext?: boolean;
   } = {},
 ): Plugin => ({
-  name: '@modern-js/plugin-design-token',
+  name: '@modern-js/plugin-tailwindcss',
 
   setup: () => ({
     hoc({ App }, next) {
