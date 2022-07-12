@@ -15,10 +15,6 @@ Modern.js 启用 SSR 非常简单，只需要设置 [`server.ssr`](/docs/apis/co
 }
 ```
 
-:::info 注
-目前，Modern.js 还不支持 Unbundled 开发模式下开启该功能。
-:::
-
 ## SSR 时的数据请求
 
 Modern.js 中提供了 `useLoader` Hooks API，可以在某些场景下代替 `useEffect` 进行数据请求。这是一个同构的 API，直接使用它即可完成在服务端的数据获取：

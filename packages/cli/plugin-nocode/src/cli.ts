@@ -1,6 +1,7 @@
 import { join } from 'path';
 import { PLUGIN_SCHEMAS } from '@modern-js/utils';
 import { WebpackConfigTarget, getWebpackConfig } from '@modern-js/webpack';
+import AnalyzePlugin from '@modern-js/plugin-analyze';
 import type { CliPlugin } from '@modern-js/core';
 import type { Configuration } from 'webpack';
 import { MODE, STARRY_MODEL_RUNTIME } from './contants';
@@ -22,7 +23,7 @@ const getMode = (appDirectory: string) => {
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-nocode',
-
+  usePlugins: [AnalyzePlugin()],
   setup: api => ({
     commands({ program }) {
       program
