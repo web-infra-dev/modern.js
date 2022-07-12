@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should work with @babel/runtime/helpers/arrayLikeToArray 1`] = `
+"function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+
+export default _arrayLikeToArray;
+"
+`;
+
+exports[`should work with babel-runtime/helpers/extends 1`] = `
+"import require$$0 from 'core-js/library/fn/object/assign';
+
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+function getDefaultExportFromCjs (x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+}
+
+function getDefaultExportFromNamespaceIfPresent (n) {
+	return n && Object.prototype.hasOwnProperty.call(n, 'default') ? n['default'] : n;
+}
+
+function getDefaultExportFromNamespaceIfNotNamed (n) {
+	return n && Object.prototype.hasOwnProperty.call(n, 'default') && Object.keys(n).length === 1 ? n['default'] : n;
+}
+
+function getAugmentedNamespace(n) {
+	if (n.__esModule) return n;
+	var a = Object.defineProperty({}, '__esModule', {value: true});
+	Object.keys(n).forEach(function (k) {
+		var d = Object.getOwnPropertyDescriptor(n, k);
+		Object.defineProperty(a, k, d.get ? d : {
+			enumerable: true,
+			get: function () {
+				return n[k];
+			}
+		});
+	});
+	return a;
+}
+
+function commonjsRequire (path) {
+	throw new Error('Could not dynamically require \\"' + path + '\\". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
+}
+
+var _extends = {};
+
+var assign$1 = {exports: {}};
+
+(function (module) {
+module.exports = { \\"default\\": require$$0, __esModule: true };
+}(assign$1));
+
+var assign = /*@__PURE__*/getDefaultExportFromCjs(assign$1.exports);
+
+\\"use strict\\";
+
+_extends.__esModule = true;
+
+var _assign = assign$1.exports;
+
+var _assign2 = _interopRequireDefault(_assign);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = _extends.default = _assign2.default || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
+export default _default;
+export { _extends as __moduleExports };
+
+// ESMPACK PATCH DEFAULT EXPORT
+try {
+  if ('object' === typeof _default || 'function' === typeof _default) {
+if (!('__moduleExports' in _default)) { Object.defineProperty(_default, '__moduleExports', { value: _extends }); }
+if (!('default' in _default)) { Object.defineProperty(_default, 'default', { value: _default }); }
+  }
+} catch(_e) {
+  // no-catch
+}
+"
+`;

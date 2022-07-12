@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module">
+      import React from '/dist/react.js';
+      import ReactDOM from '/dist/react-dom.js';
+      const App = React.createElement(
+        'div',
+        {
+          className: 'hello-world',
+        },
+        'hello world'
+      );
+      const $root = document.getElementById('root');
+      ReactDOM.render(App, $root);
+    </script>
+  </body>
+</html>

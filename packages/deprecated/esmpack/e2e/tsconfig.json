@@ -1,0 +1,7 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["DOM"]
+  },
+  "include": ["../src", "../e2e", "../__tests__/"]
+}

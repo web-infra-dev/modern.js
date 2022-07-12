@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should work with firebase/app 1`] = `
+"import require$$0 from '@firebase/app';
+
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+function getDefaultExportFromCjs (x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+}
+
+function getDefaultExportFromNamespaceIfPresent (n) {
+	return n && Object.prototype.hasOwnProperty.call(n, 'default') ? n['default'] : n;
+}
+
+function getDefaultExportFromNamespaceIfNotNamed (n) {
+	return n && Object.prototype.hasOwnProperty.call(n, 'default') && Object.keys(n).length === 1 ? n['default'] : n;
+}
+
+function getAugmentedNamespace(n) {
+	if (n.__esModule) return n;
+	var a = Object.defineProperty({}, '__esModule', {value: true});
+	Object.keys(n).forEach(function (k) {
+		var d = Object.getOwnPropertyDescriptor(n, k);
+		Object.defineProperty(a, k, d.get ? d : {
+			enumerable: true,
+			get: function () {
+				return n[k];
+			}
+		});
+	});
+	return a;
+}
+
+function commonjsRequire (path) {
+	throw new Error('Could not dynamically require \\"' + path + '\\". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
+}
+
+'use strict';
+
+var firebase = require$$0;
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var firebase__default = /*#__PURE__*/_interopDefaultLegacy(firebase);
+
+var name = \\"firebase\\";
+var version = \\"7.24.0\\";
+
+/**
+ * @license
+ * Copyright 2018 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the \\"License\\");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an \\"AS IS\\" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+firebase__default['default'].registerVersion(name, version, 'app');
+
+var index_cjs = firebase__default['default'];
+
+var INTERNAL = index_cjs.INTERNAL;
+var SDK_VERSION = index_cjs.SDK_VERSION;
+var app = index_cjs.app;
+var apps = index_cjs.apps;
+export default index_cjs;
+var initializeApp = index_cjs.initializeApp;
+var onLog = index_cjs.onLog;
+var registerVersion = index_cjs.registerVersion;
+var setLogLevel = index_cjs.setLogLevel;
+export { INTERNAL, SDK_VERSION, index_cjs as __moduleExports, app, apps, initializeApp, onLog, registerVersion, setLogLevel };
+
+// ESMPACK PATCH DEFAULT EXPORT
+try {
+  if ('object' === typeof index_cjs || 'function' === typeof index_cjs) {
+if (!('__moduleExports' in index_cjs)) { Object.defineProperty(index_cjs, '__moduleExports', { value: index_cjs }); }
+if (!('default' in index_cjs)) { Object.defineProperty(index_cjs, 'default', { value: index_cjs }); }
+  }
+} catch(_e) {
+  // no-catch
+}
+"
+`;

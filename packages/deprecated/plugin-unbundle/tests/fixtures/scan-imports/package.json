@@ -1,0 +1,12 @@
+{
+  "name": "scan-imports",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@xxx/plugin-bff": "^1.0.0"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "no-param-reassign": "off",
+    "@typescript-eslint/no-loop-func": "off",
+    "prefer-destructuring": "off",
+    "consistent-return": "off",
+    "max-depth": "off",
+    "@typescript-eslint/member-ordering": "off",
+    "max-lines": "off",
+    "@typescript-eslint/no-base-to-string": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "callback-return": "off",
+    "no-cond-assign": "off",
+    "react-hooks/rules-of-hooks": "off"
+  }
+}

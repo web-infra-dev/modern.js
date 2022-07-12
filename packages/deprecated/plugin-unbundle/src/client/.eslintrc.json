@@ -1,0 +1,7 @@
+{
+  "extends": ["@modern-js-app"],
+  "rules": {
+    "babel/no-unused-expressions": "off",
+    "callback-return": "off"
+  }
+}

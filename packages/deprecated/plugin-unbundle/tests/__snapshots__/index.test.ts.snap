@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plugin-unbundle schema 1`] = `
+Array [
+  Array [
+    Object {
+      "schema": Object {
+        "type": "boolean",
+      },
+      "target": "output.disableAutoImportStyle",
+    },
+    Object {
+      "schema": Object {
+        "properties": Object {
+          "clearPdnCache": Object {
+            "type": "boolean",
+          },
+          "ignore": Object {
+            "items": Object {
+              "type": "string",
+            },
+            "type": Array [
+              "string",
+              "array",
+            ],
+          },
+          "ignoreModuleCache": Object {
+            "type": "boolean",
+          },
+          "pdnHost": Object {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+      "target": "dev.unbundle",
+    },
+  ],
+]
+`;
