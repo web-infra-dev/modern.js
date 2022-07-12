@@ -1,4 +1,3 @@
-import { loadConfig } from '@modern-js/load-config';
 import {
   signale as logger,
   createDebugger,
@@ -11,6 +10,7 @@ import {
   getPackageManager,
 } from '@modern-js/utils';
 import { mergeWith } from '@modern-js/utils/lodash';
+import { loadConfig } from '../load-configs';
 
 import Ajv, { ErrorObject } from '../../compiled/ajv';
 import ajvKeywords from '../../compiled/ajv-keywords';

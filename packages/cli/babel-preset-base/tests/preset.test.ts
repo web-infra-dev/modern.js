@@ -1,4 +1,4 @@
-import { createBabelPresetChain } from '../src';
+import { createBabelPresetChain } from '../src/babel-chain';
 
 describe('preset', () => {
   describe('setter', () => {

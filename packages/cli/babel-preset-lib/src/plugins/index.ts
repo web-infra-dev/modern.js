@@ -1,4 +1,4 @@
-import { createBabelChain, BabelChain } from '@modern-js/babel-chain';
+import { BabelChain, createBabelChain } from '@modern-js/babel-preset-base';
 import { ILibPresetOption } from '../types';
 import { aliasPlugin } from './alias';
 import { envPlugin } from './env';

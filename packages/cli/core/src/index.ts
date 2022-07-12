@@ -7,7 +7,6 @@ import {
   INTERNAL_PLUGINS,
   DEFAULT_SERVER_CONFIG,
 } from '@modern-js/utils';
-import type { Hooks } from '@modern-js/types';
 import type { ErrorObject } from '../compiled/ajv';
 import { initCommandsMap } from './utils/commander';
 import { resolveConfig, loadUserConfig, addServerConfigToDeps } from './config';
@@ -24,8 +23,13 @@ import { initWatcher } from './initWatcher';
 import { loadEnv } from './loadEnv';
 import { manager, HooksRunner } from './manager';
 
-export type { Hooks };
 export * from './config';
+export type {
+  Hooks,
+  ImportSpecifier,
+  ImportStatement,
+  RuntimePlugin,
+} from './types';
 export * from '@modern-js/plugin';
 
 // TODO: remove export after refactor all plugins
