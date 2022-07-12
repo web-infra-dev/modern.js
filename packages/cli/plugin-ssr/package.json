@@ -66,7 +66,6 @@
     "serialize-javascript": "^6.0.0"
   },
   "devDependencies": {
-    "@modern-js/babel-chain": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/runtime-core": "workspace:*",
     "@modern-js/types": "workspace:*",

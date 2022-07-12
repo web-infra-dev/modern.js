@@ -16,6 +16,7 @@ export * from './utils';
 
 export {
   fs,
+  execa,
   readTsConfigByFile,
   getPackageManager,
   canUseNpm,

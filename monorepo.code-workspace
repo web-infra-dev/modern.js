@@ -17,10 +17,6 @@
       "path": "packages/solutions/app-tools"
     },
     {
-      "name": "@modern-js/babel-chain",
-      "path": "packages/toolkit/babel-chain"
-    },
-    {
       "name": "@modern-js/babel-compiler",
       "path": "packages/toolkit/compiler/babel"
     },
@@ -139,14 +135,6 @@
     {
       "name": "@modern-js/hmr-client",
       "path": "packages/server/hmr-client"
-    },
-    {
-      "name": "@modern-js/i18n-cli-language-detector",
-      "path": "packages/cli/i18n-cli-language-detector"
-    },
-    {
-      "name": "@modern-js/load-config",
-      "path": "packages/toolkit/load-config"
     },
     {
       "name": "@modern-js/module-generator",

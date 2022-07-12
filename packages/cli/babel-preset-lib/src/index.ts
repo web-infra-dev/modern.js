@@ -1,7 +1,11 @@
-import { getBaseBabelChain } from '@modern-js/babel-preset-base';
-import { createBabelChain } from '@modern-js/babel-chain';
+import {
+  getBaseBabelChain,
+  createBabelChain,
+} from '@modern-js/babel-preset-base';
 import { getPlugins } from './plugins';
 import { ISyntaxOption, ILibPresetOption } from './types';
+
+export * from '@modern-js/babel-preset-base';
 
 export const getBabelConfig = (
   libPresetOption: ILibPresetOption,

@@ -1,5 +1,8 @@
-import { createBabelChain, BabelChain } from '@modern-js/babel-chain';
-import { getBaseBabelChain } from '@modern-js/babel-preset-base';
+import {
+  getBaseBabelChain,
+  createBabelChain,
+  BabelChain,
+} from '@modern-js/babel-preset-base';
 import { isTest, isDev, isProd } from '@modern-js/utils';
 import { isBeyondReact17 } from './utils';
 import type { Options, EnvOptions } from './type';

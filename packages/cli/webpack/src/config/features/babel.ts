@@ -2,8 +2,10 @@ import path from 'path';
 import { API_DIR, CHAIN_ID, fs } from '@modern-js/utils';
 import type { WebpackChain } from '@modern-js/utils';
 import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import type { Options as BabelPresetAppOptions } from '@modern-js/babel-preset-app';
-import { createBabelChain } from '@modern-js/babel-chain';
+import {
+  Options as BabelPresetAppOptions,
+  createBabelChain,
+} from '@modern-js/babel-preset-app';
 import { getBabelOptions } from '../../utils/getBabelOptions';
 import { JS_REGEX, TS_REGEX } from '../../utils/constants';
 import { mergeRegex } from '../../utils/mergeRegex';

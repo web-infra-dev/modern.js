@@ -1,10 +1,5 @@
+import type { RuntimePlugin } from '@modern-js/core';
 import type { Entrypoint, Route } from '@modern-js/types';
-
-export interface RuntimePlugin {
-  name: string;
-  options: string;
-  args?: string;
-}
 
 export const index = ({
   mountId,

@@ -1,4 +1,4 @@
-import { createBabelChain } from '@modern-js/babel-chain';
+import { createBabelChain } from '@modern-js/babel-preset-lib';
 import type { BuiltInOptsType } from '../types';
 
 export const getBuildInPlugins = (opts: BuiltInOptsType) => {
