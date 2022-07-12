@@ -3,6 +3,8 @@ import { fs, chokidar, FSWatcher, WatchOptions } from '@modern-js/utils';
 import { DependencyTree } from './dependency-tree';
 import { StatsCache } from './stats-cache';
 
+export type WatchEvent = 'add' | 'change' | 'unlink';
+
 export const defaultWatchOptions = {
   // 初始化的时候不触发 add、addDir 事件
   ignoreInitial: true,
@@ -54,7 +56,7 @@ export default class Watcher {
   public listen(
     files: string[],
     options: WatchOptions,
-    callback: (changed: string) => void,
+    callback: (changed: string, event: WatchEvent) => void,
   ) {
     const watched = files.filter(Boolean);
     const filenames = watched.map(filename => filename.replace(/\\/g, '/'));
@@ -69,20 +71,20 @@ export default class Watcher {
     watcher.on('change', changed => {
       if (!fs.existsSync(changed) || cache.isDiff(changed)) {
         cache.refresh(changed);
-        callback(changed);
+        callback(changed, 'change');
       }
     });
 
     watcher.on('add', changed => {
       if (!cache.has(changed)) {
         cache.add([changed]);
-        callback(changed);
+        callback(changed, 'add');
       }
     });
 
     watcher.on('unlink', changed => {
       cache.del(changed);
-      callback(changed);
+      callback(changed, 'unlink');
     });
 
     this.watcher = watcher;
