@@ -1,7 +1,6 @@
 import * as os from 'os';
 import path from 'path';
-import type { NormalizedConfig } from '@modern-js/core';
-import type { PostcssOption } from '@modern-js/style-compiler';
+import type { NormalizedConfig, PostcssOption } from '@modern-js/core';
 import { chalk, Import, fs } from '@modern-js/utils';
 
 const constants: typeof import('./constants') = Import.lazy(
