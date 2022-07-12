@@ -1,7 +1,6 @@
-import type { NormalizedConfig } from '@modern-js/core';
-import { getLessLoaderOptions } from '@modern-js/css-config';
+import type { NormalizedConfig, LessOption } from '@modern-js/core';
 import NpmImportPlugin from 'less-plugin-npm-import';
-import { LessOption as ResolvedLessOption } from '@modern-js/style-compiler';
+import { getLessLoaderOptions } from './options';
 
 export const moduleLessConfig = ({
   modernConfig,
@@ -9,7 +8,7 @@ export const moduleLessConfig = ({
 }: {
   modernConfig: NormalizedConfig;
   npmImportPrefix?: string;
-}): ResolvedLessOption => {
+}): LessOption => {
   const { options } = getLessLoaderOptions(modernConfig);
 
   return {

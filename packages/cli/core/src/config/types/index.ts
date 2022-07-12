@@ -21,8 +21,8 @@ import type {
 import type { AcceptedPlugin as PostCSSPlugin } from 'postcss';
 import type { PluginConfig } from '../../loadPlugins';
 import type { TestConfig, JestConfig } from './test';
-import type { SassConfig, SassLoaderOptions } from './sass';
-import type { LessConfig, LessLoaderOptions } from './less';
+import type { SassConfig, SassLoaderOptions, SassOption } from './sass';
+import type { LessConfig, LessLoaderOptions, LessOption } from './less';
 import type { UnbundleConfig } from './unbundle';
 import type {
   SSGConfig,
@@ -31,7 +31,7 @@ import type {
   SSGSingleEntryOptions,
 } from './ssg';
 import type { ElectronConfig } from './electron';
-import type { PostCSSLoaderOptions } from './postcss';
+import type { PostCSSLoaderOptions, PostcssOption } from './postcss';
 import type { TsLoaderOptions } from './ts-loader';
 
 type AutoprefixerOptions = autoprefixer.Options;
@@ -44,10 +44,13 @@ export type {
   TestConfig,
   JestConfig,
   UnbundleConfig,
+  PostcssOption,
   SassConfig,
   SassLoaderOptions,
+  SassOption,
   LessConfig,
   LessLoaderOptions,
+  LessOption,
   SSGConfig,
   SSGRouteOptions,
   SSGMultiEntryOptions,

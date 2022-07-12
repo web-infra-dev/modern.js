@@ -1,24 +1,10 @@
-import type { LegacyFileOptions as SassOptions } from 'sass';
-import type { AcceptedPlugin, ProcessOptions } from 'postcss';
-
-export type { LegacyFileOptions as SassOptions } from 'sass';
+import { LessOption, SassOption, PostcssOption } from '@modern-js/core';
 
 export type { BuildWatchEmitter } from './build-watch';
 
-export type LessOption = {
-  enableSourceMap?: boolean;
-  lessOption?: Less.Options;
-};
-
-export interface PostcssOption {
-  enableSourceMap?: boolean;
-  plugins?: AcceptedPlugin[];
-  options: ProcessOptions;
-}
-
 export interface Option {
   less?: LessOption;
-  sass?: SassOptions<'sync'>;
+  sass?: SassOption;
   postcss?: PostcssOption;
 }
 

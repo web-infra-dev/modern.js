@@ -1,10 +1,7 @@
 import { Import, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
+import { getLessLoaderOptions } from './options';
 
-const cssConfig: typeof import('@modern-js/css-config') = Import.lazy(
-  '@modern-js/css-config',
-  require,
-);
 const mlc: typeof import('./module-less-config') = Import.lazy(
   './module-less-config',
   require,
@@ -38,8 +35,7 @@ export default (): CliPlugin => ({
               output: { disableCssModuleExtension },
             } = resolvedConfig;
 
-            const { options, excludes } =
-              cssConfig.getLessLoaderOptions(resolvedConfig);
+            const { options, excludes } = getLessLoaderOptions(resolvedConfig);
 
             const loaders = chain.module.rule(RULE.LOADERS);
 

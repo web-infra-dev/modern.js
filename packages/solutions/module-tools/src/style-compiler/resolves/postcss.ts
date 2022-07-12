@@ -1,10 +1,7 @@
 import path from 'path';
+import { PostcssOption } from '@modern-js/core';
 import postcss, { AcceptedPlugin } from 'postcss';
-import {
-  ResolveItemParams,
-  SingleFileCompilerResult,
-  PostcssOption,
-} from '../types';
+import { ResolveItemParams, SingleFileCompilerResult } from '../types';
 import { likeCssLoaderPostCssPlugins } from './postcssPlugins';
 
 export const postcssResolve = async (
