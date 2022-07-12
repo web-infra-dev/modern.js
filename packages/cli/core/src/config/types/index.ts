@@ -405,6 +405,7 @@ export interface UserConfig {
    * @requires `electron` plugin
    */
   electron?: ElectronConfig;
+  // eslint-disable-next-line max-lines
 }
 
 export type ConfigParam =

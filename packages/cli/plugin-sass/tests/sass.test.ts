@@ -1,11 +1,11 @@
 import type { NormalizedConfig } from '@modern-js/core';
-import { getLessLoaderOptions } from '../src';
+import { getSassLoaderOptions } from '../src/options';
 
-describe('less loader options', () => {
+describe('sass loader options', () => {
   test('should allow to using addExcludes to exclude some files', () => {
-    const { excludes } = getLessLoaderOptions({
+    const { excludes } = getSassLoaderOptions({
       tools: {
-        less(
+        sass(
           _: unknown,
           {
             addExcludes,

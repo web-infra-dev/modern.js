@@ -1,5 +1,5 @@
 {
-  "name": "@modern-js/plugin-design-token",
+  "name": "@modern-js/plugin-tailwindcss",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -11,22 +11,29 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.0.11",
+  "version": "1.4.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
-  "module": "./dist/js/treeshaking/index.js",
+  "main": "./dist/js/node/runtime/index.js",
+  "module": "./dist/js/treeshaking/runtime/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": {
       "node": {
-        "jsnext:source": "./src/index.ts",
-        "import": "./dist/js/modern/index.js",
-        "require": "./dist/js/node/index.js"
+        "jsnext:source": "./src/runtime/index.ts",
+        "import": "./dist/js/modern/runtime/index.js",
+        "require": "./dist/js/node/runtime/index.js"
       },
-      "default": "./dist/js/treeshaking/index.js"
+      "default": "./dist/js/treeshaking/runtime/index.js"
     },
-    "./runtime": "./dist/js/treeshaking/runtime/index.js",
+    "./runtime": {
+      "jsnext:source": "./src/runtime/index.ts",
+      "node": {
+        "import": "./dist/js/modern/runtime/index.js",
+        "require": "./dist/js/node/runtime/index.js"
+      },
+      "default": "./dist/js/treeshaking/runtime/index.js"
+    },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/js/node/cli/index.js"
@@ -39,13 +46,17 @@
       ],
       "cli": [
         "./dist/types/cli/index.d.ts"
+      ],
+      "runtime": [
+        "./dist/types/runtime/index.d.ts"
       ]
     }
   },
   "scripts": {
     "prepare": "pnpm build",
-    "prepublishOnly": "only-allow-pnpm",
+    "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
+    "dev": "modern build --watch",
     "build": "wireit",
     "test": "wireit"
   },
@@ -56,26 +67,29 @@
     "hoist-non-react-statics": "^3.3.2"
   },
   "devDependencies": {
-    "@modern-js/plugin-testing": "workspace:*",
-    "@modern-js/runtime-core": "workspace:*",
     "@modern-js/core": "workspace:*",
+    "@modern-js/runtime-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@types/jest": "^27",
-    "@types/hoist-non-react-statics": "^3.3.1",
     "@types/node": "^14",
+    "@types/tailwindcss": "^2.2.1",
+    "@types/hoist-non-react-statics": "^3.3.1",
     "@types/react": "^17",
-    "@types/react-dom": "^17",
-    "react": "^17.0.2",
     "typescript": "^4",
-    "postcss": "^8.4.14"
+    "tailwindcss": "^2.0.4",
+    "jest": "^27",
+    "postcss": "^8.4.14",
+    "react": "^17.0.2",
+    "@scripts/jest-config": "workspace:*"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^2.0.4"
   },
   "sideEffects": false,
-  "peerDependencies": {
-    "react": "^17.0.2"
-  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "types": "./dist/types/runtime/index.d.ts"
   },
   "wireit": {
     "build": {
@@ -83,15 +97,14 @@
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json",
-        "./modern.config.js"
+        "package.json"
       ],
       "output": [
         "dist/**/*"
       ]
     },
     "test": {
-      "command": "modern test --passWithNoTests",
+      "command": "jest --passWithNoTests",
       "files": [
         "src/**/*",
         "tsconfig.json",

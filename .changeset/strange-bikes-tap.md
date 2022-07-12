@@ -7,6 +7,6 @@
 '@modern-js/module-tools': minor
 ---
 
-chore(css): remove `@modern-js/style-compiler` package
+chore(css): merge `@modern-js/style-compiler` to `@modern-js/module-tools`
 
-chore(css): 移除 `@modern-js/style-compiler`
+chore(css): 合并 `@modern-js/style-compiler` 至 `@modern-js/module-tools`
