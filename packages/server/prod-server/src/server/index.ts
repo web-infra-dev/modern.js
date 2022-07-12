@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse, Server as httpServer } from 'http';
+import type { ListenOptions } from 'net';
 import path from 'path';
 import fs from 'fs';
 import {
@@ -164,14 +165,23 @@ export class Server {
     );
   }
 
-  public listen(port = 8080, listener: any) {
-    this.app.listen(process.env.PORT || port, () => {
+  public listen<T extends number | ListenOptions | undefined>(
+    options: T,
+    listener: any,
+  ) {
+    const callback = () => {
       if (listener) {
         listener();
       }
 
       this.server.onListening(this.app);
-    });
+    };
+
+    if (typeof options === 'object') {
+      this.app.listen(options, callback);
+    } else {
+      this.app.listen(process.env.PORT || options || 8080, callback);
+    }
   }
 
   public getRequestHandler() {
