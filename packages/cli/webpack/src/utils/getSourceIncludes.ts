@@ -1,4 +1,4 @@
-import { dirname, isAbsolute, sep, join } from 'path';
+import { dirname, isAbsolute, sep, posix } from 'path';
 import { globby, findMonorepoRoot, isModernjsMonorepo } from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
 
@@ -29,7 +29,7 @@ export const getSourceIncludes = (
 
   if (modernjsMonorepo) {
     const paths = globby
-      .sync(join(root, 'features', '**', 'package.json'), {
+      .sync(posix.join(root, 'features', '**', 'package.json'), {
         ignore: ['**/node_modules/**/*'],
       })
       .map(pathname => dirname(pathname) + sep);
