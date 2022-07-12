@@ -1,6 +1,6 @@
 import path from 'path';
 import os from 'os';
-import { fs } from '@modern-js/utils';
+import { fs } from '@modern-js/generator-utils';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
   CodeSmith,

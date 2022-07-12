@@ -1,5 +1,5 @@
 import { getBrowserslist } from '@modern-js/utils';
-import { createBabelChain } from '@modern-js/babel-chain';
+import { createBabelChain } from './babel-chain';
 import { IBaseBabelConfigOption } from '.';
 
 const es6BrowserList = [

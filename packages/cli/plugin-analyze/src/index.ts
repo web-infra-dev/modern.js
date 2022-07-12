@@ -1,7 +1,11 @@
 import * as path from 'path';
 import { createAsyncWaterfall } from '@modern-js/plugin';
 import { createDebugger, fs, isApiOnly } from '@modern-js/utils';
-import type { CliPlugin } from '@modern-js/core';
+import type {
+  CliPlugin,
+  RuntimePlugin,
+  ImportStatement,
+} from '@modern-js/core';
 import type {
   Route,
   Entrypoint,
@@ -9,8 +13,6 @@ import type {
   HtmlPartials,
 } from '@modern-js/types';
 import { cloneDeep } from '@modern-js/utils/lodash';
-import type { ImportStatement } from './generateCode';
-import type { RuntimePlugin } from './templates';
 import { isRouteComponentFile } from './utils';
 
 const debug = createDebugger('plugin-analyze');

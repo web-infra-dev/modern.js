@@ -1,5 +1,5 @@
-import { createBabelChain } from '@modern-js/babel-chain';
 import { isPackageInstalled } from '@modern-js/utils';
+import { createBabelChain } from './babel-chain';
 import { IBaseBabelConfigOption } from '.';
 
 export const getPluginsChain = (option: IBaseBabelConfigOption) => {
