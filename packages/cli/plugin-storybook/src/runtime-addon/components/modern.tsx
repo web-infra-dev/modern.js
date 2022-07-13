@@ -2,6 +2,7 @@ import React from 'react';
 import { createApp } from '@modern-js/runtime';
 import type { Plugin } from '@modern-js/runtime-core';
 import { state, router } from '@modern-js/runtime/plugins';
+import type { RouterConfig } from '@modern-js/plugin-router';
 import type { StoryFn as StoryFunction } from '@storybook/addons';
 import type { IConfig } from '../type';
 import { getStateOption } from './state';
@@ -42,7 +43,7 @@ export const resolvePlugins = (runtime: IConfig['modernConfigRuntime']) => {
           plugins.push(state(getStateOption(runtime.state)));
         }
       } else if (api === allowedRuntimeAPI.router) {
-        plugins.push(router(runtime.router));
+        plugins.push(router(runtime.router as RouterConfig));
       }
     }
   });
