@@ -1,4 +1,10 @@
-import { LessOption, SassOption, PostcssOption } from '@modern-js/core';
+import {
+  LessOption,
+  SassOption,
+  PostcssOption,
+  ResolveStyleItemParams,
+  SingleFileStyleCompilerResult,
+} from '@modern-js/core';
 
 export type { BuildWatchEmitter } from './build-watch';
 
@@ -8,6 +14,21 @@ export interface Option {
   postcss?: PostcssOption;
 }
 
+export type CompilerItem = (
+  params: ResolveStyleItemParams,
+) => Promise<SingleFileStyleCompilerResult>;
+
+export type PostcssCompilerItem = (
+  css: string,
+  params: ResolveStyleItemParams,
+  other?: { sourcemapContent: string },
+) => Promise<SingleFileStyleCompilerResult>;
+
+export type Compiler = {
+  less?: CompilerItem;
+  sass?: CompilerItem;
+  postcss?: PostcssCompilerItem;
+};
 export interface ResolveItemParams {
   file: string;
   projectDir: string;
@@ -15,6 +36,7 @@ export interface ResolveItemParams {
   outDir: string;
   enableVirtualDist: boolean;
   options: Option;
+  compiler: Compiler;
 }
 
 export type ResolveParams = Omit<ResolveItemParams, 'file'> & {
@@ -44,4 +66,5 @@ export interface IBuildOption {
   outDir: string;
   enableVirtualDist?: boolean;
   compilerOption?: Option;
+  compiler: Compiler;
 }

@@ -2,12 +2,14 @@ import path from 'path';
 import { fs } from '@modern-js/utils';
 import sass from 'sass';
 import { toString, merge } from '@modern-js/utils/lodash';
-import { ResolveItemParams, SingleFileCompilerResult } from '../types';
-import { postcssResolve } from './postcss';
+import {
+  ResolveStyleItemParams,
+  SingleFileStyleCompilerResult,
+} from '@modern-js/core';
 
 const sassToCss = (
   sassCode: string,
-  params: ResolveItemParams,
+  params: ResolveStyleItemParams,
   { outFile }: { outFile: string },
 ) => {
   const { file, options } = params;
@@ -29,47 +31,29 @@ const sassToCss = (
       filename: outFile,
       error: null,
       sourceMap: toString(sassResult.map),
-    } as SingleFileCompilerResult;
+    } as SingleFileStyleCompilerResult;
   } catch (error: any) {
     return {
       code: 1,
       content: '',
       filename: outFile,
       error: error.message,
-    } as SingleFileCompilerResult;
+    } as SingleFileStyleCompilerResult;
   }
 };
 
 const generateContent = async (
   sassCode: string,
-  params: ResolveItemParams,
+  params: ResolveStyleItemParams,
   option: { outFile: string },
 ) => {
-  const sassCompilerResult = sassToCss(sassCode, params, option);
-
-  if (sassCompilerResult.code === 1) {
-    return sassCompilerResult;
-  }
-
-  return postcssResolve(sassCompilerResult.content, params, {
-    sourcemapContent: sassCompilerResult.sourceMap || '',
-  });
+  return sassToCss(sassCode, params, option);
 };
 
-export const sassResolve = async (params: ResolveItemParams) => {
-  const { file, options, stylesDir, outDir } = params;
+export const sassResolve = async (params: ResolveStyleItemParams) => {
+  const { file, stylesDir, outDir } = params;
   const originSassCode = fs.readFileSync(file, 'utf-8');
   const relativePath = path.relative(stylesDir, file);
   const outFile = path.join(outDir, relativePath);
-  if (!options.sass) {
-    return {
-      code: 0,
-      filename: outFile,
-      content: originSassCode,
-      error: null,
-      sourceMap: '',
-      sourceMapFile: '',
-    } as SingleFileCompilerResult;
-  }
   return generateContent(originSassCode, params, { outFile });
 };
