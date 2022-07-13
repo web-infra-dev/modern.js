@@ -42,17 +42,17 @@ export const moduleTailwindConfig = createAsyncPipeline<
   any
 >();
 
-export const getModuleLessCompiler = createAsyncPipeline<
+export const moduleLessCompiler = createAsyncPipeline<
   unknown,
   CompilerItem | undefined
 >();
 
-export const getModuleSassCompiler = createAsyncPipeline<
+export const moduleSassCompiler = createAsyncPipeline<
   unknown,
   CompilerItem | undefined
 >();
 
-export const getModulePostcssCompiler = createAsyncPipeline<
+export const modulePostcssCompiler = createAsyncPipeline<
   unknown,
   PostcssCompilerItem | undefined
 >();
@@ -60,22 +60,22 @@ export const getModulePostcssCompiler = createAsyncPipeline<
 export const buildHooks = {
   platformBuild,
   moduleLessConfig,
-  getModuleLessCompiler,
+  moduleLessCompiler,
   moduleSassConfig,
-  getModuleSassCompiler,
+  moduleSassCompiler,
   modulePostcssConfig,
-  getModulePostcssCompiler,
+  modulePostcssCompiler,
   moduleTailwindConfig,
 };
 
 export const lifecycle = () => {
   registerHook({
     moduleLessConfig,
-    getModuleLessCompiler,
+    moduleLessCompiler,
     moduleSassConfig,
-    getModuleSassCompiler,
+    moduleSassCompiler,
     modulePostcssConfig,
-    getModulePostcssCompiler,
+    modulePostcssCompiler,
     moduleTailwindConfig,
     platformBuild,
   });
@@ -85,11 +85,11 @@ declare module '@modern-js/core' {
   export interface Hooks {
     platformBuild: typeof platformBuild;
     moduleLessConfig: typeof moduleLessConfig;
-    getModuleLessCompiler: typeof getModuleLessCompiler;
+    moduleLessCompiler: typeof moduleLessCompiler;
     moduleSassConfig: typeof moduleSassConfig;
-    getModuleSassCompiler: typeof getModuleSassCompiler;
+    moduleSassCompiler: typeof moduleSassCompiler;
     modulePostcssConfig: typeof modulePostcssConfig;
-    getModulePostcssCompiler: typeof getModulePostcssCompiler;
+    modulePostcssCompiler: typeof modulePostcssCompiler;
     moduleTailwindConfig: typeof moduleTailwindConfig;
   }
 }

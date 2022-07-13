@@ -12,6 +12,6 @@ export const modulePostcssConfig = ({
   return getPostcssOption(appDirectory, modernConfig);
 };
 
-export const getModulePostcssCompiler = () => {
+export const modulePostcssCompiler = () => {
   return postcssResolve;
 };

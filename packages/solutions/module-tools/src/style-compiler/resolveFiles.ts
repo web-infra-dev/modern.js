@@ -46,7 +46,7 @@ export async function resolveFiles(params: ResolveParams) {
       if (lessResolve) {
         result = await lessResolve({ file, ...params });
         if (result.code !== 1) {
-          result = await handlePostcssResolve(result, params as any);
+          result = await handlePostcssResolve(result, { file, ...params });
         }
       } else {
         result = noHandleResult;
@@ -56,7 +56,7 @@ export async function resolveFiles(params: ResolveParams) {
       if (sassResolve) {
         result = await sassResolve({ file, ...params });
         if (result.code !== 1) {
-          result = await handlePostcssResolve(result, params as any);
+          result = await handlePostcssResolve(result, { file, ...params });
         }
       } else {
         result = noHandleResult;
