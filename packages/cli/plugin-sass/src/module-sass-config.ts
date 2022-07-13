@@ -1,4 +1,5 @@
 import type { NormalizedConfig, SassOption } from '@modern-js/core';
+import { sassResolve } from './compiler';
 import { getSassLoaderOptions } from './options';
 
 export const moduleSassConfig = ({
@@ -11,4 +12,8 @@ export const moduleSassConfig = ({
     ...(options.sassOptions || { file: '' }),
     sourceMap: options.sourceMap,
   };
+};
+
+export const getModuleSassCompiler = () => {
+  return sassResolve;
 };

@@ -1,7 +1,19 @@
-import type { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig, PostcssOption } from '@modern-js/core';
 import { applyOptionsChain, getBrowserslist, isProd } from '@modern-js/utils';
 import type { ProcessOptions, AcceptedPlugin } from 'postcss';
 import { shouldUseSourceMap } from './util';
+
+export const getPostcssOption = (
+  appDirectory: string,
+  modernConfig: NormalizedConfig,
+): PostcssOption => {
+  const postcssOption = getPostcssConfig(appDirectory, modernConfig, false);
+  return {
+    plugins: postcssOption?.postcssOptions?.plugins || [],
+    enableSourceMap: (postcssOption as any)?.sourceMap || false,
+    options: {},
+  };
+};
 
 /**
  *

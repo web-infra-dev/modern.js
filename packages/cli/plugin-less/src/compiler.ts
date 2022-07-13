@@ -1,10 +1,12 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import less from 'less';
-import { ResolveItemParams, SingleFileCompilerResult } from '../types';
-import { postcssResolve } from './postcss';
+import {
+  ResolveStyleItemParams,
+  SingleFileStyleCompilerResult,
+} from '@modern-js/core';
 
-const lessToCss = async (lessCode: string, params: ResolveItemParams) => {
+const lessToCss = async (lessCode: string, params: ResolveStyleItemParams) => {
   const { file, options } = params;
 
   const data = lessCode.replace(/^\uFEFF/, '');
@@ -41,32 +43,18 @@ const lessToCss = async (lessCode: string, params: ResolveItemParams) => {
   }
 };
 
-const generateContent = async (lessCode: string, params: ResolveItemParams) => {
+const generateContent = async (
+  lessCode: string,
+  params: ResolveStyleItemParams,
+) => {
   const lessCompilerResult = await lessToCss(lessCode, params);
 
-  if (lessCompilerResult.code === 1) {
-    return lessCompilerResult as SingleFileCompilerResult;
-  }
-
-  return postcssResolve(lessCompilerResult.content, params, {
-    sourcemapContent: lessCompilerResult.sourceMap,
-  });
+  return lessCompilerResult as SingleFileStyleCompilerResult;
 };
 
-export const lessResolve = async (params: ResolveItemParams) => {
-  const { file, options, stylesDir, outDir } = params;
+export const lessResolve = async (params: ResolveStyleItemParams) => {
+  const { file } = params;
   const originalLessCode = fs.readFileSync(file, 'utf-8');
-  const relativePath = path.relative(stylesDir, file);
-  const outFile = path.join(outDir, relativePath);
-  // 如果没有配置 less，则认为没有开启 less 功能
-  if (!options.less) {
-    return {
-      code: 0,
-      filename: outFile,
-      content: originalLessCode,
-      error: null,
-    } as SingleFileCompilerResult;
-  }
 
   return generateContent(originalLessCode, params);
 };

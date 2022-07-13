@@ -1,6 +1,5 @@
 ---
 '@modern-js/core': minor
-'@modern-js/css-config': minor
 '@modern-js/plugin-less': minor
 '@modern-js/plugin-sass': minor
 '@modern-js/plugin-unbundle': minor

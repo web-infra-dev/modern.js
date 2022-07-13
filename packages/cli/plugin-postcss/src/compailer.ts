@@ -1,12 +1,15 @@
 import path from 'path';
-import { PostcssOption } from '@modern-js/core';
+import {
+  PostcssOption,
+  ResolveStyleItemParams,
+  SingleFileStyleCompilerResult,
+} from '@modern-js/core';
 import postcss, { AcceptedPlugin } from 'postcss';
-import { ResolveItemParams, SingleFileCompilerResult } from '../types';
-import { likeCssLoaderPostCssPlugins } from './postcssPlugins';
+import { likeCssLoaderPostCssPlugins } from './plugins';
 
 export const postcssResolve = async (
   css: string,
-  params: ResolveItemParams,
+  params: ResolveStyleItemParams,
   { sourcemapContent = '' }: { sourcemapContent?: string } = {},
 ) => {
   const { stylesDir, file, outDir, options } = params;
@@ -53,7 +56,7 @@ export const postcssResolve = async (
     };
   }
 
-  const compilerSuccessResult: SingleFileCompilerResult = {
+  const compilerSuccessResult: SingleFileStyleCompilerResult = {
     code: 0,
     content: result.css,
     filename: to.replace(path.extname(to), '.css'),

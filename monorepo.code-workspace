@@ -77,10 +77,6 @@
       "path": "packages/server/create-request"
     },
     {
-      "name": "@modern-js/css-config",
-      "path": "packages/cli/css-config"
-    },
-    {
       "name": "@modern-js/dependence-generator",
       "path": "packages/generator/generators/dependence-generator"
     },
@@ -231,6 +227,10 @@
     {
       "name": "@modern-js/plugin-less",
       "path": "packages/cli/plugin-less"
+    },
+    {
+      "name": "@modern-js/plugin-postcss",
+      "path": "packages/cli/plugin-postcss"
     },
     {
       "name": "@modern-js/plugin-garfish",
