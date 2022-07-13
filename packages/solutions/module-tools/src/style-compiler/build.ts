@@ -12,6 +12,7 @@ export async function transformStyle(option: IBuildOption) {
     outDir,
     enableVirtualDist = false,
     compilerOption = defaultCompilerOptions,
+    compiler,
   } = option;
   // get style files
   const files = getFiles({
@@ -27,6 +28,7 @@ export async function transformStyle(option: IBuildOption) {
       outDir,
       enableVirtualDist,
       options: compilerOption,
+      compiler,
     });
   } else {
     await resolveFiles({
@@ -36,6 +38,7 @@ export async function transformStyle(option: IBuildOption) {
       outDir,
       enableVirtualDist,
       options: compilerOption,
+      compiler,
     });
     return undefined;
   }

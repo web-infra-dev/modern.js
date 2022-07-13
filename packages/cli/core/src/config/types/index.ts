@@ -420,3 +420,33 @@ export interface LoadedConfig {
   pkgConfig: UserConfig;
   jsConfig: UserConfig;
 }
+
+export interface StyleOption {
+  less?: LessOption;
+  sass?: SassOption;
+  postcss?: PostcssOption;
+}
+
+export interface ResolveStyleItemParams {
+  file: string;
+  projectDir: string;
+  stylesDir: string;
+  outDir: string;
+  enableVirtualDist: boolean;
+  options: StyleOption;
+}
+
+export type ResolveParams = Omit<ResolveStyleItemParams, 'file'> & {
+  files: string[];
+};
+
+export type ProjectOption = Omit<ResolveStyleItemParams, 'file' | 'options'>;
+
+export interface SingleFileStyleCompilerResult {
+  code: number; // 0 success, 1 fail
+  filename: string;
+  content: string;
+  error: string | null;
+  sourceMapFileName?: string;
+  sourceMap?: string;
+}

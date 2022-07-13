@@ -1,15 +1,9 @@
 import * as os from 'os';
 import path from 'path';
-import type { NormalizedConfig, PostcssOption } from '@modern-js/core';
 import { chalk, Import, fs } from '@modern-js/utils';
 
 const constants: typeof import('./constants') = Import.lazy(
   './constants',
-  require,
-);
-
-const cssConfig: typeof import('@modern-js/css-config') = Import.lazy(
-  '@modern-js/css-config',
   require,
 );
 
@@ -88,22 +82,6 @@ export const watchSectionTitle = (str: string, status: SectionTitleStatus) => {
   }
 
   return `${chalk.bgWhite.gray.underline(str)} ${chalk.blue.underline('Log')}`;
-};
-
-export const getPostcssOption = (
-  appDirectory: string,
-  modernConfig: NormalizedConfig,
-): PostcssOption => {
-  const postcssOption = cssConfig.getPostcssConfig(
-    appDirectory,
-    modernConfig,
-    false,
-  );
-  return {
-    plugins: postcssOption?.postcssOptions?.plugins || [],
-    enableSourceMap: (postcssOption as any)?.sourceMap || false,
-    options: {},
-  };
 };
 
 export const getAllDeps = <T>(appDirectory: string) => {

@@ -1,5 +1,5 @@
 {
-  "name": "@modern-js/css-config",
+  "name": "@modern-js/plugin-postcss",
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -39,13 +39,15 @@
     "@modern-js/utils": "workspace:^1.7.12",
     "caniuse-lite": "^1.0.30001332",
     "postcss": "^8.4.14",
-    "cssnano": "^5.1.12"
+    "cssnano": "^5.1.12",
+    "postcss-import": "^14.0.2"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
     "@types/jest": "^27",
     "@types/node": "^14",
     "@types/react-dom": "^17",
+    "@types/postcss-import": "^12.0.1",
     "sass": "^1.45.0",
     "typescript": "^4",
     "@scripts/build": "workspace:*",

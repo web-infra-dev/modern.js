@@ -17,16 +17,14 @@ import type {
 import type { Format, Target } from 'src/schema/types';
 import type {
   BuildWatchEmitter,
+  CompilerItem,
   ICompilerResult,
+  PostcssCompilerItem,
   SingleFileCompilerResult,
 } from '../../../style-compiler';
 import { styleCompiler, BuildWatchEvent } from '../../../style-compiler';
 import { InternalBuildError } from '../error';
-import {
-  watchSectionTitle,
-  SectionTitleStatus,
-  getPostcssOption,
-} from '../utils';
+import { watchSectionTitle, SectionTitleStatus } from '../utils';
 import type { NormalizedBundlelessBuildConfig } from '../types';
 
 export class StyleBuildError extends Error {
@@ -138,7 +136,10 @@ export const runBuild = async (option: {
   watch: boolean;
   lessOption: LessOption | undefined;
   sassOption: SassOption | undefined;
-  postcssOption: PostcssOption;
+  postcssOption: PostcssOption | undefined;
+  lessResolve?: CompilerItem;
+  sassResolve?: CompilerItem;
+  postcssResolve?: PostcssCompilerItem;
 }) => {
   const {
     watch,
@@ -148,6 +149,9 @@ export const runBuild = async (option: {
     lessOption,
     sassOption,
     postcssOption,
+    lessResolve,
+    sassResolve,
+    postcssResolve,
   } = option;
   if (watch) {
     const srcStyleEmitter = styleCompiler({
@@ -161,6 +165,11 @@ export const runBuild = async (option: {
         sass: sassOption,
         postcss: postcssOption,
       },
+      compiler: {
+        less: lessResolve,
+        sass: sassResolve,
+        postcss: postcssResolve,
+      },
     });
     return srcStyleEmitter;
   } else {
@@ -173,6 +182,11 @@ export const runBuild = async (option: {
         less: lessOption,
         sass: sassOption,
         postcss: postcssOption,
+      },
+      compiler: {
+        less: lessResolve,
+        sass: sassResolve,
+        postcss: postcssResolve,
       },
     });
     return srcStyleResult;
@@ -208,17 +222,32 @@ export const buildStyle = async (
     { modernConfig },
     { onLast: async (_: any) => undefined },
   );
+  const lessResolve = await runner.getModuleLessCompiler(
+    {},
+    { onLast: async (_: any) => undefined },
+  );
   const sassOption = await runner.moduleSassConfig(
     { modernConfig },
+    { onLast: async (_: any) => undefined },
+  );
+  const sassResolve = await runner.getModuleSassCompiler(
+    {},
+    { onLast: async (_: any) => undefined },
+  );
+  const postcssOption = await runner.modulePostcssConfig({
+    modernConfig,
+    appDirectory,
+  });
+  const postcssResolve = await runner.getModulePostcssCompiler(
+    {},
     { onLast: async (_: any) => undefined },
   );
   const tailwindPlugin = await runner.moduleTailwindConfig(
     { modernConfig },
     { onLast: async (_: any) => undefined },
   );
-  const postcssOption = getPostcssOption(appDirectory, modernConfig);
   if (tailwindPlugin) {
-    postcssOption.plugins?.push(tailwindPlugin);
+    postcssOption?.plugins?.push(tailwindPlugin);
   }
 
   const srcDir = path.resolve(appDirectory, sourceDir);
@@ -241,6 +270,9 @@ export const buildStyle = async (
       lessOption,
       sassOption,
       postcssOption,
+      lessResolve,
+      sassResolve,
+      postcssResolve,
     });
     if (watch) {
       const emitter = result as BuildWatchEmitter;
