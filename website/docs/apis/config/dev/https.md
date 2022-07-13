@@ -11,7 +11,7 @@ MWA
 - 类型： `boolean`
 - 默认值： `false`
 
-配置该选项后，开启 Dev Server 对 HTTPS 的支持。
+配置该选项后，可以开启 Dev Server 对 HTTPS 的支持。
 
 开启前：
 
