@@ -1,7 +1,11 @@
-import { PLUGIN_SCHEMAS } from '@modern-js/utils';
+import { Import, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
-import { getLessLoaderOptions } from './options';
-import { moduleLessConfig, getModuleLessCompiler } from './module-less-config';
+
+const cssConfig: typeof import('./options') = Import.lazy('./options', require);
+const mlc: typeof import('./module-less-config') = Import.lazy(
+  './module-less-config',
+  require,
+);
 
 const LESS_REGEX = /\.less$/;
 const LESS_MODULE_REGEX = /\.module\.less$/;
@@ -31,7 +35,8 @@ export default (): CliPlugin => ({
               output: { disableCssModuleExtension },
             } = resolvedConfig;
 
-            const { options, excludes } = getLessLoaderOptions(resolvedConfig);
+            const { options, excludes } =
+              cssConfig.getLessLoaderOptions(resolvedConfig);
 
             const loaders = chain.module.rule(RULE.LOADERS);
 
@@ -77,7 +82,7 @@ export default (): CliPlugin => ({
         },
       };
     },
-    moduleLessConfig,
-    getModuleLessCompiler,
+    moduleLessConfig: mlc.moduleLessConfig,
+    moduleLessCompiler: mlc.moduleLessCompiler,
   }),
 });

@@ -1,8 +1,10 @@
+import { Import } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
-import {
-  modulePostcssConfig,
-  getModulePostcssCompiler,
-} from './module-postcss-config';
+
+const mlc: typeof import('./module-postcss-config') = Import.lazy(
+  './module-postcss-config',
+  require,
+);
 
 const SASS_REGEX = /\.s(a|c)ss$/;
 const SASS_MODULE_REGEX = /\.module\.s(a|c)ss$/;
@@ -20,7 +22,7 @@ export default (): CliPlugin => ({
     validateSchema: () => {
       return [];
     },
-    modulePostcssConfig,
-    getModulePostcssCompiler,
+    modulePostcssConfig: mlc.modulePostcssConfig,
+    modulePostcssCompiler: mlc.modulePostcssCompiler,
   }),
 });

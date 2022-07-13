@@ -1,7 +1,5 @@
-import { PLUGIN_SCHEMAS } from '@modern-js/utils';
+import { Import, PLUGIN_SCHEMAS } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
-import { getSassLoaderOptions } from './options';
-import { moduleSassConfig, getModuleSassCompiler } from './module-sass-config';
 
 const SASS_REGEX = /\.s(a|c)ss$/;
 const SASS_MODULE_REGEX = /\.module\.s(a|c)ss$/;
@@ -17,6 +15,14 @@ export default (): CliPlugin => ({
   name: '@modern-js/plugin-sass',
 
   setup: api => {
+    const cssConfig: typeof import('./options') = Import.lazy(
+      './options',
+      require,
+    );
+    const msc: typeof import('./module-sass-config') = Import.lazy(
+      './module-sass-config',
+      require,
+    );
     return {
       validateSchema() {
         return PLUGIN_SCHEMAS['@modern-js/plugin-sass'];
@@ -33,7 +39,7 @@ export default (): CliPlugin => ({
               } = resolvedConfig;
 
               const { options, excludes } =
-                getSassLoaderOptions(resolvedConfig);
+                cssConfig.getSassLoaderOptions(resolvedConfig);
 
               const loaders = chain.module.rule(RULE.LOADERS);
 
@@ -81,8 +87,8 @@ export default (): CliPlugin => ({
           },
         };
       },
-      moduleSassConfig,
-      getModuleSassCompiler,
+      moduleSassConfig: msc.moduleSassConfig,
+      moduleSassCompiler: msc.moduleSassCompiler,
     };
   },
 });
