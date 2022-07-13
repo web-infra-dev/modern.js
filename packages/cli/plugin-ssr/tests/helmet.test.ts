@@ -16,7 +16,7 @@ describe('helmet', () => {
   it('should replace title', () => {
     const result = helmet('<title>foo</title>', {
       ...helmetData,
-      title: 'baz',
+      title: '<title>baz</title>',
     } as any);
 
     expect(result).toMatch('baz');
