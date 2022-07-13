@@ -24,6 +24,6 @@ export const moduleLessConfig = ({
   };
 };
 
-export const getModuleLessCompiler = () => {
+export const moduleLessCompiler = () => {
   return lessResolve;
 };

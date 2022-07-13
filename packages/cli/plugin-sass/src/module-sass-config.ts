@@ -14,6 +14,6 @@ export const moduleSassConfig = ({
   };
 };
 
-export const getModuleSassCompiler = () => {
+export const moduleSassCompiler = () => {
   return sassResolve;
 };

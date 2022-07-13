@@ -222,7 +222,7 @@ export const buildStyle = async (
     { modernConfig },
     { onLast: async (_: any) => undefined },
   );
-  const lessResolve = await runner.getModuleLessCompiler(
+  const lessResolve = await runner.moduleLessCompiler(
     {},
     { onLast: async (_: any) => undefined },
   );
@@ -230,7 +230,7 @@ export const buildStyle = async (
     { modernConfig },
     { onLast: async (_: any) => undefined },
   );
-  const sassResolve = await runner.getModuleSassCompiler(
+  const sassResolve = await runner.moduleSassCompiler(
     {},
     { onLast: async (_: any) => undefined },
   );
@@ -238,7 +238,7 @@ export const buildStyle = async (
     modernConfig,
     appDirectory,
   });
-  const postcssResolve = await runner.getModulePostcssCompiler(
+  const postcssResolve = await runner.modulePostcssCompiler(
     {},
     { onLast: async (_: any) => undefined },
   );
