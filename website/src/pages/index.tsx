@@ -536,7 +536,7 @@ export default function Home() {
           />
         </Featurelayout>
         <Featurelayout>
-          <SecondaryTitle seqNum={++count}>提供工程标准体系</SecondaryTitle>
+          <SecondaryTitle seqNum={++count}>鼓励定制工程方案</SecondaryTitle>
           <a
             className={styles.singleImgWrap}
             href="/docs/guides/features/custom/framework-plugin/abstract">
