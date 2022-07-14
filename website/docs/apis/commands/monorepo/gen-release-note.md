@@ -22,11 +22,11 @@ Options:
 ``` markdown
 ## Features:
 
-[[#1160](https://github.com/modern-js-dev/modern.js/pull/1160)] export ExecaError type -- targeral
+[[#1160](https://github.com/modern-js-dev/modern.js/pull/1160)] export ExecaError type
 
 ## Bug Fix:
 
-[[#1264](https://github.com/modern-js-dev/modern.js/pull/1264)] fix: conventional router app use App.init not work -- Belinda Cao
+[[#1264](https://github.com/modern-js-dev/modern.js/pull/1264)] fix: conventional router app use App.init not work
 
 ```
 
