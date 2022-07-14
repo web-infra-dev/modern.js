@@ -127,6 +127,7 @@ export const INTERNAL_PLUGINS: {
   '@modern-js/plugin-multiprocess': {
     cli: '@modern-js/plugin-multiprocess/cli',
   },
+  // TODO: Maybe can remove it
   '@modern-js/plugin-nocode': { cli: '@modern-js/plugin-nocode/cli' },
   '@modern-js/plugin-design-token': {
     cli: '@modern-js/plugin-design-token/cli',
