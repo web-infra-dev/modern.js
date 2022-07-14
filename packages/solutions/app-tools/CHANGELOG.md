@@ -1,5 +1,38 @@
 # @modern-js/app-tools
 
+## 1.7.0
+
+### Minor Changes
+
+- 33cebd2: chore(plugin-i18n): merge `@modern-js/i18n-cli-language-detector` to `@modern-js/plugin-i18n`
+
+  chore(plugin-i18n): 合并 `@modern-js/i18n-cli-language-detector` 包到 `@modern-js/plugin-i18n` 包作为子路径
+
+### Patch Changes
+
+- Updated dependencies [b74b0b6]
+- Updated dependencies [33cebd2]
+- Updated dependencies [33cebd2]
+- Updated dependencies [7b902b3]
+- Updated dependencies [33cebd2]
+- Updated dependencies [a27ab8d]
+- Updated dependencies [3d64b2f]
+- Updated dependencies [8b2aa56]
+- Updated dependencies [3e4a34f]
+- Updated dependencies [33cebd2]
+- Updated dependencies [74e74ee]
+- Updated dependencies [33cebd2]
+  - @modern-js/webpack@1.12.0
+  - @modern-js/core@1.13.0
+  - @modern-js/plugin-analyze@1.5.0
+  - @modern-js/types@1.6.0
+  - @modern-js/plugin-i18n@1.3.0
+  - @modern-js/prod-server@1.2.0
+  - @modern-js/server@1.5.1
+  - @modern-js/new-action@1.3.12
+  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/utils@1.7.12
+
 ## 1.6.10
 
 ### Patch Changes

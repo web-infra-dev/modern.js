@@ -51,8 +51,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/css-config": "workspace:^1.2.7",
-    "@modern-js/utils": "workspace:^1.7.11",
+    "@modern-js/css-config": "workspace:^1.2.8",
+    "@modern-js/utils": "workspace:^1.7.12",
     "sass": "^1.45.0",
     "sass-loader": "^12.4.0"
   },
