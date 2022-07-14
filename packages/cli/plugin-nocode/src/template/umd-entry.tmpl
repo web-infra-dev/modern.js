@@ -1,7 +1,0 @@
-<% _.forEach(styleFiles, function(styleFile) { %>
-import '<%= styleFile %>';<% }); %>
-
-export * from '<%= base %>';
-export { default } from '<%= base %>';
-export * from '<%= editor %>';
-export { default as __editor__ } from '<%= editor %>';
