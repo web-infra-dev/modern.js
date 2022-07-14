@@ -1,5 +1,32 @@
 # @modern-js/webpack
 
+## 1.12.0
+
+### Minor Changes
+
+- 33cebd2: chore(babel-chain): merge `@modern-js/babel-chain` to `@modern-js/babel-preset-base`
+
+  chore(babel-chain): 合并 `@modern-js/babel-chain` 到 `@modern-js/babel-preset-base`
+
+### Patch Changes
+
+- b74b0b6: fix(webpack): failed to analyze bundle
+
+  fix(webpack): 修复使用 bundle analyze 时报错的问题
+
+- 8b2aa56: perf(webpack): improve getSourceInclude performance
+
+  perf(webpack): 优化 getSourceInclude 执行性能
+
+- 3e4a34f: fix(webpack): failed to compile .cjs,.cts,.mts file
+
+  fix(webpack): 修复无法编译 .cjs,.cts,.mts 文件的问题
+
+- Updated dependencies [33cebd2]
+  - @modern-js/babel-preset-app@1.5.0
+  - @modern-js/css-config@1.2.8
+  - @modern-js/utils@1.7.12
+
 ## 1.11.5
 
 ### Patch Changes

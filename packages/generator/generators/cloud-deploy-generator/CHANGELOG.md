@@ -1,5 +1,13 @@
 # @modern-js/cloud-deploy-generator
 
+## 1.2.5
+
+### Patch Changes
+
+- 74e74ee: feat: update codesmith json api version
+
+  feat: 升级 `@modern-js/codesmith-api-json` 版本
+
 ## 1.2.4
 
 ### Patch Changes

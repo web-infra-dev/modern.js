@@ -1,5 +1,22 @@
 # @modern-js/server
 
+## 1.5.1
+
+### Patch Changes
+
+- a27ab8d: feat: add onApiChange hook for bff hot reload
+  feat: 为 BFF 热更新优化，添加 onApiChange 钩子
+- Updated dependencies [b74b0b6]
+- Updated dependencies [7b902b3]
+- Updated dependencies [3d64b2f]
+- Updated dependencies [8b2aa56]
+- Updated dependencies [3e4a34f]
+- Updated dependencies [33cebd2]
+  - @modern-js/webpack@1.12.0
+  - @modern-js/prod-server@1.2.0
+  - @modern-js/server-utils@1.2.11
+  - @modern-js/utils@1.7.12
+
 ## 1.5.0
 
 ### Minor Changes

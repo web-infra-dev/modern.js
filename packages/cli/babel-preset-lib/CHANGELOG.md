@@ -1,5 +1,19 @@
 # @modern-js/babel-preset-lib
 
+## 1.4.0
+
+### Minor Changes
+
+- 33cebd2: chore(babel-chain): merge `@modern-js/babel-chain` to `@modern-js/babel-preset-base`
+
+  chore(babel-chain): 合并 `@modern-js/babel-chain` 到 `@modern-js/babel-preset-base`
+
+### Patch Changes
+
+- Updated dependencies [33cebd2]
+  - @modern-js/babel-preset-base@1.5.0
+  - @modern-js/utils@1.7.12
+
 ## 1.3.1
 
 ### Patch Changes

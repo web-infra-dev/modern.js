@@ -1,5 +1,23 @@
 # @modern-js/prod-server
 
+## 1.2.0
+
+### Minor Changes
+
+- 3d64b2f: feat: prod-server supports that load server env from .env.\*
+
+  feat: prod-server 支持从 .env.\* 文件加载服务器环境变量
+
+### Patch Changes
+
+- 7b902b3: feat: support ListenOptions for prod-server
+
+  feat: server 支持传入 listernOptions 参数
+
+- Updated dependencies [a27ab8d]
+  - @modern-js/server-core@1.4.1
+  - @modern-js/utils@1.7.12
+
 ## 1.1.9
 
 ### Patch Changes

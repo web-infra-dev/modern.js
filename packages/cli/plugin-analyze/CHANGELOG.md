@@ -1,5 +1,17 @@
 # @modern-js/plugin-analyze
 
+## 1.5.0
+
+### Minor Changes
+
+- 33cebd2: chore(core): move Hooks types define to `@modern-js/core`
+
+  chore(core): 移动 Hooks 类型定义到 `@modern-js/core` 包
+
+### Patch Changes
+
+- @modern-js/utils@1.7.12
+
 ## 1.4.7
 
 ### Patch Changes

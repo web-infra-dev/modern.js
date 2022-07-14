@@ -1,5 +1,13 @@
 # @modern-js/entry-generator
 
+## 1.4.7
+
+### Patch Changes
+
+- 74e74ee: feat: update codesmith json api version
+
+  feat: 升级 `@modern-js/codesmith-api-json` 版本
+
 ## 1.4.6
 
 ### Patch Changes

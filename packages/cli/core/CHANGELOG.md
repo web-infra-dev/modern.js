@@ -1,5 +1,25 @@
 # @modern-js/core
 
+## 1.13.0
+
+### Minor Changes
+
+- 33cebd2: chore(core): move Hooks types define to `@modern-js/core`
+
+  chore(core): 移动 Hooks 类型定义到 `@modern-js/core` 包
+
+- 33cebd2: chore(plugin-i18n): merge `@modern-js/i18n-cli-language-detector` to `@modern-js/plugin-i18n`
+
+  chore(plugin-i18n): 合并 `@modern-js/i18n-cli-language-detector` 包到 `@modern-js/plugin-i18n` 包作为子路径
+
+- 33cebd2: chore(core): merge `@modern-js/load-config` package to `@modern-js/core` utils
+
+  chore(core): 合并 `@modern-js/load-config` 包到 `@modern-js/core` 包作为 utils 函数
+
+### Patch Changes
+
+- @modern-js/utils@1.7.12
+
 ## 1.12.4
 
 ### Patch Changes

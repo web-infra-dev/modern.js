@@ -51,8 +51,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/css-config": "workspace:^1.2.7",
-    "@modern-js/utils": "workspace:^1.7.11",
+    "@modern-js/css-config": "workspace:^1.2.8",
+    "@modern-js/utils": "workspace:^1.7.12",
     "@types/less": "^3.0.3",
     "less": "^4.1.1",
     "less-loader": "^10.0.1",

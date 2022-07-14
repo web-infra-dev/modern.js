@@ -1,5 +1,13 @@
 # @modern-js/module-generator
 
+## 2.1.3
+
+### Patch Changes
+
+- 74e74ee: feat: update codesmith json api version
+
+  feat: 升级 `@modern-js/codesmith-api-json` 版本
+
 ## 2.1.2
 
 ### Patch Changes
