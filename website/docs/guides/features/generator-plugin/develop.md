@@ -14,7 +14,7 @@ npx @modern-js/create plugin --plugin @modern-js/generator-plugin-plugin
 
 插件类型不同，会提问不同的问题，可根据需求选择插件类型
 
-- 扩展类型
+### 扩展类型
 
 ```
 ? 请选择你想创建的工程类型 模块
@@ -26,7 +26,7 @@ npx @modern-js/create plugin --plugin @modern-js/generator-plugin-plugin
 ? 插件基础类型 应用
 ```
 
-- 自定义类型
+### 自定义类型
 
 ```
 ? 请选择你想创建的工程类型 模块
@@ -43,7 +43,7 @@ npx @modern-js/create plugin --plugin @modern-js/generator-plugin-plugin
 创建项目命令执行完成后，会对应的生成一个开发生成器插件的项目，`package.json` 中也会根据你的选择对应的生成 `meta` 信息。
 
 :::info
-生成器插件开发可参考 @modern-js/generator-plugin-plugin [源码地址](https://github.com/modern-js-dev/modern.js/tree/main/packages/generator/plugins/generator-plugin)
+生成器插件开发可参考 `@modern-js/generator-plugin-plugin` [源码地址](https://github.com/modern-js-dev/modern.js/tree/main/packages/generator/plugins/generator-plugin)
 :::
 
 ## 开发插件逻辑
@@ -52,7 +52,7 @@ npx @modern-js/create plugin --plugin @modern-js/generator-plugin-plugin
 
 插件默认导出一个函数，函数参数为 `context`，`context` 上提供一些方法可直接对当前项目进行操作。
 
-简单介绍一下提供的方法，完整的 API 列表可查看[生成器插件API](/docs/apis/generator/overview)。
+简单介绍一下提供的方法，完整的 API 列表可查看[生成器插件API](/docs/apis/generator/plugin/introduce)。
 
 ### 自定义输入
 
@@ -87,9 +87,9 @@ context.setInput('test', 'options', [{ key: 'option1', name: '选项一' }])
 
 `input` 为当前用户输入，可用于获取用户当前的输入信息及配置信息。
 
-当需要新的模板文件时，可直接在 `templates` 目录添加，在 `onForged` 函数中可直接对 `templates` 目录文件进行操作，比如下方的 `addFile` 中 `templateFile` 参数就为 templates 目录下的文件。这里不需要显示的生命 `templates`，直接写其下方路径即可。
+当需要新的模板文件时，可直接在 `templates` 目录添加，在 `onForged` 函数中可直接对 `templates` 目录文件进行操作，比如下方的 `addFile` 中 `templateFile` 参数就为 `templates` 目录下的文件。这里不需要显示的声明 `templates`，直接写相对于 `templates` 的相对路径即可。
 
-`onForged` 中支持的 API 函数也可参考 [生成器插件API](/docs/apis/generator/overview)。
+`onForged` 中支持的 API 函数也可参考 [生成器插件API](/docs/apis/generator/plugin/hook/onForged)。
 
 ```ts
 context.onForged(async (api: ForgedAPI, input: Record<string, unknown>) => {
@@ -109,7 +109,7 @@ context.onForged(async (api: ForgedAPI, input: Record<string, unknown>) => {
 
 如果你的工程方案是基于 Modern.js 提供的三种工程方案进行的，这个钩子函数是可以不需要的。默认的工程方案中会自动包含安装依赖、提交代码逻辑。
 
-生成器插件还支持了一种自定义的 base 类型，这种类型只提供了少量的开发层面的最佳实践的代码，比如 `.gitignore`、`.editorConfig` 等文件，这时则需要在 `afterForged` 函数中手动补充安装依赖和 git 操作逻辑。
+生成器插件还支持了一种自定义的 `custom` 类型，这种类型只提供了少量的开发层面的最佳实践的代码，比如 `.gitignore`、`.editorConfig` 等文件，这时则需要在 `afterForged` 函数中手动补充安装依赖和 Git 操作逻辑。
 
 `afterForged` 参数也是一个回调函数，函数参数为 `api` 和 `input`。
 
@@ -117,4 +117,4 @@ context.onForged(async (api: ForgedAPI, input: Record<string, unknown>) => {
 
 `input` 为当前用户输入，可用于获取用户当前的输入信息及配置信息。
 
-`afterForged` 中支持的 API 函数也可参考 [生成器插件API](/docs/apis/generator/overview)。
+`afterForged` 中支持的 API 函数也可参考 [生成器插件API](/docs/apis/generator/plugin/hook/afterForged)。

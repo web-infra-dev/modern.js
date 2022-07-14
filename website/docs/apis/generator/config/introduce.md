@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # 介绍
 
-Modern.js 提供了应用、模块、Monorepo 三种工程方案类型，并支持通过 `@modern-js/create` 创建工程方案初始化项目。
+Modern.js 提供了应用(MWA)、模块、Monorepo 三种工程方案类型，并支持通过 `@modern-js/create` 创建工程方案初始化项目。
 
 使用 `@modern-js/create` 时会询问用户一些问题来生成符合用户需求的项目，这一章将介绍这里的问题字段便于进行定制化工程方案开发时使用。
 
@@ -25,7 +25,7 @@ Modern.js 提供了应用、模块、Monorepo 三种工程方案类型，并支�
 - Monorepo
 
 :::info
-solution 配置只能在 config 参数中使用，不能在生成器插件中通过设置输入默认值的方式使用。
+solution 配置只能在 `@modern-js/create` 的 `--config` 参数中使用，不能在生成器插件中通过设置输入默认值的方式使用。
 :::
 
 ### Scenes
@@ -33,7 +33,7 @@ solution 配置只能在 config 参数中使用，不能在生成器插件中通
 项目场景(scenes)，当使用创建工程方案场景类型的生成器插件时，该值为对应生成器插件的 key 值。
 
 :::info
-scenes 配置只能在 config 参数中使用，不能在生成器插件中通过设置输入默认值的方式使用。
+scenes 配置只能在 `@modern-js/create` 的 `--config` 参数中使用，不能在生成器插件中通过设置输入默认值的方式使用。
 :::
 
 ## 通用配置
@@ -56,7 +56,7 @@ scenes 配置只能在 config 参数中使用，不能在生成器插件中通�
 
 
 :::info
-在生成器插件创建工程方案场景的自定义类型中，默认只提供了 `packageManager` 配置。
+在生成器插件创建工程方案场景的自定义类型(custom)中，默认只提供了 `packageManager` 配置。
 :::
 
 ## 其他配置
