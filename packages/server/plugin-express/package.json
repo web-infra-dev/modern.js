@@ -42,10 +42,10 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/adapter-helpers": "workspace:^1.3.0",
-    "@modern-js/bff-core": "workspace:^1.1.0",
+    "@modern-js/bff-core": "workspace:^1.1.2",
     "@modern-js/bff-runtime": "workspace:^1.3.0",
-    "@modern-js/types": "workspace:^1.5.5",
-    "@modern-js/utils": "workspace:^1.7.11",
+    "@modern-js/types": "workspace:^1.6.0",
+    "@modern-js/utils": "workspace:^1.7.12",
     "cookie-parser": "^1.4.5",
     "finalhandler": "^1.1.2",
     "formidable": "^1.2.2",

@@ -20,3 +20,10 @@ declare module '@modern-js/runtime-core' {
     state?: StateConfig | boolean;
   }
 }
+
+declare module '@modern-js/core' {
+  interface RuntimeConfig {
+    router?: RouterConfig | boolean;
+    state?: StateConfig | boolean;
+  }
+}

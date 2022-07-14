@@ -1,5 +1,13 @@
 # @modern-js/repo-generator
 
+## 1.4.5
+
+### Patch Changes
+
+- 74e74ee: fix(generator-plugin): remove `addManyFiles` destination empty validate
+
+  fix(generator-plugin): 移除 `addManyFiles` destination 参数为空的校验
+
 ## 1.4.4
 
 ### Patch Changes
