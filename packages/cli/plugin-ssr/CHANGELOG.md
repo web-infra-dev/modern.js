@@ -1,5 +1,23 @@
 # @modern-js/plugin-ssr
 
+## 1.5.0
+
+### Minor Changes
+
+- 33cebd2: chore(babel-chain): merge `@modern-js/babel-chain` to `@modern-js/babel-preset-base`
+
+  chore(babel-chain): 合并 `@modern-js/babel-chain` 到 `@modern-js/babel-preset-base`
+
+### Patch Changes
+
+- Updated dependencies [b74b0b6]
+- Updated dependencies [8b2aa56]
+- Updated dependencies [3e4a34f]
+- Updated dependencies [33cebd2]
+  - @modern-js/webpack@1.12.0
+  - @modern-js/runtime-core@1.5.3
+  - @modern-js/utils@1.7.12
+
 ## 1.4.6
 
 ### Patch Changes

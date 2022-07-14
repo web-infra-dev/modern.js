@@ -38,9 +38,9 @@
   "dependencies": {
     "@babel/core": "^7.18.0",
     "@babel/runtime": "^7.18.0",
-    "@modern-js/babel-preset-app": "workspace:^1.4.2",
+    "@modern-js/babel-preset-app": "workspace:^1.5.0",
     "@modern-js/plugin": "workspace:^1.4.1",
-    "@modern-js/utils": "workspace:^1.7.11",
+    "@modern-js/utils": "workspace:^1.7.12",
     "babel-jest": "^27.0.6",
     "enhanced-resolve": "^5.8.3",
     "identity-obj-proxy": "^3.0.0",

@@ -1,5 +1,13 @@
 # @modern-js/mwa-generator
 
+## 2.0.5
+
+### Patch Changes
+
+- 74e74ee: feat: update codesmith json api version
+
+  feat: 升级 `@modern-js/codesmith-api-json` 版本
+
 ## 2.0.4
 
 ### Patch Changes

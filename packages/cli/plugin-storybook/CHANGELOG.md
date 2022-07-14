@@ -1,5 +1,30 @@
 # @modern-js/plugin-storybook
 
+## 1.3.16
+
+### Patch Changes
+
+- 8d0f1b9: feat: rumtime config types
+  feat: 补充 runtime 配置类型
+- f6681f2: feat: add @modern-js/plugin-analyze plugin
+  feat: 添加 @modern-js/plugin-analyze 插件
+- f24efcd: chore(plugin-storybook): remove @modern-js/esbuild-compiler from dependencies
+
+  chore(plugin-storybook): 移除 @modern-js/esbuild-compiler 依赖
+
+- Updated dependencies [b74b0b6]
+- Updated dependencies [33cebd2]
+- Updated dependencies [8d0f1b9]
+- Updated dependencies [8b2aa56]
+- Updated dependencies [3e4a34f]
+- Updated dependencies [33cebd2]
+  - @modern-js/webpack@1.12.0
+  - @modern-js/plugin-analyze@1.5.0
+  - @modern-js/runtime@1.3.5
+  - @modern-js/plugin-router@1.2.16
+  - @modern-js/plugin-state@1.2.10
+  - @modern-js/utils@1.7.12
+
 ## 1.3.15
 
 ### Patch Changes

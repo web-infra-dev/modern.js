@@ -43,7 +43,7 @@
     "@modern-js-app/eslint-config": "workspace:^1.2.14",
     "@modern-js/eslint-config": "workspace:^1.2.6",
     "@modern-js/tsconfig": "workspace:^1.2.0",
-    "@modern-js/utils": "workspace:^1.7.11",
+    "@modern-js/utils": "workspace:^1.7.12",
     "cross-spawn": "^7.0.1",
     "eslint": "^7.32.0",
     "husky": "4.3.8",

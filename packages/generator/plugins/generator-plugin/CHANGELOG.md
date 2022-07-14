@@ -1,5 +1,13 @@
 # @modern-js/generator-plugin-plugin
 
+## 1.2.4
+
+### Patch Changes
+
+- 74e74ee: fix(generator-plugin): remove `addManyFiles` destination empty validate
+
+  fix(generator-plugin): 移除 `addManyFiles` destination 参数为空的校验
+
 ## 1.2.3
 
 ### Patch Changes

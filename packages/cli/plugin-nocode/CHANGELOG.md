@@ -1,5 +1,20 @@
 # @modern-js/plugin-nocode
 
+## 1.2.5
+
+### Patch Changes
+
+- f6681f2: feat: add @modern-js/plugin-analyze plugin
+  feat: 添加 @modern-js/plugin-analyze 插件
+- Updated dependencies [b74b0b6]
+- Updated dependencies [33cebd2]
+- Updated dependencies [8b2aa56]
+- Updated dependencies [3e4a34f]
+- Updated dependencies [33cebd2]
+  - @modern-js/webpack@1.12.0
+  - @modern-js/plugin-analyze@1.5.0
+  - @modern-js/utils@1.7.12
+
 ## 1.2.4
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @modern-js/generator-utils
 
+## 1.3.0
+
+### Minor Changes
+
+- 33cebd2: chore(generator-utils): tidy up `@modern-js/generator-utils` func
+
+  chore(generastor-utils): 整理 `@modern-js/generator-utils` 导出方法
+
+### Patch Changes
+
+- Updated dependencies [33cebd2]
+  - @modern-js/plugin-i18n@1.3.0
+  - @modern-js/utils@1.7.12
+
 ## 1.2.7
 
 ### Patch Changes

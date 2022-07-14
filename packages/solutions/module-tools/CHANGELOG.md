@@ -1,5 +1,36 @@
 # @modern-js/module-tools
 
+## 1.7.0
+
+### Minor Changes
+
+- 33cebd2: chore(plugin-i18n): merge `@modern-js/i18n-cli-language-detector` to `@modern-js/plugin-i18n`
+
+  chore(plugin-i18n): 合并 `@modern-js/i18n-cli-language-detector` 包到 `@modern-js/plugin-i18n` 包作为子路径
+
+### Patch Changes
+
+- 307ce36: fix: ignore cjs and mjs in d.ts bundle
+
+  fix: 对 d.ts 做 bundle 时忽略 cjs 和 mjs 资源
+
+- f6681f2: feat: remove @modern-js/plugin-analyze plugin
+  feat: 移除 @modern-js/plugin-analyze 插件
+- Updated dependencies [33cebd2]
+- Updated dependencies [33cebd2]
+- Updated dependencies [33cebd2]
+- Updated dependencies [2e8ea92]
+- Updated dependencies [74e74ee]
+- Updated dependencies [33cebd2]
+  - @modern-js/core@1.13.0
+  - @modern-js/plugin-changeset@1.4.0
+  - @modern-js/plugin-i18n@1.3.0
+  - @modern-js/new-action@1.3.12
+  - @modern-js/babel-preset-module@1.4.0
+  - @modern-js/css-config@1.2.8
+  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/utils@1.7.12
+
 ## 1.6.3
 
 ### Patch Changes
