@@ -8,7 +8,7 @@ Modern.js 支持通过生成器插件的方式对提供的工程方案进行定�
 
 ## 生成器插件构成
 
-生成器插件是一个模块，可以直接使用 Modern.js 的模块工程方案开发。当然，Modern.js 也提供了对应的生成器插件(@modern-js/generator-plugin-plugin)直接新建生成器插件项目。
+生成器插件是一个模块，可以直接使用 Modern.js 的模块工程方案开发。当然，Modern.js 也提供了对应的生成器插件(`@modern-js/generator-plugin-plugin`)直接新建生成器插件项目。
 
 一个生成器插件项目目录如下：
 
