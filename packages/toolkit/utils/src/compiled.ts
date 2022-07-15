@@ -34,6 +34,8 @@ export type { SignaleOptions } from '../compiled/signale';
 export type { IOptions as GlobOptions } from '../compiled/glob';
 export type { GlobbyOptions } from '../compiled/globby';
 export type { FSWatcher, WatchOptions } from '../compiled/chokidar';
+export type { ExecaError } from '../compiled/execa';
+export type { default as WebpackChain } from '../compiled/webpack-chain';
 
 /**
  * Lazy import some expensive modules that will slow down startup speed.

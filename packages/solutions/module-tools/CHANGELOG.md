@@ -1,5 +1,127 @@
 # @modern-js/module-tools
 
+## 1.7.0
+
+### Minor Changes
+
+- 33cebd2: chore(plugin-i18n): merge `@modern-js/i18n-cli-language-detector` to `@modern-js/plugin-i18n`
+
+  chore(plugin-i18n): 合并 `@modern-js/i18n-cli-language-detector` 包到 `@modern-js/plugin-i18n` 包作为子路径
+
+### Patch Changes
+
+- 307ce36: fix: ignore cjs and mjs in d.ts bundle
+
+  fix: 对 d.ts 做 bundle 时忽略 cjs 和 mjs 资源
+
+- f6681f2: feat: remove @modern-js/plugin-analyze plugin
+  feat: 移除 @modern-js/plugin-analyze 插件
+- Updated dependencies [33cebd2]
+- Updated dependencies [33cebd2]
+- Updated dependencies [33cebd2]
+- Updated dependencies [2e8ea92]
+- Updated dependencies [74e74ee]
+- Updated dependencies [33cebd2]
+  - @modern-js/core@1.13.0
+  - @modern-js/plugin-changeset@1.4.0
+  - @modern-js/plugin-i18n@1.3.0
+  - @modern-js/new-action@1.3.12
+  - @modern-js/babel-preset-module@1.4.0
+  - @modern-js/css-config@1.2.8
+  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/utils@1.7.12
+
+## 1.6.3
+
+### Patch Changes
+
+- eeb9273: Add `additionalProperties: false` to the schema of 'output.buildConfig'
+
+  为 'output.buildConfig' 的 schema 增加 `additionalProperties: false` 配置
+
+- Updated dependencies [dc4676b]
+- Updated dependencies [5b7a5a7]
+- Updated dependencies [4a7f2a2]
+  - @modern-js/utils@1.7.12
+  - @modern-js/plugin@1.4.2
+  - @modern-js/css-config@1.2.8
+  - @modern-js/core@1.12.4
+  - @modern-js/plugin-analyze@1.4.7
+
+## 1.6.2
+
+### Patch Changes
+
+- ff3ba0220: fix(babel-preset-module): babel transform import path of the style file or the static file
+
+  fix(babel-preset-module): 修复 Babel 在转换导入样式文件或者静态文件的路径出现的问题
+
+- Updated dependencies [ff3ba0220]
+  - @modern-js/babel-preset-module@1.3.11
+
+## 1.6.1
+
+### Patch Changes
+
+- nothing happen, only bump
+- Updated dependencies
+  - @modern-js/babel-preset-module@1.3.10
+  - @modern-js/core@1.12.4
+  - @modern-js/style-compiler@1.2.12
+  - @modern-js/utils@1.7.11
+  - @modern-js/css-config@1.2.7
+  - @modern-js/plugin-analyze@1.4.7
+  - @modern-js/plugin-changeset@1.3.1
+  - @modern-js/plugin-jarvis@1.2.14
+
+## 1.6.0
+
+### Minor Changes
+
+- b82869d: - use speedy as a bundler to support bundle, and support dts and css bundle.
+  - design `buildConfig` to support build for different scene, and design `buildPreset` to cover most of scenes.
+  - add `tools.speedy` to receive custom speedy config.
+  - remove child process to solving problems with serialisation parameters.
+  - add more test cases, improve quality construction.
+  - design a new log about build process
+
+### Patch Changes
+
+- Updated dependencies [b82869d]
+- Updated dependencies [b82869d]
+- Updated dependencies [b82869d]
+- Updated dependencies [b82869d]
+  - @modern-js/utils@1.7.10
+  - @modern-js/babel-preset-module@1.3.9
+  - @modern-js/core@1.12.3
+  - @modern-js/style-compiler@1.2.11
+  - @modern-js/css-config@1.2.7
+  - @modern-js/plugin-analyze@1.4.7
+  - @modern-js/plugin-changeset@1.3.1
+  - @modern-js/plugin-jarvis@1.2.14
+
+## 1.5.8
+
+### Patch Changes
+
+- eeedc80: feat: add plugin-jarvis to dependencies of solutions
+- f29e9ba: feat: simplify context usage, no longer depend on containers
+- Updated dependencies [f29e9ba]
+- Updated dependencies [d9564f2]
+- Updated dependencies [1a57595]
+- Updated dependencies [42741db]
+- Updated dependencies [341bb42]
+- Updated dependencies [f29e9ba]
+- Updated dependencies [a90bc96]
+  - @modern-js/core@1.12.2
+  - @modern-js/plugin-analyze@1.4.7
+  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/plugin-changeset@1.3.1
+  - @modern-js/new-action@1.3.11
+  - @modern-js/plugin@1.4.0
+  - @modern-js/utils@1.7.9
+  - @modern-js/css-config@1.2.7
+
 ## 1.5.7
 
 ### Patch Changes

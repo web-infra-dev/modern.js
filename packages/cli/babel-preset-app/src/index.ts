@@ -1,9 +1,13 @@
-import { createBabelChain } from '@modern-js/babel-chain';
-import { applyUserBabelConfig } from '@modern-js/babel-preset-base';
+import {
+  applyUserBabelConfig,
+  createBabelChain,
+} from '@modern-js/babel-preset-base';
 import { generate } from './generate';
 import type { Options } from './type';
 
 export type { Options };
+
+export * from '@modern-js/babel-preset-base';
 
 const defaultOptions: Options = {
   appDirectory: process.cwd(),

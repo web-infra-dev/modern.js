@@ -1,5 +1,23 @@
 # @modern-js/plugin-egg
 
+## 1.6.0
+
+### Minor Changes
+
+- 77a8e9e: feat: support bff operators
+
+### Patch Changes
+
+- f29e9ba: feat: simplify context usage, no longer depend on containers
+- Updated dependencies [77a8e9e]
+- Updated dependencies [b220f1d]
+- Updated dependencies [7b9e302]
+- Updated dependencies [a90bc96]
+  - @modern-js/adapter-helpers@1.3.0
+  - @modern-js/bff-core@1.1.0
+  - @modern-js/bff-runtime@1.3.0
+  - @modern-js/utils@1.7.9
+
 ## 1.5.9
 
 ### Patch Changes

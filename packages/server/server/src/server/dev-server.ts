@@ -25,7 +25,7 @@ import { createMockHandler } from '../dev-tools/mock';
 import SocketServer from '../dev-tools/socket-server';
 import DevServerPlugin from '../dev-tools/dev-server-plugin';
 import { enableRegister } from '../dev-tools/babel/register';
-import Watcher from '../dev-tools/watcher';
+import Watcher, { mergeWatchOptions, WatchEvent } from '../dev-tools/watcher';
 import { DevServerOptions, ModernDevServerOptions } from '../types';
 
 export class ModernDevServer extends ModernServer {
@@ -205,7 +205,13 @@ export class ModernDevServer extends ModernServer {
     // not warmup ssr bundle on development
   }
 
-  protected onServerChange({ filepath }: { filepath: string }) {
+  protected onServerChange({
+    filepath,
+    event,
+  }: {
+    filepath: string;
+    event: WatchEvent;
+  }) {
     const { pwd } = this;
     const { mock } = AGGRED_DIR;
     const mockPath = path.normalize(path.join(pwd, mock));
@@ -216,7 +222,17 @@ export class ModernDevServer extends ModernServer {
       this.mockHandler = createMockHandler({ pwd });
     } else {
       try {
-        super.onServerChange({ filepath });
+        const success = this.runner.onApiChange([
+          { filename: filepath, event },
+        ]);
+
+        // onApiChange 钩子被调用，且返回 true，则表示无需重新编译
+        // onApiChange 的类型是 WaterFall,WaterFall 钩子的返回值类型目前有问题
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        if (success !== true) {
+          super.onServerChange({ filepath });
+        }
       } catch (e) {
         this.logger.error(e as Error);
       }
@@ -335,6 +351,8 @@ export class ModernDevServer extends ModernServer {
       `${SHARED_DIR}/**/*`,
     ];
 
+    const watchOptions = mergeWatchOptions(this.conf.server.watchOptions);
+
     const defaultWatchedPaths = defaultWatched.map(p =>
       path.normalize(path.join(pwd, p)),
     );
@@ -343,22 +361,15 @@ export class ModernDevServer extends ModernServer {
     watcher.createDepTree();
 
     // 监听文件变动，如果有变动则给 client，也就是 start 启动的插件发消息
-    watcher.listen(
-      defaultWatchedPaths,
-      {
-        // 初始化的时候不触发 add、addDir 事件
-        ignoreInitial: true,
-        ignored: /api\/typings\/.*/,
-      },
-      (filepath: string) => {
-        watcher.updateDepTree();
-        watcher.cleanDepCache(filepath);
+    watcher.listen(defaultWatchedPaths, watchOptions, (filepath, event) => {
+      watcher.updateDepTree();
+      watcher.cleanDepCache(filepath);
 
-        this.onServerChange({
-          filepath,
-        });
-      },
-    );
+      this.onServerChange({
+        filepath,
+        event,
+      });
+    });
 
     this.watcher = watcher;
   }

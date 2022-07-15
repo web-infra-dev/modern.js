@@ -11,12 +11,19 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.7",
+  "version": "1.3.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
   "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
+  "typesVersions": {
+    "*": {
+      "language-detector": [
+        "./dist/types/language-detector.d.ts"
+      ]
+    }
+  },
   "exports": {
     ".": {
       "node": {
@@ -25,6 +32,14 @@
         "require": "./dist/js/node/index.js"
       },
       "default": "./dist/js/treeshaking/index.js"
+    },
+    "./language-detector": {
+      "node": {
+        "jsnext:source": "./src/language-detector.ts",
+        "import": "./dist/js/modern/language-detector.js",
+        "require": "./dist/js/node/language-detector.js"
+      },
+      "default": "./dist/js/treeshaking/language-detector.js"
     }
   },
   "scripts": {
@@ -36,7 +51,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/utils": "workspace:^1.7.3"
+    "@modern-js/utils": "workspace:^1.7.12"
   },
   "devDependencies": {
     "@types/jest": "^27",
@@ -59,6 +74,13 @@
           "require": "./dist/js/node/index.js"
         },
         "default": "./dist/js/treeshaking/index.js"
+      },
+      "./language-detector": {
+        "node": {
+          "import": "./dist/js/modern/language-detector.js",
+          "require": "./dist/js/node/language-detector.js"
+        },
+        "default": "./dist/js/treeshaking/language-detector.js"
       }
     }
   },

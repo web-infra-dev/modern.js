@@ -1,5 +1,46 @@
 # @modern-js/plugin-bff
 
+## 1.6.2
+
+### Patch Changes
+
+- a27ab8d: feat: add onApiChange hook for bff hot reload
+  feat: 为 BFF 热更新优化，添加 onApiChange 钩子
+- Updated dependencies [a27ab8d]
+  - @modern-js/bff-core@1.1.2
+  - @modern-js/server-utils@1.2.11
+  - @modern-js/utils@1.7.12
+
+## 1.6.1
+
+### Patch Changes
+
+- d86f009: feat: optimize implentation of registerModernRuntimePath
+- Updated dependencies [dc4676b]
+- Updated dependencies [d86f009]
+  - @modern-js/utils@1.7.12
+  - @modern-js/bff-core@1.1.1
+
+## 1.6.0
+
+### Minor Changes
+
+- 77a8e9e: feat: support bff operators
+
+### Patch Changes
+
+- f29e9ba: feat: simplify context usage, no longer depend on containers
+- 6eebd9c: fix: resolve server runtime alias for esbuild-register
+- Updated dependencies [77a8e9e]
+- Updated dependencies [77a8e9e]
+- Updated dependencies [b220f1d]
+- Updated dependencies [7b9e302]
+- Updated dependencies [a90bc96]
+  - @modern-js/bff-core@1.1.0
+  - @modern-js/create-request@1.3.0
+  - @modern-js/utils@1.7.9
+  - @modern-js/server-utils@1.2.11
+
 ## 1.5.2
 
 ### Patch Changes

@@ -11,13 +11,8 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.5.4",
+  "version": "1.6.0",
   "types": "./index.d.ts",
-  "dependencies": {
-    "@modern-js/plugin": "workspace:^1.3.4",
-    "http-proxy-middleware": "^2.0.4",
-    "webpack": "^5.54.0"
-  },
   "exports": {
     ".": "./index.d.ts",
     "./server": {

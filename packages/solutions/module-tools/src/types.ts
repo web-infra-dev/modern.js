@@ -1,8 +1,13 @@
-import type { OutputConfig, SourceConfig } from '@modern-js/core/config';
 import type { ImportStyleType } from '@modern-js/babel-preset-module';
-import type { NormalizedConfig } from '@modern-js/core';
+import type { CLIConfig as SpeedyConfig } from '@speedy-js/speedy-core';
 import type { LoggerText } from './features/build/logger/logText';
 import type { Platform } from './features/build/build-platform';
+import type {
+  BuildPreset,
+  BuildConfig,
+  PackageModeType,
+  PackageFields,
+} from './schema/types';
 
 export type { Platform } from './features/build/build-platform';
 export type { ITsconfig } from './utils/tsconfig';
@@ -13,31 +18,16 @@ export interface ITaskMapper {
   params?: string[];
 }
 
-export type PackageModeType =
-  | 'universal-js'
-  | 'universal-js-lite'
-  | 'browser-js'
-  | 'browser-js-lite'
-  | 'node-js';
-
-export type JsSyntaxType = 'CJS+ES6' | 'ESM+ES5' | 'ESM+ES6';
-
-export interface IPackageFields {
-  main?: JsSyntaxType;
-  modern?: JsSyntaxType;
-  module?: JsSyntaxType;
-}
-
-export interface IBuildConfig {
-  appDirectory: string;
+export interface IBuildFeatOption {
   platform: boolean | Exclude<Platform, 'all'>;
-  enableTscCompiler: boolean;
+  enableDtsGen: boolean;
   enableWatchMode?: boolean;
   isTsProject: boolean;
-  sourceDir: string;
-  tsconfigName?: string;
+  tsconfigName: string;
   clear?: boolean;
   styleOnly?: boolean;
+  outputPath: string;
+  legacyTsc: boolean;
 }
 
 export interface IPackageModeValue {
@@ -47,20 +37,27 @@ export interface IPackageModeValue {
   copyDirs?: ('node' | 'treeshaking' | 'modern')[];
 }
 
-export interface ModuleToolsOutput extends OutputConfig {
-  assetsPath: string;
-  disableTsChecker: boolean;
-  enableSourceMap: boolean;
-  packageMode: PackageModeType;
-  packageFields: IPackageFields;
-  importStyle: ImportStyleType;
+interface ToolsConfig {
+  speedy?: SpeedyConfig | ((config: SpeedyConfig) => SpeedyConfig);
 }
 
-export interface ModuleToolsSource extends SourceConfig {
-  jsxTransformRuntime: 'automatic' | 'classic';
-}
+declare module '@modern-js/core' {
+  interface OutputConfig {
+    /** @deprecated Use the `buildConfig.bundlelessOptions.static.path` instead . */
+    assetsPath?: string;
+    /** @deprecated Use the `buildConfig.sourceMap` instead */
+    disableSourceMap?: boolean;
+    buildPreset?: BuildPreset;
+    buildConfig?: BuildConfig;
+    importStyle?: ImportStyleType;
+    packageMode?: PackageModeType;
+    packageFields?: PackageFields;
+  }
 
-export type ModuleToolsConfig = NormalizedConfig & {
-  output: OutputConfig & ModuleToolsOutput;
-  source: NormalizedConfig['source'] & ModuleToolsSource;
-};
+  interface NormalizedToolsConfig {
+    speedy: ToolsConfig['speedy'] | Array<NonNullable<ToolsConfig['speedy']>>;
+  }
+  interface SourceConfig {
+    jsxTransformRuntime?: 'automatic' | 'classic';
+  }
+}

@@ -5,30 +5,21 @@ sidebar_label: titleByEntries
 # output.titleByEntries
 
 :::info 适用的工程方案
-* MWA
+MWA
 :::
 
-* 类型： `Object`
-* 默认值： `undefined`
+- 类型： `Object`
+- 默认值： `undefined`
 
-按入口设置 html 页面 `title` 标签，对象的 `key` 为入口名。
+用于在多页面的场景下，为不同的页面设置不同的 `title`。
 
+整体用法与 [output.title](/docs/apis/config/output/title) 一致，主要区别在于，可以使用「入口名称」作为 key 进行单独设置。
 
-:::info 注
-「 入口名 」默认为目录名，少数情况下通过 `source.entries` 自定义入口时，入口名为 `source.entries` 对象的 `key`。
-:::
+import EntryName from '@site/docs/components/entry-name.md'
 
+<EntryName />
 
-例如，项目目录结构和 `modern.config.js` 如下时：
-
-```js title="项目目录结构"
-.
-└── src
-    ├── page-a
-    │   └── App.jsx
-    └── page-b
-        └── App.jsx
-```
+## 示例
 
 ```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
@@ -43,9 +34,6 @@ export default defineConfig({
 });
 ```
 
-
 可以看到入口 `page-a` 的 `title` 值为「 抖音 」，
 
 其他入口，如 `page-b` 的 `title` 会被设置为 `output.title` 即「 今日头条 」。
-
-`output.titleByEntires` 在多入口的场景下自定义某些入口的 `title` 时会非常方便

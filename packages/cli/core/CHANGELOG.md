@@ -1,5 +1,55 @@
 # @modern-js/core
 
+## 1.13.0
+
+### Minor Changes
+
+- 33cebd2: chore(core): move Hooks types define to `@modern-js/core`
+
+  chore(core): 移动 Hooks 类型定义到 `@modern-js/core` 包
+
+- 33cebd2: chore(plugin-i18n): merge `@modern-js/i18n-cli-language-detector` to `@modern-js/plugin-i18n`
+
+  chore(plugin-i18n): 合并 `@modern-js/i18n-cli-language-detector` 包到 `@modern-js/plugin-i18n` 包作为子路径
+
+- 33cebd2: chore(core): merge `@modern-js/load-config` package to `@modern-js/core` utils
+
+  chore(core): 合并 `@modern-js/load-config` 包到 `@modern-js/core` 包作为 utils 函数
+
+### Patch Changes
+
+- @modern-js/utils@1.7.12
+
+## 1.12.4
+
+### Patch Changes
+
+- nothing happen, only bump
+- Updated dependencies
+  - @modern-js/utils@1.7.11
+
+## 1.12.3
+
+### Patch Changes
+
+- b82869d: Export types from mergeConfig.ts
+- Updated dependencies [b82869d]
+  - @modern-js/utils@1.7.10
+
+## 1.12.2
+
+### Patch Changes
+
+- f29e9ba: feat: simplify context usage, no longer depend on containers
+- d9564f2: feat: add watchOptions for server watcher
+- a90bc96: perf(babel): skip babel-plugin-import if package not installed
+- Updated dependencies [3050acc]
+- Updated dependencies [f29e9ba]
+- Updated dependencies [a90bc96]
+  - @modern-js/load-config@1.3.6
+  - @modern-js/plugin@1.4.0
+  - @modern-js/utils@1.7.9
+
 ## 1.12.1
 
 ### Patch Changes

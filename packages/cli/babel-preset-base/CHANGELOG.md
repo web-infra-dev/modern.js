@@ -1,5 +1,26 @@
 # @modern-js/babel-preset-base
 
+## 1.5.0
+
+### Minor Changes
+
+- 33cebd2: chore(babel-chain): merge `@modern-js/babel-chain` to `@modern-js/babel-preset-base`
+
+  chore(babel-chain): 合并 `@modern-js/babel-chain` 到 `@modern-js/babel-preset-base`
+
+### Patch Changes
+
+- @modern-js/utils@1.7.12
+
+## 1.4.4
+
+### Patch Changes
+
+- 3050acc: change babel-plugin-macro babel config
+- a90bc96: perf(babel): skip babel-plugin-import if package not installed
+- Updated dependencies [a90bc96]
+  - @modern-js/utils@1.7.9
+
 ## 1.4.3
 
 ### Patch Changes

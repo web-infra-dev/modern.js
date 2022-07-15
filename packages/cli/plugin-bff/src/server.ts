@@ -60,6 +60,7 @@ export default (): ServerPlugin => ({
         const apiHandlerInfos = apiRouter.getApiHandlers();
         api.setAppContext({
           ...appContext,
+          apiRouter,
           apiHandlerInfos,
         });
         return next(props);

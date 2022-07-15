@@ -77,6 +77,13 @@ export default defineConfig({
 
 ## 二. 编译异常类问题
 
+### Less/Sass 代码没有被正确编译？
+
+Modern.js 通过插件来编译 Less/Sass 代码，请确认你是否启用了对应的插件。
+
+- [启用 Less 插件教程](/docs/apis/config/tools/less#启用)
+- [启用 Sass 插件教程](/docs/apis/config/tools/sass#启用)
+
 ### 打包时出现 JavaScript heap out of memory?
 
 该报错表示打包过程中出现了内存溢出问题，大多数情况下是由于打包的内容较多，超出了 Node.js 默认的内存上限。
@@ -166,3 +173,35 @@ You may need an additional loader to handle the result of these loaders.
 
 - 如果是引用了当前工程外部或 node_modules 下的 `.ts` 文件，请通过 [source.include](/docs/apis/config/source/include) 配置项来指定需要额外进行编译。
 - 如果是引用了 Modern.js 不支持的文件格式，请自行配置对应的 webpack loader 进行编译。
+
+### 热更新后 React 组件的 state 丢失？
+
+Modern.js 使用 React 官方的 [Fast Refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) 能力来进行组件热更新。
+
+在使用 Fast Refresh 时，要求组件不能为匿名函数，否则热更新后无法保留 React 组件的 state。
+
+以下写法都是不正确的：
+
+```js
+// 错误写法 1
+export default function () {
+  return <div>Hello World</div>;
+}
+
+// 错误写法 2
+export default () => <div>Hello World</div>;
+```
+
+正确的写法为：
+
+```js
+// 正确写法 1
+export default function MyComponent() {
+  return <div>Hello World</div>;
+}
+
+// 正确写法 2
+const MyComponent = () => <div>Hello World</div>
+
+export default MyComponent;
+```

@@ -1,5 +1,36 @@
 # @modern-js/plugin-tailwindcss
 
+## 1.4.2
+
+### Patch Changes
+
+- nothing happen, only bump
+- Updated dependencies
+  - @modern-js/utils@1.7.11
+  - @modern-js/plugin-design-token@1.0.11
+
+## 1.4.1
+
+### Patch Changes
+
+- b82869d: change package.json exports
+- Updated dependencies [b82869d]
+  - @modern-js/utils@1.7.10
+  - @modern-js/plugin-design-token@1.0.11
+
+## 1.4.0
+
+### Minor Changes
+
+- 3050acc: support twin.macro
+
+### Patch Changes
+
+- 546266c: support windows
+- Updated dependencies [a90bc96]
+  - @modern-js/utils@1.7.9
+  - @modern-js/plugin-design-token@1.0.11
+
 ## 1.3.0
 
 ### Minor Changes

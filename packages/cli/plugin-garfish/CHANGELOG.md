@@ -1,5 +1,15 @@
 # @modern-js/plugin-garfish
 
+## 1.6.2
+
+### Patch Changes
+
+- 7b9e302: fix: incorrect @babel/runtime version
+- Updated dependencies [dc37349]
+- Updated dependencies [a90bc96]
+  - @modern-js/plugin-router@1.2.16
+  - @modern-js/utils@1.7.9
+
 ## 1.6.0
 
 ### Minor Changes

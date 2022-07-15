@@ -1,0 +1,384 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`config in module tools default user config 1`] = `
+Array [
+  Object {
+    "output": Object {
+      "enableSourceMap": false,
+      "jsPath": "js",
+    },
+  },
+]
+`;
+
+exports[`config in module tools schema 1`] = `
+Array [
+  Array [
+    Object {
+      "schema": Object {
+        "enum": Array [
+          "classic",
+          "automatic",
+        ],
+      },
+      "target": "source.jsxTransformRuntime",
+    },
+    Object {
+      "schema": Object {
+        "enum": Array [
+          "universal-js",
+          "universal-js-lite",
+          "browser-js",
+          "browser-js-lite",
+          "node-js",
+        ],
+      },
+      "target": "output.packageMode",
+    },
+    Object {
+      "schema": Object {
+        "typeof": "object",
+      },
+      "target": "output.packageFields",
+    },
+    Object {
+      "schema": Object {
+        "typeof": "boolean",
+      },
+      "target": "output.enableSourceMap",
+    },
+    Object {
+      "schema": Object {
+        "enum": Array [
+          "compiled-code",
+          "source-code",
+        ],
+      },
+      "target": "output.importStyle",
+    },
+    Object {
+      "schema": Object {
+        "default": "styles",
+        "typeof": "string",
+      },
+      "target": "output.assetsPath",
+    },
+    Object {
+      "schema": Object {
+        "else": Object {
+          "additionalProperties": false,
+          "properties": Object {
+            "buildType": Object {
+              "enum": Array [
+                "bundle",
+                "bundleless",
+              ],
+            },
+            "bundleOptions": Object {
+              "properties": Object {
+                "entry": Object {
+                  "type": "object",
+                },
+                "externals": Object {
+                  "items": Object {
+                    "anyOf": Array [
+                      Object {
+                        "instanceof": "RegExp",
+                      },
+                      Object {
+                        "typeof": "string",
+                      },
+                    ],
+                  },
+                  "type": "array",
+                },
+                "minify": Object {
+                  "enum": Array [
+                    "esbuild",
+                    "terser",
+                    false,
+                  ],
+                },
+                "platform": Object {
+                  "enum": Array [
+                    "node",
+                    "browser",
+                  ],
+                },
+                "skipDeps": Object {
+                  "type": "boolean",
+                },
+                "splitting": Object {
+                  "type": "boolean",
+                },
+              },
+              "type": "object",
+            },
+            "bundlelessOptions": Object {
+              "properties": Object {
+                "sourceDir": Object {
+                  "type": "string",
+                },
+                "static": Object {
+                  "properties": Object {
+                    "path": Object {
+                      "type": "string",
+                    },
+                  },
+                  "type": "object",
+                },
+                "style": Object {
+                  "properties": Object {
+                    "compileMode": Object {
+                      "enum": Array [
+                        "all",
+                        "only-compiled-code",
+                        "only-source-code",
+                        false,
+                      ],
+                    },
+                    "path": Object {
+                      "type": "string",
+                    },
+                  },
+                  "type": "object",
+                },
+              },
+              "type": "object",
+            },
+            "dtsOnly": Object {
+              "type": "boolean",
+            },
+            "enableDts": Object {
+              "type": "boolean",
+            },
+            "format": Object {
+              "enum": Array [
+                "cjs",
+                "esm",
+                "umd",
+              ],
+            },
+            "outputPath": Object {
+              "type": "string",
+            },
+            "sourceMap": Object {
+              "enum": Array [
+                true,
+                false,
+                "inline",
+                "external",
+              ],
+            },
+            "target": Object {
+              "enum": Array [
+                "es5",
+                "es6",
+                "es2015",
+                "es2016",
+                "es2017",
+                "es2018",
+                "es2019",
+                "es2020",
+                "esnext",
+              ],
+            },
+            "tsconfig": Object {
+              "type": "string",
+            },
+          },
+          "type": "object",
+        },
+        "if": Object {
+          "type": "array",
+        },
+        "then": Object {
+          "items": Array [
+            Object {
+              "additionalProperties": false,
+              "properties": Object {
+                "buildType": Object {
+                  "enum": Array [
+                    "bundle",
+                    "bundleless",
+                  ],
+                },
+                "bundleOptions": Object {
+                  "properties": Object {
+                    "entry": Object {
+                      "type": "object",
+                    },
+                    "externals": Object {
+                      "items": Object {
+                        "anyOf": Array [
+                          Object {
+                            "instanceof": "RegExp",
+                          },
+                          Object {
+                            "typeof": "string",
+                          },
+                        ],
+                      },
+                      "type": "array",
+                    },
+                    "minify": Object {
+                      "enum": Array [
+                        "esbuild",
+                        "terser",
+                        false,
+                      ],
+                    },
+                    "platform": Object {
+                      "enum": Array [
+                        "node",
+                        "browser",
+                      ],
+                    },
+                    "skipDeps": Object {
+                      "type": "boolean",
+                    },
+                    "splitting": Object {
+                      "type": "boolean",
+                    },
+                  },
+                  "type": "object",
+                },
+                "bundlelessOptions": Object {
+                  "properties": Object {
+                    "sourceDir": Object {
+                      "type": "string",
+                    },
+                    "static": Object {
+                      "properties": Object {
+                        "path": Object {
+                          "type": "string",
+                        },
+                      },
+                      "type": "object",
+                    },
+                    "style": Object {
+                      "properties": Object {
+                        "compileMode": Object {
+                          "enum": Array [
+                            "all",
+                            "only-compiled-code",
+                            "only-source-code",
+                            false,
+                          ],
+                        },
+                        "path": Object {
+                          "type": "string",
+                        },
+                      },
+                      "type": "object",
+                    },
+                  },
+                  "type": "object",
+                },
+                "dtsOnly": Object {
+                  "type": "boolean",
+                },
+                "enableDts": Object {
+                  "type": "boolean",
+                },
+                "format": Object {
+                  "enum": Array [
+                    "cjs",
+                    "esm",
+                    "umd",
+                  ],
+                },
+                "outputPath": Object {
+                  "type": "string",
+                },
+                "sourceMap": Object {
+                  "enum": Array [
+                    true,
+                    false,
+                    "inline",
+                    "external",
+                  ],
+                },
+                "target": Object {
+                  "enum": Array [
+                    "es5",
+                    "es6",
+                    "es2015",
+                    "es2016",
+                    "es2017",
+                    "es2018",
+                    "es2019",
+                    "es2020",
+                    "esnext",
+                  ],
+                },
+                "tsconfig": Object {
+                  "type": "string",
+                },
+              },
+              "type": "object",
+            },
+          ],
+        },
+      },
+      "target": "output.buildConfig",
+    },
+    Object {
+      "schema": Object {
+        "enum": Array [
+          "npm-library",
+          "npm-library-with-umd",
+          "npm-component",
+          "npm-component-with-umd",
+          "npm-library-es5",
+          "npm-library-es6",
+          "npm-library-es2015",
+          "npm-library-es2016",
+          "npm-library-es2017",
+          "npm-library-es2018",
+          "npm-library-es2019",
+          "npm-library-es2020",
+          "npm-library-esnext",
+          "npm-library-with-umd-es5",
+          "npm-library-with-umd-es6",
+          "npm-library-with-umd-es2015",
+          "npm-library-with-umd-es2016",
+          "npm-library-with-umd-es2017",
+          "npm-library-with-umd-es2018",
+          "npm-library-with-umd-es2019",
+          "npm-library-with-umd-es2020",
+          "npm-library-with-umd-esnext",
+          "npm-component-es5",
+          "npm-component-es6",
+          "npm-component-es2015",
+          "npm-component-es2016",
+          "npm-component-es2017",
+          "npm-component-es2018",
+          "npm-component-es2019",
+          "npm-component-es2020",
+          "npm-component-esnext",
+          "npm-component-with-umd-es5",
+          "npm-component-with-umd-es6",
+          "npm-component-with-umd-es2015",
+          "npm-component-with-umd-es2016",
+          "npm-component-with-umd-es2017",
+          "npm-component-with-umd-es2018",
+          "npm-component-with-umd-es2019",
+          "npm-component-with-umd-es2020",
+          "npm-component-with-umd-esnext",
+        ],
+      },
+      "target": "output.buildPreset",
+    },
+    Object {
+      "schema": Object {
+        "typeof": Array [
+          "object",
+          "function",
+        ],
+      },
+      "target": "tools.speedy",
+    },
+  ],
+]
+`;

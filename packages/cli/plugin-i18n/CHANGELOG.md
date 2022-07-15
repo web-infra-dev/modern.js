@@ -1,5 +1,17 @@
 # @modern-js/plugin-i18n
 
+## 1.3.0
+
+### Minor Changes
+
+- 33cebd2: chore(plugin-i18n): merge `@modern-js/i18n-cli-language-detector` to `@modern-js/plugin-i18n`
+
+  chore(plugin-i18n): 合并 `@modern-js/i18n-cli-language-detector` 包到 `@modern-js/plugin-i18n` 包作为子路径
+
+### Patch Changes
+
+- @modern-js/utils@1.7.12
+
 ## 1.2.7
 
 ### Patch Changes

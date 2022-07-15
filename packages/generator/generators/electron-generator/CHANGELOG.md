@@ -1,5 +1,19 @@
 # @modern-js/electron-generator
 
+## 1.3.5
+
+### Patch Changes
+
+- 74e74ee: feat: update codesmith json api version
+
+  feat: 升级 `@modern-js/codesmith-api-json` 版本
+
+## 1.3.4
+
+### Patch Changes
+
+- 341bb42: feat: bump codesmith package version
+
 ## 1.3.3
 
 ### Patch Changes

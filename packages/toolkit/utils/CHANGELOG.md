@@ -1,5 +1,29 @@
 # @modern-js/utils
 
+## 1.7.12
+
+### Patch Changes
+
+- dc4676b: chore(webpack): refactor webpack config, split modules
+
+## 1.7.11
+
+### Patch Changes
+
+- nothing happen, only bump
+
+## 1.7.10
+
+### Patch Changes
+
+- b82869d: export ExecaError type
+
+## 1.7.9
+
+### Patch Changes
+
+- a90bc96: perf(babel): skip babel-plugin-import if package not installed
+
 ## 1.7.8
 
 ### Patch Changes

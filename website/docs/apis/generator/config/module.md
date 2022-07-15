@@ -6,13 +6,21 @@ sidebar_position: 3
 
 模块项目默认包含通用配置，通用配置可查看[通用配置](/docs/apis/generator/config/introduce#通用配置)。
 
+## 创建项目
+
+创建项目时配置，`@modern-js/create` 使用 `--config` 参数时使用的配置，也是在生成器插件中修改和添加 input 时使用的配置。
+
 ### Package-Name
 
 包名(packageName)，字符串类型，为输入值。
 
 ### Need-Modify-Module-Config
 
-是否需要修改模块默认配置(needModifyModuleConfig)，该值为 `yes` 时，后续配置才会展示给用户，在使用 `config` 参数和生成器插件中，后续配置才会生效。
+是否需要修改模块默认配置(needModifyModuleConfig)。
+
+该配置值为 `yes` 时，后续配置才会展示给用户。
+
+在使用 `--config` 参数或者在生成器插件中时，配置值为 `yes` 后续配置才会生效。
 
 该字段共有两个选项：
 
@@ -38,7 +46,7 @@ sidebar_position: 3
 
 ## New 命令
 
-应用项目中 new 命令配置， new 命令中使用 config 参数时使用的配置，也是在生成器插件中创建元素和启用功能时使用。
+模块项目中 new 命令配置， 可以在执行 new 命令时通过 `--config` 参数配置，也可在生成器插件中创建元素和启用功能时使用。
 
 ### Action-Type
 

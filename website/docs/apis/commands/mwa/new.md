@@ -17,7 +17,7 @@ Options:
 
 `modern new` 命令用于在已有项目中添加项目元素。
 
-比如添加应用入口、启用启用一些可选功能如 Tailwind CSS、微前端开发模式、Unbundled 开发模式等。
+比如添加应用入口、启用启用一些可选功能如 Tailwind CSS、微前端开发模式等。
 
 import CommandTip from '@site/docs/components/command-tip.md'
 
@@ -43,8 +43,7 @@ $ npx modern new
 $ npx modern new
 ? 请选择你想要的操作 启用可选功能
 ? 启用可选功能 (Use arrow keys)
-❯ 启用「Unbundled 开发」模式
-  启用 Tailwind CSS 支持
+❯ 启用 Tailwind CSS 支持
   启用 Less 支持
   启用 Sass 支持
   启用「BFF」功能

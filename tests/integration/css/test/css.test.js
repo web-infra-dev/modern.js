@@ -265,7 +265,8 @@ describe('test css support', () => {
     });
     it(`should generate css ts declaration file`, async () => {
       const appDir = path.resolve(fixtures, 'css-ts-declaration');
-      await modernBuild(appDir);
+      const port = await getPort();
+      const app = await launchApp(appDir, port);
 
       const generatedDTSFile = path.resolve(
         appDir,
@@ -277,6 +278,7 @@ describe('test css support', () => {
       );
 
       fs.unlinkSync(generatedDTSFile);
+      await killApp(app);
     });
   });
 });

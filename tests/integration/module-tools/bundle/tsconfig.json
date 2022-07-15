@@ -1,0 +1,18 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "declaration": true,
+    "allowJs": true,
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "dts",
+    "style",
+    "./modern.config.dts.ts",
+    "./modern.config.style.ts"
+  ]
+}

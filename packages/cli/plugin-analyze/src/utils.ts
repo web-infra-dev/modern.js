@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { normalizeToPosixPath } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
-import type { ImportStatement } from './generateCode';
+import type { ImportStatement } from '@modern-js/core';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from './constants';
 
 export const walkDirectory = (dir: string): string[] =>

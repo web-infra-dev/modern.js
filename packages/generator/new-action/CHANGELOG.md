@@ -1,5 +1,30 @@
 # @modern-js/new-action
 
+## 1.3.12
+
+### Patch Changes
+
+- 74e74ee: fix: monorepo-tools new command plugin params not work
+
+  fix: 修复 monorepo-tools new 命令 plugin 参数不生效问题
+
+- Updated dependencies [72907b2]
+- Updated dependencies [33cebd2]
+  - @modern-js/generator-common@1.5.0
+  - @modern-js/generator-utils@1.3.0
+  - @modern-js/utils@1.7.12
+
+## 1.3.11
+
+### Patch Changes
+
+- 341bb42: feat: bump codesmith package version
+- Updated dependencies [341bb42]
+- Updated dependencies [a90bc96]
+  - @modern-js/generator-common@1.4.13
+  - @modern-js/generator-utils@1.2.7
+  - @modern-js/utils@1.7.9
+
 ## 1.3.10
 
 ### Patch Changes

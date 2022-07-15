@@ -1,6 +1,5 @@
-import { getBabelChain } from '@modern-js/babel-preset-lib';
+import { getBabelChain, BabelChain } from '@modern-js/babel-preset-lib';
 import type { TransformOptions } from '@babel/core';
-import type { BabelChain } from '@modern-js/babel-chain';
 import type { IModulePresetOption, ISyntaxOption } from './types';
 import { getBuildInPlugins } from './built-in';
 
@@ -20,7 +19,6 @@ export const getModuleBabelChain = (
   modulePresetOption: IModulePresetOption,
   syntaxOption: ISyntaxOption,
 ): BabelChain => {
-  const { appDirectory } = modulePresetOption;
   const chain = getBabelChain(modulePresetOption, syntaxOption);
 
   // link: https://github.com/tc39/proposal-do-expressions
@@ -45,8 +43,10 @@ export const getModuleBabelChain = (
     .use(require.resolve('@babel/plugin-proposal-function-sent'));
 
   const buildInPlugins = getBuildInPlugins({
-    appDirectory,
     importStyle: modulePresetOption.importStyle,
+    staticDir: modulePresetOption.staticDir,
+    styleDir: modulePresetOption.styleDir,
+    sourceDir: modulePresetOption.sourceDir,
   });
   chain.merge(buildInPlugins);
 

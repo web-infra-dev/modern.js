@@ -1,5 +1,42 @@
 # @modern-js/plugin-ssr
 
+## 1.5.0
+
+### Minor Changes
+
+- 33cebd2: chore(babel-chain): merge `@modern-js/babel-chain` to `@modern-js/babel-preset-base`
+
+  chore(babel-chain): 合并 `@modern-js/babel-chain` 到 `@modern-js/babel-preset-base`
+
+### Patch Changes
+
+- Updated dependencies [b74b0b6]
+- Updated dependencies [8b2aa56]
+- Updated dependencies [3e4a34f]
+- Updated dependencies [33cebd2]
+  - @modern-js/webpack@1.12.0
+  - @modern-js/runtime-core@1.5.3
+  - @modern-js/utils@1.7.12
+
+## 1.4.6
+
+### Patch Changes
+
+- 43b2224: support init return value inject to SSR DATA
+- 2dacc89: support set header & status in render
+- Updated dependencies [550e2bd]
+- Updated dependencies [87eb9f8]
+- Updated dependencies [43b2224]
+- Updated dependencies [2b06fe3]
+- Updated dependencies [3050acc]
+- Updated dependencies [f29e9ba]
+- Updated dependencies [2dacc89]
+- Updated dependencies [338496c]
+- Updated dependencies [a90bc96]
+  - @modern-js/webpack@1.11.3
+  - @modern-js/runtime-core@1.5.2
+  - @modern-js/utils@1.7.9
+
 ## 1.4.5
 
 ### Patch Changes

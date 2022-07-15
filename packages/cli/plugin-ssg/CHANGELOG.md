@@ -1,5 +1,13 @@
 # @modern-js/plugin-ssg
 
+## 1.2.15
+
+### Patch Changes
+
+- d6b7383: ssg load plugin correctly
+- Updated dependencies [dc4676b]
+  - @modern-js/utils@1.7.12
+
 ## 1.2.14
 
 ### Patch Changes

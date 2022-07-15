@@ -1,6 +1,12 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import type { IAppContext, NormalizedConfig, PluginAPI } from '@modern-js/core';
+import type {
+  IAppContext,
+  NormalizedConfig,
+  PluginAPI,
+  ImportSpecifier,
+  ImportStatement,
+} from '@modern-js/core';
 import type { Entrypoint } from '@modern-js/types';
 import * as templates from './templates';
 import { getClientRoutes } from './getClientRoutes';
@@ -9,17 +15,6 @@ import {
   ENTRY_POINT_FILE_NAME,
 } from './constants';
 import { getDefaultImports } from './utils';
-
-export interface ImportSpecifier {
-  local?: string;
-  imported?: string;
-}
-
-export interface ImportStatement {
-  specifiers: ImportSpecifier[];
-  value: string;
-  initialize?: string;
-}
 
 const createImportSpecifier = (specifiers: ImportSpecifier[]): string => {
   let defaults = '';

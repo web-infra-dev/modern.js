@@ -7,7 +7,6 @@ import {
   INTERNAL_PLUGINS,
   DEFAULT_SERVER_CONFIG,
 } from '@modern-js/utils';
-import type { Hooks } from '@modern-js/types';
 import type { ErrorObject } from '../compiled/ajv';
 import { initCommandsMap } from './utils/commander';
 import { resolveConfig, loadUserConfig, addServerConfigToDeps } from './config';
@@ -21,12 +20,16 @@ import {
   ResolvedConfigContext,
 } from './context';
 import { initWatcher } from './initWatcher';
-import type { NormalizedConfig } from './config/mergeConfig';
 import { loadEnv } from './loadEnv';
 import { manager, HooksRunner } from './manager';
 
-export type { Hooks };
 export * from './config';
+export type {
+  Hooks,
+  ImportSpecifier,
+  ImportStatement,
+  RuntimePlugin,
+} from './types';
 export * from '@modern-js/plugin';
 
 // TODO: remove export after refactor all plugins
@@ -50,7 +53,7 @@ export {
 } from './pluginAPI';
 export type { PluginAPI } from './pluginAPI';
 
-export type { NormalizedConfig, IAppContext };
+export type { IAppContext };
 
 const initAppDir = async (cwd?: string): Promise<string> => {
   if (!cwd) {

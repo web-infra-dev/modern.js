@@ -1,5 +1,47 @@
 # @modern-js/generator-plugin
 
+## 1.3.0
+
+### Minor Changes
+
+- 33cebd2: chore(generator-utils): tidy up `@modern-js/generator-utils` func
+
+  chore(generastor-utils): 整理 `@modern-js/generator-utils` 导出方法
+
+### Patch Changes
+
+- 74e74ee: feat: update codesmith json api version
+
+  feat: 升级 `@modern-js/codesmith-api-json` 版本
+
+- 74e74ee: fix(generator-plugin): remove `addManyFiles` destination empty validate
+
+  fix(generator-plugin): 移除 `addManyFiles` destination 参数为空的校验
+
+- Updated dependencies [72907b2]
+- Updated dependencies [33cebd2]
+- Updated dependencies [33cebd2]
+- Updated dependencies [74e74ee]
+  - @modern-js/generator-common@1.5.0
+  - @modern-js/plugin-i18n@1.3.0
+  - @modern-js/generator-utils@1.3.0
+  - @modern-js/new-action@1.3.12
+  - @modern-js/utils@1.7.12
+
+## 1.2.11
+
+### Patch Changes
+
+- 341bb42: feat: remove package-json pkg
+- 341bb42: feat: bump codesmith package version
+- 019fada: fix: generator plugin no meta error
+- Updated dependencies [341bb42]
+- Updated dependencies [a90bc96]
+  - @modern-js/generator-common@1.4.13
+  - @modern-js/generator-utils@1.2.7
+  - @modern-js/new-action@1.3.11
+  - @modern-js/utils@1.7.9
+
 ## 1.2.10
 
 ### Patch Changes

@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.3.1",
+  "version": "1.4.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -37,9 +37,8 @@
   "dependencies": {
     "@babel/core": "^7.18.0",
     "@babel/runtime": "^7.18.0",
-    "@modern-js/babel-chain": "workspace:^1.2.5",
-    "@modern-js/babel-preset-base": "workspace:^1.4.1",
-    "@modern-js/utils": "workspace:^1.7.7",
+    "@modern-js/babel-preset-base": "workspace:^1.5.0",
+    "@modern-js/utils": "workspace:^1.7.12",
     "babel-plugin-transform-define": "^2",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3"

@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`legacy config packageField is {
+    "main": "CJS+ES6",
+    "module": "ESM+ES5",
+    "jsnext:modern": "ESM+ES6"
+} 1`] = `
+Array [
+  "/dist/js",
+  "/dist/types",
+  "/dist/js/modern",
+  "/dist/js/node",
+  "/dist/js/treeshaking",
+]
+`;
+
+exports[`legacy config packageMode is browser-js 1`] = `
+Array [
+  "/dist/js",
+  "/dist/types",
+  "/dist/js/modern",
+  "/dist/js/node",
+  "/dist/js/treeshaking",
+]
+`;
+
+exports[`legacy config packageMode is browser-js-lite 1`] = `
+Array [
+  "/dist/js",
+  "/dist/types",
+  "/dist/js/modern",
+  "/dist/js/node",
+  "/dist/js/treeshaking",
+]
+`;
+
+exports[`legacy config packageMode is node-js 1`] = `
+Array [
+  "/dist/js",
+  "/dist/types",
+  "/dist/js/modern",
+  "/dist/js/node",
+]
+`;
+
+exports[`legacy config packageMode is universal-js 1`] = `
+Array [
+  "/dist/js",
+  "/dist/types",
+  "/dist/js/modern",
+  "/dist/js/node",
+  "/dist/js/treeshaking",
+]
+`;
+
+exports[`legacy config packageMode is universal-js-lite 1`] = `
+Array [
+  "/dist/js",
+  "/dist/types",
+  "/dist/js/modern",
+  "/dist/js/node",
+  "/dist/js/treeshaking",
+]
+`;
+
+exports[`output.buildConfig when buildConfig is {} 1`] = `
+Array [
+  "/dist/index.js",
+  "/dist/components/index.js",
+  "/dist/utils/index.js",
+]
+`;

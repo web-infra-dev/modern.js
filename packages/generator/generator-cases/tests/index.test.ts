@@ -22,7 +22,7 @@ describe('test generator cases', () => {
   });
   test('test getMWANewCases', async () => {
     const mwaNewCases = getMWANewCases();
-    expect(mwaNewCases.length).toBe(26);
+    expect(mwaNewCases.length).toBe(25);
   });
   test('test getModuleNewCases', async () => {
     const moduleNewCases = getModuleNewCases();

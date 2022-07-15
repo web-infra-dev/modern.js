@@ -1,5 +1,15 @@
 import { IncomingMessage, ServerResponse, Server as httpServer } from 'http';
+import type { ListenOptions } from 'net';
 import path from 'path';
+import fs from 'fs';
+import {
+  Logger,
+  SHARED_DIR,
+  OUTPUT_CONFIG_FILE,
+  LoggerInterface,
+  dotenv,
+  dotenvExpand,
+} from '@modern-js/utils';
 import {
   serverManager,
   AppContext,
@@ -7,12 +17,6 @@ import {
   loadPlugins,
   ServerConfig,
 } from '@modern-js/server-core';
-import {
-  Logger,
-  SHARED_DIR,
-  OUTPUT_CONFIG_FILE,
-  LoggerInterface,
-} from '@modern-js/utils';
 import type { UserConfig } from '@modern-js/core';
 import { ISAppContext } from '@modern-js/types';
 import {
@@ -57,6 +61,7 @@ export class Server {
 
   /**
    * 初始化顺序
+   * - 读取 .env.{process.env.MODERN_ENV} 文件，加载环境变量
    * - 获取 server runtime config
    * - 设置 context
    * - 创建 hooksRunner
@@ -70,6 +75,8 @@ export class Server {
    */
   public async init() {
     const { options } = this;
+
+    this.loadServerEnv(options);
 
     this.initServerConfig(options);
 
@@ -158,14 +165,23 @@ export class Server {
     );
   }
 
-  public listen(port = 8080, listener: any) {
-    this.app.listen(process.env.PORT || port, () => {
+  public listen<T extends number | ListenOptions | undefined>(
+    options: T,
+    listener: any,
+  ) {
+    const callback = () => {
       if (listener) {
         listener();
       }
 
       this.server.onListening(this.app);
-    });
+    };
+
+    if (typeof options === 'object') {
+      this.app.listen(options, callback);
+    } else {
+      this.app.listen(process.env.PORT || options || 8080, callback);
+    }
   }
 
   public getRequestHandler() {
@@ -226,5 +242,19 @@ export class Server {
       sharedDirectory: path.resolve(appDirectory, SHARED_DIR),
       plugins: serverPlugins,
     };
+  }
+
+  private loadServerEnv(options: ModernServerOptions) {
+    const { pwd: appDirectory } = options;
+    const serverEnv = process.env.MODERN_ENV;
+    const serverEnvPath = path.resolve(appDirectory, `.env.${serverEnv}`);
+    if (
+      serverEnv &&
+      fs.existsSync(serverEnvPath) &&
+      !fs.statSync(serverEnvPath).isDirectory()
+    ) {
+      const envConfig = dotenv.config({ path: serverEnvPath });
+      dotenvExpand(envConfig);
+    }
   }
 }

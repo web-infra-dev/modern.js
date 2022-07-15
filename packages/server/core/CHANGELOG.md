@@ -1,5 +1,28 @@
 # @modern-js/server-plugin
 
+## 1.4.1
+
+### Patch Changes
+
+- a27ab8d: feat: add onApiChange hook for bff hot reload
+  feat: 为 BFF 热更新优化，添加 onApiChange 钩子
+  - @modern-js/utils@1.7.12
+
+## 1.4.0
+
+### Minor Changes
+
+- 77a8e9e: feat: support bff operators
+
+### Patch Changes
+
+- f29e9ba: feat: simplify context usage, no longer depend on containers
+- a90bc96: perf(babel): skip babel-plugin-import if package not installed
+- Updated dependencies [f29e9ba]
+- Updated dependencies [a90bc96]
+  - @modern-js/plugin@1.4.0
+  - @modern-js/utils@1.7.9
+
 ## 1.3.5
 
 ### Patch Changes

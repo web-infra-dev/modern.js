@@ -1,5 +1,43 @@
 # @modern-js/babel-preset-module
 
+## 1.4.0
+
+### Minor Changes
+
+- 33cebd2: chore(babel-chain): merge `@modern-js/babel-chain` to `@modern-js/babel-preset-base`
+
+  chore(babel-chain): 合并 `@modern-js/babel-chain` 到 `@modern-js/babel-preset-base`
+
+### Patch Changes
+
+- Updated dependencies [33cebd2]
+  - @modern-js/babel-preset-lib@1.4.0
+  - @modern-js/utils@1.7.12
+
+## 1.3.11
+
+### Patch Changes
+
+- ff3ba0220: fix(babel-preset-module): babel transform import path of the style file or the static file
+
+  fix(babel-preset-module): 修复 Babel 在转换导入样式文件或者静态文件的路径出现的问题
+
+## 1.3.10
+
+### Patch Changes
+
+- nothing happen, only bump
+- Updated dependencies
+  - @modern-js/utils@1.7.11
+
+## 1.3.9
+
+### Patch Changes
+
+- b82869d: remove path check and support staticDir and styleDir
+- Updated dependencies [b82869d]
+  - @modern-js/utils@1.7.10
+
 ## 1.3.8
 
 ### Patch Changes

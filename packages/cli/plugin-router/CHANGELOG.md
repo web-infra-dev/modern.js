@@ -1,5 +1,13 @@
 # @modern-js/plugin-router
 
+## 1.2.16
+
+### Patch Changes
+
+- dc37349: fix: conventional router app use App.init not work
+- Updated dependencies [a90bc96]
+  - @modern-js/utils@1.7.9
+
 ## 1.2.15
 
 ### Patch Changes

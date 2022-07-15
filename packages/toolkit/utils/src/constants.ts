@@ -104,7 +104,6 @@ export const INTERNAL_PLUGINS: {
     server: '@modern-js/plugin-nest/server',
   },
   '@modern-js/plugin-unbundle': { cli: '@modern-js/plugin-unbundle' },
-  '@modern-js/plugin-server-build': { cli: '@modern-js/plugin-server-build' },
   '@modern-js/plugin-server': {
     cli: '@modern-js/plugin-server/cli',
     server: '@modern-js/plugin-server/server',
@@ -128,6 +127,7 @@ export const INTERNAL_PLUGINS: {
   '@modern-js/plugin-multiprocess': {
     cli: '@modern-js/plugin-multiprocess/cli',
   },
+  // TODO: Maybe can remove it
   '@modern-js/plugin-nocode': { cli: '@modern-js/plugin-nocode/cli' },
   '@modern-js/plugin-design-token': {
     cli: '@modern-js/plugin-design-token/cli',
@@ -233,12 +233,6 @@ export const PLUGIN_SCHEMAS = {
           { instanceof: 'Function' },
         ],
       },
-    },
-  ],
-  '@modern-js/plugin-ssr': [
-    {
-      target: 'runtime.ssr',
-      schema: { type: ['boolean', 'object'] },
     },
   ],
   '@modern-js/plugin-state': [

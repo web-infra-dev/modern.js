@@ -1,5 +1,23 @@
 # @modern-js/runtime-core
 
+## 1.5.3
+
+### Patch Changes
+
+- efab847: use client init data first if exist
+- Updated dependencies [5b7a5a7]
+  - @modern-js/plugin@1.4.2
+
+## 1.5.2
+
+### Patch Changes
+
+- 43b2224: support init return value inject to SSR DATA
+- f29e9ba: feat: simplify context usage, no longer depend on containers
+- 2dacc89: support set header & status in render
+- Updated dependencies [f29e9ba]
+  - @modern-js/plugin@1.4.0
+
 ## 1.5.1
 
 ### Patch Changes

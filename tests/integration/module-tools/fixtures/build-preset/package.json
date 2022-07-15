@@ -1,0 +1,16 @@
+{
+  "name": "@integration/module-tools-build-preset",
+  "version": "1.0.0",
+  "pravite": "true",
+  "devDependencies": {
+    "@modern-js/module-tools": "workspace:*",
+    "@modern-js/core": "workspace:*",
+    "typescript": "^4",
+    "react": "^17",
+    "react-dom": "^17",
+    "@types/react": "^17",
+    "@types/react-dom": "^17",
+    "lodash": "4.17.21",
+    "@types/lodash": "^4"
+  }
+}

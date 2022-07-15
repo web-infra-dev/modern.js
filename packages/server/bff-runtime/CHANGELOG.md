@@ -1,5 +1,15 @@
 # @modern-js/bff-runtime
 
+## 1.3.0
+
+### Minor Changes
+
+- 77a8e9e: feat: support bff operators
+
+### Patch Changes
+
+- @modern-js/server-utils@1.2.11
+
 ## 1.2.5
 
 ### Patch Changes

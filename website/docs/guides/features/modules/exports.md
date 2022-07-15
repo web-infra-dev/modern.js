@@ -144,7 +144,7 @@ const fooFeat = require('foo/feature');
 对于其他环境，例如 webpack。可能存在不完全支持 "exports"的情况，因此对于在非 Node.js 环境运行的可复用模块要谨慎使用。
 :::
 
-除了默认的三种产物以外，Modern.js 还提供了多个预设配置供不同场景去选择使用。具体如何使用，可以查看 [output.packageMode](/docs/apis/config/output/package-mode) 以及 [output.packageFields](/docs/apis/config/output/package-fields)。
+除了默认的三种产物以外，Modern.js 还提供了多个预设配置以及丰富的构建配置供不同场景去选择使用。具体如何使用，可以阅读 【[如何构建模块](/docs/guides/features/modules/build)】。
 
 
 

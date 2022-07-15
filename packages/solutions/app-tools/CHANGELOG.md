@@ -1,5 +1,70 @@
 # @modern-js/app-tools
 
+## 1.7.0
+
+### Minor Changes
+
+- 33cebd2: chore(plugin-i18n): merge `@modern-js/i18n-cli-language-detector` to `@modern-js/plugin-i18n`
+
+  chore(plugin-i18n): 合并 `@modern-js/i18n-cli-language-detector` 包到 `@modern-js/plugin-i18n` 包作为子路径
+
+### Patch Changes
+
+- Updated dependencies [b74b0b6]
+- Updated dependencies [33cebd2]
+- Updated dependencies [33cebd2]
+- Updated dependencies [7b902b3]
+- Updated dependencies [33cebd2]
+- Updated dependencies [a27ab8d]
+- Updated dependencies [3d64b2f]
+- Updated dependencies [8b2aa56]
+- Updated dependencies [3e4a34f]
+- Updated dependencies [33cebd2]
+- Updated dependencies [74e74ee]
+- Updated dependencies [33cebd2]
+  - @modern-js/webpack@1.12.0
+  - @modern-js/core@1.13.0
+  - @modern-js/plugin-analyze@1.5.0
+  - @modern-js/types@1.6.0
+  - @modern-js/plugin-i18n@1.3.0
+  - @modern-js/prod-server@1.2.0
+  - @modern-js/server@1.5.1
+  - @modern-js/new-action@1.3.12
+  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/utils@1.7.12
+
+## 1.6.10
+
+### Patch Changes
+
+- eeedc80: feat: add plugin-jarvis to dependencies of solutions
+- f29e9ba: feat: simplify context usage, no longer depend on containers
+- Updated dependencies [77a8e9e]
+- Updated dependencies [550e2bd]
+- Updated dependencies [87eb9f8]
+- Updated dependencies [3050acc]
+- Updated dependencies [2b06fe3]
+- Updated dependencies [3050acc]
+- Updated dependencies [f29e9ba]
+- Updated dependencies [d9564f2]
+- Updated dependencies [1a57595]
+- Updated dependencies [2dacc89]
+- Updated dependencies [341bb42]
+- Updated dependencies [338496c]
+- Updated dependencies [f29e9ba]
+- Updated dependencies [a90bc96]
+  - @modern-js/server@1.5.0
+  - @modern-js/webpack@1.11.3
+  - @modern-js/node-bundle-require@1.3.7
+  - @modern-js/core@1.12.2
+  - @modern-js/plugin-analyze@1.4.7
+  - @modern-js/prod-server@1.1.9
+  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/types@1.5.5
+  - @modern-js/new-action@1.3.11
+  - @modern-js/plugin@1.4.0
+  - @modern-js/utils@1.7.9
+
 ## 1.6.9
 
 ### Patch Changes

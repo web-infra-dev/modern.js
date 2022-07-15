@@ -1,5 +1,17 @@
 # @modern-js/plugin
 
+## 1.4.2
+
+### Patch Changes
+
+- 5b7a5a7: fix typo closeHooksMap => cloneHooksMap
+
+## 1.4.0
+
+### Minor Changes
+
+- f29e9ba: feat(plugin): simplify context usage, no longer depend on containers
+
 ## 1.3.8
 
 ### Patch Changes

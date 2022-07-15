@@ -1,5 +1,4 @@
 import { generateRunner, DEFAULT_OPTIONS } from './sync';
-import { useRunner } from './runner';
 import {
   checkPlugins,
   isObject,
@@ -96,7 +95,10 @@ export const createAsyncManager = <
   api?: API,
 ): AsyncManager<Hooks, API> => {
   let index = 0;
+  let runners: ToRunners<Hooks>;
   let currentHooks = { ...hooks } as Hooks;
+
+  const useRunner = () => runners;
 
   const registerHook: AsyncManager<Hooks, API>['registerHook'] = extraHooks => {
     currentHooks = {
@@ -193,7 +195,8 @@ export const createAsyncManager = <
         sortedPlugins.map(plugin => plugin.setup(mergedPluginAPI)),
       );
 
-      return generateRunner<Hooks>(hooksList, currentHooks);
+      runners = generateRunner<Hooks>(hooksList, currentHooks);
+      return runners;
     };
 
     const run: AsyncManager<Hooks, API>['run'] = cb => cb();

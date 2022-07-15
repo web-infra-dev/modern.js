@@ -1,5 +1,26 @@
 # @modern-js/monorepo-generator
 
+## 2.1.3
+
+### Patch Changes
+
+- 74e74ee: feat: update codesmith json api version
+
+  feat: 升级 `@modern-js/codesmith-api-json` 版本
+
+## 2.1.2
+
+### Patch Changes
+
+- f148a23: feat: add gen-release-note command to generator template
+
+## 2.1.1
+
+### Patch Changes
+
+- eeedc80: feat: add plugin-jarvis to dependencies of solutions
+- 341bb42: feat: bump codesmith package version
+
 ## 2.1.0
 
 ### Minor Changes

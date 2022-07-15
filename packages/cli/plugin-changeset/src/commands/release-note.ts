@@ -47,6 +47,27 @@ export function getReleaseInfo(commit: string, commitObj: Commit) {
   return commitObj;
 }
 
+function formatSummary(summary: string, pullRequestId?: string) {
+  const [firstLine, ...futureLines] = summary
+    .split('\n')
+    .map(l => l.trimRight());
+
+  let returnVal = firstLine;
+
+  if (futureLines.length > 0) {
+    if (pullRequestId) {
+      returnVal = `\n\n  ${returnVal}`;
+    } else {
+      returnVal = `\n  ${returnVal}`;
+    }
+    returnVal += `\n\n  ${futureLines
+      .filter(l => Boolean(l))
+      .map(l => l)
+      .join('\n\n')}`;
+  }
+  return returnVal;
+}
+
 export function getReleaseNoteLine(
   commit: Commit,
   customReleaseNoteFunction?: CustomReleaseNoteFunction,
@@ -54,16 +75,18 @@ export function getReleaseNoteLine(
   if (customReleaseNoteFunction?.getReleaseNoteLine) {
     return customReleaseNoteFunction.getReleaseNoteLine(commit);
   }
-  const { repository, pullRequestId, summary, author } = commit;
+
+  const { repository, pullRequestId, summary } = commit;
   if (pullRequestId && repository) {
-    return `[[#${pullRequestId}](https://github.com/${repository}/pull/${pullRequestId})] ${summary}${
-      author ? ` -- ${author}` : ''
-    }\n`;
-  } else if (pullRequestId) {
-    return `[#${pullRequestId}] ${summary}${author ? ` -- ${author}` : ''}\n`;
-  } else {
-    return `${summary}${author ? ` -- ${author}` : ''}\n`;
+    return `- [#${pullRequestId}](https://github.com/${repository}/pull/${pullRequestId}) ${formatSummary(
+      summary,
+      pullRequestId,
+    )}\n`;
   }
+  if (pullRequestId) {
+    return `#${pullRequestId} ${formatSummary(summary, pullRequestId)}\n`;
+  }
+  return `${formatSummary(summary, pullRequestId)}\n`;
 }
 
 export async function genReleaseNote(options: ReleaseNoteOptions) {
@@ -147,25 +170,24 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
   }
 
   if (features.length) {
-    console.info('Features:\n');
-    features.forEach(async commit => {
+    console.info('## Features:\n');
+    for (const commit of features) {
       const releaseNote = await getReleaseNoteLine(
         commit,
         customReleaseNoteFunction,
       );
       console.info(releaseNote);
-    });
+    }
   }
 
   if (bugFix.length) {
-    console.info('Bug Fix:\n');
-
-    bugFix.forEach(async commit => {
+    console.info('## Bug Fix:\n');
+    for (const commit of bugFix) {
       const relesaeNote = await getReleaseNoteLine(
         commit,
         customReleaseNoteFunction,
       );
       console.info(relesaeNote);
-    });
+    }
   }
 }

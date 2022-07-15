@@ -17,10 +17,6 @@
       "path": "packages/solutions/app-tools"
     },
     {
-      "name": "@modern-js/babel-chain",
-      "path": "packages/toolkit/babel-chain"
-    },
-    {
       "name": "@modern-js/babel-compiler",
       "path": "packages/toolkit/compiler/babel"
     },
@@ -47,10 +43,6 @@
     {
       "name": "@modern-js/bff-generator",
       "path": "packages/generator/generators/bff-generator"
-    },
-    {
-      "name": "@modern-js/bff-refactor-generator",
-      "path": "packages/generator/generators/bff-refactor-generator"
     },
     {
       "name": "@modern-js/bff-runtime",
@@ -93,10 +85,6 @@
       "path": "packages/generator/generators/dependence-generator"
     },
     {
-      "name": "@modern-js/docsite-generator",
-      "path": "packages/generator/generators/docsite-generator"
-    },
-    {
       "name": "@modern-js/electron-generator",
       "path": "packages/generator/generators/electron-generator"
     },
@@ -109,10 +97,6 @@
       "path": "packages/generator/generators/entry-generator"
     },
     {
-      "name": "@modern-js/esbuild-compiler",
-      "path": "packages/toolkit/compiler/esbuild"
-    },
-    {
       "name": "@modern-js/eslint-config",
       "path": "packages/review/eslint-config"
     },
@@ -123,10 +107,6 @@
     {
       "name": "@modern-js/esmpack",
       "path": "packages/toolkit/esmpack"
-    },
-    {
-      "name": "@modern-js/freeze",
-      "path": "packages/toolkit/freeze"
     },
     {
       "name": "@modern-js/generator-cases",
@@ -155,14 +135,6 @@
     {
       "name": "@modern-js/hmr-client",
       "path": "packages/server/hmr-client"
-    },
-    {
-      "name": "@modern-js/i18n-cli-language-detector",
-      "path": "packages/cli/i18n-cli-language-detector"
-    },
-    {
-      "name": "@modern-js/load-config",
-      "path": "packages/toolkit/load-config"
     },
     {
       "name": "@modern-js/module-generator",
@@ -273,10 +245,6 @@
       "path": "packages/server/plugin-nest"
     },
     {
-      "name": "@modern-js/plugin-nocode",
-      "path": "packages/cli/plugin-nocode"
-    },
-    {
       "name": "@modern-js/plugin-polyfill",
       "path": "packages/server/plugin-polyfill"
     },
@@ -295,10 +263,6 @@
     {
       "name": "@modern-js/plugin-server",
       "path": "packages/server/plugin-server"
-    },
-    {
-      "name": "@modern-js/plugin-server-build",
-      "path": "packages/cli/plugin-server-build"
     },
     {
       "name": "@modern-js/plugin-ssg",
@@ -399,10 +363,6 @@
     {
       "name": "@modern-js/types",
       "path": "packages/toolkit/types"
-    },
-    {
-      "name": "@modern-js/unbundle-generator",
-      "path": "packages/generator/generators/unbundle-generator"
     },
     {
       "name": "@modern-js/utils",

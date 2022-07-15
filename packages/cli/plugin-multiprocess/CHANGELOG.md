@@ -1,5 +1,15 @@
 # @modern-js/plugin-multiprocess
 
+## 1.1.9
+
+### Patch Changes
+
+- f29e9ba: feat: simplify context usage, no longer depend on containers
+- Updated dependencies [2dacc89]
+- Updated dependencies [a90bc96]
+  - @modern-js/types@1.5.5
+  - @modern-js/utils@1.7.9
+
 ## 1.1.8
 
 ### Patch Changes

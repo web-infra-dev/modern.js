@@ -1,5 +1,50 @@
 # @modern-js/monorepo-tools
 
+## 1.5.0
+
+### Minor Changes
+
+- 33cebd2: chore(plugin-i18n): merge `@modern-js/i18n-cli-language-detector` to `@modern-js/plugin-i18n`
+
+  chore(plugin-i18n): 合并 `@modern-js/i18n-cli-language-detector` 包到 `@modern-js/plugin-i18n` 包作为子路径
+
+### Patch Changes
+
+- 74e74ee: fix: monorepo-tools new command plugin params not work
+
+  fix: 修复 monorepo-tools new 命令 plugin 参数不生效问题
+
+- Updated dependencies [33cebd2]
+- Updated dependencies [33cebd2]
+- Updated dependencies [33cebd2]
+- Updated dependencies [2e8ea92]
+- Updated dependencies [74e74ee]
+  - @modern-js/core@1.13.0
+  - @modern-js/plugin-changeset@1.4.0
+  - @modern-js/plugin-i18n@1.3.0
+  - @modern-js/new-action@1.3.12
+  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/utils@1.7.12
+
+## 1.4.8
+
+### Patch Changes
+
+- eeedc80: feat: add plugin-jarvis to dependencies of solutions
+- Updated dependencies [f29e9ba]
+- Updated dependencies [d9564f2]
+- Updated dependencies [1a57595]
+- Updated dependencies [42741db]
+- Updated dependencies [341bb42]
+- Updated dependencies [f29e9ba]
+- Updated dependencies [a90bc96]
+  - @modern-js/core@1.12.2
+  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/plugin-changeset@1.3.1
+  - @modern-js/new-action@1.3.11
+  - @modern-js/plugin@1.4.0
+  - @modern-js/utils@1.7.9
+
 ## 1.4.7
 
 ### Patch Changes

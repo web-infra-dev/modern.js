@@ -1,0 +1,9 @@
+{
+  "name": "@integration/module-tools",
+  "version": "1.0.0",
+  "pravite": "true",
+  "devDependencies": {
+    "globby": "^13",
+    "@types/jest": "^27"
+  }
+}

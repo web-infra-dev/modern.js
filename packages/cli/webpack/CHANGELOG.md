@@ -1,5 +1,68 @@
 # @modern-js/webpack
 
+## 1.12.0
+
+### Minor Changes
+
+- 33cebd2: chore(babel-chain): merge `@modern-js/babel-chain` to `@modern-js/babel-preset-base`
+
+  chore(babel-chain): 合并 `@modern-js/babel-chain` 到 `@modern-js/babel-preset-base`
+
+### Patch Changes
+
+- b74b0b6: fix(webpack): failed to analyze bundle
+
+  fix(webpack): 修复使用 bundle analyze 时报错的问题
+
+- 8b2aa56: perf(webpack): improve getSourceInclude performance
+
+  perf(webpack): 优化 getSourceInclude 执行性能
+
+- 3e4a34f: fix(webpack): failed to compile .cjs,.cts,.mts file
+
+  fix(webpack): 修复无法编译 .cjs,.cts,.mts 文件的问题
+
+- Updated dependencies [33cebd2]
+  - @modern-js/babel-preset-app@1.5.0
+  - @modern-js/css-config@1.2.8
+  - @modern-js/utils@1.7.12
+
+## 1.11.5
+
+### Patch Changes
+
+- dc4676b: chore(webpack): refactor webpack config, split modules
+- 80b47bc: perf(webpack): optimize terser default options
+
+  perf(webpack): 优化 Terser 默认压缩配置，提升压缩率
+
+- 572d63b: fix(webpack): should not inject CSS sourcemap in js bundles
+
+  fix(webpack): 修复使用 style-loader 时会将 CSS 的 SourceMap 打包到 JS 中的问题
+
+- 7124323: fix(webpack): failed to import SVG from a CSS file in some cases
+
+  fix(webpack): 修复从 CSS 文件中引用 SVG 图片时，可能会出现编译报错的问题
+
+- Updated dependencies [dc4676b]
+- Updated dependencies [4a7f2a2]
+  - @modern-js/utils@1.7.12
+  - @modern-js/css-config@1.2.8
+
+## 1.11.3
+
+### Patch Changes
+
+- 550e2bd: feat(webpack): prebundle css-loader
+- 87eb9f8: perf(webpack): lazy require plugins to improve boot time
+- 2b06fe3: feat(webpack): only display error messages of type checker
+- 3050acc: fix resolve alias real path
+- 338496c: fix(webpack): webpackChunkName magic comments not work
+- Updated dependencies [a90bc96]
+  - @modern-js/utils@1.7.9
+  - @modern-js/babel-preset-app@1.4.2
+  - @modern-js/css-config@1.2.7
+
 ## 1.11.2
 
 ### Patch Changes
