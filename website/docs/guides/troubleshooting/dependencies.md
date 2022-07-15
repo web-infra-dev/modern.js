@@ -23,6 +23,46 @@ pnpm update "@modern-js/*" -r
 - Modern.js 发版日志：[Modern.js/releases](https://github.com/modern-js-dev/modern.js/releases)。
 - 各个 package 下的 `CHANGELOG.md` 文件。
 
+### 如何锁定项目中的某个依赖版本？
+
+如果需要锁定项目中的某个依赖的版本，可以通过以下方式进行操作：
+
+对于使用 yarn 的项目，请在**项目根目录**的 `package.json` 中添加以下配置，然后重新执行 `yarn`：
+
+```json
+{
+  "resolutions": {
+    "package-name": "^1.0.0"
+  }
+}
+```
+
+对于使用 pnpm 的项目，请在**项目根目录**的 `package.json` 中添加以下配置，然后重新执行 `pnpm i`：
+
+```json
+{
+  "pnpm": {
+    "overrides": {
+      "package-name": "^1.0.0"
+    }
+  }
+}
+```
+
+对于使用 npm 的项目，请在**项目根目录**的 `package.json` 中添加以下配置，然后重新执行 `npm i`：
+
+```json
+{
+  "overrides": {
+    "package-name": "^1.0.0"
+  }
+}
+```
+
+:::info
+对于 monorepo 场景，只能在项目根目录的 `package.json` 中锁定依赖版本，并且会影响 monorepo 中的所有 package。
+:::
+
 ### 安装依赖时提示 The engine "node" is incompatible？
 
 安装依赖时如果出现以下报错提示，说明当前环境使用的 Node.js 版本过低，需要升级 Node.js 到更高版本。
@@ -64,26 +104,13 @@ Type '{}' is not assignable to type 'ReactNode'.
 
 出现这个问题的原因是 React 18 与 React 16/17 中的 ReactNode 类型定义不同，如果项目中出现多个不同 `@types/react` 版本，就会出现 ReactNode 类型冲突，导致以上报错。
 
-对于 yarn 用户，请在根目录的 `package.json` 中添加以下配置，然后重新执行 `yarn`：
+解决方法为将项目中的 `@types/react` 和 `@types/react-dom` 锁定在统一的版本上，比如 `v17`。
 
 ```json
 {
-  "resolutions": {
-    "@types/react": "^17",
-    "@types/react-dom": "^17"
-  }
+  "@types/react": "^17",
+  "@types/react-dom": "^17"
 }
 ```
 
-对于 pnpm 用户，请在根目录的 `package.json` 中添加以下配置，然后重新执行 `pnpm i`：
-
-```json
-{
-  "pnpm": {
-    "overrides": {
-      "@types/react": "^17",
-      "@types/react-dom": "^17"
-    }
-  }
-}
-```
+关于锁定依赖版本的方法，请参考上方的 `如何锁定项目中的某个依赖版本？`。
