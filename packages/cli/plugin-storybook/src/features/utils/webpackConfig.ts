@@ -9,7 +9,12 @@ import type {
   RuleSetConditionAbsolute,
 } from 'webpack';
 import type Chain from 'webpack-chain';
-import { ClientWebpackConfig } from '@modern-js/webpack';
+import {
+  ClientWebpackConfig,
+  JS_REGEX,
+  TS_REGEX,
+  mergeRegex,
+} from '@modern-js/webpack';
 import { CURRENT_PKG_PATH } from '../constants';
 
 const NodePolyfillPlugin: typeof import('node-polyfill-webpack-plugin') =
@@ -67,8 +72,8 @@ const resolveStorybookWebPackConfig = (
       rule =>
         rule.test &&
         rule.test instanceof RegExp &&
-        (rule.test.toString() === /\.(js|mjs|jsx)$|\.tsx?$/.toString() ||
-          rule.test.toString() === /\.(js|mjs|jsx)$/.toString()),
+        (rule.test.toString() === mergeRegex(JS_REGEX, TS_REGEX).toString() ||
+          rule.test.toString() === JS_REGEX.toString()),
     );
 
     if (!clientJsAndTsRule || !jsAndTsRule) {

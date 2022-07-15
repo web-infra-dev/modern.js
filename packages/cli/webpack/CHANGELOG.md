@@ -1,5 +1,12 @@
 # @modern-js/webpack
 
+## 1.12.1
+
+### Patch Changes
+
+- 6980b96c0: hotfix: fix webpack js/ts module.rule config of the plugin storybook
+  hotfix: 修复 storybook 的对于 js/ts 的 webpack module.rule 配置
+
 ## 1.12.0
 
 ### Minor Changes
