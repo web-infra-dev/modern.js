@@ -51,3 +51,39 @@ nvm default 14
 ```
 
 在本地开发环境推荐使用 [fnm](https://github.com/Schniz/fnm)，它的用法与 nvm 相似，但拥有比 nvm 更好的性能。
+
+### 升级依赖后出现 ReactNode 类型错误？
+
+升级项目的依赖后，如果出现以下类型报错，说明项目中安装了错误的 `@types/react` 版本。
+
+```bash
+The types returned by 'render()' are incompatible between these types.
+Type 'React.ReactNode' is not assignable to type 'import("/node_modules/@types/react/index").ReactNode'.
+Type '{}' is not assignable to type 'ReactNode'.
+```
+
+出现这个问题的原因是 React 18 与 React 16/17 中的 ReactNode 类型定义不同，如果项目中出现多个不同 `@types/react` 版本，就会出现 ReactNode 类型冲突，导致以上报错。
+
+对于 yarn 用户，请在根目录的 `package.json` 中添加以下配置，然后重新执行 `yarn`：
+
+```json
+{
+  "resolutions": {
+    "@types/react": "^17",
+    "@types/react-dom": "^17"
+  }
+}
+```
+
+对于 pnpm 用户，请在根目录的 `package.json` 中添加以下配置，然后重新执行 `pnpm i`：
+
+```json
+{
+  "pnpm": {
+    "overrides": {
+      "@types/react": "^17",
+      "@types/react-dom": "^17"
+    }
+  }
+}
+```

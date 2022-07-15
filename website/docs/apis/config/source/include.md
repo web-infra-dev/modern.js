@@ -12,7 +12,7 @@ MWA。
 - 类型： `Array<string | RegExp>`
 - 默认值： `[]`
 
-默认情况下，Modern.js 不会通过 `babel-loader` 或 `ts-loader` 来编译 `node_modules` 下的文件，也不会编译当前工程目录外部的文件。
+出于编译性能的考虑，默认情况下，Modern.js 不会通过 `babel-loader` 或 `ts-loader` 来编译 `node_modules` 下的文件，也不会编译当前工程目录外部的文件。
 
 通过 `source.include` 配置项，可以指定需要额外进行编译的目录或模块。
 
