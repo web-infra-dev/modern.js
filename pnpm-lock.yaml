@@ -1289,7 +1289,7 @@ importers:
       '@modern-js/runtime': workspace:*
       '@modern-js/runtime-core': workspace:*
       '@modern-js/utils': workspace:^1.7.12
-      '@modern-js/webpack': workspace:^1.12.0
+      '@modern-js/webpack': workspace:^1.12.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@storybook/addon-actions': ^6.3.8
