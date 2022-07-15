@@ -64,7 +64,13 @@ export default defineConfig({
 export default defineConfig({
   tools: {
     webpackChain: (chain, { env }) => {
-      console.log(env); // => development
+      if (env === 'development') {
+        // 针对 dev 场景添加配置
+      }
+
+      if (env === 'production') {
+        // 针对 build 场景添加配置
+      }
     },
   },
 });
@@ -197,7 +203,9 @@ export default defineConfig({
 
 ### 修改 babel-loader
 
-通过 `CHAIN_ID.USE.BABEL` 可以读取到 `babel-loader`，然后通过 `tap` 方法进行修改：
+通过 `CHAIN_ID.USE.BABEL` 可以读取到 `babel-loader`，并添加一些自定义行为。
+
+比如修改默认的 `babel-loader` 配置项：
 
 ```js title="modern.config.js"
 export default defineConfig({
@@ -211,6 +219,42 @@ export default defineConfig({
           ...options,
           plugins: [...babelOptions.plugins, require.resolve('my-plugin')],
         }));
+    },
+  },
+});
+```
+
+比如在 `babel-loader` 执行之后，添加自定义的 loader 进行处理：
+
+```js title="modern.config.js"
+export default defineConfig({
+  tools: {
+    webpackChain: (chain, { CHAIN_ID }) => {
+      chain.module
+        .rule(CHAIN_ID.RULE.LOADERS)
+        .oneOf(CHAIN_ID.ONE_OF.JS)
+        .use('my-loader')
+        .loader('my-loader')
+        .after(CHAIN_ID.USE.BABEL)
+        .options({});
+    },
+  },
+});
+```
+
+比如在 `babel-loader` 执行之前，添加自定义的 loader 进行处理：
+
+```js title="modern.config.js"
+export default defineConfig({
+  tools: {
+    webpackChain: (chain, { CHAIN_ID }) => {
+      chain.module
+        .rule(CHAIN_ID.RULE.LOADERS)
+        .oneOf(CHAIN_ID.ONE_OF.JS)
+        .use('my-loader')
+        .loader('my-loader')
+        .before(CHAIN_ID.USE.BABEL)
+        .options({});
     },
   },
 });

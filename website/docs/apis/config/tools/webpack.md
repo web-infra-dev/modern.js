@@ -67,7 +67,13 @@ export default defineConfig({
 export default defineConfig({
   tools: {
     webpack: (config, { env }) => {
-      console.log(env); // => development
+      if (env === 'development') {
+        // 针对 dev 场景添加配置
+      }
+
+      if (env === 'production') {
+        // 针对 build 场景添加配置
+      }
     },
   },
 });
