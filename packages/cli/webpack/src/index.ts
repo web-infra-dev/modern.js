@@ -14,6 +14,8 @@ export type {
   StatsCompilation,
 } from 'webpack';
 export { BaseWebpackConfig } from './config/base';
+export { JS_REGEX, TS_REGEX } from './utils/constants';
+export { mergeRegex } from './utils/mergeRegex';
 
 export enum WebpackConfigTarget {
   CLIENT,
