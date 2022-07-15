@@ -69,7 +69,7 @@ export default defineConfig({
       }
 
       if (env === 'production') {
-        // 针对 prod 场景添加配置
+        // 针对 build 场景添加配置
       }
     },
   },
