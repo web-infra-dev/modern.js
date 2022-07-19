@@ -87,5 +87,11 @@
     "wireit": "^0.7.1",
     "cypress": "^10.1.0",
     "zx": "4.2.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "^17",
+      "@types/react-dom": "^17"
+    }
   }
 }

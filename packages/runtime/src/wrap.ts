@@ -22,6 +22,7 @@ export const wrap = <P = Record<string, unknown>>(
   const runner = manager.init();
 
   const WrapperComponent: React.ComponentType<P> = props => {
+    // TODO: P type
     const element = React.createElement(App, { ...props }, props.children);
 
     return runner.provide(

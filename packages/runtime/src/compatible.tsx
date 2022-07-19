@@ -1,5 +1,7 @@
 import React, { useContext, useMemo } from 'react';
-import ReactDOM from 'react-dom';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+import ReactDOM from 'react-dom/client';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { Plugin, runtime } from './plugin';
 import {
@@ -177,7 +179,7 @@ export const bootstrap: BootStrap = async (
         },
         {
           onLast: ({ App, rootElement }) => {
-            ReactDOM.render(React.createElement(App, { context }), rootElement);
+            ReactDOM.createRoot(rootElement).render(<App />);
           },
         },
       );

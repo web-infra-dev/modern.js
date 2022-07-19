@@ -1,5 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error React 18
+import ReactDOM from 'react-dom/client';
 import { runtime, Plugin } from './plugin';
 
 export type RenderProps = {
@@ -27,7 +29,7 @@ export const clientRender = (
     { App, rootElement },
     {
       onLast: async ({ App, rootElement }) => {
-        ReactDOM.render(React.createElement(App), rootElement);
+        ReactDOM.createRoot(rootElement).render(App);
       },
     },
   );
