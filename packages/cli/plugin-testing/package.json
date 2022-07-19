@@ -94,7 +94,6 @@
     "@modern-js-reduck/plugin-immutable": "^1.0.1",
     "@modern-js-reduck/store": "^1.0.3",
     "@modern-js/babel-compiler": "workspace:^1.2.6",
-    "@modern-js/bff-utils": "workspace:^1.3.0",
     "@modern-js/runtime-core": "workspace:^1.5.3",
     "@modern-js/testing": "workspace:^1.5.4",
     "@modern-js/testing-plugin-bff": "workspace:^1.5.0",

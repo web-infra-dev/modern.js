@@ -49,10 +49,6 @@
       "path": "packages/server/bff-runtime"
     },
     {
-      "name": "@modern-js/bff-utils",
-      "path": "packages/server/bff-utils"
-    },
-    {
       "name": "@modern-js/bff-core",
       "path": "packages/server/bff-core"
     },
