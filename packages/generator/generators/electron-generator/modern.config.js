@@ -1,2 +1,12 @@
-/** @type {import('@modern-js/module-tools').UserConfig} */
-module.exports = {};
+module.exports = {
+  output: {
+    buildConfig: [
+      {
+        buildType: 'bundle',
+        bundleOptions: {
+          skipDeps: false,
+        },
+      },
+    ],
+  },
+};
