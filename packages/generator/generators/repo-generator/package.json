@@ -13,7 +13,7 @@
   ],
   "version": "1.4.5",
   "jsnext:source": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
+  "main": "./src/index.ts",
   "files": [
     "/templates",
     "/dist/js/node/main.js"
