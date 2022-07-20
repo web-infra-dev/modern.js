@@ -105,17 +105,14 @@ const handleTemplateFile = async (
     undefined,
     (resourceKey: string) =>
       resourceKey
-        .replace(
-          `templates/${language as string}-template/`,
-          `${path.join(projectPath, 'src')}/`,
-        )
+        .replace(`templates/${language as string}-template/`, projectPath)
         .replace('.handlebars', ''),
     { packageName },
   );
 
   const updateInfo = {
-    files: ['/templates', '/dist/js/node/main.js'],
-    main: './dist/js/node/main.js',
+    files: ['/templates', '/dist/index.js'],
+    main: './dist/index.js',
     types: undefined,
     module: undefined,
     'jsnext:modern': undefined,
@@ -124,6 +121,9 @@ const handleTemplateFile = async (
     'devDependencies.@modern-js/codesmith-api-app': '^1.0.0',
     'devDependencies.@modern-js/codesmith': '^1.0.0',
     'devDependencies.@modern-js/generator-common': '^1.0.0',
+    'devDependencies.@babel/runtime': '^7.18.0',
+    'dependencies.@babel/runtime': undefined,
+    'peerDependencies.react': undefined,
   };
 
   const jsonAPI = new JsonAPI(generator);

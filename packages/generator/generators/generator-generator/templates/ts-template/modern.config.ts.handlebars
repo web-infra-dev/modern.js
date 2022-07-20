@@ -1,4 +1,4 @@
-import { defineConfig } from '@jupiter/module-tools';
+import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   output: {
@@ -10,5 +10,10 @@ export default defineConfig({
         },
       },
     ],
+  },
+  tools: {
+    speedy: {
+      external: ['vm2'],
+    },
   },
 });

@@ -84,7 +84,7 @@ export default function (context: IPluginContext) {
       pluginType === PluginType.Extend ? { extend } : { key, name, type };
     await api.updateJSONFile('package.json', {
       files: ['/templates', '/dist/index.js'],
-      main: './src/index.ts',
+      main: './dist/index.js',
       types: undefined,
       module: undefined,
       meta,
@@ -105,6 +105,11 @@ export default function (context: IPluginContext) {
             },
           },
         ],
+        tools: {
+          speedy: {
+            external: ['vm2'],
+          },
+        },
       },
     });
     api.rmDir('tests');
