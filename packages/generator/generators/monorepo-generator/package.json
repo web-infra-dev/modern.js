@@ -16,7 +16,7 @@
   "main": "./src/index.ts",
   "files": [
     "/templates",
-    "/dist/js/node/main.js"
+    "/dist/index.js"
   ],
   "scripts": {
     "prepare": "pnpm build",

@@ -83,8 +83,8 @@ export default function (context: IPluginContext) {
     const meta =
       pluginType === PluginType.Extend ? { extend } : { key, name, type };
     await api.updateJSONFile('package.json', {
-      files: ['/templates', '/dist/js/node/main.js'],
-      main: './dist/js/node/main.js',
+      files: ['/templates', '/dist/index.js'],
+      main: './src/index.ts',
       types: undefined,
       module: undefined,
       meta,

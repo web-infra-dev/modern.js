@@ -22,7 +22,7 @@
   },
   "files": [
     "/bin",
-    "/dist/js/node/main.js"
+    "/dist/index.js"
   ],
   "exports": {
     ".": {
