@@ -1,4 +1,4 @@
-import { Import } from '@modern-js/utils';
+import { Import, fs } from '@modern-js/utils';
 import ChangesetPlugin from '@modern-js/plugin-changeset';
 import LintPlugin from '@modern-js/plugin-jarvis';
 import type { CliPlugin } from '@modern-js/core';
@@ -31,6 +31,19 @@ export default (): CliPlugin => ({
     const locale = lang.getLocaleLanguage();
     local.i18n.changeLanguage({ locale });
     return {
+      // copy from @modern-js/plugin-analyze/src/index.ts
+      async prepare() {
+        const appContext = api.useAppContext();
+        const hookRunners = api.useHookRunners();
+
+        try {
+          fs.emptydirSync(appContext.internalDirectory);
+        } catch {
+          // FIXME:
+        }
+
+        await hookRunners.addRuntimeExports();
+      },
       validateSchema() {
         return schema.addSchema();
       },

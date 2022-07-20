@@ -1218,7 +1218,6 @@ importers:
       '@babel/core': ^7.18.0
       '@babel/runtime': ^7.18.0
       '@modern-js/core': workspace:*
-      '@modern-js/plugin-analyze': workspace:^1.5.0
       '@modern-js/plugin-router': workspace:^1.2.16
       '@modern-js/plugin-state': workspace:^1.2.10
       '@modern-js/runtime': workspace:*
@@ -1256,7 +1255,6 @@ importers:
       webpack-chain: ^6.5.1
     dependencies:
       '@babel/runtime': 7.18.6
-      '@modern-js/plugin-analyze': link:../plugin-analyze
       '@modern-js/plugin-router': link:../plugin-router
       '@modern-js/plugin-state': link:../plugin-state
       '@modern-js/utils': link:../../toolkit/utils
