@@ -1,0 +1,14 @@
+import { defineConfig } from '@jupiter/module-tools';
+
+export default defineConfig({
+  output: {
+    buildConfig: [
+      {
+        buildType: 'bundle',
+        bundleOptions: {
+          skipDeps: false,
+        },
+      },
+    ],
+  },
+});
