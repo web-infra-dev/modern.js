@@ -22,5 +22,7 @@ module.exports = {
     'packages/toolkit/utils/tests/index.test.ts',
     // TODO: 很容易超时导致失败，暂时先绕过
     'packages/generator/generator-plugin/tests/getPackageMeta.test.ts',
+    // TODO: 后续 unbundle 不再维护，需和插件一起移除
+    'packages/cli/plugin-unbundle/*',
   ],
 };

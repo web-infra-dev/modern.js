@@ -1,4 +1,4 @@
 export { default as renderApp } from './customRender';
 export * from '@testing-library/react';
 
-export { request as testBff } from './bff/request';
+export { request as testBff } from './request';

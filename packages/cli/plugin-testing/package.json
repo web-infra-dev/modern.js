@@ -97,15 +97,15 @@
     "@modern-js/runtime-core": "workspace:^1.5.3",
     "@modern-js/utils": "workspace:^1.7.12",
     "@modern-js/webpack": "workspace:^1.12.0",
+    "@modern-js/babel-preset-app": "workspace:^1.5.0",
+    "@modern-js/plugin": "workspace:^1.4.1",
+    "@modern-js/server": "workspace:^1.5.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/testing-library__jest-dom": "^5.14.3",
-    "@modern-js/server": "workspace:^1.5.1",
     "jest-environment-node": "^27.2.2",
     "path-to-regexp": "^6.2.0",
     "supertest": "^6.1.6",
-    "@modern-js/babel-preset-app": "workspace:^1.5.0",
-    "@modern-js/plugin": "workspace:^1.4.1",
     "babel-jest": "^27.0.6",
     "enhanced-resolve": "^5.8.3",
     "identity-obj-proxy": "^3.0.0",
@@ -150,7 +150,7 @@
       ]
     },
     "test": {
-      "command": "jest --passWithNoTests",
+      "command": "jest",
       "files": [
         "src/**/*",
         "tsconfig.json",
