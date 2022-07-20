@@ -85,7 +85,7 @@
     "ws": "^7.4.3"
   },
   "devDependencies": {
-    "@modern-js/bff-utils": "workspace:*",
+    "@modern-js/bff-utils": "^1.3.0",
     "@modern-js/core": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/types": "workspace:*",
@@ -111,7 +111,7 @@
     "typescript": "^4"
   },
   "peerDependencies": {
-    "@modern-js/bff-utils": "workspace:^1.3.0",
+    "@modern-js/bff-utils": "^1.3.0",
     "typescript": "^4"
   },
   "publishConfig": {
