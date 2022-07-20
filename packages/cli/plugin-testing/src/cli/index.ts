@@ -5,13 +5,13 @@ import {
   isApiOnly,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
+import { getWebpackConfig, WebpackConfigTarget } from '@modern-js/webpack';
 import {
   testingHooks,
   TestConfigOperator,
   getModuleNameMapper,
   DEFAULT_RESOLVER_PATH,
-} from '@modern-js/testing';
-import { getWebpackConfig, WebpackConfigTarget } from '@modern-js/webpack';
+} from '../base';
 import { MODERNJS_CONFIG_KEY } from '../constant';
 import TestingBffPlugin from './bff';
 import test from './test';

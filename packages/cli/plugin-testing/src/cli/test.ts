@@ -1,7 +1,7 @@
 import path from 'path';
 import { compiler } from '@modern-js/babel-compiler';
-import { runTest } from '@modern-js/testing';
 import type { PluginAPI } from '@modern-js/core';
+import { runTest } from '../base';
 
 const test = async (api: PluginAPI) => {
   const userConfig = api.useResolvedConfigContext();

@@ -1,11 +1,11 @@
 import path from 'path';
+import type { CliPlugin } from '@modern-js/core';
+import { isApiOnly } from '@modern-js/utils';
 import {
   TestConfigOperator,
   getModuleNameMapper,
   DEFAULT_RESOLVER_PATH,
-} from '@modern-js/testing';
-import type { CliPlugin } from '@modern-js/core';
-import { isApiOnly } from '@modern-js/utils';
+} from '../../base';
 import { bff_info_key } from './constant';
 import { isBFFProject } from './utils';
 

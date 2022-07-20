@@ -345,10 +345,6 @@
       "path": "packages/generator/generators/test-generator"
     },
     {
-      "name": "@modern-js/testing",
-      "path": "packages/review/testing"
-    },
-    {
       "name": "@modern-js/tsconfig",
       "path": "packages/review/tsconfig"
     },

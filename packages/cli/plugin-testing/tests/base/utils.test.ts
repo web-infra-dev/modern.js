@@ -1,4 +1,4 @@
-import { getModuleNameMapper } from '../src/utils';
+import { getModuleNameMapper } from '../../src/base/utils';
 
 expect.addSnapshotSerializer({
   test: val => typeof val === 'string' && val.includes('\\'),

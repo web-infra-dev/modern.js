@@ -1,4 +1,4 @@
-import { TestConfigOperator } from '../src/config/testConfigOperator';
+import { TestConfigOperator } from '../../src/base/config/testConfigOperator';
 
 describe('testConfigOperator', () => {
   test('getFinalConfig when user jest config is object', () => {
