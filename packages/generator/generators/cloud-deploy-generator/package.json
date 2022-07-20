@@ -48,7 +48,7 @@
     "*.scss"
   ],
   "publishConfig": {
-    "main": "./dist/js/node/main.js",
+    "main": "./dist/index.js",
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
@@ -59,7 +59,8 @@
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "modern.config.js"
       ],
       "output": [
         "dist/**/*",

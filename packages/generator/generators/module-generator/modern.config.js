@@ -9,4 +9,9 @@ module.exports = {
       },
     ],
   },
+  tools: {
+    speedy: {
+      external: ['vm2'],
+    },
+  },
 };

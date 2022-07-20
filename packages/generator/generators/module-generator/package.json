@@ -51,7 +51,7 @@
     }
   },
   "publishConfig": {
-    "main": "./dist/js/node/main.js",
+    "main": "./dist/index.js",
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
@@ -62,7 +62,8 @@
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "modern.config.js"
       ],
       "output": [
         "dist/**/*",
