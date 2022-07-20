@@ -21,6 +21,8 @@ const findAppModule = async (apiDir: string) => {
 
   for (const filename of paths) {
     if (await fs.pathExists(filename)) {
+      // 每次获取 app.ts 的时候，避免使用缓存的 app.ts
+      delete require.cache[filename];
       return compatRequire(filename);
     }
   }
