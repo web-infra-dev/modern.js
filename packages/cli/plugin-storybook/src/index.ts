@@ -3,7 +3,6 @@ import {
   isTypescript,
   createRuntimeExportsUtils,
 } from '@modern-js/utils';
-import AnalyzePlugin from '@modern-js/plugin-analyze';
 import type { CliPlugin } from '@modern-js/core';
 
 const features: typeof import('./features') = Import.lazy(
@@ -13,7 +12,6 @@ const features: typeof import('./features') = Import.lazy(
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-storybook',
-  usePlugins: [AnalyzePlugin()],
   setup: api => ({
     config() {
       const appContext = api.useAppContext();

@@ -46,7 +46,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/plugin-analyze": "workspace:^1.5.0",
     "@modern-js/plugin-router": "workspace:^1.2.16",
     "@modern-js/plugin-state": "workspace:^1.2.10",
     "@modern-js/utils": "workspace:^1.7.12",
