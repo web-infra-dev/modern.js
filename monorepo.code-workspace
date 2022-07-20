@@ -49,10 +49,6 @@
       "path": "packages/server/bff-runtime"
     },
     {
-      "name": "@modern-js/bff-utils",
-      "path": "packages/server/bff-utils"
-    },
-    {
       "name": "@modern-js/bff-core",
       "path": "packages/server/bff-core"
     },
@@ -347,14 +343,6 @@
     {
       "name": "@modern-js/test-generator",
       "path": "packages/generator/generators/test-generator"
-    },
-    {
-      "name": "@modern-js/testing",
-      "path": "packages/review/testing"
-    },
-    {
-      "name": "@modern-js/testing-plugin-bff",
-      "path": "packages/review/testing-plugin-bff"
     },
     {
       "name": "@modern-js/tsconfig",
