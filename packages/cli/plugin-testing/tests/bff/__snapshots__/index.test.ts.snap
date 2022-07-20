@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`testing-plugin-bff setJestConfigForBFF 1`] = `
+Object {
+  "projects": Array [
+    Object {
+      "globals": Object {
+        "modern_bff_info": Object {
+          "appDir": "/cli/plugin-testing/tests/bff/fixtures/bff1",
+          "modernUserConfig": Object {},
+          "plugins": Array [],
+          "routes": Array [],
+        },
+      },
+      "moduleNameMapper": Object {},
+      "resolver": "/cli/plugin-testing/src/base/config/resolver.ts",
+      "rootDir": "/cli/plugin-testing/tests/bff/fixtures/bff1/api",
+      "setupFilesAfterEnv": Array [
+        "/cli/plugin-testing/src/cli/bff/setup.ts",
+      ],
+      "testEnvironment": "/cli/plugin-testing/src/cli/bff/env.ts",
+      "testMatch": Array [
+        "**/api/**/*.test.[jt]s",
+      ],
+      "transform": undefined,
+    },
+  ],
+}
+`;
+
+exports[`testing-plugin-bff testTimeout should not set in projects 1`] = `
+Object {
+  "projects": Array [
+    Object {
+      "globals": Object {
+        "modern_bff_info": Object {
+          "appDir": "/cli/plugin-testing/tests/bff/fixtures/bff1",
+          "modernUserConfig": Object {},
+          "plugins": Array [],
+          "routes": Array [],
+        },
+      },
+      "moduleNameMapper": Object {},
+      "resolver": "/cli/plugin-testing/src/base/config/resolver.ts",
+      "rootDir": "/cli/plugin-testing/tests/bff/fixtures/bff1/api",
+      "setupFilesAfterEnv": Array [
+        "/cli/plugin-testing/src/cli/bff/setup.ts",
+      ],
+      "testEnvironment": "/cli/plugin-testing/src/cli/bff/env.ts",
+      "testMatch": Array [
+        "**/api/**/*.test.[jt]s",
+      ],
+      "transform": undefined,
+    },
+  ],
+  "testTimeout": 1000,
+}
+`;
