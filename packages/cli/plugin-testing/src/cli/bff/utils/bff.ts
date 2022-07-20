@@ -3,7 +3,6 @@ import { chalk } from '@modern-js/utils';
 
 export const isBFFProject = (pwd: string) => {
   try {
-    // eslint-disable-next-line import/no-dynamic-require,@typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
     const packageJson = require(path.join(pwd, './package.json'));
 
     const { dependencies, devDependencies } = packageJson;

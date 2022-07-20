@@ -349,10 +349,6 @@
       "path": "packages/review/testing"
     },
     {
-      "name": "@modern-js/testing-plugin-bff",
-      "path": "packages/review/testing-plugin-bff"
-    },
-    {
       "name": "@modern-js/tsconfig",
       "path": "packages/review/tsconfig"
     },

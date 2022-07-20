@@ -1,5 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable @typescript-eslint/no-var-requires */
 import * as ptr from 'path-to-regexp';
 import * as mock_appModule from './app';
 
@@ -55,7 +53,6 @@ export default (
 
   files.forEach(mockedFile => {
     jest.mock(mockedFile, () => {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const supertest = require('supertest');
       return mock_apiInfosByFile[mockedFile].reduce<Record<string, any>>(
         (res, info) => {

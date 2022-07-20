@@ -131,5 +131,3 @@ export default (): CliPlugin => ({
     };
   },
 });
-
-export { request as testBff } from './utils';

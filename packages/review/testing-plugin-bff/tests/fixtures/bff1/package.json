@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "@modern-js/plugin-bff": "workspace:^1.2.1"
-  },
-  "devDependencies": {
-    "@modern-js/app-tools": "workspace:*"
-  }
-}

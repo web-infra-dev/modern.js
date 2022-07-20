@@ -12,8 +12,8 @@ import {
   DEFAULT_RESOLVER_PATH,
 } from '@modern-js/testing';
 import { getWebpackConfig, WebpackConfigTarget } from '@modern-js/webpack';
-import TestingBffPlugin from '@modern-js/testing-plugin-bff';
 import { MODERNJS_CONFIG_KEY } from '../constant';
+import TestingBffPlugin from './bff';
 import test from './test';
 
 export const mergeUserJestConfig = (testUtils: TestConfigOperator) => {
