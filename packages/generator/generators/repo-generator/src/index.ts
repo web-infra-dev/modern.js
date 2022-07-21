@@ -135,7 +135,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   mergeDefaultConfig(context);
 
   let generatorPlugin;
-  if (context.config.plugins.length > 0) {
+  if (context.config.plugins?.length > 0) {
     generatorPlugin = await handlePlugin(context, generator);
   }
 
