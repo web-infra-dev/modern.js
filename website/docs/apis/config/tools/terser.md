@@ -5,7 +5,7 @@ sidebar_label: terser
 # tools.terser
 
 :::info 适用的工程方案
-MWA
+应用工程
 :::
 
 - 类型： `Object | Function`

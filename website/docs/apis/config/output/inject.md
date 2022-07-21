@@ -5,7 +5,7 @@ sidebar_label: inject
 # output.inject
 
 :::info 适用的工程方案
-MWA。
+应用工程
 :::
 
 - 类型： `'head' | 'body'| 'true' | false`

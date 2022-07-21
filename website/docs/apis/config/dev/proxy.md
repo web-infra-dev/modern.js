@@ -6,7 +6,7 @@ sidebar_position: 1
 # dev.proxy
 
 :::info 适用的工程方案
-* MWA
+* 应用工程
 :::
 
 * 类型： `string | Object`

@@ -102,7 +102,7 @@ Modern.js 内置了 "@" 别名，指向 `src` 目录。
 
 ### App 入口
 
-在 MWA 项目中，推荐入口目录下只放置 `App` 文件，默认导出整个应用的根组件即可，如下:
+在应用工程中，推荐入口目录下只放置 `App` 文件，默认导出整个应用的根组件即可，如下:
 
 ```js title=src/App.jsx
 import React from 'react';

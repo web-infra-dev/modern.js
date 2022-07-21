@@ -5,7 +5,7 @@ sidebar_label: meta
 # output.meta
 
 :::info 适用的工程方案
-MWA
+应用工程
 :::
 
 - 类型：`Record<string, false | string | Record<string, string | boolean>>`

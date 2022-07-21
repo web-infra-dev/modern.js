@@ -5,7 +5,7 @@ sidebar_label: packageFields
 # output.packageFields
 
 :::info 适用的工程方案
-* 模块
+* 模块工程
 :::
 
 * 类型：`Object`

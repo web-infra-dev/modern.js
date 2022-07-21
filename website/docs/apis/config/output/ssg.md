@@ -4,7 +4,7 @@ sidebar_label: ssg
 # output.ssg
 
 :::info 适用的工程方案
-* MWA
+* 应用工程
 :::
 
 * 类型： `boolean` | `object` | `function`

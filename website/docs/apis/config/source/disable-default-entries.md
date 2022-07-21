@@ -6,7 +6,7 @@ sidebar_position: 7
 # source.disableDefaultEntries
 
 :::info 适用的工程方案
-* MWA
+* 应用工程
 :::
 
 * 类型： `boolean`

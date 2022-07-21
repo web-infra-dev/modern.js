@@ -5,7 +5,7 @@ sidebar_label: injectByEntries
 # output.injectByEntries
 
 :::info 适用的工程方案
-MWA
+应用工程
 :::
 
 - 类型： `Object`

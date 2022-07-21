@@ -6,13 +6,13 @@ sidebar_position: 2
 # source.envVars
 
 :::info 适用的工程方案
-MWA，模块。
+应用工程，模块工程
 :::
 
 - 类型： `string[]`
 - 默认值：
-  - MWA 工程方案中: `['NODE_ENV', 'BUILD_MODE']`
-  - 模块工程方案中: `[]`
+  - 应用工程中: `['NODE_ENV', 'BUILD_MODE']`
+  - 模块工程中: `[]`
 
 支持在非 Node 代码中使用 `process.env.*` 下的环境变量。
 

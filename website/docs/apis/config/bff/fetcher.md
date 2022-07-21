@@ -6,7 +6,7 @@ sidebar_position: 2
 # bff.fetcher
 
 :::info 适用的工程方案
-* MWA
+* 应用工程
 :::
 
 * 类型：`string`
@@ -15,7 +15,7 @@ sidebar_position: 2
   * Node.js 端：[node-fetch](https://github.com/node-fetch/node-fetch)
 
 :::caution 注意
-MWA 项目需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用了 BFF 功能。
+应用工程需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用了 BFF 功能。
 :::
 
 

@@ -6,8 +6,8 @@ sidebar_position: 1
 # source.alias
 
 :::info 适用的工程方案
-* MWA
-* 模块
+* 应用工程
+* 模块工程
 :::
 
 * 类型： `Object|Function`

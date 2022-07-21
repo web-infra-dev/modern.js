@@ -6,7 +6,7 @@ sidebar_position: 9
 # source.moduleScopes
 
 :::info 适用的工程方案
-MWA。
+应用工程
 :::
 
 - 类型： `Array<string | Regexp> | Function`

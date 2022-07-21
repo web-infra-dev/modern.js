@@ -5,7 +5,7 @@ sidebar_label: titleByEntries
 # output.titleByEntries
 
 :::info 适用的工程方案
-MWA
+应用工程
 :::
 
 - 类型： `Object`

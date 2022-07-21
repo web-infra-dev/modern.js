@@ -6,14 +6,14 @@ sidebar_position: 1
 # bff.proxy
 
 :::info 适用的工程方案
-* MWA
+* 应用工程
 :::
 
 * 类型：`Record<string, string>`
 * 默认值：`{}`
 
 :::info 补充信息
-MWA 项目需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用了 BFF 功能。
+应用工程需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用了 BFF 功能。
 :::
 
 通过简单配置，无需编写代码，Modern.js 会自动转发请求。发送给 Modern.js BFF server 的请求，会代理到指定的服务上。
