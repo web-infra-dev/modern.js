@@ -107,7 +107,7 @@ export default function (context: IPluginContext) {
         ],
         tools: {
           speedy: {
-            external: ['vm2'],
+            externals: ['vm2'],
           },
         },
       },
