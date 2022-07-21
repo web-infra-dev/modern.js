@@ -170,10 +170,11 @@ export default defineConfig({
       const entries = Object.keys(chain.entryPoints.entries());
 
       entries.forEach(entry => {
-        chain.plugin(`${CHAIN_ID.PLUGIN.HTML}-${entry}`).tap(options => ({
-          ...options,
-          inject: 'body',
-        }));
+        chain.plugin(`${CHAIN_ID.PLUGIN.HTML}-${entry}`).tap(options => {
+          // 注意：HtmlWebpackPlugin 的选项是一个数组
+          options[0].inject = 'body';
+          return options;
+        });
       });
     },
   },
