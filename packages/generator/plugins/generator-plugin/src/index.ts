@@ -83,21 +83,29 @@ export default function (context: IPluginContext) {
     const meta =
       pluginType === PluginType.Extend ? { extend } : { key, name, type };
     await api.updateJSONFile('package.json', {
-      files: ['/templates', '/dist/js/node/main.js'],
-      main: './dist/js/node/main.js',
+      files: ['/templates', '/dist/index.js'],
+      main: './dist/index.js',
       types: undefined,
       module: undefined,
       meta,
       'jsnext:modern': undefined,
       exports: undefined,
-      'scripts.prepare': `${packageManager as string} build && ${
-        packageManager as string
-      } build:csmith`,
-      'scripts.build:csmith': 'csmith-tools build',
+      'scripts.prepare': `${packageManager as string} build`,
       'devDependencies.@modern-js/generator-plugin': '^1.0.0',
-      'devDependencies.@modern-js/codesmith-tools': '^1.0.7',
       'dependencies.vm2': '^3.9.2',
       'modernConfig.output.packageMode': 'node-js',
+    });
+    api.updateModernConfig({
+      output: {
+        buildConfig: {
+          buildType: 'bundle',
+          sourceMap: false,
+          bundleOptions: {
+            skipDeps: false,
+            externals: ['vm2'],
+          },
+        },
+      },
     });
     api.rmDir('tests');
     api.rmFile('.npmignore');
