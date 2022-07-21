@@ -102,14 +102,10 @@ export default function (context: IPluginContext) {
             buildType: 'bundle',
             bundleOptions: {
               skipDeps: false,
+              externals: ['vm2'],
             },
           },
         ],
-        tools: {
-          speedy: {
-            externals: ['vm2'],
-          },
-        },
       },
     });
     api.rmDir('tests');

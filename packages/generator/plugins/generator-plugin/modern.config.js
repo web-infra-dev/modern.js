@@ -5,13 +5,9 @@ module.exports = {
         buildType: 'bundle',
         bundleOptions: {
           skipDeps: false,
+          externals: ['vm2'],
         },
       },
     ],
-  },
-  tools: {
-    speedy: {
-      external: ['vm2'],
-    },
   },
 };
