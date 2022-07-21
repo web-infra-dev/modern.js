@@ -99,6 +99,7 @@ export default function (context: IPluginContext) {
       output: {
         buildConfig: {
           buildType: 'bundle',
+          sourceMap: false,
           bundleOptions: {
             skipDeps: false,
             externals: ['vm2'],
