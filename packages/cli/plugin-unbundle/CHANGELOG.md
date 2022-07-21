@@ -1,5 +1,13 @@
 # @modern-js/plugin-unbundle
 
+## 1.5.0
+
+### Minor Changes
+
+- 10f4283: chore(testing): delete `@modern-js/bff-utils`
+
+  chore(testing): 删除 `@modern-js/bff-utils`
+
 ## 1.4.5
 
 ### Patch Changes
