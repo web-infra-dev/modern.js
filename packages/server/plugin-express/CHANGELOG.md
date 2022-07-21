@@ -1,5 +1,14 @@
 # @modern-js/plugin-express
 
+## 1.6.1
+
+### Patch Changes
+
+- 74f7fd7: fix: fix bff hot reload not works when has app.ts
+  fix: 修复有 app.ts 的时候， bff 热更新不生效的问题
+- Updated dependencies [74f7fd7]
+  - @modern-js/bff-core@1.1.3
+
 ## 1.6.0
 
 ### Minor Changes

@@ -1,5 +1,21 @@
 # @modern-js/plugin-testing
 
+## 1.6.0
+
+### Minor Changes
+
+- 10f4283: chore(testing): merge `@modern-js/testing-plugin-bff` to `@modern-js/plugin-testing`
+
+  chore(testing): 合并 `@modern-js/testing-plugin-bff` 到 `@modern-js/plugin-testing`
+
+- 10f4283: chore(testing): delete `@modern-js/bff-utils`
+
+  chore(testing): 删除 `@modern-js/bff-utils`
+
+- 10f4283: chore(testing): merge `@modern-js/testing` to `@modern-js/plugin-testing`
+
+  chore(testing): 合并 `@modern-js/testing` 到 `@modern-js/plugin-testing`
+
 ## 1.5.7
 
 ### Patch Changes

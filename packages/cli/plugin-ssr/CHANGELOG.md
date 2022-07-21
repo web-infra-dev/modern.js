@@ -1,5 +1,13 @@
 # @modern-js/plugin-ssr
 
+## 1.5.1
+
+### Patch Changes
+
+- b5a193c: fix: the `<title>` tag in html template will replace by empty content, when deveploper open ssr.
+
+  fix: 当开启 SSR 时，html 中的 `<title>` 标签将被空白内容替换。
+
 ## 1.5.0
 
 ### Minor Changes
