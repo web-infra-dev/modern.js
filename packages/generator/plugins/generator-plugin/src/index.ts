@@ -97,15 +97,13 @@ export default function (context: IPluginContext) {
     });
     api.updateModernConfig({
       output: {
-        buildConfig: [
-          {
-            buildType: 'bundle',
-            bundleOptions: {
-              skipDeps: false,
-              externals: ['vm2'],
-            },
+        buildConfig: {
+          buildType: 'bundle',
+          bundleOptions: {
+            skipDeps: false,
+            externals: ['vm2'],
           },
-        ],
+        },
       },
     });
     api.rmDir('tests');

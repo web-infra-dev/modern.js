@@ -1,12 +1,10 @@
 module.exports = {
   output: {
-    buildConfig: [
-      {
-        buildType: 'bundle',
-        bundleOptions: {
-          skipDeps: false,
-        },
+    buildConfig: {
+      buildType: 'bundle',
+      bundleOptions: {
+        skipDeps: false,
       },
-    ],
+    },
   },
 };
