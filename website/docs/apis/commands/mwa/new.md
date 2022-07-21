@@ -5,7 +5,7 @@ sidebar_position: 2
 ```bash
 Usage: modern new [options]
 
-MWA 项目中中执行生成器
+应用工程中执行生成器
 
 Options:
   -d, --debug            开启 Debug 模式，打印调试日志信息 (default: false)
@@ -25,7 +25,7 @@ import CommandTip from '@site/docs/components/command-tip.md'
 
 ### 添加入口
 
-在 MWA 项目中，执行 `new` 命令添加入口如下：
+在应用工程中，执行 `new` 命令添加入口如下：
 
 ```bash
 $ npx modern new
@@ -37,7 +37,7 @@ $ npx modern new
 
 ### 启用启用可选功能
 
-在 MWA 应用项目中，执行 `new` 命令启用可选能力如下：
+在应用工程中，执行 `new` 命令启用可选能力如下：
 
 ```bash
 $ npx modern new

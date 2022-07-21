@@ -5,7 +5,7 @@ sidebar_label: templateParameters
 # output.templateParameters
 
 :::info 适用的工程方案
-MWA
+应用工程
 :::
 
 定义 HTML 模板中的参数，对应 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 的 `templateParameters` 配置项。

@@ -5,7 +5,7 @@ sidebar_label: templateParametersByEntries
 # output.templateParametersByEntries
 
 :::info 适用的工程方案
-MWA
+应用工程
 :::
 
 用于在多页面的场景下，为不同的页面设置不同的 HTML 模板参数。

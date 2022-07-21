@@ -6,14 +6,14 @@ sidebar_position: 1
 # bff.prefix
 
 :::info 适用的工程方案
-* MWA
+* 应用工程
 :::
 
 * 类型：`string`
 * 默认值：`/api`
 
 :::caution 注意
-MWA 项目需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用了 BFF 功能。
+应用工程需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用了 BFF 功能。
 :::
 
 默认情况下，BFF API 目录下的路由访问前缀是 `/api`, 如下目录结构：

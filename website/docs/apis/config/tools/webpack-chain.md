@@ -5,7 +5,7 @@ sidebar_label: webpackChain
 # tools.webpackChain
 
 :::info 适用的工程方案
-MWA。
+应用工程
 :::
 
 - 类型： `(chain, { env, name, webpack, CHAIN_ID }) => void`

@@ -4,7 +4,7 @@ sidebar_position: 5
 
 # Hook API
 
-在 Modern.js 中主要构建了三套 Manager 模型：CLI、Runtime、Server，其中 CLI 是三套工程方案都有的，而 Runtime、Server 则是 MWA 独有的，不同的工程方案中 Manager 模型的功能是不同的。
+在 Modern.js 中主要构建了三套 Manager 模型：CLI、Runtime、Server，其中 CLI 是三套工程方案都有的，而 Runtime、Server 则是应用工程独有的，不同的工程方案中 Manager 模型的功能是不同的。
 
 ## 基础
 
@@ -190,15 +190,15 @@ export default (): CliPlugin => ({
 });
 ```
 
-## MWA 工程方案
+## 应用工程方案
 
-MWA 工程方案支持添加到项目中的插件主要有三种：CLI 插件、 Server 插件、Runtime 插件。他们是基于同一套插件系统实现的，但它们所支持的 Hook 不同、功能不同、运行的时机也不同。
+应用工程支持添加到项目中的插件主要有三种：CLI 插件、 Server 插件、Runtime 插件。他们是基于同一套插件系统实现的，但它们所支持的 Hook 不同、功能不同、运行的时机也不同。
 
 不同的 Manager 对应 Hook 模型和运行时机是不同的，所以接下来会对 CLI、Server、Runtime 的 Hook 模型分开讨论。
 
 ### CLI
 
-MWA 工程方案中除了上面提到的基础的 CLI Hook 之外还有一些 MWA 场景下特定的 Hook。
+应用工程中除了上面提到的基础的 CLI Hook 之外还有一些 MWA 场景下特定的 Hook。
 
 #### `beforeDev`
 
@@ -574,7 +574,7 @@ export default (): CliPlugin => ({
 
 ### Server
 
-MWA 工程方案中的 Server 部分也支持了插件。其中的 Hook 将会提供一些特定阶段调用和特殊功能的 Hook。
+应用工程中的 Server 部分也支持了插件。其中的 Hook 将会提供一些特定阶段调用和特殊功能的 Hook。
 
 #### `create`
 

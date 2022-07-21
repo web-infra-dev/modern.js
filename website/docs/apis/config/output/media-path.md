@@ -5,7 +5,7 @@ sidebar_label: mediaPath
 # output.mediaPath
 
 :::info 适用的工程方案
-* MWA
+* 应用工程
 :::
 
 * 类型： `string`

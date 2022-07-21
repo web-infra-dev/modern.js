@@ -6,14 +6,14 @@ sidebar_position: 4
 # source.designSystem
 
 :::info 适用的工程方案
-* MWA
-* 模块
+* 应用工程
+* 模块工程
 :::
 
 :::caution 注意
-- MWA 项目需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用 Tailwind CSS 功能。
+- 应用工程需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用 Tailwind CSS 功能。
 
-- 模块项目需要请确保使用【[new](/docs/apis/commands/module/new)】 启用 Tailwind CSS 功能。
+- 模块工程需要请确保使用【[new](/docs/apis/commands/module/new)】 启用 Tailwind CSS 功能。
 :::
 
 

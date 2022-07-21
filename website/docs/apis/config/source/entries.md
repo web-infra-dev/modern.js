@@ -6,7 +6,7 @@ sidebar_position: 6
 # source.entries
 
 :::info 适用的工程方案
-* MWA
+* 应用工程
 :::
 
 * 类型： `Object = { [ entryName: string ]: string | Object }`

@@ -5,7 +5,7 @@ sidebar_label: bundlelessOptions
 # buildConfig.bundlelessOptions
 
 :::info 适用的工程方案
-* 模块
+* 模块工程
 :::
 
 `bundlelessOptions` 用来定制 Bundleless 构建相关的配置，当 `{ buildType: 'bundleless' }` 的时候，该配置才会生效。
