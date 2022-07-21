@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.5.0",
+  "version": "1.5.1",
   "jsnext:source": "./src/index.tsx",
   "types": "./src/index.tsx",
   "main": "./dist/js/node/index.node.js",

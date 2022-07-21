@@ -1,5 +1,12 @@
 # @modern-js/plugin-storybook
 
+## 1.3.18
+
+### Patch Changes
+
+- b2f90f8: feat: add addRuntimeExports hooks for module-tools
+  feat: 为 module-tools 添加 addRuntimeExports 钩子
+
 ## 1.3.17
 
 ### Patch Changes
