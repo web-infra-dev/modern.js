@@ -5,7 +5,7 @@ sidebar_label: target
 # buildConfig.target
 
 :::info 适用的工程方案
-* 模块
+* 模块工程
 :::
 
 * 类型： `'es5' | 'es6' | 'es2015' | 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'esnext'`

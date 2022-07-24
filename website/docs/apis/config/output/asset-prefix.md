@@ -6,7 +6,7 @@ sidebar_position: 1
 # output.assetPrefix
 
 :::info 适用的工程方案
-MWA。
+应用工程
 :::
 
 - 类型： `string`

@@ -19,7 +19,7 @@ import CommandTip from '@site/docs/components/command-tip.md'
 
 <CommandTip />
 
-`modern new` 命令在 monorepo 中可以用来添加 MWA 应用和可复用的模块：
+`modern new` 命令在 monorepo 中可以用来添加应用工程和可复用的模块：
 
 ```bash
 $ modern new
@@ -29,7 +29,8 @@ $ modern new
   模块
   模块（内部）
 ```
-MWA 应用默认会添加到 `apps` 目录， 测试应用会添加到 `examples` 目录，公共模块默认会添加到 `packages` 目录， 内部模块默认会添加到 `features` 目录。
+
+应用工程默认会添加到 `apps` 目录， 测试应用会添加到 `examples` 目录，公共模块默认会添加到 `packages` 目录， 内部模块默认会添加到 `features` 目录。
 
 内部模块在 monorepo 的应用里面使用时，可以无需构建直接使用源码。
 

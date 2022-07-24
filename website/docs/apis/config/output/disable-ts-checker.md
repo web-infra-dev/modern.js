@@ -4,9 +4,8 @@ sidebar_label: disableTsChecker
 
 # output.disableTsChecker
 
-:::info
-适用的工程方案：
-MWA，模块。
+:::info 适用的工程方案
+应用工程，模块工程
 :::
 
 - 类型： `boolean`

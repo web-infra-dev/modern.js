@@ -13,28 +13,26 @@
   ],
   "version": "1.3.5",
   "jsnext:source": "./src/index.ts",
-  "main": "./dist/js/node/index.js",
+  "main": "./src/index.ts",
   "files": [
     "/templates",
-    "/dist/js/node/main.js"
+    "/dist/index.js"
   ],
   "scripts": {
-    "prepare": "pnpm build && pnpm build:csmith",
+    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build --platform",
     "new": "modern new",
     "build": "wireit",
-    "build:csmith": "wireit",
     "test": "wireit"
   },
   "devDependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/codesmith": "^1.3.0",
-    "@modern-js/codesmith-api-app": "^1.2.5",
-    "@modern-js/codesmith-tools": "^1.2.1",
+    "@modern-js/codesmith": "^1.4.0",
+    "@modern-js/codesmith-api-app": "^1.3.0",
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/generator-utils": "workspace:*",
     "@modern-js/dependence-generator": "workspace:*",
-    "@modern-js/codesmith-api-json": "^1.2.2",
+    "@modern-js/codesmith-api-json": "^1.3.0",
     "@types/jest": "^27",
     "@types/node": "^14",
     "typescript": "^4",
@@ -50,7 +48,7 @@
     }
   },
   "publishConfig": {
-    "main": "./dist/js/node/main.js",
+    "main": "./dist/index.js",
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
@@ -61,22 +59,12 @@
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "modern.config.js"
       ],
       "output": [
         "dist/**/*",
         "!dist/node/main.js"
-      ]
-    },
-    "build:csmith": {
-      "command": "csmith-tools build",
-      "files": [
-        "src/**/*",
-        "tsconfig.json",
-        "package.json"
-      ],
-      "output": [
-        "dist/node/main.js"
       ]
     },
     "test": {

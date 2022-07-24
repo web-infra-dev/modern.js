@@ -4,7 +4,7 @@ sidebar_label: enableInlineStyles
 # output.enableInlineStyles
 
 :::info 适用的工程方案
-* MWA
+* 应用工程
 :::
 
 :::caution 注意

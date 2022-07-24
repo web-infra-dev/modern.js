@@ -76,7 +76,7 @@ pnpm run lint:error
 
 ### `src/.eslintrc.json` 文件
 
-Modern.js 的 MWA 项目、模块项目，源代码目录里都会默认有这个配置文件，是针对 Universal JS 代码设计的。
+Modern.js 的应用工程、模块工程，源代码目录里都会默认有这个配置文件，是针对 Universal JS 代码设计的。
 
 :::info 注
 Universal JS 代码是既能浏览器端也能在服务器端运行的代码。

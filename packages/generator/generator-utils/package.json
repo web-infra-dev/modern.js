@@ -15,7 +15,6 @@
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
-  "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": {
@@ -24,7 +23,7 @@
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
-      "default": "./dist/js/treeshaking/index.js"
+      "default": "./dist/js/node/index.js"
     }
   },
   "scripts": {
@@ -40,7 +39,7 @@
     "@modern-js/utils": "workspace:^1.7.12"
   },
   "devDependencies": {
-    "@modern-js/codesmith": "^1.3.0",
+    "@modern-js/codesmith": "^1.4.0",
     "@types/jest": "^27",
     "@types/node": "^14",
     "typescript": "^4",

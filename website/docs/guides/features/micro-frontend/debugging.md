@@ -73,7 +73,7 @@ export default defineConfig({
 
 #### 子应用代码
 
-子应用在代码层面和 MWA 是完全一致的。
+子应用在代码层面和应用工程是完全一致的。
 
 ```tsx title=src/App.tsx
 function App() {

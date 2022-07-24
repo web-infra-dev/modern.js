@@ -6,7 +6,7 @@ sidebar_position: 3
 # dev.assetPrefix
 
 :::info 适用的工程方案
-MWA。
+应用工程
 :::
 
 - 类型： `boolean | string`

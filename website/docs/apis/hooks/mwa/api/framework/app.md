@@ -28,9 +28,9 @@ export default app
 
 ## [Nest](https://nestjs.com/)
 
-Nest 虽然有定制的启动器，但本质与 Express、Koa 相同，所以 MWA 沿用了 Nest 定制启动器的默认入口：`api/main.ts`。
+Nest 虽然有定制的启动器，但本质与 Express、Koa 相同，所以应用工程沿用了 Nest 定制启动器的默认入口：`api/main.ts`。
 
-按照 Nest 官方生成器生成的项目结构，在 MWA 中使用 Nest 框架写法时，目录结构为：
+按照 Nest 官方生成器生成的项目结构，在应用工程中使用 Nest 框架写法时，目录结构为：
 
 ```markdown
 api
@@ -42,7 +42,7 @@ api
 └── main.ts
 ```
 
-其中 `api/main.ts` 中的内容与 Nest 官方生成器生成模版有所不同，MWA 中支持了两种模式：
+其中 `api/main.ts` 中的内容与 Nest 官方生成器生成模版有所不同，应用工程中支持了两种模式：
 
 不包含内置 Module：
 

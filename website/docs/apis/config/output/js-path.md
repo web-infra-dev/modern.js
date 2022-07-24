@@ -5,20 +5,20 @@ sidebar_label: jsPath
 # output.jsPath
 
 :::info 适用的工程方案
-* MWA
-* 模块
+* 应用工程
+* 模块工程
 :::
 
 * 类型： `string`
 * 默认值：
-  - MWA 项目中: `static/js`
-  - 模块工程方案中: `js`
+  - 应用工程中: `static/js`
+  - 模块工程中: `js`
 
 设置 js 文件在输出目录中的相对路径。
 
-### MWA 工程方案
+### 应用工程
 
-默认情况下在 MWA 项目中，执行 `yarn build` 之后， js 产物在 `dist` 目录下的结构如下：
+默认情况下在应用工程中，执行 `yarn build` 之后， js 产物在 `dist` 目录下的结构如下：
 
 ```bash
 └── static

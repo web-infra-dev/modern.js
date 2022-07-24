@@ -13,7 +13,7 @@ sidebar_position: 4
 - 可通过 [**modern.config.js**](#) 关闭插件。
 :::
 
-[**actions**](./model_#actions) 是用来同步修改 **state** 的（纯函数、无副作用）。但应用开发的过程中，会有大量的**异步请求或者封装某些操作**等各种副作用的调用，所以这里将各种副作用的函数（**Effect Handler**）封装在 **effects** 模块。
+[**actions**](./model_#actions) 是用来同步修改 **state** 的（纯函数、无副作用）。但应用开发的过程中，会有大量的**异步请求或者封装某些操作**等各种副作用的调用，所以这里将各种副作用的函数（**Effect Handler**）封装在 **effects** 模块工程。
 
 ## 示例
 

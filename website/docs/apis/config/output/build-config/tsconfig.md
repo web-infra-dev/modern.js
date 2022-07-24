@@ -5,7 +5,7 @@ sidebar_label: tsconfig
 # buildConfig.tsconfig
 
 :::info 适用的工程方案
-* 模块
+* 模块工程
 :::
 
 * 类型： `string`

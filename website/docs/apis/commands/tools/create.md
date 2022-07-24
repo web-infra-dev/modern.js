@@ -18,8 +18,8 @@ Usage: create [projectDir]
 
 Options:
   -c, --config <config>  创建项目默认配置(JSON 字符串) (default: "{}")
-  --mwa                  一键创建 MWA 应用(使用默认配置) (default: false)
-  --module               一键创建模块化应用(使用默认配置) (default: false)
+  --mwa                  一键创建应用工程(使用默认配置) (default: false)
+  --module               一键创建模块工程(使用默认配置) (default: false)
   --monorepo             一键常见 Monorepo 应用(使用默认配置) (default: false)
   --dist-tag <distTag>   生成项目时生成器使用特殊的 npm Tag (default: "")
   --registry <registry>  在创建过程中定制 npm Registry (default: "")
