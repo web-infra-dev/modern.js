@@ -11,7 +11,6 @@ const gen: typeof import('./generate') = Import.lazy('./generate', require);
 
 export type GenerateOptions = {
   disableTsChecker: boolean;
-  preview: boolean;
   modernConfig: NormalizedConfig;
   stories: string[];
   isTsProject: boolean;
@@ -19,7 +18,6 @@ export type GenerateOptions = {
 
 const defaultOptions = {
   disableTsChecker: false,
-  preview: false,
   stories: [],
   isTsProject: false,
 };
@@ -40,13 +38,7 @@ export const generateConfig = async (
   customOptions: Partial<GenerateOptions> = {},
 ) => {
   const options = { ...defaultOptions, ...customOptions };
-  const {
-    disableTsChecker,
-    preview,
-    stories,
-    modernConfig = {},
-    isTsProject,
-  } = options;
+  const { disableTsChecker, stories, modernConfig = {}, isTsProject } = options;
   const userConfigDir = path.resolve(
     appDirectory,
     constants.STORYBOOK_USER_CONFIG_PATH,
@@ -68,13 +60,11 @@ export const generateConfig = async (
     isTsProject,
   });
 
-  if (preview) {
-    await genPreviewFile(
-      appDirectory,
-      modernConfig as NormalizedConfig,
-      configDir,
-    );
-  }
+  await genPreviewFile(
+    appDirectory,
+    modernConfig as NormalizedConfig,
+    configDir,
+  );
 
   return configDir;
 };
