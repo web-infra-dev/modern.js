@@ -1,7 +1,7 @@
 import { manager } from '@modern-js/core';
-import plugin, { useHistory, useParams } from '../src';
-import cliPlugin from '../src/cli';
-import RuntimePlugin from '../../plugin-runtime/src/cli';
+import plugin, { useHistory, useParams } from '../../src/router';
+import cliPlugin from '../../src/router/cli';
+import RuntimePlugin from '../../src/cli';
 
 describe('plugin-router', () => {
   it('default', () => {

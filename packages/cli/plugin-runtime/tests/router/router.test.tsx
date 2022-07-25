@@ -2,9 +2,9 @@ import React from 'react';
 import { createApp, createPlugin } from '@modern-js/runtime-core';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { createBrowserHistory } from 'history';
-import createRouterPlugin, { useLocation } from '../src/runtime';
-import { useHistory } from '../src';
-import { DefaultNotFound } from '../src/runtime/DefaultNotFound';
+import createRouterPlugin, { useLocation } from '../../src/router/runtime';
+import { useHistory } from '../../src/router';
+import { DefaultNotFound } from '../../src/router/runtime/DefaultNotFound';
 
 describe('@modern-js/plugin-router', () => {
   it('base usage', () => {

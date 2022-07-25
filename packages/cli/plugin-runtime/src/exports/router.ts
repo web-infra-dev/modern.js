@@ -1,1 +1,3 @@
-export * from '@modern-js/plugin-router';
+export { default as router } from '../router';
+
+export * from '../router';

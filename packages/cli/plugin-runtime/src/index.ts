@@ -1,5 +1,5 @@
-import type { RouterConfig } from '@modern-js/plugin-router';
 import type { StateConfig } from '@modern-js/plugin-state';
+import type { RouterConfig } from './router';
 
 export type { RuntimeContext, TRuntimeContext } from '@modern-js/runtime-core';
 export {

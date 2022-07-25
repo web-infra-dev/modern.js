@@ -245,10 +245,6 @@
       "path": "packages/cli/plugin-proxy"
     },
     {
-      "name": "@modern-js/plugin-router",
-      "path": "packages/cli/plugin-router"
-    },
-    {
       "name": "@modern-js/plugin-sass",
       "path": "packages/cli/plugin-sass"
     },

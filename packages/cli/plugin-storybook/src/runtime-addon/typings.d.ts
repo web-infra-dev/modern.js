@@ -8,6 +8,5 @@ declare module '@modern-js/runtime/model' {
 
 declare module '@modern-js/runtime/plugins' {
   export { state } from '@modern-js/plugin-state';
-  // TODO: 导出正确的 router
-  export { default as router } from '@modern-js/plugin-router';
+  export { router } from '@modern-js/runtime/router';
 }

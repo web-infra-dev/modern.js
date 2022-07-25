@@ -1,4 +1,8 @@
-import { standardSlash, urlJoin, getLocation } from '../src/runtime/utils';
+import {
+  standardSlash,
+  urlJoin,
+  getLocation,
+} from '../../src/router/runtime/utils';
 
 describe('test runtime router utils', () => {
   it('should get location correctly', () => {
