@@ -29,6 +29,8 @@
   --ifm-code-padding-horizontal: 0.4rem;
   --ifm-code-padding-vertical: 0.2rem;
   --ifm-line-height-base: 1.8;
+  --ifm-hr-border-color: #f1f1f1;
+  --ifm-hr-margin-vertical: 3rem;
 }
 
 html[data-theme='dark'] {

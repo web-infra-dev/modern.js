@@ -23,9 +23,13 @@ pnpm update "@modern-js/*" -r
 - Modern.js 发版日志：[Modern.js/releases](https://github.com/modern-js-dev/modern.js/releases)。
 - 各个 package 下的 `CHANGELOG.md` 文件。
 
+---
+
 ### 如何锁定项目中的某个依赖版本？
 
 如果需要锁定项目中的某个依赖的版本，可以通过以下方式进行操作：
+
+**yarn**
 
 对于使用 yarn 的项目，请在**项目根目录**的 `package.json` 中添加以下配置，然后重新执行 `yarn`：
 
@@ -36,6 +40,8 @@ pnpm update "@modern-js/*" -r
   }
 }
 ```
+
+**pnpm**
 
 对于使用 pnpm 的项目，请在**项目根目录**的 `package.json` 中添加以下配置，然后重新执行 `pnpm i`：
 
@@ -48,6 +54,8 @@ pnpm update "@modern-js/*" -r
   }
 }
 ```
+
+**npm**
 
 对于使用 npm 的项目，请在**项目根目录**的 `package.json` 中添加以下配置，然后重新执行 `npm i`：
 
@@ -62,6 +70,40 @@ pnpm update "@modern-js/*" -r
 :::info
 对于 monorepo 场景，只能在项目根目录的 `package.json` 中锁定依赖版本，并且会影响 monorepo 中的所有 package。
 :::
+
+---
+
+### 如何查看项目里某个依赖实际安装的版本？
+
+可以使用包管理器自带的 `ls` 命令来查看项目里依赖的版本。
+
+下面是一些基本的示例，详细用法请查看各个包管理器的文档。
+
+**npm / yarn**
+
+对于使用 npm 或 yarn 的项目，可以使用 `npm ls` 命令。
+
+比如执行 `npm ls @modern-js/core`，可以看到如下结果：
+
+```
+project
+└─┬ @modern-js/app-tools@1.6.10
+  └── @modern-js/core@1.12.4
+```
+
+**pnpm**
+
+对于使用 pnpm 的项目，可以使用 `pnpm ls` 命令。
+
+比如执行 `pnpm ls @modern-js/core --depth Infinity`，可以看到如下结果：
+
+```
+devDependencies:
+@modern-js/app-tools 1.7.0
+└── @modern-js/core 1.13.0
+```
+
+---
 
 ### 安装依赖时提示 The engine "node" is incompatible？
 
@@ -91,6 +133,8 @@ nvm default 14
 ```
 
 在本地开发环境推荐使用 [fnm](https://github.com/Schniz/fnm)，它的用法与 nvm 相似，但拥有比 nvm 更好的性能。
+
+---
 
 ### 升级依赖后出现 ReactNode 类型错误？
 
