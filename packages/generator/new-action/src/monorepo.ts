@@ -50,9 +50,14 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
   // Determine if the plugin is a Monorepo dependency
   const plugins = plugin.map(plugin => {
     try {
-      return path.join(require.resolve(plugin), '../../../../');
+      return path.join(require.resolve(plugin), '../../');
     } catch (e) {
-      return plugin;
+      try {
+        // 兼容旧版打包路径
+        return path.join(require.resolve(plugin), '../../../../');
+      } catch (e) {
+        return plugin;
+      }
     }
   });
 
