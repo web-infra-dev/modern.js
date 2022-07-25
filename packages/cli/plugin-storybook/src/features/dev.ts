@@ -46,7 +46,6 @@ export const runDev = async (
 
   const configDir = await gen.generateConfig(appDirectory, {
     disableTsChecker,
-    preview: true,
     isTsProject,
     stories,
     // TODO: 运行runtime相关功能的时候再处理

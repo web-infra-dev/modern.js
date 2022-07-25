@@ -101,10 +101,6 @@
       "path": "packages/generator/generators/eslint-generator"
     },
     {
-      "name": "@modern-js/esmpack",
-      "path": "packages/toolkit/esmpack"
-    },
-    {
       "name": "@modern-js/generator-cases",
       "path": "packages/generator/generator-cases"
     },
@@ -287,10 +283,6 @@
     {
       "name": "@modern-js/plugin-testing",
       "path": "packages/cli/plugin-testing"
-    },
-    {
-      "name": "@modern-js/plugin-unbundle",
-      "path": "packages/cli/plugin-unbundle"
     },
     {
       "name": "@modern-js/repo-generator",

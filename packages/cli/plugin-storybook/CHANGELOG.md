@@ -1,5 +1,12 @@
 # @modern-js/plugin-storybook
 
+## 1.3.19
+
+### Patch Changes
+
+- 4ec69bd0f: fix: remove preview check
+  fix: 移除 preview 检查
+
 ## 1.3.18
 
 ### Patch Changes

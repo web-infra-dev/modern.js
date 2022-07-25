@@ -1,4 +1,4 @@
-import { match } from '@modern-js/runtime/server';
+import { match } from '@modern-js/bff-runtime';
 
 export const get = ({ query }: { query: Record<string, unknown> }) => ({
   query,
