@@ -257,10 +257,6 @@
       "path": "packages/cli/plugin-ssg"
     },
     {
-      "name": "@modern-js/plugin-state",
-      "path": "packages/cli/plugin-state"
-    },
-    {
       "name": "@modern-js/plugin-static-hosting",
       "path": "packages/cli/static-hosting"
     },

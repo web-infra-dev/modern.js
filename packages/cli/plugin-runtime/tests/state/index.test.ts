@@ -1,5 +1,5 @@
-import plugin from '../src/runtime';
-import cliPlugin from '../src/cli';
+import plugin from '../../src/state/runtime';
+import cliPlugin from '../../src/state/cli';
 
 describe('plugin-state', () => {
   it('default', () => {

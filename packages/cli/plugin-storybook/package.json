@@ -46,7 +46,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/plugin-state": "workspace:^1.2.10",
     "@modern-js/utils": "workspace:^1.7.12",
     "@modern-js/webpack": "workspace:^1.12.1",
     "@storybook/addon-actions": "^6.3.8",

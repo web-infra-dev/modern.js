@@ -1,3 +1,3 @@
-import '@modern-js/plugin-state/type';
+import '../dist/types/state';
 
 export * from '../dist/types/exports/model';
