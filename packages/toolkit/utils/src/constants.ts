@@ -103,7 +103,6 @@ export const INTERNAL_PLUGINS: {
     cli: '@modern-js/plugin-nest/cli',
     server: '@modern-js/plugin-nest/server',
   },
-  '@modern-js/plugin-unbundle': { cli: '@modern-js/plugin-unbundle' },
   '@modern-js/plugin-server': {
     cli: '@modern-js/plugin-server/cli',
     server: '@modern-js/plugin-server/server',
@@ -111,7 +110,6 @@ export const INTERNAL_PLUGINS: {
   '@modern-js/plugin-garfish': {
     cli: '@modern-js/plugin-garfish/cli',
   },
-  '@modern-js/plugin-jarvis': { cli: '@modern-js/plugin-jarvis/cli' },
   '@modern-js/plugin-tailwindcss': { cli: '@modern-js/plugin-tailwindcss/cli' },
   '@modern-js/plugin-lambda-fc': { cli: '@modern-js/plugin-lambda-fc/cli' },
   '@modern-js/plugin-lambda-scf': { cli: '@modern-js/plugin-lambda-scf/cli' },
@@ -200,27 +198,6 @@ export const PLUGIN_SCHEMAS = {
     {
       target: 'dev.proxy',
       schema: { typeof: ['string', 'object'] },
-    },
-  ],
-  '@modern-js/plugin-unbundle': [
-    {
-      target: 'output.disableAutoImportStyle',
-      schema: { type: 'boolean' },
-    },
-    {
-      target: 'dev.unbundle',
-      schema: {
-        type: 'object',
-        properties: {
-          ignore: {
-            type: ['string', 'array'],
-            items: { type: 'string' },
-          },
-          ignoreModuleCache: { type: 'boolean' },
-          clearPdnCache: { type: 'boolean' },
-          pdnHost: { type: 'string' },
-        },
-      },
     },
   ],
   '@modern-js/plugin-ssg': [
