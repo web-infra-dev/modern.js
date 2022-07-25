@@ -15,23 +15,18 @@ export function applyCSSLoaders({ chain, config, appContext }: ChainUtils) {
     isProd() && isExtractCSS && !config.output?.disableSourceMap;
 
   // CSS modules
-  createCSSRule(
+  createCSSRule({
     chain,
-    {
-      config,
-      appDirectory: appContext.appDirectory,
-    },
-    {
-      name: CHAIN_ID.ONE_OF.CSS_MODULES,
-      test: disableCssModuleExtension ? CSS_REGEX : CSS_MODULE_REGEX,
-      exclude: disableCssModuleExtension
-        ? [isNodeModulesCss, GLOBAL_CSS_REGEX]
-        : [],
-      genTSD: config.output?.enableCssModuleTSDeclaration,
-    },
-    {
+    config,
+    name: CHAIN_ID.ONE_OF.CSS_MODULES,
+    test: disableCssModuleExtension ? CSS_REGEX : CSS_MODULE_REGEX,
+    genTSD: config.output?.enableCssModuleTSDeclaration,
+    exclude: disableCssModuleExtension
+      ? [isNodeModulesCss, GLOBAL_CSS_REGEX]
+      : [],
+    appDirectory: appContext.appDirectory,
+    cssLoaderOptions: {
       importLoaders: 1,
-      esModule: false,
       modules: {
         localIdentName: config.output
           ? config.output.cssModuleLocalIdentName!
@@ -40,25 +35,20 @@ export function applyCSSLoaders({ chain, config, appContext }: ChainUtils) {
       },
       sourceMap: enableSourceMap,
     },
-  );
+  });
 
   // CSS (not modules)
-  createCSSRule(
+  createCSSRule({
     chain,
-    {
-      config,
-      appDirectory: appContext.appDirectory,
-    },
-    {
-      name: CHAIN_ID.ONE_OF.CSS,
-      test: CSS_REGEX,
-    },
-    {
+    name: CHAIN_ID.ONE_OF.CSS,
+    test: CSS_REGEX,
+    config,
+    appDirectory: appContext.appDirectory,
+    cssLoaderOptions: {
       importLoaders: 1,
-      esModule: false,
       sourceMap: enableSourceMap,
     },
-  );
+  });
 }
 
 export function applyCSSExtractPlugin({
