@@ -19,8 +19,4 @@ module.exports = {
     '<rootDir>/packages/**/src/**/*.test.[jt]s?(x)',
     '<rootDir>/packages/**/tests/**/*.test.[jt]s?(x)',
   ],
-  modulePathIgnorePatterns: [
-    // TODO: 后续 unbundle 不再维护，需和插件一起移除
-    'packages/cli/plugin-unbundle/*',
-  ],
 };
