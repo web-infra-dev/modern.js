@@ -7,7 +7,7 @@ import {
 import type { CliPlugin } from '@modern-js/core';
 import PluginState from '@modern-js/plugin-state/cli';
 import PluginRouter from '@modern-js/plugin-router/cli';
-import PluginSSR from '@modern-js/plugin-ssr/cli';
+import PluginSSR from '../ssr/cli';
 
 export default (): CliPlugin => ({
   name: '@modern-js/runtime',

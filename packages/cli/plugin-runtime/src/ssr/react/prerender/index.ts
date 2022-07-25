@@ -68,7 +68,6 @@ function factory(Component: React.ComponentType<any>) {
       return (Component as any).canUseDOM;
     }
 
-    // eslint-disable-next-line react/sort-comp
     static peek: any = (Component as any).peek;
 
     static rewind: () => SprProps = (Component as any).rewind;

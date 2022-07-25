@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-require-imports */
 import path from 'path';
 import { registerPrefetch } from '@modern-js/runtime-core';
 import type { Plugin } from '@modern-js/runtime-core';
@@ -57,3 +59,5 @@ const plugin = (): Plugin => ({
 
 export default plugin;
 export * from './react';
+/* eslint-enable @typescript-eslint/no-require-imports */
+/* eslint-enable @typescript-eslint/no-var-requires */

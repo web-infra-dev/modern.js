@@ -261,10 +261,6 @@
       "path": "packages/cli/plugin-ssg"
     },
     {
-      "name": "@modern-js/plugin-ssr",
-      "path": "packages/cli/plugin-ssr"
-    },
-    {
       "name": "@modern-js/plugin-state",
       "path": "packages/cli/plugin-state"
     },
