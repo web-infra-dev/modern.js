@@ -1,4 +1,4 @@
-import plugin from '../../src/state/runtime';
+import plugin from '../../src/state';
 import cliPlugin from '../../src/state/cli';
 
 describe('plugin-state', () => {

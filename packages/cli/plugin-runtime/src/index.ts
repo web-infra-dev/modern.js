@@ -1,4 +1,4 @@
-import type { StateConfig } from './state/runtime';
+import type { StateConfig } from './state';
 import type { RouterConfig } from './router';
 
 export type { RuntimeContext, TRuntimeContext } from '@modern-js/runtime-core';
