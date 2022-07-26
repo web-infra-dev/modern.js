@@ -4,11 +4,13 @@ sidebar_position: 1
 
 # 编译构建问题
 
-## 一. 配置类问题
-
 ### 如何配置 Webpack/Babel/PostCSS 等工具？
 
 请参考 [配置底层工具](/docs/guides/usages/low-level)。
+
+### 如何自定义 HTML 模板？
+
+请参考 [自定义 HTML 模板](/docs/guides/usages/html)。
 
 ### 如何提升编译构建速度？
 
@@ -17,6 +19,8 @@ sidebar_position: 1
 ### 如何查看最终生效的 webpack 配置？
 
 可以通过 [modern inspect](/docs/apis/commands/mwa/inspect) 命令来查看最终生效的 webpack 配置。
+
+---
 
 ### 如何配置组件库按需引入？
 
@@ -42,6 +46,8 @@ export default defineConfig({
   },
 });
 ```
+
+---
 
 ### 如何移除代码中的 console？
 
@@ -75,7 +81,63 @@ export default defineConfig({
 });
 ```
 
-## 二. 编译异常类问题
+---
+
+### 如何清空 webpack 编译缓存？
+
+默认情况下，Modern.js 的 webpack 编译缓存生成在 `./node_modules/.cache/webpack` 目录下。
+
+如果需要清空本地的编译缓存，可以执行以下命令：
+
+```bash
+rm -rf ./node_modules/.cache
+```
+
+---
+
+### 如何配置静态资源的 CDN 路径？
+
+如果需要将 JS、CSS 等静态资源上传到 CDN 使用，那么可以通过 [output.assetPrefix](docs/apis/config/output/asset-prefix) 配置来设置静态资源的 URL 前缀。
+
+```js title="modern.config.js"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  output: {
+    assetPrefix: 'https://cdn.example.com/assets/',
+  },
+});
+```
+
+---
+
+### 如何配置 SRI 校验？
+
+在 Modern.js 中，需要自主引入社区中的 [webpack-subresource-integrity](https://github.com/waysact/webpack-subresource-integrity) 插件来开启 SRI 校验。
+
+配置 [webpack-subresource-integrity](https://github.com/waysact/webpack-subresource-integrity) 的示例如下：
+
+```js title="modern.config.js"
+import { defineConfig } from '@modern-js/app-tools';
+import { SubresourceIntegrityPlugin } from 'webpack-subresource-integrity';
+
+export default defineConfig({
+  tools: {
+    webpackChain(chain) {
+      chain.output.crossOriginLoading('anonymous');
+      chain.plugin('subresource-integrity').use(SubresourceIntegrityPlugin);
+    },
+  },
+});
+```
+
+:::info SRI
+子资源完整性 Subresource Integrity（SRI）是专门用来校验资源的一种方案，它读取资源标签中的 integrity 属性，将其中的信息摘要值，和资源实际的信息摘要值进行对比，如果发现无法匹配，那么浏览器就会拒绝执行资源。
+
+对于 script 标签来说，结果为拒绝执行其中的代码；对于 CSS link 来说，结果为不加载其中的样式。
+:::
+
+---
 
 ### Less/Sass 代码没有被正确编译？
 
@@ -84,6 +146,8 @@ Modern.js 通过插件来编译 Less/Sass 代码，请确认你是否启用了�
 - [启用 Less 插件教程](/docs/apis/config/tools/less#启用)
 - [启用 Sass 插件教程](/docs/apis/config/tools/sass#启用)
 
+---
+
 ### 在 Monorepo 中引用其他模块，代码没有被正确编译？
 
 出于编译性能的考虑，默认情况下，Modern.js 不会通过 `babel-loader` 或 `ts-loader` 来编译 `node_modules` 下的文件，也不会编译当前工程目录外部的文件。
@@ -91,6 +155,8 @@ Modern.js 通过插件来编译 Less/Sass 代码，请确认你是否启用了�
 通过 `source.include` 配置项，可以指定需要额外进行编译的目录或模块。
 
 详见 [source.include 用法介绍](/docs/apis/config/source/include/)。
+
+---
 
 ### 打包时出现 JavaScript heap out of memory?
 
@@ -111,7 +177,9 @@ Node.js 官方文档中有对以下参数更详细的解释：
 
 除了增加内存上限，通过开启一些编译策略来提升效率也是一个解决方案，详见 [提升编译速度](/docs/guides/usages/compile-speed)。
 
-### webpack 编译出现 'compilation' argument 报错
+---
+
+### webpack 编译出现 'compilation' argument 报错？
 
 如果编译时出现以下报错，通常是由于项目中安装了错误的 webpack 版本，或者安装了多个 webpack 版本引起：
 
@@ -134,6 +202,8 @@ webpack 版本问题有以下几种情况：
 :::info
 删除 lock 文件会使项目中的依赖版本自动升级到指定范围下的最新版，请进行充分的测试。
 :::
+
+---
 
 ### Less 文件中的除法不生效？
 
@@ -159,11 +229,15 @@ Modern.js 内置的 Less 版本为 v4，低版本的写法不会生效，请注�
 
 Less 中除法的写法也可以通过配置项来修改，详见 [Less - Math](https://lesscss.org/usage/#less-options-math)。
 
+---
+
 ### 编译产物中存在未编译的 ES6+ 代码？
 
 默认情况下，Modern.js 不会通过 `babel-loader` 或 `ts-loader` 来编译 `node_modules` 下的文件。如果项目引入的 npm 包中含有 ES6+ 语法，会被打包进产物中。
 
 遇到这种情况时，可以通过 [source.include](/docs/apis/config/source/include) 配置项来指定需要额外进行编译的目录或模块。
+
+---
 
 ### 编译时报错 `You may need additional loader`？
 
@@ -181,6 +255,8 @@ You may need an additional loader to handle the result of these loaders.
 
 - 如果是引用了当前工程外部的 `.ts` 文件，或者是 node_modules 下的 `.ts` 文件，请添加 [source.include](/docs/apis/config/source/include) 配置项，指定需要额外进行编译的文件。
 - 如果是引用了 Modern.js 不支持的文件格式，请自行配置对应的 webpack loader 进行编译。
+
+---
 
 ### 热更新后 React 组件的 state 丢失？
 

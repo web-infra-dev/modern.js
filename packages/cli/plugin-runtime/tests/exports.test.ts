@@ -5,7 +5,6 @@ import * as PluginRuntime from '../src';
 import head from '../src/exports/head';
 import loadable from '../src/exports/loadable';
 import * as model from '../src/exports/model';
-import * as request from '../src/exports/request';
 import * as router from '../src/exports/router';
 import * as bff from '../src/exports/server';
 import * as ssr from '../src/exports/ssr';
@@ -26,10 +25,6 @@ describe('imported packages in plugin runtime', () => {
 
   it('model', () => {
     expect(model).toBeDefined();
-  });
-
-  it('request', () => {
-    expect(request).toBeDefined();
   });
 
   it('router', () => {
