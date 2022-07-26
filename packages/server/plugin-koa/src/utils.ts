@@ -55,9 +55,9 @@ export const createRouteHandler = (handler: Handler) => {
     if (isWithMetaHandler(handler)) {
       try {
         handleResponseMeta(ctx, handler);
-        const result = await handler(input);
-        if (result) {
-          ctx.body = result;
+        const body = await handler(input);
+        if (typeof body !== 'undefined') {
+          ctx.body = body;
         }
       } catch (error) {
         if (error instanceof Error) {
@@ -86,7 +86,10 @@ export const createRouteHandler = (handler: Handler) => {
       }
     } else {
       const args = Object.values(input.params as any).concat(input);
-      ctx.body = await handler(...args);
+      const body = await handler(...args);
+      if (typeof body !== 'undefined') {
+        ctx.body = body;
+      }
     }
   };
 

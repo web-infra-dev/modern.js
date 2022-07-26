@@ -94,7 +94,9 @@ export const createRouteHandler = (handler: Handler) => {
           return await Promise.resolve();
         }
 
-        return res.json(body);
+        if (typeof body !== 'undefined') {
+          return res.json(body);
+        }
       } catch (e) {
         return next(e);
       }
