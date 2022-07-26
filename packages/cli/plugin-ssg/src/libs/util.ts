@@ -6,6 +6,7 @@ import {
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
 import { ServerRoute as ModernRoute } from '@modern-js/types';
+import { ServerConfig } from '@modern-js/core';
 import {
   SsgRoute,
   SSGConfig,
@@ -105,9 +106,16 @@ export const replaceWithAlias = (
   alias: string,
 ) => path.posix.join(alias, path.posix.relative(base, filePath));
 
+export const ssgMultiEntryKey = (
+  entryName = 'main',
+  route?: ModernRoute,
+): string => `${route?.urlPath || '/'}${entryName}`;
+
 export const standardOptions = (
   ssgOptions: SSGConfig,
   entrypoints: EntryPoint[],
+  routes: ModernRoute[],
+  server: ServerConfig,
 ) => {
   if (ssgOptions === false) {
     return false;
@@ -130,8 +138,16 @@ export const standardOptions = (
     const intermediateOptions: SSGMultiEntryOptions = {};
     for (const entrypoint of entrypoints) {
       const { entryName } = entrypoint;
-      // Todo may be async function
-      intermediateOptions[entryName] = ssgOptions(entryName);
+      // TODO: may be async function
+      if (Array.isArray(server?.baseUrl)) {
+        for (const url of server.baseUrl) {
+          const route = routes.find(route => route.urlPath === url);
+          const key = ssgMultiEntryKey(entryName, route);
+          intermediateOptions[key] = ssgOptions(entryName, route);
+        }
+      } else {
+        intermediateOptions[entryName] = ssgOptions(entryName);
+      }
     }
     return intermediateOptions;
   }
