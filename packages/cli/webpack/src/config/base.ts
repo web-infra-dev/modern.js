@@ -7,6 +7,7 @@ import {
   signale,
   CHAIN_ID,
   isString,
+  ensureArray,
   isTypescript,
   ensureAbsolutePath,
   applyOptionsChain,
@@ -146,6 +147,17 @@ class BaseWebpackConfig {
         continue;
       }
       this.chain.entry(entryName).add(entry);
+    }
+
+    const { preEntry } = this.options.source || {};
+    if (preEntry) {
+      const preEntries = ensureArray(preEntry);
+
+      for (const { entryName } of entrypoints) {
+        preEntries.forEach(item => {
+          this.chain.entry(entryName).prepend(item);
+        });
+      }
     }
   }
 
