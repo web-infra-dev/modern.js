@@ -28,7 +28,10 @@ const registerRoutes = (router: Router, handlerInfos: APIHandlerInfo[]) => {
         }
       } else {
         const args = Object.values(input.params as any).concat(input);
-        ctx.body = await run(ctx, () => handler(...args));
+        const body = await run(ctx, () => handler(...args));
+        if (typeof body !== 'undefined') {
+          ctx.body = body;
+        }
       }
     };
 

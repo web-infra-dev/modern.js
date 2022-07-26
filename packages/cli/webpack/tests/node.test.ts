@@ -46,10 +46,24 @@ describe('node webpack config', () => {
 });
 
 describe('filterEntriesBySSRConfig', () => {
+  beforeEach(() => {
+    process.env.NODE_ENV = 'production';
+  });
+
+  afterEach(() => {
+    process.env.NODE_ENV = 'test';
+  });
+
   const createChain = () => {
     const chain = new WebpackChain();
     chain.entry('foo').add('src/foo.js');
     chain.entry('bar').add('src/bar.js');
+    return chain;
+  };
+
+  const createSingleChain = () => {
+    const chain = new WebpackChain();
+    chain.entry('foo').add('src/foo.js');
     return chain;
   };
 
@@ -84,6 +98,92 @@ describe('filterEntriesBySSRConfig', () => {
     });
     expect(chain.toConfig().entry).toEqual({
       bar: ['src/bar.js'],
+    });
+  });
+
+  test('should return all entries by when ssg is true', () => {
+    const chain = createChain();
+    filterEntriesBySSRConfig(
+      chain,
+      {
+        ssr: false,
+      },
+      {
+        ssg: true,
+      },
+    );
+    expect(chain.toConfig().entry).toEqual({
+      foo: ['src/foo.js'],
+      bar: ['src/bar.js'],
+    });
+  });
+
+  test('should return all entries by when ssg is function', () => {
+    const chain = createChain();
+    filterEntriesBySSRConfig(
+      chain,
+      {
+        ssr: false,
+      },
+      {
+        ssg: [
+          () => {
+            return {};
+          },
+        ] as any,
+      },
+    );
+    expect(chain.toConfig().entry).toEqual({
+      foo: ['src/foo.js'],
+      bar: ['src/bar.js'],
+    });
+  });
+
+  test('should allow to enable some entries by ssg', () => {
+    const chain = createChain();
+    filterEntriesBySSRConfig(
+      chain,
+      {
+        ssr: false,
+      },
+      {
+        ssg: {
+          foo: true,
+        },
+      },
+    );
+    expect(chain.toConfig().entry).toEqual({
+      foo: ['src/foo.js'],
+    });
+  });
+
+  test('should not return entries when ssg is empty object and multi entries', () => {
+    const chain = createChain();
+    filterEntriesBySSRConfig(
+      chain,
+      {
+        ssr: false,
+      },
+      {
+        ssg: {},
+      },
+    );
+    expect(chain.toConfig().entry).toBeUndefined();
+  });
+
+  test('should not return entry when ssg is exist and single entry', () => {
+    const chain = createSingleChain();
+    filterEntriesBySSRConfig(
+      chain,
+      {
+        ssr: false,
+      },
+      {
+        ssg: {},
+      },
+    );
+    expect(chain.toConfig().entry).toEqual({
+      foo: ['src/foo.js'],
     });
   });
 });
