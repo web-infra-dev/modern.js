@@ -48,7 +48,7 @@ export default (): CliPlugin => ({
         const appContext = api.useAppContext();
 
         const { appDirectory, entrypoints } = appContext;
-        const { output } = resolvedConfig;
+        const { output, server } = resolvedConfig;
         const { ssg, path: outputPath } = output;
 
         const ssgOptions: SSGConfig = Array.isArray(ssg) ? ssg.pop() : ssg;
@@ -69,7 +69,12 @@ export default (): CliPlugin => ({
           return;
         }
 
-        const intermediateOptions = standardOptions(ssgOptions, entrypoints);
+        const intermediateOptions = standardOptions(
+          ssgOptions,
+          entrypoints,
+          pageRoutes,
+          server,
+        );
 
         if (!intermediateOptions) {
           return;
@@ -80,7 +85,9 @@ export default (): CliPlugin => ({
         pageRoutes.forEach(pageRoute => {
           const { entryName, entryPath } = pageRoute;
           const agreedRoutes = agreedRouteMap[entryName as string];
-          let entryOptions = intermediateOptions[entryName as string];
+          let entryOptions =
+            intermediateOptions[entryName as string] ||
+            intermediateOptions[pageRoute.urlPath];
 
           if (!agreedRoutes) {
             // default behavior for non-agreed route
