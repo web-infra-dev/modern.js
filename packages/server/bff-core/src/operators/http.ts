@@ -5,7 +5,6 @@ import {
   OperatorType,
   HttpMethod,
   TriggerType,
-  ApiMiddleware,
   ResponseMetaType,
   MetadataHelper,
 } from '../types';
@@ -169,15 +168,6 @@ export const Redirect = (url: string): Operator<void> => {
     name: 'Redirect',
     metadata(helper) {
       setResponseMeta(helper, ResponseMetaType.Redirect, url);
-    },
-  };
-};
-
-export const Middleware = (middleware: ApiMiddleware): Operator<void> => {
-  return {
-    name: 'Middleware',
-    metadata({ setMetadata }) {
-      setMetadata(OperatorType.Middleware, middleware);
     },
   };
 };

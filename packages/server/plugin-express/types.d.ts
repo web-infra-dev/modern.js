@@ -11,6 +11,9 @@ declare module '@modern-js/runtime/server' {
 
   type Context = { req: Request; res: Response };
 
+  export const Pipe: import('./src/runtime').Pipe;
+  export const Middleware: import('./src/runtime').Middleware;
+
   export function useContext(): Context;
 
   export function hook(attacher: ExpressAttacher): ExpressAttacher;

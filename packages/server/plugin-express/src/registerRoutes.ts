@@ -8,7 +8,12 @@ const registerRoutes = (app: Express, handlerInfos: APIHandlerInfo[]) => {
     const routeHandler: RequestHandler = createRouteHandler(handler);
 
     const method = httpMethod.toLowerCase();
-    (app as any)[method](routePath, routeHandler);
+    const routeMiddlwares = Reflect.getMetadata('middleware', handler) || [];
+    if (routeMiddlwares.length > 0) {
+      (app as any)[method](routePath, routeMiddlwares, routeHandler);
+    } else {
+      (app as any)[method](routePath, routeHandler);
+    }
   });
 };
 
