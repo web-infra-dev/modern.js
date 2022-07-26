@@ -4,4 +4,4 @@ export const isNodeJS = (): boolean =>
   process.versions.node != null &&
   process.versions.electron == null;
 
-export const isBrowser = (): boolean => typeof window !== 'undefined';
+export const isBrowser = () => typeof window !== undefined;
