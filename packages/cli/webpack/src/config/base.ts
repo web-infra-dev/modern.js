@@ -141,23 +141,19 @@ class BaseWebpackConfig {
 
   entry() {
     const { entrypoints = [], checkedEntries } = this.appContext;
+    const { preEntry } = this.options.source || {};
+    const preEntries = preEntry ? ensureArray(preEntry) : [];
 
     for (const { entryName, entry } of entrypoints) {
       if (checkedEntries && !checkedEntries.includes(entryName)) {
         continue;
       }
+
+      preEntries.forEach(preEntryName => {
+        this.chain.entry(entryName).add(preEntryName);
+      });
+
       this.chain.entry(entryName).add(entry);
-    }
-
-    const { preEntry } = this.options.source || {};
-    if (preEntry) {
-      const preEntries = ensureArray(preEntry);
-
-      for (const { entryName } of entrypoints) {
-        preEntries.forEach(item => {
-          this.chain.entry(entryName).prepend(item);
-        });
-      }
     }
   }
 
