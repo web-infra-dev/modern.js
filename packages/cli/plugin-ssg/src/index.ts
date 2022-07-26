@@ -15,7 +15,6 @@ import {
   readJSONSpec,
   standardOptions,
   writeJSONSpec,
-  ssgMultiEntryKey,
 } from './libs/util';
 import { createServer } from './server';
 import { writeHtmlFile } from './libs/output';
@@ -73,7 +72,7 @@ export default (): CliPlugin => ({
         const intermediateOptions = standardOptions(
           ssgOptions,
           entrypoints,
-          routes,
+          pageRoutes,
           server,
         );
 
@@ -88,7 +87,7 @@ export default (): CliPlugin => ({
           const agreedRoutes = agreedRouteMap[entryName as string];
           let entryOptions =
             intermediateOptions[entryName as string] ||
-            intermediateOptions[ssgMultiEntryKey(entryName, pageRoute)];
+            intermediateOptions[pageRoute.urlPath];
 
           if (!agreedRoutes) {
             // default behavior for non-agreed route

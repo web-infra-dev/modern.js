@@ -1,5 +1,3 @@
-import { ServerRoute } from '@modern-js/types';
-
 export type SSGRouteOptions =
   | string
   | {
@@ -23,4 +21,7 @@ export type SSGConfig =
   | boolean
   | SSGSingleEntryOptions
   | SSGMultiEntryOptions
-  | ((entryName: string, route?: ServerRoute) => SSGSingleEntryOptions);
+  | ((
+      entryName: string,
+      payload: { baseUrl?: string },
+    ) => SSGSingleEntryOptions);

@@ -106,11 +106,6 @@ export const replaceWithAlias = (
   alias: string,
 ) => path.posix.join(alias, path.posix.relative(base, filePath));
 
-export const ssgMultiEntryKey = (
-  entryName = 'main',
-  route?: ModernRoute,
-): string => `${route?.urlPath || '/'}${entryName}`;
-
 export const standardOptions = (
   ssgOptions: SSGConfig,
   entrypoints: EntryPoint[],
@@ -141,12 +136,17 @@ export const standardOptions = (
       // TODO: may be async function
       if (Array.isArray(server?.baseUrl)) {
         for (const url of server.baseUrl) {
-          const route = routes.find(route => route.urlPath === url);
-          const key = ssgMultiEntryKey(entryName, route);
-          intermediateOptions[key] = ssgOptions(entryName, route);
+          const matchUrl = entryName === 'main' ? url : `${url}/${entryName}`;
+          const route = routes.find(route => route.urlPath === matchUrl);
+          intermediateOptions[route?.urlPath as string] = ssgOptions(
+            entryName,
+            { baseUrl: url },
+          );
         }
       } else {
-        intermediateOptions[entryName] = ssgOptions(entryName);
+        intermediateOptions[entryName] = ssgOptions(entryName, {
+          baseUrl: server?.baseUrl,
+        });
       }
     }
     return intermediateOptions;

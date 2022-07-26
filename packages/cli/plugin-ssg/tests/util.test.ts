@@ -181,6 +181,108 @@ describe('test ssg util function', () => {
       {},
     );
     expect(opt8).toEqual({ main: true, home: { routes: ['/foo'] } });
+
+    const ssg6 = (entryName: string, { baseUrl }: { baseUrl?: string }) => {
+      return {
+        routes: [
+          { url: '/', output: `html/${entryName}${baseUrl}/index.html` },
+          { url: '/info', output: `html/${entryName}${baseUrl}/info.html` },
+        ],
+      };
+    };
+    const op9 = standardOptions(
+      ssg6,
+      [{ entryName: 'main', entry: '' }],
+      [
+        {
+          urlPath: '/base1',
+          entryPath: '',
+        },
+        {
+          urlPath: '/base2',
+          entryPath: '',
+        },
+      ],
+      {
+        baseUrl: ['/base1', '/base2'],
+      },
+    );
+    expect(op9).toEqual({
+      '/base1': {
+        routes: [
+          { url: '/', output: `html/main/base1/index.html` },
+          { url: '/info', output: `html/main/base1/info.html` },
+        ],
+      },
+      '/base2': {
+        routes: [
+          { url: '/', output: `html/main/base2/index.html` },
+          { url: '/info', output: `html/main/base2/info.html` },
+        ],
+      },
+    });
+
+    const op10 = standardOptions(
+      ssg6,
+      [
+        { entryName: 'home', entry: '' },
+        { entryName: 'about', entry: '' },
+        { entryName: 'main', entry: '' },
+      ],
+      [
+        {
+          urlPath: '/base1/home',
+          entryPath: '',
+        },
+        { urlPath: '/base1/about', entryPath: '' },
+        { urlPath: '/base1', entryPath: '' },
+        { urlPath: '/base2/home', entryPath: '' },
+        { urlPath: '/base2/about', entryPath: '' },
+        { urlPath: '/base2', entryPath: '' },
+      ],
+      {
+        baseUrl: ['/base1', '/base2'],
+      },
+    );
+
+    expect(op10).toEqual({
+      '/base1/home': {
+        routes: [
+          { url: '/', output: 'html/home/base1/index.html' },
+          { url: '/info', output: 'html/home/base1/info.html' },
+        ],
+      },
+      '/base2/home': {
+        routes: [
+          { url: '/', output: 'html/home/base2/index.html' },
+          { url: '/info', output: 'html/home/base2/info.html' },
+        ],
+      },
+      '/base1/about': {
+        routes: [
+          { url: '/', output: 'html/about/base1/index.html' },
+          { url: '/info', output: 'html/about/base1/info.html' },
+        ],
+      },
+      '/base2/about': {
+        routes: [
+          { url: '/', output: 'html/about/base2/index.html' },
+          { url: '/info', output: 'html/about/base2/info.html' },
+        ],
+      },
+      '/base1': {
+        routes: [
+          { url: '/', output: 'html/main/base1/index.html' },
+          { url: '/info', output: 'html/main/base1/info.html' },
+        ],
+      },
+      '/base2': {
+        routes: [
+          { url: '/', output: 'html/main/base2/index.html' },
+          { url: '/info', output: 'html/main/base2/info.html' },
+        ],
+      },
+    });
   });
 
   it('should get ssr route correctly', () => {
