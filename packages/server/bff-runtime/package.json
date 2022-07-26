@@ -36,7 +36,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/server-utils": "workspace:^1.2.11",
     "farrow-api": "^1.10.8",
     "farrow-pipeline": "^1.10.6",
     "farrow-schema": "^1.10.8"

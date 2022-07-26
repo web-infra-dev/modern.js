@@ -55,7 +55,6 @@
   "devDependencies": {
     "@modern-js/core": "workspace:*",
     "@modern-js/server-core": "workspace:*",
-    "@modern-js/server-utils": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/cookie-parser": "^1.4.2",
