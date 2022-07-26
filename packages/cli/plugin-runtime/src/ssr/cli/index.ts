@@ -77,6 +77,7 @@ export default (): CliPlugin => ({
         const useSSG = isSingleEntry(entrypoints)
           ? Boolean(ssgConfig)
           : ssgConfig === true ||
+            typeof (ssgConfig as Array<unknown>)?.[0] === 'function' ||
             Boolean((ssgConfig as SSGMultiEntryOptions)?.[entryName]);
 
         ssrConfigMap.set(entryName, ssrConfig || useSSG);
