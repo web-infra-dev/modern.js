@@ -125,10 +125,6 @@
       "path": "packages/generator/generator-utils"
     },
     {
-      "name": "@modern-js/hmr-client",
-      "path": "packages/server/hmr-client"
-    },
-    {
       "name": "@modern-js/module-generator",
       "path": "packages/generator/generators/module-generator"
     },

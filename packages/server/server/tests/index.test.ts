@@ -1,4 +1,4 @@
-import { formatURL } from '../src/createSocketUrl';
+import { formatURL } from '../src/hmr-client/createSocketUrl';
 
 describe('formatURL', () => {
   test('should return correct URL', async () => {

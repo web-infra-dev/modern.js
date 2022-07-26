@@ -2395,29 +2395,6 @@ importers:
       nock: 13.2.7
       typescript: 4.7.4
 
-  packages/server/hmr-client:
-    specifiers:
-      '@babel/runtime': ^7.18.0
-      '@modern-js/utils': workspace:^1.7.3
-      '@scripts/build': workspace:*
-      '@scripts/jest-config': workspace:*
-      '@types/jest': ^27
-      '@types/node': ^14
-      jest: ^27
-      typescript: ^4
-      webpack: ^5.71.0
-    dependencies:
-      '@babel/runtime': 7.18.6
-      '@modern-js/utils': link:../../toolkit/utils
-    devDependencies:
-      '@scripts/build': link:../../../scripts/build
-      '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 27.5.2
-      '@types/node': 14.18.21
-      jest: 27.5.1
-      typescript: 4.7.4
-      webpack: 5.73.0_esbuild@0.14.47
-
   packages/server/plugin-egg:
     specifiers:
       '@babel/runtime': ^7.18.0
@@ -2800,7 +2777,6 @@ importers:
       '@babel/core': ^7.18.0
       '@babel/register': ^7.17.7
       '@modern-js/core': workspace:*
-      '@modern-js/hmr-client': workspace:^1.2.8
       '@modern-js/prod-server': workspace:^1.2.0
       '@modern-js/server-core': workspace:*
       '@modern-js/server-utils': workspace:^1.2.11
@@ -2818,12 +2794,12 @@ importers:
       minimatch: ^3.0.4
       path-to-regexp: ^6.2.0
       typescript: ^4
+      webpack: ^5.71.0
       websocket: ^1
       ws: ^8.2.0
     dependencies:
       '@babel/core': 7.18.6
       '@babel/register': 7.18.6_@babel+core@7.18.6
-      '@modern-js/hmr-client': link:../hmr-client
       '@modern-js/prod-server': link:../prod-server
       '@modern-js/server-utils': link:../utils
       '@modern-js/utils': link:../../toolkit/utils
@@ -2844,6 +2820,7 @@ importers:
       '@types/ws': 7.4.7
       jest: 27.5.1
       typescript: 4.7.4
+      webpack: 5.73.0_esbuild@0.14.47
       websocket: 1.0.34
 
   packages/server/utils:
