@@ -149,8 +149,8 @@ class BaseWebpackConfig {
         continue;
       }
 
-      preEntries.forEach(preEntryName => {
-        this.chain.entry(entryName).add(preEntryName);
+      preEntries.forEach(entry => {
+        this.chain.entry(entryName).add(entry);
       });
 
       this.chain.entry(entryName).add(entry);
