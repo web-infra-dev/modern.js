@@ -94,5 +94,3 @@ export type ArrayToObject<T, R = {}> = T extends [infer First, ...infer Rest]
 export type AsyncFunction = (...args: any[]) => Promise<any>;
 
 export const httpMethods = Object.values(HttpMethod);
-
-export type ApiMiddleware = (next: () => any | Promise<any>) => any;
