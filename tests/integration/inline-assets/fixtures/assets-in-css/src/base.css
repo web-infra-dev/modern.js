@@ -1,0 +1,13 @@
+#inline {
+  width: 100px;
+  height: 100px;
+  background: url('../../logo.jpg?inline') no-repeat;
+  background-size: contain;
+}
+
+#url {
+  width: 100px;
+  height: 100px;
+  background: url('../../person.svg?url') no-repeat;
+  background-size: contain;
+}

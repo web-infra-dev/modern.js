@@ -70,7 +70,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/plugin-ssr": "workspace:^1.4.6",
     "@modern-js/utils": "workspace:^1.7.9",
     "node-fetch": "^2.6.1",
     "path-to-regexp": "^6.2.0",

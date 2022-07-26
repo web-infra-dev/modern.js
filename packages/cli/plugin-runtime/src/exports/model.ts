@@ -1,1 +1,1 @@
-export * from '@modern-js/plugin-state';
+export * from '../state';

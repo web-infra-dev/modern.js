@@ -5,9 +5,9 @@ import {
   cleanRequireCache,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
-import PluginState from '@modern-js/plugin-state/cli';
-import PluginRouter from '@modern-js/plugin-router/cli';
-import PluginSSR from '@modern-js/plugin-ssr/cli';
+import PluginState from '../state/cli';
+import PluginSSR from '../ssr/cli';
+import PluginRouter from '../router/cli';
 
 export default (): CliPlugin => ({
   name: '@modern-js/runtime',
@@ -53,9 +53,9 @@ export default (): CliPlugin => ({
       },
       async beforeRestart() {
         cleanRequireCache([
-          require.resolve('@modern-js/plugin-state/cli'),
-          require.resolve('@modern-js/plugin-router/cli'),
-          require.resolve('@modern-js/plugin-ssr/cli'),
+          require.resolve('../state/cli'),
+          require.resolve('../router/cli'),
+          require.resolve('../ssr/cli'),
         ]);
       },
     };

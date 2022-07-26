@@ -245,10 +245,6 @@
       "path": "packages/cli/plugin-proxy"
     },
     {
-      "name": "@modern-js/plugin-router",
-      "path": "packages/cli/plugin-router"
-    },
-    {
       "name": "@modern-js/plugin-sass",
       "path": "packages/cli/plugin-sass"
     },
@@ -259,14 +255,6 @@
     {
       "name": "@modern-js/plugin-ssg",
       "path": "packages/cli/plugin-ssg"
-    },
-    {
-      "name": "@modern-js/plugin-ssr",
-      "path": "packages/cli/plugin-ssr"
-    },
-    {
-      "name": "@modern-js/plugin-state",
-      "path": "packages/cli/plugin-state"
     },
     {
       "name": "@modern-js/plugin-static-hosting",
