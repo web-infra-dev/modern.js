@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { manager } from '@modern-js/core';
-import plugin from '../src';
+import plugin from '../../src/analyze';
 
 describe('analyze', () => {
   afterAll(() => {

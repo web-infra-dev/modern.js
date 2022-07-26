@@ -1,6 +1,6 @@
 import path from 'path';
 import { manager, AppContext } from '@modern-js/core';
-import { modifyServerRoutes } from '@modern-js/plugin-analyze';
+import { modifyServerRoutes } from '@modern-js/app-tools/analyze';
 import Chain from 'webpack-chain';
 import { CHAIN_ID } from '@modern-js/utils';
 import plugin from '../src/cli';
