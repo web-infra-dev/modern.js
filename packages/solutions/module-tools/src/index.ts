@@ -31,7 +31,7 @@ export default (): CliPlugin => ({
     const locale = lang.getLocaleLanguage();
     local.i18n.changeLanguage({ locale });
     return {
-      // copy from @modern-js/app-tools/analyze/src/index.ts
+      // copy from @modern-js/app-tools/src/analyze/index.ts
       async prepare() {
         const appContext = api.useAppContext();
         const hookRunners = api.useHookRunners();
