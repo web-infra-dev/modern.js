@@ -3,8 +3,8 @@ import type { PluginStore, WebBuilderPlugin } from '../types';
 export async function createPluginStore(): Promise<PluginStore> {
   let plugins: WebBuilderPlugin[] = [];
 
-  const addPlugins = (plugins: WebBuilderPlugin[]) => {
-    plugins.push(...plugins);
+  const addPlugins = (newPlugins: WebBuilderPlugin[]) => {
+    plugins.push(...newPlugins);
   };
 
   const removePlugins = (pluginNames: string[]) => {
