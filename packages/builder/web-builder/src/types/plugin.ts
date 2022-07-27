@@ -24,6 +24,7 @@ export type ModifyBuilderConfigFn = (
 export type WebBuilderPluginAPI = {
   context: WebBuilderContext;
   isPluginExists: PluginStore['isPluginExists'];
+  getBuilderConfig: () => WebBuilderConfig;
   modifyWebpackChain: (fn: ModifyWebpackChainFn) => void;
   modifyWebpackConfig: (fn: ModifyWebpackConfigFn) => void;
   modifyBuilderConfig: (fn: ModifyBuilderConfigFn) => void;

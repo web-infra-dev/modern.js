@@ -3,18 +3,23 @@ import type { PluginStore, WebBuilderConfig } from '../types';
 import { createCompiler } from './createCompiler';
 import { createContext, createPublicContext } from './createContext';
 import { createPluginStore } from './createPluginStore';
+import { initConfigs } from './initConfigs';
 
 export async function createBuilder(config: WebBuilderConfig = {}) {
   const context = await createContext(config);
   const pluginStore = await createPluginStore();
-  const publicContext = createPublicContext(context);
 
   await addDefaultPlugins(pluginStore);
 
   const builder = {
-    context: publicContext,
-    createCompiler: async () => createCompiler({ context, pluginStore }),
     ...pick(pluginStore, ['addPlugins', 'removePlugins', 'isPluginExists']),
+
+    context: createPublicContext(context),
+
+    createCompiler: async () => {
+      await initConfigs({ context, pluginStore });
+      return createCompiler(context);
+    },
   };
 
   return builder;

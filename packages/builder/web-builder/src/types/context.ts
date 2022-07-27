@@ -1,5 +1,4 @@
 import type { WebBuilderConfig } from './config';
-import type { WebpackChain } from './dependencies';
 
 // The public context
 export type WebBuilderContext = {
@@ -11,5 +10,5 @@ export type WebBuilderContext = {
 
 // The private context
 export type Context = WebBuilderContext & {
-  chain: WebpackChain;
+  config: WebBuilderConfig;
 };

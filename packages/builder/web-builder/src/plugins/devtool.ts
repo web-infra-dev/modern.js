@@ -6,8 +6,14 @@ export const PluginDevtool = (): WebBuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(chain => {
-      const devtool = isProd() ? 'source-map' : 'cheap-module-source-map';
-      chain.devtool(devtool);
+      const builderConfig = api.getBuilderConfig();
+
+      if (builderConfig.output?.disableSourceMap) {
+        chain.devtool(false);
+      } else {
+        const devtool = isProd() ? 'source-map' : 'cheap-module-source-map';
+        chain.devtool(devtool);
+      }
     });
   },
 });
