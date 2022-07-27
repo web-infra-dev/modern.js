@@ -29,10 +29,12 @@
     "new": "modern new",
     "build": "wireit",
     "dev": "tsc --watch",
-    "test": "wireit"
+    "test": "wireit",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch"
   },
   "dependencies": {
-    "webpack": "^5.71.0"
+    "webpack": "^5.71.0",
+    "@modern-js/utils": "workspace:^1.7.12"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
@@ -63,7 +65,7 @@
       ]
     },
     "test": {
-      "command": "jest --passWithNoTests",
+      "command": "NODE_OPTIONS=--experimental-vm-modules jest --passWithNoTests",
       "files": [
         "src/**/*",
         "tsconfig.json",
