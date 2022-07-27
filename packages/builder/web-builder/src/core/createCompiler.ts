@@ -12,7 +12,8 @@ export async function createCompiler({
     context,
     pluginStore,
   });
-  modifyWebpackChainHook.call(context.chain);
+
+  await modifyWebpackChainHook.call(context.chain);
 
   // eslint-disable-next-line no-console
   console.log('webpack config', context.chain.toConfig());
