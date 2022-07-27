@@ -454,7 +454,11 @@ export class ModernServer implements ModernServerInterface {
       const templateAPI = createTemplateAPI(file.content.toString());
       await this.emitRouteHook('afterRender', { context, templateAPI });
       await this.injectMicroFE(context, templateAPI);
-      templateAPI.appendHead(
+      // It will inject _SERVER_DATA twice, when SSG mode.
+      // The first time was in ssg html created, the seoncd time was in prod-server start.
+      // but the second wound causes route error.
+      // To ensure that the second injection fails, the _SERVER_DATA inject at the front of head,
+      templateAPI.prependHead(
         `<script>window._SERVER_DATA=${JSON.stringify(
           context.serverData,
         )}</script>`,
