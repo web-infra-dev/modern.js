@@ -37,10 +37,6 @@
     "./server": {
       "jsnext:source": "./src/exports/server.ts",
       "default": "./dist/js/node/exports/server.js"
-    },
-    "./analyze": {
-      "jsnext:source": "./src/analyze/index.ts",
-      "default": "./dist/js/node/analyze/index.js"
     }
   },
   "typesVersions": {
@@ -53,9 +49,6 @@
       ],
       "server": [
         "./dist/types/exports/server.d.ts"
-      ],
-      "analyze": [
-        "./dist/types/analyze/index.d.ts"
       ]
     }
   },
