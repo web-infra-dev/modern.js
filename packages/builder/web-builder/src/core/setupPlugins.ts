@@ -9,7 +9,7 @@ import type {
 } from '../types';
 import { createPublicContext } from './createContext';
 
-export function setupPlugins({
+export async function setupPlugins({
   context,
   pluginStore,
 }: {
@@ -31,7 +31,9 @@ export function setupPlugins({
     modifyBuilderConfig: modifyBuilderConfigHook.tap,
   };
 
-  pluginStore.plugins.forEach(plugin => plugin.setup(pluginAPI));
+  for (const plugin of pluginStore.plugins) {
+    await plugin.setup(pluginAPI);
+  }
 
   return {
     modifyWebpackChainHook,

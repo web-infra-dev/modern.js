@@ -1,14 +1,17 @@
 import type { Context, PluginStore } from '../types';
 import { setupPlugins } from './setupPlugins';
 
-export function createCompiler({
+export async function createCompiler({
   context,
   pluginStore,
 }: {
   context: Context;
   pluginStore: PluginStore;
 }) {
-  const { modifyWebpackChainHook } = setupPlugins({ context, pluginStore });
+  const { modifyWebpackChainHook } = await setupPlugins({
+    context,
+    pluginStore,
+  });
   modifyWebpackChainHook.call(context.chain);
 
   // eslint-disable-next-line no-console

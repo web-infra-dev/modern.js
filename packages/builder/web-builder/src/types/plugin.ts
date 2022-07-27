@@ -9,15 +9,17 @@ export type PluginStore = {
   isPluginExists: (pluginName: string) => boolean;
 };
 
-export type ModifyWebpackChainFn = (chain: WebpackChain) => Promise<void>;
+export type ModifyWebpackChainFn = (
+  chain: WebpackChain,
+) => Promise<void> | void;
 
 export type ModifyWebpackConfigFn = (
   config: WebpackConfig,
-) => Promise<WebpackConfig | void>;
+) => Promise<WebpackConfig | void> | WebpackConfig | void;
 
 export type ModifyBuilderConfigFn = (
   config: WebBuilderConfig,
-) => Promise<WebBuilderConfig | void>;
+) => Promise<WebBuilderConfig | void> | WebBuilderConfig | void;
 
 export type WebBuilderPluginAPI = {
   context: WebBuilderContext;
@@ -29,5 +31,5 @@ export type WebBuilderPluginAPI = {
 
 export type WebBuilderPlugin = {
   name: string;
-  setup: (api: WebBuilderPluginAPI) => void;
+  setup: (api: WebBuilderPluginAPI) => Promise<void> | void;
 };
