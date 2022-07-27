@@ -1,4 +1,3 @@
-import { createAsyncHook } from '../shared/createAyncHook';
 import type {
   Context,
   PluginStore,
@@ -7,9 +6,10 @@ import type {
   ModifyWebpackConfigFn,
   ModifyBuilderConfigFn,
 } from '../types';
+import { createAsyncHook } from './createHook';
 import { createPublicContext } from './createContext';
 
-export async function setupPlugins({
+export async function initPlugins({
   context,
   pluginStore,
 }: {
@@ -18,13 +18,15 @@ export async function setupPlugins({
 }) {
   const publicContext = createPublicContext(context);
 
-  // hooks
   const modifyWebpackChainHook = createAsyncHook<ModifyWebpackChainFn>();
   const modifyWebpackConfigHook = createAsyncHook<ModifyWebpackConfigFn>();
   const modifyBuilderConfigHook = createAsyncHook<ModifyBuilderConfigFn>();
 
+  const getBuilderConfig = () => context.config;
+
   const pluginAPI: WebBuilderPluginAPI = {
     context: publicContext,
+    getBuilderConfig,
     isPluginExists: pluginStore.isPluginExists,
     modifyWebpackChain: modifyWebpackChainHook.tap,
     modifyWebpackConfig: modifyWebpackConfigHook.tap,
