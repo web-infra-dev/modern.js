@@ -1,6 +1,6 @@
 import path from 'path';
 import { IAppContext, NormalizedConfig } from '@modern-js/core';
-import { getFileSystemEntry } from '../src/getFileSystemEntry';
+import { getFileSystemEntry } from '../../src/analyze/getFileSystemEntry';
 
 describe('get entrypoints from file system', () => {
   const fixtures = path.resolve(__dirname, './fixtures/entries');

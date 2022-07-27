@@ -21,7 +21,7 @@ const isBuildMode = process.argv.slice(2)[0] === 'build';
 export default (): CliPlugin => ({
   name: '@modern-js/module-tools',
 
-  post: ['@modern-js/plugin-analyze', '@modern-js/plugin-changeset'],
+  post: ['@modern-js/plugin-changeset'],
 
   registerHook: hooks,
 
@@ -31,7 +31,7 @@ export default (): CliPlugin => ({
     const locale = lang.getLocaleLanguage();
     local.i18n.changeLanguage({ locale });
     return {
-      // copy from @modern-js/plugin-analyze/src/index.ts
+      // copy from @modern-js/app-tools/src/analyze/index.ts
       async prepare() {
         const appContext = api.useAppContext();
         const hookRunners = api.useHookRunners();

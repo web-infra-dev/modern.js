@@ -71,7 +71,6 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/plugin-analyze": "workspace:*",
     "@modern-js/bff-runtime": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/server-core": "workspace:*",

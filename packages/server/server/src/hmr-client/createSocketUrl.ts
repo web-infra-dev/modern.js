@@ -34,6 +34,7 @@ export function formatURL({
   pathname: string;
 }) {
   if (window.URL) {
+    // eslint-disable-next-line node/prefer-global/url, node/no-unsupported-features/node-builtins
     const url = new URL('http://localhost');
     url.port = port;
     url.hostname = hostname;
