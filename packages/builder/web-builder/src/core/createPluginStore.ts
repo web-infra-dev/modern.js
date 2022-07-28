@@ -1,10 +1,17 @@
+import { warn } from '../shared';
 import type { PluginStore, WebBuilderPlugin } from '../types';
 
 export async function createPluginStore(): Promise<PluginStore> {
   let plugins: WebBuilderPlugin[] = [];
 
   const addPlugins = (newPlugins: WebBuilderPlugin[]) => {
-    plugins.push(...newPlugins);
+    newPlugins.forEach(newPlugin => {
+      if (plugins.find(item => item.name === newPlugin.name)) {
+        warn(`Plugin "${newPlugin.name}" already exists.`);
+      } else {
+        plugins.push(newPlugin);
+      }
+    });
   };
 
   const removePlugins = (pluginNames: string[]) => {

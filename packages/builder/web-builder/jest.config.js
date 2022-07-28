@@ -5,7 +5,4 @@ module.exports = {
   ...sharedConfig,
   rootDir: __dirname,
   testEnvironment: 'node',
-  transform: {
-    '^.+\\.(t|j)sx?$': ['@swc/jest'],
-  },
 };

@@ -1,5 +1,42 @@
-import type { Context, PluginStore } from '../types';
+import { STATUS } from '../shared';
 import { initPlugins } from './initPlugins';
+import type { Context, PluginStore, WebpackConfig } from '../types';
+
+async function modifyBuilderConfig(context: Context) {
+  context.status = STATUS.BEFORE_MODIFY_BUILDER_CONFIG;
+  const [modified] = await context.hooks.modifyBuilderConfigHook.call(
+    context.config,
+  );
+  context.config = modified;
+  context.status = STATUS.AFTER_MODIFY_BUILDER_CONFIG;
+}
+
+async function modifyWebpackChain(context: Context) {
+  context.status = STATUS.BEFORE_MODIFY_WEBPACK_CHAIN;
+
+  const WebpackChain = (await import('@modern-js/utils/webpack-chain')).default;
+  const chain = new WebpackChain();
+  const [modified] = await context.hooks.modifyWebpackChainHook.call(chain);
+
+  context.status = STATUS.AFTER_MODIFY_WEBPACK_CHAIN;
+
+  return modified;
+}
+
+async function modifyWebpackConfig(
+  context: Context,
+  webpackConfig: WebpackConfig,
+) {
+  context.status = STATUS.BEFORE_MODIFY_WEBPACK_CONFIG;
+
+  const [modified] = await context.hooks.modifyWebpackConfigHook.call(
+    webpackConfig,
+  );
+
+  context.status = STATUS.AFTER_MODIFY_WEBPACK_CONFIG;
+
+  return modified;
+}
 
 export async function initConfigs({
   context,
@@ -8,30 +45,17 @@ export async function initConfigs({
   context: Context;
   pluginStore: PluginStore;
 }) {
-  const WebpackChain = (await import('@modern-js/utils/webpack-chain')).default;
-
-  const {
-    modifyWebpackChainHook,
-    modifyBuilderConfigHook,
-    modifyWebpackConfigHook,
-  } = await initPlugins({
+  await initPlugins({
     context,
     pluginStore,
   });
 
-  const [modifiedBuilderConfig] = await modifyBuilderConfigHook.call(
-    context.config,
-  );
-  context.config = modifiedBuilderConfig;
+  await modifyBuilderConfig(context);
+  const chain = await modifyWebpackChain(context);
+  const webpackConfig = await modifyWebpackConfig(context, chain.toConfig());
 
-  const chain = new WebpackChain();
-  const [modifiedChain] = await modifyWebpackChainHook.call(chain);
-
-  const webpackConfig = modifiedChain.toConfig();
-  const [modifiedWebpackConfig] = await modifyWebpackConfigHook.call(
-    webpackConfig,
-  );
-
-  // eslint-disable-next-line no-console
-  console.log('final webpack config', modifiedWebpackConfig);
+  return {
+    // TODO support SSR config
+    webpackConfigs: [webpackConfig],
+  };
 }
