@@ -12,7 +12,7 @@ export const index = ({
   exportStatement: string;
   renderFunction: string;
 }) => `
-const IS_BROWSER = typeof window !== 'undefined';
+const IS_BROWSER = typeof window !== 'undefined' && window.name !== 'nodejs';
 const MOUNT_ID = '${mountId}';
 
 ${imports}

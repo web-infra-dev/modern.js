@@ -4,6 +4,7 @@ import { createStore, Store } from '@modern-js-reduck/store';
 import { Provider } from '@modern-js-reduck/react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import type { Plugin } from '@modern-js/runtime-core';
+import { isBrowser } from '../../common';
 
 declare module '@modern-js/runtime-core' {
   interface RuntimeContext {
@@ -43,7 +44,7 @@ const state = (config: StateConfig): Plugin => ({
       init({ context }, next) {
         const storeConfig = config || {};
 
-        if (typeof window !== 'undefined') {
+        if (isBrowser()) {
           storeConfig.initialState =
             storeConfig.initialState ||
             window?._SSR_DATA?.data?.storeState ||
