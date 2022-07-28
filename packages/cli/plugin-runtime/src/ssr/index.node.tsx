@@ -4,6 +4,7 @@ import path from 'path';
 import { registerPrefetch } from '@modern-js/runtime-core';
 import type { Plugin } from '@modern-js/runtime-core';
 
+import { isBrowser } from '../common';
 import { SSRServerContext } from './serverRender/type';
 import prefetch from './prefetch';
 import { formatServer } from './utils';
@@ -20,7 +21,7 @@ const plugin = (): Plugin => ({
           registeredApps.add(App);
         }
 
-        if (typeof window === 'undefined') {
+        if (!isBrowser()) {
           const html = await require('./serverRender').render(
             context,
             context?.ssrContext.distDir || path.join(process.cwd(), 'dist'),
