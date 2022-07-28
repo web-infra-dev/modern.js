@@ -1,5 +1,18 @@
 # @modern-js/utils
 
+## 1.8.0
+
+### Minor Changes
+
+- 4fc801f: chore(utils): remove unused code
+
+  chore(utils): 移除无用代码
+
+### Patch Changes
+
+- c8614b8: fix: using typeof window to determine the browser environment is not accurate
+  fix: 使用 typeof windows 判断浏览器环境不够准确
+
 ## 1.7.12
 
 ### Patch Changes

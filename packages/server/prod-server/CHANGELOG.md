@@ -1,5 +1,16 @@
 # @modern-js/prod-server
 
+## 1.2.1
+
+### Patch Changes
+
+- 2ed8f7d: fix: the \_SERVER_DATA injection twice causes the prod-server route error.
+  fix: \_SERVER_DATA 二次注入，导致服务器路由错误
+- Updated dependencies [4fc801f]
+- Updated dependencies [c8614b8]
+  - @modern-js/utils@1.8.0
+  - @modern-js/server-core@1.4.1
+
 ## 1.2.0
 
 ### Minor Changes

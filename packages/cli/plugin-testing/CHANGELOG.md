@@ -1,5 +1,29 @@
 # @modern-js/plugin-testing
 
+## 1.7.0
+
+### Minor Changes
+
+- 16eaebd: fix: package exports field
+
+  fix: 修复包导出字段
+
+### Patch Changes
+
+- Updated dependencies [1421965]
+- Updated dependencies [02647d2]
+- Updated dependencies [4fc801f]
+- Updated dependencies [9d60891]
+- Updated dependencies [e4b73b2]
+- Updated dependencies [83660b6]
+- Updated dependencies [c8614b8]
+- Updated dependencies [df73691]
+  - @modern-js/webpack@1.12.2
+  - @modern-js/utils@1.8.0
+  - @modern-js/server@1.6.0
+  - @modern-js/runtime-core@1.5.4
+  - @modern-js/babel-preset-app@1.5.0
+
 ## 1.6.0
 
 ### Minor Changes

@@ -1,5 +1,28 @@
 # @modern-js/plugin-garfish
 
+## 1.7.0
+
+### Minor Changes
+
+- 4fc801f: chore(runtime): merge `@modern-js/plugin-router` to `@modern-js/runtime`
+
+  chore(runtime): 合并 `@modern-js/plugin-router` 到 `@modern-js/runtime`
+
+### Patch Changes
+
+- Updated dependencies [1421965]
+- Updated dependencies [4fc801f]
+- Updated dependencies [b8ea9cd]
+- Updated dependencies [4fc801f]
+- Updated dependencies [4fc801f]
+- Updated dependencies [4fc801f]
+- Updated dependencies [4fc801f]
+- Updated dependencies [16eaebd]
+- Updated dependencies [8f046e8]
+- Updated dependencies [c8614b8]
+  - @modern-js/runtime@1.4.0
+  - @modern-js/utils@1.8.0
+
 ## 1.6.2
 
 ### Patch Changes
