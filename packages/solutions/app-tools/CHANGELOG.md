@@ -1,5 +1,37 @@
 # @modern-js/app-tools
 
+## 1.8.0
+
+### Minor Changes
+
+- 83660b6: chore(app-tools): merge `@modern-js/analyze` to `@modern-js/app-tools`
+
+  chore(app-tools): 合并 `@modern-js/analyze` 到 `@modern-js/app-tools`
+
+### Patch Changes
+
+- c8614b8: fix: using typeof window to determine the browser environment is not accurate
+  fix: 使用 typeof windows 判断浏览器环境不够准确
+- Updated dependencies [1421965]
+- Updated dependencies [02647d2]
+- Updated dependencies [4fc801f]
+- Updated dependencies [9d60891]
+- Updated dependencies [5876e63]
+- Updated dependencies [2ed8f7d]
+- Updated dependencies [e4b73b2]
+- Updated dependencies [83660b6]
+- Updated dependencies [c8614b8]
+- Updated dependencies [281edd5]
+- Updated dependencies [df73691]
+- Updated dependencies [52374e3]
+  - @modern-js/webpack@1.12.2
+  - @modern-js/utils@1.8.0
+  - @modern-js/core@1.13.1
+  - @modern-js/prod-server@1.2.1
+  - @modern-js/server@1.6.0
+  - @modern-js/new-action@1.4.0
+  - @modern-js/plugin-jarvis@1.2.14
+
 ## 1.7.0
 
 ### Minor Changes

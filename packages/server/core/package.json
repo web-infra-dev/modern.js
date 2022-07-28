@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@modern-js/plugin": "workspace:^1.4.2",
-    "@modern-js/utils": "workspace:^1.7.12"
+    "@modern-js/utils": "workspace:^1.8.0"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",

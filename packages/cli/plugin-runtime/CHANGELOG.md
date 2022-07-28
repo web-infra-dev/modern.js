@@ -1,5 +1,51 @@
 # @modern-js/runtime
 
+## 1.4.0
+
+### Minor Changes
+
+- 4fc801f: chore(runtime): merge `@modern-js/plugin-state` to `@modern-js/runtime`
+
+  chore(runtime): 合并 `@modern-js/plugin-state` 到 `@modern-js/runtime`
+
+- 4fc801f: chore(runtime): merge `@modern-js/plugin-router` to `@modern-js/runtime`
+
+  chore(runtime): 合并 `@modern-js/plugin-router` 到 `@modern-js/runtime`
+
+- 4fc801f: chore(runtime): merge `@modern-js/plugin-ssr` to `@modern-js/runtime`
+
+  chore(runtime): 合并 `@modern-js/plugin-ssr` 到 `@modern-js/runtime`
+
+- 4fc801f: chore(runtime): remove `@modern-js/create-request` from `@modern-js/runtime`
+
+  chore(runtime): `@modern-js/runtime` 中移除 `@modern-js/create-request` 依赖
+
+- 16eaebd: fix: package exports field
+
+  fix: 修复包导出字段
+
+- 8f046e8: chore(bff): remove `@modern-js/bff-runtime` from `@modern-js/runtime` dependence
+
+  chore(bff): `@modern-js/runtime` 中移除 `@modern-js/bff-runtime` 依赖
+
+### Patch Changes
+
+- 1421965: fix: ssg build error when multi entries
+  fix: 修复多入口下 SSG 构建错误
+- b8ea9cd: fix runtime ssr exports
+- c8614b8: fix: using typeof window to determine the browser environment is not accurate
+  fix: 使用 typeof windows 判断浏览器环境不够准确
+- Updated dependencies [1421965]
+- Updated dependencies [02647d2]
+- Updated dependencies [4fc801f]
+- Updated dependencies [9d60891]
+- Updated dependencies [e4b73b2]
+- Updated dependencies [c8614b8]
+- Updated dependencies [df73691]
+  - @modern-js/webpack@1.12.2
+  - @modern-js/utils@1.8.0
+  - @modern-js/runtime-core@1.5.4
+
 ## 1.3.5
 
 ### Patch Changes

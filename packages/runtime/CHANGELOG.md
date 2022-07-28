@@ -1,5 +1,12 @@
 # @modern-js/runtime-core
 
+## 1.5.4
+
+### Patch Changes
+
+- c8614b8: fix: using typeof window to determine the browser environment is not accurate
+  fix: 使用 typeof windows 判断浏览器环境不够准确
+
 ## 1.5.3
 
 ### Patch Changes
