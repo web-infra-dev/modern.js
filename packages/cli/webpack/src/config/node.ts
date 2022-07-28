@@ -161,12 +161,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
   config() {
     const config = super.config();
 
-    // prod bundle all dependencies
-    if (isProd()) {
-      config.externals = [];
-      return config;
-    }
-
     config.externals = config.externals || [];
 
     if (!Array.isArray(config.externals)) {
