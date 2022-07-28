@@ -11,6 +11,7 @@ import type {
   OnAfterCreateCompilerFn,
   OnBeforeCreateCompilerFn,
 } from '../types';
+import { STATUS } from '../shared';
 import { createAsyncHook } from './createHook';
 import { createPublicContext } from './createContext';
 
@@ -21,6 +22,8 @@ export async function initPlugins({
   context: Context;
   pluginStore: PluginStore;
 }) {
+  context.setStatus(STATUS.BEFORE_INIT_PLUGINS);
+
   const publicContext = createPublicContext(context);
 
   const onExitHook = createAsyncHook<OnExitFn>();
@@ -57,7 +60,14 @@ export async function initPlugins({
     await plugin.setup(pluginAPI);
   }
 
+  context.setStatus(STATUS.AFTER_INIT_PLUGINS);
+
   return {
+    onExitHook,
+    onAfterBuildHook,
+    onBeforeBuildHook,
+    onAfterCreateCompilerHooks,
+    onBeforeCreateCompilerHooks,
     modifyWebpackChainHook,
     modifyWebpackConfigHook,
     modifyBuilderConfigHook,

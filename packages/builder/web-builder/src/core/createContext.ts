@@ -1,14 +1,23 @@
 import type { Context, WebBuilderContext, WebBuilderConfig } from '../types';
-import { pick } from '../shared';
+import { pick, STATUS } from '../shared';
+import { performance } from 'perf_hooks';
 
 export async function createContext(config: WebBuilderConfig) {
+  const startTime = performance.now();
   const context: Context = {
+    status: STATUS.INITIAL,
     srcPath: '',
     distPath: '',
     cachePath: '',
     // TODO should deep clone
     config: { ...config },
     originalConfig: config,
+
+    setStatus(status: STATUS) {
+      context.status = status;
+      // eslint-disable-next-line no-console
+      console.log(status, performance.now() - startTime);
+    },
   };
 
   return context;

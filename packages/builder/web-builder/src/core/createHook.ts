@@ -1,3 +1,10 @@
+export type AsyncHook<Callback extends (...args: any[]) => any> = {
+  tap: (cb: Callback) => void;
+  call: (
+    ...args: Parameters<Callback>
+  ) => Promise<Parameters<Callback>[number][]>;
+};
+
 export function createAsyncHook<Callback extends (...args: any[]) => any>() {
   const callbacks: Callback[] = [];
 

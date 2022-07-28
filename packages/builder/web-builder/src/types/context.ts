@@ -1,3 +1,4 @@
+import type { STATUS } from '../shared';
 import type { WebBuilderConfig } from './config';
 
 // The public context
@@ -10,5 +11,7 @@ export type WebBuilderContext = {
 
 // The private context
 export type Context = WebBuilderContext & {
+  status: STATUS;
   config: WebBuilderConfig;
+  setStatus: (status: STATUS) => void;
 };
