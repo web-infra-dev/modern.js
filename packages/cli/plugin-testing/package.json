@@ -53,6 +53,14 @@
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/js/node/cli/index.js"
+    },
+    "./bff-cli": {
+      "jsnext:source": "./src/cli/bff/index.ts",
+      "default": "./dist/js/node/cli/bff/index.js"
+    },
+    "./base": {
+      "jsnext:source": "./src/base/index.ts",
+      "default": "./dist/js/node/base/index.js"
     }
   },
   "typesVersions": {
@@ -74,6 +82,12 @@
       ],
       "runtime-base": [
         "./dist/types/runtime-testing/base.d.ts"
+      ],
+      "bff-cli": [
+        "./dist/types/cli/bff/index.d.ts"
+      ],
+      "base": [
+        "./dist/types/base/index.d.ts"
       ]
     }
   },
