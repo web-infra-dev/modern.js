@@ -37,10 +37,15 @@ export const SolutionSchema: Schema = {
       type: ['string'],
       mutualExclusion: true,
       items: (_data: Record<string, any>, extra?: Record<string, any>) => {
-        const items = Object.values(Solution).map(solution => ({
-          key: solution,
-          label: SolutionText[solution],
-        }));
+        const items = Object.values(Solution)
+          .filter(
+            solution =>
+              !(extra?.isSubProject && solution === Solution.Monorepo),
+          )
+          .map(solution => ({
+            key: solution,
+            label: SolutionText[solution],
+          }));
         if (extra?.customPlugin?.custom?.length) {
           return [
             ...items,
