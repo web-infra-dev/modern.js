@@ -30,14 +30,11 @@
     "vm2": "^3.9.2"
   },
   "devDependencies": {
-    "react": "^17",
     "@scripts/build": "workspace:*",
     "@modern-js/plugin-jarvis": "workspace:*",
     "typescript": "^4",
     "@types/jest": "^27",
     "@types/node": "^14",
-    "@types/react": "^17",
-    "@types/react-dom": "^17",
     "jest": "^27",
     "@scripts/jest-config": "workspace:*"
   },
