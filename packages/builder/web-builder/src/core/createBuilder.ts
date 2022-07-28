@@ -28,6 +28,7 @@ export async function createBuilder(config: WebBuilderConfig = {}) {
 async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginMode } = await import('../plugins/mode');
   const { PluginDevtool } = await import('../plugins/devtool');
+  const { PluginProgress } = await import('../plugins/progress');
 
-  pluginStore.addPlugins([PluginMode(), PluginDevtool()]);
+  pluginStore.addPlugins([PluginMode(), PluginDevtool(), PluginProgress()]);
 }
