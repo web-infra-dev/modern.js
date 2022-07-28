@@ -1,5 +1,31 @@
 # @modern-js/webpack
 
+## 1.12.2
+
+### Patch Changes
+
+- 1421965: fix: ssg build error when multi entries
+  fix: 修复多入口下 SSG 构建错误
+- 02647d2: feat(webpack): let css-loader generate ESModules
+
+  feat(webpack): css-loader 生成的产物格式由 CommonJS 调整为 ESModules
+
+- 9d60891: feat(webpack): support source.preEntry config
+
+  feat(webpack): 新增 source.preEntry 配置项
+
+- e4b73b2: fix(webpack): failed to import SVG with query from a CSS file
+
+  fix(webpack): 修复从 CSS 文件中引用带 query 的 SVG 时出现报错的问题
+
+- df73691: fix: Additional compilation fields
+  fix: 补充 compilation 字段
+- Updated dependencies [4fc801f]
+- Updated dependencies [c8614b8]
+  - @modern-js/utils@1.8.0
+  - @modern-js/babel-preset-app@1.5.0
+  - @modern-js/css-config@1.2.8
+
 ## 1.12.1
 
 ### Patch Changes

@@ -1,5 +1,37 @@
 # @modern-js/plugin-storybook
 
+## 1.4.0
+
+### Minor Changes
+
+- 4fc801f: chore(runtime): merge `@modern-js/plugin-state` to `@modern-js/runtime`
+
+  chore(runtime): 合并 `@modern-js/plugin-state` 到 `@modern-js/runtime`
+
+- 4fc801f: chore(runtime): merge `@modern-js/plugin-router` to `@modern-js/runtime`
+
+  chore(runtime): 合并 `@modern-js/plugin-router` 到 `@modern-js/runtime`
+
+### Patch Changes
+
+- Updated dependencies [1421965]
+- Updated dependencies [02647d2]
+- Updated dependencies [4fc801f]
+- Updated dependencies [b8ea9cd]
+- Updated dependencies [4fc801f]
+- Updated dependencies [9d60891]
+- Updated dependencies [4fc801f]
+- Updated dependencies [4fc801f]
+- Updated dependencies [e4b73b2]
+- Updated dependencies [4fc801f]
+- Updated dependencies [16eaebd]
+- Updated dependencies [8f046e8]
+- Updated dependencies [c8614b8]
+- Updated dependencies [df73691]
+  - @modern-js/runtime@1.4.0
+  - @modern-js/webpack@1.12.2
+  - @modern-js/utils@1.8.0
+
 ## 1.3.19
 
 ### Patch Changes

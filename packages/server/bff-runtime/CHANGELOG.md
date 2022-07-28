@@ -1,5 +1,13 @@
 # @modern-js/bff-runtime
 
+## 1.4.0
+
+### Minor Changes
+
+- 83660b6: chore(server): delete unused `@modern-js/server-utils` dependence
+
+  chore(server): 删除未使用的 `@modern-js/server-utils` 依赖
+
 ## 1.3.0
 
 ### Minor Changes

@@ -1,5 +1,19 @@
 # @modern-js/plugin-egg
 
+## 1.6.1
+
+### Patch Changes
+
+- f745969: fix: allow BFF function to return void
+  fix: 允许 BFF 函数返回 void
+- Updated dependencies [aadd066]
+- Updated dependencies [4fc801f]
+- Updated dependencies [83660b6]
+- Updated dependencies [c8614b8]
+  - @modern-js/bff-core@1.2.0
+  - @modern-js/utils@1.8.0
+  - @modern-js/bff-runtime@1.4.0
+
 ## 1.6.0
 
 ### Minor Changes
