@@ -1,5 +1,5 @@
 ---
-'@modern-js/plugin-analyze': patch
+'@modern-js/app-tools': patch
 '@modern-js/runtime': patch
 '@modern-js/runtime-core': patch
 '@modern-js/utils': patch
