@@ -1,6 +1,15 @@
-import { WebBuilderConfig } from './config';
+import type { WebBuilderConfig } from './config';
 import type { WebBuilderContext } from './context';
-import type { WebpackChain, WebpackConfig } from './dependencies';
+import type {
+  OnExitFn,
+  OnAfterBuildFn,
+  OnBeforeBuildFn,
+  ModifyWebpackChainFn,
+  ModifyWebpackConfigFn,
+  ModifyBuilderConfigFn,
+  OnAfterCreateCompilerFn,
+  OnBeforeCreateCompilerFn,
+} from './hooks';
 
 export type PluginStore = {
   plugins: WebBuilderPlugin[];
@@ -9,22 +18,19 @@ export type PluginStore = {
   isPluginExists: (pluginName: string) => boolean;
 };
 
-export type ModifyWebpackChainFn = (
-  chain: WebpackChain,
-) => Promise<void> | void;
-
-export type ModifyWebpackConfigFn = (
-  config: WebpackConfig,
-) => Promise<WebpackConfig | void> | WebpackConfig | void;
-
-export type ModifyBuilderConfigFn = (
-  config: WebBuilderConfig,
-) => Promise<WebBuilderConfig | void> | WebBuilderConfig | void;
-
 export type WebBuilderPluginAPI = {
   context: WebBuilderContext;
   isPluginExists: PluginStore['isPluginExists'];
   getBuilderConfig: () => WebBuilderConfig;
+
+  // Hooks
+  onExit: (fn: OnExitFn) => void;
+  onAfterBuild: (fn: OnAfterBuildFn) => void;
+  onBeforeBuild: (fn: OnBeforeBuildFn) => void;
+  onAfterCreateCompiler: (fn: OnAfterCreateCompilerFn) => void;
+  onBeforeCreateCompiler: (fn: OnBeforeCreateCompilerFn) => void;
+
+  // Modifiers
   modifyWebpackChain: (fn: ModifyWebpackChainFn) => void;
   modifyWebpackConfig: (fn: ModifyWebpackConfigFn) => void;
   modifyBuilderConfig: (fn: ModifyBuilderConfigFn) => void;
