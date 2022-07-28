@@ -13,6 +13,9 @@ export function applySvgrLoader({
   loaders
     .oneOf(CHAIN_ID.ONE_OF.SVG_INLINE)
     .test(SVG_REGEX)
+    // The issuer option ensures that SVGR will only apply if the SVG is imported from a JS file.
+    // If we import SVG from a CSS file, it will be processed as assets.
+    .set('issuer', [JS_REGEX, TS_REGEX])
     .type('javascript/auto')
     .resourceQuery(/inline/)
     .use(CHAIN_ID.USE.SVGR)
@@ -29,6 +32,7 @@ export function applySvgrLoader({
   loaders
     .oneOf(CHAIN_ID.ONE_OF.SVG_URL)
     .test(SVG_REGEX)
+    .set('issuer', [JS_REGEX, TS_REGEX])
     .type('javascript/auto')
     .resourceQuery(/url/)
     .use(CHAIN_ID.USE.SVGR)
@@ -45,8 +49,6 @@ export function applySvgrLoader({
   loaders
     .oneOf(CHAIN_ID.ONE_OF.SVG)
     .test(SVG_REGEX)
-    // The issuer option ensures that SVGR will only apply if the SVG is imported from a JS file.
-    // If we import SVG from a CSS file, it will be processed as assets.
     .set('issuer', [JS_REGEX, TS_REGEX])
     .type('javascript/auto')
     .use(CHAIN_ID.USE.SVGR)

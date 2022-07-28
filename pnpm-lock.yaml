@@ -4266,6 +4266,60 @@ importers:
       '@types/react-dom': 17.0.17
       typescript: 4.7.4
 
+  tests/integration/inline-assets/fixtures/always-inline:
+    specifiers:
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/runtime': workspace:*
+      react: ^17.0.2
+      react-dom: ^17.0.2
+    dependencies:
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+
+  tests/integration/inline-assets/fixtures/always-url:
+    specifiers:
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/runtime': workspace:*
+      react: ^17.0.2
+      react-dom: ^17.0.2
+    dependencies:
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+
+  tests/integration/inline-assets/fixtures/assets-in-css:
+    specifiers:
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/runtime': workspace:*
+      antd: ^4.18.5
+      react: ^17.0.2
+      react-dom: ^17.0.2
+    dependencies:
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      antd: 4.21.4_react-dom@17.0.2+react@17.0.2
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+
+  tests/integration/inline-assets/fixtures/inline-limit:
+    specifiers:
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/runtime': workspace:*
+      react: ^17.0.2
+      react-dom: ^17.0.2
+    dependencies:
+      '@modern-js/runtime': link:../../../../../packages/cli/plugin-runtime
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
+
   tests/integration/module-tools:
     specifiers:
       '@types/jest': ^27

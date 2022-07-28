@@ -73,7 +73,9 @@ export const getMiddleware =
       const body = await run({ request: request as any, response }, () =>
         handler(...args),
       );
-      response.json(body);
+      if (typeof body !== 'undefined') {
+        response.json(body);
+      }
     }
 
     response.end();
