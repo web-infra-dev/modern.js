@@ -50,8 +50,8 @@ describe('merge config', () => {
         app: './App.tsx',
       },
     });
-    expect(Array.isArray(config.tools.webpack)).toBe(true);
-    expect((config.tools.webpack as WebpackConfig[]).length).toBe(1);
+    expect(Array.isArray(config.tools.webpack)).toBe(false);
+    expect(typeof (config.tools.webpack as WebpackConfig[])).toBe('function');
   });
 
   test(`should merge array value`, () => {
@@ -77,6 +77,14 @@ describe('merge config', () => {
         },
       },
     });
+  });
+
+  test(`should keep single function value`, () => {
+    const config = mergeConfig([
+      { tools: { webpack: undefined } },
+      { tools: { webpack: () => ({}) } },
+    ]);
+    expect(typeof config.tools.webpack).toEqual('function');
   });
 
   test(`should merge function and object value`, () => {

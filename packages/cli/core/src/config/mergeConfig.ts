@@ -80,10 +80,16 @@ export const mergeConfig = (
       if (Array.isArray(source)) {
         return [...target, ...source];
       } else {
-        return typeof source !== 'undefined' ? [...target, source] : target;
+        return source !== undefined ? [...target, source] : target;
       }
-    } else if (isFunction(source)) {
-      return typeof target !== 'undefined' ? [target, source] : [source];
+    } else if (isFunction(target) || isFunction(source)) {
+      if (source === undefined) {
+        return target;
+      }
+      if (target === undefined) {
+        return source;
+      }
+      return [target, source];
     }
 
     return undefined;
