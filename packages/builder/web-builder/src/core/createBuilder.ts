@@ -30,5 +30,12 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginDevtool } = await import('../plugins/devtool');
   const { PluginProgress } = await import('../plugins/progress');
 
-  pluginStore.addPlugins([PluginMode(), PluginDevtool(), PluginProgress()]);
+  pluginStore.addPlugins([
+    // Plugins that provide basic webpack config
+    PluginMode(),
+    PluginDevtool(),
+
+    // Plugins that provide basic webpack plugins
+    PluginProgress(),
+  ]);
 }
