@@ -16,7 +16,6 @@ importers:
       '@scripts/build': workspace:*
       '@swc/core': ^1.2.220
       '@swc/jest': ^0.2.22
-      babel-plugin-module-resolver: ^4.1.0
       btsm: 2.2.2
       cypress: ^10.1.0
       enhanced-resolve: ^5.9.2
@@ -38,7 +37,6 @@ importers:
       '@scripts/build': link:scripts/build
       '@swc/core': 1.2.220
       '@swc/jest': 0.2.22_@swc+core@1.2.220
-      babel-plugin-module-resolver: 4.1.0
       btsm: 2.2.2
       cypress: 10.2.0
       enhanced-resolve: 5.10.0
@@ -13931,6 +13929,7 @@ packages:
       pkg-up: 3.1.0
       reselect: 4.1.6
       resolve: 1.22.1
+    dev: false
 
   /babel-plugin-named-exports-order/0.0.2:
     resolution: {integrity: sha512-OgOYHOLoRK+/mvXU9imKHlG6GkPLYrUCvFXG/CM93R/aNNO8pOOF4aS+S8CCHMDQoNSeiOYEZb/G6RwL95Jktw==}
@@ -19486,6 +19485,7 @@ packages:
     dependencies:
       json5: 0.5.1
       path-exists: 3.0.0
+    dev: false
 
   /find-cache-dir/2.1.0:
     resolution: {integrity: sha512-Tq6PixE0w/VMFfCgbONnkiQIVol/JJL7nRMi20fqzA4NRs9AfeqMGeRdPi3wIhYkxjeBaWh2rxwapn5Tu3IqOQ==}
@@ -23046,6 +23046,7 @@ packages:
   /json5/0.5.1:
     resolution: {integrity: sha512-4xrs1aW+6N5DalkqSVA8fxh458CXvR99WU8WLKmq4v8eWAL86Xo3BVqyd3SkA9wEVjCMqyvvRRkshAdOnBp5rw==}
     hasBin: true
+    dev: false
 
   /json5/1.0.1:
     resolution: {integrity: sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow==}
@@ -28719,6 +28720,7 @@ packages:
 
   /reselect/4.1.6:
     resolution: {integrity: sha512-ZovIuXqto7elwnxyXbBtCPo9YFEr3uJqj2rRbcOOog1bmu2Ag85M4hixSwFWyaBMKXNgvPaJ9OSu9SkBPIeJHQ==}
+    dev: false
 
   /resize-observer-polyfill/1.5.1:
     resolution: {integrity: sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==}
