@@ -1,8 +1,5 @@
 import type { Plugin } from '@modern-js/runtime-core';
 import { loadableReady } from '@loadable/component';
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error React 18
 import ReactDOM from 'react-dom/client';
 import { RenderLevel, SSRServerContext } from './serverRender/type';
 import { formatClient, mockResponse } from './utils';

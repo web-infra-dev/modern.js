@@ -133,11 +133,15 @@ export const routerPlugin = ({
           let RouteApp = getRouteApp();
 
           if (App) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error hoist-non-react-statics types not adaptor for react 18
             RouteApp = hoistNonReactStatics(RouteApp, App);
           }
 
           if (routesConfig?.globalApp) {
             return next({
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-expect-error hoist-non-react-statics types not adaptor for react 18
               App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
             });
           }
