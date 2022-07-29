@@ -1,6 +1,4 @@
 import React from 'react';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error React 18
 import ReactDOM from 'react-dom/client';
 import { runtime, Plugin } from './plugin';
 

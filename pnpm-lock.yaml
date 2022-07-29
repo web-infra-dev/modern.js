@@ -1,9 +1,5 @@
 lockfileVersion: 5.3
 
-overrides:
-  '@types/react': ^17
-  '@types/react-dom': ^17
-
 importers:
 
   .:
@@ -2174,8 +2170,8 @@ importers:
       '@types/invariant': ^2.2.30
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
+      '@types/react': ^18
+      '@types/react-dom': ^18
       '@types/styled-components': ^5.1.14
       hoist-non-react-statics: ^3.3.2
       invariant: ^2.2.4
@@ -2204,8 +2200,8 @@ importers:
       '@types/invariant': 2.2.35
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
+      '@types/react': 18.0.15
+      '@types/react-dom': 18.0.6
       jest: 27.5.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -11401,8 +11397,8 @@ packages:
         optional: true
     dependencies:
       '@babel/runtime': 7.18.6
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
+      '@types/react': 18.0.15
+      '@types/react-dom': 18.0.6
       '@types/react-test-renderer': 18.0.0
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -11423,8 +11419,8 @@ packages:
         optional: true
     dependencies:
       '@babel/runtime': 7.18.6
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
+      '@types/react': 18.0.15
+      '@types/react-dom': 18.0.6
       '@types/react-test-renderer': 18.0.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -12072,6 +12068,12 @@ packages:
     dependencies:
       '@types/react': 17.0.47
 
+  /@types/react-dom/18.0.6:
+    resolution: {integrity: sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==}
+    dependencies:
+      '@types/react': 17.0.47
+    dev: true
+
   /@types/react-helmet/6.1.5:
     resolution: {integrity: sha512-/ICuy7OHZxR0YCAZLNg9r7I9aijWUWvxaPR6uTuyxe8tAj5RL4Sw1+R6NhXUtOsarkGYPmaHdBDvuXh2DIN/uA==}
     dependencies:
@@ -12129,6 +12131,14 @@ packages:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
       csstype: 3.1.0
+
+  /@types/react/18.0.15:
+    resolution: {integrity: sha512-iz3BtLuIYH1uWdsv6wXYdhozhqj20oD4/Hk2DNXIn1kFsmp9x8d9QB6FnPhfkbhd2PgEONt9Q1x/ebkwjfFLow==}
+    dependencies:
+      '@types/prop-types': 15.7.5
+      '@types/scheduler': 0.16.2
+      csstype: 3.1.0
+    dev: true
 
   /@types/recursive-readdir/2.2.0:
     resolution: {integrity: sha512-HGk753KRu2N4mWduovY4BLjYq4jTOL29gV2OfGdGxHcPSWGFkC5RRIdk+VTs5XmYd7MVAD+JwKrcb5+5Y7FOCg==}

@@ -1,6 +1,4 @@
 import React, { useContext, useMemo } from 'react';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
 import ReactDOM from 'react-dom/client';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { Plugin, runtime } from './plugin';
@@ -58,6 +56,8 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
     };
 
     if (App) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error hoist-non-react-statics types not adaptor for react 18
       hoistNonReactStatics(WrapperComponent, App);
     }
 
