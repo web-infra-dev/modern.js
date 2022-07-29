@@ -133,8 +133,6 @@ importers:
       '@types/babel__core': ^7.1.15
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       babel-plugin-module-resolver: ^4.0.0
       babel-plugin-transform-define: ^2
       babel-plugin-transform-inline-environment-variables: ^0.4.3
@@ -154,8 +152,6 @@ importers:
       '@types/babel__core': 7.1.19
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       jest: 27.5.1
       typescript: 4.7.4
 
@@ -174,8 +170,6 @@ importers:
       '@types/babel__core': ^7.1.15
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       jest: ^27
       typescript: ^4
     dependencies:
@@ -193,8 +187,6 @@ importers:
       '@types/babel__core': 7.1.19
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       jest: 27.5.1
       typescript: 4.7.4
 
@@ -212,8 +204,6 @@ importers:
       '@types/jest': ^27
       '@types/less': ^3.0.3
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       autoprefixer: ^10.3.1
       btsm: 2.2.2
       electron-builder: 22.7.0
@@ -237,8 +227,6 @@ importers:
       '@types/jest': 27.5.2
       '@types/less': 3.0.3
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       autoprefixer: 10.4.7_postcss@8.4.14
       btsm: 2.2.2
       electron-builder: 22.7.0
@@ -707,8 +695,6 @@ importers:
       '@types/cross-spawn': ^6.0.2
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       cross-spawn: ^7.0.1
       eslint: ^7.32.0
       husky: 4.3.8
@@ -732,8 +718,6 @@ importers:
       '@types/cross-spawn': 6.0.2
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       jest: 27.5.1
       typescript: 4.7.4
 
@@ -1416,11 +1400,8 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       handlebars: ^4.7.7
       jest: ^27
-      react: ^17
       typescript: ^4
       vm2: ^3.9.2
     dependencies:
@@ -1443,10 +1424,7 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       jest: 27.5.1
-      react: 17.0.2
       typescript: 4.7.4
 
   packages/generator/generator-utils:
@@ -2575,8 +2553,6 @@ importers:
       '@types/formidable': ^1.2.3
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       '@types/supertest': ^2.0.11
       '@types/type-is': ^1.6.3
       body-parser: ^1.19.0
@@ -2585,8 +2561,6 @@ importers:
       finalhandler: ^1.1.2
       formidable: ^1.2.2
       jest: ^27
-      react: ^17.0.2
-      react-dom: ^17.0.2
       reflect-metadata: ^0.1.13
       rxjs: ^7.3.0
       supertest: ^6.1.6
@@ -2620,14 +2594,10 @@ importers:
       '@types/formidable': 1.2.5
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       '@types/supertest': 2.0.12
       express: 4.18.1
       fastify: 3.29.0
       jest: 27.5.1
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
       supertest: 6.2.3
       typescript: 4.7.4
 

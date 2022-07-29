@@ -6,7 +6,6 @@
   "repository": "modern-js-dev/modern.js",
   "license": "MIT",
   "keywords": [
-    "react",
     "framework",
     "modern",
     "modern.js"
@@ -72,14 +71,10 @@
     "@types/formidable": "^1.2.3",
     "@types/jest": "^27",
     "@types/node": "^14",
-    "@types/react": "^17",
-    "@types/react-dom": "^17",
     "@types/supertest": "^2.0.11",
     "express": "^4.17.1",
     "fastify": "^3.20.1",
     "jest": "^27",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
     "supertest": "^6.1.6",
     "typescript": "^4"
   },
