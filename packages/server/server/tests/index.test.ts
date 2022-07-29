@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { formatURL } from '../src/hmr-client/createSocketUrl';
 
 describe('formatURL', () => {
