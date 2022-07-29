@@ -79,6 +79,7 @@
     "@scripts/build": "workspace:*",
     "@swc/core": "^1.2.220",
     "@swc/jest": "^0.2.22",
+    "babel-plugin-module-resolver": "^4.1.0",
     "btsm": "2.2.2",
     "enhanced-resolve": "^5.9.2",
     "esbuild": "^0.14.38",
