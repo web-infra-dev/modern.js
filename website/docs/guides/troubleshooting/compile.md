@@ -111,6 +111,31 @@ export default defineConfig({
 
 ---
 
+### 如何在编译过程中进行 ESLint 代码校验？
+
+出于编译性能的考虑，Modern.js 默认不会在编译过程中进行 ESLint 校验，如果需要该功能，可以手动安装并注册社区中的 [eslint-webpack-plugin](https://github.com/webpack-contrib/eslint-webpack-plugin)。
+
+注册该插件的示例代码如下，更详细的用法请参考 [eslint-webpack-plugin](https://github.com/webpack-contrib/eslint-webpack-plugin) 文档。
+
+```js title="modern.config.js"
+import { defineConfig } from '@modern-js/app-tools';
+import ESLintPlugin from 'eslint-webpack-plugin';
+
+export default defineConfig({
+  tools: {
+    webpackChain(chain) {
+      chain.plugin('eslint-plugin').use(ESLintPlugin, [
+        {
+          extensions: ['.js', '.ts', '.jsx', 'tsx', '.mjs'],
+        },
+      ]);
+    },
+  },
+});
+```
+
+---
+
 ### 如何配置 SRI 校验？
 
 在 Modern.js 中，需要自主引入社区中的 [webpack-subresource-integrity](https://github.com/waysact/webpack-subresource-integrity) 插件来开启 SRI 校验。
