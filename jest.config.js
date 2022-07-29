@@ -7,7 +7,17 @@ module.exports = {
   ],
   coveragePathIgnorePatterns: ['/node_modules/', '/fixtures/'],
   transform: {
-    '\\.[jt]sx?$': 'esbuild-jest',
+    '\\.[jt]sx?$': [
+      '@swc/jest',
+      {
+        jsc: {
+          parser: {
+            syntax: 'typescript',
+            decorators: true,
+          },
+        },
+      },
+    ],
   },
   moduleNameMapper: {},
   globals: {},
