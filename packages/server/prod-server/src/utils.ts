@@ -1,6 +1,6 @@
 import type { NormalizedConfig } from '@modern-js/core';
 import { compile } from 'path-to-regexp';
-import { createDebugger } from '@modern-js/utils';
+import { createDebugger, isProd } from '@modern-js/utils';
 
 export const debug = createDebugger('prod-server') as any;
 
@@ -80,13 +80,25 @@ export const toPath = (reg: string, params: Record<string, any>) => {
   return fn(params);
 };
 
+export const useLocalPrefix = (url: string) => {
+  return isProd() && !url.includes('.');
+};
+
 export const getStaticReg = (output: NormalizedConfig['output'] = {}) => {
-  const { favicon, faviconByEntries, cssPath, jsPath, mediaPath } = output;
+  const {
+    favicon,
+    faviconByEntries,
+    cssPath,
+    jsPath,
+    mediaPath,
+    assetPrefix = '/',
+  } = output;
+  const prefix = useLocalPrefix(assetPrefix) ? assetPrefix : '';
   const favicons = prepareFavicons(favicon, faviconByEntries);
   const staticFiles = [cssPath, jsPath, mediaPath].filter(v => Boolean(v));
 
   const staticPathRegExp = new RegExp(
-    `^/(static/|upload/|favicon.ico|icon.png${
+    `^${prefix}/(static/|upload/|favicon.ico|icon.png${
       favicons.length > 0 ? `|${favicons.join('|')}` : ''
     }${staticFiles.length > 0 ? `|${staticFiles.join('|')}` : ''})`,
   );

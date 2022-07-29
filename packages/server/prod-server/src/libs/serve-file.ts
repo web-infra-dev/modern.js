@@ -1,6 +1,8 @@
 // Todo 看看是不是能 fork 一份，即使命中也返回
 import serve from 'serve-static';
 import { isString, isRegExp } from '@modern-js/utils';
+import { NormalizedConfig } from '@modern-js/core';
+import { useLocalPrefix } from '../utils';
 import { NextFunction } from '../type';
 import { ModernServerContext } from './context';
 
@@ -10,10 +12,11 @@ type Rule = {
 };
 
 export const createStaticFileHandler =
-  (rules: Rule[]) =>
+  (rules: Rule[], output: NormalizedConfig['output'] = {}) =>
   // eslint-disable-next-line consistent-return
   async (context: ModernServerContext, next: NextFunction) => {
     const { url: requestUrl, req, res } = context;
+    const { assetPrefix = '/' } = output;
 
     const hitRule = rules.find(item => {
       if (isString(item.path) && requestUrl.startsWith(item.path)) {
@@ -25,6 +28,9 @@ export const createStaticFileHandler =
     });
 
     if (hitRule) {
+      if (useLocalPrefix(assetPrefix)) {
+        req.url = req.url?.replace(assetPrefix, '');
+      }
       serve(hitRule.target)(req, res, () => {
         next();
       });
