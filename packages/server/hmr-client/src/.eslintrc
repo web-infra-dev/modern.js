@@ -1,6 +1,0 @@
-{
-  "extends": ["@modern-js-app"],
-  "rules": {
-    "no-console": "off"
-  }
-}

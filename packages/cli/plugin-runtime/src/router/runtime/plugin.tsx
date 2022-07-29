@@ -8,6 +8,7 @@ import { StaticRouter } from 'react-router-dom/server';
 import { RuntimeReactContext } from '@modern-js/runtime-core';
 import type { Plugin } from '@modern-js/runtime-core';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import { isBrowser } from '../../common';
 import { renderRoutes, getLocation, urlJoin } from './utils';
 import { ServerRouterContext } from './context';
 
@@ -56,9 +57,6 @@ export type RouterConfig = Partial<HistoryConfig> & {
   history?: History;
   serverBase?: string[];
 };
-
-// todo: check
-const isBrowser = () => typeof window !== 'undefined';
 
 export const routerPlugin = ({
   serverBase = [],

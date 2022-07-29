@@ -1,8 +1,8 @@
 import path from 'path';
 import { defineConfig, cli, CliPlugin } from '@modern-js/core';
-import AnalyzePlugin from '@modern-js/plugin-analyze';
 import LintPlugin from '@modern-js/plugin-jarvis';
 import { cleanRequireCache } from '@modern-js/utils';
+import AnalyzePlugin from './analyze';
 import { hooks } from './hooks';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils/language';
@@ -145,7 +145,7 @@ export default (): CliPlugin => ({
       },
 
       async beforeRestart() {
-        cleanRequireCache([require.resolve('@modern-js/plugin-analyze/cli')]);
+        cleanRequireCache([require.resolve('./analyze/cli')]);
       },
     };
   },

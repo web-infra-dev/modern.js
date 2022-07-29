@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.6.0",
+  "version": "1.7.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -53,6 +53,14 @@
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/js/node/cli/index.js"
+    },
+    "./bff-cli": {
+      "jsnext:source": "./src/cli/bff/index.ts",
+      "default": "./dist/js/node/cli/bff/index.js"
+    },
+    "./base": {
+      "jsnext:source": "./src/base/index.ts",
+      "default": "./dist/js/node/base/index.js"
     }
   },
   "typesVersions": {
@@ -74,6 +82,12 @@
       ],
       "runtime-base": [
         "./dist/types/runtime-testing/base.d.ts"
+      ],
+      "bff-cli": [
+        "./dist/types/cli/bff/index.d.ts"
+      ],
+      "base": [
+        "./dist/types/base/index.d.ts"
       ]
     }
   },
@@ -94,12 +108,12 @@
     "@modern-js-reduck/plugin-immutable": "^1.0.1",
     "@modern-js-reduck/store": "^1.0.3",
     "@modern-js/babel-compiler": "workspace:^1.2.6",
-    "@modern-js/runtime-core": "workspace:^1.5.3",
-    "@modern-js/utils": "workspace:^1.7.12",
-    "@modern-js/webpack": "workspace:^1.12.0",
+    "@modern-js/runtime-core": "workspace:^1.5.4",
+    "@modern-js/utils": "workspace:^1.8.0",
+    "@modern-js/webpack": "workspace:^1.12.2",
     "@modern-js/babel-preset-app": "workspace:^1.5.0",
     "@modern-js/plugin": "workspace:^1.4.1",
-    "@modern-js/server": "workspace:^1.5.1",
+    "@modern-js/server": "workspace:^1.6.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/testing-library__jest-dom": "^5.14.3",

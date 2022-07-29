@@ -67,6 +67,7 @@ export interface SourceConfig {
         disableMount?: boolean;
       }
   >;
+  preEntry?: string | string[];
   disableDefaultEntries?: boolean;
   entriesDir?: string;
   configDir?: string;

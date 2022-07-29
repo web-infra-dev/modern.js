@@ -22,6 +22,7 @@ export const source = {
         },
       },
     },
+    preEntry: { type: ['string', 'array'] },
     alias: { typeof: ['object', 'function'] },
     disableDefaultEntries: { type: 'boolean' },
     envVars: { type: 'array' },

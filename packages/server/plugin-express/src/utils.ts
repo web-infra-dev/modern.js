@@ -6,12 +6,14 @@ import {
   ResponseMeta,
   HttpMetadata,
   ResponseMetaType,
+  ValidationError,
 } from '@modern-js/bff-core';
 import type { APIHandlerInfo } from '@modern-js/bff-core';
 import { isSchemaHandler, InputType } from '@modern-js/bff-runtime';
 import type { Request, Response, NextFunction } from 'express';
 import typeIs from 'type-is';
 import formidable from 'formidable';
+import type { EndFunction } from './runtime';
 
 type Handler = APIHandlerInfo['handler'];
 
@@ -51,10 +53,40 @@ export const createRouteHandler = (handler: Handler) => {
     next: NextFunction,
     // eslint-disable-next-line consistent-return
   ) => {
-    const input = await getInputFromRequest(req);
+    let input = await getInputFromRequest(req);
     if (isWithMetaHandler(handler)) {
+      const pipeFuncs = Reflect.getMetadata('pipe', handler);
+      let isPiped = true;
+      const end: EndFunction = value => {
+        isPiped = false;
+        if (typeof value === 'function') {
+          value(res);
+          return;
+        }
+        // eslint-disable-next-line consistent-return
+        return value;
+      };
+      if (Array.isArray(pipeFuncs)) {
+        for (const pipeFunc of pipeFuncs) {
+          const output = await pipeFunc(input, end);
+          if (!isPiped) {
+            if (output) {
+              return res.send(output);
+            } else {
+              // eslint-disable-next-line consistent-return
+              return;
+            }
+          }
+          input = output;
+        }
+      }
+
       try {
         handleResponseMeta(res, handler);
+        if (res.headersSent) {
+          // eslint-disable-next-line consistent-return
+          return;
+        }
         const result = await handler(input);
         return res.json(result);
       } catch (error) {
@@ -69,6 +101,13 @@ export const createRouteHandler = (handler: Handler) => {
             message: error.message,
           });
         }
+        if (error instanceof ValidationError) {
+          res.status((error as any).status);
+          return res.json({
+            message: error.message,
+          });
+        }
+        throw error;
       }
     } else if (isSchemaHandler(handler)) {
       const result = await handler(input);

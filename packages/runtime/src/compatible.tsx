@@ -136,7 +136,8 @@ export const bootstrap: BootStrap = async (
     });
   }
 
-  if (typeof window !== 'undefined') {
+  const isBrowser = typeof window !== 'undefined' && window.name !== 'nodejs';
+  if (isBrowser) {
     if (isClientArgs(id)) {
       const ssrData = (window as any)._SSR_DATA;
       const loadersData = ssrData?.data?.loadersData || {};
@@ -188,17 +189,18 @@ export const bootstrap: BootStrap = async (
         '`bootstrap` needs id in browser environment, it needs to be string or element',
       );
     }
-  } else if (!isClientArgs(id)) {
+  } else {
     Object.assign(context, {
       ssrContext: id,
       isBrowser: false,
       loaderManager: createLoaderManager(
         {},
         {
-          skipNonStatic: id.staticGenerate,
+          skipNonStatic: (id as Record<string, any>).staticGenerate,
           // if not static generate, only non-static loader can exec on prod env
           skipStatic:
-            process.env.NODE_ENV === 'production' && !id.staticGenerate,
+            process.env.NODE_ENV === 'production' &&
+            !(id as Record<string, any>).staticGenerate,
         },
       ),
     });
@@ -210,10 +212,6 @@ export const bootstrap: BootStrap = async (
       App,
       context,
     });
-  } else {
-    throw Error(
-      '`bootstrap` should run in browser environment when the second param is not the serverContext',
-    );
   }
 };
 

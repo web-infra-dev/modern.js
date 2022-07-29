@@ -1,5 +1,28 @@
 # @modern-js/server
 
+## 1.6.0
+
+### Minor Changes
+
+- 83660b6: chore(server): merge `@modern-js/hmr-client` to `@modern-js/server`
+
+  chore(server): 合并 `@modern-js/hmr-client` 到 `@modern-js/server`
+
+### Patch Changes
+
+- Updated dependencies [1421965]
+- Updated dependencies [02647d2]
+- Updated dependencies [4fc801f]
+- Updated dependencies [9d60891]
+- Updated dependencies [2ed8f7d]
+- Updated dependencies [e4b73b2]
+- Updated dependencies [c8614b8]
+- Updated dependencies [df73691]
+  - @modern-js/webpack@1.12.2
+  - @modern-js/utils@1.8.0
+  - @modern-js/prod-server@1.2.1
+  - @modern-js/server-utils@1.2.11
+
 ## 1.5.1
 
 ### Patch Changes

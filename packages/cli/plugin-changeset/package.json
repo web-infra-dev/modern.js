@@ -45,7 +45,7 @@
     "@changesets/git": "^1.3.2",
     "@changesets/read": "^0.5.5",
     "@modern-js/plugin-i18n": "workspace:^1.3.0",
-    "@modern-js/utils": "workspace:^1.7.12",
+    "@modern-js/utils": "workspace:^1.8.0",
     "execa": "^5.1.1",
     "resolve-from": "^5.0.0"
   },

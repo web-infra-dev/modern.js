@@ -1,5 +1,13 @@
 # @modern-js/generator-plugin-plugin
 
+## 1.3.0
+
+### Minor Changes
+
+- 52374e3: chore(generator): use module-tools bundle function to bundle generator package
+
+  chore(generator): 使用 module-tools 的 bundle 功能实现生成器打包
+
 ## 1.2.4
 
 ### Patch Changes

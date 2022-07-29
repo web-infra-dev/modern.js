@@ -1,5 +1,19 @@
 # @modern-js/core
 
+## 1.13.1
+
+### Patch Changes
+
+- 9d60891: feat(webpack): support source.preEntry config
+
+  feat(webpack): 新增 source.preEntry 配置项
+
+- 5876e63: fix: the SSG callback is called once for each baseUrl, when a user configures multiple baseUrl.
+  fix: 当用户配置了多个 baseUrl 时，将会为每个 baseUrl 调用一次 SSG 回调函数。
+- Updated dependencies [4fc801f]
+- Updated dependencies [c8614b8]
+  - @modern-js/utils@1.8.0
+
 ## 1.13.0
 
 ### Minor Changes

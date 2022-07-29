@@ -1,5 +1,26 @@
 # @modern-js/new-action
 
+## 1.4.0
+
+### Minor Changes
+
+- 52374e3: chore(generator): use module-tools bundle function to bundle generator package
+
+  chore(generator): 使用 module-tools 的 bundle 功能实现生成器打包
+
+### Patch Changes
+
+- 281edd5: fix: monorepo new command plugin path
+
+  fix: 修复 monorepo tools new 命令计算插件路径
+
+- Updated dependencies [4fc801f]
+- Updated dependencies [c8614b8]
+- Updated dependencies [52374e3]
+  - @modern-js/utils@1.8.0
+  - @modern-js/generator-common@1.6.0
+  - @modern-js/generator-utils@1.4.0
+
 ## 1.3.12
 
 ### Patch Changes
