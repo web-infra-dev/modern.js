@@ -23,9 +23,12 @@ const validateInput = async <
   Catchall extends z.ZodTypeAny = z.ZodTypeAny,
   Output = z.objectOutputType<T, Catchall>,
   Input = z.objectInputType<T, Catchall>,
+  Def extends z.ZodTypeDef = z.ZodTypeDef,
 >(
-  schema: z.ZodObject<T, UnknownKeys, Catchall, Output, Input> | z.ZodType,
-  input: z.input<z.ZodObject<T, UnknownKeys, Catchall, Output, Input>>,
+  schema:
+    | z.ZodObject<T, UnknownKeys, Catchall, Output, Input>
+    | z.ZodType<Output, Def, Input>,
+  input: Input,
 ): Promise<Output> => {
   try {
     return await schema.parseAsync(input);
