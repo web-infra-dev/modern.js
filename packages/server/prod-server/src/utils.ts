@@ -97,10 +97,11 @@ export const getStaticReg = (output: NormalizedConfig['output'] = {}) => {
   const favicons = prepareFavicons(favicon, faviconByEntries);
   const staticFiles = [cssPath, jsPath, mediaPath].filter(v => Boolean(v));
 
+  const staticReg = ['static/', 'upload/', ...staticFiles];
+  const iconReg = ['favicon.ico', 'icon.png', ...favicons];
+  const regPrefix = prefix === '/' ? '' : prefix;
   const staticPathRegExp = new RegExp(
-    `^${prefix}/(static/|upload/|favicon.ico|icon.png${
-      favicons.length > 0 ? `|${favicons.join('|')}` : ''
-    }${staticFiles.length > 0 ? `|${staticFiles.join('|')}` : ''})`,
+    `^${regPrefix}/(${[...staticReg, ...iconReg].join('|')})`,
   );
 
   return staticPathRegExp;
