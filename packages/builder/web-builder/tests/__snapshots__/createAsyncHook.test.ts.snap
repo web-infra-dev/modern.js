@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`initHooks should init hooks correctly 1`] = `
+Array [
+  "onExitHook",
+  "onAfterBuildHook",
+  "onBeforeBuildHook",
+  "modifyWebpackChainHook",
+  "modifyWebpackConfigHook",
+  "modifyBuilderConfigHook",
+  "onAfterCreateCompilerHooks",
+  "onBeforeCreateCompilerHooks",
+]
+`;
