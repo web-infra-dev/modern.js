@@ -117,7 +117,10 @@ export const generateCode = async (
 
         const { code } = await hookRunners.beforeGenerateRoutes({
           entrypoint,
-          code: templates.fileSystemRoutes({ routes }),
+          code: templates.fileSystemRoutes({
+            routes,
+            disableLoadable: Boolean(config?.runtime?.router?.disableLoadable),
+          }),
         });
 
         fs.outputFileSync(

@@ -94,7 +94,27 @@ export const html = (partials: {
 </html>
 `;
 
-export const fileSystemRoutes = ({ routes }: { routes: Route[] }) => `
+export const fileSystemRoutes = ({
+  routes,
+  disableLoadable,
+}: {
+  routes: Route[];
+  disableLoadable?: boolean;
+}) =>
+  disableLoadable
+    ? `
+${routes
+  .map(
+    ({ component, _component }) => `import ${component} from '${_component}';`,
+  )
+  .join('\n\n')}
+
+export const routes = ${JSON.stringify(routes, null, 2).replace(
+        /"component"\s*:\s*"(\S+)"/g,
+        '"component": $1',
+      )}
+`
+    : `
 import loadable from '@modern-js/runtime/loadable';
 
 ${routes
@@ -106,7 +126,7 @@ ${routes
 
 
 export const routes = ${JSON.stringify(routes, null, 2).replace(
-  /"component"\s*:\s*"(\S+)"/g,
-  '"component": $1',
-)}
+        /"component"\s*:\s*"(\S+)"/g,
+        '"component": $1',
+      )}
 `;
