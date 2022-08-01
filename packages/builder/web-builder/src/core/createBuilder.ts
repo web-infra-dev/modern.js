@@ -1,5 +1,4 @@
 import { pick } from '../shared';
-import { createCompiler } from './createCompiler';
 import { createContext, createPublicContext } from './createContext';
 import { createPluginStore } from './createPluginStore';
 import { initConfigs } from './initConfigs';
@@ -13,24 +12,30 @@ export type CreateBuilderOptions = {
 export async function createBuilder(options: CreateBuilderOptions = {}) {
   const cwd = options.cwd || process.cwd();
   const builderConfig = options.builderConfig || {};
-
   const context = await createContext(cwd, builderConfig);
+  const publicContext = createPublicContext(context);
   const pluginStore = await createPluginStore();
 
   await addDefaultPlugins(pluginStore);
 
-  const builder = {
-    ...pick(pluginStore, ['addPlugins', 'removePlugins', 'isPluginExists']),
-
-    context: createPublicContext(context),
-
-    createCompiler: async () => {
-      const { webpackConfigs } = await initConfigs({ context, pluginStore });
-      return createCompiler({ context, webpackConfigs });
-    },
+  const build = async () => {
+    const { build } = await import('./build');
+    const { webpackConfigs } = await initConfigs({ context, pluginStore });
+    return build({ context, webpackConfigs });
   };
 
-  return builder;
+  const createCompiler = async () => {
+    const { createCompiler } = await import('./createCompiler');
+    const { webpackConfigs } = await initConfigs({ context, pluginStore });
+    return createCompiler({ context, webpackConfigs });
+  };
+
+  return {
+    ...pick(pluginStore, ['addPlugins', 'removePlugins', 'isPluginExists']),
+    build,
+    context: publicContext,
+    createCompiler,
+  };
 }
 
 async function addDefaultPlugins(pluginStore: PluginStore) {
