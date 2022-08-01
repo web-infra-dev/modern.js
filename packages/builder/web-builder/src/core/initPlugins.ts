@@ -1,18 +1,5 @@
-import type {
-  Context,
-  OnExitFn,
-  PluginStore,
-  OnAfterBuildFn,
-  OnBeforeBuildFn,
-  WebBuilderPluginAPI,
-  ModifyWebpackChainFn,
-  ModifyWebpackConfigFn,
-  ModifyBuilderConfigFn,
-  OnAfterCreateCompilerFn,
-  OnBeforeCreateCompilerFn,
-} from '../types';
+import type { Context, PluginStore, WebBuilderPluginAPI } from '../types';
 import { STATUS } from '../shared';
-import { createAsyncHook } from './createHook';
 import { createPublicContext } from './createContext';
 
 export async function initPlugins({
@@ -24,17 +11,8 @@ export async function initPlugins({
 }) {
   context.setStatus(STATUS.BEFORE_INIT_PLUGINS);
 
+  const { hooks } = context;
   const publicContext = createPublicContext(context);
-
-  const onExitHook = createAsyncHook<OnExitFn>();
-  const onAfterBuildHook = createAsyncHook<OnAfterBuildFn>();
-  const onBeforeBuildHook = createAsyncHook<OnBeforeBuildFn>();
-  const modifyWebpackChainHook = createAsyncHook<ModifyWebpackChainFn>();
-  const modifyWebpackConfigHook = createAsyncHook<ModifyWebpackConfigFn>();
-  const modifyBuilderConfigHook = createAsyncHook<ModifyBuilderConfigFn>();
-  const onAfterCreateCompilerHooks = createAsyncHook<OnAfterCreateCompilerFn>();
-  const onBeforeCreateCompilerHooks =
-    createAsyncHook<OnBeforeCreateCompilerFn>();
 
   const getBuilderConfig = () => context.config;
 
@@ -44,16 +22,16 @@ export async function initPlugins({
     isPluginExists: pluginStore.isPluginExists,
 
     // Hooks
-    onExit: onExitHook.tap,
-    onAfterBuild: onAfterBuildHook.tap,
-    onBeforeBuild: onBeforeBuildHook.tap,
-    onAfterCreateCompiler: onAfterCreateCompilerHooks.tap,
-    onBeforeCreateCompiler: onBeforeCreateCompilerHooks.tap,
+    onExit: hooks.onExitHook.tap,
+    onAfterBuild: hooks.onAfterBuildHook.tap,
+    onBeforeBuild: hooks.onBeforeBuildHook.tap,
+    onAfterCreateCompiler: hooks.onAfterCreateCompilerHooks.tap,
+    onBeforeCreateCompiler: hooks.onBeforeCreateCompilerHooks.tap,
 
     // Modifiers
-    modifyWebpackChain: modifyWebpackChainHook.tap,
-    modifyWebpackConfig: modifyWebpackConfigHook.tap,
-    modifyBuilderConfig: modifyBuilderConfigHook.tap,
+    modifyWebpackChain: hooks.modifyWebpackChainHook.tap,
+    modifyWebpackConfig: hooks.modifyWebpackConfigHook.tap,
+    modifyBuilderConfig: hooks.modifyBuilderConfigHook.tap,
   };
 
   for (const plugin of pluginStore.plugins) {
@@ -61,15 +39,4 @@ export async function initPlugins({
   }
 
   context.setStatus(STATUS.AFTER_INIT_PLUGINS);
-
-  return {
-    onExitHook,
-    onAfterBuildHook,
-    onBeforeBuildHook,
-    onAfterCreateCompilerHooks,
-    onBeforeCreateCompilerHooks,
-    modifyWebpackChainHook,
-    modifyWebpackConfigHook,
-    modifyBuilderConfigHook,
-  };
 }

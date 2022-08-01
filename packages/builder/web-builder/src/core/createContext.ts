@@ -1,6 +1,7 @@
-import type { Context, WebBuilderContext, WebBuilderConfig } from '../types';
+import type { Context, WebBuilderConfig, WebBuilderContext } from '../types';
 import { pick, STATUS } from '../shared';
 import { performance } from 'perf_hooks';
+import { initHooks } from './createHook';
 
 export async function createContext(config: WebBuilderConfig) {
   const startTime = performance.now();
@@ -12,6 +13,8 @@ export async function createContext(config: WebBuilderConfig) {
     // TODO should deep clone
     config: { ...config },
     originalConfig: config,
+
+    hooks: initHooks(),
 
     setStatus(status: STATUS) {
       context.status = status;

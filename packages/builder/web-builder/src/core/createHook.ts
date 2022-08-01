@@ -1,3 +1,14 @@
+import type {
+  OnExitFn,
+  OnAfterBuildFn,
+  OnBeforeBuildFn,
+  ModifyWebpackChainFn,
+  ModifyWebpackConfigFn,
+  ModifyBuilderConfigFn,
+  OnAfterCreateCompilerFn,
+  OnBeforeCreateCompilerFn,
+} from '../types';
+
 export type AsyncHook<Callback extends (...args: any[]) => any> = {
   tap: (cb: Callback) => void;
   call: (
@@ -31,3 +42,18 @@ export function createAsyncHook<Callback extends (...args: any[]) => any>() {
     call,
   };
 }
+
+export function initHooks() {
+  return {
+    onExitHook: createAsyncHook<OnExitFn>(),
+    onAfterBuildHook: createAsyncHook<OnAfterBuildFn>(),
+    onBeforeBuildHook: createAsyncHook<OnBeforeBuildFn>(),
+    modifyWebpackChainHook: createAsyncHook<ModifyWebpackChainFn>(),
+    modifyWebpackConfigHook: createAsyncHook<ModifyWebpackConfigFn>(),
+    modifyBuilderConfigHook: createAsyncHook<ModifyBuilderConfigFn>(),
+    onAfterCreateCompilerHooks: createAsyncHook<OnAfterCreateCompilerFn>(),
+    onBeforeCreateCompilerHooks: createAsyncHook<OnBeforeCreateCompilerFn>(),
+  };
+}
+
+export type Hooks = ReturnType<typeof initHooks>;
