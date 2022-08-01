@@ -8,11 +8,13 @@ export type WebBuilderContext = {
   rootPath: string;
   distPath: string;
   cachePath: string;
-  originalConfig: WebBuilderConfig;
+  configPath?: string;
+  tsconfigPath?: string;
+  originalConfig: Readonly<WebBuilderConfig>;
 };
 
 // The private context
-export type Context = Readonly<WebBuilderContext> & {
+export type Context = WebBuilderContext & {
   status: STATUS;
   hooks: Readonly<Hooks>;
   config: Readonly<WebBuilderConfig>;

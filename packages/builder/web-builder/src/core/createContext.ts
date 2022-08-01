@@ -1,9 +1,12 @@
 import { join } from 'path';
 import { initHooks } from './createHook';
-import { pick, STATUS } from '../shared';
-import type { Context, WebBuilderConfig, WebBuilderContext } from '../types';
+import { pick, STATUS, isFileExists } from '../shared';
+import type { CreateBuilderOptions } from './createBuilder';
+import type { Context, WebBuilderContext } from '../types';
 
-export async function createContext(cwd: string, config: WebBuilderConfig) {
+export async function createContext(options: CreateBuilderOptions) {
+  const cwd = options.cwd || process.cwd();
+  const config = options.builderConfig || {};
   const hooks = initHooks();
   const status = STATUS.INITIAL;
   const rootPath = cwd;
@@ -20,10 +23,20 @@ export async function createContext(cwd: string, config: WebBuilderConfig) {
     rootPath,
     distPath,
     cachePath,
+    configPath: options.configPath,
     // TODO should deep clone
     config: { ...config },
     originalConfig: config,
   };
+
+  if (options.configPath) {
+    context.configPath = options.configPath;
+  }
+
+  const tsconfigPath = join(rootPath, 'tsconfig.json');
+  if (await isFileExists(tsconfigPath)) {
+    context.tsconfigPath = tsconfigPath;
+  }
 
   return context;
 }
@@ -37,6 +50,8 @@ export function createPublicContext(
       'rootPath',
       'distPath',
       'cachePath',
+      'configPath',
+      'tsconfigPath',
       'originalConfig',
     ]),
   );

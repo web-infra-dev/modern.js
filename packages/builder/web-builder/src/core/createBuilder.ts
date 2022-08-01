@@ -6,13 +6,12 @@ import type { PluginStore, WebBuilderConfig } from '../types';
 
 export type CreateBuilderOptions = {
   cwd?: string;
+  configPath?: string;
   builderConfig?: WebBuilderConfig;
 };
 
 export async function createBuilder(options: CreateBuilderOptions = {}) {
-  const cwd = options.cwd || process.cwd();
-  const builderConfig = options.builderConfig || {};
-  const context = await createContext(cwd, builderConfig);
+  const context = await createContext(options);
   const publicContext = createPublicContext(context);
   const pluginStore = await createPluginStore();
 
@@ -40,12 +39,14 @@ export async function createBuilder(options: CreateBuilderOptions = {}) {
 
 async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginMode } = await import('../plugins/mode');
+  const { PluginCache } = await import('../plugins/cache');
   const { PluginDevtool } = await import('../plugins/devtool');
   const { PluginProgress } = await import('../plugins/progress');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
     PluginMode(),
+    PluginCache(),
     PluginDevtool(),
 
     // Plugins that provide basic webpack plugins
