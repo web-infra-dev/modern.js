@@ -1,9 +1,9 @@
 import { pick } from '../shared';
-import type { PluginStore, WebBuilderConfig } from '../types';
 import { createCompiler } from './createCompiler';
 import { createContext, createPublicContext } from './createContext';
 import { createPluginStore } from './createPluginStore';
 import { initConfigs } from './initConfigs';
+import type { PluginStore, WebBuilderConfig } from '../types';
 
 export type CreateBuilderOptions = {
   cwd?: string;
@@ -25,8 +25,8 @@ export async function createBuilder(options: CreateBuilderOptions = {}) {
     context: createPublicContext(context),
 
     createCompiler: async () => {
-      await initConfigs({ context, pluginStore });
-      return createCompiler(context);
+      const { webpackConfigs } = await initConfigs({ context, pluginStore });
+      return createCompiler({ context, webpackConfigs });
     },
   };
 

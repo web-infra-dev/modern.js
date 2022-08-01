@@ -54,6 +54,8 @@ export async function initConfigs({
   const chain = await modifyWebpackChain(context);
   const webpackConfig = await modifyWebpackConfig(context, chain.toConfig());
 
-  // eslint-disable-next-line no-console
-  console.log('final webpack config', webpackConfig);
+  return {
+    // TODO support SSR config
+    webpackConfigs: [webpackConfig],
+  };
 }

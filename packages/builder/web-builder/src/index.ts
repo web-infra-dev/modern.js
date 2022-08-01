@@ -1,6 +1,3 @@
-import webpack from 'webpack';
-
-export { webpack };
 export { createBuilder } from './core/createBuilder';
 
 // Types

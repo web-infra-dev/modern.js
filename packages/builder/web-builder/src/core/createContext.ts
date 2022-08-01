@@ -1,7 +1,7 @@
-import type { Context, WebBuilderConfig, WebBuilderContext } from '../types';
-import { pick, STATUS } from '../shared';
-import { initHooks } from './createHook';
 import { join } from 'path';
+import { initHooks } from './createHook';
+import { pick, STATUS } from '../shared';
+import type { Context, WebBuilderConfig, WebBuilderContext } from '../types';
 
 export async function createContext(cwd: string, config: WebBuilderConfig) {
   const hooks = initHooks();

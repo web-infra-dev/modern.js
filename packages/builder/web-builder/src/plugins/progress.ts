@@ -6,11 +6,11 @@ export const PluginProgress = (): WebBuilderPlugin => ({
   setup(api) {
     api.modifyWebpackChain(async chain => {
       const { CHAIN_ID } = await import('@modern-js/utils');
-      const WebpackBar = (await import('../../compiled/webpackbar')).default;
+      const { default: WebpackBar } = await import('../../compiled/webpackbar');
 
       chain
         .plugin(CHAIN_ID.PLUGIN.PROGRESS)
-        .use(WebpackBar, [{ name: chain.get('name') }]);
+        .use(WebpackBar, [{ name: chain.get('name') || 'client' }]);
     });
   },
 });
