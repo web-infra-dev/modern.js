@@ -5,15 +5,15 @@ import type { WebBuilderConfig } from './config';
 // The public context
 export type WebBuilderContext = {
   srcPath: string;
+  rootPath: string;
   distPath: string;
   cachePath: string;
   originalConfig: WebBuilderConfig;
 };
 
 // The private context
-export type Context = WebBuilderContext & {
-  hooks: Hooks;
+export type Context = Readonly<WebBuilderContext> & {
   status: STATUS;
-  config: WebBuilderConfig;
-  setStatus: (status: STATUS) => void;
+  hooks: Readonly<Hooks>;
+  config: Readonly<WebBuilderConfig>;
 };

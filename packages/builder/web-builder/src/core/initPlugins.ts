@@ -9,7 +9,7 @@ export async function initPlugins({
   context: Context;
   pluginStore: PluginStore;
 }) {
-  context.setStatus(STATUS.BEFORE_INIT_PLUGINS);
+  context.status = STATUS.BEFORE_INIT_PLUGINS;
 
   const { hooks } = context;
   const publicContext = createPublicContext(context);
@@ -25,18 +25,16 @@ export async function initPlugins({
     onExit: hooks.onExitHook.tap,
     onAfterBuild: hooks.onAfterBuildHook.tap,
     onBeforeBuild: hooks.onBeforeBuildHook.tap,
-    onAfterCreateCompiler: hooks.onAfterCreateCompilerHooks.tap,
-    onBeforeCreateCompiler: hooks.onBeforeCreateCompilerHooks.tap,
-
-    // Modifiers
     modifyWebpackChain: hooks.modifyWebpackChainHook.tap,
     modifyWebpackConfig: hooks.modifyWebpackConfigHook.tap,
     modifyBuilderConfig: hooks.modifyBuilderConfigHook.tap,
+    onAfterCreateCompiler: hooks.onAfterCreateCompilerHooks.tap,
+    onBeforeCreateCompiler: hooks.onBeforeCreateCompilerHooks.tap,
   };
 
   for (const plugin of pluginStore.plugins) {
     await plugin.setup(pluginAPI);
   }
 
-  context.setStatus(STATUS.AFTER_INIT_PLUGINS);
+  context.status = STATUS.AFTER_INIT_PLUGINS;
 }

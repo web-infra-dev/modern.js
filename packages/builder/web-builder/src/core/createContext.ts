@@ -1,26 +1,28 @@
 import type { Context, WebBuilderConfig, WebBuilderContext } from '../types';
 import { pick, STATUS } from '../shared';
-import { performance } from 'perf_hooks';
 import { initHooks } from './createHook';
+import { join } from 'path';
 
-export async function createContext(config: WebBuilderConfig) {
-  const startTime = performance.now();
+export async function createContext(cwd: string, config: WebBuilderConfig) {
+  const hooks = initHooks();
+  const status = STATUS.INITIAL;
+  const rootPath = cwd;
+  const srcPath = join(rootPath, 'src');
+  const distPath = join(rootPath, 'dist');
+  const cachePath = join(rootPath, 'node_modules', '.cache');
+
+  // TODO some properties should be readonly
   const context: Context = {
-    status: STATUS.INITIAL,
-    srcPath: '',
-    distPath: '',
-    cachePath: '',
+    hooks,
+    // TODO using setter to set status and log some performance info
+    status,
+    srcPath,
+    rootPath,
+    distPath,
+    cachePath,
     // TODO should deep clone
     config: { ...config },
     originalConfig: config,
-
-    hooks: initHooks(),
-
-    setStatus(status: STATUS) {
-      context.status = status;
-      // eslint-disable-next-line no-console
-      console.log(status, performance.now() - startTime);
-    },
   };
 
   return context;
@@ -30,6 +32,12 @@ export function createPublicContext(
   context: Context,
 ): Readonly<WebBuilderContext> {
   return Object.freeze(
-    pick(context, ['srcPath', 'distPath', 'cachePath', 'originalConfig']),
+    pick(context, [
+      'srcPath',
+      'rootPath',
+      'distPath',
+      'cachePath',
+      'originalConfig',
+    ]),
   );
 }

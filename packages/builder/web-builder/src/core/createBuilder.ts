@@ -5,8 +5,16 @@ import { createContext, createPublicContext } from './createContext';
 import { createPluginStore } from './createPluginStore';
 import { initConfigs } from './initConfigs';
 
-export async function createBuilder(config: WebBuilderConfig = {}) {
-  const context = await createContext(config);
+export type CreateBuilderOptions = {
+  cwd?: string;
+  builderConfig?: WebBuilderConfig;
+};
+
+export async function createBuilder(options: CreateBuilderOptions = {}) {
+  const cwd = options.cwd || process.cwd();
+  const builderConfig = options.builderConfig || {};
+
+  const context = await createContext(cwd, builderConfig);
   const pluginStore = await createPluginStore();
 
   await addDefaultPlugins(pluginStore);
