@@ -10,6 +10,6 @@ export const warn = (message: string) => {
   console.warn(`${LOG_PREFIX} ${message}`);
 };
 
-export const error = (message: string) => {
+export const error = (message: string | Error) => {
   console.error(`${LOG_PREFIX} ${message}`);
 };
