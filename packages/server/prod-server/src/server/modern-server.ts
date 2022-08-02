@@ -432,6 +432,15 @@ export class ModernServer implements ModernServerInterface {
       return;
     }
 
+    if (route.responseHeaders) {
+      Object.keys(route.responseHeaders).forEach(key => {
+        const value = route.responseHeaders![key];
+        if (value) {
+          context.res.setHeader(key, value);
+        }
+      });
+    }
+
     if (route.entryName) {
       await this.emitRouteHook('beforeRender', { context });
     }
