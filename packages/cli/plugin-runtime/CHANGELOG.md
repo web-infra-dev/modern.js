@@ -1,5 +1,13 @@
 # @modern-js/runtime
 
+## 1.4.1
+
+### Patch Changes
+
+- 132812542: fix: plugin runtime dependencies
+
+  fix: 修复 runtime 插件依赖
+
 ## 1.4.0
 
 ### Minor Changes
