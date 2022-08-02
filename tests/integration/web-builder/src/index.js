@@ -1,2 +1,6 @@
-// eslint-disable-next-line no-console
-console.log('hello world!');
+function foo() {
+  // eslint-disable-next-line no-console
+  console.log('hello world!');
+}
+
+foo();
