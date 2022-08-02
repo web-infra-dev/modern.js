@@ -13,7 +13,6 @@ import { isSchemaHandler, InputType } from '@modern-js/bff-runtime';
 import type { Request, Response, NextFunction } from 'express';
 import typeIs from 'type-is';
 import formidable from 'formidable';
-import type { EndFunction } from './runtime';
 
 type Handler = APIHandlerInfo['handler'];
 
@@ -51,58 +50,23 @@ export const createRouteHandler = (handler: Handler) => {
     req: Request,
     res: Response,
     next: NextFunction,
-    // eslint-disable-next-line consistent-return
   ) => {
-    let input = await getInputFromRequest(req);
+    const input = await getInputFromRequest(req);
     if (isWithMetaHandler(handler)) {
-      const pipeFuncs = Reflect.getMetadata('pipe', handler);
-      let isPiped = true;
-      const end: EndFunction = value => {
-        isPiped = false;
-        if (typeof value === 'function') {
-          value(res);
-          return;
-        }
-        // eslint-disable-next-line consistent-return
-        return value;
-      };
-      if (Array.isArray(pipeFuncs)) {
-        for (const pipeFunc of pipeFuncs) {
-          const output = await pipeFunc(input, end);
-          if (!isPiped) {
-            if (output) {
-              return res.send(output);
-            } else {
-              // eslint-disable-next-line consistent-return
-              return;
-            }
-          }
-          input = output;
-        }
-      }
-
       try {
         handleResponseMeta(res, handler);
         if (res.headersSent) {
-          // eslint-disable-next-line consistent-return
           return;
         }
         const result = await handler(input);
-        return res.json(result);
-      } catch (error) {
-        if (error instanceof Error) {
-          if ((error as any).status) {
-            res.status((error as any).status);
-          } else {
-            res.status(500);
-          }
-          return res.json({
-            code: (error as any).code,
-            message: error.message,
-          });
+        if (result && typeof result === 'object') {
+          // eslint-disable-next-line consistent-return
+          return res.json(result);
         }
+      } catch (error) {
         if (error instanceof ValidationError) {
           res.status((error as any).status);
+          // eslint-disable-next-line consistent-return
           return res.json({
             message: error.message,
           });
@@ -117,9 +81,11 @@ export const createRouteHandler = (handler: Handler) => {
         } else {
           res.status(500);
         }
+        // eslint-disable-next-line consistent-return
         return res.json(result.message);
       } else {
         res.status(200);
+        // eslint-disable-next-line consistent-return
         return res.json(result.value);
       }
     } else {
@@ -130,13 +96,16 @@ export const createRouteHandler = (handler: Handler) => {
 
         // this should never happen
         if (res.headersSent) {
+          // eslint-disable-next-line consistent-return
           return await Promise.resolve();
         }
 
         if (typeof body !== 'undefined') {
+          // eslint-disable-next-line consistent-return
           return res.json(body);
         }
       } catch (e) {
+        // eslint-disable-next-line consistent-return
         return next(e);
       }
     }
