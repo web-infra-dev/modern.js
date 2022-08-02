@@ -45,7 +45,7 @@
     "@modern-js/bff-core": "workspace:^1.2.0",
     "@modern-js/bff-runtime": "workspace:^1.4.0",
     "@modern-js/utils": "workspace:^1.8.0",
-    "egg-ts-helper": "^1.29.1",
+    "egg-ts-helper": "1.30.3",
     "type-is": "^1.6.18"
   },
   "devDependencies": {
