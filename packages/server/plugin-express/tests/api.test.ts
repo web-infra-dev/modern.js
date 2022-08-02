@@ -80,31 +80,37 @@ describe('support api function', () => {
     expect(res.body).toEqual(expectedData);
   });
 
-  test('should support Pipe Operator', async () => {
+  describe('should support Pipe Operator', () => {
     const expectedData = {
       message: 'modernjs',
     };
 
-    const res = await request(apiHandler)
-      .post(`${prefix}/pipe?user=modernjs@github.com`)
-      .send(expectedData);
-    expect(res.status).toBe(200);
-    const body = res.body as Record<string, any>;
-    expect(body).toHaveProperty('headers');
-    expect(body.data).toEqual(expectedData);
+    test('basic usage', async () => {
+      const res = await request(apiHandler)
+        .post(`${prefix}/pipe?user=modernjs@github.com`)
+        .send(expectedData);
+      expect(res.status).toBe(200);
+      const body = res.body as Record<string, any>;
+      expect(body).toHaveProperty('headers');
+      expect(body.data).toEqual(expectedData);
+    });
 
-    const res1 = await request(apiHandler)
-      .post(`${prefix}/pipe?user=end@github.com`)
-      .send(expectedData);
-    expect(res1.status).toBe(200);
-    const body1 = res1.body as Record<string, any>;
-    expect(body1).toEqual(expectedData);
+    test('end function should works correctly when received a value', async () => {
+      const res = await request(apiHandler)
+        .post(`${prefix}/pipe?user=end@github.com`)
+        .send(expectedData);
+      expect(res.status).toBe(200);
+      const body = res.body as Record<string, any>;
+      expect(body).toEqual(expectedData);
+    });
 
-    const res2 = await request(apiHandler)
-      .post(`${prefix}/pipe?user=function@github.com`)
-      .send(expectedData);
-    expect(res2.status).toBe(400);
-    const body2 = res2.body as Record<string, any>;
-    expect(body2.message).toBe('name and message must be modernjs');
+    test('end function should works correctly when received a function', async () => {
+      const res = await request(apiHandler)
+        .post(`${prefix}/pipe?user=function@github.com`)
+        .send(expectedData);
+      expect(res.status).toBe(400);
+      const body2 = res.body as Record<string, any>;
+      expect(body2.message).toBe('name and message must be modernjs');
+    });
   });
 });
