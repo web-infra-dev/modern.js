@@ -37,7 +37,9 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:^1.7.12",
-    "webpack": "^5.71.0"
+    "webpack": "^5.71.0",
+    "terser-webpack-plugin": "5.3.3",
+    "css-minimizer-webpack-plugin": "4.0.0"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
