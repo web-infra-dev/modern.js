@@ -1,9 +1,17 @@
 import { join } from 'path';
-import { createBuilder } from '../../../../packages/builder/web-builder/src';
 
 async function run() {
+  process.env.NODE_ENV = 'production';
+
+  const { createBuilder } = await import(
+    '../../../../packages/builder/web-builder/src'
+  );
   const cwd = join(__dirname, '..');
-  const builder = await createBuilder({ cwd });
+  const builder = await createBuilder({
+    cwd,
+    configPath: __filename,
+    builderConfig: {},
+  });
 
   builder.addPlugins([
     {
