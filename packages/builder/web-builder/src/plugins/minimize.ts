@@ -1,14 +1,33 @@
 import { isProd } from '../shared';
-import type { WebBuilderPlugin, WebpackChain } from '../types';
+import type {
+  WebpackChain,
+  WebBuilderPlugin,
+  TerserPluginOptions,
+} from '../types';
 
 async function applyJsMinimizer(chain: WebpackChain) {
   const { CHAIN_ID } = await import('@modern-js/utils');
   const { default: TerserPlugin } = await import('terser-webpack-plugin');
 
+  const options: TerserPluginOptions = {
+    terserOptions: {
+      mangle: {
+        safari10: true,
+      },
+      format: {
+        ascii_only: true,
+      },
+    },
+  };
+
   chain.optimization
     .minimizer(CHAIN_ID.MINIMIZER.JS)
-    // TODO: options
-    .use(TerserPlugin, [])
+    // TODO: merge tools.terser
+    .use(TerserPlugin, [
+      // Due to terser-webpack-plugin has changed the type of class, which using a generic type in
+      // constructor, leading auto inference of parameters of plugin constructor is not possible, using any instead
+      options as any,
+    ])
     .end();
 }
 
@@ -30,7 +49,9 @@ export const PluginMinimize = (): WebBuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(async chain => {
-      if (isProd()) {
+      const config = api.getBuilderConfig();
+
+      if (isProd() && !config.output?.disableMinimize) {
         await applyJsMinimizer(chain);
         await applyCSSMinimizer(chain);
       }
