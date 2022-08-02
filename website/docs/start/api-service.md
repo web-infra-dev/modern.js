@@ -263,7 +263,7 @@ interface User {
   name: string;
   age: number;
   country: string;
-} 
+}
 ```
 
 - 修改之前导出的函数，通过查询数据库获取数据：
@@ -366,10 +366,6 @@ export const post = match(
   },
 );
 ```
-
-:::info 补充信息
-更多用法，请参考【[携带 Schema 的 BFF 函数](/docs/guides/features/server-side/bff/schema)】。
-:::
 
 当我们发送符合数据类型格式的数据时，会正常返回新增数据的 `id`。
 

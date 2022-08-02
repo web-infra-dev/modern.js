@@ -145,7 +145,7 @@ export default (): CliPlugin => ({
       },
 
       async beforeRestart() {
-        cleanRequireCache([require.resolve('./analyze/cli')]);
+        cleanRequireCache([require.resolve('./analyze')]);
       },
     };
   },
