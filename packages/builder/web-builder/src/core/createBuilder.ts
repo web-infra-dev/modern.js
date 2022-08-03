@@ -43,6 +43,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginDevtool } = await import('../plugins/devtool');
   const { PluginProgress } = await import('../plugins/progress');
   const { PluginMinimize } = await import('../plugins/minimize');
+  const { PluginCleanOutput } = await import('../plugins/clean-output');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
@@ -50,8 +51,9 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginCache(),
     PluginDevtool(),
 
-    // Plugins that provide basic webpack plugins
+    // Plugins that provide basic features
     PluginProgress(),
     PluginMinimize(),
+    PluginCleanOutput(),
   ]);
 }
