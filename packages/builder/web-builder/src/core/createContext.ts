@@ -1,12 +1,13 @@
 import { join } from 'path';
 import { initHooks } from './createHook';
 import { pick, STATUS, isFileExists } from '../shared';
-import type { CreateBuilderOptions } from './createBuilder';
-import type { Context, WebBuilderContext } from '../types';
+import type { Context, WebBuilderOptions, WebBuilderContext } from '../types';
 
-export async function createContext(options: CreateBuilderOptions) {
-  const cwd = options.cwd || process.cwd();
-  const config = options.builderConfig || {};
+export async function createContext({
+  cwd,
+  configPath,
+  builderConfig,
+}: Required<WebBuilderOptions>) {
   const hooks = initHooks();
   const status = STATUS.INITIAL;
   const rootPath = cwd;
@@ -23,14 +24,13 @@ export async function createContext(options: CreateBuilderOptions) {
     rootPath,
     distPath,
     cachePath,
-    configPath: options.configPath,
     // TODO should deep clone
-    config: { ...config },
-    originalConfig: config,
+    config: { ...builderConfig },
+    originalConfig: builderConfig,
   };
 
-  if (options.configPath) {
-    context.configPath = options.configPath;
+  if (configPath) {
+    context.configPath = configPath;
   }
 
   const tsconfigPath = join(rootPath, 'tsconfig.json');

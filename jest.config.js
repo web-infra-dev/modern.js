@@ -4,6 +4,8 @@ module.exports = {
     '<rootDir>/packages/**/src/**/*.ts',
     '!<rootDir>/packages/**/generators/src/**/*.ts',
     '!<rootDir>/packages/**/toolkit/create/src/**/*.ts',
+    // exclude builder temporarily
+    '!<rootDir>/packages/builder/**/src/**/*.ts',
   ],
   coveragePathIgnorePatterns: ['/node_modules/', '/fixtures/'],
   transform: {
