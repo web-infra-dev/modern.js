@@ -177,6 +177,25 @@ export const TASKS: TaskConfig[] = [
     ],
   },
   {
+    packageDir: 'builder/web-builder',
+    packageName: '@modern-js/web-builder',
+    dependencies: [
+      {
+        name: 'webpackbar',
+        ignoreDts: true,
+      },
+      {
+        name: 'copy-webpack-plugin',
+        ignoreDts: true,
+        externals: {
+          globby: '@modern-js/utils/globby',
+          'fast-glob': '@modern-js/utils/fast-glob',
+          'schema-utils': 'schema-utils',
+        },
+      },
+    ],
+  },
+  {
     packageDir: 'cli/webpack',
     packageName: '@modern-js/webpack',
     dependencies: [

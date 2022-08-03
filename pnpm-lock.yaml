@@ -48,6 +48,37 @@ importers:
       wireit: 0.7.1
       zx: 4.2.0
 
+  packages/builder/web-builder:
+    specifiers:
+      '@modern-js/utils': workspace:^1.7.12
+      '@scripts/build': workspace:*
+      '@scripts/jest-config': workspace:*
+      '@types/jest': ^27
+      '@types/node': ^14
+      '@types/react': ^17
+      '@types/react-dom': ^17
+      css-minimizer-webpack-plugin: 4.0.0
+      jest: ^27
+      schema-utils: 3.1.1
+      terser-webpack-plugin: 5.3.3
+      typescript: ^4
+      webpack: ^5.71.0
+    dependencies:
+      '@modern-js/utils': link:../../toolkit/utils
+      css-minimizer-webpack-plugin: 4.0.0_esbuild@0.14.47+webpack@5.73.0
+      schema-utils: 3.1.1
+      terser-webpack-plugin: 5.3.3_557185401d8e4a94a813b2d6f9b6f80e
+      webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
+    devDependencies:
+      '@scripts/build': link:../../../scripts/build
+      '@scripts/jest-config': link:../../../scripts/jest-config
+      '@types/jest': 27.5.2
+      '@types/node': 14.18.21
+      '@types/react': 17.0.47
+      '@types/react-dom': 17.0.17
+      jest: 27.5.1
+      typescript: 4.7.4
+
   packages/cli/babel-preset-app:
     specifiers:
       '@babel/core': ^7.18.0
@@ -4494,6 +4525,25 @@ importers:
       '@types/react-dom': 17.0.17
       typescript: 4.7.4
 
+  tests/integration/web-builder:
+    specifiers:
+      '@types/node': ^14
+      '@types/react': ^17
+      '@types/react-dom': ^17
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      tsx: ^3.7.1
+      typescript: ^4
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@types/node': 14.18.21
+      '@types/react': 17.0.47
+      '@types/react-dom': 17.0.17
+      tsx: 3.7.1
+      typescript: 4.7.4
+
   website:
     specifiers:
       '@algolia/client-search': ^4.13.1
@@ -6898,6 +6948,7 @@ packages:
   /@colors/colors/1.5.0:
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
     engines: {node: '>=0.1.90'}
+    requiresBuild: true
 
   /@commitlint/cli/13.2.1:
     resolution: {integrity: sha512-JGzYk2ay5JkRS5w+FLQzr0u/Kih52ds4HPpa3vnwVOQN8Q+S1VYr8Nk/6kRm6uNYsAcC1nejtuDxRdLcLh/9TA==}
@@ -16245,6 +16296,35 @@ packages:
       serialize-javascript: 6.0.0
       source-map: 0.6.1
       webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
+
+  /css-minimizer-webpack-plugin/4.0.0_esbuild@0.14.47+webpack@5.73.0:
+    resolution: {integrity: sha512-7ZXXRzRHvofv3Uac5Y+RkWRNo0ZMlcg8e9/OtrqUYmwDWJo+qs67GvdeFrXLsFb7czKNwjQhPkM0avlIYl+1nA==}
+    engines: {node: '>= 14.15.0'}
+    peerDependencies:
+      '@parcel/css': '*'
+      clean-css: '*'
+      csso: '*'
+      esbuild: '*'
+      webpack: ^5.0.0
+    peerDependenciesMeta:
+      '@parcel/css':
+        optional: true
+      clean-css:
+        optional: true
+      csso:
+        optional: true
+      esbuild:
+        optional: true
+    dependencies:
+      cssnano: 5.1.12_postcss@8.4.14
+      esbuild: 0.14.47
+      jest-worker: 27.5.1
+      postcss: 8.4.14
+      schema-utils: 4.0.0
+      serialize-javascript: 6.0.0
+      source-map: 0.6.1
+      webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
+    dev: false
 
   /css-modules-typescript-loader/4.0.1:
     resolution: {integrity: sha512-vXrUAwPGcRaopnGdg7I5oqv/NSSKQRN5L80m3f49uSGinenU5DTNsMFHS+2roh5tXqpY5+yAAKAl7A2HDvumzg==}
