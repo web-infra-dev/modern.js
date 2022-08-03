@@ -161,12 +161,15 @@ export class ModernServer implements ModernServerInterface {
     // Only work when without setting `assetPrefix`.
     // Setting `assetPrefix` means these resources should be uploaded to CDN.
     const staticPathRegExp = getStaticReg(this.conf.output || {});
-    this.staticFileHandler = createStaticFileHandler([
-      {
-        path: staticPathRegExp,
-        target: distDir,
-      },
-    ]);
+    this.staticFileHandler = createStaticFileHandler(
+      [
+        {
+          path: staticPathRegExp,
+          target: distDir,
+        },
+      ],
+      this.conf.output,
+    );
 
     this.routeRenderHandler = createRenderHandler({
       distDir,
@@ -559,7 +562,11 @@ export class ModernServer implements ModernServerInterface {
 
     this._handler = (context: ModernServerContext, next: NextFunction) => {
       let i = 0;
-      const dispatch = () => {
+      const dispatch = (error?: Error) => {
+        if (error) {
+          return this.onError(context, error);
+        }
+
         const handler = handlers[i++];
         if (!handler) {
           return next();
