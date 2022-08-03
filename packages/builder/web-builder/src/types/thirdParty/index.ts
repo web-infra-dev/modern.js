@@ -3,6 +3,8 @@ import type { Configuration as WebpackConfig } from 'webpack';
 import type TerserPlugin from 'terser-webpack-plugin';
 import type CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
+export type { CopyPluginOptions } from './CopyWebpackPlugin';
+
 export type TerserPluginOptions = TerserPlugin.BasePluginOptions &
   TerserPlugin.DefinedDefaultMinimizerAndOptions<TerserPlugin.TerserOptions>;
 
