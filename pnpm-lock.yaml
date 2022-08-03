@@ -899,7 +899,6 @@ importers:
       '@types/redux-logger': 3.0.9
       history: 4.10.1
       hoist-non-react-statics: 3.3.2
-      react-dom: 17.0.2_react@17.0.2
       react-helmet: 6.1.0_react@17.0.2
       react-is: 17.0.2
       react-router-dom: 5.3.3_react@17.0.2
@@ -923,6 +922,7 @@ importers:
       '@types/serialize-javascript': 5.0.2
       jest: 27.5.1
       react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
       ts-jest: 27.1.5_27b3594916e202eb269ced724db061fb
       typescript: 4.7.4
 
@@ -2355,7 +2355,7 @@ importers:
       '@types/type-is': ^1.6.3
       egg: ^2.29.4
       egg-mock: ^3.26.0
-      egg-ts-helper: ^1.29.1
+      egg-ts-helper: 1.30.3
       jest: ^27
       koa: ^2.13.1
       supertest: ^6.1.6

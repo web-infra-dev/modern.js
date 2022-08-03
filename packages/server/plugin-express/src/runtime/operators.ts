@@ -1,18 +1,48 @@
 import { Operator } from '@modern-js/bff-core';
 import { NextFunction } from '@modern-js/types';
 import type { Request, Response } from 'express';
+import { useContext } from '../context';
 
 export type EndFunction = ((func: (res: Response) => void) => void) &
   ((data: unknown) => void);
 
-type PipeFunction<T> = (value: T, end: EndFunction) => void;
+type MaybeAsync<T> = T | Promise<T>;
+type PipeFunction<T> = (
+  value: T,
+  end: EndFunction,
+) => MaybeAsync<void> | MaybeAsync<T>;
+
 export const Pipe = <T>(func: PipeFunction<T>): Operator<void> => {
   return {
     name: 'pipe',
-    metadata(helper) {
-      const pipeFuncs = helper.getMetadata<PipeFunction<T>[]>('pipe') || [];
-      pipeFuncs.push(func);
-      helper.setMetadata('pipe', pipeFuncs);
+    // eslint-disable-next-line consistent-return
+    async execute(executeHelper, next) {
+      const { inputs } = executeHelper;
+      const ctx = useContext();
+      const { res } = ctx;
+      if (typeof func === 'function') {
+        let isPiped = true;
+        const end: EndFunction = value => {
+          isPiped = false;
+          if (typeof value === 'function') {
+            value(res);
+            return;
+          }
+          // eslint-disable-next-line consistent-return
+          return value;
+        };
+        const output = await func(inputs, end);
+        if (!isPiped) {
+          if (output) {
+            return (executeHelper.result = output);
+          } else {
+            // eslint-disable-next-line consistent-return
+            return;
+          }
+        }
+        executeHelper.inputs = output;
+        await next();
+      }
     },
   };
 };

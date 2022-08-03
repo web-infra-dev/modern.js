@@ -1,5 +1,13 @@
 # @modern-js/app-tools
 
+## 1.8.1
+
+### Patch Changes
+
+- 102b5e098: fix: fix not found `analyze/cli` when change config
+
+  fix: 修复修改配置重启时找不到 `analyze/cli`
+
 ## 1.8.0
 
 ### Minor Changes

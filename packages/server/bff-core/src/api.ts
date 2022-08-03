@@ -55,15 +55,23 @@ export function Api<
     .filter(operator => operator.validate)
     .map(operator => operator.validate!);
 
+  const pipeHandlers = operators
+    .filter(operator => operator.execute)
+    .map(operator => operator.execute!);
+
   async function runner(inputs: any) {
     const executeHelper: ExecuteHelper = {
       result: null,
       get inputs() {
         return inputs;
       },
+      set inputs(val) {
+        // eslint-disable-next-line no-param-reassign
+        inputs = val;
+      },
     };
 
-    const stack = [...validateHandlers];
+    const stack = [...validateHandlers, ...pipeHandlers];
 
     stack.push(async (helper: ExecuteHelper, next: NextFunction) => {
       const res = await handler(inputs);
