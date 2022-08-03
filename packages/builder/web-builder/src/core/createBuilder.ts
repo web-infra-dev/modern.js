@@ -39,11 +39,12 @@ export async function createBuilder(options: CreateBuilderOptions = {}) {
 
 async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginMode } = await import('../plugins/mode');
+  const { PluginCopy } = await import('../plugins/copy');
   const { PluginCache } = await import('../plugins/cache');
   const { PluginDevtool } = await import('../plugins/devtool');
   const { PluginProgress } = await import('../plugins/progress');
   const { PluginMinimize } = await import('../plugins/minimize');
-  const { PluginCleanOutput } = await import('../plugins/clean-output');
+  const { PluginCleanOutput } = await import('../plugins/cleanOutput');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
@@ -52,6 +53,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginDevtool(),
 
     // Plugins that provide basic features
+    PluginCopy(),
     PluginProgress(),
     PluginMinimize(),
     PluginCleanOutput(),

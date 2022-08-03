@@ -1,7 +1,7 @@
 import type {
   TerserPluginOptions,
   CssMinimizerPluginOptions,
-} from '../dependencies';
+} from '../thirdParty';
 
 export type ToolsTerserConfig =
   | TerserPluginOptions

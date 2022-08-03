@@ -1,5 +1,5 @@
 import type { WebBuilderConfig } from './config';
-import type { WebpackChain, WebpackConfig } from './dependencies';
+import type { WebpackChain, WebpackConfig } from './thirdParty';
 
 export type ModifyWebpackChainFn = (
   chain: WebpackChain,
