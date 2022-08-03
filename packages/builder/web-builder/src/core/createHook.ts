@@ -24,7 +24,7 @@ export function createAsyncHook<Callback extends (...args: any[]) => any>() {
   };
 
   const call = async (...args: Parameters<Callback>) => {
-    const params = [...args];
+    const params = args.slice(0) as Parameters<Callback>;
 
     for (const cb of callbacks) {
       const result = await cb(...params);
