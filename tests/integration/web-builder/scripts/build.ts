@@ -7,7 +7,11 @@ async function run() {
     '../../../../packages/builder/web-builder/src'
   );
   const cwd = join(__dirname, '..');
-  const builder = await createBuilder({ cwd });
+  const builder = await createBuilder({
+    cwd,
+    configPath: __filename,
+    builderConfig: {},
+  });
 
   builder.addPlugins([
     {

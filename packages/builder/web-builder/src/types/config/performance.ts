@@ -1,7 +1,5 @@
-export type RemoveConsoleOptions = {
-  exclude?: string[];
-};
+export type ConsoleType = 'log' | 'info' | 'warn' | 'error' | 'table' | 'group';
 
 export interface WebBuilderPerformanceConfig {
-  removeConsole?: boolean | RemoveConsoleOptions;
+  removeConsole?: boolean | ConsoleType[];
 }
