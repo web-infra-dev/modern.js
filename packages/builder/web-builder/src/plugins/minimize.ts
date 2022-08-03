@@ -4,6 +4,7 @@ import type {
   WebBuilderConfig,
   WebBuilderPlugin,
   TerserPluginOptions,
+  CssMinimizerPluginOptions,
 } from '../types';
 
 function applyRemoveConsole(
@@ -32,13 +33,15 @@ function applyRemoveConsole(
       pure_funcs: pureFuncs,
     };
   }
+
+  return options;
 }
 
 async function applyJSMinimizer(chain: WebpackChain, config: WebBuilderConfig) {
-  const { CHAIN_ID } = await import('@modern-js/utils');
+  const { CHAIN_ID, applyOptionsChain } = await import('@modern-js/utils');
   const { default: TerserPlugin } = await import('terser-webpack-plugin');
 
-  const options: TerserPluginOptions = {
+  const DEFAULT_OPTIONS: TerserPluginOptions = {
     terserOptions: {
       mangle: {
         safari10: true,
@@ -49,29 +52,44 @@ async function applyJSMinimizer(chain: WebpackChain, config: WebBuilderConfig) {
     },
   };
 
-  applyRemoveConsole(options, config);
+  const mergedOptions = applyOptionsChain(
+    DEFAULT_OPTIONS,
+    config.tools?.terser,
+  );
+
+  const finalOptions = applyRemoveConsole(mergedOptions, config);
 
   chain.optimization
     .minimizer(CHAIN_ID.MINIMIZER.JS)
-    // TODO: merge tools.terser
     .use(TerserPlugin, [
       // Due to terser-webpack-plugin has changed the type of class, which using a generic type in
       // constructor, leading auto inference of parameters of plugin constructor is not possible, using any instead
-      options as any,
+      finalOptions as any,
     ])
     .end();
 }
 
-async function applyCSSMinimizer(chain: WebpackChain) {
-  const { CHAIN_ID } = await import('@modern-js/utils');
+async function applyCSSMinimizer(
+  chain: WebpackChain,
+  config: WebBuilderConfig,
+) {
+  const { CHAIN_ID, applyOptionsChain } = await import('@modern-js/utils');
   const { default: CssMinimizerPlugin } = await import(
     'css-minimizer-webpack-plugin'
   );
 
+  const mergedOptions: CssMinimizerPluginOptions = applyOptionsChain(
+    {},
+    config.tools?.minifyCss,
+  );
+
   chain.optimization
     .minimizer(CHAIN_ID.MINIMIZER.CSS)
-    // TODO: options
-    .use(CssMinimizerPlugin, [])
+    .use(CssMinimizerPlugin, [
+      // Due to css-minimizer-webpack-plugin has changed the type of class, which using a generic type in
+      // constructor, leading auto inference of parameters of plugin constructor is not possible, using any instead
+      mergedOptions as any,
+    ])
     .end();
 }
 
@@ -83,8 +101,10 @@ export const PluginMinimize = (): WebBuilderPlugin => ({
       const config = api.getBuilderConfig();
 
       if (isProd() && !config.output?.disableMinimize) {
-        await applyJSMinimizer(chain, config);
-        await applyCSSMinimizer(chain);
+        await Promise.all([
+          applyJSMinimizer(chain, config),
+          applyCSSMinimizer(chain, config),
+        ]);
       }
     });
   },
