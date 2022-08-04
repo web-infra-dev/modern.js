@@ -1,5 +1,17 @@
 # @modern-js/generator-common
 
+## 1.6.1
+
+### Patch Changes
+
+- 803b903: feat: package manager support isSubProject params
+
+  feat: 生成器包管理工具选项支持 isSubProject 参数
+
+- fd2ecb5: feat: solution schema support isSubProject params
+
+  feat: 生成器工程方案选项支持 isSubProject 参数
+
 ## 1.6.0
 
 ### Minor Changes

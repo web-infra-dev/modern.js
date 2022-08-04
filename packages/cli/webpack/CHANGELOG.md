@@ -1,5 +1,14 @@
 # @modern-js/webpack
 
+## 1.12.3
+
+### Patch Changes
+
+- 9a173a7: feat: 支持用户定义 externals 模块
+  - @modern-js/babel-preset-app@1.5.0
+  - @modern-js/css-config@1.2.8
+  - @modern-js/utils@1.8.0
+
 ## 1.12.2
 
 ### Patch Changes

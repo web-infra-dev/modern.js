@@ -110,7 +110,7 @@
     "@modern-js/babel-compiler": "workspace:^1.2.6",
     "@modern-js/runtime-core": "workspace:^1.5.4",
     "@modern-js/utils": "workspace:^1.8.0",
-    "@modern-js/webpack": "workspace:^1.12.2",
+    "@modern-js/webpack": "workspace:^1.12.3",
     "@modern-js/babel-preset-app": "workspace:^1.5.0",
     "@modern-js/plugin": "workspace:^1.4.1",
     "@modern-js/server": "workspace:^1.6.0",

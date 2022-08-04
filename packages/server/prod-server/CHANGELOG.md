@@ -1,5 +1,15 @@
 # @modern-js/prod-server
 
+## 1.2.2
+
+### Patch Changes
+
+- 0e28456: fix assets prefix bug in prod env
+- 44e3bb1: feat: support response headers
+  feat: 支持设置响应头
+  - @modern-js/server-core@1.4.1
+  - @modern-js/utils@1.8.0
+
 ## 1.2.1
 
 ### Patch Changes

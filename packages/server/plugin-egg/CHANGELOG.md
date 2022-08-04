@@ -1,5 +1,15 @@
 # @modern-js/plugin-egg
 
+## 1.6.2
+
+### Patch Changes
+
+- 99866ed: chore: lock egg-ts-helper version
+  chore: 锁定 egg-ts-helper 版本
+- Updated dependencies [19f2b87]
+  - @modern-js/bff-core@1.2.1
+  - @modern-js/utils@1.8.0
+
 ## 1.6.1
 
 ### Patch Changes
