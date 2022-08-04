@@ -21,7 +21,7 @@ export type BuilderContext = {
 };
 
 /** The inner context */
-export type InnerContext = BuilderContext & {
+export type Context = BuilderContext & {
   /** Current status of builder. */
   status: STATUS;
   /** All hooks. */

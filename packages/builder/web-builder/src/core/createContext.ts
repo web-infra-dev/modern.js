@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { initHooks } from './createHook';
 import { pick, STATUS, isFileExists } from '../shared';
-import type { InnerContext, BuilderOptions, BuilderContext } from '../types';
+import type { Context, BuilderOptions, BuilderContext } from '../types';
 
 export async function createContext({
   cwd,
@@ -16,7 +16,7 @@ export async function createContext({
   const cachePath = join(rootPath, 'node_modules', '.cache');
 
   // TODO some properties should be readonly
-  const context: InnerContext = {
+  const context: Context = {
     hooks,
     // TODO using setter to set status and log some performance info
     status,
@@ -42,7 +42,7 @@ export async function createContext({
 }
 
 export function createPublicContext(
-  context: InnerContext,
+  context: Context,
 ): Readonly<BuilderContext> {
   return Object.freeze(
     pick(context, [

@@ -1,15 +1,12 @@
 import { STATUS } from '../shared';
 import type {
-  InnerContext,
+  Context,
   WebpackConfig,
   BuilderTarget,
   ModifyWebpackUtils,
 } from '../types';
 
-async function modifyWebpackChain(
-  context: InnerContext,
-  utils: ModifyWebpackUtils,
-) {
+async function modifyWebpackChain(context: Context, utils: ModifyWebpackUtils) {
   context.status = STATUS.BEFORE_MODIFY_WEBPACK_CHAIN;
 
   const WebpackChain = (await import('@modern-js/utils/webpack-chain')).default;
@@ -25,7 +22,7 @@ async function modifyWebpackChain(
 }
 
 async function modifyWebpackConfig(
-  context: InnerContext,
+  context: Context,
   webpackConfig: WebpackConfig,
   utils: ModifyWebpackUtils,
 ) {
@@ -46,7 +43,7 @@ export async function generateWebpackConfig({
   context,
 }: {
   target: BuilderTarget;
-  context: InnerContext;
+  context: Context;
 }) {
   const { default: webpack } = await import('webpack');
   const utils = { target, webpack };

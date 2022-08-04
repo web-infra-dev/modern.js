@@ -1,9 +1,9 @@
 import { STATUS } from '../shared';
 import { initPlugins } from './initPlugins';
 import { generateWebpackConfig } from './webpackConfig';
-import type { InnerContext, PluginStore, BuilderOptions } from '../types';
+import type { Context, PluginStore, BuilderOptions } from '../types';
 
-async function modifyBuilderConfig(context: InnerContext) {
+async function modifyBuilderConfig(context: Context) {
   context.status = STATUS.BEFORE_MODIFY_BUILDER_CONFIG;
   const [modified] = await context.hooks.modifyBuilderConfigHook.call(
     context.config,
@@ -17,7 +17,7 @@ export async function initConfigs({
   pluginStore,
   builderOptions,
 }: {
-  context: InnerContext;
+  context: Context;
   pluginStore: PluginStore;
   builderOptions: Required<BuilderOptions>;
 }) {

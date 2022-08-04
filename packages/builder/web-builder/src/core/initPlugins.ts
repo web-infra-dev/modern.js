@@ -1,4 +1,4 @@
-import type { InnerContext, PluginStore, BuilderPluginAPI } from '../types';
+import type { Context, PluginStore, BuilderPluginAPI } from '../types';
 import { STATUS } from '../shared';
 import { createPublicContext } from './createContext';
 
@@ -6,7 +6,7 @@ export async function initPlugins({
   context,
   pluginStore,
 }: {
-  context: InnerContext;
+  context: Context;
   pluginStore: PluginStore;
 }) {
   context.status = STATUS.BEFORE_INIT_PLUGINS;
