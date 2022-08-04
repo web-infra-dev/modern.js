@@ -7,7 +7,7 @@ const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
   const compiler = webpack(webpackConfigs);
 
   return new Promise((resolve, reject) => {
-    log(`Creating a production build...`);
+    log(`building for production...`);
 
     compiler.run((err, stats) => {
       // When using run or watch, call close and wait for it to finish before calling run or watch again.

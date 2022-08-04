@@ -2,9 +2,14 @@ import type { BuilderTarget } from './builder';
 import type { BuilderConfig } from './config';
 import type { webpack, WebpackChain, WebpackConfig } from './thirdParty';
 
+export type NodeEnv = 'development' | 'production' | 'test';
+
 export type ModifyWebpackUtils = {
+  env: NodeEnv;
+  isProd: boolean;
   target: BuilderTarget;
   webpack: typeof webpack;
+  isServer: boolean;
 };
 
 export type ModifyWebpackChainFn = (

@@ -1,4 +1,3 @@
-import { isProd } from '../shared';
 import type {
   WebpackChain,
   BuilderConfig,
@@ -94,10 +93,10 @@ export const PluginMinimize = (): BuilderPlugin => ({
   name: 'web-builder-plugin-minimize',
 
   setup(api) {
-    api.modifyWebpackChain(async chain => {
+    api.modifyWebpackChain(async (chain, { isProd }) => {
       const config = api.getBuilderConfig();
 
-      if (isProd() && !config.output?.disableMinimize) {
+      if (isProd && !config.output?.disableMinimize) {
         await Promise.all([
           applyJSMinimizer(chain, config),
           applyCSSMinimizer(chain, config),
