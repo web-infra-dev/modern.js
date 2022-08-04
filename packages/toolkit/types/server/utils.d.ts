@@ -32,6 +32,8 @@ export type ProxyDetail = {
   ) => string | undefined | null | false;
   context?: string | string[];
   changeOrigin?: boolean;
+  /** Rewrites domain of set-cookie headers. */
+  cookieDomainRewrite?: false | string | Record<string, string>;
 };
 
 export type BffProxyOptions =
