@@ -1,6 +1,6 @@
-import type { WebBuilderPlugin } from '../types';
+import type { BuilderPlugin } from '../types';
 
-export const PluginCleanOutput = (): WebBuilderPlugin => ({
+export const PluginCleanOutput = (): BuilderPlugin => ({
   name: 'web-builder-plugin-clean-output',
 
   setup(api) {

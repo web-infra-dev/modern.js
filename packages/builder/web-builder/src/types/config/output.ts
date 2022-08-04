@@ -1,6 +1,6 @@
 import type { CopyPluginOptions } from '../thirdParty';
 
-export interface WebBuilderOutputConfig {
+export interface OutputConfig {
   copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
   disableMinimize?: boolean;
   disableSourceMap?: boolean;

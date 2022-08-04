@@ -1,7 +1,7 @@
 import { STATUS } from '../shared';
 import { initPlugins } from './initPlugins';
 import { generateWebpackConfig } from './webpackConfig';
-import type { Context, PluginStore, WebBuilderOptions } from '../types';
+import type { Context, PluginStore, BuilderOptions } from '../types';
 
 async function modifyBuilderConfig(context: Context) {
   context.status = STATUS.BEFORE_MODIFY_BUILDER_CONFIG;
@@ -15,11 +15,11 @@ async function modifyBuilderConfig(context: Context) {
 export async function initConfigs({
   context,
   pluginStore,
-  WebBuilderOptions,
+  builderOptions,
 }: {
   context: Context;
   pluginStore: PluginStore;
-  WebBuilderOptions: Required<WebBuilderOptions>;
+  builderOptions: Required<BuilderOptions>;
 }) {
   const { ensureArray } = await import('@modern-js/utils');
 
@@ -30,7 +30,7 @@ export async function initConfigs({
 
   await modifyBuilderConfig(context);
 
-  const targets = ensureArray(WebBuilderOptions.target);
+  const targets = ensureArray(builderOptions.target);
   const webpackConfigs = await Promise.all(
     targets.map(target => generateWebpackConfig({ target, context })),
   );

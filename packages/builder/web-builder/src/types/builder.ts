@@ -1,10 +1,10 @@
-import type { WebBuilderConfig } from './config';
+import type { BuilderConfig } from './config';
 
-export type WebBuilderTarget = 'web' | 'node' | 'modern-web';
+export type BuilderTarget = 'web' | 'node' | 'modern-web';
 
-export type WebBuilderOptions = {
+export type BuilderOptions = {
   cwd?: string;
-  target?: WebBuilderTarget | WebBuilderTarget[];
+  target?: BuilderTarget | BuilderTarget[];
   configPath?: string | null;
-  builderConfig?: WebBuilderConfig;
+  builderConfig?: BuilderConfig;
 };

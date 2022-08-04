@@ -1,6 +1,6 @@
-import type { WebBuilderPlugin } from '../types';
+import type { BuilderPlugin } from '../types';
 
-export const PluginProgress = (): WebBuilderPlugin => ({
+export const PluginProgress = (): BuilderPlugin => ({
   name: 'web-builder-plugin-progress',
 
   setup(api) {

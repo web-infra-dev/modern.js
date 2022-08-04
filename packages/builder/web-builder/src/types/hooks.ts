@@ -1,9 +1,9 @@
-import type { WebBuilderTarget } from './builder';
-import type { WebBuilderConfig } from './config';
+import type { BuilderTarget } from './builder';
+import type { BuilderConfig } from './config';
 import type { webpack, WebpackChain, WebpackConfig } from './thirdParty';
 
 export type ModifyWebpackUtils = {
-  target: WebBuilderTarget;
+  target: BuilderTarget;
   webpack: typeof webpack;
 };
 
@@ -18,8 +18,8 @@ export type ModifyWebpackConfigFn = (
 ) => Promise<WebpackConfig | void> | WebpackConfig | void;
 
 export type ModifyBuilderConfigFn = (
-  config: WebBuilderConfig,
-) => Promise<WebBuilderConfig | void> | WebBuilderConfig | void;
+  config: BuilderConfig,
+) => Promise<BuilderConfig | void> | BuilderConfig | void;
 
 export type OnBeforeBuildFn = (params: {
   webpackConfigs: WebpackConfig[];

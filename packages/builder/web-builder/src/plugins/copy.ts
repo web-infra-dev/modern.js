@@ -1,6 +1,6 @@
-import type { CopyPluginOptions, WebBuilderPlugin } from '../types';
+import type { CopyPluginOptions, BuilderPlugin } from '../types';
 
-export const PluginCopy = (): WebBuilderPlugin => ({
+export const PluginCopy = (): BuilderPlugin => ({
   name: 'web-builder-plugin-copy',
 
   setup(api) {

@@ -2,10 +2,10 @@ import { pick } from '../shared';
 import { createContext, createPublicContext } from './createContext';
 import { createPluginStore } from './createPluginStore';
 import { initConfigs } from './initConfigs';
-import type { PluginStore, WebBuilderOptions } from '../types';
+import type { PluginStore, BuilderOptions } from '../types';
 
-function mergeWebBuilderOptions(options?: WebBuilderOptions) {
-  const DEFAULT_OPTIONS: Required<WebBuilderOptions> = {
+function mergeBuilderOptions(options?: BuilderOptions) {
+  const DEFAULT_OPTIONS: Required<BuilderOptions> = {
     cwd: process.cwd(),
     target: ['web'],
     configPath: null,
@@ -18,9 +18,9 @@ function mergeWebBuilderOptions(options?: WebBuilderOptions) {
   };
 }
 
-export async function createBuilder(options?: WebBuilderOptions) {
-  const WebBuilderOptions = mergeWebBuilderOptions(options);
-  const context = await createContext(WebBuilderOptions);
+export async function createBuilder(options?: BuilderOptions) {
+  const builderOptions = mergeBuilderOptions(options);
+  const context = await createContext(builderOptions);
   const publicContext = createPublicContext(context);
   const pluginStore = await createPluginStore();
 
@@ -31,7 +31,7 @@ export async function createBuilder(options?: WebBuilderOptions) {
     const { webpackConfigs } = await initConfigs({
       context,
       pluginStore,
-      WebBuilderOptions,
+      builderOptions,
     });
     return build({ context, webpackConfigs });
   };
@@ -41,7 +41,7 @@ export async function createBuilder(options?: WebBuilderOptions) {
     const { webpackConfigs } = await initConfigs({
       context,
       pluginStore,
-      WebBuilderOptions,
+      builderOptions,
     });
     return createCompiler({ context, webpackConfigs });
   };

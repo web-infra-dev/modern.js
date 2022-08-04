@@ -1,5 +1,5 @@
-import type { WebBuilderConfig } from './config';
-import type { WebBuilderContext } from './context';
+import type { BuilderConfig } from './config';
+import type { BuilderContext } from './context';
 import type {
   OnExitFn,
   OnAfterBuildFn,
@@ -12,16 +12,16 @@ import type {
 } from './hooks';
 
 export type PluginStore = {
-  plugins: WebBuilderPlugin[];
-  addPlugins: (plugins: WebBuilderPlugin[]) => void;
+  plugins: BuilderPlugin[];
+  addPlugins: (plugins: BuilderPlugin[]) => void;
   removePlugins: (pluginNames: string[]) => void;
   isPluginExists: (pluginName: string) => boolean;
 };
 
-export type WebBuilderPluginAPI = {
-  context: WebBuilderContext;
+export type BuilderPluginAPI = {
+  context: BuilderContext;
   isPluginExists: PluginStore['isPluginExists'];
-  getBuilderConfig: () => WebBuilderConfig;
+  getBuilderConfig: () => BuilderConfig;
 
   // Hooks
   onExit: (fn: OnExitFn) => void;
@@ -36,7 +36,7 @@ export type WebBuilderPluginAPI = {
   modifyBuilderConfig: (fn: ModifyBuilderConfigFn) => void;
 };
 
-export type WebBuilderPlugin = {
+export type BuilderPlugin = {
   name: string;
-  setup: (api: WebBuilderPluginAPI) => Promise<void> | void;
+  setup: (api: BuilderPluginAPI) => Promise<void> | void;
 };

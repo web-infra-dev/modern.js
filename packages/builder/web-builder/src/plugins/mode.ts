@@ -1,7 +1,7 @@
 import { isProd } from '../shared';
-import type { WebBuilderPlugin } from '../types';
+import type { BuilderPlugin } from '../types';
 
-export const PluginMode = (): WebBuilderPlugin => ({
+export const PluginMode = (): BuilderPlugin => ({
   name: 'web-builder-plugin-mode',
 
   setup(api) {

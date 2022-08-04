@@ -1,7 +1,7 @@
 import { join } from 'path';
-import type { WebBuilderPlugin } from '../types';
+import type { BuilderPlugin } from '../types';
 
-export const PluginCache = (): WebBuilderPlugin => ({
+export const PluginCache = (): BuilderPlugin => ({
   name: 'web-builder-plugin-cache',
 
   setup(api) {

@@ -11,7 +11,7 @@ export type ToolsMinifyCssConfig =
   | CssMinimizerPluginOptions
   | ((options: CssMinimizerPluginOptions) => CssMinimizerPluginOptions | void);
 
-export interface WebBuilderToolsConfig {
+export interface ToolsConfig {
   terser?: ToolsTerserConfig;
   minifyCss?: ToolsMinifyCssConfig;
 }

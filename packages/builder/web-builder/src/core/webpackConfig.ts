@@ -2,7 +2,7 @@ import { STATUS } from '../shared';
 import type {
   Context,
   WebpackConfig,
-  WebBuilderTarget,
+  BuilderTarget,
   ModifyWebpackUtils,
 } from '../types';
 
@@ -42,7 +42,7 @@ export async function generateWebpackConfig({
   target,
   context,
 }: {
-  target: WebBuilderTarget;
+  target: BuilderTarget;
   context: Context;
 }) {
   const { default: webpack } = await import('webpack');

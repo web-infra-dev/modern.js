@@ -1,13 +1,13 @@
 import { join } from 'path';
 import { initHooks } from './createHook';
 import { pick, STATUS, isFileExists } from '../shared';
-import type { Context, WebBuilderOptions, WebBuilderContext } from '../types';
+import type { Context, BuilderOptions, BuilderContext } from '../types';
 
 export async function createContext({
   cwd,
   configPath,
   builderConfig,
-}: Required<WebBuilderOptions>) {
+}: Required<BuilderOptions>) {
   const hooks = initHooks();
   const status = STATUS.INITIAL;
   const rootPath = cwd;
@@ -43,7 +43,7 @@ export async function createContext({
 
 export function createPublicContext(
   context: Context,
-): Readonly<WebBuilderContext> {
+): Readonly<BuilderContext> {
   return Object.freeze(
     pick(context, [
       'srcPath',

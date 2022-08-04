@@ -1,6 +1,6 @@
-import type { WebBuilderPlugin } from '../types';
+import type { BuilderPlugin } from '../types';
 
-export const PluginMoment = (): WebBuilderPlugin => ({
+export const PluginMoment = (): BuilderPlugin => ({
   name: 'web-builder-plugin-moment',
 
   setup(api) {
