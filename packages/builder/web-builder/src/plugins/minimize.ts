@@ -1,15 +1,15 @@
 import { isProd } from '../shared';
 import type {
   WebpackChain,
-  WebBuilderConfig,
-  WebBuilderPlugin,
+  BuilderConfig,
+  BuilderPlugin,
   TerserPluginOptions,
   CssMinimizerPluginOptions,
 } from '../types';
 
 function applyRemoveConsole(
   options: TerserPluginOptions,
-  config: WebBuilderConfig,
+  config: BuilderConfig,
 ) {
   if (!options.terserOptions) {
     options.terserOptions = {};
@@ -37,7 +37,7 @@ function applyRemoveConsole(
   return options;
 }
 
-async function applyJSMinimizer(chain: WebpackChain, config: WebBuilderConfig) {
+async function applyJSMinimizer(chain: WebpackChain, config: BuilderConfig) {
   const { CHAIN_ID, applyOptionsChain } = await import('@modern-js/utils');
   const { default: TerserPlugin } = await import('terser-webpack-plugin');
 
@@ -69,10 +69,7 @@ async function applyJSMinimizer(chain: WebpackChain, config: WebBuilderConfig) {
     .end();
 }
 
-async function applyCSSMinimizer(
-  chain: WebpackChain,
-  config: WebBuilderConfig,
-) {
+async function applyCSSMinimizer(chain: WebpackChain, config: BuilderConfig) {
   const { CHAIN_ID, applyOptionsChain } = await import('@modern-js/utils');
   const { default: CssMinimizerPlugin } = await import(
     'css-minimizer-webpack-plugin'
@@ -93,7 +90,7 @@ async function applyCSSMinimizer(
     .end();
 }
 
-export const PluginMinimize = (): WebBuilderPlugin => ({
+export const PluginMinimize = (): BuilderPlugin => ({
   name: 'web-builder-plugin-minimize',
 
   setup(api) {

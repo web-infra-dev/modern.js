@@ -1,7 +1,7 @@
 import { getBrowserslist } from '../shared';
-import type { WebBuilderPlugin } from '../types';
+import type { BuilderPlugin } from '../types';
 
-export const PluginTarget = (): WebBuilderPlugin => ({
+export const PluginTarget = (): BuilderPlugin => ({
   name: 'web-builder-plugin-target',
 
   setup(api) {

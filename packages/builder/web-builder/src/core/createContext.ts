@@ -1,13 +1,13 @@
 import { join } from 'path';
 import { initHooks } from './createHook';
 import { pick, STATUS, isFileExists } from '../shared';
-import type { Context, WebBuilderOptions, WebBuilderContext } from '../types';
+import type { InnerContext, BuilderOptions, BuilderContext } from '../types';
 
 export async function createContext({
   cwd,
   configPath,
   builderConfig,
-}: Required<WebBuilderOptions>) {
+}: Required<BuilderOptions>) {
   const hooks = initHooks();
   const status = STATUS.INITIAL;
   const rootPath = cwd;
@@ -16,7 +16,7 @@ export async function createContext({
   const cachePath = join(rootPath, 'node_modules', '.cache');
 
   // TODO some properties should be readonly
-  const context: Context = {
+  const context: InnerContext = {
     hooks,
     // TODO using setter to set status and log some performance info
     status,
@@ -42,8 +42,8 @@ export async function createContext({
 }
 
 export function createPublicContext(
-  context: Context,
-): Readonly<WebBuilderContext> {
+  context: InnerContext,
+): Readonly<BuilderContext> {
   return Object.freeze(
     pick(context, [
       'srcPath',

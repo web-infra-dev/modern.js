@@ -4,8 +4,8 @@ export { createBuilder } from './core/createBuilder';
 export type {
   WebpackChain,
   WebpackConfig,
-  WebBuilderConfig,
-  WebBuilderPlugin,
-  WebBuilderContext,
-  WebBuilderPluginAPI,
+  BuilderConfig,
+  BuilderPlugin,
+  BuilderContext,
+  BuilderPluginAPI,
 } from './types';

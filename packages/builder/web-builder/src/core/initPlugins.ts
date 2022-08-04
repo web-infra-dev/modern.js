@@ -1,4 +1,4 @@
-import type { Context, PluginStore, WebBuilderPluginAPI } from '../types';
+import type { InnerContext, PluginStore, BuilderPluginAPI } from '../types';
 import { STATUS } from '../shared';
 import { createPublicContext } from './createContext';
 
@@ -6,7 +6,7 @@ export async function initPlugins({
   context,
   pluginStore,
 }: {
-  context: Context;
+  context: InnerContext;
   pluginStore: PluginStore;
 }) {
   context.status = STATUS.BEFORE_INIT_PLUGINS;
@@ -16,7 +16,7 @@ export async function initPlugins({
 
   const getBuilderConfig = () => context.config;
 
-  const pluginAPI: WebBuilderPluginAPI = {
+  const pluginAPI: BuilderPluginAPI = {
     context: publicContext,
     getBuilderConfig,
     isPluginExists: pluginStore.isPluginExists,

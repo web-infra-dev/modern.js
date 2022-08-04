@@ -1,5 +1,5 @@
 import { log, error } from '../shared';
-import type { Context, WebpackConfig } from '../types';
+import type { InnerContext, WebpackConfig } from '../types';
 
 const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
   const { default: webpack } = await import('webpack');
@@ -37,7 +37,7 @@ export async function build({
   context,
   webpackConfigs,
 }: {
-  context: Context;
+  context: InnerContext;
   webpackConfigs: WebpackConfig[];
 }) {
   await context.hooks.onBeforeBuildHook.call({

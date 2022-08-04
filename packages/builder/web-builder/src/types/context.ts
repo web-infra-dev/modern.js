@@ -1,9 +1,9 @@
 import type { STATUS } from '../shared';
 import type { Hooks } from '../core/createHook';
-import type { WebBuilderConfig } from './config';
+import type { BuilderConfig } from './config';
 
 /** The public context */
-export type WebBuilderContext = {
+export type BuilderContext = {
   /** The root path of current project. */
   rootPath: string;
   /** Absolute path of source files. */
@@ -17,12 +17,15 @@ export type WebBuilderContext = {
   /** Absolute path of tsconfig.json. */
   tsconfigPath?: string;
   /** The original builder config passed from the createBuilder method. */
-  originalConfig: Readonly<WebBuilderConfig>;
+  originalConfig: Readonly<BuilderConfig>;
 };
 
-// The private context
-export type Context = WebBuilderContext & {
+/** The inner context */
+export type InnerContext = BuilderContext & {
+  /** Current status of builder. */
   status: STATUS;
+  /** All hooks. */
   hooks: Readonly<Hooks>;
-  config: Readonly<WebBuilderConfig>;
+  /** Current builder config. */
+  config: Readonly<BuilderConfig>;
 };

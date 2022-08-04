@@ -1,7 +1,7 @@
 import { isProd } from '../shared';
-import type { WebBuilderPlugin } from '../types';
+import type { BuilderPlugin } from '../types';
 
-export const PluginDevtool = (): WebBuilderPlugin => ({
+export const PluginDevtool = (): BuilderPlugin => ({
   name: 'web-builder-plugin-devtool',
 
   setup(api) {

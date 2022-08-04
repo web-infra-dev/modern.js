@@ -1,11 +1,11 @@
 import { error, warn } from '../shared';
-import type { Context, WebpackConfig } from '../types';
+import type { InnerContext, WebpackConfig } from '../types';
 
 export async function createCompiler({
   context,
   webpackConfigs,
 }: {
-  context: Context;
+  context: InnerContext;
   webpackConfigs: WebpackConfig[];
 }) {
   await context.hooks.onBeforeCreateCompilerHooks.call({

@@ -1,17 +1,17 @@
-import type { WebBuilderDevConfig } from './dev';
-import type { WebBuilderToolsConfig } from './tools';
-import type { WebBuilderSourceConfig } from './source';
-import type { WebBuilderOutputConfig } from './output';
-import type { WebBuilderSecurityConfig } from './security';
-import type { WebBuilderPerformanceConfig } from './performance';
-import type { WebBuilderExperimentsConfig } from './experiments';
+import type { DevConfig } from './dev';
+import type { ToolsConfig } from './tools';
+import type { SourceConfig } from './source';
+import type { OutputConfig } from './output';
+import type { SecurityConfig } from './security';
+import type { PerformanceConfig } from './performance';
+import type { ExperimentsConfig } from './experiments';
 
-export interface WebBuilderConfig {
-  dev?: WebBuilderDevConfig;
-  tools?: WebBuilderToolsConfig;
-  source?: WebBuilderSourceConfig;
-  output?: WebBuilderOutputConfig;
-  security?: WebBuilderSecurityConfig;
-  performance?: WebBuilderPerformanceConfig;
-  experiments?: WebBuilderExperimentsConfig;
+export interface BuilderConfig {
+  dev?: DevConfig;
+  tools?: ToolsConfig;
+  source?: SourceConfig;
+  output?: OutputConfig;
+  security?: SecurityConfig;
+  performance?: PerformanceConfig;
+  experiments?: ExperimentsConfig;
 }
