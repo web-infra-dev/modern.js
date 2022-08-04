@@ -1,5 +1,17 @@
 # @modern-js/core
 
+## 1.13.2
+
+### Patch Changes
+
+- bfc1264: fix(core): should keep single function value after merge config
+
+  fix(core): 修复合并配置后，函数类型的配置项变成数组类型的问题
+
+- 44e3bb1: feat: support response headers
+  feat: 支持设置响应头
+  - @modern-js/utils@1.8.0
+
 ## 1.13.1
 
 ### Patch Changes

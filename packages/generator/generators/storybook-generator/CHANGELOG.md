@@ -1,5 +1,13 @@
 # @modern-js/storybook-generator
 
+## 1.4.1
+
+### Patch Changes
+
+- c7408cf: feat: storybook generator add `react-dom` dependence
+
+  feat: storybook 生成器增加 `react-dom` 依赖
+
 ## 1.4.0
 
 ### Minor Changes

@@ -1,5 +1,23 @@
 # @modern-js/app-tools
 
+## 1.8.2
+
+### Patch Changes
+
+- 44e3bb1: feat: support response headers
+  feat: 支持设置响应头
+- Updated dependencies [0e28456]
+- Updated dependencies [bfc1264]
+- Updated dependencies [9a173a7]
+- Updated dependencies [44e3bb1]
+  - @modern-js/prod-server@1.2.2
+  - @modern-js/core@1.13.2
+  - @modern-js/webpack@1.12.3
+  - @modern-js/types@1.6.1
+  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/server@1.6.0
+  - @modern-js/utils@1.8.0
+
 ## 1.8.1
 
 ### Patch Changes

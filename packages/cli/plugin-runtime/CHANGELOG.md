@@ -1,5 +1,18 @@
 # @modern-js/runtime
 
+## 1.4.2
+
+### Patch Changes
+
+- b28372c: fix(runtime): fix model types for effects
+
+  fix(runtime): 修复因为 runtime 包合并导致的 model effects 类型不生效问题
+
+- Updated dependencies [9a173a7]
+  - @modern-js/webpack@1.12.3
+  - @modern-js/runtime-core@1.5.4
+  - @modern-js/utils@1.8.0
+
 ## 1.4.1
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 1.6.1
+
+### Patch Changes
+
+- 44e3bb1: feat: support response headers
+  feat: 支持设置响应头
+
 ## 1.6.0
 
 ### Minor Changes

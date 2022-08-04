@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:^1.8.0",
-    "@modern-js/types": "workspace:^1.6.0"
+    "@modern-js/types": "workspace:^1.6.1"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
