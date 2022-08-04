@@ -59,6 +59,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginCopy } = await import('../plugins/copy');
   const { PluginCache } = await import('../plugins/cache');
   const { PluginTarget } = await import('../plugins/target');
+  const { PluginMoment } = await import('../plugins/moment');
   const { PluginDevtool } = await import('../plugins/devtool');
   const { PluginProgress } = await import('../plugins/progress');
   const { PluginMinimize } = await import('../plugins/minimize');
@@ -73,6 +74,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
 
     // Plugins that provide basic features
     PluginCopy(),
+    PluginMoment(),
     PluginProgress(),
     PluginMinimize(),
     PluginCleanOutput(),
