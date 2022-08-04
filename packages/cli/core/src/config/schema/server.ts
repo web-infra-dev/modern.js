@@ -68,6 +68,7 @@ export const server = {
                 ],
               },
               disableSpa: { type: 'boolean' },
+              resHeaders: { type: 'object' },
             },
             additionalProperties: false,
           },

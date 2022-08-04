@@ -156,8 +156,9 @@ export interface ServerConfig {
     | string
     | string[]
     | {
-        route: string | string[];
+        route?: string | string[];
         disableSpa?: boolean;
+        resHeaders?: Record<string, unknown>;
       }
   >;
   publicRoutes?: { [filepath: string]: string };
