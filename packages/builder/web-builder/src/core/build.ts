@@ -1,4 +1,3 @@
-import { ConfigValidator } from 'src/config/validate';
 import { log, error } from '../shared';
 import type { Context, WebpackConfig } from '../types';
 
@@ -41,12 +40,6 @@ export async function build({
   context: Context;
   webpackConfigs: WebpackConfig[];
 }) {
-  const configValidatorTask = ConfigValidator.create().then(validator =>
-    validator.validate(context.config, false),
-  );
-  // some hooks...
-  await configValidatorTask;
-  // some hooks...
   await context.hooks.onBeforeBuildHook.call({
     webpackConfigs,
   });

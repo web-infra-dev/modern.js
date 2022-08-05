@@ -16,7 +16,21 @@ export const configSchema: JSONSchemaType<BuilderConfig> = {
 };
 
 export class ConfigValidator {
-  static async create(): Promise<ConfigValidator> {
+  static async create(cachePath?: string): Promise<ConfigValidator> {
+    // deserialize pre-compiled validate function.
+    if (typeof cachePath === 'string') {
+      try {
+        // TODO: try to deserialize pre-compiled validate function.
+        return {} as any;
+      } catch (error) {
+        // TODO: only log when enable debug mode.
+        console.warn(
+          'Failed to deserialize pre-compiled validate function:\n',
+          error,
+        );
+      }
+    }
+    // fallback to compile validator in runtime.
     const validator = new ConfigValidator();
     const ajv = new Ajv();
     validator.ajv = ajv;
