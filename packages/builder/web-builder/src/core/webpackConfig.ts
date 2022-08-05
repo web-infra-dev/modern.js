@@ -1,6 +1,7 @@
 import { STATUS } from '../shared';
 import type {
   Context,
+  NodeEnv,
   WebpackConfig,
   BuilderTarget,
   ModifyWebpackUtils,
@@ -46,7 +47,16 @@ export async function generateWebpackConfig({
   context: Context;
 }) {
   const { default: webpack } = await import('webpack');
-  const utils = { target, webpack };
+
+  const nodeEnv = process.env.NODE_ENV as NodeEnv;
+  const utils: ModifyWebpackUtils = {
+    env: nodeEnv,
+    target,
+    webpack,
+    isProd: nodeEnv === 'production',
+    isServer: target === 'node',
+  };
+
   const chain = await modifyWebpackChain(context, utils);
   const webpackConfig = await modifyWebpackConfig(
     context,
