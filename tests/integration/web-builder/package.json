@@ -2,6 +2,7 @@
   "name": "web-builder-test",
   "version": "0.1.0",
   "scripts": {
+    "dev": "tsx ./scripts/dev.ts",
     "build": "tsx ./scripts/build.ts"
   },
   "dependencies": {

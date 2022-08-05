@@ -1,15 +1,15 @@
-const LOG_PREFIX = '[web-builder]';
+import chalk from '@modern-js/utils/chalk';
 
 // TODO improve log format
 export const log = (message: string) => {
   // eslint-disable-next-line no-console
-  console.log(`${LOG_PREFIX} ${message}`);
+  console.log(`${chalk.cyan('info')} ${message}`);
 };
 
 export const warn = (message: string) => {
-  console.warn(`${LOG_PREFIX} ${message}`);
+  console.warn(`${chalk.yellow('warn')} ${message}`);
 };
 
 export const error = (message: string | Error) => {
-  console.error(`${LOG_PREFIX} ${message}`);
+  console.error(`${chalk.red('error')} ${message}`);
 };
