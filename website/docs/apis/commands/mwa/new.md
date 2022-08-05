@@ -12,7 +12,7 @@ Options:
   -c, --config <config>  生成器运行默认配置(JSON 字符串)
   --dist-tag <tag>       生成器使用特殊的 npm Tag 版本
   --registry             生成器运行过程中定制 npm Registry
-  -h, --help             display help for command
+  -h, --help             显示命令帮助
 ```
 
 `modern new` 命令用于在已有项目中添加项目元素。

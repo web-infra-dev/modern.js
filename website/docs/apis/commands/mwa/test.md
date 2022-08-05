@@ -6,8 +6,9 @@ sidebar_position: 3
 Usage: modern test [options]
 
 Options:
-  -h, --help  display help for command
+  -h, --help  显示命令帮助
 ```
+
 :::caution 注意
 `modern test` 命令需要先通过 [`new`](/docs/apis/commands/mwa/new) 命令启用「单元测试 / 集成测试」功能
 :::

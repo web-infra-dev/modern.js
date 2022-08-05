@@ -8,8 +8,9 @@ Usage: modern start [options]
 start server
 
 Options:
-  -h, --help  display help for command
-  --api-only  start api server only
+  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
+  -h, --help            显示命令帮助
+  --api-only            仅启动 API 接口服务
 ```
 
 通常使用 `modern start` 命令在生产环境下启用应用工程, 需要提前执行 [`build`](/docs/apis/commands/mwa/build) 命令构建出对应产物。

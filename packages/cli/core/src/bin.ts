@@ -26,7 +26,18 @@ const runOptions: CoreOptions = {
   version,
 };
 
-if (['dev', 'build', 'deploy'].includes(command) && cliParams.config) {
+/**
+ * Commands that support specify config files
+ * Some commands can't support this feature, such as `new`
+ */
+const SUPPORT_CONFIG_PARAM_COMMANDS = [
+  'dev',
+  'build',
+  'deploy',
+  'start',
+  'inspect',
+];
+if (SUPPORT_CONFIG_PARAM_COMMANDS.includes(command) && cliParams.config) {
   runOptions.configFile = cliParams.config;
 }
 
