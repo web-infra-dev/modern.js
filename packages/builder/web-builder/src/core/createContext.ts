@@ -2,6 +2,7 @@ import { join } from 'path';
 import { initHooks } from './createHook';
 import { pick, STATUS, isFileExists } from '../shared';
 import type { Context, BuilderOptions, BuilderContext } from '../types';
+import { ConfigValidator } from 'src/config/validate';
 
 export async function createContext({
   cwd,
@@ -14,6 +15,9 @@ export async function createContext({
   const srcPath = join(rootPath, 'src');
   const distPath = join(rootPath, 'dist');
   const cachePath = join(rootPath, 'node_modules', '.cache');
+  const configValidatingTask = ConfigValidator.create().then(validator => {
+    validator.validate(builderConfig, false);
+  });
 
   // TODO some properties should be readonly
   const context: Context = {
@@ -24,6 +28,7 @@ export async function createContext({
     rootPath,
     distPath,
     cachePath,
+    configValidatingTask,
     // TODO should deep clone
     config: { ...builderConfig },
     originalConfig: builderConfig,
