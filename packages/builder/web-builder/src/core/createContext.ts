@@ -7,6 +7,7 @@ import type {
   BuilderContext,
   BuilderConfig,
 } from '../types';
+import { ConfigValidator } from '../config/validate';
 
 function getDistPath(cwd: string, builderConfig: BuilderConfig) {
   const { distPath } = builderConfig.output || {};
@@ -30,6 +31,9 @@ export async function createContext({
   const srcPath = join(rootPath, 'src');
   const distPath = getDistPath(cwd, builderConfig);
   const cachePath = join(rootPath, 'node_modules', '.cache');
+  const configValidatingTask = ConfigValidator.create().then(validator => {
+    validator.validate(builderConfig, false);
+  });
 
   // TODO some properties should be readonly
   const context: Context = {
@@ -40,6 +44,7 @@ export async function createContext({
     rootPath,
     distPath,
     cachePath,
+    configValidatingTask,
     // TODO should deep clone
     config: { ...builderConfig },
     originalConfig: builderConfig,

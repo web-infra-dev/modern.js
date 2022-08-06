@@ -27,13 +27,13 @@ export async function createBuilder(options?: BuilderOptions) {
   await addDefaultPlugins(pluginStore);
 
   const build = async () => {
-    const { build } = await import('./build');
+    const { build: buildImpl } = await import('./build');
     const { webpackConfigs } = await initConfigs({
       context,
       pluginStore,
       builderOptions,
     });
-    return build({ context, webpackConfigs });
+    return buildImpl({ context, webpackConfigs });
   };
 
   const createCompiler = async () => {

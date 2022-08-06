@@ -23,6 +23,7 @@ export async function initConfigs({
 }) {
   const { ensureArray } = await import('@modern-js/utils');
 
+  await context.configValidatingTask;
   await initPlugins({
     context,
     pluginStore,
