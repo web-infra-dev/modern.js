@@ -19,7 +19,7 @@ export type PluginStore = {
 };
 
 export type BuilderPluginAPI = {
-  context: BuilderContext;
+  context: Readonly<BuilderContext>;
   isPluginExists: PluginStore['isPluginExists'];
   getBuilderConfig: () => BuilderConfig;
 

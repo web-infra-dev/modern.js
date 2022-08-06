@@ -1,7 +1,23 @@
-import { join } from 'path';
+import { isAbsolute, join } from 'path';
 import { initHooks } from './createHook';
-import { pick, STATUS, isFileExists } from '../shared';
-import type { Context, BuilderOptions, BuilderContext } from '../types';
+import { pick, STATUS, isFileExists, DEFAULT_DIST_DIR } from '../shared';
+import type {
+  Context,
+  BuilderOptions,
+  BuilderContext,
+  BuilderConfig,
+} from '../types';
+
+function getDistPath(cwd: string, builderConfig: BuilderConfig) {
+  const { distPath } = builderConfig.output || {};
+  const root = typeof distPath === 'string' ? distPath : distPath?.root;
+
+  if (root) {
+    return isAbsolute(root) ? root : join(cwd, root);
+  }
+
+  return join(cwd, DEFAULT_DIST_DIR);
+}
 
 export async function createContext({
   cwd,
@@ -12,7 +28,7 @@ export async function createContext({
   const status = STATUS.INITIAL;
   const rootPath = cwd;
   const srcPath = join(rootPath, 'src');
-  const distPath = join(rootPath, 'dist');
+  const distPath = getDistPath(cwd, builderConfig);
   const cachePath = join(rootPath, 'node_modules', '.cache');
 
   // TODO some properties should be readonly

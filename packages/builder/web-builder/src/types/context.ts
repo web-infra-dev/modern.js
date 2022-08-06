@@ -18,6 +18,11 @@ export type BuilderContext = {
   tsconfigPath?: string;
   /** The original builder config passed from the createBuilder method. */
   originalConfig: Readonly<BuilderConfig>;
+  /** Info of dev server  */
+  devServer?: {
+    ip: string;
+    port: number;
+  };
 };
 
 /** The inner context */
