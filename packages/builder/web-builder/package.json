@@ -31,6 +31,7 @@
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
     "build": "wireit",
+    "compile:ajv": "node ./scripts/compile-ajv.js",
     "dev": "tsc --watch",
     "test": "wireit",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch"
@@ -53,7 +54,9 @@
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "jest": "^27",
-    "typescript": "^4"
+    "ttypescript": "^1.5.13",
+    "typescript": "^4",
+    "typescript-transform-paths": "^3.3.1"
   },
   "sideEffects": false,
   "publishConfig": {
@@ -63,14 +66,15 @@
   },
   "wireit": {
     "build": {
-      "command": "tsc",
+      "command": "ttsc && node scripts/compile-ajv.js",
       "files": [
         "src/**/*",
         "tsconfig.json",
         "package.json"
       ],
       "output": [
-        "dist/**/*"
+        "dist/**/*",
+        "compiled/config-validate/**/*"
       ]
     },
     "test": {
