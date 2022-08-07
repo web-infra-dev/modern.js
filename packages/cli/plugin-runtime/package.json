@@ -63,6 +63,21 @@
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/js/node/cli/index.js"
+    },
+    "./runtime_router": {
+      "jsnext:source": "./src/router/index.ts",
+      "node": "./dist/js/node/router/index.js",
+      "default": "./dist/js/treeshaking/router/index.js"
+    },
+    "./runtime_state": {
+      "jsnext:source": "./src/state/index.ts",
+      "node": "./dist/js/node/state/index.js",
+      "default": "./dist/js/treeshaking/state/index.js"
+    },
+    "./runtime_ssr": {
+      "jsnext:source": "./src/ssr/index.ts",
+      "node": "./dist/js/node/ssr/index.js",
+      "default": "./dist/js/treeshaking/ssr/index.js"
     }
   },
   "typesVersions": {
@@ -90,6 +105,15 @@
       ],
       "model": [
         "./types/model.d.ts"
+      ],
+      "runtime_router": [
+        "./dist/types/router/index.d.ts"
+      ],
+      "runtime_state": [
+        "./dist/types/state/index.d.ts"
+      ],
+      "runtime_ssr": [
+        "./dist/types/ssr/index.d.ts"
       ]
     }
   },
