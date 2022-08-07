@@ -1,3 +1,5 @@
+const navbar = require('./navbar');
+
 // @ts-check
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
@@ -15,40 +17,7 @@ module.exports = {
     prism: {
       additionalLanguages: ['powershell'],
     },
-    navbar: {
-      logo: {
-        alt: 'Modernjs Logo',
-        src: 'https://lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/assets/images/images/modernjs-logo.svg',
-      },
-      items: [
-        {
-          type: 'doc',
-          docId: 'start/mobile',
-          position: 'left',
-          label: '开始',
-        },
-        {
-          type: 'doc',
-          docId: 'guides/overview',
-          position: 'left',
-          label: '指南',
-        },
-        {
-          type: 'doc',
-          docId: 'apis/overview',
-          position: 'left',
-          label: 'API',
-        },
-        { to: '/blog', label: '博客', position: 'left' },
-        { to: '/coming-soon', label: '社区', position: 'left' },
-        {
-          href: 'https://github.com/modern-js-dev/modern.js',
-          position: 'right',
-          className: 'header-github-link',
-          'aria-label': 'GitHub repository',
-        },
-      ],
-    },
+    navbar,
     footer: {
       style: 'dark',
       links: [
@@ -214,6 +183,22 @@ module.exports = {
           {
             to: '/docs/apis/config/overview', // string
             from: '/docs/apis/config',
+          },
+          {
+            to: '/docs/apis/app/overview', // string
+            from: '/docs/apis/app',
+          },
+          {
+            to: '/docs/apis/module/overview', // string
+            from: '/docs/apis/module',
+          },
+          {
+            to: '/docs/apis/monorepo/overview', // string
+            from: '/docs/apis/monorepo',
+          },
+          {
+            to: '/docs/apis/generator/overview', // string
+            from: '/docs/apis/generator',
           },
         ],
       },

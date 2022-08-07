@@ -1,0 +1,83 @@
+.second-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  /* flex-grow: 1; */
+  flex-shrink: 0;
+  height: 5rem;
+
+  /* position: fixed; */
+  z-index: 3;
+  align-items: center;
+  padding: 0 5.5rem;
+  margin: 0 -32px;
+
+  /* overflow-x: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none; */
+}
+
+.second-nav::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
+}
+
+html[data-theme='dark'] .second-nav {
+  background-color: #040404;
+}
+
+html[data-theme='light'] .second-nav {
+  background-color: hsla(0, 0%, 97%, 0.98);
+}
+
+.second-nav-item {
+  cursor: pointer;
+  display: block;
+  padding: 0 2vw;
+  min-width: 24px;
+  height: 40px !important;
+  width: unset !important;
+  line-height: 40px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin: 0 16px;
+  transition-duration: 0.3s;
+  flex-shrink: 0;
+  display: inline-flex;
+}
+
+html[data-theme='dark'] .second-nav-item {
+  background-color: rgb(36, 36, 36);
+  color: #fff;
+}
+
+html[data-theme='light'] .second-nav-item {
+  background-color: #fff;
+  color: #040404;
+}
+
+html[data-theme='light'] .second-nav-item__selected {
+  background-color: #1890ff;
+  color: #fff;
+}
+
+html[data-theme='dark'] .second-nav-item__selected {
+  background-color: #1890ff;
+}
+
+html[data-theme='dark'] .second-nav-item:hover {
+  background-color: #757575;
+}
+
+html[data-theme='dark'] .second-nav-item__selected:hover {
+  background-color: #1890ff;
+}
+
+html[data-theme='dark'] .second-nav {
+  border-bottom: 1px solid rgb(36, 36, 36);
+}
+
+.current-nav {
+  position: absolute;
+  transform: translate(-100%, 0);
+}
