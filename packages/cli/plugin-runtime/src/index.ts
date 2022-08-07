@@ -1,6 +1,10 @@
 import type { StateConfig } from './state';
 import type { RouterConfig } from './router';
 
+export { default as router } from './router';
+export { default as ssr } from './ssr';
+export { default as state } from './state';
+
 export type { RuntimeContext, TRuntimeContext } from '@modern-js/runtime-core';
 export {
   createApp,

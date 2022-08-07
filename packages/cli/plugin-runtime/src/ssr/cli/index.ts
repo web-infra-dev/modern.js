@@ -18,7 +18,7 @@ export default (): CliPlugin => ({
     const ssrConfigMap = new Map<string, any>();
 
     let pluginsExportsUtils: any;
-    const ssrModulePath = path.resolve(__dirname, '../');
+    const ssrModulePath = path.resolve(__dirname, '../../../../../');
 
     return {
       config() {
@@ -61,9 +61,7 @@ export default (): CliPlugin => ({
         const userConfig = api.useResolvedConfigContext();
         const { packageName, entrypoints } = api.useAppContext();
 
-        pluginsExportsUtils.addExport(
-          `export { default as ssr } from '${ssrModulePath}'`,
-        );
+        pluginsExportsUtils.addExport(`export { ssr } from '${ssrModulePath}'`);
 
         // if use ssg then set ssr config to true
         const ssrConfig = getEntryOptions(

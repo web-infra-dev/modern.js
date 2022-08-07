@@ -16,7 +16,7 @@ export default (): CliPlugin => ({
     const stateConfigMap = new Map<string, any>();
 
     let pluginsExportsUtils: any;
-    const stateModulePath = path.resolve(__dirname, '../');
+    const stateModulePath = path.resolve(__dirname, '../../../../../');
 
     return {
       config() {
@@ -127,7 +127,7 @@ export default (): CliPlugin => ({
       },
       addRuntimeExports() {
         pluginsExportsUtils.addExport(
-          `export { default as state } from '${stateModulePath}'`,
+          `export { state } from '${stateModulePath}'`,
         );
       },
     };
