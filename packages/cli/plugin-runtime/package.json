@@ -66,17 +66,17 @@
     },
     "./runtime_router": {
       "jsnext:source": "./src/router/index.ts",
-      "node": "./dist/js/node/router/index.js",
+      "node": "./dist/js/node/router/index",
       "default": "./dist/js/treeshaking/router/index.js"
     },
     "./runtime_state": {
       "jsnext:source": "./src/state/index.ts",
-      "node": "./dist/js/node/state/index.js",
+      "node": "./dist/js/node/state/index",
       "default": "./dist/js/treeshaking/state/index.js"
     },
     "./runtime_ssr": {
       "jsnext:source": "./src/ssr/index.ts",
-      "node": "./dist/js/node/ssr/index.js",
+      "node": "./dist/js/node/ssr/index",
       "default": "./dist/js/treeshaking/ssr/index.js"
     }
   },
