@@ -1,2 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface DevConfig {}
+export interface DevConfig {
+  assetPrefix?: string | boolean;
+}

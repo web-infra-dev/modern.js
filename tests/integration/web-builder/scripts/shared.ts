@@ -9,9 +9,6 @@ export const TestPlugin = (): BuilderPlugin => ({
       config.entry = {
         test: join(api.context.srcPath, 'index.js'),
       };
-      config.output = {
-        path: api.context.distPath,
-      };
     });
   },
 });

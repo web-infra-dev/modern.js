@@ -1,6 +1,6 @@
 import Ajv, { JSONSchemaType, ValidateFunction } from 'ajv';
-import { BuilderConfig } from 'src/types';
 import sourceField from './source';
+import type { BuilderConfig } from '../../types';
 
 export const configSchema: JSONSchemaType<BuilderConfig> = {
   type: 'object',
