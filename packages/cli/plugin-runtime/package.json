@@ -64,17 +64,17 @@
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/js/node/cli/index.js"
     },
-    "./runtime_router": {
+    "./runtime-router": {
       "jsnext:source": "./src/router/index.ts",
       "node": "./dist/js/node/router/index",
       "default": "./dist/js/treeshaking/router/index.js"
     },
-    "./runtime_state": {
+    "./runtime-state": {
       "jsnext:source": "./src/state/index.ts",
       "node": "./dist/js/node/state/index",
       "default": "./dist/js/treeshaking/state/index.js"
     },
-    "./runtime_ssr": {
+    "./runtime-ssr": {
       "jsnext:source": "./src/ssr/index.ts",
       "node": "./dist/js/node/ssr/index",
       "default": "./dist/js/treeshaking/ssr/index.js"
@@ -106,13 +106,13 @@
       "model": [
         "./types/model.d.ts"
       ],
-      "runtime_router": [
+      "runtime-router": [
         "./dist/types/router/index.d.ts"
       ],
-      "runtime_state": [
+      "runtime-state": [
         "./dist/types/state/index.d.ts"
       ],
-      "runtime_ssr": [
+      "runtime-ssr": [
         "./dist/types/ssr/index.d.ts"
       ]
     }
