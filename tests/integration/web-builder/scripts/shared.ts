@@ -1,7 +1,7 @@
 import { join } from 'path';
-import * as WebBuilder from '@modern-js/web-builder';
+import type { BuilderPlugin } from '../../../../packages/builder/web-builder/src';
 
-export const TestPlugin = (): WebBuilder.BuilderPlugin => ({
+export const TestPlugin = (): BuilderPlugin => ({
   name: 'test-plugin',
 
   setup(api) {
@@ -14,8 +14,12 @@ export const TestPlugin = (): WebBuilder.BuilderPlugin => ({
 });
 
 export const createBuilder = async () => {
+  const { createBuilder } = await import(
+    '../../../../packages/builder/web-builder/src'
+  );
+
   const cwd = join(__dirname, '..');
-  const builder = await WebBuilder.createBuilder({
+  const builder = await createBuilder({
     cwd,
     configPath: __filename,
     builderConfig: {},
