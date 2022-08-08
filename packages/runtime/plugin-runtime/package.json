@@ -25,6 +25,10 @@
       },
       "default": "./dist/js/treeshaking/index.js"
     },
+    "./types": {
+      "jsnext:source": "./lib/types.d.ts",
+      "default": "./lib/types.d.ts"
+    },
     "./loadable": {
       "jsnext:source": "./src/exports/loadable.ts",
       "node": "./dist/js/node/exports/loadable.js",
@@ -84,6 +88,9 @@
     "*": {
       ".": [
         "./type.d.ts"
+      ],
+      "types": [
+        "./lib/types.d.ts"
       ],
       "loadable": [
         "./dist/types/exports/loadable.d.ts"

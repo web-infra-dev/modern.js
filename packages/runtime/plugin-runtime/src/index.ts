@@ -14,15 +14,9 @@ export {
   useRuntimeContext,
 } from '@modern-js/runtime-core';
 
+export { StateConfig, RouterConfig };
 declare module '@modern-js/runtime-core' {
   interface AppConfig {
-    router?: RouterConfig | boolean;
-    state?: StateConfig | boolean;
-  }
-}
-
-declare module '@modern-js/core' {
-  interface RuntimeConfig {
     router?: RouterConfig | boolean;
     state?: StateConfig | boolean;
   }
