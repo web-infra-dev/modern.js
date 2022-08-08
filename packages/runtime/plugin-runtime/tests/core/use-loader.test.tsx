@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
-import { useLoader, createApp } from '../src';
+import { useLoader, createApp } from '../../src/core';
 
 const loaderCount = jest.fn();
 const sleep = (t: number): Promise<void> =>
@@ -23,7 +23,8 @@ const App = () => {
       <div
         onClick={() => {
           reload();
-        }}>
+        }}
+      >
         reload
       </div>
       {JSON.stringify({ data, loading, reloading, error })}

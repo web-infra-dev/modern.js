@@ -1,10 +1,6 @@
 {
   "folders": [
     {
-      "name": "@modern-js/runtime-core",
-      "path": "packages/runtime/runtime-core"
-    },
-    {
       "name": "@modern-js/runtime",
       "path": "packages/runtime/plugin-runtime"
     },
