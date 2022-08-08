@@ -13,3 +13,18 @@ export enum STATUS {
 export const DEFAULT_PORT = 8080;
 
 export const DEFAULT_DIST_DIR = 'dist';
+
+export const DEFAULT_DATA_URL_SIZE = 10000;
+
+export const IMAGE_EXTENSIONS = [
+  'png',
+  'jpg',
+  'jpeg',
+  'gif',
+  'bmp',
+  'webp',
+  'ico',
+  'apng',
+  'avif',
+  'tiff',
+];

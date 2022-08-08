@@ -4,7 +4,7 @@ export const PluginCopy = (): BuilderPlugin => ({
   name: 'web-builder-plugin-copy',
 
   setup(api) {
-    api.modifyWebpackChain(async chain => {
+    api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
       const config = api.getBuilderConfig();
       const { copy } = config.output || {};
 
@@ -12,7 +12,6 @@ export const PluginCopy = (): BuilderPlugin => ({
         return;
       }
 
-      const { CHAIN_ID } = await import('@modern-js/utils');
       const { default: CopyPlugin } = await import(
         '../../compiled/copy-webpack-plugin'
       );
