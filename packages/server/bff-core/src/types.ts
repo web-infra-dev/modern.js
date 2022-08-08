@@ -51,8 +51,7 @@ export type ExecuteFunc<Outputs> = (
 
 export type ExecuteHelper<Outputs> = {
   result?: any;
-  outputs: Outputs;
-  inputs: any;
+  inputs: Outputs;
 };
 
 export type MetadataHelper = {
@@ -60,7 +59,7 @@ export type MetadataHelper = {
   getMetadata: <T = any>(key: any) => T;
 };
 
-export type Operator<Input, Output = Input> = {
+export type Operator<Input = any, Output = Input> = {
   name: string;
   inputType?: Input;
   outputType?: Output;

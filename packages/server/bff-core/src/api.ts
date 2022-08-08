@@ -66,9 +66,6 @@ export function Api<
       get inputs() {
         return inputs;
       },
-      outputs: {
-        ...inputs,
-      },
       set inputs(val) {
         // eslint-disable-next-line no-param-reassign
         inputs = val;
@@ -78,7 +75,7 @@ export function Api<
     const stack = [...validateHandlers, ...pipeHandlers];
 
     stack.push(async (helper: ExecuteHelper<T>, next: NextFunction) => {
-      const res = await handler(helper.outputs);
+      const res = await handler(helper.inputs);
       helper.result = res;
       return next();
     });

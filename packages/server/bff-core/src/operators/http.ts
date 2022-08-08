@@ -71,9 +71,14 @@ export const Data = <Schema extends z.ZodType>(
       setMetadata(HttpMetadata.Data, schema);
     },
     async validate(helper, next) {
-      const { inputs } = helper;
-      const { data } = inputs;
-      helper.outputs.data = await validateInput(schema, data);
+      const {
+        inputs: { data },
+      } = helper;
+
+      helper.inputs = {
+        ...helper.inputs,
+        data: await validateInput(schema, data),
+      };
       return next();
     },
   };
@@ -95,9 +100,14 @@ export const Query = <Schema extends z.ZodType>(
       setMetadata(HttpMetadata.Query, schema);
     },
     async validate(helper, next) {
-      const { inputs } = helper;
-      const { query } = inputs;
-      helper.outputs.query = await validateInput(schema, query);
+      const {
+        inputs: { query },
+      } = helper;
+
+      helper.inputs = {
+        ...helper.inputs,
+        query: await validateInput(schema, query),
+      };
       return next();
     },
   };
@@ -119,9 +129,14 @@ export const Params = <Schema extends z.ZodType>(
       setMetadata(HttpMetadata.Params, schema);
     },
     async validate(helper, next) {
-      const { inputs } = helper;
-      const { params } = inputs;
-      helper.outputs.params = await validateInput(schema, params);
+      const {
+        inputs: { params },
+      } = helper;
+
+      helper.inputs = {
+        ...helper.inputs,
+        params: await validateInput(schema, params),
+      };
       return next();
     },
   };
@@ -143,9 +158,14 @@ export const Headers = <Schema extends z.ZodType>(
       setMetadata(HttpMetadata.Headers, schema);
     },
     async validate(helper, next) {
-      const { inputs } = helper;
-      const { headers } = inputs;
-      helper.outputs.headers = await validateInput(schema, headers);
+      const {
+        inputs: { headers },
+      } = helper;
+
+      helper.inputs = {
+        ...helper.inputs,
+        headers: await validateInput(schema, headers),
+      };
       return next();
     },
   };
