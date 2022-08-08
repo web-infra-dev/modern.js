@@ -11,6 +11,5 @@ export function applyFallbackLoader({ loaders }: ChainUtils) {
     .add(CSS_REGEX)
     .add(/\.(html?|json|wasm|ya?ml|toml|md)$/)
     .end()
-    .use(CHAIN_ID.USE.FILE)
-    .loader(require.resolve('../../../compiled/file-loader'));
+    .type('asset/resource' as any);
 }
