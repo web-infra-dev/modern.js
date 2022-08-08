@@ -2,12 +2,12 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import {
   Plugin,
-  initialWrapper,
   createRuntime,
   createApp,
   createPlugin,
   useRuntimeContext,
 } from '../../src/core';
+import { initialWrapper } from '../utils';
 
 declare module '../../src/core' {
   interface RuntimeContext {

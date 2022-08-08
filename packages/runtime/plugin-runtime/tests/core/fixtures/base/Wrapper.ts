@@ -1,4 +1,4 @@
-import { initialRuntime } from '../../../../src/core';
+import { initialRuntime } from '../../../utils';
 import App from './App';
 
 const IS_BROWSER = process.env.MODERN_TARGET === 'browser';

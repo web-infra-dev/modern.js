@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import { initialRender, createRuntime } from '../../src/core';
+import { createRuntime } from '../../src/core';
+import { initialRender } from '../utils';
 
 describe('render', () => {
   it('server', async () => {
