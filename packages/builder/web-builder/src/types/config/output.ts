@@ -15,6 +15,7 @@ export interface OutputConfig {
   copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
   distPath?: string | DistPathConfig;
   assetPrefix?: string;
+  dataUriLimit?: number;
   disableMinimize?: boolean;
   disableSourceMap?: boolean;
   disableFilenameHash?: boolean;
