@@ -20,7 +20,7 @@ describe('render', () => {
 
     const result = await render.serverRender({ App });
 
-    expect(result).toStrictEqual({ markup: '<div>App</div>' });
+    expect(result).toStrictEqual('<div>App</div>');
   });
 
   it('client', async () => {
