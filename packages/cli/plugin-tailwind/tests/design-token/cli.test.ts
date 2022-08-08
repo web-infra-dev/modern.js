@@ -1,5 +1,5 @@
 import { manager } from '@modern-js/core';
-import plugin from '../src/cli';
+import plugin from '../../src/design-token/cli';
 
 describe('plugin design token test', () => {
   it('schema', async () => {

@@ -1,4 +1,4 @@
-import plugin from '../src';
+import plugin from '../../src/design-token';
 
 describe('plugin-router', () => {
   it('default', () => {

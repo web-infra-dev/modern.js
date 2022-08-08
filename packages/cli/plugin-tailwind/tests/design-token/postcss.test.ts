@@ -1,6 +1,6 @@
 import postcss from 'postcss';
 import type { Result } from 'postcss';
-import getPostcssPlugin from '../src/postcss-plugin';
+import getPostcssPlugin from '../../src/design-token/postcss-plugin';
 
 describe('postcss', () => {
   it('base use', () => {

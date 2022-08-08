@@ -1,4 +1,3 @@
-import * as path from 'path';
 import {
   lazyImport,
   PLUGIN_SCHEMAS,
@@ -11,8 +10,6 @@ export default (): CliPlugin => ({
 
   setup(api) {
     let pluginsExportsUtils: any;
-    const designTokenModulePath = path.resolve(__dirname, '../../../../');
-
     const resolveConfig = lazyImport('tailwindcss/resolveConfig', require);
 
     const PLUGIN_IDENTIFIER = 'designToken';
@@ -142,7 +139,7 @@ export default (): CliPlugin => ({
 
       addRuntimeExports() {
         pluginsExportsUtils.addExport(
-          `export { default as designToken } from '${designTokenModulePath}'`,
+          `export { default as designToken } from '@modern-js/plugin-tailwindcss/runtime-design-token'`,
         );
       },
     };

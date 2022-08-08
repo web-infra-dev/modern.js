@@ -17,10 +17,6 @@
       "path": "packages/runtime/plugin-fetch"
     },
     {
-      "name": "@modern-js/plugin-design-token",
-      "path": "packages/runtime/plugin-design-token"
-    },
-    {
       "name": "@modern-js/plugin-garfish",
       "path": "packages/runtime/plugin-garfish"
     },
