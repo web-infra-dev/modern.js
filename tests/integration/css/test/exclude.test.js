@@ -1,5 +1,5 @@
 const path = require('path');
-const { readdirSync } = require('fs-extra');
+const { glob } = require('@modern-js/utils');
 const {
   modernBuild,
   clearBuildDist,
@@ -16,9 +16,9 @@ afterAll(() => {
 });
 
 const getPreCssFiles = (appDir, ext) =>
-  readdirSync(path.resolve(appDir, 'dist')).filter(filepath =>
-    new RegExp(`\\.${ext}$`).test(filepath),
-  );
+  glob
+    .sync(path.resolve(appDir, 'dist/**/*'))
+    .filter(filepath => new RegExp(`\\.${ext}$`).test(filepath));
 
 const fixtures = path.resolve(__dirname, '../fixtures');
 
