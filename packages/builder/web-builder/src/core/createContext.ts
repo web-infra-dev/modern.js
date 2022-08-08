@@ -1,6 +1,6 @@
 import { isAbsolute, join } from 'path';
 import { initHooks } from './createHook';
-import { ConfigValidator } from '~/config/validate';
+import { ConfigValidator } from '../config/validate';
 import { pick, STATUS, isFileExists, ROOT_DIST_DIR } from '../shared';
 import type {
   Context,

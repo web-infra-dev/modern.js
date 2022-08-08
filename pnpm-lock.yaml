@@ -64,7 +64,6 @@ importers:
       lodash: ^4.17.21
       schema-utils: 3.1.1
       terser-webpack-plugin: 5.3.3
-      ttypescript: ^1.5.13
       typescript: ^4
       typescript-transform-paths: ^3.3.1
       webpack: ^5.71.0
@@ -85,7 +84,6 @@ importers:
       '@types/react': 17.0.47
       '@types/react-dom': 17.0.17
       jest: 27.5.1
-      ttypescript: 1.5.13_typescript@4.7.4
       typescript: 4.7.4
       typescript-transform-paths: 3.3.1_typescript@4.7.4
 
@@ -31422,17 +31420,6 @@ packages:
       wcwidth: 1.0.1
       yargs: 17.5.1
     dev: false
-
-  /ttypescript/1.5.13_typescript@4.7.4:
-    resolution: {integrity: sha512-KT/RBfGGlVJFqEI8cVvI3nMsmYcFvPSZh8bU0qX+pAwbi7/ABmYkzn7l/K8skw0xmYjVCoyaV6WLsBQxdadybQ==}
-    hasBin: true
-    peerDependencies:
-      ts-node: '>=8.0.2'
-      typescript: '>=3.2.2'
-    dependencies:
-      resolve: 1.22.1
-      typescript: 4.7.4
-    dev: true
 
   /tunnel-agent/0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}

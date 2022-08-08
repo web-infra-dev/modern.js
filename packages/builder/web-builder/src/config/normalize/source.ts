@@ -1,4 +1,4 @@
-import { SourceConfig, SourceFinalConfig } from '~/types/config/source';
+import { SourceConfig, SourceFinalConfig } from '../../types/config/source';
 
 export const sourceNormalizer = (
   config: SourceConfig | void,

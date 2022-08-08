@@ -2,7 +2,7 @@ import { pick } from '../shared';
 import { createContext, createPublicContext } from './createContext';
 import { createPluginStore } from './createPluginStore';
 import { initConfigs } from './initConfigs';
-import type { PluginStore, BuilderOptions } from '~/types';
+import type { PluginStore, BuilderOptions } from '../types';
 
 function mergeBuilderOptions(options?: BuilderOptions) {
   const DEFAULT_OPTIONS: Required<BuilderOptions> = {

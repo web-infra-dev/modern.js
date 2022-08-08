@@ -54,7 +54,6 @@
     "@types/react": "^17",
     "@types/react-dom": "^17",
     "jest": "^27",
-    "ttypescript": "^1.5.13",
     "typescript": "^4",
     "typescript-transform-paths": "^3.3.1"
   },
@@ -66,7 +65,7 @@
   },
   "wireit": {
     "build": {
-      "command": "ttsc && node scripts/compile-ajv.js",
+      "command": "tsc && node scripts/compile-ajv.js",
       "files": [
         "src/**/*",
         "tsconfig.json",

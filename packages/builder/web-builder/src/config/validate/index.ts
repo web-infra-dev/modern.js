@@ -1,6 +1,6 @@
 import Ajv, { JSONSchemaType, ValidateFunction } from 'ajv';
 import path from 'path';
-import { BuilderConfig } from '~/types';
+import { BuilderConfig } from '../../types';
 import sourceField from './source';
 import { promises as fs } from 'fs';
 
