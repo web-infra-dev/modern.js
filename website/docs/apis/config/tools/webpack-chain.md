@@ -294,7 +294,7 @@ export default defineConfig({
 | `ONE_OF.ASSETS`        | 处理图片、字体等资源的规则，在 data URI 和单独文件之间自动选择 |
 | `ONE_OF.ASSETS_URL`    | 处理图片、字体等资源的规则，输出为单独文件                     |
 | `ONE_OF.ASSETS_INLINE` | 处理图片、字体等资源的规则，作为 data URI 内联到 bundle 中     |
-| `ONE_OF.FALLBACK`      | 处理无法识别的文件类型，通过 `file-loader` 输出为文件          |
+| `ONE_OF.FALLBACK`      | 处理无法识别的文件类型，通过 `asset/resource` 输出为文件          |
 
 ### USE
 
@@ -305,7 +305,6 @@ export default defineConfig({
 | `USE.TS`               | 对应 `ts-loader`                      |
 | `USE.CSS`              | 对应 `css-loader`                     |
 | `USE.URL`              | 对应 `url-loader`                     |
-| `USE.FILE`             | 对应 `file-loader`                    |
 | `USE.SVGR`             | 对应 `@svgr/webpack`                  |
 | `USE.YAML`             | 对应 `yaml-loader`                    |
 | `USE.TOML`             | 对应 `toml-loader`                    |
