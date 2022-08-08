@@ -134,6 +134,7 @@ export interface OutputConfig {
   disableNodePolyfill?: boolean;
   enableTsLoader?: boolean;
 
+  // TODO: remove unbundle configs after we completely deprecate it.
   /**
    * Disables lazy import support for styles, currently supports antd and arco-design.
    * The configuration of `output.disableAutoImportStyle` is provided by `unbundle` plugin.
@@ -156,8 +157,9 @@ export interface ServerConfig {
     | string
     | string[]
     | {
-        route: string | string[];
+        route?: string | string[];
         disableSpa?: boolean;
+        resHeaders?: Record<string, unknown>;
       }
   >;
   publicRoutes?: { [filepath: string]: string };
@@ -184,6 +186,7 @@ export interface DevConfig {
    */
   proxy?: DevProxyOptions;
 
+  // TODO: remove unbundle configs after we completely deprecate it.
   /**
    * The configuration of `dev.unbundle` is provided by `unbundle` plugin.
    * Please use `yarn new` or `pnpm new` to enable the corresponding capability.

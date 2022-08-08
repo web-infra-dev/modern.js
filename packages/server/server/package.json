@@ -38,10 +38,10 @@
   "dependencies": {
     "@babel/core": "^7.18.0",
     "@babel/register": "^7.17.7",
-    "@modern-js/prod-server": "workspace:^1.2.1",
+    "@modern-js/prod-server": "workspace:^1.2.2",
     "@modern-js/server-utils": "workspace:^1.2.11",
-    "@modern-js/webpack": "workspace:^1.12.2",
-    "@modern-js/utils": "workspace:^1.8.0",
+    "@modern-js/webpack": "workspace:^1.12.3",
+    "@modern-js/utils": "workspace:^1.8.1",
     "devcert": "^1.2.2",
     "minimatch": "^3.0.4",
     "path-to-regexp": "^6.2.0",

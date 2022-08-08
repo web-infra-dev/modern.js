@@ -1,5 +1,28 @@
 # @modern-js/core
 
+## 1.13.3
+
+### Patch Changes
+
+- f4822c0: feat(app-tools): start and inspect command support specify config file
+
+  feat(app-tools): start 和 inspect 命令支持指定配置文件
+
+- Updated dependencies [4f1889d]
+  - @modern-js/utils@1.8.1
+
+## 1.13.2
+
+### Patch Changes
+
+- bfc1264: fix(core): should keep single function value after merge config
+
+  fix(core): 修复合并配置后，函数类型的配置项变成数组类型的问题
+
+- 44e3bb1: feat: support response headers
+  feat: 支持设置响应头
+  - @modern-js/utils@1.8.0
+
 ## 1.13.1
 
 ### Patch Changes

@@ -56,6 +56,10 @@ export function Api<
     .filter(operator => operator.validate)
     .map(operator => operator.validate!);
 
+  const pipeHandlers = operators
+    .filter(operator => operator.execute)
+    .map(operator => operator.execute!);
+
   async function runner<T>(inputs: T) {
     const executeHelper: ExecuteHelper<T> = {
       result: null,
@@ -65,9 +69,13 @@ export function Api<
       outputs: {
         ...inputs,
       },
+      set inputs(val) {
+        // eslint-disable-next-line no-param-reassign
+        inputs = val;
+      },
     };
 
-    const stack = [...validateHandlers];
+    const stack = [...validateHandlers, ...pipeHandlers];
 
     stack.push(async (helper: ExecuteHelper<T>, next: NextFunction) => {
       const res = await handler(helper.outputs);

@@ -44,7 +44,7 @@ export type InputSchemaMeata = Extract<
   | HttpMetadata.Params
 >;
 
-export type ValidateFunc<Outputs> = (
+export type ExecuteFunc<Outputs> = (
   helper: ExecuteHelper<Outputs>,
   next: () => Promise<any>,
 ) => Promise<any>;
@@ -52,7 +52,7 @@ export type ValidateFunc<Outputs> = (
 export type ExecuteHelper<Outputs> = {
   result?: any;
   outputs: Outputs;
-  readonly inputs: any;
+  inputs: any;
 };
 
 export type MetadataHelper = {
@@ -65,7 +65,8 @@ export type Operator<Input, Output = Input> = {
   inputType?: Input;
   outputType?: Output;
   metadata?: (helper: MetadataHelper) => void;
-  validate?: ValidateFunc<Output>;
+  validate?: ExecuteFunc<Output>;
+  execute?: ExecuteFunc<Output>;
 };
 
 export type MaybeAsync<T> = Promise<T> | T;

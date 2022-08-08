@@ -1,4 +1,3 @@
-import path from 'path';
 import {
   getEntryOptions,
   createRuntimeExportsUtils,
@@ -16,7 +15,6 @@ export default (): CliPlugin => ({
     const stateConfigMap = new Map<string, any>();
 
     let pluginsExportsUtils: any;
-    const stateModulePath = path.resolve(__dirname, '../');
 
     return {
       config() {
@@ -127,7 +125,7 @@ export default (): CliPlugin => ({
       },
       addRuntimeExports() {
         pluginsExportsUtils.addExport(
-          `export { default as state } from '${stateModulePath}'`,
+          `export { default as state } from '@modern-js/runtime/-state'`,
         );
       },
     };

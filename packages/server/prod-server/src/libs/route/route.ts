@@ -21,6 +21,8 @@ export class ModernRoute implements ModernRouteInterface {
 
   public params: Record<string, any> = {};
 
+  public responseHeaders?: Record<string, any>;
+
   constructor(routeSpec: ModernRouteInterface) {
     this.entryName = routeSpec.entryName || '';
     this.urlPath = routeSpec.urlPath;
@@ -30,5 +32,6 @@ export class ModernRoute implements ModernRouteInterface {
     this.isApi = routeSpec.isApi || false;
     this.bundle = routeSpec.bundle || '';
     this.enableModernMode = routeSpec.enableModernMode ?? false;
+    this.responseHeaders = routeSpec.responseHeaders;
   }
 }

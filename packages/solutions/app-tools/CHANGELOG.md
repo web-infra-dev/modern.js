@@ -1,5 +1,50 @@
 # @modern-js/app-tools
 
+## 1.8.3
+
+### Patch Changes
+
+- f4822c0: feat(app-tools): start and inspect command support specify config file
+
+  feat(app-tools): start 和 inspect 命令支持指定配置文件
+
+- Updated dependencies [4f1889d]
+- Updated dependencies [c423820]
+- Updated dependencies [f4822c0]
+  - @modern-js/utils@1.8.1
+  - @modern-js/types@1.6.2
+  - @modern-js/core@1.13.3
+  - @modern-js/webpack@1.12.3
+  - @modern-js/prod-server@1.2.2
+  - @modern-js/server@1.6.0
+  - @modern-js/plugin-jarvis@1.2.14
+
+## 1.8.2
+
+### Patch Changes
+
+- 44e3bb1: feat: support response headers
+  feat: 支持设置响应头
+- Updated dependencies [0e28456]
+- Updated dependencies [bfc1264]
+- Updated dependencies [9a173a7]
+- Updated dependencies [44e3bb1]
+  - @modern-js/prod-server@1.2.2
+  - @modern-js/core@1.13.2
+  - @modern-js/webpack@1.12.3
+  - @modern-js/types@1.6.1
+  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/server@1.6.0
+  - @modern-js/utils@1.8.0
+
+## 1.8.1
+
+### Patch Changes
+
+- 102b5e098: fix: fix not found `analyze/cli` when change config
+
+  fix: 修复修改配置重启时找不到 `analyze/cli`
+
 ## 1.8.0
 
 ### Minor Changes

@@ -1,5 +1,39 @@
 # @modern-js/runtime
 
+## 1.4.3
+
+### Patch Changes
+
+- b27d299: fix: runtime plugin module path
+
+  fix: 修复内置 runtime 插件模块导入路径
+
+- Updated dependencies [4f1889d]
+  - @modern-js/utils@1.8.1
+  - @modern-js/webpack@1.12.3
+  - @modern-js/runtime-core@1.5.4
+
+## 1.4.2
+
+### Patch Changes
+
+- b28372c: fix(runtime): fix model types for effects
+
+  fix(runtime): 修复因为 runtime 包合并导致的 model effects 类型不生效问题
+
+- Updated dependencies [9a173a7]
+  - @modern-js/webpack@1.12.3
+  - @modern-js/runtime-core@1.5.4
+  - @modern-js/utils@1.8.0
+
+## 1.4.1
+
+### Patch Changes
+
+- 132812542: fix: plugin runtime dependencies
+
+  fix: 修复 runtime 插件依赖
+
 ## 1.4.0
 
 ### Minor Changes

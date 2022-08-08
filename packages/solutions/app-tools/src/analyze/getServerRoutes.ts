@@ -126,9 +126,14 @@ const collectHtmlRoutes = (
 
   let htmlRoutes = entrypoints.reduce<ServerRoute[]>(
     (previous, { entryName }) => {
-      const isSSR = Boolean(
-        getEntryOptions(entryName, ssr, ssrByEntries, packageName),
+      const entryOptions = getEntryOptions(
+        entryName,
+        ssr,
+        ssrByEntries,
+        packageName,
       );
+      const isSSR = Boolean(entryOptions);
+      const { resHeaders } = routes?.[entryName] || ({} as any);
 
       let route: ServerRoute | ServerRoute[] = {
         urlPath: `/${entryName === MAIN_ENTRY_NAME ? '' : entryName}`,
@@ -142,6 +147,7 @@ const collectHtmlRoutes = (
         ),
         isSPA: true,
         isSSR,
+        responseHeaders: resHeaders,
         enableModernMode: Boolean(enableModernMode),
         bundle: isSSR
           ? `${SERVER_BUNDLE_DIRECTORY}/${entryName}.js`

@@ -8,11 +8,12 @@ Usage: modern inspect [options]
 inspect internal webpack config
 
 Options:
-  --env <env>          查看指定环境下的配置 (default: "development")
-  --output <output>    指定在 dist 目录下输出的路径 (default: "/")
-  --no-console         不在终端中输出完整结果
-  --verbose            在结果中展示函数的完整内容
-  -h, --help           显示命令帮助
+  --env <env>           查看指定环境下的配置 (default: "development")
+  --output <output>     指定在 dist 目录下输出的路径 (default: "/")
+  --no-console          不在终端中输出完整结果
+  --verbose             在结果中展示函数的完整内容
+  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
+  -h, --help            显示命令帮助
 ```
 
 `modern inspect` 命令，用于查看项目的 webpack 完整配置。

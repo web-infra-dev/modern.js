@@ -1,0 +1,23 @@
+import type { DevConfig } from './dev';
+import type { ToolsConfig } from './tools';
+import type { SourceConfig } from './source';
+import type { OutputConfig } from './output';
+import type { SecurityConfig } from './security';
+import type { PerformanceConfig } from './performance';
+import type { ExperimentsConfig } from './experiments';
+
+export interface BuilderConfig {
+  dev?: DevConfig;
+  tools?: ToolsConfig;
+  source?: SourceConfig;
+  output?: OutputConfig;
+  security?: SecurityConfig;
+  performance?: PerformanceConfig;
+  experiments?: ExperimentsConfig;
+}
+
+// eslint-disable-next-line prettier/prettier
+export interface BuilderFinalConfig
+  extends BuilderConfig {
+  source: SourceConfig;
+}

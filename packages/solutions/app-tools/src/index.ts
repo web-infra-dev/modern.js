@@ -69,6 +69,10 @@ export default (): CliPlugin => ({
           .usage('[options]')
           .description(i18n.t(localeKeys.command.start.describe))
           .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
+          .option(
+            '-c --config <config>',
+            i18n.t(localeKeys.command.shared.config),
+          )
           .action(async () => {
             const { start } = await import('./commands/start');
             await start(api);
@@ -122,6 +126,10 @@ export default (): CliPlugin => ({
           )
           .option('--no-console', i18n.t(localeKeys.command.inspect.noConsole))
           .option('--verbose', i18n.t(localeKeys.command.inspect.verbose))
+          .option(
+            '-c --config <config>',
+            i18n.t(localeKeys.command.shared.config),
+          )
           .action(async options => {
             const { inspect } = await import('./commands/inspect');
             inspect(api, options);
@@ -145,7 +153,7 @@ export default (): CliPlugin => ({
       },
 
       async beforeRestart() {
-        cleanRequireCache([require.resolve('./analyze/cli')]);
+        cleanRequireCache([require.resolve('./analyze')]);
       },
     };
   },

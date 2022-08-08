@@ -1,5 +1,17 @@
 # @modern-js/plugin-express
 
+## 1.7.1
+
+### Patch Changes
+
+- 19f2b87: fix: optimize the implentation of pipe
+  fix: 优化 Pipe 操作符的实现
+- Updated dependencies [19f2b87]
+- Updated dependencies [44e3bb1]
+  - @modern-js/bff-core@1.2.1
+  - @modern-js/types@1.6.1
+  - @modern-js/utils@1.8.0
+
 ## 1.7.0
 
 ### Minor Changes

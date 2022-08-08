@@ -1,4 +1,3 @@
-import path from 'path';
 import {
   getEntryOptions,
   SERVER_RENDER_FUNCTION_NAME,
@@ -18,7 +17,6 @@ export default (): CliPlugin => ({
     const ssrConfigMap = new Map<string, any>();
 
     let pluginsExportsUtils: any;
-    const ssrModulePath = path.resolve(__dirname, '../');
 
     return {
       config() {
@@ -62,7 +60,7 @@ export default (): CliPlugin => ({
         const { packageName, entrypoints } = api.useAppContext();
 
         pluginsExportsUtils.addExport(
-          `export { default as ssr } from '${ssrModulePath}'`,
+          `export { default as ssr } from '@modern-js/runtime/runtime-ssr'`,
         );
 
         // if use ssg then set ssr config to true

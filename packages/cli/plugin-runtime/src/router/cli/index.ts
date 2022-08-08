@@ -1,4 +1,3 @@
-import path from 'path';
 import {
   getEntryOptions,
   createRuntimeExportsUtils,
@@ -18,7 +17,6 @@ export default (): CliPlugin => ({
     const runtimeConfigMap = new Map<string, any>();
 
     let pluginsExportsUtils: any;
-    const runtimeModulePath = path.resolve(__dirname, '../');
 
     return {
       config() {
@@ -103,7 +101,7 @@ export default (): CliPlugin => ({
       },
       addRuntimeExports() {
         pluginsExportsUtils.addExport(
-          `export { default as router } from '${runtimeModulePath}'`,
+          `export { default as router } from '@modern-js/runtime/runtime-router'`,
         );
       },
     };

@@ -15,21 +15,10 @@ export interface ResponseMeta {
   value: unknown;
 }
 
-type UnknownKeysParam = 'passthrough' | 'strict' | 'strip';
-
-const validateInput = async <
-  T extends z.ZodRawShape,
-  UnknownKeys extends UnknownKeysParam = 'strip',
-  Catchall extends z.ZodTypeAny = z.ZodTypeAny,
-  Output = z.objectOutputType<T, Catchall>,
-  Input = z.objectInputType<T, Catchall>,
-  Def extends z.ZodTypeDef = z.ZodTypeDef,
->(
-  schema:
-    | z.ZodObject<T, UnknownKeys, Catchall, Output, Input>
-    | z.ZodType<Output, Def, Input>,
-  input: Input,
-): Promise<Output> => {
+const validateInput = async <Schema extends z.ZodType>(
+  schema: Schema,
+  input: z.input<Schema>,
+): Promise<z.output<Schema>> => {
   try {
     return await schema.parseAsync(input);
   } catch (error) {
@@ -66,20 +55,14 @@ export const Patch = createHttpOperator(HttpMethod.Patch);
 export const Option = createHttpOperator(HttpMethod.Option);
 export const Head = createHttpOperator(HttpMethod.Head);
 
-export const Data = <
-  T extends z.ZodRawShape,
-  UnknownKeys extends UnknownKeysParam = 'strip',
-  Catchall extends z.ZodTypeAny = z.ZodTypeAny,
-  Output = z.objectOutputType<T, Catchall>,
-  Input = z.objectInputType<T, Catchall>,
->(
-  schema: z.ZodObject<T, UnknownKeys, Catchall, Output, Input> | z.ZodType,
+export const Data = <Schema extends z.ZodType>(
+  schema: Schema,
 ): Operator<
   {
-    data: Input;
+    data: z.input<Schema>;
   },
   {
-    data: Output;
+    data: z.output<Schema>;
   }
 > => {
   return {
@@ -96,20 +79,14 @@ export const Data = <
   };
 };
 
-export const Query = <
-  T extends z.ZodRawShape,
-  UnknownKeys extends UnknownKeysParam = 'strip',
-  Catchall extends z.ZodTypeAny = z.ZodTypeAny,
-  Output = z.objectOutputType<T, Catchall>,
-  Input = z.objectInputType<T, Catchall>,
->(
-  schema: z.ZodObject<T, UnknownKeys, Catchall, Output, Input> | z.ZodType,
+export const Query = <Schema extends z.ZodType>(
+  schema: Schema,
 ): Operator<
   {
-    query: Input;
+    query: z.input<Schema>;
   },
   {
-    query: Output;
+    query: z.output<Schema>;
   }
 > => {
   return {
@@ -126,20 +103,14 @@ export const Query = <
   };
 };
 
-export const Params = <
-  T extends z.ZodRawShape,
-  UnknownKeys extends UnknownKeysParam = 'strip',
-  Catchall extends z.ZodTypeAny = z.ZodTypeAny,
-  Output = z.objectOutputType<T, Catchall>,
-  Input = z.objectInputType<T, Catchall>,
->(
-  schema: z.ZodObject<T, UnknownKeys, Catchall, Output, Input> | z.ZodType,
+export const Params = <Schema extends z.ZodType>(
+  schema: Schema,
 ): Operator<
   {
-    params: Input;
+    params: z.input<Schema>;
   },
   {
-    params: Output;
+    params: z.output<Schema>;
   }
 > => {
   return {
@@ -156,20 +127,14 @@ export const Params = <
   };
 };
 
-export const Headers = <
-  T extends z.ZodRawShape,
-  UnknownKeys extends UnknownKeysParam = 'strip',
-  Catchall extends z.ZodTypeAny = z.ZodTypeAny,
-  Output = z.objectOutputType<T, Catchall>,
-  Input = z.objectInputType<T, Catchall>,
->(
-  schema: z.ZodObject<T, UnknownKeys, Catchall, Output, Input>,
+export const Headers = <Schema extends z.ZodType>(
+  schema: Schema,
 ): Operator<
   {
-    headers: Input;
+    headers: z.input<Schema>;
   },
   {
-    headers: Output;
+    headers: z.output<Schema>;
   }
 > => {
   return {
