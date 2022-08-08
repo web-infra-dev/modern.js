@@ -74,6 +74,7 @@ const generatorAndCopyRequiredFiles = (rootPath: string, deployDir: string) => {
   copy('.npmrc');
   copy('package.json');
   copy('pnpm-workspace.yaml');
+  copy('lerna.json');
   copy('.pnpmfile.cjs');
   copy('tsconfig.json');
   copy('modern.config.js'); // TODO: 暂时配置，要移除
