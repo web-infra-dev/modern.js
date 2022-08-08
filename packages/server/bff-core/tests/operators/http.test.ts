@@ -68,7 +68,72 @@ describe('test api function', () => {
 
     expect(query).toEqual(expectedQuery);
     expect(data).toEqual(outputsExpectedData);
+  });
 
+  test('should throw expected error', async () => {
+    const DataSchema = z.object({
+      stars: z.number(),
+      email: z.string().email(),
+    });
+
+    const handler = Api(Data(DataSchema), async ({ data }) => {
+      return {
+        data,
+      };
+    });
+
+    await expect(
+      handler({
+        data: {
+          stars: 14,
+          email: 'Modernjs',
+        },
+      }),
+    ).rejects.toThrow(ValidationError);
+  });
+
+  test('should support transform', async () => {
+    const DataSchema = z.object({
+      stars: z.string().transform(val =>
+        z
+          .object({
+            test: z.number(),
+          })
+          .parse(JSON.parse(val)),
+      ),
+    });
+
+    const handler = Api(Data(DataSchema), async ({ data }) => {
+      return {
+        data,
+      };
+    });
+
+    const result = await handler({
+      data: {
+        stars: JSON.stringify({ test: 1 }),
+      },
+    });
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type Case = Expect<Assert<z.input<typeof DataSchema>, { stars: string }>>;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type Case2 = Expect<
+      Assert<z.output<typeof DataSchema>, { stars: { test: number } }>
+    >;
+
+    expect(result).toEqual({ data: { stars: { test: 1 } } });
+
+    await expect(
+      handler({
+        data: {
+          stars: 14 as any,
+        },
+      }),
+    ).rejects.toThrow(ValidationError);
+  });
+
+  test('should support lazy', async () => {
     // 支持lazy
 
     interface CircularDataSchemaData {
@@ -86,7 +151,6 @@ describe('test api function', () => {
       Data(CircularDataSchema),
       async ({ data }) => {
         return {
-          query,
           data,
         };
       },
@@ -110,11 +174,8 @@ describe('test api function', () => {
     type Case2 = Expect<Assert<typeof response.data, CircularDataSchemaData>>;
   });
 
-  test('should throw expected error', async () => {
-    const DataSchema = z.object({
-      stars: z.number(),
-      email: z.string().email(),
-    });
+  test('should support records', async () => {
+    const DataSchema = z.record(z.string(), z.number());
 
     const handler = Api(Data(DataSchema), async ({ data }) => {
       return {
@@ -122,11 +183,23 @@ describe('test api function', () => {
       };
     });
 
+    const result = await handler({
+      data: {
+        stars: 2,
+      },
+    });
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type Case2 = Expect<
+      Assert<z.infer<typeof DataSchema>, Record<string, number>>
+    >;
+
+    expect(result).toEqual({ data: { stars: 2 } });
+
     await expect(
       handler({
         data: {
-          stars: 14,
-          email: 'Modernjs',
+          stars: '123' as any,
         },
       }),
     ).rejects.toThrow(ValidationError);
