@@ -125,7 +125,7 @@ export default (): CliPlugin => ({
       },
       addRuntimeExports() {
         pluginsExportsUtils.addExport(
-          `export { default as state } from '@modern-js/runtime/-state'`,
+          `export { default as state } from '@modern-js/runtime/runtime-state'`,
         );
       },
     };
