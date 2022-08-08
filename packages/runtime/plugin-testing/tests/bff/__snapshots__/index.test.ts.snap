@@ -6,19 +6,19 @@ Object {
     Object {
       "globals": Object {
         "modern_bff_info": Object {
-          "appDir": "/cli/plugin-testing/tests/bff/fixtures/bff1",
+          "appDir": "/runtime/plugin-testing/tests/bff/fixtures/bff1",
           "modernUserConfig": Object {},
           "plugins": Array [],
           "routes": Array [],
         },
       },
       "moduleNameMapper": Object {},
-      "resolver": "/cli/plugin-testing/src/base/config/resolver.ts",
-      "rootDir": "/cli/plugin-testing/tests/bff/fixtures/bff1/api",
+      "resolver": "/runtime/plugin-testing/src/base/config/resolver.ts",
+      "rootDir": "/runtime/plugin-testing/tests/bff/fixtures/bff1/api",
       "setupFilesAfterEnv": Array [
-        "/cli/plugin-testing/src/cli/bff/setup.ts",
+        "/runtime/plugin-testing/src/cli/bff/setup.ts",
       ],
-      "testEnvironment": "/cli/plugin-testing/src/cli/bff/env.ts",
+      "testEnvironment": "/runtime/plugin-testing/src/cli/bff/env.ts",
       "testMatch": Array [
         "**/api/**/*.test.[jt]s",
       ],
@@ -34,19 +34,19 @@ Object {
     Object {
       "globals": Object {
         "modern_bff_info": Object {
-          "appDir": "/cli/plugin-testing/tests/bff/fixtures/bff1",
+          "appDir": "/runtime/plugin-testing/tests/bff/fixtures/bff1",
           "modernUserConfig": Object {},
           "plugins": Array [],
           "routes": Array [],
         },
       },
       "moduleNameMapper": Object {},
-      "resolver": "/cli/plugin-testing/src/base/config/resolver.ts",
-      "rootDir": "/cli/plugin-testing/tests/bff/fixtures/bff1/api",
+      "resolver": "/runtime/plugin-testing/src/base/config/resolver.ts",
+      "rootDir": "/runtime/plugin-testing/tests/bff/fixtures/bff1/api",
       "setupFilesAfterEnv": Array [
-        "/cli/plugin-testing/src/cli/bff/setup.ts",
+        "/runtime/plugin-testing/src/cli/bff/setup.ts",
       ],
-      "testEnvironment": "/cli/plugin-testing/src/cli/bff/env.ts",
+      "testEnvironment": "/runtime/plugin-testing/src/cli/bff/env.ts",
       "testMatch": Array [
         "**/api/**/*.test.[jt]s",
       ],
