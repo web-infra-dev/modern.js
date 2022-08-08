@@ -1,5 +1,16 @@
-import { createServer } from '../../../../packages/solutions/app-tools/src/utils/createServer';
+import { ModernDevServerOptions, Server } from '@modern-js/server';
 import { createBuilder } from './shared';
+
+let server: Server | null = null;
+
+const createServer = async (options: ModernDevServerOptions) => {
+  if (server) {
+    await server.close();
+  }
+  server = new Server(options);
+  const app = await server.init();
+  return app;
+};
 
 async function main() {
   process.env.NODE_ENV = 'development';

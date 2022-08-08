@@ -4463,6 +4463,9 @@ importers:
 
   tests/integration/web-builder:
     specifiers:
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/server': workspace:*
+      '@modern-js/web-builder': workspace:*
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -4474,6 +4477,9 @@ importers:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     devDependencies:
+      '@modern-js/app-tools': link:../../../packages/solutions/app-tools
+      '@modern-js/server': link:../../../packages/server/server
+      '@modern-js/web-builder': link:../../../packages/builder/web-builder
       '@types/node': 14.18.21
       '@types/react': 17.0.47
       '@types/react-dom': 17.0.17
