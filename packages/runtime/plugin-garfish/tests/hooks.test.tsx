@@ -3,10 +3,7 @@ import { render } from '@testing-library/react';
 import { createApp } from '@modern-js/runtime-core';
 import '@testing-library/jest-dom';
 
-import ModernGarfishPlugin, {
-  useModuleApp,
-  useModuleApps,
-} from '../src/runtime';
+import ModernGarfishPlugin, { useModuleApps } from '../src/runtime';
 
 global.React = React;
 
@@ -32,8 +29,7 @@ describe('plugin-garfish', () => {
     };
 
     const App = () => {
-      const { MApp, apps, Dashboard, TableList } = useModuleApps();
-
+      const { apps, Dashboard, TableList } = useModuleApps();
 
       if (apps.length > 0) {
         expect(apps[0].name).toBe(tableListModuleInfo.name);

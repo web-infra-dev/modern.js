@@ -31,7 +31,7 @@ import {
 } from './resource/userInfo';
 
 global.React = React;
-global.fetch = fetchMock;
+global.fetch = fetchMock as any;
 
 function waitFor(delay = 200) {
   return new Promise(resolve => {
@@ -101,9 +101,9 @@ describe('plugin-garfish', () => {
       apps: [tableListModuleInfo, dashBoardModuleInfo, userInfo],
       manifest: {
         loadable: {
-          loading: ()=> {
+          loading: () => {
             return <div data-testid="loading-id">loading</div>;
-          }
+          },
         },
       },
     };
