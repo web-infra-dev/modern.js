@@ -12,7 +12,7 @@ type PipeFunction<T> = (
   end: EndFunction,
 ) => MaybeAsync<void> | MaybeAsync<T>;
 
-export const Pipe = <T>(func: PipeFunction<T>): Operator<void> => {
+export const Pipe = <T>(func: PipeFunction<T>): Operator => {
   return {
     name: 'pipe',
     // eslint-disable-next-line consistent-return
@@ -52,7 +52,7 @@ export type Pipe = typeof Pipe;
 
 export const Middleware = (
   middleware: (req: Request, res: Response, next: NextFunction) => void,
-): Operator<void> => {
+): Operator => {
   return {
     name: 'middleware',
     metadata(helper) {
