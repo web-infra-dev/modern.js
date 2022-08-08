@@ -4,40 +4,39 @@ import '@testing-library/jest-dom';
 
 global.React = React;
 
-const addExportList = [];
+const addExportList: any[] = [];
 jest.mock('@modern-js/utils', () => {
   const originalModule = jest.requireActual('@modern-js/utils');
   return {
     __esModule: true,
     ...originalModule,
-    createRuntimeExportsUtils: ()=>({
-      addExport: (val: any)=> {
+    createRuntimeExportsUtils: () => ({
+      addExport: (val: any) => {
         addExportList.push(val);
       },
-      getPath: ()=> 'test',
+      getPath: () => 'test',
     }),
-  }
+  };
 });
 
-
 describe('plugin-garfish', () => {
-  test('cli addRuntimeExports', async ()=>{
+  test('cli addRuntimeExports', async () => {
     const resolveConfig: any = {};
     const mfPackagePath = '@modern-js/test/plugin-garfish';
     const plugin = GarfishPlugin({
       mfPackagePath,
     });
 
-    const lifecycle = await plugin.setup({
+    const lifecycle = await plugin.setup!({
       useResolvedConfigContext: () => resolveConfig,
-      useConfigContext: ()=> resolveConfig,
-      useAppContext: ()=>({
-        internalDirectory: 'test'
+      useConfigContext: () => resolveConfig,
+      useAppContext: () => ({
+        internalDirectory: 'test',
       }),
     } as any);
 
-    lifecycle && lifecycle.config();
-    lifecycle && lifecycle.addRuntimeExports()
+    lifecycle?.config!();
+    lifecycle?.addRuntimeExports!();
     expect(addExportList).toMatchSnapshot();
   });
 });
