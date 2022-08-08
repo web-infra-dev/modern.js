@@ -28,6 +28,18 @@
     "./cli": {
       "jsnext:source": "./src/cli.ts",
       "default": "./dist/js/node/cli.js"
+    },
+    "./runtime-design-token": {
+      "jsnext:source": "./src/design-token/index.js",
+      "node": "./dist/js/node/design-token/index.js",
+      "default": "./dist/js/treeshaking/design-token/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "runtime-design-token": [
+        "./dist/types/design-token/index.d.ts"
+      ]
     }
   },
   "scripts": {
@@ -41,10 +53,11 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:^1.8.1",
-    "@modern-js/plugin-design-token": "workspace:^1.0.11"
+    "hoist-non-react-statics": "^3.3.2"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
+    "@modern-js/runtime-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@types/jest": "^27",
     "@types/node": "^14",
@@ -52,8 +65,11 @@
     "typescript": "^4",
     "tailwindcss": "^2.0.4",
     "jest": "^27",
+    "react": "^17.0.2",
     "postcss": "^8.4.14",
-    "@scripts/jest-config": "workspace:*"
+    "@scripts/jest-config": "workspace:*",
+    "@types/hoist-non-react-statics": "^3.3.1",
+    "@types/react": "^17"
   },
   "peerDependencies": {
     "tailwindcss": "^2.0.4"
