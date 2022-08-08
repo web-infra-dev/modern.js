@@ -1,4 +1,4 @@
-import styled from '../src/styled';
+import styled from '../../src/exports/styled';
 
 describe('styled', () => {
   it('default', () => {

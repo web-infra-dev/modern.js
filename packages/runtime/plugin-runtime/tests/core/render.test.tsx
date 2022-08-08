@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import { initialRender, createRuntime } from '../src';
+import { initialRender, createRuntime } from '../../src/core';
 
 describe('render', () => {
   it('server', async () => {
@@ -8,9 +8,7 @@ describe('render', () => {
     const render = initialRender(
       [
         runtime.createPlugin(() => ({
-          server: ({ App: App1 }) => ({
-            markup: ReactDOM.renderToStaticMarkup(<App1 />),
-          }),
+          server: ({ App: App1 }) => ReactDOM.renderToStaticMarkup(<App1 />),
         })),
       ],
       runtime,

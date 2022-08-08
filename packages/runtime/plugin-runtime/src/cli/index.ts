@@ -37,9 +37,7 @@ export default (): CliPlugin => ({
                * But it will not be installed under the user project.
                * So need to add alias
                */
-              'styled-components': require.resolve('styled-components', {
-                paths: [require.resolve('@modern-js/runtime-core')],
-              }),
+              'styled-components': require.resolve('styled-components'),
             },
           },
         };

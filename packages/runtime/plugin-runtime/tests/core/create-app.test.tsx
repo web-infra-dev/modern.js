@@ -7,9 +7,9 @@ import {
   createApp,
   createPlugin,
   useRuntimeContext,
-} from '../src';
+} from '../../src/core';
 
-declare module '..' {
+declare module '../../src/core' {
   interface RuntimeContext {
     test?: string;
   }

@@ -1,4 +1,4 @@
-import { initialRuntime } from '../../..';
+import { initialRuntime } from '../../../../src/core';
 
 const plugins = [] as any[];
 
