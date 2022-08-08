@@ -1,5 +1,24 @@
 # @modern-js/app-tools
 
+## 1.8.3
+
+### Patch Changes
+
+- f4822c0: feat(app-tools): start and inspect command support specify config file
+
+  feat(app-tools): start 和 inspect 命令支持指定配置文件
+
+- Updated dependencies [4f1889d]
+- Updated dependencies [c423820]
+- Updated dependencies [f4822c0]
+  - @modern-js/utils@1.8.1
+  - @modern-js/types@1.6.2
+  - @modern-js/core@1.13.3
+  - @modern-js/webpack@1.12.3
+  - @modern-js/prod-server@1.2.2
+  - @modern-js/server@1.6.0
+  - @modern-js/plugin-jarvis@1.2.14
+
 ## 1.8.2
 
 ### Patch Changes

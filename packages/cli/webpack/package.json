@@ -51,7 +51,7 @@
     "@babel/core": "^7.18.0",
     "@modern-js/babel-preset-app": "workspace:^1.5.0",
     "@modern-js/css-config": "workspace:^1.2.8",
-    "@modern-js/utils": "workspace:^1.8.0",
+    "@modern-js/utils": "workspace:^1.8.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "@svgr/webpack": "^6.2.1",
     "core-js": "^3",

@@ -44,7 +44,7 @@
     "@babel/preset-typescript": "^7.17.12",
     "@babel/runtime": "^7.18.0",
     "@types/babel__core": "^7.1.16",
-    "@modern-js/utils": "workspace:^1.8.0",
+    "@modern-js/utils": "workspace:^1.8.1",
     "cosmiconfig": "^7.0.1",
     "lodash": "^4.17.21",
     "resolve": "^1.22.0"

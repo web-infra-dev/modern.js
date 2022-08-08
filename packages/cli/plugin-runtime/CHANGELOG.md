@@ -1,5 +1,18 @@
 # @modern-js/runtime
 
+## 1.4.3
+
+### Patch Changes
+
+- b27d299: fix: runtime plugin module path
+
+  fix: 修复内置 runtime 插件模块导入路径
+
+- Updated dependencies [4f1889d]
+  - @modern-js/utils@1.8.1
+  - @modern-js/webpack@1.12.3
+  - @modern-js/runtime-core@1.5.4
+
 ## 1.4.2
 
 ### Patch Changes
