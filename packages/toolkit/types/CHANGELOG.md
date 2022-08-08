@@ -1,5 +1,13 @@
 # @modern-js/types
 
+## 1.6.2
+
+### Patch Changes
+
+- c423820: fix: missing devServer.proxy.cookieDomainRewrite type
+
+  fix: 修复 devServer.proxy.cookieDomainRewrite 类型缺失的问题
+
 ## 1.6.1
 
 ### Patch Changes

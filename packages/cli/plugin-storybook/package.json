@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/utils": "workspace:^1.8.0",
+    "@modern-js/utils": "workspace:^1.8.1",
     "@modern-js/webpack": "workspace:^1.12.3",
     "@storybook/addon-actions": "^6.3.8",
     "@storybook/addon-essentials": "^6.3.8",
@@ -85,7 +85,7 @@
     "webpack-chain": "^6.5.1"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^1.4.2",
+    "@modern-js/runtime": "workspace:^1.4.3",
     "react": "^17"
   },
   "sideEffects": false,

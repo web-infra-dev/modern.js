@@ -36,7 +36,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.8.0",
+    "@modern-js/utils": "workspace:^1.8.1",
     "@babel/compat-data": "^7.17.10",
     "@modern-js/server-core": "workspace:^1.4.1",
     "axios": "^0.24.0",

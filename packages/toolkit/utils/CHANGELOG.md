@@ -1,5 +1,13 @@
 # @modern-js/utils
 
+## 1.8.1
+
+### Patch Changes
+
+- 4f1889d: fix(utils): revert schema of unbundle plugin
+
+  fix(utils): 恢复 unbundle 插件相关的 schema 配置
+
 ## 1.8.0
 
 ### Minor Changes
