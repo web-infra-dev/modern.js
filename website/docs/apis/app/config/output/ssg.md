@@ -3,9 +3,7 @@ sidebar_label: ssg
 ---
 # output.ssg
 
-:::info 适用的工程方案
-* 应用工程
-:::
+
 
 * 类型： `boolean` | `object` | `function`
 * 默认值： `undefined`

@@ -4,9 +4,7 @@ sidebar_label: buildPreset
 
 # output.buildPreset
 
-:::info 适用的工程方案
-* 模块工程
-:::
+
 
 * 类型：
   + `'npm-library'` | `'npm-library-with-umd'` | `'npm-component'` | `'npm-component-with-umd'`

@@ -4,9 +4,7 @@ sidebar_label: buildType
 
 # buildConfig.buildType
 
-:::info 适用的工程方案
-* 模块工程
-:::
+
 
 * 类型： `'bundle'|'bundleless'`
 * 默认值： `'bundleless'`

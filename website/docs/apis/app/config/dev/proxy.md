@@ -5,9 +5,7 @@ sidebar_position: 1
 
 # dev.proxy
 
-:::info 适用的工程方案
-* 应用工程
-:::
+
 
 * 类型： `string | Object`
 * 默认值： `null`

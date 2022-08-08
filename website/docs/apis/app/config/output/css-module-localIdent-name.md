@@ -4,9 +4,7 @@ sidebar_label: cssModuleLocalIdentName
 
 # output.cssModuleLocalIdentName
 
-:::info 适用的工程方案
-* 应用工程
-:::
+
 
 * 类型： `string`
 * 默认值： `[name]__[local]--[hash:base64:5]`

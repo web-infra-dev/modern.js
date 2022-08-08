@@ -4,9 +4,7 @@ sidebar_label: webpack
 
 # tools.webpack
 
-:::info 适用的工程方案
-应用工程
-:::
+
 
 - 类型： `Object | (config, utils) => void`
 - 默认值： `undefined`

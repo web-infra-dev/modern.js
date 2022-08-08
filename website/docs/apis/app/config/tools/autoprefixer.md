@@ -4,9 +4,7 @@ sidebar_label: autoprefixer
 
 # tools.autoprefixer
 
-:::info 适用的工程方案
-* 应用工程
-:::
+
 
 * 类型： `Object | Function`
 * 默认值： `{ flexbox: 'no-2009' }`

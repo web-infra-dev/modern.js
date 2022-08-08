@@ -3,9 +3,7 @@ title: tools.tsLoader
 sidebar_label: tsLoader
 ---
 
-:::info 适用的工程方案
-应用工程
-:::
+
 
 - 类型： `Object | Function`
 - 默认值：

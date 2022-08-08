@@ -5,10 +5,7 @@ sidebar_position: 1
 
 # testing.transformer
 
-:::info 适用的工程方案
-* 应用工程
-* 模块工程
-:::
+
 
 - 类型：`'babel-jest' | 'ts-jest'`
 - 默认值：`babel-jest`

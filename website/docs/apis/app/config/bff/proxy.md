@@ -5,9 +5,7 @@ sidebar_position: 1
 
 # bff.proxy
 
-:::info 适用的工程方案
-* 应用工程
-:::
+
 
 * 类型：`Record<string, string>`
 * 默认值：`{}`

@@ -5,9 +5,7 @@ sidebar_position: 2
 
 # dev.withMasterApp
 
-:::info 适用的工程方案
-* 应用工程
-:::
+
 
 * 类型： `Object`
 * 默认值： `null`

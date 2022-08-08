@@ -4,9 +4,7 @@ sidebar_label: format
 
 # buildConfig.format
 
-:::info 适用的工程方案
-* 模块工程
-:::
+
 
 * 类型： `'cjs' | 'esm' | 'umd'`
 * 默认值： `'cjs'`

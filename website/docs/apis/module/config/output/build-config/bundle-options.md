@@ -4,9 +4,7 @@ sidebar_label: bundleOptions
 
 # buildConfig.bundleOptions
 
-:::info 适用的工程方案
-* 模块工程
-:::
+
 `bundleOptions` 用来定制 Bundle 构建相关的配置，当 `{ buildType: 'bundle' }` 的时候，该配置才会生效。
 
 下面是一个配置示例：

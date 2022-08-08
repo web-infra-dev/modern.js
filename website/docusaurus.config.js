@@ -165,24 +165,8 @@ module.exports = {
             from: '/docs/guides/features',
           },
           {
-            to: '/docs/apis/overview', // string
+            to: '/docs/apis/app/overview', // string
             from: '/docs/apis',
-          },
-          {
-            to: '/docs/apis/commands/overview', // string
-            from: '/docs/apis/commands',
-          },
-          {
-            to: '/docs/apis/hooks/overview', // string
-            from: '/docs/apis/hooks',
-          },
-          {
-            to: '/docs/apis/runtime/overview', // string
-            from: '/docs/apis/runtime',
-          },
-          {
-            to: '/docs/apis/config/overview', // string
-            from: '/docs/apis/config',
           },
           {
             to: '/docs/apis/app/overview', // string

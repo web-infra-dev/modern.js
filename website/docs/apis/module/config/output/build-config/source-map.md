@@ -4,9 +4,7 @@ sidebar_label: sourceMap
 
 # buildConfig.sourceMap
 
-:::info 适用的工程方案
-* 模块工程
-:::
+
 
 * 类型： `boolean | 'inline' | 'external'`
 * 默认值：

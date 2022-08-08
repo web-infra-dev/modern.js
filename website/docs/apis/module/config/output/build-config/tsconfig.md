@@ -4,9 +4,7 @@ sidebar_label: tsconfig
 
 # buildConfig.tsconfig
 
-:::info 适用的工程方案
-* 模块工程
-:::
+
 
 * 类型： `string`
 * 默认值： `'tsconfig.json'`

@@ -4,9 +4,7 @@ sidebar_label: injectByEntries
 
 # output.injectByEntries
 
-:::info 适用的工程方案
-应用工程
-:::
+
 
 - 类型： `Object`
 - 默认值： `undefined`

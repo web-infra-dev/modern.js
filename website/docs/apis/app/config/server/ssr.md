@@ -5,9 +5,7 @@ sidebar_position: 1
 
 # server.ssr
 
-:::info 适用的工程方案
-* 应用工程
-:::
+
 
 * 类型： `boolean`
 * 默认值： `false`

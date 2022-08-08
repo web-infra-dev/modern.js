@@ -4,9 +4,7 @@ sidebar_label: dtsOnly
 
 # buildConfig.dtsOnly
 
-:::info 适用的工程方案
-* 模块工程
-:::
+
 
 * 类型： `boolean`
 * 默认值： `false`

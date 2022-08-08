@@ -4,9 +4,7 @@ sidebar_label: disableInlineRuntimeChunk
 
 # output.disableInlineRuntimeChunk
 
-:::info 适用的工程方案
-* 应用工程
-:::
+
 
 * 类型： `boolean`
 * 默认值： `false`

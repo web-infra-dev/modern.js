@@ -19,21 +19,20 @@ module.exports = {
       category: 'guides',
     },
     {
-      type: 'doc',
-      docId: 'apis/overview',
+      to: 'docs/apis',
       position: 'left',
       label: 'API',
       category: 'apis',
       secondnav: [
         {
-          label: '模块工程',
-          url: '/docs/apis/module/overview',
-          key: 'module',
-        },
-        {
           label: '应用工程',
           url: '/docs/apis/app/overview',
           key: 'app',
+        },
+        {
+          label: '模块工程',
+          url: '/docs/apis/module/overview',
+          key: 'module',
         },
         {
           label: 'Monorepo工程',

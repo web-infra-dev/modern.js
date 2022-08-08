@@ -4,10 +4,7 @@ sidebar_label: jest
 
 # tools.jest
 
-:::info 适用的工程方案
-* 应用工程
-* 模块工程
-:::
+
 
 :::caution 注意
 需要先通过 `pnpm run new` 启用 单元测试 功能。

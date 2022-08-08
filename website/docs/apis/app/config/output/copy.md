@@ -4,10 +4,7 @@ sidebar_label: copy
 
 # output.copy
 
-:::info 适用的工程方案
-* 应用工程
-* 模块工程
-:::
+
 
 * 类型： `Array`
 * 默认值： `undefined`

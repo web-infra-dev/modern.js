@@ -4,9 +4,7 @@ type: ref
 
 # output.buildConfig
 
-:::info 适用的工程方案
-* 模块工程
-:::
+
 
 - 类型： `Object | Array<Object>`
 - 默认值： 当前版本无默认值，默认不开启该功能

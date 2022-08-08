@@ -4,9 +4,7 @@ sidebar_label: dataUriLimit
 
 # output.dataUriLimit
 
-:::info 适用的工程方案
-* 应用工程
-:::
+
 
 * 类型: `Number`
 * 默认值: `10000` byte

@@ -4,9 +4,7 @@ sidebar_label: enableDts
 
 # buildConfig.enableDts
 
-:::info 适用的工程方案
-* 模块工程
-:::
+
 
 * 类型： `boolean`
 * 默认值： `false`

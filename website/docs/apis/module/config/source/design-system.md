@@ -5,10 +5,7 @@ sidebar_position: 4
 
 # source.designSystem
 
-:::info 适用的工程方案
-* 应用工程
-* 模块工程
-:::
+
 
 :::caution 注意
 - 应用工程需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用 Tailwind CSS 功能。

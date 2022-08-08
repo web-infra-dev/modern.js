@@ -5,9 +5,7 @@ sidebar_position: 1
 
 # runtime.router
 
-:::info 适用的工程方案
-* 应用工程
-:::
+
 
 * 类型： `Object`
 * 默认值： 默认会根据当前入口访问路由设置 `historyOptions.basename`。

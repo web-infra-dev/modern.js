@@ -4,9 +4,7 @@ sidebar_label: terser
 
 # tools.terser
 
-:::info 适用的工程方案
-应用工程
-:::
+
 
 - 类型： `Object | Function`
 - 默认值：见下方默认配置。

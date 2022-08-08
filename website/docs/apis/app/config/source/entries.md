@@ -5,9 +5,7 @@ sidebar_position: 6
 
 # source.entries
 
-:::info 适用的工程方案
-* 应用工程
-:::
+
 
 * 类型： `Object = { [ entryName: string ]: string | Object }`
 * 默认值： 根据当前项目目录结构动态结算出的默认入口对象。

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 0
 ---
 
 # 概览
@@ -7,4 +7,4 @@ sidebar_position: 3
 import OverviewNav from '@site/src/components/OverviewNav';
 import sidebarData from '@site/plugins/overview-loader!@site/plugins/overview-data.json';
 
-<OverviewNav cards={sidebarData.docsSidebars.apisSidebar[3].items} />
+<OverviewNav cards={sidebarData.docsSidebars.apisMonorepoSidebar} />

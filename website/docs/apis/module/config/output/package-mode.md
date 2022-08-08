@@ -4,9 +4,7 @@ sidebar_label: packageMode
 
 # output.packageMode
 
-:::info 适用的工程方案
-* 模块工程
-:::
+
 
 
 * 类型： `'universal-js' | 'universal-js-lite' | 'browser-js' | 'browser-js-lite' | 'node-js'`

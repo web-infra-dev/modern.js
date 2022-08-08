@@ -5,9 +5,7 @@ sidebar_position: 9
 
 # plugins (插件)
 
-:::info 适用的工程方案
-应用工程，模块工程
-:::
+
 
 - 类型： `CliPlugin[] | { cli: CliPlugin[] }`
 - 默认值：`[]`

@@ -5,9 +5,7 @@ sidebar_position: 3
 
 # server.baseUrl
 
-:::info 适用的工程方案
-* 应用工程
-:::
+
 
 * 类型： `string | string[]`
 * 默认值： `undefined`

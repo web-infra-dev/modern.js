@@ -3,9 +3,7 @@ sidebar_label: enableInlineStyles
 ---
 # output.enableInlineStyles
 
-:::info 适用的工程方案
-* 应用工程
-:::
+
 
 :::caution 注意
 谨慎使用该功能，内联所有 css 文件可能会使 html 文件尺寸超出预期。

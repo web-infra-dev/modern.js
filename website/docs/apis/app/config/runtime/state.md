@@ -5,9 +5,7 @@ sidebar_position: 2
 
 # runtime.state
 
-:::info 适用的工程方案
-* 应用工程
-:::
+
 
 - 类型：`boolean | object`
 - 默认值：`false`

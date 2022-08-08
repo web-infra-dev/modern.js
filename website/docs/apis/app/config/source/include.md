@@ -5,9 +5,7 @@ sidebar_position: 5
 
 # source.include
 
-:::info 适用的工程方案
-应用工程
-:::
+
 
 - 类型： `Array<string | RegExp>`
 - 默认值： `[]`

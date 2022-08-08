@@ -4,10 +4,7 @@ sidebar_label: tailwindcss
 
 # tools.tailwindcss
 
-:::info 适用的工程方案
-* 应用工程
-* 模块工程
-:::
+
 
 * 类型： `Object | Function`
 * 默认值：见下方配置详情。

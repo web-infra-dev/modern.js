@@ -5,9 +5,7 @@ sidebar_position: 1
 
 # electron.builder
 
-:::info 适用的工程方案
-应用工程
-:::
+
 
 * 类型: `Object`
 * 默认值： `{}`
