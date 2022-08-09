@@ -56,6 +56,7 @@ export async function createBuilder(options?: BuilderOptions) {
 
 async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginCopy } = await import('../plugins/copy');
+  const { PluginFont } = await import('../plugins/font');
   const { PluginBasic } = await import('../plugins/basic');
   const { PluginCache } = await import('../plugins/cache');
   const { PluginImage } = await import('../plugins/image');
@@ -77,6 +78,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
 
     // Plugins that provide basic features
     PluginCopy(),
+    PluginFont(),
     PluginImage(),
     PluginMoment(),
     PluginProgress(),

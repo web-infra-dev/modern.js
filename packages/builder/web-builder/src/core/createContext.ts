@@ -1,6 +1,6 @@
 import { isAbsolute, join } from 'path';
 import { initHooks } from './createHook';
-import { pick, STATUS, isFileExists, DEFAULT_DIST_DIR } from '../shared';
+import { pick, STATUS, isFileExists, ROOT_DIST_DIR } from '../shared';
 import type {
   Context,
   BuilderOptions,
@@ -17,7 +17,7 @@ function getDistPath(cwd: string, builderConfig: BuilderConfig) {
     return isAbsolute(root) ? root : join(cwd, root);
   }
 
-  return join(cwd, DEFAULT_DIST_DIR);
+  return join(cwd, ROOT_DIST_DIR);
 }
 
 export async function createContext({

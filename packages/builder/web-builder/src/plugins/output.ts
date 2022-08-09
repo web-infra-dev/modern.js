@@ -1,4 +1,4 @@
-import { DEFAULT_PORT } from '../shared';
+import { DEFAULT_PORT, JS_DIST_DIR } from '../shared';
 import type { BuilderConfig, BuilderContext, BuilderPlugin } from '../types';
 
 function getPublicPath({
@@ -40,7 +40,8 @@ export const PluginOutput = (): BuilderPlugin => ({
     api.modifyWebpackChain(async (chain, { isProd, isServer }) => {
       const config = api.getBuilderConfig();
       const { distPath } = config.output || {};
-      const jsPath = (typeof distPath === 'object' && distPath.js) || 'js';
+      const jsPath =
+        (typeof distPath === 'object' && distPath.js) || JS_DIST_DIR;
       const useHash = isProd && !config.output?.disableFilenameHash;
       const hash = useHash ? '.[contenthash:8]' : '';
 
