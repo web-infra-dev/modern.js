@@ -31,6 +31,7 @@
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
     "build": "wireit",
+    "compile:ajv": "node ./scripts/compile-ajv.js",
     "dev": "tsc --watch",
     "test": "wireit",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch"
@@ -63,14 +64,15 @@
   },
   "wireit": {
     "build": {
-      "command": "tsc",
+      "command": "tsc && node scripts/compile-ajv.js",
       "files": [
         "src/**/*",
         "tsconfig.json",
         "package.json"
       ],
       "output": [
-        "dist/**/*"
+        "dist/**/*",
+        "compiled/config-validate/**/*"
       ]
     },
     "test": {
