@@ -65,7 +65,6 @@ importers:
       schema-utils: 3.1.1
       terser-webpack-plugin: 5.3.3
       typescript: ^4
-      typescript-transform-paths: ^3.3.1
       webpack: ^5.71.0
     dependencies:
       '@modern-js/utils': link:../../toolkit/utils
@@ -85,7 +84,6 @@ importers:
       '@types/react-dom': 17.0.17
       jest: 27.5.1
       typescript: 4.7.4
-      typescript-transform-paths: 3.3.1_typescript@4.7.4
 
   packages/cli/babel-preset-app:
     specifiers:
@@ -31532,15 +31530,6 @@ packages:
 
   /typedarray/0.0.6:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
-
-  /typescript-transform-paths/3.3.1_typescript@4.7.4:
-    resolution: {integrity: sha512-c+8Cqd2rsRtTU68rJI0NX/OtqgBDddNs1fIxm1nCNyhn0WpoyqtpUxc1w9Ke5c5kgE4/OT5xYbKf2cf694RYEg==}
-    peerDependencies:
-      typescript: '>=3.6.5'
-    dependencies:
-      minimatch: 3.1.2
-      typescript: 4.7.4
-    dev: true
 
   /typescript/3.4.5:
     resolution: {integrity: sha512-YycBxUb49UUhdNMU5aJ7z5Ej2XGmaIBL0x34vZ82fn3hGvD+bgrMrVDpatgz2f7YxUMJxMkbWxJZeAvDxVe7Vw==}

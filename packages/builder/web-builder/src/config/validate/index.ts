@@ -1,4 +1,5 @@
-import Ajv, { JSONSchemaType, ValidateFunction } from 'ajv';
+import type Ajv from 'ajv';
+import type { JSONSchemaType, ValidateFunction } from 'ajv';
 import path from 'path';
 import { BuilderConfig } from '../../types';
 import sourceField from './source';
@@ -26,6 +27,7 @@ export class ConfigValidator {
       } catch (e) {}
     }
     // fallback to compile validator in runtime.
+    const { default: Ajv } = await import('ajv');
     const validator = new ConfigValidator();
     const ajv = new Ajv();
     validator.ajv = ajv;
