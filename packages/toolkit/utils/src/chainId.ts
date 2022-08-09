@@ -5,6 +5,8 @@ export const CHAIN_ID = {
     MJS: 'mjs',
     /** Rule for predefined loaders */
     LOADERS: 'loaders',
+    /** Rule for fonts */
+    FONT: 'font',
     /** Rule for images */
     IMAGE: 'image',
   },
