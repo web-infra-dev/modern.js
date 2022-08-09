@@ -1,36 +1,33 @@
-import Ajv, { JSONSchemaType, ValidateFunction } from 'ajv';
+import type Ajv from 'ajv';
+import type { JSONSchemaType, ValidateFunction } from 'ajv';
+import path from 'path';
+import { BuilderConfig } from '../../types';
 import sourceField from './source';
-import type { BuilderConfig } from '../../types';
+import { promises as fs } from 'fs';
 
 export const configSchema: JSONSchemaType<BuilderConfig> = {
   type: 'object',
   properties: {
     source: sourceField,
-    dev: {} as any,
-    experiments: {} as any,
-    output: {} as any,
-    performance: {} as any,
-    security: {} as any,
-    tools: {} as any,
+    dev: { type: 'object' } as any,
+    experiments: { type: 'object' } as any,
+    output: { type: 'object' } as any,
+    performance: { type: 'object' } as any,
+    security: { type: 'object' } as any,
+    tools: { type: 'object' } as any,
   },
 };
 
 export class ConfigValidator {
   static async create(cachePath?: string): Promise<ConfigValidator> {
-    // deserialize pre-compiled validate function.
+    // import pre-compiled validate function.
     if (typeof cachePath === 'string') {
       try {
-        // TODO: try to deserialize pre-compiled validate function.
-        return {} as any;
-      } catch (error) {
-        // TODO: only log when enable debug mode.
-        console.warn(
-          'Failed to deserialize pre-compiled validate function:\n',
-          error,
-        );
-      }
+        return await this.deserialize(cachePath);
+      } catch (e) {}
     }
     // fallback to compile validator in runtime.
+    const { default: Ajv } = await import('ajv');
     const validator = new ConfigValidator();
     const ajv = new Ajv();
     validator.ajv = ajv;
@@ -38,9 +35,39 @@ export class ConfigValidator {
     return validator;
   }
 
+  static async deserialize(
+    cached: string | ConfigValidator['compiled'],
+  ): Promise<ConfigValidator> {
+    const compiledValidate =
+      typeof cached === 'string'
+        ? (await import(path.resolve(cached))).default
+        : cached;
+    if (typeof compiledValidate !== 'function') {
+      throw new Error('Failed to deserialize pre-compiled validate function.');
+    }
+    const validator = new ConfigValidator();
+    validator.compiled = compiledValidate;
+    return validator;
+  }
+
+  static async serialize(
+    validator: ConfigValidator,
+    cachePath?: string,
+  ): Promise<string> {
+    if (!validator.compiled) {
+      throw new Error('Failed to serialize validator.');
+    }
+    const code = `module.exports = ${validator.compiled.toString()};`;
+    if (typeof cachePath === 'string') {
+      await fs.mkdir(path.dirname(cachePath), { recursive: true });
+      await fs.writeFile(cachePath, code);
+    }
+    return code;
+  }
+
   public errors?: ConfigValidator['compiled']['errors'];
 
-  private ajv!: Ajv;
+  private ajv?: Ajv;
 
   private compiled!: ValidateFunction<BuilderConfig>;
 
@@ -48,7 +75,7 @@ export class ConfigValidator {
   protected constructor() {}
 
   get errorMsg(): string | void {
-    return this.compiled.errors
+    return this.compiled.errors && this.ajv
       ? this.ajv.errorsText(this.compiled.errors)
       : undefined;
   }
