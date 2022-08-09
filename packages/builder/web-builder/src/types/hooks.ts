@@ -1,6 +1,6 @@
 import type { BuilderTarget } from './builder';
 import type { BuilderConfig } from './config';
-import type { webpack, WebpackChain, WebpackConfig } from './thirdParty';
+import type { WebpackChain, WebpackConfig } from './thirdParty';
 
 export type NodeEnv = 'development' | 'production' | 'test';
 
@@ -8,8 +8,9 @@ export type ModifyWebpackUtils = {
   env: NodeEnv;
   isProd: boolean;
   target: BuilderTarget;
-  webpack: typeof webpack;
+  webpack: typeof import('webpack');
   isServer: boolean;
+  CHAIN_ID: typeof import('@modern-js/utils').CHAIN_ID;
 };
 
 export type ModifyWebpackChainFn = (

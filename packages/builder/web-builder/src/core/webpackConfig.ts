@@ -47,6 +47,7 @@ export async function generateWebpackConfig({
   context: Context;
 }) {
   const { default: webpack } = await import('webpack');
+  const { CHAIN_ID } = await import('@modern-js/utils');
 
   const nodeEnv = process.env.NODE_ENV as NodeEnv;
   const utils: ModifyWebpackUtils = {
@@ -55,6 +56,7 @@ export async function generateWebpackConfig({
     webpack,
     isProd: nodeEnv === 'production',
     isServer: target === 'node',
+    CHAIN_ID,
   };
 
   const chain = await modifyWebpackChain(context, utils);

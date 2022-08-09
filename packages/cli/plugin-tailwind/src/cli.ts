@@ -7,8 +7,8 @@ import {
   nanoid,
   slash,
 } from '@modern-js/utils';
-import DesignTokenPlugin from '@modern-js/plugin-design-token/cli';
 import type { CliPlugin } from '@modern-js/core';
+import DesignTokenPlugin from './design-token/cli';
 import { getTailwindConfig } from './tailwind';
 import { template, checkTwinMacroNotExist } from './utils';
 

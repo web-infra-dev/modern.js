@@ -1,6 +1,22 @@
 {
   "folders": [
     {
+      "name": "@modern-js/runtime",
+      "path": "packages/runtime/plugin-runtime"
+    },
+    {
+      "name": "@modern-js/plugin-testing",
+      "path": "packages/runtime/plugin-testing"
+    },
+    {
+      "name": "@modern-js/plugin-fetch",
+      "path": "packages/runtime/plugin-fetch"
+    },
+    {
+      "name": "@modern-js/plugin-garfish",
+      "path": "packages/runtime/plugin-garfish"
+    },
+    {
       "name": "server/core",
       "path": "packages/server/core/"
     },
@@ -188,10 +204,7 @@
       "name": "@modern-js/plugin-express",
       "path": "packages/server/plugin-express"
     },
-    {
-      "name": "@modern-js/plugin-fetch",
-      "path": "packages/cli/plugin-fetch"
-    },
+
     {
       "name": "@modern-js/plugin-i18n",
       "path": "packages/cli/plugin-i18n"
@@ -260,22 +273,12 @@
       "name": "@modern-js/plugin-tailwindcss",
       "path": "packages/cli/plugin-tailwind"
     },
-    {
-      "name": "@modern-js/plugin-testing",
-      "path": "packages/cli/plugin-testing"
-    },
+
     {
       "name": "@modern-js/repo-generator",
       "path": "packages/generator/generators/repo-generator"
     },
-    {
-      "name": "@modern-js/runtime",
-      "path": "packages/cli/plugin-runtime"
-    },
-    {
-      "name": "@modern-js/runtime-core",
-      "path": "packages/runtime"
-    },
+
     {
       "name": "@modern-js/server",
       "path": "packages/server/server"

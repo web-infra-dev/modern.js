@@ -7,6 +7,6 @@ declare module '@modern-js/runtime/model' {
 }
 
 declare module '@modern-js/runtime/plugins' {
-  export { state } from '@modern-js/runtime/state';
-  export { router } from '@modern-js/runtime/router';
+  export { default as state } from '@modern-js/runtime/runtime-state';
+  export { default as router } from '@modern-js/runtime/runtime-router';
 }

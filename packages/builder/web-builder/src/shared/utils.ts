@@ -1,4 +1,7 @@
 import { SomeJSONSchema } from 'ajv/dist/types/json-schema';
+import { DEFAULT_DATA_URL_SIZE } from './constants';
+import { URLSearchParams } from 'url';
+import type Buffer from 'buffer';
 
 export function pick<T, U extends keyof T>(obj: T, keys: ReadonlyArray<U>) {
   return keys.reduce((ret, key) => {
@@ -19,3 +22,40 @@ export async function isFileExists(file: string) {
 
 /** Preserving the details of schema by generic types. */
 export const defineSchema = <T extends SomeJSONSchema>(schema: T): T => schema;
+
+export function getRegExpForExts(extensions: string[]): RegExp {
+  return new RegExp(
+    `\\.(${extensions
+      .map(ext => ext.trim())
+      .map(ext => (ext.startsWith('.') ? ext.slice(1) : ext))
+      .join('|')})$`,
+    'i',
+  );
+}
+
+export function getDataUrlCondition(dataUriLimit = DEFAULT_DATA_URL_SIZE) {
+  return (source: Buffer, { filename }: { filename: string }): boolean => {
+    const queryString = filename.split('?')[1];
+
+    if (queryString) {
+      const params = new URLSearchParams(queryString);
+
+      // If a request has query like "foo.png?__inline=false" or "foo.png?url",
+      // no matter how small the file is, it will still be treated as a resource instead of being inlined
+      const url = params.get('url');
+      const legacyInline = params.get('__inline');
+      if (legacyInline === 'false' || url !== null) {
+        return false;
+      }
+
+      // If a request has query like "foo?inline" or "foo?__inline", no matter how big the file is,
+      // it will be inlined instead of treated as a resource
+      const inline = params.get('inline');
+      if (inline !== null || legacyInline !== null) {
+        return true;
+      }
+    }
+
+    return source.length <= dataUriLimit;
+  };
+}
