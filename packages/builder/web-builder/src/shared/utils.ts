@@ -2,6 +2,23 @@ import { SomeJSONSchema } from 'ajv/dist/types/json-schema';
 import { DEFAULT_DATA_URL_SIZE } from './constants';
 import { URLSearchParams } from 'url';
 import type Buffer from 'buffer';
+import assert from 'assert';
+
+export const JS_REGEX = /\.(js|mjs|cjs|jsx)$/;
+
+export const TS_REGEX = /\.(ts|mts|cts|tsx)$/;
+
+export const mergeRegex = (...regexes: (string | RegExp)[]): RegExp => {
+  assert(
+    regexes.length,
+    'mergeRegex: regular expression array should not be empty.',
+  );
+  const sources = regexes.map(regex =>
+    regex instanceof RegExp ? regex.source : regex,
+  );
+
+  return new RegExp(sources.join('|'));
+};
 
 export function pick<T, U extends keyof T>(obj: T, keys: ReadonlyArray<U>) {
   return keys.reduce((ret, key) => {

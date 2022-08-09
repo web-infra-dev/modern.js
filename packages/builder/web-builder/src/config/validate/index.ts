@@ -34,7 +34,7 @@ export class ConfigValidator {
     const validator = new ConfigValidator();
     const ajv = new Ajv();
     validator.ajv = ajv;
-    validator.compiled = await ajv.compileAsync(configSchema);
+    validator.compiled = ajv.compile(configSchema);
     return validator;
   }
 

@@ -5,7 +5,7 @@ import type {
   ChainIdentifier,
   WatchOptions,
 } from '@modern-js/utils';
-import type { TransformOptions, PluginItem as BabelPlugin } from '@babel/core';
+import type { BabelConfig } from '@modern-js/babel-preset-app';
 import type webpack from 'webpack';
 import type {
   RuleSetRule,
@@ -19,6 +19,7 @@ import type {
   TerserOptions as RawTerserOptions,
 } from 'terser-webpack-plugin';
 import type { AcceptedPlugin as PostCSSPlugin } from 'postcss';
+import { TransformOptions } from '@babel/core';
 import type { PluginConfig } from '../../loadPlugins';
 import type { TestConfig, JestConfig } from './test';
 import type { SassConfig, SassLoaderOptions } from './sass';
@@ -290,22 +291,6 @@ export type TsLoaderConfig =
       config: TsLoaderOptions,
       utils: TsLoaderConfigUtils,
     ) => TsLoaderOptions | void);
-
-export type BabelConfigUtils = {
-  addPlugins: (plugins: BabelPlugin[]) => void;
-  addPresets: (presets: BabelPlugin[]) => void;
-  addIncludes: (includes: string | RegExp | (string | RegExp)[]) => void;
-  addExcludes: (excludes: string | RegExp | (string | RegExp)[]) => void;
-  removePlugins: (plugins: string | string[]) => void;
-  removePresets: (presets: string | string[]) => void;
-};
-
-export type BabelConfig =
-  | TransformOptions
-  | ((
-      config: TransformOptions,
-      utils: BabelConfigUtils,
-    ) => TransformOptions | void);
 
 export type AutoprefixerConfig =
   | AutoprefixerOptions

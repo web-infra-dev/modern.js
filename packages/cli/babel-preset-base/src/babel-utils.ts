@@ -1,7 +1,7 @@
 import { sep, isAbsolute } from 'path';
 import { ensureArray } from '@modern-js/utils';
-import type { BabelConfigUtils } from '@modern-js/core';
-import type { TransformOptions, PluginItem } from '@babel/core';
+import type { TransformOptions, PluginItem, PluginOptions } from '@babel/core';
+import { BabelConfigUtils, PresetEnvOptions, PresetReactOptions } from './type';
 
 // compatible with windows path
 const formatPath = (originPath: string) => {
@@ -75,6 +75,28 @@ const removePresets = (
   });
 };
 
+const modifyPresetOptions = <T>(
+  presetName: string,
+  options: T,
+  presets: PluginItem[] = [],
+) => {
+  presets.forEach((preset: PluginItem, index) => {
+    // 1. ['@babel/preset-env', ...]
+    if (Array.isArray(preset)) {
+      if (typeof preset[0] === 'string' && preset[0].includes(presetName)) {
+        preset[1] = {
+          ...(preset[1] || {}),
+          ...options,
+          // `options` is specific to different presets
+        } as unknown as PluginOptions;
+      }
+    } else if (typeof preset === 'string' && preset.includes(presetName)) {
+      // 2. '@babel/preset-env'
+      presets[index] = [preset, options];
+    }
+  });
+};
+
 export const getBabelUtils = (config: TransformOptions): BabelConfigUtils => {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const noop = () => {};
@@ -89,5 +111,10 @@ export const getBabelUtils = (config: TransformOptions): BabelConfigUtils => {
     // It can be overridden by `extraBabelUtils`.
     addIncludes: noop,
     addExcludes: noop,
+    // Compat `presetEnvOptions` and `presetReactOptions` in Eden.
+    modifyPresetEnvOptions: (options: PresetEnvOptions) =>
+      modifyPresetOptions('@babel/preset-env', options, config.presets || []),
+    modifyPresetReactOptions: (options: PresetReactOptions) =>
+      modifyPresetOptions('@babel/preset-react', options, config.presets || []),
   };
 };

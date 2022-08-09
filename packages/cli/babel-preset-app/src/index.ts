@@ -7,6 +7,13 @@ import type { Options } from './type';
 
 export type { Options };
 
+export type {
+  PresetEnvOptions,
+  PresetReactOptions,
+  BabelConfig,
+  BabelConfigUtils,
+} from '@modern-js/babel-preset-base';
+
 export * from '@modern-js/babel-preset-base';
 
 const defaultOptions: Options = {

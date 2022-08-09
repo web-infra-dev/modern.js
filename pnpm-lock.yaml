@@ -50,33 +50,47 @@ importers:
 
   packages/builder/web-builder:
     specifiers:
-      '@modern-js/utils': workspace:^1.7.12
+      '@modern-js/babel-preset-app': workspace:^1.5.0
+      '@modern-js/utils': workspace:^1.8.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
+      '@types/babel__core': ^7.1.19
+      '@types/babel__preset-env': ^7.9.2
       '@types/jest': ^27
       '@types/lodash': ^4.14.182
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
       ajv: ^8.11.0
+      babel-loader: 8.2.5
       css-minimizer-webpack-plugin: 4.0.0
+      fork-ts-checker-webpack-plugin: ^7.2.1
       jest: ^27
       lodash: ^4.17.21
       schema-utils: 3.1.1
       terser-webpack-plugin: 5.3.3
+      ts-loader: ^9.2.5
+      tsconfig-paths-webpack-plugin: ^4.0.0
       typescript: ^4
       webpack: ^5.71.0
     dependencies:
+      '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
       '@modern-js/utils': link:../../toolkit/utils
       ajv: 8.11.0
+      babel-loader: 8.2.5_2cad51bbe9c2876396f118aa6395be78
       css-minimizer-webpack-plugin: 4.0.0_esbuild@0.14.47+webpack@5.73.0
+      fork-ts-checker-webpack-plugin: 7.2.11_typescript@4.7.4+webpack@5.73.0
       lodash: 4.17.21
       schema-utils: 3.1.1
       terser-webpack-plugin: 5.3.3_557185401d8e4a94a813b2d6f9b6f80e
+      ts-loader: 9.3.1_typescript@4.7.4+webpack@5.73.0
+      tsconfig-paths-webpack-plugin: 4.0.0
       webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
+      '@types/babel__core': 7.1.19
+      '@types/babel__preset-env': 7.9.2
       '@types/jest': 27.5.2
       '@types/lodash': 4.14.182
       '@types/node': 14.18.21
@@ -92,7 +106,6 @@ importers:
       '@babel/runtime': ^7.18.0
       '@babel/types': ^7.18.0
       '@modern-js/babel-preset-base': workspace:^1.5.0
-      '@modern-js/core': workspace:*
       '@modern-js/utils': workspace:^1.8.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -110,7 +123,6 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       core-js: 3.23.3
     devDependencies:
-      '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
@@ -127,7 +139,6 @@ importers:
       '@babel/preset-react': ^7.17.12
       '@babel/preset-typescript': ^7.17.12
       '@babel/runtime': ^7.18.0
-      '@modern-js/core': workspace:*
       '@modern-js/utils': workspace:^1.8.1
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -153,7 +164,6 @@ importers:
       lodash: 4.17.21
       resolve: 1.22.1
     devDependencies:
-      '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
@@ -232,10 +242,11 @@ importers:
   packages/cli/core:
     specifiers:
       '@jest/types': ^27.0.6
+      '@modern-js/babel-preset-app': workspace:*
       '@modern-js/node-bundle-require': workspace:^1.3.7
       '@modern-js/plugin': workspace:^1.4.2
       '@modern-js/types': workspace:*
-      '@modern-js/utils': workspace:^1.8.1
+      '@modern-js/utils': workspace:^1.8.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__code-frame': ^7.0.3
@@ -258,6 +269,7 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
       '@jest/types': 27.5.1
+      '@modern-js/babel-preset-app': link:../babel-preset-app
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -11620,6 +11632,10 @@ packages:
     dependencies:
       '@babel/types': 7.18.6
 
+  /@types/babel__preset-env/7.9.2:
+    resolution: {integrity: sha512-epEgKQiqTDZdPgYwtriYK1GVAGcyVZVvvw2UatX3+95mogKGimebApcMEWLF12uhUbNIvX284CSQEavnV/OIgw==}
+    dev: true
+
   /@types/babel__template/7.4.1:
     resolution: {integrity: sha512-azBFKemX6kMg5Io+/rdGT0dkGreboUVR0Cdm3fz9QJWpaQGJRQXl7C+6hOTCZcMll7KFyEQpgbYI2lHdsS4U7g==}
     dependencies:
@@ -13855,7 +13871,7 @@ packages:
   /babel-plugin-import/1.13.5:
     resolution: {integrity: sha512-IkqnoV+ov1hdJVofly9pXRJmeDm9EtROfrc5i6eII0Hix2xMs5FEm8FG3ExMvazbnZBbgHIt6qdO8And6lCloQ==}
     dependencies:
-      '@babel/helper-module-imports': 7.16.7
+      '@babel/helper-module-imports': 7.18.6
     dev: true
 
   /babel-plugin-istanbul/6.1.1:
@@ -13882,9 +13898,9 @@ packages:
   /babel-plugin-lodash/3.3.4:
     resolution: {integrity: sha512-yDZLjK7TCkWl1gpBeBGmuaDIFhZKmkoL+Cu2MUUjv5VxUZx/z7tBGBCBcQs5RI1Bkz5LLmNdjx7paOyQtMovyg==}
     dependencies:
-      '@babel/helper-module-imports': 7.16.7
-      '@babel/types': 7.18.4
-      glob: 7.2.0
+      '@babel/helper-module-imports': 7.18.6
+      '@babel/types': 7.18.6
+      glob: 7.2.3
       lodash: 4.17.21
       require-package-name: 2.0.1
     dev: true
@@ -31357,6 +31373,15 @@ packages:
       typescript: 4.7.4
     dev: false
 
+  /tsconfig-paths-webpack-plugin/4.0.0:
+    resolution: {integrity: sha512-fw/7265mIWukrSHd0i+wSwx64kYUSAKPfxRDksjKIYTxSAp9W9/xcZVBF4Kl0eqQd5eBpAQ/oQrc5RyM/0c1GQ==}
+    engines: {node: '>=10.13.0'}
+    dependencies:
+      chalk: 4.1.2
+      enhanced-resolve: 5.10.0
+      tsconfig-paths: 4.0.0
+    dev: false
+
   /tsconfig-paths/3.14.1:
     resolution: {integrity: sha512-fxDhWnFSLt3VuTwtvJt5fpwxBHg5AdKWMsgcPOOIilyjymcYVZoCQF8fvFRezCNfblEXmi+PcM1eYHeOAgXCOQ==}
     dependencies:
@@ -31364,6 +31389,14 @@ packages:
       json5: 1.0.1
       minimist: 1.2.6
       strip-bom: 3.0.0
+
+  /tsconfig-paths/4.0.0:
+    resolution: {integrity: sha512-SLBg2GBKlR6bVtMgJJlud/o3waplKtL7skmLkExomIiaAtLGtVsoXIqP3SYdjbcH9lq/KVv7pMZeCBpLYOit6Q==}
+    dependencies:
+      json5: 2.2.1
+      minimist: 1.2.6
+      strip-bom: 3.0.0
+    dev: false
 
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}

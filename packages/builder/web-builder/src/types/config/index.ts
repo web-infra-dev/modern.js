@@ -16,8 +16,6 @@ export interface BuilderConfig {
   experiments?: ExperimentsConfig;
 }
 
-// eslint-disable-next-line prettier/prettier
-export interface BuilderFinalConfig
-  extends BuilderConfig {
+export interface BuilderFinalConfig extends BuilderConfig {
   source: SourceConfig;
 }

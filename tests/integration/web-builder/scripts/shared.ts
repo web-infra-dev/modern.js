@@ -7,7 +7,10 @@ export const TestPlugin = (): BuilderPlugin => ({
   setup(api) {
     api.modifyWebpackConfig(config => {
       config.entry = {
-        test: join(api.context.srcPath, 'index.js'),
+        test: join(api.context.srcPath, 'index.ts'),
+      };
+      config.resolve = {
+        extensions: ['.ts', '.js', '.tsx', '.jsx', '.json'],
       };
     });
   },
