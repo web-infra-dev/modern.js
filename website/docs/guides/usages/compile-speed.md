@@ -110,20 +110,24 @@ export default defineConfig({
 ```js title="modern.config.js"
 export default defineConfig({
   tools: {
-    webpackChain(chain) {
-      chain.devtool(false);
+    webpackChain(chain, { env }) {
+      if (env === 'development') {
+        chain.devtool(false);
+      }
     },
   },
 });
 ```
 
-或是把 SourceMap 格式设置为开销最小的 `eval` 格式：
+或是把开发环境的 SourceMap 格式设置为开销最小的 `eval` 格式：
 
 ```js title="modern.config.js"
 export default defineConfig({
   tools: {
-    webpackChain(chain) {
-      chain.devtool('eval');
+    webpackChain(chain, { env }) {
+      if (env === 'development') {
+        chain.devtool('eval');
+      }
     },
   },
 });
