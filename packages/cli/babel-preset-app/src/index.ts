@@ -1,11 +1,19 @@
 import {
-  applyUserBabelConfig,
+  BabelOptions,
   createBabelChain,
+  applyUserBabelConfig,
 } from '@modern-js/babel-preset-base';
 import { generate } from './generate';
 import type { Options } from './type';
 
 export type { Options };
+
+export type {
+  PresetEnvOptions,
+  PresetReactOptions,
+  BabelConfig,
+  BabelConfigUtils,
+} from '@modern-js/babel-preset-base';
 
 export * from '@modern-js/babel-preset-base';
 
@@ -22,7 +30,7 @@ const defaultOptions: Options = {
   styledComponents: {},
 };
 
-export const getBabelConfig = (options?: Options) => {
+export const getBabelConfig = (options?: Options): BabelOptions => {
   const mergedOptions = { ...defaultOptions, ...options };
 
   const babelChain = generate(

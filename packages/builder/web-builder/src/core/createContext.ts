@@ -1,5 +1,6 @@
 import { isAbsolute, join } from 'path';
 import { initHooks } from './createHook';
+import { ConfigValidator } from '../config/validate';
 import { pick, STATUS, isFileExists, ROOT_DIST_DIR } from '../shared';
 import type {
   Context,
@@ -7,7 +8,6 @@ import type {
   BuilderContext,
   BuilderConfig,
 } from '../types';
-import { ConfigValidator } from '../config/validate';
 
 function getDistPath(cwd: string, builderConfig: BuilderConfig) {
   const { distPath } = builderConfig.output || {};
@@ -24,6 +24,7 @@ export async function createContext({
   cwd,
   configPath,
   builderConfig,
+  framework,
 }: Required<BuilderOptions>) {
   const hooks = initHooks();
   const status = STATUS.INITIAL;
@@ -48,6 +49,7 @@ export async function createContext({
     // TODO should deep clone
     config: { ...builderConfig },
     originalConfig: builderConfig,
+    framework,
   };
 
   if (configPath) {
@@ -74,6 +76,7 @@ export function createPublicContext(
       'configPath',
       'tsconfigPath',
       'originalConfig',
+      'framework',
     ]),
   );
 }

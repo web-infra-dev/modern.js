@@ -9,6 +9,10 @@ export const CHAIN_ID = {
     FONT: 'font',
     /** Rule for images */
     IMAGE: 'image',
+    /** Rule for js */
+    JS: 'js',
+    /** Rule for ts */
+    TS: 'ts',
   },
   /** Predefined rule groups */
   ONE_OF: {

@@ -11,6 +11,8 @@ export type DistPathConfig = {
   media?: string;
 };
 
+export type Polyfill = 'usage' | 'entry' | 'ua' | 'off';
+
 export interface OutputConfig {
   copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
   distPath?: string | DistPathConfig;
@@ -19,4 +21,6 @@ export interface OutputConfig {
   disableMinimize?: boolean;
   disableSourceMap?: boolean;
   disableFilenameHash?: boolean;
+  enableLatestDecorators?: boolean;
+  polyfill?: Polyfill;
 }

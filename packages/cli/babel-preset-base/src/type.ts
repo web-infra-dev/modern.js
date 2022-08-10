@@ -1,4 +1,6 @@
-export type EnvOptions = Partial<{
+import { TransformOptions, PluginItem as BabelPlugin } from '@babel/core';
+
+export type PresetEnvOptions = Partial<{
   targets:
     | string
     | string[]
@@ -25,6 +27,30 @@ export type EnvOptions = Partial<{
   shippedProposals: boolean;
 }>;
 
+export interface SharedBabelPresetReactOptions {
+  development?: boolean;
+  throwIfNamespace?: boolean;
+}
+
+export interface AutomaticRuntimePresetReactOptions
+  extends SharedBabelPresetReactOptions {
+  runtime?: 'automatic';
+  importSource?: string;
+}
+
+export interface ClassicRuntimePresetReactOptions
+  extends SharedBabelPresetReactOptions {
+  runtime?: 'classic';
+  pragma?: string;
+  pragmaFrag?: string;
+  useBuiltIns?: boolean;
+  useSpread?: boolean;
+}
+
+export type PresetReactOptions =
+  | AutomaticRuntimePresetReactOptions
+  | ClassicRuntimePresetReactOptions;
+
 export interface IStyledComponentOptions {
   pure?: boolean;
   displayName?: boolean;
@@ -35,3 +61,23 @@ export interface IStyledComponentOptions {
   transpileTemplateLiterals?: boolean;
   namespace?: string;
 }
+
+export type BabelConfigUtils = {
+  addPlugins: (plugins: BabelPlugin[]) => void;
+  addPresets: (presets: BabelPlugin[]) => void;
+  addIncludes: (includes: string | RegExp | (string | RegExp)[]) => void;
+  addExcludes: (excludes: string | RegExp | (string | RegExp)[]) => void;
+  removePlugins: (plugins: string | string[]) => void;
+  removePresets: (presets: string | string[]) => void;
+  modifyPresetEnvOptions: (options: PresetEnvOptions) => void;
+  modifyPresetReactOptions: (options: PresetReactOptions) => void;
+};
+
+export type BabelConfig =
+  | TransformOptions
+  | ((
+      config: TransformOptions,
+      utils: BabelConfigUtils,
+    ) => TransformOptions | void);
+
+export type BabelOptions = TransformOptions;
