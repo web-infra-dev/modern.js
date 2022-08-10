@@ -62,7 +62,7 @@ export function getLocation(serverContext: any): string {
   const { pathname, url }: { [p: string]: string } =
     serverContext?.request || {};
 
-  const cleanUrl = url.replace('http://', '').replace('https://', '');
+  const cleanUrl = url?.replace('http://', '')?.replace('https://', '');
 
   const index = (cleanUrl || '').indexOf(pathname);
 
