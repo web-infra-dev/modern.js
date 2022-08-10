@@ -10,11 +10,9 @@ import {
   getPackageManager,
 } from '@modern-js/utils';
 import { mergeWith } from '@modern-js/utils/lodash';
+import type { ErrorObject } from '@modern-js/utils/ajv';
 import { loadConfig } from '../load-configs';
 
-import Ajv, { ErrorObject } from '../../compiled/ajv';
-import ajvKeywords from '../../compiled/ajv-keywords';
-import betterAjvErrors from '../../compiled/better-ajv-errors';
 import { repeatKeyWarning } from '../utils/repeatKeyWarning';
 import { defaults } from './defaults';
 import { mergeConfig, NormalizedConfig } from './mergeConfig';
@@ -125,6 +123,14 @@ export const resolveConfig = async (
     error: ErrorObject,
   ) => void | Promise<void> = showAdditionalPropertiesError,
 ): Promise<NormalizedConfig> => {
+  const { default: Ajv } = await import('@modern-js/utils/ajv');
+  const { default: ajvKeywords } = await import(
+    '@modern-js/utils/ajv-keywords'
+  );
+  const { default: betterAjvErrors } = await import(
+    '@modern-js/utils/better-ajv-errors'
+  );
+
   const { config: userConfig, jsConfig, pkgConfig } = loaded;
 
   const ajv = new Ajv({ $data: true, strict: false });

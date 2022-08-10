@@ -129,18 +129,6 @@ export const TASKS: TaskConfig[] = [
           tapable: 'tapable',
         },
       },
-    ],
-  },
-  {
-    packageDir: 'cli/core',
-    packageName: '@modern-js/core',
-    dependencies: [
-      // zero dependency
-      {
-        name: 'v8-compile-cache',
-        ignoreDts: true,
-      },
-      // some dependencies
       {
         name: 'ajv',
         beforeBundle(task) {
@@ -173,6 +161,16 @@ export const TASKS: TaskConfig[] = [
         externals: {
           ajv: '../ajv',
         },
+      },
+    ],
+  },
+  {
+    packageDir: 'cli/core',
+    packageName: '@modern-js/core',
+    dependencies: [
+      {
+        name: 'v8-compile-cache',
+        ignoreDts: true,
       },
     ],
   },
@@ -218,24 +216,6 @@ export const TASKS: TaskConfig[] = [
           'fast-glob': '@modern-js/utils/fast-glob',
           'schema-utils': '../schema-utils3',
         },
-      },
-      {
-        name: 'ajv',
-        beforeBundle(task) {
-          replaceFileContent(task.depEntry, content => {
-            const addExports = `exports.codegen = require("./compile/codegen");`;
-            if (content.includes(addExports)) {
-              return content;
-            }
-            return `${content}\n${addExports}`;
-          });
-        },
-        emitFiles: [
-          {
-            path: 'codegen.js',
-            content: `module.exports = require('./').codegen;`,
-          },
-        ],
       },
     ],
   },

@@ -3,8 +3,8 @@ import sourceField from './source';
 import { promises as fs } from 'fs';
 
 import type { BuilderConfig } from '../../types';
-import type Ajv from '../../../compiled/ajv';
-import type { JSONSchemaType, ValidateFunction } from '../../../compiled/ajv';
+import type Ajv from '@modern-js/utils/ajv';
+import type { JSONSchemaType, ValidateFunction } from '@modern-js/utils/ajv';
 
 export const configSchema: JSONSchemaType<BuilderConfig> = {
   type: 'object',
@@ -28,7 +28,7 @@ export class ConfigValidator {
       } catch (e) {}
     }
     // fallback to compile validator in runtime.
-    const { default: Ajv } = await import('../../../compiled/ajv');
+    const { default: Ajv } = await import('@modern-js/utils/ajv');
     const validator = new ConfigValidator();
     const ajv = new Ajv();
     validator.ajv = ajv;
