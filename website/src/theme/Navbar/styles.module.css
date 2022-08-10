@@ -18,7 +18,8 @@ html[data-theme='dark'] .second-nav {
 }
 
 html[data-theme='light'] .second-nav {
-  background-color: hsla(0, 0%, 97%, 0.98);
+  background-color: hsla(0, 0%, 96%, 0.98);
+  border-bottom: 1px solid rgba(28, 31, 35, 0.04);
 }
 
 .second-nav-item {
@@ -26,9 +27,9 @@ html[data-theme='light'] .second-nav {
   display: block;
   padding: 0 2vw;
   min-width: 24px;
-  height: 40px !important;
+  height: 36px !important;
   width: unset !important;
-  line-height: 40px;
+  line-height: 36px;
   border-radius: 4px;
   font-size: 14px;
   margin: 0 16px;
@@ -50,6 +51,14 @@ html[data-theme='light'] .second-nav-item {
 html[data-theme='light'] .second-nav-item__selected {
   background-color: #1890ff;
   color: #fff;
+}
+
+html[data-theme='light'] .second-nav-item:hover {
+  opacity: 0.5;
+}
+
+html[data-theme='light'] .second-nav-item__selected:hover {
+  opacity: 1;
 }
 
 html[data-theme='dark'] .second-nav-item__selected {
