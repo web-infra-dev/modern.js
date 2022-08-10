@@ -49,7 +49,7 @@ export const applyUserBabelConfig = (
   defaultOptions: TransformOptions,
   userBabelConfig?: BabelConfig | BabelConfig[],
   extraBabelUtils?: Partial<BabelConfigUtils>,
-) => {
+): TransformOptions => {
   if (userBabelConfig) {
     const babelUtils = {
       ...getBabelUtils(defaultOptions),

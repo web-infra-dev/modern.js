@@ -1,16 +1,18 @@
+import path from 'path';
+import {
+  getBabelConfig,
+  createBabelChain,
+  BabelOptions,
+} from '@modern-js/babel-preset-app';
+import { JS_REGEX, TS_REGEX, mergeRegex } from '../shared';
+import { isProd, applyOptionsChain, isUseSSRBundle } from '@modern-js/utils';
+
 import type {
+  WebpackChain,
   BuilderConfig,
   BuilderContext,
   BuilderPlugin,
-  WebpackChain,
 } from '../types';
-import { getBabelConfig, createBabelChain } from '@modern-js/babel-preset-app';
-import { TransformOptions } from '@babel/core';
-import { JS_REGEX, TS_REGEX, mergeRegex } from '../shared';
-
-import { isProd, applyOptionsChain, isUseSSRBundle } from '@modern-js/utils';
-import Config from '@modern-js/utils/compiled/webpack-chain';
-import path from 'path';
 
 export const CORE_JS_ENTRY = path.resolve(
   __dirname,
@@ -63,7 +65,7 @@ export const getBabelOptions = (
   };
 
   // 3. Compute final babel config by @modern-js/babel-preset-app
-  const babelOptions: TransformOptions = {
+  const babelOptions: BabelOptions = {
     babelrc: false,
     configFile: false,
     compact: isProd(),
@@ -87,7 +89,7 @@ export const getBabelOptions = (
 };
 
 export function applyScriptCondition(
-  rule: Config.Rule,
+  rule: WebpackChain.Rule,
   config: BuilderConfig,
   context: BuilderContext,
   includes: (string | RegExp)[],
@@ -129,7 +131,7 @@ export const PluginBabel = (): BuilderPlugin => ({
       rule
         .test(useTsLoader ? JS_REGEX : mergeRegex(JS_REGEX, TS_REGEX))
         .use(CHAIN_ID.USE.BABEL)
-        .loader(require.resolve('babel-loader'))
+        .loader(require.resolve('../../compiled/babel-loader'))
         .options(babelOptions);
     });
   },

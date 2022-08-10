@@ -185,13 +185,57 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
       },
       {
+        name: 'loader-utils1',
+        ignoreDts: true,
+        externals: {
+          json5: '@modern-js/utils/json5',
+        },
+      },
+      {
+        name: 'loader-utils2',
+        ignoreDts: true,
+        externals: {
+          json5: '@modern-js/utils/json5',
+        },
+      },
+      {
+        name: 'schema-utils3',
+        ignoreDts: true,
+      },
+      {
+        name: 'babel-loader',
+        ignoreDts: true,
+        externals: {
+          '@babel/core': '@babel/core',
+          'loader-utils': '../loader-utils1',
+        },
+      },
+      {
         name: 'copy-webpack-plugin',
         ignoreDts: true,
         externals: {
           globby: '@modern-js/utils/globby',
           'fast-glob': '@modern-js/utils/fast-glob',
-          'schema-utils': 'schema-utils',
+          'schema-utils': '../schema-utils3',
         },
+      },
+      {
+        name: 'ajv',
+        beforeBundle(task) {
+          replaceFileContent(task.depEntry, content => {
+            const addExports = `exports.codegen = require("./compile/codegen");`;
+            if (content.includes(addExports)) {
+              return content;
+            }
+            return `${content}\n${addExports}`;
+          });
+        },
+        emitFiles: [
+          {
+            path: 'codegen.js',
+            content: `module.exports = require('./').codegen;`,
+          },
+        ],
       },
     ],
   },
