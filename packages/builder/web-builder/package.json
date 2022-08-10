@@ -37,17 +37,24 @@
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.7.12",
     "ajv": "^8.11.0",
-    "css-minimizer-webpack-plugin": "4.0.0",
     "lodash": "^4.17.21",
+    "@modern-js/babel-preset-app": "workspace:^1.5.0",
+    "@modern-js/utils": "workspace:^1.8.1",
+    "babel-loader": "8.2.5",
+    "css-minimizer-webpack-plugin": "4.0.0",
+    "fork-ts-checker-webpack-plugin": "^7.2.1",
     "schema-utils": "3.1.1",
     "terser-webpack-plugin": "5.3.3",
+    "ts-loader": "^9.2.5",
+    "tsconfig-paths-webpack-plugin": "^4.0.0",
     "webpack": "^5.71.0"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
+    "@types/babel__core": "^7.1.19",
+    "@types/babel__preset-env": "^7.9.2",
     "@types/jest": "^27",
     "@types/lodash": "^4.14.182",
     "@types/node": "^14",

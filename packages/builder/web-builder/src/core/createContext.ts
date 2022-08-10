@@ -24,6 +24,7 @@ export async function createContext({
   cwd,
   configPath,
   builderConfig,
+  framework,
 }: Required<BuilderOptions>) {
   const hooks = initHooks();
   const status = STATUS.INITIAL;
@@ -48,6 +49,7 @@ export async function createContext({
     // TODO should deep clone
     config: { ...builderConfig },
     originalConfig: builderConfig,
+    framework,
   };
 
   if (configPath) {
@@ -74,6 +76,7 @@ export function createPublicContext(
       'configPath',
       'tsconfigPath',
       'originalConfig',
+      'framework',
     ]),
   );
 }

@@ -5,12 +5,12 @@ import {
 } from '@modern-js/babel-preset-base';
 import { isTest, isDev, isProd } from '@modern-js/utils';
 import { isBeyondReact17 } from './utils';
-import type { Options, EnvOptions } from './type';
+import type { Options, PresetEnvOptions } from './type';
 
-const prepareEnvOptions = (options: Options): EnvOptions => {
+const prepareEnvOptions = (options: Options): PresetEnvOptions => {
   const { useBuiltIns, modules, useModern } = options;
 
-  const envOptions: EnvOptions = {
+  const envOptions: PresetEnvOptions = {
     useBuiltIns,
     modules,
     exclude: ['transform-typeof-symbol'],

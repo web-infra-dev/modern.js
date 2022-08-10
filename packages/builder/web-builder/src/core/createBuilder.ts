@@ -10,6 +10,7 @@ function mergeBuilderOptions(options?: BuilderOptions) {
     target: ['web'],
     configPath: null,
     builderConfig: {},
+    framework: 'modern-js',
   };
 
   return {
@@ -67,6 +68,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginProgress } = await import('../plugins/progress');
   const { PluginMinimize } = await import('../plugins/minimize');
   const { PluginCleanOutput } = await import('../plugins/cleanOutput');
+  const { PluginBabel } = await import('../plugins/babel');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
@@ -84,5 +86,6 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginProgress(),
     PluginMinimize(),
     PluginCleanOutput(),
+    PluginBabel(),
   ]);
 }
