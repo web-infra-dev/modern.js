@@ -37,14 +37,11 @@
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch"
   },
   "dependencies": {
-    "ajv": "^8.11.0",
-    "lodash": "^4.17.21",
+    "@babel/core": "^7.18.0",
     "@modern-js/babel-preset-app": "workspace:^1.5.0",
     "@modern-js/utils": "workspace:^1.8.1",
-    "babel-loader": "8.2.5",
     "css-minimizer-webpack-plugin": "4.0.0",
     "fork-ts-checker-webpack-plugin": "^7.2.1",
-    "schema-utils": "3.1.1",
     "terser-webpack-plugin": "5.3.3",
     "ts-loader": "^9.2.5",
     "tsconfig-paths-webpack-plugin": "^4.0.0",

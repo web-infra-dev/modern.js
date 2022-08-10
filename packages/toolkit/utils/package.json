@@ -35,6 +35,7 @@
       "jsnext:source": "./src/ssr.ts",
       "default": "./dist/ssr.js"
     },
+    "./ajv": "./compiled/ajv/index.js",
     "./glob": "./compiled/glob/index.js",
     "./chalk": "./compiled/chalk/index.js",
     "./json5": "./compiled/json5/index.js",
@@ -45,9 +46,11 @@
     "./gzip-size": "./compiled/gzip-size/index.js",
     "./mime-types": "./compiled/mime-types/index.js",
     "./strip-ansi": "./compiled/strip-ansi/index.js",
+    "./ajv-keywords": "./compiled/ajv-keywords/index.js",
     "./browserslist": "./compiled/browserslist/index.js",
     "./webpack-chain": "./compiled/webpack-chain/index.js",
-    "./tsconfig-paths": "./compiled/tsconfig-paths/index.js"
+    "./tsconfig-paths": "./compiled/tsconfig-paths/index.js",
+    "./better-ajv-errors": "./compiled/better-ajv-errors/index.js"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -58,6 +61,7 @@
       "./format": "./dist/format.js",
       "./constants": "./dist/constants.js",
       "./ssr": "./dist/ssr.js",
+      "./ajv": "./compiled/ajv/index.js",
       "./glob": "./compiled/glob/index.js",
       "./chalk": "./compiled/chalk/index.js",
       "./json5": "./compiled/json5/index.js",
@@ -68,9 +72,11 @@
       "./gzip-size": "./compiled/gzip-size/index.js",
       "./mime-types": "./compiled/mime-types/index.js",
       "./strip-ansi": "./compiled/strip-ansi/index.js",
+      "./ajv-keywords": "./compiled/ajv-keywords/index.js",
       "./browserslist": "./compiled/browserslist/index.js",
       "./webpack-chain": "./compiled/webpack-chain/index.js",
-      "./tsconfig-paths": "./compiled/tsconfig-paths/index.js"
+      "./tsconfig-paths": "./compiled/tsconfig-paths/index.js",
+      "./better-ajv-errors": "./compiled/better-ajv-errors/index.js"
     }
   },
   "typesVersions": {
@@ -83,6 +89,12 @@
       ],
       "ssr": [
         "./dist/ssr.d.ts"
+      ],
+      "ajv": [
+        "./compiled/ajv/types/ajv.d.ts"
+      ],
+      "ajv/json-schema": [
+        "./compiled/ajv/types/types/json-schema.d.ts"
       ],
       "glob": [
         "./compiled/glob/index.d.ts"
@@ -114,6 +126,9 @@
       "strip-ansi": [
         "./compiled/strip-ansi/index.d.ts"
       ],
+      "ajv-keywords": [
+        "./compiled/ajv-keywords/index.d.ts"
+      ],
       "browserslist": [
         "./compiled/browserslist/index.d.ts"
       ],
@@ -122,6 +137,9 @@
       ],
       "tsconfig-paths": [
         "./compiled/tsconfig-paths/lib/index.d.ts"
+      ],
+      "better-ajv-errors": [
+        "./compiled/better-ajv-errors/index.d.ts"
       ]
     }
   },

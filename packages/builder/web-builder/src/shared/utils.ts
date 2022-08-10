@@ -1,4 +1,4 @@
-import { SomeJSONSchema } from 'ajv/dist/types/json-schema';
+import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
 import { DEFAULT_DATA_URL_SIZE } from './constants';
 import { URLSearchParams } from 'url';
 import type Buffer from 'buffer';
