@@ -24,7 +24,7 @@ export type BuilderContext = {
     port: number;
   };
   /** The name of framework, such as `modern-js`. */
-  metaName: string;
+  framework: string;
 };
 
 /** The inner context */

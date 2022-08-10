@@ -7,5 +7,5 @@ export type BuilderOptions = {
   target?: BuilderTarget | BuilderTarget[];
   configPath?: string | null;
   builderConfig?: BuilderConfig;
-  metaName?: string;
+  framework?: string;
 };

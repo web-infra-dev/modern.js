@@ -26,7 +26,7 @@ export const getUseBuiltIns = (config: BuilderConfig) => {
 };
 
 export const getBabelOptions = (
-  metaName: string,
+  framework: string,
   appDirectory: string,
   config: BuilderConfig,
 ) => {
@@ -68,7 +68,7 @@ export const getBabelOptions = (
     configFile: false,
     compact: isProd(),
     ...getBabelConfig({
-      metaName,
+      metaName: framework,
       appDirectory,
       useLegacyDecorators: !config.output?.enableLatestDecorators,
       useBuiltIns: getUseBuiltIns(config),
@@ -117,9 +117,9 @@ export const PluginBabel = (): BuilderPlugin => ({
     api.modifyWebpackChain(async chain => {
       const config = api.getBuilderConfig();
       const { CHAIN_ID } = await import('@modern-js/utils');
-      const { rootPath, metaName } = api.context;
+      const { rootPath, framework } = api.context;
       const { babelOptions, includes, excludes } = getBabelOptions(
-        metaName,
+        framework,
         rootPath,
         config || {},
       );

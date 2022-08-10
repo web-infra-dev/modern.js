@@ -10,7 +10,7 @@ function mergeBuilderOptions(options?: BuilderOptions) {
     target: ['web'],
     configPath: null,
     builderConfig: {},
-    metaName: 'modern-js',
+    framework: 'modern-js',
   };
 
   return {
