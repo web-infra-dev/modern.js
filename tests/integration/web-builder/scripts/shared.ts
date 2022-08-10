@@ -1,4 +1,5 @@
 import { join } from 'path';
+import { InspectorWebpackPlugin } from '@modern-js/inspector-webpack-plugin';
 import type { BuilderPlugin } from '../../../../packages/builder/web-builder/src';
 
 export const TestPlugin = (): BuilderPlugin => ({
@@ -12,6 +13,8 @@ export const TestPlugin = (): BuilderPlugin => ({
       config.resolve = {
         extensions: ['.ts', '.js', '.tsx', '.jsx', '.json'],
       };
+      // Webpack devtool
+      config.plugins?.push(new InspectorWebpackPlugin());
     });
   },
 });
