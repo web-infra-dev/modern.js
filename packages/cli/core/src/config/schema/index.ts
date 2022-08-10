@@ -1,6 +1,6 @@
 import { isObject, createDebugger } from '@modern-js/utils';
 import { cloneDeep } from '@modern-js/utils/lodash';
-import type { JSONSchemaType } from '../../../compiled/ajv';
+import type { JSONSchemaType } from '@modern-js/utils/ajv';
 import { source } from './source';
 import { output } from './output';
 import { server } from './server';

@@ -50,6 +50,7 @@ importers:
 
   packages/builder/web-builder:
     specifiers:
+      '@babel/core': ^7.18.0
       '@modern-js/babel-preset-app': workspace:^1.5.0
       '@modern-js/utils': workspace:^1.8.1
       '@scripts/build': workspace:*
@@ -61,27 +62,20 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
-      ajv: ^8.11.0
-      babel-loader: 8.2.5
       css-minimizer-webpack-plugin: 4.0.0
       fork-ts-checker-webpack-plugin: ^7.2.1
       jest: ^27
-      lodash: ^4.17.21
-      schema-utils: 3.1.1
       terser-webpack-plugin: 5.3.3
       ts-loader: ^9.2.5
       tsconfig-paths-webpack-plugin: ^4.0.0
       typescript: ^4
       webpack: ^5.71.0
     dependencies:
+      '@babel/core': 7.18.6
       '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
       '@modern-js/utils': link:../../toolkit/utils
-      ajv: 8.11.0
-      babel-loader: 8.2.5_2cad51bbe9c2876396f118aa6395be78
       css-minimizer-webpack-plugin: 4.0.0_esbuild@0.14.47+webpack@5.73.0
       fork-ts-checker-webpack-plugin: 7.2.11_typescript@4.7.4+webpack@5.73.0
-      lodash: 4.17.21
-      schema-utils: 3.1.1
       terser-webpack-plugin: 5.3.3_557185401d8e4a94a813b2d6f9b6f80e
       ts-loader: 9.3.1_typescript@4.7.4+webpack@5.73.0
       tsconfig-paths-webpack-plugin: 4.0.0
@@ -3361,6 +3355,7 @@ importers:
       postcss-page-break: 3.0.4
       postcss-value-parser: 4.2.0
       recursive-readdir: 2.2.2
+      schema-utils3: npm:schema-utils@3.1.1
       semver: 7.3.7
       signale: 1.4.0
       slash: 3.0.0
@@ -3474,6 +3469,7 @@ importers:
       postcss-page-break: 3.0.4_postcss@8.4.14
       postcss-value-parser: 4.2.0
       recursive-readdir: 2.2.2
+      schema-utils3: /schema-utils/3.1.1
       semver: 7.3.7
       signale: 1.4.0
       slash: 3.0.0

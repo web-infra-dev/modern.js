@@ -79,3 +79,5 @@ export type BabelConfig =
       config: TransformOptions,
       utils: BabelConfigUtils,
     ) => TransformOptions | void);
+
+export type BabelOptions = TransformOptions;
