@@ -1,11 +1,11 @@
 import { IStyledComponentOptions } from '@modern-js/babel-preset-app';
 import type {
-  TerserPluginOptions,
-  CssMinimizerPluginOptions,
-  BabelTransformOptions,
   TSLoaderOptions,
-  ForkTSCheck,
   BabelConfigUtils,
+  TerserPluginOptions,
+  ForkTSCheckerOptions,
+  BabelTransformOptions,
+  CssMinimizerPluginOptions,
 } from '../thirdParty';
 
 export type ToolsTerserConfig =
@@ -23,11 +23,16 @@ export type ToolsBabelConfig =
       utils: BabelConfigUtils,
     ) => BabelTransformOptions);
 
+export type DevServerConfig = {
+  hot?: boolean;
+};
+
 export interface ToolsConfig {
-  terser?: ToolsTerserConfig;
-  minifyCss?: ToolsMinifyCssConfig;
   babel?: ToolsBabelConfig;
+  terser?: ToolsTerserConfig;
   tsLoader?: TSLoaderOptions;
-  tsCheck?: ForkTSCheck;
+  tsChecker?: ForkTSCheckerOptions;
+  devServer?: DevServerConfig;
+  minifyCss?: ToolsMinifyCssConfig;
   styledComponents?: IStyledComponentOptions;
 }

@@ -19,6 +19,8 @@ export type { TransformOptions as BabelTransformOptions } from '@babel/core';
 
 export type { Options as TSLoaderOptions } from 'ts-loader';
 
-export type ForkTSCheck = ConstructorParameters<typeof ForkTSCheckerPlugin>[0];
+export type ForkTSCheckerOptions = ConstructorParameters<
+  typeof ForkTSCheckerPlugin
+>[0];
 
 export type { webpack, WebpackChain, WebpackConfig };
