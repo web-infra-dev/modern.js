@@ -1,6 +1,6 @@
 module.exports = {
   extends: ['@modern-js'],
-  ignorePatterns: ['compiled/'],
+  ignorePatterns: ['compiled/', 'vitest.config.ts'],
   parserOptions: {
     project: require.resolve('./tsconfig.json'),
   },
