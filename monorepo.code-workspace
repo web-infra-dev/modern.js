@@ -344,6 +344,10 @@
       "path": "scripts/jest-config"
     },
     {
+      "name": "@scripts/vitest-config",
+      "path": "scripts/vitest-config"
+    },
+    {
       "name": "@scripts/codemod",
       "path": "scripts/codemod"
     },

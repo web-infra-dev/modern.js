@@ -1,10 +1,11 @@
+import { describe, expect, test, vi } from 'vitest';
 import { initHooks, createAsyncHook } from '../src/core/createHook';
 
 describe('createAsyncHook', () => {
   test('should execute callback functions in order', async () => {
     const myHook = createAsyncHook();
-    const callback1 = jest.fn();
-    const callback2 = jest.fn();
+    const callback1 = vi.fn();
+    const callback2 = vi.fn();
 
     myHook.tap(callback1);
     myHook.tap(callback2);
@@ -15,8 +16,8 @@ describe('createAsyncHook', () => {
 
   test('should keep params if callback function return void', async () => {
     const myHook = createAsyncHook();
-    const callback1 = jest.fn();
-    const callback2 = jest.fn();
+    const callback1 = vi.fn();
+    const callback2 = vi.fn();
 
     myHook.tap(callback1);
     myHook.tap(callback2);
