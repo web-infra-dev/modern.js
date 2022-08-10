@@ -28,7 +28,15 @@ export const createBuilder = async () => {
   const builder = await createBuilder({
     cwd,
     configPath: __filename,
-    builderConfig: {},
+    builderConfig: {
+      tools: {
+        tsLoader: {
+          compilerOptions: {
+            strictNullChecks: true,
+          },
+        },
+      },
+    },
   });
 
   builder.addPlugins([TestPlugin()]);
