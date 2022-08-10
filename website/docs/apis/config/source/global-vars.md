@@ -6,18 +6,16 @@ sidebar_position: 3
 # source.globalVars
 
 :::info 适用的工程方案
-* 应用工程
-* 模块工程
+应用工程，模块工程
 :::
 
-* 类型： `Object`
-* 默认值： `undefined`
+- 类型： `Object`
+- 默认值： `undefined`
 
-
-用来提供在代码中可用的环境变量，相当于 Webpack 的 `DefinePlugin` 的语法糖。
+用来提供在代码中可用的环境变量，相当于 Webpack 的 [DefinePlugin](https://webpack.js.org/plugins/define-plugin/) 的语法糖。
 
 :::tip 提示
-不需要手动 JSON 序列化。
+框架内部会自动进行 JSON 序列化处理，因此不需要手动执行序列化。
 :::
 
 例如：
@@ -27,9 +25,8 @@ export default defineConfig({
   source: {
     globalVars: {
       VERSION: '1.0.2',
-    }
-  }
-
+    },
+  },
 });
 ```
 
@@ -39,6 +36,10 @@ export default defineConfig({
 console.log(VERSION); // => 1.0.2
 ```
 
-:::tip 提示
-TypeScript 项目中需要处理全局变量的类型，如: `declare let VERSION;`。
-:::
+## TS 类型定义
+
+在 TypeScript 项目中，需要处理全局变量的类型，如:
+
+```ts
+declare let VERSION: string;
+```
