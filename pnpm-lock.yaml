@@ -51,8 +51,8 @@ importers:
   packages/builder/web-builder:
     specifiers:
       '@babel/core': ^7.18.0
-      '@modern-js/babel-preset-app': workspace:*
-      '@modern-js/utils': workspace:*
+      '@modern-js/babel-preset-app': workspace:^1.5.0
+      '@modern-js/utils': workspace:^1.8.1
       '@scripts/build': workspace:*
       '@scripts/vitest-config': workspace:*
       '@types/babel__core': ^7.1.19
