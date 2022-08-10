@@ -9,7 +9,7 @@ import type {
   BuilderConfig,
 } from '../types';
 
-function getDistPath(cwd: string, builderConfig: BuilderConfig) {
+export function getDistPath(cwd: string, builderConfig: BuilderConfig) {
   const { distPath } = builderConfig.output || {};
   const root = typeof distPath === 'string' ? distPath : distPath?.root;
 
