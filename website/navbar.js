@@ -19,7 +19,9 @@ module.exports = {
       category: 'guides',
     },
     {
-      to: 'docs/apis',
+      type: 'doc',
+      docId: 'apis/app/overview',
+      activeBasePath: 'docs/apis',
       position: 'left',
       label: 'API',
       category: 'apis',

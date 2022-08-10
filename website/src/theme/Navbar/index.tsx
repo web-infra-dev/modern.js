@@ -24,11 +24,7 @@ export default function NavbarWrapper(props: Props): JSX.Element {
   };
 
   const isCurNav = (url: string) => {
-    // return pathname === url;
-    return (
-      pathname.split('/').slice(0, 4).join('') ===
-      url.split('/').slice(0, 4).join('')
-    );
+    return pathname.startsWith(url.replace('/overview', ''));
   };
 
   const secondNavList = getSecondNavList(navbar);
