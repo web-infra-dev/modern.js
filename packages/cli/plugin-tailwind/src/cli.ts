@@ -23,11 +23,19 @@ export const getRandomTwConfigFileName = (internalDirectory: string) => {
   );
 };
 
-export default (): CliPlugin => ({
+export default (
+  { pluginName } = {
+    pluginName: '@modern-js/plugin-tailwindcss',
+  },
+): CliPlugin => ({
   name: '@modern-js/plugin-tailwindcss',
 
   // support designSystem.supportStyledComponents
-  usePlugins: [DesignTokenPlugin()],
+  usePlugins: [
+    DesignTokenPlugin({
+      pluginName,
+    }),
+  ],
 
   setup: async api => {
     const { appDirectory, internalDirectory } = api.useAppContext();
