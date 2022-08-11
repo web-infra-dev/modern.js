@@ -5,7 +5,9 @@ import {
 } from '@modern-js/utils';
 import type { CliPlugin, NormalizedConfig } from '@modern-js/core';
 
-export default ({ pluginName }: { pluginName: string }): CliPlugin => ({
+export default (
+  { pluginName } = { pluginName: '@modern-js/plugin-tailwindcss' },
+): CliPlugin => ({
   name: '@modern-js/plugin-design-token',
 
   setup(api) {
