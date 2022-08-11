@@ -8,7 +8,7 @@ sidebar_label: templateParametersByEntries
 
 用于在多页面的场景下，为不同的页面设置不同的 HTML 模板参数。
 
-整体用法与 [output.templateParameters](/docs/apis/config/output/template-parameters) 一致，主要区别在于，可以使用「入口名称」作为 key 进行单独设置。
+整体用法与 [output.templateParameters](/docs/apis/app/config/output/template-parameters) 一致，主要区别在于，可以使用「入口名称」作为 key 进行单独设置。
 
 - 类型： `Record<string, unknown>`
 

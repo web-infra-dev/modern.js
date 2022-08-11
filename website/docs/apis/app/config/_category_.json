@@ -1,5 +1,9 @@
 {
   "label": "配置",
   "position": 4,
-  "collapsed": false
+  "collapsed": false,
+  "link": {
+    "type": "doc",
+    "id": "apis/app/config/index"
+  }
 }

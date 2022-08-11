@@ -403,7 +403,7 @@ export default defineConfig({
 现在访问 `http://localhost:8080/api/v1/topics`，就会得到 [CNode](https://cnodejs.org/) 首页的数据。
 
 :::info 补充信息
-更多用法，请参考【[BFF 代理](/docs/apis/config/bff/proxy)】。
+更多用法，请参考【[BFF 代理](/docs/apis/app/config/bff/proxy)】。
 更多 Modern.js 的代理方式请参考【[调试代理和 Mock](/docs/guides/usages/debug/proxy-and-mock)】。
 :::
 

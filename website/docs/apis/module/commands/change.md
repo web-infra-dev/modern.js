@@ -14,7 +14,7 @@ Options:
 ```
 
 :::info 注
-[`change`](/docs/apis/commands/module/change)、[`pre`](/docs/apis/commands/module/pre)、[`bump`](/docs/apis/commands/module/bump)、[`release`](/docs/apis/commands/module/release) 命令集成了工具 [`changesets`](https://github.com/atlassian/changesets) 管理版本变更和 Changelog。
+[`change`](/docs/apis/module/commands/change)、[`pre`](/docs/apis/module/commands/pre)、[`bump`](/docs/apis/module/commands/bump)、[`release`](/docs/apis/module/commands/release) 命令集成了工具 [`changesets`](https://github.com/atlassian/changesets) 管理版本变更和 Changelog。
 :::
 
 `modern change` 命令用于添加 changeset:

@@ -12,7 +12,7 @@ sidebar_label: injectByEntries
 
 用于在多页面的场景下，为不同的页面设置不同的 script 标签插入位置。
 
-整体用法与 [output.inject](/docs/apis/config/output/inject) 一致，主要区别在于，可以使用「入口名称」作为 key 进行单独设置。
+整体用法与 [output.inject](/docs/apis/app/config/output/inject) 一致，主要区别在于，可以使用「入口名称」作为 key 进行单独设置。
 
 import EntryName from '@site/docs/components/entry-name.md'
 

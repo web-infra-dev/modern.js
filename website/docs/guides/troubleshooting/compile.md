@@ -18,7 +18,7 @@ sidebar_position: 1
 
 ### 如何查看最终生效的 webpack 配置？
 
-可以通过 [modern inspect](/docs/apis/commands/mwa/inspect) 命令来查看最终生效的 webpack 配置。
+可以通过 [modern inspect](/docs/apis/app/commands/inspect) 命令来查看最终生效的 webpack 配置。
 
 ---
 
@@ -26,7 +26,7 @@ sidebar_position: 1
 
 默认情况下，Modern.js 内置了 antd 组件库的按需引入配置。
 
-如果需要配置其他组件库的按需引入，可以通过 [tools.babel](/docs/apis/config/tools/babel) 配置 [babel-plugin-import](https://github.com/umijs/babel-plugin-import) 插件。
+如果需要配置其他组件库的按需引入，可以通过 [tools.babel](/docs/apis/app/config/tools/babel) 配置 [babel-plugin-import](https://github.com/umijs/babel-plugin-import) 插件。
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -53,7 +53,7 @@ export default defineConfig({
 
 在生产环境构建时，我们可以移除代码中的 `console`，从而避免开发环境的日志被输出到生产环境。
 
-由于 Modern.js 默认在生产环境使用 [terser](https://github.com/terser/terser) 进行代码压缩，因此我们可以通过 [tools.terser](/docs/apis/config/tools/terser) 配置项来移除 `console`：
+由于 Modern.js 默认在生产环境使用 [terser](https://github.com/terser/terser) 进行代码压缩，因此我们可以通过 [tools.terser](/docs/apis/app/config/tools/terser) 配置项来移除 `console`：
 
 ```js title="modern.config.ts"
 export default defineConfig({
@@ -97,7 +97,7 @@ rm -rf ./node_modules/.cache
 
 ### 如何配置静态资源的 CDN 路径？
 
-如果需要将 JS、CSS 等静态资源上传到 CDN 使用，那么可以通过 [output.assetPrefix](docs/apis/config/output/asset-prefix) 配置来设置静态资源的 URL 前缀。
+如果需要将 JS、CSS 等静态资源上传到 CDN 使用，那么可以通过 [output.assetPrefix](docs/apis/app/config/output/asset-prefix) 配置来设置静态资源的 URL 前缀。
 
 ```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
@@ -168,8 +168,8 @@ export default defineConfig({
 
 Modern.js 通过插件来编译 Less/Sass 代码，请确认你是否启用了对应的插件。
 
-- [启用 Less 插件教程](/docs/apis/config/tools/less#启用)
-- [启用 Sass 插件教程](/docs/apis/config/tools/sass#启用)
+- [启用 Less 插件教程](/docs/apis/app/config/tools/less#启用)
+- [启用 Sass 插件教程](/docs/apis/app/config/tools/sass#启用)
 
 ---
 
@@ -179,7 +179,7 @@ Modern.js 通过插件来编译 Less/Sass 代码，请确认你是否启用了�
 
 通过 `source.include` 配置项，可以指定需要额外进行编译的目录或模块。
 
-详见 [source.include 用法介绍](/docs/apis/config/source/include/)。
+详见 [source.include 用法介绍](/docs/apis/app/config/source/include/)。
 
 ---
 
@@ -260,7 +260,7 @@ Less 中除法的写法也可以通过配置项来修改，详见 [Less - Math](
 
 默认情况下，Modern.js 不会通过 `babel-loader` 或 `ts-loader` 来编译 `node_modules` 下的文件。如果项目引入的 npm 包中含有 ES6+ 语法，会被打包进产物中。
 
-遇到这种情况时，可以通过 [source.include](/docs/apis/config/source/include) 配置项来指定需要额外进行编译的目录或模块。
+遇到这种情况时，可以通过 [source.include](/docs/apis/app/config/source/include) 配置项来指定需要额外进行编译的目录或模块。
 
 ---
 
@@ -278,7 +278,7 @@ You may need an additional loader to handle the result of these loaders.
 
 解决方法：
 
-- 如果是引用了当前工程外部的 `.ts` 文件，或者是 node_modules 下的 `.ts` 文件，请添加 [source.include](/docs/apis/config/source/include) 配置项，指定需要额外进行编译的文件。
+- 如果是引用了当前工程外部的 `.ts` 文件，或者是 node_modules 下的 `.ts` 文件，请添加 [source.include](/docs/apis/app/config/source/include) 配置项，指定需要额外进行编译的文件。
 - 如果是引用了 Modern.js 不支持的文件格式，请自行配置对应的 webpack loader 进行编译。
 
 ---

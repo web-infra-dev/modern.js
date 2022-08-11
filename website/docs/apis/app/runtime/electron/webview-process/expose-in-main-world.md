@@ -58,5 +58,5 @@ exposeInMainWorld('webviewBridge', apis);
 :::
 
 :::info 补充信息
-- [关于 `webviewPreloadApis`](/docs/apis/runtime/electron/webview-process/webview-preload-apis)。
+- [关于 `webviewPreloadApis`](/docs/apis/app/runtime/electron/webview-process/webview-preload-apis)。
 :::

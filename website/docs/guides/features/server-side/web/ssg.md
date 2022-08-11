@@ -102,7 +102,7 @@ export default defineConfig({
 ![vsc-alert](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/ssg-foo.png)
 
 :::info
-以上仅介绍了单入口的情况，与部分配置。更多相关内容可以查看 [API 文档](/docs/apis/config/output/ssg)。
+以上仅介绍了单入口的情况，与部分配置。更多相关内容可以查看 [API 文档](/docs/apis/app/config/output/ssg)。
 :::
 
 ### 获取数据

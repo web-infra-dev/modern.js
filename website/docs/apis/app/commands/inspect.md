@@ -36,4 +36,4 @@ modern inspect --env production
 
 ### Modern 配置
 
-如果项目开启了 [enableModernMode](/docs/apis/config/output/enable-modern-mode) 选项，则在 `dist` 目录会另外生成一份 `webpack.modern.inspect.js` 文件，对应现代浏览器的 webpack 配置。
+如果项目开启了 [enableModernMode](/docs/apis/app/config/output/enable-modern-mode) 选项，则在 `dist` 目录会另外生成一份 `webpack.modern.inspect.js` 文件，对应现代浏览器的 webpack 配置。

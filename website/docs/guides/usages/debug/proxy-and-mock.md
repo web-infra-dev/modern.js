@@ -90,7 +90,7 @@ module.exports = {
 
 ### devServer 代理
 
-Modern.js 在 [`tools.devServer`](/docs/apis/config/tools/dev-server) 中提供了配置开发环境代理的方式。例如，将本地开发接口，代理到线上某个地址：
+Modern.js 在 [`tools.devServer`](/docs/apis/app/config/tools/dev-server) 中提供了配置开发环境代理的方式。例如，将本地开发接口，代理到线上某个地址：
 
 ```js title="modern.config.js"
 import { defineConfig }  from '@modern-js/app-tools';
@@ -123,7 +123,7 @@ Modern.js 提供了开箱即用的全局代理插件 `@modern-js/plugin-proxy`�
 
 引入代理插件并填写规则后，执行 `pnpm run dev`，Modern.js 会在开发服务器启动之后，自动启用代理服务器。
 
-具体代理规则，可通过 [`dev.proxy`](/docs/apis/config/dev/proxy) 选项或 `config/proxy.js` 文件进行设置。
+具体代理规则，可通过 [`dev.proxy`](/docs/apis/app/config/dev/proxy) 选项或 `config/proxy.js` 文件进行设置。
 
 #### 代理服务器 UI 界面
 
@@ -148,7 +148,7 @@ Modern.js 提供了开箱即用的全局代理插件 `@modern-js/plugin-proxy`�
 
 ### BFF 代理
 
-通过配置 [`bff.proxy`](/docs/apis/config/bff/proxy) 可以代理 BFF API 请求到指定的服务上，和[开发环境代理](/docs/apis/config/dev/proxy)不同的是，它同样可以用在生产环境：
+通过配置 [`bff.proxy`](/docs/apis/app/config/bff/proxy) 可以代理 BFF API 请求到指定的服务上，和[开发环境代理](/docs/apis/app/config/dev/proxy)不同的是，它同样可以用在生产环境：
 
 ```js title="modern.config.js"
 export default defineConfig({

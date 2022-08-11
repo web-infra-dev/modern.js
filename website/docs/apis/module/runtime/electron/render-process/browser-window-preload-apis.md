@@ -15,11 +15,11 @@ import { browserWindowPreloadApis } from '@modern-js/runtime/electron-render';
 `browserWindowPreloadApis`
 
 是框架所有 api 的一个集合，用于在窗口中【[**关闭 Node**](/docs/guides/features/electron/develop)】后框架服务的注册与使用，具体包含 api 如下。
-- [`callMain`](/docs/apis/runtime/electron/render-process/call-main)
-- [`winService`](/docs/apis/runtime/electron/render-process/win-service)
-- [`lifecycleService`](/docs/apis/runtime/electron/render-process/lifecycle-service)
-- [`updateService`](/docs/apis/runtime/electron/render-process/update-service)
-- [`webviewService`](/docs/apis/runtime/electron/render-process/webview-service)
+- [`callMain`](/docs/apis/module/runtime/electron/render-process/call-main)
+- [`winService`](/docs/apis/module/runtime/electron/render-process/win-service)
+- [`lifecycleService`](/docs/apis/module/runtime/electron/render-process/lifecycle-service)
+- [`updateService`](/docs/apis/module/runtime/electron/render-process/update-service)
+- [`webviewService`](/docs/apis/module/runtime/electron/render-process/webview-service)
 - isElectron：`boolean`，可用于在前端中判断是否处于 Electron 环境。
 
 :::tip 提示

@@ -33,13 +33,13 @@ sidebar_position: 4
 
 ## 更多用法
 
-不论是在[自定义 HTML](/docs/guides/usages/html) 中，或是在 [`config/public/`](/docs/apis/hooks/mwa/config/public) 下的任意 HTML 文件中，都可以直接使用 HTML 标签引用 `config/upload/` 目录下的资源：
+不论是在[自定义 HTML](/docs/guides/usages/html) 中，或是在 [`config/public/`](/docs/apis/app/hooks/config/public) 下的任意 HTML 文件中，都可以直接使用 HTML 标签引用 `config/upload/` 目录下的资源：
 
 ```html
 <script src="/upload/index.js"></script>
 ```
 
-如果设置了 [`output.assetPrefix`](/docs/apis/config/output/asset-prefix) 前缀，也可以直接使用模板语法添加该前缀：
+如果设置了 [`output.assetPrefix`](/docs/apis/app/config/output/asset-prefix) 前缀，也可以直接使用模板语法添加该前缀：
 
 ```html
 <script src="<%=assetPrefix %>/upload/index.js"></script>

@@ -45,5 +45,5 @@ export default defineConfig({
 ```
 
 :::info
-如果需要设置 HTML 模板文件在构建产物目录中的相对路径，可以使用 [output.htmlPath](/docs/apis/config/output/html-path) 配置项。
+如果需要设置 HTML 模板文件在构建产物目录中的相对路径，可以使用 [output.htmlPath](/docs/apis/app/config/output/html-path) 配置项。
 :::

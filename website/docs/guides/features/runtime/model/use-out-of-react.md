@@ -105,5 +105,5 @@ export default function App() {
 :::info 补充信息
 本节完整的示例代码：[章节示例代码](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/counter-model-outof-react)。
 
-- 相关 API 的更多介绍，请参考[这里](/docs/apis/runtime/model/create-store)。
+- 相关 API 的更多介绍，请参考[这里](/docs/apis/app/runtime/model/create-store)。
 :::

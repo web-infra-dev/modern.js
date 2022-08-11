@@ -29,7 +29,7 @@ pnpm deploy app
 执行命令之后，首先会在 Monorepo 根目录下生成 `output` 目录，其中包含了应用项目 `apps/app`、`features/internal-lib`、`packages/components`。
 
 :::info 补充信息
-`output` 目录就是需要部署到服务器上的目录，可以通过命令参数进行路径修改。可以查看 [deploy 命令](/docs/apis/commands/monorepo/deploy)。
+`output` 目录就是需要部署到服务器上的目录，可以通过命令参数进行路径修改。可以查看 [deploy 命令](/docs/apis/monorepo/commands/deploy)。
 :::
 
 ![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/guides/monorepo-output.png)

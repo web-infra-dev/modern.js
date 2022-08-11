@@ -346,7 +346,7 @@ sidebar_position: 8
 ```
 
 :::info 补充信息
-[更多测试 API](/docs/apis/runtime/electron/tests/test)。
+[更多测试 API](/docs/apis/app/runtime/electron/tests/test)。
 :::
 
 ### 运行测试

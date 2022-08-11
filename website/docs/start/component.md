@@ -18,7 +18,7 @@ sidebar_position: 10
 - 如何在 UI 组件项目中进行测试。
 - 如何为 UI 组件项目开启 Storybook 功能并使用它进行调试。
 - 如何开发 UI 组件样式。
-- 如何在 UI 组件项目中使用[运行时 API](/docs/apis/runtime/overview)。
+- 如何在 UI 组件项目中使用[运行时 API](/docs/apis/app/runtime)。
 - 如何发布 UI 组件项目。
 - 在 Monorepo 中，UI 组件项目与应用项目如何联调。
 
@@ -414,7 +414,7 @@ export const TableList: React.FC = () => {
 关于 Model 的详细介绍，请参考【[添加业务模型](/docs/guides/tutorials/c10-model/10.1-application-architecture)】。
 :::
 
-接着新增 `modern.config.js` 文件并添加配置 [`runtime.state`](/docs/apis/config/runtime/state) 开启支持 Model 功能：
+接着新增 `modern.config.js` 文件并添加配置 [`runtime.state`](/docs/apis/app/config/runtime/state) 开启支持 Model 功能：
 
 ``` javascript title=modern.config.js
 export default defineConfig({

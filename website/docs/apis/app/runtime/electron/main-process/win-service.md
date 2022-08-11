@@ -94,7 +94,7 @@ import { winService } from '@modern-js/runtime/electron-main';
   - name：`string`，需要打开的窗口名。
   - [options]：[`BrowserWindowConstructorOptions`](https://www.electronjs.org/zh/docs/latest/api/browser-window#new-browserwindowoptions)，窗口的相关配置。
   - [loadUrl]：`string`，加载路径。
-  - [addBeforeCloseListener]：`boolean`，同[`windowConfig#addBeforeCloseListener`](/docs/apis/runtime/electron/main-process/window-config)，默认为 `false`。
+  - [addBeforeCloseListener]：`boolean`，同[`windowConfig#addBeforeCloseListener`](/docs/apis/app/runtime/electron/main-process/window-config)，默认为 `false`。
   - [hideWhenClose]：`boolean`，关闭窗口时，是否以隐藏代替关闭，默认为 `false`。
 
 

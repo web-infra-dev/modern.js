@@ -12,7 +12,7 @@ sidebar_position: 3
 
 设置开发环境下的静态资源 URL 前缀。
 
-在生产环境下，请使用 [output.assetPrefix](/docs/apis/config/dev/asset-prefix) 配置项进行设置。
+在生产环境下，请使用 [output.assetPrefix](/docs/apis/app/config/dev/asset-prefix) 配置项进行设置。
 
 ## 类型
 

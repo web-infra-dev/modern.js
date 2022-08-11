@@ -27,7 +27,7 @@ import 'tailwindcss/utilities.css';
 根据不同需求，可以选择性的导入 Tailwind CSS 提供的 CSS 文件。由于使用 `@taiwind` 与直接导入 CSS 文件的作用等价，因此关于 Tailwind CSS 提供的 CSS 文件的用途，可以参考 [`@tailwind` 的使用](https://tailwindcss.com/docs/functions-and-directives#tailwind) 文档中注释里的内容。
 :::
 
-当需要自定义 Tailwind CSS 的 [theme](https://tailwindcss.com/docs/theme) 配置的时候，可以在配置 [`source.designSystem`](/docs/apis/config/source/design-system) 中修改，例如，颜色主题中增加一个 `primary`：
+当需要自定义 Tailwind CSS 的 [theme](https://tailwindcss.com/docs/theme) 配置的时候，可以在配置 [`source.designSystem`](/docs/apis/app/config/source/design-system) 中修改，例如，颜色主题中增加一个 `primary`：
 
 ```js title="modern.config.js"
 export default defineConfig({
@@ -43,7 +43,7 @@ export default defineConfig({
 });
 ```
 
-当需要对 Tailwind CSS 做 [theme](https://tailwindcss.com/docs/theme) 以外的其他特殊配置时，可以在 [`tools.tailwindcss`](/docs/apis/config/tools/tailwindcss) 中配置，例如设置 `variants`：
+当需要对 Tailwind CSS 做 [theme](https://tailwindcss.com/docs/theme) 以外的其他特殊配置时，可以在 [`tools.tailwindcss`](/docs/apis/app/config/tools/tailwindcss) 中配置，例如设置 `variants`：
 
 ```js title="modern.config.js"
 export default defineConfig({
@@ -91,8 +91,8 @@ const Input = tw.input`border hover:border-black`
 
 `twin.macro` 默认会读取项目目录下的 `tailwindcss.config.js` 文件，或者通过 `babel-plugin-macro` 上的 [`twin.config`](https://github.com/ben-rogerson/twin.macro/blob/master/docs/options.md#options) 指定的文件路径读取 Tailwind CSS 配置。不过在 Modern.js 中不需要进行这些额外配置。
 
-当在 `modern.config.ts` 文件中通过 [`source.designSystem`](/docs/apis/config/source/design-system) 和  [`tools.tailwindcss`](/docs/apis/config/tools/tailwindcss) 对 Tailwind CSS 进行配置的时候，这些配置也会对 `twin.macro` 生效。
-> 当为项目配置 Tailwind CSS 的时候，[`source.designSystem`](/docs/apis/config/source/design-system) 和  [`tools.tailwindcss`](/docs/apis/config/tools/tailwindcss) 这两个配置的组合等价于单独配置了一个 `tailwindcss.config.js` 文件。
-> 其中[`source.designSystem`](/docs/apis/config/source/design-system)等效于 Tailwind CSS 的 [`theme`](https://v2.tailwindcss.com/docs/configuration#theme) 配置。
+当在 `modern.config.ts` 文件中通过 [`source.designSystem`](/docs/apis/app/config/source/design-system) 和  [`tools.tailwindcss`](/docs/apis/app/config/tools/tailwindcss) 对 Tailwind CSS 进行配置的时候，这些配置也会对 `twin.macro` 生效。
+> 当为项目配置 Tailwind CSS 的时候，[`source.designSystem`](/docs/apis/app/config/source/design-system) 和  [`tools.tailwindcss`](/docs/apis/app/config/tools/tailwindcss) 这两个配置的组合等价于单独配置了一个 `tailwindcss.config.js` 文件。
+> 其中[`source.designSystem`](/docs/apis/app/config/source/design-system)等效于 Tailwind CSS 的 [`theme`](https://v2.tailwindcss.com/docs/configuration#theme) 配置。
 
 

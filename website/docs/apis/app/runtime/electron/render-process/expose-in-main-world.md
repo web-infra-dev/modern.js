@@ -53,6 +53,6 @@ exposeInMainWorld(apis);
 ```
 
 :::info 补充信息
-- [关于 `browserWindowPreloadApis`](/docs/apis/runtime/electron/render-process/browser-window-preload-apis)。
+- [关于 `browserWindowPreloadApis`](/docs/apis/app/runtime/electron/render-process/browser-window-preload-apis)。
 - [完整示例](/docs/guides/features/electron/develop)。
 :::

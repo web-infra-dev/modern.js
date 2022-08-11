@@ -13,7 +13,7 @@ sidebar_position: 2
   * Node.js 端：[node-fetch](https://github.com/node-fetch/node-fetch)
 
 :::caution 注意
-应用工程需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用了 BFF 功能。
+应用工程需要请确保使用【[new](/docs/apis/app/commands/new)】 启用了 BFF 功能。
 :::
 
 

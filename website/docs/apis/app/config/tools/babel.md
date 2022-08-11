@@ -147,7 +147,7 @@ export default defineConfig({
 ```
 
 :::info
-不推荐使用 `addIncludes` 编译 `node_modules` 下的文件，建议使用 [source.include](/docs/apis/config/source/include) 代替。
+不推荐使用 `addIncludes` 编译 `node_modules` 下的文件，建议使用 [source.include](/docs/apis/app/config/source/include) 代替。
 :::info
 
 ### addExcludes

@@ -47,7 +47,7 @@ CLOUD_SECRET_KEY
 
 3. Bucket 信息可以从阿里云 OSS 的 [Bucket 列表](https://oss.console.aliyun.com/bucket)中获取。
 
-我们可以根据 OSS 的 Bucket 名称和 Region 名称拼接出 OSS 的临时域名，并设置为[静态资源域名前缀](/docs/apis/config/output/asset-prefix)：
+我们可以根据 OSS 的 Bucket 名称和 Region 名称拼接出 OSS 的临时域名，并设置为[静态资源域名前缀](/docs/apis/app/config/output/asset-prefix)：
 
 ```js
 export default defineConfig({

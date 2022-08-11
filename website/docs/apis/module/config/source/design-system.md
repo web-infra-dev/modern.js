@@ -8,9 +8,9 @@ sidebar_position: 4
 
 
 :::caution 注意
-- 应用工程需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用 Tailwind CSS 功能。
+- 应用工程需要请确保使用【[new](/docs/apis/module/commands/new)】 启用 Tailwind CSS 功能。
 
-- 模块工程需要请确保使用【[new](/docs/apis/commands/module/new)】 启用 Tailwind CSS 功能。
+- 模块工程需要请确保使用【[new](/docs/apis/module/commands/new)】 启用 Tailwind CSS 功能。
 :::
 
 

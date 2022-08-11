@@ -76,12 +76,12 @@ import 'button/dist/styles/button.css';
 
 **默认情况下不会对内置样式文件进行编译处理（将处理样式的工作交给使用组件的环境）**，如果需要对内置样式进行编译处理，则可以通过 `modern.config.js` 进行配置。
 
-> 具体配置方式，可以阅读 API [output.importStyle](/docs/apis/config/output/import-style)
+> 具体配置方式，可以阅读 API [output.importStyle](/docs/apis/module/config/output/import-style)
 
 内置样式的构建产物的输出位置位于 `dist/js/styles/` 目录下，这与独立样式构建产物的位置不同。
 
 :::info 补充信息
-在 `dist/js/styles` 路径中，`dist`、`js`、`styles` 都可以分别通过 [output.path](/docs/apis/config/output/path)、[output.jsPath](/docs/apis/config/output/js-path)、[output.assetsPath](/docs/apis/config/output/assets-path) 配置进行修改。
+在 `dist/js/styles` 路径中，`dist`、`js`、`styles` 都可以分别通过 [output.path](/docs/apis/module/config/output/path)、[output.jsPath](/docs/apis/module/config/output/js-path)、[output.assetsPath](/docs/apis/module/config/output/assets-path) 配置进行修改。
 :::
 
 如果在组件文件`.(t|j)sx` 中引用这些文件，那么在构建成功后会修改**导入内置样式文件的路径**，将路径指向 `dist/js/styles/*`目录下内置样式文件的产物。
@@ -150,7 +150,7 @@ export default function () {
 独立样式在编译构建过程中会对样式进行编译处理。其构建产物的输出路径为 `dist/styles`。
 
 :::info 补充信息
-在 `dist/styles` 路径中，`dist`、`styles` 都可以分别通过[output.path](/docs/apis/config/output/path)、[output.assetsPath](/docs/apis/config/output/assets-path) 配置进行修改。
+在 `dist/styles` 路径中，`dist`、`styles` 都可以分别通过[output.path](/docs/apis/module/config/output/path)、[output.assetsPath](/docs/apis/module/config/output/assets-path) 配置进行修改。
 :::
 
 例如为上一节中的组件新增 `styles/index.css` 独立样式文件，那么在执行构建命令 `pnpm run build` 后，会看到构建产物的目录结构如下：

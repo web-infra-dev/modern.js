@@ -23,8 +23,8 @@ import { useModel } from '@modern-js/runtime/model';
 - models：`Model | Model[]`，传入一个 Model 或 Model 数组。
 #### 返回值
 
-- state：[`State`](/docs/apis/runtime/model/state)，**Model** 的 **state**。
-- actions：[`Actions`](/docs/apis/runtime/model/actions)，**Model** 的 **actions**。
+- state：[`State`](/docs/apis/app/runtime/model/state)，**Model** 的 **state**。
+- actions：[`Actions`](/docs/apis/app/runtime/model/actions)，**Model** 的 **actions**。
 
 :::info 注
 
@@ -49,8 +49,8 @@ state、action 做合并操作时，如果有同名属性，后面 Model（state
 
 此时 `useModel` 返回一个数组，数组第一个元素为 SelectorState 返回值，第二个元素为 SelectorActions 返回值。
 
-- state：[`State`](/docs/apis/runtime/model/state)，**Model** 的 **state**。
-- actions：[`Actions`](/docs/apis/runtime/model/actions)，**Model** 的 **actions**。
+- state：[`State`](/docs/apis/app/runtime/model/state)，**Model** 的 **state**。
+- actions：[`Actions`](/docs/apis/app/runtime/model/actions)，**Model** 的 **actions**。
 
 
 :::info

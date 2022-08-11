@@ -46,7 +46,7 @@ export default defineConfig({
 设置打包模块的入口。对象的键会作为构建产物的文件名称，对象的值会作为入口（文件）的地址。
 
 :::tip
-对于[产物格式](/docs/apis/config/output/build-config/format)为 `umd` 的场景，对象的键还会作为全局变量名。例如下面的配置：
+对于[产物格式](/docs/apis/module/config/output/build-config/format)为 `umd` 的场景，对象的键还会作为全局变量名。例如下面的配置：
 
 ```js title="modern.config.js"
 import { defineConfig } from '@modern-js/module-tools';

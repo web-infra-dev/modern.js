@@ -138,7 +138,7 @@ export default {
 - browser-js-lite
 - node-js
 
-具体每个值对应的产物结构详见 [`output.packageMode`](/docs/apis/config/output/package-mode)。
+具体每个值对应的产物结构详见 [`output.packageMode`](/docs/apis/module/config/output/package-mode)。
 
 对于当前场景，如果开发的工具库只支持 Node.js 环境，可以在项目 `modern.config.js` 中增加如下配置：
 

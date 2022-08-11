@@ -34,7 +34,7 @@ export default defineConfig({
 
 * `entry`：`string`，入口文件路径。
 * `disableMount`：`boolean = false`，关闭 Modern.js 生成入口代码的行为。
-* `enableFileSystemRoutes`：`boolean = false`，是否 [使用约定式路由](/docs/apis/hooks/mwa/src/pages)。
+* `enableFileSystemRoutes`：`boolean = false`，是否 [使用约定式路由](/docs/apis/app/hooks/src/pages)。
 
 ```js
 export default defineConfig({

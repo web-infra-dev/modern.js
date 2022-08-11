@@ -11,7 +11,7 @@ sidebar_label: faviconByEntries
 
 用于在多页面的场景下，为不同的页面设置不同的 favicon。
 
-整体用法与 [output.favicon](/docs/apis/config/output/favicon) 一致，主要区别在于，可以使用「入口名称」作为 key 进行单独设置。
+整体用法与 [output.favicon](/docs/apis/app/config/output/favicon) 一致，主要区别在于，可以使用「入口名称」作为 key 进行单独设置。
 
 import EntryName from '@site/docs/components/entry-name.md'
 

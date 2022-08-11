@@ -44,5 +44,5 @@ export default defineConfig({
 ```
 
 :::info
-如果需要移除 HTML 产物对应的文件夹，可以使用 [output.disableHtmlFolder](/docs/apis/config/output/disable-html-folder) 配置项。
+如果需要移除 HTML 产物对应的文件夹，可以使用 [output.disableHtmlFolder](/docs/apis/app/config/output/disable-html-folder) 配置项。
 :::

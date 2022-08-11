@@ -1,2 +1,2 @@
-// https://modernjs.dev/docs/apis/config/overview
+// https://modernjs.dev/docs/apis/app/config
 module.exports = {};

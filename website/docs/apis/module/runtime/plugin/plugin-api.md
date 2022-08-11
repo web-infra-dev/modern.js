@@ -45,7 +45,7 @@ interface UserConfig {
 }
 ```
 
-具体配置字段的意义请参考【[配置](/docs/apis/config/source/alias)】。
+具体配置字段的意义请参考【[配置](/docs/apis/module/config/source/alias)】。
 
 ### useAppContext
 
@@ -96,7 +96,7 @@ interface NormalizedConfig {
 }
 ```
 
-具体配置字段的意义请参考【[配置](/docs/apis/config/source/alias)】。
+具体配置字段的意义请参考【[配置](/docs/apis/module/config/source/alias)】。
 
 ### useHookRunners
 
