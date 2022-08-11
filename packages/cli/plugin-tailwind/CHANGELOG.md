@@ -1,5 +1,13 @@
 # @modern-js/plugin-tailwindcss
 
+## 1.5.1
+
+### Patch Changes
+
+- 3c874ca16: fix: `@modern-js/plugin-tailwindcss` support `pluginName` params
+
+  fix: `@modern-js/plugin-tailwindcss` 支持 `pluginName` 参数
+
 ## 1.5.0
 
 ### Minor Changes
