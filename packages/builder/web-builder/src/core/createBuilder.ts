@@ -70,6 +70,8 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginMinimize } = await import('../plugins/minimize');
   const { PluginCleanOutput } = await import('../plugins/cleanOutput');
   const { PluginBabel } = await import('../plugins/babel');
+  const { PluginTsLoader } = await import('../plugins/tsLoader');
+  const { PluginTsChecker } = await import('../plugins/tsChecker');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
@@ -88,6 +90,8 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginProgress(),
     PluginMinimize(),
     PluginCleanOutput(),
+    PluginTsLoader(),
     PluginBabel(),
+    PluginTsChecker(),
   ]);
 }
