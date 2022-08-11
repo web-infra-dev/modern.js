@@ -95,8 +95,12 @@ export const PluginMinimize = (): BuilderPlugin => ({
   setup(api) {
     api.modifyWebpackChain(async (chain, { isProd }) => {
       const config = api.getBuilderConfig();
+      const isMinimize = isProd && !config.output?.disableMinimize;
 
-      if (isProd && !config.output?.disableMinimize) {
+      // set minimize to allow users to disable minimize
+      chain.optimization.minimize(isMinimize);
+
+      if (isMinimize) {
         await Promise.all([
           applyJSMinimizer(chain, config),
           applyCSSMinimizer(chain, config),
