@@ -12,16 +12,3 @@ exports[`initHooks > should init hooks correctly 1`] = `
   "onBeforeCreateCompilerHooks",
 ]
 `;
-
-exports[`initHooks should init hooks correctly 1`] = `
-Array [
-  "onExitHook",
-  "onAfterBuildHook",
-  "onBeforeBuildHook",
-  "modifyWebpackChainHook",
-  "modifyWebpackConfigHook",
-  "modifyBuilderConfigHook",
-  "onAfterCreateCompilerHooks",
-  "onBeforeCreateCompilerHooks",
-]
-`;
