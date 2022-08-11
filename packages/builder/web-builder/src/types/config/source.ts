@@ -1,4 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SourceConfig {}
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SourceFinalConfig {}
+export interface SourceConfig {
+  resolveExtensionPrefix?: string;
+}
+
+export interface SourceFinalConfig {
+  resolveExtensionPrefix?: string;
+}
