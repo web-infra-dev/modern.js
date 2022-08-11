@@ -1,5 +1,32 @@
 # @modern-js/plugin-garfish
 
+## 1.8.0
+
+### Minor Changes
+
+- 59c941a: chore(runtime): merge `@modern-js/runtime-core` to `@modern-js/runtime`
+
+  chore(runtime): 合并 `@modern-js/runtime-core` 到 `@modern-js/runtime`
+
+### Patch Changes
+
+- e686059: chore: adjust `@modern-js/plugin-garfish` runtime export path
+
+  chore: 调整 `@modern-js/plugin-garfish` runtime 导出路径
+
+- 246ac0d: feat: support runtime masterApp type
+
+  feat: 支持在 `modern.config.ts` 中提示 `runtime.masterApp` 类型
+
+- Updated dependencies [79e83ef]
+- Updated dependencies [e0cd14a]
+- Updated dependencies [287ac8b]
+- Updated dependencies [22f4dca]
+- Updated dependencies [59c941a]
+- Updated dependencies [7b9067f]
+  - @modern-js/utils@1.9.0
+  - @modern-js/runtime@1.5.0
+
 ## 1.7.0
 
 ### Minor Changes

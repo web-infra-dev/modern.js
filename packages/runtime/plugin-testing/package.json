@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.7.0",
+  "version": "1.8.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -108,9 +108,9 @@
     "@modern-js-reduck/plugin-immutable": "^1.0.1",
     "@modern-js-reduck/store": "^1.0.3",
     "@modern-js/babel-compiler": "workspace:^1.2.6",
-    "@modern-js/utils": "workspace:^1.8.1",
-    "@modern-js/webpack": "workspace:^1.12.3",
-    "@modern-js/babel-preset-app": "workspace:^1.5.0",
+    "@modern-js/utils": "workspace:^1.9.0",
+    "@modern-js/webpack": "workspace:^1.12.4",
+    "@modern-js/babel-preset-app": "workspace:^1.6.0",
     "@modern-js/plugin": "workspace:^1.4.1",
     "@modern-js/server": "workspace:^1.6.0",
     "@testing-library/jest-dom": "^5.14.1",
@@ -127,7 +127,7 @@
     "yargs": "^17.0.1"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^1.4.1"
+    "@modern-js/runtime": "workspace:^1.5.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {

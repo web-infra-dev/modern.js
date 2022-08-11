@@ -1,5 +1,13 @@
 # @modern-js/mwa-generator
 
+## 2.1.1
+
+### Patch Changes
+
+- e0cd14a: feat: mwa template add runtime types
+
+  feat: mwa 生成器模板增加导出 runtime 类型
+
 ## 2.1.0
 
 ### Minor Changes

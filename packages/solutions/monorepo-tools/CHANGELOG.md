@@ -1,5 +1,20 @@
 # @modern-js/monorepo-tools
 
+## 1.5.1
+
+### Patch Changes
+
+- 32430f9: fix: copy lerna.json
+  fix: 复制 lerna.json 文件
+- Updated dependencies [79e83ef]
+- Updated dependencies [22f4dca]
+- Updated dependencies [7b9067f]
+- Updated dependencies [3c20a5e]
+  - @modern-js/utils@1.9.0
+  - @modern-js/core@1.14.0
+  - @modern-js/plugin-changeset@1.4.1
+  - @modern-js/plugin-jarvis@1.2.14
+
 ## 1.5.0
 
 ### Minor Changes

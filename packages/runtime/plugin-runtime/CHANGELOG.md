@@ -1,5 +1,30 @@
 # @modern-js/runtime
 
+## 1.5.0
+
+### Minor Changes
+
+- 59c941a: chore(runtime): merge `@modern-js/runtime-core` to `@modern-js/runtime`
+
+  chore(runtime): 合并 `@modern-js/runtime-core` 到 `@modern-js/runtime`
+
+### Patch Changes
+
+- e0cd14a: feat: support runtime router and state type
+
+  feat: 支持在 `modern.config.ts` 中提示 `runtime.router` and `runtime.state` 类型
+
+- 287ac8b: fix(runtime): router plugin replace error
+
+  fix(runtime): router 插件 replace 报错
+
+- Updated dependencies [79e83ef]
+- Updated dependencies [5f1a231]
+- Updated dependencies [22f4dca]
+- Updated dependencies [7b9067f]
+  - @modern-js/utils@1.9.0
+  - @modern-js/webpack@1.12.4
+
 ## 1.4.3
 
 ### Patch Changes

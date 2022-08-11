@@ -1,5 +1,20 @@
 # @modern-js/plugin-express
 
+## 1.7.2
+
+### Patch Changes
+
+- b5fe1a6: feat: support bff zod schema use transform/record/lazy
+
+  feat: 支持 bff 中 zod schema 使用 transform/record/lazy
+
+- Updated dependencies [79e83ef]
+- Updated dependencies [22f4dca]
+- Updated dependencies [7b9067f]
+- Updated dependencies [b5fe1a6]
+  - @modern-js/utils@1.9.0
+  - @modern-js/bff-core@1.2.2
+
 ## 1.7.1
 
 ### Patch Changes
