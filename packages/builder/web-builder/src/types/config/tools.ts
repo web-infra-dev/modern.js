@@ -31,7 +31,7 @@ export interface ToolsConfig {
   babel?: ToolsBabelConfig;
   terser?: ToolsTerserConfig;
   tsLoader?: TSLoaderOptions;
-  tsChecker?: ForkTSCheckerOptions;
+  tsChecker?: false | ForkTSCheckerOptions;
   devServer?: DevServerConfig;
   minifyCss?: ToolsMinifyCssConfig;
   styledComponents?: IStyledComponentOptions;

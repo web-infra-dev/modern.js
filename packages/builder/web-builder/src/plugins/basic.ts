@@ -8,6 +8,9 @@ export const PluginBasic = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain((chain, { isProd }) => {
+      // The base directory for resolving entry points and loaders from the configuration.
+      chain.context(api.context.rootPath);
+
       chain.mode(isProd ? 'production' : 'development');
 
       chain.merge({
