@@ -8,7 +8,7 @@ sidebar_label: bundlelessOptions
 
 `bundlelessOptions` 用来定制 Bundleless 构建相关的配置，当 `{ buildType: 'bundleless' }` 的时候，该配置才会生效。
 
-> 默认情况下，[`buildType`](/docs/apis/config/output/build-config/build-type) 的值为 `bundleless`，因此可以直接配置 `bundlelessOptions`。
+> 默认情况下，[`buildType`](/docs/apis/module/config/output/build-config/build-type) 的值为 `bundleless`，因此可以直接配置 `bundlelessOptions`。
 
 下面是一个配置示例：
 
@@ -73,7 +73,7 @@ export default defineConfig({
 * 类型： `string`
 * 默认值： `'./'`
 
-设置样式产物输出的路径。路径相对于 [`buildConfig.outputPath`](/docs/apis/config/output/build-config/output-path) 的值。
+设置样式产物输出的路径。路径相对于 [`buildConfig.outputPath`](/docs/apis/module/config/output/build-config/output-path) 的值。
 
 ## static
 
@@ -84,4 +84,4 @@ export default defineConfig({
 * 类型： `string`
 * 默认值： `'./'`
 
-设置静态文件产物输出的路径。路径相对于 [`buildConfig.outputPath`](/docs/apis/config/output/build-config/output-path) 的值。
+设置静态文件产物输出的路径。路径相对于 [`buildConfig.outputPath`](/docs/apis/module/config/output/build-config/output-path) 的值。

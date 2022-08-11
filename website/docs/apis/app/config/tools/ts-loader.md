@@ -19,7 +19,7 @@ sidebar_label: tsLoader
 }
 ```
 
-项目中开启 [output.enableTsLoader](/docs/apis/config/output/enable-ts-loader) 选项后，可以通过
+项目中开启 [output.enableTsLoader](/docs/apis/app/config/output/enable-ts-loader) 选项后，可以通过
 `tools.tsLoader` 对 [ts-loader](https://github.com/TypeStrong/ts-loader) 进行配置。
 
 ## 类型
@@ -81,7 +81,7 @@ export default defineConfig({
 ```
 
 :::info
-不推荐使用 `addIncludes` 编译 `node_modules` 下的文件，建议使用 [source.include](/docs/apis/config/source/include) 代替。
+不推荐使用 `addIncludes` 编译 `node_modules` 下的文件，建议使用 [source.include](/docs/apis/app/config/source/include) 代替。
 :::info
 
 ### addExcludes

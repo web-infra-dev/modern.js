@@ -1,5 +1,9 @@
 {
   "label": "运行时",
   "position": 3,
-  "collapsed": false
+  "collapsed": false,
+  "link": {
+    "type": "doc",
+    "id": "apis/app/runtime/index"
+  }
 }

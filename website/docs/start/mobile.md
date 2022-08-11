@@ -133,7 +133,7 @@ export default defineConfig({
 然后我们将 `state` 和 `router` 这两个配置项设置为 `false`，就关闭了客户端路由和状态管理功能。
 
 :::info 补充信息
-更多用法，请参考【[`state`](/docs/apis/config/runtime/state)】、【[`router`](/docs/apis/config/runtime/router)】。
+更多用法，请参考【[`state`](/docs/apis/app/config/runtime/state)】、【[`router`](/docs/apis/app/config/runtime/router)】。
 :::
 
 ## 组件样式
@@ -340,7 +340,7 @@ export default App;
 我们可以把这个文件放到 `config/public` 目录，然后访问 **{域名}/{文件名}**就可以获取文件内容。例如，我们在该目录下新建 `MP_verify_abcdef.txt` 文件，重新启动应用，访问 `http://localhost:8080/MP_verify_abcdef.txt` 即可获取文件内容。
 
 :::info 补充信息
-关于静态资源的更多使用方法，请参考配置 【[`config/public`](/docs/apis/hooks/mwa/config/public)】。
+关于静态资源的更多使用方法，请参考配置 【[`config/public`](/docs/apis/app/hooks/config/public)】。
 :::
 
 ## 自定义 HTML
@@ -409,7 +409,7 @@ describe('main entry', () => {
 执行 `pnpm run test`，会运行项目下的所有测试用例。
 
 :::info 补充信息
-更多用法，请参考【[Testing API](/docs/apis/runtime/testing/render)】。
+更多用法，请参考【[Testing API](/docs/apis/app/runtime/testing/render)】。
 :::
 
 ## 部署

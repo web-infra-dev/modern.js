@@ -44,6 +44,6 @@ sidebar_label: tailwindcss
 
 值为 `Function` 类型时，函数返回的对象与默认配置通过 `Object.assign` 合并。
 
-不允许出现 `theme` 属性，否则会构建失败。 Modern.js 使用 [`source.designSystem`](/docs/apis/config/source/design-system) 作为 `Tailwind CSS Theme` 配置。
+不允许出现 `theme` 属性，否则会构建失败。 Modern.js 使用 [`source.designSystem`](/docs/apis/app/config/source/design-system) 作为 `Tailwind CSS Theme` 配置。
 
 其他的使用方式和 Tailwind CSS 一致: [快速传送门](https://tailwindcss.com/docs/configuration)。

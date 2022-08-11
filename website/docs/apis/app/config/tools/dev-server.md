@@ -50,11 +50,11 @@ Modern.js 基于 [webpack-dev-middleware](https://github.com/webpack/webpack-dev
 
 | 配置名                  | 作用                                                         | 替代方案                            |
 | ----------------------- | ------------------------------------------------------------ | ----------------------------------- |
-| historyApiFallback      | 重定向部分 URL                                               | [server.routes](/docs/apis/config/server/routes)                       |
+| historyApiFallback      | 重定向部分 URL                                               | [server.routes](/docs/apis/app/config/server/routes)                       |
 | onAfterSetupMiddleware  | 在 webpack-dev-server internal middleware 后执行，可以添加后续中间件 | devServer.after                     |
 | onBeforeSetupMiddleware | 在 webpack-dev-server internal middleware 前执行，可以添加前置中间件 | devServer.before                    |
-| port                    | dev server 监听端口                                          | [server.port](/docs/apis/config/server/port)                         |
-| static                  | 托管静态资源文件                                             | [config/public](/docs/apis/hooks/mwa/config/public) 和 [server.publicRoutes](/docs/apis/config/server/public-routes) 或 [config/upload](/docs/apis/hooks/mwa/config/upload) |
+| port                    | dev server 监听端口                                          | [server.port](/docs/apis/app/config/server/port)                         |
+| static                  | 托管静态资源文件                                             | [config/public](/docs/apis/app/hooks/config/public) 和 [server.publicRoutes](/docs/apis/app/config/server/public-routes) 或 [config/upload](/docs/apis/app/hooks/config/upload) |
 
 ### API
 

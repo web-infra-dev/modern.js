@@ -11,7 +11,7 @@ sidebar_position: 1
 * 默认值：`{}`
 
 :::info 补充信息
-应用工程需要请确保使用【[new](/docs/apis/commands/mwa/new)】 启用了 BFF 功能。
+应用工程需要请确保使用【[new](/docs/apis/app/commands/new)】 启用了 BFF 功能。
 :::
 
 通过简单配置，无需编写代码，Modern.js 会自动转发请求。发送给 Modern.js BFF server 的请求，会代理到指定的服务上。
@@ -48,7 +48,7 @@ export default defineConfig({
 });
 ```
 
-与 [dev.proxy](/docs/apis/config/dev/proxy) 不同，本节所介绍的代理只作用于进入 BFF/API 服务的请求。
+与 [dev.proxy](/docs/apis/app/config/dev/proxy) 不同，本节所介绍的代理只作用于进入 BFF/API 服务的请求。
 
 同时，这一配置不但可以在开发环境中使用，在生产环境也会生成真实代码并且与项目一同部署。
 

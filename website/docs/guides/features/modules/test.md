@@ -20,7 +20,7 @@ pnpm run test
 
 ## 添加测试配置
 
-如果想要对测试进行一些额外的配置，可以通过在 `modern.config.js` 中增加 [`tools.jest`](/docs/apis/config/tools/jest) 以及 [`testing`](/docs/apis/config/testing/transformer) API 进行配置。
+如果想要对测试进行一些额外的配置，可以通过在 `modern.config.js` 中增加 [`tools.jest`](/docs/apis/app/config/tools/jest) 以及 [`testing`](/docs/apis/app/config/testing/transformer) API 进行配置。
 
 ## 对不同类型可复用模块的测试
 

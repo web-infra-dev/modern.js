@@ -56,7 +56,7 @@ Modern.js 也提供了自定义别名的方式，以添加 `@common` 别名为�
 }
 ```
 
-JavaScript 项目可以在 `modern.config.js` 中配置 [`source.alias`](/docs/apis/config/source/alias):
+JavaScript 项目可以在 `modern.config.js` 中配置 [`source.alias`](/docs/apis/app/config/source/alias):
 
 ```js title="modern.config.js"
 export default defineConfig({
@@ -68,7 +68,7 @@ export default defineConfig({
 });
 ```
 
-具体别名配置可以参考 【[API 资料 - source.alias](/docs/apis/config/source/alias)】。
+具体别名配置可以参考 【[API 资料 - source.alias](/docs/apis/app/config/source/alias)】。
 
 
 ## 使用环境变量
@@ -95,7 +95,7 @@ if (true) {
 <meta name="test" content="<process.env.NODE_ENV>">
 ```
 
-如果想在代码中使用除 `NODE_ENV` 以外的环境变量，可以在 [`source.envVars`](/docs/apis/config/source/env-vars) 配置指定, 如下:
+如果想在代码中使用除 `NODE_ENV` 以外的环境变量，可以在 [`source.envVars`](/docs/apis/app/config/source/env-vars) 配置指定, 如下:
 
 ```js title="modern.config.js"
 export default defineConfig({

@@ -68,7 +68,7 @@ sidebar_position: 3
     - [`font-variant`](https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant)
     - [Media Query Ranges](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries#syntax_improvements_in_level_4)
 
-  当需要修改 PostCSS 配置时，可以通过底层配置 [`tools.postcss`](/docs/apis/config/tools/postcss) 来实现，下面是一个示例：
+  当需要修改 PostCSS 配置时，可以通过底层配置 [`tools.postcss`](/docs/apis/app/config/tools/postcss) 来实现，下面是一个示例：
 
 ```js title="modern.config.js"
 export default defineConfig({

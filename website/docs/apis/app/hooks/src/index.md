@@ -5,7 +5,7 @@ sidebar_position: 3
 
 应用项目自定义路由入口标识。
 
-通常情况下 [`src/App.[tj]sx, src/[entry]/App.[tj]sx`](/docs/apis/hooks/mwa/src/app) 钩子文件已经能满足我们的需求，当我们需要在 `bootstrap` 之前添加自定义行为或者完全接管 webpack 打包入口时，可以在 `src` 或者入口目录下放置 `index.[tj]s`。 下面有分两种情况进行讨论:
+通常情况下 [`src/App.[tj]sx, src/[entry]/App.[tj]sx`](/docs/apis/app/hooks/src/app) 钩子文件已经能满足我们的需求，当我们需要在 `bootstrap` 之前添加自定义行为或者完全接管 webpack 打包入口时，可以在 `src` 或者入口目录下放置 `index.[tj]s`。 下面有分两种情况进行讨论:
 
 1. bootstrap 之前添加自定义行为：
 

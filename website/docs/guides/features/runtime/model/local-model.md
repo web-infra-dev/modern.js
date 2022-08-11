@@ -14,7 +14,7 @@ const { Provider, useModel } = createApp();
 `createApp` 返回一对 `Provider` 和 `useModel`，`Provider` 是提供者，`useModel` 是消费者，消费其对应的 `Provider` 所提供的状态。
 
 :::info 补充信息
-相关 API 的更多介绍，请参考[这里](/docs/apis/runtime/app/create-app)。
+相关 API 的更多介绍，请参考[这里](/docs/apis/app/runtime/app/create-app)。
 :::
 
 ## 使用局部状态

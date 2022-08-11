@@ -71,4 +71,4 @@ export default defineConfig({
 });
 ```
 
-除了**切换路由类型**之外，Modern.js 也支持其它路由的相关配置，更多使用请参考【[Router 配置](/docs/apis/config/runtime/router)】。
+除了**切换路由类型**之外，Modern.js 也支持其它路由的相关配置，更多使用请参考【[Router 配置](/docs/apis/app/config/runtime/router)】。

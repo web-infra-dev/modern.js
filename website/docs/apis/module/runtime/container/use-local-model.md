@@ -12,7 +12,7 @@ import { useLocalModel } from '@modern-js/runtime/model';
 
 ## API
 
-`useLocalModel` API 形式上与 `useModel` 完全一致。具体使用请参考 [useModel](/docs/apis/runtime/container/use-model)。
+`useLocalModel` API 形式上与 `useModel` 完全一致。具体使用请参考 [useModel](/docs/apis/module/runtime/container/use-model)。
 
 
 ## 示例

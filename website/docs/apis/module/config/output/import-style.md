@@ -38,7 +38,7 @@ import './index.less';
 - `./dist/js/modern/index.js`
 
 :::info 补充信息
-`./dist/js/modern` 为构建 JS(X)、TS(X) 的构建产物目录，除了这个目录以外，还有 `./dist/js/node`、`./dist/js/treeshaking`，想要了解更多，可以阅读 [packageMode](/docs/apis/config/output/package-mode) API 内容。
+`./dist/js/modern` 为构建 JS(X)、TS(X) 的构建产物目录，除了这个目录以外，还有 `./dist/js/node`、`./dist/js/treeshaking`，想要了解更多，可以阅读 [packageMode](/docs/apis/module/config/output/package-mode) API 内容。
 :::
 
 其中 `./dist/js/modern/index.js` 文件内容为：

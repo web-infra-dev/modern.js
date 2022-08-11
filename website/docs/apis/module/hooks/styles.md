@@ -16,6 +16,6 @@ sidebar_position: 3
 
 在当前版本，该特性在默认情况下仍然支持。当在 `modern.config` 中出现以下配置时候，该特性将会失效：
 
-- [`output.buildPreset`](/docs/apis/config/output/build-preset)
-- [`output.buildConfig`](/docs/apis/config/output/build-config)
+- [`output.buildPreset`](/docs/apis/module/config/output/build-preset)
+- [`output.buildConfig`](/docs/apis/module/config/output/build-config)
 :::

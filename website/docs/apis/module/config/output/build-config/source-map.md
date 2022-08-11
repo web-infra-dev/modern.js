@@ -8,8 +8,8 @@ sidebar_label: sourceMap
 
 * 类型： `boolean | 'inline' | 'external'`
 * 默认值：
-  + 当 [`buildType`](/docs/apis/config/output/build-config/build-type) 为 `bundle`的时候，默认值为 `true`。
-  + 当 [`buildType`](/docs/apis/config/output/build-config/build-type) 为 `bundleless` 的时候，默认值为 `false`。
+  + 当 [`buildType`](/docs/apis/module/config/output/build-config/build-type) 为 `bundle`的时候，默认值为 `true`。
+  + 当 [`buildType`](/docs/apis/module/config/output/build-config/build-type) 为 `bundleless` 的时候，默认值为 `false`。
 
 > 值为 `true` 等价于值为 `'external'`。
 

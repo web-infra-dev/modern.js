@@ -47,19 +47,19 @@ module.exports = {
           items: [
             {
               label: '命令',
-              to: '/docs/apis/commands/overview',
+              to: '/docs/apis/app/commands',
             },
             {
               label: '运行时',
-              to: '/docs/apis/runtime/overview',
+              to: '/docs/apis/app/runtime',
             },
             {
               label: '文件约定',
-              to: '/docs/apis/hooks/overview',
+              to: '/docs/apis/app/hooks',
             },
             {
               label: '配置选项',
-              to: '/docs/apis/config/overview',
+              to: '/docs/apis/app/config',
             },
           ],
         },
@@ -166,10 +166,6 @@ module.exports = {
           },
           {
             to: '/docs/apis/app/overview', // string
-            from: '/docs/apis',
-          },
-          {
-            to: '/docs/apis/app/overview', // string
             from: '/docs/apis/app',
           },
           {
@@ -183,6 +179,11 @@ module.exports = {
           {
             to: '/docs/apis/generator/overview', // string
             from: '/docs/apis/generator',
+          },
+          // Make sure the previous links are accessible properly
+          {
+            to: '/docs/apis/app/overview', // string
+            from: ['/docs/apis/config/overview'],
           },
         ],
       },

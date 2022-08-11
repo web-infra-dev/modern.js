@@ -9,7 +9,7 @@ sidebar_label: disableSourceMap
 * 默认值： `false`
 
 :::caution 注意
-模块工程方案的下一个大版本将废弃此配置，推荐使用 [`output.buildConfig.sourceMap`](/docs/apis/config/output/build-config/source-map) 代替。更多内容请阅读 【[如何构建模块](/docs/guides/features/modules/build)】。
+模块工程方案的下一个大版本将废弃此配置，推荐使用 [`output.buildConfig.sourceMap`](/docs/apis/module/config/output/build-config/source-map) 代替。更多内容请阅读 【[如何构建模块](/docs/guides/features/modules/build)】。
 :::
 
 

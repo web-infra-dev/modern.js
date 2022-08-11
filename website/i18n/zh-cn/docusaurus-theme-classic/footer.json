@@ -29,19 +29,19 @@
   },
   "link.item.label.命令": {
     "message": "命令",
-    "description": "The label of footer link with label=命令 linking to /docs/apis/commands/overview"
+    "description": "The label of footer link with label=命令 linking to /docs/apis/app/commands"
   },
   "link.item.label.运行时": {
     "message": "运行时",
-    "description": "The label of footer link with label=运行时 linking to /docs/apis/runtime/overview"
+    "description": "The label of footer link with label=运行时 linking to /docs/apis/app/runtime"
   },
   "link.item.label.文件约定": {
     "message": "文件约定",
-    "description": "The label of footer link with label=文件约定 linking to /docs/apis/hooks/overview"
+    "description": "The label of footer link with label=文件约定 linking to /docs/apis/app/hooks"
   },
   "link.item.label.配置选项": {
     "message": "配置选项",
-    "description": "The label of footer link with label=配置选项 linking to /docs/apis/config/overview"
+    "description": "The label of footer link with label=配置选项 linking to /docs/apis/app/config"
   },
   "link.item.label.微信": {
     "message": "微信",

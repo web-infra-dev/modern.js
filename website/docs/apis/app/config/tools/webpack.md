@@ -12,7 +12,7 @@ sidebar_label: webpack
 Modern.js 默认集成了 [webpack](https://webpack.js.org/)，对构建产物进行编译打包等操作，可通过 `tools.webpack` 对其进行配置。
 
 :::info
-[tools.webpackChain](/docs/apis/config/tools/webpack-chain) 同样可以修改 webpack 配置，并且功能更加强大，建议优先使用 `tools.webpackChain`。
+[tools.webpackChain](/docs/apis/app/config/tools/webpack-chain) 同样可以修改 webpack 配置，并且功能更加强大，建议优先使用 `tools.webpackChain`。
 :::
 
 ## 类型
@@ -82,8 +82,8 @@ export default defineConfig({
 通过 `name` 参数可以判断当前构建产物的运行环境：
 
 - `client`: 默认值，构建产物为运行在浏览器端的代码。
-- `server`: 开启 [server.ssr](/docs/apis/config/server/ssr) SSR 后，构建产物为针对 SSR 场景的代码。
-- `modern`: 开启 [output.enableModernMode](docs/apis/config/output/enable-modern-mode) 后，构建产物为运行在现代浏览器上的代码。
+- `server`: 开启 [server.ssr](/docs/apis/app/config/server/ssr) SSR 后，构建产物为针对 SSR 场景的代码。
+- `modern`: 开启 [output.enableModernMode](/docs/apis/app/config/output/enable-modern-mode) 后，构建产物为运行在现代浏览器上的代码。
 
 ```js title="modern.config.js"
 export default defineConfig({
@@ -221,7 +221,7 @@ export default defineConfig({
 
 ### chain (废弃)
 
-此参数已废弃，请使用 [tools.webpackChain](/docs/apis/config/tools/webpack-chain)。
+此参数已废弃，请使用 [tools.webpackChain](/docs/apis/app/config/tools/webpack-chain)。
 
 当使用 `chain` 参数时，修改 config 对象或返回 config 对象都不会产生任何效果。
 
@@ -229,4 +229,4 @@ export default defineConfig({
 
 ### 如何查看最终生效的 webpack 配置？
 
-可以通过 [modern inspect](/docs/apis/commands/mwa/inspect) 命令来查看最终生效的 webpack 配置，从而确定 `tools.webpack` 的改动是否正确应用到 webpack 配置上。
+可以通过 [modern inspect](/docs/apis/app/commands/inspect) 命令来查看最终生效的 webpack 配置，从而确定 `tools.webpack` 的改动是否正确应用到 webpack 配置上。

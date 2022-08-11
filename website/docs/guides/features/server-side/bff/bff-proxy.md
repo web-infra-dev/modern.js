@@ -22,4 +22,4 @@ export default defineConfig({
 };
 ```
 
-具体 API 请查看 [BFF 代理](/docs/apis/config/bff/proxy)，更多 Modern.js 代理的能力可查看[调试代理](/docs/guides/usages/debug/proxy-and-mock)。
+具体 API 请查看 [BFF 代理](/docs/apis/app/config/bff/proxy)，更多 Modern.js 代理的能力可查看[调试代理](/docs/guides/usages/debug/proxy-and-mock)。

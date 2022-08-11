@@ -30,7 +30,7 @@ const Button = styled.button`
 关于 styled-components 的更多用法，请参考【[styled-components 官网](https://styled-components.com/)】。
 
 :::info 补充信息
-Modern.js 内部使用了 Babel 插件 [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components)，可以通过 [`tools.styledComponents`](/docs/apis/config/tools/styled-components) 对插件进行配置。
+Modern.js 内部使用了 Babel 插件 [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components)，可以通过 [`tools.styledComponents`](/docs/apis/app/config/tools/styled-components) 对插件进行配置。
 :::
 
 :::tip 提示

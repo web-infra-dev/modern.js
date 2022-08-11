@@ -15,7 +15,7 @@ Options:
 ```
 
 :::info 注
-`bump` 命令执行之前需要提前执行 [`change`](/docs/apis/commands/monorepo/change) 命令添加 changeset。
+`bump` 命令执行之前需要提前执行 [`change`](/docs/apis/monorepo/commands/change) 命令添加 changeset。
 :::
 
 按 changeset 记录修改 `package.json` 中的版本号， 同时生成 `CHANGELOG.md`：

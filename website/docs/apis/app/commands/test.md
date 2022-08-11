@@ -10,7 +10,7 @@ Options:
 ```
 
 :::caution 注意
-`modern test` 命令需要先通过 [`new`](/docs/apis/commands/mwa/new) 命令启用「单元测试 / 集成测试」功能
+`modern test` 命令需要先通过 [`new`](/docs/apis/app/commands/new) 命令启用「单元测试 / 集成测试」功能
 :::
 
 `modern test` 命令会自动运行项目下的测试用例，效果如下：

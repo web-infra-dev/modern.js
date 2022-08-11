@@ -18,7 +18,7 @@ import Runtime from '@modern-js/runtime/electron-main';
 
 ### 参数
 - [options]：`Object`
-  - windowsConfig：`Object[]`，窗口配置，供窗口管理服务使用。详见：[窗口配置](/docs/apis/runtime/electron/main-process/window-config)。
+  - windowsConfig：`Object[]`，窗口配置，供窗口管理服务使用。详见：[窗口配置](/docs/apis/module/runtime/electron/main-process/window-config)。
   - [windowsBaseConfig]：`Object`，窗口的通用基础配置。
     - [devBaseUrl]：`(winName: string) => string`，开发环境下窗口加载的基础路由，默认返回 `http://localhost:8080/${winName}`。（当 `winName === 'main'` 时，返回：http://localhost:8080）。
     - [prodBaseUrl]：`(winName: string) => string`，生产环境下窗口加载的基础路由，默认返回 `html/${winName}/index.html`。

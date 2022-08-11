@@ -13,7 +13,7 @@ Modern.js 在编译时默认通过 [core-js](https://github.com/zloirock/core-js
 默认情况下会根据项目 [Browserslist](https://github.com/browserslist/browserslist) 的设置情况引入所需的 Polyfill 代码， 这样基本不用再担心项目源码和第三方依赖的 Polyfill 问题了，但是因为包含了一些没有用到的 Polyfill 代码，所以最终的包大小可能会有所增加。
 
 :::info 注
-对于明确第三方依赖不需要 Polyfill 的场景，可以设置 [`output.polyfill`](/docs/apis/config/output/polyfill) 为 `usage`, 这样 Babel 编译时只会根据代码中使用到的语法引入 Polyfill 代码。
+对于明确第三方依赖不需要 Polyfill 的场景，可以设置 [`output.polyfill`](/docs/apis/app/config/output/polyfill) 为 `usage`, 这样 Babel 编译时只会根据代码中使用到的语法引入 Polyfill 代码。
 :::
 
 ### 运行时按需 Polyfill
@@ -44,7 +44,7 @@ Modern.js 中还提供了基于浏览器 [UA](https://developer.mozilla.org/zh-C
 
 ## 差异化分发
 
-Modern.js 提供了运行时基于浏览器 User Agent 的差异化分发方案, 设置 [`output.enableModernMode`](/docs/apis/config/output/enable-modern-mode) 后， 生产环境会自动构建出针对现代浏览器语法未降级的 JS 产物和针对旧版本浏览器带有 Polyfill 的 JS 产物:
+Modern.js 提供了运行时基于浏览器 User Agent 的差异化分发方案, 设置 [`output.enableModernMode`](/docs/apis/app/config/output/enable-modern-mode) 后， 生产环境会自动构建出针对现代浏览器语法未降级的 JS 产物和针对旧版本浏览器带有 Polyfill 的 JS 产物:
 
 ```bash title="dist/static/js"
 ├── 370.95db0e84-es6.js

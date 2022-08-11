@@ -81,7 +81,7 @@ sidebar_position: 2
 "dev:electron": "modern dev electron" # 语法糖，同时启动渲染进程和主进程,
 ```
 
-参考【[启动命令](docs/apis/commands/mwa/dev)】。
+参考【[启动命令](docs/apis/app/commands/dev)】。
 
 ## 为主入口添加逻辑
 
@@ -121,5 +121,5 @@ app.whenReady().then(async () => {
 ```
 
 :::info 补充信息
-更多关于【[打包命令](/docs/apis/commands/mwa/build)】。
+更多关于【[打包命令](/docs/apis/app/commands/build)】。
 :::

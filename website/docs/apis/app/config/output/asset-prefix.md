@@ -12,7 +12,7 @@ sidebar_position: 1
 
 生产环境使用 CDN 部署时，可利用该选项设置静态资源的 URL 前缀。
 
-在开发环境下，请使用 [dev.assetPrefix](/docs/apis/config/dev/asset-prefix) 配置项进行设置。
+在开发环境下，请使用 [dev.assetPrefix](/docs/apis/app/config/dev/asset-prefix) 配置项进行设置。
 
 设置后，项目的 js、css、图片等静态资源的 URL 都会加上 `output.assetPrefix` 作为前缀：
 

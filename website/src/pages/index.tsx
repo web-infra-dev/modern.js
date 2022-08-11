@@ -217,7 +217,7 @@ const flowCards = [
   {
     title: '构建',
     img: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/modern-js-landing-pics.005.jpeg',
-    href: '/docs/apis/commands/module/build',
+    href: '/docs/apis/module/commands/build',
     top: 545,
   },
   {
@@ -509,7 +509,7 @@ export default function Home() {
             imgUrl={
               'https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js//modern-js-landing-pics.009.jpeg'
             }
-            detailUrl="/docs/apis/hooks/overview"
+            detailUrl="/docs/apis/app/hooks"
           />
           <VideoCard
             title="应用（MWA）"

@@ -79,8 +79,8 @@ export default defineConfig({
 通过 `name` 参数可以判断当前构建产物的运行环境：
 
 - `client`: 默认值，构建产物为运行在浏览器端的代码。
-- `server`: 开启 [server.ssr](/docs/apis/config/server/ssr) SSR 后，构建产物为针对 SSR 场景的代码。
-- `modern`: 开启 [output.enableModernMode](docs/apis/config/output/enable-modern-mode) 后，构建产物为运行在现代浏览器上的代码。
+- `server`: 开启 [server.ssr](/docs/apis/app/config/server/ssr) SSR 后，构建产物为针对 SSR 场景的代码。
+- `modern`: 开启 [output.enableModernMode](docs/apis/app/config/output/enable-modern-mode) 后，构建产物为运行在现代浏览器上的代码。
 
 ```js title="modern.config.js"
 export default defineConfig({
@@ -352,4 +352,4 @@ export default defineConfig({
 
 ### 如何查看最终生效的 webpack 配置？
 
-可以通过 [modern inspect](/docs/apis/commands/mwa/inspect) 命令来查看最终生效的 webpack 配置，从而确定 `tools.webpackChain` 的改动是否正确应用到 webpack 配置上。
+可以通过 [modern inspect](/docs/apis/app/commands/inspect) 命令来查看最终生效的 webpack 配置，从而确定 `tools.webpackChain` 的改动是否正确应用到 webpack 配置上。
