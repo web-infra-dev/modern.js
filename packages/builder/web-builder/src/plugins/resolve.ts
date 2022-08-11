@@ -11,12 +11,15 @@ export const PluginResolve = (): BuilderPlugin => ({
       const extensions = [
         '.mjs',
         '.js',
+        // only resolve .ts(x) files if it's a ts project
         ...(isTsProject ? ['.tsx', '.ts'] : []),
         '.jsx',
         '.json',
       ];
 
       const { resolveExtensionPrefix } = config.source || {};
+
+      // add an extra prefix to all extensions
       if (resolveExtensionPrefix) {
         const merged = extensions.reduce<string[]>(
           (ret, ext) => [...ret, resolveExtensionPrefix + ext, ext],
