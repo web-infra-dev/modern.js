@@ -1,8 +1,7 @@
-import _ from '@modern-js/utils/lodash';
 import { isAbsolute, join } from 'path';
 import { initHooks } from './createHook';
 import { ConfigValidator } from '../config/validate';
-import { STATUS, isFileExists, ROOT_DIST_DIR } from '../shared';
+import { STATUS, isFileExists, ROOT_DIST_DIR, pick } from '../shared';
 import type {
   Context,
   BuilderOptions,
@@ -86,7 +85,7 @@ export async function createContext(
 export function createPublicContext(
   context: Context,
 ): Readonly<BuilderContext> {
-  const ctx = _.pick(context, [
+  const ctx = pick(context, [
     'srcPath',
     'rootPath',
     'distPath',

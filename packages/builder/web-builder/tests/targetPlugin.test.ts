@@ -1,9 +1,7 @@
 import { vi, expect, describe, it } from 'vitest';
-import { getBrowserslist } from '../src/shared';
+import * as shared from '../src/shared';
 import { PluginTarget } from '../src/plugins/target';
 import { createStubBuilder } from './utils/builder';
-
-vi.mock('../src/shared');
 
 describe('plugins/target', () => {
   const cases = [
@@ -31,7 +29,7 @@ describe('plugins/target', () => {
 
   it.each(cases)('%j', async item => {
     const $getBrowserslist = vi
-      .mocked(getBrowserslist)
+      .spyOn(shared, 'getBrowserslist')
       .mockResolvedValueOnce(item.browserslist);
 
     const builder = createStubBuilder({
