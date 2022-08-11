@@ -4,7 +4,7 @@ import { createPluginStore } from './createPluginStore';
 import { initConfigs } from './initConfigs';
 import type { PluginStore, BuilderOptions } from '../types';
 
-function mergeBuilderOptions(options?: BuilderOptions) {
+export function mergeBuilderOptions(options?: BuilderOptions) {
   const DEFAULT_OPTIONS: Required<BuilderOptions> = {
     cwd: process.cwd(),
     target: ['web'],
@@ -23,7 +23,7 @@ export async function createBuilder(options?: BuilderOptions) {
   const builderOptions = mergeBuilderOptions(options);
   const context = await createContext(builderOptions);
   const publicContext = createPublicContext(context);
-  const pluginStore = await createPluginStore();
+  const pluginStore = createPluginStore();
 
   await addDefaultPlugins(pluginStore);
 
@@ -66,6 +66,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginOutput } = await import('../plugins/output');
   const { PluginMoment } = await import('../plugins/moment');
   const { PluginDevtool } = await import('../plugins/devtool');
+  const { PluginResolve } = await import('../plugins/resolve');
   const { PluginProgress } = await import('../plugins/progress');
   const { PluginMinimize } = await import('../plugins/minimize');
   const { PluginCleanOutput } = await import('../plugins/cleanOutput');
@@ -80,6 +81,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginTarget(),
     PluginOutput(),
     PluginDevtool(),
+    PluginResolve(),
 
     // Plugins that provide basic features
     PluginHMR(),

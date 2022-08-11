@@ -5,7 +5,9 @@ import {
 } from '@modern-js/utils';
 import type { CliPlugin, NormalizedConfig } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export default (
+  { pluginName } = { pluginName: '@modern-js/plugin-tailwindcss' },
+): CliPlugin => ({
   name: '@modern-js/plugin-design-token',
 
   setup(api) {
@@ -139,7 +141,7 @@ export default (): CliPlugin => ({
 
       addRuntimeExports() {
         pluginsExportsUtils.addExport(
-          `export { default as designToken } from '@modern-js/plugin-tailwindcss/runtime-design-token'`,
+          `export { default as designToken } from '${pluginName}/runtime-design-token'`,
         );
       },
     };

@@ -1,7 +1,7 @@
 import { warn } from '../shared';
 import type { PluginStore, BuilderPlugin } from '../types';
 
-export async function createPluginStore(): Promise<PluginStore> {
+export function createPluginStore(): PluginStore {
   let plugins: BuilderPlugin[] = [];
 
   const addPlugins = (newPlugins: BuilderPlugin[]) => {
