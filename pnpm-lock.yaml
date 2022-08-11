@@ -57,14 +57,13 @@ importers:
       '@scripts/vitest-config': workspace:*
       '@types/babel__core': ^7.1.19
       '@types/babel__preset-env': ^7.9.2
-      '@types/lodash': ^4.14.182
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
       css-minimizer-webpack-plugin: 4.0.0
       fork-ts-checker-webpack-plugin: 6.5.2
-      lodash: '>=4'
       terser-webpack-plugin: 5.3.3
+      ts-loader: 9.3.1
       typescript: ^4
       vitest: ^0.21.1
       webpack: ^5.71.0
@@ -74,15 +73,14 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       css-minimizer-webpack-plugin: 4.0.0_esbuild@0.14.47+webpack@5.73.0
       fork-ts-checker-webpack-plugin: 6.5.2_typescript@4.7.4+webpack@5.73.0
-      lodash: 4.17.21
       terser-webpack-plugin: 5.3.3_557185401d8e4a94a813b2d6f9b6f80e
+      ts-loader: 9.3.1_typescript@4.7.4+webpack@5.73.0
       webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/babel__core': 7.1.19
       '@types/babel__preset-env': 7.9.2
-      '@types/lodash': 4.14.182
       '@types/node': 14.18.21
       '@types/react': 17.0.47
       '@types/react-dom': 17.0.17

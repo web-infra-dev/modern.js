@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from '@modern-js/utils/lodash';
 import { isAbsolute, join } from 'path';
 import { initHooks } from './createHook';
 import { ConfigValidator } from '../config/validate';
