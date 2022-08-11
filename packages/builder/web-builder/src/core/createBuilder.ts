@@ -27,13 +27,7 @@ export async function createBuilder(options?: BuilderOptions) {
 
   await addDefaultPlugins(pluginStore);
 
-  let isFirstBuild = true;
   const build = async () => {
-    if (isFirstBuild) {
-      isFirstBuild = false;
-    } else {
-      throw new Error('Builders have been consumed.');
-    }
     const { build: buildImpl } = await import('./build');
     const { webpackConfigs } = await initConfigs({
       context,
