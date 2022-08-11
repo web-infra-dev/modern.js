@@ -10,9 +10,6 @@ export const TestPlugin = (): BuilderPlugin => ({
       config.entry = {
         test: join(api.context.srcPath, 'index.ts'),
       };
-      config.resolve = {
-        extensions: ['.ts', '.js', '.tsx', '.jsx', '.json'],
-      };
       // Webpack devtool
       config.plugins?.push(new InspectorWebpackPlugin());
     });
