@@ -71,6 +71,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginCleanOutput } = await import('../plugins/cleanOutput');
   const { PluginBabel } = await import('../plugins/babel');
   const { PluginTsLoader } = await import('../plugins/tsLoader');
+  const { PluginTsChecker } = await import('../plugins/tsChecker');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
@@ -91,5 +92,6 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginCleanOutput(),
     PluginTsLoader(),
     PluginBabel(),
+    PluginTsChecker(),
   ]);
 }

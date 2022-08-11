@@ -62,10 +62,9 @@ importers:
       '@types/react': ^17
       '@types/react-dom': ^17
       css-minimizer-webpack-plugin: 4.0.0
-      fork-ts-checker-webpack-plugin: ^7.2.1
+      fork-ts-checker-webpack-plugin: 6.5.2
       terser-webpack-plugin: 5.3.3
-      ts-loader: ^9.2.5
-      tsconfig-paths-webpack-plugin: ^4.0.0
+      ts-loader: 9.3.1
       typescript: ^4
       vitest: ^0.21.1
       webpack: ^5.71.0
@@ -74,10 +73,9 @@ importers:
       '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
       '@modern-js/utils': link:../../toolkit/utils
       css-minimizer-webpack-plugin: 4.0.0_esbuild@0.14.47+webpack@5.73.0
-      fork-ts-checker-webpack-plugin: 7.2.11_typescript@4.7.4+webpack@5.73.0
+      fork-ts-checker-webpack-plugin: 6.5.2_typescript@4.7.4+webpack@5.73.0
       terser-webpack-plugin: 5.3.3_557185401d8e4a94a813b2d6f9b6f80e
       ts-loader: 9.3.1_typescript@4.7.4+webpack@5.73.0
-      tsconfig-paths-webpack-plugin: 4.0.0
       webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
     devDependencies:
       '@scripts/build': link:../../../scripts/build
@@ -31523,15 +31521,6 @@ packages:
       typescript: 4.7.4
     dev: false
 
-  /tsconfig-paths-webpack-plugin/4.0.0:
-    resolution: {integrity: sha512-fw/7265mIWukrSHd0i+wSwx64kYUSAKPfxRDksjKIYTxSAp9W9/xcZVBF4Kl0eqQd5eBpAQ/oQrc5RyM/0c1GQ==}
-    engines: {node: '>=10.13.0'}
-    dependencies:
-      chalk: 4.1.2
-      enhanced-resolve: 5.10.0
-      tsconfig-paths: 4.0.0
-    dev: false
-
   /tsconfig-paths/3.14.1:
     resolution: {integrity: sha512-fxDhWnFSLt3VuTwtvJt5fpwxBHg5AdKWMsgcPOOIilyjymcYVZoCQF8fvFRezCNfblEXmi+PcM1eYHeOAgXCOQ==}
     dependencies:
@@ -31539,14 +31528,6 @@ packages:
       json5: 1.0.1
       minimist: 1.2.6
       strip-bom: 3.0.0
-
-  /tsconfig-paths/4.0.0:
-    resolution: {integrity: sha512-SLBg2GBKlR6bVtMgJJlud/o3waplKtL7skmLkExomIiaAtLGtVsoXIqP3SYdjbcH9lq/KVv7pMZeCBpLYOit6Q==}
-    dependencies:
-      json5: 2.2.1
-      minimist: 1.2.6
-      strip-bom: 3.0.0
-    dev: false
 
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}

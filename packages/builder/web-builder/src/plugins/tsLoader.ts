@@ -1,7 +1,14 @@
-import { applyOptionsChain } from '@modern-js/utils';
 import { BuilderPlugin } from '../types';
 import { applyScriptCondition, getUseBuiltIns } from './babel';
-import { ScriptTarget, ModuleKind } from 'typescript';
+
+// Declare `ScriptTarget` and `ModuleKind` manualy to avoid high cost of typescript import
+enum ScriptTarget {
+  ESNext = 99,
+}
+
+enum ModuleKind {
+  ESNext = 99,
+}
 
 export const PluginTsLoader = (): BuilderPlugin => {
   return {
@@ -49,14 +56,16 @@ export const PluginTsLoader = (): BuilderPlugin => {
         },
       };
       api.modifyWebpackChain(async chain => {
-        const { CHAIN_ID } = await import('@modern-js/utils');
+        const { CHAIN_ID, applyOptionsChain } = await import(
+          '@modern-js/utils'
+        );
         const tsLoaderOptions = applyOptionsChain(
           {
             compilerOptions: {
               target: ScriptTarget.ESNext,
               module: ModuleKind.ESNext,
             },
-            transpileOnly: false,
+            transpileOnly: true,
             allowTsInNodeModules: true,
           },
           config.tools?.tsLoader || {},
