@@ -33,7 +33,7 @@
     "build": "wireit",
     "dev": "tsc --watch",
     "test": "vitest run",
-    "test:watch": "vitest dev"
+    "test:watch": "vitest dev --no-coverage"
   },
   "dependencies": {
     "@babel/core": "^7.18.0",

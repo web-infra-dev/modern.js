@@ -1,7 +1,8 @@
+import _ from 'lodash';
 import { isAbsolute, join } from 'path';
 import { initHooks } from './createHook';
 import { ConfigValidator } from '../config/validate';
-import { pick, STATUS, isFileExists, ROOT_DIST_DIR } from '../shared';
+import { STATUS, isFileExists, ROOT_DIST_DIR } from '../shared';
 import type {
   Context,
   BuilderOptions,
@@ -20,21 +21,22 @@ export function getDistPath(cwd: string, builderConfig: BuilderConfig) {
   return join(cwd, ROOT_DIST_DIR);
 }
 
-export async function createContext({
-  cwd,
-  configPath,
-  builderConfig,
-  framework,
-}: Required<BuilderOptions>) {
+/**
+ * Create primary context.
+ * It will be assembled into a normal context or a stub for testing as needed.
+ * Usually it would be a pure function
+ */
+export function createPrimaryContext(
+  options: Required<BuilderOptions>,
+): Context {
+  const { cwd, configPath, builderConfig, framework } = options;
   const hooks = initHooks();
   const status = STATUS.INITIAL;
   const rootPath = cwd;
   const srcPath = join(rootPath, 'src');
   const distPath = getDistPath(cwd, builderConfig);
   const cachePath = join(rootPath, 'node_modules', '.cache');
-  const configValidatingTask = ConfigValidator.create().then(validator => {
-    validator.validate(builderConfig, false);
-  });
+  const configValidatingTask = Promise.resolve();
 
   // TODO some properties should be readonly
   const context: Context = {
@@ -56,27 +58,43 @@ export async function createContext({
     context.configPath = configPath;
   }
 
-  const tsconfigPath = join(rootPath, 'tsconfig.json');
+  return context;
+}
+
+/**
+ * Generate the actual context used in the build,
+ * which can have a lot of overhead and take some side effects.
+ */
+export async function createContext(
+  options: Required<BuilderOptions>,
+): Promise<Context> {
+  const ctx = createPrimaryContext(options);
+
+  ctx.configValidatingTask = ConfigValidator.create().then(validator => {
+    // interrupt build if config is invalid.
+    validator.validate(options.builderConfig, false);
+  });
+
+  const tsconfigPath = join(ctx.rootPath, 'tsconfig.json');
   if (await isFileExists(tsconfigPath)) {
-    context.tsconfigPath = tsconfigPath;
+    ctx.tsconfigPath = tsconfigPath;
   }
 
-  return context;
+  return ctx;
 }
 
 export function createPublicContext(
   context: Context,
 ): Readonly<BuilderContext> {
-  return Object.freeze(
-    pick(context, [
-      'srcPath',
-      'rootPath',
-      'distPath',
-      'cachePath',
-      'configPath',
-      'tsconfigPath',
-      'originalConfig',
-      'framework',
-    ]),
-  );
+  const ctx = _.pick(context, [
+    'srcPath',
+    'rootPath',
+    'distPath',
+    'cachePath',
+    'configPath',
+    'tsconfigPath',
+    'originalConfig',
+    'framework',
+  ]);
+  return Object.freeze(ctx);
 }

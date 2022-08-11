@@ -1,16 +1,46 @@
-import { vi, test, expect } from 'vitest';
+import { vi, expect, describe, it } from 'vitest';
 import { getBrowserslist } from '../src/shared';
 import { PluginTarget } from '../src/plugins/target';
 import { createStubBuilder } from './utils/builder';
 
 vi.mock('../src/shared');
 
-test('asd', async () => {
-  vi.mocked(getBrowserslist).mockResolvedValueOnce(['foo']);
-  const { webpackConfigs } = await createStubBuilder({
-    target: 'modern-web',
-    plugins: [PluginTarget()],
-  }).build();
-  // console.dir(webpackConfigs);
-  expect(webpackConfigs[0].target).toEqual(['web', 'es6']);
+describe('plugins/target', () => {
+  const cases = [
+    {
+      target: 'node',
+      browserslist: ['foo'],
+      expected: { target: 'node' },
+    },
+    {
+      target: 'modern-web',
+      browserslist: ['foo'],
+      expected: { target: ['web', 'browserslist'] },
+    },
+    {
+      target: 'modern-web',
+      browserslist: null,
+      expected: { target: ['web', 'es6'] },
+    },
+    {
+      target: 'web',
+      browserslist: null,
+      expected: { target: ['web', 'es5'] },
+    },
+  ];
+
+  it.each(cases)('%j', async item => {
+    const $getBrowserslist = vi
+      .mocked(getBrowserslist)
+      .mockResolvedValueOnce(item.browserslist);
+
+    const builder = createStubBuilder({
+      plugins: [PluginTarget()],
+      target: item.target as any,
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toEqual(item.expected);
+    $getBrowserslist.mockRestore();
+  });
 });
