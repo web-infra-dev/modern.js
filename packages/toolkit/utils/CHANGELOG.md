@@ -1,5 +1,21 @@
 # @modern-js/utils
 
+## 1.9.0
+
+### Minor Changes
+
+- 7b9067f: add babel plugin for web builder
+
+### Patch Changes
+
+- 79e83ef: chore: merge `@modern-js/plugin-design-token` to `@modern-js/plugin-tailwindcss`
+
+  chore: 合并 `@modern-js/plugin-design-token` 到 `@modern-js/plugin-tailwindcss`
+
+- 22f4dca: chore: move pre-bundled ajv to @modern-js/utils
+
+  chore: 预打包的 ajv 产物移动至 @modern-js/utils 内
+
 ## 1.8.1
 
 ### Patch Changes

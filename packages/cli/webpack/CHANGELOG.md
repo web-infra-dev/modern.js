@@ -1,5 +1,20 @@
 # @modern-js/webpack
 
+## 1.12.4
+
+### Patch Changes
+
+- 5f1a231: fix(webpack): incorrect fallback result
+
+  fix(webpack): 修复 fallback 的编译产物不符合预期的问题
+
+- Updated dependencies [79e83ef]
+- Updated dependencies [22f4dca]
+- Updated dependencies [7b9067f]
+  - @modern-js/utils@1.9.0
+  - @modern-js/babel-preset-app@1.6.0
+  - @modern-js/css-config@1.2.8
+
 ## 1.12.3
 
 ### Patch Changes

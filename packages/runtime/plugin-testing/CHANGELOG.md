@@ -1,5 +1,28 @@
 # @modern-js/plugin-testing
 
+## 1.8.0
+
+### Minor Changes
+
+- 59c941a: chore(runtime): merge `@modern-js/runtime-core` to `@modern-js/runtime`
+
+  chore(runtime): 合并 `@modern-js/runtime-core` 到 `@modern-js/runtime`
+
+### Patch Changes
+
+- Updated dependencies [79e83ef]
+- Updated dependencies [e0cd14a]
+- Updated dependencies [287ac8b]
+- Updated dependencies [5f1a231]
+- Updated dependencies [22f4dca]
+- Updated dependencies [59c941a]
+- Updated dependencies [7b9067f]
+  - @modern-js/utils@1.9.0
+  - @modern-js/runtime@1.5.0
+  - @modern-js/webpack@1.12.4
+  - @modern-js/babel-preset-app@1.6.0
+  - @modern-js/server@1.6.0
+
 ## 1.7.0
 
 ### Minor Changes

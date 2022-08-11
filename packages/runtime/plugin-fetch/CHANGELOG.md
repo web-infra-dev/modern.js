@@ -1,5 +1,24 @@
 # @modern-js/plugin-fetch
 
+## 1.3.0
+
+### Minor Changes
+
+- 59c941a: chore(runtime): merge `@modern-js/runtime-core` to `@modern-js/runtime`
+
+  chore(runtime): 合并 `@modern-js/runtime-core` 到 `@modern-js/runtime`
+
+### Patch Changes
+
+- Updated dependencies [79e83ef]
+- Updated dependencies [e0cd14a]
+- Updated dependencies [287ac8b]
+- Updated dependencies [22f4dca]
+- Updated dependencies [59c941a]
+- Updated dependencies [7b9067f]
+  - @modern-js/utils@1.9.0
+  - @modern-js/runtime@1.5.0
+
 ## 1.2.7
 
 ### Patch Changes

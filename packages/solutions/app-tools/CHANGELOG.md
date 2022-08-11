@@ -1,5 +1,26 @@
 # @modern-js/app-tools
 
+## 1.8.4
+
+### Patch Changes
+
+- 3c20a5e: fix: `@modern-js/app-tools` export fields
+
+  fix: 修复 `@modern-js/app-tools` 导出字段路径
+
+- Updated dependencies [79e83ef]
+- Updated dependencies [5f1a231]
+- Updated dependencies [3c20a5e]
+- Updated dependencies [22f4dca]
+- Updated dependencies [7b9067f]
+  - @modern-js/utils@1.9.0
+  - @modern-js/webpack@1.12.4
+  - @modern-js/node-bundle-require@1.3.8
+  - @modern-js/core@1.14.0
+  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/prod-server@1.2.2
+  - @modern-js/server@1.6.0
+
 ## 1.8.3
 
 ### Patch Changes

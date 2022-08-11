@@ -1,5 +1,24 @@
 # @modern-js/core
 
+## 1.14.0
+
+### Minor Changes
+
+- 7b9067f: add babel plugin for web builder
+
+### Patch Changes
+
+- 22f4dca: chore: move pre-bundled ajv to @modern-js/utils
+
+  chore: 预打包的 ajv 产物移动至 @modern-js/utils 内
+
+- Updated dependencies [79e83ef]
+- Updated dependencies [3c20a5e]
+- Updated dependencies [22f4dca]
+- Updated dependencies [7b9067f]
+  - @modern-js/utils@1.9.0
+  - @modern-js/node-bundle-require@1.3.8
+
 ## 1.13.3
 
 ### Patch Changes
