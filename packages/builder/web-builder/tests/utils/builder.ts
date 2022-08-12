@@ -5,7 +5,6 @@ import { createPublicContext } from '../../src/core/createContext';
 import { Hooks } from '../../src/core/createHook';
 import { createPluginStore } from '../../src/core/createPluginStore';
 import { initConfigs } from '../../src/core/initConfigs';
-import { catchErrorStack } from '../../src/shared';
 import type {
   BuilderContext,
   BuilderOptions,
@@ -15,9 +14,6 @@ import type {
   webpack,
 } from '../../src/types';
 import { createStubContext } from './context';
-
-const HOOK_UNRESOLVED =
-  'Unwrapping hook was not resolved before the build was over.';
 
 export interface StubBuilderOptions extends BuilderOptions {
   context?: Context;
@@ -38,6 +34,7 @@ export interface StubBuilder extends PluginStore {
   unwrapHook: <T extends keyof HookApi>(hook: T) => Promise<HookApi[T]>;
   unwrapWebpackConfigs: () => Promise<webpack.Configuration[]>;
   unwrapWebpackConfig: () => Promise<webpack.Configuration>;
+  reset: () => void;
 }
 
 export function createStubBuilder(options?: StubBuilderOptions): StubBuilder {
@@ -50,6 +47,13 @@ export function createStubBuilder(options?: StubBuilderOptions): StubBuilder {
   const pluginStore = createPluginStore();
   options?.plugins && pluginStore.addPlugins(options.plugins);
 
+  const resolvedHooks: Record<string, any> = {};
+  _.each(context.hooks, ({ tap }, name) => {
+    tap((...args) => {
+      resolvedHooks[name] = args;
+    });
+  });
+
   const build = _.memoize(async () => {
     const { webpackConfigs } = await initConfigs({
       context,
@@ -58,25 +62,11 @@ export function createStubBuilder(options?: StubBuilderOptions): StubBuilder {
     });
     await context.hooks.onBeforeBuildHook.call({ webpackConfigs });
     await context.hooks.onAfterBuildHook.call();
-    build.cache.clear!();
-    hookRejectTasks.forEach(task => task());
-    hookRejectTasks.length = 0;
-    return { context, webpackConfigs };
+    return { context, webpackConfigs, resolvedHooks };
   });
 
-  const hookRejectTasks: (() => void)[] = [];
-  const unwrapHook = async <T extends keyof HookApi>(
-    hook: T,
-  ): Promise<HookApi[T]> => {
-    build();
-    const trace = catchErrorStack(HOOK_UNRESOLVED, 1);
-    return new Promise((resolve, reject) => {
-      hookRejectTasks.push(() => reject(trace));
-      context.hooks[hook].tap((...args: HookApi[T]) => {
-        resolve(args);
-      });
-    });
-  };
+  const unwrapHook: StubBuilder['unwrapHook'] = async hook =>
+    (await build()).resolvedHooks[hook];
 
   const unwrapWebpackConfigs = async () => {
     const [{ webpackConfigs }] = await unwrapHook('onBeforeBuildHook');
@@ -89,6 +79,10 @@ export function createStubBuilder(options?: StubBuilderOptions): StubBuilder {
     return webpackConfigs[0];
   };
 
+  const reset = () => {
+    build.cache.clear!();
+  };
+
   return {
     ...pluginStore,
     build,
@@ -97,5 +91,6 @@ export function createStubBuilder(options?: StubBuilderOptions): StubBuilder {
     unwrapHook,
     unwrapWebpackConfigs,
     unwrapWebpackConfig,
+    reset,
   };
 }
