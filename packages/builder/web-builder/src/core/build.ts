@@ -1,13 +1,12 @@
-import { log, error } from '../shared';
+import { info, error, warn, formatWebpackStats } from '../shared';
 import type { Context, WebpackConfig } from '../types';
 
 const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
   const { default: webpack } = await import('webpack');
-  const { formatWebpackMessages } = await import('@modern-js/utils');
   const compiler = webpack(webpackConfigs);
 
-  return new Promise((resolve, reject) => {
-    log(`building for production...`);
+  return new Promise<void>((resolve, reject) => {
+    info(`building for production...`);
 
     compiler.run((err, stats) => {
       // When using run or watch, call close and wait for it to finish before calling run or watch again.
@@ -18,16 +17,20 @@ const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
         }
         if (err) {
           reject(err);
-        } else {
-          const messages = formatWebpackMessages(
-            stats!.toJson({ all: false, warnings: true, errors: true }),
-          );
-          if (messages.errors.length) {
-            reject(new Error(messages.errors.join('\n\n')));
-            return;
-          }
-          resolve({ warnings: messages.warnings });
+          return;
         }
+
+        // eslint-disable-next-line promise/no-promise-in-callback
+        formatWebpackStats(stats!).then(({ level, message }) => {
+          if (level === 'error') {
+            reject(new Error(message));
+          } else {
+            if (level === 'warning') {
+              warn(message);
+            }
+            resolve();
+          }
+        });
       });
     });
   });

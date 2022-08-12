@@ -1,5 +1,5 @@
-import { error, warn } from '../shared';
-import type { Context, WebpackConfig } from '../types';
+import { log, formatWebpackStats } from '../shared';
+import type { Context, webpack, WebpackConfig } from '../types';
 
 export async function createCompiler({
   context,
@@ -13,30 +13,22 @@ export async function createCompiler({
   });
 
   const { default: webpack } = await import('webpack');
-  const { chalk, formatWebpackMessages } = await import('@modern-js/utils');
 
   const compiler = webpack(webpackConfigs);
 
   let isFirstCompile = true;
 
-  compiler.hooks.done.tap('done', async (stats: any) => {
-    const statsData = stats.toJson({
-      all: false,
-      errors: true,
-      timings: true,
-      warnings: true,
-    });
+  compiler.hooks.done.tap('done', async (stats: unknown) => {
+    const { message, level } = await formatWebpackStats(
+      stats as webpack.Stats,
+      isFirstCompile,
+    );
 
-    const { errors, warnings } = formatWebpackMessages(statsData);
-
-    if (errors.length) {
-      error(chalk.red(`Failed to compile.\n`));
-      error(`${errors.join('\n\n')}\n`);
-    } else if (isFirstCompile || process.stdout.isTTY) {
-      if (warnings.length) {
-        warn(chalk.yellow(`Compiled with warnings.\n`));
-        warn(`${warnings.join('\n\n')}\n`);
-      }
+    if (level === 'error') {
+      log(message);
+    }
+    if (level === 'warning') {
+      log(message);
     }
 
     isFirstCompile = false;
