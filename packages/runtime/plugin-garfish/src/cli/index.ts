@@ -42,6 +42,7 @@ export function getDefaultMicroFrontedConfig(
 }
 
 export default ({
+  pluginName = '@modern-js/plugin-garfish',
   runtimePluginName = '@modern-js/runtime/plugins',
   mfPackagePath = path.resolve(__dirname, '../../../../'),
 } = {}): CliPlugin => ({
@@ -183,7 +184,7 @@ export default ({
         };
       },
       addRuntimeExports() {
-        const addExportStatement = `export { default as garfish, default as masterApp, hoistNonReactStatics } from '@modern-js/plugin-garfish'`;
+        const addExportStatement = `export { default as garfish, default as masterApp, hoistNonReactStatics } from '${pluginName}'`;
         logger('exportStatement', addExportStatement);
         pluginsExportsUtils.addExport(addExportStatement);
         runtimeExportsUtils.addExport(`export * from '${mfPackagePath}'`);
