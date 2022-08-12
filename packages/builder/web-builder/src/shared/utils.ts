@@ -76,14 +76,3 @@ export function getDataUrlCondition(dataUriLimit = DEFAULT_DATA_URL_SIZE) {
     return source.length <= dataUriLimit;
   };
 }
-
-export function removeErrorStackHead(stack: string, count: number) {
-  const [heading, ...body] = stack.split('\n');
-  return [heading, ...body.slice(count)].join('\n');
-}
-
-export function catchErrorStack(message: string, skip: number) {
-  const err = new Error(message);
-  err.stack = removeErrorStackHead(err.stack || '', skip + 1);
-  return err;
-}
