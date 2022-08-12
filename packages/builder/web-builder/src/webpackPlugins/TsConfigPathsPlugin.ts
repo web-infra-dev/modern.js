@@ -3,65 +3,73 @@
  * license at https://github.com/dividab/tsconfig-paths-webpack-plugin/blob/master/LICENSE
  */
 import path from 'path';
-import {
-  logger,
-  readTsConfig,
-  isRelativePath,
-  createDebugger,
-} from '@modern-js/utils';
-import type { Resolver } from 'webpack';
+import { warn } from '../shared';
+import { readTsConfig, isRelativePath } from '@modern-js/utils';
 import { createMatchPath, MatchPath } from '@modern-js/utils/tsconfig-paths';
-import { JS_RESOLVE_EXTENSIONS } from '../utils/constants';
+import type { Resolver } from 'webpack';
 
-const debug = createDebugger('ts-config-paths');
+export type TsConfigPathsPluginOptions = {
+  cwd?: string;
+  extensions?: string[];
+  mainFields?: string[];
+};
 
 export class TsConfigPathsPlugin {
-  source: string;
-
-  target: string;
-
   cwd: string;
 
-  compilerOptions: any;
+  extensions: string[];
+
+  compilerOptions: {
+    paths?: Record<string, string[]>;
+    baseUrl?: string;
+  };
 
   absoluteBaseUrl: string;
 
-  matchPath: MatchPath;
+  matchPath: MatchPath | null;
 
   resolved: Map<string, string | undefined>;
 
-  constructor(cwd: string) {
+  constructor({
+    cwd = process.cwd(),
+    extensions = ['.ts', '.tsx'],
+    mainFields = ['browser', 'module', 'main'],
+  }: TsConfigPathsPluginOptions) {
     this.cwd = cwd;
-
-    this.source = 'described-resolve';
-
-    this.target = 'resolve';
-
+    this.extensions = extensions;
+    this.resolved = new Map();
     this.compilerOptions = readTsConfig(cwd).compilerOptions || {};
-
     this.absoluteBaseUrl = path.resolve(
       cwd,
       this.compilerOptions.baseUrl || './',
     );
 
-    this.matchPath = createMatchPath(
-      this.absoluteBaseUrl,
-      this.compilerOptions?.paths || {},
-      ['browser', 'module', 'main'],
-      false,
-    );
-
-    this.resolved = new Map();
+    // if paths is not configured, do not create matchPath method
+    const { paths } = this.compilerOptions;
+    if (paths) {
+      this.matchPath = createMatchPath(
+        this.absoluteBaseUrl,
+        paths,
+        mainFields,
+        false,
+      );
+    } else {
+      this.matchPath = null;
+    }
   }
 
   apply(resolver: Resolver) {
+    if (this.matchPath === null) {
+      return;
+    }
+
     if (!resolver) {
-      logger.warn(
-        'ts-config-paths-plugin: Found no resolver, not apply ts-config-paths-plugin',
+      warn(
+        '[TsConfigPathsPlugin]: Found no resolver, not apply TsConfigPathsPlugin.',
       );
     }
 
-    const target = resolver.ensureHook(this.target);
+    const target = resolver.ensureHook('resolve');
 
     resolver
       .getHook('described-resolve')
@@ -81,11 +89,11 @@ export class TsConfigPathsPlugin {
         }
 
         if (!this.resolved.has(requestName)) {
-          const matched = this.matchPath(
+          const matched = this.matchPath!(
             requestName,
             undefined,
             undefined,
-            JS_RESOLVE_EXTENSIONS,
+            this.extensions,
           );
 
           this.resolved.set(requestName, matched);
@@ -94,8 +102,6 @@ export class TsConfigPathsPlugin {
         if (this.resolved.get(requestName) === undefined) {
           return callback();
         }
-
-        debug(`resolved ${requestName} to ${this.resolved.get(requestName)!}`);
 
         return resolver.doResolve(
           target,

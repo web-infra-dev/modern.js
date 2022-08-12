@@ -1,7 +1,7 @@
 import path from 'path';
 import createPlugin, { setJestConfigForBFF } from '../../src/cli/bff';
 
-const root = path.resolve(__dirname, '../../../../');
+const root = path.resolve(__dirname, '../../../../../');
 expect.addSnapshotSerializer({
   test: val => typeof val === 'string' && val.includes(root),
   print: val =>

@@ -1,5 +1,5 @@
 import * as ptr from 'path-to-regexp';
-import * as mock_appModule from './app';
+import * as mockAppModule from './app';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const mock_replaceUrlWithParams = (
@@ -45,20 +45,18 @@ const mock_getParamsAndPayload = (
 
 export default (
   // can't use APIHandlerInfo, https://github.com/aelbore/esbuild-jest/issues/57
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  mock_apiInfosByFile: Record<string, any[]>,
-  mock_app: any,
+  mockApiInfosByFile: Record<string, any[]>,
 ) => {
-  const files = Object.keys(mock_apiInfosByFile);
+  const files = Object.keys(mockApiInfosByFile);
 
   files.forEach(mockedFile => {
     jest.mock(mockedFile, () => {
       const supertest = require('supertest');
-      return mock_apiInfosByFile[mockedFile].reduce<Record<string, any>>(
+      return mockApiInfosByFile[mockedFile].reduce<Record<string, any>>(
         (res, info) => {
           const module = {
             [info.name]: (...args: any[]) => {
-              if (mock_appModule.isInHandler()) {
+              if (mockAppModule.isInHandler()) {
                 return info.handler(...args);
               }
 
@@ -69,8 +67,8 @@ export default (
                 params,
                 payload.params,
               );
-              let test =
-                supertest(mock_app)[info.httpMethod.toLowerCase()](url);
+              const app = mockAppModule.getApp();
+              let test = supertest(app)[info.httpMethod.toLowerCase()](url);
 
               if (payload.query) {
                 test = test.query(payload.query);

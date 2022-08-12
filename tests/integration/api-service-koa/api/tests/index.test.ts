@@ -1,7 +1,7 @@
 import { testBff } from '@modern-js/runtime/testing';
 import get from '..';
 
-describe('hello', () => {
+describe('basic usage', () => {
   it('should support get', async () => {
     const data = await get();
     expect(data).toEqual({
