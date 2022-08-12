@@ -1,3 +1,4 @@
+import { TS_REGEX } from '../shared';
 import { BuilderPlugin } from '../types';
 import { applyScriptCondition, getUseBuiltIns } from './babel';
 
@@ -76,6 +77,7 @@ export const PluginTsLoader = (): BuilderPlugin => {
         applyScriptCondition(rule, config, api.context, includes, excludes);
 
         rule
+          .test(TS_REGEX)
           .use(CHAIN_ID.USE.BABEL)
           .loader(require.resolve('babel-loader'))
           .options(babelLoaderOptions)

@@ -13,6 +13,8 @@ export const CHAIN_ID = {
     JS: 'js',
     /** Rule for ts */
     TS: 'ts',
+    /** Rule for css */
+    CSS: 'css',
   },
   /** Predefined rule groups */
   ONE_OF: {

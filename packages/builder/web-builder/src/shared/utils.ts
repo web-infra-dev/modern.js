@@ -8,6 +8,16 @@ export const JS_REGEX = /\.(js|mjs|cjs|jsx)$/;
 
 export const TS_REGEX = /\.(ts|mts|cts|tsx)$/;
 
+export const CSS_REGEX = /\.css$/;
+export const NODE_MODULES_REGEX = /node_modules/;
+export const CSS_MODULE_REGEX = /\.module\.css$/;
+export const GLOBAL_CSS_REGEX = /\.global\.css$/;
+
+export const isNodeModulesCss = (path: string) =>
+  NODE_MODULES_REGEX.test(path) &&
+  CSS_REGEX.test(path) &&
+  !CSS_MODULE_REGEX.test(path);
+
 export const mergeRegex = (...regexes: (string | RegExp)[]): RegExp => {
   assert(
     regexes.length,
