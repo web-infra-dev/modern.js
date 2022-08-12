@@ -25,9 +25,14 @@ export const setJestConfigForBFF = async ({
   const bffConfig = {
     rootDir: path.join(pwd, './api'),
     setupFilesAfterEnv: [require.resolve('./setup')],
-    testEnvironment: require.resolve('./env'),
+    testEnvironment: 'node',
     testMatch: [`**/api/**/*.test.[jt]s`],
     globals: {
+      'ts-jest': {
+        diagnostics: {
+          warnOnly: true,
+        },
+      },
       [bff_info_key]: {
         appDir: pwd,
         modernUserConfig: userConfig,
@@ -42,7 +47,12 @@ export const setJestConfigForBFF = async ({
 
   const aliasMapper = getModuleNameMapper(alias);
 
-  const { transform, moduleNameMapper } = jestConfig;
+  const { moduleNameMapper } = jestConfig;
+
+  // 服务端统一使用 ts-jest
+  const transform = {
+    '\\.[jt]sx?$': require.resolve('ts-jest'),
+  };
 
   const apiOnly = await isApiOnly(pwd);
 
