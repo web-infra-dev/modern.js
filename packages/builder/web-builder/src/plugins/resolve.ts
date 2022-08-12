@@ -4,11 +4,11 @@ export const PluginResolve = (): BuilderPlugin => ({
   name: 'web-builder-plugin-resolve',
 
   setup(api) {
-    api.modifyWebpackChain(async chain => {
+    api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
       const config = api.getBuilderConfig();
       const isTsProject = Boolean(api.context.tsconfigPath);
 
-      const extensions = [
+      let extensions = [
         '.mjs',
         '.js',
         // only resolve .ts(x) files if it's a ts project
@@ -21,13 +21,27 @@ export const PluginResolve = (): BuilderPlugin => ({
 
       // add an extra prefix to all extensions
       if (resolveExtensionPrefix) {
-        const merged = extensions.reduce<string[]>(
+        extensions = extensions.reduce<string[]>(
           (ret, ext) => [...ret, resolveExtensionPrefix + ext, ext],
           [],
         );
-        chain.resolve.extensions.merge(merged);
-      } else {
-        chain.resolve.extensions.merge(extensions);
+      }
+
+      chain.resolve.extensions.merge(extensions);
+
+      if (isTsProject) {
+        const { TsConfigPathsPlugin } = await import(
+          '../webpackPlugins/TsConfigPathsPlugin'
+        );
+
+        chain.resolve
+          .plugin(CHAIN_ID.RESOLVE_PLUGIN.TS_CONFIG_PATHS)
+          .use(TsConfigPathsPlugin, [
+            {
+              cwd: api.context.rootPath,
+              extensions,
+            },
+          ]);
       }
     });
   },
