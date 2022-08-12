@@ -25,3 +25,7 @@ export type ForkTSCheckerOptions = ConstructorParameters<
 >[0];
 
 export type { webpack, WebpackChain, WebpackConfig };
+
+export * from './css';
+
+export type { Options as AutoprefixerOptions } from 'autoprefixer';

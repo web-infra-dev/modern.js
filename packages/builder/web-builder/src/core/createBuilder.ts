@@ -3,6 +3,7 @@ import { createContext, createPublicContext } from './createContext';
 import { createPluginStore } from './createPluginStore';
 import { initConfigs } from './initConfigs';
 import type { PluginStore, BuilderOptions } from '../types';
+import { PluginCss } from '../plugins/css';
 
 export function mergeBuilderOptions(options?: BuilderOptions) {
   const DEFAULT_OPTIONS: Required<BuilderOptions> = {
@@ -95,5 +96,6 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginTsLoader(),
     PluginBabel(),
     PluginTsChecker(),
+    PluginCss(),
   ]);
 }

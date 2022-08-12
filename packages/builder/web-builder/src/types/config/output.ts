@@ -22,5 +22,6 @@ export interface OutputConfig {
   disableSourceMap?: boolean;
   disableFilenameHash?: boolean;
   enableLatestDecorators?: boolean;
+  enableCssModuleTSDeclaration?: boolean;
   polyfill?: Polyfill;
 }
