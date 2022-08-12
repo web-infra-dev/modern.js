@@ -1,7 +1,7 @@
 import { vi, expect, describe, it } from 'vitest';
-import * as shared from '../src/shared';
-import { PluginTarget } from '../src/plugins/target';
-import { createStubBuilder } from './utils/builder';
+import * as shared from '../shared';
+import { PluginTarget } from './target';
+import { createStubBuilder } from '../../tests/utils/builder';
 
 describe('plugins/target', () => {
   const cases = [

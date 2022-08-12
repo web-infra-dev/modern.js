@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest';
-import { initHooks, createAsyncHook } from '../src/core/createHook';
+import { initHooks, createAsyncHook } from './createHook';
 
 describe('createAsyncHook', () => {
   test('should execute callback functions in order', async () => {
