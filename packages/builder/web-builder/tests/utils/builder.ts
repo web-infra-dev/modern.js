@@ -34,6 +34,7 @@ export interface StubBuilder extends PluginStore {
   unwrapHook: <T extends keyof HookApi>(hook: T) => Promise<HookApi[T]>;
   unwrapWebpackConfigs: () => Promise<webpack.Configuration[]>;
   unwrapWebpackConfig: () => Promise<webpack.Configuration>;
+  reset: () => void;
 }
 
 export function createStubBuilder(options?: StubBuilderOptions): StubBuilder {
@@ -46,6 +47,13 @@ export function createStubBuilder(options?: StubBuilderOptions): StubBuilder {
   const pluginStore = createPluginStore();
   options?.plugins && pluginStore.addPlugins(options.plugins);
 
+  const resolvedHooks: Record<string, any> = {};
+  _.each(context.hooks, ({ tap }, name) => {
+    tap((...args) => {
+      resolvedHooks[name] = args;
+    });
+  });
+
   const build = _.memoize(async () => {
     const { webpackConfigs } = await initConfigs({
       context,
@@ -54,22 +62,14 @@ export function createStubBuilder(options?: StubBuilderOptions): StubBuilder {
     });
     await context.hooks.onBeforeBuildHook.call({ webpackConfigs });
     await context.hooks.onAfterBuildHook.call();
-    return { context, webpackConfigs };
+    return { context, webpackConfigs, resolvedHooks };
   });
 
-  const unwrapHook = async <T extends keyof HookApi>(
-    hook: T,
-  ): Promise<HookApi[T]> => {
-    build();
-    return new Promise((resolve, _reject) => {
-      context.hooks[hook].tap((...args: HookApi[T]) => {
-        resolve(args);
-      });
-    });
-  };
+  const unwrapHook: StubBuilder['unwrapHook'] = async hook =>
+    (await build()).resolvedHooks[hook];
 
   const unwrapWebpackConfigs = async () => {
-    const [{ webpackConfigs }] = await unwrapHook('onBeforeBuildHook');
+    const { webpackConfigs } = await build();
     return webpackConfigs;
   };
 
@@ -77,6 +77,10 @@ export function createStubBuilder(options?: StubBuilderOptions): StubBuilder {
     const webpackConfigs = await unwrapWebpackConfigs();
     assert(webpackConfigs.length === 1);
     return webpackConfigs[0];
+  };
+
+  const reset = () => {
+    build.cache.clear!();
   };
 
   return {
@@ -87,5 +91,6 @@ export function createStubBuilder(options?: StubBuilderOptions): StubBuilder {
     unwrapHook,
     unwrapWebpackConfigs,
     unwrapWebpackConfig,
+    reset,
   };
 }

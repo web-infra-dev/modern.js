@@ -1,5 +1,13 @@
 # @modern-js/plugin-garfish
 
+## 1.8.1
+
+### Patch Changes
+
+- fix: `@modern-js/plugin-garfish` support `pluginName` params
+
+  fix: `@modern-js/plugin-garfish` 支持 `pluginName` 参数
+
 ## 1.8.0
 
 ### Minor Changes
