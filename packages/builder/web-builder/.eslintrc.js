@@ -7,10 +7,10 @@ const withAllowTypeImports = key => pkg => ({
   allowTypeImports: true,
 });
 
-const restrictedImportInTypes = {
-  patterns: [{ group: '**', allowTypeImports: true }],
-};
-
+/**
+ * @refer https://eslint.org/docs/latest/rules/no-restricted-imports
+ * @refer https://typescript-eslint.io/rules/no-restricted-imports
+ */
 const restrictedImportInSource = {
   paths: [
     'webpack',
@@ -25,6 +25,10 @@ const restrictedImportInSource = {
     '*-webpack-plugin',
     ['@modern-js/utils/*', '!@modern-js/utils/chalk'],
   ].map(withAllowTypeImports('group')),
+};
+
+const restrictedImportInTypes = {
+  patterns: [{ group: '**', allowTypeImports: true }],
 };
 
 /** @type {import('eslint').Linter.Config} */
