@@ -31,7 +31,7 @@
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
     "build": "wireit",
-    "dev": "tsc --watch",
+    "dev": "tsc -w -p tsconfig.build.json",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage"
   },
@@ -64,7 +64,7 @@
   },
   "wireit": {
     "build": {
-      "command": "tsc && node scripts/compile-ajv.js",
+      "command": "tsc -p tsconfig.build.json && node scripts/compile-ajv.js",
       "files": [
         "src/**/*",
         "tsconfig.json",
