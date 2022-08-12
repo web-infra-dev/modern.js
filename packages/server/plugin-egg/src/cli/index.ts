@@ -46,29 +46,16 @@ export default (): CliPlugin => ({
         }
       },
       addRuntimeExports(input) {
-        const { appDirectory } = useAppContext();
-        const runtimePath = require.resolve(`@modern-js/runtime`, {
-          paths: [appDirectory],
-        });
-
         const currentFile = bffExportsUtils.getPath();
 
-        const runtimeDir = path.dirname(runtimePath);
-
-        const relativeBffPath = path.relative(
-          path.dirname(currentFile),
-          path.join(runtimeDir, './exports/server'),
-        );
         const relativeRuntimeModulePath = path.relative(
           path.dirname(currentFile),
           runtimeModulePath,
         );
 
         bffExportsUtils.addExport(
-          `const bffRuntime = require('${relativeBffPath}');
-           const pluginRuntime = require('${relativeRuntimeModulePath}');
+          `const pluginRuntime = require('${relativeRuntimeModulePath}');
            module.exports = {
-             ...bffRuntime,
              ...pluginRuntime
            }
           `,
