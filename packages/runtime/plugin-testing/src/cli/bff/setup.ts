@@ -1,7 +1,9 @@
 import path from 'path';
+import { IncomingMessage, ServerResponse } from 'http';
 import { ApiRouter, APIHandlerInfo } from '@modern-js/bff-core';
 import { bff_info_key } from './constant';
 import mockAPI from './mockAPI';
+import { createApp, closeServer } from './app';
 
 let uped = false;
 
@@ -11,7 +13,6 @@ const setup = () => {
   }
 
   uped = true;
-
   const bff_info = (global as any)[bff_info_key];
   const prefix = bff_info?.modernUserConfig?.bff?.prefix;
   const apiRouter = new ApiRouter({
@@ -32,7 +33,30 @@ const setup = () => {
     {},
   );
 
-  mockAPI(apiInfosByFile, (global as any).app);
+  let app:
+    | ((
+        req: IncomingMessage,
+        res: ServerResponse,
+        next?: (() => void) | undefined,
+      ) => void)
+    | null = null;
+
+  beforeAll(async () => {
+    if (!app) {
+      app = await createApp(
+        bff_info.appDir,
+        bff_info.modernUserConfig,
+        bff_info.plugins,
+        bff_info.routes,
+      );
+    }
+  });
+
+  afterAll(async () => {
+    await closeServer();
+  });
+
+  mockAPI(apiInfosByFile);
 };
 
 setup();
