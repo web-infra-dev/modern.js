@@ -69,7 +69,7 @@ export function createStubBuilder(options?: StubBuilderOptions): StubBuilder {
     (await build()).resolvedHooks[hook];
 
   const unwrapWebpackConfigs = async () => {
-    const [{ webpackConfigs }] = await unwrapHook('onBeforeBuildHook');
+    const { webpackConfigs } = await build();
     return webpackConfigs;
   };
 
