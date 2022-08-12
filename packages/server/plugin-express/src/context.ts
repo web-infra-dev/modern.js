@@ -1,4 +1,4 @@
-import { createStorage } from '@modern-js/adapter-helpers';
+import { createStorage } from '@modern-js/bff-core';
 import { Request, Response } from 'express';
 
 export type Context = { req: Request; res: Response };

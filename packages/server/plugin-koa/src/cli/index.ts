@@ -1,7 +1,7 @@
 import * as path from 'path';
 import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils } from '@modern-js/utils';
-import { getRelativeRuntimePath } from '@modern-js/adapter-helpers';
+import { getRelativeRuntimePath } from '@modern-js/bff-core';
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-koa',

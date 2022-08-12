@@ -1,7 +1,7 @@
 import * as path from 'path';
 import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils, fs } from '@modern-js/utils';
-import { getRelativeRuntimePath } from '@modern-js/adapter-helpers';
+import { getRelativeRuntimePath } from '@modern-js/bff-core';
 
 const PACKAGE_JSON = 'package.json';
 
