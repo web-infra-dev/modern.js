@@ -1,0 +1,3 @@
+// Vitest Snapshot v1
+
+exports[`tests/stub-builder > should catch trace stacks when hooks unresolved 1`] = `Promise {}`;

@@ -5,6 +5,7 @@ import { createPublicContext } from '../../src/core/createContext';
 import { Hooks } from '../../src/core/createHook';
 import { createPluginStore } from '../../src/core/createPluginStore';
 import { initConfigs } from '../../src/core/initConfigs';
+import { catchErrorStack } from '../../src/shared';
 import type {
   BuilderContext,
   BuilderOptions,
@@ -14,6 +15,9 @@ import type {
   webpack,
 } from '../../src/types';
 import { createStubContext } from './context';
+
+const HOOK_UNRESOLVED =
+  'Unwrapping hook was not resolved before the build was over.';
 
 export interface StubBuilderOptions extends BuilderOptions {
   context?: Context;
@@ -54,14 +58,20 @@ export function createStubBuilder(options?: StubBuilderOptions): StubBuilder {
     });
     await context.hooks.onBeforeBuildHook.call({ webpackConfigs });
     await context.hooks.onAfterBuildHook.call();
+    build.cache.clear!();
+    hookRejectTasks.forEach(task => task());
+    hookRejectTasks.length = 0;
     return { context, webpackConfigs };
   });
 
+  const hookRejectTasks: (() => void)[] = [];
   const unwrapHook = async <T extends keyof HookApi>(
     hook: T,
   ): Promise<HookApi[T]> => {
     build();
-    return new Promise((resolve, _reject) => {
+    const trace = catchErrorStack(HOOK_UNRESOLVED, 1);
+    return new Promise((resolve, reject) => {
+      hookRejectTasks.push(() => reject(trace));
       context.hooks[hook].tap((...args: HookApi[T]) => {
         resolve(args);
       });
