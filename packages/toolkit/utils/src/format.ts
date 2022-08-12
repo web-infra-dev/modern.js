@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  *
@@ -9,31 +8,35 @@
 
 // Modified by Chao Xu (xuchaobei)
 
-import webpack, { StatsCompilation } from 'webpack';
+import type webpack from 'webpack';
+import type { StatsCompilation } from 'webpack';
 import type { ProxyDetail, BffProxyOptions } from '@modern-js/types';
 
-const friendlySyntaxErrorLabel = 'Syntax error:';
+const friendlySyntaxErrorLabel = 'SyntaxError:';
 
 function isLikelyASyntaxError(message: string) {
   return message.includes(friendlySyntaxErrorLabel);
 }
 
 // Cleans up webpack error messages.
-function formatMessage(message: webpack.StatsError | string) {
+function formatMessage(stats: webpack.StatsError | string) {
   let lines: string[] = [];
 
+  let message: string;
+
   // webpack 5 stats error object
-  if (typeof message === 'object') {
-    message = `${(message.moduleName && `${message.moduleName}\n`) as string}${
-      message.details || message.stack || message.message
-    }`;
+  if (typeof stats === 'object') {
+    const fileName = stats.moduleName ? `File: ${stats.moduleName}\n` : '';
+    const mainMessage = stats.message;
+    const details = stats.details ? `\nDetails: ${stats.details}\n` : '';
+    const stack = stats.stack ? `\n${stats.stack}` : '';
+
+    message = `${fileName}${mainMessage}${details}${stack}`;
+  } else {
+    message = stats;
   }
 
   lines = message.split('\n');
-
-  // Strip webpack-added headers off errors/warnings
-  // https://github.com/webpack/webpack/blob/master/lib/ModuleError.js
-  lines = lines.filter(line => !/Module [A-z ]+\(from/.test(line));
 
   // Transform parsing error into syntax error
   lines = lines.map(line => {
@@ -65,15 +68,8 @@ function formatMessage(message: webpack.StatsError | string) {
   lines[0] = lines[0].replace(/^(.*) \d+:\d+-\d+$/, '$1');
 
   // Cleans up verbose "module not found" messages for files and packages.
-  if (lines[1]?.startsWith('Module not found: ')) {
-    lines = [
-      lines[0],
-      lines[1]
-        .replace('Error: ', '')
-        .replace('Module not found: Cannot find file:', 'Cannot find file:')
-        .replace('[CaseSensitivePathsPlugin] ', '')
-        .replace("Cannot resolve 'file' or 'directory' ", ''),
-    ];
+  if (lines[1]?.indexOf('Module not found:') !== -1) {
+    lines[1] = lines[1].replace('Error: ', '');
   }
 
   message = lines.join('\n');
@@ -127,7 +123,6 @@ function formatWebpackMessages(json: StatsCompilation): {
 }
 
 export { formatWebpackMessages };
-/* eslint-enable no-param-reassign */
 
 function formatProxyOptions(proxyOptions: BffProxyOptions) {
   const formattedProxy: ProxyDetail[] = [];

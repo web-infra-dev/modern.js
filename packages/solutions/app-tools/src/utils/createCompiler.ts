@@ -36,10 +36,7 @@ export const createCompiler = async ({
 
     compiler.hooks.done.tap('done', async (stats: any) => {
       const statsData = stats.toJson({
-        all: false,
-        warnings: true,
-        errors: true,
-        timings: true,
+        preset: 'errors-warnings',
       });
 
       const { errors, warnings } = formatWebpackMessages(statsData);

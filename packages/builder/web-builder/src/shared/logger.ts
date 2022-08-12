@@ -1,15 +1,19 @@
 import chalk from '@modern-js/utils/chalk';
 
-// TODO improve log format
 export const log = (message: string) => {
   // eslint-disable-next-line no-console
-  console.log(`${chalk.cyan('info')} ${message}`);
+  console.log(message);
+};
+
+export const info = (message: string) => {
+  // eslint-disable-next-line no-console
+  console.log(`${chalk.cyan.bold('info')} ${message}`);
 };
 
 export const warn = (message: string) => {
-  console.warn(`${chalk.yellow('warn')} ${message}`);
+  console.warn(`${chalk.yellow.bold('warn')} ${message}`);
 };
 
 export const error = (message: string | Error) => {
-  console.error(`${chalk.red('error')} ${message}`);
+  console.error(`${chalk.red.bold('error')} ${message}`);
 };
