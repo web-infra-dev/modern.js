@@ -26,7 +26,12 @@ export const createBuilder = async () => {
     cwd,
     configPath: __filename,
     builderConfig: {
+      output: {},
       tools: {
+        cssExtract: {},
+        cssLoader: {
+          modules: true,
+        },
         tsLoader: {
           compilerOptions: {
             strictNullChecks: true,

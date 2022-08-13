@@ -6,6 +6,11 @@ import type {
   ForkTSCheckerOptions,
   BabelTransformOptions,
   CssMinimizerPluginOptions,
+  CSSLoaderOptions,
+  StyleLoaderOptions,
+  CssExtractOptions,
+  AutoprefixerOptions,
+  PostCSSLoaderOptions,
 } from '../thirdParty';
 
 export type ToolsTerserConfig =
@@ -35,4 +40,9 @@ export interface ToolsConfig {
   devServer?: DevServerConfig;
   minifyCss?: ToolsMinifyCssConfig;
   styledComponents?: IStyledComponentOptions;
+  cssLoader?: CSSLoaderOptions;
+  styleLoader?: StyleLoaderOptions;
+  cssExtract?: CssExtractOptions;
+  postcss?: PostCSSLoaderOptions;
+  autoprefixer?: AutoprefixerOptions;
 }

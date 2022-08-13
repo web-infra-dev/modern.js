@@ -1,8 +1,10 @@
-// import './App.css';
+import './App.css';
+import styles from './App.module.css';
 
 const App = () => (
   <div className="container">
     <main>
+      <p className={styles.header}>sss</p>
       <div className="logo">
         <img
           src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ylaelkeh7nuhfnuhf/modernjs-cover.png"
