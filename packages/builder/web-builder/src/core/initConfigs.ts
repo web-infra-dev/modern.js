@@ -12,15 +12,17 @@ async function modifyBuilderConfig(context: Context) {
   context.status = STATUS.AFTER_MODIFY_BUILDER_CONFIG;
 }
 
+export type InitConfigsOptions = {
+  context: Context;
+  pluginStore: PluginStore;
+  builderOptions: Required<BuilderOptions>;
+};
+
 export async function initConfigs({
   context,
   pluginStore,
   builderOptions,
-}: {
-  context: Context;
-  pluginStore: PluginStore;
-  builderOptions: Required<BuilderOptions>;
-}) {
+}: InitConfigsOptions) {
   const { ensureArray } = await import('@modern-js/utils');
 
   await context.configValidatingTask;
