@@ -3,7 +3,6 @@ import { createContext, createPublicContext } from './createContext';
 import { createPluginStore } from './createPluginStore';
 import { initConfigs } from './initConfigs';
 import type { PluginStore, BuilderOptions } from '../types';
-import { PluginCss } from '../plugins/css';
 
 export function mergeBuilderOptions(options?: BuilderOptions) {
   const DEFAULT_OPTIONS: Required<BuilderOptions> = {
@@ -74,6 +73,9 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginBabel } = await import('../plugins/babel');
   const { PluginTsLoader } = await import('../plugins/tsLoader');
   const { PluginTsChecker } = await import('../plugins/tsChecker');
+  const { PluginCss } = await import('../plugins/css');
+  const { PluginSass } = await import('../plugins/sass');
+  const { PluginLess } = await import('../plugins/less');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
@@ -97,5 +99,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginBabel(),
     PluginTsChecker(),
     PluginCss(),
+    PluginSass(),
+    PluginLess(),
   ]);
 }

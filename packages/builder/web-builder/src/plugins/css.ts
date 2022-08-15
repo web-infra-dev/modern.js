@@ -1,4 +1,4 @@
-import { CSS_REGEX, GLOBAL_CSS_REGEX, isNodeModulesCss } from '../shared';
+import { CSS_REGEX } from '../shared';
 import {
   BuilderPlugin,
   CSSLoaderOptions,
@@ -98,6 +98,7 @@ export const PluginCss = (): BuilderPlugin => {
           {
             importLoaders: 1,
             modules: {
+              auto: true,
               exportLocalsConvention: 'camelCase',
               localIdentName: isProd
                 ? '[hash:base64]'
@@ -115,9 +116,6 @@ export const PluginCss = (): BuilderPlugin => {
         const rule = chain.module
           .rule(CHAIN_ID.RULE.CSS)
           .test(CSS_REGEX)
-          .exclude.add(isNodeModulesCss)
-          .add(GLOBAL_CSS_REGEX)
-          .end()
           .when(
             enableExtractCSS,
             // use mini-css-extract-plugin loader

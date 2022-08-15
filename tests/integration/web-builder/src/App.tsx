@@ -1,10 +1,12 @@
 import './App.css';
-import styles from './App.module.css';
+import stylesForSass from './App.module.scss';
+import stylesForLess from './App.module.less';
 
 const App = () => (
   <div className="container">
     <main>
-      <p className={styles.header}>sss</p>
+      <p className={stylesForSass.header}>header</p>
+      <p className={stylesForLess.title}>title</p>
       <div className="logo">
         <img
           src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ylaelkeh7nuhfnuhf/modernjs-cover.png"
