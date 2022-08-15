@@ -1,4 +1,4 @@
-import { defineSchema } from '../../shared/utils';
+import { defineSchema } from '../../utils';
 
 const sourceField = defineSchema({
   type: 'object',

@@ -2,7 +2,7 @@ import path from 'path';
 import sourceField from './source';
 import { promises as fs } from 'fs';
 
-import type { BuilderConfig } from '../../types';
+import type { BuilderConfig } from '../../../types';
 import type Ajv from '@modern-js/utils/ajv';
 import type { JSONSchemaType, ValidateFunction } from '@modern-js/utils/ajv';
 
