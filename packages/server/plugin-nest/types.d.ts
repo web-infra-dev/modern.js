@@ -15,5 +15,4 @@ declare module '@modern-js/runtime/server' {
   };
   type NestAttacher = (options: NestOptions) => void;
   export function hook(attacher: NestAttacher): NestAttacher;
-  export * from '@modern-js/bff-runtime';
 }

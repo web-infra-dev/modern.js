@@ -1,7 +1,7 @@
 import * as path from 'path';
 import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils, fs } from '@modern-js/utils';
-import { getRelativeRuntimePath } from '@modern-js/adapter-helpers';
+import { getRelativeRuntimePath } from '@modern-js/bff-core';
 
 const PACKAGE_JSON = 'package.json';
 
@@ -46,29 +46,16 @@ export default (): CliPlugin => ({
         }
       },
       addRuntimeExports(input) {
-        const { appDirectory } = useAppContext();
-        const runtimePath = require.resolve(`@modern-js/runtime`, {
-          paths: [appDirectory],
-        });
-
         const currentFile = bffExportsUtils.getPath();
 
-        const runtimeDir = path.dirname(runtimePath);
-
-        const relativeBffPath = path.relative(
-          path.dirname(currentFile),
-          path.join(runtimeDir, './exports/server'),
-        );
         const relativeRuntimeModulePath = path.relative(
           path.dirname(currentFile),
           runtimeModulePath,
         );
 
         bffExportsUtils.addExport(
-          `const bffRuntime = require('${relativeBffPath}');
-           const pluginRuntime = require('${relativeRuntimeModulePath}');
+          `const pluginRuntime = require('${relativeRuntimeModulePath}');
            module.exports = {
-             ...bffRuntime,
              ...pluginRuntime
            }
           `,
