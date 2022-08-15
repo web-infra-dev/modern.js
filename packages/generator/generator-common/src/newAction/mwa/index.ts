@@ -77,26 +77,26 @@ export const MWANewActionSchema: Schema = {
 export const MWAActionFunctionsDevDependencies: Partial<
   Record<ActionFunction, string>
 > = {
-  [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
+  [ActionFunction.Less]: '@modern-js/plugin-less',
+  [ActionFunction.Sass]: '@modern-js/plugin-sass',
+  [ActionFunction.SSG]: '@modern-js/plugin-ssg',
   [ActionFunction.Test]: '@modern-js/plugin-testing',
   [ActionFunction.E2ETest]: '@modern-js/plugin-e2e',
   [ActionFunction.Doc]: '@modern-js/plugin-docsite',
   [ActionFunction.Electron]: '@modern-js/plugin-electron',
   [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
   [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
+  [ActionFunction.TailwindCSS]: 'tailwindcss',
 };
 
 export const MWAActionFunctionsDependencies: Partial<
   Record<ActionFunction, string>
 > = {
-  [ActionFunction.Less]: '@modern-js/plugin-less',
-  [ActionFunction.Sass]: '@modern-js/plugin-sass',
   [ActionFunction.BFF]: '@modern-js/plugin-bff',
   [ActionFunction.MicroFrontend]: '@modern-js/plugin-garfish',
   [ActionFunction.I18n]: '@modern-js/plugin-i18n',
-  [ActionFunction.SSG]: '@modern-js/plugin-ssg',
+  [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
   [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
-  [ActionFunction.TailwindCSS]: 'tailwindcss',
 };
 
 export const MWAActionFunctionsAppendTypeContent: Partial<
