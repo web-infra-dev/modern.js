@@ -1,4 +1,4 @@
-import { createStorage } from '@modern-js/adapter-helpers';
+import { createStorage } from '@modern-js/bff-core';
 import type { Request, Response } from 'express';
 import type { FastifyRequest } from 'fastify';
 

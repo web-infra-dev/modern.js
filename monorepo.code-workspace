@@ -25,10 +25,6 @@
       "path": "packages/review/eslint-config-app"
     },
     {
-      "name": "@modern-js/adapter-helpers",
-      "path": "packages/server/adapter-helpers"
-    },
-    {
       "name": "@modern-js/app-tools",
       "path": "packages/solutions/app-tools"
     },

@@ -1,7 +1,7 @@
 import * as path from 'path';
 import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils } from '@modern-js/utils';
-import { getRelativeRuntimePath } from '@modern-js/adapter-helpers';
+import { getRelativeRuntimePath } from '@modern-js/bff-core';
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-koa',
@@ -44,19 +44,8 @@ export default (): CliPlugin => ({
         }
       },
       addRuntimeExports(input) {
-        const { appDirectory } = useAppContext();
-        const runtimePath = require.resolve(`@modern-js/runtime`, {
-          paths: [appDirectory],
-        });
-
         const currentFile = bffExportsUtils.getPath();
 
-        const runtimeDir = path.dirname(runtimePath);
-
-        const relativeBffPath = path.relative(
-          path.dirname(currentFile),
-          path.join(runtimeDir, './exports/server'),
-        );
         const relativeRuntimeModulePath = path.relative(
           path.dirname(currentFile),
           runtimeModulePath,
@@ -67,12 +56,10 @@ export default (): CliPlugin => ({
           require.resolve('koa'),
         );
 
-        bffExportsUtils.addExport(`const bffRuntime = require('${relativeBffPath}');
-           const pluginRuntime = require('${relativeRuntimeModulePath}');
-           const Koa = require('${relativeFramePath}');
+        bffExportsUtils.addExport(`const pluginRuntime = require('${relativeRuntimeModulePath}');
+           const Koa = require('${relativeFramePath}')
            module.exports = {
             Koa: Koa,
-             ...bffRuntime,
              ...pluginRuntime
            }
           `);
