@@ -2,14 +2,12 @@ import { HttpMethod, httpMethods, APIHandlerInfo } from '@modern-js/bff-core';
 import { isSchemaHandler, InputType } from '@modern-js/bff-runtime';
 import type { Context, Router } from 'egg';
 import typeIs from 'type-is';
-import { sortDynamicRoutes } from '@modern-js/adapter-helpers';
 import { createDebugger } from '@modern-js/utils';
 import { run } from '../context';
 
 const debug = createDebugger('plugin-egg');
 
 const registerRoutes = (router: Router, handlerInfos: APIHandlerInfo[]) => {
-  sortDynamicRoutes(handlerInfos);
   handlerInfos.forEach(({ routePath, routeName, handler, httpMethod }) => {
     const wrappedHandler = async (ctx: Context) => {
       const input = await getInputFromRequest(ctx);

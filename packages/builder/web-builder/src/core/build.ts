@@ -1,5 +1,6 @@
 import { info, error, warn, formatWebpackStats } from '../shared';
-import type { Context, WebpackConfig } from '../types';
+import { initConfigs, InitConfigsOptions } from './initConfigs';
+import type { WebpackConfig } from '../types';
 
 const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
   const { default: webpack } = await import('webpack');
@@ -36,13 +37,10 @@ const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
   });
 };
 
-export async function build({
-  context,
-  webpackConfigs,
-}: {
-  context: Context;
-  webpackConfigs: WebpackConfig[];
-}) {
+export async function build(options: InitConfigsOptions) {
+  const { context } = options;
+  const { webpackConfigs } = await initConfigs(options);
+
   await context.hooks.onBeforeBuildHook.call({
     webpackConfigs,
   });

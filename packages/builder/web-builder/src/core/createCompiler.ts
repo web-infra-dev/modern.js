@@ -1,13 +1,11 @@
 import { log, formatWebpackStats } from '../shared';
-import type { Context, webpack, WebpackConfig } from '../types';
+import { initConfigs, InitConfigsOptions } from './initConfigs';
+import type { webpack } from '../types';
 
-export async function createCompiler({
-  context,
-  webpackConfigs,
-}: {
-  context: Context;
-  webpackConfigs: WebpackConfig[];
-}) {
+export async function createCompiler(options: InitConfigsOptions) {
+  const { context } = options;
+  const { webpackConfigs } = await initConfigs(options);
+
   await context.hooks.onBeforeCreateCompilerHooks.call({
     webpackConfigs,
   });

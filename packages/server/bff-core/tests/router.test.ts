@@ -111,7 +111,7 @@ describe('test api router', () => {
       prefix: '/',
     });
     const filenames = apiRouter.getApiFiles();
-    expect(filenames.length).toBe(13);
+    expect(filenames.length).toBe(7);
   });
 
   test('getAllApiHandlers', () => {
@@ -123,7 +123,7 @@ describe('test api router', () => {
     const handlerInfos = apiRouter.getApiHandlers();
     const routePaths = handlerInfos.map(handlerInfo => handlerInfo.routePath);
     expect(routePaths).toMatchSnapshot();
-    expect(handlerInfos.length).toBe(27);
+    expect(handlerInfos.length).toBe(15);
   });
 
   test('getHandlerInfo', () => {
