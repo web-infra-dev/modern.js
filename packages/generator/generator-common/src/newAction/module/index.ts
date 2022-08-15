@@ -53,6 +53,8 @@ export const ModuleNewActionSchema: Schema = {
 export const ModuleActionFunctionsDevDependencies: Partial<
   Record<ActionFunction, string>
 > = {
+  [ActionFunction.Less]: '@modern-js/plugin-less',
+  [ActionFunction.Sass]: '@modern-js/plugin-sass',
   [ActionFunction.Doc]: '@modern-js/plugin-docsite',
   [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
   [ActionFunction.RuntimeApi]: '@modern-js/runtime',
@@ -71,8 +73,6 @@ export const ModuleActionFunctionsDependencies: Partial<
 > = {
   [ActionFunction.I18n]: '@modern-js/plugin-i18n',
   [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
-  [ActionFunction.Less]: '@modern-js/plugin-less',
-  [ActionFunction.Sass]: '@modern-js/plugin-sass',
 };
 
 export const ModuleNewActionGenerators: Partial<
