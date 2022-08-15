@@ -32,7 +32,7 @@ export const PluginTsChecker = (): BuilderPlugin => {
               typescriptPath: require.resolve('typescript'),
             },
             issue: {
-              include: [{ file: '**/src/**/*' }],
+              include: [{ file: `${api.context.srcPath}/**/*` }],
               exclude: [
                 { file: '**/*.(spec|test).ts' },
                 { file: '**/node_modules/**/*' },

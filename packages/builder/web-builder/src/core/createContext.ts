@@ -40,17 +40,18 @@ export function createPrimaryContext(
   // TODO some properties should be readonly
   const context: Context = {
     hooks,
+    entry: options.entry,
     // TODO using setter to set status and log some performance info
     status,
     srcPath,
     rootPath,
     distPath,
     cachePath,
+    framework,
     configValidatingTask,
     // TODO should deep clone
     config: { ...builderConfig },
     originalConfig: builderConfig,
-    framework,
   };
 
   if (configPath) {
@@ -86,14 +87,15 @@ export function createPublicContext(
   context: Context,
 ): Readonly<BuilderContext> {
   const ctx = pick(context, [
+    'entry',
     'srcPath',
     'rootPath',
     'distPath',
+    'framework',
     'cachePath',
     'configPath',
     'tsconfigPath',
     'originalConfig',
-    'framework',
   ]);
   return Object.freeze(ctx);
 }
