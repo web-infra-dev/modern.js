@@ -15,6 +15,10 @@ export const CHAIN_ID = {
     TS: 'ts',
     /** Rule for css */
     CSS: 'css',
+    /** Rule for less */
+    LESS: 'less',
+    /** Rule for sass */
+    SASS: 'sass',
   },
   /** Predefined rule groups */
   ONE_OF: {
@@ -44,6 +48,10 @@ export const CHAIN_ID = {
     TS: 'ts',
     /** css-loader */
     CSS: 'css',
+    /** sass-loader */
+    SASS: 'sass',
+    /** less-loader */
+    LESS: 'less',
     /** url-loader */
     URL: 'url',
     /** file-loader */

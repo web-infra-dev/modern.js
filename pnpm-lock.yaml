@@ -61,9 +61,11 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
+      '@types/sass-loader': ^8.0.3
       autoprefixer: ^10.4.8
       css-minimizer-webpack-plugin: 4.0.0
       fork-ts-checker-webpack-plugin: 6.5.2
+      less-loader: ^10.0.1
       mini-css-extract-plugin: 2.4.5
       postcss: ^8.4.14
       postcss-custom-properties: 12.1.7
@@ -73,6 +75,7 @@ importers:
       postcss-media-minmax: 5.0.0
       postcss-nesting: 10.1.4
       postcss-page-break: 3.0.4
+      sass-loader: ^12.4.0
       terser-webpack-plugin: 5.3.3
       ts-loader: 9.3.1
       typescript: ^4
@@ -83,8 +86,10 @@ importers:
       '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
       '@modern-js/utils': link:../../toolkit/utils
       '@types/mini-css-extract-plugin': 2.2.0_1f091e9882867a645caac150cd4a7b4f
+      '@types/sass-loader': 8.0.3
       css-minimizer-webpack-plugin: 4.0.0_esbuild@0.14.47+webpack@5.73.0
       fork-ts-checker-webpack-plugin: 6.5.2_typescript@4.7.4+webpack@5.73.0
+      less-loader: 10.2.0_webpack@5.73.0
       mini-css-extract-plugin: 2.4.5_webpack@5.73.0
       postcss-custom-properties: 12.1.7_postcss@8.4.16
       postcss-flexbugs-fixes: 5.0.2_postcss@8.4.16
@@ -93,6 +98,7 @@ importers:
       postcss-media-minmax: 5.0.0_postcss@8.4.16
       postcss-nesting: 10.1.4_postcss@8.4.16
       postcss-page-break: 3.0.4_postcss@8.4.16
+      sass-loader: 12.6.0_webpack@5.73.0
       terser-webpack-plugin: 5.3.3_557185401d8e4a94a813b2d6f9b6f80e
       ts-loader: 9.3.1_typescript@4.7.4+webpack@5.73.0
       webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
@@ -12121,6 +12127,12 @@ packages:
       '@types/node': 14.18.21
       form-data: 3.0.1
 
+  /@types/node-sass/4.11.3:
+    resolution: {integrity: sha512-wXPCn3t9uu5rR4zXNSLasZHQMuRzUKBsdi4MsgT8uq4Lp1gQQo+T2G23tGj4SSgDHeNBle6vGseZtM2XV/X9bw==}
+    dependencies:
+      '@types/node': 18.0.1
+    dev: false
+
   /@types/node/12.20.24:
     resolution: {integrity: sha512-yxDeaQIAJlMav7fH5AQqPH1u8YIuhYJXYBzxaQ4PifsU0GDO38MSdmEDeRlIxrKbC6NbEaaEHDanWb+y30U8SQ==}
     dev: false
@@ -12292,6 +12304,20 @@ packages:
     dependencies:
       '@types/glob': 5.0.37
       '@types/node': 14.18.21
+    dev: false
+
+  /@types/sass-loader/8.0.3:
+    resolution: {integrity: sha512-lwOlTt9erV7A9rwTYGqya+swf6D/2OqiHjegr1No9Lu/2KAUFONyyZD5jjVKPO1BHgtr+7r0R/IbwzQcmsPoYg==}
+    dependencies:
+      '@types/node-sass': 4.11.3
+      '@types/sass': 1.43.1
+      '@types/webpack': 4.41.32
+    dev: false
+
+  /@types/sass/1.43.1:
+    resolution: {integrity: sha512-BPdoIt1lfJ6B7rw35ncdwBZrAssjcwzI5LByIrYs+tpXlj/CAkuVdRsgZDdP4lq5EjyWzwxZCqAoFyHKFwp32g==}
+    dependencies:
+      '@types/node': 18.0.1
     dev: false
 
   /@types/sax/1.2.4:
@@ -23580,6 +23606,17 @@ packages:
       webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
     dev: false
 
+  /less-loader/10.2.0_webpack@5.73.0:
+    resolution: {integrity: sha512-AV5KHWvCezW27GT90WATaDnfXBv99llDbtaj4bshq6DvAihMdNjaPDcUMa6EXKLRF+P2opFenJp89BXg91XLYg==}
+    engines: {node: '>= 12.13.0'}
+    peerDependencies:
+      less: ^3.5.0 || ^4.0.0
+      webpack: ^5.0.0
+    dependencies:
+      klona: 2.0.5
+      webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
+    dev: false
+
   /less-plugin-npm-import/2.1.0:
     resolution: {integrity: sha512-f7pVkEooRq2/jge/M/Y+spoPXj5rRIY30q1as+3kZsDG8Rs+loNJUCVQjzXB9Ao/9FeIJULiq2zrXymv+OMTbw==}
     engines: {node: '>=0.4.2'}
@@ -29545,6 +29582,30 @@ packages:
       klona: 2.0.5
       neo-async: 2.6.2
       sass: 1.53.0
+      webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
+    dev: false
+
+  /sass-loader/12.6.0_webpack@5.73.0:
+    resolution: {integrity: sha512-oLTaH0YCtX4cfnJZxKSLAyglED0naiYfNG1iXfU5w1LNZ+ukoA5DtyDIN5zmKVZwYNJP4KRc5Y3hkWga+7tYfA==}
+    engines: {node: '>= 12.13.0'}
+    peerDependencies:
+      fibers: '>= 3.1.0'
+      node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
+      sass: ^1.3.0
+      sass-embedded: '*'
+      webpack: ^5.0.0
+    peerDependenciesMeta:
+      fibers:
+        optional: true
+      node-sass:
+        optional: true
+      sass:
+        optional: true
+      sass-embedded:
+        optional: true
+    dependencies:
+      klona: 2.0.5
+      neo-async: 2.6.2
       webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
     dev: false
 

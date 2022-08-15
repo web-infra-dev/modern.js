@@ -29,9 +29,6 @@ export const createBuilder = async () => {
       output: {},
       tools: {
         cssExtract: {},
-        cssLoader: {
-          modules: true,
-        },
         tsLoader: {
           compilerOptions: {
             strictNullChecks: true,
