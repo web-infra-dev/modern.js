@@ -215,7 +215,7 @@ export default Introduction;
 修改代码后，刷新页面。可以发现浏览器标签窗口上显示的标题会随着页面跳转而更改。
 
 :::info 补充信息
-更多用法，请参考【[Head API](/docs/apis/runtime/app/head)】。
+更多用法，请参考【[Head API](/docs/apis/app/runtime/app/head)】。
 :::
 
 ## 组件样式
@@ -423,7 +423,7 @@ Modern.js 提供的一体化 BFF 调用能同构的在 CSR/SSR 时获取数据�
 直接访问 `http://localhost:8080/introduction`，可以发现返回的 HTML 文档是包含 API 数据的完整页面内容。
 
 :::info 补充信息
-更多信息，请参考【[useLoader](/docs/apis/runtime/container/use-loader)】、【[一体化 SSR](/docs/guides/features/server-side/web/ssr-and-spr)】。
+更多信息，请参考【[useLoader](/docs/apis/app/runtime/container/use-loader)】、【[一体化 SSR](/docs/guides/features/server-side/web/ssr-and-spr)】。
 :::
 
 ### 局部 CSR
@@ -470,7 +470,7 @@ export default Introduction;
 在 `config/public` 目录下，可以放置任意格式的静态资源化文件，文件会被 Serve 在应用同域名下。
 
 :::info 补充信息
-关于静态资源的更多使用方法，请参考配置 【[`config/public`](/docs/apis/hooks/mwa/config/public)】。
+关于静态资源的更多使用方法，请参考配置 【[`config/public`](/docs/apis/app/hooks/config/public)】。
 :::
 
 ## 自定义 HTML
@@ -529,7 +529,7 @@ describe('home page', () => {
 默认情况下，`src/` 目录下文件名匹配规则 `*.test.(t|j)sx?` 的文件都会被识别为测试用例。执行 `pnpm run test`，会运行项目下的所有测试用例。
 
 :::info 补充信息
-更多用法，请参考【[Testing API](/docs/apis/runtime/testing/render)】。
+更多用法，请参考【[Testing API](/docs/apis/app/runtime/testing/render)】。
 :::
 
 ## 部署

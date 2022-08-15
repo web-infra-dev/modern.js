@@ -103,6 +103,7 @@ export const INTERNAL_PLUGINS: {
     cli: '@modern-js/plugin-nest/cli',
     server: '@modern-js/plugin-nest/server',
   },
+  // TODO: remove unbundle configs after we completely deprecate it.
   '@modern-js/plugin-unbundle': { cli: '@modern-js/plugin-unbundle' },
   '@modern-js/plugin-server': {
     cli: '@modern-js/plugin-server/cli',
@@ -111,7 +112,6 @@ export const INTERNAL_PLUGINS: {
   '@modern-js/plugin-garfish': {
     cli: '@modern-js/plugin-garfish/cli',
   },
-  '@modern-js/plugin-jarvis': { cli: '@modern-js/plugin-jarvis/cli' },
   '@modern-js/plugin-tailwindcss': { cli: '@modern-js/plugin-tailwindcss/cli' },
   '@modern-js/plugin-lambda-fc': { cli: '@modern-js/plugin-lambda-fc/cli' },
   '@modern-js/plugin-lambda-scf': { cli: '@modern-js/plugin-lambda-scf/cli' },
@@ -129,9 +129,6 @@ export const INTERNAL_PLUGINS: {
   },
   // TODO: Maybe can remove it
   '@modern-js/plugin-nocode': { cli: '@modern-js/plugin-nocode/cli' },
-  '@modern-js/plugin-design-token': {
-    cli: '@modern-js/plugin-design-token/cli',
-  },
 };
 
 /**
@@ -202,6 +199,7 @@ export const PLUGIN_SCHEMAS = {
       schema: { typeof: ['string', 'object'] },
     },
   ],
+  // TODO: remove unbundle configs after we completely deprecate it.
   '@modern-js/plugin-unbundle': [
     {
       target: 'output.disableAutoImportStyle',

@@ -67,10 +67,10 @@ Modern.js 中，BFF 函数对应的路由系统是基于文件系统实现的，
 
 函数模式下 `api` 下的所有文件中的每个 BFF 函数都会映射为一个接口，框架模式下 `api/lambda` 下的所有文件中的每个 BFF 函数都会映射为一个接口。
 
-以下的 `$BASENAME` 指的是 BFF 函数的[路由前缀](/docs/apis/config/bff/prefix)，可以在 `modern.config.js` 中进行配置，默认值为 `/api`。
+以下的 `$BASENAME` 指的是 BFF 函数的[路由前缀](/docs/apis/app/config/bff/prefix)，可以在 `modern.config.js` 中进行配置，默认值为 `/api`。
 
 :::info 注
-你可以通过 [prefix](/docs/apis/config/bff/prefix) 设置公共路由的前缀。
+你可以通过 [prefix](/docs/apis/app/config/bff/prefix) 设置公共路由的前缀。
 :::
 
 ### 默认路由
@@ -140,7 +140,7 @@ export const post = async () => {
 };
 ```
 
-* MWA 中支持了 9 种 Method 定义，即：`GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTION`、`HEAD`，即可以用这些 Method 作为函数导出的名字。
+* 应用工程 中支持了 9 种 Method 定义，即：`GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTION`、`HEAD`，即可以用这些 Method 作为函数导出的名字。
 
 * 名字是大小不敏感的，就是说，如果是 `GET`，写成 `get`、`Get`、`GEt`、`GET`，都可以准确识别。而默认导出，即 `export default xxx` 则会被映射为 `Get`。
 

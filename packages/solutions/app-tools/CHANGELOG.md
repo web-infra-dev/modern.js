@@ -1,5 +1,103 @@
 # @modern-js/app-tools
 
+## 1.8.4
+
+### Patch Changes
+
+- 3c20a5e: fix: `@modern-js/app-tools` export fields
+
+  fix: 修复 `@modern-js/app-tools` 导出字段路径
+
+- Updated dependencies [79e83ef]
+- Updated dependencies [5f1a231]
+- Updated dependencies [3c20a5e]
+- Updated dependencies [22f4dca]
+- Updated dependencies [7b9067f]
+  - @modern-js/utils@1.9.0
+  - @modern-js/webpack@1.12.4
+  - @modern-js/node-bundle-require@1.3.8
+  - @modern-js/core@1.14.0
+  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/prod-server@1.2.2
+  - @modern-js/server@1.6.0
+
+## 1.8.3
+
+### Patch Changes
+
+- f4822c0: feat(app-tools): start and inspect command support specify config file
+
+  feat(app-tools): start 和 inspect 命令支持指定配置文件
+
+- Updated dependencies [4f1889d]
+- Updated dependencies [c423820]
+- Updated dependencies [f4822c0]
+  - @modern-js/utils@1.8.1
+  - @modern-js/types@1.6.2
+  - @modern-js/core@1.13.3
+  - @modern-js/webpack@1.12.3
+  - @modern-js/prod-server@1.2.2
+  - @modern-js/server@1.6.0
+  - @modern-js/plugin-jarvis@1.2.14
+
+## 1.8.2
+
+### Patch Changes
+
+- 44e3bb1: feat: support response headers
+  feat: 支持设置响应头
+- Updated dependencies [0e28456]
+- Updated dependencies [bfc1264]
+- Updated dependencies [9a173a7]
+- Updated dependencies [44e3bb1]
+  - @modern-js/prod-server@1.2.2
+  - @modern-js/core@1.13.2
+  - @modern-js/webpack@1.12.3
+  - @modern-js/types@1.6.1
+  - @modern-js/plugin-jarvis@1.2.14
+  - @modern-js/server@1.6.0
+  - @modern-js/utils@1.8.0
+
+## 1.8.1
+
+### Patch Changes
+
+- 102b5e098: fix: fix not found `analyze/cli` when change config
+
+  fix: 修复修改配置重启时找不到 `analyze/cli`
+
+## 1.8.0
+
+### Minor Changes
+
+- 83660b6: chore(app-tools): merge `@modern-js/analyze` to `@modern-js/app-tools`
+
+  chore(app-tools): 合并 `@modern-js/analyze` 到 `@modern-js/app-tools`
+
+### Patch Changes
+
+- c8614b8: fix: using typeof window to determine the browser environment is not accurate
+  fix: 使用 typeof windows 判断浏览器环境不够准确
+- Updated dependencies [1421965]
+- Updated dependencies [02647d2]
+- Updated dependencies [4fc801f]
+- Updated dependencies [9d60891]
+- Updated dependencies [5876e63]
+- Updated dependencies [2ed8f7d]
+- Updated dependencies [e4b73b2]
+- Updated dependencies [83660b6]
+- Updated dependencies [c8614b8]
+- Updated dependencies [281edd5]
+- Updated dependencies [df73691]
+- Updated dependencies [52374e3]
+  - @modern-js/webpack@1.12.2
+  - @modern-js/utils@1.8.0
+  - @modern-js/core@1.13.1
+  - @modern-js/prod-server@1.2.1
+  - @modern-js/server@1.6.0
+  - @modern-js/new-action@1.4.0
+  - @modern-js/plugin-jarvis@1.2.14
+
 ## 1.7.0
 
 ### Minor Changes

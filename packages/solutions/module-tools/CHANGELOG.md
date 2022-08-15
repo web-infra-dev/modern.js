@@ -1,5 +1,12 @@
 # @modern-js/module-tools
 
+## 1.7.1
+
+### Patch Changes
+
+- b2f90f8: feat: add addRuntimeExports hooks for module-tools
+  feat: 为 module-tools 添加 addRuntimeExports 钩子
+
 ## 1.7.0
 
 ### Minor Changes

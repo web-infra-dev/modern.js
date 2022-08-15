@@ -7,7 +7,7 @@ import {
   INTERNAL_PLUGINS,
   DEFAULT_SERVER_CONFIG,
 } from '@modern-js/utils';
-import type { ErrorObject } from '../compiled/ajv';
+import type { ErrorObject } from '@modern-js/utils/ajv';
 import { initCommandsMap } from './utils/commander';
 import { resolveConfig, loadUserConfig, addServerConfigToDeps } from './config';
 import { loadPlugins, TransformPlugin } from './loadPlugins';

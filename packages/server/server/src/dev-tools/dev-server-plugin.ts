@@ -16,7 +16,7 @@ export default class DevServerPlugin {
     const port = client.port ? `&port=${client.port}` : '';
 
     const clientEntry = `${require.resolve(
-      '@modern-js/hmr-client',
+      '../hmr-client',
     )}?${host}${path}${port}`;
 
     // use a hook to add entries if available

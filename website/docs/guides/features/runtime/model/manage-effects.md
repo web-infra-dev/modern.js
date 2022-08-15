@@ -132,5 +132,5 @@ const todoModel = model("todo").define((context, { use }) => {
 :::info 补充信息
 - 本节完整的示例代码：[副作用](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/effects)。
 
-- 关于副作用相关 API 的更多介绍，请参考[副作用 API](/docs/apis/runtime/model/effects)。
+- 关于副作用相关 API 的更多介绍，请参考[副作用 API](/docs/apis/app/runtime/model/effects)。
 :::

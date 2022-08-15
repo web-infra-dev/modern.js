@@ -75,56 +75,91 @@ describe('test ssg util function', () => {
   });
 
   it('should standard user config correctly', () => {
-    const opt0 = standardOptions(false, []);
+    const opt0 = standardOptions(false, [], [], {});
     expect(opt0).toBeFalsy();
 
-    const opt1 = standardOptions(true, [{ entryName: 'main', entry: '' }]);
+    const opt1 = standardOptions(
+      true,
+      [{ entryName: 'main', entry: '' }],
+      [],
+      {},
+    );
     expect(opt1).toEqual({ main: true });
 
-    const opt2 = standardOptions(true, [
-      { entryName: 'main', entry: '' },
-      { entryName: 'home', entry: '' },
-    ]);
+    const opt2 = standardOptions(
+      true,
+      [
+        { entryName: 'main', entry: '' },
+        { entryName: 'home', entry: '' },
+      ],
+      [],
+      {},
+    );
     expect(opt2).toEqual({ main: true, home: true });
 
-    const opt3 = standardOptions(true, [
-      { entryName: 'main', entry: '' },
-      { entryName: 'home', entry: '' },
-    ]);
+    const opt3 = standardOptions(
+      true,
+      [
+        { entryName: 'main', entry: '' },
+        { entryName: 'home', entry: '' },
+      ],
+      [],
+      {},
+    );
     expect(opt3).toEqual({ main: true, home: true });
 
     // single entry, object config
     const ssg1 = {
       routes: ['/foo', { url: '/baz' }],
     };
-    const opt4 = standardOptions(ssg1, [{ entryName: 'main', entry: '' }]);
+    const opt4 = standardOptions(
+      ssg1,
+      [{ entryName: 'main', entry: '' }],
+      [],
+      {},
+    );
     expect(opt4).toEqual({ main: ssg1 });
 
     // error usage, just test
     const ssg2 = {
       routes: ['/foo', { url: '/baz' }],
     };
-    const opt5 = standardOptions(ssg2, [
-      { entryName: 'main', entry: '' },
-      { entryName: 'home', entry: '' },
-    ]);
+    const opt5 = standardOptions(
+      ssg2,
+      [
+        { entryName: 'main', entry: '' },
+        { entryName: 'home', entry: '' },
+      ],
+      [],
+      {},
+    );
     expect(opt5).toEqual(ssg2);
 
     const ssg3 = {
       main: { routes: ['/foo', { url: '/baz' }] },
       home: false,
     };
-    const opt6 = standardOptions(ssg3, [
-      { entryName: 'main', entry: '' },
-      { entryName: 'home', entry: '' },
-    ]);
+    const opt6 = standardOptions(
+      ssg3,
+      [
+        { entryName: 'main', entry: '' },
+        { entryName: 'home', entry: '' },
+      ],
+      [],
+      {},
+    );
     expect(opt6).toEqual(ssg3);
 
     const ssg4 = () => true;
-    const opt7 = standardOptions(ssg4, [
-      { entryName: 'main', entry: '' },
-      { entryName: 'home', entry: '' },
-    ]);
+    const opt7 = standardOptions(
+      ssg4,
+      [
+        { entryName: 'main', entry: '' },
+        { entryName: 'home', entry: '' },
+      ],
+      [],
+      {},
+    );
     expect(opt7).toEqual({ main: true, home: true });
 
     const ssg5 = (entryName: string) => {
@@ -136,11 +171,118 @@ describe('test ssg util function', () => {
         };
       }
     };
-    const opt8 = standardOptions(ssg5, [
-      { entryName: 'main', entry: '' },
-      { entryName: 'home', entry: '' },
-    ]);
+    const opt8 = standardOptions(
+      ssg5,
+      [
+        { entryName: 'main', entry: '' },
+        { entryName: 'home', entry: '' },
+      ],
+      [],
+      {},
+    );
     expect(opt8).toEqual({ main: true, home: { routes: ['/foo'] } });
+
+    const ssg6 = (entryName: string, { baseUrl }: { baseUrl?: string }) => {
+      return {
+        routes: [
+          { url: '/', output: `html/${entryName}${baseUrl}/index.html` },
+          { url: '/info', output: `html/${entryName}${baseUrl}/info.html` },
+        ],
+      };
+    };
+    const op9 = standardOptions(
+      ssg6,
+      [{ entryName: 'main', entry: '' }],
+      [
+        {
+          urlPath: '/base1',
+          entryPath: '',
+        },
+        {
+          urlPath: '/base2',
+          entryPath: '',
+        },
+      ],
+      {
+        baseUrl: ['/base1', '/base2'],
+      },
+    );
+    expect(op9).toEqual({
+      '/base1': {
+        routes: [
+          { url: '/', output: `html/main/base1/index.html` },
+          { url: '/info', output: `html/main/base1/info.html` },
+        ],
+      },
+      '/base2': {
+        routes: [
+          { url: '/', output: `html/main/base2/index.html` },
+          { url: '/info', output: `html/main/base2/info.html` },
+        ],
+      },
+    });
+
+    const op10 = standardOptions(
+      ssg6,
+      [
+        { entryName: 'home', entry: '' },
+        { entryName: 'about', entry: '' },
+        { entryName: 'main', entry: '' },
+      ],
+      [
+        {
+          urlPath: '/base1/home',
+          entryPath: '',
+        },
+        { urlPath: '/base1/about', entryPath: '' },
+        { urlPath: '/base1', entryPath: '' },
+        { urlPath: '/base2/home', entryPath: '' },
+        { urlPath: '/base2/about', entryPath: '' },
+        { urlPath: '/base2', entryPath: '' },
+      ],
+      {
+        baseUrl: ['/base1', '/base2'],
+      },
+    );
+
+    expect(op10).toEqual({
+      '/base1/home': {
+        routes: [
+          { url: '/', output: 'html/home/base1/index.html' },
+          { url: '/info', output: 'html/home/base1/info.html' },
+        ],
+      },
+      '/base2/home': {
+        routes: [
+          { url: '/', output: 'html/home/base2/index.html' },
+          { url: '/info', output: 'html/home/base2/info.html' },
+        ],
+      },
+      '/base1/about': {
+        routes: [
+          { url: '/', output: 'html/about/base1/index.html' },
+          { url: '/info', output: 'html/about/base1/info.html' },
+        ],
+      },
+      '/base2/about': {
+        routes: [
+          { url: '/', output: 'html/about/base2/index.html' },
+          { url: '/info', output: 'html/about/base2/info.html' },
+        ],
+      },
+      '/base1': {
+        routes: [
+          { url: '/', output: 'html/main/base1/index.html' },
+          { url: '/info', output: 'html/main/base1/info.html' },
+        ],
+      },
+      '/base2': {
+        routes: [
+          { url: '/', output: 'html/main/base2/index.html' },
+          { url: '/info', output: 'html/main/base2/info.html' },
+        ],
+      },
+    });
   });
 
   it('should get ssr route correctly', () => {

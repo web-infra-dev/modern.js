@@ -1,3 +1,7 @@
+/**
+ * modified from https://github.com/dividab/tsconfig-paths-webpack-plugin
+ * license at https://github.com/dividab/tsconfig-paths-webpack-plugin/blob/master/LICENSE
+ */
 import path from 'path';
 import {
   logger,

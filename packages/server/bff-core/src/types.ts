@@ -44,14 +44,14 @@ export type InputSchemaMeata = Extract<
   | HttpMetadata.Params
 >;
 
-export type ValidateFunc = (
-  helper: ExecuteHelper,
+export type ExecuteFunc<Outputs> = (
+  helper: ExecuteHelper<Outputs>,
   next: () => Promise<any>,
 ) => Promise<any>;
 
-export type ExecuteHelper = {
+export type ExecuteHelper<Outputs> = {
   result?: any;
-  readonly inputs: any;
+  inputs: Outputs;
 };
 
 export type MetadataHelper = {
@@ -59,11 +59,13 @@ export type MetadataHelper = {
   getMetadata: <T = any>(key: any) => T;
 };
 
-export type Operator<Input> = {
+export type Operator<Input = any, Output = Input> = {
   name: string;
   inputType?: Input;
+  outputType?: Output;
   metadata?: (helper: MetadataHelper) => void;
-  validate?: ValidateFunc;
+  validate?: ExecuteFunc<Output>;
+  execute?: ExecuteFunc<Output>;
 };
 
 export type MaybeAsync<T> = Promise<T> | T;
@@ -76,8 +78,14 @@ export type ApiRunner<
 export type NonNullable<T> = Exclude<T, null | undefined>;
 
 export type ExtractInputType<T> = {
-  [key in keyof T]: T[key] extends Operator<any>
+  [key in keyof T]: T[key] extends Operator<any, any>
     ? NonNullable<T[key]['inputType']>
+    : void;
+};
+
+export type ExtractOuputType<T> = {
+  [key in keyof T]: T[key] extends Operator<any, any>
+    ? NonNullable<T[key]['outputType']>
     : void;
 };
 
@@ -94,5 +102,3 @@ export type ArrayToObject<T, R = {}> = T extends [infer First, ...infer Rest]
 export type AsyncFunction = (...args: any[]) => Promise<any>;
 
 export const httpMethods = Object.values(HttpMethod);
-
-export type ApiMiddleware = (next: () => any | Promise<any>) => any;

@@ -9,6 +9,8 @@ import {
   Redirect,
   Headers,
   SetHeaders,
+  Pipe,
+  Middleware,
 } from '../../../../src/runtime';
 
 const headers = {
@@ -60,5 +62,58 @@ export const postUser = Api(
       data,
       headers,
     };
+  },
+);
+
+export const postMiddleware = Api(
+  Post('/middleware'),
+  Middleware((req, res, next) => {
+    next();
+    res.json(req.body);
+  }),
+  () => {
+    return 'hello';
+  },
+);
+
+type PipeInput = {
+  query: z.infer<typeof QuerySchema>;
+  data: z.infer<typeof DataSchema>;
+};
+
+export const postPipe = Api(
+  Post('/pipe'),
+  Query(QuerySchema),
+  Data(DataSchema),
+  Pipe<PipeInput>(({ query, data }) => {
+    return {
+      query,
+      data,
+      headers: {
+        'x-header': 'pipe',
+      },
+    };
+  }),
+  Pipe<PipeInput>((value, end) => {
+    const { query, data } = value;
+    const { user } = query;
+    const { message } = data;
+    if (user === 'end@github.com') {
+      return end(data);
+    }
+    if (user === 'function@github.com') {
+      if (message !== user) {
+        return end(res => {
+          res.status(400);
+          return res.json({
+            message: 'name and message must be modernjs',
+          });
+        });
+      }
+    }
+    return value;
+  }),
+  input => {
+    return input;
   },
 );

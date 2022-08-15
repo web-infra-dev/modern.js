@@ -1,5 +1,42 @@
 # @modern-js/utils
 
+## 1.9.0
+
+### Minor Changes
+
+- 7b9067f: add babel plugin for web builder
+
+### Patch Changes
+
+- 79e83ef: chore: merge `@modern-js/plugin-design-token` to `@modern-js/plugin-tailwindcss`
+
+  chore: 合并 `@modern-js/plugin-design-token` 到 `@modern-js/plugin-tailwindcss`
+
+- 22f4dca: chore: move pre-bundled ajv to @modern-js/utils
+
+  chore: 预打包的 ajv 产物移动至 @modern-js/utils 内
+
+## 1.8.1
+
+### Patch Changes
+
+- 4f1889d: fix(utils): revert schema of unbundle plugin
+
+  fix(utils): 恢复 unbundle 插件相关的 schema 配置
+
+## 1.8.0
+
+### Minor Changes
+
+- 4fc801f: chore(utils): remove unused code
+
+  chore(utils): 移除无用代码
+
+### Patch Changes
+
+- c8614b8: fix: using typeof window to determine the browser environment is not accurate
+  fix: 使用 typeof windows 判断浏览器环境不够准确
+
 ## 1.7.12
 
 ### Patch Changes

@@ -1,5 +1,76 @@
 # @modern-js/plugin-storybook
 
+## 1.5.0
+
+### Minor Changes
+
+- 59c941a: chore(runtime): merge `@modern-js/runtime-core` to `@modern-js/runtime`
+
+  chore(runtime): 合并 `@modern-js/runtime-core` 到 `@modern-js/runtime`
+
+### Patch Changes
+
+- c10e374: fix: storybook plugin type
+
+  fix: 修复 storybook 插件类型
+
+- Updated dependencies [79e83ef]
+- Updated dependencies [e0cd14a]
+- Updated dependencies [287ac8b]
+- Updated dependencies [5f1a231]
+- Updated dependencies [22f4dca]
+- Updated dependencies [59c941a]
+- Updated dependencies [7b9067f]
+  - @modern-js/utils@1.9.0
+  - @modern-js/runtime@1.5.0
+  - @modern-js/webpack@1.12.4
+
+## 1.4.0
+
+### Minor Changes
+
+- 4fc801f: chore(runtime): merge `@modern-js/plugin-state` to `@modern-js/runtime`
+
+  chore(runtime): 合并 `@modern-js/plugin-state` 到 `@modern-js/runtime`
+
+- 4fc801f: chore(runtime): merge `@modern-js/plugin-router` to `@modern-js/runtime`
+
+  chore(runtime): 合并 `@modern-js/plugin-router` 到 `@modern-js/runtime`
+
+### Patch Changes
+
+- Updated dependencies [1421965]
+- Updated dependencies [02647d2]
+- Updated dependencies [4fc801f]
+- Updated dependencies [b8ea9cd]
+- Updated dependencies [4fc801f]
+- Updated dependencies [9d60891]
+- Updated dependencies [4fc801f]
+- Updated dependencies [4fc801f]
+- Updated dependencies [e4b73b2]
+- Updated dependencies [4fc801f]
+- Updated dependencies [16eaebd]
+- Updated dependencies [8f046e8]
+- Updated dependencies [c8614b8]
+- Updated dependencies [df73691]
+  - @modern-js/runtime@1.4.0
+  - @modern-js/webpack@1.12.2
+  - @modern-js/utils@1.8.0
+
+## 1.3.19
+
+### Patch Changes
+
+- 4ec69bd0f: fix: remove preview check
+  fix: 移除 preview 检查
+
+## 1.3.18
+
+### Patch Changes
+
+- b2f90f8: feat: add addRuntimeExports hooks for module-tools
+  feat: 为 module-tools 添加 addRuntimeExports 钩子
+
 ## 1.3.17
 
 ### Patch Changes

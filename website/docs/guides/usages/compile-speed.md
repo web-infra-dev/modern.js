@@ -61,7 +61,7 @@ export default defineConfig({
 });
 ```
 
-详见 [output.enableTsLoader 文档](/docs/apis/config/output/enable-ts-loader)。
+详见 [output.enableTsLoader 文档](/docs/apis/app/config/output/enable-ts-loader)。
 
 ### 提升 Browserslist 范围
 
@@ -110,20 +110,24 @@ export default defineConfig({
 ```js title="modern.config.js"
 export default defineConfig({
   tools: {
-    webpackChain(chain) {
-      chain.devtool(false);
+    webpackChain(chain, { env }) {
+      if (env === 'development') {
+        chain.devtool(false);
+      }
     },
   },
 });
 ```
 
-或是把 SourceMap 格式设置为开销最小的 `eval` 格式：
+或是把开发环境的 SourceMap 格式设置为开销最小的 `eval` 格式：
 
 ```js title="modern.config.js"
 export default defineConfig({
   tools: {
-    webpackChain(chain) {
-      chain.devtool('eval');
+    webpackChain(chain, { env }) {
+      if (env === 'development') {
+        chain.devtool('eval');
+      }
     },
   },
 });
@@ -168,7 +172,7 @@ export default defineConfig({
 });
 ```
 
-详见 [output.disableSourceMap](/docs/apis/config/output/disable-source-map)。
+详见 [output.disableSourceMap](/docs/apis/app/config/output/disable-source-map)。
 
 ### 使用 esbuild 压缩
 
@@ -176,4 +180,4 @@ Modern.js 基于 esbuild 提供了代码压缩的能力，在大型工程中开�
 
 使用 esbuild 压缩虽然带来了构建效率上的提升，但 esbuild 的压缩比例是低于 terser 的，因此**构建产物的体积会增大**，请根据业务情况酌情使用（比较适合中后台场景）。
 
-详见 [tools.esbuild](/docs/apis/config/tools/esbuild)。
+详见 [tools.esbuild](/docs/apis/app/config/tools/esbuild)。

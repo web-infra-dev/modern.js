@@ -1,5 +1,36 @@
 # @modern-js/plugin-tailwindcss
 
+## 1.5.1
+
+### Patch Changes
+
+- 3c874ca16: fix: `@modern-js/plugin-tailwindcss` support `pluginName` params
+
+  fix: `@modern-js/plugin-tailwindcss` 支持 `pluginName` 参数
+
+## 1.5.0
+
+### Minor Changes
+
+- 79e83ef: chore: merge `@modern-js/plugin-design-token` to `@modern-js/plugin-tailwindcss`
+
+  chore: 合并 `@modern-js/plugin-design-token` 到 `@modern-js/plugin-tailwindcss`
+
+- 59c941a: chore(runtime): merge `@modern-js/runtime-core` to `@modern-js/runtime`
+
+  chore(runtime): 合并 `@modern-js/runtime-core` 到 `@modern-js/runtime`
+
+### Patch Changes
+
+- Updated dependencies [79e83ef]
+- Updated dependencies [e0cd14a]
+- Updated dependencies [287ac8b]
+- Updated dependencies [22f4dca]
+- Updated dependencies [59c941a]
+- Updated dependencies [7b9067f]
+  - @modern-js/utils@1.9.0
+  - @modern-js/runtime@1.5.0
+
 ## 1.4.2
 
 ### Patch Changes

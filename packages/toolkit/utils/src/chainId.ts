@@ -5,6 +5,16 @@ export const CHAIN_ID = {
     MJS: 'mjs',
     /** Rule for predefined loaders */
     LOADERS: 'loaders',
+    /** Rule for fonts */
+    FONT: 'font',
+    /** Rule for images */
+    IMAGE: 'image',
+    /** Rule for js */
+    JS: 'js',
+    /** Rule for ts */
+    TS: 'ts',
+    /** Rule for css */
+    CSS: 'css',
   },
   /** Predefined rule groups */
   ONE_OF: {

@@ -25,22 +25,25 @@ interface CSSLoaderOptions {
   sourceMap: boolean;
 }
 
-export const createCSSRule = (
-  chain: WebpackChain,
-  { appDirectory, config }: { config: NormalizedConfig; appDirectory: string },
-  {
-    name,
-    test,
-    exclude,
-    genTSD,
-  }: {
-    name: string;
-    test: RegExp | RegExp[];
-    exclude?: Array<RegExp | ((path: string) => boolean)>;
-    genTSD?: boolean;
-  },
-  options: CSSLoaderOptions,
-) => {
+export const createCSSRule = ({
+  name,
+  test,
+  chain,
+  config,
+  genTSD,
+  exclude,
+  appDirectory,
+  cssLoaderOptions,
+}: {
+  name: string;
+  test: RegExp | RegExp[];
+  chain: WebpackChain;
+  config: NormalizedConfig;
+  genTSD?: boolean;
+  exclude?: Array<RegExp | ((path: string) => boolean)>;
+  appDirectory: string;
+  cssLoaderOptions: CSSLoaderOptions;
+}) => {
   const postcssOptions = getPostcssConfig(appDirectory, config);
   const loaders = chain.module.rule(CHAIN_ID.RULE.LOADERS);
   const isExtractCSS = enableCssExtract(config);
@@ -68,12 +71,13 @@ export const createCSSRule = (
     })
     .use(CHAIN_ID.USE.CSS)
     .loader(require.resolve('../../compiled/css-loader'))
-    .options(options)
+    .options(cssLoaderOptions)
     .end()
     .use(CHAIN_ID.USE.POSTCSS)
     .loader(require.resolve('../../compiled/postcss-loader'))
     .options(postcssOptions);
 
+  // CSS imports should always be treated as sideEffects
   rule.merge({ sideEffects: true });
 
   if (exclude) {

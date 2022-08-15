@@ -9,7 +9,7 @@ sidebar_position: 8
 
 Modern.js 内部默认集成了 [Babel](https://babeljs.io/)、[TypeScript](https://www.typescriptlang.org/)、[Webpack](https://webpack.js.org/)、[PostCSS](https://postcss.org/)、[Tailwind CSS](https://tailwindcss.com/) 等工具。通常情况下，默认配置能够满足大多业务开发需求。当有特殊需求时，可以通过底层配置来实现。
 
-以配置 Webpack 为例，只需要在 `modern.config.js` 中添加 [`tools.webpack`](/docs/apis/config/tools/webpack) 即可：
+以配置 Webpack 为例，只需要在 `modern.config.js` 中添加 [`tools.webpack`](/docs/apis/app/config/tools/webpack) 即可：
 
 ```js title="modern.config.js"
 export default defineConfig({
@@ -33,15 +33,15 @@ export default defineConfig({
 
 | 底层工具 | 配置   |
 | -------- | --------- |
-| DevServer | [tools.devServer](/docs/apis/config/tools/dev-server) |
-| Babel | [tools.babel](/docs/apis/config/tools/babel)|
-| styled-components | [tools.styledComponents](/docs/apis/config/tools/styled-components)|
-| PostCSS | [tools.postcss](/docs/apis/config/tools/postcss)|
-| Less | [tools.less](/docs/apis/config/tools/less) |
-| Sass | [tools.sass](/docs/apis/config/tools/sass) |
-| webpack | [tools.webpack](/docs/apis/config/tools/webpack)|
-| Minify CSS | [tools.minifyCss](/docs/apis/config/tools/minify-css)|
-| terser | [tools.terser](/docs/apis/config/tools/terser)|
-| Lodash | [tools.lodash](/docs/apis/config/tools/lodash)|
-| Tailwind CSS | [tools.tailwind](/docs/apis/config/tools/tailwindcss) |
-| Autoprefixer | [tools.autoprefixer](/docs/apis/config/tools/autoprefixer) |
+| DevServer | [tools.devServer](/docs/apis/app/config/tools/dev-server) |
+| Babel | [tools.babel](/docs/apis/app/config/tools/babel)|
+| styled-components | [tools.styledComponents](/docs/apis/app/config/tools/styled-components)|
+| PostCSS | [tools.postcss](/docs/apis/app/config/tools/postcss)|
+| Less | [tools.less](/docs/apis/app/config/tools/less) |
+| Sass | [tools.sass](/docs/apis/app/config/tools/sass) |
+| webpack | [tools.webpack](/docs/apis/app/config/tools/webpack)|
+| Minify CSS | [tools.minifyCss](/docs/apis/app/config/tools/minify-css)|
+| terser | [tools.terser](/docs/apis/app/config/tools/terser)|
+| Lodash | [tools.lodash](/docs/apis/app/config/tools/lodash)|
+| Tailwind CSS | [tools.tailwind](/docs/apis/app/config/tools/tailwindcss) |
+| Autoprefixer | [tools.autoprefixer](/docs/apis/app/config/tools/autoprefixer) |

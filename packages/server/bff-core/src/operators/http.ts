@@ -5,7 +5,6 @@ import {
   OperatorType,
   HttpMethod,
   TriggerType,
-  ApiMiddleware,
   ResponseMetaType,
   MetadataHelper,
 } from '../types';
@@ -16,9 +15,12 @@ export interface ResponseMeta {
   value: unknown;
 }
 
-const validateInput = async <T>(schema: z.ZodType<T>, input: unknown) => {
+const validateInput = async <Schema extends z.ZodType>(
+  schema: Schema,
+  input: z.input<Schema>,
+): Promise<z.output<Schema>> => {
   try {
-    await schema.parseAsync(input);
+    return await schema.parseAsync(input);
   } catch (error) {
     const { z: zod } = require('zod');
     if (error instanceof (zod as typeof z).ZodError) {
@@ -53,77 +55,117 @@ export const Patch = createHttpOperator(HttpMethod.Patch);
 export const Option = createHttpOperator(HttpMethod.Option);
 export const Head = createHttpOperator(HttpMethod.Head);
 
-export const Data = <T>(
-  schema: z.ZodType<T>,
-): Operator<{
-  data: T;
-}> => {
+export const Data = <Schema extends z.ZodType>(
+  schema: Schema,
+): Operator<
+  {
+    data: z.input<Schema>;
+  },
+  {
+    data: z.output<Schema>;
+  }
+> => {
   return {
     name: HttpMetadata.Data,
     metadata({ setMetadata }) {
       setMetadata(HttpMetadata.Data, schema);
     },
     async validate(helper, next) {
-      const { inputs } = helper;
-      const { data } = inputs;
-      await validateInput(schema, data);
+      const {
+        inputs: { data },
+      } = helper;
+
+      helper.inputs = {
+        ...helper.inputs,
+        data: await validateInput(schema, data),
+      };
       return next();
     },
   };
 };
 
-export const Query = <T>(
-  schema: z.ZodType<T>,
-): Operator<{
-  query: T;
-}> => {
+export const Query = <Schema extends z.ZodType>(
+  schema: Schema,
+): Operator<
+  {
+    query: z.input<Schema>;
+  },
+  {
+    query: z.output<Schema>;
+  }
+> => {
   return {
     name: HttpMetadata.Query,
     metadata({ setMetadata }) {
       setMetadata(HttpMetadata.Query, schema);
     },
     async validate(helper, next) {
-      const { inputs } = helper;
-      const { query } = inputs;
-      await validateInput(schema, query);
+      const {
+        inputs: { query },
+      } = helper;
+
+      helper.inputs = {
+        ...helper.inputs,
+        query: await validateInput(schema, query),
+      };
       return next();
     },
   };
 };
 
-export const Params = <T>(
-  schema: z.ZodType<T>,
-): Operator<{
-  params: T;
-}> => {
+export const Params = <Schema extends z.ZodType>(
+  schema: Schema,
+): Operator<
+  {
+    params: z.input<Schema>;
+  },
+  {
+    params: z.output<Schema>;
+  }
+> => {
   return {
     name: HttpMetadata.Params,
     metadata({ setMetadata }) {
       setMetadata(HttpMetadata.Params, schema);
     },
     async validate(helper, next) {
-      const { inputs } = helper;
-      const { params } = inputs;
-      await validateInput(schema, params);
+      const {
+        inputs: { params },
+      } = helper;
+
+      helper.inputs = {
+        ...helper.inputs,
+        params: await validateInput(schema, params),
+      };
       return next();
     },
   };
 };
 
-export const Headers = <T>(
-  schema: z.ZodType<T>,
-): Operator<{
-  headers: T;
-}> => {
+export const Headers = <Schema extends z.ZodType>(
+  schema: Schema,
+): Operator<
+  {
+    headers: z.input<Schema>;
+  },
+  {
+    headers: z.output<Schema>;
+  }
+> => {
   return {
     name: HttpMetadata.Headers,
     metadata({ setMetadata }) {
       setMetadata(HttpMetadata.Headers, schema);
     },
     async validate(helper, next) {
-      const { inputs } = helper;
-      const { headers } = inputs;
-      await validateInput(schema, headers);
+      const {
+        inputs: { headers },
+      } = helper;
+
+      helper.inputs = {
+        ...helper.inputs,
+        headers: await validateInput(schema, headers),
+      };
       return next();
     },
   };
@@ -169,15 +211,6 @@ export const Redirect = (url: string): Operator<void> => {
     name: 'Redirect',
     metadata(helper) {
       setResponseMeta(helper, ResponseMetaType.Redirect, url);
-    },
-  };
-};
-
-export const Middleware = (middleware: ApiMiddleware): Operator<void> => {
-  return {
-    name: 'Middleware',
-    metadata({ setMetadata }) {
-      setMetadata(OperatorType.Middleware, middleware);
     },
   };
 };

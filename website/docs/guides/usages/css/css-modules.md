@@ -38,7 +38,7 @@ export default function Button() {
 
 ## 全面启用 CSS Modules
 
-如果想去掉文件名中 `.module` 后缀，可以设置 [`output.disableCssModuleExtension`](/docs/apis/config/output/disable-css-module-extension)。
+如果想去掉文件名中 `.module` 后缀，可以设置 [`output.disableCssModuleExtension`](/docs/apis/app/config/output/disable-css-module-extension)。
 
 设置后，除了 `node_modules/` 目录下的样式文件和文件名称格式为 `[name].global.(css|scss|sass|less)` 之外的所有样式文件，都会作为 CSS Modules 处理。
 
@@ -82,5 +82,5 @@ export default function Button() {
 ![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/more-css-modules.png)
 
 :::tip 提示
-使用 [babel-plugin-react-css-modules](https://github.com/gajus/babel-plugin-react-css-modules) 时需要注意，该插件的配置选项 `generateScopedName` 需要和 [`output.cssModuleLocalIdentName`](/docs/apis/config/output/css-module-localIdent-name) 保持一致。
+使用 [babel-plugin-react-css-modules](https://github.com/gajus/babel-plugin-react-css-modules) 时需要注意，该插件的配置选项 `generateScopedName` 需要和 [`output.cssModuleLocalIdentName`](/docs/apis/app/config/output/css-module-localIdent-name) 保持一致。
 :::

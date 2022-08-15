@@ -66,7 +66,7 @@ pnpm run new          # 继续创建更多项目要素
 其中 `src` 目录用于存放工具库的源代码，`tests` 目录用于存放测试代码。
 
 :::info 补充信息
-关于其他目录与文件的用途和解释，请阅读 [文件约定——模块工程方案](/docs/apis/hooks/module/src/index)
+关于其他目录与文件的用途和解释，请阅读 [文件约定——模块工程方案](/docs/apis/module/hooks/src/index)
 :::
 
 此时我们成功创建了一个工具库类型的可复用模块项目。

@@ -48,17 +48,3 @@ Array [
   ],
 ]
 `;
-
-exports[`bff cli plugin server routes 1`] = `
-Object {
-  "routes": Array [
-    Object {
-      "entryPath": "",
-      "isApi": true,
-      "isSPA": false,
-      "isSSR": false,
-      "urlPath": "/api",
-    },
-  ],
-}
-`;

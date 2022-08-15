@@ -115,7 +115,7 @@ console.log(logoUrl); // 输出： '/src/logo.png';
 
 默认情况下，小于 10kb 的图片、字体文件，会经过 Base64 编码，内联进页面，不会再发送独立的请求。
 
-可以通过配置 [`output.dataUriLimit`](/docs/apis/config/output/data-uri-limit) 修改这个阈值。
+可以通过配置 [`output.dataUriLimit`](/docs/apis/app/config/output/data-uri-limit) 修改这个阈值。
 
 #### JS 中使用 SVG
 
@@ -178,8 +178,8 @@ import.meta.hot.accept('./b', modules => {
 
 ### HTTP 2.0
 
- **Unbundled 模式**下，每个依赖都会对应一个网络请求，因此会存在大量的网络请求。通过开启 [HTTP 2.0](https://zh.wikipedia.org/wiki/HTTP/2)，可以进一步优化资源加载速度。配置 [`dev.https`](/docs/apis/config/dev/https) 为 `true`，即可同时启用 [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) 和 [HTTP 2.0](https://zh.wikipedia.org/wiki/HTTP/2) 的支持。
+ **Unbundled 模式**下，每个依赖都会对应一个网络请求，因此会存在大量的网络请求。通过开启 [HTTP 2.0](https://zh.wikipedia.org/wiki/HTTP/2)，可以进一步优化资源加载速度。配置 [`dev.https`](/docs/apis/app/config/dev/https) 为 `true`，即可同时启用 [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) 和 [HTTP 2.0](https://zh.wikipedia.org/wiki/HTTP/2) 的支持。
 
 ### 其他注意事项
 
-[`output.inject`](/docs/apis/config/output/inject)、[`output.copy`](/docs/apis/config/output/copy)、[`output.polyfill`](/docs/apis/config/output/polyfill) 配置在 **Unbundled 模式**下不支持。
+[`output.inject`](/docs/apis/app/config/output/inject)、[`output.copy`](/docs/apis/app/config/output/copy)、[`output.polyfill`](/docs/apis/app/config/output/polyfill) 配置在 **Unbundled 模式**下不支持。

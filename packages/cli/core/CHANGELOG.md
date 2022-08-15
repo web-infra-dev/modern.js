@@ -1,5 +1,61 @@
 # @modern-js/core
 
+## 1.14.0
+
+### Minor Changes
+
+- 7b9067f: add babel plugin for web builder
+
+### Patch Changes
+
+- 22f4dca: chore: move pre-bundled ajv to @modern-js/utils
+
+  chore: 预打包的 ajv 产物移动至 @modern-js/utils 内
+
+- Updated dependencies [79e83ef]
+- Updated dependencies [3c20a5e]
+- Updated dependencies [22f4dca]
+- Updated dependencies [7b9067f]
+  - @modern-js/utils@1.9.0
+  - @modern-js/node-bundle-require@1.3.8
+
+## 1.13.3
+
+### Patch Changes
+
+- f4822c0: feat(app-tools): start and inspect command support specify config file
+
+  feat(app-tools): start 和 inspect 命令支持指定配置文件
+
+- Updated dependencies [4f1889d]
+  - @modern-js/utils@1.8.1
+
+## 1.13.2
+
+### Patch Changes
+
+- bfc1264: fix(core): should keep single function value after merge config
+
+  fix(core): 修复合并配置后，函数类型的配置项变成数组类型的问题
+
+- 44e3bb1: feat: support response headers
+  feat: 支持设置响应头
+  - @modern-js/utils@1.8.0
+
+## 1.13.1
+
+### Patch Changes
+
+- 9d60891: feat(webpack): support source.preEntry config
+
+  feat(webpack): 新增 source.preEntry 配置项
+
+- 5876e63: fix: the SSG callback is called once for each baseUrl, when a user configures multiple baseUrl.
+  fix: 当用户配置了多个 baseUrl 时，将会为每个 baseUrl 调用一次 SSG 回调函数。
+- Updated dependencies [4fc801f]
+- Updated dependencies [c8614b8]
+  - @modern-js/utils@1.8.0
+
 ## 1.13.0
 
 ### Minor Changes

@@ -129,18 +129,6 @@ export const TASKS: TaskConfig[] = [
           tapable: 'tapable',
         },
       },
-    ],
-  },
-  {
-    packageDir: 'cli/core',
-    packageName: '@modern-js/core',
-    dependencies: [
-      // zero dependency
-      {
-        name: 'v8-compile-cache',
-        ignoreDts: true,
-      },
-      // some dependencies
       {
         name: 'ajv',
         beforeBundle(task) {
@@ -172,6 +160,61 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
         externals: {
           ajv: '../ajv',
+        },
+      },
+    ],
+  },
+  {
+    packageDir: 'cli/core',
+    packageName: '@modern-js/core',
+    dependencies: [
+      {
+        name: 'v8-compile-cache',
+        ignoreDts: true,
+      },
+    ],
+  },
+  {
+    packageDir: 'builder/web-builder',
+    packageName: '@modern-js/web-builder',
+    dependencies: [
+      {
+        name: 'webpackbar',
+        ignoreDts: true,
+      },
+      {
+        name: 'loader-utils1',
+        ignoreDts: true,
+        externals: {
+          json5: '@modern-js/utils/json5',
+        },
+      },
+      {
+        name: 'loader-utils2',
+        ignoreDts: true,
+        externals: {
+          json5: '@modern-js/utils/json5',
+        },
+      },
+      {
+        name: 'schema-utils3',
+        ignoreDts: true,
+      },
+      {
+        name: 'babel-loader',
+        ignoreDts: true,
+        externals: {
+          '@babel/core': '@babel/core',
+          'loader-utils': '../loader-utils1',
+        },
+      },
+      {
+        name: 'copy-webpack-plugin',
+        ignoreDts: true,
+        externals: {
+          globby: '@modern-js/utils/globby',
+          'fast-glob': '@modern-js/utils/fast-glob',
+          'schema-utils': '../schema-utils3',
         },
       },
     ],

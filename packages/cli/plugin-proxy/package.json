@@ -11,11 +11,10 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.2.9",
+  "version": "1.2.10",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
-  "module": "./dist/js/treeshaking/index.js",
   "jsnext:modern": "./dist/js/modern/index.js",
   "exports": {
     ".": {
@@ -24,7 +23,7 @@
         "import": "./dist/js/modern/index.js",
         "require": "./dist/js/node/index.js"
       },
-      "default": "./dist/js/treeshaking/index.js"
+      "default": "./dist/js/node/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/index.ts",
@@ -41,7 +40,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/utils": "workspace:^1.7.12",
+    "@modern-js/utils": "workspace:^1.9.0",
     "whistle": "^2.7.18"
   },
   "devDependencies": {

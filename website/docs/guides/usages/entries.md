@@ -14,7 +14,7 @@ sidebar_position: 3
 默认会遍历当前项目 `src/` 目录，根据目录结构来判断当前项目是单入口还是多入口。
 
 :::tip 提示
-- 可以通过 [`source.entriesDir`](/docs/apis/config/source/entries-dir) 更改入口目录 `src/` 为其他目录。
+- 可以通过 [`source.entriesDir`](/docs/apis/app/config/source/entries-dir) 更改入口目录 `src/` 为其他目录。
 - 以下内容省略文件后缀，默认支持 js、jsx、ts、tsx。
 :::
 
@@ -102,7 +102,7 @@ Modern.js 内置了 "@" 别名，指向 `src` 目录。
 
 ### App 入口
 
-在 MWA 项目中，推荐入口目录下只放置 `App` 文件，默认导出整个应用的根组件即可，如下:
+在应用工程中，推荐入口目录下只放置 `App` 文件，默认导出整个应用的根组件即可，如下:
 
 ```js title=src/App.jsx
 import React from 'react';
@@ -146,7 +146,7 @@ if (IS_BROWSER && module.hot) {
 :::tip 提示
 
 * Modern.js 生成的入口会统一放到  `node_modules/.modern-js/` 目录。对应的 Webpack 入口文件为 `node_module/.modern-js/${entryName}/index.js`。
-* `createApp` 和 `bootstrap` 为 `@modern-js/runtime` API，详情请参考：【[Runtime API](/docs/apis/runtime/app/create-app)】。
+* `createApp` 和 `bootstrap` 为 `@modern-js/runtime` API，详情请参考：【[Runtime API](/docs/apis/app/runtime/app/create-app)】。
 
 :::
 
@@ -357,4 +357,4 @@ export default defineConfig({
 
 ## 如何修改入口对应的路由
 
-默认情况下，入口名也就是对应的访问路由，当需要修改入口对应的访问路由或者设置多个路由时，可以在 `modern.config.js` 文件中添加 [`server.routes`](/docs/apis/config/server/routes) 配置。
+默认情况下，入口名也就是对应的访问路由，当需要修改入口对应的访问路由或者设置多个路由时，可以在 `modern.config.js` 文件中添加 [`server.routes`](/docs/apis/app/config/server/routes) 配置。

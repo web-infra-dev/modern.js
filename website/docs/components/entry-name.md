@@ -12,4 +12,4 @@
         └── App.jsx
 ```
 
-如果使用 [source.entries](/docs/apis/config/source/entries) 自定义了页面入口，则「入口名称」为 `source.entries` 对象的 `key`。
+如果使用 [source.entries](/docs/apis/app/config/source/entries) 自定义了页面入口，则「入口名称」为 `source.entries` 对象的 `key`。

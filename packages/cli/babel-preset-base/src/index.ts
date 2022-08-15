@@ -1,10 +1,9 @@
 import type { TransformOptions } from '@babel/core';
-import type { BabelConfig, BabelConfigUtils } from '@modern-js/core';
 import { applyOptionsChain } from '@modern-js/utils';
 import { createBabelChain } from './babel-chain';
 import { getPresetChain } from './presets';
 import { getPluginsChain } from './plugins';
-import { IStyledComponentOptions } from './type';
+import { BabelConfig, BabelConfigUtils, IStyledComponentOptions } from './type';
 import { getBabelUtils } from './babel-utils';
 
 export * from './babel-chain';
@@ -50,7 +49,7 @@ export const applyUserBabelConfig = (
   defaultOptions: TransformOptions,
   userBabelConfig?: BabelConfig | BabelConfig[],
   extraBabelUtils?: Partial<BabelConfigUtils>,
-) => {
+): TransformOptions => {
   if (userBabelConfig) {
     const babelUtils = {
       ...getBabelUtils(defaultOptions),

@@ -21,4 +21,7 @@ export type SSGConfig =
   | boolean
   | SSGSingleEntryOptions
   | SSGMultiEntryOptions
-  | ((entryName: string) => SSGSingleEntryOptions);
+  | ((
+      entryName: string,
+      payload: { baseUrl?: string },
+    ) => SSGSingleEntryOptions);

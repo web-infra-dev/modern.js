@@ -17,8 +17,9 @@ export const afterCreateCompiler = createAsyncWorkflow<{
   compiler: Compiler | MultiCompiler | undefined;
 }>();
 
-export const beforePrintInstructions =
-  createAsyncWaterfall<{ instructions: string }>();
+export const beforePrintInstructions = createAsyncWaterfall<{
+  instructions: string;
+}>();
 
 export const beforeBuild = createAsyncWorkflow<{
   webpackConfigs: Configuration[];

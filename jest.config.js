@@ -1,9 +1,25 @@
 module.exports = {
   collectCoverage: true,
-  collectCoverageFrom: ['<rootDir>/packages/**/src/**/*.ts'],
+  collectCoverageFrom: [
+    '<rootDir>/packages/**/src/**/*.ts',
+    '!<rootDir>/packages/**/generators/src/**/*.ts',
+    '!<rootDir>/packages/**/toolkit/create/src/**/*.ts',
+    // exclude builder temporarily
+    '!<rootDir>/packages/builder/**/src/**/*.ts',
+  ],
   coveragePathIgnorePatterns: ['/node_modules/', '/fixtures/'],
   transform: {
-    '\\.[jt]sx?$': 'esbuild-jest',
+    '\\.[jt]sx?$': [
+      '@swc/jest',
+      {
+        jsc: {
+          parser: {
+            syntax: 'typescript',
+            decorators: true,
+          },
+        },
+      },
+    ],
   },
   moduleNameMapper: {},
   globals: {},
@@ -15,14 +31,5 @@ module.exports = {
     '<rootDir>/packages/**/src/**/*.test.[jt]s?(x)',
     '<rootDir>/packages/**/tests/**/*.test.[jt]s?(x)',
   ],
-  modulePathIgnorePatterns: [
-    // TODO: 很容易超时导致失败，暂时先绕过
-    'packages/generator/generator-utils/tests/index.test.ts',
-    // TODO: 很容易超时导致失败，暂时先绕过
-    'packages/toolkit/utils/tests/index.test.ts',
-    // TODO: 很容易超时导致失败，暂时先绕过
-    'packages/generator/generator-plugin/tests/getPackageMeta.test.ts',
-    // TODO: 后续 unbundle 不再维护，需和插件一起移除
-    'packages/cli/plugin-unbundle/*',
-  ],
+  testPathIgnorePatterns: ['<rootDir>/packages/builder/web-builder/'],
 };

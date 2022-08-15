@@ -15,5 +15,6 @@ export interface ServerRoute {
   bundle?: string;
   // if route has modern product
   enableModernMode?: boolean;
-  // specialHeader?: SpecialHeader[];
+  // response header for routes
+  responseHeaders?: Record<string, unknown>;
 }

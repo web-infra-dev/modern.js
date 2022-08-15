@@ -67,4 +67,44 @@ describe('applyUserBabelConfig', () => {
 
     expect(config).toEqual({});
   });
+
+  test('should allow to modify preset options', () => {
+    const config = applyUserBabelConfig(
+      {
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              targets: 'chrome 30',
+            },
+          ],
+          '@babel/preset-react',
+        ],
+      },
+      (config, utils) => {
+        utils.modifyPresetEnvOptions({
+          targets: 'chrome 35',
+        });
+        utils.modifyPresetReactOptions({
+          runtime: 'classic',
+        });
+      },
+    );
+    expect(config).toEqual({
+      presets: [
+        [
+          '@babel/preset-env',
+          {
+            targets: 'chrome 35',
+          },
+        ],
+        [
+          '@babel/preset-react',
+          {
+            runtime: 'classic',
+          },
+        ],
+      ],
+    });
+  });
 });

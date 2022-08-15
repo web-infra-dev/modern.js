@@ -1,5 +1,19 @@
 # @modern-js/create-request
 
+## 1.4.0
+
+### Minor Changes
+
+- 4fc801f: chore(create-request): remove `@modern-js/plugin-ssr` from `@modern-js/create-request`
+
+  chore(runtime): `@modern-js/create-request` 中移除 `@modern-js/plugin-ssr` 依赖
+
+### Patch Changes
+
+- Updated dependencies [4fc801f]
+- Updated dependencies [c8614b8]
+  - @modern-js/utils@1.8.0
+
 ## 1.3.0
 
 ### Minor Changes

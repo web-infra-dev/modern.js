@@ -1,5 +1,18 @@
 # @modern-js/plugin-esbuild
 
+## 1.4.2
+
+### Patch Changes
+
+- 3c20a5e: fix: `@modern-js/plugin-esbuild` export fields
+
+  fix: 修复 `@modern-js/plugin-esbuild` 导出字段路径
+
+- Updated dependencies [79e83ef]
+- Updated dependencies [22f4dca]
+- Updated dependencies [7b9067f]
+  - @modern-js/utils@1.9.0
+
 ## 1.4.1
 
 ### Patch Changes

@@ -6,7 +6,6 @@
   "repository": "modern-js-dev/modern.js",
   "license": "MIT",
   "keywords": [
-    "react",
     "framework",
     "modern",
     "modern.js"
@@ -43,7 +42,7 @@
     "@modern-js-app/eslint-config": "workspace:^1.2.14",
     "@modern-js/eslint-config": "workspace:^1.2.6",
     "@modern-js/tsconfig": "workspace:^1.2.0",
-    "@modern-js/utils": "workspace:^1.7.12",
+    "@modern-js/utils": "workspace:^1.9.0",
     "cross-spawn": "^7.0.1",
     "eslint": "^7.32.0",
     "husky": "4.3.8",
@@ -56,8 +55,6 @@
     "@types/cross-spawn": "^6.0.2",
     "@types/jest": "^27",
     "@types/node": "^14",
-    "@types/react": "^17",
-    "@types/react-dom": "^17",
     "jest": "^27",
     "typescript": "^4"
   },

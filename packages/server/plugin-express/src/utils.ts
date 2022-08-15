@@ -6,6 +6,7 @@ import {
   ResponseMeta,
   HttpMetadata,
   ResponseMetaType,
+  ValidationError,
 } from '@modern-js/bff-core';
 import type { APIHandlerInfo } from '@modern-js/bff-core';
 import { isSchemaHandler, InputType } from '@modern-js/bff-runtime';
@@ -49,26 +50,28 @@ export const createRouteHandler = (handler: Handler) => {
     req: Request,
     res: Response,
     next: NextFunction,
-    // eslint-disable-next-line consistent-return
   ) => {
     const input = await getInputFromRequest(req);
     if (isWithMetaHandler(handler)) {
       try {
         handleResponseMeta(res, handler);
+        if (res.headersSent) {
+          return;
+        }
         const result = await handler(input);
-        return res.json(result);
+        if (result && typeof result === 'object') {
+          // eslint-disable-next-line consistent-return
+          return res.json(result);
+        }
       } catch (error) {
-        if (error instanceof Error) {
-          if ((error as any).status) {
-            res.status((error as any).status);
-          } else {
-            res.status(500);
-          }
+        if (error instanceof ValidationError) {
+          res.status((error as any).status);
+          // eslint-disable-next-line consistent-return
           return res.json({
-            code: (error as any).code,
             message: error.message,
           });
         }
+        throw error;
       }
     } else if (isSchemaHandler(handler)) {
       const result = await handler(input);
@@ -78,9 +81,11 @@ export const createRouteHandler = (handler: Handler) => {
         } else {
           res.status(500);
         }
+        // eslint-disable-next-line consistent-return
         return res.json(result.message);
       } else {
         res.status(200);
+        // eslint-disable-next-line consistent-return
         return res.json(result.value);
       }
     } else {
@@ -91,11 +96,16 @@ export const createRouteHandler = (handler: Handler) => {
 
         // this should never happen
         if (res.headersSent) {
+          // eslint-disable-next-line consistent-return
           return await Promise.resolve();
         }
 
-        return res.json(body);
+        if (typeof body !== 'undefined') {
+          // eslint-disable-next-line consistent-return
+          return res.json(body);
+        }
       } catch (e) {
+        // eslint-disable-next-line consistent-return
         return next(e);
       }
     }

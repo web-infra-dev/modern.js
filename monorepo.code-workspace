@@ -1,6 +1,22 @@
 {
   "folders": [
     {
+      "name": "@modern-js/runtime",
+      "path": "packages/runtime/plugin-runtime"
+    },
+    {
+      "name": "@modern-js/plugin-testing",
+      "path": "packages/runtime/plugin-testing"
+    },
+    {
+      "name": "@modern-js/plugin-fetch",
+      "path": "packages/runtime/plugin-fetch"
+    },
+    {
+      "name": "@modern-js/plugin-garfish",
+      "path": "packages/runtime/plugin-garfish"
+    },
+    {
       "name": "server/core",
       "path": "packages/server/core/"
     },
@@ -101,10 +117,6 @@
       "path": "packages/generator/generators/eslint-generator"
     },
     {
-      "name": "@modern-js/esmpack",
-      "path": "packages/toolkit/esmpack"
-    },
-    {
       "name": "@modern-js/generator-cases",
       "path": "packages/generator/generator-cases"
     },
@@ -127,10 +139,6 @@
     {
       "name": "@modern-js/generator-utils",
       "path": "packages/generator/generator-utils"
-    },
-    {
-      "name": "@modern-js/hmr-client",
-      "path": "packages/server/hmr-client"
     },
     {
       "name": "@modern-js/module-generator",
@@ -165,10 +173,6 @@
       "path": "packages/toolkit/plugin"
     },
     {
-      "name": "@modern-js/plugin-analyze",
-      "path": "packages/cli/plugin-analyze"
-    },
-    {
       "name": "@modern-js/plugin-bff",
       "path": "packages/cli/plugin-bff"
     },
@@ -200,10 +204,7 @@
       "name": "@modern-js/plugin-express",
       "path": "packages/server/plugin-express"
     },
-    {
-      "name": "@modern-js/plugin-fetch",
-      "path": "packages/cli/plugin-fetch"
-    },
+
     {
       "name": "@modern-js/plugin-i18n",
       "path": "packages/cli/plugin-i18n"
@@ -249,10 +250,6 @@
       "path": "packages/cli/plugin-proxy"
     },
     {
-      "name": "@modern-js/plugin-router",
-      "path": "packages/cli/plugin-router"
-    },
-    {
       "name": "@modern-js/plugin-sass",
       "path": "packages/cli/plugin-sass"
     },
@@ -263,14 +260,6 @@
     {
       "name": "@modern-js/plugin-ssg",
       "path": "packages/cli/plugin-ssg"
-    },
-    {
-      "name": "@modern-js/plugin-ssr",
-      "path": "packages/cli/plugin-ssr"
-    },
-    {
-      "name": "@modern-js/plugin-state",
-      "path": "packages/cli/plugin-state"
     },
     {
       "name": "@modern-js/plugin-static-hosting",
@@ -284,26 +273,12 @@
       "name": "@modern-js/plugin-tailwindcss",
       "path": "packages/cli/plugin-tailwind"
     },
-    {
-      "name": "@modern-js/plugin-testing",
-      "path": "packages/cli/plugin-testing"
-    },
-    {
-      "name": "@modern-js/plugin-unbundle",
-      "path": "packages/cli/plugin-unbundle"
-    },
+
     {
       "name": "@modern-js/repo-generator",
       "path": "packages/generator/generators/repo-generator"
     },
-    {
-      "name": "@modern-js/runtime",
-      "path": "packages/cli/plugin-runtime"
-    },
-    {
-      "name": "@modern-js/runtime-core",
-      "path": "packages/runtime"
-    },
+
     {
       "name": "@modern-js/server",
       "path": "packages/server/server"
@@ -367,6 +342,10 @@
     {
       "name": "@scripts/jest-config",
       "path": "scripts/jest-config"
+    },
+    {
+      "name": "@scripts/vitest-config",
+      "path": "scripts/vitest-config"
     },
     {
       "name": "@scripts/codemod",

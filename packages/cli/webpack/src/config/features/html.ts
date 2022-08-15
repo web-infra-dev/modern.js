@@ -103,6 +103,8 @@ export function applyHTMLPlugin({
             assetTags,
             pluginOptions,
           ) => ({
+            // refer to: https://github.com/jantimon/html-webpack-plugin/blob/main/examples/template-parameters/webpack.config.js
+            compilation,
             webpackConfig: compilation.options,
             htmlWebpackPlugin: {
               tags: assetTags,

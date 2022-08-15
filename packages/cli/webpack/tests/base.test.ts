@@ -399,4 +399,16 @@ describe('base webpack config', () => {
 
     expect(moduleScopePlugin).toBeFalsy();
   });
+
+  test(`should prepend entries correctly when using source.preEntry config`, () => {
+    const config = new BaseWebpackConfig(appContext, {
+      ...userConfig,
+      source: {
+        ...userConfig.source,
+        preEntry: ['./src/foo.ts'],
+      },
+    } as any).config();
+
+    expect(config.entry['page-a']?.[0]).toEqual('./src/foo.ts');
+  });
 });

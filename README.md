@@ -34,8 +34,6 @@
 
 Some implementation of Modern.js are modified from existing projects, such as create-react-app, vite, wmr and jest. Thanks for them.
 
-* Unbundled Dev Server: The server implementation is based on the idea and structure of [vite](https://github.com/vitejs) and [wmr](https://github.com/preactjs/wmr/tree/main/packages/wmr), and is adapted to the Modern.js application.
-
 * Testing: Run jest by node.js API, some code modified from [jest-cli](https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21).
 
 * esbuild-webpack-plugin: modified from [esbuild-webpack-plugin](https://github.com/sorrycc/esbuild-webpack-plugin) and support webpack 5.

@@ -7,6 +7,7 @@ import {
   signale,
   CHAIN_ID,
   isString,
+  ensureArray,
   isTypescript,
   ensureAbsolutePath,
   applyOptionsChain,
@@ -140,11 +141,18 @@ class BaseWebpackConfig {
 
   entry() {
     const { entrypoints = [], checkedEntries } = this.appContext;
+    const { preEntry } = this.options.source || {};
+    const preEntries = preEntry ? ensureArray(preEntry) : [];
 
     for (const { entryName, entry } of entrypoints) {
       if (checkedEntries && !checkedEntries.includes(entryName)) {
         continue;
       }
+
+      preEntries.forEach(entry => {
+        this.chain.entry(entryName).add(entry);
+      });
+
       this.chain.entry(entryName).add(entry);
     }
   }

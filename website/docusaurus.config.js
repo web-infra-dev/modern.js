@@ -1,3 +1,5 @@
+const navbar = require('./navbar');
+
 // @ts-check
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
@@ -15,40 +17,7 @@ module.exports = {
     prism: {
       additionalLanguages: ['powershell'],
     },
-    navbar: {
-      logo: {
-        alt: 'Modernjs Logo',
-        src: 'https://lf-cdn-tos.bytescm.com/obj/static/webinfra/modern-js-website/assets/images/images/modernjs-logo.svg',
-      },
-      items: [
-        {
-          type: 'doc',
-          docId: 'start/mobile',
-          position: 'left',
-          label: '开始',
-        },
-        {
-          type: 'doc',
-          docId: 'guides/overview',
-          position: 'left',
-          label: '指南',
-        },
-        {
-          type: 'doc',
-          docId: 'apis/overview',
-          position: 'left',
-          label: 'API',
-        },
-        { to: '/blog', label: '博客', position: 'left' },
-        { to: '/coming-soon', label: '社区', position: 'left' },
-        {
-          href: 'https://github.com/modern-js-dev/modern.js',
-          position: 'right',
-          className: 'header-github-link',
-          'aria-label': 'GitHub repository',
-        },
-      ],
-    },
+    navbar,
     footer: {
       style: 'dark',
       links: [
@@ -78,19 +47,19 @@ module.exports = {
           items: [
             {
               label: '命令',
-              to: '/docs/apis/commands/overview',
+              to: '/docs/apis/app/commands',
             },
             {
               label: '运行时',
-              to: '/docs/apis/runtime/overview',
+              to: '/docs/apis/app/runtime',
             },
             {
               label: '文件约定',
-              to: '/docs/apis/hooks/overview',
+              to: '/docs/apis/app/hooks',
             },
             {
               label: '配置选项',
-              to: '/docs/apis/config/overview',
+              to: '/docs/apis/app/config',
             },
           ],
         },
@@ -196,24 +165,25 @@ module.exports = {
             from: '/docs/guides/features',
           },
           {
-            to: '/docs/apis/overview', // string
-            from: '/docs/apis',
+            to: '/docs/apis/app/overview', // string
+            from: '/docs/apis/app',
           },
           {
-            to: '/docs/apis/commands/overview', // string
-            from: '/docs/apis/commands',
+            to: '/docs/apis/module/overview', // string
+            from: '/docs/apis/module',
           },
           {
-            to: '/docs/apis/hooks/overview', // string
-            from: '/docs/apis/hooks',
+            to: '/docs/apis/monorepo/overview', // string
+            from: '/docs/apis/monorepo',
           },
           {
-            to: '/docs/apis/runtime/overview', // string
-            from: '/docs/apis/runtime',
+            to: '/docs/apis/generator/overview', // string
+            from: '/docs/apis/generator',
           },
+          // Make sure the previous links are accessible properly
           {
-            to: '/docs/apis/config/overview', // string
-            from: '/docs/apis/config',
+            to: '/docs/apis/app/overview', // string
+            from: ['/docs/apis/config/overview'],
           },
         ],
       },

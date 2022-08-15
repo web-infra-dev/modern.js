@@ -5,7 +5,6 @@ const versionRouteData = null;
 
 module.exports = () => {
   let versionMetaData;
-
   if (!versionRouteData) {
     const files = globby.sync(
       path.join(

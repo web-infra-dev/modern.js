@@ -7,8 +7,8 @@ import {
   nanoid,
   slash,
 } from '@modern-js/utils';
-import DesignTokenPlugin from '@modern-js/plugin-design-token/cli';
 import type { CliPlugin } from '@modern-js/core';
+import DesignTokenPlugin from './design-token/cli';
 import { getTailwindConfig } from './tailwind';
 import { template, checkTwinMacroNotExist } from './utils';
 
@@ -23,11 +23,19 @@ export const getRandomTwConfigFileName = (internalDirectory: string) => {
   );
 };
 
-export default (): CliPlugin => ({
+export default (
+  { pluginName } = {
+    pluginName: '@modern-js/plugin-tailwindcss',
+  },
+): CliPlugin => ({
   name: '@modern-js/plugin-tailwindcss',
 
   // support designSystem.supportStyledComponents
-  usePlugins: [DesignTokenPlugin()],
+  usePlugins: [
+    DesignTokenPlugin({
+      pluginName,
+    }),
+  ],
 
   setup: async api => {
     const { appDirectory, internalDirectory } = api.useAppContext();

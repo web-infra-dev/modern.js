@@ -1,11 +1,12 @@
-import type { BabelConfig, BabelConfigUtils } from '@modern-js/core';
 import type {
   IStyledComponentOptions,
   BabelChain,
+  BabelConfig,
+  BabelConfigUtils,
 } from '@modern-js/babel-preset-base';
 
 export type {
-  EnvOptions,
+  PresetEnvOptions,
   IStyledComponentOptions,
 } from '@modern-js/babel-preset-base';
 

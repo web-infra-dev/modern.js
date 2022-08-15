@@ -179,7 +179,7 @@ Nest 虽然有定制的启动器，但本质与 Express、Koa 相同，所以 Mo
 └── main.ts
 ```
 
-其中 `api/main.ts` 中的内容与 Nest 官方生成器生成模版有所不同，MWA 中支持了两种模式：
+其中 `api/main.ts` 中的内容与 Nest 官方生成器生成模版有所不同，应用工程中支持了两种模式：
 
 不包含内置 Module：
 

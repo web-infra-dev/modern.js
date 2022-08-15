@@ -68,4 +68,49 @@ describe('support api function', () => {
     expect(res.status).toBe(302);
     expect(res.redirect).toBe(true);
   });
+
+  test('should support Middleware Operator', async () => {
+    const expectedData = {
+      message: 'modernjs',
+    };
+    const res = await request(apiHandler)
+      .post(`${prefix}/middleware`)
+      .send(expectedData);
+
+    expect(res.body).toEqual(expectedData);
+  });
+
+  describe('should support Pipe Operator', () => {
+    const expectedData = {
+      message: 'modernjs',
+    };
+
+    test('basic usage', async () => {
+      const res = await request(apiHandler)
+        .post(`${prefix}/pipe?user=modernjs@github.com`)
+        .send(expectedData);
+      expect(res.status).toBe(200);
+      const body = res.body as Record<string, any>;
+      expect(body).toHaveProperty('headers');
+      expect(body.data).toEqual(expectedData);
+    });
+
+    test('end function should works correctly when received a value', async () => {
+      const res = await request(apiHandler)
+        .post(`${prefix}/pipe?user=end@github.com`)
+        .send(expectedData);
+      expect(res.status).toBe(200);
+      const body = res.body as Record<string, any>;
+      expect(body).toEqual(expectedData);
+    });
+
+    test('end function should works correctly when received a function', async () => {
+      const res = await request(apiHandler)
+        .post(`${prefix}/pipe?user=function@github.com`)
+        .send(expectedData);
+      expect(res.status).toBe(400);
+      const body2 = res.body as Record<string, any>;
+      expect(body2.message).toBe('name and message must be modernjs');
+    });
+  });
 });

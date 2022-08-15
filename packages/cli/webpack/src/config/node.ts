@@ -16,13 +16,17 @@ export function filterEntriesBySSRConfig(
   outputConfig?: OutputConfig,
 ) {
   const entries = chain.entryPoints.entries();
-
-  // if prod and ssg config is true
-  if (isProd() && outputConfig?.ssg === true) {
+  // if prod and ssg config is true or function
+  if (
+    isProd() &&
+    (outputConfig?.ssg === true ||
+      typeof (outputConfig?.ssg as Array<unknown>)?.[0] === 'function')
+  ) {
     return;
   }
 
   // if single entry has ssg config
+  // `ssg: {}` is not allowed if multi entry
   const entryNames = Object.keys(entries);
   if (isProd() && entryNames.length === 1 && outputConfig?.ssg) {
     return;
@@ -156,12 +160,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
 
   config() {
     const config = super.config();
-
-    // prod bundle all dependencies
-    if (isProd()) {
-      config.externals = [];
-      return config;
-    }
 
     config.externals = config.externals || [];
 

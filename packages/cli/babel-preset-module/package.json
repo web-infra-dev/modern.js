@@ -6,7 +6,6 @@
   "repository": "modern-js-dev/modern.js",
   "license": "MIT",
   "keywords": [
-    "react",
     "framework",
     "modern",
     "modern.js"
@@ -49,8 +48,6 @@
     "@types/babel__core": "^7.1.15",
     "@types/jest": "^27",
     "@types/node": "^14",
-    "@types/react": "^17",
-    "@types/react-dom": "^17",
     "typescript": "^4",
     "@scripts/build": "workspace:*",
     "jest": "^27",
