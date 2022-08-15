@@ -11,6 +11,7 @@ export type ModifyWebpackUtils = {
   webpack: typeof import('webpack');
   isServer: boolean;
   CHAIN_ID: typeof import('@modern-js/utils').CHAIN_ID;
+  getCompiledPath: (name: string) => string;
 };
 
 export type ModifyWebpackChainFn = (
