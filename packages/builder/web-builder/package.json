@@ -40,8 +40,10 @@
     "@modern-js/babel-preset-app": "workspace:^1.5.0",
     "@modern-js/utils": "workspace:^1.8.1",
     "@types/mini-css-extract-plugin": "2.2.0",
+    "@types/sass-loader": "^8.0.3",
     "css-minimizer-webpack-plugin": "4.0.0",
     "fork-ts-checker-webpack-plugin": "6.5.2",
+    "less-loader": "^10.0.1",
     "mini-css-extract-plugin": "2.4.5",
     "postcss-custom-properties": "12.1.7",
     "postcss-flexbugs-fixes": "5.0.2",
@@ -50,6 +52,7 @@
     "postcss-media-minmax": "5.0.0",
     "postcss-nesting": "10.1.4",
     "postcss-page-break": "3.0.4",
+    "sass-loader": "^12.4.0",
     "terser-webpack-plugin": "5.3.3",
     "ts-loader": "9.3.1",
     "webpack": "^5.71.0"

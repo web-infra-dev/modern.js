@@ -1,4 +1,4 @@
-import { IStyledComponentOptions } from '@modern-js/babel-preset-app';
+import type { IStyledComponentOptions } from '@modern-js/babel-preset-app';
 import type {
   TSLoaderOptions,
   BabelConfigUtils,
@@ -11,6 +11,9 @@ import type {
   CssExtractOptions,
   AutoprefixerOptions,
   PostCSSLoaderOptions,
+  PostCSSPlugin,
+  LessLoaderOptions,
+  SassLoaderOptions,
 } from '../thirdParty';
 
 export type ToolsTerserConfig =
@@ -27,6 +30,63 @@ export type ToolsBabelConfig =
       options: BabelTransformOptions,
       utils: BabelConfigUtils,
     ) => BabelTransformOptions);
+
+export type ToolsTSLoaderOptions =
+  | TSLoaderOptions
+  | ((
+      options: TSLoaderOptions,
+      utils: {
+        addIncludes: (items: RegExp | RegExp[]) => void;
+        addExcludes: (items: RegExp | RegExp[]) => void;
+      },
+    ) => TSLoaderOptions | void);
+
+export type ToolsForkTSCheckerConfig =
+  | ForkTSCheckerOptions
+  | ((options: ForkTSCheckerOptions) => ForkTSCheckerOptions | void);
+
+export type ToolsStyledComponentConfig =
+  | IStyledComponentOptions
+  | ((options: IStyledComponentOptions) => IStyledComponentOptions | void);
+
+export type ToolsCSSLoaderConfig =
+  | CSSLoaderOptions
+  | ((options: CSSLoaderOptions) => CSSLoaderOptions | void);
+
+export type ToolsStyleLoaderConfig =
+  | StyleLoaderOptions
+  | ((options: StyleLoaderOptions) => StyleLoaderOptions | void);
+
+export type ToolsCssExtractConfig =
+  | CssExtractOptions
+  | ((options: CssExtractOptions) => CssExtractOptions | void);
+
+export type ToolsAutoprefixerConfig =
+  | AutoprefixerOptions
+  | ((options: AutoprefixerOptions) => AutoprefixerOptions | void);
+
+export type ToolsPostCSSLoaderConfig =
+  | PostCSSLoaderOptions
+  | ((
+      options: PostCSSLoaderOptions,
+      utils: {
+        addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void;
+      },
+    ) => PostCSSLoaderOptions | void);
+
+export type ToolsLessConfig =
+  | LessLoaderOptions
+  | ((
+      options: LessLoaderOptions,
+      utils: { addExcludes: (excludes: RegExp | RegExp[]) => void },
+    ) => LessLoaderOptions | void);
+
+export type ToolsSassConfig =
+  | SassLoaderOptions
+  | ((
+      options: SassLoaderOptions,
+      utils: { addExcludes: (excludes: RegExp | RegExp[]) => void },
+    ) => SassLoaderOptions | void);
 
 export type DevServerConfig = {
   hot?: boolean;
@@ -45,4 +105,6 @@ export interface ToolsConfig {
   cssExtract?: CssExtractOptions;
   postcss?: PostCSSLoaderOptions;
   autoprefixer?: AutoprefixerOptions;
+  sass?: SassLoaderOptions;
+  less?: LessLoaderOptions;
 }

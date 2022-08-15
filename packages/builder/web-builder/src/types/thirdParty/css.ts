@@ -5,7 +5,7 @@ import type {
   AcceptedPlugin,
   SourceMapOptions,
 } from 'postcss';
-import { PluginOptions } from 'mini-css-extract-plugin';
+import type { PluginOptions } from 'mini-css-extract-plugin';
 
 export interface CSSModulesOptions {
   compileType?: string;
@@ -85,3 +85,5 @@ export type PostCSSLoaderOptions = {
 };
 
 export type { PluginOptions as MiniCSSExtractPluginOptions };
+
+export type { AcceptedPlugin as PostCSSPlugin } from 'postcss';

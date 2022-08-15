@@ -60,7 +60,6 @@ export async function createBuilder(options?: BuilderOptions) {
 
 async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginHMR } = await import('../plugins/hmr');
-  const { PluginCss } = await import('../plugins/css');
   const { PluginCopy } = await import('../plugins/copy');
   const { PluginFont } = await import('../plugins/font');
   const { PluginBasic } = await import('../plugins/basic');
@@ -77,6 +76,9 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginBabel } = await import('../plugins/babel');
   const { PluginTsLoader } = await import('../plugins/tsLoader');
   const { PluginTsChecker } = await import('../plugins/tsChecker');
+  const { PluginCss } = await import('../plugins/css');
+  const { PluginSass } = await import('../plugins/sass');
+  const { PluginLess } = await import('../plugins/less');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
@@ -100,5 +102,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginBabel(),
     PluginTsChecker(),
     PluginCss(),
+    PluginSass(),
+    PluginLess(),
   ]);
 }
