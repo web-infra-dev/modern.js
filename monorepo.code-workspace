@@ -9,10 +9,6 @@
       "path": "packages/runtime/plugin-testing"
     },
     {
-      "name": "@modern-js/plugin-fetch",
-      "path": "packages/runtime/plugin-fetch"
-    },
-    {
       "name": "@modern-js/plugin-garfish",
       "path": "packages/runtime/plugin-garfish"
     },
