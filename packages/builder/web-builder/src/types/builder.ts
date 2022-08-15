@@ -7,7 +7,7 @@ export type BuilderOptions = {
   /** The root path of current project. */
   cwd?: string;
   /** The entry points object. */
-  entry: EntryObject;
+  entry?: EntryObject;
   /** Type of build target. */
   target?: BuilderTarget | BuilderTarget[];
   /** Framework name, such as 'modern.js' */
