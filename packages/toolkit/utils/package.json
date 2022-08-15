@@ -42,6 +42,7 @@
     "./semver": "./compiled/semver/index.js",
     "./lodash": "./compiled/lodash/index.js",
     "./globby": "./compiled/globby/index.js",
+    "./fs-extra": "./compiled/fs-extra/index.js",
     "./fast-glob": "./compiled/fast-glob/index.js",
     "./gzip-size": "./compiled/gzip-size/index.js",
     "./mime-types": "./compiled/mime-types/index.js",
@@ -68,6 +69,7 @@
       "./semver": "./compiled/semver/index.js",
       "./lodash": "./compiled/lodash/index.js",
       "./globby": "./compiled/globby/index.js",
+      "./fs-extra": "./compiled/fs-extra/index.js",
       "./fast-glob": "./compiled/fast-glob/index.js",
       "./gzip-size": "./compiled/gzip-size/index.js",
       "./mime-types": "./compiled/mime-types/index.js",
@@ -113,6 +115,9 @@
       ],
       "globby": [
         "./compiled/globby/index.d.ts"
+      ],
+      "fs-extra": [
+        "./compiled/fs-extra/index.d.ts"
       ],
       "fast-glob": [
         "./compiled/fast-glob/index.d.ts"

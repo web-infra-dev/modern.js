@@ -1,8 +1,8 @@
 import { pick } from '../shared';
 import { createContext, createPublicContext } from './createContext';
 import { createPluginStore } from './createPluginStore';
-import { initConfigs } from './initConfigs';
 import type { PluginStore, BuilderOptions } from '../types';
+import type { InspectOptions } from './inspectWebpackConfig';
 
 export function mergeBuilderOptions(options?: BuilderOptions) {
   const DEFAULT_OPTIONS: Required<BuilderOptions> = {
@@ -29,22 +29,24 @@ export async function createBuilder(options?: BuilderOptions) {
 
   const build = async () => {
     const { build: buildImpl } = await import('./build');
-    const { webpackConfigs } = await initConfigs({
-      context,
-      pluginStore,
-      builderOptions,
-    });
-    return buildImpl({ context, webpackConfigs });
+    return buildImpl({ context, pluginStore, builderOptions });
   };
 
   const createCompiler = async () => {
     const { createCompiler } = await import('./createCompiler');
-    const { webpackConfigs } = await initConfigs({
+    return createCompiler({ context, pluginStore, builderOptions });
+  };
+
+  const inspectWebpackConfig = async (inspectOptions: InspectOptions = {}) => {
+    const { inspectWebpackConfig: inspectWebpackConfigImpl } = await import(
+      './inspectWebpackConfig'
+    );
+    return inspectWebpackConfigImpl({
       context,
       pluginStore,
       builderOptions,
+      inspectOptions,
     });
-    return createCompiler({ context, webpackConfigs });
   };
 
   return {
@@ -52,6 +54,7 @@ export async function createBuilder(options?: BuilderOptions) {
     build,
     context: publicContext,
     createCompiler,
+    inspectWebpackConfig,
   };
 }
 
