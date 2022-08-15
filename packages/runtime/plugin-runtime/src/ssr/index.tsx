@@ -53,6 +53,11 @@ const ssr = (): Plugin => ({
         const request: SSRServerContext['request'] | undefined =
           window?._SSR_DATA?.context?.request;
         if (!request) {
+          context.ssrContext = {
+            ...context.ssrContext,
+            response: mockResp,
+            request: formatClient({} as any),
+          };
           return next({ context });
         }
 
