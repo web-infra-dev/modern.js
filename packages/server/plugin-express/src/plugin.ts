@@ -15,6 +15,10 @@ interface FrameConfig {
   middleware: (RequestHandler | string)[];
 }
 
+type Hooks = {
+  afterLambdaRegisted?: (app: Express) => void;
+};
+
 const findAppModule = async (apiDir: string) => {
   const exts = ['.ts', '.js'];
   const paths = exts.map(ext => path.resolve(apiDir, `app${ext}`));
@@ -23,11 +27,11 @@ const findAppModule = async (apiDir: string) => {
     if (await fs.pathExists(filename)) {
       // 每次获取 app.ts 的时候，避免使用缓存的 app.ts
       delete require.cache[filename];
-      return compatRequire(filename);
+      return [compatRequire(filename), require(filename)];
     }
   }
 
-  return null;
+  return [];
 };
 
 const initMiddlewares = (
@@ -67,7 +71,9 @@ export default (): ServerPlugin => ({
       const appContext = api.useAppContext();
       const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
       if (mode === 'framework') {
-        app = await findAppModule(apiDir);
+        const appModule = await findAppModule(apiDir);
+        app = appModule[0];
+        const hooks: Hooks = appModule[1];
 
         if (!app || !app.use) {
           // console.warn('There is not api/app.ts.');
@@ -82,6 +88,11 @@ export default (): ServerPlugin => ({
         useRun(app);
 
         registerRoutes(app, apiHandlerInfos);
+
+        const { afterLambdaRegisted } = hooks;
+        if (afterLambdaRegisted) {
+          afterLambdaRegisted(app);
+        }
       } else if (mode === 'function') {
         app = express();
         initApp(app);
