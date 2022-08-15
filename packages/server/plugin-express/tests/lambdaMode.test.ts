@@ -1,5 +1,5 @@
 import path from 'path';
-import express from 'express';
+import express, { Express, Request, Response, NextFunction } from 'express';
 import request from 'supertest';
 import { serverManager } from '@modern-js/server-core';
 import plugin from '../src/plugin';
@@ -313,6 +313,56 @@ describe('support app.ts in lambda mode', () => {
     const res2 = await request(apiHandler).get(`/nest/user?name=${name}`);
     expect(res2.status).toBe(200);
     expect(res2.body.query.name).toBe(name);
+  });
+
+  test('support afterLambdaRegisted hook', async () => {
+    const msg = `after lambda`;
+    const errMsg = `Something broke!`;
+    const mock_express = express;
+    jest.mock(
+      path.join(pwd, API_DIR, 'app.ts'),
+      () => {
+        const app = mock_express();
+        return {
+          __esModule: true,
+          default: app,
+          afterLambdaRegisted(app: Express) {
+            app.get('/lambda', (req, res) => {
+              res.send(msg);
+              res.end();
+            });
+
+            app.get('/error', (req, res) => {
+              throw new Error(errMsg);
+              res.send(msg);
+              res.end();
+            });
+
+            app.use(
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              (err: Error, req: Request, res: Response, next: NextFunction) => {
+                res.status(500).send(`${msg}:${errMsg}`);
+              },
+            );
+          },
+        };
+      },
+      { virtual: true },
+    );
+
+    const apiHandler = await runner.prepareApiServer({
+      pwd,
+      mode: 'framework',
+      prefix: '/',
+    });
+
+    const res1 = await request(apiHandler).get(`/lambda`);
+    expect(res1.status).toBe(200);
+    expect(res1.text).toBe(msg);
+
+    const res2 = await request(apiHandler).get(`/error`);
+    expect(res2.status).toBe(500);
+    expect(res2.text).toBe(`${msg}:${errMsg}`);
   });
 });
 
