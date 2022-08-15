@@ -7,6 +7,7 @@ import type { InspectOptions } from './inspectWebpackConfig';
 export function mergeBuilderOptions(options?: BuilderOptions) {
   const DEFAULT_OPTIONS: Required<BuilderOptions> = {
     cwd: process.cwd(),
+    entry: {},
     target: ['web'],
     configPath: null,
     builderConfig: {},
@@ -64,6 +65,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginFont } = await import('../plugins/font');
   const { PluginBasic } = await import('../plugins/basic');
   const { PluginCache } = await import('../plugins/cache');
+  const { PluginEntry } = await import('../plugins/entry');
   const { PluginImage } = await import('../plugins/image');
   const { PluginTarget } = await import('../plugins/target');
   const { PluginOutput } = await import('../plugins/output');
@@ -83,6 +85,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
     PluginBasic(),
+    PluginEntry(),
     PluginCache(),
     PluginTarget(),
     PluginOutput(),

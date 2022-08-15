@@ -7,9 +7,6 @@ export const TestPlugin = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackConfig(config => {
-      config.entry = {
-        test: join(api.context.srcPath, 'index.ts'),
-      };
       // Webpack devtool
       config.plugins?.push(new InspectorWebpackPlugin());
     });
@@ -22,11 +19,15 @@ export const createBuilder = async () => {
   );
 
   const cwd = join(__dirname, '..');
+  const entry = {
+    main: join(cwd, 'src', 'index.ts'),
+  };
+
   const builder = await createBuilder({
     cwd,
+    entry,
     configPath: __filename,
     builderConfig: {
-      output: {},
       tools: {
         cssExtract: {},
         tsLoader: {

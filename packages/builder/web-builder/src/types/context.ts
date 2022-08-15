@@ -1,15 +1,20 @@
 import type { STATUS } from '../shared';
+import type { EntryObject } from 'webpack';
 import type { Hooks } from '../core/createHook';
 import type { BuilderConfig } from './config';
 
 /** The public context */
 export type BuilderContext = {
+  /** The entry points object. */
+  entry: EntryObject;
   /** The root path of current project. */
   rootPath: string;
   /** Absolute path of source files. */
   srcPath: string;
   /** Absolute path of output files. */
   distPath: string;
+  /** The name of framework, such as `modern-js`. */
+  framework: string;
   /** Absolute path of cache files. */
   cachePath: string;
   /** Absolute path of framework config file. */
@@ -23,8 +28,6 @@ export type BuilderContext = {
     ip: string;
     port: number;
   };
-  /** The name of framework, such as `modern-js`. */
-  framework: string;
 };
 
 /** The inner context */
