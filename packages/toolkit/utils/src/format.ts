@@ -68,7 +68,7 @@ function formatMessage(stats: webpack.StatsError | string) {
   lines[0] = lines[0].replace(/^(.*) \d+:\d+-\d+$/, '$1');
 
   // Cleans up verbose "module not found" messages for files and packages.
-  if (lines[1]?.indexOf('Module not found:') !== -1) {
+  if (lines[1] && lines[1].indexOf('Module not found:') !== -1) {
     lines[1] = lines[1].replace('Error: ', '');
   }
 
