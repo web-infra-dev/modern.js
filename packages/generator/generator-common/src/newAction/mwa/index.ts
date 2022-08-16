@@ -82,7 +82,6 @@ export const MWAActionFunctionsDevDependencies: Partial<
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
   [ActionFunction.Test]: '@modern-js/plugin-testing',
   [ActionFunction.E2ETest]: '@modern-js/plugin-e2e',
-  [ActionFunction.Doc]: '@modern-js/plugin-docsite',
   [ActionFunction.Electron]: '@modern-js/plugin-electron',
   [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
   [ActionFunction.Proxy]: '@modern-js/plugin-proxy',

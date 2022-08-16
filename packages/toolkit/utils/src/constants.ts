@@ -86,7 +86,6 @@ export const INTERNAL_PLUGINS: {
   '@modern-js/plugin-electron': { cli: '@modern-js/plugin-electron/cli' },
   '@modern-js/plugin-testing': { cli: '@modern-js/plugin-testing/cli' },
   '@modern-js/plugin-storybook': { cli: '@modern-js/plugin-storybook/cli' },
-  '@modern-js/plugin-docsite': { cli: '@modern-js/plugin-docsite/cli' },
   '@modern-js/plugin-express': {
     cli: '@modern-js/plugin-express/cli',
     server: '@modern-js/plugin-express',
