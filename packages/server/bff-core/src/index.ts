@@ -9,4 +9,5 @@ export {
   HANDLER_WITH_META,
   isWithMetaHandler,
   createStorage,
+  registerPaths,
 } from './utils';
