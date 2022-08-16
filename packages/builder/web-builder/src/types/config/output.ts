@@ -15,6 +15,8 @@ export type Polyfill = 'usage' | 'entry' | 'ua' | 'off';
 
 export interface OutputConfig {
   copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
+  title?: string;
+  titleByEntries?: Record<string, string>;
   distPath?: string | DistPathConfig;
   polyfill?: Polyfill;
   assetPrefix?: string;

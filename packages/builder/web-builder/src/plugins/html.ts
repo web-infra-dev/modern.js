@@ -2,7 +2,8 @@ import path from 'path';
 import { HTML_DIST_DIR } from '../shared';
 import type { BuilderConfig, BuilderPlugin } from '../types';
 
-function getFilename(entry: string, config: BuilderConfig) {
+async function getFilename(entry: string, config: BuilderConfig) {
+  const { removeLeadingSlash } = await import('@modern-js/utils');
   const { distPath } = config.output || {};
 
   const htmlPath =
@@ -12,7 +13,7 @@ function getFilename(entry: string, config: BuilderConfig) {
     ? `${entry}.html`
     : `${entry}/index.html`;
 
-  return `${htmlPath}/${filename}`;
+  return removeLeadingSlash(`${htmlPath}/${filename}`);
 }
 
 function getMinifyOptions(isProd: boolean, config: BuilderConfig) {
@@ -20,6 +21,7 @@ function getMinifyOptions(isProd: boolean, config: BuilderConfig) {
     return false;
   }
 
+  // these options are same as the default options of html-webpack-plugin
   return {
     removeComments: true,
     useShortDoctype: true,
@@ -31,10 +33,15 @@ function getMinifyOptions(isProd: boolean, config: BuilderConfig) {
   };
 }
 
-function getTemplateParameters() {
+function getTitle(entry: string, config: BuilderConfig) {
+  const { title, titleByEntries } = config.output || {};
+  return titleByEntries?.[entry] || title || '';
+}
+
+function getTemplateParameters(entry: string, config: BuilderConfig) {
   return {
     meta: '',
-    title: '',
+    title: getTitle(entry, config),
   };
 }
 
@@ -55,18 +62,24 @@ export const PluginHtml = (): BuilderPlugin => ({
       const config = api.getBuilderConfig();
       const entries = Object.keys(chain.entryPoints.entries());
 
-      entries.forEach(entry => {
-        chain
-          .plugin(`${CHAIN_ID.PLUGIN.HTML}-${entry}`)
-          .use(HtmlWebpackPlugin, [
-            {
-              minify: getMinifyOptions(isProd, config),
-              template: DEFAULT_TEMPLATE,
-              filename: getFilename(entry, config),
-              templateParameters: getTemplateParameters(),
-            },
-          ]);
-      });
+      await Promise.all(
+        entries.map(async entry => {
+          const minify = getMinifyOptions(isProd, config);
+          const filename = await getFilename(entry, config);
+          const templateParameters = getTemplateParameters(entry, config);
+
+          chain
+            .plugin(`${CHAIN_ID.PLUGIN.HTML}-${entry}`)
+            .use(HtmlWebpackPlugin, [
+              {
+                minify,
+                filename,
+                template: DEFAULT_TEMPLATE,
+                templateParameters,
+              },
+            ]);
+        }),
+      );
     });
   },
 });
