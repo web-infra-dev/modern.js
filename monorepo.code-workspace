@@ -1,6 +1,18 @@
 {
   "folders": [
     {
+      "name": "@modern-js/app-tools",
+      "path": "packages/solutions/app-tools"
+    },
+    {
+      "name": "@modern-js/module-tools",
+      "path": "packages/solutions/module-tools"
+    },
+    {
+      "name": "@modern-js/monorepo-tools",
+      "path": "packages/solutions/monorepo-tools"
+    },
+    {
       "name": "@modern-js/runtime",
       "path": "packages/runtime/plugin-runtime"
     },
@@ -13,16 +25,24 @@
       "path": "packages/runtime/plugin-garfish"
     },
     {
-      "name": "server/core",
-      "path": "packages/server/core/"
-    },
-    {
       "name": "@modern-js-app/eslint-config",
       "path": "packages/review/eslint-config-app"
     },
     {
-      "name": "@modern-js/app-tools",
-      "path": "packages/solutions/app-tools"
+      "name": "@modern-js/eslint-config",
+      "path": "packages/review/eslint-config"
+    },
+    {
+      "name": "@modern-js/tsconfig",
+      "path": "packages/review/tsconfig"
+    },
+    {
+      "name": "@modern-js/plugin-jarvis",
+      "path": "packages/cli/plugin-jarvis"
+    },
+    {
+      "name": "server/core",
+      "path": "packages/server/core/"
     },
     {
       "name": "@modern-js/babel-compiler",
@@ -45,14 +65,6 @@
       "path": "packages/cli/babel-preset-module"
     },
     {
-      "name": "@modern-js/base-generator",
-      "path": "packages/generator/generators/base-generator"
-    },
-    {
-      "name": "@modern-js/bff-generator",
-      "path": "packages/generator/generators/bff-generator"
-    },
-    {
       "name": "@modern-js/bff-runtime",
       "path": "packages/server/bff-runtime"
     },
@@ -61,20 +73,8 @@
       "path": "packages/server/bff-core"
     },
     {
-      "name": "@modern-js/changeset-generator",
-      "path": "packages/generator/generators/changeset-generator"
-    },
-    {
-      "name": "@modern-js/cloud-deploy-generator",
-      "path": "packages/generator/generators/cloud-deploy-generator"
-    },
-    {
       "name": "@modern-js/core",
       "path": "packages/cli/core"
-    },
-    {
-      "name": "@modern-js/create",
-      "path": "packages/toolkit/create"
     },
     {
       "name": "@modern-js/create-request",
@@ -83,78 +83,6 @@
     {
       "name": "@modern-js/css-config",
       "path": "packages/cli/css-config"
-    },
-    {
-      "name": "@modern-js/dependence-generator",
-      "path": "packages/generator/generators/dependence-generator"
-    },
-    {
-      "name": "@modern-js/electron-generator",
-      "path": "packages/generator/generators/electron-generator"
-    },
-    {
-      "name": "@modern-js/electron-independence-generator",
-      "path": "packages/generator/generators/electron-independence-generator"
-    },
-    {
-      "name": "@modern-js/entry-generator",
-      "path": "packages/generator/generators/entry-generator"
-    },
-    {
-      "name": "@modern-js/eslint-config",
-      "path": "packages/review/eslint-config"
-    },
-    {
-      "name": "@modern-js/eslint-generator",
-      "path": "packages/generator/generators/eslint-generator"
-    },
-    {
-      "name": "@modern-js/generator-cases",
-      "path": "packages/generator/generator-cases"
-    },
-    {
-      "name": "@modern-js/generator-common",
-      "path": "packages/generator/generator-common"
-    },
-    {
-      "name": "@modern-js/generator-generator",
-      "path": "packages/generator/generators/generator-generator"
-    },
-    {
-      "name": "@modern-js/generator-plugin",
-      "path": "packages/generator/generator-plugin"
-    },
-    {
-      "name": "@modern-js/generator-plugin-plugin",
-      "path": "packages/generator/plugins/generator-plugin"
-    },
-    {
-      "name": "@modern-js/generator-utils",
-      "path": "packages/generator/generator-utils"
-    },
-    {
-      "name": "@modern-js/module-generator",
-      "path": "packages/generator/generators/module-generator"
-    },
-    {
-      "name": "@modern-js/module-tools",
-      "path": "packages/solutions/module-tools"
-    },
-    {
-      "name": "@modern-js/monorepo-generator",
-      "path": "packages/generator/generators/monorepo-generator"
-    },
-    {
-      "name": "@modern-js/monorepo-tools",
-      "path": "packages/solutions/monorepo-tools"
-    },
-    {
-      "name": "@modern-js/mwa-generator",
-      "path": "packages/generator/generators/mwa-generator"
-    },
-    {
-      "name": "@modern-js/new-action",
-      "path": "packages/generator/new-action"
     },
     {
       "name": "@modern-js/node-bundle-require",
@@ -196,10 +124,6 @@
     {
       "name": "@modern-js/plugin-i18n",
       "path": "packages/cli/plugin-i18n"
-    },
-    {
-      "name": "@modern-js/plugin-jarvis",
-      "path": "packages/cli/plugin-jarvis"
     },
     {
       "name": "@modern-js/plugin-koa",
@@ -261,12 +185,6 @@
       "name": "@modern-js/plugin-tailwindcss",
       "path": "packages/cli/plugin-tailwind"
     },
-
-    {
-      "name": "@modern-js/repo-generator",
-      "path": "packages/generator/generators/repo-generator"
-    },
-
     {
       "name": "@modern-js/server",
       "path": "packages/server/server"
@@ -274,10 +192,6 @@
     {
       "name": "@modern-js/prod-server",
       "path": "packages/server/prod-server"
-    },
-    {
-      "name": "@modern-js/server-generator",
-      "path": "packages/generator/generators/server-generator"
     },
     {
       "name": "@modern-js/server-plugin",
@@ -288,28 +202,8 @@
       "path": "packages/server/utils"
     },
     {
-      "name": "@modern-js/ssg-generator",
-      "path": "packages/generator/generators/ssg-generator"
-    },
-    {
-      "name": "@modern-js/storybook-generator",
-      "path": "packages/generator/generators/storybook-generator"
-    },
-    {
       "name": "@modern-js/style-compiler",
       "path": "packages/toolkit/compiler/style"
-    },
-    {
-      "name": "@modern-js/tailwindcss-generator",
-      "path": "packages/generator/generators/tailwindcss-generator"
-    },
-    {
-      "name": "@modern-js/test-generator",
-      "path": "packages/generator/generators/test-generator"
-    },
-    {
-      "name": "@modern-js/tsconfig",
-      "path": "packages/review/tsconfig"
     },
     {
       "name": "@modern-js/types",
@@ -322,6 +216,110 @@
     {
       "name": "@modern-js/webpack",
       "path": "packages/cli/webpack"
+    },
+    {
+      "name": "@modern-js/create",
+      "path": "packages/toolkit/create"
+    },
+    {
+      "name": "@modern-js/new-action",
+      "path": "packages/generator/new-action"
+    },
+    {
+      "name": "@modern-js/generator-common",
+      "path": "packages/generator/generator-common"
+    },
+    {
+      "name": "@modern-js/generator-cases",
+      "path": "packages/generator/generator-cases"
+    },
+    {
+      "name": "@modern-js/generator-utils",
+      "path": "packages/generator/generator-utils"
+    },
+    {
+      "name": "@modern-js/generator-plugin",
+      "path": "packages/generator/generator-plugin"
+    },
+    {
+      "name": "@modern-js/base-generator",
+      "path": "packages/generator/generators/base-generator"
+    },
+    {
+      "name": "@modern-js/repo-generator",
+      "path": "packages/generator/generators/repo-generator"
+    },
+    {
+      "name": "@modern-js/mwa-generator",
+      "path": "packages/generator/generators/mwa-generator"
+    },
+    {
+      "name": "@modern-js/module-generator",
+      "path": "packages/generator/generators/module-generator"
+    },
+    {
+      "name": "@modern-js/monorepo-generator",
+      "path": "packages/generator/generators/monorepo-generator"
+    },
+    {
+      "name": "@modern-js/bff-generator",
+      "path": "packages/generator/generators/bff-generator"
+    },
+    {
+      "name": "@modern-js/changeset-generator",
+      "path": "packages/generator/generators/changeset-generator"
+    },
+    {
+      "name": "@modern-js/cloud-deploy-generator",
+      "path": "packages/generator/generators/cloud-deploy-generator"
+    },
+    {
+      "name": "@modern-js/dependence-generator",
+      "path": "packages/generator/generators/dependence-generator"
+    },
+    {
+      "name": "@modern-js/electron-generator",
+      "path": "packages/generator/generators/electron-generator"
+    },
+    {
+      "name": "@modern-js/electron-independence-generator",
+      "path": "packages/generator/generators/electron-independence-generator"
+    },
+    {
+      "name": "@modern-js/entry-generator",
+      "path": "packages/generator/generators/entry-generator"
+    },
+    {
+      "name": "@modern-js/eslint-generator",
+      "path": "packages/generator/generators/eslint-generator"
+    },
+    {
+      "name": "@modern-js/generator-generator",
+      "path": "packages/generator/generators/generator-generator"
+    },
+    {
+      "name": "@modern-js/server-generator",
+      "path": "packages/generator/generators/server-generator"
+    },
+    {
+      "name": "@modern-js/ssg-generator",
+      "path": "packages/generator/generators/ssg-generator"
+    },
+    {
+      "name": "@modern-js/storybook-generator",
+      "path": "packages/generator/generators/storybook-generator"
+    },
+    {
+      "name": "@modern-js/tailwindcss-generator",
+      "path": "packages/generator/generators/tailwindcss-generator"
+    },
+    {
+      "name": "@modern-js/test-generator",
+      "path": "packages/generator/generators/test-generator"
+    },
+    {
+      "name": "@modern-js/generator-plugin-plugin",
+      "path": "packages/generator/plugins/generator-plugin"
     },
     {
       "name": "@scripts/build",
