@@ -17,6 +17,7 @@ const restrictedImportInSource = {
     'lodash',
     'ts-loader',
     'typescript',
+    '@modern-js/utils',
     ...devDependencyPaths,
   ].map(withAllowTypeImports('name')),
   patterns: [
@@ -27,6 +28,7 @@ const restrictedImportInSource = {
       '@modern-js/utils/*',
       '!@modern-js/utils/chalk',
       '!@modern-js/utils/lodash',
+      '!@modern-js/utils/chain-id',
     ],
   ].map(withAllowTypeImports('group')),
 };
