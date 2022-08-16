@@ -55,7 +55,6 @@ export const ModuleActionFunctionsDevDependencies: Partial<
 > = {
   [ActionFunction.Less]: '@modern-js/plugin-less',
   [ActionFunction.Sass]: '@modern-js/plugin-sass',
-  [ActionFunction.Doc]: '@modern-js/plugin-docsite',
   [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
   [ActionFunction.RuntimeApi]: '@modern-js/runtime',
   [ActionFunction.TailwindCSS]: 'tailwindcss',
