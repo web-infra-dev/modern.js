@@ -3,6 +3,7 @@ import { DEFAULT_DATA_URL_SIZE } from './constants';
 import { URLSearchParams } from 'url';
 import type Buffer from 'buffer';
 import assert from 'assert';
+import path from 'path';
 
 export const JS_REGEX = /\.(js|mjs|cjs|jsx)$/;
 
@@ -89,3 +90,6 @@ export function getDataUrlCondition(dataUriLimit = DEFAULT_DATA_URL_SIZE) {
     return source.length <= dataUriLimit;
   };
 }
+
+export const getCompiledPath = (packageName: string) =>
+  path.join(__dirname, '../../compiled', packageName);

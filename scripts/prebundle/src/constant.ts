@@ -217,6 +217,61 @@ export const TASKS: TaskConfig[] = [
           'schema-utils': '../schema-utils3',
         },
       },
+      {
+        name: 'postcss-value-parser',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-custom-properties',
+        ignoreDts: true,
+        externals: {
+          'postcss-value-parser': '../postcss-value-parser',
+        },
+      },
+      {
+        name: 'postcss-flexbugs-fixes',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-font-variant',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-initial',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-media-minmax',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-nesting',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-page-break',
+        ignoreDts: true,
+      },
+      {
+        name: 'autoprefixer',
+        ignoreDts: true,
+        externals: {
+          browserslist: '@modern-js/utils/browserslist',
+          'postcss-value-parser': '../postcss-value-parser',
+        },
+      },
+      {
+        name: 'css-loader',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-loader',
+        ignoreDts: true,
+      },
+      {
+        name: 'css-modules-typescript-loader',
+        ignoreDts: true,
+      },
     ],
   },
   {

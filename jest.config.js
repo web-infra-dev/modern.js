@@ -31,5 +31,6 @@ module.exports = {
     '<rootDir>/packages/**/src/**/*.test.[jt]s?(x)',
     '<rootDir>/packages/**/tests/**/*.test.[jt]s?(x)',
   ],
+  modulePathIgnorePatterns: ['<rootDir>/packages/builder/web-builder/'],
   testPathIgnorePatterns: ['<rootDir>/packages/builder/web-builder/'],
 };

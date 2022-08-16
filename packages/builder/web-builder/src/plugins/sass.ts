@@ -39,6 +39,7 @@ export function PluginSass(): BuilderPlugin {
         chain.module
           .rule(CHAIN_ID.RULE.SASS)
           .test(SASS_REGEX)
+
           .merge({
             exclude: excludes,
             use: [

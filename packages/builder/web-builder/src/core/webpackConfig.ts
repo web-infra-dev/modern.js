@@ -1,4 +1,4 @@
-import { STATUS } from '../shared';
+import { STATUS, getCompiledPath } from '../shared';
 import type {
   Context,
   NodeEnv,
@@ -57,6 +57,7 @@ export async function generateWebpackConfig({
     isProd: nodeEnv === 'production',
     isServer: target === 'node',
     CHAIN_ID,
+    getCompiledPath,
   };
 
   const chain = await modifyWebpackChain(context, utils);

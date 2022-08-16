@@ -116,7 +116,7 @@ export function applyScriptCondition(
 export const PluginBabel = (): BuilderPlugin => ({
   name: 'web-builder-plugin-babel',
   setup(api) {
-    api.modifyWebpackChain(async chain => {
+    api.modifyWebpackChain(async (chain, { getCompiledPath }) => {
       const config = api.getBuilderConfig();
       const { CHAIN_ID } = await import('@modern-js/utils');
       const { rootPath, framework } = api.context;
@@ -131,7 +131,7 @@ export const PluginBabel = (): BuilderPlugin => ({
       rule
         .test(useTsLoader ? JS_REGEX : mergeRegex(JS_REGEX, TS_REGEX))
         .use(CHAIN_ID.USE.BABEL)
-        .loader(require.resolve('../../compiled/babel-loader'))
+        .loader(getCompiledPath('babel-loader'))
         .options(babelOptions);
     });
   },
