@@ -24,8 +24,10 @@ const getQuery = () =>
     .split('&')
     .reduce<Record<string, string>>((res, item) => {
       const [key, value] = item.split('=');
-      res[key] = value;
 
+      if (key) {
+        res[key] = value;
+      }
       return res;
     }, {});
 
@@ -38,8 +40,8 @@ export const formatClient = (
     pathname: request.pathname || location.pathname,
     headers: request.headers || {},
     cookieMap: request.cookieMap || {},
-    cookie: request.headers.cookie || document.cookie,
-    userAgent: request.headers['user-agent'] || navigator.userAgent,
+    cookie: request.headers?.cookie || document.cookie,
+    userAgent: request.headers?.['user-agent'] || navigator.userAgent,
     referer: request.referer || document.referrer,
     query: request.query || getQuery(),
     url: location.href,
