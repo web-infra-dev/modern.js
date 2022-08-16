@@ -181,10 +181,6 @@
       "path": "packages/cli/plugin-changeset"
     },
     {
-      "name": "@modern-js/plugin-docsite",
-      "path": "packages/cli/plugin-docsite"
-    },
-    {
       "name": "@modern-js/plugin-egg",
       "path": "packages/server/plugin-egg"
     },
