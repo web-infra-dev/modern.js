@@ -5,9 +5,11 @@ export function PluginSass(): BuilderPlugin {
   return {
     name: 'web-builder-plugin-sass',
     setup(api) {
-      api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+      api.modifyWebpackChain(async (chain, utils) => {
         const config = api.getBuilderConfig();
         const { applyOptionsChain } = await import('@modern-js/utils');
+        const { applyBaseCSSRule } = await import('./css');
+
         const getSassLoaderOptions = () => {
           const excludes: RegExp[] = [];
 
@@ -36,22 +38,16 @@ export function PluginSass(): BuilderPlugin {
           };
         };
         const { options, excludes } = getSassLoaderOptions();
-        chain.module
-          .rule(CHAIN_ID.RULE.SASS)
+        const rule = chain.module
+          .rule(utils.CHAIN_ID.RULE.SASS)
           .test(SASS_REGEX)
-
-          .merge({
-            exclude: excludes,
-            use: [
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-expect-error webpack-chain missing type
-              ...chain.module.rule(CHAIN_ID.RULE.CSS).toConfig().use.values(),
-              {
-                loader: require.resolve('sass-loader'),
-                options,
-              },
-            ],
-          });
+          .exclude.add(excludes)
+          .end();
+        await applyBaseCSSRule(rule, config, api.context, utils);
+        rule
+          .use(utils.CHAIN_ID.USE.SASS)
+          .loader(require.resolve('sass-loader'))
+          .options(options);
       });
     },
   };
