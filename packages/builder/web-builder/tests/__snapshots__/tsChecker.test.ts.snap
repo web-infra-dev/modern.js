@@ -1,0 +1,5 @@
+// Vitest Snapshot v1
+
+exports[`plugins/tsChecker > should set tsChecker plugin 1`] = `{}`;
+
+exports[`plugins/tsChecker > should't set ts-checker 1`] = `{}`;

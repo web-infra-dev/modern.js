@@ -1,3 +1,4 @@
+import { join } from 'path';
 import {
   getBaseBabelChain,
   createBabelChain,
@@ -100,13 +101,13 @@ export const genCommon = (options: Options): BabelChain => {
 
   chain
     .plugin('built-in/babel-plugin-lock-corejs-version')
-    .use(require.resolve('./built-in/babel-plugin-lock-corejs-version'), [
+    .use(join(__dirname, './built-in/babel-plugin-lock-corejs-version.ts'), [
       { metaName },
     ]);
 
   chain
     .plugin('./built-in/babel-plugin-ssr-loader-id')
-    .use(require.resolve('./built-in/babel-plugin-ssr-loader-id'));
+    .use(join(__dirname, './built-in/babel-plugin-ssr-loader-id.ts'));
 
   return chain.merge(baseConfigChain);
 };
