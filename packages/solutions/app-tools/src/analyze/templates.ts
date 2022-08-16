@@ -52,7 +52,7 @@ export const renderFunction = ({
     ${
       customBootstrap
         ? `customBootstrap(AppWrapper);`
-        : `bootstrap(AppWrapper, MOUNT_ID);`
+        : `bootstrap(AppWrapper, MOUNT_ID, ReactDOM);`
     }
   }
 

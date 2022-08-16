@@ -35,6 +35,7 @@ const client = createAsyncPipeline<
     App: React.ComponentType<any>;
     readonly context?: RuntimeContext;
     rootElement: HTMLElement;
+    ReactDOM: any;
   },
   void
 >();

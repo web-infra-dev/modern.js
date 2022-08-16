@@ -7,6 +7,7 @@ import {
   getPackageManager,
   getPackageManagerText,
   fs,
+  isBeyondReact18,
 } from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
@@ -60,7 +61,13 @@ const handleTemplateFile = async (
   );
   const isExitReactDom =
     pkg.devDependencies['react-dom'] || pkg.dependencies['react-dom'];
-  const updateDependence = isExitReactDom ? {} : { 'react-dom': '^17' };
+  const updateDependence = isExitReactDom
+    ? {}
+    : {
+        'react-dom': isBeyondReact18(context.materials.default.basePath)
+          ? '^18'
+          : '^17',
+      };
 
   await appApi.runSubGenerator(
     getGeneratorPath(DependenceGenerator, context.config.distTag),

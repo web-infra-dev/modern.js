@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from 'react';
-import ReactDOM from 'react-dom';
+import defaultReactDOM from 'react-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { Plugin, runtime } from './plugin';
 import {
@@ -30,6 +30,7 @@ const getInitialContext = (runner: PluginRunner) => ({
   loaderManager: createLoaderManager({}),
   runner,
   isBrowser: true,
+  isReact18: React.version.startsWith('18.'),
 });
 
 export const createApp = ({ plugins }: CreateAppOptions) => {
@@ -107,6 +108,7 @@ export const bootstrap: BootStrap = async (
    * When ssr, id is serverContext
    */
   id,
+  ReactDOM = defaultReactDOM,
 ) => {
   let App = BootApp;
   let runner = runnerMap.get(App);
@@ -175,10 +177,19 @@ export const bootstrap: BootStrap = async (
             typeof id !== 'string'
               ? id
               : document.getElementById(id || 'root')!,
+          ReactDOM,
         },
         {
           onLast: ({ App, rootElement }) => {
-            ReactDOM.render(React.createElement(App, { context }), rootElement);
+            if (context.isReact18) {
+              const root = (ReactDOM as any).createRoot(rootElement);
+              root.render(React.createElement(App, { context }));
+            } else {
+              ReactDOM.render(
+                React.createElement(App, { context }),
+                rootElement,
+              );
+            }
           },
         },
       );

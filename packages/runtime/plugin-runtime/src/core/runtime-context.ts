@@ -5,6 +5,7 @@ import { runtime } from './plugin';
 export interface RuntimeContext {
   loaderManager: ReturnType<typeof createLoaderManager>;
   runner: ReturnType<typeof runtime.init>;
+  isReact18?: boolean;
   [key: string]: any;
 }
 
