@@ -1,9 +1,10 @@
+import { CHAIN_ID } from '@modern-js/utils/chain-id';
 import _ from '@modern-js/utils/lodash';
 import type { BuilderPlugin } from '../types';
 
 const builtinVars = ['NODE_ENV'];
 
-export const PluginEntry = (): BuilderPlugin => ({
+export const PluginDefine = (): BuilderPlugin => ({
   name: 'web-builder-plugin-define',
 
   async setup(api) {
@@ -18,13 +19,14 @@ export const PluginEntry = (): BuilderPlugin => ({
     }
 
     // Serialize global vars
-    const serializedVars = _.mapValues(globalVars, value =>
-      JSON.stringify(value),
-    );
+    const serializedVars = _(globalVars)
+      .mapKeys((_, key) => `process.env.${key}`)
+      .mapValues(value => JSON.stringify(value))
+      .value();
 
     // Apply define plugin
     api.modifyWebpackChain(async chain => {
-      chain.plugin('define').use(DefinePlugin, [serializedVars]);
+      chain.plugin(CHAIN_ID.PLUGIN.DEFINE).use(DefinePlugin, [serializedVars]);
     });
   },
 });
