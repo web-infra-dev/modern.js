@@ -23,7 +23,11 @@ const restrictedImportInSource = {
     '**/plugins/*',
     '**/webpackPlugins/*',
     '*-webpack-plugin',
-    ['@modern-js/utils/*', '!@modern-js/utils/chalk'],
+    [
+      '@modern-js/utils/*',
+      '!@modern-js/utils/chalk',
+      '!@modern-js/utils/lodash',
+    ],
   ].map(withAllowTypeImports('group')),
 };
 
