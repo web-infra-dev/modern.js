@@ -16,12 +16,13 @@ export type Polyfill = 'usage' | 'entry' | 'ua' | 'off';
 export interface OutputConfig {
   copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
   distPath?: string | DistPathConfig;
+  polyfill?: Polyfill;
   assetPrefix?: string;
   dataUriLimit?: number;
   disableMinimize?: boolean;
   disableSourceMap?: boolean;
+  disableHtmlFolder?: boolean;
   disableFilenameHash?: boolean;
   enableLatestDecorators?: boolean;
   enableCssModuleTSDeclaration?: boolean;
-  polyfill?: Polyfill;
 }

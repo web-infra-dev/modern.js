@@ -63,6 +63,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginHMR } = await import('../plugins/hmr');
   const { PluginCopy } = await import('../plugins/copy');
   const { PluginFont } = await import('../plugins/font');
+  const { PluginHtml } = await import('../plugins/html');
   const { PluginBasic } = await import('../plugins/basic');
   const { PluginCache } = await import('../plugins/cache');
   const { PluginEntry } = await import('../plugins/entry');
@@ -96,6 +97,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginHMR(),
     PluginCopy(),
     PluginFont(),
+    PluginHtml(),
     PluginImage(),
     PluginMoment(),
     PluginProgress(),

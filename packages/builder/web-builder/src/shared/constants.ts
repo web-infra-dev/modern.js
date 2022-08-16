@@ -18,6 +18,7 @@ export const FONT_DIST_DIR = 'font';
 export const IMAGE_DIST_DIR = 'image';
 export const JS_DIST_DIR = 'js';
 export const CSS_DIST_DIR = 'css';
+export const HTML_DIST_DIR = 'html';
 
 export const FONT_EXTENSIONS = ['woff', 'woff2', 'eot', 'ttf', 'otf', 'ttc'];
 export const IMAGE_EXTENSIONS = [
