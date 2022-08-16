@@ -5,9 +5,10 @@ export function PluginLess(): BuilderPlugin {
   return {
     name: 'web-builder-plugin-less',
     setup(api) {
-      api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+      api.modifyWebpackChain(async (chain, utils) => {
         const config = api.getBuilderConfig();
         const { applyOptionsChain } = await import('@modern-js/utils');
+        const { applyBaseCSSRule } = await import('./css');
         const getLessLoaderOptions = () => {
           const excludes: RegExp[] = [];
 
@@ -37,21 +38,16 @@ export function PluginLess(): BuilderPlugin {
           };
         };
         const { options, excludes } = getLessLoaderOptions();
-        chain.module
-          .rule(CHAIN_ID.RULE.LESS)
+        const rule = chain.module
+          .rule(utils.CHAIN_ID.RULE.LESS)
           .test(LESS_REGEX)
-          .merge({
-            exclude: excludes,
-            use: [
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-expect-error webpack-chain missing type
-              ...chain.module.rule(CHAIN_ID.RULE.CSS).toConfig().use.values(),
-              {
-                loader: require.resolve('less-loader'),
-                options,
-              },
-            ],
-          });
+          .exclude.add(excludes)
+          .end();
+        await applyBaseCSSRule(rule, config, api.context, utils);
+        rule
+          .use(utils.CHAIN_ID.USE.LESS)
+          .loader(require.resolve('less-loader'))
+          .options(options);
       });
     },
   };
