@@ -5,14 +5,14 @@ sidebar_position: 9
 
 # plugins (插件)
 
-
-
 - 类型： `CliPlugin[] | { cli: CliPlugin[] }`
 - 默认值：`[]`
 
-用于配置自定义插件。
+用于配置自定义的 Modern.js 插件。
 
 自定义插件的编写方式请参考 [如何编写插件](/docs/guides/features/framework-plugin/implement)。
+
+该选项用于配置框架插件，如果需要配置 webpack 插件，请使用 [tools.webpack](/docs/apis/app/config/tools/webpack) 或 [tools.webpackChain](/docs/apis/app/config/tools/webpack-chain); 需要配置 babel 插件，请使用 [tools.babel](/docs/apis/app/config/tools/babel)。
 
 ## 插件类型
 
