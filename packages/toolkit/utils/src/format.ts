@@ -126,15 +126,20 @@ export { formatWebpackMessages };
 
 function formatProxyOptions(proxyOptions: BffProxyOptions) {
   const formattedProxy: ProxyDetail[] = [];
+
   if (!Array.isArray(proxyOptions)) {
     if ('target' in proxyOptions) {
-      formattedProxy.push(proxyOptions as ProxyDetail);
+      formattedProxy.push(proxyOptions);
     } else {
       Array.prototype.push.apply(
         formattedProxy,
         Object.keys(proxyOptions).reduce(
           (total: ProxyDetail[], source: string) => {
-            const option = proxyOptions[source];
+            const option = (
+              proxyOptions as
+                | Record<string, string>
+                | Record<string, ProxyDetail>
+            )[source];
 
             total.push({
               context: source,

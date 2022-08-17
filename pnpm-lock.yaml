@@ -3023,6 +3023,7 @@ importers:
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
+      http-proxy-middleware: ^2.0.4
       jest: ^27
     devDependencies:
       '@scripts/build': link:../../../scripts/build
@@ -3031,6 +3032,7 @@ importers:
       '@types/node': 14.18.21
       '@types/react': 17.0.47
       '@types/react-dom': 17.0.17
+      http-proxy-middleware: 2.0.6
       jest: 27.5.1
 
   packages/toolkit/utils:
