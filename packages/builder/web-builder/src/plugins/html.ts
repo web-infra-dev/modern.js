@@ -129,7 +129,7 @@ export const PluginHtml = (): BuilderPlugin => ({
       const config = api.getBuilderConfig();
       const minify = getMinify(isProd, config);
       const template = getTemplatePath();
-      const assetPrefix = removeTailSlash(chain.output.get('publicPath'));
+      const assetPrefix = removeTailSlash(chain.output.get('publicPath') || '');
       const entries = chain.entryPoints.entries();
       const entryNames = Object.keys(chain.entryPoints.entries());
 

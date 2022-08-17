@@ -1,20 +1,17 @@
 import { expect, describe, it } from 'vitest';
-import { PluginBabel } from '../src/plugins/babel';
-import { setPathSerializer } from './utils/snapshot';
-import { createStubBuilder } from './utils/builder';
+import { PluginTsLoader } from '../../src/plugins/tsLoader';
+import { setPathSerializer } from '../utils/snapshot';
+import { createStubBuilder } from '../utils/builder';
 
-describe('plugins/babel', () => {
+describe('plugins/tsLoader', () => {
   setPathSerializer();
 
-  it('should set babel-loader', async () => {
+  it('should set ts-loader', async () => {
     const builder = createStubBuilder({
-      plugins: [PluginBabel()],
+      plugins: [PluginTsLoader()],
       builderConfig: {
-        output: {
-          polyfill: 'entry',
-        },
         tools: {
-          babel: {},
+          tsLoader: {},
         },
       },
     });
@@ -25,10 +22,10 @@ describe('plugins/babel', () => {
 
   it('should set include/exclude', async () => {
     const builder = createStubBuilder({
-      plugins: [PluginBabel()],
+      plugins: [PluginTsLoader()],
       builderConfig: {
         tools: {
-          babel(options, { addIncludes, addExcludes }) {
+          tsLoader(options, { addIncludes, addExcludes }) {
             addIncludes(['src/**/*.ts']);
             addExcludes(['src/**/*.js']);
             return options;
