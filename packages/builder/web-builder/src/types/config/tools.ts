@@ -36,8 +36,8 @@ export type ToolsTSLoaderOptions =
   | ((
       options: TSLoaderOptions,
       utils: {
-        addIncludes: (items: RegExp | RegExp[]) => void;
-        addExcludes: (items: RegExp | RegExp[]) => void;
+        addIncludes: (items: string | RegExp | (string | RegExp)[]) => void;
+        addExcludes: (items: string | RegExp | (string | RegExp)[]) => void;
       },
     ) => TSLoaderOptions | void);
 
@@ -95,7 +95,7 @@ export type DevServerConfig = {
 export interface ToolsConfig {
   babel?: ToolsBabelConfig;
   terser?: ToolsTerserConfig;
-  tsLoader?: TSLoaderOptions;
+  tsLoader?: ToolsTSLoaderOptions;
   tsChecker?: false | ForkTSCheckerOptions;
   devServer?: DevServerConfig;
   minifyCss?: ToolsMinifyCssConfig;

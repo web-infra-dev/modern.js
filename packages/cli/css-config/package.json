@@ -36,7 +36,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.9.0",
+    "@modern-js/utils": "workspace:*",
     "caniuse-lite": "^1.0.30001332",
     "postcss": "^8.4.14",
     "cssnano": "^5.1.12"

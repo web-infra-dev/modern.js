@@ -25,13 +25,13 @@ Object {
       },
     ],
     Array [
-      /cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version.ts,
+      /cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version,
       Object {
         "metaName": "metaName",
       },
     ],
     Array [
-      /cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id.ts,
+      /cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id,
     ],
     Array [
       /cli/babel-preset-base/compiled/babel-plugin-macros/index.js,

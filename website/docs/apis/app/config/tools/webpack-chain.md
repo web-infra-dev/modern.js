@@ -4,8 +4,6 @@ sidebar_label: webpackChain
 
 # tools.webpackChain
 
-
-
 - 类型： `(chain, { env, name, webpack, CHAIN_ID }) => void`
 - 默认值： `undefined`
 
@@ -48,7 +46,12 @@ import CleanPlugin from 'clean-webpack-plugin';
 export default defineConfig({
   tools: {
     webpackChain: chain => {
-      chain.plugin('clean').use(CleanPlugin, [['dist'], { root: '/dir' }]);
+      // 注意：插件的 options 选项需要放在数组中
+      chain.plugin('clean').use(CleanPlugin, [
+        {
+          // some plugin options
+        },
+      ]);
     },
   },
 });
@@ -86,6 +89,10 @@ export default defineConfig({
 export default defineConfig({
   tools: {
     webpackChain: (config, { name }) => {
+      if (name === 'client') {
+        // 针对浏览器场景添加配置
+      }
+
       if (name === 'server') {
         // 针对 SSR 场景添加配置
       }
@@ -292,7 +299,7 @@ export default defineConfig({
 | `ONE_OF.ASSETS`        | 处理图片、字体等资源的规则，在 data URI 和单独文件之间自动选择 |
 | `ONE_OF.ASSETS_URL`    | 处理图片、字体等资源的规则，输出为单独文件                     |
 | `ONE_OF.ASSETS_INLINE` | 处理图片、字体等资源的规则，作为 data URI 内联到 bundle 中     |
-| `ONE_OF.FALLBACK`      | 处理无法识别的文件类型，通过 `asset/resource` 输出为文件          |
+| `ONE_OF.FALLBACK`      | 处理无法识别的文件类型，通过 `asset/resource` 输出为文件       |
 
 ### USE
 
