@@ -1,3 +1,4 @@
+import type { MetaOptions } from '@modern-js/utils';
 import type { CopyPluginOptions } from '../thirdParty';
 
 export type DistPathConfig = {
@@ -15,6 +16,8 @@ export type Polyfill = 'usage' | 'entry' | 'ua' | 'off';
 
 export interface OutputConfig {
   copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
+  meta?: MetaOptions;
+  metaByEntries?: Record<string, MetaOptions>;
   title?: string;
   titleByEntries?: Record<string, string>;
   distPath?: string | DistPathConfig;
@@ -27,4 +30,9 @@ export interface OutputConfig {
   disableFilenameHash?: boolean;
   enableLatestDecorators?: boolean;
   enableCssModuleTSDeclaration?: boolean;
+  templateParameters?: Record<string, unknown>;
+  templateParametersByEntries?: Record<
+    string,
+    Record<string, unknown> | undefined
+  >;
 }

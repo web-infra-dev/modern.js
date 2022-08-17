@@ -38,10 +38,22 @@ function getTitle(entry: string, config: BuilderConfig) {
   return titleByEntries?.[entry] || title || '';
 }
 
-function getTemplateParameters(entry: string, config: BuilderConfig) {
+async function getMetaTags(entry: string, config: BuilderConfig) {
+  const { generateMetaTags } = await import('@modern-js/utils');
+  const { meta, metaByEntries } = config.output || {};
+
+  const metaOptions = metaByEntries?.[entry] || meta;
+  return metaOptions ? generateMetaTags(metaOptions) : '';
+}
+
+async function getTemplateParameters(entry: string, config: BuilderConfig) {
+  const { templateParameters, templateParametersByEntries } =
+    config.output || {};
+
   return {
-    meta: '',
+    meta: await getMetaTags(entry, config),
     title: getTitle(entry, config),
+    ...(templateParametersByEntries?.[entry] || templateParameters),
   };
 }
 
