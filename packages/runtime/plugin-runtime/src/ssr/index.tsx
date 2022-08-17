@@ -1,8 +1,8 @@
 import { loadableReady } from '@loadable/component';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { useLayoutEffect, useRef } from 'react';
 import type { Plugin } from '../core';
 import { RenderLevel, SSRServerContext } from './serverRender/type';
+import { WithCallback } from './react/withCallback';
 import { formatClient, mockResponse } from './utils';
 
 declare module '../core' {
@@ -30,7 +30,8 @@ const ssr = (): Plugin => ({
         const renderLevel = window?._SSR_DATA?.renderLevel;
 
         if (renderLevel === RenderLevel.CLIENT_RENDER) {
-          await (App as any)?.prefetch?.(context);
+          // prefetch block render while csr
+          //   await (App as any)?.prefetch?.(context);
           if (context?.isReact18) {
             const root = ReactDOM.createRoot(rootElement);
             root.render(<App context={context} />);
@@ -40,30 +41,14 @@ const ssr = (): Plugin => ({
         } else if (renderLevel === RenderLevel.SERVER_RENDER) {
           loadableReady(() => {
             const hydrateContext = { ...context, _hydration: true };
+            const callback = () => {
+              // won't cause component re-render because context's reference identity doesn't change
+              delete (hydrateContext as any)._hydration;
+            };
             if (context?.isReact18) {
-              const WithCallback: React.FC<{
-                callback: () => void;
-                children: React.ReactElement;
-              }> = ({ callback, children }) => {
-                // See https://github.com/reactwg/react-18/discussions/5#discussioncomment-2276079
-                const once = useRef(false);
-                useLayoutEffect(() => {
-                  if (once.current) {
-                    return;
-                  }
-                  once.current = true;
-                  callback();
-                }, [callback]);
-
-                return children;
-              };
-              const callback = () => {
-                // won't cause component re-render because context's reference identity doesn't change
-                delete (hydrateContext as any)._hydration;
-              };
               let SSRApp: React.FC = () => (
                 <WithCallback callback={callback}>
-                  <App context={hydrateContext} callback={callback} />
+                  <App context={hydrateContext} />
                 </WithCallback>
               );
               SSRApp = hoistNonReactStatics(SSRApp, App);
@@ -72,14 +57,12 @@ const ssr = (): Plugin => ({
               ReactDOM.hydrate(
                 <App context={hydrateContext} />,
                 rootElement,
-                () => {
-                  // won't cause component re-render because context's reference identity doesn't change
-                  delete (hydrateContext as any)._hydration;
-                },
+                callback,
               );
             }
           });
         } else if (context?.isReact18) {
+          // unknown renderlevel or renderlevel is server prefetch.
           ReactDOM.hydrateRoot(rootElement, <App context={context} />);
         } else {
           // unknown renderlevel or renderlevel is server prefetch.
