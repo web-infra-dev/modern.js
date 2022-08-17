@@ -101,13 +101,13 @@ export const genCommon = (options: Options): BabelChain => {
 
   chain
     .plugin('built-in/babel-plugin-lock-corejs-version')
-    .use(join(__dirname, './built-in/babel-plugin-lock-corejs-version.ts'), [
+    .use(join(__dirname, './built-in/babel-plugin-lock-corejs-version'), [
       { metaName },
     ]);
 
   chain
     .plugin('./built-in/babel-plugin-ssr-loader-id')
-    .use(join(__dirname, './built-in/babel-plugin-ssr-loader-id.ts'));
+    .use(join(__dirname, './built-in/babel-plugin-ssr-loader-id'));
 
   return chain.merge(baseConfigChain);
 };
