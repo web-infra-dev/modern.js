@@ -11,8 +11,9 @@ describe('babel-preset-app', () => {
       { appDirectory: process.cwd() },
     );
     expect(Object.keys(babelOptions)).toEqual(['presets', 'plugins']);
+
     expect(babelOptions.plugins).toContainEqual([
-      require.resolve('../src/built-in/babel-plugin-lock-corejs-version'),
+      path.join(__dirname, '../src/built-in/babel-plugin-lock-corejs-version'),
       expect.objectContaining({ metaName: 'modern-js' }),
     ]);
     expect(cache).toBeCalledWith(true);
