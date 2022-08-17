@@ -1,4 +1,4 @@
-import { DEFAULT_PORT, JS_DIST_DIR, CSS_DIST_DIR } from '../shared';
+import { getDistPath, DEFAULT_PORT } from '../shared';
 import type {
   BuilderConfig,
   BuilderContext,
@@ -44,11 +44,8 @@ export const PluginOutput = (): BuilderPlugin => ({
   setup(api) {
     api.modifyWebpackChain(async (chain, { isProd, isServer, CHAIN_ID }) => {
       const config = api.getBuilderConfig();
-      const { distPath } = config.output || {};
-      const jsPath =
-        (typeof distPath === 'object' && distPath.js) || JS_DIST_DIR;
-      const cssPath =
-        (typeof distPath === 'object' && distPath.css) || CSS_DIST_DIR;
+      const jsPath = getDistPath(config, 'js');
+      const cssPath = getDistPath(config, 'css');
       const useHash = isProd && !config.output?.disableFilenameHash;
       const hash = useHash ? '.[contenthash:8]' : '';
 

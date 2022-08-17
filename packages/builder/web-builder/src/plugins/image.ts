@@ -1,8 +1,8 @@
 import { join } from 'path';
 import {
-  IMAGE_DIST_DIR,
-  IMAGE_EXTENSIONS,
+  getDistPath,
   getRegExpForExts,
+  IMAGE_EXTENSIONS,
   getDataUrlCondition,
 } from '../shared';
 import type { BuilderPlugin } from '../types';
@@ -14,10 +14,7 @@ export const PluginImage = (): BuilderPlugin => ({
     api.modifyWebpackChain((chain, { isProd, CHAIN_ID }) => {
       const config = api.getBuilderConfig();
       const regExp = getRegExpForExts(IMAGE_EXTENSIONS);
-
-      const { distPath } = config.output || {};
-      const distDir =
-        (typeof distPath === 'object' && distPath.image) || IMAGE_DIST_DIR;
+      const distDir = getDistPath(config, 'image');
       const filename = isProd ? '[name].[contenthash:8][ext]' : '[name][ext]';
 
       chain.module

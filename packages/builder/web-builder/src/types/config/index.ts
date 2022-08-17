@@ -21,3 +21,14 @@ export interface BuilderConfig {
 export interface BuilderFinalConfig extends BuilderConfig {
   source: SourceConfig;
 }
+
+/* eslint-disable @typescript-eslint/no-restricted-imports */
+export * from './dev';
+export * from './html';
+export * from './tools';
+export * from './source';
+export * from './output';
+export * from './security';
+export * from './performance';
+export * from './experiments';
+/* eslint-enable @typescript-eslint/no-restricted-imports */

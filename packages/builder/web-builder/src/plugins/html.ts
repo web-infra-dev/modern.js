@@ -1,14 +1,10 @@
 import path from 'path';
-import { DEFAULT_MOUNT_ID, HTML_DIST_DIR } from '../shared';
+import { getDistPath, DEFAULT_MOUNT_ID } from '../shared';
 import type { BuilderConfig, BuilderPlugin, HTMLPluginOptions } from '../types';
 
 async function getFilename(entry: string, config: BuilderConfig) {
   const { removeLeadingSlash } = await import('@modern-js/utils');
-  const { distPath } = config.output || {};
-
-  const htmlPath =
-    (typeof distPath === 'object' && distPath.html) || HTML_DIST_DIR;
-
+  const htmlPath = getDistPath(config, 'html');
   const filename = config.html?.disableHtmlFolder
     ? `${entry}.html`
     : `${entry}/index.html`;
@@ -41,6 +37,11 @@ function getTitle(entry: string, config: BuilderConfig) {
 function getInject(entry: string, config: BuilderConfig) {
   const { inject, injectByEntries } = config.html || {};
   return injectByEntries?.[entry] || inject || true;
+}
+
+function getFavicon(entry: string, config: BuilderConfig) {
+  const { favicon, faviconByEntries } = config.html || {};
+  return faviconByEntries?.[entry] || favicon;
 }
 
 async function getMetaTags(entry: string, config: BuilderConfig) {
@@ -111,6 +112,7 @@ export const PluginHtml = (): BuilderPlugin => ({
         entries.map(async entry => {
           const inject = getInject(entry, config);
           const minify = getMinify(isProd, config);
+          const favicon = getFavicon(entry, config);
           const filename = await getFilename(entry, config);
           const template = getTemplatePath();
           const templateParameters = await getTemplateParameters(
@@ -125,6 +127,7 @@ export const PluginHtml = (): BuilderPlugin => ({
               {
                 inject,
                 minify,
+                favicon,
                 filename,
                 template,
                 templateParameters,
