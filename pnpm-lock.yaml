@@ -178,7 +178,7 @@ importers:
       '@babel/core': ^7.18.0
       '@babel/runtime': ^7.18.0
       '@modern-js/babel-preset-base': workspace:*
-      '@modern-js/utils': workspace:*2
+      '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/babel__core': ^7.1.15
@@ -2903,7 +2903,7 @@ importers:
   packages/toolkit/compiler/style:
     specifiers:
       '@babel/runtime': ^7.18.0
-      '@modern-js/utils': workspace:*1
+      '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
