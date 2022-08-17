@@ -22,10 +22,10 @@ describe('plugins/define', () => {
         "plugins": [
           DefinePlugin {
             "definitions": {
-              "process.env.NODE_ENV": "\\"test\\"",
-              "process.env.bar": "{\\"a\\":\\"bar\\",\\"b\\":false,\\"c\\":{\\"d\\":42}}",
-              "process.env.baz": "[null,\\"baz\\"]",
-              "process.env.foo": "\\"foo\\"",
+              "NODE_ENV": "\\"test\\"",
+              "bar": "{\\"a\\":\\"bar\\",\\"b\\":false,\\"c\\":{\\"d\\":42}}",
+              "baz": "[null,\\"baz\\"]",
+              "foo": "\\"foo\\"",
             },
           },
         ],
