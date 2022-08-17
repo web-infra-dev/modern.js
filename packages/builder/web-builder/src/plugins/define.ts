@@ -2,7 +2,9 @@ import { CHAIN_ID } from '@modern-js/utils/chain-id';
 import _ from '@modern-js/utils/lodash';
 import type { BuilderPlugin } from '../types';
 
-const builtinVars = ['NODE_ENV'];
+const builtinVars: Record<string, string> = {
+  'process.env.NODE_ENV': process.env.NODE_ENV || 'development',
+};
 
 export const PluginDefine = (): BuilderPlugin => ({
   name: 'web-builder-plugin-define',
@@ -10,19 +12,12 @@ export const PluginDefine = (): BuilderPlugin => ({
   async setup(api) {
     const { DefinePlugin } = await import('webpack');
     const config = api.getBuilderConfig();
-    const globalVars = config.source?.globalVars || {};
-
-    // Add built-in vars
-    for (const varName of builtinVars) {
-      const varValue = process.env[varName];
-      varValue && (globalVars[varName] = varValue);
-    }
+    const globalVars = _.assign({}, config.source?.globalVars, builtinVars);
 
     // Serialize global vars
-    const serializedVars = _(globalVars)
-      .mapKeys((_, key) => `process.env.${key}`)
-      .mapValues(value => JSON.stringify(value))
-      .value();
+    const serializedVars = _.mapValues(globalVars, value =>
+      JSON.stringify(value),
+    );
 
     // Apply define plugin
     api.modifyWebpackChain(async chain => {
