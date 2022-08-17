@@ -72,6 +72,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginMoment } = await import('../plugins/moment');
   const { PluginDevtool } = await import('../plugins/devtool');
   const { PluginResolve } = await import('../plugins/resolve');
+  const { PluginDefine } = await import('../plugins/define');
   const { PluginProgress } = await import('../plugins/progress');
   const { PluginMinimize } = await import('../plugins/minimize');
   const { PluginCleanOutput } = await import('../plugins/cleanOutput');
@@ -91,6 +92,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginOutput(),
     PluginDevtool(),
     PluginResolve(),
+    PluginDefine(),
 
     // Plugins that provide basic features
     PluginHMR(),

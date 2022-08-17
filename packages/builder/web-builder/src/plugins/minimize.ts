@@ -1,3 +1,4 @@
+import { CHAIN_ID } from '@modern-js/utils/chain-id';
 import type {
   WebpackChain,
   BuilderConfig,
@@ -37,7 +38,7 @@ function applyRemoveConsole(
 }
 
 async function applyJSMinimizer(chain: WebpackChain, config: BuilderConfig) {
-  const { CHAIN_ID, applyOptionsChain } = await import('@modern-js/utils');
+  const { applyOptionsChain } = await import('@modern-js/utils');
   const { default: TerserPlugin } = await import('terser-webpack-plugin');
 
   const DEFAULT_OPTIONS: TerserPluginOptions = {
