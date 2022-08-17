@@ -1,18 +1,19 @@
+import { applyOptionsChain } from '@modern-js/utils';
 import path from 'path';
 import { getDistPath, DEFAULT_MOUNT_ID } from '../shared';
 import type {
-  WebpackChain,
   BuilderConfig,
   BuilderPlugin,
+  WebpackConfig,
   HTMLPluginOptions,
 } from '../types';
 
-async function getFilename(entry: string, config: BuilderConfig) {
+async function getFilename(entryName: string, config: BuilderConfig) {
   const { removeLeadingSlash } = await import('@modern-js/utils');
   const htmlPath = getDistPath(config, 'html');
   const filename = config.html?.disableHtmlFolder
-    ? `${entry}.html`
-    : `${entry}/index.html`;
+    ? `${entryName}.html`
+    : `${entryName}/index.html`;
 
   return removeLeadingSlash(`${htmlPath}/${filename}`);
 }
@@ -34,47 +35,47 @@ function getMinify(isProd: boolean, config: BuilderConfig) {
   };
 }
 
-function getTitle(entry: string, config: BuilderConfig) {
+function getTitle(entryName: string, config: BuilderConfig) {
   const { title, titleByEntries } = config.html || {};
-  return titleByEntries?.[entry] || title || '';
+  return titleByEntries?.[entryName] || title || '';
 }
 
-function getInject(entry: string, config: BuilderConfig) {
+function getInject(entryName: string, config: BuilderConfig) {
   const { inject, injectByEntries } = config.html || {};
-  return injectByEntries?.[entry] || inject || true;
+  return injectByEntries?.[entryName] || inject || true;
 }
 
-function getFavicon(entry: string, config: BuilderConfig) {
+function getFavicon(entryName: string, config: BuilderConfig) {
   const { favicon, faviconByEntries } = config.html || {};
-  return faviconByEntries?.[entry] || favicon;
+  return faviconByEntries?.[entryName] || favicon;
 }
 
-async function getMetaTags(entry: string, config: BuilderConfig) {
+async function getMetaTags(entryName: string, config: BuilderConfig) {
   const { generateMetaTags } = await import('@modern-js/utils');
   const { meta, metaByEntries } = config.html || {};
 
-  const metaOptions = metaByEntries?.[entry] || meta;
+  const metaOptions = metaByEntries?.[entryName] || meta;
   return metaOptions ? generateMetaTags(metaOptions) : '';
 }
 
 async function getTemplateParameters(
-  entry: string,
+  entryName: string,
   config: BuilderConfig,
   assetPrefix: string,
 ): Promise<HTMLPluginOptions['templateParameters']> {
   const { mountId, templateParameters, templateParametersByEntries } =
     config.html || {};
 
-  const meta = await getMetaTags(entry, config);
-  const title = getTitle(entry, config);
+  const meta = await getMetaTags(entryName, config);
+  const title = getTitle(entryName, config);
 
   const baseParameters = {
     meta,
     title,
     mountId: mountId || DEFAULT_MOUNT_ID,
-    entryName: entry,
+    entryName,
     assetPrefix,
-    ...(templateParametersByEntries?.[entry] || templateParameters),
+    ...(templateParametersByEntries?.[entryName] || templateParameters),
   };
 
   // refer to: https://github.com/jantimon/html-webpack-plugin/blob/main/examples/template-parameters/webpack.config.js
@@ -100,17 +101,16 @@ function getTemplatePath() {
 }
 
 async function getChunks(
-  entryPoint: WebpackChain.EntryPoint,
   entryName: string,
+  entryValue: WebpackConfig['entry'],
 ) {
   const { isPlainObject } = await import('@modern-js/utils');
-  const entry = entryPoint.values();
   const dependOn = [];
 
-  if (isPlainObject(entry)) {
+  if (isPlainObject(entryValue)) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error assume entry is an entry object
-    dependOn.push(...entry.dependOn);
+    dependOn.push(...entryValue.dependOn);
   }
 
   return [...dependOn, entryName];
@@ -134,30 +134,40 @@ export const PluginHtml = (): BuilderPlugin => ({
       const entryNames = Object.keys(chain.entryPoints.entries());
 
       await Promise.all(
-        entryNames.map(async entry => {
-          const chunks = await getChunks(entries[entry], entry);
-          const inject = getInject(entry, config);
-          const favicon = getFavicon(entry, config);
-          const filename = await getFilename(entry, config);
+        entryNames.map(async entryName => {
+          const entryValue = entries[entryName].values();
+          const chunks = await getChunks(entryName, entryValue);
+          const inject = getInject(entryName, config);
+          const favicon = getFavicon(entryName, config);
+          const filename = await getFilename(entryName, config);
           const templateParameters = await getTemplateParameters(
-            entry,
+            entryName,
             config,
             assetPrefix,
           );
 
+          const pluginOptions = {
+            chunks,
+            inject,
+            minify,
+            favicon,
+            filename,
+            template,
+            templateParameters,
+          };
+
+          const finalOptions = applyOptionsChain(
+            pluginOptions,
+            config.tools?.htmlPlugin,
+            {
+              entryName,
+              entryValue,
+            },
+          );
+
           chain
-            .plugin(`${CHAIN_ID.PLUGIN.HTML}-${entry}`)
-            .use(HtmlWebpackPlugin, [
-              {
-                chunks,
-                inject,
-                minify,
-                favicon,
-                filename,
-                template,
-                templateParameters,
-              },
-            ]);
+            .plugin(`${CHAIN_ID.PLUGIN.HTML}-${entryName}`)
+            .use(HtmlWebpackPlugin, [finalOptions]);
         }),
       );
     });

@@ -11,6 +11,7 @@ export const configSchema: JSONSchemaType<BuilderConfig> = {
   properties: {
     source: sourceField,
     dev: { type: 'object' } as any,
+    html: { type: 'object' } as any,
     experiments: { type: 'object' } as any,
     output: { type: 'object' } as any,
     performance: { type: 'object' } as any,
