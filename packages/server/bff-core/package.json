@@ -32,8 +32,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/bff-runtime": "workspace:^1.4.0",
-    "@modern-js/utils": "workspace:^1.9.0",
+    "@modern-js/bff-runtime": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "esbuild": "^0.14.38",
     "esbuild-register": "^3.3.3",
     "koa-compose": "^4.1.0",
