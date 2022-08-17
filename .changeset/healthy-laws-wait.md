@@ -2,7 +2,6 @@
 '@modern-js/web-builder': minor
 '@modern-js/babel-preset-app': minor
 '@modern-js/css-config': minor
-'@modern-js/plugin-docsite': minor
 '@modern-js/plugin-ssg': minor
 '@modern-js/plugin-storybook': minor
 '@modern-js/plugin-tailwindcss': minor
