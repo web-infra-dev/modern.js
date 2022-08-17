@@ -5,6 +5,7 @@ import {
   createErrorDocument,
   createMiddlewareCollecter,
   getStaticReg,
+  headersWithoutCookie,
 } from '../src/utils';
 
 describe('test server utils', () => {
@@ -87,5 +88,14 @@ describe('test server utils', () => {
       expect(reg.test('/foo.icon')).toBeTruthy();
       expect(reg.test('/baz.icon')).toBeTruthy();
     });
+  });
+
+  test('should remove cookie correctly', () => {
+    const headers = headersWithoutCookie({
+      cookie: '',
+      'content-type': 'text/plain',
+    });
+    expect(headers.cookie).toBeUndefined();
+    expect(headers['content-type']).toBe('text/plain');
   });
 });
