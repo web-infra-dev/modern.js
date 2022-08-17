@@ -67,6 +67,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginCache } = await import('../plugins/cache');
   const { PluginEntry } = await import('../plugins/entry');
   const { PluginImage } = await import('../plugins/image');
+  const { PluginMedia } = await import('../plugins/media');
   const { PluginTarget } = await import('../plugins/target');
   const { PluginOutput } = await import('../plugins/output');
   const { PluginMoment } = await import('../plugins/moment');
@@ -97,6 +98,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginCopy(),
     PluginFont(),
     PluginImage(),
+    PluginMedia(),
     PluginMoment(),
     PluginProgress(),
     PluginMinimize(),
