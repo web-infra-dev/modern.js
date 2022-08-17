@@ -51,7 +51,8 @@
     "./browserslist": "./compiled/browserslist/index.js",
     "./webpack-chain": "./compiled/webpack-chain/index.js",
     "./tsconfig-paths": "./compiled/tsconfig-paths/index.js",
-    "./better-ajv-errors": "./compiled/better-ajv-errors/index.js"
+    "./better-ajv-errors": "./compiled/better-ajv-errors/index.js",
+    "./chain-id": "./dist/chainId.js"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -78,7 +79,8 @@
       "./browserslist": "./compiled/browserslist/index.js",
       "./webpack-chain": "./compiled/webpack-chain/index.js",
       "./tsconfig-paths": "./compiled/tsconfig-paths/index.js",
-      "./better-ajv-errors": "./compiled/better-ajv-errors/index.js"
+      "./better-ajv-errors": "./compiled/better-ajv-errors/index.js",
+      "./chain-id": "./dist/chainId.js"
     }
   },
   "typesVersions": {
@@ -145,6 +147,9 @@
       ],
       "better-ajv-errors": [
         "./compiled/better-ajv-errors/index.d.ts"
+      ],
+      "chain-id": [
+        "./dist/chainId.d.ts"
       ]
     }
   },
