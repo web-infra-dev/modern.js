@@ -1,5 +1,5 @@
 import path from 'path';
-import { HTML_DIST_DIR } from '../shared';
+import { DEFAULT_MOUNT_ID, HTML_DIST_DIR } from '../shared';
 import type { BuilderConfig, BuilderPlugin } from '../types';
 
 async function getFilename(entry: string, config: BuilderConfig) {
@@ -40,7 +40,7 @@ function getTitle(entry: string, config: BuilderConfig) {
 
 function getInject(entry: string, config: BuilderConfig) {
   const { inject, injectByEntries } = config.html || {};
-  return injectByEntries?.[entry] || inject;
+  return injectByEntries?.[entry] || inject || true;
 }
 
 async function getMetaTags(entry: string, config: BuilderConfig) {
@@ -52,11 +52,13 @@ async function getMetaTags(entry: string, config: BuilderConfig) {
 }
 
 async function getTemplateParameters(entry: string, config: BuilderConfig) {
-  const { templateParameters, templateParametersByEntries } = config.html || {};
+  const { mountId, templateParameters, templateParametersByEntries } =
+    config.html || {};
 
   return {
     meta: await getMetaTags(entry, config),
     title: getTitle(entry, config),
+    mountId: mountId || DEFAULT_MOUNT_ID,
     ...(templateParametersByEntries?.[entry] || templateParameters),
   };
 }
@@ -80,17 +82,17 @@ export const PluginHtml = (): BuilderPlugin => ({
 
       await Promise.all(
         entries.map(async entry => {
-          const minify = getMinifyOptions(isProd, config);
           const inject = getInject(entry, config);
+          const minify = getMinifyOptions(isProd, config);
           const filename = await getFilename(entry, config);
-          const templateParameters = getTemplateParameters(entry, config);
+          const templateParameters = await getTemplateParameters(entry, config);
 
           chain
             .plugin(`${CHAIN_ID.PLUGIN.HTML}-${entry}`)
             .use(HtmlWebpackPlugin, [
               {
-                minify,
                 inject,
+                minify,
                 filename,
                 template: DEFAULT_TEMPLATE,
                 templateParameters,

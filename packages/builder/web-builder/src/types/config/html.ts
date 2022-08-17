@@ -10,6 +10,7 @@ export interface HtmlConfig {
   injectByEntries?: Record<string, HTMLPluginOptions['inject']>;
   favicon?: string;
   faviconByEntries?: Record<string, string | undefined>;
+  mountId?: string;
   disableHtmlFolder?: boolean;
   templateParameters?: Record<string, unknown>;
   templateParametersByEntries?: Record<

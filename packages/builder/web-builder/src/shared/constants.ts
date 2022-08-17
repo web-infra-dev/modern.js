@@ -12,6 +12,7 @@ export enum STATUS {
 
 export const DEFAULT_PORT = 8080;
 export const DEFAULT_DATA_URL_SIZE = 10000;
+export const DEFAULT_MOUNT_ID = 'app';
 
 export const ROOT_DIST_DIR = 'dist';
 export const FONT_DIST_DIR = 'font';
