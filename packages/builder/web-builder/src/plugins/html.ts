@@ -1,6 +1,11 @@
 import path from 'path';
 import { getDistPath, DEFAULT_MOUNT_ID } from '../shared';
-import type { BuilderConfig, BuilderPlugin, HTMLPluginOptions } from '../types';
+import type {
+  WebpackChain,
+  BuilderConfig,
+  BuilderPlugin,
+  HTMLPluginOptions,
+} from '../types';
 
 async function getFilename(entry: string, config: BuilderConfig) {
   const { removeLeadingSlash } = await import('@modern-js/utils');
@@ -55,7 +60,7 @@ async function getMetaTags(entry: string, config: BuilderConfig) {
 async function getTemplateParameters(
   entry: string,
   config: BuilderConfig,
-  publicPath: string,
+  assetPrefix: string,
 ): Promise<HTMLPluginOptions['templateParameters']> {
   const { mountId, templateParameters, templateParametersByEntries } =
     config.html || {};
@@ -68,7 +73,7 @@ async function getTemplateParameters(
     title,
     mountId: mountId || DEFAULT_MOUNT_ID,
     entryName: entry,
-    publicPath,
+    assetPrefix,
     ...(templateParametersByEntries?.[entry] || templateParameters),
   };
 
@@ -94,6 +99,23 @@ function getTemplatePath() {
   return DEFAULT_TEMPLATE;
 }
 
+async function getChunks(
+  entryPoint: WebpackChain.EntryPoint,
+  entryName: string,
+) {
+  const { isPlainObject } = await import('@modern-js/utils');
+  const entry = entryPoint.values();
+  const dependOn = [];
+
+  if (isPlainObject(entry)) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error assume entry is an entry object
+    dependOn.push(...entry.dependOn);
+  }
+
+  return [...dependOn, entryName];
+}
+
 export const PluginHtml = (): BuilderPlugin => ({
   name: 'web-builder-plugin-html',
 
@@ -105,26 +127,29 @@ export const PluginHtml = (): BuilderPlugin => ({
       const { removeTailSlash } = await import('@modern-js/utils');
 
       const config = api.getBuilderConfig();
-      const entries = Object.keys(chain.entryPoints.entries());
-      const publicPath = removeTailSlash(chain.output.get('publicPath'));
+      const minify = getMinify(isProd, config);
+      const template = getTemplatePath();
+      const assetPrefix = removeTailSlash(chain.output.get('publicPath'));
+      const entries = chain.entryPoints.entries();
+      const entryNames = Object.keys(chain.entryPoints.entries());
 
       await Promise.all(
-        entries.map(async entry => {
+        entryNames.map(async entry => {
+          const chunks = await getChunks(entries[entry], entry);
           const inject = getInject(entry, config);
-          const minify = getMinify(isProd, config);
           const favicon = getFavicon(entry, config);
           const filename = await getFilename(entry, config);
-          const template = getTemplatePath();
           const templateParameters = await getTemplateParameters(
             entry,
             config,
-            publicPath,
+            assetPrefix,
           );
 
           chain
             .plugin(`${CHAIN_ID.PLUGIN.HTML}-${entry}`)
             .use(HtmlWebpackPlugin, [
               {
+                chunks,
                 inject,
                 minify,
                 favicon,
