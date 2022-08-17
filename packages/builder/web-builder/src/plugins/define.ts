@@ -1,4 +1,3 @@
-import { CHAIN_ID } from '@modern-js/utils/chain-id';
 import _ from '@modern-js/utils/lodash';
 import type { BuilderPlugin } from '../types';
 
@@ -20,7 +19,7 @@ export const PluginDefine = (): BuilderPlugin => ({
     );
 
     // Apply define plugin
-    api.modifyWebpackChain(async chain => {
+    api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
       chain.plugin(CHAIN_ID.PLUGIN.DEFINE).use(DefinePlugin, [serializedVars]);
     });
   },
