@@ -1,15 +1,17 @@
+import { promises as fs } from 'fs';
 import path from 'path';
 import sourceField from './source';
-import { promises as fs } from 'fs';
 
-import type { BuilderConfig } from '../../types';
 import type Ajv from '@modern-js/utils/ajv';
 import type { JSONSchemaType, ValidateFunction } from '@modern-js/utils/ajv';
+import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
+import _ from '@modern-js/utils/lodash';
+import type { BuilderConfig } from '../../types';
 
 export const configSchema: JSONSchemaType<BuilderConfig> = {
   type: 'object',
   properties: {
-    source: sourceField,
+    source: sourceField as any,
     dev: { type: 'object' } as any,
     html: { type: 'object' } as any,
     experiments: { type: 'object' } as any,
@@ -20,20 +22,30 @@ export const configSchema: JSONSchemaType<BuilderConfig> = {
   },
 };
 
+export interface ConfigValidatorOptions {
+  cachePath?: string;
+  schema?: SomeJSONSchema;
+}
+
 export class ConfigValidator {
-  static async create(cachePath?: string): Promise<ConfigValidator> {
+  static async create(
+    options?: ConfigValidatorOptions,
+  ): Promise<ConfigValidator> {
+    const opt = _.assign({ schema: configSchema }, options);
     // import pre-compiled validate function.
-    if (typeof cachePath === 'string') {
+    if (typeof opt.cachePath === 'string') {
       try {
-        return await this.deserialize(cachePath);
+        return await this.deserialize(opt.cachePath);
       } catch (e) {}
     }
     // fallback to compile validator in runtime.
     const { default: Ajv } = await import('@modern-js/utils/ajv');
     const validator = new ConfigValidator();
-    const ajv = new Ajv();
+    const ajv = new Ajv({
+      allowUnionTypes: true,
+    });
     validator.ajv = ajv;
-    validator.compiled = ajv.compile(configSchema);
+    validator.compiled = ajv.compile(opt.schema);
     return validator;
   }
 
@@ -61,7 +73,9 @@ export class ConfigValidator {
     }
     const code = `module.exports = ${validator.compiled.toString()};`;
     if (typeof cachePath === 'string') {
-      await fs.mkdir(path.dirname(cachePath), { recursive: true });
+      await fs
+        .mkdir(path.dirname(cachePath), { recursive: true })
+        .catch(console.warn);
       await fs.writeFile(cachePath, code);
     }
     return code;
@@ -71,7 +85,7 @@ export class ConfigValidator {
 
   private ajv?: Ajv;
 
-  private compiled!: ValidateFunction<BuilderConfig>;
+  private compiled!: ValidateFunction<unknown>;
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   protected constructor() {}
@@ -82,7 +96,7 @@ export class ConfigValidator {
       : undefined;
   }
 
-  async validate(config: BuilderConfig, silent = true): Promise<boolean> {
+  async validate(config: any, silent = true): Promise<boolean> {
     const valid = this.compiled(config);
     if (!valid && !silent) {
       throw new Error(this.errorMsg || 'Failed to validate config.');
