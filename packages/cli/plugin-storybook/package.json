@@ -84,7 +84,7 @@
     "webpack-chain": "^6.5.1"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:*",
+    "@modern-js/runtime": "workspace:^1.5.0",
     "react": "^17"
   },
   "sideEffects": false,
