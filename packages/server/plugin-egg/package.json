@@ -41,9 +41,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.0",
-    "@modern-js/bff-core": "workspace:^1.2.2",
-    "@modern-js/bff-runtime": "workspace:^1.4.0",
-    "@modern-js/utils": "workspace:^1.9.0",
+    "@modern-js/bff-core": "workspace:*",
+    "@modern-js/bff-runtime": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "egg-ts-helper": "1.30.3",
     "type-is": "^1.6.18"
   },

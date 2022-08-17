@@ -23,7 +23,6 @@ function resolveSourceFile(str: string): string {
   return `./src/${file}`;
 }
 
-// eslint-disable-next-line max-statements
 function processFile(file: string): void {
   const p = `${kProjectDir}/${file}`;
   const d = fs.readFileSync(p, 'utf8');
@@ -262,7 +261,6 @@ function fixWorkspacePackagesVersions(file: string) {
   fs.writeFileSync(p, `${JSON.stringify(c, null, 2)}\n`);
 }
 
-// eslint-disable-next-line max-statements
 function fixPluginTesting(file: string) {
   if (!file.startsWith('packages/')) {
     return;

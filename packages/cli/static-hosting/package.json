@@ -40,7 +40,7 @@
     "test": "wireit"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:^1.9.0"
+    "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
     "@babel/runtime": "^7.18.0",

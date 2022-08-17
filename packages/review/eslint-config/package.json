@@ -17,7 +17,7 @@
     "check": "eslint-find-rules --unused index.js"
   },
   "dependencies": {
-    "@modern-js-app/eslint-config": "workspace:^1.2.12"
+    "@modern-js-app/eslint-config": "workspace:*"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",

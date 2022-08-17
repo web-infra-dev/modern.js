@@ -41,8 +41,8 @@
     "@babel/plugin-proposal-function-sent": "^7.18.0",
     "@babel/plugin-proposal-throw-expressions": "^7.16.7",
     "@babel/runtime": "^7.18.0",
-    "@modern-js/utils": "workspace:^1.7.12",
-    "@modern-js/babel-preset-lib": "workspace:^1.4.0"
+    "@modern-js/utils": "workspace:*",
+    "@modern-js/babel-preset-lib": "workspace:*"
   },
   "devDependencies": {
     "@types/babel__core": "^7.1.15",
