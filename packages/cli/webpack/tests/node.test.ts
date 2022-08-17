@@ -31,8 +31,6 @@ describe('node webpack config', () => {
 
     expect(config.target).toEqual('node');
 
-    expect(config.devtool).toBe(false);
-
     expect(config.output?.filename).toBe('bundles/[name].js');
 
     expect(config.output?.libraryTarget).toBe('commonjs2');

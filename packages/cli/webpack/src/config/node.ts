@@ -72,10 +72,6 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     this.chain.target('node');
   }
 
-  devtool() {
-    this.chain.devtool(false);
-  }
-
   entry() {
     super.entry();
     filterEntriesBySSRConfig(
@@ -94,6 +90,7 @@ class NodeWebpackConfig extends BaseWebpackConfig {
     this.chain.output.delete('chunkFilename');
   }
 
+  // reset ssr bundle optimization
   optimization() {
     super.optimization();
     this.chain.optimization.splitChunks(false as any).runtimeChunk(false);
