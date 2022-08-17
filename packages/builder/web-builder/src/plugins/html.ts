@@ -1,6 +1,6 @@
 import path from 'path';
 import { DEFAULT_MOUNT_ID, HTML_DIST_DIR } from '../shared';
-import type { BuilderConfig, BuilderPlugin } from '../types';
+import type { BuilderConfig, BuilderPlugin, HTMLPluginOptions } from '../types';
 
 async function getFilename(entry: string, config: BuilderConfig) {
   const { removeLeadingSlash } = await import('@modern-js/utils');
@@ -16,7 +16,7 @@ async function getFilename(entry: string, config: BuilderConfig) {
   return removeLeadingSlash(`${htmlPath}/${filename}`);
 }
 
-function getMinifyOptions(isProd: boolean, config: BuilderConfig) {
+function getMinify(isProd: boolean, config: BuilderConfig) {
   if (config.output?.disableMinimize || !isProd) {
     return false;
   }
@@ -51,16 +51,46 @@ async function getMetaTags(entry: string, config: BuilderConfig) {
   return metaOptions ? generateMetaTags(metaOptions) : '';
 }
 
-async function getTemplateParameters(entry: string, config: BuilderConfig) {
+async function getTemplateParameters(
+  entry: string,
+  config: BuilderConfig,
+  publicPath: string,
+): Promise<HTMLPluginOptions['templateParameters']> {
   const { mountId, templateParameters, templateParametersByEntries } =
     config.html || {};
 
-  return {
-    meta: await getMetaTags(entry, config),
-    title: getTitle(entry, config),
+  const meta = await getMetaTags(entry, config);
+  const title = getTitle(entry, config);
+
+  const baseParameters = {
+    meta,
+    title,
     mountId: mountId || DEFAULT_MOUNT_ID,
+    entryName: entry,
+    publicPath,
     ...(templateParametersByEntries?.[entry] || templateParameters),
   };
+
+  // refer to: https://github.com/jantimon/html-webpack-plugin/blob/main/examples/template-parameters/webpack.config.js
+  return (compilation, assets, assetTags, pluginOptions) => ({
+    compilation,
+    webpackConfig: compilation.options,
+    htmlWebpackPlugin: {
+      tags: assetTags,
+      files: assets,
+      options: pluginOptions,
+    },
+    ...baseParameters,
+  });
+}
+
+function getTemplatePath() {
+  const DEFAULT_TEMPLATE = path.resolve(
+    __dirname,
+    '../../static/template.html',
+  );
+
+  return DEFAULT_TEMPLATE;
 }
 
 export const PluginHtml = (): BuilderPlugin => ({
@@ -68,24 +98,26 @@ export const PluginHtml = (): BuilderPlugin => ({
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { isProd, CHAIN_ID }) => {
-      const DEFAULT_TEMPLATE = path.resolve(
-        __dirname,
-        '../../static/template.html',
-      );
-
       const { default: HtmlWebpackPlugin } = await import(
         'html-webpack-plugin'
       );
+      const { removeTailSlash } = await import('@modern-js/utils');
 
       const config = api.getBuilderConfig();
       const entries = Object.keys(chain.entryPoints.entries());
+      const publicPath = removeTailSlash(chain.output.get('publicPath'));
 
       await Promise.all(
         entries.map(async entry => {
           const inject = getInject(entry, config);
-          const minify = getMinifyOptions(isProd, config);
+          const minify = getMinify(isProd, config);
           const filename = await getFilename(entry, config);
-          const templateParameters = await getTemplateParameters(entry, config);
+          const template = getTemplatePath();
+          const templateParameters = await getTemplateParameters(
+            entry,
+            config,
+            publicPath,
+          );
 
           chain
             .plugin(`${CHAIN_ID.PLUGIN.HTML}-${entry}`)
@@ -94,7 +126,7 @@ export const PluginHtml = (): BuilderPlugin => ({
                 inject,
                 minify,
                 filename,
-                template: DEFAULT_TEMPLATE,
+                template,
                 templateParameters,
               },
             ]);
