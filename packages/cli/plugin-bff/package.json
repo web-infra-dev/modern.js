@@ -63,11 +63,11 @@
   "dependencies": {
     "@babel/core": "^7.18.0",
     "@babel/runtime": "^7.18.0",
-    "@modern-js/babel-compiler": "workspace:^1.2.6",
-    "@modern-js/bff-core": "workspace:^1.2.2",
-    "@modern-js/create-request": "workspace:^1.4.0",
-    "@modern-js/server-utils": "workspace:^1.2.11",
-    "@modern-js/utils": "workspace:^1.9.0"
+    "@modern-js/babel-compiler": "workspace:*",
+    "@modern-js/bff-core": "workspace:*",
+    "@modern-js/create-request": "workspace:*",
+    "@modern-js/server-utils": "workspace:*",
+    "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",

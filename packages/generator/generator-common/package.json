@@ -37,7 +37,7 @@
   "dependencies": {
     "@babel/runtime": "^7.18.0",
     "@modern-js/easy-form-core": "^1.0.0",
-    "@modern-js/plugin-i18n": "workspace:^1.3.0"
+    "@modern-js/plugin-i18n": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^27",

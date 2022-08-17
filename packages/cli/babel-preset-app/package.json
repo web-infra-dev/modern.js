@@ -39,8 +39,8 @@
     "@babel/plugin-transform-destructuring": "^7.18.0",
     "@babel/runtime": "^7.18.0",
     "@babel/types": "^7.18.0",
-    "@modern-js/babel-preset-base": "workspace:^1.6.0",
-    "@modern-js/utils": "workspace:^1.9.0",
+    "@modern-js/babel-preset-base": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "core-js": "^3.6.4"
   },
   "devDependencies": {
