@@ -1,4 +1,3 @@
-import { applyOptionsChain } from '@modern-js/utils';
 import path from 'path';
 import { getDistPath, DEFAULT_MOUNT_ID } from '../shared';
 import type {
@@ -124,7 +123,9 @@ export const PluginHtml = (): BuilderPlugin => ({
       const { default: HtmlWebpackPlugin } = await import(
         'html-webpack-plugin'
       );
-      const { removeTailSlash } = await import('@modern-js/utils');
+      const { removeTailSlash, applyOptionsChain } = await import(
+        '@modern-js/utils'
+      );
 
       const config = api.getBuilderConfig();
       const minify = getMinify(isProd, config);
