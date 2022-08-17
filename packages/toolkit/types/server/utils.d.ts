@@ -1,4 +1,5 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import type { IncomingMessage, ServerResponse } from 'http';
+import type { Options as ProxyOptions } from 'http-proxy-middleware';
 
 export type Metrics = {
   emitCounter: (name: string, value: number, tags: Record<string, any>) => void;
@@ -20,20 +21,13 @@ export type Logger = {
 
 export type NextFunction = () => void;
 
-export type ProxyDetail = {
-  target: string;
-  pathRewrite?: Record<string, string>;
-  secure?: boolean;
-  logLevel?: 'debug' | 'info' | 'warn' | 'error' | 'silent';
+export type ProxyDetail = ProxyOptions & {
   bypass?: (
     req: IncomingMessage,
     res: ServerResponse,
     proxyOptions: BffProxyOptions,
   ) => string | undefined | null | false;
   context?: string | string[];
-  changeOrigin?: boolean;
-  /** Rewrites domain of set-cookie headers. */
-  cookieDomainRewrite?: false | string | Record<string, string>;
 };
 
 export type BffProxyOptions =
