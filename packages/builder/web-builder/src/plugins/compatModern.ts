@@ -22,6 +22,11 @@ export const PluginCompatModern = (): BuilderPlugin => ({
         config.performance.removeMomentLocale = true;
       }
 
+      // `@modern-js/webpack` used to generate asset manifest by default
+      if (config.output.enableAssetManifest === undefined) {
+        config.output.enableAssetManifest = true;
+      }
+
       // `@modern-js/webpack` output all media files to `dist/media` by default
       if (config.output.distPath === undefined) {
         config.output.distPath = {
