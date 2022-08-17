@@ -36,8 +36,8 @@
     "test:watch": "vitest dev --no-coverage"
   },
   "dependencies": {
-    "@modern-js/babel-preset-app": "workspace:^1.5.0",
-    "@modern-js/utils": "workspace:^1.8.1",
+    "@modern-js/babel-preset-app": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "@types/mini-css-extract-plugin": "2.2.0",
     "@types/sass-loader": "8.0.3",
     "css-minimizer-webpack-plugin": "4.0.0",

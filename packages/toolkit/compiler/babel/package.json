@@ -37,7 +37,7 @@
   "dependencies": {
     "@babel/core": "^7.18.0",
     "@babel/runtime": "^7.18.0",
-    "@modern-js/utils": "workspace:^1.7.3"
+    "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
     "@babel/plugin-transform-classes": "^7.18.0",
