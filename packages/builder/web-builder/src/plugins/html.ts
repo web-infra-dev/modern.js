@@ -9,7 +9,7 @@ async function getFilename(entry: string, config: BuilderConfig) {
   const htmlPath =
     (typeof distPath === 'object' && distPath.html) || HTML_DIST_DIR;
 
-  const filename = config.output?.disableHtmlFolder
+  const filename = config.html?.disableHtmlFolder
     ? `${entry}.html`
     : `${entry}/index.html`;
 
@@ -34,21 +34,25 @@ function getMinifyOptions(isProd: boolean, config: BuilderConfig) {
 }
 
 function getTitle(entry: string, config: BuilderConfig) {
-  const { title, titleByEntries } = config.output || {};
+  const { title, titleByEntries } = config.html || {};
   return titleByEntries?.[entry] || title || '';
+}
+
+function getInject(entry: string, config: BuilderConfig) {
+  const { inject, injectByEntries } = config.html || {};
+  return injectByEntries?.[entry] || inject;
 }
 
 async function getMetaTags(entry: string, config: BuilderConfig) {
   const { generateMetaTags } = await import('@modern-js/utils');
-  const { meta, metaByEntries } = config.output || {};
+  const { meta, metaByEntries } = config.html || {};
 
   const metaOptions = metaByEntries?.[entry] || meta;
   return metaOptions ? generateMetaTags(metaOptions) : '';
 }
 
 async function getTemplateParameters(entry: string, config: BuilderConfig) {
-  const { templateParameters, templateParametersByEntries } =
-    config.output || {};
+  const { templateParameters, templateParametersByEntries } = config.html || {};
 
   return {
     meta: await getMetaTags(entry, config),
@@ -77,6 +81,7 @@ export const PluginHtml = (): BuilderPlugin => ({
       await Promise.all(
         entries.map(async entry => {
           const minify = getMinifyOptions(isProd, config);
+          const inject = getInject(entry, config);
           const filename = await getFilename(entry, config);
           const templateParameters = getTemplateParameters(entry, config);
 
@@ -85,6 +90,7 @@ export const PluginHtml = (): BuilderPlugin => ({
             .use(HtmlWebpackPlugin, [
               {
                 minify,
+                inject,
                 filename,
                 template: DEFAULT_TEMPLATE,
                 templateParameters,
