@@ -6,6 +6,7 @@ import type {
   Metrics,
   Logger,
 } from '@modern-js/types/server';
+import { headersWithoutCookie } from '../../utils';
 
 export type ContextOptions = {
   logger?: Logger;
@@ -172,7 +173,7 @@ export class ModernServerContext implements ModernServerContextInterface {
       `Web Server Error - ${dig}, error = %s, req.url = %s, req.headers = %o`,
       e instanceof Error ? e.stack || e.message : e,
       this.path,
-      this.headers,
+      headersWithoutCookie(this.headers),
     );
   }
 }

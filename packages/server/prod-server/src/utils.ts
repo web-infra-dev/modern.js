@@ -1,3 +1,4 @@
+import { IncomingMessage } from 'http';
 import type { NormalizedConfig } from '@modern-js/core';
 import { compile } from 'path-to-regexp';
 import { createDebugger, isProd } from '@modern-js/utils';
@@ -126,4 +127,13 @@ export const prepareFavicons = (
     });
   }
   return faviconNames;
+};
+
+export const headersWithoutCookie = (headers: IncomingMessage['headers']) => {
+  if (typeof headers.cookie !== 'undefined') {
+    const safeHeaders = { ...headers };
+    delete safeHeaders.cookie;
+    return safeHeaders;
+  }
+  return headers;
 };

@@ -1,4 +1,5 @@
 import { BaseSSRServerContext, Logger, Metrics } from '@modern-js/types';
+import { headersWithoutCookie } from '../../utils';
 
 export const createMetrics = (
   context: BaseSSRServerContext,
@@ -54,7 +55,7 @@ export const createLogger = (
       `SSR Error - ${message}, error = %s, req.url = %s, req.headers = %o`,
       e instanceof Error ? e.stack || e.message : e,
       pathname,
-      headers,
+      headersWithoutCookie(headers),
     );
   };
 
