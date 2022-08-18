@@ -1,12 +1,9 @@
 import { expect, describe, it } from 'vitest';
 import { PluginHtml } from '../../src/plugins/html';
 import { PluginEntry } from '../../src/plugins/entry';
-import { setPathSerializer } from '../utils/snapshot';
 import { createStubBuilder } from '../utils/builder';
 
 describe('plugins/html', () => {
-  setPathSerializer();
-
   it('should register html plugin correctly', async () => {
     const builder = createStubBuilder({
       plugins: [PluginEntry(), PluginHtml()],

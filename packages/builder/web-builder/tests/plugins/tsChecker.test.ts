@@ -1,11 +1,8 @@
 import { expect, describe, it } from 'vitest';
 import { PluginTsLoader } from '../../src/plugins/tsLoader';
-import { setPathSerializer } from '../utils/snapshot';
 import { createStubBuilder } from '../utils/builder';
 
 describe('plugins/tsChecker', () => {
-  setPathSerializer();
-
   it("should't set ts-checker", async () => {
     const builder = createStubBuilder({
       plugins: [PluginTsLoader()],
