@@ -10,7 +10,7 @@
     "prepare": "pnpm build"
   },
   "devDependencies": {
-    "@modern-js/tsconfig": "^1.2.0",
+    "@modern-js/tsconfig": "workspace:*",
     "@types/jest": "^27",
     "@types/lodash": "^4.14.182",
     "@types/node": "^14",
