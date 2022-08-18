@@ -11,7 +11,7 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
         "include": [
           {
             "and": [
-              "/Users/chenjiahan/Project/modern.js/packages/builder/web-builder",
+              /builder/web-builder,
               {
                 "not": /node_modules/,
               },
@@ -22,13 +22,13 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "/Users/chenjiahan/Project/modern.js/node_modules/.pnpm/babel-loader@8.2.5_2cad51bbe9c2876396f118aa6395be78/node_modules/babel-loader/lib/index.js",
+            "loader": /babel-loader/lib/index.js,
             "options": {
               "presets": [
                 [
-                  "/Users/chenjiahan/Project/modern.js/packages/cli/babel-preset-app/dist/js/node/index.js",
+                  /cli/babel-preset-app/dist/js/node/index.js,
                   {
-                    "appDirectory": "/Users/chenjiahan/Project/modern.js/packages/builder/web-builder",
+                    "appDirectory": /builder/web-builder,
                     "metaName": "modern-js",
                     "target": "client",
                     "useBuiltIns": undefined,
@@ -40,7 +40,7 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
             },
           },
           {
-            "loader": "/Users/chenjiahan/Project/modern.js/node_modules/.pnpm/ts-loader@9.3.1_typescript@4.7.4+webpack@5.73.0/node_modules/ts-loader/index.js",
+            "loader": /ts-loader/index.js,
             "options": {
               "allowTsInNodeModules": true,
               "compilerOptions": {
@@ -65,7 +65,7 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
         "include": [
           {
             "and": [
-              "/Users/chenjiahan/Project/modern.js/packages/builder/web-builder",
+              /builder/web-builder,
               {
                 "not": /node_modules/,
               },
@@ -75,13 +75,13 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "/Users/chenjiahan/Project/modern.js/node_modules/.pnpm/babel-loader@8.2.5_2cad51bbe9c2876396f118aa6395be78/node_modules/babel-loader/lib/index.js",
+            "loader": /babel-loader/lib/index.js,
             "options": {
               "presets": [
                 [
-                  "/Users/chenjiahan/Project/modern.js/packages/cli/babel-preset-app/dist/js/node/index.js",
+                  /cli/babel-preset-app/dist/js/node/index.js,
                   {
-                    "appDirectory": "/Users/chenjiahan/Project/modern.js/packages/builder/web-builder",
+                    "appDirectory": /builder/web-builder,
                     "metaName": "modern-js",
                     "target": "client",
                     "useBuiltIns": undefined,
@@ -93,7 +93,7 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
             },
           },
           {
-            "loader": "/Users/chenjiahan/Project/modern.js/node_modules/.pnpm/ts-loader@9.3.1_typescript@4.7.4+webpack@5.73.0/node_modules/ts-loader/index.js",
+            "loader": /ts-loader/index.js,
             "options": {
               "allowTsInNodeModules": true,
               "compilerOptions": {
