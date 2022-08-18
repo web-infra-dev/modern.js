@@ -36,3 +36,13 @@ export const IMAGE_EXTENSIONS = [
   'avif',
   'tiff',
 ];
+export const MEDIA_EXTENSIONS = [
+  'mp4',
+  'webm',
+  'ogg',
+  'mp3',
+  'wav',
+  'flac',
+  'aac',
+  'mov',
+];
