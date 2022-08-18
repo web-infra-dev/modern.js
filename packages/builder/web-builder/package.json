@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "@modern-js/web-builder",
   "description": "Web builder of modern.js.",
   "homepage": "https://modernjs.dev",
