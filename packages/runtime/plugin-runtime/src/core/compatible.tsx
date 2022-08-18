@@ -112,19 +112,21 @@ interface HydrateFunc {
 type BootStrap<T = unknown> = (
   App: React.ComponentType,
   id?: string | Record<string, any> | HTMLElement,
+  root?: any,
   render?: (children: React.ReactNode, rootElement?: HTMLElement) => void,
   hydrate?: HydrateFunc,
 ) => Promise<T>;
 
 export const bootstrap: BootStrap = async (
   BootApp,
-  id,
-  render = defaultReactDOM.render as any,
-  hydrate = defaultReactDOM.hydrate as any,
   /**
    * When csr, id is root id.
    * When ssr, id is serverContext
    */
+  id,
+  root,
+  render = defaultReactDOM.render as any,
+  hydrate = defaultReactDOM.hydrate as any,
 ) => {
   let App = BootApp;
   let runner = runnerMap.get(App);
@@ -190,7 +192,7 @@ export const bootstrap: BootStrap = async (
 
       const ModernRender = (App: React.ReactNode) => {
         if (isReact18) {
-          render(App);
+          root.render(App);
         } else {
           render(App, rootElement);
         }
