@@ -1,21 +1,17 @@
-import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
-import { DEFAULT_DATA_URL_SIZE } from './constants';
-import { URLSearchParams } from 'url';
-import type Buffer from 'buffer';
 import assert from 'assert';
-import path from 'path';
+import { URLSearchParams } from 'url';
+import { DEFAULT_DATA_URL_SIZE } from './constants';
+import type Buffer from 'buffer';
+import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
 
 export const JS_REGEX = /\.(js|mjs|cjs|jsx)$/;
-
 export const TS_REGEX = /\.(ts|mts|cts|tsx)$/;
-
 export const CSS_REGEX = /\.css$/;
-export const SASS_REGEX = /\.s(a|c)ss$/;
 export const LESS_REGEX = /\.less$/;
-
-export const NODE_MODULES_REGEX = /node_modules/;
+export const SASS_REGEX = /\.s(a|c)ss$/;
 export const CSS_MODULE_REGEX = /\.module\.css$/;
 export const GLOBAL_CSS_REGEX = /\.global\.css$/;
+export const NODE_MODULES_REGEX = /node_modules/;
 
 export const isNodeModulesCss = (path: string) =>
   NODE_MODULES_REGEX.test(path) &&
@@ -41,14 +37,6 @@ export function pick<T, U extends keyof T>(obj: T, keys: ReadonlyArray<U>) {
     }
     return ret;
   }, {} as Pick<T, U>);
-}
-
-export async function isFileExists(file: string) {
-  const { promises, constants } = await import('fs');
-  return promises
-    .access(file, constants.F_OK)
-    .then(() => true)
-    .catch(() => false);
 }
 
 /** Preserving the details of schema by generic types. */
@@ -90,6 +78,3 @@ export function getDataUrlCondition(dataUriLimit = DEFAULT_DATA_URL_SIZE) {
     return source.length <= dataUriLimit;
   };
 }
-
-export const getCompiledPath = (packageName: string) =>
-  path.join(__dirname, '../../compiled', packageName);

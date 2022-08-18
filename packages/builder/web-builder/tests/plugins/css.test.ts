@@ -1,9 +1,9 @@
 import { expect, describe, it } from 'vitest';
-import { PluginCss } from '../src/plugins/css';
-import { PluginSass } from '../src/plugins/sass';
-import { PluginLess } from '../src/plugins/less';
-import { createStubBuilder } from './utils/builder';
-import { matchLoader } from './utils/matchLoader';
+import { PluginCss } from '../../src/plugins/css';
+import { PluginSass } from '../../src/plugins/sass';
+import { PluginLess } from '../../src/plugins/less';
+import { createStubBuilder } from '../utils/builder';
+import { matchLoader } from '../utils/matchLoader';
 
 describe('plugins/css', () => {
   it('should set css config with style-loader', async () => {

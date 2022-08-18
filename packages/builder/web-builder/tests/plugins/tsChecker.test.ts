@@ -1,7 +1,7 @@
 import { expect, describe, it } from 'vitest';
-import { PluginTsLoader } from '../src/plugins/tsLoader';
-import { setPathSerializer } from './utils/snapshot';
-import { createStubBuilder } from './utils/builder';
+import { PluginTsLoader } from '../../src/plugins/tsLoader';
+import { setPathSerializer } from '../utils/snapshot';
+import { createStubBuilder } from '../utils/builder';
 
 describe('plugins/tsChecker', () => {
   setPathSerializer();

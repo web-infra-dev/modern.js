@@ -1,7 +1,7 @@
 import { isAbsolute, join } from 'path';
 import { initHooks } from './createHook';
 import { ConfigValidator } from '../config/validate';
-import { STATUS, isFileExists, ROOT_DIST_DIR, pick } from '../shared';
+import { pick, STATUS, isFileExists, getDistPath } from '../shared';
 import type {
   Context,
   BuilderOptions,
@@ -9,15 +9,9 @@ import type {
   BuilderConfig,
 } from '../types';
 
-export function getDistPath(cwd: string, builderConfig: BuilderConfig) {
-  const { distPath } = builderConfig.output || {};
-  const root = typeof distPath === 'string' ? distPath : distPath?.root;
-
-  if (root) {
-    return isAbsolute(root) ? root : join(cwd, root);
-  }
-
-  return join(cwd, ROOT_DIST_DIR);
+export function getAbsoluteDistPath(cwd: string, config: BuilderConfig) {
+  const root = getDistPath(config, 'root');
+  return isAbsolute(root) ? root : join(cwd, root);
 }
 
 /**
@@ -33,7 +27,7 @@ export function createPrimaryContext(
   const status = STATUS.INITIAL;
   const rootPath = cwd;
   const srcPath = join(rootPath, 'src');
-  const distPath = getDistPath(cwd, builderConfig);
+  const distPath = getAbsoluteDistPath(cwd, builderConfig);
   const cachePath = join(rootPath, 'node_modules', '.cache');
   const configValidatingTask = Promise.resolve();
 
