@@ -1,5 +1,29 @@
 # @modern-js/plugin-testing
 
+## 1.15.0
+
+### Patch Changes
+
+- b1f7000: fix: Adjust createServer logic in bff test plugin
+  fix: 调整 BFF 测试中 create server 的逻辑
+- Updated dependencies [8658a78]
+- Updated dependencies [0df4970]
+- Updated dependencies [335c97c]
+- Updated dependencies [05d4a4f]
+- Updated dependencies [b1f7000]
+- Updated dependencies [ad05af9]
+- Updated dependencies [e8a1e8e]
+- Updated dependencies [5d53d1c]
+- Updated dependencies [37cd159]
+- Updated dependencies [a04a11b]
+  - @modern-js/utils@1.15.0
+  - @modern-js/webpack@1.15.0
+  - @modern-js/runtime@1.15.0
+  - @modern-js/server@1.15.0
+  - @modern-js/babel-preset-app@1.15.0
+  - @modern-js/babel-compiler@1.15.0
+  - @modern-js/plugin@1.15.0
+
 ## 1.8.0
 
 ### Minor Changes

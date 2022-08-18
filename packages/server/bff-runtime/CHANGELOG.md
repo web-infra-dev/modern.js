@@ -1,5 +1,7 @@
 # @modern-js/bff-runtime
 
+## 1.15.0
+
 ## 1.4.0
 
 ### Minor Changes

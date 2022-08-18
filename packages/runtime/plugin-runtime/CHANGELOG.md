@@ -1,5 +1,23 @@
 # @modern-js/runtime
 
+## 1.15.0
+
+### Patch Changes
+
+- 335c97c: fix: fix runtime context format bug
+  fix: 修复 runtimeContext 数据格式化时的问题
+- a04a11b: fix: 修复 SSR 物理降级时，获取不到请求上下文的问题
+  fix: should get ssrContext anyway if entry is ssr enable
+- Updated dependencies [8658a78]
+- Updated dependencies [0df4970]
+- Updated dependencies [05d4a4f]
+- Updated dependencies [ad05af9]
+- Updated dependencies [5d53d1c]
+- Updated dependencies [37cd159]
+  - @modern-js/utils@1.15.0
+  - @modern-js/webpack@1.15.0
+  - @modern-js/plugin@1.15.0
+
 ## 1.5.0
 
 ### Minor Changes

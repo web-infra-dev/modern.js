@@ -1,5 +1,11 @@
 # @modern-js/electron-generator
 
+## 2.2.1
+
+### Patch Changes
+
+- f64f47a: fix doc path
+
 ## 1.4.0
 
 ### Minor Changes
