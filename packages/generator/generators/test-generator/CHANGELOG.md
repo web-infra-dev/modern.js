@@ -1,5 +1,7 @@
 # @modern-js/test-generator
 
+## 2.2.1
+
 ## 1.4.0
 
 ### Minor Changes

@@ -1,5 +1,13 @@
 # @modern-js/types
 
+## 1.15.0
+
+### Patch Changes
+
+- ad05af9: fix: bff.proxy and devServer.proxy types
+
+  fix: 修复 bff.proxy 和 devServer.proxy 类型定义不完整的问题
+
 ## 1.6.2
 
 ### Patch Changes

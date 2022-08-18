@@ -1,5 +1,7 @@
 # @modern-js/create
 
+## 1.15.0
+
 ## 1.6.0
 
 ### Minor Changes

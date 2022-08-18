@@ -1,5 +1,19 @@
 # @modern-js/generator-common
 
+## 2.2.1
+
+### Patch Changes
+
+- 8658a78: chore: remove `@modern-js/plugin-docsite`
+
+  chore: 移除 `@modern-js/plugin-docsite`
+
+- 9e6a0aa: feat: adjust new command dependencies position
+
+  feat: 调整 new 命令添加依赖位置
+
+  - @modern-js/plugin-i18n@1.15.0
+
 ## 1.6.1
 
 ### Patch Changes
