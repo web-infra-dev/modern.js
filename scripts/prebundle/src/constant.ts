@@ -178,6 +178,8 @@ export const TASKS: TaskConfig[] = [
     packageDir: 'builder/web-builder',
     packageName: '@modern-js/web-builder',
     dependencies: [
+      'tapable',
+      'webpack-sources',
       {
         name: 'webpackbar',
         ignoreDts: true,
@@ -271,6 +273,23 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'css-modules-typescript-loader',
         ignoreDts: true,
+      },
+      {
+        name: 'webpack-manifest-plugin',
+        externals: {
+          tapable: '../tapable',
+          'webpack-sources': '../webpack-sources',
+        },
+        beforeBundle() {
+          const pkgPath = require.resolve(
+            'webpack-manifest-plugin/package.json',
+          );
+          replaceFileContent(pkgPath, content => {
+            const json = JSON.parse(content);
+            json.types = 'dist/index.d.ts';
+            return JSON.stringify(json);
+          });
+        },
       },
     ],
   },
