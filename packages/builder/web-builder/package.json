@@ -24,6 +24,14 @@
     ".": {
       "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
+    },
+    "webpack": {
+      "jsnext:source": "./src/exports/webpack.ts",
+      "default": "./dist/exports/webpack.js"
+    },
+    "html-webpack-plugin": {
+      "jsnext:source": "./src/exports/html-webpack-plugin.ts",
+      "default": "./dist/exports/html-webpack-plugin.js"
     }
   },
   "scripts": {
