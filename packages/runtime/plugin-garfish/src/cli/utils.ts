@@ -10,7 +10,11 @@ export const provider = function ({basename, dom}) {
       const node = dom.querySelector('#' + MOUNT_ID) || dom;
 
       if (node) {
-        unmountComponentAtNode(node);
+        if (isReact18) {
+          root.unmount();
+        } else {
+          unmountComponentAtNode(node);
+        }
       }
     },
     SubModuleComponent: (props) => {

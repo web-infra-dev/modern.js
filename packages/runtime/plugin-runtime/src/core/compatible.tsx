@@ -26,11 +26,13 @@ type PluginRunner = ReturnType<typeof runtime.init>;
 
 const runnerMap = new WeakMap<React.ComponentType<any>, PluginRunner>();
 
+export const isReact18 = React.version.startsWith('18.');
+
 const getInitialContext = (runner: PluginRunner) => ({
   loaderManager: createLoaderManager({}),
   runner,
   isBrowser: true,
-  isReact18: React.version.startsWith('18.'),
+  isReact18,
 });
 
 export const createApp = ({ plugins }: CreateAppOptions) => {
@@ -96,19 +98,33 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
   };
 };
 
+interface HydrateFunc {
+  // React 18
+  (container: Element | Document, initialChildren: React.ReactNode): void;
+  // React 17
+  (
+    initialChildren: React.ReactNode,
+    container: Element | Document,
+    callback?: () => void,
+  ): void;
+}
+
 type BootStrap<T = unknown> = (
   App: React.ComponentType,
   id?: string | Record<string, any> | HTMLElement,
+  render?: (children: React.ReactNode, rootElement?: HTMLElement) => void,
+  hydrate?: HydrateFunc,
 ) => Promise<T>;
 
 export const bootstrap: BootStrap = async (
   BootApp,
+  id,
+  render = defaultReactDOM.render as any,
+  hydrate = defaultReactDOM.hydrate as any,
   /**
    * When csr, id is root id.
    * When ssr, id is serverContext
    */
-  id,
-  ReactDOM = defaultReactDOM,
 ) => {
   let App = BootApp;
   let runner = runnerMap.get(App);
@@ -169,27 +185,35 @@ export const bootstrap: BootStrap = async (
         context.initialData = initialData;
       }
 
+      const rootElement =
+        typeof id !== 'string' ? id : document.getElementById(id || 'root')!;
+
+      const ModernRender = (App: React.ReactNode) => {
+        if (isReact18) {
+          render(App);
+        } else {
+          render(App, rootElement);
+        }
+      };
+
+      const ModernHydrate = (App: React.ReactNode, callback?: () => void) => {
+        if (isReact18) {
+          hydrate(rootElement, App);
+        } else {
+          hydrate(App, rootElement, callback);
+        }
+      };
+
       return runner.client(
         {
           App,
           context,
-          rootElement:
-            typeof id !== 'string'
-              ? id
-              : document.getElementById(id || 'root')!,
-          ReactDOM,
+          ModernRender,
+          ModernHydrate,
         },
         {
-          onLast: ({ App, rootElement }) => {
-            if (context.isReact18) {
-              const root = (ReactDOM as any).createRoot(rootElement);
-              root.render(React.createElement(App, { context }));
-            } else {
-              ReactDOM.render(
-                React.createElement(App, { context }),
-                rootElement,
-              );
-            }
+          onLast: ({ App }) => {
+            ModernRender(React.createElement(App, { context }));
           },
         },
       );

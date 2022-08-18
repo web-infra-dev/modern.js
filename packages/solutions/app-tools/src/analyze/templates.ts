@@ -19,6 +19,8 @@ ${imports}
 
 let AppWrapper = null;
 
+let root = null;
+
 function render() {
   ${renderFunction}
 }
@@ -52,7 +54,12 @@ export const renderFunction = ({
     ${
       customBootstrap
         ? `customBootstrap(AppWrapper);`
-        : `bootstrap(AppWrapper, MOUNT_ID, ReactDOM);`
+        : `if (isReact18) {
+  root = ReactDOM.createRoot(document.getElementById(MOUNT_ID || 'root'))
+  bootstrap(AppWrapper, MOUNT_ID, root.render, ReactDOM.hydrateRoot);
+} else {
+  bootstrap(AppWrapper, MOUNT_ID.render, ReactDOM.hydrate);
+}`
     }
   }
 

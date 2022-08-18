@@ -26,18 +26,13 @@ const ssr = (): Plugin => ({
   setup: () => {
     const mockResp = mockResponse();
     return {
-      client: async ({ App, context, rootElement, ReactDOM }) => {
+      client: async ({ App, context, ModernRender, ModernHydrate }) => {
         const renderLevel = window?._SSR_DATA?.renderLevel;
 
         if (renderLevel === RenderLevel.CLIENT_RENDER) {
           // prefetch block render while csr
           //   await (App as any)?.prefetch?.(context);
-          if (context?.isReact18) {
-            const root = ReactDOM.createRoot(rootElement);
-            root.render(<App context={context} />);
-          } else {
-            ReactDOM.render(<App context={context} />, rootElement);
-          }
+          ModernRender(<App context={context} />);
         } else if (renderLevel === RenderLevel.SERVER_RENDER) {
           loadableReady(() => {
             const hydrateContext = { ...context, _hydration: true };
@@ -52,21 +47,14 @@ const ssr = (): Plugin => ({
                 </WithCallback>
               );
               SSRApp = hoistNonReactStatics(SSRApp, App);
-              ReactDOM.hydrateRoot(rootElement, <SSRApp />);
+              ModernHydrate(<SSRApp />);
             } else {
-              ReactDOM.hydrate(
-                <App context={hydrateContext} />,
-                rootElement,
-                callback,
-              );
+              ModernHydrate(<App context={hydrateContext} />, callback);
             }
           });
-        } else if (context?.isReact18) {
-          // unknown renderlevel or renderlevel is server prefetch.
-          ReactDOM.hydrateRoot(rootElement, <App context={context} />);
         } else {
           // unknown renderlevel or renderlevel is server prefetch.
-          ReactDOM.render(<App context={context} />, rootElement);
+          ModernHydrate(<App context={context} />);
         }
       },
       init({ context }, next) {
