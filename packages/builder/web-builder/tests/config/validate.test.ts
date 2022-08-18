@@ -111,17 +111,6 @@ describe('ConfigValidator', async () => {
         },
       },
     },
-    {
-      title: 'source.globalVars without JSON type',
-      expected: false,
-      value: {
-        source: {
-          globalVars: {
-            date: () => 123,
-          },
-        },
-      },
-    },
   ];
 
   it.each(cases)('$title', async c => {
