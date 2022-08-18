@@ -1,5 +1,21 @@
 # @modern-js/babel-preset-app
 
+## 1.15.0
+
+### Patch Changes
+
+- e8a1e8e: fix(babel-preset-app): incorrect babel plugin path
+
+  fix(babel-preset-app): 修复 babel 插件路径错误的问题
+
+- Updated dependencies [8658a78]
+- Updated dependencies [05d4a4f]
+- Updated dependencies [ad05af9]
+- Updated dependencies [5d53d1c]
+- Updated dependencies [37cd159]
+  - @modern-js/utils@1.15.0
+  - @modern-js/babel-preset-base@1.15.0
+
 ## 1.6.0
 
 ### Minor Changes
