@@ -1,5 +1,7 @@
 # @modern-js/cloud-deploy-generator
 
+## 2.2.1
+
 ## 1.3.0
 
 ### Minor Changes

@@ -1,5 +1,7 @@
 # @modern-js/entry-generator
 
+## 2.2.1
+
 ## 1.5.0
 
 ### Minor Changes
