@@ -27,16 +27,7 @@ export const createBuilder = async () => {
     cwd,
     entry,
     configPath: __filename,
-    builderConfig: {
-      tools: {
-        cssExtract: {},
-        tsLoader: {
-          compilerOptions: {
-            strictNullChecks: true,
-          },
-        },
-      },
-    },
+    builderConfig: {},
   });
 
   builder.addPlugins([TestPlugin()]);

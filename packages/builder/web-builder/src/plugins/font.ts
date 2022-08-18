@@ -1,6 +1,6 @@
 import { join } from 'path';
 import {
-  FONT_DIST_DIR,
+  getDistPath,
   FONT_EXTENSIONS,
   getRegExpForExts,
   getDataUrlCondition,
@@ -15,9 +15,7 @@ export const PluginFont = (): BuilderPlugin => ({
       const config = api.getBuilderConfig();
       const regExp = getRegExpForExts(FONT_EXTENSIONS);
 
-      const { distPath } = config.output || {};
-      const distDir =
-        (typeof distPath === 'object' && distPath.font) || FONT_DIST_DIR;
+      const distDir = getDistPath(config, 'font');
       const filename = isProd ? '[name].[contenthash:8][ext]' : '[name][ext]';
 
       chain.module
