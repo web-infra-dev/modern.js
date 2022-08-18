@@ -13,10 +13,6 @@ sidebar_position: 4
 
 该文件约定主要用于开发者使用插件，主动上传静态资源文件到 CDN。
 
-:::info 注
-目前 Modern.js 中提供的 CDN 上传插件（[OSS](/docs/guides/features/server-side/deploy/upload-cdn/oss)、[COS](/docs/guides/features/server-side/deploy/upload-cdn/cos)）都已经支持将该目录同步上传到云平台中。
-:::
-
 ## 场景
 
 例如 `google-analysis.js` 等项目自用的 SDK（通常需要 http 缓存）。
