@@ -1,6 +1,6 @@
 import { join } from 'path';
 import glob from 'fast-glob';
-import { copyFileSync } from 'fs-extra';
+import { copyFileSync, copySync } from 'fs-extra';
 import { replaceFileContent } from './helper';
 import type { TaskConfig } from './types';
 
@@ -289,6 +289,43 @@ export const TASKS: TaskConfig[] = [
             json.types = 'dist/index.d.ts';
             return JSON.stringify(json);
           });
+        },
+      },
+      {
+        name: 'less',
+        externals: {
+          // needle is an optional dependency and no need to bundle it.
+          needle: 'needle',
+        },
+        afterBundle(task) {
+          replaceFileContent(join(task.distPath, 'index.d.ts'), content =>
+            content.replace(
+              `declare module "less" {\n    export = less;\n}`,
+              `export = Less;`,
+            ),
+          );
+        },
+      },
+      {
+        name: 'less-loader',
+        ignoreDts: true,
+        externals: {
+          less: '../less',
+        },
+      },
+      {
+        name: 'sass',
+        externals: {
+          chokidar: '@modern-js/utils/chokidar',
+        },
+        afterBundle(task) {
+          copySync(join(task.depPath, 'types'), join(task.distPath, 'types'));
+        },
+      },
+      {
+        name: 'sass-loader',
+        externals: {
+          sass: '../sass',
         },
       },
     ],

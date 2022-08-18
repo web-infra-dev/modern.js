@@ -27,6 +27,7 @@ export function PluginLess(): BuilderPlugin {
             {
               lessOptions: { javascriptEnabled: true },
               sourceMap: false,
+              implementation: utils.getCompiledPath('less'),
             },
             config.tools?.less || {},
             { addExcludes },
@@ -37,16 +38,21 @@ export function PluginLess(): BuilderPlugin {
             excludes,
           };
         };
+
         const { options, excludes } = getLessLoaderOptions();
         const rule = chain.module
           .rule(utils.CHAIN_ID.RULE.LESS)
-          .test(LESS_REGEX)
-          .exclude.add(excludes)
-          .end();
+          .test(LESS_REGEX);
+
+        excludes.forEach(item => {
+          rule.exclude.add(item);
+        });
+
         await applyBaseCSSRule(rule, config, api.context, utils);
+
         rule
           .use(utils.CHAIN_ID.USE.LESS)
-          .loader(require.resolve('less-loader'))
+          .loader(utils.getCompiledPath('less-loader'))
           .options(options);
       });
     },

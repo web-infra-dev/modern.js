@@ -27,6 +27,7 @@ export function PluginSass(): BuilderPlugin {
           >(
             {
               sourceMap: false,
+              implementation: utils.getCompiledPath('sass'),
             },
             config.tools?.sass || {},
             { addExcludes },
@@ -37,16 +38,21 @@ export function PluginSass(): BuilderPlugin {
             excludes,
           };
         };
+
         const { options, excludes } = getSassLoaderOptions();
         const rule = chain.module
           .rule(utils.CHAIN_ID.RULE.SASS)
-          .test(SASS_REGEX)
-          .exclude.add(excludes)
-          .end();
+          .test(SASS_REGEX);
+
+        excludes.forEach(item => {
+          rule.exclude.add(item);
+        });
+
         await applyBaseCSSRule(rule, config, api.context, utils);
+
         rule
           .use(utils.CHAIN_ID.USE.SASS)
-          .loader(require.resolve('sass-loader'))
+          .loader(utils.getCompiledPath('sass-loader'))
           .options(options);
       });
     },

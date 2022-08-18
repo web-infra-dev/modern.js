@@ -5,8 +5,9 @@ import type TerserPlugin from 'terser-webpack-plugin';
 import type CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import type ForkTSCheckerPlugin from 'fork-ts-checker-webpack-plugin';
 import type { Options as RawTSLoaderOptions } from 'ts-loader';
-import type * as sassLoader from 'sass-loader';
-import type Less from 'less';
+import type { Options as SassOptions } from '../../../compiled/sass';
+import type * as SassLoader from '../../../compiled/sass-loader';
+import type Less from '../../../compiled/less';
 
 export type { CopyPluginOptions } from './CopyWebpackPlugin';
 export type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
@@ -41,7 +42,9 @@ export type {
 
 export type { Options as AutoprefixerOptions } from 'autoprefixer';
 
-export type SassLoaderOptions = sassLoader.Options;
+export type SassLoaderOptions = Omit<SassLoader.Options, 'sassOptions'> & {
+  sassOptions?: SassOptions<'sync'>;
+};
 
 export type LessLoaderOptions = {
   lessOptions?: Less.Options;
@@ -53,5 +56,5 @@ export type LessLoaderOptions = {
       ) => string);
   sourceMap?: boolean;
   webpackImporter?: boolean;
-  implementation?: boolean;
+  implementation?: unknown;
 };
