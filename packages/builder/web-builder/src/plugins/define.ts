@@ -9,7 +9,7 @@ export const PluginDefine = (): BuilderPlugin => ({
   name: 'web-builder-plugin-define',
 
   async setup(api) {
-    const { DefinePlugin } = await import('webpack');
+    const { default: webpack } = await import('webpack');
     const config = api.getBuilderConfig();
     const globalVars = _.assign({}, config.source?.globalVars, builtinVars);
 
@@ -20,7 +20,9 @@ export const PluginDefine = (): BuilderPlugin => ({
 
     // Apply define plugin
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
-      chain.plugin(CHAIN_ID.PLUGIN.DEFINE).use(DefinePlugin, [serializedVars]);
+      chain
+        .plugin(CHAIN_ID.PLUGIN.DEFINE)
+        .use(webpack.DefinePlugin, [serializedVars]);
     });
   },
 });
