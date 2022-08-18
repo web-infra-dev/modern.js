@@ -17,13 +17,19 @@ const restrictedImportInSource = {
     'lodash',
     'ts-loader',
     'typescript',
+    '@modern-js/utils',
     ...devDependencyPaths,
   ].map(withAllowTypeImports('name')),
   patterns: [
     '**/plugins/*',
     '**/webpackPlugins/*',
     '*-webpack-plugin',
-    ['@modern-js/utils/*', '!@modern-js/utils/chalk'],
+    [
+      '@modern-js/utils/*',
+      '!@modern-js/utils/chalk',
+      '!@modern-js/utils/lodash',
+      '!@modern-js/utils/chain-id',
+    ],
   ].map(withAllowTypeImports('group')),
 };
 

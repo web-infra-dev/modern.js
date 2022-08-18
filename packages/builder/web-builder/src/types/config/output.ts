@@ -16,6 +16,7 @@ export type Polyfill = 'usage' | 'entry' | 'ua' | 'off';
 export interface OutputConfig {
   copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
   distPath?: string | DistPathConfig;
+  polyfill?: Polyfill;
   assetPrefix?: string;
   dataUriLimit?: number;
   disableMinimize?: boolean;
@@ -23,5 +24,4 @@ export interface OutputConfig {
   disableFilenameHash?: boolean;
   enableLatestDecorators?: boolean;
   enableCssModuleTSDeclaration?: boolean;
-  polyfill?: Polyfill;
 }

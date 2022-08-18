@@ -3,7 +3,7 @@ import { CHAIN_ID } from '@modern-js/utils';
 import type { IAppContext } from '@modern-js/core';
 import type { ChainUtils } from '../shared';
 
-function getCustomPublicEnv(appContext: IAppContext) {
+export function getCustomPublicEnv(appContext: IAppContext) {
   const { metaName } = appContext;
   const prefix = `${metaName.split(/[-_]/)[0]}_`.toUpperCase();
   const envReg = new RegExp(`^${prefix}`);

@@ -9,6 +9,7 @@ import type * as sassLoader from 'sass-loader';
 import type Less from 'less';
 
 export type { CopyPluginOptions } from './CopyWebpackPlugin';
+export type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
 
 export type TerserPluginOptions = TerserPlugin.BasePluginOptions &
   TerserPlugin.DefinedDefaultMinimizerAndOptions<TerserPlugin.TerserOptions>;

@@ -14,6 +14,7 @@ import type {
   PostCSSPlugin,
   LessLoaderOptions,
   SassLoaderOptions,
+  HTMLPluginOptions,
 } from '../thirdParty';
 
 export type ToolsTerserConfig =
@@ -88,23 +89,34 @@ export type ToolsSassConfig =
       utils: { addExcludes: (excludes: RegExp | RegExp[]) => void },
     ) => SassLoaderOptions | void);
 
+export type HtmlPluginConfig =
+  | HTMLPluginOptions
+  | ((
+      options: HTMLPluginOptions,
+      utils: {
+        entryName: string;
+        entryValue: string[];
+      },
+    ) => HTMLPluginOptions | void);
+
 export type DevServerConfig = {
   hot?: boolean;
 };
 
 export interface ToolsConfig {
+  sass?: SassLoaderOptions;
+  less?: LessLoaderOptions;
   babel?: ToolsBabelConfig;
   terser?: ToolsTerserConfig;
   tsLoader?: ToolsTSLoaderOptions;
   tsChecker?: false | ForkTSCheckerOptions;
   devServer?: DevServerConfig;
   minifyCss?: ToolsMinifyCssConfig;
+  htmlPlugin?: HtmlPluginConfig;
   styledComponents?: IStyledComponentOptions;
   cssLoader?: CSSLoaderOptions;
   styleLoader?: StyleLoaderOptions;
   cssExtract?: CssExtractOptions;
   postcss?: PostCSSLoaderOptions;
   autoprefixer?: AutoprefixerOptions;
-  sass?: SassLoaderOptions;
-  less?: LessLoaderOptions;
 }

@@ -42,3 +42,4 @@ jest.config.js
 tsconfig.json
 
 .wireit/
+scripts/
