@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  integration-test-mac:
+  type-check:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
