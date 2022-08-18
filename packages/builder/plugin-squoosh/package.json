@@ -27,9 +27,11 @@
     "test:watch": "vitest dev --no-coverage"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/utils": "workspace:*",
+    "@squoosh/lib": "~0.4.0"
   },
   "devDependencies": {
+    "@modern-js/web-builder": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/node": "^14",
     "typescript": "^4",

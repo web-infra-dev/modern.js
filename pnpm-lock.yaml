@@ -51,13 +51,17 @@ importers:
   packages/builder/plugin-squoosh:
     specifiers:
       '@modern-js/utils': workspace:*
+      '@modern-js/web-builder': workspace:*
       '@scripts/vitest-config': workspace:*
+      '@squoosh/lib': ~0.4.0
       '@types/node': ^14
       typescript: ^4
       vitest: ^0.21.1
     dependencies:
       '@modern-js/utils': link:../../toolkit/utils
+      '@squoosh/lib': 0.4.0
     devDependencies:
+      '@modern-js/web-builder': link:../web-builder
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/node': 14.18.21
       typescript: 4.7.4
@@ -9772,6 +9776,14 @@ packages:
 
   /@speedy-js/speedy-utils/0.13.2-alpha.3:
     resolution: {integrity: sha512-5dk6lChrOOvWUidW60ZemGo/rzgGCp3SULw4zepbTvjmCwbV+Ih/ohXz/K2aDbHVWlgPU7ZPnnjmot1e5RtVHQ==}
+    dev: false
+
+  /@squoosh/lib/0.4.0:
+    resolution: {integrity: sha512-O1LyugWLZjMI4JZeZMA5vzfhfPjfMZXH5/HmVkRagP8B70wH3uoR7tjxfGNdSavey357MwL8YJDxbGwBBdHp7Q==}
+    engines: {node: ' ^12.5.0 || ^14.0.0 || ^16.0.0 '}
+    dependencies:
+      wasm-feature-detect: 1.2.11
+      web-streams-polyfill: 3.2.1
     dev: false
 
   /@storybook/addon-actions/6.5.9_react-dom@17.0.2+react@17.0.2:
@@ -32736,6 +32748,10 @@ packages:
     dependencies:
       makeerror: 1.0.12
 
+  /wasm-feature-detect/1.2.11:
+    resolution: {integrity: sha512-HUqwaodrQGaZgz1lZaNioIkog9tkeEJjrM3eq4aUL04whXOVDRc/o2EGb/8kV0QX411iAYWEqq7fMBmJ6dKS6w==}
+    dev: false
+
   /watchpack-chokidar2/2.0.1:
     resolution: {integrity: sha512-nCFfBIPKr5Sh61s4LPpy1Wtfi0HE8isJ3d2Yb5/Ppw2P2B/3eVSEBjKfN0fmHJSK14+31KwMKmcrzs2GM4P0Ww==}
     requiresBuild: true
@@ -32778,6 +32794,11 @@ packages:
 
   /web-namespaces/1.1.4:
     resolution: {integrity: sha512-wYxSGajtmoP4WxfejAPIr4l0fVh+jeMXZb08wNc0tMg6xsfZXj3cECqIK0G7ZAqUq0PP8WlMDtaOGVBTAWztNw==}
+    dev: false
+
+  /web-streams-polyfill/3.2.1:
+    resolution: {integrity: sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==}
+    engines: {node: '>= 8'}
     dev: false
 
   /webidl-conversions/3.0.1:
@@ -33075,7 +33096,7 @@ packages:
       '@webassemblyjs/wasm-parser': 1.11.1
       acorn: 8.7.1
       acorn-import-assertions: 1.8.0_acorn@8.7.1
-      browserslist: 4.21.0
+      browserslist: 4.21.3
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.10.0
       es-module-lexer: 0.9.3
