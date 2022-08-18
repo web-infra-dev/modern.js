@@ -1,5 +1,34 @@
 # @modern-js/app-tools
 
+## 1.15.0
+
+### Patch Changes
+
+- d85a20d: fix(app-tools): should not modify entry when using disableDefaultEntries
+
+  fix(app-tools): 修复开启 disableDefaultEntries 后 entry 名称被修改的问题
+
+- 37cd159: feat(webpack): log more detailed error messages
+- Updated dependencies [8658a78]
+- Updated dependencies [0df4970]
+- Updated dependencies [05d4a4f]
+- Updated dependencies [b1f7000]
+- Updated dependencies [ad05af9]
+- Updated dependencies [5d53d1c]
+- Updated dependencies [c087148]
+- Updated dependencies [37cd159]
+  - @modern-js/utils@1.15.0
+  - @modern-js/webpack@1.15.0
+  - @modern-js/server@1.15.0
+  - @modern-js/types@1.15.0
+  - @modern-js/prod-server@1.15.0
+  - @modern-js/new-action@1.15.0
+  - @modern-js/core@1.15.0
+  - @modern-js/plugin-i18n@1.15.0
+  - @modern-js/plugin-jarvis@1.15.0
+  - @modern-js/node-bundle-require@1.15.0
+  - @modern-js/plugin@1.15.0
+
 ## 1.8.4
 
 ### Patch Changes

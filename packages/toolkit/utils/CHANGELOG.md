@@ -1,5 +1,27 @@
 # @modern-js/utils
 
+## 1.15.0
+
+### Patch Changes
+
+- 8658a78: chore: remove `@modern-js/plugin-docsite`
+
+  chore: 移除 `@modern-js/plugin-docsite`
+
+- 05d4a4f: chore(utils): add fs-extra to exports fields
+
+  chore(utils): 通过 exports 导出 fs-extra 子路径
+
+- ad05af9: fix: bff.proxy and devServer.proxy types
+
+  fix: 修复 bff.proxy 和 devServer.proxy 类型定义不完整的问题
+
+- 5d53d1c: fix(webpack): failed to format error message in some cases
+
+  fix(webpack): 修复格式化 webpack 错误信息时报错的问题
+
+- 37cd159: feat(webpack): log more detailed error messages
+
 ## 1.9.0
 
 ### Minor Changes

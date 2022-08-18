@@ -1,5 +1,19 @@
 # @modern-js/prod-server
 
+## 1.15.0
+
+### Patch Changes
+
+- c087148: chore: remove cookie in error log
+  chore: 删除错误日志中的 cookie 信息
+- Updated dependencies [8658a78]
+- Updated dependencies [05d4a4f]
+- Updated dependencies [ad05af9]
+- Updated dependencies [5d53d1c]
+- Updated dependencies [37cd159]
+  - @modern-js/utils@1.15.0
+  - @modern-js/server-core@1.15.0
+
 ## 1.2.2
 
 ### Patch Changes
