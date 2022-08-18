@@ -1,5 +1,24 @@
 # @modern-js/plugin-bff
 
+## 1.15.0
+
+### Patch Changes
+
+- c0d8dac: fix: remove package adapter-helpers and bff runtime export
+- Updated dependencies [c0d8dac]
+- Updated dependencies [8658a78]
+- Updated dependencies [05d4a4f]
+- Updated dependencies [7bfaaf9]
+- Updated dependencies [b1f7000]
+- Updated dependencies [ad05af9]
+- Updated dependencies [5d53d1c]
+- Updated dependencies [37cd159]
+  - @modern-js/bff-core@1.15.0
+  - @modern-js/utils@1.15.0
+  - @modern-js/create-request@1.15.0
+  - @modern-js/server-utils@1.15.0
+  - @modern-js/babel-compiler@1.15.0
+
 ## 1.6.2
 
 ### Patch Changes

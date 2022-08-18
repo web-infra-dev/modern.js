@@ -1,5 +1,11 @@
 # @modern-js/module-generator
 
+## 2.2.1
+
+### Patch Changes
+
+- f64f47a: fix doc path
+
 ## 2.2.0
 
 ### Minor Changes
