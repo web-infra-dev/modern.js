@@ -1,0 +1,51 @@
+name: Type Check
+
+on:
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch:
+
+jobs:
+  integration-test-mac:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [16.x]
+        os: [macos-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 25
+
+      - name: Install Pnpm
+        run: npm install -g pnpm@^6
+
+      - name: Check docs only change
+        run: echo ::set-output name=DOCS_CHANGE::$(node ./scripts/skip-docs-change.js echo 'not-docs-only-change')
+        id: docs-change
+
+      - run: echo ${{steps.docs-change.outputs.DOCS_CHANGE}}
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: wireit cache
+        uses: google/wireit@setup-github-actions-caching/v1
+
+      - name: Install Dependencies
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        run: pnpm install --ignore-scripts --frozen-lockfile
+
+      - name: Type Check
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        run: pnpm run prepare --filter ./packages
