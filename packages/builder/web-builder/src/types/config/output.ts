@@ -22,6 +22,7 @@ export interface OutputConfig {
   disableMinimize?: boolean;
   disableSourceMap?: boolean;
   disableFilenameHash?: boolean;
+  enableAssetManifest?: boolean;
   enableLatestDecorators?: boolean;
   enableCssModuleTSDeclaration?: boolean;
 }
