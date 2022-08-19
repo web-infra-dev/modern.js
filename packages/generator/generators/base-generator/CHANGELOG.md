@@ -1,5 +1,7 @@
 # @modern-js/base-generator
 
+## 2.2.2
+
 ## 2.2.1
 
 ## 1.5.0

@@ -1,5 +1,7 @@
 # @modern-js/monorepo-generator
 
+## 2.2.2
+
 ## 2.2.1
 
 ## 2.2.0

@@ -1,5 +1,16 @@
 # @modern-js/runtime
 
+## 1.15.1
+
+### Patch Changes
+
+- a480d6a: fix: remove helmet regexp's global tag
+  fix: 删除 helmet 中正则匹配的全局标记
+- Updated dependencies [e04e6e7]
+  - @modern-js/utils@1.15.1
+  - @modern-js/webpack@1.15.1
+  - @modern-js/plugin@1.15.1
+
 ## 1.15.0
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @modern-js/utils
 
+## 1.15.1
+
+### Patch Changes
+
+- e04e6e7: feat: add media rule name to CHAIN_ID constant
+
+  feat: 在 CHAIN_ID 常量中新增 media rule
+
 ## 1.15.0
 
 ### Patch Changes

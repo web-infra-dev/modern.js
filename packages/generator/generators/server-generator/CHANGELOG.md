@@ -1,5 +1,7 @@
 # @modern-js/server-generator
 
+## 2.2.2
+
 ## 2.2.1
 
 ## 1.4.0
