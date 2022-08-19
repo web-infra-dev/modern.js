@@ -21,13 +21,13 @@ export const PackagePathSchema: Schema = {
     if (!value) {
       return {
         success: false,
-        message: i18n.t(localeKeys.packagePath.no_empty),
+        error: i18n.t(localeKeys.packagePath.no_empty),
       };
     }
     if (!PackagePathRegex.test(value)) {
       return {
         success: false,
-        message: i18n.t(localeKeys.packagePath.format),
+        error: i18n.t(localeKeys.packagePath.format),
       };
     }
     return {

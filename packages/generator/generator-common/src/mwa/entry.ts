@@ -19,13 +19,13 @@ const EntryNameSchema: Schema = {
     if (!value) {
       return {
         success: false,
-        message: i18n.t(localeKeys.entry.no_empty),
+        error: i18n.t(localeKeys.entry.no_empty),
       };
     }
     if (value === 'pages') {
       return {
         success: false,
-        message: i18n.t(localeKeys.entry.no_pages),
+        error: i18n.t(localeKeys.entry.no_pages),
       };
     }
     return {
