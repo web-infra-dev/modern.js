@@ -33,22 +33,63 @@ function applyExtensions({
   return extensions;
 }
 
+async function applyAlias({
+  chain,
+  config,
+  rootPath,
+}: {
+  chain: WebpackChain;
+  config: BuilderConfig;
+  rootPath: string;
+}) {
+  const { alias } = config.source || {};
+
+  if (!alias) {
+    return;
+  }
+
+  const { ensureArray, applyOptionsChain, ensureAbsolutePath } = await import(
+    '@modern-js/utils'
+  );
+
+  const mergedAlias = applyOptionsChain({}, alias);
+
+  /**
+   * Format alias value:
+   * - Relative paths need to be turned into absolute paths.
+   * - Absolute paths or a package name are not processed.
+   */
+  Object.keys(mergedAlias).forEach(name => {
+    const values = ensureArray(mergedAlias[name]);
+    const formattedValues = values.map(value => {
+      if (typeof value === 'string' && value.startsWith('.')) {
+        return ensureAbsolutePath(rootPath, value);
+      }
+      return value;
+    });
+
+    chain.resolve.alias.set(
+      name,
+      // @ts-expect-error webpack chain alias type is outdated
+      formattedValues.length === 1 ? formattedValues[0] : formattedValues,
+    );
+  });
+}
+
 export const PluginResolve = (): BuilderPlugin => ({
   name: 'web-builder-plugin-resolve',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
-      const { applyOptionsChain } = await import('@modern-js/utils');
       const config = api.getBuilderConfig();
       const isTsProject = Boolean(api.context.tsconfigPath);
       const extensions = applyExtensions({ chain, config, isTsProject });
 
-      const { alias } = config.source || {};
-      if (alias) {
-        const mergedAlias = applyOptionsChain({}, alias);
-        // @ts-expect-error webpack chain alias type is outdated
-        chain.resolve.alias.merge(mergedAlias);
-      }
+      await applyAlias({
+        chain,
+        config,
+        rootPath: api.context.rootPath,
+      });
 
       if (isTsProject) {
         const { TsConfigPathsPlugin } = await import(
