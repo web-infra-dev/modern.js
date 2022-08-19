@@ -1,8 +1,7 @@
 import path from 'path';
 import _ from '@modern-js/utils/lodash';
 import { BuilderPlugin } from '@modern-js/web-builder';
-import { Decoder, DecoderCollection } from './types';
-import { encoders } from '../compiled/@squoosh/lib';
+import { Decoder, DecoderCollection, encoders } from '@squoosh/lib';
 
 export interface BaseDecoderOptions<T extends Decoder> {
   use: T;

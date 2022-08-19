@@ -1,6 +1,6 @@
 import { DecoderFinalOptions } from '.';
 import type { LoaderDefinition } from 'webpack';
-import { ImagePool } from '../compiled/@squoosh/lib';
+import { ImagePool } from '@squoosh/lib';
 import { cpus } from 'os';
 import { Buffer } from 'buffer';
 

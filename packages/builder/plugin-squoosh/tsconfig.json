@@ -8,6 +8,7 @@
     "baseUrl": "./",
     "isolatedModules": true,
     "paths": {},
+    "typeRoots": ["node_modules/@types", "src/typing"],
   },
   "include": ["src"]
 }
