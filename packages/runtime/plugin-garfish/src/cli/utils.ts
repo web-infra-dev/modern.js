@@ -77,7 +77,7 @@ function generateAppWrapperAndRootDom ({ App, props, dom }) {
     };
     AppWrapper = hoistNonReactStatics(AppWrapper, App);
   }
-  const mountNode = dom ? (dom.querySelector('#' + MOUNT_ID) || dom) : MOUNT_ID;
+  const mountNode = dom ? (dom.querySelector('#' + MOUNT_ID) || dom) : document.getElementById(MOUNT_ID);
   return { AppWrapper, mountNode }
 }
 `;
