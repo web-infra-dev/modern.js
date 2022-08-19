@@ -2,6 +2,7 @@ import { expect, describe, it } from 'vitest';
 import { PluginHtml } from '../../src/plugins/html';
 import { PluginEntry } from '../../src/plugins/entry';
 import { createStubBuilder } from '../utils/builder';
+import { isPluginRegistered } from '../utils/webpack';
 
 describe('plugins/html', () => {
   it('should register html plugin correctly', async () => {
@@ -13,7 +14,25 @@ describe('plugins/html', () => {
     });
     const config = await builder.unwrapWebpackConfig();
 
+    expect(isPluginRegistered(config, 'HtmlWebpackPlugin')).toBeTruthy();
     expect(config).toMatchSnapshot();
+  });
+
+  it('should register crossorigin plugin when using html.crossorigin', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginEntry(), PluginHtml()],
+      entry: {
+        main: './src/main.ts',
+      },
+      builderConfig: {
+        html: {
+          crossorigin: true,
+        },
+      },
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+    expect(isPluginRegistered(config, 'HtmlCrossOriginPlugin')).toBeTruthy();
   });
 
   it('should allow to set favicon by html.favicon option', async () => {
