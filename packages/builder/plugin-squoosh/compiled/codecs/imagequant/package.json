@@ -1,0 +1,6 @@
+{
+  "name": "imagequant",
+  "scripts": {
+    "build": "../build-cpp.sh"
+  }
+}

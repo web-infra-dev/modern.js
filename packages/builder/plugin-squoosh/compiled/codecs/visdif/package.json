@@ -1,0 +1,7 @@
+{
+  "name": "avif",
+  "type": "module",
+  "scripts": {
+    "build": "../build-cpp.sh"
+  }
+}

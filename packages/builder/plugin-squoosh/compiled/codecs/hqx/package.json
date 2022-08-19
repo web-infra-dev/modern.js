@@ -1,0 +1,6 @@
+{
+  "name": "hqx",
+  "scripts": {
+    "build": "../build-rust.sh"
+  }
+}
