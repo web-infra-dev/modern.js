@@ -171,15 +171,31 @@ export const PluginHtml = (): BuilderPlugin => ({
         }),
       );
 
-      if (config.html?.crossorigin) {
-        const { HtmlCrossOriginPlugin } = await import(
-          '../webpackPlugins/HtmlCrossOriginPlugin'
-        );
-        chain
-          .plugin(CHAIN_ID.PLUGIN.HTML_CROSS_ORIGIN)
-          .use(HtmlCrossOriginPlugin, [
-            { crossOrigin: config.html.crossorigin },
-          ]);
+      if (config.html) {
+        const { appIcon, crossorigin } = config.html;
+
+        if (crossorigin) {
+          const { HtmlCrossOriginPlugin } = await import(
+            '../webpackPlugins/HtmlCrossOriginPlugin'
+          );
+          chain
+            .plugin(CHAIN_ID.PLUGIN.HTML_CROSS_ORIGIN)
+            .use(HtmlCrossOriginPlugin, [{ crossOrigin: crossorigin }]);
+        }
+
+        if (appIcon) {
+          const { HtmlAppIconPlugin } = await import(
+            '../webpackPlugins/HtmlAppIconPlugin'
+          );
+
+          const iconPath = path.isAbsolute(appIcon)
+            ? appIcon
+            : path.join(api.context.rootPath, appIcon);
+
+          chain
+            .plugin(CHAIN_ID.PLUGIN.APP_ICON)
+            .use(HtmlAppIconPlugin, [{ iconPath }]);
+        }
       }
     });
   },
