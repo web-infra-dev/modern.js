@@ -124,6 +124,9 @@ export const bootstrap: BootStrap = async (
    * When ssr, id is serverContext
    */
   id,
+  /**
+   * root.render need use root to run function
+   */
   root,
   render = defaultReactDOM.render as any,
   hydrate = defaultReactDOM.hydrate as any,
