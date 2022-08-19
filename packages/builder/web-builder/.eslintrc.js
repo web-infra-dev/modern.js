@@ -46,6 +46,7 @@ module.exports = {
   },
   rules: {
     'import/order': 0,
+    '@typescript-eslint/ban-ts-comment': 0,
   },
   overrides: [
     {

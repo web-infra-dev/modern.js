@@ -30,6 +30,10 @@ export type ForkTSCheckerOptions = ConstructorParameters<
 
 export type { webpack, WebpackChain, WebpackConfig };
 
+export type WebpackAlias = {
+  [index: string]: string | false | string[];
+};
+
 export type {
   CSSLoaderOptions,
   StyleLoaderOptions,
