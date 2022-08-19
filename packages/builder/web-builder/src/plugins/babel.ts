@@ -5,7 +5,6 @@ import {
   BabelOptions,
 } from '@modern-js/babel-preset-app';
 import { JS_REGEX, TS_REGEX, mergeRegex } from '../shared';
-import { isProd, applyOptionsChain, isUseSSRBundle } from '@modern-js/utils';
 
 import type {
   WebpackChain,
@@ -25,67 +24,6 @@ export const getUseBuiltIns = (config: BuilderConfig) => {
     return false;
   }
   return polyfill;
-};
-
-export const getBabelOptions = (
-  framework: string,
-  appDirectory: string,
-  config: BuilderConfig,
-) => {
-  // 1. Get styled-components options
-  const styledComponentsOptions = applyOptionsChain(
-    {
-      pure: true,
-      displayName: true,
-      ssr: isUseSSRBundle(config),
-      transpileTemplateLiterals: true,
-    },
-    config.tools?.styledComponents,
-  );
-
-  // 2. Create babel util function about include/exclude
-  const includes: Array<string | RegExp> = [];
-  const excludes: Array<string | RegExp> = [];
-
-  const babelUtils = {
-    addIncludes(items: string | RegExp | Array<string | RegExp>) {
-      if (Array.isArray(items)) {
-        includes.push(...items);
-      } else {
-        includes.push(items);
-      }
-    },
-    addExcludes(items: string | RegExp | Array<string | RegExp>) {
-      if (Array.isArray(items)) {
-        excludes.push(...items);
-      } else {
-        excludes.push(items);
-      }
-    },
-  };
-
-  // 3. Compute final babel config by @modern-js/babel-preset-app
-  const babelOptions: BabelOptions = {
-    babelrc: false,
-    configFile: false,
-    compact: isProd(),
-    ...getBabelConfig({
-      metaName: framework,
-      appDirectory,
-      useLegacyDecorators: !config.output?.enableLatestDecorators,
-      useBuiltIns: getUseBuiltIns(config),
-      chain: createBabelChain(),
-      styledComponents: styledComponentsOptions,
-      userBabelConfig: config.tools?.babel,
-      userBabelConfigUtils: babelUtils,
-    }),
-  };
-
-  return {
-    babelOptions,
-    includes,
-    excludes,
-  };
 };
 
 export function applyScriptCondition(
@@ -116,9 +54,72 @@ export function applyScriptCondition(
 export const PluginBabel = (): BuilderPlugin => ({
   name: 'web-builder-plugin-babel',
   setup(api) {
-    api.modifyWebpackChain(async (chain, { getCompiledPath }) => {
+    api.modifyWebpackChain(async (chain, { getCompiledPath, isProd }) => {
+      const { CHAIN_ID, applyOptionsChain, isUseSSRBundle } = await import(
+        '@modern-js/utils'
+      );
+
+      const getBabelOptions = (
+        framework: string,
+        appDirectory: string,
+        config: BuilderConfig,
+      ) => {
+        // 1. Get styled-components options
+        const styledComponentsOptions = applyOptionsChain(
+          {
+            pure: true,
+            displayName: true,
+            ssr: isUseSSRBundle(config),
+            transpileTemplateLiterals: true,
+          },
+          config.tools?.styledComponents,
+        );
+
+        // 2. Create babel util function about include/exclude
+        const includes: Array<string | RegExp> = [];
+        const excludes: Array<string | RegExp> = [];
+
+        const babelUtils = {
+          addIncludes(items: string | RegExp | Array<string | RegExp>) {
+            if (Array.isArray(items)) {
+              includes.push(...items);
+            } else {
+              includes.push(items);
+            }
+          },
+          addExcludes(items: string | RegExp | Array<string | RegExp>) {
+            if (Array.isArray(items)) {
+              excludes.push(...items);
+            } else {
+              excludes.push(items);
+            }
+          },
+        };
+
+        // 3. Compute final babel config by @modern-js/babel-preset-app
+        const babelOptions: BabelOptions = {
+          babelrc: false,
+          configFile: false,
+          compact: isProd,
+          ...getBabelConfig({
+            metaName: framework,
+            appDirectory,
+            useLegacyDecorators: !config.output?.enableLatestDecorators,
+            useBuiltIns: getUseBuiltIns(config),
+            chain: createBabelChain(),
+            styledComponents: styledComponentsOptions,
+            userBabelConfig: config.tools?.babel,
+            userBabelConfigUtils: babelUtils,
+          }),
+        };
+
+        return {
+          babelOptions,
+          includes,
+          excludes,
+        };
+      };
       const config = api.getBuilderConfig();
-      const { CHAIN_ID } = await import('@modern-js/utils');
       const { rootPath, framework } = api.context;
       const { babelOptions, includes, excludes } = getBabelOptions(
         framework,
