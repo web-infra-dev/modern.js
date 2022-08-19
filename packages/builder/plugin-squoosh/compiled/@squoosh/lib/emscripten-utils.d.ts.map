@@ -1,1 +1,0 @@
-{"version":3,"file":"emscripten-utils.d.ts","sourceRoot":"","sources":["../../../../libsquoosh/src/emscripten-utils.ts"],"names":[],"mappings":"AAEA,wBAAgB,OAAO,CAAC,IAAI,EAAE,MAAM,GAAG,MAAM,CAK5C;AAED,wBAAgB,yBAAyB,CAAC,CAAC,SAAS,cAAc,CAAC,MAAM,EACvE,OAAO,EAAE,cAAc,CAAC,aAAa,CAAC,CAAC,CAAC,EACxC,IAAI,EAAE,MAAM,EACZ,QAAQ,GAAE,MAAW,GACpB,OAAO,CAAC,CAAC,CAAC,CAYZ"}
