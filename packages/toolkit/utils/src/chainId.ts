@@ -109,6 +109,8 @@ export const CHAIN_ID = {
     BUNDLE_ANALYZER: 'bundle-analyze',
     /** BottomTemplatePlugin */
     BOTTOM_TEMPLATE: 'bottom-template',
+    /** HtmlCrossOriginPlugin */
+    HTML_CROSS_ORIGIN: 'html-cross-origin',
     /** MiniCssExtractPlugin */
     MINI_CSS_EXTRACT: 'mini-css-extract',
     /** ReactFastRefreshPlugin */

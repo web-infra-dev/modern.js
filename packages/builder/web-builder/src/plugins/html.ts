@@ -170,6 +170,17 @@ export const PluginHtml = (): BuilderPlugin => ({
             .use(HtmlWebpackPlugin, [finalOptions]);
         }),
       );
+
+      if (config.html?.crossorigin) {
+        const { HtmlCrossOriginPlugin } = await import(
+          '../webpackPlugins/HtmlCrossOriginPlugin'
+        );
+        chain
+          .plugin(CHAIN_ID.PLUGIN.HTML_CROSS_ORIGIN)
+          .use(HtmlCrossOriginPlugin, [
+            { crossOrigin: config.html.crossorigin },
+          ]);
+      }
     });
   },
 });
