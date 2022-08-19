@@ -35,7 +35,8 @@
     "@scripts/vitest-config": "workspace:*",
     "@types/node": "^14",
     "typescript": "^4",
-    "vitest": "^0.21.1"
+    "vitest": "^0.21.1",
+    "webpack": "^5.74.0"
   },
   "sideEffects": false,
   "publishConfig": {
