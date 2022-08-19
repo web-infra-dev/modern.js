@@ -53,6 +53,7 @@ importers:
       '@babel/core': 7.18.0
       '@modern-js/babel-preset-app': workspace:*
       '@modern-js/utils': workspace:*
+      '@pmmmwh/react-refresh-webpack-plugin': 0.5.5
       '@scripts/vitest-config': workspace:*
       '@types/babel__core': ^7.1.19
       '@types/babel__preset-env': ^7.9.2
@@ -64,6 +65,7 @@ importers:
       html-webpack-plugin: 5.3.2
       mini-css-extract-plugin: 2.4.5
       postcss: ^8.4.14
+      react-refresh: 0.12.0
       style-loader: 3.3.1
       terser-webpack-plugin: 5.3.3
       ts-loader: 9.3.1
@@ -73,11 +75,13 @@ importers:
     dependencies:
       '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
       '@modern-js/utils': link:../../toolkit/utils
+      '@pmmmwh/react-refresh-webpack-plugin': 0.5.5_645a6e79162167fda80e21cc093763a7
       '@types/mini-css-extract-plugin': 2.2.0_1f091e9882867a645caac150cd4a7b4f
       css-minimizer-webpack-plugin: 4.0.0_esbuild@0.14.47+webpack@5.73.0
       fork-ts-checker-webpack-plugin: 6.5.2_typescript@4.7.4+webpack@5.73.0
       html-webpack-plugin: 5.3.2_webpack@5.73.0
       mini-css-extract-plugin: 2.4.5_webpack@5.73.0
+      react-refresh: 0.12.0
       style-loader: 3.3.1_webpack@5.73.0
       terser-webpack-plugin: 5.3.3_557185401d8e4a94a813b2d6f9b6f80e
       ts-loader: 9.3.1_typescript@4.7.4+webpack@5.73.0
@@ -8756,6 +8760,8 @@ packages:
       whatwg-fetch: 3.6.2
       wicg-inert: 3.1.2
       yaku: 0.19.3
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@modern-js/utils/1.7.12:
@@ -9027,6 +9033,45 @@ packages:
       node-fetch: 2.6.7
     transitivePeerDependencies:
       - encoding
+
+  /@pmmmwh/react-refresh-webpack-plugin/0.5.5_645a6e79162167fda80e21cc093763a7:
+    resolution: {integrity: sha512-RbG7h6TuP6nFFYKJwbcToA1rjC1FyPg25NR2noAZ0vKI+la01KTSRPkuVPE+U88jXv7javx2JHglUcL1MHcshQ==}
+    engines: {node: '>= 10.13'}
+    peerDependencies:
+      '@types/webpack': 4.x || 5.x
+      react-refresh: '>=0.10.0 <1.0.0'
+      sockjs-client: ^1.4.0
+      type-fest: '>=0.17.0 <3.0.0'
+      webpack: '>=4.43.0 <6.0.0'
+      webpack-dev-server: 3.x || 4.x
+      webpack-hot-middleware: 2.x
+      webpack-plugin-serve: 0.x || 1.x
+    peerDependenciesMeta:
+      '@types/webpack':
+        optional: true
+      sockjs-client:
+        optional: true
+      type-fest:
+        optional: true
+      webpack-dev-server:
+        optional: true
+      webpack-hot-middleware:
+        optional: true
+      webpack-plugin-serve:
+        optional: true
+    dependencies:
+      ansi-html-community: 0.0.8
+      common-path-prefix: 3.0.0
+      core-js-pure: 3.23.3
+      error-stack-parser: 2.1.4
+      find-up: 5.0.0
+      html-entities: 2.3.3
+      loader-utils: 2.0.2
+      react-refresh: 0.12.0
+      schema-utils: 3.1.1
+      source-map: 0.7.4
+      webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
+    dev: false
 
   /@pmmmwh/react-refresh-webpack-plugin/0.5.7_0518714fbd97967111ebc0bdad16eea3:
     resolution: {integrity: sha512-bcKCAzF0DV2IIROp9ZHkRJa6O4jy7NlnHdWL3GmcUxYWNjLXkK5kfELELwEfSP5hXPfVL/qOGMAROuMQb9GG8Q==}
@@ -10257,6 +10302,7 @@ packages:
       webpack-hot-middleware: 2.25.1
       webpack-virtual-modules: 0.2.2
     transitivePeerDependencies:
+      - bluebird
       - eslint
       - supports-color
       - vue-template-compiler
@@ -10629,6 +10675,7 @@ packages:
       x-default-browser: 0.4.0
     transitivePeerDependencies:
       - '@storybook/mdx2-csf'
+      - bluebird
       - bufferutil
       - encoding
       - eslint
@@ -10666,6 +10713,7 @@ packages:
       webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
     transitivePeerDependencies:
       - '@storybook/mdx2-csf'
+      - bluebird
       - bufferutil
       - encoding
       - eslint
@@ -10772,6 +10820,7 @@ packages:
       webpack-dev-middleware: 3.7.3_webpack@4.46.0
       webpack-virtual-modules: 0.2.2
     transitivePeerDependencies:
+      - bluebird
       - encoding
       - eslint
       - supports-color
@@ -10990,6 +11039,7 @@ packages:
       - '@storybook/mdx2-csf'
       - '@swc/core'
       - '@types/webpack'
+      - bluebird
       - bufferutil
       - encoding
       - esbuild
@@ -13228,6 +13278,8 @@ packages:
     dependencies:
       micromatch: 3.1.10
       normalize-path: 2.1.1
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /anymatch/3.1.2:
@@ -14359,6 +14411,8 @@ packages:
       snapdragon-node: 2.1.1
       split-string: 3.1.0
       to-regex: 3.0.2
+    transitivePeerDependencies:
+      - supports-color
 
   /braces/3.0.2:
     resolution: {integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==}
@@ -14684,7 +14738,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.6
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1
+      promise-inflight: 1.0.1_bluebird@3.7.2
       rimraf: 2.7.1
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -14713,6 +14767,8 @@ packages:
       ssri: 8.0.1
       tar: 6.1.11
       unique-filename: 1.1.1
+    transitivePeerDependencies:
+      - bluebird
     dev: false
 
   /cache-base/1.0.1:
@@ -15034,6 +15090,8 @@ packages:
       upath: 1.2.0
     optionalDependencies:
       fsevents: 1.2.13
+    transitivePeerDependencies:
+      - supports-color
     dev: false
     optional: true
 
@@ -15946,6 +16004,8 @@ packages:
       p-all: 2.1.0
       p-filter: 2.1.0
       p-map: 3.0.0
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /crc-32/1.2.2:
@@ -16686,6 +16746,11 @@ packages:
   /debug/4.1.1:
     resolution: {integrity: sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==}
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
     dependencies:
       ms: 2.1.3
     dev: false
@@ -17668,6 +17733,8 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       koa-session: 6.2.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /egg-static/2.2.0:
@@ -17680,6 +17747,8 @@ packages:
       koa-static-cache: 5.1.4
       mkdirp: 0.5.6
       ylru: 1.3.2
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /egg-ts-helper/1.30.3:
@@ -17725,6 +17794,8 @@ packages:
       camelcase: 5.3.1
       sdk-base: 3.6.0
       wt: 1.2.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /egg/2.36.0:
@@ -19078,6 +19149,8 @@ packages:
       regex-not: 1.0.2
       snapdragon: 0.8.2
       to-regex: 3.0.2
+    transitivePeerDependencies:
+      - supports-color
 
   /expand-template/2.0.3:
     resolution: {integrity: sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg==}
@@ -19208,6 +19281,8 @@ packages:
       regex-not: 1.0.2
       snapdragon: 0.8.2
       to-regex: 3.0.2
+    transitivePeerDependencies:
+      - supports-color
 
   /extra/0.2.1:
     resolution: {integrity: sha512-PWEUSjpFNAFk6W3wAcyPR8SW48wKGvtZUz/OP4eUZUbrFPakU4YYRUKTxMAKZDndlnAjBUuLV1L67IpmlkJbBg==}
@@ -19299,6 +19374,8 @@ packages:
       is-glob: 4.0.3
       merge2: 1.4.1
       micromatch: 3.1.10
+    transitivePeerDependencies:
+      - supports-color
 
   /fast-glob/3.2.11:
     resolution: {integrity: sha512-xrO3+1bxSo3ZVHAnqzyuewYT6aMFHRAd4Kcs92MAonjwQZLsK9d0SF1IyQ3k5PoirxTW0Oe/RqFgMQ6TcNE5Ew==}
@@ -19807,6 +19884,8 @@ packages:
       typescript: 4.7.4
       webpack: 4.46.0
       worker-rpc: 0.1.1
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /fork-ts-checker-webpack-plugin/6.5.2_typescript@4.7.4+webpack@4.46.0:
@@ -20555,6 +20634,8 @@ packages:
       ignore: 4.0.6
       pify: 4.0.1
       slash: 2.0.0
+    transitivePeerDependencies:
+      - supports-color
 
   /got/11.8.5:
     resolution: {integrity: sha512-o0Je4NvQObAuZPHLFoRSkdG2lTgtcynqymzg2Vupdx6PorhaT5MCbIyXG6d4D94kk8ZG57QeosgdiqfJWhEhlQ==}
@@ -22628,6 +22709,8 @@ packages:
       walker: 1.0.8
     optionalDependencies:
       fsevents: 2.3.2
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /jest-haste-map/27.5.1:
@@ -23488,6 +23571,8 @@ packages:
       debug: 3.2.7
       is-type-of: 1.2.1
       uuid: 3.4.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /koa-static-cache/5.1.4:
@@ -23499,6 +23584,8 @@ packages:
       fs-readdir-recursive: 1.1.0
       mime-types: 2.1.35
       mz: 2.7.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /koa-static/5.0.0:
@@ -24448,6 +24535,8 @@ packages:
       regex-not: 1.0.2
       snapdragon: 0.8.2
       to-regex: 3.0.2
+    transitivePeerDependencies:
+      - supports-color
 
   /micromatch/4.0.5:
     resolution: {integrity: sha512-DMy+ERcEW2q8Z2Po+WNXuw3c5YaUSFjAO5GsJqfEl7UjvtIuFKO6ZrKvcItdy98dwFI2N1tg3zNIdKaQT+aNdA==}
@@ -24855,6 +24944,8 @@ packages:
       regex-not: 1.0.2
       snapdragon: 0.8.2
       to-regex: 3.0.2
+    transitivePeerDependencies:
+      - supports-color
 
   /napi-build-utils/1.0.2:
     resolution: {integrity: sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg==}
@@ -27333,6 +27424,22 @@ packages:
 
   /promise-inflight/1.0.1:
     resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dev: false
+
+  /promise-inflight/1.0.1_bluebird@3.7.2:
+    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dependencies:
+      bluebird: 3.7.2
     dev: false
 
   /promise-polyfill/1.1.6:
@@ -28758,6 +28865,8 @@ packages:
       graceful-fs: 4.2.10
       micromatch: 3.1.10
       readable-stream: 2.3.7
+    transitivePeerDependencies:
+      - supports-color
     dev: false
     optional: true
 
@@ -29495,6 +29604,8 @@ packages:
       micromatch: 3.1.10
       minimist: 1.2.6
       walker: 1.0.8
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /sanitize-filename/1.6.3:
@@ -30075,6 +30186,8 @@ packages:
       source-map: 0.5.7
       source-map-resolve: 0.5.3
       use: 3.1.1
+    transitivePeerDependencies:
+      - supports-color
 
   /snappy/6.3.5:
     resolution: {integrity: sha512-lonrUtdp1b1uDn1dbwgQbBsb5BbaiLeKq+AGwOk2No+en+VvJThwmtztwulEQsLinRF681pBqib0NUZaizKLIA==}
@@ -30261,6 +30374,8 @@ packages:
     dependencies:
       debug: 4.1.1
       is2: 2.0.1
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /spdy-transport/3.0.0:
@@ -30876,6 +30991,8 @@ packages:
       mime: 1.6.0
       qs: 6.11.0
       readable-stream: 2.3.7
+    transitivePeerDependencies:
+      - supports-color
 
   /superagent/7.1.5:
     resolution: {integrity: sha512-HQYyGuDRFGmZ6GNC4hq2f37KnsY9Lr0/R1marNZTgMweVDQLTLJJ6DGQ9Tj/xVVs5HEnop9EMmTbywb5P30aqw==}
@@ -30901,6 +31018,8 @@ packages:
     dependencies:
       methods: 1.1.2
       superagent: 3.8.3
+    transitivePeerDependencies:
+      - supports-color
 
   /supertest/6.2.3:
     resolution: {integrity: sha512-3GSdMYTMItzsSYjnIcljxMVZKPW1J9kYHZY+7yLfD0wpPwww97GeImZC1oOk0S5+wYl2niJwuFusBJqwLqYM3g==}
@@ -31282,6 +31401,8 @@ packages:
       terser: 5.14.1
       webpack: 4.46.0
       webpack-sources: 1.4.3
+    transitivePeerDependencies:
+      - bluebird
     dev: false
 
   /terser-webpack-plugin/5.3.3_557185401d8e4a94a813b2d6f9b6f80e:
@@ -32823,6 +32944,8 @@ packages:
     requiresBuild: true
     dependencies:
       chokidar: 2.1.8
+    transitivePeerDependencies:
+      - supports-color
     dev: false
     optional: true
 
@@ -32834,6 +32957,8 @@ packages:
     optionalDependencies:
       chokidar: 3.5.3
       watchpack-chokidar2: 2.0.1
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /watchpack/2.4.0:
@@ -33100,6 +33225,8 @@ packages:
       terser-webpack-plugin: 1.4.5_webpack@4.46.0
       watchpack: 1.7.5
       webpack-sources: 1.4.3
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /webpack/5.64.0_1f091e9882867a645caac150cd4a7b4f:
@@ -33572,6 +33699,8 @@ packages:
       debug: 2.6.9
       ndir: 0.1.5
       sdk-base: 2.0.1
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /x-default-browser/0.4.0:

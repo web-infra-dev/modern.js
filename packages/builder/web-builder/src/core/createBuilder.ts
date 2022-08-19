@@ -85,6 +85,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginCss } = await import('../plugins/css');
   const { PluginSass } = await import('../plugins/sass');
   const { PluginLess } = await import('../plugins/less');
+  const { PluginReact } = await import('../plugins/react');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
@@ -115,5 +116,6 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginCss(),
     PluginSass(),
     PluginLess(),
+    PluginReact(),
   ]);
 }
