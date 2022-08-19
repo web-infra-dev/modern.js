@@ -13,7 +13,7 @@ export const PackageNameSchema: Schema = {
     if (!value) {
       return {
         success: false,
-        message: i18n.t(localeKeys.packageName.no_empty),
+        error: i18n.t(localeKeys.packageName.no_empty),
       };
     }
     return {
