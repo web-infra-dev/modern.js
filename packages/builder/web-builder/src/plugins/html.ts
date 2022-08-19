@@ -107,7 +107,6 @@ async function getChunks(
   const dependOn = [];
 
   if (isPlainObject(entryValue)) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error assume entry is an entry object
     dependOn.push(...entryValue.dependOn);
   }

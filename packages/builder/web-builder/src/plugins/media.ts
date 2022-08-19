@@ -22,7 +22,6 @@ export const PluginMedia = (): BuilderPlugin => ({
       chain.module
         .rule(CHAIN_ID.RULE.MEDIA)
         .test(regExp)
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error webpack-chain has incorrect type for `rule.type`
         .type('asset')
         .parser({
