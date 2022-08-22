@@ -5,6 +5,8 @@ import { RenderLevel, SSRServerContext } from './serverRender/type';
 import { WithCallback } from './react/withCallback';
 import { formatClient, mockResponse } from './utils';
 
+const IS_REACT18 = process.env.IS_REACT18 === 'true';
+
 declare module '../core' {
   interface RuntimeContext {
     ssrContext: SSRServerContext;
@@ -41,6 +43,7 @@ const ssr = (): Plugin => ({
               delete (hydrateContext as any)._hydration;
             };
             if (context?.isReact18) {
+            if (IS_REACT18) {
               let SSRApp: React.FC = () => (
                 <WithCallback callback={callback}>
                   <App context={hydrateContext} />

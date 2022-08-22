@@ -1,4 +1,5 @@
 import path from 'path';
+import React from 'react';
 import {
   PLUGIN_SCHEMAS,
   createRuntimeExportsUtils,
@@ -38,6 +39,9 @@ export default (): CliPlugin => ({
                * So need to add alias
                */
               'styled-components': require.resolve('styled-components'),
+            },
+            globalVars: {
+              IS_REACT18: React.version.startsWith('18.').toString(),
             },
           },
         };

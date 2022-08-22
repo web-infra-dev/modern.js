@@ -9,6 +9,8 @@ import {
 } from './runtime-context';
 import { createLoaderManager } from './loader/loaderManager';
 
+const IS_REACT18 = process.env.IS_REACT18 === 'true';
+
 export type CreateAppOptions = {
   plugins: Plugin[];
 };
@@ -26,13 +28,10 @@ type PluginRunner = ReturnType<typeof runtime.init>;
 
 const runnerMap = new WeakMap<React.ComponentType<any>, PluginRunner>();
 
-export const isReact18 = React.version.startsWith('18.');
-
 const getInitialContext = (runner: PluginRunner) => ({
   loaderManager: createLoaderManager({}),
   runner,
   isBrowser: true,
-  isReact18,
 });
 
 export const createApp = ({ plugins }: CreateAppOptions) => {
@@ -194,7 +193,7 @@ export const bootstrap: BootStrap = async (
         typeof id !== 'string' ? id : document.getElementById(id || 'root')!;
 
       const ModernRender = (App: React.ReactNode) => {
-        if (isReact18) {
+        if (IS_REACT18) {
           root.render(App);
         } else {
           render(App, rootElement);
@@ -202,7 +201,7 @@ export const bootstrap: BootStrap = async (
       };
 
       const ModernHydrate = (App: React.ReactNode, callback?: () => void) => {
-        if (isReact18) {
+        if (IS_REACT18) {
           hydrate(rootElement, App);
         } else {
           hydrate(App, rootElement, callback);

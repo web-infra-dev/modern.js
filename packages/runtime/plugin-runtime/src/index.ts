@@ -9,7 +9,6 @@ export type {
 } from './core';
 
 export {
-  isReact18,
   createApp,
   createPlugin,
   useLoader,

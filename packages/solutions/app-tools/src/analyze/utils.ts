@@ -41,11 +41,7 @@ export const getDefaultImports = ({
         : 'react-dom',
     },
     {
-      specifiers: [
-        { imported: 'createApp' },
-        { imported: 'bootstrap' },
-        { imported: 'isReact18' },
-      ],
+      specifiers: [{ imported: 'createApp' }, { imported: 'bootstrap' }],
       value: '@modern-js/runtime',
     },
     customBootstrap && {

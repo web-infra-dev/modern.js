@@ -10,7 +10,7 @@ export const provider = function ({basename, dom}) {
       const node = dom.querySelector('#' + MOUNT_ID) || dom;
 
       if (node) {
-        if (isReact18) {
+        if (IS_REACT18) {
           root.unmount();
         } else {
           unmountComponentAtNode(node);
