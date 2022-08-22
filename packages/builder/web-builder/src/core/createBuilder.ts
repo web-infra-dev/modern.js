@@ -72,9 +72,10 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginTarget } = await import('../plugins/target');
   const { PluginOutput } = await import('../plugins/output');
   const { PluginMoment } = await import('../plugins/moment');
+  const { PluginDefine } = await import('../plugins/define');
   const { PluginDevtool } = await import('../plugins/devtool');
   const { PluginResolve } = await import('../plugins/resolve');
-  const { PluginDefine } = await import('../plugins/define');
+  const { PluginFallback } = await import('../plugins/fallback');
   const { PluginProgress } = await import('../plugins/progress');
   const { PluginMinimize } = await import('../plugins/minimize');
   const { PluginManifest } = await import('../plugins/manifest');
@@ -96,7 +97,6 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginOutput(),
     PluginDevtool(),
     PluginResolve(),
-    PluginDefine(),
 
     // Plugins that provide basic features
     PluginHMR(),
@@ -106,6 +106,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginImage(),
     PluginMedia(),
     PluginMoment(),
+    PluginDefine(),
     PluginProgress(),
     PluginMinimize(),
     PluginManifest(),
@@ -117,5 +118,8 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginSass(),
     PluginLess(),
     PluginReact(),
+
+    // fallback should be the last plugin
+    PluginFallback(),
   ]);
 }
