@@ -12,6 +12,7 @@ import { resolveBabelConfig } from '@modern-js/server-utils';
 
 import type { ServerRoute } from '@modern-js/types';
 import type { CliPlugin, NormalizedConfig, UserConfig } from '@modern-js/core';
+import { ApiRouter } from '@modern-js/bff-core';
 import { registerModernRuntimePath } from './helper';
 
 interface Pattern {
@@ -91,10 +92,16 @@ export default (): CliPlugin => ({
 
               chain.resolve.alias.set('@api', rootDir);
 
+              const apiRouter = new ApiRouter({
+                apiDir: rootDir,
+                prefix,
+              });
+
+              const lambdaDir = apiRouter.getLambdaDir();
+              const existLambda = apiRouter.isExistLambda();
+
               const apiRegexp = new RegExp(
-                normalizeOutputPath(
-                  `${appDirectory}${path.sep}api${path.sep}.*(.[tj]s)$`,
-                ),
+                normalizeOutputPath(`${rootDir}${path.sep}.*(.[tj]s)$`),
               );
               chain.module
                 .rule(CHAIN_ID.RULE.LOADERS)
@@ -106,6 +113,8 @@ export default (): CliPlugin => ({
                 .options({
                   prefix,
                   apiDir: rootDir,
+                  lambdaDir,
+                  existLambda,
                   port,
                   fetcher,
                   target: name,
