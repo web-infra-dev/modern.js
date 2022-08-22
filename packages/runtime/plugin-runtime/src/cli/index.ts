@@ -1,9 +1,9 @@
 import path from 'path';
-import React from 'react';
 import {
   PLUGIN_SCHEMAS,
   createRuntimeExportsUtils,
   cleanRequireCache,
+  isBeyondReact18,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import PluginState from '../state/cli';
@@ -27,6 +27,9 @@ export default (): CliPlugin => ({
       config() {
         const dir = api.useAppContext().internalDirectory;
         runtimeExportsUtils = createRuntimeExportsUtils(dir, 'index');
+        process.env.IS_REACT18 = isBeyondReact18(
+          path.join(dir, '../../'),
+        ).toString();
         return {
           runtime: {},
           runtimeByEntries: {},
@@ -40,9 +43,7 @@ export default (): CliPlugin => ({
                */
               'styled-components': require.resolve('styled-components'),
             },
-            globalVars: {
-              IS_REACT18: React.version.startsWith('18.').toString(),
-            },
+            envVars: ['IS_REACT18'],
           },
         };
       },
