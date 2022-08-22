@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { isBeyondReact18, normalizeToPosixPath } from '@modern-js/utils';
+import { isReact18, normalizeToPosixPath } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
 import type { ImportStatement } from '@modern-js/core';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from './constants';
@@ -36,7 +36,7 @@ export const getDefaultImports = ({
     },
     {
       specifiers: [{ local: 'ReactDOM' }],
-      value: isBeyondReact18(path.join(internalDirectory, '../../'))
+      value: isReact18(path.join(internalDirectory, '../../'))
         ? 'react-dom/client'
         : 'react-dom',
     },

@@ -3,7 +3,7 @@ import {
   PLUGIN_SCHEMAS,
   createRuntimeExportsUtils,
   cleanRequireCache,
-  isBeyondReact18,
+  isReact18,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import PluginState from '../state/cli';
@@ -27,9 +27,7 @@ export default (): CliPlugin => ({
       config() {
         const dir = api.useAppContext().internalDirectory;
         runtimeExportsUtils = createRuntimeExportsUtils(dir, 'index');
-        process.env.IS_REACT18 = isBeyondReact18(
-          path.join(dir, '../../'),
-        ).toString();
+        process.env.IS_REACT18 = isReact18(path.join(dir, '../../')).toString();
         return {
           runtime: {},
           runtimeByEntries: {},

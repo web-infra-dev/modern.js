@@ -1,7 +1,7 @@
 import path from 'path';
 import { fs, semver } from './compiled';
 
-export const isBeyondReact18 = (cwd: string) => {
+export const isReact18 = (cwd: string) => {
   const pkgPath = path.join(cwd, 'package.json');
 
   if (!fs.existsSync(pkgPath)) {
