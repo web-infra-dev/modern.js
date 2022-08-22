@@ -1,4 +1,5 @@
-import type { BuilderPlugin } from '../types';
+import { isPrimitiveScope } from './moduleScopes';
+import type { BuilderPlugin, ModuleScopes } from '../types';
 
 /**
  * Provides default configuration consistent with `@modern-js/webpack`
@@ -39,6 +40,22 @@ export const PluginCompatModern = (): BuilderPlugin => ({
           font: 'media',
           image: 'media',
         };
+      }
+
+      // `@modern-js/webpack` used to add `src` and `shared` as default scopes
+      const { moduleScopes } = config.source;
+      if (moduleScopes) {
+        const DEFAULT_SCOPES: ModuleScopes = ['./src', './shared'];
+
+        if (Array.isArray(moduleScopes)) {
+          if (isPrimitiveScope(moduleScopes)) {
+            config.source.moduleScopes = DEFAULT_SCOPES.concat(moduleScopes);
+          } else {
+            config.source.moduleScopes = [DEFAULT_SCOPES, ...moduleScopes];
+          }
+        } else {
+          config.source.moduleScopes = [DEFAULT_SCOPES, moduleScopes];
+        }
       }
 
       return config;
