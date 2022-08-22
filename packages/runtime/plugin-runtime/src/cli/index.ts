@@ -25,7 +25,7 @@ export default (): CliPlugin => ({
 
     return {
       config() {
-        const dir = api.useAppContext().internalDirectory;
+        const dir = api.useAppContext().internalDirectory || '';
         runtimeExportsUtils = createRuntimeExportsUtils(dir, 'index');
         process.env.IS_REACT18 = isReact18(path.join(dir, '../../')).toString();
         return {
