@@ -12,6 +12,7 @@ export interface HtmlConfig {
   injectByEntries?: Record<string, HTMLPluginOptions['inject']>;
   favicon?: string;
   faviconByEntries?: Record<string, string | undefined>;
+  appIcon?: string;
   mountId?: string;
   crossorigin?: CrossOrigin;
   disableHtmlFolder?: boolean;

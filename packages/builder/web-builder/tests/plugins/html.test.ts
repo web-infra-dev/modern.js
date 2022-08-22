@@ -35,6 +35,23 @@ describe('plugins/html', () => {
     expect(isPluginRegistered(config, 'HtmlCrossOriginPlugin')).toBeTruthy();
   });
 
+  it('should register appIcon plugin when using html.appIcon', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginEntry(), PluginHtml()],
+      entry: {
+        main: './src/main.ts',
+      },
+      builderConfig: {
+        html: {
+          appIcon: './src/assets/icon.png',
+        },
+      },
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+    expect(isPluginRegistered(config, 'HtmlAppIconPlugin')).toBeTruthy();
+  });
+
   it('should allow to set favicon by html.favicon option', async () => {
     const builder = createStubBuilder({
       plugins: [PluginEntry(), PluginHtml()],
