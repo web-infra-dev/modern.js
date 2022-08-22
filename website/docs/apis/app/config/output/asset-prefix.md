@@ -5,12 +5,10 @@ sidebar_position: 1
 
 # output.assetPrefix
 
-
-
 - 类型： `string`
 - 默认值： `/`
 
-生产环境使用 CDN 部署时，可利用该选项设置静态资源的 URL 前缀。
+生产环境使用 CDN 部署时，可利用该选项设置静态资源的 URL 前缀，对应 webpack 的 [output.publicPath](https://webpack.js.org/guides/public-path/) 配置。
 
 在开发环境下，请使用 [dev.assetPrefix](/docs/apis/app/config/dev/asset-prefix) 配置项进行设置。
 

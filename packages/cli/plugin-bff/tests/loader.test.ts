@@ -29,24 +29,26 @@ describe('bff loader', () => {
   it('should work well', async () => {
     const stats = await compiler(filepath, {
       apiDir,
+      lambdaDir: apiDir,
+      existLambda: true,
       prefix: '/',
       port: 3000,
       target: 'server',
     });
-    const output = stats?.toJson({ source: true }).modules?.[0]?.modules?.[0]
-      .source;
+    const output = stats?.toJson({ source: true }).modules?.[0].source;
     expect(output).toMatchSnapshot();
   });
 
   it('should work well with prefix', async () => {
     const stats = await compiler(filepath, {
       apiDir,
+      lambdaDir: apiDir,
+      existLambda: true,
       prefix: 'api',
       port: 3000,
       target: 'server',
     });
-    const output = stats?.toJson({ source: true }).modules?.[0]?.modules?.[0]
-      .source;
+    const output = stats?.toJson({ source: true }).modules?.[0].source;
 
     expect(output).toMatchSnapshot();
   });
@@ -54,12 +56,13 @@ describe('bff loader', () => {
   it('should work well with client', async () => {
     const stats = await compiler(filepath, {
       apiDir,
+      lambdaDir: apiDir,
+      existLambda: true,
       prefix: '/',
       port: 3000,
       target: 'server',
     });
-    const output = stats?.toJson({ source: true }).modules?.[0]?.modules?.[0]
-      .source;
+    const output = stats?.toJson({ source: true }).modules?.[0].source;
 
     expect(output).toMatchSnapshot();
   });
@@ -67,12 +70,13 @@ describe('bff loader', () => {
   it('should work well with port', async () => {
     const stats = await compiler(filepath, {
       apiDir,
+      lambdaDir: apiDir,
+      existLambda: true,
       prefix: '/',
       port: 80,
       target: 'server',
     });
-    const output = stats?.toJson({ source: true }).modules?.[0]?.modules?.[0]
-      .source;
+    const output = stats?.toJson({ source: true }).modules?.[0].source;
 
     expect(output).toMatchSnapshot();
   });
@@ -81,6 +85,8 @@ describe('bff loader', () => {
   xit('should work well with fetcher', async () => {
     const stats = await compiler(filepath, {
       apiDir,
+      lambdaDir: apiDir,
+      existLambda: true,
       prefix: '/',
       port: 80,
       target: 'client',
@@ -88,8 +94,7 @@ describe('bff loader', () => {
         .resolve(__dirname, './fixtures/test-fetcher')
         .replace(/\\/g, '/'),
     });
-    const output = stats?.toJson({ source: true }).modules?.[0]?.modules?.[0]
-      .source;
+    const output = stats?.toJson({ source: true }).modules?.[0].source;
 
     expect(output).toMatchSnapshot();
   });
@@ -97,6 +102,8 @@ describe('bff loader', () => {
   it('should work well with requestCreator', async () => {
     const stats = await compiler(filepath, {
       apiDir,
+      lambdaDir: apiDir,
+      existLambda: true,
       prefix: '/',
       port: 80,
       target: 'client',
@@ -104,8 +111,7 @@ describe('bff loader', () => {
         .resolve(__dirname, './fixtures/requestCreator')
         .replace(/\\/g, '/'),
     });
-    const output = stats?.toJson({ source: true }).modules?.[0]?.modules?.[0]
-      .source;
+    const output = stats?.toJson({ source: true }).modules?.[0].source;
 
     expect(output).toMatchSnapshot();
   });
