@@ -25,4 +25,5 @@ export interface OutputConfig {
   enableAssetManifest?: boolean;
   enableLatestDecorators?: boolean;
   enableCssModuleTSDeclaration?: boolean;
+  svgDefaultExport?: 'component' | 'url';
 }
