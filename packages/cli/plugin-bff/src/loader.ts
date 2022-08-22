@@ -1,9 +1,12 @@
 import { generateClient, GenClientOptions } from '@modern-js/bff-core';
 import type { LoaderContext } from 'webpack';
+import { logger } from '@modern-js/utils';
 
 export type APILoaderOptions = {
   prefix: string;
   apiDir: string;
+  lambdaDir: string;
+  existLambda: boolean;
   port: number;
   fetcher?: string;
   requestCreator?: string;
@@ -18,6 +21,17 @@ async function loader(this: LoaderContext<APILoaderOptions>, source: string) {
   // eslint-disable-next-line @babel/no-invalid-this
   const draftOptions = this.getOptions();
 
+  // eslint-disable-next-line @babel/no-invalid-this
+  const { resourcePath } = this;
+
+  const warning = `The file ${resourcePath} is not allowd to be imported in src directory, only API definition files are allowed.`;
+
+  if (!draftOptions.existLambda) {
+    logger.warn(warning);
+    callback(null, `throw new Error('${warning}')`);
+    return;
+  }
+
   const options: GenClientOptions = {
     prefix: (Array.isArray(draftOptions.prefix)
       ? draftOptions.prefix[0]
@@ -26,9 +40,15 @@ async function loader(this: LoaderContext<APILoaderOptions>, source: string) {
     target: draftOptions.target,
     port: Number(draftOptions.port),
     source,
-    // eslint-disable-next-line @babel/no-invalid-this
-    resourcePath: this.resourcePath,
+    resourcePath,
   };
+
+  const { lambdaDir } = draftOptions;
+  if (!resourcePath.startsWith(lambdaDir)) {
+    logger.warn(warning);
+    callback(null, `throw new Error('${warning}')`);
+    return;
+  }
 
   if (draftOptions.fetcher) {
     options.fetcher = draftOptions.fetcher;
