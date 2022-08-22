@@ -192,6 +192,7 @@ export const bootstrap: BootStrap = async (
       const rootElement =
         typeof id !== 'string' ? id : document.getElementById(id || 'root')!;
 
+      // https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html
       const ModernRender = (App: React.ReactNode) => {
         if (IS_REACT18) {
           root.render(App);

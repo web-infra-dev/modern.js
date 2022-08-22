@@ -42,7 +42,7 @@ const ssr = (): Plugin => ({
               // won't cause component re-render because context's reference identity doesn't change
               delete (hydrateContext as any)._hydration;
             };
-            if (context?.isReact18) {
+            // callback: https://github.com/reactwg/react-18/discussions/5
             if (IS_REACT18) {
               let SSRApp: React.FC = () => (
                 <WithCallback callback={callback}>
