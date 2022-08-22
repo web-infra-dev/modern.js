@@ -23,6 +23,7 @@ export interface OutputConfig {
   disableSourceMap?: boolean;
   disableFilenameHash?: boolean;
   enableAssetManifest?: boolean;
+  enableAssetFallback?: boolean;
   enableLatestDecorators?: boolean;
   enableCssModuleTSDeclaration?: boolean;
   svgDefaultExport?: 'component' | 'url';

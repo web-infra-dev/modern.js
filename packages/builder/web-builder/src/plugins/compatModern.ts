@@ -27,6 +27,11 @@ export const PluginCompatModern = (): BuilderPlugin => ({
         config.output.enableAssetManifest = true;
       }
 
+      // compatible with fallback behavior
+      if (config.output.enableAssetFallback === undefined) {
+        config.output.enableAssetFallback = true;
+      }
+
       // `@modern-js/webpack` output all media files to `dist/media` by default
       if (config.output.distPath === undefined) {
         config.output.distPath = {
