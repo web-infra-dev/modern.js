@@ -4,9 +4,9 @@ import { HelmetData } from 'react-helmet';
 const RE_HTML_ATTR = /<html[^>]*>/;
 const RE_BODY_ATTR = /<body[^>]*>/;
 const RE_LAST_IN_HEAD = /<\/head>/;
-const RE_TITLE = /<title[^>]*>([\s\S\n\r]*?)<\/title>/g;
+const RE_TITLE = /<title[^>]*>([\s\S\n\r]*?)<\/title>/;
 const TEST_TITLE_CONTENT =
-  /(?<=<title[^>]*>)([\s\S\n\r]*?)([.|\S])([\s\S\n\r]*?)(?=<\/title>)/g;
+  /(?<=<title[^>]*>)([\s\S\n\r]*?)([.|\S])([\s\S\n\r]*?)(?=<\/title>)/;
 
 // 通过 react-helmet 修改模板
 export default function helmet(content: string, helmetData: HelmetData) {

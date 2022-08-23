@@ -328,6 +328,39 @@ export const TASKS: TaskConfig[] = [
           sass: '../sass',
         },
       },
+      {
+        name: 'url-loader',
+        ignoreDts: true,
+        externals: {
+          'schema-utils': 'schema-utils',
+          'loader-utils': '../loader-utils2',
+          'mime-types': '@modern-js/utils/mime-types',
+        },
+        afterBundle(task) {
+          replaceFileContent(join(task.distPath, 'index.js'), content => {
+            // using prebunled file-loader
+            return content.replace(
+              '"file-loader"',
+              'require.resolve("../file-loader")',
+            );
+          });
+        },
+      },
+      {
+        name: 'file-loader',
+        ignoreDts: true,
+        externals: {
+          'schema-utils': 'schema-utils',
+          'loader-utils': '../loader-utils2',
+        },
+      },
+      {
+        name: 'webpack-bundle-analyzer',
+        externals: {
+          chalk: '@modern-js/utils/chalk',
+          'gzip-size': '@modern-js/utils/gzip-size',
+        },
+      },
     ],
   },
   {

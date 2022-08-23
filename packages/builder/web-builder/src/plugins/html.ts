@@ -107,7 +107,6 @@ async function getChunks(
   const dependOn = [];
 
   if (isPlainObject(entryValue)) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error assume entry is an entry object
     dependOn.push(...entryValue.dependOn);
   }
@@ -171,6 +170,33 @@ export const PluginHtml = (): BuilderPlugin => ({
             .use(HtmlWebpackPlugin, [finalOptions]);
         }),
       );
+
+      if (config.html) {
+        const { appIcon, crossorigin } = config.html;
+
+        if (crossorigin) {
+          const { HtmlCrossOriginPlugin } = await import(
+            '../webpackPlugins/HtmlCrossOriginPlugin'
+          );
+          chain
+            .plugin(CHAIN_ID.PLUGIN.HTML_CROSS_ORIGIN)
+            .use(HtmlCrossOriginPlugin, [{ crossOrigin: crossorigin }]);
+        }
+
+        if (appIcon) {
+          const { HtmlAppIconPlugin } = await import(
+            '../webpackPlugins/HtmlAppIconPlugin'
+          );
+
+          const iconPath = path.isAbsolute(appIcon)
+            ? appIcon
+            : path.join(api.context.rootPath, appIcon);
+
+          chain
+            .plugin(CHAIN_ID.PLUGIN.APP_ICON)
+            .use(HtmlAppIconPlugin, [{ iconPath }]);
+        }
+      }
     });
   },
 });

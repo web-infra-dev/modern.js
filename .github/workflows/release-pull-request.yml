@@ -13,9 +13,6 @@ on:
         - alpha
         - pre
         - latest
-      versionNumber:
-        description: 'Release Version(v1.0.0)'
-        required: true
 
 jobs:
   release:
@@ -33,7 +30,7 @@ jobs:
         with:
           # this expects you to have a script called release which does a build for your packages and calls changeset publish
           version: ${{ github.event.inputs.version }}
-          versionNumber: ${{ github.event.inputs.versionNumber }}
+          versionNumber: 'auto'
           type: 'pull request'
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_SCOPED_TOKEN }}

@@ -24,6 +24,8 @@ export class ApiRouter {
 
   private lambdaDir: string;
 
+  private existLambda: boolean;
+
   private prefix: string;
 
   private apiFiles: string[];
@@ -49,10 +51,22 @@ export class ApiRouter {
 
     this.prefix = this.initPrefix(prefix);
     this.apiDir = apiDir;
-    this.lambdaDir = lambdaDir || this.getLambdaDir(this.apiDir);
+    this.lambdaDir = lambdaDir || this.getExactLambdaDir(this.apiDir);
+    this.existLambda = this.checkExistLambda(this.apiDir, this.lambdaDir);
+  }
+
+  public isExistLambda() {
+    return this.existLambda;
+  }
+
+  public getLambdaDir() {
+    return this.lambdaDir;
   }
 
   public isApiFile(filename: string) {
+    if (this.existLambda) {
+      return false;
+    }
     if (!this.apiFiles.includes(filename)) {
       return false;
     }
@@ -153,12 +167,18 @@ export class ApiRouter {
   }
 
   public loadApiFiles() {
+    if (!this.existLambda) {
+      return [];
+    }
     // eslint-disable-next-line no-multi-assign
     const apiFiles = (this.apiFiles = getFiles(this.lambdaDir, API_FILE_RULES));
     return apiFiles;
   }
 
   public getApiFiles() {
+    if (!this.existLambda) {
+      return [];
+    }
     if (this.apiFiles.length > 0) {
       return this.apiFiles;
     }
@@ -184,6 +204,31 @@ export class ApiRouter {
     return prefix || '/api';
   }
 
+  private checkExistLambda(apiDir: string, lambdaDir: string) {
+    const isSame = apiDir === lambdaDir;
+    if (!isSame) {
+      return true;
+    }
+    const exts = ['.ts', '.js'];
+    const existAppDir = (apiDir: string) => {
+      return fs.existsSync(path.join(apiDir, 'app'));
+    };
+    const existAppFile = (apiDir: string) => {
+      const exists = exts.some(ext => {
+        return fs.existsSync(path.join(apiDir, `app${ext}`));
+      });
+      return exists;
+    };
+
+    if (isSame && existAppDir(apiDir)) {
+      return false;
+    }
+    if (isSame && existAppFile(apiDir)) {
+      return false;
+    }
+    return true;
+  }
+
   private validateAbsolute(filename: string, paramsName: string) {
     if (!path.isAbsolute(filename)) {
       throw new Error(`The ${paramsName} ${filename} is not a abolute path`);
@@ -203,7 +248,7 @@ export class ApiRouter {
   private createExistChecker = (base: string) => (target: string) =>
     fs.pathExistsSync(path.resolve(base, target));
 
-  private getLambdaDir = (apiDir: string): string => {
+  private getExactLambdaDir = (apiDir: string): string => {
     if (this.lambdaDir) {
       return this.lambdaDir;
     }

@@ -12,12 +12,17 @@ async function run() {
     process.env.BASE_BRANCH,
   );
   for (const changeset of changesets) {
-    const { releases } = changeset;
+    const { id, releases, summary } = changeset;
     releases.forEach(release => {
       if (release.type === 'major') {
         throw Error(`packages ${release.name} not allow bump major version`);
       }
     });
+    if (summary.split('\n').filter(v => v).length < 2) {
+      throw Error(
+        `Changeset '${id}' should container English and Chinese info`,
+      );
+    }
   }
 }
 

@@ -21,6 +21,10 @@ export const CHAIN_ID = {
     LESS: 'less',
     /** Rule for sass */
     SASS: 'sass',
+    /** Rule for svg */
+    SVG: 'svg',
+    SVG_INLINE: 'svg-inline',
+    SVG_URL: 'svg-url',
   },
   /** Predefined rule groups */
   ONE_OF: {
@@ -109,6 +113,8 @@ export const CHAIN_ID = {
     BUNDLE_ANALYZER: 'bundle-analyze',
     /** BottomTemplatePlugin */
     BOTTOM_TEMPLATE: 'bottom-template',
+    /** HtmlCrossOriginPlugin */
+    HTML_CROSS_ORIGIN: 'html-cross-origin',
     /** MiniCssExtractPlugin */
     MINI_CSS_EXTRACT: 'mini-css-extract',
     /** ReactFastRefreshPlugin */

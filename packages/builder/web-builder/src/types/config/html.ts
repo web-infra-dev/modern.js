@@ -1,6 +1,8 @@
 import type { MetaOptions } from '@modern-js/utils';
 import type { HTMLPluginOptions } from '../thirdParty';
 
+export type CrossOrigin = boolean | 'anonymous' | 'use-credentials';
+
 export interface HtmlConfig {
   meta?: MetaOptions;
   metaByEntries?: Record<string, MetaOptions>;
@@ -10,7 +12,9 @@ export interface HtmlConfig {
   injectByEntries?: Record<string, HTMLPluginOptions['inject']>;
   favicon?: string;
   faviconByEntries?: Record<string, string | undefined>;
+  appIcon?: string;
   mountId?: string;
+  crossorigin?: CrossOrigin;
   disableHtmlFolder?: boolean;
   templateParameters?: Record<string, unknown>;
   templateParametersByEntries?: Record<

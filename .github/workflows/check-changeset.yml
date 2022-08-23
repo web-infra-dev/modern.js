@@ -29,6 +29,3 @@ jobs:
 
       -  name: Check Changeset
          run: pnpm run check-changeset
-         env:
-            PULL_REQUEST_TITLE: ${{ github.event.pull_request.title }}
-            BASE_BRANCH: ${{ github.event.pull_request.base.sha }}
