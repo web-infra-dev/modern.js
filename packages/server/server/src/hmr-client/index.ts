@@ -12,6 +12,7 @@ import { createSocketUrl } from './createSocketUrl';
 // declare any to fix the type of `module.hot`
 declare const module: any;
 
+// TODO hadRuntimeError should be fixed.
 // We need to keep track of if there has been a runtime error.
 // Essentially, we cannot guarantee application state was not corrupted by the
 // runtime error. To prevent confusing behavior, we forcibly reload the entire
@@ -184,11 +185,8 @@ function tryApplyUpdates() {
   }
 
   function handleApplyUpdates(err: any, updatedModules: any) {
-    // NOTE: This var is injected by Webpack's DefinePlugin, and is a boolean instead of string.
-    const hasReactRefresh = process.env.FAST_REFRESH;
     const wantsForcedReload = err || !updatedModules || hadRuntimeError;
-    // React refresh can handle hot-reloading over errors.
-    if (!hasReactRefresh && wantsForcedReload) {
+    if (wantsForcedReload) {
       window.location.reload();
       return;
     }

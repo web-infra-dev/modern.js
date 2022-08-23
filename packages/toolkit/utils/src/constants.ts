@@ -112,19 +112,9 @@ export const INTERNAL_PLUGINS: {
     cli: '@modern-js/plugin-garfish/cli',
   },
   '@modern-js/plugin-tailwindcss': { cli: '@modern-js/plugin-tailwindcss/cli' },
-  '@modern-js/plugin-lambda-fc': { cli: '@modern-js/plugin-lambda-fc/cli' },
-  '@modern-js/plugin-lambda-scf': { cli: '@modern-js/plugin-lambda-scf/cli' },
-  '@modern-js/plugin-cdn-oss': { cli: '@modern-js/plugin-cdn-oss/cli' },
-  '@modern-js/plugin-cdn-cos': { cli: '@modern-js/plugin-cdn-cos/cli' },
-  '@modern-js/plugin-static-hosting': {
-    cli: '@modern-js/plugin-static-hosting/cli',
-  },
   '@modern-js/plugin-polyfill': {
     cli: '@modern-js/plugin-polyfill/cli',
     server: '@modern-js/plugin-polyfill',
-  },
-  '@modern-js/plugin-multiprocess': {
-    cli: '@modern-js/plugin-multiprocess/cli',
   },
   // TODO: Maybe can remove it
   '@modern-js/plugin-nocode': { cli: '@modern-js/plugin-nocode/cli' },
