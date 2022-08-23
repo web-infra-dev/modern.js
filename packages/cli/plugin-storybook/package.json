@@ -74,8 +74,6 @@
     "@types/glob": "^7.1.4",
     "@types/jest": "^27",
     "@types/node": "^14",
-    "@types/react": "^17",
-    "@types/react-dom": "^17",
     "jest": "^27",
     "react": "^17",
     "react-dom": "^17",
@@ -85,7 +83,7 @@
   },
   "peerDependencies": {
     "@modern-js/runtime": "workspace:^1.15.0",
-    "react": "^17"
+    "react": ">=17"
   },
   "sideEffects": false,
   "modernConfig": {},

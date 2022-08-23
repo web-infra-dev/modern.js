@@ -10,7 +10,11 @@ export const provider = function ({basename, dom}) {
       const node = dom.querySelector('#' + MOUNT_ID) || dom;
 
       if (node) {
-        unmountComponentAtNode(node);
+        if (IS_REACT18) {
+          root.unmount();
+        } else {
+          unmountComponentAtNode(node);
+        }
       }
     },
     SubModuleComponent: (props) => {
@@ -73,7 +77,7 @@ function generateAppWrapperAndRootDom ({ App, props, dom }) {
     };
     AppWrapper = hoistNonReactStatics(AppWrapper, App);
   }
-  const mountNode = dom ? (dom.querySelector('#' + MOUNT_ID) || dom) : MOUNT_ID;
+  const mountNode = dom ? (dom.querySelector('#' + MOUNT_ID) || dom) : document.getElementById(MOUNT_ID);
   return { AppWrapper, mountNode }
 }
 `;
@@ -89,7 +93,8 @@ export const makeRenderFunction = (code: string) => {
     code
       .replace(`router(`, `generateRouterPlugin(basename,`)
       .replace('(App)', `(AppWrapper)`)
-      .replace('MOUNT_ID', 'mountNode')
+      .replaceAll('MOUNT_ID', 'mountNode')
+      .replace(`document.getElementById(mountNode || 'root')`, 'mountNode')
   );
 };
 
