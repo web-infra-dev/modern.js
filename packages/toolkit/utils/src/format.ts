@@ -10,7 +10,6 @@
 
 import type webpack from 'webpack';
 import type { StatsCompilation } from 'webpack';
-import type { ProxyDetail, BffProxyOptions } from '@modern-js/types';
 
 const friendlySyntaxErrorLabel = 'SyntaxError:';
 
@@ -123,40 +122,3 @@ function formatWebpackMessages(json: StatsCompilation): {
 }
 
 export { formatWebpackMessages };
-
-function formatProxyOptions(proxyOptions: BffProxyOptions) {
-  const formattedProxy: ProxyDetail[] = [];
-
-  if (!Array.isArray(proxyOptions)) {
-    if ('target' in proxyOptions) {
-      formattedProxy.push(proxyOptions);
-    } else {
-      Array.prototype.push.apply(
-        formattedProxy,
-        Object.keys(proxyOptions).reduce(
-          (total: ProxyDetail[], source: string) => {
-            const option = (
-              proxyOptions as
-                | Record<string, string>
-                | Record<string, ProxyDetail>
-            )[source];
-
-            total.push({
-              context: source,
-              changeOrigin: true,
-              logLevel: 'warn',
-              ...(typeof option === 'string' ? { target: option } : option),
-            });
-            return total;
-          },
-          [],
-        ),
-      );
-    }
-  } else {
-    formattedProxy.push(...proxyOptions);
-  }
-  return formattedProxy;
-}
-
-export { formatProxyOptions };
