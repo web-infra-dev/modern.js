@@ -531,9 +531,3 @@ describe('home page', () => {
 :::info 补充信息
 更多用法，请参考【[Testing API](/docs/apis/app/runtime/testing/render)】。
 :::
-
-## 部署
-
-import Deploy from '@site/docs/components/deploy.md';
-
-<Deploy/>

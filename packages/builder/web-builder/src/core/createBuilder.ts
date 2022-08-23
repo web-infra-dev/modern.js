@@ -80,6 +80,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginMinimize } = await import('../plugins/minimize');
   const { PluginManifest } = await import('../plugins/manifest');
   const { PluginCleanOutput } = await import('../plugins/cleanOutput');
+  const { PluginModuleScopes } = await import('../plugins/moduleScopes');
   const { PluginBabel } = await import('../plugins/babel');
   const { PluginTsLoader } = await import('../plugins/tsLoader');
   const { PluginTsChecker } = await import('../plugins/tsChecker');
@@ -111,6 +112,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginMinimize(),
     PluginManifest(),
     PluginCleanOutput(),
+    PluginModuleScopes(),
     PluginTsLoader(),
     PluginBabel(),
     PluginTsChecker(),

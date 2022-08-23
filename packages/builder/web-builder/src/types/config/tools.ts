@@ -16,107 +16,82 @@ import type {
   SassLoaderOptions,
   HTMLPluginOptions,
 } from '../thirdParty';
+import type { ChainedConfig } from '../utils';
 
-export type ToolsTerserConfig =
-  | TerserPluginOptions
-  | ((options: TerserPluginOptions) => TerserPluginOptions | void);
+export type ToolsTerserConfig = ChainedConfig<TerserPluginOptions>;
 
-export type ToolsMinifyCssConfig =
-  | CssMinimizerPluginOptions
-  | ((options: CssMinimizerPluginOptions) => CssMinimizerPluginOptions | void);
+export type ToolsMinifyCssConfig = ChainedConfig<CssMinimizerPluginOptions>;
 
-export type ToolsBabelConfig =
-  | BabelTransformOptions
-  | ((
-      options: BabelTransformOptions,
-      utils: BabelConfigUtils,
-    ) => BabelTransformOptions);
+export type ToolsBabelConfig = ChainedConfig<
+  BabelTransformOptions,
+  BabelConfigUtils
+>;
 
-export type ToolsTSLoaderOptions =
-  | TSLoaderOptions
-  | ((
-      options: TSLoaderOptions,
-      utils: {
-        addIncludes: (items: string | RegExp | (string | RegExp)[]) => void;
-        addExcludes: (items: string | RegExp | (string | RegExp)[]) => void;
-      },
-    ) => TSLoaderOptions | void);
+export type ToolsTSLoaderConfig = ChainedConfig<
+  TSLoaderOptions,
+  {
+    addIncludes: (items: string | RegExp | (string | RegExp)[]) => void;
+    addExcludes: (items: string | RegExp | (string | RegExp)[]) => void;
+  }
+>;
 
-export type ToolsForkTSCheckerConfig =
-  | ForkTSCheckerOptions
-  | ((options: ForkTSCheckerOptions) => ForkTSCheckerOptions | void);
+export type ToolsStyledComponentConfig = ChainedConfig<IStyledComponentOptions>;
 
-export type ToolsStyledComponentConfig =
-  | IStyledComponentOptions
-  | ((options: IStyledComponentOptions) => IStyledComponentOptions | void);
+export type ToolsCSSLoaderConfig = ChainedConfig<CSSLoaderOptions>;
 
-export type ToolsCSSLoaderConfig =
-  | CSSLoaderOptions
-  | ((options: CSSLoaderOptions) => CSSLoaderOptions | void);
-
-export type ToolsStyleLoaderConfig =
-  | StyleLoaderOptions
-  | ((options: StyleLoaderOptions) => StyleLoaderOptions | void);
+export type ToolsStyleLoaderConfig = ChainedConfig<StyleLoaderOptions>;
 
 export type ToolsCssExtractConfig =
   | CssExtractOptions
   | ((options: CssExtractOptions) => CssExtractOptions | void);
 
-export type ToolsAutoprefixerConfig =
-  | AutoprefixerOptions
-  | ((options: AutoprefixerOptions) => AutoprefixerOptions | void);
+export type ToolsAutoprefixerConfig = ChainedConfig<AutoprefixerOptions>;
 
-export type ToolsPostCSSLoaderConfig =
-  | PostCSSLoaderOptions
-  | ((
-      options: PostCSSLoaderOptions,
-      utils: {
-        addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void;
-      },
-    ) => PostCSSLoaderOptions | void);
+export type ToolsPostCSSLoaderConfig = ChainedConfig<
+  PostCSSLoaderOptions,
+  {
+    addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void;
+  }
+>;
 
-export type ToolsLessConfig =
-  | LessLoaderOptions
-  | ((
-      options: LessLoaderOptions,
-      utils: { addExcludes: (excludes: RegExp | RegExp[]) => void },
-    ) => LessLoaderOptions | void);
+export type ToolsLessConfig = ChainedConfig<
+  LessLoaderOptions,
+  { addExcludes: (excludes: RegExp | RegExp[]) => void }
+>;
 
-export type ToolsSassConfig =
-  | SassLoaderOptions
-  | ((
-      options: SassLoaderOptions,
-      utils: { addExcludes: (excludes: RegExp | RegExp[]) => void },
-    ) => SassLoaderOptions | void);
+export type ToolsSassConfig = ChainedConfig<
+  SassLoaderOptions,
+  { addExcludes: (excludes: RegExp | RegExp[]) => void }
+>;
 
-export type HtmlPluginConfig =
-  | HTMLPluginOptions
-  | ((
-      options: HTMLPluginOptions,
-      utils: {
-        entryName: string;
-        entryValue: string[];
-      },
-    ) => HTMLPluginOptions | void);
+export type ToolsTSCheckerConfig = ChainedConfig<ForkTSCheckerOptions>;
+
+export type ToolsHtmlPluginConfig = ChainedConfig<
+  HTMLPluginOptions,
+  {
+    entryName: string;
+    entryValue: string[];
+  }
+>;
 
 export type DevServerConfig = {
   hot?: boolean;
 };
 
 export interface ToolsConfig {
-  sass?: SassLoaderOptions;
-  less?: LessLoaderOptions;
+  sass?: ToolsSassConfig;
+  less?: ToolsLessConfig;
   babel?: ToolsBabelConfig;
   terser?: ToolsTerserConfig;
-  tsLoader?: ToolsTSLoaderOptions;
-  tsChecker?: false | ForkTSCheckerOptions;
+  tsLoader?: ToolsTSLoaderConfig;
+  tsChecker?: false | ToolsTSCheckerConfig;
   devServer?: DevServerConfig;
   minifyCss?: ToolsMinifyCssConfig;
-  htmlPlugin?: HtmlPluginConfig;
-  styledComponents?: IStyledComponentOptions;
-  cssLoader?: CSSLoaderOptions;
-  styleLoader?: StyleLoaderOptions;
+  htmlPlugin?: ToolsHtmlPluginConfig;
+  styledComponents?: ToolsStyledComponentConfig;
+  cssLoader?: ToolsCSSLoaderConfig;
+  styleLoader?: ToolsStyleLoaderConfig;
   cssExtract?: CssExtractOptions;
-  postcss?: PostCSSLoaderOptions;
-  autoprefixer?: AutoprefixerOptions;
+  postcss?: ToolsPostCSSLoaderConfig;
+  autoprefixer?: ToolsAutoprefixerConfig;
 }
