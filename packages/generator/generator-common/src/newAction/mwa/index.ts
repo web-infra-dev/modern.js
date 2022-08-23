@@ -29,7 +29,6 @@ export const MWAActionFunctions = [
   // ActionFunction.E2ETest,
   // ActionFunction.Doc,
   ActionFunction.Polyfill,
-  ActionFunction.Deploy,
   ActionFunction.Proxy,
 ];
 export const MWAActionElements = [ActionElement.Entry, ActionElement.Server];
@@ -126,7 +125,6 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.Storybook]: '@modern-js/dependence-generator',
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
-    [ActionFunction.Deploy]: '@modern-js/cloud-deploy-generator',
     [ActionFunction.Proxy]: '@modern-js/dependence-generator',
   },
   [ActionType.Refactor]: {

@@ -563,9 +563,3 @@ describe('test model', () => {
 :::info 补充信息
 更多用法，请参考【[Testing API](/docs/apis/app/runtime/testing/render)】、【[测试 Model](/docs/guides/features/runtime/model/test-model)】。
 :::
-
-## 部署
-
-import Deploy from '@site/docs/components/deploy.md';
-
-<Deploy/>
