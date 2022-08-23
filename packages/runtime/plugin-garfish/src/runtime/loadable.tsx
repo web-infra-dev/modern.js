@@ -1,5 +1,5 @@
 // logical reference to https://github.com/jamiebuilds/react-loadable/blob/6201c5837b212d6244c57f3748f2b1375096beeb/src/index.js
-import React from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { RouteComponentProps } from '@modern-js/runtime/router';
 import { logger } from '../util';
 import { LoadableConfig, MicroComponentProps } from './useModuleApps';
@@ -9,136 +9,139 @@ interface SetLoadingState {
   error?: unknown;
 }
 
+interface LoadableState {
+  error: any;
+  pastDelay: boolean;
+  timedOut: boolean;
+  isLoading: boolean;
+}
+
 export interface MicroProps extends RouteComponentProps {
   setLoadingState: (state: { isLoading?: boolean; error?: unknown }) => void;
   [key: string]: any;
 }
 
+const DEFAULT_LOADABLE = {
+  delay: 200,
+  timeout: 10000,
+  loading: null,
+};
+
 export function Loadable(WrapComponent: any) {
   return function (defaultLoadable?: LoadableConfig) {
-    return class LoadableComponent extends React.Component<
-      MicroComponentProps,
-      any
-    > {
-      state: {
-        error: any;
-        pastDelay: boolean;
-        timedOut: boolean;
-        isLoading: boolean;
-      } = {
-        error: null,
-        pastDelay: false,
-        timedOut: false,
-        isLoading: false,
-      };
+    return function Lodable(props: MicroComponentProps) {
+      const { loadable = defaultLoadable ?? DEFAULT_LOADABLE, ...otherProps } =
+        props;
 
-      mounted: boolean = false;
+      const mountRef = useRef(false);
+      let delayTimer: NodeJS.Timer | null = null;
+      let timeoutTimer: NodeJS.Timer | null = null;
 
-      delay: NodeJS.Timeout | undefined;
-
-      timeout: NodeJS.Timeout | undefined;
-
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      UNSAFE_componentWillMount() {
-        this.mounted = true;
-        const {
-          loadable = defaultLoadable || {
-            delay: 200,
-            timeout: 10000,
-            loading: null,
-          },
-        } = this.props;
-
+      const [state, setState] = useState<LoadableState>(() => {
         const { delay, timeout } = loadable;
+        const initState = {
+          error: null,
+          pastDelay: false,
+          timedOut: false,
+          isLoading: false,
+        };
+
         if (typeof delay === 'number') {
           if (delay === 0) {
-            this.setState({ pastDelay: true });
+            initState.pastDelay = true;
           } else {
-            this.delay = setTimeout(() => {
-              this.setStateWithMountCheck({ pastDelay: true });
+            delayTimer = setTimeout(() => {
+              setStateWithMountCheck({ pastDelay: true });
             }, delay);
           }
         }
 
         if (typeof timeout === 'number') {
-          this.timeout = setTimeout(() => {
-            this.setStateWithMountCheck({ timedOut: true });
+          timeoutTimer = setTimeout(() => {
+            setStateWithMountCheck({ timedOut: true });
           }, timeout);
         }
-      }
 
-      componentWillUnmount() {
-        this.mounted = false;
-        this.setStateWithMountCheck({
-          isLoading: false,
-          error: null,
-        });
-        this.clearTimeouts();
-      }
+        return initState;
+      });
 
-      setStateWithMountCheck(newState: Partial<typeof this.state>) {
-        if (!this.mounted) {
-          return;
-        }
-        this.setState(newState);
-      }
+      const LoadingComponent = props.loadable?.loading;
 
-      readonly retry = () => {
-        this.setState({ error: null, isLoading: true, timedOut: false });
-        // res = loadFn(opts.loader);
-        // this._loadModule();
-      };
-
-      clearTimeouts() {
-        this.delay && clearTimeout(this.delay);
-        this.timeout && clearTimeout(this.timeout);
-      }
-
-      render() {
-        const { isLoading, error, pastDelay, timedOut } = this.state;
-        const {
-          loadable = defaultLoadable || {
-            delay: 200,
-            timeout: 10000,
-            loading: null,
-          },
-          ...otherProps
-        } = this.props;
-        const { loading: LoadingComponent } = loadable;
+      useEffect(() => {
+        mountRef.current = true;
 
         logger('Loadable render state', {
-          state: this.state,
+          state,
           props: otherProps,
           loadable,
           defaultLoadable,
         });
 
-        const showLoading = (isLoading || error) && LoadingComponent;
-        return (
-          <>
-            {showLoading && (
-              <LoadingComponent
-                isLoading={isLoading}
-                pastDelay={pastDelay}
-                timedOut={timedOut}
-                error={error}
-                retry={this.retry}
-              />
-            )}
-            <WrapComponent
-              style={{ display: showLoading ? 'none' : 'block' }}
-              setLoadingState={(props: SetLoadingState) => {
-                // loading is not provided and there is a rendering exception
-                if (props.error && !LoadingComponent) {
-                  throw props.error;
-                }
-                this.setStateWithMountCheck(props);
-              }}
-              {...otherProps}
+        return () => {
+          mountRef.current = false;
+          setStateWithMountCheck({
+            isLoading: false,
+            error: null,
+          });
+          if (delayTimer) {
+            clearTimeout(delayTimer);
+            delayTimer = null;
+          }
+          if (timeoutTimer) {
+            clearTimeout(timeoutTimer);
+            timeoutTimer = null;
+          }
+        };
+      }, []);
+
+      const retry = useCallback(() => {
+        setState({
+          ...state,
+          error: null,
+          isLoading: true,
+          timedOut: false,
+        });
+      }, [state]);
+
+      const setStateWithMountCheck = useCallback(
+        (newState: Partial<LoadableState>) => {
+          if (!mountRef.current) {
+            return;
+          }
+          setState({
+            ...state,
+            ...newState,
+          });
+        },
+        [state],
+      );
+
+      const showLoading = (state.isLoading || state.error) && LoadingComponent;
+
+      return (
+        <>
+          {showLoading && (
+            <LoadingComponent
+              isLoading={state.isLoading}
+              pastDelay={state.pastDelay}
+              timedOut={state.timedOut}
+              error={state?.error}
+              retry={retry}
             />
-          </>
-        );
-      }
+          )}
+          <WrapComponent
+            style={{ display: showLoading ? 'none' : 'block' }}
+            setLoadingState={(props: SetLoadingState) => {
+              // loading is not provided and there is a rendering exception
+              if (props.error && !LoadingComponent) {
+                throw props.error;
+              }
+              setStateWithMountCheck(props);
+            }}
+            {...otherProps}
+          />
+        </>
+      );
     };
   };
 }
