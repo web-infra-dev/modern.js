@@ -11796,7 +11796,7 @@ packages:
   /@types/webpack-bundle-analyzer/4.4.1_1f091e9882867a645caac150cd4a7b4f:
     resolution: {integrity: sha512-yQAj3l7bIYL+QRRlNJt6gyP+zrXZOlgaR4wsX0WY4yzZIbv41ZibREfZvuYjxY0iVtvQQlbhx0AeokkCuqUAQg==}
     dependencies:
-      '@types/node': 14.18.21
+      '@types/node': 18.0.1
       tapable: 2.2.1
       webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
     transitivePeerDependencies:
