@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { normalizeToPosixPath } from '@modern-js/utils';
+import { isReact18, normalizeToPosixPath } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
 import type { ImportStatement } from '@modern-js/core';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from './constants';
@@ -20,17 +20,25 @@ export const getDefaultImports = ({
   srcDirectory,
   internalSrcAlias,
   internalDirAlias,
+  internalDirectory,
 }: {
   entrypoint: Entrypoint;
   srcDirectory: string;
   internalSrcAlias: string;
   internalDirAlias: string;
+  internalDirectory: string;
 }): ImportStatement[] => {
   const { entryName, fileSystemRoutes, customBootstrap, entry } = entrypoint;
   const imports = [
     {
       specifiers: [{ local: 'React' }],
       value: 'react',
+    },
+    {
+      specifiers: [{ local: 'ReactDOM' }],
+      value: isReact18(path.join(internalDirectory, '../../'))
+        ? 'react-dom/client'
+        : 'react-dom',
     },
     {
       specifiers: [{ imported: 'createApp' }, { imported: 'bootstrap' }],

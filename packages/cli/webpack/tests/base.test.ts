@@ -3,7 +3,7 @@
 import path from 'path';
 import { NormalizedConfig } from '@modern-js/core';
 import type WebpackChain from '@modern-js/utils/webpack-chain';
-import { CHAIN_ID, fs } from '@modern-js/utils';
+import { CHAIN_ID } from '@modern-js/utils';
 import { BaseWebpackConfig } from '../src/config/base';
 import { JS_REGEX, TS_REGEX } from '../src/utils/constants';
 import { mergeRegex } from '../src/utils/mergeRegex';
@@ -338,29 +338,6 @@ describe('base webpack config', () => {
     setPathSerializer();
     expect(rule.include.values()).toMatchSnapshot();
     expect(rule.exclude.values()).toMatchSnapshot();
-  });
-
-  test(`should exclude api dir from babel-loader when api dir exists`, () => {
-    const fsSpy = jest.spyOn(fs, 'existsSync');
-    fsSpy.mockReturnValue(true);
-
-    const baseConfig = new BaseWebpackConfig(appContext, {
-      ...userConfig,
-      output: {
-        ...userConfig.output,
-        path: `${__dirname}/dist`,
-      },
-    } as any);
-
-    const rule = baseConfig
-      .getChain()
-      .module.rule(CHAIN_ID.RULE.LOADERS)
-      .oneOf(CHAIN_ID.ONE_OF.JS);
-
-    setPathSerializer();
-    expect(rule.exclude.values()).toMatchSnapshot();
-
-    fsSpy.mockRestore();
   });
 
   test(`should apply module scope plugin when user config contains moduleScopes`, () => {

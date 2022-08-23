@@ -22,6 +22,7 @@ export {
   canUseNpm,
   canUsePnpm,
   canUseYarn,
+  isReact18,
 } from '@modern-js/utils';
 
 export { i18n } from './locale';

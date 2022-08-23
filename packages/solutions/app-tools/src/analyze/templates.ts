@@ -13,11 +13,14 @@ export const index = ({
   renderFunction: string;
 }) => `
 const IS_BROWSER = typeof window !== 'undefined' && window.name !== 'nodejs';
+const IS_REACT18 = process.env.IS_REACT18 === 'true';
 const MOUNT_ID = '${mountId}';
 
 ${imports}
 
 let AppWrapper = null;
+
+let root = null;
 
 function render() {
   ${renderFunction}
@@ -52,7 +55,12 @@ export const renderFunction = ({
     ${
       customBootstrap
         ? `customBootstrap(AppWrapper);`
-        : `bootstrap(AppWrapper, MOUNT_ID);`
+        : `if (IS_REACT18) {
+  root = ReactDOM.createRoot(document.getElementById(MOUNT_ID || 'root'))
+  bootstrap(AppWrapper, MOUNT_ID, root, root.render, ReactDOM.hydrateRoot);
+} else {
+  bootstrap(AppWrapper, MOUNT_ID, undefined, ReactDOM.render, ReactDOM.hydrate);
+}`
     }
   }
 

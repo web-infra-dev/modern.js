@@ -1,7 +1,7 @@
 import path from 'path';
-import { fs, semver } from '@modern-js/utils';
+import { fs, semver } from './compiled';
 
-export const isBeyondReact17 = (cwd: string) => {
+export const isReact18 = (cwd: string) => {
   const pkgPath = path.join(cwd, 'package.json');
 
   if (!fs.existsSync(pkgPath)) {
@@ -18,5 +18,5 @@ export const isBeyondReact17 = (cwd: string) => {
     return false;
   }
 
-  return semver.satisfies(semver.minVersion(deps.react)!, '>=17.0.0');
+  return semver.satisfies(semver.minVersion(deps.react)!, '>=18.0.0');
 };
