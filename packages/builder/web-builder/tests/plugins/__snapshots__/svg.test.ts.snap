@@ -14,13 +14,13 @@ exports[`plugins/svg > export default Component 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "/@svgr/webpack/dist/index.js",
+            "loader": "<NODE_MODULES>/@svgr/webpack/dist/index.js",
             "options": {
               "svgo": false,
             },
           },
           {
-            "loader": "/builder/web-builder/compiled/url-loader",
+            "loader": "<ROOT>/packages/builder/web-builder/compiled/url-loader",
             "options": {
               "limit": Infinity,
               "name": "assets/[name].[contenthash:8].[ext]",
@@ -38,13 +38,13 @@ exports[`plugins/svg > export default Component 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "/@svgr/webpack/dist/index.js",
+            "loader": "<NODE_MODULES>/@svgr/webpack/dist/index.js",
             "options": {
               "svgo": false,
             },
           },
           {
-            "loader": "/builder/web-builder/compiled/url-loader",
+            "loader": "<ROOT>/packages/builder/web-builder/compiled/url-loader",
             "options": {
               "limit": false,
               "name": "assets/[name].[contenthash:8].[ext]",
@@ -61,7 +61,7 @@ exports[`plugins/svg > export default Component 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "/@svgr/webpack/dist/index.js",
+            "loader": "<NODE_MODULES>/@svgr/webpack/dist/index.js",
             "options": {
               "svgo": false,
             },
@@ -87,13 +87,13 @@ exports[`plugins/svg > export default url 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "/@svgr/webpack/dist/index.js",
+            "loader": "<NODE_MODULES>/@svgr/webpack/dist/index.js",
             "options": {
               "svgo": false,
             },
           },
           {
-            "loader": "/builder/web-builder/compiled/url-loader",
+            "loader": "<ROOT>/packages/builder/web-builder/compiled/url-loader",
             "options": {
               "limit": Infinity,
               "name": "assets/[name].[contenthash:8].[ext]",
@@ -111,13 +111,13 @@ exports[`plugins/svg > export default url 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "/@svgr/webpack/dist/index.js",
+            "loader": "<NODE_MODULES>/@svgr/webpack/dist/index.js",
             "options": {
               "svgo": false,
             },
           },
           {
-            "loader": "/builder/web-builder/compiled/url-loader",
+            "loader": "<ROOT>/packages/builder/web-builder/compiled/url-loader",
             "options": {
               "limit": false,
               "name": "assets/[name].[contenthash:8].[ext]",
@@ -134,13 +134,13 @@ exports[`plugins/svg > export default url 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "/@svgr/webpack/dist/index.js",
+            "loader": "<NODE_MODULES>/@svgr/webpack/dist/index.js",
             "options": {
               "svgo": false,
             },
           },
           {
-            "loader": "/builder/web-builder/compiled/url-loader",
+            "loader": "<ROOT>/packages/builder/web-builder/compiled/url-loader",
             "options": {
               "limit": 4096,
               "name": "assets/[name].[contenthash:8].[ext]",

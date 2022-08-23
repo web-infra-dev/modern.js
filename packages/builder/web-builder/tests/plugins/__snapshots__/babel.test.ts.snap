@@ -8,25 +8,25 @@ exports[`plugins/babel > should set babel-loader 1`] = `
         "include": [
           {
             "and": [
-              "/builder/web-builder",
+              "<ROOT>/packages/builder/web-builder",
               {
                 "not": /node_modules/,
               },
             ],
           },
-          "/builder/web-builder/src/runtime/core-js-entry.js",
+          "<ROOT>/packages/builder/web-builder/src/runtime/core-js-entry.js",
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "/builder/web-builder/compiled/babel-loader",
+            "loader": "<ROOT>/packages/builder/web-builder/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
               "configFile": false,
               "plugins": [
                 [
-                  "/@babel/plugin-transform-destructuring/lib/index.js",
+                  "<NODE_MODULES>/@babel/plugin-transform-destructuring/lib/index.js",
                   {
                     "loose": false,
                     "selectiveLoose": [
@@ -44,22 +44,22 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                   },
                 ],
                 [
-                  "/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                  "<ROOT>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
                   {
                     "metaName": "modern-js",
                   },
                 ],
                 [
-                  "/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
+                  "<ROOT>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
                     "libraryDirectory": "es",
                     "libraryName": "antd",
@@ -68,17 +68,17 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                   "import-antd",
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
                   {},
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
                   {
                     "legacy": true,
                   },
                 ],
                 [
-                  "/@babel/plugin-transform-runtime/lib/index.js",
+                  "<NODE_MODULES>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "helpers": false,
                     "regenerator": true,
@@ -87,22 +87,22 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                   },
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/@babel/plugin-proposal-function-bind/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-function-bind/index.js",
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
                   {
                     "proposal": "minimal",
                   },
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
                   {
                     "displayName": true,
                     "pure": true,
@@ -114,7 +114,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
               ],
               "presets": [
                 [
-                  "/@babel/preset-env/lib/index.js",
+                  "<NODE_MODULES>/@babel/preset-env/lib/index.js",
                   {
                     "bugfixes": false,
                     "corejs": {
@@ -133,7 +133,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                   },
                 ],
                 [
-                  "/@babel/preset-react/lib/index.js",
+                  "<NODE_MODULES>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
                     "runtime": "classic",
@@ -142,7 +142,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                   },
                 ],
                 [
-                  "/@babel/preset-typescript/lib/index.js",
+                  "<NODE_MODULES>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
                     "allowDeclareFields": true,
@@ -171,7 +171,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
         "include": [
           {
             "and": [
-              "/builder/web-builder",
+              "<ROOT>/packages/builder/web-builder",
               {
                 "not": /node_modules/,
               },
@@ -182,14 +182,14 @@ exports[`plugins/babel > should set include/exclude 1`] = `
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "/builder/web-builder/compiled/babel-loader",
+            "loader": "<ROOT>/packages/builder/web-builder/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
               "configFile": false,
               "plugins": [
                 [
-                  "/@babel/plugin-transform-destructuring/lib/index.js",
+                  "<NODE_MODULES>/@babel/plugin-transform-destructuring/lib/index.js",
                   {
                     "loose": false,
                     "selectiveLoose": [
@@ -207,22 +207,22 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                   },
                 ],
                 [
-                  "/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
+                  "<ROOT>/packages/cli/babel-preset-app/src/built-in/babel-plugin-lock-corejs-version",
                   {
                     "metaName": "modern-js",
                   },
                 ],
                 [
-                  "/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
+                  "<ROOT>/packages/cli/babel-preset-app/src/built-in/babel-plugin-ssr-loader-id",
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-macros/index.js",
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
                     "libraryDirectory": "es",
                     "libraryName": "antd",
@@ -231,17 +231,17 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                   "import-antd",
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
                   {},
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
                   {
                     "legacy": true,
                   },
                 ],
                 [
-                  "/@babel/plugin-transform-runtime/lib/index.js",
+                  "<NODE_MODULES>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "helpers": false,
                     "regenerator": true,
@@ -250,22 +250,22 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                   },
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/@babel/plugin-proposal-function-bind/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-function-bind/index.js",
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
                   {
                     "proposal": "minimal",
                   },
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
                 ],
                 [
-                  "/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  "<ROOT>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
                   {
                     "displayName": true,
                     "pure": true,
@@ -277,7 +277,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
               ],
               "presets": [
                 [
-                  "/@babel/preset-env/lib/index.js",
+                  "<NODE_MODULES>/@babel/preset-env/lib/index.js",
                   {
                     "bugfixes": false,
                     "corejs": undefined,
@@ -293,7 +293,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                   },
                 ],
                 [
-                  "/@babel/preset-react/lib/index.js",
+                  "<NODE_MODULES>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
                     "runtime": "classic",
@@ -302,7 +302,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                   },
                 ],
                 [
-                  "/@babel/preset-typescript/lib/index.js",
+                  "<NODE_MODULES>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
                     "allowDeclareFields": true,
