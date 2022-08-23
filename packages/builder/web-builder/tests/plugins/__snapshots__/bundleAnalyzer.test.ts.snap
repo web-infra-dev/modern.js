@@ -1,0 +1,34 @@
+// Vitest Snapshot v1
+
+exports[`plugins/bundleAnalyze > should add bundle analyze plugin 1`] = `
+{
+  "plugins": [
+    BundleAnalyzerPlugin {
+      "logger": Logger {
+        "activeLevels": Set {
+          "info",
+          "warn",
+          "error",
+          "silent",
+        },
+      },
+      "opts": {
+        "analyzerHost": "127.0.0.1",
+        "analyzerMode": "static",
+        "analyzerPort": 8888,
+        "defaultSizes": "parsed",
+        "excludeAssets": null,
+        "generateStatsFile": false,
+        "logLevel": "info",
+        "openAnalyzer": false,
+        "reportFilename": "index$$.html",
+        "reportTitle": [Function],
+        "startAnalyzer": true,
+        "statsFilename": "stats.json",
+        "statsOptions": null,
+      },
+      "server": null,
+    },
+  ],
+}
+`;
