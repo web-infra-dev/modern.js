@@ -48,6 +48,7 @@
     "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.5",
+    "@svgr/webpack": "6.2.1",
     "@types/mini-css-extract-plugin": "2.2.0",
     "css-minimizer-webpack-plugin": "4.0.0",
     "fork-ts-checker-webpack-plugin": "6.5.2",

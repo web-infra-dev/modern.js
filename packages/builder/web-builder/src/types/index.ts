@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-restricted-imports */
+export * from './utils';
 export * from './hooks';
 export * from './config';
 export * from './plugin';

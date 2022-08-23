@@ -72,13 +72,15 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginTarget } = await import('../plugins/target');
   const { PluginOutput } = await import('../plugins/output');
   const { PluginMoment } = await import('../plugins/moment');
+  const { PluginDefine } = await import('../plugins/define');
   const { PluginDevtool } = await import('../plugins/devtool');
   const { PluginResolve } = await import('../plugins/resolve');
-  const { PluginDefine } = await import('../plugins/define');
+  const { PluginFallback } = await import('../plugins/fallback');
   const { PluginProgress } = await import('../plugins/progress');
   const { PluginMinimize } = await import('../plugins/minimize');
   const { PluginManifest } = await import('../plugins/manifest');
   const { PluginCleanOutput } = await import('../plugins/cleanOutput');
+  const { PluginModuleScopes } = await import('../plugins/moduleScopes');
   const { PluginBabel } = await import('../plugins/babel');
   const { PluginTsLoader } = await import('../plugins/tsLoader');
   const { PluginTsChecker } = await import('../plugins/tsChecker');
@@ -86,6 +88,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginSass } = await import('../plugins/sass');
   const { PluginLess } = await import('../plugins/less');
   const { PluginReact } = await import('../plugins/react');
+  const { PluginBundleAnalyzer } = await import('../plugins/bundleAnalyzer');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
@@ -96,7 +99,6 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginOutput(),
     PluginDevtool(),
     PluginResolve(),
-    PluginDefine(),
 
     // Plugins that provide basic features
     PluginHMR(),
@@ -106,10 +108,12 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginImage(),
     PluginMedia(),
     PluginMoment(),
+    PluginDefine(),
     PluginProgress(),
     PluginMinimize(),
     PluginManifest(),
     PluginCleanOutput(),
+    PluginModuleScopes(),
     PluginTsLoader(),
     PluginBabel(),
     PluginTsChecker(),
@@ -117,5 +121,9 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginSass(),
     PluginLess(),
     PluginReact(),
+    PluginBundleAnalyzer(),
+
+    // fallback should be the last plugin
+    PluginFallback(),
   ]);
 }

@@ -21,6 +21,10 @@ export const CHAIN_ID = {
     LESS: 'less',
     /** Rule for sass */
     SASS: 'sass',
+    /** Rule for svg */
+    SVG: 'svg',
+    SVG_INLINE: 'svg-inline',
+    SVG_URL: 'svg-url',
   },
   /** Predefined rule groups */
   ONE_OF: {
