@@ -26,7 +26,6 @@ export enum ActionFunction {
   RuntimeApi = 'runtimeApi',
   SSG = 'ssg',
   Polyfill = 'polyfill',
-  Deploy = 'deploy',
   Proxy = 'proxy',
 }
 
@@ -64,7 +63,6 @@ export const ActionFunctionText: Record<ActionFunction, () => string> = {
     i18n.t(localeKeys.action.function.runtime_api),
   [ActionFunction.SSG]: () => i18n.t(localeKeys.action.function.ssg),
   [ActionFunction.Polyfill]: () => i18n.t(localeKeys.action.function.polyfill),
-  [ActionFunction.Deploy]: () => i18n.t(localeKeys.action.function.deploy),
   [ActionFunction.Proxy]: () => i18n.t(localeKeys.action.function.proxy),
 };
 

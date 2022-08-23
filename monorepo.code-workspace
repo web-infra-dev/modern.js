@@ -97,14 +97,6 @@
       "path": "packages/cli/plugin-bff"
     },
     {
-      "name": "@modern-js/plugin-cdn-cos",
-      "path": "packages/cli/plugin-cdn-cos"
-    },
-    {
-      "name": "@modern-js/plugin-cdn-oss",
-      "path": "packages/cli/plugin-cdn-oss"
-    },
-    {
       "name": "@modern-js/plugin-changeset",
       "path": "packages/cli/plugin-changeset"
     },
@@ -130,24 +122,12 @@
       "path": "packages/server/plugin-koa"
     },
     {
-      "name": "@modern-js/plugin-lambda-fc",
-      "path": "packages/cli/plugin-lambda-fc"
-    },
-    {
-      "name": "@modern-js/plugin-lambda-scf",
-      "path": "packages/cli/plugin-lambda-scf"
-    },
-    {
       "name": "@modern-js/plugin-less",
       "path": "packages/cli/plugin-less"
     },
     {
       "name": "@modern-js/plugin-garfish",
       "path": "packages/cli/plugin-garfish"
-    },
-    {
-      "name": "@modern-js/plugin-multiprocess",
-      "path": "packages/cli/plugin-multiprocess"
     },
     {
       "name": "@modern-js/plugin-nest",
@@ -172,10 +152,6 @@
     {
       "name": "@modern-js/plugin-ssg",
       "path": "packages/cli/plugin-ssg"
-    },
-    {
-      "name": "@modern-js/plugin-static-hosting",
-      "path": "packages/cli/static-hosting"
     },
     {
       "name": "@modern-js/plugin-storybook",
@@ -268,10 +244,6 @@
     {
       "name": "@modern-js/changeset-generator",
       "path": "packages/generator/generators/changeset-generator"
-    },
-    {
-      "name": "@modern-js/cloud-deploy-generator",
-      "path": "packages/generator/generators/cloud-deploy-generator"
     },
     {
       "name": "@modern-js/dependence-generator",
