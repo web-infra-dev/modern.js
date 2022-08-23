@@ -127,6 +127,8 @@
     "yargs": "^17.0.1"
   },
   "peerDependencies": {
+    "react": ">=17",
+    "react-dom": ">=17",
     "@modern-js/runtime": "workspace:^1.15.0"
   },
   "peerDependenciesMeta": {
@@ -135,6 +137,8 @@
     }
   },
   "devDependencies": {
+    "react": "^17",
+    "react-dom": "^17",
     "@modern-js/core": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/bff-core": "workspace:*",
@@ -143,13 +147,9 @@
     "@types/jest": "^27",
     "@types/supertest": "^2.0.11",
     "@types/node": "^14",
-    "@types/react": "^17",
-    "@types/react-dom": "^17",
     "@types/yargs": "^17.0.2",
     "@jest/types": "^27.0.6",
     "jest": "^27",
-    "react": "^17",
-    "react-dom": "^17",
     "typescript": "^4"
   },
   "sideEffects": false,

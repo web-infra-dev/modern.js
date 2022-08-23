@@ -16,6 +16,8 @@ importers:
       '@scripts/build': workspace:*
       '@swc/core': ^1.2.220
       '@swc/jest': ^0.2.22
+      '@types/react': ^17
+      '@types/react-dom': ^17
       babel-plugin-module-resolver: ^4.1.0
       btsm: 2.2.2
       cypress: ^10.1.0
@@ -38,6 +40,8 @@ importers:
       '@scripts/build': link:scripts/build
       '@swc/core': 1.2.220
       '@swc/jest': 0.2.22_@swc+core@1.2.220
+      '@types/react': 17.0.47
+      '@types/react-dom': 17.0.17
       babel-plugin-module-resolver: 4.1.0
       btsm: 2.2.2
       cypress: 10.2.0
@@ -296,7 +300,6 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react-dom': ^17
       caniuse-lite: ^1.0.30001332
       cssnano: ^5.1.12
       jest: ^27
@@ -314,7 +317,6 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react-dom': 17.0.17
       jest: 27.5.1
       sass: 1.53.0
       typescript: 4.7.4
@@ -598,8 +600,6 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       '@types/react-router': ^5.1.16
       '@types/react-router-dom': ^5.1.8
       jest: ^27
@@ -624,8 +624,6 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       '@types/react-router': 5.1.18
       '@types/react-router-dom': 5.3.3
       jest: 27.5.1
@@ -656,8 +654,6 @@ importers:
       '@types/glob': ^7.1.4
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       esbuild: ^0.14.38
       findup-sync: ^4.0.0
       fs-extra: ^10.0.0
@@ -698,8 +694,6 @@ importers:
       '@types/glob': 7.2.0
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       jest: 27.5.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -718,7 +712,6 @@ importers:
       '@types/hoist-non-react-statics': ^3.3.1
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
       '@types/tailwindcss': ^2.2.1
       hoist-non-react-statics: ^3.3.2
       jest: ^27
@@ -738,7 +731,6 @@ importers:
       '@types/hoist-non-react-statics': 3.3.1
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
       '@types/tailwindcss': 2.2.4
       jest: 27.5.1
       postcss: 8.4.14
@@ -762,8 +754,6 @@ importers:
       '@types/jest': ^27
       '@types/mini-css-extract-plugin': ~2.2.0
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       core-js: ^3
       css-minimizer-webpack-plugin: ^3.0.2
       fork-ts-checker-webpack-plugin: ^7.2.1
@@ -814,8 +804,6 @@ importers:
       '@types/jest': 27.5.2
       '@types/mini-css-extract-plugin': 2.2.0_1f091e9882867a645caac150cd4a7b4f
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       jest: 27.5.1
       typescript: 4.7.4
 
@@ -1635,8 +1623,6 @@ importers:
       '@types/hoist-non-react-statics': ^3.3.1
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       '@types/react-loadable': ^5.5.6
       '@types/testing-library__jest-dom': ^5.14.3
       debug: ^4.3.2
@@ -1672,8 +1658,6 @@ importers:
       '@types/hoist-non-react-statics': 3.3.1
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       '@types/testing-library__jest-dom': 5.14.5
       jest: 27.5.1
       jest-fetch-mock: 3.0.3
@@ -1712,8 +1696,6 @@ importers:
       '@types/loadable__component': ^5.13.4
       '@types/loadable__webpack-plugin': ^5.7.3
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       '@types/react-helmet': ^6.1.2
       '@types/react-router-dom': ^5.1.8
       '@types/react-side-effect': ^1.1.1
@@ -1778,8 +1760,6 @@ importers:
       '@types/jest': 27.5.2
       '@types/loadable__webpack-plugin': 5.7.3
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       '@types/react-side-effect': 1.1.1
       '@types/serialize-javascript': 5.0.2
       jest: 27.5.1
@@ -1813,8 +1793,6 @@ importers:
       '@testing-library/react': ^12.0.0
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       '@types/supertest': ^2.0.11
       '@types/testing-library__jest-dom': ^5.14.3
       '@types/yargs': ^17.0.2
@@ -1865,8 +1843,6 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       '@types/supertest': 2.0.12
       '@types/yargs': 17.0.10
       react: 17.0.2
@@ -1917,8 +1893,6 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       farrow-api: ^1.10.8
       farrow-pipeline: ^1.10.6
       farrow-schema: ^1.10.8
@@ -1935,8 +1909,6 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       jest: 27.5.1
       ts-jest: 27.1.5_27b3594916e202eb269ced724db061fb
       typescript: 4.7.4
@@ -1951,8 +1923,6 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       http-proxy-middleware: ^2.0.4
       jest: ^27
       ts-jest: ^27.0.4
@@ -1967,8 +1937,6 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       http-proxy-middleware: 2.0.6
       jest: 27.5.1
       ts-jest: 27.1.5_27b3594916e202eb269ced724db061fb
@@ -1983,8 +1951,6 @@ importers:
       '@types/jest': ^27
       '@types/node': ^14
       '@types/node-fetch': ^2.6.1
-      '@types/react': ^17
-      '@types/react-dom': ^17
       isomorphic-fetch: ^3.0.0
       jest: ^27
       nock: ^13.2.1
@@ -2004,8 +1970,6 @@ importers:
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
       '@types/node-fetch': 2.6.2
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       isomorphic-fetch: 3.0.0
       jest: 27.5.1
       nock: 13.2.7
@@ -2248,8 +2212,6 @@ importers:
       '@types/jest': ^27
       '@types/lru-cache': ^5.1.1
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       '@types/ua-parser-js': ^0.7.36
       jest: ^27
       lru-cache: ^6.0.0
@@ -2270,8 +2232,6 @@ importers:
       '@types/jest': 27.5.2
       '@types/lru-cache': 5.1.1
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       '@types/ua-parser-js': 0.7.36
       jest: 27.5.1
       typescript: 4.7.4
@@ -2437,8 +2397,6 @@ importers:
       '@types/babel__core': ^7.1.15
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       babel-plugin-module-resolver: ^4.1.0
       babel-plugin-transform-typescript-metadata: ^0.3.2
       jest: ^27
@@ -2464,8 +2422,6 @@ importers:
       '@types/babel__core': 7.1.19
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       jest: 27.5.1
       ts-jest: 27.1.5_27b3594916e202eb269ced724db061fb
       typescript: 4.7.4
@@ -2493,8 +2449,6 @@ importers:
       '@types/babel__traverse': ^7.14.2
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       jest: ^27
       typescript: ^4
     dependencies:
@@ -2520,8 +2474,6 @@ importers:
       '@types/babel__traverse': 7.17.1
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       jest: 27.5.1
       typescript: 4.7.4
 
@@ -2556,8 +2508,6 @@ importers:
       '@types/jest': ^27
       '@types/node': ^14
       '@types/normalize-path': ^3.0.0
-      '@types/react': ^17
-      '@types/react-dom': ^17
       '@types/signal-exit': ^3.0.1
       ajv: ^8
       ajv-keywords: ^5
@@ -2608,8 +2558,6 @@ importers:
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
       '@types/normalize-path': 3.0.0
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       '@types/signal-exit': 3.0.1
       ajv: 8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
@@ -2633,8 +2581,6 @@ importers:
       '@types/jest': ^27
       '@types/md5': ^2.3.1
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       anymatch: ^3.1.2
       jest: ^27
       md5: ^2.3.0
@@ -2660,8 +2606,6 @@ importers:
       '@types/jest': 27.5.2
       '@types/md5': 2.3.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       jest: 27.5.1
       typescript: 4.7.4
 
@@ -2706,8 +2650,6 @@ importers:
       '@types/less': ^3.0.3
       '@types/node': ^14
       '@types/postcss-import': ^12.0.1
-      '@types/react': ^17
-      '@types/react-dom': ^17
       '@types/tailwindcss': ^2.2.1
       jest: ^27
       less: ^4.1.1
@@ -2729,8 +2671,6 @@ importers:
       '@types/less': 3.0.3
       '@types/node': 14.18.21
       '@types/postcss-import': 12.0.1
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       '@types/tailwindcss': 2.2.4
       jest: 27.5.1
       typescript: 4.7.4
@@ -2747,8 +2687,6 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       jest: ^27
       ts-node: ^10.1.0
       typescript: ^4
@@ -2763,8 +2701,6 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       jest: 27.5.1_ts-node@10.8.1
       ts-node: 10.8.1_44a62b416826904ddc823b6e1cf9edcc
       typescript: 4.7.4
@@ -2817,8 +2753,6 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react': ^17
-      '@types/react-dom': ^17
       http-proxy-middleware: ^2.0.4
       jest: ^27
     devDependencies:
@@ -2826,8 +2760,6 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react': 17.0.47
-      '@types/react-dom': 17.0.17
       http-proxy-middleware: 2.0.6
       jest: 27.5.1
 
