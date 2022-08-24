@@ -25,6 +25,7 @@ import {
   validatePackagePath,
   getPackageVersion,
   getPackageManagerText,
+  getModernVersion,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
@@ -89,6 +90,8 @@ export const handleTemplateFile = async (
     },
   );
 
+  const modernVersion = await getModernVersion(Solution.MWA);
+
   generator.logger.debug(`inputData=${JSON.stringify(ans)}`, ans);
 
   const {
@@ -129,6 +132,7 @@ export const handleTemplateFile = async (
       name: packageName || dirname,
       packageManager: getPackageManagerText(packageManager as any),
       isMonorepoSubProject,
+      modernVersion,
     },
   );
 
