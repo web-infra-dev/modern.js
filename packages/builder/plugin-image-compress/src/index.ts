@@ -4,8 +4,6 @@ import { BuilderPlugin } from '@modern-js/web-builder';
 import { Codecs, FinalOptions, Options } from './types';
 import codecs from './shared/codecs';
 
-export const compileExtRegExp = (ext: string) => new RegExp(`\\.${ext}$`);
-
 export const withDefaultOptions = (opt: Options): FinalOptions => {
   const options = _.isString(opt) ? { compress: opt } : opt;
   return _.defaults(options, codecs[options.compress].defaultOptions);
@@ -14,7 +12,7 @@ export const withDefaultOptions = (opt: Options): FinalOptions => {
 export const loaderPath = path.resolve(__dirname, 'loader.js');
 
 export const PluginSquoosh = (...options: Options[]): BuilderPlugin => ({
-  name: 'web-builder-plugin-squoosh',
+  name: 'web-builder-plugin-image-compress',
   setup(api) {
     const optsWithDefault = options.length
       ? options
