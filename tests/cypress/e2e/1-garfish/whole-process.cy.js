@@ -30,7 +30,9 @@ describe('render sub app', () => {
     // which are the two default items.
     cy.contains(getAppInfo(mainAppName).homeTitle).should('exist');
     cy.get('[data-test=link-dashboard]').click();
-    cy.contains('dashboard loading').should('exist');
+    // because of refactor Loadable component to react hooks
+    // this intermediate state no longer appear
+    // cy.contains('dashboard loading').should('exist');
     cy.contains('Dashboard Home page').should('exist');
     cy.contains('main app info: hello world from main app').should('exist');
     cy.get('[data-test=link-dashboard-detail]').click();
