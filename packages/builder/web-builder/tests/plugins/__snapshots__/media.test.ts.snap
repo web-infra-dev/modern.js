@@ -6,7 +6,7 @@ exports[`plugins/media > should add media rules correctly 1`] = `
     "rules": [
       {
         "generator": {
-          "filename": "media/[name][ext]",
+          "filename": "static/media/[name][ext]",
         },
         "parser": {
           "dataUrlCondition": [Function],

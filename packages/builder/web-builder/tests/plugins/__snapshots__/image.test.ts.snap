@@ -6,7 +6,7 @@ exports[`plugins/image > should add image rules correctly 1`] = `
     "rules": [
       {
         "generator": {
-          "filename": "image/[name][ext]",
+          "filename": "static/image/[name][ext]",
         },
         "parser": {
           "dataUrlCondition": [Function],
