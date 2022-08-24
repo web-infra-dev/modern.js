@@ -1,3 +1,3 @@
-export { default as router } from '../router';
+export { default as router } from '../plugins/router';
 
-export * from '../router';
+export * from '../plugins/router';

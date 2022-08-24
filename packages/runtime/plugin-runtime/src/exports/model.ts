@@ -1,3 +1,3 @@
-export { default as state } from '../state';
+export { default as state } from '../plugins/state';
 
-export * from '../state';
+export * from '../plugins/state';

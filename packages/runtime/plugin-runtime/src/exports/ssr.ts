@@ -1,3 +1,3 @@
-export { default as ssr } from '../ssr';
+export { default as ssr } from '../plugins/ssr';
 
-export * from '../ssr';
+export * from '../plugins/ssr';

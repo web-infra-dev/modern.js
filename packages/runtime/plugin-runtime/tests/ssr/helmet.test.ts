@@ -1,4 +1,4 @@
-import helmet from '../../src/ssr/serverRender/helmet';
+import helmet from '../../src/plugins/ssr/serverRender/helmet';
 
 const helmetData = {
   bodyAttributes: '',

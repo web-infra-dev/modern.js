@@ -1,7 +1,7 @@
-import plugin from '../../src/ssr';
-import cliPlugin from '../../src/ssr/cli';
-import { time } from '../../src/ssr/serverRender/measure';
-import { formatClient, formatServer } from '../../src/ssr/utils';
+import plugin from '../../src/plugins/ssr';
+import cliPlugin from '../../src/plugins/ssr/cli';
+import { time } from '../../src/plugins/ssr/serverRender/measure';
+import { formatClient, formatServer } from '../../src/plugins/ssr/utils';
 
 describe('plugin-ssr', () => {
   it('default', () => {

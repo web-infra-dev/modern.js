@@ -1,10 +1,12 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { createBrowserHistory } from 'history';
-import { createApp, createPlugin } from '../../src/core';
-import createRouterPlugin, { useLocation } from '../../src/router/runtime';
-import { useHistory } from '../../src/router';
-import { DefaultNotFound } from '../../src/router/runtime/DefaultNotFound';
+import { createApp, createPlugin } from '../../src/runtime';
+import createRouterPlugin, {
+  useLocation,
+} from '../../src/plugins/router/runtime';
+import { useHistory } from '../../src/plugins/router';
+import { DefaultNotFound } from '../../src/plugins/router/runtime/DefaultNotFound';
 
 describe('@modern-js/plugin-router', () => {
   it('base usage', () => {

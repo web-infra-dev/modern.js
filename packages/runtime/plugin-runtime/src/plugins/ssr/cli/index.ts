@@ -27,11 +27,6 @@ export default (): CliPlugin => ({
         );
 
         return {
-          source: {
-            alias: {
-              '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
-            },
-          },
           tools: {
             webpackChain: (chain, { name, CHAIN_ID }) => {
               const userConfig = api.useResolvedConfigContext();
@@ -81,7 +76,7 @@ export default (): CliPlugin => ({
         ssrConfigMap.set(entryName, ssrConfig || useSSG);
         if (ssrConfig || useSSG) {
           imports.push({
-            value: '@modern-js/runtime/plugins',
+            value: '@modern-js/runtime/runtime-ssr',
             specifiers: [{ imported: PLUGIN_IDENTIFIER }],
           });
         }

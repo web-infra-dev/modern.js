@@ -1,5 +1,5 @@
 import { run } from '@modern-js/utils/ssr';
-import { RuntimeContext } from '../../core';
+import { RuntimeContext } from '../../../runtime-context';
 import { PreRender } from '../react/prerender';
 import SSREntry from './entry';
 import { time } from './measure';

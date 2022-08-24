@@ -1,29 +1,23 @@
-import type { StateConfig } from './state';
-import type { RouterConfig } from './router';
+import type { StateConfig } from './plugins/state';
+import type { RouterConfig } from './plugins/router';
 
-export type {
-  Plugin,
-  RuntimeContext,
-  TRuntimeContext,
-  AppConfig,
-} from './core';
+export type { Plugin } from './runtime';
+
+export type { RuntimeContext, TRuntimeContext } from './runtime-context';
+
+export * from './common';
+
+export { RuntimeReactContext } from './runtime-context';
 
 export {
   createApp,
   createPlugin,
   useLoader,
   bootstrap,
-  RuntimeReactContext,
   registerPrefetch,
   defineConfig,
   registerInit,
   useRuntimeContext,
-} from './core';
+} from './runtime';
 
 export { StateConfig, RouterConfig };
-declare module './core' {
-  interface AppConfig {
-    router?: RouterConfig | boolean;
-    state?: StateConfig | boolean;
-  }
-}

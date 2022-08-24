@@ -1,6 +1,6 @@
 import {
-  getEntryOptions,
   createRuntimeExportsUtils,
+  getEntryOptions,
   PLUGIN_SCHEMAS,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
@@ -17,22 +17,6 @@ export default (): CliPlugin => ({
     let pluginsExportsUtils: any;
 
     return {
-      config() {
-        const appContext = api.useAppContext();
-
-        pluginsExportsUtils = createRuntimeExportsUtils(
-          appContext.internalDirectory,
-          'plugins',
-        );
-
-        return {
-          source: {
-            alias: {
-              '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
-            },
-          },
-        };
-      },
       modifyEntryImports({ entrypoint, imports }: any) {
         const { entryName } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
@@ -55,14 +39,12 @@ export default (): CliPlugin => ({
             'devtools',
           ];
 
-          return internalPlugins.filter(
-            name => (stateConfig as any)[name] !== false,
-          );
+          return internalPlugins.filter(name => stateConfig[name] !== false);
         };
 
         if (stateConfig) {
           imports.push({
-            value: '@modern-js/runtime/plugins',
+            value: '@modern-js/runtime/runtime-state',
             specifiers: [
               {
                 imported: PLUGIN_IDENTIFIER,
@@ -124,6 +106,12 @@ export default (): CliPlugin => ({
         return PLUGIN_SCHEMAS['@modern-js/plugin-state'];
       },
       addRuntimeExports() {
+        const appContext = api.useAppContext();
+
+        pluginsExportsUtils = createRuntimeExportsUtils(
+          appContext.internalDirectory,
+          'plugins',
+        );
         pluginsExportsUtils.addExport(
           `export { default as state } from '@modern-js/runtime/runtime-state'`,
         );

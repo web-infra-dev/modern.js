@@ -9,13 +9,10 @@ export {
 export type { Plugin } from './plugin';
 
 export { defineConfig, getConfig } from './app-config';
-export type { AppConfig } from './app-config';
 
 // compatible
 export * from './compatible';
 
-export type { TRuntimeContext, RuntimeContext } from './runtime-context';
-export { RuntimeReactContext } from './runtime-context';
-export * from './loader';
+export { default as useLoader } from './loader/useLoader';
 
 export * from '@modern-js/plugin';

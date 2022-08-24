@@ -1,5 +1,5 @@
 import React from 'react';
-import { bootstrap } from '../../src/core/compatible';
+import { bootstrap } from '../../src/runtime/compatible';
 
 describe('bootstrap', () => {
   it('Only return App Comoonent by `createApp`', async () => {

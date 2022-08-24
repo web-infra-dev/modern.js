@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDomServer from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import ReactHelmet, { HelmetData } from 'react-helmet';
-import { RuntimeContext } from '../../core';
+import { RuntimeContext } from '../../../runtime-context';
 import { Fragment, toFragments } from './template';
 import {
   ModernSSRReactComponent,

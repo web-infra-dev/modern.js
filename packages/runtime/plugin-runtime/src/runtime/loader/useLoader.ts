@@ -7,16 +7,9 @@ import {
   useEffect,
 } from 'react';
 import invariant from 'invariant';
-import { RuntimeReactContext } from '../runtime-context';
-import { Loader, LoaderStatus, LoaderResult } from './loaderManager';
-
-export interface SSRData {
-  loadersData: Record<string, LoaderResult | undefined>;
-  initialData?: Record<string, unknown>;
-}
-export interface SSRContainer {
-  data?: SSRData;
-}
+import { RuntimeReactContext } from '../../runtime-context';
+import { SSRContainer } from '../../common';
+import { Loader, LoaderStatus } from './loaderManager';
 
 declare global {
   interface Window {
@@ -72,7 +65,7 @@ const useLoader = <TData = any, Params = any, E = any>(
 
   const { loaderManager } = context;
   const loaderRef = useRef<Loader>();
-  const unlistenLoaderChangeRef = useRef<(() => void) | null>(null);
+  const unlistenLoaderChangeRef = useRef<(() => void) | undefined>(undefined);
 
   // SSR render should ignore `_cache` prop
   if (isSSRRender && Object.prototype.hasOwnProperty.call(options, '_cache')) {
@@ -126,7 +119,7 @@ const useLoader = <TData = any, Params = any, E = any>(
         return undefined;
       }
 
-      const res = loaderRef.current.load();
+      const res = loaderRef.current?.load();
 
       unlistenLoaderChangeRef.current = loaderRef.current?.onChange(
         (_status, _result) => {

@@ -1,5 +1,5 @@
-import plugin from '../../src/state';
-import cliPlugin from '../../src/state/cli';
+import plugin from '../../src/plugins/state';
+import cliPlugin from '../../src/plugins/state/cli';
 
 describe('plugin-state', () => {
   it('default', () => {

@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { run } from '@modern-js/utils/ssr';
 import { LOADABLE_STATS_FILE } from '@modern-js/utils/constants';
 import { ChunkExtractor } from '@loadable/server';
-import { RuntimeContext } from '../core';
+import { RuntimeContext } from '../../runtime-context';
 
 // todo: SSRContext
 const prefetch = async (

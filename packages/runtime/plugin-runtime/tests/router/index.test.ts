@@ -1,6 +1,6 @@
 import { manager } from '@modern-js/core';
-import plugin, { useHistory, useParams } from '../../src/router';
-import cliPlugin from '../../src/router/cli';
+import plugin, { useHistory, useParams } from '../../src/plugins/router';
+import cliPlugin from '../../src/plugins/router/cli';
 import RuntimePlugin from '../../src/cli';
 
 describe('plugin-router', () => {
@@ -21,15 +21,6 @@ describe('cli-router', () => {
 
   test('should plugin-router defined', async () => {
     expect(cliPlugin).toBeDefined();
-  });
-
-  it('plugin-router cli config is defined', async () => {
-    const config = await runner.config();
-    expect(
-      config.find(
-        (item: any) => item.source.alias['@modern-js/runtime/plugins'],
-      ),
-    ).toBeTruthy();
   });
 
   it('plugin-router cli schema is defined', async () => {

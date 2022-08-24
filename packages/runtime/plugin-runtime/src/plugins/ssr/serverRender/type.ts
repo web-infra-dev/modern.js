@@ -1,6 +1,6 @@
 // import { IncomingHttpHeaders } from 'http';
 import type { BaseSSRServerContext } from '@modern-js/types';
-import type { RuntimeContext } from '../../core';
+import type { RuntimeContext } from '../../../runtime-context';
 
 export enum RenderLevel {
   CLIENT_RENDER,

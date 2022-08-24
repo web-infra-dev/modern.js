@@ -1,27 +1,11 @@
 import { loadableReady } from '@loadable/component';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import type { Plugin } from '../core';
+import type { Plugin } from '../../runtime';
 import { RenderLevel, SSRServerContext } from './serverRender/type';
 import { WithCallback } from './react/withCallback';
 import { formatClient, mockResponse } from './utils';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
-
-declare module '../core' {
-  interface RuntimeContext {
-    ssrContext: SSRServerContext;
-  }
-
-  interface TRuntimeContext {
-    request: SSRServerContext['request'];
-    response: SSRServerContext['response'];
-  }
-
-  interface SSRContainer {
-    renderLevel: RenderLevel;
-    context?: SSRServerContext;
-  }
-}
 
 const ssr = (): Plugin => ({
   name: '@modern-js/plugin-ssr',

@@ -1,4 +1,4 @@
-import { runtime, Plugin } from '../../src/core/plugin';
+import { runtime, Plugin } from '../../src/runtime/plugin';
 import { initialWrapper } from './wrap';
 import { initialRender } from './render';
 

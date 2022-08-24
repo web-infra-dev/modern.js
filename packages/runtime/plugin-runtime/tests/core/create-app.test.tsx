@@ -6,10 +6,10 @@ import {
   createApp,
   createPlugin,
   useRuntimeContext,
-} from '../../src/core';
+} from '../../src/runtime';
 import { initialWrapper } from '../utils';
 
-declare module '../../src/core' {
+declare module '../../src' {
   interface RuntimeContext {
     test?: string;
   }
@@ -94,8 +94,8 @@ describe('create-app', () => {
         runtime.createPlugin(() => ({
           provide: ({ element }) => <div>{element}</div>,
           hoc: ({ App: App1 }, next) => next({ App: App1 }),
-          client: ({ App: App1, rootElement }, next) =>
-            next({ App: App1, rootElement }),
+          client: ({ App: App1, ModernRender, ModernHydrate }, next) =>
+            next({ App: App1, ModernRender, ModernHydrate }),
         })),
       ],
       runtime,
@@ -121,8 +121,8 @@ describe('create-app', () => {
         createPlugin(() => ({
           provide: ({ element }) => <div>{element}</div>,
           hoc: ({ App: App1 }, next) => next({ App: App1 }),
-          client: ({ App: App1, rootElement }, next) =>
-            next({ App: App1, rootElement }),
+          client: ({ App: App1, ModernRender, ModernHydrate }, next) =>
+            next({ App: App1, ModernRender, ModernHydrate }),
         })),
       ],
     });
@@ -151,8 +151,8 @@ describe('create-app', () => {
       setup: () => ({
         provide: ({ element }) => <div>{element}</div>,
         hoc: ({ App: App1 }, next) => next({ App: App1 }),
-        client: ({ App: App1, rootElement }, next) =>
-          next({ App: App1, rootElement }),
+        client: ({ App: App1, ModernRender, ModernHydrate }, next) =>
+          next({ App: App1, ModernRender, ModernHydrate }),
       }),
     });
 

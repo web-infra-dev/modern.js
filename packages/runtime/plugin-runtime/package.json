@@ -69,19 +69,19 @@
       "default": "./dist/js/node/cli/index.js"
     },
     "./runtime-router": {
-      "jsnext:source": "./src/router/index.ts",
-      "node": "./dist/js/node/router/index",
-      "default": "./dist/js/treeshaking/router/index.js"
+      "jsnext:source": "./src/plugins/router/index.ts",
+      "node": "./dist/js/node/plugins/router/index",
+      "default": "./dist/js/treeshaking/plugins/router/index.js"
     },
     "./runtime-state": {
-      "jsnext:source": "./src/state/index.ts",
-      "node": "./dist/js/node/state/index",
-      "default": "./dist/js/treeshaking/state/index.js"
+      "jsnext:source": "./src/plugins/state/index.ts",
+      "node": "./dist/js/node/plugins/state/index",
+      "default": "./dist/js/treeshaking/plugins/state/index.js"
     },
     "./runtime-ssr": {
-      "jsnext:source": "./src/ssr/index.ts",
-      "node": "./dist/js/node/ssr/index",
-      "default": "./dist/js/treeshaking/ssr/index.js"
+      "jsnext:source": "./src/plugins/ssr/index.ts",
+      "node": "./dist/js/node/plugins/ssr/index",
+      "default": "./dist/js/treeshaking/plugins/ssr/index.js"
     }
   },
   "typesVersions": {
@@ -114,13 +114,13 @@
         "./types/model.d.ts"
       ],
       "runtime-router": [
-        "./dist/types/router/index.d.ts"
+        "./dist/types/plugins/router/index.d.ts"
       ],
       "runtime-state": [
-        "./dist/types/state/index.d.ts"
+        "./dist/types/plugins/state/index.d.ts"
       ],
       "runtime-ssr": [
-        "./dist/types/ssr/index.d.ts"
+        "./dist/types/plugins/ssr/index.d.ts"
       ]
     }
   },

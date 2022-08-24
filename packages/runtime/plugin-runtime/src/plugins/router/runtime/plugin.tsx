@@ -8,9 +8,9 @@ import {
 } from 'history';
 import { Router, StaticRouter, RouteProps } from 'react-router-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { RuntimeReactContext } from '../../core';
-import type { Plugin } from '../../core';
-import { isBrowser } from '../../common';
+import type { Plugin } from '../../../runtime';
+import { isBrowser } from '../../../common';
+import { RuntimeReactContext } from '../../../runtime-context';
 import { renderRoutes, getLocation, urlJoin } from './utils';
 
 declare global {

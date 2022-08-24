@@ -1,6 +1,6 @@
 import {
-  getEntryOptions,
   createRuntimeExportsUtils,
+  getEntryOptions,
   PLUGIN_SCHEMAS,
 } from '@modern-js/utils';
 import { ServerRoute } from '@modern-js/types';
@@ -19,22 +19,6 @@ export default (): CliPlugin => ({
     let pluginsExportsUtils: any;
 
     return {
-      config() {
-        const appContext = api.useAppContext();
-
-        pluginsExportsUtils = createRuntimeExportsUtils(
-          appContext.internalDirectory,
-          'plugins',
-        );
-
-        return {
-          source: {
-            alias: {
-              '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
-            },
-          },
-        };
-      },
       validateSchema() {
         return PLUGIN_SCHEMAS['@modern-js/plugin-router'];
       },
@@ -54,7 +38,7 @@ export default (): CliPlugin => ({
 
         if (runtimeConfig?.router) {
           imports.push({
-            value: '@modern-js/runtime/plugins',
+            value: '@modern-js/runtime/runtime-router',
             specifiers: [{ imported: PLUGIN_IDENTIFIER }],
           });
         } else if (fileSystemRoutes) {
@@ -100,6 +84,12 @@ export default (): CliPlugin => ({
         };
       },
       addRuntimeExports() {
+        const appContext = api.useAppContext();
+
+        pluginsExportsUtils = createRuntimeExportsUtils(
+          appContext.internalDirectory,
+          'plugins',
+        );
         pluginsExportsUtils.addExport(
           `export { default as router } from '@modern-js/runtime/runtime-router'`,
         );

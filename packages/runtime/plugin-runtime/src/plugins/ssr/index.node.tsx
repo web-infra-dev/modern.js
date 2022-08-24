@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-require-imports */
 import path from 'path';
-import { registerPrefetch } from '../core';
-import type { Plugin } from '../core';
+import { registerPrefetch } from '../../runtime';
+import type { Plugin } from '../../runtime';
 
-import { isBrowser } from '../common';
+import { isBrowser } from '../../common';
 import { SSRServerContext } from './serverRender/type';
 import prefetch from './prefetch';
 import { formatServer } from './utils';
