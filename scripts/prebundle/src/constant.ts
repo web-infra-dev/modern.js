@@ -179,6 +179,7 @@ export const TASKS: TaskConfig[] = [
     packageName: '@modern-js/web-builder',
     dependencies: [
       'tapable',
+      'webpack-merge',
       'webpack-sources',
       {
         name: 'webpackbar',
