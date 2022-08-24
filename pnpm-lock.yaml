@@ -52,15 +52,15 @@ importers:
     specifiers:
       '@modern-js/utils': workspace:*
       '@modern-js/web-builder': workspace:*
+      '@napi-rs/image': ^1.3.0
       '@scripts/vitest-config': workspace:*
-      '@squoosh/lib': ~0.4.0
       '@types/node': ^14
       typescript: ^4
       vitest: ^0.21.1
       webpack: ^5.74.0
     dependencies:
       '@modern-js/utils': link:../../toolkit/utils
-      '@squoosh/lib': 0.4.0
+      '@napi-rs/image': 1.3.0
     devDependencies:
       '@modern-js/web-builder': link:../web-builder
       '@scripts/vitest-config': link:../../../scripts/vitest-config
@@ -8379,6 +8379,132 @@ packages:
       call-me-maybe: 1.0.1
       glob-to-regexp: 0.3.0
 
+  /@napi-rs/image-android-arm-eabi/1.3.0:
+    resolution: {integrity: sha512-cVWPU1y9xPunwZGlbMvNbhp6KIA5u/yrTNMJeEIVYNUNRqyheXepmRtsofn0HFEGgVDeVA2tTmg5KJCTw8iSSQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [android]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-android-arm64/1.3.0:
+    resolution: {integrity: sha512-kQYOSOywE90LH2I1E1d3TMHAF84kdEU+xHfn3rIUcDYPFbeo7scfsLS/VQv6kBduc3Q67A3VmZPFZIcSWPt6bw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [android]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-darwin-arm64/1.3.0:
+    resolution: {integrity: sha512-hD8iF8yxqnCU6DcMcdr8K/mLU917jW6GABGVo2TPSw9SJb5JApiKPQTnglpCtGdu/fkJTiKJ2qVGXrJ7oG5GDA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-darwin-x64/1.3.0:
+    resolution: {integrity: sha512-fRH6AIjB0654YNALat+As7GFWSJX0UVhcv+9ADX4zgpWyclVtktQAT3CnNIjK/DVcP1zr+DMyBNIpD3/yvl5cw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-freebsd-x64/1.3.0:
+    resolution: {integrity: sha512-2GNOZy7xqWOqnVWHiF8OPEI+cgnoz09mHCUzwapqRagoXxcJjeEL1ciYPAEwUb4d2dEwK+/DdfL5ZiN8yQ0LBw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-linux-arm-gnueabihf/1.3.0:
+    resolution: {integrity: sha512-1Q+Ztf3A/fPUrbgnHWJU4q/m9iYEnh/cGff96qPNQPG/YqyWFIECvqaC6mIzhW/jBAZHBU/9BPz5IglLC/JWHw==}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-linux-arm64-gnu/1.3.0:
+    resolution: {integrity: sha512-5N42L9M2IoxcfDID12yqXUFvYBPuPl8b+2/ktDO6eO/SAIh2AX05fJIGlYsxjmUmL0tK0tS7UiXpnaOKucYt+A==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-linux-arm64-musl/1.3.0:
+    resolution: {integrity: sha512-u0kCoot1pR9cPVnKOrMonIy2VAeQTneWSfnJCV6C3OP6+1XwqB3MTyxwyWjUoXDmUcQuyEyfwAOqFSMsw6ONrw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-linux-x64-gnu/1.3.0:
+    resolution: {integrity: sha512-P48DL8ZZXmXrxYW9t5cH0ZK62KxtSgGjpAlJLo8yh8KuFNk9o5qAP5HqjoJPL58uKbhK4PeBP97fIjamtS5eWw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-linux-x64-musl/1.3.0:
+    resolution: {integrity: sha512-sGDtrhCRQqWEKgOoWAUAqOoTGyFUzNnNo2Bqsi9aIoVcwmg65lRBoDFg9LjX29a44HuqBIRC7MWeQ1LaMnUGBw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-win32-ia32-msvc/1.3.0:
+    resolution: {integrity: sha512-JauaEIs2TfK9p3VJzyNEvO/7Dk4pkcVQ0crowtqM74nydX3/EUm9Ou3X6RQwMu/VOO4c81/B0tg7ahjhjJaH7Q==}
+    engines: {node: '>= 10'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-win32-x64-msvc/1.3.0:
+    resolution: {integrity: sha512-Npp9507lyJfxoQsFVey+xoZBwGOcVXn81gkNfE8D7IySiaVH5ZiX7/snXiwSDerXK6c62z8NRdK+6SXfj1kiYA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image/1.3.0:
+    resolution: {integrity: sha512-Ie+11kev2JoPJ0o5carlYwuGjR7SUVS5h+oIvPPjWFCaQFTwOUqqjlnJJyBBzmImQoZxQgzPFVIBSMZ8G+tC2w==}
+    engines: {node: '>= 10'}
+    optionalDependencies:
+      '@napi-rs/image-android-arm-eabi': 1.3.0
+      '@napi-rs/image-android-arm64': 1.3.0
+      '@napi-rs/image-darwin-arm64': 1.3.0
+      '@napi-rs/image-darwin-x64': 1.3.0
+      '@napi-rs/image-freebsd-x64': 1.3.0
+      '@napi-rs/image-linux-arm-gnueabihf': 1.3.0
+      '@napi-rs/image-linux-arm64-gnu': 1.3.0
+      '@napi-rs/image-linux-arm64-musl': 1.3.0
+      '@napi-rs/image-linux-x64-gnu': 1.3.0
+      '@napi-rs/image-linux-x64-musl': 1.3.0
+      '@napi-rs/image-win32-ia32-msvc': 1.3.0
+      '@napi-rs/image-win32-x64-msvc': 1.3.0
+    dev: false
+
   /@nestjs/common/8.4.7_e7ea248743279784063e3708d703abc5:
     resolution: {integrity: sha512-m/YsbcBal+gA5CFrDpqXqsSfylo+DIQrkFY3qhVIltsYRfu8ct8J9pqsTO6OPf3mvqdOpFGrV5sBjoyAzOBvsw==}
     peerDependencies:
@@ -9235,14 +9361,6 @@ packages:
 
   /@speedy-js/speedy-utils/0.13.2-alpha.3:
     resolution: {integrity: sha512-5dk6lChrOOvWUidW60ZemGo/rzgGCp3SULw4zepbTvjmCwbV+Ih/ohXz/K2aDbHVWlgPU7ZPnnjmot1e5RtVHQ==}
-    dev: false
-
-  /@squoosh/lib/0.4.0:
-    resolution: {integrity: sha512-O1LyugWLZjMI4JZeZMA5vzfhfPjfMZXH5/HmVkRagP8B70wH3uoR7tjxfGNdSavey357MwL8YJDxbGwBBdHp7Q==}
-    engines: {node: ' ^12.5.0 || ^14.0.0 || ^16.0.0 '}
-    dependencies:
-      wasm-feature-detect: 1.2.11
-      web-streams-polyfill: 3.2.1
     dev: false
 
   /@storybook/addon-actions/6.5.9_react-dom@17.0.2+react@17.0.2:
@@ -30344,10 +30462,6 @@ packages:
     dependencies:
       makeerror: 1.0.12
 
-  /wasm-feature-detect/1.2.11:
-    resolution: {integrity: sha512-HUqwaodrQGaZgz1lZaNioIkog9tkeEJjrM3eq4aUL04whXOVDRc/o2EGb/8kV0QX411iAYWEqq7fMBmJ6dKS6w==}
-    dev: false
-
   /watchpack-chokidar2/2.0.1:
     resolution: {integrity: sha512-nCFfBIPKr5Sh61s4LPpy1Wtfi0HE8isJ3d2Yb5/Ppw2P2B/3eVSEBjKfN0fmHJSK14+31KwMKmcrzs2GM4P0Ww==}
     requiresBuild: true
@@ -30390,11 +30504,6 @@ packages:
 
   /web-namespaces/1.1.4:
     resolution: {integrity: sha512-wYxSGajtmoP4WxfejAPIr4l0fVh+jeMXZb08wNc0tMg6xsfZXj3cECqIK0G7ZAqUq0PP8WlMDtaOGVBTAWztNw==}
-    dev: false
-
-  /web-streams-polyfill/3.2.1:
-    resolution: {integrity: sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==}
-    engines: {node: '>= 8'}
     dev: false
 
   /webidl-conversions/3.0.1:

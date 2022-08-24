@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@modern-js/web-builder-plugin-squoosh",
+  "name": "@modern-js/web-builder-plugin-image-compress",
   "description": "Image compress plugin for modern-js/web-builder",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
-    "@squoosh/lib": "~0.4.0"
+    "@napi-rs/image": "^1.3.0"
   },
   "devDependencies": {
     "@modern-js/web-builder": "workspace:*",

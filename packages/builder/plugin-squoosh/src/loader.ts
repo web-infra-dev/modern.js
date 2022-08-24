@@ -1,24 +1,20 @@
-import { DecoderFinalOptions } from '.';
 import type { LoaderDefinition } from 'webpack';
-import { ImagePool } from '@squoosh/lib';
-import { cpus } from 'os';
 import { Buffer } from 'buffer';
-
-const imagePool = new ImagePool(cpus().length - 1);
-
-const imageProcessor = async (source: Buffer, options: DecoderFinalOptions) => {
-  const img = imagePool.ingestImage(Buffer.from(source));
-  const result = await img.encode({ [options.use]: options });
-  return result[options.use];
-};
+import { FinalOptions } from './types';
+import compressors from './shared/compressor';
 
 /* eslint-disable @babel/no-invalid-this */
-const loader: LoaderDefinition<DecoderFinalOptions> = function loader(source) {
+const loader: LoaderDefinition<FinalOptions> = function loader(content) {
   const callback = this.async();
   const opt = this.getOptions();
-  const buf = Buffer.from(source);
-  imageProcessor(buf, opt)
-    .then(result => callback(null, Buffer.from(result.binary)))
+  const buf = Buffer.from(content);
+  const compressor = compressors[opt.compress];
+  if (!compressor) {
+    throw new Error(`Compressor ${opt.compress} is not supported`);
+  }
+  compressor
+    .handler(buf, opt)
+    .then(compressed => callback(null, compressed))
     .catch(err => callback(err));
 };
 /* eslint-enable */
