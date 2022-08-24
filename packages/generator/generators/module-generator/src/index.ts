@@ -22,6 +22,7 @@ import {
   getModuleProjectPath,
   getPackageVersion,
   getPackageManagerText,
+  getModernVersion,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
@@ -95,6 +96,8 @@ export const handleTemplateFile = async (
     },
   );
 
+  const modernVersion = await getModernVersion(Solution.Module);
+
   generator.logger.debug(`inputData=${JSON.stringify(ans)}`, ans);
 
   const { packageName, packagePath, language, packageManager } = ans;
@@ -132,6 +135,7 @@ export const handleTemplateFile = async (
       packageManager: getPackageManagerText(packageManager as any),
       isMonorepoSubProject,
       isPublic,
+      modernVersion,
     },
   );
 
