@@ -18,7 +18,7 @@ export { defineConfig } from '@modern-js/core';
 
 const isBuildMode = process.argv.slice(2)[0] === 'build';
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<typeof hooks> => ({
   name: '@modern-js/module-tools',
 
   post: ['@modern-js/plugin-changeset'],

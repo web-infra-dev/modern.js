@@ -4,14 +4,16 @@ import {
   createRuntimeExportsUtils,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
+import { storybookHooks } from './hooks';
 
 const features: typeof import('./features') = Import.lazy(
   './features',
   require,
 );
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<typeof storybookHooks> => ({
   name: '@modern-js/plugin-storybook',
+  registerHook: storybookHooks,
   setup: api => ({
     config() {
       const appContext = api.useAppContext();

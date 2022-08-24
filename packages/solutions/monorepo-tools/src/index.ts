@@ -6,7 +6,7 @@ import { newCli, deployCli, clearCli } from './cli';
 import { getLocaleLanguage } from './utils/language';
 import { hooks } from './hooks';
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<typeof hooks> => ({
   name: '@modern-js/monorepo-tools',
   usePlugins: [ChangesetPlugin(), LintPlugin()],
   registerHook: hooks,

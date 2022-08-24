@@ -55,21 +55,23 @@ export const beforeGenerateRoutes = createAsyncWaterfall<{
 }>();
 export const addDefineTypes = createAsyncWaterfall();
 
-export default (): CliPlugin => ({
+const hooks = {
+  modifyEntryImports,
+  modifyEntryExport,
+  modifyEntryRuntimePlugins,
+  modifyEntryRenderFunction,
+  modifyFileSystemRoutes,
+  modifyServerRoutes,
+  htmlPartials,
+  addRuntimeExports,
+  beforeGenerateRoutes,
+  addDefineTypes,
+};
+
+export default (): CliPlugin<typeof hooks> => ({
   name: '@modern-js/plugin-analyze',
 
-  registerHook: {
-    modifyEntryImports,
-    modifyEntryExport,
-    modifyEntryRuntimePlugins,
-    modifyEntryRenderFunction,
-    modifyFileSystemRoutes,
-    modifyServerRoutes,
-    htmlPartials,
-    addRuntimeExports,
-    beforeGenerateRoutes,
-    addDefineTypes,
-  },
+  registerHook: hooks,
 
   setup: api => {
     let pagesDir: string[] = [];

@@ -1,4 +1,8 @@
-import { createAsyncWaterfall, createAsyncWorkflow } from '@modern-js/plugin';
+import {
+  createAsyncWaterfall,
+  createAsyncWorkflow,
+  createAsyncPipeline,
+} from '@modern-js/plugin';
 import type {
   Compiler,
   Configuration,
@@ -31,6 +35,14 @@ export const beforeDeploy = createAsyncWorkflow<Record<string, any>>();
 
 export const afterDeploy = createAsyncWorkflow<Record<string, any>>();
 
+export type Addon =
+  | string
+  | {
+      name: string;
+      options?: any;
+    };
+export const extendInternalAddons = createAsyncPipeline<Addon[], Addon[]>();
+
 export const hooks = {
   beforeDev,
   afterDev,
@@ -41,4 +53,5 @@ export const hooks = {
   afterBuild,
   beforeDeploy,
   afterDeploy,
+  extendInternalAddons,
 };

@@ -48,6 +48,7 @@
     "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
     "@modern-js/webpack": "workspace:*",
+    "@modern-js/plugin": "workspace:*",
     "@storybook/addon-actions": "^6.3.8",
     "@storybook/addon-essentials": "^6.3.8",
     "@storybook/addon-links": "^6.3.8",

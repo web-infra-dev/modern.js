@@ -10,7 +10,7 @@ import type { DevOptions, BuildOptions, DeployOptions } from './utils/types';
 
 export { defineConfig };
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<typeof hooks> => ({
   name: '@modern-js/app-tools',
 
   post: [

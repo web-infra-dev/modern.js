@@ -25,7 +25,7 @@ export const mergeUserJestConfig = (testUtils: TestConfigOperator) => {
   }
 };
 
-export default (): CliPlugin => {
+export default (): CliPlugin<typeof testingHooks> => {
   const BffPlugin = TestingBffPlugin();
 
   return {
