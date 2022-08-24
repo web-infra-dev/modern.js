@@ -8,13 +8,13 @@ const loader: LoaderDefinition<FinalOptions> = function loader(content) {
   const callback = this.async();
   const opt = this.getOptions();
   const buf = Buffer.from(content);
-  const codec = Codecs[opt.compress];
+  const codec = Codecs[opt.use];
   if (!codec) {
-    throw new Error(`Codec ${opt.compress} is not supported`);
+    throw new Error(`Codec ${opt.use} is not supported`);
   }
   codec
     .handler(buf, opt)
-    .then(compressed => callback(null, compressed))
+    .then(buf => callback(null, buf))
     .catch(err => callback(err));
 };
 /* eslint-enable */

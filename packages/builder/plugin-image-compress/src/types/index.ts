@@ -24,13 +24,13 @@ export interface CodecBaseOptions {
 
 export interface Codec<T extends Codecs> {
   handler: (buf: Buffer, options: CodecBaseOptions[T]) => Promise<Buffer>;
-  defaultOptions: Omit<FinalOptionCollection[T], 'compress'>;
+  defaultOptions: Omit<FinalOptionCollection[T], 'use'>;
 }
 
 export type Codecs = keyof CodecBaseOptions;
 
 export interface BaseCompressOptions<T extends Codecs> {
-  compress: T;
+  use: T;
   test?: RegExp;
 }
 
