@@ -1,6 +1,7 @@
 packages:
  - './*'
  - '../packages/*'
+ - '../packages/runtime/*'
  - '../packages/cli/*'
  - '../packages/generator/*'
  - '../packages/generator/generators/*'
