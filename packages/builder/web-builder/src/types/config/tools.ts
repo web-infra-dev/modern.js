@@ -1,5 +1,8 @@
 import type { IStyledComponentOptions } from '@modern-js/babel-preset-app';
+import type { ModifyWebpackUtils } from '../hooks';
 import type {
+  WebpackChain,
+  WebpackConfig,
   TSLoaderOptions,
   BabelConfigUtils,
   TerserPluginOptions,
@@ -16,7 +19,7 @@ import type {
   SassLoaderOptions,
   HTMLPluginOptions,
 } from '../thirdParty';
-import type { ChainedConfig } from '../utils';
+import type { ArrayOrNot, ChainedConfig } from '../utils';
 
 export type ToolsTerserConfig = ChainedConfig<TerserPluginOptions>;
 
@@ -74,6 +77,15 @@ export type ToolsHtmlPluginConfig = ChainedConfig<
   }
 >;
 
+export type ToolsWebpackConfig = ChainedConfig<
+  WebpackConfig,
+  ModifyWebpackUtils
+>;
+
+export type ToolsWebpackChainConfig = ArrayOrNot<
+  (chain: WebpackChain, utils: ModifyWebpackUtils) => void
+>;
+
 export type DevServerConfig = {
   hot?: boolean;
 };
@@ -94,4 +106,6 @@ export interface ToolsConfig {
   cssExtract?: CssExtractOptions;
   postcss?: ToolsPostCSSLoaderConfig;
   autoprefixer?: ToolsAutoprefixerConfig;
+  webpack?: ToolsWebpackConfig;
+  webpackChain?: ToolsWebpackChainConfig;
 }

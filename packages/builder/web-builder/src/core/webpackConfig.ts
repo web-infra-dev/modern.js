@@ -11,15 +11,23 @@ async function modifyWebpackChain(context: Context, utils: ModifyWebpackUtils) {
   context.status = STATUS.BEFORE_MODIFY_WEBPACK_CHAIN;
 
   const WebpackChain = (await import('@modern-js/utils/webpack-chain')).default;
+  const { ensureArray } = await import('@modern-js/utils');
+
   const chain = new WebpackChain();
-  const [modified] = await context.hooks.modifyWebpackChainHook.call(
+  const [modifiedChain] = await context.hooks.modifyWebpackChainHook.call(
     chain,
     utils,
   );
 
+  if (context.config.tools?.webpackChain) {
+    ensureArray(context.config.tools.webpackChain).forEach(item => {
+      item(modifiedChain, utils);
+    });
+  }
+
   context.status = STATUS.AFTER_MODIFY_WEBPACK_CHAIN;
 
-  return modified;
+  return modifiedChain;
 }
 
 async function modifyWebpackConfig(
@@ -29,14 +37,26 @@ async function modifyWebpackConfig(
 ) {
   context.status = STATUS.BEFORE_MODIFY_WEBPACK_CONFIG;
 
-  const [modified] = await context.hooks.modifyWebpackConfigHook.call(
+  const { applyOptionsChain } = await import('@modern-js/utils');
+  const { merge } = await import('../../compiled/webpack-merge');
+
+  let [modifiedConfig] = await context.hooks.modifyWebpackConfigHook.call(
     webpackConfig,
     utils,
   );
 
+  if (context.config.tools?.webpack) {
+    modifiedConfig = applyOptionsChain(
+      modifiedConfig,
+      context.config.tools.webpack,
+      utils,
+      merge,
+    );
+  }
+
   context.status = STATUS.AFTER_MODIFY_WEBPACK_CONFIG;
 
-  return modified;
+  return modifiedConfig;
 }
 
 export async function generateWebpackConfig({
