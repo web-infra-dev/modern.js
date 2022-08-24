@@ -4,9 +4,9 @@ import {
   pngQuantize,
   Transformer,
 } from '@napi-rs/image';
-import { Compressor, Compressors } from '../types';
+import { Codec, Codecs } from '../types';
 
-export const jpegCompressor: Compressor<'jpeg'> = {
+export const jpegCodec: Codec<'jpeg'> = {
   handler(buf, options) {
     return compressJpeg(buf, options);
   },
@@ -15,7 +15,7 @@ export const jpegCompressor: Compressor<'jpeg'> = {
   },
 };
 
-export const pngCompressor: Compressor<'png'> = {
+export const pngCodec: Codec<'png'> = {
   handler(buf, options) {
     return pngQuantize(buf, options);
   },
@@ -24,7 +24,7 @@ export const pngCompressor: Compressor<'png'> = {
   },
 };
 
-export const pngLosslessCompressor: Compressor<'pngLossless'> = {
+export const pngLosslessCodec: Codec<'pngLossless'> = {
   handler(buf, options) {
     return losslessCompressPng(buf, options);
   },
@@ -33,7 +33,7 @@ export const pngLosslessCompressor: Compressor<'pngLossless'> = {
   },
 };
 
-export const webpCompressor: Compressor<'webp'> = {
+export const webpCodec: Codec<'webp'> = {
   handler(buf, options) {
     return new Transformer(buf).webp(options.quality);
   },
@@ -42,7 +42,7 @@ export const webpCompressor: Compressor<'webp'> = {
   },
 };
 
-export const webpLosslessCompressor: Compressor<'webpLossless'> = {
+export const webpLosslessCodec: Codec<'webpLossless'> = {
   handler(buf) {
     return new Transformer(buf).webpLossless();
   },
@@ -51,7 +51,7 @@ export const webpLosslessCompressor: Compressor<'webpLossless'> = {
   },
 };
 
-export const avifCompressor: Compressor<'avif'> = {
+export const avifCodec: Codec<'avif'> = {
   handler(buf, options) {
     return new Transformer(buf).avif(options);
   },
@@ -60,7 +60,7 @@ export const avifCompressor: Compressor<'avif'> = {
   },
 };
 
-export const icoCompressor: Compressor<'ico'> = {
+export const icoCodec: Codec<'ico'> = {
   handler(buf) {
     return new Transformer(buf).ico();
   },
@@ -69,14 +69,14 @@ export const icoCompressor: Compressor<'ico'> = {
   },
 };
 
-const compressors: Record<Compressors, Compressor<any>> = {
-  jpeg: jpegCompressor,
-  png: pngCompressor,
-  pngLossless: pngLosslessCompressor,
-  webp: webpCompressor,
-  webpLossless: webpLosslessCompressor,
-  avif: avifCompressor,
-  ico: icoCompressor,
+const codecs: Record<Codecs, Codec<any>> = {
+  jpeg: jpegCodec,
+  png: pngCodec,
+  pngLossless: pngLosslessCodec,
+  webp: webpCodec,
+  webpLossless: webpLosslessCodec,
+  avif: avifCodec,
+  ico: icoCodec,
 };
 
-export default compressors;
+export default codecs;

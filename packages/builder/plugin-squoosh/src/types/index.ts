@@ -11,7 +11,7 @@ export interface WebpTransformOptions {
 }
 
 /* eslint-disable @typescript-eslint/ban-types */
-export interface CompressorBaseOptions {
+export interface CodecBaseOptions {
   jpeg: JpegCompressOptions;
   png: PngQuantOptions;
   pngLossless: PNGLosslessOptions;
@@ -22,26 +22,26 @@ export interface CompressorBaseOptions {
 }
 /* eslint-enable */
 
-export interface Compressor<T extends Compressors> {
-  handler: (buf: Buffer, options: CompressorBaseOptions[T]) => Promise<Buffer>;
+export interface Codec<T extends Codecs> {
+  handler: (buf: Buffer, options: CodecBaseOptions[T]) => Promise<Buffer>;
   defaultOptions: Omit<FinalOptionCollection[T], 'compress'>;
 }
 
-export type Compressors = keyof CompressorBaseOptions;
+export type Codecs = keyof CodecBaseOptions;
 
-export interface BaseCompressOptions<T extends Compressors> {
+export interface BaseCompressOptions<T extends Codecs> {
   compress: T;
   test?: RegExp;
 }
 
 export type OptionCollection = {
-  [K in Compressors]: K | FinalOptionCollection[K];
+  [K in Codecs]: K | FinalOptionCollection[K];
 };
 
-export type Options = OptionCollection[Compressors];
+export type Options = OptionCollection[Codecs];
 
 export type FinalOptionCollection = {
-  [K in Compressors]: BaseCompressOptions<K> & CompressorBaseOptions[K];
+  [K in Codecs]: BaseCompressOptions<K> & CodecBaseOptions[K];
 };
 
-export type FinalOptions = FinalOptionCollection[Compressors];
+export type FinalOptions = FinalOptionCollection[Codecs];
