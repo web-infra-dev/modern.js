@@ -1,15 +1,26 @@
 import { Buffer } from 'buffer';
 import {
+  AvifConfig,
   JpegCompressOptions,
   PNGLosslessOptions,
   PngQuantOptions,
 } from '@napi-rs/image';
 
+export interface WebpTransformOptions {
+  quality?: number;
+}
+
+/* eslint-disable @typescript-eslint/ban-types */
 export interface CompressorBaseOptions {
   jpeg: JpegCompressOptions;
-  pngLossy: PngQuantOptions;
+  png: PngQuantOptions;
   pngLossless: PNGLosslessOptions;
+  webp: WebpTransformOptions;
+  webpLossless: {};
+  avif: AvifConfig;
+  ico: {};
 }
+/* eslint-enable */
 
 export interface Compressor<T extends Compressors> {
   handler: (buf: Buffer, options: CompressorBaseOptions[T]) => Promise<Buffer>;
