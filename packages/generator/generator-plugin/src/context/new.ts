@@ -29,6 +29,8 @@ export class PluginNewAPI {
     this.solution = solution;
     this.projectPath = projectPath;
     this.inputData = inputData;
+    // when use new command, listeners will create more than 10
+    process.setMaxListeners(20);
   }
 
   get method() {
