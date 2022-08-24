@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 let csr = false;
-export const NoSSR = (props: React.PropsWithChildren<React.ReactNode>) => {
+export const NoSSR = (props: React.PropsWithChildren<unknown>) => {
   const [isMounted, setMounted] = useState(csr);
   useEffect(() => {
     csr = true;

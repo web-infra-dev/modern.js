@@ -1,6 +1,5 @@
-import fs from 'fs';
 import path from 'path';
-import { semver } from '@modern-js/utils';
+import { fs, semver } from '@modern-js/utils';
 
 export const isBeyondReact17 = (cwd: string) => {
   const pkgPath = path.join(cwd, 'package.json');

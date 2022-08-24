@@ -248,12 +248,27 @@ export class ModernDevServer extends ModernServer {
     return this.setupDevMiddleware(compiler);
   }
 
+  private isClientCompiler(compiler: Compiler) {
+    const { target } = compiler.options;
+
+    // if target not contains `node`, it's a client compiler
+    if (target) {
+      if (Array.isArray(target)) {
+        return !target.includes('node');
+      }
+      return target !== 'node';
+    }
+
+    return compiler.name === 'client';
+  }
+
   private setupDevServerPlugin(compiler: MultiCompiler | Compiler) {
     const { dev: devConf } = this;
 
+    // apply dev server to client compiler, add hmr client to entry.
     if ((compiler as MultiCompiler).compilers) {
       (compiler as MultiCompiler).compilers.forEach(target => {
-        if (target.name === 'client') {
+        if (this.isClientCompiler(target)) {
           new DevServerPlugin(devConf).apply(target);
         }
       });

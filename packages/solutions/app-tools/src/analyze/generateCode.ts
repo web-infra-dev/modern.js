@@ -139,6 +139,7 @@ export const generateCode = async (
             srcDirectory,
             internalSrcAlias,
             internalDirAlias,
+            internalDirectory,
           }),
         });
 

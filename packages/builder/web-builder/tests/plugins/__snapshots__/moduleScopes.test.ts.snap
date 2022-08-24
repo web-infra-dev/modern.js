@@ -6,11 +6,11 @@ exports[`plugins/moduleScopes > should set entry correctly 1`] = `
     "plugins": [
       ModuleScopePlugin {
         "allowedDirs": [
-          "/builder/web-builder/src/foo.ts",
-          "/builder/web-builder/src/bar.ts",
+          "<ROOT>/packages/builder/web-builder/src/foo.ts",
+          "<ROOT>/packages/builder/web-builder/src/bar.ts",
         ],
         "allowedFiles": Set {
-          "/builder/web-builder/package.json",
+          "<ROOT>/packages/builder/web-builder/package.json",
         },
         "allowedPatterns": [],
         "cache": Map {},
@@ -19,8 +19,8 @@ exports[`plugins/moduleScopes > should set entry correctly 1`] = `
           "bar.ts/",
         ],
         "scopes": [
-          "/builder/web-builder/src/foo.ts",
-          "/builder/web-builder/src/bar.ts",
+          "<ROOT>/packages/builder/web-builder/src/foo.ts",
+          "<ROOT>/packages/builder/web-builder/src/bar.ts",
         ],
       },
     ],

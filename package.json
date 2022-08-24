@@ -68,6 +68,8 @@
     "coverage/"
   ],
   "devDependencies": {
+    "@types/react": "^17",
+    "@types/react-dom": "^17",
     "@babel/core": "^7.18.0",
     "@babel/plugin-transform-modules-commonjs": "^7.17.7",
     "@commitlint/cli": "^13.2.1",

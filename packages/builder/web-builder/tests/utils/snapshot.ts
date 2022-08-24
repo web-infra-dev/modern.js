@@ -10,12 +10,16 @@ export const setPathSerializer = () => {
   expect.addSnapshotSerializer({
     test: val => typeof val === 'string' && val.includes('node_modules'),
     print: val =>
-      `"${normalizeToPosixPath((val as string).split('node_modules').pop())}"`,
+      `"<NODE_MODULES>${normalizeToPosixPath(
+        (val as string).split('node_modules').pop(),
+      )}"`,
   });
 
   expect.addSnapshotSerializer({
     test: val => typeof val === 'string' && val.includes('packages'),
     print: val =>
-      `"${normalizeToPosixPath((val as string).split('packages').pop())}"`,
+      `"<ROOT>/packages${normalizeToPosixPath(
+        (val as string).split('packages').pop(),
+      )}"`,
   });
 };

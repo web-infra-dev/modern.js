@@ -355,6 +355,13 @@ export const TASKS: TaskConfig[] = [
           'loader-utils': '../loader-utils2',
         },
       },
+      {
+        name: 'webpack-bundle-analyzer',
+        externals: {
+          chalk: '@modern-js/utils/chalk',
+          'gzip-size': '@modern-js/utils/gzip-size',
+        },
+      },
     ],
   },
   {

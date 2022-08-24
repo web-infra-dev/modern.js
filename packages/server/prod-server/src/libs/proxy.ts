@@ -1,10 +1,44 @@
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import { NextFunction, BffProxyOptions } from '@modern-js/types';
-import { formatProxyOptions } from '@modern-js/utils';
+import { ProxyDetail, NextFunction, BffProxyOptions } from '@modern-js/types';
 import { debug } from '../utils';
 import { ModernServerContext } from './context';
 
 export type { BffProxyOptions };
+
+export function formatProxyOptions(proxyOptions: BffProxyOptions) {
+  const formattedProxy: ProxyDetail[] = [];
+
+  if (!Array.isArray(proxyOptions)) {
+    if ('target' in proxyOptions) {
+      formattedProxy.push(proxyOptions);
+    } else {
+      Array.prototype.push.apply(
+        formattedProxy,
+        Object.keys(proxyOptions).reduce(
+          (total: ProxyDetail[], source: string) => {
+            const option = (
+              proxyOptions as
+                | Record<string, string>
+                | Record<string, ProxyDetail>
+            )[source];
+
+            total.push({
+              context: source,
+              changeOrigin: true,
+              logLevel: 'warn',
+              ...(typeof option === 'string' ? { target: option } : option),
+            });
+            return total;
+          },
+          [],
+        ),
+      );
+    }
+  } else {
+    formattedProxy.push(...proxyOptions);
+  }
+  return formattedProxy;
+}
 
 export const createProxyHandler = (proxyOptions?: BffProxyOptions) => {
   debug('createProxyHandler', proxyOptions);
