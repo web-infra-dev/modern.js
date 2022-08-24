@@ -1,4 +1,4 @@
-import { formatProxyOptions } from '../src/format';
+import { formatProxyOptions } from '../src/libs/proxy';
 
 describe('test format', () => {
   it('should format correctly use simply options', async () => {
