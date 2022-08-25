@@ -1,5 +1,12 @@
 # @modern-js/plugin-changeset
 
+## 1.16.1
+
+### Patch Changes
+
+- f2a25cc0c: fix: check monorepo
+  fix: 修改检查 monorepo 的逻辑
+
 ## 1.16.0
 
 ### Patch Changes
