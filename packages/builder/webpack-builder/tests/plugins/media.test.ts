@@ -27,4 +27,20 @@ describe('plugins/media', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should allow to use filename.media to modify filename', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginMedia()],
+      builderConfig: {
+        output: {
+          filename: {
+            media: 'foo[ext]',
+          },
+        },
+      },
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+    expect(config).toMatchSnapshot();
+  });
 });

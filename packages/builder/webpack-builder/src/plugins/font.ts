@@ -4,6 +4,7 @@ import {
   FONT_EXTENSIONS,
   getRegExpForExts,
   getDataUrlCondition,
+  getFilename,
 } from '../shared';
 import type { BuilderPlugin } from '../types';
 
@@ -14,9 +15,8 @@ export const PluginFont = (): BuilderPlugin => ({
     api.modifyWebpackChain((chain, { isProd, CHAIN_ID }) => {
       const config = api.getBuilderConfig();
       const regExp = getRegExpForExts(FONT_EXTENSIONS);
-
       const distDir = getDistPath(config, 'font');
-      const filename = isProd ? '[name].[contenthash:8][ext]' : '[name][ext]';
+      const filename = getFilename(config, 'font', isProd);
 
       chain.module
         .rule(CHAIN_ID.RULE.FONT)

@@ -37,3 +37,22 @@ exports[`plugins/font > should allow to use distPath.font to modify dist path 1`
   },
 }
 `;
+
+exports[`plugins/font > should allow to use filename.font to modify filename 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "generator": {
+          "filename": "static/font/foo[ext]",
+        },
+        "parser": {
+          "dataUrlCondition": [Function],
+        },
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "type": "asset",
+      },
+    ],
+  },
+}
+`;
