@@ -64,6 +64,18 @@ export async function getPackageVersion(
   throw new Error('not found npm, please install npm before');
 }
 
+type Solution = 'mwa' | 'module' | 'monorepo';
+const SolutionDep: Record<Solution, string> = {
+  mwa: '@modern-js/app-tools',
+  module: '@modern-js/module-tools',
+  monorepo: '@modern-js/monorepo-tools',
+};
+export async function getModernVersion(solution: Solution) {
+  const dep = SolutionDep[solution];
+  const modernVersion = await getPackageVersion(dep);
+  return modernVersion;
+}
+
 export function getPackageManagerText(packageManager: 'pnpm' | 'yarn' | 'npm') {
   return packageManager === 'yarn' ? 'yarn' : `${packageManager} run`;
 }
