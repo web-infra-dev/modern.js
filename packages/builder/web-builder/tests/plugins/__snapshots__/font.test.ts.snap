@@ -6,7 +6,7 @@ exports[`plugins/font > should add font rules correctly 1`] = `
     "rules": [
       {
         "generator": {
-          "filename": "font/[name][ext]",
+          "filename": "static/font/[name][ext]",
         },
         "parser": {
           "dataUrlCondition": [Function],
