@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { createStore, Store } from '@modern-js-reduck/store';
+import { createStore } from '@modern-js-reduck/store';
 import { Provider } from '@modern-js-reduck/react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { RuntimeReactContext } from '../../core';
@@ -7,14 +7,6 @@ import type { Plugin } from '../../core';
 import { isBrowser } from '../../common';
 
 declare module '../../core' {
-  interface RuntimeContext {
-    store: Store;
-  }
-
-  interface TRuntimeContext {
-    store: Store;
-  }
-
   interface SSRData {
     storeState: any;
   }

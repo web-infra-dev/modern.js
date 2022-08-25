@@ -83,25 +83,25 @@ export default class Entry {
   public async renderToHtml(context: RuntimeContext): Promise<string> {
     const { ssrContext } = context;
 
-    if (ssrContext.redirection.url) {
+    if (ssrContext!.redirection.url) {
       return '';
     }
 
     const prefetchData = await this.prefetch(context);
-    if (ssrContext.redirection.url) {
+    if (ssrContext!.redirection.url) {
       return '';
     }
 
     if (this.result.renderLevel >= RenderLevel.SERVER_PREFETCH) {
       this.result.html = this.renderToString(context);
     }
-    if (ssrContext.redirection.url) {
+    if (ssrContext!.redirection.url) {
       return '';
     }
 
     let html = '';
     const templateData = buildTemplateData(
-      ssrContext,
+      ssrContext!,
       prefetchData,
       this.result.renderLevel,
     );
@@ -154,7 +154,10 @@ export default class Entry {
 
       // Todo render Hook
       const renderContext = {
-        loadableManifest: path.resolve(ssrContext.distDir, LOADABLE_STATS_FILE),
+        loadableManifest: path.resolve(
+          ssrContext!.distDir,
+          LOADABLE_STATS_FILE,
+        ),
         result: this.result,
         entryName: this.entryName,
       };
