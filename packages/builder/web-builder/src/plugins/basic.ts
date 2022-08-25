@@ -7,7 +7,7 @@ export const PluginBasic = (): BuilderPlugin => ({
   name: 'web-builder-plugin-basic',
 
   setup(api) {
-    api.modifyWebpackChain((chain, { isProd }) => {
+    api.modifyWebpackChain(async (chain, { isProd, CHAIN_ID }) => {
       // The base directory for resolving entry points and loaders from the configuration.
       chain.context(api.context.rootPath);
 
@@ -19,6 +19,13 @@ export const PluginBasic = (): BuilderPlugin => ({
           level: 'error',
         },
       });
+
+      const { ModuleDependencyErrorPlugin } = await import(
+        '../webpackPlugins/ModuleDependencyErrorPlugin'
+      );
+      chain
+        .plugin(CHAIN_ID.PLUGIN.MODULE_DEPENDENCY_ERROR)
+        .use(ModuleDependencyErrorPlugin);
     });
   },
 });
