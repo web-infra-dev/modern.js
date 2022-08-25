@@ -1,5 +1,32 @@
 # @modern-js/generator-utils
 
+## 2.3.0
+
+### Minor Changes
+
+- beecff68d: feat: create new project use modern current latest version
+
+  feat: @modern-js/create 创建项目使用 Modern.js 最新依赖版本
+
+- 1100dd58c: chore: support react 18
+
+  chore: 支持 React 18
+
+### Patch Changes
+
+- 9d9bbfd05: feat: update codesmith package
+
+  feat: 升级 codesmith 包版本
+
+- Updated dependencies [641592f52]
+- Updated dependencies [3904b30a5]
+- Updated dependencies [1100dd58c]
+- Updated dependencies [e04e6e76a]
+- Updated dependencies [81c66e4a4]
+- Updated dependencies [2c305b6f5]
+  - @modern-js/utils@1.16.0
+  - @modern-js/plugin-i18n@1.16.0
+
 ## 2.2.1
 
 ### Patch Changes

@@ -1,5 +1,26 @@
 # @modern-js/plugin-nest
 
+## 1.16.0
+
+### Minor Changes
+
+- 1100dd58c: chore: support react 18
+
+  chore: 支持 React 18
+
+### Patch Changes
+
+- Updated dependencies [641592f52]
+- Updated dependencies [3904b30a5]
+- Updated dependencies [1100dd58c]
+- Updated dependencies [e04e6e76a]
+- Updated dependencies [81c66e4a4]
+- Updated dependencies [2c305b6f5]
+- Updated dependencies [020b9bd52]
+  - @modern-js/utils@1.16.0
+  - @modern-js/bff-runtime@1.16.0
+  - @modern-js/bff-core@1.16.0
+
 ## 1.15.0
 
 ### Patch Changes
