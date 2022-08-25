@@ -8,6 +8,9 @@ exports[`webpackConfig > should allow  tools.webpackChain to be an array 1`] = `
     "level": "error",
   },
   "mode": "development",
+  "plugins": [
+    ModuleDependencyErrorPlugin {},
+  ],
 }
 `;
 
@@ -19,6 +22,9 @@ exports[`webpackConfig > should allow to use tools.webpackChain to modify config
     "level": "error",
   },
   "mode": "development",
+  "plugins": [
+    ModuleDependencyErrorPlugin {},
+  ],
 }
 `;
 
@@ -30,6 +36,9 @@ exports[`webpackConfig > should allow tools.webpack to be an array 1`] = `
     "level": "error",
   },
   "mode": "development",
+  "plugins": [
+    ModuleDependencyErrorPlugin {},
+  ],
 }
 `;
 
@@ -41,6 +50,9 @@ exports[`webpackConfig > should allow tools.webpack to be an object 1`] = `
     "level": "error",
   },
   "mode": "development",
+  "plugins": [
+    ModuleDependencyErrorPlugin {},
+  ],
 }
 `;
 
@@ -52,6 +64,9 @@ exports[`webpackConfig > should allow tools.webpack to modify config object 1`] 
     "level": "error",
   },
   "mode": "development",
+  "plugins": [
+    ModuleDependencyErrorPlugin {},
+  ],
 }
 `;
 
@@ -63,5 +78,8 @@ exports[`webpackConfig > should allow tools.webpack to return config 1`] = `
     "level": "error",
   },
   "mode": "development",
+  "plugins": [
+    ModuleDependencyErrorPlugin {},
+  ],
 }
 `;

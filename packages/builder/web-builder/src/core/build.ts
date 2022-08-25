@@ -1,4 +1,4 @@
-import { info, error, warn, formatWebpackStats } from '../shared';
+import { info, error, formatWebpackStats, log } from '../shared';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
 import type { WebpackConfig } from '../types';
 
@@ -24,10 +24,11 @@ const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
         // eslint-disable-next-line promise/no-promise-in-callback
         formatWebpackStats(stats!).then(({ level, message }) => {
           if (level === 'error') {
-            reject(new Error(message));
+            log(message);
+            reject(new Error('Webpack build failed!'));
           } else {
             if (level === 'warning') {
-              warn(message);
+              log(message);
             }
             resolve();
           }
