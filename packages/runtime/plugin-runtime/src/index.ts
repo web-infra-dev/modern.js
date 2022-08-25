@@ -1,12 +1,14 @@
 import type { StateConfig } from './state';
 import type { RouterConfig } from './router';
 
+export type { Plugin, AppConfig } from './core';
+
 export type {
-  Plugin,
+  BaseRuntimeContext,
   RuntimeContext,
+  BaseTRuntimeContext,
   TRuntimeContext,
-  AppConfig,
-} from './core';
+} from './runtime-context';
 
 export {
   createApp,

@@ -72,7 +72,7 @@
   },
   "peerDependencies": {
     "tailwindcss": "^2.0.4",
-    "@modern-js/runtime": "workspace:^1.16.0"
+    "@modern-js/runtime": "workspace:^1.16.1"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {
