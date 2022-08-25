@@ -24,7 +24,7 @@ const plugin = (): Plugin => ({
         if (!isBrowser()) {
           const html = await require('./serverRender').render(
             context,
-            context?.ssrContext.distDir || path.join(process.cwd(), 'dist'),
+            context?.ssrContext?.distDir || path.join(process.cwd(), 'dist'),
             App,
           );
 
@@ -35,13 +35,14 @@ const plugin = (): Plugin => ({
       },
       init({ context }, next) {
         const { request }: { request: SSRServerContext['request'] } =
-          context.ssrContext;
+          context.ssrContext!;
 
-        context.ssrContext.request = formatServer(request);
+        context.ssrContext!.request = formatServer(request);
         return next({ context });
       },
       pickContext: ({ context, pickedContext }, next) => {
-        const { request, response } = context?.ssrContext;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+        const { request, response } = context?.ssrContext!;
         const { initialData } = context;
 
         return next({
