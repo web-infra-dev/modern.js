@@ -1,6 +1,7 @@
 import { join } from 'path';
 import {
   getDistPath,
+  getFilename,
   MEDIA_EXTENSIONS,
   getRegExpForExts,
   getDataUrlCondition,
@@ -16,7 +17,7 @@ export const PluginMedia = (): BuilderPlugin => ({
       const regExp = getRegExpForExts(MEDIA_EXTENSIONS);
 
       const distDir = getDistPath(config, 'media');
-      const filename = isProd ? '[name].[contenthash:8][ext]' : '[name][ext]';
+      const filename = getFilename(config, 'media', isProd);
 
       chain.module
         .rule(CHAIN_ID.RULE.MEDIA)

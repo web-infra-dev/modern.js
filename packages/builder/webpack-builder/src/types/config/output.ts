@@ -11,11 +11,21 @@ export type DistPathConfig = {
   media?: string;
 };
 
+export type FilenameConfig = {
+  js?: string;
+  css?: string;
+  svg?: string;
+  font?: string;
+  image?: string;
+  media?: string;
+};
+
 export type Polyfill = 'usage' | 'entry' | 'ua' | 'off';
 
 export interface OutputConfig {
   copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
-  distPath?: string | DistPathConfig;
+  distPath?: DistPathConfig;
+  filename?: FilenameConfig;
   polyfill?: Polyfill;
   assetPrefix?: string;
   dataUriLimit?: number;
