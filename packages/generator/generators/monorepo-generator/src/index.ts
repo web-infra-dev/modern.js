@@ -15,7 +15,10 @@ import {
   PackageManager,
   ChangesetGenerator,
 } from '@modern-js/generator-common';
-import { getPackageManagerText } from '@modern-js/generator-utils';
+import {
+  getPackageManagerText,
+  getModernVersion,
+} from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
@@ -51,6 +54,8 @@ export const handleTemplateFile = async (
     isMonorepo: true,
   });
 
+  const modernVersion = await getModernVersion(Solution.Monorepo);
+
   generator.logger.debug(`ans=`, ans);
 
   const { packageManager } = ans;
@@ -67,7 +72,7 @@ export const handleTemplateFile = async (
       resourceKey
         .replace('templates/base-template/', '')
         .replace('.handlebars', ''),
-    { packageManager },
+    { packageManager, modernVersion },
   );
 
   if (packageManager === PackageManager.Pnpm) {

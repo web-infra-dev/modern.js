@@ -22,6 +22,7 @@ export {
   canUseNpm,
   canUsePnpm,
   canUseYarn,
+  isReact18,
 } from '@modern-js/utils';
 
 export { i18n } from './locale';
@@ -61,6 +62,18 @@ export async function getPackageVersion(
   }
   spinner.stop();
   throw new Error('not found npm, please install npm before');
+}
+
+type Solution = 'mwa' | 'module' | 'monorepo';
+const SolutionDep: Record<Solution, string> = {
+  mwa: '@modern-js/app-tools',
+  module: '@modern-js/module-tools',
+  monorepo: '@modern-js/monorepo-tools',
+};
+export async function getModernVersion(solution: Solution) {
+  const dep = SolutionDep[solution];
+  const modernVersion = await getPackageVersion(dep);
+  return modernVersion;
 }
 
 export function getPackageManagerText(packageManager: 'pnpm' | 'yarn' | 'npm') {

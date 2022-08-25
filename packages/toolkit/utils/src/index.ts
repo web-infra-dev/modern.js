@@ -34,3 +34,4 @@ export * from './ssr';
 export * from './tryResolve';
 export * from './analyzeProject';
 export * from './chainId';
+export * from './reactVersion';

@@ -8,7 +8,7 @@ import {
   createPipeline,
   createAsyncPipeline,
 } from '@modern-js/plugin';
-import type { RuntimeContext, TRuntimeContext } from './runtime-context';
+import type { RuntimeContext, TRuntimeContext } from '../runtime-context';
 import { createLoaderManager } from './loader/loaderManager';
 
 const hoc = createPipeline<
@@ -34,7 +34,8 @@ const client = createAsyncPipeline<
   {
     App: React.ComponentType<any>;
     readonly context?: RuntimeContext;
-    rootElement: HTMLElement;
+    ModernRender: (App: React.ReactNode) => void;
+    ModernHydrate: (App: React.ReactNode, callback?: () => void) => void;
   },
   void
 >();

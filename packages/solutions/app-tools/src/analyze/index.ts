@@ -87,7 +87,10 @@ export default (): CliPlugin => ({
           // FIXME:
         }
 
-        const apiOnly = await isApiOnly(appContext.appDirectory);
+        const apiOnly = await isApiOnly(
+          appContext.appDirectory,
+          resolvedConfig?.source?.entriesDir,
+        );
         await hookRunners.addRuntimeExports();
 
         if (apiOnly) {

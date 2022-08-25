@@ -1,13 +1,15 @@
 import React, { useContext, useMemo } from 'react';
-import ReactDOM from 'react-dom';
+import defaultReactDOM from 'react-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { Plugin, runtime } from './plugin';
 import {
   RuntimeReactContext,
   RuntimeContext,
   TRuntimeContext,
-} from './runtime-context';
+} from '../runtime-context';
+import { Plugin, runtime } from './plugin';
 import { createLoaderManager } from './loader/loaderManager';
+
+const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
 export type CreateAppOptions = {
   plugins: Plugin[];
@@ -95,9 +97,23 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
   };
 };
 
+interface HydrateFunc {
+  // React 18
+  (container: Element | Document, initialChildren: React.ReactNode): void;
+  // React 17
+  (
+    initialChildren: React.ReactNode,
+    container: Element | Document,
+    callback?: () => void,
+  ): void;
+}
+
 type BootStrap<T = unknown> = (
   App: React.ComponentType,
   id?: string | Record<string, any> | HTMLElement,
+  root?: any,
+  render?: (children: React.ReactNode, rootElement?: HTMLElement) => void,
+  hydrate?: HydrateFunc,
 ) => Promise<T>;
 
 export const bootstrap: BootStrap = async (
@@ -107,6 +123,12 @@ export const bootstrap: BootStrap = async (
    * When ssr, id is serverContext
    */
   id,
+  /**
+   * root.render need use root to run function
+   */
+  root,
+  render = defaultReactDOM.render as any,
+  hydrate = defaultReactDOM.hydrate as any,
 ) => {
   let App = BootApp;
   let runner = runnerMap.get(App);
@@ -167,18 +189,36 @@ export const bootstrap: BootStrap = async (
         context.initialData = initialData;
       }
 
+      const rootElement =
+        typeof id !== 'string' ? id : document.getElementById(id || 'root')!;
+
+      // https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html
+      const ModernRender = (App: React.ReactNode) => {
+        if (IS_REACT18) {
+          root.render(App);
+        } else {
+          render(App, rootElement);
+        }
+      };
+
+      const ModernHydrate = (App: React.ReactNode, callback?: () => void) => {
+        if (IS_REACT18) {
+          hydrate(rootElement, App);
+        } else {
+          hydrate(App, rootElement, callback);
+        }
+      };
+
       return runner.client(
         {
           App,
           context,
-          rootElement:
-            typeof id !== 'string'
-              ? id
-              : document.getElementById(id || 'root')!,
+          ModernRender,
+          ModernHydrate,
         },
         {
-          onLast: ({ App, rootElement }) => {
-            ReactDOM.render(React.createElement(App, { context }), rootElement);
+          onLast: ({ App }) => {
+            ModernRender(React.createElement(App, { context }));
           },
         },
       );
