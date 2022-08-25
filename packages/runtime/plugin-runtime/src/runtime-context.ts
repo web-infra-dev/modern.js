@@ -8,9 +8,9 @@ export interface BaseRuntimeContext {
   loaderManager: ReturnType<typeof createLoaderManager>;
   runner: ReturnType<typeof runtime.init>;
   // ssr type
-  ssrContext: SSRServerContext;
+  ssrContext?: SSRServerContext;
   // state type
-  store: Store;
+  store?: Store;
 }
 
 export interface RuntimeContext extends BaseRuntimeContext {
@@ -22,10 +22,10 @@ export const RuntimeReactContext = createContext<RuntimeContext>({} as any);
 export interface BaseTRuntimeContext {
   initialData?: Record<string, unknown>;
   // ssr type
-  request: SSRServerContext['request'];
-  response: SSRServerContext['response'];
+  request?: SSRServerContext['request'];
+  response?: SSRServerContext['response'];
   // store type
-  store: Store;
+  store?: Store;
 }
 
 export interface TRuntimeContext extends BaseTRuntimeContext {
