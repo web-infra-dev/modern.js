@@ -91,10 +91,8 @@ async function getTemplateParameters(
 }
 
 function getTemplatePath() {
-  const DEFAULT_TEMPLATE = path.resolve(
-    __dirname,
-    '../../static/template.html',
-  );
+  console.log('using pug');
+  const DEFAULT_TEMPLATE = path.resolve(__dirname, '../../static/foo.pug');
 
   return DEFAULT_TEMPLATE;
 }

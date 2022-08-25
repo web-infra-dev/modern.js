@@ -1,6 +1,7 @@
 import type { IStyledComponentOptions } from '@modern-js/babel-preset-app';
 import type { ModifyWebpackUtils } from '../hooks';
 import type {
+  PugOptions,
   WebpackChain,
   WebpackConfig,
   TSLoaderOptions,
@@ -57,6 +58,8 @@ export type ToolsPostCSSLoaderConfig = ChainedConfig<
   }
 >;
 
+export type ToolsPugConfig = ChainedConfig<PugOptions>;
+
 export type ToolsLessConfig = ChainedConfig<
   LessLoaderOptions,
   { addExcludes: (excludes: RegExp | RegExp[]) => void }
@@ -91,6 +94,7 @@ export type DevServerConfig = {
 };
 
 export interface ToolsConfig {
+  pug?: ToolsPugConfig;
   sass?: ToolsSassConfig;
   less?: ToolsLessConfig;
   babel?: ToolsBabelConfig;
