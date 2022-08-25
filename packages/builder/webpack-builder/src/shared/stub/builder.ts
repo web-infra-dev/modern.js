@@ -1,6 +1,6 @@
 import _ from '@modern-js/utils/lodash';
 import assert from 'assert';
-import { createPrimaryBuilder } from 'src/core/createBuilder';
+import { createPrimaryBuilder } from '../../core/createBuilder';
 import { Hooks } from '../../core/createHook';
 import type { BuilderOptions, BuilderPlugin, Context } from '../../types';
 import { matchLoader, mergeBuilderOptions } from '../utils';
