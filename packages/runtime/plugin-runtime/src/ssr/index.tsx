@@ -8,15 +8,6 @@ import { formatClient, mockResponse } from './utils';
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
 declare module '../core' {
-  interface RuntimeContext {
-    ssrContext: SSRServerContext;
-  }
-
-  interface TRuntimeContext {
-    request: SSRServerContext['request'];
-    response: SSRServerContext['response'];
-  }
-
   interface SSRContainer {
     renderLevel: RenderLevel;
     context?: SSRServerContext;
@@ -37,10 +28,13 @@ const ssr = (): Plugin => ({
           ModernRender(<App context={context} />);
         } else if (renderLevel === RenderLevel.SERVER_RENDER) {
           loadableReady(() => {
-            const hydrateContext = { ...context, _hydration: true };
+            const hydrateContext: { _hydration?: boolean } = {
+              ...context,
+              _hydration: true,
+            };
             const callback = () => {
               // won't cause component re-render because context's reference identity doesn't change
-              delete (hydrateContext as any)._hydration;
+              delete hydrateContext._hydration;
             };
             // callback: https://github.com/reactwg/react-18/discussions/5
             if (IS_REACT18) {

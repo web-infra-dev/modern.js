@@ -14,8 +14,8 @@ export type { AppConfig } from './app-config';
 // compatible
 export * from './compatible';
 
-export type { TRuntimeContext, RuntimeContext } from './runtime-context';
-export { RuntimeReactContext } from './runtime-context';
+export type { TRuntimeContext, RuntimeContext } from '../runtime-context';
+export { RuntimeReactContext } from '../runtime-context';
 export * from './loader';
 
 export * from '@modern-js/plugin';

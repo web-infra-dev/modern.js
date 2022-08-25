@@ -5,12 +5,6 @@ import SSREntry from './entry';
 import { time } from './measure';
 import { ModernSSRReactComponent } from './type';
 
-declare module '@modern-js/runtime' {
-  interface RuntimeContext {
-    ssrContext?: any;
-  }
-}
-
 export const render = async (
   ctx: RuntimeContext,
   _: string = process.cwd(),
