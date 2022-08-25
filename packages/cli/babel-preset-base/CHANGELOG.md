@@ -27,7 +27,7 @@
 
 ### Minor Changes
 
-- 7b9067f: add babel plugin for web builder
+- 7b9067f: add babel plugin for webpack-builder
 
 ### Patch Changes
 
