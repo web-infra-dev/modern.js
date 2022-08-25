@@ -1,8 +1,11 @@
 import assert from 'assert';
+import type * as webpack from 'webpack';
 import { URLSearchParams } from 'url';
-import { DEFAULT_DATA_URL_SIZE } from './constants';
+import _ from '@modern-js/utils/lodash';
 import type Buffer from 'buffer';
+import { DEFAULT_DATA_URL_SIZE } from './constants';
 import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
+import { BuilderOptions } from '../types';
 
 export const JS_REGEX = /\.(js|mjs|cjs|jsx)$/;
 export const TS_REGEX = /\.(ts|mts|cts|tsx)$/;
@@ -78,4 +81,75 @@ export function getDataUrlCondition(dataUriLimit = DEFAULT_DATA_URL_SIZE) {
 
     return source.length <= dataUriLimit;
   };
+}
+
+export function mergeBuilderOptions(
+  options?: BuilderOptions,
+): Required<BuilderOptions> {
+  const DEFAULT_OPTIONS: Required<BuilderOptions> = {
+    cwd: process.cwd(),
+    entry: {},
+    target: ['web'],
+    configPath: null,
+    builderConfig: {},
+    framework: 'modern-js',
+  };
+
+  return {
+    ...DEFAULT_OPTIONS,
+    ...options,
+  };
+}
+
+export function deepFreezed<T extends Record<any, any> | any[]>(obj: T): T {
+  assert(typeof obj === 'object');
+  const handle = (item: any) =>
+    typeof item === 'object' ? deepFreezed(item) : item;
+  const ret = (
+    Array.isArray(obj) ? _.map(obj, handle) : _.mapValues(obj, handle)
+  ) as T;
+  return Object.freeze(ret);
+}
+
+/**
+ * Check if an file handled by specific loader.
+ * @author yangxingyuan
+ * @param {Configuration} config - The webpack config.
+ * @param {string} loader - The name of loader.
+ * @param {string}  testFile - The name of test file that will be handled by webpack.
+ * @returns {boolean} The result of the match.
+ */
+export function matchLoader({
+  config,
+  loader,
+  testFile,
+}: {
+  config: webpack.Configuration;
+  loader: string;
+  testFile: string;
+}): boolean {
+  if (!config.module?.rules) {
+    return false;
+  }
+  return config.module.rules.some(rule => {
+    if (
+      typeof rule === 'object' &&
+      rule.test &&
+      rule.test instanceof RegExp &&
+      rule.test.test(testFile)
+    ) {
+      return (
+        Array.isArray(rule.use) &&
+        rule.use.some(useOptions => {
+          if (typeof useOptions === 'object' && useOptions !== null) {
+            return useOptions.loader?.includes(loader);
+          } else if (typeof useOptions === 'string') {
+            return useOptions.includes(loader);
+          }
+          return false;
+        })
+      );
+    }
+    return false;
+  });
 }

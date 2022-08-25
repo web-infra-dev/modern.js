@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
 import { PluginFont } from '../../src/plugins/font';
-import { createStubBuilder } from '../utils/builder';
+import { createStubBuilder } from '../../src/shared/stub';
 
 describe('plugins/font', () => {
   it('should add font rules correctly', async () => {

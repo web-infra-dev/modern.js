@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
 import { PluginImage } from '../../src/plugins/image';
-import { createStubBuilder } from '../utils/builder';
+import { createStubBuilder } from '../../src/shared/stub';
 
 describe('plugins/image', () => {
   it('should add image rules correctly', async () => {

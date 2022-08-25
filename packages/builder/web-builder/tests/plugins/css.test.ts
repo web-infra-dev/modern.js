@@ -2,8 +2,7 @@ import { expect, describe, it } from 'vitest';
 import { PluginCss } from '../../src/plugins/css';
 import { PluginSass } from '../../src/plugins/sass';
 import { PluginLess } from '../../src/plugins/less';
-import { createStubBuilder } from '../utils/builder';
-import { matchLoader } from '../utils/matchLoader';
+import { createStubBuilder } from '../../src/shared/stub';
 
 describe('plugins/css', () => {
   it('should set css config with style-loader', async () => {
@@ -13,12 +12,9 @@ describe('plugins/css', () => {
         tools: {},
       },
     });
-    const config = await builder.unwrapWebpackConfig();
-
-    const includeStyleLoader = matchLoader({
+    const includeStyleLoader = await builder.matchWebpackLoader({
       loader: 'style-loader',
       testFile: 'index.css',
-      config,
     });
 
     expect(includeStyleLoader).toBe(true);
@@ -33,12 +29,10 @@ describe('plugins/css', () => {
         },
       },
     });
-    const config = await builder.unwrapWebpackConfig();
 
-    const includeMiniCssExtractLoader = matchLoader({
+    const includeMiniCssExtractLoader = await builder.matchWebpackLoader({
       loader: 'mini-css-extract-plugin',
       testFile: 'index.css',
-      config,
     });
 
     expect(includeMiniCssExtractLoader).toBe(true);
@@ -53,12 +47,10 @@ describe('plugins/css', () => {
         },
       },
     });
-    const config = await builder.unwrapWebpackConfig();
 
-    const includeSassLoader = matchLoader({
+    const includeSassLoader = await builder.matchWebpackLoader({
       loader: 'sass-loader',
       testFile: 'index.scss',
-      config,
     });
 
     expect(includeSassLoader).toBe(true);
@@ -73,12 +65,10 @@ describe('plugins/css', () => {
         },
       },
     });
-    const config = await builder.unwrapWebpackConfig();
 
-    const includeLessLoader = matchLoader({
+    const includeLessLoader = await builder.matchWebpackLoader({
       loader: 'less-loader',
       testFile: 'index.less',
-      config,
     });
 
     expect(includeLessLoader).toBe(true);
