@@ -1,5 +1,21 @@
 # @modern-js/generator-common
 
+## 2.3.0
+
+### Patch Changes
+
+- 94222750f: fix: generator schema validate
+
+  fix: 修复生成器问题校验失败
+
+- 2c305b6f5: chore: remove all deploy logic and package
+  chore: 删除所有部署相关的逻辑和包
+- 9d9bbfd05: feat: update codesmith package
+
+  feat: 升级 codesmith 包版本
+
+  - @modern-js/plugin-i18n@1.16.0
+
 ## 2.2.1
 
 ### Patch Changes
