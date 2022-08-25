@@ -1,5 +1,13 @@
 # @modern-js/runtime
 
+## 1.16.1
+
+### Patch Changes
+
+- fix: runtime type
+
+  fix: 修复 runtime 类型定义
+
 ## 1.16.0
 
 ### Minor Changes

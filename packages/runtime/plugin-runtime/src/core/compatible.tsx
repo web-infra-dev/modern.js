@@ -1,12 +1,12 @@
 import React, { useContext, useMemo } from 'react';
 import defaultReactDOM from 'react-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { Plugin, runtime } from './plugin';
 import {
   RuntimeReactContext,
   RuntimeContext,
   TRuntimeContext,
-} from './runtime-context';
+} from '../runtime-context';
+import { Plugin, runtime } from './plugin';
 import { createLoaderManager } from './loader/loaderManager';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
