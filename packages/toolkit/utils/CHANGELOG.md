@@ -1,5 +1,34 @@
 # @modern-js/utils
 
+## 1.16.0
+
+### Minor Changes
+
+- 1100dd5: chore: support react 18
+
+  chore: 支持 React 18
+
+### Patch Changes
+
+- 641592f: feat(utils): add html-cross-origin to CHAIN_ID
+
+  feat(utils): CHAIN_ID 常量新增 html-cross-origin 值
+
+- 3904b30: fix: check apiOnly while has source.entriesDir
+
+  fix: 当配置 source.entriesDir 存在时，apiOnly 检查错误
+
+- e04e6e7: feat: add media rule name to CHAIN_ID constant
+
+  feat: 在 CHAIN_ID 常量中新增 media rule
+
+- 81c66e4: fix: compatibility issues of dev server in iOS 10
+
+  fix: 修复 dev server 代码在 iOS 10 下的兼容性问题
+
+- 2c305b6: chore: remove all deploy logic and package
+  chore: 删除所有部署相关的逻辑和包
+
 ## 1.15.0
 
 ### Patch Changes

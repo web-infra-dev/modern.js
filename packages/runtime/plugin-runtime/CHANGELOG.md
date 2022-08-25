@@ -1,5 +1,27 @@
 # @modern-js/runtime
 
+## 1.16.0
+
+### Minor Changes
+
+- 1100dd5: chore: support react 18
+
+  chore: 支持 React 18
+
+### Patch Changes
+
+- a480d6a: fix: remove helmet regexp's global tag
+  fix: 删除 helmet 中正则匹配的全局标记
+- Updated dependencies [641592f]
+- Updated dependencies [3904b30]
+- Updated dependencies [1100dd5]
+- Updated dependencies [e04e6e7]
+- Updated dependencies [81c66e4]
+- Updated dependencies [2c305b6]
+  - @modern-js/utils@1.16.0
+  - @modern-js/webpack@1.16.0
+  - @modern-js/plugin@1.16.0
+
 ## 1.15.0
 
 ### Patch Changes

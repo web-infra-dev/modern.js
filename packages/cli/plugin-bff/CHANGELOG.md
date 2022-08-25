@@ -1,5 +1,27 @@
 # @modern-js/plugin-bff
 
+## 1.16.0
+
+### Minor Changes
+
+- 020b9bd: feat: support frame mode without lambda directories
+  feat: 支持无 lambda 目录的框架模式
+
+### Patch Changes
+
+- Updated dependencies [641592f]
+- Updated dependencies [3904b30]
+- Updated dependencies [1100dd5]
+- Updated dependencies [e04e6e7]
+- Updated dependencies [81c66e4]
+- Updated dependencies [2c305b6]
+- Updated dependencies [020b9bd]
+  - @modern-js/utils@1.16.0
+  - @modern-js/create-request@1.16.0
+  - @modern-js/server-utils@1.16.0
+  - @modern-js/bff-core@1.16.0
+  - @modern-js/babel-compiler@1.16.0
+
 ## 1.15.0
 
 ### Patch Changes

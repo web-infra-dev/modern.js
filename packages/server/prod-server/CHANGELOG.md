@@ -1,5 +1,22 @@
 # @modern-js/prod-server
 
+## 1.16.0
+
+### Patch Changes
+
+- 81c66e4: fix: compatibility issues of dev server in iOS 10
+
+  fix: 修复 dev server 代码在 iOS 10 下的兼容性问题
+
+- Updated dependencies [641592f]
+- Updated dependencies [3904b30]
+- Updated dependencies [1100dd5]
+- Updated dependencies [e04e6e7]
+- Updated dependencies [81c66e4]
+- Updated dependencies [2c305b6]
+  - @modern-js/utils@1.16.0
+  - @modern-js/server-core@1.16.0
+
 ## 1.15.0
 
 ### Patch Changes

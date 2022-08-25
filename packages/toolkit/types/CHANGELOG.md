@@ -1,5 +1,13 @@
 # @modern-js/types
 
+## 1.16.0
+
+### Minor Changes
+
+- 1100dd5: chore: support react 18
+
+  chore: 支持 React 18
+
 ## 1.15.0
 
 ### Patch Changes

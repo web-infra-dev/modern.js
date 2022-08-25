@@ -1,5 +1,19 @@
 # @modern-js/monorepo-generator
 
+## 2.3.0
+
+### Minor Changes
+
+- beecff6: feat: create new project use modern current latest version
+
+  feat: @modern-js/create 创建项目使用 Modern.js 最新依赖版本
+
+### Patch Changes
+
+- 9d9bbfd: feat: update codesmith package
+
+  feat: 升级 codesmith 包版本
+
 ## 2.2.1
 
 ## 2.2.0

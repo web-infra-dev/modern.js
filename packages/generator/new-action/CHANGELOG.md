@@ -1,5 +1,26 @@
 # @modern-js/new-action
 
+## 1.16.0
+
+### Patch Changes
+
+- 9d9bbfd: feat: update codesmith package
+
+  feat: 升级 codesmith 包版本
+
+- Updated dependencies [beecff6]
+- Updated dependencies [641592f]
+- Updated dependencies [3904b30]
+- Updated dependencies [1100dd5]
+- Updated dependencies [e04e6e7]
+- Updated dependencies [9422275]
+- Updated dependencies [81c66e4]
+- Updated dependencies [2c305b6]
+- Updated dependencies [9d9bbfd]
+  - @modern-js/generator-utils@2.3.0
+  - @modern-js/utils@1.16.0
+  - @modern-js/generator-common@2.3.0
+
 ## 1.15.0
 
 ### Patch Changes

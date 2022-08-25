@@ -1,5 +1,39 @@
 # @modern-js/app-tools
 
+## 1.16.0
+
+### Minor Changes
+
+- 1100dd5: chore: support react 18
+
+  chore: 支持 React 18
+
+### Patch Changes
+
+- 3904b30: fix: check apiOnly while has source.entriesDir
+
+  fix: 当配置 source.entriesDir 存在时，apiOnly 检查错误
+
+- Updated dependencies [641592f]
+- Updated dependencies [3904b30]
+- Updated dependencies [1100dd5]
+- Updated dependencies [e04e6e7]
+- Updated dependencies [2808ff5]
+- Updated dependencies [81c66e4]
+- Updated dependencies [2c305b6]
+- Updated dependencies [9d9bbfd]
+  - @modern-js/utils@1.16.0
+  - @modern-js/webpack@1.16.0
+  - @modern-js/types@1.16.0
+  - @modern-js/server@1.16.0
+  - @modern-js/prod-server@1.16.0
+  - @modern-js/new-action@1.16.0
+  - @modern-js/core@1.16.0
+  - @modern-js/plugin-i18n@1.16.0
+  - @modern-js/plugin-jarvis@1.16.0
+  - @modern-js/node-bundle-require@1.16.0
+  - @modern-js/plugin@1.16.0
+
 ## 1.15.0
 
 ### Patch Changes

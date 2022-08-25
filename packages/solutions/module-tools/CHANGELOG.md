@@ -1,5 +1,34 @@
 # @modern-js/module-tools
 
+## 1.16.0
+
+### Minor Changes
+
+- 1100dd5: chore: support react 18
+
+  chore: 支持 React 18
+
+### Patch Changes
+
+- Updated dependencies [641592f]
+- Updated dependencies [3904b30]
+- Updated dependencies [1100dd5]
+- Updated dependencies [e04e6e7]
+- Updated dependencies [81c66e4]
+- Updated dependencies [2c305b6]
+- Updated dependencies [9d9bbfd]
+  - @modern-js/utils@1.16.0
+  - @modern-js/css-config@1.16.0
+  - @modern-js/style-compiler@1.16.0
+  - @modern-js/new-action@1.16.0
+  - @modern-js/babel-preset-module@1.16.0
+  - @modern-js/core@1.16.0
+  - @modern-js/plugin-changeset@1.16.0
+  - @modern-js/plugin-i18n@1.16.0
+  - @modern-js/plugin-jarvis@1.16.0
+  - @modern-js/babel-compiler@1.16.0
+  - @modern-js/plugin@1.16.0
+
 ## 1.15.0
 
 ### Patch Changes
