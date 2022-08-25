@@ -25,6 +25,8 @@ export const CHAIN_ID = {
     SVG: 'svg',
     SVG_INLINE: 'svg-inline',
     SVG_URL: 'svg-url',
+    /** Rule for toml */
+    TOML: 'toml',
   },
   /** Predefined rule groups */
   ONE_OF: {
