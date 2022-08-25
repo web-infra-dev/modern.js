@@ -11,14 +11,14 @@ const prefetch = async (
   App: React.ComponentType<any>,
   context: RuntimeContext,
 ) =>
-  run(context.ssrContext.request.headers, async () => {
+  run(context.ssrContext!.request.headers, async () => {
     const { ssrContext } = context;
-    const loadablefile = path.resolve(ssrContext.distDir, LOADABLE_STATS_FILE);
+    const loadablefile = path.resolve(ssrContext!.distDir, LOADABLE_STATS_FILE);
 
     if (fs.existsSync(loadablefile)) {
       const extractor = new ChunkExtractor({
-        statsFile: path.resolve(ssrContext.distDir, LOADABLE_STATS_FILE),
-        entrypoints: [ssrContext.entryName].filter(Boolean),
+        statsFile: path.resolve(ssrContext!.distDir, LOADABLE_STATS_FILE),
+        entrypoints: [ssrContext!.entryName].filter(Boolean),
       });
       renderToStaticMarkup(extractor.collectChunks(<App context={context} />));
     } else {
@@ -36,8 +36,8 @@ const prefetch = async (
     Object.keys(loadersData).forEach(id => {
       const data = loadersData[id];
       if (data._error) {
-        ssrContext.logger.error('App Prefetch Loader', data._error);
-        ssrContext.metrics.emitCounter('app.prefetch.loader.error', 1);
+        ssrContext!.logger.error('App Prefetch Loader', data._error);
+        ssrContext!.metrics.emitCounter('app.prefetch.loader.error', 1);
         delete data._error;
       }
     });

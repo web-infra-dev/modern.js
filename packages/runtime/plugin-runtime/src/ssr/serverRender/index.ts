@@ -12,9 +12,9 @@ export const render = async (
 ): Promise<string> => {
   const { ssrContext } = ctx;
 
-  return run(ssrContext.request.headers, async () => {
+  return run(ssrContext!.request.headers, async () => {
     const entry = new SSREntry({
-      ctx: ssrContext,
+      ctx: ssrContext!,
       App,
     });
     entry.metrics.emitCounter('app.visit.count', 1);
@@ -28,7 +28,7 @@ export const render = async (
 
     const cacheConfig = PreRender.config();
     if (cacheConfig) {
-      ctx.ssrContext.cacheConfig = cacheConfig;
+      ctx.ssrContext!.cacheConfig = cacheConfig;
     }
 
     return html;

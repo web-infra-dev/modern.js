@@ -59,15 +59,15 @@ const ssr = (): Plugin => ({
           window?._SSR_DATA?.context?.request;
         if (!request) {
           context.ssrContext = {
-            ...context.ssrContext,
+            ...context.ssrContext!,
             response: mockResp,
             request: formatClient({} as any),
           };
           return next({ context });
         }
 
-        context.ssrContext.response = mockResp;
-        context.ssrContext.request = formatClient(request);
+        context.ssrContext!.response = mockResp;
+        context.ssrContext!.request = formatClient(request);
         return next({ context });
       },
       pickContext: ({ context, pickedContext }, next) => {
