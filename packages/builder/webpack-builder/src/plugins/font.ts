@@ -1,10 +1,10 @@
 import { join } from 'path';
 import {
   getDistPath,
+  getFilename,
   FONT_EXTENSIONS,
   getRegExpForExts,
   getDataUrlCondition,
-  getFilename,
 } from '../shared';
 import type { BuilderPlugin } from '../types';
 
