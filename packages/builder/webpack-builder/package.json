@@ -39,6 +39,13 @@
       "default": "./dist/shared/stub/index.js"
     }
   },
+  "typesVersions": {
+    "*": {
+      "webpack": ["./dist/exports/webpack.d.ts"],
+      "html-webpack-plugin": ["./dist/exports/HtmlWebpackPlugin.d.ts"],
+      "stub": ["./dist/stub/index.d.ts"]
+    }
+  },
   "scripts": {
     "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm",
