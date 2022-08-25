@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
 import { PluginEntry } from '../../src/plugins/entry';
-import { createStubBuilder } from '../../src/shared/stub';
+import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/entry', () => {
   it('should set entry correctly', async () => {

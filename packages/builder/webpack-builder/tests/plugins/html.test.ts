@@ -1,7 +1,7 @@
 import { expect, describe, it } from 'vitest';
 import { PluginHtml } from '../../src/plugins/html';
 import { PluginEntry } from '../../src/plugins/entry';
-import { createStubBuilder } from '../../src/shared/stub';
+import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/html', () => {
   it('should register html plugin correctly', async () => {

@@ -2,7 +2,7 @@ import { expect, describe, it } from 'vitest';
 import { PluginCss } from '../../src/plugins/css';
 import { PluginSass } from '../../src/plugins/sass';
 import { PluginLess } from '../../src/plugins/less';
-import { createStubBuilder } from '../../src/shared/stub';
+import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/css', () => {
   it('should set css config with style-loader', async () => {
