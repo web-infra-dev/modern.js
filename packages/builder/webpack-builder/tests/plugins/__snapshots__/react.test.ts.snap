@@ -8,7 +8,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/web-builder",
+              "<ROOT>/packages/builder/webpack-builder",
               {
                 "not": /node_modules/,
               },
@@ -18,7 +18,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/web-builder/compiled/babel-loader",
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -176,7 +176,7 @@ exports[`plugins/react > should work with ts-loader 1`] = `
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/web-builder",
+              "<ROOT>/packages/builder/webpack-builder",
               {
                 "not": /node_modules/,
               },
@@ -195,7 +195,7 @@ exports[`plugins/react > should work with ts-loader 1`] = `
                 [
                   "<ROOT>/packages/cli/babel-preset-app/dist/js/node/index.js",
                   {
-                    "appDirectory": "<ROOT>/packages/builder/web-builder",
+                    "appDirectory": "<ROOT>/packages/builder/webpack-builder",
                     "metaName": "modern-js",
                     "target": "client",
                     "useBuiltIns": undefined,

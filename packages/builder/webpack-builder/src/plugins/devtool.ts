@@ -1,7 +1,7 @@
 import type { BuilderPlugin } from '../types';
 
 export const PluginDevtool = (): BuilderPlugin => ({
-  name: 'web-builder-plugin-devtool',
+  name: 'webpack-builder-plugin-devtool',
 
   setup(api) {
     api.modifyWebpackChain((chain, { isProd }) => {

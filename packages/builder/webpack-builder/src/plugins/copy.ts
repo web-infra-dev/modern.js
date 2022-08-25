@@ -1,7 +1,7 @@
 import type { CopyPluginOptions, BuilderPlugin } from '../types';
 
 export const PluginCopy = (): BuilderPlugin => ({
-  name: 'web-builder-plugin-copy',
+  name: 'webpack-builder-plugin-copy',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {

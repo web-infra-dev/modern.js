@@ -1,5 +1,13 @@
 # @modern-js/eslint-generator
 
+## 2.3.0
+
+### Patch Changes
+
+- 9d9bbfd05: feat: update codesmith package
+
+  feat: 升级 codesmith 包版本
+
 ## 2.2.1
 
 ## 1.4.0

@@ -8,18 +8,18 @@ exports[`plugins/babel > should set babel-loader 1`] = `
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/web-builder",
+              "<ROOT>/packages/builder/webpack-builder",
               {
                 "not": /node_modules/,
               },
             ],
           },
-          "<ROOT>/packages/builder/web-builder/src/runtime/core-js-entry.js",
+          "<ROOT>/packages/builder/webpack-builder/src/runtime/core-js-entry.js",
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/web-builder/compiled/babel-loader",
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -171,7 +171,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/web-builder",
+              "<ROOT>/packages/builder/webpack-builder",
               {
                 "not": /node_modules/,
               },
@@ -182,7 +182,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/web-builder/compiled/babel-loader",
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,

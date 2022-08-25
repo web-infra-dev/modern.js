@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { InspectorWebpackPlugin } from '@modern-js/inspector-webpack-plugin';
-import type { BuilderPlugin } from '../../../../packages/builder/web-builder/src';
+import type { BuilderPlugin } from '../../../../packages/builder/webpack-builder/src';
 
 export const TestPlugin = (): BuilderPlugin => ({
   name: 'test-plugin',
@@ -15,7 +15,7 @@ export const TestPlugin = (): BuilderPlugin => ({
 
 export const createBuilder = async () => {
   const { createBuilder } = await import(
-    '../../../../packages/builder/web-builder/src'
+    '../../../../packages/builder/webpack-builder/src'
   );
 
   const cwd = join(__dirname, '..');

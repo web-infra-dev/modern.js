@@ -1,5 +1,16 @@
 # @modern-js/generator-cases
 
+## 2.3.0
+
+### Patch Changes
+
+- 2c305b6f5: chore: remove all deploy logic and package
+  chore: 删除所有部署相关的逻辑和包
+- Updated dependencies [94222750f]
+- Updated dependencies [2c305b6f5]
+- Updated dependencies [9d9bbfd05]
+  - @modern-js/generator-common@2.3.0
+
 ## 2.2.1
 
 ### Patch Changes

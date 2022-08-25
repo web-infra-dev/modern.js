@@ -3,7 +3,7 @@ import { BuilderPlugin, LessLoaderOptions } from '../types';
 
 export function PluginLess(): BuilderPlugin {
   return {
-    name: 'web-builder-plugin-less',
+    name: 'webpack-builder-plugin-less',
     setup(api) {
       api.modifyWebpackChain(async (chain, utils) => {
         const config = api.getBuilderConfig();

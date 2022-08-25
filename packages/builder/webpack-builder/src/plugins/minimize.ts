@@ -91,7 +91,7 @@ async function applyCSSMinimizer(chain: WebpackChain, config: BuilderConfig) {
 }
 
 export const PluginMinimize = (): BuilderPlugin => ({
-  name: 'web-builder-plugin-minimize',
+  name: 'webpack-builder-plugin-minimize',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { isProd }) => {

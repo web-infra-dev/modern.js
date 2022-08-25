@@ -77,7 +77,7 @@ async function applyAlias({
 }
 
 export const PluginResolve = (): BuilderPlugin => ({
-  name: 'web-builder-plugin-resolve',
+  name: 'webpack-builder-plugin-resolve',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {

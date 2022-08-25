@@ -115,7 +115,7 @@ async function getChunks(
 }
 
 export const PluginHtml = (): BuilderPlugin => ({
-  name: 'web-builder-plugin-html',
+  name: 'webpack-builder-plugin-html',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { isProd, CHAIN_ID }) => {

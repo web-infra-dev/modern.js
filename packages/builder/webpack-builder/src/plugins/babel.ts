@@ -52,7 +52,7 @@ export function applyScriptCondition(
 }
 
 export const PluginBabel = (): BuilderPlugin => ({
-  name: 'web-builder-plugin-babel',
+  name: 'webpack-builder-plugin-babel',
   setup(api) {
     api.modifyWebpackChain(async (chain, { getCompiledPath, isProd }) => {
       const { CHAIN_ID, applyOptionsChain, isUseSSRBundle } = await import(

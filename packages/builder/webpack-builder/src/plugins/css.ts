@@ -152,7 +152,7 @@ export async function applyBaseCSSRule(
 
 export const PluginCss = (): BuilderPlugin => {
   return {
-    name: 'web-builder-plugin-css',
+    name: 'webpack-builder-plugin-css',
     setup(api) {
       api.modifyWebpackChain(async (chain, utils) => {
         const rule = chain.module.rule(utils.CHAIN_ID.RULE.CSS);

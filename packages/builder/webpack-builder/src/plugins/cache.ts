@@ -2,7 +2,7 @@ import { join } from 'path';
 import type { BuilderPlugin } from '../types';
 
 export const PluginCache = (): BuilderPlugin => ({
-  name: 'web-builder-plugin-cache',
+  name: 'webpack-builder-plugin-cache',
 
   setup(api) {
     api.modifyWebpackChain(chain => {

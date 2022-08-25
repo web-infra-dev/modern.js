@@ -13,7 +13,7 @@ enum ModuleKind {
 
 export const PluginTsLoader = (): BuilderPlugin => {
   return {
-    name: 'web-builder-plugin-ts-loader',
+    name: 'webpack-builder-plugin-ts-loader',
     setup(api) {
       const config = api.getBuilderConfig();
       if (!config.tools?.tsLoader) {

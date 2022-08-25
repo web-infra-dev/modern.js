@@ -1,5 +1,19 @@
 # @modern-js/create
 
+## 1.16.0
+
+### Minor Changes
+
+- 1100dd58c: chore: support react 18
+
+  chore: 支持 React 18
+
+### Patch Changes
+
+- 9d9bbfd05: feat: update codesmith package
+
+  feat: 升级 codesmith 包版本
+
 ## 1.15.0
 
 ## 1.6.0

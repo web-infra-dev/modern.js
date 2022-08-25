@@ -1,7 +1,7 @@
 import type { BuilderPlugin } from '../types';
 
 export const PluginCleanOutput = (): BuilderPlugin => ({
-  name: 'web-builder-plugin-clean-output',
+  name: 'webpack-builder-plugin-clean-output',
 
   setup(api) {
     const clean = async () => {

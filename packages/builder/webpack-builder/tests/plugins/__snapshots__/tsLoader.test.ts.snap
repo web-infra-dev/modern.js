@@ -11,7 +11,7 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/web-builder",
+              "<ROOT>/packages/builder/webpack-builder",
               {
                 "not": /node_modules/,
               },
@@ -28,7 +28,7 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
                 [
                   "<ROOT>/packages/cli/babel-preset-app/dist/js/node/index.js",
                   {
-                    "appDirectory": "<ROOT>/packages/builder/web-builder",
+                    "appDirectory": "<ROOT>/packages/builder/webpack-builder",
                     "metaName": "modern-js",
                     "target": "client",
                     "useBuiltIns": undefined,
@@ -65,7 +65,7 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/web-builder",
+              "<ROOT>/packages/builder/webpack-builder",
               {
                 "not": /node_modules/,
               },
@@ -81,7 +81,7 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
                 [
                   "<ROOT>/packages/cli/babel-preset-app/dist/js/node/index.js",
                   {
-                    "appDirectory": "<ROOT>/packages/builder/web-builder",
+                    "appDirectory": "<ROOT>/packages/builder/webpack-builder",
                     "metaName": "modern-js",
                     "target": "client",
                     "useBuiltIns": undefined,

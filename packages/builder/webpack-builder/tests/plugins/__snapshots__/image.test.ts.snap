@@ -6,7 +6,7 @@ exports[`plugins/image > should add image rules correctly 1`] = `
     "rules": [
       {
         "generator": {
-          "filename": "image/[name][ext]",
+          "filename": "static/image/[name][ext]",
         },
         "parser": {
           "dataUrlCondition": [Function],
@@ -26,6 +26,25 @@ exports[`plugins/image > should allow to use distPath.image to modify dist path 
       {
         "generator": {
           "filename": "foo/[name][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": [Function],
+        },
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset",
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/image > should allow to use filename.image to modify filename 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "generator": {
+          "filename": "static/image/foo[ext]",
         },
         "parser": {
           "dataUrlCondition": [Function],

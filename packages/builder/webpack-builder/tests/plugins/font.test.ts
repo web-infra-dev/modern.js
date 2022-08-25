@@ -27,4 +27,20 @@ describe('plugins/font', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should allow to use filename.font to modify filename', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginFont()],
+      builderConfig: {
+        output: {
+          filename: {
+            font: 'foo[ext]',
+          },
+        },
+      },
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+    expect(config).toMatchSnapshot();
+  });
 });

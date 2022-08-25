@@ -1,5 +1,5 @@
 import path from 'path';
-import { getPackageManager, isModernjsMonorepo, fs } from '@modern-js/utils';
+import { getPackageManager, isMonorepo, fs } from '@modern-js/utils';
 import { tag as gitTag } from '@changesets/git';
 import { CHANGESET_PATH, execaWithStreamLog } from '../utils';
 
@@ -12,7 +12,6 @@ interface ReleaseOptions {
 
 export async function release(options: ReleaseOptions) {
   const appDir = process.cwd();
-  const isMonorepo = isModernjsMonorepo(appDir);
   const packageManager = await getPackageManager(process.cwd());
 
   const params = ['publish'];
@@ -29,7 +28,11 @@ export async function release(options: ReleaseOptions) {
     params.push(otp);
   }
 
-  if (!isMonorepo || packageManager === 'yarn' || packageManager === 'npm') {
+  if (
+    !isMonorepo(appDir) ||
+    packageManager === 'yarn' ||
+    packageManager === 'npm'
+  ) {
     await execaWithStreamLog(process.execPath, [CHANGESET_PATH, ...params]);
     return;
   }

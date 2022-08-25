@@ -3,7 +3,7 @@ import { BuilderPlugin } from '../types';
 
 export const PluginSvg = (): BuilderPlugin => {
   return {
-    name: 'web-builder-plugin-svg',
+    name: 'webpack-builder-plugin-svg',
     setup(api) {
       api.modifyWebpackChain(async (chain, { CHAIN_ID, getCompiledPath }) => {
         const config = api.getBuilderConfig();

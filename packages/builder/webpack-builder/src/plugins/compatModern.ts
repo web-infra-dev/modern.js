@@ -5,7 +5,7 @@ import type { BuilderPlugin, ModuleScopes } from '../types';
  * Provides default configuration consistent with `@modern-js/webpack`
  */
 export const PluginCompatModern = (): BuilderPlugin => ({
-  name: 'web-builder-plugin-compat-modern',
+  name: 'webpack-builder-plugin-compat-modern',
 
   setup(api) {
     api.modifyBuilderConfig(config => {

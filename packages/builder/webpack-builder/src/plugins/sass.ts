@@ -3,7 +3,7 @@ import { BuilderPlugin, SassLoaderOptions } from '../types';
 
 export function PluginSass(): BuilderPlugin {
   return {
-    name: 'web-builder-plugin-sass',
+    name: 'webpack-builder-plugin-sass',
     setup(api) {
       api.modifyWebpackChain(async (chain, utils) => {
         const config = api.getBuilderConfig();

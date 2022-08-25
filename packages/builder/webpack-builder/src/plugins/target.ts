@@ -2,7 +2,7 @@ import { getBrowserslist } from '../shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginTarget = (): BuilderPlugin => ({
-  name: 'web-builder-plugin-target',
+  name: 'webpack-builder-plugin-target',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { target }) => {

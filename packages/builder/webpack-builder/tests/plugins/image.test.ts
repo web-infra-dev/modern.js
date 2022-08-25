@@ -27,4 +27,20 @@ describe('plugins/image', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should allow to use filename.image to modify filename', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginImage()],
+      builderConfig: {
+        output: {
+          filename: {
+            image: 'foo[ext]',
+          },
+        },
+      },
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+    expect(config).toMatchSnapshot();
+  });
 });

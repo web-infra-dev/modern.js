@@ -1,5 +1,32 @@
 # @modern-js/generator-plugin
 
+## 2.3.0
+
+### Patch Changes
+
+- 3c444c5f6: fix: fix generator plugin new function MaxListenersExceededWarning
+
+  fix: 修复生成器插件使用开启工程时 MaxListenersExceededWarning
+
+- 9d9bbfd05: feat: update codesmith package
+
+  feat: 升级 codesmith 包版本
+
+- Updated dependencies [beecff68d]
+- Updated dependencies [641592f52]
+- Updated dependencies [3904b30a5]
+- Updated dependencies [1100dd58c]
+- Updated dependencies [e04e6e76a]
+- Updated dependencies [94222750f]
+- Updated dependencies [81c66e4a4]
+- Updated dependencies [2c305b6f5]
+- Updated dependencies [9d9bbfd05]
+  - @modern-js/generator-utils@2.3.0
+  - @modern-js/utils@1.16.0
+  - @modern-js/generator-common@2.3.0
+  - @modern-js/new-action@1.16.0
+  - @modern-js/plugin-i18n@1.16.0
+
 ## 2.2.1
 
 ### Patch Changes

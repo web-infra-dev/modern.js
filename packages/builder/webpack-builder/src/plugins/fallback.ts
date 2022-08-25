@@ -3,7 +3,7 @@ import type { BuilderPlugin } from '../types';
 import type { RuleSetRule } from 'webpack';
 
 export const PluginFallback = (): BuilderPlugin => ({
-  name: 'web-builder-plugin-fallback',
+  name: 'webpack-builder-plugin-fallback',
 
   setup(api) {
     api.modifyWebpackConfig(config => {

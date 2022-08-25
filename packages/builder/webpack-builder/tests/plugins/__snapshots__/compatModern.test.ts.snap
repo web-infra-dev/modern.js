@@ -27,10 +27,10 @@ exports[`plugins/compatModern > should apply compatible webpack configs correctl
   },
   "name": "client",
   "output": {
-    "chunkFilename": "js/async/[name].js",
-    "filename": "js/[name].js",
+    "chunkFilename": "static/js/async/[name].js",
+    "filename": "static/js/[name].js",
     "hashFunction": "xxhash64",
-    "path": "<ROOT>/packages/builder/web-builder/dist",
+    "path": "<ROOT>/packages/builder/webpack-builder/dist",
     "publicPath": "/",
   },
   "plugins": [

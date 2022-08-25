@@ -1,7 +1,7 @@
 import type { BuilderPlugin } from '../types';
 
 export const PluginProgress = (): BuilderPlugin => ({
-  name: 'web-builder-plugin-progress',
+  name: 'webpack-builder-plugin-progress',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { isServer, CHAIN_ID }) => {

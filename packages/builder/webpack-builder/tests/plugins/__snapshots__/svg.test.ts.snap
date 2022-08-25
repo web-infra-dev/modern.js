@@ -20,7 +20,7 @@ exports[`plugins/svg > export default Component 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/packages/builder/web-builder/compiled/url-loader",
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/url-loader",
             "options": {
               "limit": Infinity,
               "name": "assets/[name].[contenthash:8].[ext]",
@@ -44,7 +44,7 @@ exports[`plugins/svg > export default Component 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/packages/builder/web-builder/compiled/url-loader",
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/url-loader",
             "options": {
               "limit": false,
               "name": "assets/[name].[contenthash:8].[ext]",
@@ -93,7 +93,7 @@ exports[`plugins/svg > export default url 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/packages/builder/web-builder/compiled/url-loader",
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/url-loader",
             "options": {
               "limit": Infinity,
               "name": "assets/[name].[contenthash:8].[ext]",
@@ -117,7 +117,7 @@ exports[`plugins/svg > export default url 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/packages/builder/web-builder/compiled/url-loader",
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/url-loader",
             "options": {
               "limit": false,
               "name": "assets/[name].[contenthash:8].[ext]",
@@ -140,7 +140,7 @@ exports[`plugins/svg > export default url 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/packages/builder/web-builder/compiled/url-loader",
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/url-loader",
             "options": {
               "limit": 4096,
               "name": "assets/[name].[contenthash:8].[ext]",

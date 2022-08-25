@@ -1,5 +1,7 @@
 import { join } from 'path';
 import {
+  getDistPath,
+  getFilename,
   MEDIA_EXTENSIONS,
   getRegExpForExts,
   getDataUrlCondition,
@@ -7,17 +9,15 @@ import {
 import type { BuilderPlugin } from '../types';
 
 export const PluginMedia = (): BuilderPlugin => ({
-  name: 'web-builder-plugin-media',
+  name: 'webpack-builder-plugin-media',
 
   setup(api) {
     api.modifyWebpackChain((chain, { isProd, CHAIN_ID }) => {
       const config = api.getBuilderConfig();
       const regExp = getRegExpForExts(MEDIA_EXTENSIONS);
 
-      const { distPath } = config.output || {};
-      const distDir =
-        (typeof distPath === 'object' && distPath.media) || 'media';
-      const filename = isProd ? '[name].[contenthash:8][ext]' : '[name][ext]';
+      const distDir = getDistPath(config, 'media');
+      const filename = getFilename(config, 'media', isProd);
 
       chain.module
         .rule(CHAIN_ID.RULE.MEDIA)

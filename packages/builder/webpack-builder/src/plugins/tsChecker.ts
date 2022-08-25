@@ -3,7 +3,7 @@ import path from 'path';
 
 export const PluginTsChecker = (): BuilderPlugin => {
   return {
-    name: 'web-builder-plugin-ts-checker',
+    name: 'webpack-builder-plugin-ts-checker',
     setup(api) {
       const config = api.getBuilderConfig();
       // Use tsChecker if tsChecker is not `false`, So there are two situations for user:

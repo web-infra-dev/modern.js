@@ -2,7 +2,7 @@ import { BuilderPlugin } from '../types/plugin';
 
 export function PluginBundleAnalyzer(): BuilderPlugin {
   return {
-    name: 'web-builder-plugin-bundle-analyzer',
+    name: 'webpack-builder-plugin-bundle-analyzer',
     setup(api) {
       api.modifyWebpackChain(
         async (chain, { CHAIN_ID, getCompiledPath, target }) => {

@@ -11,7 +11,10 @@ export const start = async (api: PluginAPI) => {
   const { appDirectory, port, serverConfigFile } = appContext;
 
   logger.log(chalk.cyan(`Starting the modern server...`));
-  const apiOnly = await isApiOnly(appContext.appDirectory);
+  const apiOnly = await isApiOnly(
+    appContext.appDirectory,
+    userConfig?.source?.entriesDir,
+  );
   const app = await server({
     pwd: appDirectory,
     config: userConfig,

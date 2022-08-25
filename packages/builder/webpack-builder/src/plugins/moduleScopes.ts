@@ -24,7 +24,7 @@ export const applyScopeChain = (
 };
 
 export const PluginModuleScopes = (): BuilderPlugin => ({
-  name: 'web-builder-plugin-module-scopes',
+  name: 'webpack-builder-plugin-module-scopes',
 
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {

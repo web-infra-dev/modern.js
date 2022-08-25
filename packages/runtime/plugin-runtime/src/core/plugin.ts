@@ -8,7 +8,7 @@ import {
   createPipeline,
   createAsyncPipeline,
 } from '@modern-js/plugin';
-import type { RuntimeContext, TRuntimeContext } from './runtime-context';
+import type { RuntimeContext, TRuntimeContext } from '../runtime-context';
 import { createLoaderManager } from './loader/loaderManager';
 
 const hoc = createPipeline<

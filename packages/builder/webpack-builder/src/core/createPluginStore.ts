@@ -22,7 +22,9 @@ export function createPluginStore(): PluginStore {
     Boolean(plugins.find(plugin => plugin.name === pluginName));
 
   return {
-    plugins,
+    get plugins() {
+      return plugins;
+    },
     addPlugins,
     removePlugins,
     isPluginExists,

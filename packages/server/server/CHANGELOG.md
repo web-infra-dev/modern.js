@@ -1,5 +1,24 @@
 # @modern-js/server
 
+## 1.16.0
+
+### Patch Changes
+
+- 2808ff5a2: fix(dev-server): support enable hmr client by webpack target
+
+  fix(dev-server): 支持通过 webpack target 来判断是否启用 hmr client
+
+- Updated dependencies [641592f52]
+- Updated dependencies [3904b30a5]
+- Updated dependencies [1100dd58c]
+- Updated dependencies [e04e6e76a]
+- Updated dependencies [81c66e4a4]
+- Updated dependencies [2c305b6f5]
+  - @modern-js/utils@1.16.0
+  - @modern-js/webpack@1.16.0
+  - @modern-js/server-utils@1.16.0
+  - @modern-js/prod-server@1.16.0
+
 ## 1.15.0
 
 ### Patch Changes
