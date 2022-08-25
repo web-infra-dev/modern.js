@@ -21,6 +21,7 @@ const restrictedImportInSource = {
     ...devDependencyPaths,
   ].map(withAllowTypeImports('name')),
   patterns: [
+    'src/**/*',
     '**/plugins/*',
     '**/webpackPlugins/*',
     '*-webpack-plugin',
