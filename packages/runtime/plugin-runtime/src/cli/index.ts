@@ -1,10 +1,5 @@
 import path from 'path';
-import {
-  PLUGIN_SCHEMAS,
-  createRuntimeExportsUtils,
-  cleanRequireCache,
-  isReact18,
-} from '@modern-js/utils';
+import { PLUGIN_SCHEMAS, cleanRequireCache, isReact18 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import PluginState from '../state/cli';
 import PluginSSR from '../ssr/cli';
@@ -20,20 +15,15 @@ export default (): CliPlugin => ({
   ],
   usePlugins: [PluginState(), PluginRouter(), PluginSSR()],
   setup: api => {
-    let runtimeExportsUtils: ReturnType<typeof createRuntimeExportsUtils> =
-      {} as any;
-
     return {
       config() {
         const dir = api.useAppContext().internalDirectory || '';
-        runtimeExportsUtils = createRuntimeExportsUtils(dir, 'index');
         process.env.IS_REACT18 = isReact18(path.join(dir, '../../')).toString();
         return {
           runtime: {},
           runtimeByEntries: {},
           source: {
             alias: {
-              '@modern-js/runtime$': runtimeExportsUtils.getPath(),
               /**
                * twin.macro inserts styled-components into the code during the compilation process
                * But it will not be installed under the user project.
@@ -47,10 +37,6 @@ export default (): CliPlugin => ({
       },
       validateSchema() {
         return PLUGIN_SCHEMAS['@modern-js/runtime'];
-      },
-      addRuntimeExports() {
-        const runtimePackage = path.resolve(__dirname, '../../../../');
-        runtimeExportsUtils.addExport(`export * from '${runtimePackage}'`);
       },
       async beforeRestart() {
         cleanRequireCache([
