@@ -1,6 +1,6 @@
 import _ from '@modern-js/utils/lodash';
 import { expect, it, describe } from 'vitest';
-import { createStubBuilder } from '../../src/shared/stub';
+import { createStubBuilder } from '../../src/stub';
 
 describe('tests/stub-builder', () => {
   it.skip('should memoize building result', async () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createStubBuilder } from '../../src/shared/stub';
+import { createStubBuilder } from '../../src/stub';
 import { PluginDefine } from '../../src/plugins/define';
 
 describe('plugins/define', () => {

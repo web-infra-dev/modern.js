@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
 import { PluginBabel } from '../../src/plugins/babel';
-import { createStubBuilder } from '../../src/shared/stub';
+import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/babel', () => {
   it('should set babel-loader', async () => {

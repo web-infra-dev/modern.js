@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
 import { PluginSvg } from '../../src/plugins/svg';
-import { createStubBuilder } from '../../src/shared/stub';
+import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/svg', () => {
   it('export default url', async () => {

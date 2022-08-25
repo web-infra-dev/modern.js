@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
 import { PluginTsLoader } from '../../src/plugins/tsLoader';
-import { createStubBuilder } from '../../src/shared/stub';
+import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/tsChecker', () => {
   it("should't set ts-checker", async () => {
