@@ -93,7 +93,7 @@ export const makeRenderFunction = (code: string) => {
     code
       .replace(`router(`, `generateRouterPlugin(basename,`)
       .replace('(App)', `(AppWrapper)`)
-      .replaceAll('MOUNT_ID', 'mountNode')
+      .replace(/MOUNT_ID/g, 'mountNode')
       .replace(`document.getElementById(mountNode || 'root')`, 'mountNode')
   );
 };
