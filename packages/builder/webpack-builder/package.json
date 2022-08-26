@@ -35,15 +35,20 @@
       "default": "./dist/exports/HtmlWebpackPlugin.js"
     },
     "./stub": {
-      "jsnext:source": "./src/shared/stub/index.ts",
-      "default": "./dist/shared/stub/index.js"
+      "jsnext:source": "./src/stub/index.ts",
+      "default": "./dist/stub/index.js"
+    },
+    "./plugins/": {
+      "jsnext:source": "./src/plugins/",
+      "default": "./dist/plugins/"
     }
   },
   "typesVersions": {
     "*": {
       "webpack": ["./dist/exports/webpack.d.ts"],
       "html-webpack-plugin": ["./dist/exports/HtmlWebpackPlugin.d.ts"],
-      "stub": ["./dist/stub/index.d.ts"]
+      "stub": ["./dist/stub/index.d.ts"],
+      "plugins/*": ["./dist/plugins/*.d.ts"]
     }
   },
   "scripts": {
