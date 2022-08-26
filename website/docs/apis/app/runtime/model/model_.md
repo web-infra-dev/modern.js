@@ -5,11 +5,9 @@ title: model
 
 # model
 
-:::info 补充信息
-默认情况下，本节所有 API 的导出包名为：`@modern-js/runtime/model`。
+import ReduckTip from '@site/docs/components/reduck-tip.md'
 
-如果是在 Modern.js 以外单独集成 Reduck，导出包名为：`@modern-js-reduck/react`。
-:::
+<ReduckTip />
 
 :::tip 提示
 Reduck 原始类型较为复杂，以下涉及类型定义的地方，展示的是简化后的类型信息。原始类型见 [**model**](https://github.com/modern-js-dev/reduck/blob/main/packages/store/src/model/model.ts)。

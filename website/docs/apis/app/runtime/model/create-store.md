@@ -5,11 +5,9 @@ title: create-store
 
 # createStore
 
-:::info 补充信息
-默认情况下，本节所有 API 的导出包名为：`@modern-js/runtime/model`。
+import ReduckTip from '@site/docs/components/reduck-tip.md'
 
-如果是在 Modern.js 以外单独集成 Reduck，导出包名为：`@modern-js-reduck/react`。
-:::
+<ReduckTip />
 
 
 `createStore` 用于创建一个 Store 对象。Reduck 的 Store 基于 Redux 的 [Store](https://redux.js.org/api/store) 实现，用于存储应用的状态，同时提供一组用于管理状态和 Model 的方法。一般情况下，不需要使用这个 API，只有需要完全掌控 Store 的创建时，才会使用这个 API。例如，自定义一个 Store，传入 [`Provider`](./Provider.md) 组件使用。

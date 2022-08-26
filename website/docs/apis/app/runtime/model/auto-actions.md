@@ -5,11 +5,9 @@ title: auto-actions
 
 # auto-actions
 
-:::info 补充信息
-默认情况下，本节所有 API 的导出包名为：`@modern-js/runtime/model`。
+import ReduckTip from '@site/docs/components/reduck-tip.md'
 
-如果是在 Modern.js 以外单独集成 Reduck，导出包名为：`@modern-js-reduck/react`。
-:::
+<ReduckTip />
 
 Reduck 可以根据 State 的类型，自动生成相应的 Actions，为修改 State 提供便利。
 

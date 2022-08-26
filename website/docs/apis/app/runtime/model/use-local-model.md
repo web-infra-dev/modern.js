@@ -5,11 +5,9 @@ title: useLocalModel
 
 # useLocalModel
 
-:::info 补充信息
-默认情况下，本节所有 API 的导出包名为：`@modern-js/runtime/model`。
+import ReduckTip from '@site/docs/components/reduck-tip.md'
 
-如果是在 Modern.js 以外单独集成 Reduck，导出包名为：`@modern-js-reduck/react`。
-:::
+<ReduckTip />
 
 用于把 Model 中的 State 作为局部状态使用，效果类似 React 的 `useState`。`useStaticModel` API 形式上与 `useModel` 完全一致。具体使用请参考 [`useModel`](./use-model.md)。
 

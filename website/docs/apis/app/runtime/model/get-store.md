@@ -5,11 +5,9 @@ title: get-store
 
 # getStore
 
-:::info 补充信息
-默认情况下，本节所有 API 的导出包名为：`@modern-js/runtime/model`。
+import ReduckTip from '@site/docs/components/reduck-tip.md'
 
-如果是在 Modern.js 以外单独集成 Reduck，导出包名为：`@modern-js-reduck/react`。
-:::
+<ReduckTip />
 
 `getStore` 用于获取当前组件树共享的 Store。常用于在组件外访问 Model 的场景。注意，调用 `getStore` 时，需要保证组件树已完成挂载，否则无法获取到 Store。
 

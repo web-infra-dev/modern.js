@@ -5,11 +5,9 @@ title: create-app
 
 # createApp
 
-:::info 补充信息
-默认情况下，本节所有 API 的导出包名为：`@modern-js/runtime/model`。
+import ReduckTip from '@site/docs/components/reduck-tip.md'
 
-如果是在 Modern.js 以外单独集成 Reduck，导出包名为：`@modern-js-reduck/react`。
-:::
+<ReduckTip />
 
 一个 Reduck 应用对应共享一个 Store 的应用。Reduck 内部默认会使用 `createApp` 创建一个全局应用，如果整个应用只需要共享一个 Store，那么是不需要使用 `createApp` 的。只有当需要在应用局部创建共享 Store 时，才需要使用 `createApp` 。
 

@@ -5,11 +5,9 @@ title: useStaticModel
 
 # useStaticModel
 
-:::info 补充信息
-默认情况下，本节所有 API 的导出包名为：`@modern-js/runtime/model`。
+import ReduckTip from '@site/docs/components/reduck-tip.md'
 
-如果是在 Modern.js 以外单独集成 Reduck，导出包名为：`@modern-js-reduck/react`。
-:::
+<ReduckTip />
 
 如果想在组件里以 React Hook 的形式消费某个 Model，并能随时获取到当前最新的状态，但又不希望 Model 状态更新的时候，引起组件的重新渲染，可以使用 `useStaticModel`。`useStaticModel` API 形式上与 `useModel` 完全一致。具体使用请参考 [`useModel`](./use-model.md)。
 

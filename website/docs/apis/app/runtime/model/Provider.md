@@ -5,11 +5,9 @@ title: Provider
 
 # Provider
 
-:::info 补充信息
-默认情况下，本节所有 API 的导出包名为：`@modern-js/runtime/model`。
+import ReduckTip from '@site/docs/components/reduck-tip.md'
 
-如果是在 Modern.js 以外单独集成 Reduck，导出包名为：`@modern-js-reduck/react`。
-:::
+<ReduckTip />
 
 `Provider` 是一个组件，它将 Reduck 的 Store 注入到应用的组件树中，使组件树内部的组件可以访问 Model。一般情况下，`Provider` 会定义在组件树的最顶层。
 

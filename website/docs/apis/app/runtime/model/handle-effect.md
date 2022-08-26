@@ -5,11 +5,9 @@ title: handle-effect
 
 # handleEffect
 
-:::info 补充信息
-默认情况下，本节所有 API 的导出包名为：`@modern-js/runtime/model`。
+import ReduckTip from '@site/docs/components/reduck-tip.md'
 
-如果是在 Modern.js 以外单独集成 Reduck，导出包名为：`@modern-js-reduck/react`。
-:::
+<ReduckTip />
 
 一个异步函数类型的 Effect，通常有三种需要处理的状态: 1.请求中；2.请求成功；3.请求处理失败。这些状态处理的方式，就是编写对应的 Action 函数(pending、fulfilled、rejected)。
 
