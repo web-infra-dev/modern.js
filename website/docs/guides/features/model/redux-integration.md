@@ -1,6 +1,6 @@
 ---
 sidebar_position: 11
-title: 贡献插件
+title: Redux 生态集成
 ---
 
 :::tip 提示
