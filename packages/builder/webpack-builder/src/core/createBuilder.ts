@@ -90,6 +90,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginLess } = await import('../plugins/less');
   const { PluginReact } = await import('../plugins/react');
   const { PluginBundleAnalyzer } = await import('../plugins/bundleAnalyzer');
+  const { PluginToml } = await import('../plugins/toml');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
@@ -124,6 +125,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginLess(),
     PluginReact(),
     PluginBundleAnalyzer(),
+    PluginToml(),
 
     // fallback should be the last plugin
     PluginFallback(),

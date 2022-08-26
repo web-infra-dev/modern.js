@@ -27,6 +27,8 @@ export const CHAIN_ID = {
     SVG_URL: 'svg-url',
     /** Rule for pug */
     PUG: 'pug',
+    /** Rule for toml */
+    TOML: 'toml',
   },
   /** Predefined rule groups */
   ONE_OF: {

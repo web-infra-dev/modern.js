@@ -397,6 +397,10 @@ export const TASKS: TaskConfig[] = [
           );
         },
       },
+      {
+        name: 'toml-loader',
+        ignoreDts: true,
+      },
     ],
   },
   {
