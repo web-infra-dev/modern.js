@@ -19,4 +19,5 @@ const loader: LoaderDefinition<FinalOptions> = function loader(content) {
 };
 /* eslint-enable */
 
-export default loader;
+module.exports = loader;
+module.exports.default = loader;

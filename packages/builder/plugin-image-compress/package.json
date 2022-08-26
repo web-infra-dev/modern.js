@@ -26,6 +26,21 @@
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage"
   },
+  "exports": {
+    ".": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/index.js"
+    },
+    "./loader": {
+      "jsnext:source": "./src/loader.ts",
+      "default": "./dist/loader.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "loader": ["./dist/loader.d.ts"]
+    }
+  },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
     "@napi-rs/image": "^1.3.0"
