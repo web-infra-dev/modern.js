@@ -1,8 +1,5 @@
 import type React from 'react';
-
-export interface AppConfig {
-  [key: string]: any;
-}
+import { AppConfig } from '../common';
 
 const APP_CONFIG_SYMBOL = 'config';
 export const getConfig = (

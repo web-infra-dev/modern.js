@@ -180,7 +180,10 @@ export const TASKS: TaskConfig[] = [
     dependencies: [
       'tapable',
       'webpack-merge',
-      'webpack-sources',
+      {
+        name: 'webpack-sources',
+        ignoreDts: true,
+      },
       {
         name: 'webpackbar',
         ignoreDts: true,
@@ -202,6 +205,21 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'schema-utils3',
         ignoreDts: true,
+      },
+      {
+        name: '@babel/parser',
+        ignoreDts: true,
+      },
+      {
+        name: '@babel/helper-validator-identifier',
+        ignoreDts: true,
+      },
+      {
+        name: '@babel/types',
+        externals: {
+          '@babel/helper-validator-identifier':
+            '../helper-validator-identifier',
+        },
       },
       {
         name: 'babel-loader',
@@ -360,6 +378,34 @@ export const TASKS: TaskConfig[] = [
         externals: {
           chalk: '@modern-js/utils/chalk',
           'gzip-size': '@modern-js/utils/gzip-size',
+        },
+      },
+      {
+        name: 'pug',
+        externals: {
+          '@babel/types': '../@babel/types',
+          '@babel/parser': '../@babel/parser',
+        },
+        afterBundle(task) {
+          replaceFileContent(
+            join(task.distPath, 'index.d.ts'),
+            content =>
+              `${content.replace(
+                "declare module 'pug'",
+                'declare namespace pug',
+              )}\nexport = pug;`,
+          );
+        },
+      },
+      {
+        name: 'toml-loader',
+        ignoreDts: true,
+      },
+      {
+        name: 'yaml-loader',
+        ignoreDts: true,
+        externals: {
+          'loader-utils': '../loader-utils2',
         },
       },
     ],
