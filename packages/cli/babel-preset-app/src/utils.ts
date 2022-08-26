@@ -20,3 +20,18 @@ export const isBeyondReact17 = (cwd: string) => {
 
   return semver.satisfies(semver.minVersion(deps.react)!, '>=17.0.0');
 };
+
+export const getCoreJsVersion = () => {
+  try {
+    const { version } = fs.readJSONSync(
+      require.resolve('core-js/package.json'),
+      {
+        encoding: 'utf-8',
+      },
+    );
+    const [major, minor] = version.split('.');
+    return [major, minor].join('.');
+  } catch (err) {
+    return '3';
+  }
+};
