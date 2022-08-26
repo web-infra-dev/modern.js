@@ -2962,7 +2962,6 @@ importers:
       postcss-page-break: 3.0.4
       postcss-value-parser: 4.2.0
       pug: 3.0.2
-      pug-plain-loader: 1.1.0
       recursive-readdir: 2.2.2
       sass: 1.54.4
       sass-loader: 13.0.2
@@ -3090,7 +3089,6 @@ importers:
       postcss-page-break: 3.0.4_postcss@8.4.14
       postcss-value-parser: 4.2.0
       pug: 3.0.2
-      pug-plain-loader: 1.1.0_pug@3.0.2
       recursive-readdir: 2.2.2
       sass: 1.54.4
       sass-loader: 13.0.2_sass@1.54.4+webpack@5.73.0
@@ -25649,15 +25647,6 @@ packages:
     dependencies:
       pug-error: 2.0.0
       token-stream: 1.0.0
-
-  /pug-plain-loader/1.1.0_pug@3.0.2:
-    resolution: {integrity: sha512-1nYgIJLaahRuHJHhzSPODV44aZfb00bO7kiJiMkke6Hj4SVZftuvx6shZ4BOokk50dJc2RSFqNUBOlus0dniFQ==}
-    peerDependencies:
-      pug: ^2.0.0 || ^3.0.0
-    dependencies:
-      loader-utils: 1.4.0
-      pug: 3.0.2
-    dev: true
 
   /pug-runtime/3.0.1:
     resolution: {integrity: sha512-L50zbvrQ35TkpHwv0G6aLSuueDRwc/97XdY8kL3tOT0FmhgG7UypU3VztfV/LATAvmUfYi4wNxSajhSAeNN+Kg==}
