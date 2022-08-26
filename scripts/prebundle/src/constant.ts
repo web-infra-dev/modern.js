@@ -408,6 +408,10 @@ export const TASKS: TaskConfig[] = [
           'loader-utils': '../loader-utils2',
         },
       },
+      {
+        name: 'markdown-loader',
+        ignoreDts: true,
+      },
     ],
   },
   {

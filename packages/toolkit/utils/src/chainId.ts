@@ -31,6 +31,8 @@ export const CHAIN_ID = {
     TOML: 'toml',
     /** Rule for yaml */
     YAML: 'yaml',
+    /** Rule for markdown */
+    MARKDOWN: 'markdown',
   },
   /** Predefined rule groups */
   ONE_OF: {

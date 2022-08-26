@@ -1,0 +1,21 @@
+// Vitest Snapshot v1
+
+exports[`plugins/markdown > should add markdown rules properly 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.md\\$/,
+        "use": [
+          {
+            "loader": "<NODE_MODULES>/html-loader/dist/cjs.js",
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/markdown-loader",
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

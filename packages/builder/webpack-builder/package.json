@@ -53,6 +53,7 @@
     "caniuse-lite": "^1.0.30001332",
     "css-minimizer-webpack-plugin": "4.0.0",
     "fork-ts-checker-webpack-plugin": "6.5.2",
+    "html-loader": "3.1.0",
     "html-webpack-plugin": "5.3.2",
     "pug-loader": "2.4.0",
     "pug": "3.0.2",

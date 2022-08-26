@@ -68,6 +68,7 @@ importers:
       caniuse-lite: ^1.0.30001332
       css-minimizer-webpack-plugin: 4.0.0
       fork-ts-checker-webpack-plugin: 6.5.2
+      html-loader: 3.1.0
       html-webpack-plugin: 5.3.2
       mini-css-extract-plugin: 2.4.5
       postcss: ^8.4.14
@@ -89,6 +90,7 @@ importers:
       caniuse-lite: 1.0.30001382
       css-minimizer-webpack-plugin: 4.0.0_esbuild@0.14.47+webpack@5.73.0
       fork-ts-checker-webpack-plugin: 6.5.2_typescript@4.7.4+webpack@5.73.0
+      html-loader: 3.1.0_webpack@5.73.0
       html-webpack-plugin: 5.3.2_webpack@5.73.0
       mini-css-extract-plugin: 2.4.5_webpack@5.73.0
       pug: 3.0.2
