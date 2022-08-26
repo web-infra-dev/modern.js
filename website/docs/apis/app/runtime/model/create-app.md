@@ -1,70 +1,76 @@
 ---
-sidebar_position: 5
+sidebar_position: 11
+title: create-app
 ---
 
 # createApp
 
-:::info 补充信息
-用于创建局部状态，将不同 **Model App** 间状态隔离。
-```ts
-import { createApp } from '@modern-js/runtime/model';
-```
-:::
+import ReduckTip from '@site/docs/components/reduck-tip.md'
+
+<ReduckTip />
+
+一个 Reduck 应用对应共享一个 Store 的应用。Reduck 内部默认会使用 `createApp` 创建一个全局应用，如果整个应用只需要共享一个 Store，那么是不需要使用 `createApp` 的。只有当需要在应用局部创建共享 Store 时，才需要使用 `createApp` 。
+
 
 :::caution 注意
-- 注意 `@modern-js/runtime/model` 中导出的 `createApp` 用于管理状态，而 `@modern-js/runtime` 导出的 `createApp` 用于管理更下层的运行时，两者功能不同。
+- 注意 `@modern-js/runtime/model` 中导出的 `createApp` 用于管理状态，而 `@modern-js/runtime` 导出的 `createApp` 用于管理整个应用的运行时环境，两者功能不同。
 :::
 
-## API
+## 类型
 
-`createApp(config) => object`
+```ts
+interface AppConfig extends StoreConfig {
+  devTools?: boolean | DevToolsOptions;
+  autoActions?: boolean;
+}
+
+function createApp(config: AppConfig): object;
+```
+
 ### 参数
 
 - config：`Record<string, any>`
-  - [models]：在 App 入口中统一注册 models。（正常使用无需提前注册）
-  <!-- TODO: 注册有什么用？ -->
-  - [initialState]：用于设置全局 store 的初始状态。（一般用于 SSR，初始化数据）
-  - [plugins]：注入插件，可注入的插件有（router、immer、auto-action、machine  等）。
-  <!-- TODO: 插件列表、链接 -->
-  - [enhancers]：Redux createStore API enhancer 配置，详见[介绍](https://redux.js.org/api/createstore)。
+  - StoreConfig：同 [`createStore`](./create-store.md) 的参数。
+  - devTools：默认值为true。是否开启 Redux DevTools，当为对象类型时，支持配置 Redux DevTools 的 [Options](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md)。
+  - autoActins：默认值为true。是否[自动生成 Actions](./auto-actions.md)。
 
 ### 返回值
 
-- Provider：`React.ComponentType<any>`，React 组件，提供局部 **React Context** 环境。
-- useModel：`function`，获取 **Model** 的 **React Hook** 函数，详见 [**useModel**](../container/use-model.md)。
-- useStaticModel：`function`，获取 **Model** 的 **React Hook** 函数，详见 [**useStaticModel**](../container/use-static-model.md)。
+Reduck App，有以下属性组成：
+
+- Provider：为应用局部的组件树注入共享 Store 的组件。用法同 [`Provider`](./Provider.md)。
+- useModel：获取应用局部 Store 挂载的 Model 对象。用法同 [`useModel`](./use-model.md)。
+- useStaticModel：获取应用局部 Store 挂载的 Model 对象。用法同 [`useStaticModel`](./use-static-model.md)。
+- useLocalModel：获取应用局部 Store 挂载的 Model 对象。用法同 [`useLocalModel`](./use-local-model.md)。
+- getStore：获取应用局部使用的 Store 对象。用法同 [`getStore`](./use-static-model.md)。
 
 ## 示例
 
-通过 `createApp` 可以创建局部状态，将不同 **Model App** 间状态隔离。
+通过 `createApp` 可以创建局部状态，将不同 Reduck 应用间的状态隔离。
 
 ```tsx
-import { createApp, model } from '@modern-js/runtime/model';
-import autoActions from '@modern-js-reduck/plugin-auto-actions';
-import { fooModel } from '@/common/models';
-
-const { Provider: LocalFooProvider, useModel: useLocalFooModel} = createApp({
-  plugins: [autoActions()]
-});
-const { Provider: LocalBarProvider, useModel: useLocalBarModel} = createApp({
-  plugins: [autoActions()]
-});
+const { Provider: LocalFooProvider, useModel: useLocalFooModel } = createApp();
+const { Provider: LocalBarProvider, useModel: useLocalBarModel } = createApp();
 
 function Foo() {
   const [fooState] = useLocalFooModel(fooModel);
   const [barState] = useLocalBarModel(fooModel);
 
-  return <div>
-    <div>Foo: {fooState}</div>
-    <div>Bar: {barState}</div>
-  </div>
+  return (
+    <div>
+      <div>Foo: {fooState}</div>
+      <div>Bar: {barState}</div>
+    </div>
+  );
 }
 
 function Container() {
-  return <LocalFooProvider>
-    <LocalBarProvider>
-      <Foo />
-    </LocalBarProvider>
-  </LocalFooProvider>
+  return (
+    <LocalFooProvider>
+      <LocalBarProvider>
+        <Foo />
+      </LocalBarProvider>
+    </LocalFooProvider>
+  );
 }
 ```
