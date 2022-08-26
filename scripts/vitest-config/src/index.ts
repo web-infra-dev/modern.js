@@ -1,5 +1,6 @@
 import { defineConfig, UserConfigExport } from 'vitest/config';
-import _ from 'lodash';
+import _ from '@modern-js/utils/lodash';
+import { createSnapshotSerializer } from './utils';
 
 export const testPreset = defineConfig({
   test: {
@@ -19,3 +20,5 @@ export const testPreset = defineConfig({
 
 export const withTestPreset = (config: UserConfigExport) =>
   _.merge(testPreset, config);
+
+export { defineConfig, createSnapshotSerializer };
