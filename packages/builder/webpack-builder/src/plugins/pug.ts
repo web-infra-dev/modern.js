@@ -1,3 +1,4 @@
+import path from 'path';
 import type { BuilderPlugin } from '../types';
 
 export const PluginPug = (): BuilderPlugin => ({
@@ -16,7 +17,7 @@ export const PluginPug = (): BuilderPlugin => ({
         .rule(CHAIN_ID.RULE.PUG)
         .test(/\.pug$/)
         .use(CHAIN_ID.USE.PUG)
-        .loader(require.resolve('../webpackLoaders/pugLoader'))
+        .loader(path.resolve('../webpackLoaders/pugLoader'))
         .options(applyOptionsChain({}, config.tools?.pug));
     });
   },
