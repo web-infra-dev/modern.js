@@ -362,6 +362,10 @@ export const TASKS: TaskConfig[] = [
           'gzip-size': '@modern-js/utils/gzip-size',
         },
       },
+      {
+        name: 'toml-loader',
+        ignoreDts: true,
+      },
     ],
   },
   {
