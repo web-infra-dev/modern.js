@@ -35,8 +35,8 @@
       "default": "./dist/exports/HtmlWebpackPlugin.js"
     },
     "./stub": {
-      "jsnext:source": "./src/shared/stub/index.ts",
-      "default": "./dist/shared/stub/index.js"
+      "jsnext:source": "./src/stub/index.ts",
+      "default": "./dist/stub/index.js"
     }
   },
   "typesVersions": {

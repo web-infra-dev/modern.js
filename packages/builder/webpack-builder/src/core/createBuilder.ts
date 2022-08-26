@@ -5,7 +5,6 @@ import type { PluginStore, BuilderOptions, Context } from '../types';
 import type { InspectOptions } from './inspectWebpackConfig';
 import { initConfigs } from './initConfigs';
 import type * as webpack from 'webpack';
-import _ from '@modern-js/utils/lodash';
 import { webpackBuild } from './build';
 
 /**
@@ -14,10 +13,9 @@ import { webpackBuild } from './build';
  * Usually it won't take much cost.
  */
 export function createPrimaryBuilder(
-  options: Required<BuilderOptions> & { context: Context },
+  builderOptions: Required<BuilderOptions>,
+  context: Context,
 ) {
-  const { context } = options;
-  const builderOptions = _.omit(options, 'context');
   const publicContext = createPublicContext(context);
   const pluginStore = createPluginStore();
 
@@ -48,10 +46,10 @@ export function createPrimaryBuilder(
 export async function createBuilder(options?: BuilderOptions) {
   const builderOptions = mergeBuilderOptions(options);
   const context = await createContext(builderOptions);
-  const { build, pluginStore, publicContext } = createPrimaryBuilder({
+  const { build, pluginStore, publicContext } = createPrimaryBuilder(
+    builderOptions,
     context,
-    ...builderOptions,
-  });
+  );
 
   await addDefaultPlugins(pluginStore);
 
