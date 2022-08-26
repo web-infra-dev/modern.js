@@ -26,10 +26,7 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     pluginStore,
     publicContext,
     build: buildImpl,
-  } = createPrimaryBuilder({
-    ...builderOptions,
-    context,
-  });
+  } = createPrimaryBuilder(builderOptions, context);
   options?.plugins && pluginStore.addPlugins(options.plugins);
 
   // tap on each hook and cache the args.
