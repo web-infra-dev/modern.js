@@ -119,7 +119,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3",
+                      "version": "3.25",
                     },
                     "exclude": [
                       "transform-typeof-symbol",

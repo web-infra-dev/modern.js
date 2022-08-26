@@ -13,5 +13,3 @@ declare module '@loadable/server' {
     constructor({ statsFile, entrypoints });
   }
 }
-
-declare module '@modern-js/runtime' {}
