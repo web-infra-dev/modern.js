@@ -25,6 +25,8 @@ export const CHAIN_ID = {
     SVG: 'svg',
     SVG_INLINE: 'svg-inline',
     SVG_URL: 'svg-url',
+    /** Rule for pug */
+    PUG: 'pug',
     /** Rule for toml */
     TOML: 'toml',
   },
@@ -62,6 +64,8 @@ export const CHAIN_ID = {
     LESS: 'less',
     /** url-loader */
     URL: 'url',
+    /** pug-loader */
+    PUG: 'pug',
     /** file-loader */
     FILE: 'file',
     /** @svgr/webpack */
