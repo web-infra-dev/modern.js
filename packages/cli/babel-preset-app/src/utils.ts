@@ -25,12 +25,9 @@ export const getCoreJsVersion = () => {
   try {
     const { version } = fs.readJSONSync(
       require.resolve('core-js/package.json'),
-      {
-        encoding: 'utf-8',
-      },
     );
     const [major, minor] = version.split('.');
-    return [major, minor].join('.');
+    return `${major}.${minor}`;
   } catch (err) {
     return '3';
   }
