@@ -8,7 +8,7 @@ export const TestPlugin = (): BuilderPlugin => ({
   setup(api) {
     api.modifyWebpackConfig(config => {
       // Webpack devtool
-      // config.plugins?.push(new InspectorWebpackPlugin());
+      config.plugins?.push(new InspectorWebpackPlugin());
     });
   },
 });
@@ -27,11 +27,7 @@ export const createBuilder = async () => {
     cwd,
     entry,
     configPath: __filename,
-    builderConfig: {
-      tools: {
-        pug: {},
-      },
-    },
+    builderConfig: {},
   });
 
   builder.addPlugins([TestPlugin()]);

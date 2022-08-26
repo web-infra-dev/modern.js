@@ -4,7 +4,7 @@ export const PluginPug = (): BuilderPlugin => ({
   name: 'webpack-builder-plugin-pug',
 
   setup(api) {
-    api.modifyWebpackChain(async (chain, { CHAIN_ID, getCompiledPath }) => {
+    api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
       const config = api.getBuilderConfig();
       if (!config.tools?.pug) {
         return;

@@ -109,7 +109,6 @@
     "postcss-page-break": "3.0.4",
     "postcss-value-parser": "4.2.0",
     "pug": "3.0.2",
-    "pug-plain-loader": "1.1.0",
     "recursive-readdir": "2.2.2",
     "sass": "1.54.4",
     "sass-loader": "13.0.2",
