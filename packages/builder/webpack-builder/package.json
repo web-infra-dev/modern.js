@@ -33,6 +33,17 @@
     "./html-webpack-plugin": {
       "jsnext:source": "./src/exports/HtmlWebpackPlugin.ts",
       "default": "./dist/exports/HtmlWebpackPlugin.js"
+    },
+    "./stub": {
+      "jsnext:source": "./src/stub/index.ts",
+      "default": "./dist/stub/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "webpack": ["./dist/exports/webpack.d.ts"],
+      "html-webpack-plugin": ["./dist/exports/HtmlWebpackPlugin.d.ts"],
+      "stub": ["./dist/stub/index.d.ts"]
     }
   },
   "scripts": {
