@@ -9,7 +9,6 @@ export {
 export type { Plugin } from './plugin';
 
 export { defineConfig, getConfig } from './app-config';
-export type { AppConfig } from './app-config';
 
 // compatible
 export * from './compatible';
