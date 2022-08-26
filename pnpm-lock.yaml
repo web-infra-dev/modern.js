@@ -65,6 +65,7 @@ importers:
       '@types/mini-css-extract-plugin': 2.2.0
       '@types/node': ^14
       autoprefixer: ^10.4.8
+      caniuse-lite: ^1.0.30001332
       css-minimizer-webpack-plugin: 4.0.0
       fork-ts-checker-webpack-plugin: 6.5.2
       html-webpack-plugin: 5.3.2
@@ -85,6 +86,7 @@ importers:
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.5_645a6e79162167fda80e21cc093763a7
       '@svgr/webpack': 6.2.1
       '@types/mini-css-extract-plugin': 2.2.0_1f091e9882867a645caac150cd4a7b4f
+      caniuse-lite: 1.0.30001382
       css-minimizer-webpack-plugin: 4.0.0_esbuild@0.14.47+webpack@5.73.0
       fork-ts-checker-webpack-plugin: 6.5.2_typescript@4.7.4+webpack@5.73.0
       html-webpack-plugin: 5.3.2_webpack@5.73.0
@@ -12924,7 +12926,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.3
-      caniuse-lite: 1.0.30001375
+      caniuse-lite: 1.0.30001382
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -13648,7 +13650,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001375
+      caniuse-lite: 1.0.30001382
       electron-to-chromium: 1.4.217
       node-releases: 2.0.6
       update-browserslist-db: 1.0.5_browserslist@4.21.3
