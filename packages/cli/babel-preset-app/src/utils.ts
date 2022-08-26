@@ -29,7 +29,6 @@ export const getCoreJsVersion = () => {
     const [major, minor] = version.split('.');
     return `${major}.${minor}`;
   } catch (err) {
-    console.error('Failed to get core-js version. ', err);
     return '3';
   }
 };
