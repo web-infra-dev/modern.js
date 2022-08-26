@@ -29,6 +29,8 @@ export const CHAIN_ID = {
     PUG: 'pug',
     /** Rule for toml */
     TOML: 'toml',
+    /** Rule for yaml */
+    YAML: 'yaml',
   },
   /** Predefined rule groups */
   ONE_OF: {

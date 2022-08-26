@@ -401,6 +401,13 @@ export const TASKS: TaskConfig[] = [
         name: 'toml-loader',
         ignoreDts: true,
       },
+      {
+        name: 'yaml-loader',
+        ignoreDts: true,
+        externals: {
+          'loader-utils': '../loader-utils2',
+        },
+      },
     ],
   },
   {
