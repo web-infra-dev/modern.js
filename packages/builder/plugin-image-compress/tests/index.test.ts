@@ -8,6 +8,6 @@ describe('plugin/image-compress', () => {
     const builder = createStubBuilder({
       plugins: [PluginImage(), PluginImageCompress()],
     });
-    expect(await builder.unwrapWebpackConfig()).toMatchInlineSnapshot();
+    expect(await builder.unwrapWebpackConfig()).toMatchSnapshot();
   });
 });

@@ -1,154 +1,43 @@
 // Vitest Snapshot v1
 
-exports[`normalizeFinalOptions > should handle on array of codec 1`] = `
-[
-  {
-    "chromaDeltaQ": false,
-    "cqAlphaLevel": -1,
-    "cqLevel": 33,
-    "denoiseLevel": 0,
-    "sharpness": 0,
-    "speed": 6,
-    "subsample": 1,
-    "test": /\\\\\\.avif\\$/,
-    "tileColsLog2": 0,
-    "tileRowsLog2": 0,
-    "tune": 0,
-    "use": "avif",
+exports[`plugin/image-compress > should generate correct options 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "generator": {
+          "filename": "static/image/[name][ext]",
+        },
+        "parser": {
+          "dataUrlCondition": [Function],
+        },
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "type": "asset",
+        "use": [
+          {
+            "loader": "@modern-js/web-builder-plugin-image-compress/loader",
+            "options": {
+              "test": /\\\\\\.jpeg\\$/,
+              "use": "jpeg",
+            },
+          },
+          {
+            "loader": "@modern-js/web-builder-plugin-image-compress/loader",
+            "options": {
+              "test": /\\\\\\.png\\$/,
+              "use": "png",
+            },
+          },
+          {
+            "loader": "@modern-js/web-builder-plugin-image-compress/loader",
+            "options": {
+              "test": /\\\\\\.\\(ico\\|icon\\)\\$/,
+              "use": "ico",
+            },
+          },
+        ],
+      },
+    ],
   },
-  {
-    "arithmetic": false,
-    "auto_subsample": true,
-    "baseline": false,
-    "chroma_quality": 75,
-    "chroma_subsample": 2,
-    "color_space": 3,
-    "optimize_coding": true,
-    "progressive": true,
-    "quality": 75,
-    "quant_table": 3,
-    "separate_chroma_quality": false,
-    "smoothing": 0,
-    "test": /\\\\\\.jpg\\$/,
-    "trellis_loops": 1,
-    "trellis_multipass": false,
-    "trellis_opt_table": false,
-    "trellis_opt_zero": false,
-    "use": "mozjpeg",
-  },
-]
-`;
-
-exports[`normalizeFinalOptions > should handle on codec options with ext tester 1`] = `
-[
-  {
-    "arithmetic": false,
-    "auto_subsample": true,
-    "baseline": false,
-    "chroma_quality": 75,
-    "chroma_subsample": 2,
-    "color_space": 3,
-    "optimize_coding": true,
-    "progressive": true,
-    "quality": 75,
-    "quant_table": 3,
-    "separate_chroma_quality": false,
-    "smoothing": 0,
-    "test": /\\\\\\.jpeg\\$/,
-    "trellis_loops": 1,
-    "trellis_multipass": false,
-    "trellis_opt_table": false,
-    "trellis_opt_zero": false,
-    "use": "mozjpeg",
-  },
-]
-`;
-
-exports[`normalizeFinalOptions > should handle on composed options 1`] = `
-[
-  {
-    "chromaDeltaQ": false,
-    "cqAlphaLevel": -1,
-    "cqLevel": 33,
-    "denoiseLevel": 0,
-    "sharpness": 0,
-    "speed": 6,
-    "subsample": 1,
-    "test": /\\\\\\.avif\\$/,
-    "tileColsLog2": 0,
-    "tileRowsLog2": 0,
-    "tune": 0,
-    "use": "avif",
-  },
-  {
-    "arithmetic": false,
-    "auto_subsample": true,
-    "baseline": false,
-    "chroma_quality": 75,
-    "chroma_subsample": 2,
-    "color_space": 3,
-    "optimize_coding": true,
-    "progressive": true,
-    "quality": 75,
-    "quant_table": 3,
-    "separate_chroma_quality": false,
-    "smoothing": 0,
-    "test": /\\\\\\.jpg\\$/,
-    "trellis_loops": 1,
-    "trellis_multipass": false,
-    "trellis_opt_table": false,
-    "trellis_opt_zero": false,
-    "use": "mozjpeg",
-  },
-]
-`;
-
-exports[`normalizeFinalOptions > should handle on empty codec options 1`] = `
-[
-  {
-    "arithmetic": false,
-    "auto_subsample": true,
-    "baseline": false,
-    "chroma_quality": 75,
-    "chroma_subsample": 2,
-    "color_space": 3,
-    "optimize_coding": true,
-    "progressive": true,
-    "quality": 75,
-    "quant_table": 3,
-    "separate_chroma_quality": false,
-    "smoothing": 0,
-    "test": /\\\\\\.jpg\\$/,
-    "trellis_loops": 1,
-    "trellis_multipass": false,
-    "trellis_opt_table": false,
-    "trellis_opt_zero": false,
-    "use": "mozjpeg",
-  },
-]
-`;
-
-exports[`normalizeFinalOptions > should handle on partial codec options 1`] = `
-[
-  {
-    "arithmetic": false,
-    "auto_subsample": true,
-    "baseline": false,
-    "chroma_quality": 75,
-    "chroma_subsample": 2,
-    "color_space": 1,
-    "optimize_coding": true,
-    "progressive": true,
-    "quality": 75,
-    "quant_table": 3,
-    "separate_chroma_quality": false,
-    "smoothing": 0,
-    "test": /\\\\\\.jpg\\$/,
-    "trellis_loops": 1,
-    "trellis_multipass": false,
-    "trellis_opt_table": false,
-    "trellis_opt_zero": false,
-    "use": "mozjpeg",
-  },
-]
+}
 `;

@@ -1,6 +1,5 @@
-import { Buffer } from 'buffer';
+import type { Buffer } from 'buffer';
 import {
-  AvifConfig,
   JpegCompressOptions,
   PNGLosslessOptions,
   PngQuantOptions,
@@ -15,9 +14,6 @@ export interface CodecBaseOptions {
   jpeg: JpegCompressOptions;
   png: PngQuantOptions;
   pngLossless: PNGLosslessOptions;
-  webp: WebpTransformOptions;
-  webpLossless: {};
-  avif: AvifConfig;
   ico: {};
 }
 /* eslint-enable */
