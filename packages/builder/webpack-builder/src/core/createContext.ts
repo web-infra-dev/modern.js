@@ -1,7 +1,13 @@
 import { isAbsolute, join } from 'path';
 import { initHooks } from './createHook';
 import { ConfigValidator } from '../config/validate';
-import { pick, STATUS, isFileExists, getDistPath } from '../shared';
+import {
+  pick,
+  STATUS,
+  isFileExists,
+  getDistPath,
+  deepFreezed,
+} from '../shared';
 import type {
   Context,
   BuilderOptions,
@@ -91,5 +97,5 @@ export function createPublicContext(
     'tsconfigPath',
     'originalConfig',
   ]);
-  return Object.freeze(ctx);
+  return deepFreezed(ctx);
 }

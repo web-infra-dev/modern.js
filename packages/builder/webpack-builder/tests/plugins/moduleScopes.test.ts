@@ -4,7 +4,7 @@ import {
   isPrimitiveScope,
   applyScopeChain,
 } from '../../src/plugins/moduleScopes';
-import { createStubBuilder } from '../utils/builder';
+import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/moduleScopes', () => {
   it('should set entry correctly', async () => {

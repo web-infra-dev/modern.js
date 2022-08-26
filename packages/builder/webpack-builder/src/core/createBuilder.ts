@@ -1,37 +1,57 @@
-import { pick } from '../shared';
+import { mergeBuilderOptions, pick } from '../shared';
 import { createContext, createPublicContext } from './createContext';
 import { createPluginStore } from './createPluginStore';
-import type { PluginStore, BuilderOptions } from '../types';
+import type { PluginStore, BuilderOptions, Context } from '../types';
 import type { InspectOptions } from './inspectWebpackConfig';
+import { initConfigs } from './initConfigs';
+import type * as webpack from 'webpack';
+import { webpackBuild } from './build';
 
-export function mergeBuilderOptions(options?: BuilderOptions) {
-  const DEFAULT_OPTIONS: Required<BuilderOptions> = {
-    cwd: process.cwd(),
-    entry: {},
-    target: ['web'],
-    configPath: null,
-    builderConfig: {},
-    framework: 'modern-js',
+/**
+ * Create primary builder.
+ * It will be assembled into a normal context or a stub for testing as needed.
+ * Usually it won't take much cost.
+ */
+export function createPrimaryBuilder(
+  builderOptions: Required<BuilderOptions>,
+  context: Context,
+) {
+  const publicContext = createPublicContext(context);
+  const pluginStore = createPluginStore();
+
+  const build = async (
+    executeBuild?: (configs: webpack.Configuration[]) => Promise<void>,
+  ) => {
+    const { webpackConfigs } = await initConfigs({
+      context,
+      pluginStore,
+      builderOptions,
+    });
+    await context.hooks.onBeforeBuildHook.call({
+      webpackConfigs,
+    });
+    await executeBuild?.(webpackConfigs);
+    await context.hooks.onAfterBuildHook.call();
   };
 
   return {
-    ...DEFAULT_OPTIONS,
-    ...options,
+    context,
+    builderOptions,
+    publicContext,
+    pluginStore,
+    build,
   };
 }
 
 export async function createBuilder(options?: BuilderOptions) {
   const builderOptions = mergeBuilderOptions(options);
   const context = await createContext(builderOptions);
-  const publicContext = createPublicContext(context);
-  const pluginStore = createPluginStore();
+  const { build, pluginStore, publicContext } = createPrimaryBuilder(
+    builderOptions,
+    context,
+  );
 
   await addDefaultPlugins(pluginStore);
-
-  const build = async () => {
-    const { build: buildImpl } = await import('./build');
-    return buildImpl({ context, pluginStore, builderOptions });
-  };
 
   const createCompiler = async () => {
     const { createCompiler } = await import('./createCompiler');
@@ -52,7 +72,7 @@ export async function createBuilder(options?: BuilderOptions) {
 
   return {
     ...pick(pluginStore, ['addPlugins', 'removePlugins', 'isPluginExists']),
-    build,
+    build: () => build(webpackBuild),
     context: publicContext,
     createCompiler,
     inspectWebpackConfig,

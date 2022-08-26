@@ -1,8 +1,8 @@
-import { info, error, formatWebpackStats, log } from '../shared';
-import { initConfigs, InitConfigsOptions } from './initConfigs';
+import assert from 'assert';
+import { info, log, error, formatWebpackStats } from '../shared';
 import type { WebpackConfig } from '../types';
 
-const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
+export const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
   const { default: webpack } = await import('webpack');
   const compiler = webpack(webpackConfigs);
 
@@ -21,8 +21,9 @@ const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
           return;
         }
 
+        assert(stats);
         // eslint-disable-next-line promise/no-promise-in-callback
-        formatWebpackStats(stats!).then(({ level, message }) => {
+        formatWebpackStats(stats).then(({ level, message }) => {
           if (level === 'error') {
             log(message);
             reject(new Error('Webpack build failed!'));
@@ -37,14 +38,3 @@ const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
     });
   });
 };
-
-export async function build(options: InitConfigsOptions) {
-  const { context } = options;
-  const { webpackConfigs } = await initConfigs(options);
-
-  await context.hooks.onBeforeBuildHook.call({
-    webpackConfigs,
-  });
-  await webpackBuild(webpackConfigs);
-  await context.hooks.onAfterBuildHook.call();
-}

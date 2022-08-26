@@ -1,10 +1,8 @@
 import { expect, describe, it } from 'vitest';
-import { setPathSerializer } from '../utils/snapshot';
 import { PluginSvg } from '../../src/plugins/svg';
-import { createStubBuilder } from '../utils/builder';
+import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/svg', () => {
-  setPathSerializer();
   it('export default url', async () => {
     const builder = createStubBuilder({
       plugins: [PluginSvg()],
