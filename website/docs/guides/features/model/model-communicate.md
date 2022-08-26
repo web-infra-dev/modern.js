@@ -12,7 +12,7 @@ Model 之间不是孤立的，是可以进行通信的。主要分为两种场�
 1. 在 Model 中访问其它 Model 的 State 和 Actions。
 2. 在 Model 中监听其它 Model 变化。
 
-这里将 [Model 介绍](/docs/guides/features/runtime/model/model-introduction) 一节的简单计数器应用改造成一个可设置步频的计数器应用。可以通过设置步频，从而影响每次计数器增加的幅度。
+这里将 [快速上手](/docs/guides/features/model/quick-start) 一节的简单计数器应用改造成一个可设置步频的计数器应用。可以通过设置步频，从而影响每次计数器增加的幅度。
 
 我们抽象出两个 Model，分别为 `stepModel`（步频）、`counterModel`（计数器）：
 
@@ -96,8 +96,8 @@ Modern.js 默认开启 [自动生成 actions](./auto-actions.md)，所以 `stepM
 
 
 :::info 补充信息
-- 本节完整的示例代码：[章节示例代码](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/models-communication)。
-- 相关 API 的更多介绍，请参考：[通过函数创建-model](/docs/apis/app/runtime/model/model#通过函数创建-model)。
+- 本节完整的[示例代码](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/models-communication)。
+- 相关 API 的更多介绍，请参考：[model](/docs/apis/app/runtime/model/model_#函数类型)。
 :::
 
 前面 `counterModel` 的例子，我们是在 Actions 的函数内部调用 `use` 获取其他 Model 对象的。如果只需要调用其它 Model 的 Actions，因为 Actions 都是函数，不存在值过期问题，所以也可以在 `define` 的回调函数中调用 `use` 获取 Model 的 Actions。例如：
@@ -131,14 +131,14 @@ const fooModel = model('foo').define((context, utils) => {
 这样，我们不需要在 `loadA`、`loadB` 中重复获取 `barModel` 对象，简化了代码逻辑。
 
 
-## Model 内部通信
+## Model 内通信
 
 Model 内通信，也主要分为两种场景：
 
 1. Effects 函数调用自身 Model 的 Actions 函数、或其他 Effects 函数。
 2. Actions 函数调用自身 Model 的 其他 Actions 函数。
 
-在 [状态管理](/docs/guides/features/runtime/model/manage-effects)  一节，我们演示过 Effects 函数如何调用 Actions 函数。
+在 [副作用管理](/docs/guides/features/model/manage-effects)  一节，我们演示过 Effects 函数如何调用 Actions 函数。
 
 这里我们再来举一个例子：
 

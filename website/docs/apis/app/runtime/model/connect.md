@@ -1,5 +1,6 @@
 ---
 sidebar_position: 5
+title: connect
 ---
 
 # connect
@@ -11,7 +12,7 @@ sidebar_position: 5
 :::
 
 :::tip 提示
-Reduck 原始类型较为复杂，以下涉及类型定义的地方，展示的是简化后的类型信息。原始类型见 [**connect**](https://github.com/modern-js-dev/reduck/blob/main/packages/react/src/connect.ts）。
+Reduck 原始类型较为复杂，以下涉及类型定义的地方，展示的是简化后的类型信息。原始类型见 [**connect**](https://github.com/modern-js-dev/reduck/blob/main/packages/react/src/connect.ts)。
 :::
 
 `connect` 功能上同 `useModel` 一致，是对应的 HOC 风格的 API。建议优先使用 Hook 风格的 `useModel`。

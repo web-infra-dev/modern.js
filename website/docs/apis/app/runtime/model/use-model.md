@@ -1,5 +1,6 @@
 ---
 sidebar_position: 2
+title: useModel
 ---
 
 # useModel
@@ -11,7 +12,7 @@ sidebar_position: 2
 :::
 
 :::tip 提示
-Reduck 原始类型较为复杂，以下涉及类型定义的地方，展示的是简化后的类型信息。原始类型见 [**model**](https://github.com/modern-js-dev/reduck/blob/main/packages/store/src/model/useModel.ts）。
+Reduck 原始类型较为复杂，以下涉及类型定义的地方，展示的是简化后的类型信息。原始类型见 [model](https://github.com/modern-js-dev/reduck/blob/main/packages/store/src/model/useModel.ts)。
 :::
 
 

@@ -233,5 +233,5 @@ function Counter() {
 完整的示例代码可以在[这里](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/counter-model-outof-react)查看。
 
 :::info 补充信息
-本节涉及的 API 的详细定义，请参考[这里](/docs/apis/app/runtime/model/model))。
+本节涉及的 API 的详细定义，请参考[这里](/docs/apis/app/runtime/model/model)。
 :::

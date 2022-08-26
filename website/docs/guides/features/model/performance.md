@@ -169,5 +169,5 @@ const barModel = model("bar").define({
 
 
 :::info 补充信息
-- 本节完整的示例代码：[章节示例代码](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/performance-optimization)。
+- 本节完整的[示例代码](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/performance-optimization)
 :::

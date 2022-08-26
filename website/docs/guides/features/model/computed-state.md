@@ -3,15 +3,15 @@ sidebar_position: 4
 title: 衍生状态
 ---
 
-一些场景中，组件需要对 Model 中的 state 进行进一步计算，才能在组件中使用，这部分逻辑可以直接写在组件内部，也可以通过 Model 的衍生状态实现。
+一些场景中，组件需要对 Model 中的 State 进行进一步计算，才能在组件中使用，这部分逻辑可以直接写在组件内部，也可以通过 Model 的衍生状态实现。
 衍生状态定义在 Model 中的 `computed` 字段下。根据依赖的 Model 的不同、返回类型的不同，衍生状态的定义方法可以分为以下 3 种。
 
 
-## 只依赖自身的 state
+## 只依赖自身的 State
 
-衍生状态只依赖当前 Model 的 state，state 会作为第一个参数，传入衍生状态的定义函数中。
+衍生状态只依赖当前 Model 的 State，State 会作为第一个参数，传入衍生状态的定义函数中。
 
-例如， todo 应用的 state 有 `items` 和 `filter`，`filter` 用于过滤当前页面显示的 todo 项，所以我们定义了一个 `visibleTodos` 的衍生状态可以直接在组件中使用。示例代码如下：
+例如， todo 应用的 State 有 `items` 和 `filter`，`filter` 用于过滤当前页面显示的 todo 项，所以我们定义了一个 `visibleTodos` 的衍生状态可以直接在组件中使用。示例代码如下：
 
 ```ts
 /**
@@ -46,7 +46,7 @@ const todoModel = model("todo").define({
 ```
 
 
-衍生状态最终会和 Model 的 state 进行合并，因此，可以通过 Model 的 state 对象访问到衍生状态，例如，`visibleTodos` 在组件内的使用方式如下：
+衍生状态最终会和 Model 的 State 进行合并，因此，可以通过 Model 的 State 对象访问到衍生状态，例如，`visibleTodos` 在组件内的使用方式如下：
 
 ```ts
 function Todo() {
@@ -64,15 +64,15 @@ function Todo() {
 }
 ```
 
-## 依赖其他 Model 的 state
+## 依赖其他 Model 的 State
 
-除了依赖当前 Model 的 state，衍生状态还依赖其他 Model 的 state，这时候衍生状态的定义格式为：
+除了依赖当前 Model 的 State，衍生状态还依赖其他 Model 的 State，这时候衍生状态的定义格式为：
 
 ```ts
 [stateKey]: [...depModels, (selfState, ...depModels) => computedState]
 ```
 
-下面的示例，演示了 `barModel` 的衍生状态 `combinedValue` 是如何依赖 `fooModel` 的 state 的。
+下面的示例，演示了 `barModel` 的衍生状态 `combinedValue` 是如何依赖 `fooModel` 的 State 的。
 
 ```ts
 const fooModel = model("foo").define({

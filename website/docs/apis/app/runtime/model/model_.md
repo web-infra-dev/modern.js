@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+title: model
 ---
 
 # model
@@ -11,7 +12,7 @@ sidebar_position: 1
 :::
 
 :::tip 提示
-Reduck 原始类型较为复杂，以下涉及类型定义的地方，展示的是简化后的类型信息。原始类型见 [**model**](https://github.com/modern-js-dev/reduck/blob/main/packages/store/src/model/model.ts）。
+Reduck 原始类型较为复杂，以下涉及类型定义的地方，展示的是简化后的类型信息。原始类型见 [**model**](https://github.com/modern-js-dev/reduck/blob/main/packages/store/src/model/model.ts)。
 :::
 
 ## model
@@ -104,7 +105,9 @@ const barModel = model('bar').define((_, { use }) => {
 });
 ```
 
-### ModelDesc.state
+### 参数
+
+#### ModelDesc.state
 
 定义 Model 的状态。技术上，支持任意类型的 **state**，但是实践中建议使用可进行 JSON 序列化的类型。
 
@@ -114,7 +117,7 @@ interface ModelDesc {
 }
 ```
 
-### ModelDesc.actions
+#### ModelDesc.actions
 
 定义 Model 的 Actions。Actions 的函数类型为：
 
@@ -129,11 +132,11 @@ interface ModelDesc {
 Reduck 内部集成了 [immer](https://github.com/immerjs/immer)，可以直接原始的 `state`，当 Action 没有显式返回值时，Reduck 内部会返回修改过的新的 State 对象。
 
 
-### ModelDesc.computed
+#### ModelDesc.computed
 
 定义 Model 的衍生状态。衍生状态的定义支持两种类型：
 
-#### 只依赖 Model 自身的状态
+1. 只依赖 Model 自身的状态
 
 ```ts
 interface ModelDesc {
@@ -144,7 +147,7 @@ interface ModelDesc {
 ```
 
 
-#### 依赖其他 Model 的状态
+2. 依赖其他 Model 的状态
 
 ```ts
 interface ModelDesc {
@@ -167,7 +170,7 @@ const barModel = model('bar').define({
 });
 ```
 
-### ModelDesc.effects
+#### ModelDesc.effects
 
 定义 Model 的 Effects。Effects 中定义的函数类型为：
 

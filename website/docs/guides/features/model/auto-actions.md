@@ -3,7 +3,7 @@ sidebar_position: 6
 title: 自动生成 Actions
 ---
 
-在【[Model 介绍](/docs/guides/features/runtime/model/model-introduction)】中，我们实现最简单的计数器 Model 也需要 10 行代码。
+在 [快速上手](/docs/guides/features/model/quick-start) 中，我们实现最简单的计数器 Model 也需要 10 行代码。
 实际上，Modern.js 支持根据声明的 `state` 类型，自动生成常用的 Actions，从而简化模板代码量。当前支持的类型有：
 
 - 原始数据类型

@@ -1,5 +1,6 @@
 ---
 sidebar_position: 8
+title: Provider
 ---
 
 # Provider
@@ -10,7 +11,7 @@ sidebar_position: 8
 如果是在 Modern.js 以外单独集成 Reduck，导出包名为：`@modern-js-reduck/react`。
 :::
 
-`<Provider>` 是一个组件，它将 Reduck 的 Store 注入到应用的组件树中，使组件树内部的组件可以访问 Model。一般情况下，`<Provider>` 会定义在组件树的最顶层。
+`Provider` 是一个组件，它将 Reduck 的 Store 注入到应用的组件树中，使组件树内部的组件可以访问 Model。一般情况下，`Provider` 会定义在组件树的最顶层。
 
 ## 类型
 

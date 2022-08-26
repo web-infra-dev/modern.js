@@ -17,7 +17,7 @@ Modern.js 的状态管理解决方案，是通过内置 Reduck 实现的。在 M
 :::
 
 
-# 核心概念
+## 核心概念
 
 Reduck 中的核心概念只有 4 个： Model、State、Actions、Effects。
 
@@ -29,9 +29,11 @@ Actions: 用于修改 State 的纯函数，函数必须是**同步**的。
 
 Effects: 用于修改 State 的带有副作用的函数，函数可以是**异步**的。Effects 中可以调用自身或其他 Model 的 Actions 和 Effects。
 
+Reduck 数据流如下图所示：
+
 ![Reduck 数据流](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/reduck-concept.svg)
 
-# 基本用法
+## 基本用法
 
 下来我们以一个简单的 **计数器** 应用为例，演示 Reduck 的基本用法。
 
