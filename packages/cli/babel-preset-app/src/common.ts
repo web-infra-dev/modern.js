@@ -5,7 +5,7 @@ import {
   BabelChain,
 } from '@modern-js/babel-preset-base';
 import { isTest, isDev, isProd } from '@modern-js/utils';
-import { isBeyondReact17 } from './utils';
+import { getCoreJsVersion, isBeyondReact17 } from './utils';
 import type { Options, PresetEnvOptions } from './type';
 
 const prepareEnvOptions = (options: Options): PresetEnvOptions => {
@@ -17,7 +17,7 @@ const prepareEnvOptions = (options: Options): PresetEnvOptions => {
     exclude: ['transform-typeof-symbol'],
     corejs: useBuiltIns
       ? {
-          version: '3',
+          version: getCoreJsVersion(),
           proposals: true,
         }
       : undefined,
