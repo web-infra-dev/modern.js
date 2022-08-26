@@ -42,10 +42,10 @@ Reduck 数据流如下图所示：
 ```js
 import { model } from '@modern-js/runtime/model';
 
-const countModel = model("count").define({
+const countModel = model('count').define({
   state: {
-    value: 1
-  }
+    value: 1,
+  },
 });
 
 export default countModel;
@@ -58,15 +58,15 @@ export default countModel;
 ```js
 import { model } from '@modern-js/runtime/model';
 
-const countModel = model("count").define({
+const countModel = model('count').define({
   state: {
-    value: 1
+    value: 1,
   },
   actions: {
     add(state) {
       state += 1;
-    }
-  }
+    },
+  },
 });
 
 export default countModel;
@@ -80,8 +80,8 @@ export default countModel;
 新建一个组件 Counter，在组件内通过 `useModel` API 使用 countModel：
 
 ```js
-import { useModel } from "@modern-js/runtime/model";
-import countModel from "./models/count";
+import { useModel } from '@modern-js/runtime/model';
+import countModel from './models/count';
 
 function Counter() {
   const [state, actions] = useModel(countModel);

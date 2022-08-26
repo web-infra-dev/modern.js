@@ -20,29 +20,31 @@ Model 之间不是孤立的，是可以进行通信的。主要分为两种场�
 import { model } from '@modern-js/runtime/model';
 
 const stepModel = model('step').define({
-  state: 1
+  state: 1,
 });
 
 const counterModel = model('count').define((context, { use, onMount }) => {
-  const [,,subscribeStep] = use(stepModel);
+  const [, , subscribeStep] = use(stepModel);
 
   onMount(() => {
     return subscribeStep(() => {
-      console.log(`Subscribe in counterModel: stepModel change to ${use(stepModel)[0]}`)
+      console.log(
+        `Subscribe in counterModel: stepModel change to ${use(stepModel)[0]}`,
+      );
     });
   });
 
   return {
     state: {
-      value: 1
+      value: 1,
     },
     actions: {
       add(state) {
         const step = use(stepModel)[0];
-        state.value = state.value + step
-      }
-    }
-  }
+        state.value += step;
+      },
+    },
+  };
 });
 
 export { stepModel, counterModel };
@@ -61,8 +63,8 @@ export { stepModel, counterModel };
 修改 **App.tsx**
 
 ```tsx
-import { useModel } from "@modern-js/runtime/model";
-import { counterModel, stepModel } from "./models/count";
+import { useModel } from '@modern-js/runtime/model';
+import { counterModel, stepModel } from './models/count';
 
 function Counter() {
   const [state, actions] = useModel(counterModel);
@@ -143,34 +145,34 @@ Model 内通信，也主要分为两种场景：
 这里我们再来举一个例子：
 
 ```ts
-const fooModel = model("foo").define((context, { use, onMount }) => ({
+const fooModel = model('foo').define((context, { use, onMount }) => ({
   state: {
     a: '',
     b: '',
   },
   actions: {
-    setA(state, payload){
+    setA(state, payload) {
       state.a = payload;
     },
-    setB(state, payload){
+    setB(state, payload) {
       state.a = payload;
-    }
+    },
   },
   effects: {
     async loadA() {
       // 通过 use 获取当前 Model 的 actions
-      const [,actions] = use(fooModel);
+      const [, actions] = use(fooModel);
       const res = await mockFetchA();
       actions.setA(res);
     },
     async loadB() {
       // 通过 use 获取当前 Model 的 actions
-      const [,actions] = use(fooModel);
+      const [, actions] = use(fooModel);
       const res = await mockFetchB();
       actions.setB(res);
     },
-  }
-}))
+  },
+}));
 ```
 
 这个例子中，`fooModel` 的两个 Effects 函数，需要调用自身的 Actions 函数。这里我们在每个 Effects 函数中，都调用了一次 `use`，为什么不能像 Model 间通信的例子中，在 `define` 的回调函数中，统一调用 `use` 获取 Model 自身的 Actions 呢？这是因为调用 `use` 获取 Model 时，会先检查这个 Model 是否已经挂载，如果还没有挂载，会先执行挂载逻辑，而 `define` 的回调函数又是在 Model 的挂载阶段执行的，这样一来，在挂载阶段调用 `use` 获取 Model 自身，会出现死循环（代码实际执行过程会抛出错误）。所以，**一定不能在 `define` 的回调函数中，调用 `use` 获取 Model 自身对象。**
@@ -178,13 +180,12 @@ const fooModel = model("foo").define((context, { use, onMount }) => ({
 不过，我们可以利用 `onMount` 这个钩子函数，在 Model 挂载完成后，再通过 `use` 获取 Model 自身对象：
 
 ```ts
-const fooModel = model("foo").define((context, { use, onMount }) => {
-
+const fooModel = model('foo').define((context, { use, onMount }) => {
   let actions;
 
   onMount(() => {
     // fooModel 挂载完成后，通过 use 获取当前 Model 的 actions
-    [,actions] = use(fooModel);
+    [, actions] = use(fooModel);
   });
 
   return {
@@ -193,12 +194,12 @@ const fooModel = model("foo").define((context, { use, onMount }) => {
       b: '',
     },
     actions: {
-      setA(state, payload){
+      setA(state, payload) {
         state.a = payload;
       },
-      setB(state, payload){
+      setB(state, payload) {
         state.a = payload;
-      }
+      },
     },
     effects: {
       async loadA() {
@@ -209,9 +210,9 @@ const fooModel = model("foo").define((context, { use, onMount }) => {
         const res = await mockFetchB();
         actions.setB(res);
       },
-    }
-  }
-})
+    },
+  };
+});
 ```
 
 这样，我们也可以实现代码的简化。

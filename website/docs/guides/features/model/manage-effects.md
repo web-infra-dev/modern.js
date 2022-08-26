@@ -12,11 +12,11 @@ Model 中的 Action 必须是一个纯函数，执行过程中不会产生任何
 我们以一个简单的 `todoModel` 为例。其有一个 `load` 的副作用函数，请求远端的 TODO 列表，请求成功之后更新 `state.items` 字段。
 
 ```ts
-const todoModel = model("todo").define({
+const todoModel = model('todo').define({
   state: {
     items: [],
     loading: false,
-    error: null
+    error: null,
   },
   actions: {
     load: {
@@ -30,17 +30,17 @@ const todoModel = model("todo").define({
       rejected(state, error) {
         state.error = error;
         state.loading = false;
-      }
-    }
+      },
+    },
   },
   effects: {
     // Promise 副作用
     async load() {
-      return new Promise((resolve) => {
-        setTimeout(() => resolve(["Learn Modern.js"]), 2000);
+      return new Promise(resolve => {
+        setTimeout(() => resolve(['Learn Modern.js']), 2000);
       });
-    }
-  }
+    },
+  },
 });
 ```
 
@@ -52,7 +52,7 @@ const todoModel = model("todo").define({
 - `fulfilled`：接收当前状态 `state` 和 Promise fulfilled 状态的值 `items` 为参数，新的状态中 `items` 等于参数 `items`、`loading` 设为 `false`。
 - `rejected`：接收当前状态 `state` 和 Promise rejected 状态的错误 `error` 为参数，新的状态中 `error` 等于参数 `error`、`loading` 设为 `false`。
 
-组件中如何调用 effects 函数呢？ Effects 函数会被合并到 actions 对象上，因此可以通过 actions 对象调用 effects 函数，如下所示：
+组件中如何调用 effects 函数呢？ effects 函数会被合并到 actions 对象上，因此可以通过 actions 对象调用 effects 函数，如下所示：
 
 ```ts
 function Todo() {
@@ -77,7 +77,6 @@ function Todo() {
     </div>
   );
 }
-
 ```
 
 上面的示例中， `pending`、`fulfilled`、`rejected` 3 个 action，对于用于获取数据的 HTTP 请求场景下，一般都是需要的。Reduck 提供了一个工具函数 `handleEffect`，用于简化这种场景下的 action 创建。
@@ -108,23 +107,23 @@ function Todo() {
 利用 `handleEffect`，改写 `todoModel`：
 
 ```ts
-const todoModel = model("todo").define({
+const todoModel = model('todo').define({
   state: {
     items: [],
     loading: false,
-    error: null
+    error: null,
   },
   actions: {
-    load: handleEffect({result: 'items'})
+    load: handleEffect({ result: 'items' }),
   },
   effects: {
     // Promise 副作用
     async load() {
-      return new Promise((resolve) => {
-        setTimeout(() => resolve(["Learn Modern.js"]), 2000);
+      return new Promise(resolve => {
+        setTimeout(() => resolve(['Learn Modern.js']), 2000);
       });
-    }
-  }
+    },
+  },
 });
 ```
 
@@ -153,11 +152,11 @@ const todoModel = model("todo").define({
 Effects 函数中，也支持手动调用 Actions，例如：
 
 ```ts
-const todoModel = model("todo").define((context, utils) => ({
+const todoModel = model('todo').define((context, utils) => ({
   state: {
     items: [],
     loading: false,
-    error: null
+    error: null,
   },
   actions: {
     pending(state) {
@@ -171,20 +170,20 @@ const todoModel = model("todo").define((context, utils) => ({
   effects: {
     async load() {
       // 通过 utils.use 获取当前 Model 对象的 actions
-      const [,actions] = utils.use(todoModel);
+      const [, actions] = utils.use(todoModel);
       // 手动调用 action
       actions.pending();
 
-      return new Promise((resolve) => {
-        setTimeout(() =>{
-          const items = ["Learn Modern.js"];
+      return new Promise(resolve => {
+        setTimeout(() => {
+          const items = ['Learn Modern.js'];
           // 手动调用 action
           actions.fulfilled(items);
-          resolve(items)
+          resolve(items);
         }, 2000);
       });
-    }
-  }
+    },
+  },
 }));
 ```
 
@@ -202,15 +201,15 @@ const todoModel = model("todo").define((context, utils) => ({
 ```ts
 const fooModel = model('foo').define((context, utils) => ({
   state: {
-    value: 'foo'
+    value: 'foo',
   },
   effects: {
     setLocalStorage(key) {
       const [state] = utils.use(fooModel);
       localStorage.set(key, state.value);
-      return 'success'
-    }
-  }
+      return 'success';
+    },
+  },
 }));
 ```
 
@@ -219,19 +218,17 @@ const fooModel = model('foo').define((context, utils) => ({
 ```ts
 const fooModel = model('foo').define({
   state: {
-    value: 'foo'
+    value: 'foo',
   },
   effects: {
     async sendData(data) {
-      const res = await fetch('url',
-        {
-          method: 'POST',
-          body: data
-        }
-      );
+      const res = await fetch('url', {
+        method: 'POST',
+        body: data,
+      });
       return res.json();
-    }
-  }
+    },
+  },
 });
 ```
 
@@ -260,14 +257,14 @@ const fooModel = model('foo').define({
 const handleClick = async () => {
   // value 为
   const { value } = await actions.sendData('some data');
-  if( value.result === 'success' ){
+  if (value.result === 'success') {
     // 关闭弹窗
     closeModal();
-  }else {
+  } else {
     // 显示错误
     showError(value.error);
   }
-}
+};
 ```
 
 :::info 补充信息

@@ -13,52 +13,53 @@ Reduck 内部已经做了大量性能优化工作，一般情况下不需要考�
 例如：
 
 ```ts
-const fooModel = model("foo").define({
+const fooModel = model('foo').define({
   state: {
     a: '',
     b: '',
   },
   actions: {
-    setA(state, payload){
+    setA(state, payload) {
       state.a = payload;
     },
-    setB(state, payload){
+    setB(state, payload) {
       state.b = payload;
-    }
+    },
   },
-})
+});
 
-function ComponentA(){
+function ComponentA() {
   const [state] = useModel(fooModel);
 
-  return <div>{state.a}</div>
+  return <div>{state.a}</div>;
 }
 ```
 
 组件 `ComponentA` 虽然只需要使用 `a` 状态，但当 `b` 状态发送变化时， `ComponentA` 仍然会重新渲染。这种情况，我们可以考虑把 `fooModel` 拆分，`a`、`b` 分别由不同的 Model 负责管理：
 
 ```ts
-const fooModel = model("foo").define({
+const fooModel = model('foo').define({
   state: {
     a: '',
   },
   actions: {
-    setA(state, payload){
+    setA(state, payload) {
       state.a = payload;
-    }
+    },
   },
-})
+});
 
-const barModel = model("bar").define({
+const barModel = model('bar').define({
   state: {
     b: '',
   },
   actions: {
-    setB(state, payload){
+    setB(state, payload) {
       state.b = payload;
-    }
+    },
   },
-})
+});
+
 ```
 
 
@@ -69,26 +70,26 @@ const barModel = model("bar").define({
 对于上面同样的例子，我们采用 selector 函数进行性能优化，代码如下：
 
 ```ts
-const fooModel = model("foo").define({
+const fooModel = model('foo').define({
   state: {
     a: '',
     b: '',
   },
   actions: {
-    setA(state, payload){
+    setA(state, payload) {
       state.a = payload;
     },
-    setB(state, payload){
+    setB(state, payload) {
       state.b = payload;
-    }
+    },
   },
-})
+});
 
-function ComponentA(){
+function ComponentA() {
   // 通过传入 selector 函数，只返回 a 状态给组件
-  const [stateA] = useModel(fooModel, (state) => state.a);
+  const [stateA] = useModel(fooModel, state => state.a);
 
-  return <div>{stateA}</div>
+  return <div>{stateA}</div>;
 }
 ```
 
@@ -99,15 +100,15 @@ function ComponentA(){
 考虑如下代码：
 
 ```ts
-const barModel = model("bar").define({
+const barModel = model('bar').define({
   state: {
-    value: "bar",
+    value: 'bar',
   },
   computed: {
     combineA: [
-      fooModel,  // fooModel 定义同上
+      fooModel, // fooModel 定义同上
       (state, fooState) => {
-        return state + fooState.a
+        return state + fooState.a;
       },
     ],
   },
@@ -117,7 +118,6 @@ const barModel = model("bar").define({
     },
   },
 });
-
 
 function ComponentB() {
   const [state, actions] = useModel(fooModel);

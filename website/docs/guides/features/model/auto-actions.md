@@ -24,8 +24,8 @@ function Counter() {
 
   useEffect(() => {
     // 增加 1
-    actions.setState(state + 1)
-  }, [])
+    actions.setState(state + 1);
+  }, []);
 }
 ```
 
@@ -42,12 +42,12 @@ function Counter() {
   useEffect(() => {
     actions.push(1);
     actions.pop();
-    actions.shift(),
-    actions.unshift(1),
-    actions.concat([1]),
-    actions.splice(0, 1, 2),
+    actions.shift();
+    actions.unshift(1);
+    actions.concat([1]);
+    actions.splice(0, 1, 2);
     actions.filter(value => value > 1);
-  }, [])
+  }, []);
 }
 ```
 
@@ -58,11 +58,13 @@ function Counter() {
 当 State 为简单对象类型时，自动生成 Actions 的示例代码如下：
 
 ```ts
-const countModel = model('count').define({ state: {
-  a: 1,
-  b: [],
-  c: {}
-} });
+const countModel = model('count').define({
+  state: {
+    a: 1,
+    b: [],
+    c: {},
+  },
+});
 
 function Counter() {
   const [state, actions] = useModel(countModel);
@@ -70,8 +72,8 @@ function Counter() {
   useEffect(() => {
     actions.setA(2);
     actions.setB([1]);
-    actions.setC({a: 1});
-  }, [])
+    actions.setC({ a: 1 });
+  }, []);
 }
 ```
 

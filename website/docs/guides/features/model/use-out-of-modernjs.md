@@ -26,7 +26,7 @@ const Root = () => {
   return (
     <Provider>
       {/* 应用入口组件 */}
-      <App>
+      <App />
     </Provider>
   )
 }
@@ -44,7 +44,7 @@ const Root = () => {
   return (
     {/* 关闭 Redux DevTools */}
     <Provider config={{ devTools: false }}>
-      <App>
+      <App />
     </Provider>
   )
 }

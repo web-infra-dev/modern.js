@@ -23,26 +23,26 @@ title: 衍生状态
 }
 **/
 
-const todoModel = model("todo").define({
+const todoModel = model('todo').define({
   state: {
     items: [],
-    filter: 'ALL'  // ALL: 显示全部；COMPLETED：显示完成的事项；ACTIVE：显示未完成的事项
+    filter: 'ALL', // ALL: 显示全部；COMPLETED：显示完成的事项；ACTIVE：显示未完成的事项
   },
   computed: {
-    visibleTodos: (state) => {
+    visibleTodos: state => {
       switch (state.filter) {
         case 'ALL':
           return state.items;
         case 'COMPLETED':
-          return todos.filter(t => t.completed)
+          return todos.filter(t => t.completed);
         case 'ACTIVE':
-          return todos.filter(t => !t.completed)
+          return todos.filter(t => !t.completed);
         default:
-          return []
+          return [];
       }
-    }
-  }
-})
+    },
+  },
+});
 ```
 
 
@@ -55,7 +55,7 @@ function Todo() {
   return (
     <div>
       <div>
-        {state.visibleTodos.map((item) => (
+        {state.visibleTodos.map(item => (
           <div key={item.id}>{item.text}</div>
         ))}
       </div>
@@ -75,19 +75,22 @@ function Todo() {
 下面的示例，演示了 `barModel` 的衍生状态 `combinedValue` 是如何依赖 `fooModel` 的 State 的。
 
 ```ts
-const fooModel = model("foo").define({
+const fooModel = model('foo').define({
   state: {
-    value: 'foo'
+    value: 'foo',
   },
 });
 
-const barModel = model("bar").define({
+const barModel = model('bar').define({
   state: {
-    value: 'foo'
+    value: 'foo',
   },
   computed: {
-    combinedValue: [fooModel, (state, fooState) => state.value + fooState.value]
-  }
+    combinedValue: [
+      fooModel,
+      (state, fooState) => state.value + fooState.value,
+    ],
+  },
 });
 ```
 
@@ -103,25 +106,25 @@ const barModel = model("bar").define({
 假设，todo 应用的 state 不存储 `filter` 状态，而是直接在组件中使用，那么 `visibleTodos` 可以是一个函数类型的值，这个函数在组件中使用的时候，接收 `filter` 参数。如下所示：
 
 ```ts
-const todoModel = model("todo").define({
+const todoModel = model('todo').define({
   state: {
     items: [],
   },
   computed: {
-    visibleTodos: (state) => (filter) => {
+    visibleTodos: state => filter => {
       switch (filter) {
         case 'ALL':
           return state.items;
         case 'COMPLETED':
-          return todos.filter(t => t.completed)
+          return todos.filter(t => t.completed);
         case 'ACTIVE':
-          return todos.filter(t => !t.completed)
+          return todos.filter(t => !t.completed);
         default:
-          return []
+          return [];
       }
-    }
-  }
-})
+    },
+  },
+});
 
 function Todo(props) {
   // filter 状态通过 props 传入
@@ -134,12 +137,13 @@ function Todo(props) {
   return (
     <div>
       <div>
-        {todos.map((item) => (
+        {todos.map(item => (
           <div key={item.id}>{item.text}</div>
         ))}
       </div>
     </div>
   );
+}
 ```
 
 :::info 更多参考

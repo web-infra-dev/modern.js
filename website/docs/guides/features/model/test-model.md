@@ -25,12 +25,12 @@ describe('test model', () => {
     const store = createStore();
     const [state, { add }] = store.use(countModel);
 
-    expect(state).toEqual({value: 1})
+    expect(state).toEqual({ value: 1 });
 
     add();
 
-    expect(store.use(countModel)[0]).toEqual({value: 2})
-  })
+    expect(store.use(countModel)[0]).toEqual({ value: 2 });
+  });
 });
 ```
 :::info 注
