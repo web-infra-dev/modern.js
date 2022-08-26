@@ -29,7 +29,7 @@ interface ReduckStore extends ReduxStore {
   unmount: (model: Model) => void;
 }
 
-function createStore(config: StoreConfig) => ReduckStore
+function createStore(config: StoreConfig): ReduckStore;
 ```
 
 ### 参数

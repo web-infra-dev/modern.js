@@ -20,7 +20,10 @@ Reduck 原始类型较为复杂，以下涉及类型定义的地方，展示的�
 
 ```ts
 function connect(models: Model, options?: ConnectOptions);
-function connect(models: [...Model[], SelectStateToProps?, SelectActionsToProps?], options?: ConnectOptions)
+function connect(
+  models: [...Model[], SelectStateToProps?, SelectActionsToProps?],
+  options?: ConnectOptions,
+);
 ```
 
 
@@ -77,7 +80,7 @@ function Test(props) {
   props.b; // 获取 modelB 的 state: b
 }
 
-export default connect([modelA, modelB])(Test)
+export default connect([modelA, modelB])(Test);
 ```
 
 ### 筛选 State 和 Actions
@@ -121,7 +124,9 @@ function Test(props, ref) {
   );
 }
 
-const TestWrapper = connect([modelA, modelB], { forwardRef: true })(forwardRef(Test));
+const TestWrapper = connect([modelA, modelB], { forwardRef: true })(
+  forwardRef(Test),
+);
 
 function App() {
   const testRef = useRef();

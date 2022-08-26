@@ -19,20 +19,12 @@ function useModel(
   models: Models[],
   stateSelector?: StateSelector,
   actionSelector?: ActionSelector,
-): [
-  state,
-  actions,
-  subscribe
-];
+): [state, actions, subscribe];
 function useModel(
   ...models: Models[],
   stateSelector?: (...args: State[]) => any,
   actionSelector?: (...args: Actions[]) => any,
-): [
-  state,
-  actions,
-  subscribe
-];
+): [state, actions, subscribe];
 ```
 
 
@@ -65,7 +57,7 @@ function Test(props) {
   actions.setVisibleStatus(); // 调用 filterModel filterModel action
 
   state.items; // 获取 todoModel state items
-  state.visibleStatus;// 获取 filterModel state visibleStatus
+  state.visibleStatus; // 获取 filterModel state visibleStatus
 }
 ```
 
@@ -77,14 +69,15 @@ import filterModel from 'models/filter';
 
 function Test(props) {
   const [state, actions] = useModel([
-    todoModel, filterModel,
+    todoModel,
+    filterModel,
     (todoState, filterState) => ({
       items: todoState.items,
       visibleStatus: `${props.prefix}-${filterState.visibleStatus}`,
     }),
     (todoActions, filterActions) => ({
       ...todoActions,
-      ...filterActions
+      ...filterActions,
     }),
   ]);
   actions.add(); // 调用 todoModel add action

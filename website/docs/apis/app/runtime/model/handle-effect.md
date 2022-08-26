@@ -15,9 +15,9 @@ import ReduckTip from '@site/docs/components/reduck-tip.md'
 
 ```ts
 interface State {
-  result: any;       // 存储 fulfilled 状态的返回结果
-  pending: boolean;  // 请求是否结束
-  error: string;     // 请求失败的结果
+  result: any; // 存储 fulfilled 状态的返回结果
+  pending: boolean; // 请求是否结束
+  error: string; // 请求失败的结果
 }
 ```
 
@@ -39,7 +39,7 @@ interface Config {
   omitResultNamespace?: boolean;
 }
 
-function handleEffect(config: Config): EffectActions
+function handleEffect(config: Config): EffectActions;
 ```
 
 ## 参数
@@ -60,7 +60,7 @@ interface State {
 
 ```ts
 interface State {
-  items: any;     // 默认的 result -> items
+  items: any; // 默认的 result -> items
   pending: boolean;
   error: string;
 }

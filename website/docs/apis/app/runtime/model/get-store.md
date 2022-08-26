@@ -15,7 +15,7 @@ import ReduckTip from '@site/docs/components/reduck-tip.md'
 ## 类型
 
 ```ts
-function getStore(): ReduckStore
+function getStore(): ReduckStore;
 ```
 
 ## 返回值
@@ -26,13 +26,13 @@ function getStore(): ReduckStore
 
 ```ts
 // 保证 getStore 在组件树挂载完成后执行
-setTimeout(()=>{
+setTimeout(() => {
   const store = getStore();
   const [, actions] = store.use(countModel);
-  setInterval(()=>{
+  setInterval(() => {
     actions.add();
-  }, 1000)
-}, 1000)
+  }, 1000);
+}, 1000);
 
 function Counter() {
   const [state] = useModel(countModel);

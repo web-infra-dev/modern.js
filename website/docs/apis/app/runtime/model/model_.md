@@ -22,7 +22,7 @@ Reduck 原始类型较为复杂，以下涉及类型定义的地方，展示的�
 - name：`string`，创建的 Model 的唯一标识。
 
 ```ts title="示例"
-model('foo')
+model('foo');
 ```
 
 ## define
@@ -39,18 +39,18 @@ model('foo')
 const fooModel = model('foo').define({
   state: 'foo',
   computed: {
-    cFoo: (state) => 'c' + state;
+    cFoo: state => `c${state}`,
   },
   actions: {
     setState: (state, value) => {
       return value;
-    }
+    },
   },
   effects: {
     loadState: async () => {
       // 从服务端获取 state
-    }
-  }
+    },
+  },
 });
 ```
 
@@ -72,7 +72,7 @@ interface Context {
   store: ReduxStore & {
     use: UseModel;
     unmount: (model: Model) => void;
-  };;
+  };
 }
 ```
 
@@ -81,13 +81,13 @@ interface Context {
 ```tsx title="示例"
 const fooModel = model('foo').define(() => {
   return {
-    state: 'foo'，
+    state: 'foo',
     actions: {
       setState: (state, value) => {
         return value;
-      }
+      },
     },
-  }
+  };
 });
 
 const barModel = model('bar').define((_, { use }) => {
@@ -97,9 +97,9 @@ const barModel = model('bar').define((_, { use }) => {
       syncFoo() {
         const [state, actions] = use(fooModel);
         actions.setState(state);
-      }
-    }
-  }
+      },
+    },
+  };
 });
 ```
 
@@ -111,7 +111,7 @@ const barModel = model('bar').define((_, { use }) => {
 
 ```ts
 interface ModelDesc {
-  state: any
+  state: any;
 }
 ```
 
@@ -123,7 +123,7 @@ interface ModelDesc {
 interface ModelDesc {
   actions: {
     [actionKey: string]: (state: State, payload: any) => State | void;
-  }
+  };
 }
 ```
 
@@ -140,7 +140,7 @@ Reduck 内部集成了 [immer](https://github.com/immerjs/immer)，可以直接�
 interface ModelDesc {
   computed: {
     [computedKey: string]: (state: State) => any;
-  }
+  };
 }
 ```
 
@@ -150,21 +150,24 @@ interface ModelDesc {
 ```ts
 interface ModelDesc {
   computed: {
-    [computedKey: string]: [...models: Model[], (state: State, ...args: ModelState[]) => any];
-  }
+    [computedKey: string]: [
+      ...models: Model[],
+      (state: State, ...args: ModelState[]) => any,
+    ];
+  };
 }
 ```
 
 ```ts title="示例"
 const fooModel = model('foo').define({
-  state: 'foo'，
+  state: 'foo',
 });
 
 const barModel = model('bar').define({
   state: 'bar',
   computed: {
-    combineFoo: [fooModel, (state, fooState) => state + fooState]
-  }
+    combineFoo: [fooModel, (state, fooState) => state + fooState],
+  },
 });
 ```
 
@@ -176,20 +179,20 @@ const barModel = model('bar').define({
 interface ModelDesc {
   effects: {
     [effectKey: string]: (...args: any[]) => any;
-  }
+  };
 }
 ```
 
 ```ts title="示例"
-const fooModel = model('foo').define((context, {use}){
+const fooModel = model('foo').define((context, { use }) => ({
   state: 'foo',
   effects: {
-    persist(){
+    persist() {
       const [state] = use(fooModel);
       localStorage.setItem('state', state);
-    }
-  }
-});
+    },
+  },
+}));
 ```
 
 

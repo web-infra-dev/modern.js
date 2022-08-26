@@ -24,15 +24,7 @@ interface AppConfig extends StoreConfig {
   autoActions?: boolean;
 }
 
-interface ReduckApp {
-  Provider:
-  useModel:
-  useLocalModel:
-  useStaticModel:
-  getStore:
-}
-
-createApp(config: AppConfig) => object
+function createApp(config: AppConfig): object;
 ```
 
 ### 参数

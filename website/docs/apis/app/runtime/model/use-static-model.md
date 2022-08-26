@@ -22,7 +22,7 @@ function App() {
   const [state, { logout }] = useStaticModel(userModel);
 
   useEffect(() => {
-    state.username
+    state.username;
   }, []);
 }
 ```
@@ -37,8 +37,8 @@ function App() {
 
   useEffect(() => {
     // 统计 UV 数据
-    send('pageview', {user: state.user});
-  }, [state])
+    send('pageview', { user: state.user });
+  }, [state]);
 
   return <div>Hello</div>;
 }
