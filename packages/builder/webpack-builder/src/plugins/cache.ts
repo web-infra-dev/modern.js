@@ -1,5 +1,4 @@
 import { join } from 'path';
-import { isFileExists } from '../shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginCache = (): BuilderPlugin => ({
@@ -18,15 +17,13 @@ export const PluginCache = (): BuilderPlugin => ({
        */
       const buildDependencies: Record<string, string[]> = {
         packageJson: [rootPackageJson],
+        browserslistrc: [browserslistConfig],
       };
       if (context.configPath) {
         buildDependencies.config = [context.configPath];
       }
       if (context.tsconfigPath) {
         buildDependencies.tsconfig = [context.tsconfigPath];
-      }
-      if (await isFileExists(browserslistConfig)) {
-        buildDependencies.browserslistrc = [browserslistConfig];
       }
 
       chain.cache({
