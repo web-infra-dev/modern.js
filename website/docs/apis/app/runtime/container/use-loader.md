@@ -1,6 +1,6 @@
 ---
 title: useLoader
-sidebar_position: 4
+sidebar_position: 2
 ---
 
 :::info 补充信息

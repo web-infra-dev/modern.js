@@ -6,12 +6,6 @@ import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
 import { isBrowser } from '../../common';
 
-declare module '../../core' {
-  interface SSRData {
-    storeState: any;
-  }
-}
-
 export type StateConfig = Parameters<typeof createStore>[0];
 
 const state = (config: StateConfig): Plugin => ({

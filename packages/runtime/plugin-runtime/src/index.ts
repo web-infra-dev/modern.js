@@ -1,7 +1,8 @@
 import type { StateConfig } from './state';
 import type { RouterConfig } from './router';
 
-export type { Plugin, AppConfig } from './core';
+export type { Plugin } from './core';
+export type { AppConfig } from './common';
 
 export type {
   BaseRuntimeContext,
@@ -23,9 +24,3 @@ export {
 } from './core';
 
 export { StateConfig, RouterConfig };
-declare module './core' {
-  interface AppConfig {
-    router?: RouterConfig | boolean;
-    state?: StateConfig | boolean;
-  }
-}

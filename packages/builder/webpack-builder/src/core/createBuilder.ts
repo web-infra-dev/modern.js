@@ -5,7 +5,6 @@ import type { PluginStore, BuilderOptions, Context } from '../types';
 import type { InspectOptions } from './inspectWebpackConfig';
 import { initConfigs } from './initConfigs';
 import type * as webpack from 'webpack';
-import _ from '@modern-js/utils/lodash';
 import { webpackBuild } from './build';
 
 /**
@@ -14,10 +13,9 @@ import { webpackBuild } from './build';
  * Usually it won't take much cost.
  */
 export function createPrimaryBuilder(
-  options: Required<BuilderOptions> & { context: Context },
+  builderOptions: Required<BuilderOptions>,
+  context: Context,
 ) {
-  const { context } = options;
-  const builderOptions = _.omit(options, 'context');
   const publicContext = createPublicContext(context);
   const pluginStore = createPluginStore();
 
@@ -48,10 +46,10 @@ export function createPrimaryBuilder(
 export async function createBuilder(options?: BuilderOptions) {
   const builderOptions = mergeBuilderOptions(options);
   const context = await createContext(builderOptions);
-  const { build, pluginStore, publicContext } = createPrimaryBuilder({
+  const { build, pluginStore, publicContext } = createPrimaryBuilder(
+    builderOptions,
     context,
-    ...builderOptions,
-  });
+  );
 
   await addDefaultPlugins(pluginStore);
 
@@ -83,6 +81,7 @@ export async function createBuilder(options?: BuilderOptions) {
 
 async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginHMR } = await import('../plugins/hmr');
+  const { PluginPug } = await import('../plugins/pug');
   const { PluginCopy } = await import('../plugins/copy');
   const { PluginFont } = await import('../plugins/font');
   const { PluginHtml } = await import('../plugins/html');
@@ -111,6 +110,8 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginLess } = await import('../plugins/less');
   const { PluginReact } = await import('../plugins/react');
   const { PluginBundleAnalyzer } = await import('../plugins/bundleAnalyzer');
+  const { PluginToml } = await import('../plugins/toml');
+  const { PluginYaml } = await import('../plugins/yaml');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
@@ -124,6 +125,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
 
     // Plugins that provide basic features
     PluginHMR(),
+    PluginPug(),
     PluginCopy(),
     PluginFont(),
     PluginHtml(),
@@ -144,6 +146,8 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginLess(),
     PluginReact(),
     PluginBundleAnalyzer(),
+    PluginToml(),
+    PluginYaml(),
 
     // fallback should be the last plugin
     PluginFallback(),
