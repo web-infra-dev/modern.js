@@ -1,10 +1,13 @@
 import type { BuilderPlugin } from '../types';
 
 export const PluginReact = (): BuilderPlugin => ({
-  name: 'web-builder-plugin-react',
+  name: 'webpack-builder-plugin-react',
 
   setup(api) {
-    api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+    api.modifyWebpackChain(async (chain, { CHAIN_ID, isProd }) => {
+      if (isProd) {
+        return;
+      }
       const { default: ReactFastRefreshPlugin } = await import(
         '@pmmmwh/react-refresh-webpack-plugin'
       );
