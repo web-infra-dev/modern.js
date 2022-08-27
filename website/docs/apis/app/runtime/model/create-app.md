@@ -1,6 +1,6 @@
 ---
 sidebar_position: 11
-title: create-app
+title: createApp
 ---
 
 # createApp
