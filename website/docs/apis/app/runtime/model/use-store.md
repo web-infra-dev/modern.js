@@ -1,21 +1,21 @@
 ---
 sidebar_position: 9
-title: getStore
+title: useStore
 ---
 
-# getStore
+# useStore
 
 import ReduckTip from '@site/docs/components/reduck-tip.md'
 
 <ReduckTip />
 
-`getStore` 用于获取当前组件树共享的 Store。常用于在组件外访问 Model 的场景。注意，调用 `getStore` 时，需要保证组件树已完成挂载，否则无法获取到 Store。
+`useStore` 用于获取当前组件树共享的 Store。常用于在组件外访问 Model 的场景。注意，`useStore` 是一个 React Hook，只能在组件内使用。
 
 
 ## 类型
 
 ```ts
-function getStore(): ReduckStore;
+function useStore(): ReduckStore;
 ```
 
 ## 返回值

@@ -42,7 +42,7 @@ Reduck App，有以下属性组成：
 - useModel：获取应用局部 Store 挂载的 Model 对象。用法同 [`useModel`](./use-model.md)。
 - useStaticModel：获取应用局部 Store 挂载的 Model 对象。用法同 [`useStaticModel`](./use-static-model.md)。
 - useLocalModel：获取应用局部 Store 挂载的 Model 对象。用法同 [`useLocalModel`](./use-local-model.md)。
-- getStore：获取应用局部使用的 Store 对象。用法同 [`getStore`](./use-static-model.md)。
+- useStore：获取应用局部使用的 Store 对象。用法同 [`useStore`](./use-store.md)。
 
 ## 示例
 
