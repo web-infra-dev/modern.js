@@ -85,5 +85,5 @@ describe('默认值 cases', () => {
 
 针对业务模型类型的可复用模块项目，Modern.js 的 Runtime API 提供了用于业务模型的功能，其功能由 `@modern-js/runtime/model` 提供。
 
-关于如何进行业务模型的测试，可以阅读 [测试 Model](/docs/guides/features/runtime/model/test-model)。
+关于如何进行业务模型的测试，可以阅读 [测试 Model](/docs/guides/features/model/test-model)。
 

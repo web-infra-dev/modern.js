@@ -8,7 +8,7 @@ title: 使用 Model
 
 通过 `useModel` 可以获取 Model 的 State、Actions 等。当 Model 的 State 通过 Actions 进行修改后，任何其他使用了该 Model 的组件，都会自动重新渲染。
 
-在 [快速上手](/docs/guides/features/model/runtime) 的计数器案例中，我们已经演示了 `useModel` 的使用，不再重复。
+在 [快速上手](/docs/guides/features/model/quick-start) 的计数器案例中，我们已经演示了 `useModel` 的使用，不再重复。
 
 `useModel` 支持传入多个 Model，多个 Model 的 State 和 Actions 会进行合并后作为返回结果。例如：
 
@@ -160,6 +160,7 @@ function ThreeComponent() {
 
 使用 React 的 refs 也可以实现类似效果，其实 `useStaticModel` 内部也使用到了 refs。不过直接 `useStaticModel` 有助于将状态的管理逻辑从组件中解耦，统一收敛到 Model 层。
 
+完整的示例代码可以在[这里](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/static-model)查看。
 
 ### 作为局部状态使用
 
@@ -239,5 +240,5 @@ function Counter() {
 :::
 
 :::info 补充信息
-本节涉及的 API 的详细定义，请参考[这里](/docs/apis/app/runtime/model/model)。
+本节涉及的 API 的详细定义，请参考[这里](/docs/apis/app/runtime/model/model_)。
 :::
