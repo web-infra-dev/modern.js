@@ -7,10 +7,12 @@ import {
   canUseNpm,
   canUsePnpm,
   canUseYarn,
+  semver,
 } from '@modern-js/utils';
 import { GeneratorContext } from '@modern-js/codesmith';
 import { stripAnsi } from './utils/strip-ansi';
 import { i18n, localeKeys } from './locale';
+import { getAvailableVersion } from './utils/package';
 
 export * from './utils';
 
@@ -70,10 +72,47 @@ const SolutionDep: Record<Solution, string> = {
   module: '@modern-js/module-tools',
   monorepo: '@modern-js/monorepo-tools',
 };
-export async function getModernVersion(solution: Solution) {
+export async function getModernVersion(solution: Solution, registry?: string) {
   const dep = SolutionDep[solution];
-  const modernVersion = await getPackageVersion(dep);
+  const modernVersion = await getPackageVersion(dep, registry);
   return modernVersion;
+}
+
+export async function getModernPluginVersion(
+  solution: Solution,
+  packageName: string,
+  options: { cwd?: string; registry?: string } = {},
+) {
+  const { cwd = process.cwd(), registry } = options;
+  const getLatetPluginVersion = async () => {
+    const version = await getPackageVersion(packageName, registry);
+    return version;
+  };
+  if (!packageName.startsWith('@modern-js')) {
+    return getLatetPluginVersion();
+  }
+  // get project package.json solution version
+  const pkgPath = path.join(cwd, 'package.json');
+  if (fs.existsSync(pkgPath)) {
+    const pkgInfo = fs.readJSONSync(pkgPath);
+    const deps = {
+      ...pkgInfo.devDependencies,
+      ...pkgInfo.dependencies,
+    };
+    const modernVersion = deps[SolutionDep[solution]];
+    if (typeof modernVersion !== 'string') {
+      return getLatetPluginVersion();
+    }
+    if (semver.lte(modernVersion, '1.15.0')) {
+      return getLatetPluginVersion();
+    }
+    return getAvailableVersion(
+      packageName,
+      deps[SolutionDep[solution]],
+      registry,
+    );
+  }
+  return getLatetPluginVersion();
 }
 
 export function getPackageManagerText(packageManager: 'pnpm' | 'yarn' | 'npm') {
