@@ -41,9 +41,15 @@
   },
   "typesVersions": {
     "*": {
-      "webpack": ["./dist/exports/webpack.d.ts"],
-      "html-webpack-plugin": ["./dist/exports/HtmlWebpackPlugin.d.ts"],
-      "stub": ["./dist/stub/index.d.ts"]
+      "webpack": [
+        "./dist/exports/webpack.d.ts"
+      ],
+      "html-webpack-plugin": [
+        "./dist/exports/HtmlWebpackPlugin.d.ts"
+      ],
+      "stub": [
+        "./dist/stub/index.d.ts"
+      ]
     }
   },
   "scripts": {

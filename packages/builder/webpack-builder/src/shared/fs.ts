@@ -65,7 +65,7 @@ export const getFilename = (
     case 'css':
       return filename.css ?? `[name]${hash}.css`;
     case 'svg':
-      return filename.svg ?? `[name]${hash}.[ext]`;
+      return filename.svg ?? `[name]${hash}.svg`;
     case 'font':
       return filename.font ?? `[name]${hash}[ext]`;
     case 'image':
