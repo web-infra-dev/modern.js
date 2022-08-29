@@ -20,9 +20,9 @@ import {
   validatePackagePath,
   validatePackageName,
   getModuleProjectPath,
-  getPackageVersion,
   getPackageManagerText,
   getModernVersion,
+  getModernPluginVersion,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
@@ -177,6 +177,12 @@ export const handleTemplateFile = async (
     );
   }
 
+  const getModulePluginVersion = (packageName: string) => {
+    return getModernPluginVersion(Solution.Module, packageName, {
+      registry: context.config.registry,
+    });
+  };
+
   if (enableLess === BooleanConfig.YES) {
     const lessDependence =
       ModuleActionFunctionsDependencies[ActionFunction.Less]!;
@@ -185,7 +191,7 @@ export const handleTemplateFile = async (
       undefined,
       {
         dependencies: {
-          [lessDependence]: `^${await getPackageVersion(lessDependence)}`,
+          [lessDependence]: `${await getModulePluginVersion(lessDependence)}`,
         },
         projectPath,
         isSubGenerator: true,
@@ -201,7 +207,7 @@ export const handleTemplateFile = async (
       undefined,
       {
         dependencies: {
-          [sassDependence]: `^${await getPackageVersion(sassDependence)}`,
+          [sassDependence]: `${await getModulePluginVersion(sassDependence)}`,
         },
         projectPath,
         isSubGenerator: true,

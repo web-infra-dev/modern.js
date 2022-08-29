@@ -15,10 +15,11 @@ import {
   MWANewActionGenerators,
   ActionType,
   i18n,
+  Solution,
 } from '@modern-js/generator-common';
 import {
+  getModernPluginVersion,
   getPackageManager,
-  getPackageVersion,
 } from '@modern-js/generator-utils';
 import { alreadyRepo, hasEnabledFunction } from './utils';
 
@@ -100,6 +101,12 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     generator = `${generator}@${distTag}`;
   }
 
+  const getMwaPluginVersion = (packageName: string) => {
+    return getModernPluginVersion(Solution.MWA, packageName, {
+      registry,
+    });
+  };
+
   const devDependency =
     MWAActionFunctionsDevDependencies[action as ActionFunction];
   const dependency = MWAActionFunctionsDependencies[action as ActionFunction];
@@ -114,10 +121,12 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     },
     {
       devDependencies: devDependency
-        ? { [devDependency]: `^${await getPackageVersion(devDependency)}` }
+        ? { [devDependency]: `${await getMwaPluginVersion(devDependency)}` }
         : {},
       dependencies: dependency
-        ? { [dependency]: `^${await getPackageVersion(dependency)}` }
+        ? {
+            [dependency]: `${await getMwaPluginVersion(dependency)}`,
+          }
         : {},
       appendTypeContent:
         MWAActionFunctionsAppendTypeContent[action as ActionFunction],

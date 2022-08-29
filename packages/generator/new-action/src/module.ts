@@ -15,10 +15,11 @@ import {
   ModuleActionFunctionsPeerDependencies,
   ModuleNewActionGenerators,
   ActionType,
+  Solution,
 } from '@modern-js/generator-common';
 import {
-  getPackageVersion,
   getPackageManager,
+  getModernPluginVersion,
 } from '@modern-js/generator-utils';
 import { alreadyRepo, hasEnabledFunction } from './utils';
 
@@ -120,6 +121,12 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
   const peerDependency =
     ModuleActionFunctionsPeerDependencies[action as ActionFunction];
 
+  const getModulePluginVersion = (packageName: string) => {
+    return getModernPluginVersion(Solution.Module, packageName, {
+      registry,
+    });
+  };
+
   const finalConfig = merge(
     UserConfig,
     ans,
@@ -130,14 +137,14 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     },
     {
       devDependencies: devDependency
-        ? { [devDependency]: `^${await getPackageVersion(devDependency)}` }
+        ? { [devDependency]: `${await getModulePluginVersion(devDependency)}` }
         : {},
       dependencies: dependency
-        ? { [dependency]: `^${await getPackageVersion(dependency)}` }
+        ? { [dependency]: `${await getModulePluginVersion(dependency)}` }
         : {},
       peerDependencies: peerDependency
         ? {
-            [peerDependency]: `^${await getPackageVersion(peerDependency)}`,
+            [peerDependency]: `${await getModulePluginVersion(peerDependency)}`,
           }
         : {},
     },
