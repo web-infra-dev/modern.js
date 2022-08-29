@@ -188,7 +188,7 @@ const todoModel = model('todo').define((context, utils) => ({
 ```
 
 :::info 注
-可以使用 `use` 函数加载其它 Model（包括 Model 自身），实现 [Model 间通信](/docs/guides/features/runtime/model/model-communicate)。
+可以使用 `use` 函数加载其它 Model（包括 Model 自身），实现 [Model 间通信](/docs/guides/features/model/model-communicate)。
 :::
 
 
