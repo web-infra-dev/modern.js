@@ -18,6 +18,7 @@ export * from './utils';
 
 export {
   fs,
+  semver,
   execa,
   readTsConfigByFile,
   getPackageManager,
