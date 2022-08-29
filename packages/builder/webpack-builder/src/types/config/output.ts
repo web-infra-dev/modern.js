@@ -20,6 +20,13 @@ export type FilenameConfig = {
   media?: string;
 };
 
+export type DataUriLimit = {
+  svg?: number;
+  font?: number;
+  image?: number;
+  media?: number;
+};
+
 export type Polyfill = 'usage' | 'entry' | 'ua' | 'off';
 
 export interface OutputConfig {
@@ -28,7 +35,7 @@ export interface OutputConfig {
   filename?: FilenameConfig;
   polyfill?: Polyfill;
   assetPrefix?: string;
-  dataUriLimit?: number;
+  dataUriLimit?: number | DataUriLimit;
   disableMinimize?: boolean;
   disableSourceMap?: boolean;
   disableFilenameHash?: boolean;

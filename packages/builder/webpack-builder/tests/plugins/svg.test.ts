@@ -25,4 +25,20 @@ describe('plugins/svg', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should allow using output.dataUriLimit.svg to custom data uri limit', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginSvg()],
+      builderConfig: {
+        output: {
+          dataUriLimit: {
+            svg: 666,
+          },
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
 });

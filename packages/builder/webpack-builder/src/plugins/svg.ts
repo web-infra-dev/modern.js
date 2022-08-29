@@ -1,5 +1,5 @@
-import { JS_REGEX, SVG_REGEX, TS_REGEX } from '../shared';
-import { BuilderPlugin } from '../types';
+import { getDataUrlLimit, JS_REGEX, SVG_REGEX, TS_REGEX } from '../shared';
+import type { BuilderPlugin } from '../types';
 
 export const PluginSvg = (): BuilderPlugin => {
   return {
@@ -58,7 +58,7 @@ export const PluginSvg = (): BuilderPlugin => {
               .use(CHAIN_ID.USE.URL)
               .loader(getCompiledPath('url-loader'))
               .options({
-                limit: config.output?.dataUriLimit || 4096,
+                limit: getDataUrlLimit(config, 'svg'),
                 name: `assets/[name].[contenthash:8].[ext]`,
               }),
           );
