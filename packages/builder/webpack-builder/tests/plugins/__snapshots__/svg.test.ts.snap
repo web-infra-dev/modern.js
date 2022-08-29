@@ -142,7 +142,87 @@ exports[`plugins/svg > export default url 1`] = `
           {
             "loader": "<ROOT>/packages/builder/webpack-builder/compiled/url-loader",
             "options": {
-              "limit": 4096,
+              "limit": 10000,
+              "name": "assets/[name].[contenthash:8].[ext]",
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/svg > should allow using output.dataUriLimit.svg to custom data uri limit 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "issuer": [
+          /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+          /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        ],
+        "resourceQuery": /inline/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<NODE_MODULES>/@svgr/webpack/dist/index.js",
+            "options": {
+              "svgo": false,
+            },
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/url-loader",
+            "options": {
+              "limit": Infinity,
+              "name": "assets/[name].[contenthash:8].[ext]",
+            },
+          },
+        ],
+      },
+      {
+        "issuer": [
+          /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+          /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        ],
+        "resourceQuery": /url/,
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<NODE_MODULES>/@svgr/webpack/dist/index.js",
+            "options": {
+              "svgo": false,
+            },
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/url-loader",
+            "options": {
+              "limit": false,
+              "name": "assets/[name].[contenthash:8].[ext]",
+            },
+          },
+        ],
+      },
+      {
+        "issuer": [
+          /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+          /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        ],
+        "test": /\\\\\\.svg\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<NODE_MODULES>/@svgr/webpack/dist/index.js",
+            "options": {
+              "svgo": false,
+            },
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/url-loader",
+            "options": {
+              "limit": 666,
               "name": "assets/[name].[contenthash:8].[ext]",
             },
           },

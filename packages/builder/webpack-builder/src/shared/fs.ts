@@ -30,21 +30,21 @@ export const getDistPath = (
 
   switch (type) {
     case 'js':
-      return distPath.js || JS_DIST_DIR;
+      return distPath.js ?? JS_DIST_DIR;
     case 'css':
-      return distPath.css || CSS_DIST_DIR;
+      return distPath.css ?? CSS_DIST_DIR;
     case 'svg':
-      return distPath.svg || SVG_DIST_DIR;
+      return distPath.svg ?? SVG_DIST_DIR;
     case 'font':
-      return distPath.font || FONT_DIST_DIR;
+      return distPath.font ?? FONT_DIST_DIR;
     case 'html':
-      return distPath.html || HTML_DIST_DIR;
+      return distPath.html ?? HTML_DIST_DIR;
     case 'media':
-      return distPath.media || MEDIA_DIST_DIR;
+      return distPath.media ?? MEDIA_DIST_DIR;
     case 'root':
-      return distPath.root || ROOT_DIST_DIR;
+      return distPath.root ?? ROOT_DIST_DIR;
     case 'image':
-      return distPath.image || IMAGE_DIST_DIR;
+      return distPath.image ?? IMAGE_DIST_DIR;
     default:
       throw new Error(`unknown key ${type} in "output.distPath"`);
   }
@@ -61,17 +61,17 @@ export const getFilename = (
 
   switch (type) {
     case 'js':
-      return filename.js || `[name]${hash}.js`;
+      return filename.js ?? `[name]${hash}.js`;
     case 'css':
-      return filename.css || `[name]${hash}.css`;
+      return filename.css ?? `[name]${hash}.css`;
     case 'svg':
-      return filename.svg || `[name]${hash}.[ext]`;
+      return filename.svg ?? `[name]${hash}.[ext]`;
     case 'font':
-      return filename.font || `[name]${hash}[ext]`;
+      return filename.font ?? `[name]${hash}[ext]`;
     case 'image':
-      return filename.image || `[name]${hash}[ext]`;
+      return filename.image ?? `[name]${hash}[ext]`;
     case 'media':
-      return filename.media || `[name]${hash}[ext]`;
+      return filename.media ?? `[name]${hash}[ext]`;
     default:
       throw new Error(`unknown key ${type} in "output.filename"`);
   }
