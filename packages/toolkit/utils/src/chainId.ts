@@ -23,8 +23,6 @@ export const CHAIN_ID = {
     SASS: 'sass',
     /** Rule for svg */
     SVG: 'svg',
-    SVG_INLINE: 'svg-inline',
-    SVG_URL: 'svg-url',
     /** Rule for pug */
     PUG: 'pug',
     /** Rule for toml */
@@ -49,6 +47,7 @@ export const CHAIN_ID = {
     SASS_MODULES: 'sass-modules',
     SVG: 'svg',
     SVG_URL: 'svg-url',
+    SVG_ASSET: 'svg-asset',
     SVG_INLINE: 'svg-inline',
     ASSETS: 'assets',
     ASSETS_URL: 'assets-url',

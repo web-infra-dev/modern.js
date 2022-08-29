@@ -81,6 +81,7 @@ export async function createBuilder(options?: BuilderOptions) {
 
 async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginHMR } = await import('../plugins/hmr');
+  const { PluginSvg } = await import('../plugins/svg');
   const { PluginPug } = await import('../plugins/pug');
   const { PluginCopy } = await import('../plugins/copy');
   const { PluginFont } = await import('../plugins/font');
@@ -126,6 +127,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
 
     // Plugins that provide basic features
     PluginHMR(),
+    PluginSvg(),
     PluginPug(),
     PluginCopy(),
     PluginFont(),

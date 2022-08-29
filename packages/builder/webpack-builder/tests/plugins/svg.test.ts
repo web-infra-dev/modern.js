@@ -41,4 +41,36 @@ describe('plugins/svg', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should allow to use distPath.svg to modify dist path', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginSvg()],
+      builderConfig: {
+        output: {
+          distPath: {
+            svg: 'foo',
+          },
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
+
+  it('should allow to use filename.svg to modify filename', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginSvg()],
+      builderConfig: {
+        output: {
+          filename: {
+            svg: 'foo.svg',
+          },
+        },
+      },
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+    expect(config).toMatchSnapshot();
+  });
 });

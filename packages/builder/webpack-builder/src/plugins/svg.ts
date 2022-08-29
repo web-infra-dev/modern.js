@@ -1,68 +1,94 @@
-import { getDataUrlLimit, JS_REGEX, SVG_REGEX, TS_REGEX } from '../shared';
+import { join } from 'path';
+import {
+  JS_REGEX,
+  TS_REGEX,
+  SVG_REGEX,
+  getDistPath,
+  getFilename,
+  getDataUrlLimit,
+  getDataUrlCondition,
+} from '../shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginSvg = (): BuilderPlugin => {
   return {
     name: 'webpack-builder-plugin-svg',
     setup(api) {
-      api.modifyWebpackChain(async (chain, { CHAIN_ID, getCompiledPath }) => {
-        const config = api.getBuilderConfig();
-        const defaultExport = config.output?.svgDefaultExport || 'url';
-        // The issuer option ensures that SVGR will only apply if the SVG is imported from a JS file.
-        // If we import SVG from a CSS file, it will be processed as assets.
-        chain.module
-          .rule(CHAIN_ID.RULE.SVG_INLINE)
-          .test(SVG_REGEX)
-          .set('issuer', [JS_REGEX, TS_REGEX])
-          .type('javascript/auto')
-          .resourceQuery(/inline/)
-          .use(CHAIN_ID.USE.SVGR)
-          .loader(require.resolve('@svgr/webpack'))
-          .options({ svgo: false })
-          .end()
-          .use(CHAIN_ID.USE.URL)
-          .loader(getCompiledPath('url-loader'))
-          .options({
-            limit: Infinity,
-            name: `assets/[name].[contenthash:8].[ext]`,
-          });
+      api.modifyWebpackChain(
+        async (chain, { isProd, CHAIN_ID, getCompiledPath }) => {
+          const config = api.getBuilderConfig();
+          const defaultExport = config.output?.svgDefaultExport || 'url';
 
-        chain.module
-          .rule(CHAIN_ID.RULE.SVG_URL)
-          .test(SVG_REGEX)
-          .set('issuer', [JS_REGEX, TS_REGEX])
-          .type('javascript/auto')
-          .resourceQuery(/url/)
-          .use(CHAIN_ID.USE.SVGR)
-          .loader(require.resolve('@svgr/webpack'))
-          .options({ svgo: false })
-          .end()
-          .use(CHAIN_ID.USE.URL)
-          .loader(getCompiledPath('url-loader'))
-          .options({
-            limit: false,
-            name: `assets/[name].[contenthash:8].[ext]`,
-          });
+          const distDir = getDistPath(config, 'svg');
+          const filename = getFilename(config, 'svg', isProd);
+          const outputName = join(distDir, filename);
 
-        chain.module
-          .rule(CHAIN_ID.RULE.SVG)
-          .test(SVG_REGEX)
-          .set('issuer', [JS_REGEX, TS_REGEX])
-          .type('javascript/auto')
-          .use(CHAIN_ID.USE.SVGR)
-          .loader(require.resolve('@svgr/webpack'))
-          .options({ svgo: false })
-          .end()
-          .when(defaultExport === 'url', c =>
-            c
-              .use(CHAIN_ID.USE.URL)
-              .loader(getCompiledPath('url-loader'))
-              .options({
-                limit: getDataUrlLimit(config, 'svg'),
-                name: `assets/[name].[contenthash:8].[ext]`,
-              }),
-          );
-      });
+          const rule = chain.module.rule(CHAIN_ID.RULE.SVG).test(SVG_REGEX);
+
+          rule
+            .oneOf(CHAIN_ID.ONE_OF.SVG_ASSET)
+            // The issuer option ensures that SVGR will only apply if the SVG is imported from a JS file.
+            // If we import SVG from a CSS file, it will be processed as assets.
+            .set('issuer', {
+              not: [JS_REGEX, TS_REGEX],
+            })
+            // @ts-expect-error webpack-chain has incorrect type for `rule.type`
+            .type('asset')
+            .parser({
+              dataUrlCondition: getDataUrlCondition(config, 'svg'),
+            })
+            .set('generator', {
+              filename: join(distDir, filename),
+            });
+
+          rule
+            .oneOf(CHAIN_ID.ONE_OF.SVG_INLINE)
+            .type('javascript/auto')
+            .resourceQuery(/inline/)
+            .use(CHAIN_ID.USE.SVGR)
+            .loader(require.resolve('@svgr/webpack'))
+            .options({ svgo: false })
+            .end()
+            .use(CHAIN_ID.USE.URL)
+            .loader(getCompiledPath('url-loader'))
+            .options({
+              limit: Infinity,
+              name: outputName,
+            });
+
+          rule
+            .oneOf(CHAIN_ID.ONE_OF.SVG_URL)
+            .type('javascript/auto')
+            .resourceQuery(/url/)
+            .use(CHAIN_ID.USE.SVGR)
+            .loader(require.resolve('@svgr/webpack'))
+            .options({ svgo: false })
+            .end()
+            .use(CHAIN_ID.USE.URL)
+            .loader(getCompiledPath('url-loader'))
+            .options({
+              limit: false,
+              name: outputName,
+            });
+
+          rule
+            .oneOf(CHAIN_ID.ONE_OF.SVG)
+            .type('javascript/auto')
+            .use(CHAIN_ID.USE.SVGR)
+            .loader(require.resolve('@svgr/webpack'))
+            .options({ svgo: false })
+            .end()
+            .when(defaultExport === 'url', c =>
+              c
+                .use(CHAIN_ID.USE.URL)
+                .loader(getCompiledPath('url-loader'))
+                .options({
+                  limit: getDataUrlLimit(config, 'svg'),
+                  name: outputName,
+                }),
+            );
+        },
+      );
     },
   };
 };
