@@ -1,6 +1,6 @@
 ---
 sidebar_position: 7
-title: handle-effect
+title: handleEffect
 ---
 
 # handleEffect

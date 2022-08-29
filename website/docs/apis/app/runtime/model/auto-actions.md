@@ -1,9 +1,9 @@
 ---
 sidebar_position: 6
-title: auto-actions
+title: Auto actions
 ---
 
-# auto-actions
+# Auto actions
 
 import ReduckTip from '@site/docs/components/reduck-tip.md'
 
