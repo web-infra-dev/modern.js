@@ -234,20 +234,7 @@ const fooModel = model('foo').define({
 
 ## 副作用函数返回值
 
-有时候，我们希望能根据副作用函数的执行结果，直接执行后续逻辑。 这时候，就需要使用 Effects 函数的返回值，它的数据结构为：
-
-```ts
-{
-  value: any;
-  action: {
-    type: string;
-    payload: any;
-    extraArgs: any[];
-  }
-}
-```
-
-`action` 代表的是 Effects 函数执行过程中调用的最后 1 个 Action 的信息，一般不会直接使用。`value` 才是 Effects 函数真正的执行结果。
+有时候，我们希望能根据副作用函数的执行结果，直接执行后续逻辑。这时候，就需要使用 Effects 函数的返回。
 
 例如，当点击发送按钮，发送数据成功后，立即关闭当前的弹窗；如果失败，显示错误信息。我们可以通过如下代码实现：
 
@@ -255,20 +242,18 @@ const fooModel = model('foo').define({
 // 代码仅做示意，不能执行
 // 组件内部 发送按钮 的响应函数
 const handleClick = async () => {
-  // value 为
-  const { value } = await actions.sendData('some data');
-  if (value.result === 'success') {
+  // sendData 返回代表状态的字符串
+  const result = await actions.sendData('some data');
+  if (result === 'success') {
     // 关闭弹窗
     closeModal();
   } else {
     // 显示错误
-    showError(value.error);
+    showError(result);
   }
 };
 ```
 
 :::info 补充信息
-- 本节完整的示例代码：[副作用](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/effects)。
-
-- 关于副作用相关 API 的更多介绍，请参考[副作用 API](/docs/apis/app/runtime/model/effects)。
+- [示例代码](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/effects)
 :::
