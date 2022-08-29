@@ -21,7 +21,7 @@ import {
   getModernPluginVersion,
   getPackageManager,
 } from '@modern-js/generator-utils';
-import { alreadyRepo, hasEnabledFunction } from './utils';
+import { alreadyRepo, getGeneratorPath, hasEnabledFunction } from './utils';
 
 interface IMWANewActionOption {
   locale?: string;
@@ -91,14 +91,13 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
 
   const action = ans[actionType] as string;
 
-  let generator = MWANewActionGenerators[actionType][action];
+  const generator = getGeneratorPath(
+    MWANewActionGenerators[actionType][action],
+    distTag,
+  );
 
   if (!generator) {
     throw new Error(`no valid option`);
-  }
-
-  if (distTag) {
-    generator = `${generator}@${distTag}`;
   }
 
   const getMwaPluginVersion = (packageName: string) => {

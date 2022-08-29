@@ -91,26 +91,23 @@ export async function getModernPluginVersion(
   if (!packageName.startsWith('@modern-js')) {
     return getLatetPluginVersion();
   }
-  // get project package.json solution version
-  const pkgPath = path.join(cwd, 'package.json');
+  // get project solution version
+  const pkgPath = path.join(
+    require.resolve(SolutionDep[solution], { paths: [cwd] }),
+    '../../../../',
+    'package.json',
+  );
   if (fs.existsSync(pkgPath)) {
     const pkgInfo = fs.readJSONSync(pkgPath);
-    const deps = {
-      ...pkgInfo.devDependencies,
-      ...pkgInfo.dependencies,
-    };
-    const modernVersion = deps[SolutionDep[solution]];
+
+    const modernVersion = pkgInfo.version;
     if (typeof modernVersion !== 'string') {
       return getLatetPluginVersion();
     }
-    if (semver.lte(modernVersion, '1.15.0')) {
+    if (semver.lt(modernVersion, '1.15.0')) {
       return getLatetPluginVersion();
     }
-    return getAvailableVersion(
-      packageName,
-      deps[SolutionDep[solution]],
-      registry,
-    );
+    return getAvailableVersion(packageName, modernVersion, registry);
   }
   return getLatetPluginVersion();
 }

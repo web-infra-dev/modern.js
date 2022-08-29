@@ -21,7 +21,7 @@ import {
   getPackageManager,
   getModernPluginVersion,
 } from '@modern-js/generator-utils';
-import { alreadyRepo, hasEnabledFunction } from './utils';
+import { alreadyRepo, getGeneratorPath, hasEnabledFunction } from './utils';
 
 interface IModuleNewActionOption {
   locale?: string;
@@ -102,16 +102,12 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
 
   const action = ans[actionType] as string;
 
-  let generator =
-    ModuleNewActionGenerators[actionType] &&
-    ModuleNewActionGenerators[actionType]![action];
-
+  const generator = getGeneratorPath(
+    ModuleNewActionGenerators[actionType]![action],
+    distTag,
+  );
   if (!generator) {
     throw new Error(`no valid option`);
-  }
-
-  if (distTag) {
-    generator = `${generator}@${distTag}`;
   }
 
   const devDependency =
