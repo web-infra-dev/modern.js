@@ -4111,6 +4111,8 @@ importers:
   tests/integration/webpack-builder:
     specifiers:
       '@modern-js/inspector-webpack-plugin': ^1.0.0-alpha.0
+      '@modern-js/server': workspace:*
+      '@modern-js/webpack-builder': workspace:*
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -4119,6 +4121,8 @@ importers:
       tsx: ^3.7.1
       typescript: ^4
     dependencies:
+      '@modern-js/server': link:../../../packages/server/server
+      '@modern-js/webpack-builder': link:../../../packages/builder/webpack-builder
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     devDependencies:
