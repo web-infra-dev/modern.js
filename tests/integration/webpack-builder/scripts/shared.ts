@@ -27,7 +27,13 @@ export const createBuilder = async () => {
     cwd,
     entry,
     configPath: __filename,
-    builderConfig: {},
+    builderConfig: {
+      performance: {
+        chunkSplit: {
+          strategy: 'split-by-experience',
+        },
+      },
+    },
   });
 
   builder.addPlugins([TestPlugin()]);

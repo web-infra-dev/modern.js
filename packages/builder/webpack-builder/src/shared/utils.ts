@@ -16,6 +16,8 @@ export const CSS_MODULE_REGEX = /\.module\.css$/;
 export const GLOBAL_CSS_REGEX = /\.global\.css$/;
 export const NODE_MODULES_REGEX = /node_modules/;
 export const SVG_REGEX = /\.svg$/;
+export const MODULE_PATH_REGEX =
+  /[\\/]node_modules[\\/](\.pnpm[\\/])?(?:(@[^[\\/]+)(?:[\\/]))?([^\\/]+)/;
 
 export const isNodeModulesCss = (path: string) =>
   NODE_MODULES_REGEX.test(path) &&
@@ -139,7 +141,7 @@ export function deepFreezed<T extends Record<any, any> | any[]>(obj: T): T {
 }
 
 /**
- * Check if an file handled by specific loader.
+ * Check if a file handled by specific loader.
  * @author yangxingyuan
  * @param {Configuration} config - The webpack config.
  * @param {string} loader - The name of loader.
@@ -179,4 +181,19 @@ export function matchLoader({
     }
     return false;
   });
+}
+
+export function getPackageNameFromModulePath(modulePath: string) {
+  const handleModuleContext = modulePath?.match(MODULE_PATH_REGEX);
+
+  if (!handleModuleContext) {
+    return false;
+  }
+
+  const [, , scope, name] = handleModuleContext;
+  const packageName = ['npm', (scope ?? '').replace('@', ''), name]
+    .filter(Boolean)
+    .join('.');
+
+  return packageName;
 }
