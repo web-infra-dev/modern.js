@@ -203,7 +203,7 @@ export const handleTemplateFile = async (
     );
   }
 
-  const getModulePluginVersion = (packageName: string) => {
+  const getMwaPluginVersion = (packageName: string) => {
     return getModernPluginVersion(Solution.MWA, packageName, {
       registry: context.config.registry,
     });
@@ -216,7 +216,7 @@ export const handleTemplateFile = async (
       undefined,
       {
         dependencies: {
-          [lessDependence]: `${await getModulePluginVersion(lessDependence)}`,
+          [lessDependence]: `${await getMwaPluginVersion(lessDependence)}`,
         },
         projectPath,
         isSubGenerator: true,
@@ -232,7 +232,7 @@ export const handleTemplateFile = async (
       undefined,
       {
         dependencies: {
-          [sassDependence]: `${await getModulePluginVersion(sassDependence)}`,
+          [sassDependence]: `${await getMwaPluginVersion(sassDependence)}`,
         },
         projectPath,
         isSubGenerator: true,
