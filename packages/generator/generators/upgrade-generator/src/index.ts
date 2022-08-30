@@ -7,7 +7,12 @@ import {
   getPackageManager,
   getPackageObj,
 } from '@modern-js/generator-utils';
-import { Solution, SolutionToolsMap } from '@modern-js/generator-common';
+import {
+  Solution,
+  SolutionText,
+  SolutionToolsMap,
+} from '@modern-js/generator-common';
+import { i18n, localeKeys } from './locale';
 
 export const handleTemplateFile = async (
   context: GeneratorContext,
@@ -20,20 +25,30 @@ export const handleTemplateFile = async (
     ...pkgInfo.devDependencies,
     ...pkgInfo.dependencies,
   };
-  const solutionDeps = Object.keys(SolutionToolsMap).filter(
+  const solutions = Object.keys(SolutionToolsMap).filter(
     solution => deps[SolutionToolsMap[solution as Solution]],
   );
-  if (solutionDeps.length === 0) {
-    throw Error('You should install Modern.js solution tools first');
+  if (solutions.length === 0) {
+    throw Error(i18n.t(localeKeys.tooltip.no_solution));
   }
-  if (solutionDeps.length >= 2) {
-    throw Error('The project not allow containers more solution tools');
+  if (solutions.length >= 2) {
+    throw Error(i18n.t(localeKeys.tooltip.more_solution));
   }
+
+  generator.logger.info(
+    `[${i18n.t(localeKeys.projectType)}]: ${
+      SolutionText[solutions[0] as Solution]
+    }`,
+  );
 
   // get modern latest version
   const modernVersion = await getModernVersion(
-    solutionDeps[0] as Solution,
+    solutions[0] as Solution,
     context.config.registry,
+  );
+
+  generator.logger.info(
+    `[${i18n.t(localeKeys.modernVersion)}]: ${modernVersion}`,
   );
 
   const appDir = context.materials.default.basePath;
@@ -80,7 +95,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   await appApi.runInstall();
 
-  appApi.showSuccessInfo();
+  appApi.showSuccessInfo(i18n.t(localeKeys.success));
 
   generator.logger.debug(`forge @modern-js/upgrade-generator succeed `);
 };
