@@ -126,6 +126,7 @@
   },
   "scripts": {
     "prepare": "pnpm build",
+    "dev": "modern build --watch",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
     "build": "wireit",
