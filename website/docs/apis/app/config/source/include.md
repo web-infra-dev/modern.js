@@ -5,8 +5,6 @@ sidebar_position: 5
 
 # source.include
 
-
-
 - 类型： `Array<string | RegExp>`
 - 默认值： `[]`
 
@@ -43,27 +41,47 @@ export default defineConfig({
 以 `query-string` 为例，可通过该选项指定 `query-string` 包：
 
 ```js title="modern.config.js"
+import path from 'path';
+
 export default defineConfig({
   source: {
     include: [
-      // 通过 require.resolve 来获取模块的路径
-      require.resolve('query-string'),
-      // 也可以通过正则表达式进行匹配
+      // 方法一:
+      // 先通过 require.resolve 来获取模块的路径
+      // 再通过 path.dirname 来指向对应的目录
+      path.dirname(require.resolve('query-string')),
+      // 方法二:
+      // 通过正则表达式进行匹配
+      // 所有包含 `/query-string/` 的路径都会被匹配到
       /\/query-string\//,
     ],
   },
 });
 ```
 
+:::info
+注意，该配置只会编译 `query-string` 自身的代码，不会编译 `query-string` 的子依赖。如果需要编译 `query-string` 的子依赖，则需要将对应的 npm 包也加入到 `source.include` 中。
+:::
+
 ## Monorepo 场景
 
-使用 Monorepo 时，如果需要引用 Monorepo 中其他库的源代码，也可以直接在应用编译的过程中进行处理，只需要在这个选项中设置对应的包名或代码路径即可:
+使用 Monorepo 时，如果需要引用 Monorepo 中其他库的源代码，也可以直接在应用编译的过程中进行处理，只需要在这个选项中配置对应的目录即可:
 
 ```js title="modern.config.js"
+import path from 'path';
+
 export default defineConfig({
   source: {
-    // 设置编译 Monorepo 下的 package
-    include: [require.resolve('@custom/package-name')],
+    include: [
+      // 方法一:
+      // 编译 Monorepo 的 package 目录下的所有文件
+      path.resolve(__dirname, '../../packages'),
+
+      // 方法二:
+      // 编译 Monorepo 的 package 目录里某个包的源代码
+      // 这种写法匹配的范围更加精准，对整体编译性能的影响更小
+      path.resolve(__dirname, '../../packages/xxx/src'),
+    ],
   },
 });
 ```
