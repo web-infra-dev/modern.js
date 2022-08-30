@@ -4,4 +4,5 @@
 '@modern-js/app-tools': patch
 ---
 
-support react 18 ssr
+feat: support react 18 ssr
+feat: 支持 React 18 下使用 SSR
