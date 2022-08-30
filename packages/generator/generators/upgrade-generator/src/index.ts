@@ -36,9 +36,9 @@ export const handleTemplateFile = async (
   }
 
   generator.logger.info(
-    `[${i18n.t(localeKeys.projectType)}]: ${
-      SolutionText[solutions[0] as Solution]
-    }`,
+    `[${i18n.t(localeKeys.projectType)}]: ${SolutionText[
+      solutions[0] as Solution
+    ]()}`,
   );
 
   // get modern latest version
