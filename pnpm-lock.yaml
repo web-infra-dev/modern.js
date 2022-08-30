@@ -2803,6 +2803,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7.18.0
       '@modern-js/codesmith': ^1.5.0
+      '@modern-js/plugin-i18n': workspace:*
       '@modern-js/upgrade-generator': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
@@ -2815,6 +2816,7 @@ importers:
     devDependencies:
       '@babel/runtime': 7.18.9
       '@modern-js/codesmith': 1.5.0
+      '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/upgrade-generator': link:../../generator/generators/upgrade-generator
       '@modern-js/utils': link:../utils
       '@scripts/build': link:../../../scripts/build
