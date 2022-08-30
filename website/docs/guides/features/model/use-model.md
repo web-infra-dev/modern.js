@@ -8,7 +8,7 @@ title: 使用 Model
 
 通过 `useModel` 可以获取 Model 的 State、Actions 等。当 Model 的 State 通过 Actions 进行修改后，任何其他使用了该 Model 的组件，都会自动重新渲染。
 
-在 [快速上手](/docs/guides/features/model/runtime) 的计数器案例中，我们已经演示了 `useModel` 的使用，不再重复。
+在 [快速上手](/docs/guides/features/model/quick-start) 的计数器案例中，我们已经演示了 `useModel` 的使用，不再重复。
 
 `useModel` 支持传入多个 Model，多个 Model 的 State 和 Actions 会进行合并后作为返回结果。例如：
 
@@ -160,6 +160,7 @@ function ThreeComponent() {
 
 使用 React 的 refs 也可以实现类似效果，其实 `useStaticModel` 内部也使用到了 refs。不过直接 `useStaticModel` 有助于将状态的管理逻辑从组件中解耦，统一收敛到 Model 层。
 
+完整的示例代码可以在[这里](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/static-model)查看。
 
 ### 作为局部状态使用
 
@@ -198,34 +199,20 @@ function LocalCounter() {
 
 在实际业务场景中，有时候我们需要在 React 组件外使用 Model，例如在工具函数中访问 State、执行 Actions 等。这个时候，我们就需要使用 Store。 Store 是一个底层概念，一般情况下用户接触不到，它负责存储和管理整个应用的状态。Reduck 的 Store 基于 [Redux 的 Store](https://redux.js.org/api/store) 实现，增加了 Reduck 特有的 API，如 `use` 。
 
-首先，通过 `getStore` 获取当前应用使用的 `store` 对象：
+首先，在组件内调用 `useStore` 获取当前应用使用的 `store` 对象，并挂载到组件外的变量上：
 
 ```ts
-import { getStore } from "@modern-js/runtime/model";
-
-const store = getStore();
-```
-
-默认情况下，Reduck 会在应用组件树首次挂载阶段，自动创建一个 Store。所以需要保证 `getStore` 的调用在应用首次挂载之后。
-
-
-通过 `store.use` 可以获取 Model 对象，`store.use` 的用法同 `useModel` 相同。以计数器应用为例，我们在组件树外，每 1s 对计数器值
-执行自增操作：
-
-```ts
-import { useModel, getStore } from '@modern-js/runtime/model';
-
-// 保证 getStore 在组件树挂载完成后执行
-setTimeout(() => {
-  const store = getStore();
-  const [, actions] = store.use(countModel);
-  setInterval(() => {
-    actions.add();
-  }, 1000);
-}, 1000);
+let store;  // 组件外部 `store` 对象的引用
+function setStore(s) { store = s };
+function getStore() { return store };
 
 function Counter() {
   const [state] = useModel(countModel);
+  const store = useStore();
+  // 通过 useMemo 避免不必要的重复设置
+  useMemo(()=> {
+    setStore(store)
+  }, [store])
 
   return (
     <div>
@@ -235,8 +222,23 @@ function Counter() {
 }
 ```
 
+通过 `store.use` 可以获取 Model 对象，`store.use` 的用法同 `useModel` 相同。以计数器应用为例，我们在组件树外，每 1s 对计数器值
+执行自增操作：
+
+```ts
+ setInterval(() => {
+  const store = getStore();
+  const [, actions] = store.use(countModel);
+  actions.add();
+}, 1000)
+```
+
 完整的示例代码可以在[这里](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/counter-model-outof-react)查看。
 
+:::info 注
+如果是通过 [`createStore`](/docs/apis/app/runtime/model/create-store) 手动创建的 Store 对象，无需通过 `useStore` 在组件内获取，即可直接使用。
+:::
+
 :::info 补充信息
-本节涉及的 API 的详细定义，请参考[这里](/docs/apis/app/runtime/model/model)。
+本节涉及的 API 的详细定义，请参考[这里](/docs/apis/app/runtime/model/model_)。
 :::

@@ -67,6 +67,7 @@ importers:
       autoprefixer: ^10.4.8
       caniuse-lite: ^1.0.30001332
       css-minimizer-webpack-plugin: 4.0.0
+      cssnano: ^5.1.12
       fork-ts-checker-webpack-plugin: 6.5.2
       html-webpack-plugin: 5.3.2
       memfs: ^3.3.0
@@ -87,6 +88,7 @@ importers:
       '@types/mini-css-extract-plugin': 2.2.0_1f091e9882867a645caac150cd4a7b4f
       caniuse-lite: 1.0.30001382
       css-minimizer-webpack-plugin: 4.0.0_esbuild@0.14.47+webpack@5.73.0
+      cssnano: 5.1.12_postcss@8.4.16
       fork-ts-checker-webpack-plugin: 6.5.2_typescript@4.7.4+webpack@5.73.0
       html-webpack-plugin: 5.3.2_webpack@5.73.0
       memfs: 3.4.7
@@ -4113,14 +4115,17 @@ importers:
   tests/integration/webpack-builder:
     specifiers:
       '@modern-js/inspector-webpack-plugin': ^1.0.0-alpha.0
+      '@modern-js/server': workspace:*
+      '@modern-js/webpack-builder': workspace:*
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
       react: ^17.0.1
       react-dom: ^17.0.1
-      tsx: ^3.7.1
       typescript: ^4
     dependencies:
+      '@modern-js/server': link:../../../packages/server/server
+      '@modern-js/webpack-builder': link:../../../packages/builder/webpack-builder
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     devDependencies:
@@ -4128,7 +4133,6 @@ importers:
       '@types/node': 14.18.21
       '@types/react': 17.0.47
       '@types/react-dom': 17.0.17
-      tsx: 3.7.1
       typescript: 4.7.4
 
   website:
@@ -13988,7 +13992,7 @@ packages:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
       browserslist: 4.21.3
-      caniuse-lite: 1.0.30001375
+      caniuse-lite: 1.0.30001382
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 

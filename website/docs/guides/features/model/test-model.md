@@ -3,7 +3,7 @@ sidebar_position: 9
 title: 测试 Model
 ---
 
-好的测试对代码的稳健性至关重要。下面以 [快速上手](/docs/guides/features/runtime/model/quick-start) 的 `countModel` 为例，演示在 Modern.js 中，如何对 Model 进行单元测试。
+好的测试对代码的稳健性至关重要。下面以 [快速上手](/docs/guides/features/model/quick-start) 的 `countModel` 为例，演示在 Modern.js 中，如何对 Model 进行单元测试。
 
 使用测试功能，需要先开启该功能。在项目根目录下，执行 `pnpm run new`，进行如下选择：
 

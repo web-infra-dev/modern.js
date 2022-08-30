@@ -28,6 +28,22 @@ describe('plugins/image', () => {
     expect(config).toMatchSnapshot();
   });
 
+  it('should allow to use distPath.image to be empty string', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginImage()],
+      builderConfig: {
+        output: {
+          distPath: {
+            image: '',
+          },
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
+
   it('should allow to use filename.image to modify filename', async () => {
     const builder = createStubBuilder({
       plugins: [PluginImage()],

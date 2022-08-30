@@ -67,6 +67,9 @@ export const handleTemplateFile = async (
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const appApi = new AppAPI(context, generator);
 
+  // when use new command, listeners will create more than 10
+  process.setMaxListeners(20);
+
   const { locale } = context.config;
   i18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });

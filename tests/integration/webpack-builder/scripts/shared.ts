@@ -1,39 +1,28 @@
 import { join } from 'path';
 import { InspectorWebpackPlugin } from '@modern-js/inspector-webpack-plugin';
-import type { BuilderPlugin } from '../../../../packages/builder/webpack-builder/src';
-
-export const TestPlugin = (): BuilderPlugin => ({
-  name: 'test-plugin',
-
-  setup(api) {
-    api.modifyWebpackConfig(config => {
-      // Webpack devtool
-      config.plugins?.push(new InspectorWebpackPlugin());
-    });
-  },
-});
 
 export const createBuilder = async () => {
-  const { createBuilder } = await import(
-    '../../../../packages/builder/webpack-builder/src'
-  );
-
-  const cwd = join(__dirname, '..');
-  const entry = {
-    main: join(cwd, 'src', 'index.ts'),
-  };
+  const { createBuilder } = await import('@modern-js/webpack-builder');
 
   const builder = await createBuilder({
-    cwd,
-    entry,
+    entry: {
+      main: join(process.cwd(), 'src', 'index.ts'),
+    },
     configPath: __filename,
     builderConfig: {},
   });
 
-  builder.addPlugins([TestPlugin()]);
+  builder.addPlugins([
+    {
+      name: 'inspect-plugin',
+      setup(api) {
+        api.modifyWebpackConfig(config => {
+          // Webpack devtool
+          config.plugins?.push(new InspectorWebpackPlugin());
+        });
+      },
+    },
+  ]);
 
-  return {
-    cwd,
-    builder,
-  };
+  return builder;
 };

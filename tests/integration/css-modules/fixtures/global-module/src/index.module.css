@@ -11,7 +11,3 @@
 .foo :global(.lol) {
   width: 80%;
 }
-
-.foo > :global(.lel) {
-  width: 80%;
-}
