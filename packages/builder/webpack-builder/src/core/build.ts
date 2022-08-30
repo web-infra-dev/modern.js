@@ -1,10 +1,16 @@
 import assert from 'assert';
 import { info, log, error, formatWebpackStats } from '../shared';
+import type { MultiCompiler } from 'webpack';
 import type { WebpackConfig } from '../types';
 
-export const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
+export const webpackBuild = async (
+  webpackConfigs: WebpackConfig[],
+  handler?: (compiler: MultiCompiler) => Promise<void>,
+) => {
   const { default: webpack } = await import('webpack');
   const compiler = webpack(webpackConfigs);
+
+  await handler?.(compiler)?.catch(console.error);
 
   return new Promise<void>((resolve, reject) => {
     info(`building for production...`);

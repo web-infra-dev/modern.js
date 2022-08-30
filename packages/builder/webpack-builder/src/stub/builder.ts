@@ -5,9 +5,14 @@ import { Hooks } from '../core/createHook';
 import type { BuilderOptions, BuilderPlugin, Context } from '../types';
 import { matchLoader, mergeBuilderOptions } from '../shared';
 import { createStubContext } from './context';
+import { createFsFromVolume } from 'memfs';
+import { webpackBuild } from '../core/build';
+import type * as webpack from 'webpack';
+import { Volume } from 'memfs/lib/volume';
 
 export interface StubBuilderOptions extends BuilderOptions {
   context?: Context;
+  webpack?: false | Volume;
   plugins?: BuilderPlugin[];
 }
 
@@ -16,18 +21,24 @@ export type HookApi = {
 };
 
 export function createStubBuilder(options?: StubBuilderOptions) {
+  const {
+    context: customContext,
+    webpack: enableWebpack = false,
+    plugins: customPlugins,
+    ..._builderOptions
+  } = options || {};
   // init primary builder.
   const builderOptions = mergeBuilderOptions(
-    options,
+    _builderOptions,
   ) as Required<StubBuilderOptions>;
   const context = createStubContext(builderOptions);
-  options?.context && _.merge(context, options.context);
+  customContext && _.merge(context, customContext);
   const {
     pluginStore,
     publicContext,
     build: buildImpl,
   } = createPrimaryBuilder(builderOptions, context);
-  options?.plugins && pluginStore.addPlugins(options.plugins);
+  customPlugins && pluginStore.addPlugins(customPlugins);
 
   // tap on each hook and cache the args.
   const resolvedHooks: Record<string, any> = {};
@@ -37,8 +48,19 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     });
   });
 
+  const _executeBuild = async (configs: webpack.Configuration[]) => {
+    if (typeof enableWebpack === 'object') {
+      await webpackBuild(configs, async compiler => {
+        const vol = enableWebpack;
+        const mfs = createFsFromVolume(vol);
+        compiler.inputFileSystem = mfs;
+        compiler.outputFileSystem = mfs;
+      });
+    }
+  };
+
   const build = _.memoize(async () => {
-    await buildImpl();
+    await buildImpl(_executeBuild);
     return { context, resolvedHooks };
   });
 

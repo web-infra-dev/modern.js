@@ -41,9 +41,15 @@
   },
   "typesVersions": {
     "*": {
-      "webpack": ["./dist/exports/webpack.d.ts"],
-      "html-webpack-plugin": ["./dist/exports/HtmlWebpackPlugin.d.ts"],
-      "stub": ["./dist/stub/index.d.ts"]
+      "webpack": [
+        "./dist/exports/webpack.d.ts"
+      ],
+      "html-webpack-plugin": [
+        "./dist/exports/HtmlWebpackPlugin.d.ts"
+      ],
+      "stub": [
+        "./dist/stub/index.d.ts"
+      ]
     }
   },
   "scripts": {
@@ -65,6 +71,7 @@
     "css-minimizer-webpack-plugin": "4.0.0",
     "fork-ts-checker-webpack-plugin": "6.5.2",
     "html-webpack-plugin": "5.3.2",
+    "memfs": "^3.3.0",
     "mini-css-extract-plugin": "2.4.5",
     "react-refresh": "0.12.0",
     "style-loader": "3.3.1",
