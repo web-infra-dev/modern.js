@@ -20,18 +20,25 @@ export function createPrimaryBuilder(
   const pluginStore = createPluginStore();
 
   const build = async (
-    executeBuild?: (configs: webpack.Configuration[]) => Promise<void>,
+    executeBuild?: (
+      configs: webpack.Configuration[],
+    ) => Promise<{ stats: webpack.MultiStats }>,
   ) => {
     const { webpackConfigs } = await initConfigs({
       context,
       pluginStore,
       builderOptions,
     });
+
     await context.hooks.onBeforeBuildHook.call({
       webpackConfigs,
     });
-    await executeBuild?.(webpackConfigs);
-    await context.hooks.onAfterBuildHook.call();
+
+    const executeResult = await executeBuild?.(webpackConfigs);
+
+    await context.hooks.onAfterBuildHook.call({
+      stats: executeResult?.stats,
+    });
   };
 
   return {
@@ -101,6 +108,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginProgress } = await import('../plugins/progress');
   const { PluginMinimize } = await import('../plugins/minimize');
   const { PluginManifest } = await import('../plugins/manifest');
+  const { PluginFileSize } = await import('../plugins/fileSize');
   const { PluginCleanOutput } = await import('../plugins/cleanOutput');
   const { PluginModuleScopes } = await import('../plugins/moduleScopes');
   const { PluginBabel } = await import('../plugins/babel');
@@ -139,6 +147,9 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginProgress(),
     PluginMinimize(),
     PluginManifest(),
+    // fileSize plugin will read the previous dist files.
+    // So we should register fileSize plugin before cleanOutput plugin.
+    PluginFileSize(),
     PluginCleanOutput(),
     PluginModuleScopes(),
     PluginTsLoader(),

@@ -1,12 +1,12 @@
 import assert from 'assert';
 import { info, log, error, formatWebpackStats } from '../shared';
-import type { WebpackConfig } from '../types';
+import type { webpack, WebpackConfig } from '../types';
 
 export const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
   const { default: webpack } = await import('webpack');
   const compiler = webpack(webpackConfigs);
 
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<{ stats: webpack.MultiStats }>((resolve, reject) => {
     info(`building for production...`);
 
     compiler.run((err, stats) => {
@@ -31,7 +31,7 @@ export const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
             if (level === 'warning') {
               log(message);
             }
-            resolve();
+            resolve({ stats });
           }
         });
       });
