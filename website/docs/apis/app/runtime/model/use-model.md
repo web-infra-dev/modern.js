@@ -41,7 +41,7 @@ function useModel(
 
 - state： `stateSelector` 的返回值。如果未传 `stateSelector`，会把传入的所有 Model 的 State (包含衍生状态)合并后返回。如果不同 Model 的 State 中存在同名属性，后面的 State 会覆盖前面的 State 。当 `state` 发生变化时，调用 `useModel` 的组件会重新渲染。
 - actions：第二个元素为 `actionSelector` 的返回值。如果未传 `actionSelector`，会把传入的所有 Model 的 Actions (包含 Effects) 合并后返回。如果不同 Model 的 Actions 中存在同名属性，后面的 Actions 会覆盖前面的 Actions 。
-- subscribe：当传入的任意 Model 的 State 发生改变时，该函数会被调用。
+- subscribe：订阅 State 变化的函数。当传入的任意 Model 的 State 发生改变时，该函数会被调用。
 
 ## 示例
 
@@ -64,13 +64,9 @@ function Test(props) {
 ### selector 用法
 
 ```js
-import todoModel from 'models/todo';
-import filterModel from 'models/filter';
-
 function Test(props) {
-  const [state, actions] = useModel([
-    todoModel,
-    filterModel,
+  const [state, actions] = useModel(
+    [todoModel, filterModel],
     (todoState, filterState) => ({
       items: todoState.items,
       visibleStatus: `${props.prefix}-${filterState.visibleStatus}`,
@@ -79,7 +75,7 @@ function Test(props) {
       ...todoActions,
       ...filterActions,
     }),
-  ]);
+  );
   actions.add(); // 调用 todoModel add action
   actions.setVisibleStatus(); // 调用 filterModel filterModel action
 
