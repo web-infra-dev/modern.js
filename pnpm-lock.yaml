@@ -2478,6 +2478,7 @@ importers:
       '@modern-js/server': workspace:*
       '@modern-js/server-core': workspace:*
       '@modern-js/types': workspace:*
+      '@modern-js/upgrade': workspace:*
       '@modern-js/utils': workspace:*
       '@modern-js/webpack': workspace:*
       '@scripts/build': workspace:*
@@ -2501,6 +2502,7 @@ importers:
       '@modern-js/prod-server': link:../../server/prod-server
       '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
+      '@modern-js/upgrade': link:../../toolkit/upgrade
       '@modern-js/utils': link:../../toolkit/utils
       '@modern-js/webpack': link:../../cli/webpack
     devDependencies:
@@ -2530,6 +2532,7 @@ importers:
       '@modern-js/plugin-i18n': workspace:*
       '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/style-compiler': workspace:*
+      '@modern-js/upgrade': workspace:*
       '@modern-js/utils': workspace:*
       '@rollup/plugin-json': ~4.1.0
       '@scripts/build': workspace:*
@@ -2572,6 +2575,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/plugin-jarvis': link:../../cli/plugin-jarvis
       '@modern-js/style-compiler': link:../../toolkit/compiler/style
+      '@modern-js/upgrade': link:../../toolkit/upgrade
       '@modern-js/utils': link:../../toolkit/utils
       '@rollup/plugin-json': 4.1.0_rollup@2.75.7
       '@speedy-js/speedy-core': 0.13.2-alpha.3_1f091e9882867a645caac150cd4a7b4f
@@ -2609,6 +2613,7 @@ importers:
       '@modern-js/plugin-changeset': workspace:*
       '@modern-js/plugin-i18n': workspace:*
       '@modern-js/plugin-jarvis': workspace:*
+      '@modern-js/upgrade': workspace:*
       '@modern-js/utils': workspace:*
       '@rushstack/node-core-library': ^3.39.1
       '@rushstack/package-deps-hash': ^3.0.54
@@ -2630,6 +2635,7 @@ importers:
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/plugin-jarvis': link:../../cli/plugin-jarvis
+      '@modern-js/upgrade': link:../../toolkit/upgrade
       '@modern-js/utils': link:../../toolkit/utils
       '@rushstack/node-core-library': 3.48.0
       '@rushstack/package-deps-hash': 3.2.29

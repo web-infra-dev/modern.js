@@ -1,6 +1,6 @@
 import { CodeSmith } from '@modern-js/codesmith';
 
-interface Options {
+export interface Options {
   cwd?: string;
   debug?: boolean;
   distTag?: string;

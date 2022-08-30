@@ -1,7 +1,7 @@
 import path from 'path';
 import { defineConfig, cli, CliPlugin } from '@modern-js/core';
 import LintPlugin from '@modern-js/plugin-jarvis';
-import { cleanRequireCache } from '@modern-js/utils';
+import { cleanRequireCache, Import } from '@modern-js/utils';
 import AnalyzePlugin from './analyze';
 import { hooks } from './hooks';
 import { i18n, localeKeys } from './locale';
@@ -9,6 +9,11 @@ import { getLocaleLanguage } from './utils/language';
 import type { DevOptions, BuildOptions, DeployOptions } from './utils/types';
 
 export { defineConfig };
+
+const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
+  '@modern-js/upgrade',
+  require,
+);
 
 export default (): CliPlugin => ({
   name: '@modern-js/app-tools',
@@ -134,6 +139,11 @@ export default (): CliPlugin => ({
             const { inspect } = await import('./commands/inspect');
             inspect(api, options);
           });
+
+        upgradeModel.defineCommand(program, async options => {
+          const { upgradeAction } = await import('@modern-js/upgrade');
+          upgradeAction(options);
+        });
       },
 
       // 这里会被 core/initWatcher 监听的文件变动触发，如果是 src 目录下的文件变动，则不做 restart
