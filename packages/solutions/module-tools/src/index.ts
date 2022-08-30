@@ -64,10 +64,7 @@ export default (): CliPlugin => ({
         cli.buildCli(program, api);
         cli.newCli(program, locale);
 
-        upgradeModel.defineCommand(program, async options => {
-          const { upgradeAction } = await import('@modern-js/upgrade');
-          upgradeAction(options);
-        });
+        upgradeModel.defineCommand(program.command('upgrade'));
 
         // 便于其他插件辨别
         program.$$libraryName = 'module-tools';

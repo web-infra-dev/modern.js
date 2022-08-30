@@ -140,10 +140,7 @@ export default (): CliPlugin => ({
             inspect(api, options);
           });
 
-        upgradeModel.defineCommand(program, async options => {
-          const { upgradeAction } = await import('@modern-js/upgrade');
-          upgradeAction(options);
-        });
+        upgradeModel.defineCommand(program.command('upgrade'));
       },
 
       // 这里会被 core/initWatcher 监听的文件变动触发，如果是 src 目录下的文件变动，则不做 restart

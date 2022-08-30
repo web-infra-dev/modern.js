@@ -25,9 +25,7 @@ export default (): CliPlugin => ({
         clearCli(program, api);
         deployCli(program, api);
         newCli(program, locale);
-        upgradeModel.defineCommand(program, async options => {
-          upgradeModel.upgradeAction(options);
-        });
+        upgradeModel.defineCommand(program.command('upgrade'));
       },
     };
   },
