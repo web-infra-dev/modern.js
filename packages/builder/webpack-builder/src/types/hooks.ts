@@ -1,6 +1,6 @@
 import type { BuilderTarget } from './builder';
 import type { BuilderConfig } from './config';
-import type { WebpackChain, WebpackConfig } from './thirdParty';
+import type { webpack, WebpackChain, WebpackConfig } from './thirdParty';
 
 export type NodeEnv = 'development' | 'production' | 'test';
 
@@ -32,7 +32,9 @@ export type OnBeforeBuildFn = (params: {
   webpackConfigs: WebpackConfig[];
 }) => Promise<void> | void;
 
-export type OnAfterBuildFn = () => Promise<void> | void;
+export type OnAfterBuildFn = (params: {
+  stats?: webpack.MultiStats;
+}) => Promise<void> | void;
 
 export type OnBeforeCreateCompilerFn = (params: {
   webpackConfigs: WebpackConfig[];
