@@ -9,7 +9,9 @@ describe('plugins/css', () => {
     const builder = createStubBuilder({
       plugins: [PluginCss()],
       builderConfig: {
-        tools: {},
+        tools: {
+          styleLoader: {},
+        },
       },
     });
     const includeStyleLoader = await builder.matchWebpackLoader({
@@ -23,11 +25,7 @@ describe('plugins/css', () => {
   it('should set css config with mini-css-extract-plugin', async () => {
     const builder = createStubBuilder({
       plugins: [PluginCss()],
-      builderConfig: {
-        tools: {
-          cssExtract: {},
-        },
-      },
+      builderConfig: {},
     });
 
     const includeMiniCssExtractLoader = await builder.matchWebpackLoader({
