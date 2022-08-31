@@ -18,6 +18,7 @@ import { getAvailableVersion } from './utils/package';
 export * from './utils';
 
 export {
+  ora,
   fs,
   semver,
   execa,
