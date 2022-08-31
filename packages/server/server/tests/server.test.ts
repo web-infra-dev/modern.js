@@ -7,7 +7,6 @@ import createServer, { Server } from '../src';
 import Watcher from '../src/dev-tools/watcher';
 import { ModernDevServer } from '../src/server/dev-server';
 
-jest.useFakeTimers();
 (global as any).setImmediate = () => false;
 const appDirectory = path.join(__dirname, './fixtures/pure');
 describe('test dev server', () => {
