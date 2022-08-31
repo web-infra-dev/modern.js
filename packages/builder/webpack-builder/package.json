@@ -26,17 +26,20 @@
       "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
     },
-    "./webpack": {
-      "jsnext:source": "./src/exports/webpack.ts",
-      "default": "./dist/exports/webpack.js"
-    },
     "./html-webpack-plugin": {
       "jsnext:source": "./src/exports/HtmlWebpackPlugin.ts",
       "default": "./dist/exports/HtmlWebpackPlugin.js"
     },
+    "./webpack": {
+      "jsnext:source": "./src/exports/webpack.ts",
+      "default": "./dist/exports/webpack.js"
+    },
     "./stub": {
       "jsnext:source": "./src/stub/index.ts",
       "default": "./dist/stub/index.js"
+    },
+    "./webpack/lib/ModuleFilenameHelpers.js": {
+      "default": "./dist/exports/ModuleFileNameHelpers.js"
     }
   },
   "typesVersions": {
@@ -69,8 +72,8 @@
     "@svgr/webpack": "6.2.1",
     "@types/mini-css-extract-plugin": "2.2.0",
     "caniuse-lite": "^1.0.30001332",
-    "cssnano": "5.1.13",
     "css-minimizer-webpack-plugin": "4.0.0",
+    "cssnano": "5.1.13",
     "fork-ts-checker-webpack-plugin": "7.2.13",
     "html-webpack-plugin": "5.3.2",
     "mini-css-extract-plugin": "2.4.5",
@@ -78,7 +81,7 @@
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "5.3.3",
     "ts-loader": "9.3.1",
-    "webpack": "^5.71.0"
+    "webpack": "5.73.0"
   },
   "devDependencies": {
     "@babel/core": "7.18.0",
