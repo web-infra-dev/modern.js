@@ -9,6 +9,23 @@ exports[`plugins/output > should allow to use filename.js to modify filename 1`]
     "path": "<ROOT>/packages/builder/webpack-builder/dist",
     "publicPath": "/",
   },
+  "plugins": [
+    MiniCssExtractPlugin {
+      "_sortedModulesCache": WeakMap {},
+      "options": {
+        "chunkFilename": "static/css/[name].css",
+        "experimentalUseImportModule": undefined,
+        "filename": "static/css/[name].css",
+        "ignoreOrder": true,
+        "runtime": true,
+      },
+      "runtimeOptions": {
+        "attributes": undefined,
+        "insert": undefined,
+        "linkType": "text/css",
+      },
+    },
+  ],
 }
 `;
 
@@ -21,5 +38,22 @@ exports[`plugins/output > should set output correctly 1`] = `
     "path": "<ROOT>/packages/builder/webpack-builder/dist",
     "publicPath": "/",
   },
+  "plugins": [
+    MiniCssExtractPlugin {
+      "_sortedModulesCache": WeakMap {},
+      "options": {
+        "chunkFilename": "static/css/[name].css",
+        "experimentalUseImportModule": undefined,
+        "filename": "static/css/[name].css",
+        "ignoreOrder": true,
+        "runtime": true,
+      },
+      "runtimeOptions": {
+        "attributes": undefined,
+        "insert": undefined,
+        "linkType": "text/css",
+      },
+    },
+  ],
 }
 `;
