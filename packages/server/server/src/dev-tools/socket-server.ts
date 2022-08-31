@@ -1,9 +1,9 @@
 import { Server } from 'http';
 import { Socket } from 'net';
 import ws from 'ws';
-import type { webpack } from '@modern-js/webpack';
 import { logger } from '@modern-js/utils';
-import { DevServerOptions } from '../types';
+import type webpack from 'webpack';
+import type { DevServerOptions } from '../types';
 
 interface ExtWebSocket extends ws {
   isAlive: boolean;

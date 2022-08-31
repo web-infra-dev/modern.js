@@ -72,6 +72,10 @@ export const TASKS: TaskConfig[] = [
           minimist: '../minimist',
         },
       },
+      {
+        name: 'schema-utils3',
+        ignoreDts: true,
+      },
       // some dependencies
       'glob',
       'chalk',
@@ -160,6 +164,15 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
         externals: {
           ajv: '../ajv',
+        },
+      },
+      {
+        name: 'webpack-dev-middleware',
+        externals: {
+          'schema-utils': '../schema-utils3',
+          'schema-utils/declarations/validate':
+            'schema-utils/declarations/validate',
+          'mime-types': '../mime-types',
         },
       },
     ],
@@ -541,15 +554,6 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
         externals: {
           semver: '@modern-js/utils/semver',
-        },
-      },
-      {
-        name: 'webpack-dev-middleware',
-        externals: {
-          'schema-utils': 'schema-utils',
-          'schema-utils/declarations/validate':
-            'schema-utils/declarations/validate',
-          'mime-types': '@modern-js/utils/mime-types',
         },
       },
     ],

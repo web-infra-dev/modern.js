@@ -2374,7 +2374,6 @@ importers:
       '@modern-js/server-utils': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
-      '@modern-js/webpack': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
@@ -2395,7 +2394,6 @@ importers:
       '@modern-js/prod-server': link:../prod-server
       '@modern-js/server-utils': link:../utils
       '@modern-js/utils': link:../../toolkit/utils
-      '@modern-js/webpack': link:../../cli/webpack
       devcert: 1.2.2
       minimatch: 3.1.2
       path-to-regexp: 6.2.1

@@ -1,5 +1,5 @@
-import { ModernServerOptions } from '@modern-js/prod-server';
-import type { webpack } from '@modern-js/webpack';
+import type webpack from 'webpack';
+import type { ModernServerOptions } from '@modern-js/prod-server';
 
 export type DevServerOptions = {
   // hmr client 配置
