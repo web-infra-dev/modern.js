@@ -4,22 +4,28 @@ sidebar_label: templateParameters
 
 # output.templateParameters
 
-
-
 定义 HTML 模板中的参数，对应 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 的 `templateParameters` 配置项。
 
 - 类型： `Record<string, Record<string, unknown>>`
 - 默认值：
 
 ```ts
-{
+type DefaultParameters = {
   entryName: string; // 入口名称
   title: string; // 对应 output.title 配置
   meta: string; // 对应 output.meta 配置
   mountId: string; // 对应 output.mountId 配置
   assetPrefix: string; // 对应 output.assetPrefix 配置
+  compilation: webpack.Compilation; // 对应 webpack 的 compilation 对象
   webpackConfig: Configuration; // webpack 配置
-}
+  // htmlWebpackPlugin 内置的参数
+  // 详见 https://github.com/jantimon/html-webpack-plugin
+  htmlWebpackPlugin: {
+    tags: object;
+    files: object;
+    options: object;
+  };
+};
 ```
 
 ## 示例
