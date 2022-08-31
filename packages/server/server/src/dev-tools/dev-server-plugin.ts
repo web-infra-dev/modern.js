@@ -1,7 +1,6 @@
-import { webpack } from '@modern-js/webpack';
-import { DevServerOptions } from '../types';
+import type webpack from 'webpack';
+import type { DevServerOptions } from '../types';
 
-const { EntryPlugin } = webpack;
 export default class DevServerPlugin {
   private readonly options: DevServerOptions;
 
@@ -20,7 +19,7 @@ export default class DevServerPlugin {
     )}?${host}${path}${port}`;
 
     // use a hook to add entries if available
-    new EntryPlugin(compiler.context, clientEntry, {
+    new compiler.webpack.EntryPlugin(compiler.context, clientEntry, {
       name: undefined,
     }).apply(compiler);
   }
@@ -32,15 +31,16 @@ export default class DevServerPlugin {
 
     // Todo remove, client must inject.
     const compilerOptions = compiler.options;
+    const { HotModuleReplacementPlugin } = compiler.webpack;
     compilerOptions.plugins = compilerOptions.plugins || [];
 
     if (
       !compilerOptions.plugins.find(
-        p => p.constructor === webpack.HotModuleReplacementPlugin,
+        p => p.constructor === HotModuleReplacementPlugin,
       )
     ) {
       // apply the HMR plugin, if it didn't exist before.
-      const plugin = new webpack.HotModuleReplacementPlugin();
+      const plugin = new HotModuleReplacementPlugin();
 
       plugin.apply(compiler);
     }
