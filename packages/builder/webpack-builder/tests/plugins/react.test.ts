@@ -1,10 +1,12 @@
 import { expect, describe, it } from 'vitest';
+import { setPathSerializer } from '../utils/snapshot';
 import { PluginReact } from '../../src/plugins/react';
 import { PluginBabel } from '../../src/plugins/babel';
 import { PluginTsLoader } from '../../src/plugins/tsLoader';
-import { createStubBuilder } from '../../src/stub';
+import { createStubBuilder } from '../utils/builder';
 
 describe('plugins/react', () => {
+  setPathSerializer();
   it('should work with babel-loader', async () => {
     const builder = createStubBuilder({
       plugins: [PluginBabel(), PluginReact()],
