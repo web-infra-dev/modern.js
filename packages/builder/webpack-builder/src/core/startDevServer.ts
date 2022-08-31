@@ -58,11 +58,14 @@ export async function startDevServer(options: InitConfigsOptions) {
   const server = await createDevServer(options, port);
   const app = await server.init();
 
-  app.listen(port, async (err: Error) => {
-    if (err) {
-      throw err;
-    }
+  return new Promise<void>(resolve => {
+    app.listen(port, async (err: Error) => {
+      if (err) {
+        throw err;
+      }
 
-    await printURLs(builderConfig, port);
+      await printURLs(builderConfig, port);
+      resolve();
+    });
   });
 }
