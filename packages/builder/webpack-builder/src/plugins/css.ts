@@ -77,7 +77,7 @@ export async function applyBaseCSSRule(
   };
 
   // 1. Check user config
-  const enableExtractCSS = Boolean(config.tools?.cssExtract);
+  const enableExtractCSS = !config.tools?.styleLoader;
   const enableCSSModuleTS = Boolean(
     config.output?.enableCssModuleTSDeclaration,
   );
