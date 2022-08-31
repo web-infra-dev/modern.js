@@ -1,6 +1,6 @@
 /// <reference types="node" />
 export = wdm;
-/** @typedef {import('schema-utils/declarations/validate').Schema} Schema */
+/** @typedef {import('../schema-utils3/declarations/validate').Schema} Schema */
 /** @typedef {import('webpack').Compiler} Compiler */
 /** @typedef {import('webpack').MultiCompiler} MultiCompiler */
 /** @typedef {import('webpack').Configuration} Configuration */
@@ -177,7 +177,7 @@ type API<
   Response_1 extends ServerResponse
 > = Middleware<Request_1, Response_1> &
   AdditionalMethods<Request_1, Response_1>;
-type Schema = import('schema-utils/declarations/validate').Schema;
+type Schema = import('../schema-utils3/declarations/validate').Schema;
 type Configuration = import('webpack').Configuration;
 type Stats = import('webpack').Stats;
 type MultiStats = import('webpack').MultiStats;

@@ -26,14 +26,10 @@
       },
       "default": "./dist/index.js"
     },
-    "./webpack-dev-middleware": "./compiled/webpack-dev-middleware/index.js",
     "./@loadable/webpack-plugin": "./compiled/@loadable/webpack-plugin/index.js"
   },
   "typesVersions": {
     "*": {
-      "webpack-dev-middleware": [
-        "./compiled/webpack-dev-middleware/types/index.d.ts"
-      ],
       "@loadable/webpack-plugin": [
         "./compiled/@loadable/webpack-plugin/index.d.ts"
       ]
