@@ -56,7 +56,7 @@ export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
     .map('match')
     .map(compilePathMatcherSource)
     .value();
-  const replacements = _(pathMatchers)
+  const replacements: Record<string, string> = _(pathMatchers)
     .uniqBy('match')
     .map(({ match, mark }) => [
       normalizeToPosixPath(match),
@@ -70,6 +70,8 @@ export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
   return {
     test: (val: unknown) => typeof val === 'string',
     print: (val: unknown) =>
-      (val as string).replace(testing, p => replacements[p]),
+      `"${(val as string)
+        .replace(testing, p => replacements[p])
+        .replace(/"/g, '\\"')}"`,
   };
 }
