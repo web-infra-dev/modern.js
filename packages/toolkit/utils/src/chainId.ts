@@ -79,6 +79,8 @@ export const CHAIN_ID = {
     HTML: 'html',
     /** babel-loader */
     BABEL: 'babel',
+    /** esbuild-loader */
+    ESBUILD: 'esbuild',
     /** style-loader */
     STYLE: 'style-loader',
     /** postcss-loader */

@@ -24,5 +24,8 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
+  },
+  "dependencies": {
+    "@modern-js/utils": "1.16.0"
   }
 }
