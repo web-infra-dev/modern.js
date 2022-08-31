@@ -3,7 +3,7 @@ import { expect, it, describe } from 'vitest';
 import { createStubBuilder } from '../../src/stub';
 
 describe('tests/stub-builder', () => {
-  it.skip('should memoize building result', async () => {
+  it('should memoize building result', async () => {
     const builder = createStubBuilder();
     const oldConfig = await builder.unwrapWebpackConfig();
     const newConfig = await builder.unwrapWebpackConfig();

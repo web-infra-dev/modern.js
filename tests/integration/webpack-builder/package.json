@@ -8,7 +8,6 @@
     "inspect": "pnpm build:libs && node ./scripts/dist/inspect.js"
   },
   "dependencies": {
-    "@modern-js/server": "workspace:*",
     "@modern-js/webpack-builder": "workspace:*",
     "@modern-js/webpack-builder-plugin-esbuild": "workspace:*",
     "react": "^17.0.1",

@@ -1,6 +1,6 @@
 import chalk from '@modern-js/utils/chalk';
 
-export const log = (message: string) => {
+export const log = (message = '') => {
   // eslint-disable-next-line no-console
   console.log(message);
 };

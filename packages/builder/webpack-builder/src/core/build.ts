@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { info, log, error, formatWebpackStats } from '../shared';
+import { log, info, error, formatWebpackStats } from '../shared';
 import type { webpack, WebpackConfig } from '../types';
 
 export const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
@@ -7,6 +7,7 @@ export const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
   const compiler = webpack(webpackConfigs);
 
   return new Promise<{ stats: webpack.MultiStats }>((resolve, reject) => {
+    log();
     info(`building for production...`);
 
     compiler.run((err, stats) => {

@@ -66,6 +66,7 @@
   },
   "dependencies": {
     "@modern-js/babel-preset-app": "workspace:*",
+    "@modern-js/server": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.5",
     "@svgr/webpack": "6.2.1",
