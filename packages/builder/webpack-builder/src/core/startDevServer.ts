@@ -47,7 +47,9 @@ async function createDevServer(options: InitConfigsOptions, port: number) {
 }
 
 export async function startDevServer(options: InitConfigsOptions) {
-  process.env.NODE_ENV = 'development';
+  if (!process.env.NODE_ENV) {
+    process.env.NODE_ENV = 'development';
+  }
 
   log();
   info('Starting dev server...');

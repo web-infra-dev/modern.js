@@ -24,7 +24,9 @@ export function createPrimaryBuilder(
       configs: webpack.Configuration[],
     ) => Promise<{ stats: webpack.MultiStats }>,
   ) => {
-    process.env.NODE_ENV = 'production';
+    if (!process.env.NODE_ENV) {
+      process.env.NODE_ENV = 'production';
+    }
 
     const { webpackConfigs } = await initConfigs({
       context,
