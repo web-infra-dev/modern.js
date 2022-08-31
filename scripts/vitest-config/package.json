@@ -7,7 +7,9 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc",
-    "prepare": "pnpm build"
+    "prepare": "pnpm build",
+    "test": "vitest run",
+    "test:watch": "vitest dev --no-coverage"
   },
   "devDependencies": {
     "@modern-js/tsconfig": "workspace:*",

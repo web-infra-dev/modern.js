@@ -12,21 +12,30 @@ export interface SnapshotSerializerOptions {
   replace: PathMatcher[];
 }
 
+/** @see {@link upwardPaths} */
 export const joinPathParts = (
   _part: unknown,
   i: number,
   parts: _.List<string>,
 ) =>
   _(parts)
-    .slice(0, i + 1)
-    .join('/') || '/';
+    .filter(part => part !== '/')
+    .tap(parts => parts.unshift(''))
+    .slice(0, i + 2)
+    .join('/');
 
 export function applyPathReplacer(val: string, mark: string, path: string) {
   return _.replace(val, path, mark);
 }
 
 export function upwardPaths(start: string): string[] {
-  return _(start).split('/').map(joinPathParts).value();
+  return _(start)
+    .split('/')
+    .filter(Boolean)
+    .map(joinPathParts)
+    .reverse()
+    .push('/')
+    .value();
 }
 
 export function compilePathMatcherSource(match: string | RegExp): string {
@@ -48,7 +57,6 @@ export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
     ..._(upwardPaths(rootMatcher.match))
       .map(match => ({ match, mark: 'unknown' }))
       .slice(1)
-      .reverse()
       .value(),
   ];
 
