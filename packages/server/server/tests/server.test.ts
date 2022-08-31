@@ -1,7 +1,7 @@
 import path from 'path';
+import webpack from 'webpack';
 import { defaultsConfig, NormalizedConfig } from '@modern-js/core';
 import { ModernServerContext, NextFunction } from '@modern-js/types';
-import { webpack } from '@modern-js/webpack';
 import { AGGRED_DIR, RUN_MODE } from '@modern-js/prod-server';
 import createServer, { Server } from '../src';
 import Watcher from '../src/dev-tools/watcher';
