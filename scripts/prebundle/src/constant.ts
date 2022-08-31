@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { basename, join } from 'path';
 import glob from 'fast-glob';
 import { copyFileSync, copySync } from 'fs-extra';
 import { replaceFileContent } from './helper';
@@ -767,6 +767,27 @@ export const TASKS: TaskConfig[] = [
           '@babel/helper-plugin-utils': '../helper-plugin-utils',
           '@babel/helper-create-class-features-plugin':
             '../helper-create-class-features-plugin',
+        },
+      },
+    ],
+  },
+  {
+    packageDir: 'builder/plugin-esbuild',
+    packageName: '@modern-js/webpack-builder-plugin-esbuild',
+    dependencies: [
+      {
+        name: 'esbuild-loader',
+        ignoreDts: true,
+        externals: {
+          '/^webpack(/.*)/': '@modern-js/webpack-builder/webpack$1',
+        },
+        afterBundle(task) {
+          const dtsFiles = glob.sync(join(task.depPath, 'dist', '*.d.ts'), {
+            ignore: ['**/__tests__/**'],
+          });
+          dtsFiles.forEach(file => {
+            copyFileSync(file, join(task.distPath, basename(file)));
+          });
         },
       },
     ],
