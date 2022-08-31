@@ -840,8 +840,8 @@ importers:
       '@modern-js/codesmith': ^1.5.0
       '@modern-js/codesmith-api-app': ^1.5.0
       '@modern-js/easy-form-core': ^1.0.0
-      '@modern-js/generator-utils': workspace:*
       '@modern-js/plugin-i18n': workspace:*
+      '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
@@ -855,7 +855,7 @@ importers:
     devDependencies:
       '@modern-js/codesmith': 1.5.0
       '@modern-js/codesmith-api-app': 1.5.0
-      '@modern-js/generator-utils': link:../generator-utils
+      '@modern-js/utils': link:../../toolkit/utils
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
@@ -912,6 +912,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7.18.0
       '@modern-js/codesmith': ^1.5.0
+      '@modern-js/generator-common': workspace:*
       '@modern-js/plugin-i18n': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
@@ -922,6 +923,7 @@ importers:
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.18.6
+      '@modern-js/generator-common': link:../generator-common
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
@@ -1478,6 +1480,36 @@ importers:
       '@modern-js/codesmith-api-app': 1.5.0
       '@modern-js/codesmith-api-json': 1.5.0
       '@modern-js/dependence-generator': link:../dependence-generator
+      '@modern-js/generator-common': link:../../generator-common
+      '@modern-js/generator-utils': link:../../generator-utils
+      '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
+      '@scripts/build': link:../../../../scripts/build
+      '@scripts/jest-config': link:../../../../scripts/jest-config
+      '@types/jest': 27.5.2
+      '@types/node': 14.18.21
+      jest: 27.5.1
+      typescript: 4.7.4
+
+  packages/generator/generators/upgrade-generator:
+    specifiers:
+      '@babel/runtime': ^7.18.0
+      '@modern-js/codesmith': ^1.5.0
+      '@modern-js/codesmith-api-app': ^1.5.0
+      '@modern-js/codesmith-api-json': ^1.5.0
+      '@modern-js/generator-common': workspace:*
+      '@modern-js/generator-utils': workspace:*
+      '@modern-js/plugin-i18n': workspace:*
+      '@scripts/build': workspace:*
+      '@scripts/jest-config': workspace:*
+      '@types/jest': ^27
+      '@types/node': ^14
+      jest: ^27
+      typescript: ^4
+    devDependencies:
+      '@babel/runtime': 7.18.9
+      '@modern-js/codesmith': 1.5.0
+      '@modern-js/codesmith-api-app': 1.5.0
+      '@modern-js/codesmith-api-json': 1.5.0
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
@@ -2446,6 +2478,7 @@ importers:
       '@modern-js/server': workspace:*
       '@modern-js/server-core': workspace:*
       '@modern-js/types': workspace:*
+      '@modern-js/upgrade': workspace:*
       '@modern-js/utils': workspace:*
       '@modern-js/webpack': workspace:*
       '@scripts/build': workspace:*
@@ -2469,6 +2502,7 @@ importers:
       '@modern-js/prod-server': link:../../server/prod-server
       '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
+      '@modern-js/upgrade': link:../../toolkit/upgrade
       '@modern-js/utils': link:../../toolkit/utils
       '@modern-js/webpack': link:../../cli/webpack
     devDependencies:
@@ -2498,6 +2532,7 @@ importers:
       '@modern-js/plugin-i18n': workspace:*
       '@modern-js/plugin-jarvis': workspace:*
       '@modern-js/style-compiler': workspace:*
+      '@modern-js/upgrade': workspace:*
       '@modern-js/utils': workspace:*
       '@rollup/plugin-json': ~4.1.0
       '@scripts/build': workspace:*
@@ -2540,6 +2575,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/plugin-jarvis': link:../../cli/plugin-jarvis
       '@modern-js/style-compiler': link:../../toolkit/compiler/style
+      '@modern-js/upgrade': link:../../toolkit/upgrade
       '@modern-js/utils': link:../../toolkit/utils
       '@rollup/plugin-json': 4.1.0_rollup@2.75.7
       '@speedy-js/speedy-core': 0.13.2-alpha.3_1f091e9882867a645caac150cd4a7b4f
@@ -2577,6 +2613,7 @@ importers:
       '@modern-js/plugin-changeset': workspace:*
       '@modern-js/plugin-i18n': workspace:*
       '@modern-js/plugin-jarvis': workspace:*
+      '@modern-js/upgrade': workspace:*
       '@modern-js/utils': workspace:*
       '@rushstack/node-core-library': ^3.39.1
       '@rushstack/package-deps-hash': ^3.0.54
@@ -2598,6 +2635,7 @@ importers:
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
       '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
       '@modern-js/plugin-jarvis': link:../../cli/plugin-jarvis
+      '@modern-js/upgrade': link:../../toolkit/upgrade
       '@modern-js/utils': link:../../toolkit/utils
       '@rushstack/node-core-library': 3.48.0
       '@rushstack/package-deps-hash': 3.2.29
@@ -2766,6 +2804,34 @@ importers:
       '@types/node': 14.18.21
       http-proxy-middleware: 2.0.6
       jest: 27.5.1
+
+  packages/toolkit/upgrade:
+    specifiers:
+      '@babel/runtime': ^7.18.0
+      '@modern-js/codesmith': ^1.5.0
+      '@modern-js/plugin-i18n': workspace:*
+      '@modern-js/upgrade-generator': workspace:*
+      '@modern-js/utils': workspace:*
+      '@scripts/build': workspace:*
+      '@scripts/jest-config': workspace:*
+      '@types/jest': ^27
+      '@types/node': ^14
+      jest: ^27
+      ts-node: ^10.1.0
+      typescript: ^4
+    devDependencies:
+      '@babel/runtime': 7.18.9
+      '@modern-js/codesmith': 1.5.0
+      '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
+      '@modern-js/upgrade-generator': link:../../generator/generators/upgrade-generator
+      '@modern-js/utils': link:../utils
+      '@scripts/build': link:../../../scripts/build
+      '@scripts/jest-config': link:../../../scripts/jest-config
+      '@types/jest': 27.5.2
+      '@types/node': 14.18.21
+      jest: 27.5.1_ts-node@10.8.1
+      ts-node: 10.8.1_44a62b416826904ddc823b6e1cf9edcc
+      typescript: 4.7.4
 
   packages/toolkit/utils:
     specifiers:
@@ -8177,7 +8243,7 @@ packages:
   /@modern-js/codesmith-api-json/1.5.0:
     resolution: {integrity: sha512-pyH6tl7at44DDsjmHqB8ip5y9uGcHQ2p/x+MhgppPOk6UbnOKfs4PUTlAHlv6MR0cvrD2fxc3kBNW3VA8GIUVg==}
     dependencies:
-      '@babel/runtime': 7.18.6
+      '@babel/runtime': 7.18.9
       '@modern-js/codesmith': 1.5.0
       comment-json: 4.2.2
       declaration-update: 0.0.2
@@ -8197,7 +8263,7 @@ packages:
   /@modern-js/codesmith/1.5.0:
     resolution: {integrity: sha512-95QS5RL5H7UX751gd+Y7P+ITwYRyhE8Y3A489h2BoQwFrGwDRV7Oh1PrZNHs/OwcNOrUBpI6zSmUf1WsVbVdUA==}
     dependencies:
-      '@babel/runtime': 7.18.6
+      '@babel/runtime': 7.18.9
       '@modern-js/utils': 1.15.0
       axios: 0.21.4
       tar: 6.1.11
