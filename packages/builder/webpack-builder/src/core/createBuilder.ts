@@ -24,6 +24,8 @@ export function createPrimaryBuilder(
       configs: webpack.Configuration[],
     ) => Promise<{ stats: webpack.MultiStats }>,
   ) => {
+    process.env.NODE_ENV = 'production';
+
     const { webpackConfigs } = await initConfigs({
       context,
       pluginStore,
@@ -65,6 +67,11 @@ export async function createBuilder(options?: BuilderOptions) {
     return createCompiler({ context, pluginStore, builderOptions });
   };
 
+  const startDevServer = async () => {
+    const { startDevServer } = await import('./startDevServer');
+    return startDevServer({ context, pluginStore, builderOptions });
+  };
+
   const inspectWebpackConfig = async (inspectOptions: InspectOptions = {}) => {
     const { inspectWebpackConfig: inspectWebpackConfigImpl } = await import(
       './inspectWebpackConfig'
@@ -82,6 +89,7 @@ export async function createBuilder(options?: BuilderOptions) {
     build: () => build(webpackBuild),
     context: publicContext,
     createCompiler,
+    startDevServer,
     inspectWebpackConfig,
   };
 }

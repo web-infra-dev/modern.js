@@ -56,6 +56,7 @@ importers:
     specifiers:
       '@babel/core': 7.18.0
       '@modern-js/babel-preset-app': workspace:*
+      '@modern-js/server': workspace:*
       '@modern-js/utils': workspace:*
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.5
       '@scripts/vitest-config': workspace:*
@@ -81,6 +82,7 @@ importers:
       webpack: ^5.71.0
     dependencies:
       '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
+      '@modern-js/server': link:../../server/server
       '@modern-js/utils': link:../../toolkit/utils
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.5_645a6e79162167fda80e21cc093763a7
       '@svgr/webpack': 6.2.1
@@ -4177,7 +4179,6 @@ importers:
   tests/integration/webpack-builder:
     specifiers:
       '@modern-js/inspector-webpack-plugin': ^1.0.0-alpha.0
-      '@modern-js/server': workspace:*
       '@modern-js/webpack-builder': workspace:*
       '@types/node': ^14
       '@types/react': ^17
@@ -4186,7 +4187,6 @@ importers:
       react-dom: ^17.0.1
       typescript: ^4
     dependencies:
-      '@modern-js/server': link:../../../packages/server/server
       '@modern-js/webpack-builder': link:../../../packages/builder/webpack-builder
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
