@@ -66,6 +66,7 @@
     "@babel/runtime": "^7.18.0",
     "@modern-js/core": "workspace:*",
     "@modern-js/new-action": "workspace:*",
+    "@modern-js/upgrade": "workspace:*",
     "@modern-js/node-bundle-require": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",

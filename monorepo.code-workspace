@@ -198,6 +198,10 @@
       "path": "packages/toolkit/create"
     },
     {
+      "name": "@modern-js/upgrade",
+      "path": "packages/toolkit/upgrade"
+    },
+    {
       "name": "@modern-js/new-action",
       "path": "packages/generator/new-action"
     },
@@ -288,6 +292,10 @@
     {
       "name": "@modern-js/test-generator",
       "path": "packages/generator/generators/test-generator"
+    },
+    {
+      "name": "@modern-js/upgrade-generator",
+      "path": "packages/generator/generators/upgrade-generators"
     },
     {
       "name": "@modern-js/generator-plugin-plugin",
