@@ -3,6 +3,8 @@ import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
+  ora,
+  getAvailableVersion,
   getModernVersion,
   getPackageManager,
   getPackageObj,
@@ -63,13 +65,28 @@ export const handleTemplateFile = async (
   );
   const updateInfo: Record<string, string> = {};
 
-  modernDeps.forEach(dep => {
-    updateInfo[`dependencies.${dep}`] = modernVersion;
-  });
+  const spinner = ora('Loading...').start();
+  spinner.color = 'yellow';
 
-  modernDevDeps.forEach(dep => {
-    updateInfo[`devDependencies.${dep}`] = modernVersion;
-  });
+  await Promise.all(
+    modernDeps.map(
+      async dep =>
+        (updateInfo[`dependencies.${dep}`] = await getAvailableVersion(
+          dep,
+          modernVersion,
+        )),
+    ),
+  );
+
+  await Promise.all(
+    modernDevDeps.map(
+      async dep =>
+        (updateInfo[`devDependencies.${dep}`] = await getAvailableVersion(
+          dep,
+          modernVersion,
+        )),
+    ),
+  );
   await jsonAPI.update(
     context.materials.default.get(path.join(appDir, 'package.json')),
     {
@@ -79,6 +96,8 @@ export const handleTemplateFile = async (
       },
     },
   );
+
+  spinner.stop();
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
