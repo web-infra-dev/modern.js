@@ -89,9 +89,11 @@ export default (): ServerPlugin => ({
 
         registerRoutes(app, apiHandlerInfos);
 
-        const { afterLambdaRegisted } = hooks;
-        if (afterLambdaRegisted) {
-          afterLambdaRegisted(app);
+        if (hooks) {
+          const { afterLambdaRegisted } = hooks;
+          if (afterLambdaRegisted) {
+            afterLambdaRegisted(app);
+          }
         }
       } else if (mode === 'function') {
         app = express();

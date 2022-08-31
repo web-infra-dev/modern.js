@@ -1,3 +1,6 @@
+import path from 'path';
+import { normalizeToPosixPath } from '@modern-js/utils';
+
 const sourceDefaults = {
   entries: undefined,
   disableDefaultEntries: false,
@@ -97,4 +100,8 @@ export const defaults = {
   dev: devDefaults,
   deploy: deployDefaults,
   tools: toolsDefaults,
+};
+
+export const join = (...paths: string[]) => {
+  return normalizeToPosixPath(path.join(...paths));
 };
