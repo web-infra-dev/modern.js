@@ -1,3 +1,4 @@
+import { existsSync } from 'fs';
 import { isAbsolute, join } from 'path';
 import { initHooks } from './createHook';
 import { ConfigValidator } from '../config/validate';
@@ -54,7 +55,7 @@ export function createPrimaryContext(
     originalConfig: builderConfig,
   };
 
-  if (configPath) {
+  if (configPath && existsSync(configPath)) {
     context.configPath = configPath;
   }
 
