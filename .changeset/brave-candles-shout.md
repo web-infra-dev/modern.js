@@ -1,5 +1,5 @@
 ---
-'@modern-js/utils': patch
+'@modern-js/utils': minor
 ---
 
 feat(utils): add TOML to CHAIN_ID.RULE
