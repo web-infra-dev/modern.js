@@ -198,7 +198,7 @@ export function getPackageNameFromModulePath(modulePath: string) {
   return packageName;
 }
 
-export const mergeConfig = <T>(...configs: T[]): T =>
+export const mergeBuilderConfig = <T>(...configs: T[]): T =>
   _.mergeWith({}, ...configs, (target: unknown, source: unknown) => {
     const pair = [target, source];
     if (pair.some(_.isUndefined)) {

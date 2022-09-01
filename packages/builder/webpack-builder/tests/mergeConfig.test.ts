@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { mergeBuilderConfig } from '../src/core/mergeConfig';
+import { mergeBuilderConfig } from '../src/shared/utils';
 import type { WebpackConfig } from '../src/types';
 
 describe('mergeBuilderConfig', () => {

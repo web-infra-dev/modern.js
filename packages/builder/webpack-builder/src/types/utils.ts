@@ -14,11 +14,3 @@ export type ChainedConfig<Config, Utils = unknown> = ArrayOrNot<
       ? (config: Config) => Config | void
       : (config: Config, utils?: Utils) => Config | void)
 >;
-
-export type DeepRequired<T> = unknown & {
-  [K in keyof T]-?: DeepRequired<T[K]>;
-};
-
-export type DeepPartial<T> = unknown & {
-  [K in keyof T]?: DeepPartial<T[K]>;
-};

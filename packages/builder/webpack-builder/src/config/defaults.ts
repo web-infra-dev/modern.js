@@ -1,5 +1,5 @@
 import { BuilderConfig, UserBuilderConfig } from '../types';
-import { mergeConfig } from '../shared/utils';
+import { mergeBuilderConfig } from '../shared/utils';
 import {
   ROOT_DIST_DIR,
   HTML_DIST_DIR,
@@ -15,7 +15,7 @@ export const createDefaultConfig = (): BuilderConfig => ({
   source: {
     alias: {},
     globalVars: {},
-    moduleScopes: [],
+    moduleScopes: undefined,
     preEntry: [],
     resolveExtensionPrefix: undefined,
   },
@@ -52,7 +52,7 @@ export const createDefaultConfig = (): BuilderConfig => ({
     enableLatestDecorators: false,
   },
   dev: {
-    assetPrefix: false, // @neverland
+    assetPrefix: '/',
   },
   tools: {
     babel: undefined, // @sanyuan
@@ -91,9 +91,9 @@ export const createDefaultConfig = (): BuilderConfig => ({
   },
   performance: {
     bundleAnalyze: undefined,
-    removeConsole: undefined,
+    removeConsole: false,
     chunkSplit: {
-      strategy: 'single-vendor',
+      strategy: 'split-by-module',
     },
     removeMomentLocale: false,
   },
@@ -101,4 +101,4 @@ export const createDefaultConfig = (): BuilderConfig => ({
 });
 
 export const withDefaultConfig = (config: UserBuilderConfig | BuilderConfig) =>
-  mergeConfig(createDefaultConfig(), config) as BuilderConfig;
+  mergeBuilderConfig(createDefaultConfig(), config) as BuilderConfig;
