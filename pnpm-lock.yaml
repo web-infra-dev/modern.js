@@ -54,14 +54,14 @@ importers:
 
   packages/builder/plugin-esbuild:
     specifiers:
-      '@modern-js/utils': ^1.16.0
+      '@modern-js/utils': workspace:*
       '@modern-js/webpack-builder': workspace:*
       '@scripts/vitest-config': workspace:*
       typescript: 4.7.4
       vitest: ^0.21.1
       wireit: ^0.7.1
     devDependencies:
-      '@modern-js/utils': 1.16.0
+      '@modern-js/utils': link:../../toolkit/utils
       '@modern-js/webpack-builder': link:../webpack-builder
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       typescript: 4.7.4
@@ -3202,7 +3202,7 @@ importers:
   scripts/vitest-config:
     specifiers:
       '@modern-js/tsconfig': workspace:*
-      '@modern-js/utils': 1.16.0
+      '@modern-js/utils': workspace:*
       '@types/jest': ^27
       '@types/lodash': ^4.14.182
       '@types/node': ^14
@@ -3210,7 +3210,7 @@ importers:
       typescript: ^4.7.4
       vitest: ^0.21.1
     dependencies:
-      '@modern-js/utils': 1.16.0
+      '@modern-js/utils': link:../../packages/toolkit/utils
     devDependencies:
       '@modern-js/tsconfig': link:../../packages/review/tsconfig
       '@types/jest': 27.5.2
@@ -8396,12 +8396,6 @@ packages:
 
   /@modern-js/utils/1.15.0:
     resolution: {integrity: sha512-5hytLHqEbEgCONwF9KeYwNdKbz0DsrEOvUXto6FfGLIULlNQybhYG/0zHCB0j/gCgKtoxe3zAL7wHQL3qtPA4g==}
-    dependencies:
-      caniuse-lite: 1.0.30001382
-      lodash: 4.17.21
-
-  /@modern-js/utils/1.16.0:
-    resolution: {integrity: sha512-ELiw1wX+L+wImU+uSqT7zHSqyeAmVKxxSEciCSfo3+neyyw/TwlD3IAHnjsgUb+Qi4VUX5MH6znixVscSGvD8A==}
     dependencies:
       caniuse-lite: 1.0.30001382
       lodash: 4.17.21

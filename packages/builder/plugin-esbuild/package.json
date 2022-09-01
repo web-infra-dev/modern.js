@@ -37,7 +37,7 @@
     "test:watch": "vitest dev --no-coverage"
   },
   "devDependencies": {
-    "@modern-js/utils": "^1.16.0",
+    "@modern-js/utils": "workspace:*",
     "@modern-js/webpack-builder": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "typescript": "4.7.4",
