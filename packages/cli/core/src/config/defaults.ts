@@ -2,6 +2,7 @@ import { OutputConfig, ServerConfig, SourceConfig } from '.';
 
 const sourceDefaults: SourceConfig = {
   entries: undefined,
+  enableAsyncEntry: false,
   disableDefaultEntries: false,
   entriesDir: './src',
   configDir: './config',

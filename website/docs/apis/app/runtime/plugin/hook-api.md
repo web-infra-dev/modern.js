@@ -544,6 +544,32 @@ export default (): CliPlugin => ({
 });
 ```
 
+#### `modifyAsyncEntry`
+
+- 功能：用于修改包裹入口文件的异步模块，参见 [source.enableAsyncEntry](/docs/apis/app/config/source/enable-async-entry)
+- 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
+- Hook 模型：AsyncWaterfall
+- 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; code: string; }>`
+- 使用示例：
+
+```ts
+import type { CliPlugin } from '@modern-js/core';
+
+export default (): CliPlugin => ({
+  setup(api) {
+    return {
+      modifyAsyncEntry({ entrypoint, code }) {
+        const customCode = `console.log('hello');`;
+        return {
+          entrypoint,
+          code: `${customCode}${code}`,
+        };
+      },
+    };
+  },
+});
+```
+
 #### `htmlPartials`
 
 - 功能：用于定制生成的 HTML 页面模版

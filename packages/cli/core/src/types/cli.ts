@@ -66,6 +66,10 @@ export interface Hooks {
     entrypoint: Entrypoint;
     code: string;
   }>;
+  modifyAsyncEntry: AsyncWaterfall<{
+    entrypoint: Entrypoint;
+    code: string;
+  }>;
   modifyFileSystemRoutes: AsyncWaterfall<{
     entrypoint: Entrypoint;
     routes: Route[];
