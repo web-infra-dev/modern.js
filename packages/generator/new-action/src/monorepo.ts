@@ -27,7 +27,7 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
     plugin = [],
     cwd = process.cwd(),
   } = options;
-
+  process.setMaxListeners(20);
   let UserConfig: Record<string, unknown> = {};
 
   try {

@@ -8,8 +8,10 @@ import {
   getModernVersion,
   getPackageManager,
   getPackageObj,
+  execa,
 } from '@modern-js/generator-utils';
 import {
+  PackageManager,
   Solution,
   SolutionText,
   SolutionToolsMap,
@@ -55,12 +57,34 @@ export const handleTemplateFile = async (
 
   const appDir = context.materials.default.basePath;
 
-  context.config.packageManager = await getPackageManager(appDir);
+  const packageManager = await getPackageManager(appDir);
+  context.config.packageManager = packageManager;
 
-  const modernDeps = Object.keys(pkgInfo.dependencies).filter(
+  if (solutions[0] === Solution.Monorepo) {
+    if (packageManager === PackageManager.Pnpm) {
+      await execa(
+        'pnpm',
+        ['update', '@modern-js/*', '--recursive', '--latest'],
+        {
+          stdin: 'inherit',
+          stdout: 'inherit',
+          stderr: 'inherit',
+        },
+      );
+    } else {
+      await execa('yarn', ['upgrade', '--scope', '@modern-js/*', '--latest'], {
+        stdin: 'inherit',
+        stdout: 'inherit',
+        stderr: 'inherit',
+      });
+    }
+    return;
+  }
+
+  const modernDeps = Object.keys(pkgInfo.dependencies || {}).filter(
     dep => dep.startsWith('@modern-js') || dep.startsWith('@modern-js-app'),
   );
-  const modernDevDeps = Object.keys(pkgInfo.devDependencies).filter(
+  const modernDevDeps = Object.keys(pkgInfo.devDependencies || {}).filter(
     dep => dep.startsWith('@modern-js') || dep.startsWith('@modern-js-app'),
   );
   const updateInfo: Record<string, string> = {};
