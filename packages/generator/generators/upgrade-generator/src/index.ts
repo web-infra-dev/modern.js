@@ -60,24 +60,19 @@ export const handleTemplateFile = async (
   const packageManager = await getPackageManager(appDir);
   context.config.packageManager = packageManager;
 
-  if (solutions[0] === Solution.Monorepo) {
-    if (packageManager === PackageManager.Pnpm) {
-      await execa(
-        'pnpm',
-        ['update', '@modern-js/*', '--recursive', '--latest'],
-        {
-          stdin: 'inherit',
-          stdout: 'inherit',
-          stderr: 'inherit',
-        },
-      );
-    } else {
-      await execa('yarn', ['upgrade', '--scope', '@modern-js/*', '--latest'], {
+  if (
+    solutions[0] === Solution.Monorepo &&
+    packageManager === PackageManager.Pnpm
+  ) {
+    await execa(
+      'pnpm',
+      ['update', '@modern-js/*', '@modern-js-app/*', '--recursive', '--latest'],
+      {
         stdin: 'inherit',
         stdout: 'inherit',
         stderr: 'inherit',
-      });
-    }
+      },
+    );
     return;
   }
 

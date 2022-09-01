@@ -2,8 +2,9 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
     '<rootDir>/packages/**/src/**/*.ts',
-    '!<rootDir>/packages/**/generators/src/**/*.ts',
+    '!<rootDir>/packages/generator/generators/**/src/**/*.ts',
     '!<rootDir>/packages/**/toolkit/create/src/**/*.ts',
+    '!<rootDir>/packages/**/toolkit/upgrade/src/**/*.ts',
     // exclude builder temporarily
     '!<rootDir>/packages/builder/**/src/**/*.ts',
   ],
