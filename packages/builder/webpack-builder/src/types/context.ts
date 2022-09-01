@@ -1,7 +1,7 @@
 import type { STATUS } from '../shared';
 import type { EntryObject } from 'webpack';
 import type { Hooks } from '../core/createHook';
-import type { BuilderConfig } from './config';
+import type { FinalBuilderConfig } from './config';
 
 /** The public context */
 export type BuilderContext = {
@@ -22,7 +22,7 @@ export type BuilderContext = {
   /** Absolute path of tsconfig.json. */
   tsconfigPath?: string;
   /** The original builder config passed from the createBuilder method. */
-  originalConfig: Readonly<BuilderConfig>;
+  originalConfig: Readonly<FinalBuilderConfig>;
   /** Info of dev server  */
   devServer?: {
     ip: string;
@@ -37,7 +37,7 @@ export type Context = BuilderContext & {
   /** All hooks. */
   hooks: Readonly<Hooks>;
   /** Current builder config. */
-  config: Readonly<BuilderConfig>;
+  config: Readonly<FinalBuilderConfig>;
   /** The async task to validate schema of config. */
   configValidatingTask: Promise<void>;
 };

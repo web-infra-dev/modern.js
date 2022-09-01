@@ -1,24 +1,24 @@
 import path from 'path';
 import { getDistPath, DEFAULT_MOUNT_ID } from '../shared';
 import type {
-  BuilderConfig,
+  FinalBuilderConfig,
   BuilderPlugin,
   WebpackConfig,
   HTMLPluginOptions,
 } from '../types';
 
-async function getFilename(entryName: string, config: BuilderConfig) {
+async function getFilename(entryName: string, config: FinalBuilderConfig) {
   const { removeLeadingSlash } = await import('@modern-js/utils');
   const htmlPath = getDistPath(config, 'html');
-  const filename = config.html?.disableHtmlFolder
+  const filename = config.html.disableHtmlFolder
     ? `${entryName}.html`
     : `${entryName}/index.html`;
 
   return removeLeadingSlash(`${htmlPath}/${filename}`);
 }
 
-function getMinify(isProd: boolean, config: BuilderConfig) {
-  if (config.output?.disableMinimize || !isProd) {
+function getMinify(isProd: boolean, config: FinalBuilderConfig) {
+  if (config.output.disableMinimize || !isProd) {
     return false;
   }
 
@@ -34,22 +34,22 @@ function getMinify(isProd: boolean, config: BuilderConfig) {
   };
 }
 
-function getTitle(entryName: string, config: BuilderConfig) {
+function getTitle(entryName: string, config: FinalBuilderConfig) {
   const { title, titleByEntries } = config.html || {};
   return titleByEntries?.[entryName] || title || '';
 }
 
-function getInject(entryName: string, config: BuilderConfig) {
+function getInject(entryName: string, config: FinalBuilderConfig) {
   const { inject, injectByEntries } = config.html || {};
   return injectByEntries?.[entryName] || inject || true;
 }
 
-function getFavicon(entryName: string, config: BuilderConfig) {
+function getFavicon(entryName: string, config: FinalBuilderConfig) {
   const { favicon, faviconByEntries } = config.html || {};
   return faviconByEntries?.[entryName] || favicon;
 }
 
-async function getMetaTags(entryName: string, config: BuilderConfig) {
+async function getMetaTags(entryName: string, config: FinalBuilderConfig) {
   const { generateMetaTags } = await import('@modern-js/utils');
   const { meta, metaByEntries } = config.html || {};
 
@@ -59,7 +59,7 @@ async function getMetaTags(entryName: string, config: BuilderConfig) {
 
 async function getTemplateParameters(
   entryName: string,
-  config: BuilderConfig,
+  config: FinalBuilderConfig,
   assetPrefix: string,
 ): Promise<HTMLPluginOptions['templateParameters']> {
   const { mountId, templateParameters, templateParametersByEntries } =
@@ -158,7 +158,7 @@ export const PluginHtml = (): BuilderPlugin => ({
 
           const finalOptions = applyOptionsChain(
             pluginOptions,
-            config.tools?.htmlPlugin,
+            config.tools.htmlPlugin,
             {
               entryName,
               entryValue,

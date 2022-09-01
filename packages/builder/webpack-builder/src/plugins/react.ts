@@ -12,7 +12,7 @@ export const PluginReact = (): BuilderPlugin => ({
         '@pmmmwh/react-refresh-webpack-plugin'
       );
       const config = api.getBuilderConfig();
-      const useTsLoader = Boolean(config.tools?.tsLoader);
+      const useTsLoader = Boolean(config.tools.tsLoader);
       const rule = useTsLoader
         ? chain.module.rule(CHAIN_ID.RULE.TS)
         : chain.module.rule(CHAIN_ID.RULE.JS);

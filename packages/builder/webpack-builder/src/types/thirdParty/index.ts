@@ -39,6 +39,7 @@ export type {
   CSSLoaderOptions,
   StyleLoaderOptions,
   CssExtractOptions,
+  FinalCssExtractOptions,
   PostCSSLoaderOptions,
   PostCSSPlugin,
   MiniCSSExtractPluginOptions,

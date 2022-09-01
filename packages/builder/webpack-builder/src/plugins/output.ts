@@ -1,6 +1,6 @@
 import { getDistPath, getFilename, DEFAULT_PORT } from '../shared';
 import type {
-  BuilderConfig,
+  FinalBuilderConfig,
   BuilderContext,
   BuilderPlugin,
   MiniCSSExtractPluginOptions,
@@ -11,7 +11,7 @@ function getPublicPath({
   isProd,
   context,
 }: {
-  config: BuilderConfig;
+  config: FinalBuilderConfig;
   isProd: boolean;
   context: BuilderContext;
 }) {
@@ -23,9 +23,9 @@ function getPublicPath({
     if (output?.assetPrefix) {
       publicPath = output.assetPrefix;
     }
-  } else if (typeof dev?.assetPrefix === 'string') {
+  } else if (typeof dev.assetPrefix === 'string') {
     publicPath = dev.assetPrefix;
-  } else if (dev?.assetPrefix === true) {
+  } else if (dev.assetPrefix === true) {
     const ip = context.devServer?.ip || 'localhost';
     const port = context.devServer?.port || DEFAULT_PORT;
     publicPath = `//${ip}:${port}/`;
@@ -52,7 +52,7 @@ export const PluginOutput = (): BuilderPlugin => ({
         isProd,
         context: api.context,
       });
-      const enableExtractCSS = Boolean(config.tools?.cssExtract);
+      const enableExtractCSS = Boolean(config.tools.cssExtract);
 
       // js output
       const jsFilename = getFilename(config, 'js', isProd);
@@ -74,7 +74,7 @@ export const PluginOutput = (): BuilderPlugin => ({
         const extractPluginOptions = applyOptionsChain<
           MiniCSSExtractPluginOptions,
           null
-        >({}, config.tools?.cssExtract?.pluginOptions || {});
+        >({}, config.tools.cssExtract.pluginOptions);
 
         const cssFilename = getFilename(config, 'css', isProd);
         const cssChunkName = `${cssPath}/${cssFilename}`;

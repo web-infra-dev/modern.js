@@ -1,11 +1,12 @@
-import assert from 'assert';
-import type * as webpack from 'webpack';
-import { URLSearchParams } from 'url';
-import _ from '@modern-js/utils/lodash';
-import type Buffer from 'buffer';
-import { DEFAULT_DATA_URL_SIZE } from './constants';
 import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
+import _ from '@modern-js/utils/lodash';
+import assert from 'assert';
+import { URLSearchParams } from 'url';
+import type { Buffer } from 'buffer';
+import type * as webpack from 'webpack';
+import { createDefaultFinalBuilderConfig } from '../config/normalize';
 import { BuilderConfig, BuilderOptions, DataUriLimit } from '../types';
+import { DEFAULT_DATA_URL_SIZE } from './constants';
 
 export const JS_REGEX = /\.(js|mjs|cjs|jsx)$/;
 export const TS_REGEX = /\.(ts|mts|cts|tsx)$/;
@@ -120,7 +121,7 @@ export function mergeBuilderOptions(
     entry: {},
     target: ['web'],
     configPath: null,
-    builderConfig: {},
+    builderConfig: createDefaultFinalBuilderConfig(),
     framework: 'modern-js',
   };
 

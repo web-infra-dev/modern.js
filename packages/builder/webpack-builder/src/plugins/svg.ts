@@ -17,7 +17,7 @@ export const PluginSvg = (): BuilderPlugin => {
       api.modifyWebpackChain(
         async (chain, { isProd, CHAIN_ID, getCompiledPath }) => {
           const config = api.getBuilderConfig();
-          const defaultExport = config.output?.svgDefaultExport || 'url';
+          const defaultExport = config.output.svgDefaultExport || 'url';
 
           const distDir = getDistPath(config, 'svg');
           const filename = getFilename(config, 'svg', isProd);

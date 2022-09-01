@@ -13,6 +13,7 @@ import type {
   CSSLoaderOptions,
   StyleLoaderOptions,
   CssExtractOptions,
+  FinalCssExtractOptions,
   AutoprefixerOptions,
   PostCSSLoaderOptions,
   PostCSSPlugin,
@@ -46,8 +47,8 @@ export type ToolsCSSLoaderConfig = ChainedConfig<CSSLoaderOptions>;
 export type ToolsStyleLoaderConfig = ChainedConfig<StyleLoaderOptions>;
 
 export type ToolsCssExtractConfig =
-  | CssExtractOptions
-  | ((options: CssExtractOptions) => CssExtractOptions | void);
+  | FinalCssExtractOptions
+  | ((options: FinalCssExtractOptions) => FinalCssExtractOptions | void);
 
 export type ToolsAutoprefixerConfig = ChainedConfig<AutoprefixerOptions>;
 
@@ -109,6 +110,27 @@ export interface ToolsConfig {
   styleLoader?: ToolsStyleLoaderConfig;
   cssExtract?: CssExtractOptions;
   postcss?: ToolsPostCSSLoaderConfig;
+  autoprefixer?: ToolsAutoprefixerConfig;
+  webpack?: ToolsWebpackConfig;
+  webpackChain?: ToolsWebpackChainConfig;
+}
+
+export interface FinalToolsConfig {
+  pug?: ToolsPugConfig;
+  sass?: ToolsSassConfig;
+  less: ToolsLessConfig;
+  babel?: ToolsBabelConfig;
+  terser?: ToolsTerserConfig;
+  tsLoader?: ToolsTSLoaderConfig;
+  tsChecker: ToolsTSCheckerConfig;
+  devServer: DevServerConfig;
+  minifyCss?: ToolsMinifyCssConfig;
+  htmlPlugin?: ToolsHtmlPluginConfig;
+  styledComponents?: ToolsStyledComponentConfig;
+  cssLoader?: ToolsCSSLoaderConfig;
+  styleLoader?: ToolsStyleLoaderConfig;
+  cssExtract: FinalCssExtractOptions;
+  postcss: ToolsPostCSSLoaderConfig;
   autoprefixer?: ToolsAutoprefixerConfig;
   webpack?: ToolsWebpackConfig;
   webpackChain?: ToolsWebpackChainConfig;

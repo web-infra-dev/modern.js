@@ -12,10 +12,10 @@ import type {
   Context,
   BuilderOptions,
   BuilderContext,
-  BuilderConfig,
+  FinalBuilderConfig,
 } from '../types';
 
-export function getAbsoluteDistPath(cwd: string, config: BuilderConfig) {
+export function getAbsoluteDistPath(cwd: string, config: FinalBuilderConfig) {
   const root = getDistPath(config, 'root');
   return isAbsolute(root) ? root : join(cwd, root);
 }
