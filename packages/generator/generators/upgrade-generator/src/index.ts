@@ -57,10 +57,10 @@ export const handleTemplateFile = async (
 
   context.config.packageManager = await getPackageManager(appDir);
 
-  const modernDeps = Object.keys(pkgInfo.dependencies).filter(
+  const modernDeps = Object.keys(pkgInfo.dependencies || {}).filter(
     dep => dep.startsWith('@modern-js') || dep.startsWith('@modern-js-app'),
   );
-  const modernDevDeps = Object.keys(pkgInfo.devDependencies).filter(
+  const modernDevDeps = Object.keys(pkgInfo.devDependencies || {}).filter(
     dep => dep.startsWith('@modern-js') || dep.startsWith('@modern-js-app'),
   );
   const updateInfo: Record<string, string> = {};
