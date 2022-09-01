@@ -1,10 +1,8 @@
 import { expect, describe, it } from 'vitest';
-import { setPathSerializer } from '../utils/snapshot';
 import { PluginSvg } from '../../src/plugins/svg';
-import { createStubBuilder } from '../utils/builder';
+import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/svg', () => {
-  setPathSerializer();
   it('export default url', async () => {
     const builder = createStubBuilder({
       plugins: [PluginSvg()],
@@ -25,6 +23,54 @@ describe('plugins/svg', () => {
     });
     const config = await builder.unwrapWebpackConfig();
 
+    expect(config).toMatchSnapshot();
+  });
+
+  it('should allow using output.dataUriLimit.svg to custom data uri limit', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginSvg()],
+      builderConfig: {
+        output: {
+          dataUriLimit: {
+            svg: 666,
+          },
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
+
+  it('should allow to use distPath.svg to modify dist path', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginSvg()],
+      builderConfig: {
+        output: {
+          distPath: {
+            svg: 'foo',
+          },
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
+
+  it('should allow to use filename.svg to modify filename', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginSvg()],
+      builderConfig: {
+        output: {
+          filename: {
+            svg: 'foo.svg',
+          },
+        },
+      },
+    });
+
+    const config = await builder.unwrapWebpackConfig();
     expect(config).toMatchSnapshot();
   });
 });

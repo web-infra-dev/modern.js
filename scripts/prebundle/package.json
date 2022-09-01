@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "1.15.0",
+  "version": "1.17.0",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
@@ -47,6 +47,7 @@
     "@types/lodash": "4.14.181",
     "@types/mime-types": "2.1.1",
     "@types/minimist": "1.2.2",
+    "@types/pug": "2.0.6",
     "@types/recursive-readdir": "2.2.0",
     "@types/sass-loader": "8.0.3",
     "@types/semver": "7.3.9",
@@ -76,6 +77,7 @@
     "debug": "4.3.4",
     "dotenv": "10.0.0",
     "dotenv-expand": "5.1.0",
+    "esbuild-loader": "2.19.0",
     "execa": "5.1.1",
     "fast-glob": "3.2.11",
     "file-loader": "6.2.0",
@@ -107,6 +109,7 @@
     "postcss-nesting": "10.1.4",
     "postcss-page-break": "3.0.4",
     "postcss-value-parser": "4.2.0",
+    "pug": "3.0.2",
     "recursive-readdir": "2.2.2",
     "sass": "1.54.4",
     "sass-loader": "13.0.2",

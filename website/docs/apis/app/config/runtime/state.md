@@ -10,7 +10,7 @@ sidebar_position: 2
 - 类型：`boolean | object`
 - 默认值：`false`
 
-开启 `state` 后就可以使用 [Model](/docs/guides/features/runtime/model/model-introduction) 来做状态管理。
+开启 `state` 后就可以使用 [Model](/docs/guides/features/model/quick-start) 来做状态管理。
 
 
 具体配置项如下：

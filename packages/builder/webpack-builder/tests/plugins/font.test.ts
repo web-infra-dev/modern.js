@@ -1,14 +1,14 @@
 import { expect, describe, it } from 'vitest';
 import { PluginFont } from '../../src/plugins/font';
-import { createStubBuilder } from '../utils/builder';
+import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/font', () => {
   it('should add font rules correctly', async () => {
     const builder = createStubBuilder({
       plugins: [PluginFont()],
     });
-    const config = await builder.unwrapWebpackConfig();
 
+    const config = await builder.unwrapWebpackConfig();
     expect(config).toMatchSnapshot();
   });
 
@@ -19,6 +19,22 @@ describe('plugins/font', () => {
         output: {
           distPath: {
             font: 'foo',
+          },
+        },
+      },
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+    expect(config).toMatchSnapshot();
+  });
+
+  it('should allow to use distPath.font to be empty string', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginFont()],
+      builderConfig: {
+        output: {
+          distPath: {
+            font: '',
           },
         },
       },

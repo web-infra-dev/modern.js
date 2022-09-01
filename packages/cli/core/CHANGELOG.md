@@ -1,5 +1,31 @@
 # @modern-js/core
 
+## 1.17.0
+
+### Patch Changes
+
+- 367405a: fix(core): missing BabelConfig type
+
+  fix(core): 修复未导出 BabelConfig 类型的问题
+
+- 9f4e5ce: fix(core): cli -c option not work
+
+  fix(core): 修复命令行中 -c 选项不生效的问题
+
+- 58c53a7: fix: add merge check
+  fix: 添加合并属性的检查
+- Updated dependencies [1b9176f]
+- Updated dependencies [77d3a38]
+- Updated dependencies [151329d]
+- Updated dependencies [5af9472]
+- Updated dependencies [6b6a534]
+- Updated dependencies [6b43a2b]
+- Updated dependencies [a7be124]
+- Updated dependencies [31547b4]
+  - @modern-js/utils@1.17.0
+  - @modern-js/node-bundle-require@1.17.0
+  - @modern-js/plugin@1.17.0
+
 ## 1.16.0
 
 ### Patch Changes

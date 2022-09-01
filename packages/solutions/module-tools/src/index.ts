@@ -6,6 +6,10 @@ import { hooks } from './hooks';
 
 export * from './types';
 
+const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
+  '@modern-js/upgrade',
+  require,
+);
 const cli: typeof import('./cli') = Import.lazy('./cli', require);
 const local: typeof import('./locale') = Import.lazy('./locale', require);
 const schema: typeof import('./schema') = Import.lazy('./schema', require);
@@ -59,6 +63,8 @@ export default (): CliPlugin => ({
         cli.devCli(program, api);
         cli.buildCli(program, api);
         cli.newCli(program, locale);
+
+        upgradeModel.defineCommand(program.command('upgrade'));
 
         // 便于其他插件辨别
         program.$$libraryName = 'module-tools';

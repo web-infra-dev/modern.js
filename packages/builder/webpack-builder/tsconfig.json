@@ -7,7 +7,7 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "isolatedModules": true,
-    "paths": {},
+    "paths": {}
   },
-  "include": ["src"]
+  "include": ["src", "./shims.d.ts"]
 }

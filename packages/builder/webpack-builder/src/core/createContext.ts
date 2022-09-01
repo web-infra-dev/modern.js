@@ -1,7 +1,14 @@
+import { existsSync } from 'fs';
 import { isAbsolute, join } from 'path';
 import { initHooks } from './createHook';
 import { ConfigValidator } from '../config/validate';
-import { pick, STATUS, isFileExists, getDistPath } from '../shared';
+import {
+  pick,
+  STATUS,
+  isFileExists,
+  getDistPath,
+  deepFreezed,
+} from '../shared';
 import type {
   Context,
   BuilderOptions,
@@ -48,7 +55,7 @@ export function createPrimaryContext(
     originalConfig: builderConfig,
   };
 
-  if (configPath) {
+  if (configPath && existsSync(configPath)) {
     context.configPath = configPath;
   }
 
@@ -91,5 +98,5 @@ export function createPublicContext(
     'tsconfigPath',
     'originalConfig',
   ]);
-  return Object.freeze(ctx);
+  return deepFreezed(ctx);
 }

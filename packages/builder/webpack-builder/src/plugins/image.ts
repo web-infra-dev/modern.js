@@ -24,7 +24,7 @@ export const PluginImage = (): BuilderPlugin => ({
         // @ts-expect-error webpack-chain has incorrect type for `rule.type`
         .type('asset')
         .parser({
-          dataUrlCondition: getDataUrlCondition(config.output?.dataUriLimit),
+          dataUrlCondition: getDataUrlCondition(config, 'image'),
         })
         .set('generator', {
           filename: join(distDir, filename),

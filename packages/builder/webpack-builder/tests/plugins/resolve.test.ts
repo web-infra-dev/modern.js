@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest';
 import { PluginResolve } from '../../src/plugins/resolve';
-import { createStubBuilder } from '../utils/builder';
+import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/resolve', () => {
   it('should apply default extensions correctly', async () => {

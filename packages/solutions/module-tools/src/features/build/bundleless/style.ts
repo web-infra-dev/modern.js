@@ -119,11 +119,15 @@ const generatorFileAndLog = (result: ICompilerResult, titleText: string) => {
 const copyOriginStyleFiles = ({
   targetDir,
   outputDir,
+  ignoreCSS = false,
 }: {
   targetDir: string;
   outputDir: string;
+  ignoreCSS?: boolean;
 }) => {
-  const styleFiles = glob.sync(`${targetDir}/**/*.{css,sass,scss,less}`);
+  const styleFiles = glob.sync(
+    `${targetDir}/**/*.{${ignoreCSS ? '' : 'css,'}sass,scss,less}`,
+  );
   if (styleFiles.length > 0) {
     fs.ensureDirSync(outputDir);
   }
@@ -271,7 +275,11 @@ export const buildStyle = async (
 
   if (style.compileMode === 'all' || style.compileMode === 'only-source-code') {
     if (watch) {
-      copyOriginStyleFiles({ targetDir: srcDir, outputDir: outputDirToSrc });
+      copyOriginStyleFiles({
+        targetDir: srcDir,
+        outputDir: outputDirToSrc,
+        ignoreCSS: style.compileMode === 'all',
+      });
       console.info(watchSectionTitle(titleText, SectionTitleStatus.Success));
       watcher(
         `${srcDir}/**/*.{css,less,sass,scss}`,
@@ -285,6 +293,7 @@ export const buildStyle = async (
             copyOriginStyleFiles({
               targetDir: srcDir,
               outputDir: outputDirToSrc,
+              ignoreCSS: style.compileMode === 'all',
             });
           }
           console.info(
@@ -293,7 +302,11 @@ export const buildStyle = async (
         },
       );
     } else {
-      copyOriginStyleFiles({ targetDir: srcDir, outputDir: outputDirToSrc });
+      copyOriginStyleFiles({
+        targetDir: srcDir,
+        outputDir: outputDirToSrc,
+        ignoreCSS: style.compileMode === 'all',
+      });
     }
   }
 };

@@ -1,5 +1,4 @@
-import { BuilderPlugin } from '../types';
-import path from 'path';
+import type { BuilderPlugin } from '../types';
 
 export const PluginTsChecker = (): BuilderPlugin => {
   return {
@@ -9,7 +8,7 @@ export const PluginTsChecker = (): BuilderPlugin => {
       // Use tsChecker if tsChecker is not `false`, So there are two situations for user:
       // 1. tsLoader + transpileOnly + tschecker
       // 2. @babel/preset-typescript + tschecker
-      if (config.tools?.tsChecker === false) {
+      if (config.tools?.tsChecker === false || !api.context.tsconfigPath) {
         return;
       }
 
@@ -27,20 +26,29 @@ export const PluginTsChecker = (): BuilderPlugin => {
               // avoid OOM issue
               memoryLimit: 8192,
               // use tsconfig of user project
-              configFile: path.resolve(api.context.rootPath, './tsconfig.json'),
+              configFile: api.context.tsconfigPath,
               // use typescript of user project
               typescriptPath: require.resolve('typescript'),
             },
             issue: {
-              include: [{ file: `${api.context.srcPath}/**/*` }],
               exclude: [
                 { file: '**/*.(spec|test).ts' },
                 { file: '**/node_modules/**/*' },
               ],
             },
+            logger: {
+              log() {
+                // do nothing
+                // we only want to display error messages
+              },
+              error(message: string) {
+                console.error(message.replace(/ERROR/g, 'Type Error'));
+              },
+            },
           },
           config.tools?.tsChecker || {},
         );
+
         chain
           .plugin(CHAIN_ID.PLUGIN.TS_CHECKER)
           .use(ForkTsCheckerWebpackPlugin, [tsCheckerOptions]);

@@ -1,6 +1,6 @@
 import assert from 'assert';
 import _ from '@modern-js/utils/lodash';
-import { mergeBuilderOptions } from '../../src/core/createBuilder';
+import { mergeBuilderOptions } from '../../src/shared';
 import { createPublicContext } from '../../src/core/createContext';
 import { Hooks } from '../../src/core/createHook';
 import { createPluginStore } from '../../src/core/createPluginStore';

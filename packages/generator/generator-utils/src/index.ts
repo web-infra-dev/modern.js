@@ -7,15 +7,20 @@ import {
   canUseNpm,
   canUsePnpm,
   canUseYarn,
+  semver,
 } from '@modern-js/utils';
+import { Solution, SolutionToolsMap } from '@modern-js/generator-common';
 import { GeneratorContext } from '@modern-js/codesmith';
 import { stripAnsi } from './utils/strip-ansi';
 import { i18n, localeKeys } from './locale';
+import { getAvailableVersion } from './utils/package';
 
 export * from './utils';
 
 export {
+  ora,
   fs,
+  semver,
   execa,
   readTsConfigByFile,
   getPackageManager,
@@ -64,16 +69,44 @@ export async function getPackageVersion(
   throw new Error('not found npm, please install npm before');
 }
 
-type Solution = 'mwa' | 'module' | 'monorepo';
-const SolutionDep: Record<Solution, string> = {
-  mwa: '@modern-js/app-tools',
-  module: '@modern-js/module-tools',
-  monorepo: '@modern-js/monorepo-tools',
-};
-export async function getModernVersion(solution: Solution) {
-  const dep = SolutionDep[solution];
-  const modernVersion = await getPackageVersion(dep);
+export async function getModernVersion(solution: Solution, registry?: string) {
+  const dep = SolutionToolsMap[solution];
+  const modernVersion = await getPackageVersion(dep, registry);
   return modernVersion;
+}
+
+export async function getModernPluginVersion(
+  solution: Solution,
+  packageName: string,
+  options: { cwd?: string; registry?: string } = {},
+) {
+  const { cwd = process.cwd(), registry } = options;
+  const getLatetPluginVersion = async () => {
+    const version = await getPackageVersion(packageName, registry);
+    return version;
+  };
+  if (!packageName.startsWith('@modern-js')) {
+    return getLatetPluginVersion();
+  }
+  // get project solution version
+  const pkgPath = path.join(
+    require.resolve(SolutionToolsMap[solution], { paths: [cwd] }),
+    '../../../../',
+    'package.json',
+  );
+  if (fs.existsSync(pkgPath)) {
+    const pkgInfo = fs.readJSONSync(pkgPath);
+
+    const modernVersion = pkgInfo.version;
+    if (typeof modernVersion !== 'string') {
+      return getLatetPluginVersion();
+    }
+    if (semver.lt(modernVersion, '1.15.0')) {
+      return getLatetPluginVersion();
+    }
+    return getAvailableVersion(packageName, modernVersion, registry);
+  }
+  return getLatetPluginVersion();
 }
 
 export function getPackageManagerText(packageManager: 'pnpm' | 'yarn' | 'npm') {

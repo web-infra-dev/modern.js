@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { basename, join } from 'path';
 import glob from 'fast-glob';
 import { copyFileSync, copySync } from 'fs-extra';
 import { replaceFileContent } from './helper';
@@ -71,6 +71,10 @@ export const TASKS: TaskConfig[] = [
         externals: {
           minimist: '../minimist',
         },
+      },
+      {
+        name: 'schema-utils3',
+        ignoreDts: true,
       },
       // some dependencies
       'glob',
@@ -162,6 +166,15 @@ export const TASKS: TaskConfig[] = [
           ajv: '../ajv',
         },
       },
+      {
+        name: 'webpack-dev-middleware',
+        externals: {
+          'schema-utils': '../schema-utils3',
+          'schema-utils/declarations/validate':
+            'schema-utils/declarations/validate',
+          'mime-types': '../mime-types',
+        },
+      },
     ],
   },
   {
@@ -180,7 +193,10 @@ export const TASKS: TaskConfig[] = [
     dependencies: [
       'tapable',
       'webpack-merge',
-      'webpack-sources',
+      {
+        name: 'webpack-sources',
+        ignoreDts: true,
+      },
       {
         name: 'webpackbar',
         ignoreDts: true,
@@ -202,6 +218,21 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'schema-utils3',
         ignoreDts: true,
+      },
+      {
+        name: '@babel/parser',
+        ignoreDts: true,
+      },
+      {
+        name: '@babel/helper-validator-identifier',
+        ignoreDts: true,
+      },
+      {
+        name: '@babel/types',
+        externals: {
+          '@babel/helper-validator-identifier':
+            '../helper-validator-identifier',
+        },
       },
       {
         name: 'babel-loader',
@@ -362,6 +393,34 @@ export const TASKS: TaskConfig[] = [
           'gzip-size': '@modern-js/utils/gzip-size',
         },
       },
+      {
+        name: 'pug',
+        externals: {
+          '@babel/types': '../@babel/types',
+          '@babel/parser': '../@babel/parser',
+        },
+        afterBundle(task) {
+          replaceFileContent(
+            join(task.distPath, 'index.d.ts'),
+            content =>
+              `${content.replace(
+                "declare module 'pug'",
+                'declare namespace pug',
+              )}\nexport = pug;`,
+          );
+        },
+      },
+      {
+        name: 'toml-loader',
+        ignoreDts: true,
+      },
+      {
+        name: 'yaml-loader',
+        ignoreDts: true,
+        externals: {
+          'loader-utils': '../loader-utils2',
+        },
+      },
     ],
   },
   {
@@ -495,15 +554,6 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
         externals: {
           semver: '@modern-js/utils/semver',
-        },
-      },
-      {
-        name: 'webpack-dev-middleware',
-        externals: {
-          'schema-utils': 'schema-utils',
-          'schema-utils/declarations/validate':
-            'schema-utils/declarations/validate',
-          'mime-types': '@modern-js/utils/mime-types',
         },
       },
     ],
@@ -721,6 +771,27 @@ export const TASKS: TaskConfig[] = [
           '@babel/helper-plugin-utils': '../helper-plugin-utils',
           '@babel/helper-create-class-features-plugin':
             '../helper-create-class-features-plugin',
+        },
+      },
+    ],
+  },
+  {
+    packageDir: 'builder/plugin-esbuild',
+    packageName: '@modern-js/webpack-builder-plugin-esbuild',
+    dependencies: [
+      {
+        name: 'esbuild-loader',
+        ignoreDts: true,
+        externals: {
+          '/^webpack(/.*)/': '@modern-js/webpack-builder/webpack$1',
+        },
+        afterBundle(task) {
+          const dtsFiles = glob.sync(join(task.depPath, 'dist', '*.d.ts'), {
+            ignore: ['**/__tests__/**'],
+          });
+          dtsFiles.forEach(file => {
+            copyFileSync(file, join(task.distPath, basename(file)));
+          });
         },
       },
     ],
