@@ -1,5 +1,35 @@
 # @modern-js/monorepo-tools
 
+## 1.17.0
+
+### Patch Changes
+
+- fb30bca: feat: add upgrade tools and command
+
+  feat: 增加升级工具和升级命令
+
+- Updated dependencies [1b9176f]
+- Updated dependencies [77d3a38]
+- Updated dependencies [fb30bca]
+- Updated dependencies [f3fab28]
+- Updated dependencies [151329d]
+- Updated dependencies [367405a]
+- Updated dependencies [5af9472]
+- Updated dependencies [6b6a534]
+- Updated dependencies [6b43a2b]
+- Updated dependencies [9f4e5ce]
+- Updated dependencies [58c53a7]
+- Updated dependencies [a7be124]
+- Updated dependencies [31547b4]
+  - @modern-js/utils@1.17.0
+  - @modern-js/upgrade@1.17.0
+  - @modern-js/new-action@1.17.0
+  - @modern-js/core@1.17.0
+  - @modern-js/plugin-changeset@1.17.0
+  - @modern-js/plugin-i18n@1.17.0
+  - @modern-js/plugin-jarvis@1.17.0
+  - @modern-js/plugin@1.17.0
+
 ## 1.16.0
 
 ### Minor Changes

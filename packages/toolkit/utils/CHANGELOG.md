@@ -1,5 +1,43 @@
 # @modern-js/utils
 
+## 1.17.0
+
+### Minor Changes
+
+- 1b9176f: feat(utils): add TOML to CHAIN_ID.RULE
+
+  feat(utils): 向 CHAIN_ID.RULE 中增加新常量 TOML
+
+### Patch Changes
+
+- 77d3a38: feat: runtime export utils not write d.ts file
+
+  feat: runtime 生成 export 函数不再支持生成 d.ts 文件
+
+- 151329d: chore(dev-server): no longer depend on @modern-js/webpack
+
+  chore(dev-server): 不再依赖 @modern-js/webpack
+
+- 5af9472: feat(utils): add PUG to CHAIN_ID
+
+  feat(utils): CHAIN_ID 常量新增 PUG 值
+
+- 6b6a534: chore: export getAddressUrls method
+
+  chore: 导出 getAddressUrls 方法
+
+- 6b43a2b: feat(utils): add SVG_ASSET to CHAIN_ID
+
+  feat(utils): CHAIN_ID 常量新增 SVG_ASSET 值
+
+- a7be124: feat(utils): add MODULE_DEPENDENCY_ERROR to CHAIN_ID
+
+  feat(utils): CHAIN_ID 常量新增 MODULE_DEPENDENCY_ERROR 值
+
+- 31547b4: feat(utils): add YAML to CHAIN_ID.RULE
+
+  feat(utils): 向 CHAIN_ID.RULE 中增加新常量 YAML
+
 ## 1.16.0
 
 ### Minor Changes
