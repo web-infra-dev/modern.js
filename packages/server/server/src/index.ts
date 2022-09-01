@@ -1,8 +1,8 @@
 import { DevServer as Server } from './server';
-import { ModernDevServerOptions } from './types';
+import type { DevServerOptions, ModernDevServerOptions } from './types';
 
 export { Server };
-export type { ModernDevServerOptions };
+export type { DevServerOptions, ModernDevServerOptions };
 
 export default (options: ModernDevServerOptions): Promise<Server> => {
   if (options == null) {
