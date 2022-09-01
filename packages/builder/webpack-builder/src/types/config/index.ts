@@ -1,30 +1,18 @@
 import type { DevConfig } from './dev';
 import type { HtmlConfig } from './html';
-import type { FinalToolsConfig, ToolsConfig } from './tools';
+import type { ToolsConfig } from './tools';
 import type { SourceConfig } from './source';
 import type { OutputConfig } from './output';
 import type { SecurityConfig } from './security';
 import type { PerformanceConfig } from './performance';
 import type { ExperimentsConfig } from './experiments';
-import type { DeepPartial } from '../utils';
 
-export type UserBuilderConfig = DeepPartial<BuilderConfig>;
+export type UserBuilderConfig = Partial<BuilderConfig>;
 
 export interface BuilderConfig {
-  dev?: DevConfig;
-  html?: HtmlConfig;
-  tools?: ToolsConfig;
-  source?: SourceConfig;
-  output?: OutputConfig;
-  security?: SecurityConfig;
-  performance?: PerformanceConfig;
-  experiments?: ExperimentsConfig;
-}
-
-export interface FinalBuilderConfig {
   dev: DevConfig;
   html: HtmlConfig;
-  tools: FinalToolsConfig;
+  tools: ToolsConfig;
   source: SourceConfig;
   output: OutputConfig;
   security: SecurityConfig;
