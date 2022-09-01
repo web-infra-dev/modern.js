@@ -26,6 +26,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@modern-js/utils": "1.16.0"
+    "@modern-js/utils": "workspace:*"
   }
 }
