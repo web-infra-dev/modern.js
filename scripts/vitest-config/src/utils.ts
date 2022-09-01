@@ -1,5 +1,6 @@
 import os from 'os';
 import assert from 'assert';
+import path from 'path';
 import { fs, normalizeToPosixPath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
 
@@ -76,10 +77,16 @@ export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
   const testing = new RegExp(compiledMatchers.join('|'));
 
   return {
-    test: (val: unknown) => typeof val === 'string',
+    // match path-format string
+    test: (val: unknown) =>
+      typeof val === 'string' && val !== path.basename(val),
     print: (val: unknown) =>
       `"${(val as string)
+        // normalize path to posix format
+        .replace(/\\/g, '/')
+        // apply replacements
         .replace(testing, p => replacements[p])
+        // escape string value just like vitest
         .replace(/"/g, '\\"')}"`,
   };
 }
