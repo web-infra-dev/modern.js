@@ -1,5 +1,15 @@
 # @modern-js/generator-common
 
+## 2.3.1
+
+### Patch Changes
+
+- fb30bca: feat: add upgrade tools and command
+
+  feat: 增加升级工具和升级命令
+
+  - @modern-js/plugin-i18n@1.17.0
+
 ## 2.3.0
 
 ### Patch Changes

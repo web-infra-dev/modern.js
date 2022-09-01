@@ -1,5 +1,13 @@
 # @modern-js/bff-generator
 
+## 2.3.1
+
+### Patch Changes
+
+- f3fab28: feat: new command use solution version
+
+  feat: new 命令使用当前工程方案对应版本的插件
+
 ## 2.3.0
 
 ### Patch Changes
