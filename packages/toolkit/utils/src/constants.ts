@@ -1,7 +1,7 @@
 /**
  * hmr socket connect path
  */
-export const HMR_SOCK_PATH = '/_modern_js_hmr_ws';
+export const HMR_SOCK_PATH = '/webpack-hmr';
 
 /**
  * route specification file
