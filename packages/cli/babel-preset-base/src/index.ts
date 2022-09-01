@@ -56,7 +56,7 @@ export const applyUserBabelConfig = (
       ...extraBabelUtils,
     } as BabelConfigUtils;
 
-    return applyOptionsChain(defaultOptions, userBabelConfig || {}, babelUtils);
+    return applyOptionsChain(defaultOptions, userBabelConfig, babelUtils);
   }
 
   return defaultOptions;
