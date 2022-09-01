@@ -1,6 +1,8 @@
 import { isAbsolute, join } from 'path';
+import _ from '@modern-js/utils/lodash';
 import { initHooks } from './createHook';
 import { ConfigValidator } from '../config/validate';
+import { withDefaultConfig } from '../config/defaults';
 import {
   pick,
   STATUS,
@@ -28,7 +30,13 @@ export function getAbsoluteDistPath(cwd: string, config: BuilderConfig) {
 export function createPrimaryContext(
   options: Required<BuilderOptions>,
 ): Context {
-  const { cwd, configPath, builderConfig, framework } = options;
+  const {
+    cwd,
+    configPath,
+    builderConfig: userBuilderConfig,
+    framework,
+  } = options;
+  const builderConfig = withDefaultConfig(_.cloneDeep(userBuilderConfig));
   const hooks = initHooks();
   const status = STATUS.INITIAL;
   const rootPath = cwd;
@@ -49,9 +57,8 @@ export function createPrimaryContext(
     cachePath,
     framework,
     configValidatingTask,
-    // TODO should deep clone
-    config: { ...builderConfig },
-    originalConfig: builderConfig,
+    config: builderConfig,
+    originalConfig: userBuilderConfig,
   };
 
   if (configPath) {

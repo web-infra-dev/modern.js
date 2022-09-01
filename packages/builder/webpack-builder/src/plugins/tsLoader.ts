@@ -69,7 +69,7 @@ export const PluginTsLoader = (): BuilderPlugin => {
             transpileOnly: true,
             allowTsInNodeModules: true,
           },
-          config.tools?.tsLoader || {},
+          config.tools.tsLoader,
           tsLoaderUtils,
         );
         const rule = chain.module.rule(CHAIN_ID.RULE.TS);

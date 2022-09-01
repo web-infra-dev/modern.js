@@ -10,14 +10,14 @@ export function applyOptionsChain<T, U>(
     | OptionsChainFunction<T, U>
     | Array<T | OptionsChainFunction<T, U>>,
   utils?: U,
-  mergeFn = Object.assign,
+  mergeFn: (a: T, b: T) => T = Object.assign,
 ): T {
   if (!options) {
     return defaults;
   }
 
   if (isPlainObject(options) as any) {
-    return mergeFn(defaults, options);
+    return mergeFn(defaults, options as T);
   } else if (isFunction(options)) {
     const ret = options(defaults, utils);
     if (ret) {
