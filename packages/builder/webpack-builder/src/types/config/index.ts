@@ -6,6 +6,9 @@ import type { OutputConfig } from './output';
 import type { SecurityConfig } from './security';
 import type { PerformanceConfig } from './performance';
 import type { ExperimentsConfig } from './experiments';
+import type { DeepPartial } from '../utils';
+
+export type UserBuilderConfig = DeepPartial<BuilderConfig>;
 
 export interface BuilderConfig {
   dev?: DevConfig;
