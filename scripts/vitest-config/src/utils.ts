@@ -83,7 +83,7 @@ export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
     print: (val: unknown) =>
       `"${(val as string)
         // normalize path to posix format
-        .replace(/\\/g, '/')
+        .replace(/(?:[a-zA-Z]:)?\\/g, '/')
         // apply replacements
         .replace(testing, p => replacements[p])
         // escape string value just like vitest
