@@ -22,18 +22,28 @@ async function printURLs(config: BuilderConfig, port: number) {
 
 async function createDevServer(options: InitConfigsOptions, port: number) {
   const { Server } = await import('@modern-js/server');
+  const { applyOptionsChain } = await import('@modern-js/utils');
   const { builderConfig } = options.builderOptions;
-  const enableHMR = builderConfig.tools?.devServer?.hot ?? true;
 
   const compiler = await createCompiler(options);
 
+  const devServerOptions = applyOptionsChain(
+    {
+      hot: builderConfig.dev?.hmr ?? true,
+      watch: true,
+      client: {},
+      liveReload: builderConfig.dev?.hmr ?? true,
+      devMiddleware: {
+        writeToDisk: (file: string) =>
+          !file.includes('.hot-update.') && !file.endsWith('.map'),
+      },
+    },
+    builderConfig.tools?.devServer,
+  );
+
   const server = new Server({
     pwd: options.context.rootPath,
-    dev: {
-      hot: enableHMR,
-      https: builderConfig.dev?.https,
-      liveReload: enableHMR,
-    },
+    dev: devServerOptions,
     port,
     compiler,
     config: {
