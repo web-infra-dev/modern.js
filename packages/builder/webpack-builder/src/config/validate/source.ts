@@ -7,6 +7,7 @@ const sourceField = defineSchema({
   properties: {
     globalVars: {
       type: 'object',
+      nullable: true,
       required: [],
       additionalProperties: true,
     },

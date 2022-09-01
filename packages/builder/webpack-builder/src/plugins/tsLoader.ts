@@ -16,7 +16,7 @@ export const PluginTsLoader = (): BuilderPlugin => {
     name: 'webpack-builder-plugin-ts-loader',
     setup(api) {
       const config = api.getBuilderConfig();
-      if (!config.tools.tsLoader) {
+      if (!config.tools?.tsLoader) {
         return;
       }
 
@@ -69,7 +69,7 @@ export const PluginTsLoader = (): BuilderPlugin => {
             transpileOnly: true,
             allowTsInNodeModules: true,
           },
-          config.tools.tsLoader || {},
+          config.tools?.tsLoader || {},
           tsLoaderUtils,
         );
         const rule = chain.module.rule(CHAIN_ID.RULE.TS);

@@ -10,7 +10,7 @@ export const PluginHMR = (): BuilderPlugin => ({
       }
 
       const config = api.getBuilderConfig();
-      const usingHMR = config.tools.devServer?.hot !== false;
+      const usingHMR = config.tools?.devServer?.hot !== false;
 
       if (usingHMR) {
         chain

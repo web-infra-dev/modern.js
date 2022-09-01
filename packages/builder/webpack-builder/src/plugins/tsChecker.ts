@@ -9,7 +9,7 @@ export const PluginTsChecker = (): BuilderPlugin => {
       // Use tsChecker if tsChecker is not `false`, So there are two situations for user:
       // 1. tsLoader + transpileOnly + tschecker
       // 2. @babel/preset-typescript + tschecker
-      if (config.tools.tsChecker === false) {
+      if (config.tools?.tsChecker === false) {
         return;
       }
 
@@ -39,7 +39,7 @@ export const PluginTsChecker = (): BuilderPlugin => {
               ],
             },
           },
-          config.tools.tsChecker,
+          config.tools?.tsChecker || {},
         );
         chain
           .plugin(CHAIN_ID.PLUGIN.TS_CHECKER)

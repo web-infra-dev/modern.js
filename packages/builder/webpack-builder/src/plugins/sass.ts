@@ -29,7 +29,7 @@ export function PluginSass(): BuilderPlugin {
               sourceMap: false,
               implementation: utils.getCompiledPath('sass'),
             },
-            config.tools.sass || {},
+            config.tools?.sass || {},
             { addExcludes },
           );
 

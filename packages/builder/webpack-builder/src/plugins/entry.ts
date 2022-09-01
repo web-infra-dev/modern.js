@@ -10,7 +10,7 @@ export const PluginEntry = (): BuilderPlugin => ({
       const { entry } = api.context;
       const config = api.getBuilderConfig();
 
-      const { preEntry } = config.source;
+      const { preEntry } = config.source || {};
       const preEntries = preEntry ? ensureArray(preEntry) : [];
 
       Object.keys(entry).forEach(entryName => {

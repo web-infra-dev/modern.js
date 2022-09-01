@@ -12,7 +12,7 @@ export const PluginDefine = (): BuilderPlugin => ({
       'process.env.NODE_ENV': process.env.NODE_ENV || 'development',
     };
 
-    const globalVars = _.assign({}, config.source.globalVars, builtinVars);
+    const globalVars = _.assign({}, config.source?.globalVars, builtinVars);
 
     // Serialize global vars
     const serializedVars = _.mapValues(globalVars, value =>

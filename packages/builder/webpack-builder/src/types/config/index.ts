@@ -1,6 +1,6 @@
 import type { DevConfig } from './dev';
 import type { HtmlConfig } from './html';
-import type { FinalToolsConfig, ToolsConfig } from './tools';
+import type { ToolsConfig } from './tools';
 import type { SourceConfig } from './source';
 import type { OutputConfig } from './output';
 import type { SecurityConfig } from './security';
@@ -21,15 +21,8 @@ export interface BuilderConfig {
   experiments?: ExperimentsConfig;
 }
 
-export interface FinalBuilderConfig {
-  dev: DevConfig;
-  html: HtmlConfig;
-  tools: FinalToolsConfig;
+export interface BuilderFinalConfig extends BuilderConfig {
   source: SourceConfig;
-  output: OutputConfig;
-  security: SecurityConfig;
-  performance: PerformanceConfig;
-  experiments: ExperimentsConfig;
 }
 
 /* eslint-disable @typescript-eslint/no-restricted-imports */

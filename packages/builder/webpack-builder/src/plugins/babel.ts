@@ -8,7 +8,7 @@ import { JS_REGEX, TS_REGEX, mergeRegex } from '../shared';
 
 import type {
   WebpackChain,
-  FinalBuilderConfig,
+  BuilderConfig,
   BuilderContext,
   BuilderPlugin,
 } from '../types';
@@ -18,7 +18,7 @@ export const CORE_JS_ENTRY = path.resolve(
   '../runtime/core-js-entry.js',
 );
 
-export const getUseBuiltIns = (config: FinalBuilderConfig) => {
+export const getUseBuiltIns = (config: BuilderConfig) => {
   const { polyfill } = config.output || {};
   if (polyfill === 'ua' || polyfill === 'off') {
     return false;
@@ -28,7 +28,7 @@ export const getUseBuiltIns = (config: FinalBuilderConfig) => {
 
 export function applyScriptCondition(
   rule: WebpackChain.Rule,
-  config: FinalBuilderConfig,
+  config: BuilderConfig,
   context: BuilderContext,
   includes: (string | RegExp)[],
   excludes: (string | RegExp)[],
@@ -39,7 +39,7 @@ export function applyScriptCondition(
   });
 
   // let babel to transform core-js-entry, make `useBuiltins: 'entry'` working
-  if (config.output.polyfill === 'entry') {
+  if (config.output?.polyfill === 'entry') {
     rule.include.add(CORE_JS_ENTRY);
   }
 
@@ -62,7 +62,7 @@ export const PluginBabel = (): BuilderPlugin => ({
       const getBabelOptions = (
         framework: string,
         appDirectory: string,
-        config: FinalBuilderConfig,
+        config: BuilderConfig,
       ) => {
         // 1. Get styled-components options
         const styledComponentsOptions = applyOptionsChain(
@@ -72,7 +72,7 @@ export const PluginBabel = (): BuilderPlugin => ({
             ssr: isUseSSRBundle(config),
             transpileTemplateLiterals: true,
           },
-          config.tools.styledComponents,
+          config.tools?.styledComponents,
         );
 
         // 2. Create babel util function about include/exclude
@@ -104,11 +104,11 @@ export const PluginBabel = (): BuilderPlugin => ({
           ...getBabelConfig({
             metaName: framework,
             appDirectory,
-            useLegacyDecorators: !config.output.enableLatestDecorators,
+            useLegacyDecorators: !config.output?.enableLatestDecorators,
             useBuiltIns: getUseBuiltIns(config),
             chain: createBabelChain(),
             styledComponents: styledComponentsOptions,
-            userBabelConfig: config.tools.babel,
+            userBabelConfig: config.tools?.babel,
             userBabelConfigUtils: babelUtils,
           }),
         };
@@ -126,7 +126,7 @@ export const PluginBabel = (): BuilderPlugin => ({
         rootPath,
         config || {},
       );
-      const useTsLoader = Boolean(config.tools.tsLoader);
+      const useTsLoader = Boolean(config.tools?.tsLoader);
       const rule = chain.module.rule(CHAIN_ID.RULE.JS);
       applyScriptCondition(rule, config, api.context, includes, excludes);
       rule
@@ -144,9 +144,9 @@ export function addCoreJsEntry({
   config,
 }: {
   chain: WebpackChain;
-  config: FinalBuilderConfig;
+  config: BuilderConfig;
 }) {
-  if (config.output.polyfill === 'entry') {
+  if (config.output?.polyfill === 'entry') {
     const entryPoints = Object.keys(chain.entryPoints.entries() || {});
 
     for (const name of entryPoints) {

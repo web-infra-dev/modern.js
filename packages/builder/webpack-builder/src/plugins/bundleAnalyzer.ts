@@ -12,7 +12,7 @@ export function PluginBundleAnalyzer(): BuilderPlugin {
           // 2. Set performance.bundleAnalyze config
           if (
             !process.env.BUNDLE_ANALYZE &&
-            !config.performance.bundleAnalyze
+            !config.performance?.bundleAnalyze
           ) {
             return;
           }

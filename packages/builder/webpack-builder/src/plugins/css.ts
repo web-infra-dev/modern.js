@@ -1,6 +1,6 @@
 import { CSS_REGEX } from '../shared';
 import {
-  FinalBuilderConfig,
+  BuilderConfig,
   BuilderContext,
   BuilderPlugin,
   CSSLoaderOptions,
@@ -14,7 +14,7 @@ import type { AcceptedPlugin, ProcessOptions } from 'postcss';
 
 export async function applyBaseCSSRule(
   rule: WebpackChain.Rule,
-  config: FinalBuilderConfig,
+  config: BuilderConfig,
   context: BuilderContext,
   utils: ModifyWebpackUtils,
 ) {
@@ -63,7 +63,7 @@ export async function applyBaseCSSRule(
         },
         sourceMap: enableSourceMap,
       },
-      config.tools.postcss,
+      config.tools?.postcss || {},
       utils,
     );
     if (extraPlugins.length) {
@@ -78,10 +78,12 @@ export async function applyBaseCSSRule(
   };
 
   // 1. Check user config
-  const enableExtractCSS = Boolean(config.tools.cssExtract);
-  const enableCSSModuleTS = Boolean(config.output.enableCssModuleTSDeclaration);
+  const enableExtractCSS = Boolean(config.tools?.cssExtract);
+  const enableCSSModuleTS = Boolean(
+    config.output?.enableCssModuleTSDeclaration,
+  );
   const enableSourceMap =
-    isProd && enableExtractCSS && !config.output.disableSourceMap;
+    isProd && enableExtractCSS && !config.output?.disableSourceMap;
 
   // 2. Prepare loader options
   const extractLoaderOptions = applyOptionsChain<

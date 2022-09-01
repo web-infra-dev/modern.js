@@ -1,7 +1,7 @@
 import { CHAIN_ID } from '@modern-js/utils/chain-id';
 import type {
   WebpackChain,
-  FinalBuilderConfig,
+  BuilderConfig,
   BuilderPlugin,
   TerserPluginOptions,
   CssMinimizerPluginOptions,
@@ -9,7 +9,7 @@ import type {
 
 function applyRemoveConsole(
   options: TerserPluginOptions,
-  config: FinalBuilderConfig,
+  config: BuilderConfig,
 ) {
   if (!options.terserOptions) {
     options.terserOptions = {};
@@ -37,10 +37,7 @@ function applyRemoveConsole(
   return options;
 }
 
-async function applyJSMinimizer(
-  chain: WebpackChain,
-  config: FinalBuilderConfig,
-) {
+async function applyJSMinimizer(chain: WebpackChain, config: BuilderConfig) {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const { default: TerserPlugin } = await import('terser-webpack-plugin');
 
@@ -72,10 +69,7 @@ async function applyJSMinimizer(
     .end();
 }
 
-async function applyCSSMinimizer(
-  chain: WebpackChain,
-  config: FinalBuilderConfig,
-) {
+async function applyCSSMinimizer(chain: WebpackChain, config: BuilderConfig) {
   const { CHAIN_ID, applyOptionsChain } = await import('@modern-js/utils');
   const { default: CssMinimizerPlugin } = await import(
     'css-minimizer-webpack-plugin'
@@ -102,7 +96,7 @@ export const PluginMinimize = (): BuilderPlugin => ({
   setup(api) {
     api.modifyWebpackChain(async (chain, { isProd }) => {
       const config = api.getBuilderConfig();
-      const isMinimize = isProd && !config.output.disableMinimize;
+      const isMinimize = isProd && !config.output?.disableMinimize;
 
       // set minimize to allow users to disable minimize
       chain.optimization.minimize(isMinimize);

@@ -29,7 +29,7 @@ export function PluginLess(): BuilderPlugin {
               sourceMap: false,
               implementation: utils.getCompiledPath('less'),
             },
-            config.tools.less,
+            config.tools?.less || {},
             { addExcludes },
           );
 

@@ -1,5 +1,5 @@
 import type { EntryObject } from 'webpack';
-import type { FinalBuilderConfig } from './config';
+import type { BuilderConfig } from './config';
 
 export type BuilderTarget = 'web' | 'node' | 'modern-web';
 
@@ -15,5 +15,5 @@ export type BuilderOptions = {
   /** Absolute path of framework config file. */
   configPath?: string | null;
   /** Builder config object. */
-  builderConfig?: FinalBuilderConfig;
+  builderConfig?: BuilderConfig;
 };

@@ -1,9 +1,5 @@
 import { join } from 'path';
-import type {
-  DistPathConfig,
-  FilenameConfig,
-  FinalBuilderConfig,
-} from '../types';
+import type { BuilderConfig, DistPathConfig, FilenameConfig } from '../types';
 import {
   JS_DIST_DIR,
   CSS_DIST_DIR,
@@ -27,7 +23,7 @@ export const getCompiledPath = (packageName: string) =>
   join(__dirname, '../../compiled', packageName);
 
 export const getDistPath = (
-  config: FinalBuilderConfig,
+  config: BuilderConfig,
   type: keyof DistPathConfig,
 ) => {
   const { distPath = {} } = config.output || {};
@@ -55,7 +51,7 @@ export const getDistPath = (
 };
 
 export const getFilename = (
-  config: FinalBuilderConfig,
+  config: BuilderConfig,
   type: keyof FilenameConfig,
   isProd: boolean,
 ) => {

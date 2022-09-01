@@ -1,4 +1,4 @@
-import type { FinalBuilderConfig, BuilderPlugin, WebpackChain } from '../types';
+import type { BuilderConfig, BuilderPlugin, WebpackChain } from '../types';
 
 function applyExtensions({
   chain,
@@ -6,7 +6,7 @@ function applyExtensions({
   isTsProject,
 }: {
   chain: WebpackChain;
-  config: FinalBuilderConfig;
+  config: BuilderConfig;
   isTsProject: boolean;
 }) {
   let extensions = [
@@ -18,7 +18,7 @@ function applyExtensions({
     '.json',
   ];
 
-  const { resolveExtensionPrefix } = config.source;
+  const { resolveExtensionPrefix } = config.source || {};
 
   // add an extra prefix to all extensions
   if (resolveExtensionPrefix) {
@@ -39,7 +39,7 @@ async function applyAlias({
   rootPath,
 }: {
   chain: WebpackChain;
-  config: FinalBuilderConfig;
+  config: BuilderConfig;
   rootPath: string;
 }) {
   const { alias } = config.source || {};
