@@ -81,9 +81,7 @@ export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
     test: (val: unknown) =>
       typeof val === 'string' && val !== path.basename(val),
     print: (val: unknown) =>
-      `"${(val as string)
-        // normalize path to posix format
-        .replace(/(?:[a-zA-Z]:)?\\/g, '/')
+      `"${normalizeToPosixPath(val as string)
         // apply replacements
         .replace(testing, p => replacements[p])
         // escape string value just like vitest
