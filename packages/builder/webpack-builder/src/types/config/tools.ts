@@ -1,3 +1,4 @@
+import type { DevServerOptions } from '@modern-js/server';
 import type { IStyledComponentOptions } from '@modern-js/babel-preset-app';
 import type { ModifyWebpackUtils } from '../hooks';
 import type {
@@ -89,9 +90,7 @@ export type ToolsWebpackChainConfig = ArrayOrNot<
   (chain: WebpackChain, utils: ModifyWebpackUtils) => void
 >;
 
-export type DevServerConfig = {
-  hot?: boolean;
-};
+export type ToolsDevServerConfig = ChainedConfig<DevServerOptions>;
 
 export interface ToolsConfig {
   pug?: ToolsPugConfig;
@@ -101,7 +100,7 @@ export interface ToolsConfig {
   terser?: ToolsTerserConfig;
   tsLoader?: ToolsTSLoaderConfig;
   tsChecker?: false | ToolsTSCheckerConfig;
-  devServer?: DevServerConfig;
+  devServer?: ToolsDevServerConfig;
   minifyCss?: ToolsMinifyCssConfig;
   htmlPlugin?: ToolsHtmlPluginConfig;
   styledComponents?: ToolsStyledComponentConfig;
