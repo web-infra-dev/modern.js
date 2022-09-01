@@ -1,5 +1,7 @@
 # @modern-js/electron-independence-generator
 
+## 2.3.1
+
 ## 2.3.0
 
 ### Patch Changes

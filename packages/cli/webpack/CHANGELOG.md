@@ -1,5 +1,27 @@
 # @modern-js/webpack
 
+## 1.17.0
+
+### Patch Changes
+
+- 151329d: chore(dev-server): no longer depend on @modern-js/webpack
+
+  chore(dev-server): 不再依赖 @modern-js/webpack
+
+- Updated dependencies [1b9176f]
+- Updated dependencies [77d3a38]
+- Updated dependencies [f1a09c5]
+- Updated dependencies [151329d]
+- Updated dependencies [5af9472]
+- Updated dependencies [6b6a534]
+- Updated dependencies [6b43a2b]
+- Updated dependencies [7b8ecf5]
+- Updated dependencies [a7be124]
+- Updated dependencies [31547b4]
+  - @modern-js/utils@1.17.0
+  - @modern-js/babel-preset-app@1.17.0
+  - @modern-js/css-config@1.17.0
+
 ## 1.16.0
 
 ### Minor Changes

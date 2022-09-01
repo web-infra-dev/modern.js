@@ -1,5 +1,28 @@
 # @modern-js/babel-preset-app
 
+## 1.17.0
+
+### Patch Changes
+
+- f1a09c5: feat(babel-preset-app): bump core-js version to support more polyfills
+
+  feat(babel-preset-app): 升级默认的 core-js 版本，支持更多 polyfill
+
+- 7b8ecf5: fix: `useLoader` auto-generated id
+
+  fix: 修复 `useLoader` 自动生成的 id
+
+- Updated dependencies [1b9176f]
+- Updated dependencies [77d3a38]
+- Updated dependencies [151329d]
+- Updated dependencies [5af9472]
+- Updated dependencies [6b6a534]
+- Updated dependencies [6b43a2b]
+- Updated dependencies [a7be124]
+- Updated dependencies [31547b4]
+  - @modern-js/utils@1.17.0
+  - @modern-js/babel-preset-base@1.17.0
+
 ## 1.16.0
 
 ### Patch Changes

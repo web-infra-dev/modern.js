@@ -1,5 +1,41 @@
 # @modern-js/app-tools
 
+## 1.17.0
+
+### Patch Changes
+
+- fb30bca: feat: add upgrade tools and command
+
+  feat: 增加升级工具和升级命令
+
+- c3d4a6a: feat: support react 18 ssr
+  feat: 支持 React 18 下使用 SSR
+- Updated dependencies [1b9176f]
+- Updated dependencies [77d3a38]
+- Updated dependencies [fb30bca]
+- Updated dependencies [f3fab28]
+- Updated dependencies [151329d]
+- Updated dependencies [367405a]
+- Updated dependencies [5af9472]
+- Updated dependencies [6b6a534]
+- Updated dependencies [6b43a2b]
+- Updated dependencies [9f4e5ce]
+- Updated dependencies [58c53a7]
+- Updated dependencies [a7be124]
+- Updated dependencies [31547b4]
+  - @modern-js/utils@1.17.0
+  - @modern-js/upgrade@1.17.0
+  - @modern-js/new-action@1.17.0
+  - @modern-js/webpack@1.17.0
+  - @modern-js/server@1.17.0
+  - @modern-js/core@1.17.0
+  - @modern-js/plugin-i18n@1.17.0
+  - @modern-js/plugin-jarvis@1.17.0
+  - @modern-js/prod-server@1.17.0
+  - @modern-js/node-bundle-require@1.17.0
+  - @modern-js/plugin@1.17.0
+  - @modern-js/types@1.17.0
+
 ## 1.16.0
 
 ### Minor Changes
