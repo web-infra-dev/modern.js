@@ -117,6 +117,8 @@ const handlePlugin = async (
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
+  process.setMaxListeners(20);
+
   const appApi = new AppAPI(context, generator);
 
   const { locale } = context.config;

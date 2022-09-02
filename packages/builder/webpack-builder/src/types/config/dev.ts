@@ -1,5 +1,8 @@
+import type { DevServerHttpsOptions } from '@modern-js/server';
+
 export interface DevConfig {
+  hmr?: boolean;
   port?: number;
-  https?: boolean;
+  https?: DevServerHttpsOptions;
   assetPrefix?: string | boolean;
 }
