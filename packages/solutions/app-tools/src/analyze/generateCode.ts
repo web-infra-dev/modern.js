@@ -13,6 +13,7 @@ import { getClientRoutes } from './getClientRoutes';
 import {
   FILE_SYSTEM_ROUTES_FILE_NAME,
   ENTRY_POINT_FILE_NAME,
+  ENTRY_BOOTSTRAP_FILE_NAME,
 } from './constants';
 import { getDefaultImports } from './utils';
 
@@ -173,15 +174,28 @@ export const generateCode = async (
         exportStatement,
       });
 
-      // generate entry file.
       const entryFile = path.resolve(
         internalDirectory,
         `./${entryName}/${ENTRY_POINT_FILE_NAME}`,
       );
-
       entrypoint.entry = entryFile;
 
-      fs.outputFileSync(entryFile, code, 'utf8');
+      // generate entry file.
+      if (config.source.enableAsyncEntry) {
+        const { code: asyncEntryCode } = await hookRunners.modifyAsyncEntry({
+          entrypoint,
+          code: `import('./${ENTRY_BOOTSTRAP_FILE_NAME}');`,
+        });
+        fs.outputFileSync(entryFile, asyncEntryCode, 'utf8');
+
+        const bootstrapFile = path.resolve(
+          internalDirectory,
+          `./${entryName}/${ENTRY_BOOTSTRAP_FILE_NAME}`,
+        );
+        fs.outputFileSync(bootstrapFile, code, 'utf8');
+      } else {
+        fs.outputFileSync(entryFile, code, 'utf8');
+      }
     }
   }
 };
