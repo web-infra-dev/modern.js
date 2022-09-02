@@ -5,12 +5,12 @@ sidebar_position: 4
 
 # server.routes
 
-
-
 * 类型： `Object`
 * 默认值： 根据文件约定自动生成的服务端路由规则：应用的每个入口生成一条路由规则，入口名称等于路由名称。
 
-该配置选项只作用于服务端路由，可以自定义应用入口的访问路由。
+该配置选项只作用于服务端路由，可以自定义应用入口的服务访问配置。
+
+## 自定义访问路由
 
 对象的 `key` 为当前应用的入口名, 值可以是 `string | Array<string>`。
 
@@ -68,4 +68,25 @@ export default defineConfig({
 }
 ```
 
+## 自定义响应头
 
+可以通过配置入口的 resHeaders 设置响应头：
+
+```js title="modern.config.js"
+export default defineConfig({
+  server: {
+    routes: {
+      'page-a': {
+        route: ['/a', '/b'],
+        resHeaders: {
+          'x-modern-test': '1',
+        },
+      },
+    },
+  },
+});
+```
+
+:::note
+这一配置在生产环境与开发环境都生效，可以根据 NODE_ENV 区分环境设置不同的响应头。但如果你只需要在开发环境设置响应头，推荐使用 tools.devServer.headers。
+:::
