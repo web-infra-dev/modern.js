@@ -20,6 +20,7 @@ import type {
   LessLoaderOptions,
   SassLoaderOptions,
   HTMLPluginOptions,
+  InspectorPluginOptions,
 } from '../thirdParty';
 import type { ArrayOrNot, ChainedConfig } from '../utils';
 
@@ -81,6 +82,8 @@ export type ToolsHtmlPluginConfig = ChainedConfig<
   }
 >;
 
+export type ToolsInspectorPluginOptions = ChainedConfig<InspectorPluginOptions>;
+
 export type ToolsWebpackConfig = ChainedConfig<
   WebpackConfig,
   ModifyWebpackUtils
@@ -111,4 +114,5 @@ export interface ToolsConfig {
   autoprefixer?: ToolsAutoprefixerConfig;
   webpack?: ToolsWebpackConfig;
   webpackChain?: ToolsWebpackChainConfig;
+  inspector?: ToolsInspectorPluginOptions;
 }
