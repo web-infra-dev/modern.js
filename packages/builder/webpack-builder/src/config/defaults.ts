@@ -1,4 +1,4 @@
-import { BuilderConfig, UserBuilderConfig } from '../types';
+import { BuilderConfig } from '../types';
 import { mergeBuilderConfig } from '../shared/utils';
 import {
   ROOT_DIST_DIR,
@@ -10,8 +10,14 @@ import {
   IMAGE_DIST_DIR,
   MEDIA_DIST_DIR,
 } from '../shared';
+import _ from '@modern-js/utils/lodash';
 
-export const createDefaultConfig = (): BuilderConfig => ({
+export const defineConfig = (config: BuilderConfig): BuilderConfig => config;
+
+const defineConfigPreserveDetails = <T extends BuilderConfig>(config: T): T =>
+  config;
+
+const defaultConfig = defineConfigPreserveDetails({
   source: {
     alias: {},
     globalVars: {},
@@ -61,6 +67,13 @@ export const createDefaultConfig = (): BuilderConfig => ({
     cssLoader: undefined,
     devServer: {
       hot: true,
+      client: {},
+      devMiddleware: {
+        writeToDisk: true,
+      },
+      liveReload: true,
+      watch: true,
+      https: false,
     },
     htmlPlugin: undefined,
     less: {},
@@ -100,5 +113,35 @@ export const createDefaultConfig = (): BuilderConfig => ({
   security: {},
 });
 
-export const withDefaultConfig = (config: UserBuilderConfig | BuilderConfig) =>
-  mergeBuilderConfig(createDefaultConfig(), config) as BuilderConfig;
+export type DefaultConfig = typeof defaultConfig;
+
+type KeysMatching<T extends object, V> = {
+  [K in keyof T]-?: T[K] extends V ? K : never;
+}[keyof T];
+
+type ObjectProps<T extends Record<any, any>> = Pick<
+  T,
+  KeysMatching<T, Record<any, any>>
+>;
+
+export type DeepFillObjectBy<T extends object, P extends T> = {
+  [K in keyof T & keyof ObjectProps<P>]-?: Exclude<
+    Exclude<T[K], undefined> extends object
+      ? unknown &
+          DeepFillObjectBy<Exclude<T[K], undefined>, Exclude<P[K], undefined>>
+      : T[K],
+    undefined
+  >;
+} & {
+  [K in Exclude<keyof T, keyof ObjectProps<P>>]: T[K] extends Record<any, any>
+    ? unknown & DeepFillObjectBy<T[K], P[K]>
+    : T[K];
+};
+
+export type Config = DeepFillObjectBy<BuilderConfig, DefaultConfig>;
+
+export const cloneDefaultConfig = (): BuilderConfig =>
+  _.cloneDeep(defaultConfig);
+
+export const withDefaultConfig = (config: BuilderConfig) =>
+  mergeBuilderConfig(cloneDefaultConfig(), config);

@@ -7,17 +7,15 @@ import type { SecurityConfig } from './security';
 import type { PerformanceConfig } from './performance';
 import type { ExperimentsConfig } from './experiments';
 
-export type UserBuilderConfig = Partial<BuilderConfig>;
-
 export interface BuilderConfig {
-  dev: DevConfig;
-  html: HtmlConfig;
-  tools: ToolsConfig;
-  source: SourceConfig;
-  output: OutputConfig;
-  security: SecurityConfig;
-  performance: PerformanceConfig;
-  experiments: ExperimentsConfig;
+  dev?: DevConfig;
+  html?: HtmlConfig;
+  tools?: ToolsConfig;
+  source?: SourceConfig;
+  output?: OutputConfig;
+  security?: SecurityConfig;
+  performance?: PerformanceConfig;
+  experiments?: ExperimentsConfig;
 }
 
 /* eslint-disable @typescript-eslint/no-restricted-imports */
