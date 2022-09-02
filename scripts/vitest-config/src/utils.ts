@@ -1,7 +1,6 @@
 import os from 'os';
 import assert from 'assert';
-import path from 'path';
-import { fs, normalizeToPosixPath } from '@modern-js/utils';
+import { fs, isPathString, normalizeToPosixPath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
 
 export interface PathMatcher {
@@ -31,7 +30,7 @@ export function applyPathReplacer(val: string, mark: string, path: string) {
 
 export function upwardPaths(start: string): string[] {
   return _(start)
-    .split('/')
+    .split(/[/\\]/)
     .filter(Boolean)
     .map(joinPathParts)
     .reverse()
@@ -47,6 +46,12 @@ export function compilePathMatcherSource(match: string | RegExp): string {
   return match.source;
 }
 
+export const matchUpwardPathsAsUnknown = (p: string) =>
+  _(upwardPaths(normalizeToPosixPath(p)))
+    .map(match => ({ match, mark: 'unknown' }))
+    .slice(1, -1)
+    .value();
+
 export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
   const rootMatcher = _.find(options.replace, { mark: 'root' });
   assert(rootMatcher, 'root matcher is required');
@@ -55,22 +60,19 @@ export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
     { match: os.homedir(), mark: 'home' },
     { match: os.tmpdir(), mark: 'temp' },
     { match: fs.realpathSync(os.tmpdir()), mark: 'readTmp' },
-    ..._(upwardPaths(rootMatcher.match))
-      .map(match => ({ match, mark: 'unknown' }))
-      .slice(1)
-      .value(),
+    ...matchUpwardPathsAsUnknown(rootMatcher.match),
   ];
 
+  pathMatchers.forEach(
+    matcher => (matcher.match = normalizeToPosixPath(matcher.match)),
+  );
   const compiledMatchers = _(pathMatchers)
     .map('match')
     .map(compilePathMatcherSource)
     .value();
   const replacements: Record<string, string> = _(pathMatchers)
     .uniqBy('match')
-    .map(({ match, mark }) => [
-      normalizeToPosixPath(match),
-      `<${_.upperCase(_.snakeCase(mark))}>`,
-    ])
+    .map(({ match, mark }) => [match, `<${_.upperCase(_.snakeCase(mark))}>`])
     .fromPairs()
     .value();
 
@@ -78,15 +80,14 @@ export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
 
   return {
     // match path-format string
-    test: (val: unknown) =>
-      typeof val === 'string' && val !== path.basename(val),
-    print: (val: unknown) =>
-      `"${(val as string)
-        // normalize path to posix format
-        .replace(/(?:[a-zA-Z]:)?\\/g, '/')
+    test: (val: unknown) => typeof val === 'string' && isPathString(val),
+    print: (val: unknown) => {
+      const ret = `"${normalizeToPosixPath(val as string)
         // apply replacements
         .replace(testing, p => replacements[p])
         // escape string value just like vitest
-        .replace(/"/g, '\\"')}"`,
+        .replace(/"/g, '\\"')}"`;
+      return ret;
+    },
   };
 }

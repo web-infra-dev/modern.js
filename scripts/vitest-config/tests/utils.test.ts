@@ -3,6 +3,7 @@ import {
   compilePathMatcherSource,
   createSnapshotSerializer,
   joinPathParts,
+  matchUpwardPathsAsUnknown,
   upwardPaths,
 } from '../src/utils';
 
@@ -33,8 +34,28 @@ describe('compilePathMatcherSource', () => {
   });
 });
 
+describe('matchUpwardPathsAsUnknown', () => {
+  it('should match upward paths', () => {
+    expect(matchUpwardPathsAsUnknown('/a/b/c')).toEqual([
+      { mark: 'unknown', match: '/a/b' },
+      { mark: 'unknown', match: '/a' },
+    ]);
+  });
+  it('should match upward paths with win32', () => {
+    expect(matchUpwardPathsAsUnknown('C:\\Windows\\User\\workspace')).toEqual([
+      { mark: 'unknown', match: '/c/Windows/User' },
+      { mark: 'unknown', match: '/c/Windows' },
+      { mark: 'unknown', match: '/c' },
+    ]);
+  });
+});
+
 describe('createSnapshotSerializer', () => {
-  it('should create snapshot serializer', () => {
+  it.each([
+    ['/a/b/c/d/e/f/g', '"<ROOT>/d/e/f/g"'],
+    ['/a/b/c/foo', '"<ROOT>/foo"'],
+    ['/a/b/foo/bar', '"<UNKNOWN>/foo/bar"'],
+  ])('should handle with posix path %s', (value, expected) => {
     const serializer = createSnapshotSerializer({
       replace: [
         { match: '/a/b/c', mark: 'root' },
@@ -42,9 +63,23 @@ describe('createSnapshotSerializer', () => {
         { match: '/a/b/c/d/e', mark: 'workspace2' },
       ],
     });
-    expect.addSnapshotSerializer(serializer);
-    expect('/a/b/c/d/e/f/g').toMatchInlineSnapshot('"<ROOT>/d/e/f/g"');
-    expect('/a/b/c/foo').toMatchInlineSnapshot('"<ROOT>/foo"');
-    expect('/a/b/foo/bar').toMatchInlineSnapshot('"<UNKNOWN>/foo/bar"');
+    expect(serializer.test(value)).toBe(true);
+    expect(serializer.print(value)).toBe(expected);
+  });
+  it.each([
+    ['A:\\b\\c\\d\\e\\f\\g', '"<ROOT>/d/e/f/g"'],
+    ['A:\\b\\c\\foo', '"<ROOT>/foo"'],
+    ['A:\\b\\foo\\bar', '"<UNKNOWN>/foo/bar"'],
+    ['Z:\\b\\c\\foo', '"/z/b/c/foo"'],
+  ])('should handle with windows path %s', (value, expected) => {
+    const serializer = createSnapshotSerializer({
+      replace: [
+        { match: 'A:\\b\\c', mark: 'root' },
+        { match: 'A:\\b\\c\\d', mark: 'workspace' },
+        { match: 'A:\\b\\c\\d\\e', mark: 'workspace2' },
+      ],
+    });
+    expect(serializer.test(value)).toBe(true);
+    expect(serializer.print(value)).toBe(expected);
   });
 });
