@@ -70,6 +70,7 @@ export interface SourceConfig {
       }
   >;
   preEntry?: string | string[];
+  enableAsyncEntry?: boolean;
   disableDefaultEntries?: boolean;
   entriesDir?: string;
   configDir?: string;
