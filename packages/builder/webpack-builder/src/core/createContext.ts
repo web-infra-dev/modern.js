@@ -2,13 +2,7 @@ import { existsSync } from 'fs';
 import { isAbsolute, join } from 'path';
 import { initHooks } from './createHook';
 import { ConfigValidator } from '../config/validate';
-import {
-  pick,
-  STATUS,
-  isFileExists,
-  getDistPath,
-  deepFreezed,
-} from '../shared';
+import { pick, debug, isFileExists, getDistPath, deepFreezed } from '../shared';
 import type {
   Context,
   BuilderOptions,
@@ -31,7 +25,6 @@ export function createPrimaryContext(
 ): Context {
   const { cwd, configPath, builderConfig, framework } = options;
   const hooks = initHooks();
-  const status = STATUS.INITIAL;
   const rootPath = cwd;
   const srcPath = join(rootPath, 'src');
   const distPath = getAbsoluteDistPath(cwd, builderConfig);
@@ -42,8 +35,6 @@ export function createPrimaryContext(
   const context: Context = {
     hooks,
     entry: options.entry,
-    // TODO using setter to set status and log some performance info
-    status,
     srcPath,
     rootPath,
     distPath,
@@ -69,6 +60,8 @@ export function createPrimaryContext(
 export async function createContext(
   options: Required<BuilderOptions>,
 ): Promise<Context> {
+  debug('create context');
+
   const ctx = createPrimaryContext(options);
 
   ctx.configValidatingTask = ConfigValidator.create().then(validator => {

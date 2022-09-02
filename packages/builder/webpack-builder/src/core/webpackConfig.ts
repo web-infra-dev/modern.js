@@ -1,4 +1,4 @@
-import { STATUS, getCompiledPath } from '../shared';
+import { debug, getCompiledPath } from '../shared';
 import type {
   Context,
   NodeEnv,
@@ -8,7 +8,7 @@ import type {
 } from '../types';
 
 async function modifyWebpackChain(context: Context, utils: ModifyWebpackUtils) {
-  context.status = STATUS.BEFORE_MODIFY_WEBPACK_CHAIN;
+  debug('modify webpack chain');
 
   const WebpackChain = (await import('@modern-js/utils/webpack-chain')).default;
   const { ensureArray } = await import('@modern-js/utils');
@@ -25,7 +25,7 @@ async function modifyWebpackChain(context: Context, utils: ModifyWebpackUtils) {
     });
   }
 
-  context.status = STATUS.AFTER_MODIFY_WEBPACK_CHAIN;
+  debug('modify webpack chain done');
 
   return modifiedChain;
 }
@@ -35,8 +35,7 @@ async function modifyWebpackConfig(
   webpackConfig: WebpackConfig,
   utils: ModifyWebpackUtils,
 ) {
-  context.status = STATUS.BEFORE_MODIFY_WEBPACK_CONFIG;
-
+  debug('modify webpack config');
   const { applyOptionsChain } = await import('@modern-js/utils');
   const { merge } = await import('../../compiled/webpack-merge');
 
@@ -54,8 +53,7 @@ async function modifyWebpackConfig(
     );
   }
 
-  context.status = STATUS.AFTER_MODIFY_WEBPACK_CONFIG;
-
+  debug('modify webpack config done');
   return modifiedConfig;
 }
 
