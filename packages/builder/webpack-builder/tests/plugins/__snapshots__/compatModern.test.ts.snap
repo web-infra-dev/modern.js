@@ -34,6 +34,21 @@ exports[`plugins/compatModern > should apply compatible webpack configs correctl
     "publicPath": "/",
   },
   "plugins": [
+    MiniCssExtractPlugin {
+      "_sortedModulesCache": WeakMap {},
+      "options": {
+        "chunkFilename": "static/css/[name].css",
+        "experimentalUseImportModule": undefined,
+        "filename": "static/css/[name].css",
+        "ignoreOrder": true,
+        "runtime": true,
+      },
+      "runtimeOptions": {
+        "attributes": undefined,
+        "insert": undefined,
+        "linkType": "text/css",
+      },
+    },
     IgnorePlugin {
       "checkIgnore": [Function],
       "options": {

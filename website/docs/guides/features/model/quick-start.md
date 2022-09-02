@@ -64,7 +64,7 @@ const countModel = model('count').define({
   },
   actions: {
     add(state) {
-      state += 1;
+      state.value += 1;
     },
   },
 });

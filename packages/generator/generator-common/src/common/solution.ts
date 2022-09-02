@@ -27,6 +27,12 @@ export const SubSolutionText: Record<SubSolution, () => string> = {
   [SubSolution.InnerModule]: () => i18n.t(localeKeys.sub_solution.inner_module),
 };
 
+export const SolutionToolsMap: Record<Solution, string> = {
+  [Solution.MWA]: '@modern-js/app-tools',
+  [Solution.Module]: '@modern-js/module-tools',
+  [Solution.Monorepo]: '@modern-js/monorepo-tools',
+};
+
 export const SolutionSchema: Schema = {
   key: 'solution_schema',
   isObject: true,

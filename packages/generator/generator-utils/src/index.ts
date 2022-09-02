@@ -9,6 +9,7 @@ import {
   canUseYarn,
   semver,
 } from '@modern-js/utils';
+import { Solution, SolutionToolsMap } from '@modern-js/generator-common';
 import { GeneratorContext } from '@modern-js/codesmith';
 import { stripAnsi } from './utils/strip-ansi';
 import { i18n, localeKeys } from './locale';
@@ -17,6 +18,7 @@ import { getAvailableVersion } from './utils/package';
 export * from './utils';
 
 export {
+  ora,
   fs,
   semver,
   execa,
@@ -67,14 +69,8 @@ export async function getPackageVersion(
   throw new Error('not found npm, please install npm before');
 }
 
-type Solution = 'mwa' | 'module' | 'monorepo';
-const SolutionDep: Record<Solution, string> = {
-  mwa: '@modern-js/app-tools',
-  module: '@modern-js/module-tools',
-  monorepo: '@modern-js/monorepo-tools',
-};
 export async function getModernVersion(solution: Solution, registry?: string) {
-  const dep = SolutionDep[solution];
+  const dep = SolutionToolsMap[solution];
   const modernVersion = await getPackageVersion(dep, registry);
   return modernVersion;
 }
@@ -94,7 +90,7 @@ export async function getModernPluginVersion(
   }
   // get project solution version
   const pkgPath = path.join(
-    require.resolve(SolutionDep[solution], { paths: [cwd] }),
+    require.resolve(SolutionToolsMap[solution], { paths: [cwd] }),
     '../../../../',
     'package.json',
   );

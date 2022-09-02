@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.16.0",
+  "version": "1.17.0",
   "bin": {
     "modern": "./bin/modern.js"
   },
@@ -67,6 +67,7 @@
     "@modern-js/core": "workspace:*",
     "@modern-js/css-config": "workspace:*",
     "@modern-js/new-action": "workspace:*",
+    "@modern-js/upgrade": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-changeset": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",

@@ -50,7 +50,7 @@ export const PluginOutput = (): BuilderPlugin => ({
         isProd,
         context: api.context,
       });
-      const enableExtractCSS = Boolean(config.tools?.cssExtract);
+      const enableExtractCSS = !config.tools?.styleLoader;
 
       // js output
       const jsFilename = getFilename(config, 'js', isProd);

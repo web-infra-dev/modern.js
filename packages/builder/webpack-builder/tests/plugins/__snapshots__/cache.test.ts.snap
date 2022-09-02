@@ -4,9 +4,6 @@ exports[`plugins/cache > should add cache config correctly 1`] = `
 {
   "cache": {
     "buildDependencies": {
-      "browserslistrc": [
-        "<ROOT>/packages/builder/webpack-builder/.browserslistrc",
-      ],
       "packageJson": [
         "<ROOT>/packages/builder/webpack-builder/package.json",
       ],
@@ -21,9 +18,6 @@ exports[`plugins/cache > should watch framework config change 1`] = `
 {
   "cache": {
     "buildDependencies": {
-      "browserslistrc": [
-        "<ROOT>/packages/builder/webpack-builder/.browserslistrc",
-      ],
       "config": [
         "/path/to/config.js",
       ],
@@ -41,9 +35,6 @@ exports[`plugins/cache > should watch tsconfig change 1`] = `
 {
   "cache": {
     "buildDependencies": {
-      "browserslistrc": [
-        "<ROOT>/packages/builder/webpack-builder/.browserslistrc",
-      ],
       "packageJson": [
         "<ROOT>/packages/builder/webpack-builder/package.json",
       ],

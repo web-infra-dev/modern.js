@@ -35,6 +35,11 @@ export const modifyEntryRenderFunction = createAsyncWaterfall<{
   code: string;
 }>();
 
+export const modifyAsyncEntry = createAsyncWaterfall<{
+  entrypoint: Entrypoint;
+  code: string;
+}>();
+
 export const modifyFileSystemRoutes = createAsyncWaterfall<{
   entrypoint: Entrypoint;
   routes: Route[];
@@ -59,6 +64,7 @@ export default (): CliPlugin => ({
   name: '@modern-js/plugin-analyze',
 
   registerHook: {
+    modifyAsyncEntry,
     modifyEntryImports,
     modifyEntryExport,
     modifyEntryRuntimePlugins,

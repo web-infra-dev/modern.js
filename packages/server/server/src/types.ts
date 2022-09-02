@@ -1,5 +1,7 @@
-import { ModernServerOptions } from '@modern-js/prod-server';
-import type { webpack } from '@modern-js/webpack';
+import type webpack from 'webpack';
+import type { ModernServerOptions } from '@modern-js/prod-server';
+
+export type DevServerHttpsOptions = boolean | { key: string; cert: string };
 
 export type DevServerOptions = {
   // hmr client 配置
@@ -21,7 +23,7 @@ export type DevServerOptions = {
   // 是否开启 page reload
   liveReload: boolean;
   // 是否开启 https
-  https?: boolean | { key: string; cert: string };
+  https?: DevServerHttpsOptions;
   [propName: string]: any;
 };
 

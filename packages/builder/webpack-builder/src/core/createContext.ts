@@ -1,3 +1,4 @@
+import { existsSync } from 'fs';
 import { isAbsolute, join } from 'path';
 import _ from '@modern-js/utils/lodash';
 import { initHooks } from './createHook';
@@ -61,7 +62,7 @@ export function createPrimaryContext(
     originalConfig: userBuilderConfig,
   };
 
-  if (configPath) {
+  if (configPath && existsSync(configPath)) {
     context.configPath = configPath;
   }
 

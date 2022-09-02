@@ -9,6 +9,9 @@ export const PAGES_DIR_NAME = 'pages';
 export const FILE_SYSTEM_ROUTES_FILE_NAME = 'routes.js';
 
 export const ENTRY_POINT_FILE_NAME = 'index.js';
+
+export const ENTRY_BOOTSTRAP_FILE_NAME = 'bootstrap.js';
+
 export const FILE_SYSTEM_ROUTES_DYNAMIC_REGEXP = /^\[(\S+)\]([*+?]?)$/;
 
 export const FILE_SYSTEM_ROUTES_LAYOUT = '_layout';
