@@ -146,7 +146,7 @@ Express 的框架写法支持可在 `api/app.[tj]s` 定义 API Server 的启动�
 
 BFF 函数定义的路由会在 `app.ts` 文件定义的路由之后注册，所以在这里你也可以拦截 BFF 函数定义的路由，进行预处理或是提前响应。
 
-```ts
+```ts title="api/app.ts"
 import express from "express";
 
 const app = express();
@@ -161,6 +161,28 @@ app.use(async (req, res, next) => {
 });
 
 export default app;
+```
+
+如果需要在 BFF 函数注册路由后添加中间件，错误处理等，可以使用 [`afterLambdaRegisted`](/docs/apis/app/runtime/bff-server/after-lambda-registed) hook，该 hook 中的代码会在 BFF 函数注册路由后执行：
+```ts title="api/app.ts"
+const app = express();
+// 其他代码...
+export default app;
+
+export const afterLambdaRegisted = (app: Express) => {
+  const errorHandler = (
+    err: Error,
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    if (res.headersSent) {
+      return next(err);
+    }
+    res.status(500).send('some error message');
+  }
+  app.use(errHandler);
+}
 ```
 
 ### Nest
@@ -224,7 +246,7 @@ BFF 函数定义的路由会在 `app.ts` 文件定义的路由之后注册，所
 在框架写法下，当没有 `app.ts` 的时候，Modern.js 默认会添加 `koa-body`；当有 `app.ts` 时，如果开发者希望使用带有 Body 的 BFF 函数，需要确保 `koa-body` 中间件已经添加。
 :::
 
-```ts
+```ts title=api/app.ts
 import koa from "koa";
 
 const app = new Koa();
