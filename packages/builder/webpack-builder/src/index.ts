@@ -8,11 +8,12 @@ export type {
   BuilderPluginAPI,
 
   // Config Types
+  Config,
+  BuilderConfig,
   DevConfig,
   HtmlConfig,
   OutputConfig,
   SourceConfig,
-  BuilderConfig,
   SecurityConfig,
   PerformanceConfig,
   ExperimentsConfig,
