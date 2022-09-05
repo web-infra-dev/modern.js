@@ -1,15 +1,15 @@
-import { STATUS } from '../shared';
+import { debug } from '../shared';
 import { initPlugins } from './initPlugins';
 import { generateWebpackConfig } from './webpackConfig';
 import type { Context, PluginStore, BuilderOptions } from '../types';
 
 async function modifyBuilderConfig(context: Context) {
-  context.status = STATUS.BEFORE_MODIFY_BUILDER_CONFIG;
+  debug('modify builder config');
   const [modified] = await context.hooks.modifyBuilderConfigHook.call(
     context.config,
   );
   context.config = modified;
-  context.status = STATUS.AFTER_MODIFY_BUILDER_CONFIG;
+  debug('modify builder config done');
 }
 
 export type InitConfigsOptions = {
