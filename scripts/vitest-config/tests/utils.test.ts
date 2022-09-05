@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
-  compilePathMatcherSource,
+  compilePathMatcherRegExp,
   createSnapshotSerializer,
   joinPathParts,
   matchUpwardPathsAsUnknown,
@@ -23,9 +23,8 @@ describe('upwardPaths', () => {
 
 describe('compilePathMatcherSource', () => {
   it('should compile string path matcher', () => {
-    const regExpSource = compilePathMatcherSource('/a/b/c');
-    const regExp = new RegExp(regExpSource);
-    expect(regExpSource).toBe('^/a/b/c(?=/)|^/a/b/c$');
+    const regExp = compilePathMatcherRegExp('/a/b/c');
+    expect(regExp.source).toBe('^\\/a\\/b\\/c(?=\\/)|^\\/a\\/b\\/c$');
     expect(regExp.test('/a/b/c')).toBe(true);
     expect(regExp.test('/a/b/c/')).toBe(true);
     expect(regExp.test('/a/b/c/d')).toBe(true);
@@ -55,6 +54,10 @@ describe('createSnapshotSerializer', () => {
     ['/a/b/c/d/e/f/g', '"<ROOT>/d/e/f/g"'],
     ['/a/b/c/foo', '"<ROOT>/foo"'],
     ['/a/b/foo/bar', '"<UNKNOWN>/foo/bar"'],
+    [
+      '/a/b/c/node_modules/.pnpm/babel-loader@8.2.5_2cad51bbe9c2876396f118aa6395be78/node_modules/babel-loader/lib/index.js',
+      '"<ROOT>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js"',
+    ],
   ])('should handle with posix path %s', (value, expected) => {
     const serializer = createSnapshotSerializer({
       replace: [

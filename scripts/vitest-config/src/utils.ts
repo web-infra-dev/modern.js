@@ -3,9 +3,9 @@ import assert from 'assert';
 import { fs, isPathString, normalizeToPosixPath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
 
-export interface PathMatcher {
-  match: string;
-  mark: string;
+export interface PathMatcher<T extends string | RegExp = string | RegExp> {
+  match: T;
+  mark: string | ((substring: string, ...args: any[]) => string);
 }
 
 export interface SnapshotSerializerOptions {
@@ -38,12 +38,12 @@ export function upwardPaths(start: string): string[] {
     .value();
 }
 
-export function compilePathMatcherSource(match: string | RegExp): string {
+export function compilePathMatcherRegExp(match: string | RegExp) {
   if (typeof match === 'string') {
     const escaped = _.escapeRegExp(match);
-    return `^${escaped}(?=/)|^${escaped}$`;
+    return new RegExp(`^${escaped}(?=/)|^${escaped}$`);
   }
-  return match.source;
+  return match;
 }
 
 export const matchUpwardPathsAsUnknown = (p: string) =>
@@ -52,42 +52,54 @@ export const matchUpwardPathsAsUnknown = (p: string) =>
     .slice(1, -1)
     .value();
 
+export function applyMatcherReplacement(matchers: PathMatcher[], str: string) {
+  return matchers.reduce((ret, matcher) => {
+    const regex = compilePathMatcherRegExp(matcher.match);
+    const replacer = (substring: string, ...args: any[]): string => {
+      const ret =
+        typeof matcher.mark === 'string'
+          ? matcher.mark
+          : matcher.mark(substring, ...args);
+      return `<${_.snakeCase(ret).toUpperCase()}>`;
+    };
+    return ret.replace(regex, replacer);
+  }, str);
+}
+
+export const pnpmInnerPathMatcher: PathMatcher = {
+  match: /(?<=\/)(\.pnpm\/.+?\/node_modules)(?=\/)/,
+  mark: 'pnpmInner',
+};
+
 export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
-  const rootMatcher = _.find(options.replace, { mark: 'root' });
+  const rootMatcher = _.find(options.replace, {
+    mark: 'root',
+  }) as PathMatcher<string>;
   assert(rootMatcher, 'root matcher is required');
   const pathMatchers: PathMatcher[] = [
     ...options.replace,
+    pnpmInnerPathMatcher,
     { match: os.homedir(), mark: 'home' },
     { match: os.tmpdir(), mark: 'temp' },
     { match: fs.realpathSync(os.tmpdir()), mark: 'readTmp' },
     ...matchUpwardPathsAsUnknown(rootMatcher.match),
   ];
 
-  pathMatchers.forEach(
-    matcher => (matcher.match = normalizeToPosixPath(matcher.match)),
-  );
-  const compiledMatchers = _(pathMatchers)
-    .map('match')
-    .map(compilePathMatcherSource)
-    .value();
-  const replacements: Record<string, string> = _(pathMatchers)
-    .uniqBy('match')
-    .map(({ match, mark }) => [match, `<${_.upperCase(_.snakeCase(mark))}>`])
-    .fromPairs()
-    .value();
-
-  const testing = new RegExp(compiledMatchers.join('|'));
+  pathMatchers
+    .filter(matcher => typeof matcher.match === 'string')
+    .forEach(
+      matcher =>
+        (matcher.match = normalizeToPosixPath(matcher.match as string)),
+    );
 
   return {
     // match path-format string
     test: (val: unknown) => typeof val === 'string' && isPathString(val),
     print: (val: unknown) => {
-      const ret = `"${normalizeToPosixPath(val as string)
-        // apply replacements
-        .replace(testing, p => replacements[p])
-        // escape string value just like vitest
-        .replace(/"/g, '\\"')}"`;
-      return ret;
+      const normalized = normalizeToPosixPath(val as string);
+      const replaced = applyMatcherReplacement(pathMatchers, normalized);
+      const ret = replaced.replace(/"/g, '\\"');
+      return `"${ret}"`;
     },
   };
 }
