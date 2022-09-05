@@ -1,11 +1,11 @@
-import { mergeBuilderOptions, pick } from '../shared';
+import { pick, debug, mergeBuilderOptions } from '../shared';
 import { createContext, createPublicContext } from './createContext';
 import { createPluginStore } from './createPluginStore';
-import type { PluginStore, BuilderOptions, Context } from '../types';
-import type { InspectOptions } from './inspectWebpackConfig';
 import { initConfigs } from './initConfigs';
-import type * as webpack from 'webpack';
 import { webpackBuild } from './build';
+import type webpack from 'webpack';
+import type { InspectOptions } from './inspectWebpackConfig';
+import type { PluginStore, BuilderOptions, Context } from '../types';
 
 /**
  * Create primary builder.
@@ -97,6 +97,8 @@ export async function createBuilder(options?: BuilderOptions) {
 }
 
 async function addDefaultPlugins(pluginStore: PluginStore) {
+  debug('add default plugins');
+
   const { PluginHMR } = await import('../plugins/hmr');
   const { PluginSvg } = await import('../plugins/svg');
   const { PluginPug } = await import('../plugins/pug');
@@ -132,6 +134,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginToml } = await import('../plugins/toml');
   const { PluginYaml } = await import('../plugins/yaml');
   const { PluginSplitChunks } = await import('../plugins/splitChunks');
+  const { PluginInspector } = await import('../plugins/inspector');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
@@ -173,8 +176,11 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginToml(),
     PluginYaml(),
     PluginSplitChunks(),
+    PluginInspector(),
 
     // fallback should be the last plugin
     PluginFallback(),
   ]);
+
+  debug('add default plugins done');
 }

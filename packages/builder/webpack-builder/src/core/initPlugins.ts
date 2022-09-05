@@ -1,5 +1,5 @@
 import type { Context, PluginStore, BuilderPluginAPI } from '../types';
-import { STATUS } from '../shared';
+import { debug } from '../shared';
 import { createPublicContext } from './createContext';
 
 export async function initPlugins({
@@ -9,8 +9,7 @@ export async function initPlugins({
   context: Context;
   pluginStore: PluginStore;
 }) {
-  context.status = STATUS.BEFORE_INIT_PLUGINS;
-
+  debug('init plugins');
   const { hooks } = context;
   const publicContext = createPublicContext(context);
 
@@ -36,5 +35,5 @@ export async function initPlugins({
     await plugin.setup(pluginAPI);
   }
 
-  context.status = STATUS.AFTER_INIT_PLUGINS;
+  debug('init plugins done');
 }
