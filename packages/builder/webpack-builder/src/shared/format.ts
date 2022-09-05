@@ -13,7 +13,7 @@ export async function formatWebpackStats(
   const { errors, warnings } = formatWebpackMessages(statsData);
 
   if (errors.length) {
-    const title = chalk.red.bold(`COMPILE ERROR: \n`);
+    const title = chalk.red.bold(`Compile Error: \n`);
     return {
       message: `${title}${errors.join('\n\n')}\n`,
       level: 'error',
@@ -22,7 +22,7 @@ export async function formatWebpackStats(
 
   // always show warnings in tty mode
   if (warnings.length && (showWarnings || process.stdout.isTTY)) {
-    const title = chalk.yellow.bold(`COMPILE WARNING: \n`);
+    const title = chalk.yellow.bold(`Compile Warning: \n`);
     return {
       message: `${title}${`${warnings.join('\n\n')}\n`}`,
       level: 'warning',
