@@ -21,6 +21,7 @@ import { i18n, localeKeys } from './locale';
 export const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
+  appApi: AppAPI,
 ) => {
   const jsonAPI = new JsonAPI(generator);
   // get project solution type
@@ -54,6 +55,20 @@ export const handleTemplateFile = async (
   generator.logger.info(
     `[${i18n.t(localeKeys.modernVersion)}]: ${modernVersion}`,
   );
+
+  // adjust Modern.js packages' version is latest?
+  if (
+    Object.keys(deps)
+      .filter(
+        dep => dep.startsWith('@modern-js') || dep.startsWith('@modern-js-app'),
+      )
+      .every(dep => deps[dep] === modernVersion)
+  ) {
+    generator.logger.info(
+      `[${i18n.t(localeKeys.alreadyLatest)}]: ${modernVersion}`,
+    );
+    return;
+  }
 
   const appDir = context.materials.default.basePath;
 
@@ -117,6 +132,10 @@ export const handleTemplateFile = async (
   );
 
   spinner.stop();
+
+  await appApi.runInstall();
+
+  appApi.showSuccessInfo(i18n.t(localeKeys.success));
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
@@ -129,11 +148,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   generator.logger.debug(`context=${JSON.stringify(context)}`);
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
-  await handleTemplateFile(context, generator);
-
-  await appApi.runInstall();
-
-  appApi.showSuccessInfo(i18n.t(localeKeys.success));
+  await handleTemplateFile(context, generator, appApi);
 
   generator.logger.debug(`forge @modern-js/upgrade-generator succeed `);
 };
