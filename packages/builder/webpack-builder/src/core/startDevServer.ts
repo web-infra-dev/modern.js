@@ -1,4 +1,4 @@
-import { log, info } from '../shared';
+import { log, info, debug } from '../shared';
 import { createCompiler } from './createCompiler';
 import type { BuilderConfig } from '../types';
 import type { InitConfigsOptions } from './initConfigs';
@@ -23,10 +23,11 @@ async function printURLs(config: BuilderConfig, port: number) {
 async function createDevServer(options: InitConfigsOptions, port: number) {
   const { Server } = await import('@modern-js/server');
   const { applyOptionsChain } = await import('@modern-js/utils');
-  const { builderConfig } = options.builderOptions;
-
   const compiler = await createCompiler(options);
 
+  debug('create dev server');
+
+  const { builderConfig } = options.builderOptions;
   const devServerOptions = applyOptionsChain(
     {
       hot: builderConfig.dev?.hmr ?? true,
@@ -53,21 +54,25 @@ async function createDevServer(options: InitConfigsOptions, port: number) {
     } as any,
   });
 
+  debug('create dev server done');
+
   return server;
 }
 
 export async function startDevServer(options: InitConfigsOptions) {
+  log();
+  info('Starting dev server...');
+
   if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = 'development';
   }
-
-  log();
-  info('Starting dev server...');
 
   const { builderConfig } = options.builderOptions;
   const { getPort } = await import('@modern-js/utils');
   const port = await getPort(builderConfig.dev?.port || 8080);
   const server = await createDevServer(options, port);
+
+  debug('listen dev server');
   const app = await server.init();
 
   return new Promise<void>(resolve => {
@@ -76,6 +81,7 @@ export async function startDevServer(options: InitConfigsOptions) {
         throw err;
       }
 
+      debug('listen dev server done');
       await printURLs(builderConfig, port);
       resolve();
     });

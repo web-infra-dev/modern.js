@@ -17,3 +17,12 @@ export const warn = (message: string) => {
 export const error = (message: string | Error) => {
   console.error(`${chalk.red.bold('error')} ${message}`);
 };
+
+export const debug = (message: string | (() => string)) => {
+  if (process.env.DEBUG === 'builder') {
+    const { performance } = require('perf_hooks');
+    const result = typeof message === 'string' ? message : message();
+    const time = chalk.gray(`[${performance.now().toFixed(2)} ms]`);
+    console.error(`${chalk.yellow.bold('debug')} ${result} ${time}`);
+  }
+};

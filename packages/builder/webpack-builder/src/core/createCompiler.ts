@@ -1,10 +1,12 @@
-import { log, formatWebpackStats } from '../shared';
+import { log, debug, formatWebpackStats } from '../shared';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
 import type { webpack } from '../types';
 
 export async function createCompiler(options: InitConfigsOptions) {
   const { context } = options;
   const { webpackConfigs } = await initConfigs(options);
+
+  debug('create compiler');
 
   await context.hooks.onBeforeCreateCompilerHooks.call({
     webpackConfigs,
@@ -33,6 +35,7 @@ export async function createCompiler(options: InitConfigsOptions) {
   });
 
   await context.hooks.onAfterCreateCompilerHooks.call();
+  debug('create compiler done');
 
   return compiler;
 }
