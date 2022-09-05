@@ -1,4 +1,4 @@
-import { BuilderConfig, Config } from '../types';
+import { BuilderConfig } from '../types';
 import { mergeBuilderConfig } from '../shared/utils';
 import {
   ROOT_DIST_DIR,
@@ -10,14 +10,8 @@ import {
   IMAGE_DIST_DIR,
   MEDIA_DIST_DIR,
 } from '../shared';
-import _ from '@modern-js/utils/lodash';
 
-export const defineConfig = (config: BuilderConfig): BuilderConfig => config;
-
-const defineConfigPreserveDetails = <T extends BuilderConfig>(config: T): T =>
-  config;
-
-const defaultConfig = defineConfigPreserveDetails({
+export const createDefaultConfig = (): BuilderConfig => ({
   source: {
     alias: {},
     globalVars: {},
@@ -65,16 +59,7 @@ const defaultConfig = defineConfigPreserveDetails({
     autoprefixer: undefined,
     cssExtract: undefined,
     cssLoader: undefined,
-    devServer: {
-      hot: true,
-      client: {},
-      devMiddleware: {
-        writeToDisk: true,
-      },
-      liveReload: true,
-      watch: true,
-      https: false,
-    },
+    devServer: undefined,
     htmlPlugin: undefined,
     less: {},
     postcss: {},
@@ -113,12 +98,5 @@ const defaultConfig = defineConfigPreserveDetails({
   security: {},
 });
 
-export type DefaultConfig = typeof defaultConfig;
-
-export const cloneDefaultConfig = (): Config =>
-  // typescript unable to match the type of defaultConfig
-  _.cloneDeep(defaultConfig) as unknown as Config;
-
 export const withDefaultConfig = (config: BuilderConfig) =>
-  // typescript unable to match the type of defaultConfig
-  mergeBuilderConfig(cloneDefaultConfig(), config as any);
+  mergeBuilderConfig(createDefaultConfig(), config);

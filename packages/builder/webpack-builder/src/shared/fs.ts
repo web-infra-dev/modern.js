@@ -1,5 +1,15 @@
 import { join } from 'path';
 import type { BuilderConfig, DistPathConfig, FilenameConfig } from '../types';
+import {
+  CSS_DIST_DIR,
+  FONT_DIST_DIR,
+  HTML_DIST_DIR,
+  IMAGE_DIST_DIR,
+  JS_DIST_DIR,
+  MEDIA_DIST_DIR,
+  ROOT_DIST_DIR,
+  SVG_DIST_DIR,
+} from './constants';
 
 export async function isFileExists(file: string) {
   const { promises, constants } = await import('fs');
@@ -15,26 +25,26 @@ export const getCompiledPath = (packageName: string) =>
 export const getDistPath = (
   config: BuilderConfig,
   type: keyof DistPathConfig,
-) => {
+): string => {
   const { distPath = {} } = config.output;
 
   switch (type) {
     case 'js':
-      return distPath.js;
+      return distPath.js ?? JS_DIST_DIR;
     case 'css':
-      return distPath.css;
+      return distPath.css ?? CSS_DIST_DIR;
     case 'svg':
-      return distPath.svg;
+      return distPath.svg ?? SVG_DIST_DIR;
     case 'font':
-      return distPath.font;
+      return distPath.font ?? FONT_DIST_DIR;
     case 'html':
-      return distPath.html;
+      return distPath.html ?? HTML_DIST_DIR;
     case 'media':
-      return distPath.media;
+      return distPath.media ?? MEDIA_DIST_DIR;
     case 'root':
-      return distPath.root;
+      return distPath.root ?? ROOT_DIST_DIR;
     case 'image':
-      return distPath.image;
+      return distPath.image ?? IMAGE_DIST_DIR;
     default:
       throw new Error(`unknown key ${type} in "output.distPath"`);
   }

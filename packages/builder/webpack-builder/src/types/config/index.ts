@@ -6,22 +6,17 @@ import type { OutputConfig } from './output';
 import type { SecurityConfig } from './security';
 import type { PerformanceConfig } from './performance';
 import type { ExperimentsConfig } from './experiments';
-import type { DefaultConfig } from '../../config/defaults';
-import type { DeepFillObjectBy } from '../utils';
 
 export interface BuilderConfig {
-  dev?: DevConfig;
-  html?: HtmlConfig;
-  tools?: ToolsConfig;
-  source?: SourceConfig;
-  output?: OutputConfig;
-  security?: SecurityConfig;
-  performance?: PerformanceConfig;
-  experiments?: ExperimentsConfig;
+  dev: DevConfig;
+  html: HtmlConfig;
+  tools: ToolsConfig;
+  source: SourceConfig;
+  output: OutputConfig;
+  security: SecurityConfig;
+  performance: PerformanceConfig;
+  experiments: ExperimentsConfig;
 }
-
-export type Config = DeepFillObjectBy<BuilderConfig, DefaultConfig>;
-export type { DefaultConfig };
 
 /* eslint-disable @typescript-eslint/no-restricted-imports */
 export * from './dev';
