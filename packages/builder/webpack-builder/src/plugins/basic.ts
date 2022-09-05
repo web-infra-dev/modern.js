@@ -20,6 +20,10 @@ export const PluginBasic = (): BuilderPlugin => ({
         },
       });
 
+      // if the chunk size exceeds 1MiB, we will throw a warning
+      chain.performance.maxAssetSize(1024 * 1024);
+      chain.performance.maxEntrypointSize(1024 * 1024);
+
       const { ModuleDependencyErrorPlugin } = await import(
         '../webpackPlugins/ModuleDependencyErrorPlugin'
       );
