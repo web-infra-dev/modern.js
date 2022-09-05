@@ -8,7 +8,7 @@ const debug = createDebugger('server');
 const checkDep = (depName: string, paths: string[]) => {
   let packagePath = '';
   try {
-    packagePath = require.resolve('ts-node', {
+    packagePath = require.resolve(depName, {
       paths,
     });
   } catch (error) {}
@@ -30,8 +30,8 @@ export const enableRegister = (
 
   if (isTsProject && existTsNode && existTsConfigPaths) {
     debug('use ts-node');
-    const tsNode = require('ts-node');
-    const tsConfigPaths = require('tsconfig-paths');
+    const tsNode: typeof import('ts-node') = require('ts-node');
+    const tsConfigPaths: typeof import('tsconfig-paths') = require('tsconfig-paths');
     const { alias } = config.source;
     const aliasOption = getAlias(alias || {}, {
       appDirectory: projectRoot,
@@ -62,6 +62,7 @@ export const enableRegister = (
       project: tsconfigPath,
       // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
       files: true,
+      transpileOnly: true,
     });
   } else {
     debug('use @babel/register');

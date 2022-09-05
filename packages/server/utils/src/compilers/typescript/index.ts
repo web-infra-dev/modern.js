@@ -54,10 +54,13 @@ export const compileByTs: CompileFunc = async (
   const { options, fileNames, projectReferences } =
     readTsConfigByFile(tsconfigPath);
 
+  const sourcePosixPaths = sourceDirs.map(sourceDir =>
+    sourceDir.split(path.sep).join(path.posix.sep),
+  );
   const rootNames = fileNames.filter(fileName => {
     return (
       fileName.endsWith('.d.ts') ||
-      sourceDirs.some(sourceDir => {
+      sourcePosixPaths.some(sourceDir => {
         return fileName.includes(sourceDir);
       })
     );

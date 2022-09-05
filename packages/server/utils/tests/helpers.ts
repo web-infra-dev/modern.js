@@ -1,5 +1,5 @@
 import path from 'path';
-import { normalizeToPosixPath } from '@modern-js/utils';
+import { normalizeOutputPath } from '@modern-js/utils';
 
 const sourceDefaults = {
   entries: undefined,
@@ -103,5 +103,5 @@ export const defaults = {
 };
 
 export const join = (...paths: string[]) => {
-  return normalizeToPosixPath(path.join(...paths));
+  return normalizeOutputPath(path.join(...paths));
 };
