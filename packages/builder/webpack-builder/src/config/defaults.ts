@@ -55,7 +55,7 @@ export const createDefaultConfig = (): BuilderConfig => ({
     assetPrefix: '/',
   },
   tools: {
-    babel: undefined, // @sanyuan
+    babel: undefined,
     autoprefixer: undefined,
     cssExtract: undefined,
     cssLoader: undefined,
