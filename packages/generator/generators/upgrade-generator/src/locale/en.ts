@@ -1,6 +1,7 @@
 export const EN_LOCALE = {
   projectType: 'Project Type',
   modernVersion: 'Modern.js Latest Version',
+  alreadyLatest: `The current version of Modern.js is the latest`,
   tooltip: {
     no_solution: 'You should install Modern.js solution tools first',
     more_solution:
