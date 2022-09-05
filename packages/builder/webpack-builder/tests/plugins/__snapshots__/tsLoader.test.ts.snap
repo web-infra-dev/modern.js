@@ -22,7 +22,7 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/node_modules/.pnpm/babel-loader@8.2.5_2cad51bbe9c2876396f118aa6395be78/node_modules/babel-loader/lib/index.js",
+            "loader": "<ROOT>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
             "options": {
               "presets": [
                 [
@@ -40,7 +40,7 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/node_modules/.pnpm/ts-loader@9.3.1_typescript@4.7.4+webpack@5.73.0/node_modules/ts-loader/index.js",
+            "loader": "<ROOT>/node_modules/<PNPM_INNER>/ts-loader/index.js",
             "options": {
               "allowTsInNodeModules": true,
               "compilerOptions": {
@@ -75,7 +75,7 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/node_modules/.pnpm/babel-loader@8.2.5_2cad51bbe9c2876396f118aa6395be78/node_modules/babel-loader/lib/index.js",
+            "loader": "<ROOT>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
             "options": {
               "presets": [
                 [
@@ -93,7 +93,7 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/node_modules/.pnpm/ts-loader@9.3.1_typescript@4.7.4+webpack@5.73.0/node_modules/ts-loader/index.js",
+            "loader": "<ROOT>/node_modules/<PNPM_INNER>/ts-loader/index.js",
             "options": {
               "allowTsInNodeModules": true,
               "compilerOptions": {
