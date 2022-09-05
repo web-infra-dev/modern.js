@@ -91,7 +91,7 @@ export const createDefaultConfig = (): BuilderConfig => ({
     bundleAnalyze: undefined,
     removeConsole: false,
     chunkSplit: {
-      strategy: 'split-by-module',
+      strategy: 'split-by-experience',
     },
     removeMomentLocale: false,
   },
