@@ -1,0 +1,14 @@
+// Vitest Snapshot v1
+
+exports[`plugins/inspector > should add inspector plugin when tools.inspector is set 1`] = `
+{
+  "plugins": [
+    {
+      "ignorePattern": /node_modules/,
+      "port": 3333,
+    },
+  ],
+}
+`;
+
+exports[`plugins/inspector > should not add inspector plugin 1`] = `{}`;

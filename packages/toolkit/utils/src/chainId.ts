@@ -108,6 +108,8 @@ export const CHAIN_ID = {
     BANNER: 'banner',
     /** Webpackbar */
     PROGRESS: 'progress',
+    /** Inspector */
+    INSPECTOR: 'inspector',
     /** AppIconPlugin */
     APP_ICON: 'app-icon',
     /** LoadableWebpackPlugin */

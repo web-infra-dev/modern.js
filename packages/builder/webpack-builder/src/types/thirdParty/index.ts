@@ -9,6 +9,7 @@ import type { Options as SassOptions } from '../../../compiled/sass';
 import type * as SassLoader from '../../../compiled/sass-loader';
 import type Less from '../../../compiled/less';
 
+export type { InspectorPluginOptions } from '@modern-js/inspector-webpack-plugin';
 export type { CopyPluginOptions } from './CopyWebpackPlugin';
 export type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
 export type { Options as PugOptions } from '../../../compiled/pug';
