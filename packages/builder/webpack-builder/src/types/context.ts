@@ -1,4 +1,3 @@
-import type { STATUS } from '../shared';
 import type { EntryObject } from 'webpack';
 import type { Hooks } from '../core/createHook';
 import type { BuilderConfig } from './config';
@@ -32,8 +31,6 @@ export type BuilderContext = {
 
 /** The inner context */
 export type Context = BuilderContext & {
-  /** Current status of builder. */
-  status: STATUS;
   /** All hooks. */
   hooks: Readonly<Hooks>;
   /** Current builder config. */
