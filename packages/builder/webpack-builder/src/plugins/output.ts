@@ -19,8 +19,10 @@ function getPublicPath({
 
   let publicPath = '/';
 
-  if (isProd && output?.assetPrefix) {
-    publicPath = output.assetPrefix;
+  if (isProd) {
+    if (output?.assetPrefix) {
+      publicPath = output.assetPrefix;
+    }
   } else if (typeof dev?.assetPrefix === 'string') {
     publicPath = dev.assetPrefix;
   } else if (dev?.assetPrefix === true) {
