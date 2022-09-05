@@ -58,8 +58,9 @@ export function createPrimaryContext(
     cachePath,
     framework,
     configValidatingTask,
-    config: builderConfig,
-    originalConfig: userBuilderConfig,
+    // TODO should deep clone
+    config: { ...builderConfig },
+    originalConfig: builderConfig,
   };
 
   if (configPath && existsSync(configPath)) {

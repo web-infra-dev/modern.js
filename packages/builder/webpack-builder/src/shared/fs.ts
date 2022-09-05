@@ -26,7 +26,7 @@ export const getDistPath = (
   config: BuilderConfig,
   type: keyof DistPathConfig,
 ): string => {
-  const { distPath = {} } = config.output;
+  const { distPath = {} } = config.output || {};
 
   switch (type) {
     case 'js':

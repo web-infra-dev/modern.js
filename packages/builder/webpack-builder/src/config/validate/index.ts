@@ -20,6 +20,7 @@ export const configSchema: JSONSchemaType<BuilderConfig> = {
     security: { type: 'object' } as any,
     tools: { type: 'object' } as any,
   },
+  required: [],
 };
 
 export interface ConfigValidatorOptions {

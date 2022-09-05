@@ -8,14 +8,14 @@ import type { PerformanceConfig } from './performance';
 import type { ExperimentsConfig } from './experiments';
 
 export interface BuilderConfig {
-  dev: DevConfig;
-  html: HtmlConfig;
-  tools: ToolsConfig;
-  source: SourceConfig;
-  output: OutputConfig;
-  security: SecurityConfig;
-  performance: PerformanceConfig;
-  experiments: ExperimentsConfig;
+  dev?: DevConfig;
+  html?: HtmlConfig;
+  tools?: ToolsConfig;
+  source?: SourceConfig;
+  output?: OutputConfig;
+  security?: SecurityConfig;
+  performance?: PerformanceConfig;
+  experiments?: ExperimentsConfig;
 }
 
 /* eslint-disable @typescript-eslint/no-restricted-imports */
