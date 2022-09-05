@@ -1,6 +1,5 @@
 import { existsSync } from 'fs';
 import { isAbsolute, join } from 'path';
-import _ from '@modern-js/utils/lodash';
 import { initHooks } from './createHook';
 import { ConfigValidator } from '../config/validate';
 import { withDefaultConfig } from '../config/defaults';
@@ -37,7 +36,7 @@ export function createPrimaryContext(
     builderConfig: userBuilderConfig,
     framework,
   } = options;
-  const builderConfig = withDefaultConfig(_.cloneDeep(userBuilderConfig));
+  const builderConfig = withDefaultConfig(userBuilderConfig);
   const hooks = initHooks();
   const status = STATUS.INITIAL;
   const rootPath = cwd;
@@ -60,7 +59,7 @@ export function createPrimaryContext(
     configValidatingTask,
     // TODO should deep clone
     config: { ...builderConfig },
-    originalConfig: builderConfig,
+    originalConfig: userBuilderConfig,
   };
 
   if (configPath && existsSync(configPath)) {
