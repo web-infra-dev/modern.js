@@ -1,14 +1,25 @@
-import { describe, expect, test } from 'vitest';
-import { mergeBuilderConfig } from '../src/core/mergeConfig';
+import { describe, expect, test, it } from 'vitest';
+import { mergeBuilderConfig } from '../src/shared/utils';
 import type { WebpackConfig } from '../src/types';
 
 describe('mergeBuilderConfig', () => {
+  it('should pick `false` to replace empty object', () => {
+    expect(
+      mergeBuilderConfig(
+        { tools: { tsLoader: {} } },
+        { tools: { tsLoader: false } },
+      ),
+    ).toEqual({
+      tools: { tsLoader: false },
+    });
+  });
+
   test(`should set value when target value is not undefined `, () => {
     expect(
-      mergeBuilderConfig([
+      mergeBuilderConfig(
         { source: { alias: {} } },
         { output: { disableMinimize: true } },
-      ]),
+      ),
     ).toEqual({
       source: {
         alias: {},
@@ -21,12 +32,12 @@ describe('mergeBuilderConfig', () => {
 
   test(`should ignore undefined property`, () => {
     const noop = () => ({});
-    const config = mergeBuilderConfig([
+    const config = mergeBuilderConfig(
       { source: { alias: {} } },
       { source: { alias: undefined } },
       { tools: { webpack: noop } },
       { tools: { webpack: undefined } },
-    ]);
+    );
     expect(config).toEqual({
       source: {
         alias: {},
@@ -38,16 +49,16 @@ describe('mergeBuilderConfig', () => {
   });
 
   test(`should keep single function value`, () => {
-    const config = mergeBuilderConfig([
+    const config = mergeBuilderConfig(
       { tools: { webpack: undefined } },
       { tools: { webpack: () => ({}) } },
-    ]);
-    expect(typeof config.tools!.webpack).toEqual('function');
+    );
+    expect(typeof config.tools.webpack).toEqual('function');
   });
 
   test('should merge string and string[] correctly', async () => {
     expect(
-      mergeBuilderConfig([
+      mergeBuilderConfig(
         {
           source: {
             preEntry: './a.js',
@@ -58,7 +69,7 @@ describe('mergeBuilderConfig', () => {
             preEntry: ['./b.js', './c.js'],
           },
         },
-      ]),
+      ),
     ).toEqual({
       source: {
         preEntry: ['./a.js', './b.js', './c.js'],
@@ -68,7 +79,7 @@ describe('mergeBuilderConfig', () => {
 
   test('should deep merge object correctly', async () => {
     expect(
-      mergeBuilderConfig([
+      mergeBuilderConfig(
         {
           output: {
             distPath: {
@@ -85,7 +96,7 @@ describe('mergeBuilderConfig', () => {
             },
           },
         },
-      ]),
+      ),
     ).toEqual({
       output: {
         distPath: {
@@ -103,7 +114,7 @@ describe('mergeBuilderConfig', () => {
     };
 
     expect(
-      mergeBuilderConfig([
+      mergeBuilderConfig(
         {
           tools: {
             webpack: {
@@ -114,7 +125,7 @@ describe('mergeBuilderConfig', () => {
         {
           tools: { webpack: webpackFn },
         },
-      ]),
+      ),
     ).toEqual({
       tools: {
         webpack: [{ devtool: 'eval' }, webpackFn],

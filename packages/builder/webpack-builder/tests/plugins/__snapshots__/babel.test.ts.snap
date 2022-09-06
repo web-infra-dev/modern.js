@@ -177,6 +177,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
               },
             ],
           },
+          "<ROOT>/packages/builder/webpack-builder/src/runtime/core-js-entry.js",
           "src/**/*.ts",
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
@@ -280,7 +281,10 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                   "<NODE_MODULES>/@babel/preset-env/lib/index.js",
                   {
                     "bugfixes": false,
-                    "corejs": undefined,
+                    "corejs": {
+                      "proposals": true,
+                      "version": "3.25",
+                    },
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
@@ -289,7 +293,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "targets": {
                       "node": "12",
                     },
-                    "useBuiltIns": undefined,
+                    "useBuiltIns": "entry",
                   },
                 ],
                 [

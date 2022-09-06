@@ -18,10 +18,6 @@ export interface BuilderConfig {
   experiments?: ExperimentsConfig;
 }
 
-export interface BuilderFinalConfig extends BuilderConfig {
-  source: SourceConfig;
-}
-
 /* eslint-disable @typescript-eslint/no-restricted-imports */
 export * from './dev';
 export * from './html';
