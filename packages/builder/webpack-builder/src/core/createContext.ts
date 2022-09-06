@@ -2,6 +2,7 @@ import { existsSync } from 'fs';
 import { isAbsolute, join } from 'path';
 import { initHooks } from './createHook';
 import { ConfigValidator } from '../config/validate';
+import { withDefaultConfig } from '../config/defaults';
 import { pick, debug, isFileExists, getDistPath, deepFreezed } from '../shared';
 import type {
   Context,
@@ -23,7 +24,13 @@ export function getAbsoluteDistPath(cwd: string, config: BuilderConfig) {
 export function createPrimaryContext(
   options: Required<BuilderOptions>,
 ): Context {
-  const { cwd, configPath, builderConfig, framework } = options;
+  const {
+    cwd,
+    configPath,
+    builderConfig: userBuilderConfig,
+    framework,
+  } = options;
+  const builderConfig = withDefaultConfig(userBuilderConfig);
   const hooks = initHooks();
   const rootPath = cwd;
   const srcPath = join(rootPath, 'src');
@@ -43,7 +50,7 @@ export function createPrimaryContext(
     configValidatingTask,
     // TODO should deep clone
     config: { ...builderConfig },
-    originalConfig: builderConfig,
+    originalConfig: userBuilderConfig,
   };
 
   if (configPath && existsSync(configPath)) {
