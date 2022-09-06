@@ -7,6 +7,7 @@ import type {
   ModifyBuilderConfigFn,
   OnAfterCreateCompilerFn,
   OnBeforeCreateCompilerFn,
+  OnBeforeStartDevServerFn,
 } from '../types';
 
 export type AsyncHook<Callback extends (...args: any[]) => any> = {
@@ -53,6 +54,7 @@ export function initHooks() {
     modifyBuilderConfigHook: createAsyncHook<ModifyBuilderConfigFn>(),
     onAfterCreateCompilerHooks: createAsyncHook<OnAfterCreateCompilerFn>(),
     onBeforeCreateCompilerHooks: createAsyncHook<OnBeforeCreateCompilerFn>(),
+    onBeforeStartDevServerHooks: createAsyncHook<OnBeforeStartDevServerFn>(),
   };
 }
 
