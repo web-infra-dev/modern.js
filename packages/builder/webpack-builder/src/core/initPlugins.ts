@@ -29,6 +29,7 @@ export async function initPlugins({
     modifyBuilderConfig: hooks.modifyBuilderConfigHook.tap,
     onAfterCreateCompiler: hooks.onAfterCreateCompilerHooks.tap,
     onBeforeCreateCompiler: hooks.onBeforeCreateCompilerHooks.tap,
+    onBeforeStartDevServer: hooks.onBeforeStartDevServerHooks.tap,
   };
 
   for (const plugin of pluginStore.plugins) {

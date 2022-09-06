@@ -72,6 +72,8 @@ export async function startDevServer(options: InitConfigsOptions) {
   const port = await getPort(builderConfig.dev?.port || 8080);
   const server = await createDevServer(options, port);
 
+  await options.context.hooks.onBeforeStartDevServerHooks.call();
+
   debug('listen dev server');
   const app = await server.init();
 

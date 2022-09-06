@@ -42,4 +42,6 @@ export type OnBeforeCreateCompilerFn = (params: {
 
 export type OnAfterCreateCompilerFn = () => Promise<void> | void;
 
+export type OnBeforeStartDevServerFn = () => Promise<void> | void;
+
 export type OnExitFn = () => void;

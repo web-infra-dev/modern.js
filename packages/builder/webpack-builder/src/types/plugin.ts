@@ -9,6 +9,7 @@ import type {
   ModifyBuilderConfigFn,
   OnAfterCreateCompilerFn,
   OnBeforeCreateCompilerFn,
+  OnBeforeStartDevServerFn,
 } from './hooks';
 
 export type PluginStore = {
@@ -29,6 +30,7 @@ export type BuilderPluginAPI = {
   onBeforeBuild: (fn: OnBeforeBuildFn) => void;
   onAfterCreateCompiler: (fn: OnAfterCreateCompilerFn) => void;
   onBeforeCreateCompiler: (fn: OnBeforeCreateCompilerFn) => void;
+  onBeforeStartDevServer: (fn: OnBeforeStartDevServerFn) => void;
 
   // Modifiers
   modifyWebpackChain: (fn: ModifyWebpackChainFn) => void;
