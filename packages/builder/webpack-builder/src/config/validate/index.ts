@@ -20,6 +20,7 @@ export const configSchema: JSONSchemaType<BuilderConfig> = {
     security: { type: 'object' } as any,
     tools: { type: 'object' } as any,
   },
+  required: [],
 };
 
 export interface ConfigValidatorOptions {
@@ -43,6 +44,9 @@ export class ConfigValidator {
     const validator = new ConfigValidator();
     const ajv = new Ajv({
       allowUnionTypes: true,
+      useDefaults: true,
+      strict: true,
+      removeAdditional: true,
     });
     validator.ajv = ajv;
     validator.compiled = ajv.compile(opt.schema);

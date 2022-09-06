@@ -1,14 +1,14 @@
 import { join } from 'path';
 import type { BuilderConfig, DistPathConfig, FilenameConfig } from '../types';
 import {
-  JS_DIST_DIR,
   CSS_DIST_DIR,
-  SVG_DIST_DIR,
   FONT_DIST_DIR,
-  ROOT_DIST_DIR,
   HTML_DIST_DIR,
   IMAGE_DIST_DIR,
+  JS_DIST_DIR,
   MEDIA_DIST_DIR,
+  ROOT_DIST_DIR,
+  SVG_DIST_DIR,
 } from './constants';
 
 export async function isFileExists(file: string) {
@@ -25,7 +25,7 @@ export const getCompiledPath = (packageName: string) =>
 export const getDistPath = (
   config: BuilderConfig,
   type: keyof DistPathConfig,
-) => {
+): string => {
   const { distPath = {} } = config.output || {};
 
   switch (type) {
