@@ -421,6 +421,12 @@ export const TASKS: TaskConfig[] = [
           'loader-utils': '../loader-utils2',
         },
       },
+      {
+        name: 'webpack-subresource-integrity',
+        externals: {
+          'html-webpack-plugin': '../html-webpack-plugin',
+        },
+      },
     ],
   },
   {

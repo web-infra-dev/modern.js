@@ -1,2 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SecurityConfig {}
+import type { SubresourceIntegrityPluginOptions } from '../thirdParty';
+
+export interface SecurityConfig {
+  sri?: SubresourceIntegrityPluginOptions;
+}
