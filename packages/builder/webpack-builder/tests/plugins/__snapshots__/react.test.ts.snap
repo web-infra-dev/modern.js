@@ -14,6 +14,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
               },
             ],
           },
+          "<ROOT>/packages/builder/webpack-builder/src/runtime/core-js-entry.js",
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
@@ -117,7 +118,10 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   "<NODE_MODULES>/@babel/preset-env/lib/index.js",
                   {
                     "bugfixes": false,
-                    "corejs": undefined,
+                    "corejs": {
+                      "proposals": true,
+                      "version": "3.25",
+                    },
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
@@ -126,7 +130,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "targets": {
                       "node": "12",
                     },
-                    "useBuiltIns": undefined,
+                    "useBuiltIns": "entry",
                   },
                 ],
                 [
@@ -182,6 +186,7 @@ exports[`plugins/react > should work with ts-loader 1`] = `
               },
             ],
           },
+          "<ROOT>/packages/builder/webpack-builder/src/runtime/core-js-entry.js",
         ],
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
@@ -198,7 +203,7 @@ exports[`plugins/react > should work with ts-loader 1`] = `
                     "appDirectory": "<ROOT>/packages/builder/webpack-builder",
                     "metaName": "modern-js",
                     "target": "client",
-                    "useBuiltIns": undefined,
+                    "useBuiltIns": "entry",
                     "useTsLoader": true,
                     "userBabelConfig": undefined,
                   },
