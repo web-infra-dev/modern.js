@@ -1,5 +1,5 @@
 import type { SubresourceIntegrityOptions } from '../thirdParty';
 
 export interface SecurityConfig {
-  sri?: SubresourceIntegrityOptions;
+  sri?: SubresourceIntegrityOptions | boolean;
 }

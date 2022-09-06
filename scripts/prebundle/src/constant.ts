@@ -424,7 +424,7 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'webpack-subresource-integrity',
         externals: {
-          'html-webpack-plugin': '../html-webpack-plugin',
+          'html-webpack-plugin': 'html-webpack-plugin',
         },
       },
     ],

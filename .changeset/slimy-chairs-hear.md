@@ -1,4 +1,5 @@
 ---
+'@modern-js/utils': minor
 '@modern-js/webpack-builder': minor
 ---
 
