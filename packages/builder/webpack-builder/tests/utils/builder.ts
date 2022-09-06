@@ -14,7 +14,6 @@ import type {
   webpack,
 } from '../../src/types';
 import { createStubContext } from './context';
-import { setPathSerializer } from './snapshot';
 
 export interface StubBuilderOptions extends BuilderOptions {
   context?: Context;
@@ -39,7 +38,7 @@ export interface StubBuilder extends PluginStore {
 }
 
 export function createStubBuilder(options?: StubBuilderOptions): StubBuilder {
-  setPathSerializer();
+  // setPathSerializer();
 
   const builderOptions = mergeBuilderOptions(
     options,

@@ -1,4 +1,12 @@
-import { addSnopshotSerializer } from '@scripts/vitest-config';
+import path from 'path';
 import { expect } from 'vitest';
+import { createSnapshotSerializer } from '@scripts/vitest-config';
 
-addSnopshotSerializer(expect);
+expect.addSnapshotSerializer(
+  createSnapshotSerializer({
+    replace: [
+      { mark: 'root', match: path.resolve(__dirname, '../../../..') },
+      { mark: 'workspace', match: path.resolve(__dirname, '..') },
+    ],
+  }),
+);
