@@ -144,7 +144,7 @@ export const PluginHtml = (): BuilderPlugin => ({
       const entryNames = Object.keys(chain.entryPoints.entries());
 
       await Promise.all(
-        entryNames.map(async entryName => {
+        entryNames.map(async (entryName, index) => {
           const entryValue = entries[entryName].values();
           const chunks = await getChunks(entryName, entryValue);
           const inject = getInject(entryName, config);
@@ -176,7 +176,7 @@ export const PluginHtml = (): BuilderPlugin => ({
           );
 
           routesInfo.push({
-            urlPath: `/${entryName === entryNames[0] ? '' : entryName}`,
+            urlPath: index === 0 ? '/' : `/${entryName}`,
             entryName,
             entryPath: filename,
             isSPA: true,
