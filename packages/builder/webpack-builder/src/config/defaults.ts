@@ -12,25 +12,20 @@ import {
 } from '../shared';
 
 export const createDefaultConfig = (): BuilderConfig => ({
-  source: {
-    alias: {},
-    globalVars: {},
-    moduleScopes: undefined,
-    preEntry: [],
-    resolveExtensionPrefix: undefined,
+  dev: {
+    hmr: true,
+    assetPrefix: '/',
   },
+  html: {
+    crossorigin: false,
+    disableHtmlFolder: false,
+  },
+  tools: {
+    tsChecker: {},
+  },
+  source: {},
   output: {
-    copy: undefined,
-    filename: {
-      css: undefined,
-      font: undefined,
-      image: undefined,
-      js: undefined,
-      media: undefined,
-      svg: undefined,
-    },
-    assetPrefix: undefined,
-    dataUriLimit: {},
+    filename: {},
     distPath: {
       root: ROOT_DIST_DIR,
       html: HTML_DIST_DIR,
@@ -42,60 +37,25 @@ export const createDefaultConfig = (): BuilderConfig => ({
       media: MEDIA_DIST_DIR,
     },
     polyfill: 'entry',
+    dataUriLimit: {},
     svgDefaultExport: 'url',
-    disableFilenameHash: false,
     disableMinimize: false,
     disableSourceMap: false,
+    disableFilenameHash: false,
     enableAssetFallback: false,
     enableAssetManifest: false,
-    enableCssModuleTSDeclaration: false,
     enableLatestDecorators: false,
+    enableCssModuleTSDeclaration: false,
   },
-  dev: {
-    assetPrefix: '/',
-  },
-  tools: {
-    babel: undefined,
-    autoprefixer: undefined,
-    cssExtract: undefined,
-    cssLoader: undefined,
-    devServer: undefined,
-    htmlPlugin: undefined,
-    less: {},
-    postcss: {},
-    minifyCss: undefined,
-    sass: {},
-    styleLoader: undefined,
-    styledComponents: undefined,
-    pug: undefined,
-    terser: {
-      terserOptions: {
-        mangle: {
-          safari10: true,
-        },
-        format: {
-          ascii_only: true,
-        },
-      },
-    },
-    tsChecker: false,
-    tsLoader: undefined,
-    webpack: undefined,
-    webpackChain: undefined,
-  },
+  security: {},
   experiments: {},
-  html: {
-    disableHtmlFolder: false,
-  },
   performance: {
-    bundleAnalyze: undefined,
     removeConsole: false,
+    removeMomentLocale: false,
     chunkSplit: {
       strategy: 'split-by-experience',
     },
-    removeMomentLocale: false,
   },
-  security: {},
 });
 
 export const withDefaultConfig = (config: BuilderConfig) =>
