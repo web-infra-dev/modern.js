@@ -4,15 +4,15 @@ import { SubresourceIntegrityPlugin } from '../../compiled/webpack-subresource-i
 export const PluginSubresourceIntegrity = (): BuilderPlugin => ({
   name: 'webpack-builder-plugin-subresource-integrity',
   setup(api) {
-    const sirOptions = api.getBuilderConfig().security?.sri;
-    if (!sirOptions) {
+    const subresourceIntegrityOptions = api.getBuilderConfig().security?.sri;
+    if (!subresourceIntegrityOptions) {
       return;
     }
     api.modifyWebpackChain(chain => {
       chain.output.crossOriginLoading('anonymous');
       chain
         .plugin('subresource-integrity')
-        .use(new SubresourceIntegrityPlugin(sirOptions));
+        .use(new SubresourceIntegrityPlugin(subresourceIntegrityOptions));
     });
   },
 });

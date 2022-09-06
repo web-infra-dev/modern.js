@@ -1,5 +1,5 @@
-import type { SubresourceIntegrityPluginOptions } from '../thirdParty';
+import type { SubresourceIntegrityOptions } from '../thirdParty';
 
 export interface SecurityConfig {
-  sri?: SubresourceIntegrityPluginOptions;
+  sri?: SubresourceIntegrityOptions;
 }
