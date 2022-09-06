@@ -134,6 +134,8 @@ export const CHAIN_ID = {
     NODE_POLYFILL_PROVIDE: 'node-polyfill-provide',
     /** ModuleDependencyErrorPlugin */
     MODULE_DEPENDENCY_ERROR: 'module-dependency-error',
+    /** WebpackSRIPlugin */
+    SUBRESOURCE_INTEGRITY: 'subresource-integrity',
   },
   /** Predefined minimizers */
   MINIMIZER: {
