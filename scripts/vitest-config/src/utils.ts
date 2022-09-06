@@ -1,0 +1,105 @@
+import os from 'os';
+import assert from 'assert';
+import { fs, isPathString, normalizeToPosixPath } from '@modern-js/utils';
+import _ from '@modern-js/utils/lodash';
+
+export interface PathMatcher<T extends string | RegExp = string | RegExp> {
+  match: T;
+  mark: string | ((substring: string, ...args: any[]) => string);
+}
+
+export interface SnapshotSerializerOptions {
+  replace: PathMatcher[];
+}
+
+/** @see {@link upwardPaths} */
+export const joinPathParts = (
+  _part: unknown,
+  i: number,
+  parts: _.List<string>,
+) =>
+  _(parts)
+    .filter(part => part !== '/')
+    .tap(parts => parts.unshift(''))
+    .slice(0, i + 2)
+    .join('/');
+
+export function applyPathReplacer(val: string, mark: string, path: string) {
+  return _.replace(val, path, mark);
+}
+
+export function upwardPaths(start: string): string[] {
+  return _(start)
+    .split(/[/\\]/)
+    .filter(Boolean)
+    .map(joinPathParts)
+    .reverse()
+    .push('/')
+    .value();
+}
+
+export function compilePathMatcherRegExp(match: string | RegExp) {
+  if (typeof match === 'string') {
+    const escaped = _.escapeRegExp(match);
+    return new RegExp(`^${escaped}(?=/)|^${escaped}$`);
+  }
+  return match;
+}
+
+export const matchUpwardPathsAsUnknown = (p: string) =>
+  _(upwardPaths(normalizeToPosixPath(p)))
+    .map(match => ({ match, mark: 'unknown' }))
+    .slice(1, -1)
+    .value();
+
+export function applyMatcherReplacement(matchers: PathMatcher[], str: string) {
+  return matchers.reduce((ret, matcher) => {
+    const regex = compilePathMatcherRegExp(matcher.match);
+    const replacer = (substring: string, ...args: any[]): string => {
+      const ret =
+        typeof matcher.mark === 'string'
+          ? matcher.mark
+          : matcher.mark(substring, ...args);
+      return `<${_.snakeCase(ret).toUpperCase()}>`;
+    };
+    return ret.replace(regex, replacer);
+  }, str);
+}
+
+export const pnpmInnerPathMatcher: PathMatcher = {
+  match: /(?<=\/)(\.pnpm\/.+?\/node_modules)(?=\/)/,
+  mark: 'pnpmInner',
+};
+
+export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
+  const rootMatcher = _.find(options.replace, {
+    mark: 'root',
+  }) as PathMatcher<string>;
+  assert(rootMatcher, 'root matcher is required');
+  const pathMatchers: PathMatcher[] = [
+    ...options.replace,
+    pnpmInnerPathMatcher,
+    { match: os.homedir(), mark: 'home' },
+    { match: os.tmpdir(), mark: 'temp' },
+    { match: fs.realpathSync(os.tmpdir()), mark: 'readTmp' },
+    ...matchUpwardPathsAsUnknown(rootMatcher.match),
+  ];
+
+  pathMatchers
+    .filter(matcher => typeof matcher.match === 'string')
+    .forEach(
+      matcher =>
+        (matcher.match = normalizeToPosixPath(matcher.match as string)),
+    );
+
+  return {
+    // match path-format string
+    test: (val: unknown) => typeof val === 'string' && isPathString(val),
+    print: (val: unknown) => {
+      const normalized = normalizeToPosixPath(val as string);
+      const replaced = applyMatcherReplacement(pathMatchers, normalized);
+      const ret = replaced.replace(/"/g, '\\"');
+      return `"${ret}"`;
+    },
+  };
+}
