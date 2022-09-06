@@ -1,11 +1,19 @@
 import path from 'path';
-import { getDistPath, DEFAULT_MOUNT_ID } from '../shared';
+import { getDistPath, DEFAULT_MOUNT_ID, isFileExists } from '../shared';
 import type {
   BuilderConfig,
   BuilderPlugin,
   WebpackConfig,
   HTMLPluginOptions,
 } from '../types';
+
+// This is a minimist subset of modern.js server routes
+type RoutesInfo = {
+  isSPA: boolean;
+  urlPath: string;
+  entryName: string;
+  entryPath: string;
+};
 
 async function getFilename(entryName: string, config: BuilderConfig) {
   const { removeLeadingSlash } = await import('@modern-js/utils');
@@ -118,6 +126,8 @@ export const PluginHtml = (): BuilderPlugin => ({
   name: 'webpack-builder-plugin-html',
 
   setup(api) {
+    const routesInfo: RoutesInfo[] = [];
+
     api.modifyWebpackChain(async (chain, { isProd, CHAIN_ID }) => {
       const { default: HtmlWebpackPlugin } = await import(
         'html-webpack-plugin'
@@ -134,7 +144,7 @@ export const PluginHtml = (): BuilderPlugin => ({
       const entryNames = Object.keys(chain.entryPoints.entries());
 
       await Promise.all(
-        entryNames.map(async entryName => {
+        entryNames.map(async (entryName, index) => {
           const entryValue = entries[entryName].values();
           const chunks = await getChunks(entryName, entryValue);
           const inject = getInject(entryName, config);
@@ -164,6 +174,13 @@ export const PluginHtml = (): BuilderPlugin => ({
               entryValue,
             },
           );
+
+          routesInfo.push({
+            urlPath: index === 0 ? '/' : `/${entryName}`,
+            entryName,
+            entryPath: filename,
+            isSPA: true,
+          });
 
           chain
             .plugin(`${CHAIN_ID.PLUGIN.HTML}-${entryName}`)
@@ -196,6 +213,20 @@ export const PluginHtml = (): BuilderPlugin => ({
             .plugin(CHAIN_ID.PLUGIN.APP_ICON)
             .use(HtmlAppIconPlugin, [{ iconPath }]);
         }
+      }
+    });
+
+    api.onBeforeStartDevServer(async () => {
+      const { fs, ROUTE_SPEC_FILE } = await import('@modern-js/utils');
+      const routeFilePath = path.join(api.context.distPath, ROUTE_SPEC_FILE);
+
+      // generate a basic route.json for modern.js dev server
+      // if the framework has already generate a route.json, do nothing
+      if (!(await isFileExists(routeFilePath))) {
+        await fs.outputFile(
+          routeFilePath,
+          JSON.stringify({ routes: routesInfo }, null, 2),
+        );
       }
     });
   },
