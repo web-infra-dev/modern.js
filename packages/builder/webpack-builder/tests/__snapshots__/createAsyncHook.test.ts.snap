@@ -10,5 +10,6 @@ exports[`initHooks > should init hooks correctly 1`] = `
   "modifyBuilderConfigHook",
   "onAfterCreateCompilerHooks",
   "onBeforeCreateCompilerHooks",
+  "onBeforeStartDevServerHooks",
 ]
 `;
