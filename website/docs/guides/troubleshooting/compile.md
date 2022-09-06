@@ -283,6 +283,42 @@ You may need an additional loader to handle the result of these loaders.
 
 ---
 
+### 打开页面后报错，提示 exports is not defined？
+
+如果编译正常，但是打开页面后出现 `exports is not defined` 报错，通常是因为在项目中使用 babel 编译了一个 CommonJS 模块，导致 babel 出现异常。
+
+在正常情况下，Modern.js 是不会使用 babel 来编译 CommonJS 模块的。如果项目中使用了 `source.include` 配置项，或使用了 `tools.babel` 的 `addIncludes` 方法，则可能会把一些 CommonJS 模块加入到 babel 编译中。
+
+该问题有两种解决方法：
+
+1. 避免将 CommonJS 模块加入到 babel 编译中。
+2. 将 babel 的 `sourceType` 配置项设置为 `unambiguous`，示例如下：
+
+```js
+export default defineConfig({
+  tools: {
+    babel(config) {
+      config.sourceType = 'unambiguous';
+    },
+  },
+});
+```
+
+将 `sourceType` 设置为 `unambiguous` 可能会产生一些其他影响，请参考 [babel 官方文档](https://babeljs.io/docs/en/options#sourcetype)。
+
+---
+
+### 打包后发现 Tree Shaking 没有生效？
+
+Modern.js 在生产构建时会默认开启 webpack 的 Tree Shaking 功能，Tree Shaking 是否能够生效，取决于业务代码能否满足 webpack 的 Tree Shaking 条件。
+
+如果你遇到了 Tree Shaking 不生效的问题，可以检查下相关 npm 包的 `sideEffects` 配置是否正确，如果不了解 `sideEffects` 是什么，可以阅读以下两篇文档：
+
+- [webpack 官方文档 - Tree Shaking](https://webpack.docschina.org/guides/tree-shaking/)
+- [Tree Shaking 问题排查指南](https://bytedance.feishu.cn/docs/doccn8E1ldDct5uv1EEDQs8Ycwe)
+
+---
+
 ### 热更新后 React 组件的 state 丢失？
 
 Modern.js 使用 React 官方的 [Fast Refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) 能力来进行组件热更新。
