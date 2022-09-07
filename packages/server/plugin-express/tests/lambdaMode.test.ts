@@ -24,7 +24,6 @@ describe('lambda-mode', () => {
 
     apiHandler = await runner.prepareApiServer({
       pwd,
-      mode: 'framework',
       prefix,
     });
   });

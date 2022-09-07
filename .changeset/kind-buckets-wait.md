@@ -10,4 +10,5 @@
 '@modern-js/server': patch
 ---
 
-fix: get api mode from bff core
+chore: get api mode from bff core
+chore: 从 bff core 中获取 api mode
