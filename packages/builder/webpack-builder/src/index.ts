@@ -19,6 +19,7 @@ export type {
   ExperimentsConfig,
 
   // Third Party Types
+  webpack,
   WebpackChain,
   WebpackConfig,
   CSSLoaderOptions,
