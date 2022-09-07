@@ -50,56 +50,56 @@ exports[`plugins/splitChunks > should set split-by-experience config 1`] = `
   "optimization": {
     "splitChunks": {
       "cacheGroups": {
-        "Experience_Defined_Cache_Group_0": {
-          "name": "Experience_Defined_Cache_Group_0",
+        "pre-defined-chunk-0": {
+          "name": "pre-defined-chunk-0",
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]react\\|react-dom\\[\\\\\\\\/\\]/,
         },
-        "Experience_Defined_Cache_Group_1": {
-          "name": "Experience_Defined_Cache_Group_1",
+        "pre-defined-chunk-1": {
+          "name": "pre-defined-chunk-1",
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]react-router\\|react-router-dom\\|history\\[\\\\\\\\/\\]/,
         },
-        "Experience_Defined_Cache_Group_2": {
-          "name": "Experience_Defined_Cache_Group_2",
+        "pre-defined-chunk-2": {
+          "name": "pre-defined-chunk-2",
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]@ies\\\\/semi\\[\\\\\\\\/\\]/,
         },
-        "Experience_Defined_Cache_Group_3": {
-          "name": "Experience_Defined_Cache_Group_3",
+        "pre-defined-chunk-3": {
+          "name": "pre-defined-chunk-3",
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]antd\\[\\\\\\\\/\\]/,
         },
-        "Experience_Defined_Cache_Group_4": {
-          "name": "Experience_Defined_Cache_Group_4",
+        "pre-defined-chunk-4": {
+          "name": "pre-defined-chunk-4",
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]@arco-design\\[\\\\\\\\/\\]/,
         },
-        "Experience_Defined_Cache_Group_5": {
-          "name": "Experience_Defined_Cache_Group_5",
+        "pre-defined-chunk-5": {
+          "name": "pre-defined-chunk-5",
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]@douyinfe\\\\/semi\\[\\\\\\\\/\\]/,
         },
-        "Experience_Defined_Cache_Group_6": {
-          "name": "Experience_Defined_Cache_Group_6",
+        "pre-defined-chunk-6": {
+          "name": "pre-defined-chunk-6",
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]@babel\\\\/runtime\\|@babel\\\\/runtime-corejs2\\|@babel\\\\/runtime-corejs3\\[\\\\\\\\/\\]/,
         },
-        "Experience_Defined_Cache_Group_7": {
-          "name": "Experience_Defined_Cache_Group_7",
+        "pre-defined-chunk-7": {
+          "name": "pre-defined-chunk-7",
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]lodash\\|lodash-es\\[\\\\\\\\/\\]/,
         },
-        "Experience_Defined_Cache_Group_8": {
-          "name": "Experience_Defined_Cache_Group_8",
+        "pre-defined-chunk-8": {
+          "name": "pre-defined-chunk-8",
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]core-js\\[\\\\\\\\/\\]/,
