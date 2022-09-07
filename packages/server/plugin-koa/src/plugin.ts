@@ -45,12 +45,13 @@ export default (): ServerPlugin => ({
   name: '@modern-js/plugin-koa',
   pre: ['@modern-js/plugin-bff'],
   setup: api => ({
-    async prepareApiServer({ pwd, mode, config }) {
+    async prepareApiServer({ pwd, config }) {
       let app: Application;
       const router = new Router();
       const apiDir = path.join(pwd, './api');
       const appContext = api.useAppContext();
       const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
+      const mode = appContext.apiMode;
 
       if (mode === 'framework') {
         app = await findAppModule(apiDir);
