@@ -5,4 +5,7 @@ import { createBuilder } from './shared';
   await builder.inspectWebpackConfig({
     writeToDisk: true,
   });
+  await builder.inspectBuilderConfig({
+    writeToDisk: true,
+  });
 })();

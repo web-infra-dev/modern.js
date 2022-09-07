@@ -32,7 +32,6 @@ export const PluginSvg = (): BuilderPlugin => {
             .set('issuer', {
               not: [JS_REGEX, TS_REGEX],
             })
-            // @ts-expect-error webpack-chain has incorrect type for `rule.type`
             .type('asset')
             .parser({
               dataUrlCondition: getDataUrlCondition(config, 'svg'),
