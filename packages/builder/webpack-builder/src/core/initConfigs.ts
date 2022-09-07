@@ -1,6 +1,8 @@
-import { debug } from '../shared';
+import { debug, isDebug } from '../shared';
 import { initPlugins } from './initPlugins';
 import { generateWebpackConfig } from './webpackConfig';
+import { stringifyBuilderConfig } from './inspectBuilderConfig';
+import { stringifyWebpackConfig } from './inspectWebpackConfig';
 import type { Context, PluginStore, BuilderOptions } from '../types';
 
 async function modifyBuilderConfig(context: Context) {
@@ -37,6 +39,28 @@ export async function initConfigs({
   const webpackConfigs = await Promise.all(
     targets.map(target => generateWebpackConfig({ target, context })),
   );
+
+  // write builder config and webpack config to disk in debug mode
+  if (isDebug()) {
+    const inspect = () => {
+      const inspectOptions = {
+        verbose: true,
+        writeToDisk: true,
+      };
+      stringifyBuilderConfig({
+        context,
+        inspectOptions,
+      });
+      stringifyWebpackConfig({
+        context,
+        inspectOptions,
+        builderOptions,
+        webpackConfigs,
+      });
+    };
+    context.hooks.onBeforeBuildHook.tap(inspect);
+    context.hooks.onBeforeStartDevServerHooks.tap(inspect);
+  }
 
   return {
     webpackConfigs,
