@@ -6,7 +6,8 @@ import { Hooks } from '../core/createHook';
 import { matchLoader, mergeBuilderOptions } from '../shared';
 import type { BuilderOptions, BuilderPlugin, Context } from '../types';
 import { createStubContext } from './context';
-import type { Volume } from 'memfs/lib/volume';
+import type { Volume, DirectoryJSON } from 'memfs/lib/volume';
+import { PathLike } from 'fs';
 
 export interface StubBuilderOptions extends BuilderOptions {
   context?: Context;
@@ -84,6 +85,24 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     return memfsVolume;
   };
 
+  const unwrapOutputVolumeJSON = async (
+    paths?: PathLike | PathLike[],
+    json?: Record<any, any>,
+    isRelative?: boolean,
+  ): Promise<DirectoryJSON> => {
+    const vol = await unwrapOutputVolume();
+    return vol.toJSON(paths, json, isRelative);
+  };
+
+  const unwrapOutputFile = async (filename: string) => {
+    const compiler = await unwrapWebpackCompiler();
+    return new Promise((resolve, reject) => {
+      compiler.outputFileSystem.readFile(filename, (err, data) =>
+        err ? reject(err) : resolve(data),
+      );
+    });
+  };
+
   const matchWebpackPlugin = async (pluginName: string) => {
     const config = await unwrapWebpackConfig();
     return config.plugins?.some(item => item.constructor.name === pluginName);
@@ -109,6 +128,8 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     unwrapWebpackConfig,
     unwrapWebpackCompiler,
     unwrapOutputVolume,
+    unwrapOutputVolumeJSON,
+    unwrapOutputFile,
     matchWebpackPlugin,
     matchWebpackLoader,
     reset,
