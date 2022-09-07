@@ -4,7 +4,7 @@ exports[`plugins/html > should allow to modify plugin options by tools.htmlPlugi
 {
   "entry": {
     "main": [
-      "./src/main.ts",
+      "src/main.ts",
     ],
   },
   "plugins": [
@@ -22,7 +22,7 @@ exports[`plugins/html > should allow to set favicon by html.favicon option 1`] =
 {
   "entry": {
     "main": [
-      "./src/main.ts",
+      "src/main.ts",
     ],
   },
   "plugins": [
@@ -31,7 +31,7 @@ exports[`plugins/html > should allow to set favicon by html.favicon option 1`] =
         "chunks": [
           "main",
         ],
-        "favicon": "./src/favicon.ico",
+        "favicon": "src/favicon.ico",
         "filename": "html/main/index.html",
         "inject": true,
         "minify": false,
@@ -48,7 +48,7 @@ exports[`plugins/html > should allow to set inject by html.inject option 1`] = `
 {
   "entry": {
     "main": [
-      "./src/main.ts",
+      "src/main.ts",
     ],
   },
   "plugins": [
@@ -74,7 +74,7 @@ exports[`plugins/html > should enable minify in production 1`] = `
 {
   "entry": {
     "main": [
-      "./src/main.ts",
+      "src/main.ts",
     ],
   },
   "plugins": [
@@ -108,7 +108,7 @@ exports[`plugins/html > should register html plugin correctly 1`] = `
 {
   "entry": {
     "main": [
-      "./src/main.ts",
+      "src/main.ts",
     ],
   },
   "plugins": [

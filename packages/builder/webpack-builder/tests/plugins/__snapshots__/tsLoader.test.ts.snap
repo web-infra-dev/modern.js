@@ -17,12 +17,13 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
               },
             ],
           },
+          "<ROOT>/packages/builder/webpack-builder/src/runtime/core-js-entry.js",
           "src/**/*.ts",
         ],
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<NODE_MODULES>/babel-loader/lib/index.js",
+            "loader": "<ROOT>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
             "options": {
               "presets": [
                 [
@@ -31,7 +32,7 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
                     "appDirectory": "<ROOT>/packages/builder/webpack-builder",
                     "metaName": "modern-js",
                     "target": "client",
-                    "useBuiltIns": undefined,
+                    "useBuiltIns": "entry",
                     "useTsLoader": true,
                     "userBabelConfig": undefined,
                   },
@@ -40,7 +41,7 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
             },
           },
           {
-            "loader": "<NODE_MODULES>/ts-loader/index.js",
+            "loader": "<ROOT>/node_modules/<PNPM_INNER>/ts-loader/index.js",
             "options": {
               "allowTsInNodeModules": true,
               "compilerOptions": {
@@ -71,11 +72,12 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
               },
             ],
           },
+          "<ROOT>/packages/builder/webpack-builder/src/runtime/core-js-entry.js",
         ],
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<NODE_MODULES>/babel-loader/lib/index.js",
+            "loader": "<ROOT>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
             "options": {
               "presets": [
                 [
@@ -84,7 +86,7 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
                     "appDirectory": "<ROOT>/packages/builder/webpack-builder",
                     "metaName": "modern-js",
                     "target": "client",
-                    "useBuiltIns": undefined,
+                    "useBuiltIns": "entry",
                     "useTsLoader": true,
                     "userBabelConfig": undefined,
                   },
@@ -93,7 +95,7 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
             },
           },
           {
-            "loader": "<NODE_MODULES>/ts-loader/index.js",
+            "loader": "<ROOT>/node_modules/<PNPM_INNER>/ts-loader/index.js",
             "options": {
               "allowTsInNodeModules": true,
               "compilerOptions": {

@@ -26,7 +26,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<NODE_MODULES>/@babel/plugin-transform-destructuring/lib/index.js",
+                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/plugin-transform-destructuring/lib/index.js",
                   {
                     "loose": false,
                     "selectiveLoose": [
@@ -78,7 +78,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                   },
                 ],
                 [
-                  "<NODE_MODULES>/@babel/plugin-transform-runtime/lib/index.js",
+                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "helpers": false,
                     "regenerator": true,
@@ -114,7 +114,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
               ],
               "presets": [
                 [
-                  "<NODE_MODULES>/@babel/preset-env/lib/index.js",
+                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
                   {
                     "bugfixes": false,
                     "corejs": {
@@ -133,7 +133,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                   },
                 ],
                 [
-                  "<NODE_MODULES>/@babel/preset-react/lib/index.js",
+                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
                     "runtime": "classic",
@@ -142,7 +142,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                   },
                 ],
                 [
-                  "<NODE_MODULES>/@babel/preset-typescript/lib/index.js",
+                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
                     "allowDeclareFields": true,
@@ -177,6 +177,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
               },
             ],
           },
+          "<ROOT>/packages/builder/webpack-builder/src/runtime/core-js-entry.js",
           "src/**/*.ts",
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
@@ -189,7 +190,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<NODE_MODULES>/@babel/plugin-transform-destructuring/lib/index.js",
+                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/plugin-transform-destructuring/lib/index.js",
                   {
                     "loose": false,
                     "selectiveLoose": [
@@ -241,7 +242,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                   },
                 ],
                 [
-                  "<NODE_MODULES>/@babel/plugin-transform-runtime/lib/index.js",
+                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "helpers": false,
                     "regenerator": true,
@@ -277,10 +278,13 @@ exports[`plugins/babel > should set include/exclude 1`] = `
               ],
               "presets": [
                 [
-                  "<NODE_MODULES>/@babel/preset-env/lib/index.js",
+                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
                   {
                     "bugfixes": false,
-                    "corejs": undefined,
+                    "corejs": {
+                      "proposals": true,
+                      "version": "3.25",
+                    },
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
@@ -289,11 +293,11 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "targets": {
                       "node": "12",
                     },
-                    "useBuiltIns": undefined,
+                    "useBuiltIns": "entry",
                   },
                 ],
                 [
-                  "<NODE_MODULES>/@babel/preset-react/lib/index.js",
+                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
                     "runtime": "classic",
@@ -302,7 +306,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                   },
                 ],
                 [
-                  "<NODE_MODULES>/@babel/preset-typescript/lib/index.js",
+                  "<ROOT>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
                     "allowDeclareFields": true,

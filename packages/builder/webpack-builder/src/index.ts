@@ -1,5 +1,5 @@
 export { createBuilder } from './core/createBuilder';
-export { mergeBuilderConfig } from './core/mergeConfig';
+export { mergeBuilderConfig } from './shared/utils';
 
 export type {
   // Plugin Types

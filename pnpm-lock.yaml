@@ -82,6 +82,7 @@ importers:
       '@types/babel__preset-env': ^7.9.2
       '@types/mini-css-extract-plugin': 2.2.0
       '@types/node': ^14
+      '@vitest/ui': ^0.21.1
       autoprefixer: ^10.4.8
       caniuse-lite: ^1.0.30001332
       css-minimizer-webpack-plugin: 4.0.0
@@ -123,9 +124,10 @@ importers:
       '@types/babel__core': 7.1.19
       '@types/babel__preset-env': 7.9.2
       '@types/node': 14.18.21
+      '@vitest/ui': 0.21.1
       autoprefixer: 10.4.8_postcss@8.4.16
       typescript: 4.7.4
-      vitest: 0.21.1
+      vitest: 0.21.1_@vitest+ui@0.21.1
 
   packages/cli/babel-preset-app:
     specifiers:
@@ -3080,6 +3082,7 @@ importers:
       webpack-manifest-plugin: 5.0.0
       webpack-merge: 5.8.0
       webpack-sources: 3.2.3
+      webpack-subresource-integrity: 5.1.0
       webpackbar: 5.0.2
       yaml-loader: 0.8.0
     dependencies:
@@ -3206,6 +3209,7 @@ importers:
       webpack-manifest-plugin: 5.0.0_webpack@5.73.0
       webpack-merge: 5.8.0
       webpack-sources: 3.2.3
+      webpack-subresource-integrity: 5.1.0_webpack@5.73.0
       webpackbar: 5.0.2_webpack@5.73.0
       yaml-loader: 0.8.0
 
@@ -3213,20 +3217,14 @@ importers:
     specifiers:
       '@modern-js/tsconfig': workspace:*
       '@modern-js/utils': workspace:*
-      '@types/jest': ^27
-      '@types/lodash': ^4.14.182
       '@types/node': ^14
-      lodash: ^4.17.21
       typescript: ^4.7.4
       vitest: ^0.21.1
     dependencies:
       '@modern-js/utils': link:../../packages/toolkit/utils
     devDependencies:
       '@modern-js/tsconfig': link:../../packages/review/tsconfig
-      '@types/jest': 27.5.2
-      '@types/lodash': 4.14.182
       '@types/node': 14.18.21
-      lodash: 4.17.21
       typescript: 4.7.4
       vitest: 0.21.1
 
@@ -12075,6 +12073,12 @@ packages:
     resolution: {integrity: sha512-JGZ11QV+/ZcfudW2Cz2JVp54/pJNXbsuWRgSh2ZmmZdQBKXqBtIGrwI1Wyx8nlbzAiEFe7FHi4K1zX4//jxTnQ==}
     hasBin: true
     dev: false
+
+  /@vitest/ui/0.21.1:
+    resolution: {integrity: sha512-e+AZdMG6NvrYhxB99LGxW1GkoTpqSDPKpL+wghsApWhocNwALBOBzvgsDr/WN6D6YWRXf18rsJ1kY/KaIspRdg==}
+    dependencies:
+      sirv: 2.0.2
+    dev: true
 
   /@webassemblyjs/ast/1.11.1:
     resolution: {integrity: sha512-ukBh14qFLjxTQNTXocdyksN5QdM28S1CxHt2rdskFyL+xFV7VremuBLVbmCePj+URalXBENx/9Lm7lnhihtCSw==}
@@ -28003,6 +28007,15 @@ packages:
       mrmime: 1.0.1
       totalist: 1.1.0
 
+  /sirv/2.0.2:
+    resolution: {integrity: sha512-4Qog6aE29nIjAOKe/wowFTxOdmbEZKb+3tsLljaBRzJwtqto0BChD2zzH0LhgCSXiI+V7X+Y45v14wBZQ1TK3w==}
+    engines: {node: '>= 10'}
+    dependencies:
+      '@polka/url': 1.0.0-next.21
+      mrmime: 1.0.1
+      totalist: 3.0.0
+    dev: true
+
   /sisteransi/1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
 
@@ -29364,6 +29377,11 @@ packages:
     resolution: {integrity: sha512-gduQwd1rOdDMGxFG1gEvhV88Oirdo2p+KjoYFU7k2g+i7n6AFFbDQ5kMPUsW0pNbfQsB/cwXvT1i4Bue0s9g5g==}
     engines: {node: '>=6'}
 
+  /totalist/3.0.0:
+    resolution: {integrity: sha512-eM+pCBxXO/njtF7vdFsHuqb+ElbxqtI4r5EAvk6grfAFyJ6IvWlSkfZ5T9ozC6xWw3Fj1fGoSmrl0gUs46JVIw==}
+    engines: {node: '>=6'}
+    dev: true
+
   /tough-cookie/2.5.0:
     resolution: {integrity: sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g==}
     engines: {node: '>=0.8'}
@@ -29748,6 +29766,10 @@ packages:
 
   /type/2.6.0:
     resolution: {integrity: sha512-eiDBDOmkih5pMbo9OqsqPRGMljLodLcwd5XD5JbtNB0o89xZAwynY9EdCDsJU7LtcVCClu9DvM7/0Ep1hYX3EQ==}
+    dev: true
+
+  /typed-assert/1.0.9:
+    resolution: {integrity: sha512-KNNZtayBCtmnNmbo5mG47p1XsCyrx6iVqomjcZnec/1Y5GGARaxPs6r49RnSPeUP3YjNYiU9sQHAtY4BBvnZwg==}
     dev: true
 
   /typedarray-to-buffer/3.1.5:
@@ -30476,6 +30498,49 @@ packages:
       - terser
     dev: true
 
+  /vitest/0.21.1_@vitest+ui@0.21.1:
+    resolution: {integrity: sha512-WBIxuFmIDPuK47GO6Lu9eNeRMqHj/FWL3dk73OHH3eyPPWPiu+UB3QHLkLK2PEggCqJW4FaWoWg8R68S7p9+9Q==}
+    engines: {node: '>=v14.16.0'}
+    hasBin: true
+    peerDependencies:
+      '@edge-runtime/vm': '*'
+      '@vitest/browser': '*'
+      '@vitest/ui': '*'
+      c8: '*'
+      happy-dom: '*'
+      jsdom: '*'
+    peerDependenciesMeta:
+      '@edge-runtime/vm':
+        optional: true
+      '@vitest/browser':
+        optional: true
+      '@vitest/ui':
+        optional: true
+      c8:
+        optional: true
+      happy-dom:
+        optional: true
+      jsdom:
+        optional: true
+    dependencies:
+      '@types/chai': 4.3.3
+      '@types/chai-subset': 1.3.3
+      '@types/node': 18.0.1
+      '@vitest/ui': 0.21.1
+      chai: 4.3.6
+      debug: 4.3.4
+      local-pkg: 0.4.2
+      tinypool: 0.2.4
+      tinyspy: 1.0.0
+      vite: 3.0.5
+    transitivePeerDependencies:
+      - less
+      - sass
+      - stylus
+      - supports-color
+      - terser
+    dev: true
+
   /vm-browserify/1.1.2:
     resolution: {integrity: sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==}
     dev: false
@@ -30755,6 +30820,20 @@ packages:
   /webpack-sources/3.2.3:
     resolution: {integrity: sha512-/DyMEOrDgLKKIG0fmvtz+4dUX/3Ghozwgm6iPp8KRhvn+eQf9+Q7GWxVNMk3+uCPWfdXYC4ExGBckIXdFEfH1w==}
     engines: {node: '>=10.13.0'}
+
+  /webpack-subresource-integrity/5.1.0_webpack@5.73.0:
+    resolution: {integrity: sha512-sacXoX+xd8r4WKsy9MvH/q/vBtEHr86cpImXwyg74pFIpERKt6FmB8cXpeuh0ZLgclOlHI4Wcll7+R5L02xk9Q==}
+    engines: {node: '>= 12'}
+    peerDependencies:
+      html-webpack-plugin: '>= 5.0.0-beta.1 < 6'
+      webpack: ^5.12.0
+    peerDependenciesMeta:
+      html-webpack-plugin:
+        optional: true
+    dependencies:
+      typed-assert: 1.0.9
+      webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
+    dev: true
 
   /webpack-virtual-modules/0.2.2:
     resolution: {integrity: sha512-kDUmfm3BZrei0y+1NTHJInejzxfhtU8eDj2M7OKb2IWrPFAeO1SOH2KuQ68MSZu9IGEHcxbkKKR1v18FrUSOmA==}
