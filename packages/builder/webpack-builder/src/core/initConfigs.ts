@@ -3,7 +3,12 @@ import { initPlugins } from './initPlugins';
 import { generateWebpackConfig } from './webpackConfig';
 import { stringifyBuilderConfig } from './inspectBuilderConfig';
 import { stringifyWebpackConfig } from './inspectWebpackConfig';
-import type { Context, PluginStore, BuilderOptions } from '../types';
+import type {
+  Context,
+  PluginStore,
+  BuilderOptions,
+  InspectOptions,
+} from '../types';
 
 async function modifyBuilderConfig(context: Context) {
   debug('modify builder config');
@@ -43,7 +48,7 @@ export async function initConfigs({
   // write builder config and webpack config to disk in debug mode
   if (isDebug()) {
     const inspect = () => {
-      const inspectOptions = {
+      const inspectOptions: InspectOptions = {
         verbose: true,
         writeToDisk: true,
       };
