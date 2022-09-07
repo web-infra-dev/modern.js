@@ -20,7 +20,6 @@ describe('function-mode', () => {
       .init();
     apiHandler = await runner.prepareApiServer({
       pwd,
-      mode: 'function',
       prefix: '/',
     });
   });

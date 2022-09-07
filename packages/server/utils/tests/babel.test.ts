@@ -4,6 +4,7 @@ import { resolveBabelConfig, compile } from '../src';
 import { defaults, join } from './helpers';
 
 describe('babel', () => {
+  jest.setTimeout(30000);
   it('resolveBabelConfig', () => {
     const pwd = path.resolve(__dirname, './fixtures');
     const tsconfigPath = path.resolve(
