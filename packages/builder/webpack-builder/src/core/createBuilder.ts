@@ -4,8 +4,12 @@ import { createPluginStore } from './createPluginStore';
 import { initConfigs } from './initConfigs';
 import { webpackBuild } from './build';
 import type webpack from 'webpack';
-import type { InspectOptions } from './inspectWebpackConfig';
-import type { PluginStore, BuilderOptions, Context } from '../types';
+import type {
+  Context,
+  PluginStore,
+  BuilderOptions,
+  InspectOptions,
+} from '../types';
 
 /**
  * Create primary builder.
@@ -75,10 +79,16 @@ export async function createBuilder(options?: BuilderOptions) {
   };
 
   const inspectWebpackConfig = async (inspectOptions: InspectOptions = {}) => {
-    const { inspectWebpackConfig: inspectWebpackConfigImpl } = await import(
-      './inspectWebpackConfig'
-    );
-    return inspectWebpackConfigImpl({
+    return (await import('./inspectWebpackConfig')).inspectWebpackConfig({
+      context,
+      pluginStore,
+      builderOptions,
+      inspectOptions,
+    });
+  };
+
+  const inspectBuilderConfig = async (inspectOptions: InspectOptions = {}) => {
+    return (await import('./inspectBuilderConfig')).inspectBuilderConfig({
       context,
       pluginStore,
       builderOptions,
@@ -92,6 +102,7 @@ export async function createBuilder(options?: BuilderOptions) {
     context: publicContext,
     createCompiler,
     startDevServer,
+    inspectBuilderConfig,
     inspectWebpackConfig,
   };
 }
