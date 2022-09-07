@@ -39,7 +39,6 @@ import { createProxyHandler, BffProxyOptions } from '../libs/proxy';
 import { createContext, ModernServerContext } from '../libs/context';
 import {
   AGGRED_DIR,
-  ApiServerMode,
   ERROR_DIGEST,
   ERROR_PAGE_TEXT,
   RUN_MODE,
@@ -285,14 +284,8 @@ export class ModernServer implements ModernServerInterface {
     }
 
     if (fs.existsSync(apiDir) && !onlyWeb) {
-      const mode = fs.existsSync(path.join(apiDir, AGGRED_DIR.lambda))
-        ? ApiServerMode.frame
-        : ApiServerMode.func;
-
-      debug('exists api dir', mode);
-      // if use lambda/, mean framework style of writing, then discard user extension
       const apiExtension = mergeExtension(pluginAPIExt);
-      this.frameAPIHandler = await this.prepareAPIHandler(mode, apiExtension);
+      this.frameAPIHandler = await this.prepareAPIHandler(apiExtension);
     }
   }
 
@@ -310,17 +303,13 @@ export class ModernServer implements ModernServerInterface {
     );
   }
 
-  protected async prepareAPIHandler(
-    mode: ApiServerMode,
-    extension: APIServerStartInput['config'],
-  ) {
+  protected async prepareAPIHandler(extension: APIServerStartInput['config']) {
     const { workDir, runner, conf } = this;
     const { bff } = conf as ConfWithBFF;
     const prefix = bff?.prefix || '/api';
     return runner.prepareApiServer(
       {
         pwd: workDir,
-        mode,
         config: extension,
         prefix: Array.isArray(prefix) ? prefix[0] : prefix,
       },

@@ -1,15 +1,12 @@
 import { APIServerStartInput } from '@modern-js/server-core';
 import { ModernRoute, ModernRouteInterface } from '../libs/route';
-import { ApiServerMode, RUN_MODE } from '../constants';
+import { RUN_MODE } from '../constants';
 import { ModernServerContext } from '../libs/context';
 import { ModernServerOptions, ModernServerInterface, HookNames } from '../type';
 import { ModernServer } from './modern-server';
 
 class ModernSSRServer extends ModernServer {
-  protected prepareAPIHandler(
-    _m: ApiServerMode,
-    _: APIServerStartInput['config'],
-  ) {
+  protected prepareAPIHandler(_: APIServerStartInput['config']) {
     return null as any;
   }
 

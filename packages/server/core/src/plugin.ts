@@ -59,7 +59,6 @@ const prepareWebServer = createAsyncPipeline<WebServerStartInput, Adapter>();
 
 export type APIServerStartInput = {
   pwd: string;
-  mode: 'function' | 'framework';
   prefix?: string;
   config?: {
     middleware?: Array<any>;
