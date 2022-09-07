@@ -5,6 +5,7 @@ export type {
   // Plugin Types
   BuilderPlugin,
   BuilderContext,
+  BuilderOptions,
   BuilderPluginAPI,
 
   // Config Types
