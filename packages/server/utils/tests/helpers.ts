@@ -1,3 +1,6 @@
+import path from 'path';
+import { normalizeOutputPath } from '@modern-js/utils';
+
 const sourceDefaults = {
   entries: undefined,
   disableDefaultEntries: false,
@@ -97,4 +100,8 @@ export const defaults = {
   dev: devDefaults,
   deploy: deployDefaults,
   tools: toolsDefaults,
+};
+
+export const join = (...paths: string[]) => {
+  return normalizeOutputPath(path.join(...paths));
 };

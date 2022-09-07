@@ -24,7 +24,7 @@ import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import SocketServer from '../dev-tools/socket-server';
 import DevServerPlugin from '../dev-tools/dev-server-plugin';
-import { enableRegister } from '../dev-tools/babel/register';
+import { enableRegister } from '../dev-tools/register';
 import Watcher, { mergeWatchOptions, WatchEvent } from '../dev-tools/watcher';
 import { DevServerOptions, ModernDevServerOptions } from '../types';
 

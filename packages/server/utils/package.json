@@ -31,6 +31,7 @@
     "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && pnpm build -- --platform",
     "new": "modern new",
+    "dev": "modern build --watch",
     "build": "wireit",
     "test": "wireit"
   },
@@ -42,11 +43,13 @@
     "@babel/preset-env": "^7.18.0",
     "@babel/preset-typescript": "^7.17.12",
     "@babel/runtime": "^7.18.0",
+    "@modern-js/babel-compiler": "workspace:^1.15.0",
     "@modern-js/babel-preset-lib": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "babel-plugin-module-resolver": "^4.1.0",
-    "babel-plugin-transform-typescript-metadata": "^0.3.2"
+    "babel-plugin-transform-typescript-metadata": "^0.3.2",
+    "tsconfig-paths": "3.14.1"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
