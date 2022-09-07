@@ -1,14 +1,17 @@
 import _ from '@modern-js/utils/lodash';
 import assert from 'assert';
+import { webpackBuild } from '../core/build';
 import { createPrimaryBuilder } from '../core/createBuilder';
 import { Hooks } from '../core/createHook';
-import type { BuilderOptions, BuilderPlugin, Context } from '../types';
 import { matchLoader, mergeBuilderOptions } from '../shared';
+import type { BuilderOptions, BuilderPlugin, Context } from '../types';
 import { createStubContext } from './context';
+import type { Volume } from 'memfs/lib/volume';
 
 export interface StubBuilderOptions extends BuilderOptions {
   context?: Context;
   plugins?: BuilderPlugin[];
+  webpack?: boolean | 'in-memory';
 }
 
 export type HookApi = {
@@ -29,6 +32,17 @@ export function createStubBuilder(options?: StubBuilderOptions) {
   } = createPrimaryBuilder(builderOptions, context);
   options?.plugins && pluginStore.addPlugins(options.plugins);
 
+  let memfsVolume: Volume | undefined;
+  context.hooks.onAfterCreateCompilerHooks.tap(async ({ compiler }) => {
+    if (options?.webpack === 'in-memory') {
+      const { createFsFromVolume, Volume } = await import('memfs');
+      const vol = new Volume();
+      const ofs = createFsFromVolume(vol);
+      memfsVolume = vol;
+      compiler.outputFileSystem = ofs;
+    }
+  });
+
   // tap on each hook and cache the args.
   const resolvedHooks: Record<string, any> = {};
   _.each(context.hooks, ({ tap }, name) => {
@@ -38,7 +52,8 @@ export function createStubBuilder(options?: StubBuilderOptions) {
   });
 
   const build = _.memoize(async () => {
-    await buildImpl();
+    const executeBuild = options?.webpack ? webpackBuild : undefined;
+    await buildImpl(executeBuild);
     return { context, resolvedHooks };
   });
 
@@ -56,6 +71,17 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     const webpackConfigs = await unwrapWebpackConfigs();
     assert(webpackConfigs.length === 1);
     return webpackConfigs[0];
+  };
+
+  const unwrapWebpackCompiler = async () => {
+    const [{ compiler }] = await unwrapHook('onAfterCreateCompilerHooks');
+    return compiler;
+  };
+
+  const unwrapOutputVolume = async () => {
+    await build();
+    assert(memfsVolume);
+    return memfsVolume;
   };
 
   const matchWebpackPlugin = async (pluginName: string) => {
@@ -81,6 +107,8 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     unwrapHook,
     unwrapWebpackConfigs,
     unwrapWebpackConfig,
+    unwrapWebpackCompiler,
+    unwrapOutputVolume,
     matchWebpackPlugin,
     matchWebpackLoader,
     reset,

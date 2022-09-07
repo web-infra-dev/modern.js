@@ -5,7 +5,17 @@ import { initConfigs } from './initConfigs';
 import { webpackBuild } from './build';
 import type webpack from 'webpack';
 import type { InspectOptions } from './inspectWebpackConfig';
-import type { PluginStore, BuilderOptions, Context } from '../types';
+import type {
+  PluginStore,
+  BuilderOptions,
+  Context,
+  PromiseOrNot,
+} from '../types';
+
+export type ExecuteBuild = (
+  context: Context,
+  configs: webpack.Configuration[],
+) => PromiseOrNot<{ stats: webpack.MultiStats } | void>;
 
 /**
  * Create primary builder.
@@ -19,11 +29,7 @@ export function createPrimaryBuilder(
   const publicContext = createPublicContext(context);
   const pluginStore = createPluginStore();
 
-  const build = async (
-    executeBuild?: (
-      configs: webpack.Configuration[],
-    ) => Promise<{ stats: webpack.MultiStats }>,
-  ) => {
+  const build = async (executeBuild?: ExecuteBuild) => {
     if (!process.env.NODE_ENV) {
       process.env.NODE_ENV = 'production';
     }
@@ -38,7 +44,7 @@ export function createPrimaryBuilder(
       webpackConfigs,
     });
 
-    const executeResult = await executeBuild?.(webpackConfigs);
+    const executeResult = await executeBuild?.(context, webpackConfigs);
 
     await context.hooks.onAfterBuildHook.call({
       stats: executeResult?.stats,
