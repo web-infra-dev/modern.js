@@ -194,6 +194,12 @@ export const TASKS: TaskConfig[] = [
       'tapable',
       'webpack-merge',
       {
+        name: 'webpack-5-chain',
+        externals: {
+          tapable: '../tapable',
+        },
+      },
+      {
         name: 'webpack-sources',
         ignoreDts: true,
       },

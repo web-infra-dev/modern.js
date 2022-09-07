@@ -21,7 +21,6 @@ export const PluginFont = (): BuilderPlugin => ({
       chain.module
         .rule(CHAIN_ID.RULE.FONT)
         .test(regExp)
-        // @ts-expect-error webpack-chain has incorrect type for `rule.type`
         .type('asset')
         .parser({
           dataUrlCondition: getDataUrlCondition(config, 'font'),

@@ -10,7 +10,9 @@ import type {
 async function modifyWebpackChain(context: Context, utils: ModifyWebpackUtils) {
   debug('modify webpack chain');
 
-  const WebpackChain = (await import('@modern-js/utils/webpack-chain')).default;
+  const { default: WebpackChain } = await import(
+    '../../compiled/webpack-5-chain'
+  );
   const { ensureArray } = await import('@modern-js/utils');
 
   const chain = new WebpackChain();
