@@ -215,7 +215,6 @@ export function PluginSplitChunks(): BuilderPlugin {
           userDefinedCacheGroups,
           builderConfig: chunkSplit,
         });
-        // @ts-expect-error `splitChunks` can be false, but webpack chain doesn't support it.
         chain.optimization.splitChunks(splitChunksOptions);
       });
     },

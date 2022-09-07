@@ -21,7 +21,6 @@ export const PluginImage = (): BuilderPlugin => ({
       chain.module
         .rule(CHAIN_ID.RULE.IMAGE)
         .test(regExp)
-        // @ts-expect-error webpack-chain has incorrect type for `rule.type`
         .type('asset')
         .parser({
           dataUrlCondition: getDataUrlCondition(config, 'image'),
