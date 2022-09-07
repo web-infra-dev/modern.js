@@ -11,6 +11,6 @@ export const PluginCleanOutput = (): BuilderPlugin => ({
     };
 
     api.onBeforeBuild(clean);
-    api.onBeforeCreateCompiler(clean);
+    api.onBeforeStartDevServer(clean);
   },
 });

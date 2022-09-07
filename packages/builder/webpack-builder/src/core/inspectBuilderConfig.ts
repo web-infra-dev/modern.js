@@ -24,10 +24,33 @@ async function writeConfigFile({
   await fs.outputFile(filePath, `module.exports = ${config}`);
 
   info(
-    `Inspect builder config succeed, you can open following files to view the content:\n  - ${chalk.yellow(
+    `Inspect builder config succeed, open following files to view the content:\n\n  - ${chalk.yellow(
       filePath,
     )}\n`,
   );
+}
+
+export async function stringifyBuilderConfig({
+  context,
+  inspectOptions,
+}: {
+  context: Context;
+  inspectOptions: InspectOptions;
+}) {
+  const formattedBuilderConfig = await stringifyConfig(
+    context.config,
+    inspectOptions.verbose,
+  );
+
+  if (inspectOptions.writeToDisk) {
+    await writeConfigFile({
+      config: formattedBuilderConfig,
+      context,
+      inspectOptions,
+    });
+  }
+
+  return formattedBuilderConfig;
 }
 
 export async function inspectBuilderConfig({
@@ -46,18 +69,8 @@ export async function inspectBuilderConfig({
     builderOptions,
   });
 
-  const formattedBuilderConfig = await stringifyConfig(
-    context.config,
-    inspectOptions.verbose,
-  );
-
-  if (inspectOptions.writeToDisk) {
-    await writeConfigFile({
-      config: formattedBuilderConfig,
-      context,
-      inspectOptions,
-    });
-  }
-
-  return formattedBuilderConfig;
+  return stringifyBuilderConfig({
+    context,
+    inspectOptions,
+  });
 }
