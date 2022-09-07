@@ -3264,6 +3264,29 @@ importers:
       rimraf: 3.0.2
       tree-kill: 1.2.2
 
+  tests/e2e/webpack-builder/basic:
+    specifiers:
+      '@modern-js/webpack-builder': workspace:*
+      '@playwright/test': ^1.25.1
+      '@types/node': ^14
+      '@types/react': ^17
+      '@types/react-dom': ^17
+      playwright: ^1.25.1
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/webpack-builder': link:../../../../packages/builder/webpack-builder
+      '@playwright/test': 1.25.1
+      '@types/node': 14.18.21
+      '@types/react': 17.0.47
+      '@types/react-dom': 17.0.17
+      playwright: 1.25.1
+      typescript: 4.7.4
+
   tests/integration/alias-set:
     specifiers:
       '@babel/runtime': ^7.18.0
@@ -8695,6 +8718,15 @@ packages:
       node-fetch: 2.6.7
     transitivePeerDependencies:
       - encoding
+    dev: true
+
+  /@playwright/test/1.25.1:
+    resolution: {integrity: sha512-IJ4X0yOakXtwkhbnNzKkaIgXe6df7u3H3FnuhI9Jqh+CdO0e/lYQlDLYiyI9cnXK8E7UAppAWP+VqAv6VX7HQg==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dependencies:
+      '@types/node': 18.0.1
+      playwright-core: 1.25.1
     dev: true
 
   /@pmmmwh/react-refresh-webpack-plugin/0.5.5_645a6e79162167fda80e21cc093763a7:
@@ -14742,7 +14774,7 @@ packages:
     dev: false
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
   /concat-stream/1.6.2:
     resolution: {integrity: sha512-27HBghJxjiZtIk3Ycvn/4kbJk/1uZuJFfuPEns6LaEvpvG1f0hTea8lilrouyo9mVc2GWdcEZ8OLoGmSADlrCw==}
@@ -24315,6 +24347,21 @@ packages:
 
   /platform/1.3.6:
     resolution: {integrity: sha512-fnWVljUchTro6RiCFvCXBbNhJc2NijN7oIQxbwsyL0buWJPG85v81ehlHI9fXrJsMNgTofEoWIQeClKpgxFLrg==}
+    dev: true
+
+  /playwright-core/1.25.1:
+    resolution: {integrity: sha512-lSvPCmA2n7LawD2Hw7gSCLScZ+vYRkhU8xH0AapMyzwN+ojoDqhkH/KIEUxwNu2PjPoE/fcE0wLAksdOhJ2O5g==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: true
+
+  /playwright/1.25.1:
+    resolution: {integrity: sha512-kOlW7mllnQ70ALTwAor73q/FhdH9EEXLUqjdzqioYLcSVC4n4NBfDqeCikGuayFZrLECLkU6Hcbziy/szqTXSA==}
+    engines: {node: '>=14'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      playwright-core: 1.25.1
     dev: true
 
   /please-upgrade-node/3.2.0:
