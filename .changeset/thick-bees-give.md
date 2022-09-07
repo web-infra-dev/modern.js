@@ -4,3 +4,5 @@
 ---
 
 feat: add overrideBrowserslist option
+
+feat: 新增 overrideBrowserslist 选项
