@@ -145,7 +145,9 @@ export const PluginHtml = (): BuilderPlugin => ({
 
       await Promise.all(
         entryNames.map(async (entryName, index) => {
-          const entryValue = entries[entryName].values();
+          const entryValue = entries[
+            entryName
+          ].values() as WebpackConfig['entry'];
           const chunks = await getChunks(entryName, entryValue);
           const inject = getInject(entryName, config);
           const favicon = getFavicon(entryName, config);
