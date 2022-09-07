@@ -6,16 +6,18 @@ export const APIPlugin = createPlugin(api => ({
   prepareApiServer(props, next) {
     const { pwd, prefix } = props;
     const apiDir = path.resolve(pwd, API_DIR);
+    const appContext = api.useAppContext();
     const apiRouter = new ApiRouter({
       apiDir,
       prefix,
     });
-
+    const apiMode = apiRouter.getApiMode();
     const apiHandlerInfos = apiRouter.getApiHandlers();
-    const appContext = api.useAppContext();
     api.setAppContext({
       ...appContext,
+      apiRouter,
       apiHandlerInfos,
+      apiMode,
     });
     return next(props);
   },

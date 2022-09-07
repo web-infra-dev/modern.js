@@ -65,11 +65,13 @@ export default (): ServerPlugin => ({
   name: '@modern-js/plugin-express',
   pre: ['@modern-js/plugin-bff'],
   setup: api => ({
-    async prepareApiServer({ pwd, mode, config }) {
+    async prepareApiServer({ pwd, config }) {
       let app: Express;
       const apiDir = path.join(pwd, './api');
       const appContext = api.useAppContext();
       const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
+      const mode = appContext.apiMode;
+
       if (mode === 'framework') {
         const appModule = await findAppModule(apiDir);
         app = appModule[0];
@@ -88,7 +90,6 @@ export default (): ServerPlugin => ({
         useRun(app);
 
         registerRoutes(app, apiHandlerInfos);
-
         if (hooks) {
           const { afterLambdaRegisted } = hooks;
           if (afterLambdaRegisted) {
