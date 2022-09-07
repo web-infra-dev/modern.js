@@ -1,7 +1,12 @@
 import { join, isAbsolute } from 'path';
 import { info, stringifyConfig } from '../shared';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
-import type { Context, BuilderOptions, InspectOptions } from '../types';
+import type {
+  Context,
+  BuilderOptions,
+  InspectOptions,
+  WebpackConfig,
+} from '../types';
 
 async function writeConfigFiles({
   configs,
@@ -39,8 +44,37 @@ async function writeConfigFiles({
     .join('\n');
 
   info(
-    `Inspect webpack config succeed, you can open following files to view the content: \n\n${fileInfos}\n`,
+    `Inspect webpack config succeed, open following files to view the content: \n\n${fileInfos}\n`,
   );
+}
+
+export async function stringifyWebpackConfig({
+  context,
+  inspectOptions,
+  webpackConfigs,
+  builderOptions,
+}: {
+  context: Context;
+  inspectOptions: InspectOptions;
+  webpackConfigs: WebpackConfig[];
+  builderOptions: Required<BuilderOptions>;
+}) {
+  const formattedConfigs = await Promise.all(
+    webpackConfigs.map(config =>
+      stringifyConfig(config, inspectOptions.verbose),
+    ),
+  );
+
+  if (inspectOptions.writeToDisk) {
+    await writeConfigFiles({
+      configs: formattedConfigs,
+      context,
+      inspectOptions,
+      builderOptions,
+    });
+  }
+
+  return formattedConfigs;
 }
 
 export async function inspectWebpackConfig({
@@ -59,20 +93,10 @@ export async function inspectWebpackConfig({
     builderOptions,
   });
 
-  const formattedConfigs = await Promise.all(
-    webpackConfigs.map(config =>
-      stringifyConfig(config, inspectOptions.verbose),
-    ),
-  );
-
-  if (inspectOptions.writeToDisk) {
-    await writeConfigFiles({
-      configs: formattedConfigs,
-      context,
-      inspectOptions,
-      builderOptions,
-    });
-  }
-
-  return formattedConfigs;
+  return stringifyWebpackConfig({
+    context,
+    webpackConfigs,
+    inspectOptions,
+    builderOptions,
+  });
 }
