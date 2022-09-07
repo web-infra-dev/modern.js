@@ -11,7 +11,6 @@ import { i18n, localeKeys } from './locale';
 export default function (context: IPluginContext) {
   context.setInput('packageName', 'name', i18n.t(localeKeys.package_name));
   context.setInputValue({
-    needModifyModuleConfig: 'no',
     moduleRunWay: 'no',
   });
   context.addInputAfter('packageManager', {

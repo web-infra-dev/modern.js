@@ -202,7 +202,6 @@ custom 参数值还可以使用模块工程方案进行管理，提供通用方�
 ? 请填写项目名称 custom-release-note
 ? 请选择开发语言 TS
 ? 请选择包管理工具 pnpm
-? 是否需要调整默认配置? 否
 ```
 
 2. 实现自定义内容。
@@ -233,7 +232,6 @@ pnpm run gen-release-note -- --custom custom-release-note
 ? 请填写子项目名称 custom-release-note
 ? 请填写子项目目录名称 custom-release-note
 ? 请选择开发语言 TS
-? 是否需要调整默认配置? 否
 ```
 
 2. 实现自定义内容。

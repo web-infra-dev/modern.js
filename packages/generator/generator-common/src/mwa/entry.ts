@@ -3,9 +3,8 @@ import { i18n, localeKeys } from '../locale';
 import { BooleanConfig } from '../common';
 import {
   ClientRouteSchema,
-  DisableStateManagementSchema,
-  NeedModifyMWAConfigSchema,
   ClientRoute,
+  NeedModifyMWAConfigSchema,
 } from './common';
 
 const EntryNameSchema: Schema = {
@@ -44,7 +43,6 @@ export const EntrySchemas = [
   EntryNameSchema,
   NeedModifyMWAConfigSchema,
   ClientRouteSchema,
-  DisableStateManagementSchema,
 ];
 
 export const EntrySchema: Schema = {
@@ -57,5 +55,4 @@ export const EntrySchema: Schema = {
 export const MWADefaultEntryConfig = {
   needModifyMWAConfig: BooleanConfig.NO,
   clientRoute: ClientRoute.SelfControlRoute,
-  disableStateManagement: BooleanConfig.NO,
 };
