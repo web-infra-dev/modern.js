@@ -33,8 +33,12 @@ export const supportModern = (context: ModernServerContext) => {
     return false;
   }
 
-  const result = compareVersions(browserVersion, version);
-  return result >= 0;
+  try {
+    const result = compareVersions(browserVersion, version);
+    return result >= 0;
+  } catch (err) {
+    return false;
+  }
 };
 
 export const getModernEntry = (filepath: string) =>
