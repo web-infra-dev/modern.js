@@ -1,5 +1,22 @@
 // Vitest Snapshot v1
 
+exports[`plugins/babel > should add core-js-entry when output.polyfill is entry 1`] = `
+{
+  "main": [
+    "<ROOT>/packages/builder/webpack-builder/src/runtime/core-js-entry.js",
+    "index.js",
+  ],
+}
+`;
+
+exports[`plugins/babel > should not add core-js-entry when output.polyfill is usage 1`] = `
+{
+  "main": [
+    "index.js",
+  ],
+}
+`;
+
 exports[`plugins/babel > should set babel-loader 1`] = `
 {
   "module": {

@@ -129,11 +129,14 @@ export const PluginBabel = (): BuilderPlugin => ({
       const useTsLoader = Boolean(config.tools?.tsLoader);
       const rule = chain.module.rule(CHAIN_ID.RULE.JS);
       applyScriptCondition(rule, config, api.context, includes, excludes);
+
       rule
         .test(useTsLoader ? JS_REGEX : mergeRegex(JS_REGEX, TS_REGEX))
         .use(CHAIN_ID.USE.BABEL)
         .loader(getCompiledPath('babel-loader'))
         .options(babelOptions);
+
+      addCoreJsEntry({ chain, config });
     });
   },
 });
