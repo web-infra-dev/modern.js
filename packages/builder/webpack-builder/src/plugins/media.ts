@@ -22,7 +22,6 @@ export const PluginMedia = (): BuilderPlugin => ({
       chain.module
         .rule(CHAIN_ID.RULE.MEDIA)
         .test(regExp)
-        // @ts-expect-error webpack-chain has incorrect type for `rule.type`
         .type('asset')
         .parser({
           dataUrlCondition: getDataUrlCondition(config, 'media'),

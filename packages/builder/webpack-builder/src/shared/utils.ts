@@ -216,12 +216,12 @@ export const mergeBuilderConfig = <T>(...configs: T[]): T =>
   });
 
 export async function stringifyConfig(config: unknown, verbose?: boolean) {
-  const { default: webpackChain } = await import(
-    '@modern-js/utils/webpack-chain'
+  const { default: WebpackChain } = await import(
+    '../../compiled/webpack-5-chain'
   );
 
   // webpackChain.toString can be used as a common stringify method
-  const stringify = webpackChain.toString as (
+  const stringify = WebpackChain.toString as (
     config: unknown,
     options: { verbose?: boolean },
   ) => string;

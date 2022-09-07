@@ -78,7 +78,7 @@ export type ToolsHtmlPluginConfig = ChainedConfig<
   HTMLPluginOptions,
   {
     entryName: string;
-    entryValue: string[];
+    entryValue: WebpackConfig['entry'];
   }
 >;
 
