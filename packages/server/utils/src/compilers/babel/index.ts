@@ -1,3 +1,4 @@
+import * as path from 'path';
 import {
   getBabelChain,
   ILibPresetOption,
@@ -7,6 +8,8 @@ import {
 import { TransformOptions } from '@babel/core';
 import { fs, json5, getAlias, applyOptionsChain } from '@modern-js/utils';
 import type { NormalizedConfig } from '@modern-js/core';
+import { compiler } from '@modern-js/babel-compiler';
+import { CompileFunc, FILE_EXTENSIONS } from '../../common';
 
 export * from '@babel/core';
 
@@ -145,4 +148,43 @@ export const resolveBabelConfig = (
   const userBabelConfig = modernConfig.tools.babel;
 
   return applyUserBabelConfig(internalBabelConfig, userBabelConfig);
+};
+
+export const compileByBabel: CompileFunc = async (
+  appDirectory,
+  modernConfig,
+  compileOptions,
+) => {
+  const { sourceDirs, distDir, tsconfigPath } = compileOptions;
+  const results = await Promise.all(
+    sourceDirs.map(async sourceDir => {
+      const babelConfig = resolveBabelConfig(appDirectory, modernConfig, {
+        tsconfigPath: tsconfigPath ? tsconfigPath : '',
+        syntax: 'es6+',
+        type: 'commonjs',
+      });
+      if (await fs.pathExists(sourceDir)) {
+        const basename = path.basename(sourceDir);
+        const targetDir = path.join(distDir, basename);
+        await fs.copy(sourceDir, targetDir, {
+          filter: src =>
+            !['.ts', '.js'].includes(path.extname(src)) && src !== tsconfigPath,
+        });
+      }
+      return compiler(
+        {
+          rootDir: appDirectory,
+          distDir,
+          sourceDir,
+          extensions: FILE_EXTENSIONS,
+        },
+        babelConfig,
+      );
+    }),
+  );
+  results.forEach(result => {
+    if (result.code === 1) {
+      throw new Error(result.message);
+    }
+  });
 };

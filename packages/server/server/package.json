@@ -57,9 +57,15 @@
     "@types/node": "^14",
     "@types/ws": "^7.4.7",
     "jest": "^27",
+    "ts-node": "^10.1.0",
+    "tsconfig-paths": "3.14.1",
     "typescript": "^4",
-    "websocket": "^1",
-    "webpack": "^5.71.0"
+    "webpack": "^5.71.0",
+    "websocket": "^1"
+  },
+  "peerDependencies": {
+    "ts-node": "^10.1.0",
+    "tsconfig-paths": "3.14.1"
   },
   "sideEffects": false,
   "modernConfig": {
