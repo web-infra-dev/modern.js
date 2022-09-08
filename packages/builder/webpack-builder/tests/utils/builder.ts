@@ -63,7 +63,7 @@ export function createStubBuilder(options?: StubBuilderOptions): StubBuilder {
       builderOptions,
     });
     await context.hooks.onBeforeBuildHook.call({ webpackConfigs });
-    await context.hooks.onAfterBuildHook.call();
+    await context.hooks.onAfterBuildHook.call({});
     return { context, webpackConfigs, resolvedHooks };
   });
 
