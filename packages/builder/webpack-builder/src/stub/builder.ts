@@ -6,8 +6,9 @@ import { Hooks } from '../core/createHook';
 import { matchLoader, mergeBuilderOptions } from '../shared';
 import type { BuilderOptions, BuilderPlugin, Context } from '../types';
 import { createStubContext } from './context';
-import type { Volume, DirectoryJSON } from 'memfs/lib/volume';
+import { Volume, DirectoryJSON } from 'memfs/lib/volume';
 import { PathLike } from 'fs';
+import type * as playwright from '@modern-js/e2e/playwright';
 
 export interface StubBuilderOptions extends BuilderOptions {
   context?: Context;
@@ -18,6 +19,10 @@ export interface StubBuilderOptions extends BuilderOptions {
 export type HookApi = {
   [key in keyof Hooks]: Parameters<Parameters<Hooks[key]['tap']>[0]>;
 };
+
+export interface ServeDestOptions {
+  hangOn?: playwright.TestType<any, any> | boolean;
+}
 
 export function createStubBuilder(options?: StubBuilderOptions) {
   // init primary builder.
@@ -103,20 +108,22 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     });
   };
 
-  const buildAndServe = async (hangOn = false) => {
-    const vol = await unwrapOutputVolume();
-    const { serveVolume } = await import('@modern-js/e2e');
-    const { port } = await serveVolume(process.cwd(), vol);
-    if (hangOn) {
+  const buildAndServe = async (options?: ServeDestOptions) => {
+    const { runStaticServer } = await import('@modern-js/e2e');
+    const { port } = await runStaticServer(process.cwd(), {
+      volume: memfsVolume,
+    });
+    if (options?.hangOn) {
       // eslint-disable-next-line no-console
-      console.log(`Build and serving on http://localhost:${port}`);
-      const { test } = await import('@modern-js/e2e/playwright');
-      test.setTimeout(0);
+      console.log(
+        `Successfully build, and hang on running server: http://localhost:${port}`,
+      );
+      typeof options.hangOn !== 'boolean' && options.hangOn.setTimeout(0);
       await new Promise(() => null);
     }
     return {
       baseurl: `http://localhost:${port}`,
-      vol,
+      volume: memfsVolume,
       port,
     };
   };

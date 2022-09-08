@@ -10,21 +10,21 @@ import { createFsFromVolume } from 'memfs';
 export interface ServeStaticOptions<
   R extends http.ServerResponse = http.ServerResponse,
 > extends serveStaticImpl.ServeStaticOptions<R> {
-  vol?: Volume;
+  volume?: Volume;
 }
 
-function serveStatic<R extends http.ServerResponse>(
+function serveStaticMiddle<R extends http.ServerResponse>(
   root: string,
   options?: ServeStaticOptions<R>,
 ): serveStaticImpl.RequestHandler<R> {
-  const ofs = options?.vol ? createFsFromVolume(options.vol) : fs;
+  const ofs = options?.volume ? createFsFromVolume(options.volume) : fs;
   let _root = root;
   if (ofs !== fs) {
     const tempDir = fs.realpathSync(os.tmpdir());
     const outputDir = path.resolve(tempDir, 'modern-js-e2e', nanoid());
     _root = outputDir;
-    if (options?.vol) {
-      const files = options.vol.toJSON(root, undefined, true);
+    if (options?.volume) {
+      const files = options.volume.toJSON(root, undefined, true);
       for (const [filename, data] of Object.entries(files)) {
         if (data) {
           const filepath = path.resolve(outputDir, filename);
@@ -39,4 +39,4 @@ function serveStatic<R extends http.ServerResponse>(
   return serveStaticImpl(_root, options);
 }
 
-export default serveStatic;
+export default serveStaticMiddle;
