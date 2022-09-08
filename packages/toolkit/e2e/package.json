@@ -11,6 +11,9 @@
     "test:watch": "vitest dev --no-coverage",
     "test:ui": "vitest --ui"
   },
+  "bin": {
+    "playwright": "./bin/playwright.js"
+  },
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
