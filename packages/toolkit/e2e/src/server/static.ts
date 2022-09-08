@@ -5,33 +5,37 @@ import serveStaticImpl from 'serve-static';
 import { Volume } from 'memfs/lib/volume';
 import { nanoid } from 'nanoid';
 import path from 'path';
+import { createFsFromVolume } from 'memfs';
 
 export interface ServeStaticOptions<
   R extends http.ServerResponse = http.ServerResponse,
 > extends serveStaticImpl.ServeStaticOptions<R> {
-  fs?: any;
+  vol?: Volume;
 }
 
 function serveStatic<R extends http.ServerResponse>(
   root: string,
   options?: ServeStaticOptions<R>,
 ): serveStaticImpl.RequestHandler<R> {
-  const ofs = options?.fs ?? fs;
+  const ofs = options?.vol ? createFsFromVolume(options.vol) : fs;
+  let _root = root;
   if (ofs !== fs) {
     const tempDir = fs.realpathSync(os.tmpdir());
     const outputDir = path.resolve(tempDir, 'modern-js-e2e', nanoid());
-    if (ofs instanceof Volume) {
-      const files = ofs.toJSON(root, undefined, true);
+    _root = outputDir;
+    if (options?.vol) {
+      const files = options.vol.toJSON(root, undefined, true);
       for (const [filename, data] of Object.entries(files)) {
-        data && fs.writeFileSync(
-          path.resolve(outputDir, filename), data
-        );
+        if (data) {
+          const filepath = path.resolve(outputDir, filename);
+          fs.mkdirSync(path.dirname(filepath), { recursive: true });
+          fs.writeFileSync(filepath, data);
+        }
       }
     } else {
       throw new Error('Unsupported filesystem.');
     }
   }
-  const _root = root;
   return serveStaticImpl(_root, options);
 }
 

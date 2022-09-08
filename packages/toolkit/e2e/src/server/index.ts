@@ -15,7 +15,7 @@ export async function serveVolume(
 ) {
   const server = createServer();
 
-  server.use(serveStatic(root, { fs: createFsFromVolume(vol) }));
+  server.use(serveStatic(root, { vol }));
 
   const port = await getPort();
   const hostname = options?.hostname ?? '127.0.0.1';
