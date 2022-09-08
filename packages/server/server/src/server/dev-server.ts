@@ -239,6 +239,10 @@ export class ModernDevServer extends ModernServer {
     }
   }
 
+  protected createContext(req: IncomingMessage, res: ServerResponse) {
+    return super.createContext(req, res, { etag: true });
+  }
+
   // set up plugin to each compiler
   // register hooks for each compilation, update socket stats if recompiled
   // start dev middleware
