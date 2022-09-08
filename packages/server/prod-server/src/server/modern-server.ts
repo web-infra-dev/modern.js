@@ -7,6 +7,7 @@ import { Adapter, APIServerStartInput } from '@modern-js/server-core';
 import type { NormalizedConfig } from '@modern-js/core';
 import axios from 'axios';
 import { clone } from '@modern-js/utils/lodash';
+import type { ContextOptions } from '../libs/context';
 import {
   ModernServerOptions,
   NextFunction,
@@ -376,6 +377,14 @@ export class ModernServer implements ModernServerInterface {
     });
   }
 
+  protected createContext(
+    req: IncomingMessage,
+    res: ServerResponse,
+    options: ContextOptions = {},
+  ) {
+    return createContext(req, res, options);
+  }
+
   /* —————————————————————— private function —————————————————————— */
   // handler route.json, include api / csr / ssr
   private async routeHandler(context: ModernServerContext) {
@@ -583,7 +592,7 @@ export class ModernServer implements ModernServerInterface {
     req.metrics = this.metrics;
     let context: ModernServerContext;
     try {
-      context = createContext(req, res);
+      context = this.createContext(req, res);
     } catch (e) {
       this.logger.error(e as Error);
       res.statusCode = 500;
