@@ -147,6 +147,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginSplitChunks } = await import('../plugins/splitChunks');
   const { PluginInspector } = await import('../plugins/inspector');
   const { PluginSRI } = await import('../plugins/sri');
+  const { PluginStartUrl } = await import('../plugins/startUrl');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
@@ -192,6 +193,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginSplitChunks(),
     PluginInspector(),
     PluginSRI(),
+    PluginStartUrl(),
 
     // fallback should be the last plugin
     PluginFallback(),
