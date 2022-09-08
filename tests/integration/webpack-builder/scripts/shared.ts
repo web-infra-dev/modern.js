@@ -20,6 +20,14 @@ export const createBuilder = async () => {
     },
     target: ['web'],
     configPath: __filename,
+<<<<<<< HEAD
+=======
+    builderConfig: {
+      tools: {
+        inspector: {},
+      },
+    },
+>>>>>>> 9dc0232ce (feat(builder): add start url plugin (#1669))
   });
 
   return builder;
