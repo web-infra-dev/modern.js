@@ -31,6 +31,10 @@ export async function createCompiler(options: InitConfigsOptions) {
       log(message);
     }
 
+    await context.hooks.onDevCompileDoneHook.call({
+      isFirstCompile,
+    });
+
     isFirstCompile = false;
   });
 
