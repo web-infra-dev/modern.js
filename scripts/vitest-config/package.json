@@ -20,7 +20,7 @@
   },
   "peerDependencies": {
     "vitest": "^0.21.1",
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/utils": "workspace:^1.17.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
