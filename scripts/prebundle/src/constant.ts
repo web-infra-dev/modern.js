@@ -191,6 +191,7 @@ export const TASKS: TaskConfig[] = [
     packageDir: 'builder/webpack-builder',
     packageName: '@modern-js/webpack-builder',
     dependencies: [
+      'open',
       'tapable',
       'webpack-merge',
       {
