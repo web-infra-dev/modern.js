@@ -103,6 +103,13 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     });
   };
 
+  const buildAndServe = async () => {
+    const vol = await unwrapOutputVolume();
+    const { serveVolume } = await import('@modern-js/e2e');
+    const { port } = await serveVolume(process.cwd(), vol);
+    return `http://localhost:${port}`;
+  };
+
   const matchWebpackPlugin = async (pluginName: string) => {
     const config = await unwrapWebpackConfig();
     return config.plugins?.some(item => item.constructor.name === pluginName);
@@ -130,6 +137,7 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     unwrapOutputVolume,
     unwrapOutputVolumeJSON,
     unwrapOutputFile,
+    buildAndServe,
     matchWebpackPlugin,
     matchWebpackLoader,
     reset,

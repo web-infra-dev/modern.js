@@ -72,6 +72,7 @@ importers:
     specifiers:
       '@babel/core': 7.18.0
       '@modern-js/babel-preset-app': workspace:*
+      '@modern-js/e2e': workspace:*
       '@modern-js/inspector-webpack-plugin': 1.0.3
       '@modern-js/server': workspace:*
       '@modern-js/utils': workspace:*
@@ -119,6 +120,8 @@ importers:
       terser-webpack-plugin: 5.3.3_557185401d8e4a94a813b2d6f9b6f80e
       ts-loader: 9.3.1_typescript@4.7.4+webpack@5.73.0
       webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
+    optionalDependencies:
+      '@modern-js/e2e': link:../../toolkit/e2e
     devDependencies:
       '@babel/core': 7.18.0
       '@scripts/vitest-config': link:../../../scripts/vitest-config
