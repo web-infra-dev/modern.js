@@ -5,6 +5,7 @@ exports[`initHooks > should init hooks correctly 1`] = `
   "onExitHook",
   "onAfterBuildHook",
   "onBeforeBuildHook",
+  "onDevCompileDoneHook",
   "modifyWebpackChainHook",
   "modifyWebpackConfigHook",
   "modifyBuilderConfigHook",

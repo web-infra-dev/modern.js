@@ -24,6 +24,7 @@ export async function initPlugins({
     onExit: hooks.onExitHook.tap,
     onAfterBuild: hooks.onAfterBuildHook.tap,
     onBeforeBuild: hooks.onBeforeBuildHook.tap,
+    onDevCompileDone: hooks.onDevCompileDoneHook.tap,
     modifyWebpackChain: hooks.modifyWebpackChainHook.tap,
     modifyWebpackConfig: hooks.modifyWebpackConfigHook.tap,
     modifyBuilderConfig: hooks.modifyBuilderConfigHook.tap,

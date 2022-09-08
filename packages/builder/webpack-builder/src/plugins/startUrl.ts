@@ -4,7 +4,17 @@ export function PluginStartUrl(): BuilderPlugin {
   return {
     name: 'webpack-builder-plugin-start-url',
     async setup(api) {
-      api.onAfterStartDevServer(async ({ port }) => {
+      let port: number;
+
+      api.onAfterStartDevServer(async params => {
+        ({ port } = params);
+      });
+
+      api.onDevCompileDone(async ({ isFirstCompile }) => {
+        if (!isFirstCompile || !port) {
+          return;
+        }
+
         const config = api.getBuilderConfig();
         const startUrl = config.dev?.startUrl;
         if (typeof startUrl === 'string' || Array.isArray(startUrl)) {
