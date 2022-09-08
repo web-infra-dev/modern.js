@@ -36,6 +36,10 @@ export type OnAfterBuildFn = (params: {
   stats?: webpack.MultiStats;
 }) => Promise<void> | void;
 
+export type OnDevCompileDoneFn = (params: {
+  isFirstCompile: boolean;
+}) => Promise<void> | void;
+
 export type OnBeforeCreateCompilerFn = (params: {
   webpackConfigs: WebpackConfig[];
 }) => Promise<void> | void;
@@ -43,5 +47,9 @@ export type OnBeforeCreateCompilerFn = (params: {
 export type OnAfterCreateCompilerFn = () => Promise<void> | void;
 
 export type OnBeforeStartDevServerFn = () => Promise<void> | void;
+
+export type OnAfterStartDevServerFn = (params: {
+  port: number;
+}) => Promise<void> | void;
 
 export type OnExitFn = () => void;
