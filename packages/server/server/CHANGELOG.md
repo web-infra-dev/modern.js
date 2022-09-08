@@ -1,5 +1,32 @@
 # @modern-js/server
 
+## 2.0.0
+
+### Patch Changes
+
+- 3d5e3a5: chore: get api mode from bff core
+  chore: 从 bff core 中获取 api mode
+- 8280920: chore(server): export DevServerOptions type
+
+  chore(server): 导出 DevServerOptions 类型
+
+- 2b7406d: feat: use typescript instead of babel as typescript compiler in server
+  feat: 服务端，增加 typescript 作为 typescipt 编译器
+- fc7214d: feat(server): export DevServerHttpsOptions type
+
+  feat(server): 导出 DevServerHttpsOptions 类型
+
+- Updated dependencies [8280920]
+- Updated dependencies [3d5e3a5]
+- Updated dependencies [2b7406d]
+- Updated dependencies [0a4d622]
+- Updated dependencies [60a2e3a]
+- Updated dependencies [5227370]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@2.0.0
+  - @modern-js/prod-server@2.0.0
+  - @modern-js/server-utils@2.0.0
+
 ## 1.17.0
 
 ### Patch Changes

@@ -1,5 +1,22 @@
 # @modern-js/core
 
+## 2.0.0
+
+### Patch Changes
+
+- 60a2e3a: feat: add compiler option for server
+  feat: 为 server 添加编译选项
+- 66ad36f: feat: add source.enableAsyncEntry config
+
+  feat: 新增 source.enableAsyncEntry 配置项
+
+- Updated dependencies [8280920]
+- Updated dependencies [5227370]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@2.0.0
+  - @modern-js/node-bundle-require@2.0.0
+  - @modern-js/plugin@2.0.0
+
 ## 1.17.0
 
 ### Patch Changes

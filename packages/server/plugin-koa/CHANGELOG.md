@@ -1,5 +1,19 @@
 # @modern-js/plugin-koa
 
+## 2.0.0
+
+### Patch Changes
+
+- 3d5e3a5: chore: get api mode from bff core
+  chore: 从 bff core 中获取 api mode
+- Updated dependencies [8280920]
+- Updated dependencies [3d5e3a5]
+- Updated dependencies [5227370]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@2.0.0
+  - @modern-js/bff-core@2.0.0
+  - @modern-js/bff-runtime@2.0.0
+
 ## 1.17.0
 
 ### Patch Changes

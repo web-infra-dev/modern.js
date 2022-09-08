@@ -1,5 +1,28 @@
 # @modern-js/module-tools
 
+## 2.0.0
+
+### Patch Changes
+
+- Updated dependencies [8280920]
+- Updated dependencies [9f13d8c]
+- Updated dependencies [60a2e3a]
+- Updated dependencies [5227370]
+- Updated dependencies [66ad36f]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@2.0.0
+  - @modern-js/upgrade@2.0.0
+  - @modern-js/core@2.0.0
+  - @modern-js/babel-preset-module@2.0.0
+  - @modern-js/css-config@2.0.0
+  - @modern-js/plugin-changeset@2.0.0
+  - @modern-js/plugin-i18n@2.0.0
+  - @modern-js/plugin-jarvis@2.0.0
+  - @modern-js/new-action@2.0.0
+  - @modern-js/babel-compiler@2.0.0
+  - @modern-js/style-compiler@2.0.0
+  - @modern-js/plugin@2.0.0
+
 ## 1.17.0
 
 ### Patch Changes

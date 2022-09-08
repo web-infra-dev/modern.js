@@ -1,5 +1,22 @@
 # @modern-js/utils
 
+## 2.0.0
+
+### Minor Changes
+
+- 5227370: feat: add webpack-builder plugin subresource-integrity
+  feat: 新增 webpack-builder 插件 subresource-integrity
+
+### Patch Changes
+
+- 8280920: feat: change hmr sock path to /webpack-hmr
+
+  feat: 热更新 socket 请求的 path 修改为 /webpack-hmr
+
+- 7928bae: chore: add inspector plugin
+
+  chore: 增加 Inspector 插件
+
 ## 1.17.0
 
 ### Minor Changes

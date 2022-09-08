@@ -1,5 +1,14 @@
 # @modern-js/create-request
 
+## 2.0.0
+
+### Patch Changes
+
+- Updated dependencies [8280920]
+- Updated dependencies [5227370]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@2.0.0
+
 ## 1.17.0
 
 ### Patch Changes

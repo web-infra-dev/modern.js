@@ -1,5 +1,21 @@
 # @modern-js/plugin-server
 
+## 2.0.0
+
+### Patch Changes
+
+- 2b7406d: feat: use typescript instead of babel as typescript compiler in server
+  feat: 服务端，增加 typescript 作为 typescipt 编译器
+- Updated dependencies [8280920]
+- Updated dependencies [2b7406d]
+- Updated dependencies [0a4d622]
+- Updated dependencies [60a2e3a]
+- Updated dependencies [5227370]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@2.0.0
+  - @modern-js/server-utils@2.0.0
+  - @modern-js/babel-compiler@2.0.0
+
 ## 1.17.0
 
 ### Patch Changes
