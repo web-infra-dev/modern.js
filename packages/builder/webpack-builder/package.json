@@ -38,6 +38,10 @@
       "jsnext:source": "./src/stub/index.ts",
       "default": "./dist/stub/index.js"
     },
+    "./plugins/*": {
+      "jsnext:source": "./src/plugins/*.ts",
+      "default": "./dist/plugins/*.js"
+    },
     "./webpack/lib/ModuleFilenameHelpers.js": {
       "default": "./dist/exports/ModuleFileNameHelpers.js"
     }
@@ -52,6 +56,9 @@
       ],
       "stub": [
         "./dist/stub/index.d.ts"
+      ],
+      "plugins/*": [
+        "./dist/plugins/*.d.ts"
       ]
     }
   },

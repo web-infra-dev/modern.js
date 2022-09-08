@@ -102,7 +102,7 @@ export async function createBuilder(options?: BuilderOptions) {
   };
 }
 
-async function addDefaultPlugins(pluginStore: PluginStore) {
+export async function addDefaultPlugins(pluginStore: PluginStore) {
   debug('add default plugins');
 
   const { PluginHMR } = await import('../plugins/hmr');

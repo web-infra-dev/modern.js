@@ -1,7 +1,7 @@
 import _ from '@modern-js/utils/lodash';
 import assert from 'assert';
 import { webpackBuild } from '../core/build';
-import { createPrimaryBuilder } from '../core/createBuilder';
+import { addDefaultPlugins, createPrimaryBuilder } from '../core/createBuilder';
 import { Hooks } from '../core/createHook';
 import { matchLoader, mergeBuilderOptions } from '../shared';
 import type { BuilderOptions, BuilderPlugin, Context } from '../types';
@@ -12,6 +12,7 @@ import type * as playwright from '@modern-js/e2e/playwright';
 
 export interface StubBuilderOptions extends BuilderOptions {
   context?: Context;
+  defaultPlugins?: boolean;
   plugins?: BuilderPlugin[];
   webpack?: boolean | 'in-memory';
 }
@@ -36,7 +37,12 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     publicContext,
     build: buildImpl,
   } = createPrimaryBuilder(builderOptions, context);
-  options?.plugins && pluginStore.addPlugins(options.plugins);
+  if (options?.defaultPlugins) {
+    addDefaultPlugins(pluginStore);
+  }
+  if (Array.isArray(options?.plugins)) {
+    pluginStore.addPlugins(options!.plugins);
+  }
 
   let memfsVolume: Volume | undefined;
   context.hooks.onAfterCreateCompilerHooks.tap(async ({ compiler }) => {
