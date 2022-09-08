@@ -10,12 +10,9 @@ import {
 } from '../common';
 import {
   ClientRouteSchema,
-  DisableStateManagementSchema,
-  NeedModifyMWAConfigSchema,
   RunWay,
   RunWaySchema,
-  EnableMWALessSchema,
-  EnableMWASassSchema,
+  NeedModifyMWAConfigSchema,
   ClientRoute,
 } from './common';
 
@@ -27,9 +24,6 @@ export const MWASchemas = [
   RunWaySchema,
   NeedModifyMWAConfigSchema,
   ClientRouteSchema,
-  DisableStateManagementSchema,
-  EnableMWALessSchema,
-  EnableMWASassSchema,
 ];
 
 export const MWASchema: Schema = {
@@ -44,7 +38,4 @@ export const MWADefaultConfig = {
   runWay: RunWay.No,
   needModifyMWAConfig: BooleanConfig.NO,
   clientRoute: ClientRoute.SelfControlRoute,
-  disableStateManagement: BooleanConfig.NO,
-  enableLess: BooleanConfig.NO,
-  enableSass: BooleanConfig.NO,
 };
