@@ -32,6 +32,7 @@ export interface IBaseBabelConfigOption {
   runEnvironments?: 'node' | 'browsers';
   jsxTransformRuntime?: 'automatic' | 'classic';
   useTsLoader?: boolean;
+  overrideBrowserslist?: string[];
 }
 
 export const getBaseBabelChain = (option: IBaseBabelConfigOption) => {

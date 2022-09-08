@@ -20,7 +20,10 @@ export async function applyBaseCSSRule(
 ) {
   const { isServer, isProd, CHAIN_ID, getCompiledPath } = utils;
   const { applyOptionsChain } = await import('@modern-js/utils');
-  const browserslist = await getBrowserslistWithDefault(context.rootPath);
+  const browserslist = await getBrowserslistWithDefault(
+    context.rootPath,
+    config,
+  );
 
   const getPostcssConfig = () => {
     const extraPlugins: AcceptedPlugin[] = [];
