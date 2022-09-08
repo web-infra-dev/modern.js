@@ -40,6 +40,10 @@ export type OnDevCompileDoneFn = (params: {
   isFirstCompile: boolean;
 }) => Promise<void> | void;
 
+export type OnDevCompileDoneFn = (params: {
+  isFirstCompile: boolean;
+}) => Promise<void> | void;
+
 export type OnBeforeCreateCompilerFn = (params: {
   bundlerConfigs: WebpackConfig[];
 }) => Promise<void> | void;

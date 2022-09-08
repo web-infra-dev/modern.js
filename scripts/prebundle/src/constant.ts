@@ -191,10 +191,7 @@ export const TASKS: TaskConfig[] = [
     packageDir: 'builder/builder-webpack-provider',
     packageName: '@modern-js/builder-webpack-provider',
     dependencies: [
-<<<<<<< HEAD
       'serialize-javascript',
-=======
->>>>>>> 9dc0232ce (feat(builder): add start url plugin (#1669))
       'open',
       'tapable',
       'webpack-merge',
