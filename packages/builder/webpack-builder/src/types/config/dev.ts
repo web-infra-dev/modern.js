@@ -5,4 +5,5 @@ export interface DevConfig {
   port?: number;
   https?: DevServerHttpsOptions;
   assetPrefix?: string | boolean;
+  startUrl?: boolean | string | string[];
 }
