@@ -115,8 +115,11 @@ export function createStubBuilder(options?: StubBuilderOptions) {
   };
 
   const buildAndServe = async (options?: ServeDestOptions) => {
-    const { runStaticServer } = await import('@modern-js/e2e');
-    const { port } = await runStaticServer(process.cwd(), {
+    const [{ runStaticServer }] = await Promise.all([
+      import('@modern-js/e2e'),
+      build(),
+    ]);
+    const { port } = await runStaticServer(context.distPath, {
       volume: memfsVolume,
     });
     if (options?.hangOn) {
