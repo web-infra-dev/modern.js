@@ -120,10 +120,9 @@ importers:
       terser-webpack-plugin: 5.3.3_557185401d8e4a94a813b2d6f9b6f80e
       ts-loader: 9.3.1_typescript@4.7.4+webpack@5.73.0
       webpack: 5.73.0_1f091e9882867a645caac150cd4a7b4f
-    optionalDependencies:
-      '@modern-js/e2e': link:../../toolkit/e2e
     devDependencies:
       '@babel/core': 7.18.0
+      '@modern-js/e2e': link:../../toolkit/e2e
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/babel__core': 7.1.19
       '@types/babel__preset-env': 7.9.2
