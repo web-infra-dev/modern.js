@@ -32,7 +32,6 @@ sidebar_position: 3
 ? 请填写子项目名称 internal-lib
 ? 请填写子项目目录名称 internal-lib
 ? 请选择开发语言 TS
-? 是否需要调整默认配置? 否
 ```
 
 **「模块」子项目：**
@@ -41,7 +40,6 @@ sidebar_position: 3
 ? 请填写子项目名称 components
 ? 请填写子项目目录名称 components
 ? 请选择开发语言 TS
-? 是否需要调整默认配置? 否
 ```
 
 创建成功后，会得到以下项目：
