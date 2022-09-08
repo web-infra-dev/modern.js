@@ -174,6 +174,7 @@ export interface ServerConfig {
   metrics?: boolean | Record<string, any>;
   enableMicroFrontendDebug?: boolean;
   watchOptions?: WatchOptions;
+  compiler?: 'babel' | 'typescript';
 }
 
 export type DevProxyOptions = string | Record<string, string>;

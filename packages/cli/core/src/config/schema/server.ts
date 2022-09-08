@@ -104,5 +104,6 @@ export const server = {
     proxy: { type: 'object' },
     enableMicroFrontendDebug: { type: 'boolean' },
     watchOptions: { type: 'object' },
+    compiler: { type: 'string' },
   },
 };
