@@ -1167,9 +1167,15 @@ importers:
   packages/generator/generators/entry-generator:
     specifiers:
       '@babel/runtime': ^7.18.0
+<<<<<<< HEAD
       '@modern-js/codesmith': 1.6.3
       '@modern-js/codesmith-api-app': 1.6.3
       '@modern-js/codesmith-api-handlebars': 1.6.3
+=======
+      '@modern-js/codesmith': ^1.5.0
+      '@modern-js/codesmith-api-app': ^1.5.0
+      '@modern-js/codesmith-api-handlebars': ^1.5.0
+>>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
       '@modern-js/generator-common': workspace:*
       '@modern-js/generator-utils': workspace:*
       '@modern-js/plugin-i18n': workspace:*
@@ -1182,9 +1188,15 @@ importers:
       typescript: ^4
     devDependencies:
       '@babel/runtime': 7.18.6
+<<<<<<< HEAD
       '@modern-js/codesmith': 1.6.3
       '@modern-js/codesmith-api-app': 1.6.3_typescript@4.7.4
       '@modern-js/codesmith-api-handlebars': 1.6.3
+=======
+      '@modern-js/codesmith': 1.5.0
+      '@modern-js/codesmith-api-app': 1.5.0
+      '@modern-js/codesmith-api-handlebars': 1.5.0
+>>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
       '@modern-js/generator-common': link:../../generator-common
       '@modern-js/generator-utils': link:../../generator-utils
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
@@ -7961,8 +7973,148 @@ packages:
       express: 4.18.1
       multer: 1.4.4-lts.1
       tslib: 2.4.0
+<<<<<<< HEAD
     transitivePeerDependencies:
       - supports-color
+=======
+    dev: false
+
+  /@node-rs/jieba-android-arm-eabi/1.6.1:
+    resolution: {integrity: sha512-R1YQfsPr7sK3Tq1sM0//6lNAGJK9RnMT0ShITT+7EJYr5OufUBb38lf/mRhrLxR0NF1pycEsMjdCAwrWrHd8rA==}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [android]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@node-rs/jieba-android-arm64/1.6.1:
+    resolution: {integrity: sha512-hBRbj2uLmRFYDw2lWppTAPoyjeXkBKUT84h4fHUQj7CMU94Gc1IWkE4ocCqhvUhbaUXlCpocS9mB0/fc2641bw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [android]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@node-rs/jieba-darwin-arm64/1.6.1:
+    resolution: {integrity: sha512-GeoDe7XVTF6z8JUtD98QvwudsMaHV5EBXs5uO43SobeIkShH3Nujq5gLMD5kWoJXTxDrTgJe4wT42EwUaBEH2Q==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@node-rs/jieba-darwin-x64/1.6.1:
+    resolution: {integrity: sha512-ENHYIS8b8JdMaUXEm0f8Y3+sHXu2UdukG1D/XGUNx+q5cn07HbwIg6L0tlGhE8dw4AhqoWHsExVaZ241Igh4iA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@node-rs/jieba-freebsd-x64/1.6.1:
+    resolution: {integrity: sha512-chwB/9edtxqS8Jm3j4RMaJjH9AlXmijUgKv02oMw36e77HKpko+tENUN25Vrn/9GKsKGqIPeXpmCjeXCN1HVQA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@node-rs/jieba-linux-arm-gnueabihf/1.6.1:
+    resolution: {integrity: sha512-tsb5fMGj4p8bHGfkf7bJ+HE2jxaixLTp3YnGg5D+kp8+HQRq8cp3ScG5cn8cq0phnJS/zfAp8rVfWInDagzKKQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@node-rs/jieba-linux-arm64-gnu/1.6.1:
+    resolution: {integrity: sha512-bSInORkJFfeZNR+i4rFoSZGbwkQtQlnZ0XfT/noTK9JUBDYErqQZPFjoaYAU45NWTk7p6Zkg30SuV1NTdWLaPw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@node-rs/jieba-linux-arm64-musl/1.6.1:
+    resolution: {integrity: sha512-qphL6xM7owfU8Hsh7GX73SDr/iApbnc+35mSLxbibAfCQnY89+WcBeWUUOSGM/Ov3VFaq4pyVlDFj0YjR01W2w==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@node-rs/jieba-linux-x64-gnu/1.6.1:
+    resolution: {integrity: sha512-f6hhlrbi2wel0xZG7m3Wvksimt9MSu1f3aYO2Kwavf4qjMRZqJzLz9HlCJAal6AXB9Qgg+685P+gftsWve47qw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@node-rs/jieba-linux-x64-musl/1.6.1:
+    resolution: {integrity: sha512-cTVcdR6zWqpnmdEUyWEII9zfE5lTeWN53TbiOPx8TCA+291/31Vqd7GA8YEPndUO8qgCx5uShSDFStBAEIhYNQ==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@node-rs/jieba-win32-arm64-msvc/1.6.1:
+    resolution: {integrity: sha512-YuOTrjHazDraXcGXRHgPQ53nyJuH8QtTCngYKjAzxsdt8uN+txb1AY69OLMLBBZqLTOwY9dgcW70vGiLQMCTeg==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@node-rs/jieba-win32-ia32-msvc/1.6.1:
+    resolution: {integrity: sha512-4+E843ImGpVlZ+LlT9E/13NHmmUg3UHQx419D6fFMorJUUQuK4cZJfE1z4tCgcrbV8S5Wew5LIFywlJeJLu0LQ==}
+    engines: {node: '>= 10'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@node-rs/jieba-win32-x64-msvc/1.6.1:
+    resolution: {integrity: sha512-veXNwm2VlseOzl7vaC7A/nZ4okp5/6edN7/Atj6mXnUbze/m/my5Rv5zUcW3U1D9VElnQ3srCHCa5vXljJuk6g==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@node-rs/jieba/1.6.1:
+    resolution: {integrity: sha512-pISKu8NIYKRvZp7mhYZYA8VCjJMqTsCe+mQcFFnAi3GNJsijGjef2peMFeDcvP72X8MsnNeYeg3rHkAybtefyQ==}
+    engines: {node: '>= 10'}
+    optionalDependencies:
+      '@node-rs/jieba-android-arm-eabi': 1.6.1
+      '@node-rs/jieba-android-arm64': 1.6.1
+      '@node-rs/jieba-darwin-arm64': 1.6.1
+      '@node-rs/jieba-darwin-x64': 1.6.1
+      '@node-rs/jieba-freebsd-x64': 1.6.1
+      '@node-rs/jieba-linux-arm-gnueabihf': 1.6.1
+      '@node-rs/jieba-linux-arm64-gnu': 1.6.1
+      '@node-rs/jieba-linux-arm64-musl': 1.6.1
+      '@node-rs/jieba-linux-x64-gnu': 1.6.1
+      '@node-rs/jieba-linux-x64-musl': 1.6.1
+      '@node-rs/jieba-win32-arm64-msvc': 1.6.1
+      '@node-rs/jieba-win32-ia32-msvc': 1.6.1
+      '@node-rs/jieba-win32-x64-msvc': 1.6.1
+    dev: false
+>>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -12808,6 +12960,18 @@ packages:
       unpipe: 1.0.0
     transitivePeerDependencies:
       - supports-color
+<<<<<<< HEAD
+=======
+
+  /bonjour-service/1.0.13:
+    resolution: {integrity: sha512-LWKRU/7EqDUC9CTAQtuZl5HzBALoCYwtLhffW3et7vZMwv3bWLpJf8bRYlMD5OCcDpTfnPgNCV4yo9ZIaJGMiA==}
+    dependencies:
+      array-flatten: 2.1.2
+      dns-equal: 1.0.0
+      fast-deep-equal: 3.1.3
+      multicast-dns: 7.2.5
+    dev: false
+>>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
 
   /boolbase/1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
@@ -16832,12 +16996,17 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
+<<<<<<< HEAD
       '@typescript-eslint/parser': 5.30.0_hxadhbs2xogijvk7vq4t2azzbu
       debug: 3.2.7
       eslint-import-resolver-node: 0.3.6
       find-up: 2.1.0
     transitivePeerDependencies:
       - supports-color
+=======
+      debug: 3.2.7
+      find-up: 2.1.0
+>>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     dev: false
 
   /eslint-plugin-es/3.0.1_eslint@7.32.0:
@@ -21111,6 +21280,19 @@ packages:
       fs-readdir-recursive: 1.1.0
       mime-types: 2.1.35
       mz: 2.7.0
+<<<<<<< HEAD
+=======
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /koa-static/5.0.0:
+    resolution: {integrity: sha512-UqyYyH5YEXaJrf9S8E23GoJFQZXkBVJ9zYYMPGz919MSX1KuvAcycIuS0ci150HCoPf4XQVhQ84Qf8xRPWxFaQ==}
+    engines: {node: '>= 7.6.0'}
+    dependencies:
+      debug: 3.2.7
+      koa-send: 5.0.1
+>>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -27110,6 +27292,35 @@ packages:
     dependencies:
       debug: 4.1.1
       is2: 2.0.1
+<<<<<<< HEAD
+=======
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /spdy-transport/3.0.0:
+    resolution: {integrity: sha512-hsLVFE5SjA6TCisWeJXFKniGGOpBgMLmerfO2aCyCU5s7nJ/rpAepqmFifv/GCbSbueEeAJJnmSQ2rKC/g8Fcw==}
+    dependencies:
+      debug: 4.3.4
+      detect-node: 2.1.0
+      hpack.js: 2.1.6
+      obuf: 1.1.2
+      readable-stream: 3.6.0
+      wbuf: 1.7.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /spdy/4.0.2:
+    resolution: {integrity: sha512-r46gZQZQV+Kl9oItvl1JZZqJKGr+oEkB08A6BzkiR7593/7IbtuncXHd2YoYeTsG4157ZssMu9KYvUHLcjcDoA==}
+    engines: {node: '>=6.0.0'}
+    dependencies:
+      debug: 4.3.4
+      handle-thing: 2.0.1
+      http-deceiver: 1.2.7
+      select-hose: 2.0.0
+      spdy-transport: 3.0.0
+>>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     transitivePeerDependencies:
       - supports-color
     dev: false

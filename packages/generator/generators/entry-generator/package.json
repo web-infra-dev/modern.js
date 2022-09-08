@@ -27,9 +27,15 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7.18.0",
+<<<<<<< HEAD
     "@modern-js/codesmith": "1.6.3",
     "@modern-js/codesmith-api-app": "1.6.3",
     "@modern-js/codesmith-api-handlebars": "1.6.3",
+=======
+    "@modern-js/codesmith": "^1.5.0",
+    "@modern-js/codesmith-api-app": "^1.5.0",
+    "@modern-js/codesmith-api-handlebars": "^1.5.0",
+>>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/generator-utils": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",

@@ -22,7 +22,11 @@ describe('test generator cases', () => {
   });
   test('test getMWANewCases', async () => {
     const mwaNewCases = getMWANewCases();
+<<<<<<< HEAD
     expect(mwaNewCases.length).toBe(15);
+=======
+    expect(mwaNewCases.length).toBe(16);
+>>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
   });
   test('test getModuleNewCases', async () => {
     const moduleNewCases = getModuleNewCases();
