@@ -75,21 +75,15 @@ export const EN_LOCALE = {
     no: 'Not Enabled',
     electron: 'Electron',
   },
-  needModifyConfig: {
-    self: 'Modify the Default Configuration?',
-    enableLess: 'Enable Less?',
-    enableSass: 'Enable Sass?',
-  },
   entry: {
     name: 'Entry name',
     no_empty: 'The entry name cannot be empty!',
     no_pages: 'The entry name cannot be "pages"!',
-    disableStateManagement: 'Disable App State Management?',
+    needModifyConfig: 'Modify the Default Configuration?',
     clientRoute: {
       self: 'Client Routing',
-      selfControlRoute: 'Enable Self Control Route',
-      conventionalRoute: 'Enable Conventional Route',
-      no: 'Not Enabled',
+      selfControlRoute: 'Self Control Route',
+      conventionalRoute: 'Conventional Route',
     },
   },
   framework: {

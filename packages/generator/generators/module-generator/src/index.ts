@@ -9,10 +9,6 @@ import {
   Solution,
   ModuleSchema,
   Language,
-  DependenceGenerator,
-  ModuleActionFunctionsDevDependencies,
-  ActionFunction,
-  BooleanConfig,
 } from '@modern-js/generator-common';
 import {
   i18n as utilsI18n,
@@ -22,7 +18,6 @@ import {
   getModuleProjectPath,
   getPackageManagerText,
   getModernVersion,
-  getAvailableVersion,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
@@ -47,8 +42,6 @@ export const handleTemplateFile = async (
     isPublic = true,
     isLocalPackages,
     projectDir = '',
-    enableLess,
-    enableSass,
   } = context.config;
 
   const { outputPath } = generator;
@@ -174,46 +167,6 @@ export const handleTemplateFile = async (
         resourceKey
           .replace('templates/js-template/', projectPath)
           .replace('.handlebars', ''),
-    );
-  }
-
-  if (enableLess === BooleanConfig.YES) {
-    const lessDependence =
-      ModuleActionFunctionsDevDependencies[ActionFunction.Less]!;
-    await appApi.runSubGenerator(
-      getGeneratorPath(DependenceGenerator, context.config.distTag),
-      undefined,
-      {
-        devDependencies: {
-          [lessDependence]: await getAvailableVersion(
-            lessDependence,
-            modernVersion,
-            context.config.registry,
-          ),
-        },
-        projectPath,
-        isSubGenerator: true,
-      },
-    );
-  }
-
-  if (enableSass === BooleanConfig.YES) {
-    const sassDependence =
-      ModuleActionFunctionsDevDependencies[ActionFunction.Sass]!;
-    await appApi.runSubGenerator(
-      getGeneratorPath(DependenceGenerator, context.config.distTag),
-      undefined,
-      {
-        devDependencies: {
-          [sassDependence]: await getAvailableVersion(
-            sassDependence,
-            modernVersion,
-            context.config.registry,
-          ),
-        },
-        projectPath,
-        isSubGenerator: true,
-      },
     );
   }
 

@@ -14,36 +14,6 @@ sidebar_position: 3
 
 包名(packageName)，字符串类型，为输入值。
 
-### Need-Modify-Module-Config
-
-是否需要修改模块默认配置(needModifyModuleConfig)。
-
-该配置值为 `yes` 时，后续配置才会展示给用户。
-
-在使用 `--config` 参数或者在生成器插件中时，配置值为 `yes` 后续配置才会生效。
-
-该字段共有两个选项：
-
-- 是(yes)
-
-- 否(no)
-
-### Enable-Less
-
-是否启用 Less 支持(enableLess)，默认为不启用，共有两个选项：
-
-- 是(yes)
-
-- 否(no)
-
-### Enable-Sass
-
-是否启用 Sass 支持(enableSass), 默认为不启用，共有两个选项：
-
-- 是(yes)
-
-- 否(no)
-
 ## New 命令
 
 模块项目中 new 命令配置， 可以在执行 new 命令时通过 `--config` 参数配置，也可在生成器插件中创建元素和启用功能时使用。
