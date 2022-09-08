@@ -1,5 +1,15 @@
 # @modern-js/plugin-changeset
 
+## 1.18.0
+
+### Patch Changes
+
+- Updated dependencies [8280920]
+- Updated dependencies [5227370]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/plugin-i18n@1.18.0
+
 ## 1.17.0
 
 ### Patch Changes
