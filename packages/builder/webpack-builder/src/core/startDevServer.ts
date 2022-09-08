@@ -85,6 +85,7 @@ export async function startDevServer(options: InitConfigsOptions) {
 
       debug('listen dev server done');
       await printURLs(builderConfig, port);
+      await options.context.hooks.onAfterStartDevServerHooks.call({ port });
       resolve();
     });
   });

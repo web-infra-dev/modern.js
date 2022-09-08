@@ -9,6 +9,7 @@ import type {
   ModifyBuilderConfigFn,
   OnAfterCreateCompilerFn,
   OnBeforeCreateCompilerFn,
+  OnAfterStartDevServerFn,
   OnBeforeStartDevServerFn,
 } from './hooks';
 
@@ -30,6 +31,7 @@ export type BuilderPluginAPI = {
   onBeforeBuild: (fn: OnBeforeBuildFn) => void;
   onAfterCreateCompiler: (fn: OnAfterCreateCompilerFn) => void;
   onBeforeCreateCompiler: (fn: OnBeforeCreateCompilerFn) => void;
+  onAfterStartDevServer: (fn: OnAfterStartDevServerFn) => void;
   onBeforeStartDevServer: (fn: OnBeforeStartDevServerFn) => void;
 
   // Modifiers

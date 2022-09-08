@@ -44,4 +44,8 @@ export type OnAfterCreateCompilerFn = () => Promise<void> | void;
 
 export type OnBeforeStartDevServerFn = () => Promise<void> | void;
 
+export type OnAfterStartDevServerFn = (params: {
+  port: number;
+}) => Promise<void> | void;
+
 export type OnExitFn = () => void;

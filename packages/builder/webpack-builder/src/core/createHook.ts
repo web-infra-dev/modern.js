@@ -7,6 +7,7 @@ import type {
   ModifyBuilderConfigFn,
   OnAfterCreateCompilerFn,
   OnBeforeCreateCompilerFn,
+  OnAfterStartDevServerFn,
   OnBeforeStartDevServerFn,
 } from '../types';
 
@@ -54,6 +55,7 @@ export function initHooks() {
     modifyBuilderConfigHook: createAsyncHook<ModifyBuilderConfigFn>(),
     onAfterCreateCompilerHooks: createAsyncHook<OnAfterCreateCompilerFn>(),
     onBeforeCreateCompilerHooks: createAsyncHook<OnBeforeCreateCompilerFn>(),
+    onAfterStartDevServerHooks: createAsyncHook<OnAfterStartDevServerFn>(),
     onBeforeStartDevServerHooks: createAsyncHook<OnBeforeStartDevServerFn>(),
   };
 }
