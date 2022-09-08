@@ -49,7 +49,6 @@ library-project 为创建的项目名。
 ? 请填写项目名称 library
 ? 请选择开发语言 TS
 ? 请选择包管理工具 pnpm
-? 是否需要调整默认配置? 否
 ```
 
 :::info 注
@@ -273,7 +272,6 @@ Modern.js 支持 Monorepo 工程方案的管理，我们可以在 Monorepo 项�
 ? 请填写子项目名称 internal-lib
 ? 请填写子项目目录名称 internal-lib
 ? 请选择开发语言 TS
-? 是否需要调整默认配置? 否
 ```
 
 ### 在应用项目中使用组件以及内部模块
@@ -376,7 +374,6 @@ pnpm run new
 ? 请填写子项目名称 library2
 ? 请填写子项目目录名称 library2
 ? 请选择开发语言 TS
-? 是否需要调整默认配置? 否
 ```
 
 修改 `packages/library2/src/index.ts` 文件，增加工具库函数:

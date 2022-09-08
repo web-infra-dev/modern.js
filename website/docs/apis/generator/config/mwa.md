@@ -34,37 +34,11 @@ sidebar_position: 2
 
 ### Client-Route
 
-客户端路由配置(clientRoute)，默认为自控路由，共有三个选项：
+客户端路由配置(clientRoute)，默认为自控路由，共有两个选项：
 
-- 启用自控路由(selfControlRoute)
+- 自控路由(selfControlRoute)
 
-- 启用约定式路由(conventionalRoute)
-
-- 不启用(no)
-
-### Disable-State-Management
-
-是否关闭应用状态管理功能(disableStateManagement)，默认为不关闭，共有两个选项：
-
-- 是(yes)
-
-- 否(no)
-
-### Enable-Less
-
-是否启用 Less 支持(enableLess)，默认为不启用，共有两个选项：
-
-- 是(yes)
-
-- 否(no)
-
-### Enable-Sass
-
-是否启用 Sass 支持(enableSass), 默认为不启用，共有两个选项：
-
-- 是(yes)
-
-- 否(no)
+- 约定式路由(conventionalRoute)
 
 ## New 命令
 
@@ -96,7 +70,7 @@ New 命令的操作类型(actionType)，类型支持两种：
 
 入口名称(name), 字符串类型。
 
-创建入口除了`name`之外，还需要 `needModifyMWAConfig`、`clientRoute` 和 `disableStateManagement` 字段。
+创建入口除了`name`之外，还需要 `needModifyMWAConfig`、`clientRoute` 字段。
 
 #### Framework
 
