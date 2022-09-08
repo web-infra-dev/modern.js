@@ -51,7 +51,7 @@ export const compile: CompileFunc = async (
   );
   validateAbsolutePath(distDir, `dist dir ${distDir} is not an absolute path.`);
 
-  const { compiler } = modernConfig.server;
+  const compiler = modernConfig?.server?.compiler;
 
   const isTsProject = tsconfigPath && (await fs.pathExists(tsconfigPath));
   if (!isTsProject || compiler === 'babel') {
