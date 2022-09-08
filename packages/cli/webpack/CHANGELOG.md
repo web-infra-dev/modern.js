@@ -1,5 +1,17 @@
 # @modern-js/webpack
 
+## 1.18.0
+
+### Patch Changes
+
+- Updated dependencies [8280920]
+- Updated dependencies [5227370]
+- Updated dependencies [968be1b]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/babel-preset-app@1.18.0
+  - @modern-js/css-config@1.18.0
+
 ## 1.17.0
 
 ### Patch Changes

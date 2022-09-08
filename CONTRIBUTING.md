@@ -13,6 +13,10 @@ local.
 ### Install pnpm
 
 ```zsh
+# enable pnpm with corepack, only available on node >= `v14.19.0`
+corepack enable
+
+# or install pnpm v6 directly
 npm install -g pnpm@6
 ```
 
