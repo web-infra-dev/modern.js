@@ -103,11 +103,22 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     });
   };
 
-  const buildAndServe = async () => {
+  const buildAndServe = async (hangOn = false) => {
     const vol = await unwrapOutputVolume();
     const { serveVolume } = await import('@modern-js/e2e');
     const { port } = await serveVolume(process.cwd(), vol);
-    return `http://localhost:${port}`;
+    if (hangOn) {
+      // eslint-disable-next-line no-console
+      console.log(`Build and serving on http://localhost:${port}`);
+      const { test } = await import('@modern-js/e2e/playwright');
+      test.setTimeout(0);
+      await new Promise(() => null);
+    }
+    return {
+      baseurl: `http://localhost:${port}`,
+      vol,
+      port,
+    };
   };
 
   const matchWebpackPlugin = async (pluginName: string) => {

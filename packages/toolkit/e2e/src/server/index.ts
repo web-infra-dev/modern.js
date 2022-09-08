@@ -1,4 +1,3 @@
-import { createFsFromVolume } from 'memfs';
 import { Volume } from 'memfs/lib/volume';
 import createServer from 'connect';
 import serveStatic from './static';
