@@ -158,6 +158,12 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginDevtool(),
     PluginResolve(),
 
+    // fileSize plugin will read the previous dist files.
+    // So we should register fileSize plugin before cleanOutput plugin.
+    // And cleanOutput plugin should be registered before other plugins.
+    PluginFileSize(),
+    PluginCleanOutput(),
+
     // Plugins that provide basic features
     PluginHMR(),
     PluginSvg(),
@@ -172,10 +178,6 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginProgress(),
     PluginMinimize(),
     PluginManifest(),
-    // fileSize plugin will read the previous dist files.
-    // So we should register fileSize plugin before cleanOutput plugin.
-    PluginFileSize(),
-    PluginCleanOutput(),
     PluginModuleScopes(),
     PluginTsLoader(),
     PluginBabel(),

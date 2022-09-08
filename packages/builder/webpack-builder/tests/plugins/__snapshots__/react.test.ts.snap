@@ -127,9 +127,11 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     ],
                     "modules": false,
                     "shippedProposals": false,
-                    "targets": {
-                      "node": "12",
-                    },
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
                     "useBuiltIns": "entry",
                   },
                 ],

@@ -72,4 +72,18 @@ describe('plugins/css', () => {
 
     expect(includeLessLoader).toBe(true);
   });
+
+  it('should override browserslist of autoprefixer when using output.overrideBrowserslist config', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginCss()],
+      builderConfig: {
+        output: {
+          overrideBrowserslist: ['Chrome 80'],
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
 });

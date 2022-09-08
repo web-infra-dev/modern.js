@@ -70,4 +70,18 @@ describe('plugins/babel', () => {
     const config = await builder.unwrapWebpackConfig();
     expect(config.entry).toMatchSnapshot();
   });
+
+  it('should override targets of babel-preset-env when using output.overrideBrowserslist config', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginBabel()],
+      builderConfig: {
+        output: {
+          overrideBrowserslist: ['Chrome 80'],
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
 });
