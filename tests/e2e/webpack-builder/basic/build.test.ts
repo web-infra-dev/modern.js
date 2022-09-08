@@ -1,5 +1,5 @@
 import { createStubBuilder } from '@modern-js/webpack-builder/stub';
-import { expect, test } from '@playwright/test';
+import { expect, test } from '@modern-js/e2e/playwright';
 
 test('basic', async ({ page }) => {
   const builder = createStubBuilder({ webpack: true });
