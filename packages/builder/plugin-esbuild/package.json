@@ -45,7 +45,7 @@
     "wireit": "^0.7.1"
   },
   "peerDependencies": {
-    "@modern-js/webpack-builder": "*"
+    "@modern-js/webpack-builder": "workspace:^1"
   },
   "sideEffects": false,
   "publishConfig": {
