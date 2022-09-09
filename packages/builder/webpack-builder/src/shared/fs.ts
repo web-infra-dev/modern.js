@@ -1,4 +1,5 @@
 import type { GlobbyOptions } from '@modern-js/utils/globby';
+import fs, { PathLike } from 'fs';
 import { join } from 'path';
 import type { BuilderConfig, DistPathConfig, FilenameConfig } from '../types';
 import {
@@ -101,3 +102,6 @@ export const globContentJSON = async (
   }
   return ret;
 };
+
+export const filenameToGlobExpr = (file: PathLike) =>
+  fs.statSync(file).isDirectory() ? `${file}/**/*` : file;

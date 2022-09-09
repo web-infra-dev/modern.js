@@ -6,7 +6,12 @@ import { DirectoryJSON, Volume } from 'memfs/lib/volume';
 import { webpackBuild } from '../core/build';
 import { addDefaultPlugins, createPrimaryBuilder } from '../core/createBuilder';
 import { Hooks } from '../core/createHook';
-import { globContentJSON, matchLoader, mergeBuilderOptions } from '../shared';
+import {
+  filenameToGlobExpr,
+  globContentJSON,
+  matchLoader,
+  mergeBuilderOptions,
+} from '../shared';
 import type {
   BuilderOptions,
   BuilderPlugin,
@@ -58,6 +63,10 @@ export async function applyPluginOptions(
   pluginStore.addPlugins(opt.additional);
 }
 
+/**
+ * Create stub builder for testing.
+ * Some behaviors will be different to common `createBuilder`.
+ */
 export function createStubBuilder(options?: StubBuilderOptions) {
   // init primary builder.
   const builderOptions = mergeBuilderOptions(
@@ -75,6 +84,7 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     pluginStore.addPlugins(options!.plugins);
   }
 
+  // replace outputFileSystem of Webpack.
   let memfsVolume: Volume | undefined;
   context.hooks.onAfterCreateCompilerHooks.tap(async ({ compiler }) => {
     if (options?.webpack === 'in-memory') {
@@ -94,39 +104,53 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     });
   });
 
+  /**
+   * Run build and caching args of all hooks.
+   * It will run actual build only first time,
+   * and always return cached result until {@link reset}.
+   */
   const build = _.memoize(async () => {
     const executeBuild = options?.webpack ? webpackBuild : undefined;
     await buildImpl(executeBuild);
-    return { context, resolvedHooks };
+    return { resolvedHooks: { ...resolvedHooks } };
   });
 
-  // unwrap utils
+  /**
+   * Unwrap args of hook.
+   *
+   * The `unwrap` means it will try to run {@link build} and run some asserts before return.
+   */
   const unwrapHook = async <T extends keyof HookApi>(
     hook: T,
   ): Promise<HookApi[T]> => (await build()).resolvedHooks[hook];
 
+  /** Unwrap webpack configs. */
   const unwrapWebpackConfigs = async () => {
     const [{ webpackConfigs }] = await unwrapHook('onBeforeBuildHook');
     return webpackConfigs;
   };
 
+  /** Unwrap webpack config, it will ensure there's only one config object. */
   const unwrapWebpackConfig = async () => {
     const webpackConfigs = await unwrapWebpackConfigs();
     assert(webpackConfigs.length === 1);
     return webpackConfigs[0];
   };
 
+  /** Unwrap webpack compiler instance. */
   const unwrapWebpackCompiler = async () => {
     const [{ compiler }] = await unwrapHook('onAfterCreateCompilerHooks');
     return compiler;
   };
 
+  /** Unwrap outputFileSystem of webpack and ensure it is {@link Volume}. */
   const unwrapOutputVolume = async () => {
     await build();
     assert(memfsVolume);
     return memfsVolume;
   };
 
+  /** Serialize content of output files into JSON object. */
   const unwrapOutputJSON = async (
     paths: PathLike | PathLike[] = context.distPath,
     isRelative = false,
@@ -135,20 +159,46 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     if (memfsVolume) {
       return memfsVolume.toJSON(paths, undefined, isRelative);
     } else {
-      const _paths = _(paths).castArray().map(String).value();
+      const _paths = _(paths)
+        .castArray()
+        .map(filenameToGlobExpr)
+        .map(String)
+        .value();
       return globContentJSON(_paths, { absolute: !isRelative, maxSize });
     }
   };
 
-  const unwrapOutputFile = async (filename: string) => {
+  /** Read output file content. */
+  const readOutputFile = async (
+    filename: string,
+  ): Promise<string | undefined> => {
     const compiler = await unwrapWebpackCompiler();
     return new Promise((resolve, reject) => {
       compiler.outputFileSystem.readFile(filename, (err, data) =>
-        err ? reject(err) : resolve(data),
+        err ? reject(err) : resolve(data?.toString('utf-8')),
       );
     });
   };
 
+  /** Unwrap output file content, will ensure it is not empty. */
+  const unwrapOutputFile = async (filename: string) => {
+    const content = await readOutputFile(filename);
+    assert(content);
+    return content;
+  };
+
+  /**
+   * Run build and serve on `distPath`.
+   * If `hangOn` is true, it will block running and let you debug the server.
+   * Set `hangOn` to a {@link playwright.TestType} to automatically unset timeout of test.
+   *
+   * @example
+   * test('should work', async () => {
+   *   const builder = createStubBuilder();
+   *   const { baseurl } = builder.buildAndServe({ hangOn: test });
+   *   page.goto(`${baseurl}/index.html`);
+   * });
+   */
   const buildAndServe = async (options?: ServeDestOptions) => {
     const [{ runStaticServer }] = await Promise.all([
       import('@modern-js/e2e'),
@@ -172,16 +222,25 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     };
   };
 
+  /** Match webpack plugin by constructor name. */
   const matchWebpackPlugin = async (pluginName: string) => {
     const config = await unwrapWebpackConfig();
-    return config.plugins?.some(item => item.constructor.name === pluginName);
+    const result = config.plugins?.filter(
+      item => item.constructor.name === pluginName,
+    );
+    if (Array.isArray(result)) {
+      assert(result.length <= 1);
+      return result[0] || null;
+    } else {
+      return result || null;
+    }
   };
 
-  const matchWebpackLoader = async (filter: {
-    loader: string;
-    testFile: string;
-  }) => matchLoader({ config: await unwrapWebpackConfig(), ...filter });
+  /** Check if a file handled by specific loader. */
+  const matchWebpackLoader = async (loader: string, testFile: string) =>
+    matchLoader({ config: await unwrapWebpackConfig(), loader, testFile });
 
+  /** Reset builder. @see {@link build} */
   const reset = () => {
     build.cache.clear!();
   };
@@ -199,6 +258,7 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     unwrapOutputVolume,
     unwrapOutputJSON,
     unwrapOutputFile,
+    readOutputFile,
     buildAndServe,
     matchWebpackPlugin,
     matchWebpackLoader,
