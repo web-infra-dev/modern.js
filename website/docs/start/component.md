@@ -52,7 +52,6 @@ components-project 为创建项目的目录名称。
 ? 请填写项目名称 components
 ? 请选择开发语言 TS
 ? 请选择包管理工具 pnpm
-? 是否需要调整默认配置? 否
 ```
 
 :::info 注
@@ -560,7 +559,6 @@ pnpm run new
 ? 请填写子项目名称 internal-lib
 ? 请填写子项目目录名称 internal-lib
 ? 请选择开发语言 TS
-? 是否需要调整默认配置? 否
 ```
 
 ### 在应用项目中使用组件以及内部模块
@@ -663,7 +661,6 @@ pnpm run new
 ? 请填写子项目名称 component2
 ? 请填写子项目目录名称 compomemt2
 ? 请选择开发语言 TS
-? 是否需要调整默认配置? 否
 ```
 
 删除 `packages/component2/src/index.ts` 文件，新建 `packages/component2/src/index.tsx` 文件，增加 Button 组件:

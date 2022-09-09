@@ -1,5 +1,6 @@
 import { expect, describe, it } from 'vitest';
 import { PluginBabel } from '../../src/plugins/babel';
+import { PluginEntry } from '../../src/plugins/entry';
 import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/babel', () => {
@@ -30,6 +31,52 @@ describe('plugins/babel', () => {
             addExcludes(['src/**/*.js']);
             return options;
           },
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
+
+  it('should add core-js-entry when output.polyfill is entry', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginEntry(), PluginBabel()],
+      builderConfig: {
+        output: {
+          polyfill: 'entry',
+        },
+      },
+      entry: {
+        main: './index.js',
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+    expect(config.entry).toMatchSnapshot();
+  });
+
+  it('should not add core-js-entry when output.polyfill is usage', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginEntry(), PluginBabel()],
+      builderConfig: {
+        output: {
+          polyfill: 'usage',
+        },
+      },
+      entry: {
+        main: './index.js',
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+    expect(config.entry).toMatchSnapshot();
+  });
+
+  it('should override targets of babel-preset-env when using output.overrideBrowserslist config', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginBabel()],
+      builderConfig: {
+        output: {
+          overrideBrowserslist: ['Chrome 80'],
         },
       },
     });

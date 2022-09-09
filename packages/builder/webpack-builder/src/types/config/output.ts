@@ -43,5 +43,6 @@ export interface OutputConfig {
   enableAssetFallback?: boolean;
   enableLatestDecorators?: boolean;
   enableCssModuleTSDeclaration?: boolean;
+  overrideBrowserslist?: string[];
   svgDefaultExport?: 'component' | 'url';
 }

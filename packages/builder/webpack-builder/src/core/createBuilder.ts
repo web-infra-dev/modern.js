@@ -147,6 +147,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginSplitChunks } = await import('../plugins/splitChunks');
   const { PluginInspector } = await import('../plugins/inspector');
   const { PluginSRI } = await import('../plugins/sri');
+  const { PluginStartUrl } = await import('../plugins/startUrl');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
@@ -157,6 +158,12 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginOutput(),
     PluginDevtool(),
     PluginResolve(),
+
+    // fileSize plugin will read the previous dist files.
+    // So we should register fileSize plugin before cleanOutput plugin.
+    // And cleanOutput plugin should be registered before other plugins.
+    PluginFileSize(),
+    PluginCleanOutput(),
 
     // Plugins that provide basic features
     PluginHMR(),
@@ -172,10 +179,6 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginProgress(),
     PluginMinimize(),
     PluginManifest(),
-    // fileSize plugin will read the previous dist files.
-    // So we should register fileSize plugin before cleanOutput plugin.
-    PluginFileSize(),
-    PluginCleanOutput(),
     PluginModuleScopes(),
     PluginTsLoader(),
     PluginBabel(),
@@ -190,6 +193,7 @@ async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginSplitChunks(),
     PluginInspector(),
     PluginSRI(),
+    PluginStartUrl(),
 
     // fallback should be the last plugin
     PluginFallback(),
