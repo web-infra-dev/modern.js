@@ -156,6 +156,7 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     isRelative = false,
     maxSize = 4096,
   ): Promise<DirectoryJSON> => {
+    await build();
     if (memfsVolume) {
       return memfsVolume.toJSON(paths, undefined, isRelative);
     } else {
@@ -182,6 +183,7 @@ export function createStubBuilder(options?: StubBuilderOptions) {
 
   /** Unwrap output file content, will ensure it is not empty. */
   const unwrapOutputFile = async (filename: string) => {
+    await build();
     const content = await readOutputFile(filename);
     assert(content);
     return content;

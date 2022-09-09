@@ -11,7 +11,7 @@ describe('StubBuilder', () => {
       const vol = Volume.fromJSON({ [filename]: 'console.log(42)' });
       compiler.inputFileSystem = createFsFromVolume(vol);
     });
-    expect(await builder.unwrapOutputVolumeJSON()).toMatchInlineSnapshot(`
+    expect(await builder.unwrapOutputJSON()).toMatchInlineSnapshot(`
       {
         "<ROOT>/packages/builder/webpack-builder/dist/main.js": "console.log(42);",
       }

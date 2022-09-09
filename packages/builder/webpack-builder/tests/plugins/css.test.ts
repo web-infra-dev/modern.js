@@ -15,10 +15,10 @@ describe('plugins/css', () => {
         },
       },
     });
-    const includeStyleLoader = await builder.matchWebpackLoader({
-      loader: 'style-loader',
-      testFile: 'index.css',
-    });
+    const includeStyleLoader = await builder.matchWebpackLoader(
+      'style-loader',
+      'index.css',
+    );
 
     expect(includeStyleLoader).toBe(true);
   });
@@ -29,10 +29,10 @@ describe('plugins/css', () => {
       builderConfig: {},
     });
 
-    const includeMiniCssExtractLoader = await builder.matchWebpackLoader({
-      loader: 'mini-css-extract-plugin',
-      testFile: 'index.css',
-    });
+    const includeMiniCssExtractLoader = await builder.matchWebpackLoader(
+      'mini-css-extract-plugin',
+      'index.css',
+    );
 
     expect(includeMiniCssExtractLoader).toBe(true);
   });
@@ -47,10 +47,10 @@ describe('plugins/css', () => {
       },
     });
 
-    const includeSassLoader = await builder.matchWebpackLoader({
-      loader: 'sass-loader',
-      testFile: 'index.scss',
-    });
+    const includeSassLoader = await builder.matchWebpackLoader(
+      'sass-loader',
+      'index.scss',
+    );
 
     expect(includeSassLoader).toBe(true);
   });
@@ -65,10 +65,10 @@ describe('plugins/css', () => {
       },
     });
 
-    const includeLessLoader = await builder.matchWebpackLoader({
-      loader: 'less-loader',
-      testFile: 'index.less',
-    });
+    const includeLessLoader = await builder.matchWebpackLoader(
+      'less-loader',
+      'index.less',
+    );
 
     expect(includeLessLoader).toBe(true);
   });
