@@ -1,0 +1,53 @@
+import { AssetsRetryOptions } from '../types';
+import type { WebpackPluginInstance, Compiler } from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import fs from 'fs/promises';
+import { getCompiledPath } from '../shared/fs';
+
+export class AssetsRetryPlugin implements WebpackPluginInstance {
+  readonly name: string;
+
+  #retryOptions: AssetsRetryOptions;
+
+  constructor(retryOptions: AssetsRetryOptions) {
+    this.name = 'AssetsRetryPlugin';
+    this.#retryOptions = retryOptions;
+  }
+
+  apply(compiler: Compiler): void {
+    compiler.hooks.compilation.tap(this.name, compilation => {
+      HtmlWebpackPlugin.getHooks(compilation).afterTemplateExecution.tapPromise(
+        this.name,
+        async data => {
+          const { terserMinify } = await import('terser-webpack-plugin');
+          const runtimeFilePath = getCompiledPath('assets-retry.js');
+          const runtimeCode = await fs.readFile(runtimeFilePath, 'utf-8');
+          const { code: minifiedRuntimeCode } = await terserMinify(
+            {
+              [runtimeFilePath]: runtimeCode,
+            },
+            undefined,
+            {
+              ecma: 5,
+            },
+            undefined,
+          );
+          data.headTags.unshift({
+            tagName: 'script',
+            attributes: {
+              type: 'text/javascript',
+            },
+            voidTag: false,
+            // Runtime code will include `Object.defineProperty(exports,"__esModule",{value:!0})` after compiled by tsc
+            // So we inject `var exports={}` to avoid `exports is not defined` error
+            innerHTML: `var exports={};${minifiedRuntimeCode}init(${JSON.stringify(
+              this.#retryOptions,
+            )})`,
+            meta: {},
+          });
+          return data;
+        },
+      );
+    });
+  }
+}

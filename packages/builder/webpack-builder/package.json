@@ -105,11 +105,12 @@
   },
   "wireit": {
     "build": {
-      "command": "tsc && node scripts/compile-ajv.js",
+      "command": "tsc && node scripts/post-compile.js",
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "scripts/post-compile.js"
       ],
       "output": [
         "dist/**/*",
