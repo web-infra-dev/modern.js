@@ -1,19 +1,28 @@
+import type * as playwright from '@modern-js/e2e/playwright';
 import _ from '@modern-js/utils/lodash';
 import assert from 'assert';
+import { PathLike } from 'fs';
+import { DirectoryJSON, Volume } from 'memfs/lib/volume';
 import { webpackBuild } from '../core/build';
 import { addDefaultPlugins, createPrimaryBuilder } from '../core/createBuilder';
 import { Hooks } from '../core/createHook';
 import { matchLoader, mergeBuilderOptions } from '../shared';
-import type { BuilderOptions, BuilderPlugin, Context } from '../types';
+import type {
+  BuilderOptions,
+  BuilderPlugin,
+  Context,
+  PluginStore,
+} from '../types';
 import { createStubContext } from './context';
-import { Volume, DirectoryJSON } from 'memfs/lib/volume';
-import { PathLike } from 'fs';
-import type * as playwright from '@modern-js/e2e/playwright';
+
+export interface OptionsPluginsItem {
+  builtin?: boolean | 'default' | 'minimal';
+  additional?: BuilderPlugin[];
+}
 
 export interface StubBuilderOptions extends BuilderOptions {
   context?: Context;
-  defaultPlugins?: boolean;
-  plugins?: BuilderPlugin[];
+  plugins?: OptionsPluginsItem | OptionsPluginsItem[keyof OptionsPluginsItem];
   webpack?: boolean | 'in-memory';
 }
 
@@ -23,6 +32,30 @@ export type HookApi = {
 
 export interface ServeDestOptions {
   hangOn?: playwright.TestType<any, any> | boolean;
+}
+
+export async function applyPluginOptions(
+  pluginStore: PluginStore,
+  options?: StubBuilderOptions['plugins'],
+) {
+  const opt: Required<OptionsPluginsItem> = {
+    builtin: false,
+    additional: [],
+    ...(typeof options === 'object' ? options : {}),
+  };
+  // normalize options
+  if (typeof options === 'string' || typeof options === 'boolean') {
+    opt.builtin = options;
+  } else if (Array.isArray(options)) {
+    opt.additional = options;
+  }
+  // apply plugins
+  if (opt.builtin === true || opt.builtin === 'minimal') {
+    // TODO: load minimal plugins
+  } else if (opt.builtin === 'default') {
+    await addDefaultPlugins(pluginStore);
+  }
+  pluginStore.addPlugins(opt.additional);
 }
 
 export function createStubBuilder(options?: StubBuilderOptions) {
@@ -37,9 +70,7 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     publicContext,
     build: buildImpl,
   } = createPrimaryBuilder(builderOptions, context);
-  if (options?.defaultPlugins) {
-    addDefaultPlugins(pluginStore);
-  }
+  applyPluginOptions(pluginStore, options?.plugins);
   if (Array.isArray(options?.plugins)) {
     pluginStore.addPlugins(options!.plugins);
   }
