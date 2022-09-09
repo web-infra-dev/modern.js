@@ -9,12 +9,12 @@ type CrossOriginOptions = {
 export class HtmlCrossOriginPlugin implements WebpackPluginInstance {
   readonly name: string;
 
-  readonly crossOrigin: string | false;
+  readonly crossOrigin: CrossOrigin;
 
   constructor(options: CrossOriginOptions) {
     const { crossOrigin } = options;
     this.name = 'HtmlCrossOriginPlugin';
-    this.crossOrigin = crossOrigin === true ? 'anonymous' : crossOrigin;
+    this.crossOrigin = crossOrigin;
   }
 
   apply(compiler: Compiler): void {

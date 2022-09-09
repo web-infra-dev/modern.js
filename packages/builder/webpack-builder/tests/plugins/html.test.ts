@@ -30,9 +30,11 @@ describe('plugins/html', () => {
       },
     });
 
+    const config = await builder.unwrapWebpackConfig();
     expect(
       await builder.matchWebpackPlugin('HtmlCrossOriginPlugin'),
     ).toBeTruthy();
+    expect(config.output?.crossOriginLoading).toEqual('anonymous');
   });
 
   it('should register appIcon plugin when using html.appIcon', async () => {

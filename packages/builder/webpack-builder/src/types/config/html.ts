@@ -1,7 +1,7 @@
 import type { MetaOptions } from '@modern-js/utils';
 import type { HTMLPluginOptions } from '../thirdParty';
 
-export type CrossOrigin = boolean | 'anonymous' | 'use-credentials';
+export type CrossOrigin = 'anonymous' | 'use-credentials';
 
 export interface HtmlConfig {
   meta?: MetaOptions;
@@ -14,7 +14,7 @@ export interface HtmlConfig {
   faviconByEntries?: Record<string, string | undefined>;
   appIcon?: string;
   mountId?: string;
-  crossorigin?: CrossOrigin;
+  crossorigin?: boolean | CrossOrigin;
   disableHtmlFolder?: boolean;
   templateParameters?: Record<string, unknown>;
   templateParametersByEntries?: Record<
