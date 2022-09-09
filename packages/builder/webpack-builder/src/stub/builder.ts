@@ -11,6 +11,7 @@ import {
   globContentJSON,
   matchLoader,
   mergeBuilderOptions,
+  STUB_BUILDER_PLUGIN_BUILTIN,
 } from '../shared';
 import type {
   BuilderOptions,
@@ -27,7 +28,12 @@ export interface OptionsPluginsItem {
 
 export interface StubBuilderOptions extends BuilderOptions {
   context?: Context;
+  /**
+   * Setup builtin plugins and add custom plugins.
+   * Automatically add builtin plugins by `process.env.STUB_BUILDER_PLUGIN_BUILTIN`.
+   */
   plugins?: OptionsPluginsItem | OptionsPluginsItem[keyof OptionsPluginsItem];
+  /** Whether to run webpack build. By default it will be `false` and skip webpack building. */
   webpack?: boolean | 'in-memory';
 }
 
@@ -44,7 +50,7 @@ export async function applyPluginOptions(
   options?: StubBuilderOptions['plugins'],
 ) {
   const opt: Required<OptionsPluginsItem> = {
-    builtin: false,
+    builtin: STUB_BUILDER_PLUGIN_BUILTIN ?? false,
     additional: [],
     ...(typeof options === 'object' ? options : {}),
   };
