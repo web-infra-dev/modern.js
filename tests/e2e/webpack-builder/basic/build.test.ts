@@ -1,10 +1,19 @@
 import path from 'path';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { createStubBuilder } from '@modern-js/webpack-builder/stub';
 import { PluginEntry } from '@modern-js/webpack-builder/plugins/entry';
 import { PluginHtml } from '@modern-js/webpack-builder/plugins/html';
-import { expect, test } from '@modern-js/e2e/playwright';
 
 test('basic', async ({ page }) => {
+  // TODO: serve dist files from memfs directly (instead of output files to disk first).
+  // TODO: re-organize builtin plugins so that we can setup plugins by `plugins: 'minimal'` or `plugins: ['react']`.
+  // TODO: display all files in 404 page.
+  // TODO: disable output when testing.
+  // TODO: is it possible to merge coverages with vitest.
+  // TODO: is it possible to integrate with vitest.
+  // TODO: snapshot of dom tree.
+  // TODO: assert console output.
+  // TODO: docs.
   const builder = createStubBuilder({
     webpack: 'in-memory',
     plugins: [PluginEntry(), PluginHtml()],
