@@ -179,7 +179,7 @@ function retry(config, e) {
   } // Then, we will start to retry
 
 
-  var nextDomain = findNextDomain(domain, config.domain);
+  var nextDomain = findNextDomain(domain, config.domain) || '';
   var isAsync = Boolean(target.dataset.webpackBuilderAsync) || target.async || target.defer;
   var attributes = {
     url: url.replace(domain, nextDomain),

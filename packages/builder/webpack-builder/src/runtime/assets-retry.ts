@@ -191,7 +191,7 @@ export function retry(config: AssetsRetryOptions, e: Event) {
   }
 
   // Then, we will start to retry
-  const nextDomain = findNextDomain(domain, config.domain!);
+  const nextDomain = findNextDomain(domain, config.domain!) || '';
 
   const isAsync =
     Boolean(target.dataset.webpackBuilderAsync) ||
