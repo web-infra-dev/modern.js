@@ -6,7 +6,7 @@ import { DirectoryJSON, Volume } from 'memfs/lib/volume';
 import { webpackBuild } from '../core/build';
 import { addDefaultPlugins, createPrimaryBuilder } from '../core/createBuilder';
 import { Hooks } from '../core/createHook';
-import { matchLoader, mergeBuilderOptions } from '../shared';
+import { globContentJSON, matchLoader, mergeBuilderOptions } from '../shared';
 import type {
   BuilderOptions,
   BuilderPlugin,
@@ -127,13 +127,17 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     return memfsVolume;
   };
 
-  const unwrapOutputVolumeJSON = async (
-    paths?: PathLike | PathLike[],
-    json?: Record<any, any>,
-    isRelative?: boolean,
+  const unwrapOutputJSON = async (
+    paths: PathLike | PathLike[] = context.distPath,
+    isRelative = false,
+    maxSize = 4096,
   ): Promise<DirectoryJSON> => {
-    const vol = await unwrapOutputVolume();
-    return vol.toJSON(paths, json, isRelative);
+    if (memfsVolume) {
+      return memfsVolume.toJSON(paths, undefined, isRelative);
+    } else {
+      const _paths = _(paths).castArray().map(String).value();
+      return globContentJSON(_paths, { absolute: !isRelative, maxSize });
+    }
   };
 
   const unwrapOutputFile = async (filename: string) => {
@@ -193,7 +197,7 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     unwrapWebpackConfig,
     unwrapWebpackCompiler,
     unwrapOutputVolume,
-    unwrapOutputVolumeJSON,
+    unwrapOutputJSON,
     unwrapOutputFile,
     buildAndServe,
     matchWebpackPlugin,

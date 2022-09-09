@@ -1,3 +1,4 @@
+import type { GlobbyOptions } from '@modern-js/utils/globby';
 import { join } from 'path';
 import type { BuilderConfig, DistPathConfig, FilenameConfig } from '../types';
 import {
@@ -75,4 +76,28 @@ export const getFilename = (
     default:
       throw new Error(`unknown key ${type} in "output.filename"`);
   }
+};
+
+export interface GlobContentJSONOptions extends GlobbyOptions {
+  maxSize?: number;
+}
+
+export const globContentJSON = async (
+  paths: string | string[],
+  options: GlobContentJSONOptions,
+) => {
+  const { globby, fs } = await import('@modern-js/utils');
+  const files = await globby(paths, options);
+  let totalSize = 0;
+  const maxSize = 1024 * (options.maxSize ?? 4096);
+  const ret: Record<string, string> = {};
+  for await (const file of files) {
+    const { size } = await fs.stat(file);
+    totalSize += size;
+    if (totalSize > maxSize) {
+      throw new Error('too large');
+    }
+    ret[file] = await fs.readFile(file, 'utf-8');
+  }
+  return ret;
 };
