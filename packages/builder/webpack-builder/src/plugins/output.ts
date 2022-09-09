@@ -77,14 +77,13 @@ export const PluginOutput = (): BuilderPlugin => ({
         >({}, config.tools?.cssExtract?.pluginOptions || {});
 
         const cssFilename = getFilename(config, 'css', isProd);
-        const cssChunkName = `${cssPath}/${cssFilename}`;
 
         chain
           .plugin(CHAIN_ID.PLUGIN.MINI_CSS_EXTRACT)
           .use(MiniCssExtractPlugin, [
             {
-              filename: cssChunkName,
-              chunkFilename: cssChunkName,
+              filename: `${cssPath}/${cssFilename}`,
+              chunkFilename: `${cssPath}/async/${cssFilename}`,
               ignoreOrder: true,
               ...extractPluginOptions,
             },

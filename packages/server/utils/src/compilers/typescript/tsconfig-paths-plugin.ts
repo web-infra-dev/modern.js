@@ -109,7 +109,7 @@ export function tsconfigPathsBeforeHookFactory(
           const importPathWithQuotes = node.arguments[0].getText(sf);
           const text = importPathWithQuotes.slice(
             1,
-            importPathWithQuotes.length - 2,
+            importPathWithQuotes.length - 1,
           );
           const result = getNotAliasedPath(sf, matchPath, text);
           if (!result) {

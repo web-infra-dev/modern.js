@@ -17,3 +17,10 @@ export type BuilderOptions = {
   /** Builder config object. */
   builderConfig?: BuilderConfig;
 };
+
+export type InspectOptions = {
+  env?: 'development' | 'production';
+  verbose?: boolean;
+  outputPath?: string;
+  writeToDisk?: boolean;
+};

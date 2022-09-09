@@ -214,3 +214,17 @@ export const mergeBuilderConfig = <T>(...configs: T[]): T =>
     // fallback to lodash default merge behavior
     return undefined;
   });
+
+export async function stringifyConfig(config: unknown, verbose?: boolean) {
+  const { default: WebpackChain } = await import(
+    '../../compiled/webpack-5-chain'
+  );
+
+  // webpackChain.toString can be used as a common stringify method
+  const stringify = WebpackChain.toString as (
+    config: unknown,
+    options: { verbose?: boolean },
+  ) => string;
+
+  return stringify(config as any, { verbose });
+}

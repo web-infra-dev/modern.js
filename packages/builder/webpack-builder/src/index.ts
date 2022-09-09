@@ -5,6 +5,7 @@ export type {
   // Plugin Types
   BuilderPlugin,
   BuilderContext,
+  BuilderOptions,
   BuilderPluginAPI,
 
   // Config Types
@@ -18,6 +19,7 @@ export type {
   ExperimentsConfig,
 
   // Third Party Types
+  webpack,
   WebpackChain,
   WebpackConfig,
   CSSLoaderOptions,

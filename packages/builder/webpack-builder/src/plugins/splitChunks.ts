@@ -65,7 +65,7 @@ function splitByExperience(ctx: SplitChunksContext): SplitChunks {
   ];
 
   SPLIT_EXPERIENCE_LIST.forEach((test: RegExp, index: number) => {
-    const key = `Experience_Defined_Cache_Group_${index}`;
+    const key = `pre-defined-chunk-${index}`;
 
     experienceCacheGroup[key] = {
       test,
@@ -215,7 +215,6 @@ export function PluginSplitChunks(): BuilderPlugin {
           userDefinedCacheGroups,
           builderConfig: chunkSplit,
         });
-        // @ts-expect-error `splitChunks` can be false, but webpack chain doesn't support it.
         chain.optimization.splitChunks(splitChunksOptions);
       });
     },

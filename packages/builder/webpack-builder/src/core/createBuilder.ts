@@ -4,12 +4,12 @@ import { createPluginStore } from './createPluginStore';
 import { initConfigs } from './initConfigs';
 import { webpackBuild } from './build';
 import type webpack from 'webpack';
-import type { InspectOptions } from './inspectWebpackConfig';
 import type {
   PluginStore,
   BuilderOptions,
   Context,
   PromiseOrNot,
+  InspectOptions,
 } from '../types';
 
 export type ExecuteBuild = (
@@ -81,10 +81,16 @@ export async function createBuilder(options?: BuilderOptions) {
   };
 
   const inspectWebpackConfig = async (inspectOptions: InspectOptions = {}) => {
-    const { inspectWebpackConfig: inspectWebpackConfigImpl } = await import(
-      './inspectWebpackConfig'
-    );
-    return inspectWebpackConfigImpl({
+    return (await import('./inspectWebpackConfig')).inspectWebpackConfig({
+      context,
+      pluginStore,
+      builderOptions,
+      inspectOptions,
+    });
+  };
+
+  const inspectBuilderConfig = async (inspectOptions: InspectOptions = {}) => {
+    return (await import('./inspectBuilderConfig')).inspectBuilderConfig({
       context,
       pluginStore,
       builderOptions,
@@ -98,6 +104,7 @@ export async function createBuilder(options?: BuilderOptions) {
     context: publicContext,
     createCompiler,
     startDevServer,
+    inspectBuilderConfig,
     inspectWebpackConfig,
   };
 }
@@ -142,6 +149,7 @@ export async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginSplitChunks } = await import('../plugins/splitChunks');
   const { PluginInspector } = await import('../plugins/inspector');
   const { PluginSRI } = await import('../plugins/sri');
+  const { PluginStartUrl } = await import('../plugins/startUrl');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
@@ -152,6 +160,12 @@ export async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginOutput(),
     PluginDevtool(),
     PluginResolve(),
+
+    // fileSize plugin will read the previous dist files.
+    // So we should register fileSize plugin before cleanOutput plugin.
+    // And cleanOutput plugin should be registered before other plugins.
+    PluginFileSize(),
+    PluginCleanOutput(),
 
     // Plugins that provide basic features
     PluginHMR(),
@@ -167,10 +181,6 @@ export async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginProgress(),
     PluginMinimize(),
     PluginManifest(),
-    // fileSize plugin will read the previous dist files.
-    // So we should register fileSize plugin before cleanOutput plugin.
-    PluginFileSize(),
-    PluginCleanOutput(),
     PluginModuleScopes(),
     PluginTsLoader(),
     PluginBabel(),
@@ -185,6 +195,7 @@ export async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginSplitChunks(),
     PluginInspector(),
     PluginSRI(),
+    PluginStartUrl(),
 
     // fallback should be the last plugin
     PluginFallback(),

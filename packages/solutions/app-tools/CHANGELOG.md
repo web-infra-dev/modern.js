@@ -1,5 +1,36 @@
 # @modern-js/app-tools
 
+## 1.18.0
+
+### Patch Changes
+
+- 66ad36f: feat: add source.enableAsyncEntry config
+
+  feat: 新增 source.enableAsyncEntry 配置项
+
+- Updated dependencies [8280920]
+- Updated dependencies [3d5e3a5]
+- Updated dependencies [8280920]
+- Updated dependencies [2b7406d]
+- Updated dependencies [9f13d8c]
+- Updated dependencies [fc7214d]
+- Updated dependencies [60a2e3a]
+- Updated dependencies [5227370]
+- Updated dependencies [66ad36f]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/prod-server@1.18.0
+  - @modern-js/server@1.18.0
+  - @modern-js/upgrade@1.18.0
+  - @modern-js/core@1.18.0
+  - @modern-js/plugin-i18n@1.18.0
+  - @modern-js/plugin-jarvis@1.18.0
+  - @modern-js/webpack@1.18.0
+  - @modern-js/new-action@1.18.0
+  - @modern-js/node-bundle-require@1.18.0
+  - @modern-js/plugin@1.18.0
+  - @modern-js/types@1.18.0
+
 ## 1.17.0
 
 ### Patch Changes

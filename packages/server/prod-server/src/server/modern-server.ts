@@ -7,6 +7,7 @@ import { Adapter, APIServerStartInput } from '@modern-js/server-core';
 import type { NormalizedConfig } from '@modern-js/core';
 import axios from 'axios';
 import { clone } from '@modern-js/utils/lodash';
+import type { ContextOptions } from '../libs/context';
 import {
   ModernServerOptions,
   NextFunction,
@@ -39,7 +40,6 @@ import { createProxyHandler, BffProxyOptions } from '../libs/proxy';
 import { createContext, ModernServerContext } from '../libs/context';
 import {
   AGGRED_DIR,
-  ApiServerMode,
   ERROR_DIGEST,
   ERROR_PAGE_TEXT,
   RUN_MODE,
@@ -285,14 +285,8 @@ export class ModernServer implements ModernServerInterface {
     }
 
     if (fs.existsSync(apiDir) && !onlyWeb) {
-      const mode = fs.existsSync(path.join(apiDir, AGGRED_DIR.lambda))
-        ? ApiServerMode.frame
-        : ApiServerMode.func;
-
-      debug('exists api dir', mode);
-      // if use lambda/, mean framework style of writing, then discard user extension
       const apiExtension = mergeExtension(pluginAPIExt);
-      this.frameAPIHandler = await this.prepareAPIHandler(mode, apiExtension);
+      this.frameAPIHandler = await this.prepareAPIHandler(apiExtension);
     }
   }
 
@@ -310,17 +304,13 @@ export class ModernServer implements ModernServerInterface {
     );
   }
 
-  protected async prepareAPIHandler(
-    mode: ApiServerMode,
-    extension: APIServerStartInput['config'],
-  ) {
+  protected async prepareAPIHandler(extension: APIServerStartInput['config']) {
     const { workDir, runner, conf } = this;
     const { bff } = conf as ConfWithBFF;
     const prefix = bff?.prefix || '/api';
     return runner.prepareApiServer(
       {
         pwd: workDir,
-        mode,
         config: extension,
         prefix: Array.isArray(prefix) ? prefix[0] : prefix,
       },
@@ -385,6 +375,14 @@ export class ModernServer implements ModernServerInterface {
       // if error, just throw and let process die
       require(filepath);
     });
+  }
+
+  protected createContext(
+    req: IncomingMessage,
+    res: ServerResponse,
+    options: ContextOptions = {},
+  ) {
+    return createContext(req, res, options);
   }
 
   /* —————————————————————— private function —————————————————————— */
@@ -594,7 +592,7 @@ export class ModernServer implements ModernServerInterface {
     req.metrics = this.metrics;
     let context: ModernServerContext;
     try {
-      context = createContext(req, res);
+      context = this.createContext(req, res);
     } catch (e) {
       this.logger.error(e as Error);
       res.statusCode = 500;

@@ -145,7 +145,9 @@ export const PluginHtml = (): BuilderPlugin => ({
 
       await Promise.all(
         entryNames.map(async (entryName, index) => {
-          const entryValue = entries[entryName].values();
+          const entryValue = entries[
+            entryName
+          ].values() as WebpackConfig['entry'];
           const chunks = await getChunks(entryName, entryValue);
           const inject = getInject(entryName, config);
           const favicon = getFavicon(entryName, config);
@@ -195,9 +197,17 @@ export const PluginHtml = (): BuilderPlugin => ({
           const { HtmlCrossOriginPlugin } = await import(
             '../webpackPlugins/HtmlCrossOriginPlugin'
           );
+
+          const formattedCrossorigin =
+            crossorigin === true ? 'anonymous' : crossorigin;
+
           chain
             .plugin(CHAIN_ID.PLUGIN.HTML_CROSS_ORIGIN)
-            .use(HtmlCrossOriginPlugin, [{ crossOrigin: crossorigin }]);
+            .use(HtmlCrossOriginPlugin, [
+              { crossOrigin: formattedCrossorigin },
+            ]);
+
+          chain.output.crossOriginLoading(formattedCrossorigin);
         }
 
         if (appIcon) {

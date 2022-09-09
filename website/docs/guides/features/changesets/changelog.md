@@ -172,7 +172,6 @@ module.exports = {
 ? 请填写项目名称 custom-changelog
 ? 请选择开发语言 TS
 ? 请选择包管理工具 pnpm
-? 是否需要调整默认配置? 否
 ```
 
 #### 实现自定义内容。
@@ -207,7 +206,6 @@ export async function getDependencyReleaseLine() {}
 ? 请填写子项目名称 custom-changelog
 ? 请填写子项目目录名称 custom-changelog
 ? 请选择开发语言 TS
-? 是否需要调整默认配置? 否
 ```
 
 #### 实现自定义内容。

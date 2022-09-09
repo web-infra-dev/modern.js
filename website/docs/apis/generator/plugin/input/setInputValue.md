@@ -19,7 +19,6 @@ export interface IPluginContext {
 
 ```ts
 context.setInputValue({
-  needModifyModuleConfig: 'no',
   moduleRunWay: 'no',
 });
 ```

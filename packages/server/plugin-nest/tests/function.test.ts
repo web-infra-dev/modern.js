@@ -21,7 +21,6 @@ describe('function-mode', () => {
 
     apiHandler = await runner.prepareApiServer({
       pwd,
-      mode: 'function',
       config: { middleware: [AppModule] },
       prefix: '/',
     });

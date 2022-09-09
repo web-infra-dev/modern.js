@@ -1,5 +1,24 @@
 # @modern-js/monorepo-tools
 
+## 1.18.0
+
+### Patch Changes
+
+- Updated dependencies [8280920]
+- Updated dependencies [9f13d8c]
+- Updated dependencies [60a2e3a]
+- Updated dependencies [5227370]
+- Updated dependencies [66ad36f]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/upgrade@1.18.0
+  - @modern-js/core@1.18.0
+  - @modern-js/plugin-changeset@1.18.0
+  - @modern-js/plugin-i18n@1.18.0
+  - @modern-js/plugin-jarvis@1.18.0
+  - @modern-js/new-action@1.18.0
+  - @modern-js/plugin@1.18.0
+
 ## 1.17.0
 
 ### Patch Changes

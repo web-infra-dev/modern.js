@@ -1,14 +1,12 @@
 import path from 'path';
-import { isEqual, merge } from '@modern-js/utils/lodash';
+import { merge } from '@modern-js/utils/lodash';
 import { fs, getPackageObj, isTsProject } from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { JsonAPI } from '@modern-js/codesmith-api-json';
 import { renderString } from '@modern-js/codesmith-api-handlebars';
 import {
   i18n as commonI18n,
   EntrySchema,
-  BooleanConfig,
   ClientRoute,
 } from '@modern-js/generator-common';
 import { isEmptySource, isSingleEntry } from './utils';
@@ -39,7 +37,6 @@ const handleInput = async (
   });
 
   if (ans.needModifyMWAConfig === 'no') {
-    ans.disableStateManagement = BooleanConfig.NO;
     ans.clientRoute = ClientRoute.SelfControlRoute;
   }
   return ans;
@@ -130,92 +127,6 @@ const getTargetFolder = (
   return targetPath;
 };
 
-const getSpaUpdateInfo = (
-  clientRoute: ClientRoute,
-  disableStateManagement: BooleanConfig,
-) => {
-  const updateInfo: Record<string, unknown> = {};
-  if (
-    clientRoute === ClientRoute.No &&
-    disableStateManagement === BooleanConfig.YES
-  ) {
-    updateInfo.modernConfig = {};
-  }
-
-  if (clientRoute !== ClientRoute.No) {
-    updateInfo['modernConfig.runtime.router'] = true;
-  }
-
-  if (disableStateManagement === BooleanConfig.NO) {
-    updateInfo['modernConfig.runtime.state'] = true;
-  }
-  return updateInfo;
-};
-
-const getMpaUpdateInfo = (
-  name: string,
-  clientRoute: ClientRoute = ClientRoute.SelfControlRoute,
-  disableStateManagement: BooleanConfig = BooleanConfig.NO,
-  modernConfig?: Record<string, unknown>,
-) => {
-  const newFeature = {
-    state: disableStateManagement === BooleanConfig.NO,
-    router: clientRoute !== ClientRoute.No,
-  };
-  const updateInfo = {
-    [`modernConfig.runtimeByEntries.${name}.state`]: newFeature.state,
-    [`modernConfig.runtimeByEntries.${name}.router`]: newFeature.router,
-  };
-  if (!newFeature.state && !newFeature.router) {
-    if (
-      !modernConfig ||
-      !modernConfig.runtime ||
-      !(modernConfig.runtime as Record<string, unknown>)
-    ) {
-      return {};
-    }
-  }
-  if (modernConfig?.runtime) {
-    const preDefaultFeature = modernConfig.runtime as Record<string, unknown>;
-    if (isEqual(newFeature, preDefaultFeature)) {
-      return {};
-    }
-  }
-  return updateInfo;
-};
-
-const updatePackageJSON = async (
-  context: GeneratorContext,
-  generator: GeneratorCore,
-) => {
-  const appDir = context.materials.default.basePath;
-  const confPath = path.join(appDir, 'package.json');
-  if (!fs.existsSync(confPath)) {
-    generator.logger.warn(i18n.t(localeKeys.package_not_exist));
-  }
-  let updateInfo: Record<string, unknown> = {};
-
-  const { name, clientRoute, disableStateManagement } = context.config;
-  if (!name) {
-    updateInfo = getSpaUpdateInfo(clientRoute, disableStateManagement);
-  } else {
-    const pkgObj = await getPackageObj(context);
-    const { modernConfig } = pkgObj;
-    updateInfo = getMpaUpdateInfo(
-      name,
-      clientRoute,
-      disableStateManagement,
-      modernConfig,
-    );
-  }
-
-  const jsonAPI = new JsonAPI(generator);
-  await jsonAPI.update(context.materials.default.get('package.json'), {
-    query: {},
-    update: { $set: updateInfo },
-  });
-};
-
 export const handleTemplateFile = async (
   context: GeneratorContext,
   generator: GeneratorCore,
@@ -273,8 +184,6 @@ export const handleTemplateFile = async (
       main,
     },
   );
-
-  await updatePackageJSON(context, generator);
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
