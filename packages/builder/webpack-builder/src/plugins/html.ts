@@ -197,9 +197,17 @@ export const PluginHtml = (): BuilderPlugin => ({
           const { HtmlCrossOriginPlugin } = await import(
             '../webpackPlugins/HtmlCrossOriginPlugin'
           );
+
+          const formattedCrossorigin =
+            crossorigin === true ? 'anonymous' : crossorigin;
+
           chain
             .plugin(CHAIN_ID.PLUGIN.HTML_CROSS_ORIGIN)
-            .use(HtmlCrossOriginPlugin, [{ crossOrigin: crossorigin }]);
+            .use(HtmlCrossOriginPlugin, [
+              { crossOrigin: formattedCrossorigin },
+            ]);
+
+          chain.output.crossOriginLoading(formattedCrossorigin);
         }
 
         if (appIcon) {
