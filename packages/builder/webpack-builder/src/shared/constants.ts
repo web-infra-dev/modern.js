@@ -34,3 +34,5 @@ export const MEDIA_EXTENSIONS = [
   'aac',
   'mov',
 ];
+
+export const RUNTIME_CHUNK_NAME = 'builder-runtime';
