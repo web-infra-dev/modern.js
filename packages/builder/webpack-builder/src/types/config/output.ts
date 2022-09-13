@@ -40,10 +40,13 @@ export interface OutputConfig {
   disableMinimize?: boolean;
   disableSourceMap?: boolean;
   disableFilenameHash?: boolean;
+  disableInlineRuntimeChunk?: boolean;
   enableAssetManifest?: boolean;
   enableAssetFallback?: boolean;
   enableLatestDecorators?: boolean;
   enableCssModuleTSDeclaration?: boolean;
+  enableInlineScripts?: boolean;
+  enableInlineStyles?: boolean;
   overrideBrowserslist?: string[];
   svgDefaultExport?: 'component' | 'url';
 }
