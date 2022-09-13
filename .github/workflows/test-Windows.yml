@@ -4,6 +4,9 @@ concurrency:
   group: windows-test-${{ github.head_ref }}
   cancel-in-progress: true
 
+env:
+  DEBUG_MODERNJS_VITEST: 1
+
 # Controls when the action will run.
 on:
   # Triggers the workflow on pull request events but only for the main branch
