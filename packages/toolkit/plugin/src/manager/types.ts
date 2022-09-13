@@ -83,7 +83,11 @@ export type ToRunners<PS> = {
 };
 
 /** All options to define a plugin. */
-export type PluginOptions<Hooks, Setup = undefined> = {
+export type PluginOptions<
+  Hooks,
+  Setup = undefined,
+  ExtendHooks = Record<string, unknown>,
+> = {
   name?: string;
   pre?: string[];
   post?: string[];
@@ -91,7 +95,7 @@ export type PluginOptions<Hooks, Setup = undefined> = {
   rivals?: string[];
   required?: string[];
   usePlugins?: PluginOptions<Hooks, Setup>[];
-  registerHook?: Partial<Hooks>;
+  registerHook?: Partial<Hooks & ExtendHooks>;
 };
 
 /** Common api of setup function. */

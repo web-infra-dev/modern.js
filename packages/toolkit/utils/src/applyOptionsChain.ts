@@ -19,7 +19,7 @@ export function applyOptionsChain<T, U>(
   utils: U,
   mergeFn?: typeof Object.assign,
 ): T;
-export function applyOptionsChain<T>(
+export function applyOptionsChain<T extends Record<string, unknown>>(
   defaults: T,
   options?: unknown,
   utils?: unknown,
