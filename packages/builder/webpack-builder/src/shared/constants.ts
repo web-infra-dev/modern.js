@@ -35,6 +35,8 @@ export const MEDIA_EXTENSIONS = [
   'mov',
 ];
 
+export const RUNTIME_CHUNK_NAME = 'builder-runtime';
+
 export const STUB_BUILDER_PLUGIN_BUILTIN =
   (
     {
