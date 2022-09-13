@@ -10,5 +10,5 @@ export const isRelativePath = (test: string): boolean =>
 export const normalizeOutputPath = (s: string) => s.replace(/\\/g, '\\\\');
 export const normalizeToPosixPath = (p: string | undefined) =>
   upath
-    .normalizeSafe(path.normalize(p || ''))
+    .normalizeSafe(path.posix.normalize(p || ''))
     .replace(/^([a-zA-Z]+):/, (_, m: string) => `/${m.toLowerCase()}`);
