@@ -7,7 +7,7 @@ export const PluginBasic = (): BuilderPlugin => ({
   name: 'webpack-builder-plugin-basic',
 
   setup(api) {
-    api.modifyWebpackChain(async (chain, { isProd, CHAIN_ID }) => {
+    api.modifyWebpackChain(async (chain, { isProd }) => {
       // The base directory for resolving entry points and loaders from the configuration.
       chain.context(api.context.rootPath);
 
@@ -24,12 +24,10 @@ export const PluginBasic = (): BuilderPlugin => ({
       chain.performance.maxAssetSize(1024 * 1024);
       chain.performance.maxEntrypointSize(1024 * 1024);
 
-      const { ModuleDependencyErrorPlugin } = await import(
-        '../webpackPlugins/ModuleDependencyErrorPlugin'
-      );
-      chain
-        .plugin(CHAIN_ID.PLUGIN.MODULE_DEPENDENCY_ERROR)
-        .use(ModuleDependencyErrorPlugin);
+      // This will be futureDefaults in webpack 6
+      chain.module.parser.set('javascript', {
+        exportsPresence: 'error',
+      });
     });
   },
 });
