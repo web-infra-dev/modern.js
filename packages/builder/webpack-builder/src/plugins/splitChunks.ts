@@ -6,7 +6,7 @@ import type {
 } from '../types/config/performance';
 import assert from 'assert';
 import type { Module } from 'webpack';
-import { getPackageNameFromModulePath } from '../shared';
+import { getPackageNameFromModulePath, RUNTIME_CHUNK_NAME } from '../shared';
 
 // We expose the three-layer to specify webpack chunk-split ability:
 // 1. By strategy.There some best pratice integrated in our internal strategy.
@@ -215,7 +215,9 @@ export function PluginSplitChunks(): BuilderPlugin {
           userDefinedCacheGroups,
           builderConfig: chunkSplit,
         });
-        chain.optimization.splitChunks(splitChunksOptions);
+        chain.optimization.splitChunks(splitChunksOptions).runtimeChunk({
+          name: RUNTIME_CHUNK_NAME,
+        });
       });
     },
   };
