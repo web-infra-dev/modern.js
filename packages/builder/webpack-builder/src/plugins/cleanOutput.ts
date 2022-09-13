@@ -4,13 +4,17 @@ export const PluginCleanOutput = (): BuilderPlugin => ({
   name: 'webpack-builder-plugin-clean-output',
 
   setup(api) {
-    const clean = async () => {
-      const { emptyDir } = await import('@modern-js/utils');
-      const { distPath } = api.context;
-      await emptyDir(distPath);
-    };
+    const config = api.getBuilderConfig();
 
-    api.onBeforeBuild(clean);
-    api.onBeforeStartDevServer(clean);
+    if (config.output?.cleanDistPath) {
+      const clean = async () => {
+        const { emptyDir } = await import('@modern-js/utils');
+        const { distPath } = api.context;
+        await emptyDir(distPath);
+      };
+
+      api.onBeforeBuild(clean);
+      api.onBeforeStartDevServer(clean);
+    }
   },
 });
