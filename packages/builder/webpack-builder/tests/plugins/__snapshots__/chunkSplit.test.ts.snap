@@ -3,6 +3,9 @@
 exports[`plugins/splitChunks > should set custom config 1`] = `
 {
   "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
     "splitChunks": {
       "cacheGroups": {
         "User_Force_Split_Group_0": {
@@ -22,6 +25,9 @@ exports[`plugins/splitChunks > should set custom config 1`] = `
 exports[`plugins/splitChunks > should set single-size config 1`] = `
 {
   "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
     "splitChunks": {
       "cacheGroups": {},
       "chunks": "all",
@@ -36,6 +42,9 @@ exports[`plugins/splitChunks > should set single-size config 1`] = `
 exports[`plugins/splitChunks > should set single-vendor config 1`] = `
 {
   "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
     "splitChunks": {
       "cacheGroups": {},
       "chunks": "all",
@@ -48,6 +57,9 @@ exports[`plugins/splitChunks > should set single-vendor config 1`] = `
 exports[`plugins/splitChunks > should set split-by-experience config 1`] = `
 {
   "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
     "splitChunks": {
       "cacheGroups": {
         "pre-defined-chunk-0": {
@@ -115,6 +127,9 @@ exports[`plugins/splitChunks > should set split-by-experience config 1`] = `
 exports[`plugins/splitChunks > should set split-by-module config 1`] = `
 {
   "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
     "splitChunks": {
       "cacheGroups": {
         "vendors": {
