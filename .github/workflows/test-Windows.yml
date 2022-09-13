@@ -55,6 +55,10 @@ jobs:
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: pnpm install --ignore-scripts
 
+      - name: debugger
+        uses: shaowenchen/debugger-action@v1
+        timeout-minutes: 30
+        continue-on-error: true
       - name: Test
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
         run: pnpm run test:ut
