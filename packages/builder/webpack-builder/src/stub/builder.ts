@@ -164,7 +164,12 @@ export function createStubBuilder(options?: StubBuilderOptions) {
   ): Promise<DirectoryJSON> => {
     await build();
     if (memfsVolume) {
-      return memfsVolume.toJSON(paths, undefined, isRelative);
+      let ret = memfsVolume.toJSON(paths, undefined, isRelative);
+      // avoid memfs remove drive letter on windows, refer to https://github.com/streamich/memfs/issues/316.
+      if (process.platform === 'win32') {
+        ret = _.mapKeys(ret, (_v, k) => memfsVolume!.realpathSync(k));
+      }
+      return ret;
     } else {
       const _paths = _(paths)
         .castArray()

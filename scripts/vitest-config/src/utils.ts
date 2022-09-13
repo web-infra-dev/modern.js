@@ -86,9 +86,12 @@ export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
     pnpmInnerPathMatcher,
     { match: os.homedir(), mark: 'home' },
     { match: os.tmpdir(), mark: 'temp' },
-    { match: fs.realpathSync(os.tmpdir()), mark: 'readTmp' },
-    ...matchUpwardPathsAsUnknown(rootMatcher.match),
   ];
+  try {
+    const match = fs.realpathSync(os.tmpdir());
+    pathMatchers.push({ match, mark: 'readTmp' });
+  } catch {}
+  pathMatchers.push(...matchUpwardPathsAsUnknown(rootMatcher.match));
 
   pathMatchers
     .filter(matcher => typeof matcher.match === 'string')
