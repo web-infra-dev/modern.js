@@ -9,8 +9,9 @@ import { printInstructions } from '../utils/printInstructions';
 import { DevOptions } from '../utils/types';
 import { getSpecifiedEntries } from '../utils/getSpecifiedEntries';
 import { buildServerConfig } from '../utils/config';
+import type { AppHooks } from '../hooks';
 
-export const dev = async (api: PluginAPI, options: DevOptions) => {
+export const dev = async (api: PluginAPI<AppHooks>, options: DevOptions) => {
   let userConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
   const hookRunners = api.useHookRunners();

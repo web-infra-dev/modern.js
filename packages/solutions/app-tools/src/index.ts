@@ -3,19 +3,20 @@ import { defineConfig, cli, CliPlugin } from '@modern-js/core';
 import LintPlugin from '@modern-js/plugin-jarvis';
 import { cleanRequireCache, Import } from '@modern-js/utils';
 import AnalyzePlugin from './analyze';
-import { hooks } from './hooks';
+import { hooks, AppHooks } from './hooks';
 import { i18n, localeKeys } from './locale';
 import { getLocaleLanguage } from './utils/language';
 import type { DevOptions, BuildOptions, DeployOptions } from './utils/types';
 
-export { defineConfig };
+export { defineConfig, hooks };
+export type { AppHooks, CliPlugin };
 
 const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
   '@modern-js/upgrade',
   require,
 );
 
-export default (): CliPlugin => ({
+export default (): CliPlugin<AppHooks> => ({
   name: '@modern-js/app-tools',
 
   post: [

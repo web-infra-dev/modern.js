@@ -6,6 +6,7 @@ import {
   formatWebpackMessages,
   clearConsole,
 } from '@modern-js/utils';
+import type { AppHooks } from '../hooks';
 import { printInstructions } from './printInstructions';
 
 export const createCompiler = async ({
@@ -15,7 +16,7 @@ export const createCompiler = async ({
   userConfig,
   appContext,
 }: {
-  api: PluginAPI;
+  api: PluginAPI<AppHooks>;
   webpackConfigs: Configuration[];
   userConfig: NormalizedConfig;
   appContext: IAppContext;

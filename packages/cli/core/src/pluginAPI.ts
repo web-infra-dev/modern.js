@@ -20,7 +20,8 @@ export const pluginAPI = {
 export type { IAppContext } from '@modern-js/types';
 
 /** all apis for cli plugin */
-export type PluginAPI = typeof pluginAPI & CommonAPI<CliHooks>;
+export type PluginAPI<ExtendHooks = Record<string, any>> = typeof pluginAPI &
+  CommonAPI<CliHooks & ExtendHooks>;
 
 // TODO: only export types after refactor all plugins
 export {
