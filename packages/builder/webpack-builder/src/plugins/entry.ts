@@ -1,3 +1,4 @@
+import type { EntryObject } from 'webpack';
 import type { BuilderPlugin } from '../types';
 
 export const PluginEntry = (): BuilderPlugin => ({
@@ -10,18 +11,22 @@ export const PluginEntry = (): BuilderPlugin => ({
       const { entry } = api.context;
       const config = api.getBuilderConfig();
 
-      const { preEntry } = config.source || {};
+      const { preEntry, vendorEntry = {} } = config.source || {};
       const preEntries = preEntry ? ensureArray(preEntry) : [];
 
-      Object.keys(entry).forEach(entryName => {
-        preEntries.forEach(entry => {
-          chain.entry(entryName).add(entry);
-        });
+      const addEntries = (entryObject: EntryObject) => {
+        Object.keys(entryObject).forEach(entryName => {
+          preEntries.forEach(entry => {
+            chain.entry(entryName).add(entry);
+          });
 
-        ensureArray(entry[entryName]).forEach(item => {
-          chain.entry(entryName).add(item as string);
+          ensureArray(entryObject[entryName]).forEach(item => {
+            chain.entry(entryName).add(item as string);
+          });
         });
-      });
+      };
+      addEntries(entry);
+      addEntries(vendorEntry);
     });
   },
 });

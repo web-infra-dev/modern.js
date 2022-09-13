@@ -125,4 +125,58 @@ describe('plugins/html', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should not register html plugin for vendorEntry', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginEntry(), PluginHtml()],
+      entry: {
+        main: './src/main.ts',
+      },
+      builderConfig: {
+        source: {
+          vendorEntry: {
+            polyfill: './src/polyfill.ts',
+          },
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    const { default: HtmlWebpackPlugin } = await import('html-webpack-plugin');
+    const htmlPlugins = (config.plugins || []).filter(
+      p => p instanceof HtmlWebpackPlugin,
+    );
+    // only main entry has corresponding html plugin
+    expect(htmlPlugins).toHaveLength(1);
+  });
+
+  it('should add all vendorEntry to html plugin chunks by default', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginEntry(), PluginHtml()],
+      entry: {
+        foo: './src/foo.ts',
+        bar: './src/bar.ts',
+      },
+      builderConfig: {
+        source: {
+          vendorEntry: {
+            polyfill: './src/polyfill.ts',
+            react: ['react', 'react-dom'],
+          },
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    const { default: HtmlWebpackPlugin } = await import('html-webpack-plugin');
+    const htmlPlugins = (config.plugins || []).filter(
+      p => p instanceof HtmlWebpackPlugin,
+    ) as Array<InstanceType<typeof HtmlWebpackPlugin>>;
+
+    // chunks should contain all entries defined by vendorEntry
+    for (const plugin of htmlPlugins) {
+      expect(plugin.userOptions.chunks).toContain('polyfill');
+      expect(plugin.userOptions.chunks).toContain('react');
+    }
+  });
 });

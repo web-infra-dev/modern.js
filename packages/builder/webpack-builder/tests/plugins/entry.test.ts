@@ -45,4 +45,28 @@ describe('plugins/entry', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should add vendorEntry properly', async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginEntry()],
+      entry: {
+        foo: './src/foo.ts',
+      },
+      builderConfig: {
+        source: {
+          vendorEntry: {
+            polyfill: './src/polyfill.ts',
+            jquery: 'jquery',
+          },
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config.entry).toMatchObject({
+      foo: ['./src/foo.ts'],
+      polyfill: ['./src/polyfill.ts'],
+      jquery: ['jquery'],
+    });
+  });
 });

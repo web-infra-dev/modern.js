@@ -110,6 +110,7 @@ function getTemplatePath() {
 async function getChunks(
   entryName: string,
   entryValue: WebpackConfig['entry'],
+  vendorEntries: string[],
 ) {
   const { isPlainObject } = await import('@modern-js/utils');
   const dependOn = [];
@@ -119,7 +120,7 @@ async function getChunks(
     dependOn.push(...entryValue.dependOn);
   }
 
-  return [...dependOn, entryName];
+  return [...vendorEntries, ...dependOn, entryName];
 }
 
 export const PluginHtml = (): BuilderPlugin => ({
@@ -142,52 +143,61 @@ export const PluginHtml = (): BuilderPlugin => ({
       const assetPrefix = removeTailSlash(chain.output.get('publicPath') || '');
       const entries = chain.entryPoints.entries();
       const entryNames = Object.keys(chain.entryPoints.entries());
+      const { vendorEntry = {} } = config.source || {};
 
       await Promise.all(
-        entryNames.map(async (entryName, index) => {
-          const entryValue = entries[
-            entryName
-          ].values() as WebpackConfig['entry'];
-          const chunks = await getChunks(entryName, entryValue);
-          const inject = getInject(entryName, config);
-          const favicon = getFavicon(entryName, config);
-          const filename = await getFilename(entryName, config);
-          const templateParameters = await getTemplateParameters(
-            entryName,
-            config,
-            assetPrefix,
-          );
+        entryNames
+          // do not apply html plugin for vendor entry
+          .filter(entryName => !vendorEntry[entryName])
+          .map(async (entryName, index) => {
+            const entryValue = entries[
+              entryName
+            ].values() as WebpackConfig['entry'];
 
-          const pluginOptions = {
-            chunks,
-            inject,
-            minify,
-            favicon,
-            filename,
-            template,
-            templateParameters,
-          };
-
-          const finalOptions = applyOptionsChain(
-            pluginOptions,
-            config.tools?.htmlPlugin,
-            {
+            const chunks = await getChunks(
               entryName,
               entryValue,
-            },
-          );
+              Object.keys(vendorEntry),
+            );
+            const inject = getInject(entryName, config);
+            const favicon = getFavicon(entryName, config);
+            const filename = await getFilename(entryName, config);
+            const templateParameters = await getTemplateParameters(
+              entryName,
+              config,
+              assetPrefix,
+            );
 
-          routesInfo.push({
-            urlPath: index === 0 ? '/' : `/${entryName}`,
-            entryName,
-            entryPath: filename,
-            isSPA: true,
-          });
+            const pluginOptions = {
+              chunks,
+              inject,
+              minify,
+              favicon,
+              filename,
+              template,
+              templateParameters,
+            };
 
-          chain
-            .plugin(`${CHAIN_ID.PLUGIN.HTML}-${entryName}`)
-            .use(HtmlWebpackPlugin, [finalOptions]);
-        }),
+            const finalOptions = applyOptionsChain(
+              pluginOptions,
+              config.tools?.htmlPlugin,
+              {
+                entryName,
+                entryValue,
+              },
+            );
+
+            routesInfo.push({
+              urlPath: index === 0 ? '/' : `/${entryName}`,
+              entryName,
+              entryPath: filename,
+              isSPA: true,
+            });
+
+            chain
+              .plugin(`${CHAIN_ID.PLUGIN.HTML}-${entryName}`)
+              .use(HtmlWebpackPlugin, [finalOptions]);
+          }),
       );
 
       if (config.html) {

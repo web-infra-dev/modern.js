@@ -6,6 +6,7 @@ export type ModuleScopes = Array<string | RegExp>;
 export interface SourceConfig {
   alias?: ChainedConfig<WebpackAlias>;
   preEntry?: string | string[];
+  vendorEntry?: Record<string, string | string[]>;
   globalVars?: Record<string, JSONValue>;
   moduleScopes?: ChainedConfig<ModuleScopes>;
   resolveExtensionPrefix?: string;
