@@ -163,6 +163,7 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     maxSize = 4096,
   ): Promise<DirectoryJSON> => {
     await build();
+    const { normalizeToPosixPath } = await import('@modern-js/utils');
     if (memfsVolume) {
       return memfsVolume.toJSON(paths, undefined, isRelative);
     } else {
@@ -171,7 +172,13 @@ export function createStubBuilder(options?: StubBuilderOptions) {
         .map(filenameToGlobExpr)
         .map(String)
         .value();
-      return globContentJSON(_paths, { absolute: !isRelative, maxSize });
+      const files = await globContentJSON(_paths, {
+        absolute: !isRelative,
+        maxSize,
+      });
+      return _.mapKeys(files, (_content, filename) =>
+        normalizeToPosixPath(filename),
+      );
     }
   };
 
