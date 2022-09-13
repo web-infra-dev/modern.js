@@ -38,6 +38,7 @@ export const createDefaultConfig = (): BuilderConfig => ({
     },
     polyfill: 'entry',
     dataUriLimit: {},
+    cleanDistPath: true,
     svgDefaultExport: 'url',
     disableMinimize: false,
     disableSourceMap: false,
