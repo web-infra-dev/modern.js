@@ -36,6 +36,7 @@ export interface OutputConfig {
   polyfill?: Polyfill;
   assetPrefix?: string;
   dataUriLimit?: number | DataUriLimit;
+  cleanDistPath?: boolean;
   disableMinimize?: boolean;
   disableSourceMap?: boolean;
   disableFilenameHash?: boolean;
