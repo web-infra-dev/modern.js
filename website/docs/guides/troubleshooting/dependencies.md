@@ -158,3 +158,11 @@ Type '{}' is not assignable to type 'ReactNode'.
 ```
 
 关于锁定依赖版本的方法，请参考上方的 `如何锁定项目中的某个依赖版本？`。
+
+---
+
+### 执行 pnpm install 之后，控制台出现 peer dependencies 相关 warning？
+
+出现该警告的原因是，某些三方 npm 包声明的 peer dependencies 版本范围与 Modern.js 中安装的版本范围不一致。
+
+绝大多数情况下，peer dependencies 的警告不会影响项目运行，不需要额外进行处理，请忽略相关 warning。
