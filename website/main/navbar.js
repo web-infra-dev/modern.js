@@ -50,12 +50,6 @@ module.exports = {
     },
     { to: '/blog', label: '博客', position: 'left', category: 'blog' },
     {
-      to: '/coming-soon',
-      label: '社区',
-      position: 'left',
-      category: 'coming-soon',
-    },
-    {
       href: 'https://github.com/modern-js-dev/modern.js',
       position: 'right',
       className: 'header-github-link',
