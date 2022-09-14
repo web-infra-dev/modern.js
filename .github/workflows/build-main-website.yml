@@ -1,10 +1,10 @@
-name: Build Website
+name: Build Main Website
 
 on:
   push:
     branches: [main]
     paths:
-      - 'website/**'
+      - 'website/main/**'
 
 jobs:
   build-website:

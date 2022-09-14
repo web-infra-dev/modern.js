@@ -350,3 +350,30 @@ const MyComponent = () => <div>Hello World</div>
 
 export default MyComponent;
 ```
+
+---
+
+### webpack 编译缓存未生效，应该如何排查？
+
+Modern.js 默认开启了 webpack 的持久化缓存。
+
+首次编译完成后，会自动生成缓存文件，并输出到 `./node_modules/.cache/webpack` 目录下。执行第二次编译时，会命中缓存，并大幅度提高编译速度。
+
+当 `modern.config.ts` 或 `package.json` 等配置文件被修改时，缓存会自动失效。
+
+如果项目中 webpack 编译缓存一直未生效，可以添加以下配置进行排查：
+
+```ts
+export default defineConfig({
+  tools: {
+    webpack(config) {
+      config.infrastructureLogging = {
+        ...config.infrastructureLogging,
+        debug: true,
+      };
+    },
+  },
+});
+```
+
+添加以上配置后，webpack 会输出日志用于 debug，请参考 `PackFileCacheStrategy` 相关的日志来了解缓存失效的原因。
