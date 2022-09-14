@@ -14,4 +14,4 @@ packages:
  - 'scripts/*'
  - 'tests'
  - 'tests/integration/**/*'
- - 'website'
+ - 'website/*'

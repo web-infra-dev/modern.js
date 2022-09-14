@@ -46,7 +46,8 @@ const NavTabs: React.FC<INavTabs> = ({ tabs }) => {
         200: {
           slidesPerView: renderedTabs.length - 7,
         },
-      }}>
+      }}
+    >
       {renderedTabs}
     </Swiper>
   );
