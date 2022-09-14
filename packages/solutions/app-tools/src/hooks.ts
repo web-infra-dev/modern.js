@@ -42,3 +42,5 @@ export const hooks = {
   beforeDeploy,
   afterDeploy,
 };
+
+export type AppHooks = typeof hooks;

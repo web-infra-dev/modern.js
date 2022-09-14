@@ -80,9 +80,10 @@ export const manager = createAsyncManager<CliHooks, typeof pluginAPI>(
 );
 
 /** Plugin options of a cli plugin. */
-export type CliPlugin = PluginOptions<
+export type CliPlugin<ExtendHooks = unknown> = PluginOptions<
   CliHooks,
-  AsyncSetup<CliHooks, typeof pluginAPI>
+  AsyncSetup<CliHooks & ExtendHooks, typeof pluginAPI>,
+  ExtendHooks
 >;
 
 export const { createPlugin, registerHook, useRunner: mountHook } = manager;
