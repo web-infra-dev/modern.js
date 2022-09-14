@@ -14,10 +14,12 @@ async function compileAjv() {
 }
 
 async function compileRetryRuntime() {
+  const { default: TerserPlugin } = await import('terser-webpack-plugin');
   const runtimeCode = await readFile(
     path.join(__dirname, '../dist/runtime/assets-retry.js'),
     'utf8',
   );
+  const distPath = path.join(__dirname, '../compiled/assets-retry.js');
   const { code } = await transformAsync(runtimeCode, {
     presets: [
       [
@@ -28,7 +30,17 @@ async function compileRetryRuntime() {
       ],
     ],
   });
-  await writeFile(path.join(__dirname, '../compiled/assets-retry.js'), code);
+  const { code: minifiedRuntimeCode } = await TerserPlugin.terserMinify(
+    {
+      [distPath]: code,
+    },
+    undefined,
+    {
+      ecma: 5,
+    },
+    undefined,
+  );
+  await writeFile(distPath, minifiedRuntimeCode);
 }
 
 async function compile() {

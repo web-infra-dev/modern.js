@@ -19,22 +19,12 @@ export class AssetsRetryPlugin implements WebpackPluginInstance {
       HtmlWebpackPlugin.getHooks(compilation).afterTemplateExecution.tapPromise(
         this.name,
         async data => {
-          const { terserMinify } = await import('terser-webpack-plugin');
           const { default: serialize } = await import(
             '../../compiled/serialize-javascript'
           );
           const runtimeFilePath = getCompiledPath('assets-retry.js');
           const runtimeCode = await fs.readFile(runtimeFilePath, 'utf-8');
-          const { code: minifiedRuntimeCode } = await terserMinify(
-            {
-              [runtimeFilePath]: runtimeCode,
-            },
-            undefined,
-            {
-              ecma: 5,
-            },
-            undefined,
-          );
+
           data.headTags.unshift({
             tagName: 'script',
             attributes: {
@@ -43,7 +33,7 @@ export class AssetsRetryPlugin implements WebpackPluginInstance {
             voidTag: false,
             // Runtime code will include `Object.defineProperty(exports,"__esModule",{value:!0})` after compiled by tsc
             // So we inject `var exports={}` to avoid `exports is not defined` error
-            innerHTML: `var exports={};${minifiedRuntimeCode}init(${serialize(
+            innerHTML: `var exports={};${runtimeCode}init(${serialize(
               this.#retryOptions,
             )})`,
             meta: {},

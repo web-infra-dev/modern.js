@@ -16,4 +16,17 @@ describe('plugins/assetsRetry', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it("should't add assets retry plugin when target is set to 'node'", async () => {
+    const builder = createStubBuilder({
+      plugins: [PluginAssetsRetry()],
+      target: 'node',
+      builderConfig: {
+        output: {},
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
 });
