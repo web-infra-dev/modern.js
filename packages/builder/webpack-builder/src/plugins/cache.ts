@@ -30,6 +30,8 @@ export const PluginCache = (): BuilderPlugin => ({
       }
 
       chain.cache({
+        // The default cache name of webpack is '${name}-${env}', and the `name` is `default` by default.
+        // We set cache name to avoid cache conflicts of different targets.
         name: `${target}-${env}`,
         type: 'filesystem',
         cacheDirectory,
