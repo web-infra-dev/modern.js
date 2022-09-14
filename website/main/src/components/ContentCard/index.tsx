@@ -20,7 +20,8 @@ const ContentCard: React.FC<ContentCardProps> = ({
   <Link
     to={href}
     style={{ textDecoration: 'none' }}
-    className={cl(styles.card, { [`${styles.swiperCard}`]: isSwiper })}>
+    className={cl(styles.card, { [`${styles.swiperCard}`]: isSwiper })}
+  >
     {typeof Icon === 'function' ? (
       <Icon className={styles.icon} width="48" height="48" />
     ) : (
