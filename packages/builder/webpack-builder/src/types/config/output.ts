@@ -29,6 +29,24 @@ export type DataUriLimit = {
 
 export type Polyfill = 'usage' | 'entry' | 'ua' | 'off';
 
+export type AssetsRetryHookContext = {
+  times: number;
+  domain: string;
+  url: string;
+  tagName: string;
+};
+
+export type AssetsRetryOptions = {
+  type?: string[];
+  domain?: string[];
+  max?: number;
+  test?: string | ((url: string) => boolean);
+  crossOrigin?: boolean;
+  onRetry?: (options: AssetsRetryHookContext) => void;
+  onSuccess?: (options: AssetsRetryHookContext) => void;
+  onFail?: (options: AssetsRetryHookContext) => void;
+};
+
 export interface OutputConfig {
   copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
   distPath?: DistPathConfig;
@@ -49,4 +67,5 @@ export interface OutputConfig {
   enableInlineStyles?: boolean;
   overrideBrowserslist?: string[];
   svgDefaultExport?: 'component' | 'url';
+  assetsRetry?: AssetsRetryOptions;
 }
