@@ -6,7 +6,7 @@ export const PluginCache = (): BuilderPlugin => ({
   name: 'webpack-builder-plugin-cache',
 
   setup(api) {
-    api.modifyWebpackChain(async chain => {
+    api.modifyWebpackChain(async (chain, { target, env }) => {
       const { context } = api;
       const cacheDirectory = join(context.cachePath, 'webpack');
       const rootPackageJson = join(context.rootPath, 'package.json');
@@ -30,6 +30,9 @@ export const PluginCache = (): BuilderPlugin => ({
       }
 
       chain.cache({
+        // The default cache name of webpack is '${name}-${env}', and the `name` is `default` by default.
+        // We set cache name to avoid cache conflicts of different targets.
+        name: `${target}-${env}`,
         type: 'filesystem',
         cacheDirectory,
         buildDependencies,
