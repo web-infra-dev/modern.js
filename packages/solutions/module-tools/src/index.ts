@@ -2,9 +2,10 @@ import { Import, fs } from '@modern-js/utils';
 import ChangesetPlugin from '@modern-js/plugin-changeset';
 import LintPlugin from '@modern-js/plugin-jarvis';
 import type { CliPlugin } from '@modern-js/core';
-import { hooks } from './hooks';
+import { hooks, ModuleHooks } from './hooks';
 
 export * from './types';
+export type { ModuleHooks, CliPlugin };
 
 const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
   '@modern-js/upgrade',
