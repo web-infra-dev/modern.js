@@ -5,7 +5,7 @@ import { createStubBuilder } from '../../src/stub';
 
 describe('StubBuilder', () => {
   it('should run webpack and output to memfs', async () => {
-    const builder = createStubBuilder({ webpack: 'in-memory' });
+    const builder = await createStubBuilder({ webpack: 'in-memory' });
     builder.hooks.onAfterCreateCompilerHooks.tap(async ({ compiler }) => {
       const filename = path.resolve('./src/index.js');
       const vol = Volume.fromJSON({ [filename]: 'console.log(42)' });

@@ -7,7 +7,7 @@ import { createStubBuilder } from '../../src/stub';
 describe('plugins/css', () => {
   // skipped because this case time out in CI env
   it.skip('should set css config with style-loader', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginCss()],
       builderConfig: {
         tools: {
@@ -24,7 +24,7 @@ describe('plugins/css', () => {
   });
 
   it('should set css config with mini-css-extract-plugin', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginCss()],
       builderConfig: {},
     });
@@ -38,7 +38,7 @@ describe('plugins/css', () => {
   });
 
   it('should add sass-loader', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginSass()],
       builderConfig: {
         tools: {
@@ -56,7 +56,7 @@ describe('plugins/css', () => {
   });
 
   it('should add less-loader', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginLess()],
       builderConfig: {
         tools: {
@@ -74,7 +74,7 @@ describe('plugins/css', () => {
   });
 
   it('should override browserslist of autoprefixer when using output.overrideBrowserslist config', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginCss()],
       builderConfig: {
         output: {

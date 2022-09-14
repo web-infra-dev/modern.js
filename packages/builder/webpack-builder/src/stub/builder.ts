@@ -53,13 +53,14 @@ export async function applyPluginOptions(
   const opt: Required<OptionsPluginsItem> = {
     builtin: STUB_BUILDER_PLUGIN_BUILTIN ?? false,
     additional: [],
-    ...(typeof options === 'object' ? options : {}),
   };
   // normalize options
-  if (typeof options === 'string' || typeof options === 'boolean') {
-    opt.builtin = options;
-  } else if (Array.isArray(options)) {
+  if (Array.isArray(options)) {
     opt.additional = options;
+  } else if (typeof options === 'object') {
+    Object.assign(opt, options);
+  } else if (typeof options === 'string' || typeof options === 'boolean') {
+    opt.builtin = options;
   }
   // apply plugins
   if (opt.builtin === true || opt.builtin === 'minimal') {
@@ -74,7 +75,7 @@ export async function applyPluginOptions(
  * Create stub builder for testing.
  * Some behaviors will be different to common `createBuilder`.
  */
-export function createStubBuilder(options?: StubBuilderOptions) {
+export async function createStubBuilder(options?: StubBuilderOptions) {
   // init primary builder.
   const builderOptions = mergeBuilderOptions(
     options,
@@ -86,10 +87,7 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     publicContext,
     build: buildImpl,
   } = createPrimaryBuilder(builderOptions, context);
-  applyPluginOptions(pluginStore, options?.plugins);
-  if (Array.isArray(options?.plugins)) {
-    pluginStore.addPlugins(options!.plugins);
-  }
+  await applyPluginOptions(pluginStore, options?.plugins);
 
   // replace outputFileSystem of Webpack.
   let memfsVolume: Volume | undefined;
@@ -213,7 +211,7 @@ export function createStubBuilder(options?: StubBuilderOptions) {
    *
    * @example
    * test('should work', async () => {
-   *   const builder = createStubBuilder();
+   *   const builder = await createStubBuilder();
    *   const { baseurl } = builder.buildAndServe({ hangOn: test });
    *   page.goto(`${baseurl}/index.html`);
    * });

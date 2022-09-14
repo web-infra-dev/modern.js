@@ -4,7 +4,7 @@ import { createStubBuilder } from '../../src/stub';
 
 describe('tests/stub-builder', () => {
   it('should memoize building result', async () => {
-    const builder = createStubBuilder();
+    const builder = await createStubBuilder();
     const oldConfig = await builder.unwrapWebpackConfig();
     const newConfig = await builder.unwrapWebpackConfig();
     expect(oldConfig).toBe(newConfig);
@@ -19,7 +19,7 @@ describe('tests/stub-builder', () => {
   });
 
   it('should return fresh result after reset', async () => {
-    const builder = createStubBuilder();
+    const builder = await createStubBuilder();
     const oldConfig = await builder.unwrapWebpackConfig();
     builder.reset();
     expect(builder.build.cache.size).toBe(0);

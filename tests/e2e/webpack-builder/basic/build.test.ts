@@ -14,13 +14,16 @@ test('basic', async ({ page }) => {
   // TODO: snapshot of dom tree.
   // TODO: assert console output.
   // TODO: docs.
-  const builder = createStubBuilder({
+  const builder = await createStubBuilder({
     webpack: 'in-memory',
-    plugins: [PluginEntry(), PluginHtml()],
+    plugins: {
+      builtin: false,
+      additional: [PluginEntry(), PluginHtml()],
+    },
     entry: { index: path.resolve('./src/index.js') },
   });
-  const { baseurl } = await builder.buildAndServe();
-  await page.goto(`${baseurl}/html/index`);
+  const { homeUrl } = await builder.buildAndServe();
+  await page.goto(homeUrl.href);
   expect(await page.evaluate('window.answer')).toBe(42);
   await page.evaluate('document.write(window.answer)');
   expect(await page.screenshot()).toMatchSnapshot();
