@@ -1,5 +1,6 @@
 import type * as playwright from '@modern-js/e2e/playwright';
 import _ from '@modern-js/utils/lodash';
+import { URL } from 'url';
 import assert from 'assert';
 import { PathLike } from 'fs';
 import { DirectoryJSON, Volume } from 'memfs/lib/volume';
@@ -232,8 +233,14 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
       typeof options.hangOn !== 'boolean' && options.hangOn.setTimeout(0);
       await new Promise(() => null);
     }
+    // TODO: get real `htmlRoot` & `homeUrl` from compiler.
+    const baseUrl = new URL(`http://localhost:${port}`);
+    const htmlRoot = new URL('html/', baseUrl);
+    const homeUrl = new URL('index/index.html', htmlRoot);
     return {
-      baseurl: `http://localhost:${port}`,
+      baseUrl,
+      htmlRoot,
+      homeUrl,
       volume: memfsVolume,
       port,
     };
