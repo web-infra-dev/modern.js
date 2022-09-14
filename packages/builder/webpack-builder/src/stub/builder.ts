@@ -3,6 +3,7 @@ import _ from '@modern-js/utils/lodash';
 import assert from 'assert';
 import { PathLike } from 'fs';
 import { DirectoryJSON, Volume } from 'memfs/lib/volume';
+import path from 'path';
 import { webpackBuild } from '../core/build';
 import { addDefaultPlugins, createPrimaryBuilder } from '../core/createBuilder';
 import { Hooks } from '../core/createHook';
@@ -162,14 +163,19 @@ export function createStubBuilder(options?: StubBuilderOptions) {
     isRelative = false,
     maxSize = 4096,
   ): Promise<DirectoryJSON> => {
+    if (Array.isArray(paths) && isRelative) {
+      throw new Error('`isRelative` is not supported for multiple paths.');
+    }
     await build();
     if (memfsVolume) {
-      let ret = memfsVolume.toJSON(paths, undefined, isRelative);
       // avoid memfs remove drive letter on windows, refer to https://github.com/streamich/memfs/issues/316.
-      if (process.platform === 'win32') {
-        ret = _.mapKeys(ret, (_v, k) => memfsVolume!.realpathSync(k));
+      if (!isRelative && process.platform === 'win32') {
+        const ret = memfsVolume.toJSON(paths, undefined, true);
+        return _.mapKeys(ret, (_v, k) => path.join(paths as string, k));
+      } else {
+        const ret = memfsVolume.toJSON(paths, undefined, isRelative);
+        return ret;
       }
-      return ret;
     } else {
       const _paths = _(paths)
         .castArray()
