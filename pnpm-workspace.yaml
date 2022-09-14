@@ -15,4 +15,4 @@ packages:
  - 'tests'
  - 'tests/integration/**/*'
  - 'tests/e2e/*/*'
- - 'website'
+ - 'website/*'

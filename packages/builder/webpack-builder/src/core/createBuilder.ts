@@ -151,6 +151,7 @@ export async function addDefaultPlugins(pluginStore: PluginStore) {
   const { PluginSRI } = await import('../plugins/sri');
   const { PluginStartUrl } = await import('../plugins/startUrl');
   const { PluginInlineChunk } = await import('../plugins/inlineChunk');
+  const { PluginAssetsRetry } = await import('../plugins/assetsRetry');
 
   pluginStore.addPlugins([
     // Plugins that provide basic webpack config
@@ -198,6 +199,7 @@ export async function addDefaultPlugins(pluginStore: PluginStore) {
     PluginSRI(),
     PluginStartUrl(),
     PluginInlineChunk(),
+    PluginAssetsRetry(),
 
     // fallback should be the last plugin
     PluginFallback(),

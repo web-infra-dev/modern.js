@@ -88,6 +88,7 @@
     "mini-css-extract-plugin": "2.4.5",
     "postcss": "8.4.16",
     "react-refresh": "0.12.0",
+    "serialize-javascript": "^6.0.0",
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "5.3.3",
     "ts-loader": "9.3.1",
@@ -99,6 +100,7 @@
     "@types/babel__core": "^7.1.19",
     "@types/babel__preset-env": "^7.9.2",
     "@types/node": "^14",
+    "@types/serialize-javascript": "^5.0.1",
     "@vitest/ui": "^0.21.1",
     "autoprefixer": "^10.4.8",
     "memfs": "^3.3.0",
@@ -122,11 +124,12 @@
   },
   "wireit": {
     "build": {
-      "command": "tsc && node scripts/compile-ajv.js",
+      "command": "tsc && node scripts/post-compile.js",
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "scripts/post-compile.js"
       ],
       "output": [
         "dist/**/*",
