@@ -51,6 +51,6 @@ local-test-project/*
 .runtime-exports/
 
 # website
-website/main/.docusaurus
+.docusaurus
 
 .wireit/
