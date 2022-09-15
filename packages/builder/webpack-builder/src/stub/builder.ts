@@ -4,9 +4,14 @@ import assert from 'assert';
 import { PathLike } from 'fs';
 import { DirectoryJSON, Volume } from 'memfs/lib/volume';
 import path from 'path';
+import {
+  applyBasicPlugins,
+  applyDefaultPlugins,
+  applyMinimalPlugins,
+} from '../shared/plugin';
 import { URL } from 'url';
 import { webpackBuild } from '../core/build';
-import { addDefaultPlugins, createPrimaryBuilder } from '../core/createBuilder';
+import { createPrimaryBuilder } from '../core/createBuilder';
 import { Hooks } from '../core/createHook';
 import {
   filenameToGlobExpr,
@@ -24,7 +29,7 @@ import { createStubContext } from './context';
 import { globContentJSON } from './utils';
 
 export interface OptionsPluginsItem {
-  builtin?: boolean | 'default' | 'minimal';
+  builtin?: boolean | 'default' | 'minimal' | 'basic';
   additional?: BuilderPlugin[];
 }
 
@@ -72,9 +77,11 @@ export async function applyPluginOptions(
   const opt = normalizeStubPluginOptions(options);
   // apply plugins
   if (opt.builtin === true || opt.builtin === 'minimal') {
-    // TODO: load minimal plugins
+    pluginStore.addPlugins(await applyMinimalPlugins());
+  } else if (opt.builtin === 'basic') {
+    pluginStore.addPlugins(await applyBasicPlugins());
   } else if (opt.builtin === 'default') {
-    await addDefaultPlugins(pluginStore);
+    pluginStore.addPlugins(await applyDefaultPlugins());
   }
   pluginStore.addPlugins(opt.additional);
 }
