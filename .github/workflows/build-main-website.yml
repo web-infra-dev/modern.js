@@ -1,10 +1,10 @@
-name: Build Website
+name: Build Main Website
 
 on:
   push:
     branches: [main]
     paths:
-      - 'website/**'
+      - 'website/main/**'
 
 jobs:
   build-website:
@@ -28,7 +28,7 @@ jobs:
         run: pnpm install --ignore-scripts
 
       - name: Build Website
-        run: cd website && npm run build
+        run: cd website/main && npm run build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.2.5
