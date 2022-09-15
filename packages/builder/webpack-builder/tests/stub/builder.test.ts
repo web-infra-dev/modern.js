@@ -25,7 +25,7 @@ describe('stub-builder', () => {
     const builder = await createStubBuilder();
     const oldConfig = await builder.unwrapWebpackConfig();
     builder.reset();
-    expect(builder.build.cache.size).toBe(0);
+    expect((builder.build.cache as Map<any, any>).size).toBe(0);
     const newConfig = await builder.unwrapWebpackConfig();
     expect(oldConfig).not.toBe(newConfig);
   });
