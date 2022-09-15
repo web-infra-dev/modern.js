@@ -47,8 +47,7 @@ export interface ServeDestOptions {
   hangOn?: playwright.TestType<any, any> | boolean;
 }
 
-export async function applyPluginOptions(
-  pluginStore: PluginStore,
+export function normalizeStubPluginOptions(
   options?: StubBuilderOptions['plugins'],
 ) {
   const opt: Required<OptionsPluginsItem> = {
@@ -63,6 +62,14 @@ export async function applyPluginOptions(
   } else if (typeof options === 'string' || typeof options === 'boolean') {
     opt.builtin = options;
   }
+  return opt;
+}
+
+export async function applyPluginOptions(
+  pluginStore: PluginStore,
+  options?: StubBuilderOptions['plugins'],
+) {
+  const opt = normalizeStubPluginOptions(options);
   // apply plugins
   if (opt.builtin === true || opt.builtin === 'minimal') {
     // TODO: load minimal plugins
