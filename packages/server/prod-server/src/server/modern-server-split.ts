@@ -11,7 +11,7 @@ class ModernSSRServer extends ModernServer {
   }
 
   protected filterRoutes(routes: ModernRouteInterface[]) {
-    return routes.filter(route => route.isSSR);
+    return routes.filter(route => !route.isApi);
   }
 
   protected async setupBeforeProdMiddleware() {
