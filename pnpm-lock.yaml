@@ -73,7 +73,7 @@ importers:
       '@modern-js/utils': workspace:*
       '@modern-js/webpack-builder': workspace:*
       '@scripts/vitest-config': workspace:*
-      node-libs-browser: ^2.2.1
+      node-libs-browser: 2.2.1
       typescript: 4.7.4
       vitest: ^0.21.1
       webpack: ^5.71.0

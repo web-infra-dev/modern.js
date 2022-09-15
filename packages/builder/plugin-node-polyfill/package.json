@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "@modern-js/webpack-builder-plugin-node-polyfill",
   "description": "Node polyfill plugin for webpack-builder in Modern.js",
   "homepage": "https://modernjs.dev",
@@ -36,7 +37,7 @@
     "test:watch": "vitest dev --no-coverage"
   },
   "dependencies": {
-    "node-libs-browser": "^2.2.1"
+    "node-libs-browser": "2.2.1"
   },
   "devDependencies": {
     "@modern-js/utils": "workspace:*",
@@ -48,7 +49,7 @@
     "webpack": "^5.71.0"
   },
   "peerDependencies": {
-    "@modern-js/webpack-builder": "*"
+    "@modern-js/webpack-builder": "workspace:^1.1.0"
   },
   "sideEffects": false,
   "publishConfig": {

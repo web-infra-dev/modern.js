@@ -5,7 +5,7 @@ import type { BuilderPlugin } from '@modern-js/webpack-builder';
  *
  *   const PluginNodePolyfill = await import('@modern-js/webpack-builder-plugin-node-polyfill');
  *
- *   pluginStore.addPlugins([ PluginNodePolyfill() ]);
+ *   builder.addPlugins([ PluginNodePolyfill() ]);
  */
 export default (): BuilderPlugin => ({
   name: 'webpack-builder-plugin-node-polyfill',
@@ -13,7 +13,7 @@ export default (): BuilderPlugin => ({
   async setup(api) {
     const { default: webpack } = await import('webpack');
 
-    const nodeLibsBrowser = require('node-libs-browser');
+    const { default: nodeLibsBrowser } = await import('node-libs-browser');
 
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
       chain
