@@ -1,10 +1,35 @@
 import path from 'path';
 import { describe, expect, it } from 'vitest';
 import { Volume, createFsFromVolume } from 'memfs';
+import _ from '@modern-js/utils/lodash';
 import { createStubBuilder } from '../../src/stub';
 import { normalizeStubPluginOptions } from '../../src/stub/builder';
 
-describe('StubBuilder', () => {
+describe('stub-builder', () => {
+  it('should memoize building result', async () => {
+    const builder = await createStubBuilder();
+    const oldConfig = await builder.unwrapWebpackConfig();
+    const newConfig = await builder.unwrapWebpackConfig();
+    expect(oldConfig).toBe(newConfig);
+  });
+
+  it('lodash memoize should be reset', async () => {
+    const fn = _.memoize(Math.random);
+    const old = fn();
+    fn.cache.clear!();
+    const newOne = fn();
+    expect(old).not.toBe(newOne);
+  });
+
+  it('should return fresh result after reset', async () => {
+    const builder = await createStubBuilder();
+    const oldConfig = await builder.unwrapWebpackConfig();
+    builder.reset();
+    expect(builder.build.cache.size).toBe(0);
+    const newConfig = await builder.unwrapWebpackConfig();
+    expect(oldConfig).not.toBe(newConfig);
+  });
+
   it('should run webpack and output to memfs', async () => {
     const builder = await createStubBuilder({ webpack: 'in-memory' });
     builder.hooks.onAfterCreateCompilerHooks.tap(async ({ compiler }) => {
