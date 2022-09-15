@@ -109,6 +109,8 @@ export async function createBuilder(options?: BuilderOptions) {
   };
 }
 
+export type BuilderInstance = Awaited<ReturnType<typeof createBuilder>>;
+
 export async function addDefaultPlugins(pluginStore: PluginStore) {
   debug('add default plugins');
 
