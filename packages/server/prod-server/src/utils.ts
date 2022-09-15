@@ -137,3 +137,7 @@ export const headersWithoutCookie = (headers: IncomingMessage['headers']) => {
   }
   return headers;
 };
+
+export const isRedirect = (code: number) => {
+  return [301, 302, 307, 308].includes(code);
+};
