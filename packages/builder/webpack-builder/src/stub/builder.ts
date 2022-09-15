@@ -1,19 +1,17 @@
 import type * as playwright from '@modern-js/e2e/playwright';
 import _ from '@modern-js/utils/lodash';
-import { URL } from 'url';
 import assert from 'assert';
 import { PathLike } from 'fs';
 import { DirectoryJSON, Volume } from 'memfs/lib/volume';
 import path from 'path';
+import { URL } from 'url';
 import { webpackBuild } from '../core/build';
 import { addDefaultPlugins, createPrimaryBuilder } from '../core/createBuilder';
 import { Hooks } from '../core/createHook';
 import {
   filenameToGlobExpr,
-  globContentJSON,
   matchLoader,
   mergeBuilderOptions,
-  STUB_BUILDER_PLUGIN_BUILTIN,
 } from '../shared';
 import type {
   BuilderOptions,
@@ -21,7 +19,9 @@ import type {
   Context,
   PluginStore,
 } from '../types';
+import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
 import { createStubContext } from './context';
+import { globContentJSON } from './utils';
 
 export interface OptionsPluginsItem {
   builtin?: boolean | 'default' | 'minimal';
