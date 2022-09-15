@@ -201,18 +201,6 @@ function getNotAliasedPath(
   }
 
   if (!path.isAbsolute(result)) {
-    try {
-      // Installed packages (node modules) should take precedence over root files with the same name.
-      // Ref: https://github.com/nestjs/nest-cli/issues/838
-      const packagePath = require.resolve(text, {
-        paths: [process.cwd(), ...module.paths],
-      });
-      if (packagePath) {
-        // eslint-disable-next-line consistent-return
-        return text;
-      }
-    } catch {}
-
     // handle alias to alias
     if (!result.startsWith('.') && !result.startsWith('..')) {
       try {
@@ -227,6 +215,17 @@ function getNotAliasedPath(
         }
       } catch {}
     }
+    try {
+      // Installed packages (node modules) should take precedence over root files with the same name.
+      // Ref: https://github.com/nestjs/nest-cli/issues/838
+      const packagePath = require.resolve(text, {
+        paths: [process.cwd(), ...module.paths],
+      });
+      if (packagePath) {
+        // eslint-disable-next-line consistent-return
+        return text;
+      }
+    } catch {}
   }
 
   const resolvedPath = posix.relative(dirname(sf.fileName), result) || './';
