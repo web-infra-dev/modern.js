@@ -1,5 +1,5 @@
 {
-  "private": "true",
+  "private": true,
   "name": "bff-express",
   "version": "0.1.0",
   "scripts": {

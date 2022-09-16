@@ -4,7 +4,7 @@ import { PluginEsbuild } from '../src';
 
 describe('plugins/esbuild', () => {
   it('should set esbuild-loader', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginEsbuild()],
       builderConfig: {},
     });

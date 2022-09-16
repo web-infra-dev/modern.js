@@ -12,6 +12,11 @@ export interface SnapshotSerializerOptions {
   replace: PathMatcher[];
 }
 
+export const debug: typeof console.log = (...args) => {
+  // eslint-disable-next-line no-console
+  process.env.DEBUG_MODERNJS_VITEST && console.log(...args);
+};
+
 /** @see {@link upwardPaths} */
 export const joinPathParts = (
   _part: unknown,
@@ -81,9 +86,12 @@ export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
     pnpmInnerPathMatcher,
     { match: os.homedir(), mark: 'home' },
     { match: os.tmpdir(), mark: 'temp' },
-    { match: fs.realpathSync(os.tmpdir()), mark: 'readTmp' },
-    ...matchUpwardPathsAsUnknown(rootMatcher.match),
   ];
+  try {
+    const match = fs.realpathSync(os.tmpdir());
+    pathMatchers.push({ match, mark: 'readTmp' });
+  } catch {}
+  pathMatchers.push(...matchUpwardPathsAsUnknown(rootMatcher.match));
 
   pathMatchers
     .filter(matcher => typeof matcher.match === 'string')
@@ -97,9 +105,12 @@ export function createSnapshotSerializer(options: SnapshotSerializerOptions) {
     test: (val: unknown) => typeof val === 'string' && isPathString(val),
     print: (val: unknown) => {
       const normalized = normalizeToPosixPath(val as string);
-      const replaced = applyMatcherReplacement(pathMatchers, normalized);
-      const ret = replaced.replace(/"/g, '\\"');
-      return `"${ret}"`;
+      const replaced = applyMatcherReplacement(
+        pathMatchers,
+        normalized,
+      ).replace(/"/g, '\\"');
+      debug(`Vitest snapshot serializer: ${val} -> ${replaced}`);
+      return `"${replaced}"`;
     },
   };
 }
