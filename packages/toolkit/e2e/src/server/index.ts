@@ -1,22 +1,21 @@
-import { Volume } from 'memfs/lib/volume';
 import createServer from 'connect';
 import serveStaticMiddle from './static';
 import getPort from 'get-port';
 
-export interface ServeVolumeOptions {
+export interface StaticServerOptions {
   hostname?: string;
-  volume?: Volume;
+  port?: number;
 }
 
 export async function runStaticServer(
   root: string,
-  options?: ServeVolumeOptions,
+  options?: StaticServerOptions,
 ) {
   const server = createServer();
 
-  server.use(serveStaticMiddle(root, { volume: options?.volume }));
+  server.use(serveStaticMiddle(root));
 
-  const port = await getPort();
+  const port = await getPort({ port: options?.port });
   const hostname = options?.hostname ?? '127.0.0.1';
   server.listen(port, hostname);
 
