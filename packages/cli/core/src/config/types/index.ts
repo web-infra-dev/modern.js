@@ -20,7 +20,7 @@ import type {
 } from 'terser-webpack-plugin';
 import type { AcceptedPlugin as PostCSSPlugin } from 'postcss';
 import { TransformOptions } from '@babel/core';
-import type { PluginConfig } from '../../loadPlugins';
+import type { PluginConfig, NewPluginConfig } from '../../loadPlugins';
 import type { TestConfig, JestConfig } from './test';
 import type { SassConfig, SassLoaderOptions } from './sass';
 import type { LessConfig, LessLoaderOptions } from './less';
@@ -57,6 +57,8 @@ export type {
   TransformOptions,
   AutoprefixerOptions,
   TerserOptions,
+  PluginConfig,
+  NewPluginConfig,
 };
 
 export interface SourceConfig {

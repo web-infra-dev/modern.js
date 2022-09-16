@@ -36,8 +36,9 @@ type OldPluginConfig = Array<
     }
 >;
 
-type NewPluginConfig =
-  | CliPlugin[]
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type NewPluginConfig<T = {}> =
+  | CliPlugin<T>[]
   | {
       cli?: CliPlugin[];
       /** Custom server plugin is not supported yet. */

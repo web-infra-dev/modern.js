@@ -80,7 +80,8 @@ export const manager = createAsyncManager<CliHooks, typeof pluginAPI>(
 );
 
 /** Plugin options of a cli plugin. */
-export type CliPlugin<ExtendHooks = unknown> = PluginOptions<
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type CliPlugin<ExtendHooks = {}> = PluginOptions<
   CliHooks,
   AsyncSetup<CliHooks & ExtendHooks, typeof pluginAPI>,
   ExtendHooks
