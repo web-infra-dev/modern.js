@@ -1,7 +1,7 @@
 - Type: `string | string[]`
 - Default: `undefined`
 
-Add a script before the entry file of each page. This script will be executed before the page code. If can be used to execute global logics, such as polyfill injection.
+Add a script before the entry file of each page. This script will be executed before the page code. It can be used to execute global logics, such as polyfill injection.
 
 #### Add a single script
 
