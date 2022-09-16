@@ -136,12 +136,4 @@ export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
   extendMarkdown: md => {
     md.use(markdownItInclude);
   },
-  cache: false,
-  // configureWebpack: config => {
-  //   config.plugins.push(
-  //     new WatchExternalFilesPlugin.default({
-  //       files: ['./node_modules/@modern-js/builder-doc/**'],
-  //     }),
-  //   );
-  // },
 }));
