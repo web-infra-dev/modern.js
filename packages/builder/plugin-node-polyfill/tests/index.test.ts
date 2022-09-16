@@ -4,7 +4,7 @@ import { PluginNodePolyfill } from '../src';
 
 describe('plugins/node-polyfill', () => {
   it('should add node-polyfill config', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginNodePolyfill()],
     });
     const config = await builder.unwrapWebpackConfig();

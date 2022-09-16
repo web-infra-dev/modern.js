@@ -1,10 +1,10 @@
 import { expect, describe, it } from 'vitest';
 import { PluginInspector } from '../../src/plugins/inspector';
-import { createStubBuilder } from '../utils/builder';
+import { createStubBuilder } from '../../src/stub/builder';
 
 describe('plugins/inspector', () => {
   it('should add inspector plugin when tools.inspector is set', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginInspector()],
       builderConfig: {
         tools: {
@@ -18,7 +18,7 @@ describe('plugins/inspector', () => {
   });
 
   it('should not add inspector plugin', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginInspector()],
     });
     const config = await builder.unwrapWebpackConfig();

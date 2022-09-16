@@ -1,10 +1,10 @@
 import { expect, describe, it } from 'vitest';
 import { PluginAssetsRetry } from '../../src/plugins/assetsRetry';
-import { createStubBuilder } from '../utils/builder';
+import { createStubBuilder } from '../../src/stub/builder';
 
 describe('plugins/assetsRetry', () => {
   it('should add assets retry plugin', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginAssetsRetry()],
       builderConfig: {
         output: {
@@ -18,7 +18,7 @@ describe('plugins/assetsRetry', () => {
   });
 
   it("should't add assets retry plugin when target is set to 'node'", async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginAssetsRetry()],
       target: 'node',
       builderConfig: {

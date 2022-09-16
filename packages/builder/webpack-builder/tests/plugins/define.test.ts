@@ -13,7 +13,7 @@ describe('plugins/define', () => {
       },
       baz: [null, 'baz'],
     };
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginDefine()],
       builderConfig: { source: { globalVars } },
     });

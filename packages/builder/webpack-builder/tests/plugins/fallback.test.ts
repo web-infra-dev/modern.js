@@ -26,7 +26,7 @@ describe('plugins/fallback', () => {
   };
 
   it('should convert fallback rule correctly', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [testPlugin, PluginFallback()],
       builderConfig: {
         output: {
@@ -40,7 +40,7 @@ describe('plugins/fallback', () => {
   });
 
   it('should not convert fallback rule when output.enableAssetFallback is not enabled', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [testPlugin, PluginFallback()],
     });
     const config = await builder.unwrapWebpackConfig();

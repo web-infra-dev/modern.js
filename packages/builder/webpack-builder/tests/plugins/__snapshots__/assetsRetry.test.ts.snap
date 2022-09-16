@@ -10,8 +10,4 @@ exports[`plugins/assetsRetry > should add assets retry plugin 1`] = `
 }
 `;
 
-exports[`plugins/assetsRetry > should't add assets retry plugin 1`] = `{}`;
-
-exports[`plugins/assetsRetry > should't add assets retry plugin when assetsRetry config is not set 1`] = `{}`;
-
 exports[`plugins/assetsRetry > should't add assets retry plugin when target is set to 'node' 1`] = `{}`;

@@ -8,7 +8,7 @@ import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/moduleScopes', () => {
   it('should set entry correctly', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginModuleScopes()],
       builderConfig: {
         source: {

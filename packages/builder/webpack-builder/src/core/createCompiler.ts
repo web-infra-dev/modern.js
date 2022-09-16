@@ -38,7 +38,7 @@ export async function createCompiler(options: InitConfigsOptions) {
     isFirstCompile = false;
   });
 
-  await context.hooks.onAfterCreateCompilerHooks.call();
+  await context.hooks.onAfterCreateCompilerHooks.call({ compiler });
   debug('create compiler done');
 
   return compiler;
