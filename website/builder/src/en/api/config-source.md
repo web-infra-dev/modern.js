@@ -4,20 +4,20 @@ This section describes some source code related configurations in Modern.js Buil
 
 ## alias
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/source/alias.md)!!!
 
 ## globalVars
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/source/globalVars.md)!!!
 
 ## moduleScopes
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/source/moduleScopes.md)!!!
 
 ## preEntry
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/source/preEntry.md)!!!
 
 ## resolveExtensionPrefix
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/source/resolveExtensionPrefix.md)!!!

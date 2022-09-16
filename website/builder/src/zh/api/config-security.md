@@ -4,4 +4,4 @@
 
 ## sri
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/security/sri.md)!!!

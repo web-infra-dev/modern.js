@@ -52,6 +52,9 @@ importers:
       wireit: 0.7.1
       zx: 4.2.0
 
+  packages/builder/builder-doc:
+    specifiers: {}
+
   packages/builder/plugin-esbuild:
     specifiers:
       '@modern-js/utils': workspace:*
@@ -4302,24 +4305,30 @@ importers:
 
   website/builder:
     specifiers:
+      '@modern-js/builder-doc': workspace:*
       '@vuepress/plugin-back-to-top': 1.9.5
       '@vuepress/plugin-medium-zoom': 1.9.5
       '@vuepress/shared-utils': 1.9.7
       html-entities: ^1.3.1
       less: 4.1.2
       markdown-it: 8.4.2
+      markdown-it-include: 2.0.0
       postcss: 8.4.16
       vuepress: 1.9.5
+      vuepress-plugin-redirect: 1.2.5
       vuepress-theme-vt: 0.5.2
     devDependencies:
+      '@modern-js/builder-doc': link:../../packages/builder/builder-doc
       '@vuepress/plugin-back-to-top': 1.9.5
       '@vuepress/plugin-medium-zoom': 1.9.5
       '@vuepress/shared-utils': 1.9.7
       html-entities: 1.4.0
       less: 4.1.2
       markdown-it: 8.4.2
+      markdown-it-include: 2.0.0_markdown-it@8.4.2
       postcss: 8.4.16
       vuepress: 1.9.5_postcss@8.4.16
+      vuepress-plugin-redirect: 1.2.5
       vuepress-theme-vt: 0.5.2_markdown-it@8.4.2
 
   website/main:
@@ -8871,6 +8880,15 @@ packages:
     dependencies:
       '@rushstack/node-core-library': 3.48.0
     dev: false
+
+  /@shigma/stringify-object/3.3.0:
+    resolution: {integrity: sha512-tO5pn6RJp8m1ldYtqY3GEQA6+Nqp1cIZVrVx7iFVPx0YfhMqfplwrvyrQPP1cCwuyRoAyDr/BxVZYt+USm8LXQ==}
+    engines: {node: '>=6'}
+    dependencies:
+      get-own-enumerable-property-symbols: 3.0.2
+      is-obj: 1.0.1
+      is-regexp: 2.1.0
+    dev: true
 
   /@sideway/address/4.1.4:
     resolution: {integrity: sha512-7vwq+rOHVWjyXxVlR76Agnvhy8I9rpzjosTESvmhNeXOXdZZB15Fl+TI9x1SiHZH5Jv2wTGduSxFDIaq0m3DUw==}
@@ -20318,7 +20336,6 @@ packages:
 
   /get-own-enumerable-property-symbols/3.0.2:
     resolution: {integrity: sha512-I0UBV/XOz1XkIJHEUDMZAbzCThU/H8DxmSfmdGcKPnVhu2VfFqr34jr9777IyaTYvxjedWhqVIilEDsCdP5G6g==}
-    dev: false
 
   /get-package-type/0.1.0:
     resolution: {integrity: sha512-pjzuKtY64GYfWizNAJ0fr9VqttZkNiK2iS430LtIHzjBEr6bX8Am2zm4sW4Ro5wjWW5cAlRL1qAMTcXbjNAO2Q==}
@@ -22106,7 +22123,6 @@ packages:
   /is-obj/1.0.1:
     resolution: {integrity: sha512-l4RyHgRqGN4Y3+9JHVrNqO+tN0rV5My76uW5/nuO4K1b6vw5G8d/cmFjP9tRfEsdhZNt0IFdZuK/c2Vr4Nb+Qg==}
     engines: {node: '>=0.10.0'}
-    dev: false
 
   /is-obj/2.0.0:
     resolution: {integrity: sha512-drqDG3cbczxxEJRoOXcOjtdp1J/lyp1mNn0xaznRs8+muBhgQcrnbspox5X5fOw0HnMnbfDzvnEMEtqDEJEo8w==}
@@ -22180,6 +22196,11 @@ packages:
     resolution: {integrity: sha512-7zjFAPO4/gwyQAAgRRmqeEeyIICSdmCqa3tsVHMdBzaXXRiqopZL4Cyghg/XulGWrtABTpbnYYzzIRffLkP4oA==}
     engines: {node: '>=0.10.0'}
     dev: false
+
+  /is-regexp/2.1.0:
+    resolution: {integrity: sha512-OZ4IlER3zmRIoB9AqNhEggVxqIH4ofDns5nRrPS6yQxXE1TPCUpFznBfRQmQa8uC+pXqjMnukiJBxCisIxiLGA==}
+    engines: {node: '>=6'}
+    dev: true
 
   /is-root/2.1.0:
     resolution: {integrity: sha512-AGOriNp96vNBd3HtU+RzFEc75FfR5ymiYv8E553I71SCeXBiMsVDUtdio1OEFvrPyLIQ9tVR5RxXIFe5PUFjMg==}
@@ -24222,6 +24243,15 @@ packages:
 
   /markdown-it-emoji/1.4.0:
     resolution: {integrity: sha512-QCz3Hkd+r5gDYtS2xsFXmBYrgw6KuWcJZLCEkdfAuwzZbShCmCfta+hwAMq4NX/4xPzkSHduMKgMkkPUJxSXNg==}
+    dev: true
+
+  /markdown-it-include/2.0.0_markdown-it@8.4.2:
+    resolution: {integrity: sha512-wfgIX92ZEYahYWiCk6Jx36XmHvAimeHN420csOWgfyZjpf171Y0xREqZWcm/Rwjzyd0RLYryY+cbNmrkYW2MDw==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      markdown-it: '>=8.4.2'
+    dependencies:
+      markdown-it: 8.4.2
     dev: true
 
   /markdown-it-table-of-contents/0.4.4:
@@ -32985,6 +33015,23 @@ packages:
     dependencies:
       '@vuepress/shared-utils': 1.9.7
       markdown-it-container: 2.0.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /vuepress-plugin-dehydrate/1.1.5:
+    resolution: {integrity: sha512-9F2x1vLCK4poPUMkLupD4HsgWdbZ68Escvma+DE1Dk6aAJdH5FGwmfOMxj4sMCBwz7S4s6bTMna+QQgD3+bzBA==}
+    dependencies:
+      '@vuepress/shared-utils': 1.9.7
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /vuepress-plugin-redirect/1.2.5:
+    resolution: {integrity: sha512-4RAWTVite154Tv7rUJEqWZ4fZtVXwKKoFOa2zY0Esn7cLi3Om2A+Pa2U84tBgPd90v2R7KEOy9jLEVphbsPK7g==}
+    dependencies:
+      '@shigma/stringify-object': 3.3.0
+      vuepress-plugin-dehydrate: 1.1.5
     transitivePeerDependencies:
       - supports-color
     dev: true

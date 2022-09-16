@@ -4,80 +4,80 @@ This section describes some output related configurations in Modern.js Builder.
 
 ## assetPrefix
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/assetPrefix.md)!!!
 
 ## assetsRetry
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/assetsRetry.md)!!!
 
 ## cleanDistPath
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/cleanDistPath.md)!!!
 
 ## copy
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/copy.md)!!!
 
 ## dataUriLimit
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/dataUriLimit.md)!!!
 
 ## distPath
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/distPath.md)!!!
 
 ## disableMinimize
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/disableMinimize.md)!!!
 
 ## disableSourceMap
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/disableSourceMap.md)!!!
 
 ## disableFilenameHash
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/disableFilenameHash.md)!!!
 
 ## disableInlineRuntimeChunk
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/disableInlineRuntimeChunk.md)!!!
 
 ## enableAssetManifest
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/enableAssetManifest.md)!!!
 
 ## enableAssetFallback
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/enableAssetFallback.md)!!!
 
 ## enableLatestDecorators
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/enableLatestDecorators.md)!!!
 
 ## enableCssModuleTSDeclaration
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/enableCssModuleTSDeclaration.md)!!!
 
 ## enableInlineScripts
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/enableInlineScripts.md)!!!
 
 ## enableInlineStyles
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/enableInlineStyles.md)!!!
 
 ## filename
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/filename.md)!!!
 
 ## overrideBrowserslist
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/overrideBrowserslist.md)!!!
 
 ## polyfill
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/polyfill.md)!!!
 
 ## svgDefaultExport
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/svgDefaultExport.md)!!!

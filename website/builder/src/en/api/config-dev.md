@@ -4,20 +4,20 @@ This section describes some dev configurations in Modern.js Builder.
 
 ## assetPrefix
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/dev/assetPrefix.md)!!!
 
 ## hmr
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/dev/hmr.md)!!!
 
 ## https
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/dev/https.md)!!!
 
 ## port
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/dev/port.md)!!!
 
 ## startUrl
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/dev/startUrl.md)!!!

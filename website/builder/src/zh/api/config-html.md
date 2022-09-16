@@ -4,56 +4,56 @@
 
 ## appIcon
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/appIcon.md)!!!
 
 ## crossorigin
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/crossorigin.md)!!!
 
 ## disableHtmlFolder
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/disableHtmlFolder.md)!!!
 
 ## favicon
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/favicon.md)!!!
 
 ## faviconByEntries
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/faviconByEntries.md)!!!
 
 ## inject
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/inject.md)!!!
 
 ## injectByEntries
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/injectByEntries.md)!!!
 
 ## meta
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/meta.md)!!!
 
 ## metaByEntries
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/metaByEntries.md)!!!
 
 ## mountId
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/mountId.md)!!!
 
 ## templateParameters
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/templateParameters.md)!!!
 
 ## templateParametersByEntries
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/templateParametersByEntries.md)!!!
 
 ## title
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/title.md)!!!
 
 ## titleByEntries
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/titleByEntries.md)!!!

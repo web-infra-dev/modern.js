@@ -4,16 +4,16 @@
 
 ## bundleAnalyze
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/performance/bundleAnalyze.md)!!!
 
 ## chunkSplit
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/performance/chunkSplit.md)!!!
 
 ## removeConsole
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/performance/removeConsole.md)!!!
 
 ## removeMomentLocale
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/performance/removeMomentLocale.md)!!!

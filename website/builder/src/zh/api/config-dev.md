@@ -4,20 +4,20 @@
 
 ## assetPrefix
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/dev/assetPrefix.md)!!!
 
 ## hmr
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/dev/hmr.md)!!!
 
 ## https
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/dev/https.md)!!!
 
 ## port
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/dev/port.md)!!!
 
 ## startUrl
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/dev/startUrl.md)!!!

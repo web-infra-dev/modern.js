@@ -4,20 +4,20 @@
 
 ## alias
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/source/alias.md)!!!
 
 ## globalVars
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/source/globalVars.md)!!!
 
 ## moduleScopes
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/source/moduleScopes.md)!!!
 
 ## preEntry
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/source/preEntry.md)!!!
 
 ## resolveExtensionPrefix
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/zh/config/source/resolveExtensionPrefix.md)!!!

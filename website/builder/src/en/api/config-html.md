@@ -4,56 +4,56 @@ This section describes some HTML configurations in Modern.js Builder.
 
 ## appIcon
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/appIcon.md)!!!
 
 ## crossorigin
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/crossorigin.md)!!!
 
 ## disableHtmlFolder
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/disableHtmlFolder.md)!!!
 
 ## favicon
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/favicon.md)!!!
 
 ## faviconByEntries
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/faviconByEntries.md)!!!
 
 ## inject
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/inject.md)!!!
 
 ## injectByEntries
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/injectByEntries.md)!!!
 
 ## meta
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/meta.md)!!!
 
 ## metaByEntries
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/metaByEntries.md)!!!
 
 ## mountId
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/mountId.md)!!!
 
 ## templateParameters
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/templateParameters.md)!!!
 
 ## templateParametersByEntries
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/templateParametersByEntries.md)!!!
 
 ## title
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/title.md)!!!
 
 ## titleByEntries
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/titleByEntries.md)!!!

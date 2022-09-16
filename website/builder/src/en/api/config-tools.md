@@ -4,76 +4,76 @@ This section describes some low-level tools configurations in Modern.js Builder.
 
 ## autoprefixer
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/autoprefixer.md)!!!
 
 ## babel
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/babel.md)!!!
 
 ## cssExtract
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/cssExtract.md)!!!
 
 ## cssLoader
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/cssLoader.md)!!!
 
 ## devServer
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/devServer.md)!!!
 
 ## htmlPlugin
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/htmlPlugin.md)!!!
 
 ## inspector
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/inspector.md)!!!
 
 ## less
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/less.md)!!!
 
 ## minifyCss
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/minifyCss.md)!!!
 
 ## postcss
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/postcss.md)!!!
 
 ## pug
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/pug.md)!!!
 
 ## sass
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/sass.md)!!!
 
 ## styleLoader
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/styleLoader.md)!!!
 
 ## styledComponents
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/styledComponents.md)!!!
 
 ## terser
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/terser.md)!!!
 
 ## tsLoader
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/tsLoader.md)!!!
 
 ## tsChecker
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/tsChecker.md)!!!
 
 ## webpack
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/webpack.md)!!!
 
 ## webpackChain
 
-TODO
+!!!include(node_modules/@modern-js/builder-doc/en/config/tools/webpackChain.md)!!!
