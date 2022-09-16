@@ -1,22 +1,19 @@
-import _ from '@modern-js/utils/lodash';
 import { BuilderPlugin } from '../types';
 
+interface AwaitablePluginGroup extends PromiseLike<BuilderPlugin[]> {
+  promises: Promise<BuilderPlugin>[];
+}
+
 /**
- * Wrap plugin initializers as Awaitable.
- * @example
- * const loader = () => awaitablePlugins([
- *   import('../plugins/basic').then(m => m.PluginBasic())
- * ] as const);
- * 
- * const [pluginBasicInstance] = await loader();
- * const [PluginBasic] = [...loader()];
+ * Make plugin loaders Awaitable.
+ * @see {@link tests/shared/plugin.test.ts}
  */
-const awaitablePlugins = <T extends readonly PromiseLike<BuilderPlugin>[]>(
-  loaders: T,
-): T & PromiseLike<{ -readonly [P in keyof T]: Awaited<T[P]> }> => {
-  const then: PromiseLike<any>['then'] = (...args) =>
-    Promise.all(loaders).then(...args);
-  return Object.assign(_.cloneDeep(loaders), { then });
+export const awaitablePlugins = (
+  promises: Promise<BuilderPlugin>[],
+): AwaitablePluginGroup => {
+  const then: PromiseLike<BuilderPlugin[]>['then'] = (...args) =>
+    Promise.all(promises).then(...args);
+  return { then, promises };
 };
 
 export const applyMinimalPlugins = () =>
@@ -28,11 +25,11 @@ export const applyMinimalPlugins = () =>
     import('../plugins/output').then(m => m.PluginOutput()),
     import('../plugins/devtool').then(m => m.PluginDevtool()),
     import('../plugins/resolve').then(m => m.PluginResolve()),
-  ] as const);
+  ]);
 
 export const applyBasicPlugins = () =>
   awaitablePlugins([
-    ...applyMinimalPlugins(),
+    ...applyMinimalPlugins().promises,
     import('../plugins/copy').then(m => m.PluginCopy()),
     import('../plugins/html').then(m => m.PluginHtml()),
     import('../plugins/image').then(m => m.PluginImage()),
@@ -43,11 +40,11 @@ export const applyBasicPlugins = () =>
     import('../plugins/sass').then(m => m.PluginSass()),
     import('../plugins/less').then(m => m.PluginLess()),
     import('../plugins/react').then(m => m.PluginReact()),
-  ] as const);
+  ]);
 
 export const applyDefaultPlugins = () =>
   awaitablePlugins([
-    ...applyMinimalPlugins(),
+    ...applyMinimalPlugins().promises,
     import('../plugins/fileSize').then(m => m.PluginFileSize()),
     import('../plugins/cleanOutput').then(m => m.PluginCleanOutput()),
     import('../plugins/hmr').then(m => m.PluginHMR()),
@@ -81,4 +78,4 @@ export const applyDefaultPlugins = () =>
     import('../plugins/inlineChunk').then(m => m.PluginInlineChunk()),
     import('../plugins/assetsRetry').then(m => m.PluginAssetsRetry()),
     import('../plugins/fallback').then(m => m.PluginFallback()),
-  ] as const);
+  ]);
