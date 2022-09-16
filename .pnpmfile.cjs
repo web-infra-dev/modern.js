@@ -19,12 +19,6 @@ function readPackage(pkg, _context) {
     pkg.dependencies['@types/react-dom'] = '^17';
   }
 
-  // fix vuepress dependency issue
-  // https://github.com/vuejs/vuepress/issues/2996
-  if (pkg.dependencies['webpack-hot-middleware']) {
-    pkg.dependencies['webpack-hot-middleware'] = '2.25.0';
-  }
-
   return pkg;
 }
 
