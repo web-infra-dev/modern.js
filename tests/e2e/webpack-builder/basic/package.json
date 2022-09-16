@@ -1,5 +1,5 @@
 {
-  "private": "true",
+  "private": true,
   "name": "@e2e/webpack-builder-basic",
   "version": "0.1.0",
   "scripts": {
