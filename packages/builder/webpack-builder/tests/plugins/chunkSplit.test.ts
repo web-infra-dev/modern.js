@@ -1,10 +1,10 @@
 import { expect, describe, it } from 'vitest';
 import { PluginSplitChunks } from '../../src/plugins/splitChunks';
-import { createStubBuilder } from '../utils/builder';
+import { createStubBuilder } from '../../src/stub/builder';
 
 describe('plugins/splitChunks', () => {
   it('should set split-by-experience config', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginSplitChunks()],
       builderConfig: {
         performance: {
@@ -20,7 +20,7 @@ describe('plugins/splitChunks', () => {
   });
 
   it('should set split-by-module config', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginSplitChunks()],
       builderConfig: {
         performance: {
@@ -35,7 +35,7 @@ describe('plugins/splitChunks', () => {
   });
 
   it('should set single-vendor config', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginSplitChunks()],
       builderConfig: {
         performance: {
@@ -50,7 +50,7 @@ describe('plugins/splitChunks', () => {
   });
 
   it('should set single-size config', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginSplitChunks()],
       builderConfig: {
         performance: {
@@ -67,7 +67,7 @@ describe('plugins/splitChunks', () => {
   });
 
   it('should set custom config', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginSplitChunks()],
       builderConfig: {
         performance: {

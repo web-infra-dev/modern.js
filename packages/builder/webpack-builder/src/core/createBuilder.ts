@@ -5,11 +5,17 @@ import { initConfigs } from './initConfigs';
 import { webpackBuild } from './build';
 import type webpack from 'webpack';
 import type {
-  Context,
   PluginStore,
   BuilderOptions,
+  Context,
+  PromiseOrNot,
   InspectOptions,
 } from '../types';
+
+export type ExecuteBuild = (
+  context: Context,
+  configs: webpack.Configuration[],
+) => PromiseOrNot<{ stats: webpack.MultiStats } | void>;
 
 /**
  * Create primary builder.
@@ -23,11 +29,7 @@ export function createPrimaryBuilder(
   const publicContext = createPublicContext(context);
   const pluginStore = createPluginStore();
 
-  const build = async (
-    executeBuild?: (
-      configs: webpack.Configuration[],
-    ) => Promise<{ stats: webpack.MultiStats }>,
-  ) => {
+  const build = async (executeBuild?: ExecuteBuild) => {
     if (!process.env.NODE_ENV) {
       process.env.NODE_ENV = 'production';
     }
@@ -42,7 +44,7 @@ export function createPrimaryBuilder(
       webpackConfigs,
     });
 
-    const executeResult = await executeBuild?.(webpackConfigs);
+    const executeResult = await executeBuild?.(context, webpackConfigs);
 
     await context.hooks.onAfterBuildHook.call({
       stats: executeResult?.stats,
@@ -107,7 +109,9 @@ export async function createBuilder(options?: BuilderOptions) {
   };
 }
 
-async function addDefaultPlugins(pluginStore: PluginStore) {
+export type BuilderInstance = Awaited<ReturnType<typeof createBuilder>>;
+
+export async function addDefaultPlugins(pluginStore: PluginStore) {
   debug('add default plugins');
 
   const { PluginHMR } = await import('../plugins/hmr');

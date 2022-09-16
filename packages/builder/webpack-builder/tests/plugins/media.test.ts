@@ -4,7 +4,7 @@ import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/media', () => {
   it('should add media rules correctly', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginMedia()],
     });
     const config = await builder.unwrapWebpackConfig();
@@ -13,7 +13,7 @@ describe('plugins/media', () => {
   });
 
   it('should allow to use distPath.media to modify dist path', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginMedia()],
       builderConfig: {
         output: {
@@ -29,7 +29,7 @@ describe('plugins/media', () => {
   });
 
   it('should allow to use distPath.media to be empty string', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginMedia()],
       builderConfig: {
         output: {
@@ -45,7 +45,7 @@ describe('plugins/media', () => {
   });
 
   it('should allow to use filename.media to modify filename', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginMedia()],
       builderConfig: {
         output: {

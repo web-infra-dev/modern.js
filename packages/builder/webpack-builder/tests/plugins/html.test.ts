@@ -5,7 +5,7 @@ import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/html', () => {
   it('should register html plugin correctly', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginEntry(), PluginHtml()],
       entry: {
         main: './src/main.ts',
@@ -18,7 +18,7 @@ describe('plugins/html', () => {
   });
 
   it('should register crossorigin plugin when using html.crossorigin', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginEntry(), PluginHtml()],
       entry: {
         main: './src/main.ts',
@@ -38,7 +38,7 @@ describe('plugins/html', () => {
   });
 
   it('should register appIcon plugin when using html.appIcon', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginEntry(), PluginHtml()],
       entry: {
         main: './src/main.ts',
@@ -54,7 +54,7 @@ describe('plugins/html', () => {
   });
 
   it('should allow to set favicon by html.favicon option', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginEntry(), PluginHtml()],
       entry: {
         main: './src/main.ts',
@@ -71,7 +71,7 @@ describe('plugins/html', () => {
   });
 
   it('should allow to set inject by html.inject option', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginEntry(), PluginHtml()],
       entry: {
         main: './src/main.ts',
@@ -91,7 +91,7 @@ describe('plugins/html', () => {
     const { NODE_ENV } = process.env;
     process.env.NODE_ENV = 'production';
 
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginEntry(), PluginHtml()],
       entry: {
         main: './src/main.ts',
@@ -105,7 +105,7 @@ describe('plugins/html', () => {
   });
 
   it('should allow to modify plugin options by tools.htmlPlugin', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginEntry(), PluginHtml()],
       entry: {
         main: './src/main.ts',

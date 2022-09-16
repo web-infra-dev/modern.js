@@ -5,7 +5,7 @@ import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/babel', () => {
   it('should set babel-loader', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginBabel()],
       builderConfig: {
         output: {
@@ -22,7 +22,7 @@ describe('plugins/babel', () => {
   });
 
   it('should set include/exclude', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginBabel()],
       builderConfig: {
         tools: {
@@ -40,7 +40,7 @@ describe('plugins/babel', () => {
   });
 
   it('should add core-js-entry when output.polyfill is entry', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginEntry(), PluginBabel()],
       builderConfig: {
         output: {
@@ -56,7 +56,7 @@ describe('plugins/babel', () => {
   });
 
   it('should not add core-js-entry when output.polyfill is usage', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginEntry(), PluginBabel()],
       builderConfig: {
         output: {
@@ -72,7 +72,7 @@ describe('plugins/babel', () => {
   });
 
   it('should override targets of babel-preset-env when using output.overrideBrowserslist config', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginBabel()],
       builderConfig: {
         output: {

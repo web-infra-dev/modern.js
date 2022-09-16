@@ -44,7 +44,9 @@ export type OnBeforeCreateCompilerFn = (params: {
   webpackConfigs: WebpackConfig[];
 }) => Promise<void> | void;
 
-export type OnAfterCreateCompilerFn = () => Promise<void> | void;
+export type OnAfterCreateCompilerFn = (params: {
+  compiler: webpack.MultiCompiler;
+}) => Promise<void> | void;
 
 export type OnBeforeStartDevServerFn = () => Promise<void> | void;
 

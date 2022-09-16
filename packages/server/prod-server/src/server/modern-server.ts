@@ -34,6 +34,7 @@ import {
   mergeExtension,
   noop,
   debug,
+  isRedirect,
 } from '../utils';
 import * as reader from '../libs/render/reader';
 import { createProxyHandler, BffProxyOptions } from '../libs/proxy';
@@ -455,6 +456,11 @@ export class ModernServer implements ModernServerInterface {
     if (file.redirect) {
       res.statusCode = file.statusCode!;
       res.setHeader('Location', file.content as string);
+      res.end();
+      return;
+    }
+
+    if (res.getHeader('Location') && isRedirect(res.statusCode)) {
       res.end();
       return;
     }
