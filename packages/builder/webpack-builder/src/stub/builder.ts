@@ -1,4 +1,5 @@
 import type * as playwright from '@modern-js/e2e/playwright';
+import { getTemplatePath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
 import assert from 'assert';
 import { PathLike } from 'fs';
@@ -29,8 +30,11 @@ export interface StubBuilderOptions extends BuilderOptions {
    * Automatically add builtin plugins by `process.env.STUB_BUILDER_PLUGIN_BUILTIN`.
    */
   plugins?: OptionsPluginsItem | OptionsPluginsItem[keyof OptionsPluginsItem];
-  /** Whether to run webpack build. By default it will be `false` and skip webpack building. */
-  webpack?: boolean | 'in-memory';
+  /**
+   * Whether to run webpack build. By default it will be `false` and skip webpack building.
+   * Set a string value to specify the `output.distPath` config.
+   */
+  webpack?: boolean | string;
 }
 
 export type HookApi = {
@@ -82,13 +86,25 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   const builderOptions = mergeBuilderOptions(
     options,
   ) as Required<StubBuilderOptions>;
+  // apply webpack option.
+  if (options?.webpack) {
+    const distPath =
+      typeof options.webpack === 'string'
+        ? options.webpack
+        : getTemplatePath('modern-js/stub-builder/dist');
+    _.set(builderOptions.builderConfig, 'output.distPath', distPath);
+  }
+  // init context.
   const context = createStubContext(builderOptions);
+  // merge user context.
   options?.context && _.merge(context, options.context);
+  // init primary builder.
   const {
     pluginStore,
     publicContext,
     build: buildImpl,
   } = createPrimaryBuilder(builderOptions, context);
+  // add builtin and custom plugins by `options.plugins`.
   await applyPluginOptions(pluginStore, options?.plugins);
 
   // tap on each hook and cache the args.
