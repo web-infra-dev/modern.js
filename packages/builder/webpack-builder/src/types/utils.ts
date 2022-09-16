@@ -8,6 +8,8 @@ export type JSONValue = JSONPrimitive | JSONObject | JSONArray;
 
 export type ArrayOrNot<T> = T | T[];
 
+export type PromiseOrNot<T> = T | Promise<T>;
+
 export type ChainedConfig<Config, Utils = unknown> = ArrayOrNot<
   | Config
   | (keyof Utils extends never

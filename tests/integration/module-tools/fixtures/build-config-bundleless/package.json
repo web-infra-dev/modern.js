@@ -1,7 +1,7 @@
 {
   "name": "@integration/module-tools-build-config-bundleless",
   "version": "1.0.0",
-  "private": "true",
+  "private": true,
   "devDependencies": {
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/core": "workspace:*",

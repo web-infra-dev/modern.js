@@ -1,4 +1,5 @@
-import { describe, expect, it } from 'vitest';
+import path from 'path';
+import { describe, expect, it, vi } from 'vitest';
 import {
   compilePathMatcherRegExp,
   createSnapshotSerializer,
@@ -75,6 +76,11 @@ describe('createSnapshotSerializer', () => {
     ['A:\\b\\foo\\bar', '"<UNKNOWN>/foo/bar"'],
     ['Z:\\b\\c\\foo', '"/z/b/c/foo"'],
   ])('should handle with windows path %s', (value, expected) => {
+    if (process.platform !== 'win32') {
+      // will take the error `Maximum call stack size exceeded` in windows & node 16
+      vi.spyOn(path, 'resolve').mockImplementation(path.win32.resolve);
+      vi.spyOn(path, 'normalize').mockImplementation(path.win32.normalize);
+    }
     const serializer = createSnapshotSerializer({
       replace: [
         { match: 'A:\\b\\c', mark: 'root' },

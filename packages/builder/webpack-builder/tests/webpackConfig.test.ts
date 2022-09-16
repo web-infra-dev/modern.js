@@ -4,7 +4,7 @@ import { createStubBuilder } from '../src/stub';
 
 describe('webpackConfig', () => {
   it('should allow tools.webpack to return config', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginBasic()],
       builderConfig: {
         tools: {
@@ -23,7 +23,7 @@ describe('webpackConfig', () => {
   });
 
   it('should allow tools.webpack to modify config object', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginBasic()],
       builderConfig: {
         tools: {
@@ -39,7 +39,7 @@ describe('webpackConfig', () => {
   });
 
   it('should allow tools.webpack to be an object', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginBasic()],
       builderConfig: {
         tools: {
@@ -55,7 +55,7 @@ describe('webpackConfig', () => {
   });
 
   it('should allow tools.webpack to be an array', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginBasic()],
       builderConfig: {
         tools: {
@@ -76,7 +76,7 @@ describe('webpackConfig', () => {
   });
 
   it('should allow to use tools.webpackChain to modify config', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginBasic()],
       builderConfig: {
         tools: {
@@ -92,7 +92,7 @@ describe('webpackConfig', () => {
   });
 
   it('should allow  tools.webpackChain to be an array', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginBasic()],
       builderConfig: {
         tools: {

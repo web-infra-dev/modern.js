@@ -4,7 +4,7 @@ import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/bundleAnalyze', () => {
   it('should add bundle analyze plugin', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginBundleAnalyzer()],
       builderConfig: {
         performance: {

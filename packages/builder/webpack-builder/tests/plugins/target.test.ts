@@ -32,7 +32,7 @@ describe('plugins/target', () => {
       .spyOn(shared, 'getBrowserslist')
       .mockResolvedValueOnce(item.browserslist);
 
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginTarget()],
       target: item.target as any,
     });

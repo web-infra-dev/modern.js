@@ -4,7 +4,7 @@ import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/tsChecker', () => {
   it("should't set ts-checker", async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginTsLoader()],
       builderConfig: {
         tools: {
@@ -18,7 +18,7 @@ describe('plugins/tsChecker', () => {
   });
 
   it('should set tsChecker plugin', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginTsLoader()],
       builderConfig: {
         tools: {},
