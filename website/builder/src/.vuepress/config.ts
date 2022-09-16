@@ -5,6 +5,7 @@ import {
 } from 'vuepress/config';
 import { ThemeConfig } from 'vuepress-theme-vt';
 import markdownItInclude from 'markdown-it-include';
+import './md-include-hmr';
 
 function getI18nHelper(lang: 'cn' | 'en') {
   const cn = lang === 'cn';
@@ -40,7 +41,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
     ],
     [fx('/api/')]: [
       {
-        title: 'API Reference',
+        title: ft('API 总览', 'API Reference'),
         path: fx('/api/'),
       },
       {
@@ -63,7 +64,6 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
 export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
   head: [
     ['link', { rel: 'icon', href: `https://modernjs.dev/img/favicon.ico` }],
-    ['link', { rel: 'manifest', href: '/manifest.json' }],
     ['meta', { name: 'theme-color', content: '#5c6ac4' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     [
@@ -129,11 +129,19 @@ export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
     '.vuepress/config/**',
     '../node_modules/@modern-js/builder-doc/**',
   ],
-  evergreen: !ctx.isProd,
+  evergreen: true,
   markdown: {
     extractHeaders: ['h2', 'h3', 'h4'],
   },
   extendMarkdown: md => {
     md.use(markdownItInclude);
   },
+  cache: false,
+  // configureWebpack: config => {
+  //   config.plugins.push(
+  //     new WatchExternalFilesPlugin.default({
+  //       files: ['./node_modules/@modern-js/builder-doc/**'],
+  //     }),
+  //   );
+  // },
 }));
