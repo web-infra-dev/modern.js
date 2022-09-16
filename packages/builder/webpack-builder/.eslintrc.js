@@ -68,6 +68,7 @@ module.exports = {
         './src/webpackPlugins/**/*',
         '**/*.test.*',
         './src/types/**/*',
+        './src/stub/**/*',
       ],
       rules: {
         '@typescript-eslint/no-restricted-imports': [
