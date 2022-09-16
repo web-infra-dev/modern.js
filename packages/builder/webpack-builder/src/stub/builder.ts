@@ -3,9 +3,14 @@ import { getTemplatePath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
 import assert from 'assert';
 import { PathLike } from 'fs';
+import {
+  applyBasicPlugins,
+  applyDefaultPlugins,
+  applyMinimalPlugins,
+} from '../shared/plugin';
 import { URL } from 'url';
 import { webpackBuild } from '../core/build';
-import { addDefaultPlugins, createPrimaryBuilder } from '../core/createBuilder';
+import { createPrimaryBuilder } from '../core/createBuilder';
 import { Hooks } from '../core/createHook';
 import { matchLoader, mergeBuilderOptions } from '../shared';
 import type {
@@ -19,7 +24,7 @@ import { createStubContext } from './context';
 import { globContentJSON, filenameToGlobExpr } from './utils';
 
 export interface OptionsPluginsItem {
-  builtin?: boolean | 'default' | 'minimal';
+  builtin?: boolean | 'default' | 'minimal' | 'basic';
   additional?: BuilderPlugin[];
 }
 
@@ -70,9 +75,11 @@ export async function applyPluginOptions(
   const opt = normalizeStubPluginOptions(options);
   // apply plugins
   if (opt.builtin === true || opt.builtin === 'minimal') {
-    // TODO: load minimal plugins
+    pluginStore.addPlugins(await applyMinimalPlugins());
+  } else if (opt.builtin === 'basic') {
+    pluginStore.addPlugins(await applyBasicPlugins());
   } else if (opt.builtin === 'default') {
-    await addDefaultPlugins(pluginStore);
+    pluginStore.addPlugins(await applyDefaultPlugins());
   }
   pluginStore.addPlugins(opt.additional);
 }
