@@ -28,6 +28,8 @@ chokidar
         `config-${type}.md`,
       );
 
-      fs.writeFileSync(issuerFile, fs.readFileSync(issuerFile, 'utf-8'));
+      if (fs.existsSync(issuerFile)) {
+        fs.writeFileSync(issuerFile, fs.readFileSync(issuerFile, 'utf-8'));
+      }
     }
   });
