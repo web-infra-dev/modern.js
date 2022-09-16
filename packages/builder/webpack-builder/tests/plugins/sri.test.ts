@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { PluginSRI } from '../../src/plugins/sri';
-import { createStubBuilder } from '../utils/builder';
+import { createStubBuilder } from '../../src/stub/builder';
 
 describe('plugins/sri', () => {
   it('should apply default sri plugin', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginSRI()],
       builderConfig: {
         security: {
@@ -18,7 +18,7 @@ describe('plugins/sri', () => {
   });
 
   it('should apply sri plugin', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginSRI()],
       builderConfig: {
         security: {
@@ -35,7 +35,7 @@ describe('plugins/sri', () => {
   });
 
   it("should't apply sri plugin", async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginSRI()],
       builderConfig: {},
     });
