@@ -2,8 +2,6 @@ import type * as playwright from '@modern-js/e2e/playwright';
 import _ from '@modern-js/utils/lodash';
 import assert from 'assert';
 import { PathLike } from 'fs';
-import { DirectoryJSON, Volume } from 'memfs/lib/volume';
-import path from 'path';
 import { URL } from 'url';
 import { webpackBuild } from '../core/build';
 import { addDefaultPlugins, createPrimaryBuilder } from '../core/createBuilder';
@@ -93,18 +91,6 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   } = createPrimaryBuilder(builderOptions, context);
   await applyPluginOptions(pluginStore, options?.plugins);
 
-  // replace outputFileSystem of Webpack.
-  let memfsVolume: Volume | undefined;
-  context.hooks.onAfterCreateCompilerHooks.tap(async ({ compiler }) => {
-    if (options?.webpack === 'in-memory') {
-      const { createFsFromVolume, Volume } = await import('memfs');
-      const vol = new Volume();
-      const ofs = createFsFromVolume(vol);
-      memfsVolume = vol;
-      compiler.outputFileSystem = ofs;
-    }
-  });
-
   // tap on each hook and cache the args.
   const resolvedHooks: Record<string, any> = {};
   _.each(context.hooks, ({ tap }, name) => {
@@ -152,40 +138,22 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
     return compiler;
   };
 
-  /** Unwrap outputFileSystem of webpack and ensure it is {@link Volume}. */
-  const unwrapOutputVolume = async () => {
-    await build();
-    assert(memfsVolume);
-    return memfsVolume;
-  };
-
   /** Serialize content of output files into JSON object. */
   const unwrapOutputJSON = async (
     paths: PathLike | PathLike[] = context.distPath,
     isRelative = false,
     maxSize = 4096,
-  ): Promise<DirectoryJSON> => {
+  ) => {
     if (Array.isArray(paths) && isRelative) {
       throw new Error('`isRelative` is not supported for multiple paths.');
     }
     await build();
-    if (memfsVolume) {
-      // avoid memfs remove drive letter on windows, refer to https://github.com/streamich/memfs/issues/316.
-      if (!isRelative && process.platform === 'win32') {
-        const ret = memfsVolume.toJSON(paths, undefined, true);
-        return _.mapKeys(ret, (_v, k) => path.join(paths as string, k));
-      } else {
-        const ret = memfsVolume.toJSON(paths, undefined, isRelative);
-        return ret;
-      }
-    } else {
-      const _paths = _(paths)
-        .castArray()
-        .map(filenameToGlobExpr)
-        .map(String)
-        .value();
-      return globContentJSON(_paths, { absolute: !isRelative, maxSize });
-    }
+    const _paths = _(paths)
+      .castArray()
+      .map(filenameToGlobExpr)
+      .map(String)
+      .value();
+    return globContentJSON(_paths, { absolute: !isRelative, maxSize });
   };
 
   /** Read output file content. */
@@ -225,9 +193,7 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
       import('@modern-js/e2e'),
       build(),
     ]);
-    const { port } = await runStaticServer(context.distPath, {
-      volume: memfsVolume,
-    });
+    const { port } = await runStaticServer(context.distPath);
     if (options?.hangOn) {
       // eslint-disable-next-line no-console
       console.log(
@@ -244,7 +210,6 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
       baseUrl,
       htmlRoot,
       homeUrl,
-      volume: memfsVolume,
       port,
     };
   };
@@ -282,7 +247,6 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
     unwrapWebpackConfigs,
     unwrapWebpackConfig,
     unwrapWebpackCompiler,
-    unwrapOutputVolume,
     unwrapOutputJSON,
     unwrapOutputFile,
     readOutputFile,
