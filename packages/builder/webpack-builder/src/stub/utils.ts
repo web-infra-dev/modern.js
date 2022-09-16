@@ -1,4 +1,5 @@
 import type { GlobbyOptions } from '@modern-js/utils';
+import fs, { PathLike } from 'fs';
 
 export interface GlobContentJSONOptions extends GlobbyOptions {
   maxSize?: number;
@@ -23,3 +24,6 @@ export const globContentJSON = async (
   }
   return ret;
 };
+
+export const filenameToGlobExpr = (file: PathLike) =>
+  fs.statSync(file).isDirectory() ? `${file}/**/*` : file;

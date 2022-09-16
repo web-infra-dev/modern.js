@@ -8,11 +8,7 @@ import { URL } from 'url';
 import { webpackBuild } from '../core/build';
 import { addDefaultPlugins, createPrimaryBuilder } from '../core/createBuilder';
 import { Hooks } from '../core/createHook';
-import {
-  filenameToGlobExpr,
-  matchLoader,
-  mergeBuilderOptions,
-} from '../shared';
+import { matchLoader, mergeBuilderOptions } from '../shared';
 import type {
   BuilderOptions,
   BuilderPlugin,
@@ -21,7 +17,7 @@ import type {
 } from '../types';
 import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
 import { createStubContext } from './context';
-import { globContentJSON } from './utils';
+import { globContentJSON, filenameToGlobExpr } from './utils';
 
 export interface OptionsPluginsItem {
   builtin?: boolean | 'default' | 'minimal';

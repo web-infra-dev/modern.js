@@ -1,4 +1,3 @@
-import fs, { PathLike } from 'fs';
 import { join } from 'path';
 import type { BuilderConfig, DistPathConfig, FilenameConfig } from '../types';
 import {
@@ -77,6 +76,3 @@ export const getFilename = (
       throw new Error(`unknown key ${type} in "output.filename"`);
   }
 };
-
-export const filenameToGlobExpr = (file: PathLike) =>
-  fs.statSync(file).isDirectory() ? `${file}/**/*` : file;
