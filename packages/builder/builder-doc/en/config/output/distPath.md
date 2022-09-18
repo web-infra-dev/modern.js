@@ -19,12 +19,12 @@ type DistPathConfig = {
 const defaultDistPath = {
   root: 'dist',
   html: 'html',
-  js: 'js',
-  css: 'css',
-  svg: 'svg',
-  font: 'font',
-  image: 'image',
-  media: 'media',
+  js: 'static/js',
+  css: 'static/css',
+  svg: 'static/svg',
+  font: 'static/font',
+  image: 'static/image',
+  media: 'static/media',
 };
 ```
 
@@ -43,7 +43,7 @@ Detail:
 
 #### Example
 
-The JavaScript files will be output to the `distPath.root` + `distPath.js` directory, which is `dist/js`.
+The JavaScript files will be output to the `distPath.root` + `distPath.js` directory, which is `dist/static/js`.
 
 If you need to output JavaScript files to the `build/resource/js` directory, you can add following config:
 

@@ -19,12 +19,12 @@ type DistPathConfig = {
 const defaultDistPath = {
   root: 'dist',
   html: 'html',
-  js: 'js',
-  css: 'css',
-  svg: 'svg',
-  font: 'font',
-  image: 'image',
-  media: 'media',
+  js: 'static/js',
+  css: 'static/css',
+  svg: 'static/svg',
+  font: 'static/font',
+  image: 'static/image',
+  media: 'static/media',
 };
 ```
 
@@ -43,7 +43,7 @@ const defaultDistPath = {
 
 #### 示例
 
-以 JavaScript 文件为例，会输出到 `distPath.root` + `distPath.js` 目录，即为 `dist/js`。
+以 JavaScript 文件为例，会输出到 `distPath.root` + `distPath.js` 目录，即为 `dist/static/js`。
 
 如果需要将 JavaScript 文件输出到 `build/resource/js` 目录，可以这样设置：
 
