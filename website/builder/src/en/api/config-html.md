@@ -2,58 +2,58 @@
 
 This section describes some HTML configurations in Modern.js Builder.
 
-## appIcon
+## html.appIcon
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/appIcon.md)!!!
 
-## crossorigin
+## html.crossorigin
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/crossorigin.md)!!!
 
-## disableHtmlFolder
+## html.disableHtmlFolder
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/disableHtmlFolder.md)!!!
 
-## favicon
+## html.favicon
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/favicon.md)!!!
 
-## faviconByEntries
+## html.faviconByEntries
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/faviconByEntries.md)!!!
 
-## inject
+## html.inject
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/inject.md)!!!
 
-## injectByEntries
+## html.injectByEntries
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/injectByEntries.md)!!!
 
-## meta
+## html.meta
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/meta.md)!!!
 
-## metaByEntries
+## html.metaByEntries
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/metaByEntries.md)!!!
 
-## mountId
+## html.mountId
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/mountId.md)!!!
 
-## templateParameters
+## html.templateParameters
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/templateParameters.md)!!!
 
-## templateParametersByEntries
+## html.templateParametersByEntries
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/templateParametersByEntries.md)!!!
 
-## title
+## html.title
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/title.md)!!!
 
-## titleByEntries
+## html.titleByEntries
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/titleByEntries.md)!!!

@@ -2,82 +2,82 @@
 
 本章节描述了 Builder 中与编译产物有关的配置。
 
-## assetPrefix
+## output.assetPrefix
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/assetPrefix.md)!!!
 
-## assetsRetry
+## output.assetsRetry
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/assetsRetry.md)!!!
 
-## cleanDistPath
+## output.cleanDistPath
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/cleanDistPath.md)!!!
 
-## copy
+## output.copy
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/copy.md)!!!
 
-## dataUriLimit
+## output.dataUriLimit
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/dataUriLimit.md)!!!
 
-## distPath
+## output.distPath
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/distPath.md)!!!
 
-## disableMinimize
+## output.disableMinimize
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/disableMinimize.md)!!!
 
-## disableSourceMap
+## output.disableSourceMap
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/disableSourceMap.md)!!!
 
-## disableFilenameHash
+## output.disableFilenameHash
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/disableFilenameHash.md)!!!
 
-## disableInlineRuntimeChunk
+## output.disableInlineRuntimeChunk
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/disableInlineRuntimeChunk.md)!!!
 
-## enableAssetManifest
+## output.enableAssetManifest
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/enableAssetManifest.md)!!!
 
-## enableAssetFallback
+## output.enableAssetFallback
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/enableAssetFallback.md)!!!
 
-## enableLatestDecorators
+## output.enableLatestDecorators
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/enableLatestDecorators.md)!!!
 
-## enableCssModuleTSDeclaration
+## output.enableCssModuleTSDeclaration
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/enableCssModuleTSDeclaration.md)!!!
 
-## enableInlineScripts
+## output.enableInlineScripts
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/enableInlineScripts.md)!!!
 
-## enableInlineStyles
+## output.enableInlineStyles
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/enableInlineStyles.md)!!!
 
-## filename
+## output.filename
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/filename.md)!!!
 
-## overrideBrowserslist
+## output.overrideBrowserslist
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/overrideBrowserslist.md)!!!
 
-## polyfill
+## output.polyfill
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/polyfill.md)!!!
 
-## svgDefaultExport
+## output.svgDefaultExport
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/svgDefaultExport.md)!!!
