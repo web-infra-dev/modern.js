@@ -3,7 +3,7 @@ import { Socket } from 'net';
 import ws from 'ws';
 import { logger } from '@modern-js/utils';
 import type webpack from 'webpack';
-import type { DevServerOptions } from '../types';
+import type { DevServerOptions } from '../../types';
 
 interface ExtWebSocket extends ws {
   isAlive: boolean;
