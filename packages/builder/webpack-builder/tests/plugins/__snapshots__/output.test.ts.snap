@@ -7,6 +7,7 @@ exports[`plugins/output > should allow to use filename.js to modify filename 1`]
     "filename": "static/js/foo.js",
     "hashFunction": "xxhash64",
     "path": "<ROOT>/packages/builder/webpack-builder/dist",
+    "pathinfo": false,
     "publicPath": "/",
   },
   "plugins": [
@@ -36,6 +37,7 @@ exports[`plugins/output > should set output correctly 1`] = `
     "filename": "static/js/[name].js",
     "hashFunction": "xxhash64",
     "path": "<ROOT>/packages/builder/webpack-builder/dist",
+    "pathinfo": false,
     "publicPath": "/",
   },
   "plugins": [
