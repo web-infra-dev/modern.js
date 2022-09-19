@@ -2,78 +2,78 @@
 
 本章节描述了 Builder 中与底层工具有关的配置。
 
-## autoprefixer
+## tools.autoprefixer
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/autoprefixer.md)!!!
 
-## babel
+## tools.babel
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/babel.md)!!!
 
-## cssExtract
+## tools.cssExtract
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/cssExtract.md)!!!
 
-## cssLoader
+## tools.cssLoader
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/cssLoader.md)!!!
 
-## devServer
+## tools.devServer
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/devServer.md)!!!
 
-## htmlPlugin
+## tools.htmlPlugin
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/htmlPlugin.md)!!!
 
-## inspector
+## tools.inspector
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/inspector.md)!!!
 
-## less
+## tools.less
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/less.md)!!!
 
-## minifyCss
+## tools.minifyCss
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/minifyCss.md)!!!
 
-## postcss
+## tools.postcss
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/postcss.md)!!!
 
-## pug
+## tools.pug
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/pug.md)!!!
 
-## sass
+## tools.sass
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/sass.md)!!!
 
-## styleLoader
+## tools.styleLoader
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/styleLoader.md)!!!
 
-## styledComponents
+## tools.styledComponents
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/styledComponents.md)!!!
 
-## terser
+## tools.terser
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/terser.md)!!!
 
-## tsLoader
+## tools.tsLoader
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/tsLoader.md)!!!
 
-## tsChecker
+## tools.tsChecker
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/tsChecker.md)!!!
 
-## webpack
+## tools.webpack
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/webpack.md)!!!
 
-## webpackChain
+## tools.webpackChain
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/tools/webpackChain.md)!!!

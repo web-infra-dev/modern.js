@@ -2,78 +2,78 @@
 
 This section describes some low-level tools configurations in Modern.js Builder.
 
-## autoprefixer
+## tools.autoprefixer
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/autoprefixer.md)!!!
 
-## babel
+## tools.babel
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/babel.md)!!!
 
-## cssExtract
+## tools.cssExtract
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/cssExtract.md)!!!
 
-## cssLoader
+## tools.cssLoader
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/cssLoader.md)!!!
 
-## devServer
+## tools.devServer
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/devServer.md)!!!
 
-## htmlPlugin
+## tools.htmlPlugin
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/htmlPlugin.md)!!!
 
-## inspector
+## tools.inspector
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/inspector.md)!!!
 
-## less
+## tools.less
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/less.md)!!!
 
-## minifyCss
+## tools.minifyCss
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/minifyCss.md)!!!
 
-## postcss
+## tools.postcss
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/postcss.md)!!!
 
-## pug
+## tools.pug
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/pug.md)!!!
 
-## sass
+## tools.sass
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/sass.md)!!!
 
-## styleLoader
+## tools.styleLoader
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/styleLoader.md)!!!
 
-## styledComponents
+## tools.styledComponents
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/styledComponents.md)!!!
 
-## terser
+## tools.terser
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/terser.md)!!!
 
-## tsLoader
+## tools.tsLoader
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/tsLoader.md)!!!
 
-## tsChecker
+## tools.tsChecker
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/tsChecker.md)!!!
 
-## webpack
+## tools.webpack
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/webpack.md)!!!
 
-## webpackChain
+## tools.webpackChain
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/tools/webpackChain.md)!!!

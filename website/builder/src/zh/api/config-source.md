@@ -2,22 +2,22 @@
 
 本章节描述了 Builder 中与源代码有关的配置。
 
-## alias
+## source.alias
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/source/alias.md)!!!
 
-## globalVars
+## source.globalVars
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/source/globalVars.md)!!!
 
-## moduleScopes
+## source.moduleScopes
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/source/moduleScopes.md)!!!
 
-## preEntry
+## source.preEntry
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/source/preEntry.md)!!!
 
-## resolveExtensionPrefix
+## source.resolveExtensionPrefix
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/source/resolveExtensionPrefix.md)!!!
