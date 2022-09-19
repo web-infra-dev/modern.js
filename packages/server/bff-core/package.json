@@ -20,6 +20,7 @@
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/js/node/index.js"
     }
   },
