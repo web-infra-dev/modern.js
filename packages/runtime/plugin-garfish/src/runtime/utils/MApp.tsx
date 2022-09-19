@@ -105,7 +105,9 @@ export function generateMApp(
             manifest?.componentRender &&
             (SubModuleComponent || jupiter_submodule_app_key);
           return {
-            mount: (...props) => {
+            mount: appInfo => {
+              const transferProps = this.filterTransferProps();
+              appInfo.props = { ...appInfo.props, ...transferProps };
               if (componetRenderMode) {
                 this.setState({
                   SubModuleComponent:
@@ -113,16 +115,18 @@ export function generateMApp(
                 });
                 return undefined;
               } else {
-                logger('MicroApp customer render', props);
-                return render?.apply(provider, props);
+                logger('MicroApp customer render', appInfo);
+                return render?.apply(provider, [appInfo]);
               }
             },
-            unmount(...props) {
+            unmount: appInfo => {
+              const transferProps = this.filterTransferProps();
+              appInfo.props = { ...appInfo.props, ...transferProps };
               if (componetRenderMode) {
                 return undefined;
               }
-              logger('MicroApp customer destroy', props);
-              return destroy?.apply(provider, props);
+              logger('MicroApp customer destroy', appInfo);
+              return destroy?.apply(provider, [appInfo]);
             },
           };
         },
@@ -142,6 +146,11 @@ export function generateMApp(
       // close auto render able
       Garfish.router.setRouterConfig({ listening: false });
       logger('MApp componentWillUnmount');
+    }
+
+    filterTransferProps() {
+      const { style, setLoadingState, ...others } = this.props;
+      return others;
     }
 
     render() {
