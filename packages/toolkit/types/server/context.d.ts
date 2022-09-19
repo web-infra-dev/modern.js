@@ -12,7 +12,7 @@ export interface ModernServerContext {
 
   logger: Logger;
 
-  metrics?: Metrics;
+  metrics: Metrics;
 
   setParams: (params: Record<string, string>) => void;
 
@@ -42,7 +42,13 @@ export interface ModernServerContext {
 
   status: number;
 
+  serverData: Record<string, any>;
+
   resHasHandled: () => boolean;
+
+  error: (dig: string, e: Error | string = '') => void;
+
+  setServerData: (key: string, value: any) => void;
 }
 
 export type BaseSSRServerContext = {

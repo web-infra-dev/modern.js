@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import { ModernServerContext, NextFunction } from '@modern-js/types';
+import type { ModernServerContext, NextFunction } from '@modern-js/types';
 import { AGGRED_DIR } from '@modern-js/prod-server';
 import getMockData, { getMatched } from './getMockData';
 

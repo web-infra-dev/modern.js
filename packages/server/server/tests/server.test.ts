@@ -2,7 +2,7 @@ import path from 'path';
 import webpack from 'webpack';
 import { defaultsConfig, NormalizedConfig } from '@modern-js/core';
 import { ModernServerContext, NextFunction } from '@modern-js/types';
-import { AGGRED_DIR, RUN_MODE } from '@modern-js/prod-server';
+import { AGGRED_DIR } from '@modern-js/prod-server';
 import createServer, { Server } from '../src';
 import Watcher from '../src/dev-tools/watcher';
 import { ModernDevServer } from '../src/server/dev-server';
@@ -32,9 +32,10 @@ describe('test dev server', () => {
             },
           },
         },
-      },
+      } as any,
       pwd: appDirectory,
       dev: true,
+      compiler: null as any,
     });
     expect(server instanceof Server).toBe(true);
     await server.close();
@@ -46,6 +47,7 @@ describe('test dev server', () => {
         config: defaultsConfig as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
+        compiler: null as any,
       });
       const modernServer = (server as any).server;
 
@@ -75,6 +77,7 @@ describe('test dev server', () => {
         config: defaultsConfig as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
+        compiler: null as any,
       });
       const modernServer = (server as any).server;
 
@@ -110,6 +113,7 @@ describe('test dev server', () => {
         config: defaultsConfig as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
+        compiler: null as any,
       });
 
       const modernServer: any = (server as any).server;
@@ -123,6 +127,7 @@ describe('test dev server', () => {
         config: defaultsConfig as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
+        compiler: null as any,
       });
 
       const modernServer: any = (server as any).server;
@@ -136,6 +141,7 @@ describe('test dev server', () => {
         config: defaultsConfig as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
+        compiler: null as any,
       });
 
       const modernServer: ModernDevServer = (server as any).server;
@@ -150,6 +156,7 @@ describe('test dev server', () => {
         config: defaultsConfig as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
+        compiler: null as any,
       });
 
       const modernServer = (server as any).server;
@@ -196,42 +203,13 @@ describe('test dev server', () => {
         config: defaultsConfig as NormalizedConfig,
         pwd: appDirectory,
         dev: true,
+        compiler: null as any,
       });
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       expect(devServer.server.watcher).toBeInstanceOf(Watcher);
       await devServer.close();
-    });
-  });
-
-  describe('should split server work correctly', () => {
-    test('should init api server correctly', async () => {
-      const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
-        pwd: appDirectory,
-        dev: true,
-        apiOnly: true,
-        runMode: RUN_MODE.FULL,
-      });
-      const modernServer = (server as any).server;
-      modernServer.emitRouteHook('reset', {});
-      expect(modernServer.prepareWebHandler()).toBe(null);
-      await server.close();
-    });
-
-    test('should init ssr server correctly', async () => {
-      const server = await createServer({
-        config: defaultsConfig as NormalizedConfig,
-        pwd: appDirectory,
-        dev: true,
-        ssrOnly: true,
-        runMode: RUN_MODE.FULL,
-      });
-      const modernServer = (server as any).server;
-      modernServer.emitRouteHook('reset', {});
-      expect(modernServer.prepareAPIHandler()).toBe(null);
-      await server.close();
     });
   });
 });
