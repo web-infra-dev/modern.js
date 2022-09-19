@@ -61,6 +61,10 @@ export const PluginOutput = (): BuilderPlugin => ({
         .filename(`${jsPath}/${jsFilename}`)
         .chunkFilename(`${jsPath}/async/${jsFilename}`)
         .publicPath(publicPath)
+        // disable pathinfo to improve compile performance
+        // the path info is useless in most cases
+        // see: https://webpack.js.org/guides/build-performance/#output-without-path-info
+        .pathinfo(false)
         // since webpack v5.54.0+, hashFunction supports xxhash64 as a faster algorithm
         // which will be used as default when experiments.futureDefaults is enabled.
         .hashFunction('xxhash64');
