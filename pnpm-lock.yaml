@@ -1875,8 +1875,8 @@ importers:
       '@modern-js/bff-core': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/plugin': workspace:*
+      '@modern-js/prod-server': workspace:*
       '@modern-js/runtime': workspace:*
-      '@modern-js/server': workspace:*
       '@modern-js/utils': workspace:*
       '@modern-js/webpack': workspace:*
       '@scripts/build': workspace:*
@@ -1911,7 +1911,7 @@ importers:
       '@modern-js/babel-compiler': link:../../toolkit/compiler/babel
       '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
       '@modern-js/plugin': link:../../toolkit/plugin
-      '@modern-js/server': link:../../server/server
+      '@modern-js/prod-server': link:../../server/prod-server
       '@modern-js/utils': link:../../toolkit/utils
       '@modern-js/webpack': link:../../cli/webpack
       '@testing-library/jest-dom': 5.16.4
@@ -14775,7 +14775,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.6
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1_bluebird@3.7.2
+      promise-inflight: 1.0.1
       rimraf: 2.7.1
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -27870,17 +27870,6 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
-    dev: false
-
-  /promise-inflight/1.0.1_bluebird@3.7.2:
-    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
-    peerDependencies:
-      bluebird: '*'
-    peerDependenciesMeta:
-      bluebird:
-        optional: true
-    dependencies:
-      bluebird: 3.7.2
 
   /promise-polyfill/1.1.6:
     resolution: {integrity: sha512-7rrONfyLkDEc7OJ5QBkqa4KI4EBhCd340xRuIUPGCfu13znS+vx+VDdrT9ODAJHlXm7w4lbxN3DRjyv58EuzDg==}

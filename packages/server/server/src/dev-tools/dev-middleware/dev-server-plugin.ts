@@ -1,5 +1,5 @@
 import type webpack from 'webpack';
-import type { DevServerOptions } from '../types';
+import type { DevServerOptions } from '../../types';
 
 export default class DevServerPlugin {
   private readonly options: DevServerOptions;
@@ -15,7 +15,7 @@ export default class DevServerPlugin {
     const port = client.port ? `&port=${client.port}` : '';
 
     const clientEntry = `${require.resolve(
-      '../hmr-client',
+      './hmr-client',
     )}?${host}${path}${port}`;
 
     // use a hook to add entries if available

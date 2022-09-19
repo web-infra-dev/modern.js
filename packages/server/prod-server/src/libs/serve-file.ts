@@ -3,9 +3,9 @@ import { IncomingMessage } from 'http';
 import serve from 'serve-static';
 import { isString, isRegExp } from '@modern-js/utils';
 import { NormalizedConfig } from '@modern-js/core';
+import type { ModernServerContext } from '@modern-js/types';
 import { useLocalPrefix } from '../utils';
 import { NextFunction } from '../type';
-import { ModernServerContext } from './context';
 
 type Rule = {
   path: string | RegExp;

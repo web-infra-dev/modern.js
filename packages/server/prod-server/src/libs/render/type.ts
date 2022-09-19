@@ -1,4 +1,4 @@
-import { BaseSSRServerContext } from '@modern-js/types/server';
+import { BaseSSRServerContext } from '@modern-js/types';
 
 type MetaKeyMap = {
   header?: string[];

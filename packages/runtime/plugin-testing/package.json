@@ -112,7 +112,7 @@
     "@modern-js/webpack": "workspace:*",
     "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js/plugin": "workspace:*",
-    "@modern-js/server": "workspace:*",
+    "@modern-js/prod-server": "workspace:*",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/testing-library__jest-dom": "^5.14.3",
