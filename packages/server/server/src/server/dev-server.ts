@@ -1,16 +1,7 @@
-import http, {
-  Server,
-  createServer,
-  IncomingMessage,
-  ServerResponse,
-} from 'http';
+import { createServer, IncomingMessage, Server, ServerResponse } from 'http';
 import path from 'path';
 import { createServer as createHttpsServer } from 'https';
 import { API_DIR, SERVER_DIR, SHARED_DIR } from '@modern-js/utils';
-import type { MultiCompiler, Compiler } from 'webpack';
-import webpackDevMiddleware, {
-  Headers,
-} from '@modern-js/utils/webpack-dev-middleware';
 import {
   createProxyHandler,
   NextFunction,
@@ -19,30 +10,22 @@ import {
   AGGRED_DIR,
   BuildOptions,
 } from '@modern-js/prod-server';
-import { ModernServerContext } from '@modern-js/types';
+import type { ModernServerContext } from '@modern-js/types';
 import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
-import SocketServer from '../dev-tools/socket-server';
-import DevServerPlugin from '../dev-tools/dev-server-plugin';
 import { enableRegister } from '../dev-tools/register';
 import Watcher, { mergeWatchOptions, WatchEvent } from '../dev-tools/watcher';
-import { DevServerOptions, ModernDevServerOptions } from '../types';
+import type { DevServerOptions, ModernDevServerOptions } from '../types';
+import DevMiddleware from '../dev-tools/dev-middleware';
 
 export class ModernDevServer extends ModernServer {
   private mockHandler: ReturnType<typeof createMockHandler> = null;
 
   private readonly dev: DevServerOptions;
 
-  private readonly compiler?: MultiCompiler | Compiler;
-
-  private socketServer!: SocketServer;
+  private readonly devMiddleware: DevMiddleware;
 
   private watcher?: Watcher;
-
-  private devMiddleware!: webpackDevMiddleware.API<
-    http.IncomingMessage,
-    http.ServerResponse
-  >;
 
   constructor(options: ModernDevServerOptions) {
     super(options);
@@ -50,11 +33,15 @@ export class ModernDevServer extends ModernServer {
     // dev server should work in pwd
     this.workDir = this.pwd;
 
-    // set webpack compiler
-    this.compiler = options.compiler!;
-
     // set dev server options, like webpack-dev-server
     this.dev = this.getDevOptions(options);
+
+    // create dev middleware instance
+    this.devMiddleware = new DevMiddleware({
+      dev: this.dev,
+      compiler: options.compiler,
+      config: this.conf,
+    });
 
     enableRegister(this.pwd, this.conf);
   }
@@ -74,10 +61,10 @@ export class ModernDevServer extends ModernServer {
   }
 
   // Complete the preparation of services
-  public async onInit(runner: ServerHookRunner) {
+  public async onInit(runner: ServerHookRunner, app: Server) {
     this.runner = runner;
 
-    const { conf, pwd, compiler, dev } = this;
+    const { conf, pwd, dev, devMiddleware } = this;
     // before dev handler
     const beforeHandlers = await this.setupBeforeDevMiddleware();
     beforeHandlers.forEach(handler => {
@@ -123,14 +110,17 @@ export class ModernDevServer extends ModernServer {
     }
 
     // do webpack build / plugin apply / socket server when pass compiler instance
-    if (compiler) {
-      // init socket server
-      this.socketServer = new SocketServer(dev);
-
-      // setup compiler in server, also add dev-middleware to handler static file in memory
-      const devMiddlewareHandler = this.setupCompiler(compiler);
-      this.addHandler(devMiddlewareHandler);
-    }
+    devMiddleware.init(app);
+    devMiddleware.on('change', (stats: any) => {
+      // Reset only when client compile done
+      if (stats.toJson({ all: false }).name === 'client') {
+        this.onRepack({ routes: this.getRoutes() });
+      }
+    });
+    this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
+      const { req, res } = ctx;
+      devMiddleware.middleware(req, res, next);
+    });
 
     // after dev handler
     const afterHandlers = await this.setupAfterDevMiddleware();
@@ -141,27 +131,15 @@ export class ModernDevServer extends ModernServer {
       });
     });
 
-    await super.onInit(runner);
+    await super.onInit(runner, app);
 
     // watch mock/ server/ api/ dir file change
     if (dev.watch) {
       this.startWatcher();
+      app.on('close', async () => {
+        await this.watcher?.close();
+      });
     }
-  }
-
-  public async onClose() {
-    await super.onClose();
-    await this.watcher?.close();
-    await new Promise<void>(resolve => {
-      if (this.devMiddleware) {
-        this.devMiddleware.close(() => {
-          resolve();
-        });
-      } else {
-        resolve();
-      }
-    });
-    this.socketServer?.close();
   }
 
   public onRepack(options: BuildOptions = {}) {
@@ -177,10 +155,6 @@ export class ModernDevServer extends ModernServer {
     this.reader.updateFile();
 
     super.onRepack(options);
-  }
-
-  public onListening(app: Server) {
-    this.socketServer?.prepare(app);
   }
 
   public async createHTTPServer(
@@ -241,93 +215,6 @@ export class ModernDevServer extends ModernServer {
 
   protected createContext(req: IncomingMessage, res: ServerResponse) {
     return super.createContext(req, res, { etag: true });
-  }
-
-  // set up plugin to each compiler
-  // register hooks for each compilation, update socket stats if recompiled
-  // start dev middleware
-  private setupCompiler(compiler: MultiCompiler | Compiler) {
-    this.setupDevServerPlugin(compiler);
-    this.setupHooks();
-    return this.setupDevMiddleware(compiler);
-  }
-
-  private isClientCompiler(compiler: Compiler) {
-    const { target } = compiler.options;
-
-    // if target not contains `node`, it's a client compiler
-    if (target) {
-      if (Array.isArray(target)) {
-        return !target.includes('node');
-      }
-      return target !== 'node';
-    }
-
-    return compiler.name === 'client';
-  }
-
-  private setupDevServerPlugin(compiler: MultiCompiler | Compiler) {
-    const { dev: devConf } = this;
-
-    // apply dev server to client compiler, add hmr client to entry.
-    if ((compiler as MultiCompiler).compilers) {
-      (compiler as MultiCompiler).compilers.forEach(target => {
-        if (this.isClientCompiler(target)) {
-          new DevServerPlugin(devConf).apply(target);
-        }
-      });
-    } else {
-      new DevServerPlugin(devConf).apply(compiler as Compiler);
-    }
-  }
-
-  private setupHooks() {
-    const invalidPlugin = () => {
-      this.socketServer.sockWrite('invalid');
-    };
-
-    const addHooks = (compiler: Compiler) => {
-      if (compiler.name === 'server') {
-        return;
-      }
-
-      const { compile, invalid, done } = compiler.hooks;
-
-      compile.tap('modern-dev-server', invalidPlugin);
-      invalid.tap('modern-dev-server', invalidPlugin);
-      done.tap('modern-dev-server', (stats: any) => {
-        this.socketServer.updateStats(stats);
-
-        // Reset only when client compile done
-        if (stats.toJson({ all: false }).name === 'client') {
-          this.onRepack({ routes: this.getRoutes() });
-        }
-      });
-    };
-
-    if ((this.compiler as MultiCompiler).compilers) {
-      (this.compiler as MultiCompiler).compilers.forEach(addHooks);
-    } else {
-      addHooks(this.compiler as Compiler);
-    }
-  }
-
-  private setupDevMiddleware(compiler: MultiCompiler | Compiler) {
-    const { conf } = this;
-    this.devMiddleware = webpackDevMiddleware(compiler, {
-      headers: conf.tools?.devServer?.headers as Headers<
-        IncomingMessage,
-        ServerResponse
-      >,
-      publicPath: '/',
-      stats: false,
-      ...this.dev.devMiddleware,
-    });
-
-    return (ctx: ModernServerContext, next: NextFunction) => {
-      const { req, res } = ctx;
-      this.devMiddleware(req, res, next);
-    };
   }
 
   private async setupBeforeDevMiddleware() {
