@@ -2,22 +2,22 @@
 
 This section describes some source code related configurations in Modern.js Builder.
 
-## alias
+## source.alias
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/source/alias.md)!!!
 
-## globalVars
+## source.globalVars
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/source/globalVars.md)!!!
 
-## moduleScopes
+## source.moduleScopes
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/source/moduleScopes.md)!!!
 
-## preEntry
+## source.preEntry
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/source/preEntry.md)!!!
 
-## resolveExtensionPrefix
+## source.resolveExtensionPrefix
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/source/resolveExtensionPrefix.md)!!!
