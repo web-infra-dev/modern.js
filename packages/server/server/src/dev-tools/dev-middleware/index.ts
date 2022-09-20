@@ -10,7 +10,7 @@ import DevServerPlugin from './dev-server-plugin';
 import SocketServer from './socket-server';
 
 type Options = {
-  compiler: MultiCompiler | Compiler;
+  compiler: MultiCompiler | Compiler | null;
   dev: DevServerOptions;
   config: NormalizedConfig;
 };
@@ -22,7 +22,7 @@ const noop = () => {
 export default class DevMiddleware extends EventEmitter {
   public middleware: webpackDevMiddleware.API<IncomingMessage, ServerResponse>;
 
-  private compiler: MultiCompiler | Compiler;
+  private compiler: MultiCompiler | Compiler | null;
 
   private devOptions: DevServerOptions;
 
@@ -109,7 +109,7 @@ export default class DevMiddleware extends EventEmitter {
 
   private setupDevMiddleware() {
     const { config, devOptions } = this;
-    const middleware = webpackDevMiddleware(this.compiler, {
+    const middleware = webpackDevMiddleware(this.compiler!, {
       headers: config.tools?.devServer?.headers as Headers<
         IncomingMessage,
         ServerResponse
