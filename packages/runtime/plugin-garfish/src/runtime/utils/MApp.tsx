@@ -154,9 +154,10 @@ export function generateMApp(
     }
 
     render() {
+      const { style } = this.props;
       const { SubModuleComponent } = this.state;
       return (
-        <div id={generateSubAppContainerKey()}>
+        <div style={{ ...style }} id={generateSubAppContainerKey()}>
           {SubModuleComponent && <SubModuleComponent />}
         </div>
       );
