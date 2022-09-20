@@ -84,4 +84,18 @@ describe('plugins/babel', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should add rule to compile Data URI when enable source.compileJsDataURI', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginBabel()],
+      builderConfig: {
+        source: {
+          compileJsDataURI: true,
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
 });

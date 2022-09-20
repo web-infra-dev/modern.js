@@ -6,6 +6,10 @@
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/source/alias.md)!!!
 
+## source.compileJsDataURI
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/source/compileJsDataURI.md)!!!
+
 ## source.globalVars
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/source/globalVars.md)!!!
