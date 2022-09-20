@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "1.17.0",
+  "version": "1.18.0",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
@@ -51,6 +51,7 @@
     "@types/recursive-readdir": "2.2.0",
     "@types/sass-loader": "8.0.3",
     "@types/semver": "7.3.9",
+    "@types/serialize-javascript": "^5.0.1",
     "@types/signale": "1.4.4",
     "@types/url-join": "4.0.1",
     "@types/webpack-bundle-analyzer": "4.4.1",
@@ -98,6 +99,7 @@
     "mime-types": "2.1.35",
     "minimist": "1.2.6",
     "nanoid": "3.3.4",
+    "open": "^8.4.0",
     "ora": "5.4.1",
     "pkg-up": "3.1.0",
     "postcss-custom-properties": "12.1.7",
@@ -115,6 +117,7 @@
     "sass-loader": "13.0.2",
     "schema-utils3": "npm:schema-utils@3.1.1",
     "semver": "7.3.7",
+    "serialize-javascript": "^6.0.0",
     "signale": "1.4.0",
     "slash": "3.0.0",
     "strip-ansi": "6.0.1",
@@ -127,16 +130,16 @@
     "url-join": "4.0.1",
     "url-loader": "4.1.1",
     "v8-compile-cache": "2.3.0",
+    "webpack-5-chain": "8.0.1",
     "webpack-bundle-analyzer": "4.5.0",
     "webpack-chain": "6.5.1",
-    "webpack-5-chain": "8.0.1",
     "webpack-dev-middleware": "5.3.3",
     "webpack-manifest-plugin": "5.0.0",
     "webpack-merge": "5.8.0",
     "webpack-sources": "3.2.3",
+    "webpack-subresource-integrity": "5.1.0",
     "webpackbar": "5.0.2",
-    "yaml-loader": "0.8.0",
-    "webpack-subresource-integrity": "5.1.0"
+    "yaml-loader": "0.8.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

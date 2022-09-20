@@ -31,10 +31,14 @@ export async function createCompiler(options: InitConfigsOptions) {
       log(message);
     }
 
+    await context.hooks.onDevCompileDoneHook.call({
+      isFirstCompile,
+    });
+
     isFirstCompile = false;
   });
 
-  await context.hooks.onAfterCreateCompilerHooks.call();
+  await context.hooks.onAfterCreateCompilerHooks.call({ compiler });
   debug('create compiler done');
 
   return compiler;

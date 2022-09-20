@@ -28,8 +28,8 @@ export type DevServerOptions = {
 };
 
 export type ExtraOptions = {
-  dev?: boolean | Partial<DevServerOptions>;
-  compiler?: webpack.MultiCompiler | webpack.Compiler | null;
+  dev: boolean | Partial<DevServerOptions>;
+  compiler: webpack.MultiCompiler | webpack.Compiler | null;
 };
 
 export type ModernDevServerOptions = ModernServerOptions & ExtraOptions;

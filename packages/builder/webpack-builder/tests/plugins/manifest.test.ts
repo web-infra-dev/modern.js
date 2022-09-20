@@ -4,7 +4,7 @@ import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/manifest', () => {
   it('should not register manifest plugin by default', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginManifest()],
     });
 
@@ -14,7 +14,7 @@ describe('plugins/manifest', () => {
   });
 
   it('should register manifest plugin when output.enableAssetManifest is enabled', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginManifest()],
       builderConfig: {
         output: {

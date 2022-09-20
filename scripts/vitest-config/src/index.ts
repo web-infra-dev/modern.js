@@ -11,6 +11,7 @@ export const testPreset = defineConfig({
     environment: 'happy-dom',
     testTimeout: 15000,
     include: ['src/**/*.test.[jt]s?(x)', 'tests/**/*.test.[jt]s?(x)'],
+    restoreMocks: true,
   },
   resolve: {
     conditions: ['jsnext:source', 'require', 'node', 'default'],

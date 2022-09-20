@@ -1,7 +1,7 @@
 import path from 'path';
 import { mime, SERVER_RENDER_FUNCTION_NAME } from '@modern-js/utils';
 import cookie from 'cookie';
-import { ModernServerContext } from '../context';
+import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
 import cache from './cache';
 import { SSRServerContext } from './type';

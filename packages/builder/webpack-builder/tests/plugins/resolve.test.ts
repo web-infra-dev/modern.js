@@ -4,7 +4,7 @@ import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/resolve', () => {
   it('should apply default extensions correctly', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginResolve()],
     });
     const config = await builder.unwrapWebpackConfig();
@@ -17,7 +17,7 @@ describe('plugins/resolve', () => {
   });
 
   it('should allow to use source.alias to config webpack alias', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginResolve()],
       builderConfig: {
         source: {
@@ -35,7 +35,7 @@ describe('plugins/resolve', () => {
   });
 
   it('should support source.alias to be a function', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginResolve()],
       builderConfig: {
         source: {

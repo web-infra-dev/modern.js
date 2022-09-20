@@ -9,6 +9,7 @@ exports[`plugins/cache > should add cache config correctly 1`] = `
       ],
     },
     "cacheDirectory": "<ROOT>/packages/builder/webpack-builder/node_modules/.cache/webpack",
+    "name": "web-test",
     "type": "filesystem",
   },
 }
@@ -26,6 +27,7 @@ exports[`plugins/cache > should watch framework config change 1`] = `
       ],
     },
     "cacheDirectory": "<ROOT>/packages/builder/webpack-builder/node_modules/.cache/webpack",
+    "name": "web-test",
     "type": "filesystem",
   },
 }
@@ -43,6 +45,7 @@ exports[`plugins/cache > should watch tsconfig change 1`] = `
       ],
     },
     "cacheDirectory": "<ROOT>/packages/builder/webpack-builder/node_modules/.cache/webpack",
+    "name": "web-test",
     "type": "filesystem",
   },
 }

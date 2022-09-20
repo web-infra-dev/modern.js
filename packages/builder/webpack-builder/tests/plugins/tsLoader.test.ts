@@ -4,7 +4,7 @@ import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/tsLoader', () => {
   it('should set ts-loader', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginTsLoader()],
       builderConfig: {
         tools: {
@@ -18,7 +18,7 @@ describe('plugins/tsLoader', () => {
   });
 
   it('should set include/exclude', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginTsLoader()],
       builderConfig: {
         tools: {

@@ -132,10 +132,10 @@ export const CHAIN_ID = {
     REACT_FAST_REFRESH: 'react-fast-refresh',
     /** ProvidePlugin for node polyfill */
     NODE_POLYFILL_PROVIDE: 'node-polyfill-provide',
-    /** ModuleDependencyErrorPlugin */
-    MODULE_DEPENDENCY_ERROR: 'module-dependency-error',
     /** WebpackSRIPlugin */
     SUBRESOURCE_INTEGRITY: 'subresource-integrity',
+    /** WebpackAssetsRetryPlugin */
+    ASSETS_RETRY: 'ASSETS_RETRY',
   },
   /** Predefined minimizers */
   MINIMIZER: {

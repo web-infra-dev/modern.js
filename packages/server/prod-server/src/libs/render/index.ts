@@ -1,8 +1,8 @@
 import path from 'path';
 import { fs, mime } from '@modern-js/utils';
+import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
 import { ModernRoute } from '../route';
-import { ModernServerContext } from '../context';
 import { ERROR_DIGEST } from '../../constants';
 import { handleDirectory } from './static';
 import { readFile } from './reader';

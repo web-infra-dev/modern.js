@@ -4,7 +4,12 @@ import {
   createBabelChain,
   BabelOptions,
 } from '@modern-js/babel-preset-app';
-import { JS_REGEX, TS_REGEX, mergeRegex } from '../shared';
+import {
+  JS_REGEX,
+  TS_REGEX,
+  mergeRegex,
+  getBrowserslistWithDefault,
+} from '../shared';
 
 import type {
   WebpackChain,
@@ -59,6 +64,12 @@ export const PluginBabel = (): BuilderPlugin => ({
         '@modern-js/utils'
       );
 
+      const config = api.getBuilderConfig();
+      const browserslist = await getBrowserslistWithDefault(
+        api.context.rootPath,
+        config,
+      );
+
       const getBabelOptions = (
         framework: string,
         appDirectory: string,
@@ -110,6 +121,7 @@ export const PluginBabel = (): BuilderPlugin => ({
             styledComponents: styledComponentsOptions,
             userBabelConfig: config.tools?.babel,
             userBabelConfigUtils: babelUtils,
+            overrideBrowserslist: browserslist,
           }),
         };
 
@@ -119,7 +131,7 @@ export const PluginBabel = (): BuilderPlugin => ({
           excludes,
         };
       };
-      const config = api.getBuilderConfig();
+
       const { rootPath, framework } = api.context;
       const { babelOptions, includes, excludes } = getBabelOptions(
         framework,
@@ -128,12 +140,16 @@ export const PluginBabel = (): BuilderPlugin => ({
       );
       const useTsLoader = Boolean(config.tools?.tsLoader);
       const rule = chain.module.rule(CHAIN_ID.RULE.JS);
+
       applyScriptCondition(rule, config, api.context, includes, excludes);
+
       rule
         .test(useTsLoader ? JS_REGEX : mergeRegex(JS_REGEX, TS_REGEX))
         .use(CHAIN_ID.USE.BABEL)
         .loader(getCompiledPath('babel-loader'))
         .options(babelOptions);
+
+      addCoreJsEntry({ chain, config });
     });
   },
 });

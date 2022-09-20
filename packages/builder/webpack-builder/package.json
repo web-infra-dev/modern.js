@@ -15,7 +15,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "1.0.0",
+  "version": "1.1.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -38,6 +38,10 @@
       "jsnext:source": "./src/stub/index.ts",
       "default": "./dist/stub/index.js"
     },
+    "./plugins/*": {
+      "jsnext:source": "./src/plugins/*.ts",
+      "default": "./dist/plugins/*.js"
+    },
     "./webpack/lib/ModuleFilenameHelpers.js": {
       "default": "./dist/exports/ModuleFileNameHelpers.js"
     }
@@ -52,6 +56,9 @@
       ],
       "stub": [
         "./dist/stub/index.d.ts"
+      ],
+      "plugins/*": [
+        "./dist/plugins/*.d.ts"
       ]
     }
   },
@@ -81,6 +88,7 @@
     "mini-css-extract-plugin": "2.4.5",
     "postcss": "8.4.16",
     "react-refresh": "0.12.0",
+    "serialize-javascript": "^6.0.0",
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "5.3.3",
     "ts-loader": "9.3.1",
@@ -92,10 +100,20 @@
     "@types/babel__core": "^7.1.19",
     "@types/babel__preset-env": "^7.9.2",
     "@types/node": "^14",
+    "@types/serialize-javascript": "^5.0.1",
     "@vitest/ui": "^0.21.1",
     "autoprefixer": "^10.4.8",
     "typescript": "^4",
-    "vitest": "^0.21.1"
+    "vitest": "^0.21.1",
+    "@modern-js/e2e": "workspace:*"
+  },
+  "peerDependencies": {
+    "@modern-js/e2e": "workspace:*"
+  },
+  "peerDependenciesMeta": {
+    "@modern-js/e2e": {
+      "optional": true
+    }
   },
   "sideEffects": false,
   "publishConfig": {
@@ -105,11 +123,12 @@
   },
   "wireit": {
     "build": {
-      "command": "tsc && node scripts/compile-ajv.js",
+      "command": "tsc && node scripts/post-compile.js",
       "files": [
         "src/**/*",
         "tsconfig.json",
-        "package.json"
+        "package.json",
+        "scripts/post-compile.js"
       ],
       "output": [
         "dist/**/*",
