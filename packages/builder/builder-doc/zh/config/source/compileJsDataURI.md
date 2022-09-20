@@ -1,7 +1,7 @@
 - Type: `boolean`
 - Default: `false`
 
-是否通过 babel 编译通过 import Data URI 引入的 JavaScript 代码。
+是否使用 babel 编译通过 import Data URI 引入的 JavaScript 代码。
 
 比如以下代码：
 
