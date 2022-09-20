@@ -112,7 +112,6 @@ export default class DevMiddleware extends EventEmitter {
         IncomingMessage,
         ServerResponse
       >,
-      publicPath: '/',
       stats: false,
       ...devOptions.devMiddleware,
     });
