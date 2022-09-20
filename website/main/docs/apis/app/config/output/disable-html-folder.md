@@ -4,8 +4,6 @@ sidebar_label: disableHtmlFolder
 
 # output.disableHtmlFolder
 
-
-
 - 类型： `boolean`
 - 默认值： `false`
 
@@ -24,14 +22,14 @@ sidebar_label: disableHtmlFolder
         └── index.html
 ```
 
-在 `modern.config.js` 中开启 `output.disableHtmlFolder` ：
+在 `modern.config.js` 中开启 `output.disableHtmlFolder`：
 
 ```js title="modern.config.js"
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
   output: {
-    htmlPath: './html-assets',
+    disableHtmlFolder: true,
   },
 });
 ```
