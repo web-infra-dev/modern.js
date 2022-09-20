@@ -3,7 +3,6 @@ import { EventEmitter } from 'events';
 import { Compiler, MultiCompiler } from 'webpack';
 import webpackDevMiddleware, {
   Headers,
-  NextFunction,
 } from '@modern-js/utils/webpack-dev-middleware';
 import type { NormalizedConfig } from '@modern-js/core';
 import { DevServerOptions } from '../../types';
