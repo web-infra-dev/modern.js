@@ -3,8 +3,8 @@ import path from 'path';
 import React from 'react';
 // eslint-disable-next-line import/no-named-as-default
 import Garfish, { interfaces } from 'garfish';
-import { withRouter } from '@modern-js/runtime/router';
 // import Loadable from 'react-loadable';
+import { withRouter } from '@modern-js/runtime/router';
 import { Manifest, MicroComponentProps, ModulesInfo } from '../useModuleApps';
 import { logger, generateSubAppContainerKey } from '../../util';
 import { Loadable, MicroProps } from '../loadable';
@@ -168,9 +168,7 @@ function getAppInstance(
     }
   }
 
-  return Loadable(withRouter<MicroProps, typeof MicroApp>(MicroApp))(
-    manifest?.loadable,
-  );
+  return Loadable(withRouter<MicroProps>(MicroApp))(manifest?.loadable);
 }
 
 export function generateApps(
