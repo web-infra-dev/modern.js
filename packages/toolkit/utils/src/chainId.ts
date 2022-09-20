@@ -13,6 +13,8 @@ export const CHAIN_ID = {
     MEDIA: 'media',
     /** Rule for js */
     JS: 'js',
+    /** Rule for data uri encoded javascript */
+    JS_DATA_URI: 'js-data-uri',
     /** Rule for ts */
     TS: 'ts',
     /** Rule for css */
