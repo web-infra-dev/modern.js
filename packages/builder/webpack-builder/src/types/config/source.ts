@@ -8,6 +8,7 @@ export interface SourceConfig {
   preEntry?: string | string[];
   globalVars?: Record<string, JSONValue>;
   moduleScopes?: ChainedConfig<ModuleScopes>;
+  compileJsDataURI?: boolean;
   resolveExtensionPrefix?: string;
 }
 
