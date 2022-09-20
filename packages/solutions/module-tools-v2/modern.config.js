@@ -2,12 +2,12 @@ module.exports = {
   output: {
     buildConfig: [
       {
-        buildType: 'bundle',
+        // buildType: 'bundle',
         format: 'cjs',
         bundleOptions: {
           skipDeps: false,
           externals: [
-            'node_modules',
+            /node_modules/,
             '@modern-js/plugin-jarvis',
             '@modern-js/plugin-changeset',
           ],
