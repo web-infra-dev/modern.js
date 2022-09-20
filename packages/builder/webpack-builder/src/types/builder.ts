@@ -1,13 +1,14 @@
-import type { EntryObject } from 'webpack';
 import type { BuilderConfig } from './config';
 
 export type BuilderTarget = 'web' | 'node' | 'modern-web';
+
+export type BuilderEntry = Record<string, string | string[]>;
 
 export type BuilderOptions = {
   /** The root path of current project. */
   cwd?: string;
   /** The entry points object. */
-  entry?: EntryObject;
+  entry?: BuilderEntry;
   /** Type of build target. */
   target?: BuilderTarget | BuilderTarget[];
   /** Framework name, such as 'modern.js' */

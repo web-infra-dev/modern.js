@@ -74,6 +74,7 @@
   },
   "dependencies": {
     "@modern-js/babel-preset-app": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
     "@modern-js/inspector-webpack-plugin": "1.0.3",
     "@modern-js/server": "workspace:*",
     "@modern-js/utils": "workspace:*",

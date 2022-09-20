@@ -58,8 +58,51 @@ importers:
       wireit: 0.7.1
       zx: 4.2.0
 
+  packages/builder/builder:
+    specifiers:
+      '@babel/core': 7.18.0
+      '@modern-js/builder-shared': workspace:*
+      '@scripts/vitest-config': workspace:*
+      '@types/babel__core': ^7.1.19
+      '@types/babel__preset-env': ^7.9.2
+      '@types/node': ^14
+      '@vitest/ui': ^0.21.1
+      typescript: ^4
+      vitest: ^0.21.1
+    dependencies:
+      '@modern-js/builder-shared': link:../builder-shared
+    devDependencies:
+      '@babel/core': 7.18.0
+      '@scripts/vitest-config': link:../../../scripts/vitest-config
+      '@types/babel__core': 7.1.19
+      '@types/babel__preset-env': 7.9.2
+      '@types/node': 14.18.21
+      '@vitest/ui': 0.21.1
+      typescript: 4.7.4
+      vitest: 0.21.1_@vitest+ui@0.21.1
+
   packages/builder/builder-doc:
     specifiers: {}
+
+  packages/builder/builder-shared:
+    specifiers:
+      '@babel/core': 7.18.0
+      '@scripts/vitest-config': workspace:*
+      '@types/babel__core': ^7.1.19
+      '@types/babel__preset-env': ^7.9.2
+      '@types/node': ^14
+      '@vitest/ui': ^0.21.1
+      typescript: ^4
+      vitest: ^0.21.1
+    devDependencies:
+      '@babel/core': 7.18.0
+      '@scripts/vitest-config': link:../../../scripts/vitest-config
+      '@types/babel__core': 7.1.19
+      '@types/babel__preset-env': 7.9.2
+      '@types/node': 14.18.21
+      '@vitest/ui': 0.21.1
+      typescript: 4.7.4
+      vitest: 0.21.1_@vitest+ui@0.21.1
 
   packages/builder/plugin-esbuild:
     specifiers:
@@ -102,6 +145,7 @@ importers:
     specifiers:
       '@babel/core': 7.18.0
       '@modern-js/babel-preset-app': workspace:*
+      '@modern-js/builder-shared': workspace:*
       '@modern-js/e2e': workspace:*
       '@modern-js/inspector-webpack-plugin': 1.0.3
       '@modern-js/server': workspace:*
@@ -133,6 +177,7 @@ importers:
       webpack: 5.73.0
     dependencies:
       '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
+      '@modern-js/builder-shared': link:../builder-shared
       '@modern-js/inspector-webpack-plugin': 1.0.3
       '@modern-js/server': link:../../server/server
       '@modern-js/utils': link:../../toolkit/utils
@@ -14686,7 +14731,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.6
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1
+      promise-inflight: 1.0.1_bluebird@3.7.2
       rimraf: 2.7.1
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -27780,6 +27825,17 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
+    dev: false
+
+  /promise-inflight/1.0.1_bluebird@3.7.2:
+    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dependencies:
+      bluebird: 3.7.2
 
   /promise-polyfill/1.1.6:
     resolution: {integrity: sha512-7rrONfyLkDEc7OJ5QBkqa4KI4EBhCd340xRuIUPGCfu13znS+vx+VDdrT9ODAJHlXm7w4lbxN3DRjyv58EuzDg==}

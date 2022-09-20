@@ -5,7 +5,7 @@ import _ from '@modern-js/utils/lodash';
 import type Buffer from 'buffer';
 import { DEFAULT_DATA_URL_SIZE } from './constants';
 import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
-import { BuilderConfig, BuilderOptions, DataUriLimit } from '../types';
+import { BuilderConfig, DataUriLimit } from '../types';
 
 export const JS_REGEX = /\.(js|mjs|cjs|jsx)$/;
 export const TS_REGEX = /\.(ts|mts|cts|tsx)$/;
@@ -109,24 +109,6 @@ export function getDataUrlCondition(
     }
 
     return source.length <= getDataUrlLimit(config, type);
-  };
-}
-
-export function mergeBuilderOptions(
-  options?: BuilderOptions,
-): Required<BuilderOptions> {
-  const DEFAULT_OPTIONS: Required<BuilderOptions> = {
-    cwd: process.cwd(),
-    entry: {},
-    target: ['web'],
-    configPath: null,
-    builderConfig: {},
-    framework: 'modern-js',
-  };
-
-  return {
-    ...DEFAULT_OPTIONS,
-    ...options,
   };
 }
 
