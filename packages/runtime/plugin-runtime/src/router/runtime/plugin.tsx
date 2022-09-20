@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import {
+  Route,
   createBrowserRouter,
   createHashRouter,
   RouterProvider,
@@ -72,21 +73,28 @@ export const routerPlugin = ({
 
               const routerElement = (props: any) =>
                 createRoutesFromElements(
-                  <App {...props}>
-                    {routesConfig ? renderRoutes(routesConfig, props) : null}
-                  </App>,
+                  <Route
+                    path="/*"
+                    element={
+                      <App {...props}>
+                        {routesConfig
+                          ? renderRoutes(routesConfig, props)
+                          : null}
+                      </App>
+                    }
+                  />,
                 );
 
               const routerConfig = {
                 basename: baseUrl,
               };
 
-              const router = (props: any) =>
+              const routers = (props: any) =>
                 supportHtml5History
                   ? createBrowserRouter(routerElement(props), routerConfig)
                   : createHashRouter(routerElement(props), routerConfig);
 
-              return (props: any) => <RouterProvider router={router(props)} />;
+              return (props: any) => <RouterProvider router={routers(props)} />;
             }
             return (props: any) => {
               const runtimeContext = useContext(RuntimeReactContext);
