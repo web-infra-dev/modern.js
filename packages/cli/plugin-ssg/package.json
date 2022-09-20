@@ -67,15 +67,13 @@
     "node-mocks-http": "^1.10.1",
     "normalize-path": "^3.0.0",
     "portfinder": "^1.0.28",
-    "react-router-dom": "^5.2.1"
+    "react-router-dom": "^6"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",
     "@modern-js/prod-server": "workspace:*",
     "@types/jest": "^27",
     "@types/node": "^14",
-    "@types/react-router": "^5.1.16",
-    "@types/react-router-dom": "^5.1.8",
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

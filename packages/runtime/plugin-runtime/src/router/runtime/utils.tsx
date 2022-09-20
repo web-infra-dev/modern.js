@@ -20,11 +20,14 @@ export function renderRoutes(
 
   const findMatchedRoute = (pathname: string) =>
     routesConfig?.routes?.find(route => {
-      const info = matchPath(pathname, {
-        path: route.path,
-        exact: route.exact,
-        sensitive: route.sensitive,
-      });
+      // https://reactrouter.com/en/main/utils/match-path
+      const info = matchPath(
+        {
+          path: route.path as string,
+          caseSensitive: route.caseSensitive,
+        },
+        pathname,
+      );
 
       return Boolean(info);
     });
@@ -32,7 +35,7 @@ export function renderRoutes(
   return (
     <Route
       path="/"
-      render={props => {
+      element={(props: any) => {
         const matchedRoute = findMatchedRoute(props.location.pathname);
 
         if (!matchedRoute) {
@@ -41,10 +44,9 @@ export function renderRoutes(
 
         return (
           <Route
-            path={matchedRoute.path}
-            exact={matchedRoute.exact}
-            sensitive={matchedRoute.sensitive}
-            render={routeProps => (
+            path={matchedRoute.path as string}
+            caseSensitive={matchedRoute.caseSensitive}
+            element={(routeProps: any) => (
               <Layout
                 Component={matchedRoute.component}
                 {...routeProps}

@@ -626,14 +626,12 @@ importers:
       '@scripts/jest-config': workspace:*
       '@types/jest': ^27
       '@types/node': ^14
-      '@types/react-router': ^5.1.16
-      '@types/react-router-dom': ^5.1.8
       jest: ^27
       node-mocks-http: ^1.10.1
       normalize-path: ^3.0.0
       portfinder: ^1.0.28
       react: ^17
-      react-router-dom: ^5.2.1
+      react-router-dom: ^6
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.18.6
@@ -641,7 +639,7 @@ importers:
       node-mocks-http: 1.11.0
       normalize-path: 3.0.0
       portfinder: 1.0.28
-      react-router-dom: 5.3.3_react@17.0.2
+      react-router-dom: 6.3.0_react@17.0.2
     devDependencies:
       '@modern-js/core': link:../core
       '@modern-js/prod-server': link:../../server/prod-server
@@ -650,8 +648,6 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
-      '@types/react-router': 5.1.18
-      '@types/react-router-dom': 5.3.3
       jest: 27.5.1
       react: 17.0.2
       typescript: 4.7.4
@@ -1691,7 +1687,6 @@ importers:
       react: ^17.0.2
       react-dom: ^17.0.2
       react-loadable: ^5.5.0
-      react-router-dom: ^6.2.1
       typescript: ^4
       webpack-chain: ^6.5.1
     dependencies:
@@ -1721,7 +1716,6 @@ importers:
       jest-fetch-mock: 3.0.3
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-      react-router-dom: 6.3.0_react-dom@17.0.2+react@17.0.2
       typescript: 4.7.4
       webpack-chain: 6.5.1
 
@@ -1747,7 +1741,6 @@ importers:
       '@scripts/jest-config': workspace:*
       '@testing-library/react': ^12.0.0
       '@testing-library/react-hooks': ^7.0.1
-      '@types/history': ^4.7.9
       '@types/hoist-non-react-statics': ^3.3.1
       '@types/invariant': ^2.2.30
       '@types/jest': ^27
@@ -1755,12 +1748,11 @@ importers:
       '@types/loadable__webpack-plugin': ^5.7.3
       '@types/node': ^14
       '@types/react-helmet': ^6.1.2
-      '@types/react-router-dom': ^5.1.8
       '@types/react-side-effect': ^1.1.1
       '@types/redux-logger': ^3.0.9
       '@types/serialize-javascript': ^5.0.1
       '@types/styled-components': ^5.1.14
-      history: ^4.7.9
+      history: ^5
       hoist-non-react-statics: ^3.3.2
       invariant: ^2.2.4
       jest: ^27
@@ -1768,7 +1760,7 @@ importers:
       react-dom: ^17
       react-helmet: ^6.1.0
       react-is: ^17
-      react-router-dom: ^5.1.2
+      react-router-dom: ^6.4.0
       react-side-effect: ^2.1.1
       redux-logger: ^3.0.6
       serialize-javascript: ^6.0.0
@@ -1790,18 +1782,16 @@ importers:
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/utils': link:../../toolkit/utils
       '@modern-js/webpack': link:../../cli/webpack
-      '@types/history': 4.7.11
       '@types/loadable__component': 5.13.4
       '@types/react-helmet': 6.1.5
-      '@types/react-router-dom': 5.3.3
       '@types/redux-logger': 3.0.9
       '@types/styled-components': 5.1.25
-      history: 4.10.1
+      history: 5.3.0
       hoist-non-react-statics: 3.3.2
       invariant: 2.2.4
       react-helmet: 6.1.0_react@17.0.2
       react-is: 17.0.2
-      react-router-dom: 5.3.3_react@17.0.2
+      react-router-dom: 6.4.0_react-dom@17.0.2+react@17.0.2
       react-side-effect: 2.1.2_react@17.0.2
       redux-logger: 3.0.6
       serialize-javascript: 6.0.0
@@ -2617,95 +2607,6 @@ importers:
       rollup-plugin-hashbang: 3.0.0_rollup@2.75.7
       signal-exit: 3.0.7
     devDependencies:
-      '@scripts/build': link:../../../scripts/build
-      '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/babel__core': 7.1.19
-      '@types/babel__generator': 7.6.4
-      '@types/babel__traverse': 7.17.1
-      '@types/glob': 7.2.0
-      '@types/jest': 27.5.2
-      '@types/node': 14.18.21
-      '@types/normalize-path': 3.0.0
-      '@types/signal-exit': 3.0.1
-      ajv: 8.11.0
-      ajv-keywords: 5.1.0_ajv@8.11.0
-      jest: 27.5.1
-      typescript: 4.7.4
-
-  packages/solutions/module-tools-v2:
-    specifiers:
-      '@babel/generator': ^7.18.0
-      '@babel/parser': ^7.18.0
-      '@babel/runtime': ^7.18.0
-      '@babel/traverse': ^7.18.0
-      '@babel/types': ^7.18.0
-      '@modern-js/babel-compiler': workspace:*
-      '@modern-js/babel-preset-module': workspace:*
-      '@modern-js/core': workspace:*
-      '@modern-js/css-config': workspace:*
-      '@modern-js/new-action': workspace:*
-      '@modern-js/plugin': workspace:*
-      '@modern-js/plugin-changeset': workspace:*
-      '@modern-js/plugin-i18n': workspace:*
-      '@modern-js/plugin-jarvis': workspace:*
-      '@modern-js/style-compiler': workspace:*
-      '@modern-js/upgrade': workspace:*
-      '@modern-js/utils': workspace:*
-      '@rollup/plugin-json': ~4.1.0
-      '@scripts/build': workspace:*
-      '@scripts/jest-config': workspace:*
-      '@speedy-js/speedy-core': 0.13.2-alpha.3
-      '@speedy-js/speedy-plugin-es5': 0.13.2-alpha.3
-      '@speedy-js/speedy-types': 0.13.2-alpha.3
-      '@types/babel__core': ^7.1.15
-      '@types/babel__generator': ^7.6.3
-      '@types/babel__traverse': ^7.14.2
-      '@types/glob': ^7.1.4
-      '@types/jest': ^27
-      '@types/node': ^14
-      '@types/normalize-path': ^3.0.0
-      '@types/signal-exit': ^3.0.1
-      ajv: ^8
-      ajv-keywords: ^5
-      jest: ^27
-      normalize-path: ^3.0.0
-      p-map: ^4
-      process.argv: ^0.6.0
-      rollup: ^2.70.2
-      rollup-plugin-dts: ^4.2.1
-      rollup-plugin-hashbang: ^3.0.0
-      signal-exit: ^3.0.7
-      typescript: ^4
-    dependencies:
-      '@babel/generator': 7.18.6
-      '@babel/parser': 7.18.6
-      '@babel/runtime': 7.18.6
-      '@babel/traverse': 7.18.6
-      '@babel/types': 7.18.6
-      '@modern-js/babel-compiler': link:../../toolkit/compiler/babel
-      '@modern-js/babel-preset-module': link:../../cli/babel-preset-module
-      '@modern-js/core': link:../../cli/core
-      '@modern-js/css-config': link:../../cli/css-config
-      '@modern-js/new-action': link:../../generator/new-action
-      '@modern-js/plugin': link:../../toolkit/plugin
-      '@modern-js/plugin-i18n': link:../../cli/plugin-i18n
-      '@modern-js/style-compiler': link:../../toolkit/compiler/style
-      '@modern-js/upgrade': link:../../toolkit/upgrade
-      '@modern-js/utils': link:../../toolkit/utils
-      '@rollup/plugin-json': 4.1.0_rollup@2.75.7
-      '@speedy-js/speedy-core': 0.13.2-alpha.3_1f091e9882867a645caac150cd4a7b4f
-      '@speedy-js/speedy-plugin-es5': 0.13.2-alpha.3
-      '@speedy-js/speedy-types': 0.13.2-alpha.3
-      normalize-path: 3.0.0
-      p-map: 4.0.0
-      process.argv: 0.6.0
-      rollup: 2.75.7
-      rollup-plugin-dts: 4.2.2_rollup@2.75.7+typescript@4.7.4
-      rollup-plugin-hashbang: 3.0.0_rollup@2.75.7
-      signal-exit: 3.0.7
-    devDependencies:
-      '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
-      '@modern-js/plugin-jarvis': link:../../cli/plugin-jarvis
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__core': 7.1.19
@@ -8921,6 +8822,11 @@ packages:
     dependencies:
       '@babel/runtime': 7.18.6
       redux: 4.2.0
+    dev: false
+
+  /@remix-run/router/1.0.0:
+    resolution: {integrity: sha512-SCR1cxRSMNKjaVYptCzBApPDqGwa3FGdjVHc+rOToocNPHQdIYLZBfv/3f+KvYuXDkUGVIW9IAzmPNZDRL1I4A==}
+    engines: {node: '>=14'}
     dev: false
 
   /@rollup/plugin-json/4.1.0_rollup@2.75.7:
@@ -19720,7 +19626,7 @@ packages:
     resolution: {integrity: sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ==}
     dependencies:
       '@babel/runtime': 7.18.6
-    dev: true
+    dev: false
 
   /hmac-drbg/1.0.1:
     resolution: {integrity: sha512-Tti3gMqLdZfhOQY1Mzf/AanLiqh1WTiJgEj26ZuYQ9fbkLomzGchCws4FyrSd4VkpBfiNhaE1On+lOz894jvXg==}
@@ -26927,7 +26833,7 @@ packages:
       tiny-warning: 1.0.3
     dev: false
 
-  /react-router-dom/6.3.0_react-dom@17.0.2+react@17.0.2:
+  /react-router-dom/6.3.0_react@17.0.2:
     resolution: {integrity: sha512-uaJj7LKytRxZNQV8+RbzJWnJ8K2nPsOOEuX7aQstlMZKQT0164C+X2w6bnkqU3sjtLvpd5ojrezAyfZ1+0sStw==}
     peerDependencies:
       react: '>=16.8'
@@ -26935,9 +26841,20 @@ packages:
     dependencies:
       history: 5.3.0
       react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
       react-router: 6.3.0_react@17.0.2
-    dev: true
+    dev: false
+
+  /react-router-dom/6.4.0_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-4Aw1xmXKeleYYQ3x0Lcl2undHR6yMjXZjd9DKZd53SGOYqirrUThyUb0wwAX5VZAyvSuzjNJmZlJ3rR9+/vzqg==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-router: 6.4.0_react@17.0.2
+    dev: false
 
   /react-router/5.3.3_react@17.0.2:
     resolution: {integrity: sha512-mzQGUvS3bM84TnbtMYR8ZjKnuPJ71IjSzR+DE6UkUqvN4czWIqEs17yLL8xkAycv4ev0AiN+IGrWu88vJs/p2w==}
@@ -26964,7 +26881,17 @@ packages:
     dependencies:
       history: 5.3.0
       react: 17.0.2
-    dev: true
+    dev: false
+
+  /react-router/6.4.0_react@17.0.2:
+    resolution: {integrity: sha512-B+5bEXFlgR1XUdHYR6P94g299SjrfCBMmEDJNcFbpAyRH1j1748yt9NdDhW3++nw1lk3zQJ6aOO66zUx3KlTZg==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.0.0
+      react: 17.0.2
+    dev: false
 
   /react-side-effect/2.1.2_react@17.0.2:
     resolution: {integrity: sha512-PVjOcvVOyIILrYoyGEpDN3vmYNLdy1CajSFNt4TDsVQC5KpTijDvWVoR+/7Rz2xT978D8/ZtFceXxzsPwZEDvw==}

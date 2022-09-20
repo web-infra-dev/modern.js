@@ -19,6 +19,8 @@ export interface RuntimeContext extends BaseRuntimeContext {
 
 export const RuntimeReactContext = createContext<RuntimeContext>({} as any);
 
+export const ServerRouterContext = createContext({} as any);
+
 export interface BaseTRuntimeContext {
   initialData?: Record<string, unknown>;
   // ssr type
