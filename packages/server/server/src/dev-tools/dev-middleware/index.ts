@@ -3,6 +3,7 @@ import { EventEmitter } from 'events';
 import { Compiler, MultiCompiler } from 'webpack';
 import webpackDevMiddleware, {
   Headers,
+  NextFunction,
 } from '@modern-js/utils/webpack-dev-middleware';
 import type { NormalizedConfig } from '@modern-js/core';
 import { DevServerOptions } from '../../types';
@@ -20,7 +21,7 @@ const noop = () => {
 };
 
 export default class DevMiddleware extends EventEmitter {
-  public middleware: webpackDevMiddleware.API<IncomingMessage, ServerResponse>;
+  public middleware?: webpackDevMiddleware.API<IncomingMessage, ServerResponse>;
 
   private compiler: MultiCompiler | Compiler | null;
 
@@ -49,8 +50,6 @@ export default class DevMiddleware extends EventEmitter {
       this.setupHooks();
       // start dev middleware
       this.middleware = this.setupDevMiddleware();
-    } else {
-      this.middleware = noop as any;
     }
   }
 
@@ -60,7 +59,7 @@ export default class DevMiddleware extends EventEmitter {
     });
 
     app.on('close', async () => {
-      this.middleware.close?.(noop);
+      this.middleware?.close(noop);
       this.socketServer.close();
     });
   }
