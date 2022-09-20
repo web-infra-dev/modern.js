@@ -65,6 +65,7 @@ export class ModernDevServer extends ModernServer {
     this.runner = runner;
 
     const { conf, pwd, dev, devMiddleware } = this;
+
     // before dev handler
     const beforeHandlers = await this.setupBeforeDevMiddleware();
     beforeHandlers.forEach(handler => {
@@ -119,7 +120,11 @@ export class ModernDevServer extends ModernServer {
     });
     this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
       const { req, res } = ctx;
-      devMiddleware.middleware(req, res, next);
+      if (devMiddleware.middleware) {
+        devMiddleware.middleware(req, res, next);
+      } else {
+        next();
+      }
     });
 
     // after dev handler
