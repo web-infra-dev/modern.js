@@ -88,7 +88,7 @@ const handleTemplateFile = async (
     main: './electron/main.js',
     'scripts.dev:electron': 'modern dev electron',
     'scripts.build:electron': 'modern build electron',
-    'devDependencies.@modern-js/plugin-electron': '^1.0.0',
+    'devDependencies.@modern-js/plugin-electron': '^2.0.0',
     'devDependencies.electron': '^13',
     'devDependencies.electron-builder': '^23.1.0',
     'devDependencies.@babel/runtime': '^7.15.4',
