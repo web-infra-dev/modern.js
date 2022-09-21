@@ -1,10 +1,18 @@
+import type { IncomingMessage, ServerResponse } from 'http';
 import type webpack from 'webpack';
 import type { ModernServerOptions } from '@modern-js/prod-server';
+import type { NextFunction, BffProxyOptions } from '@modern-js/types';
 
 export type DevServerHttpsOptions = boolean | { key: string; cert: string };
 
+export type RequestHandler = (
+  req: IncomingMessage,
+  res: ServerResponse,
+  next: NextFunction,
+) => void;
+
 export type DevServerOptions = {
-  // hmr client 配置
+  /** config of hmr client. */
   client: {
     path?: string;
     port?: string;
@@ -16,13 +24,17 @@ export type DevServerOptions = {
   devMiddleware: {
     writeToDisk: boolean | ((filename: string) => boolean);
   };
-  // 是否监听文件变化
+  proxy?: BffProxyOptions;
+  headers?: Record<string, string>;
+  before?: RequestHandler[];
+  after?: RequestHandler[];
+  /** Whether to watch files change. */
   watch: boolean;
-  // 是否开启 hot reload
+  /** Whether to enable hot reload. */
   hot: boolean | string;
-  // 是否开启 page reload
+  /** Whether to enable page reload. */
   liveReload: boolean;
-  // 是否开启 https
+  /** Whether to enable https. */
   https?: DevServerHttpsOptions;
   [propName: string]: any;
 };
