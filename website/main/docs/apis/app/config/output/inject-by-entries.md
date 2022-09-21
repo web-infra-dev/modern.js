@@ -26,8 +26,8 @@ import { defineConfig } from '@modern-js/app-tools';
 export default defineConfig({
   output: {
     inject: 'head',
-    titleByEntries: {
-      'page-a': 'false',
+    injectByEntries: {
+      'page-a': false,
     },
   },
 });
