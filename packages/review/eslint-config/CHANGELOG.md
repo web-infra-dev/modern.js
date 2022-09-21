@@ -1,5 +1,11 @@
 # @modern-js/eslint-config
 
+## 1.18.1-alpha.0
+
+### Patch Changes
+
+- @modern-js-app/eslint-config@1.18.1-alpha.0
+
 ## 1.18.0
 
 ### Patch Changes

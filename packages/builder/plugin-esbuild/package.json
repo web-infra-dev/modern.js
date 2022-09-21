@@ -15,7 +15,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -45,7 +45,7 @@
     "wireit": "^0.7.1"
   },
   "peerDependencies": {
-    "@modern-js/webpack-builder": "workspace:^1.1.0"
+    "@modern-js/webpack-builder": "workspace:^1.1.1-alpha.0"
   },
   "sideEffects": false,
   "publishConfig": {
