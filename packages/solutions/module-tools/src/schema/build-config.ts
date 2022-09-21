@@ -42,6 +42,9 @@ const properties = {
   bundleOptions: {
     type: 'object',
     properties: {
+      moduleId: {
+        type: 'string',
+      },
       entry: {
         type: 'object',
       },

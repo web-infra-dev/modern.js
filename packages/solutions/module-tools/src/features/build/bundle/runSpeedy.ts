@@ -98,7 +98,8 @@ export const runSpeedy = async (
   } = api.useResolvedConfigContext();
   const { target, watch, bundleOptions, outputPath, format, sourceMap } =
     config;
-  const { entry, platform, splitting, minify, externals } = bundleOptions;
+  const { entry, platform, splitting, minify, externals, moduleId } =
+    bundleOptions;
   const distDir = path.join(appDirectory, distPath, outputPath);
   const titleText = `[Bundle:Speedy:${format}_${target}]`;
   const style = await getStyleOptionFromModern(api);
@@ -140,6 +141,7 @@ export const runSpeedy = async (
     minify,
     external: externals,
     plugins,
+    moduleId,
   };
   const speedyConfig = applyOptionsChain(
     internalSpeedyConfig,
