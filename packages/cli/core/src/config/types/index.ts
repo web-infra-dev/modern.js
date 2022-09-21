@@ -1,4 +1,4 @@
-import type { DevServerOptions } from '@modern-js/server';
+import type { DevServerOptions } from '@modern-js/types';
 import type {
   MetaOptions,
   ChainIdentifier,
