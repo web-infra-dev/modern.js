@@ -86,7 +86,6 @@ export async function applyBaseCSSRule(
   );
   const enableSourceMap =
     isProd && enableExtractCSS && !config.output?.disableSourceMap;
-
   // 2. Prepare loader options
   const extractLoaderOptions = applyOptionsChain<
     MiniCssExtractLoaderOptions,
