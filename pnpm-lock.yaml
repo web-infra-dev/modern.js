@@ -313,7 +313,6 @@ importers:
       '@modern-js/babel-preset-app': workspace:*
       '@modern-js/node-bundle-require': workspace:*
       '@modern-js/plugin': workspace:*
-      '@modern-js/server': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
@@ -339,7 +338,6 @@ importers:
     devDependencies:
       '@jest/types': 27.5.1
       '@modern-js/babel-preset-app': link:../babel-preset-app
-      '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
