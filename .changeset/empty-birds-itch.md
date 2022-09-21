@@ -1,6 +1,7 @@
 ---
 '@modern-js/core': patch
 '@modern-js/server': patch
+'@modern-js/types': patch
 ---
 
 fix: tools.devServer type missing some properties

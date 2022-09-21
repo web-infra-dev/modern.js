@@ -105,6 +105,7 @@ importers:
       '@modern-js/e2e': workspace:*
       '@modern-js/inspector-webpack-plugin': 1.0.3
       '@modern-js/server': workspace:*
+      '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.5
       '@scripts/vitest-config': workspace:*
@@ -135,6 +136,7 @@ importers:
       '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
       '@modern-js/inspector-webpack-plugin': 1.0.3
       '@modern-js/server': link:../../server/server
+      '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.5_645a6e79162167fda80e21cc093763a7
       '@svgr/webpack': 6.2.1
