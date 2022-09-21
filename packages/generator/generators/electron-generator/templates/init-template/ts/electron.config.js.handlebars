@@ -1,0 +1,22 @@
+// https://modernjs.dev/docs/apis/app/config/electron/builder
+// Please use electron.config.js to set Jupiter-Electorn's config
+module.exports = {
+  builder: {
+    baseConfig: {
+      appId: 'com.bytedance.demo',
+      // eslint-disable-next-line no-template-curly-in-string
+      artifactName: 'demo_${env.VERSION}.${ext}',
+      files: [
+        {
+          from: '.',
+          to: '.',
+          filter: ['!**/*.map', '!**/*.d.ts', '!*.log', '!*.lock'],
+        },
+      ],
+
+      directories: {
+        app: 'dist',
+      },
+    },
+  },
+}
