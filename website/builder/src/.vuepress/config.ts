@@ -36,7 +36,10 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
       {
         collapsable: false,
         title: getText('开始', 'Start'),
-        children: [getLink('/guide/introduction'), getLink('/guide/quick-start')],
+        children: [
+          getLink('/guide/introduction'),
+          getLink('/guide/quick-start'),
+        ],
       },
     ],
     [getLink('/api/')]: [
@@ -131,7 +134,7 @@ export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
   ],
   evergreen: true,
   markdown: {
-    extractHeaders: ['h2', 'h3'],
+    extractHeaders: ['h2', 'h3', 'h4'],
   },
   extendMarkdown: md => {
     md.use(markdownItInclude);
