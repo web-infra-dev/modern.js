@@ -1,5 +1,7 @@
 # @modern-js/tsconfig
 
+## 2.0.0-alpha.0
+
 ## 1.18.0
 
 ## 1.17.0

@@ -1,5 +1,16 @@
 # @modern-js/plugin-server
 
+## 2.0.0-alpha.0
+
+### Patch Changes
+
+- Updated dependencies [fb02c81]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/server-utils@2.0.0-alpha.0
+  - @modern-js/utils@2.0.0-alpha.0
+  - @modern-js/babel-compiler@2.0.0-alpha.0
+
 ## 1.18.0
 
 ### Patch Changes

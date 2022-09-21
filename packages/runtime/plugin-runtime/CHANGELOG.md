@@ -1,5 +1,16 @@
 # @modern-js/runtime
 
+## 2.0.0-alpha.0
+
+### Patch Changes
+
+- Updated dependencies [c1a4d9b]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/plugin@2.0.0-alpha.0
+  - @modern-js/utils@2.0.0-alpha.0
+  - @modern-js/webpack@2.0.0-alpha.0
+
 ## 1.18.0
 
 ### Patch Changes

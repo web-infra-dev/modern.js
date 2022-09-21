@@ -1,5 +1,7 @@
 # @modern-js/module-generator
 
+## 2.3.4-alpha.0
+
 ## 2.3.3
 
 ### Patch Changes

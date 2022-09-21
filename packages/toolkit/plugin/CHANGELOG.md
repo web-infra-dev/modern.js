@@ -1,5 +1,13 @@
 # @modern-js/plugin
 
+## 2.0.0-alpha.0
+
+### Patch Changes
+
+- c1a4d9b: fix(plugin): incorrect createManager type in TS 4.8
+
+  fix(plugin): 修复 createManager 在 TS 4.8 下的类型问题
+
 ## 1.18.0
 
 ## 1.17.0

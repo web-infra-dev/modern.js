@@ -1,5 +1,14 @@
 # @modern-js/babel-preset-app
 
+## 2.0.0-alpha.0
+
+### Patch Changes
+
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/utils@2.0.0-alpha.0
+  - @modern-js/babel-preset-base@2.0.0-alpha.0
+
 ## 1.18.0
 
 ### Patch Changes

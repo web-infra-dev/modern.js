@@ -1,5 +1,17 @@
 # @modern-js/utils
 
+## 2.0.0-alpha.0
+
+### Patch Changes
+
+- 9fcfbd4: chore: add assets retry plugin
+
+  chore: 增加资源重试插件
+
+- 6c2c745: chore(utils): add RULE.JS_DATA_URI to CHAIN_ID
+
+  chore(utils): CHAIN_ID 增加 RULE.JS_DATA_URI 值
+
 ## 1.18.0
 
 ### Minor Changes
