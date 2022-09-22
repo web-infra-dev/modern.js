@@ -1,5 +1,6 @@
 ---
 '@modern-js/types': patch
+'@modern-js/server': patch
 ---
 
 fix: dev server config should be optional
