@@ -71,7 +71,10 @@ export const createDefaultBuilderOptions = (): Required<BuilderOptions> => ({
 });
 
 export async function createBuilder(options?: BuilderOptions) {
-  const builderOptions = { ...createDefaultBuilderOptions(), ...options };
+  const builderOptions: Required<BuilderOptions> = {
+    ...createDefaultBuilderOptions(),
+    ...options,
+  };
   const context = await createContext(builderOptions);
   const { build, pluginStore, publicContext } = createPrimaryBuilder(
     builderOptions,

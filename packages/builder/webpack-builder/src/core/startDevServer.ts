@@ -1,9 +1,9 @@
 import { log, info, debug } from '../shared';
 import { createCompiler } from './createCompiler';
-import type { BuilderConfig } from '../types';
+import type { FinalConfig } from '../types';
 import type { InitConfigsOptions } from './initConfigs';
 
-async function printURLs(config: BuilderConfig, port: number) {
+async function printURLs(config: FinalConfig, port: number) {
   const { chalk, getAddressUrls } = await import('@modern-js/utils');
   const protocol = config.dev?.https ? 'https' : 'http';
   const urls = getAddressUrls(protocol, port);
@@ -67,9 +67,9 @@ export async function startDevServer(options: InitConfigsOptions) {
     process.env.NODE_ENV = 'development';
   }
 
-  const { builderConfig } = options.builderOptions;
+  const { config } = options.context;
   const { getPort } = await import('@modern-js/utils');
-  const port = await getPort(builderConfig.dev?.port || 8080);
+  const port = await getPort(config.dev.port);
   const server = await createDevServer(options, port);
 
   await options.context.hooks.onBeforeStartDevServerHooks.call();
@@ -84,7 +84,7 @@ export async function startDevServer(options: InitConfigsOptions) {
       }
 
       debug('listen dev server done');
-      await printURLs(builderConfig, port);
+      await printURLs(config, port);
       await options.context.hooks.onAfterStartDevServerHooks.call({ port });
       resolve();
     });

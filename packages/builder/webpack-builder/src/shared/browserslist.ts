@@ -1,4 +1,4 @@
-import type { BuilderConfig } from '../types';
+import type { FinalConfig } from '../types';
 
 export const DEFAULT_BROWSERSLIST = ['> 0.01%', 'not dead', 'not op_mini all'];
 
@@ -25,7 +25,7 @@ export async function getBrowserslist(path: string) {
 
 export async function getBrowserslistWithDefault(
   path: string,
-  config: BuilderConfig,
+  config: FinalConfig,
 ) {
   if (config?.output?.overrideBrowserslist) {
     return config.output.overrideBrowserslist;

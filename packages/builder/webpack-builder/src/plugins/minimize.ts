@@ -1,16 +1,13 @@
 import { CHAIN_ID } from '@modern-js/utils/chain-id';
 import type {
   WebpackChain,
-  BuilderConfig,
+  FinalConfig,
   BuilderPlugin,
   TerserPluginOptions,
   CssMinimizerPluginOptions,
 } from '../types';
 
-function applyRemoveConsole(
-  options: TerserPluginOptions,
-  config: BuilderConfig,
-) {
+function applyRemoveConsole(options: TerserPluginOptions, config: FinalConfig) {
   if (!options.terserOptions) {
     options.terserOptions = {};
   }
@@ -37,7 +34,7 @@ function applyRemoveConsole(
   return options;
 }
 
-async function applyJSMinimizer(chain: WebpackChain, config: BuilderConfig) {
+async function applyJSMinimizer(chain: WebpackChain, config: FinalConfig) {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const { default: TerserPlugin } = await import('terser-webpack-plugin');
 
@@ -69,7 +66,7 @@ async function applyJSMinimizer(chain: WebpackChain, config: BuilderConfig) {
     .end();
 }
 
-async function applyCSSMinimizer(chain: WebpackChain, config: BuilderConfig) {
+async function applyCSSMinimizer(chain: WebpackChain, config: FinalConfig) {
   const { CHAIN_ID, applyOptionsChain } = await import('@modern-js/utils');
   const { default: CssMinimizerPlugin } = await import(
     'css-minimizer-webpack-plugin'

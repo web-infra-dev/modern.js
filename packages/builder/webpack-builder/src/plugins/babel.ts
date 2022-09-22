@@ -13,7 +13,7 @@ import {
 
 import type {
   WebpackChain,
-  BuilderConfig,
+  FinalConfig,
   BuilderContext,
   BuilderPlugin,
 } from '../types';
@@ -23,7 +23,7 @@ export const CORE_JS_ENTRY = path.resolve(
   '../runtime/core-js-entry.js',
 );
 
-export const getUseBuiltIns = (config: BuilderConfig) => {
+export const getUseBuiltIns = (config: FinalConfig) => {
   const { polyfill } = config.output || {};
   if (polyfill === 'ua' || polyfill === 'off') {
     return false;
@@ -33,7 +33,7 @@ export const getUseBuiltIns = (config: BuilderConfig) => {
 
 export function applyScriptCondition(
   rule: WebpackChain.Rule,
-  config: BuilderConfig,
+  config: FinalConfig,
   context: BuilderContext,
   includes: (string | RegExp)[],
   excludes: (string | RegExp)[],
@@ -73,7 +73,7 @@ export const PluginBabel = (): BuilderPlugin => ({
       const getBabelOptions = (
         framework: string,
         appDirectory: string,
-        config: BuilderConfig,
+        config: FinalConfig,
       ) => {
         // 1. Get styled-components options
         const styledComponentsOptions = applyOptionsChain(
@@ -177,7 +177,7 @@ export function addCoreJsEntry({
   config,
 }: {
   chain: WebpackChain;
-  config: BuilderConfig;
+  config: FinalConfig;
 }) {
   if (config.output?.polyfill === 'entry') {
     const entryPoints = Object.keys(chain.entryPoints.entries() || {});

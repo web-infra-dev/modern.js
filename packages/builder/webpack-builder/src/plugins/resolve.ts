@@ -1,4 +1,4 @@
-import type { BuilderConfig, BuilderPlugin, WebpackChain } from '../types';
+import type { FinalConfig, BuilderPlugin, WebpackChain } from '../types';
 
 function applyExtensions({
   chain,
@@ -6,7 +6,7 @@ function applyExtensions({
   isTsProject,
 }: {
   chain: WebpackChain;
-  config: BuilderConfig;
+  config: FinalConfig;
   isTsProject: boolean;
 }) {
   let extensions = [
@@ -39,7 +39,7 @@ async function applyAlias({
   rootPath,
 }: {
   chain: WebpackChain;
-  config: BuilderConfig;
+  config: FinalConfig;
   rootPath: string;
 }) {
   const { alias } = config.source || {};
