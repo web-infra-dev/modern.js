@@ -1,5 +1,42 @@
 # @modern-js/server
 
+## 1.18.1
+
+### Patch Changes
+
+- 318e149: fix: tools.devServer type missing some properties
+
+  fix: 修复 tools.devServer 类型定义不完整的问题
+
+- 60d95ad: fix: dev server config should be optional
+  fix: devServer 配置项应该是可选配置的
+- 8016a8a: fix: invoke next() in dev-middleware directly if only api
+  fix: 在 api 服务的情况下，直接调用 next()，不执行 dev-middleware
+- f6a3aa1: feat: support etag in dev server by default
+  feat: 开发环境默认支持 etag 功能
+- 23fa468: fix: ssr bundle should not be compiled by ts-node
+
+  fix: ts-node 不应该编译 ssr bundle
+
+- 55988fa: fix: fix dev server type error
+  fix: 修复 dev server 中的类型错误
+- bc3bbd8: fix: use output.publicPath(default) as webpack-dev-middleware publicPath
+
+  fix: 使用 output.publicPath 作为 webpack-dev-middleware publicPath
+
+- Updated dependencies [3586707]
+- Updated dependencies [318e149]
+- Updated dependencies [60d95ad]
+- Updated dependencies [f6a3aa1]
+- Updated dependencies [fb02c81]
+- Updated dependencies [9f7bfa6]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/prod-server@1.18.1
+  - @modern-js/types@1.18.1
+  - @modern-js/server-utils@1.18.1
+  - @modern-js/utils@1.18.1
+
 ## 1.18.0
 
 ### Patch Changes
