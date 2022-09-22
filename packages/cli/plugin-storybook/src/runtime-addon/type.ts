@@ -1,4 +1,4 @@
-import type { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/module-tools-v2';
 
 export interface IConfig {
   modernConfigRuntime: NormalizedConfig['runtime'];

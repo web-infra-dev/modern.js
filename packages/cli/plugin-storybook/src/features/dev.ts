@@ -1,5 +1,5 @@
 import { Import } from '@modern-js/utils';
-import type { NormalizedConfig, PluginAPI } from '@modern-js/core';
+import type { NormalizedConfig, PluginAPI } from '@modern-js/module-tools-v2';
 import { valid } from './utils/valid';
 
 const storybook: typeof import('@storybook/react/standalone') = Import.lazy(
