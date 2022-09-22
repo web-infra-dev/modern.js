@@ -66,6 +66,21 @@ describe('plugins/splitChunks', () => {
     expect(config).toMatchSnapshot();
   });
 
+  it('should set all-in-one config', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginSplitChunks()],
+      builderConfig: {
+        performance: {
+          chunkSplit: {
+            strategy: 'all-in-one',
+          },
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+    expect(config).toMatchSnapshot();
+  });
+
   it('should set custom config', async () => {
     const builder = await createStubBuilder({
       plugins: [PluginSplitChunks()],
