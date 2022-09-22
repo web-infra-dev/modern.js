@@ -41,6 +41,9 @@ export const buildCommand = async (
     .action(async (options: BuildCommandOptions) => {
       const runner = api.useHookRunners();
 
+      const { valideBeforeTask } = await import('./utils/valide');
+      valideBeforeTask(api, options);
+
       const { normalizeBuildConfig } = await import('./config/normalize');
       const resolvedBuildConfig = await normalizeBuildConfig(api);
       await runner.beforeBuild({ config: resolvedBuildConfig, options });
@@ -84,4 +87,39 @@ export const devCommand = async (
         });
     }
   }
+};
+
+export const newCommand = async (program: Command) => {
+  const local = await import('./locale');
+
+  program
+    .command('new')
+    .usage('[options]')
+    .description(local.i18n.t(local.localeKeys.command.new.describe))
+    .option(
+      '-d, --debug',
+      local.i18n.t(local.localeKeys.command.new.debug),
+      false,
+    )
+    .option(
+      '-c, --config <config>',
+      local.i18n.t(local.localeKeys.command.new.config),
+    )
+    .option(
+      '--dist-tag <tag>',
+      local.i18n.t(local.localeKeys.command.new.distTag),
+    )
+    .option('--registry', local.i18n.t(local.localeKeys.command.new.registry))
+    .action(async options => {
+      const { ModuleNewAction } = await import('@modern-js/new-action');
+      const { getLocaleLanguage } = await import('./utils/language');
+      const locale = getLocaleLanguage();
+
+      await ModuleNewAction({ ...options, locale });
+    });
+};
+
+export const upgradCommand = async (program: Command) => {
+  const { defineCommand } = await import('@modern-js/upgrade');
+  defineCommand(program.command('upgrade'));
 };
