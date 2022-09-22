@@ -3,6 +3,7 @@ import type {
   ToolsConfig as ToolsConfig_,
   NewPluginConfig,
 } from '@modern-js/core';
+import type { UserConfig as LibuildUserConfig } from '@modern-js/libuild';
 import { ModuleToolsHooks } from '..';
 import type { DeepPartial } from '../utils';
 
@@ -18,14 +19,14 @@ export type Target =
   // The default target is esnext which means that by default, assume all of the latest JavaScript and CSS features are supported.
   | 'esnext';
 
-export type Entry = string | string[] | Record<string, string>;
+export type Entry = Required<LibuildUserConfig>['input'];
 export type DTS =
   | boolean
   | {
       distPath: string;
       tsconfigPath: string;
     };
-export type SourceMap = boolean | 'inline' | 'external';
+export type SourceMap = Required<LibuildUserConfig>['sourceMap'];
 export type Copy = { from: string; to?: string }[];
 export interface BaseCommonBuildConfig {
   target: Target;
@@ -37,17 +38,17 @@ export interface BaseCommonBuildConfig {
 
 export type BundleFormat = 'esm' | 'cjs' | 'umd' | 'iife';
 export type BundleOptions = {
-  platform: any;
-  splitting: boolean;
-  minify: any;
-  externals: any;
+  platform: LibuildUserConfig['platform'];
+  splitting: LibuildUserConfig['splitting'];
+  minify: LibuildUserConfig['minify'];
+  externals: LibuildUserConfig['external'];
   skipDeps:
     | boolean
     | {
         dependencies?: boolean;
         peerDependencies?: boolean;
       };
-  assets: any;
+  assets: LibuildUserConfig['asset'];
   terserOptions: any;
 };
 export interface BaseBundleBuildConfig extends BaseCommonBuildConfig {

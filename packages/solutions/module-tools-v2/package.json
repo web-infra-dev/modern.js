@@ -37,31 +37,15 @@
     "dev": "modern build --watch"
   },
   "dependencies": {
-    "@babel/generator": "^7.18.0",
-    "@babel/parser": "^7.18.0",
-    "@babel/runtime": "^7.18.0",
-    "@babel/traverse": "^7.18.0",
-    "@babel/types": "^7.18.0",
-    "@modern-js/babel-compiler": "workspace:*",
-    "@modern-js/babel-preset-module": "workspace:*",
     "@modern-js/core": "workspace:*",
-    "@modern-js/css-config": "workspace:*",
+    "@modern-js/libuild": "^0.1.1",
     "@modern-js/new-action": "workspace:*",
-    "@modern-js/upgrade": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/style-compiler": "workspace:*",
+    "@modern-js/upgrade": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rollup/plugin-json": "~4.1.0",
-    "@speedy-js/speedy-types": "0.13.2-alpha.3",
-    "@speedy-js/speedy-core": "0.13.2-alpha.3",
-    "@speedy-js/speedy-plugin-es5": "0.13.2-alpha.3",
     "normalize-path": "^3.0.0",
     "p-map": "^4",
-    "process.argv": "^0.6.0",
-    "rollup": "^2.70.2",
-    "rollup-plugin-dts": "^4.2.1",
-    "rollup-plugin-hashbang": "^3.0.0",
     "signal-exit": "^3.0.7"
   },
   "devDependencies": {
@@ -69,25 +53,12 @@
     "@modern-js/plugin-jarvis": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@speedy-js/speedy-types": "0.13.2-alpha.3",
-    "@types/babel__core": "^7.1.15",
-    "@types/babel__generator": "^7.6.3",
-    "@types/babel__traverse": "^7.14.2",
-    "@types/glob": "^7.1.4",
     "@types/jest": "^27",
     "@types/node": "^14",
     "@types/normalize-path": "^3.0.0",
     "@types/signal-exit": "^3.0.1",
     "jest": "^27",
-    "typescript": "^4",
-    "ajv": "^8",
-    "ajv-keywords": "^5"
-  },
-  "sideEffects": false,
-  "modernConfig": {
-    "output": {
-      "packageMode": "node-js"
-    }
+    "typescript": "^4"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

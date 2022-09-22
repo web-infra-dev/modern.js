@@ -40,8 +40,10 @@ const setup: CliPlugin<ModuleToolsHooks>['setup'] = async api => {
     validateSchema,
     async commands({ program }) {
       const { buildCommand, devCommand } = await import('./command');
-      await buildCommand(program, api);
-      await devCommand(program, api);
+      const { initModuleContext } = await import('./utils/context');
+      const context = await initModuleContext(api);
+      await buildCommand(program, api, context);
+      await devCommand(program, api, context);
     },
   };
 };

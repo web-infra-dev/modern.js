@@ -1,9 +1,11 @@
 import { PluginAPI } from '@modern-js/core';
+import { ModuleContext } from '../types/context';
 import { BuildCommandOptions, ModuleToolsHooks } from '../types';
 
 export const buildPlatform = async (
   options: BuildCommandOptions,
   api: PluginAPI<ModuleToolsHooks>,
+  context: ModuleContext,
 ) => {
   const runner = api.useHookRunners();
   const platformBuilders = await runner.registerBuildPlatform();
@@ -31,7 +33,9 @@ export const buildPlatform = async (
         : platformBuilder.platform;
 
       await runner.buildPlatform({ platform: currentPlatform });
-      await platformBuilder.build(currentPlatform);
+      await platformBuilder.build(currentPlatform, {
+        isTsProject: context.isTsProject,
+      });
     }
   } else if (typeof options.platform === 'string') {
     const selectPlatformBuilder = platformBuilders.find(builder => {
@@ -47,7 +51,9 @@ export const buildPlatform = async (
     }
 
     await runner.buildPlatform({ platform: options.platform });
-    await selectPlatformBuilder.build(options.platform);
+    await selectPlatformBuilder.build(options.platform, {
+      isTsProject: context.isTsProject,
+    });
   } else if (Array.isArray(options.platform)) {
     for (const platform of options.platform) {
       const foundBuilder = platformBuilders.find(builder => {
@@ -63,7 +69,7 @@ export const buildPlatform = async (
         continue;
       }
       await runner.buildPlatform({ platform });
-      await foundBuilder.build(platform);
+      await foundBuilder.build(platform, { isTsProject: context.isTsProject });
     }
   }
 
