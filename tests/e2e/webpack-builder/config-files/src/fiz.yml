@@ -1,0 +1,13 @@
+title: "Modern.js Webpack Builder"
+
+owner:
+  - name: "Modern.js Core Team"
+  - github: "https://github.com/modern-js-dev"
+
+package:
+  - scripts:
+    - dev: "pnpm run dev"
+    - build: "pnpm run build"
+    - test: "pnpm run test"
+  - dependencies:
+    - webpack: "*"

@@ -3370,6 +3370,29 @@ importers:
       '@types/react-dom': 17.0.17
       typescript: 4.7.4
 
+  tests/e2e/webpack-builder/config-files:
+    specifiers:
+      '@modern-js/e2e': workspace:*
+      '@modern-js/webpack-builder': workspace:*
+      '@types/node': ^14
+      '@types/react': ^17
+      '@types/react-dom': ^17
+      got: ^11.8.3
+      react: ^17.0.1
+      react-dom: ^17.0.1
+      typescript: ^4
+    dependencies:
+      got: 11.8.5
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+      '@modern-js/webpack-builder': link:../../../../packages/builder/webpack-builder
+      '@types/node': 14.18.21
+      '@types/react': 17.0.47
+      '@types/react-dom': 17.0.17
+      typescript: 4.7.4
+
   tests/integration/alias-set:
     specifiers:
       '@babel/runtime': ^7.18.0
