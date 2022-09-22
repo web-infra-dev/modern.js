@@ -7,13 +7,15 @@ export const buildPlatform = async (
   api: PluginAPI<ModuleToolsHooks>,
   context: ModuleContext,
 ) => {
+  const { chalk } = await import('@modern-js/utils');
+  const { blue, gray } = await import('../constants/colors');
   const runner = api.useHookRunners();
   const platformBuilders = await runner.registerBuildPlatform();
   if (platformBuilders.length === 0) {
     if (options.platform === true) {
-      console.info('没有其他构建任务');
+      console.info('没有可执行的构建任务');
     } else if (typeof options.platform === 'string') {
-      console.info(`没有发现 platform 名字为 ${options.platform} 的构建任务`);
+      console.info(`没有发现 platform 为 "${options.platform}" 的构建任务`);
     } else if (Array.isArray(options.platform)) {
       console.info(
         `没有发现 platform 为 ${options.platform.join(',')} 的构建任务`,
@@ -32,10 +34,18 @@ export const buildPlatform = async (
         ? platformBuilder.platform[0]
         : platformBuilder.platform;
 
+      console.info(
+        chalk.underline.rgb(...blue)(
+          `Running [${currentPlatform}] build task:`,
+        ),
+      );
+
       await runner.buildPlatform({ platform: currentPlatform });
       await platformBuilder.build(currentPlatform, {
         isTsProject: context.isTsProject,
       });
+
+      console.info(chalk.rgb(...gray)(`Done for [${currentPlatform}] task`));
     }
   } else if (typeof options.platform === 'string') {
     const selectPlatformBuilder = platformBuilders.find(builder => {
@@ -45,15 +55,22 @@ export const buildPlatform = async (
 
       return builder.platform === (options.platform as string);
     });
+
     if (!selectPlatformBuilder) {
-      console.info(`指定的 ${selectPlatformBuilder} 构建不存在`);
+      console.info(`指定的 "${options.platform}" 构建不存在`);
       return;
     }
+
+    console.info(
+      chalk.underline.rgb(...blue)(`Running [${options.platform}] build task:`),
+    );
 
     await runner.buildPlatform({ platform: options.platform });
     await selectPlatformBuilder.build(options.platform, {
       isTsProject: context.isTsProject,
     });
+
+    console.info(chalk.rgb(...gray)(`Done for [${options.platform}] task`));
   } else if (Array.isArray(options.platform)) {
     for (const platform of options.platform) {
       const foundBuilder = platformBuilders.find(builder => {
@@ -68,8 +85,15 @@ export const buildPlatform = async (
         console.info(`跳过 ${foundBuilder} 构建, 因为它不存在`);
         continue;
       }
+
+      console.info(
+        chalk.underline.rgb(...blue)(`Running [${platform}] build task:`),
+      );
+
       await runner.buildPlatform({ platform });
       await foundBuilder.build(platform, { isTsProject: context.isTsProject });
+
+      console.info(chalk.rgb(...gray)(`Done for [${platform}] task`));
     }
   }
 
