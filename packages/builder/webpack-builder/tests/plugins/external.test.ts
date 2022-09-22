@@ -1,14 +1,14 @@
 import { describe, it, expect } from 'vitest';
-import { PluginExternal } from '../../src/plugins/external';
+import { PluginExternals } from '../../src/plugins/externals';
 import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/external', () => {
   it('should add external config', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginExternal()],
+      plugins: [PluginExternals()],
       builderConfig: {
         output: {
-          external: ['react', /@swc\/.*/],
+          externals: ['react', /@swc\/.*/],
         },
       },
     });

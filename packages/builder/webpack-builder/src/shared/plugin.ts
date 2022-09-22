@@ -78,5 +78,5 @@ export const applyDefaultPlugins = () =>
     import('../plugins/inlineChunk').then(m => m.PluginInlineChunk()),
     import('../plugins/assetsRetry').then(m => m.PluginAssetsRetry()),
     import('../plugins/fallback').then(m => m.PluginFallback()),
-    import('../plugins/external').then(m => m.PluginExternal()),
+    import('../plugins/externals').then(m => m.PluginExternals()),
   ]);

@@ -47,7 +47,7 @@ export type AssetsRetryOptions = {
   onFail?: (options: AssetsRetryHookContext) => void;
 };
 
-export type ExternalOptions = WebpackConfig['externals'];
+export type ExternalsOptions = WebpackConfig['externals'];
 
 export interface OutputConfig {
   copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
@@ -70,5 +70,5 @@ export interface OutputConfig {
   overrideBrowserslist?: string[];
   svgDefaultExport?: 'component' | 'url';
   assetsRetry?: AssetsRetryOptions;
-  external?: ExternalOptions;
+  externals?: ExternalsOptions;
 }
