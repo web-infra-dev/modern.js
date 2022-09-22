@@ -4,6 +4,7 @@ import type {
   BuilderPlugin,
   WebpackConfig,
   HTMLPluginOptions,
+  ToolsHtmlPluginConfig,
   FinalConfig,
 } from '../types';
 
@@ -129,6 +130,13 @@ export const PluginHtml = (): BuilderPlugin => ({
     const routesInfo: RoutesInfo[] = [];
 
     api.modifyWebpackChain(async (chain, { isProd, CHAIN_ID }) => {
+      const config = api.getBuilderConfig();
+
+      // if html is disabled, return following logics
+      if (config.tools?.htmlPlugin === false) {
+        return;
+      }
+
       const { default: HtmlWebpackPlugin } = await import(
         'html-webpack-plugin'
       );
@@ -136,7 +144,6 @@ export const PluginHtml = (): BuilderPlugin => ({
         '@modern-js/utils'
       );
 
-      const config = api.getBuilderConfig();
       const minify = getMinify(isProd, config);
       const template = getTemplatePath();
       const assetPrefix = removeTailSlash(chain.output.get('publicPath') || '');
@@ -170,7 +177,7 @@ export const PluginHtml = (): BuilderPlugin => ({
 
           const finalOptions = applyOptionsChain(
             pluginOptions,
-            config.tools?.htmlPlugin,
+            config.tools?.htmlPlugin as ToolsHtmlPluginConfig,
             {
               entryName,
               entryValue,

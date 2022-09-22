@@ -2609,9 +2609,9 @@ importers:
       '@rollup/plugin-json': ~4.1.0
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@speedy-js/speedy-core': 0.13.2-alpha.3
-      '@speedy-js/speedy-plugin-es5': 0.13.2-alpha.3
-      '@speedy-js/speedy-types': 0.13.2-alpha.3
+      '@speedy-js/speedy-core': 0.13.2-modern.1
+      '@speedy-js/speedy-plugin-es5': 0.13.2-modern.1
+      '@speedy-js/speedy-types': 0.13.2-modern.1
       '@types/babel__core': ^7.1.15
       '@types/babel__generator': ^7.6.3
       '@types/babel__traverse': ^7.14.2
@@ -2650,9 +2650,9 @@ importers:
       '@modern-js/upgrade': link:../../toolkit/upgrade
       '@modern-js/utils': link:../../toolkit/utils
       '@rollup/plugin-json': 4.1.0_rollup@2.75.7
-      '@speedy-js/speedy-core': 0.13.2-alpha.3_1f091e9882867a645caac150cd4a7b4f
-      '@speedy-js/speedy-plugin-es5': 0.13.2-alpha.3
-      '@speedy-js/speedy-types': 0.13.2-alpha.3
+      '@speedy-js/speedy-core': 0.13.2-modern.1_1f091e9882867a645caac150cd4a7b4f
+      '@speedy-js/speedy-plugin-es5': 0.13.2-modern.1
+      '@speedy-js/speedy-types': 0.13.2-modern.1
       normalize-path: 3.0.0
       p-map: 4.0.0
       process.argv: 0.6.0
@@ -9354,21 +9354,21 @@ packages:
       '@speedy-js/source-map-win32-x64-msvc': 0.1.3
     dev: false
 
-  /@speedy-js/speedy-config-loader/0.13.2-alpha.3:
-    resolution: {integrity: sha512-sacb+bwWqv4gZdv79406P2wEzOtlNbznB/vcURsLYCIkWopKaifVVVEXCWrENkndZOrN4bAaEbzK6E4Opo2evQ==}
+  /@speedy-js/speedy-config-loader/0.13.2-modern.1:
+    resolution: {integrity: sha512-NGAwChdpujKccu0r6K35xbzCIuTH8V1l1y9e+egYvXHWwLSHPSxRq6VwxhRDBrMP+naevW4WKsWlxjygHnhhew==}
     dependencies:
       source-map: 0.7.3
     dev: false
 
-  /@speedy-js/speedy-core/0.13.2-alpha.3_1f091e9882867a645caac150cd4a7b4f:
-    resolution: {integrity: sha512-jlwF3cXMk5DrerynP1EiYcSyzHQO2Qs9olKSdVlAC4r2HdM9y3GURDh+NDM/fXEVcX/V0LzXTOB3CP9IjGB7pA==}
+  /@speedy-js/speedy-core/0.13.2-modern.1_1f091e9882867a645caac150cd4a7b4f:
+    resolution: {integrity: sha512-43uQMKeHFI8+Ys2t6dSc+uls7sgGymCKoObPvrLrFojDE7cYX2k+wdSQtgSTFmerT6Vh+cDrk0yXk6MVktPf3w==}
     hasBin: true
     dependencies:
       '@prebundle/detect-port': 1.3.1
       '@speedy-js/esbuild': 0.14.28-speedy-6
       '@speedy-js/source-map': 0.1.3
-      '@speedy-js/speedy-config-loader': 0.13.2-alpha.3
-      '@speedy-js/speedy-utils': 0.13.2-alpha.3
+      '@speedy-js/speedy-config-loader': 0.13.2-modern.1
+      '@speedy-js/speedy-utils': 0.13.2-modern.1
       nodejs-resolver: 0.0.15
       rollup: 2.75.6
       terser: 5.9.0
@@ -9380,20 +9380,20 @@ packages:
       - webpack-cli
     dev: false
 
-  /@speedy-js/speedy-plugin-es5/0.13.2-alpha.3:
-    resolution: {integrity: sha512-JQCLzbcU1JcPZ6gtdIe9FjOOuo5ZzEpcKcyRq23Aox85XmVwjSjKsL5i2mKiyuW1gXn3g0hDdXWsOiMBvo61xQ==}
+  /@speedy-js/speedy-plugin-es5/0.13.2-modern.1:
+    resolution: {integrity: sha512-R1Neseg9wT05LBRrUBaH8ysfEAMC3p3G5aq6xmCUkkPQROE7LQyzb1UoLuY7E3qByadXTgUmga9potPuk4TJIQ==}
     dependencies:
       '@babel/runtime': 7.17.2
       core-js: 3.21.1
       regenerator-runtime: 0.13.9
     dev: false
 
-  /@speedy-js/speedy-types/0.13.2-alpha.3:
-    resolution: {integrity: sha512-Ib0INX3WSvazSCWaOX+NiuMc1V8gCb+eJuyrxn6bhqc8Csa7uuCvufCFb4LhFp42XdPn56y1l3cOgmg7X5w7Ow==}
+  /@speedy-js/speedy-types/0.13.2-modern.1:
+    resolution: {integrity: sha512-o1TYsoDb5SyJQMZOx/gnp4DOe4pZJOH6K/SgaOf7x5ux0+Y5DpriIkm5RQBpeZBA77oXI4M2KewEGRs4Q1FRaw==}
     dev: false
 
-  /@speedy-js/speedy-utils/0.13.2-alpha.3:
-    resolution: {integrity: sha512-5dk6lChrOOvWUidW60ZemGo/rzgGCp3SULw4zepbTvjmCwbV+Ih/ohXz/K2aDbHVWlgPU7ZPnnjmot1e5RtVHQ==}
+  /@speedy-js/speedy-utils/0.13.2-modern.1:
+    resolution: {integrity: sha512-lub/rJBCtl7EcsexpTEVYxDD4JgXP7dLJT7NWH3afM9v2GNmCRonX1kiYGwjc+bGR3XG0WPwVB8g75nH2EQlxA==}
     dev: false
 
   /@storybook/addon-actions/6.5.9_react-dom@17.0.2+react@17.0.2:
@@ -15623,6 +15623,7 @@ packages:
 
   /core-js/3.21.1:
     resolution: {integrity: sha512-FRq5b/VMrWlrmCzwRrpDYNxyHP9BcAZC+xHJaqTgIE5091ZV1NTmyh0sGOg5XqpnHvR0svdy0sv1gWA1zmhxig==}
+    deprecated: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
     requiresBuild: true
     dev: false
 
@@ -33002,7 +33003,7 @@ packages:
       '@webassemblyjs/wasm-parser': 1.11.1
       acorn: 8.7.1
       acorn-import-assertions: 1.8.0_acorn@8.7.1
-      browserslist: 4.21.0
+      browserslist: 4.21.3
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.10.0
       es-module-lexer: 0.9.3
