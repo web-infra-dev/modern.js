@@ -1,5 +1,5 @@
 import { useModuleApps } from '@modern-js/plugin-garfish';
-import { Switch, Route, Link } from '@modern-js/runtime/router';
+import { Routes, Route, Link } from '@modern-js/runtime/router';
 import { getAppInfo } from '../../../../utils/testCase';
 import { name } from '../package.json';
 import './App.css';
@@ -33,11 +33,11 @@ const App: React.FC = () => {
         </Link>{' '}
         &nbsp;
       </div>
-      <Switch>
-        <Route path="/" exact={true}>
+      <Routes>
+        <Route path="/">
           <Home />
         </Route>
-        <Route path="/dashboard" exact={false}>
+        <Route path="/dashboard">
           <Dashboard
             msg={'hello world from main app'}
             loadable={{
@@ -66,7 +66,7 @@ const App: React.FC = () => {
             }}
           />
         </Route> */}
-      </Switch>
+      </Routes>
       <MApp
         msg={'hello world'}
         loadable={{

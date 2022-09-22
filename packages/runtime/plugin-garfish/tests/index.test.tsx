@@ -8,7 +8,7 @@ import '@testing-library/jest-dom';
 import {
   Link,
   Route,
-  Switch,
+  Routes,
   useLocation,
   MemoryRouter,
 } from '@modern-js/runtime/router';
@@ -131,8 +131,8 @@ describe('plugin-garfish', () => {
             <Link data-testid="user-info-link" to="/user-info">
               user-info
             </Link>
-            <Switch>
-              <Route exact={true} path="/">
+            <Routes>
+              <Route path="/">
                 <Home />
               </Route>
               <Route path="/dashboard">
@@ -142,7 +142,7 @@ describe('plugin-garfish', () => {
                 <TableList />
               </Route>
               <LocationDisplay />
-            </Switch>
+            </Routes>
           </div>
         </MemoryRouter>
       );

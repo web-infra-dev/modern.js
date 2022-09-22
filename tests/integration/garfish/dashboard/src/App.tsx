@@ -1,4 +1,4 @@
-import { Switch, Route, Link } from '@modern-js/runtime/router';
+import { Routes, Route, Link } from '@modern-js/runtime/router';
 import './App.css';
 // console.log(window.a.a.a)
 
@@ -17,8 +17,8 @@ const App = (props: { msg?: string; getHelloContext: any }) => {
           throw-error
         </Link>
       </div>
-      <Switch>
-        <Route exact={true} path="/">
+      <Routes>
+        <Route path="/">
           <div style={{ textAlign: 'center' }}>Dashboard Home page</div>
           <div style={{ textAlign: 'center' }}>main app info: {props.msg}</div>
           <div className="container">
@@ -36,19 +36,19 @@ const App = (props: { msg?: string; getHelloContext: any }) => {
             </main>
           </div>
         </Route>
-        <Route exact={true} path="/detail">
+        <Route path="/detail">
           <div style={{ textAlign: 'center' }}>Dashboard detail page</div>
         </Route>
         <Route
-          exact={true}
           path="/throw-error"
-          component={() => {
+          element={() => {
             return <div>throw Error</div>;
-          }}></Route>
+          }}
+        ></Route>
         <Route path="*">
           <div>404</div>
         </Route>
-      </Switch>
+      </Routes>
     </div>
   );
 };

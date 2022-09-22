@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
-import { Route, matchPath } from 'react-router-dom';
+import { Route, matchPath, useLocation } from 'react-router-dom';
 import { DefaultNotFound } from './DefaultNotFound';
 import { RouterConfig } from './plugin';
 
@@ -35,13 +35,13 @@ export function renderRoutes(
   return (
     <Route
       path="/"
-      element={(props: any) => {
-        const matchedRoute = findMatchedRoute(props.location.pathname);
+      element={() => {
+        const location = useLocation();
+        const matchedRoute = findMatchedRoute(location.pathname);
 
         if (!matchedRoute) {
           return <DefaultNotFound />;
         }
-
         return (
           <Route
             path={matchedRoute.path as string}

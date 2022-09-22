@@ -47,7 +47,7 @@ export type RouterConfig = {
     routes?: SingleRouteConfig[];
   };
   serverBase?: string[];
-  supportHtml5History: boolean;
+  supportHtml5History?: boolean;
 };
 
 export const routerPlugin = ({
@@ -71,18 +71,12 @@ export const routerPlugin = ({
                 window._SERVER_DATA?.router.baseUrl ||
                 select(location.pathname);
 
+              // https://reactrouter.com/en/main/utils/create-routes-from-elements
               const routerElement = (props: any) =>
                 createRoutesFromElements(
-                  <Route
-                    path="/*"
-                    element={
-                      <App {...props}>
-                        {routesConfig
-                          ? renderRoutes(routesConfig, props)
-                          : null}
-                      </App>
-                    }
-                  />,
+                  <Route path="/" element={<App {...props} />}>
+                    {routesConfig ? renderRoutes(routesConfig, props) : null}
+                  </Route>,
                 );
 
               const routerConfig = {

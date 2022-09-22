@@ -1,12 +1,12 @@
-import { Switch, Route } from '@modern-js/runtime/router';
+import { Routes, Route } from '@modern-js/runtime/router';
 import { List, Image } from '@arco-design/web-react';
 import '@arco-design/web-react/dist/css/arco.css';
 
 import './App.css';
 
 const App = () => (
-  <Switch>
-    <Route exact={true} path="/">
+  <Routes>
+    <Route path="/">
       <div className="container">
         <main>
           <div className="logo">
@@ -37,7 +37,7 @@ const App = () => (
     <Route path="*">
       <div>404</div>
     </Route>
-  </Switch>
+  </Routes>
 );
 
 export default App;
