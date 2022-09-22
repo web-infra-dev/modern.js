@@ -105,7 +105,7 @@ export interface ToolsConfig {
   tsChecker?: false | ToolsTSCheckerConfig;
   devServer?: ToolsDevServerConfig;
   minifyCss?: ToolsMinifyCssConfig;
-  htmlPlugin?: ToolsHtmlPluginConfig;
+  htmlPlugin?: false | ToolsHtmlPluginConfig;
   styledComponents?: ToolsStyledComponentConfig;
   cssLoader?: ToolsCSSLoaderConfig;
   styleLoader?: ToolsStyleLoaderConfig;
