@@ -23,7 +23,7 @@ export const getDistPath = (
 ): string => {
   const { distPath } = config.output;
   const ret = distPath[type];
-  if (!ret) {
+  if (typeof ret !== 'string') {
     throw new Error(`unknown key ${type} in "output.distPath"`);
   }
   return ret;
