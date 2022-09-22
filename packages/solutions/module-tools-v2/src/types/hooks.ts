@@ -15,7 +15,10 @@ export interface BuildResult {
 }
 export interface RegisterBuildPlatformResult {
   platform: string | string[];
-  build: (currentPlatform: string) => void | Promise<void>;
+  build: (
+    currentPlatform: string,
+    context: { isTsProject: boolean },
+  ) => void | Promise<void>;
 }
 export interface BuildPlatformResult {
   status: 'success' | 'fail';
@@ -29,7 +32,10 @@ export interface DevToolData {
     name: string;
     value: string;
   };
-  action: (options: DevCommandOptions) => void | Promise<void>;
+  action: (
+    options: DevCommandOptions,
+    context: { isTsProject?: boolean },
+  ) => void | Promise<void>;
 }
 
 export type PromptResult = { choiceDevTool: string | symbol } & Record<
