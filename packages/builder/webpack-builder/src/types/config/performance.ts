@@ -49,9 +49,18 @@ export interface SplitCustom {
 
 export type BuilderChunkSplit = BaseChunkSplit | SplitBySize | SplitCustom;
 
+// may extends cache options in the futures
+export type CacheOptions = {
+  /**
+   * the webpack file cache direactory (defaults to .node_modules/.cache/webpack).
+   */
+  cacheDirectory?: string;
+};
+
 export interface PerformanceConfig {
   removeConsole?: boolean | ConsoleType[];
   removeMomentLocale?: boolean;
   bundleAnalyze?: BundleAnalyzerPlugin.Options;
   chunkSplit?: BuilderChunkSplit;
+  cache?: CacheOptions;
 }
