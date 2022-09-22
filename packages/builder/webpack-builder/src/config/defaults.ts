@@ -23,7 +23,9 @@ export const createDefaultConfig = (): BuilderConfig => ({
   tools: {
     tsChecker: {},
   },
-  source: {},
+  source: {
+    compileJsDataURI: false,
+  },
   output: {
     filename: {},
     distPath: {

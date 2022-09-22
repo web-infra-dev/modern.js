@@ -1,4 +1,4 @@
-import type { DevServerOptions } from '@modern-js/server';
+import type { DevServerOptions } from '@modern-js/types';
 import type { IStyledComponentOptions } from '@modern-js/babel-preset-app';
 import type { ModifyWebpackUtils } from '../hooks';
 import type {
