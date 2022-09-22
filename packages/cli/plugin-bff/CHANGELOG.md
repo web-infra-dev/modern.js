@@ -1,5 +1,18 @@
 # @modern-js/plugin-bff
 
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [fb02c81]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/server-utils@1.18.1
+  - @modern-js/utils@1.18.1
+  - @modern-js/bff-core@1.18.1
+  - @modern-js/create-request@1.18.1
+  - @modern-js/babel-compiler@1.18.1
+
 ## 1.18.0
 
 ### Patch Changes
