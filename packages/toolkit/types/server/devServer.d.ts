@@ -11,7 +11,7 @@ export type RequestHandler = (
 
 export type DevServerOptions = {
   /** config of hmr client. */
-  client: {
+  client?: {
     path?: string;
     port?: string;
     host?: string;
@@ -19,7 +19,7 @@ export type DevServerOptions = {
     overlay?: boolean;
     progress?: boolean;
   };
-  devMiddleware: {
+  devMiddleware?: {
     writeToDisk: boolean | ((filename: string) => boolean);
   };
   proxy?: BffProxyOptions;
@@ -27,11 +27,11 @@ export type DevServerOptions = {
   before?: RequestHandler[];
   after?: RequestHandler[];
   /** Whether to watch files change. */
-  watch: boolean;
+  watch?: boolean;
   /** Whether to enable hot reload. */
-  hot: boolean | string;
+  hot?: boolean | string;
   /** Whether to enable page reload. */
-  liveReload: boolean;
+  liveReload?: boolean;
   /** Whether to enable https. */
   https?: DevServerHttpsOptions;
   [propName: string]: any;
