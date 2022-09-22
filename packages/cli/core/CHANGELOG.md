@@ -1,5 +1,20 @@
 # @modern-js/core
 
+## 1.18.1
+
+### Patch Changes
+
+- 318e149: fix: tools.devServer type missing some properties
+
+  fix: 修复 tools.devServer 类型定义不完整的问题
+
+- Updated dependencies [c1a4d9b]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/plugin@1.18.1
+  - @modern-js/utils@1.18.1
+  - @modern-js/node-bundle-require@1.18.1
+
 ## 1.18.0
 
 ### Patch Changes
