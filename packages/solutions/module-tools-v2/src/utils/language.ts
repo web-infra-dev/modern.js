@@ -12,4 +12,5 @@ export const initLocalLanguage = async () => {
   const local = await import('../locale');
   const locale = getLocaleLanguage();
   local.i18n.changeLanguage({ locale });
+  return local;
 };
