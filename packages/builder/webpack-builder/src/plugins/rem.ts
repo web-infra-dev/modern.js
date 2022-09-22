@@ -1,8 +1,5 @@
-import PxToRemPlugin from 'postcss-pxtorem';
 import type { BuilderPlugin } from '../types';
 import { mergeBuilderConfig } from '../shared/utils';
-// eslint-disable-next-line @typescript-eslint/no-restricted-imports
-import { AutoSetRootFontSizePlugin } from '../webpackPlugins/AutoSetRootFontSizePlugin';
 
 const defaultOptions = {
   enableRuntime: true,
@@ -24,7 +21,9 @@ export const PluginRem = (): BuilderPlugin => ({
       ...(typeof convertToRem === 'boolean' ? {} : convertToRem),
     };
 
-    api.modifyBuilderConfig(config => {
+    api.modifyBuilderConfig(async config => {
+      const { default: PxToRemPlugin } = await import('postcss-pxtorem');
+
       return mergeBuilderConfig(config, {
         tools: {
           postcss(_config, { addPlugins }) {
@@ -47,6 +46,10 @@ export const PluginRem = (): BuilderPlugin => ({
       }
 
       const entries = Object.keys(chain.entryPoints.entries() || {});
+
+      const { AutoSetRootFontSizePlugin } = await import(
+        '../webpackPlugins/AutoSetRootFontSizePlugin'
+      );
 
       chain
         .plugin(CHAIN_ID.PLUGIN.AUTO_SET_ROOT_SIZE)
