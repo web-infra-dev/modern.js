@@ -5,6 +5,7 @@
   "main": "./src/index.js",
   "bin": {
     "modern": "./bin/modern.js",
+    "mdn": "./bin/modern.js",
     "only-allow-pnpm": "./bin/only-allow-pnpm.js"
   },
   "devDependencies": {

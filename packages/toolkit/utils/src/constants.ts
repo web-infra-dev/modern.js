@@ -73,6 +73,7 @@ export const INTERNAL_PLUGINS: {
   '@modern-js/app-tools': { cli: '@modern-js/app-tools/cli' },
   '@modern-js/monorepo-tools': { cli: '@modern-js/monorepo-tools/cli' },
   '@modern-js/module-tools': { cli: '@modern-js/module-tools/cli' },
+  '@modern-js/module-tools-v2': { cli: '@modern-js/module-tools-v2' },
   '@modern-js/runtime': { cli: '@modern-js/runtime/cli' },
   '@modern-js/plugin-less': { cli: '@modern-js/plugin-less/cli' },
   '@modern-js/plugin-sass': { cli: '@modern-js/plugin-sass/cli' },
