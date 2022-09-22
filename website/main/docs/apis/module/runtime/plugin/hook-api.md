@@ -663,7 +663,7 @@ Runtime 插件主要用于开发者修改需要渲染的组件与 Element 和定
 - 使用示例：
 
 ```ts
-import type { Plugin } from '@modern-js/runtime-core';
+import type { Plugin } from '@modern-js/runtime';
 
 export default (): Plugin => ({
   setup(api) {
@@ -687,7 +687,7 @@ export default (): Plugin => ({
 
 ```ts
 import { createContext } from 'react';
-import type { Plugin } from '@modern-js/runtime-core';
+import type { Plugin } from '@modern-js/runtime';
 
 export default (): Plugin => ({
   setup(api) {
@@ -719,7 +719,7 @@ export default (): Plugin => ({
 
 ```ts
 import { createContext } from 'react';
-import type { Plugin } from '@modern-js/runtime-core';
+import type { Plugin } from '@modern-js/runtime';
 
 export default (): Plugin => ({
   setup(api) {
@@ -742,7 +742,7 @@ export default (): Plugin => ({
 
 ```ts
 import ReactDOM from 'react-dom';
-import type { Plugin } from '@modern-js/runtime-core';
+import type { Plugin } from '@modern-js/runtime';
 
 export default (): Plugin => ({
   setup(api) {
@@ -768,7 +768,7 @@ export default (): Plugin => ({
 
 ```ts
 import ReactDomServer from 'react-dom/server';
-import type { Plugin } from '@modern-js/runtime-core';
+import type { Plugin } from '@modern-js/runtime';
 
 export default (): Plugin => ({
   setup(api) {
