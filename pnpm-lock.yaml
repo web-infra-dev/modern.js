@@ -123,6 +123,7 @@ importers:
       html-webpack-plugin: 5.5.0
       mini-css-extract-plugin: 2.4.5
       postcss: 8.4.16
+      postcss-pxtorem: 6.0.0
       react-refresh: 0.12.0
       serialize-javascript: ^6.0.0
       style-loader: 3.3.1
@@ -146,6 +147,7 @@ importers:
       html-webpack-plugin: 5.5.0_webpack@5.73.0
       mini-css-extract-plugin: 2.4.5_webpack@5.73.0
       postcss: 8.4.16
+      postcss-pxtorem: 6.0.0_postcss@8.4.16
       react-refresh: 0.12.0
       serialize-javascript: 6.0.0
       style-loader: 3.3.1_webpack@5.73.0
@@ -27399,6 +27401,14 @@ packages:
     dependencies:
       postcss: 8.4.14
     dev: true
+
+  /postcss-pxtorem/6.0.0_postcss@8.4.16:
+    resolution: {integrity: sha512-ZRXrD7MLLjLk2RNGV6UA4f5Y7gy+a/j1EqjAfp9NdcNYVjUMvg5HTYduTjSkKBkRkfqbg/iKrjMO70V4g1LZeg==}
+    peerDependencies:
+      postcss: ^8.0.0
+    dependencies:
+      postcss: 8.4.16
+    dev: false
 
   /postcss-reduce-idents/5.2.0_postcss@8.4.16:
     resolution: {integrity: sha512-BTrLjICoSB6gxbc58D5mdBK8OhXRDqud/zodYfdSi52qvDHdMwk+9kB9xsM8yJThH/sZU5A6QVSmMmaN001gIg==}
