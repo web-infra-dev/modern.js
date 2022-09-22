@@ -1,4 +1,4 @@
-import type { DevServerHttpsOptions } from '@modern-js/server';
+import type { DevServerHttpsOptions } from '@modern-js/types';
 
 export interface DevConfig {
   hmr?: boolean;
