@@ -215,9 +215,15 @@ export function PluginSplitChunks(): BuilderPlugin {
           userDefinedCacheGroups,
           builderConfig: chunkSplit,
         });
-        chain.optimization.splitChunks(splitChunksOptions).runtimeChunk({
-          name: RUNTIME_CHUNK_NAME,
-        });
+
+        chain.optimization.splitChunks(splitChunksOptions);
+
+        // should not extract runtime chunk when strategy is `all-in-one`
+        if (chunkSplit.strategy !== 'all-in-one') {
+          chain.optimization.runtimeChunk({
+            name: RUNTIME_CHUNK_NAME,
+          });
+        }
       });
     },
   };

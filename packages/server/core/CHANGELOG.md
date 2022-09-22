@@ -1,5 +1,15 @@
 # @modern-js/server-plugin
 
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [c1a4d9b]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/plugin@1.18.1
+  - @modern-js/utils@1.18.1
+
 ## 1.18.0
 
 ### Patch Changes
