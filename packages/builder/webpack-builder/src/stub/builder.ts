@@ -10,9 +10,12 @@ import {
 } from '../shared/plugin';
 import { URL } from 'url';
 import { webpackBuild } from '../core/build';
-import { createPrimaryBuilder } from '../core/createBuilder';
+import {
+  createDefaultBuilderOptions,
+  createPrimaryBuilder,
+} from '../core/createBuilder';
 import { Hooks } from '../core/createHook';
-import { matchLoader, mergeBuilderOptions } from '../shared';
+import { matchLoader } from '../shared';
 import type {
   BuilderOptions,
   BuilderPlugin,
@@ -20,8 +23,8 @@ import type {
   PluginStore,
 } from '../types';
 import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
-import { createStubContext } from './context';
 import { globContentJSON, filenameToGlobExpr } from './utils';
+import { createPrimaryContext } from 'src/core/createContext';
 
 export interface OptionsPluginsItem {
   builtin?: boolean | 'default' | 'minimal' | 'basic';
@@ -29,7 +32,7 @@ export interface OptionsPluginsItem {
 }
 
 export interface StubBuilderOptions extends BuilderOptions {
-  context?: Context;
+  context?: Partial<Context>;
   /**
    * Setup builtin plugins and add custom plugins.
    * Automatically add builtin plugins by `process.env.STUB_BUILDER_PLUGIN_BUILTIN`.
@@ -90,9 +93,11 @@ export async function applyPluginOptions(
  */
 export async function createStubBuilder(options?: StubBuilderOptions) {
   // init primary builder.
-  const builderOptions = mergeBuilderOptions(
-    options,
-  ) as Required<StubBuilderOptions>;
+  const builderOptions: Required<BuilderOptions> = {
+    ...createDefaultBuilderOptions(),
+    validate: false,
+    ...options,
+  };
   // apply webpack option.
   if (options?.webpack) {
     const distPath =
@@ -102,7 +107,7 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
     _.set(builderOptions.builderConfig, 'output.distPath', distPath);
   }
   // init context.
-  const context = createStubContext(builderOptions);
+  const context = await createPrimaryContext(builderOptions);
   // merge user context.
   options?.context && _.merge(context, options.context);
   // init primary builder.

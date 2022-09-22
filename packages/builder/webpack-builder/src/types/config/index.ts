@@ -1,11 +1,11 @@
-import type { DevConfig } from './dev';
-import type { HtmlConfig } from './html';
-import type { ToolsConfig } from './tools';
-import type { SourceConfig } from './source';
-import type { OutputConfig } from './output';
-import type { SecurityConfig } from './security';
-import type { PerformanceConfig } from './performance';
-import type { ExperimentsConfig } from './experiments';
+import type { DevConfig, FinalDevConfig } from './dev';
+import type { HtmlConfig, FinalHtmlConfig } from './html';
+import type { ToolsConfig, FinalToolsConfig } from './tools';
+import type { SourceConfig, FinalSourceConfig } from './source';
+import type { FinalOutputConfig, OutputConfig } from './output';
+import type { SecurityConfig, FinalSecurityConfig } from './security';
+import type { PerformanceConfig, FinalPerformanceConfig } from './performance';
+import type { ExperimentsConfig, FinalExperimentsConfig } from './experiments';
 
 export interface BuilderConfig {
   dev?: DevConfig;
@@ -16,6 +16,17 @@ export interface BuilderConfig {
   security?: SecurityConfig;
   performance?: PerformanceConfig;
   experiments?: ExperimentsConfig;
+}
+
+export interface FinalConfig extends Required<BuilderConfig> {
+  dev: FinalDevConfig;
+  html: FinalHtmlConfig;
+  tools: FinalToolsConfig;
+  source: FinalSourceConfig;
+  output: FinalOutputConfig;
+  security: FinalSecurityConfig;
+  performance: FinalPerformanceConfig;
+  experiments: FinalExperimentsConfig;
 }
 
 /* eslint-disable @typescript-eslint/no-restricted-imports */

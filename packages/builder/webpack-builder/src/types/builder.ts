@@ -16,6 +16,8 @@ export type BuilderOptions = {
   configPath?: string | null;
   /** Builder config object. */
   builderConfig?: BuilderConfig;
+  /** Toggle whether to validate the config. */
+  validate?: boolean;
 };
 
 export type InspectOptions = {

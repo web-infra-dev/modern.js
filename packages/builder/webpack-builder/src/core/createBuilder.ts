@@ -1,5 +1,5 @@
 import type webpack from 'webpack';
-import { debug, mergeBuilderOptions, pick } from '../shared';
+import { debug, pick } from '../shared';
 import { applyDefaultPlugins } from '../shared/plugin';
 import type {
   BuilderOptions,
@@ -60,8 +60,18 @@ export function createPrimaryBuilder(
   };
 }
 
+export const createDefaultBuilderOptions = (): Required<BuilderOptions> => ({
+  cwd: process.cwd(),
+  entry: {},
+  target: ['web'],
+  configPath: null,
+  builderConfig: {},
+  framework: 'modern-js',
+  validate: true,
+});
+
 export async function createBuilder(options?: BuilderOptions) {
-  const builderOptions = mergeBuilderOptions(options);
+  const builderOptions = { ...createDefaultBuilderOptions(), ...options };
   const context = await createContext(builderOptions);
   const { build, pluginStore, publicContext } = createPrimaryBuilder(
     builderOptions,

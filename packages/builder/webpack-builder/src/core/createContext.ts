@@ -1,17 +1,16 @@
 import { existsSync } from 'fs';
 import { isAbsolute, join } from 'path';
 import { initHooks } from './createHook';
-import { ConfigValidator } from '../config/validate';
-import { withDefaultConfig } from '../config/defaults';
 import { pick, debug, isFileExists, getDistPath, deepFreezed } from '../shared';
 import type {
   Context,
   BuilderOptions,
   BuilderContext,
-  BuilderConfig,
+  FinalConfig,
 } from '../types';
+import { processConfig } from '../config';
 
-export function getAbsoluteDistPath(cwd: string, config: BuilderConfig) {
+export function getAbsoluteDistPath(cwd: string, config: FinalConfig) {
   const root = getDistPath(config, 'root');
   return isAbsolute(root) ? root : join(cwd, root);
 }
@@ -21,22 +20,22 @@ export function getAbsoluteDistPath(cwd: string, config: BuilderConfig) {
  * It will be assembled into a normal context or a stub for testing as needed.
  * Usually it would be a pure function
  */
-export function createPrimaryContext(
+export async function createPrimaryContext(
   options: Required<BuilderOptions>,
-): Context {
+): Promise<Context> {
   const {
     cwd,
     configPath,
     builderConfig: userBuilderConfig,
     framework,
+    validate,
   } = options;
-  const builderConfig = withDefaultConfig(userBuilderConfig);
+  const config = await processConfig(userBuilderConfig, { validate });
   const hooks = initHooks();
   const rootPath = cwd;
   const srcPath = join(rootPath, 'src');
-  const distPath = getAbsoluteDistPath(cwd, builderConfig);
+  const distPath = getAbsoluteDistPath(cwd, config);
   const cachePath = join(rootPath, 'node_modules', '.cache');
-  const configValidatingTask = Promise.resolve();
 
   // TODO some properties should be readonly
   const context: Context = {
@@ -47,9 +46,7 @@ export function createPrimaryContext(
     distPath,
     cachePath,
     framework,
-    configValidatingTask,
-    // TODO should deep clone
-    config: { ...builderConfig },
+    config,
     originalConfig: userBuilderConfig,
   };
 
@@ -69,12 +66,7 @@ export async function createContext(
 ): Promise<Context> {
   debug('create context');
 
-  const ctx = createPrimaryContext(options);
-
-  ctx.configValidatingTask = ConfigValidator.create().then(validator => {
-    // interrupt build if config is invalid.
-    validator.validate(options.builderConfig, false);
-  });
+  const ctx = await createPrimaryContext(options);
 
   const tsconfigPath = join(ctx.rootPath, 'tsconfig.json');
   if (await isFileExists(tsconfigPath)) {

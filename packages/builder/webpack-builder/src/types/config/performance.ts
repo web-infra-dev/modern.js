@@ -55,3 +55,9 @@ export interface PerformanceConfig {
   bundleAnalyze?: BundleAnalyzerPlugin.Options;
   chunkSplit?: BuilderChunkSplit;
 }
+
+export interface FinalPerformanceConfig extends PerformanceConfig {
+  removeConsole: boolean | ConsoleType[];
+  removeMomentLocale: boolean;
+  chunkSplit: BuilderChunkSplit;
+}

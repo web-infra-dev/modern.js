@@ -7,3 +7,5 @@ export interface DevConfig {
   assetPrefix?: string | boolean;
   startUrl?: boolean | string | string[];
 }
+
+export type FinalDevConfig = Required<DevConfig>;

@@ -9,7 +9,7 @@ export const PluginInspector = (): BuilderPlugin => ({
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
       const config = api.getBuilderConfig();
-      if (!config.tools?.inspector) {
+      if (!config.tools.inspector) {
         return;
       }
       const { applyOptionsChain } = await import('@modern-js/utils');

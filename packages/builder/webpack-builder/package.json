@@ -70,7 +70,7 @@
     "dev": "tsc --watch",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui --no-coverage"
   },
   "dependencies": {
     "@modern-js/babel-preset-app": "workspace:*",

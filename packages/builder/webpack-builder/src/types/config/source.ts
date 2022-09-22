@@ -12,7 +12,6 @@ export interface SourceConfig {
   resolveExtensionPrefix?: string;
 }
 
-export interface SourceFinalConfig {
-  preEntry?: string | string[];
-  resolveExtensionPrefix?: string;
+export interface FinalSourceConfig extends SourceConfig {
+  preEntry: string[];
 }

@@ -15,6 +15,7 @@ export type {
   OutputConfig,
   SourceConfig,
   BuilderConfig,
+  FinalConfig,
   SecurityConfig,
   PerformanceConfig,
   ExperimentsConfig,

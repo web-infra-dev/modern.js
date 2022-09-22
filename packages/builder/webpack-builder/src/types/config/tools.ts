@@ -114,5 +114,10 @@ export interface ToolsConfig {
   autoprefixer?: ToolsAutoprefixerConfig;
   webpack?: ToolsWebpackConfig;
   webpackChain?: ToolsWebpackChainConfig;
-  inspector?: ToolsInspectorPluginOptions;
+  inspector?: false | ToolsInspectorPluginOptions;
+}
+
+export interface FinalToolsConfig extends ToolsConfig {
+  babel: BabelTransformOptions;
+  devServer: DevServerOptions;
 }

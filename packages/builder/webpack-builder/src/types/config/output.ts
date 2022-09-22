@@ -69,3 +69,11 @@ export interface OutputConfig {
   svgDefaultExport?: 'component' | 'url';
   assetsRetry?: AssetsRetryOptions;
 }
+
+export interface FinalOutputConfig extends OutputConfig {
+  filename: FilenameConfig;
+  distPath: DistPathConfig;
+  polyfill: Polyfill;
+  cleanDistPath: boolean;
+  svgDefaultExport: 'component' | 'url';
+}

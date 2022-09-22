@@ -1,14 +1,15 @@
+import _ from '@modern-js/utils/lodash';
 import { debug, isDebug } from '../shared';
+import type {
+  BuilderOptions,
+  Context,
+  InspectOptions,
+  PluginStore,
+} from '../types';
 import { initPlugins } from './initPlugins';
-import { generateWebpackConfig } from './webpackConfig';
 import { stringifyBuilderConfig } from './inspectBuilderConfig';
 import { stringifyWebpackConfig } from './inspectWebpackConfig';
-import type {
-  Context,
-  PluginStore,
-  BuilderOptions,
-  InspectOptions,
-} from '../types';
+import { generateWebpackConfig } from './webpackConfig';
 
 async function modifyBuilderConfig(context: Context) {
   debug('modify builder config');
@@ -30,9 +31,6 @@ export async function initConfigs({
   pluginStore,
   builderOptions,
 }: InitConfigsOptions) {
-  const { ensureArray } = await import('@modern-js/utils');
-
-  await context.configValidatingTask;
   await initPlugins({
     context,
     pluginStore,
@@ -40,12 +38,12 @@ export async function initConfigs({
 
   await modifyBuilderConfig(context);
 
-  const targets = ensureArray(builderOptions.target);
+  const targets = _.castArray(builderOptions.target);
   const webpackConfigs = await Promise.all(
     targets.map(target => generateWebpackConfig({ target, context })),
   );
 
-  // write builder config and webpack config to disk in debug mode
+  // write builder config and webpack config to disk in debug mode.
   if (isDebug()) {
     const inspect = () => {
       const inspectOptions: InspectOptions = {

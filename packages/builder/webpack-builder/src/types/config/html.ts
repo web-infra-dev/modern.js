@@ -22,3 +22,5 @@ export interface HtmlConfig {
     Record<string, unknown> | undefined
   >;
 }
+
+export type FinalHtmlConfig = HtmlConfig;
