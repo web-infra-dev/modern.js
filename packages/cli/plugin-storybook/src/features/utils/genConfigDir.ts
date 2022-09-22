@@ -1,5 +1,5 @@
 import path from 'path';
-import type { NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/module-tools-v2';
 import { Import, fs, glob, logger } from '@modern-js/utils';
 import { transformSync } from 'esbuild';
 

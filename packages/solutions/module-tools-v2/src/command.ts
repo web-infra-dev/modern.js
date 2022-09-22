@@ -2,10 +2,12 @@ import type { Command } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type { ModuleToolsHooks } from './types/hooks';
 import type { DevCommandOptions, BuildCommandOptions } from './types/command';
+import type { ModuleContext } from './types/context';
 
 export const buildCommand = async (
   program: Command,
   api: PluginAPI<ModuleToolsHooks>,
+  context: ModuleContext,
 ) => {
   const local = await import('./locale');
 
@@ -40,17 +42,18 @@ export const buildCommand = async (
       const runner = api.useHookRunners();
 
       const { normalizeBuildConfig } = await import('./config/normalize');
-      const resolvedBuildConfig = normalizeBuildConfig(api);
+      const resolvedBuildConfig = await normalizeBuildConfig(api);
       await runner.beforeBuild({ config: resolvedBuildConfig, options });
 
       const builder = await import('./builder');
-      await builder.run(options, resolvedBuildConfig, api);
+      await builder.run(options, resolvedBuildConfig, api, context);
     });
 };
 
 export const devCommand = async (
   program: Command,
   api: PluginAPI<ModuleToolsHooks>,
+  context: ModuleContext,
 ) => {
   const local = await import('./locale');
   const runner = api.useHookRunners();
@@ -63,7 +66,8 @@ export const devCommand = async (
     .usage('[options]')
     .description(local.i18n.t(local.localeKeys.command.dev.describe))
     .action(async (options: DevCommandOptions = {}) => {
-      console.info('dev', options, api);
+      const { dev } = await import('./dev');
+      await dev(options, devToolMetas, api, context);
     });
 
   for (const meta of devToolMetas) {
@@ -76,7 +80,7 @@ export const devCommand = async (
         .command(subCmd)
         .action(async (options: DevCommandOptions = {}) => {
           await runner.beforeDevTask(meta);
-          await meta.action(options);
+          await meta.action(options, { isTsProject: context.isTsProject });
         });
     }
   }

@@ -1,10 +1,15 @@
 import type { PluginAPI } from '@modern-js/core';
 import type { UserConfig, BaseBuildConfig } from '../types';
 
-export const normalizeBuildConfig = (api: PluginAPI): BaseBuildConfig[] => {
+export const normalizeBuildConfig = async (
+  api: PluginAPI,
+): Promise<BaseBuildConfig[]> => {
+  const { ensureArray } = await import('@modern-js/utils');
   const { buildConfig } =
     api.useResolvedConfigContext() as unknown as UserConfig;
-  return (
-    Array.isArray(buildConfig) ? buildConfig : [buildConfig]
-  ) as BaseBuildConfig[];
+  if (!buildConfig) {
+    return [];
+  }
+
+  return ensureArray(buildConfig) as BaseBuildConfig[];
 };

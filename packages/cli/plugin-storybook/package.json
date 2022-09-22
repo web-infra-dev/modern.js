@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.0",
-    "@modern-js/core": "workspace:*",
+    "@modern-js/module-tools-v2": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
@@ -94,7 +94,7 @@
   },
   "wireit": {
     "build": {
-      "command": "modern build",
+      "command": "mdn build",
       "files": [
         "src/**/*",
         "tsconfig.json",

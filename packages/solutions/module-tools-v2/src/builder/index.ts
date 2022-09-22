@@ -1,4 +1,5 @@
 import type { PluginAPI } from '@modern-js/core';
+import type { ModuleContext } from '../types/context';
 import type {
   BuildCommandOptions,
   BaseBuildConfig,
@@ -9,10 +10,11 @@ export const run = async (
   options: BuildCommandOptions,
   resolvedBuildConfig: BaseBuildConfig[],
   api: PluginAPI<ModuleToolsHooks>,
+  context: ModuleContext,
 ) => {
   if (options.platform) {
     const { buildPlatform } = await import('./platform');
-    await buildPlatform(options, api);
+    await buildPlatform(options, api, context);
     return;
   }
 

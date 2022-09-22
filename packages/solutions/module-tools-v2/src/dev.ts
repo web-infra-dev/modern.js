@@ -1,11 +1,13 @@
-import { PluginAPI } from '@modern-js/core';
+import type { PluginAPI } from '@modern-js/core';
 import type { DevCommandOptions } from './types/command';
+import type { ModuleContext } from './types/context';
 import type { DevToolData, ModuleToolsHooks } from './types/hooks';
 
 export const showMenu = async (
   metas: DevToolData[],
   devCmdOptions: DevCommandOptions,
   api: PluginAPI<ModuleToolsHooks>,
+  context: ModuleContext,
 ) => {
   const { chalk, inquirer } = await import('@modern-js/utils');
   const runner = api.useHookRunners();
@@ -34,7 +36,9 @@ export const showMenu = async (
   );
   if (currentDevTool) {
     await runner.beforeDevTask(currentDevTool);
-    await currentDevTool.action(devCmdOptions);
+    await currentDevTool.action(devCmdOptions, {
+      isTsProject: context.isTsProject,
+    });
   }
 };
 
@@ -42,7 +46,10 @@ export const dev = async (
   options: DevCommandOptions,
   metas: DevToolData[],
   api: PluginAPI<ModuleToolsHooks>,
+  context: ModuleContext,
 ) => {
+  const { chalk } = await import('@modern-js/utils');
+  const { purple } = await import('./constants/colors');
   if (metas.length === 0) {
     console.info('没有发现可用的调试工具');
     // eslint-disable-next-line no-process-exit
@@ -52,14 +59,16 @@ export const dev = async (
   const runner = api.useHookRunners();
   if (metas.length === 1) {
     console.info(
-      `检测到仅有一个调试工具，直接运行 ${
-        metas[0].menuItem?.name ?? metas[0].name
-      }`,
+      chalk.rgb(...purple)(
+        `当前检测到仅有一个调试工具可用，直接运行 ${
+          metas[0].menuItem?.name ?? metas[0].name
+        }`,
+      ),
     );
     const meta = metas[0];
     await runner.beforeDevTask(meta);
-    await meta.action(options);
+    await meta.action(options, { isTsProject: context.isTsProject });
   } else if (metas.length > 1) {
-    await showMenu(metas, options, api);
+    await showMenu(metas, options, api, context);
   }
 };
