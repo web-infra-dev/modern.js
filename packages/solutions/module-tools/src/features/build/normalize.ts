@@ -8,7 +8,6 @@ import type {
   BaseBuildConfig,
   SourceMap,
   BundlelessOptions,
-  BundleOptions,
 } from '../../schema/types';
 import type { IBuildFeatOption } from '../../types';
 import { cliTsConfigDefaultValue } from '../../utils/constants';
@@ -247,7 +246,7 @@ export const normalizeBuildConfig = (
             ...deps.map(dep => new RegExp(`^${dep}($|\\/|\\\\)`)),
             ...(bundleOptions?.externals || []),
           ];
-    const normalizedBundleOption: Required<BundleOptions> = {
+    const normalizedBundleOption = {
       ...bundleOptions,
       entry: bundleOptions?.entry || {
         index: `src/index.${buildFeatOption.isTsProject ? 'ts' : 'js'}`,
