@@ -1,6 +1,6 @@
 import { CSS_REGEX, getBrowserslistWithDefault } from '../shared';
 import {
-  BuilderConfig,
+  FinalConfig,
   BuilderContext,
   BuilderPlugin,
   CSSLoaderOptions,
@@ -14,7 +14,7 @@ import type { AcceptedPlugin, ProcessOptions } from 'postcss';
 
 export async function applyBaseCSSRule(
   rule: WebpackChain.Rule,
-  config: BuilderConfig,
+  config: FinalConfig,
   context: BuilderContext,
   utils: ModifyWebpackUtils,
 ) {
