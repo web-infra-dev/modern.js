@@ -32,7 +32,7 @@ export default class SocketServer {
 
     this.wsServer = new ws.Server({
       noServer: true,
-      path: this.options.client.path,
+      path: this.options.client?.path,
     });
 
     // listen upgrade event to handle socket
@@ -126,7 +126,7 @@ export default class SocketServer {
       }
     });
 
-    if (this.options.client.logging) {
+    if (this.options.client?.logging) {
       this.singleWrite(connection, 'logging', this.options.client.logging);
     }
 
@@ -138,11 +138,11 @@ export default class SocketServer {
       this.singleWrite(connection, 'liveReload');
     }
 
-    if (this.options.client.progress) {
+    if (this.options.client?.progress) {
       this.singleWrite(connection, 'progress', this.options.client.progress);
     }
 
-    if (this.options.client.overlay) {
+    if (this.options.client?.overlay) {
       this.singleWrite(connection, 'overlay', this.options.client.overlay);
     }
 
