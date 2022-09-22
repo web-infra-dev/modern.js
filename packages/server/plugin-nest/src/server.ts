@@ -123,8 +123,11 @@ export default (): ServerPlugin => ({
 
       await app.init();
 
-      return (req, res) =>
+      return ctx =>
         new Promise((resolve, reject) => {
+          const {
+            source: { req, res },
+          } = ctx;
           const handler = () => {
             if (res.headersSent && res.statusCode !== 200) {
               finalhandler(req, res, {

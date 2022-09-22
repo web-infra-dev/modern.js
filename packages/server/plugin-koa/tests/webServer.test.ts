@@ -1,3 +1,4 @@
+import { IncomingMessage, ServerResponse } from 'http';
 import * as path from 'path';
 import fs from 'fs';
 import request from 'supertest';
@@ -30,7 +31,9 @@ describe('webServer', () => {
       config: { middleware: [middleware] },
     });
 
-    const res = await request(webHandler).get('/');
+    const res = await request((req: IncomingMessage, res: ServerResponse) => {
+      return webHandler({ source: { req, res } });
+    }).get('/');
     expect(res.status).toBe(200);
     expect(res.get('content-type')).toBe('application/json; charset=utf-8');
     expect(res.body).toEqual(foo);
@@ -49,7 +52,9 @@ describe('webServer', () => {
       config: { middleware: [middleware] },
     });
 
-    const res = await request(webHandler).get('/');
+    const res = await request((req: IncomingMessage, res: ServerResponse) => {
+      return webHandler({ source: { req, res } });
+    }).get('/');
     expect(res.status).toBe(200);
     expect(res.get('content-type')).toBe('text/html');
     expect(res.text).toContain(`hello koa plugin`);
@@ -73,7 +78,9 @@ describe('webServer', () => {
       config: { middleware: [middleware1, middleware2] },
     });
 
-    const res = await request(webHandler).get('/');
+    const res = await request((req: IncomingMessage, res: ServerResponse) => {
+      return webHandler({ source: { req, res } });
+    }).get('/');
     expect(res.status).toBe(200);
     expect(res.get('content-type')).toBe('text/html');
     expect(res.text).toContain(`hello koa plugin`);

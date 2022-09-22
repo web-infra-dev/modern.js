@@ -1,30 +1,34 @@
-import { ServerResponse } from 'http';
-import { ModernServerContext } from '@modern-js/types';
-
-type CookieAPI = {
-  get: (key: string) => string;
-  set: (key: string, value: string) => void;
-  delete: (key: string) => void;
-  clear: () => void;
-};
+import type { IncomingHttpHeaders, ServerResponse } from 'http';
+import type {
+  ModernServerContext,
+  HookContext,
+  AfterMatchContext,
+  CookieAPI,
+  AfterRenderContext,
+  MiddlewareContext,
+} from '@modern-js/types';
+import cookie from 'cookie';
+import { RouteAPI } from './route';
+import { TemplateAPI } from './template';
 
 class Response {
   public cookies: CookieAPI;
 
   private res: ServerResponse;
 
-  private _cookie: any;
+  private _cookie: Record<string, string>;
 
   constructor(res: ServerResponse) {
     this.res = res;
 
-    this._cookie = {};
+    this._cookie = cookie.parse((res.getHeader('set-cookie') as string) || '');
 
     this.cookies = {
-      get: this.getCookie,
-      set: this.setCookie,
-      delete: this.deleteCookie,
-      clear: this.clearCookie,
+      get: this.getCookie.bind(this),
+      set: this.setCookie.bind(this),
+      delete: this.deleteCookie.bind(this),
+      clear: this.clearCookie.bind(this),
+      apply: this.applyCookie.bind(this),
     };
   }
 
@@ -40,22 +44,35 @@ class Response {
     this.res.statusCode = code;
   }
 
-  public getCookie(key: string) {
-    return this._cookie.get(key);
+  private getCookie(key: string) {
+    return this._cookie[key];
   }
 
-  public setCookie(key: string, value: string) {
-    this._cookie.set(key, value);
-    this.res.setHeader('cookie', this._cookie.stringify());
+  private setCookie(key: string, value: string) {
+    this._cookie[key] = value;
   }
 
-  public deleteCookie(key: string) {
-    this._cookie.delete(key);
-    this.res.setHeader('cookie', this._cookie.stringify());
+  private deleteCookie(key: string) {
+    if (this._cookie[key]) {
+      delete this._cookie[key];
+    }
   }
 
-  public clearCookie() {
-    this.res.setHeader('cookie', '');
+  private clearCookie() {
+    this._cookie = {};
+  }
+
+  private applyCookie() {
+    const str = Object.entries(this._cookie)
+      .map(([key, value]) => {
+        return cookie.serialize(key, value);
+      })
+      .join('; ');
+    if (str) {
+      this.res.setHeader('set-cookie', str);
+    } else {
+      this.res.removeHeader('set-cookie');
+    }
   }
 
   public raw(
@@ -73,34 +90,85 @@ class Response {
   }
 }
 
-const base = (context: ModernServerContext) => {
-  const { res, req } = context;
+class Request {
+  public readonly host: string;
+
+  public readonly pathname: string;
+
+  public readonly query: Record<string, any>;
+
+  public readonly headers: IncomingHttpHeaders;
+
+  public readonly cookie: string;
+
+  public cookies: Pick<CookieAPI, 'get'>;
+
+  private _cookie: Record<string, string>;
+
+  constructor(ctx: ModernServerContext) {
+    this.host = ctx.host;
+    this.pathname = ctx.path;
+    this.query = ctx.query;
+    this.headers = ctx.headers;
+    this.cookie = ctx.headers.cookie || '';
+
+    this._cookie = cookie.parse(this.cookie);
+    this.cookies = {
+      get: this.getCookie.bind(this),
+    };
+  }
+
+  private getCookie(key: string) {
+    return this._cookie[key];
+  }
+}
+
+export const base = (context: ModernServerContext): HookContext => {
+  const { res } = context;
 
   return {
     response: new Response(res),
-    // request: {
-    //   host: string;
-    //   pathname: string;
-    //   query: Record<string, any>;
-    //   cookie: string;
-    //   cookies: {
-    //     get: (key: string) => string;
-    //   };
-    //   headers: IncomingHttpHeaders;
-    // };
-    // logger?: Logger;
-    // metrics?: Metrics;
+    request: new Request(context),
+    logger: context.logger,
+    metrics: context.metrics,
   };
 };
 
-export const createAfterMatchContext = (context: ModernServerContext) => {
+export const createAfterMatchContext = (
+  context: ModernServerContext,
+  entryName: string,
+): AfterMatchContext => {
   const baseContext = base(context);
   return {
     ...baseContext,
-    router: {
-      // redirect: ?
-    },
+    router: new RouteAPI(entryName),
   };
 };
 
-export const createAfterRenderContext = () => {};
+export const createAfterRenderContext = (
+  context: ModernServerContext,
+  content: string,
+): AfterRenderContext => {
+  const baseContext = base(context);
+  return {
+    ...baseContext,
+    template: new TemplateAPI(content),
+  };
+};
+
+export const createMiddlewareContext = (
+  context: ModernServerContext,
+): MiddlewareContext => {
+  const baseContext = base(context);
+  return {
+    ...baseContext,
+    response: {
+      ...baseContext.response,
+      locals: context.res.locals || {},
+    },
+    source: {
+      req: context.req,
+      res: context.res,
+    },
+  };
+};

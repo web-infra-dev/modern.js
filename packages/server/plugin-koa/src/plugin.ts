@@ -118,7 +118,10 @@ export default (): ServerPlugin => ({
         initMiddlewares(middleware, app);
       }
 
-      return (req, res) => {
+      return ctx => {
+        const {
+          source: { req, res },
+        } = ctx;
         app.on('error', err => {
           if (err) {
             throw err;

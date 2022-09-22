@@ -226,7 +226,10 @@ export default (): ServerPlugin => ({
 
       initEggConfig(app);
 
-      return (req, res) => {
+      return ctx => {
+        const {
+          source: { res, req },
+        } = ctx;
         app.on('error', err => {
           if (err) {
             throw err;

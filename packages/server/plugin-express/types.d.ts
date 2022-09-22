@@ -1,6 +1,6 @@
 /// <reference path="./dist/types/index.d.ts" />
 
-declare module '@modern-js/runtime/server' {
+declare module '@modern-js/runtime/express' {
   import { Request, Response, RequestHandler } from 'express';
 
   type ExpressOptions = {
@@ -17,6 +17,8 @@ declare module '@modern-js/runtime/server' {
   export function useContext(): Context;
 
   export function hook(attacher: ExpressAttacher): ExpressAttacher;
+
+  export type { RequestHandler };
 
   export * from '@modern-js/bff-core';
 }

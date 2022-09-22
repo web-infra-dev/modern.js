@@ -5,23 +5,31 @@ import { findExists } from './findExists';
  * @param filePath - File to required.
  * @returns module export object.
  */
-export const compatRequire = (filePath: string) => {
+export const compatRequire = (filePath: string, interop = true) => {
   const mod = require(filePath);
+  const rtnESMDefault = interop && mod?.__esModule;
 
-  return mod?.__esModule ? mod.default : mod;
+  return rtnESMDefault ? mod.default : mod;
 };
 
 export const requireExistModule = (
   filename: string,
-  extensions = ['.ts', '.js'],
+  opt?: {
+    extensions?: string[];
+    interop?: boolean;
+  },
 ) => {
-  const exist = findExists(extensions.map(ext => `${filename}${ext}`));
-
+  const final = {
+    extensions: ['.ts', '.js'],
+    interop: true,
+    ...opt,
+  };
+  const exist = findExists(final.extensions.map(ext => `${filename}${ext}`));
   if (!exist) {
     return null;
   }
 
-  return compatRequire(exist);
+  return compatRequire(exist, final.interop);
 };
 
 export const cleanRequireCache = (filelist: string[]) => {

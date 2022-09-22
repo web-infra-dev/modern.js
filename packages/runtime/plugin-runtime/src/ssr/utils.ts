@@ -56,5 +56,6 @@ export const mockResponse = () => {
     status() {
       console.info('status can only be used in the server side');
     },
+    locals: {},
   };
 };
