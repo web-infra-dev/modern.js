@@ -66,6 +66,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
 }
 
 export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
+  base: '/builder/',
   head: [
     ['link', { rel: 'icon', href: `https://modernjs.dev/img/favicon.ico` }],
     ['meta', { name: 'theme-color', content: '#5c6ac4' }],
