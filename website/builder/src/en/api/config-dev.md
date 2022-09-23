@@ -18,6 +18,10 @@ This section describes some dev configurations in Modern.js Builder.
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/dev/port.md)!!!
 
+## dev.progressBar
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/dev/progressBar.md)!!!
+
 ## dev.startUrl
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/dev/startUrl.md)!!!
