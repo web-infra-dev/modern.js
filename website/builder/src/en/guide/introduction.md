@@ -34,3 +34,13 @@ All the building abilities of Builder are implemented through plugins:
 - Some plugins are more complex and developed as independent npm packages, which can be optionally installed and registered.
 
 Builder supports custom plugins, allowing framework developers to implement customized build abilities.
+
+## Next Step
+
+You may want:
+
+<NextSteps>
+  <Step href="/guide/quick-start.html" title="Quick Start" description="Learn how to use Builder"/>
+  <Step href="/guide/features.html" title="All Features" description="Learn all features of Builder"/>
+  <Step href="/api" title="API Reference" description="View detailed API documentation"/>
+</NextSteps>
