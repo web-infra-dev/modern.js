@@ -66,6 +66,10 @@ This section describes some output related configurations in Modern.js Builder.
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/enableInlineStyles.md)!!!
 
+## output.externals
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/externals.md)!!!
+
 ## output.filename
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/filename.md)!!!
