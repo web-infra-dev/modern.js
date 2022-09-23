@@ -1,4 +1,4 @@
-import type { CopyPluginOptions } from '../thirdParty';
+import type { CopyPluginOptions, WebpackConfig } from '../thirdParty';
 
 export type DistPathConfig = {
   root?: string;
@@ -87,6 +87,8 @@ export type RemOptions = Partial<{
   pxtorem: PxToRemOptions;
 }>;
 
+export type ExternalsOptions = WebpackConfig['externals'];
+
 export interface OutputConfig {
   copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
   distPath?: DistPathConfig;
@@ -109,4 +111,5 @@ export interface OutputConfig {
   svgDefaultExport?: 'component' | 'url';
   assetsRetry?: AssetsRetryOptions;
   convertToRem?: boolean | RemOptions;
+  externals?: ExternalsOptions;
 }
