@@ -38,6 +38,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
           branch: gh-pages
-          folder: website/builder/.vuepress/dist
+          folder: website/builder/src/.vuepress/dist
           target-folder: builder
           clean: true
