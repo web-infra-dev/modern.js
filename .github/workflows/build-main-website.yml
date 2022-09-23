@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-website:
+  build-main-website:
     runs-on: macos-latest
     steps:
       - name: Checkout
