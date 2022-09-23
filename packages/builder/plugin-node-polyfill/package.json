@@ -14,11 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-<<<<<<< HEAD
   "version": "1.20.1",
-=======
-  "version": "1.19.0",
->>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",

@@ -8,11 +8,7 @@
 ```js
 export default {
   source: {
-<<<<<<< HEAD
     include: ['foo', /bar/],
-=======
-    include: ['foo',  /bar/],
->>>>>>> 1ee750da2 (feat: support `source.include` (#1823))
   },
 };
 ```

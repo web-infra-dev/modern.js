@@ -4,10 +4,7 @@ import {
   type PluginStore,
   type InspectConfigOptions,
   type CreateBuilderOptions,
-<<<<<<< HEAD
   deepFreezed,
-=======
->>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 } from '@modern-js/builder-shared';
 import { initPlugins } from './initPlugins';
 import { generateWebpackConfig } from './webpackConfig';

@@ -1,9 +1,5 @@
 import { describe, expect, test, it } from 'vitest';
-<<<<<<< HEAD
 import { mergeBuilderConfig } from '../src/mergeBuilderConfig';
-=======
-import { mergeBuilderConfig } from '../src/utils';
->>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 
 describe('mergeBuilderConfig', () => {
   it('should pick `false` to replace empty object', () => {

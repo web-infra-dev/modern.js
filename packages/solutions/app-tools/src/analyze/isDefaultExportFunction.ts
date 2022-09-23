@@ -40,6 +40,9 @@ export const isDefaultExportFunction = (file: string | false): boolean => {
   });
 
   let isExportFunction = false;
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
   traverse(ast, {
     ExportDefaultDeclaration: path => {
       const { declaration } = path.node;

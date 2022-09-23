@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import type { NodeEnv, BuilderTarget } from '@modern-js/builder-shared';
-=======
-import type { BuilderTarget } from '@modern-js/builder-shared';
->>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 import type { BuilderConfig } from './config';
 import type { WebpackChain, WebpackConfig } from './thirdParty';
 import type { Stats, MultiStats, Compiler, MultiCompiler } from 'webpack';

@@ -131,5 +131,15 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "liveServer.settings.port": 5501,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/node_modules": false
   }
 }

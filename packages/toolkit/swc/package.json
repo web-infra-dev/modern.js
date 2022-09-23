@@ -1,0 +1,37 @@
+{
+  "name": "@modern-js/plugin-swc",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "swc ./src -d dist",
+    "test": "vitest run",
+    "test:update": "SNAPSHOT_UPDATE=1 vitest watch",
+    "test:dev": "vitest"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./loader": "./dist/loader.js",
+    "./plugin": "./dist/plugin.js",
+    "./binding": "./dist/binding.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@modern-js/webpack-builder": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@swc/cli": "^0.1.57",
+    "@swc/core": "1.2.248",
+    "@types/webpack": "^5.28.0",
+    "magic-string": "^0.26.2",
+    "source-map": "^0.7.4",
+    "vite": "^3.0.9",
+    "vitest": "^0.22.0"
+  },
+  "dependencies": {
+    "@modern-js/utils": "workspace:*",
+    "webpack-merge": "5.8.0"
+  }
+}

@@ -1,9 +1,6 @@
 import {
   debug,
-<<<<<<< HEAD
   onExitProcess,
-=======
->>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
   createPublicContext,
   type PluginStore,
 } from '@modern-js/builder-shared';

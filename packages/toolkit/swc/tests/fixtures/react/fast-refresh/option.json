@@ -1,0 +1,12 @@
+{
+  "swc": {
+    "jsc": {
+      "transform": {
+        "react": {
+          "development": true,
+          "refresh": true
+        }
+      }
+    }
+  }
+}

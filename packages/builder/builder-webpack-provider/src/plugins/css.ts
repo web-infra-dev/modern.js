@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import { CSS_REGEX, type BuilderContext } from '@modern-js/builder-shared';
 import { getBrowserslistWithDefault } from '../shared';
-=======
-import { CSS_REGEX, getBrowserslistWithDefault } from '../shared';
-import type { BuilderContext } from '@modern-js/builder-shared';
->>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 import {
   BuilderConfig,
   BuilderPlugin,

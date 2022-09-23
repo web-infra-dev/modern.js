@@ -3,11 +3,7 @@ import type {
   PluginStore,
   BuilderPlugin as BaseBuilderPlugin,
 } from '@modern-js/builder-shared';
-<<<<<<< HEAD
 import type { BuilderConfig, NormalizedConfig } from './config';
-=======
-import type { BuilderConfig } from './config';
->>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 import type {
   OnExitFn,
   OnAfterBuildFn,

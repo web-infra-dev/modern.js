@@ -34,19 +34,11 @@ export function builderWebpackProvider({
         return createCompiler({ watch, context, webpackConfigs });
       },
 
-<<<<<<< HEAD
       async startDevServer(options) {
         const { startDevServer } = await import('./core/startDevServer');
         return startDevServer(
           { context, pluginStore, builderOptions },
           options,
-=======
-      async startDevServer({ compiler } = {}) {
-        const { startDevServer } = await import('./core/startDevServer');
-        return startDevServer(
-          { context, pluginStore, builderOptions },
-          compiler,
->>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
         );
       },
 

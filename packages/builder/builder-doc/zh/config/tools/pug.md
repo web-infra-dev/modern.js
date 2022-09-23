@@ -19,11 +19,7 @@ export default {
 
 ### Object 类型
 
-<<<<<<< HEAD
 当 `tools.terser` 的值为 `Object` 类型时，可以配置 Pug 模板引擎的选项：
-=======
-当 `tools.terser` 配置为 `Object` 类型时，可以配置 Pug 模板引擎的选项：
->>>>>>> cea2c4f65 (docs(builder): add terser/minifyCss/pug document (#1821))
 
 ```ts
 export default {
