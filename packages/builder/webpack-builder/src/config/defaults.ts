@@ -15,6 +15,7 @@ export const createDefaultConfig = (): BuilderConfig => ({
   dev: {
     hmr: true,
     assetPrefix: '/',
+    progressBar: true,
   },
   html: {
     crossorigin: false,
