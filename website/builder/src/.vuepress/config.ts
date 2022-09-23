@@ -66,6 +66,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
 }
 
 export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
+  base: '/builder/',
   head: [
     ['link', { rel: 'icon', href: `https://modernjs.dev/img/favicon.ico` }],
     ['meta', { name: 'theme-color', content: '#5c6ac4' }],
@@ -136,6 +137,13 @@ export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
   evergreen: true,
   markdown: {
     extractHeaders: ['h2', 'h3', 'h4'],
+  },
+  configureWebpack(config) {
+    // OptimizeCssAssetsWebpackPlugin will cause the build to fail,
+    // removed will not affect the build result
+    config.plugins = config.plugins.filter(
+      plugin => plugin.constructor.name !== 'OptimizeCssAssetsWebpackPlugin',
+    );
   },
   extendMarkdown: md => {
     md.use(markdownItInclude);
