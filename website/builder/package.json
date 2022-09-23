@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "vuepress dev src --temp .temp",
-    "build": "vuepress build src --temp .temp"
+    "build": "vuepress build src --temp .temp && cp ./src/.vuepress/index.html ./src/.vuepress/dist"
   },
   "devDependencies": {
     "@modern-js/builder-doc": "workspace:*",
