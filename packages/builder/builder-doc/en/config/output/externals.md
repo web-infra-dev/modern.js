@@ -1,4 +1,6 @@
-- **Type** : `string | object | function | RegExp | undefined`
+- Type: `string | object | function | RegExp`
+
+- Default: `undefined`
 
 At build time, prevent some `import` dependencies from being packed into bundles in your code, and instead fetch them externally at runtime.
 
