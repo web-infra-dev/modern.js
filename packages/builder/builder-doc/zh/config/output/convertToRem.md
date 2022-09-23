@@ -1,15 +1,13 @@
 - Type: `boolean | Object`
 - Default: `false`
 
-提供 REM 适配能力
-- 将 css 里的 px 转成 rem
+通过设置 `output.convertToRem`，Builder 可进行如下处理：
+- 将 css 中的 px 转成 rem
 - 在 html 模版中插入运行时代码，对根元素 fontSize 进行设置
-
-该能力默认关闭，可通过 `output.convertToRem` 配置项对该能力进行设置。
 
 #### Boolean 类型
 
-通过设置 `output.convertToRem` 为 `true`，Builder 会对 rem 进行处理。
+当设置 `output.convertToRem` 为 `true`，将开启 REM 处理能力。
 
 ```js
 export default {
@@ -19,7 +17,7 @@ export default {
 };
 ```
 
-此时，rem 配置默认如下： 
+此时，REM 配置默认如下： 
 
 ```js
 {
@@ -42,7 +40,7 @@ export default {
 
 #### Object 类型
 
-当 `output.convertToRem` 的值为 `Object` 类型时，Builder 会根据当前配置对 rem 进行处理。
+当 `output.convertToRem` 的值为 `Object` 类型时，Builder 会根据当前配置进行 REM 处理。
 
 配置项说明：
 
