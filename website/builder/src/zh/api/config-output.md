@@ -66,6 +66,10 @@
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/enableInlineStyles.md)!!!
 
+## output.externals
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/output/externals.md)!!!
+
 ## output.filename
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/filename.md)!!!
