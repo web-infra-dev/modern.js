@@ -4439,6 +4439,7 @@ importers:
       vuepress: 1.9.5
       vuepress-plugin-redirect: 1.2.5
       vuepress-theme-vt: 0.5.3
+      webpack: ^4
     devDependencies:
       '@modern-js/builder-doc': link:../../packages/builder/builder-doc
       '@vuepress/plugin-back-to-top': 1.9.5
@@ -4453,6 +4454,7 @@ importers:
       vuepress: 1.9.5_postcss@8.4.16
       vuepress-plugin-redirect: 1.2.5
       vuepress-theme-vt: 0.5.3_markdown-it@8.4.2
+      webpack: 4.46.0
 
   website/main:
     specifiers:
@@ -12983,6 +12985,8 @@ packages:
 
   /@xtuc/long/4.2.2:
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
+    dependencies:
+      esbuild: 0.13.15
 
   /Base64/1.1.0:
     resolution: {integrity: sha512-qeacf8dvGpf+XAT27ESHMh7z84uRzj/ua2pQdJg483m3bEXv/kVFtDnMgvf70BQGqzbZhR9t6BmASzKvqfJf3Q==}
@@ -17905,7 +17909,6 @@ packages:
     cpu: [arm64]
     os: [android]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-android-arm64/0.14.47:
@@ -17947,7 +17950,6 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-darwin-64/0.14.47:
@@ -17989,7 +17991,6 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-darwin-arm64/0.14.47:
@@ -18031,7 +18032,6 @@ packages:
     cpu: [x64]
     os: [freebsd]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-freebsd-64/0.14.47:
@@ -18073,7 +18073,6 @@ packages:
     cpu: [arm64]
     os: [freebsd]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-freebsd-arm64/0.14.47:
@@ -18115,7 +18114,6 @@ packages:
     cpu: [ia32]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-linux-32/0.14.47:
@@ -18157,7 +18155,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-linux-64/0.14.47:
@@ -18199,7 +18196,6 @@ packages:
     cpu: [arm]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-linux-arm/0.14.47:
@@ -18241,7 +18237,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-linux-arm64/0.14.47:
@@ -18283,7 +18278,6 @@ packages:
     cpu: [mips64el]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-linux-mips64le/0.14.47:
@@ -18325,7 +18319,6 @@ packages:
     cpu: [ppc64]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-linux-ppc64le/0.14.47:
@@ -18433,7 +18426,6 @@ packages:
     cpu: [x64]
     os: [netbsd]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-netbsd-64/0.14.47:
@@ -18475,7 +18467,6 @@ packages:
     cpu: [x64]
     os: [openbsd]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-openbsd-64/0.14.47:
@@ -18525,7 +18516,6 @@ packages:
     cpu: [x64]
     os: [sunos]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-sunos-64/0.14.47:
@@ -18567,7 +18557,6 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-windows-32/0.14.47:
@@ -18609,7 +18598,6 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-windows-64/0.14.47:
@@ -18651,7 +18639,6 @@ packages:
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
-    dev: false
     optional: true
 
   /esbuild-windows-arm64/0.14.47:
@@ -18710,7 +18697,6 @@ packages:
       esbuild-windows-32: 0.13.15
       esbuild-windows-64: 0.13.15
       esbuild-windows-arm64: 0.13.15
-    dev: false
 
   /esbuild/0.14.47:
     resolution: {integrity: sha512-wI4ZiIfFxpkuxB8ju4MHrGwGLyp1+awEHAHVpx6w7a+1pmYIq8T9FGEVVwFo0iFierDoMj++Xq69GXWYn2EiwA==}
@@ -32882,6 +32868,11 @@ packages:
       resolve: 1.22.1
       serialize-javascript: 6.0.0
       source-map: 0.5.6
+      webpack: 4.46.0
+    transitivePeerDependencies:
+      - supports-color
+      - webpack-cli
+      - webpack-command
     dev: true
 
   /vue-style-loader/4.1.3:

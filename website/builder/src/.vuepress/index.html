@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Modern.js Builder</title>
+  <link rel="icon" href="https://modernjs.dev/img/favicon.ico">
+  <meta name="description" content="">
+  <meta name="theme-color" content="#5c6ac4">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <script>
+    if (typeof window !== 'undefined' && window.navigator) {
+      var langs = window.navigator.languages || [window.navigator.language]
+      if (langs.some(function (lang) { return lang.includes('zh') })) {
+        window.location.href = '/builder/zh/';
+      } else {
+        window.location.href = '/builder/en/';
+      }
+    } else {
+      window.location.href = '/builder/zh/';
+    }
+  </script>
+</head>
+
+<body>
+  <!-- vuepress-plugin-redirect not work correctly in production -->
+  <!-- so we add this page ti redirect -->
+</body>
+
+</html>
