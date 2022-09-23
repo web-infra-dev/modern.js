@@ -47,12 +47,14 @@ export type AssetsRetryOptions = {
   onFail?: (options: AssetsRetryHookContext) => void;
 };
 
+/**
+ * postcss-pxtorem options
+ *
+ * https://github.com/cuth/postcss-pxtorem#options
+ */
 export type PxToRemOptions = Partial<{
-  /** 默认取 RemOptions['rootFontSize'] */
   rootValue: number;
-  /** 精确位数 */
   unitPrecision: number;
-  /** 支持转换的 css 属性，默认 ['*'] */
   propList: Array<string>;
   selectorBlackList: Array<string>;
   replace: boolean;
@@ -62,28 +64,24 @@ export type PxToRemOptions = Partial<{
 }>;
 
 export type RemOptions = Partial<{
-  /** runtime 选项 */
-  /** 是否在 html 模版中注入运行时代码。默认 true */
+  /** Runtime options */
+  /** Whether to inject runtime code into html templates。Default: true */
   enableRuntime: boolean;
+  /** Usually, `fontSize = (clientWidth * rootFontSize) / screenWidth` */
   screenWidth: number;
   rootFontSize: number;
   maxRootFontSize: number;
-  /** 根据 widthQueryKey 的值去 url query 里取屏幕的宽度 */
+  /** Get clientWidth from the url query based on widthQueryKey */
   widthQueryKey: string;
-  /** 不进行调整的 entry */
+  /** The entries to ignore */
   excludeEntries: Array<string>;
-  /** 横屏时使用 height 计算 rem。默认 false */
+  /** Use height to calculate rem in landscape。Default: false */
   supportLandscape: boolean;
   /**
-   * 超过 maxRootFontSize 时，是否使用 rootFontSize。
-   * 场景：rem 在 pc 上的尺寸计算正常
+   * Whether to use rootFontSize when large than maxRootFontSize （scene：pc）
    */
   useRootFontSizeBeyondMax: boolean;
-
-  /**
-   * css 选项
-   * 对应 https://github.com/cuth/postcss-pxtorem#options 选项
-   */
+  /** CSS (postcss-pxtorem) option */
   pxtorem: PxToRemOptions;
 }>;
 
