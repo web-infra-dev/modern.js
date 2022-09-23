@@ -3,19 +3,20 @@ import { getTemplatePath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
 import assert from 'assert';
 import { PathLike } from 'fs';
-import {
-  applyBasicPlugins,
-  applyDefaultPlugins,
-  applyMinimalPlugins,
-} from '../shared/plugin';
 import { URL } from 'url';
 import { webpackBuild } from '../core/build';
 import {
   createDefaultBuilderOptions,
   createPrimaryBuilder,
 } from '../core/createBuilder';
+import { createPrimaryContext } from '../core/createContext';
 import { Hooks } from '../core/createHook';
 import { matchLoader } from '../shared';
+import {
+  applyBasicPlugins,
+  applyDefaultPlugins,
+  applyMinimalPlugins,
+} from '../shared/plugin';
 import type {
   BuilderOptions,
   BuilderPlugin,
@@ -23,8 +24,7 @@ import type {
   PluginStore,
 } from '../types';
 import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
-import { globContentJSON, filenameToGlobExpr } from './utils';
-import { createPrimaryContext } from 'src/core/createContext';
+import { filenameToGlobExpr, globContentJSON } from './utils';
 
 export interface OptionsPluginsItem {
   builtin?: boolean | 'default' | 'minimal' | 'basic';
