@@ -110,6 +110,7 @@
     "postcss-media-minmax": "5.0.0",
     "postcss-nesting": "10.1.4",
     "postcss-page-break": "3.0.4",
+    "postcss-pxtorem": "6.0.0",
     "postcss-value-parser": "4.2.0",
     "pug": "3.0.2",
     "recursive-readdir": "2.2.2",

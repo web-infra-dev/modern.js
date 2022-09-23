@@ -1,4 +1,4 @@
-import type { BuilderPlugin, RemOptions } from '../types';
+import type { BuilderPlugin, RemOptions, PxToRemOptions } from '../types';
 import { mergeBuilderConfig } from '../shared/utils';
 
 const defaultOptions: RemOptions = {
@@ -22,7 +22,11 @@ export const PluginRem = (): BuilderPlugin => ({
     };
 
     api.modifyBuilderConfig(async config => {
-      const { default: PxToRemPlugin } = await import('postcss-pxtorem');
+      const { default: PxToRemPlugin } = (await import(
+        '../../compiled/postcss-pxtorem'
+      )) as {
+        default: (_opts: PxToRemOptions) => any;
+      };
 
       return mergeBuilderConfig(config, {
         tools: {
