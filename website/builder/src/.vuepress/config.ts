@@ -136,6 +136,13 @@ export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
   markdown: {
     extractHeaders: ['h2', 'h3', 'h4'],
   },
+  configureWebpack(config) {
+    // OptimizeCssAssetsWebpackPlugin will cause the build to fail,
+    // removed will not affect the build result
+    config.plugins = config.plugins.filter(
+      plugin => plugin.constructor.name !== 'OptimizeCssAssetsWebpackPlugin',
+    );
+  },
   extendMarkdown: md => {
     md.use(markdownItInclude);
   },
