@@ -149,6 +149,23 @@ export const PluginBabel = (): BuilderPlugin => ({
         .loader(getCompiledPath('babel-loader'))
         .options(babelOptions);
 
+      /**
+       * If a script is imported with data URI, it can be compiled by babel too.
+       * This is used by some frameworks to create virtual entry.
+       * https://webpack.js.org/api/module-methods/#import
+       * @example: import x from 'data:text/javascript,export default 1;';
+       */
+      if (config.source?.compileJsDataURI) {
+        chain.module
+          .rule(CHAIN_ID.RULE.JS_DATA_URI)
+          .mimetype({
+            or: ['text/javascript', 'application/javascript'],
+          })
+          .use(CHAIN_ID.USE.BABEL)
+          .loader(getCompiledPath('babel-loader'))
+          .options(babelOptions);
+      }
+
       addCoreJsEntry({ chain, config });
     });
   },

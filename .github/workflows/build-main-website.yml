@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-website:
+  build-main-website:
     runs-on: macos-latest
     steps:
       - name: Checkout
@@ -37,5 +37,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
           branch: gh-pages
-          folder: website/dist
+          folder: website/main/dist
           clean: true
+          clean-exclude: builder/**/*
