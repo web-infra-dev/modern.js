@@ -5,7 +5,7 @@ import type {
   WebpackConfig,
   HTMLPluginOptions,
   ToolsHtmlPluginConfig,
-  FinalConfig,
+  NormalizedConfig,
 } from '../types';
 
 // This is a minimist subset of modern.js server routes
@@ -16,7 +16,7 @@ type RoutesInfo = {
   entryPath: string;
 };
 
-async function getFilename(entryName: string, config: FinalConfig) {
+async function getFilename(entryName: string, config: NormalizedConfig) {
   const { removeLeadingSlash } = await import('@modern-js/utils');
   const htmlPath = getDistPath(config, 'html');
   const filename = config.html?.disableHtmlFolder
@@ -26,7 +26,7 @@ async function getFilename(entryName: string, config: FinalConfig) {
   return removeLeadingSlash(`${htmlPath}/${filename}`);
 }
 
-function getMinify(isProd: boolean, config: FinalConfig) {
+function getMinify(isProd: boolean, config: NormalizedConfig) {
   if (config.output?.disableMinimize || !isProd) {
     return false;
   }
@@ -43,22 +43,22 @@ function getMinify(isProd: boolean, config: FinalConfig) {
   };
 }
 
-function getTitle(entryName: string, config: FinalConfig) {
+function getTitle(entryName: string, config: NormalizedConfig) {
   const { title, titleByEntries } = config.html || {};
   return titleByEntries?.[entryName] || title || '';
 }
 
-function getInject(entryName: string, config: FinalConfig) {
+function getInject(entryName: string, config: NormalizedConfig) {
   const { inject, injectByEntries } = config.html || {};
   return injectByEntries?.[entryName] || inject || true;
 }
 
-function getFavicon(entryName: string, config: FinalConfig) {
+function getFavicon(entryName: string, config: NormalizedConfig) {
   const { favicon, faviconByEntries } = config.html || {};
   return faviconByEntries?.[entryName] || favicon;
 }
 
-async function getMetaTags(entryName: string, config: FinalConfig) {
+async function getMetaTags(entryName: string, config: NormalizedConfig) {
   const { generateMetaTags } = await import('@modern-js/utils');
   const { meta, metaByEntries } = config.html || {};
 
@@ -68,7 +68,7 @@ async function getMetaTags(entryName: string, config: FinalConfig) {
 
 async function getTemplateParameters(
   entryName: string,
-  config: FinalConfig,
+  config: NormalizedConfig,
   assetPrefix: string,
 ): Promise<HTMLPluginOptions['templateParameters']> {
   const { mountId, templateParameters, templateParametersByEntries } =

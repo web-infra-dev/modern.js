@@ -6,11 +6,11 @@ import type {
   Context,
   BuilderOptions,
   BuilderContext,
-  FinalConfig,
+  NormalizedConfig,
 } from '../types';
 import { processConfig } from '../config';
 
-export function getAbsoluteDistPath(cwd: string, config: FinalConfig) {
+export function getAbsoluteDistPath(cwd: string, config: NormalizedConfig) {
   const root = getDistPath(config, 'root');
   return isAbsolute(root) ? root : join(cwd, root);
 }

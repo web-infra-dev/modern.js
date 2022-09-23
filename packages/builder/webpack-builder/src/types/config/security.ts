@@ -4,4 +4,4 @@ export interface SecurityConfig {
   sri?: SubresourceIntegrityOptions | boolean;
 }
 
-export type FinalSecurityConfig = SecurityConfig;
+export type NormalizedSecurityConfig = SecurityConfig;

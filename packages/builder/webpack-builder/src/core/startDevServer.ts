@@ -1,9 +1,9 @@
 import { log, info, debug } from '../shared';
 import { createCompiler } from './createCompiler';
-import type { FinalConfig } from '../types';
+import type { NormalizedConfig } from '../types';
 import type { InitConfigsOptions } from './initConfigs';
 
-async function printURLs(config: FinalConfig, port: number) {
+async function printURLs(config: NormalizedConfig, port: number) {
   const { chalk, getAddressUrls } = await import('@modern-js/utils');
   const protocol = config.dev?.https ? 'https' : 'http';
   const urls = getAddressUrls(protocol, port);

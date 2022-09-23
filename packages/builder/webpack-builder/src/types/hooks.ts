@@ -1,5 +1,5 @@
 import type { BuilderTarget } from './builder';
-import type { FinalConfig } from './config';
+import type { NormalizedConfig } from './config';
 import type { webpack, WebpackChain, WebpackConfig } from './thirdParty';
 
 export type NodeEnv = 'development' | 'production' | 'test';
@@ -25,8 +25,8 @@ export type ModifyWebpackConfigFn = (
 ) => Promise<WebpackConfig | void> | WebpackConfig | void;
 
 export type ModifyBuilderConfigFn = (
-  config: FinalConfig,
-) => Promise<FinalConfig | void> | FinalConfig | void;
+  config: NormalizedConfig,
+) => Promise<NormalizedConfig | void> | NormalizedConfig | void;
 
 export type OnBeforeBuildFn = (params: {
   webpackConfigs: WebpackConfig[];

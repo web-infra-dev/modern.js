@@ -70,7 +70,7 @@ export interface OutputConfig {
   assetsRetry?: AssetsRetryOptions;
 }
 
-export interface FinalOutputConfig extends OutputConfig {
+export interface NormalizedOutputConfig extends OutputConfig {
   filename: FilenameConfig;
   distPath: DistPathConfig;
   polyfill: Polyfill;

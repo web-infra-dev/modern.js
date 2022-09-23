@@ -12,6 +12,6 @@ export interface SourceConfig {
   resolveExtensionPrefix?: string;
 }
 
-export interface FinalSourceConfig extends SourceConfig {
+export interface NormalizedSourceConfig extends SourceConfig {
   preEntry: string[];
 }

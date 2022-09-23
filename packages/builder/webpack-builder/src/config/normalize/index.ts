@@ -1,5 +1,5 @@
 import _ from '@modern-js/utils/lodash';
-import { BuilderConfig, FinalConfig } from '../../types';
+import { BuilderConfig, NormalizedConfig } from '../../types';
 import {
   ROOT_DIST_DIR,
   HTML_DIST_DIR,
@@ -12,11 +12,11 @@ import {
   mergeBuilderConfig,
 } from '../../shared';
 
-const createNormalizer = (normalizer: FinalConfig) => {
-  return (config: BuilderConfig): FinalConfig => {
-    return mergeBuilderConfig<FinalConfig>(
+const createNormalizer = (normalizer: NormalizedConfig) => {
+  return (config: BuilderConfig): NormalizedConfig => {
+    return mergeBuilderConfig<NormalizedConfig>(
       _.cloneDeep(normalizer),
-      config as FinalConfig,
+      config as NormalizedConfig,
     );
   };
 };

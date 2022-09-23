@@ -1,6 +1,6 @@
 import type { EntryObject } from 'webpack';
 import type { Hooks } from '../core/createHook';
-import type { BuilderConfig, FinalConfig } from './config';
+import type { BuilderConfig, NormalizedConfig } from './config';
 
 /** The public context */
 export type BuilderContext = {
@@ -34,5 +34,5 @@ export type Context = BuilderContext & {
   /** All hooks. */
   hooks: Readonly<Hooks>;
   /** Current builder config. */
-  config: Readonly<FinalConfig>;
+  config: Readonly<NormalizedConfig>;
 };

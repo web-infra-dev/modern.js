@@ -8,4 +8,4 @@ export interface DevConfig {
   startUrl?: boolean | string | string[];
 }
 
-export type FinalDevConfig = Required<DevConfig>;
+export type NormalizedDevConfig = Required<DevConfig>;

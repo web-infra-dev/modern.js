@@ -1,5 +1,9 @@
 import { join } from 'path';
-import type { FinalConfig, DistPathConfig, FilenameConfig } from '../types';
+import type {
+  NormalizedConfig,
+  DistPathConfig,
+  FilenameConfig,
+} from '../types';
 
 export async function isFileExists(file: string) {
   const { promises, constants } = await import('fs');
@@ -13,7 +17,7 @@ export const getCompiledPath = (packageName: string) =>
   join(__dirname, '../../compiled', packageName);
 
 export const getDistPath = (
-  config: FinalConfig,
+  config: NormalizedConfig,
   type: keyof DistPathConfig,
 ): string => {
   const { distPath } = config.output;
@@ -25,7 +29,7 @@ export const getDistPath = (
 };
 
 export const getFilename = (
-  config: FinalConfig,
+  config: NormalizedConfig,
   type: keyof FilenameConfig,
   isProd: boolean,
 ) => {

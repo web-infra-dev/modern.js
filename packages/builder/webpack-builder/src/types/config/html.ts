@@ -23,4 +23,4 @@ export interface HtmlConfig {
   >;
 }
 
-export type FinalHtmlConfig = HtmlConfig;
+export type NormalizedHtmlConfig = HtmlConfig;

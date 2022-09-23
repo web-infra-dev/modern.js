@@ -5,7 +5,7 @@ import _ from '@modern-js/utils/lodash';
 import type Buffer from 'buffer';
 import { DEFAULT_DATA_URL_SIZE } from './constants';
 import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
-import { FinalConfig, DataUriLimit } from '../types';
+import { NormalizedConfig, DataUriLimit } from '../types';
 
 export const JS_REGEX = /\.(js|mjs|cjs|jsx)$/;
 export const TS_REGEX = /\.(ts|mts|cts|tsx)$/;
@@ -59,7 +59,7 @@ export function getRegExpForExts(extensions: string[]): RegExp {
 }
 
 export const getDataUrlLimit = (
-  config: FinalConfig,
+  config: NormalizedConfig,
   type: keyof DataUriLimit,
 ) => {
   const { dataUriLimit = {} } = config.output || {};
@@ -83,7 +83,7 @@ export const getDataUrlLimit = (
 };
 
 export function getDataUrlCondition(
-  config: FinalConfig,
+  config: NormalizedConfig,
   type: keyof DataUriLimit,
 ) {
   return (source: Buffer, { filename }: { filename: string }): boolean => {

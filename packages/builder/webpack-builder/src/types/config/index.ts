@@ -1,11 +1,17 @@
-import type { DevConfig, FinalDevConfig } from './dev';
-import type { HtmlConfig, FinalHtmlConfig } from './html';
-import type { ToolsConfig, FinalToolsConfig } from './tools';
-import type { SourceConfig, FinalSourceConfig } from './source';
-import type { FinalOutputConfig, OutputConfig } from './output';
-import type { SecurityConfig, FinalSecurityConfig } from './security';
-import type { PerformanceConfig, FinalPerformanceConfig } from './performance';
-import type { ExperimentsConfig, FinalExperimentsConfig } from './experiments';
+import type { DevConfig, NormalizedDevConfig } from './dev';
+import type { HtmlConfig, NormalizedHtmlConfig } from './html';
+import type { ToolsConfig, NormalizedToolsConfig } from './tools';
+import type { SourceConfig, NormalizedSourceConfig } from './source';
+import type { NormalizedOutputConfig, OutputConfig } from './output';
+import type { SecurityConfig, NormalizedSecurityConfig } from './security';
+import type {
+  PerformanceConfig,
+  NormalizedPerformanceConfig,
+} from './performance';
+import type {
+  ExperimentsConfig,
+  NormalizedExperimentsConfig,
+} from './experiments';
 
 export interface BuilderConfig {
   dev?: DevConfig;
@@ -18,15 +24,15 @@ export interface BuilderConfig {
   experiments?: ExperimentsConfig;
 }
 
-export interface FinalConfig extends Required<BuilderConfig> {
-  dev: FinalDevConfig;
-  html: FinalHtmlConfig;
-  tools: FinalToolsConfig;
-  source: FinalSourceConfig;
-  output: FinalOutputConfig;
-  security: FinalSecurityConfig;
-  performance: FinalPerformanceConfig;
-  experiments: FinalExperimentsConfig;
+export interface NormalizedConfig extends Required<BuilderConfig> {
+  dev: NormalizedDevConfig;
+  html: NormalizedHtmlConfig;
+  tools: NormalizedToolsConfig;
+  source: NormalizedSourceConfig;
+  output: NormalizedOutputConfig;
+  security: NormalizedSecurityConfig;
+  performance: NormalizedPerformanceConfig;
+  experiments: NormalizedExperimentsConfig;
 }
 
 /* eslint-disable @typescript-eslint/no-restricted-imports */

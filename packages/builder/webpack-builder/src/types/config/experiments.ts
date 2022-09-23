@@ -1,4 +1,4 @@
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ExperimentsConfig {}
 
-export type FinalExperimentsConfig = Required<ExperimentsConfig>;
+export type NormalizedExperimentsConfig = Required<ExperimentsConfig>;

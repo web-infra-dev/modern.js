@@ -117,7 +117,7 @@ export interface ToolsConfig {
   inspector?: false | ToolsInspectorPluginOptions;
 }
 
-export interface FinalToolsConfig extends ToolsConfig {
+export interface NormalizedToolsConfig extends ToolsConfig {
   babel: BabelTransformOptions;
   devServer: DevServerOptions;
 }

@@ -1,6 +1,6 @@
 import { ConfigValidator } from './validate';
 import { normalizeConfig } from './normalize';
-import { BuilderConfig, FinalConfig } from '../types';
+import { BuilderConfig, NormalizedConfig } from '../types';
 
 export interface ProcessConfigOptions {
   validate?: boolean;
@@ -9,7 +9,7 @@ export interface ProcessConfigOptions {
 export const processConfig = async (
   config: BuilderConfig,
   options?: ProcessConfigOptions,
-): Promise<FinalConfig> => {
+): Promise<NormalizedConfig> => {
   if (options?.validate !== false) {
     const validator = await ConfigValidator.create();
     await validator.validate(config, false);

@@ -1,6 +1,6 @@
 import { getDistPath, getFilename, DEFAULT_PORT } from '../shared';
 import type {
-  FinalConfig,
+  NormalizedConfig,
   BuilderContext,
   BuilderPlugin,
   MiniCSSExtractPluginOptions,
@@ -11,7 +11,7 @@ function getPublicPath({
   isProd,
   context,
 }: {
-  config: FinalConfig;
+  config: NormalizedConfig;
   isProd: boolean;
   context: BuilderContext;
 }) {
