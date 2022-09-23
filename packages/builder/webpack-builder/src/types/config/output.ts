@@ -68,6 +68,7 @@ export type RemOptions = Partial<{
   screenWidth: number;
   rootFontSize: number;
   maxRootFontSize: number;
+  /** 根据 widthQueryKey 的值去 url query 里取屏幕的宽度 */
   widthQueryKey: string;
   /** 不进行调整的 entry */
   excludeEntries: Array<string>;

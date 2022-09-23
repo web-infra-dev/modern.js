@@ -1,7 +1,7 @@
-import type { BuilderPlugin } from '../types';
+import type { BuilderPlugin, RemOptions } from '../types';
 import { mergeBuilderConfig } from '../shared/utils';
 
-const defaultOptions = {
+const defaultOptions: RemOptions = {
   enableRuntime: true,
   rootFontSize: 50,
 };

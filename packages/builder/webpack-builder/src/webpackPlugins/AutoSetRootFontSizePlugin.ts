@@ -1,12 +1,15 @@
-import { chalk } from '@modern-js/utils';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import type { Compiler, WebpackPluginInstance } from 'webpack';
-import { RemOptions } from '../types/config/rem';
+import { error } from '../shared';
+import type { RemOptions } from '../types';
 
 type AutoSetRootFontSizeOptions = Omit<
   RemOptions,
   'pxtorem' | 'enableRuntime'
-> & { rootFontSizeVariableName: string };
+> & {
+  /** expose root font size to global */
+  rootFontSizeVariableName: string;
+};
 
 export async function getRootPixelCode(
   options: Required<AutoSetRootFontSizeOptions>,
@@ -34,41 +37,25 @@ export async function getRootPixelCode(
   return `<script type="text/javascript">${minifiedRuntimeCode}</script>`;
 }
 
-export const DEFAULT_OPTIONS = {
-  // for iPhone 6
+export const DEFAULT_OPTIONS: Required<AutoSetRootFontSizeOptions> = {
   screenWidth: 375,
-
-  // root font size
   rootFontSize: 50,
-
-  // maximum value of root font size
   maxRootFontSize: 64,
-
-  // 根据 widthQueryKey 的值去 url query 里取屏幕的宽度
   widthQueryKey: '',
-
-  // we will expose root font size to global, this is the variable name
   rootFontSizeVariableName: 'ROOT_FONT_SIZE',
-
-  // 不进行调整的entry
   excludeEntries: [],
-
-  // 横屏时使用 height 计算 rem
   supportLandscape: false,
-
-  // 超过 maxRootFontSize 时，是否使用 rootFontSize。场景：rem 在 pc 上的尺寸计算正常
   useRootFontSizeBeyondMax: false,
 };
 
 export class AutoSetRootFontSizePlugin implements WebpackPluginInstance {
-  readonly name: string;
+  readonly name: string = 'AutoSetRootFontSizePlugin';
 
   options: Required<AutoSetRootFontSizeOptions>;
 
   webpackEntries: Array<string>;
 
   constructor(options: RemOptions, entries: Array<string>) {
-    this.name = 'AutoSetRootFontSizePlugin';
     this.options = { ...DEFAULT_OPTIONS, ...(options || {}) };
     this.webpackEntries = entries;
   }
@@ -84,7 +71,7 @@ export class AutoSetRootFontSizePlugin implements WebpackPluginInstance {
         (htmlPluginData, callback) => {
           const isExclude = this.options.excludeEntries.find((item: string) => {
             if (!this.webpackEntries.includes(item)) {
-              console.error(chalk.red(`Can't find the entryName: ${item}`));
+              error(`Can't find the entryName: ${item}`);
               return false;
             }
             const reg = new RegExp(
