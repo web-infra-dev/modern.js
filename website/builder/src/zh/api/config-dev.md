@@ -18,6 +18,10 @@
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/dev/port.md)!!!
 
+## dev.progressBar
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/dev/progressBar.md)!!!
+
 ## dev.startUrl
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/dev/startUrl.md)!!!
