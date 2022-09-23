@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
 import {
-  Route,
   createBrowserRouter,
   createHashRouter,
   RouterProvider,
-  createRoutesFromElements,
+  Outlet,
 } from 'react-router-dom';
 import type { RouteProps } from 'react-router-dom';
 import { StaticRouter } from 'react-router-dom/server';
@@ -13,6 +12,7 @@ import { RuntimeReactContext, ServerRouterContext } from '../../core';
 import type { Plugin } from '../../core';
 import { isBrowser } from '../../common';
 import { renderRoutes, getLocation, urlJoin } from './utils';
+import RootBoundary from './RootBoundary';
 
 declare global {
   interface Window {
@@ -72,12 +72,19 @@ export const routerPlugin = ({
                 select(location.pathname);
 
               // https://reactrouter.com/en/main/utils/create-routes-from-elements
-              const routerElement = (props: any) =>
-                createRoutesFromElements(
-                  <Route path="/" element={<App {...props} />}>
-                    {routesConfig ? renderRoutes(routesConfig, props) : null}
-                  </Route>,
-                );
+              const routerElement = (props: any) => [
+                {
+                  path: '/*',
+                  element: (
+                    <>
+                      <App {...props} />
+                      <Outlet />
+                    </>
+                  ),
+                  errorElement: <RootBoundary />,
+                  children: renderRoutes(routesConfig),
+                },
+              ];
 
               const routerConfig = {
                 basename: baseUrl,
@@ -98,6 +105,7 @@ export const routerPlugin = ({
               const request = ssrContext?.request;
               const baseUrl = request?.baseUrl as string;
               const basename = baseUrl === '/' ? urlJoin(baseUrl) : baseUrl;
+              // TODO ssr router needs update https://reactrouter.com/en/main/guides/ssr
               return (
                 <ServerRouterContext.Provider value={routerContext}>
                   <StaticRouter
@@ -105,7 +113,7 @@ export const routerPlugin = ({
                     location={location}
                   >
                     <App {...props}>
-                      {routesConfig ? renderRoutes(routesConfig, props) : null}
+                      {/* {routesConfig ? renderRoutes(routesConfig, props) : null} */}
                     </App>
                   </StaticRouter>
                 </ServerRouterContext.Provider>

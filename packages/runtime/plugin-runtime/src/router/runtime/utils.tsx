@@ -1,63 +1,29 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
-import { Route, matchPath, useLocation } from 'react-router-dom';
-import { DefaultNotFound } from './DefaultNotFound';
 import { RouterConfig } from './plugin';
+
+const Layout = ({ GlobalLayout, Component, ...props }: any) => {
+  return GlobalLayout ? (
+    <GlobalLayout Component={Component} {...props} />
+  ) : (
+    <Component {...props} />
+  );
+};
 
 export function renderRoutes(
   routesConfig: RouterConfig['routesConfig'],
   extraProps: any = {},
 ) {
-  const Layout = ({ Component, ...props }: any) => {
-    const GlobalLayout = routesConfig?.globalApp;
-
-    if (!GlobalLayout) {
-      return <Component {...props} />;
-    }
-
-    return <GlobalLayout Component={Component} {...props} />;
-  };
-
-  const findMatchedRoute = (pathname: string) =>
-    routesConfig?.routes?.find(route => {
-      // https://reactrouter.com/en/main/utils/match-path
-      const info = matchPath(
-        {
-          path: route.path as string,
-          caseSensitive: route.caseSensitive,
-        },
-        pathname,
-      );
-
-      return Boolean(info);
-    });
-
-  return (
-    <Route
-      path="/"
-      element={() => {
-        const location = useLocation();
-        const matchedRoute = findMatchedRoute(location.pathname);
-
-        if (!matchedRoute) {
-          return <DefaultNotFound />;
-        }
-        return (
-          <Route
-            path={matchedRoute.path as string}
-            caseSensitive={matchedRoute.caseSensitive}
-            element={(routeProps: any) => (
-              <Layout
-                Component={matchedRoute.component}
-                {...routeProps}
-                {...extraProps}
-              />
-            )}
-          />
-        );
-      }}
-    />
-  );
+  return routesConfig?.routes?.map(item => ({
+    path: item.path?.startsWith('/') ? item.path.substring(1) : item.path, // legacy: '/about' -> 'about'
+    element: (
+      <Layout
+        GlobalLayout={routesConfig.globalApp}
+        Component={item.component}
+        {...extraProps}
+      />
+    ),
+  }));
 }
 
 export function getLocation(serverContext: any): string {
