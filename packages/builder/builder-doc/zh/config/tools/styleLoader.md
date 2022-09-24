@@ -1,4 +1,4 @@
-- Type: `Object` | `Function`
+- Type: `Object | Function`
 - Default: `undefined`
 
 通过 `tools.styleLoader` 可以设置 [style-loader](https://github.com/webpack-contrib/style-loader) 的配置项，默认的配置为一个空对象。
