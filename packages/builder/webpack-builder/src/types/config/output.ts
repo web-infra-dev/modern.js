@@ -56,6 +56,7 @@ export interface OutputConfig {
   polyfill?: Polyfill;
   assetPrefix?: string;
   dataUriLimit?: number | DataUriLimit;
+  legalComments?: 'none' | 'inline' | 'linked';
   cleanDistPath?: boolean;
   disableMinimize?: boolean;
   disableSourceMap?: boolean;
