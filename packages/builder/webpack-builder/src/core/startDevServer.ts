@@ -1,7 +1,7 @@
 import { log, info, debug } from '../shared';
-import { createCompiler } from './createCompiler';
+import { createWatchCompiler } from './createCompiler';
 import type { BuilderConfig } from '../types';
-import type { InitConfigsOptions } from './initConfigs';
+import { initConfigs, InitConfigsOptions } from './initConfigs';
 
 async function printURLs(config: BuilderConfig, port: number) {
   const { chalk, getAddressUrls } = await import('@modern-js/utils');
@@ -23,7 +23,9 @@ async function printURLs(config: BuilderConfig, port: number) {
 async function createDevServer(options: InitConfigsOptions, port: number) {
   const { Server } = await import('@modern-js/server');
   const { applyOptionsChain } = await import('@modern-js/utils');
-  const compiler = await createCompiler(options);
+
+  const { webpackConfigs } = await initConfigs(options);
+  const compiler = await createWatchCompiler(options.context, webpackConfigs);
 
   debug('create dev server');
 
