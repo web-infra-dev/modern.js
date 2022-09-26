@@ -1,4 +1,4 @@
-- Type: `Object` | `Function` | `undefined`
+- Type: `Object | Function | undefined`
 - Default: `undefined`
 
 You can enable or configure the [Webpack Inspector](https://github.com/modern-js-dev/webpack-inspector) through `tools.inspector`.
