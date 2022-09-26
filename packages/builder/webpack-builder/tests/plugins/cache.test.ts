@@ -35,4 +35,25 @@ describe('plugins/cache', () => {
     const config = await builder.unwrapWebpackConfig();
     expect(config).toMatchSnapshot();
   });
+
+  it('should custom cache directory by user', async () => {
+    const customCacheDirectory = './node_modules/.cache/tmp';
+    const builder = await createStubBuilder({
+      plugins: [PluginCache()],
+      context: {
+        config: {
+          performance: {
+            buildCache: {
+              cacheDirectory: customCacheDirectory,
+            },
+          },
+        },
+      } as any,
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+    expect((config.cache as { cacheDirectory?: string }).cacheDirectory).toBe(
+      customCacheDirectory,
+    );
+  });
 });

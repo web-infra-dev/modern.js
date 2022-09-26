@@ -41,6 +41,7 @@ export const createDefaultConfig = (): BuilderConfig => ({
     },
     polyfill: 'entry',
     dataUriLimit: {},
+    legalComments: 'linked',
     cleanDistPath: true,
     svgDefaultExport: 'url',
     disableMinimize: false,
