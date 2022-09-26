@@ -1,9 +1,8 @@
 ---
+title: tools.minifyCss
+
 sidebar_label: minifyCss
 ---
-
-# tools.minifyCss
-
 
 
 - 类型： `Object | Function`
