@@ -19,7 +19,7 @@ export const showMenu = async (
   const question = [
     {
       name: 'choiceDevTool',
-      message: menuTitle('Select the debug mode:'),
+      message: menuTitle('选择调试工具'),
       type: 'list',
       choices,
     },
@@ -27,7 +27,7 @@ export const showMenu = async (
 
   const newQuestion = await runner.beforeDevMenu(question);
   const result: { choiceDevTool: string } = await inquirer.prompt(
-    newQuestion ?? question,
+    newQuestion.length !== 0 ? newQuestion : question,
   );
   await runner.afterDevMenu({ result, devTools: metas });
 
@@ -60,9 +60,9 @@ export const dev = async (
   if (metas.length === 1) {
     console.info(
       chalk.rgb(...purple)(
-        `当前检测到仅有一个调试工具可用，直接运行 ${
+        `当前检测到仅有一个调试工具可用，直接运行 [${
           metas[0].menuItem?.name ?? metas[0].name
-        }`,
+        }]`,
       ),
     );
     const meta = metas[0];
