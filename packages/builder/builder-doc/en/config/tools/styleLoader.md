@@ -1,4 +1,4 @@
-- Type: `Object` | `Function`
+- Type: `Object | Function`
 - Default: `undefined`
 
 The config of [style-loader](https://github.com/webpack-contrib/style-loader) can be set through `tools.styleLoader`. The default config is an empty object.
