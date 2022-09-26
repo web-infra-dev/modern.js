@@ -62,6 +62,9 @@ export const handleTemplateFile = async (
       .filter(
         dep => dep.startsWith('@modern-js') || dep.startsWith('@modern-js-app'),
       )
+      .filter(dep => !dep.includes('electron'))
+      .filter(dep => !dep.includes('codesmith') && !dep.includes('easy-form'))
+      .filter(dep => !dep.startsWith('@modern-js-reduck'))
       .every(dep => deps[dep] === modernVersion)
   ) {
     generator.logger.info(
