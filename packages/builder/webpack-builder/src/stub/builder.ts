@@ -128,10 +128,7 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   const build = _.memoize(async () => {
     const { build: buildImpl, webpackBuild } = await import('../core/build');
     const executeBuild = options?.webpack ? webpackBuild : undefined;
-    await buildImpl(
-      { context, pluginStore, builderOptions },
-      { executer: executeBuild },
-    );
+    await buildImpl({ context, pluginStore, builderOptions }, {}, executeBuild);
     return { resolvedHooks: { ...resolvedHooks } };
   });
 

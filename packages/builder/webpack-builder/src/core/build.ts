@@ -12,7 +12,6 @@ export type BuildExecuter = (
 export type BuildOptions = {
   mode?: 'development' | 'production';
   watch?: boolean;
-  executer?: BuildExecuter;
 };
 
 export const webpackBuild = async (
@@ -57,7 +56,8 @@ export const webpackBuild = async (
 
 export const build = async (
   initOptions: InitConfigsOptions,
-  { mode = 'production', watch, executer }: BuildOptions = {},
+  { mode = 'production', watch }: BuildOptions = {},
+  executer?: BuildExecuter,
 ) => {
   if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = mode;
