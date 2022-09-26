@@ -34,3 +34,13 @@ Builder 所有的构建能力都通过插件来实现：
 - 少部分插件较为复杂，被外置为独立 npm 包，可以按需进行安装和注册。
 
 Builder 支持自定义插件，使框架开发者可以实现定制化的构建需求。
+
+## 下一步
+
+你可能想要：
+
+<NextSteps>
+  <Step href="/guide/quick-start.html" title="快速上手" description="了解如何使用 Builder"/>
+  <Step href="/guide/features.html" title="功能导航" description="了解 Builder 提供的所有功能"/>
+  <Step href="/api" title="查阅 API" description="查看详细的 API 文档"/>
+</NextSteps>

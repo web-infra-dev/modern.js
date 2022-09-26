@@ -125,4 +125,20 @@ describe('plugins/html', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should allow to disable html plugin', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginEntry(), PluginHtml()],
+      entry: {
+        main: './src/main.ts',
+      },
+      builderConfig: {
+        tools: {
+          htmlPlugin: false,
+        },
+      },
+    });
+
+    expect(await builder.matchWebpackPlugin('HtmlWebpackPlugin')).toBeFalsy();
+  });
 });

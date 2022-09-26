@@ -22,6 +22,7 @@ export type BundleOptions = {
   minify?: SpeedyConfig['minify'];
   externals?: SpeedyConfig['external'];
   skipDeps?: boolean;
+  getModuleId?: SpeedyConfig['getModuleId'];
 };
 
 export type BundlelessOptions = {

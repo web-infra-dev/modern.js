@@ -1,4 +1,4 @@
-import type { CopyPluginOptions } from '../thirdParty';
+import type { CopyPluginOptions, WebpackConfig } from '../thirdParty';
 
 export type DistPathConfig = {
   root?: string;
@@ -47,6 +47,8 @@ export type AssetsRetryOptions = {
   onFail?: (options: AssetsRetryHookContext) => void;
 };
 
+export type ExternalsOptions = WebpackConfig['externals'];
+
 export interface OutputConfig {
   copy?: CopyPluginOptions | CopyPluginOptions['patterns'];
   distPath?: DistPathConfig;
@@ -68,4 +70,5 @@ export interface OutputConfig {
   overrideBrowserslist?: string[];
   svgDefaultExport?: 'component' | 'url';
   assetsRetry?: AssetsRetryOptions;
+  externals?: ExternalsOptions;
 }
