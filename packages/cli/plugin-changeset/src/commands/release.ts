@@ -39,7 +39,7 @@ export async function release(options: ReleaseOptions) {
 
   params.push('-r');
   params.push('--filter');
-  params.push('{./packages}');
+  params.push('{./packages/**}');
   params.push('--report-summary');
 
   if (ignoreScripts) {
