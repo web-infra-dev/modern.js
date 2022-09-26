@@ -44,17 +44,17 @@ When the value of `output.convertToRem` is `Object` type, The Builder will perfo
 
 options:
 
-| Property                   | Description                                                    | Default                                                       |
-| ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| enableRuntime            | Whether to inject runtime code into html templates  | `true`                                                         |
-| rootFontSize             | The root element font size                                                 | `50`                                                           |
-| maxRootFontSize          | The root element max font size                                             | `64`                                                           |
-| widthQueryKey            | Get clientWidth from the url query based on widthQueryKey（The default is to get it from the Document of the current page） | `'' `                                                          |
-| screenWidth              | The screen width（Usually, `fontSize = (clientWidth * rootFontSize) / screenWidth`）                              | `375`                                                          |
-| excludeEntries           | The entries to ignore                                         | `[]`                                                           |
-| supportLandscape         | Use height to calculate rem in landscape                                  | `false`                                                        |
-| useRootFontSizeBeyondMax | Whether to use rootFontSize when large than maxRootFontSize | `false`                                                        |
-| pxtorem                  | [postcss-pxtorem](https://github.com/cuth/postcss-pxtorem#options) options | <ul><li>rootValue (Default is the same as rootFontSize) </li><li>unitPrecision: 5 </li><li>propList: ['*']</li></ul> |
+| Name                   | Type                                  | Default                                                       | Description                                                    |
+| ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| enableRuntime            | `{Boolean}` | `true`                                                         | Whether to inject runtime code into html templates  |
+| rootFontSize             | `{Number}`                                     | `50`                                                           | The root element font size                                                 |
+| maxRootFontSize          | `{Number}`                                   | `64`                                                           | The root element max font size                                             |
+| widthQueryKey            | `{String}` | `'' `                                                          | Get clientWidth from the url query based on widthQueryKey（The default is to get it from the Document of the current page） |
+| screenWidth              | `{Number}`                    | `375`                                                          | The screen width（Usually, `fontSize = (clientWidth * rootFontSize) / screenWidth`）                              |
+| excludeEntries           | `{Array}`                           | `[]`                                                           | The entries to ignore                                         |
+| supportLandscape         | `{Boolean}`                       | `false`                                                        | Use height to calculate rem in landscape                                  |
+| useRootFontSizeBeyondMax | `{Boolean}` | `false`                                                        | Whether to use rootFontSize when large than maxRootFontSize |
+| pxtorem                  | `{Object}` | <ul><li>rootValue (Default is the same as rootFontSize) </li><li>unitPrecision: 5 </li><li>propList: ['*']</li></ul> | [postcss-pxtorem](https://github.com/cuth/postcss-pxtorem#options) options |
 
 
 #### Example
@@ -64,6 +64,7 @@ export default {
   output: {
     convertToRem: {
       rootFontSize: 30,
+      excludeEntries: ['404', 'page2'],
       pxtorem: {
         propList: ['font-size'],
       },
