@@ -1,8 +1,8 @@
 ---
+title: tools.webpackChain
+
 sidebar_label: webpackChain
 ---
-
-# tools.webpackChain
 
 - 类型： `(chain, { env, name, webpack, CHAIN_ID }) => void`
 - 默认值： `undefined`

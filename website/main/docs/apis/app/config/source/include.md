@@ -1,9 +1,8 @@
 ---
+title: source.include
 sidebar_label: include
 sidebar_position: 5
 ---
-
-# source.include
 
 - 类型： `Array<string | RegExp>`
 - 默认值： `[]`

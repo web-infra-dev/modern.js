@@ -180,6 +180,10 @@ module.exports = {
             to: '/docs/apis/generator/overview', // string
             from: '/docs/apis/generator',
           },
+          {
+            to: '/docs/apis/runtime/overview', // string
+            from: '/docs/apis/runtime',
+          },
           // Make sure the previous links are accessible properly
           {
             to: '/docs/apis/app/overview', // string
