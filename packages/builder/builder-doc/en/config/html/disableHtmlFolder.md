@@ -14,11 +14,11 @@ By default, the structure of HTML files in the `dist` directory is:
         └── index.html
 ```
 
-Enable the `output.disableHtmlFolder` config:
+Enable the `html.disableHtmlFolder` config:
 
 ```js
 export default {
-  output: {
+  html: {
     disableHtmlFolder: true,
   },
 };

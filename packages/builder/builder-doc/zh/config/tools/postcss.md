@@ -1,5 +1,5 @@
-- 类型： `Object` | `Function`
-- 默认值：
+- Type: `Object | Function`
+- Default:
 
 ```js
 const defaultOptions = {
