@@ -35,7 +35,7 @@ jobs:
         run: pnpm install --ignore-scripts
 
       - name: Prepare
-        run: pnpm run prepare --filter ./packages
+        run: pnpm run --filter "./packages/**" prepare
 
       - name: Install Puppeteer
         run: cd ./tests/node_modules/puppeteer && npm run install && cd ../..

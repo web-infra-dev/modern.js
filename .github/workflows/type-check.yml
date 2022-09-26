@@ -48,4 +48,4 @@ jobs:
 
       - name: Type Check
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm run prepare --filter ./packages
+        run: pnpm run --filter "./packages/**" prepare
