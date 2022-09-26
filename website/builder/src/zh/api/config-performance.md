@@ -2,13 +2,13 @@
 
 本章节描述了 Builder 中与产物性能有关的配置。
 
+## performance.buildCache
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/performance/buildCache.md)!!!
+
 ## performance.bundleAnalyze
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/performance/bundleAnalyze.md)!!!
-
-## performance.cache
-
-!!!include(node_modules/@modern-js/builder-doc/zh/config/performance/cache.md)!!!
 
 ## performance.chunkSplit
 

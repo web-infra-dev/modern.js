@@ -1,7 +1,7 @@
 - **Type**
 
 ```ts
-type CacheConfig = {
+type BuildCacheConfig = {
   /**
    * webpack 文件缓存系统的缓存目录
    */
@@ -12,7 +12,7 @@ type CacheConfig = {
 - **Deafult**:
 
 ```js
-const defaultCacheConfig = {
+const defaultBuildCacheConfig = {
   cacheDirectory: './node_modules/.cache/webapck',
 };
 ```
@@ -21,12 +21,12 @@ const defaultCacheConfig = {
 
 默认情况下，webpack-builder 会将目录 `./node_modules/.cache/webpack` 作为打包的缓存目录。
 
-你也可以通过 `cache` 配置缓存路径，比如：
+你也可以通过 `buildCache` 配置缓存路径，比如：
 
 ```js
 export default {
   performance: {
-    cache: {
+    buildCache: {
       cacheDirectory: './node_modules/.custom_cache/webpack',
     },
   },

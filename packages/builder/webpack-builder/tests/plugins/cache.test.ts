@@ -43,7 +43,7 @@ describe('plugins/cache', () => {
       context: {
         config: {
           performance: {
-            cache: {
+            buildCache: {
               cacheDirectory: customCacheDirectory,
             },
           },
