@@ -117,10 +117,8 @@ export const PluginMinimize = (): BuilderPlugin => ({
       chain.optimization.minimize(isMinimize);
 
       if (isMinimize) {
-        await Promise.all([
-          applyJSMinimizer(chain, config),
-          applyCSSMinimizer(chain, config),
-        ]);
+        await applyJSMinimizer(chain, config);
+        await applyCSSMinimizer(chain, config);
       }
     });
   },
