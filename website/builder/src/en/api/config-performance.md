@@ -6,6 +6,10 @@ This section describes some performance related configurations in Modern.js Buil
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/performance/bundleAnalyze.md)!!!
 
+## performance.cache
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/performance/cache.md)!!!
+
 ## performance.chunkSplit
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/performance/chunkSplit.md)!!!

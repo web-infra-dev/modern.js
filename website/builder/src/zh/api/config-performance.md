@@ -6,6 +6,10 @@
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/performance/bundleAnalyze.md)!!!
 
+## performance.cache
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/performance/cache.md)!!!
+
 ## performance.chunkSplit
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/performance/chunkSplit.md)!!!
