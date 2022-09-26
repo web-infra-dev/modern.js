@@ -26,13 +26,13 @@ export default (): CliPlugin<ModuleToolsHooks> => ({
       return {
         name: 'storybook',
         menuItem: {
-          name: 'Storybook 调试',
+          name: 'Storybook',
           value: 'storybook',
         },
         subCommands: ['storybook', 'story'],
         async action(_, context) {
           const { runDev } = await import('./features');
-          runDev(api, {
+          await runDev(api, {
             isTsProject: context.isTsProject,
             stories: defaultStories,
             isModuleTools: true,
