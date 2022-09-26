@@ -3,13 +3,19 @@
 ```ts
 type CacheConfig = {
   /**
-   * webpack 文件缓存系统的缓存目录 (默认值为: ./node_modules/.cache/webapck)
+   * webpack 文件缓存系统的缓存目录
    */
   cacheDirectory?: string;
 };
 ```
 
-- **Deafult**: `undefined`
+- **Deafult**:
+
+```js
+const defaultCacheConfig = {
+  cacheDirectory: './node_modules/.cache/webapck',
+};
+```
 
 缓存 Webpack 打包过程中生成的 module 和 chunk, 以此来提升构建速度。
 

@@ -3,13 +3,19 @@
 ```ts
 type CacheConfig = {
   /**
-   * Webpack base directory for the filesystem cache (defaults to node_modules/.cache/webpack).
+   * Webpack base directory for the filesystem cache.
    */
   cacheDirectory?: string;
 };
 ```
 
-- **Default**: `undefined`
+- **Default**:
+
+```js
+const defaultCacheConfig = {
+  cacheDirectory: './node_modules/.cache/webapck',
+};
+```
 
 Cache the modules and chunks generated during Webpack packaging to improve build speed.
 
