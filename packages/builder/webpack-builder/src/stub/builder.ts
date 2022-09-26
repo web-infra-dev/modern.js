@@ -21,6 +21,7 @@ import type {
 import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
 import { createStubContext } from './context';
 import { globContentJSON, filenameToGlobExpr } from './utils';
+import type { BuildOptions } from '../core/build';
 
 export interface OptionsPluginsItem {
   builtin?: boolean | 'default' | 'minimal' | 'basic';
@@ -39,6 +40,7 @@ export interface StubBuilderOptions extends BuilderOptions {
    * Set a string value to specify the `output.distPath` config.
    */
   webpack?: boolean | string;
+  buildOptions?: BuildOptions;
 }
 
 export type HookApi = {
@@ -128,7 +130,11 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   const build = _.memoize(async () => {
     const { build: buildImpl, webpackBuild } = await import('../core/build');
     const executeBuild = options?.webpack ? webpackBuild : undefined;
-    await buildImpl({ context, pluginStore, builderOptions }, {}, executeBuild);
+    await buildImpl(
+      { context, pluginStore, builderOptions },
+      options?.buildOptions,
+      executeBuild,
+    );
     return { resolvedHooks: { ...resolvedHooks } };
   });
 
