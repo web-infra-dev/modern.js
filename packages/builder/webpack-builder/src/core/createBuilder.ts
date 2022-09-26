@@ -53,8 +53,12 @@ export async function createBuilder(options?: BuilderOptions) {
   };
 
   const build = async (options?: BuildOptions) => {
-    const { build: buildImpl } = await import('./build');
-    return buildImpl({ context, pluginStore, builderOptions }, options);
+    const { build: buildImpl, webpackBuild } = await import('./build');
+    return buildImpl(
+      { context, pluginStore, builderOptions },
+      options,
+      webpackBuild,
+    );
   };
 
   const inspectWebpackConfig = async (inspectOptions: InspectOptions = {}) => {
