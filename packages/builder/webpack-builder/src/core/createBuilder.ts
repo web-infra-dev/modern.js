@@ -5,6 +5,7 @@ import { initConfigs } from './initConfigs';
 import { createContext, createPublicContext } from './createContext';
 import { createPluginStore } from './createPluginStore';
 import type { BuilderOptions, Context, InspectOptions } from '../types';
+import type { Compiler, MultiCompiler } from 'webpack';
 
 /**
  * Create primary builder.
@@ -37,9 +38,13 @@ export async function createBuilder(options?: BuilderOptions) {
   pluginStore.addPlugins(await applyDefaultPlugins());
   debug('add default plugins done');
 
-  const startDevServer = async () => {
+  const startDevServer = async ({
+    compiler,
+  }: {
+    compiler: Compiler | MultiCompiler;
+  }) => {
     const { startDevServer } = await import('./startDevServer');
-    return startDevServer({ context, pluginStore, builderOptions });
+    return startDevServer({ context, pluginStore, builderOptions }, compiler);
   };
 
   const createCompiler = async () => {

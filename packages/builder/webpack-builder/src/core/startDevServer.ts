@@ -1,7 +1,8 @@
 import { log, info, debug } from '../shared';
 import { createWatchCompiler } from './createCompiler';
-import type { BuilderConfig } from '../types';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
+import type { BuilderConfig } from '../types';
+import type { Compiler, MultiCompiler } from 'webpack';
 
 async function printURLs(config: BuilderConfig, port: number) {
   const { chalk, getAddressUrls } = await import('@modern-js/utils');
@@ -20,12 +21,19 @@ async function printURLs(config: BuilderConfig, port: number) {
   info(message);
 }
 
-async function createDevServer(options: InitConfigsOptions, port: number) {
+async function createDevServer(
+  options: InitConfigsOptions,
+  port: number,
+  customCompiler?: Compiler | MultiCompiler,
+) {
   const { Server } = await import('@modern-js/server');
   const { applyOptionsChain } = await import('@modern-js/utils');
 
   const { webpackConfigs } = await initConfigs(options);
-  const compiler = await createWatchCompiler(options.context, webpackConfigs);
+
+  const compiler =
+    customCompiler ||
+    (await createWatchCompiler(options.context, webpackConfigs));
 
   debug('create dev server');
 
@@ -61,7 +69,10 @@ async function createDevServer(options: InitConfigsOptions, port: number) {
   return server;
 }
 
-export async function startDevServer(options: InitConfigsOptions) {
+export async function startDevServer(
+  options: InitConfigsOptions,
+  compiler?: Compiler | MultiCompiler,
+) {
   log();
   info('Starting dev server...');
 
@@ -72,7 +83,7 @@ export async function startDevServer(options: InitConfigsOptions) {
   const { builderConfig } = options.builderOptions;
   const { getPort } = await import('@modern-js/utils');
   const port = await getPort(builderConfig.dev?.port || 8080);
-  const server = await createDevServer(options, port);
+  const server = await createDevServer(options, port, compiler);
 
   await options.context.hooks.onBeforeStartDevServerHooks.call();
 
