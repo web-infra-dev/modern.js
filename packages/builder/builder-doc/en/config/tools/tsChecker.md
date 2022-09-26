@@ -1,4 +1,4 @@
-- Type: `Object` | `Function` | `false`
+- Type: `Object | Function | false`
 - Default: `Object`
 
 By default, the [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) is enabled for type checking. You can:

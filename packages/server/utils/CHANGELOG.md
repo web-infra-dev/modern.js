@@ -1,5 +1,19 @@
 # @modern-js/server-utils
 
+## 1.18.1
+
+### Patch Changes
+
+- fb02c81: fix: alias should take precedence over package name
+  fix: 编译时，别名的优先级应该高于包名
+- Updated dependencies [c1a4d9b]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/plugin@1.18.1
+  - @modern-js/utils@1.18.1
+  - @modern-js/babel-preset-lib@1.18.1
+  - @modern-js/babel-compiler@1.18.1
+
 ## 1.18.0
 
 ### Patch Changes
