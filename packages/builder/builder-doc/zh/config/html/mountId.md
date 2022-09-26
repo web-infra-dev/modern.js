@@ -14,11 +14,11 @@
 修改 DOM 挂载节点 `id` 为 `app`：
 
 ```js
-export default defineConfig({
+export default {
   html: {
     mountId: 'app',
   },
-});
+};
 ```
 
 编译后：

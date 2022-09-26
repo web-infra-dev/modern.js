@@ -1,4 +1,4 @@
-- Type: `Object` | `Function`
+- Type: `Object | Function`
 - Default: `undefined`
 
 By `tools.babel` you can modify [babel-loader](https://github.com/babel/babel-loader)'s' options.
