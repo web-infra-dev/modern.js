@@ -9,7 +9,6 @@ import {
   applyMinimalPlugins,
 } from '../shared/plugin';
 import { URL } from 'url';
-import { webpackBuild } from '../core/build';
 import { createPrimaryBuilder } from '../core/createBuilder';
 import { Hooks } from '../core/createHook';
 import { matchLoader, mergeBuilderOptions } from '../shared';
@@ -106,11 +105,10 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   // merge user context.
   options?.context && _.merge(context, options.context);
   // init primary builder.
-  const {
-    pluginStore,
-    publicContext,
-    build: buildImpl,
-  } = createPrimaryBuilder(builderOptions, context);
+  const { pluginStore, publicContext } = createPrimaryBuilder(
+    builderOptions,
+    context,
+  );
   // add builtin and custom plugins by `options.plugins`.
   await applyPluginOptions(pluginStore, options?.plugins);
 
@@ -128,8 +126,12 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
    * and always return cached result until {@link reset}.
    */
   const build = _.memoize(async () => {
+    const { build: buildImpl, webpackBuild } = await import('../core/build');
     const executeBuild = options?.webpack ? webpackBuild : undefined;
-    await buildImpl(executeBuild);
+    await buildImpl(
+      { context, pluginStore, builderOptions },
+      { executer: executeBuild },
+    );
     return { resolvedHooks: { ...resolvedHooks } };
   });
 
