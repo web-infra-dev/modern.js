@@ -1,3 +1,7 @@
+---
+extractApiHeaders: [2]
+---
+
 # Performance Config
 
 This section describes some performance related configurations in Modern.js Builder.

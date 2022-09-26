@@ -1,3 +1,7 @@
+---
+extractApiHeaders: [2]
+---
+
 # Source Config
 
 本章节描述了 Builder 中与源代码有关的配置。

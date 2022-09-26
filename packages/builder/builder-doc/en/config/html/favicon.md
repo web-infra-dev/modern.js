@@ -9,7 +9,7 @@ After config this option, the favicon will be automatically copied to the dist d
 
 ```js
 export default {
-  output: {
+  html: {
     favicon: './src/assets/icon.png',
   },
 };
