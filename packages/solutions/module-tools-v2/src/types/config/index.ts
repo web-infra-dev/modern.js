@@ -49,7 +49,10 @@ export type BundleOptions = {
         peerDependencies?: boolean;
       };
   assets: LibuildUserConfig['asset'];
-  terserOptions: any;
+  entryNames: LibuildUserConfig['entryNames'];
+  globals: LibuildUserConfig['globals'];
+  metafile: LibuildUserConfig['metafile'];
+  jsx: LibuildUserConfig['jsx'];
 };
 export interface BaseBundleBuildConfig extends BaseCommonBuildConfig {
   buildType: 'bundle';
