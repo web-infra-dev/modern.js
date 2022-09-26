@@ -1,8 +1,8 @@
 ---
+title: tools.styledComponents
+
 sidebar_label: styledComponents
 ---
-
-# tools.styledComponents
 
 
 
