@@ -20,11 +20,14 @@ export function PluginEsbuild(
 ): BuilderPlugin {
   return {
     name: 'webpack-builder-plugin-esbuild',
+
     setup(api) {
       api.modifyWebpackChain(async (chain, { CHAIN_ID, isProd }) => {
+        const builderConfig = api.getBuilderConfig();
         const compiledEsbuildLoaderPath = require.resolve(
           '../compiled/esbuild-loader',
         );
+
         if (options.loader !== false) {
           // remove babel-loader and ts-loader
           chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
@@ -66,7 +69,13 @@ export function PluginEsbuild(
           chain.optimization
             .minimizer(CHAIN_ID.MINIMIZER.ESBUILD)
             .use(ESBuildMinifyPlugin)
-            .init(() => new ESBuildMinifyPlugin(options?.minimize || {}));
+            .init(
+              () =>
+                new ESBuildMinifyPlugin({
+                  legalComments: builderConfig.output?.legalComments,
+                  ...options?.minimize,
+                }),
+            );
         }
       });
     },
