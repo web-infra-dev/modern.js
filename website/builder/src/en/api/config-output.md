@@ -14,6 +14,10 @@ This section describes some output related configurations in Modern.js Builder.
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/cleanDistPath.md)!!!
 
+## output.convertToRem
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/convertToRem.md)!!!
+
 ## output.copy
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/copy.md)!!!

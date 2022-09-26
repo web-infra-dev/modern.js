@@ -1,5 +1,4 @@
 import type { BuilderPlugin, RemOptions, PxToRemOptions } from '../types';
-import { mergeBuilderConfig } from '../shared/utils';
 
 const defaultOptions: RemOptions = {
   enableRuntime: true,
@@ -10,50 +9,54 @@ export const PluginRem = (): BuilderPlugin => ({
   name: 'webpack-builder-plugin-rem',
 
   setup(api) {
-    const { output: { convertToRem } = {} } = api.getBuilderConfig();
+    api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+      const { output: { convertToRem } = {} } = api.getBuilderConfig();
 
-    if (!convertToRem) {
-      return;
-    }
+      if (!convertToRem) {
+        return;
+      }
 
-    const userOptions = {
-      ...defaultOptions,
-      ...(typeof convertToRem === 'boolean' ? {} : convertToRem),
-    };
+      const userOptions = {
+        ...defaultOptions,
+        ...(typeof convertToRem === 'boolean' ? {} : convertToRem),
+      };
 
-    api.modifyBuilderConfig(async config => {
+      // handle css
       const { default: PxToRemPlugin } = (await import(
         '../../compiled/postcss-pxtorem'
       )) as {
         default: (_opts: PxToRemOptions) => any;
       };
 
-      return mergeBuilderConfig(config, {
-        tools: {
-          postcss(_config, { addPlugins }) {
-            addPlugins(
+      chain.module
+        .rule(CHAIN_ID.RULE.CSS)
+        .use(CHAIN_ID.USE.POSTCSS)
+        .tap(options => ({
+          ...options,
+          postcssOptions: {
+            ...(options.postcssOptions || {}),
+            plugins: [
+              ...(options.postcssOptions?.plugins || []),
               PxToRemPlugin({
                 rootValue: userOptions.rootFontSize,
                 unitPrecision: 5,
                 propList: ['*'],
                 ...(userOptions.pxtorem || {}),
               }),
-            );
+            ],
           },
-        },
-      });
-    });
+        }));
 
-    api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+      // handle runtime (html)
       if (!userOptions.enableRuntime) {
         return;
       }
 
-      const entries = Object.keys(chain.entryPoints.entries() || {});
-
       const { AutoSetRootFontSizePlugin } = await import(
         '../webpackPlugins/AutoSetRootFontSizePlugin'
       );
+
+      const entries = Object.keys(chain.entryPoints.entries() || {});
 
       chain
         .plugin(CHAIN_ID.PLUGIN.AUTO_SET_ROOT_SIZE)
