@@ -3,6 +3,9 @@
 exports[`getBabelOptions should return babel options as expected 1`] = `
 Object {
   "babelrc": false,
+  "cacheCompression": false,
+  "cacheDirectory": /.cache/babel/client,
+  "cacheIdentifier": /cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js,
   "compact": false,
   "configFile": false,
   "plugins": Array [

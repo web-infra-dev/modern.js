@@ -35,15 +35,16 @@ describe('mergeRegex', () => {
 
 describe('getBabelOptions', () => {
   it('should return babel options as expected', () => {
-    const { options: babelOptions } = getBabelOptions(
-      'metaName',
-      '/root',
-      {} as any,
-      createBabelChain(),
-      {
+    const { options: babelOptions } = getBabelOptions({
+      name: 'client',
+      metaName: 'metaName',
+      appDirectory: '/root',
+      config: {} as any,
+      chain: createBabelChain(),
+      babelPresetAppOptions: {
         target: 'client',
       },
-    );
+    });
 
     setPathSerializer();
     expect(babelOptions).toMatchSnapshot();

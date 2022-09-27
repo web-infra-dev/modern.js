@@ -81,6 +81,7 @@ export function applyScriptCondition({
 }
 
 export function applyBabelLoader({
+  chain,
   config,
   loaders,
   appContext,
@@ -90,13 +91,14 @@ export function applyBabelLoader({
   useTsLoader: boolean;
   babelPresetAppOptions?: Partial<BabelPresetAppOptions>;
 }) {
-  const { options, includes, excludes } = getBabelOptions(
-    appContext.metaName,
-    appContext.appDirectory,
+  const { options, includes, excludes } = getBabelOptions({
+    name: chain.get('name'),
+    chain: createBabelChain(),
     config,
-    createBabelChain(),
+    metaName: appContext.metaName,
+    appDirectory: appContext.appDirectory,
     babelPresetAppOptions,
-  );
+  });
 
   const rule = loaders
     .oneOf(CHAIN_ID.ONE_OF.JS)
