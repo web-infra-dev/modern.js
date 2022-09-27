@@ -28,24 +28,29 @@ export const PluginRem = (): BuilderPlugin => ({
         default: (_opts: PxToRemOptions) => any;
       };
 
-      chain.module
-        .rule(CHAIN_ID.RULE.CSS)
-        .use(CHAIN_ID.USE.POSTCSS)
-        .tap(options => ({
-          ...options,
-          postcssOptions: {
-            ...(options.postcssOptions || {}),
-            plugins: [
-              ...(options.postcssOptions?.plugins || []),
-              PxToRemPlugin({
-                rootValue: userOptions.rootFontSize,
-                unitPrecision: 5,
-                propList: ['*'],
-                ...(userOptions.pxtorem || {}),
-              }),
-            ],
-          },
-        }));
+      [CHAIN_ID.RULE.CSS, CHAIN_ID.RULE.LESS, CHAIN_ID.RULE.SASS].forEach(
+        name => {
+          chain.module.rules.has(name) &&
+            chain.module
+              .rule(name)
+              .use(CHAIN_ID.USE.POSTCSS)
+              .tap((options = {}) => ({
+                ...options,
+                postcssOptions: {
+                  ...(options.postcssOptions || {}),
+                  plugins: [
+                    ...(options.postcssOptions?.plugins || []),
+                    PxToRemPlugin({
+                      rootValue: userOptions.rootFontSize,
+                      unitPrecision: 5,
+                      propList: ['*'],
+                      ...(userOptions.pxtorem || {}),
+                    }),
+                  ],
+                },
+              }));
+        },
+      );
 
       // handle runtime (html)
       if (!userOptions.enableRuntime) {

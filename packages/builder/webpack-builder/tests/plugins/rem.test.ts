@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { PluginCss } from '../../src/plugins/css';
+import { PluginLess } from '../../src/plugins/less';
+import { PluginSass } from '../../src/plugins/sass';
 import { PluginRem } from '../../src/plugins/rem';
 import { createStubBuilder } from '../../src/stub';
 
@@ -30,7 +32,7 @@ describe('plugins/rem', () => {
 
   it('should run rem plugin with default config', async () => {
     const builder = await createStubBuilder({
-      plugins: [PluginCss(), PluginRem()],
+      plugins: [PluginCss(), PluginLess(), PluginSass(), PluginRem()],
       builderConfig: {
         output: {
           convertToRem: true,

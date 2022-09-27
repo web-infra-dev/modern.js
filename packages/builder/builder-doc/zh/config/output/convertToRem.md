@@ -1,4 +1,4 @@
-- Type: `boolean | Object`
+- Type: `boolean | object`
 - Default: `false`
 
 通过设置 `output.convertToRem`，Builder 可进行如下处理：
@@ -40,21 +40,21 @@ export default {
 
 #### Object 类型
 
-当 `output.convertToRem` 的值为 `Object` 类型时，Builder 会根据当前配置进行 rem 处理。
+当 `output.convertToRem` 的值为 `object` 类型时，Builder 会根据当前配置进行 rem 处理。
 
 选项：
 
 | 名称                  | 类型        | 默认值                                                       | 描述                                                         |
 | ------------------------ | ----------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| enableRuntime            | `{Boolean}` | `true`                                                       | 开启 HTML 模版插入功能，注入运行时代码                       |
-| rootFontSize             | `{Number}`  | `50`                                                         | 根元素字体值                                                 |
-| maxRootFontSize          | `{Number}`  | `64`                                                         | 最大根元素字体值                                             |
-| widthQueryKey            | `{String}`  | `'' `                                                        | 根据 widthQueryKey 的值去 url query 中取 client width（默认从当前页面的 Document 中获取） |
-| screenWidth              | `{Number}`  | `375`                                                        | 屏幕宽度                                                     |
-| excludeEntries           | {Array}     | `[]`                                                         | 不进行调整的页面入口                                         |
-| supportLandscape         | `{Boolean}` | `false`                                                      | 横屏时使用 height 计算 rem                                   |
-| useRootFontSizeBeyondMax | `{Boolean}` | `false`                                                      | 超过 maxRootFontSize 时，是否使用rootFontSize                |
-| pxtorem                  | `{Object}`  | <ul><li>rootValue。默认与 rootFontSize 相同 </li><li>unitPrecision: 5。精确位数 </li><li>propList: ['*']。支持转换的 CSS 属性</li></ul> | [postcss-pxtorem](https://github.com/cuth/postcss-pxtorem#options) 插件属性 |
+| enableRuntime            | `boolean` | `true`                                                       | 开启 HTML 模版插入功能，注入运行时代码                       |
+| rootFontSize             | `number`  | `50`                                                         | 根元素字体值                                                 |
+| maxRootFontSize          | `number`  | `64`                                                         | 最大根元素字体值                                             |
+| widthQueryKey            | `string`  | `'' `                                                        | 根据 widthQueryKey 的值去 url query 中取 client width（默认从当前页面的 Document 中获取） |
+| screenWidth              | `number`  | `375`                                                        | 屏幕宽度                                                     |
+| excludeEntries           | `string[]`     | `[]`                                                         | 不进行调整的页面入口                                         |
+| supportLandscape         | `boolean` | `false`                                                      | 横屏时使用 height 计算 rem                                   |
+| useRootFontSizeBeyondMax | `boolean` | `false`                                                      | 超过 maxRootFontSize 时，是否使用rootFontSize                |
+| pxtorem                  | `object`  | <ul><li>rootValue。默认与 rootFontSize 相同 </li><li>unitPrecision: 5。精确位数 </li><li>propList: ['*']。支持转换的 CSS 属性</li></ul> | [postcss-pxtorem](https://github.com/cuth/postcss-pxtorem#options) 插件属性 |
 
 
 
