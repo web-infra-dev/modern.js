@@ -20,12 +20,14 @@ export type Target =
   | 'esnext';
 
 export type Entry = Required<LibuildUserConfig>['input'];
+export type DTSOptions  = {
+  distPath: string;
+  tsconfigPath: string;
+  only: boolean;
+};
 export type DTS =
-  | boolean
-  | {
-      distPath: string;
-      tsconfigPath: string;
-    };
+  | false
+  | DTSOptions
 export type SourceMap = Required<LibuildUserConfig>['sourceMap'];
 export type Copy = { from: string; to?: string }[];
 export interface BaseCommonBuildConfig {
