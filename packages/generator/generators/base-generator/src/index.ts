@@ -1,6 +1,8 @@
+import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { BaseSchema, PackageManager } from '@modern-js/generator-common';
+import { fs } from '@modern-js/generator-utils';
 
 const handleTemplateFile = async (
   context: GeneratorContext,
@@ -45,6 +47,8 @@ const handleTemplateFile = async (
           .replace('.handlebars', ''),
     );
   }
+
+  fs.chmodSync(path.join(generator.outputPath, '.husky', 'pre-commit'), '755');
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
