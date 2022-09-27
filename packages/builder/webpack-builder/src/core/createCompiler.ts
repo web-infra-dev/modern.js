@@ -1,33 +1,6 @@
 import { log, debug, formatWebpackStats } from '../shared';
 import type { Context, WebpackConfig } from '../types';
-import type { Stats, Compiler, MultiCompiler } from 'webpack';
-
-function applyCompilerWatchHook(
-  compiler: Compiler | MultiCompiler,
-  context: Context,
-) {
-  let isFirstCompile = true;
-
-  compiler.hooks.done.tap('done', async (stats: unknown) => {
-    const { message, level } = await formatWebpackStats(
-      stats as Stats,
-      isFirstCompile,
-    );
-
-    if (level === 'error') {
-      log(message);
-    }
-    if (level === 'warning') {
-      log(message);
-    }
-
-    await context.hooks.onDevCompileDoneHook.call({
-      isFirstCompile,
-    });
-
-    isFirstCompile = false;
-  });
-}
+import type { Stats } from 'webpack';
 
 export async function createCompiler({
   watch = true,
@@ -48,9 +21,25 @@ export async function createCompiler({
       ? webpack(webpackConfigs[0])
       : webpack(webpackConfigs);
 
-  if (watch) {
-    applyCompilerWatchHook(compiler, context);
-  }
+  let isFirstCompile = true;
+
+  compiler.hooks.done.tap('done', async (stats: unknown) => {
+    const { message, level } = await formatWebpackStats(stats as Stats);
+
+    if (level === 'error') {
+      log(message);
+    }
+    if (level === 'warning') {
+      log(message);
+    }
+
+    if (watch) {
+      await context.hooks.onDevCompileDoneHook.call({
+        isFirstCompile,
+      });
+      isFirstCompile = false;
+    }
+  });
 
   await context.hooks.onAfterCreateCompilerHooks.call({ compiler });
   debug('create compiler done');

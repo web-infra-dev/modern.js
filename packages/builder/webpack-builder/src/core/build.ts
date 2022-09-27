@@ -1,6 +1,6 @@
 import assert from 'assert';
 import { createCompiler } from './createCompiler';
-import { log, info, error, logger, formatWebpackStats } from '../shared';
+import { log, info, error, logger } from '../shared';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
 import type {
   webpack,
@@ -48,18 +48,11 @@ export const webpackBuild = async (
         }
 
         assert(stats);
-        // eslint-disable-next-line promise/no-promise-in-callback
-        formatWebpackStats(stats).then(({ level, message }) => {
-          if (level === 'error') {
-            log(message);
-            reject(new Error('Webpack build failed!'));
-          } else {
-            if (level === 'warning') {
-              log(message);
-            }
-            resolve({ stats });
-          }
-        });
+        if (stats.hasErrors()) {
+          reject(new Error('Webpack build failed!'));
+        } else {
+          resolve({ stats });
+        }
       });
     });
   });

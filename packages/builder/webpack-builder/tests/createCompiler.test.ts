@@ -62,22 +62,4 @@ describe('build hooks', () => {
     });
     expect(compiler.constructor.name).toEqual('MultiCompiler');
   });
-
-  test('should use done hook when watch is true', async () => {
-    const compiler = await createCompiler({
-      watch: true,
-      context: createDefaultContext(),
-      webpackConfigs: [{}, {}],
-    });
-    expect(compiler.hooks.done.isUsed()).toEqual(true);
-  });
-
-  test('should not use done hook when watch is false', async () => {
-    const compiler = await createCompiler({
-      watch: false,
-      context: createDefaultContext(),
-      webpackConfigs: [{}, {}],
-    });
-    expect(compiler.hooks.done.isUsed()).toEqual(false);
-  });
 });
