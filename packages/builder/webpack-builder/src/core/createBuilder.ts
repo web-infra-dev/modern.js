@@ -1,10 +1,11 @@
-import { debug, mergeBuilderOptions, pick } from '../shared';
+import { debug, applyDefaultBuilderOptions, pick } from '../shared';
 import { applyDefaultPlugins } from '../shared/plugin';
 import { BuildOptions } from './build';
 import { initConfigs } from './initConfigs';
 import { createContext, createPublicContext } from './createContext';
 import { createPluginStore } from './createPluginStore';
 import type { BuilderOptions, Context, InspectOptions } from '../types';
+import type { Compiler, MultiCompiler } from 'webpack';
 
 /**
  * Create primary builder.
@@ -26,7 +27,7 @@ export function createPrimaryBuilder(
 }
 
 export async function createBuilder(options?: BuilderOptions) {
-  const builderOptions = mergeBuilderOptions(options);
+  const builderOptions = applyDefaultBuilderOptions(options);
   const context = await createContext(builderOptions);
   const { pluginStore, publicContext } = createPrimaryBuilder(
     builderOptions,
@@ -37,9 +38,13 @@ export async function createBuilder(options?: BuilderOptions) {
   pluginStore.addPlugins(await applyDefaultPlugins());
   debug('add default plugins done');
 
-  const startDevServer = async () => {
+  const startDevServer = async ({
+    compiler,
+  }: {
+    compiler?: Compiler | MultiCompiler;
+  } = {}) => {
     const { startDevServer } = await import('./startDevServer');
-    return startDevServer({ context, pluginStore, builderOptions });
+    return startDevServer({ context, pluginStore, builderOptions }, compiler);
   };
 
   const createCompiler = async () => {

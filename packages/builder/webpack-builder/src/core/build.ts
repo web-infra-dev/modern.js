@@ -3,11 +3,12 @@ import { createBuildCompiler, createWatchCompiler } from './createCompiler';
 import { log, info, error, logger, formatWebpackStats } from '../shared';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
 import type { Context, PromiseOrNot, webpack, WebpackConfig } from '../types';
+import type { Stats, MultiStats } from 'webpack';
 
 export type BuildExecuter = (
   context: Context,
   configs: webpack.Configuration[],
-) => PromiseOrNot<{ stats: webpack.MultiStats } | void>;
+) => PromiseOrNot<{ stats: Stats | MultiStats } | void>;
 
 export type BuildOptions = {
   mode?: 'development' | 'production';
@@ -20,7 +21,7 @@ export const webpackBuild = async (
 ) => {
   const compiler = await createBuildCompiler(context, webpackConfigs);
 
-  return new Promise<{ stats: webpack.MultiStats }>((resolve, reject) => {
+  return new Promise<{ stats: Stats | MultiStats }>((resolve, reject) => {
     log();
     info(`building for production...`);
 
