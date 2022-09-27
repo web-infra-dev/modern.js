@@ -8,4 +8,5 @@ export const EN_LOCALE = {
       'The project is not allowed to contain more than one solution tool',
   },
   success: 'Upgrade Modern.js package version success!',
+  updateHusky: 'Upgrade husky to v8',
 };
