@@ -29,10 +29,7 @@ export const buildCommand = async (
       '-p, --platform [platform]',
       local.i18n.t(local.localeKeys.command.build.platform),
     )
-    // @deprecated
-    // The `--no-tsc` option has been superceded by the `--no-dts` option.
-    .option('--no-tsc', local.i18n.t(local.localeKeys.command.build.no_tsc))
-    .option('--dts', local.i18n.t(local.localeKeys.command.build.dts))
+    .option('--no-dts', local.i18n.t(local.localeKeys.command.build.dts))
     .option('--no-clear', local.i18n.t(local.localeKeys.command.build.no_clear))
     .option(
       '-c --config <config>',
