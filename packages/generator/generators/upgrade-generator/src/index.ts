@@ -80,6 +80,16 @@ export const handleTemplateFile = async (
   const packageManager = await getPackageManager(appDir);
   context.config.packageManager = packageManager;
 
+  if (packageManager === PackageManager.Pnpm) {
+    const npmrcPath = path.join(generator.outputPath, '.npmrc');
+    if (fs.existsSync(npmrcPath)) {
+      fs.appendFileSync(npmrcPath, '\nstrict-peer-dependencies=false\n');
+    } else {
+      fs.ensureFileSync(npmrcPath);
+      fs.writeFileSync(npmrcPath, 'strict-peer-dependencies=false');
+    }
+  }
+
   if (
     solutions[0] === Solution.Monorepo &&
     packageManager === PackageManager.Pnpm
@@ -158,11 +168,21 @@ export const handleTemplateFile = async (
       path.join(appDir, 'package.json'),
     ).filePath;
     const pkgInfo = fs.readJSONSync(pkgPath, 'utf-8');
+    const { prepare } = pkgInfo.scripts;
+    if (!prepare) {
+      pkgInfo.scripts.prepare = 'husky install';
+    } else if (!prepare.includes('husky install')) {
+      pkgInfo.scripts.prepare = `${prepare} && husky install`;
+    }
     pkgInfo.husky = undefined;
 
     fs.writeJSONSync(pkgPath, pkgInfo, { spaces: 2 });
 
     await appApi.forgeTemplate('templates/**/*');
+    fs.chmodSync(
+      path.join(generator.outputPath, '.husky', 'pre-commit'),
+      '755',
+    );
   }
 
   await appApi.runInstall();
