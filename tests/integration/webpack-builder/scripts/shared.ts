@@ -10,7 +10,7 @@ export const createBuilder = async () => {
     configPath: __filename,
     builderConfig: {
       tools: {
-        // inspector: {},
+        inspector: {},
       },
     },
   });
