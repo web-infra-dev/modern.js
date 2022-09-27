@@ -15,7 +15,7 @@ sidebar_label: path
 例如，可将构建产物输出目录改成 `build` 目录：
 
 ```js title="modern.config.js"
-import { defineConfig } from '@modern-js/app-tools';
+import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   output: {
