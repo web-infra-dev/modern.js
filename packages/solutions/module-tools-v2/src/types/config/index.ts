@@ -20,12 +20,14 @@ export type Target =
   | 'esnext';
 
 export type Entry = Required<LibuildUserConfig>['input'];
+export type DTSOptions  = {
+  distPath: string;
+  tsconfigPath: string;
+  only: boolean;
+};
 export type DTS =
-  | boolean
-  | {
-      distPath: string;
-      tsconfigPath: string;
-    };
+  | false
+  | DTSOptions
 export type SourceMap = Required<LibuildUserConfig>['sourceMap'];
 export type Copy = { from: string; to?: string }[];
 export interface BaseCommonBuildConfig {
@@ -49,7 +51,10 @@ export type BundleOptions = {
         peerDependencies?: boolean;
       };
   assets: LibuildUserConfig['asset'];
-  terserOptions: any;
+  entryNames: LibuildUserConfig['entryNames'];
+  globals: LibuildUserConfig['globals'];
+  metafile: LibuildUserConfig['metafile'];
+  jsx: LibuildUserConfig['jsx'];
 };
 export interface BaseBundleBuildConfig extends BaseCommonBuildConfig {
   buildType: 'bundle';
