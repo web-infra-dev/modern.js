@@ -1,7 +1,7 @@
 import path from 'path';
 import { getPackageManager, isMonorepo, fs } from '@modern-js/utils';
 import { tag as gitTag } from '@changesets/git';
-import { CHANGESET_PATH, execaWithStreamLog } from '../utils';
+import { CHANGESET_PATH, execaWithStreamLog, getPnpmVersion } from '../utils';
 
 interface ReleaseOptions {
   tag: string;
@@ -39,7 +39,12 @@ export async function release(options: ReleaseOptions) {
 
   params.push('-r');
   params.push('--filter');
-  params.push('{./packages}');
+  const pnpmVersion = await getPnpmVersion();
+  if (pnpmVersion.startsWith('6')) {
+    params.push('./packages/');
+  } else {
+    params.push('{./packages/**}');
+  }
   params.push('--report-summary');
 
   if (ignoreScripts) {
