@@ -1,4 +1,4 @@
-- Type: `Object` | `Function`
+- Type: `Object | Function`
 - Default: `undefined`
 
 The config of [css-loader](https://github.com/webpack-contrib/css-loader) can be modified through `tools.cssLoader`. The default config is as follows:

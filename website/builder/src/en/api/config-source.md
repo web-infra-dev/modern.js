@@ -1,3 +1,7 @@
+---
+extractApiHeaders: [2]
+---
+
 # Source Config
 
 This section describes some source code related configurations in Modern.js Builder.

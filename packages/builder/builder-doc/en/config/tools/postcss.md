@@ -1,4 +1,4 @@
-- Type: `Object` | `Function`
+- Type: `Object | Function`
 - Default:
 
 ```js

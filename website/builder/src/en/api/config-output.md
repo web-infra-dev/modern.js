@@ -1,3 +1,7 @@
+---
+extractApiHeaders: [2]
+---
+
 # Output Config
 
 This section describes some output related configurations in Modern.js Builder.
@@ -77,6 +81,10 @@ This section describes some output related configurations in Modern.js Builder.
 ## output.filename
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/filename.md)!!!
+
+## output.legalComments
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/legalComments.md)!!!
 
 ## output.overrideBrowserslist
 
