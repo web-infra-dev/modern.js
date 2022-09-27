@@ -3,8 +3,6 @@ sidebar_position: 3
 title: useStaticModel
 ---
 
-# useStaticModel
-
 import ReduckTip from '@site/docs/components/reduck-tip.md'
 
 <ReduckTip />

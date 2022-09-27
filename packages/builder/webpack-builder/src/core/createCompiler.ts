@@ -1,11 +1,10 @@
 import { log, debug, formatWebpackStats } from '../shared';
-import { initConfigs, InitConfigsOptions } from './initConfigs';
-import type { webpack } from '../types';
+import type { Context, webpack, WebpackConfig } from '../types';
 
-export async function createCompiler(options: InitConfigsOptions) {
-  const { context } = options;
-  const { webpackConfigs } = await initConfigs(options);
-
+export async function createWatchCompiler(
+  context: Context,
+  webpackConfigs: WebpackConfig[],
+) {
   debug('create compiler');
 
   await context.hooks.onBeforeCreateCompilerHooks.call({
@@ -14,7 +13,10 @@ export async function createCompiler(options: InitConfigsOptions) {
 
   const { default: webpack } = await import('webpack');
 
-  const compiler = webpack(webpackConfigs);
+  const compiler =
+    webpackConfigs.length === 1
+      ? webpack(webpackConfigs[0])
+      : webpack(webpackConfigs);
 
   let isFirstCompile = true;
 
@@ -40,6 +42,23 @@ export async function createCompiler(options: InitConfigsOptions) {
 
   await context.hooks.onAfterCreateCompilerHooks.call({ compiler });
   debug('create compiler done');
+
+  return compiler;
+}
+
+export async function createBuildCompiler(
+  context: Context,
+  webpackConfigs: WebpackConfig[],
+) {
+  await context.hooks.onBeforeCreateCompilerHooks.call({ webpackConfigs });
+
+  const { default: webpack } = await import('webpack');
+
+  const compiler =
+    webpackConfigs.length === 1
+      ? webpack(webpackConfigs[0])
+      : webpack(webpackConfigs);
+  await context.hooks.onAfterCreateCompilerHooks.call({ compiler });
 
   return compiler;
 }

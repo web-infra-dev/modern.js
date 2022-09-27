@@ -1,9 +1,7 @@
 ---
+title: tools.devServer
 sidebar_label: devServer
 ---
-
-# tools.devServer
-
 
 
 - 类型： `Object`

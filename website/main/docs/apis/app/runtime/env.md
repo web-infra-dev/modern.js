@@ -1,8 +1,8 @@
 ---
 sidebar_position: 1
+title: 环境变量
 ---
 
-# 环境变量
 
 Modern.js 默认提供了下列环境变量：
 

@@ -1,16 +1,27 @@
 import assert from 'assert';
-import { log, info, error, formatWebpackStats } from '../shared';
-import type { Context, webpack, WebpackConfig } from '../types';
+import { createBuildCompiler, createWatchCompiler } from './createCompiler';
+import { log, info, error, logger, formatWebpackStats } from '../shared';
+import { initConfigs, InitConfigsOptions } from './initConfigs';
+import type { Context, PromiseOrNot, webpack, WebpackConfig } from '../types';
+import type { Stats, MultiStats } from 'webpack';
+
+export type BuildExecuter = (
+  context: Context,
+  configs: webpack.Configuration[],
+) => PromiseOrNot<{ stats: Stats | MultiStats } | void>;
+
+export type BuildOptions = {
+  mode?: 'development' | 'production';
+  watch?: boolean;
+};
 
 export const webpackBuild = async (
   context: Context,
   webpackConfigs: WebpackConfig[],
 ) => {
-  const { default: webpack } = await import('webpack');
-  const compiler = webpack(webpackConfigs);
-  await context.hooks.onAfterCreateCompilerHooks.call({ compiler });
+  const compiler = await createBuildCompiler(context, webpackConfigs);
 
-  return new Promise<{ stats: webpack.MultiStats }>((resolve, reject) => {
+  return new Promise<{ stats: Stats | MultiStats }>((resolve, reject) => {
     log();
     info(`building for production...`);
 
@@ -42,4 +53,35 @@ export const webpackBuild = async (
       });
     });
   });
+};
+
+export const build = async (
+  initOptions: InitConfigsOptions,
+  { mode = 'production', watch }: BuildOptions = {},
+  executer?: BuildExecuter,
+) => {
+  if (!process.env.NODE_ENV) {
+    process.env.NODE_ENV = mode;
+  }
+
+  const { context } = initOptions;
+  const { webpackConfigs } = await initConfigs(initOptions);
+
+  await context.hooks.onBeforeBuildHook.call({
+    webpackConfigs,
+  });
+
+  if (watch) {
+    const compiler = await createWatchCompiler(context, webpackConfigs);
+    compiler.watch({}, err => {
+      if (err) {
+        logger.error(err);
+      }
+    });
+  } else {
+    const executeResult = await executer?.(context, webpackConfigs);
+    await context.hooks.onAfterBuildHook.call({
+      stats: executeResult?.stats,
+    });
+  }
 };

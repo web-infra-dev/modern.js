@@ -1,8 +1,8 @@
 ---
 sidebar_position: 1
 ---
-
 # 默认别名
+
 
 :::tip 提示
 - 除了以下默认别名，开发者可以在 `modern.config.js` 中自定义别名，详见[如何配置别名](/docs/apis/app/config/source/alias)。

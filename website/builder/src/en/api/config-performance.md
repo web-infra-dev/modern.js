@@ -6,6 +6,10 @@ extractApiHeaders: [2]
 
 This section describes some performance related configurations in Modern.js Builder.
 
+## performance.buildCache
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/performance/buildCache.md)!!!
+
 ## performance.bundleAnalyze
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/performance/bundleAnalyze.md)!!!
