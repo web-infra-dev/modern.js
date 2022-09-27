@@ -1,4 +1,4 @@
-import { debug, mergeBuilderOptions, pick } from '../shared';
+import { debug, applyDefaultBuilderOptions, pick } from '../shared';
 import { applyDefaultPlugins } from '../shared/plugin';
 import { BuildOptions } from './build';
 import { initConfigs } from './initConfigs';
@@ -27,7 +27,7 @@ export function createPrimaryBuilder(
 }
 
 export async function createBuilder(options?: BuilderOptions) {
-  const builderOptions = mergeBuilderOptions(options);
+  const builderOptions = applyDefaultBuilderOptions(options);
   const context = await createContext(builderOptions);
   const { pluginStore, publicContext } = createPrimaryBuilder(
     builderOptions,

@@ -112,7 +112,7 @@ export function getDataUrlCondition(
   };
 }
 
-export function mergeBuilderOptions(
+export function applyDefaultBuilderOptions(
   options?: BuilderOptions,
 ): Required<BuilderOptions> {
   const DEFAULT_OPTIONS: Required<BuilderOptions> = {
