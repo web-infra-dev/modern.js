@@ -145,7 +145,7 @@ const todoModel = model('todo').define({
 ```
 
 :::info 补充信息
-`handleEffect` [API](/docs/apis/runtime/model/handle-effect)。
+`handleEffect` [API](/docs/apis/app/runtime/model/handle-effect)。
 :::
 
 

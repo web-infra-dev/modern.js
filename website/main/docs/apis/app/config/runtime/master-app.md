@@ -50,7 +50,7 @@ export declare type Config = Partial<GarfishOptions> & {
 
 当加载或切换子应用的时候，加载的过渡动画。
 
-`LoadingComponent` 需要通过 [defineConfig](/docs/apis/runtime/app/define-config) 配置。
+`LoadingComponent` 需要通过 [defineConfig](/docs/apis/app/runtime/app/define-config) 配置。
 
 ```tsx
 import { defineConfig } from '@modern-js/runtime';
