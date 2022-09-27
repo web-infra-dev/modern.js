@@ -13,7 +13,10 @@ export async function createWatchCompiler(
 
   const { default: webpack } = await import('webpack');
 
-  const compiler = webpack(webpackConfigs);
+  const compiler =
+    webpackConfigs.length === 1
+      ? webpack(webpackConfigs[0])
+      : webpack(webpackConfigs);
 
   let isFirstCompile = true;
 
@@ -51,7 +54,10 @@ export async function createBuildCompiler(
 
   const { default: webpack } = await import('webpack');
 
-  const compiler = webpack(webpackConfigs);
+  const compiler =
+    webpackConfigs.length === 1
+      ? webpack(webpackConfigs[0])
+      : webpack(webpackConfigs);
   await context.hooks.onAfterCreateCompilerHooks.call({ compiler });
 
   return compiler;

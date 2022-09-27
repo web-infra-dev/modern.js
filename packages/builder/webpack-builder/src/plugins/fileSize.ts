@@ -92,7 +92,7 @@ async function printHeader(
 }
 
 async function printFileSizes(
-  multiStats: webpack.MultiStats,
+  stats: webpack.Stats | webpack.MultiStats,
   { root, sizes }: PrevFileSize,
   distPath: string,
 ) {
@@ -120,7 +120,8 @@ async function printFileSizes(
     };
   };
 
-  const assets = multiStats.stats
+  const multiStats = 'stats' in stats ? stats.stats : [stats];
+  const assets = multiStats
     .map(stats => {
       const filteredAssets = stats
         .toJson({ all: false, assets: true })
