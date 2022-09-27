@@ -18,6 +18,10 @@ extractApiHeaders: [2]
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/cleanDistPath.md)!!!
 
+## output.convertToRem
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/output/convertToRem.md)!!!
+
 ## output.copy
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/copy.md)!!!
