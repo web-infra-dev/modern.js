@@ -28,7 +28,7 @@ Object {
         "**/api/**/*.test.[jt]s",
       ],
       "transform": Object {
-        "\\\\.[jt]sx?$": "/node_modules/.pnpm/ts-jest@27.1.5_95c28cb2ae24c65a6d28ea2583263a91/node_modules/ts-jest/dist/index.js",
+        "\\\\.[jt]sx?$": "/node_modules/.pnpm/ts-jest@27.1.5_tkwrfpzxuuodqdl725tmayz3ue/node_modules/ts-jest/dist/index.js",
       },
     },
   ],
@@ -63,7 +63,7 @@ Object {
         "**/api/**/*.test.[jt]s",
       ],
       "transform": Object {
-        "\\\\.[jt]sx?$": "/node_modules/.pnpm/ts-jest@27.1.5_95c28cb2ae24c65a6d28ea2583263a91/node_modules/ts-jest/dist/index.js",
+        "\\\\.[jt]sx?$": "/node_modules/.pnpm/ts-jest@27.1.5_tkwrfpzxuuodqdl725tmayz3ue/node_modules/ts-jest/dist/index.js",
       },
     },
   ],
