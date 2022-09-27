@@ -17,7 +17,7 @@ title: 单独使用 Reduck
 
 3. 包裹 `Provider` 组件
 
-Modern.js 自动在应用的入口组件上，包裹了用于注入 Reduck 全局 Store 的 [`Provider`](/docs/apis/runtime/model/Provider) 组件。单独使用 Reduck 时，需要手动完成。
+Modern.js 自动在应用的入口组件上，包裹了用于注入 Reduck 全局 Store 的 [`Provider`](/docs/apis/app/runtime/model/Provider) 组件。单独使用 Reduck 时，需要手动完成。
 
 示例：
 ```tsx
@@ -35,7 +35,7 @@ const Root = () => {
 
 4. 功能配置
 
-在 Modern.js 中使用时，可以通过 [`runtime.state`](/docs/apis/app/config/runtime/state) 对 Reduck 功能进行配置。单独使用时，需要通过 [`Provider`](/docs/apis/runtime/model/Provider) 的 `config` 或 `store` 参数配置。
+在 Modern.js 中使用时，可以通过 [`runtime.state`](/docs/apis/app/config/runtime/state) 对 Reduck 功能进行配置。单独使用时，需要通过 [`Provider`](/docs/apis/app/runtime/model/Provider) 的 `config` 或 `store` 参数配置。
 
 
 示例：

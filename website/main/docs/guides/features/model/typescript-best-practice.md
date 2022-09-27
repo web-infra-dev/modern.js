@@ -29,7 +29,7 @@ export const foo = model<State>('foo').define({
 })
 ```
 
-当为 Model 的 State 声明类型信息后，Model 的 `computed`、`actions` 都能获取正确的类型信息。事实上，上面的示例代码中，即使我们不定义 State 类型信息，也会根据 `state` 的初始值信息自动推导出 State 的类型信息。不过，仍然建议你在定义 Model 时，声明 State 的类型信息，因为根据 `state` 的初始值信息推导出的 State 类型信息可能不完整(缺少字段或字段的类型信息缺少)，而且当使用[函数类型](/docs/apis/runtime/model/model_#函数类型)定义 Model 时，State 的类型信息也是无法根据 `state` 的初始值信息自动推导的。
+当为 Model 的 State 声明类型信息后，Model 的 `computed`、`actions` 都能获取正确的类型信息。事实上，上面的示例代码中，即使我们不定义 State 类型信息，也会根据 `state` 的初始值信息自动推导出 State 的类型信息。不过，仍然建议你在定义 Model 时，声明 State 的类型信息，因为根据 `state` 的初始值信息推导出的 State 类型信息可能不完整(缺少字段或字段的类型信息缺少)，而且当使用[函数类型](/docs/apis/app/runtime/model/model_#函数类型)定义 Model 时，State 的类型信息也是无法根据 `state` 的初始值信息自动推导的。
 
 ## 衍生状态的依赖类型
 
