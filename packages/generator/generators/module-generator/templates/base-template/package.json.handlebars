@@ -16,6 +16,11 @@
   "scripts": {
     {{#if isPublic}}
     "prepare": "modern build",
+    {{#if isMonorepoSubProject}}
+    "prepare": "modern build",
+    {{else}}
+    "prepare": "modern build && husky install",
+    {{/if}}
     "prepublishOnly": "modern build --platform",
     {{/if}}
     "dev": "modern dev",

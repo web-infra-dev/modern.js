@@ -8,6 +8,9 @@
     "start": "modern start",
     "new": "modern new",
     "lint": "modern lint",
+    {{#unless isMonorepoSubProject}}
+    "prepare": "modern build && husky install",
+    {{/unless}}
     "upgrade": "modern upgrade"
   },
   {{#unless isMonorepoSubProject}}
