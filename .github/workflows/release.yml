@@ -31,7 +31,7 @@ jobs:
           fetch-depth: 1
 
       - name: Release
-        uses: modern-js-dev/actions@main
+        uses: modern-js-dev/actions@feat-pnpm-7
         with:
           # this expects you to have a script called release which does a build for your packages and calls changeset publish
           version: ${{ github.event.inputs.version }}

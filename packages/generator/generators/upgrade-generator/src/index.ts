@@ -83,10 +83,14 @@ export const handleTemplateFile = async (
   if (packageManager === PackageManager.Pnpm) {
     const npmrcPath = path.join(generator.outputPath, '.npmrc');
     if (fs.existsSync(npmrcPath)) {
+<<<<<<< HEAD
       const content = fs.readFileSync(npmrcPath, 'utf-8');
       if (!content.includes('strict-peer-dependencies=false')) {
         fs.appendFileSync(npmrcPath, '\nstrict-peer-dependencies=false\n');
       }
+=======
+      fs.appendFileSync(npmrcPath, '\nstrict-peer-dependencies=false\n');
+>>>>>>> d2fbefc5e (feat: support pnpm v7 (#1768))
     } else {
       fs.ensureFileSync(npmrcPath);
       fs.writeFileSync(npmrcPath, 'strict-peer-dependencies=false');
@@ -153,7 +157,11 @@ export const handleTemplateFile = async (
 
   // update husky
   const huskyVersion = deps.husky;
+<<<<<<< HEAD
   if (huskyVersion && semver.lt(huskyVersion, '8.0.0')) {
+=======
+  if (semver.lt(huskyVersion, '8.0.0')) {
+>>>>>>> d2fbefc5e (feat: support pnpm v7 (#1768))
     generator.logger.info(`${i18n.t(localeKeys.updateHusky)}`);
     await jsonAPI.update(
       context.materials.default.get(path.join(appDir, 'package.json')),

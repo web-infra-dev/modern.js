@@ -6,7 +6,7 @@ import {
   getPnpmVersion,
 } from '@modern-js/utils';
 import { tag as gitTag } from '@changesets/git';
-import { CHANGESET_PATH, execaWithStreamLog } from '../utils';
+import { CHANGESET_PATH, execaWithStreamLog, getPnpmVersion } from '../utils';
 
 interface ReleaseOptions {
   tag: string;

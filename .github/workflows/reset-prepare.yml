@@ -2,7 +2,11 @@ name: Reset repo and run prepare and run integration test
 
 on:
   schedule:
+<<<<<<< HEAD
     - cron:  '0 1 * * *'
+=======
+    - cron:  '0 1,16 * * *'
+>>>>>>> d2fbefc5e (feat: support pnpm v7 (#1768))
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -21,7 +25,11 @@ jobs:
           fetch-depth: 25
 
       - name: Install Pnpm
+<<<<<<< HEAD
         run: npm install -g pnpm@7
+=======
+        run: npm install -g pnpm
+>>>>>>> d2fbefc5e (feat: support pnpm v7 (#1768))
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
