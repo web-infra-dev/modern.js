@@ -1,8 +1,8 @@
 ---
+title: tools.webpack
+
 sidebar_label: webpack
 ---
-
-# tools.webpack
 
 
 

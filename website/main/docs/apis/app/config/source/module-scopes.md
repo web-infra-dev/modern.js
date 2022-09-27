@@ -1,9 +1,9 @@
 ---
+title: source.moduleScopes
+
 sidebar_label: moduleScopes
 sidebar_position: 9
 ---
-
-# source.moduleScopes
 
 
 
