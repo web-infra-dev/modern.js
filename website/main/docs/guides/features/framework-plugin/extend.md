@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # 扩展插件 Hook
 
-本章节介绍如何通过动态注册 [Hook 模型](/docs/apis/runtime/plugin/hook#hook-模型) 的方式来扩展插件 Hook。
+本章节介绍如何通过动态注册 [Hook 模型](/docs/apis/app/runtime/plugin/hook#hook-模型) 的方式来扩展插件 Hook。
 
 ## 示例
 

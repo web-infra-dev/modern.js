@@ -15,7 +15,7 @@ sidebar_position: 1
 - [关闭窗口](/docs/guides/features/electron/win-manager/close-window)
 - [窗口间通信](/docs/guides/features/electron/ipc/regist-services/render)
 - 窗口管理 API
-  - [主进程 winService](/docs/apis/runtime/electron/main-process/win-service)
-  - [渲染进程 winService](/docs/apis/runtime/electron/render-process/win-service)
+  - [主进程 winService](/docs/apis/app/runtime/electron/main-process/win-service)
+  - [渲染进程 winService](/docs/apis/app/runtime/electron/render-process/win-service)
 
 

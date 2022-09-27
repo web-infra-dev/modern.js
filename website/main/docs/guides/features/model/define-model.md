@@ -61,6 +61,6 @@ barModel 是基于 fooModel 创建出一个的新的 Model 对象，类比面向
 
 
 :::info 补充信息
-本节涉及的 API 的详细定义，请参考[这里](/docs/apis/runtime/model/model_)。
+本节涉及的 API 的详细定义，请参考[这里](/docs/apis/app/runtime/model/model_)。
 :::
 

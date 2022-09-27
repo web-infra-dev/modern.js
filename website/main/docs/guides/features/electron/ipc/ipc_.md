@@ -21,10 +21,10 @@ sidebar_position: 2
 ![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/electron/ipc2.png)
 
 可参考相关 API 即可：
-- [`winService.sendTo`](/docs/apis/runtime/electron/main-process/win-service#sendto)（主进程）
-- [`winService.sendTo`](/docs/apis/runtime/electron/render-process/win-service#sendto)（渲染进程）
-- [`webviewService.sendToWebview`](/docs/apis/runtime/electron/render-process/webview-service#sendtowebview)
-- [`webviewBridge.send`](/docs/apis/runtime/electron/webview-process/index_#send)
+- [`winService.sendTo`](/docs/apis/app/runtime/electron/main-process/win-service#sendto)（主进程）
+- [`winService.sendTo`](/docs/apis/app/runtime/electron/render-process/win-service#sendto)（渲染进程）
+- [`webviewService.sendToWebview`](/docs/apis/app/runtime/electron/render-process/webview-service#sendtowebview)
+- [`webviewBridge.send`](/docs/apis/app/runtime/electron/webview-process/index_#send)
 
 
 关于双向通信，如下图所示，展示了彼此之间的通信关系：

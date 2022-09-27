@@ -146,7 +146,7 @@ if (IS_BROWSER && module.hot) {
 :::tip 提示
 
 * Modern.js 生成的入口会统一放到  `node_modules/.modern-js/` 目录。对应的 Webpack 入口文件为 `node_module/.modern-js/${entryName}/index.js`。
-* `createApp` 和 `bootstrap` 为 `@modern-js/runtime` API，详情请参考：【[Runtime API](/docs/apis/runtime/app/create-app)】。
+* `createApp` 和 `bootstrap` 为 `@modern-js/runtime` API，详情请参考：【[Runtime API](/docs/apis/app/runtime/app/create-app)】。
 
 :::
 

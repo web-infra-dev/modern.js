@@ -60,5 +60,5 @@ export default App;
 
 :::info 补充信息
 1. Modern.js 中 `Helmet` 默认支持 SSR ，服务端渲染之后，返回给浏览器的 HTML 的 `head` 中会含有 `Helmet` 渲染的标签。
-2. 可以查看 [Head API](/docs/apis/runtime/app/head) 了解 `Helmet` 的更多用法。
+2. 可以查看 [Head API](/docs/apis/app/runtime/app/head) 了解 `Helmet` 的更多用法。
 :::

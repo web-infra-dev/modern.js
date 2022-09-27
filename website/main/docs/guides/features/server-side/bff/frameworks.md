@@ -163,7 +163,7 @@ app.use(async (req, res, next) => {
 export default app;
 ```
 
-如果需要在 BFF 函数注册路由后添加中间件，错误处理等，可以使用 [`afterLambdaRegisted`](/docs/apis/runtime/bff-server/after-lambda-registed) hook，该 hook 中的代码会在 BFF 函数注册路由后执行：
+如果需要在 BFF 函数注册路由后添加中间件，错误处理等，可以使用 [`afterLambdaRegisted`](/docs/apis/app/runtime/bff-server/after-lambda-registed) hook，该 hook 中的代码会在 BFF 函数注册路由后执行：
 ```ts title="api/app.ts"
 const app = express();
 // 其他代码...

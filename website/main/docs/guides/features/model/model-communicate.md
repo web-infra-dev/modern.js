@@ -99,7 +99,7 @@ Modern.js 默认开启 [自动生成 actions](./auto-actions.md)，所以 `stepM
 
 :::info 补充信息
 - 本节完整的[示例代码](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/models-communication)。
-- 相关 API 的更多介绍，请参考：[model](/docs/apis/runtime/model/model_#函数类型)。
+- 相关 API 的更多介绍，请参考：[model](/docs/apis/app/runtime/model/model_#函数类型)。
 :::
 
 前面 `counterModel` 的例子，我们是在 Actions 的函数内部调用 `use` 获取其他 Model 对象的。如果只需要调用其它 Model 的 Actions，因为 Actions 都是函数，不存在值过期问题，所以也可以在 `define` 的回调函数中调用 `use` 获取 Model 的 Actions。例如：

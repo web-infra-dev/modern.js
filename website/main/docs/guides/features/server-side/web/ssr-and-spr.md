@@ -30,7 +30,7 @@ Modern.js 打破传统的 SSR 开发模式，提供了用户无感的 SSR 开发
 不过，开发者仍然需要关注数据的兜底处理，例如 `null` 值或不符合预期的数据返回。避免在 SSR 时产生 React 渲染错误或是返回凌乱的渲染结果。
 
 :::info 补充信息
-关于 `useLoader` 的详细介绍可以参考[这里](/docs/apis/runtime/container/use-loader)。
+关于 `useLoader` 的详细介绍可以参考[这里](/docs/apis/app/runtime/container/use-loader)。
 :::
 
 ## 保持渲染一致
@@ -63,7 +63,7 @@ Warning: Expected server HTML to contain a matching <div> in <div>.
 关于注水逻辑请参考[这里](https://reactjs.org/docs/react-dom.html#hydrate)。
 :::
 
-应用需要保持 SSR 与 CSR 渲染结果的一致性，如果存在不一致的情况，说明这部分内容无需在 SSR 中进行渲染。Modern.js 为这类在 SSR 中不需要渲染的内容提供 [`<NoSSR>` 工具组件](/docs/apis/runtime/app/use-runtime-context)：
+应用需要保持 SSR 与 CSR 渲染结果的一致性，如果存在不一致的情况，说明这部分内容无需在 SSR 中进行渲染。Modern.js 为这类在 SSR 中不需要渲染的内容提供 [`<NoSSR>` 工具组件](/docs/apis/app/runtime/app/use-runtime-context)：
 
 ```ts
 import { NoSSR } from '@modern-js/runtime/ssr';
@@ -82,7 +82,7 @@ import { NoSSR } from '@modern-js/runtime/ssr';
 修改代码后，刷新页发现之前的 Waring 消失。打开浏览器开发者工具的 Network 窗口，查看返回的 HTML 文档是不包含 `NoSSR` 组件包裹的内容的。
 
 :::info 补充信息
-[`useRuntimeContext`](/docs/apis/runtime/app/use-runtime-context) 可以获取完整的请求信息，可以利用它保证 SSR 与 CSR 的渲染结果一致。
+[`useRuntimeContext`](/docs/apis/app/runtime/app/use-runtime-context) 可以获取完整的请求信息，可以利用它保证 SSR 与 CSR 的渲染结果一致。
 :::
 
 ## 关注内存泄漏
@@ -182,5 +182,5 @@ import { PreRender } from '@modern-js/runtime/ssr';
 可以想象，当 `interval` 设置为 1 时，用户可以在感知到实时数据的同时，拥有静态页面的响应体验。
 
 :::info 补充信息
-`PreRender` 的详细使用可以参考[这里](/docs/apis/runtime/app/pre-render)。
+`PreRender` 的详细使用可以参考[这里](/docs/apis/app/runtime/app/pre-render)。
 :::

@@ -54,7 +54,7 @@ const MyPlugin: CliPlugin = {
 ```
 
 :::info 注
-插件可以注册丰富的 Hooks，不同的 Hook 拥有不同的模型和运行规则，详见 [Hook 模型](/docs/apis/runtime/plugin/hook)。
+插件可以注册丰富的 Hooks，不同的 Hook 拥有不同的模型和运行规则，详见 [Hook 模型](/docs/apis/app/runtime/plugin/hook)。
 :::
 
 ### 插件配置项
@@ -98,7 +98,7 @@ export default (): CliPlugin => ({
 });
 ```
 
-插件 API 的详细说明，请参考 [Plugin API](/docs/apis/runtime/plugin/plugin-api)。
+插件 API 的详细说明，请参考 [Plugin API](/docs/apis/app/runtime/plugin/plugin-api)。
 
 ### 异步 setup
 

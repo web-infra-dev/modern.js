@@ -39,7 +39,7 @@ console.log('1.0.0');
 ```
 
 :::tip 提示
-环境变量的值需要提前设置好，设置方式参考：[环境变量](/docs/apis/runtime/env)。
+环境变量的值需要提前设置好，设置方式参考：[环境变量](/docs/apis/app/runtime/env)。
 :::
 
 ## 错误用法

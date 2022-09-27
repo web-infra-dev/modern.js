@@ -86,5 +86,5 @@ function Counter() {
 
 
 :::info 补充信息
-相关 API 的更多介绍，请参考[这里](/docs/apis/runtime/model/auto-actions)。
+相关 API 的更多介绍，请参考[这里](/docs/apis/app/runtime/model/auto-actions)。
 :::

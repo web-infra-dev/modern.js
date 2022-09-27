@@ -23,5 +23,5 @@ Modern.js 内置了一套插件系统，并基于这套插件系统来管理各�
 因此，当 Modern.js 暂时没有覆盖到你所需要的功能或场景时，可以开发一个自定义插件，来实现适配特殊场景的相关功能。
 
 :::info 补充信息
-关于 Modern.js 插件 API 的详细介绍，请参考 【[插件 API](/docs/apis/runtime/plugin/abstract)】。
+关于 Modern.js 插件 API 的详细介绍，请参考 【[插件 API](/docs/apis/app/runtime/plugin/abstract)】。
 :::
