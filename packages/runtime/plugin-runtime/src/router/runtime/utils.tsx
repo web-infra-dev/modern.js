@@ -1,6 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
+import { Routes, Route, matchPath, Outlet } from 'react-router-dom';
 import { RouterConfig } from './plugin';
+import { DefaultNotFound } from './DefaultNotFound';
 
 const Layout = ({ GlobalLayout, Component, ...props }: any) => {
   return GlobalLayout ? (
@@ -12,18 +14,50 @@ const Layout = ({ GlobalLayout, Component, ...props }: any) => {
 
 export function renderRoutes(
   routesConfig: RouterConfig['routesConfig'],
+  pathname: string,
   extraProps: any = {},
 ) {
-  return routesConfig?.routes?.map(item => ({
-    path: item.path?.startsWith('/') ? item.path.substring(1) : item.path, // legacy: '/about' -> 'about'
-    element: (
-      <Layout
-        GlobalLayout={routesConfig.globalApp}
-        Component={item.component}
-        {...extraProps}
-      />
-    ),
-  }));
+  const findMatchedRoute = (pathname: string) =>
+    routesConfig?.routes?.find(route => {
+      const info = matchPath(
+        {
+          path: route.path as string,
+          caseSensitive: route.caseSensitive,
+        },
+        pathname,
+      );
+
+      return Boolean(info);
+    });
+
+  const matchedRoute = findMatchedRoute(pathname);
+
+  if (!matchedRoute) {
+    return <DefaultNotFound />;
+  }
+
+  // legacy '/apple' -> 'apple'
+  const path = matchedRoute.path?.startsWith('/')
+    ? matchedRoute.path.substring(1)
+    : matchedRoute.path;
+
+  return (
+    <Routes>
+      <Route path="/*" element={<Outlet />}>
+        <Route
+          path={path}
+          caseSensitive={matchedRoute.caseSensitive}
+          element={
+            <Layout
+              GlobalLayout={routesConfig?.globalApp}
+              Component={matchedRoute.component}
+              {...extraProps}
+            />
+          }
+        />
+      </Route>
+    </Routes>
+  );
 }
 
 export function getLocation(serverContext: any): string {

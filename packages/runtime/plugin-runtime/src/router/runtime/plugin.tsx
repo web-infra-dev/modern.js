@@ -1,10 +1,5 @@
 import React, { useContext } from 'react';
-import {
-  createBrowserRouter,
-  createHashRouter,
-  RouterProvider,
-  Outlet,
-} from 'react-router-dom';
+import { HashRouter, BrowserRouter, useLocation } from 'react-router-dom';
 import type { RouteProps } from 'react-router-dom';
 import { StaticRouter } from 'react-router-dom/server';
 import hoistNonReactStatics from 'hoist-non-react-statics';
@@ -12,7 +7,6 @@ import { RuntimeReactContext, ServerRouterContext } from '../../core';
 import type { Plugin } from '../../core';
 import { isBrowser } from '../../common';
 import { renderRoutes, getLocation, urlJoin } from './utils';
-import RootBoundary from './RootBoundary';
 
 declare global {
   interface Window {
@@ -71,31 +65,24 @@ export const routerPlugin = ({
                 window._SERVER_DATA?.router.baseUrl ||
                 select(location.pathname);
 
-              // https://reactrouter.com/en/main/utils/create-routes-from-elements
-              const routerElement = (props: any) => [
-                {
-                  path: '/*',
-                  element: (
-                    <>
-                      <App {...props} />
-                      <Outlet />
-                    </>
-                  ),
-                  errorElement: <RootBoundary />,
-                  children: renderRoutes(routesConfig),
-                },
-              ];
+              const Router = supportHtml5History ? BrowserRouter : HashRouter;
 
-              const routerConfig = {
-                basename: baseUrl,
+              const RouterContent = (props: any) => {
+                const location = useLocation();
+                return (
+                  <App {...props}>
+                    {routesConfig
+                      ? renderRoutes(routesConfig, location.pathname, props)
+                      : null}
+                  </App>
+                );
               };
 
-              const routers = (props: any) =>
-                supportHtml5History
-                  ? createBrowserRouter(routerElement(props), routerConfig)
-                  : createHashRouter(routerElement(props), routerConfig);
-
-              return (props: any) => <RouterProvider router={routers(props)} />;
+              return (props: any) => (
+                <Router basename={baseUrl}>
+                  <RouterContent {...props} />
+                </Router>
+              );
             }
             return (props: any) => {
               const runtimeContext = useContext(RuntimeReactContext);
@@ -113,7 +100,9 @@ export const routerPlugin = ({
                     location={location}
                   >
                     <App {...props}>
-                      {/* {routesConfig ? renderRoutes(routesConfig, props) : null} */}
+                      {routesConfig
+                        ? renderRoutes(routesConfig, location, props)
+                        : null}
                     </App>
                   </StaticRouter>
                 </ServerRouterContext.Provider>
