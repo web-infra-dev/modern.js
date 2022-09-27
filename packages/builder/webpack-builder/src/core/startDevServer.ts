@@ -21,7 +21,7 @@ async function printURLs(config: BuilderConfig, port: number) {
   info(message);
 }
 
-async function createDevServer(
+export async function createDevServer(
   options: InitConfigsOptions,
   port: number,
   customCompiler?: Compiler | MultiCompiler,
@@ -29,11 +29,13 @@ async function createDevServer(
   const { Server } = await import('@modern-js/server');
   const { applyOptionsChain } = await import('@modern-js/utils');
 
-  const { webpackConfigs } = await initConfigs(options);
-
-  const compiler =
-    customCompiler ||
-    (await createWatchCompiler(options.context, webpackConfigs));
+  let compiler: Compiler | MultiCompiler;
+  if (customCompiler) {
+    compiler = customCompiler;
+  } else {
+    const { webpackConfigs } = await initConfigs(options);
+    compiler = await createWatchCompiler(options.context, webpackConfigs);
+  }
 
   debug('create dev server');
 
