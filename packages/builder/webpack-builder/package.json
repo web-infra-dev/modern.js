@@ -97,6 +97,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.18.0",
+    "@modern-js/e2e": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/babel__core": "^7.1.19",
     "@types/babel__preset-env": "^7.9.2",
@@ -105,8 +106,7 @@
     "@vitest/ui": "^0.21.1",
     "autoprefixer": "^10.4.8",
     "typescript": "^4",
-    "vitest": "0.21.1",
-    "@modern-js/e2e": "workspace:*"
+    "vitest": "0.21.1"
   },
   "peerDependencies": {
     "@modern-js/e2e": "workspace:*"

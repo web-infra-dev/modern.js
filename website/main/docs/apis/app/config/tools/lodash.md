@@ -1,8 +1,8 @@
 ---
+title: tools.lodash
+
 sidebar_label: lodash
 ---
-
-# tools.lodash
 
 
 

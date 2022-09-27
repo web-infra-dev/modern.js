@@ -67,6 +67,7 @@ export const applyDefaultPlugins = () =>
     import('../plugins/css').then(m => m.PluginCss()),
     import('../plugins/sass').then(m => m.PluginSass()),
     import('../plugins/less').then(m => m.PluginLess()),
+    import('../plugins/rem').then(m => m.PluginRem()),
     import('../plugins/react').then(m => m.PluginReact()),
     import('../plugins/bundleAnalyzer').then(m => m.PluginBundleAnalyzer()),
     import('../plugins/toml').then(m => m.PluginToml()),
@@ -77,5 +78,6 @@ export const applyDefaultPlugins = () =>
     import('../plugins/startUrl').then(m => m.PluginStartUrl()),
     import('../plugins/inlineChunk').then(m => m.PluginInlineChunk()),
     import('../plugins/assetsRetry').then(m => m.PluginAssetsRetry()),
-    import('../plugins/fallback').then(m => m.PluginFallback()),
+    import('../plugins/externals').then(m => m.PluginExternals()),
+    import('../plugins/fallback').then(m => m.PluginFallback()), // fallback should be the last plugin
   ]);

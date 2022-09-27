@@ -28,3 +28,11 @@ export const debug = (message: string | (() => string)) => {
     console.error(`${chalk.yellow.bold('debug')} ${result} ${time}`);
   }
 };
+
+export const logger = {
+  log,
+  info,
+  warn,
+  error,
+  debug,
+};

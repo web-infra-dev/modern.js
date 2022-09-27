@@ -1,3 +1,7 @@
+---
+extractApiHeaders: [2]
+---
+
 # Security Config
 
 This section describes some security related configurations in Modern.js Builder.

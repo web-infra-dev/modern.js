@@ -1,5 +1,7 @@
-import type { EntryObject } from 'webpack';
+import type * as webpack from 'webpack';
 import type { BuilderConfig } from './config';
+import type { Context } from './context';
+import type { PromiseOrNot } from './utils';
 
 export type BuilderTarget = 'web' | 'node' | 'modern-web';
 
@@ -7,7 +9,7 @@ export type BuilderOptions = {
   /** The root path of current project. */
   cwd?: string;
   /** The entry points object. */
-  entry?: EntryObject;
+  entry?: webpack.EntryObject;
   /** Type of build target. */
   target?: BuilderTarget | BuilderTarget[];
   /** Framework name, such as 'modern.js' */
@@ -26,3 +28,8 @@ export type InspectOptions = {
   outputPath?: string;
   writeToDisk?: boolean;
 };
+
+export type ExecuteBuild = (
+  context: Context,
+  configs: webpack.Configuration[],
+) => PromiseOrNot<{ stats: webpack.MultiStats } | void>;

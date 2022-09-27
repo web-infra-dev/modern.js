@@ -1,5 +1,5 @@
 import _ from '@modern-js/utils/lodash';
-import type { BuilderPlugin } from '../types';
+import type { BuilderPlugin, SourceConfig } from '../types';
 
 export const PluginDefine = (): BuilderPlugin => ({
   name: 'webpack-builder-plugin-define',
@@ -8,22 +8,24 @@ export const PluginDefine = (): BuilderPlugin => ({
     const { default: webpack } = await import('webpack');
     const config = api.getBuilderConfig();
 
-    const builtinVars: Record<string, string> = {
-      'process.env.NODE_ENV': process.env.NODE_ENV || 'development',
+    const builtinVars: NonNullable<SourceConfig['globalVars']> = {
+      NODE_ENV: process.env.NODE_ENV || 'development',
     };
 
-    const globalVars = _.assign({}, config.source?.globalVars, builtinVars);
-
-    // Serialize global vars
-    const serializedVars = _.mapValues(globalVars, value =>
-      JSON.stringify(value),
-    );
+    // Serialize global vars. User can customize value of `builtinVars`.
+    const globalVars = _.assign(builtinVars, config.source?.globalVars);
+    const serializedVars = _(globalVars)
+      .mapKeys((_value, key) => `process.env.${key}`)
+      .mapValues(value => JSON.stringify(value))
+      .value();
+    // Macro defines.
+    const defineExprs = config.source?.define ?? {};
 
     // Apply define plugin
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
       chain
         .plugin(CHAIN_ID.PLUGIN.DEFINE)
-        .use(webpack.DefinePlugin, [serializedVars]);
+        .use(webpack.DefinePlugin, [{ ...serializedVars, ...defineExprs }]);
     });
   },
 });

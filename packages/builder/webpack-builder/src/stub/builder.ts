@@ -4,7 +4,7 @@ import _ from '@modern-js/utils/lodash';
 import assert from 'assert';
 import { PathLike } from 'fs';
 import { URL } from 'url';
-import { webpackBuild } from '../core/build';
+import type { BuildOptions } from '../core/build';
 import {
   createDefaultBuilderOptions,
   createPrimaryBuilder,
@@ -43,6 +43,7 @@ export interface StubBuilderOptions extends BuilderOptions {
    * Set a string value to specify the `output.distPath` config.
    */
   webpack?: boolean | string;
+  buildOptions?: BuildOptions;
 }
 
 export type HookApi = {
@@ -111,11 +112,10 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   // merge user context.
   options?.context && _.merge(context, options.context);
   // init primary builder.
-  const {
-    pluginStore,
-    publicContext,
-    build: buildImpl,
-  } = createPrimaryBuilder(builderOptions, context);
+  const { pluginStore, publicContext } = createPrimaryBuilder(
+    builderOptions,
+    context,
+  );
   // add builtin and custom plugins by `options.plugins`.
   await applyPluginOptions(pluginStore, options?.plugins);
 
@@ -133,8 +133,13 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
    * and always return cached result until {@link reset}.
    */
   const build = _.memoize(async () => {
+    const { build: buildImpl, webpackBuild } = await import('../core/build');
     const executeBuild = options?.webpack ? webpackBuild : undefined;
-    await buildImpl(executeBuild);
+    await buildImpl(
+      { context, pluginStore, builderOptions },
+      options?.buildOptions,
+      executeBuild,
+    );
     return { resolvedHooks: { ...resolvedHooks } };
   });
 

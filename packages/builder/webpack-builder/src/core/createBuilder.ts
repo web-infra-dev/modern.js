@@ -1,21 +1,15 @@
-import type webpack from 'webpack';
 import { debug, pick } from '../shared';
 import { applyDefaultPlugins } from '../shared/plugin';
+import { BuildOptions } from './build';
+import { initConfigs } from './initConfigs';
+import { createContext, createPublicContext } from './createContext';
+import { createPluginStore } from './createPluginStore';
 import type {
   BuilderOptions,
   Context,
+  ExecuteBuild,
   InspectOptions,
-  PromiseOrNot,
 } from '../types';
-import { webpackBuild } from './build';
-import { createContext, createPublicContext } from './createContext';
-import { createPluginStore } from './createPluginStore';
-import { initConfigs } from './initConfigs';
-
-export type ExecuteBuild = (
-  context: Context,
-  configs: webpack.Configuration[],
-) => PromiseOrNot<{ stats: webpack.MultiStats } | void>;
 
 /**
  * Create primary builder.
@@ -76,7 +70,7 @@ export async function createBuilder(options?: BuilderOptions) {
     ...options,
   };
   const context = await createContext(builderOptions);
-  const { build, pluginStore, publicContext } = createPrimaryBuilder(
+  const { pluginStore, publicContext } = createPrimaryBuilder(
     builderOptions,
     context,
   );
@@ -85,14 +79,28 @@ export async function createBuilder(options?: BuilderOptions) {
   pluginStore.addPlugins(await applyDefaultPlugins());
   debug('add default plugins done');
 
-  const createCompiler = async () => {
-    const { createCompiler } = await import('./createCompiler');
-    return createCompiler({ context, pluginStore, builderOptions });
-  };
-
   const startDevServer = async () => {
     const { startDevServer } = await import('./startDevServer');
     return startDevServer({ context, pluginStore, builderOptions });
+  };
+
+  const createCompiler = async () => {
+    const { createWatchCompiler } = await import('./createCompiler');
+    const { webpackConfigs } = await initConfigs({
+      context,
+      pluginStore,
+      builderOptions,
+    });
+    return createWatchCompiler(context, webpackConfigs);
+  };
+
+  const build = async (options?: BuildOptions) => {
+    const { build: buildImpl, webpackBuild } = await import('./build');
+    return buildImpl(
+      { context, pluginStore, builderOptions },
+      options,
+      webpackBuild,
+    );
   };
 
   const inspectWebpackConfig = async (inspectOptions: InspectOptions = {}) => {
@@ -115,7 +123,7 @@ export async function createBuilder(options?: BuilderOptions) {
 
   return {
     ...pick(pluginStore, ['addPlugins', 'removePlugins', 'isPluginExists']),
-    build: () => build(webpackBuild),
+    build,
     context: publicContext,
     createCompiler,
     startDevServer,

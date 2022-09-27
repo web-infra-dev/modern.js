@@ -33,6 +33,7 @@ export const normalizeConfig = createNormalizer({
     https: false,
     startUrl: true,
     hmr: false,
+    progressBar: true,
   },
   html: {},
   tools: {
