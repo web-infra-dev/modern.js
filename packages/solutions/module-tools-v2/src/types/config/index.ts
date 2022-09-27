@@ -54,6 +54,7 @@ export type BundleOptions = {
   globals: LibuildUserConfig['globals'];
   metafile: LibuildUserConfig['metafile'];
   jsx: LibuildUserConfig['jsx'];
+  getModuleId: LibuildUserConfig['getModuleId'];
 };
 export interface BaseBundleBuildConfig extends BaseCommonBuildConfig {
   buildType: 'bundle';

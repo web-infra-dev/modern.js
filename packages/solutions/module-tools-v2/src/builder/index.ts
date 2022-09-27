@@ -21,9 +21,11 @@ export const run = async (
   const runner = api.useHookRunners();
 
   if (resolvedBuildConfig.length !== 0) {
+    const { runBuildTask } = await import('./build');
     const { default: pMap } = await import('p-map');
     await pMap(resolvedBuildConfig, async config => {
       await runner.beforeBuildTask({ config, options });
+      await runBuildTask(config, options, api);
       console.info('run build', JSON.stringify(config));
       await runner.afterBuildTask({ status: 'success', config });
     });
