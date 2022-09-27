@@ -150,7 +150,7 @@ export const handleTemplateFile = async (
 
   // update husky
   const huskyVersion = deps.husky;
-  if (semver.lt(huskyVersion, '8.0.0')) {
+  if (huskyVersion && semver.lt(huskyVersion, '8.0.0')) {
     generator.logger.info(`${i18n.t(localeKeys.updateHusky)}`);
     await jsonAPI.update(
       context.materials.default.get(path.join(appDir, 'package.json')),
