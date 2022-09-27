@@ -138,6 +138,8 @@ export const CHAIN_ID = {
     SUBRESOURCE_INTEGRITY: 'subresource-integrity',
     /** WebpackAssetsRetryPlugin */
     ASSETS_RETRY: 'ASSETS_RETRY',
+    /** AutoSetRootFontSizePlugin */
+    AUTO_SET_ROOT_SIZE: 'auto-set-root-size',
   },
   /** Predefined minimizers */
   MINIMIZER: {
