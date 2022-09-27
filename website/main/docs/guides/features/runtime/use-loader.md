@@ -217,5 +217,5 @@ function Home() {
 
 :::info 补充信息
 - 本章代码示例：[use-loader](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/use-loader)。
-- 更多介绍，请参考【[useLoader API](/docs/apis/runtime/container/use-loader)】。
+- 更多介绍，请参考【[useLoader API](/docs/apis/app/runtime/container/use-loader)】。
 :::

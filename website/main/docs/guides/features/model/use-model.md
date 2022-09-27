@@ -236,9 +236,9 @@ function Counter() {
 完整的示例代码可以在[这里](https://github.com/modern-js-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/counter-model-outof-react)查看。
 
 :::info 注
-如果是通过 [`createStore`](/docs/apis/runtime/model/create-store) 手动创建的 Store 对象，无需通过 `useStore` 在组件内获取，即可直接使用。
+如果是通过 [`createStore`](/docs/apis/app/runtime/model/create-store) 手动创建的 Store 对象，无需通过 `useStore` 在组件内获取，即可直接使用。
 :::
 
 :::info 补充信息
-本节涉及的 API 的详细定义，请参考[这里](/docs/apis/runtime/model/model_)。
+本节涉及的 API 的详细定义，请参考[这里](/docs/apis/app/runtime/model/model_)。
 :::
