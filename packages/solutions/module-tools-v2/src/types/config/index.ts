@@ -20,14 +20,12 @@ export type Target =
   | 'esnext';
 
 export type Entry = Required<LibuildUserConfig>['input'];
-export type DTSOptions  = {
+export type DTSOptions = {
   distPath: string;
   tsconfigPath: string;
   only: boolean;
 };
-export type DTS =
-  | false
-  | DTSOptions
+export type DTS = false | DTSOptions;
 export type SourceMap = Required<LibuildUserConfig>['sourceMap'];
 export type Copy = { from: string; to?: string }[];
 export interface BaseCommonBuildConfig {
@@ -36,6 +34,7 @@ export interface BaseCommonBuildConfig {
   dts: DTS;
   sourceMap: SourceMap;
   copy: Copy;
+  path: string;
 }
 
 export type BundleFormat = 'esm' | 'cjs' | 'umd' | 'iife';
