@@ -409,5 +409,5 @@ describe('main entry', () => {
 执行 `pnpm run test`，会运行项目下的所有测试用例。
 
 :::info 补充信息
-更多用法，请参考【[Testing API](/docs/apis/runtime/testing/render)】。
+更多用法，请参考【[Testing API](/docs/apis/app/runtime/testing/render)】。
 :::
