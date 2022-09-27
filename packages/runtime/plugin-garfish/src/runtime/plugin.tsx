@@ -1,3 +1,4 @@
+import GarfishInstance from 'garfish';
 import React from 'react';
 import type { Plugin } from '@modern-js/runtime';
 import hoistNonReactStatics from 'hoist-non-react-statics';
@@ -91,6 +92,8 @@ export default (config: Config): Plugin => ({
                 GarfishConfig,
                 manifest,
               );
+              GarfishInstance.registerApp(appInfoList);
+
               logger('generateApps', { MApp, apps, appInfoList });
               this.setState({
                 MApp,
