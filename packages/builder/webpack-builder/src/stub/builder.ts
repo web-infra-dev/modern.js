@@ -11,7 +11,7 @@ import {
 import { URL } from 'url';
 import { createPrimaryBuilder } from '../core/createBuilder';
 import { Hooks } from '../core/createHook';
-import { matchLoader, mergeBuilderOptions } from '../shared';
+import { matchLoader, applyDefaultBuilderOptions } from '../shared';
 import type {
   BuilderOptions,
   BuilderPlugin,
@@ -91,7 +91,7 @@ export async function applyPluginOptions(
  */
 export async function createStubBuilder(options?: StubBuilderOptions) {
   // init primary builder.
-  const builderOptions = mergeBuilderOptions(
+  const builderOptions = applyDefaultBuilderOptions(
     options,
   ) as Required<StubBuilderOptions>;
   // apply webpack option.
