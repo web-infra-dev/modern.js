@@ -41,8 +41,8 @@ export async function createBuilder(options?: BuilderOptions) {
   const startDevServer = async ({
     compiler,
   }: {
-    compiler: Compiler | MultiCompiler;
-  }) => {
+    compiler?: Compiler | MultiCompiler;
+  } = {}) => {
     const { startDevServer } = await import('./startDevServer');
     return startDevServer({ context, pluginStore, builderOptions }, compiler);
   };
