@@ -1,5 +1,7 @@
 import { describe, expect, test, vi } from 'vitest';
-import { createStubBuilder } from '../src/stub';
+import { createWatchCompiler } from '../src/core/createCompiler';
+import { applyDefaultBuilderOptions } from '../src/shared';
+import { createStubBuilder, createStubContext } from '../src/stub';
 
 describe('build hooks', () => {
   test('should call onBeforeBuild hook before build', async () => {
@@ -37,5 +39,17 @@ describe('build hooks', () => {
 
     await builder.build();
     expect(fn).toHaveBeenCalledTimes(1);
+  });
+
+  test('should return Compiler when passing single webpack config', async () => {
+    const context = createStubContext(applyDefaultBuilderOptions({}) as any);
+    const compiler = await createWatchCompiler(context, [{}]);
+    expect(compiler.constructor.name).toEqual('Compiler');
+  });
+
+  test('should return MultiCompiler when passing multiple webpack configs', async () => {
+    const context = createStubContext(applyDefaultBuilderOptions({}) as any);
+    const compiler = await createWatchCompiler(context, [{}, {}]);
+    expect(compiler.constructor.name).toEqual('MultiCompiler');
   });
 });
