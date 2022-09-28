@@ -1,5 +1,5 @@
 import { log, info, debug } from '../shared';
-import { createWatchCompiler } from './createCompiler';
+import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
 import type { BuilderConfig } from '../types';
 import type { Compiler, MultiCompiler } from 'webpack';
@@ -34,7 +34,10 @@ export async function createDevServer(
     compiler = customCompiler;
   } else {
     const { webpackConfigs } = await initConfigs(options);
-    compiler = await createWatchCompiler(options.context, webpackConfigs);
+    compiler = await createCompiler({
+      context: options.context,
+      webpackConfigs,
+    });
   }
 
   debug('create dev server');
