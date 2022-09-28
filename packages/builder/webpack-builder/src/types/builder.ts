@@ -3,6 +3,8 @@ import type { BuilderConfig } from './config';
 
 export type BuilderTarget = 'web' | 'node' | 'modern-web';
 
+export type BuilderMode = 'development' | 'production';
+
 export type BuilderOptions = {
   /** The root path of current project. */
   cwd?: string;
@@ -19,7 +21,7 @@ export type BuilderOptions = {
 };
 
 export type InspectOptions = {
-  env?: 'development' | 'production';
+  env?: BuilderMode;
   verbose?: boolean;
   outputPath?: string;
   writeToDisk?: boolean;
