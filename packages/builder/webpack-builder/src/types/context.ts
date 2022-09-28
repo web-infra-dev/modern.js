@@ -34,5 +34,7 @@ export type Context = BuilderContext & {
   /** All hooks. */
   hooks: Readonly<Hooks>;
   /** Current builder config. */
-  config: Readonly<NormalizedConfig>;
+  config: Readonly<BuilderConfig>;
+  /** Normalized builder config. */
+  normalizedConfig?: Readonly<NormalizedConfig>;
 };

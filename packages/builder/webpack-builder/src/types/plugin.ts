@@ -1,4 +1,4 @@
-import type { NormalizedConfig } from './config';
+import type { BuilderConfig, NormalizedConfig } from './config';
 import type { BuilderContext } from './context';
 import type {
   OnExitFn,
@@ -24,7 +24,8 @@ export type PluginStore = {
 export type BuilderPluginAPI = {
   context: Readonly<BuilderContext>;
   isPluginExists: PluginStore['isPluginExists'];
-  getBuilderConfig: () => NormalizedConfig;
+  getBuilderConfig: () => BuilderConfig;
+  getNormalizedConfig: () => NormalizedConfig;
 
   // Hooks
   onExit: (fn: OnExitFn) => void;

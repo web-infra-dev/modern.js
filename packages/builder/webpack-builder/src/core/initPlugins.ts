@@ -1,6 +1,7 @@
 import type { Context, PluginStore, BuilderPluginAPI } from '../types';
 import { debug } from '../shared';
 import { createPublicContext } from './createContext';
+import assert from 'assert';
 
 export async function initPlugins({
   context,
@@ -14,10 +15,16 @@ export async function initPlugins({
   const publicContext = createPublicContext(context);
 
   const getBuilderConfig = () => context.config;
+  const getNormalizedConfig = () => {
+    const { normalizedConfig } = context;
+    assert(typeof normalizedConfig === 'object');
+    return normalizedConfig;
+  };
 
   const pluginAPI: BuilderPluginAPI = {
     context: publicContext,
     getBuilderConfig,
+    getNormalizedConfig,
     isPluginExists: pluginStore.isPluginExists,
 
     // Hooks
