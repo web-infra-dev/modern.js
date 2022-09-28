@@ -57,6 +57,7 @@
     "@types/node": "^14",
     "@types/ws": "^7.4.7",
     "jest": "^27",
+    "node-mocks-http": "^1.11.0",
     "ts-node": "^10.1.0",
     "tsconfig-paths": "3.14.1",
     "typescript": "^4",

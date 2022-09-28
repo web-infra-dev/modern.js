@@ -1,8 +1,14 @@
 import path from 'path';
+import { EventEmitter, Readable } from 'stream';
 import webpack from 'webpack';
 import { defaultsConfig, NormalizedConfig } from '@modern-js/core';
-import { ModernServerContext, NextFunction } from '@modern-js/types';
+import {
+  ModernServerContext,
+  NextFunction,
+  RequestHandler,
+} from '@modern-js/types';
 import { AGGRED_DIR } from '@modern-js/prod-server';
+import httpMocks from 'node-mocks-http';
 import createServer, { Server } from '../src';
 import Watcher from '../src/dev-tools/watcher';
 import { ModernDevServer } from '../src/server/dev-server';
@@ -119,6 +125,61 @@ describe('test dev server', () => {
       const modernServer: any = (server as any).server;
       const handler = modernServer.getRequestHandler();
       expect(typeof handler === 'function').toBeTruthy();
+      await server.close();
+    });
+
+    test('should use custom devMiddleware correctly', async () => {
+      const middlewareFn: RequestHandler = jest.fn((_req, _res, next) => {
+        next();
+      });
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      middlewareFn.close = jest.fn();
+
+      const compiler = webpack({});
+
+      const server = await createServer({
+        config: {
+          ...defaultsConfig,
+          output: {
+            path: 'test-dist',
+          },
+        } as unknown as NormalizedConfig,
+        pwd: appDirectory,
+        dev: {
+          devMiddleware: {
+            writeToDisk: false,
+            provider: () => middlewareFn,
+          },
+          hot: false,
+        },
+        compiler,
+      });
+
+      const modernServer: any = (server as any).server;
+      const handler = modernServer.getRequestHandler();
+
+      expect(middlewareFn).not.toBeCalled();
+
+      const req = httpMocks.createRequest({
+        url: '/',
+        headers: {
+          host: 'modernjs.com',
+        },
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+      const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+      handler(req, res);
+      const html = await new Promise((resolve, _reject) => {
+        res.on('finish', () => {
+          resolve(res._getData());
+        });
+      });
+
+      expect(html).toMatch('<div>Modern.js</div>');
+      expect(middlewareFn).toBeCalled();
+
       await server.close();
     });
 

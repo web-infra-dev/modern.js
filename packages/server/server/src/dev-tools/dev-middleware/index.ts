@@ -107,13 +107,15 @@ export default class DevMiddleware extends EventEmitter {
 
   private setupDevMiddleware() {
     const { config, devOptions } = this;
-    const middleware = webpackDevMiddleware(this.compiler!, {
+    const { provider, ...options } = devOptions.devMiddleware || {};
+
+    const middleware = (provider || webpackDevMiddleware)(this.compiler!, {
       headers: config.tools?.devServer?.headers as Headers<
         IncomingMessage,
         ServerResponse
       >,
       stats: false,
-      ...devOptions.devMiddleware,
+      ...options,
     });
 
     return middleware;

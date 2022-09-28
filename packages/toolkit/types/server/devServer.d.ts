@@ -1,5 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'http';
-import type { NextFunction, BffProxyOptions } from './utils';
+import type webpackDevMiddleware from '@modern-js/utils/webpack-dev-middleware';
+import type { BffProxyOptions, NextFunction } from './utils';
 
 export type DevServerHttpsOptions = boolean | { key: string; cert: string };
 
@@ -21,6 +22,8 @@ export type DevServerOptions = {
   };
   devMiddleware?: {
     writeToDisk: boolean | ((filename: string) => boolean);
+    /** custom dev middleware */
+    provider?: webpackDevMiddleware;
   };
   proxy?: BffProxyOptions;
   headers?: Record<string, string>;

@@ -20,6 +20,9 @@
       "default": "./server/index.d.ts"
     }
   },
+  "dependencies": {
+    "@modern-js/utils": "workspace:*"
+  },
   "devDependencies": {
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
