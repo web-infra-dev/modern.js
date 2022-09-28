@@ -46,4 +46,5 @@ export async function initPlugins({
   }
 
   debug('init plugins done');
+  return pluginAPI;
 }
