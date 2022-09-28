@@ -1,15 +1,21 @@
-import { pick, debug, mergeBuilderOptions } from '../shared';
+import type webpack from 'webpack';
+import { debug, mergeBuilderOptions, pick } from '../shared';
+import { applyDefaultPlugins } from '../shared/plugin';
+import type {
+  BuilderOptions,
+  Context,
+  InspectOptions,
+  PromiseOrNot,
+} from '../types';
+import { webpackBuild } from './build';
 import { createContext, createPublicContext } from './createContext';
 import { createPluginStore } from './createPluginStore';
 import { initConfigs } from './initConfigs';
-import { webpackBuild } from './build';
-import type webpack from 'webpack';
-import type {
-  Context,
-  PluginStore,
-  BuilderOptions,
-  InspectOptions,
-} from '../types';
+
+export type ExecuteBuild = (
+  context: Context,
+  configs: webpack.Configuration[],
+) => PromiseOrNot<{ stats: webpack.MultiStats } | void>;
 
 /**
  * Create primary builder.
@@ -23,11 +29,7 @@ export function createPrimaryBuilder(
   const publicContext = createPublicContext(context);
   const pluginStore = createPluginStore();
 
-  const build = async (
-    executeBuild?: (
-      configs: webpack.Configuration[],
-    ) => Promise<{ stats: webpack.MultiStats }>,
-  ) => {
+  const build = async (executeBuild?: ExecuteBuild) => {
     if (!process.env.NODE_ENV) {
       process.env.NODE_ENV = 'production';
     }
@@ -42,7 +44,7 @@ export function createPrimaryBuilder(
       webpackConfigs,
     });
 
-    const executeResult = await executeBuild?.(webpackConfigs);
+    const executeResult = await executeBuild?.(context, webpackConfigs);
 
     await context.hooks.onAfterBuildHook.call({
       stats: executeResult?.stats,
@@ -66,7 +68,9 @@ export async function createBuilder(options?: BuilderOptions) {
     context,
   );
 
-  await addDefaultPlugins(pluginStore);
+  debug('add default plugins');
+  pluginStore.addPlugins(await applyDefaultPlugins());
+  debug('add default plugins done');
 
   const createCompiler = async () => {
     const { createCompiler } = await import('./createCompiler');
@@ -107,93 +111,4 @@ export async function createBuilder(options?: BuilderOptions) {
   };
 }
 
-async function addDefaultPlugins(pluginStore: PluginStore) {
-  debug('add default plugins');
-
-  const { PluginHMR } = await import('../plugins/hmr');
-  const { PluginSvg } = await import('../plugins/svg');
-  const { PluginPug } = await import('../plugins/pug');
-  const { PluginCopy } = await import('../plugins/copy');
-  const { PluginFont } = await import('../plugins/font');
-  const { PluginHtml } = await import('../plugins/html');
-  const { PluginBasic } = await import('../plugins/basic');
-  const { PluginCache } = await import('../plugins/cache');
-  const { PluginEntry } = await import('../plugins/entry');
-  const { PluginImage } = await import('../plugins/image');
-  const { PluginMedia } = await import('../plugins/media');
-  const { PluginTarget } = await import('../plugins/target');
-  const { PluginOutput } = await import('../plugins/output');
-  const { PluginMoment } = await import('../plugins/moment');
-  const { PluginDefine } = await import('../plugins/define');
-  const { PluginDevtool } = await import('../plugins/devtool');
-  const { PluginResolve } = await import('../plugins/resolve');
-  const { PluginFallback } = await import('../plugins/fallback');
-  const { PluginProgress } = await import('../plugins/progress');
-  const { PluginMinimize } = await import('../plugins/minimize');
-  const { PluginManifest } = await import('../plugins/manifest');
-  const { PluginFileSize } = await import('../plugins/fileSize');
-  const { PluginCleanOutput } = await import('../plugins/cleanOutput');
-  const { PluginModuleScopes } = await import('../plugins/moduleScopes');
-  const { PluginBabel } = await import('../plugins/babel');
-  const { PluginTsLoader } = await import('../plugins/tsLoader');
-  const { PluginTsChecker } = await import('../plugins/tsChecker');
-  const { PluginCss } = await import('../plugins/css');
-  const { PluginSass } = await import('../plugins/sass');
-  const { PluginLess } = await import('../plugins/less');
-  const { PluginReact } = await import('../plugins/react');
-  const { PluginBundleAnalyzer } = await import('../plugins/bundleAnalyzer');
-  const { PluginToml } = await import('../plugins/toml');
-  const { PluginYaml } = await import('../plugins/yaml');
-  const { PluginSplitChunks } = await import('../plugins/splitChunks');
-  const { PluginInspector } = await import('../plugins/inspector');
-  const { PluginSRI } = await import('../plugins/sri');
-
-  pluginStore.addPlugins([
-    // Plugins that provide basic webpack config
-    PluginBasic(),
-    PluginEntry(),
-    PluginCache(),
-    PluginTarget(),
-    PluginOutput(),
-    PluginDevtool(),
-    PluginResolve(),
-
-    // Plugins that provide basic features
-    PluginHMR(),
-    PluginSvg(),
-    PluginPug(),
-    PluginCopy(),
-    PluginFont(),
-    PluginHtml(),
-    PluginImage(),
-    PluginMedia(),
-    PluginMoment(),
-    PluginDefine(),
-    PluginProgress(),
-    PluginMinimize(),
-    PluginManifest(),
-    // fileSize plugin will read the previous dist files.
-    // So we should register fileSize plugin before cleanOutput plugin.
-    PluginFileSize(),
-    PluginCleanOutput(),
-    PluginModuleScopes(),
-    PluginTsLoader(),
-    PluginBabel(),
-    PluginTsChecker(),
-    PluginCss(),
-    PluginSass(),
-    PluginLess(),
-    PluginReact(),
-    PluginBundleAnalyzer(),
-    PluginToml(),
-    PluginYaml(),
-    PluginSplitChunks(),
-    PluginInspector(),
-    PluginSRI(),
-
-    // fallback should be the last plugin
-    PluginFallback(),
-  ]);
-
-  debug('add default plugins done');
-}
+export type BuilderInstance = Awaited<ReturnType<typeof createBuilder>>;

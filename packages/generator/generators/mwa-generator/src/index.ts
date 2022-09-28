@@ -3,7 +3,6 @@ import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
-  ActionFunction,
   i18n as commonI18n,
   BaseGenerator,
   Solution,
@@ -14,8 +13,6 @@ import {
   RunWay,
   EntryGenerator,
   ElectronGenerator,
-  DependenceGenerator,
-  MWAActionFunctionsDevDependencies,
 } from '@modern-js/generator-common';
 import {
   getMWAProjectPath,
@@ -25,7 +22,6 @@ import {
   validatePackagePath,
   getPackageManagerText,
   getModernVersion,
-  getAvailableVersion,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
@@ -104,10 +100,7 @@ export const handleTemplateFile = async (
     runWay,
     packageManager,
     needModifyMWAConfig,
-    disableStateManagement,
     clientRoute,
-    enableLess,
-    enableSass,
   } = ans;
 
   const projectPath = getMWAProjectPath(
@@ -179,10 +172,6 @@ export const handleTemplateFile = async (
     `./${projectPath}`,
     {
       ...context.config,
-      disableStateManagement:
-        needModifyMWAConfig === BooleanConfig.NO
-          ? BooleanConfig.NO
-          : disableStateManagement,
       clientRoute:
         needModifyMWAConfig === BooleanConfig.NO
           ? ClientRoute.SelfControlRoute
@@ -197,47 +186,6 @@ export const handleTemplateFile = async (
       undefined,
       {
         ...context.config,
-        projectPath,
-        isSubGenerator: true,
-      },
-    );
-  }
-
-  if (enableLess === BooleanConfig.YES) {
-    const lessDependence =
-      MWAActionFunctionsDevDependencies[ActionFunction.Less]!;
-    await appApi.runSubGenerator(
-      getGeneratorPath(DependenceGenerator, context.config.distTag),
-      undefined,
-      {
-        devDependencies: {
-          [lessDependence]: getAvailableVersion(
-            lessDependence,
-            modernVersion,
-            context.config.registry,
-          ),
-        },
-        projectPath,
-        isSubGenerator: true,
-      },
-    );
-  }
-
-  if (enableSass === BooleanConfig.YES) {
-    const sassDependence =
-      MWAActionFunctionsDevDependencies[ActionFunction.Sass]!;
-    [ActionFunction.Sass]!;
-    await appApi.runSubGenerator(
-      getGeneratorPath(DependenceGenerator, context.config.distTag),
-      undefined,
-      {
-        devDependencies: {
-          [sassDependence]: getAvailableVersion(
-            sassDependence,
-            modernVersion,
-            context.config.registry,
-          ),
-        },
         projectPath,
         isSubGenerator: true,
       },

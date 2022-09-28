@@ -1,5 +1,26 @@
 # @modern-js/plugin-garfish
 
+## 1.18.1
+
+### Patch Changes
+
+- 6839e46: fix: fix MApp can not pass props to microapp and fix closure causes loadable invalid
+  fix: 修复 MApp 无法传递 props 问题，修复 loadable setstate 闭包问题导致 state 更新异常
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/utils@1.18.1
+  - @modern-js/runtime@1.18.1
+
+## 1.18.0
+
+### Patch Changes
+
+- Updated dependencies [8280920]
+- Updated dependencies [5227370]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/runtime@1.18.0
+
 ## 1.17.0
 
 ### Patch Changes

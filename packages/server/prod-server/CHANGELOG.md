@@ -1,5 +1,33 @@
 # @modern-js/prod-server
 
+## 1.18.1
+
+### Patch Changes
+
+- 3586707: fix: the compaire-version throw error make the supportModern error
+  fix: compaire-version 的抛错导致 supportModern 失败
+- f6a3aa1: feat: support etag in dev server by default
+  feat: 开发环境默认支持 etag 功能
+- 9f7bfa6: fix: fix the problem that the response header cannot be redirected when setting in ssr
+  fix: 修复在 SSR 中设置响应头却无法重定向的问题
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/utils@1.18.1
+  - @modern-js/server-core@1.18.1
+
+## 1.18.0
+
+### Patch Changes
+
+- 3d5e3a5: chore: get api mode from bff core
+  chore: 从 bff core 中获取 api mode
+- Updated dependencies [8280920]
+- Updated dependencies [3d5e3a5]
+- Updated dependencies [5227370]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/server-core@1.18.0
+
 ## 1.17.0
 
 ### Patch Changes

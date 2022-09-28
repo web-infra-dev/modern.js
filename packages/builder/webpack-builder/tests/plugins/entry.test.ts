@@ -4,7 +4,7 @@ import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/entry', () => {
   it('should set entry correctly', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginEntry()],
       entry: {
         main: './src/main.ts',
@@ -16,7 +16,7 @@ describe('plugins/entry', () => {
   });
 
   it('should set multiple entry correctly', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginEntry()],
       entry: {
         foo: ['./src/polyfill.ts', './src/foo.ts'],
@@ -29,7 +29,7 @@ describe('plugins/entry', () => {
   });
 
   it('should set pre-entry correctly', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginEntry()],
       entry: {
         foo: ['./src/polyfill.ts', './src/foo.ts'],

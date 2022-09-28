@@ -1,5 +1,37 @@
 # @modern-js/server-utils
 
+## 1.18.1
+
+### Patch Changes
+
+- fb02c81: fix: alias should take precedence over package name
+  fix: 编译时，别名的优先级应该高于包名
+- Updated dependencies [c1a4d9b]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/plugin@1.18.1
+  - @modern-js/utils@1.18.1
+  - @modern-js/babel-preset-lib@1.18.1
+  - @modern-js/babel-compiler@1.18.1
+
+## 1.18.0
+
+### Patch Changes
+
+- 2b7406d: feat: use typescript instead of babel as typescript compiler in server
+  feat: 服务端，增加 typescript 作为 typescipt 编译器
+- 0a4d622: fix: compile ts with dynamic import should replace to correct alias name
+  fix: 编译 ts 时，动态导入的路径应该替换为正确的别名
+- 60a2e3a: feat: add compiler option for server
+  feat: 为 server 添加编译选项
+- Updated dependencies [8280920]
+- Updated dependencies [5227370]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/babel-preset-lib@1.18.0
+  - @modern-js/babel-compiler@1.18.0
+  - @modern-js/plugin@1.18.0
+
 ## 1.17.0
 
 ### Patch Changes

@@ -1,10 +1,11 @@
 import { expect, describe, it } from 'vitest';
 import { PluginBabel } from '../../src/plugins/babel';
+import { PluginEntry } from '../../src/plugins/entry';
 import { createStubBuilder } from '../../src/stub';
 
 describe('plugins/babel', () => {
   it('should set babel-loader', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginBabel()],
       builderConfig: {
         output: {
@@ -21,7 +22,7 @@ describe('plugins/babel', () => {
   });
 
   it('should set include/exclude', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginBabel()],
       builderConfig: {
         tools: {
@@ -30,6 +31,66 @@ describe('plugins/babel', () => {
             addExcludes(['src/**/*.js']);
             return options;
           },
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
+
+  it('should add core-js-entry when output.polyfill is entry', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginEntry(), PluginBabel()],
+      builderConfig: {
+        output: {
+          polyfill: 'entry',
+        },
+      },
+      entry: {
+        main: './index.js',
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+    expect(config.entry).toMatchSnapshot();
+  });
+
+  it('should not add core-js-entry when output.polyfill is usage', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginEntry(), PluginBabel()],
+      builderConfig: {
+        output: {
+          polyfill: 'usage',
+        },
+      },
+      entry: {
+        main: './index.js',
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+    expect(config.entry).toMatchSnapshot();
+  });
+
+  it('should override targets of babel-preset-env when using output.overrideBrowserslist config', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginBabel()],
+      builderConfig: {
+        output: {
+          overrideBrowserslist: ['Chrome 80'],
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(config).toMatchSnapshot();
+  });
+
+  it('should add rule to compile Data URI when enable source.compileJsDataURI', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginBabel()],
+      builderConfig: {
+        source: {
+          compileJsDataURI: true,
         },
       },
     });

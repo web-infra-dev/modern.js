@@ -12,10 +12,10 @@ function readPackage(pkg, _context) {
   }
 
   // fix react 18 type conflicts
-  if ((pkg.dependencies['@types/react'] === '*')) {
+  if (pkg.dependencies['@types/react'] === '*') {
     pkg.dependencies['@types/react'] = '^17';
   }
-  if ((pkg.dependencies['@types/react-dom'] === '*')) {
+  if (pkg.dependencies['@types/react-dom'] === '*') {
     pkg.dependencies['@types/react-dom'] = '^17';
   }
 

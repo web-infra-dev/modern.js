@@ -1,5 +1,65 @@
 # @modern-js/app-tools
 
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [3586707]
+- Updated dependencies [318e149]
+- Updated dependencies [c1a4d9b]
+- Updated dependencies [60d95ad]
+- Updated dependencies [8016a8a]
+- Updated dependencies [f6a3aa1]
+- Updated dependencies [9f7bfa6]
+- Updated dependencies [23fa468]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+- Updated dependencies [55988fa]
+- Updated dependencies [bc3bbd8]
+  - @modern-js/prod-server@1.18.1
+  - @modern-js/core@1.18.1
+  - @modern-js/server@1.18.1
+  - @modern-js/types@1.18.1
+  - @modern-js/plugin@1.18.1
+  - @modern-js/utils@1.18.1
+  - @modern-js/plugin-jarvis@1.18.1
+  - @modern-js/webpack@1.18.1
+  - @modern-js/plugin-i18n@1.18.1
+  - @modern-js/new-action@1.18.1
+  - @modern-js/node-bundle-require@1.18.1
+  - @modern-js/upgrade@1.18.1
+
+## 1.18.0
+
+### Patch Changes
+
+- 66ad36f: feat: add source.enableAsyncEntry config
+
+  feat: 新增 source.enableAsyncEntry 配置项
+
+- Updated dependencies [8280920]
+- Updated dependencies [3d5e3a5]
+- Updated dependencies [8280920]
+- Updated dependencies [2b7406d]
+- Updated dependencies [9f13d8c]
+- Updated dependencies [fc7214d]
+- Updated dependencies [60a2e3a]
+- Updated dependencies [5227370]
+- Updated dependencies [66ad36f]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/prod-server@1.18.0
+  - @modern-js/server@1.18.0
+  - @modern-js/upgrade@1.18.0
+  - @modern-js/core@1.18.0
+  - @modern-js/plugin-i18n@1.18.0
+  - @modern-js/plugin-jarvis@1.18.0
+  - @modern-js/webpack@1.18.0
+  - @modern-js/new-action@1.18.0
+  - @modern-js/node-bundle-require@1.18.0
+  - @modern-js/plugin@1.18.0
+  - @modern-js/types@1.18.0
+
 ## 1.17.0
 
 ### Patch Changes

@@ -1,7 +1,7 @@
 import http from 'http';
 import webpack from 'webpack';
-import SocketServer from '../src/dev-tools/socket-server';
-import DevServerPlugin from '../src/dev-tools/dev-server-plugin';
+import SocketServer from '../src/dev-tools/dev-middleware/socket-server';
+import DevServerPlugin from '../src/dev-tools/dev-middleware/dev-server-plugin';
 
 function getRandomPort() {
   return Math.floor(Math.random() * (8000 - 1024)) + 1024;

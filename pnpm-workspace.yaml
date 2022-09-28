@@ -14,5 +14,5 @@ packages:
  - 'scripts/*'
  - 'tests'
  - 'tests/integration/**/*'
- - 'website'
- - '!packages/solutions/module-tools-v2'
+ - 'tests/e2e/**/*'
+ - 'website/*'

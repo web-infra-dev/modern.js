@@ -1,6 +1,6 @@
 import Parser from 'ua-parser-js';
 import compareVersions from 'compare-versions';
-import { ModernServerContext } from '../../context';
+import { ModernServerContext } from '@modern-js/types';
 import { NativeModuleNameMap } from './browser-list';
 
 const nativeModules = require('@babel/compat-data/native-modules');
@@ -33,8 +33,12 @@ export const supportModern = (context: ModernServerContext) => {
     return false;
   }
 
-  const result = compareVersions(browserVersion, version);
-  return result >= 0;
+  try {
+    const result = compareVersions(browserVersion, version);
+    return result >= 0;
+  } catch (err) {
+    return false;
+  }
 };
 
 export const getModernEntry = (filepath: string) =>

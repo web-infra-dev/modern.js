@@ -7,6 +7,8 @@ import { Adapter, APIServerStartInput } from '@modern-js/server-core';
 import type { NormalizedConfig } from '@modern-js/core';
 import axios from 'axios';
 import { clone } from '@modern-js/utils/lodash';
+import type { ModernServerContext } from '@modern-js/types';
+import type { ContextOptions } from '../libs/context';
 import {
   ModernServerOptions,
   NextFunction,
@@ -17,6 +19,7 @@ import {
   ModernServerInterface,
   HookNames,
   BuildOptions,
+  ModernServerHandler,
 } from '../type';
 import {
   RouteMatchManager,
@@ -33,10 +36,11 @@ import {
   mergeExtension,
   noop,
   debug,
+  isRedirect,
 } from '../utils';
 import * as reader from '../libs/render/reader';
 import { createProxyHandler, BffProxyOptions } from '../libs/proxy';
-import { createContext, ModernServerContext } from '../libs/context';
+import { createContext } from '../libs/context';
 import {
   AGGRED_DIR,
   ERROR_DIGEST,
@@ -45,11 +49,6 @@ import {
 } from '../constants';
 import { createTemplateAPI } from '../libs/hook-api/template';
 import { createRouteAPI } from '../libs/hook-api/route';
-
-type ModernServerHandler = (
-  context: ModernServerContext,
-  next: NextFunction,
-) => Promise<void> | void;
 
 type ModernServerAsyncHandler = (
   context: ModernServerContext,
@@ -131,7 +130,7 @@ export class ModernServer implements ModernServerInterface {
   }
 
   // server prepare
-  public async onInit(runner: ServerHookRunner) {
+  public async onInit(runner: ServerHookRunner, app: Server) {
     this.runner = runner;
 
     const { distDir, staticGenerate, conf } = this;
@@ -147,6 +146,9 @@ export class ModernServer implements ModernServerInterface {
 
     // start file reader
     this.reader.init();
+    app.on('close', () => {
+      this.reader.close();
+    });
 
     // use preset routes priority
     const usageRoutes = this.filterRoutes(this.getRoutes());
@@ -184,18 +186,8 @@ export class ModernServer implements ModernServerInterface {
     this.compose();
   }
 
-  // close any thing run in server
-  public async onClose() {
-    this.reader.close();
-  }
-
   // server ready
   public onRepack(_: BuildOptions) {
-    // empty
-  }
-
-  // invoke when http server listen
-  public onListening(_: Server) {
     // empty
   }
 
@@ -376,6 +368,14 @@ export class ModernServer implements ModernServerInterface {
     });
   }
 
+  protected createContext(
+    req: IncomingMessage,
+    res: ServerResponse,
+    options: ContextOptions = {},
+  ) {
+    return createContext(req, res, options);
+  }
+
   /* —————————————————————— private function —————————————————————— */
   // handler route.json, include api / csr / ssr
   private async routeHandler(context: ModernServerContext) {
@@ -446,6 +446,11 @@ export class ModernServer implements ModernServerInterface {
     if (file.redirect) {
       res.statusCode = file.statusCode!;
       res.setHeader('Location', file.content as string);
+      res.end();
+      return;
+    }
+
+    if (res.getHeader('Location') && isRedirect(res.statusCode)) {
       res.end();
       return;
     }
@@ -583,7 +588,7 @@ export class ModernServer implements ModernServerInterface {
     req.metrics = this.metrics;
     let context: ModernServerContext;
     try {
-      context = createContext(req, res);
+      context = this.createContext(req, res);
     } catch (e) {
       this.logger.error(e as Error);
       res.statusCode = 500;

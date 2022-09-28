@@ -63,22 +63,15 @@ export const ZH_LOCALE = {
     no: '不需要',
     electron: 'Electron',
   },
-  needModifyConfig: {
-    self: '是否需要调整默认配置?',
-    enableLess: '是否启用 Less 支持?',
-    enableSass: '是否启用 Sass 支持?',
-  },
   entry: {
     name: '请填写入口名称',
     no_empty: '入口名称不能为空！',
     no_pages: '入口名称不支持 "pages"！',
     needModifyConfig: '是否需要调整默认配置?',
-    disableStateManagement: '是否关闭「应用状态管理」功能?',
     clientRoute: {
       self: '请选择客户端路由方式',
-      selfControlRoute: '启用自控路由',
-      conventionalRoute: '启用约定式路由',
-      no: '不启用',
+      selfControlRoute: '自控路由',
+      conventionalRoute: '约定式路由',
     },
   },
   packageName: {

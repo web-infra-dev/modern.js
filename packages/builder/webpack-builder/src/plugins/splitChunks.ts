@@ -6,7 +6,7 @@ import type {
 } from '../types/config/performance';
 import assert from 'assert';
 import type { Module } from 'webpack';
-import { getPackageNameFromModulePath } from '../shared';
+import { getPackageNameFromModulePath, RUNTIME_CHUNK_NAME } from '../shared';
 
 // We expose the three-layer to specify webpack chunk-split ability:
 // 1. By strategy.There some best pratice integrated in our internal strategy.
@@ -65,7 +65,7 @@ function splitByExperience(ctx: SplitChunksContext): SplitChunks {
   ];
 
   SPLIT_EXPERIENCE_LIST.forEach((test: RegExp, index: number) => {
-    const key = `Experience_Defined_Cache_Group_${index}`;
+    const key = `pre-defined-chunk-${index}`;
 
     experienceCacheGroup[key] = {
       test,
@@ -215,7 +215,15 @@ export function PluginSplitChunks(): BuilderPlugin {
           userDefinedCacheGroups,
           builderConfig: chunkSplit,
         });
+
         chain.optimization.splitChunks(splitChunksOptions);
+
+        // should not extract runtime chunk when strategy is `all-in-one`
+        if (chunkSplit.strategy !== 'all-in-one') {
+          chain.optimization.runtimeChunk({
+            name: RUNTIME_CHUNK_NAME,
+          });
+        }
       });
     },
   };

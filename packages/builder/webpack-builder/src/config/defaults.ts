@@ -23,7 +23,9 @@ export const createDefaultConfig = (): BuilderConfig => ({
   tools: {
     tsChecker: {},
   },
-  source: {},
+  source: {
+    compileJsDataURI: false,
+  },
   output: {
     filename: {},
     distPath: {
@@ -38,6 +40,7 @@ export const createDefaultConfig = (): BuilderConfig => ({
     },
     polyfill: 'entry',
     dataUriLimit: {},
+    cleanDistPath: true,
     svgDefaultExport: 'url',
     disableMinimize: false,
     disableSourceMap: false,

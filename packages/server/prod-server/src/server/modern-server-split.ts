@@ -1,7 +1,7 @@
 import { APIServerStartInput } from '@modern-js/server-core';
 import { ModernRoute, ModernRouteInterface } from '../libs/route';
 import { RUN_MODE } from '../constants';
-import { ModernServerContext } from '../libs/context';
+import type { ModernServerContext } from '../libs/context';
 import { ModernServerOptions, ModernServerInterface, HookNames } from '../type';
 import { ModernServer } from './modern-server';
 
@@ -11,7 +11,7 @@ class ModernSSRServer extends ModernServer {
   }
 
   protected filterRoutes(routes: ModernRouteInterface[]) {
-    return routes.filter(route => route.isSSR);
+    return routes.filter(route => !route.isApi);
   }
 
   protected async setupBeforeProdMiddleware() {

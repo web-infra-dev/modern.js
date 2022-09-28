@@ -1,11 +1,16 @@
 import type { Command } from '@modern-js/utils';
+import { createDebugger } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type { ModuleToolsHooks } from './types/hooks';
 import type { DevCommandOptions, BuildCommandOptions } from './types/command';
+import type { ModuleContext } from './types/context';
+
+const debug = createDebugger('module-tools');
 
 export const buildCommand = async (
   program: Command,
   api: PluginAPI<ModuleToolsHooks>,
+  context: ModuleContext,
 ) => {
   const local = await import('./locale');
 
@@ -27,10 +32,7 @@ export const buildCommand = async (
       '-p, --platform [platform]',
       local.i18n.t(local.localeKeys.command.build.platform),
     )
-    // @deprecated
-    // The `--no-tsc` option has been superceded by the `--no-dts` option.
-    .option('--no-tsc', local.i18n.t(local.localeKeys.command.build.no_tsc))
-    .option('--dts', local.i18n.t(local.localeKeys.command.build.dts))
+    .option('--no-dts', local.i18n.t(local.localeKeys.command.build.dts))
     .option('--no-clear', local.i18n.t(local.localeKeys.command.build.no_clear))
     .option(
       '-c --config <config>',
@@ -39,18 +41,23 @@ export const buildCommand = async (
     .action(async (options: BuildCommandOptions) => {
       const runner = api.useHookRunners();
 
+      const { valideBeforeTask } = await import('./utils/valide');
+      valideBeforeTask(api, options);
+
       const { normalizeBuildConfig } = await import('./config/normalize');
-      const resolvedBuildConfig = normalizeBuildConfig(api);
+      const resolvedBuildConfig = await normalizeBuildConfig(api);
+      debug('resolvedBuildConfig', resolvedBuildConfig);
       await runner.beforeBuild({ config: resolvedBuildConfig, options });
 
       const builder = await import('./builder');
-      await builder.run(options, resolvedBuildConfig, api);
+      await builder.run(options, resolvedBuildConfig, api, context);
     });
 };
 
 export const devCommand = async (
   program: Command,
   api: PluginAPI<ModuleToolsHooks>,
+  context: ModuleContext,
 ) => {
   const local = await import('./locale');
   const runner = api.useHookRunners();
@@ -63,7 +70,8 @@ export const devCommand = async (
     .usage('[options]')
     .description(local.i18n.t(local.localeKeys.command.dev.describe))
     .action(async (options: DevCommandOptions = {}) => {
-      console.info('dev', options, api);
+      const { dev } = await import('./dev');
+      await dev(options, devToolMetas, api, context);
     });
 
   for (const meta of devToolMetas) {
@@ -76,8 +84,43 @@ export const devCommand = async (
         .command(subCmd)
         .action(async (options: DevCommandOptions = {}) => {
           await runner.beforeDevTask(meta);
-          await meta.action(options);
+          await meta.action(options, { isTsProject: context.isTsProject });
         });
     }
   }
+};
+
+export const newCommand = async (program: Command) => {
+  const local = await import('./locale');
+
+  program
+    .command('new')
+    .usage('[options]')
+    .description(local.i18n.t(local.localeKeys.command.new.describe))
+    .option(
+      '-d, --debug',
+      local.i18n.t(local.localeKeys.command.new.debug),
+      false,
+    )
+    .option(
+      '-c, --config <config>',
+      local.i18n.t(local.localeKeys.command.new.config),
+    )
+    .option(
+      '--dist-tag <tag>',
+      local.i18n.t(local.localeKeys.command.new.distTag),
+    )
+    .option('--registry', local.i18n.t(local.localeKeys.command.new.registry))
+    .action(async options => {
+      const { ModuleNewAction } = await import('@modern-js/new-action');
+      const { getLocaleLanguage } = await import('./utils/language');
+      const locale = getLocaleLanguage();
+
+      await ModuleNewAction({ ...options, locale });
+    });
+};
+
+export const upgradCommand = async (program: Command) => {
+  const { defineCommand } = await import('@modern-js/upgrade');
+  defineCommand(program.command('upgrade'));
 };

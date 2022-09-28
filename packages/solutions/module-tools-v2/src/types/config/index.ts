@@ -3,8 +3,10 @@ import type {
   ToolsConfig as ToolsConfig_,
   NewPluginConfig,
 } from '@modern-js/core';
+import type { UserConfig as LibuildUserConfig } from '@modern-js/libuild';
 import { ModuleToolsHooks } from '..';
 import type { DeepPartial } from '../utils';
+import { BuildInPreset, presetList } from '../../constants/build';
 
 export type Target =
   | 'es5'
@@ -18,14 +20,14 @@ export type Target =
   // The default target is esnext which means that by default, assume all of the latest JavaScript and CSS features are supported.
   | 'esnext';
 
-export type Entry = string | string[] | Record<string, string>;
-export type DTS =
-  | boolean
-  | {
-      distPath: string;
-      tsconfigPath: string;
-    };
-export type SourceMap = boolean | 'inline' | 'external';
+export type Entry = Required<LibuildUserConfig>['input'];
+export type DTSOptions = {
+  distPath: string;
+  tsconfigPath: string;
+  only: boolean;
+};
+export type DTS = false | DTSOptions;
+export type SourceMap = Required<LibuildUserConfig>['sourceMap'];
 export type Copy = { from: string; to?: string }[];
 export interface BaseCommonBuildConfig {
   target: Target;
@@ -33,27 +35,46 @@ export interface BaseCommonBuildConfig {
   dts: DTS;
   sourceMap: SourceMap;
   copy: Copy;
+  path: string;
+}
+export interface PartialBaseCommonBuildConfig {
+  target?: Target;
+  entry?: Entry;
+  dts?: false | Partial<DTSOptions>;
+  sourceMap?: SourceMap;
+  copy?: Copy;
+  path?: string;
 }
 
 export type BundleFormat = 'esm' | 'cjs' | 'umd' | 'iife';
 export type BundleOptions = {
-  platform: any;
-  splitting: boolean;
-  minify: any;
-  externals: any;
+  platform: LibuildUserConfig['platform'];
+  splitting: LibuildUserConfig['splitting'];
+  minify: LibuildUserConfig['minify'];
+  externals: LibuildUserConfig['external'];
   skipDeps:
     | boolean
     | {
         dependencies?: boolean;
         peerDependencies?: boolean;
       };
-  assets: any;
-  terserOptions: any;
+  assets: LibuildUserConfig['asset'];
+  entryNames: LibuildUserConfig['entryNames'];
+  globals: LibuildUserConfig['globals'];
+  metafile: LibuildUserConfig['metafile'];
+  jsx: LibuildUserConfig['jsx'];
+  getModuleId: LibuildUserConfig['getModuleId'];
 };
 export interface BaseBundleBuildConfig extends BaseCommonBuildConfig {
   buildType: 'bundle';
   format: BundleFormat;
   bundleOptions: BundleOptions;
+}
+export interface PartialBaseBundleBuildConfig
+  extends PartialBaseCommonBuildConfig {
+  buildType?: 'bundle';
+  format?: BundleFormat;
+  bundleOptions?: DeepPartial<BundleOptions>;
 }
 
 export type BundlelessFormat = 'esm' | 'cjs';
@@ -75,11 +96,17 @@ export interface BaseBundlelessBuildConfig extends BaseCommonBuildConfig {
   format: BundlelessFormat;
   bundlelessOptions: BundlelessOptions;
 }
+export interface PartialBaseBundlelessBuildConfig
+  extends PartialBaseCommonBuildConfig {
+  buildType?: 'bundleless';
+  format?: BundlelessFormat;
+  bundlelessOptions?: DeepPartial<BundlelessOptions>;
+}
 
 export type BaseBuildConfig = BaseBundleBuildConfig | BaseBundlelessBuildConfig;
 export type PartialBaseBuildConfig =
-  | DeepPartial<BaseBundleBuildConfig>
-  | DeepPartial<BaseBundlelessBuildConfig>;
+  | PartialBaseBundleBuildConfig
+  | PartialBaseBundlelessBuildConfig;
 
 export type BuildConfig = BaseBuildConfig | BaseBuildConfig[];
 export type PartialBuildConfig =
@@ -87,8 +114,10 @@ export type PartialBuildConfig =
   | PartialBaseBuildConfig[];
 
 export type BuildPreset =
-  | string
-  | ((options: { preset: Record<string, string> }) => PartialBuildConfig);
+  | keyof typeof presetList
+  | ((options: {
+      preset: typeof BuildInPreset;
+    }) => PartialBuildConfig | Promise<PartialBuildConfig>);
 
 export interface SourceConfig {
   envVars: Array<string>;

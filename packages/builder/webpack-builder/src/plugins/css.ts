@@ -20,7 +20,10 @@ export async function applyBaseCSSRule(
 ) {
   const { isServer, isProd, CHAIN_ID, getCompiledPath } = utils;
   const { applyOptionsChain } = await import('@modern-js/utils');
-  const browserslist = await getBrowserslistWithDefault(context.rootPath);
+  const browserslist = await getBrowserslistWithDefault(
+    context.rootPath,
+    config,
+  );
 
   const getPostcssConfig = () => {
     const extraPlugins: AcceptedPlugin[] = [];
@@ -83,7 +86,6 @@ export async function applyBaseCSSRule(
   );
   const enableSourceMap =
     isProd && enableExtractCSS && !config.output?.disableSourceMap;
-
   // 2. Prepare loader options
   const extractLoaderOptions = applyOptionsChain<
     MiniCssExtractLoaderOptions,

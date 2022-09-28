@@ -1,0 +1,1 @@
+window.answer = 42;

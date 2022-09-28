@@ -1,10 +1,14 @@
 import assert from 'assert';
 import { log, info, error, formatWebpackStats } from '../shared';
-import type { webpack, WebpackConfig } from '../types';
+import type { Context, webpack, WebpackConfig } from '../types';
 
-export const webpackBuild = async (webpackConfigs: WebpackConfig[]) => {
+export const webpackBuild = async (
+  context: Context,
+  webpackConfigs: WebpackConfig[],
+) => {
   const { default: webpack } = await import('webpack');
   const compiler = webpack(webpackConfigs);
+  await context.hooks.onAfterCreateCompilerHooks.call({ compiler });
 
   return new Promise<{ stats: webpack.MultiStats }>((resolve, reject) => {
     log();

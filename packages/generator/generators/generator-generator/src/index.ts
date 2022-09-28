@@ -7,7 +7,6 @@ import {
   GeneratorSchema,
   Solution,
   SolutionGenerator,
-  BooleanConfig,
 } from '@modern-js/generator-common';
 import {
   fs,
@@ -85,7 +84,6 @@ const handleTemplateFile = async (
     {
       ...context.config,
       isSubGenerator: true,
-      needModifyModuleConfig: BooleanConfig.NO,
     },
   );
 

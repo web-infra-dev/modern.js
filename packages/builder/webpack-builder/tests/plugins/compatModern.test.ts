@@ -11,7 +11,7 @@ import { createStubBuilder } from '../../src/stub';
 describe('plugins/compatModern', () => {
   // skipped because this case time out in CI env
   it.skip('should apply compatible webpack configs correctly', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [
         PluginOutput(),
         PluginResolve(),
@@ -28,7 +28,7 @@ describe('plugins/compatModern', () => {
   });
 
   it('should apply name and extensions for node target correctly', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginCompatModern()],
       target: ['node'],
     });
@@ -44,7 +44,7 @@ describe('plugins/compatModern', () => {
   });
 
   it('should apply name for modern target correctly', async () => {
-    const builder = createStubBuilder({
+    const builder = await createStubBuilder({
       plugins: [PluginCompatModern()],
       target: ['modern-web'],
     });

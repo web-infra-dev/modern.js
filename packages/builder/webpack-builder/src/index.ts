@@ -1,6 +1,7 @@
 export { createBuilder } from './core/createBuilder';
 export { mergeBuilderConfig } from './shared/utils';
 
+export type { BuilderInstance } from './core/createBuilder';
 export type {
   // Plugin Types
   BuilderPlugin,
@@ -19,6 +20,7 @@ export type {
   ExperimentsConfig,
 
   // Third Party Types
+  webpack,
   WebpackChain,
   WebpackConfig,
   CSSLoaderOptions,

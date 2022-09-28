@@ -1,5 +1,39 @@
 # @modern-js/plugin-bff
 
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [fb02c81]
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/server-utils@1.18.1
+  - @modern-js/utils@1.18.1
+  - @modern-js/bff-core@1.18.1
+  - @modern-js/create-request@1.18.1
+  - @modern-js/babel-compiler@1.18.1
+
+## 1.18.0
+
+### Patch Changes
+
+- 3d5e3a5: chore: get api mode from bff core
+  chore: 从 bff core 中获取 api mode
+- 2b7406d: feat: use typescript instead of babel as typescript compiler in server
+  feat: 服务端，增加 typescript 作为 typescipt 编译器
+- Updated dependencies [8280920]
+- Updated dependencies [3d5e3a5]
+- Updated dependencies [2b7406d]
+- Updated dependencies [0a4d622]
+- Updated dependencies [60a2e3a]
+- Updated dependencies [5227370]
+- Updated dependencies [7928bae]
+  - @modern-js/utils@1.18.0
+  - @modern-js/bff-core@1.18.0
+  - @modern-js/server-utils@1.18.0
+  - @modern-js/create-request@1.18.0
+  - @modern-js/babel-compiler@1.18.0
+
 ## 1.17.0
 
 ### Patch Changes
