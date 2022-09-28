@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'http';
-import type webpackDevMiddleware from '@modern-js/utils/webpack-dev-middleware';
+import type webpackDevMiddleware from 'webpack-dev-middleware';
 import type { BffProxyOptions, NextFunction } from './utils';
 
 export type DevServerHttpsOptions = boolean | { key: string; cert: string };

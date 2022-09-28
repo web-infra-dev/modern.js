@@ -20,9 +20,6 @@
       "default": "./server/index.d.ts"
     }
   },
-  "dependencies": {
-    "@modern-js/utils": "workspace:*"
-  },
   "devDependencies": {
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
@@ -53,5 +50,8 @@
       ],
       "output": []
     }
+  },
+  "dependencies": {
+    "webpack-dev-middleware": "5.3.3"
   }
 }
