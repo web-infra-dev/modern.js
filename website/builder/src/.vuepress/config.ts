@@ -40,6 +40,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/guide/introduction'),
           getLink('/guide/quick-start'),
           getLink('/guide/features'),
+          getLink('/guide/glossary'),
         ],
       },
     ],
