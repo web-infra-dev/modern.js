@@ -34,23 +34,24 @@ const App: React.FC = () => {
         &nbsp;
       </div>
       <Routes>
-        <Route path="/">
-          <Home />
-        </Route>
-        <Route path="/dashboard">
-          <Dashboard
-            msg={'hello world from main app'}
-            loadable={{
-              loading: ({ _pastDelay, error }: any) => {
-                if (error) {
-                  return <div>error: {error?.message}</div>;
-                } else {
-                  return <div>dashboard loading</div>;
-                }
-              },
-            }}
-          />
-        </Route>
+        <Route path="/" element={<Home />}></Route>
+        <Route
+          path="/dashboard"
+          element={
+            <Dashboard
+              msg={'hello world from main app'}
+              loadable={{
+                loading: ({ _pastDelay, error }: any) => {
+                  if (error) {
+                    return <div>error: {error?.message}</div>;
+                  } else {
+                    return <div>dashboard loading</div>;
+                  }
+                },
+              }}
+            />
+          }
+        ></Route>
         {/* <Route path="/tablelist" exact={false}>
           <TableList
             loadable={{

@@ -88,7 +88,7 @@ describe('@modern-js/plugin-router', () => {
   });
 
   // have some bug to solve
-  it.skip('hash router could work', async () => {
+  it('hash router could work', async () => {
     function App({ test }: any) {
       const navigate = useNavigate();
       const location = useLocation();

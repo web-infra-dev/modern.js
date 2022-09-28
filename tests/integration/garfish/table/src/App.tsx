@@ -6,37 +6,40 @@ import './App.css';
 
 const App = () => (
   <Routes>
-    <Route path="/">
-      <div className="container">
-        <main>
-          <div className="logo">
-            <Image
-              src={
-                '//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/8361eeb82904210b4f55fab888fe8416.png~tplv-uwbnlip3yd-webp.webp'
-              }
-              width={200}
+    <Route
+      path="/"
+      element={
+        <div className="container">
+          <main>
+            <div className="logo">
+              <Image
+                src={
+                  '//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/8361eeb82904210b4f55fab888fe8416.png~tplv-uwbnlip3yd-webp.webp'
+                }
+                width={200}
+              />
+            </div>
+            <p className="description">Tablelist home page</p>
+            <List
+              style={{ width: 622 }}
+              size="small"
+              header="List title"
+              dataSource={[
+                'Beijing Bytedance Technology Co., Ltd.',
+                'Bytedance Technology Co., Ltd.',
+                'Beijing Toutiao Technology Co., Ltd.',
+                'Beijing Volcengine Technology Co., Ltd.',
+                'China Beijing Bytedance Technology Co., Ltd.',
+              ]}
+              render={(item, index) => (
+                <List.Item key={index}>{item}</List.Item>
+              )}
             />
-          </div>
-          <p className="description">Tablelist home page</p>
-          <List
-            style={{ width: 622 }}
-            size="small"
-            header="List title"
-            dataSource={[
-              'Beijing Bytedance Technology Co., Ltd.',
-              'Bytedance Technology Co., Ltd.',
-              'Beijing Toutiao Technology Co., Ltd.',
-              'Beijing Volcengine Technology Co., Ltd.',
-              'China Beijing Bytedance Technology Co., Ltd.',
-            ]}
-            render={(item, index) => <List.Item key={index}>{item}</List.Item>}
-          />
-        </main>
-      </div>
-    </Route>
-    <Route path="*">
-      <div>404</div>
-    </Route>
+          </main>
+        </div>
+      }
+    ></Route>
+    <Route path="*" element={<div>404</div>}></Route>
   </Routes>
 );
 
