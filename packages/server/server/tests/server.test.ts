@@ -5,7 +5,7 @@ import { defaultsConfig, NormalizedConfig } from '@modern-js/core';
 import {
   ModernServerContext,
   NextFunction,
-  RequestHandler,
+  DevMiddlewareAPI,
 } from '@modern-js/types';
 import { AGGRED_DIR } from '@modern-js/prod-server';
 import httpMocks from 'node-mocks-http';
@@ -129,11 +129,10 @@ describe('test dev server', () => {
     });
 
     test('should use custom devMiddleware correctly', async () => {
-      const middlewareFn: RequestHandler = jest.fn((_req, _res, next) => {
+      const middlewareFn = jest.fn(async (_req, _res, next) => {
         next();
-      });
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+      }) as unknown as DevMiddlewareAPI;
+
       middlewareFn.close = jest.fn();
 
       const compiler = webpack({});

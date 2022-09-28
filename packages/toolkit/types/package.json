@@ -50,8 +50,5 @@
       ],
       "output": []
     }
-  },
-  "dependencies": {
-    "webpack-dev-middleware": "5.3.3"
   }
 }

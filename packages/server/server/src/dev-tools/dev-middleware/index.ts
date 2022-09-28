@@ -1,11 +1,9 @@
-import { Server, IncomingMessage, ServerResponse } from 'http';
+import { Server } from 'http';
 import { EventEmitter } from 'events';
 import { Compiler, MultiCompiler } from 'webpack';
-import webpackDevMiddleware, {
-  Headers,
-} from '@modern-js/utils/webpack-dev-middleware';
+import webpackDevMiddleware from '@modern-js/utils/webpack-dev-middleware';
 import type { NormalizedConfig } from '@modern-js/core';
-import { DevServerOptions } from '../../types';
+import { DevServerOptions, DevMiddlewareAPI } from '../../types';
 import DevServerPlugin from './dev-server-plugin';
 import SocketServer from './socket-server';
 
@@ -20,7 +18,7 @@ const noop = () => {
 };
 
 export default class DevMiddleware extends EventEmitter {
-  public middleware?: webpackDevMiddleware.API<IncomingMessage, ServerResponse>;
+  public middleware?: DevMiddlewareAPI;
 
   private compiler: MultiCompiler | Compiler | null;
 
@@ -110,10 +108,7 @@ export default class DevMiddleware extends EventEmitter {
     const { provider, ...options } = devOptions.devMiddleware || {};
 
     const middleware = (provider || webpackDevMiddleware)(this.compiler!, {
-      headers: config.tools?.devServer?.headers as Headers<
-        IncomingMessage,
-        ServerResponse
-      >,
+      headers: config.tools?.devServer?.headers,
       stats: false,
       ...options,
     });

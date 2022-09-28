@@ -1,8 +1,12 @@
 import type webpack from 'webpack';
-import type { DevServerOptions, DevServerHttpsOptions } from '@modern-js/types';
+import type {
+  DevServerOptions,
+  DevServerHttpsOptions,
+  DevMiddlewareAPI,
+} from '@modern-js/types';
 import type { ModernServerOptions } from '@modern-js/prod-server';
 
-export type { DevServerOptions, DevServerHttpsOptions };
+export type { DevServerOptions, DevServerHttpsOptions, DevMiddlewareAPI };
 
 export type ExtraOptions = {
   dev: boolean | Partial<DevServerOptions>;

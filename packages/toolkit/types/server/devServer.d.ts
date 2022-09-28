@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'http';
-import type webpackDevMiddleware from 'webpack-dev-middleware';
+import type { Compiler, MultiCompiler } from 'webpack';
 import type { BffProxyOptions, NextFunction } from './utils';
 
 export type DevServerHttpsOptions = boolean | { key: string; cert: string };
@@ -9,6 +9,18 @@ export type RequestHandler = (
   res: ServerResponse,
   next: NextFunction,
 ) => void;
+
+type WriteToDisk = boolean | ((filename: string) => boolean);
+
+type Middleware = (
+  req: IncomingMessage,
+  res: ServerResponse,
+  next: NextFunction,
+) => Promise<void>;
+
+export type DevMiddlewareAPI = Middleware & {
+  close: (callback: (err: Error | null | undefined) => void) => any;
+};
 
 export type DevServerOptions = {
   /** config of hmr client. */
@@ -21,9 +33,16 @@ export type DevServerOptions = {
     progress?: boolean;
   };
   devMiddleware?: {
-    writeToDisk: boolean | ((filename: string) => boolean);
+    writeToDisk: WriteToDisk;
     /** custom dev middleware */
-    provider?: webpackDevMiddleware;
+    provider?: (
+      compiler: MultiCompiler | Compiler,
+      options: {
+        headers?: Record<string, string>;
+        writeToDisk?: WriteToDisk;
+        stats?: boolean;
+      },
+    ) => DevMiddlewareAPI;
   };
   proxy?: BffProxyOptions;
   headers?: Record<string, string>;

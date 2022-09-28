@@ -2906,9 +2906,6 @@ importers:
       '@types/node': ^14
       http-proxy-middleware: ^2.0.4
       jest: ^27
-      webpack-dev-middleware: 5.3.3
-    dependencies:
-      webpack-dev-middleware: 5.3.3
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -34536,19 +34533,6 @@ packages:
       range-parser: 1.2.1
       schema-utils: 3.1.1
       webpack: 5.73.0_esbuild@0.14.47
-    dev: false
-
-  /webpack-dev-middleware/5.3.3:
-    resolution: {integrity: sha512-hj5CYrY0bZLB+eTO+x/j67Pkrquiy7kWepMHmUMoPsmcUaeEnQJqFzHJOyxgWlq746/wUuA64p9ta34Kyb01pA==}
-    engines: {node: '>= 12.13.0'}
-    peerDependencies:
-      webpack: ^4.0.0 || ^5.0.0
-    dependencies:
-      colorette: 2.0.19
-      memfs: 3.4.7
-      mime-types: 2.1.35
-      range-parser: 1.2.1
-      schema-utils: 4.0.0
     dev: false
 
   /webpack-dev-middleware/5.3.3_webpack@5.73.0:
