@@ -1,7 +1,8 @@
 import type { Compiler, MultiCompiler, MultiStats, Stats } from 'webpack';
 import type { BuilderTarget } from './builder';
-import type { NormalizedConfig } from './config';
+import type { BuilderConfig } from './config';
 import type { WebpackChain, WebpackConfig } from './thirdParty';
+import type { PromiseOrNot } from './utils';
 
 export type NodeEnv = 'development' | 'production' | 'test';
 
@@ -18,41 +19,41 @@ export type ModifyWebpackUtils = {
 export type ModifyWebpackChainFn = (
   chain: WebpackChain,
   utils: ModifyWebpackUtils,
-) => Promise<void> | void;
+) => PromiseOrNot<void>;
 
 export type ModifyWebpackConfigFn = (
   config: WebpackConfig,
   utils: ModifyWebpackUtils,
-) => Promise<WebpackConfig | void> | WebpackConfig | void;
+) => PromiseOrNot<WebpackConfig | void>;
 
 export type ModifyBuilderConfigFn = (
-  config: NormalizedConfig,
-) => Promise<NormalizedConfig | void> | NormalizedConfig | void;
+  config: BuilderConfig,
+) => PromiseOrNot<BuilderConfig | void> | void;
 
 export type OnBeforeBuildFn = (params: {
   webpackConfigs: WebpackConfig[];
-}) => Promise<void> | void;
+}) => PromiseOrNot<void>;
 
 export type OnAfterBuildFn = (params: {
   stats?: Stats | MultiStats;
-}) => Promise<void> | void;
+}) => PromiseOrNot<void>;
 
 export type OnDevCompileDoneFn = (params: {
   isFirstCompile: boolean;
-}) => Promise<void> | void;
+}) => PromiseOrNot<void>;
 
 export type OnBeforeCreateCompilerFn = (params: {
   webpackConfigs: WebpackConfig[];
-}) => Promise<void> | void;
+}) => PromiseOrNot<void>;
 
 export type OnAfterCreateCompilerFn = (params: {
   compiler: Compiler | MultiCompiler;
-}) => Promise<void> | void;
+}) => PromiseOrNot<void>;
 
-export type OnBeforeStartDevServerFn = () => Promise<void> | void;
+export type OnBeforeStartDevServerFn = () => PromiseOrNot<void>;
 
 export type OnAfterStartDevServerFn = (params: {
   port: number;
-}) => Promise<void> | void;
+}) => PromiseOrNot<void>;
 
 export type OnExitFn = () => void;
