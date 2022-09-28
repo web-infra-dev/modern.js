@@ -163,6 +163,14 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
     return webpackConfigs;
   };
 
+  /** Unwrap normalized builder configs. */
+  const unwrapNormalizedBuilderConfig = async () => {
+    await build();
+    const { normalizedConfig } = context;
+    assert(typeof normalizedConfig === 'object');
+    return normalizedConfig;
+  };
+
   /** Unwrap webpack config, it will ensure there's only one config object. */
   const unwrapWebpackConfig = async () => {
     const webpackConfigs = await unwrapWebpackConfigs();
@@ -282,6 +290,7 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
     context,
     publicContext,
     unwrapHook,
+    unwrapNormalizedBuilderConfig,
     unwrapWebpackConfigs,
     unwrapWebpackConfig,
     unwrapWebpackCompiler,
