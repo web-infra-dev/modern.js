@@ -122,6 +122,25 @@ export function deepFreezed<T extends Record<any, any> | any[]>(obj: T): T {
   return Object.freeze(ret);
 }
 
+export function accessRestricted<T extends Record<string, any>>(
+  obj: T,
+  keys: (keyof T)[] = [],
+  message?: string,
+): T {
+  for (const key of keys) {
+    const msg = message || `Access to ${String(key)} is restricted.`;
+    Object.defineProperty(obj, key, {
+      get() {
+        throw new Error(msg);
+      },
+      set() {
+        throw new Error(msg);
+      },
+    });
+  }
+  return obj;
+}
+
 /**
  * Check if a file handled by specific loader.
  * @author yangxingyuan
