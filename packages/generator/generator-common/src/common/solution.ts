@@ -43,12 +43,12 @@ export const SolutionSchema: Schema = {
       type: ['string'],
       mutualExclusion: true,
       items: (_data: Record<string, any>, extra?: Record<string, any>) => {
-        const items = Object.values(Solution)
+        const items = (extra?.solutions || Object.values(Solution))
           .filter(
-            solution =>
+            (solution: Solution) =>
               !(extra?.isSubProject && solution === Solution.Monorepo),
           )
-          .map(solution => ({
+          .map((solution: Solution) => ({
             key: solution,
             label: SolutionText[solution],
           }));
