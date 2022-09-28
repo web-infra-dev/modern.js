@@ -1,15 +1,18 @@
 import { log, debug, formatWebpackStats } from '../shared';
-import type { Context, webpack, WebpackConfig } from '../types';
+import type { Context, WebpackConfig } from '../types';
+import type { Stats } from 'webpack';
 
-export async function createWatchCompiler(
-  context: Context,
-  webpackConfigs: WebpackConfig[],
-) {
+export async function createCompiler({
+  watch = true,
+  context,
+  webpackConfigs,
+}: {
+  watch?: boolean;
+  context: Context;
+  webpackConfigs: WebpackConfig[];
+}) {
   debug('create compiler');
-
-  await context.hooks.onBeforeCreateCompilerHooks.call({
-    webpackConfigs,
-  });
+  await context.hooks.onBeforeCreateCompilerHooks.call({ webpackConfigs });
 
   const { default: webpack } = await import('webpack');
 
@@ -21,10 +24,7 @@ export async function createWatchCompiler(
   let isFirstCompile = true;
 
   compiler.hooks.done.tap('done', async (stats: unknown) => {
-    const { message, level } = await formatWebpackStats(
-      stats as webpack.Stats,
-      isFirstCompile,
-    );
+    const { message, level } = await formatWebpackStats(stats as Stats);
 
     if (level === 'error') {
       log(message);
@@ -33,32 +33,16 @@ export async function createWatchCompiler(
       log(message);
     }
 
-    await context.hooks.onDevCompileDoneHook.call({
-      isFirstCompile,
-    });
-
-    isFirstCompile = false;
+    if (watch) {
+      await context.hooks.onDevCompileDoneHook.call({
+        isFirstCompile,
+      });
+      isFirstCompile = false;
+    }
   });
 
   await context.hooks.onAfterCreateCompilerHooks.call({ compiler });
   debug('create compiler done');
-
-  return compiler;
-}
-
-export async function createBuildCompiler(
-  context: Context,
-  webpackConfigs: WebpackConfig[],
-) {
-  await context.hooks.onBeforeCreateCompilerHooks.call({ webpackConfigs });
-
-  const { default: webpack } = await import('webpack');
-
-  const compiler =
-    webpackConfigs.length === 1
-      ? webpack(webpackConfigs[0])
-      : webpack(webpackConfigs);
-  await context.hooks.onAfterCreateCompilerHooks.call({ compiler });
 
   return compiler;
 }
