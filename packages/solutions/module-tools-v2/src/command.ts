@@ -1,8 +1,11 @@
 import type { Command } from '@modern-js/utils';
+import { createDebugger } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type { ModuleToolsHooks } from './types/hooks';
 import type { DevCommandOptions, BuildCommandOptions } from './types/command';
 import type { ModuleContext } from './types/context';
+
+const debug = createDebugger('module-tools');
 
 export const buildCommand = async (
   program: Command,
@@ -43,6 +46,7 @@ export const buildCommand = async (
 
       const { normalizeBuildConfig } = await import('./config/normalize');
       const resolvedBuildConfig = await normalizeBuildConfig(api);
+      debug('resolvedBuildConfig', resolvedBuildConfig);
       await runner.beforeBuild({ config: resolvedBuildConfig, options });
 
       const builder = await import('./builder');

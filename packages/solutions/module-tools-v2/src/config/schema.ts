@@ -146,12 +146,16 @@ export const buildConfig = {
     },
     then: {
       items: [
-        { type: 'object', buildConfigProperties, additionalProperties: false },
+        {
+          type: 'object',
+          properties: buildConfigProperties,
+          additionalProperties: false,
+        },
       ],
     },
     else: {
       type: 'object',
-      buildConfigProperties,
+      properties: buildConfigProperties,
       additionalProperties: false,
     },
   },

@@ -3,7 +3,7 @@ module.exports = {
   parserOptions: {
     project: [
       require.resolve('./tsconfig.json'),
-      // require.resolve('./tests/tsconfig.json'),
+      require.resolve('./tests/tsconfig.json'),
     ],
   },
   ignorePatterns: ['types.d.ts'],

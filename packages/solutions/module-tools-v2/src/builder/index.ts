@@ -26,7 +26,6 @@ export const run = async (
     await pMap(resolvedBuildConfig, async config => {
       await runner.beforeBuildTask({ config, options });
       await runBuildTask(config, options, api);
-      console.info('run build', JSON.stringify(config));
       await runner.afterBuildTask({ status: 'success', config });
     });
   }

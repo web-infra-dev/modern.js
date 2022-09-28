@@ -6,6 +6,7 @@ import type {
 import type { UserConfig as LibuildUserConfig } from '@modern-js/libuild';
 import { ModuleToolsHooks } from '..';
 import type { DeepPartial } from '../utils';
+import { BuildInPreset, presetList } from '../../constants/build';
 
 export type Target =
   | 'es5'
@@ -36,6 +37,14 @@ export interface BaseCommonBuildConfig {
   copy: Copy;
   path: string;
 }
+export interface PartialBaseCommonBuildConfig {
+  target?: Target;
+  entry?: Entry;
+  dts?: false | Partial<DTSOptions>;
+  sourceMap?: SourceMap;
+  copy?: Copy;
+  path?: string;
+}
 
 export type BundleFormat = 'esm' | 'cjs' | 'umd' | 'iife';
 export type BundleOptions = {
@@ -61,6 +70,12 @@ export interface BaseBundleBuildConfig extends BaseCommonBuildConfig {
   format: BundleFormat;
   bundleOptions: BundleOptions;
 }
+export interface PartialBaseBundleBuildConfig
+  extends PartialBaseCommonBuildConfig {
+  buildType?: 'bundle';
+  format?: BundleFormat;
+  bundleOptions?: DeepPartial<BundleOptions>;
+}
 
 export type BundlelessFormat = 'esm' | 'cjs';
 export type Style = {
@@ -81,11 +96,17 @@ export interface BaseBundlelessBuildConfig extends BaseCommonBuildConfig {
   format: BundlelessFormat;
   bundlelessOptions: BundlelessOptions;
 }
+export interface PartialBaseBundlelessBuildConfig
+  extends PartialBaseCommonBuildConfig {
+  buildType?: 'bundleless';
+  format?: BundlelessFormat;
+  bundlelessOptions?: DeepPartial<BundlelessOptions>;
+}
 
 export type BaseBuildConfig = BaseBundleBuildConfig | BaseBundlelessBuildConfig;
 export type PartialBaseBuildConfig =
-  | DeepPartial<BaseBundleBuildConfig>
-  | DeepPartial<BaseBundlelessBuildConfig>;
+  | PartialBaseBundleBuildConfig
+  | PartialBaseBundlelessBuildConfig;
 
 export type BuildConfig = BaseBuildConfig | BaseBuildConfig[];
 export type PartialBuildConfig =
@@ -93,8 +114,10 @@ export type PartialBuildConfig =
   | PartialBaseBuildConfig[];
 
 export type BuildPreset =
-  | string
-  | ((options: { preset: Record<string, string> }) => PartialBuildConfig);
+  | keyof typeof presetList
+  | ((options: {
+      preset: typeof BuildInPreset;
+    }) => PartialBuildConfig | Promise<PartialBuildConfig>);
 
 export interface SourceConfig {
   envVars: Array<string>;

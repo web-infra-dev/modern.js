@@ -1,3 +1,4 @@
+import path from 'path';
 import { Libuilder, CLIConfig } from '@modern-js/libuild';
 import { es5OutputPlugin } from '@modern-js/libuild-plugin-es5';
 import type {
@@ -7,25 +8,26 @@ import type {
   PluginAPI,
   DTSOptions,
 } from '../types';
-import path from 'path';
-import { runRollup } from './dts'
-
+import { runRollup } from './dts';
 
 export const runBuildTask = async (
   config: BaseBuildConfig,
   options: BuildCommandOptions,
-  api: PluginAPI<ModuleToolsHooks>
+  api: PluginAPI<ModuleToolsHooks>,
 ) => {
   const dts = options.dts ? config.dts : false;
-  const watch  = options.watch ?? false;
+  const watch = options.watch ?? false;
   const { appDirectory } = api.useAppContext();
   if (dts) {
     const dtsOptions = {
       only: dts.only ?? false,
       distPath: path.resolve(appDirectory, dts.distPath ?? 'dist/types'),
-      tsconfigPath: path.resolve(appDirectory, options.tsconfig ?? dts.tsconfigPath ?? 'tsconfig.json')
-    }
-    const tasks = dtsOptions.only  ? [generatorDts] : [buildLib, generatorDts];
+      tsconfigPath: path.resolve(
+        appDirectory,
+        options.tsconfig ?? dts.tsconfigPath ?? 'tsconfig.json',
+      ),
+    };
+    const tasks = dtsOptions.only ? [generatorDts] : [buildLib, generatorDts];
     const { default: pMap } = await import('p-map');
     await pMap(tasks, async task => {
       await task(config, api, watch, dts);
@@ -35,41 +37,61 @@ export const runBuildTask = async (
   }
 };
 
-export const generatorDts = async (config: BaseBuildConfig, api: PluginAPI, watch: boolean, dts: DTSOptions) => {
+export const generatorDts = async (
+  config: BaseBuildConfig,
+  api: PluginAPI,
+  watch: boolean,
+  dts: DTSOptions,
+) => {
   const { buildType, entry } = config;
   const { appDirectory } = api.useAppContext();
   const { tsconfigPath, distPath } = dts;
   const distDir = path.join(appDirectory, distPath);
   if (buildType === 'bundle') {
-    const { bundleOptions: { externals }} = config;
+    const {
+      bundleOptions: { externals },
+    } = config;
     await runRollup({
       distDir,
       watch,
       externals,
       entry,
-      tsconfigPath
+      tsconfigPath,
     });
   } else {
-
+    // TODO: bundleless
   }
 };
 
-export const buildLib = async (config: BaseBuildConfig, api: PluginAPI, watch: boolean) => {
-  const { target, buildType, sourceMap, entry, copy, format, path: distPath } = config;
+export const buildLib = async (
+  config: BaseBuildConfig,
+  api: PluginAPI,
+  watch: boolean,
+) => {
+  const {
+    target,
+    buildType,
+    sourceMap,
+    entry,
+    format,
+    path: distPath,
+  } = config;
   const { appDirectory } = api.useAppContext();
   if (buildType === 'bundle') {
-    const { bundleOptions: {
-      platform,
-      splitting,
-      minify,
-      externals,
-      assets,
-      entryNames,
-      globals,
-      metafile,
-      jsx,
-      getModuleId
-    } } = config;
+    const {
+      bundleOptions: {
+        platform,
+        splitting,
+        minify,
+        externals,
+        assets,
+        entryNames,
+        globals,
+        metafile,
+        jsx,
+        getModuleId,
+      },
+    } = config;
 
     const outdir = path.join(appDirectory, distPath);
 
@@ -98,4 +120,4 @@ export const buildLib = async (config: BaseBuildConfig, api: PluginAPI, watch: b
     };
     await Libuilder.run(bundleConfig);
   }
-}
+};
