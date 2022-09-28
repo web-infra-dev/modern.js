@@ -1,5 +1,6 @@
 import _ from '@modern-js/utils/lodash';
-import { debug, isDebug } from '../shared';
+import { normalizeConfig } from '../config/normalize';
+import { debug, deepFreezed, isDebug } from '../shared';
 import type {
   BuilderOptions,
   Context,
@@ -16,7 +17,7 @@ async function modifyBuilderConfig(context: Context) {
   const [modified] = await context.hooks.modifyBuilderConfigHook.call(
     context.config,
   );
-  context.config = modified;
+  context.config = deepFreezed(modified);
   debug('modify builder config done');
 }
 
@@ -37,6 +38,7 @@ export async function initConfigs({
   });
 
   await modifyBuilderConfig(context);
+  context.normalizedConfig = deepFreezed(normalizeConfig(context.config));
 
   const targets = _.castArray(builderOptions.target);
   const webpackConfigs = await Promise.all(
