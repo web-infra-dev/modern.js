@@ -1,5 +1,8 @@
 import { describe, expect, test, vi } from 'vitest';
+import { createCompiler } from '../src/core/createCompiler';
+import { createPrimaryContext } from '../src/core/createContext';
 import { createStubBuilder } from '../src/stub';
+import { createDefaultStubBuilderOptions } from '../src/stub/builder';
 
 describe('build hooks', () => {
   test('should call onBeforeBuild hook before build', async () => {
@@ -37,5 +40,24 @@ describe('build hooks', () => {
 
     await builder.build();
     expect(fn).toHaveBeenCalledTimes(1);
+  });
+
+  const createDefaultContext = () =>
+    createPrimaryContext(createDefaultStubBuilderOptions());
+
+  test('should return Compiler when passing single webpack config', async () => {
+    const compiler = await createCompiler({
+      context: await createDefaultContext(),
+      webpackConfigs: [{}],
+    });
+    expect(compiler.constructor.name).toEqual('Compiler');
+  });
+
+  test('should return MultiCompiler when passing multiple webpack configs', async () => {
+    const compiler = await createCompiler({
+      context: await createDefaultContext(),
+      webpackConfigs: [{}, {}],
+    });
+    expect(compiler.constructor.name).toEqual('MultiCompiler');
   });
 });

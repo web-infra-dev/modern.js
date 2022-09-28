@@ -1,16 +1,23 @@
 import assert from 'assert';
-import { createBuildCompiler, createWatchCompiler } from './createCompiler';
-import { log, info, error, logger, formatWebpackStats } from '../shared';
+import { createCompiler } from './createCompiler';
+import { log, info, error, logger } from '../shared';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
-import type { Context, PromiseOrNot, webpack, WebpackConfig } from '../types';
+import type {
+  webpack,
+  Context,
+  BuilderMode,
+  PromiseOrNot,
+  WebpackConfig,
+} from '../types';
+import type { Stats, MultiStats } from 'webpack';
 
 export type BuildExecuter = (
   context: Context,
   configs: webpack.Configuration[],
-) => PromiseOrNot<{ stats: webpack.MultiStats } | void>;
+) => PromiseOrNot<{ stats: Stats | MultiStats } | void>;
 
 export type BuildOptions = {
-  mode?: 'development' | 'production';
+  mode?: BuilderMode;
   watch?: boolean;
 };
 
@@ -18,9 +25,13 @@ export const webpackBuild = async (
   context: Context,
   webpackConfigs: WebpackConfig[],
 ) => {
-  const compiler = await createBuildCompiler(context, webpackConfigs);
+  const compiler = await createCompiler({
+    watch: false,
+    context,
+    webpackConfigs,
+  });
 
-  return new Promise<{ stats: webpack.MultiStats }>((resolve, reject) => {
+  return new Promise<{ stats: Stats | MultiStats }>((resolve, reject) => {
     log();
     info(`building for production...`);
 
@@ -37,18 +48,11 @@ export const webpackBuild = async (
         }
 
         assert(stats);
-        // eslint-disable-next-line promise/no-promise-in-callback
-        formatWebpackStats(stats).then(({ level, message }) => {
-          if (level === 'error') {
-            log(message);
-            reject(new Error('Webpack build failed!'));
-          } else {
-            if (level === 'warning') {
-              log(message);
-            }
-            resolve({ stats });
-          }
-        });
+        if (stats.hasErrors()) {
+          reject(new Error('Webpack build failed!'));
+        } else {
+          resolve({ stats });
+        }
       });
     });
   });
@@ -71,7 +75,10 @@ export const build = async (
   });
 
   if (watch) {
-    const compiler = await createWatchCompiler(context, webpackConfigs);
+    const compiler = await createCompiler({
+      context,
+      webpackConfigs,
+    });
     compiler.watch({}, err => {
       if (err) {
         logger.error(err);

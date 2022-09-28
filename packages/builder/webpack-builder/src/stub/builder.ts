@@ -88,6 +88,12 @@ export async function applyPluginOptions(
   pluginStore.addPlugins(opt.additional);
 }
 
+export const createDefaultStubBuilderOptions = (): Required<BuilderOptions> &
+  StubBuilderOptions => ({
+  ...createDefaultBuilderOptions(),
+  validate: false,
+});
+
 /**
  * Create stub builder for testing.
  * Some behaviors will be different to common `createBuilder`.
@@ -95,8 +101,7 @@ export async function applyPluginOptions(
 export async function createStubBuilder(options?: StubBuilderOptions) {
   // init primary builder.
   const builderOptions: Required<BuilderOptions> = {
-    ...createDefaultBuilderOptions(),
-    validate: false,
+    ...createDefaultStubBuilderOptions(),
     ...options,
   };
   // apply webpack option.

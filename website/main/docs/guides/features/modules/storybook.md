@@ -88,17 +88,17 @@ Modern.js 提供了丰富的运行时 API（后面简称 Runtime API），所有
 目前对 Runtime API 还不完全支持，因此在使用的时候要注意以下**暂不支持的 API**：
 
 - App API:
-  - [`useModuleApp`](/docs/apis/runtime/app/use-module-app)
-  - [`useModuleApps`](/docs/apis/runtime/app/use-module-apps)
+  - [`useModuleApp`](/docs/apis/app/runtime/app/use-module-app)
+  - [`useModuleApps`](/docs/apis/app/runtime/app/use-module-apps)
 - BFF 相关功能目前还不支持：
-  - [`useContext`](/docs/apis/runtime/bff-server/use-context)
-  - [`hook`](/docs/apis/runtime/bff-server/hook)
+  - [`useContext`](/docs/apis/app/runtime/bff-server/use-context)
+  - [`hook`](/docs/apis/app/runtime/bff-server/hook)
 - Testing API
-  - [`render`](/docs/apis/runtime/testing/render)
-  - [`renderApp`](/docs/apis/runtime/testing/renderApp)
-  - [`cleanup`](/docs/apis/runtime/testing/cleanup)
-  - [`act`](/docs/apis/runtime/testing/act)
+  - [`render`](/docs/apis/app/runtime/testing/render)
+  - [`renderApp`](/docs/apis/app/runtime/testing/renderApp)
+  - [`cleanup`](/docs/apis/app/runtime/testing/cleanup)
+  - [`act`](/docs/apis/app/runtime/testing/act)
 - Web Server API
-  - [`hook`](/docs/apis/runtime/web-server/hook)
-- [Electron API](/docs/apis/runtime/electron/overview)
-- [插件 API](/docs/apis/runtime/plugin/abstract)
+  - [`hook`](/docs/apis/app/runtime/web-server/hook)
+- [Electron API](/docs/apis/app/runtime/electron/overview)
+- [插件 API](/docs/apis/app/runtime/plugin/abstract)

@@ -42,11 +42,6 @@ module.exports = {
           key: 'monorepo',
         },
         {
-          label: '运行时',
-          url: '/docs/apis/runtime/overview',
-          key: 'runtime',
-        },
-        {
           label: '项目生成器',
           url: '/docs/apis/generator/overview',
           key: 'generator',

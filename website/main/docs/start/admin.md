@@ -232,7 +232,7 @@ export default App;
 当访问 `/console` 路由时，会加载 `src_console_dashboard_index_tsx.js` 这个文件；当访问 `/console/table` 路由时，会加载 `src_console_tableList_index_tsx.js` 这个文件。
 
 :::info 补充信息
-关于 `loadable` 的更多用法，请参考【[loadable API](/docs/apis/runtime/utility/loadable/loadable_)】。
+关于 `loadable` 的更多用法，请参考【[loadable API](/docs/apis/app/runtime/utility/loadable/loadable_)】。
 :::
 
 ## 集成组件库
@@ -561,5 +561,5 @@ describe('test model', () => {
 通过 `@modern-js/runtime/testing` 中的 `createStore`，可以创建测试 Model 时所需的 `store`。执行 `pnpm run test`，会运行项目下的所有测试用例。
 
 :::info 补充信息
-更多用法，请参考【[Testing API](/docs/apis/runtime/testing/render)】、【[测试 Model](/docs/guides/features/model/test-model)】。
+更多用法，请参考【[Testing API](/docs/apis/app/runtime/testing/render)】、【[测试 Model](/docs/guides/features/model/test-model)】。
 :::

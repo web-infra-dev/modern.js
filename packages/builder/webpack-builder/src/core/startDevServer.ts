@@ -1,6 +1,7 @@
-import { log, info, debug } from '../shared';
-import { createWatchCompiler } from './createCompiler';
+import type { Compiler, MultiCompiler } from 'webpack';
+import { debug, info, log } from '../shared';
 import type { NormalizedConfig } from '../types';
+import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
 
 async function printURLs(config: NormalizedConfig, port: number) {
@@ -20,12 +21,24 @@ async function printURLs(config: NormalizedConfig, port: number) {
   info(message);
 }
 
-async function createDevServer(options: InitConfigsOptions, port: number) {
+export async function createDevServer(
+  options: InitConfigsOptions,
+  port: number,
+  customCompiler?: Compiler | MultiCompiler,
+) {
   const { Server } = await import('@modern-js/server');
   const { applyOptionsChain } = await import('@modern-js/utils');
 
-  const { webpackConfigs } = await initConfigs(options);
-  const compiler = await createWatchCompiler(options.context, webpackConfigs);
+  let compiler: Compiler | MultiCompiler;
+  if (customCompiler) {
+    compiler = customCompiler;
+  } else {
+    const { webpackConfigs } = await initConfigs(options);
+    compiler = await createCompiler({
+      context: options.context,
+      webpackConfigs,
+    });
+  }
 
   debug('create dev server');
 
@@ -61,7 +74,10 @@ async function createDevServer(options: InitConfigsOptions, port: number) {
   return server;
 }
 
-export async function startDevServer(options: InitConfigsOptions) {
+export async function startDevServer(
+  options: InitConfigsOptions,
+  compiler?: Compiler | MultiCompiler,
+) {
   log();
   info('Starting dev server...');
 
@@ -71,8 +87,8 @@ export async function startDevServer(options: InitConfigsOptions) {
 
   const { config } = options.context;
   const { getPort } = await import('@modern-js/utils');
-  const port = await getPort(config.dev.port);
-  const server = await createDevServer(options, port);
+  const port = await getPort(config.dev?.port || 8080);
+  const server = await createDevServer(options, port, compiler);
 
   await options.context.hooks.onBeforeStartDevServerHooks.call();
 

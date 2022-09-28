@@ -10,6 +10,7 @@ import type {
   ExecuteBuild,
   InspectOptions,
 } from '../types';
+import type { Compiler, MultiCompiler } from 'webpack';
 
 /**
  * Create primary builder.
@@ -79,19 +80,23 @@ export async function createBuilder(options?: BuilderOptions) {
   pluginStore.addPlugins(await applyDefaultPlugins());
   debug('add default plugins done');
 
-  const startDevServer = async () => {
+  const startDevServer = async ({
+    compiler,
+  }: {
+    compiler?: Compiler | MultiCompiler;
+  } = {}) => {
     const { startDevServer } = await import('./startDevServer');
-    return startDevServer({ context, pluginStore, builderOptions });
+    return startDevServer({ context, pluginStore, builderOptions }, compiler);
   };
 
-  const createCompiler = async () => {
-    const { createWatchCompiler } = await import('./createCompiler');
+  const createCompiler = async ({ watch }: { watch?: boolean } = {}) => {
+    const { createCompiler } = await import('./createCompiler');
     const { webpackConfigs } = await initConfigs({
       context,
       pluginStore,
       builderOptions,
     });
-    return createWatchCompiler(context, webpackConfigs);
+    return createCompiler({ watch, context, webpackConfigs });
   };
 
   const build = async (options?: BuildOptions) => {
