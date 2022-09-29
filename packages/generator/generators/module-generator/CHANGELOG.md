@@ -1,5 +1,13 @@
 # @modern-js/module-generator
 
+## 2.4.0
+
+### Minor Changes
+
+- d2fbefc: feat: upgrade husky version
+
+  feat: 升级生成器模板 husky 版本
+
 ## 2.3.4
 
 ## 2.3.3

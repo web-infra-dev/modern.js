@@ -1,5 +1,16 @@
 # @modern-js/prod-server
 
+## 1.19.0
+
+### Patch Changes
+
+- 1903f68: fix(server): failed to access static files when output.assetPrefix ends with /
+
+  fix(server): 修复 output.assetPrefix 以 / 结尾时无法正确访问的问题
+
+  - @modern-js/server-core@1.19.0
+  - @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes
