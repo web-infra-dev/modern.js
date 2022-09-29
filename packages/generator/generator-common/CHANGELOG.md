@@ -1,5 +1,6 @@
 # @modern-js/generator-common
 
+<<<<<<< HEAD
 ## 2.4.4
 
 ### Patch Changes
@@ -12,6 +13,8 @@
 
 - @modern-js/plugin-i18n@1.20.0
 
+=======
+>>>>>>> 6ab74256f (Release v1.19.0 (#1791))
 ## 2.4.0
 
 ### Patch Changes

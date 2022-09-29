@@ -1,7 +1,11 @@
 {
   "name": "@scripts/vitest-config",
   "private": true,
+<<<<<<< HEAD
   "version": "1.20.1",
+=======
+  "version": "1.19.0",
+>>>>>>> 6ab74256f (Release v1.19.0 (#1791))
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
@@ -20,7 +24,11 @@
   },
   "peerDependencies": {
     "vitest": "^0.21.1",
+<<<<<<< HEAD
     "@modern-js/utils": "workspace:^1.20.1"
+=======
+    "@modern-js/utils": "workspace:^1.19.0"
+>>>>>>> 6ab74256f (Release v1.19.0 (#1791))
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

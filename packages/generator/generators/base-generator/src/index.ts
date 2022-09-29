@@ -62,10 +62,14 @@ const handleTemplateFile = async (
       resourceKey =>
         resourceKey
 <<<<<<< HEAD
+<<<<<<< HEAD
           .replace('templates/pnpm-templates/npmrc', '.npmrc')
 =======
           .replace('templates/pnpm-templates/', '')
 >>>>>>> d2fbefc5e (feat: support pnpm v7 (#1768))
+=======
+          .replace('templates/pnpm-templates/npmrc', '.npmrc')
+>>>>>>> 6ab74256f (Release v1.19.0 (#1791))
           .replace('.handlebars', ''),
     );
   }

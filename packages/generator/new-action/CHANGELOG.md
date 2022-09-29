@@ -1,5 +1,6 @@
 # @modern-js/new-action
 
+<<<<<<< HEAD
 ## 1.20.1
 
 ### Patch Changes
@@ -21,6 +22,8 @@
   - @modern-js/generator-common@2.4.3
   - @modern-js/generator-utils@2.4.3
 
+=======
+>>>>>>> 6ab74256f (Release v1.19.0 (#1791))
 ## 1.19.0
 
 ### Patch Changes

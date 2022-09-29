@@ -11,7 +11,11 @@
     "modern",
     "modern.js"
   ],
+<<<<<<< HEAD
   "version": "2.4.4",
+=======
+  "version": "2.4.0",
+>>>>>>> 6ab74256f (Release v1.19.0 (#1791))
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",

@@ -1,5 +1,6 @@
 # @modern-js/types
 
+<<<<<<< HEAD
 ## 1.20.1
 
 ## 1.20.0
@@ -10,6 +11,8 @@
 
   feat: 支持 devServer.historyApiFallback 配置项
 
+=======
+>>>>>>> 6ab74256f (Release v1.19.0 (#1791))
 ## 1.19.0
 
 ## 1.18.1

@@ -1,5 +1,6 @@
 # @modern-js/plugin-server
 
+<<<<<<< HEAD
 ## 1.20.1
 
 ### Patch Changes
@@ -21,6 +22,8 @@
   - @modern-js/server-utils@1.20.0
   - @modern-js/babel-compiler@1.20.0
 
+=======
+>>>>>>> 6ab74256f (Release v1.19.0 (#1791))
 ## 1.19.0
 
 ### Patch Changes

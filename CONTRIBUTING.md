@@ -17,11 +17,7 @@ local.
 corepack enable
 
 # or install pnpm directly
-<<<<<<< HEAD
 npm install -g pnpm@7
-=======
-npm install -g pnpm
->>>>>>> d2fbefc5e (feat: support pnpm v7 (#1768))
 ```
 
 ### Set up local Modern.js repository

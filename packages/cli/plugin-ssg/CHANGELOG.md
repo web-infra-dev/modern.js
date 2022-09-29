@@ -1,5 +1,6 @@
 # @modern-js/plugin-ssg
 
+<<<<<<< HEAD
 ## 1.20.1
 
 ### Patch Changes
@@ -17,6 +18,8 @@
 - Updated dependencies [8c05089]
   - @modern-js/utils@1.20.0
 
+=======
+>>>>>>> 6ab74256f (Release v1.19.0 (#1791))
 ## 1.19.0
 
 ### Patch Changes
