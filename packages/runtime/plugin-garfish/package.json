@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.18.1",
+  "version": "1.19.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "typesVersions": {
@@ -67,7 +67,7 @@
     "react-loadable": "^5.5.0"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^1.18.1"
+    "@modern-js/runtime": "workspace:^1.19.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {
