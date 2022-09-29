@@ -109,7 +109,7 @@
     "vitest": "^0.21.1"
   },
   "peerDependencies": {
-    "@modern-js/e2e": "workspace:*"
+    "@modern-js/e2e": "workspace:^1.18.1"
   },
   "peerDependenciesMeta": {
     "@modern-js/e2e": {
