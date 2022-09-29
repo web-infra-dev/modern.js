@@ -11,4 +11,5 @@ export const ZH_LOCALE = {
       '项目中不允许同时包含多种工程方案相关依赖，请先移除不相关的工程方案依赖。',
   },
   success: '已更新 Modern.js 依赖至最新版本',
+  updateHusky: '升级 Husky 至 v8',
 };

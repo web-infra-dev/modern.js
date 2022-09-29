@@ -24,7 +24,7 @@ jobs:
           fetch-depth: 25
 
       - name: Install Pnpm
-        run: npm install -g pnpm@^6
+        run: npm install -g pnpm@7
 
       - name: Check docs only change
         run: echo ::set-output name=DOCS_CHANGE::$(node ./scripts/skip-docs-change.js echo 'not-docs-only-change')
@@ -48,4 +48,4 @@ jobs:
 
       - name: Type Check
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm run prepare --filter ./packages
+        run: pnpm run --filter "./packages/**" prepare

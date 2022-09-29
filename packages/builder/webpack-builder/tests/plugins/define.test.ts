@@ -13,19 +13,25 @@ describe('plugins/define', () => {
       },
       baz: [null, 'baz'],
     };
+    const define = {
+      'import.meta.test': false,
+      cov: () => process.stdout.write('cov'),
+    };
     const builder = await createStubBuilder({
       plugins: [PluginDefine()],
-      builderConfig: { source: { globalVars } },
+      builderConfig: { source: { globalVars, define } },
     });
     expect(await builder.unwrapWebpackConfig()).toMatchInlineSnapshot(`
       {
         "plugins": [
           DefinePlugin {
             "definitions": {
-              "bar": "{\\"a\\":\\"bar\\",\\"b\\":false,\\"c\\":{\\"d\\":42}}",
-              "baz": "[null,\\"baz\\"]",
-              "foo": "\\"foo\\"",
+              "cov": [Function],
+              "import.meta.test": false,
               "process.env.NODE_ENV": "\\"test\\"",
+              "process.env.bar": "{\\"a\\":\\"bar\\",\\"b\\":false,\\"c\\":{\\"d\\":42}}",
+              "process.env.baz": "[null,\\"baz\\"]",
+              "process.env.foo": "\\"foo\\"",
             },
           },
         ],

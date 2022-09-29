@@ -22,7 +22,7 @@
     "test:vitest": "node scripts/vitest-run-all.js",
     "fast-lint": "sh -x ./fast-lint.sh",
     "lint:package-json": "cd ./scripts/lint-package-json && pnpm start",
-    "prepare": "pnpm run prepare --filter ./packages && husky install",
+    "prepare": "pnpm run --filter './packages/**' prepare && husky install",
     "preinstall": "only-allow-pnpm",
     "lint": "npm run fast-lint",
     "change": "modern change",
@@ -40,7 +40,7 @@
   "engines": {
     "node": ">=14.17.6"
   },
-  "packageManager": "pnpm@6.34.0",
+  "packageManager": "pnpm@7.12.2",
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"

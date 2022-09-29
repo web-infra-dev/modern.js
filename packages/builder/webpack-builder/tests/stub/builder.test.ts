@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import _ from '@modern-js/utils/lodash';
 import { createStubBuilder } from '../../src/stub';
 import { normalizeStubPluginOptions } from '../../src/stub/builder';
@@ -26,6 +26,44 @@ describe('stub-builder', () => {
     expect((builder.build.cache as Map<any, any>).size).toBe(0);
     const newConfig = await builder.unwrapWebpackConfig();
     expect(oldConfig).not.toBe(newConfig);
+  });
+
+  it('should call hooks in order when building', async () => {
+    const builder = await createStubBuilder();
+    const order: string[] = [];
+    _.each(builder.hooks, (hook, name) => {
+      const actual = hook.call;
+      const mocked = vi.spyOn(hook, 'call');
+      mocked.mockImplementation((...args: any[]) => {
+        order.push(name);
+        return actual(...args);
+      });
+    });
+    await builder.build();
+    expect(order).toMatchInlineSnapshot(`
+      [
+        "modifyBuilderConfigHook",
+        "modifyWebpackChainHook",
+        "modifyWebpackConfigHook",
+        "onBeforeBuildHook",
+        "onAfterBuildHook",
+      ]
+    `);
+  });
+
+  it.skip('should call hooks in order when start dev server', async () => {
+    const builder = await createStubBuilder();
+    const order: string[] = [];
+    _.each(builder.hooks, (hook, name) => {
+      const actual = hook.call;
+      const mocked = vi.spyOn(hook, 'call');
+      mocked.mockImplementation((...args: any[]) => {
+        order.push(name);
+        return actual(...args);
+      });
+    });
+    // TODO: start dev server.
+    expect(order).toMatchInlineSnapshot();
   });
 });
 

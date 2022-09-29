@@ -8,16 +8,14 @@
     "start": "modern start",
     "new": "modern new",
     "lint": "modern lint",
+    {{#unless isMonorepoSubProject}}
+    "prepare": "modern build && husky install",
+    {{/unless}}
     "upgrade": "modern upgrade"
   },
   {{#unless isMonorepoSubProject}}
   "engines": {
     "node": ">=14.17.6"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -43,6 +41,6 @@
     "rimraf": "^3.0.2",
     "lint-staged": "^11.2.6",
     "prettier": "^2.6.2",
-    "husky": "4.3.8"
+    "husky": "^8.0.0"
   }
 }
