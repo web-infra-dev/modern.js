@@ -1,3 +1,7 @@
+---
+extractApiHeaders: [2]
+---
+
 # Dev Config
 
 This section describes some dev configurations in Modern.js Builder.

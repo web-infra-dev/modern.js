@@ -1,0 +1,531 @@
+// Vitest Snapshot v1
+
+exports[`plugins/rem > should not run htmlPlugin with enableRuntime is false 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": false,
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  {
+                    "AtRule": [Function],
+                    "Declaration": [Function],
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-pxtorem",
+                  },
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/rem > should not run rem plugin when false 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": false,
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/rem > should not run rem plugin without config 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": false,
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/rem > should run rem plugin with custom config 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": false,
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  {
+                    "AtRule": [Function],
+                    "Declaration": [Function],
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-pxtorem",
+                  },
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "plugins": [
+    AutoSetRootFontSizePlugin {
+      "name": "AutoSetRootFontSizePlugin",
+      "options": {
+        "enableRuntime": true,
+        "excludeEntries": [],
+        "maxRootFontSize": 64,
+        "pxtorem": {
+          "propList": [
+            "font-size",
+          ],
+        },
+        "rootFontSize": 30,
+        "rootFontSizeVariableName": "ROOT_FONT_SIZE",
+        "screenWidth": 375,
+        "supportLandscape": false,
+        "useRootFontSizeBeyondMax": false,
+        "widthQueryKey": "",
+      },
+      "webpackEntries": [],
+    },
+  ],
+}
+`;
+
+exports[`plugins/rem > should run rem plugin with default config 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": false,
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  {
+                    "AtRule": [Function],
+                    "Declaration": [Function],
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-pxtorem",
+                  },
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.less\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": false,
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  {
+                    "AtRule": [Function],
+                    "Declaration": [Function],
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-pxtorem",
+                  },
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/less-loader",
+            "options": {
+              "implementation": "<ROOT>/packages/builder/webpack-builder/compiled/less",
+              "lessOptions": {
+                "javascriptEnabled": true,
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": false,
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  {
+                    "AtRule": [Function],
+                    "Declaration": [Function],
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-pxtorem",
+                  },
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<ROOT>/packages/builder/webpack-builder/compiled/sass-loader",
+            "options": {
+              "implementation": "<ROOT>/packages/builder/webpack-builder/compiled/sass",
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "plugins": [
+    AutoSetRootFontSizePlugin {
+      "name": "AutoSetRootFontSizePlugin",
+      "options": {
+        "enableRuntime": true,
+        "excludeEntries": [],
+        "maxRootFontSize": 64,
+        "rootFontSize": 50,
+        "rootFontSizeVariableName": "ROOT_FONT_SIZE",
+        "screenWidth": 375,
+        "supportLandscape": false,
+        "useRootFontSizeBeyondMax": false,
+        "widthQueryKey": "",
+      },
+      "webpackEntries": [],
+    },
+  ],
+}
+`;

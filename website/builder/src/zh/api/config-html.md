@@ -1,3 +1,7 @@
+---
+extractApiHeaders: [2]
+---
+
 # Html Config
 
 本章节描述了 Builder 中与 HTML 有关的配置。

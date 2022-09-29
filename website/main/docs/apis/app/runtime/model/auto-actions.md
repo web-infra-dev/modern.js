@@ -3,7 +3,6 @@ sidebar_position: 6
 title: Auto actions
 ---
 
-# Auto actions
 
 import ReduckTip from '@site/docs/components/reduck-tip.md'
 

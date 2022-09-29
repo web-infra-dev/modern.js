@@ -1,3 +1,7 @@
+---
+extractApiHeaders: [2]
+---
+
 # Html Config
 
 This section describes some HTML configurations in Modern.js Builder.

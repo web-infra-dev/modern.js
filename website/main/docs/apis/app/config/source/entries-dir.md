@@ -1,9 +1,9 @@
 ---
+title: source.entriesDir
+
 sidebar_label: entriesDir
 sidebar_position: 111
 ---
-
-# source.entriesDir
 
 
 

@@ -1,3 +1,7 @@
+---
+extractApiHeaders: [2]
+---
+
 # Source Config
 
 This section describes some source code related configurations in Modern.js Builder.
@@ -9,6 +13,10 @@ This section describes some source code related configurations in Modern.js Buil
 ## source.compileJsDataURI
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/source/compileJsDataURI.md)!!!
+
+## source.define
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/source/define.md)!!!
 
 ## source.globalVars
 
