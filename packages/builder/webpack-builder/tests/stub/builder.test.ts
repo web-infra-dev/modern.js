@@ -76,7 +76,7 @@ describe('stub-builder', () => {
     });
     const changes = await builder.unwrapConfigChanges();
     for (const change of changes) {
-      delete change.stack;
+      change.stack = change.stack?.slice(0, 1);
     }
     expect(changes).toMatchInlineSnapshot(`
       [
@@ -87,6 +87,9 @@ describe('stub-builder', () => {
             "hmr": true,
             "progressBar": true,
           },
+          "stack": [
+            "    at async <ROOT>/packages/builder/webpack-builder/tests/stub/builder.test.ts:74:21",
+          ],
           "value": {
             "hmr": false,
           },
@@ -94,6 +97,9 @@ describe('stub-builder', () => {
         {
           "path": "dev.hmr",
           "prevValue": undefined,
+          "stack": [
+            "    at async <ROOT>/packages/builder/webpack-builder/tests/stub/builder.test.ts:74:21",
+          ],
           "value": false,
         },
       ]
