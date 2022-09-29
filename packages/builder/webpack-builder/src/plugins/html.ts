@@ -76,14 +76,15 @@ async function getTemplateParameters(
 
   const meta = await getMetaTags(entryName, config);
   const title = getTitle(entryName, config);
-
+  const templateParams =
+    templateParametersByEntries?.[entryName] || templateParameters;
   const baseParameters = {
     meta,
     title,
     mountId: mountId || DEFAULT_MOUNT_ID,
     entryName,
     assetPrefix,
-    ...(templateParametersByEntries?.[entryName] || templateParameters),
+    ...(typeof templateParameters === 'function' ? {} : templateParams),
   };
 
   // refer to: https://github.com/jantimon/html-webpack-plugin/blob/main/examples/template-parameters/webpack.config.js
@@ -96,6 +97,9 @@ async function getTemplateParameters(
       options: pluginOptions,
     },
     ...baseParameters,
+    ...(typeof templateParams === 'function'
+      ? templateParams(compilation, assets, assetTags, pluginOptions)
+      : {}),
   });
 }
 
