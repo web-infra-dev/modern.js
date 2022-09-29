@@ -65,6 +65,40 @@ describe('stub-builder', () => {
     // TODO: start dev server.
     expect(order).toMatchInlineSnapshot();
   });
+
+  it('should watch changes of builder config', async () => {
+    const builder = await createStubBuilder({
+      watchConfig: true,
+    });
+    builder.hooks.modifyBuilderConfigHook.tap(config => {
+      config.dev = {};
+      config.dev.hmr = false;
+    });
+    const changes = await builder.unwrapConfigChanges();
+    for (const change of changes) {
+      delete change.stack;
+    }
+    expect(changes).toMatchInlineSnapshot(`
+      [
+        {
+          "path": "dev",
+          "prevValue": {
+            "assetPrefix": "/",
+            "hmr": true,
+            "progressBar": true,
+          },
+          "value": {
+            "hmr": false,
+          },
+        },
+        {
+          "path": "dev.hmr",
+          "prevValue": undefined,
+          "value": false,
+        },
+      ]
+    `);
+  });
 });
 
 describe('normalizeStubPluginOptions', () => {
