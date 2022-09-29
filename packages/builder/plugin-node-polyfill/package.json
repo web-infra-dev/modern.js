@@ -49,7 +49,7 @@
     "webpack": "^5.71.0"
   },
   "peerDependencies": {
-    "@modern-js/webpack-builder": "workspace:^1.1.1"
+    "@modern-js/webpack-builder": "workspace:^1.1.2"
   },
   "sideEffects": false,
   "publishConfig": {

@@ -1,5 +1,12 @@
 # @modern-js/babel-preset-app
 
+## 1.19.0
+
+### Patch Changes
+
+- @modern-js/babel-preset-base@1.19.0
+- @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes

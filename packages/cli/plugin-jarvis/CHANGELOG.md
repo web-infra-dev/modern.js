@@ -1,5 +1,20 @@
 # @modern-js/plugin-jarvis
 
+## 1.19.0
+
+### Minor Changes
+
+- d2fbefc: feat: upgrade `@modern-js/plugin-jarvis` husky version to 8
+
+  feat: 升级 `@modern-js/plugin-jarvis` husky 版本为 8
+
+### Patch Changes
+
+- @modern-js/eslint-config@1.19.0
+- @modern-js-app/eslint-config@1.19.0
+- @modern-js/tsconfig@1.19.0
+- @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes

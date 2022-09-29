@@ -1,7 +1,7 @@
 {
   "name": "@scripts/vitest-config",
   "private": true,
-  "version": "1.18.1",
+  "version": "1.19.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
@@ -20,7 +20,7 @@
   },
   "peerDependencies": {
     "vitest": "^0.21.1",
-    "@modern-js/utils": "workspace:^1.18.1"
+    "@modern-js/utils": "workspace:^1.19.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
