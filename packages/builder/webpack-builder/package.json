@@ -15,7 +15,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "1.1.1",
+  "version": "1.1.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -105,11 +105,12 @@
     "@types/serialize-javascript": "^5.0.1",
     "@vitest/ui": "^0.21.1",
     "autoprefixer": "^10.4.8",
+    "on-change": "^4.0.1",
     "typescript": "^4",
     "vitest": "0.21.1"
   },
   "peerDependencies": {
-    "@modern-js/e2e": "workspace:*"
+    "@modern-js/e2e": "workspace:^1.19.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/e2e": {

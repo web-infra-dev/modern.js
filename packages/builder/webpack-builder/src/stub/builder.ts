@@ -3,6 +3,7 @@ import { getTemplatePath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
 import assert from 'assert';
 import { PathLike } from 'fs';
+import onChange from 'on-change';
 import { URL } from 'url';
 import type { BuildOptions } from '../core/build';
 import {
@@ -44,6 +45,8 @@ export interface StubBuilderOptions extends BuilderOptions {
    */
   webpack?: boolean | string;
   buildOptions?: BuildOptions;
+  /** Watch and record any changes of builder configs. */
+  watchConfig?: boolean;
 }
 
 export type HookApi = {
@@ -88,6 +91,13 @@ export async function applyPluginOptions(
   pluginStore.addPlugins(opt.additional);
 }
 
+export interface ConfigChange<T> {
+  path: string;
+  value: T;
+  prevValue: T;
+  stack?: string[];
+}
+
 export const createDefaultStubBuilderOptions = (): Required<BuilderOptions> &
   StubBuilderOptions => ({
   ...createDefaultBuilderOptions(),
@@ -116,6 +126,30 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   const context = await createPrimaryContext(builderOptions);
   // merge user context.
   options?.context && _.merge(context, options.context);
+  // watch config changes.
+  let configChanges: ConfigChange<unknown>[];
+  if (options?.watchConfig) {
+    configChanges = [];
+    context.config = onChange(
+      context.config,
+      (path: string, value: unknown, prevValue: unknown) => {
+        const stacks = new Error().stack?.split('\n').slice(1) || [];
+        let findFirst = false;
+        const effectiveStackStarts = stacks.findIndex(
+          line =>
+            !line.includes('/node_modules/') &&
+            !line.includes('/webpack-builder/src/') &&
+            !(findFirst = !findFirst),
+        );
+        configChanges.push({
+          path,
+          value,
+          prevValue,
+          stack: stacks.slice(effectiveStackStarts),
+        });
+      },
+    );
+  }
   // init primary builder.
   const { pluginStore, publicContext } = createPrimaryBuilder(
     builderOptions,
@@ -182,6 +216,13 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   const unwrapWebpackCompiler = async () => {
     const [{ compiler }] = await unwrapHook('onAfterCreateCompilerHooks');
     return compiler;
+  };
+
+  /** Unwrap change records of builder config, require enable `watchConfigs`. */
+  const unwrapConfigChanges = async () => {
+    await build();
+    assert(configChanges);
+    return configChanges;
   };
 
   /** Serialize content of output files into JSON object. */
@@ -294,6 +335,7 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
     unwrapWebpackConfigs,
     unwrapWebpackConfig,
     unwrapWebpackCompiler,
+    unwrapConfigChanges,
     unwrapOutputJSON,
     unwrapOutputFile,
     readOutputFile,
