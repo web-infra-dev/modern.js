@@ -113,11 +113,11 @@ export function getDataUrlCondition(
 }
 
 export function deepFreezed<T extends Record<any, any> | any[]>(obj: T): T {
-  assert(typeof obj === 'object');
-  const handle = (item: any) =>
-    typeof item === 'object' ? deepFreezed(item) : item;
+  if (!_.isPlainObject(obj) && !Array.isArray(obj)) {
+    return obj;
+  }
   const ret = (
-    Array.isArray(obj) ? _.map(obj, handle) : _.mapValues(obj, handle)
+    Array.isArray(obj) ? _.map(obj, deepFreezed) : _.mapValues(obj, deepFreezed)
   ) as T;
   return Object.freeze(ret);
 }

@@ -6,6 +6,7 @@ describe('plugins/external', () => {
   it('should add external config', async () => {
     const builder = await createStubBuilder({
       plugins: [PluginExternals()],
+      watchConfig: true,
       builderConfig: {
         output: {
           externals: ['react', /@swc\/.*/],

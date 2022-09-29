@@ -76,19 +76,15 @@ describe('stub-builder', () => {
     });
     const changes = await builder.unwrapConfigChanges();
     for (const change of changes) {
-      change.stack = change.stack?.slice(0, 1);
+      delete change.prevValue;
+      change.stack = change.stack?.slice(0, 1).map(s => s.slice(0, -6));
     }
     expect(changes).toMatchInlineSnapshot(`
       [
         {
           "path": "dev",
-          "prevValue": {
-            "assetPrefix": "/",
-            "hmr": true,
-            "progressBar": true,
-          },
           "stack": [
-            "    at async <ROOT>/packages/builder/webpack-builder/tests/stub/builder.test.ts:74:21",
+            "    at async <ROOT>/packages/builder/webpack-builder/tests/stub/builder.test.ts",
           ],
           "value": {
             "hmr": false,
@@ -96,9 +92,8 @@ describe('stub-builder', () => {
         },
         {
           "path": "dev.hmr",
-          "prevValue": undefined,
           "stack": [
-            "    at async <ROOT>/packages/builder/webpack-builder/tests/stub/builder.test.ts:74:21",
+            "    at async <ROOT>/packages/builder/webpack-builder/tests/stub/builder.test.ts",
           ],
           "value": false,
         },
