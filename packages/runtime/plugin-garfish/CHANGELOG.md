@@ -1,5 +1,14 @@
 # @modern-js/plugin-garfish
 
+## 1.19.0
+
+### Patch Changes
+
+- f3bdbde: fix: register microApps before loadApp
+  修复：修复手动控制子应用加载情况下未注册子应用问题
+  - @modern-js/runtime@1.19.0
+  - @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes
