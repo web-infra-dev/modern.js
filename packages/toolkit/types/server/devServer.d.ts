@@ -35,4 +35,15 @@ export type DevServerOptions = {
   /** Whether to enable https. */
   https?: DevServerHttpsOptions;
   [propName: string]: any;
+  historyApiFallback?: {
+    index?: string;
+    verbose?: boolean;
+    logger?: typeof console.log;
+    htmlAcceptHeaders?: string[];
+    disableDotRule?: true;
+    rewrites?: Array<{
+      from: RegExp;
+      to: string | RegExp | function;
+    }>;
+  };
 };
