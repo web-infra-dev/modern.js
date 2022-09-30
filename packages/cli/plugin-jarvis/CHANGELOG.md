@@ -1,6 +1,5 @@
 # @modern-js/plugin-jarvis
 
-<<<<<<< HEAD
 ## 1.20.1
 
 ### Patch Changes
@@ -24,8 +23,6 @@
   - @modern-js/eslint-config@1.20.0
   - @modern-js/tsconfig@1.20.0
 
-=======
->>>>>>> 6ab74256f (Release v1.19.0 (#1791))
 ## 1.19.0
 
 ### Minor Changes

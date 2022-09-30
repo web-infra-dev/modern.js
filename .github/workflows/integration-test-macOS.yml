@@ -31,11 +31,7 @@ jobs:
           fetch-depth: 25
 
       - name: Install Pnpm
-<<<<<<< HEAD
         run: npm install -g pnpm@7
-=======
-        run: npm install -g pnpm
->>>>>>> d2fbefc5e (feat: support pnpm v7 (#1768))
 
       - name: Check docs only change
         run: echo ::set-output name=DOCS_CHANGE::$(node ./scripts/skip-docs-change.js echo 'not-docs-only-change')

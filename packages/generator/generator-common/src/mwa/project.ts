@@ -9,7 +9,6 @@ import {
   getPackageManagerSchema,
 } from '../common';
 import {
-<<<<<<< HEAD
   getClientRouteSchema,
   getNeedModifyMWAConfigSchema,
   ClientRoute,
@@ -27,24 +26,6 @@ export const getMWASchemaProperties = (
     clientRoute: getClientRouteSchema(extra),
   };
 };
-=======
-  ClientRouteSchema,
-  RunWay,
-  RunWaySchema,
-  NeedModifyMWAConfigSchema,
-  ClientRoute,
-} from './common';
-
-export const MWASchemas = [
-  PackageNameSchema,
-  PackagePathSchema,
-  LanguageSchema,
-  PackageManagerSchema,
-  RunWaySchema,
-  NeedModifyMWAConfigSchema,
-  ClientRouteSchema,
-];
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
 
 export const getMWASchema = (extra: Record<string, any> = {}): Schema => {
   return {

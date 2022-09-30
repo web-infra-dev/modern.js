@@ -1,12 +1,9 @@
 # @modern-js/monorepo-generator
 
-<<<<<<< HEAD
 ## 2.4.4
 
 ## 2.4.3
 
-=======
->>>>>>> 6ab74256f (Release v1.19.0 (#1791))
 ## 2.4.0
 
 ### Minor Changes

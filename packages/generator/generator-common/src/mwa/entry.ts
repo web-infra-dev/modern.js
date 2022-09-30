@@ -2,15 +2,9 @@ import { Schema } from '@modern-js/codesmith-formily';
 import { i18n, localeKeys } from '../locale';
 import { BooleanConfig } from '../common';
 import {
-<<<<<<< HEAD
   getClientRouteSchema,
   ClientRoute,
   getNeedModifyMWAConfigSchema,
-=======
-  ClientRouteSchema,
-  ClientRoute,
-  NeedModifyMWAConfigSchema,
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
 } from './common';
 
 export const getEntryNameSchema = (extra: Record<string, any> = {}): Schema => {
@@ -40,7 +34,6 @@ export const getEntryNameSchema = (extra: Record<string, any> = {}): Schema => {
   };
 };
 
-<<<<<<< HEAD
 export const getEntrySchemaProperties = (
   extra: Record<string, any>,
 ): Schema['properties'] => {
@@ -50,13 +43,6 @@ export const getEntrySchemaProperties = (
     clientRoute: getClientRouteSchema(extra),
   };
 };
-=======
-export const EntrySchemas = [
-  EntryNameSchema,
-  NeedModifyMWAConfigSchema,
-  ClientRouteSchema,
-];
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
 
 export const getEntrySchema = (extra: Record<string, any> = {}): Schema => {
   return {

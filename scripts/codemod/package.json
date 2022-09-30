@@ -1,11 +1,7 @@
 {
   "name": "@scripts/codemod",
   "private": true,
-<<<<<<< HEAD
   "version": "1.20.1",
-=======
-  "version": "1.19.0",
->>>>>>> 6ab74256f (Release v1.19.0 (#1791))
   "scripts": {
     "build": "modern build"
   },

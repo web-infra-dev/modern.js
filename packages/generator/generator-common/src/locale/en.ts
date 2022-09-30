@@ -69,14 +69,6 @@ export const EN_LOCALE = {
     format:
       'Only lowercase letters, numbers and delimiters (-), and underscore (_), and directory delimiters (/) can be used in package path.',
   },
-<<<<<<< HEAD
-=======
-  runWay: {
-    self: 'Do you need to support the following types of applications',
-    no: 'Not Enabled',
-    electron: 'Electron',
-  },
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
   entry: {
     name: 'Entry name',
     no_empty: 'The entry name cannot be empty!',

@@ -1,6 +1,5 @@
 # @modern-js/utils
 
-<<<<<<< HEAD
 ## 1.20.1
 
 ### Patch Changes
@@ -28,8 +27,6 @@
 - 8c05089: fix: support monorepo deploy in pnpm 7
   fix: 修复 monorepo deploy 命令在 pnpm 7 下的问题
 
-=======
->>>>>>> 6ab74256f (Release v1.19.0 (#1791))
 ## 1.19.0
 
 ## 1.18.1

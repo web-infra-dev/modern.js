@@ -30,7 +30,7 @@ describe('testing-plugin-bff', () => {
     expect(createPlugin).toBeInstanceOf(Function);
   });
 
-  test.skip('setJestConfigForBFF', async () => {
+  test('setJestConfigForBFF', async () => {
     await setJestConfigForBFF({
       pwd: appDir,
       userConfig: {},
@@ -42,7 +42,7 @@ describe('testing-plugin-bff', () => {
     expect(mockUtils.jestConfig).toMatchSnapshot();
   });
 
-  test.skip('testTimeout should not set in projects', async () => {
+  test('testTimeout should not set in projects', async () => {
     mockUtils.setJestConfig({
       testTimeout: 1000,
     });

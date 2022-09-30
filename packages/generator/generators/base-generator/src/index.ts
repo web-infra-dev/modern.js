@@ -1,11 +1,7 @@
 import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-<<<<<<< HEAD
 import { getBaseSchema, PackageManager } from '@modern-js/generator-common';
-=======
-import { BaseSchema, PackageManager } from '@modern-js/generator-common';
->>>>>>> d2fbefc5e (feat: support pnpm v7 (#1768))
 import { fs } from '@modern-js/generator-utils';
 
 const handleTemplateFile = async (
@@ -34,14 +30,7 @@ const handleTemplateFile = async (
     ans = await appApi.getInputBySchemaFunc(getBaseSchema, context.config);
   }
 
-<<<<<<< HEAD
   const { packageManager } = ans;
-=======
-  const { packageManager } = await appApi.getInputBySchema(schema, {
-    ...context.config,
-    ...inputValue,
-  });
->>>>>>> d2fbefc5e (feat: support pnpm v7 (#1768))
 
   await appApi.forgeTemplate(
     'templates/base-templates/**/*',
@@ -61,15 +50,7 @@ const handleTemplateFile = async (
       undefined,
       resourceKey =>
         resourceKey
-<<<<<<< HEAD
-<<<<<<< HEAD
           .replace('templates/pnpm-templates/npmrc', '.npmrc')
-=======
-          .replace('templates/pnpm-templates/', '')
->>>>>>> d2fbefc5e (feat: support pnpm v7 (#1768))
-=======
-          .replace('templates/pnpm-templates/npmrc', '.npmrc')
->>>>>>> 6ab74256f (Release v1.19.0 (#1791))
           .replace('.handlebars', ''),
     );
   }

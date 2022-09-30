@@ -9,10 +9,7 @@ import {
   Solution,
   getModuleSchema,
   Language,
-<<<<<<< HEAD
   PackageManager,
-=======
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
 } from '@modern-js/generator-common';
 import {
   i18n as utilsI18n,

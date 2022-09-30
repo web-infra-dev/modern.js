@@ -11,11 +11,7 @@ import {
   BooleanConfig,
   ClientRoute,
   EntryGenerator,
-<<<<<<< HEAD
   PackageManager,
-=======
-  ElectronGenerator,
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
 } from '@modern-js/generator-common';
 import {
   getMWAProjectPath,
@@ -205,21 +201,6 @@ export const handleTemplateFile = async (
     },
   );
 
-<<<<<<< HEAD
-=======
-  if (runWay === RunWay.Electron) {
-    await appApi.runSubGenerator(
-      getGeneratorPath(ElectronGenerator, context.config.distTag),
-      undefined,
-      {
-        ...context.config,
-        projectPath,
-        isSubGenerator: true,
-      },
-    );
-  }
-
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
   if (isMonorepoSubProject) {
     await appApi.updateWorkspace({
       name: packagePath as string,

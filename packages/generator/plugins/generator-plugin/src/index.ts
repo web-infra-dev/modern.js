@@ -8,14 +8,7 @@ import { Solution, SolutionText } from '@modern-js/generator-common';
 import { i18n, localeKeys } from './locale';
 
 export default function (context: IPluginContext) {
-<<<<<<< HEAD
   context.setInput('packageName', 'title', i18n.t(localeKeys.package_name));
-=======
-  context.setInput('packageName', 'name', i18n.t(localeKeys.package_name));
-  context.setInputValue({
-    moduleRunWay: 'no',
-  });
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
   context.addInputAfter('packageManager', {
     type: 'object',
     properties: {

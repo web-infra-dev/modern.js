@@ -1,10 +1,6 @@
 {
   "name": "@modern-js/node-bundle-require",
-<<<<<<< HEAD
   "version": "1.20.1",
-=======
-  "version": "1.19.0",
->>>>>>> 6ab74256f (Release v1.19.0 (#1791))
   "description": "The meta-framework suite designed from scratch for frontend-focused modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",

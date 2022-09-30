@@ -48,12 +48,6 @@
     "vitest": "^0.21.1",
     "wireit": "^0.7.1"
   },
-<<<<<<< HEAD
-=======
-  "peerDependencies": {
-    "@modern-js/webpack-builder": "workspace:^1.1.2"
-  },
->>>>>>> 6ab74256f (Release v1.19.0 (#1791))
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

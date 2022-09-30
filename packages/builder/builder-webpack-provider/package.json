@@ -14,11 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-<<<<<<< HEAD:packages/builder/builder-webpack-provider/package.json
   "version": "1.20.1",
-=======
-  "version": "1.1.2",
->>>>>>> 6ab74256f (Release v1.19.0 (#1791)):packages/builder/webpack-builder/package.json
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -111,11 +107,7 @@
     "vitest": "^0.21.1"
   },
   "peerDependencies": {
-<<<<<<< HEAD:packages/builder/builder-webpack-provider/package.json
     "@modern-js/e2e": "workspace:^1.20.1"
-=======
-    "@modern-js/e2e": "workspace:^1.19.0"
->>>>>>> 6ab74256f (Release v1.19.0 (#1791)):packages/builder/webpack-builder/package.json
   },
   "peerDependenciesMeta": {
     "@modern-js/e2e": {

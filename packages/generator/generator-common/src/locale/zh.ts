@@ -57,14 +57,6 @@ export const ZH_LOCALE = {
   packageManager: {
     self: '请选择包管理工具',
   },
-<<<<<<< HEAD
-=======
-  runWay: {
-    self: '是否需要支持以下类型应用',
-    no: '不需要',
-    electron: 'Electron',
-  },
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
   entry: {
     name: '请填写入口名称',
     no_empty: '入口名称不能为空！',

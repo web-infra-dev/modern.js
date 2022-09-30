@@ -4,86 +4,16 @@ exports[`test generator cases test getMWACases 1`] = `
 Array [
   Object {
     "clientRoute": "selfControlRoute",
-<<<<<<< HEAD
     "language": "js",
     "needModifyMWAConfig": "yes",
     "packageManager": "yarn",
-=======
-    "language": "ts",
-    "needModifyMWAConfig": "no",
-    "packageManager": "pnpm",
-    "runWay": "no",
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     "solution": "mwa",
   },
   Object {
     "clientRoute": "conventionalRoute",
-<<<<<<< HEAD
     "language": "js",
     "needModifyMWAConfig": "yes",
     "packageManager": "pnpm",
-=======
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "yarn",
-    "runWay": "no",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "js",
-    "needModifyMWAConfig": "no",
-    "packageManager": "yarn",
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "yarn",
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "js",
-    "needModifyMWAConfig": "no",
-    "packageManager": "yarn",
-    "runWay": "no",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "conventionalRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "pnpm",
-    "runWay": "no",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "js",
-    "needModifyMWAConfig": "no",
-    "packageManager": "pnpm",
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "conventionalRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "yarn",
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "no",
-    "packageManager": "yarn",
-    "runWay": "electron",
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     "solution": "mwa",
   },
   Object {
@@ -91,98 +21,6 @@ Array [
     "language": "ts",
     "needModifyMWAConfig": "no",
     "packageManager": "npm",
-<<<<<<< HEAD
-=======
-    "runWay": "no",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "js",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "npm",
-    "runWay": "no",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "conventionalRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "npm",
-    "runWay": "no",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "conventionalRoute",
-    "language": "js",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "yarn",
-    "runWay": "no",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "conventionalRoute",
-    "language": "js",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "yarn",
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "js",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "pnpm",
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "conventionalRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "npm",
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "js",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "yarn",
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "js",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "pnpm",
-    "runWay": "no",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "conventionalRoute",
-    "language": "js",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "pnpm",
-    "runWay": "no",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "conventionalRoute",
-    "language": "js",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "pnpm",
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "pnpm",
-    "runWay": "electron",
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     "solution": "mwa",
   },
   Object {
@@ -196,7 +34,6 @@ Array [
     "clientRoute": "selfControlRoute",
     "language": "ts",
     "needModifyMWAConfig": "yes",
-<<<<<<< HEAD
     "packageManager": "npm",
     "solution": "mwa",
   },
@@ -205,10 +42,6 @@ Array [
     "language": "js",
     "needModifyMWAConfig": "no",
     "packageManager": "yarn",
-=======
-    "packageManager": "pnpm",
-    "runWay": "no",
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     "solution": "mwa",
   },
   Object {
@@ -216,7 +49,6 @@ Array [
     "language": "js",
     "needModifyMWAConfig": "no",
     "packageManager": "pnpm",
-<<<<<<< HEAD
     "solution": "mwa",
   },
   Object {
@@ -259,9 +91,6 @@ Array [
     "language": "ts",
     "needModifyMWAConfig": "yes",
     "packageManager": "pnpm",
-=======
-    "runWay": "no",
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     "solution": "mwa",
   },
   Object {
@@ -269,7 +98,6 @@ Array [
     "language": "js",
     "needModifyMWAConfig": "no",
     "packageManager": "npm",
-<<<<<<< HEAD
     "solution": "mwa",
   },
   Object {
@@ -277,41 +105,6 @@ Array [
     "language": "ts",
     "needModifyMWAConfig": "yes",
     "packageManager": "npm",
-=======
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "no",
-    "packageManager": "yarn",
-    "runWay": "no",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "js",
-    "needModifyMWAConfig": "no",
-    "packageManager": "npm",
-    "runWay": "no",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "npm",
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "yarn",
-    "runWay": "no",
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     "solution": "mwa",
   },
   Object {
@@ -319,17 +112,12 @@ Array [
     "language": "js",
     "needModifyMWAConfig": "yes",
     "packageManager": "npm",
-<<<<<<< HEAD
-=======
-    "runWay": "electron",
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     "solution": "mwa",
   },
   Object {
     "clientRoute": "selfControlRoute",
     "language": "js",
     "needModifyMWAConfig": "yes",
-<<<<<<< HEAD
     "packageManager": "npm",
     "solution": "mwa",
   },
@@ -338,50 +126,6 @@ Array [
     "language": "ts",
     "needModifyMWAConfig": "yes",
     "packageManager": "pnpm",
-=======
-    "packageManager": "yarn",
-    "runWay": "no",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "conventionalRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "pnpm",
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "npm",
-    "runWay": "no",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "js",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "npm",
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "conventionalRoute",
-    "language": "js",
-    "needModifyMWAConfig": "yes",
-    "packageManager": "npm",
-    "runWay": "no",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "no",
-    "packageManager": "npm",
-    "runWay": "electron",
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     "solution": "mwa",
   },
 ]
@@ -466,33 +210,20 @@ Array [
     "clientRoute": "selfControlRoute",
     "language": "ts",
     "needModifyMWAConfig": "no",
-<<<<<<< HEAD
     "packageName": "ts-no-selfControlRoute",
     "packagePath": "ts-no-selfControlRoute",
-=======
-    "packageName": "ts-no-no-selfControlRoute",
-    "packagePath": "ts-no-no-selfControlRoute",
-    "runWay": "no",
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     "solution": "mwa",
   },
   Object {
     "clientRoute": "conventionalRoute",
     "language": "js",
     "needModifyMWAConfig": "yes",
-<<<<<<< HEAD
     "packageName": "js-yes-conventionalRoute",
     "packagePath": "js-yes-conventionalRoute",
-=======
-    "packageName": "js-yes-no-conventionalRoute",
-    "packagePath": "js-yes-no-conventionalRoute",
-    "runWay": "no",
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     "solution": "mwa",
   },
   Object {
     "clientRoute": "selfControlRoute",
-<<<<<<< HEAD
     "language": "ts",
     "needModifyMWAConfig": "yes",
     "packageName": "ts-yes-selfControlRoute",
@@ -505,50 +236,28 @@ Array [
     "needModifyMWAConfig": "no",
     "packageName": "js-no-selfControlRoute",
     "packagePath": "js-no-selfControlRoute",
-=======
-    "language": "js",
-    "needModifyMWAConfig": "yes",
-    "packageName": "js-yes-electron-selfControlRoute",
-    "packagePath": "js-yes-electron-selfControlRoute",
-    "runWay": "electron",
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     "solution": "mwa",
   },
   Object {
     "clientRoute": "conventionalRoute",
-<<<<<<< HEAD
     "language": "ts",
     "needModifyMWAConfig": "yes",
     "packageName": "ts-yes-conventionalRoute",
     "packagePath": "ts-yes-conventionalRoute",
-=======
-    "language": "js",
-    "needModifyMWAConfig": "yes",
-    "packageName": "js-yes-electron-conventionalRoute",
-    "packagePath": "js-yes-electron-conventionalRoute",
-    "runWay": "electron",
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     "solution": "mwa",
   },
   Object {
     "clientRoute": "selfControlRoute",
     "language": "js",
     "needModifyMWAConfig": "yes",
-<<<<<<< HEAD
     "packageName": "js-yes-selfControlRoute",
     "packagePath": "js-yes-selfControlRoute",
-=======
-    "packageName": "js-yes-no-selfControlRoute",
-    "packagePath": "js-yes-no-selfControlRoute",
-    "runWay": "no",
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     "solution": "mwa",
   },
   Object {
     "clientRoute": "selfControlRoute",
     "language": "ts",
     "needModifyMWAConfig": "no",
-<<<<<<< HEAD
     "packageName": "ts-no-selfControlRoute",
     "packagePath": "ts-no-selfControlRoute",
     "solution": "mwa_test",
@@ -568,36 +277,11 @@ Array [
     "packageName": "ts-yes-selfControlRoute",
     "packagePath": "ts-yes-selfControlRoute",
     "solution": "mwa_test",
-=======
-    "packageName": "ts-no-electron-selfControlRoute",
-    "packagePath": "ts-no-electron-selfControlRoute",
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "conventionalRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageName": "ts-yes-electron-conventionalRoute",
-    "packagePath": "ts-yes-electron-conventionalRoute",
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "conventionalRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageName": "ts-yes-no-conventionalRoute",
-    "packagePath": "ts-yes-no-conventionalRoute",
-    "runWay": "no",
-    "solution": "mwa",
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
   },
   Object {
     "clientRoute": "selfControlRoute",
     "language": "js",
     "needModifyMWAConfig": "no",
-<<<<<<< HEAD
     "packageName": "js-no-selfControlRoute",
     "packagePath": "js-no-selfControlRoute",
     "solution": "mwa_test",
@@ -609,17 +293,10 @@ Array [
     "packageName": "ts-yes-conventionalRoute",
     "packagePath": "ts-yes-conventionalRoute",
     "solution": "mwa_test",
-=======
-    "packageName": "js-no-no-selfControlRoute",
-    "packagePath": "js-no-no-selfControlRoute",
-    "runWay": "no",
-    "solution": "mwa",
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
   },
   Object {
     "clientRoute": "selfControlRoute",
     "language": "js",
-<<<<<<< HEAD
     "needModifyMWAConfig": "yes",
     "packageName": "js-yes-selfControlRoute",
     "packagePath": "js-yes-selfControlRoute",
@@ -638,153 +315,6 @@ Array [
     "solution": "module",
   },
   Object {
-=======
-    "needModifyMWAConfig": "no",
-    "packageName": "js-no-electron-selfControlRoute",
-    "packagePath": "js-no-electron-selfControlRoute",
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageName": "ts-yes-no-selfControlRoute",
-    "packagePath": "ts-yes-no-selfControlRoute",
-    "runWay": "no",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageName": "ts-yes-electron-selfControlRoute",
-    "packagePath": "ts-yes-electron-selfControlRoute",
-    "runWay": "electron",
-    "solution": "mwa",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "no",
-    "packageName": "ts-no-no-selfControlRoute",
-    "packagePath": "ts-no-no-selfControlRoute",
-    "runWay": "no",
-    "solution": "mwa_test",
-  },
-  Object {
-    "clientRoute": "conventionalRoute",
-    "language": "js",
-    "needModifyMWAConfig": "yes",
-    "packageName": "js-yes-no-conventionalRoute",
-    "packagePath": "js-yes-no-conventionalRoute",
-    "runWay": "no",
-    "solution": "mwa_test",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "js",
-    "needModifyMWAConfig": "yes",
-    "packageName": "js-yes-electron-selfControlRoute",
-    "packagePath": "js-yes-electron-selfControlRoute",
-    "runWay": "electron",
-    "solution": "mwa_test",
-  },
-  Object {
-    "clientRoute": "conventionalRoute",
-    "language": "js",
-    "needModifyMWAConfig": "yes",
-    "packageName": "js-yes-electron-conventionalRoute",
-    "packagePath": "js-yes-electron-conventionalRoute",
-    "runWay": "electron",
-    "solution": "mwa_test",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "js",
-    "needModifyMWAConfig": "yes",
-    "packageName": "js-yes-no-selfControlRoute",
-    "packagePath": "js-yes-no-selfControlRoute",
-    "runWay": "no",
-    "solution": "mwa_test",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "no",
-    "packageName": "ts-no-electron-selfControlRoute",
-    "packagePath": "ts-no-electron-selfControlRoute",
-    "runWay": "electron",
-    "solution": "mwa_test",
-  },
-  Object {
-    "clientRoute": "conventionalRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageName": "ts-yes-electron-conventionalRoute",
-    "packagePath": "ts-yes-electron-conventionalRoute",
-    "runWay": "electron",
-    "solution": "mwa_test",
-  },
-  Object {
-    "clientRoute": "conventionalRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageName": "ts-yes-no-conventionalRoute",
-    "packagePath": "ts-yes-no-conventionalRoute",
-    "runWay": "no",
-    "solution": "mwa_test",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "js",
-    "needModifyMWAConfig": "no",
-    "packageName": "js-no-no-selfControlRoute",
-    "packagePath": "js-no-no-selfControlRoute",
-    "runWay": "no",
-    "solution": "mwa_test",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "js",
-    "needModifyMWAConfig": "no",
-    "packageName": "js-no-electron-selfControlRoute",
-    "packagePath": "js-no-electron-selfControlRoute",
-    "runWay": "electron",
-    "solution": "mwa_test",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageName": "ts-yes-no-selfControlRoute",
-    "packagePath": "ts-yes-no-selfControlRoute",
-    "runWay": "no",
-    "solution": "mwa_test",
-  },
-  Object {
-    "clientRoute": "selfControlRoute",
-    "language": "ts",
-    "needModifyMWAConfig": "yes",
-    "packageName": "ts-yes-electron-selfControlRoute",
-    "packagePath": "ts-yes-electron-selfControlRoute",
-    "runWay": "electron",
-    "solution": "mwa_test",
-  },
-  Object {
-    "language": "ts",
-    "packageName": "ts",
-    "packagePath": "ts",
-    "solution": "module",
-  },
-  Object {
-    "language": "js",
-    "packageName": "js",
-    "packagePath": "js",
-    "solution": "module",
-  },
-  Object {
->>>>>>> 4f77eb496 (feat: remove generator create project enable less and sass function (#1659))
     "language": "ts",
     "packageName": "ts",
     "packagePath": "ts",
