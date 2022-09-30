@@ -99,7 +99,7 @@ async function getTemplateParameters(
   });
 }
 
-function getTemplatePath(entryName: string, config: BuilderConfig) {
+export function getTemplatePath(entryName: string, config: BuilderConfig) {
   const DEFAULT_TEMPLATE = path.resolve(
     __dirname,
     '../../static/template.html',
