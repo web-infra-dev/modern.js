@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.18.1",
+  "version": "1.19.0",
   "bin": {
     "modern": "./bin/modern.js"
   },

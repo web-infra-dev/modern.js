@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.18.1",
+  "version": "1.19.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/js/node/index.js",
@@ -43,7 +43,7 @@
     "@babel/preset-env": "^7.18.0",
     "@babel/preset-typescript": "^7.17.12",
     "@babel/runtime": "^7.18.0",
-    "@modern-js/babel-compiler": "workspace:^1.18.1",
+    "@modern-js/babel-compiler": "workspace:^1.19.0",
     "@modern-js/babel-preset-lib": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/utils": "workspace:*",
