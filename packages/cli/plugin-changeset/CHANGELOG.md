@@ -1,5 +1,18 @@
 # @modern-js/plugin-changeset
 
+## 1.19.0
+
+### Minor Changes
+
+- d2fbefc: feat: release command support pnpm v7
+
+  feat: release 命令支持 pnpm v7
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@1.19.0
+- @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes
