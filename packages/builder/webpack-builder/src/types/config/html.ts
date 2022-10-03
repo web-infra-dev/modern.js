@@ -16,9 +16,10 @@ export interface HtmlConfig {
   mountId?: string;
   crossorigin?: boolean | CrossOrigin;
   disableHtmlFolder?: boolean;
+  template?: string;
+  templateByEntries?: Partial<Record<string, string>>;
   templateParameters?: Record<string, unknown>;
-  templateParametersByEntries?: Record<
-    string,
-    Record<string, unknown> | undefined
+  templateParametersByEntries?: Partial<
+    Record<string, Record<string, unknown>>
   >;
 }
