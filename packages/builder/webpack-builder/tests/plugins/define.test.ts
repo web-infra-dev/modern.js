@@ -5,13 +5,13 @@ import { PluginDefine } from '../../src/plugins/define';
 describe('plugins/define', () => {
   it('should match snapshot', async () => {
     const globalVars = {
-      foo: 'foo',
-      bar: {
+      'process.env.foo': 'foo',
+      'import.meta.bar': {
         a: 'bar',
         b: false,
         c: { d: 42 },
       },
-      baz: [null, 'baz'],
+      'window.baz': [null, 'baz'],
     };
     const define = {
       'import.meta.test': false,
@@ -27,11 +27,11 @@ describe('plugins/define', () => {
           DefinePlugin {
             "definitions": {
               "cov": [Function],
+              "import.meta.bar": "{\\"a\\":\\"bar\\",\\"b\\":false,\\"c\\":{\\"d\\":42}}",
               "import.meta.test": false,
               "process.env.NODE_ENV": "\\"test\\"",
-              "process.env.bar": "{\\"a\\":\\"bar\\",\\"b\\":false,\\"c\\":{\\"d\\":42}}",
-              "process.env.baz": "[null,\\"baz\\"]",
               "process.env.foo": "\\"foo\\"",
+              "window.baz": "[null,\\"baz\\"]",
             },
           },
         ],
