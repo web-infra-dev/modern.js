@@ -1,4 +1,4 @@
-import { BuilderPlugin } from '../types/plugin';
+import { BuilderPlugin } from '@modern-js/builder-shared/src/types/plugin';
 
 export function PluginExternals(): BuilderPlugin {
   return {

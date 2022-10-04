@@ -1,9 +1,11 @@
-import {
-  applyDefaultBuilderOptions,
-  BuilderOptions,
-} from '@modern-js/builder-shared';
+export { createBuilder } from './createBuilder';
 
-export function createBuilder<P>(provider: P, options: BuilderOptions) {
-  const builderOptions = applyDefaultBuilderOptions(options);
-  return provider.createBuilder();
-}
+export type {
+  BuilderMode,
+  BuilderEntry,
+  BuilderTarget,
+  BuilderContext,
+  BuilderInstance,
+  CreateBuilderOptions,
+  InspectConfigOptions,
+} from '@modern-js/builder-shared';

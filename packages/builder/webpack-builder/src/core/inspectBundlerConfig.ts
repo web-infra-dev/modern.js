@@ -1,12 +1,12 @@
 import { join, isAbsolute } from 'path';
-import { info, stringifyConfig } from '../shared';
+import { stringifyConfig } from '../shared';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
-import type {
-  Context,
-  BuilderOptions,
-  InspectOptions,
-  WebpackConfig,
-} from '../types';
+import {
+  logger,
+  InspectConfigOptions,
+  CreateBuilderOptions,
+} from '@modern-js/builder-shared';
+import type { Context, WebpackConfig } from '../types';
 
 async function writeConfigFiles({
   configs,
@@ -16,8 +16,8 @@ async function writeConfigFiles({
 }: {
   configs: string[];
   context: Context;
-  inspectOptions: InspectOptions;
-  builderOptions: Required<BuilderOptions>;
+  inspectOptions: InspectConfigOptions;
+  builderOptions: Required<CreateBuilderOptions>;
 }) {
   const { default: fs } = await import('@modern-js/utils/fs-extra');
   const { default: chalk } = await import('@modern-js/utils/chalk');
@@ -43,7 +43,7 @@ async function writeConfigFiles({
     .map(file => `  - ${chalk.yellow(file)}`)
     .join('\n');
 
-  info(
+  logger.info(
     `Inspect webpack config succeed, open following files to view the content: \n\n${fileInfos}\n`,
   );
 }
@@ -55,9 +55,9 @@ export async function stringifyWebpackConfig({
   builderOptions,
 }: {
   context: Context;
-  inspectOptions: InspectOptions;
+  inspectOptions: InspectConfigOptions;
   webpackConfigs: WebpackConfig[];
-  builderOptions: Required<BuilderOptions>;
+  builderOptions: Required<CreateBuilderOptions>;
 }) {
   const formattedConfigs = await Promise.all(
     webpackConfigs.map(config =>
@@ -82,7 +82,7 @@ export async function inspectBundlerConfig({
   pluginStore,
   builderOptions,
   inspectOptions,
-}: InitConfigsOptions & { inspectOptions: InspectOptions }) {
+}: InitConfigsOptions & { inspectOptions: InspectConfigOptions }) {
   if (inspectOptions.env) {
     process.env.NODE_ENV = inspectOptions.env;
   }

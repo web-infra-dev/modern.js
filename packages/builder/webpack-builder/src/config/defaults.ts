@@ -1,5 +1,5 @@
+import { mergeBuilderConfig } from '@modern-js/builder-shared';
 import { BuilderConfig } from '../types';
-import { mergeBuilderConfig } from '../shared/utils';
 import {
   ROOT_DIST_DIR,
   HTML_DIST_DIR,

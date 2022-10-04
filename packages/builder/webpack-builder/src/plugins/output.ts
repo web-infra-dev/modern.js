@@ -1,7 +1,7 @@
+import type { BuilderContext } from '@modern-js/builder-shared';
 import { getDistPath, getFilename, DEFAULT_PORT } from '../shared';
 import type {
   BuilderConfig,
-  BuilderContext,
   BuilderPlugin,
   MiniCSSExtractPluginOptions,
 } from '../types';

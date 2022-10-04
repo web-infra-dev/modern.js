@@ -1,9 +1,9 @@
-import { debug, getCompiledPath } from '../shared';
+import { debug, type BuilderTarget } from '@modern-js/builder-shared';
+import { getCompiledPath } from '../shared';
 import type {
   Context,
   NodeEnv,
   WebpackConfig,
-  BuilderTarget,
   ModifyWebpackUtils,
 } from '../types';
 

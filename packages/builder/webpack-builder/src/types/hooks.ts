@@ -1,4 +1,4 @@
-import type { BuilderTarget } from './builder';
+import type { BuilderTarget } from '@modern-js/builder-shared';
 import type { BuilderConfig } from './config';
 import type { WebpackChain, WebpackConfig } from './thirdParty';
 import type { Stats, MultiStats, Compiler, MultiCompiler } from 'webpack';

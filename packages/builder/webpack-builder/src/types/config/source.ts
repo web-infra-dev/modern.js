@@ -1,4 +1,4 @@
-import type { ChainedConfig, JSONValue } from '../utils';
+import type { ChainedConfig, JSONValue } from '@modern-js/builder-shared';
 import type { WebpackAlias } from '../thirdParty';
 import type * as webpack from 'webpack';
 

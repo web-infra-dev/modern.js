@@ -1,4 +1,4 @@
-import { log, info, debug } from '../shared';
+import { debug, logger } from '@modern-js/builder-shared';
 import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
 import type { BuilderConfig } from '../types';
@@ -18,7 +18,7 @@ async function printURLs(config: BuilderConfig, port: number) {
     )
     .join('');
 
-  info(message);
+  logger.info(message);
 }
 
 export async function createDevServer(
@@ -42,7 +42,7 @@ export async function createDevServer(
 
   debug('create dev server');
 
-  const { builderConfig } = options.builderOptions;
+  const builderConfig = options.context.config;
   const devServerOptions = applyOptionsChain(
     {
       hot: builderConfig.dev?.hmr ?? true,
@@ -78,15 +78,15 @@ export async function startDevServer(
   options: InitConfigsOptions,
   compiler?: Compiler | MultiCompiler,
 ) {
-  log();
-  info('Starting dev server...');
+  logger.log();
+  logger.info('Starting dev server...');
 
   if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = 'development';
   }
 
-  const { builderConfig } = options.builderOptions;
   const { getPort } = await import('@modern-js/utils');
+  const builderConfig = options.context.config;
   const port = await getPort(builderConfig.dev?.port || 8080);
   const server = await createDevServer(options, port, compiler);
 

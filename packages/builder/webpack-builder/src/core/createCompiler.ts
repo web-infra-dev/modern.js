@@ -1,4 +1,5 @@
-import { log, debug, formatWebpackStats } from '../shared';
+import { logger, debug } from '@modern-js/builder-shared';
+import { formatWebpackStats } from '../shared';
 import type { Context, WebpackConfig } from '../types';
 import type { Stats } from 'webpack';
 
@@ -27,10 +28,10 @@ export async function createCompiler({
     const { message, level } = await formatWebpackStats(stats as Stats);
 
     if (level === 'error') {
-      log(message);
+      logger.log(message);
     }
     if (level === 'warning') {
-      log(message);
+      logger.log(message);
     }
 
     if (watch) {

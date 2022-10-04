@@ -1,7 +1,10 @@
 import type * as playwright from '@modern-js/e2e/playwright';
 import { getTemplatePath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
-import { applyDefaultBuilderOptions } from '@modern-js/builder-shared';
+import {
+  applyDefaultBuilderOptions,
+  type CreateBuilderOptions,
+} from '@modern-js/builder-shared';
 import assert from 'assert';
 import { PathLike } from 'fs';
 import {
@@ -10,26 +13,22 @@ import {
   applyMinimalPlugins,
 } from '../shared/plugin';
 import { URL } from 'url';
-import { createPrimaryBuilder } from '../core/createBuilder';
-import { Hooks } from '../core/createHook';
+import { Hooks } from '../core/initHooks';
 import { matchLoader } from '../shared';
-import type {
-  BuilderOptions,
-  BuilderPlugin,
-  Context,
-  PluginStore,
-} from '../types';
+import type { BuilderPlugin, Context, PluginStore } from '../types';
 import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
 import { createStubContext } from './context';
 import { globContentJSON, filenameToGlobExpr } from './utils';
 import type { BuildOptions } from '../core/build';
+import { createPublicContext } from 'src/core/createContext';
+import { createPluginStore } from '@modern-js/builder-shared/createPluginStore';
 
 export interface OptionsPluginsItem {
   builtin?: boolean | 'default' | 'minimal' | 'basic';
   additional?: BuilderPlugin[];
 }
 
-export interface StubBuilderOptions extends BuilderOptions {
+export interface StubBuilderOptions extends CreateBuilderOptions {
   context?: Context;
   /**
    * Setup builtin plugins and add custom plugins.
@@ -107,11 +106,10 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   const context = createStubContext(builderOptions);
   // merge user context.
   options?.context && _.merge(context, options.context);
-  // init primary builder.
-  const { pluginStore, publicContext } = createPrimaryBuilder(
-    builderOptions,
-    context,
-  );
+
+  const publicContext = createPublicContext(context);
+  const pluginStore = createPluginStore();
+
   // add builtin and custom plugins by `options.plugins`.
   await applyPluginOptions(pluginStore, options?.plugins);
 

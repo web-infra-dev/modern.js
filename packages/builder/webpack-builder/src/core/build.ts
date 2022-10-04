@@ -1,25 +1,18 @@
 import assert from 'assert';
 import { createCompiler } from './createCompiler';
-import { log, info, error, logger } from '../shared';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
-import type {
-  webpack,
-  Context,
-  BuilderMode,
-  PromiseOrNot,
-  WebpackConfig,
-} from '../types';
+import {
+  logger,
+  type BuildOptions,
+  type PromiseOrNot,
+} from '@modern-js/builder-shared';
+import type { webpack, Context, WebpackConfig } from '../types';
 import type { Stats, MultiStats } from 'webpack';
 
 export type BuildExecuter = (
   context: Context,
   configs: webpack.Configuration[],
 ) => PromiseOrNot<{ stats: Stats | MultiStats } | void>;
-
-export type BuildOptions = {
-  mode?: BuilderMode;
-  watch?: boolean;
-};
 
 export const webpackBuild = async (
   context: Context,
@@ -32,15 +25,15 @@ export const webpackBuild = async (
   });
 
   return new Promise<{ stats: Stats | MultiStats }>((resolve, reject) => {
-    log();
-    info(`building for production...`);
+    logger.log();
+    logger.info(`building for production...`);
 
     compiler.run((err, stats) => {
       // When using run or watch, call close and wait for it to finish before calling run or watch again.
       // Concurrent compilations will corrupt the output files.
       compiler.close(closeErr => {
         if (closeErr) {
-          error(closeErr);
+          logger.error(closeErr);
         }
         if (err) {
           reject(err);

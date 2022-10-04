@@ -1,15 +1,11 @@
 import { existsSync } from 'fs';
 import { isAbsolute, join } from 'path';
-import { initHooks } from './createHook';
+import { debug, CreateBuilderOptions } from '@modern-js/builder-shared';
+import { initHooks } from './initHooks';
 import { ConfigValidator } from '../config/validate';
 import { withDefaultConfig } from '../config/defaults';
-import { pick, debug, isFileExists, getDistPath, deepFreezed } from '../shared';
-import type {
-  Context,
-  BuilderOptions,
-  BuilderContext,
-  BuilderConfig,
-} from '../types';
+import { isFileExists, getDistPath } from '../shared';
+import type { Context, BuilderConfig } from '../types';
 
 export function getAbsoluteDistPath(cwd: string, config: BuilderConfig) {
   const root = getDistPath(config, 'root');
@@ -22,14 +18,10 @@ export function getAbsoluteDistPath(cwd: string, config: BuilderConfig) {
  * Usually it would be a pure function
  */
 export function createPrimaryContext(
-  options: Required<BuilderOptions>,
+  options: Required<CreateBuilderOptions>,
+  userBuilderConfig: BuilderConfig,
 ): Context {
-  const {
-    cwd,
-    configPath,
-    builderConfig: userBuilderConfig,
-    framework,
-  } = options;
+  const { cwd, configPath, framework } = options;
   const builderConfig = withDefaultConfig(userBuilderConfig);
   const hooks = initHooks();
   const rootPath = cwd;
@@ -65,15 +57,16 @@ export function createPrimaryContext(
  * which can have a lot of overhead and take some side effects.
  */
 export async function createContext(
-  options: Required<BuilderOptions>,
+  options: Required<CreateBuilderOptions>,
+  builderConfig: BuilderConfig,
 ): Promise<Context> {
   debug('create context');
 
-  const ctx = createPrimaryContext(options);
+  const ctx = createPrimaryContext(options, builderConfig);
 
   ctx.configValidatingTask = ConfigValidator.create().then(validator => {
     // interrupt build if config is invalid.
-    validator.validate(options.builderConfig, false);
+    validator.validate(builderConfig, false);
   });
 
   const tsconfigPath = join(ctx.rootPath, 'tsconfig.json');
@@ -82,21 +75,4 @@ export async function createContext(
   }
 
   return ctx;
-}
-
-export function createPublicContext(
-  context: Context,
-): Readonly<BuilderContext> {
-  const ctx = pick(context, [
-    'entry',
-    'srcPath',
-    'rootPath',
-    'distPath',
-    'framework',
-    'cachePath',
-    'configPath',
-    'tsconfigPath',
-    'originalConfig',
-  ]);
-  return deepFreezed(ctx);
 }

@@ -1,6 +1,9 @@
-import type { Context, PluginStore, BuilderPluginAPI } from '../types';
-import { debug } from '../shared';
-import { createPublicContext } from './createContext';
+import {
+  debug,
+  createPublicContext,
+  type PluginStore,
+} from '@modern-js/builder-shared';
+import type { Context, BuilderPluginAPI } from '../types';
 
 export async function initPlugins({
   context,

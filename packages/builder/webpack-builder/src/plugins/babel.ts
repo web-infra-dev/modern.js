@@ -4,6 +4,7 @@ import {
   createBabelChain,
   BabelOptions,
 } from '@modern-js/babel-preset-app';
+import type { BuilderContext } from '@modern-js/builder-shared';
 import {
   JS_REGEX,
   TS_REGEX,
@@ -11,12 +12,7 @@ import {
   getBrowserslistWithDefault,
 } from '../shared';
 
-import type {
-  WebpackChain,
-  BuilderConfig,
-  BuilderContext,
-  BuilderPlugin,
-} from '../types';
+import type { WebpackChain, BuilderConfig, BuilderPlugin } from '../types';
 
 export const CORE_JS_ENTRY = path.resolve(
   __dirname,

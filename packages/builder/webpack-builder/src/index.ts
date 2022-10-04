@@ -1,14 +1,5 @@
-export { createBuilder } from './core/createBuilder';
-export { mergeBuilderConfig } from './shared/utils';
-
-export type { BuilderInstance } from './core/createBuilder';
+export { webpackBuildProvider } from './provider';
 export type {
-  // Plugin Types
-  BuilderPlugin,
-  BuilderContext,
-  BuilderOptions,
-  BuilderPluginAPI,
-
   // Config Types
   DevConfig,
   HtmlConfig,

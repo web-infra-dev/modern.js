@@ -36,15 +36,6 @@ export const mergeRegex = (...regexes: (string | RegExp)[]): RegExp => {
   return new RegExp(sources.join('|'));
 };
 
-export function pick<T, U extends keyof T>(obj: T, keys: ReadonlyArray<U>) {
-  return keys.reduce((ret, key) => {
-    if (obj[key] !== undefined) {
-      ret[key] = obj[key];
-    }
-    return ret;
-  }, {} as Pick<T, U>);
-}
-
 /** Preserving the details of schema by generic types. */
 export const defineSchema = <T extends SomeJSONSchema>(schema: T): T => schema;
 
@@ -112,16 +103,6 @@ export function getDataUrlCondition(
   };
 }
 
-export function deepFreezed<T extends Record<any, any> | any[]>(obj: T): T {
-  assert(typeof obj === 'object');
-  const handle = (item: any) =>
-    typeof item === 'object' ? deepFreezed(item) : item;
-  const ret = (
-    Array.isArray(obj) ? _.map(obj, handle) : _.mapValues(obj, handle)
-  ) as T;
-  return Object.freeze(ret);
-}
-
 /**
  * Check if a file handled by specific loader.
  * @author yangxingyuan
@@ -179,24 +160,6 @@ export function getPackageNameFromModulePath(modulePath: string) {
 
   return packageName;
 }
-
-export const mergeBuilderConfig = <T>(config: T, ...sources: T[]): T =>
-  _.mergeWith(config, ...sources, (target: unknown, source: unknown) => {
-    const pair = [target, source];
-    if (pair.some(_.isUndefined)) {
-      // fallback to lodash default merge behavior
-      return undefined;
-    }
-    if (pair.some(_.isArray)) {
-      return [..._.castArray(target), ..._.castArray(source)];
-    }
-    // convert function to chained function
-    if (pair.some(_.isFunction)) {
-      return [target, source];
-    }
-    // fallback to lodash default merge behavior
-    return undefined;
-  });
 
 export async function stringifyConfig(config: unknown, verbose?: boolean) {
   const { default: WebpackChain } = await import(

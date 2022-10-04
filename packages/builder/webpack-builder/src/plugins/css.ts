@@ -1,7 +1,7 @@
 import { CSS_REGEX, getBrowserslistWithDefault } from '../shared';
+import type { BuilderContext } from '@modern-js/builder-shared';
 import {
   BuilderConfig,
-  BuilderContext,
   BuilderPlugin,
   CSSLoaderOptions,
   MiniCssExtractLoaderOptions,
