@@ -39,6 +39,8 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
         children: [
           getLink('/guide/introduction'),
           getLink('/guide/quick-start'),
+          getLink('/guide/features'),
+          getLink('/guide/glossary'),
         ],
       },
     ],

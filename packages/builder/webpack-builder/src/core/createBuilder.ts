@@ -66,8 +66,8 @@ export async function createBuilder(options?: BuilderOptions) {
     );
   };
 
-  const inspectWebpackConfig = async (inspectOptions: InspectOptions = {}) => {
-    return (await import('./inspectWebpackConfig')).inspectWebpackConfig({
+  const inspectBundlerConfig = async (inspectOptions: InspectOptions = {}) => {
+    return (await import('./inspectBundlerConfig')).inspectBundlerConfig({
       context,
       pluginStore,
       builderOptions,
@@ -91,7 +91,7 @@ export async function createBuilder(options?: BuilderOptions) {
     createCompiler,
     startDevServer,
     inspectBuilderConfig,
-    inspectWebpackConfig,
+    inspectBundlerConfig,
   };
 }
 
