@@ -43,7 +43,7 @@ const handleTemplateFile = async (
       undefined,
       resourceKey =>
         resourceKey
-          .replace('templates/pnpm-templates/', '')
+          .replace('templates/pnpm-templates/npmrc', '.npmrc')
           .replace('.handlebars', ''),
     );
   }

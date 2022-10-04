@@ -99,13 +99,14 @@ async function getTemplateParameters(
   });
 }
 
-function getTemplatePath() {
+export function getTemplatePath(entryName: string, config: BuilderConfig) {
   const DEFAULT_TEMPLATE = path.resolve(
     __dirname,
     '../../static/template.html',
   );
-
-  return DEFAULT_TEMPLATE;
+  const { template = DEFAULT_TEMPLATE, templateByEntries = {} } =
+    config.html || {};
+  return templateByEntries[entryName] || template;
 }
 
 async function getChunks(
@@ -145,7 +146,6 @@ export const PluginHtml = (): BuilderPlugin => ({
       );
 
       const minify = getMinify(isProd, config);
-      const template = getTemplatePath();
       const assetPrefix = removeTailSlash(chain.output.get('publicPath') || '');
       const entries = chain.entryPoints.entries();
       const entryNames = Object.keys(chain.entryPoints.entries());
@@ -159,6 +159,7 @@ export const PluginHtml = (): BuilderPlugin => ({
           const inject = getInject(entryName, config);
           const favicon = getFavicon(entryName, config);
           const filename = await getFilename(entryName, config);
+          const template = getTemplatePath(entryName, config);
           const templateParameters = await getTemplateParameters(
             entryName,
             config,

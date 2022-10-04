@@ -46,6 +46,14 @@ This section describes some HTML configurations in Modern.js Builder.
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/mountId.md)!!!
 
+## html.template
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/template.md)!!!
+
+## html.templateByEntries
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/templateByEntries.md)!!!
+
 ## html.templateParameters
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/templateParameters.md)!!!

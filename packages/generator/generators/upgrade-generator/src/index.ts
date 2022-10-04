@@ -83,7 +83,10 @@ export const handleTemplateFile = async (
   if (packageManager === PackageManager.Pnpm) {
     const npmrcPath = path.join(generator.outputPath, '.npmrc');
     if (fs.existsSync(npmrcPath)) {
-      fs.appendFileSync(npmrcPath, '\nstrict-peer-dependencies=false\n');
+      const content = fs.readFileSync(npmrcPath, 'utf-8');
+      if (!content.includes('strict-peer-dependencies=false')) {
+        fs.appendFileSync(npmrcPath, '\nstrict-peer-dependencies=false\n');
+      }
     } else {
       fs.ensureFileSync(npmrcPath);
       fs.writeFileSync(npmrcPath, 'strict-peer-dependencies=false');
