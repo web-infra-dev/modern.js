@@ -1,17 +1,9 @@
-import type { BuilderOptions } from '@modern-js/builder-shared';
-
-function applyDefaultOptions(options?: BuilderOptions) {
-  return {
-    cwd: process.cwd(),
-    entry: {},
-    target: ['web'],
-    configPath: null,
-    framework: 'modern-js',
-    ...options,
-  } as Required<BuilderOptions>;
-}
+import {
+  applyDefaultBuilderOptions,
+  BuilderOptions,
+} from '@modern-js/builder-shared';
 
 export function createBuilder<P>(provider: P, options: BuilderOptions) {
-  const builderOptions = applyDefaultOptions(options);
-  return provider.createBuilder()
+  const builderOptions = applyDefaultBuilderOptions(options);
+  return provider.createBuilder();
 }

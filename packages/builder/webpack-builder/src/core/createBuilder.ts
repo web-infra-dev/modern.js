@@ -1,4 +1,5 @@
-import { debug, applyDefaultBuilderOptions, pick } from '../shared';
+import { applyDefaultBuilderOptions } from '@modern-js/builder-shared';
+import { debug, pick } from '../shared';
 import { applyDefaultPlugins } from '../shared/plugin';
 import { BuildOptions } from './build';
 import { initConfigs } from './initConfigs';

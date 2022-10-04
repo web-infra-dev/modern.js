@@ -1,6 +1,7 @@
 import type * as playwright from '@modern-js/e2e/playwright';
 import { getTemplatePath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
+import { applyDefaultBuilderOptions } from '@modern-js/builder-shared';
 import assert from 'assert';
 import { PathLike } from 'fs';
 import {
@@ -11,7 +12,7 @@ import {
 import { URL } from 'url';
 import { createPrimaryBuilder } from '../core/createBuilder';
 import { Hooks } from '../core/createHook';
-import { matchLoader, applyDefaultBuilderOptions } from '../shared';
+import { matchLoader } from '../shared';
 import type {
   BuilderOptions,
   BuilderPlugin,
