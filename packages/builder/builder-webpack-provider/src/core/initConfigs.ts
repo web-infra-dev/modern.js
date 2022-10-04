@@ -10,8 +10,17 @@ import { initPlugins } from './initPlugins';
 import { generateWebpackConfig } from './webpackConfig';
 import { stringifyBuilderConfig } from './inspectBuilderConfig';
 import { stringifyWebpackConfig } from './inspectBundlerConfig';
+<<<<<<< HEAD:packages/builder/builder-webpack-provider/src/core/initConfigs.ts
 import type { Context } from '../types';
 import { normalizeConfig } from '../config/normalize';
+=======
+import type {
+  Context,
+  PluginStore,
+  BuilderOptions,
+  InspectOptions,
+} from '../types';
+>>>>>>> f7e6f5a72 (chore(builder): rename inspectBundlerConfig method (#1790)):packages/builder/webpack-builder/src/core/initConfigs.ts
 
 async function modifyBuilderConfig(context: Context) {
   debug('modify builder config');
