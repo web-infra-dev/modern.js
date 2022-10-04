@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "pnpm build:libs && node ./scripts/dist/dev.js",
     "build": "pnpm build:libs && node ./scripts/dist/build.js",
+    "watch": "pnpm build:libs && node ./scripts/dist/watch.js",
     "build:libs": "pnpm --filter @modern-js/webpack-builder run build && tsc -p ./tsconfig.scripts.json",
     "inspect": "pnpm build:libs && node ./scripts/dist/inspect.js"
   },

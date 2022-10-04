@@ -1,10 +1,8 @@
 ---
+title: source.alias
 sidebar_label: alias
 sidebar_position: 1
 ---
-
-# source.alias
-
 
 
 * 类型： `Object|Function`

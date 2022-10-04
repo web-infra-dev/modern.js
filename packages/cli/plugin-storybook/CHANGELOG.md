@@ -1,5 +1,23 @@
 # @modern-js/plugin-storybook
 
+## 1.19.0
+
+### Patch Changes
+
+- @modern-js/webpack@1.19.0
+- @modern-js/runtime@1.19.0
+- @modern-js/utils@1.19.0
+
+## 1.18.1
+
+### Patch Changes
+
+- Updated dependencies [9fcfbd4]
+- Updated dependencies [6c2c745]
+  - @modern-js/utils@1.18.1
+  - @modern-js/webpack@1.18.1
+  - @modern-js/runtime@1.18.1
+
 ## 1.18.0
 
 ### Patch Changes

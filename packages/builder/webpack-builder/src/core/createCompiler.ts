@@ -1,28 +1,30 @@
 import { log, debug, formatWebpackStats } from '../shared';
-import { initConfigs, InitConfigsOptions } from './initConfigs';
-import type { webpack } from '../types';
+import type { Context, WebpackConfig } from '../types';
+import type { Stats } from 'webpack';
 
-export async function createCompiler(options: InitConfigsOptions) {
-  const { context } = options;
-  const { webpackConfigs } = await initConfigs(options);
-
+export async function createCompiler({
+  watch = true,
+  context,
+  webpackConfigs,
+}: {
+  watch?: boolean;
+  context: Context;
+  webpackConfigs: WebpackConfig[];
+}) {
   debug('create compiler');
-
-  await context.hooks.onBeforeCreateCompilerHooks.call({
-    webpackConfigs,
-  });
+  await context.hooks.onBeforeCreateCompilerHooks.call({ webpackConfigs });
 
   const { default: webpack } = await import('webpack');
 
-  const compiler = webpack(webpackConfigs);
+  const compiler =
+    webpackConfigs.length === 1
+      ? webpack(webpackConfigs[0])
+      : webpack(webpackConfigs);
 
   let isFirstCompile = true;
 
   compiler.hooks.done.tap('done', async (stats: unknown) => {
-    const { message, level } = await formatWebpackStats(
-      stats as webpack.Stats,
-      isFirstCompile,
-    );
+    const { message, level } = await formatWebpackStats(stats as Stats);
 
     if (level === 'error') {
       log(message);
@@ -31,11 +33,12 @@ export async function createCompiler(options: InitConfigsOptions) {
       log(message);
     }
 
-    await context.hooks.onDevCompileDoneHook.call({
-      isFirstCompile,
-    });
-
-    isFirstCompile = false;
+    if (watch) {
+      await context.hooks.onDevCompileDoneHook.call({
+        isFirstCompile,
+      });
+      isFirstCompile = false;
+    }
   });
 
   await context.hooks.onAfterCreateCompilerHooks.call({ compiler });

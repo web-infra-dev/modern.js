@@ -2,7 +2,7 @@ import { debug, isDebug } from '../shared';
 import { initPlugins } from './initPlugins';
 import { generateWebpackConfig } from './webpackConfig';
 import { stringifyBuilderConfig } from './inspectBuilderConfig';
-import { stringifyWebpackConfig } from './inspectWebpackConfig';
+import { stringifyWebpackConfig } from './inspectBundlerConfig';
 import type {
   Context,
   PluginStore,

@@ -1,7 +1,8 @@
 import { expect, describe, it } from 'vitest';
-import { PluginHtml } from '../../src/plugins/html';
+import { getTemplatePath, PluginHtml } from '../../src/plugins/html';
 import { PluginEntry } from '../../src/plugins/entry';
 import { createStubBuilder } from '../../src/stub';
+import { BuilderConfig } from '../../src/types';
 
 describe('plugins/html', () => {
   it('should register html plugin correctly', async () => {
@@ -124,5 +125,30 @@ describe('plugins/html', () => {
     const config = await builder.unwrapWebpackConfig();
 
     expect(config).toMatchSnapshot();
+  });
+
+  it('should allow to disable html plugin', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginEntry(), PluginHtml()],
+      entry: {
+        main: './src/main.ts',
+      },
+      builderConfig: {
+        tools: {
+          htmlPlugin: false,
+        },
+      },
+    });
+
+    expect(await builder.matchWebpackPlugin('HtmlWebpackPlugin')).toBeFalsy();
+  });
+
+  it.each<[string, string, BuilderConfig['html']]>([
+    ['main', 'foo', { template: 'foo' }],
+    ['main', 'foo', { templateByEntries: { main: 'foo' } }],
+    ['other', 'bar', { template: 'bar', templateByEntries: { main: 'foo' } }],
+  ])(`should get template path for %s`, async (entry, expected, html) => {
+    const templ = getTemplatePath(entry, { html });
+    expect(templ).toEqual(expected);
   });
 });

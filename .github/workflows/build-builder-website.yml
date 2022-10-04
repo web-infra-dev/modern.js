@@ -1,0 +1,43 @@
+name: Build Builder Website
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'website/builder/**'
+      - 'packages/builder/builder-doc/**'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build-builder-website:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 25
+
+      - name: Install Pnpm
+        run: npm install -g pnpm@7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --ignore-scripts
+
+      - name: Build Website
+        run: cd website/builder && npm run build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          branch: gh-pages
+          folder: website/builder/src/.vuepress/dist
+          target-folder: builder
+          clean: true

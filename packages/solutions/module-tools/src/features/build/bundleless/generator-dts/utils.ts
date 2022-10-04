@@ -61,6 +61,12 @@ export const generatorTsConfig = (
     exclude,
   };
 
+  if (projectTsconfig.extends) {
+    resetConfig.extends = projectTsconfig.extends.startsWith('.')
+      ? path.join(resolvePath, projectTsconfig.extends)
+      : projectTsconfig.extends;
+  }
+
   const recommendOption = {
     // Ensure that Babel can safely transpile files in the TypeScript project
     compilerOptions: {

@@ -3,6 +3,8 @@ name: Reset repo and run prepare and run integration test
 on:
   schedule:
     - cron:  '0 1,16 * * *'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   reset-prepare:
@@ -19,7 +21,7 @@ jobs:
           fetch-depth: 25
 
       - name: Install Pnpm
-        run: npm install -g pnpm@^6
+        run: npm install -g pnpm@7
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -33,7 +35,7 @@ jobs:
         run: pnpm install --ignore-scripts
 
       - name: Prepare
-        run: pnpm run prepare --filter ./packages
+        run: pnpm run --filter "./packages/**" prepare
 
       - name: Install Puppeteer
         run: cd ./tests/node_modules/puppeteer && npm run install && cd ../..
