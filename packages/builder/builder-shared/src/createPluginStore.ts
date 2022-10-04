@@ -1,5 +1,5 @@
-import { logger } from '@modern-js/builder-shared';
-import type { PluginStore, BuilderPlugin } from '@modern-js/builder-shared';
+import { logger } from './logger';
+import type { PluginStore, BuilderPlugin } from './types';
 
 export function createPluginStore(): PluginStore {
   let plugins: BuilderPlugin[] = [];

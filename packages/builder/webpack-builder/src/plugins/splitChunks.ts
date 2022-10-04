@@ -1,4 +1,4 @@
-import type { BuilderPlugin } from '@modern-js/builder-shared/src/types/plugin';
+import type { BuilderPlugin } from '../types';
 import type {
   BuilderChunkSplit,
   SplitChunks,

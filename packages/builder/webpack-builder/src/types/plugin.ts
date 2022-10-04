@@ -1,4 +1,8 @@
-import type { BuilderContext, PluginStore } from '@modern-js/builder-shared';
+import type {
+  BuilderContext,
+  PluginStore,
+  BuilderPlugin as BaseBuilderPlugin,
+} from '@modern-js/builder-shared';
 import type { BuilderConfig } from './config';
 import type {
   OnExitFn,
@@ -34,3 +38,5 @@ export type BuilderPluginAPI = {
   modifyWebpackConfig: (fn: ModifyWebpackConfigFn) => void;
   modifyBuilderConfig: (fn: ModifyBuilderConfigFn) => void;
 };
+
+export type BuilderPlugin = BaseBuilderPlugin<BuilderPluginAPI>;

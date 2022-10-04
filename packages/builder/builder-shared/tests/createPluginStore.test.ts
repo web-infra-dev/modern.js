@@ -1,5 +1,5 @@
 import { expect, describe, it } from 'vitest';
-import { createPluginStore } from '../../src/core/createPluginStore';
+import { createPluginStore } from '../src/createPluginStore';
 
 describe('createPluginStore', () => {
   it('addPlugins and removePlugins works', () => {

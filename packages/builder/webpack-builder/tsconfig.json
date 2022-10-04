@@ -9,5 +9,5 @@
     "isolatedModules": true,
     "paths": {}
   },
-  "include": ["src", "./shims.d.ts", "../builder-shared/src/types/utils.ts", "src/types/hooks.ts", "../builder-shared/src/types/plugin.ts", "../builder-shared/src/createPluginStore.ts"]
+  "include": ["src", "./shims.d.ts"]
 }

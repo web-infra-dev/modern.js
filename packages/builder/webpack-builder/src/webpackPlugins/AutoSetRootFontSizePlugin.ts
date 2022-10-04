@@ -1,6 +1,6 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { logger } from '@modern-js/builder-shared';
 import type { Compiler, WebpackPluginInstance } from 'webpack';
-import { error } from '../shared';
 import type { RemOptions } from '../types';
 
 type AutoSetRootFontSizeOptions = Omit<
@@ -71,7 +71,7 @@ export class AutoSetRootFontSizePlugin implements WebpackPluginInstance {
         (htmlPluginData, callback) => {
           const isExclude = this.options.excludeEntries.find((item: string) => {
             if (!this.webpackEntries.includes(item)) {
-              error(`Can't find the entryName: ${item}`);
+              logger.error(`Can't find the entryName: ${item}`);
               return false;
             }
             const reg = new RegExp(

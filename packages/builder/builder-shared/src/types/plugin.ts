@@ -5,7 +5,7 @@ export type PluginStore = {
   isPluginExists: (pluginName: string) => boolean;
 };
 
-export type BuilderPlugin<API = unknown> = {
+export type BuilderPlugin<API = any> = {
   name: string;
   setup: (api: API) => Promise<void> | void;
 };

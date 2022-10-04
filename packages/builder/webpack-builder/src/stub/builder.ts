@@ -2,7 +2,11 @@ import type * as playwright from '@modern-js/e2e/playwright';
 import { getTemplatePath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
 import {
+  createPluginStore,
+  createPublicContext,
   applyDefaultBuilderOptions,
+  type PluginStore,
+  type BuildOptions,
   type CreateBuilderOptions,
 } from '@modern-js/builder-shared';
 import assert from 'assert';
@@ -15,13 +19,10 @@ import {
 import { URL } from 'url';
 import { Hooks } from '../core/initHooks';
 import { matchLoader } from '../shared';
-import type { BuilderPlugin, Context, PluginStore } from '../types';
+import type { BuilderConfig, BuilderPlugin, Context } from '../types';
 import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
 import { createStubContext } from './context';
 import { globContentJSON, filenameToGlobExpr } from './utils';
-import type { BuildOptions } from '../core/build';
-import { createPublicContext } from 'src/core/createContext';
-import { createPluginStore } from '@modern-js/builder-shared/createPluginStore';
 
 export interface OptionsPluginsItem {
   builtin?: boolean | 'default' | 'minimal' | 'basic';
@@ -41,6 +42,7 @@ export interface StubBuilderOptions extends CreateBuilderOptions {
    */
   webpack?: boolean | string;
   buildOptions?: BuildOptions;
+  builderConfig?: BuilderConfig;
 }
 
 export type HookApi = {

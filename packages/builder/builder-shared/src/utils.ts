@@ -1,6 +1,6 @@
 import assert from 'assert';
 import _ from '@modern-js/utils/lodash';
-import { BuilderOptions } from './types/builder';
+import { CreateBuilderOptions } from './types/builder';
 
 export function pick<T, U extends keyof T>(obj: T, keys: ReadonlyArray<U>) {
   return keys.reduce((ret, key) => {
@@ -21,7 +21,7 @@ export function deepFreezed<T extends Record<any, any> | any[]>(obj: T): T {
   return Object.freeze(ret);
 }
 
-export function applyDefaultBuilderOptions(options?: BuilderOptions) {
+export function applyDefaultBuilderOptions(options?: CreateBuilderOptions) {
   return {
     cwd: process.cwd(),
     entry: {},
@@ -29,23 +29,5 @@ export function applyDefaultBuilderOptions(options?: BuilderOptions) {
     configPath: null,
     framework: 'modern-js',
     ...options,
-  } as Required<BuilderOptions>;
+  } as Required<CreateBuilderOptions>;
 }
-
-export const mergeBuilderConfig = <T>(config: T, ...sources: T[]): T =>
-  _.mergeWith(config, ...sources, (target: unknown, source: unknown) => {
-    const pair = [target, source];
-    if (pair.some(_.isUndefined)) {
-      // fallback to lodash default merge behavior
-      return undefined;
-    }
-    if (pair.some(_.isArray)) {
-      return [..._.castArray(target), ..._.castArray(source)];
-    }
-    // convert function to chained function
-    if (pair.some(_.isFunction)) {
-      return [target, source];
-    }
-    // fallback to lodash default merge behavior
-    return undefined;
-  });

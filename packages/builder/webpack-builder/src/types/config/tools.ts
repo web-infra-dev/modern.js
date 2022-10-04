@@ -21,11 +21,8 @@ import type {
   HTMLPluginOptions,
   InspectorPluginOptions,
 } from '../thirdParty';
-import type {
-  ArrayOrNot,
-  ChainedConfig,
-  ModifyWebpackUtils,
-} from '@modern-js/builder-shared';
+import type { ArrayOrNot, ChainedConfig } from '@modern-js/builder-shared';
+import type { ModifyWebpackUtils } from '../hooks';
 
 export type ToolsTerserConfig = ChainedConfig<TerserPluginOptions>;
 

@@ -1,12 +1,12 @@
 import {
   pick,
   debug,
+  createPluginStore,
   applyDefaultBuilderOptions,
   type BuilderInstance,
   type BuilderProvider,
   type CreateBuilderOptions,
 } from '@modern-js/builder-shared';
-import { createPluginStore } from './createPluginStore';
 
 export async function createBuilder(
   provider: BuilderProvider,

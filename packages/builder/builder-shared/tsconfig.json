@@ -9,5 +9,5 @@
     "isolatedModules": true,
     "paths": {}
   },
-  "include": ["src", "./shims.d.ts", "../webpack-builder/src/types/hooks.ts", "../builder/src/createPluginStore.ts"]
+  "include": ["src"]
 }
