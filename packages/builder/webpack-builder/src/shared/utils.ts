@@ -1,7 +1,6 @@
 import assert from 'assert';
 import type * as webpack from 'webpack';
 import { URLSearchParams } from 'url';
-import _ from '@modern-js/utils/lodash';
 import type Buffer from 'buffer';
 import { DEFAULT_DATA_URL_SIZE } from './constants';
 import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
