@@ -1,5 +1,8 @@
 export { webpackBuildProvider } from './provider';
 export type {
+  BuilderPlugin,
+  BuilderPluginAPI,
+
   // Config Types
   DevConfig,
   HtmlConfig,
