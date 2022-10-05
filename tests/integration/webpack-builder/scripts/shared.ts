@@ -7,7 +7,7 @@ export const createBuilder = async () => {
   const builderProvider = webpackBuildProvider({
     builderConfig: {
       tools: {
-        // inspector: {},
+        inspector: {},
       },
     },
   });
