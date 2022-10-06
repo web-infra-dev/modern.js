@@ -16,14 +16,6 @@ import { BuilderInstance } from '@modern-js/builder';
 const builder: BuilderInstance = await createBuilder(provider, {});
 ```
 
-## BuilderTarget
-
-Builder 构建产物的类型。
-
-```ts
-import { BuilderTarget } from '@modern-js/builder';
-```
-
 ## BuilderContext
 
 Builder 实例中 context 属性的类型定义。
@@ -32,4 +24,12 @@ Builder 实例中 context 属性的类型定义。
 import { BuilderContext } from '@modern-js/builder';
 
 const context: BuilderContext = builder.context;
+```
+
+## BuilderTarget
+
+Builder 构建产物的类型。
+
+```ts
+import { BuilderTarget } from '@modern-js/builder';
 ```

@@ -8,40 +8,99 @@ extractApiHeaders: [2]
 
 ## builder.context
 
-只读对象，提供一些路径信息。
+`builder.context` 是一个只读对象，提供一些上下文信息。
+
+### builder.context.entry
+
+构建入口对象，对应调用 `createBuilder` 时传入的 `entry` 选项。
 
 - **Type**
 
 ```ts
-type BuilderContext = {
-  // 构建入口对象
-  entry: BuilderEntry;
-  // 当前执行构建的根路径
-  rootPath: string;
-  // src 路径（绝对路径）
-  srcPath: string;
-  // 构建产物路径（绝对路径）
-  distPath: string;
-  // 构建缓存路径（绝对路径）
-  cachePath: string;
-  // 框架配置文件的路径（绝对路径）
-  configPath?: string;
-  // tsconfig.json 文件路径（绝对路径）
-  tsconfigPath?: string;
-  // 框架的英文名称，唯一标识符，默认值为 `'modern.js'`
-  framework: string;
-  // Dev Server 相关信息
-  devServer?: {
-    ip: string;
-    port: number;
-  };
-};
+type BuilderEntry = Record<string, string | string[]>;
 ```
 
-- **Example**
+### builder.context.rootPath
+
+当前执行构建的根路径，对应调用 `createBuilder` 时传入的 `cwd` 选项。
+
+- **Type**
 
 ```ts
-console.log(builder.context.distPath);
+type RootPath = string;
+```
+
+### builder.context.srcPath
+
+src 目录的绝对路径。
+
+- **Type**
+
+```ts
+type SrcPath = string;
+```
+
+### builder.context.distPath
+
+构建产物输出目录的绝对路径，对应 `BuilderConfig` 中的 `output.distPath.root` 配置项。
+
+- **Type**
+
+```ts
+type DistPath = string;
+```
+
+### builder.context.cachePath
+
+构建过程中生成的缓存文件所在的绝对路径。
+
+- **Type**
+
+```ts
+type CachePath = string;
+```
+
+### builder.context.configPath
+
+框架配置文件的绝对路径，对应调用 `createBuilder` 时传入的 `configPath` 选项。
+
+- **Type**
+
+```ts
+type ConfigPath = string | undefined;
+```
+
+### builder.context.tsconfigPath
+
+tsconfig.json 文件的绝对路径，若项目中不存在 tsconfig.json 文件，则为 `undefined`。
+
+- **Type**
+
+```ts
+type TsconfigPath = string | undefined;
+```
+
+### builder.context.framework
+
+框架的英文名称，唯一标识符，默认值为 `'modern.js'`。
+
+- **Type**
+
+```ts
+type Framework = string | undefined;
+```
+
+### builder.context.devServer
+
+Dev Server 相关信息，包含了当前 Dev Server 的 ip 地址和端口号。
+
+- **Type**
+
+```ts
+type DevServer = {
+  hostname: string;
+  port: number;
+};
 ```
 
 ## builder.build

@@ -14,7 +14,7 @@ extractApiHeaders: [2]
 
 ### webpack provider
 
-当传入 webpack provider 时，Builder 会使用 webpack 作为 bundler 进行构建。
+当传入 `webpackBuildProvider` 时，Builder 会使用 webpack 作为 bundler 进行构建。
 
 ```ts
 import { createBuilder } from '@modern-js/builder';
@@ -33,7 +33,7 @@ const builder = await createBuilder(provider, {
 
 ### rspack provider
 
-当传入 rspack provider 时，Builder 会使用 rspack 作为 bundler 进行构建。
+当传入 `rspackBuildProvider` 时，Builder 会使用 rspack 作为 bundler 进行构建。
 
 ```ts
 import { createBuilder } from '@modern-js/builder';
@@ -50,27 +50,48 @@ const builder = await createBuilder(provider, {
 });
 ```
 
+> Tips: @modern-js/rspack-builder 尚未开发完成。
+
 ### options
 
 `createBuilder` 的第二个参数是一个配置对象，你可以传入以下选项：
 
 ```ts
+type BuilderEntry = Record<string, string | string[]>;
+
+type BuilderTarget = 'web' | 'node' | 'modern-web';
+
 type CreateBuilderOptions = {
-  // 当前执行构建的根路径，默认值为 process.cwd()
   cwd?: string;
-  // 构建入口对象
   entry?: BuilderEntry;
-  // 构建产物类型，默认值为 ['web']
-  // web: 用于浏览器的产物
-  // modern-web：用于现代浏览器的产物
-  // node: 用于 SSR 场景的产物
   target?: BuilderTarget | BuilderTarget[];
-  // 框架的英文名称，唯一标识符，默认值为 `'modern.js'`
   framework?: string;
-  // 框架配置文件的路径（绝对路径）
-  // 该参数影响构建缓存更新
   configPath?: string | null;
 };
+```
+
+各个选项的作用：
+
+- `cwd`: 当前执行构建的根路径，默认值为 `process.cwd()`
+- `entry`: 构建入口对象
+- `target`: 构建产物类型，默认值为 `['web']`
+- `framework`: 框架的英文名称，唯一标识符，默认值为 `'modern.js'`
+- `configPath`: 框架配置文件的路径（绝对路径），该参数影响构建缓存更新
+
+#### 构建产物类型
+
+target 表示构建产物类型，可以设置为以下值：
+
+- `web`: 用于浏览器的产物
+- `modern-web`：用于现代浏览器的产物
+- `node`: 用于 SSR 场景的产物
+
+当 target 为包含多个值的数组时，会并行构建并生成多份不同的产物。比如同时构建浏览器产物和 SSR 产物：
+
+```ts
+const builder = await createBuilder(provider, {
+  target: ['web', 'node'],
+});
 ```
 
 ## mergeBuilderConfig
