@@ -137,7 +137,7 @@ import webpack from '@modern-js/webpack-builder/webpack';
 new webpack.DefinePlugin();
 ```
 
-> 大部分场景下，推荐直接引用该对象，而不是手动安装一份 webpack 依赖，这样可以避免出现多实例问题。
+> 大部分场景下，推荐从 Builder 中引用 webpack 对象，而不是手动安装一份 "webpack" 依赖，这样可以避免出现多实例问题。
 
 ## HtmlWebpackPlugin
 
@@ -149,4 +149,4 @@ HtmlWebpackPlugin 对象，通常用于实现 HtmlWebpackPlugin 的自定义插�
 import HtmlWebpackPlugin from '@modern-js/webpack-builder/html-webpack-plugin';
 ```
 
-> 大部分场景下，推荐直接引用该对象，而不是手动安装一份 html-webpack-plugin 依赖，这样可以避免出现多实例问题。
+> 大部分场景下，推荐从 Builder 中引用 HtmlWebpackPlugin 对象，而不是手动安装一份 "html-webpack-plugin" 依赖，这样可以避免出现多实例问题。

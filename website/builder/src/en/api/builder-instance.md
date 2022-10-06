@@ -4,15 +4,15 @@ extractApiHeaders: [2]
 
 # Builder Instance
 
-本章节描述了 Builder 实例对象上所有的属性和方法。
+This section describes all the properties and methods on the Builder instance object.
 
 ## builder.context
 
-`builder.context` 是一个只读对象，提供一些上下文信息。
+`builder.context` is a read-only object that provides some context infos.
 
 ### builder.context.entry
 
-构建入口对象，对应调用 `createBuilder` 时传入的 `entry` 选项。
+The entry object, corresponding to the `entry` option of `createBuilder` method.
 
 - **Type**
 
@@ -22,7 +22,7 @@ type BuilderEntry = Record<string, string | string[]>;
 
 ### builder.context.rootPath
 
-当前执行构建的根路径，对应调用 `createBuilder` 时传入的 `cwd` 选项。
+The root path of current build, corresponding to the `cwd` option of `createBuilder` method.
 
 - **Type**
 
@@ -32,7 +32,7 @@ type RootPath = string;
 
 ### builder.context.srcPath
 
-src 目录的绝对路径。
+The absolute path to the src directory.
 
 - **Type**
 
@@ -42,7 +42,7 @@ type SrcPath = string;
 
 ### builder.context.distPath
 
-构建产物输出目录的绝对路径，对应 `BuilderConfig` 中的 `output.distPath.root` 配置项。
+The absolute path of the output directory, corresponding to the `output.distPath.root` config in `BuilderConfig`.
 
 - **Type**
 
@@ -52,7 +52,7 @@ type DistPath = string;
 
 ### builder.context.cachePath
 
-构建过程中生成的缓存文件所在的绝对路径。
+The absolute path of the build cache files.
 
 - **Type**
 
@@ -62,7 +62,7 @@ type CachePath = string;
 
 ### builder.context.configPath
 
-框架配置文件的绝对路径，对应调用 `createBuilder` 时传入的 `configPath` 选项。
+The absolute path to the framework config file, corresponding to the `configPath` option of `createBuilder` method.
 
 - **Type**
 
@@ -72,7 +72,7 @@ type ConfigPath = string | undefined;
 
 ### builder.context.tsconfigPath
 
-tsconfig.json 文件的绝对路径，若项目中不存在 tsconfig.json 文件，则为 `undefined`。
+The absolute path of the tsconfig.json file, or `undefined` if the tsconfig.json file does not exist in current project.
 
 - **Type**
 
@@ -82,7 +82,7 @@ type TsconfigPath = string | undefined;
 
 ### builder.context.framework
 
-框架的英文名称，唯一标识符，默认值为 `'modern.js'`。
+The name of the framework, a unique identifier, the default value is `'modern.js'`.
 
 - **Type**
 
@@ -92,7 +92,7 @@ type Framework = string | undefined;
 
 ### builder.context.devServer
 
-Dev Server 相关信息，包含了当前 Dev Server 的 hostname 和端口号。
+Dev Server information, including the current Dev Server hostname and port number.
 
 - **Type**
 
@@ -105,7 +105,7 @@ type DevServer = {
 
 ## builder.build
 
-调用 build 方法时，会执行一次生产环境构建。
+Perform a production build.
 
 - **Type**
 
@@ -124,9 +124,9 @@ function Build(options?: BuildOptions): Promise<void>;
 await builder.build();
 ```
 
-### 开发环境构建
+### Development environment build
 
-如果需要执行一次开发环境构建，可以将 `mode` 参数设置为 `'development'`。
+If you need to perform a development build, you can set the `mode` option to `'development'`.
 
 ```ts
 await builder.build({
@@ -134,9 +134,9 @@ await builder.build({
 });
 ```
 
-### 监听文件变化
+### Monitor file changes
 
-如果需要自动监听文件变化并重新执行构建，可以将 `watch` 参数设置为 `true`。
+If you need to watch file changes and re-build, you can set the `watch` option to `true`.
 
 ```ts
 await builder.build({
@@ -146,7 +146,7 @@ await builder.build({
 
 ## builder.startDevServer
 
-启动本地 Dev Server，基于 Modern.js Dev Server 实现。
+Start the local Dev Server, based on the Modern.js Dev Server.
 
 - **Type**
 
@@ -166,7 +166,7 @@ await builder.startDevServer();
 
 ## builder.createCompiler
 
-创建一个 compiler 对象。
+Create a Compiler object.
 
 - **Type**
 
@@ -180,13 +180,13 @@ function CreateCompiler(): Promise<Compiler | MultiCompiler>;
 const compiler = await builder.createCompiler();
 ```
 
-> 大部分场景下，不需要使用该 API，除非需要进行自定义 Dev Server 等高级操作。
+> In most scenarios, you do not need to use this API unless you need to custom the Dev Server or other advanced scenarios.
 
 ## builder.addPlugins
 
-注册一个或多个 builder 插件，可以被多次调用。
+Register one or more Builder plugins, which can be called multiple times.
 
-该方法需要在开始编译前调用，如果在开始编译之后调用，则不会影响编译结果。
+This method needs to be called before compiling. If it is called after compiling, it will not affect the compilation result.
 
 - **Type**
 
@@ -204,18 +204,18 @@ function AddPlugins(
 ```ts
 builder.addPlugins([PluginFoo(), PluginBar()]);
 
-// 在 bar 插件之前插入
+// Insert before the bar plugin
 builder.addPlugins([PluginFoo()], { before: 'bar' });
 
-// 在 bar 插件之后插入
+// Insert after the bar plugin
 builder.addPlugins([PluginFoo()], { after: 'bar' });
 ```
 
 ## builder.removePlugins
 
-移除一个或多个 builder 插件，可以被多次调用。
+Removes one or more Builder plugins, which can be called multiple times.
 
-该方法需要在开始编译前调用，如果在开始编译之后调用，则不会影响编译结果。
+This method needs to be called before compiling. If it is called after compiling, it will not affect the compilation result.
 
 - **Type**
 
@@ -226,17 +226,17 @@ function RemovePlugins(pluginNames: string[]): void;
 - **Example**
 
 ```ts
-// 添加插件
+// add plugin
 const pluginFoo = PluginFoo();
 builder.addPlugins(pluginFoo);
 
-// 移除插件
+// remove plugin
 builder.removePlugins([pluginFoo.name]);
 ```
 
 ## builder.isPluginExists
 
-判断某个插件是否已经被注册。
+Determines whether a plugin has been registered.
 
 - **Type**
 
