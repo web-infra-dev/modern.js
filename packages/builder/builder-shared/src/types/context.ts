@@ -20,7 +20,7 @@ export type BuilderContext = {
   tsconfigPath?: string;
   /** Info of dev server  */
   devServer?: {
-    ip: string;
+    hostname: string;
     port: number;
   };
 };

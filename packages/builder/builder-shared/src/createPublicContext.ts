@@ -9,6 +9,7 @@ export function createPublicContext(
     'srcPath',
     'rootPath',
     'distPath',
+    'devServer',
     'framework',
     'cachePath',
     'configPath',

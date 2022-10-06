@@ -26,9 +26,9 @@ function getPublicPath({
   } else if (typeof dev?.assetPrefix === 'string') {
     publicPath = dev.assetPrefix;
   } else if (dev?.assetPrefix === true) {
-    const ip = context.devServer?.ip || 'localhost';
+    const hostname = context.devServer?.hostname || 'localhost';
     const port = context.devServer?.port || DEFAULT_PORT;
-    publicPath = `//${ip}:${port}/`;
+    publicPath = `//${hostname}:${port}/`;
   }
 
   if (!publicPath.endsWith('/')) {

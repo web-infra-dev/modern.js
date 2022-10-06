@@ -1,6 +1,7 @@
 import { debug, logger } from '@modern-js/builder-shared';
 import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
+import { DEFAULT_PORT } from '../shared';
 import type { BuilderConfig } from '../types';
 import type { Compiler, MultiCompiler } from 'webpack';
 
@@ -87,7 +88,13 @@ export async function startDevServer(
 
   const { getPort } = await import('@modern-js/utils');
   const builderConfig = options.context.config;
-  const port = await getPort(builderConfig.dev?.port || 8080);
+  const port = await getPort(builderConfig.dev?.port || DEFAULT_PORT);
+
+  options.context.devServer = {
+    hostname: 'localhost',
+    port,
+  };
+
   const server = await createDevServer(options, port, compiler);
 
   await options.context.hooks.onBeforeStartDevServerHooks.call();
