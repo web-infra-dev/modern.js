@@ -14,13 +14,8 @@
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-plugin-esbuild": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
-<<<<<<< HEAD
     "react": "^18",
     "react-dom": "^18"
-=======
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
->>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
   },
   "devDependencies": {
     "@types/node": "^14",

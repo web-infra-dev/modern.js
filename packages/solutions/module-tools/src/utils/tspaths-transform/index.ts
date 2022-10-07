@@ -105,6 +105,7 @@ const transformSingleFileAlias = ({
     errorRecovery: true, // 防止typescript不支持的语法出现而报错
     plugins: ['typescript'],
   });
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   traverse(ast, {

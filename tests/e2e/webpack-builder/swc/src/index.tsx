@@ -3,6 +3,7 @@ import { useState } from 'react';
 const container = document.createElement('div');
 document.body.appendChild(container);
 
+// test dyn import
 import('react-dom').then(ReactDom => {
   const App = () => {
     const [count, _setCount] = useState(0);

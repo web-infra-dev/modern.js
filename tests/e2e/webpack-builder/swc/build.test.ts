@@ -1,9 +1,9 @@
 import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { createStubBuilder } from '@modern-js/webpack-builder/stub';
-import { PluginEntry } from '@modern-js/webpack-builder/plugins/entry';
-import { PluginHtml } from '@modern-js/webpack-builder/plugins/html';
-import { SwcPlugin } from '@modern-js/plugin-swc';
+import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
+import { PluginEntry } from '@modern-js/builder-webpack-provider/plugins/entry';
+import { PluginHtml } from '@modern-js/builder-webpack-provider/plugins/html';
+import { SwcPlugin } from '@modern-js/builder-webpack-plugin-swc';
 
 test('react', async ({ page }) => {
   const builder = await createStubBuilder({
@@ -17,7 +17,7 @@ test('react', async ({ page }) => {
           swc: {
             module: {
               type: 'commonjs',
-              // ignoreDynamic: true,
+              ignoreDynamic: true,
             },
           },
         }),
@@ -29,5 +29,6 @@ test('react', async ({ page }) => {
     hangOn: false,
   });
   await page.goto(homeUrl.href);
+
   expect(await page.screenshot()).toMatchSnapshot();
 });

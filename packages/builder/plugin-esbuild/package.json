@@ -1,11 +1,4 @@
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  "private": true,
->>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
-=======
->>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
   "name": "@modern-js/builder-plugin-esbuild",
   "description": "Esbuild plugin for builder in Modern.js",
   "homepage": "https://modernjs.dev",
@@ -21,11 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-<<<<<<< HEAD
   "version": "1.20.1",
-=======
-  "version": "1.19.0",
->>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -47,12 +36,8 @@
     "test:watch": "vitest dev --no-coverage"
   },
   "dependencies": {
-<<<<<<< HEAD
     "esbuild": "0.15.10",
     "@modern-js/builder-shared": "workspace:*"
-=======
-    "esbuild": "0.15.10"
->>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
