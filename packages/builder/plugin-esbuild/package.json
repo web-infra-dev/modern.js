@@ -38,8 +38,8 @@
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
-    "@modern-js/utils": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "typescript": "4.7.4",
     "vitest": "^0.21.1",
