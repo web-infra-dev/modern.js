@@ -13,7 +13,9 @@ export async function createCompiler({
   webpackConfigs: WebpackConfig[];
 }) {
   debug('create compiler');
-  await context.hooks.onBeforeCreateCompilerHooks.call({ webpackConfigs });
+  await context.hooks.onBeforeCreateCompilerHooks.call({
+    bundlerConfigs: webpackConfigs,
+  });
 
   const { default: webpack } = await import('webpack');
 

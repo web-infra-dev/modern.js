@@ -30,7 +30,7 @@ export type ModifyBuilderConfigFn = (
 ) => Promise<BuilderConfig | void> | BuilderConfig | void;
 
 export type OnBeforeBuildFn = (params: {
-  webpackConfigs: WebpackConfig[];
+  bundlerConfigs: WebpackConfig[];
 }) => Promise<void> | void;
 
 export type OnAfterBuildFn = (params: {
@@ -42,7 +42,7 @@ export type OnDevCompileDoneFn = (params: {
 }) => Promise<void> | void;
 
 export type OnBeforeCreateCompilerFn = (params: {
-  webpackConfigs: WebpackConfig[];
+  bundlerConfigs: WebpackConfig[];
 }) => Promise<void> | void;
 
 export type OnAfterCreateCompilerFn = (params: {

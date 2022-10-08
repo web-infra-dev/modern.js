@@ -64,7 +64,7 @@ export const build = async (
   const { webpackConfigs } = await initConfigs(initOptions);
 
   await context.hooks.onBeforeBuildHook.call({
-    webpackConfigs,
+    bundlerConfigs: webpackConfigs,
   });
 
   if (watch) {

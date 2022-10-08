@@ -150,8 +150,8 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
 
   /** Unwrap webpack configs. */
   const unwrapWebpackConfigs = async () => {
-    const [{ webpackConfigs }] = await unwrapHook('onBeforeBuildHook');
-    return webpackConfigs;
+    const [{ bundlerConfigs }] = await unwrapHook('onBeforeBuildHook');
+    return bundlerConfigs;
   };
 
   /** Unwrap webpack config, it will ensure there's only one config object. */
