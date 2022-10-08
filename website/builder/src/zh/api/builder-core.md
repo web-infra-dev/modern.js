@@ -10,17 +10,17 @@ extractApiHeaders: [2]
 
 创建一个 Builder 实例对象。
 
-使用该方法时，需要搭配 `@modern-js/builder-provider-webpack` 或 `@modern-js/rspack-builder` 提供的 provider 使用。provider 提供了与特定 bundler 相关的构建逻辑。
+使用该方法时，需要搭配 `@modern-js/builder-webpack-provider` 或 `@modern-js/builder-rspack-provider` 提供的 provider 使用。provider 提供了与特定 bundler 相关的构建逻辑。
 
 ### webpack provider
 
-当传入 `webpackBuildProvider` 时，Builder 会使用 webpack 作为 bundler 进行构建。
+当传入 `builderWebpackProvider` 时，Builder 会使用 webpack 作为 bundler 进行构建。
 
 ```ts
 import { createBuilder } from '@modern-js/builder';
-import { webpackBuildProvider } from '@modern-js/builder-provider-webpack';
+import { builderWebpackProvider } from '@modern-js/builder-webpack-provider';
 
-const provider = webpackBuildProvider({
+const provider = builderWebpackProvider({
   builderConfig: {
     // some configs
   },
@@ -33,13 +33,13 @@ const builder = await createBuilder(provider, {
 
 ### rspack provider
 
-当传入 `rspackBuildProvider` 时，Builder 会使用 rspack 作为 bundler 进行构建。
+当传入 `builderRspackProvider` 时，Builder 会使用 rspack 作为 bundler 进行构建。
 
 ```ts
 import { createBuilder } from '@modern-js/builder';
-import { rspackBuildProvider } from '@modern-js/rspack-builder';
+import { builderRspackProvider } from '@modern-js/builder-rspack-provider';
 
-const provider = rspackBuildProvider({
+const provider = builderRspackProvider({
   builderConfig: {
     // some configs
   },
@@ -50,7 +50,7 @@ const builder = await createBuilder(provider, {
 });
 ```
 
-> Tips: @modern-js/rspack-builder 尚未开发完成。
+> Tips: @modern-js/builder-rspack-provider 尚未开发完成。
 
 ### options
 
@@ -134,7 +134,7 @@ webpack 对象，用于消费 webpack 内置插件或类型定义。
 - **Example**
 
 ```ts
-import webpack from '@modern-js/builder-provider-webpack/webpack';
+import webpack from '@modern-js/builder-webpack-provider/webpack';
 
 new webpack.DefinePlugin();
 ```
@@ -148,7 +148,7 @@ HtmlWebpackPlugin 对象，通常用于实现 HtmlWebpackPlugin 的自定义插�
 - **Example**
 
 ```ts
-import HtmlWebpackPlugin from '@modern-js/builder-provider-webpack/html-webpack-plugin';
+import HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
 ```
 
 > 大部分场景下，推荐从 Builder 中引用 HtmlWebpackPlugin 对象，而不是手动安装一份 "html-webpack-plugin" 依赖，这样可以避免出现多实例问题。

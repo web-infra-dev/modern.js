@@ -32,7 +32,7 @@ Builder 插件的类型，需要配合 provider 中提供的 `BuilderPluginAPI` 
 
 ```ts
 import { BuilderPlugin } from '@modern-js/builder';
-import { BuilderPluginAPI } from '@modern-js/builder-provider-webpack';
+import { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 
 const myPlugin: BuilderPlugin<BuilderPluginAPI> = {
   name: 'my-plugin',

@@ -113,7 +113,7 @@ importers:
     specifiers:
       '@modern-js/builder': workspace:*
       '@modern-js/utils': workspace:*
-      '@modern-js/builder-provider-webpack': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
       '@scripts/vitest-config': workspace:*
       typescript: 4.7.4
       vitest: ^0.21.1
@@ -121,7 +121,7 @@ importers:
     devDependencies:
       '@modern-js/builder': link:../builder
       '@modern-js/utils': link:../../toolkit/utils
-      '@modern-js/builder-provider-webpack': link:../builder-provider-webpack
+      '@modern-js/builder-webpack-provider': link:../builder-webpack-provider
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       typescript: 4.7.4
       vitest: 0.21.1
@@ -131,7 +131,7 @@ importers:
     specifiers:
       '@modern-js/builder': workspace:*
       '@modern-js/utils': workspace:*
-      '@modern-js/builder-provider-webpack': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
       '@scripts/vitest-config': workspace:*
       node-libs-browser: 2.2.1
       typescript: 4.7.4
@@ -143,14 +143,14 @@ importers:
     devDependencies:
       '@modern-js/builder': link:../builder
       '@modern-js/utils': link:../../toolkit/utils
-      '@modern-js/builder-provider-webpack': link:../builder-provider-webpack
+      '@modern-js/builder-webpack-provider': link:../builder-webpack-provider
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       typescript: 4.7.4
       vitest: 0.21.1
       webpack: 5.73.0
       wireit: 0.7.1
 
-  packages/builder/builder-provider-webpack:
+  packages/builder/builder-webpack-provider:
     specifiers:
       '@babel/core': 7.18.0
       '@modern-js/babel-preset-app': workspace:*
@@ -3408,7 +3408,7 @@ importers:
   tests/e2e/webpack-builder/basic:
     specifiers:
       '@modern-js/e2e': workspace:*
-      '@modern-js/builder-provider-webpack': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -3422,7 +3422,7 @@ importers:
       react-dom: 17.0.2_react@17.0.2
     devDependencies:
       '@modern-js/e2e': link:../../../../packages/toolkit/e2e
-      '@modern-js/builder-provider-webpack': link:../../../../packages/builder/builder-provider-webpack
+      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
       '@types/node': 14.18.21
       '@types/react': 17.0.47
       '@types/react-dom': 17.0.17
@@ -4406,7 +4406,7 @@ importers:
     specifiers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-plugin-esbuild': workspace:*
-      '@modern-js/builder-provider-webpack': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
       '@types/node': ^14
       '@types/react': ^17
       '@types/react-dom': ^17
@@ -4416,7 +4416,7 @@ importers:
     dependencies:
       '@modern-js/builder': link:../../../packages/builder/builder
       '@modern-js/builder-plugin-esbuild': link:../../../packages/builder/plugin-esbuild
-      '@modern-js/builder-provider-webpack': link:../../../packages/builder/builder-provider-webpack
+      '@modern-js/builder-webpack-provider': link:../../../packages/builder/builder-webpack-provider
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     devDependencies:

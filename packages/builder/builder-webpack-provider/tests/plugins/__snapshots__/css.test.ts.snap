@@ -12,7 +12,7 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
             "loader": "<ROOT>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/packages/builder/builder-provider-webpack/compiled/css-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -25,7 +25,7 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
             },
           },
           {
-            "loader": "<ROOT>/packages/builder/builder-provider-webpack/compiled/postcss-loader",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "plugins": [

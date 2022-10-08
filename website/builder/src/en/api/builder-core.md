@@ -10,17 +10,17 @@ This section describes some of the core methods provided by Builder.
 
 Create a Builder instance object.
 
-When using this method, it needs to be used with the provider provided by `@modern-js/builder-provider-webpack` or `@modern-js/rspack-builder`. The provider contains build logic related to a specific bundler.
+When using this method, it needs to be used with the provider provided by `@modern-js/builder-webpack-provider` or `@modern-js/builder-rspack-provider`. The provider contains build logic related to a specific bundler.
 
-### webpack provider
+### Provider for webpack
 
-When `webpackBuildProvider` is passed, the Builder will use webpack as the bundler for building.
+When `builderWebpackProvider` is passed, the Builder will use webpack as the bundler for building.
 
 ```ts
 import { createBuilder } from '@modern-js/builder';
-import { webpackBuildProvider } from '@modern-js/builder-provider-webpack';
+import { builderWebpackProvider } from '@modern-js/builder-webpack-provider';
 
-const provider = webpackBuildProvider({
+const provider = builderWebpackProvider({
   builderConfig: {
     // some configs
   },
@@ -31,15 +31,15 @@ const builder = await createBuilder(provider, {
 });
 ```
 
-### rspack provider
+### Provider for rspack
 
-When `rspackBuildProvider` is passed, the Builder will use rspack as the bundler for building.
+When `builderRspackProvider` is passed, the Builder will use rspack as the bundler for building.
 
 ```ts
 import { createBuilder } from '@modern-js/builder';
-import { rspackBuildProvider } from '@modern-js/rspack-builder';
+import { builderRspackProvider } from '@modern-js/builder-rspack-provider';
 
-const provider = rspackBuildProvider({
+const provider = builderRspackProvider({
   builderConfig: {
     // some configs
   },
@@ -50,7 +50,7 @@ const builder = await createBuilder(provider, {
 });
 ```
 
-> Tips: @modern-js/rspack-builder has not been developed yet.
+> Tips: @modern-js/builder-rspack-provider has not been developed yet.
 
 ### options
 
@@ -136,7 +136,7 @@ A webpack object for consuming webpack builtin plugins or type definitions.
 - **Example**
 
 ```ts
-import webpack from '@modern-js/builder-provider-webpack/webpack';
+import webpack from '@modern-js/builder-webpack-provider/webpack';
 
 new webpack.DefinePlugin();
 ```
@@ -150,7 +150,7 @@ HtmlWebpackPlugin object, usually used to implement custom plugins of HtmlWebpac
 - **Example**
 
 ```ts
-import HtmlWebpackPlugin from '@modern-js/builder-provider-webpack/html-webpack-plugin';
+import HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
 ```
 
 > In most scenarios, it is recommended to import HtmlWebpackPlugin from builder instead of manually installing a "html-webpack-plugin" dependency, which can avoid multi-instance problems.

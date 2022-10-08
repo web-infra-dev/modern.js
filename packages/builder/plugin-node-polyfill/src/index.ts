@@ -1,5 +1,5 @@
 import type { BuilderPlugin } from '@modern-js/builder';
-import type { BuilderPluginAPI } from '@modern-js/builder-provider-webpack';
+import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 
 /**
  * Usage:

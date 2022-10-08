@@ -11,13 +11,13 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/builder-provider-webpack",
+              "<ROOT>/packages/builder/builder-webpack-provider",
               {
                 "not": /node_modules/,
               },
             ],
           },
-          "<ROOT>/packages/builder/builder-provider-webpack/src/runtime/core-js-entry.js",
+          "<ROOT>/packages/builder/builder-webpack-provider/src/runtime/core-js-entry.js",
           "src/**/*.ts",
         ],
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
@@ -29,7 +29,7 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
                 [
                   "<ROOT>/packages/cli/babel-preset-app/dist/js/node/index.js",
                   {
-                    "appDirectory": "<ROOT>/packages/builder/builder-provider-webpack",
+                    "appDirectory": "<ROOT>/packages/builder/builder-webpack-provider",
                     "metaName": "modern-js",
                     "target": "client",
                     "useBuiltIns": "entry",
@@ -66,13 +66,13 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/builder-provider-webpack",
+              "<ROOT>/packages/builder/builder-webpack-provider",
               {
                 "not": /node_modules/,
               },
             ],
           },
-          "<ROOT>/packages/builder/builder-provider-webpack/src/runtime/core-js-entry.js",
+          "<ROOT>/packages/builder/builder-webpack-provider/src/runtime/core-js-entry.js",
         ],
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
@@ -83,7 +83,7 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
                 [
                   "<ROOT>/packages/cli/babel-preset-app/dist/js/node/index.js",
                   {
-                    "appDirectory": "<ROOT>/packages/builder/builder-provider-webpack",
+                    "appDirectory": "<ROOT>/packages/builder/builder-webpack-provider",
                     "metaName": "modern-js",
                     "target": "client",
                     "useBuiltIns": "entry",

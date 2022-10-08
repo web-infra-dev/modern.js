@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@modern-js/builder-provider-webpack",
+  "name": "@modern-js/builder-webpack-provider",
   "description": "Builder provider for webpack",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",

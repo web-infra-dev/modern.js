@@ -7,7 +7,7 @@ import { applyDefaultPlugins } from './shared/plugin';
 import { BuilderConfig } from './types';
 import { initConfigs } from './core/initConfigs';
 
-export function webpackBuildProvider({
+export function builderWebpackProvider({
   builderConfig,
 }: {
   builderConfig: BuilderConfig;

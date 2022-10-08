@@ -1,4 +1,4 @@
-export { webpackBuildProvider } from './provider';
+export { builderWebpackProvider } from './provider';
 export type {
   BuilderPluginAPI,
 

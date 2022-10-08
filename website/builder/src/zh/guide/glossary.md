@@ -20,7 +20,7 @@ Builder Provider 是 Builder 的组成部分之一，Provider 提供了与特定
 
 比如：
 
-- 组合 `@modern-js/builder` 与 `@modern-js/builder-provider-webpack`，可以使用 webpack 的构建能力。
+- 组合 `@modern-js/builder` 与 `@modern-js/builder-webpack-provider`，可以使用 webpack 的构建能力。
 - 组合 `@modern-js/builder` 与 `@modern-js/rspack-build-provider`，可以使用 rspack 的构建能力。
 
 ## Rspack
