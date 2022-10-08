@@ -133,7 +133,9 @@ export class ModernDevServer extends ModernServer {
       );
 
       const historyApiFallbackMiddleware = connectHistoryApiFallback(
-        dev.historyApiFallback,
+        typeof dev.historyApiFallback === 'boolean'
+          ? {}
+          : dev.historyApiFallback,
       ) as RequestHandler;
       this.addHandler((ctx, next) =>
         historyApiFallbackMiddleware(ctx.req, ctx.res, next),

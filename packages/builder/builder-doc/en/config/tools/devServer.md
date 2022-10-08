@@ -6,12 +6,14 @@ The config of DevServer can be modified through `tools.devServer`.
 ### Object Type
 
 #### hot
+
 - Type: `boolean`
 - Default: `true`
 
 Enable Hot Module Replacement feature.
 
 #### historyApiFallback
+
 - Type: `boolean | ConnectHistoryApiFallbackOptions`
 - Default: `false`
 

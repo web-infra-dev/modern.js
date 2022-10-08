@@ -6,12 +6,14 @@
 ### Object 类型
 
 #### hot
+
 - Type: `boolean`
 - Default: `true`
 
 是否开启 Hot Module Replacement 热更新能力。
 
 #### historyApiFallback
+
 - Type: `boolean | ConnectHistoryApiFallbackOptions`
 - Default: `false`
 
