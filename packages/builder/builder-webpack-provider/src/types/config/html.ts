@@ -1,6 +1,6 @@
+import type { ChainedConfig } from '@modern-js/builder-shared';
 import type { MetaOptions } from '@modern-js/utils';
 import type { HTMLPluginOptions } from '../thirdParty';
-import type { ChainedConfig } from '../utils';
 
 export type CrossOrigin = 'anonymous' | 'use-credentials';
 
