@@ -47,7 +47,7 @@ async function applyJSMinimizer(chain: WebpackChain, config: BuilderConfig) {
         safari10: true,
       },
       format: {
-        ascii_only: true,
+        ascii_only: config.output?.charset === 'ascii',
       },
     },
   };
