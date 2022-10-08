@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'http';
-import type { BffProxyOptions, NextFunction } from './utils';
+import type { NextFunction, BffProxyOptions } from './utils';
 
 export type DevServerHttpsOptions = boolean | { key: string; cert: string };
 

@@ -186,6 +186,48 @@ describe('test dev server', () => {
       await server.close();
     });
 
+    test('should use default devMiddleware correctly', async () => {
+      const compiler = webpack({});
+
+      const server = await createServer({
+        config: {
+          ...defaultsConfig,
+          output: {
+            path: 'test-dist',
+          },
+        } as unknown as NormalizedConfig,
+        pwd: appDirectory,
+        dev: {
+          hot: false,
+        },
+        compiler,
+      });
+
+      const modernServer: any = (server as any).server;
+      const handler = modernServer.getRequestHandler();
+
+      const req = httpMocks.createRequest({
+        url: '/',
+        headers: {
+          host: 'modernjs.com',
+        },
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+      const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+      handler(req, res);
+      const html = await new Promise((resolve, _reject) => {
+        res.on('finish', () => {
+          resolve(res._getData());
+        });
+        res.end('xxx');
+      });
+
+      expect(html).toMatch('xxx');
+
+      await server.close();
+    });
+
     test('should get request handler correctly', async () => {
       const server = await createServer({
         config: defaultsConfig as NormalizedConfig,
