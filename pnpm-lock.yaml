@@ -108,10 +108,10 @@ importers:
       '@modern-js/babel-preset-app': workspace:*
       '@modern-js/e2e': workspace:*
       '@modern-js/inspector-webpack-plugin': 1.0.3
+      '@modern-js/react-refresh-webpack-plugin': 0.5.8
       '@modern-js/server': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
-      '@pmmmwh/react-refresh-webpack-plugin': 0.5.5
       '@scripts/vitest-config': workspace:*
       '@svgr/webpack': 6.2.1
       '@types/babel__core': ^7.1.19
@@ -139,10 +139,10 @@ importers:
     dependencies:
       '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
       '@modern-js/inspector-webpack-plugin': 1.0.3
+      '@modern-js/react-refresh-webpack-plugin': 0.5.8_mrng46iweft73kaoehgasn3du4
       '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
-      '@pmmmwh/react-refresh-webpack-plugin': 0.5.5_mrng46iweft73kaoehgasn3du4
       '@svgr/webpack': 6.2.1
       '@types/mini-css-extract-plugin': 2.2.0
       caniuse-lite: 1.0.30001375
@@ -814,9 +814,9 @@ importers:
       '@modern-js/babel-preset-app': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/css-config': workspace:*
+      '@modern-js/react-refresh-webpack-plugin': 0.5.8
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
-      '@pmmmwh/react-refresh-webpack-plugin': ^0.5.5
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@svgr/webpack': ^6.2.1
@@ -846,8 +846,8 @@ importers:
       '@babel/core': 7.18.6
       '@modern-js/babel-preset-app': link:../babel-preset-app
       '@modern-js/css-config': link:../css-config
+      '@modern-js/react-refresh-webpack-plugin': 0.5.8_mrng46iweft73kaoehgasn3du4
       '@modern-js/utils': link:../../toolkit/utils
-      '@pmmmwh/react-refresh-webpack-plugin': 0.5.7_mrng46iweft73kaoehgasn3du4
       '@svgr/webpack': 6.2.1
       core-js: 3.25.0
       css-minimizer-webpack-plugin: 3.4.1_webpack@5.73.0
@@ -8609,6 +8609,45 @@ packages:
       - supports-color
     dev: false
 
+  /@modern-js/react-refresh-webpack-plugin/0.5.8_mrng46iweft73kaoehgasn3du4:
+    resolution: {integrity: sha512-bdhpVaQb1qZwZ1FTAp6oQfWhQkQj6UNk1R6tV7CgsqUEUmHQv3muV63WDzZ/2aAIJZ9x3DY+wXqyKD62SKVKbw==}
+    engines: {node: '>= 10.13'}
+    peerDependencies:
+      '@types/webpack': 4.x || 5.x
+      react-refresh: '>=0.10.0 <1.0.0'
+      sockjs-client: ^1.4.0
+      type-fest: '>=0.17.0 <4.0.0'
+      webpack: '>=4.43.0 <6.0.0'
+      webpack-dev-server: 3.x || 4.x
+      webpack-hot-middleware: 2.x
+      webpack-plugin-serve: 0.x || 1.x
+    peerDependenciesMeta:
+      '@types/webpack':
+        optional: true
+      sockjs-client:
+        optional: true
+      type-fest:
+        optional: true
+      webpack-dev-server:
+        optional: true
+      webpack-hot-middleware:
+        optional: true
+      webpack-plugin-serve:
+        optional: true
+    dependencies:
+      ansi-html-community: 0.0.8
+      common-path-prefix: 3.0.0
+      core-js-pure: 3.23.3
+      error-stack-parser: 2.1.4
+      find-up: 5.0.0
+      html-entities: 2.3.3
+      loader-utils: 2.0.2
+      react-refresh: 0.12.0
+      schema-utils: 3.1.1
+      source-map: 0.7.4
+      webpack: 5.73.0
+    dev: false
+
   /@modern-js/utils/1.16.0:
     resolution: {integrity: sha512-ELiw1wX+L+wImU+uSqT7zHSqyeAmVKxxSEciCSfo3+neyyw/TwlD3IAHnjsgUb+Qi4VUX5MH6znixVscSGvD8A==}
     dependencies:
@@ -8752,45 +8791,6 @@ packages:
       playwright-core: 1.25.1
     dev: false
 
-  /@pmmmwh/react-refresh-webpack-plugin/0.5.5_mrng46iweft73kaoehgasn3du4:
-    resolution: {integrity: sha512-RbG7h6TuP6nFFYKJwbcToA1rjC1FyPg25NR2noAZ0vKI+la01KTSRPkuVPE+U88jXv7javx2JHglUcL1MHcshQ==}
-    engines: {node: '>= 10.13'}
-    peerDependencies:
-      '@types/webpack': 4.x || 5.x
-      react-refresh: '>=0.10.0 <1.0.0'
-      sockjs-client: ^1.4.0
-      type-fest: '>=0.17.0 <3.0.0'
-      webpack: '>=4.43.0 <6.0.0'
-      webpack-dev-server: 3.x || 4.x
-      webpack-hot-middleware: 2.x
-      webpack-plugin-serve: 0.x || 1.x
-    peerDependenciesMeta:
-      '@types/webpack':
-        optional: true
-      sockjs-client:
-        optional: true
-      type-fest:
-        optional: true
-      webpack-dev-server:
-        optional: true
-      webpack-hot-middleware:
-        optional: true
-      webpack-plugin-serve:
-        optional: true
-    dependencies:
-      ansi-html-community: 0.0.8
-      common-path-prefix: 3.0.0
-      core-js-pure: 3.23.3
-      error-stack-parser: 2.1.4
-      find-up: 5.0.0
-      html-entities: 2.3.3
-      loader-utils: 2.0.2
-      react-refresh: 0.12.0
-      schema-utils: 3.1.1
-      source-map: 0.7.4
-      webpack: 5.73.0
-    dev: false
-
   /@pmmmwh/react-refresh-webpack-plugin/0.5.7_aumhct55s6lhceplyc622fxoum:
     resolution: {integrity: sha512-bcKCAzF0DV2IIROp9ZHkRJa6O4jy7NlnHdWL3GmcUxYWNjLXkK5kfELELwEfSP5hXPfVL/qOGMAROuMQb9GG8Q==}
     engines: {node: '>= 10.13'}
@@ -8828,45 +8828,6 @@ packages:
       schema-utils: 3.1.1
       source-map: 0.7.4
       webpack: 5.73.0_esbuild@0.14.47
-    dev: false
-
-  /@pmmmwh/react-refresh-webpack-plugin/0.5.7_mrng46iweft73kaoehgasn3du4:
-    resolution: {integrity: sha512-bcKCAzF0DV2IIROp9ZHkRJa6O4jy7NlnHdWL3GmcUxYWNjLXkK5kfELELwEfSP5hXPfVL/qOGMAROuMQb9GG8Q==}
-    engines: {node: '>= 10.13'}
-    peerDependencies:
-      '@types/webpack': 4.x || 5.x
-      react-refresh: '>=0.10.0 <1.0.0'
-      sockjs-client: ^1.4.0
-      type-fest: '>=0.17.0 <3.0.0'
-      webpack: '>=4.43.0 <6.0.0'
-      webpack-dev-server: 3.x || 4.x
-      webpack-hot-middleware: 2.x
-      webpack-plugin-serve: 0.x || 1.x
-    peerDependenciesMeta:
-      '@types/webpack':
-        optional: true
-      sockjs-client:
-        optional: true
-      type-fest:
-        optional: true
-      webpack-dev-server:
-        optional: true
-      webpack-hot-middleware:
-        optional: true
-      webpack-plugin-serve:
-        optional: true
-    dependencies:
-      ansi-html-community: 0.0.8
-      common-path-prefix: 3.0.0
-      core-js-pure: 3.23.3
-      error-stack-parser: 2.1.4
-      find-up: 5.0.0
-      html-entities: 2.3.3
-      loader-utils: 2.0.2
-      react-refresh: 0.12.0
-      schema-utils: 3.1.1
-      source-map: 0.7.4
-      webpack: 5.73.0
     dev: false
 
   /@polka/url/1.0.0-next.21:
