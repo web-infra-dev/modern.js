@@ -85,7 +85,6 @@ async function getTemplateParameters(
     mountId: mountId || DEFAULT_MOUNT_ID,
     entryName,
     assetPrefix,
-    ...(typeof templateParameters === 'function' ? {} : templateParams),
   };
 
   return (compilation, assets, assetTags, pluginOptions) => {
@@ -99,7 +98,7 @@ async function getTemplateParameters(
       },
       ...baseParameters,
     };
-    return applyOptionsChain(defaultOptions, templateParameters);
+    return applyOptionsChain(defaultOptions, templateParams);
   };
 }
 
