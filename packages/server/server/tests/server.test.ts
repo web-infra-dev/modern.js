@@ -2,14 +2,11 @@ import path from 'path';
 import { EventEmitter, Readable } from 'stream';
 import webpack from 'webpack';
 import { defaultsConfig, NormalizedConfig } from '@modern-js/core';
-import {
-  ModernServerContext,
-  NextFunction,
-  DevMiddlewareAPI,
-} from '@modern-js/types';
+import { ModernServerContext, NextFunction } from '@modern-js/types';
 import { AGGRED_DIR } from '@modern-js/prod-server';
 import httpMocks from 'node-mocks-http';
 import createServer, { Server } from '../src';
+import { DevMiddlewareAPI } from '../src/types';
 import Watcher from '../src/dev-tools/watcher';
 import { ModernDevServer } from '../src/server/dev-server';
 
@@ -129,11 +126,13 @@ describe('test dev server', () => {
     });
 
     test('should use custom devMiddleware correctly', async () => {
-      const middlewareFn = jest.fn(async (_req, _res, next) => {
+      const middlewareCbFn = jest.fn(async (_req, _res, next) => {
         next();
       }) as unknown as DevMiddlewareAPI;
 
-      middlewareFn.close = jest.fn();
+      middlewareCbFn.close = jest.fn();
+
+      const middlewareFn = jest.fn(() => middlewareCbFn);
 
       const compiler = webpack({});
 
@@ -148,17 +147,22 @@ describe('test dev server', () => {
         dev: {
           devMiddleware: {
             writeToDisk: false,
-            provider: () => middlewareFn,
           },
           hot: false,
         },
         compiler,
+        devMiddleware: middlewareFn,
       });
 
       const modernServer: any = (server as any).server;
       const handler = modernServer.getRequestHandler();
 
-      expect(middlewareFn).not.toBeCalled();
+      expect(middlewareFn).toBeCalledWith(compiler, {
+        writeToDisk: false,
+        stats: false,
+      });
+
+      expect(middlewareCbFn).not.toBeCalled();
 
       const req = httpMocks.createRequest({
         url: '/',
@@ -177,7 +181,7 @@ describe('test dev server', () => {
       });
 
       expect(html).toMatch('<div>Modern.js</div>');
-      expect(middlewareFn).toBeCalled();
+      expect(middlewareCbFn).toBeCalled();
 
       await server.close();
     });
