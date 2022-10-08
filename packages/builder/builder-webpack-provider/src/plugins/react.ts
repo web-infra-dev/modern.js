@@ -12,7 +12,7 @@ export const PluginReact = (): BuilderPlugin => ({
       }
 
       const { default: ReactFastRefreshPlugin } = await import(
-        '@pmmmwh/react-refresh-webpack-plugin'
+        '@modern-js/react-refresh-webpack-plugin'
       );
       const useTsLoader = Boolean(config.tools?.tsLoader);
       const rule = useTsLoader
