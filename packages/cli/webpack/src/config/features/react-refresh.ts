@@ -21,7 +21,7 @@ export function applyReactRefreshBabelPlugin({ chain }: ChainUtils) {
       ...options,
       plugins: [
         ...(options.plugins || []),
-        require.resolve('react-refresh/babel'),
+        [require.resolve('react-refresh/babel'), { skipEnvCheck: true }],
       ],
     }));
 }
