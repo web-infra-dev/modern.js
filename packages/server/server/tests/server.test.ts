@@ -317,5 +317,48 @@ describe('test dev server', () => {
       expect(devServer.server.watcher).toBeInstanceOf(Watcher);
       await devServer.close();
     });
+
+    test('should historyApiFallback work correctly', async () => {
+      const server = await createServer({
+        config: {
+          ...defaultsConfig,
+          output: {
+            path: 'test-dist',
+          },
+        } as unknown as NormalizedConfig,
+        pwd: appDirectory,
+        dev: {
+          historyApiFallback: {
+            rewrites: [{ from: /xxx/, to: '/test' }],
+          },
+          hot: false,
+        },
+        compiler: null,
+      });
+
+      const modernServer: any = (server as any).server;
+      const handler = modernServer.getRequestHandler();
+
+      const req = httpMocks.createRequest({
+        url: '/xxx',
+        headers: {
+          host: 'modernjs.com',
+          accept: 'text/html, */*',
+        },
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+      const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+      handler(req, res);
+      const html = await new Promise((resolve, _reject) => {
+        res.on('finish', () => {
+          resolve(res._getData());
+        });
+      });
+
+      expect(html).toMatch('<div>test</div>');
+
+      await server.close();
+    });
   });
 });
