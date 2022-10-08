@@ -15,6 +15,7 @@ export interface ITsconfig {
     | undefined;
   include?: string[];
   exclude?: string[];
+  extends?: string;
 }
 
 export const readTsConfig = <T extends null | ITsconfig>(

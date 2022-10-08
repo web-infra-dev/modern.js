@@ -12,7 +12,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "1.18.1",
+  "version": "1.19.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"

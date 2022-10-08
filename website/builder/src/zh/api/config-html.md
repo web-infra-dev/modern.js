@@ -46,6 +46,14 @@ extractApiHeaders: [2]
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/html/mountId.md)!!!
 
+## html.template
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/template.md)!!!
+
+## html.templateByEntries
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/html/templateByEntries.md)!!!
+
 ## html.templateParameters
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/html/templateParameters.md)!!!

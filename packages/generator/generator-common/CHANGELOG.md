@@ -1,5 +1,15 @@
 # @modern-js/generator-common
 
+## 2.4.0
+
+### Patch Changes
+
+- cf1edd1: feat: support custom solution list
+
+  feat: 生成器支持自定义工程方案列表
+
+  - @modern-js/plugin-i18n@1.19.0
+
 ## 2.3.4
 
 ### Patch Changes
