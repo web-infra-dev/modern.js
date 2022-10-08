@@ -10,7 +10,13 @@ type SRIOptions = {
 
 - **Default**: `undefined`
 
-使浏览器能够验证它获取子资源的完整性，以此防止下载的资源被篡改。
+为 HTML 所引入的子资源添加完整性属性 (`integrity`)，使浏览器能够验证引入资源的完整性，以此防止下载的资源被篡改。
+
+启动该选项后会将 Webpack [output.crossOriginLoading](https://webpack.docschina.org/configuration/output/#outputcrossoriginloading) 配置项设置为 `anonymous`。
+
+关于子资源完整性的更多内容，可以查看 [Subresource Integrity - MDN](https://developer.mozilla.org/zh-CN/docs/Web/Security/Subresource_Integrity)。
+
+#### 示例
 
 默认情况下，不会开启 `SRI`，当开启之后它的默认配置如下：
 
