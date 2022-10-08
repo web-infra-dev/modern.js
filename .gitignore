@@ -52,6 +52,6 @@ local-test-project/*
 
 # website
 .docusaurus
-website/**/.temp
+website/
 
 .wireit/
