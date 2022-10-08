@@ -1,21 +1,11 @@
-import type webpack from 'webpack';
-import { debug, mergeBuilderOptions, pick } from '../shared';
+import { debug, applyDefaultBuilderOptions, pick } from '../shared';
 import { applyDefaultPlugins } from '../shared/plugin';
-import type {
-  BuilderOptions,
-  Context,
-  InspectOptions,
-  PromiseOrNot,
-} from '../types';
-import { webpackBuild } from './build';
+import { BuildOptions } from './build';
+import { initConfigs } from './initConfigs';
 import { createContext, createPublicContext } from './createContext';
 import { createPluginStore } from './createPluginStore';
-import { initConfigs } from './initConfigs';
-
-export type ExecuteBuild = (
-  context: Context,
-  configs: webpack.Configuration[],
-) => PromiseOrNot<{ stats: webpack.MultiStats } | void>;
+import type { BuilderOptions, Context, InspectOptions } from '../types';
+import type { Compiler, MultiCompiler } from 'webpack';
 
 /**
  * Create primary builder.
@@ -28,42 +18,18 @@ export function createPrimaryBuilder(
 ) {
   const publicContext = createPublicContext(context);
   const pluginStore = createPluginStore();
-
-  const build = async (executeBuild?: ExecuteBuild) => {
-    if (!process.env.NODE_ENV) {
-      process.env.NODE_ENV = 'production';
-    }
-
-    const { webpackConfigs } = await initConfigs({
-      context,
-      pluginStore,
-      builderOptions,
-    });
-
-    await context.hooks.onBeforeBuildHook.call({
-      webpackConfigs,
-    });
-
-    const executeResult = await executeBuild?.(context, webpackConfigs);
-
-    await context.hooks.onAfterBuildHook.call({
-      stats: executeResult?.stats,
-    });
-  };
-
   return {
     context,
     builderOptions,
     publicContext,
     pluginStore,
-    build,
   };
 }
 
 export async function createBuilder(options?: BuilderOptions) {
-  const builderOptions = mergeBuilderOptions(options);
+  const builderOptions = applyDefaultBuilderOptions(options);
   const context = await createContext(builderOptions);
-  const { build, pluginStore, publicContext } = createPrimaryBuilder(
+  const { pluginStore, publicContext } = createPrimaryBuilder(
     builderOptions,
     context,
   );
@@ -72,18 +38,36 @@ export async function createBuilder(options?: BuilderOptions) {
   pluginStore.addPlugins(await applyDefaultPlugins());
   debug('add default plugins done');
 
-  const createCompiler = async () => {
-    const { createCompiler } = await import('./createCompiler');
-    return createCompiler({ context, pluginStore, builderOptions });
-  };
-
-  const startDevServer = async () => {
+  const startDevServer = async ({
+    compiler,
+  }: {
+    compiler?: Compiler | MultiCompiler;
+  } = {}) => {
     const { startDevServer } = await import('./startDevServer');
-    return startDevServer({ context, pluginStore, builderOptions });
+    return startDevServer({ context, pluginStore, builderOptions }, compiler);
   };
 
-  const inspectWebpackConfig = async (inspectOptions: InspectOptions = {}) => {
-    return (await import('./inspectWebpackConfig')).inspectWebpackConfig({
+  const createCompiler = async ({ watch }: { watch?: boolean } = {}) => {
+    const { createCompiler } = await import('./createCompiler');
+    const { webpackConfigs } = await initConfigs({
+      context,
+      pluginStore,
+      builderOptions,
+    });
+    return createCompiler({ watch, context, webpackConfigs });
+  };
+
+  const build = async (options?: BuildOptions) => {
+    const { build: buildImpl, webpackBuild } = await import('./build');
+    return buildImpl(
+      { context, pluginStore, builderOptions },
+      options,
+      webpackBuild,
+    );
+  };
+
+  const inspectBundlerConfig = async (inspectOptions: InspectOptions = {}) => {
+    return (await import('./inspectBundlerConfig')).inspectBundlerConfig({
       context,
       pluginStore,
       builderOptions,
@@ -102,12 +86,12 @@ export async function createBuilder(options?: BuilderOptions) {
 
   return {
     ...pick(pluginStore, ['addPlugins', 'removePlugins', 'isPluginExists']),
-    build: () => build(webpackBuild),
+    build,
     context: publicContext,
     createCompiler,
     startDevServer,
     inspectBuilderConfig,
-    inspectWebpackConfig,
+    inspectBundlerConfig,
   };
 }
 

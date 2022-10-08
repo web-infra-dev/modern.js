@@ -3,7 +3,7 @@
 
 Set the file path of the app icon, which can be a relative path or an absolute path.
 
-After config this option, the icon will be automatically copied to the dist directory during the compilation, and the `link` tag will be added to the HTML.
+After config this option, the icon will be automatically copied to the dist directory during the compilation, and the corresponding `link` tag will be added to the HTML.
 
 #### Example
 

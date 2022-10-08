@@ -22,7 +22,7 @@ sidebar_label: disableTsChecker
 为了保证生产环境的代码安全，建议仅在开发环境下开启此配置项：
 
 ```ts title="modern.config.ts"
-import { defineConfig } from '@modern-js/app-tools';
+import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   output: {

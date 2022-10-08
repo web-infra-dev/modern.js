@@ -92,6 +92,9 @@ Array [
                   },
                   "type": "array",
                 },
+                "getModuleId": Object {
+                  "instanceof": "Function",
+                },
                 "minify": Object {
                   "enum": Array [
                     "esbuild",
@@ -220,6 +223,9 @@ Array [
                         ],
                       },
                       "type": "array",
+                    },
+                    "getModuleId": Object {
+                      "instanceof": "Function",
                     },
                     "minify": Object {
                       "enum": Array [

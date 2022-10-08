@@ -112,7 +112,7 @@ export function getDataUrlCondition(
   };
 }
 
-export function mergeBuilderOptions(
+export function applyDefaultBuilderOptions(
   options?: BuilderOptions,
 ): Required<BuilderOptions> {
   const DEFAULT_OPTIONS: Required<BuilderOptions> = {
@@ -202,7 +202,8 @@ export const mergeBuilderConfig = <T>(...configs: T[]): T =>
   _.mergeWith({}, ...configs, (target: unknown, source: unknown) => {
     const pair = [target, source];
     if (pair.some(_.isUndefined)) {
-      return pair.find(_.negate(_.isUndefined));
+      // fallback to lodash default merge behavior
+      return undefined;
     }
     if (pair.some(_.isArray)) {
       return [..._.castArray(target), ..._.castArray(source)];

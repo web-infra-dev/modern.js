@@ -1,9 +1,8 @@
 ---
+title: tools.terser
+
 sidebar_label: terser
 ---
-
-# tools.terser
-
 
 
 - 类型： `Object | Function`

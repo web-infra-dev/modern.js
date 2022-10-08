@@ -1,11 +1,11 @@
-- Type: `Object` | `Function`
+- Type: `Object | Function`
 - Default: `undefined`
 
 By `tools.babel` you can modify [babel-loader](https://github.com/babel/babel-loader)'s' options.
 
-## Type
+### Type
 
-### Object
+#### Object
 
 When `tools.babel`'s type is `Object`, the config will be merged with default config by Object.assign.
 
@@ -28,7 +28,7 @@ export default {
 };
 ```
 
-### Function
+#### Function
 
 When `tools.babel`'s type is Function，the default babel config will be passed in as the first parameter, the config object can be modified directly, or a value can be returned as the final result. The second parameter provides some util functions that can be called directly:
 
@@ -51,11 +51,11 @@ export default {
 };
 ```
 
-## Util Functions
+### Util Functions
 
 When `tools.babel` is of type Function, the tool functions available for the second parameter are as follows:
 
-### addPlugins
+#### addPlugins
 
 Add Babel plugin. For exapmle:
 
@@ -76,7 +76,7 @@ export default {
 };
 ```
 
-### addPresets
+#### addPresets
 
 Add Babel preset configuration. (No need to add presets in most cases)
 
@@ -90,7 +90,7 @@ export default {
 };
 ```
 
-### removePlugins
+#### removePlugins
 
 To remove the Babel plugin, just pass in the name of the plugin to be removed.
 
@@ -104,7 +104,7 @@ export default {
 };
 ```
 
-### removePresets
+#### removePresets
 
 To remove the Babel preset configuration, pass in the name of the preset to be removed.
 
@@ -118,7 +118,7 @@ export default {
 };
 ```
 
-### addIncludes
+#### addIncludes
 
 By default, Babel will only compile the application code in the src directory. With addIncludes you can specify that Babel compile some files in node_modules. For example:
 
@@ -132,7 +132,7 @@ export default {
 };
 ```
 
-### addExcludes
+#### addExcludes
 
 Contrary to `addIncludes`, specifies that certain files are excluded from Babel's compilation.
 
@@ -148,7 +148,7 @@ export default {
 };
 ```
 
-### modifyPresetEnvOptions
+#### modifyPresetEnvOptions
 
 Modify the configuration of `@babel/preset-env`, the configuration you pass in will be shallowly merged with default config. For example:
 
@@ -166,7 +166,7 @@ export default {
 };
 ```
 
-### modifyPresetReactOptions
+#### modifyPresetReactOptions
 
 Modify the configuration of `@babel/preset-react`, the configuration you pass in will be shallowly merged with default config. For example:
 

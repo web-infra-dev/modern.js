@@ -1,5 +1,6 @@
 import type { MetaOptions } from '@modern-js/utils';
 import type { HTMLPluginOptions } from '../thirdParty';
+import type { ChainedConfig } from '../utils';
 
 export type CrossOrigin = 'anonymous' | 'use-credentials';
 
@@ -16,9 +17,15 @@ export interface HtmlConfig {
   mountId?: string;
   crossorigin?: boolean | CrossOrigin;
   disableHtmlFolder?: boolean;
-  templateParameters?: Record<string, unknown>;
+  template?: string;
+  templateByEntries?: Partial<Record<string, string>>;
+  templateParameters?:
+    | Record<string, unknown>
+    | ChainedConfig<Record<string, unknown>>;
   templateParametersByEntries?: Record<
     string,
-    Record<string, unknown> | undefined
+    | Record<string, unknown>
+    | ChainedConfig<Record<string, unknown>>
+    | HTMLPluginOptions['templateParameters']
   >;
 }

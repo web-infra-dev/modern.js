@@ -132,4 +132,32 @@ describe('mergeBuilderConfig', () => {
       },
     });
   });
+
+  it('should not effect source params', () => {
+    const obj = { a: [1], b: [2], c: { test: [2] } };
+    const other = { a: [3], b: [4], c: { test: [2] }, d: { test: [1] } };
+    const other1 = { a: [4], b: [5], c: { test: [3] }, d: { test: [2] } };
+
+    const res = mergeBuilderConfig<Record<string, any>>(obj, other, other1);
+
+    expect(res).toEqual({
+      a: [1, 3, 4],
+      b: [2, 4, 5],
+      c: { test: [2, 2, 3] },
+      d: { test: [1, 2] },
+    });
+    expect(obj).toEqual({ a: [1], b: [2], c: { test: [2] } });
+    expect(other).toEqual({
+      a: [3],
+      b: [4],
+      c: { test: [2] },
+      d: { test: [1] },
+    });
+    expect(other1).toEqual({
+      a: [4],
+      b: [5],
+      c: { test: [3] },
+      d: { test: [2] },
+    });
+  });
 });
