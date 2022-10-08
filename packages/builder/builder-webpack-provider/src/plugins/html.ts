@@ -71,32 +71,35 @@ async function getTemplateParameters(
   config: BuilderConfig,
   assetPrefix: string,
 ): Promise<HTMLPluginOptions['templateParameters']> {
+  const { applyOptionsChain } = await import('@modern-js/utils');
   const { mountId, templateParameters, templateParametersByEntries } =
     config.html || {};
 
   const meta = await getMetaTags(entryName, config);
   const title = getTitle(entryName, config);
-
+  const templateParams =
+    templateParametersByEntries?.[entryName] || templateParameters;
   const baseParameters = {
     meta,
     title,
     mountId: mountId || DEFAULT_MOUNT_ID,
     entryName,
     assetPrefix,
-    ...(templateParametersByEntries?.[entryName] || templateParameters),
   };
 
-  // refer to: https://github.com/jantimon/html-webpack-plugin/blob/main/examples/template-parameters/webpack.config.js
-  return (compilation, assets, assetTags, pluginOptions) => ({
-    compilation,
-    webpackConfig: compilation.options,
-    htmlWebpackPlugin: {
-      tags: assetTags,
-      files: assets,
-      options: pluginOptions,
-    },
-    ...baseParameters,
-  });
+  return (compilation, assets, assetTags, pluginOptions) => {
+    const defaultOptions = {
+      compilation,
+      webpackConfig: compilation.options,
+      htmlWebpackPlugin: {
+        tags: assetTags,
+        files: assets,
+        options: pluginOptions,
+      },
+      ...baseParameters,
+    };
+    return applyOptionsChain(defaultOptions, templateParams);
+  };
 }
 
 export function getTemplatePath(entryName: string, config: BuilderConfig) {
