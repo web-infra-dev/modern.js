@@ -111,7 +111,12 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   },
                   "styled-components",
                 ],
-                "<ROOT>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
+                [
+                  "<ROOT>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
+                  {
+                    "skipEnvCheck": true,
+                  },
+                ],
               ],
               "presets": [
                 [
@@ -196,7 +201,12 @@ exports[`plugins/react > should work with ts-loader 1`] = `
             "loader": "<ROOT>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
             "options": {
               "plugins": [
-                "<ROOT>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
+                [
+                  "<ROOT>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
+                  {
+                    "skipEnvCheck": true,
+                  },
+                ],
               ],
               "presets": [
                 [
