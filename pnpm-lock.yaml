@@ -3138,12 +3138,16 @@ importers:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       node-mocks-http: 1.11.0
       ts-node: 10.8.1_ah2igguqgj6e7ik4ubgohitm4e
       tsconfig-paths: 3.14.1
       typescript: 4.7.4
       webpack: 5.74.0
 =======
+=======
+      node-mocks-http: 1.11.0
+>>>>>>> 899808ca2 (feat(dev-server): support custom dev middleware (#1785))
       ts-node: 10.8.1_ah2igguqgj6e7ik4ubgohitm4e
       tsconfig-paths: 3.14.1
       typescript: 4.7.4
@@ -17365,10 +17369,8 @@ packages:
       ajv: 6.12.6
     dev: false
 
-  /ajv-formats/2.1.1_ajv@8.11.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -35506,7 +35508,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1_ajv@8.11.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:

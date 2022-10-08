@@ -1,9 +1,12 @@
 import path from 'path';
+import { EventEmitter, Readable } from 'stream';
 import webpack from 'webpack';
 import { defaultsConfig, NormalizedConfig } from '@modern-js/core';
 import { ModernServerContext, NextFunction } from '@modern-js/types';
 import { AGGRED_DIR } from '@modern-js/prod-server';
+import httpMocks from 'node-mocks-http';
 import createServer, { Server } from '../src';
+import { DevMiddlewareAPI } from '../src/types';
 import Watcher from '../src/dev-tools/watcher';
 import { ModernDevServer } from '../src/server/dev-server';
 
@@ -119,6 +122,109 @@ describe('test dev server', () => {
       const modernServer: any = (server as any).server;
       const handler = modernServer.getRequestHandler();
       expect(typeof handler === 'function').toBeTruthy();
+      await server.close();
+    });
+
+    test('should use custom devMiddleware correctly', async () => {
+      const middlewareCbFn = jest.fn(async (_req, _res, next) => {
+        next();
+      }) as unknown as DevMiddlewareAPI;
+
+      middlewareCbFn.close = jest.fn();
+
+      const middlewareFn = jest.fn(() => middlewareCbFn);
+
+      const compiler = webpack({});
+
+      const server = await createServer({
+        config: {
+          ...defaultsConfig,
+          output: {
+            path: 'test-dist',
+          },
+        } as unknown as NormalizedConfig,
+        pwd: appDirectory,
+        dev: {
+          devMiddleware: {
+            writeToDisk: false,
+          },
+          hot: false,
+        },
+        compiler,
+        devMiddleware: middlewareFn,
+      });
+
+      const modernServer: any = (server as any).server;
+      const handler = modernServer.getRequestHandler();
+
+      expect(middlewareFn).toBeCalledWith(compiler, {
+        writeToDisk: false,
+        stats: false,
+      });
+
+      expect(middlewareCbFn).not.toBeCalled();
+
+      const req = httpMocks.createRequest({
+        url: '/',
+        headers: {
+          host: 'modernjs.com',
+        },
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+      const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+      handler(req, res);
+      const html = await new Promise((resolve, _reject) => {
+        res.on('finish', () => {
+          resolve(res._getData());
+        });
+      });
+
+      expect(html).toMatch('<div>Modern.js</div>');
+      expect(middlewareCbFn).toBeCalled();
+
+      await server.close();
+    });
+
+    test('should use default devMiddleware correctly', async () => {
+      const compiler = webpack({});
+
+      const server = await createServer({
+        config: {
+          ...defaultsConfig,
+          output: {
+            path: 'test-dist',
+          },
+        } as unknown as NormalizedConfig,
+        pwd: appDirectory,
+        dev: {
+          hot: false,
+        },
+        compiler,
+      });
+
+      const modernServer: any = (server as any).server;
+      const handler = modernServer.getRequestHandler();
+
+      const req = httpMocks.createRequest({
+        url: '/',
+        headers: {
+          host: 'modernjs.com',
+        },
+        eventEmitter: Readable,
+        method: 'GET',
+      });
+      const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+      handler(req, res);
+      const html = await new Promise((resolve, _reject) => {
+        res.on('finish', () => {
+          resolve(res._getData());
+        });
+        res.end('xxx');
+      });
+
+      expect(html).toMatch('xxx');
+
       await server.close();
     });
 
