@@ -3,7 +3,7 @@ import { runCli, initBeforeTest } from './utils';
 
 initBeforeTest();
 
-describe('normalize config', () => {
+describe.skip('normalize config', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
