@@ -127,7 +127,7 @@
     "yargs": "^17.0.1"
   },
   "peerDependencies": {
-    "react": ">=17",
+    "react": ">=18",
     "react-dom": ">=17",
     "@modern-js/runtime": "workspace:^1.19.0"
   },
@@ -137,8 +137,8 @@
     }
   },
   "devDependencies": {
-    "react": "^17",
-    "react-dom": "^17",
+    "react": "^18",
+    "react-dom": "^18",
     "@modern-js/core": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/bff-core": "workspace:*",

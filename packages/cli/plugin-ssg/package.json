@@ -79,7 +79,7 @@
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "react": "^17",
+    "react": "^18",
     "typescript": "^4",
     "jest": "^27"
   },
