@@ -5,6 +5,7 @@ export type {
   BuilderMode,
   BuilderEntry,
   BuilderTarget,
+  BuilderPlugin,
   BuilderContext,
   BuilderInstance,
   CreateBuilderOptions,

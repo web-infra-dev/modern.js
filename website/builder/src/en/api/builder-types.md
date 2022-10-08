@@ -26,6 +26,20 @@ import { BuilderContext } from '@modern-js/builder';
 const context: BuilderContext = builder.context;
 ```
 
+## BuilderPlugin
+
+The type of Builder plugin, should be used with the `BuilderPluginAPI` type exported from the provider.
+
+```ts
+import { BuilderPlugin } from '@modern-js/builder';
+import { BuilderPluginAPI } from '@modern-js/webpack-build-provider';
+
+const myPlugin: BuilderPlugin<BuilderPluginAPI> = {
+  name: 'my-plugin',
+  setup() {},
+};
+```
+
 ## BuilderTarget
 
 The type of build target.

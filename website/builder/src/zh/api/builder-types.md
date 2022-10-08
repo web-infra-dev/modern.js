@@ -26,6 +26,20 @@ import { BuilderContext } from '@modern-js/builder';
 const context: BuilderContext = builder.context;
 ```
 
+## BuilderPlugin
+
+Builder 插件的类型，需要配合 provider 中提供的 `BuilderPluginAPI` 类型来使用。
+
+```ts
+import { BuilderPlugin } from '@modern-js/builder';
+import { BuilderPluginAPI } from '@modern-js/webpack-build-provider';
+
+const myPlugin: BuilderPlugin<BuilderPluginAPI> = {
+  name: 'my-plugin',
+  setup() {},
+};
+```
+
 ## BuilderTarget
 
 Builder 构建产物的类型。

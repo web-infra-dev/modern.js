@@ -2,7 +2,9 @@ import { join } from 'path';
 
 export const createBuilder = async () => {
   const { createBuilder } = await import('@modern-js/builder');
-  const { webpackBuildProvider } = await import('@modern-js/webpack-builder');
+  const { webpackBuildProvider } = await import(
+    '@modern-js/webpack-build-provider'
+  );
 
   const builderProvider = webpackBuildProvider({
     builderConfig: {
