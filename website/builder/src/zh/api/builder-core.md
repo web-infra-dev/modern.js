@@ -10,7 +10,7 @@ extractApiHeaders: [2]
 
 创建一个 Builder 实例对象。
 
-使用该方法时，需要搭配 `@modern-js/builder-webpack-provider` 或 `@modern-js/builder-rspack-provider` 提供的 provider 使用。provider 提供了与特定 bundler 相关的构建逻辑。
+使用该方法时，需要搭配 `@modern-js/builder-webpack-provider` 或 `@modern-js/builder-rspack-provider` 使用，Provider 基于特定 bundler 实现了对应的构建能力。
 
 ### webpack provider
 

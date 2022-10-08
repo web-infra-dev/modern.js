@@ -16,7 +16,7 @@ Builder 比 Bundler 的封装程度更高，默认集成代码转换、代码压
 
 ## Builder Provider
 
-Builder Provider 是 Builder 的组成部分之一，Provider 提供了与特定 bundler 相关的构建逻辑。
+Builder Provider 是 Builder 的组成部分之一，Provider 基于特定 bundler 实现了对应的构建能力。
 
 比如：
 

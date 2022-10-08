@@ -10,7 +10,7 @@ This section describes some of the core methods provided by Builder.
 
 Create a Builder instance object.
 
-When using this method, it needs to be used with the provider provided by `@modern-js/builder-webpack-provider` or `@modern-js/builder-rspack-provider`. The provider contains build logic related to a specific bundler.
+When using this method, it needs to be used with the `@modern-js/builder-webpack-provider` or `@modern-js/builder-rspack-provider`. Providers implements corresponding build feature based on specific bundlers.
 
 ### Provider for webpack
 
