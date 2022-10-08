@@ -1,6 +1,7 @@
 - Type: `Object`
 - Default: `{}`
 
+<<<<<<< HEAD
 通过 `tools.devServer` 可以修改开发环境服务器的配置。
 
 ### 选项
@@ -114,6 +115,18 @@ export default {
   },
 };
 ```
+=======
+通过 `tools.devServer` 可以修改 DevServer 的配置。
+
+### Object 类型
+
+#### hot
+
+- Type: `boolean`
+- Default: `true`
+
+是否开启 Hot Module Replacement 热更新能力。
+>>>>>>> 66e48174c (feat: support devServer.historyApiFallback (#1799))
 
 #### historyApiFallback
 
@@ -134,6 +147,7 @@ export default {
 
 更多选项和详细信息可参考 [connect-history-api-fallback](https://github.com/bripkens/connect-history-api-fallback) 文档。
 
+<<<<<<< HEAD
 #### hot
 
 - Type: `boolean`
@@ -350,3 +364,6 @@ export default {
 - Default: `true`
 
 是否监听 `mock/`、`server/`、`api/` 等目录的文件变化。
+=======
+#### TODO
+>>>>>>> 66e48174c (feat: support devServer.historyApiFallback (#1799))
