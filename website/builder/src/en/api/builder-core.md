@@ -109,6 +109,8 @@ function mergeBuilderConfig(...configs: BuilderConfig[]): BuilderConfig;
 - **Example**
 
 ```ts
+import { mergeBuilderConfig } from '@modern-js/builder';
+
 const config1 = {
   dev: {
     https: false,
