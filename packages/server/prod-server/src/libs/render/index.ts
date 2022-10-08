@@ -61,7 +61,10 @@ export const createRenderHandler = ({
         );
         return result;
       } catch (err) {
-        ctx.error(ERROR_DIGEST.ERENDER, (err as Error).stack);
+        ctx.error(
+          ERROR_DIGEST.ERENDER,
+          (err as Error).stack || (err as Error).message,
+        );
         ctx.res.setHeader('x-modern-ssr-fallback', '1');
       }
     }
