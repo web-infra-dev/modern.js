@@ -2506,6 +2506,7 @@ importers:
       devcert: ^1.2.2
       jest: ^27
       minimatch: ^3.0.4
+      node-mocks-http: ^1.11.0
       path-to-regexp: ^6.2.0
       ts-node: ^10.1.0
       tsconfig-paths: 3.14.1
@@ -2534,6 +2535,7 @@ importers:
       '@types/node': 14.18.21
       '@types/ws': 7.4.7
       jest: 27.5.1_ts-node@10.8.1
+      node-mocks-http: 1.11.0
       ts-node: 10.8.1_ah2igguqgj6e7ik4ubgohitm4e
       tsconfig-paths: 3.14.1
       typescript: 4.7.4
@@ -12474,10 +12476,8 @@ packages:
       ajv: 6.12.6
     dev: false
 
-  /ajv-formats/2.1.1_ajv@8.11.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -27448,7 +27448,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1_ajv@8.11.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
