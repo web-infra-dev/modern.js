@@ -78,7 +78,7 @@
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@pmmmwh/react-refresh-webpack-plugin": "0.5.5",
+    "@modern-js/react-refresh-webpack-plugin": "0.5.8",
     "@svgr/webpack": "6.2.1",
     "@types/mini-css-extract-plugin": "2.2.0",
     "caniuse-lite": "^1.0.30001332",
