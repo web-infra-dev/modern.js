@@ -22,12 +22,10 @@ export interface HtmlConfig {
   templateParameters?:
     | Record<string, unknown>
     | ChainedConfig<Record<string, unknown>>;
-  templateParametersByEntries?: Partial<
-    | Record<
-        string,
-        Record<string, unknown> | ChainedConfig<Record<string, unknown>>
-      >
-    | HTMLPluginOptions['templateParameters']
+  templateParametersByEntries?: Record<
+    string,
+    | Record<string, unknown>
     | ChainedConfig<Record<string, unknown>>
+    | HTMLPluginOptions['templateParameters']
   >;
 }
