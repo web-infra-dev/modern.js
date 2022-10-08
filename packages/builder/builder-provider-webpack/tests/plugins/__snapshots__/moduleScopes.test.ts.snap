@@ -6,11 +6,11 @@ exports[`plugins/moduleScopes > should set entry correctly 1`] = `
     "plugins": [
       ModuleScopePlugin {
         "allowedDirs": [
-          "<ROOT>/packages/builder/webpack-build-provider/src/foo.ts",
-          "<ROOT>/packages/builder/webpack-build-provider/src/bar.ts",
+          "<ROOT>/packages/builder/builder-provider-webpack/src/foo.ts",
+          "<ROOT>/packages/builder/builder-provider-webpack/src/bar.ts",
         ],
         "allowedFiles": Set {
-          "<ROOT>/packages/builder/webpack-build-provider/package.json",
+          "<ROOT>/packages/builder/builder-provider-webpack/package.json",
         },
         "allowedPatterns": [],
         "cache": Map {},
@@ -19,8 +19,8 @@ exports[`plugins/moduleScopes > should set entry correctly 1`] = `
           "bar.ts/",
         ],
         "scopes": [
-          "<ROOT>/packages/builder/webpack-build-provider/src/foo.ts",
-          "<ROOT>/packages/builder/webpack-build-provider/src/bar.ts",
+          "<ROOT>/packages/builder/builder-provider-webpack/src/foo.ts",
+          "<ROOT>/packages/builder/builder-provider-webpack/src/bar.ts",
         ],
       },
     ],

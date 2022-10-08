@@ -10,7 +10,7 @@ extractApiHeaders: [2]
 
 创建一个 Builder 实例对象。
 
-使用该方法时，需要搭配 `@modern-js/webpack-build-provider` 或 `@modern-js/rspack-builder` 提供的 provider 使用。provider 提供了与特定 bundler 相关的构建逻辑。
+使用该方法时，需要搭配 `@modern-js/builder-provider-webpack` 或 `@modern-js/rspack-builder` 提供的 provider 使用。provider 提供了与特定 bundler 相关的构建逻辑。
 
 ### webpack provider
 
@@ -18,7 +18,7 @@ extractApiHeaders: [2]
 
 ```ts
 import { createBuilder } from '@modern-js/builder';
-import { webpackBuildProvider } from '@modern-js/webpack-build-provider';
+import { webpackBuildProvider } from '@modern-js/builder-provider-webpack';
 
 const provider = webpackBuildProvider({
   builderConfig: {
@@ -134,7 +134,7 @@ webpack 对象，用于消费 webpack 内置插件或类型定义。
 - **Example**
 
 ```ts
-import webpack from '@modern-js/webpack-build-provider/webpack';
+import webpack from '@modern-js/builder-provider-webpack/webpack';
 
 new webpack.DefinePlugin();
 ```
@@ -148,7 +148,7 @@ HtmlWebpackPlugin 对象，通常用于实现 HtmlWebpackPlugin 的自定义插�
 - **Example**
 
 ```ts
-import HtmlWebpackPlugin from '@modern-js/webpack-build-provider/html-webpack-plugin';
+import HtmlWebpackPlugin from '@modern-js/builder-provider-webpack/html-webpack-plugin';
 ```
 
 > 大部分场景下，推荐从 Builder 中引用 HtmlWebpackPlugin 对象，而不是手动安装一份 "html-webpack-plugin" 依赖，这样可以避免出现多实例问题。

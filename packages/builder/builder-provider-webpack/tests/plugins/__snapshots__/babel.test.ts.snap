@@ -3,7 +3,7 @@
 exports[`plugins/babel > should add core-js-entry when output.polyfill is entry 1`] = `
 {
   "main": [
-    "<ROOT>/packages/builder/webpack-build-provider/src/runtime/core-js-entry.js",
+    "<ROOT>/packages/builder/builder-provider-webpack/src/runtime/core-js-entry.js",
     "index.js",
   ],
 }
@@ -17,18 +17,18 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/webpack-build-provider",
+              "<ROOT>/packages/builder/builder-provider-webpack",
               {
                 "not": /node_modules/,
               },
             ],
           },
-          "<ROOT>/packages/builder/webpack-build-provider/src/runtime/core-js-entry.js",
+          "<ROOT>/packages/builder/builder-provider-webpack/src/runtime/core-js-entry.js",
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/webpack-build-provider/compiled/babel-loader",
+            "loader": "<ROOT>/packages/builder/builder-provider-webpack/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -175,7 +175,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
         },
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/webpack-build-provider/compiled/babel-loader",
+            "loader": "<ROOT>/packages/builder/builder-provider-webpack/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -334,18 +334,18 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/webpack-build-provider",
+              "<ROOT>/packages/builder/builder-provider-webpack",
               {
                 "not": /node_modules/,
               },
             ],
           },
-          "<ROOT>/packages/builder/webpack-build-provider/src/runtime/core-js-entry.js",
+          "<ROOT>/packages/builder/builder-provider-webpack/src/runtime/core-js-entry.js",
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/webpack-build-provider/compiled/babel-loader",
+            "loader": "<ROOT>/packages/builder/builder-provider-webpack/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -494,18 +494,18 @@ exports[`plugins/babel > should set babel-loader 1`] = `
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/webpack-build-provider",
+              "<ROOT>/packages/builder/builder-provider-webpack",
               {
                 "not": /node_modules/,
               },
             ],
           },
-          "<ROOT>/packages/builder/webpack-build-provider/src/runtime/core-js-entry.js",
+          "<ROOT>/packages/builder/builder-provider-webpack/src/runtime/core-js-entry.js",
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/webpack-build-provider/compiled/babel-loader",
+            "loader": "<ROOT>/packages/builder/builder-provider-webpack/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -659,19 +659,19 @@ exports[`plugins/babel > should set include/exclude 1`] = `
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/webpack-build-provider",
+              "<ROOT>/packages/builder/builder-provider-webpack",
               {
                 "not": /node_modules/,
               },
             ],
           },
-          "<ROOT>/packages/builder/webpack-build-provider/src/runtime/core-js-entry.js",
+          "<ROOT>/packages/builder/builder-provider-webpack/src/runtime/core-js-entry.js",
           "src/**/*.ts",
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/webpack-build-provider/compiled/babel-loader",
+            "loader": "<ROOT>/packages/builder/builder-provider-webpack/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,

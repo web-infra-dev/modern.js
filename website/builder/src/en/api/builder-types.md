@@ -32,7 +32,7 @@ The type of Builder plugin, should be used with the `BuilderPluginAPI` type expo
 
 ```ts
 import { BuilderPlugin } from '@modern-js/builder';
-import { BuilderPluginAPI } from '@modern-js/webpack-build-provider';
+import { BuilderPluginAPI } from '@modern-js/builder-provider-webpack';
 
 const myPlugin: BuilderPlugin<BuilderPluginAPI> = {
   name: 'my-plugin',

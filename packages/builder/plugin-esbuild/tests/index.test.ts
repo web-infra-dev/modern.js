@@ -1,5 +1,5 @@
 import { expect, describe, it } from 'vitest';
-import { createStubBuilder } from '@modern-js/webpack-build-provider/stub';
+import { createStubBuilder } from '@modern-js/builder-provider-webpack/stub';
 import { PluginEsbuild } from '../src';
 
 describe('plugins/esbuild', () => {

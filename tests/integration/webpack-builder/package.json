@@ -6,14 +6,14 @@
     "dev": "pnpm build:libs && node ./scripts/dist/dev.js",
     "build": "pnpm build:libs && node ./scripts/dist/build.js",
     "watch": "pnpm build:libs && node ./scripts/dist/watch.js",
-    "build:libs": "pnpm --filter @modern-js/builder... run build && pnpm --filter @modern-js/webpack-build-provider run build && pnpm build:script",
+    "build:libs": "pnpm --filter @modern-js/builder... run build && pnpm --filter @modern-js/builder-provider-webpack run build && pnpm build:script",
     "build:script": "wireit",
     "inspect": "pnpm build:libs && node ./scripts/dist/inspect.js"
   },
   "dependencies": {
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-plugin-esbuild": "workspace:*",
-    "@modern-js/webpack-build-provider": "workspace:*",
+    "@modern-js/builder-provider-webpack": "workspace:*",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },

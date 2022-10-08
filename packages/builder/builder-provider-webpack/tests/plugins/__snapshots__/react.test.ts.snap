@@ -8,18 +8,18 @@ exports[`plugins/react > should work with babel-loader 1`] = `
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/webpack-build-provider",
+              "<ROOT>/packages/builder/builder-provider-webpack",
               {
                 "not": /node_modules/,
               },
             ],
           },
-          "<ROOT>/packages/builder/webpack-build-provider/src/runtime/core-js-entry.js",
+          "<ROOT>/packages/builder/builder-provider-webpack/src/runtime/core-js-entry.js",
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/packages/builder/webpack-build-provider/compiled/babel-loader",
+            "loader": "<ROOT>/packages/builder/builder-provider-webpack/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -182,13 +182,13 @@ exports[`plugins/react > should work with ts-loader 1`] = `
         "include": [
           {
             "and": [
-              "<ROOT>/packages/builder/webpack-build-provider",
+              "<ROOT>/packages/builder/builder-provider-webpack",
               {
                 "not": /node_modules/,
               },
             ],
           },
-          "<ROOT>/packages/builder/webpack-build-provider/src/runtime/core-js-entry.js",
+          "<ROOT>/packages/builder/builder-provider-webpack/src/runtime/core-js-entry.js",
         ],
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
@@ -202,7 +202,7 @@ exports[`plugins/react > should work with ts-loader 1`] = `
                 [
                   "<ROOT>/packages/cli/babel-preset-app/dist/js/node/index.js",
                   {
-                    "appDirectory": "<ROOT>/packages/builder/webpack-build-provider",
+                    "appDirectory": "<ROOT>/packages/builder/builder-provider-webpack",
                     "metaName": "modern-js",
                     "target": "client",
                     "useBuiltIns": "entry",
