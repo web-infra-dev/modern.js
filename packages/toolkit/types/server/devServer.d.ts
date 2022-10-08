@@ -34,7 +34,7 @@ export type DevServerOptions = {
   liveReload?: boolean;
   /** Whether to enable https. */
   https?: DevServerHttpsOptions;
-  [propName: string]: any;
+  /** see https://github.com/bripkens/connect-history-api-fallback */
   historyApiFallback?: {
     index?: string;
     verbose?: boolean;
@@ -46,4 +46,5 @@ export type DevServerOptions = {
       to: string | RegExp | function;
     }>;
   };
+  [propName: string]: any;
 };
