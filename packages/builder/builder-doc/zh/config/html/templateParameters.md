@@ -1,4 +1,4 @@
-- Type: `Record<string, Record<string, unknown>>`
+- Type: `Object | Function`
 - Default:
 
 ```ts
@@ -20,11 +20,39 @@ type DefaultParameters = {
 };
 ```
 
-定义 HTML 模板中的参数，对应 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 的 `templateParameters` 配置项。
+定义 HTML 模板中的参数，对应 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 的 `templateParameters` 配置项。你可以使用配置为对象或者函数。
+
+如果是对象，会和默认参数合并。比如：
+
+```ts
+export default {
+  html: {
+    templateParameters: {
+      title: 'My App',
+    },
+  },
+};
+```
+
+如果是函数，会传入默认参数，你可以返回一个对象，用于覆盖默认参数。比如：
+
+```ts
+export default {
+  html: {
+    templateParameters: (defaultParameters) => {
+      console.log(defaultParameters.compilation);
+      console.log(defaultParameters.title);
+      return {
+        title: 'My App',
+      };
+    },
+  },
+};
+```
 
 #### 示例
 
-需要在 HTML 模板中使用 `foo` 参数，可以添加如下设置：
+如果需要在 HTML 模板中使用 `foo` 参数，可以添加如下设置：
 
 ```js
 export default {
@@ -36,7 +64,21 @@ export default {
 };
 ```
 
-在 HTML 模板中，通过 `<%= foo %>` 来读取参数：
+或者使用函数配置：
+
+```js
+export default {
+  html: {
+    templateParameters: (defaultParameters) => {
+      return {
+        foo: 'bar',
+      };
+    },
+  },
+};
+```
+
+接下来，你可以在 HTML 模板中，通过 `<%= foo %>` 来读取参数：
 
 ```js
 <script>window.foo = '<%= foo %>'</script>
