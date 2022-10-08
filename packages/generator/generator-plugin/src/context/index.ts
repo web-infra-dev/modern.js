@@ -29,6 +29,7 @@ export interface IPluginContext {
   addOptionBefore: (key: string, optionKey: string, option: IOption) => void;
   addOptionAfter: (key: string, optionKey: string, option: IOption) => void;
   setInputValue: (value: Record<string, unknown>) => void;
+  setDefaultConfig: (value: Record<string, unknown>) => void;
   isFileExit: (fileName: string) => Promise<boolean>;
   readDir: (dir: string) => Promise<string[]>;
   setGitMessage: (gitMessage: string) => void;
