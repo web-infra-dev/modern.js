@@ -11,7 +11,7 @@ const PLUGIN_IDENTIFIER = 'router';
 const ROUTES_IDENTIFIER = 'routes';
 
 export default (): CliPlugin => ({
-  name: '@modern-js/plugin-router',
+  name: '@modern-js/plugin-router-legacy',
   required: ['@modern-js/runtime'],
   setup: api => {
     const runtimeConfigMap = new Map<string, any>();
