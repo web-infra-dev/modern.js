@@ -10,7 +10,7 @@ import {
   AGGRED_DIR,
   BuildOptions,
 } from '@modern-js/prod-server';
-import type { ModernServerContext } from '@modern-js/types';
+import type { ModernServerContext, RequestHandler } from '@modern-js/types';
 import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import { enableRegister } from '../dev-tools/register';
@@ -127,6 +127,21 @@ export class ModernDevServer extends ModernServer {
         next();
       }
     });
+
+    if (dev.historyApiFallback) {
+      const { default: connectHistoryApiFallback } = await import(
+        'connect-history-api-fallback'
+      );
+
+      const historyApiFallbackMiddleware = connectHistoryApiFallback(
+        typeof dev.historyApiFallback === 'boolean'
+          ? {}
+          : dev.historyApiFallback,
+      ) as RequestHandler;
+      this.addHandler((ctx, next) =>
+        historyApiFallbackMiddleware(ctx.req, ctx.res, next),
+      );
+    }
 
     // after dev handler
     const afterHandlers = await this.setupAfterDevMiddleware();
