@@ -2,7 +2,7 @@ import { CHAIN_ID } from '@modern-js/utils';
 import type { ChainUtils } from '../shared';
 
 export function applyReactRefreshPlugin({ chain }: ChainUtils) {
-  const ReactFastRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+  const ReactFastRefreshPlugin = require('@modern-js/react-refresh-webpack-plugin');
 
   chain.plugin(CHAIN_ID.PLUGIN.REACT_FAST_REFRESH).use(ReactFastRefreshPlugin, [
     {
