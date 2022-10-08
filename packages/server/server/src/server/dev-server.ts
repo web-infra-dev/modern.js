@@ -41,6 +41,7 @@ export class ModernDevServer extends ModernServer {
       dev: this.dev,
       compiler: options.compiler,
       config: this.conf,
+      devMiddleware: options.devMiddleware,
     });
 
     enableRegister(this.pwd, this.conf);
