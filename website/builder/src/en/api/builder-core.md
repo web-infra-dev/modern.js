@@ -12,7 +12,7 @@ Create a Builder instance object.
 
 When using this method, it needs to be used with the `@modern-js/builder-webpack-provider` or `@modern-js/builder-rspack-provider`. Providers implements corresponding build feature based on specific bundlers.
 
-### Provider for webpack
+### Webpack Provider
 
 When `builderWebpackProvider` is passed, the Builder will use webpack as the bundler for building.
 
@@ -31,7 +31,7 @@ const builder = await createBuilder(provider, {
 });
 ```
 
-### Provider for rspack
+### Rspack Provider
 
 When `builderRspackProvider` is passed, the Builder will use rspack as the bundler for building.
 

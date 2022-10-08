@@ -12,7 +12,7 @@ extractApiHeaders: [2]
 
 使用该方法时，需要搭配 `@modern-js/builder-webpack-provider` 或 `@modern-js/builder-rspack-provider` 使用，Provider 基于特定 bundler 实现了对应的构建能力。
 
-### webpack provider
+### Webpack Provider
 
 当传入 `builderWebpackProvider` 时，Builder 会使用 webpack 作为 bundler 进行构建。
 
@@ -31,7 +31,7 @@ const builder = await createBuilder(provider, {
 });
 ```
 
-### rspack provider
+### Rspack Provider
 
 当传入 `builderRspackProvider` 时，Builder 会使用 rspack 作为 bundler 进行构建。
 
