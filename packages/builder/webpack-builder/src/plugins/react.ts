@@ -20,7 +20,7 @@ export const PluginReact = (): BuilderPlugin => ({
         ...options,
         plugins: [
           ...(options.plugins || []),
-          require.resolve('react-refresh/babel'),
+          [require.resolve('react-refresh/babel'), { skipEnvCheck: true }],
         ],
       }));
 
