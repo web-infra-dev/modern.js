@@ -77,7 +77,7 @@ export async function stringifyWebpackConfig({
   return formattedConfigs;
 }
 
-export async function inspectWebpackConfig({
+export async function inspectBundlerConfig({
   context,
   pluginStore,
   builderOptions,

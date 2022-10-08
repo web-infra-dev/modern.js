@@ -198,11 +198,12 @@ export function getPackageNameFromModulePath(modulePath: string) {
   return packageName;
 }
 
-export const mergeBuilderConfig = <T>(...configs: T[]): T =>
-  _.mergeWith({}, ...configs, (target: unknown, source: unknown) => {
+export const mergeBuilderConfig = <T>(config: T, ...sources: T[]): T =>
+  _.mergeWith(config, ...sources, (target: unknown, source: unknown) => {
     const pair = [target, source];
     if (pair.some(_.isUndefined)) {
-      return pair.find(_.negate(_.isUndefined));
+      // fallback to lodash default merge behavior
+      return undefined;
     }
     if (pair.some(_.isArray)) {
       return [..._.castArray(target), ..._.castArray(source)];
