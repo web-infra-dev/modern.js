@@ -31,7 +31,9 @@ export interface IInput {
   validate?: SchemaValidateType;
 }
 export class PluginInputContext {
-  inputValue: Record<string, unknown> = {};
+  inputValue: Record<string, unknown> = {}; // 插件输入默认值
+
+  defaultConfig: Record<string, unknown> = {}; // 当前插件增加参数的默认值
 
   private readonly inputs: Schema[] = []; // initial input info
 
@@ -60,6 +62,7 @@ export class PluginInputContext {
       addOptionBefore: this.addOptionBefore.bind(this),
       addOptionAfter: this.addOptionAfter.bind(this),
       setInputValue: this.setInputValue.bind(this),
+      setDefaultConfig: this.setDefualtConfig.bind(this),
     };
   }
 
@@ -360,5 +363,9 @@ export class PluginInputContext {
 
   setInputValue(value: Record<string, unknown>) {
     this.inputValue = value;
+  }
+
+  setDefualtConfig(value: Record<string, unknown>) {
+    this.defaultConfig = value;
   }
 }
