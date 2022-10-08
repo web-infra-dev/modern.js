@@ -1,11 +1,13 @@
-import { Server, IncomingMessage, ServerResponse } from 'http';
+import { Server } from 'http';
 import { EventEmitter } from 'events';
 import { Compiler, MultiCompiler } from 'webpack';
-import webpackDevMiddleware, {
-  Headers,
-} from '@modern-js/utils/webpack-dev-middleware';
+import webpackDevMiddleware from '@modern-js/utils/webpack-dev-middleware';
 import type { NormalizedConfig } from '@modern-js/core';
-import { DevServerOptions } from '../../types';
+import {
+  DevServerOptions,
+  DevMiddlewareAPI,
+  CustomDevMiddleware,
+} from '../../types';
 import DevServerPlugin from './dev-server-plugin';
 import SocketServer from './socket-server';
 
@@ -13,6 +15,7 @@ type Options = {
   compiler: MultiCompiler | Compiler | null;
   dev: DevServerOptions;
   config: NormalizedConfig;
+  devMiddleware?: CustomDevMiddleware;
 };
 
 const noop = () => {
@@ -20,7 +23,7 @@ const noop = () => {
 };
 
 export default class DevMiddleware extends EventEmitter {
-  public middleware?: webpackDevMiddleware.API<IncomingMessage, ServerResponse>;
+  public middleware?: DevMiddlewareAPI;
 
   private compiler: MultiCompiler | Compiler | null;
 
@@ -30,7 +33,7 @@ export default class DevMiddleware extends EventEmitter {
 
   private config: NormalizedConfig;
 
-  constructor({ compiler, dev, config }: Options) {
+  constructor({ compiler, dev, config, devMiddleware }: Options) {
     super();
 
     this.compiler = compiler;
@@ -48,7 +51,7 @@ export default class DevMiddleware extends EventEmitter {
       // register hooks for each compilation, update socket stats if recompiled
       this.setupHooks();
       // start dev middleware
-      this.middleware = this.setupDevMiddleware();
+      this.middleware = this.setupDevMiddleware(devMiddleware);
     }
   }
 
@@ -105,13 +108,13 @@ export default class DevMiddleware extends EventEmitter {
     }
   }
 
-  private setupDevMiddleware() {
+  private setupDevMiddleware(
+    devMiddleware: CustomDevMiddleware = webpackDevMiddleware,
+  ) {
     const { config, devOptions } = this;
-    const middleware = webpackDevMiddleware(this.compiler!, {
-      headers: config.tools?.devServer?.headers as Headers<
-        IncomingMessage,
-        ServerResponse
-      >,
+
+    const middleware = devMiddleware(this.compiler!, {
+      headers: config.tools?.devServer?.headers,
       stats: false,
       ...devOptions.devMiddleware,
     });
