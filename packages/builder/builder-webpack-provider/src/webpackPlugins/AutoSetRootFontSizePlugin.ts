@@ -63,12 +63,12 @@ export class AutoSetRootFontSizePlugin implements WebpackPluginInstance {
   apply(complier: Compiler) {
     const isCompress = process.env.NODE_ENV === 'production';
 
-    const rootPixelCode = getRootPixelCode(this.options, isCompress);
+    let rootPixelCode: string | undefined;
 
     complier.hooks.compilation.tap(this.name, compilation => {
-      HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync(
+      HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapPromise(
         this.name,
-        (htmlPluginData, callback) => {
+        async htmlPluginData => {
           const isExclude = this.options.excludeEntries.find((item: string) => {
             if (!this.webpackEntries.includes(item)) {
               logger.error(`Can't find the entryName: ${item}`);
@@ -82,6 +82,9 @@ export class AutoSetRootFontSizePlugin implements WebpackPluginInstance {
             return reg.test(htmlPluginData.outputName);
           });
 
+          rootPixelCode =
+            rootPixelCode || (await getRootPixelCode(this.options, isCompress));
+
           if (!isExclude) {
             htmlPluginData.html = htmlPluginData.html.replace(
               /(<body[^>]*>)/i,
@@ -89,7 +92,7 @@ export class AutoSetRootFontSizePlugin implements WebpackPluginInstance {
             );
           }
 
-          callback(null, htmlPluginData);
+          return htmlPluginData;
         },
       );
     });
