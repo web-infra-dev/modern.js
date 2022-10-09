@@ -1718,9 +1718,9 @@ importers:
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@testing-library/jest-dom': ^5.16.1
-      '@testing-library/react': ^12.0.0
-      '@testing-library/react-hooks': ^7.0.1
-      '@testing-library/user-event': ^13.5.0
+      '@testing-library/react': ^13.4.0
+      '@testing-library/react-hooks': ^8.0.1
+      '@testing-library/user-event': ^14.4.3
       '@types/debug': ^4.1.7
       '@types/jest': ^27
       '@types/node': ^14
@@ -1753,9 +1753,9 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@testing-library/jest-dom': 5.16.4
-      '@testing-library/react': 12.1.5_biqbaboplfbrettd7655fr4n2y
-      '@testing-library/react-hooks': 7.0.2_biqbaboplfbrettd7655fr4n2y
-      '@testing-library/user-event': 13.5.0
+      '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
+      '@testing-library/react-hooks': 8.0.1_biqbaboplfbrettd7655fr4n2y
+      '@testing-library/user-event': 14.4.3
       '@types/jest': 27.5.2
       '@types/node': 14.18.21
       '@types/testing-library__jest-dom': 5.14.5
@@ -1787,8 +1787,8 @@ importers:
       '@modern-js/webpack': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@testing-library/react': ^12.0.0
-      '@testing-library/react-hooks': ^7.0.1
+      '@testing-library/react': ^13.4.0
+      '@testing-library/react-hooks': ^8.0.1
       '@types/history': ^4.7.9
       '@types/invariant': ^2.2.30
       '@types/jest': ^27
@@ -1852,8 +1852,8 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@testing-library/react': 12.1.5_biqbaboplfbrettd7655fr4n2y
-      '@testing-library/react-hooks': 7.0.2_biqbaboplfbrettd7655fr4n2y
+      '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
+      '@testing-library/react-hooks': 8.0.1_biqbaboplfbrettd7655fr4n2y
       '@types/invariant': 2.2.35
       '@types/jest': 27.5.2
       '@types/loadable__webpack-plugin': 5.7.3
@@ -1883,12 +1883,13 @@ importers:
       '@modern-js/plugin': workspace:*
       '@modern-js/prod-server': workspace:*
       '@modern-js/runtime': workspace:*
+      '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
       '@modern-js/webpack': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@testing-library/jest-dom': ^5.14.1
-      '@testing-library/react': ^12.0.0
+      '@testing-library/react': ^13.4.0
       '@types/jest': ^27
       '@types/node': ^14
       '@types/supertest': ^2.0.11
@@ -1921,7 +1922,7 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@modern-js/webpack': link:../../cli/webpack
       '@testing-library/jest-dom': 5.16.4
-      '@testing-library/react': 12.1.5_biqbaboplfbrettd7655fr4n2y
+      '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
       '@types/testing-library__jest-dom': 5.14.5
       babel-jest: 27.5.1_@babel+core@7.18.6
       enhanced-resolve: 5.10.0
@@ -1937,6 +1938,7 @@ importers:
       '@modern-js/bff-core': link:../../server/bff-core
       '@modern-js/core': link:../../cli/core
       '@modern-js/runtime': link:../plugin-runtime
+      '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 27.5.2
@@ -11056,34 +11058,34 @@ packages:
       lodash: 4.17.21
       redent: 3.0.0
 
-  /@testing-library/react-hooks/7.0.2_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-dYxpz8u9m4q1TuzfcUApqi8iFfR6R0FaMbr2hjZJy1uC8z+bO/K4v8Gs9eogGKYQop7QsrBTFkv/BCF7MzD2Cg==}
+  /@testing-library/react-hooks/8.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-Aqhl2IVmLt8IovEVarNDFuJDVWVvhnr9/GCU6UUnrYXwgDFF9h2L2o2P9KBni1AST5sT6riAyoukFLyjQUgD/g==}
     engines: {node: '>=12'}
     peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-      react-test-renderer: '>=16.9.0'
+      '@types/react': ^16.9.0 || ^17.0.0
+      react: ^16.9.0 || ^17.0.0
+      react-dom: ^16.9.0 || ^17.0.0
+      react-test-renderer: ^16.9.0 || ^17.0.0
     peerDependenciesMeta:
+      '@types/react':
+        optional: true
       react-dom:
         optional: true
       react-test-renderer:
         optional: true
     dependencies:
       '@babel/runtime': 7.18.6
-      '@types/react': 18.0.21
-      '@types/react-dom': 18.0.6
-      '@types/react-test-renderer': 18.0.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-error-boundary: 3.1.4_react@18.2.0
     dev: true
 
-  /@testing-library/react/12.1.5_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-OfTXCJUFgjd/digLUuPxa0+/3ZxsQmE7ub9kcbW/wi96Bh3o/p5vrETcBGfP17NWPGqeYYl5LTRpwyGoMC4ysg==}
+  /@testing-library/react/13.4.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-sXOGON+WNTh3MLE9rve97ftaZukN3oNf2KjDy7YTx6hcTO2uuLHuCGynMDhFwGw/jYf4OJ2Qk0i4i79qMNNkyw==}
     engines: {node: '>=12'}
     peerDependencies:
-      react: <18.0.0
-      react-dom: <18.0.0
+      react: ^18.0.0
+      react-dom: ^18.0.0
     dependencies:
       '@babel/runtime': 7.18.6
       '@testing-library/dom': 8.14.0
@@ -11091,13 +11093,11 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
 
-  /@testing-library/user-event/13.5.0:
-    resolution: {integrity: sha512-5Kwtbo3Y/NowpkbRuSepbyMFkZmHgD+vPzYB/RJ4oxt5Gj/avFFBYjhw27cqSVPVw/3a67NK1PbiIr9k4Gwmdg==}
-    engines: {node: '>=10', npm: '>=6'}
+  /@testing-library/user-event/14.4.3:
+    resolution: {integrity: sha512-kCUc5MEwaEMakkO5x7aoD+DLi02ehmEM2QCGWvNqAS1dV/fAvORWEjnjsEIvml59M7Y5kCkWN6fCCyPOe8OL6Q==}
+    engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
-    dependencies:
-      '@babel/runtime': 7.18.6
     dev: true
 
   /@tootallnate/once/1.1.2:
@@ -11727,12 +11727,6 @@ packages:
     dependencies:
       '@types/react': 18.0.21
     dev: false
-
-  /@types/react-test-renderer/18.0.0:
-    resolution: {integrity: sha512-C7/5FBJ3g3sqUahguGi03O79b8afNeSD6T8/GU50oQrJCU0bVCCGQHaGKUbg2Ce8VQEEqTw8/HiS6lXHHdgkdQ==}
-    dependencies:
-      '@types/react': 18.0.21
-    dev: true
 
   /@types/react/18.0.21:
     resolution: {integrity: sha512-7QUCOxvFgnD5Jk8ZKlUAhVcRj7GuJRjnjjiY/IUBWKgOlnvDvTMLD4RTF7NPyVmbRhNrbomZiOepg7M/2Kj1mA==}
@@ -12491,8 +12485,10 @@ packages:
       ajv: 6.12.6
     dev: false
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -28045,7 +28041,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
