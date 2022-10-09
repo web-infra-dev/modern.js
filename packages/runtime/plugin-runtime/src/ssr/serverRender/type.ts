@@ -22,8 +22,10 @@ export type ModernSSRReactComponent = React.ComponentType<any> & {
 
 export interface RenderEntry {
   entryName: string;
+  host: string;
   result: RenderResult;
   loadableManifest: string | undefined;
+  config: SSRPluginConfig;
 }
 
 export type RenderHandler = (
@@ -39,4 +41,8 @@ export type RenderResult = {
     js: string;
     css: string;
   };
+};
+
+export type SSRPluginConfig = {
+  crossorigin?: boolean | 'anonymous' | 'use-credentials';
 };

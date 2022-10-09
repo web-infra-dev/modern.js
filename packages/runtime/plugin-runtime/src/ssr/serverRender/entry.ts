@@ -11,6 +11,7 @@ import {
   RenderLevel,
   SSRServerContext,
   RenderResult,
+  SSRPluginConfig,
 } from './type';
 
 import helmetReplace from './helmet';
@@ -22,6 +23,7 @@ import { time } from './measure';
 type EntryOptions = {
   ctx: SSRServerContext;
   App: ModernSSRReactComponent;
+  config: SSRPluginConfig;
 };
 
 const buildTemplateData = (
@@ -60,12 +62,22 @@ export default class Entry {
 
   private readonly fragments: Fragment[];
 
+  private readonly pluginConfig: SSRPluginConfig;
+
+  private readonly host: string;
+
   constructor(options: EntryOptions) {
-    const { ctx } = options;
-    const { entryName, template: templateHTML } = ctx;
+    const { ctx, config } = options;
+    const {
+      entryName,
+      template: templateHTML,
+      request: { host },
+    } = ctx;
     this.fragments = toFragments(templateHTML);
     this.entryName = entryName;
+    this.host = host;
     this.App = options.App;
+    this.pluginConfig = config;
 
     this.metrics = ctx.metrics;
     this.logger = ctx.logger;
@@ -158,8 +170,10 @@ export default class Entry {
           ssrContext!.distDir,
           LOADABLE_STATS_FILE,
         ),
+        host: this.host,
         result: this.result,
         entryName: this.entryName,
+        config: this.pluginConfig,
       };
       html = reduce(App, renderContext, [
         styledComponentRenderer.toHtml,
