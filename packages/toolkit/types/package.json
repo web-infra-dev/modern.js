@@ -20,6 +20,16 @@
       "default": "./server/index.d.ts"
     }
   },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./index.d.ts"
+      ],
+      "hoist-non-react-statics": [
+        "./packages/hoist-non-react-statics.d.ts"
+      ]
+    }
+  },
   "devDependencies": {
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

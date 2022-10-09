@@ -95,5 +95,11 @@
     "vitest": "0.21.1",
     "execa": "^5.1.1",
     "globby": "^11.0.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "^18",
+      "@types/react-dom": "^18"
+    }
   }
 }
