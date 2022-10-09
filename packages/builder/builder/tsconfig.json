@@ -1,0 +1,13 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "target": "ES2019",
+    "declaration": true,
+    "outDir": "./dist",
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "isolatedModules": true,
+    "paths": {}
+  },
+  "include": ["src", "./shims.d.ts"]
+}

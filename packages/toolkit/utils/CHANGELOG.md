@@ -18,8 +18,8 @@
 
 ### Minor Changes
 
-- 5227370: feat: add webpack-builder plugin subresource-integrity
-  feat: 新增 webpack-builder 插件 subresource-integrity
+- 5227370: feat: add builder plugin subresource-integrity
+  feat: 新增 builder 插件 subresource-integrity
 
 ### Patch Changes
 
@@ -124,7 +124,7 @@
 
 ### Minor Changes
 
-- 7b9067f: add babel plugin for webpack-builder
+- 7b9067f: add babel plugin for builder
 
 ### Patch Changes
 

@@ -1,4 +1,5 @@
-import type { BuilderPlugin } from '@modern-js/webpack-builder';
+import type { BuilderPlugin } from '@modern-js/builder';
+import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import type {
   LoaderOptions,
   MinifyPluginOptions,
@@ -17,9 +18,9 @@ export function PluginEsbuild(
     loader: {},
     minimize: {},
   },
-): BuilderPlugin {
+): BuilderPlugin<BuilderPluginAPI> {
   return {
-    name: 'webpack-builder-plugin-esbuild',
+    name: 'builder-plugin-esbuild',
 
     setup(api) {
       api.modifyWebpackChain(async (chain, { CHAIN_ID, isProd }) => {
