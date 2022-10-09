@@ -138,6 +138,7 @@ importers:
       vitest: 0.21.1_@vitest+ui@0.21.1
       webpack: 5.73.0
 
+<<<<<<< HEAD
   packages/builder/plugin-esbuild:
     specifiers:
       '@modern-js/builder': workspace:*
@@ -202,6 +203,8 @@ importers:
       wireit: 0.7.1
 >>>>>>> d2fbefc5e (feat: support pnpm v7 (#1768))
 
+=======
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
   packages/builder/builder-webpack-provider:
     specifiers:
       '@babel/core': 7.18.0
@@ -338,7 +341,10 @@ importers:
   packages/builder/plugin-esbuild:
     specifiers:
       '@modern-js/builder': workspace:*
+<<<<<<< HEAD
       '@modern-js/builder-shared': workspace:*
+=======
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
@@ -347,7 +353,10 @@ importers:
       vitest: ^0.21.1
       wireit: ^0.7.1
     dependencies:
+<<<<<<< HEAD
       '@modern-js/builder-shared': link:../builder-shared
+=======
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
       esbuild: 0.15.10
     devDependencies:
       '@modern-js/builder': link:../builder
@@ -367,7 +376,11 @@ importers:
       node-libs-browser: 2.2.1
       typescript: 4.7.4
       vitest: ^0.21.1
+<<<<<<< HEAD
       webpack: ^5.74.0
+=======
+      webpack: ^5.71.0
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
       wireit: ^0.7.1
     dependencies:
       node-libs-browser: 2.2.1
@@ -378,7 +391,11 @@ importers:
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       typescript: 4.7.4
       vitest: 0.21.1
+<<<<<<< HEAD
       webpack: 5.74.0
+=======
+      webpack: 5.73.0
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
       wireit: 0.7.1
 
   packages/cli/babel-preset-app:
@@ -4327,9 +4344,12 @@ importers:
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/e2e': workspace:*
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       '@modern-js/builder-webpack-provider': workspace:*
 >>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
+=======
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
       '@types/node': ^14
       '@types/react': ^18
       '@types/react-dom': ^18
@@ -4366,6 +4386,7 @@ importers:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     devDependencies:
+<<<<<<< HEAD
       '@modern-js/builder-shared': link:../../../../packages/builder/builder-shared
       '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
       '@modern-js/e2e': link:../../../../packages/toolkit/e2e
@@ -4373,6 +4394,10 @@ importers:
 =======
       '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
 >>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
+=======
+      '@modern-js/builder-webpack-provider': link:../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../packages/toolkit/e2e
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
       '@types/node': 14.18.21
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -8828,6 +8853,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /@esbuild/linux-loong64/0.15.1:
     resolution: {integrity: sha512-1tORADNFK9QS4KYyUyh3Td9WGrdiI1rSoKvY6A43+9G0kPujBuT4lIGyoK0AweOSO1aRIR28xQUfiJCUa78bUw==}
     engines: {node: '>=12'}
@@ -8837,6 +8863,8 @@ packages:
     dev: false
     optional: true
 
+=======
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
   /@esbuild/linux-loong64/0.15.10:
     resolution: {integrity: sha512-w0Ou3Z83LOYEkwaui2M8VwIp+nLi/NA60lBLMvaJ+vXVMcsARYdEzLNE7RSm4+lSg4zq4d7fAVuzk7PNQ5JFgg==}
     engines: {node: '>=12'}
@@ -16664,8 +16692,10 @@ packages:
       ajv: 6.12.6
     dev: false
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -21595,6 +21625,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-android-64/0.15.1:
     resolution: {integrity: sha512-q5kkJZsgLIkyh5e2ZJl4/kXKIueBKtjVMEihP9WCHadqhH6+F9qiycE7fBwUb/g2B15mYlmMBXjp8VmOT3J2gA==}
     engines: {node: '>=12'}
@@ -21604,6 +21635,8 @@ packages:
     dev: false
     optional: true
 
+=======
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
   /esbuild-android-64/0.15.10:
     resolution: {integrity: sha512-UI7krF8OYO1N7JYTgLT9ML5j4+45ra3amLZKx7LO3lmLt1Ibn8t3aZbX5Pu4BjWiqDuJ3m/hsvhPhK/5Y/YpnA==}
     engines: {node: '>=12'}
@@ -21627,6 +21660,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-android-arm64/0.15.1:
     resolution: {integrity: sha512-IQuZOzqMaFceLlKJJA27CXAdh+Mzh2ZblHMmcNIu/wxb6iX1zgYXlPWle62iHnmNCtfAux1mzQvmNsP9aLhemA==}
     engines: {node: '>=12'}
@@ -21634,6 +21668,14 @@ packages:
     os: [android]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-android-arm64/0.14.7:
+    resolution: {integrity: sha512-9/Q1NC4JErvsXzJKti0NHt+vzKjZOgPIjX/e6kkuCzgfT/GcO3FVBcGIv4HeJG7oMznE6KyKhvLrFgt7CdU2/w==}
+    cpu: [arm64]
+    os: [android]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-android-arm64/0.15.10:
@@ -21659,6 +21701,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-darwin-64/0.15.1:
     resolution: {integrity: sha512-tyouWLyxwM/Y2fy/reuIvAvVB+KVQwuY9IVyV7LH5CGkJYxgtLb8xVEiwHFF8TG2uo9a2fqdgWffados4YA6Aw==}
     engines: {node: '>=12'}
@@ -21666,6 +21709,14 @@ packages:
     os: [darwin]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-darwin-64/0.14.7:
+    resolution: {integrity: sha512-Z9X+3TT/Xj+JiZTVlwHj2P+8GoiSmUnGVz0YZTSt8WTbW3UKw5Pw2ucuJ8VzbD2FPy0jbIKJkko/6CMTQchShQ==}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-darwin-64/0.15.10:
@@ -21691,6 +21742,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-darwin-arm64/0.15.1:
     resolution: {integrity: sha512-fb4V1eB1nir3zJwsS75itsbahkbM71XuqUDJVH8iyBLS8VIQD7MWWAAekea2l9keueGfsn0+wTyDluMT+kg8Cw==}
     engines: {node: '>=12'}
@@ -21698,6 +21750,14 @@ packages:
     os: [darwin]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-darwin-arm64/0.14.7:
+    resolution: {integrity: sha512-68e7COhmwIiLXBEyxUxZSSU0akgv8t3e50e2QOtKdBUE0F6KIRISzFntLe2rYlNqSsjGWsIO6CCc9tQxijjSkw==}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-darwin-arm64/0.15.10:
@@ -21723,6 +21783,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-freebsd-64/0.15.1:
     resolution: {integrity: sha512-1KxEv/FUPlQtUSOjFCwR8FVNEskB5LmkbfW9FNJ7lhpG+4RsLiHWw4Sl2Y1/S+aKX7inyWxLA05zYV6XAzO8DA==}
     engines: {node: '>=12'}
@@ -21730,6 +21791,14 @@ packages:
     os: [freebsd]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-freebsd-64/0.14.7:
+    resolution: {integrity: sha512-76zy5jAjPiXX/S3UvRgG85Bb0wy0zv/J2lel3KtHi4V7GUTBfhNUPt0E5bpSXJ6yMT7iThhnA5rOn+IJiUcslQ==}
+    cpu: [x64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-freebsd-64/0.15.10:
@@ -21755,6 +21824,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-freebsd-arm64/0.15.1:
     resolution: {integrity: sha512-ueUMGSNrcuHwAadioxBdfOCO4+bTVeI68a147BQ/AFFIrf4XJNow4UXxguvQlZO+ZYaVz6EztaL6mHslKie2Rw==}
     engines: {node: '>=12'}
@@ -21762,6 +21832,14 @@ packages:
     os: [freebsd]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-freebsd-arm64/0.14.7:
+    resolution: {integrity: sha512-lSlYNLiqyzd7qCN5CEOmLxn7MhnGHPcu5KuUYOG1i+t5A6q7LgBmfYC9ZHJBoYyow3u4CNu79AWHbvVLpE/VQQ==}
+    cpu: [arm64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-freebsd-arm64/0.15.10:
@@ -21787,6 +21865,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-linux-32/0.15.1:
     resolution: {integrity: sha512-K5WWcN2OZkZ6arFN3+hi1leKc0at9ukKGrXK9Ia94kQOesBphTSmsNK/Gy/AoVoIa0bWrHtxDijS9j9+dz86oA==}
     engines: {node: '>=12'}
@@ -21794,6 +21873,14 @@ packages:
     os: [linux]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-linux-32/0.14.7:
+    resolution: {integrity: sha512-Vk28u409wVOXqTaT6ek0TnfQG4Ty1aWWfiysIaIRERkNLhzLhUf4i+qJBN8mMuGTYOkE40F0Wkbp6m+IidOp2A==}
+    cpu: [ia32]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-linux-32/0.15.10:
@@ -21819,6 +21906,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-linux-64/0.15.1:
     resolution: {integrity: sha512-+haiVm83DfRi9x8M+GgR4f4LtSN8lnEIG8XMGK8/FYpkYNQiKb398GxeHp2yvoMpX8IPvmWCt215tAm5BBNfZQ==}
     engines: {node: '>=12'}
@@ -21826,6 +21914,14 @@ packages:
     os: [linux]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-linux-64/0.14.7:
+    resolution: {integrity: sha512-+Lvz6x+8OkRk3K2RtZwO+0a92jy9si9cUea5Zoru4yJ/6EQm9ENX5seZE0X9DTwk1dxJbjmLsJsd3IoowyzgVg==}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-linux-64/0.15.10:
@@ -21851,6 +21947,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-linux-arm/0.15.1:
     resolution: {integrity: sha512-qjAkEDcFhVNYwG2xgaDg/hA8JABoMvjzAzE6g1K8kR516oNkKbVf6rN68UrsQaV1zq1qR3dbVeMv/Ul2bheppA==}
     engines: {node: '>=12'}
@@ -21858,6 +21955,14 @@ packages:
     os: [linux]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-linux-arm/0.14.7:
+    resolution: {integrity: sha512-OzpXEBogbYdcBqE4uKynuSn5YSetCvK03Qv1HcOY1VN6HmReuatjJ21dCH+YPHSpMEF0afVCnNfffvsGEkxGJQ==}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-linux-arm/0.15.10:
@@ -21883,6 +21988,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-linux-arm64/0.15.1:
     resolution: {integrity: sha512-TP0BCVZEVu/aoVaZe2sn1vpvo63j0LPiH8rvd7AegqOfTwb+mcxLxpgyYwkibafUCMxnIrKdUTsSJeusoMhcLg==}
     engines: {node: '>=12'}
@@ -21890,6 +21996,14 @@ packages:
     os: [linux]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-linux-arm64/0.14.7:
+    resolution: {integrity: sha512-kJd5beWSqteSAW086qzCEsH6uwpi7QRIpzYWHzEYwKKu9DiG1TwIBegQJmLpPsLp4v5RAFjea0JAmAtpGtRpqg==}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-linux-arm64/0.15.10:
@@ -21915,6 +22029,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-linux-mips64le/0.15.1:
     resolution: {integrity: sha512-8vzQzp+kwrn1Y+OjvfFaLS8uL8aR39WnAtxOHwjB72s9g18kHFlE8IQLS9dWDQgKpBSFq9kazsJE65dSVmz+VA==}
     engines: {node: '>=12'}
@@ -21922,6 +22037,14 @@ packages:
     os: [linux]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-linux-mips64le/0.14.7:
+    resolution: {integrity: sha512-mFWpnDhZJmj/h7pxqn1GGDsKwRfqtV7fx6kTF5pr4PfXe8pIaTERpwcKkoCwZUkWAOmUEjMIUAvFM72A6hMZnA==}
+    cpu: [mips64el]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-linux-mips64le/0.15.10:
@@ -21947,6 +22070,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-linux-ppc64le/0.15.1:
     resolution: {integrity: sha512-QlWSOgC2Ad53Xvf7ZivXU7wM2y29YhQUrd50PjK0QJ3psh/eYSQx77PTe1iWm7Ovjiqv1wPKEAyC7CbyJUgriw==}
     engines: {node: '>=12'}
@@ -21954,6 +22078,14 @@ packages:
     os: [linux]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-linux-ppc64le/0.14.7:
+    resolution: {integrity: sha512-wM7f4M0bsQXfDL4JbbYD0wsr8cC8KaQ3RPWc/fV27KdErPW7YsqshZZSjDV0kbhzwpNNdhLItfbaRT8OE8OaKA==}
+    cpu: [ppc64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-linux-ppc64le/0.15.10:
@@ -21972,6 +22104,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-linux-riscv64/0.15.1:
     resolution: {integrity: sha512-/PRNgNsiwb7G2n3rB5WcHinCwKj0OqUmtu8cdakV4CLNWnFnfChEGEJX1x5n8RcGD3xPUlI5CgqFe0/oBcUh+A==}
     engines: {node: '>=12'}
@@ -21981,6 +22114,8 @@ packages:
     dev: false
     optional: true
 
+=======
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
   /esbuild-linux-riscv64/0.15.10:
     resolution: {integrity: sha512-Lrl9Cr2YROvPV4wmZ1/g48httE8z/5SCiXIyebiB5N8VT7pX3t6meI7TQVHw/wQpqP/AF4SksDuFImPTM7Z32Q==}
     engines: {node: '>=12'}
@@ -21997,13 +22132,21 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-linux-s390x/0.15.1:
     resolution: {integrity: sha512-TScRbO4mi4AUUXzIQ8sb6ZXhGkCb/PlJ82qFfBE6xxsioae/d6XaSdaha/+OUTvmPeoro3lNf3vwdw27v3wEgw==}
+=======
+  /esbuild-linux-s390x/0.15.10:
+    resolution: {integrity: sha512-ReP+6q3eLVVP2lpRrvl5EodKX7EZ1bS1/z5j6hsluAlZP5aHhk6ghT6Cq3IANvvDdscMMCB4QEbI+AjtvoOFpA==}
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     engines: {node: '>=12'}
     cpu: [s390x]
     os: [linux]
     requiresBuild: true
+<<<<<<< HEAD
     dev: false
+=======
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-linux-s390x/0.15.10:
@@ -22063,6 +22206,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-netbsd-64/0.15.1:
     resolution: {integrity: sha512-ES2pbK8QfsMZbdPkgjkLwWfnEGtPa0vYzVFLQn7GFgP+RiemY+ulH7WWQ8ezMt9rZl4XAR3y14yKLGX0gsBLaw==}
     engines: {node: '>=12'}
@@ -22070,6 +22214,14 @@ packages:
     os: [netbsd]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-netbsd-64/0.14.7:
+    resolution: {integrity: sha512-J/afS7woKyzGgAL5FlgvMyqgt5wQ597lgsT+xc2yJ9/7BIyezeXutXqfh05vszy2k3kSvhLesugsxIA71WsqBw==}
+    cpu: [x64]
+    os: [netbsd]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-netbsd-64/0.15.10:
@@ -22095,6 +22247,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-openbsd-64/0.15.1:
     resolution: {integrity: sha512-DxNWji11AxSEny4HzSKu21Skia8tEPQI1N+XO/RqVOJComOvsFLq+QeooKsK2caOsQIKl9mO14Hh+px+zFabMA==}
     engines: {node: '>=12'}
@@ -22102,6 +22255,14 @@ packages:
     os: [openbsd]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-openbsd-64/0.14.7:
+    resolution: {integrity: sha512-7CcxgdlCD+zAPyveKoznbgr3i0Wnh0L8BDGRCjE/5UGkm5P/NQko51tuIDaYof8zbmXjjl0OIt9lSo4W7I8mrw==}
+    cpu: [x64]
+    os: [openbsd]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-openbsd-64/0.15.10:
@@ -22135,6 +22296,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-sunos-64/0.15.1:
     resolution: {integrity: sha512-lwZoWlv893qtQQx5H4QQCh2mcYzGbxEz09ESFdd4cHcUCfjb193bSAy6jPxW2efBx2fHEo2sw43TRtAkpCf+XQ==}
     engines: {node: '>=12'}
@@ -22142,6 +22304,14 @@ packages:
     os: [sunos]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-sunos-64/0.14.7:
+    resolution: {integrity: sha512-GKCafP2j/KUljVC3nesw1wLFSZktb2FGCmoT1+730zIF5O6hNroo0bSEofm6ZK5mNPnLiSaiLyRB9YFgtkd5Xg==}
+    cpu: [x64]
+    os: [sunos]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-sunos-64/0.15.10:
@@ -22167,6 +22337,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-windows-32/0.15.1:
     resolution: {integrity: sha512-jEFz8DxP+Hh67fk9XMoyLUqPjjoCT6m4bnl36aze0XpPZDuQm0SBDlG/ciOBCjzHDsu/MYUNwxVezvUT3sXh1A==}
     engines: {node: '>=12'}
@@ -22174,6 +22345,14 @@ packages:
     os: [win32]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-windows-32/0.14.7:
+    resolution: {integrity: sha512-5I1GeL/gZoUUdTPA0ws54bpYdtyeA2t6MNISalsHpY269zK8Jia/AXB3ta/KcDHv2SvNwabpImeIPXC/k0YW6A==}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-windows-32/0.15.10:
@@ -22199,6 +22378,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-windows-64/0.15.1:
     resolution: {integrity: sha512-bUetnfw4xXKBTOQx4sTzoENJVEdgAN29ZTLRtnMseRzsMO8pjObQMsRPpPL3Cstt6FJhj3k3uScHc5VnfC9QkA==}
     engines: {node: '>=12'}
@@ -22206,6 +22386,14 @@ packages:
     os: [win32]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-windows-64/0.14.7:
+    resolution: {integrity: sha512-CIGKCFpQOSlYsLMbxt8JjxxvVw9MlF1Rz2ABLVfFyHUF5OeqHD5fPhGrCVNaVrhO8Xrm+yFmtjcZudUGr5/WYQ==}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-windows-64/0.15.10:
@@ -22231,6 +22419,7 @@ packages:
     requiresBuild: true
     optional: true
 
+<<<<<<< HEAD
   /esbuild-windows-arm64/0.15.1:
     resolution: {integrity: sha512-oN0JMj7fQZOiqJ/f/wc8lkxjvWwj5Yz0ZhOeU90JFaPZAfafNnysi6GS95glY5uwLUUJz/RNc84cb0dK2qT89A==}
     engines: {node: '>=12'}
@@ -22238,6 +22427,14 @@ packages:
     os: [win32]
     requiresBuild: true
     dev: false
+=======
+  /esbuild-windows-arm64/0.14.7:
+    resolution: {integrity: sha512-eOs1eSivOqN7cFiRIukEruWhaCf75V0N8P0zP7dh44LIhLl8y6/z++vv9qQVbkBm5/D7M7LfCfCTmt1f1wHOCw==}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     optional: true
 
   /esbuild-windows-arm64/0.15.10:
@@ -22298,12 +22495,42 @@ packages:
       esbuild-windows-64: 0.14.47
       esbuild-windows-arm64: 0.14.47
 
+<<<<<<< HEAD
   /esbuild/0.15.1:
     resolution: {integrity: sha512-zgxo2st9wSbdiR6rTo44l/L7ohttqdXFmhUi5tE6yWahgdBjCwZjBgIkm/gr/TcBTTIwyzd7em8WI37yZ+F2Mg==}
+=======
+  /esbuild/0.14.7:
+    resolution: {integrity: sha512-+u/msd6iu+HvfysUPkZ9VHm83LImmSNnecYPfFI01pQ7TTcsFR+V0BkybZX7mPtIaI7LCrse6YRj+v3eraJSgw==}
+    hasBin: true
+    requiresBuild: true
+    optionalDependencies:
+      esbuild-android-arm64: 0.14.7
+      esbuild-darwin-64: 0.14.7
+      esbuild-darwin-arm64: 0.14.7
+      esbuild-freebsd-64: 0.14.7
+      esbuild-freebsd-arm64: 0.14.7
+      esbuild-linux-32: 0.14.7
+      esbuild-linux-64: 0.14.7
+      esbuild-linux-arm: 0.14.7
+      esbuild-linux-arm64: 0.14.7
+      esbuild-linux-mips64le: 0.14.7
+      esbuild-linux-ppc64le: 0.14.7
+      esbuild-netbsd-64: 0.14.7
+      esbuild-openbsd-64: 0.14.7
+      esbuild-sunos-64: 0.14.7
+      esbuild-windows-32: 0.14.7
+      esbuild-windows-64: 0.14.7
+      esbuild-windows-arm64: 0.14.7
+    dev: true
+
+  /esbuild/0.15.10:
+    resolution: {integrity: sha512-N7wBhfJ/E5fzn/SpNgX+oW2RLRjwaL8Y0ezqNqhjD6w0H2p0rDuEz2FKZqpqLnO8DCaWumKe8dsC/ljvVSSxng==}
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
     engines: {node: '>=12'}
     hasBin: true
     requiresBuild: true
     optionalDependencies:
+<<<<<<< HEAD
       '@esbuild/linux-loong64': 0.15.1
       esbuild-android-64: 0.15.1
       esbuild-android-arm64: 0.15.1
@@ -22333,6 +22560,8 @@ packages:
     hasBin: true
     requiresBuild: true
     optionalDependencies:
+=======
+>>>>>>> a5f7b519a (chore(builder): release packages and remove private flag (#1824))
       '@esbuild/android-arm': 0.15.10
       '@esbuild/linux-loong64': 0.15.10
       esbuild-android-64: 0.15.10
@@ -34828,7 +35057,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
