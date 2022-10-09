@@ -9,6 +9,8 @@ export type CreateCompilerOptions = { watch?: boolean };
 
 export type StartDevServerOptions = {
   compiler?: Compiler | MultiCompiler;
+  printURLs?: boolean;
+  strictPort?: boolean;
 };
 
 export type BuildOptions = {
@@ -39,7 +41,10 @@ export type ProviderInstance = {
     options?: CreateCompilerOptions,
   ) => Promise<Compiler | MultiCompiler>;
 
-  startDevServer: (options?: StartDevServerOptions) => Promise<void>;
+  startDevServer: (options?: StartDevServerOptions) => Promise<{
+    urls: string[];
+    port: number;
+  }>;
 
   build: (options?: BuildOptions) => Promise<void>;
 

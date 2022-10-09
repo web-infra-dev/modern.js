@@ -152,16 +152,69 @@ await builder.build({
 
 ```ts
 type StartDevServerOptions = {
+  // 是否输出 URL 信息，默认为 true
+  printURLs?: boolean;
+  // 是否在端口被占用时抛出异常，默认为 false
+  strictPort?: boolean;
+  // 自定义 Compiler 对象
   compiler?: Compiler | MultiCompiler;
 };
 
-function StartDevServer(options?: StartDevServerOptions): Promise<void>;
+function StartDevServer(options?: StartDevServerOptions): Promise<{
+  urls: string[];
+  port: number;
+}>;
 ```
 
 - **Example**
 
+启动 Dev Server：
+
 ```ts
 await builder.startDevServer();
+```
+
+`startDevServer` 会返回 `urls` 和 `port`， `urls` 代表访问 Dev Server 的 URLs，`port` 代表实际监听的端口号：
+
+```ts
+const { urls, port } = await builder.startDevServer();
+console.log(urls); // ['http://localhost:8080', 'http://192.168.0.1:8080']
+console.log(port); // 8080
+```
+
+### 自定义 URL 输出
+
+将 `printURLs` 设置为 `false` 可以禁用默认的 URL 输出，此时你可以输出自定义的日志内容。
+
+```ts
+await builder.startDevServer({
+  printURLs: false,
+});
+```
+
+### 严格限制端口
+
+当端口被占用时，Builder 会自动递增端口号，直至找到一个可用端口。
+
+如果你希望在端口被占用时抛出异常，可以将 `strictPort` 设置为 `true`。
+
+```ts
+await builder.startDevServer({
+  strictPort: true,
+});
+```
+
+### 自定义 Compiler
+
+个别情况下，你可能希望使用自定义的 compiler：
+
+```ts
+const compiler = webpack({
+  // ...
+});
+await builder.startDevServer({
+  compiler,
+});
 ```
 
 ## builder.createCompiler

@@ -152,16 +152,69 @@ Start the local Dev Server, based on the Modern.js Dev Server.
 
 ```ts
 type StartDevServerOptions = {
+  // Whether to output URL infos, the default is true
+  printURLs?: boolean;
+  // Whether to throw an exception when the port is occupied, the default is false
+  strictPort?: boolean;
+  // custom Compiler object
   compiler?: Compiler | MultiCompiler;
 };
 
-function StartDevServer(options?: StartDevServerOptions): Promise<void>;
+function StartDevServer(options?: StartDevServerOptions): Promise<{
+  urls: string[];
+  port: number;
+}>;
 ```
 
 - **Example**
 
+Start Dev Server:
+
 ```ts
 await builder.startDevServer();
+```
+
+`startDevServer` will return `urls` and `port`, `urls` is the URLs to access the Dev Server, `port` is the actual listening port number:
+
+```ts
+const { urls, port } = await builder.startDevServer();
+console.log(urls); // ['http://localhost:8080', 'http://192.168.0.1:8080']
+console.log(port); // 8080
+```
+
+### Disable print URLs
+
+Setting `printURLs` to `false` to disable the default URL output, so you can custom the logs.
+
+```ts
+await builder.startDevServer({
+  printURLs: false,
+});
+```
+
+### Strict Port
+
+When a port is occupied, Builder will automatically increment the port number until an available port is found.
+
+Set `strictPort` to `true` and Builder will throw an exception when the port is occupied.
+
+```ts
+await builder.startDevServer({
+  strictPort: true,
+});
+```
+
+### Custom Compiler
+
+In some cases, you may want to use a custom compiler:
+
+```ts
+const compiler = webpack({
+  // ...
+});
+await builder.startDevServer({
+  compiler,
+});
 ```
 
 ## builder.createCompiler
