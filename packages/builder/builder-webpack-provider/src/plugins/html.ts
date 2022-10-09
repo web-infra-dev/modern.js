@@ -62,8 +62,15 @@ async function getMetaTags(entryName: string, config: BuilderConfig) {
   const { generateMetaTags } = await import('@modern-js/utils');
   const { meta, metaByEntries } = config.html || {};
 
-  const metaOptions = metaByEntries?.[entryName] || meta;
-  return metaOptions ? generateMetaTags(metaOptions) : '';
+  const metaOptions = {
+    ...(metaByEntries?.[entryName] || meta),
+  };
+
+  if (config.output?.charset === 'utf8') {
+    metaOptions.charset = { charset: 'utf-8' };
+  }
+
+  return generateMetaTags(metaOptions);
 }
 
 async function getTemplateParameters(

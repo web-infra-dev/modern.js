@@ -39,6 +39,7 @@ export const createDefaultConfig = (): BuilderConfig => ({
       image: IMAGE_DIST_DIR,
       media: MEDIA_DIST_DIR,
     },
+    charset: 'ascii',
     polyfill: 'entry',
     dataUriLimit: {},
     legalComments: 'linked',
