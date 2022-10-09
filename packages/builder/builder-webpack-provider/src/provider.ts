@@ -34,11 +34,11 @@ export function builderWebpackProvider({
         return createCompiler({ watch, context, webpackConfigs });
       },
 
-      async startDevServer({ compiler } = {}) {
+      async startDevServer(options) {
         const { startDevServer } = await import('./core/startDevServer');
         return startDevServer(
           { context, pluginStore, builderOptions },
-          compiler,
+          options,
         );
       },
 
