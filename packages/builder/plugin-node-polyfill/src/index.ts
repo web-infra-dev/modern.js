@@ -1,15 +1,16 @@
-import type { BuilderPlugin } from '@modern-js/webpack-builder';
+import type { BuilderPlugin } from '@modern-js/builder';
+import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 
 /**
  * Usage:
  *
- *   const { PluginNodePolyfill } = await import('@modern-js/webpack-builder-plugin-node-polyfill');
+ *   const { PluginNodePolyfill } = await import('@modern-js/builder-plugin-node-polyfill');
  *
  *   builder.addPlugins([ PluginNodePolyfill() ]);
  */
-export function PluginNodePolyfill(): BuilderPlugin {
+export function PluginNodePolyfill(): BuilderPlugin<BuilderPluginAPI> {
   return {
-    name: 'webpack-builder-plugin-node-polyfill',
+    name: 'builder-plugin-node-polyfill',
 
     async setup(api) {
       const { default: webpack } = await import('webpack');
