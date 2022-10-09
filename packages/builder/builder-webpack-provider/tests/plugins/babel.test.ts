@@ -98,4 +98,20 @@ describe('plugins/babel', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should adjust jsescOption config when charset is utf8', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginBabel()],
+      builderConfig: {
+        output: {
+          charset: 'utf8',
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    expect(JSON.stringify(config)).toContain(
+      '"generatorOpts":{"jsescOption":{"minimal":true}}',
+    );
+  });
 });

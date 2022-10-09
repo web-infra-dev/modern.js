@@ -28,6 +28,7 @@ export function PluginEsbuild(
         const compiledEsbuildLoaderPath = require.resolve(
           '../compiled/esbuild-loader',
         );
+        const { charset } = builderConfig.output || {};
 
         if (options.loader !== false) {
           // remove babel-loader and ts-loader
@@ -46,6 +47,7 @@ export function PluginEsbuild(
             .options({
               loader: 'jsx',
               target: 'es2015',
+              charset,
               ...options?.loader,
             });
           chain.module
@@ -56,6 +58,7 @@ export function PluginEsbuild(
             .options({
               loader: 'tsx',
               target: 'es2015',
+              charset,
               ...options?.loader,
             });
         }
