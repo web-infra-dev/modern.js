@@ -37,8 +37,8 @@
     "@modern-js/plugin-express": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "express": "^4.17.2",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react": "^18",
+    "react-dom": "^18",
     "ts-node": "^10.1.0",
     "tsconfig-paths": "3.14.1",
     "zod": "^3.17.3"
