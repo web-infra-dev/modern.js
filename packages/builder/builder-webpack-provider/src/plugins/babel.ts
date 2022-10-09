@@ -121,6 +121,14 @@ export const PluginBabel = (): BuilderPlugin => ({
           }),
         };
 
+        if (config.output?.charset === 'utf8') {
+          babelOptions.generatorOpts = {
+            jsescOption: {
+              minimal: true,
+            },
+          };
+        }
+
         return {
           babelOptions,
           includes,

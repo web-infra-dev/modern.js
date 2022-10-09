@@ -14,6 +14,10 @@ extractApiHeaders: [2]
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/assetsRetry.md)!!!
 
+## output.charset
+
+!!!include(node_modules/@modern-js/builder-doc/zh/config/output/charset.md)!!!
+
 ## output.cleanDistPath
 
 !!!include(node_modules/@modern-js/builder-doc/zh/config/output/cleanDistPath.md)!!!

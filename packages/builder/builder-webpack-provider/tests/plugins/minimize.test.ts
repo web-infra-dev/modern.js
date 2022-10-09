@@ -90,4 +90,22 @@ describe('plugins/minimize', () => {
 
     process.env.NODE_ENV = 'test';
   });
+
+  it('should not enable ascii_only when output.charset is utf8', async () => {
+    process.env.NODE_ENV = 'production';
+
+    const builder = await createStubBuilder({
+      plugins: [PluginMinimize()],
+      builderConfig: {
+        output: {
+          charset: 'utf8',
+        },
+      },
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+    expect(JSON.stringify(config.optimization)).toContain('"ascii_only":false');
+
+    process.env.NODE_ENV = 'test';
+  });
 });
