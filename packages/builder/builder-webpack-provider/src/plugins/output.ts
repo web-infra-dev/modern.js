@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { DEFAULT_PORT, type BuilderContext } from '@modern-js/builder-shared';
 import { getDistPath, getFilename } from '../shared';
+=======
+import type { BuilderContext } from '@modern-js/builder-shared';
+import { getDistPath, getFilename, DEFAULT_PORT } from '../shared';
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 import type {
   BuilderConfig,
   BuilderPlugin,

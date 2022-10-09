@@ -1,4 +1,8 @@
 {
+<<<<<<< HEAD
+=======
+  "private": true,
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
   "name": "@modern-js/builder-webpack-provider",
   "description": "Builder provider for webpack",
   "homepage": "https://modernjs.dev",

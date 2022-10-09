@@ -152,6 +152,7 @@ await builder.build({
 
 ```ts
 type StartDevServerOptions = {
+<<<<<<< HEAD
   // 是否输出 URL 信息，默认为 true
   printURLs?: boolean;
   // 是否在端口被占用时抛出异常，默认为 false
@@ -171,16 +172,26 @@ type StartDevServerResult = {
 function StartDevServer(
   options?: StartDevServerOptions,
 ): Promise<StartDevServerResult>;
+=======
+  compiler?: Compiler | MultiCompiler;
+};
+
+function StartDevServer(options?: StartDevServerOptions): Promise<void>;
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 ```
 
 - **Example**
 
+<<<<<<< HEAD
 启动 Dev Server：
 
+=======
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 ```ts
 await builder.startDevServer();
 ```
 
+<<<<<<< HEAD
 `startDevServer` 会返回以下参数：
 
 - `urls`：访问 Dev Server 的 URLs
@@ -231,6 +242,8 @@ await builder.startDevServer({
 });
 ```
 
+=======
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 ## builder.createCompiler
 
 创建一个 compiler 对象。
@@ -262,7 +275,11 @@ type AddPluginsOptions = { before?: string } | { after?: string };
 
 function AddPlugins(
   plugins: BuilderPlugins[],
+<<<<<<< HEAD
   options?: AddPluginsOptions,
+=======
+  options?: AddPluginsOptions
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 ): Promise<void>;
 ```
 

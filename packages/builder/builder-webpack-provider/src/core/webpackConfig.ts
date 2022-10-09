@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   debug,
   type NodeEnv,
@@ -5,6 +6,16 @@ import {
 } from '@modern-js/builder-shared';
 import { getCompiledPath } from '../shared';
 import type { Context, WebpackConfig, ModifyWebpackUtils } from '../types';
+=======
+import { debug, type BuilderTarget } from '@modern-js/builder-shared';
+import { getCompiledPath } from '../shared';
+import type {
+  Context,
+  NodeEnv,
+  WebpackConfig,
+  ModifyWebpackUtils,
+} from '../types';
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 
 async function modifyWebpackChain(context: Context, utils: ModifyWebpackUtils) {
   debug('modify webpack chain');

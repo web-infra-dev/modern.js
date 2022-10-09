@@ -4,6 +4,7 @@ import {
   createBabelChain,
   type BabelOptions,
 } from '@modern-js/babel-preset-app';
+import type { BuilderContext } from '@modern-js/builder-shared';
 import {
   JS_REGEX,
   TS_REGEX,

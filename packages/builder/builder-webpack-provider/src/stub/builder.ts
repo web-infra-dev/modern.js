@@ -18,10 +18,18 @@ import {
 } from '../shared/plugin';
 import { URL } from 'url';
 import { Hooks } from '../core/initHooks';
+<<<<<<< HEAD
 import type { BuilderConfig, BuilderPlugin, Context } from '../types';
 import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
 import { createStubContext } from './context';
 import { matchLoader, globContentJSON, filenameToGlobExpr } from './utils';
+=======
+import { matchLoader } from '../shared';
+import type { BuilderConfig, BuilderPlugin, Context } from '../types';
+import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
+import { createStubContext } from './context';
+import { globContentJSON, filenameToGlobExpr } from './utils';
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 
 export interface OptionsPluginsItem {
   builtin?: boolean | 'default' | 'minimal' | 'basic';

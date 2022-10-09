@@ -14,6 +14,15 @@ Builder 可以翻译为「构建引擎」，Builder 的目标是「复用构建�
 
 Builder 比 Bundler 的封装程度更高，默认集成代码转换、代码压缩等能力。通过接入 Builder，可以快速获得构建现代 Web 应用的能力。
 
+## Builder Provider
+
+Builder Provider 是 Builder 的组成部分之一，Provider 基于特定 bundler 实现了对应的构建能力。
+
+比如：
+
+- 组合 `@modern-js/builder` 与 `@modern-js/builder-webpack-provider`，可以使用 webpack 的构建能力。
+- 组合 `@modern-js/builder` 与 `@modern-js/rspack-build-provider`，可以使用 rspack 的构建能力。
+
 ## Rspack
 
 字节跳动 Web Infra 团队自研的 Rust Bundler，目前仍在研发过程中，尚未开源。

@@ -3,7 +3,6 @@
 
 The config of DevServer can be modified through `tools.devServer`.
 
-<<<<<<< HEAD
 ### Options
 
 #### after
@@ -115,27 +114,13 @@ export default {
   },
 };
 ```
-=======
-### Object Type
-
-#### hot
-
-- Type: `boolean`
-- Default: `true`
-
-Enable Hot Module Replacement feature.
->>>>>>> 66e48174c (feat: support devServer.historyApiFallback (#1799))
 
 #### historyApiFallback
 
 - Type: `boolean | ConnectHistoryApiFallbackOptions`
 - Default: `false`
 
-<<<<<<< HEAD
 The index.html page will likely have to be served in place of any 404 responses. Enable `devServer.historyApiFallback` by setting it to `true`:
-=======
-The index.html page will likely have to be served in place of any 404 responses. Enable devServer.historyApiFallback by setting it to true:
->>>>>>> 66e48174c (feat: support devServer.historyApiFallback (#1799))
 
 ```js
 export default {
@@ -149,7 +134,6 @@ export default {
 
 For more options and information, see the [connect-history-api-fallback](https://github.com/bripkens/connect-history-api-fallback) documentation.
 
-<<<<<<< HEAD
 #### hot
 
 - Type: `boolean`
@@ -366,6 +350,3 @@ export default {
 - Default: `true`
 
 Whether to watch files change in directories such as `mock/`, `server/`, `api/`.
-=======
-#### TODO
->>>>>>> 66e48174c (feat: support devServer.historyApiFallback (#1799))

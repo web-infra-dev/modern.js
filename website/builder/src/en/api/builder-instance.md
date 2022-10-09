@@ -152,6 +152,7 @@ Start the local Dev Server, based on the Modern.js Dev Server.
 
 ```ts
 type StartDevServerOptions = {
+<<<<<<< HEAD
   // Whether to output URL infos, the default is true
   printURLs?: boolean;
   // Whether to throw an exception when the port is occupied, the default is false
@@ -171,16 +172,26 @@ type StartDevServerResult = {
 function StartDevServer(
   options?: StartDevServerOptions,
 ): Promise<StartDevServerResult>;
+=======
+  compiler?: Compiler | MultiCompiler;
+};
+
+function StartDevServer(options?: StartDevServerOptions): Promise<void>;
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 ```
 
 - **Example**
 
+<<<<<<< HEAD
 Start Dev Server:
 
+=======
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 ```ts
 await builder.startDevServer();
 ```
 
+<<<<<<< HEAD
 `startDevServer` returns the following parameters:
 
 - `urls`: URLs to access Dev Server.
@@ -231,6 +242,8 @@ await builder.startDevServer({
 });
 ```
 
+=======
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 ## builder.createCompiler
 
 Create a Compiler object.
@@ -262,7 +275,11 @@ type AddPluginsOptions = { before?: string } | { after?: string };
 
 function AddPlugins(
   plugins: BuilderPlugins[],
+<<<<<<< HEAD
   options?: AddPluginsOptions,
+=======
+  options?: AddPluginsOptions
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 ): Promise<void>;
 ```
 

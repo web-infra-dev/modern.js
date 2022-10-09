@@ -1,9 +1,12 @@
+<<<<<<< HEAD
 import assert from 'assert';
 import {
   RUNTIME_CHUNK_NAME,
   getPackageNameFromModulePath,
 } from '@modern-js/builder-shared';
 
+=======
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 import type { BuilderPlugin } from '../types';
 import type {
   BuilderChunkSplit,

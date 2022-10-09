@@ -4,12 +4,16 @@ import {
   type PluginStore,
   type InspectConfigOptions,
   type CreateBuilderOptions,
+<<<<<<< HEAD
   deepFreezed,
+=======
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 } from '@modern-js/builder-shared';
 import { initPlugins } from './initPlugins';
 import { generateWebpackConfig } from './webpackConfig';
 import { stringifyBuilderConfig } from './inspectBuilderConfig';
 import { stringifyWebpackConfig } from './inspectBundlerConfig';
+<<<<<<< HEAD
 <<<<<<< HEAD:packages/builder/builder-webpack-provider/src/core/initConfigs.ts
 import type { Context } from '../types';
 import { normalizeConfig } from '../config/normalize';
@@ -21,6 +25,9 @@ import type {
   InspectOptions,
 } from '../types';
 >>>>>>> f7e6f5a72 (chore(builder): rename inspectBundlerConfig method (#1790)):packages/builder/webpack-builder/src/core/initConfigs.ts
+=======
+import type { Context } from '../types';
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 
 async function modifyBuilderConfig(context: Context) {
   debug('modify builder config');

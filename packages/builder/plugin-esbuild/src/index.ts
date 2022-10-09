@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import { JS_REGEX, TS_REGEX } from '@modern-js/builder-shared';
+=======
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 import type { BuilderPlugin } from '@modern-js/builder';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import type {

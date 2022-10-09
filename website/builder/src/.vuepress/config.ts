@@ -62,11 +62,25 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/api/config-performance'),
         ],
       },
+      {
+        title: getText('Node API', 'Node API'),
+        collapsable: false,
+        children: [
+          getLink('/api/builder-core'),
+          getLink('/api/builder-instance'),
+          getLink('/api/builder-types'),
+        ],
+      },
     ],
   };
 }
 
+<<<<<<< HEAD
 export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
+=======
+export default defineConfig4CustomTheme<ThemeConfig>((ctx) => ({
+  base: '/builder/',
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
   head: [
     ['link', { rel: 'icon', href: `https://modernjs.dev/img/favicon.ico` }],
     ['meta', { name: 'theme-color', content: '#5c6ac4' }],
@@ -138,7 +152,18 @@ export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
   markdown: {
     extractHeaders: ['h2', 'h3', 'h4'],
   },
+<<<<<<< HEAD
   extendMarkdown: md => {
+=======
+  configureWebpack(config) {
+    // OptimizeCssAssetsWebpackPlugin will cause the build to fail,
+    // removed will not affect the build result
+    config.plugins = config.plugins.filter(
+      (plugin) => plugin.constructor.name !== 'OptimizeCssAssetsWebpackPlugin'
+    );
+  },
+  extendMarkdown: (md) => {
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
     md.use(markdownItInclude);
   },
 }));

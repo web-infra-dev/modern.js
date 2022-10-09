@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import fs, { PathLike } from 'fs';
 import type { GlobbyOptions } from '@modern-js/utils';
 import type webpack from 'webpack';
+=======
+import type { GlobbyOptions } from '@modern-js/utils';
+import fs, { PathLike } from 'fs';
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
 
 export interface GlobContentJSONOptions extends GlobbyOptions {
   maxSize?: number;
@@ -28,6 +33,7 @@ export const globContentJSON = async (
 
 export const filenameToGlobExpr = (file: PathLike) =>
   fs.statSync(file).isDirectory() ? `${file}/**/*` : file;
+<<<<<<< HEAD
 
 /**
  * Check if a file handled by specific loader.
@@ -71,3 +77,5 @@ export function matchLoader({
     return false;
   });
 }
+=======
+>>>>>>> ac5486156 (refactor(builder): split builder and provider (#1804))
