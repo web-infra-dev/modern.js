@@ -64,11 +64,18 @@ export default class Entry {
 
   private readonly pluginConfig: SSRPluginConfig;
 
+  private readonly host: string;
+
   constructor(options: EntryOptions) {
     const { ctx, config } = options;
-    const { entryName, template: templateHTML } = ctx;
+    const {
+      entryName,
+      template: templateHTML,
+      request: { host },
+    } = ctx;
     this.fragments = toFragments(templateHTML);
     this.entryName = entryName;
+    this.host = host;
     this.App = options.App;
     this.pluginConfig = config;
 
@@ -163,6 +170,7 @@ export default class Entry {
           ssrContext!.distDir,
           LOADABLE_STATS_FILE,
         ),
+        host: this.host,
         result: this.result,
         entryName: this.entryName,
         config: this.pluginConfig,

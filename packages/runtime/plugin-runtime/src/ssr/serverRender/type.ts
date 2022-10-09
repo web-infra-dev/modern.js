@@ -22,6 +22,7 @@ export type ModernSSRReactComponent = React.ComponentType<any> & {
 
 export interface RenderEntry {
   entryName: string;
+  host: string;
   result: RenderResult;
   loadableManifest: string | undefined;
   config: SSRPluginConfig;
