@@ -24,6 +24,7 @@ export interface RenderEntry {
   entryName: string;
   result: RenderResult;
   loadableManifest: string | undefined;
+  config: SSRPluginConfig;
 }
 
 export type RenderHandler = (
@@ -39,4 +40,8 @@ export type RenderResult = {
     js: string;
     css: string;
   };
+};
+
+export type SSRPluginConfig = {
+  crossorigin?: boolean | 'anonymous' | 'use-credentials';
 };

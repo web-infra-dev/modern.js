@@ -26,6 +26,7 @@ export const toHtml: RenderHandler = (jsx, renderer, next) => {
   const {
     loadableManifest,
     result: { chunksMap },
+    config,
   } = renderer;
 
   if (!loadableManifest || chunksMap.js) {
@@ -46,7 +47,16 @@ export const toHtml: RenderHandler = (jsx, renderer, next) => {
     const fileType = path.extname(v.url).slice(1);
 
     if (fileType === 'js') {
-      chunksMap[fileType] += `<script src="${v.url}"></script>`;
+      const props = [];
+      const { crossorigin } = config;
+      if (crossorigin) {
+        props.push(
+          `crossorigin=${crossorigin === true ? 'anonymous' : crossorigin}`,
+        );
+      }
+      chunksMap[fileType] += `<script src="${v.url}" ${props.join(
+        ' ',
+      )}></script>`;
     } else if (fileType === 'css') {
       chunksMap[fileType] += `<link href="${v.url}" rel="stylesheet" />`;
     }
