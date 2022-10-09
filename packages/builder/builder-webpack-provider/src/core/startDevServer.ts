@@ -1,15 +1,15 @@
-import { debug, logger } from '@modern-js/builder-shared';
+import {
+  debug,
+  logger,
+  StartDevServerOptions,
+} from '@modern-js/builder-shared';
 import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
 import { DEFAULT_PORT } from '../shared';
-import type { BuilderConfig } from '../types';
 import type { Compiler, MultiCompiler } from 'webpack';
 
-async function printURLs(config: BuilderConfig, port: number) {
-  const { chalk, getAddressUrls } = await import('@modern-js/utils');
-  const protocol = config.dev?.https ? 'https' : 'http';
-  const urls = getAddressUrls(protocol, port);
-
+async function printDevServerURLs(urls: Array<{ url: string; type: string }>) {
+  const { chalk } = await import('@modern-js/utils');
   let message = 'Dev server running at:\n\n';
 
   message += urls
@@ -77,7 +77,11 @@ export async function createDevServer(
 
 export async function startDevServer(
   options: InitConfigsOptions,
-  compiler?: Compiler | MultiCompiler,
+  {
+    compiler,
+    printURLs = true,
+    strictPort = false,
+  }: StartDevServerOptions = {},
 ) {
   logger.log();
   logger.info('Starting dev server...');
@@ -88,7 +92,10 @@ export async function startDevServer(
 
   const { getPort } = await import('@modern-js/utils');
   const builderConfig = options.context.config;
-  const port = await getPort(builderConfig.dev?.port || DEFAULT_PORT);
+
+  const port = await getPort(builderConfig.dev?.port || DEFAULT_PORT, {
+    strictPort,
+  });
 
   options.context.devServer = {
     hostname: 'localhost',
@@ -102,16 +109,27 @@ export async function startDevServer(
   debug('listen dev server');
   const app = await server.init();
 
-  return new Promise<void>(resolve => {
+  return new Promise<{ port: number; urls: string[] }>(resolve => {
     app.listen(port, async (err: Error) => {
       if (err) {
         throw err;
       }
 
       debug('listen dev server done');
-      await printURLs(builderConfig, port);
+
+      const { getAddressUrls } = await import('@modern-js/utils');
+      const protocol = builderConfig.dev?.https ? 'https' : 'http';
+      const urls = getAddressUrls(protocol, port);
+
+      if (printURLs) {
+        await printDevServerURLs(urls);
+      }
+
       await options.context.hooks.onAfterStartDevServerHooks.call({ port });
-      resolve();
+      resolve({
+        port,
+        urls: urls.map(item => item.url),
+      });
     });
   });
 }
