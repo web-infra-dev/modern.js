@@ -7,7 +7,8 @@ export const PluginPug = (): BuilderPlugin => ({
   setup(api) {
     api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
       const config = api.getBuilderConfig();
-      if (!config.tools?.pug) {
+      const { pug } = config.tools || {};
+      if (!pug) {
         return;
       }
 
@@ -18,7 +19,7 @@ export const PluginPug = (): BuilderPlugin => ({
         .test(/\.pug$/)
         .use(CHAIN_ID.USE.PUG)
         .loader(path.resolve('../webpackLoaders/pugLoader'))
-        .options(applyOptionsChain({}, config.tools?.pug));
+        .options(applyOptionsChain({}, pug === true ? {} : pug));
     });
   },
 });

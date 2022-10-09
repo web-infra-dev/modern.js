@@ -60,7 +60,7 @@ export type ToolsPostCSSLoaderConfig = ChainedConfig<
   }
 >;
 
-export type ToolsPugConfig = ChainedConfig<PugOptions>;
+export type ToolsPugConfig = true | ChainedConfig<PugOptions>;
 
 export type ToolsLessConfig = ChainedConfig<
   LessLoaderOptions,
