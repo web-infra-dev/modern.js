@@ -56,7 +56,7 @@ export const PluginTsLoader = (): BuilderPlugin => {
           }
         },
       };
-      api.modifyWebpackChain(async chain => {
+      api.modifyWebpackChain(async (chain, { getCompiledPath }) => {
         const { CHAIN_ID, applyOptionsChain } = await import(
           '@modern-js/utils'
         );
@@ -79,7 +79,7 @@ export const PluginTsLoader = (): BuilderPlugin => {
         rule
           .test(TS_REGEX)
           .use(CHAIN_ID.USE.BABEL)
-          .loader(require.resolve('babel-loader'))
+          .loader(getCompiledPath('babel-loader'))
           .options(babelLoaderOptions)
           .end()
           .use(CHAIN_ID.USE.TS)
