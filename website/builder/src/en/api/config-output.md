@@ -14,6 +14,10 @@ This section describes some output related configurations in Modern.js Builder.
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/assetsRetry.md)!!!
 
+## output.charset
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/output/charset.md)!!!
+
 ## output.cleanDistPath
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/output/cleanDistPath.md)!!!
