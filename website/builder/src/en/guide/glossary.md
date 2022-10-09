@@ -6,6 +6,12 @@ Refers to module bundlers such as `webpack` and `rspack`.
 
 When Bundler processes the JavaScript application, it builds a dependency graph and then combines every module into one or more bundles.
 
+## Rspack
+
+A Rust Bundler, developed by the ByteDance Web Infra team.
+
+Rspack is still in development and will be open sourced in the future.
+
 ## Builder
 
 Build Engine. The goal of Builder is to "reuse the best practices of build tools".
@@ -14,11 +20,18 @@ Bundlers are low-level, if we build a project based on webpack, we need to fully
 
 Builder is a out-of-box build tools. By using Builder, you can quickly gain the ability to build a modern web application.
 
-## Rspack
+The layers inside the Builder are as follows:
 
-A Rust Bundler, developed by the ByteDance Web Infra team.
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-struct-10092.png" />
 
-Rspack is still in development and will be open sourced in the future.
+## Builder Provider
+
+Builder Provider is a part of Builder. Providers implements corresponding build feature based on specific bundlers.
+
+Currently there are two Providers:
+
+- `@modern-js/builder-webpack-provider`: Based on webpack.
+- `@modern-js/builder-rspack-provider`: Based on rspack.
 
 ## Modern.js
 
