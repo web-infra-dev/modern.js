@@ -198,7 +198,7 @@ exports[`plugins/react > should work with ts-loader 1`] = `
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/babel-loader",
             "options": {
               "plugins": [
                 [
