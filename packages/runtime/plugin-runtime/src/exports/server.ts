@@ -11,7 +11,7 @@ export const hook = (
     afterMatch,
     afterRender,
   }: {
-    addMiddleware: (mid: RequestHndler) => void;
+    addMiddleware: (mid: RequestHandler) => void;
     afterRender: (hook: AfterRenderHook) => void;
     afterMatch: (hook: AfterMatchHook) => void;
   }) => void,
@@ -27,7 +27,7 @@ export type AfterMatchHook = (
   next: NextFunction,
 ) => void;
 
-export type RequestHndler = (
+export type RequestHandler = (
   context: MiddlewareContext,
   next: NextFunction,
 ) => Promise<void> | void;

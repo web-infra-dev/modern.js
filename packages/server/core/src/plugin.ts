@@ -34,9 +34,9 @@ const config = createWaterfall<ServerConfig>();
 
 const prepare = createWaterfall();
 
-export type Adapter = (ctx: MiddlewareContext) => void | Promise<void>;
+export type WebAdapter = (ctx: MiddlewareContext) => void | Promise<void>;
 
-export type APIAdapter = (
+export type Adapter = (
   req: IncomingMessage,
   res: ServerResponse,
 ) => void | Promise<void>;
@@ -46,7 +46,7 @@ export type WebServerStartInput = {
   config: Record<string, any>;
 };
 
-const prepareWebServer = createAsyncPipeline<WebServerStartInput, Adapter>();
+const prepareWebServer = createAsyncPipeline<WebServerStartInput, WebAdapter>();
 
 export type APIServerStartInput = {
   pwd: string;
@@ -61,7 +61,7 @@ type Change = {
   event: 'add' | 'change' | 'unlink';
 };
 
-const prepareApiServer = createAsyncPipeline<APIServerStartInput, APIAdapter>();
+const prepareApiServer = createAsyncPipeline<APIServerStartInput, Adapter>();
 
 const onApiChange = createWaterfall<Change[]>();
 

@@ -9,8 +9,8 @@ class ModernSSRServer extends ModernServer {
     return null as any;
   }
 
-  protected filterRoutes(routes: ModernRouteInterface[]) {
-    return routes.filter(route => !route.isApi);
+  protected async handleAPI(context: ModernServerContext) {
+    return this.render404(context);
   }
 }
 
@@ -19,8 +19,8 @@ class ModernAPIServer extends ModernServer {
     return null as any;
   }
 
-  protected async handleAPI(context: ModernServerContext) {
-    return this.render404(context);
+  protected filterRoutes(routes: ModernRouteInterface[]) {
+    return routes.filter(route => route.isApi);
   }
 }
 

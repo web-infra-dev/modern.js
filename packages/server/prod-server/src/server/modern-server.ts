@@ -5,7 +5,7 @@ import path from 'path';
 import { fs, mime, ROUTE_SPEC_FILE } from '@modern-js/utils';
 import {
   Adapter,
-  APIAdapter,
+  WebAdapter,
   APIServerStartInput,
 } from '@modern-js/server-core';
 import type { NormalizedConfig } from '@modern-js/core';
@@ -95,9 +95,9 @@ export class ModernServer implements ModernServerInterface {
 
   private routeRenderHandler!: ReturnType<typeof createRenderHandler>;
 
-  private frameWebHandler: Adapter | null = null;
+  private frameWebHandler: WebAdapter | null = null;
 
-  private frameAPIHandler: APIAdapter | null = null;
+  private frameAPIHandler: Adapter | null = null;
 
   private proxyHandler: ReturnType<typeof createProxyHandler> = null;
 
@@ -128,7 +128,7 @@ export class ModernServer implements ModernServerInterface {
     this.presetRoutes = routes;
     this.proxyTarget = proxyTarget;
     this.staticGenerate = staticGenerate || false;
-    this.runMode = runMode || RUN_MODE.TYPE;
+    this.runMode = runMode || RUN_MODE.FULL;
     process.env.BUILD_TYPE = `${this.staticGenerate ? 'ssg' : 'ssr'}`;
   }
 
@@ -390,7 +390,11 @@ export class ModernServer implements ModernServerInterface {
     }
 
     const afterMatchContext = createAfterMatchContext(context, route.entryName);
-    await this.runner.afterMatch(afterMatchContext, { onLast: noop });
+
+    // only full mode run server hook
+    if (this.runMode === RUN_MODE.FULL) {
+      await this.runner.afterMatch(afterMatchContext, { onLast: noop });
+    }
     if (res.headersSent) {
       return;
     }
@@ -405,12 +409,11 @@ export class ModernServer implements ModernServerInterface {
     // rewrite to another entry
     if (route.entryName !== current) {
       const matched = this.router.matchEntry(current);
-      if (matched) {
-        route = matched?.generate(context.url);
-      } else {
+      if (!matched) {
         this.render404(context);
         return;
       }
+      route = matched.generate(context.url);
     }
     context.setParams(route.params);
     context.setServerData('router', {
@@ -418,7 +421,7 @@ export class ModernServer implements ModernServerInterface {
       params: route.params,
     });
 
-    if (this.frameWebHandler && this.runMode === RUN_MODE.FULL) {
+    if (this.frameWebHandler) {
       res.locals = res.locals || {};
       const middlewareContext = createMiddlewareContext(context);
       await this.frameWebHandler(middlewareContext);
@@ -466,7 +469,11 @@ export class ModernServer implements ModernServerInterface {
         context,
         response.toString(),
       );
-      await this.runner.afterRender(afterRenderContext, { onLast: noop });
+
+      // only full mode run server hook
+      if (this.runMode === RUN_MODE.FULL) {
+        await this.runner.afterRender(afterRenderContext, { onLast: noop });
+      }
       // It will inject _SERVER_DATA twice, when SSG mode.
       // The first time was in ssg html created, the seoncd time was in prod-server start.
       // but the second wound causes route error.

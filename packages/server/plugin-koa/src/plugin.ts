@@ -44,6 +44,7 @@ const initMiddlewares = (
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-koa',
   pre: ['@modern-js/plugin-bff'],
+  post: ['@modern-js/plugin-server'],
   setup: api => ({
     async prepareApiServer({ pwd, config }) {
       let app: Application;
@@ -95,7 +96,11 @@ export default (): ServerPlugin => ({
         return Promise.resolve(app.callback()(req, res));
       };
     },
-    prepareWebServer({ config }) {
+    prepareWebServer({ config }, next) {
+      const userConfig = api.useConfigContext();
+      if (userConfig?.server?.disableFrameworkExt) {
+        return next();
+      }
       const app: Application = new Koa();
 
       app.use(async (ctx, next) => {
