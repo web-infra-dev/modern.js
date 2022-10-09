@@ -188,8 +188,8 @@ export const TASKS: TaskConfig[] = [
     ],
   },
   {
-    packageDir: 'builder/webpack-builder',
-    packageName: '@modern-js/webpack-builder',
+    packageDir: 'builder/builder-webpack-provider',
+    packageName: '@modern-js/builder-webpack-provider',
     dependencies: [
       'serialize-javascript',
       'open',
@@ -795,13 +795,13 @@ export const TASKS: TaskConfig[] = [
   },
   {
     packageDir: 'builder/plugin-esbuild',
-    packageName: '@modern-js/webpack-builder-plugin-esbuild',
+    packageName: '@modern-js/builder-plugin-esbuild',
     dependencies: [
       {
         name: 'esbuild-loader',
         ignoreDts: true,
         externals: {
-          '/^webpack(/.*)/': '@modern-js/webpack-builder/webpack$1',
+          '/^webpack(/.*)/': '@modern-js/builder-webpack-provider/webpack$1',
         },
         afterBundle(task) {
           const dtsFiles = glob.sync(join(task.depPath, 'dist', '*.d.ts'), {
