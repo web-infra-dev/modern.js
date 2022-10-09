@@ -35,6 +35,19 @@ Builder 所有的构建能力都通过插件来实现：
 
 Builder 支持自定义插件，使框架开发者可以实现定制化的构建需求。
 
+## npm 包
+
+Builder 已发布的 npm 包有：
+
+| 包名 | 版本 | 描述 |
+| --- | --- | --- |
+| [@modern-js/builder](https://www.npmjs.com/package/@modern-js/builder) | ![](https://img.shields.io/npm/v/@modern-js/builder?style=flat-square) | Builder 核心包 |
+| [@modern-js/builder-webpack-provider](https://www.npmjs.com/package/@modern-js/builder-webpack-provider) | ![](https://img.shields.io/npm/v/@modern-js/builder-webpack-provider?style=flat-square) | 提供 Webpack 构建能力 |
+| [@modern-js/builder-plugin-esbuild](https://www.npmjs.com/package/@modern-js/builder-plugin-esbuild) | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-esbuild?style=flat-square) | ESBuild 插件 |
+| [@modern-js/builder-plugin-node-polyfill](https://www.npmjs.com/package/@modern-js/builder-plugin-node-polyfill) | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-node-polyfill?style=flat-square) | Node Polyfill 插件 |
+| [@modern-js/builder-shared](https://www.npmjs.com/package/@modern-js/builder-shared) | ![](https://img.shields.io/npm/v/@modern-js/builder-shared?style=flat-square) | Builder 内部的公共模块 |
+| [@modern-js/builder-doc](https://www.npmjs.com/package/@modern-js/builder-doc) | ![](https://img.shields.io/npm/v/@modern-js/builder-doc?style=flat-square) | 提供可复用的文档片段 |
+
 ## 下一步
 
 你可能想要：

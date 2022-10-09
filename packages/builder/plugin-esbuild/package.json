@@ -1,5 +1,4 @@
 {
-  "private": true,
   "name": "@modern-js/builder-plugin-esbuild",
   "description": "Esbuild plugin for builder in Modern.js",
   "homepage": "https://modernjs.dev",
@@ -15,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "1.0.0-alpha.0",
+  "version": "1.19.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -35,6 +34,9 @@
     "dev": "tsc --watch",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage"
+  },
+  "dependencies": {
+    "esbuild": "0.15.10"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",

@@ -1,5 +1,4 @@
 {
-  "private": true,
   "name": "@modern-js/builder-doc",
   "description": "Shared documentation of modern.js builder",
   "homepage": "https://modernjs.dev",
