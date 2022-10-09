@@ -53,7 +53,7 @@ export const toHtml: RenderHandler = (jsx, renderer, next) => {
       const { crossorigin } = config;
       if (crossorigin && isCrossOrigin(v.url, host)) {
         props.push(
-          `crossorigin=${crossorigin === true ? 'anonymous' : crossorigin}`,
+          `crossorigin="${crossorigin === true ? 'anonymous' : crossorigin}"`,
         );
       }
       chunksMap[fileType] += `<script src="${v.url}" ${props.join(
