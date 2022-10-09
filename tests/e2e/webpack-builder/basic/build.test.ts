@@ -1,8 +1,8 @@
 import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { createStubBuilder } from '@modern-js/webpack-builder/stub';
-import { PluginEntry } from '@modern-js/webpack-builder/plugins/entry';
-import { PluginHtml } from '@modern-js/webpack-builder/plugins/html';
+import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
+import { PluginEntry } from '@modern-js/builder-webpack-provider/plugins/entry';
+import { PluginHtml } from '@modern-js/builder-webpack-provider/plugins/html';
 
 test('basic', async ({ page }) => {
   // TODO: serve dist files from memfs directly (instead of output files to disk first).

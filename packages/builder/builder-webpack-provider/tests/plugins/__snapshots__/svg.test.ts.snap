@@ -1,0 +1,419 @@
+// Vitest Snapshot v1
+
+exports[`plugins/svg > export default Component 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/svg/[name].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": [Function],
+            },
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
+                "options": {
+                  "limit": Infinity,
+                  "name": "static/svg/[name].svg",
+                },
+              },
+            ],
+          },
+          {
+            "resourceQuery": /url/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
+                "options": {
+                  "limit": false,
+                  "name": "static/svg/[name].svg",
+                },
+              },
+            ],
+          },
+          {
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.svg\\$/,
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/svg > export default url 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/svg/[name].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": [Function],
+            },
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
+                "options": {
+                  "limit": Infinity,
+                  "name": "static/svg/[name].svg",
+                },
+              },
+            ],
+          },
+          {
+            "resourceQuery": /url/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
+                "options": {
+                  "limit": false,
+                  "name": "static/svg/[name].svg",
+                },
+              },
+            ],
+          },
+          {
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
+                "options": {
+                  "limit": 10000,
+                  "name": "static/svg/[name].svg",
+                },
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.svg\\$/,
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/svg > should allow to use distPath.svg to modify dist path 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "foo/[name].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": [Function],
+            },
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
+                "options": {
+                  "limit": Infinity,
+                  "name": "foo/[name].svg",
+                },
+              },
+            ],
+          },
+          {
+            "resourceQuery": /url/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
+                "options": {
+                  "limit": false,
+                  "name": "foo/[name].svg",
+                },
+              },
+            ],
+          },
+          {
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
+                "options": {
+                  "limit": 10000,
+                  "name": "foo/[name].svg",
+                },
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.svg\\$/,
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/svg > should allow to use filename.svg to modify filename 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/svg/foo.svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": [Function],
+            },
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
+                "options": {
+                  "limit": Infinity,
+                  "name": "static/svg/foo.svg",
+                },
+              },
+            ],
+          },
+          {
+            "resourceQuery": /url/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
+                "options": {
+                  "limit": false,
+                  "name": "static/svg/foo.svg",
+                },
+              },
+            ],
+          },
+          {
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
+                "options": {
+                  "limit": 10000,
+                  "name": "static/svg/foo.svg",
+                },
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.svg\\$/,
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/svg > should allow using output.dataUriLimit.svg to custom data uri limit 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/svg/[name].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": [Function],
+            },
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
+                "options": {
+                  "limit": Infinity,
+                  "name": "static/svg/[name].svg",
+                },
+              },
+            ],
+          },
+          {
+            "resourceQuery": /url/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
+                "options": {
+                  "limit": false,
+                  "name": "static/svg/[name].svg",
+                },
+              },
+            ],
+          },
+          {
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<ROOT>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": false,
+                },
+              },
+              {
+                "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/url-loader",
+                "options": {
+                  "limit": 666,
+                  "name": "static/svg/[name].svg",
+                },
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.svg\\$/,
+      },
+    ],
+  },
+}
+`;
