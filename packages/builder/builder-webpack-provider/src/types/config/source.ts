@@ -6,6 +6,7 @@ export type ModuleScopes = Array<string | RegExp>;
 export type CodeValue = webpack.DefinePlugin['definitions'][string];
 
 export interface SourceConfig {
+  include?: (string | RegExp)[];
   alias?: ChainedConfig<WebpackAlias>;
   preEntry?: string | string[];
   globalVars?: Record<string, JSONValue>;
