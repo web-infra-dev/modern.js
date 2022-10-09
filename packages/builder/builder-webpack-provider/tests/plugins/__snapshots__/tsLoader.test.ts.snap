@@ -23,7 +23,7 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/babel-loader",
             "options": {
               "presets": [
                 [
@@ -77,7 +77,7 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
+            "loader": "<ROOT>/packages/builder/builder-webpack-provider/compiled/babel-loader",
             "options": {
               "presets": [
                 [
