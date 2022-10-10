@@ -50,6 +50,13 @@ export function applyScriptCondition(
   excludes.forEach(condition => {
     rule.exclude.add(condition);
   });
+
+  // add source.include
+  if (config.source?.include) {
+    config.source.include.forEach(condition => {
+      rule.include.add(condition);
+    });
+  }
 }
 
 export const PluginBabel = (): BuilderPlugin => ({
