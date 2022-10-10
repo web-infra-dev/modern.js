@@ -1,4 +1,4 @@
-declare module '@modern-js/runtime' {
+declare module '@modern-js/plugin-router-legacy' {
   export * from './dist/types';
 }
 

@@ -23,6 +23,7 @@ export default (): CliPlugin<AppHooks> => ({
     '@modern-js/plugin-analyze',
     '@modern-js/plugin-ssr',
     '@modern-js/plugin-state',
+    '@modern-js/plugin-state-legacy',
     '@modern-js/plugin-router',
     '@modern-js/plugin-polyfill',
   ],

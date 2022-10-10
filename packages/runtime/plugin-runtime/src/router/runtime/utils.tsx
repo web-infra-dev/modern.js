@@ -1,61 +1,62 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
-import { Route, matchPath } from 'react-router-dom';
-import { DefaultNotFound } from './DefaultNotFound';
+import { Routes, Route, matchPath } from 'react-router-dom';
 import { RouterConfig } from './plugin';
+import { DefaultNotFound } from './DefaultNotFound';
 
 export function renderRoutes(
   routesConfig: RouterConfig['routesConfig'],
+  pathname: string,
   extraProps: any = {},
 ) {
-  const Layout = ({ Component, ...props }: any) => {
-    const GlobalLayout = routesConfig?.globalApp;
-
-    if (!GlobalLayout) {
-      return <Component {...props} />;
-    }
-
-    return <GlobalLayout Component={Component} {...props} />;
-  };
-
   const findMatchedRoute = (pathname: string) =>
     routesConfig?.routes?.find(route => {
-      const info = matchPath(pathname, {
-        path: route.path,
-        exact: route.exact,
-        sensitive: route.sensitive,
-      });
+      const info = matchPath(
+        {
+          path: route.path as string,
+          caseSensitive: route.caseSensitive,
+        },
+        pathname,
+      );
 
       return Boolean(info);
     });
 
-  return (
+  const matchedRoute = findMatchedRoute(pathname);
+
+  if (!matchedRoute) {
+    return <DefaultNotFound />;
+  }
+
+  // legacy '/apple' -> 'apple'
+  const path = matchedRoute.path?.startsWith('/')
+    ? matchedRoute.path.substring(1)
+    : matchedRoute.path;
+
+  const GlobalLayout = routesConfig?.globalApp;
+  const Component = matchedRoute.component ?? React.Fragment;
+
+  const MatchedRouter = (
     <Route
-      path="/"
-      render={props => {
-        const matchedRoute = findMatchedRoute(props.location.pathname);
-
-        if (!matchedRoute) {
-          return <DefaultNotFound />;
-        }
-
-        return (
-          <Route
-            path={matchedRoute.path}
-            exact={matchedRoute.exact}
-            sensitive={matchedRoute.sensitive}
-            render={routeProps => (
-              <Layout
-                Component={matchedRoute.component}
-                {...routeProps}
-                {...extraProps}
-              />
-            )}
-          />
-        );
-      }}
+      path={path}
+      caseSensitive={matchedRoute.caseSensitive}
+      element={<Component {...extraProps} />}
     />
   );
+
+  if (GlobalLayout) {
+    return (
+      <Routes>
+        <Route
+          path="/*"
+          element={<GlobalLayout Component={Component} {...extraProps} />}
+        >
+          {MatchedRouter}
+        </Route>
+      </Routes>
+    );
+  }
+
+  return <Routes>{MatchedRouter}</Routes>;
 }
 
 export function getLocation(serverContext: any): string {

@@ -52,7 +52,8 @@ export default (): CliPlugin => ({
 
         runtimeConfigMap.set(entryName, runtimeConfig);
 
-        if (runtimeConfig?.router) {
+        // router.legacy: true;
+        if (runtimeConfig?.router && runtimeConfig?.router?.legacy) {
           imports.push({
             value: '@modern-js/runtime/plugins',
             specifiers: [{ imported: PLUGIN_IDENTIFIER }],
@@ -101,7 +102,7 @@ export default (): CliPlugin => ({
       },
       addRuntimeExports() {
         pluginsExportsUtils.addExport(
-          `export { default as router } from '@modern-js/runtime/runtime-router'`,
+          `export { default as legacyRouter } from '@modern-js/plugin-router-legacy'`,
         );
       },
     };

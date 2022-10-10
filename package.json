@@ -15,7 +15,7 @@
   "scripts": {
     "new": "modern new",
     "setup": "npm run reset && pnpm install",
-    "reset": "npx rimraf ./**/node_modules",
+    "reset": "npx rimraf ./**/.wireit",
     "test": "npm run test:ut",
     "test:ut": "node --conditions=jsnext:source -r btsm node_modules/jest/bin/jest.js -c jest.config.js --maxWorkers=2 && npm run test:vitest",
     "test:e2e": "cd tests && npm run test",

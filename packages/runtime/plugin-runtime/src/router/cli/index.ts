@@ -52,7 +52,7 @@ export default (): CliPlugin => ({
 
         runtimeConfigMap.set(entryName, runtimeConfig);
 
-        if (runtimeConfig?.router) {
+        if (runtimeConfig?.router && !runtimeConfig?.router?.legacy) {
           imports.push({
             value: '@modern-js/runtime/plugins',
             specifiers: [{ imported: PLUGIN_IDENTIFIER }],
