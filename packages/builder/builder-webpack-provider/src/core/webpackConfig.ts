@@ -1,11 +1,10 @@
-import { debug, type BuilderTarget } from '@modern-js/builder-shared';
+import {
+  debug,
+  type NodeEnv,
+  type BuilderTarget,
+} from '@modern-js/builder-shared';
 import { getCompiledPath } from '../shared';
-import type {
-  Context,
-  NodeEnv,
-  WebpackConfig,
-  ModifyWebpackUtils,
-} from '../types';
+import type { Context, WebpackConfig, ModifyWebpackUtils } from '../types';
 
 async function modifyWebpackChain(context: Context, utils: ModifyWebpackUtils) {
   debug('modify webpack chain');
