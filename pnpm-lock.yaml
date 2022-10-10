@@ -91,6 +91,7 @@ importers:
   packages/builder/builder-shared:
     specifiers:
       '@babel/core': 7.18.0
+      '@modern-js/server': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
       '@types/babel__core': ^7.1.19
@@ -101,6 +102,7 @@ importers:
       vitest: ^0.21.1
       webpack: 5.73.0
     dependencies:
+      '@modern-js/server': link:../../server/server
       '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
       '@babel/core': 7.18.0

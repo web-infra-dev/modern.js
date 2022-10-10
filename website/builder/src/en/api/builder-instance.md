@@ -160,10 +160,15 @@ type StartDevServerOptions = {
   compiler?: Compiler | MultiCompiler;
 };
 
-function StartDevServer(options?: StartDevServerOptions): Promise<{
+type StartDevServerResult = {
   urls: string[];
   port: number;
-}>;
+  server: Server;
+};
+
+function StartDevServer(
+  options?: StartDevServerOptions
+): Promise<StartDevServerResult>;
 ```
 
 - **Example**
@@ -174,12 +179,19 @@ Start Dev Server:
 await builder.startDevServer();
 ```
 
-`startDevServer` will return `urls` and `port`, `urls` is the URLs to access the Dev Server, `port` is the actual listening port number:
+`startDevServer` returns the following parameters:
+
+- `urls`: URLs to access Dev Server.
+- `port`: The actual listening port number.
+- `server`: Server instance object.
 
 ```ts
-const { urls, port } = await builder.startDevServer();
+const { urls, port, server } = await builder.startDevServer();
 console.log(urls); // ['http://localhost:8080', 'http://192.168.0.1:8080']
 console.log(port); // 8080
+
+// Close the Dev Server
+await server.close();
 ```
 
 ### Disable print URLs
