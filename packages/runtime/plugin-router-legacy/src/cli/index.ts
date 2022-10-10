@@ -6,9 +6,9 @@ import {
 import { ServerRoute } from '@modern-js/types';
 import type { CliPlugin } from '@modern-js/core';
 
-const PLUGIN_IDENTIFIER = 'router';
+const PLUGIN_IDENTIFIER = 'legacyRouter';
 
-const ROUTES_IDENTIFIER = 'routes';
+const ROUTES_IDENTIFIER = 'legacyRouter';
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-router-legacy',
@@ -73,7 +73,7 @@ export default (): CliPlugin => ({
         const { entryName, fileSystemRoutes } = entrypoint;
         const { serverRoutes } = api.useAppContext();
         const runtimeConfig = runtimeConfigMap.get(entryName);
-        if (runtimeConfig.router) {
+        if (runtimeConfig?.router?.legacy) {
           // Todo: plugin-router best to only handle manage client route.
           // here support base server route usage, part for compatibility
           const serverBase = serverRoutes
