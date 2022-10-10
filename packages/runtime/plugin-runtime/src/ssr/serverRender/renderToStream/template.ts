@@ -1,5 +1,8 @@
 import fs from 'fs';
+import type { ServerStyleSheet } from 'styled-components';
+import type { ChunkExtractor } from '@loadable/server';
 import { RuntimeContext, ModernSSRReactComponent } from '../types';
+import { getLoadableScripts } from '../utils';
 import { getLoadableChunks } from './loadable';
 import { getStyledComponentCss } from './styledComponent';
 import { buildAfterEntryTemplate } from './buildTemplate.after_entry';
@@ -14,31 +17,63 @@ export function createTemplates(
   rootElement: React.ReactElement,
   prefetchData: Record<string, any>,
   App: ModernSSRReactComponent,
-): InjectTemplate {
-  const filepath = context.ssrContext!.template;
-  const fileContent = getFileContent(filepath);
-  const loadableChunks = getLoadableChunks(context, rootElement);
-  const styledComponentCSS = getStyledComponentCss(context, rootElement);
-  const [beforeEntryTemplate = '', afterEntryHtmlTemplate = ''] =
-    fileContent?.split(HTML_SEPARATOR) || [];
-
-  const builedEntryTemplate = buildBeforeEntryTemplate(beforeEntryTemplate, {
-    loadableChunks,
-    styledComponentCSS,
-  });
-  const buildedAfterEntryTemplate = buildAfterEntryTemplate(
-    afterEntryHtmlTemplate,
+) {
+  const {
+    jsx,
+    chunkExtractor,
+    styleSheet,
+  }: {
+    context?: RuntimeContext;
+    jsx: React.ReactElement;
+    chunkExtractor?: ChunkExtractor;
+    styleSheet?: ServerStyleSheet;
+  } = [getStyledComponentCss, getLoadableChunks].reduce(
+    (params, handler) => {
+      return {
+        ...(params || {}),
+        ...handler({
+          jsx: params.jsx,
+          context: params.context,
+        }),
+      };
+    },
     {
-      loadableChunks,
-      App,
       context,
-      prefetchData,
+      jsx: rootElement,
     },
   );
+  const getTemplates: () => InjectTemplate = () => {
+    const filepath = context.ssrContext!.template;
+    const fileContent = getFileContent(filepath);
+    const [beforeEntryTemplate = '', afterEntryHtmlTemplate = ''] =
+      fileContent?.split(HTML_SEPARATOR) || [];
+    const loadableChunks =
+      chunkExtractor?.getChunkAssets(chunkExtractor.chunks) || [];
+    const loadableScripts = getLoadableScripts(chunkExtractor!);
+    const styledComponentCSS = styleSheet?.getStyleTags() || '';
+    const builedBeforeTemplate = buildBeforeEntryTemplate(beforeEntryTemplate, {
+      loadableChunks,
+      styledComponentCSS,
+    });
+    const buildedAfterTemplate = buildAfterEntryTemplate(
+      afterEntryHtmlTemplate,
+      {
+        loadableScripts,
+        loadableChunks,
+        App,
+        context,
+        prefetchData,
+      },
+    );
+    return {
+      beforeEntry: builedBeforeTemplate,
+      afterEntry: buildedAfterTemplate,
+    };
+  };
 
   return {
-    beforeEntry: builedEntryTemplate,
-    afterEntry: buildedAfterEntryTemplate,
+    jsx,
+    getTemplates,
   };
 
   /**

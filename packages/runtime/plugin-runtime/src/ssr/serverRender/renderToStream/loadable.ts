@@ -3,23 +3,25 @@ import { ChunkExtractor } from '@loadable/server';
 import { LOADABLE_STATS_FILE } from '@modern-js/utils';
 import { RuntimeContext } from '../types';
 
-export type LoadableChunk = {
-  filename?: string;
-};
-export function getLoadableChunks(
-  context: RuntimeContext,
-  jsx: React.ReactElement,
-) {
-  const { ssrContext } = context;
-  const loadableManifest = resolve(ssrContext!.distDir, LOADABLE_STATS_FILE);
+export function getLoadableChunks({
+  context,
+  jsx,
+}: {
+  context: RuntimeContext;
+  jsx: React.ReactElement;
+}) {
+  const ssrContext = context.ssrContext!;
+  const loadableManifest = resolve(ssrContext.distDir, LOADABLE_STATS_FILE);
   if (!loadableManifest) {
-    return [];
+    throw new Error("hasn't loadableManifest in handle loadable chunks");
   }
   const extractor = new ChunkExtractor({
     statsFile: loadableManifest,
-    entrypoints: [ssrContext!.entryName],
+    entrypoints: [ssrContext.entryName],
   });
-  extractor.collectChunks(jsx);
-  const chunks = extractor.getChunkAssets(extractor.chunks) || [];
-  return chunks;
+  const collectedJsx = extractor.collectChunks(jsx);
+  return {
+    jsx: collectedJsx,
+    chunkExtractor: extractor,
+  };
 }

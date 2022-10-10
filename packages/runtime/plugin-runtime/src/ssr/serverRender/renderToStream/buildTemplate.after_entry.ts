@@ -8,6 +8,7 @@ type BuildAfterEntryTemplate = {
   loadableChunks: ChunkAsset[];
   context: RuntimeContext;
   App: ModernSSRReactComponent;
+  loadableScripts: string;
   prefetchData: Record<string, any>;
 };
 export function buildAfterEntryTemplate(
@@ -18,15 +19,18 @@ export function buildAfterEntryTemplate(
     template => {
       return template.replace(
         '<!--<?- chunksMap.js ?>-->',
-        getloadableScripts(options.loadableChunks),
+        getloadableScripts(options.loadableChunks, options.loadableScripts),
       );
-      function getloadableScripts(loadableChunks: ChunkAsset[]) {
+      function getloadableScripts(
+        loadableChunks: ChunkAsset[],
+        loadableScript: string,
+      ) {
         const loadableJsChunks = loadableChunks.filter(
           chunk => chunk.scriptType === 'script',
         );
-        const loadableScripts = loadableJsChunks.map(
-          chunk => `<script src="${chunk.url}"></script>`,
-        );
+        const loadableScripts = loadableJsChunks
+          .map(chunk => `<script src="${chunk.url}"></script>`)
+          .concat([loadableScript]);
         return loadableScripts.join('\n');
       }
     },

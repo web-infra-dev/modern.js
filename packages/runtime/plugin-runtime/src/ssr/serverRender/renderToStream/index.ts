@@ -22,16 +22,13 @@ export const render = (
         ssr: true,
       }),
     });
-    const { beforeEntry, afterEntry } = createTemplates(
+    const { jsx, getTemplates } = createTemplates(
       context,
       rootElement,
       prefetchData,
       App,
     );
-    const pipe = renderToPipe(rootElement, {
-      beforeEntry,
-      afterEntry,
-    });
+    const pipe = renderToPipe(jsx, getTemplates);
     return pipe;
   });
 

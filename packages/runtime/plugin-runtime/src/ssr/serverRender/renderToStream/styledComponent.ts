@@ -1,12 +1,11 @@
 import { ServerStyleSheet } from 'styled-components';
-import { RuntimeContext } from '../types';
 
-export function getStyledComponentCss(
-  _context: RuntimeContext,
-  jsx: React.ReactElement,
-) {
+export function getStyledComponentCss({ jsx }: { jsx: React.ReactElement }) {
   const sheet = new ServerStyleSheet();
 
-  sheet.collectStyles(jsx);
-  return sheet.getStyleTags();
+  const collectedJsx = sheet.collectStyles(jsx);
+  return {
+    styleSheet: sheet,
+    jsx: collectedJsx,
+  };
 }

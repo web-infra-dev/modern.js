@@ -26,14 +26,14 @@ function getHeadTemplate(
       );
 
       function getChunkCss(options: GetHeadTemplateOptions) {
-        const loadableCssChunks: any[] = options.loadableChunks?.filter(
-          (chunk: any) => chunk.scriptType === 'style',
+        const loadableCssChunks = options.loadableChunks?.filter(
+          chunk => chunk.scriptType === 'style',
         );
         const stylelinks = loadableCssChunks.map((chunk: any) => {
           return `<link href="${chunk.url}" rel="stylesheet" />`;
         });
         return `
-          ${options.loadableChunks || ''}
+          ${options.styledComponentCSS || ''}
           ${stylelinks.join(' ')}
         `;
       }

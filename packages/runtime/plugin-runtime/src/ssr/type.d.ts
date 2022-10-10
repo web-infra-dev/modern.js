@@ -7,7 +7,7 @@ declare module '@loadable/server' {
     url?: string;
     path?: string;
     type?: string;
-    linkeType?: 'preload' | string;
+    linkType?: 'preload' | string;
   }
   export class ChunkExtractor {
     chunks: any;
