@@ -2,6 +2,7 @@ import {
   debug,
   logger,
   DEFAULT_PORT,
+  StartDevServerResult,
   StartDevServerOptions,
 } from '@modern-js/builder-shared';
 import { createCompiler } from './createCompiler';
@@ -107,10 +108,10 @@ export async function startDevServer(
   await options.context.hooks.onBeforeStartDevServerHooks.call();
 
   debug('listen dev server');
-  const app = await server.init();
+  await server.init();
 
-  return new Promise<{ port: number; urls: string[] }>(resolve => {
-    app.listen(port, async (err: Error) => {
+  return new Promise<StartDevServerResult>(resolve => {
+    server.listen(port, async (err: Error) => {
       if (err) {
         throw err;
       }
@@ -129,6 +130,7 @@ export async function startDevServer(
       resolve({
         port,
         urls: urls.map(item => item.url),
+        server,
       });
     });
   });
