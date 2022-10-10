@@ -1,11 +1,6 @@
 import { join } from 'path';
-import {
-  getDistPath,
-  getFilename,
-  FONT_EXTENSIONS,
-  getRegExpForExts,
-  getDataUrlCondition,
-} from '../shared';
+import { getRegExpForExts, FONT_EXTENSIONS } from '@modern-js/builder-shared';
+import { getDistPath, getFilename, getDataUrlCondition } from '../shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginFont = (): BuilderPlugin => ({

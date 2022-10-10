@@ -1,9 +1,7 @@
-import type { BuilderTarget } from '@modern-js/builder-shared';
+import type { NodeEnv, BuilderTarget } from '@modern-js/builder-shared';
 import type { BuilderConfig } from './config';
 import type { WebpackChain, WebpackConfig } from './thirdParty';
 import type { Stats, MultiStats, Compiler, MultiCompiler } from 'webpack';
-
-export type NodeEnv = 'development' | 'production' | 'test';
 
 export type ModifyWebpackUtils = {
   env: NodeEnv;

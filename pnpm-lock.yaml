@@ -187,6 +187,7 @@ importers:
   packages/builder/plugin-esbuild:
     specifiers:
       '@modern-js/builder': workspace:*
+      '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
@@ -195,6 +196,7 @@ importers:
       vitest: ^0.21.1
       wireit: ^0.7.1
     dependencies:
+      '@modern-js/builder-shared': link:../builder-shared
       esbuild: 0.15.10
     devDependencies:
       '@modern-js/builder': link:../builder

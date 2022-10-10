@@ -1,4 +1,4 @@
-import { SASS_REGEX } from '../shared';
+import { SASS_REGEX } from '@modern-js/builder-shared';
 import { BuilderPlugin, SassLoaderOptions } from '../types';
 
 export function PluginSass(): BuilderPlugin {

@@ -18,11 +18,10 @@ import {
 } from '../shared/plugin';
 import { URL } from 'url';
 import { Hooks } from '../core/initHooks';
-import { matchLoader } from '../shared';
 import type { BuilderConfig, BuilderPlugin, Context } from '../types';
 import { STUB_BUILDER_PLUGIN_BUILTIN } from './constants';
 import { createStubContext } from './context';
-import { globContentJSON, filenameToGlobExpr } from './utils';
+import { matchLoader, globContentJSON, filenameToGlobExpr } from './utils';
 
 export interface OptionsPluginsItem {
   builtin?: boolean | 'default' | 'minimal' | 'basic';

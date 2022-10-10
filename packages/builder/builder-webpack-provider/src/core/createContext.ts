@@ -1,10 +1,14 @@
 import { existsSync } from 'fs';
 import { isAbsolute, join } from 'path';
-import { debug, CreateBuilderOptions } from '@modern-js/builder-shared';
+import {
+  debug,
+  isFileExists,
+  type CreateBuilderOptions,
+} from '@modern-js/builder-shared';
 import { initHooks } from './initHooks';
 import { ConfigValidator } from '../config/validate';
 import { withDefaultConfig } from '../config/defaults';
-import { isFileExists, getDistPath } from '../shared';
+import { getDistPath } from '../shared';
 import type { Context, BuilderConfig } from '../types';
 
 export function getAbsoluteDistPath(cwd: string, config: BuilderConfig) {

@@ -1,11 +1,6 @@
 import { join } from 'path';
-import {
-  getDistPath,
-  getFilename,
-  MEDIA_EXTENSIONS,
-  getRegExpForExts,
-  getDataUrlCondition,
-} from '../shared';
+import { getRegExpForExts, MEDIA_EXTENSIONS } from '@modern-js/builder-shared';
+import { getDistPath, getFilename, getDataUrlCondition } from '../shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginMedia = (): BuilderPlugin => ({

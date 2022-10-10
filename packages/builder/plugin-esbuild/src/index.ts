@@ -1,3 +1,4 @@
+import { JS_REGEX, TS_REGEX } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '@modern-js/builder';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import type {
@@ -9,9 +10,6 @@ export interface EsbuildOptions {
   loader?: false | LoaderOptions;
   minimize?: false | MinifyPluginOptions;
 }
-
-export const JS_REGEX = /\.(js|mjs|cjs|jsx)$/;
-export const TS_REGEX = /\.(ts|mts|cts|tsx)$/;
 
 export function PluginEsbuild(
   options: EsbuildOptions = {
