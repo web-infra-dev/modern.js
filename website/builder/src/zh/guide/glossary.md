@@ -6,6 +6,10 @@
 
 当 Bundler 处理 JavaScript 应用时，它会构建一个依赖关系图，其中包含应用需要的各个模块，然后将所有模块打包成一个或多个 bundle。
 
+## Rspack
+
+字节跳动 Web Infra 团队自研的 Rust Bundler，目前仍在研发过程中，尚未开源。
+
 ## Builder
 
 Builder 可以翻译为「构建引擎」，Builder 的目标是「复用构建工具的最佳实践」。
@@ -14,18 +18,18 @@ Builder 可以翻译为「构建引擎」，Builder 的目标是「复用构建�
 
 Builder 比 Bundler 的封装程度更高，默认集成代码转换、代码压缩等能力。通过接入 Builder，可以快速获得构建现代 Web 应用的能力。
 
+Builder 内部的分层如下：
+
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-struct-10092.png" />
+
 ## Builder Provider
 
 Builder Provider 是 Builder 的组成部分之一，Provider 基于特定 bundler 实现了对应的构建能力。
 
-比如：
+目前 Builder 提供了两个 Provider：
 
-- 组合 `@modern-js/builder` 与 `@modern-js/builder-webpack-provider`，可以使用 webpack 的构建能力。
-- 组合 `@modern-js/builder` 与 `@modern-js/rspack-build-provider`，可以使用 rspack 的构建能力。
-
-## Rspack
-
-字节跳动 Web Infra 团队自研的 Rust Bundler，目前仍在研发过程中，尚未开源。
+- `@modern-js/builder-webpack-provider`：底层基于 webpack 来实现。
+- `@modern-js/builder-rspack-provider`：底层基于 rspack 来实现。
 
 ## Modern.js
 

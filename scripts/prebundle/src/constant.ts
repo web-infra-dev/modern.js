@@ -376,7 +376,7 @@ export const TASKS: TaskConfig[] = [
         name: 'url-loader',
         ignoreDts: true,
         externals: {
-          'schema-utils': 'schema-utils',
+          'schema-utils': '../schema-utils3',
           'loader-utils': '../loader-utils2',
           'mime-types': '@modern-js/utils/mime-types',
         },

@@ -1,5 +1,6 @@
 import path from 'path';
 import { ChunkExtractor } from '@loadable/server';
+import { isCrossOrigin } from '../utils';
 import { RenderHandler } from './type';
 
 function getLoadableScripts(extractor: ChunkExtractor) {
@@ -26,6 +27,8 @@ export const toHtml: RenderHandler = (jsx, renderer, next) => {
   const {
     loadableManifest,
     result: { chunksMap },
+    host,
+    config,
   } = renderer;
 
   if (!loadableManifest || chunksMap.js) {
@@ -46,7 +49,16 @@ export const toHtml: RenderHandler = (jsx, renderer, next) => {
     const fileType = path.extname(v.url).slice(1);
 
     if (fileType === 'js') {
-      chunksMap[fileType] += `<script src="${v.url}"></script>`;
+      const props = [];
+      const { crossorigin } = config;
+      if (crossorigin && isCrossOrigin(v.url, host)) {
+        props.push(
+          `crossorigin="${crossorigin === true ? 'anonymous' : crossorigin}"`,
+        );
+      }
+      chunksMap[fileType] += `<script src="${v.url}" ${props.join(
+        ' ',
+      )}></script>`;
     } else if (fileType === 'css') {
       chunksMap[fileType] += `<link href="${v.url}" rel="stylesheet" />`;
     }

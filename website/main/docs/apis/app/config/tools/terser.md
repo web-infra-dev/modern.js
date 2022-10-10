@@ -28,7 +28,7 @@ const defaultOptions = {
 
 </details>
 
-在生产环境构建时，Modern.js 会通过 [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin) 对 JS 代码进行压缩优化。可以通过 `tools.terser` 修改 [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin) 的配置。
+在生产环境构建时，Modern.js 会通过 [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin) 对 JS 代码进行压缩优化。可以通过 `tools.terser` 修改 [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin) 的配置。
 
 ## 类型
 
