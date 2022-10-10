@@ -7,6 +7,8 @@ import cache from './cache';
 import { SSRServerContext } from './type';
 import { createLogger, createMetrics } from './measure';
 
+const isReact18 = () => process.env.IS_REACT18 === 'true';
+
 export const render = async (
   ctx: ModernServerContext,
   renderOptions: {
@@ -57,7 +59,14 @@ export const render = async (
   runner.extendSSRContext(context);
 
   const serverRender = require(bundleJS)[SERVER_RENDER_FUNCTION_NAME];
-
+  if (isReact18()) {
+    // TODO: if support react18, using react18 streaming ssr;
+    return {
+      content: '',
+      contentType: mime.contentType('html') as string,
+      pipe: await serverRender(context),
+    };
+  }
   const html = await cache(serverRender, ctx)(context);
 
   const { url, status = 302 } = context.redirection;

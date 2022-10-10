@@ -1,37 +1,24 @@
-import { run } from '@modern-js/utils/ssr';
-import { RuntimeContext } from '../../core';
-import { PreRender } from '../react/prerender';
-import SSREntry from './entry';
-import { time } from './measure';
-import { ModernSSRReactComponent, SSRPluginConfig } from './type';
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-require-imports */
 
-export const render = async (
-  ctx: RuntimeContext,
-  config: SSRPluginConfig,
-  App: ModernSSRReactComponent,
-): Promise<string> => {
-  const { ssrContext } = ctx;
+import path from 'path';
+import { isReact18 } from '../utils';
+import { RuntimeContext } from './types';
 
-  return run(ssrContext!.request.headers, async () => {
-    const entry = new SSREntry({
-      ctx: ssrContext!,
+export default async function serverRender(
+  App: React.ElementType<any>,
+  context?: RuntimeContext,
+) {
+  if (isReact18()) {
+    const pipe = await require('./renderToStream').render(context, App);
+    return pipe;
+  } else {
+    const html = await require('./renderToString').render(
+      context,
+      context?.ssrContext?.distDir || path.join(process.cwd(), 'dist'),
       App,
-      config,
-    });
-    entry.metrics.emitCounter('app.visit.count', 1);
-
-    const end = time();
-    const html = await entry.renderToHtml(ctx);
-    const cost = end();
-
-    entry.logger.info('App Render Total cost = %d ms', cost);
-    entry.metrics.emitTimer('app.render.cost', cost);
-
-    const cacheConfig = PreRender.config();
-    if (cacheConfig) {
-      ctx.ssrContext!.cacheConfig = cacheConfig;
-    }
-
+    );
     return html;
-  });
-};
+  }
+}

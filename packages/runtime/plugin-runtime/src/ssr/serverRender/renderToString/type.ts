@@ -1,6 +1,4 @@
-// import { IncomingHttpHeaders } from 'http';
 import type { BaseSSRServerContext } from '@modern-js/types';
-import type { RuntimeContext } from '../../core';
 
 export enum RenderLevel {
   CLIENT_RENDER,
@@ -13,11 +11,6 @@ export type SSRServerContext = BaseSSRServerContext & {
     userAgent: string;
     cookie: string;
   };
-};
-
-export type ModernSSRReactComponent = React.ComponentType<any> & {
-  init: (context: RuntimeContext) => Promise<void>;
-  prefetch: (context: RuntimeContext) => Promise<Record<string, any>>;
 };
 
 export interface RenderEntry {

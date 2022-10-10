@@ -446,6 +446,7 @@ export class ModernServer implements ModernServerInterface {
     }
 
     const file = await this.handleWeb(context, route);
+
     if (!file) {
       this.render404(context);
       return;
@@ -464,30 +465,37 @@ export class ModernServer implements ModernServerInterface {
     }
 
     let response = file.content;
-    if (route.entryName) {
-      const afterRenderContext = createAfterRenderContext(
-        context,
-        response.toString(),
-      );
 
-      // only full mode run server hook
-      if (this.runMode === RUN_MODE.FULL) {
-        await this.runner.afterRender(afterRenderContext, { onLast: noop });
+    if (response) {
+      if (route.entryName) {
+        // FIXME: apply in streaming ssr
+        const afterRenderContext = createAfterRenderContext(
+          context,
+          response.toString(),
+        );
+
+        // only full mode run server hook
+        if (this.runMode === RUN_MODE.FULL) {
+          await this.runner.afterRender(afterRenderContext, { onLast: noop });
+        }
+        // It will inject _SERVER_DATA twice, when SSG mode.
+        // The first time was in ssg html created, the seoncd time was in prod-server start.
+        // but the second wound causes route error.
+        // To ensure that the second injection fails, the _SERVER_DATA inject at the front of head,
+        afterRenderContext.template.prependHead(
+          `<script>window._SERVER_DATA=${JSON.stringify(
+            context.serverData,
+          )}</script>`,
+        );
+        response = afterRenderContext.template.get();
       }
-      // It will inject _SERVER_DATA twice, when SSG mode.
-      // The first time was in ssg html created, the seoncd time was in prod-server start.
-      // but the second wound causes route error.
-      // To ensure that the second injection fails, the _SERVER_DATA inject at the front of head,
-      afterRenderContext.template.prependHead(
-        `<script>window._SERVER_DATA=${JSON.stringify(
-          context.serverData,
-        )}</script>`,
-      );
-      response = afterRenderContext.template.get();
+      res.setHeader('content-type', file.contentType);
+      res.end(response);
+    } else {
+      const { pipe } = file;
+      res.setHeader('content-type', file.contentType);
+      pipe?.(res);
     }
-
-    res.setHeader('content-type', file.contentType);
-    res.end(response);
   }
 
   // compose handlers and create the final handler

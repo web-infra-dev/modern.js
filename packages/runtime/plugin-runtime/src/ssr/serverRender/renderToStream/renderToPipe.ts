@@ -1,14 +1,17 @@
-import { Transform } from 'stream';
+import { Transform, Writable } from 'stream';
 import {
   RenderToPipeableStreamOptions,
   renderToPipeableStream,
 } from 'react-dom/server';
+import React from 'react';
 import { InjectTemplate } from './type';
 
 export type RenderToPipeOptioons = Omit<
   RenderToPipeableStreamOptions,
   'onShellReady' | 'onShellError' | 'onAllReady' | 'onError'
 >;
+
+export type Pipe = (writable: Writable) => void;
 
 enum StreamingStatus {
   Entry,
@@ -17,12 +20,12 @@ enum StreamingStatus {
 }
 
 function renderToPipe(
-  App: React.ComponentType<any>,
+  rootElement: React.ReactElement,
   injectTemplate: InjectTemplate,
   options?: RenderToPipeOptioons,
 ) {
   let streamingStaus = StreamingStatus.Entry;
-  const transformPipe = new Transform({
+  const transformStream = new Transform({
     transform(chunk, _encoding, callback) {
       try {
         switch (streamingStaus) {
@@ -58,7 +61,7 @@ function renderToPipe(
         if (e instanceof Error) {
           callback(e);
         } else {
-          callback(new Error('unkown error'));
+          callback(new Error('Received unkown error when streaming'));
         }
       }
     },
@@ -80,17 +83,17 @@ function renderToPipe(
   //   },
   //   ...options,
   // });
-  const rawStream = renderToPipeableStream(App, {
-    onAllReady() {
-      rawStream.pipe(transformPipe);
-    },
-    ...options,
-  });
 
-  return {
-    pipe: transformPipe.pipe,
-    abort: rawStream.abort,
+  const forUserPipe: Pipe = outputStream => {
+    const rawStream = renderToPipeableStream(rootElement, {
+      onAllReady() {
+        rawStream.pipe(transformStream).pipe(outputStream);
+      },
+      ...options,
+    });
   };
+
+  return forUserPipe;
 
   function joinChunk<Chunk extends { toString: () => string }>(
     before = '',

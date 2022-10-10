@@ -1,5 +1,5 @@
 import { BaseSSRServerContext } from '@modern-js/types';
-import { SSRServerContext } from './serverRender/type';
+import { SSRServerContext } from './serverRender/types';
 
 export const isReact18 = () => {
   return process.env.IS_REACT18 === 'true';
@@ -64,8 +64,6 @@ export const mockResponse = () => {
       console.warn('response.locals can only be used in the server side');
       return {};
     },
-    // TODO: handle response raw
-    raw: null as any,
   };
 };
 

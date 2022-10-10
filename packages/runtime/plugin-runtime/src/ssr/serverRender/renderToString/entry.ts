@@ -4,17 +4,11 @@ import React from 'react';
 import ReactDomServer from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import ReactHelmet, { HelmetData } from 'react-helmet';
-import { RuntimeContext } from '../../core';
+import helmetReplace from '../helmet';
+import { RenderLevel, RuntimeContext, ModernSSRReactComponent } from '../types';
+import { SSRServerContext, RenderResult, SSRPluginConfig } from './type';
 import { Fragment, toFragments } from './template';
-import {
-  ModernSSRReactComponent,
-  RenderLevel,
-  SSRServerContext,
-  RenderResult,
-  SSRPluginConfig,
-} from './type';
 
-import helmetReplace from './helmet';
 import { reduce } from './reduce';
 import * as loadableRenderer from './loadable';
 import * as styledComponentRenderer from './styledComponent';
@@ -95,25 +89,25 @@ export default class Entry {
   public async renderToHtml(context: RuntimeContext): Promise<string> {
     const { ssrContext } = context;
 
-    if (ssrContext!.redirection.url) {
+    if (ssrContext.redirection.url) {
       return '';
     }
 
     const prefetchData = await this.prefetch(context);
-    if (ssrContext!.redirection.url) {
+    if (ssrContext.redirection.url) {
       return '';
     }
 
     if (this.result.renderLevel >= RenderLevel.SERVER_PREFETCH) {
       this.result.html = this.renderToString(context);
     }
-    if (ssrContext!.redirection.url) {
+    if (ssrContext.redirection.url) {
       return '';
     }
 
     let html = '';
     const templateData = buildTemplateData(
-      ssrContext!,
+      ssrContext,
       prefetchData,
       this.result.renderLevel,
     );
@@ -166,10 +160,7 @@ export default class Entry {
 
       // Todo render Hook
       const renderContext = {
-        loadableManifest: path.resolve(
-          ssrContext!.distDir,
-          LOADABLE_STATS_FILE,
-        ),
+        loadableManifest: path.resolve(ssrContext.distDir, LOADABLE_STATS_FILE),
         host: this.host,
         result: this.result,
         entryName: this.entryName,

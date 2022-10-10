@@ -1,13 +1,10 @@
 import { registerPrefetch } from '../core';
 import type { Plugin } from '../core';
-import { render } from './serverRender';
-import type {
-  ModernSSRReactComponent,
-  SSRPluginConfig,
-  SSRServerContext,
-} from './serverRender/type';
+import { SSRServerContext } from './serverRender/types';
 import prefetch from './prefetch';
 import { formatServer } from './utils';
+import render from './serverRender';
+import { SSRPluginConfig } from './serverRender/renderToString/type';
 
 const registeredApps = new WeakSet();
 

@@ -1,5 +1,6 @@
 import { Buffer } from 'buffer';
 import { IncomingMessage, Server, ServerResponse } from 'http';
+import { Writable } from 'stream';
 import { serverManager } from '@modern-js/server-core';
 import type { ServerPlugin } from '@modern-js/server-core';
 import type { NormalizedConfig } from '@modern-js/core';
@@ -43,6 +44,7 @@ export type RenderResult = {
   contentType: string;
   statusCode?: number;
   redirect?: boolean;
+  pipe?: (outputStream: Writable) => void;
 };
 
 export type ConfWithBFF = {

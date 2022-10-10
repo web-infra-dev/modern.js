@@ -1,33 +1,24 @@
 import fs from 'fs';
-import { createElement } from 'react';
-import { RuntimeContext } from '../../core';
-import { ModernSSRReactComponent } from '../serverRender/type';
+import { RuntimeContext, ModernSSRReactComponent } from '../types';
 import { getLoadableChunks } from './loadable';
 import { getStyledComponentCss } from './styledComponent';
-import {
-  buildAfterEntryTemplate,
-  buildAfterLeaveTemplate,
-  buildBeforeEntryTemplate,
-} from './buildTemplate';
+import { buildAfterEntryTemplate } from './buildTemplate.after_entry';
+import { buildBeforeEntryTemplate } from './bulidTemplate.before_entry';
 import { InjectTemplate } from './type';
 
 const HTML_SEPARATOR = '<!--<?- html ?>-->';
 const filesCache = new Map<string, string>();
 
-export async function createTemplates(
+export function createTemplates(
   context: RuntimeContext,
+  rootElement: React.ReactElement,
+  prefetchData: Record<string, any>,
   App: ModernSSRReactComponent,
-): Promise<InjectTemplate> {
-  const filepath = context.ssrContext?.template;
+): InjectTemplate {
+  const filepath = context.ssrContext!.template;
   const fileContent = getFileContent(filepath);
-  const rootElment = createElement(App, {
-    context: Object.assign(context.ssrContext || {}, {
-      ssr: true,
-    }),
-  });
-
-  const loadableChunks = getLoadableChunks(context, rootElment);
-  const styledComponentCSS = getStyledComponentCss(context, rootElment);
+  const loadableChunks = getLoadableChunks(context, rootElement);
+  const styledComponentCSS = getStyledComponentCss(context, rootElement);
   const [beforeEntryTemplate = '', afterEntryHtmlTemplate = ''] =
     fileContent?.split(HTML_SEPARATOR) || [];
 
@@ -39,17 +30,15 @@ export async function createTemplates(
     afterEntryHtmlTemplate,
     {
       loadableChunks,
+      App,
+      context,
+      prefetchData,
     },
   );
-  const builedAfterLeaveTemplate = await buildAfterLeaveTemplate({
-    App,
-    context,
-  });
 
   return {
     beforeEntry: builedEntryTemplate,
     afterEntry: buildedAfterEntryTemplate,
-    afterLeave: builedAfterLeaveTemplate,
   };
 
   /**

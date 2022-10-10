@@ -1,5 +1,3 @@
-// import type { renderToString, renderToStaticMarkup } from 'react-dom/server';
-
 declare module '@loadable/server' {
   interface ChunkAsset {
     filename?: string;
