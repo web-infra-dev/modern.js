@@ -1,4 +1,4 @@
-import { TS_REGEX } from '../shared';
+import { TS_REGEX } from '@modern-js/builder-shared';
 import { BuilderPlugin } from '../types';
 import { applyScriptCondition, getUseBuiltIns } from './babel';
 
