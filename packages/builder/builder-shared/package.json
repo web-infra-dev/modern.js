@@ -37,6 +37,7 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
+    "@modern-js/server": "workspace:*",
     "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
