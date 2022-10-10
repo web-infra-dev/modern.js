@@ -1,8 +1,8 @@
 import webpack from 'webpack';
 import { expect, describe, it } from 'vitest';
+import { MODULE_PATH_REGEX } from '@modern-js/builder-shared';
 import {
   stringifyConfig,
-  MODULE_PATH_REGEX,
   getPackageNameFromModulePath,
 } from '../../src/shared';
 import type { BuilderConfig, WebpackConfig } from '../../src/types';
