@@ -7,79 +7,95 @@ import type {
   ModuleToolsHooks,
   PluginAPI,
   DTSOptions,
+  ModuleContext,
+  SourceConfig,
 } from '../types';
-import { runRollup } from './dts';
+import { defaultTsConfigPath } from '../constants/dts';
+import { runRollup, runTsc } from './dts';
 
 export const runBuildTask = async (
-  config: BaseBuildConfig,
-  options: BuildCommandOptions,
+  options: {
+    buildConfig: BaseBuildConfig;
+    buildCmdOptions: BuildCommandOptions;
+    context: ModuleContext;
+    sourceConfig: SourceConfig;
+  },
   api: PluginAPI<ModuleToolsHooks>,
 ) => {
-  const dts = options.dts ? config.dts : false;
-  const watch = options.watch ?? false;
-  const { appDirectory } = api.useAppContext();
+  const { buildConfig, buildCmdOptions, context, sourceConfig } = options;
+  const dts = buildCmdOptions.dts ? buildConfig.dts : false;
+  const watch = buildCmdOptions.watch ?? false;
+  const { appDirectory } = context;
+
+  const { verifyTsConfigPaths } = await import('../utils/dts');
+
+  await verifyTsConfigPaths(
+    buildConfig.dts
+      ? buildConfig.dts.tsconfigPath
+      : path.join(appDirectory, defaultTsConfigPath),
+    sourceConfig.alias,
+  );
+
   if (dts) {
-    const dtsOptions = {
-      only: dts.only ?? false,
-      distPath: path.resolve(appDirectory, dts.distPath ?? 'dist/types'),
-      tsconfigPath: path.resolve(
-        appDirectory,
-        options.tsconfig ?? dts.tsconfigPath ?? 'tsconfig.json',
-      ),
-    };
-    const tasks = dtsOptions.only ? [generatorDts] : [buildLib, generatorDts];
+    const tasks = dts.only ? [generatorDts] : [buildLib, generatorDts];
     const { default: pMap } = await import('p-map');
     await pMap(tasks, async task => {
-      await task(config, api, watch, dts);
+      await task(buildConfig, api, sourceConfig, watch, dts);
     });
   } else {
-    await buildLib(config, api, watch);
+    await buildLib(buildConfig, api, sourceConfig, watch);
   }
 };
 
 export const generatorDts = async (
   config: BaseBuildConfig,
   api: PluginAPI,
+  sourceConfig: SourceConfig,
   watch: boolean,
   dts: DTSOptions,
 ) => {
-  const { buildType, entry } = config;
+  const { buildType } = config;
   const { appDirectory } = api.useAppContext();
   const { tsconfigPath, distPath } = dts;
-  const distDir = path.join(appDirectory, distPath);
   if (buildType === 'bundle') {
     const {
-      bundleOptions: { externals },
+      bundleOptions: { entry, externals },
     } = config;
     await runRollup({
-      distDir,
+      distDir: distPath,
       watch,
       externals,
       entry,
       tsconfigPath,
     });
   } else {
-    // TODO: bundleless
+    const { sourceDir } = config.bundlelessOptions;
+    await runTsc({
+      appDirectory,
+      alias: sourceConfig.alias,
+      distAbsPath: distPath,
+      watch,
+      tsconfigPath,
+      sourceDir,
+    });
   }
 };
 
 export const buildLib = async (
   config: BaseBuildConfig,
-  api: PluginAPI,
+  _: PluginAPI,
+  sourceConfig: SourceConfig,
   watch: boolean,
 ) => {
-  const {
-    target,
-    buildType,
-    sourceMap,
-    entry,
-    format,
-    path: distPath,
-  } = config;
-  const { appDirectory } = api.useAppContext();
+  const { target, buildType, sourceMap, format, path: distPath } = config;
+
+  // TODO: use sourceConfig
+  console.info(sourceConfig);
+
   if (buildType === 'bundle') {
     const {
       bundleOptions: {
+        entry,
         platform,
         splitting,
         minify,
@@ -93,15 +109,13 @@ export const buildLib = async (
       },
     } = config;
 
-    const outdir = path.join(appDirectory, distPath);
-
     const plugins = target === 'es5' ? [es5OutputPlugin()] : [];
     const bundleConfig: CLIConfig = {
       platform,
       watch,
       input: entry,
       target,
-      outdir,
+      outdir: distPath,
       format,
       jsx,
       metafile,

@@ -22,16 +22,19 @@ export const npmLibraryPresetConfig: PartialBuildConfig = [
     format: 'cjs',
     target: 'es6',
     buildType: 'bundle',
-    path: './lib',
-    dts: {
-      distPath: './types',
-    },
+    path: './dist/lib',
+    dts: false,
   },
   {
     format: 'esm',
     target: 'es6',
     buildType: 'bundle',
-    path: './es',
+    path: './dist/es',
+    dts: false,
+  },
+  {
+    buildType: 'bundle',
+    dts: { only: true, distPath: './types' },
   },
 ];
 export const npmLibraryWithUmdPresetConfig: PartialBuildConfig = [
@@ -39,22 +42,26 @@ export const npmLibraryWithUmdPresetConfig: PartialBuildConfig = [
     format: 'cjs',
     target: 'es6',
     buildType: 'bundle',
-    path: './lib',
+    path: './dist/lib',
+    dts: false,
   },
   {
     format: 'esm',
     target: 'es6',
     buildType: 'bundle',
-    path: './es',
-    dts: {
-      distPath: '../types',
-    },
+    path: './dist/es',
+    dts: false,
   },
   {
     format: 'umd',
     target: 'es6',
     buildType: 'bundle',
-    path: './umd',
+    path: './dist/umd',
+    dts: false,
+  },
+  {
+    buildType: 'bundle',
+    dts: { only: true, distPath: './types' },
   },
 ];
 export const npmComponentPresetConfig: PartialBuildConfig = [
@@ -62,16 +69,20 @@ export const npmComponentPresetConfig: PartialBuildConfig = [
     format: 'cjs',
     target: 'es6',
     buildType: 'bundleless',
-    path: './lib',
-    dts: {
-      distPath: '../types',
-    },
+    path: './dist/lib',
+    dts: false,
   },
   {
     format: 'esm',
     target: 'es6',
     buildType: 'bundleless',
-    path: './es',
+    path: './dist/es',
+    dts: false,
+  },
+  {
+    buildType: 'bundleless',
+    path: './dist/types',
+    dts: { only: true },
   },
 ];
 export const npmComponentWithUmdPresetConfig: PartialBuildConfig = [
@@ -79,22 +90,26 @@ export const npmComponentWithUmdPresetConfig: PartialBuildConfig = [
     format: 'cjs',
     target: 'es6',
     buildType: 'bundleless',
-    path: './lib',
-    dts: {
-      distPath: '../types',
-    },
+    path: './dist/lib',
+    dts: false,
   },
   {
     format: 'esm',
     target: 'es6',
     buildType: 'bundleless',
-    path: './es',
+    path: './dist/es',
+    dts: false,
   },
   {
     format: 'umd',
     target: 'es6',
     buildType: 'bundle',
-    path: './umd',
+    path: './dist/umd',
+    dts: false,
+  },
+  {
+    buildType: 'bundleless',
+    dts: { only: true, distPath: './types' },
   },
 ];
 
@@ -165,16 +180,16 @@ export const defaultBundleBuildConfig: BaseBuildConfig = {
   format: 'cjs',
   target: 'esnext',
   // TODO: getDefaultEntry
-  entry: ['./src/index'],
   sourceMap: false,
   copy: [],
   path: './dist',
   dts: {
     only: false,
-    distPath: './types',
+    distPath: './',
     tsconfigPath: './tsconfig.json',
   },
   bundleOptions: {
+    entry: ['./src'],
     platform: 'node',
     splitting: false,
     externals: undefined,
@@ -193,17 +208,16 @@ export const defaultBundlelessBuildConfig: BaseBuildConfig = {
   buildType: 'bundleless',
   format: 'cjs',
   target: 'esnext',
-  // TODO: getDefaultEntry
-  entry: ['./src'],
   sourceMap: false,
   copy: [],
   path: './dist',
   dts: {
-    distPath: './types',
+    distPath: './',
     tsconfigPath: './tsconfig.json',
     only: false,
   },
   bundlelessOptions: {
+    sourceDir: './src',
     style: {
       path: './',
       compileMode: 'all',

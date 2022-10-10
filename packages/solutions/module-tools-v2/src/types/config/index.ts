@@ -8,6 +8,12 @@ import { ModuleToolsHooks } from '..';
 import type { DeepPartial } from '../utils';
 import { BuildInPreset, presetList } from '../../constants/build';
 
+export type BuildType = 'bundleless' | 'bundle';
+
+export type BundlelessFormat = 'esm' | 'cjs';
+export type BundleFormat = 'esm' | 'cjs' | 'umd' | 'iife';
+export type Format = BundlelessFormat | BundleFormat;
+
 export type Target =
   | 'es5'
   | 'es6'
@@ -31,7 +37,6 @@ export type SourceMap = Required<LibuildUserConfig>['sourceMap'];
 export type Copy = { from: string; to?: string }[];
 export interface BaseCommonBuildConfig {
   target: Target;
-  entry: Entry;
   dts: DTS;
   sourceMap: SourceMap;
   copy: Copy;
@@ -39,15 +44,14 @@ export interface BaseCommonBuildConfig {
 }
 export interface PartialBaseCommonBuildConfig {
   target?: Target;
-  entry?: Entry;
   dts?: false | Partial<DTSOptions>;
   sourceMap?: SourceMap;
   copy?: Copy;
   path?: string;
 }
 
-export type BundleFormat = 'esm' | 'cjs' | 'umd' | 'iife';
 export type BundleOptions = {
+  entry: Entry;
   platform: LibuildUserConfig['platform'];
   splitting: LibuildUserConfig['splitting'];
   minify: LibuildUserConfig['minify'];
@@ -77,17 +81,18 @@ export interface PartialBaseBundleBuildConfig
   bundleOptions?: DeepPartial<BundleOptions>;
 }
 
-export type BundlelessFormat = 'esm' | 'cjs';
 export type Style = {
   compileMode:
     | 'all'
     | 'only-compiled-code'
     | /* may be will be deprecated */ 'only-source-code'
     | false;
+  // TODO: 确认是否需要
   path: string;
 };
 export type Assets = { path: string };
 export type BundlelessOptions = {
+  sourceDir: string;
   style: Style;
   assets: Assets;
 };
@@ -119,12 +124,13 @@ export type BuildPreset =
       preset: typeof BuildInPreset;
     }) => PartialBuildConfig | Promise<PartialBuildConfig>);
 
+export type AliasOption =
+  | Record<string, string>
+  | ((aliases: Record<string, string>) => Record<string, string> | void);
 export interface SourceConfig {
-  envVars: Array<string>;
+  envVars: string[];
   globalVars: Record<string, string>;
-  alias:
-    | Record<string, string>
-    | ((aliases: Record<string, string>) => Record<string, unknown>);
+  alias: AliasOption;
   /**
    * The configuration of `source.designSystem` is provided by `tailwindcss` plugin.
    * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
@@ -162,7 +168,7 @@ export interface ResolvedConfig {
 }
 
 export interface UserConfig {
-  source?: DeepPartial<SourceConfig>;
+  source?: Partial<SourceConfig>;
 
   buildConfig?: PartialBuildConfig;
 

@@ -13,6 +13,7 @@ export const buildCommand = async (
   context: ModuleContext,
 ) => {
   const local = await import('./locale');
+  const { defaultTsConfigPath } = await import('./constants/dts');
 
   program
     .command('build')
@@ -22,7 +23,7 @@ export const buildCommand = async (
     .option(
       '--tsconfig [tsconfig]',
       local.i18n.t(local.localeKeys.command.build.tsconfig),
-      './tsconfig.json',
+      defaultTsConfigPath,
     )
     .option(
       '--style-only',
@@ -39,18 +40,29 @@ export const buildCommand = async (
       local.i18n.t(local.localeKeys.command.build.config),
     )
     .action(async (options: BuildCommandOptions) => {
+      if (options.platform) {
+        const { buildPlatform } = await import('./builder/platform');
+        await buildPlatform(options, api, context);
+        return;
+      }
+
       const runner = api.useHookRunners();
 
-      const { valideBeforeTask } = await import('./utils/valide');
-      valideBeforeTask(api, options);
-
       const { normalizeBuildConfig } = await import('./config/normalize');
-      const resolvedBuildConfig = await normalizeBuildConfig(api);
-      debug('resolvedBuildConfig', resolvedBuildConfig);
-      await runner.beforeBuild({ config: resolvedBuildConfig, options });
+      const resolvedBuildConfig = await normalizeBuildConfig(
+        api,
+        context,
+        options,
+      );
 
+      debug('resolvedBuildConfig', resolvedBuildConfig);
+
+      await runner.beforeBuild({ config: resolvedBuildConfig, options });
       const builder = await import('./builder');
-      await builder.run(options, resolvedBuildConfig, api, context);
+      await builder.run(
+        { cmdOptions: options, resolvedBuildConfig, context },
+        api,
+      );
     });
 };
 

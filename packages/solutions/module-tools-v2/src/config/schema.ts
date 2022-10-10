@@ -102,9 +102,6 @@ export const buildConfigProperties = {
   bundlelessOptions: {
     type: 'object',
     properties: {
-      sourceDir: {
-        type: 'string',
-      },
       style: {
         type: 'object',
         properties: {
