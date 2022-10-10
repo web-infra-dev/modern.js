@@ -1,5 +1,5 @@
-import type { BuilderContext } from '@modern-js/builder-shared';
-import { getDistPath, getFilename, DEFAULT_PORT } from '../shared';
+import { DEFAULT_PORT, type BuilderContext } from '@modern-js/builder-shared';
+import { getDistPath, getFilename } from '../shared';
 import type {
   BuilderConfig,
   BuilderPlugin,
