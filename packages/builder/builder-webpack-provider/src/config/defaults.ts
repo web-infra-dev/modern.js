@@ -1,5 +1,3 @@
-import { mergeBuilderConfig } from '@modern-js/builder-shared';
-import { BuilderConfig } from '../types';
 import {
   ROOT_DIST_DIR,
   HTML_DIST_DIR,
@@ -9,7 +7,9 @@ import {
   FONT_DIST_DIR,
   IMAGE_DIST_DIR,
   MEDIA_DIST_DIR,
-} from '../shared';
+  mergeBuilderConfig,
+} from '@modern-js/builder-shared';
+import type { BuilderConfig } from '../types';
 
 export const createDefaultConfig = (): BuilderConfig => ({
   dev: {

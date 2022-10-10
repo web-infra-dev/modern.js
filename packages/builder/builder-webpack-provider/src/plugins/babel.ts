@@ -2,15 +2,15 @@ import path from 'path';
 import {
   getBabelConfig,
   createBabelChain,
-  BabelOptions,
+  type BabelOptions,
 } from '@modern-js/babel-preset-app';
-import type { BuilderContext } from '@modern-js/builder-shared';
 import {
   JS_REGEX,
   TS_REGEX,
   mergeRegex,
-  getBrowserslistWithDefault,
-} from '../shared';
+  type BuilderContext,
+} from '@modern-js/builder-shared';
+import { getBrowserslistWithDefault } from '../shared';
 
 import type { WebpackChain, BuilderConfig, BuilderPlugin } from '../types';
 

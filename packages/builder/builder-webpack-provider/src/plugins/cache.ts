@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { isFileExists } from '../shared';
+import { isFileExists } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
 
 export const PluginCache = (): BuilderPlugin => ({

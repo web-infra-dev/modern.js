@@ -1,5 +1,6 @@
 import path from 'path';
-import { getDistPath, DEFAULT_MOUNT_ID, isFileExists } from '../shared';
+import { isFileExists, DEFAULT_MOUNT_ID } from '@modern-js/builder-shared';
+import { getDistPath } from '../shared';
 import type {
   BuilderConfig,
   BuilderPlugin,

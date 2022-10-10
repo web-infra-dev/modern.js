@@ -1,5 +1,5 @@
+import { RUNTIME_CHUNK_NAME } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
-import { RUNTIME_CHUNK_NAME } from '../shared';
 
 export const PluginInlineChunk = (): BuilderPlugin => ({
   name: 'builder-plugin-inline-chunk',
