@@ -6,6 +6,8 @@ const debug = createDebugger('node-bundle');
 
 const JS_EXT_RE = /\.(mjs|cjs|ts|js|tsx|jsx)$/;
 
+const TS_EXT_RE = /\.(ts|mts|cts|tsx)$/;
+
 // Must not start with "/" or "./" or "../"
 // "/test/node_modules/foo"
 // "c:/node_modules/foo"
@@ -144,6 +146,21 @@ export async function bundle(filepath: string, options?: Options) {
             if (args.kind === 'entry-point') {
               external = false;
             }
+
+            try {
+              const resolvedPath = require.resolve(args.path, {
+                paths: [args.resolveDir],
+              });
+              // If it is a typescript package, we should bundle it.
+              if (TS_EXT_RE.test(resolvedPath)) {
+                return {
+                  external: false,
+                };
+              }
+            } catch (err) {
+              // If the package can not be resolved, do nothing.
+            }
+
             return {
               path: args.path,
               external,

@@ -1,0 +1,4 @@
+{
+  "name": "bundle-require-package-foo",
+  "main": "index.ts"
+}
