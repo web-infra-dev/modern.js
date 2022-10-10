@@ -20,8 +20,8 @@
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/plugin-jarvis": "workspace:*",
     "typescript": "^4",
-    "@types/react": "^17",
-    "@types/react-dom": "^17",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
     "@types/node": "^14",
     "@modern-js/plugin-testing": "workspace:*",
     "@types/jest": "^26.0.9"
