@@ -36,6 +36,7 @@ export type SingleRouteConfig = RouteProps & {
 };
 
 export type RouterConfig = {
+  legacy?: boolean;
   routesConfig?: {
     globalApp?: React.ComponentType<any>;
     routes?: SingleRouteConfig[];

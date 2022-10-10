@@ -8,7 +8,7 @@ import type { CliPlugin } from '@modern-js/core';
 
 const PLUGIN_IDENTIFIER = 'legacyRouter';
 
-const ROUTES_IDENTIFIER = 'legacyRouter';
+const ROUTES_IDENTIFIER = 'routes';
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-router-legacy',
@@ -17,20 +17,27 @@ export default (): CliPlugin => ({
     const runtimeConfigMap = new Map<string, any>();
 
     let pluginsExportsUtils: any;
+    let routerExportsUtils: any;
 
     return {
       config() {
         const appContext = api.useAppContext();
-
         pluginsExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
           'plugins',
+        );
+
+        // .modern-js/.runtime-exports/router (legacy)
+        routerExportsUtils = createRuntimeExportsUtils(
+          appContext.internalDirectory,
+          'router',
         );
 
         return {
           source: {
             alias: {
               '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
+              '@modern-js/runtime/router': routerExportsUtils.getPath(),
             },
           },
         };
@@ -41,6 +48,7 @@ export default (): CliPlugin => ({
       modifyEntryImports({ entrypoint, imports }: any) {
         const { entryName, fileSystemRoutes } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
+        const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
         const { packageName } = api.useAppContext();
 
         const runtimeConfig = getEntryOptions(
@@ -53,7 +61,7 @@ export default (): CliPlugin => ({
         runtimeConfigMap.set(entryName, runtimeConfig);
 
         // router.legacy: true;
-        if (runtimeConfig?.router && runtimeConfig?.router?.legacy) {
+        if (isLegacy) {
           imports.push({
             value: '@modern-js/runtime/plugins',
             specifiers: [{ imported: PLUGIN_IDENTIFIER }],
@@ -73,7 +81,11 @@ export default (): CliPlugin => ({
         const { entryName, fileSystemRoutes } = entrypoint;
         const { serverRoutes } = api.useAppContext();
         const runtimeConfig = runtimeConfigMap.get(entryName);
-        if (runtimeConfig?.router?.legacy) {
+
+        const userConfig = api.useResolvedConfigContext();
+        const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
+
+        if (isLegacy) {
           // Todo: plugin-router best to only handle manage client route.
           // here support base server route usage, part for compatibility
           const serverBase = serverRoutes
@@ -101,9 +113,16 @@ export default (): CliPlugin => ({
         };
       },
       addRuntimeExports() {
+        const userConfig = api.useResolvedConfigContext();
+        const isLegacy = Boolean(userConfig?.runtime?.router?.legacy);
         pluginsExportsUtils.addExport(
           `export { default as legacyRouter } from '@modern-js/plugin-router-legacy'`,
         );
+        if (isLegacy) {
+          routerExportsUtils?.addExport(
+            `export * from '@modern-js/plugin-router-legacy'`,
+          );
+        }
       },
     };
   },

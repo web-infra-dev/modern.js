@@ -20,14 +20,23 @@
   "exports": {
     ".": {
       "node": {
-        "jsnext:source": "./src/index.ts",
-        "default": "./dist/js/node/index.js"
+        "jsnext:source": "./src/runtime/index.ts",
+        "import": "./dist/js/modern/runtime/index.js",
+        "require": "./dist/js/node/runtime/index.js"
       },
-      "default": "./dist/js/treeshaking/index.js"
+      "default": "./dist/js/treeshaking/runtime/index.js"
     },
     "./types": {
-      "jsnext:source": "./types.d.ts",
-      "default": "./types.d.ts"
+      "jsnext:source": "./lib/types.d.ts",
+      "default": "./lib/types.d.ts"
+    },
+    "./runtime": {
+      "jsnext:source": "./src/runtime/index.ts",
+      "node": {
+        "import": "./dist/js/modern/runtime/index.js",
+        "require": "./dist/js/node/runtime/index.js"
+      },
+      "default": "./dist/js/treeshaking/runtime/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
@@ -37,7 +46,16 @@
   "typesVersions": {
     "*": {
       ".": [
-        "./type.d.ts"
+        "./dist/types/runtime/index.d.ts"
+      ],
+      "types": [
+        "./lib/types.d.ts"
+      ],
+      "cli": [
+        "./dist/types/cli/index.d.ts"
+      ],
+      "runtime": [
+        "./dist/types/runtime/index.d.ts"
       ]
     }
   },

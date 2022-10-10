@@ -1,7 +1,7 @@
 import path from 'path';
 import { PLUGIN_SCHEMAS, cleanRequireCache, isReact18 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
-import { CliPlugin as PluginRouterLegacy } from '@modern-js/plugin-router-legacy';
+import PluginRouterLegacy from '@modern-js/plugin-router-legacy/cli';
 import PluginState from '../state/cli';
 import PluginSSR from '../ssr/cli';
 import PluginRouter from '../router/cli';
@@ -17,9 +17,9 @@ export default (): CliPlugin => ({
   ],
   usePlugins: [
     PluginState(),
-    PluginRouter(),
-    PluginRouterLegacy(),
     PluginSSR(),
+    PluginRouterLegacy(),
+    PluginRouter(),
   ],
   setup: api => {
     return {
@@ -50,7 +50,7 @@ export default (): CliPlugin => ({
           require.resolve('../state/cli'),
           require.resolve('../router/cli'),
           require.resolve('../ssr/cli'),
-          require.resolve('@modern-js/plugin-router-legacy'),
+          require.resolve('@modern-js/plugin-router-legacy/cli'),
         ]);
       },
     };

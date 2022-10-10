@@ -49,11 +49,6 @@
       "node": "./dist/js/node/exports/server.js",
       "default": "./dist/js/treeshaking/exports/server.js"
     },
-    "./router": {
-      "jsnext:source": "./src/exports/router.ts",
-      "node": "./dist/js/node/exports/router.js",
-      "default": "./dist/js/treeshaking/exports/router.js"
-    },
     "./ssr": {
       "jsnext:source": "./src/exports/ssr.ts",
       "node": "./dist/js/node/exports/ssr.js",
@@ -106,9 +101,6 @@
       ],
       "ssr": [
         "./dist/types/exports/ssr.d.ts"
-      ],
-      "router": [
-        "./dist/types/exports/router.d.ts"
       ],
       "model": [
         "./types/model.d.ts"
