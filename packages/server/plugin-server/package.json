@@ -36,7 +36,7 @@
   "scripts": {
     "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm && modern build --platform",
-    "dev": "modern dev",
+    "dev": "modern build --watch",
     "build": "wireit",
     "new": "modern new",
     "test": "wireit"

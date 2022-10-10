@@ -9,7 +9,7 @@ const RegList = {
   },
 };
 
-class TemplateAPI {
+export class TemplateAPI {
   private content: string;
 
   constructor(content: string) {
@@ -44,10 +44,7 @@ class TemplateAPI {
     return this.replace(body, `${fragment}${body}`);
   }
 
-  public replace(reg: RegExp | string, text: string) {
+  private replace(reg: RegExp | string, text: string) {
     this.content = this.content.replace(reg, text);
-    return this;
   }
 }
-
-export const createTemplateAPI = (content: string) => new TemplateAPI(content);

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { BaseSSRServerContext, Logger, Metrics } from '@modern-js/types';
 import { headersWithoutCookie } from '../../utils';
 
@@ -51,6 +52,11 @@ export const createLogger = (
   };
 
   const error = (message: string, e: Error | string) => {
+    if (!e) {
+      e = message;
+      message = '';
+    }
+
     logger.error(
       `SSR Error - ${message}, error = %s, req.url = %s, req.headers = %o`,
       e instanceof Error ? e.stack || e.message : e,
@@ -65,3 +71,4 @@ export const createLogger = (
     debug,
   };
 };
+/* eslint-enable no-param-reassign */

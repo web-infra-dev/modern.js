@@ -1829,6 +1829,7 @@ importers:
       '@modern-js-reduck/react': 1.0.1_react@18.2.0
       '@modern-js-reduck/store': 1.0.4
       '@modern-js/plugin': link:../../toolkit/plugin
+      '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
       '@modern-js/webpack': link:../../cli/webpack
       '@types/history': 4.7.11
@@ -1849,7 +1850,6 @@ importers:
       styled-components: 5.3.5_pumtretovylab5lwhztzjp2kuy
     devDependencies:
       '@modern-js/core': link:../../cli/core
-      '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y

@@ -25,8 +25,6 @@ export type ModernServerOptions = {
   plugins?: Plugin[];
   routes?: ModernRouteInterface[];
   staticGenerate?: boolean;
-  loggerOptions?: Record<string, string>;
-  metricsOptions?: Record<string, string>;
   logger?: Logger;
   metrics?: Metrics;
   apiOnly?: boolean;
@@ -61,11 +59,7 @@ export type BuildOptions = { routes?: ModernRouteInterface[] };
 
 export type { Metrics, Logger, NextFunction };
 
-export type HookNames =
-  | 'beforeMatch'
-  | 'afterMatch'
-  | 'beforeRender'
-  | 'afterRender';
+export type HookNames = 'afterMatch' | 'afterRender';
 
 export interface ModernServerInterface {
   pwd: string;

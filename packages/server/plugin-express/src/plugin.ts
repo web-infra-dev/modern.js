@@ -64,6 +64,7 @@ const initApp = (app: express.Express) => {
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-express',
   pre: ['@modern-js/plugin-bff'],
+  post: ['@modern-js/plugin-server'],
   setup: api => ({
     async prepareApiServer({ pwd, config }) {
       let app: Express;
@@ -133,7 +134,12 @@ export default (): ServerPlugin => ({
         });
     },
 
-    prepareWebServer({ config }) {
+    prepareWebServer({ config }, next) {
+      const userConfig = api.useConfigContext();
+      if (userConfig?.server?.disableFrameworkExt) {
+        return next();
+      }
+
       const app = express();
       initApp(app);
       if (config) {
@@ -142,8 +148,11 @@ export default (): ServerPlugin => ({
         initMiddlewares(middleware, app);
       }
 
-      return (req, res) =>
+      return ctx =>
         new Promise((resolve, reject) => {
+          const {
+            source: { req, res },
+          } = ctx;
           const handler = (err: string) => {
             if (err) {
               return reject(err);
