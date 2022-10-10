@@ -1,5 +1,5 @@
 import { vi, expect, describe, it } from 'vitest';
-import * as shared from '../../src/shared';
+import * as shared from '@modern-js/builder-shared';
 import { PluginTarget } from '../../src/plugins/target';
 import { createStubBuilder } from '../../src/stub';
 

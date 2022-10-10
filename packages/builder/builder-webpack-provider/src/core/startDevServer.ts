@@ -1,11 +1,11 @@
 import {
   debug,
   logger,
+  DEFAULT_PORT,
   StartDevServerOptions,
 } from '@modern-js/builder-shared';
 import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
-import { DEFAULT_PORT } from '../shared';
 import type { Compiler, MultiCompiler } from 'webpack';
 
 async function printDevServerURLs(urls: Array<{ url: string; type: string }>) {

@@ -1,4 +1,5 @@
-import { pick, deepFreezed } from './utils';
+import { pick } from './pick';
+import { deepFreezed } from './deepFreezed';
 import type { BuilderContext } from './types';
 
 export function createPublicContext(
