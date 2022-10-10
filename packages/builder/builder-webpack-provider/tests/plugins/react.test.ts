@@ -32,4 +32,17 @@ describe('plugins/react', () => {
 
     expect(config).toMatchSnapshot();
   });
+
+  it('should not apply react refresh when dev.hmr is false', async () => {
+    const builder = await createStubBuilder({
+      plugins: [PluginReact()],
+      builderConfig: {
+        dev: {
+          hmr: false,
+        },
+      },
+    });
+
+    expect(await builder.matchWebpackPlugin('ReactRefreshPlugin')).toBeFalsy();
+  });
 });
