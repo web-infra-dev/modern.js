@@ -176,6 +176,7 @@ export interface ServerConfig {
   enableMicroFrontendDebug?: boolean;
   watchOptions?: WatchOptions;
   compiler?: 'babel' | 'typescript';
+  disableFrameworkExt?: boolean;
 }
 
 export type DevProxyOptions = string | Record<string, string>;

@@ -51,10 +51,14 @@ export const formatClient = (
 export const mockResponse = () => {
   return {
     setHeader() {
-      console.info('setHeader can only be used in the server side');
+      console.warn('response.setHeader() can only be used in the server side');
     },
     status() {
-      console.info('status can only be used in the server side');
+      console.warn('response.status() can only be used in the server side');
+    },
+    get locals() {
+      console.warn('response.locals can only be used in the server side');
+      return {};
     },
   };
 };

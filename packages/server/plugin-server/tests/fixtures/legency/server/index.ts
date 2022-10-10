@@ -4,18 +4,8 @@ const fn = (sign: Sign) => {
   sign.status += 1;
 };
 
-export default ({
-  addMiddleware,
-  beforeMatch,
-  beforeRender,
-  afterMatch,
-  afterRender,
-}: any) => {
+export default ({ addMiddleware, afterMatch, afterRender }: any) => {
   addMiddleware(fn);
-
-  beforeMatch(fn);
-
-  beforeRender(fn);
 
   afterMatch(fn);
 

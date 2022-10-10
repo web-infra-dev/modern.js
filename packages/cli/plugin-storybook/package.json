@@ -65,6 +65,7 @@
   "devDependencies": {
     "@babel/core": "^7.18.0",
     "@modern-js/module-tools-v2": "workspace:*",
+    "@modern-js/types": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
@@ -75,7 +76,7 @@
     "@types/jest": "^27",
     "@types/node": "^14",
     "jest": "^27",
-    "react": "^17",
+    "react": "^18",
     "react-dom": "^17",
     "typescript": "^4",
     "webpack": "^5.71.0",
@@ -83,7 +84,7 @@
   },
   "peerDependencies": {
     "@modern-js/runtime": "workspace:^1.19.0",
-    "react": ">=17"
+    "react": ">=18"
   },
   "sideEffects": false,
   "modernConfig": {},

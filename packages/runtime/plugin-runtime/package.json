@@ -160,20 +160,20 @@
     "@types/react-helmet": "^6.1.2",
     "@types/redux-logger": "^3.0.9",
     "@types/loadable__component": "^5.13.4",
-    "@types/styled-components": "^5.1.14"
+    "@types/styled-components": "^5.1.14",
+    "@modern-js/types": "workspace:*"
   },
   "peerDependencies": {
-    "react": ">=17",
+    "react": ">=18",
     "react-dom": ">=17"
   },
   "devDependencies": {
-    "react": "^17",
-    "react-dom": "^17",
+    "react": "^18",
+    "react-dom": "^18",
     "ts-jest": "^27.0.4",
     "typescript": "^4",
     "jest": "^27",
     "@modern-js/core": "workspace:*",
-    "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@types/jest": "^27",
     "@types/node": "^14",
@@ -182,9 +182,8 @@
     "@types/serialize-javascript": "^5.0.1",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@testing-library/react": "^12.0.0",
-    "@testing-library/react-hooks": "^7.0.1",
-    "@types/hoist-non-react-statics": "^3.3.1",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/react-hooks": "^8.0.1",
     "@types/invariant": "^2.2.30"
   },
   "sideEffects": false,

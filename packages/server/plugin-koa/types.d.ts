@@ -1,5 +1,5 @@
 /// <reference path="./dist/types/index.d.ts" />
-declare module '@modern-js/runtime/server' {
+declare module '@modern-js/runtime/koa' {
 
   import { Context, Middleware } from 'koa';
 
@@ -8,6 +8,8 @@ declare module '@modern-js/runtime/server' {
   };
 
   type KoaAttacher = (options: KoaOptions) => void;
+
+  export type { Middleware as RequestHandler };
 
   export function useContext(): Context;
 

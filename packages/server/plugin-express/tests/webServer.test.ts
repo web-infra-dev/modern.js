@@ -31,7 +31,9 @@ describe('webServer', () => {
       config: { middleware: [middleware] },
     });
 
-    const res = await request(webHandler).get('/');
+    const res = await request((req: Request, res: Response) => {
+      return webHandler({ source: { req, res } });
+    }).get('/');
     expect(res.status).toBe(200);
     expect(res.get('content-type')).toBe('text/html; charset=utf-8');
     expect(res.text).toContain(name);
@@ -57,7 +59,9 @@ describe('webServer', () => {
       config: { middleware: [middleware1, middleware2] },
     });
 
-    const res = await request(webHandler).get('/');
+    const res = await request((req: Request, res: Response) => {
+      return webHandler({ source: { req, res } });
+    }).get('/');
     expect(res.status).toBe(200);
     expect(res.get('content-type')).toBe('application/json; charset=utf-8');
     expect(res.body).toEqual(foo);
@@ -105,7 +109,7 @@ describe('support as async handler', () => {
     };
 
     const asyncHandler = async (req: Request, res: Response) => {
-      await webHandler(req, res);
+      await webHandler({ source: { req, res } });
       order.push(3);
       serveHandler(req, res);
     };
@@ -144,7 +148,7 @@ describe('support as async handler', () => {
     });
 
     const asyncHandler = async (req: Request, res: Response) => {
-      await webHandler(req, res);
+      await webHandler({ source: { req, res } });
       order.push(3);
     };
     const res = await request(asyncHandler).get('/');
