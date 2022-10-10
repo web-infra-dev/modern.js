@@ -1,6 +1,8 @@
 import assert from 'assert';
-import { RUNTIME_CHUNK_NAME } from '@modern-js/builder-shared';
-import { getPackageNameFromModulePath } from '../shared';
+import {
+  RUNTIME_CHUNK_NAME,
+  getPackageNameFromModulePath,
+} from '@modern-js/builder-shared';
 
 import type { BuilderPlugin } from '../types';
 import type {

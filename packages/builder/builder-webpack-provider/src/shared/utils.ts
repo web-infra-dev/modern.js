@@ -1,13 +1,11 @@
 import { URLSearchParams } from 'url';
 import {
   getBrowserslist,
-  MODULE_PATH_REGEX,
   DEFAULT_BROWSERSLIST,
   DEFAULT_DATA_URL_SIZE,
 } from '@modern-js/builder-shared';
 
 import type Buffer from 'buffer';
-import type webpack from 'webpack';
 import type { SomeJSONSchema } from '@modern-js/utils/ajv/json-schema';
 import type { BuilderConfig, DataUriLimit } from '../types';
 
@@ -78,64 +76,6 @@ export function getDataUrlCondition(
 
     return source.length <= getDataUrlLimit(config, type);
   };
-}
-
-/**
- * Check if a file handled by specific loader.
- * @author yangxingyuan
- * @param {Configuration} config - The webpack config.
- * @param {string} loader - The name of loader.
- * @param {string}  testFile - The name of test file that will be handled by webpack.
- * @returns {boolean} The result of the match.
- */
-export function matchLoader({
-  config,
-  loader,
-  testFile,
-}: {
-  config: webpack.Configuration;
-  loader: string;
-  testFile: string;
-}): boolean {
-  if (!config.module?.rules) {
-    return false;
-  }
-  return config.module.rules.some(rule => {
-    if (
-      typeof rule === 'object' &&
-      rule.test &&
-      rule.test instanceof RegExp &&
-      rule.test.test(testFile)
-    ) {
-      return (
-        Array.isArray(rule.use) &&
-        rule.use.some(useOptions => {
-          if (typeof useOptions === 'object' && useOptions !== null) {
-            return useOptions.loader?.includes(loader);
-          } else if (typeof useOptions === 'string') {
-            return useOptions.includes(loader);
-          }
-          return false;
-        })
-      );
-    }
-    return false;
-  });
-}
-
-export function getPackageNameFromModulePath(modulePath: string) {
-  const handleModuleContext = modulePath?.match(MODULE_PATH_REGEX);
-
-  if (!handleModuleContext) {
-    return false;
-  }
-
-  const [, , scope, name] = handleModuleContext;
-  const packageName = ['npm', (scope ?? '').replace('@', ''), name]
-    .filter(Boolean)
-    .join('.');
-
-  return packageName;
 }
 
 export async function stringifyConfig(config: unknown, verbose?: boolean) {
