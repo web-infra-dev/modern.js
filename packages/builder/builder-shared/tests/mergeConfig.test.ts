@@ -1,5 +1,5 @@
 import { describe, expect, test, it } from 'vitest';
-import { mergeBuilderConfig } from '../src/utils';
+import { mergeBuilderConfig } from '../src/mergeBuilderConfig';
 
 describe('mergeBuilderConfig', () => {
   it('should pick `false` to replace empty object', () => {
