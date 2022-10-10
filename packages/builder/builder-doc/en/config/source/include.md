@@ -8,7 +8,11 @@ Through the `source.include` config, you can specify directories or modules that
 ```js
 export default {
   source: {
+<<<<<<< HEAD
     include: ['foo', /bar/],
+=======
+    include: ['foo',  /bar/],
+>>>>>>> 1ee750da2 (feat: support `source.include` (#1823))
   },
 };
 ```
