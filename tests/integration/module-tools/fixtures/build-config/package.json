@@ -6,10 +6,10 @@
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
     "typescript": "^4",
-    "react": "^17",
+    "react": "^18",
     "react-dom": "^17",
-    "@types/react": "^17",
-    "@types/react-dom": "^17",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
     "lodash": "4.17.21",
     "@types/lodash": "^4"
   }
