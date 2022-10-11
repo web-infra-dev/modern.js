@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { NoSSR } from '@modern-js/runtime/ssr';
 import hello, { postHello } from '@api/index';
 
 const App = () => {
@@ -28,11 +27,7 @@ const App = () => {
       },
     });
   });
-  return (
-    <NoSSR>
-      <div className="hello">{message}</div>
-    </NoSSR>
-  );
+  return <div className="hello">{message}</div>;
 };
 
 export default App;
