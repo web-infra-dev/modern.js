@@ -64,7 +64,7 @@
     "tapable": "^2.2.1",
     "terser-webpack-plugin": "^5.1.4",
     "ts-loader": "^9.2.5",
-    "webpack": "^5.71.0",
+    "webpack": "^5.74.0",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
