@@ -49,11 +49,6 @@
       "node": "./dist/js/node/exports/server.js",
       "default": "./dist/js/treeshaking/exports/server.js"
     },
-    "./router": {
-      "jsnext:source": "./src/exports/router.ts",
-      "node": "./dist/js/node/exports/router.js",
-      "default": "./dist/js/treeshaking/exports/router.js"
-    },
     "./ssr": {
       "jsnext:source": "./src/exports/ssr.ts",
       "node": "./dist/js/node/exports/ssr.js",
@@ -107,9 +102,6 @@
       "ssr": [
         "./dist/types/exports/ssr.d.ts"
       ],
-      "router": [
-        "./dist/types/exports/router.d.ts"
-      ],
       "model": [
         "./types/model.d.ts"
       ],
@@ -137,8 +129,7 @@
     "react-side-effect": "^2.1.1",
     "react-is": "^17",
     "serialize-javascript": "^6.0.0",
-    "history": "^4.7.9",
-    "react-router-dom": "^5.1.2",
+    "react-router-dom": "^6.4.0",
     "hoist-non-react-statics": "^3.3.2",
     "invariant": "^2.2.4",
     "redux-logger": "^3.0.6",
@@ -157,8 +148,6 @@
     "@modern-js-reduck/plugin-immutable": "^1.0.1",
     "@modern-js-reduck/react": "^1.0.1",
     "@modern-js-reduck/store": "^1.0.3",
-    "@types/history": "^4.7.9",
-    "@types/react-router-dom": "^5.1.8",
     "@types/react-helmet": "^6.1.2",
     "@types/redux-logger": "^3.0.9",
     "@types/loadable__component": "^5.13.4",

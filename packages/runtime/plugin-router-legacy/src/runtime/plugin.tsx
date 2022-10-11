@@ -1,11 +1,15 @@
 import React, { useContext } from 'react';
-import { HashRouter, BrowserRouter, useLocation } from 'react-router-dom';
-import type { RouteProps } from 'react-router-dom';
-import { StaticRouter } from 'react-router-dom/server';
+import {
+  createBrowserHistory,
+  createHashHistory,
+  History,
+  BrowserHistoryBuildOptions,
+  HashHistoryBuildOptions,
+} from 'history';
+import { Router, StaticRouter, RouteProps } from 'react-router-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { RuntimeReactContext, ServerRouterContext } from '../../core';
-import type { Plugin } from '../../core';
-import { isBrowser } from '../../common';
+import { RuntimeReactContext, isBrowser } from '@modern-js/runtime';
+import type { Plugin } from '@modern-js/runtime';
 import { renderRoutes, getLocation, urlJoin } from './utils';
 
 declare global {
@@ -35,20 +39,31 @@ export type SingleRouteConfig = RouteProps & {
   component?: React.ComponentType;
 };
 
-export type RouterConfig = {
-  legacy?: boolean;
+export type HistoryConfig =
+  | {
+      supportHtml5History: true;
+      historyOptions: BrowserHistoryBuildOptions;
+    }
+  | {
+      supportHtml5History: false;
+      historyOptions: HashHistoryBuildOptions;
+    };
+
+export type RouterConfig = Partial<HistoryConfig> & {
   routesConfig?: {
     globalApp?: React.ComponentType<any>;
     routes?: SingleRouteConfig[];
   };
+  history?: History;
   serverBase?: string[];
-  supportHtml5History?: boolean;
 };
 
 export const routerPlugin = ({
   serverBase = [],
+  history: customHistory,
   supportHtml5History = true,
   routesConfig,
+  historyOptions = {},
 }: RouterConfig): Plugin => {
   const isBrow = isBrowser();
 
@@ -60,28 +75,26 @@ export const routerPlugin = ({
       return {
         hoc: ({ App }, next) => {
           const getRouteApp = () => {
-            // client router
             if (isBrow) {
               const baseUrl =
                 window._SERVER_DATA?.router.baseUrl ||
                 select(location.pathname);
+              historyOptions.basename =
+                baseUrl === '/'
+                  ? urlJoin(baseUrl, historyOptions.basename as string)
+                  : baseUrl;
 
-              const Router = supportHtml5History ? BrowserRouter : HashRouter;
-
-              const RouterContent = (props: any) => {
-                const location = useLocation();
-                return (
-                  <App {...props}>
-                    {routesConfig
-                      ? renderRoutes(routesConfig, location.pathname, props)
-                      : null}
-                  </App>
-                );
-              };
+              const history =
+                customHistory ||
+                (supportHtml5History
+                  ? createBrowserHistory(historyOptions)
+                  : createHashHistory(historyOptions));
 
               return (props: any) => (
-                <Router basename={baseUrl}>
-                  <RouterContent {...props} />
+                <Router history={history}>
+                  <App {...props}>
+                    {routesConfig ? renderRoutes(routesConfig, props) : null}
+                  </App>
                 </Router>
               );
             }
@@ -92,21 +105,20 @@ export const routerPlugin = ({
               const routerContext = ssrContext?.redirection || {};
               const request = ssrContext?.request;
               const baseUrl = request?.baseUrl as string;
-              const basename = baseUrl === '/' ? urlJoin(baseUrl) : baseUrl;
-              // TODO ssr router needs update https://reactrouter.com/en/main/guides/ssr
+              const basename =
+                baseUrl === '/'
+                  ? urlJoin(baseUrl, historyOptions.basename as string)
+                  : baseUrl;
               return (
-                <ServerRouterContext.Provider value={routerContext}>
-                  <StaticRouter
-                    basename={basename === '/' ? '' : basename}
-                    location={location}
-                  >
-                    <App {...props}>
-                      {routesConfig
-                        ? renderRoutes(routesConfig, location, props)
-                        : null}
-                    </App>
-                  </StaticRouter>
-                </ServerRouterContext.Provider>
+                <StaticRouter
+                  basename={basename === '/' ? '' : basename}
+                  location={location}
+                  context={routerContext}
+                >
+                  <App {...props}>
+                    {routesConfig ? renderRoutes(routesConfig, props) : null}
+                  </App>
+                </StaticRouter>
               );
             };
           };

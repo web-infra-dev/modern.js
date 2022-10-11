@@ -1,6 +1,6 @@
 // logical reference to https://github.com/jamiebuilds/react-loadable/blob/6201c5837b212d6244c57f3748f2b1375096beeb/src/index.js
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { RouteComponentProps } from '@modern-js/runtime/router';
+import { RouteComponentProps } from '@modern-js/plugin-router-legacy';
 import { logger } from '../util';
 import { LoadableConfig, MicroComponentProps } from './useModuleApps';
 
