@@ -1,12 +1,18 @@
 import path from 'path';
-import { fs, nanoid, CONFIG_CACHE_DIR, createDebugger } from '@modern-js/utils';
+import {
+  fs,
+  pkgUp,
+  nanoid,
+  CONFIG_CACHE_DIR,
+  createDebugger,
+} from '@modern-js/utils';
 import { build, Loader, Plugin, BuildOptions } from 'esbuild';
 
 const debug = createDebugger('node-bundle');
 
 const JS_EXT_RE = /\.(mjs|cjs|ts|js|tsx|jsx)$/;
 
-const TS_EXT_RE = /\.(ts|mts|cts|tsx)$/;
+const BUNDLED_EXT_RE = /\.(ts|mts|cts|tsx|mjs)$/;
 
 // Must not start with "/" or "./" or "../"
 // "/test/node_modules/foo"
@@ -18,6 +24,15 @@ function inferLoader(ext: string): Loader {
     return 'js';
   }
   return ext.slice(1) as Loader;
+}
+
+async function isTypeModulePkg(cwd: string) {
+  const pkgJsonPath = await pkgUp({ cwd });
+  if (pkgJsonPath) {
+    const pkgJson = await fs.readJSON(pkgJsonPath);
+    return pkgJson.type === 'module';
+  }
+  return false;
 }
 
 export interface Options {
@@ -140,7 +155,7 @@ export async function bundle(filepath: string, options?: Options) {
       {
         name: 'make-all-packages-external',
         setup(_build) {
-          _build.onResolve({ filter: EXTERNAL_REGEXP }, args => {
+          _build.onResolve({ filter: EXTERNAL_REGEXP }, async args => {
             let external = true;
             // FIXME: windows external entrypoint
             if (args.kind === 'entry-point') {
@@ -151,8 +166,11 @@ export async function bundle(filepath: string, options?: Options) {
               const resolvedPath = require.resolve(args.path, {
                 paths: [args.resolveDir],
               });
-              // If it is a typescript package, we should bundle it.
-              if (TS_EXT_RE.test(resolvedPath)) {
+              // If it is a typescript or esm package, we should bundle it.
+              if (
+                BUNDLED_EXT_RE.test(resolvedPath) ||
+                (await isTypeModulePkg(resolvedPath))
+              ) {
                 return {
                   external: false,
                 };

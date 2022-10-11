@@ -4,6 +4,27 @@ import { bundleRequire } from '../src';
 import { EXTERNAL_REGEXP } from '../src/bundle';
 
 describe('bundleRequire', () => {
+  const symlinkPackages = ['test-package-ts', 'test-package-esm'];
+
+  beforeAll(() => {
+    symlinkPackages.forEach(pkg => {
+      const symlinkFrom = path.join(__dirname, `./fixture/${pkg}`);
+      const symlinkTo = path.join(__dirname, `../node_modules/${pkg}`);
+
+      if (!fs.existsSync(symlinkTo)) {
+        fs.ensureDirSync(dirname(symlinkTo));
+        fs.copySync(symlinkFrom, symlinkTo);
+      }
+    });
+  });
+
+  afterAll(() => {
+    symlinkPackages.forEach(pkg => {
+      const symlinkTo = path.join(__dirname, `../node_modules/${pkg}`);
+      fs.removeSync(symlinkTo);
+    });
+  });
+
   test('should bundle file with `__filename` correctly', async () => {
     const result = await bundleRequire(
       path.join(__dirname, './fixture/input.ts'),
@@ -19,21 +40,18 @@ describe('bundleRequire', () => {
   });
 
   test('should bundle ts files inside node_modules correctly', async () => {
-    const symlinkFrom = path.join(__dirname, './fixture/package-foo');
-    const symlinkTo = path.join(__dirname, '../node_modules/package-foo');
-
-    if (!fs.existsSync(symlinkTo)) {
-      fs.ensureDirSync(dirname(symlinkTo));
-      fs.symlinkSync(symlinkFrom, symlinkTo);
-    }
-
     const result = await bundleRequire(
-      path.join(__dirname, './fixture/input-with-ts.ts'),
+      path.join(__dirname, './fixture/input-import-ts.ts'),
+    );
+    expect(result.default).toEqual({ bar: 1 });
+  });
+
+  test('should bundle esm package correctly', async () => {
+    const result = await bundleRequire(
+      path.join(__dirname, './fixture/input-import-esm.ts'),
     );
 
     expect(result.default).toEqual({ bar: 1 });
-
-    fs.unlinkSync(symlinkTo);
   });
 });
 
