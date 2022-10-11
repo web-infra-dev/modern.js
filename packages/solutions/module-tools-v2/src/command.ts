@@ -26,10 +26,6 @@ export const buildCommand = async (
       defaultTsConfigPath,
     )
     .option(
-      '--style-only',
-      local.i18n.t(local.localeKeys.command.build.style_only),
-    )
-    .option(
       '-p, --platform [platform]',
       local.i18n.t(local.localeKeys.command.build.platform),
     )

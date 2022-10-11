@@ -42,7 +42,7 @@ export const transformBuildPresetToBaseConfigs = async (
 
   // buildConfig and buildPreset is undefined
   return transformBuildConfigToBaseConfigs(
-    await addEntryToPreset(presetList['npm-library'], options.context),
+    await addEntryToPreset(presetList['base-config'], options.context),
     options,
   );
 };
@@ -60,7 +60,7 @@ export const transformBuildConfigToBaseConfigs = async (
   const partialConfigs = ensureArray(config);
   const configs = await Promise.all(
     partialConfigs.map(async config => {
-      let newConfig = await requiredBuildConfig(config);
+      let newConfig = await requiredBuildConfig(config, options.context);
       newConfig = await assignTsConfigPath(newConfig, buildCmdOptions);
       newConfig = await transformToAbsPath(newConfig, options);
       return newConfig;
@@ -71,12 +71,19 @@ export const transformBuildConfigToBaseConfigs = async (
 
 export const requiredBuildConfig = async (
   partialBuildConfig: PartialBaseBuildConfig,
+  context: ModuleContext,
 ): Promise<BaseBuildConfig> => {
   const { lodash } = await import('@modern-js/utils');
   const { defaultBundleBuildConfig, defaultBundlelessBuildConfig } =
     await import('../constants/build');
+  const { getDefaultIndexEntry } = await import('../utils/entry');
   return partialBuildConfig.buildType === 'bundle'
-    ? lodash.merge({}, defaultBundleBuildConfig, partialBuildConfig)
+    ? lodash.merge(
+        {},
+        defaultBundleBuildConfig,
+        { bundleOptions: { entry: await getDefaultIndexEntry(context) } },
+        partialBuildConfig,
+      )
     : lodash.merge({}, defaultBundlelessBuildConfig, partialBuildConfig);
 };
 

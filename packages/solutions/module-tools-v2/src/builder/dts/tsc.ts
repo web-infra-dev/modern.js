@@ -86,7 +86,7 @@ export const runTsc = async (config: BundlelessGeneratorDtsConfig) => {
   const { resolveAlias } = await import('../../utils/dts');
   const willDeleteTsconfigPath = await generatorDts(config);
   // TODO: watch 模式下无法转换
-  await resolveAlias({ ...config, tsconfigPath: willDeleteTsconfigPath });
+  await resolveAlias({ ...config });
 
   const { fs } = await import('@modern-js/utils');
   fs.removeSync(willDeleteTsconfigPath);

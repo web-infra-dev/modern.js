@@ -30,6 +30,9 @@ export const run = async (
     const sourceConfig = await getSourceConfig(api, context);
 
     await pMap(resolvedBuildConfig, async config => {
+      // implementation of `copy` start
+      // end
+
       await runner.beforeBuildTask({ config, options: cmdOptions });
       await runBuildTask(
         {

@@ -89,7 +89,7 @@ export const buildLib = async (
 ) => {
   const { target, buildType, sourceMap, format, path: distPath } = config;
 
-  // TODO: use sourceConfig
+  // TODO: Implementation of sourceConfig
   console.info(sourceConfig);
 
   if (buildType === 'bundle') {

@@ -17,6 +17,14 @@ export const targets: Target[] = [
   'esnext',
 ];
 
+export const basePresetConfig: PartialBuildConfig = {
+  format: 'esm',
+  target: 'es6',
+  buildType: 'bundleless',
+  path: './dist',
+  dts: false,
+};
+
 export const npmLibraryPresetConfig: PartialBuildConfig = [
   {
     format: 'cjs',
@@ -158,6 +166,7 @@ export const componentUmdPresetWithTarget = targets.reduce((ret, target) => {
 }, {} as Record<`npm-component-with-umd-${Target}`, PartialBuildConfig>);
 
 export const presetList = {
+  'base-config': basePresetConfig,
   ...libraryPreset,
   ...libraryPresetWithTarget,
   ...libraryUmdPreset,
@@ -169,6 +178,7 @@ export const presetList = {
 };
 
 export const BuildInPreset = {
+  BASE_CONFIG: basePresetConfig,
   NPM_LIBRARY: npmLibraryPresetConfig,
   NPM_LIBRARY_WITH_UMD: npmLibraryWithUmdPresetConfig,
   NPM_COMPONENT: npmComponentPresetConfig,
@@ -189,7 +199,7 @@ export const defaultBundleBuildConfig: BaseBuildConfig = {
     tsconfigPath: './tsconfig.json',
   },
   bundleOptions: {
-    entry: ['./src'],
+    entry: [], // entry will overrides by getDefaultEntry function
     platform: 'node',
     splitting: false,
     externals: undefined,
