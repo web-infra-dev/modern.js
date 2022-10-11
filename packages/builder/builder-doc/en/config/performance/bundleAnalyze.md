@@ -3,7 +3,7 @@
 You have two ways to enable `webpack-bundle-analyzer` to analyze webpack output:
 
 - Add environment variable `BUNDLE_ANALYZE=true`.
-- Add `tools.bundleAnalyze` config.
+- Add `performance.bundleAnalyze` config.
 
 By default, `webpack-bundle-analyzer` is not enabled. When enabled, its configuration is as follows:
 
@@ -16,11 +16,11 @@ By default, `webpack-bundle-analyzer` is not enabled. When enabled, its configur
 }
 ```
 
-You can override the default config through `tools.bundleAnalyze`, for example:
+You can override the default config through `performance.bundleAnalyze`, for example:
 
 ```js
 export default {
-  tools: {
+  performance: {
     bundleAnalyze: {
       analyzerMode: 'server',
       openAnalyzer: true,
