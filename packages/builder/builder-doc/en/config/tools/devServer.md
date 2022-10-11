@@ -90,7 +90,7 @@ The config of hmr client.
 
 ```js
 {
-  writeToDisk: true,
+  writeToDisk: (file: string) => !file.includes('.hot-update.') && !file.endsWith('.map'),
 }
 ```
 
