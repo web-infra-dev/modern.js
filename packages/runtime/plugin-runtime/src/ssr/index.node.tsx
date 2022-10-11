@@ -11,7 +11,7 @@ import { formatServer } from './utils';
 
 const registeredApps = new WeakSet();
 
-const plugin = (config: SSRPluginConfig): Plugin => ({
+const plugin = (config: SSRPluginConfig = {}): Plugin => ({
   name: '@modern-js/plugin-ssr',
   setup: () => {
     return {
