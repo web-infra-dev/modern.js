@@ -1,4 +1,5 @@
 import { resolve } from 'path';
+import React from 'react';
 import { ChunkExtractor } from '@loadable/server';
 import { LOADABLE_STATS_FILE } from '@modern-js/utils';
 import { RuntimeContext } from '../types';
@@ -13,7 +14,9 @@ export function getLoadableChunks({
   const ssrContext = context.ssrContext!;
   const loadableManifest = resolve(ssrContext.distDir, LOADABLE_STATS_FILE);
   if (!loadableManifest) {
-    throw new Error("hasn't loadableManifest in handle loadable chunks");
+    return {
+      jsx,
+    };
   }
   const extractor = new ChunkExtractor({
     statsFile: loadableManifest,

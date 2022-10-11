@@ -1,3 +1,4 @@
+import { Writable } from 'stream';
 import { BaseSSRServerContext } from '@modern-js/types';
 
 type MetaKeyMap = {
@@ -35,4 +36,6 @@ export type ModernSSRReactComponent = React.ComponentType<any> & {
   prefetch: (context: SSRServerContext) => Promise<Record<string, any>>;
 };
 
-export type RenderFunction = (context: SSRServerContext) => Promise<string>;
+export type RenderFunction<W extends Writable> = (
+  context: SSRServerContext,
+) => Promise<string | ((writable: W) => Promise<W>)>;

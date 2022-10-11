@@ -6,13 +6,13 @@ import serialize from 'serialize-javascript';
 import ReactHelmet, { HelmetData } from 'react-helmet';
 import helmetReplace from '../helmet';
 import { RenderLevel, RuntimeContext, ModernSSRReactComponent } from '../types';
+import { time } from '../utils';
 import { SSRServerContext, RenderResult, SSRPluginConfig } from './type';
 import { Fragment, toFragments } from './template';
 
 import { reduce } from './reduce';
 import * as loadableRenderer from './loadable';
 import * as styledComponentRenderer from './styledComponent';
-import { time } from './measure';
 
 type EntryOptions = {
   ctx: SSRServerContext;

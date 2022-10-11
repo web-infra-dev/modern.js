@@ -2,6 +2,7 @@
 import { IncomingMessage, ServerResponse, Server, createServer } from 'http';
 import util from 'util';
 import path from 'path';
+import { Writable } from 'stream';
 import { fs, mime, ROUTE_SPEC_FILE } from '@modern-js/utils';
 import {
   Adapter,
@@ -41,6 +42,7 @@ import {
 import * as reader from '../libs/render/reader';
 import { createProxyHandler, BffProxyOptions } from '../libs/proxy';
 import { createContext } from '../libs/context';
+import { templateInjectableStream } from '../libs/hook-api/template';
 import {
   AGGRED_DIR,
   ERROR_DIGEST,
@@ -466,15 +468,15 @@ export class ModernServer implements ModernServerInterface {
 
     let response = file.content;
 
-    if (response) {
+    if (!(response instanceof Writable)) {
       if (route.entryName) {
-        // FIXME: apply in streaming ssr
         const afterRenderContext = createAfterRenderContext(
           context,
           response.toString(),
         );
 
         // only full mode run server hook
+        // FIXME: how to run server hook in streaming
         if (this.runMode === RUN_MODE.FULL) {
           await this.runner.afterRender(afterRenderContext, { onLast: noop });
         }
@@ -492,9 +494,18 @@ export class ModernServer implements ModernServerInterface {
       res.setHeader('content-type', file.contentType);
       res.end(response);
     } else {
-      const { pipe } = file;
       res.setHeader('content-type', file.contentType);
-      pipe?.(res);
+      response
+        .pipe(
+          templateInjectableStream({
+            prependHead: route.entryName
+              ? `<script>window._SERVER_DATA=${JSON.stringify(
+                  context.serverData,
+                )}</script>`
+              : undefined,
+          }),
+        )
+        .pipe(res);
     }
   }
 

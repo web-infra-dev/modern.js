@@ -40,11 +40,10 @@ export type ModernServerOptions = {
 };
 
 export type RenderResult = {
-  content: string | Buffer;
+  content: string | Buffer | Writable;
   contentType: string;
   statusCode?: number;
   redirect?: boolean;
-  pipe?: (outputStream: Writable) => void;
 };
 
 export type ConfWithBFF = {

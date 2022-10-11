@@ -7,7 +7,7 @@ import {
   buildTemplate,
 } from './buildTemplate.share';
 
-// utils script
+// build head template
 type GetHeadTemplateOptions = {
   loadableChunks: ChunkAsset[];
   styledComponentCSS: string;
@@ -19,40 +19,10 @@ function getHeadTemplate(
 ) {
   const callbacks: BuildTemplateCb[] = [
     // add styled css
-    headTemplate => {
-      return headTemplate.replace(
-        '<!--<?- chunksMap.css ?>-->',
-        getChunkCss(options),
-      );
-
-      function getChunkCss(options: GetHeadTemplateOptions) {
-        const loadableCssChunks = options.loadableChunks?.filter(
-          chunk => chunk.scriptType === 'style',
-        );
-        const stylelinks = loadableCssChunks.map((chunk: any) => {
-          return `<link href="${chunk.url}" rel="stylesheet" />`;
-        });
-        return `
-          ${options.styledComponentCSS || ''}
-          ${stylelinks.join(' ')}
-        `;
-      }
-    },
+    injectCss,
     // add preload loadableChunks
-    headTemplate => {
-      const loadableScriptChunks: any[] = options.loadableChunks?.filter(
-        (chunk: any) => chunk.scriptType === 'script',
-      );
-      const scriptPreloadLinks = loadableScriptChunks.map(
-        (chunk: any) =>
-          `<link rel="preload" href="${chunk.url}" as="script" />`,
-      );
-      return headTemplate.replace(
-        '</head>',
-        `${scriptPreloadLinks.join('')}</head>`,
-      );
-    },
-    // handle React Helmen
+    injectPreloadLink,
+    // handle React Helment
     headTemplate => {
       const helmetData: HelmetData = ReactHelmet.renderStatic();
       return helmetData
@@ -60,11 +30,47 @@ function getHeadTemplate(
         : headTemplate;
     },
   ];
+
   const [headTemplate = ''] = beforeEntryTemplate.match(HEAD_REG_EXP) || [];
   if (!headTemplate.length) {
     return '';
   }
   return buildTemplate(headTemplate, callbacks);
+
+  // inject styled & loadableCssChunks into <!--<?- chunksMap.css ?>-->
+  function injectCss(headTemplate: string) {
+    return headTemplate.replace(
+      '<!--<?- chunksMap.css ?>-->',
+      getChunkCss(options),
+    );
+
+    function getChunkCss(options: GetHeadTemplateOptions) {
+      const loadableCssChunks = options.loadableChunks?.filter(
+        chunk => chunk.scriptType === 'style',
+      );
+      const stylelinks = loadableCssChunks.map((chunk: any) => {
+        return `<link href="${chunk.url}" rel="stylesheet" />`;
+      });
+      return `
+          ${options.styledComponentCSS || ''}
+          ${stylelinks.join(' ')}
+        `;
+    }
+  }
+
+  // inject preload script source from loadableChunks
+  function injectPreloadLink(headTemplate: string) {
+    const loadableScriptChunks: any[] = options.loadableChunks?.filter(
+      (chunk: any) => chunk.scriptType === 'script',
+    );
+    const scriptPreloadLinks = loadableScriptChunks.map(
+      (chunk: any) => `<link rel="preload" href="${chunk.url}" as="script" />`,
+    );
+    return headTemplate.replace(
+      '</head>',
+      `${scriptPreloadLinks.join('')}</head>`,
+    );
+  }
 }
 
 // build script

@@ -1,8 +1,8 @@
 import { run } from '@modern-js/utils/ssr';
 import { RuntimeContext, ModernSSRReactComponent } from '../types';
 import { PreRender } from '../../react/prerender';
+import { time } from '../utils';
 import SSREntry from './entry';
-import { time } from './measure';
 
 export const render = (
   ctx: RuntimeContext,

@@ -6,12 +6,7 @@ import {
 import React from 'react';
 import { InjectTemplate } from './type';
 
-export type RenderToPipeOptioons = Omit<
-  RenderToPipeableStreamOptions,
-  'onShellReady' | 'onShellError' | 'onAllReady' | 'onError'
->;
-
-export type Pipe = (writable: Writable) => void;
+export type Pipe<T extends Writable> = (output: T) => Promise<T>;
 
 enum StreamingStatus {
   Entry,
@@ -22,52 +17,56 @@ enum StreamingStatus {
 function renderToPipe(
   rootElement: React.ReactElement,
   getTemplates: () => InjectTemplate,
-  options?: RenderToPipeOptioons,
+  options?: RenderToPipeableStreamOptions,
 ) {
   let streamingStaus = StreamingStatus.Entry;
 
   // TODO: react18 Streaming SSR
 
-  const forUserPipe: Pipe = outputStream => {
-    const rawStream = renderToPipeableStream(rootElement, {
-      onAllReady() {
-        const { beforeEntry, afterEntry, beforeEach, afterEach } =
-          getTemplates();
-        const transformStream = new Transform({
-          transform(chunk, _encoding, callback) {
-            try {
-              switch (streamingStaus) {
-                case StreamingStatus.Entry: {
-                  this.push(joinChunk(beforeEntry, chunk, afterEntry));
-                  streamingStaus = StreamingStatus.Streaming;
-                  break;
-                }
-                case StreamingStatus.Streaming: {
-                  this.push(chunk.toString());
-                  break;
-                }
-                case StreamingStatus.Leave: {
-                  this.push(joinChunk(beforeEach, chunk, afterEach));
-                  break;
-                }
-                default: {
-                  this.push(chunk);
-                }
-              }
-              callback();
-            } catch (e) {
-              if (e instanceof Error) {
-                callback(e);
-              } else {
-                callback(new Error('Received unkown error when streaming'));
-              }
-            }
-          },
-        });
+  const forUserPipe: Pipe<Writable> = stream => {
+    return new Promise(resolve => {
+      const { pipe } = renderToPipeableStream(rootElement, {
+        ...options,
+        onAllReady() {
+          options?.onAllReady?.();
 
-        rawStream.pipe(transformStream).pipe(outputStream);
-      },
-      ...options,
+          const { beforeEntry, afterEntry, beforeEach, afterEach } =
+            getTemplates();
+          const injectableTransform = new Transform({
+            transform(chunk, _encoding, callback) {
+              try {
+                switch (streamingStaus) {
+                  case StreamingStatus.Entry: {
+                    this.push(joinChunk(beforeEntry, chunk, afterEntry));
+                    streamingStaus = StreamingStatus.Streaming;
+                    break;
+                  }
+                  case StreamingStatus.Streaming: {
+                    this.push(chunk.toString());
+                    break;
+                  }
+                  case StreamingStatus.Leave: {
+                    this.push(joinChunk(beforeEach, chunk, afterEach));
+                    break;
+                  }
+                  default: {
+                    this.push(chunk);
+                  }
+                }
+                callback();
+              } catch (e) {
+                if (e instanceof Error) {
+                  callback(e);
+                } else {
+                  callback(new Error('Received unkown error when streaming'));
+                }
+              }
+            },
+          });
+
+          resolve(pipe(injectableTransform).pipe(stream));
+        },
+      });
     });
   };
 

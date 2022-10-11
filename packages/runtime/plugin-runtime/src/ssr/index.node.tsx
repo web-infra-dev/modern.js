@@ -1,3 +1,4 @@
+import type { ServerConfig } from '@modern-js/core';
 import { registerPrefetch } from '../core';
 import type { Plugin } from '../core';
 import { SSRServerContext } from './serverRender/types';

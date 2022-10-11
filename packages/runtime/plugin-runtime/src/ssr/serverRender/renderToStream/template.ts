@@ -1,6 +1,7 @@
 import fs from 'fs';
 import type { ServerStyleSheet } from 'styled-components';
 import type { ChunkExtractor } from '@loadable/server';
+import React from 'react';
 import { RuntimeContext, ModernSSRReactComponent } from '../types';
 import { getLoadableScripts } from '../utils';
 import { getLoadableChunks } from './loadable';
@@ -43,14 +44,19 @@ export function createTemplates(
     },
   );
   const getTemplates: () => InjectTemplate = () => {
+    // get template from file
     const filepath = context.ssrContext!.template;
     const fileContent = getFileContent(filepath);
     const [beforeEntryTemplate = '', afterEntryHtmlTemplate = ''] =
       fileContent?.split(HTML_SEPARATOR) || [];
+
+    // prepare inject objects.
     const loadableChunks =
       chunkExtractor?.getChunkAssets(chunkExtractor.chunks) || [];
     const loadableScripts = getLoadableScripts(chunkExtractor!);
     const styledComponentCSS = styleSheet?.getStyleTags() || '';
+
+    // templates injected some variables
     const builedBeforeTemplate = buildBeforeEntryTemplate(beforeEntryTemplate, {
       loadableChunks,
       styledComponentCSS,
@@ -65,6 +71,7 @@ export function createTemplates(
         prefetchData,
       },
     );
+
     return {
       beforeEntry: builedBeforeTemplate,
       afterEntry: buildedAfterTemplate,

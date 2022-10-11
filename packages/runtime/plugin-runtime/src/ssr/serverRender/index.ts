@@ -8,8 +8,9 @@ import { RuntimeContext } from './types';
 export default async function serverRender(
   App: React.ElementType<any>,
   context?: RuntimeContext,
+  mode: 'stream' | 'string' = 'string',
 ) {
-  if (isReact18()) {
+  if (isReact18() && mode === 'stream') {
     const pipe = await require('./renderToStream').render(context, App);
     return pipe;
   } else {
