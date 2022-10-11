@@ -171,6 +171,57 @@ export default {
 By default, the DevServer will reload/refresh the page when file changes are detected（`devServer.hot` option must be disabled in order for liveReload to take effect）.
 Disable `devServer.liveReload` by setting it to `false`.
 
+#### setupMiddlewares
+
+- Type:
+```js
+Array<
+  (
+    middlewares: {
+      unshift: (...handlers: RequestHandler[]) => void;
+      push: (...handlers: RequestHandler[]) => void;
+    },
+    server: {
+      sockWrite: (
+        type: string,
+        data?: string | boolean | Record<string, any>,
+      ) => void;
+    },
+  ) => void
+>;
+```
+
+- Default: `undefined`
+
+Provides the ability to execute a custom function and apply custom middlewares.
+
+The order among several different types of middleware is: `devServer.before` => `unshift` => internal middlewares => `push` => `devServer.after`.
+
+```js
+export default {
+  tools: {
+    devServer: {
+      setupMiddlewares: [
+        (middlewares, server) => {
+          // add custom watch & trigger page reload when change
+          watcher.on('change', changed => {
+            server.sockWrite('content-changed');
+          });
+
+          middlewares.unshift((req, res, next) => {
+            next();
+          });
+
+          middlewares.push((req, res, next) => {
+            next();
+          });
+        },
+      ],
+    },
+  },
+};
+```
+
 #### watch
 
 - Type: `boolean`

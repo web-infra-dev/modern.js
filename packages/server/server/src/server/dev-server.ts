@@ -87,8 +87,8 @@ export class ModernDevServer extends ModernServer {
     setupMiddlewares.forEach(handler => {
       handler(
         {
-          unshift: handler => befores.unshift(handler),
-          push: handler => afters.push(handler),
+          unshift: (...handlers) => befores.unshift(...handlers),
+          push: (...handlers) => afters.push(...handlers),
         },
         serverOptions,
       );

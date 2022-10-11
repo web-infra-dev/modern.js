@@ -42,9 +42,9 @@ export type DevServerOptions = {
       /** Order: `devServer.before` => `unshift` => internal middlewares => `push` => `devServer.after` */
       middlewares: {
         /** Use the `unshift` method if you want to run a middleware before all other middlewares */
-        unshift: (handles: RequestHandler) => void;
+        unshift: (...handlers: RequestHandler[]) => void;
         /** Use the `push` method if you want to run a middleware after all other middlewares */
-        push: (handles: RequestHandler) => void;
+        push: (...handlers: RequestHandler[]) => void;
       },
       server: ExposeServerApis,
     ) => void

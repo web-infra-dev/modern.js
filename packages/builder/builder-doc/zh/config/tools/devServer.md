@@ -170,6 +170,57 @@ export default {
 
 默认情况下，当监听到文件变化时，DevServer 将会刷新页面（为使 liveReload 能够生效，`devServer.hot` 配置项应当禁用）。通过设置 `devServer.liveReload` 为 `false` 可以关闭该行为。
 
+#### setupMiddlewares
+
+- Type:
+```js
+Array<
+  (
+    middlewares: {
+      unshift: (...handlers: RequestHandler[]) => void;
+      push: (...handlers: RequestHandler[]) => void;
+    },
+    server: {
+      sockWrite: (
+        type: string,
+        data?: string | boolean | Record<string, any>,
+      ) => void;
+    },
+  ) => void
+>;
+```
+
+- Default: `undefined`
+
+提供执行自定义函数和应用自定义中间件的能力。
+
+几种不同中间件之间的执行顺序是: `devServer.before` => `unshift` => 内置中间件 => `push` => `devServer.after`。
+
+```js
+export default {
+  tools: {
+    devServer: {
+      setupMiddlewares: [
+        (middlewares, server) => {
+          // 添加自定义 watcher 并在文件更新时触发页面刷新
+          watcher.on('change', changed => {
+            server.sockWrite('content-changed');
+          });
+
+          middlewares.unshift((req, res, next) => {
+            next();
+          });
+
+          middlewares.push((req, res, next) => {
+            next();
+          });
+        },
+      ],
+    },
+  },
+};
+```
+
 #### watch
 
 - Type: `boolean`
