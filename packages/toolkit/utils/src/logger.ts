@@ -2,7 +2,7 @@ import chalk, { Color } from '../compiled/chalk';
 
 type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
-type LogMsg = number | string | Error;
+type LogMsg = number | string | Error | null;
 
 interface LoggerConfiguration {
   color?: typeof Color;
@@ -21,10 +21,7 @@ interface ConstructorOptions {
   types?: Record<string, LoggerConfiguration>;
 }
 
-type LoggerFunction = (
-  message?: number | string | Error,
-  ...args: any[]
-) => void;
+type LoggerFunction = (message?: LogMsg, ...args: any[]) => void;
 
 const LOG_LEVEL: Record<string, number> = {
   error: 0,
@@ -89,7 +86,7 @@ class Logger {
   }
 
   private _log(type: string, message?: LogMsg, ...args: string[]) {
-    if (message === undefined) {
+    if (message === undefined || message === null) {
       // eslint-disable-next-line no-console
       console.log();
       return;

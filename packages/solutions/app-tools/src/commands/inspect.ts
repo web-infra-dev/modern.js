@@ -4,7 +4,7 @@ import {
   getWebpackConfig,
   WebpackConfigTarget,
 } from '@modern-js/webpack';
-import { fs, logger, signale, isUseSSRBundle, chalk } from '@modern-js/utils';
+import { fs, logger, isUseSSRBundle, chalk } from '@modern-js/utils';
 import WebpackChain from '@modern-js/utils/webpack-chain';
 import type { PluginAPI, NormalizedConfig, IAppContext } from '@modern-js/core';
 import type { InspectOptions } from '../utils/types';
@@ -60,15 +60,15 @@ export const inspect = (api: PluginAPI, options: InspectOptions) => {
     );
   }
 
-  signale.success(
+  logger.success(
     'Inspect succeed, you can open following files to view the full webpack config: \n',
   );
   outputFiles.forEach(file => {
-    signale.log(
+    logger.log(
       `  - ${chalk.yellow(path.relative(appContext.appDirectory, file))}`,
     );
   });
-  signale.log();
+  logger.log();
 };
 
 export const getTagByWebpackTarget = (webpackTarget: WebpackConfigTarget) => {
