@@ -8,6 +8,7 @@ export * from './fs';
 export * from './getBrowserslist';
 export * from './logger';
 export * from './mergeBuilderConfig';
+export * from './onExitProcess';
 export * from './pick';
 export * from './regexp';
 export * from './types';
