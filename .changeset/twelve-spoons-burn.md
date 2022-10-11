@@ -1,5 +1,6 @@
 ---
 '@modern-js/webpack': patch
+'@modern-js/builder-provider-webpack': patch
 ---
 
 fix(webpack): react-refresh-webpack-plugin cause rebuild slow
