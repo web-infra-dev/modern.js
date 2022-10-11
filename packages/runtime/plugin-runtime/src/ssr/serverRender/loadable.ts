@@ -28,7 +28,7 @@ export const toHtml: RenderHandler = (jsx, renderer, next) => {
     loadableManifest,
     result: { chunksMap },
     host,
-    config,
+    config = {},
   } = renderer;
 
   if (!loadableManifest || chunksMap.js) {
