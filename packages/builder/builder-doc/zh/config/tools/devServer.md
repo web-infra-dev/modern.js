@@ -171,6 +171,7 @@ export default {
 默认情况下，当监听到文件变化时，DevServer 将会刷新页面（为使 liveReload 能够生效，`devServer.hot` 配置项应当禁用）。通过设置 `devServer.liveReload` 为 `false` 可以关闭该行为。
 
 #### proxy
+
 - Type: `Record<string, string> | Record<string, ProxyDetail>`
 - Default: `undefined`
 
@@ -200,7 +201,7 @@ export default {
         '/api': {
           target: 'http://localhost:3000',
           pathRewrite: { '^/api': '' },
-        }
+        },
       },
     },
   },
@@ -210,6 +211,7 @@ export default {
 DevServer Proxy 基于 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware) 实现。你可以使用 http-proxy-middleware 的所有配置项，具体可以查看文档。
 
 DevServer Proxy 完整类型定义为：
+
 ```ts
 import type { Options as HttpProxyOptions } from 'http-proxy-middleware';
 
@@ -230,6 +232,7 @@ type ProxyOptions =
 ```
 
 除了 http-proxy-middleware 的选项外，还支持 bypass 和 context 两个配置项：
+
 - bypass：根据函数的返回值绕过代理。
   - 返回 `null` 或 `undefined` 会继续用代理处理请求。
   - 返回 `false` 会返回 404 错误。

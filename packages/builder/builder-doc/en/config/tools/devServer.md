@@ -172,6 +172,7 @@ By default, the DevServer will reload/refresh the page when file changes are det
 Disable `devServer.liveReload` by setting it to `false`.
 
 #### proxy
+
 - Type: `Record<string, string> | Record<string, ProxyDetail>`
 - Default: `undefined`
 
@@ -201,7 +202,7 @@ export default {
         '/api': {
           target: 'http://localhost:3000',
           pathRewrite: { '^/api': '' },
-        }
+        },
       },
     },
   },
@@ -211,6 +212,7 @@ export default {
 The DevServer Proxy makes use of the [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware) package. Check out its documentation for more advanced usages.
 
 The full type definition of DevServer Proxy is:
+
 ```ts
 import type { Options as HttpProxyOptions } from 'http-proxy-middleware';
 
@@ -231,6 +233,7 @@ type ProxyOptions =
 ```
 
 In addition to the http-proxy-middleware option, we also support the bypass and context configuration:
+
 - bypass：bypass the proxy based on the return value of a function.
   - Return `null` or `undefined` to continue processing the request with proxy.
   - Return `false` to produce a 404 error for the request.
@@ -258,7 +261,6 @@ export default {
 };
 ```
 
-
 ```js
 // proxy multiple
 export default {
@@ -281,4 +283,3 @@ export default {
 - Default: `true`
 
 Whether to watch files change in directories such as `mock/`, `server/`, `api/`.
-
