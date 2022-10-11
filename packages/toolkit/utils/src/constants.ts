@@ -119,6 +119,10 @@ export const INTERNAL_PLUGINS: {
   },
   // TODO: Maybe can remove it
   '@modern-js/plugin-nocode': { cli: '@modern-js/plugin-nocode/cli' },
+  // legacy router (inner react-router-dom v5)
+  '@modern-js/plugin-router-legacy': {
+    cli: '@modern-js/plugin-router-legacy/cli',
+  },
 };
 
 /**
