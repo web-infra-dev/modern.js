@@ -2,6 +2,7 @@ import type { PluginStore } from './plugin';
 import type { BuilderContext } from './context';
 import type { Compiler, MultiCompiler } from 'webpack';
 import type { BuilderMode, CreateBuilderOptions } from './builder';
+import type { Server } from '@modern-js/server';
 
 export type Bundler = 'webpack' | 'rspack';
 
@@ -25,6 +26,12 @@ export type InspectConfigOptions = {
   writeToDisk?: boolean;
 };
 
+export type StartDevServerResult = {
+  urls: string[];
+  port: number;
+  server: Server;
+};
+
 export type BuilderProvider = (options: {
   pluginStore: PluginStore;
   builderOptions: Required<CreateBuilderOptions>;
@@ -41,10 +48,9 @@ export type ProviderInstance = {
     options?: CreateCompilerOptions,
   ) => Promise<Compiler | MultiCompiler>;
 
-  startDevServer: (options?: StartDevServerOptions) => Promise<{
-    urls: string[];
-    port: number;
-  }>;
+  startDevServer: (
+    options?: StartDevServerOptions,
+  ) => Promise<StartDevServerResult>;
 
   build: (options?: BuildOptions) => Promise<void>;
 
