@@ -4,7 +4,7 @@ import {
   type PluginStore,
   type InspectConfigOptions,
   type CreateBuilderOptions,
-  deepProtected,
+  deepFreezed,
 } from '@modern-js/builder-shared';
 import { initPlugins } from './initPlugins';
 import { generateWebpackConfig } from './webpackConfig';
@@ -17,7 +17,7 @@ async function modifyBuilderConfig(context: Context) {
   const [modified] = await context.hooks.modifyBuilderConfigHook.call(
     context.config,
   );
-  context.config = deepProtected(modified);
+  context.config = deepFreezed(modified);
   debug('modify builder config done');
 }
 

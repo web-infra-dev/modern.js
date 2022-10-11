@@ -38,8 +38,7 @@
   },
   "dependencies": {
     "@modern-js/server": "workspace:*",
-    "@modern-js/utils": "workspace:*",
-    "on-change": "^3.0.2"
+    "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "7.18.0",
