@@ -20,3 +20,7 @@ export interface SourceFinalConfig {
   preEntry?: string | string[];
   resolveExtensionPrefix?: string;
 }
+
+export interface NormalizedSourceConfig extends SourceConfig {
+  preEntry: string[];
+}

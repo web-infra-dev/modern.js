@@ -116,3 +116,8 @@ export interface ToolsConfig {
   webpackChain?: ToolsWebpackChainConfig;
   inspector?: ToolsInspectorPluginOptions;
 }
+
+export interface NormalizedToolsConfig extends ToolsConfig {
+  babel: BabelTransformOptions;
+  devServer: DevServerOptions;
+}

@@ -9,3 +9,5 @@ export interface DevConfig {
   assetPrefix?: string | boolean;
   progressBar?: boolean | IProgressOptions;
 }
+
+export type NormalizedDevConfig = Required<DevConfig>;
