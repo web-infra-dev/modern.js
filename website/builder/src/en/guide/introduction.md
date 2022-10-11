@@ -35,6 +35,19 @@ All the building abilities of Builder are implemented through plugins:
 
 Builder supports custom plugins, allowing framework developers to implement customized build abilities.
 
+## npm packages
+
+Builder's published npm packages are:
+
+| Package | Version | Description |
+| --- | --- | --- |
+| [@modern-js/builder](https://www.npmjs.com/package/@modern-js/builder) | ![](https://img.shields.io/npm/v/@modern-js/builder?style=flat-square) | Core package of Builder |
+| [@modern-js/builder-webpack-provider](https://www.npmjs.com/package/@modern-js/builder-webpack-provider) | ![](https://img.shields.io/npm/v/@modern-js/builder-webpack-provider?style=flat-square) | Provides webpack build ability |
+| [@modern-js/builder-plugin-esbuild](https://www.npmjs.com/package/@modern-js/builder-plugin-esbuild) | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-esbuild?style=flat-square) | ESBuild Plugin |
+| [@modern-js/builder-plugin-node-polyfill](https://www.npmjs.com/package/@modern-js/builder-plugin-node-polyfill) | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-node-polyfill?style=flat-square) | Node Polyfill Plugin |
+| [@modern-js/builder-shared](https://www.npmjs.com/package/@modern-js/builder-shared) | ![](https://img.shields.io/npm/v/@modern-js/builder-shared?style=flat-square) | Shared modules of Builder |
+| [@modern-js/builder-doc](https://www.npmjs.com/package/@modern-js/builder-doc) | ![](https://img.shields.io/npm/v/@modern-js/builder-doc?style=flat-square) | Documentation snippets of Builder |
+
 ## Next Step
 
 You may want:

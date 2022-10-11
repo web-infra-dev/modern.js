@@ -1,5 +1,15 @@
 # @modern-js/core
 
+## 1.19.0
+
+### Patch Changes
+
+- d2cfa69: feat: add production env for release command
+  feat: 为 release 命令增加 production 环境变量
+  - @modern-js/node-bundle-require@1.19.0
+  - @modern-js/plugin@1.19.0
+  - @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes
@@ -89,7 +99,7 @@
 
 ### Minor Changes
 
-- 7b9067f: add babel plugin for webpack-builder
+- 7b9067f: add babel plugin for builder
 
 ### Patch Changes
 

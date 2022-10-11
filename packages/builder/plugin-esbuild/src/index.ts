@@ -1,4 +1,6 @@
-import type { BuilderPlugin } from '@modern-js/webpack-builder';
+import { JS_REGEX, TS_REGEX } from '@modern-js/builder-shared';
+import type { BuilderPlugin } from '@modern-js/builder';
+import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import type {
   LoaderOptions,
   MinifyPluginOptions,
@@ -9,22 +11,23 @@ export interface EsbuildOptions {
   minimize?: false | MinifyPluginOptions;
 }
 
-export const JS_REGEX = /\.(js|mjs|cjs|jsx)$/;
-export const TS_REGEX = /\.(ts|mts|cts|tsx)$/;
-
 export function PluginEsbuild(
   options: EsbuildOptions = {
     loader: {},
     minimize: {},
   },
-): BuilderPlugin {
+): BuilderPlugin<BuilderPluginAPI> {
   return {
-    name: 'webpack-builder-plugin-esbuild',
+    name: 'builder-plugin-esbuild',
+
     setup(api) {
       api.modifyWebpackChain(async (chain, { CHAIN_ID, isProd }) => {
+        const builderConfig = api.getBuilderConfig();
         const compiledEsbuildLoaderPath = require.resolve(
           '../compiled/esbuild-loader',
         );
+        const { charset } = builderConfig.output || {};
+
         if (options.loader !== false) {
           // remove babel-loader and ts-loader
           chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
@@ -42,6 +45,7 @@ export function PluginEsbuild(
             .options({
               loader: 'jsx',
               target: 'es2015',
+              charset,
               ...options?.loader,
             });
           chain.module
@@ -52,6 +56,7 @@ export function PluginEsbuild(
             .options({
               loader: 'tsx',
               target: 'es2015',
+              charset,
               ...options?.loader,
             });
         }
@@ -66,7 +71,13 @@ export function PluginEsbuild(
           chain.optimization
             .minimizer(CHAIN_ID.MINIMIZER.ESBUILD)
             .use(ESBuildMinifyPlugin)
-            .init(() => new ESBuildMinifyPlugin(options?.minimize || {}));
+            .init(
+              () =>
+                new ESBuildMinifyPlugin({
+                  legalComments: builderConfig.output?.legalComments,
+                  ...options?.minimize,
+                }),
+            );
         }
       });
     },

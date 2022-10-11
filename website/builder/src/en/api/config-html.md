@@ -1,3 +1,7 @@
+---
+extractApiHeaders: [2]
+---
+
 # Html Config
 
 This section describes some HTML configurations in Modern.js Builder.
@@ -41,6 +45,14 @@ This section describes some HTML configurations in Modern.js Builder.
 ## html.mountId
 
 !!!include(node_modules/@modern-js/builder-doc/en/config/html/mountId.md)!!!
+
+## html.template
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/template.md)!!!
+
+## html.templateByEntries
+
+!!!include(node_modules/@modern-js/builder-doc/en/config/html/templateByEntries.md)!!!
 
 ## html.templateParameters
 

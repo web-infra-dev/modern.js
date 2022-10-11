@@ -40,6 +40,7 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/guide/introduction'),
           getLink('/guide/quick-start'),
           getLink('/guide/features'),
+          getLink('/guide/glossary'),
         ],
       },
     ],
@@ -61,11 +62,20 @@ function getSidebar(lang: 'cn' | 'en'): SidebarConfig4Multiple {
           getLink('/api/config-performance'),
         ],
       },
+      {
+        title: getText('Node API', 'Node API'),
+        collapsable: false,
+        children: [
+          getLink('/api/builder-core'),
+          getLink('/api/builder-instance'),
+          getLink('/api/builder-types'),
+        ],
+      },
     ],
   };
 }
 
-export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
+export default defineConfig4CustomTheme<ThemeConfig>((ctx) => ({
   base: '/builder/',
   head: [
     ['link', { rel: 'icon', href: `https://modernjs.dev/img/favicon.ico` }],
@@ -142,10 +152,10 @@ export default defineConfig4CustomTheme<ThemeConfig>(ctx => ({
     // OptimizeCssAssetsWebpackPlugin will cause the build to fail,
     // removed will not affect the build result
     config.plugins = config.plugins.filter(
-      plugin => plugin.constructor.name !== 'OptimizeCssAssetsWebpackPlugin',
+      (plugin) => plugin.constructor.name !== 'OptimizeCssAssetsWebpackPlugin'
     );
   },
-  extendMarkdown: md => {
+  extendMarkdown: (md) => {
     md.use(markdownItInclude);
   },
 }));

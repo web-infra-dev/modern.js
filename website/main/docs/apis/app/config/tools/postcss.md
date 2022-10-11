@@ -1,9 +1,8 @@
 ---
+title: tools.postcss
+
 sidebar_label: postcss
 ---
-
-# tools.postcss
-
 
 
 - 类型： `Object | Function`

@@ -105,6 +105,14 @@ export class GeneratorPlugin {
     return result;
   }
 
+  getDefaultConfig(): Record<string, unknown> {
+    let result: Record<string, unknown> = {};
+    for (const info of this.plugins) {
+      result = merge(result, info.context!.inputContext.defaultConfig);
+    }
+    return result;
+  }
+
   async installPlugins(
     solution: Solution | 'custom',
     inputData: Record<string, any>,

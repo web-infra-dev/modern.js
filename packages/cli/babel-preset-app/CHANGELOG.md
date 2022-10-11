@@ -1,5 +1,12 @@
 # @modern-js/babel-preset-app
 
+## 1.19.0
+
+### Patch Changes
+
+- @modern-js/babel-preset-base@1.19.0
+- @modern-js/utils@1.19.0
+
 ## 1.18.1
 
 ### Patch Changes
@@ -80,7 +87,7 @@
 
 ### Minor Changes
 
-- 7b9067f: add babel plugin for webpack-builder
+- 7b9067f: add babel plugin for builder
 
 ### Patch Changes
 

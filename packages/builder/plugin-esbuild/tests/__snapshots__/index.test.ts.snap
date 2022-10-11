@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`plugins/esbuild > should set esbuild-loader 1`] = `
+exports[`plugins/esbuild > should set esbuild minimizer in production 1`] = `
 {
   "module": {
     "rules": [
@@ -10,6 +10,7 @@ exports[`plugins/esbuild > should set esbuild-loader 1`] = `
           {
             "loader": "<ROOT>/packages/builder/plugin-esbuild/compiled/esbuild-loader/index.js",
             "options": {
+              "charset": "ascii",
               "loader": "jsx",
               "target": "es2015",
             },
@@ -22,6 +23,53 @@ exports[`plugins/esbuild > should set esbuild-loader 1`] = `
           {
             "loader": "<ROOT>/packages/builder/plugin-esbuild/compiled/esbuild-loader/index.js",
             "options": {
+              "charset": "ascii",
+              "loader": "tsx",
+              "target": "es2015",
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "optimization": {
+    "minimizer": [
+      ESBuildMinifyPlugin {
+        "options": {
+          "legalComments": "linked",
+          "minify": true,
+        },
+        "transform": [Function],
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/esbuild > should set esbuild-loader 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/packages/builder/plugin-esbuild/compiled/esbuild-loader/index.js",
+            "options": {
+              "charset": "ascii",
+              "loader": "jsx",
+              "target": "es2015",
+            },
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/packages/builder/plugin-esbuild/compiled/esbuild-loader/index.js",
+            "options": {
+              "charset": "ascii",
               "loader": "tsx",
               "target": "es2015",
             },

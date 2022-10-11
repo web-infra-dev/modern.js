@@ -1,8 +1,7 @@
 ---
+title: tools.esbuild
 sidebar_label: esbuild
 ---
-
-# tools.esbuild
 
 
 

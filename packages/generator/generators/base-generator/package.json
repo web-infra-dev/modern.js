@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.3.4",
+  "version": "2.4.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./src/index.ts",
@@ -31,6 +31,7 @@
     "@modern-js/codesmith": "^1.5.0",
     "@modern-js/codesmith-api-app": "^1.5.0",
     "@modern-js/generator-common": "workspace:*",
+    "@modern-js/generator-utils": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^27",
