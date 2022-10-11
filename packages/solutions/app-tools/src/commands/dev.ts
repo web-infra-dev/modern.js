@@ -79,7 +79,6 @@ export const dev = async (api: PluginAPI, options: DevOptions) => {
       ...{
         client: {
           port: port!.toString(),
-          logging: 'none',
         },
         devMiddleware: {
           writeToDisk: (file: string) => !file.includes('.hot-update.'),
