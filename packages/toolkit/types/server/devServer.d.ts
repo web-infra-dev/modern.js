@@ -15,8 +15,11 @@ export type DevServerOptions = {
     path?: string;
     port?: string;
     host?: string;
+    /** not support */
     logging?: string;
+    /** not support */
     overlay?: boolean;
+    /** not support */
     progress?: boolean;
   };
   devMiddleware?: {
