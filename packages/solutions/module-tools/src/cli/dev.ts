@@ -20,5 +20,8 @@ export const devCli = (program: Command, api: PluginAPI) => {
     )
     .action(async (subCmd: string, params: IDevOption) => {
       await commands.dev(api, params, subCmd);
+      // support plugin-proxy
+      const runner = api.useHookRunners();
+      await (runner as any).afterDev();
     });
 };
