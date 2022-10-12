@@ -6,7 +6,7 @@ exports[`plugins/font > should add font rules correctly 1`] = `
     "rules": [
       {
         "generator": {
-          "filename": "static/font/[name][ext]",
+          "filename": "static/font/[name].[contenthash:8][ext]",
         },
         "parser": {
           "dataUrlCondition": [Function],
@@ -25,7 +25,7 @@ exports[`plugins/font > should allow to use distPath.font to be empty string 1`]
     "rules": [
       {
         "generator": {
-          "filename": "[name][ext]",
+          "filename": "[name].[contenthash:8][ext]",
         },
         "parser": {
           "dataUrlCondition": [Function],
@@ -44,7 +44,7 @@ exports[`plugins/font > should allow to use distPath.font to modify dist path 1`
     "rules": [
       {
         "generator": {
-          "filename": "foo/[name][ext]",
+          "filename": "foo/[name].[contenthash:8][ext]",
         },
         "parser": {
           "dataUrlCondition": [Function],
