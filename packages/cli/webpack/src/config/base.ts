@@ -4,7 +4,7 @@ import {
   chalk,
   isProd,
   isDev,
-  signale,
+  logger,
   CHAIN_ID,
   isString,
   ensureArray,
@@ -366,7 +366,7 @@ class BaseWebpackConfig {
         finalConfig = chain.toConfig();
 
         if (isDev()) {
-          signale.warn(
+          logger.warn(
             `The ${chalk.cyan('chain')} param of ${chalk.cyan(
               'tools.webpack',
             )} is deprecated, please use ${chalk.cyan(
