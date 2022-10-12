@@ -61,7 +61,7 @@ export const PluginCompatModern = (): BuilderPlugin => ({
       return config;
     });
 
-    api.modifyWebpackChain((chain, { CHAIN_ID, target }) => {
+    api.modifyWebpackChain((chain, { target }) => {
       // set webpack config name
       if (target === 'node') {
         chain.name('server');
@@ -70,13 +70,6 @@ export const PluginCompatModern = (): BuilderPlugin => ({
       } else {
         chain.name('client');
       }
-
-      // compatible with legacy packages with type="module"
-      // https://github.com/webpack/webpack/issues/11467
-      chain.module
-        .rule(CHAIN_ID.RULE.MJS)
-        .test(/\.m?js/)
-        .resolve.set('fullySpecified', false);
 
       // apply node resolve extensions
       if (target === 'node') {

@@ -2,6 +2,7 @@ import type { NodeEnv, BuilderTarget } from '@modern-js/builder-shared';
 import type { BuilderConfig } from './config';
 import type { WebpackChain, WebpackConfig } from './thirdParty';
 import type { Stats, MultiStats, Compiler, MultiCompiler } from 'webpack';
+import type { ChainIdentifier } from '@modern-js/utils';
 
 export type ModifyWebpackUtils = {
   env: NodeEnv;
@@ -9,7 +10,7 @@ export type ModifyWebpackUtils = {
   target: BuilderTarget;
   webpack: typeof import('webpack');
   isServer: boolean;
-  CHAIN_ID: typeof import('@modern-js/utils').CHAIN_ID;
+  CHAIN_ID: ChainIdentifier;
   getCompiledPath: (name: string) => string;
 };
 
