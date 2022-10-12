@@ -3,9 +3,11 @@
   "compilerOptions": {
     "declaration": false,
     "jsx": "preserve",
-    "baseUrl": ".",
+    "baseUrl": "./",
+    "noEmit": true,
     "isolatedModules": true,
-    "paths": {}
+    "sourceMap": true,
+    "types": ["node", "jest"]
   },
-  "include": ["src", "types"]
+  "paths": {}
 }
